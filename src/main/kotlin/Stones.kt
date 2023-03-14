@@ -14,6 +14,8 @@ abstract class Stones(list: List<Stone>) {
 
     fun getLatestStone(): Point = _list.last().point
 
+    fun isPossiblePut(point: Point): Boolean = list.any { stone -> stone.point == point }.not()
+
     private fun checkWin(): Boolean {
         val N = 15
         val dx = intArrayOf(1, 1, 0, -1)
