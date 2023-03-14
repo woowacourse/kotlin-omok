@@ -1,4 +1,4 @@
-package domain
+package domain.stone
 
 class Stone(
     val position: StonePosition,

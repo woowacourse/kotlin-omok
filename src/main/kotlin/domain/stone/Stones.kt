@@ -1,4 +1,4 @@
-package domain
+package domain.stone
 
 abstract class Stones(values: List<Stone> = emptyList()) {
     private val _values = values.toMutableList()
