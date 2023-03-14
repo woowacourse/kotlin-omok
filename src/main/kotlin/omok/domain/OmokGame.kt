@@ -5,22 +5,14 @@ class OmokGame {
         var playingOmokBoard = OmokBoard()
         var point: OmokPoint? = null
         while (true) {
-            point = getPoint("흑", point)
-            playingOmokBoard = playBlack(playingOmokBoard, point)
-            output(playingOmokBoard)
-            point = getPoint("백", point)
-            playingOmokBoard = playWhite(playingOmokBoard, point)
+            point = getPoint(playingOmokBoard.stoneState.korean, point)
+            playingOmokBoard = playNext(playingOmokBoard, point)
             output(playingOmokBoard)
         }
     }
 
-    fun playBlack(omokBoard: OmokBoard, point: OmokPoint): OmokBoard {
-        return runCatching { omokBoard.placeStone(point, StoneState.BLACK) }
-            .getOrElse { omokBoard }
-    }
-
-    fun playWhite(omokBoard: OmokBoard, point: OmokPoint): OmokBoard {
-        return runCatching { omokBoard.placeStone(point, StoneState.WHITE) }
+    fun playNext(omokBoard: OmokBoard, point: OmokPoint): OmokBoard {
+        return runCatching { omokBoard.placeStone(point) }
             .getOrElse { omokBoard }
     }
 }
