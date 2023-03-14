@@ -53,4 +53,16 @@ data class Position(val column: Column, val row: Row) {
         if (westColumn != null && northRow != null) return Position(westColumn, northRow)
         return null
     }
+
+    companion object {
+        fun of(positionText: String): Position {
+            val columnText = positionText.substring(0, 1)
+            val rowText = positionText.substring(1)
+            val column = Column.of(columnText)
+            val row = Row.of(rowText)
+
+            require(column != null && row != null) { "[ERROR] $positionText 라는 위치는 존재하지 않습니다." }
+            return Position(column, row)
+        }
+    }
 }

@@ -2,10 +2,11 @@ package omok.domain.board
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class PositionTest {
     @Test
-    fun `현 위치의 북쪽 좌표를 반환한다`() {
+    fun `현 위치의 북쪽 좌표가 존재한다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.I, Row.TEN)
 
@@ -15,7 +16,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 북쪽 좌표가 없으면 null 을 반환한다`() {
+    fun `현 위치의 북쪽 좌표가 존재하지 않는다`() {
         val position = Position(Column.I, Row.FIFTEEN)
 
         val actual = position.getNorth()
@@ -24,7 +25,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 북동쪽 좌표를 반환한다`() {
+    fun `현 위치의 북동쪽 좌표가 존재한다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.J, Row.TEN)
 
@@ -34,7 +35,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 북동쪽 좌표가 없으면 null 을 반환한다`() {
+    fun `현 위치의 북동쪽 좌표가 존재하지 않는다`() {
         val position = Position(Column.O, Row.FIFTEEN)
 
         val actual = position.getNorthEast()
@@ -43,7 +44,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 동쪽 좌표를 반환한다`() {
+    fun `현 위치의 동쪽 좌표가 존재한다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.J, Row.NINE)
 
@@ -53,7 +54,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 동쪽 좌표가 없으면 null 을 반환한다`() {
+    fun `현 위치의 동쪽 좌표가 존재하지 않는다`() {
         val position = Position(Column.O, Row.NINE)
 
         val actual = position.getEast()
@@ -62,7 +63,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 남동쪽 좌표를 반환한다`() {
+    fun `현 위치의 남동쪽 좌표가 존재한다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.J, Row.EIGHT)
 
@@ -72,7 +73,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 남동쪽 좌표가 없으면 null 을 반환한다`() {
+    fun `현 위치의 남동쪽 좌표가 존재하지 않는다`() {
         val position = Position(Column.I, Row.ONE)
 
         val actual = position.getSouthEast()
@@ -81,7 +82,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 남쪽 좌표를 반환한다`() {
+    fun `현 위치의 남쪽 좌표가 존재한다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.I, Row.EIGHT)
 
@@ -91,7 +92,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 남쪽 좌표가 없으면 null 을 반환한다`() {
+    fun `현 위치의 남쪽 좌표가 존재하지 않는다`() {
         val position = Position(Column.I, Row.ONE)
 
         val actual = position.getSouth()
@@ -100,7 +101,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 남서쪽 좌표를 반환한다`() {
+    fun `현 위치의 남서쪽 좌표가 존재한다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.H, Row.EIGHT)
 
@@ -110,7 +111,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 남서쪽 좌표가 없으면 null 을 반환한다`() {
+    fun `현 위치의 남서쪽 좌표가 존재하지 않는다`() {
         val position = Position(Column.A, Row.ONE)
 
         val actual = position.getSouthWest()
@@ -119,7 +120,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 서쪽 좌표를 반환한다`() {
+    fun `현 위치의 서쪽 좌표가 존재한다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.H, Row.NINE)
 
@@ -129,7 +130,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 서쪽 좌표가 없으면 null 을 반환한다`() {
+    fun `현 위치의 서쪽 좌표가 존재하지 않는다`() {
         val position = Position(Column.A, Row.NINE)
 
         val actual = position.getWest()
@@ -138,7 +139,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 북서쪽 좌표를 반환한다`() {
+    fun `현 위치의 북서쪽 좌표가 존재한다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.H, Row.TEN)
 
@@ -148,11 +149,25 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 북서쪽 좌표가 없으면 null 을 반환한다`() {
+    fun `현 위치의 북서쪽 좌표가 존재하지 않는다`() {
         val position = Position(Column.A, Row.FIFTEEN)
 
         val actual = position.getNorthWest()
 
         assertThat(actual).isNull()
+    }
+
+    @Test
+    fun `좌표값이 존재한다`() {
+        val positionText = "I9"
+
+        assertThat(Position.of(positionText)).isEqualTo(Position(Column.I, Row.NINE))
+    }
+
+    @Test
+    fun `좌표값이 존재하지 않는다`() {
+        val positionText = "pingu"
+
+        assertThrows<IllegalArgumentException> { Position.of(positionText) }
     }
 }

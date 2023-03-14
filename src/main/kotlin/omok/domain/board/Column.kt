@@ -19,4 +19,8 @@ enum class Column(private val axis: Int) {
 
     fun right(): Column? = values().find { it.axis == axis + 1 }
     fun left(): Column? = values().find { it.axis == axis - 1 }
+
+    companion object {
+        fun of(columnText: String): Column? = values().find { columnText == it.name }
+    }
 }
