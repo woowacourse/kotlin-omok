@@ -4,14 +4,6 @@ import org.junit.jupiter.api.assertAll
 
 class StonesTest {
     @Test
-    fun `돌을 추가할 수 있다`() {
-        val stones = Stones(Stone(1, 15))
-        val nextStones = stones.putStone(Stone(3, 5))
-        val expected = listOf(Stone(1, 15), Stone(3, 5))
-        assertThat(nextStones.list).isEqualTo(expected)
-    }
-
-    @Test
     fun `마지막으로 놓은 돌의 위치를 알 수 있다`() {
         val stones = Stones()
         val nextStones = stones.putStone(Stone(1, 11))
@@ -56,5 +48,25 @@ class StonesTest {
                 assertThat(actual).isFalse
             }
         )
+    }
+
+    private fun Stones(list: List<Stone> = listOf()): Stones = object : Stones(list) {
+        override fun putStone(stone: Stone): Stones {
+            return BlackStones(list + stone)
+        }
+
+        override fun getColor(): Color {
+            return Color.BLACK
+        }
+    }
+
+    private fun Stones(vararg stone: Stone): Stones = object : Stones(stone.toList()) {
+        override fun putStone(stone: Stone): Stones {
+            return BlackStones(list + stone)
+        }
+
+        override fun getColor(): Color {
+            return Color.BLACK
+        }
     }
 }

@@ -1,4 +1,4 @@
-class Stones(list: List<Stone>) {
+abstract class Stones(list: List<Stone>) {
     private val _list = list.toList()
     val list: List<Stone>
         get() = _list.toList()
@@ -8,7 +8,9 @@ class Stones(list: List<Stone>) {
 
     constructor(vararg stone: Stone) : this(stone.toList())
 
-    fun putStone(stone: Stone): Stones = Stones(list + stone)
+    abstract fun putStone(stone: Stone): Stones
+
+    abstract fun getColor(): Color
 
     fun getLatestStone(): Point = _list.last().point
 
