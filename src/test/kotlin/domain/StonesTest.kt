@@ -3,6 +3,8 @@ package domain
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 
 class StonesTest {
     @Test
@@ -37,7 +39,22 @@ class StonesTest {
         assertThat(stones.value.last()).isEqualTo(stone2)
     }
 
-    @Test
-    fun `들을 놓았을 때, 돌이 5개 같은 방향으로 연속되면 해당 색의 돌을 가진 플레이어가 승리한다`() {
+    @ParameterizedTest
+    @CsvSource(value = ["1,1:2,1:3,1:5,1|4,1", "1,5:2,4:4,2:5,1|3,3"], delimiter = '|')
+    fun `들을 놓았을 때, 돌이 5개 같은 방향으로 연속되면 해당 색의 돌을 가진 플레이어가 승리한다`(placedStone: String, newStone: String) {
+        // given
+        val placedStones = placedStone.split(":").map {
+            BlackStone(it[0].digitToInt(), it[2].digitToInt())
+        }
+        val stones = Stones(placedStones)
+
+        //when
+        val actual = stones.isWin(BlackStone(newStone[0].digitToInt(), newStone[2].digitToInt()))
+        // then
+        assertThat(actual).isEqualTo(true)
+    }
+
+    fun BlackStone(x: Int, y: Int): Stone {
+        return Stone(Color.BLACK, Coordinate.from(x, y)!!)
     }
 }
