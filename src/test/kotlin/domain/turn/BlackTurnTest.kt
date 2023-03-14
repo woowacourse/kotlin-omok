@@ -9,7 +9,7 @@ class BlackTurnTest {
         val blackTurn = BlackTurn()
         blackTurn.move(2, 3)
 
-        assertThat(blackTurn.state.value[1][2]).isEqualTo(true)
+        assertThat(blackTurn.state.value[1][2]).isTrue
     }
 
     @Test
@@ -17,6 +17,6 @@ class BlackTurnTest {
         val blackTurn = BlackTurn()
         blackTurn.move(2, 2)
 
-        assertThat(blackTurn.state.value[1][1]).isEqualTo(true)
+        assertThat(blackTurn.state.value[1][1]).isFalse
     }
 }
