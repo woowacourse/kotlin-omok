@@ -6,6 +6,4 @@ class Stones(list: List<Stone>) {
     constructor(vararg stone: Stone) : this(stone.toList())
 
     fun putStone(stone: Stone): Stones = Stones(list + stone)
-
-
 }

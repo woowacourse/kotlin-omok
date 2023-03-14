@@ -20,5 +20,4 @@ class PointTest {
             { assertThrows<IllegalArgumentException> { Point(16, 10) } }
         )
     }
-
 }
