@@ -1,9 +1,16 @@
 package omok.domain
 
-class OmokBoard(val yLine: YLine) {
+class OmokBoard(val value: Map<YCoordinate, OmokLine>) {
+    val keys = value.keys
+    val values = value.values
+
     fun placeStone(point: OmokPoint, stoneState: StoneState): OmokBoard {
-        return OmokBoard(yLine.placeStone(point, stoneState))
+        val newValue = value.toMutableMap()
+        newValue[point.y] = newValue[point.y]?.placeStone(point, stoneState) ?: throw IllegalArgumentException()
+        return OmokBoard(newValue)
     }
 
-    operator fun get(yCoordinate: YCoordinate) = yLine[yCoordinate]
+    operator fun get(yCoordinate: YCoordinate): OmokLine = value[yCoordinate] ?: throw IllegalArgumentException()
+
+    constructor () : this(YCoordinate.all().associateWith { OmokLine() })
 }

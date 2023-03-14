@@ -1,21 +1,21 @@
 package omok.view
 
 import omok.domain.OmokBoard
+import omok.domain.OmokLine
 import omok.domain.StoneState
-import omok.domain.XLine
 
 class OutputView {
     fun outputBoard(omokBoard: OmokBoard) {
-        omokBoard.yLine.values.reversed().forEachIndexed { yIdx, xLine ->
-            println(makeXLineString(yIdx, xLine))
+        omokBoard.values.reversed().forEachIndexed { boardIdx, omokLine ->
+            println(makeXLineString(boardIdx, omokLine))
         }
         println(board.last())
     }
 
-    private fun makeXLineString(yIdx: Int, xLine: XLine): String {
-        val stringBuilder = StringBuilder(board[yIdx])
-        xLine.values.forEachIndexed { xIdx, stoneState ->
-            getStoneMark(stoneState)?.let { stringBuilder.setCharAt(LEFT_PADDING + xIdx * BETWEEN_PADDING, it) }
+    private fun makeXLineString(boardIdx: Int, omokLine: OmokLine): String {
+        val stringBuilder = StringBuilder(board[boardIdx])
+        omokLine.values.forEachIndexed { lineIdx, stoneState ->
+            getStoneMark(stoneState)?.let { stringBuilder.setCharAt(LEFT_PADDING + lineIdx * BETWEEN_PADDING, it) }
         }
         return stringBuilder.toString()
     }

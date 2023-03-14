@@ -1,16 +1,16 @@
 package omok.domain
 
-class XLine(val value: Map<XCoordinate, StoneState>) {
+class OmokLine(val value: Map<XCoordinate, StoneState>) {
     val keys = value.keys
     val values = value.values
 
-    fun placeStone(point: OmokPoint, stoneState: StoneState): XLine {
+    fun placeStone(point: OmokPoint, stoneState: StoneState): OmokLine {
         val newValue = value.toMutableMap()
         when (newValue[point.x]) {
             StoneState.EMPTY -> newValue[point.x] = stoneState
             else -> throw IllegalArgumentException()
         }
-        return XLine(newValue)
+        return OmokLine(newValue)
     }
 
     operator fun get(xCoordinate: XCoordinate): StoneState = value[xCoordinate] ?: throw IllegalArgumentException()

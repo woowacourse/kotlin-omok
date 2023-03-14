@@ -2,7 +2,7 @@ package omok.domain
 
 class OmokGame {
     fun play(getPoint: (String, OmokPoint?) -> OmokPoint, output: (OmokBoard) -> Unit) {
-        var playingOmokBoard = OmokBoard(YLine())
+        var playingOmokBoard = OmokBoard()
         var point: OmokPoint? = null
         while (true) {
             point = getPoint("흑", point)
