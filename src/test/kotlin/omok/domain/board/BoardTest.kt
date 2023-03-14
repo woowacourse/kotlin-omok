@@ -3,8 +3,10 @@ package omok.domain.board
 import omok.domain.player.Black
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import java.lang.IllegalStateException
 
 class BoardTest {
     @ParameterizedTest(name = "{0}, {1}이 보드 좌표에 존재한다")
@@ -55,10 +57,26 @@ class BoardTest {
 
     @Test
     fun `해당 좌표에 돌이 있으면 비어있지 않다`() {
-        val position = Position(Column.A, Row.ONE)
+        val position = Position(Column.E, Row.FIVE)
 
-        val board = Board(Board.POSITIONS.associateWith { Black })
+        val board = Board(BOARD_TEMPLATE)
 
         assertThat(board.isEmpty(position)).isFalse
+    }
+
+    @Test
+    fun `돌을 놓으려는 좌표에 이미 돌이 존재하면 놓을 수 없다`() {
+        val board = Board(BOARD_TEMPLATE)
+
+        assertThrows<IllegalStateException> { board.place(Position(Column.J, Row.TEN), Black) }
+    }
+
+    @Test
+    fun `돌을 놓으면, 해당 위치는 비어있지 않다`() {
+        val board = Board()
+
+        board.place(Position(Column.J, Row.TEN), Black)
+
+        assertThat(board.isEmpty(Position(Column.J, Row.TEN))).isFalse
     }
 }

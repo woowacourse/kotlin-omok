@@ -1,3 +1,3 @@
 package omok.domain.player
 
-abstract class Player()
+abstract class Stone()
