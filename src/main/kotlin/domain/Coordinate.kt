@@ -1,7 +1,7 @@
 package domain
 
 data class Coordinate private constructor(override val x: Int, override val y: Int) : Point(x, y) {
-    constructor(point: Point): this(point.x, point.y)
+    private constructor(point: Point) : this(point.x, point.y)
     override fun plus(other: Point): Coordinate {
         return Coordinate(super.plus(other))
     }
