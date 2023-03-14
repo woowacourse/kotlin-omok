@@ -11,6 +11,8 @@ class State(
         _state[x - ONE][y - ONE] = true
     }
 
+    fun canMove(x: Int, y: Int): Boolean = !_state[x - ONE][y - ONE]
+
     companion object {
         private const val BOARD_SIZE = 15
         private const val ONE = 1
