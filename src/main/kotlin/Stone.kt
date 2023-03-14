@@ -1,6 +1,6 @@
 import Position.Companion.POSITION_RANGE
 
-class Stone private constructor(val position: Position) {
+data class Stone private constructor(val position: Position) {
     companion object {
         private val STONES = POSITION_RANGE.map { x -> POSITION_RANGE.map { y -> Stone(Position(x, y)) } }
 

@@ -46,6 +46,6 @@ data class Stones(private val stones: List<Stone>) {
         private val LEFT_BOTTOM_DIRECTION = Pair(-1, -1)
 
         private const val FORWARD_WEIGHT = 1
-        private const val BACK_WEIGHT = 1
+        private const val BACK_WEIGHT = -1
     }
 }
