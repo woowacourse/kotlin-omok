@@ -13,7 +13,7 @@ Stone
 - [x] 자신의 위치와 스톤 타입을 가진다.
 abstact Stones
 - [x] 스톤들의 정보를 담고 있다.
-- [ ] 스톤을 추가한다.
+- [x] 스톤을 받아 추가한다.
 - [ ] 오목 조건을 충족하는지 확인하다.
 WhiteStones
 BlackStones
