@@ -1,4 +1,4 @@
-package turn
+package domain.turn
 
 abstract class Turn(
     initialState: List<List<Boolean>> = List(15) { List(15) { false } }
