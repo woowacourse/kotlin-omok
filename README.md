@@ -20,8 +20,8 @@
     -[x] x좌표를 갖는다.
     -[x] y좌표를 갖는다.
 - Stone
-    -[ ] Position을 갖는다.
-    -[ ] Color를 갖는다.
+    -[x] Position을 갖는다.
+    -[x] Color를 갖는다.
 - Stones(Board)
     -[ ] blackStones가 있다. (List)
     -[ ] whiteStones가 있다. (List)
