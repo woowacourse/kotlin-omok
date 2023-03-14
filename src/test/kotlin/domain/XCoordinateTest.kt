@@ -1,7 +1,6 @@
 package domain
 
-import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 
@@ -9,7 +8,8 @@ class XCoordinateTest {
 
     @Test
     fun `A에서 O 사이의 문자가 아닌 문자로 X 좌표를 생성하려 하면 에러가 발생한다`() {
-        Assertions.assertThatIllegalArgumentException().isThrownBy { XCoordinate.of('Z') }
+        assertThatIllegalArgumentException().isThrownBy { XCoordinate.of('Z') }
+            .withMessage("x 좌표는 A에서 O 사이의 문자로 생성해야 합니다.")
     }
 
     @Test
