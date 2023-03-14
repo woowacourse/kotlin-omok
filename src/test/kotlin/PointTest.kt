@@ -12,4 +12,13 @@ class PointTest {
         )
     }
 
+    @Test
+    fun `x좌표로 1에서 15를 벗어나는 값을 받으면 예외가 발생한다`() {
+        assertAll(
+            "x좌표로 1에서 15를 벗어나는 값을 받으면 예외가 발생한다",
+            { assertThrows<IllegalArgumentException> { Point(0, 10) } },
+            { assertThrows<IllegalArgumentException> { Point(16, 10) } }
+        )
+    }
+
 }
