@@ -9,6 +9,8 @@ class PlacedGoStones(private val _stones: MutableList<GoStone>) {
         _stones.add(GoStone(color, coordinate()))
     }
 
+    fun getLastStone(): GoStone = _stones.last()
+
     private fun canAdd(coordinate: () -> Coordinate): Boolean {
         return !_stones.map { it.coordinate }.contains(coordinate())
     }
