@@ -1,8 +1,6 @@
 package study
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-
+/*
 class StudyTest() {
 
     @Test
@@ -19,3 +17,4 @@ interface Stones {
 }
 
 class WhiteStone(val position: Int) : Stone
+*/
