@@ -8,9 +8,8 @@ class OmokGameTest {
     fun `흑돌을 놓을 수 있다`() {
         val omokGame = OmokGame()
         val omokBoard = OmokBoard(YLine())
-        val xCoordinate = XCoordinate('A')
-        val yCoordinate = YCoordinate(1)
-        val omokBoardState = omokGame.playBlack(omokBoard, xCoordinate, yCoordinate).yLine[yCoordinate][xCoordinate]
+        val point = OmokPoint(XCoordinate('A'), YCoordinate(1))
+        val omokBoardState = omokGame.playBlack(omokBoard, point).yLine[point.y][point.x]
         assertThat(omokBoardState).isEqualTo(StoneState.BLACK)
     }
 
@@ -18,9 +17,9 @@ class OmokGameTest {
     fun `백돌을 놓을 수 있다`() {
         val omokGame = OmokGame()
         val omokBoard = OmokBoard(YLine())
-        val xCoordinate = XCoordinate('A')
-        val yCoordinate = YCoordinate(1)
-        val omokBoardState = omokGame.playWhite(omokBoard, xCoordinate, yCoordinate).yLine[yCoordinate][xCoordinate]
+        val point = OmokPoint(XCoordinate('A'), YCoordinate(1))
+
+        val omokBoardState = omokGame.playWhite(omokBoard, point).yLine[point.y][point.x]
         assertThat(omokBoardState).isEqualTo(StoneState.WHITE)
     }
 }
