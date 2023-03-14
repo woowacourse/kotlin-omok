@@ -11,7 +11,5 @@ value class Coordination private constructor(val value: Int) {
             if (value !in range) return null
             return Coordination(value)
         }
-
-        fun fromNotNull(value: Int): Coordination = Coordination(value)
     }
 }
