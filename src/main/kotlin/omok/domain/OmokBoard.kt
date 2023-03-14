@@ -6,8 +6,4 @@ class OmokBoard(val yLine: YLine) {
     }
 
     operator fun get(yCoordinate: YCoordinate) = yLine[yCoordinate]
-
-    companion object {
-        fun from(yLine: YLine): OmokBoard = OmokBoard(yLine)
-    }
 }
