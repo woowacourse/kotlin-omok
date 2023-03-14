@@ -8,7 +8,7 @@ class PositionTest {
         val position = Position(HorizontalAxis.H, 1)
 
         // when
-        val placeable = position.isPlaceable()
+        val placeable = position.isEmpty()
 
         // then
         assertThat(position).isEqualTo(placeable)

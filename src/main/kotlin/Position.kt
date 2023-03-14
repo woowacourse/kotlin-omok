@@ -1,7 +1,15 @@
 data class Position(val horizontalAxis: HorizontalAxis, val verticalAxis: Int) {
-    val empty = true
+    private val empty = true
 
-    fun isPlaceable(): Boolean {
+    fun isEmpty(): Boolean {
         return empty
+    }
+
+    companion object {
+        val POSITIONS = HorizontalAxis.values().flatMap { horizontalAxis ->
+            (1..15).map { verticalAxis ->
+                Position(horizontalAxis, verticalAxis)
+            }
+        }
     }
 }
