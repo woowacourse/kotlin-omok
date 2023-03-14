@@ -1,6 +1,6 @@
 package omok.domain.board
 
-enum class Column(val axis: Int) {
+enum class Column(private val axis: Int) {
     A(0),
     B(1),
     C(2),

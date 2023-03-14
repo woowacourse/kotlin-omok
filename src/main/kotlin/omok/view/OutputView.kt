@@ -20,6 +20,7 @@ class OutputView {
         val columnAlphabet = listOf("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O")
 
         return """
+            |
             |${Row.values().reversed().joinToString("\n") { row ->
             " %2d ".format(rowNumber.removeFirst()) +
                 Column.values().joinToString("──") {column ->

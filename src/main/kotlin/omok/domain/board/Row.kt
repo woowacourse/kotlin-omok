@@ -1,6 +1,6 @@
 package omok.domain.board
 
-enum class Row(val axis: Int) {
+enum class Row(private val axis: Int) {
     ONE(0),
     TWO(1),
     THREE(2),
