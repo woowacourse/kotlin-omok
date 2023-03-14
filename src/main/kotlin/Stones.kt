@@ -1,3 +1,5 @@
+
+
 class Stones(list: List<Stone>) {
     private val _list = list.toList()
     val list: List<Stone>
@@ -6,4 +8,6 @@ class Stones(list: List<Stone>) {
     constructor(vararg stone: Stone) : this(stone.toList())
 
     fun putStone(stone: Stone): Stones = Stones(list + stone)
+
+    fun getLatestStone(): Point = _list.last().point
 }
