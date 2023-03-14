@@ -1,9 +1,13 @@
 package domain.board
 
-class Board {
+import domain.player.Player
+
+class Board(private val positions: Map<Position, Player?> = POSITIONS.associateWith { null }) {
+
+    fun isEmpty(position: Position) = positions[position] == null
 
     companion object {
-        val POSITIONS = Column.values().flatMap { column ->
+        val POSITIONS: List<Position> = Column.values().flatMap { column ->
             Row.values().map { row ->
                 Position(column, row)
             }

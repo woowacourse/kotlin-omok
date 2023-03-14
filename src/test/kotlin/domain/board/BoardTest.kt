@@ -1,6 +1,8 @@
 package domain.board
 
+import domain.player.Black
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
@@ -42,5 +44,21 @@ class BoardTest {
         val position = Position(Column.A, Row.ONE)
 
         assertThat(Board.POSITIONS).contains(position)
+    }
+
+    @Test
+    fun `해당 좌표에 돌이 없다면 비어있다`() {
+        val position = Position(Column.A, Row.ONE)
+
+        assertThat(Board().isEmpty(position)).isTrue
+    }
+
+    @Test
+    fun `해당 좌표에 돌이 있으면 비어있지 않다`() {
+        val position = Position(Column.A, Row.ONE)
+
+        val board = Board(Board.POSITIONS.associateWith { Black() })
+
+        assertThat(board.isEmpty(position)).isFalse
     }
 }
