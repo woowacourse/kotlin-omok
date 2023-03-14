@@ -1,3 +1,5 @@
 package domain
 
-data class Stone(val color: Color, val position: Position)
+interface Stone {
+    val position: Position
+}

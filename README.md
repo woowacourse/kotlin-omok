@@ -21,11 +21,16 @@
     -[x] y좌표를 갖는다.
 - Stone
     -[x] Position을 갖는다.
-    -[x] Color를 갖는다.
+    -[x] Stone을 구현한 WhiteStone이 존재한다.
+    -[x] Stone을 구현한 BlackStone이 존재한다.
 - Stones(Board)
     -[ ] blackStones가 있다. (List)
     -[ ] whiteStones가 있다. (List)
     -[ ] last stone position을 반환한다.
+    -[ ] 돌을 놓는다.
+        - [ ] 이미 돌이 있는 자리에 놓을 수 없다.
+        - [ ] 검정 돌을 놓는다.
+        - [ ] 흰 돌을 놓는다.
     -[ ] 차례를 반환한다.
 - Rule (interface)
     - 승리 조건
