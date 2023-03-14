@@ -5,21 +5,19 @@ class Coordinate(coordinate: String) {
     val y: Int
 
     init {
-        val first = coordinate.first()
+        val first = coordinate.first().uppercaseChar() - 'A' + 1
         val second = coordinate.substring(1)
-        require(first.isAlphabet() && second.isPositiveNumber()) { "위치를 알파벳숫자 형태로 입력해주세요. (잘못된 값: $coordinate)" }
+        require(first.isWithInRange() && second.isWithinRange()) { "위치를 알파벳숫자 형태로 입력해주세요. (잘못된 값: $coordinate)" }
 
-        x = first.uppercaseChar() - 'A' + 1
+        x = first
         y = second.toInt()
     }
 
-    private fun Char.isAlphabet(): Boolean {
-        return this in 'a'..'z' || this in 'A'..'Z'
-    }
+    private fun Int.isWithInRange(): Boolean = this in BOARD_SIZE_RANGE
 
-    private fun String.isPositiveNumber(): Boolean {
+    private fun String.isWithinRange(): Boolean {
         val number = this.toIntOrNull()
-        return if (number == null) false else number > 0
+        return number?.isWithInRange() ?: false
     }
 
     override fun equals(other: Any?): Boolean {
@@ -38,5 +36,9 @@ class Coordinate(coordinate: String) {
         var result = x
         result = 31 * result + y
         return result
+    }
+
+    companion object {
+        private val BOARD_SIZE_RANGE: IntRange = 1..15
     }
 }

@@ -19,7 +19,7 @@ class CoordinateTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["33", "aa", "4a", "H-1"])
+    @ValueSource(strings = ["33", "aa", "4a", "H-1", "H17", "z8", "d7d"])
     fun `알파벳+숫자 형태가 아닌 입력은 오류가 발생한다`(input: String) {
         assertThatIllegalArgumentException()
             .isThrownBy { Coordinate(input) }
