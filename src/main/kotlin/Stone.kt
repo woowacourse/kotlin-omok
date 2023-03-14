@@ -1,3 +1,1 @@
-class Stone(val point: Point) {
-
-}
+data class Stone(val point: Point)
