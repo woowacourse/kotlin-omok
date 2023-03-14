@@ -59,14 +59,14 @@ class BoardTest {
     fun `해당 좌표에 돌이 있으면 비어있지 않다`() {
         val position = Position(Column.E, Row.FIVE)
 
-        val board = Board(BOARD_TEMPLATE)
+        val board = Board(DOWNWARD_DIAGONAL_BOARD)
 
         assertThat(board.isEmpty(position)).isFalse
     }
 
     @Test
     fun `돌을 놓으려는 좌표에 이미 돌이 존재하면 놓을 수 없다`() {
-        val board = Board(BOARD_TEMPLATE)
+        val board = Board(DOWNWARD_DIAGONAL_BOARD)
 
         assertThrows<IllegalStateException> { board.place(Position(Column.J, Row.TEN), Black) }
     }
