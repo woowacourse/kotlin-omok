@@ -9,10 +9,9 @@
 
 ### Board
 
-- [ ] BlackTurn, WhiteTurn을 갖는다
+- [x] BlackTurn, WhiteTurn을 갖는다
 - [ ] 둘 수 있는지 확인한다
-    - [ ] 빈공간 확인
-    - [ ] 보드 범위 내 확인
+    - [x] 빈공간 확인
 
 ### State (일급컬렉션)
 
@@ -41,6 +40,7 @@
 ### Stone
 
 - [x] x, y 를 갖는다
+- [x] 보드 범위 내 확인
 
 ## View
 
