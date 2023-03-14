@@ -1,6 +1,6 @@
-package domain.board
+package omok.domain.board
 
-import domain.player.Player
+import omok.domain.player.Player
 
 class Board(private val positions: Map<Position, Player?> = POSITIONS.associateWith { null }) {
 

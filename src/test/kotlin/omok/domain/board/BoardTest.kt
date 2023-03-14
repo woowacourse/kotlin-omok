@@ -1,6 +1,6 @@
-package domain.board
+package omok.domain.board
 
-import domain.player.Black
+import omok.domain.player.Black
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest

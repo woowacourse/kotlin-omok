@@ -1,4 +1,4 @@
-package domain.board
+package omok.domain.board
 
 enum class Row {
     ONE,
