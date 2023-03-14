@@ -19,11 +19,17 @@ WhiteStones
 BlackStones
 ---
 interface State   
-abstract Put : State  
+- [x] isValidPut(): Boolean
+- [x] put(): State
+- [x] getWinner(): StoneType
+abstract Running : State   
+- [ ] isValidPut(): Boolean { } 
 - [ ] 오목 조건 충족하면 End 상태로 보낸다.
-PutWhite : Put
+WhiteTurn : Running
+- [ ] stones를 추가한 후 PutBlack을 반환
 - [ ] 오목 조건 충족하면 End 상태로 White가 Win
-PutBlack : Put
+BlackTurn : Running
+- [ ] stones를 추가한 후 PutWhite를 반환
 - [ ] 오목 조건 충족하면 End 상태로 Black이 Win
 End : State
 - [ ] 우승자에 해당하는 StoneType을 가진다.
@@ -42,3 +48,6 @@ OutputView
 - [ ] 누가 승리했는지 출력한다.(black이면 흑 white면 백)
 
 
+---
+찝찝한 것
+- [ ] 모든 상태들이 크게 차이가 없는 두 돌인 흑돌과 백돌을 따로 받는다. -> Stones가 백돌을 흑돌을 가지게 해서 프로퍼티가 3개로 고칠 수 있지만 요구사항에 맞지 않음
