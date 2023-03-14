@@ -4,10 +4,10 @@ class XLine(val value: Map<XCoordinate, StoneState>) {
     val keys = value.keys
     val values = value.values
 
-    fun placeStone(xCoordinate: XCoordinate, stoneState: StoneState): XLine {
+    fun placeStone(point: OmokPoint, stoneState: StoneState): XLine {
         val newValue = value.toMutableMap()
-        when (newValue[xCoordinate]) {
-            StoneState.EMPTY -> newValue[xCoordinate] = stoneState
+        when (newValue[point.x]) {
+            StoneState.EMPTY -> newValue[point.x] = stoneState
             else -> throw IllegalArgumentException()
         }
         return XLine(newValue)
