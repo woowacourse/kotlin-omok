@@ -14,7 +14,19 @@ abstract class Stones(list: List<Stone>) {
 
     fun getLatestStone(): Point = _list.last().point
 
-    fun isPossiblePut(point: Point): Boolean = list.any { stone -> stone.point == point }.not()
+    fun contains(point: Point): Boolean = list.any { stone -> stone.point == point }.not()
+
+    fun eachTurn(otherStones: Stones, getPoint: (Stones) -> Point): Stones {
+        while (true) {
+            val point = getPoint(this)
+            if (point.isPossiblePut(otherStones)) {
+                return putStone(Stone(point))
+            }
+        }
+    }
+
+    private fun Point.isPossiblePut(otherStones: Stones) =
+        this@Stones.contains(this) && otherStones.contains(this)
 
     private fun checkWin(): Boolean {
         val N = 15

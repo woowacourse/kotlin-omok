@@ -1,40 +1,28 @@
 class OmokGame(
-    private var blackStones: Stones = BlackStones(),
-    private var whiteStones: Stones = WhiteStones()
+    val getPoint: (Stones) -> Point,
+    val checkBoardState: (Stones, Stones) -> Unit,
 ) {
-    fun runGame(getPoint: (Stones) -> Point, boardState: (Stones, Stones) -> Unit): Color {
-        while (true) {
-            boardState(blackStones, whiteStones)
-            if (blackTurn(getPoint)) {
-                boardState(blackStones, whiteStones)
-                return Color.BLACK
-            }
-            boardState(blackStones, whiteStones)
-            if (whiteTurn(getPoint)) {
-                boardState(blackStones, whiteStones)
-                return Color.WHITE
-            }
-        }
-    }
+    fun runGame(
+        aBlackStones: Stones = BlackStones(),
+        aWhiteStones: Stones = WhiteStones()
+    ): Color {
+        var blackStones: Stones = aBlackStones
+        var whiteStones: Stones = aWhiteStones
 
-    fun blackTurn(getPoint: (Stones) -> Point): Boolean {
         while (true) {
-            val point = getPoint(blackStones)
-            if (blackStones.isPossiblePut(point) && whiteStones.isPossiblePut(point)) {
-                blackStones = blackStones.putStone(Stone(point))
-                if (blackStones.isWin) return true
-                return false
+            checkBoardState(blackStones, whiteStones)
+            blackStones = blackStones.eachTurn(whiteStones, getPoint)
+            if (blackStones.isWin) {
+                checkBoardState(blackStones, whiteStones)
+                // TODO: 굳이 COLOR를 반환해야할까?
+                return blackStones.getColor()
             }
-        }
-    }
-
-    fun whiteTurn(getPoint: (Stones) -> Point): Boolean {
-        while (true) {
-            val point = getPoint(whiteStones)
-            if (blackStones.isPossiblePut(point) && whiteStones.isPossiblePut(point)) {
-                whiteStones = whiteStones.putStone(Stone(point))
-                if (whiteStones.isWin) return true
-                return false
+            checkBoardState(blackStones, whiteStones)
+            whiteStones = whiteStones.eachTurn(blackStones, getPoint)
+            if (blackStones.isWin) {
+                checkBoardState(blackStones, whiteStones)
+                // TODO: 굳이 COLOR를 반환해야할까?
+                return whiteStones.getColor()
             }
         }
     }
