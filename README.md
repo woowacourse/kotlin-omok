@@ -16,8 +16,8 @@
 
 ### Turn (추상클래스)
 
-- [ ] stones를 갖는다
-- [ ] 착수한다
+- [x] state를 갖는다
+- [x] 착수한다
 
 ### BlackTurn
 
