@@ -1,6 +1,6 @@
 package domain
 
-open class Stones private constructor(values: List<Stone>) {
+abstract class Stones(values: List<Stone> = emptyList()) {
     private val _values = values.toMutableList()
     val values: List<Stone>
         get() = _values.toList()
