@@ -1,1 +1,1 @@
-class WhiteStone(val position: Position) : Stone
+class WhiteStone(override val position: Position) : Stone(position)
