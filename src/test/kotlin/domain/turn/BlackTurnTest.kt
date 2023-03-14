@@ -1,4 +1,4 @@
-package turn
+package domain.turn
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

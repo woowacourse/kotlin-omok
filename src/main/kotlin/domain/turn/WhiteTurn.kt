@@ -1,3 +1,3 @@
-package turn
+package domain.turn
 
 class WhiteTurn : Turn()
