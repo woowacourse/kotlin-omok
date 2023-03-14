@@ -57,7 +57,7 @@ class BoardTest {
     fun `해당 좌표에 돌이 있으면 비어있지 않다`() {
         val position = Position(Column.A, Row.ONE)
 
-        val board = Board(Board.POSITIONS.associateWith { Black() })
+        val board = Board(Board.POSITIONS.associateWith { Black })
 
         assertThat(board.isEmpty(position)).isFalse
     }

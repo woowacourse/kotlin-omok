@@ -1,3 +1,3 @@
 package omok.domain.player
 
-class White : Player()
+object White : Player()
