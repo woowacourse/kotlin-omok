@@ -1,5 +1,5 @@
 package model.domain
 
 enum class Stone {
-    BLACK, WHITE
+    BLACK, WHITE, EMPTY
 }
