@@ -7,6 +7,9 @@ object InputView {
         val input = readln().trim()
         return runCatching {
             Coordinate(input)
-        }.getOrElse { getCoordinate() }
+        }.getOrElse {
+            println(it.message)
+            getCoordinate()
+        }
     }
 }

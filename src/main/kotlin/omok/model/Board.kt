@@ -11,10 +11,15 @@ class Board {
 
     fun addStone(color: GoStoneColor, getCoordinate: () -> Coordinate) {
         val coordinate = getCoordinate()
-        require(canAdd(coordinate)) { "해당 위치에 이미 바둑돌이 있습니다." }
-
-        _board[coordinate.x - 1][coordinate.y - 1] = GoStone(color, coordinate)
-        lastPutCoordinate = coordinate
+        runCatching {
+            require(canAdd(coordinate)) { "해당 위치에 이미 바둑돌이 있습니다." }
+        }.onSuccess {
+            _board[coordinate.x - 1][coordinate.y - 1] = GoStone(color, coordinate)
+            lastPutCoordinate = coordinate
+        }.onFailure {
+            println(it.message)
+            addStone(color, getCoordinate)
+        }
     }
 
     private fun canAdd(coordinate: Coordinate): Boolean {
