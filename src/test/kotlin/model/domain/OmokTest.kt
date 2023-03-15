@@ -1,5 +1,7 @@
 package model.domain
 
+import model.domain.state.Omok
+import model.domain.state.State
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 

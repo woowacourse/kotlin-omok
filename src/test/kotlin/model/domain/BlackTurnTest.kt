@@ -1,5 +1,7 @@
 package model.domain
 
+import model.domain.state.BlackTurn
+import model.domain.state.State
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
