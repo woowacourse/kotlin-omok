@@ -11,7 +11,7 @@ enum class StoneState(val korean: String) {
 
     fun checkForbidden(omokBoard: OmokBoard, point: OmokPoint) = when (this) {
         BLACK -> {
-            OmokRule(omokBoard).countOpenThrees(point) <= 1
+            OmokRule(omokBoard).countOpenThrees(point) <= 1 && OmokRule(omokBoard).countOpenFours(point) <= 1
         }
         WHITE -> {
             true

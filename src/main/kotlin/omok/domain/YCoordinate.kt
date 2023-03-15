@@ -5,7 +5,9 @@ data class YCoordinate(val value: Int) {
         require(value in Y_MIN_RANGE..Y_MAX_RANGE) { ERROR_Y_COORDINATE_OUT_OF_RANGE }
     }
 
-    val isInEdge: Boolean = value == Y_MIN_RANGE || value == Y_MAX_RANGE
+    val isTopMost: Boolean = value == Y_MAX_RANGE
+    val isBottomMost: Boolean = value == Y_MIN_RANGE
+    val isInEdge: Boolean = isBottomMost || isTopMost
 
     operator fun plus(other: Int) = YCoordinate(value + other)
 

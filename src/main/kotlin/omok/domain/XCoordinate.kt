@@ -5,7 +5,9 @@ data class XCoordinate(val value: Char) {
         require(value in X_MIN_RANGE..X_MAX_RANGE) { ERROR_X_COORDINATE_OUT_OF_RANGE }
     }
 
-    val isInEdge: Boolean = value == X_MIN_RANGE || value == X_MAX_RANGE
+    val isLeftMost: Boolean = value == X_MIN_RANGE
+    val isRightMost: Boolean = value == X_MAX_RANGE
+    val isInEdge: Boolean = isLeftMost || isRightMost
 
     operator fun plus(other: Int) =
         XCoordinate(X_MIN_RANGE + (this.value - X_MIN_RANGE) + other)
