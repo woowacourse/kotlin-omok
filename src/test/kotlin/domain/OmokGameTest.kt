@@ -1,5 +1,6 @@
 package domain
 
+import domain.turn.State
 import org.junit.jupiter.api.Test
 
 class OmokGameTest {
@@ -14,6 +15,8 @@ class OmokGameTest {
             turn.add(white.removeFirst())
         }
         var index = 0
-        omokGame.runGame({ turn[index++] }, {})
+        omokGame.runGame({ turn[index++] }, ::onMove, {}, {})
     }
+
+    private fun onMove(state1: State, state2: State, color: Color, stone: Stone) {}
 }
