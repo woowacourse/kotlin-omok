@@ -11,17 +11,15 @@ class ThreeThreeReferee : PlacementReferee() {
     }
 
     private fun countThree(board: Map<Position, Stone?>, position: Position): Int {
-        val virtualBoard = board.toMutableMap()
-        virtualBoard[position] = Black
         return listOf(
-            isVerticalThree(virtualBoard, position),
-            isUpwardDiagonalThree(virtualBoard, position),
-            isHorizontalThree(virtualBoard, position),
-            isDownwardDiagonalThree(virtualBoard, position)
+            isVerticalThree(board, position),
+            isUpwardDiagonalThree(board, position),
+            isHorizontalThree(board, position),
+            isDownwardDiagonalThree(board, position)
         ).count { it }
     }
 
-    private fun isVerticalThree(board: MutableMap<Position, Stone?>, position: Position): Boolean {
+    private fun isVerticalThree(board: Map<Position, Stone?>, position: Position): Boolean {
         val northEmptyPosition = findNorthEmptyPosition(board, position)
         if (northEmptyPosition != null && isVerticalOpenFour(board.toMutableMap(), northEmptyPosition)) return true
         val southEmptyPosition = findSouthEmptyPosition(board, position)
@@ -51,7 +49,7 @@ class ThreeThreeReferee : PlacementReferee() {
         return isSouthOpen(board, southPosition)
     }
 
-    private fun isUpwardDiagonalThree(board: MutableMap<Position, Stone?>, position: Position): Boolean {
+    private fun isUpwardDiagonalThree(board: Map<Position, Stone?>, position: Position): Boolean {
         val northEastEmptyPosition = findNorthEastEmptyPosition(board, position)
         if (northEastEmptyPosition != null && isUpwardDiagonalOpenFour(board.toMutableMap(), northEastEmptyPosition)) return true
         val southWestEmptyPosition = findSouthWestEmptyPosition(board, position)
@@ -81,7 +79,7 @@ class ThreeThreeReferee : PlacementReferee() {
         return isSouthWestOpen(board, southWestPosition)
     }
 
-    private fun isHorizontalThree(board: MutableMap<Position, Stone?>, position: Position): Boolean {
+    private fun isHorizontalThree(board: Map<Position, Stone?>, position: Position): Boolean {
         val eastEmptyPosition = findEastEmptyPosition(board, position)
         if (eastEmptyPosition != null && isHorizontalOpenFour(board.toMutableMap(), eastEmptyPosition)) return true
         val westEmptyPosition = findWestEmptyPosition(board, position)
@@ -111,7 +109,7 @@ class ThreeThreeReferee : PlacementReferee() {
         return isWestOpen(board, westPosition)
     }
 
-    private fun isDownwardDiagonalThree(board: MutableMap<Position, Stone?>, position: Position): Boolean {
+    private fun isDownwardDiagonalThree(board: Map<Position, Stone?>, position: Position): Boolean {
         val southEastEmptyPosition = findSouthEastEmptyPosition(board, position)
         if (southEastEmptyPosition != null && isDownwardDiagonalOpenFour(board.toMutableMap(), southEastEmptyPosition)) return true
         val northWestEmptyPosition = findNorthWestEmptyPosition(board, position)

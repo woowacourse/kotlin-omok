@@ -10,18 +10,15 @@ class FourFourReferee : PlacementReferee() {
     }
 
     private fun countFour(board: Map<Position, Stone?>, position: Position): Int {
-        val virtualBoard = board.toMutableMap()
-        virtualBoard[position] = Black
-
         return listOf(
-            countVerticalFour(virtualBoard, position),
-            countUpwardDiagonalFour(virtualBoard, position),
-            countHorizontalFour(virtualBoard, position),
-            countDownwardDiagonalFour(virtualBoard, position)
+            countVerticalFour(board, position),
+            countUpwardDiagonalFour(board, position),
+            countHorizontalFour(board, position),
+            countDownwardDiagonalFour(board, position)
         ).sum()
     }
 
-    private fun countVerticalFour(board: MutableMap<Position, Stone?>, position: Position): Int {
+    private fun countVerticalFour(board: Map<Position, Stone?>, position: Position): Int {
         if (countVerticalContinuity(board, position, 0) == 4) return 1
 
         var count = 0
@@ -38,7 +35,7 @@ class FourFourReferee : PlacementReferee() {
         return false
     }
 
-    private fun countUpwardDiagonalFour(board: MutableMap<Position, Stone?>, position: Position): Int {
+    private fun countUpwardDiagonalFour(board: Map<Position, Stone?>, position: Position): Int {
         if (countUpwardDiagonalContinuity(board, position, 0) == 4) return 1
 
         var count = 0
@@ -55,7 +52,7 @@ class FourFourReferee : PlacementReferee() {
         return false
     }
 
-    private fun countHorizontalFour(board: MutableMap<Position, Stone?>, position: Position): Int {
+    private fun countHorizontalFour(board: Map<Position, Stone?>, position: Position): Int {
         if (countHorizontalContinuity(board, position, 0) == 4) return 1
 
         var count = 0
@@ -72,7 +69,7 @@ class FourFourReferee : PlacementReferee() {
         return false
     }
 
-    private fun countDownwardDiagonalFour(board: MutableMap<Position, Stone?>, position: Position): Int {
+    private fun countDownwardDiagonalFour(board: Map<Position, Stone?>, position: Position): Int {
         if (countDownwardDiagonalContinuity(board, position, 0) == 4) return 1
 
         var count = 0
