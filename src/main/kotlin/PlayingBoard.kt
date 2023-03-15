@@ -1,4 +1,6 @@
 class PlayingBoard(private val stones: List<Stone>) : Board {
+    constructor(vararg stone: Stone) : this(stone.toList())
+
     override val isFinished: Boolean = false
     override val isWin: Color
         get() {
@@ -9,7 +11,7 @@ class PlayingBoard(private val stones: List<Stone>) : Board {
         !stones.any { stone -> stone.point == point }
 
     override fun getLatestPoint(color: Color): Point? {
-        return null
+        return stones.findLast { it.color == color }?.point
     }
 
     override fun getStones(): List<Stone> {
