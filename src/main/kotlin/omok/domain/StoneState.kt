@@ -8,4 +8,14 @@ enum class StoneState(val korean: String) {
         WHITE -> BLACK
         else -> throw IllegalStateException()
     }
+
+    fun checkForbidden(omokBoard: OmokBoard, point: OmokPoint) = when (this) {
+        BLACK -> {
+            OmokRule(omokBoard).countOpenThrees(point) <= 1
+        }
+        WHITE -> {
+            true
+        }
+        else -> throw IllegalStateException()
+    }
 }

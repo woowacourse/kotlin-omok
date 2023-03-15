@@ -6,7 +6,9 @@ class OmokGame {
         var point: OmokPoint? = null
         while (true) {
             point = getPoint(playingOmokBoard.stoneState.korean, point)
-            playingOmokBoard = playNext(playingOmokBoard, point)
+            if (playingOmokBoard.stoneState.checkForbidden(playingOmokBoard, point)) {
+                playingOmokBoard = playNext(playingOmokBoard, point)
+            }
             output(playingOmokBoard)
         }
     }
