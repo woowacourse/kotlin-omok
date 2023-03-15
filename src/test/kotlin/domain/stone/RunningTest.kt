@@ -1,5 +1,6 @@
 package domain.stone
 
+import domain.rule.OmokRule
 import domain.state.Running
 import domain.state.State
 import org.assertj.core.api.Assertions.assertThat

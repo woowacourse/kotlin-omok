@@ -1,6 +1,6 @@
 package domain.state
 
-import domain.stone.OmokRule
+import domain.rule.OmokRule
 import domain.stone.Stone
 import domain.stone.StoneType
 import domain.stone.Stones

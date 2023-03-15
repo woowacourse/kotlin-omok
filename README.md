@@ -28,11 +28,12 @@ abstract Running(stones) : State
 - [x] isValidPut(): Boolean { }
 - [x] 오목 조건을 충족하는지 확인한다.
 WhiteTurn : Running
-- [ ] stones를 추가한 후 PutBlack을 반환
+- [ ] stone를 추가한 후 BlackTurn을 반환
 - [ ] 오목 조건 충족하면 End 상태로 White가 Win
 BlackTurn : Running
-- [ ] stones를 추가한 후 PutWhite를 반환
-- [ ] 오목 조건 충족하면 End 상태로 Black이 Win
+- [x] stone을 추가할 수 없는 상태라면 추가하지 않고 BlackTurn을 반환
+- [x] stone를 추가한 후 WhitTurn를 반환
+- [x] 오목 조건 충족하면 End 상태로 Black이 Win
 End : State
 - [ ] 우승자에 해당하는 StoneType을 가진다.
 - [ ] 우승자의 StoneType을 반환한다.
