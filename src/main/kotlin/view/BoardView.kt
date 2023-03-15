@@ -7,42 +7,41 @@ import domain.YCoordinate
 
 class BoardView(board: Board) {
 
-    private val list2d = mutableListOf<MutableList<String>>()
+    private val boardLines = mutableListOf<MutableList<String>>()
 
     init {
         for (y in YCoordinate.Y_MAX_RANGE downTo YCoordinate.Y_MIN_RANGE) {
-            val ma = mutableListOf<String>()
-            ma.add("%3s ".format(y))
+            val boardLine = mutableListOf<String>()
+            boardLine.add("%3s ".format(y))
             for (x in XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE) {
                 when {
-                    board.blackStoneIsPlaced(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> ma.add(BLACK_STONE)
-                    board.whiteStoneIsPlaced(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> ma.add(WHITE_STONE)
-                    x == XCoordinate.X_MIN_RANGE && y == YCoordinate.Y_MAX_RANGE -> ma.add(LEFT_TOP)
-                    x == XCoordinate.X_MAX_RANGE && y == YCoordinate.Y_MAX_RANGE -> ma.add(RIGHT_TOP)
-                    x == XCoordinate.X_MIN_RANGE && y == YCoordinate.Y_MIN_RANGE -> ma.add(LEFT_BOTTOM)
-                    x == XCoordinate.X_MAX_RANGE && y == YCoordinate.Y_MIN_RANGE -> ma.add(RIGHT_BOTTOM)
-                    x == XCoordinate.X_MIN_RANGE -> ma.add(LEFT)
-                    x == XCoordinate.X_MAX_RANGE -> ma.add(RIGHT)
-                    y == YCoordinate.Y_MAX_RANGE -> ma.add(TOP)
-                    y == YCoordinate.Y_MIN_RANGE -> ma.add(BOTTOM)
-                    else -> ma.add(MIDDLE)
+                    board.blackStoneIsPlaced(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> boardLine.add(BLACK_STONE)
+                    board.whiteStoneIsPlaced(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> boardLine.add(WHITE_STONE)
+                    x == XCoordinate.X_MIN_RANGE && y == YCoordinate.Y_MAX_RANGE -> boardLine.add(LEFT_TOP)
+                    x == XCoordinate.X_MAX_RANGE && y == YCoordinate.Y_MAX_RANGE -> boardLine.add(RIGHT_TOP)
+                    x == XCoordinate.X_MIN_RANGE && y == YCoordinate.Y_MIN_RANGE -> boardLine.add(LEFT_BOTTOM)
+                    x == XCoordinate.X_MAX_RANGE && y == YCoordinate.Y_MIN_RANGE -> boardLine.add(RIGHT_BOTTOM)
+                    x == XCoordinate.X_MIN_RANGE -> boardLine.add(LEFT)
+                    x == XCoordinate.X_MAX_RANGE -> boardLine.add(RIGHT)
+                    y == YCoordinate.Y_MAX_RANGE -> boardLine.add(TOP)
+                    y == YCoordinate.Y_MIN_RANGE -> boardLine.add(BOTTOM)
+                    else -> boardLine.add(MIDDLE)
                 }
-                if (x != XCoordinate.X_MAX_RANGE) ma.add("──")
+                if (x != XCoordinate.X_MAX_RANGE) boardLine.add("──")
             }
-            list2d.add(ma)
+            boardLines.add(boardLine)
         }
-        list2d.add(mutableListOf("    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"))
+        boardLines.add(mutableListOf("    " + (XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE).joinToString("") { "$it  " }))
     }
 
     override fun toString(): String {
-        val sb = StringBuilder()
-        with(sb) {
-            list2d.forEach {
-                sb.append(it.joinToString(""))
-                sb.append("\n")
-            }
+        val stringBuilder = StringBuilder()
+
+        boardLines.forEach {
+            stringBuilder.append(it.joinToString(""))
+            stringBuilder.append("\n")
         }
-        return sb.toString()
+        return stringBuilder.toString()
     }
 
     companion object {
