@@ -61,19 +61,15 @@ class StonesTest {
     fun `놓은 돌이 닫힌 3 닫힌 3 일 때 플레이어는 돌을 놓을 수 없다`() {
         // given
         val placedStones = listOf<Stone>(
+            BlackStone(2, 11),
+            BlackStone(3, 13),
             BlackStone(3, 12),
-            WhiteStone(1, 1),
-            BlackStone(4, 14),
-            WhiteStone(3, 2),
-            BlackStone(4, 13),
-            WhiteStone(1, 3),
-            BlackStone(5, 12),
-            WhiteStone(1, 4),
+            BlackStone(4, 11),
         )
         val stones = Stones(placedStones)
 
         // when
-        val actual = stones.threeToThree(BlackStone(4, 12))
+        val actual = stones.threeToThree(BlackStone(3, 11))
 
         // then
         assertThat(actual).isTrue
@@ -83,19 +79,15 @@ class StonesTest {
     fun `놓은 돌이 열린 4 열린 4 일 때 플레이어는 돌을 놓을 수 없다`() {
         // given
         val placedStones = listOf<Stone>(
-            BlackStone(2, 6),
-            WhiteStone(1, 1),
-            BlackStone(3, 5),
-            WhiteStone(3, 2),
-            BlackStone(5, 5),
-            WhiteStone(1, 3),
-            BlackStone(5, 6),
-            WhiteStone(1, 4),
+            BlackStone(1, 5),
+            BlackStone(2, 4),
+            BlackStone(4, 5),
+            BlackStone(4, 4),
         )
         val stones = Stones(placedStones)
 
         // when
-        val actual = stones.threeToThree(BlackStone(5, 3))
+        val actual = stones.threeToThree(BlackStone(4, 2))
 
         // then
         assertThat(actual).isTrue
@@ -105,19 +97,15 @@ class StonesTest {
     fun `놓은 돌이 열린 4 열린 4 일 때 플레이어는 돌을 놓을 수 없다2`() {
         // given
         val placedStones = listOf<Stone>(
-            BlackStone(10, 9),
-            WhiteStone(1, 1),
-            BlackStone(13, 12),
-            WhiteStone(3, 2),
-            BlackStone(11, 12),
-            WhiteStone(1, 3),
-            BlackStone(10, 13),
-            WhiteStone(1, 4),
+            BlackStone(9, 8),
+            BlackStone(12, 11),
+            BlackStone(12, 9),
+            BlackStone(13, 8),
         )
         val stones = Stones(placedStones)
 
         // when
-        val actual = stones.threeToThree(BlackStone(12, 11))
+        val actual = stones.threeToThree(BlackStone(11, 10))
 
         // then
         assertThat(actual).isTrue
@@ -127,19 +115,15 @@ class StonesTest {
     fun `놓은 돌이 닫힌 3 열린 4 일 때 플레이어는 돌을 놓을 수 없다`() {
         // given
         val placedStones = listOf<Stone>(
-            BlackStone(10, 3),
-            WhiteStone(1, 1),
-            BlackStone(10, 6),
-            WhiteStone(3, 2),
-            BlackStone(12, 4),
-            WhiteStone(1, 3),
-            BlackStone(13, 4),
-            WhiteStone(1, 4),
+            BlackStone(10, 2),
+            BlackStone(10, 5),
+            BlackStone(12, 3),
+            BlackStone(13, 3),
         )
         val stones = Stones(placedStones)
 
         // when
-        val actual = stones.threeToThree(BlackStone(10, 4))
+        val actual = stones.threeToThree(BlackStone(10, 3))
 
         // then
         assertThat(actual).isTrue
@@ -149,20 +133,16 @@ class StonesTest {
     fun `열린 4가 하나만 있을 때 돌을 놓을 수 있다`() {
         // given
         val placedStones = listOf<Stone>(
-            BlackStone(10, 3),
-            WhiteStone(1, 1),
-            BlackStone(10, 6),
-            WhiteStone(3, 2),
-            BlackStone(12, 4),
-            WhiteStone(1, 3),
-            BlackStone(13, 4),
-            WhiteStone(1, 4),
-            WhiteStone(9, 4),
+            BlackStone(10, 2),
+            BlackStone(10, 5),
+            BlackStone(12, 3),
+            BlackStone(13, 3),
+            WhiteStone(9, 3),
         )
         val stones = Stones(placedStones)
 
         // when
-        val actual = stones.threeToThree(BlackStone(10, 4))
+        val actual = stones.threeToThree(BlackStone(10, 3))
 
         // then
         assertThat(actual).isFalse

@@ -25,7 +25,7 @@ class GameController(
 
     private fun getStoneCoordinateOrNull(stones: Stones): PointDTO? {
         return if (stones.value.isEmpty()) null
-        else PointMapper.domainToDTO(stones.value.last().coordinate)
+        else PointMapper.domainToDTO(stones.value.last().coordinate.point)
     }
 
     private fun readStone(color: Color, stones: Stones): Coordinate {

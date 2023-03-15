@@ -14,14 +14,10 @@ class Stones(value: List<Stone> = listOf()) {
 
     fun isWinPlace(stone: Stone): Boolean {
         directions.forEachIndexed { index, item ->
-            val score = startSearch(stone.coordinate + item, item, stone.color, INITIAL_SCORE)
-            val invertedScore =
-                startSearch(
-                    stone.coordinate + invertedDirections[index],
-                    invertedDirections[index],
-                    stone.color,
-                    INITIAL_SCORE
-                )
+            val nextCoordinate = (stone.coordinate + item) ?: return@forEachIndexed
+            val score = startSearch(nextCoordinate, item, stone.color, INITIAL_SCORE)
+            val invertCoordinate = (stone.coordinate + invertedDirections[index]) ?: return@forEachIndexed
+            val invertedScore = startSearch(invertCoordinate, invertedDirections[index], stone.color, INITIAL_SCORE)
             println(score + invertedScore)
             if (score + invertedScore >= WINNING_CONDITION) return true
         }
@@ -29,39 +25,43 @@ class Stones(value: List<Stone> = listOf()) {
     }
 
     private fun startSearch(coordinate: Coordinate, direction: Point, color: Color, count: Int): Int {
-        if (_value.any { it.coordinate == coordinate && it.color == color })
-            return startSearch(coordinate + direction, direction, color, count + SEARCH_INTERVAL)
+        if (_value.any { it.coordinate == coordinate && it.color == color }) {
+            val nextCoordinate = (coordinate + direction) ?: return count + SEARCH_INTERVAL
+            return startSearch(nextCoordinate, direction, color, count + SEARCH_INTERVAL)
+        }
         return count
     }
 
     fun threeToThree(stone: Stone): Boolean {
-        return directions.count {
-            checkOpenFourForLine(stone.coordinate + (it * -4), it)
+        return directions.count { direction ->
+            checkOpenFourForLine((direction * -4) + stone.coordinate.point, direction)
         } >= 2
     }
 
-    private fun checkOpenFourForLine(start: Coordinate, direction: Point): Boolean {
+    private fun checkOpenFourForLine(start: Point, direction: Point): Boolean {
         for (i in 0..3) {
-            if (isOpenFour(start + (direction * i), direction))
-                return true
+            if (isOpenFour(start + (direction * i), direction)) return true
         }
         return false
     }
 
-    private fun isOpenFour(start: Coordinate, direction: Point): Boolean {
+    private fun isOpenFour(start: Point, direction: Point): Boolean {
+        repeat(5) {
+            val next = (direction * it)
+            if (Coordinate.from(start.x + next.x, start.y + next.y) == null)
+                return false
+        }
+
         val isOpened =
-            _value.none { it.coordinate == start } && _value.none { it.coordinate == start + (direction * 5) }
+            _value.none { it.coordinate.point == start } && _value.none { it.coordinate.point == (start + (direction * 5)) }
         var blackStoneCount = 0
         for (i in 1..4) {
             val stone = _value.find {
-                it.coordinate == start + (direction * i)
+                it.coordinate.point == start + (direction * i)
             }
-            if (stone == null)
-                continue
-            else if (stone.color == Color.BLACK)
-                blackStoneCount++
-            else if (stone.color == Color.WHITE)
-                return false
+            if (stone == null) continue
+            else if (stone.color == Color.BLACK) blackStoneCount++
+            else if (stone.color == Color.WHITE) return false
         }
         val isFour = blackStoneCount == 2
         return isOpened && isFour
