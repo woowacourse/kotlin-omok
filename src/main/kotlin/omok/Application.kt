@@ -1,0 +1,4 @@
+package omok
+
+fun main() {
+}
