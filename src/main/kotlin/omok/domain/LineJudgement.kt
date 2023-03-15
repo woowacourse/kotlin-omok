@@ -1,13 +1,17 @@
 package omok.domain
 
 class LineJudgement(val player: Player, val position: Position) {
-    fun checkHorizontal(): Boolean {
+
+    fun checkOmok(horizontal: List<Int>, vertical: List<Int>): Boolean {
         var count = 0
         var prev = true
         var present: Boolean
-
-        HorizontalAxis.values().forEach { horizontal ->
-            present = player.stones.any { stone -> stone.findPosition(Position(horizontal, position.verticalAxis)) }
+        horizontal.zip(vertical).forEach { axis ->
+            present = player.stones.any { stone ->
+                stone.findPosition(
+                    Position(HorizontalAxis.getHorizontalAxis(axis.first), axis.second)
+                )
+            }
             if ((count == 0 && present) || (prev && present))
                 count++
             if (!present) {
@@ -15,127 +19,34 @@ class LineJudgement(val player: Player, val position: Position) {
                 count = 0
             }
             prev = present
-            if (count == 5)
-                return true
+            if (count == 5) return true
         }
         return false
+    }
+
+    fun checkHorizontal(): Boolean {
+        return checkOmok((1..15).toList(), List(15) { position.verticalAxis })
     }
 
     fun checkVertical(): Boolean {
-        var count = 0
-        var prev = true
-        var present: Boolean
-
-        (1..15).forEach { vertical ->
-            present = player.stones.any { stone -> stone.findPosition(Position(position.horizontalAxis, vertical)) }
-            if ((count == 0 && present) || (prev && present))
-                count++
-            if (!present) {
-                prev = false
-                count = 0
-            }
-            prev = present
-            if (count == 5)
-                return true
-        }
-        return false
+        return checkOmok(List(15) { position.horizontalAxis.value }, (1..15).toList())
     }
 
     fun checkMajorDiagonal(): Boolean {
-        if (position.horizontalAxis.value <= position.verticalAxis) {
-            return checkUpperMajorDiagonal(position.horizontalAxis.value, position.verticalAxis)
+        val horizontal = position.horizontalAxis.value
+        val vertical = position.verticalAxis
+        if (horizontal <= vertical) {
+            return checkOmok((1..15 + horizontal - vertical).toList(), (vertical - horizontal + 1..15).toList())
         }
-        return checkLowerMajorDiagonal(position.horizontalAxis.value, position.verticalAxis)
-    }
-
-    private fun checkUpperMajorDiagonal(horizontalAxis: Int, verticalAxis: Int): Boolean {
-        var count = 0
-        var prev = true
-        var present: Boolean
-
-        var vertical = verticalAxis - horizontalAxis + 1
-
-        (1..15 + horizontalAxis - verticalAxis).forEach { horizontal ->
-            present = player.stones.any { stone -> stone.findPosition(Position(HorizontalAxis.getHorizontalAxis(horizontal), vertical)) }
-            vertical++
-            if ((count == 0 && present) || (prev && present)) count++
-            if (!present) {
-                prev = false
-                count = 0
-            }
-            prev = present
-            if (count == 5) return true
-        }
-        return false
-    }
-
-    private fun checkLowerMajorDiagonal(horizontalAxis: Int, verticalAxis: Int): Boolean {
-        var count = 0
-        var prev = true
-        var present: Boolean
-
-        var horizontal = horizontalAxis - verticalAxis + 1
-
-        (1..15 - horizontalAxis + verticalAxis).forEach { vertical ->
-            present = player.stones.any { stone -> stone.findPosition(Position(HorizontalAxis.getHorizontalAxis(horizontal), vertical)) }
-            horizontal++
-            if ((count == 0 && present) || (prev && present)) count++
-            if (!present) {
-                prev = false
-                count = 0
-            }
-            prev = present
-            if (count == 5) return true
-        }
-        return false
+        return checkOmok((horizontal - vertical + 1..15).toList(), (1..15 - vertical + horizontal).toList())
     }
 
     fun checkSubDiagonal(): Boolean {
-        if (position.horizontalAxis.value + position.verticalAxis >= 15) {
-            return checkUpperSubDiagonal(position.horizontalAxis.value, position.verticalAxis)
+        val horizontal = position.horizontalAxis.value
+        val vertical = position.verticalAxis
+        if (horizontal + vertical >= 15) {
+            return checkOmok((horizontal + vertical - 15..15).toList().reversed(), (horizontal + vertical - 15..15).toList())
         }
-        return checkLowerSubDiagonal(position.horizontalAxis.value, position.verticalAxis)
-    }
-
-    private fun checkUpperSubDiagonal(horizontalAxis: Int, verticalAxis: Int): Boolean {
-        var count = 0
-        var prev = true
-        var present: Boolean
-
-        var horizontal = 15
-
-        (horizontalAxis + verticalAxis - 15..15).forEach { vertical ->
-            present = player.stones.any { stone -> stone.findPosition(Position(HorizontalAxis.getHorizontalAxis(horizontal), vertical)) }
-            horizontal--
-            if ((count == 0 && present) || (prev && present)) count++
-            if (!present) {
-                prev = false
-                count = 0
-            }
-            prev = present
-            if (count == 5) return true
-        }
-        return false
-    }
-
-    private fun checkLowerSubDiagonal(horizontalAxis: Int, verticalAxis: Int): Boolean {
-        var count = 0
-        var prev = true
-        var present: Boolean
-
-        var vertical = horizontalAxis + verticalAxis - 1
-
-        (1..horizontalAxis + verticalAxis - 1).forEach { horizontal ->
-            present = player.stones.any { stone -> stone.findPosition(Position(HorizontalAxis.getHorizontalAxis(horizontal), vertical)) }
-            vertical--
-            if ((count == 0 && present) || (prev && present)) count++
-            if (!present) {
-                prev = false
-                count = 0
-            }
-            prev = present
-            if (count == 5) return true
-        }
-        return false
+        return checkOmok((1..horizontal + vertical - 1).toList(), (1..horizontal + vertical - 1).toList().reversed())
     }
 }
