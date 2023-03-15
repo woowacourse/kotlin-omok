@@ -1,3 +1,5 @@
+package omok.domain
+
 data class Position(val horizontalAxis: HorizontalAxis, val verticalAxis: Int) {
     private var empty = true
 

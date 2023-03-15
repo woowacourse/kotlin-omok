@@ -1,3 +1,5 @@
+package omok.domain
+
 class Board(val blackPlayer: Player, val whitePlayer: Player) {
     val positions = Position.POSITIONS
 

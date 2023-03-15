@@ -1,3 +1,5 @@
+package omok.domain
+
 enum class HorizontalAxis(val value: Int) {
     A(1),
     B(2),

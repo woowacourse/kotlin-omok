@@ -1,3 +1,5 @@
+package omok.domain
+
 class LineJudgement(val player: Player, val position: Position) {
     fun checkHorizontal(): Boolean {
         var count = 0

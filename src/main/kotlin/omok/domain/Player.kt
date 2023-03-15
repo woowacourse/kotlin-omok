@@ -1,3 +1,5 @@
+package omok.domain
+
 class Player {
     private var _stones = mutableListOf<Stone>()
     val stones
