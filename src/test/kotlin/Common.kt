@@ -8,7 +8,7 @@ fun BasedBoard(vararg stones: Stone) = object : BasedBoard(stones.toList()) {
             throw IllegalStateException("")
         }
 
-    override fun isPossiblePut(point: Position): Boolean {
+    override fun isPossiblePut(position: Position): Boolean {
         return true
     }
 

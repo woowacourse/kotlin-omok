@@ -1,7 +1,7 @@
 class InputView {
 
     fun requestPoint(stone: Stone?): Position {
-        println(TURN_MESSAGE.format(getNextColorName(stone?.color), getLatestPoint(stone?.point)))
+        println(TURN_MESSAGE.format(getNextColorName(stone?.color), getLatestPoint(stone?.position)))
         print(REQUEST_POINT_MESSAGE)
         val input = readln()
         return runCatchingOrNull {
@@ -19,9 +19,9 @@ class InputView {
         Color.BLACK -> WHITE
     }
 
-    private fun getLatestPoint(point: Position?) = when (point) {
+    private fun getLatestPoint(position: Position?) = when (position) {
         null -> EMPTY_STRING
-        else -> LAST_STONE_POINT_MESSAGE.format(convertXtoChar(point.x + 1), point.y + 1)
+        else -> LAST_STONE_POINT_MESSAGE.format(convertXtoChar(position.x + 1), position.y + 1)
     }
 
     private fun <T> runCatchingOrNull(block: () -> T?): T? {

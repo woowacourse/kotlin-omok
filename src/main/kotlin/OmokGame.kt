@@ -1,5 +1,5 @@
 class OmokGame(
-    val getPoint: (Stone?) -> Position,
+    val getPosition: (Stone?) -> Position,
     val checkBoardState: (Board) -> Unit,
 ) {
     fun runGame(): Color {
@@ -14,9 +14,9 @@ class OmokGame(
     }
 
     fun turnGame(board: Board, color: Color): Board {
-        val point = getPoint(board.getLatestStone())
-        return if (board.isPossiblePut(point)) {
-            val nextBoard = board.putStone(Stone(point, color))
+        val position = getPosition(board.getLatestStone())
+        return if (board.isPossiblePut(position)) {
+            val nextBoard = board.putStone(Stone(position, color))
             checkBoardState(nextBoard)
             nextBoard
         } else {

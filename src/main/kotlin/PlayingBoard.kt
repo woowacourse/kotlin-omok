@@ -8,12 +8,12 @@ class PlayingBoard(placedStones: List<Stone>) : BasedBoard(placedStones.toList()
 
     override val isFinished: Boolean = false
 
-    override fun isPossiblePut(point: Position): Boolean =
-        !placedStones.any { stone -> stone.point == point }
+    override fun isPossiblePut(position: Position): Boolean =
+        !placedStones.any { stone -> stone.position == position }
 
     override fun putStone(stone: Stone): Board {
         // TODO: 함수 분리
-        if (isPossiblePut(stone.point).not()) throw IllegalArgumentException(PLACED_STONE_ERROR)
+        if (isPossiblePut(stone.position).not()) throw IllegalArgumentException(PLACED_STONE_ERROR)
         val nextStones = getStones() + stone
         val omokResult = OmokResult.valueOf(nextStones, stone.color)
         return when (omokResult) {
