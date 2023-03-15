@@ -36,8 +36,8 @@ BlackTurn : Running
 - [x] stone를 추가한 후 WhitTurn를 반환
 - [x] 오목 조건 충족하면 End 상태로 Black이 Win
 End : State
-- [ ] 우승자에 해당하는 StoneType을 가진다.
-- [ ] 우승자의 StoneType을 반환한다.
+- [x] 우승자에 해당하는 StoneType을 가진다.
+- [x] 우승자의 StoneType을 반환한다.
 ---
 OmokRule(board: Board)
 - [X] 오목 조건을 충족하는지 확인한다.
