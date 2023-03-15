@@ -1,28 +1,28 @@
 // class OmokGame(
-//     val getPoint: (Stones) -> Point,
-//     val checkBoardState: (Stones, Stones) -> Unit,
+//     val getPoint: (placedStones) -> Point,
+//     val checkBoardState: (placedStones, placedStones) -> Unit,
 // ) {
 //
 //     fun runGame(
-//         aBlackStones: Stones = BlackStones(),
-//         aWhiteStones: Stones = WhiteStones()
+//         aBlackplacedStones: placedStones = BlackplacedStones(),
+//         aWhiteplacedStones: placedStones = WhiteplacedStones()
 //     ): Color {
-//         var blackStones: Stones = aBlackStones
-//         var whiteStones: Stones = aWhiteStones
+//         var blackplacedStones: placedStones = aBlackplacedStones
+//         var whiteplacedStones: placedStones = aWhiteplacedStones
 //
 //         while (true) {
-//             checkBoardState(blackStones, whiteStones)
-//             blackStones = blackStones.eachTurn(whiteStones, getPoint)
-//             blackStones.isFinished(whiteStones) ?: return blackStones.getColor()
-//             checkBoardState(blackStones, whiteStones)
-//             whiteStones = whiteStones.eachTurn(blackStones, getPoint)
-//             whiteStones.isFinished(blackStones) ?: return whiteStones.getColor()
+//             checkBoardState(blackplacedStones, whiteplacedStones)
+//             blackplacedStones = blackplacedStones.eachTurn(whiteplacedStones, getPoint)
+//             blackplacedStones.isFinished(whiteplacedStones) ?: return blackplacedStones.getColor()
+//             checkBoardState(blackplacedStones, whiteplacedStones)
+//             whiteplacedStones = whiteplacedStones.eachTurn(blackplacedStones, getPoint)
+//             whiteplacedStones.isFinished(blackplacedStones) ?: return whiteplacedStones.getColor()
 //         }
 //     }
 //
-//     private fun Stones.isFinished(otherStones: Stones): Color? {
+//     private fun placedStones.isFinished(otherplacedStones: placedStones): Color? {
 //         if (this.isWin) {
-//             checkBoardState(this, otherStones)
+//             checkBoardState(this, otherplacedStones)
 //             return null
 //         }
 //         return this.getColor()

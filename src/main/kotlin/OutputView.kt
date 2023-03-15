@@ -1,6 +1,6 @@
 // class OutputView {
 //
-//     fun printOmokBoardState(blackStones: Stones, whiteStones: Stones) {
+//     fun printOmokBoardState(blackplacedStones: placedStones, whiteplacedStones: placedStones) {
 //         // 15부터 시작해서 반복문 돌기
 //         // Y좌표가 I와 같은 좌표를 찾고 좌표의 X좌표값이 1이면 3으로 , 2이면 6으로,
 //         // 3,6,9,...3 단위로 출력
@@ -8,15 +8,15 @@
 //         for (i in 0..14) {
 //             val frontNumber = BOARD[i].substring(0, 3)
 //             val line = BOARD[i].substring(3)
-//             val putBlackStones =
-//                 blackStones.list.filter { it.point.y == 15 - i }.map { stone -> (stone.point.x - 1) * 3 }
-//             val putWhiteStones =
-//                 whiteStones.list.filter { it.point.y == 15 - i }.map { stone -> (stone.point.x - 1) * 3 }
+//             val putBlackplacedStones =
+//                 blackplacedStones.list.filter { it.point.y == 15 - i }.map { stone -> (stone.point.x - 1) * 3 }
+//             val putWhiteplacedStones =
+//                 whiteplacedStones.list.filter { it.point.y == 15 - i }.map { stone -> (stone.point.x - 1) * 3 }
 //             val builder = StringBuilder()
 //             line.forEachIndexed { index, c ->
-//                 if (putWhiteStones.contains(index)) {
+//                 if (putWhiteplacedStones.contains(index)) {
 //                     builder.append('◎')
-//                 } else if (putBlackStones.contains(index)) {
+//                 } else if (putBlackplacedStones.contains(index)) {
 //                     builder.append('●')
 //                 } else {
 //                     builder.append(c)

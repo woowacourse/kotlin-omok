@@ -1,8 +1,8 @@
 // class InputView {
 //
-//     fun requestPoint(stones: Stones): Point {
+//     fun requestPoint(placedStones: placedStones): Point {
 //         while (true) {
-//             if (stones.getColor() == Color.BLACK) {
+//             if (placedStones.getColor() == Color.BLACK) {
 //                 println("흑의 차례입니다.")
 //                 print("위치를 입력하세요: ")
 //                 val input = readln()
@@ -12,7 +12,7 @@
 //                     .onSuccess { return it }
 //                     .onFailure { println(it.message) }
 //             }
-//             if (stones.getColor() == Color.WHITE) {
+//             if (placedStones.getColor() == Color.WHITE) {
 //                 println("백의 차례입니다.")
 //                 print("위치를 입력하세요: ")
 //                 val input = readln()
