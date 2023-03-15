@@ -1,3 +1,3 @@
 package domain.turn
 
-class BlackTurn : Turn()
+class BlackTurn(state: State = State()) : Turn(state)

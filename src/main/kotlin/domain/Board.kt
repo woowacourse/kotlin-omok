@@ -1,6 +1,7 @@
 package domain
 
 import domain.turn.BlackTurn
+import domain.turn.State
 import domain.turn.WhiteTurn
 
 class Board(
@@ -17,5 +18,9 @@ class Board(
 
     fun moveBlack(stone: Stone) {
         blackTurn.move(stone)
+    }
+
+    fun getTotalState(): State {
+        return blackTurn.state + whiteTurn.state
     }
 }
