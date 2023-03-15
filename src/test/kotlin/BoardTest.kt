@@ -1,9 +1,7 @@
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import player.BlackPlayer
-import player.Board
 import player.Player
-import player.Turn
 import player.WhitePlayer
 import state.PlayingState
 

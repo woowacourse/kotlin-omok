@@ -1,6 +1,7 @@
 package player
 
 import Stone
+import Turn
 
 class Players private constructor(private val players: Map<Turn, Player>) {
     constructor(black: Player, white: Player) : this(mapOf(Turn.BLACK to black, Turn.WHITE to white))

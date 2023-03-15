@@ -10,4 +10,5 @@ abstract class PlayerState(protected val stones: Stones = Stones()) {
     fun hasStone(stone: Stone): Boolean = stones.hasStone(stone)
 
     fun getPlaced(): List<Position> = stones.getPositions()
+    fun getLastStone(): Stone = stones.lastStone
 }

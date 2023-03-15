@@ -1,4 +1,6 @@
 data class Stones(private val stones: List<Stone>) {
+    val lastStone: Stone
+        get() = stones.last().copy()
     constructor(vararg stones: Stone) : this(stones.toList())
 
     init {

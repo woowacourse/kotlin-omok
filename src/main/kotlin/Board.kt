@@ -1,8 +1,6 @@
-package player
-
-import BoardState
 import Position.Companion.POSITION_RANGE
-import Stone
+import player.Player
+import player.Players
 
 class Board(private val players: Players) {
     constructor(blackPlayer: Player, whitePlayer: Player) : this(Players(blackPlayer, whitePlayer))

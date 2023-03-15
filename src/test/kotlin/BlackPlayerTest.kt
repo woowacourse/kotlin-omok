@@ -20,4 +20,10 @@ class BlackPlayerTest {
 
         assertThat(expected).isFalse
     }
+
+    @Test
+    fun `마지막 놓은 돌을 반환한다`() {
+        val player: Player = BlackPlayer(PlayingState(Stones(ONE_ONE_STONE)))
+        assertThat(player.getLastStone()).isEqualTo(ONE_ONE_STONE)
+    }
 }
