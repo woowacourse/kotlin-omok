@@ -3,9 +3,9 @@ package omok.domain
 import omok.domain.board.Board
 import omok.domain.board.Position
 import omok.domain.board.toPosition
-import omok.domain.judgment.Referee
+import omok.domain.judgment.WinningReferee
 
-class Game(private val board: Board, private var turn: Turn, private val referee: Referee) {
+class Game(private val board: Board, private var turn: Turn, private val winningReferee: WinningReferee) {
     fun start(
         onStart: (board: Board) -> Unit,
         wantPosition: (position: Position?, turn: Turn) -> String,
@@ -34,7 +34,7 @@ class Game(private val board: Board, private var turn: Turn, private val referee
         board.place(selectedPosition, turn.now)
         onTurn(board)
 
-        if (referee.hasFiveOrMoreStoneInRow(board.positions, selectedPosition)) return finish(onFinish)
+        if (winningReferee.hasFiveOrMoreStoneInRow(board.positions, selectedPosition)) return finish(onFinish)
         turn = turn.next()
         playUntilWinnerAppears(selectedPosition, wantPosition, onTurn, onFinish)
     }
