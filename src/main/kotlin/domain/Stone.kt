@@ -1,4 +1,4 @@
 package domain
 
-data class Stone(private val xCoordinate: XCoordinate, private val yCoordinate: YCoordinate) {
+data class Stone(val xCoordinate: XCoordinate, val yCoordinate: YCoordinate) {
 }

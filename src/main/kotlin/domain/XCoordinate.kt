@@ -1,6 +1,6 @@
 package domain
 
-class XCoordinate private constructor(x: Char) {
+class XCoordinate private constructor(val x: Char) {
 
     init {
         require(x in X_MIN_RANGE..X_MAX_RANGE) { X_COORDINATE_RANGE_ERROR }
