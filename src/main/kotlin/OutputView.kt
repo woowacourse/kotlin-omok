@@ -8,12 +8,14 @@ class OutputView {
         for (i in 0..14) {
             val frontNumber = BOARD[i].substring(0, 3)
             val line = BOARD[i].substring(3)
-            val putBlackplacedStones =
-                board.getStones().filter { it.point.y == 15 - i && it.color == Color.BLACK }
-                    .map { stone -> (stone.point.x - 1) * 3 }
-            val putWhiteplacedStones =
-                board.getStones().filter { it.point.y == 15 - i && it.color == Color.WHITE }
-                    .map { stone -> (stone.point.x - 1) * 3 }
+            val putBlackplacedStones = board
+                .getStones()
+                .filter { it.point.y == 15 - i && it.color == Color.BLACK }
+                .map { stone -> (stone.point.x - 1) * 3 }
+            val putWhiteplacedStones = board
+                .getStones()
+                .filter { it.point.y == 15 - i && it.color == Color.WHITE }
+                .map { stone -> (stone.point.x - 1) * 3 }
             val builder = StringBuilder()
             line.forEachIndexed { index, c ->
                 if (putWhiteplacedStones.contains(index)) {
