@@ -1,35 +1,32 @@
 class OutputView {
 
     fun printOmokBoardState(board: Board) {
-        // 15부터 시작해서 반복문 돌기
-        // Y좌표가 I와 같은 좌표를 찾고 좌표의 X좌표값이 1이면 3으로 , 2이면 6으로,
-        // 3,6,9,...3 단위로 출력
-
         for (i in 0..14) {
             val frontNumber = BOARD[i].substring(0, 3)
             val line = BOARD[i].substring(3)
-            val putBlackplacedStones = board
-                .getStones()
-                .filter { it.point.y == 15 - i && it.color == Color.BLACK }
-                .map { stone -> (stone.point.x - 1) * 3 }
-            val putWhiteplacedStones = board
-                .getStones()
-                .filter { it.point.y == 15 - i && it.color == Color.WHITE }
-                .map { stone -> (stone.point.x - 1) * 3 }
-            val builder = StringBuilder()
-            line.forEachIndexed { index, c ->
-                if (putWhiteplacedStones.contains(index)) {
-                    builder.append('◎')
-                } else if (putBlackplacedStones.contains(index)) {
-                    builder.append('●')
-                } else {
-                    builder.append(c)
-                }
-            }
-            print(frontNumber + builder.toString())
+            val blackStonesPoint = board.filterPointY(Color.BLACK, i)
+            val whiteStonesPoint = board.filterPointY(Color.WHITE, i)
+            print(frontNumber + makeBoardLine(line, blackStonesPoint, whiteStonesPoint))
         }
         println(BOARD.last())
     }
+
+    private fun Board.filterPointY(color: Color, curY: Int): List<Int> {
+        return getStones()
+            .filter { it.point.y == 15 - curY && it.color == color }
+            .map { stone -> (stone.point.x - 1) * 3 }
+    }
+
+    private fun makeBoardLine(line: String, blackStonesPoint: List<Int>, whiteStonesPoint: List<Int>): String =
+        buildString {
+            append(line)
+            whiteStonesPoint.forEach { x ->
+                replace(x, x + 1, "◎")
+            }
+            blackStonesPoint.forEach { x ->
+                replace(x, x + 1, "●")
+            }
+        }
 
     fun printWinner(color: Color) {
         println(PRINT_WINNER.format(color))
