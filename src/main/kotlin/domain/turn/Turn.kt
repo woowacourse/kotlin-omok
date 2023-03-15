@@ -9,5 +9,5 @@ abstract class Turn(
         state.move(stone)
     }
 
-    fun canMove(stone: Stone): Boolean = state.canMove(stone)
+    fun isEmpty(stone: Stone): Boolean = state.isEmpty(stone)
 }
