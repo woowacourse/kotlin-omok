@@ -1,4 +1,4 @@
-fun Stone(x: Int, y: Int, color: Color = Color.BLACK) = Stone(Point(x, y), color)
+fun Stone(x: Int, y: Int, color: Color = Color.BLACK) = Stone(Position(x - 1, y - 1), color)
 fun BasedBoard(vararg stones: Stone) = object : BasedBoard(stones.toList()) {
     override val isFinished: Boolean
         get() = false
@@ -8,7 +8,7 @@ fun BasedBoard(vararg stones: Stone) = object : BasedBoard(stones.toList()) {
             throw IllegalStateException("")
         }
 
-    override fun isPossiblePut(point: Point): Boolean {
+    override fun isPossiblePut(point: Position): Boolean {
         return true
     }
 

@@ -8,7 +8,7 @@ class PlayingBoard(placedStones: List<Stone>) : BasedBoard(placedStones.toList()
 
     override val isFinished: Boolean = false
 
-    override fun isPossiblePut(point: Point): Boolean =
+    override fun isPossiblePut(point: Position): Boolean =
         !placedStones.any { stone -> stone.point == point }
 
     override fun putStone(stone: Stone): Board {

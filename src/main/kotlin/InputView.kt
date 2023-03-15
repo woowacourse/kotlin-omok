@@ -1,27 +1,27 @@
 class InputView {
 
-    fun requestPoint(stone: Stone?): Point {
+    fun requestPoint(stone: Stone?): Position {
         println(TURN_MESSAGE.format(getNextColorName(stone?.color), getLatestPoint(stone?.point)))
         print(REQUEST_POINT_MESSAGE)
         val input = readln()
         return runCatchingOrNull {
             val x = convertCharToX(input[0])
             val y = input.substring(1).toInt()
-            Point(x, y)
+            Position(x - 1, y - 1)
         } ?: requestPoint(stone)
     }
 
     private fun convertCharToX(char: Char): Int = char.code - CONVERTING_BASE_NUMBER
     private fun convertXtoChar(x: Int): Char = (CONVERTING_BASE_NUMBER + x).toChar()
 
-    private fun getNextColorName(color: Color?): String = when (color) {
+    private fun getNextColorName(curTurnColor: Color?): String = when (curTurnColor) {
         null, Color.WHITE -> BLACK
         Color.BLACK -> WHITE
     }
 
-    private fun getLatestPoint(point: Point?) = when (point) {
+    private fun getLatestPoint(point: Position?) = when (point) {
         null -> EMPTY_STRING
-        else -> LAST_STONE_POINT_MESSAGE.format(convertXtoChar(point.x), point.y)
+        else -> LAST_STONE_POINT_MESSAGE.format(convertXtoChar(point.x + 1), point.y + 1)
     }
 
     private fun <T> runCatchingOrNull(block: () -> T?): T? {

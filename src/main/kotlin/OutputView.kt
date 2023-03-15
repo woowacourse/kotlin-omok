@@ -13,8 +13,8 @@ class OutputView {
 
     private fun Board.filterPointY(color: Color, curY: Int): List<Int> {
         return getStones()
-            .filter { it.point.y == END_COL - curY && it.color == color }
-            .map { stone -> (stone.point.x - 1) * COL_UNIT }
+            .filter { it.point.y + 1 == END_COL - curY && it.color == color }
+            .map { stone -> (stone.point.x) * COL_UNIT }
     }
 
     private fun makeBoardLine(line: String, blackStonesPoint: List<Int>, whiteStonesPoint: List<Int>): String =

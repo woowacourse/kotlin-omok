@@ -1,4 +1,4 @@
 data class Stone(
-    val point: Point,
+    val point: Position,
     val color: Color
 )

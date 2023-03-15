@@ -1,5 +1,5 @@
 class OmokGame(
-    val getPoint: (Stone?) -> Point,
+    val getPoint: (Stone?) -> Position,
     val checkBoardState: (Board) -> Unit,
 ) {
     fun runGame(): Color {

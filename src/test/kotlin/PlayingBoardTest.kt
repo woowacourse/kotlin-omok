@@ -6,15 +6,14 @@ class PlayingBoardTest {
     @Test
     fun `특정 위치에 돌이 있으면 false를 반환한다`() {
         val playingBoard = PlayingBoard(listOf(Stone(1, 2)))
-        val actual = playingBoard.isPossiblePut(Point(1, 2))
-
+        val actual = playingBoard.isPossiblePut(Position(1 - 1, 2 - 1))
         assertThat(actual).isFalse
     }
 
     @Test
     fun `특정 위치에 돌이 없으면 true를 반환한다`() {
         val playingBoard = PlayingBoard(listOf(Stone(1, 2)))
-        val actual = playingBoard.isPossiblePut(Point(5, 3))
+        val actual = playingBoard.isPossiblePut(Position(5 - 1, 3 - 1))
 
         assertThat(actual).isTrue
     }
