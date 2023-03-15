@@ -1,7 +1,7 @@
-enum class Turn {
+enum class StoneColor {
     BLACK, WHITE;
 
-    fun next(): Turn = when (this) {
+    fun next(): StoneColor = when (this) {
         BLACK -> WHITE
         WHITE -> BLACK
     }

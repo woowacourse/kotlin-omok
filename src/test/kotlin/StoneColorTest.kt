@@ -2,11 +2,11 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
-class TurnTest {
+class StoneColorTest {
     @CsvSource("WHITE, BLACK", "BLACK, WHITE")
     @ParameterizedTest
-    fun `상대방 차례를 반환한다`(myTurn: Turn, expected: Turn) {
-        val actual = myTurn.next()
+    fun `상대방 차례를 반환한다`(myStoneColor: StoneColor, expected: StoneColor) {
+        val actual = myStoneColor.next()
         assertThat(actual).isEqualTo(expected)
     }
 }

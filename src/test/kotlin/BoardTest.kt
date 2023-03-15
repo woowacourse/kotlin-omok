@@ -11,7 +11,7 @@ class BoardTest {
         val blackPlayer: Player = BlackPlayer(PlayingState(Stones(ONE_ONE_STONE)))
         val whitePlayer: Player = WhitePlayer(PlayingState(Stones(ONE_TWO_STONE)))
         val board = Board(blackPlayer, whitePlayer)
-        assertThat(board.putStone(Turn.BLACK, ONE_THREE_STONE)).isInstanceOf(Player::class.java)
+        assertThat(board.putStone(StoneColor.BLACK, ONE_THREE_STONE)).isInstanceOf(Player::class.java)
     }
 
     @Test
@@ -19,6 +19,6 @@ class BoardTest {
         val blackPlayer: Player = BlackPlayer(PlayingState(Stones(ONE_ONE_STONE)))
         val whitePlayer: Player = WhitePlayer(PlayingState(Stones(ONE_TWO_STONE)))
         val board = Board(blackPlayer, whitePlayer)
-        assertThat(board.putStone(Turn.BLACK, ONE_TWO_STONE)).isNull()
+        assertThat(board.putStone(StoneColor.BLACK, ONE_TWO_STONE)).isNull()
     }
 }
