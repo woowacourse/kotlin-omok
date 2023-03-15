@@ -4,19 +4,18 @@ import BoardState
 import Position.Companion.POSITION_RANGE
 import Stone
 
-class Board(blackPlayer: Player, whitePlayer: Player) {
-    private val players: Players = Players(blackPlayer, whitePlayer)
+class Board(private val players: Players) {
+    constructor(blackPlayer: Player, whitePlayer: Player) : this(Players(blackPlayer, whitePlayer))
 
     private fun canPlace(stone: Stone): Boolean = allPlayers().none { it.isPlaced(stone) }
 
     private fun allPlayers(): List<Player> = players.toList()
 
-    fun putStone(turn: Turn, stone: Stone): Boolean {
+    fun putStone(turn: Turn, stone: Stone): Player? {
         if (canPlace(stone)) {
-            players.putStone(turn, stone)
-            return true
+            return players.putStone(turn, stone)
         }
-        return false
+        return null
     }
 
     private fun makeEmptyBoard(): List<MutableList<BoardState>> =

@@ -7,7 +7,5 @@ class Players private constructor(private val players: Map<Turn, Player>) {
 
     fun toList(): List<Player> = players.values.toList()
 
-    fun putStone(turn: Turn, stone: Stone) {
-        players[turn]?.putStone(stone)
-    }
+    fun putStone(turn: Turn, stone: Stone): Player? = players[turn]?.putStone(stone)
 }
