@@ -16,8 +16,7 @@ fun main() {
         }
         stone?.let { print(" (마지막 돌의 위치: ${it.xCoordinate.x + it.yCoordinate.y.toString()})") }
         println()
-        print("위치를 입력하세요 : ")
-        stone = InputView.readPoint()
+        stone = InputView.readStone()
         board.put(stone)
     }
     if (board.isBlackWin()) println("흑의 승리입니다.") else println("백의 승리입니다.")
