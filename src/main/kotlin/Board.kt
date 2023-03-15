@@ -4,4 +4,8 @@ class Board(val blackPlayer: Player, val whitePlayer: Player) {
     fun isPlaceable(position: Position): Boolean {
         return positions[positions.indexOf(position)].isEmpty()
     }
+
+    fun putStone(position: Position) {
+        positions[positions.indexOf(position)].occupy()
+    }
 }

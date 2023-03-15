@@ -1,8 +1,12 @@
 data class Position(val horizontalAxis: HorizontalAxis, val verticalAxis: Int) {
-    private val empty = true
+    private var empty = true
 
     fun isEmpty(): Boolean {
         return empty
+    }
+
+    fun occupy() {
+        empty = false
     }
 
     companion object {
