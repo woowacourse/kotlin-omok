@@ -10,7 +10,7 @@ class OmokTest {
     fun `Omok 에서 place 를 호출하면 예외가 발생한다`() {
         // given
         val state: State = Omok()
-        val location = Location(Coordination.from(1)!!, Coordination.from(1)!!)
+        val location = Location(Coordination.from(1), Coordination.from(1))
         val board = Board.create()
 
         // when

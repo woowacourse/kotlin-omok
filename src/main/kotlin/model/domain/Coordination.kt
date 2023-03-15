@@ -3,13 +3,6 @@ package model.domain
 @JvmInline
 value class Coordination private constructor(val value: Int) {
     companion object {
-        private const val MINIMUM_VALUE = 0
-        private const val MAXIMUM_VALUE = 14
-        private val range = MINIMUM_VALUE..MAXIMUM_VALUE
-
-        fun from(value: Int): Coordination? {
-            if (value !in range) return null
-            return Coordination(value)
-        }
+        fun from(value: Int): Coordination = Coordination(value)
     }
 }
