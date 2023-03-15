@@ -28,4 +28,38 @@ class StateTest {
 
         assertThat(state.isEmpty(Stone(1, 1))).isFalse
     }
+
+    @Test
+    fun `두 state를 합하면 두 state 모두 돌이 없는 경우를 제외하고 모두 돌이 있다`() {
+        // given
+        val state1 = State(
+            listOf(
+                listOf(true, false, true),
+                listOf(false, false, true),
+                listOf(true, true, false)
+            )
+        )
+
+        val state2 = State(
+            listOf(
+                listOf(false, true, false),
+                listOf(false, false, false),
+                listOf(false, false, true)
+            )
+        )
+
+        val expect = State(
+            listOf(
+                listOf(true, true, true),
+                listOf(false, false, true),
+                listOf(true, true, true)
+            )
+        )
+
+        // when
+        val actual = state1 + state2
+
+        // then
+        assertThat(actual).isEqualTo(expect)
+    }
 }
