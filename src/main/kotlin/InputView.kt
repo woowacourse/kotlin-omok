@@ -5,9 +5,9 @@ class InputView {
         print(REQUEST_POINT_MESSAGE)
         val input = readln()
         return runCatchingOrNull {
-            val x = convertCharToX(input[0])
-            val y = input.substring(1).toInt()
-            Position(x - 1, y - 1)
+            val x = Column.valueOf(convertCharToX(input[0]) - 1)
+            val y = Row.valueOf(input.substring(1).toInt() - 1)
+            Position(x, y)
         } ?: requestPoint(stone)
     }
 
@@ -21,7 +21,7 @@ class InputView {
 
     private fun getLatestPoint(position: Position?) = when (position) {
         null -> EMPTY_STRING
-        else -> LAST_STONE_POINT_MESSAGE.format(convertXtoChar(position.x + 1), position.y + 1)
+        else -> LAST_STONE_POINT_MESSAGE.format(convertXtoChar(position.column.x + 1), position.row.y + 1)
     }
 
     private fun <T> runCatchingOrNull(block: () -> T?): T? {

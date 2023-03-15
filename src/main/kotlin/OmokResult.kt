@@ -28,13 +28,7 @@ enum class OmokResult {
                         var nx = i + dx[k]
                         var ny = j + dy[k]
 
-                        while (nx in 0 until N && ny in 0 until N && placedStones.contains(
-                                Stone(
-                                        Position(nx, ny),
-                                        color
-                                    )
-                            )
-                        ) {
+                        while (nx in 0 until N && ny in 0 until N && placedStones.contains(Stone(Position(nx, ny), color))) {
                             cnt++
                             nx += dx[k]
                             ny += dy[k]

@@ -1,12 +1,55 @@
-data class Position(val x: Int, val y: Int) {
-    init {
-        require(x in AXIS_RANGE) { ERROR_X_AXIS_RANGE }
-        require(y in AXIS_RANGE) { ERROR_Y_AXIS_RANGE }
+data class Position(val column: Column, val row: Row) {
+    constructor(x: Int, y: Int) : this(Column.valueOf(x), Row.valueOf(y))
+
+    fun getNorth(): Position? {
+        val northRow = row.up()
+        if (northRow != null) return Position(column, northRow)
+        return null
     }
 
-    companion object {
-        private const val ERROR_X_AXIS_RANGE = "[ERROR] X좌표의 값은 0에서 14사이여야 합니다."
-        private const val ERROR_Y_AXIS_RANGE = "[ERROR] Y좌표의 값은 0에서 14사이여야 합니다."
-        private val AXIS_RANGE = 0..14
+    fun getNorthEast(): Position? {
+        val eastColumn = column.right()
+        val northRow = row.up()
+        if (eastColumn != null && northRow != null) return Position(eastColumn, northRow)
+        return null
+    }
+
+    fun getEast(): Position? {
+        val eastColumn = column.right()
+        if (eastColumn != null) return Position(eastColumn, row)
+        return null
+    }
+
+    fun getSouthEast(): Position? {
+        val eastColumn = column.right()
+        val southRow = row.down()
+        if (eastColumn != null && southRow != null) return Position(eastColumn, southRow)
+        return null
+    }
+
+    fun getSouth(): Position? {
+        val southRow = row.down()
+        if (southRow != null) return Position(column, southRow)
+        return null
+    }
+
+    fun getSouthWest(): Position? {
+        val westColumn = column.left()
+        val southRow = row.down()
+        if (westColumn != null && southRow != null) return Position(westColumn, southRow)
+        return null
+    }
+
+    fun getWest(): Position? {
+        val westColumn = column.left()
+        if (westColumn != null) return Position(westColumn, row)
+        return null
+    }
+
+    fun getNorthWest(): Position? {
+        val westColumn = column.left()
+        val northRow = row.up()
+        if (westColumn != null && northRow != null) return Position(westColumn, northRow)
+        return null
     }
 }
