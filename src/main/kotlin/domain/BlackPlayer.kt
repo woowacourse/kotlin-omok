@@ -1,9 +1,7 @@
 package domain
 
-class BlackPlayer(override val color: Color = Color.BLACK) : Player {
-    override fun place(stones: Stones, coordinateReader: CoordinateReader): Stone {
-        val stone = Stone(color, coordinateReader.read(color))
-        stones.place(stone)
-        return stone
+class BlackPlayer(override val color: Color = Color.BLACK) : Player() {
+    override fun validateRenju(stones: Stones, stone: Stone): Boolean {
+        return !stones.threeToThree(stone)
     }
 }
