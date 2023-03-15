@@ -5,6 +5,8 @@ import omok.domain.player.Stone
 import omok.domain.player.White
 
 abstract class PlacementReferee : Referee() {
+    abstract fun isForbiddenPlacement(board: Map<Position, Stone?>, position: Position): Boolean
+
     tailrec fun findNorthEmptyPosition(board: MutableMap<Position, Stone?>, position: Position): Position? {
         val northPosition = position.getNorth()
         val stone = board[northPosition]

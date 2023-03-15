@@ -4,6 +4,15 @@ import omok.domain.board.Position
 import omok.domain.player.Stone
 
 abstract class Referee {
+    fun countEveryContinuity(board: Map<Position, Stone?>, position: Position, count: Int): List<Int> {
+        return listOf(
+            countVerticalContinuity(board, position, count),
+            countUpwardDiagonalContinuity(board, position, count),
+            countHorizontalContinuity(board, position, count),
+            countDownwardDiagonalContinuity(board, position, count)
+        )
+    }
+
     fun countVerticalContinuity(board: Map<Position, Stone?>, position: Position, count: Int): Int {
         return countNorthContinuity(board, position, count) + countSouthContinuity(board, position, count) + 1
     }

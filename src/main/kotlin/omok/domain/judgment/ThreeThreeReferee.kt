@@ -6,7 +6,7 @@ import omok.domain.player.Stone
 import omok.domain.player.White
 
 class ThreeThreeReferee : PlacementReferee() {
-    fun isForbiddenPlacement(board: Map<Position, Stone?>, position: Position): Boolean {
+    override fun isForbiddenPlacement(board: Map<Position, Stone?>, position: Position): Boolean {
         return countThree(board, position) >= 2
     }
 
