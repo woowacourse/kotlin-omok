@@ -1,7 +1,7 @@
 package omok.domain
 
 class Board(val blackPlayer: Player, val whitePlayer: Player) {
-    val positions = Position.POSITIONS
+    private val positions = Position.POSITIONS.toList()
 
     fun isPlaceable(position: Position): Boolean {
         return positions[positions.indexOf(position)].isEmpty()

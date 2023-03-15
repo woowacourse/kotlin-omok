@@ -91,7 +91,7 @@ class LineJudgement(val player: Player, val position: Position) {
     }
 
     fun checkSubDiagonal(): Boolean {
-        if (position.horizontalAxis.value <= position.verticalAxis) {
+        if (position.horizontalAxis.value + position.verticalAxis >= 15) {
             return checkUpperSubDiagonal(position.horizontalAxis.value, position.verticalAxis)
         }
         return checkLowerSubDiagonal(position.horizontalAxis.value, position.verticalAxis)
@@ -102,11 +102,11 @@ class LineJudgement(val player: Player, val position: Position) {
         var prev = true
         var present: Boolean
 
-        var vertical = horizontalAxis + verticalAxis - 15
+        var horizontal = 15
 
-        (15..horizontalAxis + verticalAxis - 15).forEach { horizontal ->
+        (horizontalAxis + verticalAxis - 15..15).forEach { vertical ->
             present = player.stones.any { stone -> stone.findPosition(Position(HorizontalAxis.getHorizontalAxis(horizontal), vertical)) }
-            vertical++
+            horizontal--
             if ((count == 0 && present) || (prev && present)) count++
             if (!present) {
                 prev = false

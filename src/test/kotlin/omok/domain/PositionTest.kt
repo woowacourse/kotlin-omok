@@ -13,6 +13,6 @@ class PositionTest {
         val placeable = position.isEmpty()
 
         // then
-        assertThat(position).isEqualTo(placeable)
+        assertThat(placeable).isTrue
     }
 }
