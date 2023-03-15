@@ -10,8 +10,8 @@ class Stone(val row: Int, val column: Int) {
         private const val MIN_RANGE = 0
         private const val MAX_RANGE = 14
 
-        fun create(alphabet: String, number: Int): Stone {
-            return Stone(15 - number, alphabet.toInt() - 'A'.code)
+        fun create(alphabet: Char, number: Int): Stone {
+            return Stone(15 - number, alphabet.code - 'A'.code)
         }
     }
 }

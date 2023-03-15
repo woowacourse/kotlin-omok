@@ -49,7 +49,7 @@
 
 ### InputView
 
-- [ ] 좌표 입력 받기
+- [x] 좌표 입력 받기
 
 ### OutputView
 
