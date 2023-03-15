@@ -26,6 +26,6 @@ class StateTest {
         val state = State()
         state.move(Stone(1, 1))
 
-        assertThat(state.canMove(Stone(1, 1))).isFalse
+        assertThat(state.isEmpty(Stone(1, 1))).isFalse
     }
 }

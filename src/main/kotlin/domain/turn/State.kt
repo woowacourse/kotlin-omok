@@ -13,7 +13,7 @@ class State(
         _state[stone.row][stone.column] = true
     }
 
-    fun canMove(stone: Stone): Boolean = !_state[stone.row][stone.column]
+    fun isEmpty(stone: Stone): Boolean = !_state[stone.row][stone.column]
 
     companion object {
         private const val BOARD_SIZE = 15

@@ -10,7 +10,7 @@
 ### Board
 
 - [x] BlackTurn, WhiteTurn을 갖는다
-- [ ] 둘 수 있는지 확인한다
+- [x] 둘 수 있는지 확인한다
     - [x] 빈공간 확인
 
 ### State (일급컬렉션)
