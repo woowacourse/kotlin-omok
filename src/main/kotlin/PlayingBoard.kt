@@ -15,7 +15,7 @@ class PlayingBoard(private val stones: List<Stone>) : Board {
     }
 
     override fun getStones(): List<Stone> {
-        return stones
+        return stones.toList()
     }
 
     override fun putStone(stone: Stone): Board {
