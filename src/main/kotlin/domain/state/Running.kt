@@ -16,54 +16,47 @@ abstract class Running(private val blackStones: Set<Stone>, private val whiteSto
     }
 
     protected fun Set<Stone>.completeOmok(): Boolean {
-        for (x in XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE) {
+        val xCoordinateRange = XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE
+        val yCoordinateRange = YCoordinate.Y_MIN_RANGE..YCoordinate.Y_MAX_RANGE
+        for (x in xCoordinateRange) {
             if (fun2(this, x)) return true
         }
-        for (y in YCoordinate.Y_MIN_RANGE..YCoordinate.Y_MAX_RANGE) {
+        for (y in yCoordinateRange) {
             if (fun1(this, y)) return true
         }
         // 왼쪽 위에서 시작하는 대각선
-        for (maxX in XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE) {
-            for (maxY in YCoordinate.Y_MIN_RANGE..YCoordinate.Y_MAX_RANGE) {
-                var linkedCount = 0
-                for ((x, y) in (XCoordinate.X_MIN_RANGE..maxX).zip(maxY downTo YCoordinate.Y_MIN_RANGE)) {
-                    val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-                    if (stone in this) linkedCount++ else linkedCount = 0
-                    if (linkedCount >= 5) return true
-                }
+        for ((maxX, maxY) in xCoordinateRange.zip(yCoordinateRange)) {
+            var linkedCount = 0
+            for ((x, y) in (XCoordinate.X_MIN_RANGE..maxX).zip(maxY downTo YCoordinate.Y_MIN_RANGE)) {
+                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
+                if (stone in this) linkedCount++ else linkedCount = 0
+                if (linkedCount >= 5) return true
             }
         }
-
-        for (minX in XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE) {
-            for (minY in YCoordinate.Y_MIN_RANGE..YCoordinate.Y_MAX_RANGE) {
-                var linkedCount = 0
-                for ((x, y) in (minX..XCoordinate.X_MAX_RANGE).zip(YCoordinate.Y_MAX_RANGE downTo minY).toList()) {
-                    val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-                    if (stone in this) linkedCount++ else linkedCount = 0
-                    if (linkedCount >= 5) return true
-                }
+        for ((minX, minY) in xCoordinateRange.zip(yCoordinateRange)) {
+            var linkedCount = 0
+            for ((x, y) in (minX..XCoordinate.X_MAX_RANGE).zip(YCoordinate.Y_MAX_RANGE downTo minY).toList()) {
+                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
+                if (stone in this) linkedCount++ else linkedCount = 0
+                if (linkedCount >= 5) return true
             }
         }
 
         // 왼쪽 아래에서 시작하는 대각선
-        for (maxX in XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE) {
-            for (minY in YCoordinate.Y_MAX_RANGE downTo YCoordinate.Y_MIN_RANGE) {
-                var linkedCount = 0
-                for ((x, y) in (XCoordinate.X_MIN_RANGE..maxX).zip(minY..YCoordinate.Y_MAX_RANGE)) {
-                    val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-                    if (stone in this) linkedCount++ else linkedCount = 0
-                    if (linkedCount >= 5) return true
-                }
+        for ((maxX, minY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
+            var linkedCount = 0
+            for ((x, y) in (XCoordinate.X_MIN_RANGE..maxX).zip(minY..YCoordinate.Y_MAX_RANGE)) {
+                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
+                if (stone in this) linkedCount++ else linkedCount = 0
+                if (linkedCount >= 5) return true
             }
         }
-        for (minX in XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE) {
-            for (maxY in YCoordinate.Y_MAX_RANGE downTo YCoordinate.Y_MIN_RANGE) {
-                var linkedCount = 0
-                for ((x, y) in (minX..XCoordinate.X_MAX_RANGE).zip(YCoordinate.Y_MIN_RANGE..maxY)) {
-                    val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-                    if (stone in this) linkedCount++ else linkedCount = 0
-                    if (linkedCount >= 5) return true
-                }
+        for ((minX, maxY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
+            var linkedCount = 0
+            for ((x, y) in (minX..XCoordinate.X_MAX_RANGE).zip(YCoordinate.Y_MIN_RANGE..maxY)) {
+                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
+                if (stone in this) linkedCount++ else linkedCount = 0
+                if (linkedCount >= 5) return true
             }
         }
         return false
