@@ -42,7 +42,12 @@ class GameView {
         println(RETRY_MES)
     }
 
+    fun printErrorMessage(exception: Throwable) {
+        println(exception)
+    }
+
     companion object {
+
         private const val START_MSG = "오목 게임을 시작합니다."
         private const val OMOK_BOARD =
             "15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐\n" +

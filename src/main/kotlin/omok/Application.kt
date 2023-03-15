@@ -4,5 +4,9 @@ import omok.controller.Controller
 import omok.view.GameView
 
 fun main() {
-    Controller(GameView()).gameStart()
+    runCatching {
+        Controller(GameView()).gameStart()
+    }.onFailure { exception ->
+        GameView().printErrorMessage(exception)
+    }
 }
