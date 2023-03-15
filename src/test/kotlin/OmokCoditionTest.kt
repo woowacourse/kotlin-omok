@@ -11,8 +11,8 @@ class OmokCoditionTest {
             Stone(1, 4, Color.WHITE),
             Stone(1, 5, Color.WHITE)
         )
-        val actual = OmokCondition.valueOf(stones, Color.WHITE)
-        assertThat(actual).isEqualTo(OmokCondition.FIVE_STONES_WINNING_CONDITION)
+        val actual = OmokResult.valueOf(stones, Color.WHITE)
+        assertThat(actual).isEqualTo(OmokResult.FIVE_STONE_WINNING)
     }
 
     @Test
@@ -24,7 +24,7 @@ class OmokCoditionTest {
             Stone(1, 4, Color.WHITE),
             Stone(1, 6, Color.WHITE)
         )
-        val actual = OmokCondition.valueOf(stones, Color.WHITE)
-        assertThat(actual).isEqualTo(OmokCondition.RUNNING)
+        val actual = OmokResult.valueOf(stones, Color.WHITE)
+        assertThat(actual).isEqualTo(OmokResult.RUNNING)
     }
 }

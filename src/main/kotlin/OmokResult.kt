@@ -1,12 +1,16 @@
-enum class OmokCondition {
+enum class OmokResult {
     RUNNING,
-    FIVE_STONES_WINNING_CONDITION;
+    FIVE_STONE_WINNING;
+
+    // THREE_TO_THREE,
+    // FOUR_TO_FOUR,
+    // LONG_STONES;
 
     companion object {
         private const val N = 15
-        fun valueOf(stones: List<Stone>, color: Color): OmokCondition {
+        fun valueOf(stones: List<Stone>, color: Color): OmokResult {
             return when (checkWin(stones, color)) {
-                true -> FIVE_STONES_WINNING_CONDITION
+                true -> FIVE_STONE_WINNING
                 false -> RUNNING
             }
         }

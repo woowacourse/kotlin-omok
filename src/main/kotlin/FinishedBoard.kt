@@ -1,8 +1,7 @@
 class FinishedBoard(
     placedStones: List<Stone>,
-    override val isWin: Color
+    override val winningColor: Color
 ) : BasedBoard(placedStones.toList()) {
-
     override val isFinished: Boolean = true
 
     override fun isPossiblePut(point: Point): Boolean = false

@@ -1,8 +1,8 @@
 class InputView {
 
-    fun requestPoint(color: Color, point: Point?, isInitialTry: Boolean = true): Point {
+    fun requestPoint(stone: Stone?): Point {
         while (true) {
-            println("${getColorName(color)}의 차례입니다.${getLatestPoint(point)}")
+            println("${getColorName(stone?.color)}의 차례입니다.${getLatestPoint(stone?.point)}")
             print("위치를 입력하세요: ")
             val input = readln()
             val x = convertCharToX(input[0])
@@ -16,8 +16,8 @@ class InputView {
     private fun convertCharToX(char: Char): Int = char.code - 64
     private fun convertXtoChar(x: Int): Char = (64 + x).toChar()
 
-    private fun getColorName(color: Color): String = when (color) {
-        Color.BLACK -> "흑"
+    private fun getColorName(color: Color?): String = when (color) {
+        null, Color.BLACK -> "흑"
         Color.WHITE -> "백"
     }
 
