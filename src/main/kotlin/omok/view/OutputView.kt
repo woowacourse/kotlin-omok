@@ -1,5 +1,6 @@
 package omok.view
 
+import omok.domain.Turn
 import omok.domain.board.Board
 import omok.domain.board.Column
 import omok.domain.board.Position
@@ -7,8 +8,9 @@ import omok.domain.board.Row
 import omok.model.toPresentation
 
 class OutputView {
-    fun printStart() {
+    fun printStart(board: Board) {
         println("오목 게임을 시작합니다.")
+        printBoard(board)
     }
 
     fun printBoard(board: Board) {
@@ -30,5 +32,14 @@ class OutputView {
         }}
             |    ${columnAlphabet.joinToString("  ")}
         """.trimMargin()
+    }
+
+    fun printWinner(turn: Turn) {
+        println(
+            """
+            |
+            |${turn.now.toPresentation()}의 승리입니다~!!!
+        """.trimMargin()
+        )
     }
 }

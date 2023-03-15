@@ -2,8 +2,6 @@ package omok.view
 
 import omok.domain.Turn
 import omok.domain.board.Position
-import omok.domain.player.Black
-import omok.domain.player.Stone
 import omok.model.toPresentation
 
 class InputView {
@@ -16,11 +14,6 @@ class InputView {
         """.trimMargin()
         )
         return readln()
-    }
-
-    private fun Stone.toPresentation(): String {
-        if (this == Black) return "흑"
-        return "백"
     }
 
     private fun getLastPositionMessage(position: Position?): String {
