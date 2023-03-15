@@ -1,10 +1,40 @@
 package omok.view
 
+import omok.domain.ColorState
+import omok.domain.Position
+
 class GameView {
+    private val omokBoard = StringBuilder(OMOK_BOARD)
+
     fun printStartMessage() {
         println(START_MSG)
-        val omokBoard = StringBuilder(OMOK_BOARD)
         println(omokBoard)
+    }
+
+    fun readPosition(colorState: ColorState, lastPosition: String?): String {
+        when (colorState) {
+            ColorState.Black -> println("%s의 차례입니다.".format("흑"))
+            ColorState.White -> println("%s의 차례입니다.".format("백"))
+        }
+        lastPosition?.let { println(" (마지막 돌의 위치: %s)".format(lastPosition)) }
+        print("위치를 입력하세요: ")
+        return readln()
+    }
+
+    fun printBoard(colorState: ColorState, position: Position) {
+        val index = ((position.horizontalAxis.value) * 3) + ((15 - position.verticalAxis) * 47)
+        when (colorState) {
+            ColorState.Black -> omokBoard.setCharAt(index, '●')
+            ColorState.White -> omokBoard.setCharAt(index, '○')
+        }
+        println(omokBoard)
+    }
+
+    fun printWinMessage(colorState: ColorState) {
+        when (colorState) {
+            ColorState.Black -> println("%s의 승리입니다.".format("흑"))
+            ColorState.White -> println("%s의 승리입니다.".format("백"))
+        }
     }
 
     companion object {
