@@ -1,6 +1,7 @@
 package domain
 
 import domain.turn.BlackTurn
+import domain.turn.State
 import domain.turn.WhiteTurn
 
 class OmokGame(
@@ -9,15 +10,16 @@ class OmokGame(
 ) {
     fun runGame(
         getStone: () -> Stone,
+        onMove: (State, State) -> Unit,
         onFinish: (Color) -> Unit
     ) {
         while (true) {
             val blackStone = getStone()
-            blackTurn(blackStone)
+            blackTurn(blackStone, onMove)
             if (isVictory(Color.BLACK, onFinish)) break
 
             val whiteStone = getStone()
-            whiteTurn(whiteStone)
+            whiteTurn(whiteStone, onMove)
             if (isVictory(Color.WHITE, onFinish)) break
         }
     }
@@ -30,15 +32,17 @@ class OmokGame(
         return false
     }
 
-    private fun blackTurn(stone: Stone) {
+    private fun blackTurn(stone: Stone, onMove: (State, State) -> Unit) {
         if (board.canMove(stone)) {
             board.moveBlack(stone)
+            onMove(board.getState(Color.BLACK), board.getState(Color.WHITE))
         }
     }
 
-    private fun whiteTurn(stone: Stone) {
+    private fun whiteTurn(stone: Stone, onMove: (State, State) -> Unit) {
         if (board.canMove(stone)) {
             board.moveWhite(stone)
+            onMove(board.getState(Color.BLACK), board.getState(Color.WHITE))
         }
     }
 }
