@@ -1,8 +1,8 @@
 package listener
 
-import domain.Position
-import domain.StoneColor
 import domain.player.Players
+import domain.position.Position
+import domain.stone.StoneColor
 
 interface OmokStartEndEventListener {
     fun onStartTurn(stoneColor: StoneColor, position: Position)

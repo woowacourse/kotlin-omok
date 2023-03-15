@@ -1,7 +1,7 @@
-package player
+package domain.player
 
-import Stone
-import StoneColor
+import domain.stone.Stone
+import domain.stone.StoneColor
 
 data class Players private constructor(private val players: List<Player>) {
     val isRunning: Boolean
@@ -19,8 +19,6 @@ data class Players private constructor(private val players: List<Player>) {
     fun getBlackPlayer(): Player = players.first { it is BlackPlayer }
 
     fun getWhitePlayer(): Player = players.first { it is WhitePlayer }
-
-    fun getWinner(): Player = players.first { it.isWin }
 
     fun canPlace(stone: Stone): Boolean = players.none { it.isPlaced(stone) }
 }

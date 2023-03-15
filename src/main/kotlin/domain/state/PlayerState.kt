@@ -1,8 +1,8 @@
-package state
+package domain.state
 
-import Position
-import Stone
-import Stones
+import domain.position.Position
+import domain.stone.Stone
+import domain.stone.Stones
 
 abstract class PlayerState(protected val stones: Stones = Stones()) {
     abstract fun add(newStone: Stone): PlayerState

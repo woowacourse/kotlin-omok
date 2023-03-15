@@ -1,3 +1,5 @@
+package domain.position
+
 data class Position(val row: Int, val col: Int) {
     init {
         require(row in POSITION_RANGE) { ROW_OUT_OF_RANGE_ERROR_MESSAGE }

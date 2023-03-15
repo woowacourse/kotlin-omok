@@ -1,9 +1,9 @@
-package player
+package domain.player
 
-import Position
-import Stone
-import state.PlayerState
-import state.WinState
+import domain.position.Position
+import domain.state.PlayerState
+import domain.state.WinState
+import domain.stone.Stone
 
 abstract class Player(protected val state: PlayerState) : Cloneable {
     val isWin: Boolean = state is WinState

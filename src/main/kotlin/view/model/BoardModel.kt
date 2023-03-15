@@ -1,6 +1,6 @@
-package view
+package view.model
 
-import domain.Position
+import domain.position.Position
 
 object BoardModel {
     private const val RANGE_MIN = 'A'

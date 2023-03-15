@@ -1,9 +1,11 @@
 package view
 
-import domain.Position
-import domain.StoneColor
 import domain.player.Players
+import domain.position.Position
+import domain.stone.StoneColor
 import listener.OmokStartEndEventListener
+import view.model.BoardModel
+import view.model.ColorModel
 
 class OutputView : OmokStartEndEventListener {
     override fun onStartGame() {

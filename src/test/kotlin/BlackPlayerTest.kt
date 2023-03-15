@@ -1,8 +1,9 @@
+import domain.player.BlackPlayer
+import domain.player.Player
+import domain.state.PlayingState
+import domain.stone.Stones
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import player.BlackPlayer
-import player.Player
-import state.PlayingState
 
 class BlackPlayerTest {
     @Test

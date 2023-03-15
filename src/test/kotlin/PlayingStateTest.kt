@@ -1,7 +1,8 @@
+import domain.state.PlayingState
+import domain.state.WinState
+import domain.stone.Stones
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import state.PlayingState
-import state.WinState
 
 class PlayingStateTest {
 

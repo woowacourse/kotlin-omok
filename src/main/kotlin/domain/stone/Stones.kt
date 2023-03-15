@@ -1,6 +1,11 @@
+package domain.stone
+
+import domain.position.Position
+
 data class Stones(private val stones: List<Stone>) {
     val lastStone: Stone
         get() = stones.last().copy()
+
     constructor(vararg stones: Stone) : this(stones.toList())
 
     init {
@@ -31,14 +36,15 @@ data class Stones(private val stones: List<Stone>) {
         val (startX, startY) = Pair(startPosition.row, startPosition.col)
         var count = 1
         var (currentX, currentY) = Pair(startX + direction.first * weight, startY + direction.second * weight)
-        while (currentX in Position.POSITION_RANGE && currentY in Position.POSITION_RANGE && hasStone(Stone.of(currentX, currentY))) {
+        while (inRange(currentX, currentY) && hasStone(Stone.of(currentX, currentY))) {
             count++
             currentX += direction.first * weight
             currentY += direction.second * weight
         }
-        if (count >= MINIMUM_WIN_CONDITION) return true
-        return false
+        return count >= MINIMUM_WIN_CONDITION
     }
+
+    private fun inRange(x: Int, y: Int) = x in Position.POSITION_RANGE && y in Position.POSITION_RANGE
 
     companion object {
         private const val DUPLICATED_ERROR_MESSAGE = "중복되는 위치의 오목알을 가질 수 없습니다."

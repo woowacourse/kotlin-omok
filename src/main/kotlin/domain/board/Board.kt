@@ -1,5 +1,9 @@
-import player.Player
-import player.Players
+package domain.board
+
+import domain.player.Player
+import domain.player.Players
+import domain.stone.Stone
+import domain.stone.StoneColor
 
 class Board(private val players: Players) {
     constructor(blackPlayer: Player, whitePlayer: Player) : this(Players(blackPlayer, whitePlayer))
@@ -14,9 +18,4 @@ class Board(private val players: Players) {
     fun getPlayers(): Players = players.copy()
 
     fun isRunning(): Boolean = players.isRunning
-
-    fun getWinner(): Player = players.getWinner()
-
-    // private fun makeEmptyBoard(): List<MutableList<BoardState>> =
-    //     List(POSITION_RANGE.max()) { MutableList(POSITION_RANGE.max()) { BoardState.EMPTY } }
 }

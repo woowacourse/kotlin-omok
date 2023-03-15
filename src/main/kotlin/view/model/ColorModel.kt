@@ -1,6 +1,6 @@
-package view
+package view.model
 
-import domain.StoneColor
+import domain.stone.StoneColor
 
 object ColorModel {
     private const val BLACK = "흑"

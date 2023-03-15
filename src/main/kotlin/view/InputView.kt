@@ -1,9 +1,10 @@
 package view
 
-import domain.Position
-import domain.Position.Companion.POSITION_RANGE
-import domain.StoneColor
+import domain.position.Position
+import domain.position.Position.Companion.POSITION_RANGE
+import domain.stone.StoneColor
 import listener.OmokTurnEventListener
+import view.model.BoardModel
 
 class InputView : OmokTurnEventListener {
     override fun onTakeTurn(stoneColor: StoneColor): Position = askPosition()

@@ -1,9 +1,12 @@
+import domain.board.Board
+import domain.player.BlackPlayer
+import domain.player.Player
+import domain.player.WhitePlayer
+import domain.state.PlayingState
+import domain.stone.StoneColor
+import domain.stone.Stones
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import player.BlackPlayer
-import player.Player
-import player.WhitePlayer
-import state.PlayingState
 
 class BoardTest {
     @Test

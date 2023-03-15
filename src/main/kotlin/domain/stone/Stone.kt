@@ -1,4 +1,7 @@
-import Position.Companion.POSITION_RANGE
+package domain.stone
+
+import domain.position.Position
+import domain.position.Position.Companion.POSITION_RANGE
 
 data class Stone private constructor(val position: Position) {
     companion object {
