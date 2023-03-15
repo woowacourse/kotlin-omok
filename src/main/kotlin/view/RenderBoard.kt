@@ -6,8 +6,11 @@ class RenderBoard {
         for (i in 0 until (size.first * size.second)) {
             if (i > 0 && i % size.first == 0)
                 println()
+
             val x = i % size.first
             val y = i / size.first
+            if (i % (size.first) == 0)
+                print("%d\t".format(size.first - y))
 
             val stone = stones.find {
                 it.second.first == x && it.second.second == y
@@ -39,6 +42,13 @@ class RenderBoard {
             else if (x == 14) print(EMPTY_RIGHT_SLOT)
             else print(EMPTY_INNER_SLOT)
         }
+        println()
+        print("    ")
+        for (i in 0 until size.second) {
+            print("%c  ".format(('A'.code + i).toChar()))
+        }
+
+        println()
     }
 
     companion object {
@@ -60,6 +70,5 @@ class RenderBoard {
         private const val WHITE_INNER_STONE = "─○─"
         private const val WHITE_LEFT_STONE = "○─"
         private const val WHITE_RIGHT_STONE = "─○"
-
     }
 }
