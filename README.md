@@ -16,15 +16,17 @@ abstact Stones
 - [x] 스톤을 받아 추가한다.
 - [x] 스톤을 받아 해당 스톤의 위치에 돌이 놓여져있는지 확인한다.
 - [x] 스톤들을 받아서 두 스톤들을 더한 값을 반환한다.
-- [ ] 오목 조건을 충족하는지 확인하다.
+- [x] 돌들의 위치를 board에 표시해 반환한다.
+- 
 WhiteStones
 BlackStones
 ---
-interface State   
-- [x] isValidPut(): Boolean
+interface State
 - [x] put(): State
 - [x] getWinner(): StoneType
-abstract Running : State   
+- [x] isValidPut(): Boolean
+- [ ] isOmokCondition(): Boolean
+abstract Running(stones) : State   
 - [ ] isValidPut(): Boolean { } 
 - [ ] 오목 조건 충족하면 End 상태로 보낸다.
 WhiteTurn : Running
@@ -37,8 +39,11 @@ End : State
 - [ ] 우승자에 해당하는 StoneType을 가진다.
 - [ ] 우승자의 StoneType을 반환한다.
 ---
+OmokRule(board: Board)
+- [ ] 오목 조건을 충족하는지 확인한다.
+---
 Board
-- [ ] 게임 턴의 상태를 가진다.
+- [x] 게임 턴의 상태를 가진다.
 ---
 InputView
 - [X] 위치를 입력받는다.
