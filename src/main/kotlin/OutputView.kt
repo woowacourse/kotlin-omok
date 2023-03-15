@@ -29,6 +29,10 @@ class OutputView {
         println(BOARD.last())
     }
 
+    fun printWinner(color: Color) {
+        println(PRINT_WINNER.format(color))
+    }
+
     companion object {
         private const val BLACK_STONE = '●'
         private const val WHITE_STONE = '◎'
@@ -51,5 +55,7 @@ class OutputView {
             " 1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘\n",
             "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
         )
+
+        private const val PRINT_WINNER = "승리자: %s"
     }
 }
