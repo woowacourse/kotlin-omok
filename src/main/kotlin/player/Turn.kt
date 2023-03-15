@@ -1,5 +1,10 @@
 package player
 
 enum class Turn {
-    BLACK, WHITE
+    BLACK, WHITE;
+
+    fun next(): Turn = when (this) {
+        BLACK -> WHITE
+        WHITE -> BLACK
+    }
 }
