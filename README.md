@@ -23,10 +23,10 @@ interface State
 - [x] put(): State
 - [x] getWinner(): StoneType
 - [x] isValidPut(): Boolean
-- [ ] isOmokCondition(): Boolean
+- [x] isOmokCondition(): Boolean
 abstract Running(stones) : State   
-- [ ] isValidPut(): Boolean { } 
-- [ ] 오목 조건 충족하면 End 상태로 보낸다.
+- [x] isValidPut(): Boolean { }
+- [x] 오목 조건을 충족하는지 확인한다.
 WhiteTurn : Running
 - [ ] stones를 추가한 후 PutBlack을 반환
 - [ ] 오목 조건 충족하면 End 상태로 White가 Win
