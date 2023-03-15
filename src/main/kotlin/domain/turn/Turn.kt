@@ -1,11 +1,13 @@
 package domain.turn
 
+import domain.Stone
+
 abstract class Turn(
     val state: State = State()
 ) {
-    fun move(x: Int, y: Int) {
-        state.move(x, y)
+    fun move(stone: Stone) {
+        state.move(stone)
     }
 
-    fun canMove(x: Int, y: Int): Boolean = state.canMove(x, y)
+    fun canMove(stone: Stone): Boolean = state.canMove(stone)
 }
