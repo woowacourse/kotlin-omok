@@ -1,6 +1,7 @@
 package domain
 
 import domain.turn.BlackTurn
+import domain.turn.State
 import domain.turn.WhiteTurn
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -52,5 +53,43 @@ class BoardTest {
         // then
         assertThat(board.whiteTurn.isEmpty(stone)).isTrue
         assertThat(board.blackTurn.isEmpty(stone)).isFalse
+    }
+
+    @Test
+    fun `흑목과 백목의 state를 합한다`() {
+        // given
+        val blackTurnState = State(
+            listOf(
+                listOf(true, false, true),
+                listOf(false, false, true),
+                listOf(true, true, false)
+            )
+        )
+
+        val whiteTurnState = State(
+            listOf(
+                listOf(false, true, false),
+                listOf(false, false, false),
+                listOf(false, false, true)
+            )
+        )
+
+        val blackTurn = BlackTurn(blackTurnState)
+        val whiteTurn = WhiteTurn(whiteTurnState)
+        val board = Board(blackTurn, whiteTurn)
+
+        val expect = State(
+            listOf(
+                listOf(true, true, true),
+                listOf(false, false, true),
+                listOf(true, true, true)
+            )
+        )
+
+        // when
+        val actual = board.getTotalState()
+
+        // then
+        assertThat(actual).isEqualTo(expect)
     }
 }
