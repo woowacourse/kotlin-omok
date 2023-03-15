@@ -4,6 +4,7 @@ class PlayingBoard(placedStones: List<Stone>) : BasedBoard(placedStones.toList()
     override val isFinished: Boolean = false
     override val isWin: Color
         get() {
+            // TODO: 메시지 문구 추가하기
             throw IllegalStateException("")
         }
 
@@ -11,38 +12,13 @@ class PlayingBoard(placedStones: List<Stone>) : BasedBoard(placedStones.toList()
         !placedStones.any { stone -> stone.point == point }
 
     override fun putStone(stone: Stone): Board {
-        val nextStones = getPlacedStones() + stone
-        return when {
-            isPossiblePut(stone.point).not() -> throw IllegalArgumentException("")
-            checkWin(nextStones, stone.color) -> FinishedBoard(nextStones, stone.color)
-            else -> PlayingBoard(nextStones)
+        // TODO: 함수 분리
+        val nextStones = getStones() + stone
+        if (isPossiblePut(stone.point).not()) throw IllegalArgumentException("")
+        val omokCondition = OmokCondition.valueOf(nextStones, stone.color)
+        return when (omokCondition) {
+            OmokCondition.FIVE_STONES_WINNING_CONDITION -> FinishedBoard(nextStones, stone.color)
+            OmokCondition.RUNNING -> PlayingBoard(nextStones)
         }
-    }
-
-    private fun checkWin(placedStones: List<Stone>, color: Color): Boolean {
-        val N = 15
-        val dx = intArrayOf(1, 1, 0, -1)
-        val dy = intArrayOf(0, 1, 1, 1)
-
-        for (i in 1..N) {
-            for (j in 1..N) {
-                if (placedStones.contains(Stone(Point(i, j), color)).not()) continue
-
-                for (k in 0 until 4) {
-                    var cnt = 1
-                    var nx = i + dx[k]
-                    var ny = j + dy[k]
-
-                    while (nx in 1..N && ny in 1..N && placedStones.contains(Stone(Point(nx, ny), color))) {
-                        cnt++
-                        nx += dx[k]
-                        ny += dy[k]
-
-                        if (cnt >= 5) return true
-                    }
-                }
-            }
-        }
-        return false
     }
 }
