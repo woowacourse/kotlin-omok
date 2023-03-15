@@ -1,6 +1,6 @@
 package domain.stone
 
-open class Stones(values: List<Stone> = emptyList()) {
+class Stones(values: List<Stone> = emptyList()) {
     private val _values = values.toMutableList()
     val values: List<Stone>
         get() = _values.toList()
@@ -14,12 +14,10 @@ open class Stones(values: List<Stone> = emptyList()) {
     fun containsPosition(stone: Stone): Boolean =
         values.asSequence().map { it.position }.contains(stone.position)
 
-    private fun matrixBoard(): List<List<Stone?>> {
-        val board: MutableList<MutableList<Stone?>> = MutableList(15) { MutableList(15) { null } }
+    fun matrixBoard(): List<List<Stone?>> {
+        val board: MutableList<MutableList<Stone?>> = MutableList(16) { MutableList(15) { null } }
 
-        _values.forEach {
-            board[(it.position.y) - 1][it.position.x - 1] = it
-        }
+        _values.forEach { board[(it.position.y)][it.position.x] = it }
 
         return board
     }

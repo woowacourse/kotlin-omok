@@ -11,15 +11,13 @@ enum StoneType
 - [x] BLACK, WHITE를 가진다.
 Stone
 - [x] 자신의 위치와 스톤 타입을 가진다.
-abstact Stones
+class Stones
 - [x] 스톤들의 정보를 담고 있다.
 - [x] 스톤을 받아 추가한다.
 - [x] 스톤을 받아 해당 스톤의 위치에 돌이 놓여져있는지 확인한다.
 - [x] 스톤들을 받아서 두 스톤들을 더한 값을 반환한다.
 - [x] 돌들의 위치를 board에 표시해 반환한다.
-- 
-WhiteStones
-BlackStones
+-
 ---
 interface State
 - [x] put(): State

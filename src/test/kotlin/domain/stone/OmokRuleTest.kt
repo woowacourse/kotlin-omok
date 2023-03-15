@@ -7,7 +7,7 @@ class OmokRuleTest {
 
     @Test
     fun `5개이상의 돌이 이어져 있으면 오목조건을 충족한다`() {
-        val stones: Stones = TestStones()
+        val stones: Stones = Stones()
         stones.add(Stone(StonePosition.from(2, 1)!!, StoneType.BLACK))
         stones.add(Stone(StonePosition.from(3, 1)!!, StoneType.BLACK))
         stones.add(Stone(StonePosition.from(4, 1)!!, StoneType.BLACK))
@@ -21,6 +21,4 @@ class OmokRuleTest {
         val omokRule: OmokRule = OmokRule()
         assertThat(omokRule.isOmokCondition(board, stone)).isTrue
     }
-
-    class TestStones(vararg stones: Stone) : Stones(*stones)
 }
