@@ -1,5 +1,7 @@
 package domain.turn
 
+import domain.Stone
+
 class State(
     initialState: List<List<Boolean>> = List(BOARD_SIZE) { List(BOARD_SIZE) { false } }
 ) {
@@ -7,14 +9,13 @@ class State(
     val value
         get() = _state.map { it.toList() }.toList()
 
-    fun move(x: Int, y: Int) {
-        _state[x - ONE][y - ONE] = true
+    fun move(stone: Stone) {
+        _state[stone.row][stone.column] = true
     }
 
-    fun canMove(x: Int, y: Int): Boolean = !_state[x - ONE][y - ONE]
+    fun canMove(stone: Stone): Boolean = !_state[stone.row][stone.column]
 
     companion object {
         private const val BOARD_SIZE = 15
-        private const val ONE = 1
     }
 }
