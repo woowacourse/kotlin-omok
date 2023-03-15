@@ -9,12 +9,12 @@ import org.junit.jupiter.params.provider.ValueSource
 
 class CoordinateTest {
     @Test
-    fun `알파벳+숫자 형태의 입력으로부터 위치를 생성한다`() {
+    fun `알파벳+숫자 형태의 입력을 뒤집어서 위치를 생성한다`() {
         val coordinate = Coordinate("H11")
 
         assertAll(
-            { assertThat(coordinate.x).isEqualTo(8) },
-            { assertThat(coordinate.y).isEqualTo(11) }
+            { assertThat(coordinate.x).isEqualTo(5) },
+            { assertThat(coordinate.y).isEqualTo(8) }
         )
     }
 

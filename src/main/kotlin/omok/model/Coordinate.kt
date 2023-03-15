@@ -9,8 +9,8 @@ class Coordinate(coordinate: String) {
         val second = coordinate.substring(1)
         require(first.isWithInRange() && second.isWithinRange()) { "위치를 알파벳숫자 형태로 입력해주세요. (잘못된 값: $coordinate)" }
 
-        x = first
-        y = second.toInt()
+        x = Board.BOARD_LENGTH - second.toInt() + 1
+        y = first
     }
 
     private fun Int.isWithInRange(): Boolean = this in BOARD_SIZE_RANGE
