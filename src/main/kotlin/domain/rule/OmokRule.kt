@@ -1,6 +1,8 @@
-package domain.stone
+package domain.rule
 
 import domain.stone.Board.Companion.BOARD_SIZE
+import domain.stone.Stone
+import domain.stone.StoneType
 
 class OmokRule {
 
@@ -63,7 +65,7 @@ class OmokRule {
         val x: Int = stone.position.x
         val y: Int = stone.position.y
         for (i in -4..4) {
-            if (x + i !in 1..BOARD_SIZE) continue
+            if (x - i !in 1..BOARD_SIZE) continue
             if (y + i !in 1..BOARD_SIZE) continue
             if (board[y + i][x - i] != stone.type) count = 0
             if (board[y + i][x - i] == stone.type) {
