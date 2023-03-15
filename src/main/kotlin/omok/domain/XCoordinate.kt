@@ -1,10 +1,17 @@
 package omok.domain
 
-@JvmInline
-value class XCoordinate(val value: Char) {
+data class XCoordinate(val value: Char) {
     init {
         require(value in X_MIN_RANGE..X_MAX_RANGE) { ERROR_X_COORDINATE_OUT_OF_RANGE }
     }
+
+    val isInEdge: Boolean = value == X_MIN_RANGE || value == X_MAX_RANGE
+
+    operator fun plus(other: Int) =
+        XCoordinate(X_MIN_RANGE + (this.value - X_MIN_RANGE) + other)
+
+    operator fun minus(other: Int) =
+        XCoordinate(X_MIN_RANGE + (this.value - X_MIN_RANGE) - other)
 
     companion object {
         private const val X_MIN_RANGE = 'A'

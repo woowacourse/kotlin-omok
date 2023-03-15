@@ -5,21 +5,11 @@ import org.junit.jupiter.api.Test
 
 class OmokGameTest {
     @Test
-    fun `흑돌을 놓을 수 있다`() {
+    fun `돌을 놓을 수 있다`() {
         val omokGame = OmokGame()
         val omokBoard = OmokBoard()
-        val point = OmokPoint(XCoordinate('A'), YCoordinate(1))
-        val omokBoardState = omokGame.playBlack(omokBoard, point)[point.y][point.x]
-        assertThat(omokBoardState).isEqualTo(StoneState.BLACK)
-    }
-
-    @Test
-    fun `백돌을 놓을 수 있다`() {
-        val omokGame = OmokGame()
-        val omokBoard = OmokBoard()
-        val point = OmokPoint(XCoordinate('A'), YCoordinate(1))
-
-        val omokBoardState = omokGame.playWhite(omokBoard, point)[point.y][point.x]
-        assertThat(omokBoardState).isEqualTo(StoneState.WHITE)
+        val point = OmokPoint('A', 1)
+        val omokBoardState = omokGame.playNext(omokBoard, point)[point.y][point.x]
+        assertThat(omokBoardState).isNotEqualTo(StoneState.EMPTY)
     }
 }

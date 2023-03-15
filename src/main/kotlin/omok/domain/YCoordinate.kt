@@ -1,10 +1,15 @@
 package omok.domain
 
-@JvmInline
-value class YCoordinate(val value: Int) {
+data class YCoordinate(val value: Int) {
     init {
         require(value in Y_MIN_RANGE..Y_MAX_RANGE) { ERROR_Y_COORDINATE_OUT_OF_RANGE }
     }
+
+    val isInEdge: Boolean = value == Y_MIN_RANGE || value == Y_MAX_RANGE
+
+    operator fun plus(other: Int) = YCoordinate(value + other)
+
+    operator fun minus(other: Int) = YCoordinate(value - other)
 
     companion object {
         private const val Y_MIN_RANGE = 1
