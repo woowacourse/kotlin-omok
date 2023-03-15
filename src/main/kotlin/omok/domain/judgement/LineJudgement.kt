@@ -1,5 +1,6 @@
 package omok.domain.judgement
 
+import omok.domain.BlackStone
 import omok.domain.HorizontalAxis
 import omok.domain.Player
 import omok.domain.Position
@@ -13,8 +14,9 @@ class LineJudgement(val player: Player, val position: Position) {
         var count = 0
         var prev = true
         var present: Boolean
+        val expect = player.stones + BlackStone(position)
         horizontal.zip(vertical).forEach { axis ->
-            present = player.stones.any { stone ->
+            present = expect.any { stone ->
                 stone.findPosition(
                     Position(HorizontalAxis.getHorizontalAxis(axis.first), axis.second)
                 )
@@ -51,7 +53,7 @@ class LineJudgement(val player: Player, val position: Position) {
     private fun checkSubDiagonal(): Boolean {
         val horizontal = position.horizontalAxis.value
         val vertical = position.verticalAxis
-        if (horizontal + vertical >= 15) {
+        if (horizontal + vertical > 15) {
             return checkOmok((horizontal + vertical - 15..15).toList().reversed(), (horizontal + vertical - 15..15).toList())
         }
         return checkOmok((1..horizontal + vertical - 1).toList(), (1..horizontal + vertical - 1).toList().reversed())

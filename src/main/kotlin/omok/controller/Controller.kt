@@ -34,8 +34,9 @@ class Controller(private val gameView: GameView) {
 
     private fun blackTurn() {
         val input = gameView.readPosition(Turn.Black, lastPosition)
+        println("${HorizontalAxis.valueOf(input[0].toString())} : ${input.slice(1 until input.length).toInt()}")
         val position = Position(HorizontalAxis.valueOf(input[0].toString()), input.slice(1 until input.length).toInt())
-        if (!board.isPlaceable(position)) {
+        if (!board.isBlackPlaceable(position)) {
             gameView.printRetry()
             blackTurn()
         }
@@ -54,7 +55,7 @@ class Controller(private val gameView: GameView) {
     private fun whiteTurn() {
         val input = gameView.readPosition(Turn.White, lastPosition)
         val position = Position(HorizontalAxis.valueOf(input[0].toString()), input.slice(1 until input.length).toInt())
-        if (!board.isPlaceable(position)) {
+        if (!board.isWhitePlaceable(position)) {
             gameView.printRetry()
             whiteTurn()
         }

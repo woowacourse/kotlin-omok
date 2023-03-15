@@ -46,7 +46,7 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
         return false
     }
 
-    fun checkVertical(): Boolean {
+    private fun checkVertical(): Boolean {
         val verticalLower = position.verticalAxis - 3
         val verticalUpper = position.verticalAxis + 3
         var flag = false
@@ -60,7 +60,7 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
         return false
     }
 
-    fun checkHorizontal(): Boolean {
+    private fun checkHorizontal(): Boolean {
         val horizontalLower = position.horizontalAxis.value - 3
         val horizontalUpper = position.horizontalAxis.value + 3
         var flag = false
@@ -74,13 +74,9 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
         return false
     }
 
-    fun checkMajorDiagonal(): Boolean {
-        val verticalLower = position.verticalAxis - 3
-        val verticalUpper = position.verticalAxis + 3
-        val horizontalLower = position.horizontalAxis.value - 3
-        val horizontalUpper = position.horizontalAxis.value + 3
-        val verticalAxis = (verticalLower..verticalUpper).toList()
-        val horizontalAxis = (horizontalLower..horizontalUpper).toList()
+    private fun checkMajorDiagonal(): Boolean {
+        val verticalAxis = (position.verticalAxis - 3..position.verticalAxis + 3).toList()
+        val horizontalAxis = (position.horizontalAxis.value - 3..position.horizontalAxis.value + 3).toList()
         var flag = false
 
         horizontalAxis.zip(verticalAxis).forEach { axis ->
@@ -93,13 +89,9 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
         return false
     }
 
-    fun checkSubDiagonal(): Boolean {
-        val verticalLower = position.verticalAxis - 3
-        val verticalUpper = position.verticalAxis + 3
-        val horizontalLower = position.horizontalAxis.value - 3
-        val horizontalUpper = position.horizontalAxis.value + 3
-        val verticalAxis = (verticalLower..verticalUpper).toList().reversed()
-        val horizontalAxis = (horizontalLower..horizontalUpper).toList()
+    private fun checkSubDiagonal(): Boolean {
+        val verticalAxis = (position.verticalAxis - 3..position.verticalAxis + 3).toList().reversed()
+        val horizontalAxis = (position.horizontalAxis.value - 3..position.horizontalAxis.value + 3).toList()
         var flag = false
 
         horizontalAxis.zip(verticalAxis).forEach { axis ->

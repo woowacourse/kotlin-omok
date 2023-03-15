@@ -17,6 +17,6 @@ class BoardTest {
         board.putStone(position)
 
         // then
-        assertThat(board.isPlaceable(position)).isFalse
+        assertThat(board.isBlackPlaceable(position)).isFalse
     }
 }
