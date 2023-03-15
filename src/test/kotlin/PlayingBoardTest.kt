@@ -44,4 +44,28 @@ class PlayingBoardTest {
             }
         )
     }
+
+    @Test
+    fun `돌이 5개 이상 이어지면 FinishedBoard를 반환한다`() {
+        val playingBoard = PlayingBoard(
+            Stone(1, 1, Color.WHITE),
+            Stone(1, 2, Color.WHITE),
+            Stone(1, 3, Color.WHITE),
+            Stone(1, 4, Color.WHITE)
+        )
+        val actual = playingBoard.putStone(Stone(1, 5, Color.WHITE))
+        assertThat(actual).isInstanceOf(FinishedBoard::class.java)
+    }
+
+    @Test
+    fun `돌이 5개 이상 이어지 않았으면 PlayingBoard를 반환한다`() {
+        val playingBoard = PlayingBoard(
+            Stone(1, 1, Color.WHITE),
+            Stone(1, 2, Color.WHITE),
+            Stone(1, 3, Color.WHITE),
+            Stone(1, 4, Color.BLACK)
+        )
+        val actual = playingBoard.putStone(Stone(1, 5, Color.WHITE))
+        assertThat(actual).isInstanceOf(PlayingBoard::class.java)
+    }
 }
