@@ -9,8 +9,8 @@ class OmokGame(
     private val referee: Referee = Referee()
 ) {
     fun runGame(
-        getStone: (Color) -> Stone,
-        onMove: (State, State) -> Unit,
+        getStone: () -> Stone,
+        onMove: (State, State, Color, Stone) -> Unit,
         onMoveFail: () -> Unit,
         onFinish: (Color) -> Unit
     ) {
@@ -32,32 +32,32 @@ class OmokGame(
     }
 
     private fun successBlackTurn(
-        getStone: (Color) -> Stone,
+        getStone: () -> Stone,
         onMoveFail: () -> Unit,
-        onMove: (State, State) -> Unit
+        onMove: (State, State, Color, Stone) -> Unit
     ): Boolean {
-        val blackStone = getStone(Color.BLACK)
+        val blackStone = getStone()
         if (!board.canMove(blackStone)) {
             onMoveFail()
             return false
         }
         board.moveBlack(blackStone)
-        onMove(board.getState(Color.BLACK), board.getState(Color.WHITE))
+        onMove(board.getState(Color.BLACK), board.getState(Color.WHITE), Color.WHITE, blackStone)
         return true
     }
 
     private fun successWhiteTurn(
-        getStone: (Color) -> Stone,
+        getStone: () -> Stone,
         onMoveFail: () -> Unit,
-        onMove: (State, State) -> Unit
+        onMove: (State, State, Color, Stone) -> Unit
     ): Boolean {
-        val whiteStone = getStone(Color.WHITE)
+        val whiteStone = getStone()
         if (!board.canMove(whiteStone)) {
             onMoveFail()
             return false
         }
         board.moveWhite(whiteStone)
-        onMove(board.getState(Color.BLACK), board.getState(Color.WHITE))
+        onMove(board.getState(Color.BLACK), board.getState(Color.WHITE), Color.BLACK, whiteStone)
         return true
     }
 }
