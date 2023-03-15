@@ -20,4 +20,8 @@ class Board {
     private fun canAdd(coordinate: Coordinate): Boolean {
         return _board[coordinate.x - 1][coordinate.y - 1] == null
     }
+
+    companion object {
+        const val BOARD_LENGTH = 15
+    }
 }
