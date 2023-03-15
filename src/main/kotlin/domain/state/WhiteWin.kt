@@ -2,7 +2,7 @@ package domain.state
 
 import domain.Stone
 
-class WhiteWin(private val blackStones: Set<Stone>, private val whiteStones: Set<Stone>) :
+class WhiteWin(override val blackStones: Set<Stone>, override val whiteStones: Set<Stone>) :
     Finished(blackStones, whiteStones) {
 
     init {

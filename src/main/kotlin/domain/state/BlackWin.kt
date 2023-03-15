@@ -2,7 +2,7 @@ package domain.state
 
 import domain.Stone
 
-class BlackWin(private val blackStones: Set<Stone>, private val whiteStones: Set<Stone>) :
+class BlackWin(override val blackStones: Set<Stone>, override val whiteStones: Set<Stone>) :
     Finished(blackStones, whiteStones) {
     init {
         require(blackStones.size == whiteStones.size + 1) { STONE_COUNT_ERROR }

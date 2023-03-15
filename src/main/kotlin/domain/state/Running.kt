@@ -4,7 +4,7 @@ import domain.Stone
 import domain.XCoordinate
 import domain.YCoordinate
 
-abstract class Running(private val blackStones: Set<Stone>, private val whiteStones: Set<Stone>) : State {
+abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State {
 
     init {
         require(blackStones.completeOmok().not() && whiteStones.completeOmok().not()) { RUNNING_COMPLETE_ERROR }

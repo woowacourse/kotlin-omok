@@ -2,7 +2,7 @@ package domain.state
 
 import domain.Stone
 
-abstract class Finished(private val blackStones: Set<Stone>, private val whiteStones: Set<Stone>) : State {
+abstract class Finished(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State {
 
     init {
         require(blackStones.intersect(whiteStones).isEmpty()) { BLACK_WHITE_INTERSECT_ERROR }

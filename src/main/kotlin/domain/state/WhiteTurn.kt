@@ -2,7 +2,7 @@ package domain.state
 
 import domain.Stone
 
-class WhiteTurn(private val blackStones: Set<Stone>, private val whiteStones: Set<Stone>) :
+class WhiteTurn(override val blackStones: Set<Stone>, override val whiteStones: Set<Stone>) :
     Running(blackStones, whiteStones) {
 
     init {
