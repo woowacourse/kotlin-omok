@@ -23,4 +23,11 @@ class Board(
     fun getTotalState(): State {
         return blackTurn.state + whiteTurn.state
     }
+
+    fun getState(color: Color): State {
+        return when (color) {
+            Color.BLACK -> blackTurn.state
+            Color.WHITE -> whiteTurn.state
+        }
+    }
 }

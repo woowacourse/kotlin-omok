@@ -23,7 +23,7 @@ class OmokGame(
     }
 
     private fun isVictory(color: Color, onFinish: (Color) -> Unit): Boolean {
-        if (referee.isWin(board.getTotalState())) {
+        if (referee.isWin(board.getState(color))) {
             onFinish(color)
             return true
         }
