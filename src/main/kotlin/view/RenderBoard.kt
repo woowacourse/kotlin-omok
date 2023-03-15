@@ -1,7 +1,7 @@
 package view
 
 class RenderBoard {
-    fun renderBoard(stones: List<Pair<Int, Pair<Int, Int>>>, size: Pair<Int, Int>) {
+    fun render(stones: List<Pair<Int, Pair<Int, Int>>>, size: Pair<Int, Int>) {
 
         for (i in 0 until (size.first * size.second)) {
             if (i > 0 && i % size.first == 0)

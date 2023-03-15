@@ -24,17 +24,14 @@ class PlayersTest {
         players.repeatTurn(stones) {
             coordinates[coordinateIndex++]
         }
-        assertAll(
-            {
-                assertThat(stones.value.filterIndexed { index, _ -> index % 2 == 0 }
-                    .all { it.color == Color.BLACK }).isTrue
-            },
-            {
-                assertThat(stones.value.filterIndexed { index, _ -> index % 2 == 1 }
-                    .all {
-                        it.color == Color.WHITE
-                    }).isTrue
-            }
-        )
+        assertAll({
+            assertThat(stones.value.filterIndexed { index, _ -> index % 2 == 0 }.all { it.color == Color.BLACK }).isTrue
+        }, {
+            assertThat(
+                stones.value.filterIndexed { index, _ -> index % 2 == 1 }.all {
+                    it.color == Color.WHITE
+                }
+            ).isTrue
+        })
     }
 }
