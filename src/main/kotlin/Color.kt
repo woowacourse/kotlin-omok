@@ -2,11 +2,8 @@ enum class Color {
     BLACK,
     WHITE;
 
-    operator fun not(): Color {
-        return if (this == BLACK) {
-            WHITE
-        } else {
-            BLACK
-        }
+    operator fun not(): Color = when (this) {
+        BLACK -> WHITE
+        WHITE -> BLACK
     }
 }

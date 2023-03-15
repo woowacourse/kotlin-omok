@@ -1,9 +1,9 @@
 class OutputView {
 
     fun printOmokBoardState(board: Board) {
-        for (i in 0..14) {
-            val frontNumber = BOARD[i].substring(0, 3)
-            val line = BOARD[i].substring(3)
+        for (i in INITIAL_ROW..END_ROW) {
+            val frontNumber = BOARD[i].substring(0, COL_UNIT)
+            val line = BOARD[i].substring(COL_UNIT)
             val blackStonesPoint = board.filterPointY(Color.BLACK, i)
             val whiteStonesPoint = board.filterPointY(Color.WHITE, i)
             print(frontNumber + makeBoardLine(line, blackStonesPoint, whiteStonesPoint))
@@ -13,18 +13,18 @@ class OutputView {
 
     private fun Board.filterPointY(color: Color, curY: Int): List<Int> {
         return getStones()
-            .filter { it.point.y == 15 - curY && it.color == color }
-            .map { stone -> (stone.point.x - 1) * 3 }
+            .filter { it.point.y == END_COL - curY && it.color == color }
+            .map { stone -> (stone.point.x - 1) * COL_UNIT }
     }
 
     private fun makeBoardLine(line: String, blackStonesPoint: List<Int>, whiteStonesPoint: List<Int>): String =
         buildString {
             append(line)
             whiteStonesPoint.forEach { x ->
-                replace(x, x + 1, "◎")
+                replace(x, x + 1, WHITE_STONE)
             }
             blackStonesPoint.forEach { x ->
-                replace(x, x + 1, "●")
+                replace(x, x + 1, BLACK_STONE)
             }
         }
 
@@ -33,8 +33,12 @@ class OutputView {
     }
 
     companion object {
-        private const val BLACK_STONE = '●'
-        private const val WHITE_STONE = '◎'
+        private const val COL_UNIT = 3
+        private const val END_COL = 15
+        private const val INITIAL_ROW = 0
+        private const val END_ROW = 14
+        private const val BLACK_STONE = "●"
+        private const val WHITE_STONE = "◎"
 
         private val BOARD = listOf(
             "15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐\n",
