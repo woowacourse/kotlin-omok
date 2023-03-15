@@ -49,7 +49,7 @@ class StonesTest {
         val stones = Stones(placedStones)
 
         // when
-        val actual = stones.isWin(BlackStone(newStone[0].digitToInt(), newStone[2].digitToInt()))
+        val actual = stones.isWinPlace(BlackStone(newStone[0].digitToInt(), newStone[2].digitToInt()))
         // then
         assertThat(actual).isEqualTo(true)
     }

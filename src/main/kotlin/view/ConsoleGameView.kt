@@ -30,6 +30,10 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
         return PointDTO(input[0] - 'A', input.substring(1).toInt() - 1)
     }
 
+    override fun renderWinner(color: ColorDTO) {
+        println(GAME_WINNER.format(colorToString(color)))
+    }
+
     private fun colorToString(color: ColorDTO): String {
         return when (color) {
             ColorDTO.BLACK -> "흑"
@@ -45,5 +49,6 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
         private const val GAME_START = "오목 게임을 시작합니다."
         private const val USER_TURN = "%s의 차례입니다."
         private const val LAST_STONE_POSITION = " (마지막 돌의 위치 : %s) "
+        private const val GAME_WINNER = "%s가 승리자입니다."
     }
 }

@@ -12,7 +12,7 @@ class Stones(value: List<Stone> = listOf()) {
         _value.add(stone)
     }
 
-    fun isWin(stone: Stone): Boolean {
+    fun isWinPlace(stone: Stone): Boolean {
         directions.forEachIndexed { index, item ->
             val score = startSearch(stone.coordinate + item, item, 0)
             val invertedScore = startSearch(stone.coordinate + invertedDirections[index], invertedDirections[index], 0)
