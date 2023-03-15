@@ -9,7 +9,7 @@ class BlackTurnTest {
     @Test
     fun `BlackTurn 에서 BlackTurn 이 된다`() {
         // given
-        val state: State = BlackTurn(Board.create())
+        val state: State = BlackTurn()
         val location = Location(Coordination.from(1)!!, Coordination.from(1)!!)
         val board = Board.create()
 

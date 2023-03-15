@@ -1,10 +1,8 @@
 package model.domain.state
 
-import model.domain.Board
-import model.domain.Location
+import model.domain.Stone
 
-class WhiteTurn(private val whiteBoard: Board) : State {
-    override fun place(location: Location, board: Board): State {
-        return WhiteTurn(whiteBoard)
-    }
+class WhiteTurn : Turn() {
+    override val stoneColor: Stone
+        get() = Stone.WHITE
 }

@@ -5,4 +5,6 @@ import model.domain.Location
 
 interface State {
     fun place(location: Location, board: Board): State
+
+    fun retry(): State
 }
