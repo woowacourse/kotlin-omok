@@ -21,16 +21,13 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
             } ?: ""
         )
         val input = readln().trim()
-        if (input.length != 2) {
-            return null
-        }
         if (input[0] < 'A' || input[0] > 'Z') {
             return null
         }
-        if (!input[1].isDigit()) {
+        if (input.substring(1).toIntOrNull() == null) {
             return null
         }
-        return PointDTO(input[0] - 'A', input[1].digitToInt() - 1)
+        return PointDTO(input[0] - 'A', input.substring(1).toInt() - 1)
     }
 
     private fun colorToString(color: ColorDTO): String {
@@ -41,7 +38,7 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
     }
 
     private fun coordinateToString(coordinate: PointDTO): String {
-        return ("%c%d".format(('A'.code + coordinate.x).toChar(), coordinate.y))
+        return ("%c%d".format(('A'.code + coordinate.x).toChar(), coordinate.y + 1))
     }
 
     companion object {
