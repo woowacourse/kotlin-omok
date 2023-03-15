@@ -9,6 +9,7 @@ object OutputView {
     private const val COLUMN_SIZE = 3
     private const val BLACK_STONE = '●'
     private const val WHITE_STONE = '○'
+    private const val MESSAGE_WINNER = "%s 승"
 
     private val default = """
  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
@@ -34,9 +35,14 @@ object OutputView {
         println(default)
     }
 
+    fun printDuplicate() {
+        println("해당 위치에 돌이 존재합니다.")
+    }
+
     fun printOmokState(blackTurnState: State, whiteTurnState: State) {
         val stringBuilder = StringBuilder(default)
-        val resultBuilder = addStones(addStones(stringBuilder, blackTurnState, Color.BLACK), whiteTurnState, Color.WHITE)
+        val resultBuilder =
+            addStones(addStones(stringBuilder, blackTurnState, Color.BLACK), whiteTurnState, Color.WHITE)
         println(resultBuilder)
     }
 
@@ -54,5 +60,9 @@ object OutputView {
             }
         }
         return builder
+    }
+
+    fun printWinner(color: Color) {
+        println(MESSAGE_WINNER.format(color.value))
     }
 }

@@ -9,17 +9,16 @@ class OmokGame(
     private val referee: Referee = Referee()
 ) {
     fun runGame(
-        getStone: () -> Stone,
+        getStone: (Color) -> Stone,
         onMove: (State, State) -> Unit,
+        onMoveFail: () -> Unit,
         onFinish: (Color) -> Unit
     ) {
         while (true) {
-            val blackStone = getStone()
-            blackTurn(blackStone, onMove)
+            if (!successBlackTurn(getStone, onMoveFail, onMove)) successBlackTurn(getStone, onMoveFail, onMove)
             if (isVictory(Color.BLACK, onFinish)) break
 
-            val whiteStone = getStone()
-            whiteTurn(whiteStone, onMove)
+            if (!successWhiteTurn(getStone, onMoveFail, onMove)) successWhiteTurn(getStone, onMoveFail, onMove)
             if (isVictory(Color.WHITE, onFinish)) break
         }
     }
@@ -32,17 +31,33 @@ class OmokGame(
         return false
     }
 
-    private fun blackTurn(stone: Stone, onMove: (State, State) -> Unit) {
-        if (board.canMove(stone)) {
-            board.moveBlack(stone)
-            onMove(board.getState(Color.BLACK), board.getState(Color.WHITE))
+    private fun successBlackTurn(
+        getStone: (Color) -> Stone,
+        onMoveFail: () -> Unit,
+        onMove: (State, State) -> Unit
+    ): Boolean {
+        val blackStone = getStone(Color.BLACK)
+        if (!board.canMove(blackStone)) {
+            onMoveFail()
+            return false
         }
+        board.moveBlack(blackStone)
+        onMove(board.getState(Color.BLACK), board.getState(Color.WHITE))
+        return true
     }
 
-    private fun whiteTurn(stone: Stone, onMove: (State, State) -> Unit) {
-        if (board.canMove(stone)) {
-            board.moveWhite(stone)
-            onMove(board.getState(Color.BLACK), board.getState(Color.WHITE))
+    private fun successWhiteTurn(
+        getStone: (Color) -> Stone,
+        onMoveFail: () -> Unit,
+        onMove: (State, State) -> Unit
+    ): Boolean {
+        val whiteStone = getStone(Color.WHITE)
+        if (!board.canMove(whiteStone)) {
+            onMoveFail()
+            return false
         }
+        board.moveWhite(whiteStone)
+        onMove(board.getState(Color.BLACK), board.getState(Color.WHITE))
+        return true
     }
 }
