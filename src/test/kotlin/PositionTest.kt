@@ -8,8 +8,8 @@ class PositionTest {
     fun `오목알의 위치는 범위가 1부터 15인 x, y를 가지고 있다`() {
         val position = Position(10, 10)
         assertAll({
-            assertThat(position.x).isEqualTo(10)
-            assertThat(position.y).isEqualTo(10)
+            assertThat(position.row).isEqualTo(10)
+            assertThat(position.col).isEqualTo(10)
         })
     }
 

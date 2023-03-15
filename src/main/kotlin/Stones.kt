@@ -5,6 +5,8 @@ data class Stones(private val stones: List<Stone>) {
         require(stones.distinct().size == stones.size) { DUPLICATED_ERROR_MESSAGE }
     }
 
+    fun getPositions(): List<Position> = stones.map { it.position.copy() }
+
     fun add(newStone: Stone): Stones = Stones(stones + newStone)
 
     fun hasStone(stone: Stone): Boolean = stones.contains(stone)
@@ -24,7 +26,7 @@ data class Stones(private val stones: List<Stone>) {
         direction: Pair<Int, Int>,
         weight: Int = FORWARD_WEIGHT
     ): Boolean {
-        val (startX, startY) = Pair(startPosition.x, startPosition.y)
+        val (startX, startY) = Pair(startPosition.row, startPosition.col)
         var count = 1
         var (currentX, currentY) = Pair(startX + direction.first * weight, startY + direction.second * weight)
         while (currentX in Position.POSITION_RANGE && currentY in Position.POSITION_RANGE && hasStone(Stone.of(currentX, currentY))) {

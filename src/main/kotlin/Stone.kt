@@ -2,8 +2,8 @@ import Position.Companion.POSITION_RANGE
 
 data class Stone private constructor(val position: Position) {
     companion object {
-        private val STONES = POSITION_RANGE.map { x -> POSITION_RANGE.map { y -> Stone(Position(x, y)) } }
+        private val STONES = POSITION_RANGE.map { row -> POSITION_RANGE.map { col -> Stone(Position(row, col)) } }
 
-        fun of(x: Int, y: Int) = STONES[x - 1][y - 1]
+        fun of(row: Int, col: Int) = STONES[row - 1][col - 1]
     }
 }
