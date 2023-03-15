@@ -16,6 +16,6 @@ class State(
     fun isEmpty(stone: Stone): Boolean = !_state[stone.row][stone.column]
 
     companion object {
-        private const val BOARD_SIZE = 15
+        const val BOARD_SIZE = 15
     }
 }
