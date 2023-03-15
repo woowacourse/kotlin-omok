@@ -19,5 +19,6 @@ fun main() {
         stone = InputView.readStone()
         board.put(stone)
     }
+    OutputView.printBoard(board)
     if (board.isBlackWin()) println("흑의 승리입니다.") else println("백의 승리입니다.")
 }

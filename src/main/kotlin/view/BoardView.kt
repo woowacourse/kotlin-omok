@@ -1,10 +1,11 @@
 package view
 
+import domain.Board
 import domain.Stone
 import domain.XCoordinate
 import domain.YCoordinate
 
-class BoardView(blackStones: Set<Stone>, whiteStones: Set<Stone>) {
+class BoardView(board: Board) {
 
     private val list2d = mutableListOf<MutableList<String>>()
 
@@ -14,8 +15,8 @@ class BoardView(blackStones: Set<Stone>, whiteStones: Set<Stone>) {
             ma.add("%3s ".format(y))
             for (x in XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE) {
                 when {
-                    blackStones.contains(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> ma.add(BLACK_STONE)
-                    whiteStones.contains(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> ma.add(WHITE_STONE)
+                    board.blackStoneIsPlaced(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> ma.add(BLACK_STONE)
+                    board.whiteStoneIsPlaced(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> ma.add(WHITE_STONE)
                     x == XCoordinate.X_MIN_RANGE && y == YCoordinate.Y_MAX_RANGE -> ma.add(LEFT_TOP)
                     x == XCoordinate.X_MAX_RANGE && y == YCoordinate.Y_MAX_RANGE -> ma.add(RIGHT_TOP)
                     x == XCoordinate.X_MIN_RANGE && y == YCoordinate.Y_MIN_RANGE -> ma.add(LEFT_BOTTOM)

@@ -8,10 +8,6 @@ import domain.state.State
 class Board {
 
     private var state: State = BlackTurn(setOf(), setOf())
-    val blackStones
-        get() = state.blackStones
-    val whiteStones
-        get() = state.whiteStones
 
     fun put(stone: Stone) {
         state = state.put(stone)
@@ -22,4 +18,8 @@ class Board {
     fun isBlackTurn(): Boolean = state is BlackTurn
 
     fun isBlackWin(): Boolean = state is BlackWin
+
+    fun blackStoneIsPlaced(stone: Stone): Boolean = state.blackStones.contains(stone)
+
+    fun whiteStoneIsPlaced(stone: Stone): Boolean = state.whiteStones.contains(stone)
 }
