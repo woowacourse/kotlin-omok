@@ -16,13 +16,14 @@ class OutputView {
 
     private fun setBoard(stones: Stones) {
         stones.values.forEach {
-            board[(15 - it.position.y)][it.position.x - 1] = it.type.toText()
+            if (getTypeText(it.type) != null) board[(15 - it.position.y)][it.position.x - 1] = getTypeText(it.type)!!
         }
     }
 
-    private fun StoneType.toText(): Char = when (this) {
+    private fun getTypeText(stoneType: StoneType): Char? = when (stoneType) {
         StoneType.BLACK -> '●'
         StoneType.WHITE -> '○'
+        else -> null
     }
 
     companion object {

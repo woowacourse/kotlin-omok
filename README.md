@@ -8,7 +8,7 @@ data class Position
 - [X] y좌표는 1이상 15이하의 값을 가진다.
 ---
 enum StoneType
-- [x] BLACK, WHITE를 가진다.
+- [x] BLACK, WHITE, EMPTY를 가진다.
 Stone
 - [x] 자신의 위치와 스톤 타입을 가진다.
 class Stones
@@ -38,7 +38,7 @@ End : State
 - [ ] 우승자의 StoneType을 반환한다.
 ---
 OmokRule(board: Board)
-- [ ] 오목 조건을 충족하는지 확인한다.
+- [X] 오목 조건을 충족하는지 확인한다.
 ---
 Board
 - [x] 게임 턴의 상태를 가진다.

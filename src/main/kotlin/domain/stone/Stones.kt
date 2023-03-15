@@ -14,10 +14,10 @@ class Stones(values: List<Stone> = emptyList()) {
     fun containsPosition(stone: Stone): Boolean =
         values.asSequence().map { it.position }.contains(stone.position)
 
-    fun matrixBoard(): List<List<Stone?>> {
-        val board: MutableList<MutableList<Stone?>> = MutableList(16) { MutableList(15) { null } }
+    fun matrixBoard(): List<List<StoneType>> {
+        val board: MutableList<MutableList<StoneType>> = MutableList(16) { MutableList(15) { StoneType.EMPTY } }
 
-        _values.forEach { board[(it.position.y)][it.position.x] = it }
+        _values.forEach { board[(it.position.y)][it.position.x] = it.type }
 
         return board
     }
