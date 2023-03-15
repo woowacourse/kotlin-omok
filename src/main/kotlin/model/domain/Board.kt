@@ -12,4 +12,15 @@ class Board(val system: Map<Int, MutableList<Stone>>) {
 
         fun create(): Board = Board(OMOK_BOARD)
     }
+
+    fun get(location: Location): Stone? = system[location.coordinationX.value]?.get(location.coordinationY.value)
+
+    fun placeStone(location: Location, stone: Stone): Boolean {
+        val row = location.coordinationX.value
+        val col = location.coordinationY.value
+        if (row !in 0 until SIZE || col !in 0 until SIZE) return false
+        system[row]?.set(col, stone)?.let { return true } ?: return false
+    }
+
+
 }
