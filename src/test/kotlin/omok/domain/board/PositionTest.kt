@@ -161,13 +161,13 @@ class PositionTest {
     fun `좌표값이 존재한다`() {
         val positionText = "I9"
 
-        assertThat(Position.of(positionText)).isEqualTo(Position(Column.I, Row.NINE))
+        assertThat(positionText.toPosition()).isEqualTo(Position(Column.I, Row.NINE))
     }
 
     @Test
     fun `좌표값이 존재하지 않는다`() {
         val positionText = "pingu"
 
-        assertThrows<IllegalArgumentException> { Position.of(positionText) }
+        assertThrows<IllegalArgumentException> { positionText.toPosition() }
     }
 }

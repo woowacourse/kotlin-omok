@@ -36,13 +36,13 @@ class ColumnTest {
     fun `컬럼이 존재한다`() {
         val columnText = "H"
 
-        assertThat(Column.of(columnText)).isEqualTo(Column.H)
+        assertThat(columnText.toColumn()).isEqualTo(Column.H)
     }
 
     @Test
     fun `컬럼이 존재하지 않는다`() {
         val columnText = "P"
 
-        assertThat(Column.of(columnText)).isNull()
+        assertThat(columnText.toColumn()).isNull()
     }
 }

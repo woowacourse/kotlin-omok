@@ -2,6 +2,7 @@ package omok.domain
 
 import omok.domain.board.Board
 import omok.domain.board.Position
+import omok.domain.board.toPosition
 import omok.domain.judgment.Referee
 
 class Game(private val board: Board, private var turn: Turn, private val referee: Referee) {
@@ -23,13 +24,13 @@ class Game(private val board: Board, private var turn: Turn, private val referee
         playUntilWinnerAppears(null, wantPosition, onTurn, onFinish)
     }
 
-    private fun playUntilWinnerAppears(
+    private tailrec fun playUntilWinnerAppears(
         position: Position?,
         wantPosition: (position: Position?, turn: Turn) -> String,
         onTurn: (board: Board) -> Unit,
         onFinish: (turn: Turn) -> Unit
     ) {
-        val selectedPosition = Position.of(wantPosition(position, turn))
+        val selectedPosition = wantPosition(position, turn).toPosition()
         board.place(selectedPosition, turn.now)
         onTurn(board)
 
