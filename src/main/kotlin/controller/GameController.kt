@@ -7,6 +7,7 @@ import domain.Coordinate
 import domain.Players
 import domain.Stones
 import domain.WhitePlayer
+import dto.PointDTO
 import view.ConsoleGameView
 
 class GameController(
@@ -22,12 +23,16 @@ class GameController(
         )
     }
 
+    private fun getStoneCoordinateOrNull(stones: Stones): PointDTO? {
+        return if (stones.value.isEmpty()) null
+        else PointMapper.domainToDTO(stones.value.last().coordinate)
+    }
+
     private fun readStone(color: Color, stones: Stones): Coordinate {
         renderBoard(stones)
 
         val pointDto = gameView.readStone(
-            ColorMapper.domainToDTO(color),
-            if (stones.value.isEmpty()) null else PointMapper.domainToDTO(stones.value.last().coordinate)
+            ColorMapper.domainToDTO(color), getStoneCoordinateOrNull(stones)
         ) ?: return readStone(color, stones)
 
         val point = PointMapper.dtoToDomain(pointDto)
