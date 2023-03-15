@@ -3,10 +3,10 @@ package omok.controller
 import omok.domain.BlackStone
 import omok.domain.Board
 import omok.domain.HorizontalAxis
-import omok.domain.LineJudgement
 import omok.domain.Player
 import omok.domain.Position
 import omok.domain.WhiteStone
+import omok.domain.judgement.LineJudgement
 import omok.domain.state.State
 import omok.domain.state.Turn
 import omok.domain.state.Win
@@ -48,10 +48,7 @@ class Controller(private val gameView: GameView) {
 
     private fun lineJudge(player: Player, position: Position): Boolean {
         val lineJudgement = LineJudgement(player, position)
-        return lineJudgement.checkHorizontal() ||
-            lineJudgement.checkVertical() ||
-            lineJudgement.checkMajorDiagonal() ||
-            lineJudgement.checkSubDiagonal()
+        return lineJudgement.check()
     }
 
     private fun whiteTurn() {

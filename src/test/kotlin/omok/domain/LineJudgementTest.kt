@@ -1,5 +1,6 @@
 package omok.domain
 
+import omok.domain.judgement.LineJudgement
 import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.Test
 
@@ -19,7 +20,7 @@ class LineJudgementTest {
         player.put(WhiteStone(Position(HorizontalAxis.F, 3)))
 
         // then
-        assertThat(lineJudgement.checkHorizontal()).isTrue
+        assertThat(lineJudgement.check()).isTrue
     }
 
     @Test
@@ -37,7 +38,7 @@ class LineJudgementTest {
         player.put(WhiteStone(Position(HorizontalAxis.E, 10)))
 
         // then
-        assertThat(lineJudgement.checkMajorDiagonal()).isTrue
+        assertThat(lineJudgement.check()).isTrue
     }
 
     @Test
@@ -55,7 +56,7 @@ class LineJudgementTest {
         player.put(WhiteStone(Position(HorizontalAxis.M, 6)))
 
         // then
-        assertThat(lineJudgement.checkMajorDiagonal()).isTrue
+        assertThat(lineJudgement.check()).isTrue
     }
 
     @Test
@@ -73,7 +74,7 @@ class LineJudgementTest {
         player.put(WhiteStone(Position(HorizontalAxis.I, 12)))
 
         // then
-        assertThat(lineJudgement.checkSubDiagonal()).isTrue
+        assertThat(lineJudgement.check()).isTrue
     }
 
     @Test
@@ -91,6 +92,6 @@ class LineJudgementTest {
         player.put(WhiteStone(Position(HorizontalAxis.D, 7)))
 
         // then
-        assertThat(lineJudgement.checkSubDiagonal()).isTrue
+        assertThat(lineJudgement.check()).isTrue
     }
 }

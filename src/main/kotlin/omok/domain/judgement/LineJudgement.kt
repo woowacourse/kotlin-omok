@@ -1,8 +1,15 @@
-package omok.domain
+package omok.domain.judgement
+
+import omok.domain.HorizontalAxis
+import omok.domain.Player
+import omok.domain.Position
 
 class LineJudgement(val player: Player, val position: Position) {
+    fun check(): Boolean {
+        return checkHorizontal() || checkVertical() || checkMajorDiagonal() || checkSubDiagonal()
+    }
 
-    fun checkOmok(horizontal: List<Int>, vertical: List<Int>): Boolean {
+    private fun checkOmok(horizontal: List<Int>, vertical: List<Int>): Boolean {
         var count = 0
         var prev = true
         var present: Boolean
@@ -24,15 +31,15 @@ class LineJudgement(val player: Player, val position: Position) {
         return false
     }
 
-    fun checkHorizontal(): Boolean {
+    private fun checkHorizontal(): Boolean {
         return checkOmok((1..15).toList(), List(15) { position.verticalAxis })
     }
 
-    fun checkVertical(): Boolean {
+    private fun checkVertical(): Boolean {
         return checkOmok(List(15) { position.horizontalAxis.value }, (1..15).toList())
     }
 
-    fun checkMajorDiagonal(): Boolean {
+    private fun checkMajorDiagonal(): Boolean {
         val horizontal = position.horizontalAxis.value
         val vertical = position.verticalAxis
         if (horizontal <= vertical) {
@@ -41,7 +48,7 @@ class LineJudgement(val player: Player, val position: Position) {
         return checkOmok((horizontal - vertical + 1..15).toList(), (1..15 - vertical + horizontal).toList())
     }
 
-    fun checkSubDiagonal(): Boolean {
+    private fun checkSubDiagonal(): Boolean {
         val horizontal = position.horizontalAxis.value
         val vertical = position.verticalAxis
         if (horizontal + vertical >= 15) {
