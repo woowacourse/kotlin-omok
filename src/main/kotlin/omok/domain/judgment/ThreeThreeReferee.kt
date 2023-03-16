@@ -27,7 +27,7 @@ class ThreeThreeReferee(target: Stone) : PlacementReferee(target) {
 
     private fun isVerticalOpenFour(board: MutableMap<Position, Stone?>, position: Position): Boolean {
         board[position] = target
-        if (countVerticalContinuity(board, position, 0) == 4) return isNorthOpen(board, position) && isSouthOpen(board, position)
+        if (countVerticalContinuity(board, position) == FOUR_NUMBER) return isNorthOpen(board, position) && isSouthOpen(board, position)
         return false
     }
 
@@ -55,7 +55,7 @@ class ThreeThreeReferee(target: Stone) : PlacementReferee(target) {
 
     private fun isUpwardDiagonalOpenFour(board: MutableMap<Position, Stone?>, position: Position): Boolean {
         board[position] = target
-        if (countUpwardDiagonalContinuity(board, position, 0) == 4) return isNorthEastOpen(board, position) && isSouthWestOpen(board, position)
+        if (countUpwardDiagonalContinuity(board, position) == FOUR_NUMBER) return isNorthEastOpen(board, position) && isSouthWestOpen(board, position)
         return false
     }
 
@@ -83,7 +83,7 @@ class ThreeThreeReferee(target: Stone) : PlacementReferee(target) {
 
     private fun isHorizontalOpenFour(board: MutableMap<Position, Stone?>, position: Position): Boolean {
         board[position] = target
-        if (countHorizontalContinuity(board, position, 0) == 4) return isEastOpen(board, position) && isWestOpen(board, position)
+        if (countHorizontalContinuity(board, position) == FOUR_NUMBER) return isEastOpen(board, position) && isWestOpen(board, position)
         return false
     }
 
@@ -111,7 +111,7 @@ class ThreeThreeReferee(target: Stone) : PlacementReferee(target) {
 
     private fun isDownwardDiagonalOpenFour(board: MutableMap<Position, Stone?>, position: Position): Boolean {
         board[position] = target
-        if (countDownwardDiagonalContinuity(board, position, 0) == 4) return isSouthEastOpen(board, position) && isNorthWestOpen(board, position)
+        if (countDownwardDiagonalContinuity(board, position) == FOUR_NUMBER) return isSouthEastOpen(board, position) && isNorthWestOpen(board, position)
         return false
     }
 

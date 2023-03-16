@@ -8,7 +8,7 @@ class BlackReferee : PlacementReferee(Black) {
     override fun isForbiddenPlacement(board: Map<Position, Stone?>, position: Position): Boolean {
         val virtualBoard = board.toMutableMap()
         virtualBoard[position] = target
-        if (countEveryContinuity(virtualBoard, position, 0).any { it == 5 }) return false
+        if (countEveryContinuity(virtualBoard, position).any { it == OMOK_NUMBER }) return false
         return listOf(
             ThreeThreeReferee(target).isForbiddenPlacement(virtualBoard, position),
             FourFourReferee(target).isForbiddenPlacement(virtualBoard, position),

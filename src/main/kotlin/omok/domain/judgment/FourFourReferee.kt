@@ -18,7 +18,7 @@ class FourFourReferee(target: Stone) : PlacementReferee(target) {
     }
 
     private fun countVerticalFour(board: Map<Position, Stone?>, position: Position): Int {
-        if (countVerticalContinuity(board, position, 0) == 4) return 1
+        if (countVerticalContinuity(board, position) == FOUR_NUMBER) return 1
 
         var count = 0
         val northEmptyPosition = findNorthEmptyPosition(board, position)
@@ -30,12 +30,12 @@ class FourFourReferee(target: Stone) : PlacementReferee(target) {
 
     private fun hasFiveOrMoreStoneInVertical(board: MutableMap<Position, Stone?>, fillPosition: Position?, position: Position): Boolean {
         if (fillPosition != null) board[fillPosition] = target
-        if (countVerticalContinuity(board, position, 0) >= 5) return true
+        if (countVerticalContinuity(board, position) >= OMOK_NUMBER) return true
         return false
     }
 
     private fun countUpwardDiagonalFour(board: Map<Position, Stone?>, position: Position): Int {
-        if (countUpwardDiagonalContinuity(board, position, 0) == 4) return 1
+        if (countUpwardDiagonalContinuity(board, position) == FOUR_NUMBER) return 1
 
         var count = 0
         val northEastEmptyPosition = findNorthEastEmptyPosition(board, position)
@@ -47,12 +47,12 @@ class FourFourReferee(target: Stone) : PlacementReferee(target) {
 
     private fun hasFiveOrMoreStoneInUpwardDiagonal(board: MutableMap<Position, Stone?>, fillPosition: Position?, position: Position): Boolean {
         if (fillPosition != null) board[fillPosition] = target
-        if (countUpwardDiagonalContinuity(board, position, 0) >= 5) return true
+        if (countUpwardDiagonalContinuity(board, position) >= OMOK_NUMBER) return true
         return false
     }
 
     private fun countHorizontalFour(board: Map<Position, Stone?>, position: Position): Int {
-        if (countHorizontalContinuity(board, position, 0) == 4) return 1
+        if (countHorizontalContinuity(board, position) == FOUR_NUMBER) return 1
 
         var count = 0
         val eastEmptyPosition = findEastEmptyPosition(board, position)
@@ -64,12 +64,12 @@ class FourFourReferee(target: Stone) : PlacementReferee(target) {
 
     private fun hasFiveOrMoreStoneInHorizontal(board: MutableMap<Position, Stone?>, fillPosition: Position?, position: Position): Boolean {
         if (fillPosition != null) board[fillPosition] = target
-        if (countHorizontalContinuity(board, position, 0) >= 5) return true
+        if (countHorizontalContinuity(board, position) >= OMOK_NUMBER) return true
         return false
     }
 
     private fun countDownwardDiagonalFour(board: Map<Position, Stone?>, position: Position): Int {
-        if (countDownwardDiagonalContinuity(board, position, 0) == 4) return 1
+        if (countDownwardDiagonalContinuity(board, position) == FOUR_NUMBER) return 1
 
         var count = 0
         val southEastEmptyPosition = findSouthEastEmptyPosition(board, position)
@@ -81,7 +81,7 @@ class FourFourReferee(target: Stone) : PlacementReferee(target) {
 
     private fun hasFiveOrMoreStoneInDownwardDiagonal(board: MutableMap<Position, Stone?>, fillPosition: Position?, position: Position): Boolean {
         if (fillPosition != null) board[fillPosition] = target
-        if (countDownwardDiagonalContinuity(board, position, 0) >= 5) return true
+        if (countDownwardDiagonalContinuity(board, position) >= OMOK_NUMBER) return true
         return false
     }
 }

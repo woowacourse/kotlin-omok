@@ -4,29 +4,33 @@ import omok.domain.board.Position
 import omok.domain.player.Stone
 
 abstract class Referee {
-    fun countEveryContinuity(board: Map<Position, Stone?>, position: Position, count: Int): List<Int> {
+    fun countEveryContinuity(board: Map<Position, Stone?>, position: Position): List<Int> {
         return listOf(
-            countVerticalContinuity(board, position, count),
-            countUpwardDiagonalContinuity(board, position, count),
-            countHorizontalContinuity(board, position, count),
-            countDownwardDiagonalContinuity(board, position, count)
+            countVerticalContinuity(board, position),
+            countUpwardDiagonalContinuity(board, position),
+            countHorizontalContinuity(board, position),
+            countDownwardDiagonalContinuity(board, position)
         )
     }
 
-    fun countVerticalContinuity(board: Map<Position, Stone?>, position: Position, count: Int): Int {
-        return countNorthContinuity(board, position, count) + countSouthContinuity(board, position, count) + 1
+    fun countVerticalContinuity(board: Map<Position, Stone?>, position: Position): Int {
+        return countNorthContinuity(board, position, COUNT_INITIAL_VALUE) +
+            countSouthContinuity(board, position, COUNT_INITIAL_VALUE) + SELF_COUNT
     }
 
-    fun countUpwardDiagonalContinuity(board: Map<Position, Stone?>, position: Position, count: Int): Int {
-        return countSouthWestContinuity(board, position, count) + countNorthEastContinuity(board, position, count) + 1
+    fun countUpwardDiagonalContinuity(board: Map<Position, Stone?>, position: Position): Int {
+        return countSouthWestContinuity(board, position, COUNT_INITIAL_VALUE) +
+            countNorthEastContinuity(board, position, COUNT_INITIAL_VALUE) + SELF_COUNT
     }
 
-    fun countHorizontalContinuity(board: Map<Position, Stone?>, position: Position, count: Int): Int {
-        return countEastContinuity(board, position, count) + countWestContinuity(board, position, count) + 1
+    fun countHorizontalContinuity(board: Map<Position, Stone?>, position: Position): Int {
+        return countEastContinuity(board, position, COUNT_INITIAL_VALUE) +
+            countWestContinuity(board, position, COUNT_INITIAL_VALUE) + SELF_COUNT
     }
 
-    fun countDownwardDiagonalContinuity(board: Map<Position, Stone?>, position: Position, count: Int): Int {
-        return countNorthWestContinuity(board, position, count) + countSouthEastContinuity(board, position, count) + 1
+    fun countDownwardDiagonalContinuity(board: Map<Position, Stone?>, position: Position): Int {
+        return countNorthWestContinuity(board, position, COUNT_INITIAL_VALUE) +
+            countSouthEastContinuity(board, position, COUNT_INITIAL_VALUE) + SELF_COUNT
     }
 
     private tailrec fun countNorthContinuity(board: Map<Position, Stone?>, position: Position, count: Int): Int {
@@ -115,5 +119,11 @@ abstract class Referee {
 
     private fun hasSameStone(board: Map<Position, Stone?>, position1: Position, position2: Position): Boolean {
         return board[position1] == board[position2]
+    }
+
+    companion object {
+        private const val COUNT_INITIAL_VALUE = 0
+        private const val SELF_COUNT = 1
+        const val OMOK_NUMBER = 5
     }
 }

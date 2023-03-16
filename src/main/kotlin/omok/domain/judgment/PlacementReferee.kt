@@ -61,4 +61,8 @@ abstract class PlacementReferee(val target: Stone) : Referee() {
         if (northWestPosition == null || stone != target) return null
         return findNorthWestEmptyPosition(board, northWestPosition)
     }
+
+    companion object {
+        const val FOUR_NUMBER = 4
+    }
 }

@@ -5,6 +5,6 @@ import omok.domain.player.Stone
 
 class WinningReferee : Referee() {
     fun hasFiveOrMoreStoneInRow(board: Map<Position, Stone?>, position: Position): Boolean {
-        return countEveryContinuity(board, position, 0).any { it >= 5 }
+        return countEveryContinuity(board, position).any { it >= OMOK_NUMBER }
     }
 }
