@@ -1,5 +1,10 @@
-package omok.domain
+package omok.domain.omokRule
 
+import omok.domain.OmokBoard
+import omok.domain.OmokPoint
+import omok.domain.OmokRule
+import omok.domain.XCoordinate
+import omok.domain.YCoordinate
 import omok.domain.state.BlackStoneState
 import omok.domain.state.WhiteStoneState
 import omok.view.OutputView
