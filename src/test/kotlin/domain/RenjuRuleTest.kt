@@ -10,9 +10,13 @@ class RenjuRuleTest {
         // given
         val placedStones = listOf<Stone>(
             BlackStone(2, 11),
+            WhiteStone(0, 0),
             BlackStone(3, 13),
+            WhiteStone(0, 1),
             BlackStone(3, 12),
+            WhiteStone(0, 2),
             BlackStone(4, 11),
+            WhiteStone(0, 3),
         )
         val stones = Stones(placedStones)
 
@@ -108,7 +112,7 @@ class RenjuRuleTest {
         val stones = Stones(placedStones)
 
         // when
-        val actual = stones.findScore(BlackStone(2, 12))
+        val actual = stones.renjuRule.findScore(BlackStone(2, 12))
 
         // then
         assertThat(actual).isGreaterThanOrEqualTo(5)

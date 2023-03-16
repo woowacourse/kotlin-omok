@@ -47,6 +47,7 @@ class GameController(
         val winner = board.repeatTurn {
             readStone(it, stones)
         }
+        renderBoard(stones)
         gameView.renderWinner(ColorMapper.domainToDTO(winner.color))
     }
 }
