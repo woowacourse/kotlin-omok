@@ -58,8 +58,5 @@ class Controller(private val gameView: GameView) {
         return position
     }
 
-    private fun lineJudge(player: Player, position: Position): Boolean {
-        val lineJudgement = LineJudgement(player, position)
-        return lineJudgement.check()
-    }
+    private fun lineJudge(player: Player, position: Position) = LineJudgement(player, position).check()
 }
