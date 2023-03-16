@@ -1,6 +1,7 @@
 package domain
 
-enum class Color {
+enum class CoordinateState {
     BLACK,
     WHITE,
+    EMPTY
 }
