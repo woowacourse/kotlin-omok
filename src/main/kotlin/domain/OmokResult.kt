@@ -12,9 +12,6 @@ enum class OmokResult {
     RUNNING,
     FIVE_STONE_WINNING,
     FORBIDDEN;
-    // THREE_TO_THREE,
-    // FOUR_TO_FOUR,
-    // LONG_STONES;
 
     companion object {
 
@@ -22,7 +19,8 @@ enum class OmokResult {
         private val winningReferee = WinningReferee()
         fun valueOf(stones: List<Stone>, newStone: Stone): OmokResult {
             val positions = convertStonesToPositionsMap(stones)
-            if (blackReferee.isForbiddenPlacement(positions, newStone.position)) return FORBIDDEN
+            if (newStone.color == Color.BLACK && blackReferee.isForbiddenPlacement(positions, newStone.position)
+            ) return FORBIDDEN
             return when (winningReferee.hasFiveOrMoreStoneInRow(stones + newStone, newStone.color)) {
                 true -> FIVE_STONE_WINNING
                 false -> RUNNING

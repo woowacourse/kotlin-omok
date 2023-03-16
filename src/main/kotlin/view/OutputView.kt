@@ -4,6 +4,9 @@ import domain.board.Board
 import domain.stone.Color
 
 class OutputView {
+    fun printGameStartMessage() {
+        println(GAME_START_MESSAGE)
+    }
 
     fun printOmokBoardState(board: Board) {
         for (i in INITIAL_ROW..END_ROW) {
@@ -34,7 +37,7 @@ class OutputView {
         }
 
     fun printWinner(color: Color) {
-        println(PRINT_WINNER.format(color))
+        println(WINNER.format(color))
     }
 
     companion object {
@@ -64,6 +67,7 @@ class OutputView {
             "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
         )
 
-        private const val PRINT_WINNER = "승리자: %s"
+        private const val GAME_START_MESSAGE = "오목 게임을 시작합니다."
+        private const val WINNER = "승리자: %s"
     }
 }

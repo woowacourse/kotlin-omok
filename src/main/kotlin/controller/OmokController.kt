@@ -9,6 +9,7 @@ class OmokController(
     private val outputView: OutputView = OutputView()
 ) : Runnable {
     override fun run() {
+        outputView.printGameStartMessage()
         val omokGame = OmokGame(inputView::requestPoint, outputView::printOmokBoardState)
         val result = omokGame.runGame()
         outputView.printWinner(result)
