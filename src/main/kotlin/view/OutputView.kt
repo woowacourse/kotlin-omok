@@ -10,6 +10,7 @@ object OutputView {
     private const val MESSAGE_TURN = "%s의 차례입니다. (마지막 돌의 위치: %s)"
     private const val MESSAGE_BLACK_TURN = "흑의 차례입니다."
     private const val MESSAGE_DUPLICATE = "해당 위치에 돌이 존재합니다."
+    private const val MESSAGE_FORBIDDEN = "금수입니다."
     private const val MESSAGE_WINNER = "%s 승"
     private const val ROW_SIZE = 47
     private const val COLUMN_SIZE = 3
@@ -43,6 +44,10 @@ object OutputView {
 
     fun printDuplicate() {
         println(MESSAGE_DUPLICATE)
+    }
+
+    fun printForbidden() {
+        println(MESSAGE_FORBIDDEN)
     }
 
     fun printOmokState(board: Board, state: State, stone: Stone) {
