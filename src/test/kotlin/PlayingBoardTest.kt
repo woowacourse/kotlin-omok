@@ -4,6 +4,7 @@ import domain.stone.Color
 import domain.stone.Position
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class PlayingBoardTest {
 
@@ -44,5 +45,12 @@ class PlayingBoardTest {
         )
         val actual = playingBoard.putStone(Stone(1, 5, Color.WHITE))
         assertThat(actual).isInstanceOf(PlayingBoard::class.java)
+    }
+
+    @Test
+    fun `winningColor를 참조하면 예외를 던진다`() {
+        val playingBoard = PlayingBoard()
+
+        assertThrows<IllegalStateException> { playingBoard.winningColor }
     }
 }
