@@ -1,6 +1,9 @@
-package omok.domain
+package omok.domain.judgement
 
-import omok.domain.judgement.LineJudgement
+import omok.domain.HorizontalAxis
+import omok.domain.Player
+import omok.domain.Position
+import omok.domain.WhiteStone
 import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.Test
 
