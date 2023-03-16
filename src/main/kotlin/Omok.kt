@@ -16,9 +16,20 @@ fun main() {
         }
         stone?.let { print(" (마지막 돌의 위치: ${it.x + it.y.toString()})") }
         println()
-        stone = InputView.readStone()
-        board.put(stone)
+        stone = putStoneUntilNotOccurErrorAndReturnStone(board)
     }
     OutputView.printBoard(board)
     if (board.isBlackWin()) println("흑의 승리입니다.") else println("백의 승리입니다.")
+}
+
+private fun putStoneUntilNotOccurErrorAndReturnStone(board: Board): Stone {
+    while (true) {
+        val stone = InputView.readStone()
+        runCatching {
+            board.put(stone)
+            return stone
+        }.onFailure {
+            println("규칙에 어긋납니다.")
+        }
+    }
 }
