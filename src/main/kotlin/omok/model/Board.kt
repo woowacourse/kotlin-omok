@@ -9,6 +9,8 @@ class Board {
     var lastPlacedStone: GoStone? = null
         private set
 
+    fun getNextColor(): GoStoneColor = GoStoneColor.getNextColor(lastPlacedStone?.color)
+
     fun addStone(color: GoStoneColor, coordinate: Coordinate) {
         lastPlacedStone = GoStone(color, coordinate)
         println("add! : (x,y): (${coordinate.x - 1},${coordinate.y - 1})")
