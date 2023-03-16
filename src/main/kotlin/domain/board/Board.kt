@@ -16,21 +16,6 @@ class Board(
 
     fun isEmpty(stone: Stone): Boolean = _state[stone.row][stone.column] == State.EMPTY
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Board
-
-        if (_state != other._state) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return _state.hashCode()
-    }
-
     companion object {
         const val BOARD_SIZE = 15
     }
