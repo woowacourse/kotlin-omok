@@ -1,7 +1,7 @@
 package domain
 
 @JvmInline
-value class Coordinate(private val value: Int) {
+value class Coordinate(val value: Int) {
     init {
         validateRange()
     }
