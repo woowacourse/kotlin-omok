@@ -176,4 +176,9 @@ class OmokRule(private val board: OmokBoard, private val stoneState: StoneState)
         }
         return Pair(stone, blink)
     }
+
+    companion object {
+        const val MIN_OPEN_THREES = 2
+        const val MIN_OPEN_FOURS = 2
+    }
 }

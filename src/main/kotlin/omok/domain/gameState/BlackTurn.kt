@@ -16,8 +16,8 @@ class BlackTurn(override val omokBoard: OmokBoard) : GameState {
     }
 
     private fun checkForbidden(point: OmokPoint): Boolean {
-        return OmokRule(omokBoard, stoneState).countOpenThrees(point) >= 2 ||
-            OmokRule(omokBoard, stoneState).countOpenFours(point) >= 2
+        return OmokRule(omokBoard, stoneState).countOpenThrees(point) >= OmokRule.MIN_OPEN_THREES ||
+            OmokRule(omokBoard, stoneState).countOpenFours(point) >= OmokRule.MIN_OPEN_FOURS
     }
 
     private fun validateWinner(point: OmokPoint): Boolean {

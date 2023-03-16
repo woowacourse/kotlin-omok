@@ -19,7 +19,7 @@ data class XCoordinate(val value: Char) {
         private const val X_MIN_RANGE = 'A'
         private const val X_MAX_RANGE = 'O'
         private const val ERROR_X_COORDINATE_OUT_OF_RANGE = "X 좌표의 범위는 A부터 O까지 입니다."
-        private val X_COORDINATES = ('A'..'O').map(::XCoordinate)
+        private val X_COORDINATES = (X_MIN_RANGE..X_MAX_RANGE).map(::XCoordinate)
         fun all(): List<XCoordinate> = X_COORDINATES
     }
 }

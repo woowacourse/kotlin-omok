@@ -3,9 +3,11 @@ package omok.domain
 import omok.domain.state.EmptyStoneState
 import omok.domain.state.StoneState
 
-class OmokLine(val value: Map<XCoordinate, StoneState>) {
+class OmokLine(private val value: Map<XCoordinate, StoneState>) {
     val keys = value.keys
     val values = value.values
+
+    constructor () : this(XCoordinate.all().associateWith { EmptyStoneState })
 
     fun placeStone(point: OmokPoint, stoneState: StoneState): OmokLine {
         val newValue = value.toMutableMap()
@@ -17,6 +19,4 @@ class OmokLine(val value: Map<XCoordinate, StoneState>) {
     }
 
     operator fun get(xCoordinate: XCoordinate): StoneState = value[xCoordinate] ?: throw IllegalArgumentException()
-
-    constructor () : this(XCoordinate.all().associateWith { EmptyStoneState })
 }
