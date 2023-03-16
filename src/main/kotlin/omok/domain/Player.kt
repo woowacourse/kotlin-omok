@@ -1,11 +1,8 @@
 package omok.domain
 
-class Player {
-    private var _stones = mutableListOf<Stone>()
-    val stones
-        get() = _stones.toList()
+class Player(val hand: Hand = Hand()) {
 
     fun put(stone: Stone) {
-        _stones.add(stone)
+        hand.add(stone)
     }
 }

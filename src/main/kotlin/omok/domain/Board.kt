@@ -10,7 +10,7 @@ class Board(val blackPlayer: Player, val whitePlayer: Player) {
 
     fun isPlaceable(turn: Turn, position: Position): Boolean {
         return when {
-            turn == Turn.White -> positions.find { it == position }?.isEmpty() == false
+            turn == Turn.White -> positions.find { it == position }?.isEmpty() == true
             LineJudgement(blackPlayer, position).check() -> true
             ThreeJudgement(blackPlayer, whitePlayer, position).check() || FourJudgement(blackPlayer, whitePlayer, position).check() -> false
             else -> positions.find { it == position }?.isEmpty() == true

@@ -21,14 +21,14 @@ class FourJudgement(private val player: Player, private val otherPlayer: Player,
     }
 
     private fun checkFour(horizontal: List<Int>, vertical: List<Int>): Boolean {
-        val expect = player.stones + Stone(position)
+        val expect = player.hand.stones + Stone(position)
         var count = 0
         var other: Boolean
         var present: Boolean
 
         horizontal.zip(vertical).forEach { axis ->
             // 백인지 판단
-            other = otherPlayer.stones.any { stone ->
+            other = otherPlayer.hand.stones.any { stone ->
                 stone.findPosition(
                     Position(HorizontalAxis.getHorizontalAxis(axis.first), axis.second)
                 )
