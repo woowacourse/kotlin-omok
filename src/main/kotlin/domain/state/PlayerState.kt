@@ -1,11 +1,12 @@
 package domain.state
 
 import domain.position.Position
+import domain.rule.OmokRule
 import domain.stone.Stone
 import domain.stone.Stones
 
 abstract class PlayerState(protected val stones: Stones = Stones()) {
-    abstract fun add(newStone: Stone): PlayerState
+    abstract fun add(newStone: Stone, rule: OmokRule): PlayerState
 
     fun hasStone(stone: Stone): Boolean = stones.hasStone(stone)
 

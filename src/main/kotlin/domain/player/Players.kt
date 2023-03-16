@@ -1,19 +1,45 @@
 package domain.player
 
+import domain.rule.OmokRule
+import domain.rule.RenjuRule
 import domain.stone.Stone
 import domain.stone.StoneColor
 
-data class Players private constructor(private val players: List<Player>) {
+data class Players private constructor(private val players: List<Player>, private val rule: OmokRule) {
     val isRunning: Boolean
         get() = players.all { it.canPlace() }
+    val isBlackLose: Boolean
+        get() = (getBlackPlayer() as BlackPlayer).isLose
 
-    constructor(blackPlayer: Player, whitePlayer: Player) : this(listOf(blackPlayer.clone(), whitePlayer.clone()))
+    constructor(blackPlayer: Player, whitePlayer: Player, rule: OmokRule) : this(
+        listOf(
+            blackPlayer.clone(),
+            whitePlayer.clone()
+        ),
+        rule
+    )
 
     fun putStone(stoneColor: StoneColor, stone: Stone): Players {
-        if (stoneColor == StoneColor.BLACK) {
-            return Players(blackPlayer = getBlackPlayer().putStone(stone, getWhitePlayer().getAllStones()), whitePlayer = getWhitePlayer())
+        val whiteStones = getWhitePlayer().getAllStones()
+        val blackStones = getBlackPlayer().getAllStones()
+
+        return when (stoneColor) {
+            StoneColor.BLACK -> {
+                Players(
+                    blackPlayer = getBlackPlayer().putStone(stone, whiteStones, RenjuRule()),
+                    whitePlayer = getWhitePlayer(),
+                    rule,
+                )
+            }
+
+            StoneColor.WHITE -> {
+                Players(
+                    blackPlayer = getBlackPlayer(),
+                    whitePlayer = getWhitePlayer().putStone(stone, blackStones, rule),
+                    rule,
+                )
+            }
         }
-        return Players(blackPlayer = getBlackPlayer(), whitePlayer = getWhitePlayer().putStone(stone, getBlackPlayer().getAllStones()))
     }
 
     fun getBlackPlayer(): Player = players.first { it is BlackPlayer }
