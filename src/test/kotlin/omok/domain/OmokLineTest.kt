@@ -1,5 +1,6 @@
 package omok.domain
 
+import omok.domain.state.EmptyStoneState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -14,6 +15,6 @@ class OmokLineTest {
     @Test
     fun `초기 x의 좌표들은 모두 비어있다`() {
         val omokLine = OmokLine().values
-        assertThat(omokLine).allMatch { it == StoneState.EMPTY }
+        assertThat(omokLine).allMatch { it == EmptyStoneState }
     }
 }

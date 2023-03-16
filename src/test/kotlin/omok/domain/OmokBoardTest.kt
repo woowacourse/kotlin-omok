@@ -1,5 +1,8 @@
 package omok.domain
 
+import omok.domain.state.BlackStoneState
+import omok.domain.state.EmptyStoneState
+import omok.domain.state.WhiteStoneState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -17,7 +20,7 @@ class OmokBoardTest {
     fun `y의 각자 좌표들에는 OmokLine 이 있다`() {
         val omokBoard = OmokBoard().values
         assertThat(omokBoard).allMatch { omokLine ->
-            omokLine.values.filterNot { it == StoneState.EMPTY }.isEmpty()
+            omokLine.values.filterNot { it == EmptyStoneState }.isEmpty()
         }
     }
 
@@ -26,8 +29,8 @@ class OmokBoardTest {
         var omokBoard = OmokBoard()
         val point = OmokPoint(XCoordinate('A'), YCoordinate(1))
 
-        omokBoard = omokBoard.placeStone(point, StoneState.BLACK)
-        assertThat(omokBoard[point.y][point.x]).isEqualTo(StoneState.BLACK)
+        omokBoard = omokBoard.placeStone(point, BlackStoneState)
+        assertThat(omokBoard[point.y][point.x]).isEqualTo(BlackStoneState)
     }
 
     @Test
@@ -35,8 +38,8 @@ class OmokBoardTest {
         var omokBoard = OmokBoard()
         val point = OmokPoint(XCoordinate('A'), YCoordinate(1))
 
-        omokBoard = omokBoard.placeStone(point, StoneState.BLACK)
-        assertThrows<IllegalArgumentException> { omokBoard.placeStone(point, StoneState.WHITE) }
+        omokBoard = omokBoard.placeStone(point, BlackStoneState)
+        assertThrows<IllegalArgumentException> { omokBoard.placeStone(point, WhiteStoneState) }
     }
 
     @Test
@@ -44,7 +47,7 @@ class OmokBoardTest {
         val omokBoard = OmokBoard()
         val point = OmokPoint(XCoordinate('A'), YCoordinate(1))
 
-        omokBoard.placeStone(point, StoneState.BLACK)
-        assertDoesNotThrow { omokBoard.placeStone(point, StoneState.WHITE) }
+        omokBoard.placeStone(point, BlackStoneState)
+        assertDoesNotThrow { omokBoard.placeStone(point, WhiteStoneState) }
     }
 }

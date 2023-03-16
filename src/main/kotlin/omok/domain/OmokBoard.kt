@@ -1,8 +1,11 @@
 package omok.domain
 
+import omok.domain.state.BlackStoneState
+import omok.domain.state.StoneState
+
 class OmokBoard(
     val value: Map<YCoordinate, OmokLine>,
-    val stoneState: StoneState = StoneState.BLACK,
+    val stoneState: StoneState = BlackStoneState,
 ) {
 
     val keys = value.keys

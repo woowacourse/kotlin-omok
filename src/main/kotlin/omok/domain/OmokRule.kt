@@ -1,5 +1,7 @@
 package omok.domain
 
+import omok.domain.state.EmptyStoneState
+
 class OmokRule(private val board: OmokBoard) {
     fun countOpenThrees(point: OmokPoint): Int =
         checkOpenThree(point, 1, 0) +
@@ -12,6 +14,12 @@ class OmokRule(private val board: OmokBoard) {
             checkOpenFour(point, 1, 1) +
             checkOpenFour(point, 0, 1) +
             checkOpenFourReverse(point, 1, -1)
+
+    fun validateWin(point: OmokPoint): Boolean =
+        checkWin(point, 1, 0) ||
+            checkWin(point, 1, 1) ||
+            checkWin(point, 0, 1) ||
+            checkWin(point, -1, 1)
 
     private fun checkOpenThree(point: OmokPoint, dx: Int, dy: Int): Int {
         val (stone1, blink1) = search(point, -dx, -dy)
@@ -116,6 +124,16 @@ class OmokRule(private val board: OmokBoard) {
         return if (leftUpValid + rightBottomValid >= 1) 1 else 0
     }
 
+    private fun checkWin(point: OmokPoint, dx: Int, dy: Int): Boolean {
+        val (stone1, blink1) = search(point, -dx, -dy)
+        val (stone2, blink2) = search(point, dx, dy)
+
+        return when {
+            blink1 + blink2 == 0 && stone1 + stone2 >= 4 -> true
+            else -> false
+        }
+    }
+
     private fun search(point: OmokPoint, dx: Int, dy: Int): Pair<Int, Int> {
         var (toRight, toTop) = point
         var stone = 0
@@ -134,7 +152,7 @@ class OmokRule(private val board: OmokBoard) {
                     blink = blinkCount
                 }
                 board.stoneState.next() -> break
-                StoneState.EMPTY -> {
+                EmptyStoneState -> {
                     if (blink == 1) break
                     if (blinkCount++ == 1) break
                 }

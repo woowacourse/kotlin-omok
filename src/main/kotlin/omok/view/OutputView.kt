@@ -2,7 +2,9 @@ package omok.view
 
 import omok.domain.OmokBoard
 import omok.domain.OmokLine
-import omok.domain.StoneState
+import omok.domain.state.BlackStoneState
+import omok.domain.state.StoneState
+import omok.domain.state.WhiteStoneState
 
 class OutputView {
     fun outputBoard(omokBoard: OmokBoard) {
@@ -21,8 +23,8 @@ class OutputView {
     }
 
     private fun getStoneMark(stoneState: StoneState): Char? = when (stoneState) {
-        StoneState.BLACK -> '●'
-        StoneState.WHITE -> '○'
+        BlackStoneState -> '●'
+        WhiteStoneState -> '○'
         else -> null
     }
 
