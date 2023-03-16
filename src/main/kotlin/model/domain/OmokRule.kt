@@ -31,10 +31,9 @@ object OmokRule {
                     } else {
                         count = NOTHING
                     }
-
-                    x += dx
-                    y += dy
                 }
+                x += dx
+                y += dy
             }
         }
 
