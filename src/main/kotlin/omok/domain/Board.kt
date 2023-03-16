@@ -11,13 +11,15 @@ class Board(val blackPlayer: Player, val whitePlayer: Player) {
         return when {
             LineJudgement(blackPlayer, position).check() -> true
             ThreeJudgement(blackPlayer, whitePlayer, position).check() || FourJudgement(blackPlayer, whitePlayer, position).check() -> false
-            else -> positions[positions.indexOf(position)].isEmpty()
+            else -> positions.find { it == position }?.isEmpty() == true
         }
     }
 
-    fun isWhitePlaceable(position: Position) = positions[positions.indexOf(position)].isEmpty()
+    fun isWhitePlaceable(position: Position): Boolean {
+        return positions.find { it == position }?.isEmpty() == false
+    }
 
     fun putStone(position: Position) {
-        positions[positions.indexOf(position)].occupy()
+        positions.find { it == position }?.occupy()
     }
 }
