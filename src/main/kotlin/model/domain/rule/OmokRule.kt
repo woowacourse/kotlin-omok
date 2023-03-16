@@ -1,4 +1,9 @@
-package model.domain
+package model.domain.rule
+
+import model.domain.Board
+import model.domain.Coordination
+import model.domain.Location
+import model.domain.Stone
 
 object OmokRule {
     private const val START = 0
@@ -6,6 +11,7 @@ object OmokRule {
     private const val NOTHING = 0
     private const val OMOK = 5
     private val COORDINATION_SYSTEM_RANGE = START..END
+
     fun isOmok(board: Board, location: Location, stone: Stone): Boolean {
         val row = location.coordinationX.value
         val col = location.coordinationY.value
