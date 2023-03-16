@@ -1,5 +1,6 @@
 package omok.domain
 
+import omok.domain.state.BlackStoneState
 import omok.domain.state.EmptyStoneState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -10,7 +11,7 @@ class OmokGameTest {
         val omokGame = OmokGame()
         val omokBoard = OmokBoard()
         val point = OmokPoint('A', 1)
-        val omokBoardState = omokGame.playNext(omokBoard, point)[point.y][point.x]
+        val omokBoardState = omokGame.playNext(omokBoard, point, BlackStoneState)[point.y][point.x]
         assertThat(omokBoardState).isNotEqualTo(EmptyStoneState)
     }
 }

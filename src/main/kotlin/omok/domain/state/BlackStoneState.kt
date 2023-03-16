@@ -10,10 +10,10 @@ object BlackStoneState : StoneState {
     override fun next(): StoneState = WhiteStoneState
 
     override fun checkForbidden(omokBoard: OmokBoard, point: OmokPoint): Boolean {
-        return OmokRule(omokBoard).countOpenThrees(point) <= 1 && OmokRule(omokBoard).countOpenFours(point) <= 1
+        return OmokRule(omokBoard, this).countOpenThrees(point) <= 1 && OmokRule(omokBoard, this).countOpenFours(point) <= 1
     }
 
     override fun validateWinner(omokBoard: OmokBoard, point: OmokPoint): Boolean {
-        return OmokRule(omokBoard).validateWin(point)
+        return OmokRule(omokBoard, this).validateWin(point)
     }
 }

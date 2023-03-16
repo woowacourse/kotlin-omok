@@ -1,8 +1,9 @@
 package omok.domain
 
 import omok.domain.state.EmptyStoneState
+import omok.domain.state.StoneState
 
-class OmokRule(private val board: OmokBoard) {
+class OmokRule(private val board: OmokBoard, private val stoneState: StoneState) {
     fun countOpenThrees(point: OmokPoint): Int =
         checkOpenThree(point, 1, 0) +
             checkOpenThree(point, 1, 1) +
@@ -35,8 +36,8 @@ class OmokRule(private val board: OmokBoard) {
             dy != 0 && point.y.minus(leftDown).isInEdge -> 0
             dx != 0 && point.x.plus(rightUp).isInEdge -> 0
             dy != 0 && point.y.plus(rightUp).isInEdge -> 0
-            board[point.y - dy * (leftDown + 1)][point.x - dx * (leftDown + 1)] == board.stoneState.next() -> 0
-            board[point.y + dy * (rightUp + 1)][point.x + dx * (rightUp + 1)] == board.stoneState.next() -> 0
+            board[point.y - dy * (leftDown + 1)][point.x - dx * (leftDown + 1)] == stoneState.next() -> 0
+            board[point.y + dy * (rightUp + 1)][point.x + dx * (rightUp + 1)] == stoneState.next() -> 0
             else -> 1
         }
     }
@@ -55,8 +56,8 @@ class OmokRule(private val board: OmokBoard) {
             dy != 0 && point.y.plus(leftUp).isInEdge -> 0
             dx != 0 && point.x.plus(rightBottom).isInEdge -> 0
             dy != 0 && point.y.minus(rightBottom).isInEdge -> 0
-            board[point.y - rightBottom - 1][point.x + rightBottom + 1] == board.stoneState.next() -> 0
-            board[point.y + leftUp + 1][point.x - leftUp - 1] == board.stoneState.next() -> 0
+            board[point.y - rightBottom - 1][point.x + rightBottom + 1] == stoneState.next() -> 0
+            board[point.y + leftUp + 1][point.x - leftUp - 1] == stoneState.next() -> 0
             else -> 1
         }
     }
@@ -79,13 +80,13 @@ class OmokRule(private val board: OmokBoard) {
         val leftDownValid = when {
             dx != 0 && point.x.minus(dx * leftDown).isInEdge -> 0
             dy != 0 && point.y.minus(dy * leftDown).isInEdge -> 0
-            board[point.y - dy * (leftDown + 1)][point.x - dx * (leftDown + 1)] == board.stoneState.next() -> 0
+            board[point.y - dy * (leftDown + 1)][point.x - dx * (leftDown + 1)] == stoneState.next() -> 0
             else -> 1
         }
         val rightUpValid = when {
             dx != 0 && point.x.plus(dx * rightUp).isInEdge -> 0
             dy != 0 && point.y.plus(dy * rightUp).isInEdge -> 0
-            board[point.y + dy * (rightUp + 1)][point.x + dx * (rightUp + 1)] == board.stoneState.next() -> 0
+            board[point.y + dy * (rightUp + 1)][point.x + dx * (rightUp + 1)] == stoneState.next() -> 0
             else -> 1
         }
 
@@ -110,14 +111,14 @@ class OmokRule(private val board: OmokBoard) {
         val leftUpValid = when {
             dx != 0 && point.x.minus(leftUp).isInEdge -> 0
             dy != 0 && point.y.plus(leftUp).isInEdge -> 0
-            board[point.y - rightBottom - 1][point.x + rightBottom + 1] == board.stoneState.next() -> 0
+            board[point.y - rightBottom - 1][point.x + rightBottom + 1] == stoneState.next() -> 0
             else -> 1
         }
 
         val rightBottomValid = when {
             dx != 0 && point.x.plus(rightBottom).isInEdge -> 0
             dy != 0 && point.y.minus(rightBottom).isInEdge -> 0
-            board[point.y + leftUp + 1][point.x - leftUp - 1] == board.stoneState.next() -> 0
+            board[point.y + leftUp + 1][point.x - leftUp - 1] == stoneState.next() -> 0
             else -> 1
         }
 
@@ -147,11 +148,11 @@ class OmokRule(private val board: OmokBoard) {
             toRight += dx
             toTop += dy
             when (board[toTop][toRight]) {
-                board.stoneState -> {
+                stoneState -> {
                     stone++
                     blink = blinkCount
                 }
-                board.stoneState.next() -> break
+                stoneState.next() -> break
                 EmptyStoneState -> {
                     if (blink == 1) break
                     if (blinkCount++ == 1) break

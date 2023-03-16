@@ -28,7 +28,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -39,7 +39,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -50,7 +50,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -61,7 +61,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -72,7 +72,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -83,7 +83,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -94,7 +94,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -105,7 +105,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -116,7 +116,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -127,7 +127,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -138,7 +138,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -149,7 +149,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -160,7 +160,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -171,7 +171,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -182,7 +182,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -193,7 +193,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -204,7 +204,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -215,7 +215,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -226,7 +226,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -237,7 +237,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -248,7 +248,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -259,7 +259,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -270,7 +270,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -281,7 +281,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -292,7 +292,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -303,7 +303,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -314,7 +314,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -325,7 +325,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -336,7 +336,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -347,7 +347,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -358,7 +358,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -369,7 +369,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -380,7 +380,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -391,7 +391,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -402,7 +402,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -413,7 +413,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -424,7 +424,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -435,7 +435,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -446,7 +446,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -457,7 +457,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -468,7 +468,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -479,7 +479,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -490,7 +490,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -501,7 +501,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -512,7 +512,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -523,7 +523,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -534,7 +534,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -545,7 +545,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -556,7 +556,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -567,7 +567,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -578,7 +578,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -589,7 +589,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -600,7 +600,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -611,7 +611,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -622,7 +622,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -633,7 +633,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -644,7 +644,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -655,7 +655,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -666,7 +666,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -677,7 +677,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -688,7 +688,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(1)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
     }
 
     @Test
@@ -699,7 +699,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -710,7 +710,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -721,7 +721,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -732,7 +732,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -743,7 +743,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -754,7 +754,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -765,7 +765,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -776,7 +776,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -787,7 +787,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -798,7 +798,7 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 
     @Test
@@ -809,6 +809,6 @@ class OmokRuleThreeTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard).countOpenThrees(point)).isEqualTo(0)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
     }
 }
