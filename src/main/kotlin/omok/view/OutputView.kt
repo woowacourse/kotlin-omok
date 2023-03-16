@@ -31,6 +31,11 @@ object OutputView {
         println(emptyBoard.joinToString("\n"))
     }
 
+    fun printTurn(color: GoStoneColor, coordinate: String?) {
+        print("\n${color.toKorean()}의 차례입니다. ")
+        if (coordinate == null) println() else println("(마지막 돌의 위치: $coordinate)")
+    }
+
     fun printBoard(board: Board) {
         board.board.forEachIndexed { index, line ->
             println(printRow(line, index))
@@ -52,5 +57,10 @@ object OutputView {
     private fun GoStone.toMark() = when (this.color) {
         omok.model.stone.GoStoneColor.BLACK -> '●'
         omok.model.stone.GoStoneColor.WHITE -> '○'
+    }
+
+    private fun GoStoneColor.toKorean(): String = when (this) {
+        GoStoneColor.BLACK -> "흑"
+        GoStoneColor.WHITE -> "백"
     }
 }
