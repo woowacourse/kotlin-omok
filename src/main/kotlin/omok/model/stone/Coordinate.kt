@@ -1,6 +1,6 @@
 package omok.model.stone
 
-import omok.model.Board
+import omok.model.game.Board
 
 class Coordinate(coordinate: String) {
     val x: Int

@@ -1,6 +1,6 @@
 package omok.view
 
-import omok.model.Board
+import omok.model.game.Board
 import omok.model.stone.GoStone
 
 object OutputView {

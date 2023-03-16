@@ -1,6 +1,5 @@
-package omok.model.judge
+package omok.model.game
 
-import omok.model.Board
 import omok.model.state.Stay
 import omok.model.state.Win
 import omok.model.stone.Coordinate

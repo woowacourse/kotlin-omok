@@ -1,7 +1,7 @@
 package omok.controller
 
-import omok.model.Board
-import omok.model.OmokGame
+import omok.model.game.Board
+import omok.model.game.OmokGame
 import omok.view.InputView
 import omok.view.OutputView
 

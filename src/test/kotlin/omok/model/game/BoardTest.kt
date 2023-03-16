@@ -1,4 +1,4 @@
-package omok.model
+package omok.model.game
 
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
