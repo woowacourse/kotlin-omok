@@ -1,6 +1,6 @@
 # 오목왕이 되어보자
 
-## View
+## view
 
 - InputView
     -[ ] 좌표를 입력받는다.
@@ -19,19 +19,19 @@
 - Position
     -[x] x좌표를 갖는다.
     -[x] y좌표를 갖는다.
-- Stone
-    -[x] Position을 갖는다.
-    -[x] Stone을 구현한 WhiteStone이 존재한다.
-    -[x] Stone을 구현한 BlackStone이 존재한다.
-- Stones(Board)
-    -[ ] blackStones가 있다. (List)
-    -[ ] whiteStones가 있다. (List)
-    -[ ] last stone position을 반환한다.
-    -[ ] 돌을 놓는다.
-        - [ ] 이미 돌이 있는 자리에 놓을 수 없다.
-        - [ ] 검정 돌을 놓는다.
-        - [ ] 흰 돌을 놓는다.
-    -[ ] 차례를 반환한다.
+- Board
+    -[x] board(바둑판)를 갖고 있다.
+    -[x] last stone position을 반환한다.
+    -[x] 돌을 추가한다.
+    -[x] 칸이 비었는지 확인한다.
+- OmokGame
+    -[x] 돌을 놓는다.
+        - [x] 이미 돌이 있는 자리에 놓을 수 없다.
+        - [x] 검정 돌을 놓는다.
+        - [x] 흰 돌을 놓는다.
+    -[x] 차례를 갖고있다.
+    -[x] 차례를 바꾼다.
+    -[x] 승리 여부를 판단한다. 
 - Rule (library)
     - 조건
         -[x] 3-3
