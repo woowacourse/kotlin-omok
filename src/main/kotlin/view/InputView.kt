@@ -5,8 +5,10 @@ import domain.stone.StonePosition
 class InputView {
 
     fun inputStonePosition(): StonePosition {
+        print("위치를 입력하세요: ")
         return runCatching {
             val parsePosition: Pair<Int, Int> = parseXAndY(readln())
+            println()
             StonePosition.from(parsePosition.first, parsePosition.second)
         }.onFailure {
             println("올바른 위치를 입력해주세요.")

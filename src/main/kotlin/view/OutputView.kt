@@ -9,6 +9,12 @@ import domain.stone.Stones
 
 class OutputView {
 
+    fun printOmokStart() {
+        println(MESSAGE_OMOK_START)
+        println()
+        printBoard(Stones())
+    }
+
     fun printBoard(stones: Stones) {
         setBoard(stones)
 
@@ -16,10 +22,18 @@ class OutputView {
             println(boardForm[index].format(*board[index].toTypedArray()))
         }
         println(boardForm[boardForm.lastIndex])
+        println()
     }
 
     fun printTurn(state: State, stones: Stones) {
-        println(MESSAGE_FORMAT_TURN.format(getTurnText(state), positionToText(stones.values[stones.values.lastIndex])))
+        val text: StringBuilder = StringBuilder()
+
+        text.append(MESSAGE_FORMAT_TURN.format(getTurnText(state)))
+        if (stones.values.isNotEmpty()) {
+            text.append(MESSAGE_FORMAT_LAST_STONE_POSITION.format(positionToText(stones.values[stones.values.lastIndex])))
+        }
+
+        println(text)
     }
 
     fun printWinner(state: State) {
@@ -39,8 +53,8 @@ class OutputView {
     }
 
     private fun getTurnText(state: State): String? = when (state) {
-        is WhiteTurn -> "흑"
-        is BlackTurn -> "백"
+        is WhiteTurn -> "백"
+        is BlackTurn -> "흑"
         else -> null
     }
 
@@ -56,8 +70,10 @@ class OutputView {
     }
 
     companion object {
-        const val MESSAGE_FORMAT_TURN = "%s의 차례입니다. (마지막 돌의 위치: %s)"
-        const val MESSAGE_FORMAT_WINNER = "%s돌이 우승했습니다."
+        private const val MESSAGE_OMOK_START = "오목 게임을 시작합니다."
+        private const val MESSAGE_FORMAT_TURN = "%s의 차례입니다. "
+        private const val MESSAGE_FORMAT_LAST_STONE_POSITION = "(마지막 돌의 위치: %s)"
+        private const val MESSAGE_FORMAT_WINNER = "%s돌이 우승했습니다."
 
         val board: MutableList<MutableList<Char>> = mutableListOf(
             mutableListOf('┌', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┐'),
