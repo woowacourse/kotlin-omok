@@ -8,7 +8,7 @@ import omok.domain.judgment.WinningReferee
 class Game(private val board: Board, private var turn: Turn, private val winningReferee: WinningReferee) {
     fun start(
         onStart: (board: Board) -> Unit,
-        wantPosition: (position: Position?, turn: Turn) -> String,
+        wantPosition: (position: Position?, turn: Turn) -> String?,
         onTurn: (board: Board) -> Unit,
         onFinish: (turn: Turn) -> Unit
     ) {
@@ -17,7 +17,7 @@ class Game(private val board: Board, private var turn: Turn, private val winning
     }
 
     private fun play(
-        wantPosition: (position: Position?, turn: Turn) -> String,
+        wantPosition: (position: Position?, turn: Turn) -> String?,
         onTurn: (board: Board) -> Unit,
         onFinish: (turn: Turn) -> Unit
     ) {
@@ -26,7 +26,7 @@ class Game(private val board: Board, private var turn: Turn, private val winning
 
     private tailrec fun playUntilWinnerAppears(
         position: Position?,
-        wantPosition: (position: Position?, turn: Turn) -> String,
+        wantPosition: (position: Position?, turn: Turn) -> String?,
         onTurn: (board: Board) -> Unit,
         onFinish: (turn: Turn) -> Unit
     ) {
@@ -44,7 +44,7 @@ class Game(private val board: Board, private var turn: Turn, private val winning
 
     private fun place(
         position: Position?,
-        wantPosition: (position: Position?, turn: Turn) -> String
+        wantPosition: (position: Position?, turn: Turn) -> String?
     ): Position {
         return runCatching {
             val selectedPosition = wantPosition(position, turn).toPosition()

@@ -5,7 +5,7 @@ import omok.domain.board.Position
 import omok.model.toPresentation
 
 class InputView {
-    fun readPosition(position: Position?, turn: Turn): String {
+    fun readPosition(position: Position?, turn: Turn): String? {
         print(
             """
             |
@@ -13,7 +13,7 @@ class InputView {
             |위치를 입력하세요: 
         """.trimMargin()
         )
-        return readln()
+        return readln().ifBlank { null }
     }
 
     private fun getLastPositionMessage(position: Position?): String {

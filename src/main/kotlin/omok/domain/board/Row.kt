@@ -21,6 +21,6 @@ enum class Row(private val axis: Int) {
     fun down(): Row? = values().find { it.axis == axis - 1 }
 
     companion object {
-        fun String.toRow(): Row? = Row.values().find { this.toIntOrNull() == it.axis + 1 }
+        fun String?.toRow(): Row? = Row.values().find { this?.toIntOrNull() == it.axis + 1 }
     }
 }
