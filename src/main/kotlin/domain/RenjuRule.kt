@@ -7,21 +7,9 @@ class RenjuRule(val stones: Stones) {
         } >= RENJU_LINE_CONDITION
     }
 
-    fun isFourToFour(stone: Stone): Boolean {
-        return directions.count { direction ->
-            checkFourForLine((direction * -4) + stone.coordinate.point, direction)
-        } >= RENJU_LINE_CONDITION
-    }
-
     private fun checkOpenFourForLine(start: Point, direction: Point): Int {
         return OPEN_FOUR_INNER_BLOCK_RANGE.count {
             isOpenFour(start + (direction * it), direction)
-        }
-    }
-
-    private fun checkFourForLine(start: Point, direction: Point): Boolean {
-        return FOUR_BLOCK_RANGE.any {
-            isFour(start + (direction * it), direction)
         }
     }
 
@@ -36,10 +24,22 @@ class RenjuRule(val stones: Stones) {
         return isOpened && isFour
     }
 
+    fun isFourToFour(stone: Stone): Boolean {
+        return fullDirections.count { direction ->
+            checkFourForLine((direction * -4) + stone.coordinate.point, direction)
+        } >= RENJU_LINE_CONDITION
+    }
+
+    private fun checkFourForLine(start: Point, direction: Point): Boolean {
+        return FOUR_BLOCK_RANGE.any {
+            isFour(start + (direction * it), direction)
+        }
+    }
+
     private fun isFour(start: Point, direction: Point): Boolean {
         if (!validateCheckBlock(start, direction, FOUR_BLOCK_SIZE)) return false
 
-        return FOUR_BLOCK_RANGE.count {
+        return FOUR_BLOCK_SIZE_RANGE.count {
             isBlackStoneThere(start + (direction * it))
         } >= FOUR_BLACK_STONE_COUNT
     }
@@ -81,7 +81,8 @@ class RenjuRule(val stones: Stones) {
     companion object {
         private const val RENJU_LINE_CONDITION = 2
         private val OPEN_FOUR_INNER_BLOCK_RANGE = (0..3)
-        private val FOUR_BLOCK_RANGE = (0..4)
+        private val FOUR_BLOCK_RANGE = (0..2)
+        private val FOUR_BLOCK_SIZE_RANGE = (0..4)
         private val OPEN_FOUR_INNER_BLOCK_SHIFTED_RANGE = (1..4)
         private const val OPEN_FOUR_BLOCK_SIZE = 6
         private const val FOUR_BLOCK_SIZE = 5
@@ -94,6 +95,11 @@ class RenjuRule(val stones: Stones) {
 
         val directions = listOf(
             Point(-1, 1), Point(0, 1), Point(1, 1), Point(1, 0)
+        )
+
+        val fullDirections = listOf(
+            Point(-1, 1), Point(0, 1), Point(1, 1), Point(1, 0),
+            Point(1, -1), Point(0, -1), Point(-1, -1), Point(-1, 0)
         )
     }
 }
