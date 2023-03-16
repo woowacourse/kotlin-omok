@@ -1,3 +1,10 @@
+package domain.board
+
+import domain.OmokResult
+import domain.stone.Color
+import domain.stone.Position
+import domain.stone.Stone
+
 class PlayingBoard(placedStones: List<Stone>) : BasedBoard(placedStones.toList()) {
     constructor(vararg stone: Stone) : this(stone.toList())
 

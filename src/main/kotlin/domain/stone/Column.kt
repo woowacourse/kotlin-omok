@@ -1,3 +1,5 @@
+package domain.stone
+
 enum class Column(val x: Int) {
     A(0),
     B(1),

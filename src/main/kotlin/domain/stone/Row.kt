@@ -1,3 +1,5 @@
+package domain.stone
+
 enum class Row(val y: Int) {
     ONE(0),
     TWO(1),

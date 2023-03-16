@@ -1,3 +1,8 @@
+package controller
+
+import view.InputView
+import view.OutputView
+
 class OmokController(
     private val inputView: InputView = InputView(),
     private val outputView: OutputView = OutputView()

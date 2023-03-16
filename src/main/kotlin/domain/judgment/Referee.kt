@@ -1,7 +1,7 @@
-package judgment
+package domain.judgment
 
-import Color
-import Position
+import domain.stone.Color
+import domain.stone.Position
 
 abstract class Referee {
     fun countEveryContinuity(board: Map<Position, Color?>, position: Position, count: Int): List<Int> {

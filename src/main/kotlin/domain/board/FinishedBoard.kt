@@ -1,3 +1,9 @@
+package domain.board
+
+import domain.stone.Color
+import domain.stone.Position
+import domain.stone.Stone
+
 class FinishedBoard(
     placedStones: List<Stone>,
     override val winningColor: Color

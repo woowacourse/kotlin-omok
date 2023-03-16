@@ -1,3 +1,5 @@
+package domain.stone
+
 data class Position(val column: Column, val row: Row) {
     constructor(x: Int, y: Int) : this(Column.valueOf(x), Row.valueOf(y))
 

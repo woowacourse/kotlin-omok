@@ -1,3 +1,11 @@
+package view
+
+import Stone
+import domain.stone.Color
+import domain.stone.Column
+import domain.stone.Position
+import domain.stone.Row
+
 class InputView {
 
     fun requestPoint(stone: Stone?): Position {

@@ -1,3 +1,4 @@
+import domain.stone.Position
 import org.assertj.core.api.Java6Assertions.assertThat
 import org.junit.jupiter.api.Test
 

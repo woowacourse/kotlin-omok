@@ -1,4 +1,11 @@
-import judgment.BlackReferee
+package domain
+
+import domain.judgment.BlackReferee
+import domain.stone.Color
+import domain.stone.Column
+import domain.stone.Position
+import domain.stone.Row
+import domain.stone.Stone
 
 enum class OmokResult {
     RUNNING,

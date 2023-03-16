@@ -1,3 +1,4 @@
+import domain.stone.Position
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.assertThrows

@@ -1,3 +1,8 @@
+package view
+
+import domain.board.Board
+import domain.stone.Color
+
 class OutputView {
 
     fun printOmokBoardState(board: Board) {
@@ -13,8 +18,8 @@ class OutputView {
 
     private fun Board.filterPointY(color: Color, curY: Int): List<Int> {
         return getStones()
-            .filter { it.position.row.y + 1 == END_COL - curY && it.color == color }
-            .map { stone -> (stone.position.column.x) * COL_UNIT }
+            .filter { it.position.row.y + 1 == view.OutputView.END_COL - curY && it.color == color }
+            .map { stone -> (stone.position.column.x) * view.OutputView.COL_UNIT }
     }
 
     private fun makeBoardLine(line: String, blackStonesPosition: List<Int>, whiteStonesPosition: List<Int>): String =

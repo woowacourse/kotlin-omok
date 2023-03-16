@@ -1,3 +1,11 @@
+package domain
+
+import domain.board.Board
+import domain.board.PlayingBoard
+import domain.stone.Color
+import domain.stone.Position
+import domain.stone.Stone
+
 class OmokGame(
     val getPosition: (Stone?) -> Position,
     val checkBoardState: (Board) -> Unit,

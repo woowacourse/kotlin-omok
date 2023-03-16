@@ -1,3 +1,7 @@
+import domain.board.FinishedBoard
+import domain.board.PlayingBoard
+import domain.stone.Color
+import domain.stone.Position
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

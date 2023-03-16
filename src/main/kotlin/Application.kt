@@ -1,3 +1,5 @@
+import controller.OmokController
+
 fun main() {
     val t = Thread(OmokController())
     t.setUncaughtExceptionHandler { _, e ->

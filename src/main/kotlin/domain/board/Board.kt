@@ -1,3 +1,9 @@
+package domain.board
+
+import domain.stone.Color
+import domain.stone.Position
+import domain.stone.Stone
+
 interface Board {
     val isFinished: Boolean
     val winningColor: Color
