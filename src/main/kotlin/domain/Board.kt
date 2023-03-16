@@ -28,7 +28,6 @@ class Board(
     fun isForbiddenFour(position: Position): Boolean = ForbiddenFour.isForbiddenFour(board, position)
     fun isExceedFive(position: Position, coordinateState: CoordinateState): Boolean =
         ExceedFive.isExceedFive(board, position, coordinateState)
-
     fun isExactlyFive(position: Position, coordinateState: CoordinateState): Boolean =
         ExactlyFive.isExactlyFive(board, position, coordinateState)
 }
