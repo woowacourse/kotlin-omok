@@ -172,7 +172,6 @@ class RenjuRuleTest {
             BlackStone(9, 7),
             BlackStone(10, 7),
             BlackStone(7, 7),
-            BlackStone(9, 7),
             BlackStone(9, 8),
             BlackStone(7, 6),
             BlackStone(5, 4),
@@ -202,7 +201,7 @@ class RenjuRuleTest {
         val stones = Stones(placedStones)
 
         // when
-        val actual = stones.renjuRule.fourToFour(BlackStone(8, 7))
+        val actual = stones.renjuRule.fourToFour(BlackStone(7, 4))
 
         assertThat(actual).isTrue
     }

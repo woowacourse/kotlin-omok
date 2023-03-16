@@ -43,8 +43,8 @@ class RenjuRule(val stones: List<Stone>) {
     }
 
     private fun checkFourForLine(start: Point, direction: Point): Int {
-        return (0..3).sumOf {
-            (if (isFour(start + (direction * it), direction) == 3) 1 else 0) as Int
+        return (0..4).sumOf {
+            (if (isFour(start + (direction * it), direction) >= 3) 1 else 0) as Int
         }
     }
 
@@ -55,7 +55,7 @@ class RenjuRule(val stones: List<Stone>) {
         }
 
         var blackStoneCount = 0
-        for (i in 1..4) {
+        for (i in 0..4) {
             val stone = stones.find {
                 it.coordinate.point == start + (direction * i)
             }
