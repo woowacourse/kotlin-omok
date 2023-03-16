@@ -1,6 +1,5 @@
 package view
 
-import domain.Color
 import domain.State
 import domain.Stone
 import domain.board.Board
@@ -73,15 +72,15 @@ object OutputView {
         return builder
     }
 
-    private fun selectState(state: State): String {
+    private fun selectState(state: State): String? {
         return when (state) {
             State.BLACK -> Color.BLACK.value
             State.WHITE -> Color.WHITE.value
-            else -> ""
+            else -> null
         }
     }
 
-    fun printWinner(color: Color) {
-        println(MESSAGE_WINNER.format(color.value))
+    fun printWinner(state: State) {
+        println(MESSAGE_WINNER.format(selectState(state)))
     }
 }
