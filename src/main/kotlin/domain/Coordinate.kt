@@ -1,5 +1,7 @@
 package domain
 
+import domain.constant.Constant.BOARD_SIZE
+
 @JvmInline
 value class Coordinate(val value: Int) {
     init {
@@ -11,6 +13,6 @@ value class Coordinate(val value: Int) {
     }
 
     companion object {
-        private val COORDINATE_RANGE = 0..14
+        private val COORDINATE_RANGE = 0 until BOARD_SIZE
     }
 }

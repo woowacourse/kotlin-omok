@@ -1,6 +1,7 @@
 package domain
 
 import domain.CoordinateState.EMPTY
+import domain.constant.Constant.BOARD_SIZE
 import domain.rule.ExactlyFive
 import domain.rule.ExceedFive
 import domain.rule.ForbiddenFour
@@ -8,7 +9,7 @@ import domain.rule.ForbiddenThree
 
 class Board(
     private val _board: List<MutableList<CoordinateState>> =
-        List(15) { MutableList(15) { EMPTY } },
+        List(BOARD_SIZE) { MutableList(BOARD_SIZE) { EMPTY } },
 ) {
     val board: List<List<CoordinateState>> get() = _board
     var lastPosition: Position? = null

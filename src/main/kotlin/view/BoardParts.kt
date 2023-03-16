@@ -1,6 +1,7 @@
 package view
 
 import domain.CoordinateState
+import domain.constant.Constant.BOARD_SIZE
 
 enum class BoardParts(val value: String) {
     LEFT_TOP("┌"),
@@ -18,15 +19,16 @@ enum class BoardParts(val value: String) {
 
     companion object {
         fun getPart(coordinateState: CoordinateState, x: Int, y: Int): BoardParts {
+            val maxCoordinate = BOARD_SIZE - 1
             return when {
                 x == 0 && y == 0 -> LEFT_TOP
-                x == 14 && y == 0 -> RIGHT_TOP
-                x == 0 && y == 14 -> LEFT_BOTTOM
-                x == 14 && y == 14 -> RIGHT_BOTTOM
+                x == maxCoordinate && y == 0 -> RIGHT_TOP
+                x == 0 && y == maxCoordinate -> LEFT_BOTTOM
+                x == maxCoordinate && y == maxCoordinate -> RIGHT_BOTTOM
                 x == 0 -> LEFT_MIDDLE
-                x == 14 -> RIGHT_MIDDLE
+                x == maxCoordinate -> RIGHT_MIDDLE
                 y == 0 -> CENTER_TOP
-                y == 14 -> CENTER_BOTTOM
+                y == maxCoordinate -> CENTER_BOTTOM
                 else -> CENTER_MIDDLE
             }
         }
