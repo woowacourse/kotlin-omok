@@ -1,7 +1,6 @@
 package omok.domain.board
 
 import omok.domain.judgment.BlackReferee
-import omok.domain.player.Black
 import omok.domain.player.Stone
 import omok.model.toPresentation
 
@@ -14,10 +13,7 @@ class Board(private val _positions: MutableMap<Position, Stone?> = POSITIONS.ass
         require(isEmpty(position)) {
             "[ERROR] ${position.column.toPresentation()}${position.row.toPresentation()}은/는 비어있지 않습니다."
         }
-        if (stone == Black) require(!referee.isForbiddenPlacement(positions, position)) {
-            "[ERROR] ${position.column.toPresentation()}${position.row.toPresentation()}은/는 금수입니다."
-        }
-        _positions[position] = stone
+        if (stone.canPlace(referee, positions, position)) _positions[position] = stone
     }
 
     private fun isEmpty(position: Position) = _positions[position] == null
