@@ -1,31 +1,34 @@
 package domain
 
-import domain.turn.BlackTurn
-import domain.turn.State
-import domain.turn.WhiteTurn
+import domain.board.Board
+import domain.board.OmokBoard
 
 class OmokGame(
-    private val board: Board = Board(BlackTurn(), WhiteTurn()),
+    private val omokBoard: OmokBoard = OmokBoard(),
     private val referee: Referee = Referee()
 ) {
     fun runGame(
         getStone: () -> Stone,
-        onMove: (State, State, Color, Stone) -> Unit,
+        onMove: (Board, State, Stone) -> Unit,
         onMoveFail: () -> Unit,
         onFinish: (Color) -> Unit
     ) {
         while (true) {
             if (!successBlackTurn(getStone, onMoveFail, onMove)) successBlackTurn(getStone, onMoveFail, onMove)
-            if (isVictory(Color.BLACK, onFinish)) break
+            if (isVictory(State.BLACK, onFinish)) break
 
             if (!successWhiteTurn(getStone, onMoveFail, onMove)) successWhiteTurn(getStone, onMoveFail, onMove)
-            if (isVictory(Color.WHITE, onFinish)) break
+            if (isVictory(State.WHITE, onFinish)) break
         }
     }
 
-    private fun isVictory(color: Color, onFinish: (Color) -> Unit): Boolean {
-        if (referee.isWin(board.getState(color))) {
-            onFinish(color)
+    private fun isVictory(state: State, onFinish: (Color) -> Unit): Boolean {
+        if (referee.isWin(omokBoard.board, state)) {
+            when (state) {
+                State.WHITE -> onFinish(Color.WHITE)
+                State.BLACK -> onFinish(Color.BLACK)
+                State.EMPTY -> {}
+            }
             return true
         }
         return false
@@ -34,30 +37,30 @@ class OmokGame(
     private fun successBlackTurn(
         getStone: () -> Stone,
         onMoveFail: () -> Unit,
-        onMove: (State, State, Color, Stone) -> Unit
+        onMove: (Board, State, Stone) -> Unit
     ): Boolean {
         val blackStone = getStone()
-        if (!board.canMove(blackStone)) {
+        if (!omokBoard.isEmpty(blackStone)) {
             onMoveFail()
             return false
         }
-        board.moveBlack(blackStone)
-        onMove(board.getState(Color.BLACK), board.getState(Color.WHITE), Color.WHITE, blackStone)
+        omokBoard.move(blackStone, State.BLACK)
+        onMove(omokBoard.board, State.WHITE, blackStone)
         return true
     }
 
     private fun successWhiteTurn(
         getStone: () -> Stone,
         onMoveFail: () -> Unit,
-        onMove: (State, State, Color, Stone) -> Unit
+        onMove: (Board, State, Stone) -> Unit
     ): Boolean {
         val whiteStone = getStone()
-        if (!board.canMove(whiteStone)) {
+        if (!omokBoard.isEmpty(whiteStone)) {
             onMoveFail()
             return false
         }
-        board.moveWhite(whiteStone)
-        onMove(board.getState(Color.BLACK), board.getState(Color.WHITE), Color.BLACK, whiteStone)
+        omokBoard.move(whiteStone, State.WHITE)
+        onMove(omokBoard.board, State.BLACK, whiteStone)
         return true
     }
 }
