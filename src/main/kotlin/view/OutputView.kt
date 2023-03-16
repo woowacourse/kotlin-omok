@@ -22,6 +22,10 @@ class OutputView {
         println(MESSAGE_FORMAT_TURN.format(getTurnText(state), positionToText(stones.values[stones.values.lastIndex])))
     }
 
+    fun printWinner(state: State) {
+        println(MESSAGE_FORMAT_WINNER.format(getWinnerText(state)))
+    }
+
     private fun setBoard(stones: Stones) {
         stones.values.forEach {
             if (getTypeEmoji(it.type) != null) board[(15 - it.position.y)][it.position.x - 1] = getTypeEmoji(it.type)!!
@@ -40,6 +44,12 @@ class OutputView {
         else -> null
     }
 
+    private fun getWinnerText(state: State): String? = when (state.getWinner()) {
+        StoneType.BLACK -> "흑"
+        StoneType.WHITE -> "백"
+        else -> null
+    }
+
     private fun positionToText(value: Stone): String {
         val xToString: String = (value.position.x.toChar() + 'A'.toInt() - 1).toString()
         return "$xToString${value.position.y}"
@@ -47,6 +57,7 @@ class OutputView {
 
     companion object {
         const val MESSAGE_FORMAT_TURN = "%s의 차례입니다. (마지막 돌의 위치: %s)"
+        const val MESSAGE_FORMAT_WINNER = "%s돌이 우승했습니다."
 
         val board: MutableList<MutableList<Char>> = mutableListOf(
             mutableListOf('┌', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┐'),
