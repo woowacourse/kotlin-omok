@@ -52,7 +52,7 @@ class Controller(private val gameView: GameView) {
         val position = Position(HorizontalAxis.valueOf(input.first().toString()), input.slice(1 until input.length).toInt())
         if (!board.isPlaceable(turn, position)) {
             gameView.printRetry()
-            readPosition(turn)
+            return readPosition(turn)
         }
         lastPosition = input
         return position
