@@ -1,4 +1,4 @@
-package domain
+package view
 
 enum class Color(val value: String) {
     BLACK("흑"),

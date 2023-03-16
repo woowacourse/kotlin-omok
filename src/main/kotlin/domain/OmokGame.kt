@@ -12,7 +12,7 @@ class OmokGame(
         onMove: (Board, State, Stone) -> Unit,
         onMoveFail: () -> Unit,
         onForbidden: () -> Unit,
-        onFinish: (Color) -> Unit
+        onFinish: (State) -> Unit
     ) {
         while (true) {
             successBlackTurn(getStone, onMoveFail, onForbidden, onMove)
@@ -23,13 +23,9 @@ class OmokGame(
         }
     }
 
-    private fun isVictory(state: State, onFinish: (Color) -> Unit): Boolean {
+    private fun isVictory(state: State, onFinish: (State) -> Unit): Boolean {
         if (referee.isWin(omokBoard.board, state)) {
-            when (state) {
-                State.WHITE -> onFinish(Color.WHITE)
-                State.BLACK -> onFinish(Color.BLACK)
-                State.EMPTY -> {}
-            }
+            onFinish(state)
             return true
         }
         return false
