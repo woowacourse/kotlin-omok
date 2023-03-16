@@ -11,7 +11,7 @@ class OverFiveRefereeTest {
     @Test
     fun `장목이면 금지된 수이다`() {
         val board = OVER_FIVE_BOARD
-        val referee = OverFiveReferee()
+        val referee = OverFiveReferee(Black)
         val position = Position(Column.H, Row.EIGHT)
 
         board[position] = Black

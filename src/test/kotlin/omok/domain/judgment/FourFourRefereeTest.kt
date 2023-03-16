@@ -14,7 +14,7 @@ class FourFourRefereeTest {
     @CsvSource("C, THIRTEEN", "C, EIGHT", "F, TWELVE", "H, FIVE", "I, EIGHT", "J, TEN")
     fun `4-4이면 금지된 수이다`(column: Column, row: Row) {
         val board = FOUR_FOUR_BOARD
-        val referee = FourFourReferee()
+        val referee = FourFourReferee(Black)
         val position = Position(column, row)
 
         board[position] = Black
@@ -26,7 +26,7 @@ class FourFourRefereeTest {
     @CsvSource("E, TWELVE", "H, TWELVE", "J, SEVEN", "H, THREE", "I, SEVEN", "C, NINE")
     fun `4-4가 아니면 금지된 수가 아니다`(column: Column, row: Row) {
         val board = FOUR_FOUR_BOARD
-        val referee = FourFourReferee()
+        val referee = FourFourReferee(Black)
         val position = Position(column, row)
 
         board[position] = Black
@@ -37,7 +37,7 @@ class FourFourRefereeTest {
     @Test
     fun `4-4-3이면 금지된 수이다`() {
         val board = FOUR_FOUR_THREE_BOARD
-        val referee = FourFourReferee()
+        val referee = FourFourReferee(Black)
         val position = Position(Column.C, Row.THIRTEEN)
 
         board[position] = Black

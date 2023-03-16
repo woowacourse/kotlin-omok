@@ -14,7 +14,7 @@ class ThreeThreeRefereeTest {
     @CsvSource("D, TWELVE", "E, THREE", "L, ELEVEN", "K, FOUR")
     fun `3-3이면 금지된 수이다`(column: Column, row: Row) {
         val board = THREE_THREE_BOARD
-        val referee = ThreeThreeReferee()
+        val referee = ThreeThreeReferee(Black)
         val position = Position(column, row)
 
         board[position] = Black
@@ -26,7 +26,7 @@ class ThreeThreeRefereeTest {
     @CsvSource("D, ELEVEN", "D, FIFTEEN", "M, ELEVEN", "O, FOUR")
     fun `3-3이 아니면 금지된 수가 아니다`(column: Column, row: Row) {
         val board = THREE_THREE_BOARD
-        val referee = ThreeThreeReferee()
+        val referee = ThreeThreeReferee(Black)
         val position = Position(column, row)
 
         board[position] = Black
@@ -37,7 +37,7 @@ class ThreeThreeRefereeTest {
     @Test
     fun `4-3이면 금지된 수가 아니다`() {
         val board = FOUR_THREE_BOARD
-        val referee = ThreeThreeReferee()
+        val referee = ThreeThreeReferee(Black)
         val position = Position(Column.D, Row.TWELVE)
 
         board[position] = Black
@@ -48,7 +48,7 @@ class ThreeThreeRefereeTest {
     @Test
     fun `4-3-3이면 금지된 수이다`() {
         val board = FOUR_THREE_THREE_BOARD
-        val referee = ThreeThreeReferee()
+        val referee = ThreeThreeReferee(Black)
         val position = Position(Column.D, Row.TWELVE)
 
         board[position] = Black

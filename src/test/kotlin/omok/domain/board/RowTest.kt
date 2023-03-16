@@ -1,6 +1,5 @@
 package omok.domain.board
 
-import omok.domain.board.Row.Companion.toRow
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
