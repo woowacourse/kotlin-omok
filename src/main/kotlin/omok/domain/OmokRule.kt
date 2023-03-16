@@ -77,7 +77,6 @@ class OmokRule(private val board: OmokBoard, private val stoneState: StoneState)
 
         when {
             blink1 + blink2 == 2 && stone1 + stone2 == 4 -> return 2
-            blink1 + blink2 == 0 && stone1 + stone2 >= 5 -> return 2
             blink1 + blink2 == 2 && stone1 + stone2 == 5 -> return 2
             stone1 + stone2 != 3 -> return 0
             blink1 + blink2 == 2 -> return 0
@@ -108,7 +107,6 @@ class OmokRule(private val board: OmokBoard, private val stoneState: StoneState)
 
         when {
             blink1 + blink2 == 2 && stone1 + stone2 == 5 -> return 2
-            blink1 + blink2 == 0 && stone1 + stone2 >= 5 -> return 2
             blink1 + blink2 == 2 && stone1 + stone2 == 4 -> return 2
             stone1 + stone2 != 3 -> return 0
             blink1 + blink2 == 2 -> return 0
