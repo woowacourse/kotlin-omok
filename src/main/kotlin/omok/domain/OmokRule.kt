@@ -16,11 +16,17 @@ class OmokRule(private val board: OmokBoard, private val stoneState: StoneState)
             checkOpenFour(point, 0, 1) +
             checkOpenFourReverse(point, 1, -1)
 
-    fun validateWin(point: OmokPoint): Boolean =
-        checkWin(point, 1, 0) ||
-            checkWin(point, 1, 1) ||
-            checkWin(point, 0, 1) ||
-            checkWin(point, -1, 1)
+    fun validateWhiteWin(point: OmokPoint): Boolean =
+        checkWhiteWin(point, 1, 0) ||
+            checkWhiteWin(point, 1, 1) ||
+            checkWhiteWin(point, 0, 1) ||
+            checkWhiteWin(point, -1, 1)
+
+    fun validateBlackWin(point: OmokPoint): Boolean =
+        checkBlackWin(point, 1, 0) ||
+            checkBlackWin(point, 1, 1) ||
+            checkBlackWin(point, 0, 1) ||
+            checkBlackWin(point, -1, 1)
 
     private fun checkOpenThree(point: OmokPoint, dx: Int, dy: Int): Int {
         val (stone1, blink1) = search(point, -dx, -dy)
@@ -125,7 +131,17 @@ class OmokRule(private val board: OmokBoard, private val stoneState: StoneState)
         return if (leftUpValid + rightBottomValid >= 1) 1 else 0
     }
 
-    private fun checkWin(point: OmokPoint, dx: Int, dy: Int): Boolean {
+    private fun checkBlackWin(point: OmokPoint, dx: Int, dy: Int): Boolean {
+        val (stone1, blink1) = search(point, -dx, -dy)
+        val (stone2, blink2) = search(point, dx, dy)
+
+        return when {
+            blink1 + blink2 == 0 && stone1 + stone2 == 4 -> true
+            else -> false
+        }
+    }
+
+    private fun checkWhiteWin(point: OmokPoint, dx: Int, dy: Int): Boolean {
         val (stone1, blink1) = search(point, -dx, -dy)
         val (stone2, blink2) = search(point, dx, dy)
 

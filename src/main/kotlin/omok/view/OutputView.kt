@@ -7,6 +7,10 @@ import omok.domain.state.StoneState
 import omok.domain.state.WhiteStoneState
 
 class OutputView {
+    fun outputInit() {
+        println("오목 게임을 시작합니다.")
+    }
+
     fun outputBoard(omokBoard: OmokBoard) {
         omokBoard.values.reversed().forEachIndexed { boardIdx, omokLine ->
             println(makeXLineString(boardIdx, omokLine))

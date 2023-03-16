@@ -28,7 +28,7 @@ class OmokRuleWinTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint('H', 6)
-        assertThat(OmokRule(omokBoard, BlackStoneState).validateWin(point)).isTrue
+        assertThat(OmokRule(omokBoard, BlackStoneState).validateBlackWin(point)).isTrue
     }
 
     @Test
@@ -40,7 +40,7 @@ class OmokRuleWinTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint('H', 6)
-        assertThat(OmokRule(omokBoard, BlackStoneState).validateWin(point)).isFalse
+        assertThat(OmokRule(omokBoard, BlackStoneState).validateBlackWin(point)).isFalse
     }
 
     @Test
@@ -53,7 +53,7 @@ class OmokRuleWinTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint('G', 6)
-        assertThat(OmokRule(omokBoard, WhiteStoneState).validateWin(point)).isTrue
+        assertThat(OmokRule(omokBoard, WhiteStoneState).validateWhiteWin(point)).isTrue
     }
 
     @Test
@@ -65,6 +65,6 @@ class OmokRuleWinTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint('F', 6)
-        assertThat(OmokRule(omokBoard, WhiteStoneState).validateWin(point)).isFalse
+        assertThat(OmokRule(omokBoard, WhiteStoneState).validateWhiteWin(point)).isFalse
     }
 }
