@@ -1,6 +1,6 @@
 package omok.domain
 
-enum class HorizontalAxis(val value: Int) {
+enum class HorizontalAxis(val axis: Int) {
     A(1),
     B(2),
     C(3),
@@ -18,10 +18,12 @@ enum class HorizontalAxis(val value: Int) {
     O(15);
 
     companion object {
+        private const val HORIZONTAL_AXIS_ERROR_MSG = "일치하는 값이 없습니다."
+
         fun getHorizontalAxis(other: Int): HorizontalAxis {
             return HorizontalAxis.values().find { horizontalAxis ->
-                horizontalAxis.value == other
-            } ?: throw IllegalStateException("일치하는 값이 없습니다.")
+                horizontalAxis.axis == other
+            } ?: throw IllegalStateException(HORIZONTAL_AXIS_ERROR_MSG)
         }
     }
 }

@@ -23,7 +23,7 @@ class GameView {
     }
 
     fun printBoard(state: Turn, position: Position) {
-        val index = ((position.horizontalAxis.value) * CALCULATE_THREE) + ((CALCULATE_FIFTEEN - position.verticalAxis) * CALCULATE_FORTY_SEVEN)
+        val index = ((position.horizontalAxis.axis) * CALCULATE_THREE) + ((CALCULATE_FIFTEEN - position.verticalAxis) * CALCULATE_FORTY_SEVEN)
         when (state) {
             Turn.Black -> omokBoard.setCharAt(index, BLACK_STONE)
             Turn.White -> omokBoard.setCharAt(index, WHITE_STONE)

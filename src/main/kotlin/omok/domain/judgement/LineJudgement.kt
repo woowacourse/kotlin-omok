@@ -38,11 +38,11 @@ class LineJudgement(val player: Player, val position: Position) {
     }
 
     private fun checkVertical(): Boolean {
-        return checkOmok(List(15) { position.horizontalAxis.value }, (1..15).toList())
+        return checkOmok(List(15) { position.horizontalAxis.axis }, (1..15).toList())
     }
 
     private fun checkMajorDiagonal(): Boolean {
-        val horizontal = position.horizontalAxis.value
+        val horizontal = position.horizontalAxis.axis
         val vertical = position.verticalAxis
         if (horizontal <= vertical) {
             return checkOmok((1..15 + horizontal - vertical).toList(), (vertical - horizontal + 1..15).toList())
@@ -51,7 +51,7 @@ class LineJudgement(val player: Player, val position: Position) {
     }
 
     private fun checkSubDiagonal(): Boolean {
-        val horizontal = position.horizontalAxis.value
+        val horizontal = position.horizontalAxis.axis
         val vertical = position.verticalAxis
         if (horizontal + vertical > 15) {
             return checkOmok((horizontal + vertical - 15..15).toList().reversed(), (horizontal + vertical - 15..15).toList())

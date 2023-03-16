@@ -8,14 +8,14 @@ import omok.domain.Stone
 class FourJudgement(private val player: Player, private val otherPlayer: Player, private val position: Position) {
     fun check(): Boolean {
         var cnt = 0
-        if (checkHorizontal(position.horizontalAxis.value - 4, position.horizontalAxis.value - 3)) cnt++
-        if (checkHorizontal(position.horizontalAxis.value - 1, position.horizontalAxis.value)) cnt++
+        if (checkHorizontal(position.horizontalAxis.axis - 4, position.horizontalAxis.axis - 3)) cnt++
+        if (checkHorizontal(position.horizontalAxis.axis - 1, position.horizontalAxis.axis)) cnt++
         if (checkVertical(position.verticalAxis - 4, position.verticalAxis - 3)) cnt++
         if (checkVertical(position.verticalAxis - 1, position.verticalAxis)) cnt++
-        if (checkMajorDiagonal(position.verticalAxis - 4, position.verticalAxis - 3, position.horizontalAxis.value - 4, position.horizontalAxis.value - 3)) cnt++
-        if (checkMajorDiagonal(position.verticalAxis - 1, position.verticalAxis, position.horizontalAxis.value - 1, position.horizontalAxis.value)) cnt++
-        if (checkSubDiagonal(position.verticalAxis - 4, position.verticalAxis - 3, position.horizontalAxis.value - 4, position.horizontalAxis.value - 3)) cnt++
-        if (checkSubDiagonal(position.verticalAxis - 1, position.verticalAxis, position.horizontalAxis.value - 1, position.horizontalAxis.value)) cnt++
+        if (checkMajorDiagonal(position.verticalAxis - 4, position.verticalAxis - 3, position.horizontalAxis.axis - 4, position.horizontalAxis.axis - 3)) cnt++
+        if (checkMajorDiagonal(position.verticalAxis - 1, position.verticalAxis, position.horizontalAxis.axis - 1, position.horizontalAxis.axis)) cnt++
+        if (checkSubDiagonal(position.verticalAxis - 4, position.verticalAxis - 3, position.horizontalAxis.axis - 4, position.horizontalAxis.axis - 3)) cnt++
+        if (checkSubDiagonal(position.verticalAxis - 1, position.verticalAxis, position.horizontalAxis.axis - 1, position.horizontalAxis.axis)) cnt++
         println(cnt)
         return cnt >= 2
     }
@@ -55,7 +55,7 @@ class FourJudgement(private val player: Player, private val otherPlayer: Player,
 
         (verticalLower..verticalUpper).forEach { vertical ->
             if (vertical >= 1 && vertical + 4 <= 15)
-                flag = checkFour(List(5) { position.horizontalAxis.value }, (vertical..vertical + 4).toList())
+                flag = checkFour(List(5) { position.horizontalAxis.axis }, (vertical..vertical + 4).toList())
             if (flag)
                 return true
         }

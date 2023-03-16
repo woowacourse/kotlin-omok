@@ -53,7 +53,7 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
 
         (verticalLower..verticalUpper).forEach { vertical ->
             if (vertical >= 1 && vertical + 3 <= 15)
-                flag = checkThree(List(4) { position.horizontalAxis.value }, (vertical..vertical + 3).toList())
+                flag = checkThree(List(4) { position.horizontalAxis.axis }, (vertical..vertical + 3).toList())
             if (flag)
                 return true
         }
@@ -61,8 +61,8 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
     }
 
     private fun checkHorizontal(): Boolean {
-        val horizontalLower = position.horizontalAxis.value - 3
-        val horizontalUpper = position.horizontalAxis.value + 3
+        val horizontalLower = position.horizontalAxis.axis - 3
+        val horizontalUpper = position.horizontalAxis.axis + 3
         var flag = false
 
         (horizontalLower..horizontalUpper).forEach { horizontal ->
@@ -76,7 +76,7 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
 
     private fun checkMajorDiagonal(): Boolean {
         val verticalAxis = (position.verticalAxis - 3..position.verticalAxis + 3).toList()
-        val horizontalAxis = (position.horizontalAxis.value - 3..position.horizontalAxis.value + 3).toList()
+        val horizontalAxis = (position.horizontalAxis.axis - 3..position.horizontalAxis.axis + 3).toList()
         var flag = false
 
         horizontalAxis.zip(verticalAxis).forEach { axis ->
@@ -91,7 +91,7 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
 
     private fun checkSubDiagonal(): Boolean {
         val verticalAxis = (position.verticalAxis - 3..position.verticalAxis + 3).toList().reversed()
-        val horizontalAxis = (position.horizontalAxis.value - 3..position.horizontalAxis.value + 3).toList()
+        val horizontalAxis = (position.horizontalAxis.axis - 3..position.horizontalAxis.axis + 3).toList()
         var flag = false
 
         horizontalAxis.zip(verticalAxis).forEach { axis ->
