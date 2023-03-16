@@ -19,4 +19,23 @@ class BoardTest {
         // then
         assertThat(board.isBlackPlaceable(position)).isFalse
     }
+
+    @Test
+    fun `장목이면 돌을 놓을 수 있다`() {
+        // given
+        val blackPlayer = Player()
+        val whitePlayer = Player()
+        val position = Position(HorizontalAxis.C, 13)
+        val board = Board(blackPlayer, whitePlayer)
+
+        // when
+        blackPlayer.put(BlackStone(Position(HorizontalAxis.C, 15)))
+        blackPlayer.put(BlackStone(Position(HorizontalAxis.C, 14)))
+        blackPlayer.put(BlackStone(Position(HorizontalAxis.C, 12)))
+        blackPlayer.put(BlackStone(Position(HorizontalAxis.C, 11)))
+        blackPlayer.put(BlackStone(Position(HorizontalAxis.C, 10)))
+
+        // then
+        assertThat(board.isBlackPlaceable(position)).isTrue
+    }
 }
