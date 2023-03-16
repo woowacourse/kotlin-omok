@@ -226,4 +226,25 @@ class RefereeTest {
         // then
         assertThat(actual).isFalse
     }
+
+    @Test
+    fun `jangmok test`() {
+        val referee = Referee()
+        val myBoard = OmokBoard()
+
+        myBoard.move(Stone.create('C', 15), State.BLACK)
+        myBoard.move(Stone.create('C', 14), State.BLACK)
+        myBoard.move(Stone.create('C', 12), State.BLACK)
+        myBoard.move(Stone.create('C', 11), State.BLACK)
+        myBoard.move(Stone.create('C', 10), State.BLACK)
+
+        // when
+        val stone = Stone.create('C', 13)
+        val actual = referee.checkForbidden(myBoard, stone)
+
+        OutputView.printOmokState(myBoard.board, State.BLACK, stone)
+
+        // then
+        assertThat(actual).isFalse
+    }
 }
