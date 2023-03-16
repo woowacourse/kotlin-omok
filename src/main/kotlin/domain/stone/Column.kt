@@ -21,6 +21,7 @@ enum class Column(val x: Int) {
     fun left(): Column? = values().find { it.x == x - 1 }
 
     companion object {
-        fun valueOf(x: Int): Column = values().find { it.x == x } ?: throw IllegalArgumentException("")
+        private const val ERROR_COLUMN_RANGE = "[ERROR] COLUMN의 범위는 1에서 15사이입니다."
+        fun valueOf(x: Int): Column = values().find { it.x == x } ?: throw IllegalArgumentException(ERROR_COLUMN_RANGE)
     }
 }
