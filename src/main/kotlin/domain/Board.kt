@@ -1,18 +1,33 @@
 package domain
 
-import domain.Color.BLACK
-import domain.Color.WHITE
+import domain.CoordinateState.EMPTY
+import domain.rule.ExactlyFive
+import domain.rule.ExceedFive
+import domain.rule.ForbiddenFour
+import domain.rule.ForbiddenThree
 
-class Board {
-    private val _blackStones: MutableList<BlackStone> = mutableListOf()
-    val blackStones: List<BlackStone> get() = _blackStones.toList()
+class Board(
+    private val _board: List<MutableList<CoordinateState>> =
+        List(15) { MutableList(15) { EMPTY } },
+) {
+    val board: List<List<CoordinateState>> get() = _board
+    var lastPosition: Position? = null
+        private set
 
-    private val _whiteStones: MutableList<WhiteStone> = mutableListOf()
-    val whiteStones: List<WhiteStone> get() = _whiteStones.toList()
+    fun addStone(coordinateState: CoordinateState, position: Position) {
+        _board[position.getY()][position.getX()] = coordinateState
+        lastPosition = position
+    }
 
-    val turn: Color
-        get() {
-            if (blackStones.size == whiteStones.size) return BLACK
-            return WHITE
-        }
+    fun isEmpty(position: Position): Boolean {
+        return board[position.getY()][position.getX()] == EMPTY
+    }
+
+    fun isForbiddenThree(position: Position): Boolean = ForbiddenThree.isForbiddenThree(board, position)
+    fun isForbiddenFour(position: Position): Boolean = ForbiddenFour.isForbiddenFour(board, position)
+    fun isExceedFive(position: Position, coordinateState: CoordinateState): Boolean =
+        ExceedFive.isExceedFive(board, position, coordinateState)
+
+    fun isExactlyFive(position: Position, coordinateState: CoordinateState): Boolean =
+        ExactlyFive.isExactlyFive(board, position, coordinateState)
 }
