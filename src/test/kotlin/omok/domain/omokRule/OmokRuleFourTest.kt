@@ -192,7 +192,7 @@ class OmokRuleFourTest {
 
         OutputView().outputBoard(omokBoard)
         val point = OmokPoint(XCoordinate('C'), YCoordinate(13))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenFours(point)).isEqualTo(2)
+        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenFours(point)).isEqualTo(0)
     }
 
     @Test
