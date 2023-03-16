@@ -1,6 +1,8 @@
 package omok.domain.board
 
-enum class Row(private val axis: Int) {
+fun String?.toRow(): Row? = Row.values().find { this?.toIntOrNull() == it.axis + 1 }
+
+enum class Row(val axis: Int) {
     ONE(0),
     TWO(1),
     THREE(2),
@@ -19,8 +21,4 @@ enum class Row(private val axis: Int) {
 
     fun up(): Row? = values().find { it.axis == axis + 1 }
     fun down(): Row? = values().find { it.axis == axis - 1 }
-
-    companion object {
-        fun String?.toRow(): Row? = Row.values().find { this?.toIntOrNull() == it.axis + 1 }
-    }
 }

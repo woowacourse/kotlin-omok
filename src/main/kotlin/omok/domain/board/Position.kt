@@ -1,7 +1,5 @@
 package omok.domain.board
 
-import omok.domain.board.Row.Companion.toRow
-
 fun String?.toPosition(): Position {
     val columnText = this?.substring(0, 1)
     val rowText = this?.substring(1)
