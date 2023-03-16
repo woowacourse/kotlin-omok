@@ -1,5 +1,7 @@
 package omok.model
 
+import omok.model.stone.Coordinate
+
 class OmokGame(val board: Board) {
     fun start(coordinate: () -> Coordinate, showBoard: (Board) -> Unit) {
         while (true) {

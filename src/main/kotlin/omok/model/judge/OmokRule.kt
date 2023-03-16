@@ -1,11 +1,11 @@
 package omok.model.judge
 
 import omok.model.Board
-import omok.model.Coordinate
-import omok.model.GoStone
 import omok.model.state.State
 import omok.model.state.Stay
 import omok.model.state.Win
+import omok.model.stone.Coordinate
+import omok.model.stone.GoStone
 
 class OmokRule(private val board: Board, private val goStone: GoStone) {
     fun checkWin(): State {

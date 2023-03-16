@@ -1,8 +1,7 @@
 package omok.view
 
 import omok.model.Board
-import omok.model.GoStone
-import omok.model.GoStoneColor
+import omok.model.stone.GoStone
 
 object OutputView {
     private const val LEFT_PADDING: Int = 4
@@ -45,7 +44,7 @@ object OutputView {
     }
 
     private fun GoStone.toMark() = when (this.color) {
-        GoStoneColor.BLACK -> '●'
-        GoStoneColor.WHITE -> '○'
+        omok.model.stone.GoStoneColor.BLACK -> '●'
+        omok.model.stone.GoStoneColor.WHITE -> '○'
     }
 }

@@ -1,6 +1,6 @@
 package omok.view
 
-import omok.model.Coordinate
+import omok.model.stone.Coordinate
 
 object InputView {
     fun getCoordinate(): Coordinate {

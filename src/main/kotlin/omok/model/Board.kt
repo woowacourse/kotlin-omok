@@ -1,5 +1,9 @@
 package omok.model
 
+import omok.model.stone.Coordinate
+import omok.model.stone.GoStone
+import omok.model.stone.GoStoneColor
+
 class Board {
     private val _board: List<MutableList<GoStone?>> =
         List(15) { MutableList(15) { null } }

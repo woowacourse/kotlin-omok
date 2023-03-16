@@ -1,5 +1,8 @@
 package omok.model
 
+import omok.model.stone.Coordinate
+import omok.model.stone.GoStone
+import omok.model.stone.GoStoneColor
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.jupiter.api.Test

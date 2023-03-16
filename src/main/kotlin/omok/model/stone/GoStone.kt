@@ -1,4 +1,4 @@
-package omok.model
+package omok.model.stone
 
 data class GoStone(
     val color: GoStoneColor,
