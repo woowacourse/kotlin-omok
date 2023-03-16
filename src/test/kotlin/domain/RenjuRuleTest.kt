@@ -96,6 +96,117 @@ class RenjuRuleTest {
         assertThat(actual).isFalse
     }
 
+    @Test
+    fun `흑색돌이 6개 연속 있을 때 육목이다`() {
+        val placedStones = listOf<Stone>(
+            BlackStone(2, 14),
+            BlackStone(2, 13),
+            BlackStone(2, 11),
+            BlackStone(2, 10),
+            BlackStone(2, 9),
+        )
+        val stones = Stones(placedStones)
+
+        // when
+        val actual = stones.findScore(BlackStone(2, 12))
+
+        // then
+        assertThat(actual).isGreaterThanOrEqualTo(5)
+    }
+
+    @Test
+    fun `흑색 돌이 4 4일 떄 돌을 놓을 수 없다`() {
+        val placedStones = listOf<Stone>(
+            BlackStone(4, 5),
+            BlackStone(5, 4),
+            BlackStone(6, 3),
+            BlackStone(2, 11),
+            BlackStone(2, 10),
+            BlackStone(2, 9),
+        )
+        val stones = Stones(placedStones)
+
+        // when
+        val actual = stones.renjuRule.fourToFour(BlackStone(2, 7))
+
+        assertThat(actual).isTrue
+    }
+
+    @Test
+    fun `흑색 돌이 4 4일 떄 돌을 놓을 수 없다2`() {
+        val placedStones = listOf<Stone>(
+            BlackStone(2, 12),
+            BlackStone(3, 12),
+            BlackStone(6, 12),
+            BlackStone(8, 12),
+            BlackStone(9, 12),
+        )
+        val stones = Stones(placedStones)
+
+        // when
+        val actual = stones.renjuRule.fourToFour(BlackStone(5, 12))
+
+        assertThat(actual).isTrue
+    }
+
+    @Test
+    fun `흑색 돌이 4 4일 떄 돌을 놓을 수 없다3`() {
+        val placedStones = listOf<Stone>(
+            BlackStone(9, 11),
+            BlackStone(9, 12),
+            BlackStone(9, 8),
+            BlackStone(9, 7),
+            BlackStone(9, 5),
+        )
+        val stones = Stones(placedStones)
+
+        // when
+        val actual = stones.renjuRule.fourToFour(BlackStone(9, 9))
+
+        assertThat(actual).isTrue
+    }
+
+    @Test
+    fun `흑색 돌이 4 4일 떄 돌을 놓을 수 없다4`() {
+        val placedStones = listOf<Stone>(
+            BlackStone(9, 7),
+            BlackStone(10, 7),
+            BlackStone(7, 7),
+            BlackStone(9, 7),
+            BlackStone(9, 8),
+            BlackStone(7, 6),
+            BlackStone(5, 4),
+
+        )
+        val stones = Stones(placedStones)
+
+        // when
+        val actual = stones.renjuRule.fourToFour(BlackStone(8, 7))
+
+        assertThat(actual).isTrue
+    }
+
+    @Test
+    fun `흑색 돌이 4 4일 떄 돌을 놓을 수 없다5`() {
+        val placedStones = listOf<Stone>(
+            WhiteStone(3, 4),
+            BlackStone(4, 4),
+            BlackStone(5, 4),
+            BlackStone(6, 4),
+            WhiteStone(7, 8),
+            BlackStone(7, 7),
+            BlackStone(7, 6),
+            BlackStone(7, 5),
+
+        )
+        val stones = Stones(placedStones)
+
+        // when
+        val actual = stones.renjuRule.fourToFour(BlackStone(8, 7))
+
+        assertThat(actual).isTrue
+    }
+
     fun BlackStone(x: Int, y: Int): Stone {
         return Stone(Color.BLACK, Coordinate.from(x, y)!!)
     }
