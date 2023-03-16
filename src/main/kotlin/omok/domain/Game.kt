@@ -30,8 +30,7 @@ class Game(private val board: Board, private var turn: Turn, private val winning
         onTurn: (board: Board) -> Unit,
         onFinish: (turn: Turn) -> Unit
     ) {
-        val selectedPosition = wantPosition(position, turn).toPosition()
-        board.place(selectedPosition, turn.now)
+        val selectedPosition = place(position, wantPosition)
         onTurn(board)
 
         if (winningReferee.hasFiveOrMoreStoneInRow(board.positions, selectedPosition)) return finish(onFinish)
@@ -41,5 +40,19 @@ class Game(private val board: Board, private var turn: Turn, private val winning
 
     private fun finish(onFinish: (turn: Turn) -> Unit) {
         onFinish(turn)
+    }
+
+    private fun place(
+        position: Position?,
+        wantPosition: (position: Position?, turn: Turn) -> String
+    ): Position {
+        return runCatching {
+            val selectedPosition = wantPosition(position, turn).toPosition()
+            board.place(selectedPosition, turn.now)
+            selectedPosition
+        }.getOrElse {
+            println(it.message)
+            place(position, wantPosition)
+        }
     }
 }
