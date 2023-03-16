@@ -1,5 +1,8 @@
-package omok.model
+package omok.model.judge
 
+import omok.model.Board
+import omok.model.Coordinate
+import omok.model.GoStone
 import omok.model.state.State
 import omok.model.state.Stay
 import omok.model.state.Win

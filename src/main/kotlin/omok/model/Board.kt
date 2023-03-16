@@ -6,24 +6,18 @@ class Board {
     val board: List<List<GoStone?>>
         get() = _board.map { it.toList() }
 
-    var lastPutCoordinate: Coordinate? = null
+    var lastPlacedStone: GoStone? = null
         private set
 
-    fun addStone(color: GoStoneColor, getCoordinate: () -> Coordinate) {
-        val coordinate = getCoordinate()
-        runCatching {
-            require(canAdd(coordinate)) { "해당 위치에 이미 바둑돌이 있습니다." }
-        }.onSuccess {
-            _board[coordinate.x - 1][coordinate.y - 1] = GoStone(color, coordinate)
-            lastPutCoordinate = coordinate
-        }.onFailure {
-            println(it.message)
-            addStone(color, getCoordinate)
-        }
+    fun addStone(color: GoStoneColor, coordinate: Coordinate) {
+        lastPlacedStone = GoStone(color, coordinate)
+        println("add! : (x,y): (${coordinate.x - 1},${coordinate.y - 1})")
+        _board[coordinate.x - 1][coordinate.y - 1] = lastPlacedStone
     }
 
-    private fun canAdd(coordinate: Coordinate): Boolean {
-        return _board[coordinate.x - 1][coordinate.y - 1] == null
+    fun canAdd(coordinate: Coordinate): Boolean {
+        if (_board[coordinate.x - 1][coordinate.y - 1] == null) return true
+        else throw IllegalArgumentException("해당 위치에 이미 바둑돌이 있습니다.")
     }
 
     companion object {
