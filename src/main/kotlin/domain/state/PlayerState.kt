@@ -12,4 +12,6 @@ abstract class PlayerState(protected val stones: Stones = Stones()) {
     fun getPlaced(): List<Position> = stones.getPositions()
 
     fun getLastStone(): Stone = stones.lastStone
+
+    fun getAllStones(): Stones = stones.copy()
 }

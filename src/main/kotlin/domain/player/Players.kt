@@ -11,9 +11,9 @@ data class Players private constructor(private val players: List<Player>) {
 
     fun putStone(stoneColor: StoneColor, stone: Stone): Players {
         if (stoneColor == StoneColor.BLACK) {
-            return Players(blackPlayer = getBlackPlayer().putStone(stone), whitePlayer = getWhitePlayer())
+            return Players(blackPlayer = getBlackPlayer().putStone(stone, getWhitePlayer().getAllStones()), whitePlayer = getWhitePlayer())
         }
-        return Players(blackPlayer = getBlackPlayer(), whitePlayer = getWhitePlayer().putStone(stone))
+        return Players(blackPlayer = getBlackPlayer(), whitePlayer = getWhitePlayer().putStone(stone, getBlackPlayer().getAllStones()))
     }
 
     fun getBlackPlayer(): Player = players.first { it is BlackPlayer }
