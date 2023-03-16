@@ -8,10 +8,9 @@ class OmokCoditionTest {
             Stone(1, 1, Color.WHITE),
             Stone(1, 2, Color.WHITE),
             Stone(1, 3, Color.WHITE),
-            Stone(1, 4, Color.WHITE),
-            Stone(1, 5, Color.WHITE)
+            Stone(1, 4, Color.WHITE)
         )
-        val actual = OmokResult.valueOf(stones, Color.WHITE)
+        val actual = OmokResult.valueOf(stones, Stone(1, 5, Color.WHITE))
         assertThat(actual).isEqualTo(OmokResult.FIVE_STONE_WINNING)
     }
 
@@ -21,10 +20,9 @@ class OmokCoditionTest {
             Stone(1, 1, Color.WHITE),
             Stone(1, 2, Color.WHITE),
             Stone(1, 3, Color.WHITE),
-            Stone(1, 4, Color.WHITE),
-            Stone(1, 6, Color.WHITE)
+            Stone(1, 4, Color.WHITE)
         )
-        val actual = OmokResult.valueOf(stones, Color.WHITE)
+        val actual = OmokResult.valueOf(stones, Stone(1, 6, Color.WHITE))
         assertThat(actual).isEqualTo(OmokResult.RUNNING)
     }
 }

@@ -1,18 +1,31 @@
+import judgment.BlackReferee
+
 enum class OmokResult {
     RUNNING,
-    FIVE_STONE_WINNING;
-
+    FIVE_STONE_WINNING,
+    FORBIDDEN;
     // THREE_TO_THREE,
     // FOUR_TO_FOUR,
     // LONG_STONES;
 
     companion object {
         private const val N = 15
-        fun valueOf(stones: List<Stone>, color: Color): OmokResult {
-            return when (checkWin(stones, color)) {
+        private val blackReferee = BlackReferee()
+        fun valueOf(stones: List<Stone>, newStone: Stone): OmokResult {
+            val positions = convertStonesToPositionsMap(stones)
+            if (blackReferee.isForbiddenPlacement(positions, newStone.position)) return FORBIDDEN
+            return when (checkWin(stones + newStone, newStone.color)) {
                 true -> FIVE_STONE_WINNING
                 false -> RUNNING
             }
+        }
+
+        private fun convertStonesToPositionsMap(stones: List<Stone>): Map<Position, Color?> {
+            val positions: MutableMap<Position, Color?> = POSITIONS.associateWith { null }.toMutableMap()
+            stones.forEach { stone ->
+                positions[stone.position] = stone.color
+            }
+            return positions.toMap()
         }
 
         private fun checkWin(placedStones: List<Stone>, color: Color): Boolean {
@@ -28,7 +41,13 @@ enum class OmokResult {
                         var nx = i + dx[k]
                         var ny = j + dy[k]
 
-                        while (nx in 0 until N && ny in 0 until N && placedStones.contains(Stone(Position(nx, ny), color))) {
+                        while (nx in 0 until N && ny in 0 until N && placedStones.contains(
+                                Stone(
+                                        Position(nx, ny),
+                                        color
+                                    )
+                            )
+                        ) {
                             cnt++
                             nx += dx[k]
                             ny += dy[k]
@@ -39,6 +58,12 @@ enum class OmokResult {
                 }
             }
             return false
+        }
+
+        private val POSITIONS: List<Position> = Column.values().flatMap { column ->
+            Row.values().map { row ->
+                Position(column, row)
+            }
         }
     }
 }

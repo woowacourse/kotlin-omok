@@ -15,9 +15,10 @@ class PlayingBoard(placedStones: List<Stone>) : BasedBoard(placedStones.toList()
         // TODO: 함수 분리
         if (isPossiblePut(stone.position).not()) throw IllegalArgumentException(PLACED_STONE_ERROR)
         val nextStones = getStones() + stone
-        val omokResult = OmokResult.valueOf(nextStones, stone.color)
+        val omokResult = OmokResult.valueOf(getStones(), stone)
         return when (omokResult) {
             OmokResult.FIVE_STONE_WINNING -> FinishedBoard(nextStones, stone.color)
+            OmokResult.FORBIDDEN -> FinishedBoard(nextStones, !stone.color)
             OmokResult.RUNNING -> PlayingBoard(nextStones)
         }
     }
