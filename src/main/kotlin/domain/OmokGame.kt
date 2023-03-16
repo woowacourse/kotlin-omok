@@ -11,7 +11,7 @@ class OmokGame(
     val checkBoardState: (Board) -> Unit,
 ) {
     fun runGame(): Color {
-        var board: Board = PlayingBoard(listOf())
+        var board: Board = PlayingBoard()
         var color = Color.BLACK
         while (board.isFinished.not()) {
             checkBoardState(board)

@@ -5,7 +5,7 @@ import domain.stone.Color
 import domain.stone.Position
 import domain.stone.Stone
 
-class PlayingBoard(placedStones: List<Stone>) : BasedBoard(placedStones.toList()) {
+class PlayingBoard(placedStones: List<Stone> = listOf()) : BasedBoard(placedStones.toList()) {
     constructor(vararg stone: Stone) : this(stone.toList())
 
     override val winningColor: Color
@@ -19,17 +19,19 @@ class PlayingBoard(placedStones: List<Stone>) : BasedBoard(placedStones.toList()
         !placedStones.any { stone -> stone.position == position }
 
     override fun putStone(stone: Stone): Board {
-        // TODO: 함수 분리
         if (isPossiblePut(stone.position).not()) throw IllegalArgumentException(PLACED_STONE_ERROR)
-        val nextStones = getStones() + stone
-        val omokResult = OmokResult.valueOf(getStones(), stone)
+        return nextBoard(stone)
+    }
+
+    private fun nextBoard(newStone: Stone): Board {
+        val omokResult = OmokResult.valueOf(getStones(), newStone)
+        val nextStones = getStones() + newStone
         return when (omokResult) {
-            OmokResult.FIVE_STONE_WINNING -> FinishedBoard(nextStones, stone.color)
-            OmokResult.FORBIDDEN -> FinishedBoard(nextStones, !stone.color)
+            OmokResult.FIVE_STONE_WINNING -> FinishedBoard(nextStones, newStone.color)
+            OmokResult.FORBIDDEN -> FinishedBoard(nextStones, !newStone.color)
             OmokResult.RUNNING -> PlayingBoard(nextStones)
         }
     }
-
     companion object {
         private const val PLAYING_GAME_ERROR = "[ERROR] 현재 게임이 진행중입니다."
         private const val PLACED_STONE_ERROR = "[ERROR] 이미 놓아진 돌이 있습니다."

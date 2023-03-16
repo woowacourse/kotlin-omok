@@ -1,5 +1,6 @@
 package controller
 
+import domain.OmokGame
 import view.InputView
 import view.OutputView
 

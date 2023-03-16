@@ -1,6 +1,7 @@
 package domain
 
 import domain.judgment.BlackReferee
+import domain.judgment.WinningReferee
 import domain.stone.Color
 import domain.stone.Column
 import domain.stone.Position
@@ -16,12 +17,13 @@ enum class OmokResult {
     // LONG_STONES;
 
     companion object {
-        private const val N = 15
+
         private val blackReferee = BlackReferee()
+        private val winningReferee = WinningReferee()
         fun valueOf(stones: List<Stone>, newStone: Stone): OmokResult {
             val positions = convertStonesToPositionsMap(stones)
             if (blackReferee.isForbiddenPlacement(positions, newStone.position)) return FORBIDDEN
-            return when (checkWin(stones + newStone, newStone.color)) {
+            return when (winningReferee.hasFiveOrMoreStoneInRow(stones + newStone, newStone.color)) {
                 true -> FIVE_STONE_WINNING
                 false -> RUNNING
             }
@@ -33,38 +35,6 @@ enum class OmokResult {
                 positions[stone.position] = stone.color
             }
             return positions.toMap()
-        }
-
-        private fun checkWin(placedStones: List<Stone>, color: Color): Boolean {
-            val dx = intArrayOf(1, 1, 0, -1)
-            val dy = intArrayOf(0, 1, 1, 1)
-
-            for (i in 0 until N) {
-                for (j in 0 until N) {
-                    if (placedStones.contains(Stone(Position(i, j), color)).not()) continue
-
-                    for (k in 0 until 4) {
-                        var cnt = 1
-                        var nx = i + dx[k]
-                        var ny = j + dy[k]
-
-                        while (nx in 0 until N && ny in 0 until N && placedStones.contains(
-                                Stone(
-                                        Position(nx, ny),
-                                        color
-                                    )
-                            )
-                        ) {
-                            cnt++
-                            nx += dx[k]
-                            ny += dy[k]
-
-                            if (cnt >= 5) return true
-                        }
-                    }
-                }
-            }
-            return false
         }
 
         private val POSITIONS: List<Position> = Column.values().flatMap { column ->
