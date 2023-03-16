@@ -140,10 +140,10 @@ class Rule(private val board: ArkBoard) {
         var blink = 0
         var blinkCount = 0
         while (true) {
-            if (dx > 0 && toRight.isRightMost) break // break when right end
-            if (dx < 0 && toRight.isLeftMost) break // break when left end
-            if (dy > 0 && toTop.isTopMost) break // break when top end
-            if (dy < 0 && toTop.isBottomMost) break // break when bottom end
+            if (dx > 0 && toRight.isRightMost) break
+            if (dx < 0 && toRight.isLeftMost) break
+            if (dy > 0 && toTop.isTopMost) break
+            if (dy < 0 && toTop.isBottomMost) break
             toRight += dx
             toTop += dy
             when (board[toTop][toRight]) {
