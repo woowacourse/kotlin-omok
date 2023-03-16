@@ -52,11 +52,4 @@ class StonesTest {
 
         assertThat(stones.values.size).isEqualTo(2)
     }
-
-    @Test
-    fun `스톤들위 위치를 board에 표시해 반환한다`() {
-        val stones: Stones = Stones()
-        stones.add(Stone(StonePosition.from(1, 1)!!, StoneType.BLACK))
-        val board: List<List<StoneType>> = stones.matrixBoard()
-    }
 }

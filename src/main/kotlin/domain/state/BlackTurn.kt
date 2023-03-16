@@ -10,7 +10,7 @@ class BlackTurn(board: Board) : Running(board) {
         if (!isValidPut(stone)) return BlackTurn(board)
         if (checkForbidden(board, stone)) return BlackTurn(board)
         board.putStone(stone)
-        if (isOmokCondition(stone)) return End(StoneType.BLACK)
+        if (OmokRule.isWinCondition(board.board, stone)) return End(StoneType.BLACK)
         return WhiteTurn(board)
     }
 

@@ -17,7 +17,7 @@ class OmokRuleTest {
 
         val stone: Stone = Stone(StonePosition.from(6, 1)!!, StoneType.BLACK)
 
-        assertThat(OmokRule.isOmokCondition(board.board, stone)).isTrue
+        assertThat(OmokRule.isWinCondition(board.board, stone)).isTrue
     }
 
     @Test
@@ -31,7 +31,7 @@ class OmokRuleTest {
 
         val stone: Stone = Stone(StonePosition.from(1, 5)!!, StoneType.BLACK)
 
-        assertThat(OmokRule.isOmokCondition(board.board, stone)).isTrue
+        assertThat(OmokRule.isWinCondition(board.board, stone)).isTrue
     }
 
     @Test
@@ -45,7 +45,7 @@ class OmokRuleTest {
 
         val stone: Stone = Stone(StonePosition.from(5, 5)!!, StoneType.BLACK)
 
-        assertThat(OmokRule.isOmokCondition(board.board, stone)).isTrue
+        assertThat(OmokRule.isWinCondition(board.board, stone)).isTrue
     }
 
     @Test
@@ -59,6 +59,6 @@ class OmokRuleTest {
 
         val stone: Stone = Stone(StonePosition.from(5, 1)!!, StoneType.BLACK)
 
-        assertThat(OmokRule.isOmokCondition(board.board, stone)).isTrue
+        assertThat(OmokRule.isWinCondition(board.board, stone)).isTrue
     }
 }

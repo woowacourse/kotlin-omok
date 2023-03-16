@@ -157,7 +157,7 @@ object OmokRule {
         return Pair(stoneCount, blink)
     }
 
-    fun isOmokCondition(board: List<List<StoneType>>, stone: Stone): Boolean {
+    fun isWinCondition(board: List<List<StoneType>>, stone: Stone): Boolean {
         if (checkHorizontal(board, stone)) return true
         if (checkVertical(board, stone)) return true
         if (checkDiagonal1(board, stone)) return true

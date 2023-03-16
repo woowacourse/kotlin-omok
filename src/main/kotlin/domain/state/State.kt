@@ -10,6 +10,4 @@ interface State {
     fun getWinner(): StoneType
 
     fun isValidPut(stone: Stone): Boolean
-
-    fun isOmokCondition(stone: Stone): Boolean
 }

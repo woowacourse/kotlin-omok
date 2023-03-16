@@ -7,10 +7,6 @@ class End(val stoneType: StoneType) : State {
 
     override fun getWinner(): StoneType = stoneType
 
-    override fun isOmokCondition(stone: Stone): Boolean {
-        TODO("Not yet implemented")
-    }
-
     override fun isValidPut(stone: Stone): Boolean {
         TODO("Not yet implemented")
     }
