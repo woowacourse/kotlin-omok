@@ -5,7 +5,11 @@ import omok.domain.board.Position
 import omok.domain.board.toPosition
 import omok.domain.judgment.WinningReferee
 
-class Game(private val board: Board, private var turn: Turn, private val winningReferee: WinningReferee) {
+class Game(
+    private val board: Board,
+    private var turn: Turn,
+    private val winningReferee: WinningReferee
+) {
     fun start(
         onStart: (board: Board) -> Unit,
         wantPosition: (position: Position?, turn: Turn) -> String?,
