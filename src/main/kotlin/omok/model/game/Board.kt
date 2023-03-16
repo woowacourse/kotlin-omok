@@ -17,7 +17,6 @@ class Board {
 
     fun addStone(color: GoStoneColor, coordinate: Coordinate) {
         lastPlacedStone = GoStone(color, coordinate)
-        println("add! : (x,y): (${coordinate.x - 1},${coordinate.y - 1})")
         _board[coordinate.x - 1][coordinate.y - 1] = lastPlacedStone
     }
 

@@ -2,6 +2,7 @@ package omok.view
 
 import omok.model.game.Board
 import omok.model.stone.GoStone
+import omok.model.stone.GoStoneColor
 
 object OutputView {
     private const val LEFT_PADDING: Int = 4
@@ -24,6 +25,11 @@ object OutputView {
         "  1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘",
         "    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O",
     )
+
+    fun printInitGame() {
+        println("오목 게임을 시작합니다.\n")
+        println(emptyBoard.joinToString("\n"))
+    }
 
     fun printBoard(board: Board) {
         board.board.forEachIndexed { index, line ->
