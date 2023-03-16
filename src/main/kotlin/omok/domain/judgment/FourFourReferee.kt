@@ -1,10 +1,9 @@
 package omok.domain.judgment
 
 import omok.domain.board.Position
-import omok.domain.player.Black
 import omok.domain.player.Stone
 
-class FourFourReferee : PlacementReferee() {
+class FourFourReferee(target: Stone) : PlacementReferee(target) {
     override fun isForbiddenPlacement(board: Map<Position, Stone?>, position: Position): Boolean {
         return countFour(board, position) >= 2
     }
@@ -30,7 +29,7 @@ class FourFourReferee : PlacementReferee() {
     }
 
     private fun hasFiveOrMoreStoneInVertical(board: MutableMap<Position, Stone?>, fillPosition: Position?, position: Position): Boolean {
-        if (fillPosition != null) board[fillPosition] = Black
+        if (fillPosition != null) board[fillPosition] = target
         if (countVerticalContinuity(board, position, 0) >= 5) return true
         return false
     }
@@ -47,7 +46,7 @@ class FourFourReferee : PlacementReferee() {
     }
 
     private fun hasFiveOrMoreStoneInUpwardDiagonal(board: MutableMap<Position, Stone?>, fillPosition: Position?, position: Position): Boolean {
-        if (fillPosition != null) board[fillPosition] = Black
+        if (fillPosition != null) board[fillPosition] = target
         if (countUpwardDiagonalContinuity(board, position, 0) >= 5) return true
         return false
     }
@@ -64,7 +63,7 @@ class FourFourReferee : PlacementReferee() {
     }
 
     private fun hasFiveOrMoreStoneInHorizontal(board: MutableMap<Position, Stone?>, fillPosition: Position?, position: Position): Boolean {
-        if (fillPosition != null) board[fillPosition] = Black
+        if (fillPosition != null) board[fillPosition] = target
         if (countHorizontalContinuity(board, position, 0) >= 5) return true
         return false
     }
@@ -81,7 +80,7 @@ class FourFourReferee : PlacementReferee() {
     }
 
     private fun hasFiveOrMoreStoneInDownwardDiagonal(board: MutableMap<Position, Stone?>, fillPosition: Position?, position: Position): Boolean {
-        if (fillPosition != null) board[fillPosition] = Black
+        if (fillPosition != null) board[fillPosition] = target
         if (countDownwardDiagonalContinuity(board, position, 0) >= 5) return true
         return false
     }
