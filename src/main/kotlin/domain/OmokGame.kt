@@ -44,7 +44,13 @@ class OmokGame(
             onMoveFail()
             return false
         }
+
         omokBoard.move(blackStone, State.BLACK)
+
+        if (!referee.checkForbidden(omokBoard, blackStone)) {
+            println("3*3 or 4*4")
+            return false
+        }
         onMove(omokBoard.board, State.WHITE, blackStone)
         return true
     }

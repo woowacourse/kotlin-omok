@@ -1,6 +1,7 @@
 package domain
 
 import domain.board.Board
+import domain.board.OmokBoard
 
 class Referee {
 
@@ -56,5 +57,9 @@ class Referee {
             }
         }
         return false
+    }
+
+    fun checkForbidden(myBoard: OmokBoard, stone: Stone): Boolean {
+        return OmokRuleAdapter().checkForbidden(myBoard, stone)
     }
 }
