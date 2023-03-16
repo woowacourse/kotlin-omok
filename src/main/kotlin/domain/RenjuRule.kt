@@ -2,14 +2,13 @@ package domain
 
 class RenjuRule(val stones: Stones) {
     fun isThreeToThree(stone: Stone): Boolean {
-        val v = directions.sumOf { direction ->
+        return directions.sumOf { direction ->
             checkOpenFourForLine((direction * -4) + stone.coordinate.point, direction)
-        }
-        return v >= RENJU_LINE_CONDITION
+        } >= RENJU_LINE_CONDITION
     }
 
     fun isFourToFour(stone: Stone): Boolean {
-        return directions.sumOf { direction ->
+        return directions.count { direction ->
             checkFourForLine((direction * -4) + stone.coordinate.point, direction)
         } >= RENJU_LINE_CONDITION
     }
@@ -20,8 +19,8 @@ class RenjuRule(val stones: Stones) {
         }
     }
 
-    private fun checkFourForLine(start: Point, direction: Point): Int {
-        return FOUR_BLOCK_RANGE.count {
+    private fun checkFourForLine(start: Point, direction: Point): Boolean {
+        return FOUR_BLOCK_RANGE.any {
             isFour(start + (direction * it), direction)
         }
     }
