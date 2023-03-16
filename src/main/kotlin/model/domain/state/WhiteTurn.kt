@@ -1,5 +1,6 @@
 package model.domain.state
 
+import model.domain.Board
 import model.domain.Stone
 
 class WhiteTurn : Turn() {
@@ -11,4 +12,6 @@ class WhiteTurn : Turn() {
         get() = WhiteOmok()
     override val turn: Turn
         get() = WhiteTurn()
+
+    override fun isForbidden(board: Board, x: Int, y: Int) = false
 }
