@@ -1,15 +1,14 @@
 package domain.state
 
-import domain.rule.OmokRule
+import domain.stone.Board
 import domain.stone.Stone
 import domain.stone.StoneType
-import domain.stone.Stones
 
-class BlackTurn(stones: Stones, omokRule: OmokRule) : Running(stones, omokRule) {
+class BlackTurn(board: Board) : Running(board) {
     override fun put(stone: Stone): State {
-        if (!isValidPut(stone)) return BlackTurn(stones, omokRule)
-        stones.add(stone)
+        if (!isValidPut(stone)) return BlackTurn(board)
+        board.putStone(stone)
         if (isOmokCondition(stone)) return End(StoneType.BLACK)
-        return WhiteTurn(stones, omokRule)
+        return WhiteTurn(board)
     }
 }

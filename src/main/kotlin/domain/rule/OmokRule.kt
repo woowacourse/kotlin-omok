@@ -4,7 +4,7 @@ import domain.stone.Board.Companion.BOARD_SIZE
 import domain.stone.Stone
 import domain.stone.StoneType
 
-class OmokRule {
+object OmokRule {
 
     fun isOmokCondition(board: List<List<StoneType>>, stone: Stone): Boolean {
         if (checkHorizontal(board, stone)) return true

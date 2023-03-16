@@ -1,11 +1,11 @@
 package domain.state
 
 import domain.rule.OmokRule
+import domain.stone.Board
 import domain.stone.Stone
 import domain.stone.StoneType
-import domain.stone.Stones
 
-abstract class Running(val stones: Stones, val omokRule: OmokRule) : State {
+abstract class Running(val board: Board) : State {
     abstract override fun put(stone: Stone): State
 
     override fun getWinner(): StoneType {
@@ -13,10 +13,10 @@ abstract class Running(val stones: Stones, val omokRule: OmokRule) : State {
     }
 
     override fun isValidPut(stone: Stone): Boolean {
-        return !stones.containsPosition(stone)
+        return !board.stones.containsPosition(stone)
     }
 
     override fun isOmokCondition(stone: Stone): Boolean {
-        return omokRule.isOmokCondition(stones.matrixBoard(), stone)
+        return OmokRule.isOmokCondition(board.board, stone)
     }
 }
