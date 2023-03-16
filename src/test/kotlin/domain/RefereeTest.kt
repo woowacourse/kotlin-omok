@@ -34,12 +34,25 @@ class RefereeTest {
     }
 
     @Test
-    fun `대각선으로 5개 놓여있으면 승리다`() {
+    fun `좌상단에서 우하단 대각선으로 5개 놓여있으면 승리다`() {
         // given
         val referee = Referee()
         val board = Board()
         (1..5).forEach { index ->
             board.move(Stone(index, index), State.BLACK)
+        }
+
+        // when, then
+        assertThat(referee.isWin(board, State.BLACK)).isTrue
+    }
+
+    @Test
+    fun `우상단에서 좌하단 대각선으로 5개 놓여있으면 승리다`() {
+        // given
+        val referee = Referee()
+        val board = Board()
+        (1..5).forEach { index ->
+            board.move(Stone(index, 15 - index), State.BLACK)
         }
 
         // when, then
