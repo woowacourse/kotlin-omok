@@ -1,10 +1,9 @@
 package omok.domain.judgement
 
-import omok.domain.BlackStone
 import omok.domain.HorizontalAxis
 import omok.domain.Player
 import omok.domain.Position
-import omok.domain.WhiteStone
+import omok.domain.Stone
 import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.Test
 
@@ -18,11 +17,11 @@ class ThreeJudgementTest {
         val threeJudgement = ThreeJudgement(blackPlayer, whitePlayer, position)
 
         // when
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.B, 6)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.C, 5)))
-        whitePlayer.put(WhiteStone(Position(HorizontalAxis.K, 3)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.D, 3)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.F, 3)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.B, 6)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.C, 5)))
+        whitePlayer.put(Stone(Position(HorizontalAxis.K, 3)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.D, 3)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.F, 3)))
 
         // then
         assertThat(threeJudgement.check()).isTrue
@@ -37,11 +36,11 @@ class ThreeJudgementTest {
         val threeJudgement = ThreeJudgement(blackPlayer, whitePlayer, position)
 
         // when
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.K, 6)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.K, 3)))
-        whitePlayer.put(WhiteStone(Position(HorizontalAxis.J, 4)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.L, 5)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.J, 3)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.K, 6)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.K, 3)))
+        whitePlayer.put(Stone(Position(HorizontalAxis.J, 4)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.L, 5)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.J, 3)))
 
         // then
         assertThat(threeJudgement.check()).isTrue
@@ -56,11 +55,11 @@ class ThreeJudgementTest {
         val threeJudgement = ThreeJudgement(blackPlayer, whitePlayer, position)
 
         // when
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.K, 6)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.K, 3)))
-        whitePlayer.put(WhiteStone(Position(HorizontalAxis.L, 4)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.M, 4)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.N, 4)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.K, 6)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.K, 3)))
+        whitePlayer.put(Stone(Position(HorizontalAxis.L, 4)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.M, 4)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.N, 4)))
 
         // then
         assertThat(threeJudgement.check()).isFalse

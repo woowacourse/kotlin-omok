@@ -29,11 +29,11 @@ class BoardTest {
         val board = Board(blackPlayer, whitePlayer)
 
         // when
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.C, 15)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.C, 14)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.C, 12)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.C, 11)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.C, 10)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.C, 15)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.C, 14)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.C, 12)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.C, 11)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.C, 10)))
 
         // then
         assertThat(board.isBlackPlaceable(position)).isTrue

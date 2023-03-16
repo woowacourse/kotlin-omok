@@ -1,11 +1,10 @@
 package omok.controller
 
-import omok.domain.BlackStone
 import omok.domain.Board
 import omok.domain.HorizontalAxis
 import omok.domain.Player
 import omok.domain.Position
-import omok.domain.WhiteStone
+import omok.domain.Stone
 import omok.domain.judgement.LineJudgement
 import omok.domain.state.State
 import omok.domain.state.Turn
@@ -40,7 +39,7 @@ class Controller(private val gameView: GameView) {
             blackTurn()
         }
         lastPosition = input
-        board.blackPlayer.put(BlackStone(position))
+        board.blackPlayer.put(Stone(position))
         board.putStone(position)
         gameView.printBoard(Turn.Black, position)
         return if (lineJudge(board.blackPlayer, position)) turn(Win.Black) else turn(Turn.White)
@@ -59,7 +58,7 @@ class Controller(private val gameView: GameView) {
             whiteTurn()
         }
         lastPosition = input
-        board.whitePlayer.put(WhiteStone(position))
+        board.whitePlayer.put(Stone(position))
         board.putStone(position)
         gameView.printBoard(Turn.White, position)
         return if (lineJudge(board.whitePlayer, position)) turn(Win.White) else turn(Turn.Black)

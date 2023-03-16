@@ -1,9 +1,9 @@
 package omok.domain.judgement
 
-import omok.domain.BlackStone
 import omok.domain.HorizontalAxis
 import omok.domain.Player
 import omok.domain.Position
+import omok.domain.Stone
 
 class LineJudgement(val player: Player, val position: Position) {
     fun check(): Boolean {
@@ -14,7 +14,7 @@ class LineJudgement(val player: Player, val position: Position) {
         var count = 0
         var prev = true
         var present: Boolean
-        val expect = player.stones + BlackStone(position)
+        val expect = player.stones + Stone(position)
         horizontal.zip(vertical).forEach { axis ->
             present = expect.any { stone ->
                 stone.findPosition(

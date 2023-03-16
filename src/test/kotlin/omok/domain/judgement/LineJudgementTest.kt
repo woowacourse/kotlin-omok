@@ -3,7 +3,7 @@ package omok.domain.judgement
 import omok.domain.HorizontalAxis
 import omok.domain.Player
 import omok.domain.Position
-import omok.domain.WhiteStone
+import omok.domain.Stone
 import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.Test
 
@@ -16,11 +16,11 @@ class LineJudgementTest {
         val lineJudgement = LineJudgement(player, position)
 
         // when
-        player.put(WhiteStone(Position(HorizontalAxis.B, 3)))
-        player.put(WhiteStone(Position(HorizontalAxis.C, 3)))
-        player.put(WhiteStone(Position(HorizontalAxis.D, 3)))
-        player.put(WhiteStone(Position(HorizontalAxis.E, 3)))
-        player.put(WhiteStone(Position(HorizontalAxis.F, 3)))
+        player.put(Stone(Position(HorizontalAxis.B, 3)))
+        player.put(Stone(Position(HorizontalAxis.C, 3)))
+        player.put(Stone(Position(HorizontalAxis.D, 3)))
+        player.put(Stone(Position(HorizontalAxis.E, 3)))
+        player.put(Stone(Position(HorizontalAxis.F, 3)))
 
         // then
         assertThat(lineJudgement.check()).isTrue
@@ -34,11 +34,11 @@ class LineJudgementTest {
         val lineJudgement = LineJudgement(player, position)
 
         // when
-        player.put(WhiteStone(Position(HorizontalAxis.A, 6)))
-        player.put(WhiteStone(Position(HorizontalAxis.B, 7)))
-        player.put(WhiteStone(Position(HorizontalAxis.C, 8)))
-        player.put(WhiteStone(Position(HorizontalAxis.D, 9)))
-        player.put(WhiteStone(Position(HorizontalAxis.E, 10)))
+        player.put(Stone(Position(HorizontalAxis.A, 6)))
+        player.put(Stone(Position(HorizontalAxis.B, 7)))
+        player.put(Stone(Position(HorizontalAxis.C, 8)))
+        player.put(Stone(Position(HorizontalAxis.D, 9)))
+        player.put(Stone(Position(HorizontalAxis.E, 10)))
 
         // then
         assertThat(lineJudgement.check()).isTrue
@@ -52,11 +52,11 @@ class LineJudgementTest {
         val lineJudgement = LineJudgement(player, position)
 
         // when
-        player.put(WhiteStone(Position(HorizontalAxis.I, 2)))
-        player.put(WhiteStone(Position(HorizontalAxis.J, 3)))
-        player.put(WhiteStone(Position(HorizontalAxis.K, 4)))
-        player.put(WhiteStone(Position(HorizontalAxis.L, 5)))
-        player.put(WhiteStone(Position(HorizontalAxis.M, 6)))
+        player.put(Stone(Position(HorizontalAxis.I, 2)))
+        player.put(Stone(Position(HorizontalAxis.J, 3)))
+        player.put(Stone(Position(HorizontalAxis.K, 4)))
+        player.put(Stone(Position(HorizontalAxis.L, 5)))
+        player.put(Stone(Position(HorizontalAxis.M, 6)))
 
         // then
         assertThat(lineJudgement.check()).isTrue
@@ -70,11 +70,11 @@ class LineJudgementTest {
         val lineJudgement = LineJudgement(player, position)
 
         // when
-        player.put(WhiteStone(Position(HorizontalAxis.M, 8)))
-        player.put(WhiteStone(Position(HorizontalAxis.L, 9)))
-        player.put(WhiteStone(Position(HorizontalAxis.K, 10)))
-        player.put(WhiteStone(Position(HorizontalAxis.J, 11)))
-        player.put(WhiteStone(Position(HorizontalAxis.I, 12)))
+        player.put(Stone(Position(HorizontalAxis.M, 8)))
+        player.put(Stone(Position(HorizontalAxis.L, 9)))
+        player.put(Stone(Position(HorizontalAxis.K, 10)))
+        player.put(Stone(Position(HorizontalAxis.J, 11)))
+        player.put(Stone(Position(HorizontalAxis.I, 12)))
 
         // then
         assertThat(lineJudgement.check()).isTrue
@@ -88,11 +88,11 @@ class LineJudgementTest {
         val lineJudgement = LineJudgement(player, position)
 
         // when
-        player.put(WhiteStone(Position(HorizontalAxis.H, 3)))
-        player.put(WhiteStone(Position(HorizontalAxis.G, 4)))
-        player.put(WhiteStone(Position(HorizontalAxis.F, 5)))
-        player.put(WhiteStone(Position(HorizontalAxis.E, 6)))
-        player.put(WhiteStone(Position(HorizontalAxis.D, 7)))
+        player.put(Stone(Position(HorizontalAxis.H, 3)))
+        player.put(Stone(Position(HorizontalAxis.G, 4)))
+        player.put(Stone(Position(HorizontalAxis.F, 5)))
+        player.put(Stone(Position(HorizontalAxis.E, 6)))
+        player.put(Stone(Position(HorizontalAxis.D, 7)))
 
         // then
         assertThat(lineJudgement.check()).isTrue

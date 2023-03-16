@@ -1,9 +1,9 @@
 package omok.domain.judgement
 
-import omok.domain.BlackStone
 import omok.domain.HorizontalAxis
 import omok.domain.Player
 import omok.domain.Position
+import omok.domain.Stone
 import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.Test
 
@@ -18,11 +18,11 @@ class FourJudgementTest {
         val fourJudgement = FourJudgement(blackPlayer, whitePlayer, position)
 
         // when
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.C, 12)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.D, 12)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.G, 12)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.I, 12)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.J, 12)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.C, 12)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.D, 12)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.G, 12)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.I, 12)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.J, 12)))
 
         // then
         assertThat(fourJudgement.check()).isTrue
@@ -37,12 +37,12 @@ class FourJudgementTest {
         val fourJudgement = FourJudgement(blackPlayer, whitePlayer, position)
 
         // when
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.H, 8)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.J, 8)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.K, 8)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.J, 9)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.H, 7)))
-        blackPlayer.put(BlackStone(Position(HorizontalAxis.F, 5)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.H, 8)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.J, 8)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.K, 8)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.J, 9)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.H, 7)))
+        blackPlayer.put(Stone(Position(HorizontalAxis.F, 5)))
 
         // then
         assertThat(fourJudgement.check()).isTrue
