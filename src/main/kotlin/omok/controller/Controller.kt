@@ -20,6 +20,8 @@ class Controller(private val gameView: GameView) {
         turn(Turn.Black)
     }
 
+    private fun printStart() = gameView.printStartMessage()
+
     private fun turn(state: State) {
         return when (state) {
             Turn.Black -> blackTurn()
@@ -29,38 +31,35 @@ class Controller(private val gameView: GameView) {
         }
     }
 
-    private fun printStart() = gameView.printStartMessage()
-
     private fun blackTurn() {
-        val input = gameView.readPosition(Turn.Black, lastPosition)
-        val position = Position(HorizontalAxis.valueOf(input[0].toString()), input.slice(1 until input.length).toInt())
-        if (!board.isBlackPlaceable(position)) {
-            gameView.printRetry()
-            blackTurn()
-        }
-        lastPosition = input
+        val position = readPosition(Turn.Black)
         board.blackPlayer.put(Stone(position))
         board.putStone(position)
         gameView.printBoard(Turn.Black, position)
         return if (lineJudge(board.blackPlayer, position)) turn(Win.Black) else turn(Turn.White)
     }
 
-    private fun lineJudge(player: Player, position: Position): Boolean {
-        val lineJudgement = LineJudgement(player, position)
-        return lineJudgement.check()
-    }
-
     private fun whiteTurn() {
-        val input = gameView.readPosition(Turn.White, lastPosition)
-        val position = Position(HorizontalAxis.valueOf(input[0].toString()), input.slice(1 until input.length).toInt())
-        if (!board.isWhitePlaceable(position)) {
-            gameView.printRetry()
-            whiteTurn()
-        }
-        lastPosition = input
+        val position = readPosition(Turn.White)
         board.whitePlayer.put(Stone(position))
         board.putStone(position)
         gameView.printBoard(Turn.White, position)
         return if (lineJudge(board.whitePlayer, position)) turn(Win.White) else turn(Turn.Black)
+    }
+
+    private fun readPosition(turn: Turn): Position {
+        val input = gameView.readPosition(turn, lastPosition)
+        val position = Position(HorizontalAxis.valueOf(input.first().toString()), input.slice(1 until input.length).toInt())
+        if (!board.isPlaceable(turn, position)) {
+            gameView.printRetry()
+            readPosition(turn)
+        }
+        lastPosition = input
+        return position
+    }
+
+    private fun lineJudge(player: Player, position: Position): Boolean {
+        val lineJudgement = LineJudgement(player, position)
+        return lineJudgement.check()
     }
 }

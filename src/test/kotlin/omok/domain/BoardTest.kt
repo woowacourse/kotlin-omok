@@ -17,7 +17,7 @@ class BoardTest {
         board.putStone(position)
 
         // then
-        assertThat(board.isBlackPlaceable(position)).isFalse
+        assertThat(board.isPlaceable(Turn.Black, position)).isFalse
     }
 
     @Test
@@ -36,6 +36,6 @@ class BoardTest {
         blackPlayer.put(Stone(Position(HorizontalAxis.C, 10)))
 
         // then
-        assertThat(board.isBlackPlaceable(position)).isTrue
+        assertThat(board.isPlaceable(position)).isTrue
     }
 }
