@@ -39,6 +39,6 @@ class Coordinate(coordinate: String) {
     }
 
     companion object {
-        private val BOARD_SIZE_RANGE: IntRange = 1..Board.BOARD_LENGTH
+        val BOARD_SIZE_RANGE: IntRange = 1..Board.BOARD_LENGTH
     }
 }
