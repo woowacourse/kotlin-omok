@@ -1,6 +1,5 @@
 package omok.model.game
 
-import omok.model.state.State
 import omok.model.state.Stay
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
@@ -10,13 +9,13 @@ class OmokGame(val board: Board) {
     fun start(coordinate: () -> Coordinate, showBoard: (Board) -> Unit, showTurn: (GoStoneColor, String?) -> Unit) {
         while (true) {
             val newStone = turn(coordinate, showBoard, showTurn)
-            val state = checkBoard(newStone)
+            val state = Judgement.judge(board, newStone)
 
             if (state !is Stay) break
         }
     }
 
-    fun turn(coordinate: () -> Coordinate, showBoard: (Board) -> Unit, showTurn: (GoStoneColor, String?) -> Unit): GoStone {
+    private fun turn(coordinate: () -> Coordinate, showBoard: (Board) -> Unit, showTurn: (GoStoneColor, String?) -> Unit): GoStone {
         showTurn(board.getNextColor(), board.lastPlacedStone?.coordinate?.mark)
         board.addStone(board.getNextColor(), getValidCoordinate(coordinate))
         showBoard(board)
