@@ -32,17 +32,11 @@ class ThreeThreeReferee(target: Stone) : PlacementReferee(target) {
     }
 
     private tailrec fun isNorthOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
-        val northPosition = position.getNorth()
-        val stone = board[northPosition] ?: return true
-        if (northPosition == null || stone != target) return false
-        return isNorthOpen(board, northPosition)
+        return findNorthEmptyPosition(board, position) != null
     }
 
     private fun isSouthOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
-        val southPosition = position.getSouth()
-        val stone = board[southPosition] ?: return true
-        if (southPosition == null || stone != target) return false
-        return isSouthOpen(board, southPosition)
+        return findSouthEmptyPosition(board, position) != null
     }
 
     private fun isUpwardDiagonalThree(board: Map<Position, Stone?>, position: Position): Boolean {
@@ -60,17 +54,11 @@ class ThreeThreeReferee(target: Stone) : PlacementReferee(target) {
     }
 
     private tailrec fun isNorthEastOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
-        val northEastPosition = position.getNorthEast()
-        val stone = board[northEastPosition] ?: return true
-        if (northEastPosition == null || stone != target) return false
-        return isNorthEastOpen(board, northEastPosition)
+        return findNorthEastEmptyPosition(board, position) != null
     }
 
     private fun isSouthWestOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
-        val southWestPosition = position.getSouthWest()
-        val stone = board[southWestPosition] ?: return true
-        if (southWestPosition == null || stone != target) return false
-        return isSouthWestOpen(board, southWestPosition)
+        return findSouthWestEmptyPosition(board, position) != null
     }
 
     private fun isHorizontalThree(board: Map<Position, Stone?>, position: Position): Boolean {
@@ -88,17 +76,11 @@ class ThreeThreeReferee(target: Stone) : PlacementReferee(target) {
     }
 
     private tailrec fun isEastOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
-        val eastPosition = position.getEast()
-        val stone = board[eastPosition] ?: return true
-        if (eastPosition == null || stone != target) return false
-        return isEastOpen(board, eastPosition)
+        return findEastEmptyPosition(board, position) != null
     }
 
     private fun isWestOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
-        val westPosition = position.getWest()
-        val stone = board[westPosition] ?: return true
-        if (westPosition == null || stone != target) return false
-        return isWestOpen(board, westPosition)
+        return findWestEmptyPosition(board, position) != null
     }
 
     private fun isDownwardDiagonalThree(board: Map<Position, Stone?>, position: Position): Boolean {
@@ -116,16 +98,10 @@ class ThreeThreeReferee(target: Stone) : PlacementReferee(target) {
     }
 
     private tailrec fun isSouthEastOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
-        val southEastPosition = position.getSouthEast()
-        val stone = board[southEastPosition] ?: return true
-        if (southEastPosition == null || stone != target) return false
-        return isSouthEastOpen(board, southEastPosition)
+        return findSouthEastEmptyPosition(board, position) != null
     }
 
     private fun isNorthWestOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
-        val northWestPosition = position.getNorthWest()
-        val stone = board[northWestPosition] ?: return true
-        if (northWestPosition == null || stone != target) return false
-        return isNorthWestOpen(board, northWestPosition)
+        return findNorthWestEmptyPosition(board, position) != null
     }
 }
