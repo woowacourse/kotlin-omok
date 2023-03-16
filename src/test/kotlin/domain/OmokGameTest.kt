@@ -15,7 +15,7 @@ class OmokGameTest {
             turn.add(white.removeFirst())
         }
         var index = 0
-        omokGame.runGame({ turn[index++] }, ::onMove, {}, {})
+        omokGame.runGame({ turn[index++] }, ::onMove, {}, {}, {})
     }
 
     private fun onMove(board: Board, state: State, stone: Stone) {}
