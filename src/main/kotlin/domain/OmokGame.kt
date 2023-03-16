@@ -9,9 +9,7 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
 
     fun putStone(position: Position): Boolean {
         if (!board.isEmpty(position)) return false
-        if (turn == BLACK) {
-            if (isBlackForbidden(position)) return false
-        }
+        if (turn == BLACK && isBlackForbidden(position)) return false
         board.addStone(turn, position)
         return true
     }
@@ -39,6 +37,7 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
         }
         return false
     }
+
     private fun isBlackWin(position: Position): Boolean = board.isExactlyFive(position, turn)
 
     private fun isWhiteWin(position: Position): Boolean =
