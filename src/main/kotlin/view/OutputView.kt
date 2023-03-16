@@ -1,5 +1,9 @@
 package view
 
+import domain.state.BlackTurn
+import domain.state.State
+import domain.state.WhiteTurn
+import domain.stone.Stone
 import domain.stone.StoneType
 import domain.stone.Stones
 
@@ -14,19 +18,36 @@ class OutputView {
         println(boardForm[boardForm.lastIndex])
     }
 
+    fun printTurn(state: State, stones: Stones) {
+        println(MESSAGE_FORMAT_TURN.format(getTurnText(state), positionToText(stones.values[stones.values.lastIndex])))
+    }
+
     private fun setBoard(stones: Stones) {
         stones.values.forEach {
-            if (getTypeText(it.type) != null) board[(15 - it.position.y)][it.position.x - 1] = getTypeText(it.type)!!
+            if (getTypeEmoji(it.type) != null) board[(15 - it.position.y)][it.position.x - 1] = getTypeEmoji(it.type)!!
         }
     }
 
-    private fun getTypeText(stoneType: StoneType): Char? = when (stoneType) {
+    private fun getTypeEmoji(stoneType: StoneType): Char? = when (stoneType) {
         StoneType.BLACK -> '●'
         StoneType.WHITE -> '○'
         else -> null
     }
 
+    private fun getTurnText(state: State): String? = when (state) {
+        is WhiteTurn -> "흑"
+        is BlackTurn -> "백"
+        else -> null
+    }
+
+    private fun positionToText(value: Stone): String {
+        val xToString: String = (value.position.x.toChar() + 'A'.toInt() - 1).toString()
+        return "$xToString${value.position.y}"
+    }
+
     companion object {
+        const val MESSAGE_FORMAT_TURN = "%s의 차례입니다. (마지막 돌의 위치: %s)"
+
         val board: MutableList<MutableList<Char>> = mutableListOf(
             mutableListOf('┌', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┐'),
             mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
