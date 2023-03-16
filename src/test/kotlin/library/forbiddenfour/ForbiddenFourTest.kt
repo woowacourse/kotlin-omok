@@ -1,4 +1,4 @@
-package library
+package library.forbiddenfour
 
 import domain.rule.ForbiddenFour
 import org.assertj.core.api.Assertions.assertThat

@@ -1,4 +1,4 @@
-package library
+package library.exactlyfive
 
 import domain.CoordinateState
 import domain.rule.ExceedFive

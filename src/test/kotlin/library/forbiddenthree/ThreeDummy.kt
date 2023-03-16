@@ -1,4 +1,4 @@
-package library
+package library.forbiddenthree
 
 import domain.Coordinate
 import domain.CoordinateState

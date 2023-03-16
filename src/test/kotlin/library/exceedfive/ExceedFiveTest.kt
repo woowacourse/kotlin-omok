@@ -1,4 +1,4 @@
-package library
+package library.exceedfive
 
 import domain.CoordinateState
 import domain.rule.ExceedFive
@@ -16,6 +16,6 @@ internal class ExceedFiveTest {
         val board = ExceedFiveDummy.getExceedFiveBoard(coordinateState)
         val targetCoordinate = ExceedFiveDummy.getExceedFiveCoordinate()
 
-        assertThat(ExceedFive.isExceedFive(board, targetCoordinate, coordinateState))
+        assertThat(ExceedFive.isExceedFive(board, targetCoordinate, coordinateState)).isTrue
     }
 }
