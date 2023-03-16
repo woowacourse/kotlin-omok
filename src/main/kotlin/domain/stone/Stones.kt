@@ -22,8 +22,9 @@ data class Stones(private val stones: List<Stone>) {
         val directions = listOf(RIGHT_DIRECTION, TOP_DIRECTION, RIGHT_TOP_DIRECTION, LEFT_BOTTOM_DIRECTION)
 
         for (moveDirection in directions) {
-            if (checkStraight(startStone.position, moveDirection, FORWARD_WEIGHT)) return true
-            if (checkStraight(startStone.position, moveDirection, BACK_WEIGHT)) return true
+            val forwardCount = checkStraight(startStone.position, moveDirection, FORWARD_WEIGHT)
+            val backCount = checkStraight(startStone.position, moveDirection, BACK_WEIGHT)
+            if (forwardCount + backCount - 1 >= MINIMUM_WIN_CONDITION) return true
         }
         return false
     }
@@ -32,7 +33,7 @@ data class Stones(private val stones: List<Stone>) {
         startPosition: Position,
         direction: Pair<Int, Int>,
         weight: Int = FORWARD_WEIGHT
-    ): Boolean {
+    ): Int {
         val (startX, startY) = Pair(startPosition.row, startPosition.col)
         var count = 1
         var (currentX, currentY) = Pair(startX + direction.first * weight, startY + direction.second * weight)
@@ -41,7 +42,7 @@ data class Stones(private val stones: List<Stone>) {
             currentX += direction.first * weight
             currentY += direction.second * weight
         }
-        return count >= MINIMUM_WIN_CONDITION
+        return count
     }
 
     private fun inRange(x: Int, y: Int) = x in Position.POSITION_RANGE && y in Position.POSITION_RANGE
