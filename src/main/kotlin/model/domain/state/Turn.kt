@@ -2,8 +2,8 @@ package model.domain.state
 
 import model.domain.Board
 import model.domain.Location
-import model.domain.OmokRule
 import model.domain.Stone
+import model.domain.rule.OmokRule
 
 abstract class Turn : State {
     abstract val stoneColor: Stone
@@ -12,10 +12,18 @@ abstract class Turn : State {
     abstract val turn: Turn
 
     override fun place(location: Location, board: Board): State {
-        if (!board.placeStone(location, stoneColor)) return retryTurn
-        if (OmokRule.isOmok(board, location, stoneColor)) return omok
-        return turn
+        val y = location.coordinationX.value
+        val x = location.coordinationY.value
+
+        return when {
+            isForbidden(board, x, y) -> retryTurn
+            !board.placeStone(location, stoneColor) -> retryTurn
+            OmokRule.isOmok(board, location, stoneColor) -> omok
+            else -> turn
+        }
     }
+
+    abstract fun isForbidden(board: Board, x: Int, y: Int): Boolean
 
     override fun retry(): State {
         throw IllegalStateException("")
