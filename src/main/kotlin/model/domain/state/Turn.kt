@@ -1,8 +1,8 @@
 package model.domain.state
 
-import model.domain.Board
-import model.domain.Location
-import model.domain.Stone
+import model.domain.tools.Board
+import model.domain.tools.Location
+import model.domain.tools.Stone
 import model.domain.rule.OmokRule
 
 abstract class Turn : State {

@@ -1,9 +1,12 @@
 package model.domain
 
-import model.domain.state.BlackTurn
+import model.domain.state.black.BlackTurn
 import model.domain.state.Omok
-import model.domain.state.RetryBlackTurn
+import model.domain.state.black.RetryBlackTurn
 import model.domain.state.State
+import model.domain.tools.Board
+import model.domain.tools.Coordination
+import model.domain.tools.Location
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

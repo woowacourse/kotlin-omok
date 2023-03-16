@@ -1,8 +1,11 @@
-package model.domain.state
+package model.domain.state.black
 
-import model.domain.Board
-import model.domain.Stone
+import model.domain.tools.Board
+import model.domain.tools.Stone
 import model.domain.rule.OmokForbiddenRule
+import model.domain.state.Omok
+import model.domain.state.RetryTurn
+import model.domain.state.Turn
 
 class BlackTurn : Turn() {
     override val stoneColor: Stone

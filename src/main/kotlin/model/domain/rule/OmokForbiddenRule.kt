@@ -1,7 +1,7 @@
 package model.domain.rule
 
-import model.domain.Board
-import model.domain.Stone
+import model.domain.tools.Board
+import model.domain.tools.Stone
 
 class OmokForbiddenRule(private val board: Board, private val currentStone: Stone) {
 

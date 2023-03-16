@@ -1,7 +1,10 @@
 package model.domain
 
-import model.domain.state.BlackOmok
+import model.domain.state.black.BlackOmok
 import model.domain.state.State
+import model.domain.tools.Board
+import model.domain.tools.Coordination
+import model.domain.tools.Location
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 

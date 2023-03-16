@@ -1,7 +1,10 @@
 package model.domain
 
 import model.domain.state.State
-import model.domain.state.WhiteTurn
+import model.domain.state.white.WhiteTurn
+import model.domain.tools.Board
+import model.domain.tools.Coordination
+import model.domain.tools.Location
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

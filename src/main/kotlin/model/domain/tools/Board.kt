@@ -1,16 +1,6 @@
-package model.domain
+package model.domain.tools
 
-class Board(val system: Map<Int, MutableList<Stone>>) {
-    companion object {
-        private const val SIZE = 15
-        fun create(): Board {
-            val system = List(SIZE) { row ->
-                row to MutableList(SIZE) { Stone.EMPTY }
-            }.toMap()
-            return Board(system)
-        }
-    }
-
+class Board private constructor(val system: Map<Int, MutableList<Stone>>) {
     fun get(location: Location): Stone? = system[location.coordinationX.value]?.get(location.coordinationY.value)
 
     fun placeStone(location: Location, stone: Stone): Boolean {
@@ -20,5 +10,15 @@ class Board(val system: Map<Int, MutableList<Stone>>) {
         val col = location.coordinationY.value
         if (row !in 0 until SIZE || col !in 0 until SIZE) return false
         system[row]?.set(col, stone)?.let { return true } ?: return false
+    }
+
+    companion object {
+        private const val SIZE = 15
+        fun create(): Board {
+            val system = List(SIZE) { row ->
+                row to MutableList(SIZE) { Stone.EMPTY }
+            }.toMap()
+            return Board(system)
+        }
     }
 }

@@ -1,7 +1,8 @@
 package view
 
-import model.domain.Board
-import model.domain.Stone
+import model.domain.tools.Board
+import model.domain.tools.Stone
+import model.domain.tools.Stone.* // ktlint-disable no-wildcard-imports
 
 class BoardView {
     fun printBoard(omokBoard: Board) {
@@ -15,18 +16,25 @@ class BoardView {
         val stringBuilder = StringBuilder(board[row])
 
         rowLine.forEachIndexed { col, stone ->
-            getStoneState(stone)?.let { stringBuilder.setCharAt(4 + col * 3, it) }
+            getStoneState(stone)?.let { stoneState ->
+                stringBuilder.setCharAt(LEFT_INTERVAL + col * RIGHT_INTERVAL, stoneState)
+            }
         }
         return stringBuilder.toString()
     }
 
     private fun getStoneState(stone: Stone): Char? = when (stone) {
-        Stone.BLACK -> '●'
-        Stone.WHITE -> '◌'
-        Stone.EMPTY -> null
+        BLACK -> BLACK_STONE
+        WHITE -> WHITE_STONE
+        EMPTY -> null
     }
 
     companion object {
+        private const val BLACK_STONE = '●'
+        private const val WHITE_STONE = '◌'
+        private const val LEFT_INTERVAL = 4
+        private const val RIGHT_INTERVAL = 3
+
         private val board = listOf(
             " 15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐",
             " 14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤",

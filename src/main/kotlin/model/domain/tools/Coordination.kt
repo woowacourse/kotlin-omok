@@ -1,4 +1,4 @@
-package model.domain
+package model.domain.tools
 
 @JvmInline
 value class Coordination private constructor(val value: Int) {

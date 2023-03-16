@@ -1,9 +1,9 @@
 package model.domain.rule
 
-import model.domain.Board
-import model.domain.Coordination
-import model.domain.Location
-import model.domain.Stone
+import model.domain.tools.Board
+import model.domain.tools.Coordination
+import model.domain.tools.Location
+import model.domain.tools.Stone
 
 object OmokRule {
     private const val START = 0

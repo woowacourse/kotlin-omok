@@ -1,6 +1,18 @@
 package model.domain
 
-import model.domain.state.* // ktlint-disable no-wildcard-imports
+import model.domain.state.Omok
+import model.domain.state.RetryTurn
+import model.domain.state.State
+import model.domain.state.black.BlackOmok
+import model.domain.state.black.BlackTurn
+import model.domain.state.white.WhiteOmok
+import model.domain.state.white.WhiteTurn
+import model.domain.tools.Board
+import model.domain.tools.Coordination
+import model.domain.tools.Location
+import model.domain.tools.Stone
+import model.domain.tools.Stone.BLACK
+import model.domain.tools.Stone.WHITE
 
 class OmokGame(private val board: Board) {
     private var player: State = BlackTurn()
@@ -11,7 +23,6 @@ class OmokGame(private val board: Board) {
             play(getCoordination)
             changeState()
         }
-        findWinner()
     }
 
     private fun play(getCoordination: (Stone) -> Pair<Int, Int>) {
@@ -29,15 +40,16 @@ class OmokGame(private val board: Board) {
         }
     }
 
-    private fun findWinner() = when (player) {
-        is BlackOmok -> 10
-        is WhiteOmok -> 20
-        else -> throw IllegalStateException()
+    fun getWinner(printBoard: (Board) -> Unit, printWinner: (Stone) -> Unit) {
+        printWinner(getStoneColor())
+        printBoard(board)
     }
 
     private fun getStoneColor() = when (player) {
-        is BlackTurn -> Stone.BLACK
-        is WhiteTurn -> Stone.WHITE
+        is BlackTurn -> BLACK
+        is BlackOmok -> BLACK
+        is WhiteTurn -> WHITE
+        is WhiteOmok -> WHITE
         else -> throw IllegalStateException()
     }
 }

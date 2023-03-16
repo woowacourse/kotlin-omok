@@ -1,4 +1,7 @@
-package model.domain.state
+package model.domain.state.black
+
+import model.domain.state.RetryTurn
+import model.domain.state.State
 
 class RetryBlackTurn : RetryTurn() {
 
