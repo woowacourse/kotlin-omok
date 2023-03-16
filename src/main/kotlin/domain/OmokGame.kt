@@ -11,13 +11,14 @@ class OmokGame(
         getStone: () -> Stone,
         onMove: (Board, State, Stone) -> Unit,
         onMoveFail: () -> Unit,
+        onForbidden: () -> Unit,
         onFinish: (Color) -> Unit
     ) {
         while (true) {
-            if (!successBlackTurn(getStone, onMoveFail, onMove)) successBlackTurn(getStone, onMoveFail, onMove)
+            successBlackTurn(getStone, onMoveFail, onForbidden, onMove)
             if (isVictory(State.BLACK, onFinish)) break
 
-            if (!successWhiteTurn(getStone, onMoveFail, onMove)) successWhiteTurn(getStone, onMoveFail, onMove)
+            successWhiteTurn(getStone, onMoveFail, onMove)
             if (isVictory(State.WHITE, onFinish)) break
         }
     }
@@ -37,20 +38,20 @@ class OmokGame(
     private fun successBlackTurn(
         getStone: () -> Stone,
         onMoveFail: () -> Unit,
+        onForbidden: () -> Unit,
         onMove: (Board, State, Stone) -> Unit
     ): Boolean {
         val blackStone = getStone()
         if (!omokBoard.isEmpty(blackStone)) {
             onMoveFail()
-            return false
+            return successBlackTurn(getStone, onMoveFail, onForbidden, onMove)
         }
-
-        omokBoard.move(blackStone, State.BLACK)
 
         if (!referee.checkForbidden(omokBoard, blackStone)) {
-            println("3*3 or 4*4")
-            return false
+            onForbidden()
+            return successBlackTurn(getStone, onMoveFail, onForbidden, onMove)
         }
+        omokBoard.move(blackStone, State.BLACK)
         onMove(omokBoard.board, State.WHITE, blackStone)
         return true
     }
@@ -63,7 +64,7 @@ class OmokGame(
         val whiteStone = getStone()
         if (!omokBoard.isEmpty(whiteStone)) {
             onMoveFail()
-            return false
+            return successWhiteTurn(getStone, onMoveFail, onMove)
         }
         omokBoard.move(whiteStone, State.WHITE)
         onMove(omokBoard.board, State.BLACK, whiteStone)

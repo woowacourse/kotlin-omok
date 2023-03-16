@@ -10,6 +10,7 @@ class Controller {
             InputView::readPosition,
             OutputView::printOmokState,
             OutputView::printDuplicate,
+            OutputView::printForbidden,
             OutputView::printWinner
         )
     }
