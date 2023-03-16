@@ -19,12 +19,9 @@ enum class HorizontalAxis(val value: Int) {
 
     companion object {
         fun getHorizontalAxis(other: Int): HorizontalAxis {
-            HorizontalAxis.values().forEach {
-                if (it.value == other) {
-                    return it
-                }
-            }
-            return throw IllegalStateException("일치하는 값이 없습니다.")
+            return HorizontalAxis.values().find { horizontalAxis ->
+                horizontalAxis.value == other
+            } ?: throw IllegalStateException("일치하는 값이 없습니다.")
         }
     }
 }
