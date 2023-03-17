@@ -1,19 +1,23 @@
 package omok.domain
 
+import omok.domain.state.EmptyStoneState
 import omok.domain.state.StoneState
 
-class OmokBoard(private val value: Map<YCoordinate, OmokLine>) {
+class OmokBoard(private val value: Map<OmokPoint, StoneState>) {
 
     val keys = value.keys
     val values = value.values
 
-    constructor () : this(YCoordinate.all().associateWith { OmokLine() })
+    constructor () : this(OmokPoint.all().associateWith { EmptyStoneState })
 
     fun placeStone(point: OmokPoint, stoneState: StoneState): OmokBoard {
         val newValue = value.toMutableMap()
-        newValue[point.y] = newValue[point.y]?.placeStone(point, stoneState) ?: throw IllegalArgumentException()
+        newValue[point] = when (newValue[point]) {
+            EmptyStoneState -> stoneState
+            else -> throw IllegalArgumentException()
+        }
         return OmokBoard(newValue)
     }
 
-    operator fun get(yCoordinate: YCoordinate): OmokLine = value[yCoordinate] ?: throw IllegalArgumentException()
+    operator fun get(point: OmokPoint): StoneState = value[point] ?: throw IllegalArgumentException()
 }
