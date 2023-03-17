@@ -8,8 +8,7 @@ import domain.stone.Stone
 
 class InputView {
 
-    fun requestPoint(stone: Stone?, isInitialTry: Boolean = true): Position {
-        if (!isInitialTry) println(IMPOSSIBLE_PUT_STONE)
+    fun requestPoint(stone: Stone?): Position {
         println(TURN_MESSAGE.format(getNextColorName(stone?.color), getLatestPoint(stone?.position)))
         print(REQUEST_POINT_MESSAGE)
         val input = readln()
@@ -42,7 +41,7 @@ class InputView {
     }
 
     companion object {
-        private const val IMPOSSIBLE_PUT_STONE = "[ERROR] 해당 좌표에 놓아진 돌이 있습니다."
+        // private const val IMPOSSIBLE_PUT_STONE = "[ERROR] 해당 좌표에 놓아진 돌이 있습니다."
         private const val TURN_MESSAGE = "%s의 차례입니다. %s"
         private const val REQUEST_POINT_MESSAGE = "위치를 입력하세요: "
         private const val EMPTY_STRING = ""

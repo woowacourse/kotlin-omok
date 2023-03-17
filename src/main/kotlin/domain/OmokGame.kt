@@ -7,28 +7,28 @@ import domain.stone.Position
 import domain.stone.Stone
 
 class OmokGame(
-    val getPosition: (Stone?, Boolean) -> Position,
+    val getPosition: (latestStone: Stone?) -> Position,
     val checkBoardState: (Board) -> Unit,
 ) {
     fun runGame(): Color {
         var board: Board = PlayingBoard()
-        var color = Color.BLACK
+        var turnColor = Color.BLACK
         while (board.isFinished.not()) {
             checkBoardState(board)
-            board = turnGame(board, color)
-            color = !color
+            board = turnGame(board, turnColor)
+            turnColor = !turnColor
         }
         checkBoardState(board)
         return board.winningColor
     }
 
-    fun turnGame(board: Board, color: Color, initialTry: Boolean = true): Board {
-        val position = getPosition(board.getLatestStone(), initialTry)
+    private tailrec fun turnGame(board: Board, color: Color): Board {
+        val position = getPosition(board.getLatestStone())
         return if (board.isPossiblePut(position)) {
             val nextBoard = board.putStone(Stone(position, color))
             nextBoard
         } else {
-            turnGame(board, color, false)
+            turnGame(board, color)
         }
     }
 }
