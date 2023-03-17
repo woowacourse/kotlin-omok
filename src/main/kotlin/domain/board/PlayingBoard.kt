@@ -19,7 +19,7 @@ class PlayingBoard(placedStones: List<Stone> = listOf()) : BasedBoard(placedSton
         !placedStones.any { stone -> stone.position == position }
 
     override fun putStone(stone: Stone): Board {
-        if (isPossiblePut(stone.position).not()) throw IllegalArgumentException(PLACED_STONE_ERROR)
+        if (isPossiblePut(stone.position).not()) return this
         return nextBoard(stone)
     }
 
@@ -28,12 +28,12 @@ class PlayingBoard(placedStones: List<Stone> = listOf()) : BasedBoard(placedSton
         val nextStones = getStones() + newStone
         return when (omokResult) {
             OmokResult.FIVE_STONE_WINNING -> FinishedBoard(nextStones, newStone.color)
-            OmokResult.FORBIDDEN -> FinishedBoard(nextStones, !newStone.color)
+            OmokResult.FORBIDDEN -> FinishedBoard(nextStones, Color.WHITE)
             OmokResult.RUNNING -> PlayingBoard(nextStones)
         }
     }
+
     companion object {
         private const val PLAYING_GAME_ERROR = "[ERROR] 현재 게임이 진행중입니다."
-        private const val PLACED_STONE_ERROR = "[ERROR] 이미 놓아진 돌이 있습니다."
     }
 }

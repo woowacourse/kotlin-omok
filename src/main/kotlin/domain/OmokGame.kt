@@ -10,7 +10,7 @@ class OmokGame(
     val getPosition: (latestStone: Stone?) -> Position,
     val checkBoardState: (Board) -> Unit,
 ) {
-    fun playOmokGameAndReturnWinningColor(): Color {
+    fun playOmokGameAndReturnWinner(): Color {
         var board: Board = PlayingBoard()
         var turnColor = Color.BLACK
         while (board.isFinished.not()) {
