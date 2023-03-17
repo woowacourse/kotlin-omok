@@ -1,6 +1,6 @@
 package dto
 
-data class PointDTO(
+data class VectorDTO(
     val x: Int,
     val y: Int
 )

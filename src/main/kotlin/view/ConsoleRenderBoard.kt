@@ -1,12 +1,12 @@
 package view
 
 import dto.ColorDTO
-import dto.PointDTO
 import dto.StoneDTO
+import dto.VectorDTO
 
 class ConsoleRenderBoard : RenderBoard {
     private val board = StringBuilder()
-    override fun render(stones: List<StoneDTO>, size: PointDTO): String {
+    override fun render(stones: List<StoneDTO>, size: VectorDTO): String {
         board.clear()
         for (index in 0 until (size.x * size.y)) {
             makeNewLine(index, size)
@@ -32,7 +32,7 @@ class ConsoleRenderBoard : RenderBoard {
         stones: List<StoneDTO>,
         x: Int,
         y: Int,
-        size: PointDTO
+        size: VectorDTO
     ): StoneDTO? {
         val stone = stones.find {
             it.coordinate.x == x && it.coordinate.y == size.y - y - 1
@@ -40,7 +40,7 @@ class ConsoleRenderBoard : RenderBoard {
         return stone
     }
 
-    private fun renderColumnChar(size: PointDTO) {
+    private fun renderColumnChar(size: VectorDTO) {
         board.append("\n")
         board.append("    ")
         for (i in 0 until size.y) {
@@ -49,17 +49,17 @@ class ConsoleRenderBoard : RenderBoard {
         board.append("\n")
     }
 
-    private fun renderRowNumber(index: Int, size: PointDTO, y: Int) {
+    private fun renderRowNumber(index: Int, size: VectorDTO, y: Int) {
         if (index % (size.x) == LEFT_START_INDEX) {
             board.append("%d\t".format(size.x - y))
         }
     }
 
-    private fun makeNewLine(index: Int, size: PointDTO) {
+    private fun makeNewLine(index: Int, size: VectorDTO) {
         if (index > 0 && index % size.x == LEFT_START_INDEX) board.append("\n")
     }
 
-    private fun renderStone(stone: StoneDTO, size: PointDTO) {
+    private fun renderStone(stone: StoneDTO, size: VectorDTO) {
         if (stone.coordinate.x == LEFT_START_INDEX && stone.color == ColorDTO.BLACK)
             board.append(BLACK_LEFT_STONE)
         else if (stone.coordinate.x == size.x - COORDINATE_FIXER && stone.color == ColorDTO.BLACK)
@@ -75,7 +75,7 @@ class ConsoleRenderBoard : RenderBoard {
             board.append(WHITE_INNER_STONE)
     }
 
-    private fun renderEmptySlot(x: Int, y: Int, size: PointDTO) {
+    private fun renderEmptySlot(x: Int, y: Int, size: VectorDTO) {
         board.append(
             when {
                 x == LEFT_START_INDEX && y == TOP_START_INDEX -> EMPTY_LEFT_TOP_SLOT

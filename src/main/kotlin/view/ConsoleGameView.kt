@@ -1,19 +1,19 @@
 package view
 
 import dto.ColorDTO
-import dto.PointDTO
 import dto.StoneDTO
+import dto.VectorDTO
 
 class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard()) : GameView {
     override fun startGame() {
         println(GAME_START)
     }
 
-    override fun renderBoard(stones: List<StoneDTO>, size: PointDTO) {
+    override fun renderBoard(stones: List<StoneDTO>, size: VectorDTO) {
         println(renderBoard.render(stones, size))
     }
 
-    override fun readStone(color: ColorDTO, lastStone: PointDTO?): PointDTO? {
+    override fun readStone(color: ColorDTO, lastStone: VectorDTO?): VectorDTO? {
         print(USER_TURN.format(colorToString(color)))
         println(
             lastStone?.let {
@@ -27,7 +27,7 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
         if (input.substring(1).toIntOrNull() == null) {
             return null
         }
-        return PointDTO(input[0] - 'A', input.substring(1).toInt() - 1)
+        return VectorDTO(input[0] - 'A', input.substring(1).toInt() - 1)
     }
 
     override fun renderWinner(color: ColorDTO) {
@@ -41,7 +41,7 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
         }
     }
 
-    private fun coordinateToString(coordinate: PointDTO): String {
+    private fun coordinateToString(coordinate: VectorDTO): String {
         return ("%c%d".format(('A'.code + coordinate.x).toChar(), coordinate.y + 1))
     }
 

@@ -6,7 +6,7 @@ import domain.Coordinate
 import domain.Players
 import domain.RenjuRule
 import domain.Stones
-import dto.PointDTO
+import dto.VectorDTO
 import view.GameView
 
 class GameController(private val gameView: GameView) {
@@ -30,13 +30,13 @@ class GameController(private val gameView: GameView) {
             ColorMapper.domainToDTO(color), getStoneCoordinateOrNull(stones)
         ) ?: return readStone(color, stones)
 
-        val point = PointMapper.dtoToDomain(pointDto)
+        val point = VectorMapper.dtoToDomain(pointDto)
         return Coordinate.from(point.x, point.y) ?: return readStone(color, stones)
     }
 
-    private fun getStoneCoordinateOrNull(stones: Stones): PointDTO? {
+    private fun getStoneCoordinateOrNull(stones: Stones): VectorDTO? {
         return if (stones.value.isEmpty()) null
-        else PointMapper.domainToDTO(stones.value.last().coordinate.point)
+        else VectorMapper.domainToDTO(stones.value.last().coordinate.vector)
     }
 
     private fun renderBoard(stones: Stones) {
@@ -44,7 +44,7 @@ class GameController(private val gameView: GameView) {
             stones.value.map {
                 StoneMapper.domainToDTO(it)
             },
-            PointMapper.domainToDTO(Board.BOARD_SIZE)
+            VectorMapper.domainToDTO(Board.BOARD_SIZE)
         )
     }
 }

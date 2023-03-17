@@ -1,8 +1,8 @@
 package view
 
 import dto.ColorDTO
-import dto.PointDTO
 import dto.StoneDTO
+import dto.VectorDTO
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -11,17 +11,17 @@ class RenderBoardTest {
     fun `프린트 테스트`() {
         val result = ConsoleRenderBoard().render(
             listOf(
-                StoneDTO(ColorDTO.BLACK, PointDTO(0, 0)),
-                StoneDTO(ColorDTO.WHITE, PointDTO(0, 1)),
-                StoneDTO(ColorDTO.BLACK, PointDTO(1, 0)),
-                StoneDTO(ColorDTO.WHITE, PointDTO(1, 1)),
-                StoneDTO(ColorDTO.BLACK, PointDTO(2, 0)),
-                StoneDTO(ColorDTO.WHITE, PointDTO(2, 1)),
-                StoneDTO(ColorDTO.BLACK, PointDTO(3, 0)),
-                StoneDTO(ColorDTO.WHITE, PointDTO(3, 1)),
-                StoneDTO(ColorDTO.BLACK, PointDTO(4, 0))
+                StoneDTO(ColorDTO.BLACK, VectorDTO(0, 0)),
+                StoneDTO(ColorDTO.WHITE, VectorDTO(0, 1)),
+                StoneDTO(ColorDTO.BLACK, VectorDTO(1, 0)),
+                StoneDTO(ColorDTO.WHITE, VectorDTO(1, 1)),
+                StoneDTO(ColorDTO.BLACK, VectorDTO(2, 0)),
+                StoneDTO(ColorDTO.WHITE, VectorDTO(2, 1)),
+                StoneDTO(ColorDTO.BLACK, VectorDTO(3, 0)),
+                StoneDTO(ColorDTO.WHITE, VectorDTO(3, 1)),
+                StoneDTO(ColorDTO.BLACK, VectorDTO(4, 0))
             ),
-            PointDTO(15, 15)
+            VectorDTO(15, 15)
         )
         assertThat(result).isEqualTo(
             "15\t┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐\n" +

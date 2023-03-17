@@ -1,14 +1,14 @@
 package view
 
 import dto.ColorDTO
-import dto.PointDTO
 import dto.StoneDTO
+import dto.VectorDTO
 
 interface GameView {
     val renderBoard: RenderBoard
     fun startGame()
-    fun renderBoard(stones: List<StoneDTO>, size: PointDTO)
-    fun readStone(color: ColorDTO, lastStone: PointDTO?): PointDTO?
+    fun renderBoard(stones: List<StoneDTO>, size: VectorDTO)
+    fun readStone(color: ColorDTO, lastStone: VectorDTO?): VectorDTO?
 
     fun renderWinner(color: ColorDTO)
 }
