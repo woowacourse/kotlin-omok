@@ -13,8 +13,12 @@ class Stones(value: List<Stone> = listOf()) {
         _value.add(stone)
     }
 
-    companion object {
+    fun isWinPlace(stone: Stone): Boolean {
+        return renjuRule.findScore(stone) >= WINNING_CONDITION
+    }
 
+    companion object {
         private const val MESSAGE_CORRUPT_STONE = "같은 위치에 이미 돌이 있습니다. 위치 : (%d, %d)"
+        private const val WINNING_CONDITION = 4
     }
 }
