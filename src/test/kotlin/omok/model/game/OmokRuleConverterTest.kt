@@ -133,6 +133,51 @@ class OmokRuleConverterTest {
     }
 
     @Test
+    fun `흑돌이 열린 33이다 2`() {
+        val board = Board().apply {
+            addStone(BLACK, Coordinate("B6"))
+            addStone(BLACK, Coordinate("C5"))
+            addStone(BLACK, Coordinate("E6"))
+            addStone(BLACK, Coordinate("E5"))
+        }
+        val rule = OmokRuleConverter(board)
+
+        assertThat(
+            rule.countOpenThrees(Coordinate("E3"))
+        ).isInstanceOf(DoubleThree::class.java)
+    }
+
+    @Test
+    fun `흑돌이 열린 33이다 3`() {
+        val board = Board().apply {
+            addStone(BLACK, Coordinate("J9"))
+            addStone(BLACK, Coordinate("N9"))
+            addStone(BLACK, Coordinate("M10"))
+            addStone(BLACK, Coordinate("M12"))
+        }
+        val rule = OmokRuleConverter(board)
+
+        assertThat(
+            rule.countOpenThrees(Coordinate("L11"))
+        ).isInstanceOf(DoubleThree::class.java)
+    }
+
+    @Test
+    fun `흑돌이 열린 33이다 4`() {
+        val board = Board().apply {
+            addStone(BLACK, Coordinate("K6"))
+            addStone(BLACK, Coordinate("K3"))
+            addStone(BLACK, Coordinate("M4"))
+            addStone(BLACK, Coordinate("N4"))
+        }
+        val rule = OmokRuleConverter(board)
+
+        assertThat(
+            rule.countOpenThrees(Coordinate("K4"))
+        ).isInstanceOf(DoubleThree::class.java)
+    }
+
+    @Test
     fun `흑돌이 44이다`() {
         val board = Board().apply {
             addStone(BLACK, Coordinate("E5"))
@@ -148,6 +193,22 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.countOpenFours(Coordinate("H5"))
+        ).isInstanceOf(DoubleFour::class.java)
+    }
+
+    @Test
+    fun `흑돌이 44이다 2`() {
+        val board = Board().apply {
+            addStone(BLACK, Coordinate("C12"))
+            addStone(BLACK, Coordinate("D12"))
+            addStone(BLACK, Coordinate("G12"))
+            addStone(BLACK, Coordinate("I12"))
+            addStone(BLACK, Coordinate("J12"))
+        }
+        val rule = OmokRuleConverter(board)
+
+        assertThat(
+            rule.countOpenFours(Coordinate("F12"))
         ).isInstanceOf(DoubleFour::class.java)
     }
 }
