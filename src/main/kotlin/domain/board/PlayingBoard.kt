@@ -56,6 +56,23 @@ class PlayingBoard(placedStones: List<Stone> = listOf()) : BasedBoard(placedSton
         }
     }
 
+    fun putStone2(
+        getPosition: (latestStone: Stone?) -> Position,
+        turnColor: Color
+    ): PlayingBoard? {
+        val position = getPosition(getLatestStone())
+
+        if (isPossiblePut(position).not()) {
+            return null
+        }
+        return nextBoard2(Stone(position, turnColor))
+    }
+
+    private fun nextBoard2(newStone: Stone): PlayingBoard {
+        val nextStones = getStones() + newStone
+        return PlayingBoard(nextStones)
+    }
+
     companion object {
         private const val PLAYING_GAME_ERROR = "[ERROR] 현재 게임이 진행중입니다."
         private const val PLACED_STONE_ERROR = "[ERROR] 이미 놓아진 돌이 있습니다."

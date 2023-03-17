@@ -20,6 +20,17 @@ class InputView {
         } ?: requestPoint(stone)
     }
 
+    fun requestPoint2(latestStone: Stone?): Position {
+        println(TURN_MESSAGE.format(getNextColorName(latestStone?.color), getLatestPoint(latestStone?.position)))
+        print(REQUEST_POINT_MESSAGE)
+        val input = readln()
+        return runCatchingOrNull {
+            val x = Column.valueOf(convertCharToX(input[0]) - 1)
+            val y = Row.valueOf(input.substring(1).toInt() - 1)
+            Position(x, y)
+        } ?: requestPoint(latestStone)
+    }
+
     private fun convertCharToX(char: Char): Int = char.code - CONVERTING_BASE_NUMBER
     private fun convertXtoChar(x: Int): Char = (CONVERTING_BASE_NUMBER + x).toChar()
 
