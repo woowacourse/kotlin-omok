@@ -18,5 +18,6 @@ class InputView {
             val y: Int = it.substring(1).toInt()
             return OmokPoint(XCoordinate(x), YCoordinate(y))
         }
-    }.getOrElse { getPoint() }
+    }.onFailure { println(it.message) }
+        .getOrElse { getPoint() }
 }
