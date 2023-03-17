@@ -29,10 +29,7 @@ class ConsoleRenderBoard : RenderBoard {
     }
 
     private fun findStone(
-        stones: List<StoneDTO>,
-        x: Int,
-        y: Int,
-        size: PointDTO
+        stones: List<StoneDTO>, x: Int, y: Int, size: PointDTO
     ): StoneDTO? {
         val stone = stones.find {
             it.coordinate.x == x && it.coordinate.y == size.y - y - 1
@@ -60,31 +57,34 @@ class ConsoleRenderBoard : RenderBoard {
     }
 
     private fun renderStone(stone: StoneDTO, size: PointDTO) {
-        if (stone.coordinate.x == LEFT_START_INDEX && stone.color == ColorDTO.BLACK)
-            board.append(BLACK_LEFT_STONE)
-        else if (stone.coordinate.x == size.x - COORDINATE_FIXER && stone.color == ColorDTO.BLACK)
-            board.append(BLACK_RIGHT_STONE)
-        else if (stone.color == ColorDTO.BLACK)
-            board.append(BLACK_INNER_STONE)
+        when {
+            stone.coordinate.x == LEFT_START_INDEX && stone.color == ColorDTO.BLACK -> board.append(BLACK_LEFT_STONE)
+            stone.coordinate.x == size.x - COORDINATE_FIXER && stone.color == ColorDTO.BLACK -> board.append(
+                BLACK_RIGHT_STONE
+            )
 
-        if (stone.coordinate.x == LEFT_START_INDEX && stone.color == ColorDTO.WHITE)
-            board.append(WHITE_LEFT_STONE)
-        else if (stone.coordinate.x == size.x - 1 && stone.color == ColorDTO.WHITE)
-            board.append(WHITE_RIGHT_STONE)
-        else if (stone.color == ColorDTO.WHITE)
-            board.append(WHITE_INNER_STONE)
+            stone.color == ColorDTO.BLACK -> board.append(BLACK_INNER_STONE)
+        }
+
+        when {
+            stone.coordinate.x == LEFT_START_INDEX && stone.color == ColorDTO.WHITE -> board.append(WHITE_LEFT_STONE)
+            stone.coordinate.x == size.x - 1 && stone.color == ColorDTO.WHITE -> board.append(WHITE_RIGHT_STONE)
+            stone.color == ColorDTO.WHITE -> board.append(WHITE_INNER_STONE)
+        }
     }
 
     private fun renderEmptySlot(x: Int, y: Int, size: PointDTO) {
-        if (x == LEFT_START_INDEX && y == TOP_START_INDEX) board.append(EMPTY_LEFT_TOP_SLOT)
-        else if (x == size.x - COORDINATE_FIXER && y == LEFT_START_INDEX) board.append(EMPTY_RIGHT_TOP_SLOT)
-        else if (y == TOP_START_INDEX) board.append(EMPTY_TOP_SLOT)
-        else if (x == LEFT_START_INDEX && y == size.y - COORDINATE_FIXER) board.append(EMPTY_LEFT_BOTTOM_SLOT)
-        else if (x == size.x - COORDINATE_FIXER && y == size.y - COORDINATE_FIXER) board.append(EMPTY_RIGHT_BOTTOM_SLOT)
-        else if (y == size.y - COORDINATE_FIXER) board.append(EMPTY_BOTTOM_SLOT)
-        else if (x == LEFT_START_INDEX) board.append(EMPTY_LEFT_SLOT)
-        else if (x == size.x - COORDINATE_FIXER) board.append(EMPTY_RIGHT_SLOT)
-        else board.append(EMPTY_INNER_SLOT)
+        when {
+            x == LEFT_START_INDEX && y == TOP_START_INDEX -> board.append(EMPTY_LEFT_TOP_SLOT)
+            x == size.x - COORDINATE_FIXER && y == LEFT_START_INDEX -> board.append(EMPTY_RIGHT_TOP_SLOT)
+            y == TOP_START_INDEX -> board.append(EMPTY_TOP_SLOT)
+            x == LEFT_START_INDEX && y == size.y - COORDINATE_FIXER -> board.append(EMPTY_LEFT_BOTTOM_SLOT)
+            x == size.x - COORDINATE_FIXER && y == size.y - COORDINATE_FIXER -> board.append(EMPTY_RIGHT_BOTTOM_SLOT)
+            y == size.y - COORDINATE_FIXER -> board.append(EMPTY_BOTTOM_SLOT)
+            x == LEFT_START_INDEX -> board.append(EMPTY_LEFT_SLOT)
+            x == size.x - COORDINATE_FIXER -> board.append(EMPTY_RIGHT_SLOT)
+            else -> board.append(EMPTY_INNER_SLOT)
+        }
     }
 
     companion object {
