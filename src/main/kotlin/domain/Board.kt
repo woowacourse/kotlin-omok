@@ -1,8 +1,16 @@
 package domain
 
 class Board(private val players: Players, private val stones: Stones) {
-    fun repeatTurn(coordinateReader: CoordinateReader): Player {
-        return players.repeatTurn(stones, coordinateReader)
+    fun repeatTurn(coordinateReader: CoordinateReader, winEvent: (winner: Player) -> Unit) {
+        while (true) {
+            val currentTurnPlayer = players.currentTurn()
+            val stone = stones.makeValidatedStone(currentTurnPlayer, coordinateReader)
+            stones.place(stone)
+            if (stones.isWinPlace(stone)) {
+                winEvent(currentTurnPlayer)
+                break
+            }
+        }
     }
 
     companion object {

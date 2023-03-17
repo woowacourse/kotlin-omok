@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 
-class PlayersTest {
+class BoardTest {
     @Test
     fun `턴을 흑백 순으로 반복한다`() {
         val players = Players(listOf(BlackPlayer(Color.BLACK), WhitePlayer(Color.WHITE)))
@@ -20,10 +20,11 @@ class PlayersTest {
             Coordinate.from(4, 2)!!,
             Coordinate.from(5, 1)!!,
         )
+        val board = Board(players, stones)
         var coordinateIndex = 0
-        players.repeatTurn(stones) {
+        board.repeatTurn({
             coordinates[coordinateIndex++]
-        }
+        }, {})
         assertAll({
             assertThat(stones.value.filterIndexed { index, _ -> index % 2 == 0 }.all { it.color == Color.BLACK }).isTrue
         }, {
