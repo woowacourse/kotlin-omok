@@ -3,13 +3,13 @@ package domain.board
 import domain.stone.Position
 import domain.stone.Stone
 
-class Board(private val _placedStones: List<Stone> = listOf()) {
+data class Board(private val _placedStones: List<Stone> = listOf()) {
 
     val placedStones: List<Stone>
         get() = _placedStones.toList()
 
-    val latestStone: Stone
-        get() = _placedStones.last()
+    val latestStone: Stone?
+        get() = _placedStones.lastOrNull()
 
     fun isPlaced(position: Position): Boolean {
 
