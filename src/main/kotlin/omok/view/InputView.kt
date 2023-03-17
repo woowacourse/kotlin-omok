@@ -9,7 +9,7 @@ class InputView {
         print(
             """
             |
-            |${turn.now.toPresentation()}의 차례입니다. ${getLastPositionMessage(position)}
+            |${turn.now.name}의 차례입니다. ${getLastPositionMessage(position)}
             |위치를 입력하세요: 
         """.trimMargin()
         )

@@ -38,7 +38,7 @@ class OutputView {
         println(
             """
             |
-            |${turn.now.toPresentation()}의 승리입니다~!!!
+            |${turn.now.name}의 승리입니다~!!!
         """.trimMargin()
         )
     }
