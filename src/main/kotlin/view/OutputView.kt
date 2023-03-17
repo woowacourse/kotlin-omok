@@ -48,6 +48,10 @@ class OutputView {
         private const val BLACK_STONE = "●"
         private const val WHITE_STONE = "◎"
 
+        /**
+         * TODO: board 를 하드코딩 하기보다, 구성하는 로직을 따로 만들어 보는 것은 어떨까요?
+         * board 를 그리는 규칙이 바뀔 때마다 해당 값의 변경사항이 많이 발생하고 유지보수가 어려워질 것 같아요.
+         */
         private val BOARD = listOf(
             "15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐\n",
             "14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤\n",

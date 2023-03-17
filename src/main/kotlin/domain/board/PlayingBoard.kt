@@ -56,10 +56,7 @@ class PlayingBoard(placedStones: List<Stone> = listOf()) : BasedBoard(placedSton
         }
     }
 
-    fun putStone2(
-        getPosition: (latestStone: Stone?) -> Position,
-        turnColor: Color
-    ): PlayingBoard? {
+    fun putStone2(getPosition: (latestStone: Stone?) -> Position, turnColor: Color): PlayingBoard? {
         val position = getPosition(getLatestStone())
 
         if (isPossiblePut(position).not()) {
@@ -69,7 +66,9 @@ class PlayingBoard(placedStones: List<Stone> = listOf()) : BasedBoard(placedSton
     }
 
     private fun nextBoard2(newStone: Stone): PlayingBoard {
+        val omokResult = OmokResult.valueOf(getStones(), newStone)
         val nextStones = getStones() + newStone
+
         return PlayingBoard(nextStones)
     }
 

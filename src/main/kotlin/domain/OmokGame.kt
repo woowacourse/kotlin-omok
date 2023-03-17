@@ -16,6 +16,18 @@ class OmokGame(
      * TODO: run game이라는 함수 이름으로 이것이 승자 color를 반환한다는 것을 알 수 있을까?
      */
     fun runGame(): Color {
+        var board: Board = PlayingBoard()
+        var color = Color.BLACK
+        while (board.isFinished.not()) {
+            checkBoardState(board)
+            board = turnGame(board, color)
+            color = !color
+        }
+        checkBoardState(board)
+        return board.winningColor
+    }
+
+    fun runGame2(): Color {
         var board: PlayingBoard = PlayingBoard()
         var color = Color.BLACK
         while (board.isFinished.not()) {
@@ -38,8 +50,18 @@ class OmokGame(
         return board.putStone(Stone(position, color))
     }
 
+    fun processOmok() {
+        var board: PlayingBoard = PlayingBoard()
+        while (!board.isFinished) {
+            // BlackPlayer: Player
+            // StartPlayer: Player
+            processPlaceStone(board)
+        }
+    }
+
     fun processPlaceStone(board: PlayingBoard, colorTurn: Color): PlayingBoard {
         while (true) {
+            checkBoardState(board)
             board.putStone2(getPosition2, colorTurn)?.let { nextBoard ->
                 return nextBoard
             }

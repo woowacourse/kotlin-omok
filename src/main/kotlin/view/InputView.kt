@@ -8,6 +8,9 @@ import domain.stone.Stone
 
 class InputView {
 
+    // TODO: 에러가 발생했을 때의 예외처리를 View 가 가져가는 것이 적절할까요?
+    // 현재와 같은 구조에서 Column 값이 잘못입력되었을 때 추가적인 비즈니스 로직을 처리하고 싶을 경우, view 에서 이미 예외를 처리해버릴 경우 Controller 는 감지할 수 가 없습니다.
+    // 예외에는 view 레벨의 예외와 controller 레벨, 도메인 레벨의 예외가 각각 있을텐데 이러한 구분이 없이 모두 view 에서 처리가 되는 것 같아요.
     fun requestPoint(stone: Stone?, isInitialTry: Boolean = true): Position {
         if (!isInitialTry) println(IMPOSSIBLE_PUT_STONE)
         println(TURN_MESSAGE.format(getNextColorName(stone?.color), getLatestPoint(stone?.position)))
