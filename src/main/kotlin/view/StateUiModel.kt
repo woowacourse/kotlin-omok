@@ -1,6 +1,6 @@
 package view
 
-enum class Color(val value: String) {
+enum class StateUiModel(val value: String) {
     BLACK("흑"),
     WHITE("백")
 }
