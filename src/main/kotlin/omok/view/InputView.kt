@@ -8,7 +8,7 @@ object InputView {
 
         val input = readln().trim()
         return runCatching {
-            Coordinate(input)
+            Coordinate.of(input)
         }.getOrElse {
             println(it.message)
             getCoordinate()

@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource
 class CoordinateTest {
     @Test
     fun `알파벳+숫자 형태의 입력을 뒤집어서 위치를 생성한다`() {
-        val coordinate = Coordinate("H11")
+        val coordinate = Coordinate.of("H3")
 
         assertAll(
             { assertThat(coordinate.x).isEqualTo(7) },
@@ -22,7 +22,7 @@ class CoordinateTest {
     @ValueSource(strings = ["33", "aa", "4a", "H-1", "H17", "z8", "d7d"])
     fun `알파벳+숫자 형태가 아닌 입력은 오류가 발생한다`(input: String) {
         assertThatIllegalArgumentException()
-            .isThrownBy { Coordinate(input) }
-            .withMessageContaining("위치를 알파벳숫자 형태로 입력해주세요. (잘못된 값: $input")
+            .isThrownBy { Coordinate.of(input) }
+            .withMessageContaining("위치를 알파벳숫자 형태로 입력해주세요.")
     }
 }
