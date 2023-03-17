@@ -5,6 +5,7 @@ import domain.Board
 import domain.Color
 import domain.Coordinate
 import domain.Players
+import domain.RenjuRule
 import domain.Stones
 import domain.WhitePlayer
 import dto.PointDTO
@@ -14,7 +15,8 @@ class GameController(private val gameView: GameView) {
     fun process() {
         val players = Players(listOf(BlackPlayer(), WhitePlayer()))
         val stones = Stones()
-        val board = Board(players, stones)
+        val omokRule = RenjuRule(stones)
+        val board = Board(players, stones, omokRule)
         gameView.startGame()
         val winner = board.repeatTurn {
             readStone(it, stones)

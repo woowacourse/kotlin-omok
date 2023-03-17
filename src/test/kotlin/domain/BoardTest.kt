@@ -9,6 +9,7 @@ class BoardTest {
     fun `턴을 흑백 순으로 반복한다`() {
         val players = Players(listOf(BlackPlayer(Color.BLACK), WhitePlayer(Color.WHITE)))
         val stones = Stones()
+        val omokRule = RenjuRule(stones)
         val coordinates = listOf<Coordinate>(
             Coordinate.from(1, 1)!!,
             Coordinate.from(1, 2)!!,
@@ -20,7 +21,7 @@ class BoardTest {
             Coordinate.from(4, 2)!!,
             Coordinate.from(5, 1)!!,
         )
-        val board = Board(players, stones)
+        val board = Board(players, stones, omokRule)
         var coordinateIndex = 0
         board.repeatTurn {
             coordinates[coordinateIndex++]

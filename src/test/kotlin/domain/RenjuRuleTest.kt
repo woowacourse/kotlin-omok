@@ -19,9 +19,10 @@ class RenjuRuleTest {
             WhiteStone(0, 3),
         )
         val stones = Stones(placedStones)
+        val renjuRule = RenjuRule(stones)
 
         // when
-        val actual = RenjuRule.isThreeToThree(stones, BlackStone(3, 11))
+        val actual = renjuRule.isThreeToThree(BlackStone(3, 11))
 
         // then
         assertThat(actual).isTrue
@@ -37,9 +38,10 @@ class RenjuRuleTest {
             BlackStone(4, 4),
         )
         val stones = Stones(placedStones)
+        val renjuRule = RenjuRule(stones)
 
         // when
-        val actual = RenjuRule.isThreeToThree(stones, BlackStone(4, 2))
+        val actual = renjuRule.isThreeToThree(BlackStone(4, 2))
 
         // then
         assertThat(actual).isTrue
@@ -55,9 +57,10 @@ class RenjuRuleTest {
             BlackStone(13, 8),
         )
         val stones = Stones(placedStones)
+        val renjuRule = RenjuRule(stones)
 
         // when
-        val actual = RenjuRule.isThreeToThree(stones, BlackStone(11, 10))
+        val actual = renjuRule.isThreeToThree(BlackStone(11, 10))
 
         // then
         assertThat(actual).isTrue
@@ -73,9 +76,10 @@ class RenjuRuleTest {
             BlackStone(13, 3),
         )
         val stones = Stones(placedStones)
+        val renjuRule = RenjuRule(stones)
 
         // when
-        val actual = RenjuRule.isThreeToThree(stones, BlackStone(10, 3))
+        val actual = renjuRule.isThreeToThree(BlackStone(10, 3))
 
         // then
         assertThat(actual).isTrue
@@ -92,9 +96,10 @@ class RenjuRuleTest {
             WhiteStone(9, 3),
         )
         val stones = Stones(placedStones)
+        val renjuRule = RenjuRule(stones)
 
         // when
-        val actual = RenjuRule.isThreeToThree(stones, BlackStone(10, 3))
+        val actual = renjuRule.isThreeToThree(BlackStone(10, 3))
 
         // then
         assertThat(actual).isFalse
@@ -110,9 +115,10 @@ class RenjuRuleTest {
             BlackStone(2, 9),
         )
         val stones = Stones(placedStones)
+        val renjuRule = RenjuRule(stones)
 
         // when
-        val actual = RenjuRule.findScore(stones, BlackStone(2, 12))
+        val actual = renjuRule.findScore(BlackStone(2, 12))
 
         // then
         assertThat(actual).isGreaterThanOrEqualTo(5)
@@ -129,9 +135,10 @@ class RenjuRuleTest {
             BlackStone(2, 9),
         )
         val stones = Stones(placedStones)
+        val renjuRule = RenjuRule(stones)
 
         // when
-        val actual = RenjuRule.isFourToFour(stones, BlackStone(2, 7))
+        val actual = renjuRule.isFourToFour(BlackStone(2, 7))
 
         assertThat(actual).isTrue
     }
@@ -146,9 +153,10 @@ class RenjuRuleTest {
             BlackStone(9, 12),
         )
         val stones = Stones(placedStones)
+        val renjuRule = RenjuRule(stones)
 
         // when
-        val actual = RenjuRule.isFourToFour(stones, BlackStone(5, 12))
+        val actual = renjuRule.isFourToFour(BlackStone(5, 12))
 
         assertThat(actual).isTrue
     }
@@ -163,9 +171,10 @@ class RenjuRuleTest {
             BlackStone(9, 5),
         )
         val stones = Stones(placedStones)
+        val renjuRule = RenjuRule(stones)
 
         // when
-        val actual = RenjuRule.isFourToFour(stones, BlackStone(9, 9))
+        val actual = renjuRule.isFourToFour(BlackStone(9, 9))
 
         assertThat(actual).isTrue
     }
@@ -182,9 +191,10 @@ class RenjuRuleTest {
 
         )
         val stones = Stones(placedStones)
+        val renjuRule = RenjuRule(stones)
 
         // when
-        val actual = RenjuRule.isFourToFour(stones, BlackStone(8, 7))
+        val actual = renjuRule.isFourToFour(BlackStone(8, 7))
 
         assertThat(actual).isTrue
     }
@@ -203,9 +213,10 @@ class RenjuRuleTest {
 
         )
         val stones = Stones(placedStones)
+        val renjuRule = RenjuRule(stones)
 
         // when
-        val actual = RenjuRule.isFourToFour(stones, BlackStone(7, 4))
+        val actual = renjuRule.isFourToFour(BlackStone(7, 4))
 
         assertThat(actual).isTrue
     }
