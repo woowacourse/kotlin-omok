@@ -10,8 +10,8 @@ import org.junit.jupiter.params.provider.ValueSource
 class XCoordinateTest {
     @Test
     fun `x 좌표를 만들 수 있다`() {
-        val xCoordinate = XCoordinate('A')
-        assertThat(xCoordinate.value).isEqualTo('A')
+        val xCoordinate = XCoordinate(1)
+        assertThat(xCoordinate.value).isEqualTo(1)
     }
 
     @ParameterizedTest
@@ -28,7 +28,7 @@ class XCoordinateTest {
     @Test
     fun `모든 X 좌표의 목록을 반환한다`() {
         val actual = XCoordinate.all().map { it.value }
-        val expected = ('A'..'O').toList()
+        val expected = (1..15).toList()
         assertThat(actual).isEqualTo(expected)
     }
 }

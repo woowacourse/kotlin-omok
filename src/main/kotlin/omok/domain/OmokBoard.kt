@@ -14,7 +14,7 @@ class OmokBoard(private val value: Map<OmokPoint, StoneState>) {
         val newValue = value.toMutableMap()
         newValue[point] = when (newValue[point]) {
             EmptyStoneState -> stoneState
-            else -> throw IllegalArgumentException(ERROR_ALREADY_PLACED.format(point.x.value, point.y.value))
+            else -> throw IllegalArgumentException(ERROR_ALREADY_PLACED.format(point.x.toChar(), point.y.value))
         }
         return OmokBoard(newValue)
     }
