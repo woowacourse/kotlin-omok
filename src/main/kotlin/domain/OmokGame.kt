@@ -10,6 +10,10 @@ class OmokGame(
     val getPosition: (Stone?, Boolean) -> Position,
     val checkBoardState: (Board) -> Unit,
 ) {
+
+    /**
+     * TODO: run game이라는 함수 이름으로 이것이 승자 color를 반환한다는 것을 알 수 있을까?
+     */
     fun runGame(): Color {
         var board: Board = PlayingBoard()
         var color = Color.BLACK
@@ -22,13 +26,14 @@ class OmokGame(
         return board.winningColor
     }
 
+    /**
+     * TODO: initial try의 개념이 필요할까?
+     */
     fun turnGame(board: Board, color: Color, initialTry: Boolean = true): Board {
         val position = getPosition(board.getLatestStone(), initialTry)
-        return if (board.isPossiblePut(position)) {
-            val nextBoard = board.putStone(Stone(position, color))
-            nextBoard
-        } else {
-            turnGame(board, color, false)
+        if (!board.isPossiblePut(position)) {
+            return turnGame(board, color, false)
         }
+        return board.putStone(Stone(position, color))
     }
 }
