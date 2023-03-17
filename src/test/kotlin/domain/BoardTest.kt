@@ -7,10 +7,10 @@ import org.junit.jupiter.api.assertAll
 class BoardTest {
     @Test
     fun `턴을 흑백 순으로 반복한다`() {
-        val players = Players(listOf(BlackPlayer(Color.BLACK), WhitePlayer(Color.WHITE)))
+        val players = Players()
         val stones = Stones()
         val omokRule = RenjuRule(stones)
-        val coordinates = listOf<Coordinate>(
+        val coordinates = listOf(
             Coordinate.from(1, 1)!!,
             Coordinate.from(1, 2)!!,
             Coordinate.from(2, 1)!!,

@@ -1,19 +1,17 @@
 package controller
 
-import domain.BlackPlayer
 import domain.Board
 import domain.Color
 import domain.Coordinate
 import domain.Players
 import domain.RenjuRule
 import domain.Stones
-import domain.WhitePlayer
 import dto.PointDTO
 import view.GameView
 
 class GameController(private val gameView: GameView) {
     fun process() {
-        val players = Players(listOf(BlackPlayer(), WhitePlayer()))
+        val players = Players()
         val stones = Stones()
         val omokRule = RenjuRule(stones)
         val board = Board(players, stones, omokRule)

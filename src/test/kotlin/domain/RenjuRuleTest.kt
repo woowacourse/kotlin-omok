@@ -8,7 +8,7 @@ class RenjuRuleTest {
     @Test
     fun `놓은 돌이 닫힌 3 닫힌 3 일 때 플레이어는 돌을 놓을 수 없다`() {
         // given
-        val placedStones = listOf<Stone>(
+        val placedStones = listOf(
             BlackStone(2, 11),
             WhiteStone(0, 0),
             BlackStone(3, 13),
@@ -31,7 +31,7 @@ class RenjuRuleTest {
     @Test
     fun `놓은 돌이 열린 4 열린 4 일 때 플레이어는 돌을 놓을 수 없다`() {
         // given
-        val placedStones = listOf<Stone>(
+        val placedStones = listOf(
             BlackStone(1, 5),
             BlackStone(2, 4),
             BlackStone(4, 5),
@@ -50,7 +50,7 @@ class RenjuRuleTest {
     @Test
     fun `놓은 돌이 열린 4 열린 4 일 때 플레이어는 돌을 놓을 수 없다2`() {
         // given
-        val placedStones = listOf<Stone>(
+        val placedStones = listOf(
             BlackStone(9, 8),
             BlackStone(12, 11),
             BlackStone(12, 9),
@@ -69,7 +69,7 @@ class RenjuRuleTest {
     @Test
     fun `놓은 돌이 닫힌 3 열린 4 일 때 플레이어는 돌을 놓을 수 없다`() {
         // given
-        val placedStones = listOf<Stone>(
+        val placedStones = listOf(
             BlackStone(10, 2),
             BlackStone(10, 5),
             BlackStone(12, 3),
@@ -88,7 +88,7 @@ class RenjuRuleTest {
     @Test
     fun `열린 4가 하나만 있을 때 돌을 놓을 수 있다`() {
         // given
-        val placedStones = listOf<Stone>(
+        val placedStones = listOf(
             BlackStone(10, 2),
             BlackStone(10, 5),
             BlackStone(12, 3),
@@ -107,7 +107,7 @@ class RenjuRuleTest {
 
     @Test
     fun `흑색돌이 6개 연속 있을 때 육목이다`() {
-        val placedStones = listOf<Stone>(
+        val placedStones = listOf(
             BlackStone(2, 14),
             BlackStone(2, 13),
             BlackStone(2, 11),
@@ -126,7 +126,7 @@ class RenjuRuleTest {
 
     @Test
     fun `흑색 돌이 4 4일 떄 돌을 놓을 수 없다`() {
-        val placedStones = listOf<Stone>(
+        val placedStones = listOf(
             BlackStone(4, 5),
             BlackStone(5, 4),
             BlackStone(6, 3),
@@ -145,7 +145,7 @@ class RenjuRuleTest {
 
     @Test
     fun `흑색 돌이 4 4일 떄 돌을 놓을 수 없다2`() {
-        val placedStones = listOf<Stone>(
+        val placedStones = listOf(
             BlackStone(2, 12),
             BlackStone(3, 12),
             BlackStone(6, 12),
@@ -163,7 +163,7 @@ class RenjuRuleTest {
 
     @Test
     fun `흑색 돌이 4 4일 떄 돌을 놓을 수 없다3`() {
-        val placedStones = listOf<Stone>(
+        val placedStones = listOf(
             BlackStone(9, 11),
             BlackStone(9, 12),
             BlackStone(9, 8),
@@ -181,7 +181,7 @@ class RenjuRuleTest {
 
     @Test
     fun `흑색 돌이 4 4일 떄 돌을 놓을 수 없다4`() {
-        val placedStones = listOf<Stone>(
+        val placedStones = listOf(
             BlackStone(9, 7),
             BlackStone(10, 7),
             BlackStone(7, 7),
@@ -201,7 +201,7 @@ class RenjuRuleTest {
 
     @Test
     fun `흑색 돌이 4 4일 떄 돌을 놓을 수 없다5`() {
-        val placedStones = listOf<Stone>(
+        val placedStones = listOf(
             WhiteStone(3, 4),
             BlackStone(4, 4),
             BlackStone(5, 4),

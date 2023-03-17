@@ -3,7 +3,7 @@ package domain
 class Board(private val players: Players, private val stones: Stones, private val omokRule: OmokRule) {
     fun repeatTurn(coordinateReader: CoordinateReader): Player {
         while (true) {
-            val currentTurnPlayer = players.currentTurn()
+            val currentTurnPlayer = players.currentPlayer
             val stone = makeValidatedStone(currentTurnPlayer, coordinateReader)
             stones.place(stone)
             if (isWinPlace(stone)) return currentTurnPlayer
