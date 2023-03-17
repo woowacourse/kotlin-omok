@@ -24,11 +24,4 @@ class XCoordinateTest {
     fun `x 좌표는 A부터 O사이 이외는 에러가 발생한다`() {
         assertThrows<IllegalArgumentException> { XCoordinate('P') }
     }
-
-    @Test
-    fun `모든 X 좌표의 목록을 반환한다`() {
-        val actual = XCoordinate.all().map { it.value }
-        val expected = (1..15).toList()
-        assertThat(actual).isEqualTo(expected)
-    }
 }
