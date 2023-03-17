@@ -6,7 +6,7 @@ class Board(private val players: Players, private val stones: Stones) {
     }
 
     companion object {
-        val BOARD_SIZE = Point(15, 15)
+        val BOARD_END_POINT = Point(15, 15)
         val BOARD_START_POINT = Point(0, 0)
     }
 }

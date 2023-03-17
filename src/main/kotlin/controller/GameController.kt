@@ -41,7 +41,7 @@ class GameController(
             stones.value.map {
                 StoneMapper.domainToDTO(it)
             },
-            PointMapper.domainToDTO(Board.BOARD_SIZE)
+            PointMapper.domainToDTO(Board.BOARD_END_POINT)
         )
     }
 

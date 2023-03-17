@@ -12,7 +12,7 @@ data class Coordinate private constructor(val point: Point) {
 
     companion object {
         fun from(x: Int, y: Int): Coordinate? {
-            if (x >= Board.BOARD_SIZE.x || y >= Board.BOARD_SIZE.y || x < Board.BOARD_START_POINT.x || y < Board.BOARD_START_POINT.y) return null
+            if (x >= Board.BOARD_END_POINT.x || y >= Board.BOARD_END_POINT.y || x < Board.BOARD_START_POINT.x || y < Board.BOARD_START_POINT.y) return null
             return Coordinate(Point(x, y))
         }
     }

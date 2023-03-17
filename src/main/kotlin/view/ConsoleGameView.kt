@@ -9,8 +9,8 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
         println(GAME_START)
     }
 
-    override fun renderBoard(stones: List<StoneDTO>, size: PointDTO) {
-        println(renderBoard.render(stones, size))
+    override fun renderBoard(stones: List<StoneDTO>, endPoint: PointDTO) {
+        println(renderBoard.render(stones, endPoint))
     }
 
     override fun readStone(color: ColorDTO, lastStone: PointDTO?): PointDTO? {

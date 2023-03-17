@@ -6,25 +6,25 @@ import dto.StoneDTO
 
 class ConsoleRenderBoard : RenderBoard {
     private val board = StringBuilder()
-    override fun render(stones: List<StoneDTO>, size: PointDTO): String {
+    override fun render(stones: List<StoneDTO>, endPoint: PointDTO): String {
         board.clear()
-        for (index in 0 until (size.x * size.y)) {
-            makeNewLine(index, size)
+        for (index in 0 until (endPoint.x * endPoint.y)) {
+            makeNewLine(index, endPoint)
 
-            val x = index % size.x
-            val y = index / size.x
+            val x = index % endPoint.x
+            val y = index / endPoint.x
 
-            renderRowNumber(index, size, y)
+            renderRowNumber(index, endPoint, y)
 
-            val stone = findStone(stones, x, y, size)
+            val stone = findStone(stones, x, y, endPoint)
             if (stone != null) {
-                renderStone(stone, size)
+                renderStone(stone, endPoint)
                 continue
             }
 
-            renderEmptySlot(x, y, size)
+            renderEmptySlot(x, y, endPoint)
         }
-        renderColumnChar(size)
+        renderColumnChar(endPoint)
         return board.toString()
     }
 
