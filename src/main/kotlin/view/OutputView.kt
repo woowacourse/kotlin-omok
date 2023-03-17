@@ -72,14 +72,6 @@ object OutputView {
         return builder
     }
 
-    private fun selectState(state: State): String? {
-        return when (state) {
-            State.BLACK -> StateUiModel.BLACK.value
-            State.WHITE -> StateUiModel.WHITE.value
-            else -> null
-        }
-    }
-
     fun printWinner(state: State) {
         println(MESSAGE_WINNER.format(selectState(state)))
     }
