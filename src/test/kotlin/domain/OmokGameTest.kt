@@ -1,6 +1,5 @@
 package domain
 
-import domain.board.Board
 import org.junit.jupiter.api.Test
 
 class OmokGameTest {
@@ -18,5 +17,5 @@ class OmokGameTest {
         omokGame.runGame({ turn[index++] }, ::onMove, {}, {}, {})
     }
 
-    private fun onMove(board: Board, state: State, stone: Stone) {}
+    private fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {}
 }

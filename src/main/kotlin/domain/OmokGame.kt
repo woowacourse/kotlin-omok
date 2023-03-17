@@ -1,15 +1,12 @@
 package domain
 
-import domain.board.Board
-import domain.board.OmokBoard
-
 class OmokGame(
     private val omokBoard: OmokBoard = OmokBoard(),
     private val referee: Referee = Referee()
 ) {
     fun runGame(
         getStone: () -> Stone,
-        onMove: (Board, State, Stone) -> Unit,
+        onMove: (OmokBoard, State, Stone) -> Unit,
         onMoveFail: () -> Unit,
         onForbidden: () -> Unit,
         onFinish: (State) -> Unit
@@ -24,7 +21,7 @@ class OmokGame(
     }
 
     private fun isVictory(state: State, onFinish: (State) -> Unit): Boolean {
-        if (referee.isWin(omokBoard.board, state)) {
+        if (referee.isWin(omokBoard, state)) {
             onFinish(state)
             return true
         }
@@ -35,7 +32,7 @@ class OmokGame(
         getStone: () -> Stone,
         onMoveFail: () -> Unit,
         onForbidden: () -> Unit,
-        onMove: (Board, State, Stone) -> Unit
+        onMove: (OmokBoard, State, Stone) -> Unit
     ): Boolean {
         val blackStone = getStone()
         if (!omokBoard.isEmpty(blackStone)) {
@@ -48,14 +45,14 @@ class OmokGame(
             return successBlackTurn(getStone, onMoveFail, onForbidden, onMove)
         }
         omokBoard.move(blackStone, State.BLACK)
-        onMove(omokBoard.board, State.WHITE, blackStone)
+        onMove(omokBoard, State.WHITE, blackStone)
         return true
     }
 
     private fun successWhiteTurn(
         getStone: () -> Stone,
         onMoveFail: () -> Unit,
-        onMove: (Board, State, Stone) -> Unit
+        onMove: (OmokBoard, State, Stone) -> Unit
     ): Boolean {
         val whiteStone = getStone()
         if (!omokBoard.isEmpty(whiteStone)) {
@@ -63,7 +60,7 @@ class OmokGame(
             return successWhiteTurn(getStone, onMoveFail, onMove)
         }
         omokBoard.move(whiteStone, State.WHITE)
-        onMove(omokBoard.board, State.BLACK, whiteStone)
+        onMove(omokBoard, State.BLACK, whiteStone)
         return true
     }
 }

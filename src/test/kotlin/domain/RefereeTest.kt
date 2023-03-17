@@ -1,7 +1,5 @@
 package domain
 
-import domain.board.Board
-import domain.board.OmokBoard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import view.OutputView
@@ -11,65 +9,65 @@ class RefereeTest {
     fun `가로로 연속 5개 놓여있으면 승리다`() {
         // given
         val referee = Referee()
-        val board = Board()
+        val omokBoard = OmokBoard()
         (1..5).forEach { column ->
-            board.move(Stone(1, column), State.BLACK)
+            omokBoard.move(Stone(1, column), State.BLACK)
         }
 
         // when, then
-        assertThat(referee.isWin(board, State.BLACK)).isTrue
+        assertThat(referee.isWin(omokBoard, State.BLACK)).isTrue
     }
 
     @Test
     fun `세로로 연속 5개 놓여있으면 승리다`() {
         // given
         val referee = Referee()
-        val board = Board()
+        val omokBoard = OmokBoard()
         (1..5).forEach { row ->
-            board.move(Stone(row, 1), State.BLACK)
+            omokBoard.move(Stone(row, 1), State.BLACK)
         }
 
         // when, then
-        assertThat(referee.isWin(board, State.BLACK)).isTrue
+        assertThat(referee.isWin(omokBoard, State.BLACK)).isTrue
     }
 
     @Test
     fun `좌상단에서 우하단 대각선으로 5개 놓여있으면 승리다`() {
         // given
         val referee = Referee()
-        val board = Board()
+        val omokBoard = OmokBoard()
         (1..5).forEach { index ->
-            board.move(Stone(index, index), State.BLACK)
+            omokBoard.move(Stone(index, index), State.BLACK)
         }
 
         // when, then
-        assertThat(referee.isWin(board, State.BLACK)).isTrue
+        assertThat(referee.isWin(omokBoard, State.BLACK)).isTrue
     }
 
     @Test
     fun `우상단에서 좌하단 대각선으로 5개 놓여있으면 승리다`() {
         // given
         val referee = Referee()
-        val board = Board()
+        val omokBoard = OmokBoard()
         (1..5).forEach { index ->
-            board.move(Stone(index, 15 - index), State.BLACK)
+            omokBoard.move(Stone(index, 15 - index), State.BLACK)
         }
 
         // when, then
-        assertThat(referee.isWin(board, State.BLACK)).isTrue
+        assertThat(referee.isWin(omokBoard, State.BLACK)).isTrue
     }
 
     @Test
     fun `가로로 연속 4개 놓여있으면 승리가 아니다`() {
         // given
         val referee = Referee()
-        val board = Board()
+        val omokBoard = OmokBoard()
         (1..4).forEach { column ->
-            board.move(Stone(1, column), State.BLACK)
+            omokBoard.move(Stone(1, column), State.BLACK)
         }
 
         // when, then
-        assertThat(referee.isWin(board, State.BLACK)).isFalse
+        assertThat(referee.isWin(omokBoard, State.BLACK)).isFalse
     }
 
     @Test
@@ -86,7 +84,7 @@ class RefereeTest {
         val stone = Stone.create('D', 12)
         val actual = referee.checkForbidden(myBoard, stone)
 
-        OutputView.printOmokState(myBoard.board, State.BLACK, stone)
+        OutputView.printOmokState(myBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -106,7 +104,7 @@ class RefereeTest {
         val stone = Stone.create('E', 3)
         val actual = referee.checkForbidden(myBoard, stone)
 
-        OutputView.printOmokState(myBoard.board, State.BLACK, stone)
+        OutputView.printOmokState(myBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -126,7 +124,7 @@ class RefereeTest {
         val stone = Stone.create('K', 4)
         val actual = referee.checkForbidden(myBoard, stone)
 
-        OutputView.printOmokState(myBoard.board, State.BLACK, stone)
+        OutputView.printOmokState(myBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -146,7 +144,7 @@ class RefereeTest {
         val stone = Stone.create('L', 11)
         val actual = referee.checkForbidden(myBoard, stone)
 
-        OutputView.printOmokState(myBoard.board, State.BLACK, stone)
+        OutputView.printOmokState(myBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -167,7 +165,7 @@ class RefereeTest {
         val stone = Stone.create('F', 12)
         val actual = referee.checkForbidden(myBoard, stone)
 
-        OutputView.printOmokState(myBoard.board, State.BLACK, stone)
+        OutputView.printOmokState(myBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -187,7 +185,7 @@ class RefereeTest {
         val stone = Stone.create('J', 10)
         val actual = referee.checkForbidden(myBoard, stone)
 
-        OutputView.printOmokState(myBoard.board, State.BLACK, stone)
+        OutputView.printOmokState(myBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -212,7 +210,7 @@ class RefereeTest {
         val stone = Stone.create('H', 5)
         val actual = referee.checkForbidden(myBoard, stone)
 
-        OutputView.printOmokState(myBoard.board, State.BLACK, stone)
+        OutputView.printOmokState(myBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -234,7 +232,7 @@ class RefereeTest {
         val stone = Stone.create('I', 8)
         val actual = referee.checkForbidden(myBoard, stone)
 
-        OutputView.printOmokState(myBoard.board, State.BLACK, stone)
+        OutputView.printOmokState(myBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -255,7 +253,7 @@ class RefereeTest {
         val stone = Stone.create('C', 13)
         val actual = referee.checkForbidden(myBoard, stone)
 
-        OutputView.printOmokState(myBoard.board, State.BLACK, stone)
+        OutputView.printOmokState(myBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse

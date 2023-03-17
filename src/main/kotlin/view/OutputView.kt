@@ -2,7 +2,7 @@ package view
 
 import domain.State
 import domain.Stone
-import domain.board.Board
+import domain.OmokBoard
 
 object OutputView {
     private const val MESSAGE_START = "오목 게임을 시작합니다."
@@ -49,15 +49,15 @@ object OutputView {
         println(MESSAGE_FORBIDDEN)
     }
 
-    fun printOmokState(board: Board, state: State, stone: Stone) {
+    fun printOmokState(omokBoard: OmokBoard, state: State, stone: Stone) {
         val stringBuilder = StringBuilder(default)
-        val resultBuilder = addStones(stringBuilder, board)
+        val resultBuilder = addStones(stringBuilder, omokBoard)
         println(resultBuilder)
         println(MESSAGE_TURN.format(selectState(state), stone.toString()))
     }
 
-    private fun addStones(builder: StringBuilder, board: Board): StringBuilder {
-        board.value.forEachIndexed { rowIndex, row ->
+    private fun addStones(builder: StringBuilder, omokBoard: OmokBoard): StringBuilder {
+        omokBoard.value.forEachIndexed { rowIndex, row ->
             row.forEachIndexed { columnIndex, item ->
                 if (item != State.EMPTY) {
                     builder.also {
