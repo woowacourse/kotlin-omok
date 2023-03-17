@@ -5,53 +5,46 @@ data class Position(val column: Column, val row: Row) {
 
     fun getNorth(): Position? {
         val northRow = row.up()
-        if (northRow != null) return Position(column, northRow)
+        if (northRow != null) return this.copy()
         return null
     }
 
     fun getNorthEast(): Position? {
-        val eastColumn = column.right()
-        val northRow = row.up()
-        if (eastColumn != null && northRow != null) return Position(eastColumn, northRow)
-        return null
+        val eastColumn = column.right() ?: return null
+        val northRow = row.up() ?: return null
+        return Position(eastColumn, northRow)
     }
 
     fun getEast(): Position? {
-        val eastColumn = column.right()
-        if (eastColumn != null) return Position(eastColumn, row)
-        return null
+        val eastColumn = column.right() ?: return null
+        return Position(eastColumn, row)
     }
 
     fun getSouthEast(): Position? {
-        val eastColumn = column.right()
-        val southRow = row.down()
-        if (eastColumn != null && southRow != null) return Position(eastColumn, southRow)
-        return null
+        val eastColumn = column.right() ?: return null
+        val southRow = row.down() ?: return null
+        return Position(eastColumn, southRow)
     }
 
     fun getSouth(): Position? {
-        val southRow = row.down()
-        if (southRow != null) return Position(column, southRow)
-        return null
+        val southRow = row.down() ?: return null
+        return Position(column, southRow)
     }
 
     fun getSouthWest(): Position? {
-        val westColumn = column.left()
-        val southRow = row.down()
-        if (westColumn != null && southRow != null) return Position(westColumn, southRow)
-        return null
+        val westColumn = column.left() ?: return null
+        val southRow = row.down() ?: return null
+        return Position(westColumn, southRow)
     }
 
     fun getWest(): Position? {
-        val westColumn = column.left()
-        if (westColumn != null) return Position(westColumn, row)
-        return null
+        val westColumn = column.left() ?: return null
+        return Position(westColumn, row)
     }
 
     fun getNorthWest(): Position? {
-        val westColumn = column.left()
-        val northRow = row.up()
-        if (westColumn != null && northRow != null) return Position(westColumn, northRow)
-        return null
+        val westColumn = column.left() ?: return null
+        val northRow = row.up() ?: return null
+        return Position(westColumn, northRow)
     }
 }
