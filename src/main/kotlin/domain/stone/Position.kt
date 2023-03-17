@@ -4,9 +4,8 @@ data class Position(val column: Column, val row: Row) {
     constructor(x: Int, y: Int) : this(Column.valueOf(x), Row.valueOf(y))
 
     fun getNorth(): Position? {
-        val northRow = row.up()
-        if (northRow != null) return this.copy()
-        return null
+        val northRow = row.up() ?: return null
+        return Position(column, northRow)
     }
 
     fun getNorthEast(): Position? {
