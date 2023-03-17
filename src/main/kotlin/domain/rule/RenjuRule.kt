@@ -11,15 +11,15 @@ class RenjuRule : OmokRule {
         return check33(blackStones, whiteStones, startStone) || check44(blackStones, whiteStones, startStone) || checkLongOmok(blackStones, startStone)
     }
 
-    private fun check33(blackStones: Stones, whiteStones: Stones, startStone: Stone): Boolean {
+    fun check33(blackStones: Stones, whiteStones: Stones, startStone: Stone): Boolean {
         return check33AllDirections(blackStones, whiteStones, startStone)
     }
 
-    private fun check44(blackStones: Stones, whiteStones: Stones, startStone: Stone): Boolean {
+    fun check44(blackStones: Stones, whiteStones: Stones, startStone: Stone): Boolean {
         return check44AllDirections(blackStones, whiteStones, startStone)
     }
 
-    private fun checkLongOmok(blackStones: Stones, startStone: Stone): Boolean {
+    fun checkLongOmok(blackStones: Stones, startStone: Stone): Boolean {
         val directions = listOf(RIGHT_DIRECTION, TOP_DIRECTION, RIGHT_TOP_DIRECTION, LEFT_BOTTOM_DIRECTION)
         for (moveDirection in directions) {
             val forwardCount = findLongOmok(blackStones, startStone.position, moveDirection, FORWARD_WEIGHT)
@@ -243,11 +243,10 @@ class RenjuRule : OmokRule {
     private fun inRange(x: Int, y: Int) = x in Position.POSITION_RANGE && y in Position.POSITION_RANGE
 
     companion object {
-
         private val RIGHT_DIRECTION = Pair(1, 0)
         private val TOP_DIRECTION = Pair(0, 1)
         private val RIGHT_TOP_DIRECTION = Pair(1, 1)
-        private val LEFT_BOTTOM_DIRECTION = Pair(-1, -1)
+        private val LEFT_BOTTOM_DIRECTION = Pair(-1, 1)
 
         private const val FORWARD_WEIGHT = 1
         private const val BACK_WEIGHT = -1
