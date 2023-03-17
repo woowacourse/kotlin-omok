@@ -1,4 +1,4 @@
-package omok.model
+package omok.view.model
 
 import omok.domain.board.Row
 

@@ -2,7 +2,6 @@ package omok.domain.board
 
 import omok.domain.judgment.BlackReferee
 import omok.domain.player.Stone
-import omok.model.toPresentation
 
 class Board(private val _positions: MutableMap<Position, Stone?> = POSITIONS.associateWith { null }.toMutableMap()) {
     private val referee = BlackReferee()
@@ -11,7 +10,7 @@ class Board(private val _positions: MutableMap<Position, Stone?> = POSITIONS.ass
 
     fun place(position: Position, stone: Stone) {
         require(isEmpty(position)) {
-            "[ERROR] ${position.column.toPresentation()}${position.row.toPresentation()}은/는 비어있지 않습니다."
+            "[ERROR] ${position.column.name}${position.row.axis + 1}은/는 비어있지 않습니다."
         }
         if (stone.canPlace(referee, positions, position)) _positions[position] = stone
     }

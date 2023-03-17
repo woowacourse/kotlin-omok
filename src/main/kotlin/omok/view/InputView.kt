@@ -2,7 +2,7 @@ package omok.view
 
 import omok.domain.Turn
 import omok.domain.board.Position
-import omok.model.toPresentation
+import omok.view.model.toPresentation
 
 class InputView {
     fun readPosition(position: Position?, turn: Turn): String? {

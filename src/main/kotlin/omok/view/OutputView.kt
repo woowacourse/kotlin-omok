@@ -5,7 +5,7 @@ import omok.domain.board.Board
 import omok.domain.board.Column
 import omok.domain.board.Position
 import omok.domain.board.Row
-import omok.model.toPresentation
+import omok.view.model.toPresentation
 
 class OutputView {
     fun printStart(board: Board) {
