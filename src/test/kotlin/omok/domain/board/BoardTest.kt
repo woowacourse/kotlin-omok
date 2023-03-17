@@ -52,15 +52,15 @@ class BoardTest {
     fun `돌을 놓으려는 좌표에 이미 돌이 존재하면 놓을 수 없다`() {
         val board = Board(UPWARD_DIAGONAL_BOARD)
 
-        assertThrows<IllegalArgumentException> { board.place(Position(Column.J, Row.TEN), Black) }
+        assertThrows<IllegalArgumentException> { board.placeStone(Position(Column.J, Row.TEN), Black) }
     }
 
     @Test
     fun `돌을 놓으면, 해당 위치에 다시 돌을 놓을 수 없다`() {
         val board = Board()
 
-        board.place(Position(Column.J, Row.TEN), Black)
+        board.placeStone(Position(Column.J, Row.TEN), Black)
 
-        assertThrows<IllegalArgumentException> { board.place(Position(Column.J, Row.TEN), White) }
+        assertThrows<IllegalArgumentException> { board.placeStone(Position(Column.J, Row.TEN), White) }
     }
 }

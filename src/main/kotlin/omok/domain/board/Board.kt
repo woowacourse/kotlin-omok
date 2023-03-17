@@ -9,7 +9,7 @@ class Board(private val _positions: MutableMap<Position, Stone?> = POSITIONS.ass
     val positions: Map<Position, Stone?>
         get() = _positions.toMap()
 
-    fun place(position: Position, stone: Stone) {
+    fun placeStone(position: Position, stone: Stone) {
         require(isEmpty(position)) {
             "[ERROR] ${position.column.toPresentation()}${position.row.toPresentation()}은/는 비어있지 않습니다."
         }
