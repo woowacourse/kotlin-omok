@@ -6,10 +6,13 @@ import omok.model.toPresentation
 
 class InputView {
     fun readPosition(position: Position?, turn: Turn): String? {
+        val stone = turn.now.toPresentation()
+        val lastPosition = getLastPositionMessage(position)
+
         print(
             """
             |
-            |${turn.now.toPresentation()}의 차례입니다. ${getLastPositionMessage(position)}
+            |${stone}의 차례입니다. $lastPosition
             |위치를 입력하세요: 
         """.trimMargin()
         )
