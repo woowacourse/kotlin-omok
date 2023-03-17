@@ -120,14 +120,13 @@ class OmokRule(private val board: OmokBoard, private val stoneState: StoneState)
                     if (blink == 1) break
                     if (blinkCount++ == 1) break
                 }
-                else -> throw IllegalArgumentException()
+                else -> throw IllegalArgumentException(ERROR_MESSAGE)
             }
         }
         return Pair(stone, blink)
     }
 
     companion object {
-        const val MIN_OPEN_THREES = 2
-        const val MIN_OPEN_FOURS = 2
+        private const val ERROR_MESSAGE = "해당하는 경우의 수가 없습니다."
     }
 }

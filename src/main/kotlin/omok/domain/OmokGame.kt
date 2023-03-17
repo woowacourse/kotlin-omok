@@ -9,7 +9,7 @@ class OmokGame {
         var point: OmokPoint? = null
         while (gameState.isRunning) {
             point = getPoint(gameState.stoneState.korean, point)
-            runCatching { gameState = gameState.play(point) }
+            runCatching { gameState = gameState.play(point) }.onFailure { println(it.message) }
             output(gameState.omokBoard)
         }
     }
