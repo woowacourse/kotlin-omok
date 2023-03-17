@@ -1,6 +1,6 @@
 package omok.domain.board
 
-fun String?.toRow(): Row? = Row.values().find { this?.toIntOrNull() == it.axis + 1 }
+internal fun String?.toRow(): Row? = Row.values().find { this?.toIntOrNull() == it.axis + 1 }
 
 enum class Row(val axis: Int) {
     ONE(0),

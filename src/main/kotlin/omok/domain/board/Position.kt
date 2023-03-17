@@ -1,6 +1,6 @@
 package omok.domain.board
 
-fun String?.toPosition(): Position {
+internal fun String?.toPosition(): Position {
     val columnText = this?.substring(0, 1)
     val rowText = this?.substring(1)
     val column = columnText.toColumn()

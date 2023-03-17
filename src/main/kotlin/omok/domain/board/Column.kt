@@ -1,6 +1,6 @@
 package omok.domain.board
 
-fun String?.toColumn(): Column? = Column.values().find { this == it.name }
+internal fun String?.toColumn(): Column? = Column.values().find { this == it.name }
 
 enum class Column(private val axis: Int) {
     A(0),
