@@ -11,7 +11,7 @@ class OmokController(
     override fun run() {
         outputView.printGameStartMessage()
         val omokGame = OmokGame(inputView::requestPoint, outputView::printOmokBoardState)
-        val result = omokGame.runGame()
+        val result = omokGame.playOmokGameAndReturnWinningColor()
         outputView.printWinner(result)
     }
 }
