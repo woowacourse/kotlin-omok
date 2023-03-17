@@ -76,15 +76,19 @@ class ConsoleRenderBoard : RenderBoard {
     }
 
     private fun renderEmptySlot(x: Int, y: Int, size: PointDTO) {
-        if (x == LEFT_START_INDEX && y == TOP_START_INDEX) board.append(EMPTY_LEFT_TOP_SLOT)
-        else if (x == size.x - COORDINATE_FIXER && y == LEFT_START_INDEX) board.append(EMPTY_RIGHT_TOP_SLOT)
-        else if (y == TOP_START_INDEX) board.append(EMPTY_TOP_SLOT)
-        else if (x == LEFT_START_INDEX && y == size.y - COORDINATE_FIXER) board.append(EMPTY_LEFT_BOTTOM_SLOT)
-        else if (x == size.x - COORDINATE_FIXER && y == size.y - COORDINATE_FIXER) board.append(EMPTY_RIGHT_BOTTOM_SLOT)
-        else if (y == size.y - COORDINATE_FIXER) board.append(EMPTY_BOTTOM_SLOT)
-        else if (x == LEFT_START_INDEX) board.append(EMPTY_LEFT_SLOT)
-        else if (x == size.x - COORDINATE_FIXER) board.append(EMPTY_RIGHT_SLOT)
-        else board.append(EMPTY_INNER_SLOT)
+        board.append(
+            when {
+                x == LEFT_START_INDEX && y == TOP_START_INDEX -> EMPTY_LEFT_TOP_SLOT
+                x == LEFT_START_INDEX && y == size.y - COORDINATE_FIXER -> EMPTY_LEFT_BOTTOM_SLOT
+                x == size.x - COORDINATE_FIXER && y == LEFT_START_INDEX -> EMPTY_RIGHT_TOP_SLOT
+                x == size.x - COORDINATE_FIXER && y == size.y - COORDINATE_FIXER -> EMPTY_RIGHT_BOTTOM_SLOT
+                y == size.y - COORDINATE_FIXER -> EMPTY_BOTTOM_SLOT
+                x == LEFT_START_INDEX -> EMPTY_LEFT_SLOT
+                y == TOP_START_INDEX -> EMPTY_TOP_SLOT
+                x == size.x - COORDINATE_FIXER -> EMPTY_RIGHT_SLOT
+                else -> EMPTY_INNER_SLOT
+            }
+        )
     }
 
     companion object {
