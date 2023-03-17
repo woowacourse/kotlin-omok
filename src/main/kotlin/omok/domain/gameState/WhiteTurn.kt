@@ -15,7 +15,6 @@ class WhiteTurn(override val omokBoard: OmokBoard) : GameState {
         val adaptedPoint = OmokAdapter.adaptOmokPoint(point)
         return when {
             WhiteWinRule.validate(adapted, adaptedPoint) -> WhiteWin(omokBoard.placeStone(point, stoneState))
-            WhiteWinRule.validate(adapted, adaptedPoint) -> this
             else -> BlackTurn(omokBoard.placeStone(point, stoneState))
         }
     }

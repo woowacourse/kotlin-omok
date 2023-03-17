@@ -1,6 +1,6 @@
 package omok.domain.omokRule
 
-object FourFourRule : OmokRule() {
+object FourFourRule : OmokRuleImpl() {
     override fun validate(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
         countOpenThrees(board, position) >= 2
 
@@ -14,9 +14,9 @@ object FourFourRule : OmokRule() {
     ): Int {
         val (x, y) = position
         val (dx, dy) = direction
-        val direction2 = direction.let { (dx, dy) -> -dx to -dy }
+        val oppositeDirection = direction.let { (dx, dy) -> Pair(-dx, -dy) }
 
-        val (stone1, blink1) = search(board, position, direction2)
+        val (stone1, blink1) = search(board, position, oppositeDirection)
         val (stone2, blink2) = search(board, position, direction)
 
         val leftDown = stone1 + blink1

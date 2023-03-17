@@ -1,6 +1,6 @@
 package omok.domain.omokRule
 
-object ThreeThreeRule : OmokRule() {
+object ThreeThreeRule : OmokRuleImpl() {
     override fun validate(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
         countOpenThrees(board, position) >= 2
 
@@ -14,8 +14,8 @@ object ThreeThreeRule : OmokRule() {
     ): Int {
         val (x, y) = position
         val (dx, dy) = direction
-        val direction2 = direction.let { (dx, dy) -> -dx to -dy }
-        val (stone1, blink1) = search(board, position, direction2)
+        val oppositeDirection = direction.let { (dx, dy) -> Pair(-dx, -dy) }
+        val (stone1, blink1) = search(board, position, oppositeDirection)
         val (stone2, blink2) = search(board, position, direction)
 
         val leftDown = stone1 + blink1
@@ -35,7 +35,7 @@ object ThreeThreeRule : OmokRule() {
             dy != 0 && y + dy * rightUp in Y_Edge -> 0
             board[y - down ][x - left] == WHITE_STONE -> 0
             board[y + up][x + right] == WHITE_STONE -> 0
-            countToWall(board, position, direction2) + countToWall(board, position, direction) <= 5 -> 0
+            countToWall(board, position, oppositeDirection) + countToWall(board, position, direction) <= 5 -> 0
             else -> 1
         }
     }
