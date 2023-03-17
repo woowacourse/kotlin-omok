@@ -2,30 +2,20 @@ package domain
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class StonesTest {
     @Test
     fun `돌을 놓을때, 해당 위치에 다른 돌이 존재하면 돌을 놓을 수 없다`() {
         // given
         val stone1 = Stone(Color.BLACK, Coordinate.from(3, 3)!!)
-        val player = BlackPlayer()
+        val stone2 = Stone(Color.BLACK, Coordinate.from(3, 3)!!)
         val stones = Stones(listOf(stone1))
-        val coordinates = listOf(
-            Coordinate.from(3, 3)!!,
-        )
-        var coordinateIndex = 0
 
         // when
-        val message = assertThrows<IndexOutOfBoundsException> {
-            stones.makeValidatedStone(player) {
-                coordinates[coordinateIndex++]
-            }
-        }.message
+        val actual = stones.validateDuplicatedCoordinate(stone2)
 
         // then
-        val except = "Index: 1, Size: 1"
-        assertThat(message).isEqualTo(except)
+        assertThat(actual).isFalse
     }
 
     @Test

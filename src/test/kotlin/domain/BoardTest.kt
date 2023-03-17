@@ -22,9 +22,9 @@ class BoardTest {
         )
         val board = Board(players, stones)
         var coordinateIndex = 0
-        board.repeatTurn({
+        board.repeatTurn {
             coordinates[coordinateIndex++]
-        }, {})
+        }
         assertAll({
             assertThat(stones.value.filterIndexed { index, _ -> index % 2 == 0 }.all { it.color == Color.BLACK }).isTrue
         }, {
