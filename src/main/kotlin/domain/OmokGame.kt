@@ -1,69 +1,54 @@
 package domain
 
-import domain.board.Board
 import domain.board.OmokBoard
 
 class OmokGame(
     private val omokBoard: OmokBoard = OmokBoard(),
-    private val referee: Referee = Referee()
+    private val referee: Referee = Referee(),
+    private val omokGameListener: Listener
 ) {
-    fun runGame(
-        getStone: () -> Stone,
-        onMove: (Board, State, Stone) -> Unit,
-        onMoveFail: () -> Unit,
-        onForbidden: () -> Unit,
-        onFinish: (State) -> Unit
-    ) {
+    fun runGame() {
         while (true) {
-            successBlackTurn(getStone, onMoveFail, onForbidden, onMove)
-            if (isVictory(State.BLACK, onFinish)) break
+            successBlackTurn()
+            if (isVictory(State.BLACK)) break
 
-            successWhiteTurn(getStone, onMoveFail, onMove)
-            if (isVictory(State.WHITE, onFinish)) break
+            successWhiteTurn()
+            if (isVictory(State.WHITE)) break
         }
     }
 
-    private fun isVictory(state: State, onFinish: (State) -> Unit): Boolean {
+    private fun isVictory(state: State): Boolean {
         if (referee.isWin(omokBoard.board, state)) {
-            onFinish(state)
+            omokGameListener.onFinish(state)
             return true
         }
         return false
     }
 
-    private fun successBlackTurn(
-        getStone: () -> Stone,
-        onMoveFail: () -> Unit,
-        onForbidden: () -> Unit,
-        onMove: (Board, State, Stone) -> Unit
-    ): Boolean {
-        val blackStone = getStone()
+    private fun successBlackTurn(): Boolean {
+        val blackStone = omokGameListener.onStoneRequest()
         if (!omokBoard.isEmpty(blackStone)) {
-            onMoveFail()
-            return successBlackTurn(getStone, onMoveFail, onForbidden, onMove)
+            omokGameListener.onMoveFail()
+            return successBlackTurn()
         }
 
         if (!referee.isMovable(omokBoard, blackStone)) {
-            onForbidden()
-            return successBlackTurn(getStone, onMoveFail, onForbidden, onMove)
+            omokGameListener.onForbidden()
+            return successBlackTurn()
         }
         omokBoard.move(blackStone, State.BLACK)
-        onMove(omokBoard.board, State.WHITE, blackStone)
+        omokGameListener.onMove(omokBoard.board, State.WHITE, blackStone)
         return true
     }
 
-    private fun successWhiteTurn(
-        getStone: () -> Stone,
-        onMoveFail: () -> Unit,
-        onMove: (Board, State, Stone) -> Unit
-    ): Boolean {
-        val whiteStone = getStone()
+    private fun successWhiteTurn(): Boolean {
+        val whiteStone = omokGameListener.onStoneRequest()
         if (!omokBoard.isEmpty(whiteStone)) {
-            onMoveFail()
-            return successWhiteTurn(getStone, onMoveFail, onMove)
+            omokGameListener.onMoveFail()
+            return successWhiteTurn()
         }
         omokBoard.move(whiteStone, State.WHITE)
-        onMove(omokBoard.board, State.BLACK, whiteStone)
+        omokGameListener.onMove(omokBoard.board, State.BLACK, whiteStone)
         return true
     }
 }
