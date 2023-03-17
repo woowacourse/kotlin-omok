@@ -8,6 +8,9 @@ import domain.stone.Position
 import domain.stone.Row
 import domain.stone.Stone
 
+/**
+ * TODO: 너무 많은 일을 하고 있는 것이 아닐까?
+ */
 enum class OmokResult {
     RUNNING,
     FIVE_STONE_WINNING,
