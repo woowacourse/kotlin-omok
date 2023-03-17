@@ -24,11 +24,9 @@ class OmokGame(
 
     private tailrec fun turnGame(board: Board, color: Color): Board {
         val position = getPosition(board.getLatestStone())
-        return if (board.isPossiblePut(position)) {
-            val nextBoard = board.putStone(Stone(position, color))
-            nextBoard
-        } else {
-            turnGame(board, color)
+        if (board.isPossiblePut(position)) {
+            return board.putStone(Stone(position, color))
         }
+        return turnGame(board, color)
     }
 }
