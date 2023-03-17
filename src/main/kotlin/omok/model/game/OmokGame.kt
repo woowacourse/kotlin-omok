@@ -22,12 +22,6 @@ class OmokGame(val board: Board) {
         return board.lastPlacedStone ?: throw IllegalArgumentException("바둑판 위에 놓인 돌이 없습니다")
     }
 
-    fun checkBoard(stone: GoStone): State {
-        val rule = OmokRule(board, stone)
-
-        return rule.checkWin()
-    }
-
     private fun getValidCoordinate(getCoordinate: () -> Coordinate): Coordinate {
         return getValidateValue(getCoordinate, board::canAdd)
     }

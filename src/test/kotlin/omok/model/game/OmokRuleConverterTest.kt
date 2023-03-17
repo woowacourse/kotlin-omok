@@ -6,7 +6,6 @@ import omok.model.state.DoubleThree
 import omok.model.state.Stay
 import omok.model.state.Win
 import omok.model.stone.Coordinate
-import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor.BLACK
 import omok.model.stone.GoStoneColor.WHITE
 import org.assertj.core.api.Assertions.assertThat
@@ -21,11 +20,10 @@ class OmokRuleConverterTest {
             addStone(BLACK, Coordinate("H11"))
             addStone(BLACK, Coordinate("H12"))
         }
-        val goStone = GoStone(BLACK, Coordinate("H10"))
         val rule = OmokRuleConverter(board)
 
         assertThat(
-            rule.checkBlackWin(goStone.coordinate)
+            rule.checkBlackWin(Coordinate("H10"))
         ).isInstanceOf(Win::class.java)
     }
 
@@ -37,11 +35,10 @@ class OmokRuleConverterTest {
             addStone(BLACK, Coordinate("I10"))
             addStone(BLACK, Coordinate("J10"))
         }
-        val goStone = GoStone(BLACK, Coordinate("H10"))
         val rule = OmokRuleConverter(board)
 
         assertThat(
-            rule.checkBlackWin(goStone.coordinate)
+            rule.checkBlackWin(Coordinate("H10"))
         ).isInstanceOf(Win::class.java)
     }
 
@@ -53,11 +50,10 @@ class OmokRuleConverterTest {
             addStone(WHITE, Coordinate("I11"))
             addStone(WHITE, Coordinate("J12"))
         }
-        val goStone = GoStone(WHITE, Coordinate("H10"))
         val rule = OmokRuleConverter(board)
 
         assertThat(
-            rule.checkWhiteWin(goStone.coordinate)
+            rule.checkWhiteWin(Coordinate("H10"))
         ).isInstanceOf(Win::class.java)
     }
 
@@ -69,11 +65,10 @@ class OmokRuleConverterTest {
             addStone(BLACK, Coordinate("I9"))
             addStone(BLACK, Coordinate("J8"))
         }
-        val goStone = GoStone(BLACK, Coordinate("H10"))
         val rule = OmokRuleConverter(board)
 
         assertThat(
-            rule.checkBlackWin(goStone.coordinate)
+            rule.checkBlackWin(Coordinate("H10"))
         ).isInstanceOf(Win::class.java)
     }
 
@@ -85,11 +80,10 @@ class OmokRuleConverterTest {
             addStone(WHITE, Coordinate("H11"))
             addStone(BLACK, Coordinate("H12"))
         }
-        val goStone = GoStone(BLACK, Coordinate("H10"))
         val rule = OmokRuleConverter(board)
 
         assertThat(
-            rule.checkBlackWin(goStone.coordinate)
+            rule.checkBlackWin(Coordinate("H10"))
         ).isInstanceOf(Stay::class.java)
     }
 
@@ -100,28 +94,26 @@ class OmokRuleConverterTest {
             addStone(BLACK, Coordinate("H9"))
             addStone(WHITE, Coordinate("H11"))
         }
-        val goStone = GoStone(BLACK, Coordinate("H10"))
         val rule = OmokRuleConverter(board)
 
         assertThat(
-            rule.checkBlackWin(goStone.coordinate)
+            rule.checkBlackWin(Coordinate("H10"))
         ).isInstanceOf(Stay::class.java)
     }
 
     @Test
     fun `6개의 같은 색의 돌이 가로로 연이어 놓이면 승리이다`() {
         val board = Board().apply {
-            addStone(BLACK, Coordinate("H8"))
-            addStone(BLACK, Coordinate("H9"))
-            addStone(BLACK, Coordinate("H11"))
-            addStone(BLACK, Coordinate("H12"))
-            addStone(BLACK, Coordinate("H13"))
+            addStone(WHITE, Coordinate("H8"))
+            addStone(WHITE, Coordinate("H9"))
+            addStone(WHITE, Coordinate("H11"))
+            addStone(WHITE, Coordinate("H12"))
+            addStone(WHITE, Coordinate("H13"))
         }
-        val goStone = GoStone(BLACK, Coordinate("H10"))
         val rule = OmokRuleConverter(board)
 
         assertThat(
-            rule.checkBlackWin(goStone.coordinate)
+            rule.checkWhiteWin(Coordinate("H10"))
         ).isInstanceOf(Win::class.java)
     }
 
@@ -152,11 +144,10 @@ class OmokRuleConverterTest {
             addStone(WHITE, Coordinate("D5"))
             addStone(WHITE, Coordinate("H9"))
         }
-        val goStone = GoStone(BLACK, Coordinate("H5"))
         val rule = OmokRuleConverter(board)
 
         assertThat(
-            rule.countOpenFours(goStone.coordinate)
+            rule.countOpenFours(Coordinate("H5"))
         ).isInstanceOf(DoubleFour::class.java)
     }
 }

@@ -55,8 +55,8 @@ object OutputView {
     }
 
     private fun GoStone.toMark() = when (this.color) {
-        omok.model.stone.GoStoneColor.BLACK -> '●'
-        omok.model.stone.GoStoneColor.WHITE -> '○'
+        GoStoneColor.BLACK -> '●'
+        GoStoneColor.WHITE -> '○'
     }
 
     private fun GoStoneColor.toKorean(): String = when (this) {
