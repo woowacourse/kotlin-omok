@@ -4,7 +4,6 @@ import domain.player.Players
 import domain.position.Position
 import domain.stone.StoneColor
 import view.mapper.toPresentation
-import view.model.BoardModel
 import view.model.StoneColorModel
 
 class OmokOutputView : OutputView {
@@ -21,7 +20,8 @@ class OmokOutputView : OutputView {
 
     override fun onStartTurn(stoneColor: StoneColor, position: Position) {
         print(TURN_MESSAGE.format(stoneColor.toPresentation().text))
-        println(LAST_STONE_POSITION_MESSAGE.format(BoardModel.getString(position)))
+        val viewPosition = position.toPresentation()
+        println(LAST_STONE_POSITION_MESSAGE.format(viewPosition))
     }
 
     override fun onEndTurn(players: Players) {
