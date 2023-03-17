@@ -1,5 +1,5 @@
 package domain
 
-fun interface CoordinateReader {
+fun interface CoordinateGenerator {
     fun read(color: Color): Coordinate
 }

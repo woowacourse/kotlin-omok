@@ -1,20 +1,20 @@
 package domain
 
 class Board(private val players: Players, private val stones: Stones, private val omokRule: OmokRule) {
-    fun repeatTurn(coordinateReader: CoordinateReader): Player {
+    fun repeatTurn(coordinateGenerator: CoordinateGenerator): Player {
         while (true) {
             val currentTurnPlayer = players.currentPlayer
-            val stone = makeValidatedStone(currentTurnPlayer, coordinateReader)
+            val stone = makeValidatedStone(currentTurnPlayer, coordinateGenerator)
             stones.place(stone)
             if (isWinPlace(stone)) return currentTurnPlayer
         }
     }
 
-    private fun makeValidatedStone(player: Player, coordinateReader: CoordinateReader): Stone {
-        val coordinate = coordinateReader.read(player.color)
+    private fun makeValidatedStone(player: Player, coordinateGenerator: CoordinateGenerator): Stone {
+        val coordinate = coordinateGenerator.read(player.color)
         val stone = Stone(player.color, coordinate)
         if (!player.validateOmokRule(stone, omokRule) || !stones.validateDuplicatedCoordinate(stone)) {
-            return makeValidatedStone(player, coordinateReader)
+            return makeValidatedStone(player, coordinateGenerator)
         }
         return stone
     }
