@@ -2,7 +2,9 @@ package view
 
 import model.domain.tools.Board
 import model.domain.tools.Stone
-import model.domain.tools.Stone.* // ktlint-disable no-wildcard-imports
+import model.domain.tools.Stone.BLACK
+import model.domain.tools.Stone.EMPTY
+import model.domain.tools.Stone.WHITE
 
 class BoardView {
     fun printBoard(omokBoard: Board) {

@@ -3,7 +3,7 @@ package model.domain.rule
 import model.domain.tools.Board
 import model.domain.tools.Stone
 
-class OmokForbiddenRule(private val board: Board, private val currentStone: Stone) {
+class OmokForbiddenRule(board: Board, currentStone: Stone) {
 
     private val convertBoard: List<List<Int>> =
         board.system.values.map { line ->

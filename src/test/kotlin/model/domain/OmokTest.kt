@@ -1,7 +1,7 @@
 package model.domain
 
-import model.domain.state.black.BlackOmok
 import model.domain.state.State
+import model.domain.state.black.BlackOmok
 import model.domain.tools.Board
 import model.domain.tools.Coordination
 import model.domain.tools.Location

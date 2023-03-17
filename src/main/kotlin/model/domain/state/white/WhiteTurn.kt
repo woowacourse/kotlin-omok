@@ -1,10 +1,10 @@
 package model.domain.state.white
 
-import model.domain.tools.Board
-import model.domain.tools.Stone
 import model.domain.state.Omok
 import model.domain.state.RetryTurn
 import model.domain.state.Turn
+import model.domain.tools.Board
+import model.domain.tools.Stone
 
 class WhiteTurn : Turn() {
     override val stoneColor: Stone

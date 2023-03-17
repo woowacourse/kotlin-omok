@@ -1,9 +1,9 @@
 package model.domain.state
 
+import model.domain.rule.OmokRule
 import model.domain.tools.Board
 import model.domain.tools.Location
 import model.domain.tools.Stone
-import model.domain.rule.OmokRule
 
 abstract class Turn : State {
     abstract val stoneColor: Stone
