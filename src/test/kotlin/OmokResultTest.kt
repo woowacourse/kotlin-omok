@@ -3,7 +3,7 @@ import domain.stone.Color
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class OmokCoditionTest {
+class OmokResultTest {
     @Test
     fun `돌이 5개 이상 이어지면 FIVE_STONES_WINNING_CONDITION을 반환한다`() {
         val stones = listOf(

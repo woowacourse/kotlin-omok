@@ -1,12 +1,12 @@
-package domain.judgment
+package domain.judgement
 
 import domain.stone.Color
 import domain.stone.Position
 import domain.stone.Stone
 
-class WinningReferee : Referee() {
-    fun hasFiveOrMoreStoneInRow(placedStones: List<Stone>, color: Color): Boolean {
-        return checkWin(placedStones, color)
+class FiveStoneWinningConditionChecker : WinningConditionChecker {
+    override fun isWin(placedStones: List<Stone>, newStone: Stone): Boolean {
+        return checkWin(placedStones.toList() + newStone, newStone.color)
     }
 
     private fun checkWin(placedStones: List<Stone>, color: Color): Boolean {

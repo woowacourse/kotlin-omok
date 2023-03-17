@@ -1,7 +1,7 @@
 package domain
 
-import domain.judgment.BlackReferee
-import domain.judgment.WinningReferee
+import domain.library.BlackReferee
+import domain.library.WinningReferee
 import domain.stone.Color
 import domain.stone.Column
 import domain.stone.Position
