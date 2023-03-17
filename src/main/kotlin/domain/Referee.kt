@@ -60,7 +60,7 @@ class Referee {
             omokBoard.value[x + 4][y - 4] == state
     }
 
-    fun isMovable(myBoard: OmokBoard, stone: Stone): Boolean {
-        return OmokRuleAdapter().checkForbidden(myBoard, stone)
+    fun isMovable(myBoard: OmokBoard, stone: Stone, rule: OmokRule): Boolean {
+        return rule.checkForbidden(myBoard, stone)
     }
 }
