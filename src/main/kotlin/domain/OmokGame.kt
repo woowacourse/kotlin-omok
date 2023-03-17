@@ -40,7 +40,7 @@ class OmokGame(
             return successBlackTurn(getStone, onMoveFail, onForbidden, onMove)
         }
 
-        if (!referee.isMovable(omokBoard, blackStone)) {
+        if (!referee.isMovable(omokBoard, blackStone, OmokRuleAdapter())) {
             onForbidden()
             return successBlackTurn(getStone, onMoveFail, onForbidden, onMove)
         }
