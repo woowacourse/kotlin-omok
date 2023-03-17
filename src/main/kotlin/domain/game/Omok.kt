@@ -10,8 +10,8 @@ import listener.OmokStartEndEventListener
 import listener.OmokTurnEventListener
 
 class Omok(
-    private val startEndEventListener: OmokStartEndEventListener,
     private val turnEventListener: OmokTurnEventListener,
+    private val startEndEventListener: OmokStartEndEventListener,
     private val rule: OmokRule
 ) {
     fun run() {
