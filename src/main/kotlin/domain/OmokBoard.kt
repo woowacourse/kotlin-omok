@@ -1,9 +1,6 @@
-package domain.board
+package domain
 
-import domain.State
-import domain.Stone
-
-class Board(
+class OmokBoard(
     initialState: List<List<State>> = List(BOARD_SIZE) { List(BOARD_SIZE) { State.EMPTY } }
 ) {
     private val _state = initialState.map { it.toMutableList() }.toMutableList()

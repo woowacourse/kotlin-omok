@@ -1,6 +1,5 @@
 package domain
 
-import domain.board.OmokBoard
 import domain.rule.ArkBoard
 import domain.rule.OmokLine
 import domain.rule.OmokPoint
@@ -16,7 +15,7 @@ class OmokRuleAdapter : OmokRule {
     // OurBoard -> ArkBoard
     private fun boardConverter(myBoard: OmokBoard): ArkBoard {
         return ArkBoard(
-            myBoard.board.value.reversed().mapIndexed { y, row ->
+            myBoard.value.reversed().mapIndexed { y, row ->
                 YCoordinate(y + 1) to OmokLine(
                     row.mapIndexed { x, state ->
                         XCoordinate(x.plus('A'.code).toChar()) to when (state) {
