@@ -59,7 +59,7 @@ class Referee {
         return false
     }
 
-    fun checkForbidden(myBoard: OmokBoard, stone: Stone): Boolean {
-        return OmokRuleAdapter().checkForbidden(myBoard, stone)
+    fun isMovable(myBoard: OmokBoard, stone: Stone): Boolean {
+        return OmokRuleAdapter().isMovable(myBoard, stone)
     }
 }

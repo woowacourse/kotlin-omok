@@ -4,5 +4,5 @@ import domain.board.OmokBoard
 
 interface OmokRule {
 
-    fun checkForbidden(myboard: OmokBoard, stone: Stone): Boolean
+    fun isMovable(myboard: OmokBoard, stone: Stone): Boolean
 }

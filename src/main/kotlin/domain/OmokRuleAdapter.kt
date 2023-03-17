@@ -15,7 +15,7 @@ import omok.domain.state.WhiteStoneState
 class OmokRuleAdapter : OmokRule {
 
     // 3*3 or 4*4 check
-    override fun checkForbidden(myBoard: OmokBoard, stone: Stone): Boolean {
+    override fun isMovable(myBoard: OmokBoard, stone: Stone): Boolean {
         val point = convertStoneToPoint(stone)
         val convertedBoard = boardConverter(myBoard)
         return Rule(convertedBoard).countOpenThrees(point) <= 1 && Rule(convertedBoard).countOpenFours(point) <= 1
