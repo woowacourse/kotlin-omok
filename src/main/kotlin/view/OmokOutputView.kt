@@ -3,23 +3,24 @@ package view
 import domain.player.Players
 import domain.position.Position
 import domain.stone.StoneColor
+import view.mapper.toPresentation
 import view.model.BoardModel
-import view.model.ColorModel
+import view.model.StoneColorModel
 
 class OmokOutputView : OutputView {
     override fun onStartGame() {
         println(START_MESSAGE)
         println(EMPTY_BOARD)
-        println(TURN_MESSAGE.format(ColorModel.getString(StoneColor.BLACK)))
+        println(TURN_MESSAGE.format(StoneColorModel.BLACK.text))
     }
 
     override fun onEndGame(stoneColor: StoneColor) {
         println(GAME_END_MESSAGE)
-        println(WINNER_MESSAGE.format(ColorModel.getString(stoneColor)))
+        println(WINNER_MESSAGE.format(stoneColor.toPresentation().text))
     }
 
     override fun onStartTurn(stoneColor: StoneColor, position: Position) {
-        print(TURN_MESSAGE.format(ColorModel.getString(stoneColor)))
+        print(TURN_MESSAGE.format(stoneColor.toPresentation().text))
         println(LAST_STONE_POSITION_MESSAGE.format(BoardModel.getString(position)))
     }
 

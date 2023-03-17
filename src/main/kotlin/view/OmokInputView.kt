@@ -9,25 +9,23 @@ class OmokInputView : InputView {
     override fun onTakeTurn(stoneColor: StoneColor): Position = askPosition()
 
     override fun onNotPlaceable() {
-        reAskPosition(CANT_PLACE_STONE_ERROR_MESSAGE)
+        askPosition()
     }
 
     private fun askPosition(): Position {
         print(ASK_POSITION_MESSAGE)
         val input = readln()
-        if (input.length !in POSITION_INPUT_RANGE)
-            return reAskPosition(INVALID_FORMAT_ERROR_MESSAGE)
-
+        if (input.length !in POSITION_INPUT_RANGE) {
+            println(INVALID_FORMAT_ERROR_MESSAGE)
+            return askPosition()
+        }
         val col = BoardModel.getColInt(input.first().toString())
         val row = input.substring(ROW_INPUT_SIZE).toIntOrNull()
-        if (row == null || row !in POSITION_RANGE || col !in POSITION_RANGE)
-            return reAskPosition(INVALID_FORMAT_ERROR_MESSAGE)
+        if (row == null || row !in POSITION_RANGE || col !in POSITION_RANGE) {
+            println(CANT_PLACE_STONE_ERROR_MESSAGE)
+            return askPosition()
+        }
         return Position(row, col)
-    }
-
-    private fun reAskPosition(message: String): Position {
-        println(message)
-        return askPosition()
     }
 
     companion object {
