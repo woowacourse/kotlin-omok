@@ -5,28 +5,28 @@ import org.junit.jupiter.api.Test
 
 class ColumnTest {
     @Test
-    fun `오른쪽 컬럼이 존재한다`() {
+    fun `H의 오른쪽 컬럼은 I다`() {
         val column = Column.H
 
         assertThat(column.right()).isEqualTo(Column.I)
     }
 
     @Test
-    fun `오른쪽 컬럼이 존재하지 않는다`() {
+    fun `O의 오른쪽 컬럼은 존재하지 않는다`() {
         val column = Column.O
 
         assertThat(column.right()).isNull()
     }
 
     @Test
-    fun `왼쪽 컬럼이 존재한다`() {
+    fun `H의 왼쪽 컬럼은 G이다`() {
         val column = Column.H
 
         assertThat(column.left()).isEqualTo(Column.G)
     }
 
     @Test
-    fun `왼쪽 컬럼이 존재하지 않는다`() {
+    fun `A의 왼쪽 컬럼은 존재하지 않는다`() {
         val column = Column.A
 
         assertThat(column.left()).isNull()

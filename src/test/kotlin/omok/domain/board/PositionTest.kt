@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertThrows
 
 class PositionTest {
     @Test
-    fun `현 위치의 북쪽 좌표가 존재한다`() {
+    fun `I9 위치의 북쪽 좌표는 I10 이다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.I, Row.TEN)
 
@@ -16,7 +16,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 북쪽 좌표가 존재하지 않는다`() {
+    fun `I15 위치의 북쪽 좌표는 존재하지 않는다`() {
         val position = Position(Column.I, Row.FIFTEEN)
 
         val actual = position.getNorth()
@@ -25,7 +25,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 북동쪽 좌표가 존재한다`() {
+    fun `I9 위치의 북동쪽 좌표는 J10이다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.J, Row.TEN)
 
@@ -35,7 +35,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 북동쪽 좌표가 존재하지 않는다`() {
+    fun `O15 위치의 북동쪽 좌표는 존재하지 않는다`() {
         val position = Position(Column.O, Row.FIFTEEN)
 
         val actual = position.getNorthEast()
@@ -44,7 +44,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 동쪽 좌표가 존재한다`() {
+    fun `I9 위치의 동쪽 좌표는 J9 이다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.J, Row.NINE)
 
@@ -54,7 +54,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 동쪽 좌표가 존재하지 않는다`() {
+    fun `O9 위치의 동쪽 좌표는 존재하지 않는다`() {
         val position = Position(Column.O, Row.NINE)
 
         val actual = position.getEast()
@@ -63,7 +63,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 남동쪽 좌표가 존재한다`() {
+    fun `I9 위치의 남동쪽 좌표는 J8 이다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.J, Row.EIGHT)
 
@@ -73,7 +73,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 남동쪽 좌표가 존재하지 않는다`() {
+    fun `I1 위치의 남동쪽 좌표는 존재하지 않는다`() {
         val position = Position(Column.I, Row.ONE)
 
         val actual = position.getSouthEast()
@@ -82,7 +82,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 남쪽 좌표가 존재한다`() {
+    fun `I9 위치의 남쪽 좌표는 I8 이다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.I, Row.EIGHT)
 
@@ -92,7 +92,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 남쪽 좌표가 존재하지 않는다`() {
+    fun `I1 위치의 남쪽 좌표는 존재하지 않는다`() {
         val position = Position(Column.I, Row.ONE)
 
         val actual = position.getSouth()
@@ -101,7 +101,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 남서쪽 좌표가 존재한다`() {
+    fun `I9 위치의 남서쪽 좌표는 H8 이다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.H, Row.EIGHT)
 
@@ -111,7 +111,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 남서쪽 좌표가 존재하지 않는다`() {
+    fun `A1 위치의 남서쪽 좌표는 존재하지 않는다`() {
         val position = Position(Column.A, Row.ONE)
 
         val actual = position.getSouthWest()
@@ -120,7 +120,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 서쪽 좌표가 존재한다`() {
+    fun `I9 위치의 서쪽 좌표는 H9 이다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.H, Row.NINE)
 
@@ -130,7 +130,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 서쪽 좌표가 존재하지 않는다`() {
+    fun `A9 위치의 서쪽 좌표는 존재하지 않는다`() {
         val position = Position(Column.A, Row.NINE)
 
         val actual = position.getWest()
@@ -139,7 +139,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 북서쪽 좌표가 존재한다`() {
+    fun `I9 위치의 북서쪽 좌표는 H10 이다`() {
         val position = Position(Column.I, Row.NINE)
         val expected = Position(Column.H, Row.TEN)
 
@@ -149,7 +149,7 @@ class PositionTest {
     }
 
     @Test
-    fun `현 위치의 북서쪽 좌표가 존재하지 않는다`() {
+    fun `A15 위치의 북서쪽 좌표는 존재하지 않는다`() {
         val position = Position(Column.A, Row.FIFTEEN)
 
         val actual = position.getNorthWest()
