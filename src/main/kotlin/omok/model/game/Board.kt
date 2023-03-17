@@ -17,11 +17,11 @@ class Board {
 
     fun addStone(color: GoStoneColor, coordinate: Coordinate) {
         lastPlacedStone = GoStone(color, coordinate)
-        _board[coordinate.x - 1][coordinate.y - 1] = lastPlacedStone
+        _board[coordinate.y][coordinate.x ] = lastPlacedStone
     }
 
     fun canAdd(coordinate: Coordinate): Boolean {
-        if (_board[coordinate.x - 1][coordinate.y - 1] == null) return true
+        if (_board[coordinate.y][coordinate.x] == null) return true
         else throw IllegalArgumentException("해당 위치에 이미 바둑돌이 있습니다.")
     }
 

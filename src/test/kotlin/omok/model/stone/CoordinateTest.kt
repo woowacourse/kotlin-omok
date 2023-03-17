@@ -13,8 +13,8 @@ class CoordinateTest {
         val coordinate = Coordinate("H11")
 
         assertAll(
-            { assertThat(coordinate.x).isEqualTo(5) },
-            { assertThat(coordinate.y).isEqualTo(8) }
+            { assertThat(coordinate.x).isEqualTo(7) },
+            { assertThat(coordinate.y).isEqualTo(2) }
         )
     }
 

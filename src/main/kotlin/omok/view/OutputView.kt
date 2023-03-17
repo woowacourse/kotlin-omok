@@ -37,8 +37,8 @@ object OutputView {
     }
 
     fun printBoard(board: Board) {
-        board.board.forEachIndexed { index, line ->
-            println(printRow(line, index))
+        for (line in board.board.withIndex().reversed()) {
+            println(printRow(line.value, line.value.size - line.index - 1))
         }
         println(emptyBoard.last())
     }
