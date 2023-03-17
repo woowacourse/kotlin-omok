@@ -3,7 +3,9 @@ package domain
 import domain.board.Board
 import domain.board.OmokBoard
 
-class Referee {
+class Referee(
+    private val omokRule: OmokRule = OmokRuleAdapter()
+) {
 
     fun isWin(board: Board, state: State): Boolean {
         val size = Board.BOARD_SIZE
@@ -60,6 +62,6 @@ class Referee {
     }
 
     fun isMovable(myBoard: OmokBoard, stone: Stone): Boolean {
-        return OmokRuleAdapter().isMovable(myBoard, stone)
+        return omokRule.isMovable(myBoard, stone)
     }
 }
