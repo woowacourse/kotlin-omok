@@ -19,6 +19,6 @@ enum class Row(val axis: Int) {
     FOURTEEN(13),
     FIFTEEN(14);
 
-    fun up(): Row? = values().find { it.axis == axis + 1 }
-    fun down(): Row? = values().find { it.axis == axis - 1 }
+    fun up(): Row? = runCatching { values()[axis + 1] }.getOrNull()
+    fun down(): Row? = runCatching { values()[axis - 1] }.getOrNull()
 }

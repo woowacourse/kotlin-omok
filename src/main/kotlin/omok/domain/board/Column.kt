@@ -19,6 +19,7 @@ enum class Column(private val axis: Int) {
     N(13),
     O(14);
 
-    fun right(): Column? = values().find { it.axis == axis + 1 }
-    fun left(): Column? = values().find { it.axis == axis - 1 }
+    fun right(): Column? = runCatching { values()[axis + 1] }.getOrNull()
+
+    fun left(): Column? = runCatching { values()[axis - 1] }.getOrNull()
 }

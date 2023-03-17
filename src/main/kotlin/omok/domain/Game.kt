@@ -13,29 +13,28 @@ class Game(private val board: Board, private var turn: Turn, private val winning
         onFinish: (turn: Turn) -> Unit
     ) {
         onStart(board)
-        play(wantPosition, onTurn, onFinish)
+        play(wantPosition, onTurn)
+        finish(onFinish)
     }
 
     private fun play(
         wantPosition: (position: Position?, turn: Turn) -> String?,
-        onTurn: (board: Board) -> Unit,
-        onFinish: (turn: Turn) -> Unit
+        onTurn: (board: Board) -> Unit
     ) {
-        playUntilWinnerAppears(null, wantPosition, onTurn, onFinish)
+        playUntilWinnerAppears(null, wantPosition, onTurn)
     }
 
     private tailrec fun playUntilWinnerAppears(
         position: Position?,
         wantPosition: (position: Position?, turn: Turn) -> String?,
-        onTurn: (board: Board) -> Unit,
-        onFinish: (turn: Turn) -> Unit
+        onTurn: (board: Board) -> Unit
     ) {
         val selectedPosition = place(position, wantPosition)
         onTurn(board)
 
-        if (winningReferee.hasFiveOrMoreStoneInRow(board.positions, selectedPosition)) return finish(onFinish)
+        if (winningReferee.hasFiveOrMoreStoneInRow(board.positions, selectedPosition)) return
         turn = turn.next()
-        playUntilWinnerAppears(selectedPosition, wantPosition, onTurn, onFinish)
+        playUntilWinnerAppears(selectedPosition, wantPosition, onTurn)
     }
 
     private fun finish(onFinish: (turn: Turn) -> Unit) {
