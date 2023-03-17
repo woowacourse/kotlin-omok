@@ -1,814 +1,91 @@
-package omok.domain.omokRule
 
-import omok.domain.OmokBoard
-import omok.domain.OmokPoint
-import omok.domain.OmokRule
-import omok.domain.XCoordinate
-import omok.domain.YCoordinate
-import omok.domain.state.BlackStoneState
-import omok.domain.state.WhiteStoneState
-import omok.view.OutputView
+import omok.domain.omokRule.ThreeThreeRule
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 
 class OmokRuleThreeTest {
-    var omokBoard: OmokBoard = OmokBoard()
-
-    @BeforeEach
-    fun setUp() {
-        omokBoard = OmokBoard()
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용1`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용2`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용3`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용4`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용5`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용6`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용7`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용 예외1`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('D', 6), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용 예외2`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('D', 6), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용 예외3`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 6), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용 예외4`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 6), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용 예외4_`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 6), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용 예외5`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 6), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용 예외6`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('L', 6), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용 예외7`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('L', 6), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용 예외8`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 6), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용 예외9`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 6), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 1, 0 룰 적용 예외10`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 6), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 6), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용1`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용2`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용3`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용4`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용5`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용6`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용7`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용 예외1`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 2), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용 예외2`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 2), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용 예외3`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 3), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용 예외4`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 4), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용 예외4_`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 8), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용 예외5`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 9), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용 예외6`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 10), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용 예외7`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 10), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 1, 1 룰 적용 예외8`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 7), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용 예외9`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 7), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 0, 1 룰 적용 예외10`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 7), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용1`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용2`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용3`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용4`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용5`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용6`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용7`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용 예외1`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('D', 10), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용 예외2`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('D', 10), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용 예외3`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 9), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용 예외4`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 8), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용 예외4_`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 4), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용 예외5`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 3), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용 예외6`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('L', 2), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용 예외7`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('L', 2), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용 예외8`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 7), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용 예외9`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 7), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, -1 룰 적용 예외10`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 7), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `직각 1, 1 룰 적용1`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용2`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용3`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용4`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용5`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용6`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용7`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(1)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용 예외1`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('D', 2), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, 0 룰 적용 예외2`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('D', 2), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용 예외3`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 3), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용 예외4`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 4), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용 예외4_`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 8), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용 예외5`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 9), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용 예외6`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 7), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('L', 10), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용 예외7`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('L', 10), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
     @Test
-    fun `대각 1, 1 룰 적용 예외8`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 7), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용 예외9`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('K', 3), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 7), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
-    }
-
-    @Test
-    fun `대각 1, 1 룰 적용 예외10`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 5), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 4), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 7), WhiteStoneState)
-
-        OutputView().outputBoard(omokBoard)
-        val point = OmokPoint(XCoordinate('H'), YCoordinate(6))
-        assertThat(OmokRule(omokBoard, BlackStoneState).countOpenThrees(point)).isEqualTo(0)
+    fun `열린 3이 두개 이상이면 둘 수 없다`() {
+        val board = listOf(
+            //     0  1  2  3  4  5  6  7  8  9 10  11 12 13 14
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  0
+            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0), //  1
+            listOf(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0), //  2
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  3
+            listOf(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  4
+            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  5
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  6
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0), //  7
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  8
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  9
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 10
+            listOf(0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0), // 11
+            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 12
+            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 13
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 14
+        )
+        assertAll(
+            { assertThat(ThreeThreeRule.validate(board, Pair(3, 3))).isTrue },
+            { assertThat(ThreeThreeRule.validate(board, Pair(3, 11))).isTrue },
+            { assertThat(ThreeThreeRule.validate(board, Pair(9, 4))).isTrue },
+            { assertThat(ThreeThreeRule.validate(board, Pair(10, 11))).isTrue },
+        )
+    }
+
+    @Test
+    fun `열린 3이 한개면 둘 수 있다`() {
+        val board = listOf(
+            //     0  1  2  3  4  5  6  7  8  9 10  11 12 13 14
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  0
+            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0), //  1
+            listOf(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0), //  2
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  3
+            listOf(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  4
+            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  5
+            listOf(2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0), //  6
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0), //  7
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  8
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  9
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 10
+            listOf(0, 1, 1, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 1, 0), // 11
+            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 12
+            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 13
+            listOf(0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 14
+        )
+        assertAll(
+            { assertThat(ThreeThreeRule.validate(board, Pair(3, 3))).isFalse },
+            { assertThat(ThreeThreeRule.validate(board, Pair(3, 11))).isFalse },
+            { assertThat(ThreeThreeRule.validate(board, Pair(9, 4))).isFalse },
+            { assertThat(ThreeThreeRule.validate(board, Pair(10, 11))).isFalse },
+        )
+    }
+
+    @Test
+    fun `34이면 둘 수 있다`() {
+        val board = listOf(
+            //     0  1  2  3  4  5  6  7  8  9 10  11 12 13 14
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  0
+            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0), //  1
+            listOf(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0), //  2
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  3
+            listOf(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  4
+            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  5
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0), //  6
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0), //  7
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  8
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  9
+            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 10
+            listOf(0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0), // 11
+            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 12
+            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 13
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 14
+        )
+        assertAll(
+            { assertThat(ThreeThreeRule.validate(board, Pair(3, 3))).isFalse },
+            { assertThat(ThreeThreeRule.validate(board, Pair(3, 11))).isFalse },
+            { assertThat(ThreeThreeRule.validate(board, Pair(9, 4))).isFalse },
+            { assertThat(ThreeThreeRule.validate(board, Pair(10, 11))).isFalse },
+        )
     }
 }
