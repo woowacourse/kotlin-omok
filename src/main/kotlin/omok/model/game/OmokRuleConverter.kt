@@ -39,8 +39,8 @@ class OmokRuleConverter(
     }
 
     private fun Coordinate.toPair(): Pair<Int, Int> {
-        val x = this.x - 1
-        val y = 15 - this.y
+        val x = 15 - this.y
+        val y = this.x - 1
         return x to y
     }
 
