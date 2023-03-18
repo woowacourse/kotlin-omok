@@ -1,12 +1,8 @@
 package domain.state
 
-import ONE_FIVE_STONE
-import ONE_FOUR_STONE
-import ONE_ONE_STONE
-import ONE_THREE_STONE
-import ONE_TWO_STONE
 import domain.rule.OmokRule
 import domain.rule.RenjuRule
+import domain.stone.Stone
 import domain.stone.Stones
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -18,7 +14,7 @@ class PlayingStateTest {
 
     @BeforeEach
     fun setUp() {
-        playingState = PlayingState(Stones(ONE_ONE_STONE, ONE_TWO_STONE))
+        playingState = PlayingState(Stones(Stone.of(1, 1), Stone.of(1, 2)))
         rule = RenjuRule()
     }
 
@@ -34,23 +30,23 @@ class PlayingStateTest {
 
     @Test
     fun `오목알을 놓으면 목록에 추가한다`() {
-        val playingState = PlayingState(Stones(ONE_ONE_STONE, ONE_TWO_STONE)).add(ONE_THREE_STONE, rule)
+        val playingState = PlayingState(Stones(Stone.of(1, 1), Stone.of(1, 2))).add(Stone.of(1, 3), rule)
         val expected = playingState.getAllStones()
-        assertThat(expected).isEqualTo(Stones(ONE_ONE_STONE, ONE_TWO_STONE, ONE_THREE_STONE))
+        assertThat(expected).isEqualTo(Stones(Stone.of(1, 1), Stone.of(1, 2), Stone.of(1, 3)))
     }
 
     @Test
     fun `새롭게 오목알을 놓았을 때, 연이어져 있는 오목알이 5개 미만이면 동일한 상태를 반환한다`() {
-        val playingState = PlayingState(Stones(ONE_ONE_STONE, ONE_TWO_STONE))
-        val expected = playingState.add(ONE_THREE_STONE, rule)
+        val playingState = PlayingState(Stones(Stone.of(1, 1), Stone.of(1, 2)))
+        val expected = playingState.add(Stone.of(1, 3), rule)
 
         assertThat(expected).isInstanceOf(PlayingState::class.java)
     }
 
     @Test
     fun `새롭게 오목알을 놓았을 때, 연이어져 있는 오목알이 5개 이상이면 승리 상태를 반환한다`() {
-        val playingState = PlayingState(Stones(ONE_ONE_STONE, ONE_TWO_STONE, ONE_THREE_STONE, ONE_FOUR_STONE))
-        val expected = playingState.add(ONE_FIVE_STONE, rule)
+        val playingState = PlayingState(Stones(Stone.of(1, 1), Stone.of(1, 2), Stone.of(1, 3), Stone.of(1, 4)))
+        val expected = playingState.add(Stone.of(1, 5), rule)
 
         assertThat(expected).isInstanceOf(WinState::class.java)
     }

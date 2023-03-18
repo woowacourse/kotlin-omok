@@ -1,8 +1,8 @@
 package domain.state
 
-import ONE_FOUR_STONE
 import domain.rule.OmokRule
 import domain.rule.RenjuRule
+import domain.stone.Stone
 import domain.stone.Stones
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -30,7 +30,7 @@ class WinStateTest {
 
     @Test
     fun `게임이 종료된 상태에서 오목알을 새롭게 추가하지 못한다`() {
-        val expected = playingState.add(ONE_FOUR_STONE, rule)
+        val expected = playingState.add(Stone.of(1, 4), rule)
         val actual = playingState
 
         assertThat(expected).isEqualTo(actual)

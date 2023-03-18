@@ -1,6 +1,5 @@
 package domain.player
 
-import ONE_ONE_STONE
 import domain.rule.OmokRule
 import domain.rule.RenjuRule
 import domain.state.PlayingState
@@ -30,16 +29,16 @@ class WhitePlayerTest {
     fun `특정 위치에 새롭게 오목알을 놓는다`() {
         val player = WhitePlayer(PlayingState(Stones()))
 
-        val expected = player.putStone(ONE_ONE_STONE, otherStones, rule).getAllStones()
-        val actual = Stones(ONE_ONE_STONE)
+        val expected = player.putStone(Stone.of(1, 1), otherStones, rule).getAllStones()
+        val actual = Stones(Stone.of(1, 1))
 
         assertThat(expected).isEqualTo(actual)
     }
 
     @Test
     fun `특정 위치에 백의 오목알이 없으면 참을 반환한다`() {
-        val player = WhitePlayer(PlayingState(Stones(ONE_ONE_STONE)))
-        val expected = player.isPlaced(ONE_ONE_STONE)
+        val player = WhitePlayer(PlayingState(Stones(Stone.of(1, 1))))
+        val expected = player.isPlaced(Stone.of(1, 1))
 
         assertThat(expected).isTrue
     }
@@ -47,15 +46,15 @@ class WhitePlayerTest {
     @Test
     fun `특정 위치에 백의 오목알이 없으면 거짓을 반환한다`() {
         val player = WhitePlayer()
-        val expected = player.isPlaced(ONE_ONE_STONE)
+        val expected = player.isPlaced(Stone.of(1, 1))
 
         assertThat(expected).isFalse
     }
 
     @Test
     fun `마지막 놓은 오목알을 반환한다`() {
-        val player = WhitePlayer(PlayingState(Stones(ONE_ONE_STONE)))
+        val player = WhitePlayer(PlayingState(Stones(Stone.of(1, 1))))
 
-        assertThat(player.getLastStone()).isEqualTo(ONE_ONE_STONE)
+        assertThat(player.getLastStone()).isEqualTo(Stone.of(1, 1))
     }
 }
