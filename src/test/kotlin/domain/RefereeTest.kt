@@ -2,9 +2,12 @@ package domain
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import view.OutputView
+import view.ConsoleOutputView
 
 class RefereeTest {
+
+    private val outputView = ConsoleOutputView()
+
     @Test
     fun `가로로 연속 5개 놓여있으면 승리다`() {
         // given
@@ -84,7 +87,7 @@ class RefereeTest {
         val stone = Stone.create('D', 12)
         val actual = referee.isMovable(myOmokBoard, stone)
 
-        OutputView.printOmokState(myOmokBoard, State.BLACK, stone)
+        outputView.printOmokState(myOmokBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -104,7 +107,7 @@ class RefereeTest {
         val stone = Stone.create('E', 3)
         val actual = referee.isMovable(myOmokBoard, stone)
 
-        OutputView.printOmokState(myOmokBoard, State.BLACK, stone)
+        outputView.printOmokState(myOmokBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -124,7 +127,7 @@ class RefereeTest {
         val stone = Stone.create('K', 4)
         val actual = referee.isMovable(myOmokBoard, stone)
 
-        OutputView.printOmokState(myOmokBoard, State.BLACK, stone)
+        outputView.printOmokState(myOmokBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -144,7 +147,7 @@ class RefereeTest {
         val stone = Stone.create('L', 11)
         val actual = referee.isMovable(myOmokBoard, stone)
 
-        OutputView.printOmokState(myOmokBoard, State.BLACK, stone)
+        outputView.printOmokState(myOmokBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -165,7 +168,7 @@ class RefereeTest {
         val stone = Stone.create('F', 12)
         val actual = referee.isMovable(myOmokBoard, stone)
 
-        OutputView.printOmokState(myOmokBoard, State.BLACK, stone)
+        outputView.printOmokState(myOmokBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -185,7 +188,7 @@ class RefereeTest {
         val stone = Stone.create('J', 10)
         val actual = referee.isMovable(myOmokBoard, stone)
 
-        OutputView.printOmokState(myOmokBoard, State.BLACK, stone)
+        outputView.printOmokState(myOmokBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -210,7 +213,7 @@ class RefereeTest {
         val stone = Stone.create('H', 5)
         val actual = referee.isMovable(myOmokBoard, stone)
 
-        OutputView.printOmokState(myOmokBoard, State.BLACK, stone)
+        outputView.printOmokState(myOmokBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -232,7 +235,7 @@ class RefereeTest {
         val stone = Stone.create('I', 8)
         val actual = referee.isMovable(myOmokBoard, stone)
 
-        OutputView.printOmokState(myOmokBoard, State.BLACK, stone)
+        outputView.printOmokState(myOmokBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -253,7 +256,7 @@ class RefereeTest {
         val stone = Stone.create('C', 13)
         val actual = referee.isMovable(myOmokBoard, stone)
 
-        OutputView.printOmokState(myOmokBoard, State.BLACK, stone)
+        outputView.printOmokState(myOmokBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse

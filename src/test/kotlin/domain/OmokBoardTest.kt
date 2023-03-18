@@ -1,8 +1,5 @@
-package domain.board
+package domain
 
-import domain.OmokBoard
-import domain.State
-import domain.Stone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
