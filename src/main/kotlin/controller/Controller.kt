@@ -1,3 +1,5 @@
+package controller
+
 import domain.Listener
 import domain.OmokBoard
 import domain.OmokGame
