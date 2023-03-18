@@ -3,14 +3,13 @@ package domain.state
 import domain.rule.OmokRule
 import domain.stone.Board
 import domain.stone.Stone
-import domain.stone.StoneType
 
 class BlackTurn(board: Board) : Running(board) {
     override fun put(stone: Stone): State {
         if (!isValidPut(stone)) return BlackTurn(board)
         if (checkForbidden(board, stone)) return BlackTurn(board)
         board.putStone(stone)
-        if (OmokRule.isWinCondition(board.board, stone)) return End(StoneType.BLACK)
+        if (OmokRule.isWinCondition(board.board, stone)) return Win(stone)
         return WhiteTurn(board)
     }
 

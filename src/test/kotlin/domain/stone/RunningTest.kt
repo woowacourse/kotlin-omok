@@ -4,6 +4,7 @@ import domain.state.Running
 import domain.state.State
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class RunningTest {
 
@@ -27,6 +28,18 @@ class RunningTest {
 
         val running: Running = TestRunning(board)
         assertThat(running.isValidPut(stone)).isTrue()
+    }
+
+    @Test
+    fun `게임 진행 중에 우승돌을 찾으려고 하면 에러가 발생한다`() {
+        val board: Board = Board()
+        board.putStone(Stone(StonePosition.from(2, 1)!!, StoneType.BLACK))
+
+        val running: Running = TestRunning(board)
+
+        assertThrows<IllegalStateException> {
+            running.getWinner()
+        }
     }
 }
 
