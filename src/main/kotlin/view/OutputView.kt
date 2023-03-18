@@ -15,6 +15,8 @@ object OutputView {
     private const val COLUMN_SIZE = 3
     private const val BLACK_STONE = '●'
     private const val WHITE_STONE = '○'
+    private const val COLUMN_FIRST_CHARACTER = 'A'
+    private const val ROW_LAST_NUMBER = 15
 
     private val default = """
  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
@@ -53,7 +55,11 @@ object OutputView {
         val stringBuilder = StringBuilder(default)
         val resultBuilder = addStones(stringBuilder, omokBoard)
         println(resultBuilder)
-        println(MESSAGE_TURN.format(selectState(state), stone.toString()))
+        println(MESSAGE_TURN.format(selectState(state), stone.toStringCoordinate()))
+    }
+
+    private fun Stone.toStringCoordinate(): String {
+        return "${column.plus(COLUMN_FIRST_CHARACTER.code).toChar()}${ROW_LAST_NUMBER - row}"
     }
 
     private fun addStones(builder: StringBuilder, omokBoard: OmokBoard): StringBuilder {

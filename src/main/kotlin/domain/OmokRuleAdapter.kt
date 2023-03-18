@@ -14,10 +14,11 @@ import domain.rule.state.WhiteStoneState
 class OmokRuleAdapter : OmokRule {
 
     // 3*3 or 4*4 check
-    override fun isMovable(myOmokBoard: OmokBoard, stone: Stone): Boolean {
+    override fun isMovable(myboard: OmokBoard, stone: Stone): Boolean {
         val point = convertStoneToPoint(stone)
-        val convertedBoard = boardConverter(myOmokBoard)
-        return Rule(convertedBoard).countOpenThrees(point) <= 1 && Rule(convertedBoard).countOpenFours(point) <= 1
+        val convertedBoard = boardConverter(myboard)
+        return Rule(convertedBoard).countOpenThrees(point) < COUNT_CONDITION &&
+            Rule(convertedBoard).countOpenFours(point) < COUNT_CONDITION
     }
 
     // Stone -> OmokPoint
@@ -48,4 +49,8 @@ class OmokRuleAdapter : OmokRule {
             State.WHITE -> WhiteStoneState
             State.EMPTY -> EmptyStoneState
         }
+
+    companion object {
+        private const val COUNT_CONDITION = 2
+    }
 }
