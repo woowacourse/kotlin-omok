@@ -16,16 +16,16 @@ abstract class Player {
     ): Board {
         while (true) {
             checkBoard(currentBoard)
-            val placingPosition = decidePoint(currentBoard.latestStone)
+            val point = decidePoint(currentBoard.latestStone)
 
-            if (isPossibleToPlace(currentBoard, placingPosition)) {
-                return Board(currentBoard.placedStones + Stone(placingPosition, color))
+            if (isPossibleToPlace(currentBoard, point)) {
+                return Board(currentBoard.placedStones + Stone(point, color))
             }
         }
     }
 
-    open fun isPossibleToPlace(board: Board, placingPosition: Point): Boolean {
+    open fun isPossibleToPlace(board: Board, point: Point): Boolean {
 
-        return !board.isPlaced(placingPosition)
+        return !board.isPlaced(point)
     }
 }
