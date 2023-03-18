@@ -4,7 +4,8 @@ import omok.domain.judgment.PlacementReferee
 import omok.domain.player.Stone
 import omok.model.toPresentation
 
-class Board(private val _positions: MutableMap<Position, Stone?> = POSITIONS.associateWith { null }.toMutableMap()) {
+class Board(positions: Map<Position, Stone?> = POSITIONS.associateWith { null }) {
+    private val _positions: MutableMap<Position, Stone?> = positions.toMutableMap()
     val positions: Map<Position, Stone?>
         get() = _positions.toMap()
 

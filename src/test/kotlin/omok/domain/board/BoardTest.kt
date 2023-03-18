@@ -51,9 +51,9 @@ class BoardTest {
 
     @Test
     fun `돌을 놓으려는 좌표에 이미 돌이 존재하면 놓을 수 없다`() {
-        val board = Board(UPWARD_DIAGONAL_BOARD)
+        val board = Board(DOWNWARD_DIAGONAL_BOARD)
 
-        assertThrows<IllegalArgumentException> { board.placeStone(Position(Column.J, Row.TEN), Black, BlackReferee()) }
+        assertThrows<IllegalArgumentException> { board.placeStone(Position(Column.J, Row.EIGHT), Black, BlackReferee()) }
     }
 
     @Test
@@ -63,5 +63,15 @@ class BoardTest {
         board.placeStone(Position(Column.J, Row.TEN), Black, BlackReferee())
 
         assertThrows<IllegalArgumentException> { board.placeStone(Position(Column.J, Row.TEN), White, BlackReferee()) }
+    }
+
+    @Test
+    fun `외부에서 넘겨준 요소의 값이 달라져도 내부 값은 변하지 않는다`() {
+        val positions = DOWNWARD_DIAGONAL_BOARD.toMutableMap()
+        val board = Board(positions)
+
+        positions[Position(Column.J, Row.EIGHT)] = null
+
+        assertThat(board.positions[Position(Column.J, Row.EIGHT)]).isEqualTo(Black)
     }
 }
