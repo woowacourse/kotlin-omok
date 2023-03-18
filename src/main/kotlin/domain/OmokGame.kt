@@ -24,7 +24,7 @@ class OmokGame(
         }
     }
 
-    private fun decidePlayerToPut(): Player {
+    private fun decidePlayerToPlace(): Player {
         return when (turn) {
             Color.BLACK -> blackStonePlayer
             Color.WHITE -> whiteStonePlayer
@@ -33,12 +33,15 @@ class OmokGame(
 
     fun start(
         checkBoard: (currentBoard: Board) -> Unit,
-        decidePosition: (latestStone: Stone?) -> Point
-    ) {
+        decidePoint: (latestStone: Stone?) -> Point,
+    ): OmokGameState {
         while (omokGameState == OmokGameState.Running) {
-            board = decidePlayerToPut().placeStone(board, checkBoard, decidePosition)
+            board = decidePlayerToPlace().placeStone(board, checkBoard, decidePoint)
             omokGameState = OmokGameState.valueOf(board, turn)
             turn = nextTurn()
         }
+        checkBoard(board)
+
+        return omokGameState
     }
 }
