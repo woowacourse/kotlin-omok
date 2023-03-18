@@ -8,12 +8,12 @@ class OutputView {
         println(GAME_START_MESSAGE)
     }
 
-    fun printOmokBoardState(board: Board) {
+    fun printOmokBoardState(currentBoard: Board) {
         for (i in INITIAL_ROW..END_ROW) {
             val frontNumber = BOARD[i].substring(0, COL_UNIT)
             val line = BOARD[i].substring(COL_UNIT)
-            val blackStonesPoint = board.filterPointY(Color.BLACK, i)
-            val whiteStonesPoint = board.filterPointY(Color.WHITE, i)
+            val blackStonesPoint = currentBoard.filterPointY(Color.BLACK, i)
+            val whiteStonesPoint = currentBoard.filterPointY(Color.WHITE, i)
             print(frontNumber + makeBoardLine(line, blackStonesPoint, whiteStonesPoint))
         }
         println(BOARD.last())
