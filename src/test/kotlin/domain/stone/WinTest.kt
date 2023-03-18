@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class WinTest {
 
     @Test
-    fun `우승자의 StoneType을 반환한다 `(stone: Stone) {
+    fun `우승자의 StoneType을 반환한다 `() {
         val stonePosition = StonePosition.from(1, 1)
         val stoneType = StoneType.BLACK
 
