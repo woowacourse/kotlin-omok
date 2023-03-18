@@ -23,6 +23,7 @@ enum class PlacingPoint {
             return ALLOWED
         }
 
+        // TODO
         fun Point.toPosition(): Position = Position(Column.valueOf(this.x - 1), Row.valueOf(this.y - 1))
 
         private fun convertStonesToPositionsMap(stones: List<Stone>): Map<Position, Color?> {

@@ -51,6 +51,7 @@ class PlacingPointTest {
             Board(stones),
             Point(2, 1)
         )
+        // TODO
         Assertions.assertThat(actual).isEqualTo(PlacingPoint.ALLOWED)
     }
 }
