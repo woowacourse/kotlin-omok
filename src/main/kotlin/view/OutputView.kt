@@ -1,8 +1,8 @@
 package view
 
+import domain.OmokBoard
 import domain.State
 import domain.Stone
-import domain.OmokBoard
 
 object OutputView {
     private const val MESSAGE_START = "오목 게임을 시작합니다."
@@ -49,11 +49,11 @@ object OutputView {
         println(MESSAGE_FORBIDDEN)
     }
 
-    fun printOmokState(omokBoard: OmokBoard, state: State, stone: Stone) {
+    fun printOmokState(omokBoard: OmokBoard, nextState: State, stone: Stone) {
         val stringBuilder = StringBuilder(default)
         val resultBuilder = addStones(stringBuilder, omokBoard)
         println(resultBuilder)
-        println(MESSAGE_TURN.format(selectState(state), stone.toString()))
+        println(MESSAGE_TURN.format(nextState.toValue(), stone.toString()))
     }
 
     private fun addStones(builder: StringBuilder, omokBoard: OmokBoard): StringBuilder {
@@ -72,8 +72,8 @@ object OutputView {
         return builder
     }
 
-    private fun selectState(state: State): String? {
-        return when (state) {
+    private fun State.toValue(): String? {
+        return when (this) {
             State.BLACK -> Color.BLACK.value
             State.WHITE -> Color.WHITE.value
             else -> null
@@ -81,6 +81,6 @@ object OutputView {
     }
 
     fun printWinner(state: State) {
-        println(MESSAGE_WINNER.format(selectState(state)))
+        println(MESSAGE_WINNER.format(state.toValue()))
     }
 }
