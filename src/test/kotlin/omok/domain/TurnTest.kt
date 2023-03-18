@@ -9,7 +9,7 @@ class TurnTest {
 
     @Test
     fun `블랙 다음 플레이어는 화이트이다`() {
-        val turn = Turn(listOf(Black, White))
+        val turn = Turn(setOf(Black, White))
 
         turn.changeTurn()
 
@@ -18,7 +18,7 @@ class TurnTest {
 
     @Test
     fun `블랙 다음 화이트 다음 플레이어는 블랙이다`() {
-        val turn = Turn(listOf(Black, White))
+        val turn = Turn(setOf(Black, White))
 
         turn.changeTurn()
         turn.changeTurn()

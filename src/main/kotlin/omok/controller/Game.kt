@@ -18,7 +18,7 @@ class Game(
     fun start() {
         val board = Board()
         outputView.printStart(board)
-        play(board, turn = Turn(listOf(Black, White)))
+        play(board, turn = Turn(setOf(Black, White)))
     }
 
     private fun play(board: Board, turn: Turn) {
