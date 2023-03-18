@@ -40,4 +40,22 @@ class StoneStateTest {
         val stoneState = EmptyStoneState
         assertThrows<IllegalStateException> { stoneState.next() }
     }
+
+    @Test
+    fun `모든 흰돌은 같은 객체다`() {
+        val stoneState = WhiteStoneState
+        assertThat(stoneState).isSameAs(WhiteStoneState)
+    }
+
+    @Test
+    fun `모든 검은돌은 같은 객체다`() {
+        val stoneState = BlackStoneState
+        assertThat(stoneState).isSameAs(BlackStoneState)
+    }
+
+    @Test
+    fun `모든 빈돌은 같은 객체다`() {
+        val stoneState = EmptyStoneState
+        assertThat(stoneState).isSameAs(EmptyStoneState)
+    }
 }
