@@ -4,19 +4,20 @@ import domain.OmokBoard
 import domain.State
 import domain.Stone
 
-object OutputView {
-    private const val MESSAGE_START = "오목 게임을 시작합니다."
-    private const val MESSAGE_TURN = "%s의 차례입니다. (마지막 돌의 위치: %s)"
-    private const val MESSAGE_BLACK_TURN = "흑의 차례입니다."
-    private const val MESSAGE_DUPLICATE = "해당 위치에 돌이 존재합니다."
-    private const val MESSAGE_FORBIDDEN = "금수입니다."
-    private const val MESSAGE_WINNER = "%s 승"
-    private const val ROW_SIZE = 47
-    private const val COLUMN_SIZE = 3
-    private const val BLACK_STONE = '●'
-    private const val WHITE_STONE = '○'
+class OutputView : OutputViewInterface {
+    companion object {
+        private const val MESSAGE_START = "오목 게임을 시작합니다."
+        private const val MESSAGE_TURN = "%s의 차례입니다. (마지막 돌의 위치: %s)"
+        private const val MESSAGE_BLACK_TURN = "흑의 차례입니다."
+        private const val MESSAGE_DUPLICATE = "해당 위치에 돌이 존재합니다."
+        private const val MESSAGE_FORBIDDEN = "금수입니다."
+        private const val MESSAGE_WINNER = "%s 승"
+        private const val ROW_SIZE = 47
+        private const val COLUMN_SIZE = 3
+        private const val BLACK_STONE = '●'
+        private const val WHITE_STONE = '○'
 
-    private val default = """
+        private val default = """
  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
  14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
  13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
@@ -34,22 +35,23 @@ object OutputView {
   1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
     """.trimIndent()
+    }
 
-    fun printStart() {
+    override fun printStart() {
         println(MESSAGE_START)
         println(default)
         println(MESSAGE_BLACK_TURN)
     }
 
-    fun printDuplicate() {
+    override fun printDuplicate() {
         println(MESSAGE_DUPLICATE)
     }
 
-    fun printForbidden() {
+    override fun printForbidden() {
         println(MESSAGE_FORBIDDEN)
     }
 
-    fun printOmokState(omokBoard: OmokBoard, nextState: State, stone: Stone) {
+    override fun printOmokState(omokBoard: OmokBoard, nextState: State, stone: Stone) {
         val stringBuilder = StringBuilder(default)
         val resultBuilder = addStones(stringBuilder, omokBoard)
         println(resultBuilder)
@@ -80,7 +82,7 @@ object OutputView {
         }
     }
 
-    fun printWinner(state: State) {
+    override fun printWinner(state: State) {
         println(MESSAGE_WINNER.format(state.toValue()))
     }
 }

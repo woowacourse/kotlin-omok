@@ -1,3 +1,6 @@
+import view.InputView
+import view.OutputView
+
 fun main() {
-    Controller().run()
+    Controller(InputView(), OutputView()).run()
 }

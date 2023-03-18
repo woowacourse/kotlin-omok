@@ -8,22 +8,22 @@ import view.OutputView
 
 class OmokListener : Listener {
     override fun onStoneRequest(): Stone {
-        return InputView.readPosition()
+        return InputView().readPosition()
     }
 
     override fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {
-        OutputView.printOmokState(omokBoard, state, stone)
+        OutputView().printOmokState(omokBoard, state, stone)
     }
 
     override fun onMoveFail() {
-        OutputView.printDuplicate()
+        OutputView().printDuplicate()
     }
 
     override fun onForbidden() {
-        OutputView.printForbidden()
+        OutputView().printForbidden()
     }
 
     override fun onFinish(state: State) {
-        OutputView.printWinner(state)
+        OutputView().printWinner(state)
     }
 }
