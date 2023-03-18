@@ -23,7 +23,7 @@ class Controller(private val gameView: GameView) {
     private fun printStart() = gameView.printStartMessage()
 
     private fun turn(state: State) {
-        return when (state) {
+        when (state) {
             Turn.Black -> blackTurn()
             Turn.White -> whiteTurn()
             Win.Black -> gameView.printWinMessage(Win.Black)
@@ -34,7 +34,7 @@ class Controller(private val gameView: GameView) {
     private fun blackTurn() {
         val position = readPosition(Turn.Black)
         board.blackPlayer.put(Stone(position))
-        board.putStone(position)
+        board.occupyPosition(position)
         gameView.printBoard(Turn.Black, position)
         return if (lineJudge(board.blackPlayer, position)) turn(Win.Black) else turn(Turn.White)
     }
@@ -42,7 +42,7 @@ class Controller(private val gameView: GameView) {
     private fun whiteTurn() {
         val position = readPosition(Turn.White)
         board.whitePlayer.put(Stone(position))
-        board.putStone(position)
+        board.occupyPosition(position)
         gameView.printBoard(Turn.White, position)
         return if (lineJudge(board.whitePlayer, position)) turn(Win.White) else turn(Turn.Black)
     }
