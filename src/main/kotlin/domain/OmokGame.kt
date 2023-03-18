@@ -1,7 +1,7 @@
 package domain
 
 class OmokGame(
-    private val omokBoard: OmokBoard = OmokBoard(),
+    val omokBoard: OmokBoard = OmokBoard(),
 ) {
     fun runGame(
         getStone: () -> Stone,
