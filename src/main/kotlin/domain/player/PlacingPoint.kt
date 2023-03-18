@@ -9,14 +9,14 @@ import domain.stone.Color
 import domain.stone.Point
 import domain.stone.Stone
 
-enum class BlackStonePlacingPoint {
+enum class PlacingPoint {
     FORBIDDEN,
     ALLOWED;
 
     companion object {
         private val blackReferee = BlackReferee()
 
-        fun valueOf(currentBoard: Board, placingPoint: Point): BlackStonePlacingPoint {
+        fun valueOf(currentBoard: Board, placingPoint: Point): PlacingPoint {
             if (blackReferee.isForbiddenPlacement(convertStonesToPositionsMap(currentBoard.placedStones), placingPoint.toPosition())) {
                 return FORBIDDEN
             }

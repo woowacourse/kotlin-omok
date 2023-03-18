@@ -14,7 +14,7 @@ class BlackStonePlayer(
 
     override fun isPossibleToPlace(board: Board, placingPosition: Point): Boolean {
         if (board.isPlaced(placingPosition) &&
-            BlackStonePlacingPoint.valueOf(board, placingPosition) == BlackStonePlacingPoint.ALLOWED
+            PlacingPoint.valueOf(board, placingPosition) == PlacingPoint.ALLOWED
         ) {
             return true
         }
