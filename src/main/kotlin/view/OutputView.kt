@@ -74,8 +74,8 @@ object OutputView {
 
     private fun State.toValue(): String? {
         return when (this) {
-            State.BLACK -> Color.BLACK.value
-            State.WHITE -> Color.WHITE.value
+            State.BLACK -> StateUiModel.BLACK.value
+            State.WHITE -> StateUiModel.WHITE.value
             else -> null
         }
     }
