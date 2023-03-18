@@ -7,9 +7,7 @@ import omok.domain.state.WhiteStoneState
 
 object OmokAdapter {
     fun adaptOmokBoard(omokBoard: OmokBoard): List<List<Int>> {
-        val ySize = omokBoard.keys.map { it.y.value }.toSet().size
-        val xSize = omokBoard.keys.map { it.x.value }.toSet().size
-        val adapted = MutableList(ySize) { MutableList(xSize) { 0 } }
+        val adapted = MutableList(omokBoard.ySize) { MutableList(omokBoard.xSize) { 0 } }
         omokBoard.keys.forEach {
             adapted[it.y.value - 1][it.x.value - 1] = when (omokBoard[it]) {
                 is BlackStoneState -> 1

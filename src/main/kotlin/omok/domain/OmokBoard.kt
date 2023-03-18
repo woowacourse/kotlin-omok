@@ -7,6 +7,8 @@ class OmokBoard(private val value: Map<OmokPoint, StoneState>) {
 
     val keys = value.keys
     val values = value.values
+    val ySize = Y_MAX_RANGE - Y_MIN_RANGE + 1
+    val xSize = X_MAX_RANGE - X_MIN_RANGE + 1
 
     constructor () : this(
         (X_MIN_RANGE..X_MAX_RANGE)

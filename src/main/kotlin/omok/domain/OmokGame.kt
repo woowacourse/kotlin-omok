@@ -9,9 +9,9 @@ class OmokGame {
         var gameState: GameState = BlackTurn(OmokBoard())
         var point: OmokPoint? = null
         while (gameState.isRunning) {
+            output(gameState.omokBoard)
             point = getPoint(gameState.stoneState, point)
             runCatching { gameState = gameState.play(point) }.onFailure { println(it.message) }
-            output(gameState.omokBoard)
         }
     }
 }
