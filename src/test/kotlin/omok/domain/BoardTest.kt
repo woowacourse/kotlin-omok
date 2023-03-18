@@ -15,7 +15,7 @@ class BoardTest {
         val position = Position(HorizontalAxis.H, 3)
 
         // when
-        board.putStone(position)
+        board.occupyPosition(position)
 
         // then
         assertThat(board.isPlaceable(Turn.Black, position)).isFalse

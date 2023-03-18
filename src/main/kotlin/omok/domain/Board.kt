@@ -17,7 +17,7 @@ class Board(val blackPlayer: Player, val whitePlayer: Player) {
         }
     }
 
-    fun putStone(position: Position) {
+    fun occupyPosition(position: Position) {
         positions.find { it == position }?.occupy()
     }
 }
