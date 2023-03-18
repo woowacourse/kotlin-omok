@@ -24,4 +24,8 @@ object OutputView {
         }
         println(ERROR_GAME_END)
     }
+
+    fun printExceptionMessage(throwable: Throwable) {
+        println(throwable.message)
+    }
 }
