@@ -19,7 +19,7 @@ data class Position(val row: Int, val col: Int) {
         val (rowMoveStep, colMoveStep) = Pair(direction.first * weight, direction.second * weight)
         var (curRow, curCol) = Pair(startRow + rowMoveStep, startCol + colMoveStep)
 
-        while (inRange(curRow, curCol) && stones.isPlaced(Stone.of(curRow, curCol))) {
+        while (inRange(curRow, curCol) && stones.hasStone(Stone.of(curRow, curCol))) {
             count++
             curRow += rowMoveStep
             curCol += colMoveStep

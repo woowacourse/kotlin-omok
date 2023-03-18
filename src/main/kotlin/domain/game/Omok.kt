@@ -22,12 +22,12 @@ class Omok(
             curBoard = takeTurn(curBoard, curStoneColor)
             startEndEventListener.onEndTurn(curBoard.getPlayers())
             curStoneColor = curStoneColor.next()
-        } while (curBoard.isRunning())
+        } while (curBoard.isRunning)
 
-        if (curBoard.isLose()) {
-            startEndEventListener.onEndGame(curStoneColor)
-        } else {
+        if (curBoard.isFouling) {
             startEndEventListener.onEndGame(curStoneColor.next())
+        } else {
+            startEndEventListener.onEndGame(curStoneColor)
         }
     }
 

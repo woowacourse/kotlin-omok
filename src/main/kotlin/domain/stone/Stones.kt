@@ -16,7 +16,7 @@ data class Stones(private val stones: List<Stone>) {
 
     fun add(newStone: Stone): Stones = Stones(stones + newStone)
 
-    fun isPlaced(stone: Stone): Boolean = stones.contains(stone)
+    fun hasStone(stone: Stone): Boolean = stones.contains(stone)
 
     fun checkWin(startStone: Stone): Boolean {
         val directions = listOf(RIGHT_DIRECTION, TOP_DIRECTION, RIGHT_TOP_DIRECTION, LEFT_BOTTOM_DIRECTION)

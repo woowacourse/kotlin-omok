@@ -9,6 +9,12 @@ import domain.stone.StoneColor
 class Board(private val players: Players) {
     constructor(blackPlayer: Player, whitePlayer: Player, rule: OmokRule) : this(Players(blackPlayer, whitePlayer, rule))
 
+    val isRunning: Boolean
+        get() = players.isRunning
+
+    val isFouling: Boolean
+        get() = players.isFouling
+
     fun putStone(stoneColor: StoneColor, stone: Stone): Board? {
         if (players.canPlace(stone)) {
             return Board(players.putStone(stoneColor, stone))
@@ -17,8 +23,4 @@ class Board(private val players: Players) {
     }
 
     fun getPlayers(): Players = players.copy()
-
-    fun isRunning(): Boolean = players.isRunning
-
-    fun isLose(): Boolean = players.isBlackLose
 }
