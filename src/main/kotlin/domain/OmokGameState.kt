@@ -4,11 +4,11 @@ import domain.board.Board
 import domain.library.result.WinningReferee
 import domain.stone.Color
 
-sealed class OmokGameState {
+sealed class OmokGameState(open val winningColor: Color?) {
 
-    object Running : OmokGameState()
+    object Running : OmokGameState(null)
 
-    data class End(val winningColor: Color) : OmokGameState()
+    data class End(override val winningColor: Color) : OmokGameState(winningColor)
 
     companion object {
         private val winningReferee: WinningReferee = WinningReferee()

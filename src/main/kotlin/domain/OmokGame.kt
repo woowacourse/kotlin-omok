@@ -34,14 +34,14 @@ class OmokGame(
     fun start(
         checkBoard: (currentBoard: Board) -> Unit,
         decidePoint: (latestStone: Stone?) -> Point,
-    ): OmokGameState {
-        while (omokGameState == OmokGameState.Running) {
+    ): Color? {
+        while (omokGameState is OmokGameState.Running) {
             board = decidePlayerToPlace().placeStone(board, checkBoard, decidePoint)
             omokGameState = OmokGameState.valueOf(board, turn)
             turn = nextTurn()
         }
         checkBoard(board)
 
-        return omokGameState
+        return omokGameState.winningColor
     }
 }
