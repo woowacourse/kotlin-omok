@@ -1,5 +1,9 @@
 package omok.domain
 
+import omok.configure.Constants.X_MAX_RANGE
+import omok.configure.Constants.X_MIN_RANGE
+import omok.configure.Constants.Y_MAX_RANGE
+import omok.configure.Constants.Y_MIN_RANGE
 import omok.domain.state.EmptyStoneState
 import omok.domain.state.StoneState
 
@@ -29,10 +33,6 @@ class OmokBoard(private val value: Map<OmokPoint, StoneState>) {
         ?: throw IllegalArgumentException(ERROR_INVALID_POINT.format(point.x.value, point.y.value))
 
     companion object {
-        const val X_MIN_RANGE = 1
-        const val X_MAX_RANGE = 15
-        const val Y_MIN_RANGE = 1
-        const val Y_MAX_RANGE = 15
         private const val ERROR_ALREADY_PLACED = "좌표 %s%s는 이미 다른 돌이 있습니다."
         private const val ERROR_INVALID_POINT = "좌표 %s%s는 오목판에 없습니다."
     }

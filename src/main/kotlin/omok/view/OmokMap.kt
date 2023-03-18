@@ -1,5 +1,9 @@
 package omok.view
 
+import omok.configure.Constants.X_MAX_RANGE
+import omok.configure.Constants.X_MIN_RANGE
+import omok.configure.Constants.Y_MAX_RANGE
+import omok.configure.Constants.Y_MIN_RANGE
 import omok.domain.OmokBoard
 import omok.domain.state.BlackStoneState
 import omok.domain.state.StoneState
@@ -43,8 +47,8 @@ object OmokMap {
         else -> "┼"
     }
 
-    private const val X_MIN_INDEX = OmokBoard.X_MIN_RANGE - 1
-    private const val X_MAX_INDEX = OmokBoard.X_MAX_RANGE - 1
-    private const val Y_MIN_INDEX = OmokBoard.Y_MIN_RANGE - 1
-    private const val Y_MAX_INDEX = OmokBoard.Y_MAX_RANGE - 1
+    private const val X_MIN_INDEX = 0
+    private const val X_MAX_INDEX = X_MAX_RANGE - X_MIN_RANGE
+    private const val Y_MIN_INDEX = 0
+    private const val Y_MAX_INDEX = Y_MAX_RANGE - Y_MIN_RANGE
 }

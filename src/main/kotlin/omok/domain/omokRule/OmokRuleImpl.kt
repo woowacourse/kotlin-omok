@@ -1,9 +1,9 @@
 package omok.domain.omokRule
 
-import omok.domain.OmokBoard.Companion.X_MAX_RANGE
-import omok.domain.OmokBoard.Companion.X_MIN_RANGE
-import omok.domain.OmokBoard.Companion.Y_MAX_RANGE
-import omok.domain.OmokBoard.Companion.Y_MIN_RANGE
+import omok.configure.Constants.X_MAX_RANGE
+import omok.configure.Constants.X_MIN_RANGE
+import omok.configure.Constants.Y_MAX_RANGE
+import omok.configure.Constants.Y_MIN_RANGE
 
 abstract class OmokRuleImpl(
     private val currentStone: Int = BLACK_STONE,
@@ -72,10 +72,10 @@ abstract class OmokRuleImpl(
         protected const val EMPTY_STONE = 0
         const val BLACK_STONE = 1
         const val WHITE_STONE = 2
-        const val MIN_X = X_MIN_RANGE - 1
-        const val MAX_X = X_MAX_RANGE - 1
-        const val MIN_Y = Y_MIN_RANGE - 1
-        const val MAX_Y = Y_MAX_RANGE - 1
+        const val MIN_X = 0
+        const val MAX_X = X_MAX_RANGE - X_MIN_RANGE
+        const val MIN_Y = 0
+        const val MAX_Y = Y_MAX_RANGE - Y_MIN_RANGE
 
         @JvmStatic
         protected val X_Edge = listOf(MIN_X, MAX_X)

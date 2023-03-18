@@ -1,7 +1,7 @@
 package omok.domain
 
-import omok.domain.OmokBoard.Companion.Y_MAX_RANGE
-import omok.domain.OmokBoard.Companion.Y_MIN_RANGE
+import omok.configure.Constants.Y_MAX_RANGE
+import omok.configure.Constants.Y_MIN_RANGE
 
 data class YCoordinate(val value: Int) {
     init {
