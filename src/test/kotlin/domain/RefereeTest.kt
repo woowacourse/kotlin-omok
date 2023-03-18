@@ -14,8 +14,11 @@ class RefereeTest {
             omokBoard.move(Stone(1, column), State.BLACK)
         }
 
-        // when, then
-        assertThat(referee.isWin(omokBoard, State.BLACK)).isTrue
+        // when
+        val result = referee.isWin(omokBoard, State.BLACK)
+
+        // then
+        assertThat(result).isTrue
     }
 
     @Test
@@ -27,8 +30,11 @@ class RefereeTest {
             omokBoard.move(Stone(row, 1), State.BLACK)
         }
 
-        // when, then
-        assertThat(referee.isWin(omokBoard, State.BLACK)).isTrue
+        // when
+        val result = referee.isWin(omokBoard, State.BLACK)
+
+        // then
+        assertThat(result).isTrue
     }
 
     @Test
@@ -40,8 +46,11 @@ class RefereeTest {
             omokBoard.move(Stone(index, index), State.BLACK)
         }
 
-        // when, then
-        assertThat(referee.isWin(omokBoard, State.BLACK)).isTrue
+        // when
+        val result = referee.isWin(omokBoard, State.BLACK)
+
+        // then
+        assertThat(result).isTrue
     }
 
     @Test
@@ -53,8 +62,11 @@ class RefereeTest {
             omokBoard.move(Stone(index, 15 - index), State.BLACK)
         }
 
-        // when, then
-        assertThat(referee.isWin(omokBoard, State.BLACK)).isTrue
+        // when
+        val result = referee.isWin(omokBoard, State.BLACK)
+
+        // then
+        assertThat(result).isTrue
     }
 
     @Test
@@ -66,12 +78,16 @@ class RefereeTest {
             omokBoard.move(Stone(1, column), State.BLACK)
         }
 
-        // when, then
-        assertThat(referee.isWin(omokBoard, State.BLACK)).isFalse
+        // when
+        val result = referee.isWin(omokBoard, State.BLACK)
+
+        // then
+        assertThat(result).isFalse
     }
 
     @Test
     fun `3*3 test1`() {
+        // given
         val referee = Referee()
         val myBoard = OmokBoard()
 
@@ -92,6 +108,7 @@ class RefereeTest {
 
     @Test
     fun `3*3 test2`() {
+        // given
         val referee = Referee()
         val myBoard = OmokBoard()
 
@@ -112,6 +129,7 @@ class RefereeTest {
 
     @Test
     fun `3*3 test3`() {
+        // given
         val referee = Referee()
         val myBoard = OmokBoard()
 
@@ -132,6 +150,7 @@ class RefereeTest {
 
     @Test
     fun `3*3 test4`() {
+        // given
         val referee = Referee()
         val myBoard = OmokBoard()
 
@@ -152,6 +171,7 @@ class RefereeTest {
 
     @Test
     fun `4*4 test1`() {
+        // given
         val referee = Referee()
         val myBoard = OmokBoard()
 
@@ -173,6 +193,7 @@ class RefereeTest {
 
     @Test
     fun `4*4 test2`() {
+        // given
         val referee = Referee()
         val myBoard = OmokBoard()
 
@@ -193,6 +214,7 @@ class RefereeTest {
 
     @Test
     fun `4*4 test3`() {
+        // given
         val referee = Referee()
         val myBoard = OmokBoard()
 
@@ -218,6 +240,7 @@ class RefereeTest {
 
     @Test
     fun `4*4 test4`() {
+        // given
         val referee = Referee()
         val myBoard = OmokBoard()
 
@@ -240,6 +263,7 @@ class RefereeTest {
 
     @Test
     fun `jangmok test`() {
+        // given
         val referee = Referee()
         val myBoard = OmokBoard()
 
