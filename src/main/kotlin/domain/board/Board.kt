@@ -1,6 +1,6 @@
 package domain.board
 
-import domain.stone.Position
+import domain.stone.Point
 import domain.stone.Stone
 
 data class Board(private val _placedStones: List<Stone> = listOf()) {
@@ -11,12 +11,8 @@ data class Board(private val _placedStones: List<Stone> = listOf()) {
     val latestStone: Stone?
         get() = _placedStones.lastOrNull()
 
-    fun isPlaced(position: Position): Boolean {
+    fun isPlaced(point: Point): Boolean {
 
-        return _placedStones.any { stone -> stone.position == position }
-    }
-
-    operator fun plus(stone: Stone): Board {
-        return Board(_placedStones + stone)
+        return _placedStones.any { stone -> stone.point == point }
     }
 }

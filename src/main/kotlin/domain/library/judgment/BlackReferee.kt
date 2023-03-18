@@ -1,7 +1,7 @@
-package domain.judgment
+package domain.library.judgment
 
+import domain.library.position.Position
 import domain.stone.Color
-import domain.stone.Position
 
 class BlackReferee : PlacementReferee() {
     override fun isForbiddenPlacement(board: Map<Position, Color?>, position: Position): Boolean {

@@ -1,7 +1,7 @@
-package domain.judgment
+package domain.library.judgment
 
+import domain.library.position.Position
 import domain.stone.Color
-import domain.stone.Position
 
 abstract class PlacementReferee : Referee() {
     abstract fun isForbiddenPlacement(board: Map<Position, Color?>, position: Position): Boolean

@@ -1,4 +1,4 @@
-package domain.stone
+package domain.library.position
 
 enum class Row(val y: Int) {
     ONE(0),

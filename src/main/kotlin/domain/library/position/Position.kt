@@ -1,4 +1,4 @@
-package domain.stone
+package domain.library.position
 
 data class Position(val column: Column, val row: Row) {
     constructor(x: Int, y: Int) : this(Column.valueOf(x), Row.valueOf(y))

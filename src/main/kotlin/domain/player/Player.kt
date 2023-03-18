@@ -2,17 +2,27 @@ package domain.player
 
 import domain.board.Board
 import domain.stone.Color
-import domain.stone.Position
+import domain.stone.Point
 import domain.stone.Stone
 
-class Player(val color: Color) {
+abstract class Player(
+    private val decidePosition: (latestStone: Stone?) -> Point,
+    private val checkBoard: (currentBoard: Board) -> Unit,
+) {
 
-    fun putStone(currentBoard: Board, getPosition: (latestStone: Stone?) -> Position): Board? {
-        val position = getPosition(currentBoard.latestStone)
+    abstract val color: Color
 
-        if (currentBoard.isPlaced(position)) {
-            return null
+    open fun placeStone(currentBoard: Board): Board {
+        checkBoard(currentBoard)
+
+        while (true) {
+            val placingPosition = decidePosition(currentBoard.latestStone)
+
+            if (isPossibleToPlace(currentBoard, placingPosition)) {
+                return Board(currentBoard.placedStones + Stone(placingPosition, color))
+            }
         }
-        return Board(currentBoard.placedStones + Stone(position, color))
     }
+
+    abstract fun isPossibleToPlace(board: Board, placingPosition: Point): Boolean
 }
