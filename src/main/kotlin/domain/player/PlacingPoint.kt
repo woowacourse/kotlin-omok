@@ -23,7 +23,7 @@ enum class PlacingPoint {
             return ALLOWED
         }
 
-        fun Point.toPosition(): Position = Position(Column.valueOf(this.x), Row.valueOf(this.y))
+        fun Point.toPosition(): Position = Position(Column.valueOf(this.x - 1), Row.valueOf(this.y - 1))
 
         private fun convertStonesToPositionsMap(stones: List<Stone>): Map<Position, Color?> {
             val positions: MutableMap<Position, Color?> = POSITIONS.associateWith { null }.toMutableMap()

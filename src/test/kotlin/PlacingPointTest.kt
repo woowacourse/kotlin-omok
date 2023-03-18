@@ -3,6 +3,7 @@ import domain.player.PlacingPoint
 import domain.stone.Color
 import domain.stone.Point
 import domain.stone.Stone
+import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -34,5 +35,24 @@ class PlacingPointTest {
         val actual = PlacingPoint.valueOf(Board(stones), Point(9, 8))
         assertThat(actual).isEqualTo(PlacingPoint.FORBIDDEN)
     }
+
+    @Test
+    fun `아무 규칙에 위반되지 않은 곳에 돌을 놓으려고 한다면 true를 반환한다`() {
+        val stones = listOf(
+            Stone(6, 5, Color.BLACK),
+            Stone(8, 6, Color.BLACK),
+            Stone(8, 7, Color.BLACK),
+            Stone(8, 8, Color.BLACK),
+            Stone(10, 8, Color.BLACK),
+            Stone(10, 9, Color.BLACK),
+            Stone(11, 8, Color.BLACK),
+        )
+        val actual = PlacingPoint.valueOf(
+            Board(stones),
+            Point(2, 1)
+        )
+        Assertions.assertThat(actual).isEqualTo(PlacingPoint.ALLOWED)
+    }
 }
+
 fun Stone(x: Int, y: Int, color: Color): Stone = Stone(Point(x, y), color)
