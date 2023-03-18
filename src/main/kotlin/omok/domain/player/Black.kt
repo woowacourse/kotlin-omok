@@ -3,7 +3,7 @@ package omok.domain.player
 import omok.domain.board.Position
 import omok.domain.judgment.PlacementReferee
 
-object Black : Stone {
+object Black : Stone() {
     override val name = "흑"
     override fun canPlace(referee: PlacementReferee, storedStones: Map<Position, Stone?>, position: Position): Boolean {
         require(!referee.isForbiddenPlacement(storedStones, position)) {
