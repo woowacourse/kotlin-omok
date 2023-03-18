@@ -5,7 +5,7 @@ import domain.stone.Color
 import domain.stone.Point
 import domain.stone.Stone
 
-abstract class Player() {
+abstract class Player {
 
     abstract val color: Color
 

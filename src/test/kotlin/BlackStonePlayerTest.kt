@@ -21,6 +21,7 @@ class BlackStonePlayerTest {
             Board(stones),
             Point(4, 12)
         )
+
         Assertions.assertThat(actual).isFalse
     }
 
@@ -40,6 +41,7 @@ class BlackStonePlayerTest {
             Board(stones),
             Point(9, 8)
         )
+
         Assertions.assertThat(actual).isFalse
     }
 
@@ -59,6 +61,7 @@ class BlackStonePlayerTest {
             Board(stones),
             Point(2, 1)
         )
+
         Assertions.assertThat(actual).isTrue
     }
 }

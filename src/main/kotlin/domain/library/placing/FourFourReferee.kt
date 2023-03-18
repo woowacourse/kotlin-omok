@@ -1,4 +1,4 @@
-package domain.library.judgment
+package domain.library.placing
 
 import domain.library.position.Position
 import domain.stone.Color

@@ -17,8 +17,6 @@ class BoardTest {
             )
         )
         val actual = board.isPlaced(Point(1, 3))
-        // TODO
-        println(actual)
 
         assertThat(actual).isTrue
     }
