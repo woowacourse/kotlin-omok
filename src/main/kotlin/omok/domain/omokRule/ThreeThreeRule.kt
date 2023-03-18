@@ -1,6 +1,6 @@
 package omok.domain.omokRule
 
-object ThreeThreeRule : OmokRuleImpl() {
+object ThreeThreeRule : OmokRule() {
     override fun validate(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
         countOpenThrees(board, position) >= 2
 

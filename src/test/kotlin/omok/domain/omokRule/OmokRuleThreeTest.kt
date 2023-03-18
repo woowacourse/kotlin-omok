@@ -1,91 +1,89 @@
 
 import omok.domain.omokRule.ThreeThreeRule
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertAll
 
 class OmokRuleThreeTest {
+    private var board = MutableList(15) { MutableList(15) { 0 } }
+
+    @BeforeEach
+    fun setUp() {
+        board = MutableList(15) { MutableList(15) { 0 } }
+    }
+
     @Test
     fun `열린 3이 두개 이상이면 둘 수 없다`() {
-        val board = listOf(
-            //     0  1  2  3  4  5  6  7  8  9 10  11 12 13 14
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  0
-            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0), //  1
-            listOf(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0), //  2
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  3
-            listOf(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  4
-            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  5
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  6
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0), //  7
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  8
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  9
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 10
-            listOf(0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0), // 11
-            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 12
-            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 13
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 14
-        )
-        assertAll(
-            { assertThat(ThreeThreeRule.validate(board, Pair(3, 3))).isTrue },
-            { assertThat(ThreeThreeRule.validate(board, Pair(3, 11))).isTrue },
-            { assertThat(ThreeThreeRule.validate(board, Pair(9, 4))).isTrue },
-            { assertThat(ThreeThreeRule.validate(board, Pair(10, 11))).isTrue },
-        )
+        // given
+        val x = 3
+        val y = 3
+
+        val nextPlace = Pair(x, y)
+
+        // when
+        board[1][1] = 1
+        board[2][2] = 1
+        board[3][2] = 1
+        board[3][1] = 1
+
+        // then
+        assertThat(ThreeThreeRule.validate(board, nextPlace)).isTrue
     }
 
     @Test
     fun `열린 3이 한개면 둘 수 있다`() {
-        val board = listOf(
-            //     0  1  2  3  4  5  6  7  8  9 10  11 12 13 14
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  0
-            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0), //  1
-            listOf(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0), //  2
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  3
-            listOf(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  4
-            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  5
-            listOf(2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0), //  6
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0), //  7
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  8
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  9
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 10
-            listOf(0, 1, 1, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 1, 0), // 11
-            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 12
-            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 13
-            listOf(0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 14
-        )
-        assertAll(
-            { assertThat(ThreeThreeRule.validate(board, Pair(3, 3))).isFalse },
-            { assertThat(ThreeThreeRule.validate(board, Pair(3, 11))).isFalse },
-            { assertThat(ThreeThreeRule.validate(board, Pair(9, 4))).isFalse },
-            { assertThat(ThreeThreeRule.validate(board, Pair(10, 11))).isFalse },
-        )
+        // given
+        val x = 3
+        val y = 3
+
+        val nextPlace = Pair(x, y)
+
+        // when
+        board[1][1] = 1
+        board[2][2] = 1
+        board[3][2] = 1
+
+        // then
+        assertThat(ThreeThreeRule.validate(board, nextPlace)).isFalse
     }
 
     @Test
     fun `34이면 둘 수 있다`() {
-        val board = listOf(
-            //     0  1  2  3  4  5  6  7  8  9 10  11 12 13 14
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  0
-            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0), //  1
-            listOf(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0), //  2
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  3
-            listOf(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  4
-            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  5
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0), //  6
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0), //  7
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  8
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0), //  9
-            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 10
-            listOf(0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0), // 11
-            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 12
-            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 13
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 14
-        )
-        assertAll(
-            { assertThat(ThreeThreeRule.validate(board, Pair(3, 3))).isFalse },
-            { assertThat(ThreeThreeRule.validate(board, Pair(3, 11))).isFalse },
-            { assertThat(ThreeThreeRule.validate(board, Pair(9, 4))).isFalse },
-            { assertThat(ThreeThreeRule.validate(board, Pair(10, 11))).isFalse },
-        )
+        // given
+        val x = 3
+        val y = 3
+
+        val nextPlace = Pair(x, y)
+
+        // when
+        board[1][1] = 1
+        board[2][2] = 1
+        board[3][4] = 1
+        board[3][2] = 1
+        board[3][1] = 1
+
+        // then
+        assertThat(ThreeThreeRule.validate(board, nextPlace)).isFalse
+    }
+
+    @Test
+    fun `33중 막힌 3이 하나라도 있으면 33이 아니다`() {
+        // given
+        val x = 6
+        val y = 5
+
+        val nextPlace = Pair(x, y)
+
+        // when
+        board[5][3] = 2
+        board[5][5] = 1
+        board[5][7] = 1
+        board[5][9] = 2
+
+        board[6][5] = 1
+        board[7][5] = 1
+
+        // then
+        assertThat(ThreeThreeRule.validate(board, nextPlace)).isFalse
     }
 }

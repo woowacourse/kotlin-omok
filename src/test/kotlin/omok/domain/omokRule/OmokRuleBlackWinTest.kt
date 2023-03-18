@@ -1,153 +1,122 @@
 package omok.domain.omokRule
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertAll
 
 class OmokRuleBlackWinTest {
-    @Test
-    fun `검은 돌의 5개가 연속이면 승리다(수평)`() {
-        val board = listOf(
-            //     0  1  1  3  4  5  6  7  8  9 10  11 12 13 14
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  0
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  1
-            listOf(0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  2
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  3
-            listOf(0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0), //  4
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  5
-            listOf(0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0), //  6
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  7
-            listOf(0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0), //  8
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  9
-            listOf(0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0), // 10
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 11
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 12
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 13
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 14
-        )
+    private var board = MutableList(15) { MutableList(15) { 0 } }
 
-        assertAll(
-            { assertThat(BlackWinRule.validate(board, Pair(5, 2))).isTrue },
-            { assertThat(BlackWinRule.validate(board, Pair(5, 4))).isTrue },
-            { assertThat(BlackWinRule.validate(board, Pair(5, 6))).isTrue },
-            { assertThat(BlackWinRule.validate(board, Pair(5, 8))).isTrue },
-            { assertThat(BlackWinRule.validate(board, Pair(5, 10))).isTrue },
-        )
+    @BeforeEach
+    fun setUp() {
+        board = MutableList(15) { MutableList(15) { 0 } }
+    }
+
+    @Test
+    fun `검은돌의 5개의 연속은 승리다(수평)`() {
+        // given
+        val x = 5
+        val y = 1
+
+        val nextPlace = Pair(x, y)
+
+        // when
+        board[1][1] = 1
+        board[1][2] = 1
+        board[1][3] = 1
+        board[1][4] = 1
+
+        // then
+        assertThat(BlackWinRule.validate(board, nextPlace)).isTrue
     }
 
     @Test
     fun `검은 돌의 5개가 연속이면 승리다(수직)`() {
-        val board = listOf(
-            //     0  1  1  3  4  5  6  7  8  9 10  11 12 13 14
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  0
-            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  1
-            listOf(0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  1
-            listOf(0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  3
-            listOf(0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0), //  4
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  5
-            listOf(0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0), //  6
-            listOf(0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0), //  7
-            listOf(0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0), //  8
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0), //  9
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 10
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 11
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 12
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 13
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 14
-        )
+        // given
+        val x = 1
+        val y = 5
 
-        assertAll(
-            { assertThat(BlackWinRule.validate(board, Pair(1, 5))).isTrue },
-            { assertThat(BlackWinRule.validate(board, Pair(3, 5))).isTrue },
-            { assertThat(BlackWinRule.validate(board, Pair(5, 5))).isTrue },
-            { assertThat(BlackWinRule.validate(board, Pair(7, 5))).isTrue },
-            { assertThat(BlackWinRule.validate(board, Pair(9, 5))).isTrue },
-        )
+        val nextPlace = Pair(x, y)
+
+        // when
+        board[1][1] = 1
+        board[2][1] = 1
+        board[3][1] = 1
+        board[4][1] = 1
+
+        // then
+        assertThat(BlackWinRule.validate(board, nextPlace)).isTrue
     }
 
     @Test
-    fun `검은 돌의 5개가 연속이면 승리다(대각선)`() {
-        val board = listOf(
-            //     0  1  1  3  4  5  6  7  8  9 10  11 12 13 14
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  0
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  1
-            listOf(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  1
-            listOf(0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0), //  3
-            listOf(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0), //  4
-            listOf(0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0), //  5
-            listOf(0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0), //  6
-            listOf(0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0), //  7
-            listOf(0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  8
-            listOf(1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0), //  9
-            listOf(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 10
-            listOf(0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 11
-            listOf(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 12
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 13
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 14
-        )
+    fun `검은돌의 5개의 연속은 승리다(대각선)`() {
+        // given
+        val x = 5
+        val y = 5
 
-        assertAll(
-            { assertThat(BlackWinRule.validate(board, Pair(4, 1))).isTrue },
-            { assertThat(BlackWinRule.validate(board, Pair(4, 4))).isTrue },
-            { assertThat(BlackWinRule.validate(board, Pair(4, 7))).isTrue },
-            { assertThat(BlackWinRule.validate(board, Pair(4, 10))).isTrue },
-            { assertThat(BlackWinRule.validate(board, Pair(4, 13))).isTrue },
-        )
+        val nextPlace = Pair(x, y)
+
+        // when
+        board[1][1] = 1
+        board[2][2] = 1
+        board[3][3] = 1
+        board[4][4] = 1
+
+        // then
+        assertThat(BlackWinRule.validate(board, nextPlace)).isTrue
     }
 
     @Test
-    fun `검은 돌의 연속이 5개 이외면 승리가 아니다`() {
-        val board = listOf(
-            //     0  1  1  3  4  5  6  7  8  9 10  11 12 13 14
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  0
-            listOf(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  1
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  1
-            listOf(0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  3
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  4
-            listOf(0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  5
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  6
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  7
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  8
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  9
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 10
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 11
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 12
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 13
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 14
-        )
+    fun `검은돌의 5개의 연속은 승리다(대각선 반대)`() {
+        // given
+        val x = 1
+        val y = 5
 
-        assertAll(
-            { assertThat(BlackWinRule.validate(board, Pair(3, 1))).isFalse },
-            { assertThat(BlackWinRule.validate(board, Pair(4, 3))).isFalse },
-            { assertThat(BlackWinRule.validate(board, Pair(5, 5))).isFalse },
-            { assertThat(BlackWinRule.validate(board, Pair(6, 7))).isFalse },
-        )
+        val nextPlace = Pair(x, y)
+
+        // when
+        board[4][2] = 1
+        board[3][3] = 1
+        board[2][4] = 1
+        board[1][5] = 1
+
+        // then
+        assertThat(BlackWinRule.validate(board, nextPlace)).isTrue
     }
 
     @Test
-    fun `검은돌의 5개의 연속은 승리다`() {
-        val board = listOf(
-            //     0  1  1  3  4  5  6  7  8  9 10  11 12 13 14
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  0
-            listOf(0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  1
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  1
-            listOf(0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  3
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  4
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  5
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  6
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  7
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  8
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), //  9
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 10
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 11
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 12
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 13
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), // 14
-        )
+    fun `검은 돌의 연속이 5개 이외면 승리가 아니다1`() {
+        // given
+        val x = 1
+        val y = 4
 
-        assertAll(
-            { assertThat(BlackWinRule.validate(board, Pair(5, 1))).isTrue },
-            { assertThat(BlackWinRule.validate(board, Pair(6, 3))).isTrue },
-        )
+        val nextPlace = Pair(x, y)
+
+        // when
+        board[1][1] = 1
+        board[2][1] = 1
+        board[3][1] = 1
+
+        // then
+        assertThat(BlackWinRule.validate(board, nextPlace)).isFalse
+    }
+
+    @Test
+    fun `검은 돌의 연속이 5개 이외면 승리가 아니다2`() {
+        // given
+        val x = 1
+        val y = 6
+
+        val nextPlace = Pair(x, y)
+
+        // when
+        board[1][1] = 1
+        board[2][1] = 1
+        board[3][1] = 1
+        board[4][1] = 1
+        board[5][1] = 1
+
+        // then
+        assertThat(BlackWinRule.validate(board, nextPlace)).isFalse
     }
 }

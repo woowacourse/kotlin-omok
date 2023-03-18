@@ -1,6 +1,6 @@
 package omok.domain.omokRule
 
-object BlackWinRule : OmokRuleImpl() {
+object BlackWinRule : OmokRule() {
     override fun validate(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
         directions.map { direction -> checkWhiteWin(board, position, direction) }.contains(true)
 
