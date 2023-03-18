@@ -5,6 +5,7 @@ import omok.domain.board.Board
 import omok.domain.board.Column
 import omok.domain.board.Position
 import omok.domain.board.Row
+import omok.model.ColumnModel
 import omok.model.toPresentation
 
 class OutputView {
@@ -29,10 +30,8 @@ class OutputView {
     }
 
     private fun getRowsAndBoard(board: Board): String {
-        val rowNumber = mutableListOf(15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
-
         return Row.values().reversed().joinToString("\n") { row ->
-            " %2d ".format(rowNumber.removeFirst()) +
+            " %2s ".format(row.toPresentation()) +
                 Column.values().joinToString("──") { column ->
                     val position = Position(column, row)
                     position.toPresentation(board.positions[position])
@@ -40,11 +39,7 @@ class OutputView {
         }
     }
 
-    private fun getColumns(): String {
-        val columnAlphabet = listOf("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O")
-
-        return columnAlphabet.joinToString("  ")
-    }
+    private fun getColumns(): String = Column.values().joinToString("  ") { it.toPresentation() }
 
     fun printWinner(turn: Turn) {
         val winner = turn.now.toPresentation()
