@@ -13,12 +13,12 @@ class BlackTurn(override val omokBoard: OmokBoard) : GameState {
     override val isRunning: Boolean = true
 
     override fun play(point: OmokPoint): GameState {
-        val adapted = OmokAdapter.adaptOmokBoard(omokBoard)
+        val adaptedBoard = OmokAdapter.adaptOmokBoard(omokBoard)
         val adaptedPoint = OmokAdapter.adaptOmokPoint(point)
         return when {
-            BlackWinRule.validate(adapted, adaptedPoint) -> BlackWin(omokBoard.placeStone(point, stoneState))
-            FourFourRule.validate(adapted, adaptedPoint) -> this
-            ThreeThreeRule.validate(adapted, adaptedPoint) -> this
+            BlackWinRule.validate(adaptedBoard, adaptedPoint) -> BlackWin(omokBoard.placeStone(point, stoneState))
+            FourFourRule.validate(adaptedBoard, adaptedPoint) -> this
+            ThreeThreeRule.validate(adaptedBoard, adaptedPoint) -> this
             else -> WhiteTurn(omokBoard.placeStone(point, stoneState))
         }
     }

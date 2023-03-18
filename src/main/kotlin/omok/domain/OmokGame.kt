@@ -8,6 +8,7 @@ class OmokGame {
     fun play(getPoint: (StoneState, OmokPoint?) -> OmokPoint, output: (OmokBoard) -> Unit) {
         var gameState: GameState = BlackTurn(OmokBoard())
         var point: OmokPoint? = null
+
         while (gameState.isRunning) {
             output(gameState.omokBoard)
             point = getPoint(gameState.stoneState, point)

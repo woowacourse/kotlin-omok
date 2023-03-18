@@ -8,5 +8,6 @@ interface GameState {
     val stoneState: StoneState
     val omokBoard: OmokBoard
     val isRunning: Boolean
+
     fun play(point: OmokPoint): GameState
 }
