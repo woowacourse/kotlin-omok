@@ -45,13 +45,12 @@ class Game(private val board: Board, private var turn: Turn, private val winning
         latestPosition: Position?,
         wantPosition: (latestPosition: Position?, turn: Turn) -> Pair<Int, Int>,
     ): Position {
-        return runCatching {
-            val selectedPosition = wantPosition(latestPosition, turn).toPosition()
-            board.place(selectedPosition, turn.now)
-            selectedPosition
-        }.getOrElse {
-            println(it.message)
+        val selectedPosition = wantPosition(latestPosition, turn).toPosition()
+        if (board.positions[selectedPosition] != null) {
             place(latestPosition, wantPosition)
+        } else {
+            board.place(selectedPosition, turn.now)
         }
+        return selectedPosition
     }
 }

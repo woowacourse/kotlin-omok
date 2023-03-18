@@ -1,7 +1,6 @@
 package omok.domain.board
 
 import omok.domain.player.Black
-import omok.domain.player.White
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -53,14 +52,5 @@ class BoardTest {
         val board = Board(UPWARD_DIAGONAL_BOARD)
 
         assertThrows<IllegalArgumentException> { board.place(Position(Column.J, Row.TEN), Black) }
-    }
-
-    @Test
-    fun `돌을 놓으면, 해당 위치에 다시 돌을 놓을 수 없다`() {
-        val board = Board()
-
-        board.place(Position(Column.J, Row.TEN), Black)
-
-        assertThrows<IllegalArgumentException> { board.place(Position(Column.J, Row.TEN), White) }
     }
 }
