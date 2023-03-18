@@ -87,7 +87,6 @@ class RenjuRule : OmokRule {
             direction,
             BACK_WEIGHT,
         )
-
         // 양 방향 6칸 이하에 각각 1개씩 있으면 참
         return oneDirMoveCount + otherDirMoveCount <= 6 && oneDirFound && otherDirFound
     }
