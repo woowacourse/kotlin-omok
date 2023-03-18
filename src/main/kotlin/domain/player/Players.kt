@@ -43,6 +43,4 @@ data class Players private constructor(private val players: List<Player>, privat
     fun getWhitePlayer(): Player = players.first { it is WhitePlayer }
 
     fun canPlace(stone: Stone): Boolean = players.none { it.isPlaced(stone) }
-
-    fun getFoulPlayerStoneColor(): StoneColor = players.first { it.isFoul() }.stoneColor
 }
