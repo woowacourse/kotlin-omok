@@ -8,7 +8,7 @@ import domain.stone.Stones
 abstract class PlayerState(protected val stones: Stones = Stones()) {
     abstract fun add(newStone: Stone, rule: OmokRule): PlayerState
 
-    fun hasStone(stone: Stone): Boolean = stones.hasStone(stone)
+    fun hasStone(stone: Stone): Boolean = stones.isPlaced(stone)
 
     fun getPlaced(): List<Position> = stones.getPositions()
 

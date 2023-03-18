@@ -30,7 +30,7 @@ class StonesTest {
     @Test
     fun `오목알이 포함되어 있는지 판단한다`() {
         val stones = Stones(ONE_ONE_STONE, ONE_TWO_STONE, ONE_THREE_STONE)
-        val expected = stones.hasStone(ONE_ONE_STONE)
+        val expected = stones.isPlaced(ONE_ONE_STONE)
 
         assertThat(expected).isTrue
     }

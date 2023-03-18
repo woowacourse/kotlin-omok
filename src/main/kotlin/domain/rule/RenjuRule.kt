@@ -120,7 +120,7 @@ class RenjuRule : OmokRule {
         var moveCount = 0
         while (inRange(curRow, curCol) && moveCount <= 6) {
             moveCount++
-            if (whiteStones.hasStone(Stone.of(curRow, curCol))) {
+            if (whiteStones.isPlaced(Stone.of(curRow, curCol))) {
                 return Pair(moveCount, true)
             }
             curRow += upDownDir
@@ -145,13 +145,13 @@ class RenjuRule : OmokRule {
         // 흰 돌이 아니고, 범위 안에 있고
         // 같은 돌의 개수가 3개 이하이고, 공백이 1개 이하일 때까지
         while (inRange(currentRow, currentCol) && emptyCount <= 1 &&
-            sameStoneCount < 3 && !whiteStones.hasStone(Stone.of(currentRow, currentCol))
+            sameStoneCount < 3 && !whiteStones.isPlaced(Stone.of(currentRow, currentCol))
         ) {
             // 검은 돌이 있는지 확인한다.
-            if (blackStones.hasStone(Stone.of(currentRow, currentCol))) ++sameStoneCount
+            if (blackStones.isPlaced(Stone.of(currentRow, currentCol))) ++sameStoneCount
             // 빈 칸인지 확인한다.
-            if (!blackStones.hasStone(Stone.of(currentRow, currentCol)) &&
-                !whiteStones.hasStone(Stone.of(currentRow, currentCol))
+            if (!blackStones.isPlaced(Stone.of(currentRow, currentCol)) &&
+                !whiteStones.isPlaced(Stone.of(currentRow, currentCol))
             ) {
                 ++emptyCount
             }
@@ -161,8 +161,8 @@ class RenjuRule : OmokRule {
 
         if (sameStoneCount == 1) emptyCount = 0 // B X X X
         if (sameStoneCount == 2) emptyCount = 1 // B X B
-        if (sameStoneCount == 2 && !blackStones.hasStone(Stone.of(currentRow - direction.first * weight, currentCol - direction.second * weight)) &&
-            !whiteStones.hasStone(Stone.of(currentRow - direction.first * weight, currentCol - direction.second * weight))
+        if (sameStoneCount == 2 && !blackStones.isPlaced(Stone.of(currentRow - direction.first * weight, currentCol - direction.second * weight)) &&
+            !whiteStones.isPlaced(Stone.of(currentRow - direction.first * weight, currentCol - direction.second * weight))
         ) {
             emptyCount -= 1 // B B X W
         }
@@ -186,13 +186,13 @@ class RenjuRule : OmokRule {
         // 흰 돌이 아니고, 범위 안에 있고
         // 같은 돌의 개수가 3개 이하이고, 공백이 1개 이하일 때까지
         while (inRange(currentRow, currentCol) && emptyCount <= 1 &&
-            sameStoneCount < 4 && !whiteStones.hasStone(Stone.of(currentRow, currentCol))
+            sameStoneCount < 4 && !whiteStones.isPlaced(Stone.of(currentRow, currentCol))
         ) {
             // 검은 돌이 있는지 확인한다.
-            if (blackStones.hasStone(Stone.of(currentRow, currentCol))) ++sameStoneCount
+            if (blackStones.isPlaced(Stone.of(currentRow, currentCol))) ++sameStoneCount
             // 빈 칸인지 확인한다.
-            if (!blackStones.hasStone(Stone.of(currentRow, currentCol)) &&
-                !whiteStones.hasStone(Stone.of(currentRow, currentCol))
+            if (!blackStones.isPlaced(Stone.of(currentRow, currentCol)) &&
+                !whiteStones.isPlaced(Stone.of(currentRow, currentCol))
             ) {
                 ++emptyCount
             }
@@ -203,8 +203,8 @@ class RenjuRule : OmokRule {
         currentRow -= direction.first * weight
         currentCol -= direction.second * weight
 
-        while (inRange(currentRow, currentCol) && !blackStones.hasStone(Stone.of(currentRow, currentCol))) {
-            if (whiteStones.hasStone(Stone.of(currentRow, currentCol))) {
+        while (inRange(currentRow, currentCol) && !blackStones.isPlaced(Stone.of(currentRow, currentCol))) {
+            if (whiteStones.isPlaced(Stone.of(currentRow, currentCol))) {
                 currentRow -= direction.first * weight
                 currentCol -= direction.second * weight
                 continue
@@ -230,7 +230,7 @@ class RenjuRule : OmokRule {
         // 현재 탐색 방향에
         // 흰 돌이 아니고, 범위 안에 있고
         // 같은 돌의 개수가 3개 이하이고, 공백이 1개 이하일 때까지
-        while (inRange(currentRow, currentCol) && blackStones.hasStone(Stone.of(currentRow, currentCol))) {
+        while (inRange(currentRow, currentCol) && blackStones.isPlaced(Stone.of(currentRow, currentCol))) {
             // 검은 돌이 있는지 확인한다.
             sameStoneCount++
             currentRow += direction.first * weight
