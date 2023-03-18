@@ -17,7 +17,7 @@ class PlacingPointTest {
             Stone(5, 12, Color.BLACK),
         )
         val actual = PlacingPoint.valueOf(Board(stones), Point(4, 12))
-        assertThat(actual).isEqualTo(PlacingPoint.ALLOWED)
+        assertThat(actual).isEqualTo(PlacingPoint.FORBIDDEN)
     }
 
     @Test
@@ -34,6 +34,5 @@ class PlacingPointTest {
         val actual = PlacingPoint.valueOf(Board(stones), Point(9, 8))
         assertThat(actual).isEqualTo(PlacingPoint.FORBIDDEN)
     }
-
-    private fun Stone(x: Int, y: Int, color: Color): Stone = Stone(Point(x, y), color)
 }
+fun Stone(x: Int, y: Int, color: Color): Stone = Stone(Point(x, y), color)
