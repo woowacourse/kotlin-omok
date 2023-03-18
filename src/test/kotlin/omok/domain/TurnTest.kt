@@ -9,15 +9,10 @@ class TurnTest {
 
     @Test
     fun `블랙 다음 플레이어는 화이트이다`() {
-        val turn = Turn(Black)
+        val turn = Turn(setOf(Black, White))
 
-        assertThat(turn.next().now).isEqualTo(White)
-    }
+        turn.changeTurn()
 
-    @Test
-    fun `화이트 다음 플레이어는 블랙이다`() {
-        val turn = Turn(White)
-
-        assertThat(turn.next().now).isEqualTo(Black)
+        assertThat(turn.now).isEqualTo(White)
     }
 }

@@ -33,7 +33,7 @@ class Game(private val board: Board, private var turn: Turn, private val winning
         onTurn(board)
 
         if (winningReferee.hasFiveOrMoreStoneInRow(board.positions, selectedPosition)) return
-        turn = turn.next()
+        turn.changeTurn()
         playUntilWinnerAppears(selectedPosition, wantPosition, onTurn)
     }
 

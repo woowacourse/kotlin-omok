@@ -1,12 +1,13 @@
 package omok.domain
 
-import omok.domain.player.Black
 import omok.domain.player.Stone
-import omok.domain.player.White
 
-class Turn(val now: Stone) {
-    fun next(): Turn {
-        if (now == Black) return Turn(White)
-        return Turn(Black)
+class Turn(private val stones: Set<Stone>) {
+    private var currentIndex = 0
+    val now: Stone
+        get() = stones.elementAt(currentIndex)
+
+    fun changeTurn() {
+        currentIndex = if (now == stones.last()) 0 else currentIndex + 1
     }
 }
