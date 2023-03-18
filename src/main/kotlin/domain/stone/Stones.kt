@@ -22,8 +22,8 @@ data class Stones(private val stones: List<Stone>) {
         val directions = listOf(RIGHT_DIRECTION, TOP_DIRECTION, RIGHT_TOP_DIRECTION, LEFT_BOTTOM_DIRECTION)
 
         for (moveDirection in directions) {
-            val forwardCount = startStone.position.checkStraight(this, moveDirection, FORWARD_WEIGHT)
-            val backCount = startStone.position.checkStraight(this, moveDirection, BACK_WEIGHT)
+            val forwardCount = startStone.countSameStones(this, moveDirection, FORWARD_WEIGHT)
+            val backCount = startStone.countSameStones(this, moveDirection, BACK_WEIGHT)
             if (forwardCount + backCount - 1 >= MINIMUM_WIN_CONDITION) return true
         }
         return false

@@ -9,7 +9,7 @@ data class Position(val row: Int, val col: Int) {
         require(col in POSITION_RANGE) { COLUMN_OUT_OF_RANGE_ERROR_MESSAGE }
     }
 
-    fun checkStraight(
+    fun countStraight(
         stones: Stones,
         direction: Pair<Int, Int>,
         weight: Int,
