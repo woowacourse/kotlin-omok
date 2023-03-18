@@ -1,5 +1,5 @@
-import domain.rule.OmokRule
-import domain.rule.RenjuRule
+package domain.rule
+
 import domain.stone.Stone
 import domain.stone.Stones
 import org.assertj.core.api.Assertions.assertThat
