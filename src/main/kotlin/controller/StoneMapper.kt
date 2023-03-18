@@ -14,7 +14,7 @@ object StoneMapper : Mapper<Stone, StoneDTO> {
     override fun dtoToDomain(dto: StoneDTO): Stone {
         val point = VectorMapper.dtoToDomain(dto.coordinate)
         return Stone(
-            ColorMapper.dtoToDomain(dto.color), Coordinate.from(point.x, point.y)!!
+            ColorMapper.dtoToDomain(dto.color), Coordinate.from(point.x, point.y).getOrNull()!!
         )
     }
 }

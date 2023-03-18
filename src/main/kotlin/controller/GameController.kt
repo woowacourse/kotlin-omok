@@ -1,5 +1,6 @@
 package controller
 
+import controller.error.ErrorHandler
 import domain.Board
 import domain.Color
 import domain.Coordinate
@@ -8,8 +9,9 @@ import domain.RenjuRule
 import domain.Stones
 import dto.VectorDTO
 import view.GameView
+import java.lang.Exception
 
-class GameController(private val gameView: GameView) {
+class GameController(private val gameView: GameView, private val errorHandler: ErrorHandler) {
     fun process() {
         val players = Players()
         val stones = Stones()
@@ -26,12 +28,18 @@ class GameController(private val gameView: GameView) {
     private fun readStone(color: Color, stones: Stones): Coordinate {
         renderBoard(stones)
 
-        val pointDto = gameView.readStone(
-            ColorMapper.domainToDTO(color), getStoneCoordinateOrNull(stones)
-        ) ?: return readStone(color, stones)
+        val pointDto = gameView.readStone(ColorMapper.domainToDTO(color), getStoneCoordinateOrNull(stones)).getOrElse {
+            errorHandler.log(it as Exception)
+            return readStone(color, stones)
+        }
 
         val point = VectorMapper.dtoToDomain(pointDto)
-        return Coordinate.from(point.x, point.y) ?: return readStone(color, stones)
+        val coordinate = Coordinate.from(point.x, point.y).getOrElse {
+            errorHandler.log(it as Exception)
+            return readStone(color, stones)
+        }
+
+        return coordinate
     }
 
     private fun getStoneCoordinateOrNull(stones: Stones): VectorDTO? {

@@ -13,7 +13,7 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
         println(renderBoard.render(stones, size))
     }
 
-    override fun readStone(color: ColorDTO, lastStone: VectorDTO?): VectorDTO? {
+    override fun readStone(color: ColorDTO, lastStone: VectorDTO?): Result<VectorDTO> {
         print(USER_TURN.format(colorToString(color)))
         println(
             lastStone?.let {
@@ -22,16 +22,20 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
         )
         val input = readln().trim()
         if (input[0] < 'A' || input[0] > 'Z') {
-            return null
+            return Result.failure(IllegalArgumentException(MESSAGE_COLUMN_MUST_BE_ALPHA))
         }
         if (input.substring(1).toIntOrNull() == null) {
-            return null
+            return Result.failure(IllegalArgumentException(MESSAGE_ROW_MUST_BE_NUM))
         }
-        return VectorDTO(input[0] - 'A', input.substring(1).toInt() - 1)
+        return Result.success(VectorDTO(input[0] - 'A', input.substring(1).toInt() - 1))
     }
 
     override fun renderWinner(color: ColorDTO) {
         println(GAME_WINNER.format(colorToString(color)))
+    }
+
+    override fun renderError(error: String) {
+        println(error)
     }
 
     private fun colorToString(color: ColorDTO): String {
@@ -50,5 +54,7 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
         private const val USER_TURN = "%s의 차례입니다."
         private const val LAST_STONE_POSITION = " (마지막 돌의 위치 : %s) "
         private const val GAME_WINNER = "%s가 승리자입니다."
+        private const val MESSAGE_COLUMN_MUST_BE_ALPHA = "행은 반드시 영문자여야 합니다."
+        private const val MESSAGE_ROW_MUST_BE_NUM = "열은 반드시 숫자여야 합니다."
     }
 }
