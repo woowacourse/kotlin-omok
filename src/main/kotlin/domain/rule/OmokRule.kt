@@ -158,11 +158,13 @@ object OmokRule {
     }
 
     fun isWinCondition(board: List<List<StoneType>>, stone: Stone): Boolean {
-        if (checkHorizontal(board, stone)) return true
-        if (checkVertical(board, stone)) return true
-        if (checkDiagonal1(board, stone)) return true
-        if (checkDiagonal2(board, stone)) return true
-        return false
+        return when {
+            checkHorizontal(board, stone) -> true
+            checkVertical(board, stone) -> true
+            checkDiagonal1(board, stone) -> true
+            checkDiagonal2(board, stone) -> true
+            else -> false
+        }
     }
 
     private fun checkHorizontal(board: List<List<StoneType>>, stone: Stone): Boolean {
