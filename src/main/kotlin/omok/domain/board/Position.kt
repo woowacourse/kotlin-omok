@@ -1,12 +1,12 @@
 package omok.domain.board
 
-fun String?.toPosition(): Position {
-    val columnText = this?.substring(0, 1)
-    val rowText = this?.substring(1)
-    val column = columnText.toColumn()
-    val row = rowText.toRow()
+import omok.domain.board.Column.Companion.toColumn
+import omok.domain.board.Row.Companion.toRow
 
-    require(column != null && row != null) { "[ERROR] ${this ?: ""} 라는 위치는 존재하지 않습니다." }
+fun Pair<Int, Int>.toPosition(): Position {
+    val column = toColumn(this.first)
+    val row = toRow(this.second)
+
     return Position(column, row)
 }
 

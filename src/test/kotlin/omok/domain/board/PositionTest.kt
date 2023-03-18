@@ -2,7 +2,6 @@ package omok.domain.board
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class PositionTest {
     @Test
@@ -159,15 +158,8 @@ class PositionTest {
 
     @Test
     fun `좌표값이 존재한다`() {
-        val positionText = "I9"
+        val positionText = Pair(9, 9)
 
         assertThat(positionText.toPosition()).isEqualTo(Position(Column.I, Row.NINE))
-    }
-
-    @Test
-    fun `좌표값이 존재하지 않는다`() {
-        val positionText = "pingu"
-
-        assertThrows<IllegalArgumentException> { positionText.toPosition() }
     }
 }

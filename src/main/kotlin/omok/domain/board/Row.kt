@@ -1,7 +1,5 @@
 package omok.domain.board
 
-fun String?.toRow(): Row? = Row.values().find { this?.toIntOrNull() == it.axis + 1 }
-
 enum class Row(val axis: Int) {
     ONE(0),
     TWO(1),
@@ -21,4 +19,8 @@ enum class Row(val axis: Int) {
 
     fun up(): Row? = runCatching { values()[axis + 1] }.getOrNull()
     fun down(): Row? = runCatching { values()[axis - 1] }.getOrNull()
+
+    companion object {
+        fun toRow(axis: Int): Row = values()[axis - 1]
+    }
 }

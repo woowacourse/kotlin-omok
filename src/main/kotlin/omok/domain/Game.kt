@@ -8,9 +8,9 @@ import omok.domain.judgment.WinningReferee
 class Game(private val board: Board, private var turn: Turn, private val winningReferee: WinningReferee) {
     fun start(
         onStart: (board: Board) -> Unit,
-        wantPosition: (latestPosition: Position?, turn: Turn) -> String?,
+        wantPosition: (latestPosition: Position?, turn: Turn) -> Pair<Int, Int>,
         onTurn: (board: Board) -> Unit,
-        onFinish: (turn: Turn) -> Unit
+        onFinish: (turn: Turn) -> Unit,
     ) {
         onStart(board)
         play(wantPosition, onTurn)
@@ -18,16 +18,16 @@ class Game(private val board: Board, private var turn: Turn, private val winning
     }
 
     private fun play(
-        wantPosition: (latestPosition: Position?, turn: Turn) -> String?,
-        onTurn: (board: Board) -> Unit
+        wantPosition: (latestPosition: Position?, turn: Turn) -> Pair<Int, Int>,
+        onTurn: (board: Board) -> Unit,
     ) {
         playUntilWinnerAppears(null, wantPosition, onTurn)
     }
 
     private tailrec fun playUntilWinnerAppears(
         position: Position?,
-        wantPosition: (latestPosition: Position?, turn: Turn) -> String?,
-        onTurn: (board: Board) -> Unit
+        wantPosition: (latestPosition: Position?, turn: Turn) -> Pair<Int, Int>,
+        onTurn: (board: Board) -> Unit,
     ) {
         val selectedPosition = place(position, wantPosition)
         onTurn(board)
@@ -43,7 +43,7 @@ class Game(private val board: Board, private var turn: Turn, private val winning
 
     private fun place(
         latestPosition: Position?,
-        wantPosition: (latestPosition: Position?, turn: Turn) -> String?
+        wantPosition: (latestPosition: Position?, turn: Turn) -> Pair<Int, Int>,
     ): Position {
         return runCatching {
             val selectedPosition = wantPosition(latestPosition, turn).toPosition()

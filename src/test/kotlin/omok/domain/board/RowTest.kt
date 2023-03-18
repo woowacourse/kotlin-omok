@@ -1,6 +1,8 @@
 package omok.domain.board
 
+import omok.domain.board.Row.Companion.toRow
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class RowTest {
@@ -33,16 +35,9 @@ class RowTest {
     }
 
     @Test
-    fun `로우가 존재한다`() {
-        val rowText = "9"
+    fun `입력으로 들어온 좌표값을 로우로 바꿔준다`() {
+        val inputRow = 9
 
-        Assertions.assertThat(rowText.toRow()).isEqualTo(Row.NINE)
-    }
-
-    @Test
-    fun `로우가 존재하지 않는다`() {
-        val rowText = "16"
-
-        Assertions.assertThat(rowText.toRow()).isNull()
+        assertThat(toRow(inputRow)).isEqualTo(Row.NINE)
     }
 }

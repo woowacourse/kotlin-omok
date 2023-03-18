@@ -1,5 +1,6 @@
 package omok.domain.board
 
+import omok.domain.board.Column.Companion.toColumn
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -33,16 +34,9 @@ class ColumnTest {
     }
 
     @Test
-    fun `컬럼이 존재한다`() {
-        val columnText = "H"
+    fun `입력으로 들어온 좌표값을 컬럼으로 바꿔준다`() {
+        val inputColumn = 9
 
-        assertThat(columnText.toColumn()).isEqualTo(Column.H)
-    }
-
-    @Test
-    fun `컬럼이 존재하지 않는다`() {
-        val columnText = "P"
-
-        assertThat(columnText.toColumn()).isNull()
+        assertThat(toColumn(inputColumn)).isEqualTo(Column.I)
     }
 }

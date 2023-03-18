@@ -2,22 +2,22 @@ package omok.view.model
 
 import omok.domain.board.Column
 
-enum class ColumnModel(val text: String) {
-    A("A"),
-    B("B"),
-    C("C"),
-    D("D"),
-    E("E"),
-    F("F"),
-    G("G"),
-    H("H"),
-    I("I"),
-    J("J"),
-    K("K"),
-    L("L"),
-    M("M"),
-    N("N"),
-    O("O");
+enum class ColumnModel(val text: String, val axis: Int) {
+    A("A", 1),
+    B("B", 2),
+    C("C", 3),
+    D("D", 4),
+    E("E", 5),
+    F("F", 6),
+    G("G", 7),
+    H("H", 8),
+    I("I", 9),
+    J("J", 10),
+    K("K", 11),
+    L("L", 12),
+    M("M", 13),
+    N("N", 14),
+    O("O", 15);
 }
 
 fun Column.toPresentation(): String = when (this) {
