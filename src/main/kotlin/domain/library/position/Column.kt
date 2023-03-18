@@ -17,6 +17,7 @@ enum class Column(val x: Int) {
     N(13),
     O(14);
 
+    //TODO: Test
     fun right(): Column? = values().find { it.x == x + 1 }
     fun left(): Column? = values().find { it.x == x - 1 }
 
