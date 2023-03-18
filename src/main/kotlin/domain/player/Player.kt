@@ -9,7 +9,7 @@ abstract class Player {
 
     abstract val color: Color
 
-    // TODO
+    // TODO: Test 그리고 분리해보자
     fun placeStone(
         currentBoard: Board,
         checkBoard: (currentBoard: Board) -> Unit,

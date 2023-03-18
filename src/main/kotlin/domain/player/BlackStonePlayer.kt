@@ -4,7 +4,7 @@ import domain.board.Board
 import domain.stone.Color
 import domain.stone.Point
 
-class BlackStonePlayer() : Player() {
+class BlackStonePlayer : Player() {
 
     override val color: Color = Color.BLACK
 
