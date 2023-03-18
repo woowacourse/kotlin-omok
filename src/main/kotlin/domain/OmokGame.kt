@@ -13,19 +13,15 @@ class OmokGame(
     ) {
         while (true) {
             doTurn(getStone, onMoveFail, onForbidden, State.BLACK, onMove)
-            if (isVictory(State.BLACK, onFinish)) break
+            if (isVictory(State.BLACK)) return onFinish(State.BLACK)
 
             doTurn(getStone, onMoveFail, onForbidden, State.WHITE, onMove)
-            if (isVictory(State.WHITE, onFinish)) break
+            if (isVictory(State.WHITE)) return onFinish(State.WHITE)
         }
     }
 
-    private fun isVictory(state: State, onFinish: (State) -> Unit): Boolean {
-        if (referee.isWin(omokBoard, state)) {
-            onFinish(state)
-            return true
-        }
-        return false
+    private fun isVictory(state: State): Boolean {
+        return referee.isWin(omokBoard, state)
     }
 
     private fun doTurn(
