@@ -5,5 +5,5 @@ import domain.stone.StoneColor
 
 interface OmokTurnEventListener {
     fun onTakeTurn(stoneColor: StoneColor): Position
-    fun onNotPlaceable()
+    fun onStoneNotPlaceable()
 }

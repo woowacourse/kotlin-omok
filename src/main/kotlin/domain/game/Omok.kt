@@ -6,38 +6,46 @@ import domain.player.WhitePlayer
 import domain.rule.OmokRule
 import domain.stone.Stone
 import domain.stone.StoneColor
-import listener.OmokStartEndEventListener
+import listener.OmokGameEventListener
 import listener.OmokTurnEventListener
 
 class Omok(
-    private val turnEventListener: OmokTurnEventListener,
-    private val startEndEventListener: OmokStartEndEventListener,
+    private val turnListener: OmokTurnEventListener,
+    private val gameListener: OmokGameEventListener,
     private val rule: OmokRule
 ) {
     fun run() {
-        startEndEventListener.onStartGame()
-        var curStoneColor: StoneColor = StoneColor.BLACK
+        gameListener.onStartGame()
+        var curStoneColor = StoneColor.BLACK
         var curBoard = Board(BlackPlayer(), WhitePlayer(), rule)
-        do {
+        while (curBoard.isRunning) {
             curBoard = takeTurn(curBoard, curStoneColor)
-            startEndEventListener.onEndTurn(curBoard.getPlayers())
+            gameListener.onEndTurn(curBoard.getPlayers())
+            if (isEndGame(curBoard, curStoneColor)) break
             curStoneColor = curStoneColor.next()
-        } while (curBoard.isRunning)
-
-        if (curBoard.isFouling) {
-            startEndEventListener.onEndGame(curStoneColor.next())
-        } else {
-            startEndEventListener.onEndGame(curStoneColor)
         }
     }
 
-    private fun takeTurn(board: Board, stoneColor: StoneColor): Board {
-        val newStone = Stone.of(turnEventListener.onTakeTurn(stoneColor))
-        val newBoard = board.putStone(stoneColor, newStone)
-        if (newBoard == null) {
-            turnEventListener.onNotPlaceable()
-            return takeTurn(board, stoneColor)
+    private fun takeTurn(board: Board, color: StoneColor): Board {
+        val newStone = Stone.of(turnListener.onTakeTurn(color))
+        val newBoard = board.putStone(color, newStone)
+        return newBoard ?: run {
+            turnListener.onStoneNotPlaceable()
+            takeTurn(board, color)
         }
-        return newBoard
+    }
+
+    private fun isEndGame(curBoard: Board, curStoneColor: StoneColor): Boolean = when {
+        curBoard.isFouling -> {
+            gameListener.onEndGame(winnerStoneColor = curStoneColor.next())
+            true
+        }
+
+        !curBoard.isRunning -> {
+            gameListener.onEndGame(winnerStoneColor = curStoneColor)
+            true
+        }
+
+        else -> false
     }
 }

@@ -13,9 +13,9 @@ class OmokOutputView : OutputView {
         println(TURN_MESSAGE.format(StoneColorModel.BLACK.text))
     }
 
-    override fun onEndGame(stoneColor: StoneColor) {
+    override fun onEndGame(winnerStoneColor: StoneColor) {
         println(GAME_END_MESSAGE)
-        println(WINNER_MESSAGE.format(stoneColor.toPresentation().text))
+        println(WINNER_MESSAGE.format(winnerStoneColor.toPresentation().text))
     }
 
     override fun onStartTurn(stoneColor: StoneColor, position: Position) {

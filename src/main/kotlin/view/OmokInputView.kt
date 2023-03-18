@@ -8,7 +8,7 @@ import view.model.PositionModel
 class OmokInputView : InputView {
     override fun onTakeTurn(stoneColor: StoneColor): Position = askPosition()
 
-    override fun onNotPlaceable() {
+    override fun onStoneNotPlaceable() {
         askPosition()
     }
 
