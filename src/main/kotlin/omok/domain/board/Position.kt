@@ -14,53 +14,53 @@ data class Position(val column: Column, val row: Row) {
 
     fun getNorth(): Position? {
         val northRow = row.up()
-        if (northRow != null) return Position(column, northRow)
+        if (northRow != null) return copy(row = northRow)
         return null
     }
 
     fun getNorthEast(): Position? {
         val eastColumn = column.right()
         val northRow = row.up()
-        if (eastColumn != null && northRow != null) return Position(eastColumn, northRow)
+        if (eastColumn != null && northRow != null) return copy(column = eastColumn, row = northRow)
         return null
     }
 
     fun getEast(): Position? {
         val eastColumn = column.right()
-        if (eastColumn != null) return Position(eastColumn, row)
+        if (eastColumn != null) return copy(column = eastColumn)
         return null
     }
 
     fun getSouthEast(): Position? {
         val eastColumn = column.right()
         val southRow = row.down()
-        if (eastColumn != null && southRow != null) return Position(eastColumn, southRow)
+        if (eastColumn != null && southRow != null) return copy(column = eastColumn, row = southRow)
         return null
     }
 
     fun getSouth(): Position? {
         val southRow = row.down()
-        if (southRow != null) return Position(column, southRow)
+        if (southRow != null) return copy(row = southRow)
         return null
     }
 
     fun getSouthWest(): Position? {
         val westColumn = column.left()
         val southRow = row.down()
-        if (westColumn != null && southRow != null) return Position(westColumn, southRow)
+        if (westColumn != null && southRow != null) return copy(column = westColumn, row = southRow)
         return null
     }
 
     fun getWest(): Position? {
         val westColumn = column.left()
-        if (westColumn != null) return Position(westColumn, row)
+        if (westColumn != null) return copy(column = westColumn)
         return null
     }
 
     fun getNorthWest(): Position? {
         val westColumn = column.left()
         val northRow = row.up()
-        if (westColumn != null && northRow != null) return Position(westColumn, northRow)
+        if (westColumn != null && northRow != null) return copy(column = westColumn, row = northRow)
         return null
     }
 }
