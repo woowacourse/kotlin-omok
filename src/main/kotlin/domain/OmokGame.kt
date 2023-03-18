@@ -12,10 +12,10 @@ class OmokGame(
         onFinish: (State) -> Unit
     ) {
         while (true) {
-            successBlackTurn(getStone, onMoveFail, onForbidden, onMove)
+            doTurn(getStone, onMoveFail, onForbidden, State.BLACK, onMove)
             if (isVictory(State.BLACK, onFinish)) break
 
-            successWhiteTurn(getStone, onMoveFail, onMove)
+            doTurn(getStone, onMoveFail, onForbidden, State.WHITE, onMove)
             if (isVictory(State.WHITE, onFinish)) break
         }
     }
@@ -28,39 +28,25 @@ class OmokGame(
         return false
     }
 
-    private fun successBlackTurn(
+    private fun doTurn(
         getStone: () -> Stone,
         onMoveFail: () -> Unit,
         onForbidden: () -> Unit,
+        state: State,
         onMove: (OmokBoard, State, Stone) -> Unit
-    ): Boolean {
-        val blackStone = getStone()
-        if (!omokBoard.isEmpty(blackStone)) {
+    ) {
+        val stone = getStone()
+        if (!omokBoard.isEmpty(stone)) {
             onMoveFail()
-            return successBlackTurn(getStone, onMoveFail, onForbidden, onMove)
+            return doTurn(getStone, onMoveFail, onForbidden, state, onMove)
         }
 
-        if (!referee.isMovable(omokBoard, blackStone, OmokRuleAdapter())) {
+        if (state == State.BLACK && !referee.isMovable(omokBoard, stone, OmokRuleAdapter())) {
             onForbidden()
-            return successBlackTurn(getStone, onMoveFail, onForbidden, onMove)
+            return doTurn(getStone, onMoveFail, onForbidden, state, onMove)
         }
-        omokBoard.move(blackStone, State.BLACK)
-        onMove(omokBoard, State.WHITE, blackStone)
-        return true
-    }
 
-    private fun successWhiteTurn(
-        getStone: () -> Stone,
-        onMoveFail: () -> Unit,
-        onMove: (OmokBoard, State, Stone) -> Unit
-    ): Boolean {
-        val whiteStone = getStone()
-        if (!omokBoard.isEmpty(whiteStone)) {
-            onMoveFail()
-            return successWhiteTurn(getStone, onMoveFail, onMove)
-        }
-        omokBoard.move(whiteStone, State.WHITE)
-        onMove(omokBoard, State.BLACK, whiteStone)
-        return true
+        omokBoard.move(stone, state)
+        onMove(omokBoard, state.nextState(), stone)
     }
 }
