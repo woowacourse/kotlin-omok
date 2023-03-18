@@ -1,34 +1,47 @@
 package domain
 
 import domain.board.Board
-import domain.board.PlayingBoard
+import domain.player.BlackStonePlayer
+import domain.player.Player
+import domain.player.WhiteStonePlayer
 import domain.stone.Color
-import domain.stone.Position
+import domain.stone.Point
 import domain.stone.Stone
 
 class OmokGame(
-    val getPosition: (Stone?, Boolean) -> Position,
-    val checkBoardState: (Board) -> Unit,
+    private val blackStonePlayer: BlackStonePlayer = BlackStonePlayer(),
+    private val whiteStonePlayer: WhiteStonePlayer = WhiteStonePlayer()
 ) {
-    fun runGame(): Color {
-        var board: Board = PlayingBoard()
-        var color = Color.BLACK
-        while (board.isFinished.not()) {
-            checkBoardState(board)
-            board = turnGame(board, color)
-            color = !color
+
+    private var turn: Color = Color.BLACK
+    private var omokGameState: OmokGameState = OmokGameState.Running
+    private var board: Board = Board()
+
+    private fun nextTurn(): Color {
+        return when (turn) {
+            Color.BLACK -> Color.WHITE
+            Color.WHITE -> Color.BLACK
         }
-        checkBoardState(board)
-        return board.winningColor
     }
 
-    fun turnGame(board: Board, color: Color, initialTry: Boolean = true): Board {
-        val position = getPosition(board.getLatestStone(), initialTry)
-        return if (board.isPossiblePut(position)) {
-            val nextBoard = board.putStone(Stone(position, color))
-            nextBoard
-        } else {
-            turnGame(board, color, false)
+    private fun decidePlayerToPlace(): Player {
+        return when (turn) {
+            Color.BLACK -> blackStonePlayer
+            Color.WHITE -> whiteStonePlayer
         }
+    }
+
+    fun start(
+        checkBoard: (currentBoard: Board) -> Unit,
+        decidePoint: (latestStone: Stone?) -> Point,
+    ): Color? {
+        while (omokGameState is OmokGameState.Running) {
+            board = decidePlayerToPlace().placeStone(board, checkBoard, decidePoint)
+            omokGameState = OmokGameState.valueOf(board, turn)
+            turn = nextTurn()
+        }
+        checkBoard(board)
+
+        return omokGameState.winningColor
     }
 }

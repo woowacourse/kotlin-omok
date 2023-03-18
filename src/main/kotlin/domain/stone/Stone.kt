@@ -1,6 +1,6 @@
 package domain.stone
 
 data class Stone(
-    val position: Position,
+    val point: Point,
     val color: Color
 )

@@ -1,4 +1,4 @@
-package domain.stone
+package domain.library.position
 
 enum class Column(val x: Int) {
     A(0),
