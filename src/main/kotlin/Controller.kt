@@ -1,17 +1,11 @@
 import domain.OmokGame
-import view.InputView
+import domain.listener.OmokListener
 import view.OutputView
 
 class Controller {
     fun run() {
-        val omokGame = OmokGame()
+        val omokGame = OmokGame(listener = OmokListener())
         OutputView.printStart()
-        omokGame.runGame(
-            InputView::readPosition,
-            OutputView::printOmokState,
-            OutputView::printDuplicate,
-            OutputView::printForbidden,
-            OutputView::printWinner
-        )
+        omokGame.runGame()
     }
 }
