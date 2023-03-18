@@ -1,6 +1,5 @@
 package domain
 
-import domain.board.Board
 import org.junit.jupiter.api.Test
 
 class OmokGameTest {
@@ -27,7 +26,7 @@ class OmokGameTest {
             return turn[index++]
         }
 
-        override fun onMove(board: Board, state: State, stone: Stone) {}
+        override fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {}
 
         override fun onMoveFail() {}
 

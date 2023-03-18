@@ -1,7 +1,5 @@
 package domain
 
-import domain.board.OmokBoard
-
 class OmokGame(
     private val omokBoard: OmokBoard = OmokBoard(),
     private val referee: Referee = Referee(),
@@ -18,7 +16,7 @@ class OmokGame(
     }
 
     private fun isVictory(state: State): Boolean {
-        if (referee.isWin(omokBoard.board, state)) {
+        if (referee.isWin(omokBoard, state)) {
             omokGameListener.onFinish(state)
             return true
         }
@@ -37,7 +35,7 @@ class OmokGame(
             return successBlackTurn()
         }
         omokBoard.move(blackStone, State.BLACK)
-        omokGameListener.onMove(omokBoard.board, State.WHITE, blackStone)
+        omokGameListener.onMove(omokBoard, State.WHITE, blackStone)
         return true
     }
 
@@ -48,7 +46,7 @@ class OmokGame(
             return successWhiteTurn()
         }
         omokBoard.move(whiteStone, State.WHITE)
-        omokGameListener.onMove(omokBoard.board, State.BLACK, whiteStone)
+        omokGameListener.onMove(omokBoard, State.BLACK, whiteStone)
         return true
     }
 }

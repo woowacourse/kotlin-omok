@@ -1,8 +1,8 @@
 import domain.Listener
+import domain.OmokBoard
 import domain.OmokGame
 import domain.State
 import domain.Stone
-import domain.board.Board
 import view.InputView
 import view.OutputView
 
@@ -13,8 +13,8 @@ class Controller {
             return InputView.readPosition()
         }
 
-        override fun onMove(board: Board, state: State, stone: Stone) {
-            OutputView.printOmokState(board, state, stone)
+        override fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {
+            OutputView.printOmokState(omokBoard, state, stone)
         }
 
         override fun onMoveFail() {
