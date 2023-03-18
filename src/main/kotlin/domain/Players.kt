@@ -2,11 +2,11 @@ package domain
 
 class Players(private val value: List<Player>) {
 
-    fun repeatTurn(stones: Stones, coordinateReader: CoordinateReader): Player {
+    fun repeatTurn(stones: Stones, coordinateReader: CoordinateReader) {
         var index = 0
         while (true) {
             val stone = value[index].place(stones, coordinateReader)
-            if (stones.isWinPlace(stone)) return value[index]
+            if (stones.isWinPlace(stone)) break
             index = turnPlayer(index)
         }
     }

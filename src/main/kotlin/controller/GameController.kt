@@ -18,11 +18,12 @@ class GameController(
         val stones = Stones()
         val board = Board(players, stones)
         gameView.startGame()
-        val winner = board.repeatTurn {
+        board.repeatTurn {
             readStone(it, stones)
         }
         renderBoard(stones)
-        gameView.renderWinner(ColorMapper.domainToDTO(winner.color))
+        val winnerColor = board.getLastColor()
+        gameView.renderWinner(ColorMapper.domainToDTO(winnerColor))
     }
 
     private fun readStone(color: Color, stones: Stones): Coordinate {
