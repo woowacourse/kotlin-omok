@@ -9,15 +9,14 @@ abstract class Player {
 
     abstract val color: Color
 
-    // TODO: Test 그리고 분리해보자
     fun placeStone(
         currentBoard: Board,
         checkBoard: (currentBoard: Board) -> Unit,
-        decidePosition: (latestStone: Stone?) -> Point,
+        decidePoint: (latestStone: Stone?) -> Point,
     ): Board {
         while (true) {
             checkBoard(currentBoard)
-            val placingPosition = decidePosition(currentBoard.latestStone)
+            val placingPosition = decidePoint(currentBoard.latestStone)
 
             if (isPossibleToPlace(currentBoard, placingPosition)) {
                 return Board(currentBoard.placedStones + Stone(placingPosition, color))
