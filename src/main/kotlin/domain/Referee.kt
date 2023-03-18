@@ -1,6 +1,10 @@
 package domain
 
 class Referee {
+    fun isMovable(myBoard: OmokBoard, stone: Stone, rule: OmokRule): Boolean {
+        return rule.isForbidden(myBoard, stone)
+    }
+
     fun isWin(omokBoard: OmokBoard, state: State): Boolean {
         val size = OmokBoard.BOARD_SIZE
         for (i in 0 until size) {
@@ -58,9 +62,5 @@ class Referee {
             omokBoard.value[x + 2][y - 2] == state &&
             omokBoard.value[x + 3][y - 3] == state &&
             omokBoard.value[x + 4][y - 4] == state
-    }
-
-    fun isMovable(myBoard: OmokBoard, stone: Stone, rule: OmokRule): Boolean {
-        return rule.isForbidden(myBoard, stone)
     }
 }
