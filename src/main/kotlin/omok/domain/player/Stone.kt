@@ -5,5 +5,5 @@ import omok.domain.judgment.PlacementReferee
 
 interface Stone {
     val name: String
-    fun canPlace(referee: PlacementReferee, board: Map<Position, Stone?>, position: Position): Boolean
+    fun canPlace(referee: PlacementReferee, storedStones: Map<Position, Stone?>, position: Position): Boolean
 }
