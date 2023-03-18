@@ -3,7 +3,7 @@ package domain.state
 import domain.stone.Stone
 import domain.stone.StoneType
 
-class End(val stoneType: StoneType) : State {
+class End(private val stoneType: StoneType) : State {
 
     override fun getWinner(): StoneType = stoneType
 
