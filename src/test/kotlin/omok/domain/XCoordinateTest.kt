@@ -20,6 +20,18 @@ class XCoordinateTest {
         assertDoesNotThrow { XCoordinate(value) }
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = [1, 15])
+    fun `x 좌표는 숫자로도 만들 수 있다`(value: Int) {
+        assertDoesNotThrow { XCoordinate(value) }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [0, 16])
+    fun `x 좌표는 1부터 15사이 이외는 에러가 발생한다`(value: Int) {
+        assertThrows<IllegalArgumentException> { XCoordinate(value) }
+    }
+
     @Test
     fun `x 좌표는 A부터 O사이 이외는 에러가 발생한다`() {
         assertThrows<IllegalArgumentException> { XCoordinate('P') }

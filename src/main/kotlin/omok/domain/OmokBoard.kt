@@ -10,8 +10,8 @@ import omok.domain.state.StoneState
 class OmokBoard(value: Map<OmokPoint, StoneState> = EMPTY.toMap()) {
     private val map: Map<OmokPoint, StoneState>
 
-    val keys = value.keys
-    val values = value.values
+    val keys get() = map.keys
+    val values get() = map.values
     val ySize = Y_MAX_RANGE - Y_MIN_RANGE + 1
     val xSize = X_MAX_RANGE - X_MIN_RANGE + 1
 
