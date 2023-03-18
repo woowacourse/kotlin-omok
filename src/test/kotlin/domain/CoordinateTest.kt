@@ -7,7 +7,7 @@ class CoordinateTest {
     @Test
     fun `좌표 생성시 15x15 오목판 밖에서 생성하면 null을 반환한다`() {
         // given
-        val coordinate = Coordinate.from(15, 15)
+        val coordinate = Coordinate.from(15, 15).getOrNull()
 
         // when
 
@@ -18,7 +18,7 @@ class CoordinateTest {
     @Test
     fun `좌표 생성시 15x15 오목판 안에서 생성하면 좌표 객체를 생성한다`() {
         // given
-        val coordinate = Coordinate.from(14, 14)
+        val coordinate = Coordinate.from(14, 14).getOrNull()
 
         // when
 

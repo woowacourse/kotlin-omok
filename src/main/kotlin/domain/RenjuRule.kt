@@ -47,7 +47,7 @@ class RenjuRule(override val stones: Stones) : OmokRule {
     private fun validateCheckBlock(start: Vector, direction: Vector, size: Int): Boolean {
         repeat(size) {
             val next = (direction * it)
-            if (Coordinate.from(start.x + next.x, start.y + next.y) == null) return false
+            if (Coordinate.from(start.x + next.x, start.y + next.y).getOrNull() == null) return false
         }
         return true
     }

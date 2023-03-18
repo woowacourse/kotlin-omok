@@ -7,8 +7,8 @@ class StonesTest {
     @Test
     fun `돌을 놓을때, 해당 위치에 다른 돌이 존재하면 돌을 놓을 수 없다`() {
         // given
-        val stone1 = Stone(Color.BLACK, Coordinate.from(3, 3)!!)
-        val stone2 = Stone(Color.BLACK, Coordinate.from(3, 3)!!)
+        val stone1 = Stone(Color.BLACK, Coordinate.from(3, 3).getOrNull()!!)
+        val stone2 = Stone(Color.BLACK, Coordinate.from(3, 3).getOrNull()!!)
         val stones = Stones(listOf(stone1))
 
         // when
@@ -21,8 +21,8 @@ class StonesTest {
     @Test
     fun `돌을 놓을때, 해당 위치에 다른 돌이 존재지 않으면 돌을 놓을 수 있다`() {
         // given
-        val stone1 = Stone(Color.BLACK, Coordinate.from(3, 3)!!)
-        val stone2 = Stone(Color.BLACK, Coordinate.from(4, 3)!!)
+        val stone1 = Stone(Color.BLACK, Coordinate.from(3, 3).getOrNull()!!)
+        val stone2 = Stone(Color.BLACK, Coordinate.from(4, 3).getOrNull()!!)
         val stones = Stones(listOf(stone1))
 
         // when
@@ -38,11 +38,11 @@ class StonesTest {
         val stones = Stones()
 
         // when
-        val stone = Stone(Color.BLACK, Coordinate.from(1, 2)!!)
+        val stone = Stone(Color.BLACK, Coordinate.from(1, 2).getOrNull()!!)
         stones.place(stone)
 
         // then
-        val except = Stone(Color.BLACK, Coordinate.from(1, 2)!!)
+        val except = Stone(Color.BLACK, Coordinate.from(1, 2).getOrNull()!!)
         assertThat(stones.value.last()).isEqualTo(except)
     }
 }
