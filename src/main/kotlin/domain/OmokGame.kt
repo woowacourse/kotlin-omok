@@ -1,43 +1,34 @@
 package domain
 
+import domain.listener.Listener
+
 class OmokGame(
     val omokBoard: OmokBoard = OmokBoard(),
+    private val listener: Listener
 ) {
-    fun runGame(
-        getStone: () -> Stone,
-        onMove: (OmokBoard, State, Stone) -> Unit,
-        onMoveFail: () -> Unit,
-        onForbidden: () -> Unit,
-        onFinish: (State) -> Unit
-    ) {
+    fun runGame() {
         while (true) {
-            doTurn(getStone, onMoveFail, onForbidden, State.BLACK, onMove)
-            if (omokBoard.isVictory(State.BLACK)) return onFinish(State.BLACK)
+            doTurn(State.BLACK)
+            if (omokBoard.isVictory(State.BLACK)) return listener.onFinish(State.BLACK)
 
-            doTurn(getStone, onMoveFail, onForbidden, State.WHITE, onMove)
-            if (omokBoard.isVictory(State.WHITE)) return onFinish(State.WHITE)
+            doTurn(State.WHITE)
+            if (omokBoard.isVictory(State.WHITE)) return listener.onFinish(State.WHITE)
         }
     }
 
-    private fun doTurn(
-        getStone: () -> Stone,
-        onMoveFail: () -> Unit,
-        onForbidden: () -> Unit,
-        state: State,
-        onMove: (OmokBoard, State, Stone) -> Unit
-    ) {
-        val stone = getStone()
+    private fun doTurn(state: State) {
+        val stone = listener.onStoneRequest()
         if (!omokBoard.isEmpty(stone)) {
-            onMoveFail()
-            return doTurn(getStone, onMoveFail, onForbidden, state, onMove)
+            listener.onMoveFail()
+            return doTurn(state)
         }
 
         if (state == State.BLACK && omokBoard.isForbidden(stone)) {
-            onForbidden()
-            return doTurn(getStone, onMoveFail, onForbidden, state, onMove)
+            listener.onForbidden()
+            return doTurn(state)
         }
 
         omokBoard.move(stone, state)
-        onMove(omokBoard, state.nextState(), stone)
+        listener.onMove(omokBoard, state.nextState(), stone)
     }
 }
