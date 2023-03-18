@@ -1,4 +1,4 @@
-package omok.domain.state
+package domain.rule.state
 
 import domain.rule.ArkBoard
 import domain.rule.OmokPoint

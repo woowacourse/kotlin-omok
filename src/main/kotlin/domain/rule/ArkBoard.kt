@@ -1,7 +1,7 @@
 package domain.rule
 
-import omok.domain.state.BlackStoneState
-import omok.domain.state.StoneState
+import domain.rule.state.BlackStoneState
+import domain.rule.state.StoneState
 
 class ArkBoard(
     val value: Map<YCoordinate, OmokLine>,

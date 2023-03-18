@@ -1,6 +1,6 @@
 package domain.rule
 
-import omok.domain.state.EmptyStoneState
+import domain.rule.state.EmptyStoneState
 
 class Rule(private val board: ArkBoard) {
     fun countOpenThrees(point: OmokPoint): Int =
