@@ -2,7 +2,6 @@ package domain
 
 class OmokGame(
     private val omokBoard: OmokBoard = OmokBoard(),
-    private val referee: Referee = Referee()
 ) {
     fun runGame(
         getStone: () -> Stone,
@@ -13,15 +12,11 @@ class OmokGame(
     ) {
         while (true) {
             doTurn(getStone, onMoveFail, onForbidden, State.BLACK, onMove)
-            if (isVictory(State.BLACK)) return onFinish(State.BLACK)
+            if (omokBoard.isVictory(State.BLACK)) return onFinish(State.BLACK)
 
             doTurn(getStone, onMoveFail, onForbidden, State.WHITE, onMove)
-            if (isVictory(State.WHITE)) return onFinish(State.WHITE)
+            if (omokBoard.isVictory(State.WHITE)) return onFinish(State.WHITE)
         }
-    }
-
-    private fun isVictory(state: State): Boolean {
-        return referee.isWin(omokBoard, state)
     }
 
     private fun doTurn(
@@ -37,7 +32,7 @@ class OmokGame(
             return doTurn(getStone, onMoveFail, onForbidden, state, onMove)
         }
 
-        if (state == State.BLACK && !referee.isMovable(omokBoard, stone, OmokRuleAdapter())) {
+        if (state == State.BLACK && omokBoard.isForbidden(stone)) {
             onForbidden()
             return doTurn(getStone, onMoveFail, onForbidden, state, onMove)
         }
