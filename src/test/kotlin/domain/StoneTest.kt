@@ -7,7 +7,7 @@ class StoneTest {
     @Test
     fun `x좌표와 y좌표로 바둑알을 생성할 수 있다`() {
         assertDoesNotThrow {
-            Stone(XCoordinate.of('A'), YCoordinate.of(1))
+            Stone('A', 1)
         }
     }
 }

@@ -14,7 +14,7 @@ fun main() {
         } else {
             print("백의 차례입니다.")
         }
-        stone?.let { print(" (마지막 돌의 위치: ${it.x + it.y.toString()})") }
+        stone?.let { print(" (마지막 돌의 위치: ${it.point.x + it.point.y.toString()})") }
         println()
         stone = putStoneUntilNotOccurErrorAndReturnStone(board)
     }

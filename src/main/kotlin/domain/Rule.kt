@@ -10,12 +10,16 @@ object Rule {
         require(!isBlackLongMok(blackStones, nextStone)) { "흑돌은 장목이면 안됩니다." }
     }
 
-    private fun isBlack33(blackStones: Set<Stone>, whiteStones: Set<Stone>, nextStone: Stone): Boolean {
+    private fun isBlack33(
+        blackStones: Set<Stone>,
+        whiteStones: Set<Stone>,
+        nextStone: Stone
+    ): Boolean {    // 참고로, 열린 4가 만들어 질 수 있는 것을 3이라고 한다
         val nextBlackStones = blackStones + nextStone
         var count33 = 0
         Inclination.values().forEach { inclination ->
             if (inclination.directions.any {
-                    다음_방향의_빈_칸에_뒀을때_열린4인가(
+                    isOpen4WhenPutBlackStoneWithThisDirection(
                         nextBlackStones,
                         whiteStones,
                         nextStone,
@@ -29,54 +33,63 @@ object Rule {
         return count33 >= 2
     }
 
-    private fun 다음_방향의_빈_칸에_뒀을때_열린4인가(
+    private fun isOpen4WhenPutBlackStoneWithThisDirection(
+        //다음 방향의 빈 칸에 흑돌을 뒀을때 열린4인가
         blackStones: Set<Stone>,
         whiteStones: Set<Stone>,
         justPlacedStone: Stone,
         direction: Direction,
     ): Boolean {
-        val (nextX, nextY) = 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(blackStones, justPlacedStone, direction)
-        if ((nextX to nextY).isInRange()) {
+        val nextPoint =
+            firstBlackStonesBlankWithThisDirection(blackStones, justPlacedStone, direction) //다음 방향으로 흑돌을 타고 갔을 때 최초의 빈칸
+        if (nextPoint.isInRange()) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
-            return 다음_기울기로_열린4인가(blackStones + Stone(nextX, nextY), whiteStones, justPlacedStone, inclination)
+            return isOpen4WithThisInclination(  // 다음 기울기로 열린4인지 판단
+                blackStones + Stone(nextPoint),
+                whiteStones,
+                justPlacedStone,
+                inclination
+            )
         }
         return false
     }
 
-    private fun 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(
+    private fun firstBlackStonesBlankWithThisDirection(
+        //다음 방향으로 흑돌을 타고 갔을 때 최초의 빈칸
         blackStones: Set<Stone>,
         justPlacedStone: Stone,
         direction: Direction,
-    ): Pair<Char, Int> {
-        var (nextX, nextY) = justPlacedStone.x to justPlacedStone.y
-        while ((nextX to nextY).isInRange() && Stone(nextX, nextY) in blackStones) {
-            nextX += direction.dx
-            nextY += direction.dy
+    ): Point {
+        var nextPoint: Point = justPlacedStone.point
+        while (nextPoint.isInRange() && Stone(nextPoint) in blackStones) {
+            nextPoint = nextPoint.addX(direction.dx)
+            nextPoint = nextPoint.addY(direction.dy)
         }
-        return nextX to nextY
+        return nextPoint
     }
 
-    private fun 다음_기울기로_열린4인가(
+    private fun isOpen4WithThisInclination(
+        //다음 기울기로 열린4인가
         blackStones: Set<Stone>,
         whiteStones: Set<Stone>,
         justPlacedStone: Stone,
         inclination: Inclination,
     ): Boolean {
-        val (leftX, leftY) = 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(
+        val leftPoint: Point = firstBlackStonesBlankWithThisDirection(
             blackStones,
             justPlacedStone,
             inclination.directions[0],
         )
-        val (rightX, rightY) = 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(
+        val rightPoint = firstBlackStonesBlankWithThisDirection(
             blackStones,
             justPlacedStone,
             inclination.directions[1],
         )
-        if (!(leftX to leftY).isInRange() || !(rightX to rightY).isInRange()) return false
-        val leftStone = Stone(leftX, leftY)
-        val rightStone = Stone(rightX, rightY)
+        if (!leftPoint.isInRange() || !rightPoint.isInRange()) return false
+        val leftStone = Stone(leftPoint)
+        val rightStone = Stone(rightPoint)
         if (leftStone.isPlacedOnBlank(blackStones + whiteStones) && rightStone.isPlacedOnBlank(blackStones + whiteStones)) {
-            if (kotlin.math.abs(rightX - leftX) == 5 || kotlin.math.abs(rightY - leftY) == 5) return true
+            if (kotlin.math.abs(rightPoint.x - leftPoint.x) == 5 || kotlin.math.abs(rightPoint.y - leftPoint.y) == 5) return true
         }
         return false
     }
@@ -85,78 +98,91 @@ object Rule {
         val nextBlackStones = blackStones + nextStone
         var count44 = 0
         Inclination.values().forEach {
-            if (다음_기울기로_5가_될_수_있는_4인가(nextBlackStones, whiteStones, nextStone, it)) {
+            if (is4CanBe5WithThisInclination(nextBlackStones, whiteStones, nextStone, it)) {
                 count44++
             } else {
                 it.directions.forEach { direction ->
-                    if (다음_방향의_빈_칸에_뒀을때_5인가(nextBlackStones, whiteStones, nextStone, direction)) count44++
+                    if (is5WhenPutStoneWithDirection(nextBlackStones, whiteStones, nextStone, direction)) count44++
                 }
             }
         }
         return count44 >= 2
     }
 
-    private fun 다음_기울기로_5가_될_수_있는_4인가(
+    private fun is4CanBe5WithThisInclination(
+        //다음_기울기로_5가_될_수_있는_4인가
         blackStones: Set<Stone>,
         whiteStones: Set<Stone>,
         justPlacedStone: Stone,
         inclination: Inclination,
     ): Boolean {
-        val (leftX, leftY) = 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(
+        val leftPoint = firstBlackStonesBlankWithThisDirection(
             blackStones,
             justPlacedStone,
             inclination.directions[0],
         )
-        val (rightX, rightY) = 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(
+        val rightPoint = firstBlackStonesBlankWithThisDirection(
             blackStones,
             justPlacedStone,
             inclination.directions[1],
         )
-        if (((leftX to leftY).isInRange() && Stone(leftX, leftY).isPlacedOnBlank(blackStones + whiteStones)) ||
-            ((rightX to rightY).isInRange() && Stone(rightX, rightY).isPlacedOnBlank(blackStones + whiteStones))
+        if ((leftPoint.isInRange() && Stone(leftPoint).isPlacedOnBlank(blackStones + whiteStones)) ||
+            (rightPoint.isInRange() && Stone(rightPoint).isPlacedOnBlank(blackStones + whiteStones))
         ) {
-            if (kotlin.math.abs(rightX - leftX) == 5 || kotlin.math.abs(rightY - leftY) == 5) return true
+            if (kotlin.math.abs(rightPoint.x - leftPoint.x) == 5 || kotlin.math.abs(rightPoint.y - leftPoint.y) == 5) return true
         }
         return false
     }
 
-    private fun 다음_방향의_빈_칸에_뒀을때_5인가(
+    private fun is5WhenPutStoneWithDirection(
+        //다음_방향의_빈_칸에_뒀을때_5인가
         blackStones: Set<Stone>,
         whiteStones: Set<Stone>,
         justPlacedStone: Stone,
         direction: Direction,
     ): Boolean {
-        val (nextX, nextY) = 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(blackStones, justPlacedStone, direction)
-        if ((nextX to nextY).isInRange() && Stone(nextX, nextY).isPlacedOnBlank(blackStones + whiteStones)) {
+        val nextPoint = firstBlackStonesBlankWithThisDirection(blackStones, justPlacedStone, direction)
+        if (nextPoint.isInRange() && Stone(nextPoint).isPlacedOnBlank(blackStones + whiteStones)) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
-            return 최근_놓인_돌에서_다음_기울기로_연속되는_흑돌_개수(blackStones + Stone(nextX, nextY), justPlacedStone, inclination) == 5
+            return calculateContinuousBlackStonesCountFromRecentStoneWithInclination(
+                blackStones + Stone(nextPoint),
+                justPlacedStone,
+                inclination
+            ) == 5
         }
         return false
     }
 
-    private fun 최근_놓인_돌에서_다음_기울기로_연속되는_흑돌_개수(
+    private fun calculateContinuousBlackStonesCountFromRecentStoneWithInclination(
+        //최근_놓인_돌에서_다음_기울기로_연속되는_흑돌_개수
         blackStones: Set<Stone>,
         justPlacedStone: Stone,
         inclination: Inclination,
     ): Int {
-        val (leftX, leftY) = 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(
+        val leftPoint = firstBlackStonesBlankWithThisDirection(
             blackStones,
             justPlacedStone,
             inclination.directions[0],
         )
-        val (rightX, rightY) = 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(
+        val rightPoint = firstBlackStonesBlankWithThisDirection(
             blackStones,
             justPlacedStone,
             inclination.directions[1],
         )
-        return max(kotlin.math.abs(rightX - leftX), kotlin.math.abs(rightY - leftY)) - 1
+        return max(kotlin.math.abs(rightPoint.x - leftPoint.x), kotlin.math.abs(rightPoint.y - leftPoint.y)) - 1
     }
 
     private fun isBlackLongMok(blackStones: Set<Stone>, nextStone: Stone): Boolean =
-        Inclination.values().any { 최근_놓인_돌에서_다음_기울기로_연속되는_흑돌_개수(blackStones + nextStone, nextStone, it) > 5 }
+        Inclination.values().any {
+            calculateContinuousBlackStonesCountFromRecentStoneWithInclination(
+                blackStones + nextStone,
+                nextStone,
+                it
+            ) > 5
+        }
 
-    private fun Pair<Char, Int>.isInRange(): Boolean =
-        first in XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE && second in YCoordinate.Y_MIN_RANGE..YCoordinate.Y_MAX_RANGE
+    private fun Point.isInRange(): Boolean =
+        x in XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE && y in YCoordinate.Y_MIN_RANGE..YCoordinate.Y_MAX_RANGE
 
     private fun Stone.isPlacedOnBlank(stones: Set<Stone>): Boolean = this !in stones
 }
@@ -172,9 +198,9 @@ private enum class Direction(val dx: Int, val dy: Int) {
     DOWN_RIGHT(1, -1),
 }
 
-private enum class Inclination(val dx: Int, val dy: Int, val directions: List<Direction>) {
-    HORIZONTAL(1, 0, listOf(Direction.LEFT, Direction.RIGHT)),
-    VERTICAL(0, 1, listOf(Direction.UP, Direction.DOWN)),
-    UPPER_RIGHT_DIAGONAL(1, 1, listOf(Direction.UP_RIGHT, Direction.DOWN_LEFT)),
-    UPPER_LEFT_DIAGONAL(-1, 1, listOf(Direction.UP_LEFT, Direction.DOWN_RIGHT)),
+private enum class Inclination(val directions: List<Direction>) {
+    HORIZONTAL(listOf(Direction.LEFT, Direction.RIGHT)),
+    VERTICAL(listOf(Direction.UP, Direction.DOWN)),
+    UPPER_RIGHT_DIAGONAL(listOf(Direction.UP_RIGHT, Direction.DOWN_LEFT)),
+    UPPER_LEFT_DIAGONAL(listOf(Direction.UP_LEFT, Direction.DOWN_RIGHT)),
 }
