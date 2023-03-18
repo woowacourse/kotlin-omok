@@ -2,11 +2,12 @@ package view
 
 import domain.Stone
 
-object InputView {
+class InputView : InputViewInterface {
+    companion object {
+        private const val MESSAGE_STONE = "위치를 입력하세요: "
+    }
 
-    private const val MESSAGE_STONE = "위치를 입력하세요: "
-
-    fun readPosition(): Stone {
+    override fun readPosition(): Stone {
         print(MESSAGE_STONE)
         val input = readln()
         return runCatching {
