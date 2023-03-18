@@ -23,8 +23,10 @@ class OmokRuleAdapter : OmokRule {
 
     // Stone -> OmokPoint
     private fun convertStoneToPoint(stone: Stone): OmokPoint {
-        val stoneString = stone.toString()
-        return OmokPoint(XCoordinate(stoneString[0]), YCoordinate(stoneString.substring(1).toInt()))
+        return OmokPoint(
+            XCoordinate(stone.column.plus('A'.code).toChar()),
+            YCoordinate(15 - stone.row)
+        )
     }
 
     // OurBoard -> ArkBoard
