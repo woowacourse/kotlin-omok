@@ -5,7 +5,7 @@ import omok.domain.board.Board
 import omok.domain.board.Position
 import omok.domain.board.toPosition
 import omok.domain.judgment.BlackReferee
-import omok.domain.judgment.WinningReferee
+import omok.domain.judgment.ResultReferee
 import omok.domain.player.Black
 import omok.domain.player.White
 import omok.view.InputView
@@ -29,7 +29,7 @@ class Game(
         val selectedPosition = placeStone(board, turn, position)
         outputView.printBoard(board)
 
-        if (WinningReferee().hasFiveOrMoreStoneInRow(board.positions, selectedPosition)) return finish(turn)
+        if (ResultReferee().checkWinner(board.positions, selectedPosition)) return finish(turn)
         turn.changeTurn()
         playUntilWinnerAppears(board, turn, selectedPosition)
     }
