@@ -5,13 +5,12 @@ import view.InputView
 import view.OutputView
 
 class OmokController(
-    private val inputView: InputView = InputView(),
-    private val outputView: OutputView = OutputView()
+    private val omokGame: OmokGame = OmokGame()
 ) {
 
     fun run() {
-        outputView.printGameStartMessage()
-        val omokGame = OmokGame()
-        val result = omokGame.start(outputView::printOmokBoardState, inputView::requestPoint2)
+        OutputView.printGameStartMessage()
+        val winningColor = omokGame.start(OutputView::printOmokBoardState, InputView::requestPoint)
+        OutputView.printWinner(winningColor)
     }
 }

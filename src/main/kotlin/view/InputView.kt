@@ -4,7 +4,17 @@ import domain.stone.Color
 import domain.stone.Point
 import domain.stone.Stone
 
-class InputView {
+object InputView {
+
+    private const val MATCHING_UNIT = 1
+    private const val ERROR_INPUT_FORM = "[ERROR] 입력 형태가 올바르지 않습니다."
+    private const val TURN_MESSAGE = "%s의 차례입니다. %s"
+    private const val REQUEST_POINT_MESSAGE = "위치를 입력하세요: "
+    private const val EMPTY_STRING = ""
+    private const val LAST_STONE_POINT_MESSAGE = "(마지막 돌의 위치:%c%d)"
+    private const val CONVERTING_BASE_NUMBER = 64
+    private const val BLACK = "흑"
+    private const val WHITE = "백"
 
     private val pointRegex = """^[A-Z]((1)[0-5]|[1-9])""".toRegex()
 
@@ -42,17 +52,5 @@ class InputView {
             }
             println(ERROR_INPUT_FORM)
         }
-    }
-
-    companion object {
-        private const val MATCHING_UNIT = 1
-        private const val ERROR_INPUT_FORM = "[ERROR] 입력 형태가 올바르지 않습니다."
-        private const val TURN_MESSAGE = "%s의 차례입니다. %s"
-        private const val REQUEST_POINT_MESSAGE = "위치를 입력하세요: "
-        private const val EMPTY_STRING = ""
-        private const val LAST_STONE_POINT_MESSAGE = "(마지막 돌의 위치:%c%d)"
-        private const val CONVERTING_BASE_NUMBER = 64
-        private const val BLACK = "흑"
-        private const val WHITE = "백"
     }
 }
