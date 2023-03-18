@@ -23,7 +23,6 @@ interface State
 - [x] put(): State
 - [x] getWinner(): StoneType
 - [x] isValidPut(): Boolean
-- [x] isOmokCondition(): Boolean
 abstract Running(stones) : State   
 - [x] isValidPut(): Boolean { }
 - [x] 오목 조건을 충족하는지 확인한다.

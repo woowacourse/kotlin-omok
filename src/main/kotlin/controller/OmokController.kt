@@ -11,8 +11,8 @@ import view.InputView
 import view.OutputView
 
 class OmokController(
-    val inputView: InputView = InputView(),
-    val outputView: OutputView = OutputView(),
+    private val inputView: InputView = InputView(),
+    private val outputView: OutputView = OutputView(),
 ) {
 
     fun run() {
@@ -20,17 +20,25 @@ class OmokController(
         var state: State = BlackTurn(board)
 
         outputView.printOmokStart()
-        while (state !is End) {
-            outputView.printTurn(state, board.stones)
+        startGame(board, state)
+    }
 
-            when (state) {
-                is BlackTurn -> state = state.put(Stone(inputView.inputStonePosition(), StoneType.BLACK))
-                is WhiteTurn -> state = state.put(Stone(inputView.inputStonePosition(), StoneType.WHITE))
+    fun startGame(board: Board, state: State) {
+        outputView.printTurn(state, board.stones)
+        when (state) {
+            is BlackTurn -> {
+                val state = state.put(Stone(inputView.inputStonePosition(), StoneType.BLACK))
+                outputView.printBoard(board.stones)
+                startGame(board, state)
             }
 
-            outputView.printBoard(board.stones)
-        }
+            is WhiteTurn -> {
+                val state = state.put(Stone(inputView.inputStonePosition(), StoneType.WHITE))
+                outputView.printBoard(board.stones)
+                startGame(board, state)
+            }
 
-        outputView.printWinner(state)
+            is End -> outputView.printWinner(state)
+        }
     }
 }
