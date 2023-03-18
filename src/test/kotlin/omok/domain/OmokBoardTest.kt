@@ -41,4 +41,18 @@ class OmokBoardTest {
         omokBoard.placeStone(point, BlackStoneState)
         assertDoesNotThrow { omokBoard.placeStone(point, WhiteStoneState) }
     }
+
+    @Test
+    fun `오목판 생성시에는 빈 오목판이 생성된다`() {
+        val omokBoard = OmokBoard()
+        assertThat(omokBoard.values).allMatch { it is EmptyStoneState }
+    }
+
+    @Test
+    fun `오목판에 착수한 후에는 빈 오목판이 아니다`() {
+        var omokBoard = OmokBoard()
+        val point = OmokPoint(XCoordinate('A'), YCoordinate(1))
+        omokBoard = omokBoard.placeStone(point, BlackStoneState)
+        assertThat(omokBoard.values).anyMatch { it is BlackStoneState }
+    }
 }
