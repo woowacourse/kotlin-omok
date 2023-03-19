@@ -1,6 +1,6 @@
 package controller
 
 interface Mapper<T, R> {
-    fun domainToDTO(domain: T): R
-    fun dtoToDomain(dto: R): T
+    fun T.toDTO(): R
+    fun R.toDomain(): T
 }

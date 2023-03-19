@@ -4,13 +4,13 @@ class Players(
     private val blackPlayer: Player = BlackPlayer(),
     private val whitePlayer: Player = WhitePlayer()
 ) {
-    val currentPlayer: Player
+    val nextPlayer: Player
         get() {
-            nextPlayer = when (nextPlayer) {
+            currentPlayer = when (currentPlayer) {
                 is BlackPlayer -> whitePlayer
                 is WhitePlayer -> blackPlayer
             }
-            return nextPlayer
+            return currentPlayer
         }
-    private var nextPlayer: Player = whitePlayer
+    private var currentPlayer: Player = whitePlayer
 }

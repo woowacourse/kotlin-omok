@@ -1,5 +1,7 @@
 package domain
 
+import error.CoordinateResult
+
 class RenjuRule(override val stones: Stones) : OmokRule {
     override fun isThreeToThree(stone: Stone): Boolean {
         return directions.sumOf { direction ->
@@ -47,7 +49,7 @@ class RenjuRule(override val stones: Stones) : OmokRule {
     private fun validateCheckBlock(start: Vector, direction: Vector, size: Int): Boolean {
         repeat(size) {
             val next = (direction * it)
-            if (Coordinate.from(start.x + next.x, start.y + next.y).getOrNull() == null) return false
+            if (Coordinate.from(start.x + next.x, start.y + next.y) == CoordinateResult.OutOfBoard) return false
         }
         return true
     }

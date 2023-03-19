@@ -1,20 +1,25 @@
 package controller
 
+import controller.ColorMapper.toDTO
+import controller.ColorMapper.toDomain
+import controller.VectorMapper.toDTO
+import controller.VectorMapper.toDomain
 import domain.Coordinate
 import domain.Stone
 import dto.StoneDTO
+import error.CoordinateResult
 
 object StoneMapper : Mapper<Stone, StoneDTO> {
-    override fun domainToDTO(domain: Stone): StoneDTO {
+    override fun Stone.toDTO(): StoneDTO {
         return StoneDTO(
-            ColorMapper.domainToDTO(domain.color), VectorMapper.domainToDTO(domain.coordinate.vector)
+            color.toDTO(), coordinate.vector.toDTO()
         )
     }
 
-    override fun dtoToDomain(dto: StoneDTO): Stone {
-        val point = VectorMapper.dtoToDomain(dto.coordinate)
+    override fun StoneDTO.toDomain(): Stone {
+        val point = coordinate.toDomain()
         return Stone(
-            ColorMapper.dtoToDomain(dto.color), Coordinate.from(point.x, point.y).getOrNull()!!
+            color.toDomain(), (Coordinate.from(point.x, point.y) as CoordinateResult.Success).coordinate
         )
     }
 }

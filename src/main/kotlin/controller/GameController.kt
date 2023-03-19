@@ -1,6 +1,8 @@
 package controller
 
-import controller.error.ErrorHandler
+import controller.ColorMapper.toDTO
+import controller.StoneMapper.toDTO
+import controller.VectorMapper.toDTO
 import domain.Board
 import domain.Color
 import domain.Coordinate
@@ -8,35 +10,46 @@ import domain.Players
 import domain.RenjuRule
 import domain.Stones
 import dto.VectorDTO
+import error.CoordinateResult
+import error.ErrorHandler
+import error.StoneReadResult
 import view.GameView
-import java.lang.Exception
 
 class GameController(private val gameView: GameView, private val errorHandler: ErrorHandler) {
     fun process() {
         val players = Players()
         val stones = Stones()
         val omokRule = RenjuRule(stones)
-        val board = Board(players, stones, omokRule)
+        val board = Board(players, stones)
         gameView.startGame()
-        val winner = board.repeatTurn {
+        val winner = board.repeatTurn({
             readStone(it, stones)
-        }
+        }, omokRule, errorHandler)
         renderBoard(stones)
-        gameView.renderWinner(ColorMapper.domainToDTO(winner.color))
+        gameView.renderWinner(winner.color.toDTO())
     }
 
     private fun readStone(color: Color, stones: Stones): Coordinate {
         renderBoard(stones)
 
-        val pointDto = gameView.readStone(ColorMapper.domainToDTO(color), getStoneCoordinateOrNull(stones)).getOrElse {
-            errorHandler.log(it as Exception)
-            return readStone(color, stones)
+        val vectorDTO = when (val pointResult = gameView.readStone(color.toDTO(), getStoneCoordinateOrNull(stones))) {
+            is StoneReadResult.Success -> {
+                pointResult.vector
+            }
+            else -> {
+                errorHandler.log(pointResult)
+                return readStone(color, stones)
+            }
         }
 
-        val point = VectorMapper.dtoToDomain(pointDto)
-        val coordinate = Coordinate.from(point.x, point.y).getOrElse {
-            errorHandler.log(it as Exception)
-            return readStone(color, stones)
+        val coordinate = when (val coordinateResult = Coordinate.from(vectorDTO.x, vectorDTO.y)) {
+            is CoordinateResult.Success -> {
+                coordinateResult.coordinate
+            }
+            else -> {
+                errorHandler.log(coordinateResult)
+                return readStone(color, stones)
+            }
         }
 
         return coordinate
@@ -44,15 +57,15 @@ class GameController(private val gameView: GameView, private val errorHandler: E
 
     private fun getStoneCoordinateOrNull(stones: Stones): VectorDTO? {
         return if (stones.value.isEmpty()) null
-        else VectorMapper.domainToDTO(stones.value.last().coordinate.vector)
+        else stones.value.last().coordinate.vector.toDTO()
     }
 
     private fun renderBoard(stones: Stones) {
         gameView.renderBoard(
             stones.value.map {
-                StoneMapper.domainToDTO(it)
+                it.toDTO()
             },
-            VectorMapper.domainToDTO(Board.BOARD_SIZE)
+            Board.BOARD_SIZE.toDTO()
         )
     }
 }
