@@ -2,7 +2,7 @@ package view
 
 import domain.stone.StonePosition
 
-class InputView {
+object InputView {
 
     fun inputStonePosition(): StonePosition {
         print("위치를 입력하세요: ")
