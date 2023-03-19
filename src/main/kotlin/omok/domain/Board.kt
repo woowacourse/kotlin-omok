@@ -17,7 +17,18 @@ class Board(val blackPlayer: Player, val whitePlayer: Player) {
         }
     }
 
-    fun putStone(position: Position) {
+    fun putStone(turn: Turn, position: Position) {
+        when (turn) {
+            Turn.Black -> blackPlayer.put(Stone(position))
+            Turn.White -> whitePlayer.put(Stone(position))
+        }
         positions.find { it == position }?.occupy()
+    }
+
+    fun lineJudge(turn: Turn, position: Position): Boolean {
+        return when (turn) {
+            Turn.Black -> LineJudgement(blackPlayer, position).check()
+            Turn.White -> LineJudgement(whitePlayer, position).check()
+        }
     }
 }
