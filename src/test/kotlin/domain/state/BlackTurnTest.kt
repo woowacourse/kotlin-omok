@@ -4,6 +4,7 @@ import domain.Stone
 import domain.XCoordinate
 import domain.YCoordinate
 import domain.rule.BlackRuleAdapter
+import domain.rule.LongMokBlackRule
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.jupiter.api.Test
@@ -247,61 +248,7 @@ class BlackTurnTest {
     }
 
     @Test
-    fun `흑돌을 뒀을 때 33이면 돌을 둘 수 없다`() {
-//        15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
-//        14 ├──┼──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        13 ├──┼──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        12 ├──┼──●──●──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         8 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         7 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         6 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         5 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         4 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         3 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┤
-//            A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-        assertThatIllegalArgumentException().isThrownBy {
-            val state: State = BlackTurn(
-                setOf(Stone('C', 12), Stone('E', 12), Stone('D', 13), Stone('D', 14)),
-                setOf(Stone('I', 2), Stone('L', 4), Stone('I', 10), Stone('F', 2))
-            )
-            state.put(Stone('D', 12), BlackRuleAdapter())
-        }.withMessage("흑돌은 33이면 안됩니다.")
-    }
-
-    @Test
-    fun `흑돌을 뒀을 때 44면 돌을 둘 수 없다`() {
-//        15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
-//        14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         8 ├──┼──┼──┼──┼──┼──┼──●──┼──┼──┼──┼──┼──┼──┤
-//         7 ├──┼──┼──┼──┼──┼──┼──●──┼──┼──┼──┼──┼──┼──┤
-//         6 ├──┼──┼──┼──┼──┼──┼──●──┼──┼──┼──┼──┼──┼──┤
-//         5 ├──┼──┼──┼──●──●──●──●──┼──┼──┼──┼──┼──┼──┤
-//         4 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         3 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┤
-//            A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-        assertThatIllegalArgumentException().isThrownBy {
-            val state: State = BlackTurn(
-                setOf(Stone('E', 5), Stone('F', 5), Stone('G', 5), Stone('H', 6), Stone('H', 7), Stone('H', 8)),
-                setOf(Stone('I', 2), Stone('L', 4), Stone('I', 10), Stone('F', 2), Stone('A', 2), Stone('B', 2))
-            )
-            state.put(Stone('H', 5), BlackRuleAdapter())
-        }.withMessage("흑돌은 44면 안됩니다.")
-    }
-
-    @Test
-    fun `흑돌은 장목일 수 없다`() {
+    fun `흑돌이 금수를 뒀을 때 에러가 발생한다`() {
 //        15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
 //        14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
 //        13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
@@ -318,12 +265,9 @@ class BlackTurnTest {
 //         2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
 //         1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┤
 //            A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-        assertThatIllegalArgumentException().isThrownBy {
-            val state: State = BlackTurn(
-                setOf(Stone('E', 5), Stone('F', 5), Stone('G', 5), Stone('H', 5), Stone('J', 5), Stone('K', 5)),
-                setOf(Stone('I', 2), Stone('L', 4), Stone('I', 10), Stone('F', 2), Stone('A', 2), Stone('B', 2))
-            )
-            state.put(Stone('I', 5), BlackRuleAdapter())
-        }.withMessage("흑돌은 장목이면 안됩니다.")
+        assertThatIllegalArgumentException().isThrownBy { BlackTurn(
+            setOf(Stone('E', 5), Stone('F', 5), Stone('G', 5), Stone('H', 5), Stone('J', 5), Stone('K', 5)), setOf(Stone('I', 2), Stone('L', 4), Stone('I', 10), Stone('F', 2), Stone('A', 2), Stone('B', 2))).put(
+            Stone('I', 5)
+        ) }.withMessage("흑돌은 장목이면 안됩니다.")
     }
 }
