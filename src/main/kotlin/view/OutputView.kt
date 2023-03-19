@@ -18,8 +18,8 @@ class OutputView {
     fun printBoard(stones: Stones) {
         setBoard(stones)
 
-        board.forEachIndexed { index, s ->
-            println(boardForm[index].format(*board[index].toTypedArray()))
+        board.indices.forEach {
+            println(boardForm[it].format(*board[it].toTypedArray()))
         }
         println(boardForm[boardForm.lastIndex])
         println()
