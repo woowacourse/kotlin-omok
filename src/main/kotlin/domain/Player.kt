@@ -1,8 +1,7 @@
 package domain
 
-import error.PlaceStoneResult
-
 sealed class Player {
     abstract val color: Color
-    abstract fun validateOmokRule(stone: Stone, omokRule: OmokRule): PlaceStoneResult
+    class WhitePlayer(override val color: Color = Color.WHITE) : Player()
+    class BlackPlayer(override val color: Color = Color.BLACK) : Player()
 }

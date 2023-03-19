@@ -1,14 +1,14 @@
 package domain
 
 class Players(
-    private val blackPlayer: Player = BlackPlayer(),
-    private val whitePlayer: Player = WhitePlayer()
+    private val blackPlayer: Player = Player.BlackPlayer(),
+    private val whitePlayer: Player = Player.WhitePlayer()
 ) {
     val nextPlayer: Player
         get() {
             currentPlayer = when (currentPlayer) {
-                is BlackPlayer -> whitePlayer
-                is WhitePlayer -> blackPlayer
+                is Player.BlackPlayer -> whitePlayer
+                is Player.WhitePlayer -> blackPlayer
             }
             return currentPlayer
         }
