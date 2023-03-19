@@ -11,8 +11,8 @@ class Stones(values: List<Stone> = emptyList()) {
         _values.add(stone)
     }
 
-    fun containsPosition(stone: Stone): Boolean =
-        values.asSequence().map { it.position }.contains(stone.position)
+    fun containsPosition(stonePosition: StonePosition): Boolean =
+        values.asSequence().map { it.position }.contains(stonePosition)
 
     operator fun plus(stones: Stones): Stones = Stones(values.plus(stones.values))
 }

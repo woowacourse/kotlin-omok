@@ -8,6 +8,4 @@ interface State {
     fun put(stone: Stone): State
 
     fun getWinner(): StoneType
-
-    fun isValidPut(stone: Stone): Boolean
 }
