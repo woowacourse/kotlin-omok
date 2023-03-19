@@ -1,8 +1,6 @@
 package omok.domain
 
-import omok.domain.judgement.FourJudgement
-import omok.domain.judgement.LineJudgement
-import omok.domain.judgement.ThreeJudgement
+import omok.domain.judgement.Judgement
 import omok.domain.state.Turn
 
 class Board(private val blackPlayer: Player, private val whitePlayer: Player) {
@@ -11,8 +9,8 @@ class Board(private val blackPlayer: Player, private val whitePlayer: Player) {
     fun isPlaceable(turn: Turn, position: Position): Boolean {
         return when {
             turn == Turn.White -> positions.find { it == position }?.isEmpty() == true
-            LineJudgement(blackPlayer, position).check() -> true
-            ThreeJudgement(blackPlayer, whitePlayer, position).check() || FourJudgement(blackPlayer, whitePlayer, position).check() -> false
+            Judgement.line(blackPlayer, position) -> true
+            Judgement.threeOrFour(blackPlayer, whitePlayer, position) -> false
             else -> positions.find { it == position }?.isEmpty() == true
         }
     }
@@ -27,8 +25,8 @@ class Board(private val blackPlayer: Player, private val whitePlayer: Player) {
 
     fun lineJudge(turn: Turn, position: Position): Boolean {
         return when (turn) {
-            Turn.Black -> LineJudgement(blackPlayer, position).check()
-            Turn.White -> LineJudgement(whitePlayer, position).check()
+            Turn.Black -> Judgement.line(blackPlayer, position)
+            Turn.White -> Judgement.line(whitePlayer, position)
         }
     }
 }
