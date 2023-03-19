@@ -1,9 +1,9 @@
 package domain
 
-class RenjuRule(val stones: Stones) {
-    fun isThreeToThree(stone: Stone): Boolean {
+class RenjuRule(val stones: Stones) { // 원시값을 받는다고 생각한다?
+    fun isThreeToThree(stonePoint: Point): Boolean {
         return directions.sumOf { direction ->
-            checkOpenFourForLine((direction * -4) + stone.coordinate.point, direction)
+            checkOpenFourForLine((direction * -4) + stonePoint, direction)
         } >= RENJU_LINE_CONDITION
     }
 
@@ -24,9 +24,9 @@ class RenjuRule(val stones: Stones) {
         return isOpened && isFour
     }
 
-    fun isFourToFour(stone: Stone): Boolean {
+    fun isFourToFour(stonePoint: Point): Boolean {
         return fullDirections.count { direction ->
-            checkFourForLine((direction * -4) + stone.coordinate.point, direction)
+            checkFourForLine((direction * -4) + stonePoint, direction)
         } >= RENJU_LINE_CONDITION
     }
 
@@ -59,13 +59,13 @@ class RenjuRule(val stones: Stones) {
         return false
     }
 
-    fun findScore(stone: Stone): Int {
+    fun findScore(stoneCoordinate: Coordinate, stoneColor: Color): Int {
         return directions.maxOf { item ->
-            val nextCoordinate = (stone.coordinate + item) ?: return@maxOf 0
-            val score = startSearch(nextCoordinate, item, stone.color, INITIAL_SCORE)
+            val nextCoordinate = (stoneCoordinate + item) ?: return@maxOf 0
+            val score = startSearch(nextCoordinate, item, stoneColor, INITIAL_SCORE)
             val invertedDirections = item * -1
-            val invertCoordinate = (stone.coordinate + invertedDirections) ?: return@maxOf 0
-            val invertedScore = startSearch(invertCoordinate, invertedDirections, stone.color, INITIAL_SCORE)
+            val invertCoordinate = (stoneCoordinate + invertedDirections) ?: return@maxOf 0
+            val invertedScore = startSearch(invertCoordinate, invertedDirections, stoneColor, INITIAL_SCORE)
             score + invertedScore
         }
     }

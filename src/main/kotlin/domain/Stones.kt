@@ -2,9 +2,10 @@ package domain
 
 class Stones(value: List<Stone> = listOf()) {
     private val _value: MutableList<Stone> = value.toMutableList()
-    val renjuRule = RenjuRule(this)
+
     val value: List<Stone>
         get() = _value.toList()
+    val renjuRuleAdapter = RenjuRuleAdapter(this)
 
     fun place(stone: Stone) {
         require(value.none { it.coordinate == stone.coordinate }) {
@@ -15,7 +16,7 @@ class Stones(value: List<Stone> = listOf()) {
 
     fun validateRenju(stone: Stone): Boolean {
         return when (stone.color) {
-            Color.BLACK -> !this.renjuRule.isThreeToThree(stone) && !this.renjuRule.isFourToFour(stone) && this.renjuRule.findScore(
+            Color.BLACK -> !renjuRuleAdapter.isThreeToThree(stone) && !renjuRuleAdapter.isFourToFour(stone) && renjuRuleAdapter.findScore(
                 stone
             ) < LARGE_PLACE
 
@@ -25,7 +26,7 @@ class Stones(value: List<Stone> = listOf()) {
 
     fun isWinPlace(): Boolean {
         validateEmptyStones()
-        return renjuRule.findScore(this.value.last()) >= WINNING_CONDITION
+        return renjuRuleAdapter.findScore(this.value.last()) >= WINNING_CONDITION
     }
 
     fun validateEmptyStones() {
