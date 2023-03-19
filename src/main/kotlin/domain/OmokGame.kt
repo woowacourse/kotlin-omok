@@ -1,39 +1,46 @@
 package domain
 
-import domain.board.Board
-import domain.board.PlayingBoard
-import domain.judgement.FiveStoneWinningConditionChecker
-import domain.judgement.ForbiddenPositionChecker
-import domain.judgement.RenjuRuleForbiddenPositionChecker
-import domain.judgement.WinningConditionChecker
+import domain.board.BlackTurn
+import domain.board.PlacedBoard
+import domain.board.Turn
+import domain.judgement.FiveStoneWinningCondition
+import domain.judgement.ForbiddenCondition
+import domain.judgement.RenjuRuleForbiddenCondition
+import domain.judgement.WinningCondition
 import domain.stone.Color
 import domain.stone.Position
-import domain.stone.Stone
 
 class OmokGame(
-    val getPosition: (latestStone: Stone?) -> Position,
-    val checkBoardState: (Board) -> Unit,
+    val getPosition: (turnColor: Color, latestPosition: Position?) -> Position,
+    val checkBoardState: (board: Map<Position, Color?>) -> Unit,
 ) {
     fun playOmokGameAndReturnWinner(
-        winningConditionChecker: WinningConditionChecker = FiveStoneWinningConditionChecker(),
-        forbiddenPositionChecker: ForbiddenPositionChecker = RenjuRuleForbiddenPositionChecker()
+        winningCondition: WinningCondition = FiveStoneWinningCondition(),
+        forbiddenCondition: ForbiddenCondition = RenjuRuleForbiddenCondition()
     ): Color {
-        var board: Board = PlayingBoard(listOf(), winningConditionChecker, forbiddenPositionChecker)
-        var turnColor = Color.BLACK
-        while (board.isFinished.not()) {
-            checkBoardState(board)
-            board = turnGame(board, turnColor)
-            turnColor = !turnColor
+        var turn: Turn = BlackTurn(PlacedBoard(), winningCondition, forbiddenCondition)
+        var latestPosition: Position? = null
+        while (turn.isFinished.not()) {
+            checkBoardState(turn.getBoard())
+            val turnResult = turnGame(turn, latestPosition)
+            turn = turnResult.nextTurn
+            latestPosition = turnResult.latestPosition
         }
-        checkBoardState(board)
-        return board.winningColor
+        checkBoardState(turn.getBoard())
+        return turn.curColor
     }
 
-    private tailrec fun turnGame(board: Board, turnColor: Color): Board {
-        val position = getPosition(board.getLatestStone())
-        if (board.isPossiblePut(position)) {
-            return board.addStone(Stone(position, turnColor))
+    private tailrec fun turnGame(curTurn: Turn, latestPosition: Position?): TurnResult {
+        val position = getPosition(curTurn.curColor, latestPosition)
+        val nextTurn = curTurn.addStone(position)
+        if (curTurn !== nextTurn || nextTurn.isFinished) {
+            return TurnResult(nextTurn, position)
         }
-        return turnGame(board, turnColor)
+        return turnGame(curTurn, latestPosition)
     }
+
+    private data class TurnResult(
+        val nextTurn: Turn,
+        val latestPosition: Position?
+    )
 }

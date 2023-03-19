@@ -1,6 +1,6 @@
 package domain.stone
 
-enum class Row(val y: Int) {
+enum class Row(private val y: Int) {
     ONE(0),
     TWO(1),
     THREE(2),

@@ -1,8 +1,8 @@
 package controller
 
 import domain.OmokGame
-import domain.judgement.FiveStoneWinningConditionChecker
-import domain.judgement.RenjuRuleForbiddenPositionChecker
+import domain.judgement.FiveStoneWinningCondition
+import domain.judgement.RenjuRuleForbiddenCondition
 import view.InputView
 import view.OutputView
 
@@ -14,8 +14,8 @@ class OmokController(
         outputView.printGameStartMessage()
         val omokGame = OmokGame(inputView::requestPoint, outputView::printOmokBoardState)
         val result = omokGame.playOmokGameAndReturnWinner(
-            FiveStoneWinningConditionChecker(),
-            RenjuRuleForbiddenPositionChecker()
+            FiveStoneWinningCondition(),
+            RenjuRuleForbiddenCondition()
         )
         outputView.printWinner(result)
     }

@@ -4,9 +4,16 @@ import domain.stone.Color
 import domain.stone.Position
 import domain.stone.Stone
 
-class FiveStoneWinningConditionChecker : WinningConditionChecker {
-    override fun isWin(placedStones: List<Stone>, newStone: Stone): Boolean {
-        return checkWin(placedStones.toList() + newStone, newStone.color)
+class FiveStoneWinningCondition : WinningCondition {
+    override fun isWin(placedStones: Map<Position, Color?>, newStone: Stone): Boolean {
+        val convertStones = convertMapToStones(placedStones)
+        return checkWin(convertStones + newStone, newStone.color)
+    }
+
+    private fun convertMapToStones(placedStones: Map<Position, Color?>): List<Stone> {
+        return placedStones.filter { it.value != null }.map {
+            Stone(it.key, it.value!!)
+        }
     }
 
     private fun checkWin(placedStones: List<Stone>, color: Color): Boolean {

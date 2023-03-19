@@ -4,32 +4,33 @@ import domain.stone.Color
 import domain.stone.Column
 import domain.stone.Position
 import domain.stone.Row
-import domain.stone.Stone
 
 class InputView {
 
-    fun requestPoint(stone: Stone?): Position {
-        println(TURN_MESSAGE.format(getNextColorName(stone?.color), getLatestPoint(stone?.position)))
+    fun requestPoint(turnColor: Color, latestPosition: Position?): Position {
+        println(TURN_MESSAGE.format(getColorName(turnColor), getLatestPoint(latestPosition)))
         print(REQUEST_POINT_MESSAGE)
         val input = readln()
         return runCatchingOrNull {
             val x = Column.valueOf(convertCharToX(input[0]) - 1)
             val y = Row.valueOf(input.substring(1).toInt() - 1)
             Position(x, y)
-        } ?: requestPoint(stone)
+        } ?: requestPoint(turnColor, latestPosition)
     }
 
     private fun convertCharToX(char: Char): Int = char.code - CONVERTING_BASE_NUMBER
-    private fun convertXtoChar(x: Int): Char = (CONVERTING_BASE_NUMBER + x).toChar()
 
-    private fun getNextColorName(curTurnColor: Color?): String = when (curTurnColor) {
-        null, Color.WHITE -> BLACK
-        Color.BLACK -> WHITE
+    private fun getColorName(curTurnColor: Color): String = when (curTurnColor) {
+        Color.BLACK -> BLACK
+        Color.WHITE -> WHITE
     }
 
     private fun getLatestPoint(position: Position?) = when (position) {
         null -> EMPTY_STRING
-        else -> LAST_STONE_POINT_MESSAGE.format(convertXtoChar(position.column.x + 1), position.row.y + 1)
+        else -> LAST_STONE_POINT_MESSAGE.format(
+            (Column.values().indexOf(position.column) + CONVERTING_BASE_NUMBER + 1).toChar(),
+            Row.values().indexOf(position.row) + 1
+        )
     }
 
     private fun <T> runCatchingOrNull(block: () -> T?): T? {
@@ -41,7 +42,6 @@ class InputView {
     }
 
     companion object {
-        // private const val IMPOSSIBLE_PUT_STONE = "[ERROR] 해당 좌표에 놓아진 돌이 있습니다."
         private const val TURN_MESSAGE = "%s의 차례입니다. %s"
         private const val REQUEST_POINT_MESSAGE = "위치를 입력하세요: "
         private const val EMPTY_STRING = ""

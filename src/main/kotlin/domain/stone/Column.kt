@@ -1,6 +1,6 @@
 package domain.stone
 
-enum class Column(val x: Int) {
+enum class Column(private val x: Int) {
     A(0),
     B(1),
     C(2),
