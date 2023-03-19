@@ -19,50 +19,17 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
         val xCoordinateRange = XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE
         val yCoordinateRange = YCoordinate.Y_MIN_RANGE..YCoordinate.Y_MAX_RANGE
         for (x in xCoordinateRange) {
-            if (fun2(this, x)) return true
+            if (verticalCompleteCheck(this, x)) return true
         }
         for (y in yCoordinateRange) {
-            if (fun1(this, y)) return true
+            if (horizontalCompleteCheck(this, y)) return true
         }
-        // 왼쪽 위에서 시작하는 대각선
-        for ((maxX, maxY) in xCoordinateRange.zip(yCoordinateRange)) {
-            var linkedCount = 0
-            for ((x, y) in (XCoordinate.X_MIN_RANGE..maxX).zip(maxY downTo YCoordinate.Y_MIN_RANGE)) {
-                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-                if (stone in this) linkedCount++ else linkedCount = 0
-                if (linkedCount >= 5) return true
-            }
-        }
-        for ((minX, minY) in xCoordinateRange.zip(yCoordinateRange)) {
-            var linkedCount = 0
-            for ((x, y) in (minX..XCoordinate.X_MAX_RANGE).zip(YCoordinate.Y_MAX_RANGE downTo minY).toList()) {
-                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-                if (stone in this) linkedCount++ else linkedCount = 0
-                if (linkedCount >= 5) return true
-            }
-        }
-
-        // 왼쪽 아래에서 시작하는 대각선
-        for ((maxX, minY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
-            var linkedCount = 0
-            for ((x, y) in (XCoordinate.X_MIN_RANGE..maxX).zip(minY..YCoordinate.Y_MAX_RANGE)) {
-                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-                if (stone in this) linkedCount++ else linkedCount = 0
-                if (linkedCount >= 5) return true
-            }
-        }
-        for ((minX, maxY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
-            var linkedCount = 0
-            for ((x, y) in (minX..XCoordinate.X_MAX_RANGE).zip(YCoordinate.Y_MIN_RANGE..maxY)) {
-                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-                if (stone in this) linkedCount++ else linkedCount = 0
-                if (linkedCount >= 5) return true
-            }
-        }
+        upperLeftDiagonal(xCoordinateRange, yCoordinateRange, this)
+        upperRightDiagonal(xCoordinateRange, yCoordinateRange, this)
         return false
     }
 
-    private fun fun1(placedStones: Set<Stone>, y: Int): Boolean {
+    private fun horizontalCompleteCheck(placedStones: Set<Stone>, y: Int): Boolean {
         var linkedCount = 0
         for (x in XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE) {
             val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
@@ -72,12 +39,62 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
         return false
     }
 
-    private fun fun2(placedStones: Set<Stone>, x: Char): Boolean {
+    private fun verticalCompleteCheck(placedStones: Set<Stone>, x: Char): Boolean {
         var linkedCount = 0
         for (y in YCoordinate.Y_MIN_RANGE..YCoordinate.Y_MAX_RANGE) {
             val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
             if (stone in placedStones) linkedCount++ else linkedCount = 0
             if (linkedCount >= 5) return true
+        }
+        return false
+    }
+
+    private fun upperLeftDiagonal(
+        xCoordinateRange: CharRange,
+        yCoordinateRange: IntRange,
+        stones: Set<Stone>
+    ): Boolean {
+        // 왼쪽 위에서 시작하는 대각선
+        for ((maxX, maxY) in xCoordinateRange.zip(yCoordinateRange)) {
+            var linkedCount = 0
+            for ((x, y) in (XCoordinate.X_MIN_RANGE..maxX).zip(maxY downTo YCoordinate.Y_MIN_RANGE)) {
+                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
+                if (stone in stones) linkedCount++ else linkedCount = 0
+                if (linkedCount >= 5) return true
+            }
+        }
+        for ((minX, minY) in xCoordinateRange.zip(yCoordinateRange)) {
+            var linkedCount = 0
+            for ((x, y) in (minX..XCoordinate.X_MAX_RANGE).zip(YCoordinate.Y_MAX_RANGE downTo minY).toList()) {
+                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
+                if (stone in stones) linkedCount++ else linkedCount = 0
+                if (linkedCount >= 5) return true
+            }
+        }
+        return false
+    }
+
+    fun upperRightDiagonal(
+        xCoordinateRange: CharRange,
+        yCoordinateRange: IntRange,
+        stones: Set<Stone>
+    ): Boolean {
+        // 왼쪽 아래에서 시작하는 대각선
+        for ((maxX, minY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
+            var linkedCount = 0
+            for ((x, y) in (XCoordinate.X_MIN_RANGE..maxX).zip(minY..YCoordinate.Y_MAX_RANGE)) {
+                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
+                if (stone in stones) linkedCount++ else linkedCount = 0
+                if (linkedCount >= 5) return true
+            }
+        }
+        for ((minX, maxY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
+            var linkedCount = 0
+            for ((x, y) in (minX..XCoordinate.X_MAX_RANGE).zip(YCoordinate.Y_MIN_RANGE..maxY)) {
+                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
+                if (stone in stones) linkedCount++ else linkedCount = 0
+                if (linkedCount >= 5) return true
+            }
         }
         return false
     }
