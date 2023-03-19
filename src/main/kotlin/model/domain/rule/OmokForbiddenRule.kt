@@ -1,6 +1,7 @@
 package model.domain.rule
 
 import model.domain.tools.Board
+import model.domain.tools.Location
 import model.domain.tools.Stone
 
 class OmokForbiddenRule(board: Board, currentStone: Stone) {
@@ -22,19 +23,25 @@ class OmokForbiddenRule(board: Board, currentStone: Stone) {
         else -> 0
     }
 
+    fun isForbidden(location: Location): Boolean {
+        val x = location.coordinationY.value
+        val y = location.coordinationX.value
+        return countOpenFours(x, y) >= 2 || countOpenThrees(x, y) >= 2
+    }
+
     private fun getStoneNumber(stone: Stone): Int = when (stone) {
         Stone.BLACK -> BLACK_STONE
         Stone.WHITE -> WHITE_STONE
         Stone.EMPTY -> EMPTY_STONE
     }
 
-    fun countOpenThrees(x: Int, y: Int): Int =
+    private fun countOpenThrees(x: Int, y: Int): Int =
         checkOpenThree(x, y, 1, 0) +
             checkOpenThree(x, y, 1, 1) +
             checkOpenThree(x, y, 0, 1) +
             checkOpenThreeReverse(x, y, 1, -1)
 
-    fun countOpenFours(x: Int, y: Int): Int =
+    private fun countOpenFours(x: Int, y: Int): Int =
         checkOpenFour(x, y, 1, 0) +
             checkOpenFour(x, y, 1, 1) +
             checkOpenFour(x, y, 0, 1) +
