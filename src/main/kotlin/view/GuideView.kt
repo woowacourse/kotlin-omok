@@ -1,19 +1,20 @@
 package view
 
+import model.domain.tools.Dot
 import model.domain.tools.Stone
-import view.util.CoordinationWithIndex
+import view.util.CoordinationWithDot
 
 class GuideView {
     private var lastLocation: String? = null
 
     fun printStart() = println(START)
-    fun requestCoordination(stone: Stone): Pair<Int, Int> {
+    fun requestCoordination(stone: Stone): Dot {
         printRequestCoordination(stone)
-        val coordination = readLine()
+        val coordination = readlnOrNull()
 
         return runCatching {
-            val dot = checkValidation(coordination)
-            CoordinationWithIndex.convertCoordination(dot)
+            val input = checkValidation(coordination)
+            CoordinationWithDot.convertToDot(input)
         }
             .onSuccess { lastLocation = coordination }
             .onFailure { println(ERROR_MESSAGE) }
