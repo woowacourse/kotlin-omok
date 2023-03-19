@@ -7,9 +7,10 @@ class Board(val blackPlayer: Player, val whitePlayer: Player) {
     private val positions = Position.POSITIONS.toList()
 
     fun isPlaceable(turn: Turn, position: Position): Boolean {
+        val blackStone = BlackStone(position)
         return when {
-            LineJudgement(blackPlayer, BlackStone(position)).check() -> true
-            BlackStone(position).judgePossibility(blackPlayer, whitePlayer) -> false
+            LineJudgement(blackPlayer, blackStone).check() -> true
+            blackStone.judgePossibility(blackPlayer, whitePlayer) -> false
             else -> turn == Turn.White || positions.find { it == position }?.isEmpty() == true
         }
     }

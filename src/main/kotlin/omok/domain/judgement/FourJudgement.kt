@@ -38,11 +38,8 @@ class FourJudgement(private val player: Player, private val otherPlayer: Player,
                     Position(HorizontalAxis.getHorizontalAxis(axis.first), axis.second)
                 )
             }
-            if (present)
-                count++
-            else if (other) {
-                count = 0
-            }
+            if (present) count++
+            else if (other) count = 0
 
             if (count == 4) return true
         }
@@ -55,8 +52,7 @@ class FourJudgement(private val player: Player, private val otherPlayer: Player,
         (verticalLower..verticalUpper).forEach { vertical ->
             if (vertical >= 1 && vertical + 4 <= 15)
                 flag = checkFour(List(5) { position.horizontalAxis.axis }, (vertical..vertical + 4).toList())
-            if (flag)
-                return true
+            if (flag) return true
         }
         return false
     }
@@ -67,8 +63,7 @@ class FourJudgement(private val player: Player, private val otherPlayer: Player,
         (horizontalLower..horizontalUpper).forEach { horizontal ->
             if (horizontal >= 1 && horizontal + 4 <= 15)
                 flag = checkFour((horizontal..horizontal + 4).toList(), List(5) { position.verticalAxis })
-            if (flag)
-                return true
+            if (flag) return true
         }
         return false
     }
@@ -82,8 +77,7 @@ class FourJudgement(private val player: Player, private val otherPlayer: Player,
             if (axis.first >= 1 && axis.first + 4 <= 15 && axis.second >= 1 && axis.second + 4 <= 15) {
                 flag = checkFour((axis.first..axis.first + 4).toList(), (axis.second..axis.second + 4).toList())
             }
-            if (flag)
-                return true
+            if (flag) return true
         }
         return false
     }
@@ -98,8 +92,7 @@ class FourJudgement(private val player: Player, private val otherPlayer: Player,
                 flag =
                     checkFour((axis.first..axis.first + 4).toList(), (axis.second - 4..axis.second).toList().reversed())
             }
-            if (flag)
-                return true
+            if (flag) return true
         }
         return false
     }

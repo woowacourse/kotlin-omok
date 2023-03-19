@@ -35,11 +35,8 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
                 )
             }
 
-            if (present)
-                count++
-            else if (other) {
-                count = 0
-            }
+            if (present) count++
+            else if (other) count = 0
 
             if (count == 3) return true
         }
@@ -54,8 +51,7 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
         (verticalLower..verticalUpper).forEach { vertical ->
             if (vertical >= 1 && vertical + 3 <= 15)
                 flag = checkThree(List(4) { position.horizontalAxis.axis }, (vertical..vertical + 3).toList())
-            if (flag)
-                return true
+            if (flag) return true
         }
         return false
     }
@@ -68,8 +64,7 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
         (horizontalLower..horizontalUpper).forEach { horizontal ->
             if (horizontal >= 1 && horizontal + 3 <= 15)
                 flag = checkThree((horizontal..horizontal + 3).toList(), List(4) { position.verticalAxis },)
-            if (flag)
-                return true
+            if (flag) return true
         }
         return false
     }
@@ -83,8 +78,7 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
             if (axis.first >= 1 && axis.first + 3 <= 15 && axis.second >= 1 && axis.second + 3 <= 15) {
                 flag = checkThree((axis.first..axis.first + 3).toList(), (axis.second..axis.second + 3).toList())
             }
-            if (flag)
-                return true
+            if (flag) return true
         }
         return false
     }
@@ -98,8 +92,7 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
             if (axis.first >= 1 && axis.first + 3 <= 15 && axis.second - 3 >= 1 && axis.second <= 15) {
                 flag = checkThree((axis.first..axis.first + 3).toList(), (axis.second - 3..axis.second).toList().reversed())
             }
-            if (flag)
-                return true
+            if (flag) return true
         }
         return false
     }
