@@ -3,13 +3,12 @@ package model.domain.tools
 class Board private constructor(val system: Map<Int, MutableList<Stone>>) {
     fun get(location: Location): Stone? = system[location.coordinationX.value]?.get(location.coordinationY.value)
 
-    fun placeStone(location: Location, stone: Stone): Boolean {
-        if (get(location) != Stone.EMPTY) return false
+    fun canPlace(location: Location) = get(location) == Stone.EMPTY
 
+    fun placeStone(location: Location, stone: Stone) {
         val row = location.coordinationX.value
         val col = location.coordinationY.value
-        if (row !in 0 until SIZE || col !in 0 until SIZE) return false
-        system[row]?.set(col, stone)?.let { return true } ?: return false
+        system[row]?.set(col, stone)
     }
 
     companion object {
