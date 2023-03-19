@@ -9,10 +9,14 @@ class FourFourBlackRule : BlackRule() {
         val nextBlackStones = blackStones + nextStone
         var count44 = 0
         Inclination.values().forEach {
-            it.directions.forEach { direction ->
-                if (is5WhenPutStoneWithDirection(nextBlackStones, whiteStones, nextStone, direction)) count44++
+            if (isOpen4WithThisInclination(nextBlackStones, whiteStones, nextStone, it)) {
+                count44++
+            } else {
+                it.directions.forEach { direction ->
+                    if (is5WhenPutStoneWithDirection(nextBlackStones, whiteStones, nextStone, direction)) count44++
+                }
             }
         }
-        return count44 < 2
+        return count44 >= 2
     }
 }

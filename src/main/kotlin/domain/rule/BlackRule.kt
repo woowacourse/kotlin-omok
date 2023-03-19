@@ -18,16 +18,19 @@ abstract class BlackRule {
     protected fun calculateContinuousBlackStonesCountFromRecentStoneWithInclination(
         //최근_놓인_돌에서_다음_기울기로_연속되는_흑돌_개수
         blackStones: Set<Stone>,
+        whiteStones: Set<Stone>,
         justPlacedStone: Stone,
         inclination: Inclination,
     ): Int {
         val leftPoint = firstBlackStonesBlankWithThisDirection(
             blackStones,
+            whiteStones,
             justPlacedStone,
             inclination.directions[0],
         )
         val rightPoint = firstBlackStonesBlankWithThisDirection(
             blackStones,
+            whiteStones,
             justPlacedStone,
             inclination.directions[1],
         )
@@ -38,11 +41,12 @@ abstract class BlackRule {
     private fun firstBlackStonesBlankWithThisDirection(
         //다음 방향으로 흑돌을 타고 갔을 때 최초의 빈칸
         blackStones: Set<Stone>,
+        whiteStones: Set<Stone>,
         justPlacedStone: Stone,
         direction: Direction,
     ): Point {
         var nextPoint: Point = justPlacedStone.point
-        while (nextPoint.isInRange() && Stone(nextPoint) in blackStones) {
+        while (nextPoint.isInRange() && Stone(nextPoint) in blackStones && Stone(nextPoint) !in whiteStones) {
             nextPoint = nextPoint.addX(direction.dx)
             nextPoint = nextPoint.addY(direction.dy)
         }
@@ -57,11 +61,12 @@ abstract class BlackRule {
         justPlacedStone: Stone,
         direction: Direction,
     ): Boolean {
-        val nextPoint = firstBlackStonesBlankWithThisDirection(blackStones, justPlacedStone, direction)
+        val nextPoint = firstBlackStonesBlankWithThisDirection(blackStones, whiteStones, justPlacedStone, direction)
         if (nextPoint.isInRange() && Stone(nextPoint).isPlacedOnBlank(blackStones + whiteStones)) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
             return calculateContinuousBlackStonesCountFromRecentStoneWithInclination(
                 blackStones + Stone(nextPoint),
+                whiteStones,
                 justPlacedStone,
                 inclination
             ) == 5
@@ -78,7 +83,12 @@ abstract class BlackRule {
         direction: Direction,
     ): Boolean {
         val nextPoint =
-            firstBlackStonesBlankWithThisDirection(blackStones, justPlacedStone, direction) //다음 방향으로 흑돌을 타고 갔을 때 최초의 빈칸
+            firstBlackStonesBlankWithThisDirection(
+                blackStones,
+                whiteStones,
+                justPlacedStone,
+                direction
+            ) //다음 방향으로 흑돌을 타고 갔을 때 최초의 빈칸
         if (nextPoint.isInRange()) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
             return isOpen4WithThisInclination(  // 다음 기울기로 열린4인지 판단
@@ -101,11 +111,13 @@ abstract class BlackRule {
     ): Boolean {
         val leftPoint: Point = firstBlackStonesBlankWithThisDirection(
             blackStones,
+            whiteStones,
             justPlacedStone,
             inclination.directions[0],
         )
         val rightPoint = firstBlackStonesBlankWithThisDirection(
             blackStones,
+            whiteStones,
             justPlacedStone,
             inclination.directions[1],
         )

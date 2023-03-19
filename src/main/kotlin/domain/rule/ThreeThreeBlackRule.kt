@@ -20,9 +20,10 @@ class ThreeThreeBlackRule : BlackRule() {
                     )
                 }
             ) {
+                println(true)
                 count33++
             }
         }
-        return count33 < 2
+        return count33 >= 2
     }
 }
