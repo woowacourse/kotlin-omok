@@ -16,7 +16,6 @@ class FourJudgement(private val player: Player, private val otherPlayer: Player,
         if (checkMajorDiagonal(position.verticalAxis - 1, position.verticalAxis, position.horizontalAxis.axis - 1, position.horizontalAxis.axis)) cnt++
         if (checkSubDiagonal(position.verticalAxis - 4, position.verticalAxis - 3, position.horizontalAxis.axis - 4, position.horizontalAxis.axis - 3)) cnt++
         if (checkSubDiagonal(position.verticalAxis - 1, position.verticalAxis, position.horizontalAxis.axis - 1, position.horizontalAxis.axis)) cnt++
-        println(cnt)
         return cnt >= 2
     }
 
