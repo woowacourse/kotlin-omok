@@ -3,12 +3,12 @@ package controller
 import domain.Point
 import dto.PointDTO
 
-object PointMapper {
-    fun domainToDTO(point: Point): PointDTO {
-        return PointDTO(point.x, point.y)
+object PointMapper : Mapper<Point,PointDTO> {
+    override fun domainToDTO(source: Point): PointDTO {
+        return PointDTO(source.x, source.y)
     }
 
-    fun dtoToDomain(point: PointDTO): Point {
-        return Point(point.x, point.y)
+    override fun dtoToDomain(source: PointDTO): Point {
+        return Point(source.x, source.y)
     }
 }

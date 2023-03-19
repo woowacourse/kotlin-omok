@@ -1,13 +1,21 @@
 package controller
 
+import domain.Coordinate
 import domain.Stone
 import dto.StoneDTO
 
-object StoneMapper {
-    fun domainToDTO(stone: Stone): StoneDTO {
+object StoneMapper : Mapper<Stone, StoneDTO> {
+    override fun domainToDTO(source: Stone): StoneDTO {
         return StoneDTO(
-            ColorMapper.domainToDTO(stone.color),
-            PointMapper.domainToDTO(stone.coordinate.point)
+            ColorMapper.domainToDTO(source.color),
+            PointMapper.domainToDTO(source.coordinate.point)
+        )
+    }
+
+    override fun dtoToDomain(source: StoneDTO): Stone {
+        return Stone(
+            ColorMapper.dtoToDomain(source.color),
+            Coordinate.from(source.coordinate.x, source.coordinate.y)!!
         )
     }
 }
