@@ -31,7 +31,7 @@ class PlayingBoardTest {
             Stone(1, 3, Color.WHITE),
             Stone(1, 4, Color.WHITE)
         )
-        val actual = playingBoard.putStone(Stone(1, 5, Color.WHITE))
+        val actual = playingBoard.addStone(Stone(1, 5, Color.WHITE))
         assertThat(actual).isInstanceOf(FinishedBoard::class.java)
     }
 
@@ -43,7 +43,7 @@ class PlayingBoardTest {
             Stone(1, 3, Color.WHITE),
             Stone(1, 4, Color.BLACK)
         )
-        val actual = playingBoard.putStone(Stone(1, 5, Color.WHITE))
+        val actual = playingBoard.addStone(Stone(1, 5, Color.WHITE))
         assertThat(actual).isInstanceOf(PlayingBoard::class.java)
     }
 

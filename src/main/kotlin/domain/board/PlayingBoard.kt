@@ -1,12 +1,16 @@
 package domain.board
 
-import domain.OmokResult
+import domain.judgement.ForbiddenPositionChecker
+import domain.judgement.WinningConditionChecker
 import domain.stone.Color
 import domain.stone.Position
 import domain.stone.Stone
 
-class PlayingBoard(placedStones: List<Stone> = listOf()) : BasedBoard(placedStones.toList()) {
-    constructor(vararg stone: Stone) : this(stone.toList())
+class PlayingBoard(
+    placedStones: List<Stone> = listOf(),
+    protected val winningConditionChecker: WinningConditionChecker,
+    protected val forbiddenPositionChecker: ForbiddenPositionChecker
+) : BasedBoard(placedStones.toList()) {
 
     override val winningColor: Color
         get() {
@@ -18,19 +22,26 @@ class PlayingBoard(placedStones: List<Stone> = listOf()) : BasedBoard(placedSton
     override fun isPossiblePut(position: Position): Boolean =
         !placedStones.any { stone -> stone.position == position }
 
-    override fun putStone(stone: Stone): Board {
+    override fun addStone(stone: Stone): Board {
         if (isPossiblePut(stone.position).not()) return this
         return nextBoard(stone)
     }
 
     private fun nextBoard(newStone: Stone): Board {
-        val omokResult = OmokResult.valueOf(getStones(), newStone)
         val nextStones = getStones() + newStone
-        return when (omokResult) {
-            OmokResult.FIVE_STONE_WINNING -> FinishedBoard(nextStones, newStone.color)
-            OmokResult.FORBIDDEN -> FinishedBoard(nextStones, Color.WHITE)
-            OmokResult.RUNNING -> PlayingBoard(nextStones)
+        return when {
+            isForbidden(newStone) -> FinishedBoard(nextStones, Color.WHITE, winningConditionChecker, forbiddenPositionChecker)
+            isWin(newStone) -> FinishedBoard(nextStones, newStone.color, winningConditionChecker, forbiddenPositionChecker,)
+            else -> PlayingBoard(nextStones, winningConditionChecker, forbiddenPositionChecker)
         }
+    }
+
+    private fun isForbidden(newStone: Stone): Boolean {
+        return newStone.color == Color.BLACK && forbiddenPositionChecker.isForbidden(placedStones.toList(), newStone)
+    }
+
+    private fun isWin(newStone: Stone): Boolean {
+        return winningConditionChecker.isWin(placedStones.toList(), newStone)
     }
 
     companion object {

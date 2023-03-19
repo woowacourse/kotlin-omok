@@ -10,5 +10,5 @@ interface Board {
     fun isPossiblePut(position: Position): Boolean
     fun getLatestStone(): Stone?
     fun getStones(): List<Stone>
-    fun putStone(stone: Stone): Board
+    fun addStone(stone: Stone): Board
 }
