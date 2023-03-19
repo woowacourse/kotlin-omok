@@ -29,7 +29,7 @@ private fun putStoneUntilNotOccurErrorAndReturnStone(board: Board): Stone {
             board.put(stone)
             return stone
         }.onFailure {
-            println("규칙에 어긋납니다.")
+            println(it.message)
         }
     }
 }

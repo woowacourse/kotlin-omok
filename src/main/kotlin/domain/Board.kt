@@ -1,5 +1,6 @@
 package domain
 
+import domain.rule.BlackRuleAdapter
 import domain.state.BlackTurn
 import domain.state.BlackWin
 import domain.state.Finished
@@ -10,7 +11,8 @@ class Board {
     private var state: State = BlackTurn(setOf(), setOf())
 
     fun put(stone: Stone) {
-        state = state.put(stone)
+        //추후 백돌 규칙 생기면 WhiteRuleAdapter 추가 가능
+        state = state.put(stone, BlackRuleAdapter())
     }
 
     fun isFinished(): Boolean = state is Finished
