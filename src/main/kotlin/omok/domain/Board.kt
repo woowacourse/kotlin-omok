@@ -7,13 +7,13 @@ class Board(private val blackPlayer: Player, private val whitePlayer: Player) {
     private val positions: List<Position> = Position.POSITIONS.toList()
 
     fun isPlaceable(turn: Turn, position: Position): Boolean {
-        return when {
-            turn == Turn.White -> positions.find { it == position }?.isEmpty() == true
-            Judgement.line(blackPlayer, position) -> true
-            Judgement.threeOrFour(blackPlayer, whitePlayer, position) -> false
-            else -> positions.find { it == position }?.isEmpty() == true
+        if (turn == Turn.White) {
+            return isEmpty(position)
         }
+        return isEmpty(position) && !Judgement.isForbiddenMove(blackPlayer, whitePlayer, position)
     }
+
+    private fun isEmpty(position: Position) = positions.find { it == position }?.isEmpty() == true
 
     fun putStone(turn: Turn, position: Position) {
         when (turn) {
