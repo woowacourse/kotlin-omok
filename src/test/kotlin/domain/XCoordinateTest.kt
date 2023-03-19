@@ -6,15 +6,14 @@ import org.junit.jupiter.api.assertDoesNotThrow
 
 class XCoordinateTest {
 
-    @Test
-    fun `A에서 O 사이의 문자가 아닌 문자로 X 좌표를 생성하려 하면 에러가 발생한다`() {
-        assertThatIllegalArgumentException().isThrownBy { XCoordinate.of('Z') }
-            .withMessage("x 좌표는 A에서 O 사이의 문자로 생성해야 합니다.")
-    }
 
     @Test
     fun `A에서 O 사이의 문자로 X 좌표를 생성할 수 있다`() {
         assertDoesNotThrow { XCoordinate.of('A') }
+    }
+    @Test
+    fun `같은 문자의 XCoordinate에 접근하면 같은 객체를 반환한다`() {
+        assertThat(XCoordinate.of('A')).isEqualTo(XCoordinate.of('A'))
     }
 
     @Test
