@@ -6,6 +6,8 @@ import domain.Position
 import domain.constant.Constant.BOARD_SIZE
 
 object OutputView {
+    private const val BLACK = "흑"
+    private const val WHITE = "백"
 
     fun printStart() {
         println("오목 게임을 시작합니다.")
@@ -60,7 +62,4 @@ object OutputView {
     fun printError() {
         println("잘못된 입력입니다. 다시 입력해주세요!")
     }
-
-    private const val BLACK = "흑"
-    private const val WHITE = "백"
 }
