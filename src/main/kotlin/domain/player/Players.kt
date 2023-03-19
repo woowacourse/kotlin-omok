@@ -1,22 +1,21 @@
 package domain.player
 
 import domain.rule.OmokRule
-import domain.rule.RenjuRule
 import domain.stone.Stone
 import domain.stone.StoneColor
 
 data class Players private constructor(private val players: List<Player>, private val rule: OmokRule) {
     val isRunning: Boolean
-        get() = players.all { it.canPlace() }
-    val isBlackLose: Boolean
-        get() = (getBlackPlayer() as BlackPlayer).isLose
+        get() = players.all { it.isPlaying }
+    val isLose: Boolean
+        get() = players.any { it.isLose }
 
     constructor(blackPlayer: Player, whitePlayer: Player, rule: OmokRule) : this(
         listOf(
             blackPlayer.clone(),
-            whitePlayer.clone()
+            whitePlayer.clone(),
         ),
-        rule
+        rule,
     )
 
     fun putStone(stoneColor: StoneColor, stone: Stone): Players {
@@ -26,7 +25,7 @@ data class Players private constructor(private val players: List<Player>, privat
         return when (stoneColor) {
             StoneColor.BLACK -> {
                 Players(
-                    blackPlayer = getBlackPlayer().putStone(stone, whiteStones, RenjuRule()),
+                    blackPlayer = getBlackPlayer().putStone(stone, whiteStones, rule),
                     whitePlayer = getWhitePlayer(),
                     rule,
                 )

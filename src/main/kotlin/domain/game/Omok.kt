@@ -26,9 +26,9 @@ class Omok(
 
         if (curBoard.isLose()) {
             startEndEventListener.onEndGame(curStoneColor)
-        } else {
-            startEndEventListener.onEndGame(curStoneColor.next())
+            return
         }
+        startEndEventListener.onEndGame(curStoneColor.next())
     }
 
     private fun takeTurn(board: Board, stoneColor: StoneColor): Board {

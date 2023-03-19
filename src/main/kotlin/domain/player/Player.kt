@@ -4,12 +4,15 @@ import domain.position.Position
 import domain.rule.OmokRule
 import domain.state.LoseState
 import domain.state.PlayerState
-import domain.state.WinState
+import domain.state.PlayingState
 import domain.stone.Stone
 import domain.stone.Stones
 
 abstract class Player(protected val state: PlayerState) : Cloneable {
-    fun canPlace(): Boolean = state !is WinState && state !is LoseState
+    val isPlaying: Boolean
+        get() = state is PlayingState
+    val isLose: Boolean
+        get() = state is LoseState
 
     fun isPlaced(stone: Stone): Boolean = state.hasStone(stone)
 

@@ -22,7 +22,7 @@ class OmokInputView : InputView {
 
         return PositionModel(
             row = colRow.substring(ROW_INPUT_SIZE),
-            col = colRow.first().toString()
+            col = colRow.first().toString(),
         ).toDomain() ?: askPosition()
     }
 

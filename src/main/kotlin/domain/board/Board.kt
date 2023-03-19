@@ -20,5 +20,5 @@ class Board(private val players: Players) {
 
     fun isRunning(): Boolean = players.isRunning
 
-    fun isLose(): Boolean = players.isBlackLose
+    fun isLose(): Boolean = players.isLose
 }

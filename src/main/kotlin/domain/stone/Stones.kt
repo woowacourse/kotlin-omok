@@ -32,7 +32,7 @@ data class Stones(private val stones: List<Stone>) {
     private fun checkStraight(
         startPosition: Position,
         direction: Pair<Int, Int>,
-        weight: Int = FORWARD_WEIGHT
+        weight: Int = FORWARD_WEIGHT,
     ): Int {
         val (startX, startY) = Pair(startPosition.row, startPosition.col)
         var count = 1
