@@ -8,7 +8,7 @@ class PlayerTest {
     fun `플레이어는 자신이 둔 돌을 갖고 있다`() {
         // given
         val player = Player()
-        val stone = Stone(Position(HorizontalAxis.A, 4))
+        val stone = WhiteStone(Position(HorizontalAxis.A, 4))
 
         // when
         player.put(stone)

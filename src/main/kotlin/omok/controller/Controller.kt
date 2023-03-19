@@ -1,10 +1,12 @@
 package omok.controller
 
+import omok.domain.BlackStone
 import omok.domain.Board
 import omok.domain.HorizontalAxis
 import omok.domain.Player
 import omok.domain.Position
 import omok.domain.Stone
+import omok.domain.WhiteStone
 import omok.domain.judgement.LineJudgement
 import omok.domain.state.State
 import omok.domain.state.Turn
@@ -33,18 +35,18 @@ class Controller(private val gameView: GameView) {
 
     private fun blackTurn() {
         val position = readPosition(Turn.Black)
-        board.blackPlayer.put(Stone(position))
+        board.blackPlayer.put(BlackStone(position))
         board.occupyPosition(position)
         gameView.printBoard(Turn.Black, position)
-        return if (lineJudge(board.blackPlayer, position)) turn(Win.Black) else turn(Turn.White)
+        return if (lineJudge(board.blackPlayer, BlackStone(position))) turn(Win.Black) else turn(Turn.White)
     }
 
     private fun whiteTurn() {
         val position = readPosition(Turn.White)
-        board.whitePlayer.put(Stone(position))
+        board.whitePlayer.put(WhiteStone(position))
         board.occupyPosition(position)
         gameView.printBoard(Turn.White, position)
-        return if (lineJudge(board.whitePlayer, position)) turn(Win.White) else turn(Turn.Black)
+        return if (lineJudge(board.whitePlayer, WhiteStone(position))) turn(Win.White) else turn(Turn.Black)
     }
 
     private fun readPosition(turn: Turn): Position {
@@ -58,5 +60,5 @@ class Controller(private val gameView: GameView) {
         return position
     }
 
-    private fun lineJudge(player: Player, position: Position) = LineJudgement(player, position).check()
+    private fun lineJudge(player: Player, stone: Stone) = LineJudgement(player, stone).check()
 }

@@ -1,9 +1,9 @@
 package omok.domain.judgement
 
+import omok.domain.BlackStone
 import omok.domain.HorizontalAxis
 import omok.domain.Player
 import omok.domain.Position
-import omok.domain.Stone
 
 class FourJudgement(private val player: Player, private val otherPlayer: Player, private val position: Position) {
     fun check(): Boolean {
@@ -16,12 +16,11 @@ class FourJudgement(private val player: Player, private val otherPlayer: Player,
         if (checkMajorDiagonal(position.verticalAxis - 1, position.verticalAxis, position.horizontalAxis.axis - 1, position.horizontalAxis.axis)) cnt++
         if (checkSubDiagonal(position.verticalAxis - 4, position.verticalAxis - 3, position.horizontalAxis.axis - 4, position.horizontalAxis.axis - 3)) cnt++
         if (checkSubDiagonal(position.verticalAxis - 1, position.verticalAxis, position.horizontalAxis.axis - 1, position.horizontalAxis.axis)) cnt++
-        println(cnt)
         return cnt >= 2
     }
 
     private fun checkFour(horizontal: List<Int>, vertical: List<Int>): Boolean {
-        val expect = player.hand.stones + Stone(position)
+        val expect = player.hand.stones + BlackStone(position)
         var count = 0
         var other: Boolean
         var present: Boolean

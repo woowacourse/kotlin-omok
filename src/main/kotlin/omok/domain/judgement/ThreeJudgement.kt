@@ -1,9 +1,9 @@
 package omok.domain.judgement
 
+import omok.domain.BlackStone
 import omok.domain.HorizontalAxis
 import omok.domain.Player
 import omok.domain.Position
-import omok.domain.Stone
 
 class ThreeJudgement(private val player: Player, private val otherPlayer: Player, private val position: Position) {
     fun check(): Boolean {
@@ -16,7 +16,7 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
     }
 
     private fun checkThree(horizontal: List<Int>, vertical: List<Int>): Boolean {
-        val expect = player.hand.stones + Stone(position)
+        val expect = player.hand.stones + BlackStone(position)
         var count = 0
         var other: Boolean
         var present: Boolean

@@ -5,7 +5,7 @@ import omok.domain.Player
 import omok.domain.Position
 import omok.domain.Stone
 
-class LineJudgement(val player: Player, val position: Position) {
+class LineJudgement(val player: Player, val stone: Stone) {
     fun check(): Boolean {
         return checkHorizontal() || checkVertical() || checkMajorDiagonal() || checkSubDiagonal()
     }
@@ -14,7 +14,7 @@ class LineJudgement(val player: Player, val position: Position) {
         var count = 0
         var prev = true
         var present: Boolean
-        val expect = player.hand.stones + Stone(position)
+        val expect = player.hand.stones + stone
         horizontal.zip(vertical).forEach { axis ->
             present = expect.any { stone ->
                 stone.findPosition(
@@ -34,16 +34,16 @@ class LineJudgement(val player: Player, val position: Position) {
     }
 
     private fun checkHorizontal(): Boolean {
-        return checkOmok((1..15).toList(), List(15) { position.verticalAxis })
+        return checkOmok((1..15).toList(), List(15) { stone.getLocation().verticalAxis })
     }
 
     private fun checkVertical(): Boolean {
-        return checkOmok(List(15) { position.horizontalAxis.axis }, (1..15).toList())
+        return checkOmok(List(15) { stone.getLocation().horizontalAxis.axis }, (1..15).toList())
     }
 
     private fun checkMajorDiagonal(): Boolean {
-        val horizontal = position.horizontalAxis.axis
-        val vertical = position.verticalAxis
+        val horizontal = stone.getLocation().horizontalAxis.axis
+        val vertical = stone.getLocation().verticalAxis
         if (horizontal <= vertical) {
             return checkOmok((1..15 + horizontal - vertical).toList(), (vertical - horizontal + 1..15).toList())
         }
@@ -51,8 +51,8 @@ class LineJudgement(val player: Player, val position: Position) {
     }
 
     private fun checkSubDiagonal(): Boolean {
-        val horizontal = position.horizontalAxis.axis
-        val vertical = position.verticalAxis
+        val horizontal = stone.getLocation().horizontalAxis.axis
+        val vertical = stone.getLocation().verticalAxis
         if (horizontal + vertical > 15) {
             return checkOmok((horizontal + vertical - 15..15).toList().reversed(), (horizontal + vertical - 15..15).toList())
         }
