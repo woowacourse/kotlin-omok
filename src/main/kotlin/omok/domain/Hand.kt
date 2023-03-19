@@ -1,7 +1,7 @@
 package omok.domain
 
 class Hand {
-    private var _stones = mutableListOf<Stone>()
+    private val _stones = mutableListOf<Stone>()
     val stones
         get() = _stones.toList()
 
