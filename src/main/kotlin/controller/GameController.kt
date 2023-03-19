@@ -1,12 +1,9 @@
 package controller
 
-import domain.BlackPlayer
 import domain.Board
 import domain.Color
 import domain.Coordinate
-import domain.Players
 import domain.Stones
-import domain.WhitePlayer
 import dto.PointDTO
 import view.ConsoleGameView
 
@@ -14,9 +11,8 @@ class GameController(
     private val gameView: ConsoleGameView = ConsoleGameView()
 ) {
     fun process() {
-        val players = Players(listOf(BlackPlayer(), WhitePlayer()))
         val stones = Stones()
-        val board = Board(players, stones)
+        val board = Board(stones)
         gameView.startGame()
         board.repeatTurn {
             readStone(it, stones)
@@ -28,7 +24,6 @@ class GameController(
 
     private fun readStone(color: Color, stones: Stones): Coordinate {
         renderBoard(stones)
-
         val pointDto = gameView.readStone(
             ColorMapper.domainToDTO(color), getStoneCoordinateOrNull(stones)
         ) ?: return readStone(color, stones)

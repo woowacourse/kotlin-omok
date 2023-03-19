@@ -180,7 +180,7 @@ class RenjuRuleTest {
             BlackStone(7, 6),
             BlackStone(5, 4),
 
-        )
+            )
         val stones = Stones(placedStones)
 
         // when
@@ -201,7 +201,7 @@ class RenjuRuleTest {
             BlackStone(7, 6),
             BlackStone(7, 5),
 
-        )
+            )
         val stones = Stones(placedStones)
 
         // when
