@@ -5,8 +5,8 @@ import omok.domain.judgement.LineJudgement
 import omok.domain.judgement.ThreeJudgement
 import omok.domain.state.Turn
 
-class Board(val blackPlayer: Player, val whitePlayer: Player) {
-    private val positions = Position.POSITIONS.toList()
+class Board(private val blackPlayer: Player, private val whitePlayer: Player) {
+    private val positions: List<Position> = Position.POSITIONS.toList()
 
     fun isPlaceable(turn: Turn, position: Position): Boolean {
         return when {
