@@ -1,6 +1,7 @@
 package domain.state
 
 import domain.Stone
+import domain.rule.BlackRuleAdapter
 import domain.rule.RuleAdapter
 
 interface State {
@@ -8,5 +9,5 @@ interface State {
     val blackStones: Set<Stone>
     val whiteStones: Set<Stone>
 
-    fun put(stone: Stone, ruleAdapter: RuleAdapter): State
+    fun put(stone: Stone, ruleAdapter: RuleAdapter = BlackRuleAdapter()): State
 }
