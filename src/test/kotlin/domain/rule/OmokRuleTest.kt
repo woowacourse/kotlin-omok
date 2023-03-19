@@ -1,6 +1,9 @@
-package domain.stone
+package domain.rule
 
-import domain.rule.OmokRule
+import domain.stone.Board
+import domain.stone.Stone
+import domain.stone.StonePosition
+import domain.stone.StoneType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

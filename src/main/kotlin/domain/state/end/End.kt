@@ -1,5 +1,6 @@
-package domain.state
+package domain.state.end
 
+import domain.state.State
 import domain.stone.Stone
 import domain.stone.StoneType
 

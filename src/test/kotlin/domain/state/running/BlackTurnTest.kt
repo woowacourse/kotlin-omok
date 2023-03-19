@@ -1,8 +1,10 @@
-package domain.stone
+package domain.state.running
 
-import domain.state.BlackTurn
-import domain.state.End
-import domain.state.WhiteTurn
+import domain.state.end.End
+import domain.stone.Board
+import domain.stone.Stone
+import domain.stone.StonePosition
+import domain.stone.StoneType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

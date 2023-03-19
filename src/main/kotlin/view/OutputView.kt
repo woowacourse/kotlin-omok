@@ -1,8 +1,8 @@
 package view
 
-import domain.state.BlackTurn
+import domain.state.running.BlackTurn
 import domain.state.State
-import domain.state.WhiteTurn
+import domain.state.running.WhiteTurn
 import domain.stone.Stone
 import domain.stone.StoneType
 import domain.stone.Stones

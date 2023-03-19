@@ -1,6 +1,8 @@
-package domain.state
+package domain.state.running
 
 import domain.rule.OmokRule
+import domain.state.end.End
+import domain.state.State
 import domain.stone.Board
 import domain.stone.Stone
 import domain.stone.StoneType

@@ -1,9 +1,9 @@
 package controller
 
-import domain.state.BlackTurn
-import domain.state.End
+import domain.state.running.BlackTurn
+import domain.state.end.End
 import domain.state.State
-import domain.state.WhiteTurn
+import domain.state.running.WhiteTurn
 import domain.stone.Board
 import domain.stone.Stone
 import domain.stone.StoneType

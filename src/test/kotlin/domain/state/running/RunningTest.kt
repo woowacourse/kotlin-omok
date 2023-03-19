@@ -1,7 +1,10 @@
-package domain.stone
+package domain.state.running
 
-import domain.state.Running
 import domain.state.State
+import domain.stone.Board
+import domain.stone.Stone
+import domain.stone.StonePosition
+import domain.stone.StoneType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
