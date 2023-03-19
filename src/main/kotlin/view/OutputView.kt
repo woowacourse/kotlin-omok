@@ -65,7 +65,7 @@ class OutputView {
     }
 
     private fun positionToText(value: Stone): String {
-        val xToString: String = (value.position.x.toChar() + 'A'.toInt() - 1).toString()
+        val xToString: String = (value.position.x.toChar() + 'A'.code - 1).toString()
         return "$xToString${value.position.y}"
     }
 
