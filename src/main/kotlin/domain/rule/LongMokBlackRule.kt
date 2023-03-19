@@ -12,7 +12,7 @@ class LongMokBlackRule : BlackRule() {
                     blackStones + nextStone,
                     nextStone,
                     it
-                ) > 5
+                ) > 6
             }) return false
         return true
     }
