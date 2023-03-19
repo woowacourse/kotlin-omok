@@ -1,8 +1,6 @@
 package view
 
 import domain.Stone
-import domain.XCoordinate
-import domain.YCoordinate
 
 object InputView {
 
@@ -12,7 +10,11 @@ object InputView {
     fun readStone(): Stone {
         kotlin.runCatching {
             val point = tryToGetPointUntilCorrectType()
-            return Stone(XCoordinate.of(point[0]), YCoordinate.of(point.substring(1).toInt()))
+            val x = point[0]
+            val y = point.substring(1).toInt()
+            require(x in 'A'..'O' || x in 'a'..'o') { "x의 범위가 좌표를 넘어갑니다." }
+            require(y in 1..15) { "y의 범위가 좌표를 넘어갑니다." }
+            return Stone(x, y)
         }.onFailure {
             println(it.message)
         }
