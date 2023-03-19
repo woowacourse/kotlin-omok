@@ -1,5 +1,5 @@
-// import domain.board.Turn
-// import domain.board.RunningTurn
+// import domain.turn.Turn
+// import domain.turn.RunningTurn
 // import domain.judgement.FiveStoneWinningCondition
 // import domain.judgement.ForbiddenCondition
 // import domain.judgement.RenjuRuleForbiddenCondition

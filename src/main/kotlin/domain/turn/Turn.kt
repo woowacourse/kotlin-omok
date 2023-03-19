@@ -1,4 +1,4 @@
-package domain.board
+package domain.turn
 
 import domain.stone.Color
 import domain.stone.Position

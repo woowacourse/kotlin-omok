@@ -1,5 +1,6 @@
-package domain.board
+package domain.turn
 
+import domain.board.PlacedBoard
 import domain.stone.Position
 
 abstract class FinishedTurn(

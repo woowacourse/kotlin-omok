@@ -1,5 +1,5 @@
-// import domain.board.FinishedTurn
-// import domain.board.RunningTurn
+// import domain.turn.FinishedTurn
+// import domain.turn.RunningTurn
 // import domain.stone.Color
 // import domain.stone.Position
 // import org.assertj.core.api.Assertions.assertThat
