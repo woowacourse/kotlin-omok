@@ -1,6 +1,6 @@
 package domain.domain
 
-class Stone(private val color: Color, val position: Position2) {
+data class Stone(private val color: Color, val position: Position2) {
 
     fun isBlack(): Boolean {
         return color == Color.BLACK
