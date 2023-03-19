@@ -131,30 +131,43 @@ object OmokRule {
     private fun search(board: List<List<StoneType>>, stone: Stone, dx: Int, dy: Int): Pair<Int, Int> {
         var toRight = stone.position.x
         var toTop = stone.position.y
-        var stoneCount = 0
-        var blink = 0
-        var blinkCount = 0
+        var (stoneCount, blink) = initializeCounters()
         while (true) {
-            if (dx > 0 && toRight == MAX_X) break
-            if (dx < 0 && toRight == MIN_X) break
-            if (dy > 0 && toTop == MAX_Y) break
-            if (dy < 0 && toTop == MIN_X) break
+            if (!isWithinBounds(toRight, toTop, dx, dy)) break
             toRight += dx
             toTop += dy
-            when (board[toTop][toRight]) {
-                StoneType.BLACK -> {
-                    stoneCount++
-                    blink = blinkCount
-                }
-
-                StoneType.WHITE -> break
-                StoneType.EMPTY -> {
-                    if (blink == 1) break
-                    if (blinkCount++ == 1) break
-                }
-            }
+            val (newStoneCount, newBlinkCount) = handleCurrentStoneType(board[toTop][toRight], stoneCount, blink)
+            if (newBlinkCount != blink) blink = newBlinkCount
+            if (isTerminatingStone(board[toTop][toRight])) break
+            stoneCount = newStoneCount
         }
         return Pair(stoneCount, blink)
+    }
+
+    private fun initializeCounters(): Pair<Int, Int> = Pair(0, 0)
+
+    private fun isWithinBounds(toRight: Int, toTop: Int, dx: Int, dy: Int): Boolean {
+        return !(dx > 0 && toRight == MAX_X || dx < 0 && toRight == MIN_X || dy > 0 && toTop == MAX_Y || dy < 0 && toTop == MIN_X)
+    }
+
+    private fun handleCurrentStoneType(currentStoneType: StoneType, stoneCount: Int, blink: Int): Pair<Int, Int> {
+        return when (currentStoneType) {
+            StoneType.BLACK -> Pair(stoneCount + 1, blink)
+            StoneType.WHITE -> Pair(stoneCount, blink)
+            StoneType.EMPTY -> handleEmpty(currentStoneType, stoneCount, blink)
+        }
+    }
+
+    private fun handleEmpty(currentStoneType: StoneType, stoneCount: Int, blink: Int): Pair<Int, Int> {
+        return if (blink == 1) {
+            Pair(stoneCount, blink)
+        } else {
+            Pair(stoneCount, if (stoneCount == 0) 1 else blink + 1)
+        }
+    }
+
+    private fun isTerminatingStone(stoneType: StoneType): Boolean {
+        return stoneType == StoneType.WHITE
     }
 
     fun isWinCondition(board: List<List<StoneType>>, stone: Stone): Boolean {
