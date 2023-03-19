@@ -17,8 +17,8 @@ enum class Row(private val y: Int) {
     FOURTEEN(13),
     FIFTEEN(14);
 
-    fun up(): Row? = values().find { it.y == y + 1 }
-    fun down(): Row? = values().find { it.y == y - 1 }
+    fun up(): Row? = runCatching { values()[ordinal + 1] }.getOrNull()
+    fun down(): Row? = runCatching { values()[ordinal - 1] }.getOrNull()
 
     companion object {
         private const val ERROR_ROW_RANGE = "[ERROR] COLUMN의 범위는 1에서 15사이입니다."
