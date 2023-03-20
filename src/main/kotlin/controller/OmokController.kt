@@ -1,19 +1,46 @@
 package controller
 
 import model.domain.OmokGame
+import model.domain.state.BlackTurn
+import model.domain.state.State
+import model.domain.state.Turn
 import model.domain.tools.Board
 import view.BoardView
 import view.GuideView
 
 class OmokController(
-    private val boardView: BoardView,
     private val guideView: GuideView,
 ) {
 
+    private lateinit var state: State
     fun run() {
-        val omokGame = OmokGame(Board.create())
+        val board = Board.create()
+        startGame(board)
+        playOmokGame()
+        stopGame(board)
+    }
+
+    private fun startGame(board: Board) {
+        state = BlackTurn(board)
         guideView.printStart()
-        omokGame.gameStart(guideView::requestCoordination, boardView::printBoard)
-        omokGame.getWinner(boardView::printBoard, guideView::printWinner)
+        BoardView.printBoard(board)
+    }
+
+    private fun playOmokGame() {
+        val omokGame = OmokGame()
+        while (state is Turn) {
+            playOneTurn(omokGame)
+        }
+    }
+
+    private fun playOneTurn(omokGame: OmokGame) {
+        state = omokGame.playNextTurn(state, guideView::requestCoordination)
+        guideView.printStart()
+        BoardView.printBoard(state.board)
+    }
+
+    private fun stopGame(board: Board) {
+        guideView.printWinner(state.stone)
+        BoardView.printBoard(board)
     }
 }
