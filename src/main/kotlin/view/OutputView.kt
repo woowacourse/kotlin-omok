@@ -42,7 +42,8 @@ class OutputView {
 
     private fun setBoard(stones: Stones) {
         stones.values.forEach {
-            if (getStoneTypeEmoji(it.type) != null) board[(15 - it.position.y)][it.position.x - 1] = getStoneTypeEmoji(it.type)!!
+            if (getStoneTypeEmoji(it.type) != null)
+                board[(15 - it.position.y)][it.position.x - 1] = getStoneTypeEmoji(it.type)!!
         }
     }
 
