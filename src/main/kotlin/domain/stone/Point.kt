@@ -9,7 +9,7 @@ data class Point(val x: Int, val y: Int) {
     }
 
     companion object {
-        private val POINT_RANGE = (0..14)
+        private val POINT_RANGE = (1..15)
         private const val ERROR_RANGE = "[ERROR] X와 Y의 범위는 1이상 15이하입니다."
     }
 }
