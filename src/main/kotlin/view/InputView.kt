@@ -12,19 +12,12 @@ object InputView {
     private const val EMPTY_STRING = ""
     private const val LAST_STONE_POINT_MESSAGE = "(마지막 돌의 위치:%c%d)"
     private const val CONVERTING_BASE_NUMBER = 64
-    private const val Black = "흑"
-    private const val White = "백"
 
     private val pointRegex = """^[A-Z]((1)[0-5]|[1-9])""".toRegex()
 
     private fun Char.toCoordinate(): Int = this.code - CONVERTING_BASE_NUMBER
 
     private fun Int.toCoordinateString(): Char = (CONVERTING_BASE_NUMBER + this).toChar()
-
-    private fun Color?.toColorName(): String = when (this) {
-        null, Color.White -> Black
-        Color.Black -> White
-    }
 
     private fun Point?.toLatestPointString() = when (this) {
         null -> EMPTY_STRING
@@ -38,8 +31,8 @@ object InputView {
         return null
     }
 
-    fun requestPoint(latestStone: Stone?): Point {
-        println(TURN_MESSAGE.format(latestStone?.color.toColorName(), latestStone?.point.toLatestPointString()))
+    fun requestPoint(latestStone: Stone?, currentColor: Color): Point {
+        println(TURN_MESSAGE.format(currentColor.toColorName(), latestStone?.point.toLatestPointString()))
 
         while (true) {
             print(REQUEST_POINT_MESSAGE)

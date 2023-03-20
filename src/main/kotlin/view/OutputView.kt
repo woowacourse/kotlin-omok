@@ -16,8 +16,8 @@ object OutputView {
         println(BoardMaker.make(currentBoard))
     }
 
-    fun printWinner(color: Color?) {
-        println(WINNER.format(color))
+    fun printWinner(color: Color) {
+        println(WINNER.format(color.toColorName()))
     }
 
     fun printExceptionMessage(throwable: Throwable) {

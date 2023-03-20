@@ -56,7 +56,7 @@ class PlayerTest {
         return this.placeStone(
             currentBoard = currentBoard,
             checkBoard = {},
-            decidePoint = { placingPoint }
+            decidePoint = { _, _ -> placingPoint }
         )
     }
 

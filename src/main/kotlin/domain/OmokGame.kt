@@ -33,7 +33,7 @@ class OmokGame(
 
     fun start(
         checkBoard: (currentBoard: Board) -> Unit,
-        decidePoint: (latestStone: Stone?) -> Point,
+        decidePoint: (latestStone: Stone?, currentColor: Color) -> Point,
     ): Color {
         while (state is OmokGameState.Running) {
             board = currentPlayer.placeStone(board, checkBoard, decidePoint)
