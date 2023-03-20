@@ -1,6 +1,5 @@
 package domain
 
-import domain.listener.OmokListener
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -16,7 +15,7 @@ class OmokGameTest {
             turn.add(white.removeFirst())
         }
 
-        val omokGame = OmokGame(omokGameListener = FakeOmokListener(turn))
+        val omokGame = OmokGame(omokGameListener = FakeListener(turn))
 
         // when
         val result = omokGame.runGame()
@@ -37,7 +36,7 @@ class OmokGameTest {
             turn.add(white.removeFirst())
         }
 
-        val omokGame = OmokGame(omokGameListener = FakeOmokListener(turn))
+        val omokGame = OmokGame(omokGameListener = FakeListener(turn))
 
         // when
         val result = omokGame.runGame()
@@ -46,23 +45,9 @@ class OmokGameTest {
         assertThat(result).isEqualTo(State.WHITE)
     }
 
-    private class FakeOmokListener(val turn: MutableList<Stone>) : OmokListener {
-        var index = 0
+    private class FakeListener(val turn: MutableList<Stone>) : FakeOmokListener() {
         override fun onStoneRequest(): Stone {
-            return turn[index++]
-        }
-
-        override fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {
-        }
-
-        override fun onMoveFail() {
-        }
-
-        override fun onForbidden() {
-        }
-
-        override fun onFinish(state: State): State {
-            return state
+            return turn.removeFirst()
         }
     }
 }
