@@ -7,10 +7,13 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
     var turn = initTurn
         private set
 
-    fun putStone(position: Position): Boolean {
+    fun putStone(position: Position, addStoneState: Boolean) {
+        if (addStoneState) board.addStone(turn, position)
+    }
+
+    private fun validateAddStone(position: Position): Boolean {
         if (!board.isEmpty(position)) return false
         if (turn == BLACK && isBlackForbidden(position)) return false
-        board.addStone(turn, position)
         return true
     }
 
@@ -50,7 +53,8 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
         while (true) {
             val position = transmitTurnState(board, turn)
             if (checkWinner(position)) break
-            val success = putStone(position)
+            val success = validateAddStone(position)
+            putStone(position, success)
             if (!success) transmitPutStoneState() else changeTurn()
         }
     }
