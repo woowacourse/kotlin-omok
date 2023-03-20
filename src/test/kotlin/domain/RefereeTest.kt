@@ -2,7 +2,11 @@ package domain
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import view.OutputView
+import java.util.stream.Stream
 
 class RefereeTest {
     @Test
@@ -83,90 +87,6 @@ class RefereeTest {
 
         // then
         assertThat(result).isFalse
-    }
-
-    @Test
-    fun `3*3 test1`() {
-        // given
-        val referee = Referee()
-        val myBoard = OmokBoard()
-
-        myBoard.move(Stone.create('C', 12), State.BLACK)
-        myBoard.move(Stone.create('D', 13), State.BLACK)
-        myBoard.move(Stone.create('D', 14), State.BLACK)
-        myBoard.move(Stone.create('E', 12), State.BLACK)
-
-        // when
-        val stone = Stone.create('D', 12)
-        val actual = referee.isMovable(myBoard, stone, OmokRuleAdapter())
-
-        OutputView().printOmokState(myBoard, State.BLACK, stone)
-
-        // then
-        assertThat(actual).isFalse
-    }
-
-    @Test
-    fun `3*3 test2`() {
-        // given
-        val referee = Referee()
-        val myBoard = OmokBoard()
-
-        myBoard.move(Stone.create('B', 6), State.BLACK)
-        myBoard.move(Stone.create('C', 5), State.BLACK)
-        myBoard.move(Stone.create('E', 5), State.BLACK)
-        myBoard.move(Stone.create('E', 6), State.BLACK)
-
-        // when
-        val stone = Stone.create('E', 3)
-        val actual = referee.isMovable(myBoard, stone, OmokRuleAdapter())
-
-        OutputView().printOmokState(myBoard, State.BLACK, stone)
-
-        // then
-        assertThat(actual).isFalse
-    }
-
-    @Test
-    fun `3*3 test3`() {
-        // given
-        val referee = Referee()
-        val myBoard = OmokBoard()
-
-        myBoard.move(Stone.create('K', 3), State.BLACK)
-        myBoard.move(Stone.create('K', 6), State.BLACK)
-        myBoard.move(Stone.create('N', 4), State.BLACK)
-        myBoard.move(Stone.create('M', 4), State.BLACK)
-
-        // when
-        val stone = Stone.create('K', 4)
-        val actual = referee.isMovable(myBoard, stone, OmokRuleAdapter())
-
-        OutputView().printOmokState(myBoard, State.BLACK, stone)
-
-        // then
-        assertThat(actual).isFalse
-    }
-
-    @Test
-    fun `3*3 test4`() {
-        // given
-        val referee = Referee()
-        val myBoard = OmokBoard()
-
-        myBoard.move(Stone.create('J', 9), State.BLACK)
-        myBoard.move(Stone.create('M', 10), State.BLACK)
-        myBoard.move(Stone.create('N', 9), State.BLACK)
-        myBoard.move(Stone.create('M', 12), State.BLACK)
-
-        // when
-        val stone = Stone.create('L', 11)
-        val actual = referee.isMovable(myBoard, stone, OmokRuleAdapter())
-
-        OutputView().printOmokState(myBoard, State.BLACK, stone)
-
-        // then
-        assertThat(actual).isFalse
     }
 
     @Test
@@ -281,5 +201,77 @@ class RefereeTest {
 
         // then
         assertThat(actual).isFalse
+    }
+
+    @ParameterizedTest
+    @MethodSource("giveThreeAndThree")
+    fun `3*3 묶음 테스트`(stones: MutableList<Stone>, stone: Stone, state: State, isWin: Boolean) {
+        // given
+        val referee = Referee()
+        val myBoard = OmokBoard()
+
+        stones.forEach {
+            myBoard.move(it, state)
+        }
+
+        // when
+        val actual = referee.isMovable(myBoard, stone, OmokRuleAdapter())
+
+        OutputView().printOmokState(myBoard, state, stone)
+
+        // then
+        assertThat(actual).isFalse
+    }
+
+    companion object {
+        @JvmStatic
+        fun giveThreeAndThree(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    mutableListOf(
+                        Stone.create('C', 12),
+                        Stone.create('D', 13),
+                        Stone.create('D', 14),
+                        Stone.create('E', 12),
+                    ),
+                    Stone.create('D', 12),
+                    State.BLACK,
+                    false
+                ),
+                Arguments.of(
+                    mutableListOf(
+                        Stone.create('B', 6),
+                        Stone.create('C', 5),
+                        Stone.create('E', 5),
+                        Stone.create('E', 6),
+                    ),
+                    Stone.create('E', 3),
+                    State.BLACK,
+                    false
+                ),
+                Arguments.of(
+                    mutableListOf(
+                        Stone.create('K', 3),
+                        Stone.create('K', 6),
+                        Stone.create('N', 4),
+                        Stone.create('M', 4),
+                    ),
+                    Stone.create('K', 4),
+                    State.BLACK,
+                    false
+                ),
+                Arguments.of(
+                    mutableListOf(
+                        Stone.create('J', 9),
+                        Stone.create('M', 10),
+                        Stone.create('N', 9),
+                        Stone.create('M', 12),
+                    ),
+                    Stone.create('L', 11),
+                    State.BLACK,
+                    false
+                ),
+            )
+        }
     }
 }
