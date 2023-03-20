@@ -1,11 +1,11 @@
 package domain
 
-open class Vector(open val x: Int, open val y: Int) {
-    open operator fun plus(other: Vector): Vector {
+data class Vector(val x: Int, val y: Int) {
+    operator fun plus(other: Vector): Vector {
         return Vector(x + other.x, y + other.y)
     }
 
-    open operator fun times(other: Int): Vector {
+    operator fun times(other: Int): Vector {
         return Vector(x * other, y * other)
     }
 
