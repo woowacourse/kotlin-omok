@@ -45,4 +45,13 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
 
     private fun isBlackForbidden(position: Position): Boolean =
         board.isForbiddenThree(position) or board.isForbiddenFour(position) or board.isExceedFive(position, turn)
+
+    fun progressTurn(transmitTurnState: (Board, CoordinateState) -> Position, transmitPutStoneState: () -> Unit) {
+        while (true) {
+            val position = transmitTurnState(board, turn)
+            if (checkWinner(position)) break
+            val success = putStone(position)
+            if (!success) transmitPutStoneState() else changeTurn()
+        }
+    }
 }
