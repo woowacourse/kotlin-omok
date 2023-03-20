@@ -9,39 +9,43 @@ import domain.stone.Point
 import domain.stone.Stone
 
 class OmokGame(
-    private val BlackStonePlayer: BlackStonePlayer = BlackStonePlayer(),
-    private val WhiteStonePlayer: WhiteStonePlayer = WhiteStonePlayer()
+    private val blackStonePlayer: BlackStonePlayer = BlackStonePlayer(),
+    private val whiteStonePlayer: WhiteStonePlayer = WhiteStonePlayer()
 ) {
 
-    private var turn: Color = Color.Black
-    private var omokGameState: OmokGameState = OmokGameState.Running
-    private var board: Board = Board()
+    private var state: OmokGameState = OmokGameState.Running
+    private var currentPlayer: Player = blackStonePlayer
+    private var board = Board()
 
-    private fun nextTurn(): Color {
-        return when (turn) {
-            Color.Black -> Color.White
-            Color.White -> Color.Black
+    private fun Player.toNextPlayer(): Player {
+        if (this == blackStonePlayer) {
+            return whiteStonePlayer
         }
+        return blackStonePlayer
     }
 
-    private fun decidePlayerToPlace(): Player {
-        return when (turn) {
-            Color.Black -> BlackStonePlayer
-            Color.White -> WhiteStonePlayer
+    private fun OmokGameState.getWinner(): Color {
+        if (this is OmokGameState.End) {
+            return winningColor
         }
+        throw IllegalStateException(GET_WINNING_COLOR_ERROR)
     }
 
     fun start(
         checkBoard: (currentBoard: Board) -> Unit,
         decidePoint: (latestStone: Stone?) -> Point,
-    ): OmokGameState {
-        while (omokGameState is OmokGameState.Running) {
-            board = decidePlayerToPlace().placeStone(board, checkBoard, decidePoint)
-            omokGameState = OmokGameState.valueOf(board, turn)
-            turn = nextTurn()
+    ): Color {
+        while (state is OmokGameState.Running) {
+            board = currentPlayer.placeStone(board, checkBoard, decidePoint)
+            state = OmokGameState.valueOf(board, currentPlayer.color)
+            currentPlayer = currentPlayer.toNextPlayer()
         }
         checkBoard(board)
 
-        return omokGameState
+        return state.getWinner()
+    }
+
+    companion object {
+        const val GET_WINNING_COLOR_ERROR = "[ERROR]: 승자를 확인할 수 없습니다."
     }
 }
