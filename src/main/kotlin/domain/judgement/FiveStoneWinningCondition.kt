@@ -22,7 +22,7 @@ class FiveStoneWinningCondition : WinningCondition {
 
         for (i in 0 until N) {
             for (j in 0 until N) {
-                if (placedStones.contains(Stone(Position(i, j), color)).not()) continue
+                if (placedStones.contains(Stone(Position(i + 1, j + 1), color)).not()) continue
 
                 for (k in 0 until 4) {
                     var cnt = 1
@@ -30,10 +30,7 @@ class FiveStoneWinningCondition : WinningCondition {
                     var ny = j + dy[k]
 
                     while (nx in 0 until N && ny in 0 until N && placedStones.contains(
-                            Stone(
-                                    Position(nx, ny),
-                                    color
-                                )
+                            Stone(Position(nx + 1, ny + 1), color)
                         )
                     ) {
                         cnt++

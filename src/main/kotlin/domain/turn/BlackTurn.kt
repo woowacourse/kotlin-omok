@@ -17,12 +17,8 @@ class BlackTurn(
 
     override fun nextBoard(newBoard: PlacedBoard, position: Position): Turn {
         return when {
-            forbiddenCondition.isForbidden(board.getBoards(), Stone(position, curColor)) ->
-                WhiteWin(newBoard)
-
-            winningCondition.isWin(board.getBoards(), Stone(position, curColor)) ->
-                BlackWin(newBoard)
-
+            forbiddenCondition.isForbidden(board.getBoards(), Stone(position, curColor)) -> WhiteWin(newBoard)
+            winningCondition.isWin(board.getBoards(), Stone(position, curColor)) -> BlackWin(newBoard)
             else -> WhiteTurn(newBoard, winningCondition, forbiddenCondition)
         }
     }

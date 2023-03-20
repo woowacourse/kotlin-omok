@@ -1,7 +1,7 @@
 package domain.stone
 
 data class Position(val column: Column, val row: Row) {
-    constructor(x: Int, y: Int) : this(Column.valueOf(x), Row.valueOf(y))
+    constructor(x: Int, y: Int) : this(Column.valueOf(x - 1), Row.valueOf(y - 1))
 
     fun getNorth(): Position? {
         return this.copy(row = row.up() ?: return null)
