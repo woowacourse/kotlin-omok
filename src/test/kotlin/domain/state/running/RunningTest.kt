@@ -18,7 +18,7 @@ class RunningTest {
         val stone: Stone = Stone(StonePosition.from(2, 1)!!, StoneType.BLACK)
 
         val running: Running = TestRunning(board)
-        assertThat(running.isValidPut(stone)).isFalse()
+        assertThat(running.isValidPut(stone.position)).isFalse
     }
 
     @Test
@@ -29,12 +29,12 @@ class RunningTest {
         val stone: Stone = Stone(StonePosition.from(3, 1)!!, StoneType.BLACK)
 
         val running: Running = TestRunning(board)
-        assertThat(running.isValidPut(stone)).isTrue()
+        assertThat(running.isValidPut(stone.position)).isTrue()
     }
 }
 
 class TestRunning(board: Board) : Running(board) {
-    override fun next(stone: Stone): State {
+    override fun next(stonePosition: StonePosition): State {
         TODO("Not yet implemented")
     }
 }

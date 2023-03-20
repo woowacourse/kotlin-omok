@@ -1,12 +1,9 @@
 package controller
 
-import domain.state.running.BlackTurn
-import domain.state.end.End
 import domain.state.State
-import domain.state.running.WhiteTurn
+import domain.state.end.End
+import domain.state.running.BlackTurn
 import domain.stone.Board
-import domain.stone.Stone
-import domain.stone.StoneType
 import view.InputView
 import view.OutputView
 
@@ -22,12 +19,7 @@ class OmokController(
         outputView.printOmokStart()
         while (state !is End) {
             outputView.printTurn(state, board.stones)
-
-            when (state) {
-                is BlackTurn -> state = state.next(Stone(inputView.inputStonePosition(), StoneType.BLACK))
-                is WhiteTurn -> state = state.next(Stone(inputView.inputStonePosition(), StoneType.WHITE))
-            }
-
+            state = state.next(inputView.inputStonePosition())
             outputView.printBoard(board.stones)
         }
 
