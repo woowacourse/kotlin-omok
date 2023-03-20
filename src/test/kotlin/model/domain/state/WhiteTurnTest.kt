@@ -12,7 +12,7 @@ class WhiteTurnTest {
     @Test
     fun `WhiteTurn 에서 BlackTurn 이 된다`() {
         // given
-        val board = Board.create()
+        val board = Board.from(15)
         val state: State = WhiteTurn(board)
         val location = Location(Coordination.from(1), Coordination.from(1))
 
@@ -26,7 +26,7 @@ class WhiteTurnTest {
     @Test
     fun `WhiteTurn 에서 오목이 발생하면 종료되고 바둑돌은 하얀색이다`() {
         // given
-        val board = Board.create()
+        val board = Board.from(15)
         val state: State = WhiteTurn(board)
 
         state.apply {
@@ -50,7 +50,7 @@ class WhiteTurnTest {
     @Test
     fun `WhiteTurn 은 금수 룰이 적용되지 않아 BlackTurn 을 반환한다`() {
         // given
-        val board = Board.create()
+        val board = Board.from(15)
         val state: State = WhiteTurn(board)
 
         state.apply {

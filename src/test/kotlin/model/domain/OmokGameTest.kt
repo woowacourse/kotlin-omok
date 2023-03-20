@@ -13,7 +13,7 @@ class OmokGameTest {
         // given
         val dots = mutableListOf(Dot(1, 1), Dot(1, 1))
         fun getTestDot(stone: Stone): Dot = dots.removeFirst()
-        val state = BlackTurn(Board.create())
+        val state = BlackTurn(Board.from(15))
         val omokGame = OmokGame()
 
         // when
@@ -28,7 +28,7 @@ class OmokGameTest {
 // given
         val dots = mutableListOf(Dot(1, 1), Dot(2, 2))
         fun getTestDot(stone: Stone): Dot = dots.removeFirst()
-        val state = BlackTurn(Board.create())
+        val state = BlackTurn(Board.from(15))
         val omokGame = OmokGame()
 
         // when

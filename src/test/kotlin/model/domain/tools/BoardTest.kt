@@ -7,7 +7,7 @@ class BoardTest {
     @Test
     fun `Board 의 Location 에 돌이 있으면 놓을 수 없다`() {
         // given
-        val board = Board.create()
+        val board = Board.from(15)
         val location = Location(Coordination.from(1), Coordination.from(1))
 
         // when
@@ -20,7 +20,7 @@ class BoardTest {
     @Test
     fun `Board 의 Location 에 돌이 없으면 놓을 수 있다`() {
         // given
-        val board = Board.create()
+        val board = Board.from(15)
         val location = Location(Coordination.from(1), Coordination.from(1))
 
         // when

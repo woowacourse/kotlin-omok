@@ -1,8 +1,8 @@
 package view
 
 object OmokBoardViewMaker {
+    const val BOARD_SIZE = 15
     private const val LEFT_INTERVAL = 4
-    private const val BOARD_SIZE = 15
     private const val WITHOUT_TOP_BOTTOM = BOARD_SIZE - 2
     private const val WITHOUT_TOP = BOARD_SIZE - 1
     private const val BEFORE_BOTTOM = 2

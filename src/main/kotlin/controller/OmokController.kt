@@ -14,7 +14,7 @@ class OmokController(
 
     private lateinit var state: State
     fun run() {
-        val board = Board.create()
+        val board = Board.from(BOARD_SIZE)
         startGame(board)
         playOmokGame()
         stopGame(board)
@@ -42,5 +42,9 @@ class OmokController(
     private fun stopGame(board: Board) {
         guideView.printWinner(state.stone)
         BoardView.printBoard(board)
+    }
+
+    companion object {
+        private const val BOARD_SIZE = 15
     }
 }
