@@ -1,6 +1,7 @@
 import domain.board.Board
 import domain.player.PlacingPoint
 import domain.stone.Color
+import domain.stone.Point
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -14,7 +15,7 @@ class PlacingPointTest {
             Stone(4, 14, Color.BLACK),
             Stone(5, 12, Color.BLACK),
         )
-        val actual = PlacingPoint.valueOf(Board(stones), createPoint(4, 12))
+        val actual = PlacingPoint.valueOf(Board(stones), Point(4, 12))
         val expected = PlacingPoint.FORBIDDEN
 
         assertThat(actual).isEqualTo(expected)
@@ -31,7 +32,7 @@ class PlacingPointTest {
             Stone(10, 9, Color.BLACK),
             Stone(11, 8, Color.BLACK),
         )
-        val actual = PlacingPoint.valueOf(Board(stones), createPoint(9, 8))
+        val actual = PlacingPoint.valueOf(Board(stones), Point(9, 8))
         val expected = PlacingPoint.FORBIDDEN
 
         assertThat(actual).isEqualTo(expected)
@@ -49,7 +50,7 @@ class PlacingPointTest {
             Stone(11, 8, Color.BLACK),
         )
 
-        val actual = PlacingPoint.valueOf(Board(stones), createPoint(2, 1))
+        val actual = PlacingPoint.valueOf(Board(stones), Point(2, 1))
         val expected = PlacingPoint.ALLOWED
 
         assertThat(actual).isEqualTo(expected)

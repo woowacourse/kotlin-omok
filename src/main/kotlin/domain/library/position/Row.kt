@@ -1,21 +1,21 @@
 package domain.library.position
 
 enum class Row(val y: Int) {
-    ONE(0),
-    TWO(1),
-    THREE(2),
-    FOUR(3),
-    FIVE(4),
-    SIX(5),
-    SEVEN(6),
-    EIGHT(7),
-    NINE(8),
-    TEN(9),
-    ELEVEN(10),
-    TWELVE(11),
-    THIRTEEN(12),
-    FOURTEEN(13),
-    FIFTEEN(14);
+    ONE(1),
+    TWO(2),
+    THREE(3),
+    FOUR(4),
+    FIVE(5),
+    SIX(6),
+    SEVEN(7),
+    EIGHT(8),
+    NINE(9),
+    TEN(10),
+    ELEVEN(11),
+    TWELVE(12),
+    THIRTEEN(13),
+    FOURTEEN(14),
+    FIFTEEN(15);
 
     fun up(): Row? = values().find { it.y == y + 1 }
     fun down(): Row? = values().find { it.y == y - 1 }

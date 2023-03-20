@@ -2,6 +2,7 @@ import domain.board.Board
 import domain.player.BlackStonePlayer
 import domain.player.Player
 import domain.stone.Color
+import domain.stone.Point
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -18,7 +19,7 @@ class BlackStonePlayerTest {
         )
         val actual = player.isPossibleToPlace(
             Board(stones),
-            createPoint(4, 12)
+            Point(4, 12)
         )
 
         Assertions.assertThat(actual).isFalse
@@ -38,7 +39,7 @@ class BlackStonePlayerTest {
         )
         val actual = player.isPossibleToPlace(
             Board(stones),
-            createPoint(9, 8)
+            Point(9, 8)
         )
 
         Assertions.assertThat(actual).isFalse
@@ -58,7 +59,7 @@ class BlackStonePlayerTest {
         )
         val actual = player.isPossibleToPlace(
             Board(stones),
-            createPoint(2, 1)
+            Point(2, 1)
         )
 
         Assertions.assertThat(actual).isTrue
