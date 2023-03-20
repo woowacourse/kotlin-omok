@@ -5,10 +5,10 @@ import omok.domain.OmokGame.Companion.BOARD_Y_SIZE
 import omok.domain.state.EmptyStoneState
 import omok.domain.state.StoneState
 
-class OmokBoard(private val value: Map<OmokPoint, StoneState>) {
-
-    val keys = value.keys
-    val values = value.values
+class OmokBoard(value: Map<OmokPoint, StoneState>) {
+    private val _value = value.toMutableMap()
+    val value: Map<OmokPoint, StoneState>
+        get() = _value.toMap()
 
     constructor (xSize: Int = BOARD_X_SIZE, ySize: Int = BOARD_Y_SIZE) : this(OmokPoint.all(xSize, ySize).associateWith { EmptyStoneState })
 
@@ -16,7 +16,7 @@ class OmokBoard(private val value: Map<OmokPoint, StoneState>) {
         val newValue = value.toMutableMap()
         newValue[point] = when (newValue[point]) {
             EmptyStoneState -> stoneState
-            else -> throw IllegalArgumentException(ERROR_ALREADY_PLACED.format(point.x.value, point.y.value))
+            else -> throw IllegalArgumentException(ERROR_ALREADY_PLACED.format(point.x.toChar(), point.y.value))
         }
         return OmokBoard(newValue)
     }

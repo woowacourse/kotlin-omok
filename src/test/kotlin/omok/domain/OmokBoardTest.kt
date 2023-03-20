@@ -12,7 +12,7 @@ class OmokBoardTest {
     @Test
     fun `각 좌표들에는 StoneState가 있다`() {
         val omokBoard = OmokBoard()
-        assertThat(omokBoard.values).allMatch { it is EmptyStoneState }
+        assertThat(omokBoard.value.values).allMatch { it is EmptyStoneState }
     }
 
     @Test
