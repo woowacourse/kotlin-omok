@@ -7,15 +7,15 @@ object ColorMapper : Mapper<Color, ColorDTO> {
 
     override fun Color.toDTO(): ColorDTO {
         return when (this) {
-            Color.BLACK -> ColorDTO.BLACK
-            Color.WHITE -> ColorDTO.WHITE
+            Color.Black -> ColorDTO.BLACK
+            Color.White -> ColorDTO.WHITE
         }
     }
 
     override fun ColorDTO.toDomain(): Color {
         return when (this) {
-            ColorDTO.BLACK -> Color.BLACK
-            ColorDTO.WHITE -> Color.WHITE
+            ColorDTO.BLACK -> Color.Black
+            ColorDTO.WHITE -> Color.White
         }
     }
 }

@@ -56,8 +56,8 @@ class RenjuRule(override val stones: Stones) : OmokRule {
 
     private fun isBlackStoneThere(start: Vector): Boolean {
         val stone = stones.value.find { it.coordinate.vector == start }
-        if (stone == null || stone.color == Color.WHITE) return false
-        else if (stone.color == Color.BLACK) return true
+        if (stone == null || stone.color is Color.White) return false
+        else if (stone.color is Color.Black) return true
         return false
     }
 

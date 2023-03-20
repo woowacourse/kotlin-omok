@@ -223,10 +223,10 @@ class RenjuRuleTest {
     }
 
     fun BlackStone(x: Int, y: Int): Stone {
-        return Stone(Color.BLACK, (Coordinate.from(x, y) as OmokResult.Success<Coordinate>).value)
+        return Stone(Color.Black, (Coordinate.from(x, y) as OmokResult.Success<Coordinate>).value)
     }
 
     fun WhiteStone(x: Int, y: Int): Stone {
-        return Stone(Color.WHITE, (Coordinate.from(x, y) as OmokResult.Success<Coordinate>).value)
+        return Stone(Color.White, (Coordinate.from(x, y) as OmokResult.Success<Coordinate>).value)
     }
 }

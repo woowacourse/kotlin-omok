@@ -30,7 +30,7 @@ class Stones(value: List<Stone> = listOf()) {
     }
 
     private fun validateOmokRule(playerColor: Color, stone: Stone, omokRule: OmokRule): PlaceStoneError {
-        if (playerColor == Color.WHITE)
+        if (playerColor is Color.White)
             return OmokResult.Success(stone)
         if (omokRule.isThreeToThree(stone))
             return PlaceStoneError.ThreeToThree

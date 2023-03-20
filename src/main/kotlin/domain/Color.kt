@@ -1,6 +1,6 @@
 package domain
 
-enum class Color {
-    BLACK,
-    WHITE
+sealed interface Color {
+    object Black : Color
+    object White : Color
 }
