@@ -19,12 +19,7 @@ class WhiteWin(
         check(board.size > 1) { ERROR_SIZE }
         check(board.blackSize >= board.whiteSize) { ERROR_WHITE_SIZE_MORE_OR_SAME }
         if (latestStone.color == Color.BLACK) {
-            check(
-                forbiddenCondition.isForbidden(
-                    previousBoard.getBoards(),
-                    latestStone
-                )
-            ) { ERROR_BLACK_IS_NOT_FORBIDDEN }
+            check(forbiddenCondition.isForbidden(previousBoard.getBoards(), latestStone)) { ERROR_BLACK_IS_NOT_FORBIDDEN }
         } else {
             check(winningCondition.isWin(previousBoard.getBoards(), latestStone)) { ERROR_IS_NOT_WIN }
         }
