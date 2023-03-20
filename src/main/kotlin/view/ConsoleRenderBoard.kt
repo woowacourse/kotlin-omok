@@ -41,17 +41,20 @@ class ConsoleRenderBoard : RenderBoard {
     }
 
     private fun renderColumnChar(size: VectorDTO) {
-        board.append("\n")
-        board.append("    ")
+        board.append(NEW_LINE)
+        board.append(COLUMN_PADDING)
+        board.append(COLUMN_PADDING)
         for (i in 0 until size.y) {
-            board.append("%c  ".format(('A'.code + i).toChar()))
+            val column = ('A'.code + i).toChar()
+            board.append(COLUMN_FORMAT.format(column, COLUMN_PADDING))
         }
-        board.append("\n")
+        board.append(NEW_LINE)
     }
 
     private fun renderRowNumber(index: Int, size: VectorDTO, y: Int) {
         if (index % (size.x) == LEFT_START_INDEX) {
-            board.append("%d\t".format(size.x - y))
+            val row = size.x - y
+            board.append(ROW_FORMAT.format(row))
         }
     }
 
@@ -114,5 +117,10 @@ class ConsoleRenderBoard : RenderBoard {
         private const val COORDINATE_FIXER = 1
         private const val LEFT_START_INDEX = 0
         private const val TOP_START_INDEX = 0
+
+        private const val NEW_LINE = "\n"
+        private const val COLUMN_PADDING = "  "
+        private const val COLUMN_FORMAT = "%c%s"
+        private const val ROW_FORMAT = "%d\t"
     }
 }
