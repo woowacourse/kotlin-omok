@@ -1,6 +1,8 @@
 package view
 
 import model.domain.tools.Board
+import model.domain.tools.Coordination
+import model.domain.tools.Location
 import model.domain.tools.Stone
 import model.domain.tools.Stone.BLACK
 import model.domain.tools.Stone.EMPTY
@@ -12,24 +14,23 @@ object BoardView {
     private const val WHITE_STONE = '◌'
     private const val LEFT_INTERVAL = 4
     private const val RIGHT_INTERVAL = 3
-    val board = OmokBoardViewMaker.board
+    private val board = OmokBoardViewMaker.board
 
     fun printBoard(omokBoard: Board) {
-        omokBoard.system.values.forEachIndexed { row, rowLine ->
-            println(printBoardLine(row, rowLine))
-        }
+        repeat(OmokBoardViewMaker.BOARD_SIZE) { row -> printBoardLine(row, omokBoard) }
+        board.forEach { row -> }
         println(board.last())
     }
 
-    private fun printBoardLine(row: Int, rowLine: MutableList<Stone>): String {
+    private fun printBoardLine(row: Int, omokBoard: Board) {
         val stringBuilder = StringBuilder(board[row])
-
-        rowLine.forEachIndexed { col, stone ->
-            getStoneState(stone)?.let { stoneState ->
+        repeat(OmokBoardViewMaker.BOARD_SIZE) { col ->
+            val stoneState = getStoneState(omokBoard.get(Location(Coordination.from(row), Coordination.from(col))))
+            if (stoneState != null) {
                 stringBuilder.setCharAt(LEFT_INTERVAL + col * RIGHT_INTERVAL, stoneState)
             }
         }
-        return stringBuilder.toString()
+        println(stringBuilder.toString())
     }
 
     private fun getStoneState(stone: Stone): Char? = when (stone) {
