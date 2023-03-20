@@ -8,7 +8,7 @@ class WhiteStonePlayer : Player() {
 
     override val color: Color = Color.White
 
-    override fun isPossibleToPlace(board: Board, point: Point): Boolean {
-        return !board.isPlaced(point)
+    override fun isPossibleToPlace(board: Board, placingPoint: Point): Boolean {
+        return !board.isPlaced(placingPoint)
     }
 }
