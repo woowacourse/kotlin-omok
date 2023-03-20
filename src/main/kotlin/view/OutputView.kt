@@ -82,7 +82,8 @@ class OutputView : OutputViewInterface {
         }
     }
 
-    override fun printWinner(state: State) {
+    override fun printWinner(state: State): State {
         println(MESSAGE_WINNER.format(state.toValue()))
+        return state
     }
 }

@@ -27,8 +27,9 @@ class Controller(
             outputView.printForbidden()
         }
 
-        override fun onFinish(state: State) {
+        override fun onFinish(state: State): State {
             outputView.printWinner(state)
+            return state
         }
     }
 

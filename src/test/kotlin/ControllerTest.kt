@@ -13,7 +13,7 @@ class ControllerTest {
         val output: MutableList<String> = mutableListOf()
 
         val controller = Controller(
-            inputView = fakeInputView(
+            inputView = FakeInputView(
                 mutableListOf(
                     Stone.create('A', 1),
                     Stone.create('B', 2),
@@ -26,7 +26,7 @@ class ControllerTest {
                     Stone.create('A', 5),
                 )
             ),
-            outputView = fakeOutputView { output.add(it) }
+            outputView = FakeOutputView { output.add(it) }
         )
 
         // when
@@ -42,7 +42,7 @@ class ControllerTest {
         val output: MutableList<String> = mutableListOf()
 
         val controller = Controller(
-            inputView = fakeInputView(
+            inputView = FakeInputView(
                 mutableListOf(
                     Stone.create('A', 1),
                     Stone.create('B', 1),
@@ -56,7 +56,7 @@ class ControllerTest {
                     Stone.create('B', 5),
                 )
             ),
-            outputView = fakeOutputView { output.add(it) }
+            outputView = FakeOutputView { output.add(it) }
         )
 
         // when
@@ -66,13 +66,13 @@ class ControllerTest {
         assertThat(output).contains("백돌 승")
     }
 
-    class fakeInputView(val stones: MutableList<Stone>) : InputViewInterface {
+    private class FakeInputView(val stones: MutableList<Stone>) : InputViewInterface {
         override fun readPosition(): Stone {
             return stones.removeFirst()
         }
     }
 
-    class fakeOutputView(val onPrintResult: (String) -> Unit) : OutputViewInterface {
+    private class FakeOutputView(val onPrintResult: (String) -> Unit) : OutputViewInterface {
         override fun printStart() {}
 
         override fun printDuplicate() {
@@ -85,9 +85,10 @@ class ControllerTest {
 
         override fun printOmokState(omokBoard: OmokBoard, nextState: State, stone: Stone) {}
 
-        override fun printWinner(state: State) {
+        override fun printWinner(state: State): State {
             if (state == State.BLACK) onPrintResult("흑돌 승")
             if (state == State.WHITE) onPrintResult("백돌 승")
+            return state
         }
     }
 }

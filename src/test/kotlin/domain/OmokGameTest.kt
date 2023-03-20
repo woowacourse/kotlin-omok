@@ -3,7 +3,6 @@ package domain
 import domain.listener.OmokListener
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import view.OutputView
 
 class OmokGameTest {
     @Test
@@ -17,14 +16,13 @@ class OmokGameTest {
             turn.add(white.removeFirst())
         }
 
-        val omokGame = OmokGame(omokGameListener = fakeOmokListener(turn))
-        omokGame.runGame()
+        val omokGame = OmokGame(omokGameListener = FakeOmokListener(turn))
 
         // when
-        val result = omokGame.omokBoard.isVictory(State.BLACK)
+        val result = omokGame.runGame()
 
         // then
-        assertThat(result).isTrue
+        assertThat(result).isEqualTo(State.BLACK)
     }
 
     @Test
@@ -39,36 +37,32 @@ class OmokGameTest {
             turn.add(white.removeFirst())
         }
 
-        val omokGame = OmokGame(omokGameListener = fakeOmokListener(turn))
-        omokGame.runGame()
+        val omokGame = OmokGame(omokGameListener = FakeOmokListener(turn))
 
         // when
-        val result = omokGame.omokBoard.isVictory(State.WHITE)
+        val result = omokGame.runGame()
 
         // then
-        assertThat(result).isTrue
+        assertThat(result).isEqualTo(State.WHITE)
     }
 
-    private class fakeOmokListener(val turn: MutableList<Stone>) : OmokListener {
+    private class FakeOmokListener(val turn: MutableList<Stone>) : OmokListener {
         var index = 0
         override fun onStoneRequest(): Stone {
             return turn[index++]
         }
 
         override fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {
-            OutputView().printOmokState(omokBoard, state, stone)
         }
 
         override fun onMoveFail() {
-            OutputView().printDuplicate()
         }
 
         override fun onForbidden() {
-            OutputView().printForbidden()
         }
 
-        override fun onFinish(state: State) {
-            OutputView().printWinner(state)
+        override fun onFinish(state: State): State {
+            return state
         }
     }
 }

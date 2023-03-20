@@ -3,10 +3,10 @@ package domain
 import domain.listener.OmokListener
 
 class OmokGame(
-    val omokBoard: OmokBoard = OmokBoard(),
+    private val omokBoard: OmokBoard = OmokBoard(),
     private val omokGameListener: OmokListener
 ) {
-    fun runGame() {
+    fun runGame(): State {
         while (true) {
             doTurn(State.BLACK)
             if (omokBoard.isVictory(State.BLACK)) return omokGameListener.onFinish(State.BLACK)

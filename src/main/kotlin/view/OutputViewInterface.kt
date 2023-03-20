@@ -9,5 +9,5 @@ interface OutputViewInterface {
     fun printDuplicate()
     fun printForbidden()
     fun printOmokState(omokBoard: OmokBoard, nextState: State, stone: Stone)
-    fun printWinner(state: State)
+    fun printWinner(state: State): State
 }
