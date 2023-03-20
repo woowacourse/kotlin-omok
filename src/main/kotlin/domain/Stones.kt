@@ -1,6 +1,7 @@
 package domain
 
-import error.PlaceStoneResult
+import error.OmokResult
+import error.PlaceStoneError
 
 class Stones(value: List<Stone> = listOf()) {
     private val _value: MutableList<Stone> = value.toMutableList()
@@ -15,29 +16,29 @@ class Stones(value: List<Stone> = listOf()) {
         player: Player,
         coordinateGenerator: CoordinateGenerator,
         omokRule: OmokRule
-    ): PlaceStoneResult {
+    ): PlaceStoneError {
         val coordinate = coordinateGenerator.read(player.color)
         val stone = Stone(player.color, coordinate)
         val validateOmokRuleResult = validateOmokRule(player.color, stone, omokRule)
-        if (validateOmokRuleResult !is PlaceStoneResult.Success) {
+        if (validateOmokRuleResult !is OmokResult.Success<*>) {
             return validateOmokRuleResult
         }
         if (!validateDuplicatedCoordinate(stone)) {
-            return PlaceStoneResult.DuplicatedCoordinate
+            return PlaceStoneError.DuplicatedCoordinate
         }
-        return PlaceStoneResult.Success(stone)
+        return OmokResult.Success(stone)
     }
 
-    private fun validateOmokRule(playerColor: Color, stone: Stone, omokRule: OmokRule): PlaceStoneResult {
+    private fun validateOmokRule(playerColor: Color, stone: Stone, omokRule: OmokRule): PlaceStoneError {
         if (playerColor == Color.WHITE)
-            return PlaceStoneResult.Success(stone)
+            return OmokResult.Success(stone)
         if (omokRule.isThreeToThree(stone))
-            return PlaceStoneResult.ThreeToThree
+            return PlaceStoneError.ThreeToThree
         if (omokRule.isFourToFour(stone))
-            return PlaceStoneResult.FourToFour
+            return PlaceStoneError.FourToFour
         if (omokRule.findScore(stone) >= LARGE_PLACE)
-            return PlaceStoneResult.LongPlaceStone
-        return PlaceStoneResult.Success(stone)
+            return PlaceStoneError.LongPlaceStone
+        return OmokResult.Success(stone)
     }
 
     fun validateDuplicatedCoordinate(stone: Stone): Boolean {

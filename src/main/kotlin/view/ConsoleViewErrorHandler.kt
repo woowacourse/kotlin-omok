@@ -1,35 +1,35 @@
 package view
 
-import error.CoordinateResult
+import error.CoordinateError
 import error.ErrorHandler
 import error.OmokError
-import error.PlaceStoneResult
-import error.StoneReadResult
+import error.PlaceStoneError
+import error.StoneReadError
 
 class ConsoleViewErrorHandler(private val gameView: GameView) : ErrorHandler {
     override fun log(exception: OmokError) {
         gameView.renderError(
             "[ERROR] : ${
             when (exception) {
-                is CoordinateResult.OutOfBoard ->
+                is CoordinateError.OutOfBoard ->
                     MESSAGE_OUT_OF_BOARD
 
-                is PlaceStoneResult.LongPlaceStone ->
+                is PlaceStoneError.LongPlaceStone ->
                     MESSAGE_LONG_STONE
 
-                is PlaceStoneResult.FourToFour ->
+                is PlaceStoneError.FourToFour ->
                     MESSAGE_FOUR_FOUR
 
-                is PlaceStoneResult.ThreeToThree ->
+                is PlaceStoneError.ThreeToThree ->
                     MESSAGE_THREE_THREE
 
-                is PlaceStoneResult.DuplicatedCoordinate ->
+                is PlaceStoneError.DuplicatedCoordinate ->
                     MESSAGE_CORRUPTED_COORDINATE
 
-                is StoneReadResult.ColumnNotAlpha ->
+                is StoneReadError.ColumnNotAlpha ->
                     MESSAGE_COLUMN_MUST_BE_ALPHA
 
-                is StoneReadResult.RowNotNumeric ->
+                is StoneReadError.RowNotNumeric ->
                     MESSAGE_ROW_MUST_BE_NUM
 
                 else ->

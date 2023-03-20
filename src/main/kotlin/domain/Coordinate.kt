@@ -1,6 +1,7 @@
 package domain
 
-import error.CoordinateResult
+import error.CoordinateError
+import error.OmokResult
 
 data class Coordinate private constructor(val vector: Vector) {
     val x: Int
@@ -10,16 +11,16 @@ data class Coordinate private constructor(val vector: Vector) {
 
     operator fun plus(other: Vector): Coordinate? {
         return when (val result = from(vector.x + other.x, vector.y + other.y)) {
-            is CoordinateResult.OutOfBoard -> null
-            is CoordinateResult.Success -> result.coordinate
+            is CoordinateError.OutOfBoard -> null
+            is OmokResult.Success<*> -> result.value as Coordinate
         }
     }
 
     companion object {
-        fun from(x: Int, y: Int): CoordinateResult {
+        fun from(x: Int, y: Int): CoordinateError {
             if (x >= Board.BOARD_SIZE.x || y >= Board.BOARD_SIZE.y || x < Board.BOARD_START_Vector.x || y < Board.BOARD_START_Vector.y)
-                return CoordinateResult.OutOfBoard
-            return CoordinateResult.Success(Coordinate(Vector(x, y)))
+                return CoordinateError.OutOfBoard
+            return OmokResult.Success(Coordinate(Vector(x, y)))
         }
     }
 }

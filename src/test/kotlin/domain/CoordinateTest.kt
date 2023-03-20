@@ -1,6 +1,6 @@
 package domain
 
-import error.CoordinateResult
+import error.OmokResult
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -13,7 +13,7 @@ class CoordinateTest {
         // when
 
         // then
-        assertThat(coordinate).isNotInstanceOf(CoordinateResult.Success::class.java)
+        assertThat(coordinate).isNotInstanceOf(OmokResult.Success::class.java)
     }
 
     @Test
@@ -24,6 +24,6 @@ class CoordinateTest {
         // when
 
         // then
-        assertThat(coordinate).isInstanceOf(CoordinateResult.Success::class.java)
+        assertThat(coordinate).isInstanceOf(OmokResult.Success::class.java)
     }
 }

@@ -3,7 +3,8 @@ package view
 import dto.ColorDTO
 import dto.StoneDTO
 import dto.VectorDTO
-import error.StoneReadResult
+import error.OmokResult
+import error.StoneReadError
 
 class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard()) : GameView {
     override fun startGame() {
@@ -14,7 +15,7 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
         println(renderBoard.render(stones, size))
     }
 
-    override fun readStone(color: ColorDTO, lastStone: VectorDTO?): StoneReadResult {
+    override fun readStone(color: ColorDTO, lastStone: VectorDTO?): StoneReadError {
         print(USER_TURN.format(colorToString(color)))
         println(
             lastStone?.let {
@@ -23,12 +24,12 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
         )
         val input = readln().trim()
         if (input[0] < 'A' || input[0] > 'Z') {
-            return StoneReadResult.ColumnNotAlpha
+            return StoneReadError.ColumnNotAlpha
         }
         if (input.substring(1).toIntOrNull() == null) {
-            return StoneReadResult.RowNotNumeric
+            return StoneReadError.RowNotNumeric
         }
-        return StoneReadResult.Success(VectorDTO(input[0] - 'A', input.substring(1).toInt() - 1))
+        return OmokResult.Success(VectorDTO(input[0] - 'A', input.substring(1).toInt() - 1))
     }
 
     override fun renderWinner(color: ColorDTO) {

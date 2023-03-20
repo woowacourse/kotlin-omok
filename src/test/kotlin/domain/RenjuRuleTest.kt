@@ -1,6 +1,6 @@
 package domain
 
-import error.CoordinateResult
+import error.OmokResult
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -223,10 +223,10 @@ class RenjuRuleTest {
     }
 
     fun BlackStone(x: Int, y: Int): Stone {
-        return Stone(Color.BLACK, (Coordinate.from(x, y) as CoordinateResult.Success).coordinate)
+        return Stone(Color.BLACK, (Coordinate.from(x, y) as OmokResult.Success<Coordinate>).value)
     }
 
     fun WhiteStone(x: Int, y: Int): Stone {
-        return Stone(Color.WHITE, (Coordinate.from(x, y) as CoordinateResult.Success).coordinate)
+        return Stone(Color.WHITE, (Coordinate.from(x, y) as OmokResult.Success<Coordinate>).value)
     }
 }

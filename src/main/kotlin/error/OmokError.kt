@@ -1,3 +1,3 @@
 package error
 
-interface OmokError
+sealed interface OmokError

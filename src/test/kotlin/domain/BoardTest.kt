@@ -1,7 +1,7 @@
 package domain
 
 import error.ConsoleErrorHandler
-import error.CoordinateResult
+import error.OmokResult
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
@@ -26,7 +26,7 @@ class BoardTest {
         val board = Board(players, stones)
         var coordinateIndex = 0
         board.repeatTurn({
-            (coordinates[coordinateIndex++] as CoordinateResult.Success).coordinate
+            (coordinates[coordinateIndex++] as OmokResult.Success<Coordinate>).value
         }, omokRule, ConsoleErrorHandler)
         assertAll({
             assertThat(stones.value.filterIndexed { index, _ -> index % 2 == 0 }.all { it.color == Color.BLACK }).isTrue

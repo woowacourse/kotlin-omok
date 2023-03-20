@@ -7,7 +7,7 @@ import controller.VectorMapper.toDomain
 import domain.Coordinate
 import domain.Stone
 import dto.StoneDTO
-import error.CoordinateResult
+import error.OmokResult
 
 object StoneMapper : Mapper<Stone, StoneDTO> {
     override fun Stone.toDTO(): StoneDTO {
@@ -19,7 +19,7 @@ object StoneMapper : Mapper<Stone, StoneDTO> {
     override fun StoneDTO.toDomain(): Stone {
         val point = coordinate.toDomain()
         return Stone(
-            color.toDomain(), (Coordinate.from(point.x, point.y) as CoordinateResult.Success).coordinate
+            color.toDomain(), (Coordinate.from(point.x, point.y) as OmokResult.Success<Coordinate>).value
         )
     }
 }

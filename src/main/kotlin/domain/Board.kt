@@ -1,15 +1,15 @@
 package domain
 
 import error.ErrorHandler
-import error.PlaceStoneResult
+import error.OmokResult
 
 class Board(private val players: Players, private val stones: Stones) {
     fun repeatTurn(coordinateGenerator: CoordinateGenerator, omokRule: OmokRule, errorHandler: ErrorHandler): Player {
         var currentTurnPlayer = players.nextPlayer
         while (true) {
             when (val result = stones.makeValidatedStone(currentTurnPlayer, coordinateGenerator, omokRule)) {
-                is PlaceStoneResult.Success -> {
-                    val stone = result.stone
+                is OmokResult.Success<*> -> {
+                    val stone = result.value as Stone
                     stones.place(stone)
                     if (isWinPlace(stone, omokRule)) return currentTurnPlayer
                     currentTurnPlayer = players.nextPlayer
