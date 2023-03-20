@@ -11,7 +11,7 @@ object OutputView {
     }
 
     fun printBoard(board: Board) {
-        board.board.forEachIndexed { y, colors ->
+        board.value.forEachIndexed { y, colors ->
             print("${Board.BOARD_SIZE - y} ".padStart(4, ' '))
             colors.forEachIndexed { x, color ->
                 if (color == CoordinateState.WHITE) print(BoardParts.WHITE_STONE.value)

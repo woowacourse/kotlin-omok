@@ -9,7 +9,7 @@ internal class BoardTest {
         val board = Board()
         board.addStone(CoordinateState.BLACK, Position(Coordinate(2), Coordinate(4)))
 
-        assertThat(board.board[2][4]).isEqualTo(CoordinateState.BLACK)
+        assertThat(board.value[2][4]).isEqualTo(CoordinateState.BLACK)
     }
 
     @Test
