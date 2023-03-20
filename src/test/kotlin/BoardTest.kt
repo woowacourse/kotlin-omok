@@ -1,5 +1,5 @@
 import domain.board.Board
-import domain.stone.Stone
+import domain.stone.Point
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -14,7 +14,7 @@ class BoardTest {
                 Stone(1, 4)
             )
         )
-        val actual = board.isPlaced(createPoint(1, 3))
+        val actual = board.isPlaced(Point(1, 3))
 
         assertThat(actual).isTrue
     }
@@ -28,7 +28,7 @@ class BoardTest {
                 Stone(1, 4)
             )
         )
-        val actual = board.isPlaced(createPoint(1, 5))
+        val actual = board.isPlaced(Point(1, 5))
 
         assertThat(actual).isFalse
     }

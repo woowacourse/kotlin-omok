@@ -18,7 +18,7 @@ class PlayerTest {
             )
         )
 
-        val actual = player.isPossibleToPlace(board, createPoint(1, 5))
+        val actual = player.isPossibleToPlace(board, Point(1, 5))
 
         assertThat(actual).isTrue
     }
@@ -34,7 +34,7 @@ class PlayerTest {
             )
         )
 
-        val actual = player.isPossibleToPlace(board, createPoint(1, 3))
+        val actual = player.isPossibleToPlace(board, Point(1, 3))
 
         assertThat(actual).isFalse
     }
@@ -44,7 +44,7 @@ class PlayerTest {
         val player = Player()
         val board = Board()
 
-        val actual = player.placeStone(board, createPoint(1, 3))
+        val actual = player.placeStone(board, Point(1, 3))
         val expected = Board(
             _placedStones = listOf(Stone(1, 3))
         )
