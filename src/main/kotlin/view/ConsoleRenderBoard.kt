@@ -6,7 +6,7 @@ import dto.VectorDTO
 
 class ConsoleRenderBoard : RenderBoard {
     private val board = StringBuilder()
-    override fun render(stones: List<StoneDTO>, size: VectorDTO): String {
+    override fun render(stones: Map<Int, StoneDTO>, size: VectorDTO): String {
         board.clear()
         for (index in 0 until (size.x * size.y)) {
             makeNewLine(index, size)
@@ -16,7 +16,7 @@ class ConsoleRenderBoard : RenderBoard {
 
             renderRowNumber(index, size, y)
 
-            val stone = findStone(stones, x, y, size)
+            val stone = stones[index]
             if (stone != null) {
                 renderStone(stone, size)
                 continue
@@ -26,18 +26,6 @@ class ConsoleRenderBoard : RenderBoard {
         }
         renderColumnChar(size)
         return board.toString()
-    }
-
-    private fun findStone(
-        stones: List<StoneDTO>,
-        x: Int,
-        y: Int,
-        size: VectorDTO
-    ): StoneDTO? {
-        val stone = stones.find {
-            it.coordinate.x == x && it.coordinate.y == size.y - y - 1
-        }
-        return stone
     }
 
     private fun renderColumnChar(size: VectorDTO) {

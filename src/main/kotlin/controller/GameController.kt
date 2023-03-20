@@ -9,6 +9,7 @@ import domain.Coordinate
 import domain.Players
 import domain.RenjuRule
 import domain.Stones
+import domain.Vector
 import dto.VectorDTO
 import error.ErrorHandler
 import error.OmokResult
@@ -35,6 +36,7 @@ class GameController(private val gameView: GameView, private val errorHandler: E
             is OmokResult.Success<*> -> {
                 pointResult.value as VectorDTO
             }
+
             else -> {
                 errorHandler.log(pointResult)
                 return readStone(color, stones)
@@ -45,6 +47,7 @@ class GameController(private val gameView: GameView, private val errorHandler: E
             is OmokResult.Success<*> -> {
                 coordinateResult.value as Coordinate
             }
+
             else -> {
                 errorHandler.log(coordinateResult)
                 return readStone(color, stones)
@@ -61,10 +64,15 @@ class GameController(private val gameView: GameView, private val errorHandler: E
 
     private fun renderBoard(stones: Stones) {
         gameView.renderBoard(
-            stones.value.map {
-                it.toDTO()
+            stones.value.associate {
+                vectorToScalar(it.coordinate.vector) to it.toDTO()
             },
             Board.BOARD_SIZE.toDTO()
         )
+    }
+
+    private fun vectorToScalar(vector: Vector): Int {
+        val stoneY = (Board.BOARD_SIZE.y - vector.y - 1) * Board.BOARD_SIZE.y
+        return (stoneY + vector.x)
     }
 }

@@ -11,7 +11,7 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
         println(GAME_START)
     }
 
-    override fun renderBoard(stones: List<StoneDTO>, size: VectorDTO) {
+    override fun renderBoard(stones: Map<Int, StoneDTO>, size: VectorDTO) {
         println(renderBoard.render(stones, size))
     }
 
