@@ -2,15 +2,15 @@ import domain.OmokBoard
 import domain.OmokGame
 import domain.State
 import domain.Stone
-import domain.listener.Listener
+import domain.listener.OmokListener
 import view.InputViewInterface
 import view.OutputViewInterface
 
 class Controller(
     val inputView: InputViewInterface,
-    val outputView: OutputViewInterface
+    val outputView: OutputViewInterface,
 ) {
-    private val omokGameListener = object : Listener {
+    private val omokGameListener = object : OmokListener {
         override fun onStoneRequest(): Stone {
             return inputView.readPosition()
         }
@@ -33,7 +33,7 @@ class Controller(
     }
 
     fun run() {
-        val omokGame = OmokGame(listener = omokGameListener)
+        val omokGame = OmokGame(omokGameListener = omokGameListener)
         outputView.printStart()
         omokGame.runGame()
     }

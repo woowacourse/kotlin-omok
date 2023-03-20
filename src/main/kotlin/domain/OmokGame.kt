@@ -1,34 +1,34 @@
 package domain
 
-import domain.listener.Listener
+import domain.listener.OmokListener
 
 class OmokGame(
     val omokBoard: OmokBoard = OmokBoard(),
-    private val listener: Listener
+    private val omokGameListener: OmokListener
 ) {
     fun runGame() {
         while (true) {
             doTurn(State.BLACK)
-            if (omokBoard.isVictory(State.BLACK)) return listener.onFinish(State.BLACK)
+            if (omokBoard.isVictory(State.BLACK)) return omokGameListener.onFinish(State.BLACK)
 
             doTurn(State.WHITE)
-            if (omokBoard.isVictory(State.WHITE)) return listener.onFinish(State.WHITE)
+            if (omokBoard.isVictory(State.WHITE)) return omokGameListener.onFinish(State.WHITE)
         }
     }
 
     private fun doTurn(state: State) {
-        val stone = listener.onStoneRequest()
+        val stone = omokGameListener.onStoneRequest()
         if (!omokBoard.isEmpty(stone)) {
-            listener.onMoveFail()
+            omokGameListener.onMoveFail()
             return doTurn(state)
         }
 
         if (state == State.BLACK && omokBoard.isForbidden(stone)) {
-            listener.onForbidden()
+            omokGameListener.onForbidden()
             return doTurn(state)
         }
 
         omokBoard.move(stone, state)
-        listener.onMove(omokBoard, state.nextState(), stone)
+        omokGameListener.onMove(omokBoard, state.nextState(), stone)
     }
 }

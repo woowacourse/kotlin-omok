@@ -1,6 +1,6 @@
 package domain
 
-import domain.listener.Listener
+import domain.listener.OmokListener
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import view.OutputView
@@ -17,7 +17,7 @@ class OmokGameTest {
             turn.add(white.removeFirst())
         }
 
-        val omokGame = OmokGame(listener = fakeListener(turn))
+        val omokGame = OmokGame(omokGameListener = fakeOmokListener(turn))
         omokGame.runGame()
 
         // when
@@ -39,7 +39,7 @@ class OmokGameTest {
             turn.add(white.removeFirst())
         }
 
-        val omokGame = OmokGame(listener = fakeListener(turn))
+        val omokGame = OmokGame(omokGameListener = fakeOmokListener(turn))
         omokGame.runGame()
 
         // when
@@ -49,7 +49,7 @@ class OmokGameTest {
         assertThat(result).isTrue
     }
 
-    private class fakeListener(val turn: MutableList<Stone>) : Listener {
+    private class fakeOmokListener(val turn: MutableList<Stone>) : OmokListener {
         var index = 0
         override fun onStoneRequest(): Stone {
             return turn[index++]
