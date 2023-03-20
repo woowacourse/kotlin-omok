@@ -1,7 +1,7 @@
 package view
 
-import domain.state.running.BlackTurn
 import domain.state.State
+import domain.state.running.BlackTurn
 import domain.state.running.WhiteTurn
 import domain.stone.Stone
 import domain.stone.StoneType
@@ -18,8 +18,8 @@ class OutputView {
     fun printBoard(stones: Stones) {
         setBoard(stones)
 
-        board.forEachIndexed { index, s ->
-            println(boardForm[index].format(*board[index].toTypedArray()))
+        board.indices.forEach {
+            println(boardForm[it].format(*board[it].toTypedArray()))
         }
         println(boardForm[boardForm.lastIndex])
         println()
@@ -46,6 +46,12 @@ class OutputView {
         }
     }
 
+    private fun positionToAlphaCoordinate(value: Stone): String {
+        val xCoordinate: String = ('A' + value.position.x - 1).toString()
+        val yCoordinate: String = value.position.y.toString()
+        return "$xCoordinate$yCoordinate"
+    }
+
     private fun getStoneTypeEmoji(stoneType: StoneType): Char? = when (stoneType) {
         StoneType.BLACK -> '●'
         StoneType.WHITE -> '○'
@@ -62,12 +68,6 @@ class OutputView {
         StoneType.BLACK -> "흑"
         StoneType.WHITE -> "백"
         else -> null
-    }
-
-    private fun positionToAlphaCoordinate(value: Stone): String {
-        val xCoordinate: String = ('A' + value.position.x - 1).toString()
-        val yCoordinate: String = value.position.y.toString()
-        return "$xCoordinate$yCoordinate"
     }
 
     companion object {

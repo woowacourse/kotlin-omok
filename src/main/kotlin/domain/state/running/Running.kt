@@ -17,6 +17,6 @@ abstract class Running(val board: Board) : State {
         TODO("Not yet implemented")
     }
 
-    fun isValidPut(stonePosition: StonePosition): Boolean =
+    protected fun isValidPut(stonePosition: StonePosition): Boolean =
         !board.stones.containsPosition(stonePosition)
 }

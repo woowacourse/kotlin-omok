@@ -8,8 +8,8 @@ import view.InputView
 import view.OutputView
 
 class OmokController(
-    val inputView: InputView = InputView(),
-    val outputView: OutputView = OutputView(),
+    private val inputView: InputView = InputView(),
+    private val outputView: OutputView = OutputView(),
 ) {
 
     fun run() {

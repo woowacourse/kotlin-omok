@@ -4,7 +4,7 @@ import domain.state.State
 import domain.stone.StonePosition
 import domain.stone.StoneType
 
-class End(val stoneType: StoneType) : State {
+class End(private val stoneType: StoneType) : State {
 
     override fun getWinner(): StoneType = stoneType
 
