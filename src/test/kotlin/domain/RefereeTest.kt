@@ -13,10 +13,14 @@ class RefereeTest {
     fun `가로로 연속 5개 놓여있으면 승리다`() {
         // given
         val referee = Referee()
-        val omokBoard = OmokBoard()
-        (1..5).forEach { column ->
-            omokBoard.move(Stone(1, column), State.BLACK)
-        }
+        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        board[1][1] = State.BLACK
+        board[1][2] = State.BLACK
+        board[1][3] = State.BLACK
+        board[1][4] = State.BLACK
+        board[1][5] = State.BLACK
+
+        val omokBoard = OmokBoard(board)
 
         // when
         val result = referee.isWin(omokBoard, State.BLACK)
@@ -29,10 +33,14 @@ class RefereeTest {
     fun `세로로 연속 5개 놓여있으면 승리다`() {
         // given
         val referee = Referee()
-        val omokBoard = OmokBoard()
-        (1..5).forEach { row ->
-            omokBoard.move(Stone(row, 1), State.BLACK)
-        }
+        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        board[1][1] = State.BLACK
+        board[2][1] = State.BLACK
+        board[3][1] = State.BLACK
+        board[4][1] = State.BLACK
+        board[5][1] = State.BLACK
+
+        val omokBoard = OmokBoard(board)
 
         // when
         val result = referee.isWin(omokBoard, State.BLACK)
@@ -45,10 +53,14 @@ class RefereeTest {
     fun `좌상단에서 우하단 대각선으로 5개 놓여있으면 승리다`() {
         // given
         val referee = Referee()
-        val omokBoard = OmokBoard()
-        (1..5).forEach { index ->
-            omokBoard.move(Stone(index, index), State.BLACK)
-        }
+        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        board[1][1] = State.BLACK
+        board[2][2] = State.BLACK
+        board[3][3] = State.BLACK
+        board[4][4] = State.BLACK
+        board[5][5] = State.BLACK
+
+        val omokBoard = OmokBoard(board)
 
         // when
         val result = referee.isWin(omokBoard, State.BLACK)
@@ -61,10 +73,14 @@ class RefereeTest {
     fun `우상단에서 좌하단 대각선으로 5개 놓여있으면 승리다`() {
         // given
         val referee = Referee()
-        val omokBoard = OmokBoard()
-        (1..5).forEach { index ->
-            omokBoard.move(Stone(index, 15 - index), State.BLACK)
-        }
+        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        board[1][10] = State.BLACK
+        board[2][9] = State.BLACK
+        board[3][8] = State.BLACK
+        board[4][7] = State.BLACK
+        board[5][6] = State.BLACK
+
+        val omokBoard = OmokBoard(board)
 
         // when
         val result = referee.isWin(omokBoard, State.BLACK)
@@ -77,11 +93,13 @@ class RefereeTest {
     fun `가로로 연속 4개 놓여있으면 승리가 아니다`() {
         // given
         val referee = Referee()
-        val omokBoard = OmokBoard()
-        (1..4).forEach { column ->
-            omokBoard.move(Stone(1, column), State.BLACK)
-        }
+        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        board[1][2] = State.BLACK
+        board[1][3] = State.BLACK
+        board[1][4] = State.BLACK
+        board[1][5] = State.BLACK
 
+        val omokBoard = OmokBoard(board)
         // when
         val result = referee.isWin(omokBoard, State.BLACK)
 
@@ -93,13 +111,14 @@ class RefereeTest {
     fun `4*4 test1`() {
         // given
         val referee = Referee()
-        val myBoard = OmokBoard()
+        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        board[3][2] = State.BLACK
+        board[3][3] = State.BLACK
+        board[3][6] = State.BLACK
+        board[3][8] = State.BLACK
+        board[3][9] = State.BLACK
 
-        myBoard.move(Stone.create('C', 12), State.BLACK)
-        myBoard.move(Stone.create('D', 12), State.BLACK)
-        myBoard.move(Stone.create('G', 12), State.BLACK)
-        myBoard.move(Stone.create('I', 12), State.BLACK)
-        myBoard.move(Stone.create('J', 12), State.BLACK)
+        val myBoard = OmokBoard(board)
 
         // when
         val stone = Stone.create('F', 12)
@@ -115,12 +134,13 @@ class RefereeTest {
     fun `4*4 test2`() {
         // given
         val referee = Referee()
-        val myBoard = OmokBoard()
+        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        board[3][9] = State.BLACK
+        board[6][9] = State.BLACK
+        board[7][9] = State.BLACK
+        board[9][9] = State.BLACK
 
-        myBoard.move(Stone.create('J', 12), State.BLACK)
-        myBoard.move(Stone.create('J', 9), State.BLACK)
-        myBoard.move(Stone.create('J', 8), State.BLACK)
-        myBoard.move(Stone.create('J', 6), State.BLACK)
+        val myBoard = OmokBoard(board)
 
         // when
         val stone = Stone.create('J', 10)
@@ -136,17 +156,16 @@ class RefereeTest {
     fun `4*4 test3`() {
         // given
         val referee = Referee()
-        val myBoard = OmokBoard()
-
-        myBoard.move(Stone.create('E', 5), State.BLACK)
-        myBoard.move(Stone.create('F', 5), State.BLACK)
-        myBoard.move(Stone.create('G', 5), State.BLACK)
-        myBoard.move(Stone.create('H', 6), State.BLACK)
-        myBoard.move(Stone.create('H', 7), State.BLACK)
-        myBoard.move(Stone.create('H', 8), State.BLACK)
-
-        myBoard.move(Stone.create('D', 5), State.WHITE)
-        myBoard.move(Stone.create('H', 9), State.WHITE)
+        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        board[10][4] = State.BLACK
+        board[10][5] = State.BLACK
+        board[10][6] = State.BLACK
+        board[9][7] = State.BLACK
+        board[8][7] = State.BLACK
+        board[7][7] = State.BLACK
+        board[10][3] = State.WHITE
+        board[6][7] = State.WHITE
+        val myBoard = OmokBoard(board)
 
         // when
         val stone = Stone.create('H', 5)
@@ -162,14 +181,14 @@ class RefereeTest {
     fun `4*4 test4`() {
         // given
         val referee = Referee()
-        val myBoard = OmokBoard()
-
-        myBoard.move(Stone.create('H', 8), State.BLACK)
-        myBoard.move(Stone.create('J', 8), State.BLACK)
-        myBoard.move(Stone.create('K', 8), State.BLACK)
-        myBoard.move(Stone.create('J', 9), State.BLACK)
-        myBoard.move(Stone.create('H', 7), State.BLACK)
-        myBoard.move(Stone.create('F', 5), State.BLACK)
+        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        board[7][7] = State.BLACK
+        board[7][9] = State.BLACK
+        board[7][10] = State.BLACK
+        board[6][9] = State.BLACK
+        board[8][7] = State.BLACK
+        board[10][5] = State.BLACK
+        val myBoard = OmokBoard(board)
 
         // when
         val stone = Stone.create('I', 8)
@@ -185,13 +204,13 @@ class RefereeTest {
     fun `jangmok test`() {
         // given
         val referee = Referee()
-        val myBoard = OmokBoard()
-
-        myBoard.move(Stone.create('C', 15), State.BLACK)
-        myBoard.move(Stone.create('C', 14), State.BLACK)
-        myBoard.move(Stone.create('C', 12), State.BLACK)
-        myBoard.move(Stone.create('C', 11), State.BLACK)
-        myBoard.move(Stone.create('C', 10), State.BLACK)
+        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        board[0][2] = State.BLACK
+        board[1][2] = State.BLACK
+        board[3][2] = State.BLACK
+        board[4][2] = State.BLACK
+        board[5][2] = State.BLACK
+        val myBoard = OmokBoard(board)
 
         // when
         val stone = Stone.create('C', 13)
@@ -205,19 +224,20 @@ class RefereeTest {
 
     @ParameterizedTest
     @MethodSource("giveThreeAndThree")
-    fun `3*3 묶음 테스트`(stones: MutableList<Stone>, stone: Stone, state: State, isWin: Boolean) {
+    fun `3*3 묶음 테스트`(stones: MutableList<Pair<Int, Int>>, stone: Stone) {
         // given
         val referee = Referee()
-        val myBoard = OmokBoard()
+        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
 
         stones.forEach {
-            myBoard.move(it, state)
+            board[it.first][it.second] = State.BLACK
         }
+        val myBoard = OmokBoard(board)
 
         // when
         val actual = referee.isMovable(myBoard, stone, OmokRuleAdapter())
 
-        OutputView().printOmokState(myBoard, state, stone)
+        OutputView().printOmokState(myBoard, State.BLACK, stone)
 
         // then
         assertThat(actual).isFalse
@@ -229,47 +249,39 @@ class RefereeTest {
             return Stream.of(
                 Arguments.of(
                     mutableListOf(
-                        Stone.create('C', 12),
-                        Stone.create('D', 13),
-                        Stone.create('D', 14),
-                        Stone.create('E', 12),
+                        2 to 3,
+                        3 to 2,
+                        3 to 1,
+                        4 to 3
                     ),
                     Stone.create('D', 12),
-                    State.BLACK,
-                    false
                 ),
                 Arguments.of(
                     mutableListOf(
-                        Stone.create('B', 6),
-                        Stone.create('C', 5),
-                        Stone.create('E', 5),
-                        Stone.create('E', 6),
+                        9 to 1,
+                        10 to 2,
+                        10 to 4,
+                        9 to 4
                     ),
                     Stone.create('E', 3),
-                    State.BLACK,
-                    false
                 ),
                 Arguments.of(
                     mutableListOf(
-                        Stone.create('K', 3),
-                        Stone.create('K', 6),
-                        Stone.create('N', 4),
-                        Stone.create('M', 4),
+                        12 to 10,
+                        9 to 10,
+                        11 to 13,
+                        11 to 12
                     ),
                     Stone.create('K', 4),
-                    State.BLACK,
-                    false
                 ),
                 Arguments.of(
                     mutableListOf(
-                        Stone.create('J', 9),
-                        Stone.create('M', 10),
-                        Stone.create('N', 9),
-                        Stone.create('M', 12),
+                        6 to 9,
+                        5 to 12,
+                        6 to 13,
+                        3 to 12
                     ),
                     Stone.create('L', 11),
-                    State.BLACK,
-                    false
                 ),
             )
         }
