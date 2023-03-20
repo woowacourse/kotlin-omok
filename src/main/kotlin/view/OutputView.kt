@@ -30,7 +30,7 @@ class OutputView {
 
         text.append(MESSAGE_FORMAT_TURN.format(getTurnText(state)))
         if (stones.values.isNotEmpty()) {
-            text.append(MESSAGE_FORMAT_LAST_STONE_POSITION.format(positionToText(stones.values[stones.values.lastIndex])))
+            text.append(MESSAGE_FORMAT_LAST_STONE_POSITION.format(positionToAlphaCoordinate(stones.values[stones.values.lastIndex])))
         }
 
         println(text)
@@ -42,11 +42,11 @@ class OutputView {
 
     private fun setBoard(stones: Stones) {
         stones.values.forEach {
-            if (getTypeEmoji(it.type) != null) board[(15 - it.position.y)][it.position.x - 1] = getTypeEmoji(it.type)!!
+            if (getStoneTypeEmoji(it.type) != null) board[(15 - it.position.y)][it.position.x - 1] = getStoneTypeEmoji(it.type)!!
         }
     }
 
-    private fun getTypeEmoji(stoneType: StoneType): Char? = when (stoneType) {
+    private fun getStoneTypeEmoji(stoneType: StoneType): Char? = when (stoneType) {
         StoneType.BLACK -> '●'
         StoneType.WHITE -> '○'
         else -> null
@@ -64,9 +64,10 @@ class OutputView {
         else -> null
     }
 
-    private fun positionToText(value: Stone): String {
-        val xToString: String = (value.position.x.toChar() + 'A'.toInt() - 1).toString()
-        return "$xToString${value.position.y}"
+    private fun positionToAlphaCoordinate(value: Stone): String {
+        val xCoordinate: String = ('A' + value.position.x - 1).toString()
+        val yCoordinate: String = value.position.y.toString()
+        return "$xCoordinate$yCoordinate"
     }
 
     companion object {
