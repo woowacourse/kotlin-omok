@@ -18,8 +18,8 @@ class OmokGame(
         winningCondition: WinningCondition = FiveStoneWinningCondition(),
         forbiddenCondition: ForbiddenCondition = RenjuRuleForbiddenCondition()
     ): Color {
-        var turn: Turn = BlackTurn(PlacedBoard(), winningCondition, forbiddenCondition)
         var latestPosition: Position? = null
+        var turn: Turn = BlackTurn(PlacedBoard(), winningCondition, forbiddenCondition)
         while (turn.isFinished.not()) {
             checkBoardState(turn.getBoard())
             var (nextTurn, newPosition) = turnGame(turn, latestPosition)
