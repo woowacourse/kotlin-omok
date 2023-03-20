@@ -13,7 +13,7 @@ object BoardMaker {
     private const val END = 15
     private const val NUMBER_OF_HORIZONTAL_LINE = 2
     private const val START = 1
-    private const val END_STANDARD_OF_VIEW = 15
+    private const val END_STANDARD_OF_VIEW = 16
     private const val PADDING_LENGTH = 4
 
     private fun Color.printStone(): String {
@@ -56,7 +56,7 @@ object BoardMaker {
         for (y in START..END) {
             stringBuilder.append("${END_STANDARD_OF_VIEW - y} ".padStart(PADDING_LENGTH, ' '))
             for (x in START..END) {
-                stringBuilder.append(makeBoardHorizontalLine(board, x, END - y))
+                stringBuilder.append(makeBoardHorizontalLine(board, x, END_STANDARD_OF_VIEW - y))
             }
             stringBuilder.append("\n")
         }

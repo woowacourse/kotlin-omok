@@ -14,17 +14,19 @@ enum class BoardComposition(val value: String) {
     CONNECTING_HORIZONTAL("─");
 
     companion object {
+
+        private val END = 15
+
         fun valueOf(x: Int, y: Int): BoardComposition {
-            val END = 14
             return when {
-                x == 0 && y == END -> LEFT_TOP
+                x == 1 && y == END -> LEFT_TOP
                 x == END && y == END -> RIGHT_TOP
-                x == 0 && y == 0 -> LEFT_BOTTOM
-                x == END && y == 0 -> RIGHT_BOTTOM
-                x == 0 -> LEFT_CONNECTION_HORIZONTAL
+                x == 1 && y == 1 -> LEFT_BOTTOM
+                x == END && y == 1 -> RIGHT_BOTTOM
+                x == 1 -> LEFT_CONNECTION_HORIZONTAL
                 x == END -> RIGHT_CONNECTION_HORIZONTAL
                 y == END -> CONNECTION_HORIZONTAL_DOWN
-                y == 0 -> CONNECTION_HORIZONTAL_UP
+                y == 1 -> CONNECTION_HORIZONTAL_UP
                 else -> CONNECTION_HORIZONTAL_VERTICAL
             }
         }

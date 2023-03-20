@@ -6,7 +6,6 @@ import domain.stone.Stone
 
 object InputView {
 
-    private const val MATCHING_UNIT = 1
     private const val ERROR_INPUT_FORM = "[ERROR] 입력 형태가 올바르지 않습니다."
     private const val TURN_MESSAGE = "%s의 차례입니다. %s"
     private const val REQUEST_POINT_MESSAGE = "위치를 입력하세요: "
@@ -18,7 +17,7 @@ object InputView {
 
     private val pointRegex = """^[A-Z]((1)[0-5]|[1-9])""".toRegex()
 
-    private fun Char.toCoordinate(): Int = this.code - CONVERTING_BASE_NUMBER - MATCHING_UNIT
+    private fun Char.toCoordinate(): Int = this.code - CONVERTING_BASE_NUMBER
 
     private fun Int.toCoordinateString(): Char = (CONVERTING_BASE_NUMBER + this).toChar()
 
@@ -29,7 +28,7 @@ object InputView {
 
     private fun Point?.toLatestPointString() = when (this) {
         null -> EMPTY_STRING
-        else -> LAST_STONE_POINT_MESSAGE.format((this.x + MATCHING_UNIT).toCoordinateString(), this.y + MATCHING_UNIT)
+        else -> LAST_STONE_POINT_MESSAGE.format((this.x).toCoordinateString(), this.y)
     }
 
     private fun String.matchesOrNull(regex: Regex): String? {
@@ -47,7 +46,7 @@ object InputView {
             readln().matchesOrNull(pointRegex)?.let { input ->
                 return Point(
                     x = input[0].toCoordinate(),
-                    y = input.substring(1).toInt() - MATCHING_UNIT
+                    y = input.substring(1).toInt()
                 )
             }
             println(ERROR_INPUT_FORM)
