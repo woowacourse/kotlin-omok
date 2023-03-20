@@ -65,6 +65,10 @@ class PlayerTest {
         return object : Player() {
             override val color: Color
                 get() = Color.WHITE
+
+            override fun isPossibleToPlace(board: Board, point: Point): Boolean {
+                return !board.isPlaced(point)
+            }
         }
     }
 }

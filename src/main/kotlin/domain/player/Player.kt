@@ -24,8 +24,5 @@ abstract class Player {
         }
     }
 
-    open fun isPossibleToPlace(board: Board, point: Point): Boolean {
-
-        return !board.isPlaced(point)
-    }
+    abstract fun isPossibleToPlace(board: Board, point: Point): Boolean
 }

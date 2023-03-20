@@ -8,9 +8,9 @@ class BlackStonePlayer : Player() {
 
     override val color: Color = Color.BLACK
 
-    override fun isPossibleToPlace(board: Board, placingPosition: Point): Boolean {
-        if (super.isPossibleToPlace(board, placingPosition) &&
-            PlacingPoint.valueOf(board, placingPosition) == PlacingPoint.ALLOWED
+    override fun isPossibleToPlace(board: Board, placingPoint: Point): Boolean {
+        if (!board.isPlaced(placingPoint) &&
+            PlacingPoint.valueOf(board, placingPoint) == PlacingPoint.ALLOWED
         ) {
             return true
         }
