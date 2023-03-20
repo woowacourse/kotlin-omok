@@ -67,4 +67,26 @@ class BlackTurnTest {
         // then
         assertThat(actual is BlackTurn).isTrue
     }
+
+    @Test
+    fun `BlackTurn 은 장목 룰이 적용되어 BlackTurn 을 반환한다`() {
+        // given
+        val board = Board.from(15)
+        val state: State = BlackTurn(board)
+
+        state.apply {
+            place(Location(Coordination.from(0), Coordination.from(0)))
+            place(Location(Coordination.from(0), Coordination.from(1)))
+            place(Location(Coordination.from(0), Coordination.from(2)))
+            place(Location(Coordination.from(0), Coordination.from(4)))
+            place(Location(Coordination.from(0), Coordination.from(5)))
+        }
+
+        // when
+        val location = Location(Coordination.from(0), Coordination.from(3))
+        val actual = state.place(location)
+
+        // then
+        assertThat(actual is BlackTurn).isTrue
+    }
 }
