@@ -15,4 +15,14 @@ class Stones(values: List<Stone>) {
     fun isContainSamePositionStone(position: Position2): Boolean {
         return values.any { it.position == position }
     }
+
+    fun getBlackStonesCount(): Int {
+        if (values.isEmpty()) return 0
+        return values.count { it.isBlack() }
+    }
+
+    fun getWhiteStonesCount(): Int {
+        if (values.isEmpty()) return 0
+        return values.count { it.isWhite() }
+    }
 }

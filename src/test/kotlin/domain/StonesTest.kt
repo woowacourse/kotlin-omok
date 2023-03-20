@@ -1,9 +1,6 @@
 package domain
 
-import domain.domain.Color
-import domain.domain.Position2
-import domain.domain.Stone
-import domain.domain.Stones
+import domain.domain.* // ktlint-disable no-wildcard-imports
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -14,7 +11,8 @@ class StonesTest {
         val stones = makeStones()
         val newStone = Stone(Color.BLACK, Position2(5, 6))
         // when
-        val actual = stones.addStone(newStone).values
+        stones.addStone(newStone)
+        val actual = stones
         val expected = stones.values + newStone
         // then
         assertThat(actual).isEqualTo(expected)

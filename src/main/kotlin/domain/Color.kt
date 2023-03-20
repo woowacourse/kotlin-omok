@@ -1,6 +1,7 @@
 package domain.domain
 
-enum class Color {
-    BLACK,
-    WHITE,
+sealed class Color {
+    object BLACK : Color()
+
+    object WHITE : Color()
 }
