@@ -8,7 +8,7 @@ import domain.stone.Stone
 import domain.stone.StoneType
 
 class BlackTurn(board: Board) : Running(board) {
-    override fun put(stone: Stone): State {
+    override fun next(stone: Stone): State {
         if (!isValidPut(stone)) return BlackTurn(board)
         if (checkForbidden(board, stone)) return BlackTurn(board)
         board.putStone(stone)

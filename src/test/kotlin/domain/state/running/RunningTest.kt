@@ -34,7 +34,7 @@ class RunningTest {
 }
 
 class TestRunning(board: Board) : Running(board) {
-    override fun put(stone: Stone): State {
+    override fun next(stone: Stone): State {
         TODO("Not yet implemented")
     }
 }

@@ -8,7 +8,7 @@ import domain.stone.Stone
 import domain.stone.StoneType
 
 class WhiteTurn(board: Board) : Running(board) {
-    override fun put(stone: Stone): State {
+    override fun next(stone: Stone): State {
         if (!isValidPut(stone)) return WhiteTurn(board)
         board.putStone(stone)
         if (OmokRule.isWinCondition(board.board, stone)) return End(StoneType.WHITE)

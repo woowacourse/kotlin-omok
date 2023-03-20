@@ -24,8 +24,8 @@ class OmokController(
             outputView.printTurn(state, board.stones)
 
             when (state) {
-                is BlackTurn -> state = state.put(Stone(inputView.inputStonePosition(), StoneType.BLACK))
-                is WhiteTurn -> state = state.put(Stone(inputView.inputStonePosition(), StoneType.WHITE))
+                is BlackTurn -> state = state.next(Stone(inputView.inputStonePosition(), StoneType.BLACK))
+                is WhiteTurn -> state = state.next(Stone(inputView.inputStonePosition(), StoneType.WHITE))
             }
 
             outputView.printBoard(board.stones)

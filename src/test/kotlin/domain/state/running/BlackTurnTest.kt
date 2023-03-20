@@ -19,7 +19,7 @@ class BlackTurnTest {
         val blackTurn: BlackTurn = BlackTurn(board)
 
         assertThat(
-            blackTurn.put(stone) is BlackTurn,
+            blackTurn.next(stone) is BlackTurn,
         ).isEqualTo(true)
     }
 
@@ -31,7 +31,7 @@ class BlackTurnTest {
         val blackTurn: BlackTurn = BlackTurn(board)
 
         assertThat(
-            blackTurn.put(stone) is WhiteTurn,
+            blackTurn.next(stone) is WhiteTurn,
         ).isEqualTo(true)
     }
 
@@ -48,7 +48,7 @@ class BlackTurnTest {
         val blackTurn: BlackTurn = BlackTurn(board)
 
         assertThat(
-            blackTurn.put(stone) is End,
+            blackTurn.next(stone) is End,
         ).isEqualTo(true)
     }
 }

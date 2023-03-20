@@ -7,7 +7,7 @@ import domain.stone.StoneType
 
 abstract class Running(val board: Board) : State {
 
-    abstract override fun put(stone: Stone): State
+    abstract override fun next(stone: Stone): State
 
     override fun getWinner(): StoneType {
         TODO("Not yet implemented")
