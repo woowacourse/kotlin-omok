@@ -1,4 +1,4 @@
-package domain.rule
+package domain.library.cldhfleks2
 
 import domain.CoordinateState
 import domain.Position

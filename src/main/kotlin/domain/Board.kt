@@ -1,13 +1,11 @@
 package domain
 
 import domain.CoordinateState.EMPTY
-import domain.rule.ExactlyFive
-import domain.rule.ExceedFive
-import domain.rule.ForbiddenFour
-import domain.rule.ForbiddenThree
+import domain.domain.GameRule
 
 class Board(
     value: List<MutableList<CoordinateState>> = List(BOARD_SIZE) { MutableList(BOARD_SIZE) { EMPTY } },
+    private val gameRule: GameRule,
 ) {
 
     private val _value = value.map { it.toMutableList() }.toList()
@@ -24,13 +22,13 @@ class Board(
         return value[position.getY()][position.getX()] == EMPTY
     }
 
-    fun isForbiddenThree(position: Position): Boolean = ForbiddenThree.isForbiddenThree(value, position)
-    fun isForbiddenFour(position: Position): Boolean = ForbiddenFour.isForbiddenFour(value, position)
+    fun isForbiddenThree(position: Position): Boolean = gameRule.isForbiddenThree(position, value)
+    fun isForbiddenFour(position: Position): Boolean = gameRule.isForbiddenFour(position, value)
     fun isExceedFive(position: Position, coordinateState: CoordinateState): Boolean =
-        ExceedFive.isExceedFive(value, position, coordinateState)
+        gameRule.isExceedFive(position, coordinateState, value)
 
     fun isExactlyFive(position: Position, coordinateState: CoordinateState): Boolean =
-        ExactlyFive.isExactlyFive(value, position, coordinateState)
+        gameRule.isExactlyFive(position, coordinateState, value)
 
     companion object {
         const val BOARD_SIZE = 15

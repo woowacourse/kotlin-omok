@@ -1,6 +1,6 @@
 package library.forbiddenfour
 
-import domain.rule.ForbiddenFour
+import domain.library.cldhfleks2.ForbiddenFour
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

@@ -1,23 +1,34 @@
-package domain.rule
+package domain.library.cldhfleks2
 
 import domain.CoordinateState
 import domain.Position
 
-object ForbiddenFour {
-    fun isForbiddenFour(board: List<List<CoordinateState>>, position: Position): Boolean {
+object ExceedFive {
+    fun isExceedFive(
+        board: List<List<CoordinateState>>,
+        position: Position,
+        coordinateState: CoordinateState,
+    ): Boolean {
         var fourStone = 0
-        fourStone += fourORjang1(board, position.getX(), position.getY())
-        fourStone += fourORjang2(board, position.getX(), position.getY())
-        fourStone += fourORjang3(board, position.getX(), position.getY())
-        fourStone += fourORjang4(board, position.getX(), position.getY())
-        return fourStone >= 2
+        fourStone += fourORjang1(board, position.getX(), position.getY(), coordinateState)
+        fourStone += fourORjang2(board, position.getX(), position.getY(), coordinateState)
+        fourStone += fourORjang3(board, position.getX(), position.getY(), coordinateState)
+        fourStone += fourORjang4(board, position.getX(), position.getY(), coordinateState)
+        return fourStone >= 1
     }
 
-    private fun fourORjang1(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
+    private fun fourORjang1(
+        board: List<List<CoordinateState>>,
+        x: Int,
+        y: Int,
+        targetCoordinateState: CoordinateState,
+    ): Int {
         var stone1 = 0
         var stone2 = 0
         var allStone = 0
         var blink1 = 1
+        val nonTargetCoordinateState =
+            if (targetCoordinateState == CoordinateState.BLACK) CoordinateState.WHITE else CoordinateState.BLACK
 
         // ←  탐색
         var yy = y
@@ -25,11 +36,11 @@ object ForbiddenFour {
         var check = false
         while (true) {
             if (xx == -1) break
-            if (board[yy][xx] == CoordinateState.BLACK) {
+            if (board[yy][xx] == targetCoordinateState) {
                 check = false
                 stone1++
             }
-            if (board[yy][xx] == CoordinateState.WHITE) break
+            if (board[yy][xx] == nonTargetCoordinateState) break
             if (board[yy][xx] == CoordinateState.EMPTY) {
                 check = if (check == false) {
                     true
@@ -53,11 +64,11 @@ object ForbiddenFour {
         check = false
         while (true) {
             if (xx == 15) break
-            if (board[yy][xx] == CoordinateState.BLACK) {
+            if (board[yy][xx] == targetCoordinateState) {
                 check = false
                 stone2++
             }
-            if (board[yy][xx] == CoordinateState.WHITE) break
+            if (board[yy][xx] == nonTargetCoordinateState) break
             if (board[yy][xx] == CoordinateState.EMPTY) {
                 check = if (check == false) {
                     true
@@ -77,19 +88,23 @@ object ForbiddenFour {
 
         // 사사찾는 트리거
 
-        return if (allStone != 3) {
-            0 // 놓은돌제외 3개아니면 4가아니니까.
-        } else {
-            1 // 놓은돌제외 3개면 4임. 닫히고 열린지는 상관없음.
-        }
+        // 현재놓은돌 +1 +5 => 6목이상은 장목. 여기서 놓은돌기준 두방향모두 돌이있어야 장목
+        return if (allStone >= 5 && stone1 != 0 && stone2 != 0) 1 else 0
     }
 
     // ↖ ↘ 탐색
-    private fun fourORjang2(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
+    private fun fourORjang2(
+        board: List<List<CoordinateState>>,
+        x: Int,
+        y: Int,
+        targetCoordinateState: CoordinateState,
+    ): Int {
         var stone1 = 0
         var stone2 = 0
         var allStone = 0
         var blink1 = 1
+        val nonTargetCoordinateState =
+            if (targetCoordinateState == CoordinateState.BLACK) CoordinateState.WHITE else CoordinateState.BLACK
 
         // ↖  탐색
         var yy = y - 1
@@ -97,11 +112,11 @@ object ForbiddenFour {
         var check = false
         while (true) {
             if (xx == -1 || yy == -1) break
-            if (board[yy][xx] == CoordinateState.BLACK) {
+            if (board[yy][xx] == targetCoordinateState) {
                 check = false
                 stone1++
             }
-            if (board[yy][xx] == CoordinateState.WHITE) break
+            if (board[yy][xx] == nonTargetCoordinateState) break
             if (board[yy][xx] == CoordinateState.EMPTY) {
                 check = if (check == false) {
                     true
@@ -126,11 +141,11 @@ object ForbiddenFour {
         var blink2 = blink1
         while (true) {
             if (xx == 15 || yy == 15) break
-            if (board[yy][xx] == CoordinateState.BLACK) {
+            if (board[yy][xx] == targetCoordinateState) {
                 check = false
                 stone2++
             }
-            if (board[yy][xx] == CoordinateState.WHITE) break
+            if (board[yy][xx] == nonTargetCoordinateState) break
             if (board[yy][xx] == CoordinateState.EMPTY) {
                 check = if (check == false) {
                     true
@@ -149,15 +164,22 @@ object ForbiddenFour {
         }
         allStone = stone1 + stone2
 
-        return if (allStone != 3) 0 else 1
+        return if (allStone >= 5 && stone1 != 0 && stone2 != 0) 1 else 0
     }
 
     // ↑ ↓ 탐색
-    private fun fourORjang3(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
+    private fun fourORjang3(
+        board: List<List<CoordinateState>>,
+        x: Int,
+        y: Int,
+        targetCoordinateState: CoordinateState,
+    ): Int {
         var stone1 = 0
         var stone2 = 0
         var allStone = 0
         var blink1 = 1
+        val nonTargetCoordinateState =
+            if (targetCoordinateState == CoordinateState.BLACK) CoordinateState.WHITE else CoordinateState.BLACK
 
         // ↑  탐색
         var yy = y - 1
@@ -165,11 +187,11 @@ object ForbiddenFour {
         var check = false
         while (true) {
             if (yy == -1) break
-            if (board[yy][xx] == CoordinateState.BLACK) {
+            if (board[yy][xx] == targetCoordinateState) {
                 check = false
                 stone1++
             }
-            if (board[yy][xx] == CoordinateState.WHITE) break
+            if (board[yy][xx] == nonTargetCoordinateState) break
             if (board[yy][xx] == CoordinateState.EMPTY) {
                 check = if (check == false) {
                     true
@@ -193,11 +215,11 @@ object ForbiddenFour {
         var blink2 = blink1
         while (true) {
             if (yy == 15) break
-            if (board[yy][xx] == CoordinateState.BLACK) {
+            if (board[yy][xx] == targetCoordinateState) {
                 check = false
                 stone2++
             }
-            if (board[yy][xx] == CoordinateState.WHITE) break
+            if (board[yy][xx] == nonTargetCoordinateState) break
             if (board[yy][xx] == CoordinateState.EMPTY) {
                 check = if (check == false) {
                     true
@@ -215,25 +237,32 @@ object ForbiddenFour {
         }
         allStone = stone1 + stone2
 
-        return if (allStone != 3) 0 else 1
+        return if (allStone >= 5 && stone1 != 0 && stone2 != 0) 1 else 0
     }
 
-    private fun fourORjang4(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
+    private fun fourORjang4(
+        board: List<List<CoordinateState>>,
+        x: Int,
+        y: Int,
+        targetCoordinateState: CoordinateState,
+    ): Int {
         var stone1 = 0
         var stone2 = 0
         var allStone = 0
         var blink1 = 1
+        val nonTargetCoordinateState =
+            if (targetCoordinateState == CoordinateState.BLACK) CoordinateState.WHITE else CoordinateState.BLACK
 
         var yy = y - 1
         var xx = x + 1
         var check = false
         while (true) {
             if (xx == 15 || yy == -1) break
-            if (board[yy][xx] == CoordinateState.BLACK) {
+            if (board[yy][xx] == targetCoordinateState) {
                 check = false
                 stone1++
             }
-            if (board[yy][xx] == CoordinateState.WHITE) break
+            if (board[yy][xx] == nonTargetCoordinateState) break
             if (board[yy][xx] == CoordinateState.EMPTY) {
                 check = if (check == false) {
                     true
@@ -258,11 +287,11 @@ object ForbiddenFour {
         var blink2 = blink1
         while (true) {
             if (xx == -1 || yy == 15) break
-            if (board[yy][xx] == CoordinateState.BLACK) {
+            if (board[yy][xx] == targetCoordinateState) {
                 check = false
                 stone2++
             }
-            if (board[yy][xx] == CoordinateState.WHITE) break
+            if (board[yy][xx] == nonTargetCoordinateState) break
             if (board[yy][xx] == CoordinateState.EMPTY) {
                 check = if (check == false) {
                     true
@@ -281,6 +310,6 @@ object ForbiddenFour {
         }
         allStone = stone1 + stone2
 
-        return if (allStone != 3) 0 else 1
+        return if (allStone >= 5 && stone1 != 0 && stone2 != 0) 1 else 0
     }
 }
