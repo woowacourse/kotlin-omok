@@ -13,9 +13,7 @@ abstract class Running(val board: Board) : State {
 
     abstract override fun next(stonePosition: StonePosition): State
 
-    override fun getWinner(): StoneType {
-        TODO("Not yet implemented")
-    }
+    override fun getWinner(): StoneType = StoneType.EMPTY
 
     protected fun isValidPut(stonePosition: StonePosition): Boolean =
         !board.stones.containsPosition(stonePosition)

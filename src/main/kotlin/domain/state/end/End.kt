@@ -8,7 +8,5 @@ class End(private val stoneType: StoneType) : State {
 
     override fun getWinner(): StoneType = stoneType
 
-    override fun next(stonePosition: StonePosition): State {
-        TODO("Not yet implemented")
-    }
+    override fun next(stonePosition: StonePosition): State = this
 }
