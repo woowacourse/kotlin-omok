@@ -39,15 +39,16 @@ End : State
 - [x] 우승자에 해당하는 StoneType을 가진다.
 - [x] 우승자의 StoneType을 반환한다.
 ---
-OmokRule(board: Board)
-- [X] 오목 조건을 충족하는지 확인한다.
+interface OmokRule
+- [x] 오목 조건을 충족하는지 확인한다.
+- [x] 오목 돌을 놓을 수 있는 위치인지 확인한다.
+RenjuOmokRule(board: Board): OmokRule
 ---
 Board
 - [x] 게임 턴의 상태를 가진다.
 ---
 InputView
 - [X] 위치를 입력받는다.
----
 OutputView
 - [X] 흑돌들과 백돌들을 받아서 바둑판 위에 출력한다.
 - [x] 누구 차례인지 출력한다.

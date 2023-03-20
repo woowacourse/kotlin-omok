@@ -38,7 +38,7 @@ class StonesTest {
 
         val stone = Stone(StonePosition.from(1, 1)!!, StoneType.BLACK)
 
-        assertThat(stones.containsPosition(stone)).isTrue
+        assertThat(stones.containsPosition(stone.position)).isTrue
     }
 
     @Test
