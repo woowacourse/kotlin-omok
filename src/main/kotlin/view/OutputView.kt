@@ -3,7 +3,6 @@ package view
 import domain.Board
 import domain.CoordinateState
 import domain.Position
-import domain.constant.Constant.BOARD_SIZE
 
 object OutputView {
 
@@ -13,12 +12,12 @@ object OutputView {
 
     fun printBoard(board: Board) {
         board.board.forEachIndexed { y, colors ->
-            print("${BOARD_SIZE - y} ".padStart(4, ' '))
+            print("${Board.BOARD_SIZE - y} ".padStart(4, ' '))
             colors.forEachIndexed { x, color ->
                 if (color == CoordinateState.WHITE) print(BoardParts.WHITE_STONE.value)
                 if (color == CoordinateState.BLACK) print(BoardParts.BLACK_STONE.value)
                 if (color == CoordinateState.EMPTY) print(BoardParts.getPart(color, x, y).value)
-                if (x != BOARD_SIZE - 1) {
+                if (x != Board.BOARD_SIZE - 1) {
                     repeat(2) {
                         print(BoardParts.GENERAL.value)
                     }
@@ -42,7 +41,7 @@ object OutputView {
             println()
             return
         }
-        println(" (마지막 돌의 위치: ${AlphabetCoordinate.convertAlphabet(position.getX())}${BOARD_SIZE - position.getY()})")
+        println(" (마지막 돌의 위치: ${AlphabetCoordinate.convertAlphabet(position.getX())}${Board.BOARD_SIZE - position.getY()})")
     }
 
     fun printRequestPosition() {

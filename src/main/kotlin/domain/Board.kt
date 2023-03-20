@@ -1,7 +1,6 @@
 package domain
 
 import domain.CoordinateState.EMPTY
-import domain.constant.Constant.BOARD_SIZE
 import domain.rule.ExactlyFive
 import domain.rule.ExceedFive
 import domain.rule.ForbiddenFour
@@ -28,6 +27,11 @@ class Board(
     fun isForbiddenFour(position: Position): Boolean = ForbiddenFour.isForbiddenFour(board, position)
     fun isExceedFive(position: Position, coordinateState: CoordinateState): Boolean =
         ExceedFive.isExceedFive(board, position, coordinateState)
+
     fun isExactlyFive(position: Position, coordinateState: CoordinateState): Boolean =
         ExactlyFive.isExactlyFive(board, position, coordinateState)
+
+    companion object {
+        const val BOARD_SIZE = 15
+    }
 }
