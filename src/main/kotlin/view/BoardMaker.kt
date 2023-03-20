@@ -8,8 +8,8 @@ import domain.stone.Stone
 object BoardMaker {
 
     private val ALPHABETS = List(15) { 'A' + it }
-    private const val BLACK_STONE = "●"
-    private const val WHITE_STONE = "◎"
+    private const val Black_STONE = "●"
+    private const val White_STONE = "◎"
     private const val END = 15
     private const val NUMBER_OF_HORIZONTAL_LINE = 2
     private const val START = 1
@@ -18,8 +18,8 @@ object BoardMaker {
 
     private fun Color.printStone(): String {
         return when (this) {
-            Color.BLACK -> BLACK_STONE
-            Color.WHITE -> WHITE_STONE
+            Color.Black -> Black_STONE
+            Color.White -> White_STONE
         }
     }
 

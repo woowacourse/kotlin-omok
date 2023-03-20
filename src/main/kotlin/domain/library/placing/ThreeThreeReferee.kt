@@ -26,7 +26,7 @@ class ThreeThreeReferee : PlacementReferee() {
     }
 
     private fun isVerticalOpenFour(board: MutableMap<Position, Color?>, position: Position): Boolean {
-        board[position] = Color.BLACK
+        board[position] = Color.Black
         if (countVerticalContinuity(board, position, 0) == 4) return isNorthOpen(board, position) && isSouthOpen(
             board,
             position
@@ -37,7 +37,7 @@ class ThreeThreeReferee : PlacementReferee() {
     private tailrec fun isNorthOpen(board: MutableMap<Position, Color?>, position: Position): Boolean {
         val northPosition = position.getNorth()
         val stone = board[northPosition]
-        if (northPosition == null || stone == Color.WHITE) return false
+        if (northPosition == null || stone == Color.White) return false
         if (stone == null) return true
         return isNorthOpen(board, northPosition)
     }
@@ -45,7 +45,7 @@ class ThreeThreeReferee : PlacementReferee() {
     private fun isSouthOpen(board: MutableMap<Position, Color?>, position: Position): Boolean {
         val southPosition = position.getSouth()
         val stone = board[southPosition]
-        if (southPosition == null || stone == Color.WHITE) return false
+        if (southPosition == null || stone == Color.White) return false
         if (stone == null) return true
         return isSouthOpen(board, southPosition)
     }
@@ -67,7 +67,7 @@ class ThreeThreeReferee : PlacementReferee() {
     }
 
     private fun isUpwardDiagonalOpenFour(board: MutableMap<Position, Color?>, position: Position): Boolean {
-        board[position] = Color.BLACK
+        board[position] = Color.Black
         if (countUpwardDiagonalContinuity(board, position, 0) == 4) return isNorthEastOpen(
             board,
             position
@@ -78,7 +78,7 @@ class ThreeThreeReferee : PlacementReferee() {
     private tailrec fun isNorthEastOpen(board: MutableMap<Position, Color?>, position: Position): Boolean {
         val northEastPosition = position.getNorthEast()
         val stone = board[northEastPosition]
-        if (northEastPosition == null || stone == Color.WHITE) return false
+        if (northEastPosition == null || stone == Color.White) return false
         if (stone == null) return true
         return isNorthEastOpen(board, northEastPosition)
     }
@@ -86,7 +86,7 @@ class ThreeThreeReferee : PlacementReferee() {
     private fun isSouthWestOpen(board: MutableMap<Position, Color?>, position: Position): Boolean {
         val southWestPosition = position.getSouthWest()
         val stone = board[southWestPosition]
-        if (southWestPosition == null || stone == Color.WHITE) return false
+        if (southWestPosition == null || stone == Color.White) return false
         if (stone == null) return true
         return isSouthWestOpen(board, southWestPosition)
     }
@@ -100,7 +100,7 @@ class ThreeThreeReferee : PlacementReferee() {
     }
 
     private fun isHorizontalOpenFour(board: MutableMap<Position, Color?>, position: Position): Boolean {
-        board[position] = Color.BLACK
+        board[position] = Color.Black
         if (countHorizontalContinuity(board, position, 0) == 4) return isEastOpen(board, position) && isWestOpen(
             board,
             position
@@ -111,7 +111,7 @@ class ThreeThreeReferee : PlacementReferee() {
     private tailrec fun isEastOpen(board: MutableMap<Position, Color?>, position: Position): Boolean {
         val eastPosition = position.getEast()
         val stone = board[eastPosition]
-        if (eastPosition == null || stone == Color.WHITE) return false
+        if (eastPosition == null || stone == Color.White) return false
         if (stone == null) return true
         return isEastOpen(board, eastPosition)
     }
@@ -119,7 +119,7 @@ class ThreeThreeReferee : PlacementReferee() {
     private fun isWestOpen(board: MutableMap<Position, Color?>, position: Position): Boolean {
         val westPosition = position.getWest()
         val stone = board[westPosition]
-        if (westPosition == null || stone == Color.WHITE) return false
+        if (westPosition == null || stone == Color.White) return false
         if (stone == null) return true
         return isWestOpen(board, westPosition)
     }
@@ -141,7 +141,7 @@ class ThreeThreeReferee : PlacementReferee() {
     }
 
     private fun isDownwardDiagonalOpenFour(board: MutableMap<Position, Color?>, position: Position): Boolean {
-        board[position] = Color.BLACK
+        board[position] = Color.Black
         if (countDownwardDiagonalContinuity(board, position, 0) == 4) return isSouthEastOpen(
             board,
             position
@@ -152,7 +152,7 @@ class ThreeThreeReferee : PlacementReferee() {
     private tailrec fun isSouthEastOpen(board: MutableMap<Position, Color?>, position: Position): Boolean {
         val southEastPosition = position.getSouthEast()
         val stone = board[southEastPosition]
-        if (southEastPosition == null || stone == Color.WHITE) return false
+        if (southEastPosition == null || stone == Color.White) return false
         if (stone == null) return true
         return isSouthEastOpen(board, southEastPosition)
     }
@@ -160,7 +160,7 @@ class ThreeThreeReferee : PlacementReferee() {
     private fun isNorthWestOpen(board: MutableMap<Position, Color?>, position: Position): Boolean {
         val northWestPosition = position.getNorthWest()
         val stone = board[northWestPosition]
-        if (northWestPosition == null || stone == Color.WHITE) return false
+        if (northWestPosition == null || stone == Color.White) return false
         if (stone == null) return true
         return isNorthWestOpen(board, northWestPosition)
     }

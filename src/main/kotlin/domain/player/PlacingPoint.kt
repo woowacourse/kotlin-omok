@@ -9,10 +9,10 @@ enum class PlacingPoint {
     ALLOWED;
 
     companion object {
-        private val blackRefreeAdapter: BlackRefreeAdapter = BlackRefreeAdapter()
+        private val BlackRefreeAdapter: BlackRefreeAdapter = BlackRefreeAdapter()
 
         fun valueOf(currentBoard: Board, placingPoint: Point): PlacingPoint {
-            if (blackRefreeAdapter.isForbiddenPlacement(currentBoard, placingPoint)) {
+            if (BlackRefreeAdapter.isForbiddenPlacement(currentBoard, placingPoint)) {
                 return FORBIDDEN
             }
             return ALLOWED

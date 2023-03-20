@@ -6,7 +6,7 @@ import domain.stone.Point
 
 class BlackStonePlayer : Player() {
 
-    override val color: Color = Color.BLACK
+    override val color: Color = Color.Black
 
     override fun isPossibleToPlace(board: Board, placingPoint: Point): Boolean {
         if (!board.isPlaced(placingPoint) &&

@@ -12,10 +12,10 @@ class BlackStonePlayerTest {
     fun `흑돌을 사용하는 플레이어가 33에 해당하는 위치에 돌을 놓을 수 있는지 확인한다면 false를 return한다`() {
         val player: Player = BlackStonePlayer()
         val stones = listOf(
-            Stone(3, 12, Color.BLACK),
-            Stone(4, 13, Color.BLACK),
-            Stone(4, 14, Color.BLACK),
-            Stone(5, 12, Color.BLACK),
+            Stone(3, 12, Color.Black),
+            Stone(4, 13, Color.Black),
+            Stone(4, 14, Color.Black),
+            Stone(5, 12, Color.Black),
         )
         val actual = player.isPossibleToPlace(
             Board(stones),
@@ -29,13 +29,13 @@ class BlackStonePlayerTest {
     fun `흑돌을 사용하는 플레이어가 44에 해당하는 위치에 돌을 놓을 수 있는지 확인한다면 false를 return한다`() {
         val player: Player = BlackStonePlayer()
         val stones = listOf(
-            Stone(6, 5, Color.BLACK),
-            Stone(8, 6, Color.BLACK),
-            Stone(8, 7, Color.BLACK),
-            Stone(8, 8, Color.BLACK),
-            Stone(10, 8, Color.BLACK),
-            Stone(10, 9, Color.BLACK),
-            Stone(11, 8, Color.BLACK),
+            Stone(6, 5, Color.Black),
+            Stone(8, 6, Color.Black),
+            Stone(8, 7, Color.Black),
+            Stone(8, 8, Color.Black),
+            Stone(10, 8, Color.Black),
+            Stone(10, 9, Color.Black),
+            Stone(11, 8, Color.Black),
         )
         val actual = player.isPossibleToPlace(
             Board(stones),
@@ -49,13 +49,13 @@ class BlackStonePlayerTest {
     fun `흑돌을 사용하는 플레이어가 규칙에 위반되지 않은 곳에 돌을 놓으려고 한다면 true를 반환한다`() {
         val player: Player = BlackStonePlayer()
         val stones = listOf(
-            Stone(6, 5, Color.BLACK),
-            Stone(8, 6, Color.BLACK),
-            Stone(8, 7, Color.BLACK),
-            Stone(8, 8, Color.BLACK),
-            Stone(10, 8, Color.BLACK),
-            Stone(10, 9, Color.BLACK),
-            Stone(11, 8, Color.BLACK),
+            Stone(6, 5, Color.Black),
+            Stone(8, 6, Color.Black),
+            Stone(8, 7, Color.Black),
+            Stone(8, 8, Color.Black),
+            Stone(10, 8, Color.Black),
+            Stone(10, 9, Color.Black),
+            Stone(11, 8, Color.Black),
         )
         val actual = player.isPossibleToPlace(
             Board(stones),

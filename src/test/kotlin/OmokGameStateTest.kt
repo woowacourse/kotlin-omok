@@ -11,16 +11,16 @@ class OmokGameStateTest {
 
         val board = Board(
             _placedStones = listOf(
-                Stone(1, 1, Color.BLACK),
-                Stone(1, 2, Color.BLACK),
-                Stone(1, 3, Color.BLACK),
-                Stone(1, 4, Color.BLACK),
-                Stone(1, 5, Color.BLACK)
+                Stone(1, 1, Color.Black),
+                Stone(1, 2, Color.Black),
+                Stone(1, 3, Color.Black),
+                Stone(1, 4, Color.Black),
+                Stone(1, 5, Color.Black)
             )
         )
 
-        val actual = OmokGameState.valueOf(board, Color.BLACK)
-        val expected = OmokGameState.End(Color.BLACK)
+        val actual = OmokGameState.valueOf(board, Color.Black)
+        val expected = OmokGameState.End(Color.Black)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -30,15 +30,15 @@ class OmokGameStateTest {
 
         val board = Board(
             _placedStones = listOf(
-                Stone(1, 1, Color.BLACK),
-                Stone(1, 2, Color.BLACK),
-                Stone(1, 3, Color.BLACK),
-                Stone(1, 4, Color.BLACK),
-                Stone(1, 5, Color.BLACK)
+                Stone(1, 1, Color.Black),
+                Stone(1, 2, Color.Black),
+                Stone(1, 3, Color.Black),
+                Stone(1, 4, Color.Black),
+                Stone(1, 5, Color.Black)
             )
         )
 
-        val actual = OmokGameState.valueOf(board, Color.BLACK)
+        val actual = OmokGameState.valueOf(board, Color.Black)
         val expected = OmokGameState.Running
 
         assertThat(actual).isEqualTo(expected)

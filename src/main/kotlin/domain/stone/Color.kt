@@ -1,7 +1,8 @@
 package domain.stone
 
-enum class Color {
+sealed class Color {
 
-    BLACK,
-    WHITE
+    object Black : Color()
+
+    object White : Color()
 }

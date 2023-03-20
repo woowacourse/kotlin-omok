@@ -33,7 +33,7 @@ class FourFourReferee : PlacementReferee() {
         fillPosition: Position?,
         position: Position
     ): Boolean {
-        if (fillPosition != null) board[fillPosition] = Color.BLACK
+        if (fillPosition != null) board[fillPosition] = Color.Black
         if (countVerticalContinuity(board, position, 0) >= 5) return true
         return false
     }
@@ -54,7 +54,7 @@ class FourFourReferee : PlacementReferee() {
         fillPosition: Position?,
         position: Position
     ): Boolean {
-        if (fillPosition != null) board[fillPosition] = Color.BLACK
+        if (fillPosition != null) board[fillPosition] = Color.Black
         if (countUpwardDiagonalContinuity(board, position, 0) >= 5) return true
         return false
     }
@@ -75,7 +75,7 @@ class FourFourReferee : PlacementReferee() {
         fillPosition: Position?,
         position: Position
     ): Boolean {
-        if (fillPosition != null) board[fillPosition] = Color.BLACK
+        if (fillPosition != null) board[fillPosition] = Color.Black
         if (countHorizontalContinuity(board, position, 0) >= 5) return true
         return false
     }
@@ -96,7 +96,7 @@ class FourFourReferee : PlacementReferee() {
         fillPosition: Position?,
         position: Position
     ): Boolean {
-        if (fillPosition != null) board[fillPosition] = Color.BLACK
+        if (fillPosition != null) board[fillPosition] = Color.Black
         if (countDownwardDiagonalContinuity(board, position, 0) >= 5) return true
         return false
     }

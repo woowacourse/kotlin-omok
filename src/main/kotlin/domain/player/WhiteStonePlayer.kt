@@ -6,7 +6,7 @@ import domain.stone.Point
 
 class WhiteStonePlayer : Player() {
 
-    override val color: Color = Color.WHITE
+    override val color: Color = Color.White
 
     override fun isPossibleToPlace(board: Board, point: Point): Boolean {
         return !board.isPlaced(point)

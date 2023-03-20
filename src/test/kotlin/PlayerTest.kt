@@ -12,9 +12,9 @@ class PlayerTest {
         val player = Player()
         val board = Board(
             _placedStones = listOf(
-                Stone(1, 3, Color.BLACK),
-                Stone(1, 2, Color.WHITE),
-                Stone(1, 4, Color.BLACK)
+                Stone(1, 3, Color.Black),
+                Stone(1, 2, Color.White),
+                Stone(1, 4, Color.Black)
             )
         )
 
@@ -64,7 +64,7 @@ class PlayerTest {
 
         return object : Player() {
             override val color: Color
-                get() = Color.WHITE
+                get() = Color.White
 
             override fun isPossibleToPlace(board: Board, point: Point): Boolean {
                 return !board.isPlaced(point)

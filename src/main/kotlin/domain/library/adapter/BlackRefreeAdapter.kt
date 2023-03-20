@@ -10,12 +10,12 @@ import domain.stone.Point
 import domain.stone.Stone
 
 class BlackRefreeAdapter(
-    private val blackReferee: BlackReferee = BlackReferee()
+    private val BlackReferee: BlackReferee = BlackReferee()
 ) {
 
     fun isForbiddenPlacement(currentBoard: Board, placingPoint: Point): Boolean {
 
-        return blackReferee.isForbiddenPlacement(
+        return BlackReferee.isForbiddenPlacement(
             board = convertStonesToPositionsMap(currentBoard.placedStones),
             position = placingPoint.toPosition()
         )
