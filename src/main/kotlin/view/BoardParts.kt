@@ -14,8 +14,8 @@ enum class BoardParts(val value: String) {
     CENTER_BOTTOM("┴"),
     RIGHT_BOTTOM("┘"),
     GENERAL("─"),
-    BLACK_STONE("◎"),
-    WHITE_STONE("●"), ;
+    BLACK_STONE("⚆"),
+    WHITE_STONE("⚈"), ;
 
     companion object {
         fun getPart(coordinateState: CoordinateState, x: Int, y: Int): BoardParts {
