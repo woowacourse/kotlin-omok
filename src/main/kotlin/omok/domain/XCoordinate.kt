@@ -19,6 +19,6 @@ data class XCoordinate(val value: Int) {
     companion object {
         private const val X_MIN_RANGE = 1
         private const val ERROR_X_COORDINATE_OUT_OF_RANGE = "X 좌표의 범위는 ${'A' + X_MIN_RANGE - 1}부터 ${'A' + BOARD_X_SIZE - 1}까지 입니다."
-        fun all(size: Int): List<XCoordinate> = (X_MIN_RANGE..size).map(::XCoordinate)
+        fun createXLine(size: Int): List<XCoordinate> = (X_MIN_RANGE..size).map(::XCoordinate)
     }
 }

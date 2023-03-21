@@ -15,6 +15,6 @@ data class YCoordinate(val value: Int) {
     companion object {
         private const val Y_MIN_RANGE = 1
         private const val ERROR_Y_COORDINATE_OUT_OF_RANGE = "Y 좌표의 범위는 ${Y_MIN_RANGE}부터 ${BOARD_Y_SIZE}까지 입니다."
-        fun all(size: Int): List<YCoordinate> = (Y_MIN_RANGE..size).map(::YCoordinate)
+        fun createYLine(size: Int): List<YCoordinate> = (Y_MIN_RANGE..size).map(::YCoordinate)
     }
 }

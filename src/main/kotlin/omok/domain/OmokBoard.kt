@@ -10,7 +10,7 @@ class OmokBoard(value: Map<OmokPoint, StoneState>) {
     val value: Map<OmokPoint, StoneState>
         get() = _value.toMap()
 
-    constructor (xSize: Int = BOARD_X_SIZE, ySize: Int = BOARD_Y_SIZE) : this(OmokPoint.all(xSize, ySize).associateWith { EmptyStoneState })
+    constructor (xSize: Int = BOARD_X_SIZE, ySize: Int = BOARD_Y_SIZE) : this(OmokPoint.createLinesPoint(xSize, ySize).associateWith { EmptyStoneState })
 
     fun placeStone(point: OmokPoint, stoneState: StoneState): OmokBoard {
         val newValue = value.toMutableMap()
