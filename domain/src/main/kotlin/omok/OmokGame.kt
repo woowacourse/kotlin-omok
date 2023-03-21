@@ -6,6 +6,7 @@ import omok.state.Win
 
 class OmokGame {
     val board = Board(Player(), Player())
+    var lastPosition: String? = null
 
     fun blackTurn(position: Position): State {
         board.putStone(Turn.Black, position)
