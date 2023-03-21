@@ -14,6 +14,7 @@ class OmokController(private val omokGame: OmokGame = OmokGame()) {
             do{
                 omokGame.placeStone(OutputView::printOmokBoard, InputView::requestPoint)
             }while(omokGame.state == OmokGameState.Running)
+            OutputView.printOmokBoard(omokGame.board)
             OutputView.printWinner(omokGame.state.getResult())
         }.onFailure { ex ->
             OutputView.printExceptionMessage(ex)
