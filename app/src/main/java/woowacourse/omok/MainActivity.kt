@@ -39,6 +39,12 @@ class MainActivity : AppCompatActivity() {
                     else
                         t2.setImageResource(R.drawable.white_stone)
 
+                    if (winningReferee.hasFiveOrMoreStoneInRow(board.positions, selectedPosition))
+                        if (turn.now == Black) {
+                            Log.i("positionWin", "흑")
+                        } else
+                            Log.i("positionWin", "백")
+
                     turn.changeTurn()
                 }
             }
