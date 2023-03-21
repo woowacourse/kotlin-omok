@@ -20,7 +20,7 @@ class OmokController(private val omokGame: OmokGame = OmokGame()) {
         }
     }
 
-    fun getResult(omokGameState: OmokGameState){
+    private fun getResult(omokGameState: OmokGameState){
         if(omokGameState is OmokGameState.End){
             OutputView.printWinner(omokGameState.winningColor)
             return
