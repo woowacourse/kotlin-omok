@@ -34,6 +34,12 @@ class MainActivity : AppCompatActivity() {
                     val selectedPosition = Position(Pair(index2, 14 - index))
                     board.place(selectedPosition, turn.now)
                     Log.i("positionTest", selectedPosition.toString())
+                    if (turn.now == Black)
+                        t2.setImageResource(R.drawable.black_stone)
+                    else
+                        t2.setImageResource(R.drawable.white_stone)
+
+                    turn.changeTurn()
                 }
             }
         }
