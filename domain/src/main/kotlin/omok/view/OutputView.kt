@@ -2,7 +2,7 @@ package omok.view
 
 import omok.domain.OmokBoard
 
-class OutputView {
+object OutputView {
     fun outputInit() {
         println("오목 게임을 시작합니다.")
     }

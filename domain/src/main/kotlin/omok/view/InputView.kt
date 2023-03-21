@@ -7,7 +7,7 @@ import omok.domain.state.BlackStoneState
 import omok.domain.state.StoneState
 import omok.domain.state.WhiteStoneState
 
-class InputView {
+object InputView {
     private fun StoneState.name(): String = when (this) {
         BlackStoneState -> "흑"
         WhiteStoneState -> "백"

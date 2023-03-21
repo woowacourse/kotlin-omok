@@ -1,15 +1,13 @@
 package omok.controller
 
 import omok.domain.OmokGame
-import omok.view.InputView
-import omok.view.OutputView
+import omok.domain.OmokGameListener
 
 class OmokController(
-    private val inputView: InputView = InputView(),
-    private val outputView: OutputView = OutputView(),
+    private val omokGameListener: OmokGameListener,
 ) {
     fun run() {
-        outputView.outputInit()
-        OmokGame().play(inputView::inputPoint, outputView::outputBoard)
+        omokGameListener.onOmokStart()
+        OmokGame().play(omokGameListener)
     }
 }
