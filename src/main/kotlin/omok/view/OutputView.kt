@@ -7,7 +7,7 @@ import omok.domain.state.WhiteStoneState
 
 class OutputView {
     fun outputInit() {
-        println("오목 게임을 시작합니다.")
+        println(MESSAGE_GAME_START)
     }
 
     fun outputBoard(omokBoard: OmokBoard) {
@@ -21,12 +21,15 @@ class OutputView {
     }
 
     private fun getStoneMark(stoneState: StoneState): Char? = when (stoneState) {
-        BlackStoneState -> '●'
-        WhiteStoneState -> '○'
+        BlackStoneState -> SHAPE_BLACK_STONE
+        WhiteStoneState -> SHAPE_WHITE_STONE
         else -> null
     }
 
     companion object {
+        private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
+        private const val SHAPE_BLACK_STONE = '●'
+        private const val SHAPE_WHITE_STONE = '◌'
         private const val LEFT_PADDING = 1
         private const val NEXT_PADDING = 48
         private const val BETWEEN_PADDING = 3

@@ -9,15 +9,15 @@ import omok.domain.state.WhiteStoneState
 
 class InputView {
     private fun StoneState.name(): String = when (this) {
-        BlackStoneState -> "흑"
-        WhiteStoneState -> "백"
+        BlackStoneState -> STATE_BLACK_STONE
+        WhiteStoneState -> STATE_WHITE_STONE
         else -> ""
     }
 
     fun inputPoint(stoneState: StoneState, omokPoint: OmokPoint?): OmokPoint {
-        val lastLocation = omokPoint?.let { "(마지막 돌의 위치: ${it.x.toChar()}${it.y.value})" } ?: ""
-        println("${stoneState.name()}의 차례입니다. $lastLocation")
-        print("위치를 입력하세요: ")
+        val lastLocation = omokPoint?.let { MESSAGE_LAST_STONE_POSITION.format(it.x.toChar(), it.y.value) } ?: ""
+        println(MESSAGE_TURN.format(stoneState.name()) + " $lastLocation")
+        print(MESSAGE_POSITION)
         return getPoint()
     }
 
@@ -29,4 +29,12 @@ class InputView {
         }
     }.onFailure { println(it.message) }
         .getOrElse { getPoint() }
+
+    companion object {
+        private const val STATE_BLACK_STONE = "흑"
+        private const val STATE_WHITE_STONE = "백"
+        private const val MESSAGE_LAST_STONE_POSITION = "(마지막 돌의 위치: %s%s)"
+        private const val MESSAGE_TURN = "%s의 차례입니다."
+        private const val MESSAGE_POSITION = "위치를 입력하세요: "
+    }
 }
