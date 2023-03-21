@@ -7,9 +7,9 @@ object ForbiddenThree {
     fun isForbiddenThree(board: List<List<CoordinateState>>, position: Position): Boolean {
         var openThreeCount = 0
         openThreeCount += findHorizontal(board, position.x, position.y)
-        openThreeCount += findDiagonal1(board, position.x, position.y)
+        openThreeCount += findDiagonalDown(board, position.x, position.y)
         openThreeCount += findVertical(board, position.x, position.y)
-        openThreeCount += findDiagonal2(board, position.x, position.y)
+        openThreeCount += findDiagonalUp(board, position.x, position.y)
         return openThreeCount >= 2
     }
 
@@ -118,7 +118,7 @@ object ForbiddenThree {
     }
 
     // ↖ ↘ 탐색
-    private fun findDiagonal1(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
+    private fun findDiagonalDown(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
         var stone1 = 0
         var stone2 = 0
         var allStone = 0
@@ -273,7 +273,7 @@ object ForbiddenThree {
 
     // ／ 탐색
     // ↙ ↗ 탐색
-    private fun findDiagonal2(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
+    private fun findDiagonalUp(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
         var stone1 = 0
         var stone2 = 0
         var allStone = 0

@@ -6,14 +6,14 @@ import domain.Position
 object ForbiddenFour {
     fun isForbiddenFour(board: List<List<CoordinateState>>, position: Position): Boolean {
         var fourStone = 0
-        fourStone += fourORjang1(board, position.x, position.y)
-        fourStone += fourORjang2(board, position.x, position.y)
-        fourStone += fourORjang3(board, position.x, position.y)
-        fourStone += fourORjang4(board, position.x, position.y)
+        fourStone += fourOrOverHorizontal(board, position.x, position.y)
+        fourStone += fourOrOverDiagonalDown(board, position.x, position.y)
+        fourStone += fourOrOverVertical(board, position.x, position.y)
+        fourStone += fourOrOverDiagonalUp(board, position.x, position.y)
         return fourStone >= 2
     }
 
-    private fun fourORjang1(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
+    private fun fourOrOverHorizontal(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
         var stone1 = 0
         var stone2 = 0
         var allStone = 0
@@ -85,7 +85,7 @@ object ForbiddenFour {
     }
 
     // ↖ ↘ 탐색
-    private fun fourORjang2(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
+    private fun fourOrOverDiagonalDown(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
         var stone1 = 0
         var stone2 = 0
         var allStone = 0
@@ -153,7 +153,7 @@ object ForbiddenFour {
     }
 
     // ↑ ↓ 탐색
-    private fun fourORjang3(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
+    private fun fourOrOverVertical(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
         var stone1 = 0
         var stone2 = 0
         var allStone = 0
@@ -218,7 +218,7 @@ object ForbiddenFour {
         return if (allStone != 3) 0 else 1
     }
 
-    private fun fourORjang4(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
+    private fun fourOrOverDiagonalUp(board: List<List<CoordinateState>>, x: Int, y: Int): Int {
         var stone1 = 0
         var stone2 = 0
         var allStone = 0

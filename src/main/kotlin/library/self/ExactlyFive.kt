@@ -10,14 +10,14 @@ object ExactlyFive {
         targetCoordinateState: CoordinateState,
     ): Boolean {
         var fourStone = 0
-        fourStone += fourORjang1(board, position.x, position.y, targetCoordinateState)
-        fourStone += fourORjang2(board, position.x, position.y, targetCoordinateState)
-        fourStone += fourORjang3(board, position.x, position.y, targetCoordinateState)
-        fourStone += fourORjang4(board, position.x, position.y, targetCoordinateState)
+        fourStone += fourOrOverHorizontal(board, position.x, position.y, targetCoordinateState)
+        fourStone += fourOrOverDiagonalDown(board, position.x, position.y, targetCoordinateState)
+        fourStone += fourOrOverVertical(board, position.x, position.y, targetCoordinateState)
+        fourStone += fourOrOverDiagonalUp(board, position.x, position.y, targetCoordinateState)
         return fourStone >= 1
     }
 
-    private fun fourORjang1(
+    private fun fourOrOverHorizontal(
         board: List<List<CoordinateState>>,
         x: Int,
         y: Int,
@@ -93,7 +93,7 @@ object ExactlyFive {
     }
 
     // ↖ ↘ 탐색
-    private fun fourORjang2(
+    private fun fourOrOverDiagonalDown(
         board: List<List<CoordinateState>>,
         x: Int,
         y: Int,
@@ -168,7 +168,7 @@ object ExactlyFive {
     }
 
     // ↑ ↓ 탐색
-    private fun fourORjang3(
+    private fun fourOrOverVertical(
         board: List<List<CoordinateState>>,
         x: Int,
         y: Int,
@@ -240,7 +240,7 @@ object ExactlyFive {
         return if (allStone == 4) 1 else 0
     }
 
-    private fun fourORjang4(
+    private fun fourOrOverDiagonalUp(
         board: List<List<CoordinateState>>,
         x: Int,
         y: Int,
