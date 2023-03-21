@@ -3,8 +3,6 @@ package domain
 class YCoordinate private constructor(val y: Int) {
 
     companion object {
-        const val Y_MIN_RANGE = 1
-        const val Y_MAX_RANGE = 15
         private val COORDINATES: MutableMap<Int, YCoordinate> = (Y_MIN_RANGE .. Y_MAX_RANGE).associateWith { YCoordinate(it) }.toMutableMap()
 
         fun of(y: Int): YCoordinate = COORDINATES[y] ?:run{

@@ -1,6 +1,10 @@
 package view
 
 import domain.Stone
+import domain.X_MAX_RANGE
+import domain.X_MIN_RANGE
+import domain.Y_MAX_RANGE
+import domain.Y_MIN_RANGE
 
 object InputView {
 
@@ -12,8 +16,8 @@ object InputView {
             val point = tryToGetPointUntilCorrectType()
             val x = point[0].uppercase()[0]
             val y = point.substring(1).toInt()
-            require(x in 'A'..'O') { "x의 범위가 좌표를 넘어갑니다." }
-            require(y in 1..15) { "y의 범위가 좌표를 넘어갑니다." }
+            require(x in X_MIN_RANGE..X_MAX_RANGE) { "x의 범위가 좌표를 넘어갑니다." }
+            require(y in Y_MIN_RANGE..Y_MAX_RANGE) { "y의 범위가 좌표를 넘어갑니다." }
             return Stone(x, y)
         }.onFailure {
             println(it.message)
