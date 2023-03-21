@@ -44,6 +44,10 @@ object OutputView {
         println(emptyBoard.last())
     }
 
+    fun printResult(result: GoStoneColor) {
+        println("${result.toKorean()}이 승리했습니다!\n")
+    }
+
     private fun printRow(stones: List<GoStone?>, rowIndex: Int): String {
         val stringBuilder = StringBuilder(emptyBoard[rowIndex])
 
@@ -57,7 +61,7 @@ object OutputView {
 
     private fun GoStone.toMark() = when (this.color) {
         GoStoneColor.BLACK -> '●'
-        GoStoneColor.WHITE -> '○'
+        GoStoneColor.WHITE -> '◌'
     }
 
     private fun Coordinate.toMark(): String = "${'A' + this.x}${this.y + 1}"
