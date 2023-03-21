@@ -1,4 +1,4 @@
-package domain.library
+package domain.library.self
 
 import domain.CoordinateState
 import domain.Position
