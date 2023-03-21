@@ -1,5 +1,6 @@
 package woowacourse.omok
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View.OnClickListener
@@ -13,6 +14,7 @@ import omok.domain.Turn
 import omok.domain.board.Board
 import omok.domain.board.Position
 import omok.domain.judgment.BlackReferee
+import omok.domain.judgment.ResultReferee
 import omok.domain.player.Black
 import omok.domain.player.White
 
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         result
             .onSuccess {
                 changeImage(turn, view)
+                judgeWinner(board, turn, position)
                 turn.changeTurn()
             }
             .onFailure { error: Throwable -> showAlertDialog(error.message ?: "") }
@@ -74,5 +77,13 @@ class MainActivity : AppCompatActivity() {
         builder.setMessage(message)
         builder.setPositiveButton("확인", null)
         builder.show()
+    }
+
+    private fun judgeWinner(board: Board, turn: Turn, position: Position) {
+        if (ResultReferee().checkWinner(board.positions, position)) {
+            val intent = Intent(this, WinnerActivity::class.java)
+            intent.putExtra("winner", turn.now.toString())
+            startActivity(intent)
+        }
     }
 }
