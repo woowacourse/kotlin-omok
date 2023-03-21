@@ -2,9 +2,8 @@ package domain.rule
 
 import domain.Stone
 
-class BlackRuleAdapter : RuleAdapter {
-
-    override fun checkPutStone(blackStones: Set<Stone>, whiteStones: Set<Stone>, nextStone: Stone) {
+class BlackRuleAdapter : RuleAdapter() {
+    override fun checkStone(blackStones: Set<Stone>, whiteStones: Set<Stone>, nextStone: Stone) {
         require(
             !ThreeThreeBlackRule().checkRule(blackStones, whiteStones, nextStone)
         ) { "흑돌은 33이면 안됩니다." }

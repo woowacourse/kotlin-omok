@@ -3,7 +3,7 @@ package domain.rule
 import domain.Stone
 import domain.rule.data.Inclination
 
-class LongMokBlackRule : BlackRule() {
+class LongMokBlackRule : Rule() {
 
     override fun checkRule(blackStones: Set<Stone>, whiteStones: Set<Stone>, nextStone: Stone): Boolean {
 

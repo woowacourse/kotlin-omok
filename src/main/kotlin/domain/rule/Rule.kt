@@ -2,20 +2,22 @@ package domain.rule
 
 import domain.Point
 import domain.Stone
-import domain.XCoordinate
-import domain.YCoordinate
+import domain.X_MAX_RANGE
+import domain.X_MIN_RANGE
+import domain.Y_MAX_RANGE
+import domain.Y_MIN_RANGE
 import domain.rule.data.Direction
 import domain.rule.data.Inclination
 
-abstract class BlackRule {
+abstract class Rule {
     abstract fun checkRule(blackStones: Set<Stone>, whiteStones: Set<Stone>, nextStone: Stone): Boolean
     private fun Point.isInRange(): Boolean =
-        x in XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE && y in YCoordinate.Y_MIN_RANGE..YCoordinate.Y_MAX_RANGE
+        x in X_MIN_RANGE..X_MAX_RANGE && y in Y_MIN_RANGE..Y_MAX_RANGE
 
     private fun Stone.isPlacedOnBlank(stones: Set<Stone>): Boolean = this !in stones
 
 
-    protected fun calculateContinuousBlackStonesCountFromRecentStoneWithInclination(
+    fun calculateContinuousBlackStonesCountFromRecentStoneWithInclination(
         //최근_놓인_돌에서_다음_기울기로_연속되는_흑돌_개수
         blackStones: Set<Stone>,
         whiteStones: Set<Stone>,
@@ -54,7 +56,7 @@ abstract class BlackRule {
     }
 
 
-    protected fun is5WhenPutStoneWithDirection(
+    fun is5WhenPutStoneWithDirection(
         //다음_방향의_빈_칸에_뒀을때_5인가
         blackStones: Set<Stone>,
         whiteStones: Set<Stone>,
@@ -75,7 +77,7 @@ abstract class BlackRule {
     }
 
 
-    protected fun isOpen4WhenPutBlackStoneWithThisDirection(
+    fun isOpen4WhenPutBlackStoneWithThisDirection(
         //다음 방향의 빈 칸에 흑돌을 뒀을때 열린4인가
         blackStones: Set<Stone>,
         whiteStones: Set<Stone>,
@@ -102,7 +104,7 @@ abstract class BlackRule {
     }
 
 
-    protected fun isOpen4WithThisInclination(
+    fun isOpen4WithThisInclination(
         //다음 기울기로 열린4인가
         blackStones: Set<Stone>,
         whiteStones: Set<Stone>,
