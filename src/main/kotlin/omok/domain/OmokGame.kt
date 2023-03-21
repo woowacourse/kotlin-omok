@@ -8,13 +8,15 @@ private typealias OmokPointListener = (StoneState, OmokPoint?) -> OmokPoint
 private typealias BoardStatusListener = (OmokBoard) -> Unit
 
 class OmokGame {
+    var point: OmokPoint? = null
+    var gameState: GameState = BlackTurn(OmokBoard(BOARD_X_SIZE, BOARD_Y_SIZE))
     fun play(omokPointListener: OmokPointListener, boardStatusListener: BoardStatusListener) {
-        var gameState: GameState = BlackTurn(OmokBoard(BOARD_X_SIZE, BOARD_Y_SIZE))
-        var point: OmokPoint? = null
-        while (gameState.isRunning) {
-            point = omokPointListener(gameState.stoneState, point)
-            runCatching { gameState = gameState.play(point) }.onFailure { println(it.message) }
-            boardStatusListener(gameState.omokBoard)
+        val tempPoint = omokPointListener(gameState.stoneState, point)
+        runCatching { gameState = gameState.play(tempPoint) }.onFailure { println(it.message) }.onSuccess { point = tempPoint }
+        boardStatusListener(gameState.omokBoard)
+        when {
+            gameState.isRunning -> play(omokPointListener, boardStatusListener)
+            else -> return
         }
     }
 
