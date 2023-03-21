@@ -1,6 +1,7 @@
 package omok.view
 
 import omok.model.game.Board
+import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
 
@@ -31,13 +32,13 @@ object OutputView {
         println(emptyBoard.joinToString("\n"))
     }
 
-    fun printTurn(color: GoStoneColor, coordinate: String?) {
+    fun printTurn(color: GoStoneColor, coordinate: Coordinate?) {
         print("\n${color.toKorean()}의 차례입니다. ")
-        if (coordinate == null) println() else println("(마지막 돌의 위치: $coordinate)")
+        if (coordinate == null) println() else println("(마지막 돌의 위치: ${coordinate.toLetters()})")
     }
 
     fun printBoard(board: Board) {
-        board.board.forEachIndexed { index, line ->
+        board.board.reversed().forEachIndexed { index, line ->
             println(printRow(line, index))
         }
         println(emptyBoard.last())
@@ -63,4 +64,6 @@ object OutputView {
         GoStoneColor.BLACK -> "흑"
         GoStoneColor.WHITE -> "백"
     }
+
+    private fun Coordinate.toLetters(): String = "${this.x.toChar() + 64}${this.y}"
 }
