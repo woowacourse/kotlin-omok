@@ -8,7 +8,7 @@ import omok.model.stone.GoStoneColor
 
 object Judgement {
     fun judge(board: Board, goStone: GoStone): State {
-        val rule = OmokRuleConverter(board)
+        val rule = OmokRuleConverter(board, goStone.color)
         val coordinate = goStone.coordinate
         val color = goStone.color
 
