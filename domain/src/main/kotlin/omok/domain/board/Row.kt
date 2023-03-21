@@ -21,4 +21,8 @@ enum class Row(val axis: Int) {
 
     fun up(): Row? = runCatching { values()[axis + 1] }.getOrNull()
     fun down(): Row? = runCatching { values()[axis - 1] }.getOrNull()
+
+    companion object {
+        fun toRow(axis: Int): Row = values()[axis]
+    }
 }

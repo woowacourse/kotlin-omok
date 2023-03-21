@@ -1,5 +1,8 @@
 package omok.domain.board
 
+import omok.domain.board.Column.Companion.toColumn
+import omok.domain.board.Row.Companion.toRow
+
 internal fun String?.toPosition(): Position {
     val columnText = this?.substring(0, 1)
     val rowText = this?.substring(1)
@@ -11,6 +14,8 @@ internal fun String?.toPosition(): Position {
 }
 
 data class Position(val column: Column, val row: Row) {
+
+    constructor(columnAxis: Int, rowAxis: Int) : this(toColumn(columnAxis), toRow(rowAxis))
 
     fun getNorth(): Position? {
         val northRow = row.up()

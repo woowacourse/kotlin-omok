@@ -21,4 +21,8 @@ enum class Column(private val axis: Int) {
 
     fun right(): Column? = runCatching { values()[axis + 1] }.getOrNull()
     fun left(): Column? = runCatching { values()[axis - 1] }.getOrNull()
+
+    companion object {
+        fun toColumn(axis: Int): Column = values()[axis]
+    }
 }
