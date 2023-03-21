@@ -1,7 +1,14 @@
 package domain
 
-data class Position(val coordinateY: Coordinate, val coordinateX: Coordinate) {
+import domain.domain.constant.DomainConstant.BOARD_SIZE
 
-    fun getX() = coordinateX.value
-    fun getY() = coordinateY.value
+data class Position(val y: Int, val x: Int) {
+    init {
+        validateRange(y)
+        validateRange(x)
+    }
+
+    private fun validateRange(n: Int) {
+        if (n !in 0 until BOARD_SIZE) throw IllegalArgumentException("0~14 사이의 값만 가능합니다.")
+    }
 }
