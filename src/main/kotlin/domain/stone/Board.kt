@@ -10,21 +10,18 @@ class Board(board: List<List<StoneType>> = List(16) { List(16) { StoneType.EMPTY
 
     val stones: Stones = Stones()
 
-    val blackStonesPosition: List<Point>
-        get() = getStonesPosition(StoneType.BLACK)
-
-    val whiteStonesPosition: List<Point>
-        get() = getStonesPosition(StoneType.WHITE)
-
     fun putStone(stone: Stone) {
         _board[stone.point.row][stone.point.col] = when (_board[stone.point.row][stone.point.col]) {
             StoneType.EMPTY -> stone.type
-            else -> throw IllegalStateException()
+            else -> throw IllegalStateException("오류")
         }
         stones.add(stone)
     }
 
-    private fun getStonesPosition(stoneType: StoneType): List<Point> {
+    fun blackStonesPoint(): List<Point> = getStonesPoint(StoneType.BLACK)
+    fun whiteStonesPoint(): List<Point> = getStonesPoint(StoneType.WHITE)
+
+    private fun getStonesPoint(stoneType: StoneType): List<Point> {
         return stones.getStonesPosition(stoneType)
     }
 }
