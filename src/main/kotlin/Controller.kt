@@ -1,19 +1,14 @@
 package domain
 
-import view.OmokView
+import domain.domain.Board2
+import view.InputView
+import view.OutputView
 
 class Controller {
     fun run() {
-        val omokGame = OmokGame(Board())
-        OmokView.printStart()
-
-        while (true) {
-            val position = OmokView.putPhase(omokGame.board, omokGame.turn)
-            if (omokGame.checkWinner(position)) break
-            val success = omokGame.putStone(position)
-
-            if (!success) OmokView.printError() else omokGame.changeTurn()
-        }
-        OmokView.printResult(omokGame.board, omokGame.turn)
+        OutputView.printStart()
+        val omokGame = OmokGame(Board2())
+        val winnerColor = omokGame.getWinnerColor(OutputView::printCurrentState, InputView::inputPosition)
+        OutputView.printResult(winnerColor, omokGame.board)
     }
 }

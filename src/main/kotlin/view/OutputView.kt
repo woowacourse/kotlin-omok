@@ -1,24 +1,31 @@
 package view
 
-import domain.Board
-import domain.CoordinateState
-import domain.Position
-import domain.constant.Constant.BOARD_SIZE
+import domain.domain.Board2
+import domain.domain.Color
+import domain.domain.Position2
+import domain.domain.Stones
 
 object OutputView {
+
+    fun printCurrentState(board: Board2) {
+        printBoard(board)
+        printTurn(board.getCurrentTurn())
+        printLastPosition(board.getLastPosition())
+    }
 
     fun printStart() {
         println("오목 게임을 시작합니다.")
     }
 
-    fun printBoard(board: Board) {
-        board.board.forEachIndexed { y, colors ->
-            print("${BOARD_SIZE - y} ".padStart(4, ' '))
+    fun printBoard(board: Board2) {
+        val customBoard = generateCustomBoard(board.stones)
+        customBoard.forEachIndexed { y, colors ->
+            print("${Board2.getSize() - y} ".padStart(4, ' '))
             colors.forEachIndexed { x, color ->
-                if (color == CoordinateState.WHITE) print(BoardParts.WHITE_STONE.value)
-                if (color == CoordinateState.BLACK) print(BoardParts.BLACK_STONE.value)
-                if (color == CoordinateState.EMPTY) print(BoardParts.getPart(color, x, y).value)
-                if (x != BOARD_SIZE - 1) {
+                if (color == WHITE) print(BoardParts.WHITE_STONE.value)
+                if (color == BLACK) print(BoardParts.BLACK_STONE.value)
+                if (color == EMPTY) print(BoardParts.getPart(x, y).value)
+                if (x != Board2.getSize() - 1) {
                     repeat(2) {
                         print(BoardParts.GENERAL.value)
                     }
@@ -33,34 +40,44 @@ object OutputView {
         println()
     }
 
-    fun printTurn(turn: CoordinateState) {
-        print("${turn.toName()}의 차례입니다.")
+    fun printTurn(color: Color) {
+        when (color) {
+            Color.BLACK -> print("흑의 차례입니다.")
+            Color.WHITE -> print("백의 차례입니다.")
+        }
     }
 
-    fun printLastPosition(position: Position?) {
+    fun printLastPosition(position: Position2?) {
         if (position == null) {
             println()
             return
         }
-        println(" (마지막 돌의 위치: ${AlphabetCoordinate.convertAlphabet(position.getX())}${BOARD_SIZE - position.getY()})")
+        println(" (마지막 돌의 위치: ${AlphabetCoordinate.convertAlphabet(position.x)}${position.y})")
     }
 
-    fun printRequestPosition() {
-        print("위치를 입력하세요: ")
+    fun printResult(color: Color, board: Board2) {
+        printBoard(board)
+        when (color) {
+            Color.BLACK -> print("흑의 승리입니다.")
+            Color.WHITE -> print("백의 승리입니다.")
+        }
     }
 
-    fun printWinner(turn: CoordinateState) {
-        println("${turn.toName()}의 승리입니다!!!")
+    private fun generateCustomBoard(stones: Stones): List<List<Int>> {
+        val initBoard = List(Board2.getSize()) {
+            MutableList(Board2.getSize()) { 0 }
+        }
+        stones.values.forEach {
+            if (it.isBlack()) {
+                initBoard[Board2.getSize() - it.position.y][it.position.x] = BLACK
+            } else {
+                initBoard[Board2.getSize() - it.position.y][it.position.x] = WHITE
+            }
+        }
+        return initBoard
     }
 
-    private fun CoordinateState.toName(): String {
-        return if (this == CoordinateState.BLACK) BLACK else WHITE
-    }
-
-    fun printError() {
-        println("잘못된 입력입니다. 다시 입력해주세요!")
-    }
-
-    private const val BLACK = "흑"
-    private const val WHITE = "백"
+    private const val EMPTY = 0
+    private const val BLACK = 1
+    private const val WHITE = 2
 }
