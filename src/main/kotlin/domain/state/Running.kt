@@ -1,18 +1,13 @@
 package domain.state
 
-import domain.stone.Board
 import domain.stone.Stone
 import domain.stone.StoneType
 
-abstract class Running(val board: Board) : State {
+abstract class Running : State {
     abstract override fun put(stone: Stone): State
 
     override fun getWinner(): StoneType {
         throw IllegalStateException(CANT_GET_WINNER_ERROR)
-    }
-
-    override fun isValidPut(stone: Stone): Boolean {
-        return !board.stones.containsPosition(stone)
     }
 
     companion object {
