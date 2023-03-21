@@ -19,8 +19,8 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
 
     fun checkWinner(position: Position): Boolean {
         return when (turn) {
-            BLACK -> winProcess(position) { isBlackWin(it) }
-            WHITE -> winProcess(position) { isWhiteWin(it) }
+            BLACK -> isBlackWin(position)
+            WHITE -> isWhiteWin(position)
             else -> throw IllegalArgumentException()
         }
     }
@@ -31,14 +31,6 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
             WHITE -> BLACK
             CoordinateState.EMPTY -> throw IllegalArgumentException()
         }
-    }
-
-    private fun winProcess(position: Position, isWin: (Position) -> Boolean): Boolean {
-        if (isWin(position)) {
-            board.addStone(turn, position)
-            return true
-        }
-        return false
     }
 
     private fun isBlackWin(position: Position): Boolean = board.isExactlyFive(position, turn)
@@ -52,10 +44,18 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
     fun progressTurn(transmitTurnState: (Board, CoordinateState) -> Position, transmitPutStoneState: () -> Unit) {
         while (true) {
             val position = transmitTurnState(board, turn)
-            if (checkWinner(position)) break
+            if (determinateWinningProcess(position)) break
             val success = validateAddStone(position)
             putStone(position, success)
             if (!success) transmitPutStoneState() else changeTurn()
         }
+    }
+
+    private fun determinateWinningProcess(position: Position): Boolean {
+        if (checkWinner(position)) {
+            board.addStone(turn, position)
+            return true
+        }
+        return false
     }
 }
