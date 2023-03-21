@@ -27,23 +27,26 @@ class MainActivity : AppCompatActivity() {
         val turn = Turn(setOf(Black, White))
         val winningReferee = WinningReferee()
 
-        boardUI.children.filterIsInstance<TableRow>().forEachIndexed { row, t ->
-            t.children.filterIsInstance<ImageView>().forEachIndexed { column, t2 ->
-                t2.setOnClickListener {
+        boardUI.children.filterIsInstance<TableRow>().forEachIndexed { row, rowView ->
+            rowView.children.filterIsInstance<ImageView>().forEachIndexed { column, cell ->
+                cell.setOnClickListener {
                     val selectedPosition = Position(Pair(column, 14 - row))
                     val check = place(board, selectedPosition, turn)
                     if (check) {
-                        if (turn.now == Black)
-                            t2.setImageResource(R.drawable.black_stone)
-                        else
-                            t2.setImageResource(R.drawable.white_stone)
-
+                        insertStoneView(turn, cell)
                         checkWinner(selectedPosition, board, winningReferee, turn.now)
                         turn.changeTurn()
                     }
                 }
             }
         }
+    }
+
+    private fun insertStoneView(turn: Turn, cell: ImageView) {
+        if (turn.now == Black)
+            cell.setImageResource(R.drawable.black_stone)
+        else
+            cell.setImageResource(R.drawable.white_stone)
     }
 
     private fun place(

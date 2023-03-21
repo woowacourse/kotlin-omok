@@ -158,7 +158,7 @@ class PositionTest {
 
     @Test
     fun `좌표값이 존재한다`() {
-        val positionText = Pair(9, 9)
+        val positionText = Pair(8, 8)
 
         assertThat(Position(positionText)).isEqualTo(Position(Column.I, Row.NINE))
     }

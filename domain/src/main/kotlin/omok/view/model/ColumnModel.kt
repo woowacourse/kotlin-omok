@@ -3,21 +3,21 @@ package omok.view.model
 import omok.domain.board.Column
 
 enum class ColumnModel(val text: String, val axis: Int) {
-    A("A", 1),
-    B("B", 2),
-    C("C", 3),
-    D("D", 4),
-    E("E", 5),
-    F("F", 6),
-    G("G", 7),
-    H("H", 8),
-    I("I", 9),
-    J("J", 10),
-    K("K", 11),
-    L("L", 12),
-    M("M", 13),
-    N("N", 14),
-    O("O", 15);
+    A("A", 0),
+    B("B", 1),
+    C("C", 2),
+    D("D", 3),
+    E("E", 4),
+    F("F", 5),
+    G("G", 6),
+    H("H", 7),
+    I("I", 8),
+    J("J", 9),
+    K("K", 10),
+    L("L", 11),
+    M("M", 12),
+    N("N", 13),
+    O("O", 14);
 }
 
 fun Column.toPresentation(): String = when (this) {

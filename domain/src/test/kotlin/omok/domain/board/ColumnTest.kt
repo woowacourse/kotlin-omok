@@ -35,7 +35,7 @@ class ColumnTest {
 
     @Test
     fun `입력으로 들어온 좌표값을 컬럼으로 바꿔준다`() {
-        val inputColumn = 9
+        val inputColumn = 8
 
         assertThat(toColumn(inputColumn)).isEqualTo(Column.I)
     }

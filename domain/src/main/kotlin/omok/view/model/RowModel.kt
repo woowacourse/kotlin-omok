@@ -3,21 +3,21 @@ package omok.view.model
 import omok.domain.board.Row
 
 enum class RowModel(val text: String, val axis: Int) {
-    ONE("1", 1),
-    TWO("2", 2),
-    THREE("3", 3),
-    FOUR("4", 4),
-    FIVE("5", 5),
-    SIX("6", 6),
-    SEVEN("7", 7),
-    EIGHT("8", 8),
-    NINE("9", 9),
-    TEN("10", 10),
-    ELEVEN("11", 11),
-    TWELVE("12", 12),
-    THIRTEEN("13", 13),
-    FOURTEEN("14", 14),
-    FIFTEEN("15", 15);
+    ONE("1", 0),
+    TWO("2", 1),
+    THREE("3", 2),
+    FOUR("4", 3),
+    FIVE("5", 4),
+    SIX("6", 5),
+    SEVEN("7", 6),
+    EIGHT("8", 7),
+    NINE("9", 8),
+    TEN("10", 9),
+    ELEVEN("11", 10),
+    TWELVE("12", 11),
+    THIRTEEN("13", 12),
+    FOURTEEN("14", 13),
+    FIFTEEN("15", 14);
 }
 
 fun Row.toPresentation(): String = when (this) {

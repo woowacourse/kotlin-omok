@@ -36,7 +36,7 @@ class RowTest {
 
     @Test
     fun `입력으로 들어온 좌표값을 로우로 바꿔준다`() {
-        val inputRow = 9
+        val inputRow = 8
 
         assertThat(toRow(inputRow)).isEqualTo(Row.NINE)
     }
