@@ -17,9 +17,9 @@ import model.domain.tools.Stone.WHITE
 class OmokGame(private val board: Board) {
     private var state: State = BlackTurn()
 
-    fun gameStart(getCoordination: (Stone) -> Pair<Int, Int>, printBoard: (Board) -> Unit) {
+    fun gameStart(getCoordination: (Stone) -> Pair<Int, Int>, updateBoard: (Board) -> Unit) {
         while (state !is Omok) {
-            printBoard(board)
+            updateBoard(board)
             play(getCoordination)
             changeState()
         }
