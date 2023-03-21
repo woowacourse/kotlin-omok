@@ -24,7 +24,7 @@ class ConsoleOutputView : OutputView {
         val stringBuilder = StringBuilder(default)
         val resultBuilder = addStones(stringBuilder, omokBoard)
         println(resultBuilder)
-        println(MESSAGE_TURN.format(selectState(state), stone.toStringCoordinate()))
+        println(MESSAGE_TURN.format(state.toUiModel()?.value, stone.toStringCoordinate()))
     }
 
     private fun Stone.toStringCoordinate(): String {
@@ -48,7 +48,7 @@ class ConsoleOutputView : OutputView {
     }
 
     override fun printWinner(state: State) {
-        println(MESSAGE_WINNER.format(selectState(state)))
+        println(MESSAGE_WINNER.format(state.toUiModel()?.value))
     }
 
     companion object {

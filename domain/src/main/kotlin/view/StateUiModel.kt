@@ -2,10 +2,10 @@ package view
 
 import domain.State
 
-fun selectState(state: State): String? {
-    return when (state) {
-        State.BLACK -> StateUiModel.BLACK.value
-        State.WHITE -> StateUiModel.WHITE.value
+fun State.toUiModel(): StateUiModel? {
+    return when (this) {
+        State.BLACK -> StateUiModel.BLACK
+        State.WHITE -> StateUiModel.WHITE
         else -> null
     }
 }
