@@ -24,15 +24,15 @@ private fun startGame(board: Board, state: State) {
     OutputView.printTurn(state, board.stones)
     when (state) {
         is BlackTurn -> {
-            val state = state.put(Stone(InputView.inputStonePosition(), StoneType.BLACK))
+            val currentState = state.put(Stone(InputView.inputStonePosition(), StoneType.BLACK))
             OutputView.printBoard(board.stones)
-            startGame(board, state)
+            startGame(board, currentState)
         }
 
         is WhiteTurn -> {
-            val state = state.put(Stone(InputView.inputStonePosition(), StoneType.WHITE))
+            val currentState = state.put(Stone(InputView.inputStonePosition(), StoneType.WHITE))
             OutputView.printBoard(board.stones)
-            startGame(board, state)
+            startGame(board, currentState)
         }
 
         is End -> OutputView.printWinner(state)
