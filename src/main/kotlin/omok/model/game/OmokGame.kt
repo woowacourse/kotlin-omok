@@ -1,42 +1,48 @@
 package omok.model.game
 
-import omok.model.state.Stay
+import omok.model.PlacementState
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
 
-class OmokGame(val board: Board) {
-    fun start(coordinate: () -> Coordinate, showBoard: (Board) -> Unit, showTurn: (GoStoneColor, String?) -> Unit) {
+class OmokGame(private val board: Board) {
+    fun start(coordinate: () -> Coordinate, showBoard: (Board) -> Unit, showTurn: (GoStoneColor, Coordinate?) -> Unit) {
         while (true) {
             val newStone = turn(coordinate, showBoard, showTurn)
-            val state = Judgement.judge(board, newStone)
+            val state = judge(board, newStone)
 
-            if (state !is Stay) break
+            if (state != PlacementState.STAY) break
         }
     }
 
-    private fun turn(coordinate: () -> Coordinate, showBoard: (Board) -> Unit, showTurn: (GoStoneColor, String?) -> Unit): GoStone {
-        showTurn(board.getNextColor(), board.lastPlacedStone?.coordinate?.mark)
-        board.addStone(board.getNextColor(), getValidCoordinate(coordinate))
+    private fun turn(
+        coordinate: () -> Coordinate,
+        showBoard: (Board) -> Unit,
+        showTurn: (GoStoneColor, Coordinate?) -> Unit
+    ): GoStone {
+        showTurn(board.getNextColor(), board.lastPlacedStone?.coordinate)
+        board.addStone(GoStone(board.getNextColor(), getValidCoordinate(coordinate)))
         showBoard(board)
         return board.lastPlacedStone ?: throw IllegalArgumentException("바둑판 위에 놓인 돌이 없습니다")
     }
 
-    fun checkBoard(stone: GoStone): State {
-        val rule = OmokRule(board, stone)
+    private fun judge(board: Board, goStone: GoStone): PlacementState {
+        val rule = OmokRuleAdapter(board)
+        val coordinate = goStone.coordinate
+        val color = goStone.color
 
-        return rule.checkWin()
+        if (color == GoStoneColor.WHITE) return rule.checkWin(coordinate, GoStoneColor.WHITE)
+
+        if (rule.checkWin(coordinate, GoStoneColor.BLACK) == PlacementState.WIN) return PlacementState.WIN
+
+        return rule.checkBlackAnyViolation(coordinate)
     }
 
     private fun getValidCoordinate(getCoordinate: () -> Coordinate): Coordinate {
-        return getValidateValue(getCoordinate, board::canAdd)
-    }
-
-    private fun <T> getValidateValue(getValue: () -> (T), condition: (T) -> Boolean): T {
         while (true) {
             runCatching {
-                val value = getValue()
-                if (condition(value)) return value
+                val value = getCoordinate()
+                if (board.canAdd(value)) return value
             }.onFailure {
                 println(it.message)
             }

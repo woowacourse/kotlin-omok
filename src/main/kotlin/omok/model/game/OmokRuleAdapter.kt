@@ -12,22 +12,24 @@ class OmokRuleAdapter(private val board: Board) {
     private val blackRenjuRule: BlackRenjuRule = BlackRenjuRule(board.sizeX, board.sizeY)
     private val whiteRenjuRule: WhiteRenjuRule = WhiteRenjuRule(board.sizeX, board.sizeY)
 
-    fun checkWhiteWin(coordinate: Coordinate): PlacementState {
-        return if (whiteRenjuRule.checkWin(
-                board.getStonesCoordinate(GoStoneColor.WHITE),
-                board.getStonesCoordinate(GoStoneColor.BLACK),
-                coordinate.toPoint()
-            )
-        ) PlacementState.WIN else PlacementState.STAY
-    }
+    fun checkWin(coordinate: Coordinate, color: GoStoneColor): PlacementState {
+        return when (color) {
+            GoStoneColor.BLACK ->
+                if (blackRenjuRule.checkWin(
+                        board.getStonesCoordinate(GoStoneColor.BLACK),
+                        board.getStonesCoordinate(GoStoneColor.WHITE),
+                        coordinate.toPoint()
+                    )
+                ) PlacementState.WIN else PlacementState.STAY
 
-    fun checkBlackWin(coordinate: Coordinate): PlacementState {
-        return if (blackRenjuRule.checkWin(
-                board.getStonesCoordinate(GoStoneColor.BLACK),
-                board.getStonesCoordinate(GoStoneColor.WHITE),
-                coordinate.toPoint()
-            )
-        ) PlacementState.WIN else PlacementState.STAY
+            GoStoneColor.WHITE ->
+                if (whiteRenjuRule.checkWin(
+                        board.getStonesCoordinate(GoStoneColor.WHITE),
+                        board.getStonesCoordinate(GoStoneColor.BLACK),
+                        coordinate.toPoint()
+                    )
+                ) PlacementState.WIN else PlacementState.STAY
+        }
     }
 
     fun checkBlackAnyViolation(coordinate: Coordinate): PlacementState {
