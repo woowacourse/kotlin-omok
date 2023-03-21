@@ -34,14 +34,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun takeTurn(index: Int, board: Board, turn: Turn, view: ImageView) = OnClickListener {
-        val position = getPostion(index)
+        val position = getPosition(index)
         Log.d("test_position", position.toString())
-        view.setImageResource(R.drawable.black_stone)
+        Log.d("test_turn", turn.now.javaClass.simpleName.toString())
+        placeStone(board, turn, position, view)
+        turn.changeTurn()
     }
 
-    private fun getPostion(index: Int): Position {
+    private fun getPosition(index: Int): Position {
         val columnAxis = index % 15
         val rowAxis = 15 - (index / 15) - 1
         return Position(columnAxis, rowAxis)
+    }
+
+    private fun placeStone(board: Board, turn: Turn, position: Position, view: ImageView) {
+        when (turn.now) {
+            Black -> view.setImageResource(R.drawable.black_stone)
+            White -> view.setImageResource(R.drawable.white_stone)
+        }
     }
 }
