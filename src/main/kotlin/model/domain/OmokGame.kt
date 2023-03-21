@@ -15,10 +15,10 @@ import model.domain.tools.Stone.BLACK
 import model.domain.tools.Stone.WHITE
 
 class OmokGame(private val board: Board) {
-    private var player: State = BlackTurn()
+    private var state: State = BlackTurn()
 
     fun gameStart(getCoordination: (Stone) -> Pair<Int, Int>, printBoard: (Board) -> Unit) {
-        while (player !is Omok) {
+        while (state !is Omok) {
             printBoard(board)
             play(getCoordination)
             changeState()
@@ -29,14 +29,14 @@ class OmokGame(private val board: Board) {
         val value = getCoordination(getStoneColor())
 
         val location = Location(Coordination.from(value.first), Coordination.from(value.second))
-        player = player.place(location, board)
+        state = state.place(location, board)
     }
 
     private fun changeState() {
-        when (player) {
-            is RetryTurn -> player = player.retry()
-            is BlackTurn -> player = WhiteTurn()
-            is WhiteTurn -> player = BlackTurn()
+        when (state) {
+            is RetryTurn -> state = state.retry()
+            is BlackTurn -> state = WhiteTurn()
+            is WhiteTurn -> state = BlackTurn()
         }
     }
 
@@ -45,7 +45,7 @@ class OmokGame(private val board: Board) {
         printBoard(board)
     }
 
-    private fun getStoneColor() = when (player) {
+    private fun getStoneColor() = when (state) {
         is BlackTurn -> BLACK
         is BlackOmok -> BLACK
         is WhiteTurn -> WHITE
