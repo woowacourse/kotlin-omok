@@ -4,6 +4,7 @@ import domain.CoordinateState
 import domain.CoordinateState.BLACK
 import domain.Position
 import domain.domain.state.BlackTurn
+import domain.domain.state.BlackWin
 import domain.domain.state.State
 import domain.domain.state.WhiteTurn
 import domain.domain.state.WhiteWin
@@ -46,6 +47,7 @@ class OmokView : Observer {
         when (state) {
             is BlackTurn -> updateView(state)
             is WhiteTurn -> updateView(state)
+            is BlackWin -> printResult(state)
             is WhiteWin -> printResult(state)
         }
     }
