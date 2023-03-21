@@ -5,12 +5,14 @@ import model.domain.tools.Board
 import view.BoardView
 import view.GuideView
 
-class OmokController() {
+class OmokController {
 
     fun run() {
-        val omokGame = OmokGame(Board.create())
         GuideView.printStart()
-        omokGame.gameStart(GuideView::requestCoordination, BoardView::printBoard)
-        omokGame.getWinner(BoardView::printBoard, GuideView::printWinner)
+
+        OmokGame(Board.create()).apply {
+            start(GuideView::requestCoordination, BoardView::printBoard)
+            getWinner(GuideView::printWinner, BoardView::printBoard)
+        }
     }
 }
