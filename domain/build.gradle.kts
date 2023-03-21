@@ -1,11 +1,15 @@
 plugins {
-    kotlin("jvm")
+    kotlin("jvm") version "1.8.10"
+    id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
 }
 
 group = "camp.nextstep.edu"
 version = "1.0-SNAPSHOT"
 
 dependencies {
+    val currentVersion = "v1.0.3-alpha"
+    implementation("com.github.tmdgh1592:budool-omok-rule:$currentVersion")
+
     testImplementation("org.junit.jupiter", "junit-jupiter", "5.8.2")
     testImplementation("org.assertj", "assertj-core", "3.22.0")
     testImplementation("io.kotest", "kotest-runner-junit5", "5.2.3")
