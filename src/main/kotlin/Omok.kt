@@ -1,4 +1,3 @@
-
 import domain.Board
 import domain.Point
 import domain.rule.FourFourRule
@@ -17,7 +16,8 @@ fun main() {
         OutputView.printBoard(board)
         if (board.isBlackTurn()) {
             print("흑의 차례입니다.")
-        } else {
+        }
+        if (board.isWhiteTurn()) {
             print("백의 차례입니다.")
         }
         point?.let { print(" (마지막 돌의 위치: ${it.x + it.y.toString()})") }
