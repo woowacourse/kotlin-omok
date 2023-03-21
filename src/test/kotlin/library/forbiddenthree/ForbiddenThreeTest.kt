@@ -1,6 +1,6 @@
 package library.forbiddenthree
 
-import domain.rule.ForbiddenThree
+import domain.library.ForbiddenThree
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

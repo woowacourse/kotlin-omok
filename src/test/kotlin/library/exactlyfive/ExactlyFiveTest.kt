@@ -1,7 +1,7 @@
 package library.exactlyfive
 
 import domain.CoordinateState
-import domain.rule.ExceedFive
+import domain.library.ExactlyFive
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -16,6 +16,6 @@ internal class ExactlyFiveTest {
         val board = ExactlyFiveDummy.getExactlyFiveBoard(coordinateState)
         val targetCoordinate = ExactlyFiveDummy.getExactlyFiveCoordinate()
 
-        assertThat(ExceedFive.isExceedFive(board, targetCoordinate, coordinateState)).isTrue
+        assertThat(ExactlyFive.isExactlyFive(board, targetCoordinate, coordinateState)).isTrue
     }
 }
