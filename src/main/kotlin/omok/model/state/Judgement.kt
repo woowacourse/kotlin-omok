@@ -1,8 +1,7 @@
-package omok.model.game
+package omok.model.state
 
 import OmokRuleConverter
-import omok.model.state.State
-import omok.model.state.Stay
+import omok.model.game.Board
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
 
@@ -17,10 +16,10 @@ object Judgement {
         }
 
         var state = rule.checkBlackWin(coordinate)
-        if (state !is Stay) return state
+        if (state != State.Stay) return state
 
         state = rule.countOpenThrees(coordinate)
-        if (state !is Stay) return state
+        if (state != State.Stay) return state
 
         rule.countOpenFours(coordinate)
         return state

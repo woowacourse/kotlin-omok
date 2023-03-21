@@ -1,6 +1,7 @@
 package omok.model.game
 
-import omok.model.state.Stay
+import omok.model.state.Judgement
+import omok.model.state.State
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
@@ -11,7 +12,7 @@ class OmokGame(val board: Board) {
             val newStone = turn(coordinate, showBoard, showTurn)
             val state = Judgement.judge(board, newStone)
 
-            if (state !is Stay) break
+            if (state != State.Stay) break
         }
     }
 

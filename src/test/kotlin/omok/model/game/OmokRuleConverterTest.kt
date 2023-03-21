@@ -1,10 +1,7 @@
 package omok.model.game
 
 import OmokRuleConverter
-import omok.model.state.DoubleFour
-import omok.model.state.DoubleThree
-import omok.model.state.Stay
-import omok.model.state.Win
+import omok.model.state.State
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStoneColor.BLACK
 import omok.model.stone.GoStoneColor.WHITE
@@ -24,7 +21,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
-        ).isInstanceOf(Win::class.java)
+        ).isEqualTo(State.Win)
     }
 
     @Test
@@ -39,7 +36,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
-        ).isInstanceOf(Win::class.java)
+        ).isEqualTo(State.Win)
     }
 
     @Test
@@ -54,7 +51,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkWhiteWin(Coordinate.of("H10"))
-        ).isInstanceOf(Win::class.java)
+        ).isEqualTo(State.Win)
     }
 
     @Test
@@ -69,7 +66,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
-        ).isInstanceOf(Win::class.java)
+        ).isEqualTo(State.Win)
     }
 
     @Test
@@ -84,7 +81,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
-        ).isInstanceOf(Stay::class.java)
+        ).isEqualTo(State.Stay)
     }
 
     @Test
@@ -98,7 +95,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
-        ).isInstanceOf(Stay::class.java)
+        ).isEqualTo(State.Stay)
     }
 
     @Test
@@ -114,7 +111,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkWhiteWin(Coordinate.of("H10"))
-        ).isInstanceOf(Win::class.java)
+        ).isEqualTo(State.Win)
     }
 
     @Test
@@ -144,7 +141,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.countOpenThrees(Coordinate.of("E3"))
-        ).isInstanceOf(DoubleThree::class.java)
+        ).isEqualTo(State.DoubleThree)
     }
 
     @Test
@@ -159,7 +156,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.countOpenThrees(Coordinate.of("L11"))
-        ).isInstanceOf(DoubleThree::class.java)
+        ).isEqualTo(State.DoubleThree)
     }
 
     @Test
@@ -174,7 +171,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.countOpenThrees(Coordinate.of("K4"))
-        ).isInstanceOf(DoubleThree::class.java)
+        ).isEqualTo(State.DoubleThree)
     }
 
     @Test
@@ -193,7 +190,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.countOpenFours(Coordinate.of("H5"))
-        ).isInstanceOf(DoubleFour::class.java)
+        ).isEqualTo(State.DoubleFour)
     }
 
     @Test
@@ -209,6 +206,6 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.countOpenFours(Coordinate.of("F12"))
-        ).isInstanceOf(DoubleFour::class.java)
+        ).isEqualTo(State.DoubleFour)
     }
 }
