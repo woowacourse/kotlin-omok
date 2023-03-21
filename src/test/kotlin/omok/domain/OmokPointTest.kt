@@ -1,9 +1,9 @@
 package omok.domain
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
-import org.junit.jupiter.api.assertThrows
 
 class OmokPointTest {
     @Test
@@ -17,13 +17,19 @@ class OmokPointTest {
 
     @Test
     fun `X좌표가 A-O의 범위를 벗어나면 예외가 발생한다`() {
-        val exception = assertThrows<IllegalArgumentException> { OmokPoint(16, 1) }
-        assertThat(exception.message).isEqualTo("X 범위를 벗어납니다.")
+        assertThatThrownBy {
+            OmokPoint(16, 1)
+        }
+            .message()
+            .isEqualTo("X 범위를 벗어납니다.")
     }
 
     @Test
     fun `Y좌표가 1-15의 범위를 벗어나면 예외가 발생한다`() {
-        val exception = assertThrows<IllegalArgumentException> { OmokPoint(1, 16) }
-        assertThat(exception.message).isEqualTo("Y 범위를 벗어납니다.")
+        assertThatThrownBy {
+            OmokPoint(1, 16)
+        }
+            .message()
+            .isEqualTo("Y 범위를 벗어납니다.")
     }
 }
