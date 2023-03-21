@@ -11,7 +11,7 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
         if (addStoneState) board.addStone(turn, position)
     }
 
-    private fun validateAddStone(position: Position): Boolean {
+    private fun checkAddablePosition(position: Position): Boolean {
         if (!board.isEmpty(position)) return false
         if (turn == BLACK && isBlackForbidden(position)) return false
         return true
@@ -45,7 +45,7 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
         while (true) {
             val position = transmitTurnState(board, turn)
             if (determinateWinningProcess(position)) break
-            val success = validateAddStone(position)
+            val success = checkAddablePosition(position)
             putStone(position, success)
             if (!success) transmitPutStoneState() else changeTurn()
         }
