@@ -6,11 +6,13 @@ import android.view.View.OnClickListener
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.domain.Turn
 import omok.domain.board.Board
 import omok.domain.board.Position
+import omok.domain.judgment.BlackReferee
 import omok.domain.player.Black
 import omok.domain.player.White
 
@@ -37,8 +39,13 @@ class MainActivity : AppCompatActivity() {
         val position = getPosition(index)
         Log.d("test_position", position.toString())
         Log.d("test_turn", turn.now.javaClass.simpleName.toString())
-        placeStone(board, turn, position, view)
-        turn.changeTurn()
+        val result = placeStone(board, turn, position)
+        result
+            .onSuccess {
+                changeImage(turn, view)
+                turn.changeTurn()
+            }
+            .onFailure { error: Throwable -> showAlertDialog(error.message ?: "") }
     }
 
     private fun getPosition(index: Int): Position {
@@ -47,10 +54,25 @@ class MainActivity : AppCompatActivity() {
         return Position(columnAxis, rowAxis)
     }
 
-    private fun placeStone(board: Board, turn: Turn, position: Position, view: ImageView) {
+    private fun placeStone(board: Board, turn: Turn, position: Position): Result<Unit> {
+        return runCatching {
+            board.placeStone(position, turn.now, referee = BlackReferee())
+        }
+    }
+
+    private fun changeImage(turn: Turn, view: ImageView) {
         when (turn.now) {
             Black -> view.setImageResource(R.drawable.black_stone)
             White -> view.setImageResource(R.drawable.white_stone)
         }
+    }
+
+    private fun showAlertDialog(message: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setIcon(R.drawable.error_24)
+        builder.setTitle("돌을 놓을 수 없습니다!")
+        builder.setMessage(message)
+        builder.setPositiveButton("확인", null)
+        builder.show()
     }
 }

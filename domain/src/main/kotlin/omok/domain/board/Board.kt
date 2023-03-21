@@ -2,7 +2,6 @@ package omok.domain.board
 
 import omok.domain.judgment.PlacementReferee
 import omok.domain.player.Stone
-import omok.model.toPresentation
 
 class Board(positions: Map<Position, Stone?> = POSITIONS.associateWith { null }) {
     private val _positions: MutableMap<Position, Stone?> = positions.toMutableMap()
@@ -11,7 +10,7 @@ class Board(positions: Map<Position, Stone?> = POSITIONS.associateWith { null })
 
     fun placeStone(position: Position, stone: Stone, referee: PlacementReferee) {
         require(isEmpty(position)) {
-            "[ERROR] ${position.column.toPresentation()}${position.row.toPresentation()}은/는 비어있지 않습니다."
+            "해당 위치는 이미 돌이 존재 합니다."
         }
         if (stone.canPlace(referee, positions, position)) _positions[position] = stone
     }
