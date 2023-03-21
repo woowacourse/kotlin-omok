@@ -1,33 +1,29 @@
-package domain
+package domain.domain
 
-import domain.CoordinateState.EMPTY
-import domain.constant.Constant.BOARD_SIZE
-import domain.rule.ExactlyFive
-import domain.rule.ExceedFive
-import domain.rule.ForbiddenFour
-import domain.rule.ForbiddenThree
+import domain.Position
+import domain.domain.state.BlackTurn
+import domain.domain.state.State
+import domain.view.Observer
 
-class Board(
-    private val _board: List<MutableList<CoordinateState>> =
-        List(BOARD_SIZE) { MutableList(BOARD_SIZE) { EMPTY } },
-) {
-    val board: List<List<CoordinateState>> get() = _board
-    var lastPosition: Position? = null
+class Board : Observable {
+    private var observers: Observer? = null
+    var state: State = BlackTurn(Stones())
         private set
 
-    fun addStone(coordinateState: CoordinateState, position: Position) {
-        _board[position.getY()][position.getX()] = coordinateState
-        lastPosition = position
+    override fun registerObserver(o: Observer) {
+        observers = o
     }
 
-    fun isEmpty(position: Position): Boolean {
-        return board[position.getY()][position.getX()] == EMPTY
+    override fun removeObserver(o: Observer) {
+        observers = null
     }
 
-    fun isForbiddenThree(position: Position): Boolean = ForbiddenThree.isForbiddenThree(board, position)
-    fun isForbiddenFour(position: Position): Boolean = ForbiddenFour.isForbiddenFour(board, position)
-    fun isExceedFive(position: Position, coordinateState: CoordinateState): Boolean =
-        ExceedFive.isExceedFive(board, position, coordinateState)
-    fun isExactlyFive(position: Position, coordinateState: CoordinateState): Boolean =
-        ExactlyFive.isExactlyFive(board, position, coordinateState)
+    override fun notifyObservers() {
+        observers?.update(state)
+    }
+
+    fun next(position: Position) {
+        state = state.toNextState(position)
+        notifyObservers()
+    }
 }
