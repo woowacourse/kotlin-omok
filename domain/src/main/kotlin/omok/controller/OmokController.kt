@@ -1,13 +1,23 @@
 package omok.controller
 
+import omok.domain.OmokBoard
 import omok.domain.OmokGame
 import omok.domain.OmokGameListener
+import omok.domain.OmokPoint
+import omok.domain.gameState.BlackTurn
+import omok.domain.gameState.GameState
 
-class OmokController(
-    private val omokGameListener: OmokGameListener,
-) {
-    fun run() {
+class OmokController(omokGameListener: OmokGameListener) {
+    private val omokGame = OmokGame(omokGameListener)
+    var gameState: GameState = BlackTurn(OmokBoard())
+        private set
+
+    init {
         omokGameListener.onOmokStart()
-        OmokGame().play(omokGameListener)
+        omokGameListener.onBoardShow(gameState.omokBoard)
+    }
+
+    fun run(omokPoint: OmokPoint? = null) {
+        gameState = omokGame.play(gameState, omokPoint)
     }
 }

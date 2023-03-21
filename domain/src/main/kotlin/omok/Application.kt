@@ -4,20 +4,15 @@ import omok.controller.OmokController
 import omok.domain.OmokBoard
 import omok.domain.OmokGameListener
 import omok.domain.OmokPoint
-import omok.domain.state.StoneState
 import omok.view.ErrorView
 import omok.view.InputView
 import omok.view.OutputView
 
 fun main() {
-    OmokController(
+    val omokController = OmokController(
         object : OmokGameListener {
             override fun onOmokStart() {
                 OutputView.outputInit()
-            }
-
-            override fun onPointRequest(stoneState: StoneState, point: OmokPoint?): OmokPoint {
-                return InputView.inputPoint(stoneState, point)
             }
 
             override fun onBoardShow(omokBoard: OmokBoard) {
@@ -28,5 +23,11 @@ fun main() {
                 ErrorView.error(message)
             }
         },
-    ).run()
+    )
+
+    var point: OmokPoint? = null
+    while (omokController.gameState.isRunning) {
+        point = InputView.inputPoint(omokController.gameState.stoneState, point)
+        omokController.run(point)
+    }
 }

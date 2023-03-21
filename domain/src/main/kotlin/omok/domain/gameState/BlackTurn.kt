@@ -17,9 +17,14 @@ class BlackTurn(override val omokBoard: OmokBoard) : GameState {
         val adaptedPoint = OmokAdapter.adaptOmokPoint(point)
         return when {
             BlackWinRule.validate(adaptedBoard, adaptedPoint) -> BlackWin(omokBoard.placeStone(point, stoneState))
-            FourFourRule.validate(adaptedBoard, adaptedPoint) -> this
-            ThreeThreeRule.validate(adaptedBoard, adaptedPoint) -> this
+            FourFourRule.validate(adaptedBoard, adaptedPoint) -> throw IllegalStateException(ERROR_FOUR_FOUR)
+            ThreeThreeRule.validate(adaptedBoard, adaptedPoint) -> throw IllegalStateException(ERROR_THREE_THREE)
             else -> WhiteTurn(omokBoard.placeStone(point, stoneState))
         }
+    }
+
+    companion object {
+        private const val ERROR_FOUR_FOUR = "흑은 44를 놓을 수 없습니다."
+        private const val ERROR_THREE_THREE = "흑은 33을 놓을 수 없습니다."
     }
 }
