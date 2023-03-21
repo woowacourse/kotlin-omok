@@ -1,7 +1,7 @@
-// import domain.turn.FinishedTurn
-// import domain.turn.RunningTurn
-// import domain.stone.Color
-// import domain.stone.Position
+// import FinishedTurn
+// import RunningTurn
+// import Color
+// import Position
 // import org.assertj.core.api.Assertions.assertThat
 // import org.junit.jupiter.api.Test
 // import org.junit.jupiter.api.assertThrows
