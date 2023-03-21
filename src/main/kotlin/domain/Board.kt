@@ -6,24 +6,24 @@ import domain.domain.state.State
 import domain.view.Observer
 
 class Board : Observable {
-    private var observers: Observer? = null
+    private var observer: Observer? = null
     var state: State = BlackTurn(Stones())
         private set
 
     override fun registerObserver(o: Observer) {
-        observers = o
+        observer = o
     }
 
     override fun removeObserver(o: Observer) {
-        observers = null
+        observer = null
     }
 
-    override fun notifyObservers() {
-        observers?.update(state)
+    override fun notifyObserver() {
+        observer?.update(state)
     }
 
     fun next(position: Position) {
         state = state.toNextState(position)
-        notifyObservers()
+        notifyObserver()
     }
 }
