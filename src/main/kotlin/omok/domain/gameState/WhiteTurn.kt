@@ -2,8 +2,7 @@ package omok.domain.gameState
 
 import omok.domain.OmokBoard
 import omok.domain.OmokPoint
-import omok.domain.adapter.OmokAdapter
-import omok.domain.omokRule.WhiteWinRule
+import omok.domain.omokRule.adapter.RuleAdapter
 import omok.domain.state.WhiteStoneState
 
 class WhiteTurn(override val omokBoard: OmokBoard) : GameState {
@@ -11,11 +10,11 @@ class WhiteTurn(override val omokBoard: OmokBoard) : GameState {
     override val isRunning: Boolean = true
 
     override fun play(point: OmokPoint): GameState {
-        val adaptBoard = OmokAdapter.adaptBoard(omokBoard)
-        val adaptPoint = OmokAdapter.adaptPoint(point)
+        val adapter = RuleAdapter()
 
         return when {
-            WhiteWinRule.validate(adaptBoard, adaptPoint) -> WhiteWin(omokBoard.placeStone(point, stoneState))
+            adapter.isWin(omokBoard, point, stoneState) -> WhiteWin(omokBoard.placeStone(point, stoneState))
+            adapter.isForbidden(omokBoard, point) -> this
             else -> BlackTurn(omokBoard.placeStone(point, stoneState))
         }
     }

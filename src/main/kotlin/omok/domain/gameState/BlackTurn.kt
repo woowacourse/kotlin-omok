@@ -2,10 +2,7 @@ package omok.domain.gameState
 
 import omok.domain.OmokBoard
 import omok.domain.OmokPoint
-import omok.domain.adapter.OmokAdapter
-import omok.domain.omokRule.BlackWinRule
-import omok.domain.omokRule.FourRule
-import omok.domain.omokRule.ThreeRule
+import omok.domain.omokRule.adapter.RuleAdapter
 import omok.domain.state.BlackStoneState
 
 class BlackTurn(override val omokBoard: OmokBoard) : GameState {
@@ -13,13 +10,11 @@ class BlackTurn(override val omokBoard: OmokBoard) : GameState {
     override val isRunning: Boolean = true
 
     override fun play(point: OmokPoint): GameState {
-        val adaptBoard = OmokAdapter.adaptBoard(omokBoard)
-        val adaptPoint = OmokAdapter.adaptPoint(point)
+        val adapter = RuleAdapter()
 
         return when {
-            BlackWinRule.validate(adaptBoard, adaptPoint) -> BlackWin(omokBoard.placeStone(point, stoneState))
-            ThreeRule.validate(adaptBoard, adaptPoint) -> this
-            FourRule.validate(adaptBoard, adaptPoint) -> this
+            adapter.isWin(omokBoard, point, stoneState) -> BlackWin(omokBoard.placeStone(point, stoneState))
+            adapter.isForbidden(omokBoard, point) -> this
             else -> WhiteTurn(omokBoard.placeStone(point, stoneState))
         }
     }

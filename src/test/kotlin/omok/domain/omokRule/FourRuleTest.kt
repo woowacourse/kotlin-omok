@@ -2,15 +2,16 @@ package omok.domain.omokRule
 
 import omok.domain.OmokBoard
 import omok.domain.OmokPoint
-import omok.domain.adapter.OmokAdapter
+import omok.domain.omokRule.adapter.RuleAdapter
 import omok.domain.state.BlackStoneState
 import omok.domain.state.WhiteStoneState
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class FourRuleTest {
     private var omokBoard = OmokBoard()
+    private var adapter = RuleAdapter()
 
     @BeforeEach
     fun setUp() {
@@ -18,23 +19,10 @@ class FourRuleTest {
     }
 
     /*
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  15
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  14
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  13
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  12
-    0 0 0 0 1 0 0 0 0 0 0 0 0 0 0  11
-    0 0 0 0 1 0 0 0 0 0 0 0 0 0 0  10
-    0 0 0 0 1 0 0 0 0 0 0 0 0 0 0  9
-    0 0 0 0 0 1 1 1 0 0 0 0 0 0 0  8
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  7
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  6
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  5
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  4
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  3
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  2
-    2 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
-
-    A B C D E F G H I J K L M N O
+        1 0 0 0
+        1 0 0 0
+        1 0 0 0
+        0 1 1 1
      */
     @Test
     fun `검은 돌은 열린 4가 두개 이상이면 둘 수 없다`() {
@@ -46,29 +34,14 @@ class FourRuleTest {
         omokBoard = omokBoard.placeStone(OmokPoint('H', 8), BlackStoneState)
         omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
 
-        val board = OmokAdapter.adaptBoard(omokBoard)
-        val point = OmokAdapter.adaptPoint(OmokPoint('E', 8))
-        Assertions.assertThat(FourRule.validate(board, point)).isTrue
+        assertThat(adapter.isForbidden(omokBoard, OmokPoint('E', 8))).isTrue
     }
 
     /*
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  15
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  14
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  13
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  12
-    0 0 0 0 1 0 0 0 0 0 0 0 0 0 0  11
-    0 0 0 0 1 0 0 0 0 0 0 0 0 0 0  10
-    0 0 0 0 1 0 0 0 0 0 0 0 0 0 0  9
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  8
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  7
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  6
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  5
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  4
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  3
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  2
-    2 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
-
-    A B C D E F G H I J K L M N O
+        1
+        1
+        1
+        0
      */
     @Test
     fun `검은 돌은 열린 4가 한 개면 둘 수 있다`() {
@@ -77,29 +50,13 @@ class FourRuleTest {
         omokBoard = omokBoard.placeStone(OmokPoint('E', 11), BlackStoneState)
         omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
 
-        val board = OmokAdapter.adaptBoard(omokBoard)
-        val point = OmokAdapter.adaptPoint(OmokPoint('E', 8))
-        Assertions.assertThat(FourRule.validate(board, point)).isFalse
+        assertThat(adapter.isForbidden(omokBoard, OmokPoint('E', 8))).isFalse
     }
 
     /*
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  15
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  14
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  13
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  12
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  11
-    0 0 0 0 1 0 0 0 0 0 0 0 0 0 0  10
-    0 0 0 0 1 0 0 0 0 0 0 0 0 0 0  9
-    0 0 0 0 0 1 1 1 0 0 0 0 0 0 0  8
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  7
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  6
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  5
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  4
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  3
-    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  2
-    2 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
-
-    A B C D E F G H I J K L M N O
+        1 0 0 0
+        1 0 0 0
+        0 1 1 1
      */
     @Test
     fun `검은 돌은 열린 3 4면 둘 수 있다`() {
@@ -110,8 +67,6 @@ class FourRuleTest {
         omokBoard = omokBoard.placeStone(OmokPoint('H', 8), BlackStoneState)
         omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
 
-        val board = OmokAdapter.adaptBoard(omokBoard)
-        val point = OmokAdapter.adaptPoint(OmokPoint('E', 8))
-        Assertions.assertThat(FourRule.validate(board, point)).isFalse
+        assertThat(adapter.isForbidden(omokBoard, OmokPoint('E', 8))).isFalse
     }
 }
