@@ -2,6 +2,7 @@ package woowacourse.omok
 
 import android.content.ContentValues
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -53,13 +54,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        omokController = OmokController(omokGameListener, loadOmokBoard())
+        val (lastPoint, lastState) = loadOmokLastPoint()
+
+        omokController = OmokController(omokGameListener, loadOmokBoard(), lastPoint, lastState)
 
         matrixBoard.forEach { (col, row, imageView) ->
             imageView.setOnClickListener { omokController.run(OmokPoint(col + 1, row + 1)) }
         }
+
+        addResetOmokBoard()
     }
 
+    private fun addResetOmokBoard() {
+        findViewById<Button>(R.id.resetButton).setOnClickListener {
+            boardDb.onUpgrade(boardDb.readableDatabase, 1, 1)
+            omokController = OmokController(omokGameListener, OmokBoard())
+
+            matrixBoard.forEach { (_, _, imageView) -> imageView.setImageResource(0) }
+        }
+    }
     private fun loadOmokBoard(): OmokBoard {
         val rDb = boardDb.readableDatabase
         val cursor = rDb.query(
@@ -75,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         val omokMap = mutableMapOf<OmokPoint, StoneState>()
         with(cursor) {
             while (moveToNext()) {
+                if (isLast) break
                 val col = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_COL))
                 val row = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_ROW))
                 val stone = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_STONE))
@@ -88,6 +102,36 @@ class MainActivity : AppCompatActivity() {
         }
 
         return OmokBoard(omokMap)
+    }
+
+    private fun loadOmokLastPoint(): Pair<OmokPoint?, StoneState> {
+        val rDb = boardDb.readableDatabase
+        val cursor = rDb.query(
+            TABLE_NAME_OMOK_BOARD,
+            arrayOf(TABLE_COLUMN_OMOK_COL, TABLE_COLUMN_OMOK_ROW, TABLE_COLUMN_OMOK_STONE),
+            null,
+            null,
+            null,
+            null,
+            null,
+        )
+
+        with(cursor) {
+            moveToLast()
+            if (cursor.isAfterLast) return Pair(null, EmptyStoneState)
+            val col = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_COL))
+            val row = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_ROW))
+            val stone = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_STONE))
+
+            return Pair(
+                OmokPoint(col, row),
+                when (stone) {
+                    1 -> BlackStoneState
+                    2 -> WhiteStoneState
+                    else -> EmptyStoneState
+                },
+            )
+        }
     }
 
     private fun saveOmokBoard(omokBoard: OmokBoard, omokPoint: OmokPoint?) {
@@ -113,7 +157,6 @@ class MainActivity : AppCompatActivity() {
         when (omokBoard[omokPoint]) {
             BlackStoneState -> imageView.setImageResource(R.drawable.black_stone)
             WhiteStoneState -> imageView.setImageResource(R.drawable.white_stone)
-            else -> null
         }
     }
 
