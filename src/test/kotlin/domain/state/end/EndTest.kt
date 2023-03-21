@@ -1,5 +1,6 @@
 package domain.state.end
 
+import domain.stone.Board
 import domain.stone.StonePosition
 import domain.stone.StoneType
 import org.assertj.core.api.Assertions.assertThat
@@ -18,8 +19,9 @@ class EndTest {
 
     @Test
     fun `End에서 next를 호출시 End를 반환한다`() {
-        val end = End(StoneType.WHITE)
+        val board: Board = Board()
         val stonePosition: StonePosition = StonePosition.from(5, 5)!!
-        assertThat(end.next(stonePosition) is End).isTrue
+        val end = End(StoneType.WHITE)
+        assertThat(end.next(board, stonePosition) is End).isTrue
     }
 }

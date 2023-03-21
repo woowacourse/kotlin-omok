@@ -16,10 +16,10 @@ class WhiteTurnTest {
         val stone: Stone = Stone(StonePosition.from(2, 1)!!, StoneType.WHITE)
         board.putStone(stone)
 
-        val whiteTurn: WhiteTurn = WhiteTurn(board)
+        val whiteTurn: WhiteTurn = WhiteTurn()
 
         Assertions.assertThat(
-            whiteTurn.next(stone.position) is WhiteTurn,
+            whiteTurn.next(board, stone.position) is WhiteTurn,
         ).isEqualTo(true)
     }
 
@@ -28,10 +28,10 @@ class WhiteTurnTest {
         val board: Board = Board()
         val stone: Stone = Stone(StonePosition.from(2, 1)!!, StoneType.WHITE)
 
-        val whiteTurn: WhiteTurn = WhiteTurn(board)
+        val whiteTurn: WhiteTurn = WhiteTurn()
 
         Assertions.assertThat(
-            whiteTurn.next(stone.position) is BlackTurn,
+            whiteTurn.next(board, stone.position) is BlackTurn,
         ).isEqualTo(true)
     }
 
@@ -44,10 +44,10 @@ class WhiteTurnTest {
         board.putStone(Stone(StonePosition.from(4, 4)!!, StoneType.WHITE))
 
         val stone: Stone = Stone(StonePosition.from(5, 5)!!, StoneType.WHITE)
-        val whiteTurn: WhiteTurn = WhiteTurn(board)
+        val whiteTurn: WhiteTurn = WhiteTurn()
 
         Assertions.assertThat(
-            whiteTurn.next(stone.position) is End,
+            whiteTurn.next(board, stone.position) is End,
         ).isEqualTo(true)
     }
 }

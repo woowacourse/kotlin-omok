@@ -14,12 +14,12 @@ class OmokController(
 
     fun run() {
         val board: Board = Board()
-        var state: State = BlackTurn(board)
+        var state: State = BlackTurn()
 
         outputView.printOmokStart()
         while (state !is End) {
             outputView.printTurn(state, board.stones)
-            state = state.next(inputView.inputStonePosition())
+            state = state.next(board, inputView.inputStonePosition())
             outputView.printBoard(board.stones)
         }
 

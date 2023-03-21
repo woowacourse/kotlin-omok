@@ -16,10 +16,10 @@ class BlackTurnTest {
         val stone: Stone = Stone(StonePosition.from(2, 1)!!, StoneType.BLACK)
         board.putStone(stone)
 
-        val blackTurn: BlackTurn = BlackTurn(board)
+        val blackTurn: BlackTurn = BlackTurn()
 
         assertThat(
-            blackTurn.next(stone.position) is BlackTurn,
+            blackTurn.next(board, stone.position) is BlackTurn,
         ).isEqualTo(true)
     }
 
@@ -28,10 +28,10 @@ class BlackTurnTest {
         val board: Board = Board()
         val stone: Stone = Stone(StonePosition.from(2, 1)!!, StoneType.BLACK)
 
-        val blackTurn: BlackTurn = BlackTurn(board)
+        val blackTurn: BlackTurn = BlackTurn()
 
         assertThat(
-            blackTurn.next(stone.position) is WhiteTurn,
+            blackTurn.next(board, stone.position) is WhiteTurn,
         ).isEqualTo(true)
     }
 
@@ -45,10 +45,10 @@ class BlackTurnTest {
 
         val stone: Stone = Stone(StonePosition.from(5, 5)!!, StoneType.BLACK)
 
-        val blackTurn: BlackTurn = BlackTurn(board)
+        val blackTurn: BlackTurn = BlackTurn()
 
         assertThat(
-            blackTurn.next(stone.position) is End,
+            blackTurn.next(board, stone.position) is End,
         ).isEqualTo(true)
     }
 }

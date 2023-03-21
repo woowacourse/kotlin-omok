@@ -6,16 +6,17 @@ import domain.stone.Board
 import domain.stone.Stone
 import domain.stone.StonePosition
 import domain.stone.StoneType
+import view.OutputView.Companion.board
 
-class WhiteTurn(board: Board) : Running(board) {
-    override fun next(stonePosition: StonePosition): State {
+class WhiteTurn : Running() {
+    override fun next(board: Board, stonePosition: StonePosition): State {
         val stone: Stone = Stone(stonePosition, StoneType.WHITE)
 
-        if (!isValidPut(stonePosition)) return WhiteTurn(board)
+        if (!isValidPut(board, stonePosition)) return this
         board.putStone(stone)
 
         if (omokRule.isWinCondition(board.board, stone)) return End(StoneType.WHITE)
 
-        return BlackTurn(board)
+        return BlackTurn()
     }
 }

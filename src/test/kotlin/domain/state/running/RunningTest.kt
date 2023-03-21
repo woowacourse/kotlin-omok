@@ -11,15 +11,14 @@ class RunningTest {
 
     @Test
     fun `Running에서 getWinner을 호출시 StoneType이 EMPTY로 반환된다`() {
-        val board: Board = Board()
-        val running: Running = TestRunning(board)
+        val running: Running = TestRunning()
 
         assertThat(running.getWinner()).isEqualTo(StoneType.EMPTY)
     }
 }
 
-class TestRunning(board: Board) : Running(board) {
-    override fun next(stonePosition: StonePosition): State {
+class TestRunning() : Running() {
+    override fun next(board: Board, stonePosition: StonePosition): State {
         TODO("Not yet implemented")
     }
 }
