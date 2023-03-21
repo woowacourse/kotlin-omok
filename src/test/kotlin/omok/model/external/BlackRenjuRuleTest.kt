@@ -21,7 +21,7 @@ class BlackRenjuRuleTest {
 
     @ParameterizedTest
     @CsvSource("3, 5", "12, 4", "3, 5", "4, 11", "11, 12")
-    fun `A black stone is a foul if it is double three`() {
+    fun `흑돌이 33이면 반칙이다`() {
         // given
         val blackStones = listOf(
             Point(3, 3), Point(3, 4), Point(4, 4),
@@ -44,7 +44,7 @@ class BlackRenjuRuleTest {
 
     @ParameterizedTest
     @CsvSource("8, 3", "12, 6", "10, 10", "8, 9", "5, 8")
-    fun `A black stone is a foul if it is double four`(newStoneRow: Int, newStoneCol: Int) {
+    fun `흑돌이 44이면 반칙이다`(newStoneRow: Int, newStoneCol: Int) {
         // given
         val blackStones = listOf(
             Point(15, 3), Point(14, 3), Point(12, 3),
@@ -68,7 +68,7 @@ class BlackRenjuRuleTest {
     }
 
     @Test
-    fun `Black stone is a foul in the case of overline`() {
+    fun `흑돌이 장목이면 반칙이다`() {
         // given
         val blackStones = listOf(
             Point(5, 5),
@@ -87,7 +87,26 @@ class BlackRenjuRuleTest {
     }
 
     @Test
-    fun `If 5 black stones are in a row, it is win even if it is double four`() {
+    fun `흑돌이 33수를 놓으면서 동시에 오목도 만들어지는 경우에는 흑돌 승리로 인정된다`() {
+        // given
+        val blackStones = listOf(
+            Point(5, 5), Point(5, 7),
+            Point(5, 8), Point(5, 9),
+            Point(4, 5), Point(4, 6),
+            Point(6, 6), Point(6, 7),
+        )
+        val whiteStones = listOf<Point>()
+        val newStone = Point(5, 6)
+
+        // when
+        val expected = renjuRule.checkWin(blackStones, whiteStones, newStone)
+
+        // then
+        assertThat(expected).isTrue
+    }
+
+    @Test
+    fun `흑돌이 44수를 놓으면서 동시에 오목도 만들어지는 경우에는 흑돌 승리로 인정된다`() {
         // given
         val blackStones = listOf(
             Point(5, 5), Point(5, 6),
@@ -98,25 +117,6 @@ class BlackRenjuRuleTest {
         )
         val whiteStones = listOf<Point>()
         val newStone = Point(5, 7)
-
-        // when
-        val expected = renjuRule.checkWin(blackStones, whiteStones, newStone)
-
-        // then
-        assertThat(expected).isTrue
-    }
-
-    @Test
-    fun `If 5 black stones are in a row, it is win even if it is double three`() {
-        // given
-        val blackStones = listOf(
-            Point(5, 5), Point(5, 7),
-            Point(5, 8), Point(5, 9),
-            Point(4, 5), Point(4, 6),
-            Point(6, 6), Point(6, 7),
-        )
-        val whiteStones = listOf<Point>()
-        val newStone = Point(5, 6)
 
         // when
         val expected = renjuRule.checkWin(blackStones, whiteStones, newStone)
