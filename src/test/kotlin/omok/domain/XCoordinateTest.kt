@@ -22,6 +22,7 @@ class XCoordinateTest {
 
     @Test
     fun `x 좌표는 A부터 O사이 이외는 에러가 발생한다`() {
-        assertThrows<IllegalArgumentException> { XCoordinate('P') }
+        val exception = assertThrows<IllegalArgumentException> { XCoordinate('P') }
+        assertThat(exception.message).isEqualTo("X 좌표의 범위는 A부터 O까지 입니다.")
     }
 }

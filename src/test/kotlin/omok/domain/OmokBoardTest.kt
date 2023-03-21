@@ -30,7 +30,8 @@ class OmokBoardTest {
         val point = OmokPoint(XCoordinate('A'), YCoordinate(1))
 
         omokBoard = omokBoard.placeStone(point, BlackStoneState)
-        assertThrows<IllegalArgumentException> { omokBoard.placeStone(point, WhiteStoneState) }
+        val exception = assertThrows<IllegalArgumentException> { omokBoard.placeStone(point, WhiteStoneState) }
+        assertThat(exception.message).isEqualTo("좌표 A1는 이미 다른 돌이 있습니다.")
     }
 
     @Test

@@ -23,6 +23,7 @@ class YCoordinateTest {
     @ParameterizedTest
     @ValueSource(ints = [0, 16])
     fun `y 좌표는 1부터 15사이 이외는 에러가 발생한다`(value: Int) {
-        assertThrows<IllegalArgumentException> { YCoordinate(value) }
+        val exception = assertThrows<IllegalArgumentException> { YCoordinate(value) }
+        assertThat(exception.message).isEqualTo("Y 좌표의 범위는 1부터 15까지 입니다.")
     }
 }
