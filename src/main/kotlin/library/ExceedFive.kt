@@ -1,4 +1,4 @@
-package domain.rule
+package domain.library
 
 import domain.CoordinateState
 import domain.Position
@@ -10,10 +10,10 @@ object ExceedFive {
         coordinateState: CoordinateState,
     ): Boolean {
         var fourStone = 0
-        fourStone += fourORjang1(board, position.getX(), position.getY(), coordinateState)
-        fourStone += fourORjang2(board, position.getX(), position.getY(), coordinateState)
-        fourStone += fourORjang3(board, position.getX(), position.getY(), coordinateState)
-        fourStone += fourORjang4(board, position.getX(), position.getY(), coordinateState)
+        fourStone += fourORjang1(board, position.x, position.y, coordinateState)
+        fourStone += fourORjang2(board, position.x, position.y, coordinateState)
+        fourStone += fourORjang3(board, position.x, position.y, coordinateState)
+        fourStone += fourORjang4(board, position.x, position.y, coordinateState)
         return fourStone >= 1
     }
 

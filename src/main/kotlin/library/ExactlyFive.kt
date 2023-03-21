@@ -1,4 +1,4 @@
-package domain.rule
+package domain.library
 
 import domain.CoordinateState
 import domain.Position
@@ -10,10 +10,10 @@ object ExactlyFive {
         targetCoordinateState: CoordinateState,
     ): Boolean {
         var fourStone = 0
-        fourStone += fourORjang1(board, position.getX(), position.getY(), targetCoordinateState)
-        fourStone += fourORjang2(board, position.getX(), position.getY(), targetCoordinateState)
-        fourStone += fourORjang3(board, position.getX(), position.getY(), targetCoordinateState)
-        fourStone += fourORjang4(board, position.getX(), position.getY(), targetCoordinateState)
+        fourStone += fourORjang1(board, position.x, position.y, targetCoordinateState)
+        fourStone += fourORjang2(board, position.x, position.y, targetCoordinateState)
+        fourStone += fourORjang3(board, position.x, position.y, targetCoordinateState)
+        fourStone += fourORjang4(board, position.x, position.y, targetCoordinateState)
         return fourStone >= 1
     }
 
