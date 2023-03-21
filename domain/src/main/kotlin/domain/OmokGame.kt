@@ -13,9 +13,9 @@ class OmokGame(
     private val whiteStonePlayer: WhiteStonePlayer = WhiteStonePlayer()
 ) {
 
-    private var state: OmokGameState = OmokGameState.Running
     private var currentPlayer: Player = blackStonePlayer
     private var board = Board()
+    private var state: OmokGameState = OmokGameState.Running
 
     private fun Player.toNextPlayer(): Player {
         if (this == blackStonePlayer) {
@@ -24,28 +24,17 @@ class OmokGame(
         return blackStonePlayer
     }
 
-    private fun OmokGameState.getWinner(): Color {
-        if (this is OmokGameState.End) {
-            return winningColor
-        }
-        throw IllegalStateException(GET_WINNING_COLOR_ERROR)
-    }
-
-    fun start(
+    fun placeStone(
         checkBoard: (currentBoard: Board) -> Unit,
         decidePoint: (latestStone: Stone?, currentColor: Color) -> Point,
-    ): Color {
-        while (state is OmokGameState.Running) {
-            board = currentPlayer.placeStone(board, checkBoard, decidePoint)
-            state = OmokGameState.valueOf(board, currentPlayer.color)
-            currentPlayer = currentPlayer.toNextPlayer()
-        }
+    ): OmokGameState {
+        val point = decidePoint(board.latestStone, currentPlayer.color)
+
+        board = currentPlayer.placeStone(board, point)
+        state = OmokGameState.valueOf(board, currentPlayer.color)
+        currentPlayer = currentPlayer.toNextPlayer()
         checkBoard(board)
 
-        return state.getWinner()
-    }
-
-    companion object {
-        const val GET_WINNING_COLOR_ERROR = "[ERROR]: 승자를 확인할 수 없습니다."
+        return state
     }
 }

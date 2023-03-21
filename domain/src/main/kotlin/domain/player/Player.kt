@@ -11,17 +11,13 @@ abstract class Player {
 
     fun placeStone(
         currentBoard: Board,
-        checkBoard: (currentBoard: Board) -> Unit,
-        decidePoint: (latestStone: Stone?, currentColor: Color) -> Point,
-    ): Board {
-        while (true) {
-            checkBoard(currentBoard)
-            val point = decidePoint(currentBoard.latestStone, color)
+        decidedPoint: Point
+    ): Board{
 
-            if (isPossibleToPlace(currentBoard, point)) {
-                return Board(currentBoard.placedStones + Stone(point, color))
-            }
+        if(isPossibleToPlace(currentBoard, decidedPoint)){
+            return Board(currentBoard.placedStones + Stone(decidedPoint, color))
         }
+        return currentBoard
     }
 
     abstract fun isPossibleToPlace(board: Board, placingPoint: Point): Boolean
