@@ -1,7 +1,7 @@
-package domain
+package domain.domain
 
-data class Position(val coordinateY: Coordinate, val coordinateX: Coordinate) {
-
-    fun getX() = coordinateX.value
-    fun getY() = coordinateY.value
+data class Position(val x: Int, val y: Int) {
+    fun move(distanceX: Int, distanceY: Int): Position {
+        return Position(x + distanceX, y + distanceY)
+    }
 }

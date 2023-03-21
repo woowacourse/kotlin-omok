@@ -8,7 +8,7 @@ class RuleAdapter(stones: Stones, currentColor: Color) : Rule {
             generateCustomBoard(stones),
             colorToInt(currentColor),
             getOtherColorToInt(currentColor),
-            Board2.getSize(),
+            Board.getSize(),
         )
 
     override fun checkThreeThree(stone: Stone): Boolean {
@@ -39,8 +39,8 @@ class RuleAdapter(stones: Stones, currentColor: Color) : Rule {
     }
 
     private fun generateCustomBoard(stones: Stones): List<List<Int>> {
-        val libraryBoard = List(Board2.getSize()) {
-            MutableList(Board2.getSize()) { 0 }
+        val libraryBoard = List(Board.getSize()) {
+            MutableList(Board.getSize()) { 0 }
         }
         stones.values.forEach {
             if (it.isBlack()) {

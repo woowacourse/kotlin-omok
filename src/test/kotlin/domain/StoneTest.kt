@@ -1,7 +1,7 @@
 package domain
 
 import domain.domain.Color
-import domain.domain.Position2
+import domain.domain.Position
 import domain.domain.Stone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -12,7 +12,7 @@ class StoneTest {
     @Test
     fun `바둑돌은 색상과 위치를 갖는다`() {
         // given
-        val position = Position2(1, 1)
+        val position = Position(1, 1)
         val color = Color.BLACK
         // when
         val actual = Stone(color, position)
@@ -24,7 +24,7 @@ class StoneTest {
     @ParameterizedTest
     fun `바둑돌이 검정색인지 확인한다`(color: Color, expected: Boolean) {
         // given
-        val stone = Stone(color, Position2(1, 1))
+        val stone = Stone(color, Position(1, 1))
         // when
         val actual = stone.isBlack()
         // then
@@ -35,7 +35,7 @@ class StoneTest {
     @ParameterizedTest
     fun `바둑돌이 흰색인지 확인한다`(color: Color, expected: Boolean) {
         // given
-        val stone = Stone(color, Position2(1, 1))
+        val stone = Stone(color, Position(1, 1))
         // when
         val actual = stone.isWhite()
         // then

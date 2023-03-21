@@ -1,15 +1,15 @@
 package domain
 
-import domain.domain.Board2
+import domain.domain.Board
 import domain.domain.Color
-import domain.domain.Position2
+import domain.domain.Position
 import domain.domain.Stone
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
 internal class OmokGameTest {
     private fun Stone(color: Color, vararg positions: Int): Stone {
-        return Stone(color, Position2(positions[0], positions[1]))
+        return Stone(color, Position(positions[0], positions[1]))
     }
 
     @Test
@@ -18,14 +18,14 @@ internal class OmokGameTest {
         val board = generateBlackWinOmokBoard()
         val omokGame = OmokGame(board)
         // when
-        val actual = omokGame.getWinnerColor({}, { Position2(1, 6) })
+        val actual = omokGame.getWinnerColor({}, { Position(1, 6) })
         val expected = Color.BLACK
         // then
         Assertions.assertThat(actual).isEqualTo(expected)
     }
 
-    private fun generateBlackWinOmokBoard(): Board2 {
-        val board = Board2().apply {
+    private fun generateBlackWinOmokBoard(): Board {
+        val board = Board().apply {
             placeStone(Stone(getCurrentTurn(), 1, 2))
             placeStone(Stone(getCurrentTurn(), 2, 2))
             placeStone(Stone(getCurrentTurn(), 1, 3))
@@ -44,14 +44,14 @@ internal class OmokGameTest {
         val board = generateWhiteWinOmokBoard()
         val omokGame = OmokGame(board)
         // when
-        val actual = omokGame.getWinnerColor({}, { Position2(1, 6) })
+        val actual = omokGame.getWinnerColor({}, { Position(1, 6) })
         val expected = Color.WHITE
         // then
         Assertions.assertThat(actual).isEqualTo(expected)
     }
 
-    private fun generateWhiteWinOmokBoard(): Board2 {
-        val board = Board2().apply {
+    private fun generateWhiteWinOmokBoard(): Board {
+        val board = Board().apply {
             placeStone(Stone(getCurrentTurn(), 2, 2))
             placeStone(Stone(getCurrentTurn(), 1, 2))
             placeStone(Stone(getCurrentTurn(), 2, 3))
@@ -78,10 +78,10 @@ internal class OmokGameTest {
     }
 
     private var count = 0
-    private fun getPosition(): Position2 {
+    private fun getPosition(): Position {
         count++
-        if (count == 1) return Position2(5, 10)
-        if (count == 2) return Position2(5, 11)
-        return Position2(1, 6)
+        if (count == 1) return Position(5, 10)
+        if (count == 2) return Position(5, 11)
+        return Position(1, 6)
     }
 }

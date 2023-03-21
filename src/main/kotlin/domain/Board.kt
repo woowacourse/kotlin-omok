@@ -1,33 +1,42 @@
-package domain
-
-import domain.CoordinateState.EMPTY
-import domain.constant.Constant.BOARD_SIZE
-import domain.rule.ExactlyFive
-import domain.rule.ExceedFive
-import domain.rule.ForbiddenFour
-import domain.rule.ForbiddenThree
+package domain.domain
 
 class Board(
-    private val _board: List<MutableList<CoordinateState>> =
-        List(BOARD_SIZE) { MutableList(BOARD_SIZE) { EMPTY } },
+    initStones: Stones = Stones(listOf()),
 ) {
-    val board: List<List<CoordinateState>> get() = _board
-    var lastPosition: Position? = null
+    var stones: Stones = initStones
         private set
+    private val rule: Rule
+        get() = RuleAdapter(stones, getCurrentTurn())
 
-    fun addStone(coordinateState: CoordinateState, position: Position) {
-        _board[position.getY()][position.getX()] = coordinateState
-        lastPosition = position
+    fun placeStone(stone: Stone) {
+        stones = stones.addStone(stone)
     }
 
-    fun isEmpty(position: Position): Boolean {
-        return board[position.getY()][position.getX()] == EMPTY
+    fun isEmpty(stone: Stone): Boolean {
+        return !stones.isContainSamePositionStone(stone.position)
     }
 
-    fun isForbiddenThree(position: Position): Boolean = ForbiddenThree.isForbiddenThree(board, position)
-    fun isForbiddenFour(position: Position): Boolean = ForbiddenFour.isForbiddenFour(board, position)
-    fun isExceedFive(position: Position, coordinateState: CoordinateState): Boolean =
-        ExceedFive.isExceedFive(board, position, coordinateState)
-    fun isExactlyFive(position: Position, coordinateState: CoordinateState): Boolean =
-        ExactlyFive.isExactlyFive(board, position, coordinateState)
+    fun getLastPosition(): Position? {
+        if (stones.values.isEmpty()) return null
+        return stones.values.last().position
+    }
+
+    fun isBlackWin(stone: Stone): Boolean {
+        return rule.checkBlackWin(stone)
+    }
+
+    fun isWhiteWin(stone: Stone): Boolean {
+        if (rule.checkInvalid(stone)) return true
+        return rule.checkWhiteWin(stone)
+    }
+
+    fun getCurrentTurn(): Color {
+        if (stones.getBlackStonesCount() > stones.getWhiteStonesCount()) return Color.WHITE
+        return Color.BLACK
+    }
+
+    companion object {
+        private const val BOARD_SIZE = 15
+        fun getSize(): Int = BOARD_SIZE
+    }
 }

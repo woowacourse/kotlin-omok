@@ -12,7 +12,7 @@ class Stones(values: List<Stone>) {
         return Stones(newStones)
     }
 
-    fun isContainSamePositionStone(position: Position2): Boolean {
+    fun isContainSamePositionStone(position: Position): Boolean {
         return values.any { it.position == position }
     }
 

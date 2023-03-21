@@ -1,13 +1,13 @@
 package view
 
-import domain.domain.Board2
+import domain.domain.Board
 import domain.domain.Color
-import domain.domain.Position2
+import domain.domain.Position
 import domain.domain.Stones
 
 object OutputView {
 
-    fun printCurrentState(board: Board2) {
+    fun printCurrentState(board: Board) {
         printBoard(board)
         printTurn(board.getCurrentTurn())
         printLastPosition(board.getLastPosition())
@@ -17,15 +17,15 @@ object OutputView {
         println("오목 게임을 시작합니다.")
     }
 
-    fun printBoard(board: Board2) {
+    fun printBoard(board: Board) {
         val customBoard = generateCustomBoard(board.stones)
         customBoard.forEachIndexed { y, colors ->
-            print("${Board2.getSize() - y} ".padStart(4, ' '))
+            print("${Board.getSize() - y} ".padStart(4, ' '))
             colors.forEachIndexed { x, color ->
                 if (color == WHITE) print(BoardParts.WHITE_STONE.value)
                 if (color == BLACK) print(BoardParts.BLACK_STONE.value)
                 if (color == EMPTY) print(BoardParts.getPart(x, y).value)
-                if (x != Board2.getSize() - 1) {
+                if (x != Board.getSize() - 1) {
                     repeat(2) {
                         print(BoardParts.GENERAL.value)
                     }
@@ -47,7 +47,7 @@ object OutputView {
         }
     }
 
-    fun printLastPosition(position: Position2?) {
+    fun printLastPosition(position: Position?) {
         if (position == null) {
             println()
             return
@@ -55,7 +55,7 @@ object OutputView {
         println(" (마지막 돌의 위치: ${AlphabetCoordinate.convertAlphabet(position.x)}${position.y})")
     }
 
-    fun printResult(color: Color, board: Board2) {
+    fun printResult(color: Color, board: Board) {
         printBoard(board)
         when (color) {
             Color.BLACK -> print("흑의 승리입니다.")
@@ -64,14 +64,14 @@ object OutputView {
     }
 
     private fun generateCustomBoard(stones: Stones): List<List<Int>> {
-        val initBoard = List(Board2.getSize()) {
-            MutableList(Board2.getSize()) { 0 }
+        val initBoard = List(Board.getSize()) {
+            MutableList(Board.getSize()) { 0 }
         }
         stones.values.forEach {
             if (it.isBlack()) {
-                initBoard[Board2.getSize() - it.position.y][it.position.x] = BLACK
+                initBoard[Board.getSize() - it.position.y][it.position.x] = BLACK
             } else {
-                initBoard[Board2.getSize() - it.position.y][it.position.x] = WHITE
+                initBoard[Board.getSize() - it.position.y][it.position.x] = WHITE
             }
         }
         return initBoard
