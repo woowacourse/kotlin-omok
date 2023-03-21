@@ -14,3 +14,4 @@ object WhiteWinRule : OmokRule(WHITE_STONE, BLACK_STONE) {
             else -> false
         }
     }
+}

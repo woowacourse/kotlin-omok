@@ -4,7 +4,7 @@ import domain.CoordinateState
 import domain.Position
 import domain.domain.GameRule
 
-class Cldhfleks2Rule : GameRule {
+class Cldhfleks2Adapter : GameRule {
     override fun isForbiddenThree(position: Position, board: List<List<CoordinateState>>): Boolean =
         ForbiddenThree.isForbiddenThree(board, position)
 
