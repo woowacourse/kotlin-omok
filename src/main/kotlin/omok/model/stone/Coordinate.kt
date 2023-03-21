@@ -2,14 +2,14 @@ package omok.model.stone
 
 import omok.model.game.Board
 
-data class Coordinate(val x: Int, val y: Int) {
+data class Coordinate private constructor(val x: Int, val y: Int) {
     companion object {
         private val BOARD_SIZE_RANGE: IntRange = 1..Board.BOARD_LENGTH
 
         fun of(mark: String): Coordinate {
             val first = mark.first().uppercaseChar() - 'A' + 1
             val second = mark.substring(1)
-            require(first.isWithinRange() && second.isWithinRange()) { "위치를 알파벳숫자 형태로 입력해주세요. (잘못된 값: $mark)" }
+            require(first.isWithinRange() && second.isWithinRange()) { "범위 내의 위치를 입력해주세요. (잘못된 값: $mark)" }
 
             return Coordinate(first - 1, second.toInt() - 1)
         }

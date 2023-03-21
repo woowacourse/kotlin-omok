@@ -16,15 +16,11 @@ class OmokGame(val board: Board) {
         }
     }
 
-    private fun turn(coordinate: () -> Coordinate, showBoard: (Board) -> Unit, showTurn: (GoStoneColor, GoStone?) -> Unit): GoStone {
+    private fun turn(getCoordinate: () -> Coordinate, showBoard: (Board) -> Unit, showTurn: (GoStoneColor, GoStone?) -> Unit): GoStone {
         showTurn(board.getNextColor(), board.lastPlacedStone)  //board.lastPlacedStone?.coordinate?.mark
-        board.addStone(board.getNextColor(), getValidCoordinate(coordinate))
+        board.addStone(board.getNextColor(), getValidateValue(getCoordinate, board::canAdd))
         showBoard(board)
         return board.lastPlacedStone ?: throw IllegalArgumentException("바둑판 위에 놓인 돌이 없습니다")
-    }
-
-    private fun getValidCoordinate(getCoordinate: () -> Coordinate): Coordinate {
-        return getValidateValue(getCoordinate, board::canAdd)
     }
 
     private fun <T> getValidateValue(getValue: () -> (T), condition: (T) -> Boolean): T {

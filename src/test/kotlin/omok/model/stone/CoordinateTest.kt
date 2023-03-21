@@ -19,10 +19,10 @@ class CoordinateTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["33", "aa", "4a", "H-1", "H17", "z8", "d7d"])
-    fun `알파벳+숫자 형태가 아닌 입력은 오류가 발생한다`(input: String) {
+    @ValueSource(strings = ["33", "aa", "4a", "H-1", "H17", "z8", "d7d", "H100", "Z7"])
+    fun `알파벳+숫자 형태가 아니거나 범위를 벗어난 입력은 오류가 발생한다`(input: String) {
         assertThatIllegalArgumentException()
             .isThrownBy { Coordinate.of(input) }
-            .withMessageContaining("위치를 알파벳숫자 형태로 입력해주세요.")
+            .withMessageContaining("범위 내의 위치를 입력해주세요.")
     }
 }
