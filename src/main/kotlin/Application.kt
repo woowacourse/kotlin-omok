@@ -2,7 +2,4 @@ import controller.OmokController
 import view.BoardView
 import view.GuideView
 
-fun main() = OmokController(
-    BoardView(),
-    GuideView(),
-).run()
+fun main() = OmokController().run()
