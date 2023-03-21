@@ -23,13 +23,13 @@ class BlackWinRuleTest {
      */
     @Test
     fun `검은 돌 5개가 가로로 연속이면 승리한다`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(6, 8), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(7, 8), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(8, 8), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(9, 8), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(1, 1), WhiteStoneState)
 
-        assertThat(adapter.isWin(omokBoard, OmokPoint('E', 8), BlackStoneState)).isTrue
+        assertThat(adapter.isWin(omokBoard, OmokPoint(5, 8), BlackStoneState)).isTrue
     }
     /*
             1
@@ -40,13 +40,13 @@ class BlackWinRuleTest {
      */
     @Test
     fun `검은 돌 5개가 세로로 연속이면 승리한다`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 10), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 11), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('E', 12), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(5, 9), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(5, 10), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(5, 11), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(5, 12), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(1, 1), WhiteStoneState)
 
-        assertThat(adapter.isWin(omokBoard, OmokPoint('E', 8), BlackStoneState)).isTrue
+        assertThat(adapter.isWin(omokBoard, OmokPoint(5, 8), BlackStoneState)).isTrue
     }
     /*
             0 0 0 0 1
@@ -57,13 +57,13 @@ class BlackWinRuleTest {
      */
     @Test
     fun `검은 돌 5개가 대각으로 연속이면 승리한다`() {
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 9), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 10), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 11), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 12), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(6, 9), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(7, 10), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(8, 11), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(9, 12), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(1, 1), WhiteStoneState)
 
-        assertThat(adapter.isWin(omokBoard, OmokPoint('E', 8), BlackStoneState)).isTrue
+        assertThat(adapter.isWin(omokBoard, OmokPoint(5, 8), BlackStoneState)).isTrue
     }
 
     /*
@@ -72,13 +72,13 @@ class BlackWinRuleTest {
     @Test
     fun `검은 돌 6개가 연속이면 승리가 아니다`() {
 
-        omokBoard = omokBoard.placeStone(OmokPoint('F', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('G', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('H', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('I', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('J', 8), BlackStoneState)
-        omokBoard = omokBoard.placeStone(OmokPoint('A', 1), WhiteStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(6, 8), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(7, 8), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(8, 8), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(9, 8), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(10, 8), BlackStoneState)
+        omokBoard = omokBoard.placeStone(OmokPoint(1, 1), WhiteStoneState)
 
-        assertThat(adapter.isWin(omokBoard, OmokPoint('E', 8), BlackStoneState)).isFalse
+        assertThat(adapter.isWin(omokBoard, OmokPoint(5, 8), BlackStoneState)).isFalse
     }
 }

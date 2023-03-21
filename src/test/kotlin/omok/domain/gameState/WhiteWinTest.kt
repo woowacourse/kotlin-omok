@@ -9,7 +9,7 @@ import org.junit.jupiter.api.assertThrows
 class WhiteWinTest {
     @Test
     fun `게임이 끝난 상태에서 진행하면 에러 발생한다`() {
-        val point = OmokPoint('A', 1)
+        val point = OmokPoint(1, 1)
         val exception = assertThrows<IllegalStateException> { WhiteWin(OmokBoard()).play(point) }
         assertThat(exception.message).isEqualTo("승자가 나온 후엔 더이상 플레이 할 수 없습니다")
     }

@@ -9,7 +9,7 @@ class BlackTurnTest {
     @Test
     fun `돌을 놓을 수 있다`() {
         val omokBoard = OmokBoard()
-        val point = OmokPoint('A', 1)
+        val point = OmokPoint(1, 1)
         val omokBoardState: GameState = BlackTurn(omokBoard).play(point)
         assertThat(omokBoardState).isInstanceOf(WhiteTurn::class.java)
     }

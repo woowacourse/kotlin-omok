@@ -1,9 +1,6 @@
 package omok.domain
 
 data class XCoordinate(val value: Int) {
-    constructor(value: Char) : this(value - 'A' + 1)
-
-    fun toChar(): Char = ('A' + value - 1)
 
     operator fun plus(other: Int) = XCoordinate(value + other)
 
