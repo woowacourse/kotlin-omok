@@ -1,4 +1,4 @@
-package domain.domain
+package domain
 
 sealed class Color {
     object BLACK : Color()

@@ -1,4 +1,4 @@
-package domain.library
+package library
 
 class OmokRule(
     private val board: List<List<Int>>,

@@ -1,6 +1,5 @@
 package domain
 
-import domain.domain.Board
 import view.InputView
 import view.OutputView
 

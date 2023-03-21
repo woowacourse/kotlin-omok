@@ -1,6 +1,5 @@
 package domain
 
-import domain.domain.* // ktlint-disable no-wildcard-imports
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

@@ -1,6 +1,6 @@
 package view
 
-import domain.domain.Board
+import domain.Board
 
 enum class BoardParts(val value: String) {
     LEFT_TOP("┌"),

@@ -1,6 +1,5 @@
 package domain
 
-import domain.domain.Position
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

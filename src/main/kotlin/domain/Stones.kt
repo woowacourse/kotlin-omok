@@ -1,4 +1,4 @@
-package domain.domain
+package domain
 
 class Stones(values: List<Stone>) {
     private val _values = values.deepCopy()

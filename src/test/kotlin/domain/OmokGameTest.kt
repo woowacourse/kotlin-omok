@@ -1,9 +1,5 @@
 package domain
 
-import domain.domain.Board
-import domain.domain.Color
-import domain.domain.Position
-import domain.domain.Stone
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 

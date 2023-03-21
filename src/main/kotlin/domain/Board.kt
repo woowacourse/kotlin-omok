@@ -1,4 +1,4 @@
-package domain.domain
+package domain
 
 class Board(
     initStones: Stones = Stones(listOf()),

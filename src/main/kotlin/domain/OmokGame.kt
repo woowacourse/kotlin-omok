@@ -1,10 +1,5 @@
 package domain
 
-import domain.domain.Board
-import domain.domain.Color
-import domain.domain.Position
-import domain.domain.Stone
-
 class OmokGame(val board: Board) {
     fun getWinnerColor(showCurrentState: (Board) -> Unit, getPosition: () -> Position): Color {
         val stone = getStone(showCurrentState, getPosition)

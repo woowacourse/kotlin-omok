@@ -1,6 +1,6 @@
 package view
 
-import domain.domain.Position
+import domain.Position
 
 object InputView {
     fun inputPosition(): Position {

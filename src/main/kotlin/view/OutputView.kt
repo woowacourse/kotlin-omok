@@ -1,9 +1,9 @@
 package view
 
-import domain.domain.Board
-import domain.domain.Color
-import domain.domain.Position
-import domain.domain.Stones
+import domain.Board
+import domain.Color
+import domain.Position
+import domain.Stones
 
 object OutputView {
 

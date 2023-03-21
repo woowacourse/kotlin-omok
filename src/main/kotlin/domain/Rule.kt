@@ -1,4 +1,4 @@
-package domain.domain
+package domain
 
 interface Rule {
     fun checkThreeThree(stone: Stone): Boolean

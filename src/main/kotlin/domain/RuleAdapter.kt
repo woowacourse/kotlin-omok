@@ -1,6 +1,6 @@
-package domain.domain
+package domain
 
-import domain.library.OmokRule
+import library.OmokRule
 
 class RuleAdapter(stones: Stones, currentColor: Color) : Rule {
     private val omokRule =
