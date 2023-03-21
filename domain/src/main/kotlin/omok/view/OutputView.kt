@@ -5,7 +5,6 @@ import omok.domain.board.Board
 import omok.domain.board.Column
 import omok.domain.board.Position
 import omok.domain.board.Row
-import omok.model.ColumnModel
 import omok.model.toPresentation
 
 class OutputView {
