@@ -1,14 +1,14 @@
 package domain.state
 
-import domain.rule.OmokRule
 import domain.stone.Board
 import domain.stone.Stone
 
-class WhiteTurn(board: Board) : Running(board) {
+class WhiteTurn(val board: Board) : Running() {
     override fun put(stone: Stone): State {
-        if (!isValidPut(stone)) return WhiteTurn(board)
-        board.putStone(stone)
-        if (OmokRule.isWinCondition(board.board, stone)) return Win(stone)
+        runCatching { board.putStone(stone) }.onFailure { return WhiteTurn(board) }
+        if (whiteRenjuRule.checkWin(board.whiteStonesPosition, board.blackStonesPosition, stone.point)) {
+            return Win(stone)
+        }
         return BlackTurn(board)
     }
 }
