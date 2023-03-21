@@ -32,7 +32,7 @@ class BoardTest {
         board.putStone(Stone(Point(2, 12), StoneType.BLACK))
         board.putStone(Stone(Point(3, 10), StoneType.WHITE))
 
-        assertThat(board.whiteStonesPosition).hasSize(4)
+        assertThat(board.whiteStonesPoint()).hasSize(4)
     }
 
     @Test
@@ -48,8 +48,8 @@ class BoardTest {
         board.putStone(Stone(Point(3, 10), StoneType.WHITE))
 
         assertAll({
-            assertThat(board.whiteStonesPosition).hasSize(4)
-            assertThat(board.blackStonesPosition).hasSize(4)
+            assertThat(board.whiteStonesPoint()).hasSize(4)
+            assertThat(board.blackStonesPoint()).hasSize(4)
         })
     }
 }

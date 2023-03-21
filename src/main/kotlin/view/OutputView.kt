@@ -3,6 +3,7 @@ package view
 import domain.state.BlackTurn
 import domain.state.State
 import domain.state.WhiteTurn
+import domain.state.Win
 import domain.stone.Stone
 import domain.stone.StoneType
 import domain.stone.Stones
@@ -28,8 +29,8 @@ object OutputView {
     fun printTurn(state: State, stones: Stones) {
         val text: StringBuilder = StringBuilder()
 
-        text.append(MESSAGE_FORMAT_TURN.format(getTurnText(state)))
-        if (stones.values.isNotEmpty()) {
+        if (state !is Win) text.append(MESSAGE_FORMAT_TURN.format(getTurnText(state)))
+        if (state !is Win && stones.values.isNotEmpty()) {
             text.append(MESSAGE_FORMAT_LAST_STONE_POSITION.format(positionToText(stones.values[stones.values.lastIndex])))
         }
 
