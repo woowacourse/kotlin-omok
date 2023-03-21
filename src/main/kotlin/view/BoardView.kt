@@ -51,8 +51,4 @@ object BoardView {
         WHITE -> WHITE_STONE
         EMPTY -> null
     }
-
-
-
-
 }

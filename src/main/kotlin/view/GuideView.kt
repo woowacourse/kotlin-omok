@@ -59,6 +59,4 @@ object GuideView {
     fun printWinner(stone: Stone) {
         println(getStonePrompt(stone) + WIN)
     }
-
-
 }
