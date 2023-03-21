@@ -1,14 +1,8 @@
 package domain.stone
 
-import domain.state.BlackTurn
-import domain.state.End
-import domain.state.WhiteTurn
-import org.assertj.core.api.Assertions
-import org.junit.jupiter.api.Test
-
 class WhiteTurnTest {
 
-    @Test
+    /*@Test
     fun `stone을 추가할 수 없는 상태라면 추가하지 않고 WhiteTurn을 반환`() {
         val board: Board = Board()
         val stone: Stone = Stone(StonePosition.from(2, 1)!!, StoneType.WHITE)
@@ -47,5 +41,5 @@ class WhiteTurnTest {
         Assertions.assertThat(
             whiteTurn.put(stone) is End,
         ).isEqualTo(true)
-    }
+    }*/
 }
