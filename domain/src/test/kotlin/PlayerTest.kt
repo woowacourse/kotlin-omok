@@ -1,5 +1,6 @@
 import domain.board.Board
 import domain.player.Player
+import domain.player.WhiteStonePlayer
 import domain.stone.Color
 import domain.stone.Point
 import org.assertj.core.api.Assertions.assertThat
@@ -66,8 +67,12 @@ class PlayerTest {
             override val color: Color
                 get() = Color.White
 
-            override fun isPossibleToPlace(board: Board, point: Point): Boolean {
-                return !board.isPlaced(point)
+            override fun toNextPlayer(): Player {
+                return WhiteStonePlayer()
+            }
+
+            override fun isPossibleToPlace(board: Board, placingPoint: Point): Boolean {
+                return !board.isPlaced(placingPoint)
             }
         }
     }

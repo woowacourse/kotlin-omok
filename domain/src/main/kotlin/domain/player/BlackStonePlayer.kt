@@ -16,4 +16,11 @@ class BlackStonePlayer : Player() {
         }
         return false
     }
+
+    override fun toNextPlayer(): Player {
+        if(state == PlayerState.Placing){
+            return this
+        }
+        return WhiteStonePlayer()
+    }
 }

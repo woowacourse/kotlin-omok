@@ -21,7 +21,7 @@ sealed class OmokGameState {
 
     companion object {
 
-        private const val ERROR_RESULT = "[ERROR] 게임이 종료되지 않았습니다."
+        private const val ERROR_RESULT = "[ERROR] 결과를 판단할 수 없습니다."
 
         fun valueOf(
             currentBoard: Board,
