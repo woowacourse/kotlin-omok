@@ -1,24 +1,26 @@
 package domain.state
 
-import domain.Stone
+import domain.Point
+import domain.Stones
+import domain.WhiteStone
 import domain.rule.RuleAdapter
 
-class WhiteTurn(override val blackStones: Set<Stone>, override val whiteStones: Set<Stone>) :
-    Running(blackStones, whiteStones) {
+class WhiteTurn(override val stones: Stones) :
+    Running(stones) {
 
     init {
-        require(blackStones.size == (whiteStones.size + 1)) { WHITE_TURN_STONE_SIZE_ERROR }
+        require(stones.blackStones.size == (stones.whiteStones.size + 1)) { WHITE_TURN_STONE_SIZE_ERROR }
     }
 
-    override fun put(stone: Stone, ruleAdapter: RuleAdapter): State {
-        checkAlreadyPlaced(stone)
-        val nextWhiteStones = whiteStones + stone
-        return if (nextWhiteStones.completeOmok()) {
-            WhiteWin(blackStones, nextWhiteStones)
+    override fun put(point: Point, ruleAdapter: RuleAdapter): State {
+        val stone = WhiteStone(point)
+        checkAlreadyPlaced(point)
+        val nextStones = stones.addStone(stone)
+        return if (nextStones.whiteStones.completeOmok()) {
+            WhiteWin(nextStones)
         } else {
             BlackTurn(
-                blackStones,
-                nextWhiteStones,
+                nextStones
             )
         }
     }

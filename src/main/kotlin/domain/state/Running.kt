@@ -1,6 +1,8 @@
 package domain.state
 
+import domain.Point
 import domain.Stone
+import domain.Stones
 import domain.XCoordinate
 import domain.X_MAX_RANGE
 import domain.X_MIN_RANGE
@@ -8,15 +10,17 @@ import domain.YCoordinate
 import domain.Y_MAX_RANGE
 import domain.Y_MIN_RANGE
 
-abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State {
+abstract class Running(stones: Stones) : State {
 
     init {
-        require(blackStones.completeOmok().not() && whiteStones.completeOmok().not()) { RUNNING_COMPLETE_ERROR }
-        require(blackStones.intersect(whiteStones).isEmpty()) { BLACK_WHITE_INTERSECT_ERROR }
+        require(
+            stones.blackStones.completeOmok().not() && stones.blackStones.completeOmok().not()
+        ) { RUNNING_COMPLETE_ERROR }
+        require(stones.blackStones.intersect(stones.whiteStones).isEmpty()) { BLACK_WHITE_INTERSECT_ERROR }
     }
 
-    fun checkAlreadyPlaced(stone: Stone) {
-        require(stone !in blackStones && stone !in whiteStones) { ALREADY_PLACED_ERROR }
+    fun checkAlreadyPlaced(point: Point) {
+        require(point !in stones.stones.map { it.point }) { ALREADY_PLACED_ERROR }
     }
 
     protected fun Set<Stone>.completeOmok(): Boolean {
@@ -36,8 +40,8 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
     private fun horizontalCompleteCheck(placedStones: Set<Stone>, y: Int): Boolean {
         var linkedCount = 0
         for (x in X_MIN_RANGE..X_MAX_RANGE) {
-            val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-            if (stone in placedStones) linkedCount++ else linkedCount = 0
+            val point = Point(XCoordinate.of(x), YCoordinate.of(y))
+            if (point in placedStones.map { it.point }) linkedCount++ else linkedCount = 0
             if (linkedCount >= 5) return true
         }
         return false
@@ -46,8 +50,8 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
     private fun verticalCompleteCheck(placedStones: Set<Stone>, x: Char): Boolean {
         var linkedCount = 0
         for (y in Y_MIN_RANGE..Y_MAX_RANGE) {
-            val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-            if (stone in placedStones) linkedCount++ else linkedCount = 0
+            val point = Point(XCoordinate.of(x), YCoordinate.of(y))
+            if (point in placedStones.map { it.point }) linkedCount++ else linkedCount = 0
             if (linkedCount >= 5) return true
         }
         return false
@@ -62,23 +66,23 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
         for ((maxX, maxY) in xCoordinateRange.zip(yCoordinateRange)) {
             var linkedCount = 0
             for ((x, y) in (X_MIN_RANGE..maxX).zip(maxY downTo Y_MIN_RANGE)) {
-                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-                if (stone in stones) linkedCount++ else linkedCount = 0
+                val point = Point(XCoordinate.of(x), YCoordinate.of(y))
+                if (point in stones.map { it.point }) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
             }
         }
         for ((minX, minY) in xCoordinateRange.zip(yCoordinateRange)) {
             var linkedCount = 0
             for ((x, y) in (minX..X_MAX_RANGE).zip(Y_MAX_RANGE downTo minY).toList()) {
-                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-                if (stone in stones) linkedCount++ else linkedCount = 0
+                val point = Point(XCoordinate.of(x), YCoordinate.of(y))
+                if (point in stones.map { it.point }) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
             }
         }
         return false
     }
 
-    fun upperRightDiagonal(
+    private fun upperRightDiagonal(
         xCoordinateRange: CharRange,
         yCoordinateRange: IntRange,
         stones: Set<Stone>
@@ -87,16 +91,16 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
         for ((maxX, minY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
             var linkedCount = 0
             for ((x, y) in (X_MIN_RANGE..maxX).zip(minY..Y_MAX_RANGE)) {
-                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-                if (stone in stones) linkedCount++ else linkedCount = 0
+                val point = Point(XCoordinate.of(x), YCoordinate.of(y))
+                if (point in stones.map { it.point }) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
             }
         }
         for ((minX, maxY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
             var linkedCount = 0
             for ((x, y) in (minX..X_MAX_RANGE).zip(Y_MIN_RANGE..maxY)) {
-                val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
-                if (stone in stones) linkedCount++ else linkedCount = 0
+                val point = Point(XCoordinate.of(x), YCoordinate.of(y))
+                if (point in stones.map { it.point }) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
             }
         }

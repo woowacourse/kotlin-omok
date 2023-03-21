@@ -1,15 +1,16 @@
 package domain.state
 
-import domain.Stone
+import domain.Point
+import domain.Stones
 import domain.rule.RuleAdapter
 
-abstract class Finished(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State {
+abstract class Finished(stones: Stones) : State {
 
     init {
-        require(blackStones.intersect(whiteStones).isEmpty()) { BLACK_WHITE_INTERSECT_ERROR }
+        require(stones.blackStones.intersect(stones.whiteStones).isEmpty()) { BLACK_WHITE_INTERSECT_ERROR }
     }
 
-    override fun put(stone: Stone, ruleAdapter: RuleAdapter): State {
+    override fun put(point: Point, ruleAdapter: RuleAdapter): State {
         throw IllegalStateException(WHEN_FINISHED_PUT_ERROR)
     }
 

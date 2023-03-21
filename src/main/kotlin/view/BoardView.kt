@@ -1,11 +1,11 @@
 package view
 
+import domain.BlackStone
 import domain.Board
-import domain.Stone
-import domain.XCoordinate
+import domain.Point
+import domain.WhiteStone
 import domain.X_MAX_RANGE
 import domain.X_MIN_RANGE
-import domain.YCoordinate
 import domain.Y_MAX_RANGE
 import domain.Y_MIN_RANGE
 
@@ -19,8 +19,14 @@ class BoardView(board: Board) {
             boardLine.add("%3s ".format(y))
             for (x in X_MIN_RANGE..X_MAX_RANGE) {
                 when {
-                    board.blackStoneIsPlaced(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> boardLine.add(BLACK_STONE)
-                    board.whiteStoneIsPlaced(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> boardLine.add(WHITE_STONE)
+                    board.blackStoneIsPlaced(BlackStone(Point(x, y))) -> boardLine.add(
+                        BLACK_STONE
+                    )
+
+                    board.whiteStoneIsPlaced(WhiteStone(Point(x, y))) -> boardLine.add(
+                        WHITE_STONE
+                    )
+
                     x == X_MIN_RANGE && y == Y_MAX_RANGE -> boardLine.add(LEFT_TOP)
                     x == X_MAX_RANGE && y == Y_MAX_RANGE -> boardLine.add(RIGHT_TOP)
                     x == X_MIN_RANGE && y == Y_MIN_RANGE -> boardLine.add(LEFT_BOTTOM)

@@ -1,20 +1,26 @@
 package domain.rule
 
 import domain.Stone
+import domain.Stones
 import domain.rule.data.Inclination
 
 class FourFourRule : Rule {
     override val errorMessage: String = "흑돌은 44면 안됩니다."
 
-    override fun checkRule(blackStones: Set<Stone>, whiteStones: Set<Stone>, nextStone: Stone): Boolean {
-        val nextBlackStones = blackStones + nextStone
+    override fun checkRule(stones: Stones, justPlacedStone: Stone): Boolean {
+        val nextStones = stones.addStone(justPlacedStone)
         var count44 = 0
         Inclination.values().forEach {
-            if (isOpen4WithThisInclination(nextBlackStones, whiteStones, nextStone, it)) {
+            if (isOpen4WithThisInclination(nextStones, justPlacedStone, it)) {
                 count44++
             } else {
                 it.directions.forEach { direction ->
-                    if (is5WhenPutStoneWithDirection(nextBlackStones, whiteStones, nextStone, direction)) count44++
+                    if (is5WhenPutStoneWithDirection(
+                            nextStones,
+                            justPlacedStone,
+                            direction
+                        )
+                    ) count44++
                 }
             }
         }

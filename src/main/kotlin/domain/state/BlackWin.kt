@@ -1,11 +1,11 @@
 package domain.state
 
-import domain.Stone
+import domain.Stones
 
-class BlackWin(override val blackStones: Set<Stone>, override val whiteStones: Set<Stone>) :
-    Finished(blackStones, whiteStones) {
+class BlackWin(override val stones: Stones) :
+    Finished(stones) {
     init {
-        require(blackStones.size == whiteStones.size + 1) { STONE_COUNT_ERROR }
+        require(stones.blackStones.size == stones.whiteStones.size + 1) { STONE_COUNT_ERROR }
     }
 
     companion object {

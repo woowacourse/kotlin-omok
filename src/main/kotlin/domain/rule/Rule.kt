@@ -1,7 +1,10 @@
 package domain.rule
 
+import domain.BlackStone
 import domain.Point
 import domain.Stone
+import domain.StoneFactory
+import domain.Stones
 import domain.X_MAX_RANGE
 import domain.X_MIN_RANGE
 import domain.Y_MAX_RANGE
@@ -12,29 +15,35 @@ import domain.rule.data.Inclination
 interface Rule {
 
     val errorMessage: String
-    fun checkRule(blackStones: Set<Stone>, whiteStones: Set<Stone>, nextStone: Stone): Boolean
+    fun checkRule(stones: Stones, justPlacedStone: Stone): Boolean
     private fun Point.isInRange(): Boolean =
         x in X_MIN_RANGE..X_MAX_RANGE && y in Y_MIN_RANGE..Y_MAX_RANGE
 
-    private fun Stone.isPlacedOnBlank(stones: Set<Stone>): Boolean = this !in stones
+    private fun Point.isPlacedOnBlank(stones: Stones): Boolean = this !in stones.stones.map { it.point }
+    private fun Stone.isInSameColorStones(stones: Stones): Boolean {
+        if (this is BlackStone) return this in stones.blackStones
+        return this in stones.whiteStones
+    }
+
+    private fun Stone.isInOtherColorStones(stones: Stones): Boolean {
+        if (this is BlackStone) return this in stones.whiteStones
+        return this in stones.blackStones
+    }
 
 
-    fun calculateContinuousBlackStonesCountFromRecentStoneWithInclination(
-        //최근_놓인_돌에서_다음_기울기로_연속되는_흑돌_개수
-        blackStones: Set<Stone>,
-        whiteStones: Set<Stone>,
+    fun calculateContinuousStonesCountWithInclination(
+        //최근_놓인_돌에서_다음_기울기로_연속되는_돌_개수
+        stones: Stones,
         justPlacedStone: Stone,
         inclination: Inclination,
     ): Int {
-        val leftPoint = firstBlackStonesBlankWithThisDirection(
-            blackStones,
-            whiteStones,
+        val leftPoint = firstBlankWithThisDirection(
+            stones,
             justPlacedStone,
             inclination.directions[0],
         )
-        val rightPoint = firstBlackStonesBlankWithThisDirection(
-            blackStones,
-            whiteStones,
+        val rightPoint = firstBlankWithThisDirection(
+            stones,
             justPlacedStone,
             inclination.directions[1],
         )
@@ -42,17 +51,19 @@ interface Rule {
     }
 
 
-    private fun firstBlackStonesBlankWithThisDirection(
+    private fun firstBlankWithThisDirection(
         //다음 방향으로 흑돌을 타고 갔을 때 최초의 빈칸
-        blackStones: Set<Stone>,
-        whiteStones: Set<Stone>,
+        stones: Stones,
         justPlacedStone: Stone,
         direction: Direction,
     ): Point {
-        var nextPoint: Point = justPlacedStone.point
-        while (nextPoint.isInRange() && Stone(nextPoint) in blackStones && Stone(nextPoint) !in whiteStones) {
+        var nextStone: Stone = justPlacedStone
+        var nextPoint = justPlacedStone.point
+        while (nextPoint.isInRange() && nextStone.isInSameColorStones(stones) && !nextStone.isInOtherColorStones(stones)
+        ) {
             nextPoint = nextPoint.addX(direction.dx)
             nextPoint = nextPoint.addY(direction.dy)
+            nextStone = StoneFactory.createSameColorStone(justPlacedStone, nextPoint)
         }
         return nextPoint
     }
@@ -60,17 +71,15 @@ interface Rule {
 
     fun is5WhenPutStoneWithDirection(
         //다음_방향의_빈_칸에_뒀을때_5인가
-        blackStones: Set<Stone>,
-        whiteStones: Set<Stone>,
+        stones: Stones,
         justPlacedStone: Stone,
         direction: Direction,
     ): Boolean {
-        val nextPoint = firstBlackStonesBlankWithThisDirection(blackStones, whiteStones, justPlacedStone, direction)
-        if (nextPoint.isInRange() && Stone(nextPoint).isPlacedOnBlank(blackStones + whiteStones)) {
+        val nextPoint = firstBlankWithThisDirection(stones, justPlacedStone, direction)
+        if (nextPoint.isInRange() && nextPoint.isPlacedOnBlank(stones)) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
-            return calculateContinuousBlackStonesCountFromRecentStoneWithInclination(
-                blackStones + Stone(nextPoint),
-                whiteStones,
+            return calculateContinuousStonesCountWithInclination(
+                stones.addStone(StoneFactory.createSameColorStone(justPlacedStone, nextPoint)),
                 justPlacedStone,
                 inclination
             ) == 5
@@ -79,25 +88,22 @@ interface Rule {
     }
 
 
-    fun isOpen4WhenPutBlackStoneWithThisDirection(
+    fun isOpen4WhenPutStoneWithThisDirection(
         //다음 방향의 빈 칸에 흑돌을 뒀을때 열린4인가
-        blackStones: Set<Stone>,
-        whiteStones: Set<Stone>,
+        stones: Stones,
         justPlacedStone: Stone,
         direction: Direction,
     ): Boolean {
         val nextPoint =
-            firstBlackStonesBlankWithThisDirection(
-                blackStones,
-                whiteStones,
+            firstBlankWithThisDirection(
+                stones,
                 justPlacedStone,
                 direction
             ) //다음 방향으로 흑돌을 타고 갔을 때 최초의 빈칸
         if (nextPoint.isInRange()) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
             return isOpen4WithThisInclination(  // 다음 기울기로 열린4인지 판단
-                blackStones + Stone(nextPoint),
-                whiteStones,
+                stones.addStone(StoneFactory.createSameColorStone(justPlacedStone, nextPoint)),
                 justPlacedStone,
                 inclination
             )
@@ -108,27 +114,22 @@ interface Rule {
 
     fun isOpen4WithThisInclination(
         //다음 기울기로 열린4인가
-        blackStones: Set<Stone>,
-        whiteStones: Set<Stone>,
+        stones: Stones,
         justPlacedStone: Stone,
         inclination: Inclination,
     ): Boolean {
-        val leftPoint: Point = firstBlackStonesBlankWithThisDirection(
-            blackStones,
-            whiteStones,
+        val leftPoint: Point = firstBlankWithThisDirection(
+            stones,
             justPlacedStone,
             inclination.directions[0],
         )
-        val rightPoint = firstBlackStonesBlankWithThisDirection(
-            blackStones,
-            whiteStones,
+        val rightPoint = firstBlankWithThisDirection(
+            stones,
             justPlacedStone,
             inclination.directions[1],
         )
         if (!leftPoint.isInRange() || !rightPoint.isInRange()) return false
-        val leftStone = Stone(leftPoint)
-        val rightStone = Stone(rightPoint)
-        if (leftStone.isPlacedOnBlank(blackStones + whiteStones) && rightStone.isPlacedOnBlank(blackStones + whiteStones)) {
+        if (leftPoint.isPlacedOnBlank(stones) && rightPoint.isPlacedOnBlank(stones)) {
             if (kotlin.math.abs(rightPoint.x - leftPoint.x) == 5 || kotlin.math.abs(rightPoint.y - leftPoint.y) == 5) return true
         }
         return false
