@@ -22,6 +22,6 @@ enum class Column(private val axis: Int) {
     fun left(): Column? = values().getOrNull(axis - 1)
 
     companion object {
-        fun toColumn(axis: Int): Column = values()[axis - 1]
+        fun toColumn(axis: Int): Column = values()[axis]
     }
 }

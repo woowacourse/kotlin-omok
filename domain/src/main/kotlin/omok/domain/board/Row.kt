@@ -21,6 +21,6 @@ enum class Row(val axis: Int) {
     fun down(): Row? = values().getOrNull(axis - 1)
 
     companion object {
-        fun toRow(axis: Int): Row = values()[axis - 1]
+        fun toRow(axis: Int): Row = values()[axis]
     }
 }
