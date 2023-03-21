@@ -1,5 +1,6 @@
 package woowacourse.omok
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -12,6 +13,7 @@ import omok.domain.board.Board
 import omok.domain.board.Position
 import omok.domain.judgment.WinningReferee
 import omok.domain.player.Black
+import omok.domain.player.Stone
 import omok.domain.player.White
 import omok.view.model.toPresentation
 
@@ -35,13 +37,8 @@ class MainActivity : AppCompatActivity() {
                             t2.setImageResource(R.drawable.black_stone)
                         else
                             t2.setImageResource(R.drawable.white_stone)
-                        if (checkWinner(selectedPosition, board, winningReferee)) {
-                            Toast.makeText(
-                                this,
-                                "승자는 ${turn.now.toPresentation()}입니다!",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
+
+                        checkWinner(selectedPosition, board, winningReferee, turn.now)
                         turn.changeTurn()
                     }
                 }
@@ -71,8 +68,13 @@ class MainActivity : AppCompatActivity() {
     private fun checkWinner(
         selectedPosition: Position,
         board: Board,
-        winningReferee: WinningReferee
-    ): Boolean {
-        return (winningReferee.hasFiveOrMoreStoneInRow(board.positions, selectedPosition))
+        winningReferee: WinningReferee,
+        turn: Stone
+    ) {
+        if ((winningReferee.hasFiveOrMoreStoneInRow(board.positions, selectedPosition))) {
+            val intent = Intent(this, ResultActivity::class.java)
+            intent.putExtra("winner", turn.toPresentation())
+            startActivity(intent)
+        }
     }
 }
