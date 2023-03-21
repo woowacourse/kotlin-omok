@@ -7,6 +7,7 @@ import android.view.View.OnClickListener
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val nickname = findViewById<TextView>(R.id.nickname)
+        nickname.text = getSharedPreferences("Omok", MODE_PRIVATE).getString("nickname", "닉네임")
 
         val domainBoard = Board()
         val domainTurn = Turn(setOf(Black, White))
@@ -84,6 +88,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, WinnerActivity::class.java)
             intent.putExtra("winner", turn.now.toString())
             startActivity(intent)
+            finish()
         }
     }
 }
