@@ -1,7 +1,5 @@
 package omok.domain
 
-import omok.domain.OmokGame.Companion.BOARD_X_SIZE
-import omok.domain.OmokGame.Companion.BOARD_Y_SIZE
 import omok.domain.state.EmptyStoneState
 import omok.domain.state.StoneState
 
@@ -24,6 +22,8 @@ class OmokBoard(value: Map<OmokPoint, StoneState>) {
         ?: throw IllegalArgumentException(ERROR_INVALID_POINT.format(point.x.toChar(), point.y.value))
 
     companion object {
+        private const val BOARD_X_SIZE = 15
+        private const val BOARD_Y_SIZE = 15
         private const val ERROR_ALREADY_PLACED = "좌표 %s%s는 이미 다른 돌이 있습니다."
         private const val ERROR_INVALID_POINT = "좌표 %s%s는 오목판에 없습니다."
     }
