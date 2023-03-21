@@ -7,7 +7,7 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
     var turn = initTurn
         private set
 
-    fun putStone(position: Position, addStoneState: Boolean) {
+    private fun putStone(position: Position, addStoneState: Boolean) {
         if (addStoneState) board.addStone(turn, position)
     }
 
@@ -17,7 +17,7 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
         return true
     }
 
-    fun checkWinner(position: Position): Boolean {
+    private fun checkWinner(position: Position): Boolean {
         return when (turn) {
             BLACK -> isBlackWin(position)
             WHITE -> isWhiteWin(position)
@@ -25,7 +25,7 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
         }
     }
 
-    fun changeTurn() {
+    private fun changeTurn() {
         turn = when (turn) {
             BLACK -> WHITE
             WHITE -> BLACK

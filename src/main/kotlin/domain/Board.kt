@@ -14,12 +14,12 @@ class Board(
         private set
 
     fun addStone(coordinateState: CoordinateState, position: Position) {
-        _value[position.getY()][position.getX()] = coordinateState
+        _value[position.coordinateY][position.coordinateX] = coordinateState
         lastPosition = position
     }
 
     fun isEmpty(position: Position): Boolean {
-        return value[position.getY()][position.getX()] == EMPTY
+        return value[position.coordinateY][position.coordinateX] == EMPTY
     }
 
     fun isForbiddenThree(position: Position): Boolean = gameRule.isForbiddenThree(position, value)

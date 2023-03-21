@@ -10,10 +10,10 @@ object ExceedFive {
         coordinateState: CoordinateState,
     ): Boolean {
         var fourStone = 0
-        fourStone += fourORjang1(board, position.getX(), position.getY(), coordinateState)
-        fourStone += fourORjang2(board, position.getX(), position.getY(), coordinateState)
-        fourStone += fourORjang3(board, position.getX(), position.getY(), coordinateState)
-        fourStone += fourORjang4(board, position.getX(), position.getY(), coordinateState)
+        fourStone += fourORjang1(board, position.coordinateX, position.coordinateY, coordinateState)
+        fourStone += fourORjang2(board, position.coordinateX, position.coordinateY, coordinateState)
+        fourStone += fourORjang3(board, position.coordinateX, position.coordinateY, coordinateState)
+        fourStone += fourORjang4(board, position.coordinateX, position.coordinateY, coordinateState)
         return fourStone >= 1
     }
 

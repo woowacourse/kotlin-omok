@@ -41,7 +41,7 @@ object OutputView {
             println()
             return
         }
-        println(" (마지막 돌의 위치: ${AlphabetCoordinate.convertAlphabet(position.getX())}${Board.BOARD_SIZE - position.getY()})")
+        println(" (마지막 돌의 위치: ${AlphabetCoordinate.convertAlphabet(position.coordinateX)}${Board.BOARD_SIZE - position.coordinateY})")
     }
 
     fun printRequestPosition() {

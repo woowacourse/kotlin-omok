@@ -6,10 +6,10 @@ import domain.Position
 object ForbiddenThree {
     fun isForbiddenThree(board: List<List<CoordinateState>>, position: Position): Boolean {
         var openThreeCount = 0
-        openThreeCount += findHorizontal(board, position.getX(), position.getY())
-        openThreeCount += findDiagonal1(board, position.getX(), position.getY())
-        openThreeCount += findVertical(board, position.getX(), position.getY())
-        openThreeCount += findDiagonal2(board, position.getX(), position.getY())
+        openThreeCount += findHorizontal(board, position.coordinateX, position.coordinateY)
+        openThreeCount += findDiagonal1(board, position.coordinateX, position.coordinateY)
+        openThreeCount += findVertical(board, position.coordinateX, position.coordinateY)
+        openThreeCount += findDiagonal2(board, position.coordinateX, position.coordinateY)
         return openThreeCount >= 2
     }
 

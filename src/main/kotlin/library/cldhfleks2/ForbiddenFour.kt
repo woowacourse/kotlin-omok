@@ -6,10 +6,10 @@ import domain.Position
 object ForbiddenFour {
     fun isForbiddenFour(board: List<List<CoordinateState>>, position: Position): Boolean {
         var fourStone = 0
-        fourStone += fourORjang1(board, position.getX(), position.getY())
-        fourStone += fourORjang2(board, position.getX(), position.getY())
-        fourStone += fourORjang3(board, position.getX(), position.getY())
-        fourStone += fourORjang4(board, position.getX(), position.getY())
+        fourStone += fourORjang1(board, position.coordinateX, position.coordinateY)
+        fourStone += fourORjang2(board, position.coordinateX, position.coordinateY)
+        fourStone += fourORjang3(board, position.coordinateX, position.coordinateY)
+        fourStone += fourORjang4(board, position.coordinateX, position.coordinateY)
         return fourStone >= 2
     }
 

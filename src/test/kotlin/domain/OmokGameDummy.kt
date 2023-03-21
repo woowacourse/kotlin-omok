@@ -1,13 +1,13 @@
 package domain
 
 object OmokGameDummy {
-    fun getEmptyCoordinate() = Position(Coordinate(11), Coordinate(11))
-    fun getNotEmptyCoordinate() = Position(Coordinate(5), Coordinate(4))
+    fun getEmptyCoordinate() = Position(11, 11)
+    fun getNotEmptyCoordinate() = Position(5, 4)
     fun getEmptyTestBoard() = List(15) { MutableList(15) { CoordinateState.EMPTY } }.apply {
         this[5][4] = CoordinateState.BLACK
     }
 
-    fun getForbiddenThreeCoordinate() = Position(Coordinate(3), Coordinate(3))
+    fun getForbiddenThreeCoordinate() = Position(3, 3)
     fun getForbiddenThreeBoard() = List(15) { MutableList(15) { CoordinateState.EMPTY } }.apply {
         this[3][4] = CoordinateState.BLACK
         this[3][6] = CoordinateState.BLACK
@@ -15,7 +15,7 @@ object OmokGameDummy {
         this[6][6] = CoordinateState.BLACK
     }
 
-    fun getForbiddenFourCoordinate() = Position(Coordinate(3), Coordinate(3))
+    fun getForbiddenFourCoordinate() = Position(3, 3)
     fun getForbiddenFourBoard() = List(15) { MutableList(15) { CoordinateState.EMPTY } }.apply {
         this[3][4] = CoordinateState.BLACK
         this[3][6] = CoordinateState.BLACK
@@ -25,7 +25,7 @@ object OmokGameDummy {
         this[7][7] = CoordinateState.BLACK
     }
 
-    fun getExceedFiveCoordinate() = Position(Coordinate(4), Coordinate(6))
+    fun getExceedFiveCoordinate() = Position(4, 6)
     fun getExceedFiveBoard(coordinateState: CoordinateState) =
         List(15) { MutableList(15) { CoordinateState.EMPTY } }.apply {
             this[4][3] = coordinateState
@@ -35,7 +35,7 @@ object OmokGameDummy {
             this[4][8] = coordinateState
         }
 
-    fun getExactlyFiveCoordinate() = Position(Coordinate(4), Coordinate(6))
+    fun getExactlyFiveCoordinate() = Position(4, 6)
     fun getExactlyFiveBoard(coordinateState: CoordinateState): List<MutableList<CoordinateState>> =
         List(15) { MutableList(15) { CoordinateState.EMPTY } }.apply {
             this[4][3] = coordinateState

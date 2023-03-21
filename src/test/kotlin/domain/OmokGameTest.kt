@@ -11,6 +11,7 @@ import domain.OmokGameDummy.getForbiddenFourCoordinate
 import domain.OmokGameDummy.getForbiddenThreeBoard
 import domain.OmokGameDummy.getForbiddenThreeCoordinate
 import domain.OmokGameDummy.getNotEmptyCoordinate
+import domain.library.cldhfleks2.Cldhfleks2Rule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -22,7 +23,7 @@ internal class OmokGameTest {
         val inputPosition = getNotEmptyCoordinate()
         val board = getEmptyTestBoard()
 
-        val omokGame = OmokGame(Board(board))
+        val omokGame = OmokGame(Board(board,gameRule = Cldhfleks2Rule()))
         val actual = omokGame.putStone(inputPosition)
 
         assertThat(actual).isFalse

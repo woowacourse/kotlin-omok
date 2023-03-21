@@ -1,6 +1,5 @@
 package library.forbiddenfour
 
-import domain.Coordinate
 import domain.CoordinateState
 import domain.Position
 
@@ -10,7 +9,7 @@ object FourDummy {
     // 5   X
     // 6   X
     //     3 4 5 6
-    val forbiddenFourCoordinate1 = Position(Coordinate(3), Coordinate(3))
+    val forbiddenFourCoordinate1 = Position(3, 3)
     fun getForbiddenFourBoard1(): List<List<CoordinateState>> {
         val board = List(15) { MutableList(15) { CoordinateState.EMPTY } }
         board[3][4] = CoordinateState.BLACK
@@ -27,7 +26,7 @@ object FourDummy {
     // 5       X
     // 6         X
     //     3 4 5 6
-    val forbiddenFourCoordinate2 = Position(Coordinate(3), Coordinate(3))
+    val forbiddenFourCoordinate2 = Position(3, 3)
     fun getForbiddenFourBoard2(): List<List<CoordinateState>> {
         val board = List(15) { MutableList(15) { CoordinateState.EMPTY } }
         board[3][4] = CoordinateState.BLACK

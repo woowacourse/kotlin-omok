@@ -10,10 +10,10 @@ object ExactlyFive {
         targetCoordinateState: CoordinateState,
     ): Boolean {
         var fourStone = 0
-        fourStone += fourORjang1(board, position.getX(), position.getY(), targetCoordinateState)
-        fourStone += fourORjang2(board, position.getX(), position.getY(), targetCoordinateState)
-        fourStone += fourORjang3(board, position.getX(), position.getY(), targetCoordinateState)
-        fourStone += fourORjang4(board, position.getX(), position.getY(), targetCoordinateState)
+        fourStone += fourORjang1(board, position.coordinateX, position.coordinateY, targetCoordinateState)
+        fourStone += fourORjang2(board, position.coordinateX, position.coordinateY, targetCoordinateState)
+        fourStone += fourORjang3(board, position.coordinateX, position.coordinateY, targetCoordinateState)
+        fourStone += fourORjang4(board, position.coordinateX, position.coordinateY, targetCoordinateState)
         return fourStone >= 1
     }
 
