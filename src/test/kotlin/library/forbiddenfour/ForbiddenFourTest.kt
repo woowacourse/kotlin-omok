@@ -1,6 +1,6 @@
 package library.forbiddenfour
 
-import domain.library.ForbiddenFour
+import domain.library.self.ForbiddenFour
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
