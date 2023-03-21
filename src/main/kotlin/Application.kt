@@ -1,5 +1,10 @@
 package domain
 
+import domain.controller.Controller
+import domain.domain.Board
+import domain.view.OmokView
+
 fun main() {
-    Controller().run()
+    val controller = Controller(Board(), OmokView())
+    controller.run()
 }
