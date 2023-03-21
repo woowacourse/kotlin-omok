@@ -3,8 +3,6 @@ package domain.state
 import domain.Stone
 import domain.XCoordinate
 import domain.YCoordinate
-import domain.rule.BlackRuleAdapter
-import domain.rule.LongMokBlackRule
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.jupiter.api.Test
@@ -90,7 +88,7 @@ class BlackTurnTest {
         val state: State = BlackTurn(setOf(), setOf())
         val stone = Stone(XCoordinate.of('A'), YCoordinate.of(1))
 
-        val actual = state.put(stone, BlackRuleAdapter())
+        val actual = state.put(stone)
 
         assertThat(actual).isInstanceOf(WhiteTurn::class.java)
     }
@@ -128,7 +126,7 @@ class BlackTurnTest {
             ),
         )
 
-        val actual = state.put(Stone(XCoordinate.of('F'), YCoordinate.of(2)), BlackRuleAdapter())
+        val actual = state.put(Stone(XCoordinate.of('F'), YCoordinate.of(2)))
 
         assertThat(actual).isInstanceOf(BlackWin::class.java)
     }
@@ -166,7 +164,7 @@ class BlackTurnTest {
             ),
         )
 
-        val actual = state.put(Stone(XCoordinate.of('B'), YCoordinate.of(6)), BlackRuleAdapter())
+        val actual = state.put(Stone(XCoordinate.of('B'), YCoordinate.of(6)))
 
         assertThat(actual).isInstanceOf(BlackWin::class.java)
     }
@@ -204,7 +202,7 @@ class BlackTurnTest {
             ),
         )
 
-        val actual = state.put(Stone(XCoordinate.of('G'), YCoordinate.of(8)), BlackRuleAdapter())
+        val actual = state.put(Stone(XCoordinate.of('G'), YCoordinate.of(8)))
 
         assertThat(actual).isInstanceOf(BlackWin::class.java)
     }
@@ -242,7 +240,7 @@ class BlackTurnTest {
             ),
         )
 
-        val actual = state.put(Stone(XCoordinate.of('F'), YCoordinate.of(6)), BlackRuleAdapter())
+        val actual = state.put(Stone(XCoordinate.of('F'), YCoordinate.of(6)))
 
         assertThat(actual).isInstanceOf(BlackWin::class.java)
     }

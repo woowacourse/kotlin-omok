@@ -4,7 +4,7 @@ import domain.Stone
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-class FourFourBlackRuleTest {
+class FourFourRuleTest {
 
 
     @Test
@@ -25,7 +25,7 @@ class FourFourBlackRuleTest {
 //         2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
 //         1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┤
 //            A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-        val actual = FourFourBlackRule().checkRule(
+        val actual = FourFourRule().checkRule(
             setOf(Stone('E', 5), Stone('F', 5), Stone('G', 5), Stone('H', 6), Stone('H', 7), Stone('H', 8)),
             setOf(Stone('I', 2), Stone('L', 4), Stone('I', 10), Stone('F', 2), Stone('A', 2), Stone('B', 2)),
             Stone('H', 5)
@@ -51,7 +51,7 @@ class FourFourBlackRuleTest {
 //         2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
 //         1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┤
 //            A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-        val actual = FourFourBlackRule().checkRule(
+        val actual = FourFourRule().checkRule(
             setOf(Stone('E', 5), Stone('F', 5), Stone('G', 5), Stone('H', 6), Stone('H', 7)),
             setOf(Stone('I', 2), Stone('L', 4), Stone('I', 10), Stone('F', 2), Stone('A', 2)),
             Stone('H', 5)

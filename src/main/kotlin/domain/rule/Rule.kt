@@ -9,8 +9,10 @@ import domain.Y_MIN_RANGE
 import domain.rule.data.Direction
 import domain.rule.data.Inclination
 
-abstract class Rule {
-    abstract fun checkRule(blackStones: Set<Stone>, whiteStones: Set<Stone>, nextStone: Stone): Boolean
+interface Rule {
+
+    val errorMessage: String
+    fun checkRule(blackStones: Set<Stone>, whiteStones: Set<Stone>, nextStone: Stone): Boolean
     private fun Point.isInRange(): Boolean =
         x in X_MIN_RANGE..X_MAX_RANGE && y in Y_MIN_RANGE..Y_MAX_RANGE
 

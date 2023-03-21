@@ -3,7 +3,9 @@ package domain.rule
 import domain.Stone
 import domain.rule.data.Inclination
 
-class ThreeThreeBlackRule : Rule() {
+class ThreeThreeRule : Rule {
+
+    override val errorMessage: String = "흑돌은 33이면 안됩니다."
 
     override fun checkRule(blackStones: Set<Stone>, whiteStones: Set<Stone>, nextStone: Stone): Boolean {
 
@@ -20,7 +22,6 @@ class ThreeThreeBlackRule : Rule() {
                     )
                 }
             ) {
-                println(true)
                 count33++
             }
         }

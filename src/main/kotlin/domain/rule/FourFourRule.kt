@@ -3,7 +3,8 @@ package domain.rule
 import domain.Stone
 import domain.rule.data.Inclination
 
-class FourFourBlackRule : Rule() {
+class FourFourRule : Rule {
+    override val errorMessage: String = "흑돌은 44면 안됩니다."
 
     override fun checkRule(blackStones: Set<Stone>, whiteStones: Set<Stone>, nextStone: Stone): Boolean {
         val nextBlackStones = blackStones + nextStone

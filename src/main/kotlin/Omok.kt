@@ -1,5 +1,9 @@
 import domain.Board
 import domain.Stone
+import domain.rule.FourFourRule
+import domain.rule.LongMokRule
+import domain.rule.RuleAdapter
+import domain.rule.ThreeThreeRule
 import view.InputView
 import view.OutputView
 
@@ -26,7 +30,7 @@ private fun putStoneUntilNotOccurErrorAndReturnStone(board: Board): Stone {
     while (true) {
         val stone = InputView.readStone()
         runCatching {
-            board.put(stone)
+            board.put(stone, RuleAdapter(listOf(ThreeThreeRule(), FourFourRule(), LongMokRule())))
             return stone
         }.onFailure {
             println(it.message)
