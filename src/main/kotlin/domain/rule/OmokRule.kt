@@ -1,12 +1,8 @@
 package domain.rule
 
-import domain.stone.Board.Companion.BOARD_SIZE
-import domain.stone.Stone
-import domain.stone.StoneType
-
 object OmokRule {
 
-    const val MIN_OPEN_THREES = 2
+    /*const val MIN_OPEN_THREES = 2
     const val MIN_OPEN_FOURS = 2
     private const val MIN_X = 1
     private const val MAX_X = 15
@@ -15,64 +11,92 @@ object OmokRule {
     private val X_Edge = listOf(MIN_X, MAX_X)
     private val Y_Edge = listOf(MIN_Y, MAX_Y)
 
-    fun countOpenThrees(board: List<List<StoneType>>, stone: Stone): Int =
-        checkOpenThree(board, stone, 1, 0) +
-            checkOpenThree(board, stone, 1, 1) +
-            checkOpenThree(board, stone, 0, 1) +
-            checkOpenThreeReverse(board, stone, 1, -1)
+    val directions = listOf(Pair(1, 0), Pair(1, 1), Pair(0, 1), Pair(1, -1))
 
-    fun countOpenFours(board: List<List<StoneType>>, stone: Stone): Int =
-        checkOpenFour(board, stone, 1, 0) +
-            checkOpenFour(board, stone, 1, 1) +
-            checkOpenFour(board, stone, 0, 1) +
-            checkOpenFourReverse(board, stone, 1, -1)
+    fun validateThrees(board: List<List<StoneType>>, stone: Stone): Boolean =
+        countOpenThrees(board, stone) >= 2
+
+    private fun countOpenThrees(board: List<List<StoneType>>, stone: Stone): Int =
+        directions.sumOf { direction -> checkOpenThree(board, stone, direction.first, direction.second) }
+
+    fun validateFour(board: List<List<StoneType>>, stone: Stone): Boolean =
+        countOpenFours(board, stone) >= 2
+
+    private fun countOpenFours(board: List<List<StoneType>>, stone: Stone): Int =
+        directions.sumOf { direction -> checkOpenFour(board, stone, direction.first, direction.second) }
 
     private fun checkOpenThree(board: List<List<StoneType>>, stone: Stone, dx: Int, dy: Int): Int {
         val (stone1, blink1) = search(board, stone, -dx, -dy)
         val (stone2, blink2) = search(board, stone, dx, dy)
 
         val leftDown = stone1 + blink1
+        val left = dx * (leftDown + 1)
+        val down = dy * (leftDown + 1)
+
         val rightUp = stone2 + blink2
+        val right = dx * (rightUp + 1)
+        val up = dy * (rightUp + 1)
 
         return when {
             stone1 + stone2 != 2 -> 0
             blink1 + blink2 == 2 -> 0
-            dx != 0 && stone.position.x.minus(leftDown) in X_Edge -> 0
-            dy != 0 && stone.position.y.minus(leftDown) in Y_Edge -> 0
-            dx != 0 && stone.position.x.plus(rightUp) in X_Edge -> 0
-            dy != 0 && stone.position.y.plus(rightUp) in Y_Edge -> 0
-            board[stone.position.y - dy * (leftDown + 1)][stone.position.x - dx * (leftDown + 1)] == StoneType.WHITE -> 0
-            board[stone.position.y + dy * (rightUp + 1)][stone.position.x + dx * (rightUp + 1)] == StoneType.WHITE -> 0
+            dx != 0 && stone.position.x - dx * leftDown in X_Edge -> 0
+            dy != 0 && stone.position.y - dy * leftDown in Y_Edge -> 0
+            dx != 0 && stone.position.x + dx * rightUp in X_Edge -> 0
+            dy != 0 && stone.position.y + dy * rightUp in Y_Edge -> 0
+            board[stone.position.y - down][stone.position.x - left] == StoneType.WHITE -> 0
+            board[stone.position.y + up][stone.position.x + right] == StoneType.WHITE -> 0
+            countToWall(board, stone, dx, dy) + countToWall(board, stone, dx, dy) <= 5 -> 0
             else -> 1
         }
     }
 
-    private fun checkOpenThreeReverse(board: List<List<StoneType>>, stone: Stone, dx: Int, dy: Int): Int {
-        val (stone1, blink1) = search(board, stone, -dx, -dy)
-        val (stone2, blink2) = search(board, stone, dx, dy)
-
-        val leftUp = stone1 + blink1
-        val rightBottom = stone2 + blink2
-
-        return when {
-            stone1 + stone2 != 2 -> 0
-            blink1 + blink2 == 2 -> 0
-            dx != 0 && stone.position.x.minus(leftUp) in X_Edge -> 0
-            dy != 0 && stone.position.y.plus(leftUp) in Y_Edge -> 0
-            dx != 0 && stone.position.x.plus(rightBottom) in X_Edge -> 0
-            dy != 0 && stone.position.y.minus(rightBottom) in Y_Edge -> 0
-            board[stone.position.y - rightBottom - 1][stone.position.x + rightBottom + 1] == StoneType.WHITE -> 0
-            board[stone.position.y + leftUp + 1][stone.position.x - leftUp - 1] == StoneType.WHITE -> 0
-            else -> 1
+    private fun countToWall(
+        board: List<List<StoneType>>,
+        stone: Stone,
+        dx: Int,
+        dy: Int,
+    ): Int {
+        var (x, y) = stone.position
+        var distance = 0
+        while (willExceedBounds(x, y, dx, dy).not()) {
+            x += dx
+            y += dy
+            when (board[y][x]) {
+                in listOf(StoneType.BLACK, StoneType.EMPTY) -> distance++
+                StoneType.WHITE -> break
+                else -> throw IllegalArgumentException()
+            }
         }
+        return distance
     }
 
-    private fun checkOpenFour(board: List<List<StoneType>>, stone: Stone, dx: Int, dy: Int): Int {
+    private fun willExceedBounds(x: Int, y: Int, dx: Int, dy: Int): Boolean = when {
+        dx > 0 && x == MAX_X -> true
+        dx < 0 && x == MIN_X -> true
+        dy > 0 && y == MAX_Y -> true
+        dy < 0 && y == MIN_Y -> true
+        else -> false
+    }
+
+    private fun checkOpenFour(
+        board: List<List<StoneType>>,
+        stone: Stone,
+        dx: Int,
+        dy: Int,
+    ): Int {
         val (stone1, blink1) = search(board, stone, -dx, -dy)
         val (stone2, blink2) = search(board, stone, dx, dy)
+
+        val (x, y) = stone.position
 
         val leftDown = stone1 + blink1
+        val left = dx * (leftDown + 1)
+        val down = dy * (leftDown + 1)
+
         val rightUp = stone2 + blink2
+        val right = dx * (rightUp + 1)
+        val up = dy * (rightUp + 1)
 
         when {
             blink1 + blink2 == 2 && stone1 + stone2 == 4 -> return 2
@@ -82,50 +106,19 @@ object OmokRule {
         }
 
         val leftDownValid = when {
-            dx != 0 && stone.position.x.minus(dx * leftDown) in X_Edge -> 0
-            dy != 0 && stone.position.y.minus(dy * leftDown) in Y_Edge -> 0
-            board[stone.position.y - dy * (leftDown + 1)][stone.position.x - dx * (leftDown + 1)] == StoneType.WHITE -> 0
+            dx != 0 && x - dx * leftDown in X_Edge -> 0
+            dy != 0 && y - dy * leftDown in Y_Edge -> 0
+            board[y - down][x - left] == StoneType.WHITE -> 0
             else -> 1
         }
         val rightUpValid = when {
-            dx != 0 && stone.position.x.plus(dx * rightUp) in X_Edge -> 0
-            dy != 0 && stone.position.y.plus(dy * rightUp) in Y_Edge -> 0
-            board[stone.position.y + dy * (rightUp + 1)][stone.position.x + dx * (rightUp + 1)] == StoneType.WHITE -> 0
+            dx != 0 && x + (dx * rightUp) in X_Edge -> 0
+            dy != 0 && y + (dy * rightUp) in Y_Edge -> 0
+            board[y + up][x + right] == StoneType.WHITE -> 0
             else -> 1
         }
 
         return if (leftDownValid + rightUpValid >= 1) 1 else 0
-    }
-
-    private fun checkOpenFourReverse(board: List<List<StoneType>>, stone: Stone, dx: Int, dy: Int): Int {
-        val (stone1, blink1) = search(board, stone, -dx, -dy)
-        val (stone2, blink2) = search(board, stone, dx, dy)
-
-        val leftUp = stone1 + blink1
-        val rightBottom = stone2 + blink2
-
-        when {
-            blink1 + blink2 == 2 && stone1 + stone2 == 5 -> return 2
-            blink1 + blink2 == 2 && stone1 + stone2 == 4 -> return 2
-            stone1 + stone2 != 3 -> return 0
-            blink1 + blink2 == 2 -> return 0
-        }
-
-        val leftUpValid = when {
-            dx != 0 && stone.position.x.minus(leftUp) in X_Edge -> 0
-            dy != 0 && stone.position.y.plus(leftUp) in Y_Edge -> 0
-            board[stone.position.y - rightBottom - 1][stone.position.x + rightBottom + 1] == StoneType.WHITE -> 0
-            else -> 1
-        }
-
-        val rightBottomValid = when {
-            dx != 0 && stone.position.x.plus(rightBottom) in X_Edge -> 0
-            dy != 0 && stone.position.y.minus(rightBottom) in Y_Edge -> 0
-            board[stone.position.y + leftUp + 1][stone.position.x - leftUp - 1] == StoneType.WHITE -> 0
-            else -> 1
-        }
-
-        return if (leftUpValid + rightBottomValid >= 1) 1 else 0
     }
 
     private fun search(board: List<List<StoneType>>, stone: Stone, dx: Int, dy: Int): Pair<Int, Int> {
@@ -170,7 +163,7 @@ object OmokRule {
         return stoneType == StoneType.WHITE
     }
 
-    fun isWinCondition(board: List<List<StoneType>>, stone: Stone): Boolean {
+    *//*fun isWinCondition(board: List<List<StoneType>>, stone: Stone): Boolean {
         return when {
             checkHorizontal(board, stone) -> true
             checkVertical(board, stone) -> true
@@ -240,5 +233,31 @@ object OmokRule {
             }
         }
         return count >= 5
+    } *//*
+
+    fun validateBlackWin(board: List<List<StoneType>>, stone: Stone): Boolean =
+        directions.map { direction -> checkWhiteWin(board, stone, direction.first, direction.second) }.contains(true)
+
+    private fun checkWhiteWin(board: List<List<StoneType>>, stone: Stone, dx: Int, dy: Int): Boolean {
+        val (stone1, blink1) = search(board, stone, -dx, -dy)
+        val (stone2, blink2) = search(board, stone, dx, dy)
+
+        return when {
+            blink1 + blink2 == 0 && stone1 + stone2 == 4 -> true
+            else -> false
+        }
     }
+
+    fun validateWhiteWin(board: List<List<StoneType>>, stone: Stone): Boolean =
+        directions.map { direction -> checkBlackWin(board, stone, direction.first, direction.second) }.contains(true)
+
+    private fun checkBlackWin(board: List<List<StoneType>>, stone: Stone, dx: Int, dy: Int): Boolean {
+        val (stone1, blink1) = search(board, stone, -dx, -dy)
+        val (stone2, blink2) = search(board, stone, dx, dy)
+
+        return when {
+            blink1 + blink2 == 0 && stone1 + stone2 >= 4 -> true
+            else -> false
+        }
+    }*/
 }
