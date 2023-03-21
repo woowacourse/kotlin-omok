@@ -2,7 +2,11 @@ package domain.state
 
 import domain.Stone
 import domain.XCoordinate
+import domain.X_MAX_RANGE
+import domain.X_MIN_RANGE
 import domain.YCoordinate
+import domain.Y_MAX_RANGE
+import domain.Y_MIN_RANGE
 
 abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State {
 
@@ -16,8 +20,8 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
     }
 
     protected fun Set<Stone>.completeOmok(): Boolean {
-        val xCoordinateRange = XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE
-        val yCoordinateRange = YCoordinate.Y_MIN_RANGE..YCoordinate.Y_MAX_RANGE
+        val xCoordinateRange = X_MIN_RANGE..X_MAX_RANGE
+        val yCoordinateRange = Y_MIN_RANGE..Y_MAX_RANGE
         for (x in xCoordinateRange) {
             if (verticalCompleteCheck(this, x)) return true
         }
@@ -31,7 +35,7 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
 
     private fun horizontalCompleteCheck(placedStones: Set<Stone>, y: Int): Boolean {
         var linkedCount = 0
-        for (x in XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE) {
+        for (x in X_MIN_RANGE..X_MAX_RANGE) {
             val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
             if (stone in placedStones) linkedCount++ else linkedCount = 0
             if (linkedCount >= 5) return true
@@ -41,7 +45,7 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
 
     private fun verticalCompleteCheck(placedStones: Set<Stone>, x: Char): Boolean {
         var linkedCount = 0
-        for (y in YCoordinate.Y_MIN_RANGE..YCoordinate.Y_MAX_RANGE) {
+        for (y in Y_MIN_RANGE..Y_MAX_RANGE) {
             val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
             if (stone in placedStones) linkedCount++ else linkedCount = 0
             if (linkedCount >= 5) return true
@@ -57,7 +61,7 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
         // 왼쪽 위에서 시작하는 대각선
         for ((maxX, maxY) in xCoordinateRange.zip(yCoordinateRange)) {
             var linkedCount = 0
-            for ((x, y) in (XCoordinate.X_MIN_RANGE..maxX).zip(maxY downTo YCoordinate.Y_MIN_RANGE)) {
+            for ((x, y) in (X_MIN_RANGE..maxX).zip(maxY downTo Y_MIN_RANGE)) {
                 val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
                 if (stone in stones) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
@@ -65,7 +69,7 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
         }
         for ((minX, minY) in xCoordinateRange.zip(yCoordinateRange)) {
             var linkedCount = 0
-            for ((x, y) in (minX..XCoordinate.X_MAX_RANGE).zip(YCoordinate.Y_MAX_RANGE downTo minY).toList()) {
+            for ((x, y) in (minX..X_MAX_RANGE).zip(Y_MAX_RANGE downTo minY).toList()) {
                 val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
                 if (stone in stones) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
@@ -82,7 +86,7 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
         // 왼쪽 아래에서 시작하는 대각선
         for ((maxX, minY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
             var linkedCount = 0
-            for ((x, y) in (XCoordinate.X_MIN_RANGE..maxX).zip(minY..YCoordinate.Y_MAX_RANGE)) {
+            for ((x, y) in (X_MIN_RANGE..maxX).zip(minY..Y_MAX_RANGE)) {
                 val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
                 if (stone in stones) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
@@ -90,7 +94,7 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
         }
         for ((minX, maxY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
             var linkedCount = 0
-            for ((x, y) in (minX..XCoordinate.X_MAX_RANGE).zip(YCoordinate.Y_MIN_RANGE..maxY)) {
+            for ((x, y) in (minX..X_MAX_RANGE).zip(Y_MIN_RANGE..maxY)) {
                 val stone = Stone(XCoordinate.of(x), YCoordinate.of(y))
                 if (stone in stones) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
