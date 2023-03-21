@@ -3,9 +3,6 @@ package omok.domain
 import omok.domain.OmokGame.Companion.BOARD_Y_SIZE
 
 data class YCoordinate(val value: Int) {
-    val isTopMost: Boolean = value == BOARD_Y_SIZE
-    val isBottomMost: Boolean = value == Y_MIN_RANGE
-    val isInEdge: Boolean = isBottomMost || isTopMost
 
     init {
         require(value in Y_MIN_RANGE..BOARD_Y_SIZE) { ERROR_Y_COORDINATE_OUT_OF_RANGE }

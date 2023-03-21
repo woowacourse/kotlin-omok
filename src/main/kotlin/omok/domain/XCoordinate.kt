@@ -3,9 +3,6 @@ package omok.domain
 import omok.domain.OmokGame.Companion.BOARD_X_SIZE
 
 data class XCoordinate(val value: Int) {
-    val isLeftMost: Boolean = value == X_MIN_RANGE
-    val isRightMost: Boolean = value == BOARD_X_SIZE
-    val isInEdge: Boolean = isLeftMost || isRightMost
 
     init {
         require(value in X_MIN_RANGE..BOARD_X_SIZE) { ERROR_X_COORDINATE_OUT_OF_RANGE }
