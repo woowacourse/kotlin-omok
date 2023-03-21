@@ -1,4 +1,4 @@
-package domain
+package domain.stone
 
 object StoneFactory {
     fun createSameColorStone(stone: Stone, point: Point): Stone {

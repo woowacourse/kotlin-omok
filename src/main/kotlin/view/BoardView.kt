@@ -1,9 +1,9 @@
 package view
 
-import domain.BlackStone
+import domain.stone.BlackStone
 import domain.Board
-import domain.Point
-import domain.WhiteStone
+import domain.stone.Point
+import domain.stone.WhiteStone
 import domain.X_MAX_RANGE
 import domain.X_MIN_RANGE
 import domain.Y_MAX_RANGE

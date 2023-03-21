@@ -1,8 +1,8 @@
 package domain.state
 
-import domain.BlackStone
-import domain.Point
-import domain.Stones
+import domain.stone.BlackStone
+import domain.stone.Point
+import domain.stone.Stones
 import domain.rule.RuleAdapter
 
 class BlackTurn(override val stones: Stones) :

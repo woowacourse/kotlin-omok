@@ -1,5 +1,8 @@
-package domain
+package domain.stone
 
+import domain.stone.BlackStone
+import domain.stone.Point
+import domain.stone.StoneFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

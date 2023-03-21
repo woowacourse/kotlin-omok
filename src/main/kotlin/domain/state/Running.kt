@@ -1,12 +1,12 @@
 package domain.state
 
-import domain.Point
-import domain.Stone
-import domain.Stones
-import domain.XCoordinate
+import domain.stone.Point
+import domain.stone.Stone
+import domain.stone.Stones
+import domain.stone.XCoordinate
 import domain.X_MAX_RANGE
 import domain.X_MIN_RANGE
-import domain.YCoordinate
+import domain.stone.YCoordinate
 import domain.Y_MAX_RANGE
 import domain.Y_MIN_RANGE
 

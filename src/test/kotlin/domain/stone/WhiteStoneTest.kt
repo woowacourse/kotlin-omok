@@ -1,6 +1,6 @@
-package domain
+package domain.stone
 
-import org.assertj.core.api.Assertions
+import domain.stone.WhiteStone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

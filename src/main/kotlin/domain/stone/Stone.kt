@@ -1,4 +1,4 @@
-package domain
+package domain.stone
 
 abstract class Stone(val point: Point) {
     constructor(x: Char, y: Int) : this(Point(x, y))

@@ -1,6 +1,6 @@
 package view
 
-import domain.Point
+import domain.stone.Point
 import domain.X_MAX_RANGE
 import domain.X_MIN_RANGE
 import domain.Y_MAX_RANGE

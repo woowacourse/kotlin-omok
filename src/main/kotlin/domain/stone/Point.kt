@@ -1,4 +1,4 @@
-package domain
+package domain.stone
 
 data class Point(private val xCoordinate: XCoordinate, private val yCoordinate: YCoordinate) {
 

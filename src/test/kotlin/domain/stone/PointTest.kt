@@ -1,9 +1,8 @@
-package domain
+package domain.stone
 
+import domain.stone.Point
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 internal class PointTest {
 

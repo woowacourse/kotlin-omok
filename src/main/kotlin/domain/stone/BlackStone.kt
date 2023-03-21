@@ -1,4 +1,4 @@
-package domain
+package domain.stone
 
 class BlackStone : Stone {
     constructor(point: Point) : super(point)

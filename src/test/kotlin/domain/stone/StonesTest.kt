@@ -1,9 +1,10 @@
-package domain
+package domain.stone
 
+import domain.stone.BlackStone
+import domain.stone.Stones
+import domain.stone.WhiteStone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 internal class StonesTest {
 

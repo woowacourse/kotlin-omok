@@ -1,6 +1,8 @@
 package domain
 
-import domain.rule.RuleAdapter
+import domain.stone.BlackStone
+import domain.stone.Point
+import domain.stone.WhiteStone
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*

@@ -1,4 +1,7 @@
-package domain
+package domain.stone
+
+import domain.X_MAX_RANGE
+import domain.X_MIN_RANGE
 
 class XCoordinate private constructor(val x: Char) {
 

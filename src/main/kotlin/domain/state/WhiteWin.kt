@@ -1,6 +1,6 @@
 package domain.state
 
-import domain.Stones
+import domain.stone.Stones
 
 class WhiteWin(override val stones: Stones) :
     Finished(stones) {

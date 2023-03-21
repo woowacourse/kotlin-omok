@@ -1,11 +1,9 @@
 package domain.rule
 
-import domain.BlackStone
-import domain.Stones
-import domain.WhiteStone
-import org.assertj.core.api.Assertions.assertThat
+import domain.stone.BlackStone
+import domain.stone.Stones
+import domain.stone.WhiteStone
 import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class RuleAdapterTest {

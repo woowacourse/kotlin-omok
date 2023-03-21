@@ -1,7 +1,7 @@
 package domain.rule
 
-import domain.Stone
-import domain.Stones
+import domain.stone.Stone
+import domain.stone.Stones
 
 class RuleAdapter(private val rules: List<Rule>) {
     fun checkStone(stones: Stones, justPlacedStone: Stone) {

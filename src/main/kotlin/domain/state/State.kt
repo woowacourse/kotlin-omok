@@ -1,7 +1,7 @@
 package domain.state
 
-import domain.Point
-import domain.Stones
+import domain.stone.Point
+import domain.stone.Stones
 import domain.rule.RuleAdapter
 
 interface State {

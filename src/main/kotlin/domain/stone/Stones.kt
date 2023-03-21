@@ -1,4 +1,4 @@
-package domain
+package domain.stone
 
 class Stones(val stones: Set<Stone>) {
     val blackStones: Set<Stone>

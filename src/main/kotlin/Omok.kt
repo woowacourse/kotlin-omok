@@ -1,5 +1,5 @@
 import domain.Board
-import domain.Point
+import domain.stone.Point
 import domain.rule.FourFourRule
 import domain.rule.LongMokRule
 import domain.rule.RuleAdapter

@@ -1,13 +1,9 @@
 package domain.state
 
-import domain.BlackStone
-import domain.Point
-import domain.Stone
-import domain.Stones
-import domain.WhiteStone
-import domain.XCoordinate
-import domain.YCoordinate
-import domain.rule.FourFourRule
+import domain.stone.BlackStone
+import domain.stone.Point
+import domain.stone.Stones
+import domain.stone.WhiteStone
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.jupiter.api.Test

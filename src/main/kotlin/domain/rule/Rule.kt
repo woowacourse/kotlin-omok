@@ -1,10 +1,10 @@
 package domain.rule
 
-import domain.BlackStone
-import domain.Point
-import domain.Stone
-import domain.StoneFactory
-import domain.Stones
+import domain.stone.BlackStone
+import domain.stone.Point
+import domain.stone.Stone
+import domain.stone.StoneFactory
+import domain.stone.Stones
 import domain.X_MAX_RANGE
 import domain.X_MIN_RANGE
 import domain.Y_MAX_RANGE

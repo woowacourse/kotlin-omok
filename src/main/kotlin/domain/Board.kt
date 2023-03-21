@@ -6,6 +6,9 @@ import domain.state.BlackWin
 import domain.state.Finished
 import domain.state.State
 import domain.state.WhiteTurn
+import domain.stone.Point
+import domain.stone.Stone
+import domain.stone.Stones
 import java.lang.IllegalArgumentException
 
 class Board {

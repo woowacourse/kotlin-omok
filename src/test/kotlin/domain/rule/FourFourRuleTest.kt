@@ -1,8 +1,8 @@
 package domain.rule
 
-import domain.BlackStone
-import domain.Stones
-import domain.WhiteStone
+import domain.stone.BlackStone
+import domain.stone.Stones
+import domain.stone.WhiteStone
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

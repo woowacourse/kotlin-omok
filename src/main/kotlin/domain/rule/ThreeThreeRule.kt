@@ -1,7 +1,7 @@
 package domain.rule
 
-import domain.Stone
-import domain.Stones
+import domain.stone.Stone
+import domain.stone.Stones
 import domain.rule.data.Inclination
 
 class ThreeThreeRule : Rule {

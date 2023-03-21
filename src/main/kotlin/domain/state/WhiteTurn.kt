@@ -1,8 +1,8 @@
 package domain.state
 
-import domain.Point
-import domain.Stones
-import domain.WhiteStone
+import domain.stone.Point
+import domain.stone.Stones
+import domain.stone.WhiteStone
 import domain.rule.RuleAdapter
 
 class WhiteTurn(override val stones: Stones) :
