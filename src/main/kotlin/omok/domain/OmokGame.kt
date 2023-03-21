@@ -12,7 +12,15 @@ class OmokGame {
     var gameState: GameState = BlackTurn(OmokBoard())
     fun play(omokPointListener: OmokPointListener, boardStatusListener: BoardStatusListener) {
         val tempPoint = omokPointListener(gameState.stoneState, point)
-        runCatching { gameState = gameState.play(tempPoint) }.onFailure { println(it.message) }.onSuccess { point = tempPoint }
+        runCatching {
+            gameState = gameState.play(tempPoint)
+        }
+            .onFailure {
+                println(it.message)
+            }
+            .onSuccess {
+                point = tempPoint
+            }
         boardStatusListener(gameState.omokBoard)
         when {
             gameState.isRunning -> play(omokPointListener, boardStatusListener)
