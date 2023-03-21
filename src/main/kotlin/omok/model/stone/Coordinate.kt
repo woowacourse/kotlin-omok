@@ -1,46 +1,21 @@
 package omok.model.stone
 
-import omok.model.game.Board
-
-class Coordinate(val mark: String) {
-    val x: Int
-    val y: Int
-
-    init {
-        val first = mark.first().uppercaseChar() - 'A' + 1
-        val second = mark.substring(1)
-        require(first.isWithInRange() && second.isWithinRange()) { "위치를 알파벳숫자 형태로 입력해주세요. (잘못된 값: $mark)" }
-
-        x = Board.BOARD_LENGTH - second.toInt() + 1
-        y = first
-    }
-
-    private fun Int.isWithInRange(): Boolean = this in BOARD_SIZE_RANGE
-
-    private fun String.isWithinRange(): Boolean {
-        val number = this.toIntOrNull()
-        return number?.isWithInRange() ?: false
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Coordinate
-
-        if (x != other.x) return false
-        if (y != other.y) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = x
-        result = 31 * result + y
-        return result
-    }
+data class Coordinate(val x: Int, val y: Int) {
 
     companion object {
-        val BOARD_SIZE_RANGE: IntRange = 1..Board.BOARD_LENGTH
+        private const val MINIMUM = 1
+
+        fun createWithMark(mark: String): Coordinate {
+            val first = mark.first().uppercaseChar() - 'A' + 1
+            val second = mark.substring(1)
+            require(first >= MINIMUM && second.isWithinRange()) { "위치를 알파벳숫자 형태로 입력해주세요. (잘못된 값: $mark)" }
+
+            return Coordinate(first, second.toInt())
+        }
+
+        private fun String.isWithinRange(): Boolean {
+            val number = this.toIntOrNull() ?: return false
+            return number >= MINIMUM
+        }
     }
 }
