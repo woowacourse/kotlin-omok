@@ -9,7 +9,7 @@ class OmokGameTest {
         omokGame.runGame()
     }
 
-    private fun listener() = object : Listener {
+    private fun listener() = object : OmokGameListener {
         val black = (1..5).map { Stone(it, 0) }.toMutableList()
         val white = (1..5).map { Stone(it, 3) }.toMutableList()
         val turn = mutableListOf<Stone>()

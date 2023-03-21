@@ -3,7 +3,7 @@ package domain
 class OmokGame(
     private val omokBoard: OmokBoard = OmokBoard(),
     private val referee: Referee = Referee(),
-    private val omokGameListener: Listener
+    private val omokGameListener: OmokGameListener
 ) {
     fun runGame() {
         while (true) {

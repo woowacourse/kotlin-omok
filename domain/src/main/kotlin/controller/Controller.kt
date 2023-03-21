@@ -1,8 +1,8 @@
 package controller
 
-import domain.Listener
 import domain.OmokBoard
 import domain.OmokGame
+import domain.OmokGameListener
 import domain.State
 import domain.Stone
 import view.ConsoleInputView
@@ -15,7 +15,7 @@ class Controller(
     private val outputView: OutputView = ConsoleOutputView()
 ) {
 
-    private val omokGameListener = object : Listener {
+    private val omokGameListener = object : OmokGameListener {
         override fun onStoneRequest(): Stone {
             return inputView.readPosition()
         }
