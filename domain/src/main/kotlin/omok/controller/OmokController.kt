@@ -7,14 +7,13 @@ import omok.domain.OmokPoint
 import omok.domain.gameState.BlackTurn
 import omok.domain.gameState.GameState
 
-class OmokController(omokGameListener: OmokGameListener) {
+class OmokController(omokGameListener: OmokGameListener, omokBoard: OmokBoard = OmokBoard()) {
     private val omokGame = OmokGame(omokGameListener)
-    var gameState: GameState = BlackTurn(OmokBoard())
-        private set
+    var gameState: GameState = BlackTurn(omokBoard)
 
     init {
         omokGameListener.onOmokStart()
-        omokGameListener.onBoardShow(gameState.omokBoard)
+        omokGameListener.onBoardShow(gameState.omokBoard, null)
     }
 
     fun run(omokPoint: OmokPoint? = null) {

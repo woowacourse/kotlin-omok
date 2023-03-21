@@ -15,7 +15,7 @@ fun main() {
                 OutputView.outputInit()
             }
 
-            override fun onBoardShow(omokBoard: OmokBoard) {
+            override fun onBoardShow(omokBoard: OmokBoard, omokPoint: OmokPoint?) {
                 OutputView.outputBoard(omokBoard)
             }
 

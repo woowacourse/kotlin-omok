@@ -4,7 +4,7 @@ import omok.domain.OmokBoard
 import omok.domain.OmokPoint
 import omok.domain.state.StoneState
 
-interface GameState {
+sealed interface GameState {
     val stoneState: StoneState
     val omokBoard: OmokBoard
     val isRunning: Boolean

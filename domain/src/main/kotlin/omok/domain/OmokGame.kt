@@ -10,7 +10,7 @@ class OmokGame(private val listener: OmokGameListener) {
     ): GameState {
         point ?: return gameState
         return runCatching { gameState.play(point) }
-            .onSuccess { listener.onBoardShow(it.omokBoard) }
+            .onSuccess { listener.onBoardShow(it.omokBoard, point) }
             .onFailure { listener.onError(it.message) }
             .getOrDefault(gameState)
     }
