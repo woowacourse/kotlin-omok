@@ -1,48 +1,30 @@
 package domain
 
-import domain.CoordinateState.BLACK
-import domain.CoordinateState.WHITE
+import domain.domain.Board2
+import domain.domain.Color
+import domain.domain.Position2
+import domain.domain.Stone
 
-class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
-    var turn = initTurn
-        private set
-
-    fun putStone(position: Position): Boolean {
-        if (!board.isEmpty(position)) return false
-        if (turn == BLACK && isBlackForbidden(position)) return false
-        board.addStone(turn, position)
-        return true
+class OmokGame(val board: Board2) {
+    fun getWinnerColor(showCurrentState: (Board2) -> Unit, getPosition: () -> Position2): Color {
+        val stone = getStone(showCurrentState, getPosition)
+        val winnerColor = judgeWinner(stone)
+        board.placeStone(stone)
+        return winnerColor ?: return getWinnerColor(showCurrentState, getPosition)
     }
 
-    fun checkWinner(position: Position): Boolean {
-        return when (turn) {
-            BLACK -> winProcess(position) { isBlackWin(it) }
-            WHITE -> winProcess(position) { isWhiteWin(it) }
-            else -> throw IllegalArgumentException()
+    private fun getStone(showCurrentState: (Board2) -> Unit, getPosition: () -> Position2): Stone {
+        showCurrentState(board)
+        val stone = Stone(board.getCurrentTurn(), getPosition())
+        if (!board.isEmpty(stone)) return getStone(showCurrentState, getPosition)
+        return stone
+    }
+
+    private fun judgeWinner(stone: Stone): Color? {
+        when {
+            board.isBlackWin(stone) -> return Color.BLACK
+            board.isWhiteWin(stone) -> return Color.WHITE
         }
+        return null
     }
-
-    fun changeTurn() {
-        turn = when (turn) {
-            BLACK -> WHITE
-            WHITE -> BLACK
-            CoordinateState.EMPTY -> throw IllegalArgumentException()
-        }
-    }
-
-    private fun winProcess(position: Position, isWin: (Position) -> Boolean): Boolean {
-        if (isWin(position)) {
-            board.addStone(turn, position)
-            return true
-        }
-        return false
-    }
-
-    private fun isBlackWin(position: Position): Boolean = board.isExactlyFive(position, turn)
-
-    private fun isWhiteWin(position: Position): Boolean =
-        board.isExactlyFive(position, turn) || board.isExceedFive(position, turn)
-
-    private fun isBlackForbidden(position: Position): Boolean =
-        board.isForbiddenThree(position) or board.isForbiddenFour(position) or board.isExceedFive(position, turn)
 }

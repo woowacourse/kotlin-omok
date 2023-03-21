@@ -1,128 +1,87 @@
 package domain
 
-import domain.OmokGameDummy.getEmptyCoordinate
-import domain.OmokGameDummy.getEmptyTestBoard
-import domain.OmokGameDummy.getExactlyFiveBoard
-import domain.OmokGameDummy.getExactlyFiveCoordinate
-import domain.OmokGameDummy.getExceedFiveBoard
-import domain.OmokGameDummy.getExceedFiveCoordinate
-import domain.OmokGameDummy.getForbiddenFourBoard
-import domain.OmokGameDummy.getForbiddenFourCoordinate
-import domain.OmokGameDummy.getForbiddenThreeBoard
-import domain.OmokGameDummy.getForbiddenThreeCoordinate
-import domain.OmokGameDummy.getNotEmptyCoordinate
-import org.assertj.core.api.Assertions.assertThat
+import domain.domain.Board2
+import domain.domain.Color
+import domain.domain.Position2
+import domain.domain.Stone
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
 
 internal class OmokGameTest {
-    @Test
-    fun `putStone은 해당 Position이 비어있지 않으면 false를 반환한다`() {
-        val inputPosition = getNotEmptyCoordinate()
-        val board = getEmptyTestBoard()
-
-        val omokGame = OmokGame(Board(board))
-        val actual = omokGame.putStone(inputPosition)
-
-        assertThat(actual).isFalse
+    private fun Stone(color: Color, vararg positions: Int): Stone {
+        return Stone(color, Position2(positions[0], positions[1]))
     }
 
     @Test
-    fun `putStone은 해당 Position이 비어있으면 true를 반환한다`() {
-        val inputPosition = getEmptyCoordinate()
-        val board = getEmptyTestBoard()
-
-        val omokGame = OmokGame(Board(board))
-        val actual = omokGame.putStone(inputPosition)
-
-        assertThat(actual).isTrue
+    fun `흑이 이겼을 경우 검정색을 반환한다`() {
+        // given
+        val board = generateBlackWinOmokBoard()
+        val omokGame = OmokGame(board)
+        // when
+        val actual = omokGame.getWinnerColor({}, { Position2(1, 6) })
+        val expected = Color.BLACK
+        // then
+        Assertions.assertThat(actual).isEqualTo(expected)
     }
 
-    // 3   ? X   X
-    // 4     X
-    // 5
-    // 6         X
-    //     3 4 5 6
-    @Test
-    fun `putStone은 turn이 블랙이고 33금수인 경우 false를 반환한다`() {
-        val inputPosition = getForbiddenThreeCoordinate()
-        val board = getForbiddenThreeBoard()
-
-        val omokGame = OmokGame(Board(board))
-        val actual = omokGame.putStone(inputPosition)
-
-        assertThat(actual).isFalse
-    }
-
-    // 3   ? X   X X
-    // 4     X
-    // 5
-    // 6         X
-    // 7           X
-    //     3 4 5 6 7
-    @Test
-    fun `putStone은 turn이 블랙이고 44금수인 경우 fales를 반환한다`() {
-        val inputPosition = getForbiddenFourCoordinate()
-        val board = getForbiddenFourBoard()
-
-        val omokGame = OmokGame(Board(board))
-        val actual = omokGame.putStone(inputPosition)
-
-        assertThat(actual).isFalse
-    }
-
-    // 3
-    // 4 X X X ? X X
-    //   3 4 5 6 7 8
-    @CsvSource(value = ["BLACK,false", "WHITE,true"])
-    @ParameterizedTest
-    fun `putStone은 장목인 경우를 흑돌은 false, 백돌은 true를 반환한다`(coordinateState: CoordinateState, expected: Boolean) {
-        val inputPosition = getExceedFiveCoordinate()
-        val board = getExceedFiveBoard(coordinateState)
-
-        val omokGame = OmokGame(Board(board))
-        val actual = omokGame.putStone(inputPosition)
-
-        assertThat(actual).isEqualTo(expected)
+    private fun generateBlackWinOmokBoard(): Board2 {
+        val board = Board2().apply {
+            placeStone(Stone(getCurrentTurn(), 1, 2))
+            placeStone(Stone(getCurrentTurn(), 2, 2))
+            placeStone(Stone(getCurrentTurn(), 1, 3))
+            placeStone(Stone(getCurrentTurn(), 2, 3))
+            placeStone(Stone(getCurrentTurn(), 1, 4))
+            placeStone(Stone(getCurrentTurn(), 2, 4))
+            placeStone(Stone(getCurrentTurn(), 1, 5))
+            placeStone(Stone(getCurrentTurn(), 4, 8))
+        }
+        return board
     }
 
     @Test
-    fun `changeTurn을 호출하면 turn이 바뀐다`() {
-        val omokGame = OmokGame(board = Board(), initTurn = CoordinateState.BLACK)
-
-        omokGame.changeTurn()
-
-        assertThat(omokGame.turn).isEqualTo(CoordinateState.WHITE)
+    fun `백이 이겼을 경우 하얀색을 반환한다`() {
+        // given
+        val board = generateWhiteWinOmokBoard()
+        val omokGame = OmokGame(board)
+        // when
+        val actual = omokGame.getWinnerColor({}, { Position2(1, 6) })
+        val expected = Color.WHITE
+        // then
+        Assertions.assertThat(actual).isEqualTo(expected)
     }
 
-    // 3
-    // 4 X X X ? X
-    //   3 4 5 6 7
-    @CsvSource(value = ["BLACK", "WHITE"])
-    @ParameterizedTest
-    fun `checkWinner는 오목인 경우 무조건 true를 반환한다`(coordinateState: CoordinateState) {
-        val inputPosition = getExactlyFiveCoordinate()
-        val board = getExactlyFiveBoard(coordinateState)
-
-        val omokGame = OmokGame(board = Board(board), initTurn = coordinateState)
-        val actual = omokGame.checkWinner(inputPosition)
-
-        assertThat(actual).isTrue
+    private fun generateWhiteWinOmokBoard(): Board2 {
+        val board = Board2().apply {
+            placeStone(Stone(getCurrentTurn(), 2, 2))
+            placeStone(Stone(getCurrentTurn(), 1, 2))
+            placeStone(Stone(getCurrentTurn(), 2, 3))
+            placeStone(Stone(getCurrentTurn(), 1, 3))
+            placeStone(Stone(getCurrentTurn(), 2, 4))
+            placeStone(Stone(getCurrentTurn(), 1, 4))
+            placeStone(Stone(getCurrentTurn(), 2, 5))
+            placeStone(Stone(getCurrentTurn(), 1, 5))
+            placeStone(Stone(getCurrentTurn(), 2, 10))
+        }
+        return board
     }
 
-    // 3
-    // 4 X X X ? X X
-    //   3 4 5 6 7 8
-    @CsvSource(value = ["BLACK,false", "WHITE,true"])
-    @ParameterizedTest
-    fun `checkWinner는 장목인 경우를 흑돌은 false, 백돌은 true를 반환한다`(coordinateState: CoordinateState, expected: Boolean) {
-        val inputPosition = getExceedFiveCoordinate()
-        val board = getExceedFiveBoard(coordinateState)
+    @Test
+    fun `처음 수와 두번째 수에 아무도 이기지못하고 3번째수에 백이 이겼을 때 하얀색을 반환한다`() {
+        // given
+        val board = generateWhiteWinOmokBoard()
+        val omokGame = OmokGame(board)
+        // when
+        val actual = omokGame.getWinnerColor({}, { getPosition() })
+        val expected = Color.WHITE
+        // then
+        Assertions.assertThat(actual).isEqualTo(expected)
+    }
 
-        val omokGame = OmokGame(board = Board(board), initTurn = coordinateState)
-        val actual = omokGame.checkWinner(inputPosition)
-
-        assertThat(actual).isEqualTo(expected)
+    private var count = 0
+    private fun getPosition(): Position2 {
+        count++
+        if (count == 1) return Position2(5, 10)
+        if (count == 2) return Position2(5, 11)
+        return Position2(1, 6)
     }
 }
