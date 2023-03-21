@@ -2,9 +2,6 @@ package omok.model.external.rule
 
 import omok.model.external.rule.type.Foul
 import omok.model.external.rule.type.Violation
-import omok.model.external.rule.type.Violation.Companion.FOUL_CONDITION_SIZE
-import omok.model.external.rule.type.Violation.Companion.MAX_EMPTY_SIZE
-import omok.model.external.rule.type.Violation.Companion.OVERLINE_SIZE
 import omok.model.external.rule.type.WhiteBlocked
 import omok.model.external.rule.wrapper.direction.Directions
 import omok.model.external.rule.wrapper.point.Point
@@ -25,7 +22,12 @@ class BlackRenjuRule(
         stonesPoints: List<Point>,
         startPoint: Point,
     ): Violation {
-        if (checkSerialSameStonesBiDirection(stonesPoints, startPoint, OVERLINE_SIZE)) return Violation.OVERLINE
+        if (checkSerialSameStonesBiDirection(
+                stonesPoints,
+                startPoint,
+                Violation.OVERLINE_SIZE
+            )
+        ) return Violation.OVERLINE
         return Violation.NONE
     }
 
@@ -55,17 +57,17 @@ class BlackRenjuRule(
 
             when (foul) {
                 Foul.DOUBLE_THREE -> {
-                    if (totalStoneCount == foul.size && totalEmptyCount <= MAX_EMPTY_SIZE) {
+                    if (totalStoneCount == foul.size && totalEmptyCount <= Violation.MAX_EMPTY_SIZE) {
                         val blockedStatus = isBlockedByWhiteStoneInSix(whitePoints, startPoint, forwardDir)
                         if (blockedStatus == WhiteBlocked.NON_BLOCK) continuousStones++
-                        if (continuousStones == FOUL_CONDITION_SIZE) return Violation.DOUBLE_THREE
+                        if (continuousStones == Violation.FOUL_CONDITION_SIZE) return Violation.DOUBLE_THREE
                     }
                 }
 
                 Foul.DOUBLE_FOUR -> {
                     if (totalStoneCount > foul.size && forwardEmptyCount == 1 && backEmptyCount == 1) return Violation.DOUBLE_FOUR
-                    if (totalStoneCount == foul.size && totalEmptyCount <= MAX_EMPTY_SIZE) continuousStones++
-                    if (continuousStones == FOUL_CONDITION_SIZE) return Violation.DOUBLE_FOUR
+                    if (totalStoneCount == foul.size && totalEmptyCount <= Violation.MAX_EMPTY_SIZE) continuousStones++
+                    if (continuousStones == Violation.FOUL_CONDITION_SIZE) return Violation.DOUBLE_FOUR
                 }
             }
         }
@@ -125,7 +127,7 @@ class BlackRenjuRule(
 
         while (curPoint.inRange(boardWidth, boardHeight) &&
             !whitePoints.isPlaced(curPoint) &&
-            emptyCount <= MAX_EMPTY_SIZE &&
+            emptyCount <= Violation.MAX_EMPTY_SIZE &&
             sameStoneCount < foul.size
         ) {
             val hasBlackStone = blackPoints isPlaced curPoint
