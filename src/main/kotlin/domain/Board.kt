@@ -11,11 +11,12 @@ import java.lang.IllegalArgumentException
 class Board {
 
     private var state: State = BlackTurn(Stones(setOf()))
+    private val defaultRuleAdapter = RuleAdapter(listOf())
 
-    fun put(point: Point, blackRuleAdapter: RuleAdapter) {
-        state = when (state) {
-            is BlackTurn -> state.put(point, blackRuleAdapter)
-            is WhiteTurn -> state.put(point)
+    fun put(point: Point, blackRuleAdapter: RuleAdapter = defaultRuleAdapter) {
+        state = when {
+            isBlackTurn() -> state.put(point, blackRuleAdapter)
+            isWhiteTurn() -> state.put(point)
             else -> throw IllegalArgumentException("둘을 둘 수 없는 상태입니다.")
         }
     }
@@ -23,6 +24,7 @@ class Board {
     fun isFinished(): Boolean = state is Finished
 
     fun isBlackTurn(): Boolean = state is BlackTurn
+    fun isWhiteTurn(): Boolean = state is WhiteTurn
 
     fun isBlackWin(): Boolean = state is BlackWin
 

@@ -1,18 +1,16 @@
 package domain.rule
 
+import domain.BlackStone
 import domain.Stone
+import domain.Stones
+import domain.WhiteStone
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class LongMokRuleTest {
     @Test
     fun `흑돌을 뒀을 때 장목이면 true를 반환한다`() {
-//        15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
-//        14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+
 //         9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
 //         8 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
 //         7 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
@@ -23,24 +21,31 @@ class LongMokRuleTest {
 //         2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
 //         1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┤
 //            A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-        val actual = LongMokRule().checkRule(
-            setOf(Stone('E', 5), Stone('F', 5), Stone('G', 5), Stone('H', 5), Stone('J', 5), Stone('K', 5)),
-            setOf(Stone('I', 2), Stone('L', 4), Stone('I', 10), Stone('F', 2), Stone('A', 2), Stone('B', 2)),
-            Stone('I', 5)
+
+        val actual = FourFourRule().checkRule(
+            Stones(
+                setOf(
+                    BlackStone('E', 5),
+                    BlackStone('F', 5),
+                    BlackStone('G', 5),
+                    BlackStone('H', 5),
+                    BlackStone('J', 5),
+                    BlackStone('K', 5),
+                    WhiteStone('I', 2),
+                    WhiteStone('L', 4),
+                    WhiteStone('I', 10),
+                    WhiteStone('F', 2),
+                    WhiteStone('A', 2),
+                    WhiteStone('B', 2)
+                )
+            ), BlackStone('I', 5)
         )
         assertTrue(actual)
     }
 
     @Test
     fun `흑돌을 뒀을 때 장목이 아니면 false를 반환한다`() {
-//        15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
-//        14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//        10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-//         8 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+
 //         7 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
 //         6 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
 //         5 ├──┼──┼──┼──┼──┼──┼──●──●──●──●──┼──┼──┼──┤
@@ -49,10 +54,18 @@ class LongMokRuleTest {
 //         2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
 //         1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┤
 //            A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-        val actual = LongMokRule().checkRule(
-            setOf(Stone('H', 5), Stone('J', 5), Stone('K', 5)),
-            setOf(Stone('I', 2), Stone('L', 4), Stone('I', 10)),
-            Stone('I', 5)
+
+        val actual = FourFourRule().checkRule(
+            Stones(
+                setOf(
+                    BlackStone('H', 5),
+                    BlackStone('J', 5),
+                    BlackStone('K', 5),
+                    WhiteStone('I', 2),
+                    WhiteStone('L', 4),
+                    WhiteStone('I', 10)
+                )
+            ), BlackStone('I', 5)
         )
         assertFalse(actual)
     }
