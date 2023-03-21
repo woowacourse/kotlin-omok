@@ -1,6 +1,6 @@
 package domain.library.ark
 
-import domain.library.LibraryConstant.BOARD_SIZE
+import domain.library.constant.LibraryConstant.BOARD_SIZE
 
 abstract class ArkRule(
     private val currentStone: Int = BLACK_STONE,
