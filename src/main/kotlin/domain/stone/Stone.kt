@@ -1,11 +1,13 @@
 package domain.stone
 
+import rule.wrapper.point.Point
+
 class Stone(
-    val position: StonePosition,
+    val point: Point,
     val type: StoneType,
 ) {
     companion object {
-        fun from(position: StonePosition, type: StoneType): Stone =
-            Stone(position, type)
+        fun from(point: Point, type: StoneType): Stone =
+            Stone(point, type)
     }
 }

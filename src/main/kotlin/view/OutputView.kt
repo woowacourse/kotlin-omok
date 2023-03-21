@@ -42,7 +42,7 @@ object OutputView {
 
     private fun setBoard(stones: Stones) {
         stones.values.forEach {
-            if (getTypeEmoji(it.type) != null) board[(15 - it.position.y)][it.position.x - 1] = getTypeEmoji(it.type)!!
+            if (getTypeEmoji(it.type) != null) board[(15 - it.point.col)][it.point.row - 1] = getTypeEmoji(it.type)!!
         }
     }
 
@@ -65,8 +65,8 @@ object OutputView {
     }
 
     private fun positionToText(value: Stone): String {
-        val xToString: String = (value.position.x.toChar() + 'A'.code - 1).toString()
-        return "$xToString${value.position.y}"
+        val xToString: String = (value.point.row.toChar() + 'A'.code - 1).toString()
+        return "$xToString${value.point.col}"
     }
 
     private const val MESSAGE_OMOK_START = "오목 게임을 시작합니다."
