@@ -11,7 +11,7 @@ class Omok(
     private val turnEventListener: OmokTurnEventListener,
     private val gameEventListener: OmokGameEventListener,
 ) {
-     fun takeTurn(originPlayers: Players): Players {
+    fun takeTurn(originPlayers: Players): Players {
         val newPoint = turnEventListener.onTakeTurn(originPlayers.curPlayerColor)
         val endTurnPlayers = originPlayers.putStone(newPoint)
         if (!endTurnPlayers.isPut(originPlayers)) turnEventListener.onNotPlaceable()
@@ -19,19 +19,14 @@ class Omok(
         return endTurnPlayers
     }
 
-    fun endGame(players: Players): Boolean = when {
-        players.isFoul -> {
-            gameEventListener.onEndGame(players.curPlayerColor)
-            true
+    fun endGame(players: Players) {
+        when {
+            players.isFoul -> gameEventListener.onEndGame(players.curPlayerColor)
+            !players.isPlaying -> gameEventListener.onEndGame(players.curPlayerColor.next())
         }
-        !players.isPlaying -> {
-            gameEventListener.onEndGame(players.curPlayerColor.next())
-            true
-        }
-        else -> false
     }
 
-    companion object  {
+    companion object {
         const val OMOK_BOARD_SIZE = 15
     }
 }
