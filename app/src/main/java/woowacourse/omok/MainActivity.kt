@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.graphics.Color
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -11,28 +10,29 @@ import androidx.core.view.children
 import domain.OmokGame
 import domain.OmokGameState
 import domain.board.Board
-import domain.stone.Point
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var boards: List<ImageView>
+    private lateinit var omokAdapter: OmokDBAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val omokGame = OmokGame()
-
         boards = findViewById<TableLayout>(R.id.board)
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .toList()
+        omokAdapter = OmokDBAdapter(OmokDBHelper(this))
+
+        val omokGame = OmokGame(omokAdapter.getStones())
+        printBoard(omokGame.board)
 
         boards.forEachIndexed { index, view ->
             view.setOnClickListener {
-                play(omokGame, index)
-                checkEnded(omokGame)
+                placeStone(omokGame, index)
             }
         }
     }
@@ -43,14 +43,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun play(omokGame: OmokGame, clickedIndex: Int) {
+    private fun placeStone(omokGame: OmokGame, clickedIndex: Int) {
         if (omokGame.state is OmokGameState.Running) {
+            omokAdapter.addStone(clickedIndex, omokGame.turnColor)
             omokGame.placeStone(::printBoard) { _, _ -> clickedIndex.toPoint() }
             printBoard(omokGame.board)
+            return
         }
+        printEnded(omokGame)
     }
 
-    private fun checkEnded(omokGame: OmokGame) {
+    private fun printEnded(omokGame: OmokGame) {
         if (omokGame.state is OmokGameState.End) {
             Toast.makeText(
                 this,
@@ -62,29 +65,11 @@ class MainActivity : AppCompatActivity() {
                 ),
                 Toast.LENGTH_SHORT
             ).show()
-        }
-    }
-
-    private fun Point.toIndex(): Int = (RANGE_UNIT * y) + x
-
-    private fun Int.toPoint(): Point = Point(this % RANGE_UNIT, this / RANGE_UNIT)
-
-    private fun domain.stone.Color.toResourceId(): Int {
-        return when (this) {
-            is domain.stone.Color.Black -> R.drawable.black_stone
-            is domain.stone.Color.White -> R.drawable.white_stone
-        }
-    }
-
-    private fun domain.stone.Color.toName(): String {
-        return when (this) {
-            is domain.stone.Color.Black -> "흑"
-            is domain.stone.Color.White -> "백"
+            omokAdapter.deleteStones()
         }
     }
 
     companion object {
         private const val WINNING_MESSAGE = "우승자는 %s입니다."
-        private const val RANGE_UNIT = 15
     }
 }
