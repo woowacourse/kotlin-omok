@@ -16,7 +16,7 @@ object OmokGameMapper {
     fun indexToPosition(index: Int): Position {
         val y = index / BOARD_SIZE
         val x = index % BOARD_SIZE
-        return Position(BOARD_SIZE - 1 - y, x)
+        return Position(y, x)
     }
 
     fun CoordinateState.toName(): String {
@@ -46,6 +46,6 @@ object OmokGameMapper {
     }
 
     private fun positionToIndex(position: Position): Int {
-        return (BOARD_SIZE - 1 - position.y) * BOARD_SIZE + position.x
+        return (position.y) * BOARD_SIZE + position.x
     }
 }
