@@ -8,7 +8,7 @@ data class Position(val column: Column, val row: Row) {
     }
 
     fun getNorthEast(): Position? {
-        return this.copy(column = column.right() ?: return null, row = row.up() ?: return null)
+        return getNorth()?.getEast()
     }
 
     fun getEast(): Position? {
@@ -16,7 +16,7 @@ data class Position(val column: Column, val row: Row) {
     }
 
     fun getSouthEast(): Position? {
-        return this.copy(column = column.right() ?: return null, row = row.down() ?: return null)
+        return getSouth()?.getEast()
     }
 
     fun getSouth(): Position? {
@@ -24,7 +24,7 @@ data class Position(val column: Column, val row: Row) {
     }
 
     fun getSouthWest(): Position? {
-        return this.copy(column = column.left() ?: return null, row = row.down() ?: return null)
+        return getSouth()?.getWest()
     }
 
     fun getWest(): Position? {
@@ -32,6 +32,14 @@ data class Position(val column: Column, val row: Row) {
     }
 
     fun getNorthWest(): Position? {
-        return this.copy(column = column.left() ?: return null, row = row.up() ?: return null)
+        return getNorth()?.getWest()
+    }
+
+    companion object {
+        fun all() = Column.values().flatMap { column ->
+            Row.values().map { row ->
+                Position(column, row)
+            }
+        }
     }
 }

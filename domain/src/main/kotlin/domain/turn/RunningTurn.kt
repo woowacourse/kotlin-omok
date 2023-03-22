@@ -2,6 +2,7 @@ package domain.turn
 
 import domain.board.PlacedBoard
 import domain.stone.Position
+import domain.stone.Stone
 
 abstract class RunningTurn(
     board: PlacedBoard
@@ -10,7 +11,7 @@ abstract class RunningTurn(
     override val isFinished: Boolean = false
 
     override fun addStone(position: Position): Turn {
-        val newBoard = board.putStone(position, curColor)
+        val newBoard = board.putStone(Stone(position, curColor))
         if (newBoard === board) return this
         return nextBoard(newBoard, position)
     }

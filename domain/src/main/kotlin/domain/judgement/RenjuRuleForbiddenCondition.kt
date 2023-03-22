@@ -8,9 +8,9 @@ import domain.stone.Stone
 
 class RenjuRuleForbiddenCondition(private val referee: PlacementReferee = BlackReferee()) :
     ForbiddenCondition {
-    override fun isForbidden(placedStones: Map<Position, Color?>, newStone: Stone): Boolean {
+    override fun isForbidden(board: Map<Position, Color?>, newStone: Stone): Boolean {
         if (newStone.color == Color.BLACK && referee.isForbiddenPlacement(
-                placedStones,
+                board,
                 newStone.position
             )
         ) return true

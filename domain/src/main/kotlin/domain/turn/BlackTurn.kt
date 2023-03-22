@@ -26,14 +26,14 @@ class BlackTurn(
     override val curColor: Color = Color.BLACK
 
     init {
-        check(
-            (
-                previousBoard?.getBoards()?.filter { it.value != null }?.isEmpty() == true &&
-                    latestStone == null
-                ) || latestStone?.color == Color.WHITE
-        ) {
-            ERROR_PREVIOUS_BOARD_STATE
-        }
+        // check(
+        //     (
+        //         previousBoard?.getBoards()?.filter { it.value != null }?.isEmpty() == true &&
+        //             latestStone == null
+        //         ) || latestStone?.color == Color.WHITE
+        // ) {
+        //     ERROR_PREVIOUS_BOARD_STATE
+        // }
     }
 
     override fun nextBoard(newBoard: PlacedBoard, position: Position): Turn {

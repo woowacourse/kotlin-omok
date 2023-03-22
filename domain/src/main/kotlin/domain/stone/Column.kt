@@ -17,11 +17,13 @@ enum class Column(private val x: Int) {
     N(13),
     O(14);
 
-    fun right(): Column? = runCatching { Column.values()[ordinal + 1] }.getOrNull()
-    fun left(): Column? = runCatching { Column.values()[ordinal - 1] }.getOrNull()
+    fun right(): Column? = Column.values().getOrNull(ordinal + 1)
+    fun left(): Column? = Column.values().getOrNull(ordinal - 1)
 
     companion object {
         private const val ERROR_COLUMN_RANGE = "[ERROR] COLUMN의 범위는 1에서 15사이입니다."
-        fun valueOf(x: Int): Column = values().find { it.x == x } ?: throw IllegalArgumentException(ERROR_COLUMN_RANGE)
+        private val COLUMNS: Map<Int, Column> = Column.values().associateBy { it.x }
+        fun valueOf(x: Int): Column =
+            COLUMNS[x] ?: throw IllegalArgumentException(ERROR_COLUMN_RANGE)
     }
 }

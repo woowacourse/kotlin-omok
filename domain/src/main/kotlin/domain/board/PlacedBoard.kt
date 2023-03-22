@@ -1,9 +1,8 @@
 package domain.board
 
 import domain.stone.Color
-import domain.stone.Column
 import domain.stone.Position
-import domain.stone.Row
+import domain.stone.Stone
 
 class PlacedBoard(
     private val board: Map<Position, Color?> = POSITIONS.associateWith { null }.toMutableMap()
@@ -20,10 +19,10 @@ class PlacedBoard(
         return board[position] == null
     }
 
-    fun putStone(position: Position, color: Color): PlacedBoard {
-        if (isPossiblePut(position).not()) return this
+    fun putStone(stone: Stone): PlacedBoard {
+        if (isPossiblePut(stone.position).not()) return this
         val newBoard = board.toMutableMap()
-        newBoard[position] = color
+        newBoard[stone.position] = stone.color
         return PlacedBoard(newBoard)
     }
 
@@ -32,10 +31,6 @@ class PlacedBoard(
     }
 
     companion object {
-        private val POSITIONS: List<Position> = Column.values().flatMap { column ->
-            Row.values().map { row ->
-                Position(column, row)
-            }
-        }
+        private val POSITIONS: List<Position> = Position.all()
     }
 }
