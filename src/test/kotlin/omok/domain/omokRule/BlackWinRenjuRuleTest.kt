@@ -2,16 +2,16 @@ package omok.domain.omokRule
 
 import omok.domain.OmokBoard
 import omok.domain.OmokPoint
-import omok.domain.omokRule.adapter.RuleAdapter
+import omok.domain.omokRule.adapter.Referee
 import omok.domain.state.BlackStoneState
 import omok.domain.state.WhiteStoneState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class BlackWinRuleTest {
+class BlackWinRenjuRuleTest {
     private var omokBoard = OmokBoard()
-    private var adapter = RuleAdapter()
+    private var referee = Referee()
 
     @BeforeEach
     fun setUp() {
@@ -29,7 +29,7 @@ class BlackWinRuleTest {
         omokBoard = omokBoard.placeStone(OmokPoint(9, 8), BlackStoneState)
         omokBoard = omokBoard.placeStone(OmokPoint(1, 1), WhiteStoneState)
 
-        assertThat(adapter.isWin(omokBoard, OmokPoint(5, 8), BlackStoneState)).isTrue
+        assertThat(referee.isWin(omokBoard, OmokPoint(5, 8), BlackStoneState)).isTrue
     }
     /*
             1
@@ -46,7 +46,7 @@ class BlackWinRuleTest {
         omokBoard = omokBoard.placeStone(OmokPoint(5, 12), BlackStoneState)
         omokBoard = omokBoard.placeStone(OmokPoint(1, 1), WhiteStoneState)
 
-        assertThat(adapter.isWin(omokBoard, OmokPoint(5, 8), BlackStoneState)).isTrue
+        assertThat(referee.isWin(omokBoard, OmokPoint(5, 8), BlackStoneState)).isTrue
     }
     /*
             0 0 0 0 1
@@ -63,7 +63,7 @@ class BlackWinRuleTest {
         omokBoard = omokBoard.placeStone(OmokPoint(9, 12), BlackStoneState)
         omokBoard = omokBoard.placeStone(OmokPoint(1, 1), WhiteStoneState)
 
-        assertThat(adapter.isWin(omokBoard, OmokPoint(5, 8), BlackStoneState)).isTrue
+        assertThat(referee.isWin(omokBoard, OmokPoint(5, 8), BlackStoneState)).isTrue
     }
 
     /*
@@ -79,6 +79,6 @@ class BlackWinRuleTest {
         omokBoard = omokBoard.placeStone(OmokPoint(10, 8), BlackStoneState)
         omokBoard = omokBoard.placeStone(OmokPoint(1, 1), WhiteStoneState)
 
-        assertThat(adapter.isWin(omokBoard, OmokPoint(5, 8), BlackStoneState)).isFalse
+        assertThat(referee.isWin(omokBoard, OmokPoint(5, 8), BlackStoneState)).isFalse
     }
 }

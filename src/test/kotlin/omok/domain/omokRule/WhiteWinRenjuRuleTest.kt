@@ -2,16 +2,16 @@ package omok.domain.omokRule
 
 import omok.domain.OmokBoard
 import omok.domain.OmokPoint
-import omok.domain.omokRule.adapter.RuleAdapter
+import omok.domain.omokRule.adapter.Referee
 import omok.domain.state.BlackStoneState
 import omok.domain.state.WhiteStoneState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class WhiteWinRuleTest {
+class WhiteWinRenjuRuleTest {
     private var omokBoard = OmokBoard()
-    private var adapter = RuleAdapter()
+    private var referee = Referee()
 
     @BeforeEach
     fun setUp() {
@@ -30,7 +30,7 @@ class WhiteWinRuleTest {
         omokBoard = omokBoard.placeStone(OmokPoint(10, 8), WhiteStoneState)
         omokBoard = omokBoard.placeStone(OmokPoint(1, 1), BlackStoneState)
 
-        assertThat(adapter.isWin(omokBoard, OmokPoint(5, 8), WhiteStoneState)).isTrue
+        assertThat(referee.isWin(omokBoard, OmokPoint(5, 8), WhiteStoneState)).isTrue
     }
     /*
         2
@@ -49,7 +49,7 @@ class WhiteWinRuleTest {
         omokBoard = omokBoard.placeStone(OmokPoint(5, 13), WhiteStoneState)
         omokBoard = omokBoard.placeStone(OmokPoint(1, 1), BlackStoneState)
 
-        assertThat(adapter.isWin(omokBoard, OmokPoint(5, 8), WhiteStoneState)).isTrue
+        assertThat(referee.isWin(omokBoard, OmokPoint(5, 8), WhiteStoneState)).isTrue
     }
     /*
         0 0 0 0 0 2
@@ -68,6 +68,6 @@ class WhiteWinRuleTest {
         omokBoard = omokBoard.placeStone(OmokPoint(10, 13), WhiteStoneState)
         omokBoard = omokBoard.placeStone(OmokPoint(1, 1), BlackStoneState)
 
-        assertThat(adapter.isWin(omokBoard, OmokPoint(5, 8), WhiteStoneState)).isTrue
+        assertThat(referee.isWin(omokBoard, OmokPoint(5, 8), WhiteStoneState)).isTrue
     }
 }

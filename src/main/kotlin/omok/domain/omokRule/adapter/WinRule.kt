@@ -4,7 +4,6 @@ import omok.domain.OmokBoard
 import omok.domain.OmokPoint
 import omok.domain.state.StoneState
 
-interface Rule {
-    fun isForbidden(omokBoard: OmokBoard, omokPoint: OmokPoint): Boolean
+interface WinRule {
     fun isWin(omokBoard: OmokBoard, omokPoint: OmokPoint, stoneState: StoneState): Boolean
 }

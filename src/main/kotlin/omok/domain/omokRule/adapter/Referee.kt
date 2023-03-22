@@ -10,7 +10,7 @@ import omok.domain.state.BlackStoneState
 import omok.domain.state.StoneState
 import omok.domain.state.WhiteStoneState
 
-class RuleAdapter : Rule {
+class Referee : RenjuRule, WinRule {
     override fun isForbidden(omokBoard: OmokBoard, omokPoint: OmokPoint): Boolean {
         val adaptBoard = adaptBoard(omokBoard)
         val adaptPoint = adaptPoint(omokPoint)
