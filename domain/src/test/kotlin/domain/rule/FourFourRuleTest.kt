@@ -2,7 +2,6 @@ package domain.rule
 
 import PointAdapter
 import domain.stone.BlackStone
-import domain.stone.Point
 import domain.stone.Stones
 import domain.stone.WhiteStone
 import org.junit.jupiter.api.Assertions.*
@@ -28,8 +27,8 @@ class FourFourRuleTest {
         val actual = FourFourRule().checkRule(
             Stones(
                 setOf(
-                    BlackStone(PointAdapter.create('E', 4)),
-                    BlackStone(PointAdapter.create('F', 4)),
+                    BlackStone(PointAdapter.create('E', 5)),
+                    BlackStone(PointAdapter.create('F', 5)),
                     BlackStone(PointAdapter.create('G', 5)),
                     BlackStone(PointAdapter.create('H', 6)),
                     BlackStone(PointAdapter.create('H', 7)),

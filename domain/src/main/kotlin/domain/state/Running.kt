@@ -1,7 +1,6 @@
 package domain.state
 
 import domain.*
-import domain.stone.Point
 import domain.stone.Stone
 import domain.stone.Stones
 
@@ -16,8 +15,8 @@ abstract class Running(stones: Stones) : State {
         ) { BLACK_WHITE_INTERSECT_ERROR }
     }
 
-    fun checkAlreadyPlaced(point: Point) {
-        require(point !in stones.stones.map { it.point }) { ALREADY_PLACED_ERROR }
+    fun checkAlreadyPlaced(point: Pair<Int, Int>) {
+        require(point !in stones.stones.map { it.x to it.y }) { ALREADY_PLACED_ERROR }
     }
 
     protected fun Set<Stone>.completeOmok(): Boolean {
@@ -29,16 +28,15 @@ abstract class Running(stones: Stones) : State {
         for (y in yRange) {
             if (horizontalCompleteCheck(this, y)) return true
         }
-        if(upperLeftDiagonal(xRange, yRange, this)) return true
-        if(upperRightDiagonal(xRange, yRange, this)) return true
+        if (upperLeftDiagonal(xRange, yRange, this)) return true
+        if (upperRightDiagonal(xRange, yRange, this)) return true
         return false
     }
 
     private fun horizontalCompleteCheck(placedStones: Set<Stone>, y: Int): Boolean {
         var linkedCount = 0
         for (x in 0 until BOARD_SIZE) {
-            val point = Point(x, y)
-            if (point in placedStones.map { it.point }) linkedCount++ else linkedCount = 0
+            if (x to y in placedStones.map { it.x to it.y }) linkedCount++ else linkedCount = 0
             if (linkedCount >= 5) return true
         }
         return false
@@ -47,8 +45,7 @@ abstract class Running(stones: Stones) : State {
     private fun verticalCompleteCheck(placedStones: Set<Stone>, x: Int): Boolean {
         var linkedCount = 0
         for (y in 0 until BOARD_SIZE) {
-            val point = Point(x, y)
-            if (point in placedStones.map { it.point }) linkedCount++ else linkedCount = 0
+            if (x to y in placedStones.map { it.x to it.y }) linkedCount++ else linkedCount = 0
             if (linkedCount >= 5) return true
         }
         return false
@@ -63,16 +60,14 @@ abstract class Running(stones: Stones) : State {
         for ((maxX, maxY) in xCoordinateRange.zip(yCoordinateRange)) {
             var linkedCount = 0
             for ((x, y) in (0..maxX).zip(maxY downTo 0)) {
-                val point = Point(x, y)
-                if (point in stones.map { it.point }) linkedCount++ else linkedCount = 0
+                if (x to y in stones.map { it.x to it.y }) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
             }
         }
         for ((minX, minY) in xCoordinateRange.zip(yCoordinateRange)) {
             var linkedCount = 0
-            for ((x, y) in (minX until BOARD_SIZE).zip(BOARD_SIZE-1 downTo minY).toList()) {
-                val point = Point(x, y)
-                if (point in stones.map { it.point }) linkedCount++ else linkedCount = 0
+            for ((x, y) in (minX until BOARD_SIZE).zip(BOARD_SIZE - 1 downTo minY).toList()) {
+                if (x to y in stones.map { it.x to it.y }) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
             }
         }
@@ -88,16 +83,14 @@ abstract class Running(stones: Stones) : State {
         for ((maxX, minY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
             var linkedCount = 0
             for ((x, y) in (0..maxX).zip(minY until BOARD_SIZE)) {
-                val point = Point(x, y)
-                if (point in stones.map { it.point }) linkedCount++ else linkedCount = 0
+                if (x to y in stones.map { it.x to it.y }) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
             }
         }
         for ((minX, maxY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
             var linkedCount = 0
             for ((x, y) in (minX until BOARD_SIZE).zip(0..maxY)) {
-                val point = Point(x, y)
-                if (point in stones.map { it.point }) linkedCount++ else linkedCount = 0
+                if (x to y in stones.map { it.x to it.y }) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
             }
         }

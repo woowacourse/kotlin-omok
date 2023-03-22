@@ -16,18 +16,16 @@ interface Rule {
     }
 
     private fun Pair<Int, Int>.isPlacedOnBlank(stones: Stones): Boolean {
-        val (x, y) = this
-        return Pair(x, y) !in stones.stones.map { Pair(it.point.x, it.point.y) }
+        return this !in stones.stones.map { it.x to it.y }
     }
 
     private fun Pair<Int, Int>.isInSameColorStones(
         justPlacedStone: Stone,
         stones: Stones
     ): Boolean {
-        val (x, y) = this
         return when (justPlacedStone) {
-            is BlackStone -> Pair(x, y) in stones.blackStones.map { Pair(it.point.x, it.point.y) }
-            else -> Pair(x, y) in stones.whiteStones.map { Pair(it.point.x, it.point.y) }
+            is BlackStone -> this in stones.blackStones.map { it.x to it.y }
+            else -> this in stones.whiteStones.map { it.x to it.y }
         }
     }
 
@@ -35,17 +33,17 @@ interface Rule {
         justPlacedStone: Stone,
         stones: Stones
     ): Boolean {
-        val (x, y) = this
         return when (justPlacedStone) {
-            is BlackStone -> Pair(x, y) in stones.whiteStones.map { Pair(it.point.x, it.point.y) }
-            else -> Pair(x, y) in stones.blackStones.map { Pair(it.point.x, it.point.y) }
+            is BlackStone -> this in stones.whiteStones.map { it.x to it.y }
+            else -> this in stones.blackStones.map { it.x to it.y }
         }
     }
 
-    private fun createStone(stone: Stone, point: Point): Stone {
+    private fun createStone(stone: Stone, point: Pair<Int, Int>): Stone {
+        val (x, y) = point
         return when (stone) {
-            is BlackStone -> BlackStone(point)
-            else -> WhiteStone(point)
+            is BlackStone -> BlackStone(x, y)
+            else -> WhiteStone(x, y)
         }
     }
 
@@ -79,8 +77,8 @@ interface Rule {
         justPlacedStone: Stone,
         direction: Direction,
     ): Pair<Int, Int> {
-        var nextX = justPlacedStone.point.x
-        var nextY = justPlacedStone.point.y
+        var nextX = justPlacedStone.x
+        var nextY = justPlacedStone.y
         while (Pair(nextX, nextY).isInRange() && Pair(nextX, nextY).isInSameColorStones(
                 justPlacedStone, stones
             ) && !Pair(nextX, nextY).isInOtherColorStones(
@@ -104,7 +102,7 @@ interface Rule {
         if (Pair(x, y).isInRange() && Pair(x, y).isPlacedOnBlank(stones)) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
             return calculateContinuousStonesCountWithInclination(
-                stones.addStone(createStone(justPlacedStone, Point(x, y))),
+                stones.addStone(createStone(justPlacedStone, x to y)),
                 justPlacedStone,
                 inclination
             ) == 5
@@ -128,7 +126,7 @@ interface Rule {
         if (Pair(x, y).isInRange()) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
             return isOpen4WithThisInclination(  // 다음 기울기로 열린4인지 판단
-                stones.addStone(createStone(justPlacedStone, Point(x, y))),
+                stones.addStone(createStone(justPlacedStone, x to y)),
                 justPlacedStone,
                 inclination
             )

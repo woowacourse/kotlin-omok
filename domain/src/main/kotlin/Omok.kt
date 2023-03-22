@@ -1,5 +1,4 @@
 import domain.Board
-import domain.stone.Point
 import domain.rule.FourFourRule
 import domain.rule.LongMokRule
 import domain.rule.Referee
@@ -10,7 +9,7 @@ import view.OutputView
 fun main() {
     println("오목 게임을 시작합니다.")
     val board = Board()
-    var point: Point? = null
+    var point: Pair<Int, Int>? = null
     val blackReferee = Referee(listOf(ThreeThreeRule(), FourFourRule(), LongMokRule()))
     while (board.isFinished().not()) {
         OutputView.printBoard(board)
@@ -31,9 +30,9 @@ fun main() {
 private fun putStoneUntilNotOccurErrorAndReturnPoint(
     board: Board,
     blackReferee: Referee
-): Point {
+): Pair<Int, Int> {
     while (true) {
-        lateinit var point: Point
+        lateinit var point: Pair<Int, Int>
         runCatching {
             point = InputView.readPoint()
             board.put(

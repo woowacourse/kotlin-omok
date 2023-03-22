@@ -2,7 +2,6 @@ package view
 
 import domain.*
 import domain.stone.BlackStone
-import domain.stone.Point
 import domain.stone.WhiteStone
 
 class BoardView(board: Board) {

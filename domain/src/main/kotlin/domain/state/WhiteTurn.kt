@@ -1,6 +1,5 @@
 package domain.state
 
-import domain.stone.Point
 import domain.stone.Stones
 import domain.stone.WhiteStone
 import domain.rule.Referee
@@ -12,8 +11,9 @@ class WhiteTurn(override val stones: Stones) :
         require(stones.blackStones.size == (stones.whiteStones.size + 1)) { WHITE_TURN_STONE_SIZE_ERROR }
     }
 
-    override fun put(point: Point, referee: Referee): State {
-        val stone = WhiteStone(point)
+    override fun put(point: Pair<Int, Int>, referee: Referee): State {
+        val (x, y) = point
+        val stone = WhiteStone(x, y)
         checkAlreadyPlaced(point)
         val nextStones = stones.addStone(stone)
         return if (nextStones.whiteStones.completeOmok()) {

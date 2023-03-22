@@ -6,7 +6,6 @@ import domain.state.BlackWin
 import domain.state.Finished
 import domain.state.State
 import domain.state.WhiteTurn
-import domain.stone.Point
 import domain.stone.Stone
 import domain.stone.Stones
 import java.lang.IllegalArgumentException
@@ -16,7 +15,7 @@ class Board {
     private var state: State = BlackTurn(Stones(setOf()))
     private val defaultReferee = Referee(listOf())
 
-    fun put(point: Point, blackReferee: Referee = defaultReferee) {
+    fun put(point: Pair<Int, Int>, blackReferee: Referee = defaultReferee) {
         state = when {
             isBlackTurn() -> state.put(point, blackReferee)
             isWhiteTurn() -> state.put(point)
