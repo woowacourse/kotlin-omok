@@ -12,6 +12,7 @@ class OmokGame {
     tailrec fun play(getOmokPoint: GetOmokPoint, outputBoardStatus: OutputBoardStatus, point: OmokPoint? = null) {
         var tempPoint: OmokPoint? = getOmokPoint(gameState.stoneState, point)
         runCatching {
+            require(tempPoint in gameState.omokBoard.value) { ERROR_POINT_OVER.format(tempPoint!!.x, tempPoint!!.y) }
             gameState = gameState.play(tempPoint!!)
             outputBoardStatus(gameState.omokBoard)
         }
@@ -20,5 +21,9 @@ class OmokGame {
                 tempPoint = point
             }
         if (gameState.isRunning) play(getOmokPoint, outputBoardStatus, tempPoint)
+    }
+
+    companion object {
+        private const val ERROR_POINT_OVER = "(%s, %s)는 오목판을 벗어납니다."
     }
 }
