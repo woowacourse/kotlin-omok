@@ -1,9 +1,9 @@
 package omok
 
 import omok.controller.OmokController
-import omok.domain.OmokBoard
 import omok.domain.OmokGameListener
 import omok.domain.OmokPoint
+import omok.domain.gameState.GameState
 import omok.view.ErrorView
 import omok.view.InputView
 import omok.view.OutputView
@@ -15,8 +15,8 @@ fun main() {
                 OutputView.outputInit()
             }
 
-            override fun onBoardShow(omokBoard: OmokBoard, omokPoint: OmokPoint?) {
-                OutputView.outputBoard(omokBoard)
+            override fun onBoardShow(gameState: GameState, omokPoint: OmokPoint?) {
+                OutputView.outputBoard(gameState.omokBoard)
             }
 
             override fun onError(message: String?) {

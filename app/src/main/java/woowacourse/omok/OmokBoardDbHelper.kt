@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_COL
+import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_NEXT_TURN
 import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_ROW
 import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_STONE
 import woowacourse.omok.OmokBoardConstract.TABLE_NAME_OMOK_BOARD
@@ -16,6 +17,7 @@ class OmokBoardDbHelper(
             "CREATE TABLE $TABLE_NAME_OMOK_BOARD (" +
                 "  $TABLE_COLUMN_OMOK_ROW int," +
                 "  $TABLE_COLUMN_OMOK_COL int," +
+                "  $TABLE_COLUMN_OMOK_NEXT_TURN int," +
                 "  $TABLE_COLUMN_OMOK_STONE int" +
                 ");",
         )
