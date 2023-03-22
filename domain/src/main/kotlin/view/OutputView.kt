@@ -1,23 +1,20 @@
 package view
 
-import domain.Board
-import domain.Color
-import domain.Position
-import domain.Stones
+import domain.*
 
 object OutputView {
 
-    fun printCurrentState(board: Board) {
-        printBoard(board)
-        printTurn(board.getCurrentTurn())
-        printLastPosition(board.getLastPosition())
+    fun printCurrentState(omokGame: OmokGame) {
+        printBoard(omokGame.board)
+        printTurn(omokGame.currentColor)
+        printLastPosition(omokGame.board.stones.getLastStone())
     }
 
     fun printStart() {
         println("오목 게임을 시작합니다.")
     }
 
-    fun printBoard(board: Board) {
+    private fun printBoard(board: Board) {
         val customBoard = generateCustomBoard(board.stones)
         customBoard.forEachIndexed { y, colors ->
             print("${Board.getSize() - y} ".padStart(4, ' '))
@@ -40,19 +37,19 @@ object OutputView {
         println()
     }
 
-    fun printTurn(color: Color) {
+    private fun printTurn(color: Color) {
         when (color) {
             Color.BLACK -> print("흑의 차례입니다.")
             Color.WHITE -> print("백의 차례입니다.")
         }
     }
 
-    fun printLastPosition(position: Position?) {
-        if (position == null) {
+    private fun printLastPosition(stone: Stone?) {
+        if (stone == null) {
             println()
             return
         }
-        println(" (마지막 돌의 위치: ${AlphabetCoordinate.convertAlphabet(position.x)}${position.y})")
+        println(" (마지막 돌의 위치: ${AlphabetCoordinate.convertAlphabet(stone.position.x)}${stone.position.y})")
     }
 
     fun printResult(color: Color, board: Board) {
@@ -68,7 +65,7 @@ object OutputView {
             MutableList(Board.getSize()) { 0 }
         }
         stones.values.forEach {
-            if (it.isBlack()) {
+            if (it.color== Color.BLACK) {
                 initBoard[Board.getSize() - it.position.y][it.position.x] = BLACK
             } else {
                 initBoard[Board.getSize() - it.position.y][it.position.x] = WHITE

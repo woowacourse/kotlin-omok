@@ -14,22 +14,22 @@ internal class OmokGameTest {
         val board = generateBlackWinOmokBoard()
         val omokGame = OmokGame(board)
         // when
-        val actual = omokGame.getWinnerColor({}, { Position(1, 6) })
+        val actual = omokGame.getWinnerColorPhase({}) { Position(1, 6) }
         val expected = Color.BLACK
         // then
         Assertions.assertThat(actual).isEqualTo(expected)
     }
 
     private fun generateBlackWinOmokBoard(): Board {
-        val board = Board().apply {
-            placeStone(Stone(getCurrentTurn(), 1, 2))
-            placeStone(Stone(getCurrentTurn(), 2, 2))
-            placeStone(Stone(getCurrentTurn(), 1, 3))
-            placeStone(Stone(getCurrentTurn(), 2, 3))
-            placeStone(Stone(getCurrentTurn(), 1, 4))
-            placeStone(Stone(getCurrentTurn(), 2, 4))
-            placeStone(Stone(getCurrentTurn(), 1, 5))
-            placeStone(Stone(getCurrentTurn(), 4, 8))
+        val board = Board(rule = RenjuRuleAdapter()).apply {
+            placeStone(Stone(Color.BLACK, 1, 2))
+            placeStone(Stone(Color.WHITE, 2, 2))
+            placeStone(Stone(Color.BLACK, 1, 3))
+            placeStone(Stone(Color.WHITE, 2, 3))
+            placeStone(Stone(Color.BLACK, 1, 4))
+            placeStone(Stone(Color.WHITE, 2, 4))
+            placeStone(Stone(Color.BLACK, 1, 5))
+            placeStone(Stone(Color.WHITE, 4, 8))
         }
         return board
     }
@@ -40,23 +40,24 @@ internal class OmokGameTest {
         val board = generateWhiteWinOmokBoard()
         val omokGame = OmokGame(board)
         // when
-        val actual = omokGame.getWinnerColor({}, { Position(1, 6) })
+        omokGame.currentColor = Color.WHITE
+        val actual = omokGame.getWinnerColorPhase({}) { Position(1, 6) }
         val expected = Color.WHITE
         // then
         Assertions.assertThat(actual).isEqualTo(expected)
     }
 
     private fun generateWhiteWinOmokBoard(): Board {
-        val board = Board().apply {
-            placeStone(Stone(getCurrentTurn(), 2, 2))
-            placeStone(Stone(getCurrentTurn(), 1, 2))
-            placeStone(Stone(getCurrentTurn(), 2, 3))
-            placeStone(Stone(getCurrentTurn(), 1, 3))
-            placeStone(Stone(getCurrentTurn(), 2, 4))
-            placeStone(Stone(getCurrentTurn(), 1, 4))
-            placeStone(Stone(getCurrentTurn(), 2, 5))
-            placeStone(Stone(getCurrentTurn(), 1, 5))
-            placeStone(Stone(getCurrentTurn(), 2, 10))
+        val board = Board(rule = RenjuRuleAdapter()).apply {
+            placeStone(Stone(Color.BLACK, 2, 2))
+            placeStone(Stone(Color.WHITE, 1, 2))
+            placeStone(Stone(Color.BLACK, 2, 3))
+            placeStone(Stone(Color.WHITE, 1, 3))
+            placeStone(Stone(Color.BLACK, 2, 4))
+            placeStone(Stone(Color.WHITE, 1, 4))
+            placeStone(Stone(Color.BLACK, 2, 5))
+            placeStone(Stone(Color.WHITE, 1, 5))
+            placeStone(Stone(Color.BLACK, 2, 10))
         }
         return board
     }
@@ -67,7 +68,8 @@ internal class OmokGameTest {
         val board = generateWhiteWinOmokBoard()
         val omokGame = OmokGame(board)
         // when
-        val actual = omokGame.getWinnerColor({}, { getPosition() })
+        omokGame.currentColor = Color.WHITE
+        val actual = omokGame.getWinnerColorPhase({}) { getPosition() }
         val expected = Color.WHITE
         // then
         Assertions.assertThat(actual).isEqualTo(expected)
