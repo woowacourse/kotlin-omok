@@ -8,8 +8,4 @@ class End(private val stone: Stone) : State {
     override fun put(stone: Stone): State = this
 
     fun getWinner(): StoneType = stone.type
-
-    companion object {
-        private const val CANT_PUT_ERROR = "게임이 끝나서 바둑알을 놓을 수 없습니다."
-    }
 }
