@@ -4,19 +4,28 @@ class Board(private val stones: Stones) {
     fun repeatTurn(coordinateReader: CoordinateReader) {
         var currentColor = Color.BLACK
         while (true) {
-            processTurn(currentColor, coordinateReader)
+            val stone = makeStone(currentColor, coordinateReader)
+            if (!processTurn(stone)) continue
             if (stones.isWinPlace()) break
             currentColor = currentColor.turnColor()
         }
     }
 
-    private fun processTurn(color: Color, coordinateReader: CoordinateReader) {
+    private fun makeStone(color: Color, coordinateReader: CoordinateReader): Stone {
         val coordinate = coordinateReader.read(color)
-        val stone = Stone(color, coordinate)
+        return Stone(color, coordinate)
+    }
+
+    fun processTurn(stone: Stone): Boolean {
         if (!stones.validateRenju(stone)) {
-            return processTurn(color, coordinateReader)
+            return false
         }
         stones.place(stone)
+        return true
+    }
+
+    fun isWinPlace(): Boolean {
+        return stones.isWinPlace()
     }
 
     fun getLastColor(): Color {
