@@ -15,4 +15,14 @@ class EndTest {
         val end = End(stone)
         assertThat(end.put(stone) is End).isTrue()
     }
+
+    @Test
+    fun `게임이 끝나면 우승자를 반환`() {
+        val stonePosition = StonePosition.from(1, 1)
+        val stoneType = StoneType.BLACK
+        val stone = Stone(stonePosition, stoneType)
+
+        val end = End(stone)
+        assertThat(end.getWinner()).isEqualTo(StoneType.BLACK)
+    }
 }
