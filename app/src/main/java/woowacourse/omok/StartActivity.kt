@@ -9,18 +9,18 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import woowacourse.omok.db.OmokDBHelper
 import woowacourse.omok.db.PlayerContract
-import woowacourse.omok.db.PlayerDBHelper
 
 class StartActivity : AppCompatActivity() {
-    private lateinit var playerDB: SQLiteDatabase
+    private lateinit var omokDB: SQLiteDatabase
     private lateinit var nicknameView: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
-        playerDB = PlayerDBHelper(this).writableDatabase
+        omokDB = OmokDBHelper(this).writableDatabase
         nicknameView = findViewById(R.id.nickname_input)
 
         val startButton = findViewById<Button>(R.id.start_game)
@@ -43,12 +43,13 @@ class StartActivity : AppCompatActivity() {
     }
 
     private fun hasNickname(nickname: String): Boolean {
-        val cursor = playerDB.rawQuery(
-            """
-            select ${PlayerContract.COLUMN_NICKNAME} 
-            from ${PlayerContract.TABLE_NAME}
-            where ${PlayerContract.COLUMN_NICKNAME} = '$nickname';
-            """.trimIndent(),
+        val cursor = omokDB.query(
+            PlayerContract.TABLE_NAME,
+            arrayOf(PlayerContract.COLUMN_NICKNAME),
+            "${PlayerContract.COLUMN_NICKNAME} = ?",
+            arrayOf(nickname),
+            null,
+            null,
             null
         )
 
@@ -66,7 +67,7 @@ class StartActivity : AppCompatActivity() {
         val values = ContentValues()
         values.put(PlayerContract.COLUMN_NICKNAME, nickname)
 
-        playerDB.insert(PlayerContract.TABLE_NAME, null, values)
+        omokDB.insert(PlayerContract.TABLE_NAME, null, values)
     }
 
     private fun goToGame(nickname: String) {
@@ -94,11 +95,11 @@ class StartActivity : AppCompatActivity() {
 
     private fun deletePlayer(nickname: String) {
         val condition = "${PlayerContract.COLUMN_NICKNAME} = ?"
-        playerDB.delete(PlayerContract.TABLE_NAME, condition, arrayOf(nickname))
+        omokDB.delete(PlayerContract.TABLE_NAME, condition, arrayOf(nickname))
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        playerDB.close()
+        omokDB.close()
     }
 }

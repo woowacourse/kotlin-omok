@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -27,9 +26,9 @@ class WinnerActivity : AppCompatActivity() {
 
         val restart = findViewById<Button>(R.id.restart_game)
         restart.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            // val intent = Intent(this, MainActivity::class.java)
+            // startActivity(intent)
+            // finish()
         }
     }
 

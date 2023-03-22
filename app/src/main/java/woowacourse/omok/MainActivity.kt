@@ -1,6 +1,9 @@
 package woowacourse.omok
 
+import android.content.ContentValues
 import android.content.Intent
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.util.Log
 import android.view.View.OnClickListener
@@ -17,38 +20,94 @@ import omok.domain.board.Position
 import omok.domain.judgment.BlackReferee
 import omok.domain.judgment.ResultReferee
 import omok.domain.player.Black
+import omok.domain.player.Stone
 import omok.domain.player.White
+import woowacourse.omok.db.BoardContract
+import woowacourse.omok.db.OmokDBHelper
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var omokDB: SQLiteDatabase
+    private lateinit var nickname: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val nickname = findViewById<TextView>(R.id.nickname)
-        nickname.text = getSharedPreferences("Omok", MODE_PRIVATE).getString("nickname", "닉네임")
+        omokDB = OmokDBHelper(this).writableDatabase
 
-        val domainBoard = Board()
-        val domainTurn = Turn(setOf(Black, White))
+        val nicknameView = findViewById<TextView>(R.id.nickname)
+        nickname = getSharedPreferences("Omok", MODE_PRIVATE).getString("nickname", "닉네임") ?: ""
+        nicknameView.text = nickname
 
         val board = findViewById<TableLayout>(R.id.board)
-        board
+        val positionViews = board
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEachIndexed { index, view ->
-                view.setOnClickListener(takeTurn(index, domainBoard, domainTurn, view))
-            }
+
+        setBoard(positionViews)
     }
 
-    private fun takeTurn(index: Int, board: Board, turn: Turn, view: ImageView) = OnClickListener {
-        val position = getPosition(index)
+    private fun setBoard(views: Sequence<ImageView>) {
+        val positions: MutableMap<Position, Stone?> = Board.POSITIONS.associateWith { null }.toMutableMap()
+        val stoneCounts = mutableListOf(0, 0)
+        val cursor = getPrevBoardCursor()
+        while (cursor.moveToNext()) {
+            val positionNumber = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_POSITION))
+            val stoneId = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_STONE))
+            stoneCounts[stoneId]++
+            positions[getPosition(positionNumber)] = getStone(stoneId)
+            setStoneImage(views.elementAt(positionNumber), stoneId)
+        }
+        cursor.close()
+        setPositionViewsListener(views, Board(positions), getTurn(stoneCounts))
+    }
+
+    private fun getPrevBoardCursor(): Cursor {
+        return omokDB.query(
+            BoardContract.TABLE_NAME,
+            arrayOf(BoardContract.COLUMN_POSITION, BoardContract.COLUMN_STONE),
+            "${BoardContract.COLUMN_NICKNAME} = ?",
+            arrayOf(nickname),
+            null,
+            null,
+            "${BoardContract.COLUMN_POSITION} ASC"
+        )
+    }
+
+    private fun getStone(stoneId: Int): Stone {
+        if (stoneId == Black.id) return Black
+        return White
+    }
+
+    private fun setStoneImage(view: ImageView, stoneId: Int) {
+        when (stoneId) {
+            Black.id -> view.setImageResource(R.drawable.black_stone)
+            White.id -> view.setImageResource(R.drawable.white_stone)
+        }
+    }
+
+    private fun setPositionViewsListener(views: Sequence<ImageView>, board: Board, turn: Turn) {
+        views.forEachIndexed { index, view ->
+            view.setOnClickListener(takeTurn(index, board, turn, view))
+        }
+    }
+
+    private fun getTurn(counts: List<Int>): Turn {
+        if (counts[Black.id] <= counts[White.id]) return Turn(setOf(Black, White), Black.id)
+        return Turn(setOf(Black, White), White.id)
+    }
+
+    private fun takeTurn(positionNumber: Int, board: Board, turn: Turn, view: ImageView) = OnClickListener {
+        val position = getPosition(positionNumber)
         Log.d("test_position", position.toString())
         Log.d("test_turn", turn.now.javaClass.simpleName.toString())
         val result = placeStone(board, turn, position)
         result
             .onSuccess {
-                changeImage(turn, view)
+                addBoardValue(positionNumber, turn)
+                setStoneImage(view, turn.now.id)
                 judgeWinner(board, turn, position)
                 turn.changeTurn()
             }
@@ -67,11 +126,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeImage(turn: Turn, view: ImageView) {
-        when (turn.now) {
-            Black -> view.setImageResource(R.drawable.black_stone)
-            White -> view.setImageResource(R.drawable.white_stone)
-        }
+    private fun addBoardValue(positionNumber: Int, turn: Turn) {
+        val values = ContentValues()
+        values.put(BoardContract.COLUMN_NICKNAME, nickname)
+        values.put(BoardContract.COLUMN_POSITION, positionNumber)
+        values.put(BoardContract.COLUMN_STONE, turn.now.id)
+
+        omokDB.insert(BoardContract.TABLE_NAME, null, values)
     }
 
     private fun showAlertDialog(message: String) {
@@ -90,5 +151,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        omokDB.close()
     }
 }

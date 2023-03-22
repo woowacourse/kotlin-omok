@@ -2,8 +2,7 @@ package omok.domain
 
 import omok.domain.player.Stone
 
-class Turn(private val stones: Set<Stone>) {
-    private var currentIndex = 0
+class Turn(private val stones: Set<Stone>, private var currentIndex: Int = 0) {
     val now: Stone
         get() = stones.elementAt(currentIndex)
 
