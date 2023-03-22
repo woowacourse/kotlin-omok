@@ -11,7 +11,7 @@ class BoardTest {
     @Test
     fun `입력받은 위치에 이미 바둑돌이 있다면 오류가 발생한다`() {
         val board = Board()
-        board.addStone(GoStoneColor.BLACK, Coordinate.of("H8"))
+        board.addStone(GoStone(GoStoneColor.BLACK, Coordinate.of("H8")))
 
         assertThatIllegalArgumentException()
             .isThrownBy { board.canAdd(Coordinate.of("H8")) }
@@ -21,8 +21,8 @@ class BoardTest {
     @Test
     fun `마지막으로 놓은 돌을 가져온다`() {
         val board = Board().apply {
-            addStone(GoStoneColor.BLACK, Coordinate.of("H8"))
-            addStone(GoStoneColor.WHITE, Coordinate.of("H9"))
+            addStone(GoStone(GoStoneColor.BLACK, Coordinate.of("H8")))
+            addStone(GoStone(GoStoneColor.WHITE, Coordinate.of("H9")))
         }
 
         val actual = GoStone(GoStoneColor.WHITE, Coordinate.of("H9"))

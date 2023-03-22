@@ -15,9 +15,9 @@ class Board {
 
     fun getNextColor(): GoStoneColor = GoStoneColor.getNextColor(lastPlacedStone?.color)
 
-    fun addStone(color: GoStoneColor, coordinate: Coordinate) {
-        lastPlacedStone = GoStone(color, coordinate)
-        _board[coordinate.y][coordinate.x ] = lastPlacedStone
+    fun addStone(goStone: GoStone) {
+        lastPlacedStone = goStone
+        _board[goStone.coordinate.y][goStone.coordinate.x ] = lastPlacedStone
     }
 
     fun canAdd(coordinate: Coordinate): Boolean {

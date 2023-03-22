@@ -10,36 +10,37 @@ class OmokGame(val board: Board) {
     fun start(
         coordinate: () -> Coordinate,
         showBoard: (Board) -> Unit,
-        showTurn: (GoStoneColor, GoStone?) -> Unit
-    ): GoStoneColor {
+        showTurn: (GoStoneColor, GoStone?) -> Unit,
+        showMessage: (State, GoStoneColor) -> Unit
+    ) {
         var newStone: GoStone
         var state: State
 
         while (true) {
-            newStone = turn(coordinate, showBoard, showTurn)
+            newStone = turn(coordinate, showTurn)
             state = Judgement.judge(board, newStone)
+            putStone(state, newStone)
+            showMessage(state, newStone.color)
+            showBoard(board)
 
-            if (state != State.Stay) break
+            if (state == State.Win) break
         }
-
-        return getWinner(state, newStone.color)
     }
 
     private fun turn(
         getCoordinate: () -> Coordinate,
-        showBoard: (Board) -> Unit,
         showTurn: (GoStoneColor, GoStone?) -> Unit
     ): GoStone {
         showTurn(board.getNextColor(), board.lastPlacedStone)
-        board.addStone(board.getNextColor(), getValidateValue(getCoordinate, board::canAdd))
-        showBoard(board)
-        return board.lastPlacedStone ?: throw IllegalArgumentException("바둑판 위에 놓인 돌이 없습니다")
+        return GoStone(board.getNextColor(), getValidateValue(getCoordinate, board::canAdd))
     }
 
-    private fun getWinner(state: State, color: GoStoneColor): GoStoneColor {
-        return when (state) {
-            State.Win, State.Stay -> color
-            State.DoubleThree, State.DoubleFour -> return GoStoneColor.getNextColor(color)
+    private fun putStone(
+        state: State,
+        stone: GoStone
+    ) {
+        if (state == State.Win || state == State.Stay) {
+            board.addStone(stone)
         }
     }
 

@@ -10,12 +10,11 @@ class OmokController {
         val board = Board()
         val omokGame = OmokGame(board)
         OutputView.printInitGame()
-        val result = omokGame.start(
+        omokGame.start(
             coordinate = InputView::getCoordinate,
             showBoard = OutputView::printBoard,
-            showTurn = OutputView::printTurn
+            showTurn = OutputView::printTurn,
+            showMessage = OutputView::printState
         )
-
-        OutputView.printResult(result)
     }
 }
