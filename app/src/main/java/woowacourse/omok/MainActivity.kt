@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.domain.Turn
 import omok.domain.board.Board
+import omok.domain.board.Column
 import omok.domain.board.Position
 import omok.domain.judgment.WinningReferee
 import omok.domain.player.Black
@@ -27,45 +28,69 @@ class MainActivity : AppCompatActivity() {
         val turn = Turn(setOf(Black, White))
         val winningReferee = WinningReferee()
 
-        boardUI.children.filterIsInstance<TableRow>().forEachIndexed { row, rowView ->
-            rowView.children.filterIsInstance<ImageView>().forEachIndexed { column, cell ->
-                cell.setOnClickListener {
-                    val selectedPosition = Position(Pair(column, 14 - row))
-                    val check = place(board, selectedPosition, turn)
-                    if (check) {
-                        insertStoneView(turn, cell)
-                        checkWinner(selectedPosition, board, winningReferee, turn.now)
-                        turn.changeTurn()
-                    }
+        boardUI
+            .children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>().toList()
+            .forEachIndexed { index, view ->
+                view.setOnClickListener {
+                    val selectedPosition = changeToPosition(index)
+                    place(board, selectedPosition, turn, winningReferee)
+
+                    insertStoneToView(boardUI, board)
                 }
             }
-        }
     }
 
-    private fun insertStoneView(turn: Turn, cell: ImageView) {
-        if (turn.now == Black)
-            cell.setImageResource(R.drawable.black_stone)
-        else
-            cell.setImageResource(R.drawable.white_stone)
+    private fun changeToPosition(index: Int): Position {
+        val row = 14 - (index / 15)
+        val column = index % 15
+        return Position(Pair(column, row))
+    }
+
+    private fun changeToIndex(position: Position): Int {
+        var result = 0
+        Column.values().forEachIndexed { index, column ->
+            if (column == position.column) result += index
+        }
+        result += (14 - position.row.axis) * 15
+        return result
+    }
+
+    private fun insertStoneToView(boardUI: TableLayout, board: Board) {
+        val stoneImages = mapOf(Black to R.drawable.black_stone, White to R.drawable.white_stone)
+        board.positions.forEach { (position, stone) ->
+            if (stone != null) {
+                boardUI
+                    .children
+                    .filterIsInstance<TableRow>()
+                    .flatMap { it.children }
+                    .filterIsInstance<ImageView>()
+                    .toList()[changeToIndex(position)].setImageResource(stoneImages[stone]!!)
+            }
+            // 비효율적!! 수정 필요
+        }
     }
 
     private fun place(
         board: Board,
         selectedPosition: Position,
-        turn: Turn
-    ): Boolean {
+        turn: Turn,
+        winningReferee: WinningReferee
+    ) {
         if (board.positions[selectedPosition] != null) {
             Toast.makeText(this, "빈 칸이 아닙니다", Toast.LENGTH_SHORT).show()
-            return false
         }
 
         runCatching {
             board.place(selectedPosition, turn.now)
         }.onFailure {
             Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
-            return false
+        }.onSuccess {
+            checkWinner(selectedPosition, board, winningReferee, turn.now)
+            turn.changeTurn()
         }
-        return true
     }
 
     private fun checkWinner(
