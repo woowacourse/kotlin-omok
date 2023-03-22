@@ -38,7 +38,7 @@ class CombinedRuleAdapter : GameRule {
             position.coordinateX to position.coordinateY,
         )
 
-    private fun convertCoordinateStateToArkNumber(coordinateState: CoordinateState): Int {
+    private fun convertCoordinateStateToCombineRuleNumber(coordinateState: CoordinateState): Int {
         return when (coordinateState) {
             CoordinateState.BLACK -> 1
             CoordinateState.WHITE -> 2
@@ -50,5 +50,5 @@ class CombinedRuleAdapter : GameRule {
         ExceedFive.validate(toCombineRuleBoard(board), position.coordinateX to position.coordinateY)
 
     private fun toCombineRuleBoard(board: List<List<CoordinateState>>) =
-        board.map { it.map { coordinateState -> convertCoordinateStateToArkNumber(coordinateState) } }
+        board.map { it.map { coordinateState -> convertCoordinateStateToCombineRuleNumber(coordinateState) } }
 }
