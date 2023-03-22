@@ -1,5 +1,8 @@
 package woowacourse.omok
 
+import android.content.ContentValues
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -15,8 +18,8 @@ import domain.Stone
 
 class MainActivity : AppCompatActivity() {
 
-    var isBlackTurn = true
-    var isFinish = false
+    private var isBlackTurn = true
+    private var isFinish = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +53,10 @@ class MainActivity : AppCompatActivity() {
 
         val omokGame = OmokGame(omokGameListener = omokGameListener)
 
+        val db = OmokDbHelper(this).writableDatabase
+
+        loadGame(db, omokBoard, omokGame)
+
         omokBoard.forEachIndexed { index, view ->
             val row = index / BOARD_SIZE
             val col = index % BOARD_SIZE
@@ -59,11 +66,70 @@ class MainActivity : AppCompatActivity() {
 
                 if (!isFinish && omokGame.successTurn(Stone(row, col), state)) {
                     view.setImageResource(stoneImage)
+                    saveStone(db, index, state)
                     isBlackTurn = !isBlackTurn
                     if (omokGame.isVictory(state)) isFinish = true
                 }
             }
         }
+    }
+
+    private fun saveStone(db: SQLiteDatabase, index: Int, state: State) {
+        val values = ContentValues()
+        values.put(OmokContract.TABLE_COLUMN_INDEX, index)
+        values.put(OmokContract.TABLE_COLUMN_COLOR, state.name)
+
+        db.insert(OmokContract.TABLE_NAME, null, values)
+    }
+
+    private fun loadGame(
+        db: SQLiteDatabase,
+        omokBoard: List<ImageView>,
+        omokGame: OmokGame
+    ) {
+
+        var blackCount = 0
+        var whiteCount = 0
+        val cursor = getStonesCursor(db)
+
+        while (cursor.moveToNext()) {
+            val index = cursor.getInt(
+                cursor.getColumnIndexOrThrow(OmokContract.TABLE_COLUMN_INDEX)
+            )
+            val color = cursor.getString(
+                cursor.getColumnIndexOrThrow(OmokContract.TABLE_COLUMN_COLOR)
+            )
+            val row = index / BOARD_SIZE
+            val column = index % BOARD_SIZE
+
+            if (color == State.BLACK.name) {
+                omokBoard[index].setImageResource(R.drawable.black_stone)
+                omokGame.successTurn(Stone(row, column), State.BLACK)
+                blackCount++
+            } else {
+                omokBoard[index].setImageResource(R.drawable.white_stone)
+                omokGame.successTurn(Stone(row, column), State.WHITE)
+                whiteCount++
+            }
+        }
+        if (blackCount != whiteCount) {
+            isBlackTurn = false
+        }
+    }
+
+    private fun getStonesCursor(db: SQLiteDatabase): Cursor {
+        return db.query(
+            OmokContract.TABLE_NAME,
+            arrayOf(
+                OmokContract.TABLE_COLUMN_INDEX,
+                OmokContract.TABLE_COLUMN_COLOR
+            ),
+            null,
+            null,
+            null,
+            null,
+            null
+        )
     }
 
     companion object {
