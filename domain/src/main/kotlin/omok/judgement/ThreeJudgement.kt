@@ -5,10 +5,14 @@ import omok.Player
 import omok.Position
 import omok.Stone
 
-class ThreeJudgement(private val player: Player, private val otherPlayer: Player, private val position: Position) {
+class ThreeJudgement(
+    private val player: Player,
+    private val otherPlayer: Player,
+    private val position: Position
+) {
     fun check(): Boolean {
         var cnt = 0
-        if (checkHorizontal()) cnt ++
+        if (checkHorizontal()) cnt++
         if (checkVertical()) cnt++
         if (checkMajorDiagonal()) cnt++
         if (checkSubDiagonal()) cnt++
@@ -53,9 +57,13 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
 
         (verticalLower..verticalUpper).forEach { vertical ->
             if (vertical >= 1 && vertical + 3 <= 15)
-                flag = checkThree(List(4) { position.horizontalAxis.axis }, (vertical..vertical + 3).toList())
-            if (flag)
-                return true
+                flag = checkThree(
+                    List(4) { position.horizontalAxis.axis },
+                    (vertical..vertical + 3).toList()
+                )
+            if (flag) {
+                return !LineJudgement(player, position).checkVertical(FOUR_COUNT)
+            }
         }
         return false
     }
@@ -67,40 +75,59 @@ class ThreeJudgement(private val player: Player, private val otherPlayer: Player
 
         (horizontalLower..horizontalUpper).forEach { horizontal ->
             if (horizontal >= 1 && horizontal + 3 <= 15)
-                flag = checkThree((horizontal..horizontal + 3).toList(), List(4) { position.verticalAxis },)
-            if (flag)
-                return true
+                flag = checkThree(
+                    (horizontal..horizontal + 3).toList(),
+                    List(4) { position.verticalAxis },
+                )
+            if (flag) {
+                return !LineJudgement(player, position).checkHorizontal(FOUR_COUNT)
+            }
         }
         return false
     }
 
     private fun checkMajorDiagonal(): Boolean {
         val verticalAxis = (position.verticalAxis - 3..position.verticalAxis + 3).toList()
-        val horizontalAxis = (position.horizontalAxis.axis - 3..position.horizontalAxis.axis + 3).toList()
+        val horizontalAxis =
+            (position.horizontalAxis.axis - 3..position.horizontalAxis.axis + 3).toList()
         var flag = false
 
         horizontalAxis.zip(verticalAxis).forEach { axis ->
             if (axis.first >= 1 && axis.first + 3 <= 15 && axis.second >= 1 && axis.second + 3 <= 15) {
-                flag = checkThree((axis.first..axis.first + 3).toList(), (axis.second..axis.second + 3).toList())
+                flag = checkThree(
+                    (axis.first..axis.first + 3).toList(),
+                    (axis.second..axis.second + 3).toList()
+                )
             }
-            if (flag)
-                return true
+            if (flag) {
+                return !LineJudgement(player, position).checkMajorDiagonal(FOUR_COUNT)
+            }
         }
         return false
     }
 
     private fun checkSubDiagonal(): Boolean {
-        val verticalAxis = (position.verticalAxis - 3..position.verticalAxis + 3).toList().reversed()
-        val horizontalAxis = (position.horizontalAxis.axis - 3..position.horizontalAxis.axis + 3).toList()
+        val verticalAxis =
+            (position.verticalAxis - 3..position.verticalAxis + 3).toList().reversed()
+        val horizontalAxis =
+            (position.horizontalAxis.axis - 3..position.horizontalAxis.axis + 3).toList()
         var flag = false
 
         horizontalAxis.zip(verticalAxis).forEach { axis ->
             if (axis.first >= 1 && axis.first + 3 <= 15 && axis.second - 3 >= 1 && axis.second <= 15) {
-                flag = checkThree((axis.first..axis.first + 3).toList(), (axis.second - 3..axis.second).toList().reversed())
+                flag = checkThree(
+                    (axis.first..axis.first + 3).toList(),
+                    (axis.second - 3..axis.second).toList().reversed()
+                )
             }
-            if (flag)
-                return true
+            if (flag) {
+                return !LineJudgement(player, position).checkMajorDiagonal(FOUR_COUNT)
+            }
         }
         return false
+    }
+
+    companion object {
+        private const val FOUR_COUNT = 4
     }
 }

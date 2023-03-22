@@ -7,10 +7,10 @@ import omok.Stone
 
 class LineJudgement(val player: Player, val position: Position) {
     fun check(): Boolean {
-        return checkHorizontal() || checkVertical() || checkMajorDiagonal() || checkSubDiagonal()
+        return checkHorizontal(OMOK_COUNT) || checkVertical(OMOK_COUNT) || checkMajorDiagonal(OMOK_COUNT) || checkSubDiagonal(OMOK_COUNT)
     }
 
-    private fun checkOmok(horizontal: List<Int>, vertical: List<Int>): Boolean {
+    private fun checkOmok(horizontal: List<Int>, vertical: List<Int>, lineCount: Int = OMOK_COUNT): Boolean {
         var count = 0
         var prev = true
         var present: Boolean
@@ -28,34 +28,38 @@ class LineJudgement(val player: Player, val position: Position) {
                 count = 0
             }
             prev = present
-            if (count == 5) return true
+            if (count == lineCount) return true
         }
         return false
     }
 
-    private fun checkHorizontal(): Boolean {
-        return checkOmok((1..15).toList(), List(15) { position.verticalAxis })
+    fun checkHorizontal(lineCount: Int): Boolean {
+        return checkOmok((1..15).toList(), List(15) { position.verticalAxis }, lineCount)
     }
 
-    private fun checkVertical(): Boolean {
-        return checkOmok(List(15) { position.horizontalAxis.axis }, (1..15).toList())
+    fun checkVertical(lineCount: Int): Boolean {
+        return checkOmok(List(15) { position.horizontalAxis.axis }, (1..15).toList(), lineCount)
     }
 
-    private fun checkMajorDiagonal(): Boolean {
+    fun checkMajorDiagonal(lineCount: Int): Boolean {
         val horizontal = position.horizontalAxis.axis
         val vertical = position.verticalAxis
         if (horizontal <= vertical) {
-            return checkOmok((1..15 + horizontal - vertical).toList(), (vertical - horizontal + 1..15).toList())
+            return checkOmok((1..15 + horizontal - vertical).toList(), (vertical - horizontal + 1..15).toList(), lineCount)
         }
-        return checkOmok((horizontal - vertical + 1..15).toList(), (1..15 - vertical + horizontal).toList())
+        return checkOmok((horizontal - vertical + 1..15).toList(), (1..15 - vertical + horizontal).toList(), lineCount)
     }
 
-    private fun checkSubDiagonal(): Boolean {
+    fun checkSubDiagonal(lineCount: Int): Boolean {
         val horizontal = position.horizontalAxis.axis
         val vertical = position.verticalAxis
         if (horizontal + vertical > 15) {
-            return checkOmok((horizontal + vertical - 15..15).toList().reversed(), (horizontal + vertical - 15..15).toList())
+            return checkOmok((horizontal + vertical - 15..15).toList().reversed(), (horizontal + vertical - 15..15).toList(), lineCount)
         }
-        return checkOmok((1..horizontal + vertical - 1).toList(), (1..horizontal + vertical - 1).toList().reversed())
+        return checkOmok((1..horizontal + vertical - 1).toList(), (1..horizontal + vertical - 1).toList().reversed(), lineCount)
+    }
+
+    companion object {
+        private const val OMOK_COUNT = 5
     }
 }

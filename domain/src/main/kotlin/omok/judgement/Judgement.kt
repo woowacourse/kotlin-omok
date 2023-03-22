@@ -12,7 +12,7 @@ object Judgement {
         if (line(blackPlayer, position)) {
             return false
         }
-        return ThreeJudgement(blackPlayer, whitePlayer, position).check() ||
-            FourJudgement(blackPlayer, whitePlayer, position).check()
+        return FourJudgement(blackPlayer, whitePlayer, position).check() ||
+            ThreeJudgement(blackPlayer, whitePlayer, position).check()
     }
 }
