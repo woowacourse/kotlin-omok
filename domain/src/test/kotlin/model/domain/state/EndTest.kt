@@ -1,7 +1,6 @@
 package model.domain.state
 
 import model.domain.tools.Board
-import model.domain.tools.Coordination
 import model.domain.tools.Location
 import model.domain.tools.Stone
 import org.junit.jupiter.api.Test
@@ -14,13 +13,12 @@ class EndTest {
         // given
         val board = Board.from(15)
         val state: State = End(board, Stone.BLACK)
-        val location = Location(Coordination.from(1), Coordination.from(1))
 
         // when
 
         // then
         assertThrows<IllegalStateException>("") {
-            state.place(location)
+            state.place(Location(1, 1))
         }
     }
 }

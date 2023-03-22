@@ -1,7 +1,6 @@
 package model.domain.rule
 
 import model.domain.tools.Board
-import model.domain.tools.Coordination
 import model.domain.tools.Location
 import model.domain.tools.Stone
 
@@ -19,7 +18,7 @@ class OmokForbiddenRuleAdapter(board: Board, currentStone: Stone) : OmokForbidde
 
     private fun getLocationRow(row: Int, board: Board): List<Int> =
         List(OMOK_SIZE) { col ->
-            getStoneNumber(requireNotNull(board.system[Location(Coordination.from(row), Coordination.from(col))]))
+            getStoneNumber(requireNotNull(board.system[Location(row, col)]))
         }
 
     override fun isForbidden(location: Location): Boolean {

@@ -1,7 +1,6 @@
 package model.domain.rule
 
 import model.domain.tools.Board
-import model.domain.tools.Coordination
 import model.domain.tools.Location
 import model.domain.tools.Stone
 
@@ -30,11 +29,10 @@ object OmokLongForbidden {
             y -= dy * 4
 
             for (cell in 0 until 9) {
-                print(count)
                 if ((x in COORDINATION_SYSTEM_RANGE) and (y in COORDINATION_SYSTEM_RANGE)) {
                     if (x == row && y == col) {
                         count++
-                    } else if (board.get(Location(Coordination.from(x), Coordination.from(y))) == stone) {
+                    } else if (board.getStone(Location(x, y)) == stone) {
                         count++
                         if (count >= LONGOMOK) return true
                     } else {

@@ -1,7 +1,6 @@
 package model.domain.rule
 
 import model.domain.tools.Board
-import model.domain.tools.Coordination
 import model.domain.tools.Location
 import model.domain.tools.Stone
 
@@ -31,7 +30,7 @@ object OmokRule {
 
             for (cell in 0 until 9) {
                 if ((x in COORDINATION_SYSTEM_RANGE) and (y in COORDINATION_SYSTEM_RANGE)) {
-                    if (board.get(Location(Coordination.from(x), Coordination.from(y))) == stone) {
+                    if (board.getStone(Location(x, y)) == stone) {
                         count++
                         if (count >= OMOK) return true
                     } else {
