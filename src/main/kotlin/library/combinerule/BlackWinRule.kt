@@ -1,4 +1,6 @@
-package domain.library.ark
+package domain.library.combinerule
+
+import domain.library.ark.OmokRule
 
 object BlackWinRule : OmokRule() {
     override fun validate(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
