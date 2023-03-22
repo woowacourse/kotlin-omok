@@ -1,24 +1,16 @@
 package domain.state
 
+import adapter.BlackTurnAdapter
 import domain.stone.Board
 import domain.stone.Stone
-import rule.type.Violation
 
 class BlackTurn(val board: Board) : Running() {
 
+    val blackTurnAdapter = BlackTurnAdapter()
     override fun put(stone: Stone): State {
-        if (blackRenjuRule.checkAnyFoulCondition(
-                board.blackStonesPoint(),
-                board.whiteStonesPoint(),
-                stone.point,
-            ) != Violation.NONE
-        ) {
-            return BlackTurn(board)
-        }
+        if (blackTurnAdapter.checkAnyFoulCondition(board, stone)) return BlackTurn(board)
         runCatching { board.putStone(stone) }.onFailure { return BlackTurn(board) }
-        if (blackRenjuRule.checkWin(board.blackStonesPoint(), board.whiteStonesPoint(), stone.point)) {
-            return End(stone)
-        }
+        if (blackTurnAdapter.checkWin(board, stone)) return End(stone)
         return WhiteTurn(board)
     }
 }

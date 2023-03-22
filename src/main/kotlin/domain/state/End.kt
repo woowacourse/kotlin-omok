@@ -5,9 +5,7 @@ import domain.stone.StoneType
 
 class End(private val stone: Stone) : State {
 
-    override fun put(stone: Stone): State {
-        throw IllegalStateException(CANT_PUT_ERROR)
-    }
+    override fun put(stone: Stone): State = this
 
     fun getWinner(): StoneType = stone.type
 
