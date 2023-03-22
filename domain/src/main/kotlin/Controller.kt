@@ -1,5 +1,5 @@
-package domain
-
+import domain.Board
+import domain.OmokGame
 import view.InputView
 import view.OutputView
 
