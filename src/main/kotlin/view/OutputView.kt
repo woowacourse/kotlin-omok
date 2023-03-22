@@ -1,9 +1,9 @@
 package view
 
 import domain.state.BlackTurn
+import domain.state.End
 import domain.state.State
 import domain.state.WhiteTurn
-import domain.state.Win
 import domain.stone.Stone
 import domain.stone.StoneType
 import domain.stone.Stones
@@ -29,15 +29,15 @@ object OutputView {
     fun printTurn(state: State, stones: Stones) {
         val text: StringBuilder = StringBuilder()
 
-        if (state !is Win) text.append(MESSAGE_FORMAT_TURN.format(getTurnText(state)))
-        if (state !is Win && stones.values.isNotEmpty()) {
+        if (state !is End) text.append(MESSAGE_FORMAT_TURN.format(getTurnText(state)))
+        if (state !is End && stones.values.isNotEmpty()) {
             text.append(MESSAGE_FORMAT_LAST_STONE_POSITION.format(positionToText(stones.values[stones.values.lastIndex])))
         }
 
         println(text)
     }
 
-    fun printWinner(state: State) {
+    fun printWinner(state: End) {
         println(MESSAGE_FORMAT_WINNER.format(getWinnerText(state)))
     }
 
@@ -59,7 +59,7 @@ object OutputView {
         else -> null
     }
 
-    private fun getWinnerText(state: State): String? = when (state.getWinner()) {
+    private fun getWinnerText(state: End): String? = when (state.getWinner()) {
         StoneType.BLACK -> "흑"
         StoneType.WHITE -> "백"
         else -> null

@@ -1,6 +1,6 @@
 package domain.stone
 
-import domain.state.End
+import domain.state.State
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import rule.wrapper.point.Point
@@ -13,15 +13,15 @@ class EndTest {
         val stoneType = StoneType.BLACK
         val stone = Stone(stonePoint, stoneType)
 
-        val end = TestEnd()
+        val end = TestEnd(stone)
         assertThrows<IllegalStateException> {
             end.put(stone)
         }
     }
 }
 
-class TestEnd : End() {
-    override fun getWinner(): StoneType {
+class TestEnd(val stone: Stone) : State {
+    override fun put(stone: Stone): State {
         TODO("Not yet implemented")
     }
 }

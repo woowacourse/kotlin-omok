@@ -17,7 +17,7 @@ class BlackTurn(val board: Board) : Running() {
         }
         runCatching { board.putStone(stone) }.onFailure { return BlackTurn(board) }
         if (blackRenjuRule.checkWin(board.blackStonesPoint(), board.whiteStonesPoint(), stone.point)) {
-            return Win(stone)
+            return End(stone)
         }
         return WhiteTurn(board)
     }
