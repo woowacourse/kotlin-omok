@@ -8,23 +8,17 @@ private typealias GetOmokPoint = (StoneState, OmokPoint?) -> OmokPoint
 private typealias OutputBoardStatus = (OmokBoard) -> Unit
 
 class OmokGame {
-    var point: OmokPoint? = null
     var gameState: GameState = BlackTurn(OmokBoard())
-    fun play(getOmokPoint: GetOmokPoint, outputBoardStatus: OutputBoardStatus) {
-        val tempPoint = getOmokPoint(gameState.stoneState, point)
+    tailrec fun play(getOmokPoint: GetOmokPoint, outputBoardStatus: OutputBoardStatus, point: OmokPoint? = null) {
+        var tempPoint: OmokPoint? = getOmokPoint(gameState.stoneState, point)
         runCatching {
-            gameState = gameState.play(tempPoint)
+            gameState = gameState.play(tempPoint!!)
+            outputBoardStatus(gameState.omokBoard)
         }
             .onFailure {
                 println(it.message)
+                tempPoint = point
             }
-            .onSuccess {
-                point = tempPoint
-            }
-        outputBoardStatus(gameState.omokBoard)
-        when {
-            gameState.isRunning -> play(getOmokPoint, outputBoardStatus)
-            else -> return
-        }
+        if (gameState.isRunning) play(getOmokPoint, outputBoardStatus, tempPoint)
     }
 }

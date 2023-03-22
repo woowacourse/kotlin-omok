@@ -10,7 +10,7 @@ class OmokBoard(value: Map<OmokPoint, StoneState> = EMPTY_BOARD) {
         val newValue = value.toMutableMap()
         newValue[point] = when (newValue[point]) {
             EmptyStoneState -> stoneState
-            else -> throw IllegalArgumentException(ERROR_ALREADY_PLACED)
+            else -> throw IllegalArgumentException(ERROR_ALREADY_PLACED.format(point.x, point.y))
         }
         return OmokBoard(newValue)
     }
@@ -20,7 +20,7 @@ class OmokBoard(value: Map<OmokPoint, StoneState> = EMPTY_BOARD) {
     companion object {
         private const val BOARD_X_SIZE = 15
         private const val BOARD_Y_SIZE = 15
-        private const val ERROR_ALREADY_PLACED = "해당 좌표는 이미 다른 돌이 있습니다."
+        private const val ERROR_ALREADY_PLACED = "(%s, %s)는 이미 다른 돌이 있습니다."
         private const val ERROR_INVALID_POINT = "해당 좌표는 오목판에 없습니다."
         private val EMPTY_BOARD = OmokPoint.createLinesPoint(BOARD_X_SIZE, BOARD_Y_SIZE).associateWith { EmptyStoneState }
     }
