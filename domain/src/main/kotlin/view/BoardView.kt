@@ -15,11 +15,21 @@ class BoardView(board: Board) {
             boardLine.add("%3s ".format(y))
             for (x in MIN_VIEW_X..MAX_VIEW_X) {
                 when {
-                    board.blackStoneIsPlaced(BlackStone(Point.create(x, y))) -> boardLine.add(
+                    board.blackStoneIsPlaced(
+                        BlackStone(
+                            x.uppercase()[0] - MIN_VIEW_X,
+                            y - MIN_VIEW_Y
+                        )
+                    ) -> boardLine.add(
                         BLACK_STONE
                     )
 
-                    board.whiteStoneIsPlaced(WhiteStone(Point.create(x, y))) -> boardLine.add(
+                    board.whiteStoneIsPlaced(
+                        WhiteStone(
+                            x.uppercase()[0] - MIN_VIEW_X,
+                            y - MIN_VIEW_Y
+                        )
+                    ) -> boardLine.add(
                         WHITE_STONE
                     )
 

@@ -12,9 +12,5 @@ data class Point(val x: Int, val y: Int) {
 
     companion object {
         const val ERROR_OUT_OF_RANGE = "범위를 넘어가는 좌표를 생성할 수 없습니다."
-
-        fun create(x: Char, y: Int): Point {
-            return Point(x.uppercase()[0] - MIN_VIEW_X, y - MIN_VIEW_Y)
-        }
     }
 }

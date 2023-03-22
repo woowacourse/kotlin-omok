@@ -1,7 +1,6 @@
 package domain.rule
 
 import domain.stone.BlackStone
-import domain.stone.Point
 import domain.stone.Stones
 import domain.stone.WhiteStone
 import org.assertj.core.api.Assertions.assertThat
@@ -24,17 +23,17 @@ class ThreeThreeRuleTest {
         val actual = ThreeThreeRule().checkRule(
             Stones(
                 setOf(
-                    BlackStone(Point.create('C', 12)),
-                    BlackStone(Point.create('E', 12)),
-                    BlackStone(Point.create('D', 13)),
-                    BlackStone(Point.create('D', 14)),
-                    WhiteStone(Point.create('I', 2)),
-                    WhiteStone(Point.create('L', 4)),
-                    WhiteStone(Point.create('I', 10)),
-                    WhiteStone(Point.create('F', 2))
+                    BlackStone(PointAdapter.create('C', 12)),
+                    BlackStone(PointAdapter.create('E', 12)),
+                    BlackStone(PointAdapter.create('D', 13)),
+                    BlackStone(PointAdapter.create('D', 14)),
+                    WhiteStone(PointAdapter.create('I', 2)),
+                    WhiteStone(PointAdapter.create('L', 4)),
+                    WhiteStone(PointAdapter.create('I', 10)),
+                    WhiteStone(PointAdapter.create('F', 2))
                 )
             ), BlackStone(
-                Point.create('D', 12)
+                PointAdapter.create('D', 12)
             )
         )
         assertThat(actual).isTrue
@@ -55,16 +54,16 @@ class ThreeThreeRuleTest {
         val actual = ThreeThreeRule().checkRule(
             Stones(
                 setOf(
-                    BlackStone(Point.create('C', 12)),
-                    BlackStone(Point.create('E', 12)),
-                    BlackStone(Point.create('D', 13)),
-                    BlackStone(Point.create('D', 14)),
-                    WhiteStone(Point.create('I', 2)),
-                    WhiteStone(Point.create('L', 4)),
-                    WhiteStone(Point.create('I', 10)),
-                    WhiteStone(Point.create('F', 12))
+                    BlackStone(PointAdapter.create('C', 12)),
+                    BlackStone(PointAdapter.create('E', 12)),
+                    BlackStone(PointAdapter.create('D', 13)),
+                    BlackStone(PointAdapter.create('D', 14)),
+                    WhiteStone(PointAdapter.create('I', 2)),
+                    WhiteStone(PointAdapter.create('L', 4)),
+                    WhiteStone(PointAdapter.create('I', 10)),
+                    WhiteStone(PointAdapter.create('F', 12))
                 )
-            ), BlackStone(Point.create('D', 12))
+            ), BlackStone(PointAdapter.create('D', 12))
         )
         assertFalse(actual)
     }

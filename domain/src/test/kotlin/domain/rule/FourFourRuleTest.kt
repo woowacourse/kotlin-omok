@@ -1,5 +1,6 @@
 package domain.rule
 
+import PointAdapter
 import domain.stone.BlackStone
 import domain.stone.Point
 import domain.stone.Stones
@@ -27,20 +28,20 @@ class FourFourRuleTest {
         val actual = FourFourRule().checkRule(
             Stones(
                 setOf(
-                    BlackStone(Point.create('E', 5)),
-                    BlackStone(Point.create('F', 5)),
-                    BlackStone(Point.create('G', 5)),
-                    BlackStone(Point.create('H', 6)),
-                    BlackStone(Point.create('H', 7)),
-                    BlackStone(Point.create('H', 8)),
-                    WhiteStone(Point.create('I', 2)),
-                    WhiteStone(Point.create('L', 4)),
-                    WhiteStone(Point.create('I', 10)),
-                    WhiteStone(Point.create('F', 2)),
-                    WhiteStone(Point.create('A', 2)),
-                    WhiteStone(Point.create('B', 2))
+                    BlackStone(PointAdapter.create('E', 4)),
+                    BlackStone(PointAdapter.create('F', 4)),
+                    BlackStone(PointAdapter.create('G', 5)),
+                    BlackStone(PointAdapter.create('H', 6)),
+                    BlackStone(PointAdapter.create('H', 7)),
+                    BlackStone(PointAdapter.create('H', 8)),
+                    WhiteStone(PointAdapter.create('I', 2)),
+                    WhiteStone(PointAdapter.create('L', 4)),
+                    WhiteStone(PointAdapter.create('I', 10)),
+                    WhiteStone(PointAdapter.create('F', 2)),
+                    WhiteStone(PointAdapter.create('A', 2)),
+                    WhiteStone(PointAdapter.create('B', 2))
                 )
-            ), BlackStone(Point.create('H', 5))
+            ), BlackStone(PointAdapter.create('H', 5))
         )
         assertTrue(actual)
     }
@@ -62,18 +63,18 @@ class FourFourRuleTest {
         val actual = FourFourRule().checkRule(
             Stones(
                 setOf(
-                    BlackStone(Point.create('E', 5)),
-                    BlackStone(Point.create('F', 5)),
-                    BlackStone(Point.create('G', 5)),
-                    BlackStone(Point.create('H', 6)),
-                    BlackStone(Point.create('H', 7)),
-                    WhiteStone(Point.create('I', 2)),
-                    WhiteStone(Point.create('L', 4)),
-                    WhiteStone(Point.create('I', 10)),
-                    WhiteStone(Point.create('F', 2)),
-                    WhiteStone(Point.create('A', 2))
+                    BlackStone(PointAdapter.create('E', 5)),
+                    BlackStone(PointAdapter.create('F', 5)),
+                    BlackStone(PointAdapter.create('G', 5)),
+                    BlackStone(PointAdapter.create('H', 6)),
+                    BlackStone(PointAdapter.create('H', 7)),
+                    WhiteStone(PointAdapter.create('I', 2)),
+                    WhiteStone(PointAdapter.create('L', 4)),
+                    WhiteStone(PointAdapter.create('I', 10)),
+                    WhiteStone(PointAdapter.create('F', 2)),
+                    WhiteStone(PointAdapter.create('A', 2))
                 )
-            ), BlackStone(Point.create('H', 5))
+            ), BlackStone(PointAdapter.create('H', 5))
         )
         assertFalse(actual)
     }

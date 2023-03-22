@@ -12,6 +12,6 @@ internal class PointTest {
 
     @Test
     fun `뷰 기준으로 좌표가 주어졌을 때 절대적 위치로 변환된 Point 객체를 반환한다`() {
-        assertThat(Point.create('A', 1)).isEqualTo(Point(0, 0))
+        assertThat(PointAdapter.create('A', 1)).isEqualTo(Point(0, 0))
     }
 }

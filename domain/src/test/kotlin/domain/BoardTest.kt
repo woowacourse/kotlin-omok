@@ -1,7 +1,6 @@
 package domain
 
 import domain.stone.BlackStone
-import domain.stone.Point
 import domain.stone.WhiteStone
 import org.junit.jupiter.api.Test
 
@@ -12,7 +11,7 @@ internal class BoardTest {
     @Test
     fun `BlackTurn 상태 에서 둘 수 있는 자리에 돌을 두면 WhiteTurn 상태로 변경된다`() {
         val board = Board()
-        board.put(Point.create('A', 1))
+        board.put(PointAdapter.create('A', 1))
         assertTrue(board.isWhiteTurn())
     }
 
@@ -30,15 +29,15 @@ internal class BoardTest {
 //            A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
 
         val board = Board()
-        board.put(Point.create('A', 1))
-        board.put(Point.create('O', 1))
-        board.put(Point.create('B', 1))
-        board.put(Point.create('O', 15))
-        board.put(Point.create('C', 1))
-        board.put(Point.create('O', 10))
-        board.put(Point.create('D', 1))
-        board.put(Point.create('O', 13))
-        board.put(Point.create('E', 1))
+        board.put(PointAdapter.create('A', 1))
+        board.put(PointAdapter.create('O', 1))
+        board.put(PointAdapter.create('B', 1))
+        board.put(PointAdapter.create('O', 15))
+        board.put(PointAdapter.create('C', 1))
+        board.put(PointAdapter.create('O', 10))
+        board.put(PointAdapter.create('D', 1))
+        board.put(PointAdapter.create('O', 13))
+        board.put(PointAdapter.create('E', 1))
 
         assertTrue(board.isFinished())
     }
@@ -46,8 +45,8 @@ internal class BoardTest {
     @Test
     fun `WhiteTurn 상태 에서 둘 수 있는 자리에 돌을 두면 BlackTurn 상태로 변경된다`() {
         val board = Board()
-        board.put(Point.create('A', 1))
-        board.put(Point.create('A', 2))
+        board.put(PointAdapter.create('A', 1))
+        board.put(PointAdapter.create('A', 2))
 
         assertTrue(board.isBlackTurn())
     }
@@ -66,15 +65,15 @@ internal class BoardTest {
 //            A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
 
         val board = Board()
-        board.put(Point.create('A', 1))
-        board.put(Point.create('o', 1))
-        board.put(Point.create('B', 1))
-        board.put(Point.create('o', 15))
-        board.put(Point.create('C', 1))
-        board.put(Point.create('o', 10))
-        board.put(Point.create('D', 1))
-        board.put(Point.create('o', 13))
-        board.put(Point.create('E', 1))
+        board.put(PointAdapter.create('A', 1))
+        board.put(PointAdapter.create('o', 1))
+        board.put(PointAdapter.create('B', 1))
+        board.put(PointAdapter.create('o', 15))
+        board.put(PointAdapter.create('C', 1))
+        board.put(PointAdapter.create('o', 10))
+        board.put(PointAdapter.create('D', 1))
+        board.put(PointAdapter.create('o', 13))
+        board.put(PointAdapter.create('E', 1))
 
         assertTrue(board.isBlackWin())
     }
@@ -82,17 +81,17 @@ internal class BoardTest {
     @Test
     fun `주어진 돌이 놓여진 흑돌 중에 있다면 true이다`() {
         val board = Board()
-        board.put(Point.create('A', 1))
-        val actual = board.blackStoneIsPlaced(BlackStone(Point.create('A', 1)))
+        board.put(PointAdapter.create('A', 1))
+        val actual = board.blackStoneIsPlaced(BlackStone(PointAdapter.create('A', 1)))
         assertTrue(actual)
     }
 
     @Test
     fun `주어진 돌이 놓여진 백돌 중에 있다면 true이다`() {
         val board = Board()
-        board.put(Point.create('A', 1))
-        board.put(Point.create('B', 1))
-        val actual = board.whiteStoneIsPlaced(WhiteStone(Point.create('B', 1)))
+        board.put(PointAdapter.create('A', 1))
+        board.put(PointAdapter.create('B', 1))
+        val actual = board.whiteStoneIsPlaced(WhiteStone(PointAdapter.create('B', 1)))
         assertTrue(actual)
     }
 }

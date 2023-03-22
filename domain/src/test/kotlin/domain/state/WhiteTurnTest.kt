@@ -1,7 +1,6 @@
 package domain.state
 
 import domain.stone.BlackStone
-import domain.stone.Point
 import domain.stone.Stones
 import domain.stone.WhiteStone
 import org.assertj.core.api.Assertions
@@ -15,10 +14,10 @@ class WhiteTurnTest {
             WhiteTurn(
                 Stones(
                     setOf(
-                        BlackStone(Point.create('B', 2)),
-                        BlackStone(Point.create('C', 3)),
-                        WhiteStone(Point.create('B', 12)),
-                        WhiteStone(Point.create('J', 14))
+                        BlackStone(PointAdapter.create('B', 2)),
+                        BlackStone(PointAdapter.create('C', 3)),
+                        WhiteStone(PointAdapter.create('B', 12)),
+                        WhiteStone(PointAdapter.create('J', 14))
                     )
                 )
             )
@@ -27,8 +26,8 @@ class WhiteTurnTest {
 
     @Test
     fun `둘 수 있는 곳에 백돌을 뒀을 때 게임이 안끝나면 흑돌을 둘 수 있는 상태를 반환한다`() {
-        val state: State = WhiteTurn(Stones(setOf(BlackStone(Point.create('B', 2)))))
-        val actual = state.put(Point.create('A', 1))
+        val state: State = WhiteTurn(Stones(setOf(BlackStone(PointAdapter.create('B', 2)))))
+        val actual = state.put(PointAdapter.create('A', 1))
 
         Assertions.assertThat(actual).isInstanceOf(BlackTurn::class.java)
     }

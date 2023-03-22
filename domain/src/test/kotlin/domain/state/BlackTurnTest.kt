@@ -3,7 +3,6 @@ package domain.state
 import domain.rule.LongMokRule
 import domain.rule.Referee
 import domain.stone.BlackStone
-import domain.stone.Point
 import domain.stone.Stones
 import domain.stone.WhiteStone
 import org.assertj.core.api.Assertions.assertThat
@@ -15,7 +14,7 @@ class BlackTurnTest {
     @Test
     fun `둘 수 있는 곳에 흑돌을 뒀을 때 게임이 안끝나면 백돌을 둘 수 있는 상태를 반환한다`() {
         val state: State = BlackTurn(Stones(setOf()))
-        val actual = state.put(Point.create('A', 1))
+        val actual = state.put(PointAdapter.create('A', 1))
         assertThat(actual).isInstanceOf(WhiteTurn::class.java)
     }
 
@@ -31,18 +30,18 @@ class BlackTurnTest {
         val state: State = BlackTurn(
             Stones(
                 setOf(
-                    BlackStone(Point.create('B', 2)),
-                    BlackStone(Point.create('C', 2)),
-                    BlackStone(Point.create('D', 2)),
-                    BlackStone(Point.create('E', 2)),
-                    WhiteStone(Point.create('B', 12)),
-                    WhiteStone(Point.create('J', 14)),
-                    WhiteStone(Point.create('H', 3)),
-                    WhiteStone(Point.create('H', 2))
+                    BlackStone(PointAdapter.create('B', 2)),
+                    BlackStone(PointAdapter.create('C', 2)),
+                    BlackStone(PointAdapter.create('D', 2)),
+                    BlackStone(PointAdapter.create('E', 2)),
+                    WhiteStone(PointAdapter.create('B', 12)),
+                    WhiteStone(PointAdapter.create('J', 14)),
+                    WhiteStone(PointAdapter.create('H', 3)),
+                    WhiteStone(PointAdapter.create('H', 2))
                 )
             )
         )
-        val actual = state.put(Point.create('F', 2))
+        val actual = state.put(PointAdapter.create('F', 2))
         assertThat(actual).isInstanceOf(BlackWin::class.java)
     }
 
@@ -60,19 +59,19 @@ class BlackTurnTest {
         val state: State = BlackTurn(
             Stones(
                 setOf(
-                    BlackStone(Point.create('B', 2)),
-                    BlackStone(Point.create('B', 3)),
-                    BlackStone(Point.create('B', 4)),
-                    BlackStone(Point.create('B', 5)),
-                    WhiteStone(Point.create('B', 12)),
-                    WhiteStone(Point.create('J', 14)),
-                    WhiteStone(Point.create('H', 3)),
-                    WhiteStone(Point.create('H', 2))
+                    BlackStone(PointAdapter.create('B', 2)),
+                    BlackStone(PointAdapter.create('B', 3)),
+                    BlackStone(PointAdapter.create('B', 4)),
+                    BlackStone(PointAdapter.create('B', 5)),
+                    WhiteStone(PointAdapter.create('B', 12)),
+                    WhiteStone(PointAdapter.create('J', 14)),
+                    WhiteStone(PointAdapter.create('H', 3)),
+                    WhiteStone(PointAdapter.create('H', 2))
                 )
             )
         )
 
-        val actual = state.put(Point.create('B', 6))
+        val actual = state.put(PointAdapter.create('B', 6))
 
         assertThat(actual).isInstanceOf(BlackWin::class.java)
     }
@@ -94,19 +93,19 @@ class BlackTurnTest {
         val state: State = BlackTurn(
             Stones(
                 setOf(
-                    BlackStone(Point.create('B', 6)),
-                    BlackStone(Point.create('C', 5)),
-                    BlackStone(Point.create('D', 4)),
-                    BlackStone(Point.create('E', 3)),
-                    WhiteStone(Point.create('B', 12)),
-                    WhiteStone(Point.create('J', 14)),
-                    WhiteStone(Point.create('H', 3)),
-                    WhiteStone(Point.create('H', 2))
+                    BlackStone(PointAdapter.create('B', 6)),
+                    BlackStone(PointAdapter.create('C', 5)),
+                    BlackStone(PointAdapter.create('D', 4)),
+                    BlackStone(PointAdapter.create('E', 3)),
+                    WhiteStone(PointAdapter.create('B', 12)),
+                    WhiteStone(PointAdapter.create('J', 14)),
+                    WhiteStone(PointAdapter.create('H', 3)),
+                    WhiteStone(PointAdapter.create('H', 2))
                 )
             )
         )
 
-        val actual = state.put(Point.create('F', 2))
+        val actual = state.put(PointAdapter.create('F', 2))
 
         assertThat(actual).isInstanceOf(BlackWin::class.java)
     }
@@ -127,19 +126,19 @@ class BlackTurnTest {
         val state: State = BlackTurn(
             Stones(
                 setOf(
-                    BlackStone(Point.create('B', 2)),
-                    BlackStone(Point.create('C', 3)),
-                    BlackStone(Point.create('D', 4)),
-                    BlackStone(Point.create('E', 5)),
-                    WhiteStone(Point.create('B', 12)),
-                    WhiteStone(Point.create('J', 14)),
-                    WhiteStone(Point.create('H', 3)),
-                    WhiteStone(Point.create('H', 2))
+                    BlackStone(PointAdapter.create('B', 2)),
+                    BlackStone(PointAdapter.create('C', 3)),
+                    BlackStone(PointAdapter.create('D', 4)),
+                    BlackStone(PointAdapter.create('E', 5)),
+                    WhiteStone(PointAdapter.create('B', 12)),
+                    WhiteStone(PointAdapter.create('J', 14)),
+                    WhiteStone(PointAdapter.create('H', 3)),
+                    WhiteStone(PointAdapter.create('H', 2))
                 )
             )
         )
 
-        val actual = state.put(Point.create('F', 6))
+        val actual = state.put(PointAdapter.create('F', 6))
 
         assertThat(actual).isInstanceOf(BlackWin::class.java)
     }
@@ -160,21 +159,21 @@ class BlackTurnTest {
             BlackTurn(
                 Stones(
                     setOf(
-                        BlackStone(Point.create('E', 5)),
-                        BlackStone(Point.create('F', 5)),
-                        BlackStone(Point.create('G', 5)),
-                        BlackStone(Point.create('H', 5)),
-                        BlackStone(Point.create('J', 5)),
-                        BlackStone(Point.create('K', 5)),
-                        WhiteStone(Point.create('I', 2)),
-                        WhiteStone(Point.create('L', 4)),
-                        WhiteStone(Point.create('I', 10)),
-                        WhiteStone(Point.create('F', 2)),
-                        WhiteStone(Point.create('A', 2)),
-                        WhiteStone(Point.create('B', 2))
+                        BlackStone(PointAdapter.create('E', 5)),
+                        BlackStone(PointAdapter.create('F', 5)),
+                        BlackStone(PointAdapter.create('G', 5)),
+                        BlackStone(PointAdapter.create('H', 5)),
+                        BlackStone(PointAdapter.create('J', 5)),
+                        BlackStone(PointAdapter.create('K', 5)),
+                        WhiteStone(PointAdapter.create('I', 2)),
+                        WhiteStone(PointAdapter.create('L', 4)),
+                        WhiteStone(PointAdapter.create('I', 10)),
+                        WhiteStone(PointAdapter.create('F', 2)),
+                        WhiteStone(PointAdapter.create('A', 2)),
+                        WhiteStone(PointAdapter.create('B', 2))
                     )
                 )
-            ).put(Point.create('I', 5), Referee(listOf(LongMokRule())))
+            ).put(PointAdapter.create('I', 5), Referee(listOf(LongMokRule())))
         }.withMessage("흑돌은 장목이면 안됩니다.")
     }
 }

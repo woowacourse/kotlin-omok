@@ -1,7 +1,6 @@
 package domain.rule
 
 import domain.stone.BlackStone
-import domain.stone.Point
 import domain.stone.Stones
 import domain.stone.WhiteStone
 import org.junit.jupiter.api.Assertions.*
@@ -25,20 +24,20 @@ class LongMokRuleTest {
         val actual = LongMokRule().checkRule(
             Stones(
                 setOf(
-                    BlackStone(Point.create('E', 5)),
-                    BlackStone(Point.create('F', 5)),
-                    BlackStone(Point.create('G', 5)),
-                    BlackStone(Point.create('H', 5)),
-                    BlackStone(Point.create('J', 5)),
-                    BlackStone(Point.create('K', 5)),
-                    WhiteStone(Point.create('I', 2)),
-                    WhiteStone(Point.create('L', 4)),
-                    WhiteStone(Point.create('I', 10)),
-                    WhiteStone(Point.create('F', 2)),
-                    WhiteStone(Point.create('A', 2)),
-                    WhiteStone(Point.create('B', 2))
+                    BlackStone(PointAdapter.create('E', 5)),
+                    BlackStone(PointAdapter.create('F', 5)),
+                    BlackStone(PointAdapter.create('G', 5)),
+                    BlackStone(PointAdapter.create('H', 5)),
+                    BlackStone(PointAdapter.create('J', 5)),
+                    BlackStone(PointAdapter.create('K', 5)),
+                    WhiteStone(PointAdapter.create('I', 2)),
+                    WhiteStone(PointAdapter.create('L', 4)),
+                    WhiteStone(PointAdapter.create('I', 10)),
+                    WhiteStone(PointAdapter.create('F', 2)),
+                    WhiteStone(PointAdapter.create('A', 2)),
+                    WhiteStone(PointAdapter.create('B', 2))
                 )
-            ), BlackStone(Point.create('I', 5))
+            ), BlackStone(PointAdapter.create('I', 5))
         )
         assertTrue(actual)
     }
@@ -58,14 +57,14 @@ class LongMokRuleTest {
         val actual = LongMokRule().checkRule(
             Stones(
                 setOf(
-                    BlackStone(Point.create('H', 5)),
-                    BlackStone(Point.create('J', 5)),
-                    BlackStone(Point.create('K', 5)),
-                    WhiteStone(Point.create('I', 2)),
-                    WhiteStone(Point.create('L', 4)),
-                    WhiteStone(Point.create('I', 10))
+                    BlackStone(PointAdapter.create('H', 5)),
+                    BlackStone(PointAdapter.create('J', 5)),
+                    BlackStone(PointAdapter.create('K', 5)),
+                    WhiteStone(PointAdapter.create('I', 2)),
+                    WhiteStone(PointAdapter.create('L', 4)),
+                    WhiteStone(PointAdapter.create('I', 10))
                 )
-            ), BlackStone(Point.create('I', 5))
+            ), BlackStone(PointAdapter.create('I', 5))
         )
         assertFalse(actual)
     }
