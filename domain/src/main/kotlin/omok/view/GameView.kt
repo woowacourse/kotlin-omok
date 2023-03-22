@@ -1,5 +1,6 @@
-package omok
+package omok.view
 
+import omok.Position
 import omok.state.Turn
 import omok.state.Win
 

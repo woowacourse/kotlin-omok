@@ -1,8 +1,12 @@
-package omok
+package omok.controller
 
+import omok.HorizontalAxis
+import omok.OmokGame
+import omok.Position
 import omok.state.State
 import omok.state.Turn
 import omok.state.Win
+import omok.view.GameView
 
 class Controller(private val gameView: GameView, private val omokGame: OmokGame) {
 
