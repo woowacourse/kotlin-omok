@@ -3,6 +3,10 @@ package domain
 import domain.CoordinateState.BLACK
 import domain.CoordinateState.WHITE
 import domain.domain.GameRule
+import domain.domain.ProgressState
+import domain.domain.ProgressState.CONTINUE
+import domain.domain.ProgressState.END
+import domain.domain.ProgressState.ERROR
 
 class OmokGame(val board: Board = Board(), initTurn: CoordinateState = BLACK, private val gameRule: GameRule) {
     var turn = initTurn
@@ -35,14 +39,13 @@ class OmokGame(val board: Board = Board(), initTurn: CoordinateState = BLACK, pr
 
     private fun isWhiteWin(position: Position): Boolean = gameRule.isWhiteWin(position, board.boardState)
 
-    fun progressTurn(transmitTurnState: (Board, CoordinateState) -> Position, transmitPutStoneState: () -> Unit) {
-        while (true) {
-            val position = transmitTurnState(board, turn)
-            if (determinateWinningProcess(position)) break
-            val success = checkAddablePosition(position)
-            putStone(position, success)
-            if (!success) transmitPutStoneState() else changeTurn()
-        }
+    fun progressTurn(transmitTurnState: (Board, CoordinateState) -> Position): ProgressState {
+        val position = transmitTurnState(board, turn)
+        if (determinateWinningProcess(position)) return END
+        val success = checkAddablePosition(position)
+        putStone(position, success)
+        if (!success) return ERROR else changeTurn()
+        return CONTINUE
     }
 
     private fun determinateWinningProcess(position: Position): Boolean {
