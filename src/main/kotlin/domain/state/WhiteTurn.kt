@@ -15,10 +15,7 @@ class WhiteTurn(override val blackStones: Set<Stone>, override val whiteStones: 
         return if (nextWhiteStones.isCompletedOmok()) {
             WhiteWin(blackStones, nextWhiteStones)
         } else {
-            BlackTurn(
-                blackStones,
-                nextWhiteStones,
-            )
+            BlackTurn(blackStones, nextWhiteStones)
         }
     }
 
