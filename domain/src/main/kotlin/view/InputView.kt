@@ -1,6 +1,9 @@
 package view
 
-import domain.*
+import domain.Board.Companion.MAX_VIEW_X
+import domain.Board.Companion.MAX_VIEW_Y
+import domain.Board.Companion.MIN_VIEW_X
+import domain.Board.Companion.MIN_VIEW_Y
 
 object InputView {
 

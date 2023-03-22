@@ -1,5 +1,5 @@
-import domain.MIN_VIEW_X
-import domain.MIN_VIEW_Y
+import domain.Board.Companion.MIN_VIEW_X
+import domain.Board.Companion.MIN_VIEW_Y
 
 object PointAdapter {
     fun create(x: Char, y: Int): Pair<Int, Int> {

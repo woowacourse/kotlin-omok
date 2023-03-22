@@ -33,4 +33,12 @@ class Board {
     fun blackStoneIsPlaced(stone: Stone): Boolean = state.stones.blackStones.contains(stone)
 
     fun whiteStoneIsPlaced(stone: Stone): Boolean = state.stones.whiteStones.contains(stone)
+
+    companion object {
+        const val MIN_VIEW_X = 'A'
+        const val MAX_VIEW_X = 'O'
+        const val MIN_VIEW_Y = 1
+        const val MAX_VIEW_Y = 15
+        const val BOARD_SIZE = 15
+    }
 }

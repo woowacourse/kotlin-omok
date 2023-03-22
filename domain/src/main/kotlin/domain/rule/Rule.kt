@@ -1,6 +1,6 @@
 package domain.rule
 
-import domain.*
+import domain.Board.Companion.BOARD_SIZE
 import domain.rule.data.Direction
 import domain.rule.data.Inclination
 import domain.stone.*

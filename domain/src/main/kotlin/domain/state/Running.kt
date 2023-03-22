@@ -1,6 +1,6 @@
 package domain.state
 
-import domain.*
+import domain.Board.Companion.BOARD_SIZE
 import domain.stone.Stone
 import domain.stone.Stones
 

@@ -1,6 +1,6 @@
 package domain.stone
 
-import domain.BOARD_SIZE
+import domain.Board.Companion.BOARD_SIZE
 
 abstract class Stone(val x: Int, val y: Int) {
 
