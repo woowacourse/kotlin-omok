@@ -6,13 +6,7 @@ import view.mapper.toDomain
 import view.model.PointModel
 
 class OmokInputView : InputView {
-    override fun onTakeTurn(stoneColor: StoneColor): Point = askPosition()
-
-    override fun onNotPlaceable() {
-        askPosition()
-    }
-
-    private fun askPosition(): Point {
+    fun askPosition(): Point {
         print(ASK_POSITION_MESSAGE)
         val colRow = readln()
         if (colRow.length !in POSITION_INPUT_RANGE) {

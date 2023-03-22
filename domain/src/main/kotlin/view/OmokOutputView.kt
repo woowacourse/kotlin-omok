@@ -1,54 +1,51 @@
 package view
 
 import domain.game.Omok.Companion.OMOK_BOARD_SIZE
-import domain.player.Player
-import domain.player.Players
 import domain.point.Point
 import domain.stone.StoneColor
 import view.mapper.toPresentation
 
 class OmokOutputView : OutputView {
-    override fun onStartGame() {
-        println(START_MESSAGE)
+    fun startGame() {
+        println("오목 게임을 시작합니다.\n")
         println(OMOK_BOARD)
     }
 
-    override fun onEndGame(stoneColor: StoneColor) {
-        println(GAME_END_MESSAGE)
-        println(WINNER_MESSAGE.format(stoneColor.toPresentation().text))
+    fun drawPoint(stoneColor: StoneColor, newPoint: Point) {
+        val pointIndex = calculateIndex(newPoint, OMOK_BOARD_SIZE)
+        val frontBoard = OMOK_BOARD.substring(0, pointIndex)
+        val backBoard = OMOK_BOARD.substring(pointIndex + 1)
+
+        OMOK_BOARD = when (stoneColor) {
+            StoneColor.BLACK -> frontBoard + BLACK_STONE + backBoard
+            StoneColor.WHITE -> frontBoard + WHITE_STONE + backBoard
+        }
+        println(OMOK_BOARD)
     }
 
-    override fun onStartTurn(stoneColor: StoneColor, point: Point?) {
-        print(TURN_MESSAGE.format(stoneColor.toPresentation().text))
+    fun printPutFailed() {
+        println("그 자리에는 놓을 수 없습니다!")
+    }
+
+    fun printResult(lastStoneColor: StoneColor, winnerStoneColor: StoneColor, newPoint: Point) {
+        drawPoint(lastStoneColor, newPoint)
+        println(GAME_END_MESSAGE)
+        println(WINNER_MESSAGE.format(winnerStoneColor.toPresentation().text))
+    }
+
+    fun printTurnStartMessage(stoneColor: StoneColor, point: Point?) {
+        print("\n${stoneColor.toPresentation().text}의 차례입니다.\n")
         if (point != null) {
             val viewPosition = point.toPresentation()
-            print(LAST_STONE_POSITION_MESSAGE.format(viewPosition))
-        }
-        println()
-    }
-
-    override fun onEndTurn(players: Players) {
-        val board = OMOK_BOARD.toMutableList()
-        players.toList().forEach { player ->
-            player.getAllPoints().getAll().forEach { drawPoint(player, board, it) }
-        }
-        println(board.joinToString(separator = ""))
-    }
-
-    private fun drawPoint(player: Player, board: MutableList<Char>, it: Point) {
-        when (player.getStoneColor()) {
-            StoneColor.BLACK -> board[calculateIndex(it, OMOK_BOARD_SIZE)] = BLACK_STONE
-            StoneColor.WHITE -> board[calculateIndex(it, OMOK_BOARD_SIZE)] = WHITE_STONE
+            print("(마지막 돌의 위치: $viewPosition)\n")
         }
     }
 
-    private fun calculateIndex(point: Point, size: Int): Int = (1 + 3 * point.col) + (size - point.row) * (3 + 3 * size)
+    private fun calculateIndex(point: Point, size: Int): Int =
+        (1 + 3 * point.col) + (size - point.row) * (3 + 3 * size)
 
     companion object {
-        private const val START_MESSAGE = "오목 게임을 시작합니다."
-        private const val TURN_MESSAGE = "%s의 차례입니다. "
-        private const val LAST_STONE_POSITION_MESSAGE = "(마지막 돌의 위치: %s)"
-        private const val GAME_END_MESSAGE = "게임이 종료되었습니다."
+        private const val GAME_END_MESSAGE = "\n게임이 종료되었습니다."
         private const val WINNER_MESSAGE = "%s의 승리입니다."
         private const val BLACK_STONE = '●'
         private const val WHITE_STONE = '○'
@@ -73,6 +70,6 @@ class OmokOutputView : OutputView {
             for (j in 0 until size) { board.append(letters[j] + "  ") }
             return board.toString()
         }
-        private val OMOK_BOARD: String = createOmokBoard(OMOK_BOARD_SIZE)
+        private var OMOK_BOARD: String = createOmokBoard(OMOK_BOARD_SIZE)
     }
 }

@@ -5,8 +5,8 @@ import domain.stone.StoneColor
 
 data class Players private constructor(private val players: List<Player>) {
     private lateinit var latestPlayer: Player
-    val isPlaying: Boolean
-        get() = players.all { it.isPlaying }
+    val isFinish: Boolean
+        get() = players.any { !it.isPlaying }
     val isFoul: Boolean
         get() = players.any { it.isFoul }
     val curPlayerColor: StoneColor
@@ -16,16 +16,17 @@ data class Players private constructor(private val players: List<Player>) {
         require(players.size == PLAYER_SIZE) { INVALID_PLAYERS_SIZE_ERROR_MESSAGE }
     }
 
-    constructor(blackPlayer: Player, whitePlayer: Player) :
-        this(listOf(blackPlayer, whitePlayer)) {
-            latestPlayer = whitePlayer
-        }
+    constructor(blackPlayer: Player, whitePlayer: Player) : this(listOf(blackPlayer, whitePlayer)) {
+        latestPlayer = whitePlayer
+    }
 
     private constructor(latestPlayer: Player, players: List<Player>) : this(players.toList()) {
         this.latestPlayer = latestPlayer
     }
 
     private fun nextPlayer(): Player = players.first { it != latestPlayer }
+
+    fun isPutOn(point: Point): Boolean = players.any { it.isPlaced(point) }
 
     fun putStone(point: Point): Players {
         if (players.any { it.isPlaced(point) }) return this

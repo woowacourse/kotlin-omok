@@ -35,17 +35,17 @@ class PlayersTest {
     }
 
     @Test
-    fun `모든 플레이어들의 상태가 플레이 중이면 참을 반환한다`() {
+    fun `한 명이라도 플레이어의 상태가 플레이 중이 아니면 거짓을 반환한다`() {
         val players = Players(BlackPlayer(rule = blackRenjuRule), WhitePlayer(rule = whiteRenjuRule))
-        val actual = players.isPlaying
-        assertThat(actual).isTrue
+        val actual = players.isFinish
+        assertThat(actual).isFalse
     }
 
     @Test
-    fun `한 명이라도 플레이어의 상태가 플레이 중이 아니면 거짓을 반환한다`() {
+    fun `모든 플레이어들의 상태가 플레이 중이면 참을 반환한다`() {
         val players = Players(BlackPlayer(state = FoulState(), rule = blackRenjuRule), WhitePlayer(rule = whiteRenjuRule))
-        val actual = players.isPlaying
-        assertThat(actual).isFalse
+        val actual = players.isFinish
+        assertThat(actual).isTrue
     }
 
     @Test
