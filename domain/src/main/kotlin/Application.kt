@@ -9,7 +9,7 @@ fun main() {
     OmokController(
         OmokInputView(),
         OmokOutputView(),
-    ).start(
+    ).startGame(
         BlackRenjuRule(OMOK_BOARD_SIZE, OMOK_BOARD_SIZE),
         WhiteRenjuRule(OMOK_BOARD_SIZE, OMOK_BOARD_SIZE)
     )

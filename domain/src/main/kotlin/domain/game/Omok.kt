@@ -3,48 +3,34 @@ package domain.game
 import domain.player.BlackPlayer
 import domain.player.Players
 import domain.player.WhitePlayer
+import domain.point.Point
 import domain.rule.OmokRule
-import listener.OmokGameEventListener
-import listener.OmokTurnEventListener
+import domain.stone.StoneColor
 
-class Omok(
-    private val turnEventListener: OmokTurnEventListener,
-    private val gameEventListener: OmokGameEventListener,
-    private val blackRule: OmokRule,
-    private val whiteRule: OmokRule,
-) {
-    fun run() {
-        var players = Players(BlackPlayer(rule = blackRule), WhitePlayer(rule = whiteRule))
-        gameEventListener.onStartGame()
+class Omok(blackRule: OmokRule, whiteRule: OmokRule) {
+    private var players = Players(BlackPlayer(rule = blackRule), WhitePlayer(rule = whiteRule))
+    val curPlayerColor: StoneColor
+        get() = players.curPlayerColor
+    val lastPoint: Point?
+        get() = players.getLastPoint()
 
-        while (players.isPlaying) {
-            gameEventListener.onStartTurn(players.curPlayerColor, players.getLastPoint())
-            players = takeTurn(players)
-            gameEventListener.onEndTurn(players)
-        }
-        endGame(players)
+    fun put(onPut: () -> Point): PutResult {
+        val newPoint = onPut()
+        if (isPutOn(newPoint)) return PutFailed // 이미 놓여져 있다면 Fail 반환
+
+        val latestStoneColor = players.curPlayerColor
+        players = players.putStone(newPoint)
+
+        if (players.isFinish) return GameFinish(latestStoneColor, gameEnd(players))
+        return PutSuccess(latestStoneColor)
     }
 
-    private fun takeTurn(originPlayers: Players): Players {
-        val newPoint = turnEventListener.onTakeTurn(originPlayers.curPlayerColor)
-        val endTurnPlayers = originPlayers.putStone(newPoint)
-        if (!endTurnPlayers.isPut(originPlayers)) {
-            turnEventListener.onNotPlaceable()
-            return takeTurn(originPlayers)
-        }
-        return endTurnPlayers
-    }
+    private fun isPutOn(point: Point): Boolean = players.isPutOn(point)
 
-    private fun endGame(players: Players): Boolean = when {
-        players.isFoul -> {
-            gameEventListener.onEndGame(players.curPlayerColor)
-            true
-        }
-        !players.isPlaying -> {
-            gameEventListener.onEndGame(players.curPlayerColor.next())
-            true
-        }
-        else -> false
+    private fun gameEnd(players: Players): StoneColor = when {
+        players.isFoul -> players.curPlayerColor
+        players.isFinish -> players.curPlayerColor.next()
+        else -> throw IllegalStateException("아직 게임이 종료되지 않았습니다!")
     }
 
     companion object {

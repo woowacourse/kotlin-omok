@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Omok</string>
+    <string name="omok_start_message">오목 게임을 시작합니다!</string>
+    <string name="inplace_stone">그 자리에는 놓을 수 없어요!</string>
 </resources>
