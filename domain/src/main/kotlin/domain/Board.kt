@@ -1,6 +1,6 @@
 package domain
 
-import domain.rule.RuleAdapter
+import domain.rule.Referee
 import domain.state.BlackTurn
 import domain.state.BlackWin
 import domain.state.Finished
@@ -14,11 +14,11 @@ import java.lang.IllegalArgumentException
 class Board {
 
     private var state: State = BlackTurn(Stones(setOf()))
-    private val defaultRuleAdapter = RuleAdapter(listOf())
+    private val defaultReferee = Referee(listOf())
 
-    fun put(point: Point, blackRuleAdapter: RuleAdapter = defaultRuleAdapter) {
+    fun put(point: Point, blackReferee: Referee = defaultReferee) {
         state = when {
-            isBlackTurn() -> state.put(point, blackRuleAdapter)
+            isBlackTurn() -> state.put(point, blackReferee)
             isWhiteTurn() -> state.put(point)
             else -> throw IllegalArgumentException("둘을 둘 수 없는 상태입니다.")
         }

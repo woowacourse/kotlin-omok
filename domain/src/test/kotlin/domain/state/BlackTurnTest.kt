@@ -1,7 +1,7 @@
 package domain.state
 
 import domain.rule.LongMokRule
-import domain.rule.RuleAdapter
+import domain.rule.Referee
 import domain.stone.BlackStone
 import domain.stone.Point
 import domain.stone.Stones
@@ -174,7 +174,7 @@ class BlackTurnTest {
                         WhiteStone(Point.create('B', 2))
                     )
                 )
-            ).put(Point.create('I', 5), RuleAdapter(listOf(LongMokRule())))
+            ).put(Point.create('I', 5), Referee(listOf(LongMokRule())))
         }.withMessage("흑돌은 장목이면 안됩니다.")
     }
 }

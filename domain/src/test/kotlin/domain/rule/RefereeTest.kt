@@ -7,13 +7,13 @@ import domain.stone.WhiteStone
 import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.jupiter.api.Test
 
-class RuleAdapterTest {
+class RefereeTest {
 
     @Test
     fun `33규칙을 넘겨줬을 때 두려는 돌이 33규칙을 만족하지 않으면 에러를 발생시킨다`() {
-        val ruleAdapter = RuleAdapter(listOf(ThreeThreeRule()))
+        val referee = Referee(listOf(ThreeThreeRule()))
         assertThatIllegalArgumentException().isThrownBy {
-            ruleAdapter.checkStone(
+            referee.checkStone(
                 Stones(
                     setOf(
                         BlackStone(Point.create('C', 12)),
@@ -32,9 +32,9 @@ class RuleAdapterTest {
 
     @Test
     fun `33규칙 44규칙을 넘겨줬을 때 두려는 돌이 44규칙을 만족하지 않으면 에러를 발생시킨다`() {
-        val ruleAdapter = RuleAdapter(listOf(ThreeThreeRule(), FourFourRule()))
+        val referee = Referee(listOf(ThreeThreeRule(), FourFourRule()))
         assertThatIllegalArgumentException().isThrownBy {
-            ruleAdapter.checkStone(
+            referee.checkStone(
                 Stones(
                     setOf(
                         BlackStone(Point.create('E', 5)),

@@ -3,7 +3,7 @@ package domain.state
 import domain.stone.Point
 import domain.stone.Stones
 import domain.stone.WhiteStone
-import domain.rule.RuleAdapter
+import domain.rule.Referee
 
 class WhiteTurn(override val stones: Stones) :
     Running(stones) {
@@ -12,7 +12,7 @@ class WhiteTurn(override val stones: Stones) :
         require(stones.blackStones.size == (stones.whiteStones.size + 1)) { WHITE_TURN_STONE_SIZE_ERROR }
     }
 
-    override fun put(point: Point, ruleAdapter: RuleAdapter): State {
+    override fun put(point: Point, referee: Referee): State {
         val stone = WhiteStone(point)
         checkAlreadyPlaced(point)
         val nextStones = stones.addStone(stone)

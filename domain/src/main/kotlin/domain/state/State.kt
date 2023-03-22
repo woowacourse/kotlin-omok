@@ -2,10 +2,10 @@ package domain.state
 
 import domain.stone.Point
 import domain.stone.Stones
-import domain.rule.RuleAdapter
+import domain.rule.Referee
 
 interface State {
 
     val stones: Stones
-    fun put(point: Point, ruleAdapter: RuleAdapter = RuleAdapter(listOf())): State
+    fun put(point: Point, referee: Referee = Referee(listOf())): State
 }

@@ -2,7 +2,7 @@ import domain.Board
 import domain.stone.Point
 import domain.rule.FourFourRule
 import domain.rule.LongMokRule
-import domain.rule.RuleAdapter
+import domain.rule.Referee
 import domain.rule.ThreeThreeRule
 import view.InputView
 import view.OutputView
@@ -11,7 +11,7 @@ fun main() {
     println("오목 게임을 시작합니다.")
     val board = Board()
     var point: Point? = null
-    val blackRuleAdapter = RuleAdapter(listOf(ThreeThreeRule(), FourFourRule(), LongMokRule()))
+    val blackReferee = Referee(listOf(ThreeThreeRule(), FourFourRule(), LongMokRule()))
     while (board.isFinished().not()) {
         OutputView.printBoard(board)
         if (board.isBlackTurn()) {
@@ -22,7 +22,7 @@ fun main() {
         }
         point?.let { OutputView.printLastPoint(it) }
         println()
-        point = putStoneUntilNotOccurErrorAndReturnPoint(board, blackRuleAdapter)
+        point = putStoneUntilNotOccurErrorAndReturnPoint(board, blackReferee)
     }
     OutputView.printBoard(board)
     if (board.isBlackWin()) println("흑의 승리입니다.") else println("백의 승리입니다.")
@@ -30,7 +30,7 @@ fun main() {
 
 private fun putStoneUntilNotOccurErrorAndReturnPoint(
     board: Board,
-    blackRuleAdapter: RuleAdapter
+    blackReferee: Referee
 ): Point {
     while (true) {
         lateinit var point: Point
@@ -38,7 +38,7 @@ private fun putStoneUntilNotOccurErrorAndReturnPoint(
             point = InputView.readPoint()
             board.put(
                 point,
-                blackRuleAdapter
+                blackReferee
             )
             return point
         }.onFailure {
