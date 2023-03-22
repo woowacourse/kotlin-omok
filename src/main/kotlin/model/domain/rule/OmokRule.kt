@@ -31,7 +31,7 @@ object OmokRule {
 
             for (cell in 0 until 9) {
                 if ((x in COORDINATION_SYSTEM_RANGE) and (y in COORDINATION_SYSTEM_RANGE)) {
-                    if (board.get(Location(Coordination.from(x), Coordination.from(y))) == stone) {
+                    if (board.getStone(Location(Coordination.from(x), Coordination.from(y))) == stone) {
                         count++
                         if (count >= OMOK) return true
                     } else {
