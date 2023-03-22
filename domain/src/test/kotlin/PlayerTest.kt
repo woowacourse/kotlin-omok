@@ -3,6 +3,7 @@ import domain.player.Player
 import domain.player.WhiteStonePlayer
 import domain.stone.Color
 import domain.stone.Point
+import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -53,12 +54,21 @@ class PlayerTest {
         assertThat(actual).isEqualTo(expected)
     }
 
-    private fun Player.placeStone(currentBoard: Board, placingPoint: Point): Board {
-        return this.placeStone(
-            currentBoard = currentBoard,
-            checkBoard = {},
-            decidePoint = { _, _ -> placingPoint }
+    @Test
+    fun `플레이어가 돌을 놓지 못한 경우 현재 board를 반환한다`() {
+        val player = Player()
+        val board = Board(
+            _placedStones = listOf(
+                Stone(1, 3)
+            )
         )
+
+        val actual = player.placeStone(board, Point(1, 3))
+        val expected = Board(
+            _placedStones = listOf(Stone(1, 3))
+        )
+
+        assertThat(actual).isEqualTo(expected)
     }
 
     private fun Player(): Player {

@@ -8,7 +8,7 @@ import domain.stone.Stone
 abstract class Player {
 
     abstract val color: Color
-    var state: PlayerState = PlayerState.Placing
+    protected var state: PlayerState = PlayerState.Placing
 
     fun placeStone(
         currentBoard: Board,
