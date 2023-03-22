@@ -7,12 +7,16 @@ import rule.WhiteRenjuRule
 
 interface State {
     val blackRenjuRule: BlackRenjuRule
-        get() = BlackRenjuRule(15, 15)
+        get() = BlackRenjuRule(BOARD_SIZE, BOARD_SIZE)
 
     val whiteRenjuRule: WhiteRenjuRule
-        get() = WhiteRenjuRule(15, 15)
+        get() = WhiteRenjuRule(BOARD_SIZE, BOARD_SIZE)
 
     fun put(stone: Stone): State
 
     fun getWinner(): StoneType
+
+    companion object {
+        private const val BOARD_SIZE = 15
+    }
 }

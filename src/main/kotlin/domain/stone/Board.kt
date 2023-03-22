@@ -13,7 +13,7 @@ class Board(board: List<List<StoneType>> = List(16) { List(16) { StoneType.EMPTY
     fun putStone(stone: Stone) {
         _board[stone.point.row][stone.point.col] = when (_board[stone.point.row][stone.point.col]) {
             StoneType.EMPTY -> stone.type
-            else -> throw IllegalStateException("오류")
+            else -> throw IllegalStateException(STONE_EXIST_ERROR)
         }
         stones.add(stone)
     }
@@ -23,5 +23,9 @@ class Board(board: List<List<StoneType>> = List(16) { List(16) { StoneType.EMPTY
 
     private fun getStonesPoint(stoneType: StoneType): List<Point> {
         return stones.getStonesPosition(stoneType)
+    }
+
+    companion object {
+        private const val STONE_EXIST_ERROR = "바둑알이 이미 위치해 있습니다."
     }
 }
