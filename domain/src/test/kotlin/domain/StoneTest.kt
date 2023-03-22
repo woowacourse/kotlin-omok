@@ -16,26 +16,4 @@ class StoneTest {
         // then
         assertThat(actual).isInstanceOf(Stone::class.java)
     }
-
-    @CsvSource(value = ["BLACK,true", "WHITE,false"])
-    @ParameterizedTest
-    fun `바둑돌이 검정색인지 확인한다`(color: Color, expected: Boolean) {
-        // given
-        val stone = Stone(color, Position(1, 1))
-        // when
-        val actual = stone.isBlack()
-        // then
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @CsvSource(value = ["BLACK,false", "WHITE,true"])
-    @ParameterizedTest
-    fun `바둑돌이 흰색인지 확인한다`(color: Color, expected: Boolean) {
-        // given
-        val stone = Stone(color, Position(1, 1))
-        // when
-        val actual = stone.isWhite()
-        // then
-        assertThat(actual).isEqualTo(expected)
-    }
 }

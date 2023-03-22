@@ -10,9 +10,8 @@ class StonesTest {
         val stones = makeStones()
         val newStone = Stone(Color.BLACK, Position(5, 6))
         // when
-        stones.addStone(newStone)
-        val actual = stones
-        val expected = stones.values + newStone
+        val actual = stones.addStone(newStone).values
+        val expected = makeStones().values + newStone
         // then
         assertThat(actual).isEqualTo(expected)
     }
