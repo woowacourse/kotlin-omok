@@ -1,49 +1,49 @@
 package domain.player
 
-import domain.rule.OmokRule
-import domain.stone.Stone
+import domain.point.Point
 import domain.stone.StoneColor
 
-data class Players private constructor(private val players: List<Player>, private val rule: OmokRule) {
-    val isRunning: Boolean
+data class Players private constructor(private val players: List<Player>) {
+    private lateinit var latestPlayer: Player
+    val isPlaying: Boolean
         get() = players.all { it.isPlaying }
-    val isLose: Boolean
-        get() = players.any { it.isLose }
+    val isFoul: Boolean
+        get() = players.any { it.isFoul }
+    val curPlayerColor: StoneColor
+        get() = players.first { it != latestPlayer }.getStoneColor()
 
-    constructor(blackPlayer: Player, whitePlayer: Player, rule: OmokRule) : this(
-        listOf(
-            blackPlayer.clone(),
-            whitePlayer.clone(),
-        ),
-        rule,
-    )
-
-    fun putStone(stoneColor: StoneColor, stone: Stone): Players {
-        val whiteStones = getWhitePlayer().getAllStones()
-        val blackStones = getBlackPlayer().getAllStones()
-
-        return when (stoneColor) {
-            StoneColor.BLACK -> {
-                Players(
-                    blackPlayer = getBlackPlayer().putStone(stone, whiteStones, rule),
-                    whitePlayer = getWhitePlayer(),
-                    rule,
-                )
-            }
-
-            StoneColor.WHITE -> {
-                Players(
-                    blackPlayer = getBlackPlayer(),
-                    whitePlayer = getWhitePlayer().putStone(stone, blackStones, rule),
-                    rule,
-                )
-            }
-        }
+    init {
+        require(players.size == PLAYER_SIZE) { INVALID_PLAYERS_SIZE_ERROR_MESSAGE }
     }
 
-    fun getBlackPlayer(): Player = players.first { it is BlackPlayer }
+    constructor(blackPlayer: Player, whitePlayer: Player) :
+        this(listOf(blackPlayer, whitePlayer)) {
+            latestPlayer = whitePlayer
+        }
 
-    fun getWhitePlayer(): Player = players.first { it is WhitePlayer }
+    private constructor(latestPlayer: Player, players: List<Player>) : this(players.toList()) {
+        this.latestPlayer = latestPlayer
+    }
 
-    fun canPlace(stone: Stone): Boolean = players.none { it.isPlaced(stone) }
+    private fun nextPlayer(): Player = players.first { it != latestPlayer }
+
+    fun putStone(point: Point): Players {
+        if (players.any { it.isPlaced(point) }) return this
+
+        val otherStones = latestPlayer.getAllPoints()
+        latestPlayer = nextPlayer().putStone(point, otherStones)
+        val newPlayers = players.filter { it.getStoneColor() != latestPlayer.getStoneColor() } + latestPlayer
+        return Players(latestPlayer, newPlayers)
+    }
+
+    fun isPut(players: Players): Boolean = this != players
+
+    fun getLastPoint(): Point? = latestPlayer.getLastStone()
+
+    fun toList(): List<Player> = players.toList()
+
+    companion object {
+        private const val PLAYER_SIZE = 2
+        private const val INVALID_PLAYERS_SIZE_ERROR_MESSAGE = "플레이어는 ${PLAYER_SIZE}명이어야 합니다."
+    }
 }

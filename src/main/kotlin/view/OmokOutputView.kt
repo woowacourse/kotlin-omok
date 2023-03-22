@@ -1,16 +1,15 @@
 package view
 
+import domain.player.Player
 import domain.player.Players
-import domain.position.Position
+import domain.point.Point
 import domain.stone.StoneColor
 import view.mapper.toPresentation
-import view.model.StoneColorModel
 
 class OmokOutputView : OutputView {
     override fun onStartGame() {
         println(START_MESSAGE)
         println(EMPTY_BOARD)
-        println(TURN_MESSAGE.format(StoneColorModel.BLACK.text))
     }
 
     override fun onEndGame(stoneColor: StoneColor) {
@@ -18,25 +17,34 @@ class OmokOutputView : OutputView {
         println(WINNER_MESSAGE.format(stoneColor.toPresentation().text))
     }
 
-    override fun onStartTurn(stoneColor: StoneColor, position: Position) {
+    override fun onStartTurn(stoneColor: StoneColor, point: Point?) {
         print(TURN_MESSAGE.format(stoneColor.toPresentation().text))
-        val viewPosition = position.toPresentation()
-        println(LAST_STONE_POSITION_MESSAGE.format(viewPosition))
+        if (point != null) {
+            val viewPosition = point.toPresentation()
+            print(LAST_STONE_POSITION_MESSAGE.format(viewPosition))
+        }
+        println()
     }
 
     override fun onEndTurn(players: Players) {
         val board = EMPTY_BOARD.toMutableList()
-
-        players.getBlackPlayer().getPositions().forEach {
-            board[calculateIndex(it)] = BLACK_STONE
-        }
-        players.getWhitePlayer().getPositions().forEach {
-            board[calculateIndex(it)] = WHITE_STONE
+        val board2 = EMPTY_BOARD.toMutableList()
+        players.toList().forEach { player ->
+            player.getAllPoints().getAll().forEach { drawPoint(player, board, it) }
         }
         println(board.joinToString(separator = ""))
     }
 
-    private fun calculateIndex(position: Position): Int = 721 + 3 * position.col - 48 * position.row
+    private fun drawPoint(player: Player, board: MutableList<Char>, it: Point) {
+        when (player.getStoneColor()) {
+            StoneColor.BLACK -> board[calculateIndex(it)] = BLACK_STONE
+            StoneColor.WHITE -> board[calculateIndex(it)] = WHITE_STONE
+        }
+    }
+
+    private fun calculateIndex(point: Point): Int = 721 + 3 * point.col - 48 * point.row
+
+    private fun calculateIndex2(point: Point): Int = 721 + 3 * point.col - 48 * point.row
 
     companion object {
         private const val START_MESSAGE = "오목 게임을 시작합니다."

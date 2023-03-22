@@ -1,28 +1,24 @@
 package domain.player
 
-import domain.position.Position
+import domain.point.Point
+import domain.point.Points
 import domain.rule.OmokRule
-import domain.state.LoseState
 import domain.state.PlayerState
-import domain.state.PlayingState
-import domain.stone.Stone
-import domain.stone.Stones
+import domain.stone.StoneColor
 
-abstract class Player(protected val state: PlayerState) : Cloneable {
+abstract class Player(protected val state: PlayerState, val rule: OmokRule) {
     val isPlaying: Boolean
-        get() = state is PlayingState
-    val isLose: Boolean
-        get() = state is LoseState
+        get() = state.isPlaying
+    val isFoul: Boolean
+        get() = state.isFoul
 
-    fun isPlaced(stone: Stone): Boolean = state.hasStone(stone)
+    fun isPlaced(stone: Point): Boolean = state.hasStone(stone)
 
-    fun getPositions(): List<Position> = state.getPlaced()
+    fun getLastStone(): Point? = state.getLastStone()
 
-    fun getLastStone(): Stone = state.getLastStone()
+    fun getAllPoints(): Points = state.getAllPoints()
 
-    fun getAllStones(): Stones = state.getAllStones()
+    abstract fun getStoneColor(): StoneColor
 
-    abstract fun putStone(stone: Stone, otherStones: Stones, rule: OmokRule): Player
-
-    public override fun clone(): Player = super.clone() as Player
+    abstract fun putStone(stone: Point, otherStones: Points): Player
 }

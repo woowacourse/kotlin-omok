@@ -1,20 +1,21 @@
 package domain.state
 
+import domain.point.Point
+import domain.point.Points
 import domain.rule.OmokRule
-import domain.stone.Stone
-import domain.stone.StoneColor
-import domain.stone.Stones
 
-class PlayingState(stones: Stones = Stones()) : PlayerState(stones) {
-    override fun add(newStone: Stone, otherStones: Stones, rule: OmokRule, turn: StoneColor): PlayerState {
-        val newStones = stones.add(newStone)
-        val currentWin = newStones.checkWin(newStone)
+class PlayingState(points: Points = Points()) : PlayerState(points) {
+    override val isPlaying: Boolean = true
+    override val isFoul: Boolean = false
 
-        when (turn) {
-            StoneColor.BLACK -> if (rule.check(blackStones = newStones, whiteStones = otherStones, turn, currentWin)) return LoseState(newStones)
-            StoneColor.WHITE -> if (rule.check(blackStones = otherStones, whiteStones = newStones, turn, currentWin)) return LoseState(newStones)
-        }
-        if (currentWin) return WinState(newStones)
+    override fun add(newPoint: Point, otherPoints: Points, rule: OmokRule): PlayerState {
+        val newStones = points.add(newPoint)
+        val mine = points.getAll()
+        val others = otherPoints.getAll()
+        val isFoul = rule.checkAnyFoulCondition(mine, others, newPoint)
+
+        if (rule.checkWin(mine, others, newPoint)) return WinState(newStones)
+        if (isFoul.state) return FoulState(newStones)
         return PlayingState(newStones)
     }
 }

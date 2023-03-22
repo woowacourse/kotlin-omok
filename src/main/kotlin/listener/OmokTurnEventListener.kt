@@ -1,9 +1,9 @@
 package listener
 
-import domain.position.Position
+import domain.point.Point
 import domain.stone.StoneColor
 
 interface OmokTurnEventListener {
-    fun onTakeTurn(stoneColor: StoneColor): Position
+    fun onTakeTurn(stoneColor: StoneColor): Point
     fun onNotPlaceable()
 }

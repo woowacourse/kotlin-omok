@@ -1,6 +1,6 @@
 package view.model
 
-class PositionModel(val row: String, val col: String) {
+class PointModel(val row: String, val col: String) {
     override fun toString(): String = "$col$row"
 
     companion object {

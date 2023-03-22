@@ -1,18 +1,18 @@
 package view
 
-import domain.position.Position
+import domain.point.Point
 import domain.stone.StoneColor
 import view.mapper.toDomain
-import view.model.PositionModel
+import view.model.PointModel
 
 class OmokInputView : InputView {
-    override fun onTakeTurn(stoneColor: StoneColor): Position = askPosition()
+    override fun onTakeTurn(stoneColor: StoneColor): Point = askPosition()
 
     override fun onNotPlaceable() {
         askPosition()
     }
 
-    private fun askPosition(): Position {
+    private fun askPosition(): Point {
         print(ASK_POSITION_MESSAGE)
         val colRow = readln()
         if (colRow.length !in POSITION_INPUT_RANGE) {
@@ -20,7 +20,7 @@ class OmokInputView : InputView {
             return askPosition()
         }
 
-        return PositionModel(
+        return PointModel(
             row = colRow.substring(ROW_INPUT_SIZE),
             col = colRow.first().toString(),
         ).toDomain() ?: askPosition()

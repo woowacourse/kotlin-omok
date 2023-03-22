@@ -1,5 +1,3 @@
-import domain.stone.Stone
-
 val ONE_ONE_STONE = Stone.of(1, 1)
 val ONE_TWO_STONE = Stone.of(1, 2)
 val ONE_THREE_STONE = Stone.of(1, 3)

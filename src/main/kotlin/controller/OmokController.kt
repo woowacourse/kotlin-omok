@@ -9,7 +9,7 @@ class OmokController(
     private val inputView: InputView,
     private val outputView: OutputView,
 ) {
-    fun start(omokRule: OmokRule) {
-        Omok(inputView, outputView, omokRule).run()
+    fun start(blackRule: OmokRule, whiteRule: OmokRule) {
+        Omok(inputView, outputView, blackRule, whiteRule).run()
     }
 }

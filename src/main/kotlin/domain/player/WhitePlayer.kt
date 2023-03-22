@@ -1,12 +1,14 @@
 package domain.player
 
+import domain.point.Point
+import domain.point.Points
 import domain.rule.OmokRule
 import domain.state.PlayerState
 import domain.state.PlayingState
-import domain.stone.Stone
 import domain.stone.StoneColor
-import domain.stone.Stones
 
-class WhitePlayer(state: PlayerState = PlayingState()) : Player(state) {
-    override fun putStone(stone: Stone, otherStones: Stones, rule: OmokRule): Player = WhitePlayer(state.add(stone, otherStones, rule, StoneColor.WHITE))
+class WhitePlayer(state: PlayerState = PlayingState(), rule: OmokRule) : Player(state, rule) {
+    override fun putStone(stone: Point, otherStones: Points): Player = WhitePlayer(state.add(stone, otherStones, rule), rule)
+
+    override fun getStoneColor(): StoneColor = StoneColor.WHITE
 }

@@ -1,5 +1,5 @@
 package view
 
-import listener.OmokStartEndEventListener
+import listener.OmokGameEventListener
 
-interface OutputView : OmokStartEndEventListener
+interface OutputView : OmokGameEventListener

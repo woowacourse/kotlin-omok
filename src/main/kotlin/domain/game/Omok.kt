@@ -1,43 +1,49 @@
 package domain.game
 
-import domain.board.Board
 import domain.player.BlackPlayer
+import domain.player.Players
 import domain.player.WhitePlayer
 import domain.rule.OmokRule
-import domain.stone.Stone
-import domain.stone.StoneColor
-import listener.OmokStartEndEventListener
+import listener.OmokGameEventListener
 import listener.OmokTurnEventListener
 
 class Omok(
     private val turnEventListener: OmokTurnEventListener,
-    private val startEndEventListener: OmokStartEndEventListener,
-    private val rule: OmokRule
+    private val gameEventListener: OmokGameEventListener,
+    private val blackRule: OmokRule,
+    private val whiteRule: OmokRule,
 ) {
     fun run() {
-        startEndEventListener.onStartGame()
-        var curStoneColor: StoneColor = StoneColor.BLACK
-        var curBoard = Board(BlackPlayer(), WhitePlayer(), rule)
-        do {
-            curBoard = takeTurn(curBoard, curStoneColor)
-            startEndEventListener.onEndTurn(curBoard.getPlayers())
-            curStoneColor = curStoneColor.next()
-        } while (curBoard.isRunning())
+        var players = Players(BlackPlayer(rule = blackRule), WhitePlayer(rule = whiteRule))
+        gameEventListener.onStartGame()
 
-        if (curBoard.isLose()) {
-            startEndEventListener.onEndGame(curStoneColor)
-            return
+        while (players.isPlaying) {
+            gameEventListener.onStartTurn(players.curPlayerColor, players.getLastPoint())
+            players = takeTurn(players)
+            gameEventListener.onEndTurn(players)
         }
-        startEndEventListener.onEndGame(curStoneColor.next())
+        endGame(players)
     }
 
-    private fun takeTurn(board: Board, stoneColor: StoneColor): Board {
-        val newStone = Stone.of(turnEventListener.onTakeTurn(stoneColor))
-        val newBoard = board.putStone(stoneColor, newStone)
-        if (newBoard == null) {
+    private fun takeTurn(originPlayers: Players): Players {
+        val newPoint = turnEventListener.onTakeTurn(originPlayers.curPlayerColor)
+        val endTurnPlayers = originPlayers.putStone(newPoint)
+        if (!endTurnPlayers.isPut(originPlayers)) {
             turnEventListener.onNotPlaceable()
-            return takeTurn(board, stoneColor)
+            return takeTurn(originPlayers)
         }
-        return newBoard
+        return endTurnPlayers
+    }
+
+    private fun endGame(players: Players): Boolean = when {
+        players.isFoul -> {
+            gameEventListener.onEndGame(players.curPlayerColor)
+            true
+        }
+        !players.isPlaying -> {
+            gameEventListener.onEndGame(players.curPlayerColor.next())
+            true
+        }
+        else -> false
     }
 }

@@ -1,10 +1,7 @@
 package domain.state
 
-import domain.rule.OmokRule
-import domain.stone.Stone
-import domain.stone.StoneColor
-import domain.stone.Stones
+import domain.point.Points
 
-class WinState(stones: Stones) : PlayerState(stones) {
-    override fun add(newStone: Stone, otherStones: Stones, rule: OmokRule, turn: StoneColor): PlayerState = this
+class WinState(points: Points = Points()) : FinishedState(points) {
+    override val isFoul: Boolean = false
 }
