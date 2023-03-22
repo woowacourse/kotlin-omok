@@ -1,41 +1,26 @@
 package domain
 
-import domain.board.PlacedBoard
-import domain.judgement.FiveStoneWinningCondition
-import domain.judgement.ForbiddenCondition
-import domain.judgement.RenjuRuleForbiddenCondition
-import domain.judgement.WinningCondition
+import domain.judgement.RenjuRule
+import domain.judgement.Rule
 import domain.stone.Color
 import domain.stone.Position
-import domain.turn.BlackTurn
+import domain.turn.RunningBoardState
 import domain.turn.Turn
 
 class OmokGame(
-    val getPosition: (turnColor: Color, latestPosition: Position?) -> Position,
-    val checkBoardState: (board: Map<Position, Color?>) -> Unit,
+    board: Map<Position, Color?> = mapOf(),
+    rule: Rule = RenjuRule()
 ) {
-    fun playOmokGameAndReturnWinner(
-        winningCondition: WinningCondition = FiveStoneWinningCondition(),
-        forbiddenCondition: ForbiddenCondition = RenjuRuleForbiddenCondition()
-    ): Color {
-        var latestPosition: Position? = null
-        var turn: Turn = BlackTurn(PlacedBoard(), winningCondition, forbiddenCondition)
-        while (turn.isFinished.not()) {
-            checkBoardState(turn.getBoard())
-            var (nextTurn, newPosition) = turnGame(turn, latestPosition)
-            turn = nextTurn
-            latestPosition = newPosition
-        }
-        checkBoardState(turn.getBoard())
-        return turn.curColor
-    }
+    var turn: Turn = Turn(Color.BLACK, RunningBoardState(rule, board))
+        private set
 
-    private tailrec fun turnGame(curTurn: Turn, latestPosition: Position?): Pair<Turn, Position?> {
-        val position = getPosition(curTurn.curColor, latestPosition)
-        val nextTurn = curTurn.addStone(position)
-        if (curTurn !== nextTurn || nextTurn.isFinished) {
-            return Pair(nextTurn, position)
-        }
-        return turnGame(curTurn, latestPosition)
+    fun playTurn(
+        newPosition: Position
+    ): Color? {
+        val nextTurn = turn.putStone(newPosition)
+        if (nextTurn === turn) return null
+        val playTurnColor = turn.color
+        turn = nextTurn
+        return playTurnColor
     }
 }

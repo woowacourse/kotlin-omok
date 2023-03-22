@@ -2,10 +2,27 @@ package domain.turn
 
 import domain.stone.Color
 import domain.stone.Position
+import domain.stone.Stone
 
-interface Turn {
-    val curColor: Color
-    val isFinished: Boolean
-    fun addStone(position: Position): Turn
-    fun getBoard(): Map<Position, Color?>
+class Turn(
+    val color: Color,
+    val boardState: BoardState
+) {
+    val winnerColor: Color?
+        get() {
+            if (boardState.isFinished()) return boardState.latestStone?.color
+            return null
+        }
+
+    fun putStone(position: Position): Turn {
+        val newBoardState = boardState.putStone(Stone(position, color))
+        if (newBoardState === boardState) return this // 이미 놓여있어서 놓을 수 없는 경우
+        return Turn(color.nextTurnColor(), newBoardState)
+    }
+
+    private fun Color.nextTurnColor(): Color =
+        when (this) {
+            Color.BLACK -> Color.WHITE
+            Color.WHITE -> Color.BLACK
+        }
 }
