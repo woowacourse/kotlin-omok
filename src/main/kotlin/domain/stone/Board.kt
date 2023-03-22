@@ -9,7 +9,7 @@ class Board {
         MutableList(16) { MutableList(16) { StoneType.EMPTY } }
 
     fun putStone(stone: Stone) {
-        _board[(stone.position.y)][stone.position.x] = stone.type
+        _board[stone.position.y][stone.position.x] = stone.type
         stones.add(stone)
     }
 
