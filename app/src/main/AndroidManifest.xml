@@ -20,6 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RoomListActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".RoomActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

@@ -23,13 +23,8 @@ import omok.domain.state.BlackStoneState
 import omok.domain.state.EmptyStoneState
 import omok.domain.state.StoneState
 import omok.domain.state.WhiteStoneState
-import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_COL
-import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_NEXT_TURN
-import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_ROW
-import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_STONE
-import woowacourse.omok.OmokBoardConstract.TABLE_NAME_OMOK_BOARD
 
-class MainActivity : AppCompatActivity() {
+class RoomActivity : AppCompatActivity() {
     private val boardDb = OmokBoardDbHelper(this)
 
     private val omokGameListener = object : OmokGameListener {
@@ -43,6 +38,7 @@ class MainActivity : AppCompatActivity() {
             }
             omokPoint?.let { saveGameState(gameState, omokPoint) }
         }
+
         override fun onError(message: String?) {
             Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
         }
@@ -54,13 +50,14 @@ class MainActivity : AppCompatActivity() {
         .children
         .filterIsInstance<TableRow>()
         .flatMapIndexed { row, tableRow ->
-            tableRow.children.filterIsInstance<ImageView>().mapIndexed { col, imageView -> Triple(col, row, imageView) }
+            tableRow.children.filterIsInstance<ImageView>()
+                .mapIndexed { col, imageView -> Triple(col, row, imageView) }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        startActivity(Intent(this, RoomListActivity::class.java))
+
         omokController = OmokController(omokGameListener, loadGameState())
 
         addStoneListener()
@@ -88,11 +85,17 @@ class MainActivity : AppCompatActivity() {
             matrixBoard.forEach { (_, _, imageView) -> imageView.setImageResource(0) }
         }
     }
+
     private fun loadGameState(): GameState {
         val rDb = boardDb.readableDatabase
         val cursor = rDb.query(
-            TABLE_NAME_OMOK_BOARD,
-            arrayOf(TABLE_COLUMN_OMOK_COL, TABLE_COLUMN_OMOK_ROW, TABLE_COLUMN_OMOK_NEXT_TURN, TABLE_COLUMN_OMOK_STONE),
+            OmokBoardConstract.TABLE_NAME_OMOK_BOARD,
+            arrayOf(
+                OmokBoardConstract.TABLE_COLUMN_OMOK_COL,
+                OmokBoardConstract.TABLE_COLUMN_OMOK_ROW,
+                OmokBoardConstract.TABLE_COLUMN_OMOK_NEXT_TURN,
+                OmokBoardConstract.TABLE_COLUMN_OMOK_STONE,
+            ),
             null,
             null,
             null,
@@ -104,10 +107,12 @@ class MainActivity : AppCompatActivity() {
 
         with(cursor) {
             while (moveToNext()) {
-                val col = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_COL))
-                val row = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_ROW))
-                val nextTurn = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_NEXT_TURN))
-                val stone = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_STONE))
+                val col = getInt(getColumnIndexOrThrow(OmokBoardConstract.TABLE_COLUMN_OMOK_COL))
+                val row = getInt(getColumnIndexOrThrow(OmokBoardConstract.TABLE_COLUMN_OMOK_ROW))
+                val nextTurn =
+                    getInt(getColumnIndexOrThrow(OmokBoardConstract.TABLE_COLUMN_OMOK_NEXT_TURN))
+                val stone =
+                    getInt(getColumnIndexOrThrow(OmokBoardConstract.TABLE_COLUMN_OMOK_STONE))
 
                 omokMap[OmokPoint(col, row)] = when (stone) {
                     1 -> BlackStoneState
@@ -136,10 +141,10 @@ class MainActivity : AppCompatActivity() {
         val wDb = boardDb.writableDatabase
 
         val values = ContentValues()
-        values.put(TABLE_COLUMN_OMOK_COL, omokPoint.x.value)
-        values.put(TABLE_COLUMN_OMOK_ROW, omokPoint.y.value)
+        values.put(OmokBoardConstract.TABLE_COLUMN_OMOK_COL, omokPoint.x.value)
+        values.put(OmokBoardConstract.TABLE_COLUMN_OMOK_ROW, omokPoint.y.value)
         values.put(
-            TABLE_COLUMN_OMOK_NEXT_TURN,
+            OmokBoardConstract.TABLE_COLUMN_OMOK_NEXT_TURN,
             when (gameState) {
                 is BlackTurn -> 1
                 is BlackWin -> 2
@@ -148,7 +153,7 @@ class MainActivity : AppCompatActivity() {
             },
         )
         values.put(
-            TABLE_COLUMN_OMOK_STONE,
+            OmokBoardConstract.TABLE_COLUMN_OMOK_STONE,
             when (gameState.omokBoard[omokPoint]) {
                 BlackStoneState -> 1
                 WhiteStoneState -> 2
@@ -156,7 +161,7 @@ class MainActivity : AppCompatActivity() {
             },
         )
 
-        wDb.insert(TABLE_NAME_OMOK_BOARD, null, values)
+        wDb.insert(OmokBoardConstract.TABLE_NAME_OMOK_BOARD, null, values)
     }
 
     private fun setStoneImage(omokBoard: OmokBoard, imageView: ImageView, omokPoint: OmokPoint) {
