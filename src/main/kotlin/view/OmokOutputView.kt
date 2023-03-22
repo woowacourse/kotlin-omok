@@ -5,11 +5,13 @@ import domain.player.Players
 import domain.point.Point
 import domain.stone.StoneColor
 import view.mapper.toPresentation
+import domain.game.Omok.Companion.OMOK_BOARD_SIZE
+
 
 class OmokOutputView : OutputView {
     override fun onStartGame() {
         println(START_MESSAGE)
-        println(EMPTY_BOARD)
+        println(OMOK_BOARD)
     }
 
     override fun onEndGame(stoneColor: StoneColor) {
@@ -27,8 +29,7 @@ class OmokOutputView : OutputView {
     }
 
     override fun onEndTurn(players: Players) {
-        val board = EMPTY_BOARD.toMutableList()
-        val board2 = EMPTY_BOARD.toMutableList()
+        val board = OMOK_BOARD.toMutableList()
         players.toList().forEach { player ->
             player.getAllPoints().getAll().forEach { drawPoint(player, board, it) }
         }
@@ -37,14 +38,12 @@ class OmokOutputView : OutputView {
 
     private fun drawPoint(player: Player, board: MutableList<Char>, it: Point) {
         when (player.getStoneColor()) {
-            StoneColor.BLACK -> board[calculateIndex(it)] = BLACK_STONE
-            StoneColor.WHITE -> board[calculateIndex(it)] = WHITE_STONE
+            StoneColor.BLACK -> board[calculateIndex(it, OMOK_BOARD_SIZE)] = BLACK_STONE
+            StoneColor.WHITE -> board[calculateIndex(it, OMOK_BOARD_SIZE)] = WHITE_STONE
         }
     }
 
-    private fun calculateIndex(point: Point): Int = 721 + 3 * point.col - 48 * point.row
-
-    private fun calculateIndex2(point: Point): Int = 721 + 3 * point.col - 48 * point.row
+    private fun calculateIndex(point: Point, size: Int): Int = (1 + 3 * point.col) + (size - point.row) * (3 + 3 * size)
 
     companion object {
         private const val START_MESSAGE = "오목 게임을 시작합니다."
@@ -52,25 +51,29 @@ class OmokOutputView : OutputView {
         private const val LAST_STONE_POSITION_MESSAGE = "(마지막 돌의 위치: %s)"
         private const val GAME_END_MESSAGE = "게임이 종료되었습니다."
         private const val WINNER_MESSAGE = "%s의 승리입니다."
-        private val EMPTY_BOARD: String = """
-            | 15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
-            | 14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            | 13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            | 12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            | 11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            | 10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            |  9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            |  8 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            |  7 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            |  6 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            |  5 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            |  4 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            |  3 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            |  2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            |  1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
-            |    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-        """.trimMargin()
         private const val BLACK_STONE = '●'
         private const val WHITE_STONE = '○'
+        private const val BOTTOM_NUMBER = 1
+
+        private fun createOmokBoard(size: Int): String {
+            val letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            val topHorizontal = "┌──" + "┬──".repeat(size - 3) + "┬──┐"
+            val bottomHorizontal = "└──" + "┴──".repeat(size - 3) + "┴──┘"
+            val middleHorizontal = "├──" + "┼──".repeat(size - 3) + "┼──┤"
+            val board = StringBuilder()
+            for (i in size downTo 1) {
+                board.append(String.format("%3d ", i))
+                when {
+                    i == size ->board.append(topHorizontal) // top
+                    i == BOTTOM_NUMBER -> board.append(bottomHorizontal) // middle
+                    i != BOTTOM_NUMBER -> board.append(middleHorizontal) // bottom
+                }
+                board.append("\n")
+            }
+            board.append("    ")
+            for (j in 0 until size) { board.append(letters[j] + "  ") }
+            return board.toString()
+        }
+        private val OMOK_BOARD: String = createOmokBoard(OMOK_BOARD_SIZE)
     }
 }

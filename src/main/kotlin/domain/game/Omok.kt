@@ -46,4 +46,8 @@ class Omok(
         }
         else -> false
     }
+
+    companion object  {
+        const val OMOK_BOARD_SIZE = 15
+    }
 }
