@@ -13,7 +13,7 @@ abstract class Running() : State {
 
     abstract override fun next(board: Board, stonePosition: StonePosition): State
 
-    override fun getWinner(): StoneType = StoneType.EMPTY
+    override fun getWinner(): StoneType? = null
 
     protected fun isValidPut(board: Board, stonePosition: StonePosition): Boolean =
         !board.stones.containsPosition(stonePosition)

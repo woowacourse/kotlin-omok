@@ -3,10 +3,10 @@ package domain.stone
 class Board {
 
     val stones: Stones = Stones()
-    val board: List<List<StoneType>>
+    val board: List<List<StoneType?>>
         get() = _board.toList()
-    private val _board: MutableList<MutableList<StoneType>> =
-        MutableList(16) { MutableList(16) { StoneType.EMPTY } }
+    private val _board: MutableList<MutableList<StoneType?>> =
+        MutableList(16) { MutableList(16) { null } }
 
     fun putStone(stone: Stone) {
         _board[stone.position.y][stone.position.x] = stone.type

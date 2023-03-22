@@ -9,8 +9,8 @@ class BoardTest {
     @Test
     fun `board에 스톤을 추가 할 수 있다`() {
         val board = Board()
-        board.putStone(Stone(StonePosition.from(1, 1)!!, StoneType.BLACK))
-        board.putStone(Stone(StonePosition.from(3, 1)!!, StoneType.WHITE))
+        board.putStone(Stone(StonePosition.from(1, 1), StoneType.BLACK))
+        board.putStone(Stone(StonePosition.from(3, 1), StoneType.WHITE))
 
         assertAll(
             { assertThat(board.board[1][1]).isEqualTo(StoneType.BLACK) },

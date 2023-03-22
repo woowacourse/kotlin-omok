@@ -8,5 +8,5 @@ interface State {
 
     fun next(board: Board, stonePosition: StonePosition): State
 
-    fun getWinner(): StoneType
+    fun getWinner(): StoneType?
 }

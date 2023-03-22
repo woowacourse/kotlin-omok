@@ -4,7 +4,7 @@ import domain.stone.Board.Companion.BOARD_SIZE
 import domain.stone.Stone
 import domain.stone.StoneType
 
-class RenjuOmokRule: OmokRule {
+class RenjuOmokRule : OmokRule {
 
     companion object {
         const val MIN_OPEN_THREES = 2
@@ -17,24 +17,24 @@ class RenjuOmokRule: OmokRule {
         private val Y_Edge = listOf(MIN_Y, MAX_Y)
     }
 
-    override fun isForbidden(board: List<List<StoneType>>, stone: Stone): Boolean {
+    override fun isForbidden(board: List<List<StoneType?>>, stone: Stone): Boolean {
         return countOpenThrees(board, stone) >= MIN_OPEN_THREES ||
-                countOpenFours(board, stone) >= MIN_OPEN_FOURS
+            countOpenFours(board, stone) >= MIN_OPEN_FOURS
     }
 
-    private fun countOpenThrees(board: List<List<StoneType>>, stone: Stone): Int =
+    private fun countOpenThrees(board: List<List<StoneType?>>, stone: Stone): Int =
         checkOpenThree(board, stone, 1, 0) +
             checkOpenThree(board, stone, 1, 1) +
             checkOpenThree(board, stone, 0, 1) +
             checkOpenThreeReverse(board, stone, 1, -1)
 
-    private fun countOpenFours(board: List<List<StoneType>>, stone: Stone): Int =
+    private fun countOpenFours(board: List<List<StoneType?>>, stone: Stone): Int =
         checkOpenFour(board, stone, 1, 0) +
             checkOpenFour(board, stone, 1, 1) +
             checkOpenFour(board, stone, 0, 1) +
             checkOpenFourReverse(board, stone, 1, -1)
 
-    private fun checkOpenThree(board: List<List<StoneType>>, stone: Stone, dx: Int, dy: Int): Int {
+    private fun checkOpenThree(board: List<List<StoneType?>>, stone: Stone, dx: Int, dy: Int): Int {
         val (stone1, blink1) = search(board, stone, -dx, -dy)
         val (stone2, blink2) = search(board, stone, dx, dy)
 
@@ -54,7 +54,7 @@ class RenjuOmokRule: OmokRule {
         }
     }
 
-    private fun checkOpenThreeReverse(board: List<List<StoneType>>, stone: Stone, dx: Int, dy: Int): Int {
+    private fun checkOpenThreeReverse(board: List<List<StoneType?>>, stone: Stone, dx: Int, dy: Int): Int {
         val (stone1, blink1) = search(board, stone, -dx, -dy)
         val (stone2, blink2) = search(board, stone, dx, dy)
 
@@ -74,7 +74,7 @@ class RenjuOmokRule: OmokRule {
         }
     }
 
-    private fun checkOpenFour(board: List<List<StoneType>>, stone: Stone, dx: Int, dy: Int): Int {
+    private fun checkOpenFour(board: List<List<StoneType?>>, stone: Stone, dx: Int, dy: Int): Int {
         val (stone1, blink1) = search(board, stone, -dx, -dy)
         val (stone2, blink2) = search(board, stone, dx, dy)
 
@@ -104,7 +104,7 @@ class RenjuOmokRule: OmokRule {
         return if (leftDownValid + rightUpValid >= 1) 1 else 0
     }
 
-    private fun checkOpenFourReverse(board: List<List<StoneType>>, stone: Stone, dx: Int, dy: Int): Int {
+    private fun checkOpenFourReverse(board: List<List<StoneType?>>, stone: Stone, dx: Int, dy: Int): Int {
         val (stone1, blink1) = search(board, stone, -dx, -dy)
         val (stone2, blink2) = search(board, stone, dx, dy)
 
@@ -135,7 +135,7 @@ class RenjuOmokRule: OmokRule {
         return if (leftUpValid + rightBottomValid >= 1) 1 else 0
     }
 
-    private fun search(board: List<List<StoneType>>, stone: Stone, dx: Int, dy: Int): Pair<Int, Int> {
+    private fun search(board: List<List<StoneType?>>, stone: Stone, dx: Int, dy: Int): Pair<Int, Int> {
         var toRight = stone.position.x
         var toTop = stone.position.y
         var stoneCount = 0
@@ -153,9 +153,8 @@ class RenjuOmokRule: OmokRule {
                     stoneCount++
                     blink = blinkCount
                 }
-
                 StoneType.WHITE -> break
-                StoneType.EMPTY -> {
+                null -> {
                     if (blink == 1) break
                     if (blinkCount++ == 1) break
                 }
@@ -164,7 +163,7 @@ class RenjuOmokRule: OmokRule {
         return Pair(stoneCount, blink)
     }
 
-    override fun isWinCondition(board: List<List<StoneType>>, stone: Stone): Boolean {
+    override fun isWinCondition(board: List<List<StoneType?>>, stone: Stone): Boolean {
         if (checkHorizontal(board, stone)) return true
         if (checkVertical(board, stone)) return true
         if (checkDiagonal1(board, stone)) return true
@@ -172,7 +171,7 @@ class RenjuOmokRule: OmokRule {
         return false
     }
 
-    private fun checkHorizontal(board: List<List<StoneType>>, stone: Stone): Boolean {
+    private fun checkHorizontal(board: List<List<StoneType?>>, stone: Stone): Boolean {
         var count: Int = 0
         val x: Int = stone.position.x
         val y: Int = stone.position.y
@@ -187,7 +186,7 @@ class RenjuOmokRule: OmokRule {
         return count >= 5
     }
 
-    private fun checkVertical(board: List<List<StoneType>>, stone: Stone): Boolean {
+    private fun checkVertical(board: List<List<StoneType?>>, stone: Stone): Boolean {
         var count: Int = 0
         val x: Int = stone.position.x
         val y: Int = stone.position.y
@@ -202,7 +201,7 @@ class RenjuOmokRule: OmokRule {
         return count >= 5
     }
 
-    private fun checkDiagonal1(board: List<List<StoneType>>, stone: Stone): Boolean {
+    private fun checkDiagonal1(board: List<List<StoneType?>>, stone: Stone): Boolean {
         var count: Int = 0
         val x: Int = stone.position.x
         val y: Int = stone.position.y
@@ -218,7 +217,7 @@ class RenjuOmokRule: OmokRule {
         return count >= 5
     }
 
-    private fun checkDiagonal2(board: List<List<StoneType>>, stone: Stone): Boolean {
+    private fun checkDiagonal2(board: List<List<StoneType?>>, stone: Stone): Boolean {
         var count: Int = 0
         val x: Int = stone.position.x
         val y: Int = stone.position.y
@@ -233,5 +232,4 @@ class RenjuOmokRule: OmokRule {
         }
         return count >= 5
     }
-
 }

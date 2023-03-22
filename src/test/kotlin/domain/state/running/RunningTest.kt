@@ -3,17 +3,16 @@ package domain.state.running
 import domain.state.State
 import domain.stone.Board
 import domain.stone.StonePosition
-import domain.stone.StoneType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class RunningTest {
 
     @Test
-    fun `Running에서 getWinner을 호출시 StoneType이 EMPTY로 반환된다`() {
+    fun `Running에서 getWinner을 호출시 null이 반환된다`() {
         val running: Running = TestRunning()
 
-        assertThat(running.getWinner()).isEqualTo(StoneType.EMPTY)
+        assertThat(running.getWinner()).isNull()
     }
 }
 
