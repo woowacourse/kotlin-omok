@@ -12,10 +12,6 @@ class OmokGame(val board: Board = Board(), initTurn: CoordinateState = BLACK, pr
     var turn = initTurn
         private set
 
-    private fun putStone(position: Position, addStoneState: Boolean) {
-        if (addStoneState) board.addStone(turn, position)
-    }
-
     private fun checkAddablePosition(position: Position): Boolean =
         gameRule.checkAddablePosition(board.boardState, turn, position)
 
@@ -42,9 +38,12 @@ class OmokGame(val board: Board = Board(), initTurn: CoordinateState = BLACK, pr
     fun progressTurn(transmitTurnState: (Board, CoordinateState) -> Position): ProgressState {
         val position = transmitTurnState(board, turn)
         if (determinateWinningProcess(position)) return END
-        val success = checkAddablePosition(position)
-        putStone(position, success)
-        if (!success) return ERROR else changeTurn()
+        if (checkAddablePosition(position)) {
+            board.addStone(turn, position)
+            changeTurn()
+        } else {
+            return ERROR
+        }
         return CONTINUE
     }
 
