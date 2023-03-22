@@ -7,6 +7,7 @@ import model.domain.state.Turn
 import model.domain.tools.Board
 import view.BoardView
 import view.GuideView
+import view.OmokBoardViewMaker.BOARD_SIZE
 
 class OmokController(
     private val guideView: GuideView,
@@ -34,7 +35,8 @@ class OmokController(
     }
 
     private fun playOneTurn(omokGame: OmokGame) {
-        state = omokGame.playNextTurn(state, guideView::requestCoordination)
+        val dot = guideView.requestCoordination(state.stone)
+        state = omokGame.playNextTurn(state, dot)
         guideView.printStart()
         BoardView.printBoard(state.board)
     }
@@ -42,9 +44,5 @@ class OmokController(
     private fun stopGame(board: Board) {
         guideView.printWinner(state.stone)
         BoardView.printBoard(board)
-    }
-
-    companion object {
-        private const val BOARD_SIZE = 15
     }
 }

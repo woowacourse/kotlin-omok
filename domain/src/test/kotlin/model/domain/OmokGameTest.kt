@@ -17,8 +17,8 @@ class OmokGameTest {
         val omokGame = OmokGame()
 
         // when
-        omokGame.playNextTurn(state, ::getTestDot)
-        val actual = omokGame.playNextTurn(state, ::getTestDot)
+        omokGame.playNextTurn(state, getTestDot(state.stone))
+        val actual = omokGame.playNextTurn(state, getTestDot(state.stone))
         // then
         assertThat(actual).isEqualTo(state)
     }
@@ -32,8 +32,8 @@ class OmokGameTest {
         val omokGame = OmokGame()
 
         // when
-        omokGame.playNextTurn(state, ::getTestDot)
-        val actual = omokGame.playNextTurn(state, ::getTestDot)
+        omokGame.playNextTurn(state, getTestDot(state.stone))
+        val actual = omokGame.playNextTurn(state, getTestDot(state.stone))
 
         // then
         assertThat(actual).isNotEqualTo(state)
