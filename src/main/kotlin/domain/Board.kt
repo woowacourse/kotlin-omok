@@ -1,10 +1,9 @@
 package domain
 
-import domain.CoordinateState.EMPTY
 import domain.domain.BoardState
 
 class Board(
-    private val boardState: BoardState,
+    val boardState: BoardState = BoardState(),
 ) {
 
     var lastPosition: Position? = null
@@ -14,8 +13,6 @@ class Board(
         boardState.addStone(coordinateState, position)
         lastPosition = position
     }
-
-    fun isEmpty(position: Position): Boolean = boardState.value[position.coordinateY][position.coordinateX] == EMPTY
 
     companion object {
         const val BOARD_SIZE = 15

@@ -1,7 +1,6 @@
 package view
 
 import domain.Board
-import domain.CoordinateState
 
 enum class BoardParts(val value: String) {
     LEFT_TOP("┌"),
@@ -18,7 +17,7 @@ enum class BoardParts(val value: String) {
     WHITE_STONE("⚈"), ;
 
     companion object {
-        fun getPart(coordinateState: CoordinateState, x: Int, y: Int): BoardParts {
+        fun getPart(x: Int, y: Int): BoardParts {
             val maxCoordinate = Board.BOARD_SIZE - 1
             return when {
                 x == 0 && y == 0 -> LEFT_TOP

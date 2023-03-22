@@ -5,23 +5,15 @@ import domain.Position
 
 interface GameRule {
 
-    fun isForbiddenThree(position: Position, board: List<List<CoordinateState>>): Boolean
-
-    fun isForbiddenFour(position: Position, board: List<List<CoordinateState>>): Boolean
-
-    fun isExceedFive(
+    fun isBlackWin(
         position: Position,
-        coordinateState: CoordinateState,
-        board: List<List<CoordinateState>>,
-    ): Boolean = throw IllegalStateException(NOT_OVERRIDE_ERROR)
+        board: BoardState,
+    ): Boolean
 
-    fun isExactlyFive(
+    fun isWhiteWin(
         position: Position,
-        coordinateState: CoordinateState,
-        board: List<List<CoordinateState>>,
-    ): Boolean = throw IllegalStateException(NOT_OVERRIDE_ERROR)
+        board: BoardState,
+    ): Boolean
 
-    companion object {
-        private const val NOT_OVERRIDE_ERROR = "올바르지 않은 접근입니다(override 되지않음)GameRule Adapter"
-    }
+    fun checkAddablePosition(board: BoardState, turn: CoordinateState, position: Position): Boolean
 }

@@ -11,12 +11,12 @@ object OutputView {
     }
 
     fun printBoard(board: Board) {
-        board.value.forEachIndexed { y, colors ->
+        board.boardState.value.forEachIndexed { y, colors ->
             print("${Board.BOARD_SIZE - y} ".padStart(4, ' '))
             colors.forEachIndexed { x, color ->
                 if (color == CoordinateState.WHITE) print(BoardParts.WHITE_STONE.value)
                 if (color == CoordinateState.BLACK) print(BoardParts.BLACK_STONE.value)
-                if (color == CoordinateState.EMPTY) print(BoardParts.getPart(color, x, y).value)
+                if (color == CoordinateState.EMPTY) print(BoardParts.getPart(x, y).value)
                 if (x != Board.BOARD_SIZE - 1) {
                     repeat(2) {
                         print(BoardParts.GENERAL.value)

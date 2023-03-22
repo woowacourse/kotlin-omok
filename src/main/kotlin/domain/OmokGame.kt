@@ -2,8 +2,9 @@ package domain
 
 import domain.CoordinateState.BLACK
 import domain.CoordinateState.WHITE
+import domain.domain.GameRule
 
-class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
+class OmokGame(val board: Board = Board(), initTurn: CoordinateState = BLACK, private val gameRule: GameRule) {
     var turn = initTurn
         private set
 
@@ -11,11 +12,8 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
         if (addStoneState) board.addStone(turn, position)
     }
 
-    private fun checkAddablePosition(position: Position): Boolean {
-        if (!board.isEmpty(position)) return false
-        if (turn == BLACK && isBlackForbidden(position)) return false
-        return true
-    }
+    private fun checkAddablePosition(position: Position): Boolean =
+        gameRule.checkAddablePosition(board.boardState, turn, position)
 
     private fun checkWinner(position: Position): Boolean {
         return when (turn) {
@@ -33,20 +31,9 @@ class OmokGame(val board: Board, initTurn: CoordinateState = BLACK) {
         }
     }
 
-    private fun isBlackWin(position: Position): Boolean {
-        TODO("Rule 변경")
-    }
-//        board.isExactlyFive(position, turn)
+    private fun isBlackWin(position: Position): Boolean = gameRule.isBlackWin(position, board.boardState)
 
-    private fun isWhiteWin(position: Position): Boolean {
-        TODO("Rule 변경")
-    }
-//        board.isExactlyFive(position, turn) || board.isExceedFive(position, turn)
-
-    private fun isBlackForbidden(position: Position): Boolean{
-        TODO("Rule 변경")
-    }
-//        board.isForbiddenThree(position) or board.isForbiddenFour(position) or board.isExceedFive(position, turn)
+    private fun isWhiteWin(position: Position): Boolean = gameRule.isWhiteWin(position, board.boardState)
 
     fun progressTurn(transmitTurnState: (Board, CoordinateState) -> Position, transmitPutStoneState: () -> Unit) {
         while (true) {

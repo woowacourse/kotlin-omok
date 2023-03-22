@@ -13,4 +13,7 @@ class BoardState(
     fun addStone(coordinateState: CoordinateState, position: Position) {
         _value[position.coordinateY][position.coordinateX] = coordinateState
     }
+
+    fun isEmpty(position: Position): Boolean = value[position.coordinateY][position.coordinateX] == CoordinateState.EMPTY
+
 }
