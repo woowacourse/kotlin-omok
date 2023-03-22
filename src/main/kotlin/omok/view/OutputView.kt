@@ -14,7 +14,7 @@ class OutputView {
         val stringBuilder = StringBuilder(board)
         omokBoard.value.keys.forEach { point ->
             getStoneMark(omokBoard[point])?.let {
-                stringBuilder.setCharAt(LEFT_PADDING + (point.x.value * BETWEEN_PADDING) + (15 - point.y.value) * NEXT_PADDING, it)
+                stringBuilder.setCharAt(LEFT_PADDING + (point.x * BETWEEN_PADDING) + (15 - point.y) * NEXT_PADDING, it)
             }
         }
         println(stringBuilder.toString())

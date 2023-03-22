@@ -1,8 +1,6 @@
 package omok.view
 
 import omok.domain.OmokPoint
-import omok.domain.XCoordinate
-import omok.domain.YCoordinate
 import omok.domain.state.BlackStoneState
 import omok.domain.state.StoneState
 import omok.domain.state.WhiteStoneState
@@ -15,7 +13,7 @@ class InputView {
     }
 
     fun inputPoint(stoneState: StoneState, omokPoint: OmokPoint?): OmokPoint {
-        val lastLocation = omokPoint?.let { MESSAGE_LAST_STONE_POSITION.format(STANDARD_X_COORDINATE + it.x.value - 1, it.y.value) } ?: ""
+        val lastLocation = omokPoint?.let { MESSAGE_LAST_STONE_POSITION.format(STANDARD_X_COORDINATE + it.x - 1, it.y) } ?: ""
         println(MESSAGE_TURN.format(stoneState.name()) + " $lastLocation")
         print(MESSAGE_POSITION)
         return getPoint()
@@ -25,7 +23,7 @@ class InputView {
         readln().let {
             val x: Int = it[0].uppercaseChar() - STANDARD_X_COORDINATE + 1
             val y: Int = it.substring(1).toInt()
-            return OmokPoint(XCoordinate(x), YCoordinate(y))
+            return OmokPoint(x, y)
         }
     }.onFailure { println(it.message) }
         .getOrElse { getPoint() }

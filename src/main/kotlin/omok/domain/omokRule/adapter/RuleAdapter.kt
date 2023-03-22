@@ -28,12 +28,12 @@ class RuleAdapter : Rule {
     }
 
     private fun adaptBoard(omokBoard: OmokBoard): List<List<Int>> {
-        val ySize = omokBoard.value.keys.map { it.y.value }.distinct().size
-        val xSize = omokBoard.value.keys.map { it.x.value }.distinct().size
+        val ySize = omokBoard.value.keys.map { it.y }.distinct().size
+        val xSize = omokBoard.value.keys.map { it.x }.distinct().size
         val board = MutableList(ySize) { MutableList(xSize) { 0 } }
 
         omokBoard.value.keys.forEach {
-            board[it.y.value - 1][it.x.value - 1] = when (omokBoard[it]) {
+            board[it.y - 1][it.x - 1] = when (omokBoard[it]) {
                 BlackStoneState -> 1
                 WhiteStoneState -> 2
                 else -> 0
@@ -43,6 +43,6 @@ class RuleAdapter : Rule {
     }
 
     private fun adaptPoint(omokPoint: OmokPoint): Pair<Int, Int> {
-        return Pair(omokPoint.x.value - 1, omokPoint.y.value - 1)
+        return Pair(omokPoint.x - 1, omokPoint.y - 1)
     }
 }
