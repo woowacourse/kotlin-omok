@@ -2,11 +2,10 @@ package domain
 
 class Board(
     initStones: Stones = Stones(listOf()),
+    private val rule: Rule
 ) {
     var stones: Stones = initStones
         private set
-    private val rule: Rule
-        get() = RuleAdapter(stones, getCurrentTurn())
 
     fun placeStone(stone: Stone) {
         stones = stones.addStone(stone)
@@ -16,23 +15,8 @@ class Board(
         return !stones.isContainSamePositionStone(stone.position)
     }
 
-    fun getLastPosition(): Position? {
-        if (stones.values.isEmpty()) return null
-        return stones.values.last().position
-    }
-
-    fun isBlackWin(stone: Stone): Boolean {
-        return rule.checkBlackWin(stone)
-    }
-
-    fun isWhiteWin(stone: Stone): Boolean {
-        if (rule.checkInvalid(stone)) return true
-        return rule.checkWhiteWin(stone)
-    }
-
-    fun getCurrentTurn(): Color {
-        if (stones.getBlackStonesCount() > stones.getWhiteStonesCount()) return Color.WHITE
-        return Color.BLACK
+    fun getWinnerColor(): Color? {
+        return rule.getWinner(stones)
     }
 
     companion object {
