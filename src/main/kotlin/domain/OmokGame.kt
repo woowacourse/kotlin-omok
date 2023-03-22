@@ -19,7 +19,7 @@ class OmokGame(val board: Board = Board(), initTurn: CoordinateState = BLACK, pr
         return when (turn) {
             BLACK -> isBlackWin(position)
             WHITE -> isWhiteWin(position)
-            else -> throw IllegalArgumentException()
+            else -> throw IllegalArgumentException(NOT_FIT_TURN_ERROR)
         }
     }
 
@@ -51,5 +51,9 @@ class OmokGame(val board: Board = Board(), initTurn: CoordinateState = BLACK, pr
             return true
         }
         return false
+    }
+
+    companion object {
+        private const val NOT_FIT_TURN_ERROR = "turn에 Black,White 가 아닌것이 포함되어있습니다."
     }
 }
