@@ -22,4 +22,10 @@ class Board {
     fun blackStoneIsPlaced(stone: Stone): Boolean = state.blackStones.contains(stone)
 
     fun whiteStoneIsPlaced(stone: Stone): Boolean = state.whiteStones.contains(stone)
+
+    companion object {
+        const val SIZE = 15
+
+        operator fun contains(point: Point): Boolean = point.x in ('A' until 'A' + SIZE) && point.y in (1..SIZE)
+    }
 }

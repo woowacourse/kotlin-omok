@@ -36,7 +36,7 @@ object Rule {
         direction: Direction,
     ): Boolean {
         val (nextX, nextY) = 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(blackStones, justPlacedStone, direction)
-        if ((nextX to nextY).isInRange()) {
+        if (Point(nextX, nextY) in Board) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
             return 다음_기울기로_열린4인가(blackStones + Stone(nextX, nextY), whiteStones, justPlacedStone, inclination)
         }
@@ -49,7 +49,7 @@ object Rule {
         direction: Direction,
     ): Pair<Char, Int> {
         var (nextX, nextY) = justPlacedStone.x to justPlacedStone.y
-        while ((nextX to nextY).isInRange() && Stone(nextX, nextY) in blackStones) {
+        while (Point(nextX, nextY) in Board && Stone(nextX, nextY) in blackStones) {
             nextX += direction.dx
             nextY += direction.dy
         }
@@ -72,7 +72,7 @@ object Rule {
             justPlacedStone,
             inclination.directions[1],
         )
-        if (!(leftX to leftY).isInRange() || !(rightX to rightY).isInRange()) return false
+        if (Point(leftX, leftY) !in Board || Point(rightX, rightY) !in Board) return false
         val leftStone = Stone(leftX, leftY)
         val rightStone = Stone(rightX, rightY)
         if (leftStone.isPlacedOnBlank(blackStones + whiteStones) && rightStone.isPlacedOnBlank(blackStones + whiteStones)) {
@@ -112,8 +112,8 @@ object Rule {
             justPlacedStone,
             inclination.directions[1],
         )
-        if (((leftX to leftY).isInRange() && Stone(leftX, leftY).isPlacedOnBlank(blackStones + whiteStones)) ||
-            ((rightX to rightY).isInRange() && Stone(rightX, rightY).isPlacedOnBlank(blackStones + whiteStones))
+        if ((Point(leftX, leftY) in Board && Stone(leftX, leftY).isPlacedOnBlank(blackStones + whiteStones)) ||
+            (Point(rightX, rightY) in Board && Stone(rightX, rightY).isPlacedOnBlank(blackStones + whiteStones))
         ) {
             if (kotlin.math.abs(rightX - leftX) == 5 || kotlin.math.abs(rightY - leftY) == 5) return true
         }
@@ -127,7 +127,7 @@ object Rule {
         direction: Direction,
     ): Boolean {
         val (nextX, nextY) = 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(blackStones, justPlacedStone, direction)
-        if ((nextX to nextY).isInRange() && Stone(nextX, nextY).isPlacedOnBlank(blackStones + whiteStones)) {
+        if (Point(nextX, nextY) in Board && Stone(nextX, nextY).isPlacedOnBlank(blackStones + whiteStones)) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
             return 최근_놓인_돌에서_다음_기울기로_연속되는_흑돌_개수(blackStones + Stone(nextX, nextY), justPlacedStone, inclination) == 5
         }
@@ -154,9 +154,6 @@ object Rule {
 
     private fun isBlackLongMok(blackStones: Set<Stone>, nextStone: Stone): Boolean =
         Inclination.values().any { 최근_놓인_돌에서_다음_기울기로_연속되는_흑돌_개수(blackStones + nextStone, nextStone, it) > 5 }
-
-    private fun Pair<Char, Int>.isInRange(): Boolean =
-        first in XCoordinate.X_MIN_RANGE..XCoordinate.X_MAX_RANGE && second in YCoordinate.Y_MIN_RANGE..YCoordinate.Y_MAX_RANGE
 
     private fun Stone.isPlacedOnBlank(stones: Set<Stone>): Boolean = this !in stones
 }

@@ -1,8 +1,13 @@
 package domain
 
-data class Stone(private val xCoordinate: XCoordinate, private val yCoordinate: YCoordinate) {
+data class Stone(private val point: Point) {
 
-    val x = xCoordinate.x
-    val y = yCoordinate.y
-    constructor(x: Char, y: Int) : this(XCoordinate.of(x), YCoordinate.of(y))
+    val x = point.x
+    val y = point.y
+
+    constructor(x: Char, y: Int) : this(Point(XCoordinate.of(x), YCoordinate.of(y)))
+
+    constructor(x: Int, y: Int) : this(Point(XCoordinate.of(x), YCoordinate.of(y)))
+
+    constructor(x: XCoordinate, y: YCoordinate) : this(Point(x, y))
 }
