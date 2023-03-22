@@ -1,6 +1,7 @@
 package woowacourse.omok
 
 import android.content.ContentValues
+import android.content.Intent
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFinish(state: State) {
-                Toast.makeText(this@MainActivity, "${state.name} 승", Toast.LENGTH_SHORT).show()
+                // Toast.makeText(this@MainActivity, "${state.name} 승", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -68,7 +69,13 @@ class MainActivity : AppCompatActivity() {
                     view.setImageResource(stoneImage)
                     saveStone(db, index, state)
                     isBlackTurn = !isBlackTurn
-                    if (omokGame.isVictory(state)) isFinish = true
+                    if (omokGame.isVictory(state)) {
+                        isFinish = true
+                        val intent = Intent(this, GameOverActivity::class.java).apply {
+                            putExtra(OMOK_WINNER, state.name)
+                        }
+                        startActivity(intent)
+                    }
                 }
             }
         }
@@ -134,5 +141,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val BOARD_SIZE = 15
+        const val OMOK_WINNER = "OMOK_WINNER"
     }
 }
