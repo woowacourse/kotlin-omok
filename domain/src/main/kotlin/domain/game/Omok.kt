@@ -12,9 +12,9 @@ class Omok(
     private val gameEventListener: OmokGameEventListener,
 ) {
      fun takeTurn(originPlayers: Players): Players {
-        val newPoint = turnEventListener.onTakeTurn(originPlayers.curPlayerColor) // 받은 newPoint 리턴하도록
+        val newPoint = turnEventListener.onTakeTurn(originPlayers.curPlayerColor)
         val endTurnPlayers = originPlayers.putStone(newPoint)
-        if (!endTurnPlayers.isPut(originPlayers)) turnEventListener.onNotPlaceable() // Toast
+        if (!endTurnPlayers.isPut(originPlayers)) turnEventListener.onNotPlaceable()
 
         return endTurnPlayers
     }
