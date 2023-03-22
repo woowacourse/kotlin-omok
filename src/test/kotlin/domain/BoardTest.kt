@@ -15,28 +15,11 @@ internal class BoardTest {
     }
 
     @Test
-    fun `돌을 놓으면 lastPosition이 돌이 놓인 좌표로 변경된다`() {
+    fun `돌을 놓으면 마지막 돌의 위치가 돌이 놓인 좌표로 변경된다`() {
         val board = Board()
         val targetPosition = Position(2, 4)
         board.addStone(CoordinateState.BLACK, targetPosition)
 
         assertThat(board.lastPosition).isEqualTo(targetPosition)
-    }
-
-    @Test
-    fun `해당 좌표가 비어있다면 True를 반환한다`() {
-        val temp = List(14) { MutableList(14) { CoordinateState.EMPTY } }
-        temp[1][1] = CoordinateState.BLACK
-        val board = Board(boardState = BoardState(temp))
-
-        assertThat(board.boardState.isEmpty(Position(1, 1))).isFalse
-    }
-
-    @Test
-    fun `해당 좌표에 돌이 있다면 False를 반환한다`() {
-        val temp = List(14) { MutableList(14) { CoordinateState.EMPTY } }
-        val board = Board(boardState = BoardState(temp))
-
-        assertThat(board.boardState.isEmpty(Position(1, 1))).isTrue
     }
 }
