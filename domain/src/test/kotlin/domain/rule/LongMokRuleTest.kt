@@ -3,6 +3,8 @@ package domain.rule
 import domain.stone.BlackStone
 import domain.stone.Stones
 import domain.stone.WhiteStone
+import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -21,25 +23,30 @@ class LongMokRuleTest {
 //         1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┤
 //            A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
 
-        val actual = LongMokRule().checkRule(
-            Stones(
-                setOf(
-                    BlackStone(PointAdapter.create('E', 5)),
-                    BlackStone(PointAdapter.create('F', 5)),
-                    BlackStone(PointAdapter.create('G', 5)),
-                    BlackStone(PointAdapter.create('H', 5)),
-                    BlackStone(PointAdapter.create('J', 5)),
-                    BlackStone(PointAdapter.create('K', 5)),
-                    WhiteStone(PointAdapter.create('I', 2)),
-                    WhiteStone(PointAdapter.create('L', 4)),
-                    WhiteStone(PointAdapter.create('I', 10)),
-                    WhiteStone(PointAdapter.create('F', 2)),
-                    WhiteStone(PointAdapter.create('A', 2)),
-                    WhiteStone(PointAdapter.create('B', 2))
-                )
-            ), BlackStone(PointAdapter.create('I', 5))
+        //given
+        val stones = Stones(
+            setOf(
+                BlackStone(PointAdapter.create('E', 5)),
+                BlackStone(PointAdapter.create('F', 5)),
+                BlackStone(PointAdapter.create('G', 5)),
+                BlackStone(PointAdapter.create('H', 5)),
+                BlackStone(PointAdapter.create('J', 5)),
+                BlackStone(PointAdapter.create('K', 5)),
+                WhiteStone(PointAdapter.create('I', 2)),
+                WhiteStone(PointAdapter.create('L', 4)),
+                WhiteStone(PointAdapter.create('I', 10)),
+                WhiteStone(PointAdapter.create('F', 2)),
+                WhiteStone(PointAdapter.create('A', 2)),
+                WhiteStone(PointAdapter.create('B', 2))
+            )
         )
-        assertTrue(actual)
+        val justPlacedStone = BlackStone(PointAdapter.create('I', 5))
+
+        //when
+        val actual = LongMokRule().checkRule(stones, justPlacedStone)
+
+        //then
+        assertThat(actual).isTrue
     }
 
     @Test
@@ -54,18 +61,23 @@ class LongMokRuleTest {
 //         1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┤
 //            A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
 
-        val actual = LongMokRule().checkRule(
-            Stones(
-                setOf(
-                    BlackStone(PointAdapter.create('H', 5)),
-                    BlackStone(PointAdapter.create('J', 5)),
-                    BlackStone(PointAdapter.create('K', 5)),
-                    WhiteStone(PointAdapter.create('I', 2)),
-                    WhiteStone(PointAdapter.create('L', 4)),
-                    WhiteStone(PointAdapter.create('I', 10))
-                )
-            ), BlackStone(PointAdapter.create('I', 5))
+        //given
+        val stones = Stones(
+            setOf(
+                BlackStone(PointAdapter.create('H', 5)),
+                BlackStone(PointAdapter.create('J', 5)),
+                BlackStone(PointAdapter.create('K', 5)),
+                WhiteStone(PointAdapter.create('I', 2)),
+                WhiteStone(PointAdapter.create('L', 4)),
+                WhiteStone(PointAdapter.create('I', 10))
+            )
         )
-        assertFalse(actual)
+        val justPlacedStone = BlackStone(PointAdapter.create('I', 5))
+
+        //when
+        val actual = LongMokRule().checkRule(stones, justPlacedStone)
+
+        //then
+        assertThat(actual).isFalse
     }
 }
