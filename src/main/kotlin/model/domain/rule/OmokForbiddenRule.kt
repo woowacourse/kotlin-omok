@@ -1,19 +1,28 @@
 package model.domain.rule
 
 import model.domain.tools.Board
+import model.domain.tools.Coordination
+import model.domain.tools.Location
 import model.domain.tools.Stone
+import model.domain.tools.Stone.*
 
-class OmokForbiddenRule(board: Board, currentStone: Stone) {
+class OmokForbiddenRule(private val board: Board, currentStone: Stone) {
 
-    private val convertBoard: List<List<Int>> =
-        board.system.values.map { line ->
-            line.map { getStoneNumber(it) }
+    private val convertBoard: List<List<Int>> = List(15) { row ->
+        getLocationRow(row)
+    }
+
+    private fun getLocationRow(row: Int): List<Int> =
+        List(15) { col ->
+            getStoneNumber(
+                requireNotNull(board.system[Location(Coordination.from(row), Coordination.from(col))]),
+            )
         }
 
     private val stoneState: Int = when (currentStone) {
-        Stone.BLACK -> BLACK_STONE
-        Stone.WHITE -> WHITE_STONE
-        Stone.EMPTY -> EMPTY_STONE
+        BLACK -> BLACK_STONE
+        WHITE -> WHITE_STONE
+        EMPTY -> EMPTY_STONE
     }
 
     private val nextStone: Int = when (stoneState) {
@@ -23,9 +32,9 @@ class OmokForbiddenRule(board: Board, currentStone: Stone) {
     }
 
     private fun getStoneNumber(stone: Stone): Int = when (stone) {
-        Stone.BLACK -> BLACK_STONE
-        Stone.WHITE -> WHITE_STONE
-        Stone.EMPTY -> EMPTY_STONE
+        BLACK -> BLACK_STONE
+        WHITE -> WHITE_STONE
+        EMPTY -> EMPTY_STONE
     }
 
     fun countOpenThrees(x: Int, y: Int): Int =
