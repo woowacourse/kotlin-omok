@@ -1,6 +1,7 @@
 package domain.rule
 
 import domain.stone.BlackStone
+import domain.stone.Point
 import domain.stone.Stones
 import domain.stone.WhiteStone
 import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
@@ -15,16 +16,16 @@ class RuleAdapterTest {
             ruleAdapter.checkStone(
                 Stones(
                     setOf(
-                        BlackStone('C', 12),
-                        BlackStone('E', 12),
-                        BlackStone('D', 13),
-                        BlackStone('D', 14),
-                        WhiteStone('I', 2),
-                        WhiteStone('L', 4),
-                        WhiteStone('I', 10),
-                        WhiteStone('F', 2)
+                        BlackStone(Point.create('C', 12)),
+                        BlackStone(Point.create('E', 12)),
+                        BlackStone(Point.create('D', 13)),
+                        BlackStone(Point.create('D', 14)),
+                        WhiteStone(Point.create('I', 2)),
+                        WhiteStone(Point.create('L', 4)),
+                        WhiteStone(Point.create('I', 10)),
+                        WhiteStone(Point.create('F', 2))
                     )
-                ), BlackStone('D', 12)
+                ), BlackStone(Point.create('D', 12))
             )
         }.withMessage("흑돌은 33이면 안됩니다.")
     }
@@ -36,20 +37,20 @@ class RuleAdapterTest {
             ruleAdapter.checkStone(
                 Stones(
                     setOf(
-                        BlackStone('E', 5),
-                        BlackStone('F', 5),
-                        BlackStone('G', 5),
-                        BlackStone('H', 6),
-                        BlackStone('H', 7),
-                        BlackStone('H', 8),
-                        WhiteStone('I', 2),
-                        WhiteStone('L', 4),
-                        WhiteStone('I', 10),
-                        WhiteStone('F', 2),
-                        WhiteStone('A', 2),
-                        WhiteStone('B', 2)
+                        BlackStone(Point.create('E', 5)),
+                        BlackStone(Point.create('F', 5)),
+                        BlackStone(Point.create('G', 5)),
+                        BlackStone(Point.create('H', 6)),
+                        BlackStone(Point.create('H', 7)),
+                        BlackStone(Point.create('H', 8)),
+                        WhiteStone(Point.create('I', 2)),
+                        WhiteStone(Point.create('L', 4)),
+                        WhiteStone(Point.create('I', 10)),
+                        WhiteStone(Point.create('F', 2)),
+                        WhiteStone(Point.create('A', 2)),
+                        WhiteStone(Point.create('B', 2))
                     )
-                ), BlackStone('H', 5)
+                ), BlackStone(Point.create('H', 5))
             )
         }.withMessage("흑돌은 44면 안됩니다.")
     }

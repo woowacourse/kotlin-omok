@@ -1,12 +1,20 @@
 package domain.stone
 
-data class Point(private val xCoordinate: XCoordinate, private val yCoordinate: YCoordinate) {
+import domain.BOARD_SIZE
+import domain.MIN_VIEW_X
+import domain.MIN_VIEW_Y
 
-    val x = xCoordinate.x
-    val y = yCoordinate.y
+data class Point(val x: Int, val y: Int) {
 
-    constructor(x: Char, y: Int) : this(XCoordinate.of(x), YCoordinate.of(y))
+    init {
+        require(x in 0 until BOARD_SIZE && y in 0 until BOARD_SIZE) { ERROR_OUT_OF_RANGE }
+    }
 
-    fun addX(value: Int): Point = Point(x + value, y)
-    fun addY(value: Int): Point = Point(x, y + value)
+    companion object {
+        const val ERROR_OUT_OF_RANGE = "범위를 넘어가는 좌표를 생성할 수 없습니다."
+
+        fun create(x: Char, y: Int): Point {
+            return Point(x.uppercase()[0] - MIN_VIEW_X, y - MIN_VIEW_Y)
+        }
+    }
 }

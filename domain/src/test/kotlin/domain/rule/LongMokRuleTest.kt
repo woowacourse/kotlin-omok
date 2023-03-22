@@ -1,6 +1,7 @@
 package domain.rule
 
 import domain.stone.BlackStone
+import domain.stone.Point
 import domain.stone.Stones
 import domain.stone.WhiteStone
 import org.junit.jupiter.api.Assertions.*
@@ -21,23 +22,23 @@ class LongMokRuleTest {
 //         1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┤
 //            A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
 
-        val actual = FourFourRule().checkRule(
+        val actual = LongMokRule().checkRule(
             Stones(
                 setOf(
-                    BlackStone('E', 5),
-                    BlackStone('F', 5),
-                    BlackStone('G', 5),
-                    BlackStone('H', 5),
-                    BlackStone('J', 5),
-                    BlackStone('K', 5),
-                    WhiteStone('I', 2),
-                    WhiteStone('L', 4),
-                    WhiteStone('I', 10),
-                    WhiteStone('F', 2),
-                    WhiteStone('A', 2),
-                    WhiteStone('B', 2)
+                    BlackStone(Point.create('E', 5)),
+                    BlackStone(Point.create('F', 5)),
+                    BlackStone(Point.create('G', 5)),
+                    BlackStone(Point.create('H', 5)),
+                    BlackStone(Point.create('J', 5)),
+                    BlackStone(Point.create('K', 5)),
+                    WhiteStone(Point.create('I', 2)),
+                    WhiteStone(Point.create('L', 4)),
+                    WhiteStone(Point.create('I', 10)),
+                    WhiteStone(Point.create('F', 2)),
+                    WhiteStone(Point.create('A', 2)),
+                    WhiteStone(Point.create('B', 2))
                 )
-            ), BlackStone('I', 5)
+            ), BlackStone(Point.create('I', 5))
         )
         assertTrue(actual)
     }
@@ -54,17 +55,17 @@ class LongMokRuleTest {
 //         1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┤
 //            A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
 
-        val actual = FourFourRule().checkRule(
+        val actual = LongMokRule().checkRule(
             Stones(
                 setOf(
-                    BlackStone('H', 5),
-                    BlackStone('J', 5),
-                    BlackStone('K', 5),
-                    WhiteStone('I', 2),
-                    WhiteStone('L', 4),
-                    WhiteStone('I', 10)
+                    BlackStone(Point.create('H', 5)),
+                    BlackStone(Point.create('J', 5)),
+                    BlackStone(Point.create('K', 5)),
+                    WhiteStone(Point.create('I', 2)),
+                    WhiteStone(Point.create('L', 4)),
+                    WhiteStone(Point.create('I', 10))
                 )
-            ), BlackStone('I', 5)
+            ), BlackStone(Point.create('I', 5))
         )
         assertFalse(actual)
     }

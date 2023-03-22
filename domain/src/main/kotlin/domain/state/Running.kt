@@ -1,14 +1,9 @@
 package domain.state
 
+import domain.*
 import domain.stone.Point
 import domain.stone.Stone
 import domain.stone.Stones
-import domain.stone.XCoordinate
-import domain.X_MAX_RANGE
-import domain.X_MIN_RANGE
-import domain.stone.YCoordinate
-import domain.Y_MAX_RANGE
-import domain.Y_MIN_RANGE
 
 abstract class Running(stones: Stones) : State {
 
@@ -16,7 +11,9 @@ abstract class Running(stones: Stones) : State {
         require(
             stones.blackStones.completeOmok().not() && stones.blackStones.completeOmok().not()
         ) { RUNNING_COMPLETE_ERROR }
-        require(stones.blackStones.intersect(stones.whiteStones).isEmpty()) { BLACK_WHITE_INTERSECT_ERROR }
+        require(
+            stones.blackStones.intersect(stones.whiteStones).isEmpty()
+        ) { BLACK_WHITE_INTERSECT_ERROR }
     }
 
     fun checkAlreadyPlaced(point: Point) {
@@ -24,33 +21,33 @@ abstract class Running(stones: Stones) : State {
     }
 
     protected fun Set<Stone>.completeOmok(): Boolean {
-        val xCoordinateRange = X_MIN_RANGE..X_MAX_RANGE
-        val yCoordinateRange = Y_MIN_RANGE..Y_MAX_RANGE
-        for (x in xCoordinateRange) {
+        val xRange = 0 until BOARD_SIZE
+        val yRange = 0 until BOARD_SIZE
+        for (x in xRange) {
             if (verticalCompleteCheck(this, x)) return true
         }
-        for (y in yCoordinateRange) {
+        for (y in yRange) {
             if (horizontalCompleteCheck(this, y)) return true
         }
-        upperLeftDiagonal(xCoordinateRange, yCoordinateRange, this)
-        upperRightDiagonal(xCoordinateRange, yCoordinateRange, this)
+        if(upperLeftDiagonal(xRange, yRange, this)) return true
+        if(upperRightDiagonal(xRange, yRange, this)) return true
         return false
     }
 
     private fun horizontalCompleteCheck(placedStones: Set<Stone>, y: Int): Boolean {
         var linkedCount = 0
-        for (x in X_MIN_RANGE..X_MAX_RANGE) {
-            val point = Point(XCoordinate.of(x), YCoordinate.of(y))
+        for (x in 0 until BOARD_SIZE) {
+            val point = Point(x, y)
             if (point in placedStones.map { it.point }) linkedCount++ else linkedCount = 0
             if (linkedCount >= 5) return true
         }
         return false
     }
 
-    private fun verticalCompleteCheck(placedStones: Set<Stone>, x: Char): Boolean {
+    private fun verticalCompleteCheck(placedStones: Set<Stone>, x: Int): Boolean {
         var linkedCount = 0
-        for (y in Y_MIN_RANGE..Y_MAX_RANGE) {
-            val point = Point(XCoordinate.of(x), YCoordinate.of(y))
+        for (y in 0 until BOARD_SIZE) {
+            val point = Point(x, y)
             if (point in placedStones.map { it.point }) linkedCount++ else linkedCount = 0
             if (linkedCount >= 5) return true
         }
@@ -58,23 +55,23 @@ abstract class Running(stones: Stones) : State {
     }
 
     private fun upperLeftDiagonal(
-        xCoordinateRange: CharRange,
+        xCoordinateRange: IntRange,
         yCoordinateRange: IntRange,
         stones: Set<Stone>
     ): Boolean {
         // 왼쪽 위에서 시작하는 대각선
         for ((maxX, maxY) in xCoordinateRange.zip(yCoordinateRange)) {
             var linkedCount = 0
-            for ((x, y) in (X_MIN_RANGE..maxX).zip(maxY downTo Y_MIN_RANGE)) {
-                val point = Point(XCoordinate.of(x), YCoordinate.of(y))
+            for ((x, y) in (0..maxX).zip(maxY downTo 0)) {
+                val point = Point(x, y)
                 if (point in stones.map { it.point }) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
             }
         }
         for ((minX, minY) in xCoordinateRange.zip(yCoordinateRange)) {
             var linkedCount = 0
-            for ((x, y) in (minX..X_MAX_RANGE).zip(Y_MAX_RANGE downTo minY).toList()) {
-                val point = Point(XCoordinate.of(x), YCoordinate.of(y))
+            for ((x, y) in (minX until BOARD_SIZE).zip(BOARD_SIZE-1 downTo minY).toList()) {
+                val point = Point(x, y)
                 if (point in stones.map { it.point }) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
             }
@@ -83,23 +80,23 @@ abstract class Running(stones: Stones) : State {
     }
 
     private fun upperRightDiagonal(
-        xCoordinateRange: CharRange,
+        xCoordinateRange: IntRange,
         yCoordinateRange: IntRange,
         stones: Set<Stone>
     ): Boolean {
         // 왼쪽 아래에서 시작하는 대각선
         for ((maxX, minY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
             var linkedCount = 0
-            for ((x, y) in (X_MIN_RANGE..maxX).zip(minY..Y_MAX_RANGE)) {
-                val point = Point(XCoordinate.of(x), YCoordinate.of(y))
+            for ((x, y) in (0..maxX).zip(minY until BOARD_SIZE)) {
+                val point = Point(x, y)
                 if (point in stones.map { it.point }) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
             }
         }
         for ((minX, maxY) in xCoordinateRange.zip(yCoordinateRange.reversed())) {
             var linkedCount = 0
-            for ((x, y) in (minX..X_MAX_RANGE).zip(Y_MIN_RANGE..maxY)) {
-                val point = Point(XCoordinate.of(x), YCoordinate.of(y))
+            for ((x, y) in (minX until BOARD_SIZE).zip(0..maxY)) {
+                val point = Point(x, y)
                 if (point in stones.map { it.point }) linkedCount++ else linkedCount = 0
                 if (linkedCount >= 5) return true
             }

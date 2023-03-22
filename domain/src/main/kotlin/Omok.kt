@@ -20,7 +20,7 @@ fun main() {
         if (board.isWhiteTurn()) {
             print("백의 차례입니다.")
         }
-        point?.let { print(" (마지막 돌의 위치: ${it.x + it.y.toString()})") }
+        point?.let { OutputView.printLastPoint(it) }
         println()
         point = putStoneUntilNotOccurErrorAndReturnPoint(board, blackRuleAdapter)
     }
@@ -28,7 +28,10 @@ fun main() {
     if (board.isBlackWin()) println("흑의 승리입니다.") else println("백의 승리입니다.")
 }
 
-private fun putStoneUntilNotOccurErrorAndReturnPoint(board: Board, blackRuleAdapter: RuleAdapter): Point {
+private fun putStoneUntilNotOccurErrorAndReturnPoint(
+    board: Board,
+    blackRuleAdapter: RuleAdapter
+): Point {
     while (true) {
         lateinit var point: Point
         runCatching {

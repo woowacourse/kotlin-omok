@@ -1,33 +1,52 @@
 package domain.rule
 
-import domain.stone.BlackStone
-import domain.stone.Point
-import domain.stone.Stone
-import domain.stone.StoneFactory
-import domain.stone.Stones
-import domain.X_MAX_RANGE
-import domain.X_MIN_RANGE
-import domain.Y_MAX_RANGE
-import domain.Y_MIN_RANGE
+import domain.*
 import domain.rule.data.Direction
 import domain.rule.data.Inclination
+import domain.stone.*
 
 interface Rule {
 
     val errorMessage: String
-    fun checkRule(stones: Stones, justPlacedStone: Stone): Boolean
-    private fun Point.isInRange(): Boolean =
-        x in X_MIN_RANGE..X_MAX_RANGE && y in Y_MIN_RANGE..Y_MAX_RANGE
 
-    private fun Point.isPlacedOnBlank(stones: Stones): Boolean = this !in stones.stones.map { it.point }
-    private fun Stone.isInSameColorStones(stones: Stones): Boolean {
-        if (this is BlackStone) return this in stones.blackStones
-        return this in stones.whiteStones
+    fun checkRule(stones: Stones, justPlacedStone: Stone): Boolean
+    private fun Pair<Int, Int>.isInRange(): Boolean {
+        val (x, y) = this
+        return x in 0 until BOARD_SIZE && y in 0 until BOARD_SIZE
     }
 
-    private fun Stone.isInOtherColorStones(stones: Stones): Boolean {
-        if (this is BlackStone) return this in stones.whiteStones
-        return this in stones.blackStones
+    private fun Pair<Int, Int>.isPlacedOnBlank(stones: Stones): Boolean {
+        val (x, y) = this
+        return Pair(x, y) !in stones.stones.map { Pair(it.point.x, it.point.y) }
+    }
+
+    private fun Pair<Int, Int>.isInSameColorStones(
+        justPlacedStone: Stone,
+        stones: Stones
+    ): Boolean {
+        val (x, y) = this
+        return when (justPlacedStone) {
+            is BlackStone -> Pair(x, y) in stones.blackStones.map { Pair(it.point.x, it.point.y) }
+            else -> Pair(x, y) in stones.whiteStones.map { Pair(it.point.x, it.point.y) }
+        }
+    }
+
+    private fun Pair<Int, Int>.isInOtherColorStones(
+        justPlacedStone: Stone,
+        stones: Stones
+    ): Boolean {
+        val (x, y) = this
+        return when (justPlacedStone) {
+            is BlackStone -> Pair(x, y) in stones.whiteStones.map { Pair(it.point.x, it.point.y) }
+            else -> Pair(x, y) in stones.blackStones.map { Pair(it.point.x, it.point.y) }
+        }
+    }
+
+    private fun createStone(stone: Stone, point: Point): Stone {
+        return when (stone) {
+            is BlackStone -> BlackStone(point)
+            else -> WhiteStone(point)
+        }
     }
 
 
@@ -37,17 +56,20 @@ interface Rule {
         justPlacedStone: Stone,
         inclination: Inclination,
     ): Int {
-        val leftPoint = firstBlankWithThisDirection(
+        val (leftX, leftY) = firstBlankWithThisDirection(
             stones,
             justPlacedStone,
             inclination.directions[0],
         )
-        val rightPoint = firstBlankWithThisDirection(
+        val (rightX, rightY) = firstBlankWithThisDirection(
             stones,
             justPlacedStone,
             inclination.directions[1],
         )
-        return Integer.max(kotlin.math.abs(rightPoint.x - leftPoint.x), kotlin.math.abs(rightPoint.y - leftPoint.y)) - 1
+        return Integer.max(
+            kotlin.math.abs(rightX - leftX),
+            kotlin.math.abs(rightY - leftY)
+        ) - 1
     }
 
 
@@ -56,16 +78,19 @@ interface Rule {
         stones: Stones,
         justPlacedStone: Stone,
         direction: Direction,
-    ): Point {
-        var nextStone: Stone = justPlacedStone
-        var nextPoint = justPlacedStone.point
-        while (nextPoint.isInRange() && nextStone.isInSameColorStones(stones) && !nextStone.isInOtherColorStones(stones)
+    ): Pair<Int, Int> {
+        var nextX = justPlacedStone.point.x
+        var nextY = justPlacedStone.point.y
+        while (Pair(nextX, nextY).isInRange() && Pair(nextX, nextY).isInSameColorStones(
+                justPlacedStone, stones
+            ) && !Pair(nextX, nextY).isInOtherColorStones(
+                justPlacedStone, stones
+            )
         ) {
-            nextPoint = nextPoint.addX(direction.dx)
-            nextPoint = nextPoint.addY(direction.dy)
-            nextStone = StoneFactory.createSameColorStone(justPlacedStone, nextPoint)
+            nextX += direction.dx
+            nextY += direction.dy
         }
-        return nextPoint
+        return Pair(nextX, nextY)
     }
 
 
@@ -75,11 +100,11 @@ interface Rule {
         justPlacedStone: Stone,
         direction: Direction,
     ): Boolean {
-        val nextPoint = firstBlankWithThisDirection(stones, justPlacedStone, direction)
-        if (nextPoint.isInRange() && nextPoint.isPlacedOnBlank(stones)) {
+        val (x, y) = firstBlankWithThisDirection(stones, justPlacedStone, direction)
+        if (Pair(x, y).isInRange() && Pair(x, y).isPlacedOnBlank(stones)) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
             return calculateContinuousStonesCountWithInclination(
-                stones.addStone(StoneFactory.createSameColorStone(justPlacedStone, nextPoint)),
+                stones.addStone(createStone(justPlacedStone, Point(x, y))),
                 justPlacedStone,
                 inclination
             ) == 5
@@ -94,16 +119,16 @@ interface Rule {
         justPlacedStone: Stone,
         direction: Direction,
     ): Boolean {
-        val nextPoint =
+        val (x, y) =
             firstBlankWithThisDirection(
                 stones,
                 justPlacedStone,
                 direction
             ) //다음 방향으로 흑돌을 타고 갔을 때 최초의 빈칸
-        if (nextPoint.isInRange()) {
+        if (Pair(x, y).isInRange()) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
             return isOpen4WithThisInclination(  // 다음 기울기로 열린4인지 판단
-                stones.addStone(StoneFactory.createSameColorStone(justPlacedStone, nextPoint)),
+                stones.addStone(createStone(justPlacedStone, Point(x, y))),
                 justPlacedStone,
                 inclination
             )
@@ -118,19 +143,22 @@ interface Rule {
         justPlacedStone: Stone,
         inclination: Inclination,
     ): Boolean {
-        val leftPoint: Point = firstBlankWithThisDirection(
+        val (leftX, leftY) = firstBlankWithThisDirection(
             stones,
             justPlacedStone,
             inclination.directions[0],
         )
-        val rightPoint = firstBlankWithThisDirection(
+        val (rightX, rightY) = firstBlankWithThisDirection(
             stones,
             justPlacedStone,
             inclination.directions[1],
         )
-        if (!leftPoint.isInRange() || !rightPoint.isInRange()) return false
-        if (leftPoint.isPlacedOnBlank(stones) && rightPoint.isPlacedOnBlank(stones)) {
-            if (kotlin.math.abs(rightPoint.x - leftPoint.x) == 5 || kotlin.math.abs(rightPoint.y - leftPoint.y) == 5) return true
+        if (!Pair(leftX, leftY).isInRange() || !Pair(rightX, rightY).isInRange()) return false
+        if (Pair(leftX, leftY).isPlacedOnBlank(stones) && Pair(rightX, rightY).isPlacedOnBlank(
+                stones
+            )
+        ) {
+            if (kotlin.math.abs(rightX - leftX) == 5 || kotlin.math.abs(rightY - leftY) == 5) return true
         }
         return false
     }

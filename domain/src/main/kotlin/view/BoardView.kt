@@ -1,47 +1,43 @@
 package view
 
+import domain.*
 import domain.stone.BlackStone
-import domain.Board
 import domain.stone.Point
 import domain.stone.WhiteStone
-import domain.X_MAX_RANGE
-import domain.X_MIN_RANGE
-import domain.Y_MAX_RANGE
-import domain.Y_MIN_RANGE
 
 class BoardView(board: Board) {
 
     private val boardLines = mutableListOf<MutableList<String>>()
 
     init {
-        for (y in Y_MAX_RANGE downTo Y_MIN_RANGE) {
+        for (y in MAX_VIEW_Y downTo MIN_VIEW_Y) {
             val boardLine = mutableListOf<String>()
             boardLine.add("%3s ".format(y))
-            for (x in X_MIN_RANGE..X_MAX_RANGE) {
+            for (x in MIN_VIEW_X..MAX_VIEW_X) {
                 when {
-                    board.blackStoneIsPlaced(BlackStone(Point(x, y))) -> boardLine.add(
+                    board.blackStoneIsPlaced(BlackStone(Point.create(x, y))) -> boardLine.add(
                         BLACK_STONE
                     )
 
-                    board.whiteStoneIsPlaced(WhiteStone(Point(x, y))) -> boardLine.add(
+                    board.whiteStoneIsPlaced(WhiteStone(Point.create(x, y))) -> boardLine.add(
                         WHITE_STONE
                     )
 
-                    x == X_MIN_RANGE && y == Y_MAX_RANGE -> boardLine.add(LEFT_TOP)
-                    x == X_MAX_RANGE && y == Y_MAX_RANGE -> boardLine.add(RIGHT_TOP)
-                    x == X_MIN_RANGE && y == Y_MIN_RANGE -> boardLine.add(LEFT_BOTTOM)
-                    x == X_MAX_RANGE && y == Y_MIN_RANGE -> boardLine.add(RIGHT_BOTTOM)
-                    x == X_MIN_RANGE -> boardLine.add(LEFT)
-                    x == X_MAX_RANGE -> boardLine.add(RIGHT)
-                    y == Y_MAX_RANGE -> boardLine.add(TOP)
-                    y == Y_MIN_RANGE -> boardLine.add(BOTTOM)
+                    x == MIN_VIEW_X && y == MAX_VIEW_Y -> boardLine.add(LEFT_TOP)
+                    x == MAX_VIEW_X && y == MAX_VIEW_Y -> boardLine.add(RIGHT_TOP)
+                    x == MIN_VIEW_X && y == MIN_VIEW_Y -> boardLine.add(LEFT_BOTTOM)
+                    x == MAX_VIEW_X && y == MIN_VIEW_Y -> boardLine.add(RIGHT_BOTTOM)
+                    x == MIN_VIEW_X -> boardLine.add(LEFT)
+                    x == MAX_VIEW_X -> boardLine.add(RIGHT)
+                    y == MAX_VIEW_Y -> boardLine.add(TOP)
+                    y == MIN_VIEW_Y -> boardLine.add(BOTTOM)
                     else -> boardLine.add(MIDDLE)
                 }
-                if (x != X_MAX_RANGE) boardLine.add("──")
+                if (x != MAX_VIEW_X) boardLine.add("──")
             }
             boardLines.add(boardLine)
         }
-        boardLines.add(mutableListOf("    " + (X_MIN_RANGE..X_MAX_RANGE).joinToString("") { "$it  " }))
+        boardLines.add(mutableListOf("    " + (MIN_VIEW_X..MAX_VIEW_X).joinToString("") { "$it  " }))
     }
 
     override fun toString(): String {
