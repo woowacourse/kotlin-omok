@@ -4,14 +4,14 @@ import omok.domain.gameState.BlackTurn
 import omok.domain.gameState.GameState
 import omok.domain.state.StoneState
 
-private typealias OmokPointListener = (StoneState, OmokPoint?) -> OmokPoint
-private typealias BoardStatusListener = (OmokBoard) -> Unit
+private typealias GetOmokPoint = (StoneState, OmokPoint?) -> OmokPoint
+private typealias OutputBoardStatus = (OmokBoard) -> Unit
 
 class OmokGame {
     var point: OmokPoint? = null
     var gameState: GameState = BlackTurn(OmokBoard())
-    fun play(omokPointListener: OmokPointListener, boardStatusListener: BoardStatusListener) {
-        val tempPoint = omokPointListener(gameState.stoneState, point)
+    fun play(getOmokPoint: GetOmokPoint, outputBoardStatus: OutputBoardStatus) {
+        val tempPoint = getOmokPoint(gameState.stoneState, point)
         runCatching {
             gameState = gameState.play(tempPoint)
         }
@@ -21,9 +21,9 @@ class OmokGame {
             .onSuccess {
                 point = tempPoint
             }
-        boardStatusListener(gameState.omokBoard)
+        outputBoardStatus(gameState.omokBoard)
         when {
-            gameState.isRunning -> play(omokPointListener, boardStatusListener)
+            gameState.isRunning -> play(getOmokPoint, outputBoardStatus)
             else -> return
         }
     }
