@@ -1,9 +1,11 @@
-package domain.state
+package state
 
+import domain.point.Point
+import domain.point.Points
+import domain.rule.BlackRenjuRule
 import domain.rule.OmokRule
-import domain.rule.RenjuRule
-import domain.stone.Stone
-import domain.stone.Stones
+import domain.state.PlayerState
+import domain.state.WinState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -11,11 +13,13 @@ import org.junit.jupiter.api.Test
 class WinStateTest {
     private lateinit var playingState: PlayerState
     private lateinit var rule: OmokRule
+    private lateinit var otherPoints: Points
 
     @BeforeEach
     fun setUp() {
-        playingState = WinState(Stones())
-        rule = RenjuRule()
+        playingState = WinState(Points())
+        rule = BlackRenjuRule()
+        otherPoints = Points()
     }
 
     @Test
@@ -30,7 +34,7 @@ class WinStateTest {
 
     @Test
     fun `게임이 종료된 상태에서 오목알을 새롭게 추가하지 못한다`() {
-        val expected = playingState.add(Stone.of(1, 4), rule)
+        val expected = playingState.add(Point(1, 4), otherPoints, rule)
         val actual = playingState
 
         assertThat(expected).isEqualTo(actual)

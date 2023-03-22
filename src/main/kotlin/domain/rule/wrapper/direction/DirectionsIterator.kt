@@ -1,4 +1,4 @@
-package rule.wrapper.direction
+package domain.rule.wrapper.direction
 
 import domain.rule.Col
 import domain.rule.Direction
@@ -11,8 +11,8 @@ internal class DirectionsIterator(items: List<Direction<Row, Col>>) : Iterator<D
     override fun hasNext(): Boolean = _items.isNotEmpty()
 
     override fun next(): Direction<Row, Col> {
-        if (hasNext()) return _items.removeFirst()
-        throw IllegalStateException("The next direction does not exist.")
+        check(hasNext()) { "The next direction does not exist." }
+        return _items.removeFirst()
     }
 
     private fun List<Direction<Row, Col>>.deepCopy(): MutableList<Direction<Row, Col>> =

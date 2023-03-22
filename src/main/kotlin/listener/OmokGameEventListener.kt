@@ -8,5 +8,5 @@ interface OmokGameEventListener {
     fun onStartTurn(stoneColor: StoneColor, point: Point?)
     fun onEndTurn(players: Players)
     fun onStartGame()
-    fun onEndGame(stoneColor: StoneColor)
+    fun onEndGame(winnerStoneColor: StoneColor)
 }
