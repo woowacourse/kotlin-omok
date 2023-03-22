@@ -5,7 +5,6 @@ import controller.StoneMapper.toDTO
 import controller.VectorMapper.toDTO
 import domain.Board
 import domain.Coordinate
-import domain.Players
 import domain.Stone
 import domain.Stones
 import domain.Vector
@@ -19,7 +18,7 @@ import view.PlaceStoneObservable
 
 class GameController(private val gameView: GameView, private val errorHandler: ErrorHandler) :
     PlaceStoneObservable {
-    val board = Board(Players(), Stones())
+    private val board = Board()
     private val omokRule = RenjuRule(board.stones)
 
     fun process() {
