@@ -1,4 +1,4 @@
-package library.subdividerule.exactlyfive
+package library.subdividerule
 
 import domain.CoordinateState
 import domain.Position

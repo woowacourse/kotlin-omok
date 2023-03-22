@@ -1,4 +1,4 @@
-package library.subdividerule.exceedfive
+package library.subdividerule
 
 import domain.CoordinateState
 import domain.Position
