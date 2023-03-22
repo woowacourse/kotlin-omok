@@ -31,4 +31,30 @@ class OmokGame(
         omokBoard.move(stone, state)
         omokGameListener.onMove(omokBoard, state.nextState(), stone)
     }
+
+    fun successTurn(stone: Stone, state: State): Boolean {
+        if (!omokBoard.isEmpty(stone)) {
+            omokGameListener.onMoveFail()
+            return false
+            // return doAndroidTurn(stone, state)
+        }
+
+        if (state == State.BLACK && omokBoard.isForbidden(stone)) {
+            omokGameListener.onForbidden()
+            return false
+            // return doAndroidTurn(stone, state)
+        }
+
+        omokBoard.move(stone, state)
+        omokGameListener.onMove(omokBoard, state.nextState(), stone)
+        return true
+    }
+
+    fun isVictory(state: State): Boolean {
+        if (omokBoard.isVictory(state)) {
+            omokGameListener.onFinish(state)
+            return true
+        }
+        return false
+    }
 }

@@ -15,7 +15,9 @@ class OmokRuleAdapter : OmokRule {
     override fun isForbidden(myBoard: OmokBoard, stone: Stone): Boolean {
         val point = convertStoneToPoint(stone)
         val convertedBoard = boardConverter(myBoard)
-        return Rule(convertedBoard).countOpenThrees(point) <= 1 && Rule(convertedBoard).countOpenFours(point) <= 1
+        return Rule(convertedBoard).countOpenThrees(point) <= 1 && Rule(convertedBoard).countOpenFours(
+            point
+        ) <= 1
     }
 
     // Stone -> OmokPoint

@@ -13,7 +13,8 @@ class RefereeTest {
     fun `가로로 연속 5개 놓여있으면 승리다`() {
         // given
         val referee = Referee()
-        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        val board =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
         board[1][1] = State.BLACK
         board[1][2] = State.BLACK
         board[1][3] = State.BLACK
@@ -33,7 +34,8 @@ class RefereeTest {
     fun `세로로 연속 5개 놓여있으면 승리다`() {
         // given
         val referee = Referee()
-        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        val board =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
         board[1][1] = State.BLACK
         board[2][1] = State.BLACK
         board[3][1] = State.BLACK
@@ -53,7 +55,8 @@ class RefereeTest {
     fun `좌상단에서 우하단 대각선으로 5개 놓여있으면 승리다`() {
         // given
         val referee = Referee()
-        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        val board =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
         board[1][1] = State.BLACK
         board[2][2] = State.BLACK
         board[3][3] = State.BLACK
@@ -73,7 +76,8 @@ class RefereeTest {
     fun `우상단에서 좌하단 대각선으로 5개 놓여있으면 승리다`() {
         // given
         val referee = Referee()
-        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        val board =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
         board[1][10] = State.BLACK
         board[2][9] = State.BLACK
         board[3][8] = State.BLACK
@@ -93,7 +97,8 @@ class RefereeTest {
     fun `가로로 연속 4개 놓여있으면 승리가 아니다`() {
         // given
         val referee = Referee()
-        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        val board =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
         board[1][2] = State.BLACK
         board[1][3] = State.BLACK
         board[1][4] = State.BLACK
@@ -111,7 +116,8 @@ class RefereeTest {
     fun `4*4 test1`() {
         // given
         val referee = Referee()
-        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        val board =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
         board[3][2] = State.BLACK
         board[3][3] = State.BLACK
         board[3][6] = State.BLACK
@@ -134,7 +140,8 @@ class RefereeTest {
     fun `4*4 test2`() {
         // given
         val referee = Referee()
-        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        val board =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
         board[3][9] = State.BLACK
         board[6][9] = State.BLACK
         board[7][9] = State.BLACK
@@ -156,7 +163,8 @@ class RefereeTest {
     fun `4*4 test3`() {
         // given
         val referee = Referee()
-        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        val board =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
         board[10][4] = State.BLACK
         board[10][5] = State.BLACK
         board[10][6] = State.BLACK
@@ -181,7 +189,8 @@ class RefereeTest {
     fun `4*4 test4`() {
         // given
         val referee = Referee()
-        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        val board =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
         board[7][7] = State.BLACK
         board[7][9] = State.BLACK
         board[7][10] = State.BLACK
@@ -204,7 +213,8 @@ class RefereeTest {
     fun `jangmok test`() {
         // given
         val referee = Referee()
-        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        val board =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
         board[0][2] = State.BLACK
         board[1][2] = State.BLACK
         board[3][2] = State.BLACK
@@ -227,7 +237,8 @@ class RefereeTest {
     fun `3*3 묶음 테스트`(stones: MutableList<Pair<Int, Int>>, stone: Stone) {
         // given
         val referee = Referee()
-        val board = MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        val board =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
 
         stones.forEach {
             board[it.first][it.second] = State.BLACK

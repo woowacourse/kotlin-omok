@@ -16,7 +16,8 @@ class OmokLine(val value: Map<XCoordinate, StoneState>) {
         return OmokLine(newValue)
     }
 
-    operator fun get(xCoordinate: XCoordinate): StoneState = value[xCoordinate] ?: throw IllegalArgumentException()
+    operator fun get(xCoordinate: XCoordinate): StoneState =
+        value[xCoordinate] ?: throw IllegalArgumentException()
 
     constructor () : this(XCoordinate.all().associateWith { EmptyStoneState })
 }

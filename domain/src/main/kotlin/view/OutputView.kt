@@ -15,7 +15,7 @@ class OutputView : OutputViewInterface {
         private const val ROW_SIZE = 47
         private const val COLUMN_SIZE = 3
         private const val BLACK_STONE = '●'
-        private const val WHITE_STONE = '○'
+        private const val WHITE_STONE = '◌'
 
         private val default = """
  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
