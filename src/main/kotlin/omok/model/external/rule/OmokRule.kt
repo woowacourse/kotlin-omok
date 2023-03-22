@@ -20,15 +20,15 @@ abstract class OmokRule(
      * If it is a black stone, it will determine whether there is a foul.
      * On the other hand, whiteStone only checks that the victory condition is satisfied regardless of whether there is a foul play or not.
      *
-     * @param blackPoints List of pairs for row and column of black stones.
-     * @param whitePoints List of pairs for row and column of white stones.
+     * @param targetPoints List of pairs for row and column of black stones.
+     * @param otherPoints List of pairs for row and column of white stones.
      * @param startPoint The row and column of the stone that is being placed.
      *
      * @return Returns true if no fouls are played and the win conditions are met.
      * */
-    fun checkWin(blackPoints: List<Point>, whitePoints: List<Point>, startPoint: Point): Boolean {
-        val satisfyWin = checkSerialSameStonesBiDirection(blackPoints, startPoint, WIN_STANDARD)
-        val koState = checkAnyFoulCondition(blackPoints, whitePoints, startPoint)
+    fun checkWin(targetPoints: List<Point>, otherPoints: List<Point>, startPoint: Point): Boolean {
+        val satisfyWin = checkSerialSameStonesBiDirection(targetPoints, startPoint, WIN_STANDARD)
+        val koState = checkAnyFoulCondition(targetPoints, otherPoints, startPoint)
 
         if (satisfyWin && koState != Violation.OVERLINE) return true
         return false

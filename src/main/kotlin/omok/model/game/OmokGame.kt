@@ -5,10 +5,13 @@ import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
 
 class OmokGame(private val board: Board) {
+    private val blackRenjuRuleAdapter: BlackOmokRuleAdapter = BlackOmokRuleAdapter(board)
+    private val whiteRenjuRuleAdapter: WhiteOmokRuleAdapter = WhiteOmokRuleAdapter(board)
+
     fun start(coordinate: () -> Coordinate, showBoard: (Board) -> Unit, showTurn: (GoStoneColor, Coordinate?) -> Unit) {
         while (true) {
             val newStone = turn(coordinate, showBoard, showTurn)
-            val state = judge(board, newStone)
+            val state = judge(newStone)
 
             if (state != PlacementState.STAY) break
         }
@@ -25,16 +28,15 @@ class OmokGame(private val board: Board) {
         return board.lastPlacedStone ?: throw IllegalArgumentException("바둑판 위에 놓인 돌이 없습니다")
     }
 
-    private fun judge(board: Board, goStone: GoStone): PlacementState {
-        val rule = OmokRuleAdapter(board)
+    private fun judge(goStone: GoStone): PlacementState {
         val coordinate = goStone.coordinate
         val color = goStone.color
 
-        if (color == GoStoneColor.WHITE) return rule.checkWin(coordinate, GoStoneColor.WHITE)
+        if (color == GoStoneColor.WHITE) return whiteRenjuRuleAdapter.checkWin(coordinate)
 
-        if (rule.checkWin(coordinate, GoStoneColor.BLACK) == PlacementState.WIN) return PlacementState.WIN
+        if (blackRenjuRuleAdapter.checkWin(coordinate) == PlacementState.WIN) return PlacementState.WIN
 
-        return rule.checkBlackAnyViolation(coordinate)
+        return blackRenjuRuleAdapter.checkViolation(coordinate)
     }
 
     private fun getValidCoordinate(getCoordinate: () -> Coordinate): Coordinate {

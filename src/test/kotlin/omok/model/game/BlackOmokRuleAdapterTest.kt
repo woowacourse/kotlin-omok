@@ -3,12 +3,12 @@ package omok.model.game
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
-class OmokRuleAdapterTest {
+class BlackOmokRuleAdapterTest {
     @ParameterizedTest
     @CsvSource("H8, H9, H11, H12, H10", "F10, G10, I10, J10, H10", "F12, G11, I9, J8, H10")
     fun `5개의 같은 색의 돌이 어느 방향이던 연이어 놓이면 승리이다`(mark1: String, mark2: String, mark3: String, mark4: String, mark5: String) {
@@ -19,9 +19,9 @@ class OmokRuleAdapterTest {
             addStone(GoStone(GoStoneColor.BLACK, Coordinate.createWithMark(mark4)))
         }
         val goStone = GoStone(GoStoneColor.BLACK, Coordinate.createWithMark(mark5))
-        val rule = OmokRuleAdapter(board)
+        val rule = BlackOmokRuleAdapter(board)
 
-        assertThat(rule.checkWin(goStone.coordinate, GoStoneColor.BLACK)).isEqualTo(PlacementState.WIN)
+        Assertions.assertThat(rule.checkWin(goStone.coordinate)).isEqualTo(PlacementState.WIN)
     }
 
     @Test
@@ -33,9 +33,9 @@ class OmokRuleAdapterTest {
             addStone(GoStone(GoStoneColor.BLACK, Coordinate.createWithMark("H12")))
         }
         val goStone = GoStone(GoStoneColor.BLACK, Coordinate.createWithMark("H10"))
-        val rule = OmokRuleAdapter(board)
+        val rule = BlackOmokRuleAdapter(board)
 
-        assertThat(rule.checkWin(goStone.coordinate, GoStoneColor.BLACK)).isEqualTo(PlacementState.STAY)
+        Assertions.assertThat(rule.checkWin(goStone.coordinate)).isEqualTo(PlacementState.STAY)
     }
 
     @Test
@@ -46,9 +46,9 @@ class OmokRuleAdapterTest {
             addStone(GoStone(GoStoneColor.WHITE, Coordinate.createWithMark("H11")))
         }
         val goStone = GoStone(GoStoneColor.BLACK, Coordinate.createWithMark("H10"))
-        val rule = OmokRuleAdapter(board)
+        val rule = BlackOmokRuleAdapter(board)
 
-        assertThat(rule.checkWin(goStone.coordinate, GoStoneColor.BLACK)).isEqualTo(PlacementState.STAY)
+        Assertions.assertThat(rule.checkWin(goStone.coordinate)).isEqualTo(PlacementState.STAY)
     }
 
     @Test
@@ -61,9 +61,9 @@ class OmokRuleAdapterTest {
             addStone(GoStone(GoStoneColor.BLACK, Coordinate.createWithMark("H13")))
         }
         val goStone = GoStone(GoStoneColor.BLACK, Coordinate.createWithMark("H10"))
-        val rule = OmokRuleAdapter(board)
+        val rule = BlackOmokRuleAdapter(board)
 
-        assertThat(rule.checkWin(goStone.coordinate, GoStoneColor.BLACK)).isEqualTo(PlacementState.STAY)
+        Assertions.assertThat(rule.checkWin(goStone.coordinate)).isEqualTo(PlacementState.STAY)
     }
 
     @Test
@@ -75,9 +75,10 @@ class OmokRuleAdapterTest {
             addStone(GoStone(GoStoneColor.BLACK, Coordinate.createWithMark("D14")))
             addStone(GoStone(GoStoneColor.WHITE, Coordinate.createWithMark("A1")))
         }
-        val rule = OmokRuleAdapter(board)
+        val rule = BlackOmokRuleAdapter(board)
 
-        assertThat(rule.checkBlackAnyViolation(Coordinate.createWithMark("D12"))).isEqualTo(PlacementState.OPEN_DOUBLE_THREE)
+        Assertions.assertThat(rule.checkViolation(Coordinate.createWithMark("D12")))
+            .isEqualTo(PlacementState.OPEN_DOUBLE_THREE)
     }
 
     @Test
@@ -93,9 +94,9 @@ class OmokRuleAdapterTest {
             addStone(GoStone(GoStoneColor.WHITE, Coordinate.createWithMark("H9")))
         }
         val goStone = GoStone(GoStoneColor.BLACK, Coordinate.createWithMark("H5"))
-        val rule = OmokRuleAdapter(board)
+        val rule = BlackOmokRuleAdapter(board)
 
-        assertThat(rule.checkBlackAnyViolation(goStone.coordinate)).isEqualTo(PlacementState.OPEN_DOUBLE_FOUR)
+        Assertions.assertThat(rule.checkViolation(goStone.coordinate)).isEqualTo(PlacementState.OPEN_DOUBLE_FOUR)
     }
 
     @Test
@@ -109,24 +110,8 @@ class OmokRuleAdapterTest {
             addStone(GoStone(GoStoneColor.WHITE, Coordinate.createWithMark("H8")))
         }
         val goStone = GoStone(GoStoneColor.BLACK, Coordinate.createWithMark("C13"))
-        val rule = OmokRuleAdapter(board)
+        val rule = BlackOmokRuleAdapter(board)
 
-        assertThat(rule.checkBlackAnyViolation(goStone.coordinate)).isEqualTo(PlacementState.LONG_LINE)
-    }
-
-    @Test
-    fun `백돌이 장목이면 승리처리된다`() {
-        val board = Board().apply {
-            addStone(GoStone(GoStoneColor.WHITE, Coordinate.createWithMark("C10")))
-            addStone(GoStone(GoStoneColor.WHITE, Coordinate.createWithMark("C11")))
-            addStone(GoStone(GoStoneColor.WHITE, Coordinate.createWithMark("C12")))
-            addStone(GoStone(GoStoneColor.WHITE, Coordinate.createWithMark("C14")))
-            addStone(GoStone(GoStoneColor.WHITE, Coordinate.createWithMark("C15")))
-            addStone(GoStone(GoStoneColor.BLACK, Coordinate.createWithMark("H8")))
-        }
-        val goStone = GoStone(GoStoneColor.WHITE, Coordinate.createWithMark("C13"))
-        val rule = OmokRuleAdapter(board)
-
-        assertThat(rule.checkWin(goStone.coordinate, GoStoneColor.WHITE)).isEqualTo(PlacementState.WIN)
+        Assertions.assertThat(rule.checkViolation(goStone.coordinate)).isEqualTo(PlacementState.LONG_LINE)
     }
 }
