@@ -1,7 +1,6 @@
 package model.domain.state
 
 import model.domain.tools.Board
-import model.domain.tools.Coordination
 import model.domain.tools.Location
 import model.domain.tools.Stone
 import org.assertj.core.api.Assertions.assertThat
@@ -14,10 +13,9 @@ class BlackTurnTest {
         // given
         val board = Board.from(15)
         val state: State = BlackTurn(board)
-        val location = Location(Coordination.from(1), Coordination.from(1))
 
         // when
-        val actual = state.place(location)
+        val actual = state.place(Location(1, 1))
 
         // then
         assertThat(actual is WhiteTurn).isTrue
@@ -31,14 +29,13 @@ class BlackTurnTest {
 
         state.apply {
             for (number in 1..4) {
-                val location = Location(Coordination.from(number), Coordination.from(number))
+                val location = Location(number, number)
                 place(location)
             }
         }
 
         // when
-        val location = Location(Coordination.from(5), Coordination.from(5))
-        val actual = state.place(location)
+        val actual = state.place(Location(5, 5))
 
         // then
         assertAll(
@@ -54,15 +51,14 @@ class BlackTurnTest {
         val state: State = BlackTurn(board)
 
         state.apply {
-            place(Location(Coordination.from(5), Coordination.from(6)))
-            place(Location(Coordination.from(5), Coordination.from(7)))
-            place(Location(Coordination.from(6), Coordination.from(5)))
-            place(Location(Coordination.from(7), Coordination.from(5)))
+            place(Location(5, 6))
+            place(Location(5, 7))
+            place(Location(6, 5))
+            place(Location(7, 5))
         }
 
         // when
-        val location = Location(Coordination.from(5), Coordination.from(5))
-        val actual = state.place(location)
+        val actual = state.place(Location(5, 5))
 
         // then
         assertThat(actual is BlackTurn).isTrue
@@ -75,15 +71,15 @@ class BlackTurnTest {
         val state: State = BlackTurn(board)
 
         state.apply {
-            place(Location(Coordination.from(0), Coordination.from(0)))
-            place(Location(Coordination.from(0), Coordination.from(1)))
-            place(Location(Coordination.from(0), Coordination.from(2)))
-            place(Location(Coordination.from(0), Coordination.from(4)))
-            place(Location(Coordination.from(0), Coordination.from(5)))
+            place(Location(0, 1))
+            place(Location(0, 2))
+            place(Location(0, 4))
+            place(Location(0, 5))
+            place(Location(0, 6))
         }
 
         // when
-        val location = Location(Coordination.from(0), Coordination.from(3))
+        val location = Location(0, 3)
         val actual = state.place(location)
 
         // then
