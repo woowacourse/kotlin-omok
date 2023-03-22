@@ -12,7 +12,7 @@ class WhiteTurn(override val blackStones: Set<Stone>, override val whiteStones: 
     override fun put(stone: Stone): State {
         checkAlreadyPlaced(stone)
         val nextWhiteStones = whiteStones + stone
-        return if (nextWhiteStones.completeOmok()) {
+        return if (nextWhiteStones.isCompletedOmok()) {
             WhiteWin(blackStones, nextWhiteStones)
         } else {
             BlackTurn(

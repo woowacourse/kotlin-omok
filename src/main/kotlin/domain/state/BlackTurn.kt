@@ -13,7 +13,7 @@ class BlackTurn(override val blackStones: Set<Stone>, override val whiteStones: 
         checkAlreadyPlaced(stone)
         Rule.checkPutBlackStone(blackStones, whiteStones, stone)
         val nextBlackStones = blackStones + stone
-        return if (nextBlackStones.completeOmok()) {
+        return if (nextBlackStones.isCompletedOmok()) {
             BlackWin(
                 nextBlackStones,
                 whiteStones,

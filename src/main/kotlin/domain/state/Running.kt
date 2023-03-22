@@ -1,12 +1,14 @@
 package domain.state
 
 import domain.Board
+import domain.Direction
+import domain.Point
 import domain.Stone
 
 abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State {
 
     init {
-        require(blackStones.completeOmok().not() && whiteStones.completeOmok().not()) { RUNNING_COMPLETE_ERROR }
+        require(blackStones.isCompletedOmok().not() && whiteStones.isCompletedOmok().not()) { RUNNING_COMPLETE_ERROR }
         require(blackStones.intersect(whiteStones).isEmpty()) { BLACK_WHITE_INTERSECT_ERROR }
     }
 
@@ -14,68 +16,56 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
         require(stone !in blackStones && stone !in whiteStones) { ALREADY_PLACED_ERROR }
     }
 
-    protected fun Set<Stone>.completeOmok(): Boolean {
+    protected fun Set<Stone>.isCompletedOmok(): Boolean =
+        this.isCompletedVerticalOmok() ||
+            this.isCompletedHorizontalOmok() ||
+            this.isCompletedUpperLeftDiagonalOmok() ||
+            this.isCompletedUpperRightDiagonalOmok()
+
+    private fun Set<Stone>.isCompletedVerticalOmok(): Boolean {
+        for (x in 1..Board.SIZE) {
+            if (this.isCompletedOmokOnThisLine(Point(x, 1), Direction.UP)) return true
+        }
+        return false
+    }
+
+    private fun Set<Stone>.isCompletedHorizontalOmok(): Boolean {
+        for (y in 1..Board.SIZE) {
+            if (this.isCompletedOmokOnThisLine(Point(1, y), Direction.RIGHT)) return true
+        }
+        return false
+    }
+
+    private fun Set<Stone>.isCompletedUpperLeftDiagonalOmok(): Boolean {
         val boardPointRange = 1..Board.SIZE
         for (x in boardPointRange) {
-            if (fun2(this, x)) return true
+            if (this.isCompletedOmokOnThisLine(Point(x, 1), Direction.UP_LEFT)) return true
         }
         for (y in boardPointRange) {
-            if (fun1(this, y)) return true
-        }
-        // 왼쪽 위에서 시작하는 대각선
-        for ((maxX, maxY) in boardPointRange.zip(boardPointRange)) {
-            var linkedCount = 0
-            for ((x, y) in (1..maxX).zip(maxY downTo 1)) {
-                val stone = Stone(x, y)
-                if (stone in this) linkedCount++ else linkedCount = 0
-                if (linkedCount >= 5) return true
-            }
-        }
-        for ((minX, minY) in boardPointRange.zip(boardPointRange)) {
-            var linkedCount = 0
-            for ((x, y) in (minX..Board.SIZE).zip(Board.SIZE downTo minY).toList()) {
-                val stone = Stone(x, y)
-                if (stone in this) linkedCount++ else linkedCount = 0
-                if (linkedCount >= 5) return true
-            }
-        }
-
-        // 왼쪽 아래에서 시작하는 대각선
-        for ((maxX, minY) in boardPointRange.zip(boardPointRange.reversed())) {
-            var linkedCount = 0
-            for ((x, y) in (1..maxX).zip(minY..Board.SIZE)) {
-                val stone = Stone(x, y)
-                if (stone in this) linkedCount++ else linkedCount = 0
-                if (linkedCount >= 5) return true
-            }
-        }
-        for ((minX, maxY) in boardPointRange.zip(boardPointRange.reversed())) {
-            var linkedCount = 0
-            for ((x, y) in (minX..Board.SIZE).zip(1..maxY)) {
-                val stone = Stone(x, y)
-                if (stone in this) linkedCount++ else linkedCount = 0
-                if (linkedCount >= 5) return true
-            }
+            if (this.isCompletedOmokOnThisLine(Point(Board.SIZE, y), Direction.UP_LEFT)) return true
         }
         return false
     }
 
-    private fun fun1(placedStones: Set<Stone>, y: Int): Boolean {
-        var linkedCount = 0
-        for (x in 1..Board.SIZE) {
-            val stone = Stone(x, y)
-            if (stone in placedStones) linkedCount++ else linkedCount = 0
-            if (linkedCount >= 5) return true
+    private fun Set<Stone>.isCompletedUpperRightDiagonalOmok(): Boolean {
+        val boardPointRange = 1..Board.SIZE
+        for (y in boardPointRange.reversed()) {
+            if (this.isCompletedOmokOnThisLine(Point(1, y), Direction.UP_RIGHT)) return true
+        }
+        for (x in boardPointRange) {
+            if (this.isCompletedOmokOnThisLine(Point(x, 1), Direction.UP_RIGHT)) return true
         }
         return false
     }
 
-    private fun fun2(placedStones: Set<Stone>, x: Int): Boolean {
+    private fun Set<Stone>.isCompletedOmokOnThisLine(initPoint: Point, direction: Direction): Boolean {
+        var point = initPoint
         var linkedCount = 0
-        for (y in 1..Board.SIZE) {
-            val stone = Stone(x, y)
-            if (stone in placedStones) linkedCount++ else linkedCount = 0
+        while (point in Board) {
+            val stone = Stone(point)
+            if (stone in this) linkedCount++ else linkedCount = 0
             if (linkedCount >= 5) return true
+            point = point goTo direction
         }
         return false
     }
