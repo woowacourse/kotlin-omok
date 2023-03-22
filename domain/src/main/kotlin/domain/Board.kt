@@ -1,5 +1,6 @@
 package domain
 
+import domain.omokrule.OmokRule
 import error.OmokResult
 import error.PlaceStoneError
 

@@ -1,10 +1,13 @@
-package view
+package console
 
 import dto.ColorDTO
 import dto.StoneDTO
 import dto.VectorDTO
 import error.OmokResult
 import error.StoneReadError
+import view.GameView
+import view.PlaceStoneObserver
+import view.RenderBoard
 
 class ConsoleGameView(
     override val renderBoard: RenderBoard = ConsoleRenderBoard()

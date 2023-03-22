@@ -1,5 +1,6 @@
 package view
 
+import console.ConsoleRenderBoard
 import domain.Board
 import dto.ColorDTO
 import dto.StoneDTO

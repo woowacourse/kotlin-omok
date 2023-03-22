@@ -1,6 +1,6 @@
 import controller.GameController
-import view.ConsoleGameView
-import view.ConsoleViewErrorHandler
+import console.ConsoleGameView
+import console.ConsoleViewErrorHandler
 
 fun main() {
     Thread.setDefaultUncaughtExceptionHandler { _, exception ->

@@ -6,7 +6,7 @@ import controller.VectorMapper.toDTO
 import domain.Board
 import domain.Coordinate
 import domain.Players
-import domain.RenjuRule
+import domain.omokrule.RenjuRule
 import domain.Stone
 import domain.Stones
 import domain.Vector

@@ -1,4 +1,7 @@
-package domain
+package domain.omokrule
+
+import domain.Stone
+import domain.Stones
 
 interface OmokRule {
     val stones: Stones

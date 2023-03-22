@@ -1,8 +1,9 @@
-package view
+package console
 
 import dto.ColorDTO
 import dto.StoneDTO
 import dto.VectorDTO
+import view.RenderBoard
 
 class ConsoleRenderBoard : RenderBoard {
     private val board = StringBuilder()

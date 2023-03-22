@@ -1,10 +1,11 @@
-package view
+package console
 
 import error.CoordinateError
 import error.ErrorHandler
 import error.OmokError
 import error.PlaceStoneError
 import error.StoneReadError
+import view.GameView
 
 class ConsoleViewErrorHandler(private val gameView: GameView) : ErrorHandler {
     override fun log(exception: OmokError) {

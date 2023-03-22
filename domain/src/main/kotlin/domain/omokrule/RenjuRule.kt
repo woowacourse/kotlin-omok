@@ -1,4 +1,10 @@
-package domain
+package domain.omokrule
+
+import domain.Color
+import domain.Coordinate
+import domain.Stone
+import domain.Stones
+import domain.Vector
 
 class RenjuRule(override val stones: Stones) : OmokRule {
     override fun isThreeToThree(stone: Stone): Boolean {
