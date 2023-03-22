@@ -30,6 +30,8 @@ class OmokView : Observer {
 
     private fun drawBoard(state: State) {
         preState = state.getTurn()
+        println()
+        println()
         with(OutputView) {
             printBoard(state.stones)
             printTurn(state.getTurn())
