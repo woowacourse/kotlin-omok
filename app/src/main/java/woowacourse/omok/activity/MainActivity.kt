@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.activity
 
 import android.os.Bundle
 import android.widget.ImageView
@@ -15,6 +15,9 @@ import domain.point.Point
 import domain.rule.BlackRenjuRule
 import domain.rule.WhiteRenjuRule
 import domain.stone.StoneColor
+import woowacourse.omok.listener.GameEventListener
+import woowacourse.omok.R
+import woowacourse.omok.listener.TurnEventListener
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

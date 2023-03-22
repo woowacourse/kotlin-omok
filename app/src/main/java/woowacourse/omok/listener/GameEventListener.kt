@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.listener
 
 import android.content.Context
 import android.widget.TextView
@@ -8,6 +8,7 @@ import domain.point.Point
 import domain.stone.StoneColor
 import listener.OmokGameEventListener
 import view.mapper.toPresentation
+import woowacourse.omok.R
 
 class GameEventListener(private val context: Context, private val view: TextView) : OmokGameEventListener {
     override fun onStartGame() {
