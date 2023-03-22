@@ -6,13 +6,10 @@ import model.domain.tools.Location
 import model.domain.tools.Stone
 
 abstract class Turn : State {
-    abstract val stoneColor: Stone
     abstract val omok: Omok
     abstract val turn: Turn
     abstract val nextTurn: State
-
-    override val stone: Stone
-        get() = stoneColor
+    abstract override val stoneColor: Stone
 
     override fun place(location: Location, board: Board): State = when {
         !canPlaceStone(location, board) -> turn
@@ -27,7 +24,7 @@ abstract class Turn : State {
         val x = location.coordinationY.value
 
         if (isForbidden(board, x, y)) return false
-        if (!board.placeStone(location, stoneColor)) return false
+        if (!board.canPlaceStone(location, stoneColor)) return false
         return true
     }
 }

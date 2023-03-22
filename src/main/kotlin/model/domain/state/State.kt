@@ -5,6 +5,6 @@ import model.domain.tools.Location
 import model.domain.tools.Stone
 
 interface State {
-    val stone: Stone
+    val stoneColor: Stone
     fun place(location: Location, board: Board): State
 }
