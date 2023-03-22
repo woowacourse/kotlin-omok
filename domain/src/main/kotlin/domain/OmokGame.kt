@@ -4,8 +4,12 @@ import domain.listener.OmokListener
 
 class OmokGame(
     private val omokBoard: OmokBoard = OmokBoard(),
-    private val omokGameListener: OmokListener
+    private val omokGameListener: OmokListener,
 ) {
+    var turn = State.BLACK
+        private set
+    private var isOver = false
+
     fun runGame(): State {
         while (true) {
             doTurn(State.BLACK)
@@ -32,25 +36,27 @@ class OmokGame(
         omokGameListener.onMove(omokBoard, state.nextState(), stone)
     }
 
-    fun successTurn(stone: Stone, state: State): Boolean {
-        if (!omokBoard.isEmpty(stone)) {
-            omokGameListener.onMoveFail()
-            return false
-            // return doAndroidTurn(stone, state)
+    fun successTurn(stone: Stone): Boolean {
+        if (!isOver) {
+            when {
+                !omokBoard.isEmpty(stone) -> omokGameListener.onMoveFail()
+                turn == State.BLACK && omokBoard.isForbidden(stone) -> omokGameListener.onForbidden()
+                else -> null
+            }?.let { return false }
+            moveStone(stone)
+            isOver = isVictory(turn)
+            turn = turn.nextState()
+            return true
         }
-
-        if (state == State.BLACK && omokBoard.isForbidden(stone)) {
-            omokGameListener.onForbidden()
-            return false
-            // return doAndroidTurn(stone, state)
-        }
-
-        omokBoard.move(stone, state)
-        omokGameListener.onMove(omokBoard, state.nextState(), stone)
-        return true
+        return false
     }
 
-    fun isVictory(state: State): Boolean {
+    private fun moveStone(stone: Stone) {
+        omokBoard.move(stone, turn)
+        omokGameListener.onMove(omokBoard, turn, stone)
+    }
+
+    private fun isVictory(state: State): Boolean {
         if (omokBoard.isVictory(state)) {
             omokGameListener.onFinish(state)
             return true

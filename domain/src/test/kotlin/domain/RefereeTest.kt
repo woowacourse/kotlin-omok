@@ -260,19 +260,28 @@ class RefereeTest {
             return Stream.of(
                 Arguments.of(
                     mutableListOf(
+                        1 to 3,
                         2 to 3,
                         3 to 2,
-                        3 to 1,
-                        4 to 3
+                        3 to 4,
                     ),
                     Stone.create('D', 12),
                 ),
                 Arguments.of(
                     mutableListOf(
+                        3 to 12,
+                        5 to 12,
+                        6 to 9,
+                        6 to 13
+                    ),
+                    Stone.create('L', 11),
+                ),
+                Arguments.of(
+                    mutableListOf(
                         9 to 1,
                         10 to 2,
-                        10 to 4,
-                        9 to 4
+                        9 to 4,
+                        10 to 4
                     ),
                     Stone.create('E', 3),
                 ),
@@ -280,19 +289,10 @@ class RefereeTest {
                     mutableListOf(
                         12 to 10,
                         9 to 10,
-                        11 to 13,
-                        11 to 12
+                        11 to 12,
+                        11 to 13
                     ),
                     Stone.create('K', 4),
-                ),
-                Arguments.of(
-                    mutableListOf(
-                        6 to 9,
-                        5 to 12,
-                        6 to 13,
-                        3 to 12
-                    ),
-                    Stone.create('L', 11),
                 ),
             )
         }
