@@ -6,13 +6,15 @@ class InputView {
 
     fun inputStonePosition(): StonePosition {
         print(PROMPT_MASSAGE_POSITION)
-        return runCatching {
+        runCatching {
             val position: Pair<Int, Int> = textToPosition(readln())
             println()
-            StonePosition.from(position.first, position.second)
+            return StonePosition(position.first, position.second)
         }.onFailure {
             println(PROMPT_MASSAGE_RETRY_POSITION_)
-        }.getOrNull() ?: inputStonePosition()
+            return inputStonePosition()
+        }
+        return inputStonePosition()
     }
 
     private fun textToPosition(value: String): Pair<Int, Int> {
