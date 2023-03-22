@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <TableLayout
-        android:id="@+id/board"
+        android:id="@+id/board_table"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:stretchColumns="*">

@@ -12,8 +12,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val board = findViewById<TableLayout>(R.id.board)
-        board
+        val boardTable = findViewById<TableLayout>(R.id.board_table)
+        boardTable
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
