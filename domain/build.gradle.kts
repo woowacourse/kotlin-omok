@@ -1,5 +1,10 @@
 plugins {
     kotlin("jvm")
+    application
+}
+
+application {
+    mainClass.set("omok.ApplicationKt")
 }
 
 group = "camp.nextstep.edu"
