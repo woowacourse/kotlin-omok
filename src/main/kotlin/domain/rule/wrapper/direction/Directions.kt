@@ -4,6 +4,7 @@ import domain.rule.Col
 import domain.rule.Direction
 import domain.rule.Row
 import domain.rule.other.Iterator
+import domain.rule.wrapper.direction.DirectionsIterator
 
 internal class Directions {
     fun iterator(): Iterator<Direction<Row, Col>> = DirectionsIterator(all())
