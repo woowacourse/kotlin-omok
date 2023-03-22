@@ -1,6 +1,5 @@
-package game
+package domain.game
 
-import domain.game.Omok
 import domain.player.Players
 import domain.point.Point
 import domain.rule.BlackRenjuRule
@@ -19,19 +18,19 @@ class OmokTest {
 
     private val blackPositions: MutableList<Point> by lazy {
         mutableListOf(
-                Point(1, 1),
-                Point(1, 2),
-                Point(1, 3),
-                Point(1, 4),
-                Point(1, 5),
+            Point(1, 1),
+            Point(1, 2),
+            Point(1, 3),
+            Point(1, 4),
+            Point(1, 5),
         )
     }
     private val whitePositions: MutableList<Point> by lazy {
         mutableListOf(
-                Point(3, 3),
-                Point(3, 4),
-                Point(3, 10),
-                Point(5, 5),
+            Point(3, 3),
+            Point(3, 4),
+            Point(3, 10),
+            Point(5, 5),
         )
     }
 

@@ -1,8 +1,6 @@
-package state
+package domain.state
 
 import domain.point.Points
-import domain.state.FoulState
-import domain.state.PlayerState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

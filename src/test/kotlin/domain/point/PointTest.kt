@@ -1,9 +1,7 @@
-package point
+package domain.point
 
-import domain.point.Point
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class PointTest {
     @Test
@@ -16,21 +14,21 @@ class PointTest {
 
     @Test
     fun `row와 col이 범위 안에 있으면 참을 반환한다`() {
-        val actual = Point(5, 5).inRange(15 ,15)
+        val actual = Point(5, 5).inRange(15, 15)
 
         assertThat(actual).isTrue
     }
 
     @Test
     fun `row가 범위를 벗어나면 거짓을 반환한다`() {
-        val actual = Point(16, 15).inRange(15 ,15)
+        val actual = Point(16, 15).inRange(15, 15)
 
         assertThat(actual).isFalse
     }
 
     @Test
     fun `col이 범위를 벗어나면 거짓을 반환한다`() {
-        val actual = Point(15, 16).inRange(15 ,15)
+        val actual = Point(15, 16).inRange(15, 15)
 
         assertThat(actual).isFalse
     }

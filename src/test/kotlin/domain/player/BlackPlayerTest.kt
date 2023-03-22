@@ -1,12 +1,10 @@
-package player
+package domain.player
 
-import domain.player.BlackPlayer
 import domain.point.Point
 import domain.point.Points
 import domain.rule.BlackRenjuRule
 import domain.rule.OmokRule
 import domain.state.PlayingState
-
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -53,7 +51,10 @@ class BlackPlayerTest {
 
     @Test
     fun `새롭게 오목알을 두었을 때, 룰을 어기면 파울이다`() {
-        val player = BlackPlayer(PlayingState(Points(Point(1, 1), Point(1, 3), Point(1, 4), Point(1, 5), Point(1, 6))), blackRule)
+        val player = BlackPlayer(
+            PlayingState(Points(Point(1, 1), Point(1, 3), Point(1, 4), Point(1, 5), Point(1, 6))),
+            blackRule
+        )
         val expected = player.putStone(Point(1, 2), otherStones).isFoul
 
         assertThat(expected).isTrue
@@ -61,7 +62,10 @@ class BlackPlayerTest {
 
     @Test
     fun `플레이어의 상태가 게임이 끝나지 않은 상태라면 참을 반환한다`() {
-        val player = BlackPlayer(PlayingState(Points(Point(1, 1), Point(1, 3), Point(1, 4), Point(1, 5), Point(1, 6))), blackRule)
+        val player = BlackPlayer(
+            PlayingState(Points(Point(1, 1), Point(1, 3), Point(1, 4), Point(1, 5), Point(1, 6))),
+            blackRule
+        )
         val expected = player.isPlaying
 
         assertThat(expected).isTrue

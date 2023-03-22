@@ -1,13 +1,9 @@
-package state
+package domain.state
 
 import domain.point.Point
 import domain.point.Points
 import domain.rule.BlackRenjuRule
 import domain.rule.OmokRule
-import domain.state.FoulState
-import domain.state.PlayerState
-import domain.state.PlayingState
-import domain.state.WinState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -43,13 +39,15 @@ class PlayingStateTest {
 
     @Test
     fun `새롭게 오목알을 놓았을 때, 반칙을 한 경우 파울 상태를 반환한다`() {
-        val playingState = PlayingState(Points(
+        val playingState = PlayingState(
+            Points(
                 Point(5, 5),
                 Point(6, 6),
                 Point(7, 7),
                 Point(9, 9),
                 Point(10, 10),
-        ))
+            )
+        )
         val expected = playingState.add(Point(8, 8), otherPoints, rule)
 
         assertThat(expected).isInstanceOf(FoulState::class.java)

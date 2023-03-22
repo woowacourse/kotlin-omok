@@ -1,7 +1,5 @@
-package point
+package domain.point
 
-import domain.point.Point
-import domain.point.Points
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow

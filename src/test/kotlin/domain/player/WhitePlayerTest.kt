@@ -1,7 +1,5 @@
-package player
+package domain.player
 
-import domain.player.Player
-import domain.player.WhitePlayer
 import domain.point.Point
 import domain.point.Points
 import domain.rule.BlackRenjuRule

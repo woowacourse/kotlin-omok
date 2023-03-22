@@ -1,12 +1,11 @@
 package view
 
+import domain.game.Omok.Companion.OMOK_BOARD_SIZE
 import domain.player.Player
 import domain.player.Players
 import domain.point.Point
 import domain.stone.StoneColor
 import view.mapper.toPresentation
-import domain.game.Omok.Companion.OMOK_BOARD_SIZE
-
 
 class OmokOutputView : OutputView {
     override fun onStartGame() {
@@ -64,7 +63,7 @@ class OmokOutputView : OutputView {
             for (i in size downTo 1) {
                 board.append(String.format("%3d ", i))
                 when {
-                    i == size ->board.append(topHorizontal) // top
+                    i == size -> board.append(topHorizontal) // top
                     i == BOTTOM_NUMBER -> board.append(bottomHorizontal) // middle
                     i != BOTTOM_NUMBER -> board.append(middleHorizontal) // bottom
                 }

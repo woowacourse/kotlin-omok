@@ -1,11 +1,9 @@
-package state
+package domain.state
 
 import domain.point.Point
 import domain.point.Points
 import domain.rule.BlackRenjuRule
 import domain.rule.OmokRule
-import domain.state.PlayerState
-import domain.state.WinState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

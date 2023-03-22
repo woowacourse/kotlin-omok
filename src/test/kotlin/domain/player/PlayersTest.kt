@@ -1,8 +1,5 @@
-package player
+package domain.player
 
-import domain.player.BlackPlayer
-import domain.player.Players
-import domain.player.WhitePlayer
 import domain.point.Point
 import domain.point.Points
 import domain.rule.BlackRenjuRule
@@ -11,9 +8,9 @@ import domain.rule.WhiteRenjuRule
 import domain.state.FoulState
 import domain.state.PlayingState
 import domain.stone.StoneColor
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.assertj.core.api.Assertions.assertThat
 
 class PlayersTest {
     private lateinit var blackRenjuRule: OmokRule
@@ -30,8 +27,8 @@ class PlayersTest {
         val players = Players(BlackPlayer(rule = blackRenjuRule), WhitePlayer(rule = whiteRenjuRule))
         val actual = players.putStone(Point(1, 1))
         val expected = Players(
-                WhitePlayer(rule = whiteRenjuRule),
-                BlackPlayer(state = PlayingState(Points(Point(1, 1))), rule = blackRenjuRule)
+            WhitePlayer(rule = whiteRenjuRule),
+            BlackPlayer(state = PlayingState(Points(Point(1, 1))), rule = blackRenjuRule)
         )
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
