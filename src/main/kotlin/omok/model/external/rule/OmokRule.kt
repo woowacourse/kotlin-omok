@@ -51,7 +51,7 @@ abstract class OmokRule(
         checkDoubleFoul(blackPoints, whitePoints, startPoint, Foul.DOUBLE_THREE),
         checkDoubleFoul(blackPoints, whitePoints, startPoint, Foul.DOUBLE_FOUR),
         checkOverline(blackPoints, startPoint),
-    ).lastOrNull { it.state } ?: Violation.NONE
+    ).lastOrNull { it.isViolation } ?: Violation.NONE
 
     /**
      * check 'three-three' point or 'four-four' point according to the given 'foul type'

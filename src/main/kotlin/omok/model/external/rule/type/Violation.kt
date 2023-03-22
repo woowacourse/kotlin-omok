@@ -1,6 +1,6 @@
 package omok.model.external.rule.type
 
-enum class Violation(val state: Boolean) {
+enum class Violation(val isViolation: Boolean) {
     DOUBLE_THREE(true),
     DOUBLE_FOUR(true),
     OVERLINE(true),
