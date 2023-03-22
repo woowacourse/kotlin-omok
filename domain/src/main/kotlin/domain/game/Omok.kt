@@ -10,32 +10,16 @@ import listener.OmokTurnEventListener
 class Omok(
     private val turnEventListener: OmokTurnEventListener,
     private val gameEventListener: OmokGameEventListener,
-    private val blackRule: OmokRule,
-    private val whiteRule: OmokRule,
 ) {
-    fun run() {
-        var players = Players(BlackPlayer(rule = blackRule), WhitePlayer(rule = whiteRule))
-        gameEventListener.onStartGame()
-
-        while (players.isPlaying) {
-            gameEventListener.onStartTurn(players.curPlayerColor, players.getLastPoint())
-            players = takeTurn(players)
-            gameEventListener.onEndTurn(players)
-        }
-        endGame(players)
-    }
-
-    private fun takeTurn(originPlayers: Players): Players {
-        val newPoint = turnEventListener.onTakeTurn(originPlayers.curPlayerColor)
+     fun takeTurn(originPlayers: Players): Players {
+        val newPoint = turnEventListener.onTakeTurn(originPlayers.curPlayerColor) // 받은 newPoint 리턴하도록
         val endTurnPlayers = originPlayers.putStone(newPoint)
-        if (!endTurnPlayers.isPut(originPlayers)) {
-            turnEventListener.onNotPlaceable()
-            return takeTurn(originPlayers)
-        }
+        if (!endTurnPlayers.isPut(originPlayers)) turnEventListener.onNotPlaceable() // Toast
+
         return endTurnPlayers
     }
 
-    private fun endGame(players: Players): Boolean = when {
+    fun endGame(players: Players): Boolean = when {
         players.isFoul -> {
             gameEventListener.onEndGame(players.curPlayerColor)
             true
