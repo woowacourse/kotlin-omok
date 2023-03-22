@@ -5,6 +5,7 @@ import model.domain.state.State
 import model.domain.state.Turn
 import model.domain.state.black.BlackTurn
 import model.domain.tools.Board
+import model.domain.tools.Location
 import model.domain.tools.Stone
 
 class WhiteTurn : Turn() {
@@ -17,5 +18,5 @@ class WhiteTurn : Turn() {
     override val nextTurn: State
         get() = BlackTurn()
 
-    override fun isForbidden(board: Board, x: Int, y: Int) = false
+    override fun isForbidden(board: Board, location: Location) = false
 }

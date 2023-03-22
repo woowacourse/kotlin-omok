@@ -17,13 +17,10 @@ abstract class Turn : State {
         else -> nextTurn
     }
 
-    abstract fun isForbidden(board: Board, x: Int, y: Int): Boolean
+    abstract fun isForbidden(board: Board, location: Location): Boolean
 
     private fun canPlaceStone(location: Location, board: Board): Boolean {
-        val y = location.coordinationX.value
-        val x = location.coordinationY.value
-
-        if (isForbidden(board, x, y)) return false
+        if (isForbidden(board, location)) return false
         if (!board.canPlaceStone(location, stoneColor)) return false
         return true
     }
