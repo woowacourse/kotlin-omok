@@ -1,6 +1,5 @@
 package omok.model.game
 
-import omok.model.PlacementState
 import omok.model.external.rule.BlackRenjuRule
 import omok.model.external.rule.WhiteRenjuRule
 import omok.model.external.rule.type.Violation

@@ -1,6 +1,5 @@
 package omok.model.game
 
-import omok.model.PlacementState
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
