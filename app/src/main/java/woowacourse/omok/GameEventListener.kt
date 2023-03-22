@@ -11,20 +11,19 @@ import view.mapper.toPresentation
 
 class GameEventListener(private val context: Context, private val view: TextView) : OmokGameEventListener {
     override fun onStartGame() {
-        Toast.makeText(context, "오목 게임을 시작합니다.", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, R.string.start_game, Toast.LENGTH_LONG).show()
     }
 
     override fun onEndGame(stoneColor: StoneColor) {
-        Toast.makeText(context, "오목 게임이 종료되었습니다.", Toast.LENGTH_LONG).show()
-        view.text = "%s의 승리입니다.".format(stoneColor.toPresentation().text)
+        Toast.makeText(context, R.string.end_game, Toast.LENGTH_LONG).show()
+        view.text = context.getString(R.string.who_is_winner).format(stoneColor.toPresentation().text)
     }
 
     override fun onStartTurn(stoneColor: StoneColor, point: Point?) {
-        view.text = "%s의 차례입니다.".format(stoneColor.toPresentation())
+        view.text = context.getString(R.string.who_is_turn).format(stoneColor.toPresentation())
     }
 
     override fun onEndTurn(players: Players) {
+        view.text = context.getString(R.string.who_is_turn).format(players.curPlayerColor.toPresentation())
     }
-
-
 }
