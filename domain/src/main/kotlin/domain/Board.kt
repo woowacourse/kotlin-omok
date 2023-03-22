@@ -10,12 +10,12 @@ class Board : Observable {
     var state: State = BlackTurn(Stones())
         private set
 
-    override fun registerObserver(o: Observer) {
-        observer = o
+    override fun registerObserver(observer: Observer) {
+        this.observer = observer
     }
 
-    override fun removeObserver(o: Observer) {
-        observer = null
+    override fun removeObserver(observer: Observer) {
+        this.observer = null
     }
 
     override fun notifyObserver() {
