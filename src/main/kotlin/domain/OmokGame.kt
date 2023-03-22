@@ -35,8 +35,7 @@ class OmokGame(val board: Board = Board(), initTurn: CoordinateState = BLACK, pr
 
     private fun isWhiteWin(position: Position): Boolean = gameRule.isWhiteWin(position, board.boardState)
 
-    fun progressTurn(transmitTurnState: (Board, CoordinateState) -> Position): ProgressState {
-        val position = transmitTurnState(board, turn)
+    fun progressTurn(position: Position): ProgressState {
         if (determinateWinningProcess(position)) return END
         if (checkAddablePosition(position)) {
             board.addStone(turn, position)

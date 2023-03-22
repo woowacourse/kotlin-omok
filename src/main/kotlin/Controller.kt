@@ -15,7 +15,7 @@ class Controller {
     }
 
     private fun progressGame(omokGame: OmokGame) {
-        when (omokGame.progressTurn(OmokView::putPhase)) {
+        when (omokGame.progressTurn(OmokView.putPhase(omokGame.board, omokGame.turn))) {
             ERROR -> {
                 OutputView.printError()
                 progressGame(omokGame)
