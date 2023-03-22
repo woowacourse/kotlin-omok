@@ -19,13 +19,13 @@ import omok.domain.player.White
 import omok.view.model.toPresentation
 
 class MainActivity : AppCompatActivity() {
+    val board = Board()
+    val turn = Turn(setOf(Black, White))
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val boardUI = findViewById<TableLayout>(R.id.board)
-        val board = Board()
-        val turn = Turn(setOf(Black, White))
         val winningReferee = WinningReferee()
 
         boardUI
@@ -36,9 +36,12 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { index, view ->
                 view.setOnClickListener {
                     val selectedPosition = changeToPosition(index)
-                    place(board, selectedPosition, turn, winningReferee)
-
-                    insertStoneToView(boardUI, board)
+                    val check = place(board, selectedPosition, turn)
+                    if (check) {
+                        showSelectedStone(view, turn)
+                        checkWinner(selectedPosition, board, winningReferee, turn.now)
+                        turn.changeTurn()
+                    }
                 }
             }
     }
@@ -76,21 +79,27 @@ class MainActivity : AppCompatActivity() {
     private fun place(
         board: Board,
         selectedPosition: Position,
-        turn: Turn,
-        winningReferee: WinningReferee
-    ) {
+        turn: Turn
+    ): Boolean {
         if (board.positions[selectedPosition] != null) {
             Toast.makeText(this, "빈 칸이 아닙니다", Toast.LENGTH_SHORT).show()
+            return false
         }
 
         runCatching {
             board.place(selectedPosition, turn.now)
         }.onFailure {
             Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
-        }.onSuccess {
-            checkWinner(selectedPosition, board, winningReferee, turn.now)
-            turn.changeTurn()
+            return false
         }
+        return true
+    }
+
+    private fun showSelectedStone(cell: ImageView, turn: Turn) {
+        if (turn.now == Black)
+            cell.setImageResource(R.drawable.black_stone)
+        else
+            cell.setImageResource(R.drawable.white_stone)
     }
 
     private fun checkWinner(
