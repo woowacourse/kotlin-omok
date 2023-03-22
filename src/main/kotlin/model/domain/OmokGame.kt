@@ -13,7 +13,7 @@ class OmokGame(private val board: Board) {
 
     fun start(
         getCoordination: (Stone) -> Pair<Int, Int>,
-        updateBoard: (Board) -> Unit
+        updateBoard: (Board) -> Unit,
     ) {
         while (state !is Omok) {
             updateBoard(board)
@@ -22,14 +22,14 @@ class OmokGame(private val board: Board) {
     }
 
     private fun play(getCoordination: (Stone) -> Pair<Int, Int>, state: State): State {
-        val value = getCoordination(state.stone)
+        val value = getCoordination(state.stoneColor)
         val location = Location(Coordination.from(value.first), Coordination.from(value.second))
 
         return state.place(location, board)
     }
 
     fun getWinner(findWinner: (Stone) -> Unit, updateBoard: (Board) -> Unit) {
-        findWinner(state.stone)
+        findWinner(state.stoneColor)
         updateBoard(board)
     }
 }
