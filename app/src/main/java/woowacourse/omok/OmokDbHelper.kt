@@ -10,7 +10,7 @@ class OmokDbHelper(
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
             "CREATE TABLE ${OmokContract.TABLE_NAME} (" +
-                "  ${OmokContract.TABLE_COLUMN_INDEX} int not null," +
+                "  ${OmokContract.TABLE_COLUMN_INDEX} int primary key," +
                 "  ${OmokContract.TABLE_COLUMN_COLOR} varchar(10)" +
                 ");"
         )
