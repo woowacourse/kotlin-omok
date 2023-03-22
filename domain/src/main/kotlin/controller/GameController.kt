@@ -6,10 +6,10 @@ import controller.VectorMapper.toDTO
 import domain.Board
 import domain.Coordinate
 import domain.Players
-import domain.omokrule.RenjuRule
 import domain.Stone
 import domain.Stones
 import domain.Vector
+import domain.omokrule.RenjuRule
 import dto.VectorDTO
 import error.CoordinateError
 import error.ErrorHandler
@@ -32,19 +32,26 @@ class GameController(private val gameView: GameView, private val errorHandler: E
         val validatedCoordinate = validateStone(coordinate) ?: return false
         when (val result = board.repeatTurn(validatedCoordinate, omokRule)) {
             is OmokResult.Success<*> -> {
-                if (board.isWinPlace(result.value as Stone, omokRule)) {
-                    renderBoard(board.stones)
-                    gameView.renderWinner(result.value.color.toDTO())
-                    return true
-                }
-
-                renderBoard(board.stones)
-                gameView.renderTurn(
-                    board.currentPlayer.color.toDTO(), result.value.coordinate.vector.toDTO()
-                )
+                if (placeStoneSuccess(result.value as Stone)) return true
             }
             else -> errorHandler.log(result)
         }
+        return false
+    }
+
+    private fun placeStoneSuccess(
+        stone: Stone,
+    ): Boolean {
+        if (board.isWinPlace(stone, omokRule)) {
+            renderBoard(board.stones)
+            gameView.renderWinner(stone.color.toDTO())
+            return true
+        }
+
+        renderBoard(board.stones)
+        gameView.renderTurn(
+            board.currentPlayer.color.toDTO(), stone.coordinate.vector.toDTO()
+        )
         return false
     }
 
@@ -60,8 +67,7 @@ class GameController(private val gameView: GameView, private val errorHandler: E
         gameView.renderBoard(
             stones.value.associate {
                 vectorToScalar(it.coordinate.vector) to it.toDTO()
-            },
-            Board.BOARD_SIZE.toDTO()
+            }, Board.BOARD_SIZE.toDTO()
         )
     }
 
