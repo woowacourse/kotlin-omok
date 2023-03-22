@@ -3,14 +3,15 @@ package view
 import dto.ColorDTO
 import dto.StoneDTO
 import dto.VectorDTO
-import error.OmokError
 
 interface GameView {
     val renderBoard: RenderBoard
-    fun startGame()
+    val placeStoneObserver: PlaceStoneObserver
+    fun renderStart(color: ColorDTO)
+    fun setUpInput()
     fun renderBoard(stones: Map<Int, StoneDTO>, size: VectorDTO)
-    fun readStone(color: ColorDTO, lastStone: VectorDTO?): OmokError
-
+    fun notifyPlaceStone(placedCoordinate: VectorDTO): Boolean
+    fun renderTurn(color: ColorDTO, lastStone: VectorDTO? = null)
     fun renderWinner(color: ColorDTO)
     fun renderError(error: String)
 }

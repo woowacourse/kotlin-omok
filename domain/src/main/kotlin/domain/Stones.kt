@@ -14,10 +14,9 @@ class Stones(value: List<Stone> = listOf()) {
 
     fun makeValidatedStone(
         player: Player,
-        coordinateGenerator: CoordinateGenerator,
+        coordinate: Coordinate,
         omokRule: OmokRule
     ): PlaceStoneError {
-        val coordinate = coordinateGenerator.read(player.color)
         val stone = Stone(player.color, coordinate)
         val validateOmokRuleResult = validateOmokRule(player.color, stone, omokRule)
         if (validateOmokRuleResult !is OmokResult.Success<*>) {

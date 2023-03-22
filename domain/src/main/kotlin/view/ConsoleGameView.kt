@@ -6,23 +6,28 @@ import dto.VectorDTO
 import error.OmokResult
 import error.StoneReadError
 
-class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard()) : GameView {
-    override fun startGame() {
+class ConsoleGameView(
+    override val renderBoard: RenderBoard = ConsoleRenderBoard()
+) : GameView {
+    override val placeStoneObserver: PlaceStoneObserver = PlaceStoneObserver()
+
+    override fun renderStart(color: ColorDTO) {
         println(GAME_START)
+        println(USER_TURN.format(colorToString(color)))
     }
 
-    override fun renderBoard(stones: Map<Int, StoneDTO>, size: VectorDTO) {
-        println(renderBoard.render(stones, size))
+    override fun setUpInput() {
+        while (true) {
+            val input = processStoneRead() ?: continue
+            if (notifyPlaceStone(input)) break
+        }
     }
 
-    override fun readStone(color: ColorDTO, lastStone: VectorDTO?): StoneReadError {
-        print(USER_TURN.format(colorToString(color)))
-        println(
-            lastStone?.let {
-                LAST_STONE_POSITION.format(coordinateToString(lastStone))
-            } ?: ""
-        )
+    private fun readStone(): StoneReadError {
         val input = readln().trim()
+        if (input.isEmpty()) {
+            return StoneReadError.Empty
+        }
         if (input[0] < 'A' || input[0] > 'Z') {
             return StoneReadError.ColumnNotAlpha
         }
@@ -30,6 +35,38 @@ class ConsoleGameView(override val renderBoard: RenderBoard = ConsoleRenderBoard
             return StoneReadError.RowNotNumeric
         }
         return OmokResult.Success(VectorDTO(input[0] - 'A', input.substring(1).toInt() - 1))
+    }
+
+    private fun processStoneRead(): VectorDTO? {
+        when (val input = readStone()) {
+            StoneReadError.ColumnNotAlpha ->
+                renderError(ConsoleViewErrorHandler.MESSAGE_COLUMN_MUST_BE_ALPHA)
+            StoneReadError.RowNotNumeric ->
+                renderError(ConsoleViewErrorHandler.MESSAGE_ROW_MUST_BE_NUM)
+            StoneReadError.Empty ->
+                renderError(ConsoleViewErrorHandler.MESSAGE_INPUT_EMPTY)
+            is OmokResult.Success<*> -> {
+                return input.value as VectorDTO
+            }
+        }
+        return null
+    }
+
+    override fun renderBoard(stones: Map<Int, StoneDTO>, size: VectorDTO) {
+        println(renderBoard.render(stones, size))
+    }
+
+    override fun notifyPlaceStone(placedCoordinate: VectorDTO): Boolean {
+        return placeStoneObserver.notify(placedCoordinate).all { it }
+    }
+
+    override fun renderTurn(color: ColorDTO, lastStone: VectorDTO?) {
+        print(USER_TURN.format(colorToString(color)))
+        println(
+            lastStone?.let {
+                LAST_STONE_POSITION.format(coordinateToString(lastStone))
+            } ?: ""
+        )
     }
 
     override fun renderWinner(color: ColorDTO) {

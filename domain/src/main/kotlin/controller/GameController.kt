@@ -4,62 +4,56 @@ import controller.ColorMapper.toDTO
 import controller.StoneMapper.toDTO
 import controller.VectorMapper.toDTO
 import domain.Board
-import domain.Color
 import domain.Coordinate
 import domain.Players
 import domain.RenjuRule
+import domain.Stone
 import domain.Stones
 import domain.Vector
 import dto.VectorDTO
+import error.CoordinateError
 import error.ErrorHandler
 import error.OmokResult
 import view.GameView
+import view.PlaceStoneObservable
 
-class GameController(private val gameView: GameView, private val errorHandler: ErrorHandler) {
+class GameController(private val gameView: GameView, private val errorHandler: ErrorHandler) :
+    PlaceStoneObservable {
+    val board = Board(Players(), Stones())
+    private val omokRule = RenjuRule(board.stones)
+
     fun process() {
-        val players = Players()
-        val stones = Stones()
-        val omokRule = RenjuRule(stones)
-        val board = Board(players, stones)
-        gameView.startGame()
-        val winner = board.repeatTurn({
-            readStone(it, stones)
-        }, omokRule, errorHandler)
-        renderBoard(stones)
-        gameView.renderWinner(winner.color.toDTO())
+        gameView.placeStoneObserver.subscribe(this)
+        gameView.renderStart(board.currentPlayer.color.toDTO())
+        gameView.setUpInput()
     }
 
-    private fun readStone(color: Color, stones: Stones): Coordinate {
-        renderBoard(stones)
-
-        val vectorDTO = when (val pointResult = gameView.readStone(color.toDTO(), getStoneCoordinateOrNull(stones))) {
+    override fun placeStone(coordinate: VectorDTO): Boolean {
+        val validatedCoordinate = validateStone(coordinate) ?: return false
+        when (val result = board.repeatTurn(validatedCoordinate, omokRule)) {
             is OmokResult.Success<*> -> {
-                pointResult.value as VectorDTO
-            }
+                if (board.isWinPlace(result.value as Stone, omokRule)) {
+                    renderBoard(board.stones)
+                    gameView.renderWinner(result.value.color.toDTO())
+                    return true
+                }
 
-            else -> {
-                errorHandler.log(pointResult)
-                return readStone(color, stones)
+                renderBoard(board.stones)
+                gameView.renderTurn(
+                    board.currentPlayer.color.toDTO(), result.value.coordinate.vector.toDTO()
+                )
             }
+            else -> errorHandler.log(result)
         }
+        return false
+    }
 
-        val coordinate = when (val coordinateResult = Coordinate.from(vectorDTO.x, vectorDTO.y)) {
-            is OmokResult.Success<*> -> {
-                coordinateResult.value as Coordinate
-            }
-
-            else -> {
-                errorHandler.log(coordinateResult)
-                return readStone(color, stones)
-            }
+    private fun validateStone(vectorDTO: VectorDTO): Coordinate? {
+        val coordinate = Coordinate.from(vectorDTO.x, vectorDTO.y)
+        if (coordinate == null) {
+            errorHandler.log(CoordinateError.OutOfBoard)
         }
-
         return coordinate
-    }
-
-    private fun getStoneCoordinateOrNull(stones: Stones): VectorDTO? {
-        return if (stones.value.isEmpty()) null
-        else stones.value.last().coordinate.vector.toDTO()
     }
 
     private fun renderBoard(stones: Stones) {

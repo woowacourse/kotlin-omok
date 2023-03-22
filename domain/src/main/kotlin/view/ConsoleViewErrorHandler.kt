@@ -45,7 +45,8 @@ class ConsoleViewErrorHandler(private val gameView: GameView) : ErrorHandler {
         private const val MESSAGE_THREE_THREE = "3-3입니다."
         private const val MESSAGE_FOUR_FOUR = "4-4입니다."
         private const val MESSAGE_CORRUPTED_COORDINATE = "중복된 위치에 이미 돌이 있습니다."
-        private const val MESSAGE_COLUMN_MUST_BE_ALPHA = "행은 반드시 영문자여야 합니다."
-        private const val MESSAGE_ROW_MUST_BE_NUM = "열은 반드시 숫자여야 합니다."
+        const val MESSAGE_COLUMN_MUST_BE_ALPHA = "행은 반드시 영문자여야 합니다."
+        const val MESSAGE_ROW_MUST_BE_NUM = "열은 반드시 숫자여야 합니다."
+        const val MESSAGE_INPUT_EMPTY = "빈 입력입니다."
     }
 }

@@ -1,26 +1,30 @@
 package domain
 
-import error.ErrorHandler
 import error.OmokResult
+import error.PlaceStoneError
 
-class Board(private val players: Players, private val stones: Stones) {
-    fun repeatTurn(coordinateGenerator: CoordinateGenerator, omokRule: OmokRule, errorHandler: ErrorHandler): Player {
-        var currentTurnPlayer = players.nextPlayer()
-        while (true) {
-            when (val result = stones.makeValidatedStone(currentTurnPlayer, coordinateGenerator, omokRule)) {
-                is OmokResult.Success<*> -> {
-                    val stone = result.value as Stone
-                    stones.place(stone)
-                    if (isWinPlace(stone, omokRule)) return currentTurnPlayer
-                    currentTurnPlayer = players.nextPlayer()
-                }
-                else ->
-                    errorHandler.log(result)
+class Board(private val players: Players = Players(), val stones: Stones = Stones()) {
+    var currentPlayer: Player = Player.BlackPlayer()
+    fun repeatTurn(
+        coordinate: Coordinate,
+        omokRule: OmokRule
+    ): PlaceStoneError {
+        return when (
+            val result =
+                stones.makeValidatedStone(currentPlayer, coordinate, omokRule)
+        ) {
+            is OmokResult.Success<*> -> {
+                val stone = result.value as Stone
+                stones.place(stone)
+                currentPlayer = players.nextPlayer(currentPlayer)
+                result
             }
+            else -> result
         }
     }
 
-    private fun isWinPlace(stone: Stone, omokRule: OmokRule): Boolean = omokRule.findScore(stone) >= WINNING_CONDITION
+    fun isWinPlace(stone: Stone, omokRule: OmokRule): Boolean =
+        omokRule.findScore(stone) >= WINNING_CONDITION
 
     companion object {
         val BOARD_SIZE = Vector(15, 15)
