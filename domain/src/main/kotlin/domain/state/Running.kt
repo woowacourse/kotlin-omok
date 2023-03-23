@@ -8,7 +8,7 @@ abstract class Running(stones: Stones) : State {
 
     init {
         require(
-            stones.blackStones.completeOmok().not() && stones.blackStones.completeOmok().not()
+            stones.blackStones.completeOmok().not() && stones.whiteStones.completeOmok().not()
         ) { RUNNING_COMPLETE_ERROR }
         require(
             stones.blackStones.intersect(stones.whiteStones).isEmpty()
