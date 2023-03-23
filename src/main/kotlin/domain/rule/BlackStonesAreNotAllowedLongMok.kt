@@ -7,39 +7,23 @@ import kotlin.math.abs
 
 object BlackStonesAreNotAllowedLongMok : DetailRule {
     override fun stateWillObeyThisRule(state: State, nextStone: Stone): Boolean =
-        if (state is BlackTurn) !isBlackLongMok(state.blackStones, nextStone) else true
+        if (state is BlackTurn) !blackStonesWillBeLongMok(state, nextStone) else true
 
-    private fun isBlackLongMok(blackStones: Set<Stone>, nextStone: Stone): Boolean =
-        Inclination.values().any { 최근_놓인_돌에서_다음_기울기로_연속되는_흑돌_개수(blackStones + nextStone, nextStone, it) > 5 }
+    private fun blackStonesWillBeLongMok(state: State, nextStone: Stone): Boolean =
+        Inclination.values().any { (state.blackStones + nextStone).getLinkedStoneCountAt(nextStone.point, it) > 5 }
 
-    private fun 최근_놓인_돌에서_다음_기울기로_연속되는_흑돌_개수(
-        blackStones: Set<Stone>,
-        justPlacedStone: Stone,
-        inclination: Inclination,
-    ): Int {
-        val (leftX, leftY) = 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(
-            blackStones,
-            justPlacedStone,
-            inclination.directions[0],
-        )
-        val (rightX, rightY) = 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(
-            blackStones,
-            justPlacedStone,
-            inclination.directions[1],
-        )
-        return Integer.max(abs(rightX - leftX), abs(rightY - leftY)) - 1
+    private fun Set<Stone>.getLinkedStoneCountAt(point: Point, inclination: Inclination): Int {
+        val onePoint = point.getNextBlackStoneIsNotPlacedPoint(this, inclination.directions[0])
+        val otherPoint = point.getNextBlackStoneIsNotPlacedPoint(this, inclination.directions[1])
+
+        return Integer.max(abs(onePoint.x - otherPoint.x), abs(onePoint.y - otherPoint.y)) - 1
     }
 
-    private fun 다음_방향으로_흑돌을_타고_갔을_때_다음_빈칸(
-        blackStones: Set<Stone>,
-        justPlacedStone: Stone,
-        direction: Direction,
-    ): Pair<Char, Int> {
-        var (nextX, nextY) = justPlacedStone.x to justPlacedStone.y
-        while (Point(nextX, nextY) in Board && Stone(nextX, nextY) in blackStones) {
-            nextX += direction.dx
-            nextY += direction.dy
+    private fun Point.getNextBlackStoneIsNotPlacedPoint(blackStones: Set<Stone>, direction: Direction): Point {
+        var nextBlankPoint = this
+        while (nextBlankPoint in Board && Stone(nextBlankPoint) in blackStones) {
+            nextBlankPoint = nextBlankPoint goTo direction
         }
-        return nextX to nextY
+        return nextBlankPoint
     }
 }
