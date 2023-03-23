@@ -9,7 +9,6 @@ class BoardDBHelper(context: Context?) :
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
             "CREATE TABLE ${BoardContract.TABLE_NAME}(" +
-                " _id int primary key," +
                 " ${BoardContract.TABLE_COLUMN_POSITION_INDEX} int, " +
                 " ${BoardContract.TABLE_COLUMN_STONE} int" +
                 ");"
