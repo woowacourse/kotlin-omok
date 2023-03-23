@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setStone(view: ImageView, players: Players) {
-        when (players.curPlayerColor) {
+        when (players.curPlayerColor.next()) {
             StoneColor.BLACK -> view.setImageResource(R.drawable.black_stone)
             StoneColor.WHITE -> view.setImageResource(R.drawable.white_stone)
         }

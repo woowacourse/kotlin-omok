@@ -20,10 +20,10 @@ class GameEventListener(private val context: Context, private val view: TextView
         if (players.isPlaying) return
         Toast.makeText(context, R.string.end_game, Toast.LENGTH_LONG).show()
         if (players.isFoul) {
-            view.text = context.getString(R.string.is_forbidden).plus(context.getString(R.string.who_is_winner).format(players.curPlayerColor.next().toPresentation().text))
+            view.text = context.getString(R.string.is_forbidden).plus(context.getString(R.string.who_is_winner).format(players.curPlayerColor.toPresentation().text))
             return
         }
-        view.text = context.getString(R.string.who_is_winner).format(players.curPlayerColor.toPresentation().text)
+        view.text = context.getString(R.string.who_is_winner).format(players.curPlayerColor.next().toPresentation().text)
     }
 
     override fun onStartTurn(stoneColor: StoneColor, point: Point?) {

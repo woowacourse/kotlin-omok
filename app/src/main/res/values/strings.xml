@@ -6,5 +6,5 @@
     <string name="who_is_winner">%s의 승리입니다.</string>
     <string name="who_is_turn">%s의 차례입니다.</string>
     <string name="is_forbidden">금수를 두었습니다. \n</string>
-    <string name="already_exist">이미 돌이 있는 위치입니다. \n</string>
+    <string name="already_exist">이미 돌이 있는 위치입니다.</string>
 </resources>
