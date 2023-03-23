@@ -17,6 +17,6 @@
 - [ ] printError
 
 ### OmokView
-- [ ] printStart -> startActivity를 통해서 시작을 알림
+- [x] printStart -> startActivity를 통해서 시작을 알림
 - [ ] putPhase
 - [ ] printResult
