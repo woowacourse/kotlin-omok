@@ -15,6 +15,7 @@
                 android:id="@+id/A15"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:scaleType="centerCrop"
                 android:background="@drawable/board_top_left" />
 
             <ImageView
