@@ -10,9 +10,9 @@ import domain.stone.Stone
 import domain.stone.Stones
 import java.lang.IllegalArgumentException
 
-class Board {
+class Board(stones: Stones = Stones(setOf())) {
 
-    private var state: State = BlackTurn(Stones(setOf()))
+    private var state: State = BlackTurn(stones)
     private val defaultReferee = Referee(listOf())
 
     fun put(point: Pair<Int, Int>, blackReferee: Referee = defaultReferee) {
