@@ -1,7 +1,7 @@
-package domain.rule
+package com.example.rule
 
-import domain.rule.state.EmptyStoneState
-import domain.rule.state.StoneState
+import com.example.rule.state.EmptyStoneState
+import com.example.rule.state.StoneState
 
 class OmokLine(val value: Map<XCoordinate, StoneState>) {
     val keys = value.keys

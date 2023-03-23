@@ -1,8 +1,8 @@
-package domain.rule.state
+package com.example.rule.state
 
-import domain.rule.ArkBoard
-import domain.rule.OmokPoint
-import domain.rule.Rule
+import com.example.rule.ArkBoard
+import com.example.rule.OmokPoint
+import com.example.rule.Rule
 
 object BlackStoneState : StoneState {
     override val korean = "흑"

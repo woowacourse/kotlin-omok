@@ -1,4 +1,4 @@
-package domain.rule
+package com.example.rule
 
 data class YCoordinate(val value: Int) {
     init {

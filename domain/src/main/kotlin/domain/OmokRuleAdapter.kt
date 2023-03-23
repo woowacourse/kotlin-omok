@@ -1,15 +1,15 @@
 package domain
 
-import domain.rule.ArkBoard
-import domain.rule.OmokLine
-import domain.rule.OmokPoint
-import domain.rule.Rule
-import domain.rule.XCoordinate
-import domain.rule.YCoordinate
-import domain.rule.state.BlackStoneState
-import domain.rule.state.EmptyStoneState
-import domain.rule.state.StoneState
-import domain.rule.state.WhiteStoneState
+import com.example.rule.ArkBoard
+import com.example.rule.OmokLine
+import com.example.rule.OmokPoint
+import com.example.rule.Rule
+import com.example.rule.XCoordinate
+import com.example.rule.YCoordinate
+import com.example.rule.state.BlackStoneState
+import com.example.rule.state.EmptyStoneState
+import com.example.rule.state.StoneState
+import com.example.rule.state.WhiteStoneState
 
 class OmokRuleAdapter : OmokRule {
 

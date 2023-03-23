@@ -1,6 +1,6 @@
-package domain.rule
+package com.example.rule
 
-import domain.rule.state.EmptyStoneState
+import com.example.rule.state.EmptyStoneState
 
 class Rule(private val board: ArkBoard) {
     fun countOpenThrees(point: OmokPoint): Int =

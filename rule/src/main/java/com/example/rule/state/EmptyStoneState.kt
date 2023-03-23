@@ -1,7 +1,7 @@
-package domain.rule.state
+package com.example.rule.state
 
-import domain.rule.ArkBoard
-import domain.rule.OmokPoint
+import com.example.rule.ArkBoard
+import com.example.rule.OmokPoint
 
 object EmptyStoneState : StoneState {
     override val korean: String
