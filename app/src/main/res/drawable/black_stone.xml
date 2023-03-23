@@ -24,7 +24,7 @@
                         android:color="#343434"
                         android:offset="0.2727273" />
                     <item
-                        android:color="#000000"
+                        android:color="@color/omokBoardLineColor"
                         android:offset="1" />
                 </gradient>
             </aapt:attr>
