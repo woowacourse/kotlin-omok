@@ -27,6 +27,11 @@ class StartActivity : AppCompatActivity() {
         startButton.setOnClickListener {
             if (validateNickname()) startGame()
         }
+
+        val continueButton = findViewById<Button>(R.id.continue_game)
+        continueButton.setOnClickListener {
+            if (validateNickname()) continueGame()
+        }
     }
 
     private fun validateNickname(): Boolean {
@@ -38,8 +43,8 @@ class StartActivity : AppCompatActivity() {
 
     private fun startGame() {
         val nickname = nicknameView.text.toString()
-        if (!hasNickname(nickname)) return startNewGame(nickname)
-        showStartDialog(nickname)
+        if (hasNickname(nickname)) return showStartDialog(nickname)
+        startNewGame(nickname)
     }
 
     private fun hasNickname(nickname: String): Boolean {
@@ -56,6 +61,25 @@ class StartActivity : AppCompatActivity() {
         val count = cursor.count
         cursor.close()
         return count != 0
+    }
+
+    private fun showStartDialog(nickname: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setIcon(R.drawable.glo_icon)
+        builder.setTitle("이미 게임이 존재합니다")
+        builder.setPositiveButton("이어하기") { _, _ -> goToGame(nickname) }
+        builder.setNegativeButton(
+            "새로하기"
+        ) { _, _ ->
+            deletePlayer(nickname)
+            startNewGame(nickname)
+        }
+        builder.show()
+    }
+
+    private fun deletePlayer(nickname: String) {
+        val condition = "${PlayerContract.COLUMN_NICKNAME} = ?"
+        omokDB.delete(PlayerContract.TABLE_NAME, condition, arrayOf(nickname))
     }
 
     private fun startNewGame(nickname: String) {
@@ -79,23 +103,19 @@ class StartActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun showStartDialog(nickname: String) {
-        val builder = AlertDialog.Builder(this)
-        builder.setIcon(R.drawable.glo_icon)
-        builder.setTitle("이미 게임이 존재합니다")
-        builder.setPositiveButton("이어하기") { _, _ -> goToGame(nickname) }
-        builder.setNegativeButton(
-            "새로하기"
-        ) { _, _ ->
-            deletePlayer(nickname)
-            startNewGame(nickname)
-        }
-        builder.show()
+    private fun continueGame() {
+        val nickname = nicknameView.text.toString()
+        if (!hasNickname(nickname)) return showContinueDialog(nickname)
+        goToGame(nickname)
     }
 
-    private fun deletePlayer(nickname: String) {
-        val condition = "${PlayerContract.COLUMN_NICKNAME} = ?"
-        omokDB.delete(PlayerContract.TABLE_NAME, condition, arrayOf(nickname))
+    private fun showContinueDialog(nickname: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setIcon(R.drawable.glo_icon)
+        builder.setTitle("진행중인 게임이 존재하지 않습니다")
+        builder.setPositiveButton("새로하기") { _, _ -> startNewGame(nickname) }
+        builder.setNegativeButton("취소", null)
+        builder.show()
     }
 
     override fun onDestroy() {
