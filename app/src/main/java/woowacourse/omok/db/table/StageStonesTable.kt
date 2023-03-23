@@ -3,10 +3,10 @@ package woowacourse.omok.db.table
 import woowacourse.omok.db.Column
 import woowacourse.omok.db.SQLiteTable
 
-data class UserGamesTable(
-    override val name: String = "userGames",
+object StageStonesTable : SQLiteTable {
+    override val name: String = "stageStones"
     override val scheme: List<Column> = listOf(
-        Column("userId", "int"),
-        Column("gameId", "int")
+        Column("stageId", "int"),
+        Column("stoneId", "int"),
     )
-) : SQLiteTable
+}
