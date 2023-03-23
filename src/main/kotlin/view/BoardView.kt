@@ -31,7 +31,7 @@ class BoardView(board: Board) {
             }
             boardLines.add(boardLine)
         }
-        boardLines.add(mutableListOf("    " + (1..Board.SIZE).joinToString("") { "$it  " }))
+        boardLines.add(mutableListOf("    " + ('A' until 'A' + Board.SIZE).joinToString("") { "$it  " }))
     }
 
     override fun toString(): String {
