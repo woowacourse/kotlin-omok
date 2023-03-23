@@ -36,8 +36,6 @@ data class Players private constructor(private val players: List<Player>) {
         return Players(latestPlayer, newPlayers)
     }
 
-    fun isPut(players: Players): Boolean = this != players
-
     fun getLastPoint(): Point? = latestPlayer.getLastStone()
 
     fun toList(): List<Player> = players.toList()

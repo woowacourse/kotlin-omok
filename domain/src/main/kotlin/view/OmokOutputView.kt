@@ -6,6 +6,7 @@ import domain.point.Point
 import domain.stone.StoneColor
 import view.mapper.toPresentation
 import domain.game.Omok.Companion.OMOK_BOARD_SIZE
+import domain.result.TurnResult
 import listener.OmokGameEventListener
 
 
@@ -15,9 +16,14 @@ class OmokOutputView : OmokGameEventListener {
         println(OMOK_BOARD)
     }
 
-    override fun onEndGame(stoneColor: StoneColor) {
+    override fun onEndGame(players: Players) {
         println(GAME_END_MESSAGE)
-        println(WINNER_MESSAGE.format(stoneColor.toPresentation().text))
+        if (players.isFoul) {
+            println("금수를 두었습니다.")
+            println(WINNER_MESSAGE.format(players.curPlayerColor.toPresentation().text))
+            return
+        }
+        println(WINNER_MESSAGE.format(players.curPlayerColor.next().toPresentation().text))
     }
 
     override fun onStartTurn(stoneColor: StoneColor, point: Point?) {
@@ -29,8 +35,10 @@ class OmokOutputView : OmokGameEventListener {
         println()
     }
 
-    override fun onEndTurn(players: Players) {
+    override fun onEndTurn(result: TurnResult) {
+        if(result is TurnResult.Failure) println(ALREADY_EXIST_STONE)
         val board = OMOK_BOARD.toMutableList()
+        val players = result.players
         players.toList().forEach { player ->
             player.getAllPoints().getAll().forEach { drawPoint(player, board, it) }
         }
@@ -50,6 +58,7 @@ class OmokOutputView : OmokGameEventListener {
         private const val START_MESSAGE = "오목 게임을 시작합니다."
         private const val TURN_MESSAGE = "%s의 차례입니다. "
         private const val LAST_STONE_POSITION_MESSAGE = "(마지막 돌의 위치: %s)"
+        private const val ALREADY_EXIST_STONE = "이미 돌이 있습니다."
         private const val GAME_END_MESSAGE = "게임이 종료되었습니다."
         private const val WINNER_MESSAGE = "%s의 승리입니다."
         private const val BLACK_STONE = '●'
