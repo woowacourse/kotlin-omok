@@ -21,7 +21,7 @@ object BlackStonesAreNotAllowedLongMok : DetailRule {
 
     private fun Point.getNextBlackStoneIsNotPlacedPoint(blackStones: Set<Stone>, direction: Direction): Point {
         var nextBlankPoint = this
-        while (nextBlankPoint in Board && Stone(nextBlankPoint) in blackStones) {
+        while (OmokGame.boardContains(nextBlankPoint) && Stone(nextBlankPoint) in blackStones) {
             nextBlankPoint = nextBlankPoint goTo direction
         }
         return nextBlankPoint

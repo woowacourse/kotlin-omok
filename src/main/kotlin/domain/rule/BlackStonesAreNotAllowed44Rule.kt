@@ -46,12 +46,12 @@ object BlackStonesAreNotAllowed44Rule : DetailRule {
 
     private fun Point.canPlaceStoneWhenInThis(state: State): Boolean {
         val stone = Stone(this)
-        return this in Board && stone !in state.blackStones && stone !in state.whiteStones
+        return OmokGame.boardContains(this) && stone !in state.blackStones && stone !in state.whiteStones
     }
 
     private fun Point.getNextBlackStoneIsNotPlacedPoint(blackStones: Set<Stone>, direction: Direction): Point {
         var nextBlankPoint = this
-        while (nextBlankPoint in Board && Stone(nextBlankPoint) in blackStones) {
+        while (OmokGame.boardContains(nextBlankPoint) && Stone(nextBlankPoint) in blackStones) {
             nextBlankPoint = nextBlankPoint goTo direction
         }
         return nextBlankPoint

@@ -3,6 +3,7 @@ package domain.rule
 import domain.*
 import domain.state.BlackTurn
 import domain.state.State
+import kotlin.math.abs
 
 object BlackStonesAreNotAllowed33Rule : DetailRule {
     override fun stateWillObeyThisRule(state: State, nextStone: Stone): Boolean =
@@ -28,12 +29,12 @@ object BlackStonesAreNotAllowed33Rule : DetailRule {
 
     private fun Point.canPlaceStoneWhenInThis(state: State): Boolean {
         val stone = Stone(this)
-        return this in Board && stone !in state.blackStones && stone !in state.whiteStones
+        return OmokGame.boardContains(this) && stone !in state.blackStones && stone !in state.whiteStones
     }
 
     private fun Point.getNextBlackStoneIsNotPlacedPoint(blackStones: Set<Stone>, direction: Direction): Point {
         var nextBlankPoint = this
-        while (nextBlankPoint in Board && Stone(nextBlankPoint) in blackStones) {
+        while (OmokGame.boardContains(nextBlankPoint) && Stone(nextBlankPoint) in blackStones) {
             nextBlankPoint = nextBlankPoint goTo direction
         }
         return nextBlankPoint
@@ -44,7 +45,7 @@ object BlackStonesAreNotAllowed33Rule : DetailRule {
         val nextPoint2 = point.getNextBlackStoneIsNotPlacedPoint(this, inclination.directions[1])
 
         if (nextPoint1.canPlaceStoneWhenInThis(state) && nextPoint2.canPlaceStoneWhenInThis(state)) {
-            return kotlin.math.abs(nextPoint1.x - nextPoint2.x) == 5 || kotlin.math.abs(nextPoint1.y - nextPoint2.y) == 5
+            return abs(nextPoint1.x - nextPoint2.x) == 5 || abs(nextPoint1.y - nextPoint2.y) == 5
         }
         return false
     }

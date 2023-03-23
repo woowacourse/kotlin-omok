@@ -9,7 +9,7 @@ class YCoordinate private constructor(val y: Int) {
     override fun toString(): String = y.toString()
 
     companion object {
-        private val COORDINATES: Map<Int, YCoordinate> = (1..Board.SIZE).associateWith { YCoordinate(it) }
+        private val COORDINATES: Map<Int, YCoordinate> = (1..OmokGame.BOARD_SIZE).associateWith { YCoordinate(it) }
 
         fun of(y: Int): YCoordinate = COORDINATES[y] ?: YCoordinate(y)
     }

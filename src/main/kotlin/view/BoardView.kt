@@ -1,37 +1,37 @@
 package view
 
-import domain.Board
+import domain.OmokGame
 import domain.Stone
 import domain.XCoordinate
 import domain.YCoordinate
 
-class BoardView(board: Board) {
+class BoardView(omokGame: OmokGame) {
 
     private val boardLines = mutableListOf<MutableList<String>>()
 
     init {
-        for (y in Board.SIZE downTo 1) {
+        for (y in OmokGame.BOARD_SIZE downTo 1) {
             val boardLine = mutableListOf<String>()
             boardLine.add("%3s ".format(y))
-            for (x in 1..Board.SIZE) {
+            for (x in 1..OmokGame.BOARD_SIZE) {
                 when {
-                    board.blackStoneIsPlaced(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> boardLine.add(BLACK_STONE)
-                    board.whiteStoneIsPlaced(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> boardLine.add(WHITE_STONE)
-                    x == 1 && y == Board.SIZE -> boardLine.add(LEFT_TOP)
-                    x == Board.SIZE && y == Board.SIZE -> boardLine.add(RIGHT_TOP)
+                    omokGame.blackStoneIsPlaced(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> boardLine.add(BLACK_STONE)
+                    omokGame.whiteStoneIsPlaced(Stone(XCoordinate.of(x), YCoordinate.of(y))) -> boardLine.add(WHITE_STONE)
+                    x == 1 && y == OmokGame.BOARD_SIZE -> boardLine.add(LEFT_TOP)
+                    x == OmokGame.BOARD_SIZE && y == OmokGame.BOARD_SIZE -> boardLine.add(RIGHT_TOP)
                     x == 1 && y == 1 -> boardLine.add(LEFT_BOTTOM)
-                    x == Board.SIZE && y == 1 -> boardLine.add(RIGHT_BOTTOM)
+                    x == OmokGame.BOARD_SIZE && y == 1 -> boardLine.add(RIGHT_BOTTOM)
                     x == 1 -> boardLine.add(LEFT)
-                    x == Board.SIZE -> boardLine.add(RIGHT)
-                    y == Board.SIZE -> boardLine.add(TOP)
+                    x == OmokGame.BOARD_SIZE -> boardLine.add(RIGHT)
+                    y == OmokGame.BOARD_SIZE -> boardLine.add(TOP)
                     y == 1 -> boardLine.add(BOTTOM)
                     else -> boardLine.add(MIDDLE)
                 }
-                if (x != Board.SIZE) boardLine.add("──")
+                if (x != OmokGame.BOARD_SIZE) boardLine.add("──")
             }
             boardLines.add(boardLine)
         }
-        boardLines.add(mutableListOf("    " + ('A' until 'A' + Board.SIZE).joinToString("") { "$it  " }))
+        boardLines.add(mutableListOf("    " + ('A' until 'A' + OmokGame.BOARD_SIZE).joinToString("") { "$it  " }))
     }
 
     override fun toString(): String {

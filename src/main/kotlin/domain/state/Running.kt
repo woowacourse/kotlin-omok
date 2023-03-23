@@ -11,7 +11,7 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
     }
 
     override fun canPut(nextStone: Stone): Boolean =
-        nextStone.point in Board &&
+        OmokGame.boardContains(nextStone.point) &&
             !willBePlacedWhereAlreadyPlaced(nextStone) &&
             RenjuRule.stateWillObeyThisRule(this, nextStone)
 
@@ -25,32 +25,32 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
             this.isCompletedUpperRightDiagonalOmok()
 
     private fun Set<Stone>.isCompletedVerticalOmok(): Boolean {
-        for (x in 1..Board.SIZE) {
+        for (x in 1..OmokGame.BOARD_SIZE) {
             if (this.isCompletedOmokOnThisLine(Point(x, 1), Direction.UP)) return true
         }
         return false
     }
 
     private fun Set<Stone>.isCompletedHorizontalOmok(): Boolean {
-        for (y in 1..Board.SIZE) {
+        for (y in 1..OmokGame.BOARD_SIZE) {
             if (this.isCompletedOmokOnThisLine(Point(1, y), Direction.RIGHT)) return true
         }
         return false
     }
 
     private fun Set<Stone>.isCompletedUpperLeftDiagonalOmok(): Boolean {
-        val boardPointRange = 1..Board.SIZE
+        val boardPointRange = 1..OmokGame.BOARD_SIZE
         for (x in boardPointRange) {
             if (this.isCompletedOmokOnThisLine(Point(x, 1), Direction.UP_LEFT)) return true
         }
         for (y in boardPointRange) {
-            if (this.isCompletedOmokOnThisLine(Point(Board.SIZE, y), Direction.UP_LEFT)) return true
+            if (this.isCompletedOmokOnThisLine(Point(OmokGame.BOARD_SIZE, y), Direction.UP_LEFT)) return true
         }
         return false
     }
 
     private fun Set<Stone>.isCompletedUpperRightDiagonalOmok(): Boolean {
-        val boardPointRange = 1..Board.SIZE
+        val boardPointRange = 1..OmokGame.BOARD_SIZE
         for (y in boardPointRange.reversed()) {
             if (this.isCompletedOmokOnThisLine(Point(1, y), Direction.UP_RIGHT)) return true
         }
@@ -63,7 +63,7 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
     private fun Set<Stone>.isCompletedOmokOnThisLine(initPoint: Point, direction: Direction): Boolean {
         var point = initPoint
         var linkedCount = 0
-        while (point in Board) {
+        while (OmokGame.boardContains(point)) {
             val stone = Stone(point)
             if (stone in this) linkedCount++ else linkedCount = 0
             if (linkedCount >= 5) return true

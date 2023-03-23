@@ -1,10 +1,10 @@
 package view
 
-import domain.Board
+import domain.OmokGame
 
 object OutputView {
 
-    fun printBoard(board: Board) {
-        return println(BoardView(board))
+    fun printBoard(omokGame: OmokGame) {
+        return println(BoardView(omokGame))
     }
 }

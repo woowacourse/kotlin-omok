@@ -5,7 +5,7 @@ import domain.state.BlackWin
 import domain.state.Finished
 import domain.state.State
 
-class Board {
+class OmokGame {
 
     private var state: State = BlackTurn(setOf(), setOf())
 
@@ -24,8 +24,9 @@ class Board {
     fun whiteStoneIsPlaced(stone: Stone): Boolean = state.whiteStones.contains(stone)
 
     companion object {
-        const val SIZE = 15
+        const val BOARD_SIZE = 15
 
-        operator fun contains(point: Point): Boolean = point.x in ('A' until 'A' + SIZE) && point.y in (1..SIZE)
+        fun boardContains(point: Point): Boolean =
+            point.x in ('A' until 'A' + BOARD_SIZE) && point.y in (1..BOARD_SIZE)
     }
 }
