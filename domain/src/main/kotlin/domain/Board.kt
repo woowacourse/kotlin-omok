@@ -1,6 +1,6 @@
 package domain
 
-class Board(private val stones: Stones) {
+class Board(val stones: Stones) {
     fun repeatTurn(coordinateReader: CoordinateReader) {
         var currentColor = Color.BLACK
         while (true) {
