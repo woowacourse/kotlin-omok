@@ -1,6 +1,5 @@
 package domain.state
 
-import domain.Rule
 import domain.Stone
 
 class BlackTurn(override val blackStones: Set<Stone>, override val whiteStones: Set<Stone>) :
@@ -10,8 +9,7 @@ class BlackTurn(override val blackStones: Set<Stone>, override val whiteStones: 
     }
 
     override fun put(stone: Stone): State {
-        checkAlreadyPlaced(stone)
-        Rule.checkPutBlackStone(blackStones, whiteStones, stone)
+        require(canPut(stone)) { BLACK_STONE_CANT_PUT_ERROR }
         val nextBlackStones = blackStones + stone
         return if (nextBlackStones.isCompletedOmok()) {
             BlackWin(nextBlackStones, whiteStones)
@@ -22,5 +20,6 @@ class BlackTurn(override val blackStones: Set<Stone>, override val whiteStones: 
 
     companion object {
         private const val STONE_COUNT_ERROR = "흑돌 차례에서는 흑돌과 백돌의 개수가 같아야 합니다."
+        private const val BLACK_STONE_CANT_PUT_ERROR = "해당 좌표에 흑돌을 둘 수 없습니다."
     }
 }

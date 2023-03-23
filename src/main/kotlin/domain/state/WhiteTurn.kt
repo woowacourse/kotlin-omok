@@ -10,7 +10,7 @@ class WhiteTurn(override val blackStones: Set<Stone>, override val whiteStones: 
     }
 
     override fun put(stone: Stone): State {
-        checkAlreadyPlaced(stone)
+        require(canPut(stone)) { WHITE_STONE_CANT_PUT_ERROR }
         val nextWhiteStones = whiteStones + stone
         return if (nextWhiteStones.isCompletedOmok()) {
             WhiteWin(blackStones, nextWhiteStones)
@@ -21,5 +21,6 @@ class WhiteTurn(override val blackStones: Set<Stone>, override val whiteStones: 
 
     companion object {
         private const val WHITE_TURN_STONE_SIZE_ERROR = "백돌 차례에서는 흑돌이 백돌보다 1개 더 많아야 합니다."
+        private const val WHITE_STONE_CANT_PUT_ERROR = "해당 좌표에 백돌을 둘 수 없습니다."
     }
 }

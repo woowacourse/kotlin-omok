@@ -1,8 +1,19 @@
 package domain
 
+import domain.state.BlackTurn
+import domain.state.State
 import java.lang.Integer.max
 
 object Rule {
+
+    fun stateWillObeyThisRule(state: State, nextStone: Stone): Boolean {
+        if (state is BlackTurn) {
+            return !isBlack33(state.blackStones, state.whiteStones, nextStone) &&
+                !isBlack44(state.blackStones, state.whiteStones, nextStone) &&
+                !isBlackLongMok(state.blackStones, nextStone)
+        }
+        return true
+    }
 
     fun checkPutBlackStone(blackStones: Set<Stone>, whiteStones: Set<Stone>, nextStone: Stone) {
         require(!isBlack33(blackStones, whiteStones, nextStone)) { "흑돌은 33이면 안됩니다." }

@@ -12,6 +12,8 @@ abstract class Finished(blackStones: Set<Stone>, whiteStones: Set<Stone>) : Stat
         throw IllegalStateException(WHEN_FINISHED_PUT_ERROR)
     }
 
+    override fun canPut(nextStone: Stone): Boolean = false
+
     companion object {
         private const val WHEN_FINISHED_PUT_ERROR = "게임이 끝나면 돌을 둘 수 없습니다."
         private const val BLACK_WHITE_INTERSECT_ERROR = "흑돌과 백돌이 겹칠 수 없습니다."

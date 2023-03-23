@@ -1,9 +1,6 @@
 package domain.state
 
-import domain.Board
-import domain.Direction
-import domain.Point
-import domain.Stone
+import domain.*
 
 abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State {
 
@@ -12,9 +9,11 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
         require(blackStones.intersect(whiteStones).isEmpty()) { BLACK_WHITE_INTERSECT_ERROR }
     }
 
-    fun checkAlreadyPlaced(stone: Stone) {
-        require(stone !in blackStones && stone !in whiteStones) { ALREADY_PLACED_ERROR }
-    }
+    override fun canPut(nextStone: Stone): Boolean =
+        !willBePlacedWhereAlreadyPlaced(nextStone) && Rule.stateWillObeyThisRule(this, nextStone)
+
+    private fun willBePlacedWhereAlreadyPlaced(stone: Stone): Boolean =
+        stone in blackStones || stone in whiteStones
 
     protected fun Set<Stone>.isCompletedOmok(): Boolean =
         this.isCompletedVerticalOmok() ||
