@@ -3,31 +3,17 @@ package woowacourse.omok
 import domain.stone.Color
 import domain.stone.Point
 
-fun String.toColor(): Color {
-    return when (this) {
-        "흑" -> Color.Black
-        "백" -> Color.White
-        else -> Color.Black
-    }
-}
-
-private const val RANGE_UNIT = 15
-
-fun Point.toIndex(): Int = (RANGE_UNIT * y) + x
-
-fun Int.toPoint(): Point =
-    Point(this % RANGE_UNIT, this / RANGE_UNIT)
-
-fun Color.toResourceId(): Int {
-    return when (this) {
-        is Color.Black -> R.drawable.black_stone
-        is Color.White -> R.drawable.white_stone
-    }
-}
+const val RANGE_UNIT = 15
 
 fun Color.toName(): String {
     return when (this) {
-        is Color.Black -> "흑"
-        is Color.White -> "백"
+        is Color.Black -> BLACK_DESCRIPTION
+        is Color.White -> WHITE_DESCRIPTION
     }
 }
+
+fun Int.toPoint(): Point =
+    Point((this % RANGE_UNIT)+1, (this / RANGE_UNIT)+1)
+
+const val BLACK_DESCRIPTION = "흑"
+const val WHITE_DESCRIPTION = "백"
