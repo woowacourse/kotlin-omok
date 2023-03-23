@@ -3,6 +3,8 @@ package domain.rule
 import domain.*
 import domain.state.BlackTurn
 import domain.state.State
+import domain.stone.Point
+import domain.stone.Stone
 import kotlin.math.abs
 
 object BlackStonesAreNotAllowed33Rule : DetailRule {

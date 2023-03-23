@@ -1,4 +1,4 @@
-package domain
+package domain.stone
 
 data class Stone(val point: Point) {
 

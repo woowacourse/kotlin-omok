@@ -1,6 +1,8 @@
 package domain
 
 import domain.event.*
+import domain.stone.Point
+import domain.stone.Stone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

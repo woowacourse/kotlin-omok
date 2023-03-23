@@ -1,6 +1,6 @@
 package domain.state
 
-import domain.Stone
+import domain.stone.Stone
 
 interface State {
 

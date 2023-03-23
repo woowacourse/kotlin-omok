@@ -4,6 +4,8 @@ import domain.event.FinishEventManager
 import domain.event.PlaceStoneEventManager
 import domain.event.StartEventManager
 import domain.state.*
+import domain.stone.Point
+import domain.stone.Stone
 
 class OmokGame(
     startEventManager: StartEventManager? = null,

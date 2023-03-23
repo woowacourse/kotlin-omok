@@ -1,8 +1,8 @@
 package domain.state
 
-import domain.Stone
-import domain.XCoordinate
-import domain.YCoordinate
+import domain.stone.Stone
+import domain.stone.XCoordinate
+import domain.stone.YCoordinate
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 

@@ -1,6 +1,6 @@
 package view
 
-import domain.Stone
+import domain.stone.Stone
 
 object InputView {
 

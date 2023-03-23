@@ -1,7 +1,7 @@
 package domain.rule
 
-import domain.Stone
 import domain.state.BlackTurn
+import domain.stone.Stone
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 

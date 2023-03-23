@@ -1,4 +1,6 @@
-package domain
+package domain.stone
+
+import domain.OmokGame
 
 class YCoordinate private constructor(val y: Int) {
 

@@ -1,7 +1,7 @@
 package domain.rule
 
-import domain.*
 import domain.state.State
+import domain.stone.Stone
 
 object RenjuRule {
 

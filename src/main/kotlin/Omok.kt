@@ -1,8 +1,8 @@
 import domain.OmokGame
-import domain.Stone
 import domain.event.FinishEventManager
 import domain.event.PlaceStoneEventManager
 import domain.event.StartEventManager
+import domain.stone.Stone
 import view.InputView
 import view.OutputView
 

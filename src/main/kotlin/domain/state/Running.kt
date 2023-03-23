@@ -2,6 +2,8 @@ package domain.state
 
 import domain.*
 import domain.rule.RenjuRule
+import domain.stone.Point
+import domain.stone.Stone
 
 abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State {
 

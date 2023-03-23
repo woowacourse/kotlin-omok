@@ -1,4 +1,6 @@
-package domain
+package domain.stone
+
+import domain.Direction
 
 data class Point(private val xCoordinate: XCoordinate, private val yCoordinate: YCoordinate) {
     val x: Char = xCoordinate.x

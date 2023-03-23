@@ -1,7 +1,7 @@
 package domain.rule
 
-import domain.Stone
 import domain.state.State
+import domain.stone.Stone
 
 interface DetailRule {
 
