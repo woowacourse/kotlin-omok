@@ -24,6 +24,7 @@ import omok.domain.player.Stone
 import omok.domain.player.White
 import woowacourse.omok.db.BoardContract
 import woowacourse.omok.db.OmokDBHelper
+import woowacourse.omok.db.PlayerContract
 
 class MainActivity : AppCompatActivity() {
     private lateinit var omokDB: SQLiteDatabase
@@ -146,11 +147,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun judgeWinner(board: Board, turn: Turn, position: Position) {
         if (ResultReferee().checkWinner(board.positions, position)) {
+            deletePlayer()
             val intent = Intent(this, WinnerActivity::class.java)
             intent.putExtra("winner", turn.now.toString())
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun deletePlayer() {
+        val condition = "${PlayerContract.COLUMN_NICKNAME} = ?"
+        omokDB.delete(PlayerContract.TABLE_NAME, condition, arrayOf(nickname))
     }
 
     override fun onDestroy() {
