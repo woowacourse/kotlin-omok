@@ -4,8 +4,8 @@ import omok.model.external.rule.WhiteRenjuRule
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStoneColor
 
-class WhiteOmokRuleAdapter(private val board: Board) : OmokRuleAdapter() {
-    private val whiteRenjuRule: WhiteRenjuRule = WhiteRenjuRule(boardWidth = board.sizeX, boardHeight = board.sizeY)
+class WhiteOmokRuleAdapter(private val board: Board) : OmokRuleAdapter {
+    private val whiteRenjuRule: WhiteRenjuRule = WhiteRenjuRule(board.sizeX, board.sizeY)
 
     override fun checkWin(coordinate: Coordinate): PlacementState {
         val isWin = whiteRenjuRule.checkWin(

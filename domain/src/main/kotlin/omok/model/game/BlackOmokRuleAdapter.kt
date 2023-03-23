@@ -5,8 +5,8 @@ import omok.model.external.rule.type.Violation
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStoneColor
 
-class BlackOmokRuleAdapter(private val board: Board) : OmokRuleAdapter() {
-    private val blackRenjuRule: BlackRenjuRule = BlackRenjuRule(boardWidth = board.sizeX, boardHeight = board.sizeY)
+class BlackOmokRuleAdapter(private val board: Board) : OmokRuleAdapter {
+    private val blackRenjuRule: BlackRenjuRule = BlackRenjuRule(board.sizeX, board.sizeY)
 
     override fun checkWin(coordinate: Coordinate): PlacementState {
         val isWin = blackRenjuRule.checkWin(
@@ -18,7 +18,7 @@ class BlackOmokRuleAdapter(private val board: Board) : OmokRuleAdapter() {
         return if (isWin) PlacementState.WIN else PlacementState.STAY
     }
 
-    fun checkViolation(coordinate: Coordinate): PlacementState {
+    override fun checkViolation(coordinate: Coordinate): PlacementState {
         val violation = blackRenjuRule.checkAnyFoulCondition(
             blackPoints = board.getStonePoints(GoStoneColor.BLACK),
             whitePoints = board.getStonePoints(GoStoneColor.WHITE),
