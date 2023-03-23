@@ -1,10 +1,12 @@
 package woowacourse.omok
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.HorizontalAxis
@@ -29,17 +31,13 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
-                view.setOnClickListener { state = takeTurn(index, view, state) }
+                view.setOnClickListener {
+                    state = gameOn(index, view, state as Turn)
+                    if (state is Win) {
+                        gameOver(state as Win)
+                    }
+                }
             }
-    }
-
-    private fun takeTurn(index: Int, view: ImageView, state: State): State {
-        return when (state) {
-            Turn.Black -> gameOn(index, view, state as Turn)
-            Turn.White -> gameOn(index, view, state as Turn)
-            Win.Black -> gameOver(Win.Black)
-            Win.White -> gameOver(Win.White)
-        }
     }
 
     private fun gameOn(index: Int, view: ImageView, turn: Turn): State {
@@ -58,7 +56,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun gameOver(win: Win): Win {
-        return win
+    private fun gameOver(win: Win) {
+        val winMessage = if (win == Win.White) "백의 승리입니다." else "흑의 승리입니다."
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("축하합니다")
+            .setMessage(winMessage)
+            .setPositiveButton("다시 시작") { dialog, which ->
+                finishAffinity()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                System.exit(0)
+            }
+            .setNeutralButton("게임 종료") { dialog, which -> finish() }
+            .create()
+
+        alertDialog.show()
     }
 }

@@ -29,7 +29,6 @@ class Controller(private val gameView: GameView, private val omokGame: OmokGame)
     private fun gameOn(turn: Turn): State {
         val position = readPosition(turn)
         if (!omokGame.board.isPlaceable(turn, position)) {
-            // warning
             return turn
         }
         gameView.printBoard(turn, position)
