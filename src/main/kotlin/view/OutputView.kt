@@ -1,6 +1,7 @@
 package view
 
 import domain.state.State
+import domain.state.end.End
 import domain.state.running.BlackTurn
 import domain.state.running.WhiteTurn
 import domain.stone.Stone
@@ -36,8 +37,8 @@ class OutputView {
         println(text)
     }
 
-    fun printWinner(state: State) {
-        println(MESSAGE_FORMAT_WINNER.format(getWinnerText(state)))
+    fun printWinner(end: End) {
+        println(MESSAGE_FORMAT_WINNER.format(getWinnerText(end)))
     }
 
     private fun setBoard(stones: Stones) {
@@ -53,10 +54,9 @@ class OutputView {
         return "$xCoordinate$yCoordinate"
     }
 
-    private fun getStoneTypeEmoji(stoneType: StoneType): Char? = when (stoneType) {
+    private fun getStoneTypeEmoji(stoneType: StoneType): Char = when (stoneType) {
         StoneType.BLACK -> '●'
         StoneType.WHITE -> '○'
-        else -> null
     }
 
     private fun getTurnText(state: State): String? = when (state) {
@@ -65,10 +65,9 @@ class OutputView {
         else -> null
     }
 
-    private fun getWinnerText(state: State): String? = when (state.getWinner()) {
+    private fun getWinnerText(end: End): String = when (end.getWinner()) {
         StoneType.BLACK -> "흑"
         StoneType.WHITE -> "백"
-        else -> null
     }
 
     companion object {
