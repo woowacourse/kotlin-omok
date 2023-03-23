@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.TableLayout
 import androidx.appcompat.app.AppCompatActivity
 import domain.CoordinateState
+import domain.CoordinateState.BLACK
 import domain.Position
 import domain.domain.Board
 import domain.domain.state.BlackTurn
@@ -16,18 +17,23 @@ import domain.view.Observer
 import domain.view.OmokView
 import woowacourse.omok.OmokGameUtil.loopBoardTable
 import woowacourse.omok.OmokGameUtil.toName
+import woowacourse.omok.data.BoardTableModifier
 import woowacourse.omok.util.ContextUtil.longToast
 import woowacourse.omok.util.SnackBarUtil.defaultSnackBar
 
 class OmokGameActivity : AppCompatActivity(), Observer {
-    private var preColor: CoordinateState = CoordinateState.BLACK
+    private var preColor: CoordinateState = BLACK
     private val boardTable by lazy { findViewById<TableLayout>(R.id.board_table) }
+    private val boardTableModifier = BoardTableModifier(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.omok_game_activity)
 
-        val board = Board()
+        val storedState = boardTableModifier.readBoard()
+        drawStone(storedState)
+
+        val board = Board(storedState)
         runOmokGame(board)
         synchronizeConsoleView(board)
     }
@@ -49,6 +55,7 @@ class OmokGameActivity : AppCompatActivity(), Observer {
 
     private fun clickPart(board: Board, position: Position, imageView: ImageView) {
         imageView.setOnClickListener {
+            preColor = board.state.getTurn()
             board.next(position)
         }
     }
@@ -65,7 +72,10 @@ class OmokGameActivity : AppCompatActivity(), Observer {
     private fun updateView(state: State) {
         when (preColor == state.getTurn()) {
             true -> defaultSnackBar(findViewById(R.id.root), "놓을 수 없는 수 입니다")
-            false -> drawStone(state)
+            false -> {
+                drawStone(state)
+                updateDb(state)
+            }
         }
     }
 
@@ -74,12 +84,22 @@ class OmokGameActivity : AppCompatActivity(), Observer {
             val resId = OmokGameUtil.matchColor(state.stones[position.y, position.x])
             if (resId != null) imageView.setImageResource(resId)
         }
-        preColor = state.getTurn()
+    }
+
+    private fun updateDb(state: State) {
+        val y = (state.getLastPosition() ?: return).y
+        val x = (state.getLastPosition() ?: return).x
+        boardTableModifier.insertStone(y, x, preColor)
     }
 
     private fun win(state: State) {
         loopBoardTable(boardTable) { _, imageView -> imageView.isEnabled = false }
         longToast("${state.getTurn().toName()}의 승리입니다!!!")
         drawStone(state)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        boardTableModifier.closeDb()
     }
 }
