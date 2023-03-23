@@ -6,4 +6,6 @@ import domain.stone.StonePosition
 interface State {
 
     fun next(board: Board, stonePosition: StonePosition): State
+
+    fun isEnd(): Boolean
 }

@@ -7,7 +7,8 @@ import domain.stone.StoneType
 
 class End(private val stoneType: StoneType) : State {
 
-    override fun getWinner(): StoneType = stoneType
+    fun getWinner(): StoneType = stoneType
 
     override fun next(board: Board, stonePosition: StonePosition): State = this
+    override fun isEnd(): Boolean = true
 }

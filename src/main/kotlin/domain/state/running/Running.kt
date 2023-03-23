@@ -6,7 +6,7 @@ import domain.state.State
 import domain.stone.Board
 import domain.stone.StonePosition
 
-abstract class Running() : State {
+abstract class Running : State {
 
     val omokRule: OmokRule = RenjuOmokRule()
 
@@ -14,4 +14,6 @@ abstract class Running() : State {
 
     protected fun isValidPut(board: Board, stonePosition: StonePosition): Boolean =
         !board.stones.containsPosition(stonePosition)
+
+    override fun isEnd(): Boolean = false
 }
