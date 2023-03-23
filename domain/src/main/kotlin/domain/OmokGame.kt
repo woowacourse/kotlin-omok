@@ -7,8 +7,8 @@ class OmokGame(val board: Board) {
         getPosition: () -> Position
     ): Color? {
         val stone = getStone(getPosition) ?: return null
-        getCurrentState(this)
         board.placeStone(stone)
+        getCurrentState(this)
         currentColor = nextColor(currentColor)
         return board.getWinnerColor()
     }
