@@ -16,17 +16,17 @@ import omok.domain.state.EmptyStoneState
 import omok.domain.state.StoneState
 import omok.domain.state.WhiteStoneState
 import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_COL
+import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_GAME_ID
 import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_NEXT_TURN
 import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_ROW
 import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_STONE
 import woowacourse.omok.OmokBoardConstract.TABLE_NAME_OMOK_BOARD
 
-class OmokBoardDbHelper(
-    context: Context?,
-) : SQLiteOpenHelper(context, "ark.db", null, 1) {
+class OmokBoardDbHelper(context: Context?) : SQLiteOpenHelper(context, "ark.db", null, 1) {
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
             "CREATE TABLE $TABLE_NAME_OMOK_BOARD (" +
+                "  $TABLE_COLUMN_OMOK_GAME_ID int," +
                 "  $TABLE_COLUMN_OMOK_ROW int," +
                 "  $TABLE_COLUMN_OMOK_COL int," +
                 "  $TABLE_COLUMN_OMOK_NEXT_TURN int," +
@@ -40,10 +40,11 @@ class OmokBoardDbHelper(
         onCreate(db)
     }
 
-    fun insert(gameState: GameState, omokPoint: OmokPoint) {
+    fun insert(gameState: GameState, omokPoint: OmokPoint, gameId: Int) {
         val wDb = this.writableDatabase
 
         val values = ContentValues()
+        values.put(TABLE_COLUMN_OMOK_GAME_ID, gameId)
         values.put(TABLE_COLUMN_OMOK_COL, omokPoint.x.value)
         values.put(TABLE_COLUMN_OMOK_ROW, omokPoint.y.value)
         values.put(
@@ -67,18 +68,19 @@ class OmokBoardDbHelper(
         wDb.insert(TABLE_NAME_OMOK_BOARD, null, values)
     }
 
-    fun getGameState(): GameState {
+    fun getGameState(gameId: Int): GameState {
         val rDb = this.readableDatabase
         val cursor = rDb.query(
             TABLE_NAME_OMOK_BOARD,
             arrayOf(
+                TABLE_COLUMN_OMOK_GAME_ID,
                 TABLE_COLUMN_OMOK_COL,
                 TABLE_COLUMN_OMOK_ROW,
                 TABLE_COLUMN_OMOK_NEXT_TURN,
                 TABLE_COLUMN_OMOK_STONE,
             ),
-            null,
-            null,
+            "$TABLE_COLUMN_OMOK_GAME_ID = ?",
+            arrayOf(gameId.toString()),
             null,
             null,
             null,
@@ -116,5 +118,10 @@ class OmokBoardDbHelper(
         }
 
         return BlackTurn(OmokBoard(omokMap))
+    }
+
+    fun delete(gameId: Int) {
+        val wDb = this.writableDatabase
+        wDb.delete(TABLE_NAME_OMOK_BOARD, "$TABLE_COLUMN_OMOK_GAME_ID = ?", arrayOf(gameId.toString()))
     }
 }

@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import woowacourse.omok.OmokRoomConstract.TABLE_COLUMN_GAME_ID
 import woowacourse.omok.OmokRoomConstract.TABLE_COLUMN_PLAYER_ID
 import woowacourse.omok.OmokRoomConstract.TABLE_COLUMN_STATUS
 import woowacourse.omok.OmokRoomConstract.TABLE_COLUMN_TIME
@@ -17,6 +18,7 @@ class OmokRoomDbHelper(
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
             "CREATE TABLE IF NOT EXISTS $TABLE_NAME_ROOM (" +
+                "$TABLE_COLUMN_GAME_ID INTEGER PRIMARY KEY," +
                 "$TABLE_COLUMN_PLAYER_ID INTEGER," +
                 "$TABLE_COLUMN_TITLE TEXT UNIQUE ON CONFLICT REPLACE," +
                 "$TABLE_COLUMN_STATUS INTEGER," +
@@ -47,6 +49,7 @@ class OmokRoomDbHelper(
         val cursor = rDb.query(
             TABLE_NAME_ROOM,
             arrayOf(
+                TABLE_COLUMN_GAME_ID,
                 TABLE_COLUMN_PLAYER_ID,
                 TABLE_COLUMN_TITLE,
                 TABLE_COLUMN_STATUS,
@@ -69,7 +72,8 @@ class OmokRoomDbHelper(
                     roomInfo.add(
                         Room(
                             title = getString(getColumnIndexOrThrow(TABLE_COLUMN_TITLE)),
-                            it,
+                            gameId = getInt(getColumnIndexOrThrow(TABLE_COLUMN_GAME_ID)),
+                            player = it,
                             status = getInt(getColumnIndexOrThrow(TABLE_COLUMN_STATUS)),
                             time = getInt(getColumnIndexOrThrow(TABLE_COLUMN_TIME)),
                         ),

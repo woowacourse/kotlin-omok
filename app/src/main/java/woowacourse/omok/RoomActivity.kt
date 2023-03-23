@@ -29,7 +29,7 @@ class RoomActivity : AppCompatActivity() {
             matrixBoard.forEach { (col, row, imageView) ->
                 setStoneImage(gameState.omokBoard, imageView, OmokPoint(col + 1, row + 1))
             }
-            omokPoint?.let { boardDb.insert(gameState, omokPoint) }
+            omokPoint?.let { boardDb.insert(gameState, omokPoint, intent.getIntExtra("gameId", 0)) }
         }
 
         override fun onError(message: String?) {
@@ -51,7 +51,7 @@ class RoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        omokController = OmokController(omokGameListener, boardDb.getGameState())
+        omokController = OmokController(omokGameListener, boardDb.getGameState(intent.getIntExtra("gameId", 0)))
 
         addStoneListener()
         addListenerResetGameState()
@@ -72,7 +72,8 @@ class RoomActivity : AppCompatActivity() {
 
     private fun addListenerResetGameState() {
         findViewById<Button>(R.id.resetButton).setOnClickListener {
-            boardDb.onUpgrade(boardDb.readableDatabase, 1, 1)
+//            boardDb.onUpgrade(boardDb.readableDatabase, 1, 1)
+            boardDb.delete(intent.getIntExtra("gameId", 0))
             omokController = OmokController(omokGameListener)
 
             matrixBoard.forEach { (_, _, imageView) -> imageView.setImageResource(0) }
