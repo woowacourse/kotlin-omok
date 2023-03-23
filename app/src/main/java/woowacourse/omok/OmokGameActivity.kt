@@ -7,12 +7,16 @@ import androidx.appcompat.app.AppCompatActivity
 import domain.CoordinateState
 import domain.Position
 import domain.domain.Board
-import domain.domain.state.*
+import domain.domain.state.BlackTurn
+import domain.domain.state.BlackWin
+import domain.domain.state.State
+import domain.domain.state.WhiteTurn
+import domain.domain.state.WhiteWin
 import domain.view.Observer
 import domain.view.OmokView
-import woowacourse.omok.util.ContextUtil.longToast
 import woowacourse.omok.OmokGameUtil.loopBoardTable
 import woowacourse.omok.OmokGameUtil.toName
+import woowacourse.omok.util.ContextUtil.longToast
 import woowacourse.omok.util.SnackBarUtil.defaultSnackBar
 
 class OmokGameActivity : AppCompatActivity(), Observer {
