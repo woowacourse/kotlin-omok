@@ -17,4 +17,8 @@ class OmokGame {
         board.putStone(Turn.White, position)
         return if (board.lineJudge(Turn.White, position)) Win.White else Turn.Black
     }
+
+    fun updatePosition(presentPosition: String) {
+        lastPosition = presentPosition
+    }
 }

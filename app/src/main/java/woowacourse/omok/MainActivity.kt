@@ -48,8 +48,8 @@ class MainActivity : AppCompatActivity() {
             return turn
         }
         when (turn) {
-            Turn.Black -> view.setImageResource(R.drawable.black_stone)
-            Turn.White -> view.setImageResource(R.drawable.white_stone)
+            Turn.Black -> view.setImageResource(R.drawable.black_stone_nabi)
+            Turn.White -> view.setImageResource(R.drawable.white_stone_choonbae)
         }
         return when (turn) {
             Turn.Black -> omokGame.blackTurn(position)

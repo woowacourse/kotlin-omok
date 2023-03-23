@@ -46,7 +46,7 @@ class Controller(private val gameView: GameView, private val omokGame: OmokGame)
             gameView.printRetry()
             return readPosition(turn)
         }
-        omokGame.lastPosition = input
+        omokGame.updatePosition(input)
         return position
     }
 
