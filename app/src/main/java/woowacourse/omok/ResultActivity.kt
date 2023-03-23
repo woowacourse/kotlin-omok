@@ -1,6 +1,8 @@
 package woowacourse.omok
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -19,5 +21,11 @@ class ResultActivity : AppCompatActivity() {
         else
             img.setImageResource(R.drawable.white_stone)
         resultText.text = winner
+
+        findViewById<Button>(R.id.retryBtn).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }

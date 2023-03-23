@@ -25,8 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="흑"
-            android:textStyle="bold"
-            android:textSize="40dp" />
+            android:textSize="40dp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,5 +34,12 @@
             android:text="의 승리입니다!"
             android:textSize="30dp" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/retryBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="다시하기" />
 
 </LinearLayout>
