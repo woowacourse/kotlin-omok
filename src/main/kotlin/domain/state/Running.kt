@@ -11,7 +11,9 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
     }
 
     override fun canPut(nextStone: Stone): Boolean =
-        !willBePlacedWhereAlreadyPlaced(nextStone) && RenjuRule.stateWillObeyThisRule(this, nextStone)
+        nextStone.point in Board &&
+            !willBePlacedWhereAlreadyPlaced(nextStone) &&
+            RenjuRule.stateWillObeyThisRule(this, nextStone)
 
     private fun willBePlacedWhereAlreadyPlaced(stone: Stone): Boolean =
         stone in blackStones || stone in whiteStones
