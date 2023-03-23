@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun continuePreviousGame() {
         omokRepo.getAll {
+            if (it.count % 2 == 1) toggleTurnHolder(StoneColorModel.BLACK)
             while (it.moveToNext()) {
                 val col = it.getInt(it.getColumnIndexOrThrow("x"))
                 val row = it.getInt(it.getColumnIndexOrThrow("y"))
@@ -96,8 +97,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun toggleTurnHolder(stoneColor: StoneColorModel) {
-        when(stoneColor) {
+    private fun toggleTurnHolder(prevStoneColor: StoneColorModel) {
+        when(prevStoneColor) {
             StoneColorModel.BLACK -> {
                 manTurnHolder.visibility = View.GONE
                 womanTurnHolder.visibility = View.VISIBLE
