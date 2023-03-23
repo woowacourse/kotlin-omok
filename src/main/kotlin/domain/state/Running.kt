@@ -1,6 +1,7 @@
 package domain.state
 
 import domain.*
+import domain.rule.RenjuRule
 
 abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State {
 
@@ -10,7 +11,7 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
     }
 
     override fun canPut(nextStone: Stone): Boolean =
-        !willBePlacedWhereAlreadyPlaced(nextStone) && Rule.stateWillObeyThisRule(this, nextStone)
+        !willBePlacedWhereAlreadyPlaced(nextStone) && RenjuRule.stateWillObeyThisRule(this, nextStone)
 
     private fun willBePlacedWhereAlreadyPlaced(stone: Stone): Boolean =
         stone in blackStones || stone in whiteStones
@@ -72,6 +73,5 @@ abstract class Running(blackStones: Set<Stone>, whiteStones: Set<Stone>) : State
     companion object {
         private const val RUNNING_COMPLETE_ERROR = "게임이 진행되는 상태에서는 오목이 완성될 수 없습니다."
         private const val BLACK_WHITE_INTERSECT_ERROR = "흑돌과 백돌이 겹칠 수 없습니다."
-        private const val ALREADY_PLACED_ERROR = "이미 놓여진 곳에 둘 수 없습니다."
     }
 }
