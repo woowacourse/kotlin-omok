@@ -9,12 +9,14 @@ import androidx.core.view.children
 import woowacourse.omok.util.setOnSingleClickListener
 
 class GameActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val board = findViewById<TableLayout>(R.id.board)
         setBoardOnclickListener(board)
+        OmokApplication.controller.run()
     }
 
     private fun setBoardOnclickListener(board: TableLayout) {
@@ -45,5 +47,10 @@ class GameActivity : AppCompatActivity() {
         }
 
     private fun coordinateClickListener(imageView: ImageView, rowIndex: Int, columIndex: Int) {
+    }
+
+    override fun onDestroy() {
+        OmokApplication.controller = AndroidController()
+        super.onDestroy()
     }
 }

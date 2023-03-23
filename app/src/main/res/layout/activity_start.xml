@@ -11,7 +11,7 @@
         android:id="@+id/tv_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="🐗오목 게임을 시작합니다🐗\n터치로 시작해보세요\n사랑해요 MOME❤️"
+        android:text="@string/game_start_script"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"

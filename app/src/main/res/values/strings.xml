@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Omok</string>
+
+    <!-- StartActivity -->
+    <string name="game_start_script">🐗오목 게임을 시작합니다🐗\n터치로 시작해보세요\n사랑해요 MOME❤️</string>
+
 </resources>
