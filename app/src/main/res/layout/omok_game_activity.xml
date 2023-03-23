@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="@drawable/record"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="20dp"
+        android:layout_weight="1"
+        android:src="@drawable/bixby" />
 
     <TableLayout
         android:id="@+id/board_table"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:stretchColumns="*">
 
         <TableRow android:layout_weight="1">
@@ -1180,4 +1192,12 @@
         </TableRow>
 
     </TableLayout>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="20dp"
+        android:layout_weight="1"
+        android:src="@drawable/siri" />
 </LinearLayout>
