@@ -190,7 +190,7 @@ class RenjuRuleTest {
             Stone(Color.Black, Coordinate.from(7, 6)!!),
             Stone(Color.Black, Coordinate.from(5, 4)!!),
 
-            )
+        )
         val stones = Stones(placedStones)
         val renjuRule = RenjuRule(stones)
 
@@ -212,7 +212,7 @@ class RenjuRuleTest {
             Stone(Color.Black, Coordinate.from(7, 6)!!),
             Stone(Color.Black, Coordinate.from(7, 5)!!),
 
-            )
+        )
         val stones = Stones(placedStones)
         val renjuRule = RenjuRule(stones)
 

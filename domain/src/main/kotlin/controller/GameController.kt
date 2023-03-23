@@ -66,7 +66,8 @@ class GameController(private val gameView: GameView, private val errorHandler: E
         gameView.renderBoard(
             stones.value.associate {
                 vectorToScalar(it.coordinate.vector) to it.toDTO()
-            }, Board.BOARD_SIZE.toDTO()
+            },
+            Board.BOARD_SIZE.toDTO()
         )
     }
 
