@@ -27,6 +27,7 @@ private fun createOmokGame(): OmokGame {
 private fun getStoneThatCanPlace(omokGame: OmokGame): Stone {
     var stone = InputView.readStone()
     while (omokGame.canPlace(stone).not()) {
+        OutputView.printStoneViolateRuleMessage()
         stone = InputView.readStone()
     }
     return stone
