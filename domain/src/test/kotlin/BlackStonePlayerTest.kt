@@ -24,7 +24,7 @@ class BlackStonePlayerTest {
             Point(4, 12)
         )
 
-        Assertions.assertThat(actual).isFalse
+        assertThat(actual).isFalse
     }
 
     @Test
@@ -44,7 +44,7 @@ class BlackStonePlayerTest {
             Point(9, 8)
         )
 
-        Assertions.assertThat(actual).isFalse
+        assertThat(actual).isFalse
     }
 
     @Test
@@ -64,7 +64,7 @@ class BlackStonePlayerTest {
             Point(2, 1)
         )
 
-        Assertions.assertThat(actual).isTrue
+        assertThat(actual).isTrue
     }
 
     @Test
