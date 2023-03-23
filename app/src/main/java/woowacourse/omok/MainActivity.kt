@@ -115,6 +115,8 @@ class MainActivity : AppCompatActivity() {
                 whiteCount++
             }
         }
+        cursor.close()
+
         if (blackCount != whiteCount) {
             return false
         }
