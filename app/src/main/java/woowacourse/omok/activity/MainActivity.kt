@@ -18,20 +18,17 @@ import domain.rule.WhiteRenjuRule
 import domain.stone.StoneColor
 import woowacourse.omok.listener.GameEventListener
 import woowacourse.omok.R
-import woowacourse.omok.listener.TurnEventListener
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val turnEventListener = TurnEventListener(applicationContext)
         val gameEventListener = GameEventListener(applicationContext, findViewById(R.id.description))
-        val omok = Omok()
-        var players = Players(BlackPlayer(rule = BlackRenjuRule()), WhitePlayer(rule = WhiteRenjuRule()))
+        val omok = Omok(BlackPlayer(rule = BlackRenjuRule()), WhitePlayer(rule = WhiteRenjuRule()))
 
         gameEventListener.onStartGame()
-        gameEventListener.onStartTurn(players.curPlayerColor, players.getLastPoint())
+        gameEventListener.onStartTurn(omok.players.curPlayerColor, omok.players.getLastPoint())
         val board = findViewById<TableLayout>(R.id.board)
         board
             .children
@@ -40,12 +37,11 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
                 view.setOnClickListener {
-                    if (players.isPlaying) {
-                        val result = omok.takeTurn(calculateIndexToPoint(index), players)
-                        if (result is TurnResult.Success) setStone(view, players)
-                        gameEventListener.onEndTurn(players)
-                        players = result.players
-                    }
+                    if (!omok.isPlaying) return@setOnClickListener
+                    val result = omok.takeTurn(calculateIndexToPoint(index))
+                    if (result is TurnResult.Success) setStone(view, omok.players)
+                    gameEventListener.onEndTurn(result)
+                    gameEventListener.onEndGame(omok.players)
                 }
             }
     }
@@ -57,5 +53,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun calculateIndexToPoint(index: Int): Point = Point(index / OMOK_BOARD_SIZE + 1, index % OMOK_BOARD_SIZE + 1)
+    private fun calculateIndexToPoint(index: Int): Point =
+        Point(index / OMOK_BOARD_SIZE + 1, index % OMOK_BOARD_SIZE + 1)
 }

@@ -40,6 +40,8 @@ data class Players private constructor(private val players: List<Player>) {
 
     fun toList(): List<Player> = players.toList()
 
+    fun copy(): Players = Players(latestPlayer, players)
+
     companion object {
         private const val PLAYER_SIZE = 2
         private const val INVALID_PLAYERS_SIZE_ERROR_MESSAGE = "플레이어는 ${PLAYER_SIZE}명이어야 합니다."

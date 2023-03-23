@@ -13,14 +13,12 @@ class OmokController(
     private val outputView: OmokGameEventListener,
 ) {
     fun start(blackRule: OmokRule, whiteRule: OmokRule) {
-        Omok().apply {
-            var players = Players(BlackPlayer(rule = blackRule), WhitePlayer(rule = whiteRule))
+        Omok(BlackPlayer(rule = blackRule), WhitePlayer(rule = whiteRule)).apply {
             outputView.onStartGame()
-            while (players.isPlaying) {
+            while (isPlaying) {
                 outputView.onStartTurn(players.curPlayerColor, players.getLastPoint())
-                val result = takeTurn(inputView.onTakeTurn(players.curPlayerColor), players)
+                val result = takeTurn(inputView.onTakeTurn(players.curPlayerColor))
                 outputView.onEndTurn(result)
-                players = result.players
             }
             outputView.onEndGame(players)
         }
