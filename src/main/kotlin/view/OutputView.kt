@@ -15,7 +15,8 @@ object OutputView : StartEventListener, PlaceStoneEventListener, FinishEventList
     private const val STONE_VIOLATE_RULE_MESSAGE = "해당 돌을 두면 규칙에 어긋납니다."
 
     private fun printBoard(omokGame: OmokGame) {
-        return println(BoardView(omokGame))
+        println(BoardView(omokGame))
+        println()
     }
 
     override fun notifyStartEventHasOccurred(omokGame: OmokGame) {
