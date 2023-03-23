@@ -25,58 +25,63 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val db = BoardDBHelper(this).writableDatabase
-        val boardData = getDB(db)
-        val boardUI = findViewById<TableLayout>(R.id.board)
-        val board = boardData.first
-        val turn = boardData.second
-        val winningReferee = WinningReferee()
-
-        insertStoneToView(boardUI, board)
-
-        boardUI
+        val boardView = findViewById<TableLayout>(R.id.board)
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEachIndexed { index, view ->
-                view.setOnClickListener {
-                    val selectedPosition = changeToPosition(index)
-                    val isPlaced = place(board, selectedPosition, turn)
+        val db = BoardDBHelper(this).writableDatabase
+        val boardData = getDB(db)
+        val board = boardData.first
+        val turn = boardData.second
+        val winningReferee = WinningReferee()
+        insertStoneToView(boardView, board)
 
-                    if (isPlaced) {
-                        showSelectedStone(view, turn)
-                        checkWinner(selectedPosition, board, winningReferee, turn.now)
+        boardView.forEachIndexed { index, view ->
+            view.setOnClickListener {
+                val selectedPosition = changeIndexToPosition(index)
+                val isPlaced = place(board, selectedPosition, turn)
 
-                        val values = ContentValues()
-                        values.put(BoardContract.TABLE_COLUMN_POSITION_INDEX, index)
-                        values.put(
-                            BoardContract.TABLE_COLUMN_STONE,
-                            "${changeStoneToData(turn.now)}"
-                        )
-                        db.insert(BoardContract.TABLE_NAME, null, values)
-                        turn.changeTurn()
-                    }
+                if (isPlaced) {
+                    showSelectedStone(view, turn)
+                    if ((winningReferee.hasFiveOrMoreStoneInRow(board.positions, selectedPosition))) goToResultView(turn.now)
+                    insertData(index, turn, db)
+                    turn.changeTurn()
                 }
             }
+        }
     }
 
-    private fun changeToPosition(index: Int): Position {
+    private fun insertData(
+        index: Int,
+        turn: Turn,
+        db: SQLiteDatabase
+    ) {
+        val values = ContentValues().apply {
+            put(BoardContract.TABLE_COLUMN_POSITION_INDEX, index)
+            put(BoardContract.TABLE_COLUMN_STONE, "${changeStoneToData(turn.now)}")
+        }
+        db.insert(BoardContract.TABLE_NAME, null, values)
+    }
+
+    private fun changeIndexToPosition(index: Int): Position {
         val row = 14 - (index / 15)
         val column = index % 15
         return Position(Pair(column, row))
     }
 
-    private fun changeStoneToData(stone: Stone): Int {
-        return when (stone) {
-            Black -> 0
-            White -> 1
+    private fun changePositionToIndex(position: Position): Int {
+        var result = 0
+        Column.values().forEachIndexed { index, column ->
+            if (column == position.column) result += index
         }
+        result += (14 - position.row.axis) * 15
+        return result
     }
 
-    private fun changeDataToStone(stone: Int): Stone {
-        return if (stone == 0) Black else White
-    }
+    private fun changeStoneToData(stone: Stone) = if (stone == Black) 0 else 1
+
+    private fun changeDataToStone(stone: Int) = if (stone == 0) Black else White
 
     private fun place(
         board: Board,
@@ -104,66 +109,44 @@ class MainActivity : AppCompatActivity() {
             cell.setImageResource(R.drawable.white_stone)
     }
 
-    private fun checkWinner(
-        selectedPosition: Position,
-        board: Board,
-        winningReferee: WinningReferee,
+    private fun goToResultView(
         turn: Stone
     ) {
-        if ((winningReferee.hasFiveOrMoreStoneInRow(board.positions, selectedPosition))) {
-            val intent = Intent(this, ResultActivity::class.java)
-            intent.putExtra("winner", turn.toPresentation())
-            startActivity(intent)
-            finish()
-        }
+        val intent = Intent(this, ResultActivity::class.java)
+        intent.putExtra("winner", turn.toPresentation())
+        startActivity(intent)
+        finish()
     }
 
     private fun getDB(db: SQLiteDatabase): Pair<Board, Turn> {
-        val cells: MutableMap<Position, Stone?> =
-            Board.POSITIONS.associateWith { null }.toMutableMap()
+        val cells: MutableMap<Position, Stone?> = Board.POSITIONS.associateWith { null }.toMutableMap()
 
         val cursor = db.rawQuery("SELECT * FROM ${BoardContract.TABLE_NAME}", null)
         val count = cursor.count
         if (cursor.moveToFirst()) {
             do {
-                val index =
-                    cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.TABLE_COLUMN_POSITION_INDEX))
-                val stone =
-                    cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.TABLE_COLUMN_STONE))
+                val index = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.TABLE_COLUMN_POSITION_INDEX))
+                val stone = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.TABLE_COLUMN_STONE))
 
-                cells[changeToPosition(index)] = changeDataToStone(stone)
+                cells[changeIndexToPosition(index)] = changeDataToStone(stone)
             } while (cursor.moveToNext())
         }
+        cursor.close()
         if (count != 0 && count % 2 == 1)
             return Pair(Board(cells), Turn(setOf(White, Black)))
         return Pair(Board(cells), Turn(setOf(Black, White)))
     }
 
-    private fun insertStoneToView(boardUI: TableLayout, board: Board) {
+    private fun insertStoneToView(boardView: Sequence<ImageView>, board: Board) {
         board.positions.forEach { (position, stone) ->
             if (stone != null) {
-                boardUI
-                    .children
-                    .filterIsInstance<TableRow>()
-                    .flatMap { it.children }
-                    .filterIsInstance<ImageView>()
-                    .toList()[changeToIndex(position)].setImageResource(changeStoneToImg(stone))
+                boardView.toList()[changePositionToIndex(position)].setImageResource(changeStoneToImg(stone))
             }
         }
     }
 
-    private fun changeStoneToImg(stone: Stone): Int {
-        return if (stone == Black) R.drawable.black_stone else R.drawable.white_stone
-    }
-
-    private fun changeToIndex(position: Position): Int {
-        var result = 0
-        Column.values().forEachIndexed { index, column ->
-            if (column == position.column) result += index
-        }
-        result += (14 - position.row.axis) * 15
-        return result
-    }
+    private fun changeStoneToImg(stone: Stone) =
+        if (stone == Black) R.drawable.black_stone else R.drawable.white_stone
 
     override fun onDestroy() {
         super.onDestroy()
