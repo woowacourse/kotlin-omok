@@ -5,7 +5,7 @@ import domain.stone.Stone
 import rule.BlackRenjuRule
 import rule.type.Violation
 
-class BlackTurnAdapter(private val blackRenjuRule: BlackRenjuRule = BlackRenjuRule()) : Adapter() {
+class BlackRuleAdapter(private val blackRenjuRule: BlackRenjuRule = BlackRenjuRule()) : OmokRuleAdapter() {
 
     fun checkAnyFoulCondition(board: Board, stone: Stone): Boolean {
         if (blackRenjuRule.checkAnyFoulCondition(

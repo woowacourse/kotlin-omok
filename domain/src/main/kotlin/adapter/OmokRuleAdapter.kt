@@ -6,7 +6,7 @@ import domain.stone.StonePosition
 import domain.stone.StoneType
 import rule.wrapper.point.Point
 
-abstract class Adapter {
+abstract class OmokRuleAdapter {
 
     abstract fun checkWin(board: Board, stone: Stone): Boolean
 

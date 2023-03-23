@@ -4,7 +4,7 @@ import domain.stone.Board
 import domain.stone.Stone
 import rule.WhiteRenjuRule
 
-class WhiteTurnAdapter(private val whiteRenjuRule: WhiteRenjuRule = WhiteRenjuRule()) : Adapter() {
+class WhiteRuleAdapter(private val whiteRenjuRule: WhiteRenjuRule = WhiteRenjuRule()) : OmokRuleAdapter() {
     override fun checkWin(board: Board, stone: Stone): Boolean {
         return whiteRenjuRule.checkWin(
             getWhiteStonesPoint(board),
