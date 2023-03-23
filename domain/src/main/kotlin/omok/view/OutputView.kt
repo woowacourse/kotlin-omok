@@ -10,6 +10,10 @@ class OutputView {
         println(MESSAGE_GAME_START)
     }
 
+    fun outputError(message: String?) {
+        println(message)
+    }
+
     fun outputBoard(omokBoard: OmokBoard) {
         val stringBuilder = StringBuilder(board)
         omokBoard.value.keys.forEach { point ->
