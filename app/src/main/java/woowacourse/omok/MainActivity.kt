@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.HorizontalAxis
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     private fun gameOn(index: Int, view: ImageView, turn: Turn): State {
         val position = Position(HorizontalAxis.getHorizontalAxis(index / 15 + 1), index % 15 + 1)
         if (!omokGame.board.isPlaceable(turn, position)) {
-            // warning
+            Toast.makeText(this, "해당 자리에 돌을 둘 수 없습니다.", Toast.LENGTH_LONG).show()
             return turn
         }
         when (turn) {
