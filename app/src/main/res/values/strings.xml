@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Omok</string>
+    <string name="retry_omok_korean">재시작</string>
 </resources>

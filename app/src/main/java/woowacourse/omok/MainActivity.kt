@@ -1,9 +1,11 @@
 package woowacourse.omok
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.model.game.Board
@@ -21,6 +23,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val board = findViewById<TableLayout>(R.id.board)
+        val winner = findViewById<TextView>(R.id.winner_text)
+        val retryButton = findViewById<Button>(R.id.retry_button)
+
         board.children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
@@ -37,8 +42,13 @@ class MainActivity : AppCompatActivity() {
                     }
                     placeGoStoneOnBoard(lastPlacedStone, view)
                     disableBoard(board)
+                    setWinnerText(winner, lastPlacedStone.color, placedStoneState)
                 }
             }
+
+        retryButton.setOnClickListener {
+            recreate()
+        }
     }
 
     private fun placeGoStoneOnBoard(lastPlacedStone: GoStone, view: ImageView) {
@@ -52,6 +62,17 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEach { it.isClickable = false }
+    }
+
+    private fun setWinnerText(
+        winnerTextView: TextView,
+        color: GoStoneColor,
+        placementState: PlacementState
+    ) {
+        winnerTextView.text = when (placementState) {
+            PlacementState.WIN -> "${color.name} 승리!"
+            else -> "금수!: ${placementState.name}, ${GoStoneColor.WHITE.name} 승리!"
+        }
     }
 
     private fun Int.toCoordinate(): Coordinate {
