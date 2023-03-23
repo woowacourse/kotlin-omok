@@ -5,7 +5,7 @@ import omok.model.external.rule.Direction
 import omok.model.external.rule.Row
 import omok.model.external.rule.other.Iterator
 
-internal class DirectionsIterator(items: List<Direction<Row, Col>>) : Iterator<Direction<Row, Col>> {
+class DirectionsIterator(items: List<Direction<Row, Col>>) : Iterator<Direction<Row, Col>> {
     private val _items: MutableList<Direction<Row, Col>> = items.deepCopy()
 
     override fun hasNext(): Boolean = _items.isNotEmpty()

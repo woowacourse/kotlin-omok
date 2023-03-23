@@ -5,7 +5,7 @@ import omok.model.external.rule.Direction
 import omok.model.external.rule.Row
 import omok.model.external.rule.other.Iterator
 
-internal class Directions {
+class Directions {
     fun iterator(): Iterator<Direction<Row, Col>> = DirectionsIterator(all())
 
     companion object {
