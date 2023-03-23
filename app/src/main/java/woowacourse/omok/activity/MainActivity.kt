@@ -3,6 +3,7 @@ package woowacourse.omok.activity
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var board: TableLayout
     private lateinit var omok: Omok
     private lateinit var omokRepo: Repository
+    private lateinit var manTurnHolder: View
+    private lateinit var womanTurnHolder: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +39,19 @@ class MainActivity : AppCompatActivity() {
 
         omokRepo = OmokRepository(OmokDatabase.getInstance(this))
         omok = Omok(BlackRenjuRule(), WhiteRenjuRule())
-        board = findViewById(R.id.board)
+        initView()
 
         if (hasPreviousGameHistory()) {
             showRestartDialog()
         }
         setOmokClickListener()
         showMessage(getString(R.string.omok_start_message))
+    }
+
+    private fun initView() {
+        board = findViewById(R.id.board)
+        manTurnHolder = findViewById(R.id.man_turn_iv)
+        womanTurnHolder = findViewById(R.id.woman_turn_iv)
     }
 
     private fun continuePreviousGame() {
@@ -73,6 +82,7 @@ class MainActivity : AppCompatActivity() {
     private fun processPutResult(result: PutResult, view: ImageView) {
         when (result) {
             is PutSuccess -> {
+                toggleTurnHolder(result.stoneColor.toPresentation())
                 savePoint(result.stoneColor.toPresentation(), result.point)
                 drawStoneOnBoard(view, result.stoneColor)
             }
@@ -80,6 +90,19 @@ class MainActivity : AppCompatActivity() {
             is GameFinish -> {
                 omokRepo.clear()
                 showWinner(result.winnerStoneColor.toPresentation())
+            }
+        }
+    }
+
+    private fun toggleTurnHolder(stoneColor: StoneColorModel) {
+        when(stoneColor) {
+            StoneColorModel.BLACK -> {
+                manTurnHolder.visibility = View.GONE
+                womanTurnHolder.visibility = View.VISIBLE
+            }
+            StoneColorModel.WHITE -> {
+                womanTurnHolder.visibility = View.GONE
+                manTurnHolder.visibility = View.VISIBLE
             }
         }
     }

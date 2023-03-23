@@ -14,7 +14,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/pink_bear" />
+        tools:src="@drawable/man_player" />
 
     <TextView
         android:id="@+id/winner_stone_tv"

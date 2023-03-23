@@ -31,11 +31,11 @@ class GameResultActivity : AppCompatActivity(), View.OnClickListener {
 
         when (winnerStoneColor) {
             StoneColorModel.BLACK -> {
-                winnerStoneIv.setImageByResId(R.drawable.pink_bear)
+                winnerStoneIv.setImageByResId(R.drawable.man_player)
                 winnerStoneTv.text = getString(R.string.winner_result_format, StoneColorModel.BLACK.text)
             }
             StoneColorModel.WHITE -> {
-                winnerStoneIv.setImageByResId(R.drawable.white_stone)
+                winnerStoneIv.setImageByResId(R.drawable.woman_player)
                 winnerStoneTv.text = getString(R.string.winner_result_format, StoneColorModel.WHITE.text)
             }
         }
