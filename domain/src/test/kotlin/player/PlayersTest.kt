@@ -73,4 +73,11 @@ class PlayersTest {
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(listOf(BlackPlayer(rule = blackRenjuRule), WhitePlayer(rule = whiteRenjuRule)))
     }
+
+    @Test
+    fun `자기 자신을 깊은 복사할 수 있다`() {
+        val players = Players(BlackPlayer(rule = blackRenjuRule), WhitePlayer(rule = whiteRenjuRule))
+        val actual = players.copy()
+        assertThat(actual).isNotSameAs(players)
+    }
 }
