@@ -14,7 +14,6 @@ class WhiteTurn(override val omokBoard: OmokBoard) : GameState {
 
         return when {
             referee.isWin(omokBoard, point, stoneState) -> WhiteWin(omokBoard.placeStone(point, stoneState))
-            referee.isForbidden(omokBoard, point) -> this
             else -> BlackTurn(omokBoard.placeStone(point, stoneState))
         }
     }
