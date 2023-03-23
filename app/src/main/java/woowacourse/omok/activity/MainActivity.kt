@@ -1,6 +1,7 @@
 package woowacourse.omok.activity
 
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -77,9 +78,8 @@ class MainActivity : AppCompatActivity() {
             }
             is PutFailed -> showMessage(getString(R.string.inplace_stone))
             is GameFinish -> {
-                showWinner(view, result.lastStoneColor, result.winnerStoneColor.toPresentation())
                 omokRepo.clear()
-                finish()
+                showWinner(result.winnerStoneColor.toPresentation())
             }
         }
     }
@@ -102,13 +102,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showWinner(
-        view: ImageView,
-        lastStoneColor: StoneColor,
-        winnerColor: StoneColorModel,
-    ) {
-        drawStoneOnBoard(view, lastStoneColor)
-        showMessage("${winnerColor.text} 승리!")
+    private fun showWinner(winnerColor: StoneColorModel) {
+        val resultIntent = Intent(this, GameResultActivity::class.java)
+            .putExtra("winner_color", winnerColor)
+        startActivity(resultIntent)
+        finish()
     }
 
     private fun showMessage(message: String) {

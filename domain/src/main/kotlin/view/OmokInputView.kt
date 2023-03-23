@@ -1,7 +1,6 @@
 package view
 
 import domain.point.Point
-import domain.stone.StoneColor
 import view.mapper.toDomain
 import view.model.PointModel
 
