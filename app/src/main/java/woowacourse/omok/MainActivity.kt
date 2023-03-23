@@ -19,9 +19,6 @@ import domain.Stone
 
 class MainActivity : AppCompatActivity() {
 
-    private var isBlackTurn = true
-    private var isFinish = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -56,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         val db = OmokDbHelper(this).writableDatabase
 
-        loadGame(db, omokBoard, omokGame)
+        var isBlackTurn = loadGame(db, omokBoard, omokGame)
 
         omokBoard.forEachIndexed { index, view ->
             val row = index / BOARD_SIZE
@@ -65,12 +62,11 @@ class MainActivity : AppCompatActivity() {
                 val state = if (isBlackTurn) State.BLACK else State.WHITE
                 val stoneImage = if (isBlackTurn) R.drawable.black_stone else R.drawable.white_stone
 
-                if (!isFinish && omokGame.successTurn(Stone(row, col), state)) {
+                if (omokGame.successTurn(Stone(row, col), state)) {
                     view.setImageResource(stoneImage)
                     saveStone(db, index, state)
                     isBlackTurn = !isBlackTurn
                     if (omokGame.isVictory(state)) {
-                        isFinish = true
                         val intent = Intent(this, GameOverActivity::class.java).apply {
                             putExtra(OMOK_WINNER, state.name)
                         }
@@ -93,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         db: SQLiteDatabase,
         omokBoard: List<ImageView>,
         omokGame: OmokGame
-    ) {
+    ): Boolean {
 
         var blackCount = 0
         var whiteCount = 0
@@ -120,8 +116,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
         if (blackCount != whiteCount) {
-            isBlackTurn = false
+            return false
         }
+        return true
     }
 
     private fun getStonesCursor(db: SQLiteDatabase): Cursor {
