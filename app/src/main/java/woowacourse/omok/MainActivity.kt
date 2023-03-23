@@ -2,6 +2,7 @@ package woowacourse.omok
 
 import android.content.ContentValues
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.domain.Turn
 import omok.domain.board.Board
+import omok.domain.board.Column
 import omok.domain.board.Position
 import omok.domain.judgment.WinningReferee
 import omok.domain.player.Black
@@ -24,10 +26,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val db = BoardDBHelper(this).writableDatabase
+        val boardData = getDB(db)
         val boardUI = findViewById<TableLayout>(R.id.board)
-        val board = Board()
-        val turn = Turn(setOf(Black, White))
+        val board = boardData.first
+        val turn = boardData.second
         val winningReferee = WinningReferee()
+
+        insertStoneToView(boardUI, board)
 
         boardUI
             .children
@@ -69,6 +74,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun changeDataToStone(stone: Int): Stone {
+        return if (stone == 0) Black else White
+    }
+
     private fun place(
         board: Board,
         selectedPosition: Position,
@@ -107,5 +116,59 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun getDB(db: SQLiteDatabase): Pair<Board, Turn> {
+        val cells: MutableMap<Position, Stone?> =
+            Board.POSITIONS.associateWith { null }.toMutableMap()
+
+        val cursor = db.rawQuery("SELECT * FROM ${BoardContract.TABLE_NAME}", null)
+        val count = cursor.count
+        if (cursor.moveToFirst()) {
+            do {
+                val index =
+                    cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.TABLE_COLUMN_POSITION_INDEX))
+                val stone =
+                    cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.TABLE_COLUMN_STONE))
+
+                cells[changeToPosition(index)] = changeDataToStone(stone)
+            } while (cursor.moveToNext())
+        }
+        if (count != 0 && count % 2 == 1)
+            return Pair(Board(cells), Turn(setOf(White, Black)))
+        return Pair(Board(cells), Turn(setOf(Black, White)))
+    }
+
+    private fun insertStoneToView(boardUI: TableLayout, board: Board) {
+        board.positions.forEach { (position, stone) ->
+            if (stone != null) {
+                boardUI
+                    .children
+                    .filterIsInstance<TableRow>()
+                    .flatMap { it.children }
+                    .filterIsInstance<ImageView>()
+                    .toList()[changeToIndex(position)].setImageResource(changeStoneToImg(stone))
+            }
+        }
+    }
+
+    private fun changeStoneToImg(stone: Stone): Int {
+        return if (stone == Black) R.drawable.black_stone else R.drawable.white_stone
+    }
+
+    private fun changeToIndex(position: Position): Int {
+        var result = 0
+        Column.values().forEachIndexed { index, column ->
+            if (column == position.column) result += index
+        }
+        result += (14 - position.row.axis) * 15
+        return result
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val db = BoardDBHelper(this).writableDatabase
+        db.execSQL("DELETE FROM ${BoardContract.TABLE_NAME}")
+        db.close()
     }
 }
