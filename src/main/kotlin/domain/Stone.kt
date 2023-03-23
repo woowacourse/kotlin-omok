@@ -1,6 +1,6 @@
 package domain
 
-data class Stone(private val point: Point) {
+data class Stone(val point: Point) {
 
     val x = point.x
     val y = point.y

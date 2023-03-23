@@ -6,6 +6,8 @@ class XCoordinate private constructor(val x: Char) {
 
     override fun hashCode(): Int = x.hashCode()
 
+    override fun toString(): String = x.toString()
+
     companion object {
 
         private val COORDINATES: Map<Char, XCoordinate> = ('A' until 'A' + Board.SIZE).associateWith { XCoordinate(it) }
