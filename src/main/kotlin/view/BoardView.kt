@@ -46,7 +46,7 @@ class BoardView(board: Board) {
 
     companion object {
         private const val BLACK_STONE = "●"
-        private const val WHITE_STONE = "○"
+        private const val WHITE_STONE = "◌"
 
         private const val LEFT_TOP = "┌"
         private const val TOP = "┬"
