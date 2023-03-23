@@ -1,23 +1,31 @@
 package omok.omokRule
 
 object FourRule : OmokRule() {
-    private const val MIN_OPEN_FOURS = 2
-    override fun validate(board: List<List<Int>>, point: Pair<Int, Int>): Boolean {
-        return countOpenFours(board, point) >= MIN_OPEN_FOURS
-    }
+    override fun validate(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
+        countOpenFours(board, position) >= 2
 
-    private fun countOpenFours(board: List<List<Int>>, point: Pair<Int, Int>): Int {
-        return directions.sumOf { checkOpenFour(board, point, it) }
-    }
+    private fun countOpenFours(board: List<List<Int>>, position: Pair<Int, Int>): Int =
+        directions.sumOf { direction -> checkOpenFour(board, position, direction) }
 
-    private fun checkOpenFour(board: List<List<Int>>, point: Pair<Int, Int>, direction: Pair<Int, Int>): Int {
-        val (x, y) = point
+    private fun checkOpenFour(
+        board: List<List<Int>>,
+        position: Pair<Int, Int>,
+        direction: Pair<Int, Int>,
+    ): Int {
+        val (x, y) = position
         val (dx, dy) = direction
-        val (stone1, blink1) = search(board, point, direction)
-        val (stone2, blink2) = search(board, point, direction.run { Pair(-this.first, -this.second) })
+        val oppositeDirection = direction.let { (dx, dy) -> Pair(-dx, -dy) }
+
+        val (stone1, blink1) = search(board, position, oppositeDirection)
+        val (stone2, blink2) = search(board, position, direction)
 
         val leftDown = stone1 + blink1
+        val left = dx * (leftDown + 1)
+        val down = dy * (leftDown + 1)
+
         val rightUp = stone2 + blink2
+        val right = dx * (rightUp + 1)
+        val up = dy * (rightUp + 1)
 
         when {
             blink1 + blink2 == 2 && stone1 + stone2 == 4 -> return 2
@@ -27,15 +35,15 @@ object FourRule : OmokRule() {
         }
 
         val leftDownValid = when {
-            dx != 0 && x.minus(dx * leftDown) in X_Edge -> 0
-            dy != 0 && y.minus(dy * leftDown) in Y_Edge -> 0
-            board[x - dx * (leftDown + 1)][y - dy * (leftDown + 1)] == WHITE_STONE -> 0
+            dx != 0 && x - dx * leftDown in X_Edge -> 0
+            dy != 0 && y - dy * leftDown in Y_Edge -> 0
+            board[y - down][x - left] == opponentStone -> 0
             else -> 1
         }
         val rightUpValid = when {
-            dx != 0 && x.plus(dx * rightUp) in X_Edge -> 0
-            dy != 0 && y.plus(dy * rightUp) in Y_Edge -> 0
-            board[x + dx * (rightUp + 1)][y + dy * (rightUp + 1)] == WHITE_STONE -> 0
+            dx != 0 && x + (dx * rightUp) in X_Edge -> 0
+            dy != 0 && y + (dy * rightUp) in Y_Edge -> 0
+            board[y + up][x + right] == opponentStone -> 0
             else -> 1
         }
 
