@@ -5,10 +5,14 @@ import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
 
 class OmokGame(private val board: Board) {
-    private val blackRenjuRuleAdapter: BlackOmokRuleAdapter = BlackOmokRuleAdapter(board)
-    private val whiteRenjuRuleAdapter: WhiteOmokRuleAdapter = WhiteOmokRuleAdapter(board)
+    private val blackRenjuRuleAdapter: OmokRuleAdapter = BlackOmokRuleAdapter(board)
+    private val whiteRenjuRuleAdapter: OmokRuleAdapter = WhiteOmokRuleAdapter(board)
 
-    fun start(coordinate: () -> Coordinate, showBoard: (Board) -> Unit, showTurn: (GoStoneColor, Coordinate?) -> Unit) {
+    fun start(
+        coordinate: () -> Coordinate,
+        showBoard: (Board) -> Unit,
+        showTurn: (GoStoneColor, Coordinate?) -> Unit
+    ) {
         while (true) {
             val newStone = turn(coordinate, showBoard, showTurn)
             val state = judge(newStone)
