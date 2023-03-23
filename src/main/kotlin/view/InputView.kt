@@ -20,11 +20,9 @@ object InputView {
     }
 
     private fun tryToGetPointUntilCorrectType(): String {
-        print(INPUT_POINT)
         var inputValue = readln()
         while (inputValue.substring(1).toIntOrNull() == null) {
             println(NOT_CORRECT_TYPE_ERROR)
-            print(INPUT_POINT)
             inputValue = readln()
         }
         return inputValue
