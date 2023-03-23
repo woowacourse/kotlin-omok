@@ -22,7 +22,7 @@ class Omok(blackRule: OmokRule, whiteRule: OmokRule) {
         players = players.putStone(newPoint)
 
         if (players.isFinish) return GameFinish(latestStoneColor, gameEnd(players))
-        return PutSuccess(latestStoneColor)
+        return PutSuccess(latestStoneColor, newPoint)
     }
 
     private fun isPutOn(point: Point): Boolean = players.isPutOn(point)
