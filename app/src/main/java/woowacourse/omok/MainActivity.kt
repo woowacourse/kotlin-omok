@@ -1,5 +1,6 @@
 package woowacourse.omok
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -10,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.domain.Turn
 import omok.domain.board.Board
-import omok.domain.board.Column
 import omok.domain.board.Position
 import omok.domain.judgment.WinningReferee
 import omok.domain.player.Black
@@ -19,27 +19,37 @@ import omok.domain.player.White
 import omok.view.model.toPresentation
 
 class MainActivity : AppCompatActivity() {
-    val board = Board()
-    val turn = Turn(setOf(Black, White))
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val db = BoardDBHelper(this).writableDatabase
         val boardUI = findViewById<TableLayout>(R.id.board)
+        val board = Board()
+        val turn = Turn(setOf(Black, White))
         val winningReferee = WinningReferee()
 
         boardUI
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
-            .filterIsInstance<ImageView>().toList()
+            .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
                 view.setOnClickListener {
                     val selectedPosition = changeToPosition(index)
-                    val check = place(board, selectedPosition, turn)
-                    if (check) {
+                    val isPlaced = place(board, selectedPosition, turn)
+
+                    if (isPlaced) {
                         showSelectedStone(view, turn)
                         checkWinner(selectedPosition, board, winningReferee, turn.now)
+
+                        val values = ContentValues()
+                        values.put(BoardContract.TABLE_COLUMN_POSITION_INDEX, index)
+                        values.put(
+                            BoardContract.TABLE_COLUMN_STONE,
+                            "${changeStoneToData(turn.now)}"
+                        )
+                        db.insert(BoardContract.TABLE_NAME, null, values)
                         turn.changeTurn()
                     }
                 }
@@ -52,27 +62,10 @@ class MainActivity : AppCompatActivity() {
         return Position(Pair(column, row))
     }
 
-    private fun changeToIndex(position: Position): Int {
-        var result = 0
-        Column.values().forEachIndexed { index, column ->
-            if (column == position.column) result += index
-        }
-        result += (14 - position.row.axis) * 15
-        return result
-    }
-
-    private fun insertStoneToView(boardUI: TableLayout, board: Board) {
-        val stoneImages = mapOf(Black to R.drawable.black_stone, White to R.drawable.white_stone)
-        board.positions.forEach { (position, stone) ->
-            if (stone != null) {
-                boardUI
-                    .children
-                    .filterIsInstance<TableRow>()
-                    .flatMap { it.children }
-                    .filterIsInstance<ImageView>()
-                    .toList()[changeToIndex(position)].setImageResource(stoneImages[stone]!!)
-            }
-            // 비효율적!! 수정 필요
+    private fun changeStoneToData(stone: Stone): Int {
+        return when (stone) {
+            Black -> 0
+            White -> 1
         }
     }
 
@@ -112,6 +105,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ResultActivity::class.java)
             intent.putExtra("winner", turn.toPresentation())
             startActivity(intent)
+            finish()
         }
     }
 }
