@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#1E88E5</color>
     <color name="colorPrimaryVariant">#2196F3</color>
+    <color name="omokBoardLineColor">#CFCFCF</color>
+    <color name="omokBoardBackgroundColor">#FFFFFF</color>
 </resources>

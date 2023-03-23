@@ -97,8 +97,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun drawStoneOnBoard(view: ImageView, stoneColor: StoneColor) {
         when (stoneColor) {
-            StoneColor.BLACK -> view.setImageResource(R.drawable.black_stone)
-            StoneColor.WHITE -> view.setImageResource(R.drawable.white_stone)
+            StoneColor.BLACK -> view.setImageResource(R.drawable.pink_bear)
+            StoneColor.WHITE -> view.setImageResource(R.drawable.white_bear)
         }
     }
 

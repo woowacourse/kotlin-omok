@@ -31,7 +31,7 @@ class GameResultActivity : AppCompatActivity(), View.OnClickListener {
 
         when (winnerStoneColor) {
             StoneColorModel.BLACK -> {
-                winnerStoneIv.setImageByResId(R.drawable.black_stone)
+                winnerStoneIv.setImageByResId(R.drawable.pink_bear)
                 winnerStoneTv.text = getString(R.string.winner_result_format, StoneColorModel.BLACK.text)
             }
             StoneColorModel.WHITE -> {
