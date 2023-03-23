@@ -18,7 +18,7 @@ object BlackStonesAreNotAllowed33Rule : DetailRule {
     private fun Set<Stone>.canBeOpen4At(point: Point, inclination: Inclination, state: State): Boolean {
         return inclination.directions.any {
             val nextPoint = point.getNextBlackStoneIsNotPlacedPoint(this, it)
-            if (nextPoint.canPlaceBlackStoneWhenInThis(state)) {
+            if (nextPoint.canPlaceStoneWhenInThis(state)) {
                 (this + Stone(nextPoint)).isOpen4At(point, inclination, state)
             } else {
                 false
@@ -26,7 +26,7 @@ object BlackStonesAreNotAllowed33Rule : DetailRule {
         }
     }
 
-    private fun Point.canPlaceBlackStoneWhenInThis(state: State): Boolean {
+    private fun Point.canPlaceStoneWhenInThis(state: State): Boolean {
         val stone = Stone(this)
         return this in Board && stone !in state.blackStones && stone !in state.whiteStones
     }
@@ -45,7 +45,7 @@ object BlackStonesAreNotAllowed33Rule : DetailRule {
         println(nextPoint1)
         println(nextPoint2)
 
-        if (nextPoint1.canPlaceBlackStoneWhenInThis(state) && nextPoint2.canPlaceBlackStoneWhenInThis(state)) {
+        if (nextPoint1.canPlaceStoneWhenInThis(state) && nextPoint2.canPlaceStoneWhenInThis(state)) {
             return kotlin.math.abs(nextPoint1.x - nextPoint2.x) == 5 || kotlin.math.abs(nextPoint1.y - nextPoint2.y) == 5
         }
         return false
