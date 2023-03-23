@@ -11,6 +11,7 @@ import domain.library.ark.ArkRuleAdapter
 abstract class State(val stones: Stones) {
     protected val rule: Rule = ArkRuleAdapter()
     abstract fun toNextState(position: Position): State
+    fun getLastPosition(): Position? = stones.lastPosition
     fun getTurn(): CoordinateState {
         return when (this) {
             is BlackTurn -> BLACK
