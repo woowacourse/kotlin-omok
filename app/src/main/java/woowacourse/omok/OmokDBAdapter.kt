@@ -2,7 +2,6 @@ package woowacourse.omok
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
-import android.util.Log
 import domain.stone.Color
 import domain.stone.Stone
 
@@ -10,8 +9,8 @@ class OmokDBAdapter(db: OmokDBHelper) {
 
     private val writableDB: SQLiteDatabase = db.writableDatabase
     private val cursor = writableDB.query(
-        OmokSpecification.TABLE_NAME,
-        arrayOf(OmokSpecification.COLUMN_PLACED_INDEX, OmokSpecification.COLOR_STONE_COLOR),
+        OmokContract.TABLE_NAME,
+        arrayOf(OmokContract.COLUMN_PLACED_INDEX, OmokContract.COLUMN_STONE_COLOR),
         null,
         null,
         null,
@@ -19,16 +18,22 @@ class OmokDBAdapter(db: OmokDBHelper) {
         null
     )
 
+    private fun String.descriptionToColor(): Color {
+        return when (this) {
+            BLACK_DESCRIPTION -> Color.Black
+            WHITE_DESCRIPTION -> Color.White
+            else -> throw IllegalArgumentException(COLOR_ERROR)
+        }
+    }
+
     fun getStones(): MutableList<Stone> {
         val stones = mutableListOf<Stone>()
 
         with(cursor) {
             while (moveToNext()) {
-                val index = getInt(getColumnIndexOrThrow(OmokSpecification.COLUMN_PLACED_INDEX))
-                val color = getString(getColumnIndexOrThrow(OmokSpecification.COLOR_STONE_COLOR))
-                stones.add(Stone(index.toPoint(), color.toColor()))
-
-                Log.i("test", "$index $color")
+                val index = getInt(getColumnIndexOrThrow(OmokContract.COLUMN_PLACED_INDEX))
+                val color = getString(getColumnIndexOrThrow(OmokContract.COLUMN_STONE_COLOR))
+                stones.add(Stone(index.toPoint(), color.descriptionToColor()))
             }
         }
 
@@ -37,15 +42,19 @@ class OmokDBAdapter(db: OmokDBHelper) {
 
     fun addStone(clickedIndex: Int, color: Color) {
         val values = ContentValues()
-        values.put(OmokSpecification.COLUMN_PLACED_INDEX, clickedIndex)
-        values.put(OmokSpecification.COLOR_STONE_COLOR, color.toName())
 
-        writableDB.insert(OmokSpecification.TABLE_NAME, null, values)
+        values.put(OmokContract.COLUMN_PLACED_INDEX, clickedIndex)
+        values.put(OmokContract.COLUMN_STONE_COLOR, color.toName())
+        writableDB.insert(OmokContract.TABLE_NAME, null, values)
     }
 
     fun deleteStones() {
         if (writableDB.isOpen) {
-            writableDB.delete(OmokSpecification.TABLE_NAME, null, null)
+            writableDB.delete(OmokContract.TABLE_NAME, null, null)
         }
+    }
+
+    companion object {
+        private const val COLOR_ERROR = "[ERROR] 알 수 없는 색깔입니다."
     }
 }

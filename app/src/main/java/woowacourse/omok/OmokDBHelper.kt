@@ -14,7 +14,7 @@ class OmokDBHelper(
 ) {
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
-            "CREATE TABLE ${OmokSpecification.TABLE_NAME}(" +
+            "CREATE TABLE ${OmokContract.TABLE_NAME}(" +
                 "placedIndex int," +
                 "color varchar(10)" +
                 ");"
@@ -22,7 +22,7 @@ class OmokDBHelper(
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.execSQL("DROP TABLE IF EXISTS ${OmokSpecification.TABLE_NAME}")
+        db?.execSQL("DROP TABLE IF EXISTS ${OmokContract.TABLE_NAME}")
         onCreate(db)
     }
 }
