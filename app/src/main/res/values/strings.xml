@@ -2,4 +2,8 @@
     <string name="app_name">Omok</string>
     <string name="omok_start_message">오목 게임을 시작합니다!</string>
     <string name="inplace_stone">그 자리에는 놓을 수 없어요!</string>
+    <string name="game_start">게임 시작</string>
+    <string name="yes">네</string>
+    <string name="no">아니오</string>
+    <string name="restart_game_ask_message">이전에 진행하던 게임이 있습니다. \n게임을 재시작하겠습니까?</string>
 </resources>
