@@ -1,5 +1,3 @@
 package woowacourse.omok.domain
 
-import dto.StoneDTO
-
-class Stage(val value: List<StoneDTO>)
+class Stage(val id: Int, val value: StageStones)

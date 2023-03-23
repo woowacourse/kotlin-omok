@@ -12,7 +12,7 @@ class AndroidRoomView(
 ) {
     fun setUp(onSelectUser: (User) -> Unit, onSelectStage: (Stage) -> Unit) {
         usersRecycler.adapter = UserAdapter(Users(listOf()), onSelectUser)
-        stagesRecycler.adapter = StageAdapter(Stages(mapOf()), onSelectStage)
+        stagesRecycler.adapter = StageAdapter(Stages(listOf()), onSelectStage)
     }
 
     fun setAllUsers(users: Users) {

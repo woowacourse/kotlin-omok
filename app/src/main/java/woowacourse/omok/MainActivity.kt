@@ -39,19 +39,19 @@ class MainActivity : AppCompatActivity() {
         )
 
         deleteDatabase(OmokDBHelper.DB_NAME)
-
-        RoomController(
-            OmokDBHelper(this, tables),
-            AndroidRoomView(userRecycler, stageRecycler)
-        ).process()
-
-        GameController(
+        val omokController = GameController(
             AndroidGameView(
                 this,
                 AndroidRenderBoard(imageStones),
                 imageStones
             ),
             AndroidViewErrorHandler(this)
+        )
+
+        RoomController(
+            OmokDBHelper(this, tables),
+            AndroidRoomView(userRecycler, stageRecycler),
+            omokController
         ).process()
     }
 }

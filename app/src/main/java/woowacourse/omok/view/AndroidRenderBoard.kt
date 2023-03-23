@@ -11,10 +11,10 @@ class AndroidRenderBoard(private val board: List<ImageView>) : RenderBoard {
     override fun render(stones: Map<Int, StoneDTO>, size: VectorDTO): String {
         board.forEachIndexed { index, imageView ->
             val stone = stones[index]
-            if (stone != null) {
+            if (stone != null)
                 imageView.setImageResource(stone.color.toResource())
-                return@forEachIndexed
-            }
+            else
+                imageView.setImageDrawable(null)
         }
         return ""
     }

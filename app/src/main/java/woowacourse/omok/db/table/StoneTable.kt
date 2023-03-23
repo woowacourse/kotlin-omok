@@ -6,7 +6,7 @@ import woowacourse.omok.db.SQLiteTable
 object StoneTable : SQLiteTable {
     override val name: String = "stone"
     override val scheme: List<Column> = listOf(
-        Column("id", "int"),
+        Column("id", "INTEGER PRIMARY KEY AUTOINCREMENT"),
         Column("x", "int"),
         Column("y", "int"),
         Column("color", "int"),

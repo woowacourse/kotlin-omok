@@ -1,3 +1,3 @@
 package woowacourse.omok.domain
 
-class Stages(val value: Map<Int, Stage>)
+class Stages(val value: List<Stage>)

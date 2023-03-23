@@ -1,5 +1,8 @@
 package woowacourse.omok.controller
 
+import controller.GameController
+import controller.StoneMapper.toDomain
+import domain.Stones
 import dto.StoneDTO
 import woowacourse.omok.db.OmokDBHelper
 import woowacourse.omok.domain.Stage
@@ -8,11 +11,13 @@ import woowacourse.omok.view.AndroidRoomView
 
 class RoomController(
     private val omokDBHelper: OmokDBHelper,
-    private val roomView: AndroidRoomView
+    private val roomView: AndroidRoomView,
+    private val omokController: GameController
 ) {
     fun process() {
         roomView.setUp(::onSelectUser, ::onSelectStage)
         getAllUsers()
+        omokController.process()
     }
 
     private fun getAllUsers() {
@@ -26,15 +31,15 @@ class RoomController(
         roomView.setAllStages(stages)
     }
 
-    fun onPlaceStone(stoneDTO: StoneDTO, stage: Stage) {
-        omokDBHelper.insertStoneToStage(stoneDTO, stage)
-    }
-
     private fun onSelectUser(user: User) {
         getAllStagesByUserId(user)
     }
 
     private fun onSelectStage(stage: Stage) {
-        // notify to game controller with stage
+        omokController.resetStage(Stones(stage.value.value.map { it.toDomain() }))
+    }
+
+    fun onPlaceStone(stoneDTO: StoneDTO, stage: Stage) {
+        omokDBHelper.insertStoneToStage(stoneDTO, stage)
     }
 }

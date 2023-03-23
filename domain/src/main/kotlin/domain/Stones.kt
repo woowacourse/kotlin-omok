@@ -45,6 +45,10 @@ class Stones(value: List<Stone> = listOf()) {
         return value.none { it.coordinate == stone.coordinate }
     }
 
+    fun clear() {
+        _value.clear()
+    }
+
     companion object {
         const val LARGE_PLACE = 5
     }

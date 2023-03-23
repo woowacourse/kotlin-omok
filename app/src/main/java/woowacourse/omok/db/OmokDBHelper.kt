@@ -1,5 +1,6 @@
 package woowacourse.omok.db
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -12,6 +13,7 @@ import woowacourse.omok.db.table.StoneTable
 import woowacourse.omok.db.table.UserStagesTable
 import woowacourse.omok.db.table.UserTable
 import woowacourse.omok.domain.Stage
+import woowacourse.omok.domain.StageStones
 import woowacourse.omok.domain.Stages
 import woowacourse.omok.domain.User
 import woowacourse.omok.domain.Users
@@ -75,26 +77,33 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
 
     fun selectAllStagesByUserId(user: User): Stages {
         val cursor = readableDatabase.rawQuery(
-            "select a.id as StageID, b.* " +
-                "from ${StageTable.name} a, ${StoneTable.name} b, ${StageStonesTable.name} c, ${UserStagesTable.name} d " +
-                "on a.id = c.stageId and b.id = c.stoneId and d.stageId = a.id " +
-                "where d.userId = ${user.id};",
+            "select a.id as StageID, b.* " + "from ${StageTable.name} a, ${StoneTable.name} b, ${StageStonesTable.name} c, ${UserStagesTable.name} d " + "on a.id = c.stageId and b.id = c.stoneId and d.stageId = a.id " + "where d.userId = ${user.id};",
             null
         )
-        val stages = mutableMapOf<Int, MutableList<StoneDTO>>()
+        val stages = mutableListOf<Pair<Int, MutableList<StoneDTO>>>()
         with(cursor) {
             while (moveToNext()) {
-                val stageID = getInt(0)
+                val stageId = getInt(0)
                 val stone = StoneDTO(ColorDTO.values()[getInt(4)], VectorDTO(getInt(2), getInt(3)))
-                if (stages.containsKey(stageID)) stages[stageID]?.add(stone)
-                else stages[stageID] = mutableListOf(stone)
+                val stage = stages.find { it.first == stageId }
+                if (stage != null) stage.second.add(stone)
+                else stages.add(stageId to mutableListOf(stone))
             }
         }
         cursor.close()
-        return Stages(stages.asSequence().associate { it.key to Stage(it.value.toList()) })
+        return Stages(stages.map { Stage(it.first, StageStones(it.second)) })
     }
 
     fun insertStoneToStage(stone: StoneDTO, stage: Stage) {
+        val contentValues = ContentValues()
+        contentValues.put("x", stone.coordinate.x)
+        contentValues.put("y", stone.coordinate.y)
+        contentValues.put("color", stone.color.ordinal)
+        val id = writableDatabase.insert(StoneTable.name, null, contentValues)
+        contentValues.clear()
+        contentValues.put("stageId", stage.id)
+        contentValues.put("stoneId", id)
+        writableDatabase.insert(StageStonesTable.name, null, contentValues)
     }
 
     companion object {

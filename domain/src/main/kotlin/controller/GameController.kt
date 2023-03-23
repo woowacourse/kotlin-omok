@@ -75,4 +75,11 @@ class GameController(private val gameView: GameView, private val errorHandler: E
         val stoneY = (Board.BOARD_SIZE.y - vector.y - 1) * Board.BOARD_SIZE.y
         return (stoneY + vector.x)
     }
+
+    fun resetStage(stones: Stones) {
+        board.stones.clear()
+        stones.value.forEach { board.stones.place(it) }
+
+        renderBoard(stones)
+    }
 }
