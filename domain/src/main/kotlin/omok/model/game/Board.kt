@@ -21,8 +21,7 @@ class Board {
     }
 
     fun canAdd(coordinate: Coordinate): Boolean {
-        if (_board[coordinate.y][coordinate.x] == null) return true
-        else throw IllegalArgumentException("해당 위치에 이미 바둑돌이 있습니다.")
+        return _board[coordinate.y][coordinate.x] == null
     }
 
     companion object {

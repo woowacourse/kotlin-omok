@@ -19,16 +19,16 @@ class OmokController {
     fun play() {
         while (true) {
             val coordinate = getValidateCoordinate(InputView::getCoordinate)
-            if (playTurn(coordinate)) break
+            if (playTurn(coordinate) == State.Win) break
         }
     }
 
-    fun playTurn(coordinate: Coordinate): Boolean {
+    fun playTurn(coordinate: Coordinate): State {
         val newStone = GoStone(board.getNextColor(), coordinate)
         val state = Judgement.judge(board, newStone)
         putStone(state, newStone)
         OutputView.printEachTurn(board, newStone, state)
-        return state == State.Win
+        return state
     }
 
     private fun putStone(

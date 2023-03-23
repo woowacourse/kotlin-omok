@@ -5,7 +5,6 @@ import omok.model.state.State
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
-import omok.view.OutputView.toKorean
 
 object OutputView {
     private const val LEFT_PADDING: Int = 4
@@ -79,9 +78,9 @@ object OutputView {
     }
 
     private fun Coordinate.toMark(): String = "${'A' + this.x}${this.y + 1}"
+}
 
-    private fun GoStoneColor.toKorean(): String = when (this) {
-        GoStoneColor.BLACK -> "흑"
-        GoStoneColor.WHITE -> "백"
-    }
+fun GoStoneColor.toKorean(): String = when (this) {
+    GoStoneColor.BLACK -> "흑"
+    GoStoneColor.WHITE -> "백"
 }

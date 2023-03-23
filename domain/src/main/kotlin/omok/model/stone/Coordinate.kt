@@ -2,7 +2,7 @@ package omok.model.stone
 
 import omok.model.game.Board
 
-data class Coordinate private constructor(val x: Int, val y: Int) {
+data class Coordinate (val x: Int, val y: Int) {
     companion object {
         private val BOARD_SIZE_RANGE: IntRange = 1..Board.BOARD_LENGTH
 
