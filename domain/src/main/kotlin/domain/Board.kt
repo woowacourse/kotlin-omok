@@ -19,6 +19,10 @@ class Board(
         return rule.getWinner(stones)
     }
 
+    fun removeAllStones() {
+        stones = Stones(listOf())
+    }
+
     companion object {
         private const val BOARD_SIZE = 15
         fun getSize(): Int = BOARD_SIZE

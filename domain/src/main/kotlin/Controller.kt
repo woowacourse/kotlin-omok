@@ -8,8 +8,16 @@ class Controller {
     fun run() {
         OutputView.printStart()
         val omokGame = OmokGame(Board(rule = RenjuRuleAdapter()))
-        val winnerColor =
+        var winnerColor =
             omokGame.getWinnerColorPhase(OutputView::printCurrentState, InputView::inputPosition)
-        OutputView.printResult(winnerColor, omokGame.board)
+        while (winnerColor == null) {
+            winnerColor = omokGame.getWinnerColorPhase(
+                OutputView::printCurrentState,
+                InputView::inputPosition
+            )
+        }
+        if (winnerColor != null) {
+            OutputView.printResult(winnerColor, omokGame.board)
+        }
     }
 }

@@ -1,6 +1,7 @@
 package domain
 
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 internal class OmokGameTest {
@@ -73,6 +74,38 @@ internal class OmokGameTest {
         val expected = Color.WHITE
         // then
         Assertions.assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `게임을 초기화 하면 돌의 개수는 0 이된다`() {
+        // given
+        val board = generateWhiteWinOmokBoard()
+        val omokGame = OmokGame(board)
+
+        // when
+        omokGame.resetGame()
+        val actual = omokGame.board.stones.values.size
+        val expected = 0
+
+        // then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `게임을 초기화 하면 게임의 턴은 흑이된다`() {
+        // given
+        val board = generateWhiteWinOmokBoard()
+        val omokGame = OmokGame(board).apply {
+            currentColor = Color.WHITE
+        }
+
+        // when
+        omokGame.resetGame()
+        val actual = omokGame.currentColor
+        val expected = Color.BLACK
+
+        // then
+        assertThat(actual).isEqualTo(expected)
     }
 
     private var count = 0
