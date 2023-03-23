@@ -21,8 +21,32 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
     override fun onCreate(p0: SQLiteDatabase?) {
         tables.forEach {
             val columns = it.scheme.joinToString(",") { scheme -> "${scheme.name} ${scheme.type}" }
-            p0?.execSQL("CREATE TABLE ${it.name} (${columns})")
+            p0?.execSQL("CREATE TABLE ${it.name} ($columns)")
         }
+        p0?.execSQL("INSERT INTO STAGE VALUES(0)")
+        p0?.execSQL("INSERT INTO STAGE VALUES(1)")
+        p0?.execSQL("INSERT INTO STAGE VALUES(2)")
+
+        p0?.execSQL("INSERT INTO USER VALUES(0, \"dy\")")
+        p0?.execSQL("INSERT INTO USER VALUES(1, \"corgan\")")
+
+        p0?.execSQL("INSERT INTO USERSTAGES VALUES(0, 0)")
+        p0?.execSQL("INSERT INTO USERSTAGES VALUES(0, 1)")
+        p0?.execSQL("INSERT INTO USERSTAGES VALUES(1, 0)")
+        p0?.execSQL("INSERT INTO USERSTAGES VALUES(1, 1)")
+        p0?.execSQL("INSERT INTO USERSTAGES VALUES(1, 2)")
+
+        p0?.execSQL("INSERT INTO STONE VALUES(0, 0, 0, 0)")
+        p0?.execSQL("INSERT INTO STONE VALUES(1, 1, 1, 1)")
+        p0?.execSQL("INSERT INTO STONE VALUES(2, 0, 0, 0)")
+        p0?.execSQL("INSERT INTO STONE VALUES(3, 1, 1, 1)")
+        p0?.execSQL("INSERT INTO STONE VALUES(4, 2, 2, 1)")
+
+        p0?.execSQL("INSERT INTO STAGESTONES VALUES(0, 0)")
+        p0?.execSQL("INSERT INTO STAGESTONES VALUES(0, 1)")
+        p0?.execSQL("INSERT INTO STAGESTONES VALUES(1, 2)")
+        p0?.execSQL("INSERT INTO STAGESTONES VALUES(1, 3)")
+        p0?.execSQL("INSERT INTO STAGESTONES VALUES(2, 4)")
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
@@ -45,15 +69,16 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
                 )
             }
         }
+        cursor.close()
         return Users(users)
     }
 
-    fun selectAllStagesByUser(user: User): Stages {
+    fun selectAllStagesByUserId(user: User): Stages {
         val cursor = readableDatabase.rawQuery(
             "select a.id as StageID, b.* " +
-                    "from ${StageTable.name} a, ${StoneTable.name} b, ${StageStonesTable.name} c, ${UserStagesTable.name} d " +
-                    "on a.id = c.stageId and b.id = c.stoneId and d.stageId = a.id " +
-                    "where d.userId = ${user.id};",
+                "from ${StageTable.name} a, ${StoneTable.name} b, ${StageStonesTable.name} c, ${UserStagesTable.name} d " +
+                "on a.id = c.stageId and b.id = c.stoneId and d.stageId = a.id " +
+                "where d.userId = ${user.id};",
             null
         )
         val stages = mutableMapOf<Int, MutableList<StoneDTO>>()
@@ -61,10 +86,15 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
             while (moveToNext()) {
                 val stageID = getInt(0)
                 val stone = StoneDTO(ColorDTO.values()[getInt(4)], VectorDTO(getInt(2), getInt(3)))
-                stages[stageID]?.add(stone) ?: { stages[stageID] = mutableListOf(stone) }
+                if (stages.containsKey(stageID)) stages[stageID]?.add(stone)
+                else stages[stageID] = mutableListOf(stone)
             }
         }
+        cursor.close()
         return Stages(stages.asSequence().associate { it.key to Stage(it.value.toList()) })
+    }
+
+    fun insertStoneToStage(stone: StoneDTO, stage: Stage) {
     }
 
     companion object {
