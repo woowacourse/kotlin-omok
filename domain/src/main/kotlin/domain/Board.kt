@@ -5,9 +5,9 @@ import domain.domain.state.BlackTurn
 import domain.domain.state.State
 import domain.view.Observer
 
-class Board : Observable {
+class Board(startState: State = BlackTurn(Stones())) : Observable {
     private var observers = mutableListOf<Observer>()
-    var state: State = BlackTurn(Stones())
+    var state: State = startState
         private set
 
     override fun registerObserver(observer: Observer) {
