@@ -8,13 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import woowacourse.omok.data.RefreshButton
-import woowacourse.omok.data.RoomInfo
+import woowacourse.omok.data.Room
 import woowacourse.omok.data.RoomListType
+import woowacourse.omok.data.RoomRefresh
 
 class CustomAdapter(
     private val clickRefresh: () -> Unit,
-    private val showProductDetail: (RoomInfo) -> Unit,
+    private val showProductDetail: (Room) -> Unit,
 ) : ListAdapter<RoomListType, RecyclerView.ViewHolder>(diffUtil) {
     inner class RoomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView
@@ -33,15 +33,15 @@ class CustomAdapter(
             this.overallResultView = view.findViewById(R.id.overallResultView)
         }
 
-        fun bind(roomInfo: RoomInfo) {
-            textView.text = roomInfo.title
-            statusView.text = roomInfo.status
-            timeView.text = roomInfo.time
-            playerView.text = roomInfo.player.name
-            overallResultView.text = "%d승 %d패 %d무".format(roomInfo.player.overallRecord.win, roomInfo.player.overallRecord.lose, roomInfo.player.overallRecord.draw)
-            imageView.setImageResource(roomInfo.player.profile)
+        fun bind(room: Room) {
+            textView.text = room.title
+            statusView.text = room.status.toString()
+            timeView.text = room.time.toString()
+            playerView.text = room.player.name
+            overallResultView.text = "%d승 %d패 %d무".format(room.player.overallRecord.win, room.player.overallRecord.lose, room.player.overallRecord.draw)
+            imageView.setImageResource(room.player.profile)
             itemView.setOnClickListener {
-                showProductDetail(roomInfo)
+                showProductDetail(room)
             }
         }
     }
@@ -53,8 +53,8 @@ class CustomAdapter(
             this.textView = view.findViewById(R.id.titleView)
         }
 
-        fun bind(refreshButton: RefreshButton) {
-            textView.text = refreshButton.title
+        fun bind(roomRefresh: RoomRefresh) {
+            textView.text = roomRefresh.title
             textView.setOnClickListener {
                 clickRefresh()
             }
@@ -76,15 +76,15 @@ class CustomAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is RoomViewHolder -> holder.bind(getItem(position) as RoomInfo)
-            is FooterViewHolder -> holder.bind(getItem(position) as RefreshButton)
+            is RoomViewHolder -> holder.bind(getItem(position) as Room)
+            is FooterViewHolder -> holder.bind(getItem(position) as RoomRefresh)
         }
     }
 
     override fun getItemViewType(position: Int): Int =
         when (getItem(position)) {
-            is RoomInfo -> TYPE_ITEM
-            is RefreshButton -> TYPE_FOOTER
+            is Room -> TYPE_ITEM
+            is RoomRefresh -> TYPE_FOOTER
         }
 
     companion object {

@@ -1,5 +1,5 @@
 package woowacourse.omok.data
 
-data class RefreshButton(
+data class RoomRefresh(
     val title: String = "",
 ) : RoomListType
