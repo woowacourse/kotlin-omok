@@ -3,7 +3,6 @@ package domain
 import domain.board.Board
 import domain.player.BlackStonePlayer
 import domain.player.Player
-
 import domain.player.WhiteStonePlayer
 import domain.stone.Color
 import domain.stone.Point
@@ -31,7 +30,7 @@ class OmokGame(stones: List<Stone> = listOf()) {
         decidePoint: (latestStone: Stone?, currentColor: Color) -> Point,
     ) {
         board = currentPlayer.placeStone(board, checkBoard, decidePoint)
-        state = OmokGameState.valueOf(board, currentPlayer.color)
+        state = OmokGameState.valueOf(board, turnColor)
         currentPlayer = currentPlayer.toNextPlayer()
     }
 }
