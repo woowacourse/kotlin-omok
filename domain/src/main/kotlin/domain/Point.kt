@@ -1,11 +1,11 @@
 package domain
 
-open class Point(open val x: Int, open val y: Int) {
-    open operator fun plus(other: Point): Point {
+data class Point( val x: Int,  val y: Int) {
+     operator fun plus(other: Point): Point {
         return Point(x + other.x, y + other.y)
     }
 
-    open operator fun times(other: Int): Point {
+    operator fun times(other: Int): Point {
         return Point(x * other, y * other)
     }
 
