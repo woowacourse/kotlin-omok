@@ -17,12 +17,12 @@ class CustomAdapter(
     private val showProductDetail: (Room) -> Unit,
 ) : ListAdapter<RoomListType, RecyclerView.ViewHolder>(diffUtil) {
     inner class RoomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView
-        val imageView: ImageView
-        val statusView: TextView
-        val timeView: TextView
-        val playerView: TextView
-        val overallResultView: TextView
+        private val textView: TextView
+        private val imageView: ImageView
+        private val statusView: TextView
+        private val timeView: TextView
+        private val playerView: TextView
+        private val overallResultView: TextView
 
         init {
             this.textView = view.findViewById(R.id.titleView)
@@ -47,7 +47,7 @@ class CustomAdapter(
     }
 
     inner class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView
+        private val textView: TextView
 
         init {
             this.textView = view.findViewById(R.id.titleView)
