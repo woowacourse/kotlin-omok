@@ -2,10 +2,11 @@ package view
 
 import domain.point.Point
 import domain.stone.StoneColor
+import listener.OmokTurnEventListener
 import view.mapper.toDomain
 import view.model.PointModel
 
-class OmokInputView : InputView {
+class OmokInputView : OmokTurnEventListener {
     override fun onTakeTurn(stoneColor: StoneColor): Point = askPosition()
 
     override fun onNotPlaceable() {

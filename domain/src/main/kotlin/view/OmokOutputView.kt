@@ -6,9 +6,10 @@ import domain.point.Point
 import domain.stone.StoneColor
 import view.mapper.toPresentation
 import domain.game.Omok.Companion.OMOK_BOARD_SIZE
+import listener.OmokGameEventListener
 
 
-class OmokOutputView : OutputView {
+class OmokOutputView : OmokGameEventListener {
     override fun onStartGame() {
         println(START_MESSAGE)
         println(OMOK_BOARD)

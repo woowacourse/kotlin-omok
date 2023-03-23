@@ -5,12 +5,12 @@ import domain.player.BlackPlayer
 import domain.player.Players
 import domain.player.WhitePlayer
 import domain.rule.OmokRule
-import view.InputView
-import view.OutputView
+import listener.OmokGameEventListener
+import listener.OmokTurnEventListener
 
 class OmokController(
-    private val inputView: InputView,
-    private val outputView: OutputView,
+    private val inputView: OmokTurnEventListener,
+    private val outputView: OmokGameEventListener,
 ) {
     fun start(blackRule: OmokRule, whiteRule: OmokRule) {
         Omok(inputView, outputView).apply {
