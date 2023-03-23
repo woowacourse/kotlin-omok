@@ -14,8 +14,12 @@ class BlackTurn(override val omokBoard: OmokBoard) : GameState {
 
         return when {
             referee.isWin(omokBoard, point, stoneState) -> BlackWin(omokBoard.placeStone(point, stoneState))
-            referee.isForbidden(omokBoard, point) -> this
+            referee.isForbidden(omokBoard, point) -> throw IllegalArgumentException(ERROR_FORBIDDEN)
             else -> WhiteTurn(omokBoard.placeStone(point, stoneState))
         }
+    }
+
+    companion object {
+        private const val ERROR_FORBIDDEN = "해당 좌표는 금지된 수 입니다"
     }
 }
