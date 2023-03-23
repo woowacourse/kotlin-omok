@@ -12,6 +12,7 @@ import domain.player.BlackPlayer
 import domain.player.Players
 import domain.player.WhitePlayer
 import domain.point.Point
+import domain.result.TurnResult
 import domain.rule.BlackRenjuRule
 import domain.rule.WhiteRenjuRule
 import domain.stone.StoneColor
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         val turnEventListener = TurnEventListener(applicationContext)
         val gameEventListener = GameEventListener(applicationContext, findViewById(R.id.description))
-        val omok = Omok(turnEventListener, gameEventListener)
+        val omok = Omok()
         var players = Players(BlackPlayer(rule = BlackRenjuRule()), WhitePlayer(rule = WhiteRenjuRule()))
 
         gameEventListener.onStartGame()
@@ -40,12 +41,10 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { index, view ->
                 view.setOnClickListener {
                     if (players.isPlaying) {
-                        turnEventListener.point = calculateIndexToPoint(index)
-                        val endTurnPlayers = omok.takeTurn(players)
-                        if (endTurnPlayers.isPut(players)) setStone(view, players)
-                        players = endTurnPlayers
+                        val result = omok.takeTurn(calculateIndexToPoint(index), players)
+                        if (result is TurnResult.Success) setStone(view, players)
                         gameEventListener.onEndTurn(players)
-                        omok.endGame(players)
+                        players = result.players
                     }
                 }
             }

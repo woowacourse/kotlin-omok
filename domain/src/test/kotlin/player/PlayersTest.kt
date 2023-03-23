@@ -59,23 +59,6 @@ class PlayersTest {
     }
 
     @Test
-    fun `돌을 성공적으로 놓았으면 참을 반환한다`() {
-        val players = Players(BlackPlayer(rule = blackRenjuRule), WhitePlayer(rule = whiteRenjuRule))
-        val putPlayers = players.putStone(Point(1, 1))
-        val actual = putPlayers.isPut(players)
-
-        assertThat(actual).isTrue
-    }
-
-    @Test
-    fun `돌을 놓지 못했으면 거짓을 반환한다`() {
-        val players = Players(BlackPlayer(rule = blackRenjuRule), WhitePlayer(rule = whiteRenjuRule))
-        val actual = players.isPut(players)
-
-        assertThat(actual).isFalse
-    }
-
-    @Test
     fun `마지막 놓은 돌을 반환한다`() {
         val players = Players(BlackPlayer(rule = blackRenjuRule), WhitePlayer(rule = whiteRenjuRule)).putStone(Point(1, 1)).putStone(Point(2, 2))
         val actual = players.getLastPoint()
