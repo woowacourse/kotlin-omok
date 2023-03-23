@@ -32,7 +32,12 @@ class OmokGame(private val board: Board) {
         return board.lastPlacedStone ?: throw IllegalArgumentException("바둑판 위에 놓인 돌이 없습니다")
     }
 
-    private fun judge(goStone: GoStone): PlacementState {
+    fun turn(coordinate: () -> Coordinate): GoStone {
+        board.addStone(GoStone(board.getNextColor(), getValidCoordinate(coordinate)))
+        return board.lastPlacedStone ?: throw IllegalArgumentException("바둑판 위에 놓인 돌이 없습니다")
+    }
+
+    fun judge(goStone: GoStone): PlacementState {
         val coordinate = goStone.coordinate
         val color = goStone.color
 
