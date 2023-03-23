@@ -6,4 +6,7 @@
     <string name="yes">네</string>
     <string name="no">아니오</string>
     <string name="restart_game_ask_message">이전에 진행하던 게임이 있습니다. \n게임을 재시작하겠습니까?</string>
+    <string name="end_game">게임 종료</string>
+    <string name="restart">재시작</string>
+    <string name="winner_result_format">%s 승!</string>
 </resources>

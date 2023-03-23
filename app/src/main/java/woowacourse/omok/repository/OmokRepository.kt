@@ -1,4 +1,3 @@
 package woowacourse.omok.data.repository
 
-class OmokRepository {
-}
+class OmokRepository
