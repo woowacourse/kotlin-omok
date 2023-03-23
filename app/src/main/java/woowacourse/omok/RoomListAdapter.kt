@@ -12,7 +12,7 @@ import woowacourse.omok.data.Room
 import woowacourse.omok.data.RoomListType
 import woowacourse.omok.data.RoomRefresh
 
-class CustomAdapter(
+class RoomListAdapter(
     private val clickRefresh: () -> Unit,
     private val showProductDetail: (Room) -> Unit,
 ) : ListAdapter<RoomListType, RecyclerView.ViewHolder>(diffUtil) {

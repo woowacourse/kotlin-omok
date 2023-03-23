@@ -8,7 +8,7 @@ import woowacourse.omok.data.Room
 
 class RoomListActivity : AppCompatActivity() {
     private val db = OmokRoomDbHelper(this)
-    private val adapter = CustomAdapter(
+    private val adapter = RoomListAdapter(
         { onRefreshButtonClicked() },
         { roomInfo -> onRoomClicked(room = roomInfo) },
     )
