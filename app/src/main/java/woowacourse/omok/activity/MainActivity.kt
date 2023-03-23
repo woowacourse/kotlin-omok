@@ -62,7 +62,9 @@ class MainActivity : AppCompatActivity() {
                 val index = row * Omok.OMOK_BOARD_SIZE + col
                 val omokIv: ImageView = boardImageViews()[index]
                 val putResult = omok.put { Point(row, col) }
-                processPutResult(putResult, omokIv)
+                if (putResult is PutSuccess) {
+                    drawStoneOnBoard(omokIv, putResult.stoneColor)
+                }
             }
         }
     }
