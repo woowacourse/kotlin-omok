@@ -4,8 +4,7 @@ import omok.state.State
 import omok.state.Turn
 import omok.state.Win
 
-class OmokGame {
-    val board = Board(Player(), Player())
+class OmokGame(val board: Board = Board(Player(), Player())) {
     var lastPosition: String? = null
 
     fun blackTurn(position: Position): State {
