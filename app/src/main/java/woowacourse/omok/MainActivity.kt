@@ -81,16 +81,20 @@ class MainActivity : AppCompatActivity() {
                     }
                     stoneResource?.let { view.setImageResource(it) }
                 }
-                if (omokBoard.isFinished()) {
-                    val intent = Intent(this, WinActivity::class.java)
-                    val winner: String =
-                        if (omokBoard.isBlackWin()) StoneColor.STONE_COLOR_BLACK.color else StoneColor.STONE_COLOR_WHITE.color
-                    intent.putExtra("winner", winner)
-                    startActivity(intent)
-                    omokDB.deleteDB()
-                    finish()
-                }
+                manageFinished(omokBoard, omokDB)
             }
+        }
+    }
+
+    private fun manageFinished(omokBoard: Board, omokDB: OmokDB) {
+        if (omokBoard.isFinished()) {
+            val intent = Intent(this, WinActivity::class.java)
+            val winner: String =
+                if (omokBoard.isBlackWin()) StoneColor.STONE_COLOR_BLACK.color else StoneColor.STONE_COLOR_WHITE.color
+            intent.putExtra("winner", winner)
+            startActivity(intent)
+            omokDB.deleteDB()
+            finish()
         }
     }
 
