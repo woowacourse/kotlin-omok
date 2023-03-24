@@ -5,12 +5,34 @@
     android:orientation="vertical"
     android:gravity="center_vertical">
 
-    <Button
-        android:id="@+id/game_end_button"
-        android:layout_width="300dp"
+    <LinearLayout
+        android:id="@+id/game_end_box"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone" />
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:gravity="center_horizontal"
+        android:layout_marginHorizontal="10dp"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/game_end_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="5dp" />
+
+        <Button
+            android:id="@+id/game_retry"
+            android:text="@string/game_retry"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="5dp" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/turn_color_text_box"

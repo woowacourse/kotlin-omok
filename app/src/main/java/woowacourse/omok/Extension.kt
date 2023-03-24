@@ -16,8 +16,7 @@ fun Activity.showAskDialog(
         .setMessage(getString(messageId))
         .setNegativeButton(R.string.close) { _, _ ->
             actionNegative()
-        }
-        .setPositiveButton(R.string.confirm) { _, _ ->
+        }.setPositiveButton(R.string.confirm) { _, _ ->
             actionPositive()
         }.setCancelable(false)
         .show()
