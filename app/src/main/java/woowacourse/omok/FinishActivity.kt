@@ -9,11 +9,14 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import domain.domain.Board
+import domain.domain.BoardState
 import domain.domain.CoordinateState
 
 class FinishActivity : AppCompatActivity() {
 
     private lateinit var winner: CoordinateState
+    private lateinit var board: BoardState
     private lateinit var tvWinnerMessage: TextView
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -30,6 +33,8 @@ class FinishActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun initExtraData() {
         winner = intent.getParcelableExtra("winner", CoordinateState::class.java)
+            ?: throw IllegalStateException()
+        board = intent.getSerializableExtra("board", BoardState::class.java)
             ?: throw IllegalStateException()
     }
 
@@ -67,7 +72,7 @@ class FinishActivity : AppCompatActivity() {
         columIndex: Int,
         imageView: ImageView
     ) {
-        OmokApplication.controller.omokGame.board.boardState.value.forEachIndexed { yIndex, rowList ->
+        board.value.forEachIndexed { yIndex, rowList ->
             rowList.forEachIndexed { xIndex, coordinateState ->
                 if (rowIndex == yIndex && columIndex == xIndex) {
                     if (coordinateState == CoordinateState.BLACK) imageView.setImageResource(R.drawable.black_stone)

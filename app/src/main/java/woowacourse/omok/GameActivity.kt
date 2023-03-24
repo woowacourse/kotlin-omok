@@ -14,17 +14,16 @@ import kotlin.properties.Delegates
 
 class GameActivity : AppCompatActivity() {
 
-    init {
-        OmokApplication.controller.run()
-    }
+    private var controller: OmokGameWrapper = OmokGameWrapper()
 
     private lateinit var tvTurn: TextView
     private lateinit var tvLastPosition: TextView
     private lateinit var tvMessage: TextView
-    private var turn by Delegates.observable(OmokApplication.controller.omokGame.turn) { _, _, new ->
+
+    private var turn by Delegates.observable(controller.omokGame.turn) { _, _, new ->
         tvTurn.text = new.name
     }
-    private var lastPosition: Position? by Delegates.observable(OmokApplication.controller.omokGame.board.lastPosition) { _, _, new ->
+    private var lastPosition: Position? by Delegates.observable(controller.omokGame.board.lastPosition) { _, _, new ->
         if (new == null) {
             tvLastPosition.text = ""
         } else {
@@ -89,8 +88,8 @@ class GameActivity : AppCompatActivity() {
         }
 
     private fun coordinateClickListener(imageView: ImageView, rowIndex: Int, columIndex: Int) {
-        val turnStoneColor = OmokApplication.controller.omokGame.turn
-        if (OmokApplication.controller.progressGame(
+        val turnStoneColor = controller.omokGame.turn
+        if (controller.progressGame(
                 Position(rowIndex, columIndex),
                 ::printError,
                 ::printRequestPosition,
@@ -99,13 +98,13 @@ class GameActivity : AppCompatActivity() {
         ) {
             if (turnStoneColor == CoordinateState.BLACK) {
                 imageView.setImageResource(R.drawable.black_stone)
-                turn = OmokApplication.controller.omokGame.turn
-                lastPosition = OmokApplication.controller.omokGame.board.lastPosition
+                turn = controller.omokGame.turn
+                lastPosition = controller.omokGame.board.lastPosition
             }
             if (turnStoneColor == CoordinateState.WHITE) {
                 imageView.setImageResource(R.drawable.white_stone)
-                turn = OmokApplication.controller.omokGame.turn
-                lastPosition = OmokApplication.controller.omokGame.board.lastPosition
+                turn = controller.omokGame.turn
+                lastPosition = controller.omokGame.board.lastPosition
             }
         }
     }
@@ -119,7 +118,10 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun finishGame(winner: CoordinateState) {
-        val intent = Intent(this, FinishActivity::class.java).putExtra("winner", winner)
+        val intent = Intent(this, FinishActivity::class.java).apply {
+            putExtra("winner", winner)
+            putExtra("board", controller.omokGame.board.boardState)
+        }
         startActivity(intent)
         finish()
     }

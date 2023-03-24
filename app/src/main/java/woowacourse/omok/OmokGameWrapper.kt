@@ -2,13 +2,9 @@ package woowacourse.omok
 
 import domain.domain.*
 import domain.library.combinerule.CombinedRuleAdapter
+import woowacourse.omok.util.print
 
-class AndroidController {
-
-    lateinit var omokGame: OmokGame
-    fun run() {
-        omokGame = OmokGame(gameRule = CombinedRuleAdapter())
-    }
+class OmokGameWrapper(val omokGame: OmokGame = OmokGame(gameRule = CombinedRuleAdapter())) {
 
     fun progressGame(
         position: Position,
@@ -32,5 +28,3 @@ class AndroidController {
         }
     }
 }
-
-typealias print = () -> Unit
