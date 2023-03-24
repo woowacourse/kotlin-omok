@@ -1,10 +1,10 @@
 package omok.state
 
 sealed class Turn : State {
-    fun opposite(): State {
+    override fun toString(): String {
         return when (this) {
-            Black -> White
-            White -> Black
+            Black -> "black"
+            White -> "white"
         }
     }
 

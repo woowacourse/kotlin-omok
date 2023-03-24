@@ -1,6 +1,8 @@
 package woowacourse.omok
 
+import android.content.ContentValues
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -25,6 +27,9 @@ class MainActivity : AppCompatActivity() {
 
         var state: State = Turn.Black
         val board = findViewById<TableLayout>(R.id.board)
+
+        val db = OmokDBHelper(this).writableDatabase
+
         board
             .children
             .filterIsInstance<TableRow>()
@@ -32,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
                 view.setOnClickListener {
-                    state = gameOn(index, view, state as Turn)
+                    state = gameOn(index, view, state as Turn, db)
                     if (state is Win) {
                         gameOver(state as Win)
                     }
@@ -40,12 +45,14 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun gameOn(index: Int, view: ImageView, turn: Turn): State {
+    private fun gameOn(index: Int, view: ImageView, turn: Turn, db: SQLiteDatabase): State {
         val position = Position(HorizontalAxis.getHorizontalAxis(index / 15 + 1), index % 15 + 1)
         if (!omokGame.board.isPlaceable(turn, position)) {
             Toast.makeText(this, "해당 자리에 돌을 둘 수 없습니다.", Toast.LENGTH_LONG).show()
             return turn
         }
+        putStone(position, turn, db)
+
         when (turn) {
             Turn.Black -> view.setImageResource(R.drawable.black_stone_nabi)
             Turn.White -> view.setImageResource(R.drawable.white_stone_choonbae)
@@ -71,5 +78,15 @@ class MainActivity : AppCompatActivity() {
             .create()
 
         alertDialog.show()
+    }
+
+    private fun putStone(position: Position, turn: Turn, db: SQLiteDatabase) {
+        val values = ContentValues()
+        with(values) {
+            put(OmokContract.POSITION_X, position.horizontalAxis.axis)
+            put(OmokContract.POSITION_Y, position.verticalAxis)
+            put(OmokContract.TURN, turn.toString())
+        }
+        db.insert(OmokContract.TABLE_NAME, null, values)
     }
 }
