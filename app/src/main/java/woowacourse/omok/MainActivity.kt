@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var omokBoard: Board
         lateinit var point: Pair<Int, Int>
         val blackReferee = Referee(listOf(ThreeThreeRule(), FourFourRule(), LongMokRule()))
-        val db = OmokDBHelper(this).writableDatabase
+        val omokDB = OmokDB(this)
         val stones = mutableSetOf<Stone>()
         val board = findViewById<TableLayout>(R.id.board)
         val restartButton = findViewById<Button>(R.id.button_restart)
@@ -42,47 +41,33 @@ class MainActivity : AppCompatActivity() {
         restartButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-            db.delete(OmokContract.TABLE_NAME, null, null)
+            omokDB.deleteDB()
             finish()
         }
 
         //db 데이터 읽어오기
-        val cursor = db.query(
-            OmokContract.TABLE_NAME,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        )
-        with(cursor) {
-            while (moveToNext()) {
-                val x =
-                    getInt(getColumnIndexOrThrow(OmokContract.TABLE_COLUMN_X_POINT))
-                val y =
-                    getInt(getColumnIndexOrThrow(OmokContract.TABLE_COLUMN_Y_POINT))
-                val color =
-                    getString(getColumnIndexOrThrow(OmokContract.TABLE_COLUMN_STONE_COLOR))
-                boardViews
-                    .forEachIndexed { index, view ->
-                        if (index == ((14 - y) * 15 + x)) {
-                            when (color) {
-                                StoneColor.STONE_COLOR_BLACK.color -> view.setImageResource(R.drawable.black_stone)
-                                StoneColor.STONE_COLOR_WHITE.color -> view.setImageResource(R.drawable.white_stone)
-                            }
-
+        val dbData = omokDB.getData()
+        dbData.forEach {
+            val (omokPoint, stoneColor) = it
+            val (x, y) = omokPoint
+            boardViews
+                .forEachIndexed { index, view ->
+                    if (index == ((14 - y) * 15 + x)) {
+                        when (stoneColor) {
+                            StoneColor.STONE_COLOR_BLACK.color -> view.setImageResource(R.drawable.black_stone)
+                            StoneColor.STONE_COLOR_WHITE.color -> view.setImageResource(R.drawable.white_stone)
                         }
+
                     }
-                val stone: Stone =
-                    if (color == StoneColor.STONE_COLOR_BLACK.color) BlackStone(
-                        x,
-                        y
-                    ) else WhiteStone(x, y)
-                stones.add(stone)
-            }
-            close()
+                }
+            val stone: Stone =
+                if (stoneColor == StoneColor.STONE_COLOR_BLACK.color) BlackStone(
+                    x,
+                    y
+                ) else WhiteStone(x, y)
+            stones.add(stone)
         }
+
         omokBoard = Board(Stones(stones))
         boardViews.forEachIndexed { index, view ->
             view.setOnClickListener {
@@ -101,12 +86,7 @@ class MainActivity : AppCompatActivity() {
                 if (result) {
                     stoneColor?.let {
                         //db 데이터 저장하기
-
-                        val values = ContentValues()
-                        values.put(OmokContract.TABLE_COLUMN_X_POINT, point.first)
-                        values.put(OmokContract.TABLE_COLUMN_Y_POINT, point.second)
-                        values.put(OmokContract.TABLE_COLUMN_STONE_COLOR, stoneColor)
-                        db.insert(OmokContract.TABLE_NAME, null, values)
+                        omokDB.insert(point, stoneColor)
                     }
                     stoneResource?.let { view.setImageResource(it) }
                 }
@@ -116,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                         if (omokBoard.isBlackWin()) StoneColor.STONE_COLOR_BLACK.color else StoneColor.STONE_COLOR_WHITE.color
                     intent.putExtra("winner", winner)
                     startActivity(intent)
-                    db.delete(OmokContract.TABLE_NAME, null, null)
+                    omokDB.deleteDB()
                     finish()
                 }
             }
