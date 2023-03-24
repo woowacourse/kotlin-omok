@@ -38,18 +38,18 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>().toList()
 
-        val blackIndexs = dbManager.getIndexsByColor("BLACK")
-        val whiteIndexs = dbManager.getIndexsByColor("WHITE")
+        val blackIndexs = dbManager.getIndexsByColor(StoneColor.BLACK.name)
+        val whiteIndexs = dbManager.getIndexsByColor(StoneColor.WHITE.name)
 
         blackIndexs.forEach {
-            boardViews[it].setImageResource(R.drawable.pink_bear)
+            setStone(boardViews[it], StoneColor.BLACK)
         }
         whiteIndexs.forEach {
-            boardViews[it].setImageResource(R.drawable.white_bear)
+            setStone(boardViews[it], StoneColor.WHITE)
         }
 
-        val blackPlayer = BlackPlayer(PlayingState(Points(blackIndexs.map { calculateIndexToPoint(it) })), rule = BlackRenjuRule())
-        val whitePlayer = WhitePlayer(PlayingState(Points(whiteIndexs.map { calculateIndexToPoint(it) })), rule = WhiteRenjuRule())
+        val blackPlayer = BlackPlayer(PlayingState(indexsToPoints(blackIndexs)), rule = BlackRenjuRule())
+        val whitePlayer = WhitePlayer(PlayingState(indexsToPoints(whiteIndexs)), rule = WhiteRenjuRule())
         omok = Omok(blackPlayer, whitePlayer)
 
         val gameEventListener =
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                     if (!omok.isPlaying) return@setOnClickListener
                     val result = omok.takeTurn(calculateIndexToPoint(index))
                     if (result is TurnResult.Success) {
-                        setStone(view, omok.players)
+                        setStone(view, omok.players.curPlayerColor.next())
                         dbManager.insert(index, omok.players.curPlayerColor.next().name)
                     }
                     gameEventListener.onEndTurn(result)
@@ -85,14 +85,17 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         dbManager.close()
     }
-    private fun setStone(view: ImageView, players: Players) {
-        when (players.curPlayerColor.next()) {
-            StoneColor.BLACK -> view.setImageResource(R.drawable.pink_bear)
-            StoneColor.WHITE -> view.setImageResource(R.drawable.white_bear)
+
+    private fun setStone(view: ImageView, color: StoneColor) {
+        when (color) {
+            StoneColor.BLACK -> view.setImageResource(R.drawable.black_stone)
+            StoneColor.WHITE -> view.setImageResource(R.drawable.white_stone)
         }
     }
 
     private fun calculateIndexToPoint(index: Int): Point =
         Point(index / OMOK_BOARD_SIZE + 1, index % OMOK_BOARD_SIZE + 1)
+
+    private fun indexsToPoints(indexs: List<Int>): Points = Points(indexs.map { calculateIndexToPoint(it) })
 }
 
