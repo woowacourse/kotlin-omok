@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import omok.domain.state.Turn
 import woowacourse.omok.database.DBController
 import woowacourse.omok.database.OmokConstract
 import woowacourse.omok.database.OmokDBHelper
@@ -20,11 +21,11 @@ class WinActivity : AppCompatActivity() {
         val winWho = findViewById<TextView>(R.id.winWho)
 
         val color = intent.getStringExtra(OmokConstract.TABLE_COLUMN_COLOR)
-        if (color == "black") {
+        if (color == Turn.Black.color) {
             winImage.setImageResource(R.drawable.black_stone)
             winWho.text = "흑"
         }
-        if (color == "white") {
+        if (color == Turn.White.color) {
             winImage.setImageResource(R.drawable.white_stone)
             winWho.text = "백"
         }

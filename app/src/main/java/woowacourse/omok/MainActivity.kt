@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initBoard(board: TableLayout) {
-        listOf("black", "white").forEach { color ->
-            val indexes = DBController(OmokDBHelper(this).writableDatabase).checkDB("black")
+        listOf(Turn.Black.color, Turn.White.color).forEach { color ->
+            val indexes = DBController(OmokDBHelper(this).writableDatabase).checkDB(color)
             indexes.forEach { index -> initDisplay(board, color, index) }
         }
     }
@@ -54,9 +54,8 @@ class MainActivity : AppCompatActivity() {
     }
     private fun initPut(index: Int, color: String, view: ImageView) {
         val position = positionFind(index)
-
-        if (color == "black") view.setImageResource(R.drawable.black_stone) else view.setImageResource(R.drawable.white_stone)
-        if (color == "black") omokBoard.blackPlayer.put(BlackStone(position)) else omokBoard.whitePlayer.put(WhiteStone(position))
+        if (color == Turn.Black.color) view.setImageResource(R.drawable.black_stone) else view.setImageResource(R.drawable.white_stone)
+        if (color == Turn.Black.color) omokBoard.blackPlayer.put(BlackStone(position)) else omokBoard.whitePlayer.put(WhiteStone(position))
         omokBoard.occupyPosition(position)
     }
 
@@ -66,12 +65,12 @@ class MainActivity : AppCompatActivity() {
             Turn.White -> putBoard(board, state)
             Win.Black -> {
                 val intent = Intent(this, WinActivity::class.java)
-                intent.putExtra(OmokConstract.TABLE_COLUMN_COLOR, "black")
+                intent.putExtra(OmokConstract.TABLE_COLUMN_COLOR, Turn.Black.color)
                 startActivity(intent)
             }
             Win.White -> {
                 val intent = Intent(this, WinActivity::class.java)
-                intent.putExtra(OmokConstract.TABLE_COLUMN_COLOR, "white")
+                intent.putExtra(OmokConstract.TABLE_COLUMN_COLOR, Turn.White.color)
                 startActivity(intent)
             }
         }
@@ -97,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "해당 자리에 둘 수 없습니다.", Toast.LENGTH_SHORT).show()
                 turn(Turn.Black, board)
             } else {
-                DBController(OmokDBHelper(this).writableDatabase).insertDB("black", index)
+                DBController(OmokDBHelper(this).writableDatabase).insertDB(Turn.Black.color, index)
                 view.setImageResource(R.drawable.black_stone)
                 omokBoard.blackPlayer.put(BlackStone(position))
                 omokBoard.occupyPosition(position)
@@ -114,7 +113,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "해당 자리에 둘 수 없습니다.", Toast.LENGTH_SHORT).show()
                 turn(Turn.White, board)
             } else {
-                DBController(OmokDBHelper(this).writableDatabase).insertDB("white", index)
+                DBController(OmokDBHelper(this).writableDatabase).insertDB(Turn.White.color, index)
                 view.setImageResource(R.drawable.white_stone)
                 omokBoard.whitePlayer.put(WhiteStone(position))
                 omokBoard.occupyPosition(position)
