@@ -6,7 +6,7 @@ fun State.toUiModel(): StateUiModel? {
     return when (this) {
         State.BLACK -> StateUiModel.BLACK
         State.WHITE -> StateUiModel.WHITE
-        else -> null
+        State.EMPTY -> null
     }
 }
 
