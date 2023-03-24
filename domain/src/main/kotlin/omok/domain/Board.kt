@@ -3,7 +3,7 @@ package omok.domain
 import omok.domain.judgement.LineJudgement
 
 class Board(val blackPlayer: Player, val whitePlayer: Player) {
-    val positions: List<Position> = Positions().positions.toList()
+    private val positions: List<Position> = Positions().positions.toList()
 
     fun isBlackPlaceable(position: Position): Boolean {
         val stone = BlackStone(position)

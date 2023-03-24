@@ -26,12 +26,6 @@ import woowacourse.omok.database.OmokDBHelper
 class MainActivity : AppCompatActivity() {
     private var omokBoard = Board(Player(), Player())
 
-    init {
-        println("board,white ${omokBoard.whitePlayer.hand.stones}")
-        println("board,black,w ${omokBoard.blackPlayer.hand.stones}")
-        println("board ${omokBoard.positions.map{ it.isEmpty() }.toList()}")
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
