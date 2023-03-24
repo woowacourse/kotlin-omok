@@ -1,8 +1,7 @@
 package woowacourse.omok.game.view
 
-import android.content.Context
 import android.widget.ImageView
-import android.widget.Toast
+import android.widget.TextView
 import domain.Board
 import dto.ColorDTO
 import dto.StoneDTO
@@ -12,14 +11,14 @@ import view.PlaceStoneObserver
 import view.RenderBoard
 
 class AndroidGameView(
-    private val context: Context,
-    override val renderBoard: RenderBoard,
     private val stoneButtons: List<ImageView>,
+    private val message: TextView
 ) : GameView {
     override val placeStoneObserver = PlaceStoneObserver()
+    override val renderBoard: RenderBoard = AndroidRenderBoard(stoneButtons)
 
     override fun renderStart(color: ColorDTO) {
-        Toast.makeText(context, GAME_START, Toast.LENGTH_SHORT).show()
+        message.text = GAME_START
     }
 
     override fun setUpInput() {
@@ -44,15 +43,15 @@ class AndroidGameView(
     }
 
     override fun renderTurn(color: ColorDTO, lastStone: VectorDTO?) {
-        Toast.makeText(context, USER_TURN.format(colorToString(color)), Toast.LENGTH_SHORT).show()
+        message.text = USER_TURN.format(colorToString(color))
     }
 
     override fun renderWinner(color: ColorDTO) {
-        Toast.makeText(context, GAME_WINNER.format(colorToString(color)), Toast.LENGTH_SHORT).show()
+        message.text = GAME_WINNER.format(colorToString(color))
     }
 
     override fun renderError(error: String) {
-        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+        message.text = error
     }
 
     private fun colorToString(color: ColorDTO): String {

@@ -5,10 +5,13 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import controller.GameController
+import woowacourse.omok.game.view.AndroidGameView
+import woowacourse.omok.game.view.AndroidViewErrorHandler
 import woowacourse.omok.room.controller.RoomController
 import woowacourse.omok.room.db.OmokDBHelper
 import woowacourse.omok.room.db.table.StageStonesTable
@@ -16,10 +19,7 @@ import woowacourse.omok.room.db.table.StageTable
 import woowacourse.omok.room.db.table.StoneTable
 import woowacourse.omok.room.db.table.UserStagesTable
 import woowacourse.omok.room.db.table.UserTable
-import woowacourse.omok.game.view.AndroidGameView
-import woowacourse.omok.game.view.AndroidRenderBoard
 import woowacourse.omok.room.view.AndroidRoomView
-import woowacourse.omok.game.view.AndroidViewErrorHandler
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         val imageStones =
             findViewById<TableLayout>(R.id.board).children.filterIsInstance<TableRow>()
                 .flatMap { it.children }.filterIsInstance<ImageView>().toList()
+        val mainMessage = findViewById<TextView>(R.id.main_message)
 
         val room =
             layoutInflater.inflate(R.layout.fragment_room, findViewById(R.id.layout_room), true)
@@ -43,11 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         deleteDatabase(OmokDBHelper.DB_NAME)
         val omokController = GameController(
-            AndroidGameView(
-                this,
-                AndroidRenderBoard(imageStones),
-                imageStones
-            ),
+            AndroidGameView(imageStones, mainMessage),
             AndroidViewErrorHandler(this)
         )
 

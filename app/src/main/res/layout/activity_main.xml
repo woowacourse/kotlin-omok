@@ -1182,6 +1182,14 @@
 
     </TableLayout>
 
+    <TextView
+        android:id="@+id/main_message"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center_vertical"
+        android:text="게임 메시지 : " />
+
     <FrameLayout
         android:id="@+id/layout_room"
         android:layout_width="match_parent"
