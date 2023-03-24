@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="200dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="#2AC1BC" />
+        android:backgroundTint="@color/woowa" />
 
     <ImageView
         android:src="@drawable/black_stone"
