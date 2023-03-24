@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import woowacourse.omok.database.DBController
 import woowacourse.omok.database.OmokConstract
 import woowacourse.omok.database.OmokDBHelper
 
@@ -18,10 +19,7 @@ class WinActivity : AppCompatActivity() {
         val winImage = findViewById<ImageView>(R.id.winImage)
         val winWho = findViewById<TextView>(R.id.winWho)
 
-        val db = OmokDBHelper(this)
-        val wDb = db.writableDatabase
-
-        val color = intent.getStringExtra("color")
+        val color = intent.getStringExtra(OmokConstract.TABLE_COLUMN_COLOR)
         if (color == "black") {
             winImage.setImageResource(R.drawable.black_stone)
             winWho.text = "흑"
@@ -32,7 +30,7 @@ class WinActivity : AppCompatActivity() {
         }
 
         resetBtn.setOnClickListener {
-            wDb.execSQL("DELETE FROM ${OmokConstract.TABLE_NAME}")
+            DBController(OmokDBHelper(this).writableDatabase).deleteDB()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -40,9 +38,7 @@ class WinActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        val db = OmokDBHelper(this)
-        val wDb = db.writableDatabase
-        wDb.execSQL("DELETE FROM ${OmokConstract.TABLE_NAME}")
+        DBController(OmokDBHelper(this).writableDatabase).deleteDB()
         super.onDestroy()
     }
 }

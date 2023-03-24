@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -20,6 +19,7 @@ import omok.domain.judgement.LineJudgement
 import omok.domain.state.State
 import omok.domain.state.Turn
 import omok.domain.state.Win
+import woowacourse.omok.database.DBController
 import woowacourse.omok.database.OmokConstract
 import woowacourse.omok.database.OmokDBHelper
 
@@ -29,149 +29,106 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val board = findViewById<TableLayout>(R.id.board)
-        putBoard(board)
+
+        initBoard(board)
         turn(Turn.Black, board)
     }
 
-    private fun blackTurn(board: TableLayout) {
-        var position: Position
-        val db = OmokDBHelper(this)
-        val wDb = db.writableDatabase
-        board
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEachIndexed { index, view ->
-                view.setOnClickListener {
-                    position = positionFind(index)
-                    if (!omokBoard.isBlackPlaceable(position)) {
-                        Toast.makeText(applicationContext, "해당 자리에 둘 수 없습니다.", Toast.LENGTH_LONG).show()
-                        turn(Turn.Black, board)
-                    } else {
-                        val values = ContentValues()
-                        values.put("color", "black")
-                        values.put("position", index)
-
-                        wDb.insert(OmokConstract.TABLE_NAME, null, values)
-
-                        view.setImageResource(R.drawable.black_stone)
-                        omokBoard.blackPlayer.put(BlackStone(position))
-                        omokBoard.occupyPosition(position)
-                        if (lineJudge(omokBoard.blackPlayer, BlackStone(position))) turn(Win.Black, board)
-                        else turn(Turn.White, board)
-                    }
-                }
-            }
+    private fun initBoard(board: TableLayout) {
+        listOf("black", "white").forEach { color ->
+            val indexes = DBController(OmokDBHelper(this).writableDatabase).checkDB("black")
+            indexes.forEach { index -> initDisplay(board, color, index) }
+        }
     }
 
-    private fun whiteTurn(board: TableLayout) {
-        var position: Position
-        val db = OmokDBHelper(this)
-        val wDb = db.writableDatabase
+    private fun initDisplay(board: TableLayout, color: String, index: Int) {
         board
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEachIndexed { index, view ->
-                view.setOnClickListener {
-                    position = positionFind(index)
-                    if (!omokBoard.isWhitePlaceable(position)) {
-                        Toast.makeText(applicationContext, "해당 자리에 둘 수 없습니다.", Toast.LENGTH_SHORT).show()
-                        turn(Turn.White, board)
-                    } else {
-                        val values = ContentValues()
-                        values.put("color", "white")
-                        values.put("position", index)
-
-                        wDb.insert(OmokConstract.TABLE_NAME, null, values)
-
-                        view.setImageResource(R.drawable.white_stone)
-                        omokBoard.whitePlayer.put(WhiteStone(position))
-                        omokBoard.occupyPosition(position)
-                        if (lineJudge(omokBoard.whitePlayer, WhiteStone(position))) turn(Win.White, board)
-                        else turn(Turn.Black, board)
-                    }
-                }
+            .forEachIndexed { itIndex, view ->
+                if (itIndex == index) { initPut(index, color, view) }
             }
+    }
+    private fun initPut(index: Int, color: String, view: ImageView) {
+        val position = positionFind(index)
+
+        if (color == "black") view.setImageResource(R.drawable.black_stone) else view.setImageResource(R.drawable.white_stone)
+        if (color == "black") omokBoard.blackPlayer.put(BlackStone(position)) else omokBoard.whitePlayer.put(WhiteStone(position))
+        omokBoard.occupyPosition(position)
     }
 
     private fun turn(state: State, board: TableLayout) {
         when (state) {
-            Turn.Black -> blackTurn(board)
-            Turn.White -> whiteTurn(board)
+            Turn.Black -> putBoard(board, state)
+            Turn.White -> putBoard(board, state)
             Win.Black -> {
                 val intent = Intent(this, WinActivity::class.java)
-                intent.putExtra("color", "black")
+                intent.putExtra(OmokConstract.TABLE_COLUMN_COLOR, "black")
                 startActivity(intent)
             }
             Win.White -> {
                 val intent = Intent(this, WinActivity::class.java)
-                intent.putExtra("color", "white")
+                intent.putExtra(OmokConstract.TABLE_COLUMN_COLOR, "white")
                 startActivity(intent)
+            }
+        }
+    }
+
+    private fun putBoard(board: TableLayout, turn: State) {
+        board
+            .children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .forEachIndexed { index, view ->
+                view.setOnClickListener {
+                    if (turn == Turn.Black) blackTurn(board, index, view) else whiteTurn(board, index, view)
+                }
+            }
+    }
+
+    private fun blackTurn(board: TableLayout, index: Int, view: ImageView) {
+        view.setOnClickListener {
+            val position = positionFind(index)
+            if (!omokBoard.isBlackPlaceable(position)) {
+                Toast.makeText(applicationContext, "해당 자리에 둘 수 없습니다.", Toast.LENGTH_SHORT).show()
+                turn(Turn.Black, board)
+            } else {
+                DBController(OmokDBHelper(this).writableDatabase).insertDB("black", index)
+                view.setImageResource(R.drawable.black_stone)
+                omokBoard.blackPlayer.put(BlackStone(position))
+                omokBoard.occupyPosition(position)
+                if (lineJudge(omokBoard.blackPlayer, BlackStone(position))) turn(Win.Black, board)
+                else turn(Turn.White, board)
+            }
+        }
+    }
+
+    private fun whiteTurn(board: TableLayout, index: Int, view: ImageView) {
+        view.setOnClickListener {
+            val position = positionFind(index)
+            if (!omokBoard.isWhitePlaceable(position)) {
+                Toast.makeText(applicationContext, "해당 자리에 둘 수 없습니다.", Toast.LENGTH_SHORT).show()
+                turn(Turn.White, board)
+            } else {
+                DBController(OmokDBHelper(this).writableDatabase).insertDB("white", index)
+                view.setImageResource(R.drawable.white_stone)
+                omokBoard.whitePlayer.put(WhiteStone(position))
+                omokBoard.occupyPosition(position)
+                if (lineJudge(omokBoard.whitePlayer, WhiteStone(position))) turn(Win.White, board)
+                else turn(Turn.Black, board)
             }
         }
     }
 
     private fun positionFind(index: Int): Position {
-        val x = (index % 15) + 1
-        val y = 15 - index / 15
+        val x = (index % Position.MAX_VERTICAL_AXIS) + 1
+        val y = Position.MAX_VERTICAL_AXIS - index / Position.MAX_VERTICAL_AXIS
         return Position(HorizontalAxis.getHorizontalAxis(x), y)
     }
 
     private fun lineJudge(player: Player, stone: Stone) = LineJudgement(player, stone).check()
-
-    fun putBoard(board: TableLayout) {
-        omokBoard = Board(Player(), Player())
-        val db = OmokDBHelper(this)
-        val wDb = db.writableDatabase
-
-        var color = "black"
-        var cursor = wDb.rawQuery("SELECT * FROM ${OmokConstract.TABLE_NAME} WHERE ${OmokConstract.TABLE_COLUMN_COLOR} = '" + color + "';", null)
-
-        with(cursor) {
-            while (moveToNext()) {
-                val index = getInt(getColumnIndexOrThrow(OmokConstract.TABLE_COLUMN_POSITION))
-                board
-                    .children
-                    .filterIsInstance<TableRow>()
-                    .flatMap { it.children }
-                    .filterIsInstance<ImageView>()
-                    .forEachIndexed { itIndex, view ->
-                        if (itIndex == index) {
-                            val position = positionFind(index)
-                            view.setImageResource(R.drawable.black_stone)
-                            omokBoard.blackPlayer.put(BlackStone(position))
-                            omokBoard.occupyPosition(position)
-                        }
-                    }
-            }
-        }
-
-        color = "white"
-        cursor = wDb.rawQuery("SELECT * FROM ${OmokConstract.TABLE_NAME} WHERE ${OmokConstract.TABLE_COLUMN_COLOR} = '" + color + "';", null)
-
-        with(cursor) {
-            while (moveToNext()) {
-                val index = getInt(getColumnIndexOrThrow(OmokConstract.TABLE_COLUMN_POSITION))
-                board
-                    .children
-                    .filterIsInstance<TableRow>()
-                    .flatMap { it.children }
-                    .filterIsInstance<ImageView>()
-                    .forEachIndexed { itIndex, view ->
-                        if (itIndex == index) {
-                            val position = positionFind(index)
-                            view.setImageResource(R.drawable.white_stone)
-                            omokBoard.whitePlayer.put(WhiteStone(position))
-                            omokBoard.occupyPosition(position)
-                        }
-                    }
-            }
-        }
-        cursor.close()
-    }
 }
