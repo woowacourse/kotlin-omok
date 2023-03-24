@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val board = findViewById<TableLayout>(R.id.board)
+        putBoard(board)
         turn(Turn.Black, board)
     }
 
@@ -117,4 +118,50 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun lineJudge(player: Player, stone: Stone) = LineJudgement(player, stone).check()
+
+    fun putBoard(board: TableLayout) {
+        val db = OmokDBHelper(this)
+        val wDb = db.writableDatabase
+
+        var color = "black"
+        var cursor = wDb.rawQuery("SELECT * FROM ${OmokConstract.TABLE_NAME} WHERE ${OmokConstract.TABLE_COLUMN_COLOR} = '" + color + "';", null)
+
+        with(cursor) {
+            while (moveToNext()) {
+                val index = getInt(getColumnIndexOrThrow(OmokConstract.TABLE_COLUMN_POSITION))
+                board
+                    .children
+                    .filterIsInstance<TableRow>()
+                    .flatMap { it.children }
+                    .filterIsInstance<ImageView>()
+                    .forEach { view ->
+                        val position = positionFind(index)
+                        view.setImageResource(R.drawable.black_stone)
+                        omokBoard.blackPlayer.put(BlackStone(position))
+                        omokBoard.occupyPosition(position)
+                    }
+            }
+        }
+
+        color = "white"
+        cursor = wDb.rawQuery("SELECT * FROM ${OmokConstract.TABLE_NAME} WHERE ${OmokConstract.TABLE_COLUMN_COLOR} = '" + color + "';", null)
+
+        with(cursor) {
+            while (moveToNext()) {
+                val index = getInt(getColumnIndexOrThrow(OmokConstract.TABLE_COLUMN_POSITION))
+                board
+                    .children
+                    .filterIsInstance<TableRow>()
+                    .flatMap { it.children }
+                    .filterIsInstance<ImageView>()
+                    .forEach { view ->
+                        val position = positionFind(index)
+                        view.setImageResource(R.drawable.white_stone)
+                        omokBoard.whitePlayer.put(WhiteStone(position))
+                        omokBoard.occupyPosition(position)
+                    }
+            }
+        }
+        cursor.close()
+    }
 }
