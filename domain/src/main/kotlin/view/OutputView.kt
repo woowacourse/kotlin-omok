@@ -43,7 +43,7 @@ class OutputView {
 
     private fun setBoard(stones: Stones) {
         stones.values.forEach {
-            board[(15 - it.position.y)][it.position.x - 1] = getStoneTypeEmoji(it.type)
+            board[it.position.y - 1][it.position.x - 1] = getStoneTypeEmoji(it.type)
         }
     }
 
