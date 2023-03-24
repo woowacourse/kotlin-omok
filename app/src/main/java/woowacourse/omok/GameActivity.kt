@@ -17,12 +17,12 @@ class GameActivity : AppCompatActivity() {
         OmokApplication.controller.run()
     }
 
-    lateinit var tvTurn: TextView
-    lateinit var tvLastPosition: TextView
-    var turn by Delegates.observable(OmokApplication.controller.omokGame.turn) { _, _, new ->
+    private lateinit var tvTurn: TextView
+    private lateinit var tvLastPosition: TextView
+    private var turn by Delegates.observable(OmokApplication.controller.omokGame.turn) { _, _, new ->
         tvTurn.text = new.name
     }
-    var lastPosition: Position? by Delegates.observable(OmokApplication.controller.omokGame.board.lastPosition) { _, _, new ->
+    private var lastPosition: Position? by Delegates.observable(OmokApplication.controller.omokGame.board.lastPosition) { _, _, new ->
         if (new == null) {
             tvLastPosition.text = ""
         } else {
@@ -37,12 +37,21 @@ class GameActivity : AppCompatActivity() {
 
         val board = findViewById<TableLayout>(R.id.board)
         setBoardOnclickListener(board)
-        initGameStateView()
+        initViewId()
+        initGameViewState()
     }
 
-    private fun initGameStateView() {
+    private fun initViewId() {
         tvTurn = findViewById(R.id.tv_turn)
         tvLastPosition = findViewById(R.id.tv_last_position)
+    }
+
+    private fun initGameViewState() {
+        tvTurn.text = turn.name
+        lastPosition?.let {
+            tvLastPosition.text =
+                "${AlphabetCoordinate.convertAlphabet(it.coordinateX)}${Board.BOARD_SIZE - it.coordinateY}"
+        }
     }
 
     private fun setBoardOnclickListener(board: TableLayout) {
