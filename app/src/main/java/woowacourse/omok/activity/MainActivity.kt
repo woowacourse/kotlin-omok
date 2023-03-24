@@ -9,7 +9,6 @@ import androidx.core.view.children
 import domain.game.Omok
 import domain.game.Omok.Companion.OMOK_BOARD_SIZE
 import domain.player.BlackPlayer
-import domain.player.Players
 import domain.player.WhitePlayer
 import domain.point.Point
 import domain.point.Points
