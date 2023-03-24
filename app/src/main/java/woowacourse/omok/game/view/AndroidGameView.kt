@@ -64,9 +64,7 @@ class AndroidGameView(
     companion object {
         private const val GAME_START = "오목 게임을 시작합니다."
         private const val USER_TURN = "%s의 차례입니다."
-        private const val LAST_STONE_POSITION = " (마지막 돌의 위치 : %s) "
         private const val GAME_WINNER = "%s가 승리자입니다."
-
         private const val FACTOR_ROW_FIXER = 1
     }
 }
