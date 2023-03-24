@@ -67,22 +67,13 @@ class OmokPlayerDbHelper(
 
     private fun insert(player: Player) {
         val wDb = this.writableDatabase
-
-        if (checkAlreadyExist(player.name)) {
-            update(player)
-            return
-        }
-
         val values = getPlayerContentValues(player)
-
-        wDb.insertWithOnConflict(TABLE_NAME_PLAYER, null, values, SQLiteDatabase.CONFLICT_REPLACE)
+        wDb.insert(TABLE_NAME_PLAYER, null, values)
     }
 
     private fun update(player: Player) {
         val wDb = this.writableDatabase
-
         val values = getPlayerContentValues(player)
-
         wDb.update(TABLE_NAME_PLAYER, values, "$TABLE_COLUMN_NAME = ?", arrayOf(player.name))
     }
 
