@@ -4,7 +4,6 @@ import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.jupiter.api.Test
 
 class BoardTest {
@@ -13,7 +12,7 @@ class BoardTest {
         val board = Board()
         board.addStone(GoStone(GoStoneColor.BLACK, Coordinate.of("H8")))
 
-        assertThat (board.canAdd(Coordinate.of("H8"))).isFalse
+        assertThat(board.canAdd(Coordinate.of("H8"))).isFalse
     }
 
     @Test

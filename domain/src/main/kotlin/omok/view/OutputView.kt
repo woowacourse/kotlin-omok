@@ -1,7 +1,7 @@
 package omok.view
 
 import omok.model.game.Board
-import omok.model.state.State
+import omok.model.state.*
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
@@ -54,10 +54,10 @@ object OutputView {
 
     private fun printState(state: State, color: GoStoneColor?) {
         when (state) {
-            State.Win -> println("${color?.toKorean()}이 승리했습니다!\n")
-            State.DoubleThree -> println("해당 위치는 돌을 놓을 수 없습니다. (3-3 금수)")
-            State.DoubleFour -> println("해당 위치는 돌을 놓을 수 없습니다. (4-4 금수)")
-            State.Stay -> println()
+            is Win -> println("${color?.toKorean()}이 승리했습니다!\n")
+            is ForbiddenThree -> println("해당 위치는 돌을 놓을 수 없습니다. (3-3 금수)")
+            is ForbiddenFour -> println("해당 위치는 돌을 놓을 수 없습니다. (4-4 금수)")
+            is Stay -> println()
         }
     }
 

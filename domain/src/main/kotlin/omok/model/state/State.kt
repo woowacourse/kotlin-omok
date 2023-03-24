@@ -1,4 +1,8 @@
 package omok.model.state
-enum class State {
-    Win, DoubleThree, DoubleFour, Stay
+
+import omok.model.game.Board
+
+abstract class State(board: Board) {
+    abstract var isRunning: Boolean
+    abstract var isForbidden: Boolean
 }

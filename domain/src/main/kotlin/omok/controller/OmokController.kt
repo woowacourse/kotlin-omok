@@ -1,7 +1,7 @@
 package omok.controller
 
 import omok.model.game.Board
-import omok.model.state.Judgement
+import omok.model.game.Judgement
 import omok.model.state.State
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
@@ -19,7 +19,9 @@ class OmokController {
     fun play() {
         while (true) {
             val coordinate = getValidateCoordinate(InputView::getCoordinate)
-            if (playTurn(coordinate) == State.Win) break
+            if (!playTurn(coordinate).isRunning) {
+                break
+            }
         }
     }
 
@@ -35,7 +37,7 @@ class OmokController {
         state: State,
         stone: GoStone
     ) {
-        if (state == State.Win || state == State.Stay) {
+        if (!state.isForbidden) {
             board.addStone(stone)
         }
     }

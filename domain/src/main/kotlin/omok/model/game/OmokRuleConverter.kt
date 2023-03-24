@@ -1,6 +1,6 @@
 import omok.model.external.OmokRule
 import omok.model.game.Board
-import omok.model.state.State
+import omok.model.state.*
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
@@ -14,25 +14,25 @@ class OmokRuleConverter(
     fun countOpenThrees(coordinate: Coordinate): State {
         val pair = coordinate.toPair()
         return if (omokRule.countOpenThrees(pair.first, pair.second) >= 2) {
-            State.DoubleThree
-        } else State.Stay
+            ForbiddenThree(board)
+        } else Stay(board)
     }
 
     fun countOpenFours(coordinate: Coordinate): State {
         val pair = coordinate.toPair()
         return if (omokRule.countOpenFours(pair.first, pair.second) >= 2) {
-            State.DoubleFour
-        } else State.Stay
+            ForbiddenFour(board)
+        } else Stay(board)
     }
 
     fun checkBlackWin(coordinate: Coordinate): State {
         val pair = coordinate.toPair()
-        return if (omokRule.validateBlackWin(pair.first, pair.second)) State.Win else State.Stay
+        return if (omokRule.validateBlackWin(pair.first, pair.second)) Win(board) else Stay(board)
     }
 
     fun checkWhiteWin(coordinate: Coordinate): State {
         val pair = coordinate.toPair()
-        return if (omokRule.validateWhiteWin(pair.first, pair.second)) State.Win else State.Stay
+        return if (omokRule.validateWhiteWin(pair.first, pair.second)) Win(board) else Stay(board)
     }
 
     private fun Coordinate.toPair(): Pair<Int, Int> {

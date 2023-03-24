@@ -1,7 +1,10 @@
 package omok.model.game
 
 import OmokRuleConverter
-import omok.model.state.State
+import omok.model.state.ForbiddenFour
+import omok.model.state.ForbiddenThree
+import omok.model.state.Stay
+import omok.model.state.Win
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor.BLACK
@@ -22,7 +25,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
-        ).isEqualTo(State.Win)
+        ).isInstanceOf(Win::class.java)
     }
 
     @Test
@@ -37,7 +40,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
-        ).isEqualTo(State.Win)
+        ).isInstanceOf(Win::class.java)
     }
 
     @Test
@@ -52,7 +55,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
-        ).isEqualTo(State.Win)
+        ).isInstanceOf(Win::class.java)
     }
 
     @Test
@@ -67,7 +70,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
-        ).isEqualTo(State.Win)
+        ).isInstanceOf(Win::class.java)
     }
 
     @Test
@@ -82,7 +85,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
-        ).isEqualTo(State.Stay)
+        ).isInstanceOf(Stay::class.java)
     }
 
     @Test
@@ -96,7 +99,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
-        ).isEqualTo(State.Stay)
+        ).isInstanceOf(Stay::class.java)
     }
 
     @Test
@@ -112,22 +115,22 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.checkWhiteWin(Coordinate.of("H10"))
-        ).isEqualTo(State.Win)
+        ).isInstanceOf(Win::class.java)
     }
 
     @Test
     fun `흑돌이 열린 33이다`() {
         val board = Board().apply {
-            addStone(GoStone(BLACK, Coordinate.of("C12")))
-            addStone(GoStone(BLACK, Coordinate.of("E12")))
-            addStone(GoStone(BLACK, Coordinate.of("D13")))
-            addStone(GoStone(BLACK, Coordinate.of("D14")))
+            addStone(GoStone(BLACK, Coordinate.of("K6")))
+            addStone(GoStone(BLACK, Coordinate.of("K3")))
+            addStone(GoStone(BLACK, Coordinate.of("M4")))
+            addStone(GoStone(BLACK, Coordinate.of("N4")))
         }
-        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("D12")))
+        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("K4")))
 
         assertThat(
-            rule.countOpenThrees(Coordinate.of("D12"))
-        )
+            rule.countOpenThrees(Coordinate.of("K4"))
+        ).isInstanceOf(ForbiddenThree::class.java)
     }
 
     @Test
@@ -142,7 +145,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.countOpenThrees(Coordinate.of("E3"))
-        ).isEqualTo(State.DoubleThree)
+        ).isInstanceOf(ForbiddenThree::class.java)
     }
 
     @Test
@@ -157,22 +160,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.countOpenThrees(Coordinate.of("L11"))
-        ).isEqualTo(State.DoubleThree)
-    }
-
-    @Test
-    fun `흑돌이 열린 33이다 4`() {
-        val board = Board().apply {
-            addStone(GoStone(BLACK, Coordinate.of("K6")))
-            addStone(GoStone(BLACK, Coordinate.of("K3")))
-            addStone(GoStone(BLACK, Coordinate.of("M4")))
-            addStone(GoStone(BLACK, Coordinate.of("N4")))
-        }
-        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("K4")))
-
-        assertThat(
-            rule.countOpenThrees(Coordinate.of("K4"))
-        ).isEqualTo(State.DoubleThree)
+        ).isInstanceOf(ForbiddenThree::class.java)
     }
 
     @Test
@@ -191,7 +179,7 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.countOpenFours(Coordinate.of("H5"))
-        ).isEqualTo(State.DoubleFour)
+        ).isInstanceOf(ForbiddenFour::class.java)
     }
 
     @Test
@@ -207,6 +195,6 @@ class OmokRuleConverterTest {
 
         assertThat(
             rule.countOpenFours(Coordinate.of("F12"))
-        ).isEqualTo(State.DoubleFour)
+        ).isInstanceOf(ForbiddenFour::class.java)
     }
 }

@@ -8,7 +8,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.controller.OmokController
-import omok.model.state.State
+import omok.model.state.ForbiddenFour
+import omok.model.state.ForbiddenThree
+import omok.model.state.Stay
+import omok.model.state.Win
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStoneColor
 import omok.view.toKorean
@@ -51,15 +54,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         val state = controller.playTurn(coordinate)
-        if (state == State.Win || state == State.Stay) setStoneImage(view)
+        if (!state.isForbidden) setStoneImage(view)
         when (state) {
-            State.Win -> {
+            is Win -> {
                 makeMessage("${controller.board.lastPlacedStone?.color?.toKorean()}이 승리했습니다!")
                 isRunning = false
             }
-            State.DoubleThree -> makeMessage("돌을 놓을 수 없어요! (3-3)")
-            State.DoubleFour -> makeMessage("돌을 놓을 수 없어요! (4-4)")
-            State.Stay -> {}
+            is ForbiddenThree -> makeMessage("돌을 놓을 수 없어요! (3-3)")
+            is ForbiddenFour -> makeMessage("돌을 놓을 수 없어요! (4-4)")
+            is Stay -> {}
         }
     }
 
