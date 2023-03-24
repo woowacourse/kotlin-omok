@@ -6,6 +6,7 @@ import domain.point.Point
 import domain.point.Points
 import domain.rule.BlackRenjuRule
 import domain.rule.OmokRule
+import domain.rule.WhiteRenjuRule
 import domain.state.PlayingState
 import domain.stone.StoneColor
 import org.assertj.core.api.Assertions.assertThat
@@ -25,7 +26,7 @@ class WhitePlayerTest {
             Point(9, 9),
             Point(10, 10),
         )
-        rule = BlackRenjuRule()
+        rule = WhiteRenjuRule()
     }
 
     @Test
