@@ -6,6 +6,6 @@ import woowacourse.omok.db.SQLiteTable
 object StageTable : SQLiteTable {
     override val name: String = "stage"
     override val scheme: List<Column> = listOf(
-        Column("id", "int")
+        Column("id", "INTEGER PRIMARY KEY AUTOINCREMENT")
     )
 }

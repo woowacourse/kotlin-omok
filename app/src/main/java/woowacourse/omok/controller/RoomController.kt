@@ -17,6 +17,7 @@ class RoomController(
 ) {
     fun process() {
         roomView.setUp(::onSelectUser, ::onSelectStage)
+        roomView.userAddObserver.subscribe(::addUser)
         getAllUsers()
         omokController.process()
     }
@@ -30,6 +31,11 @@ class RoomController(
     private fun getAllStagesByUserId(user: User) {
         val stages = omokDBHelper.selectAllStagesByUserId(user)
         roomView.setAllStages(stages)
+
+        roomView.stageAddObserver.unsubscribeAll()
+        roomView.stageAddObserver.subscribe {
+            addStage(user)
+        }
     }
 
     private fun onSelectUser(user: User) {
@@ -46,5 +52,15 @@ class RoomController(
 
     private fun onPlaceStone(stoneDTO: StoneDTO, stage: Stage) {
         omokDBHelper.insertStoneToStage(stoneDTO, stage)
+    }
+
+    private fun addUser() {
+        omokDBHelper.insertUser((0..300).random().toString())
+        getAllUsers()
+    }
+
+    private fun addStage(user: User) {
+        omokDBHelper.insertStage(user.id)
+        getAllStagesByUserId(user)
     }
 }

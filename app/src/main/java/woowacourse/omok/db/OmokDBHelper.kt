@@ -106,6 +106,26 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
         writableDatabase.insert(StageStonesTable.name, null, contentValues)
     }
 
+    fun insertUser(userName: String) {
+        val contentValues = ContentValues()
+        contentValues.put("name", userName)
+        writableDatabase.insert(UserTable.name, null, contentValues)
+    }
+
+    fun insertStage(userId: Int) {
+        val cursor = readableDatabase.rawQuery("SELECT MAX(ID) FROM ${StageTable.name}", null)
+        cursor.moveToNext()
+        val id = cursor.getInt(0) + 1
+        val contentValues = ContentValues()
+        contentValues.put("id", id)
+        writableDatabase.insert(StageTable.name, null, contentValues)
+        contentValues.clear()
+        contentValues.put("userId", userId)
+        contentValues.put("stageId", id)
+        writableDatabase.insert(UserStagesTable.name, null, contentValues)
+        cursor.close()
+    }
+
     companion object {
         const val DB_VERSION = 1
         const val DB_NAME = "OMOK"

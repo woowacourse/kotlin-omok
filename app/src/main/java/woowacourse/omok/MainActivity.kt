@@ -1,6 +1,7 @@
 package woowacourse.omok
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -33,12 +34,14 @@ class MainActivity : AppCompatActivity() {
             layoutInflater.inflate(R.layout.fragment_room, findViewById(R.id.layout_room), true)
         val userRecycler = room.findViewById<RecyclerView>(R.id.recycler_user)
         val stageRecycler = room.findViewById<RecyclerView>(R.id.recycler_stage)
+        val userAdd = room.findViewById<Button>(R.id.recycler_user_add_button)
+        val stageAdd = room.findViewById<Button>(R.id.recycler_stage_add_button)
 
         val tables = listOf(
             UserTable, UserStagesTable, StageTable, StageStonesTable, StoneTable
         )
 
-        //deleteDatabase(OmokDBHelper.DB_NAME)
+        deleteDatabase(OmokDBHelper.DB_NAME)
         val omokController = GameController(
             AndroidGameView(
                 this,
@@ -50,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         RoomController(
             OmokDBHelper(this, tables),
-            AndroidRoomView(userRecycler, stageRecycler),
+            AndroidRoomView(userRecycler, stageRecycler, userAdd, stageAdd),
             omokController
         ).process()
     }
