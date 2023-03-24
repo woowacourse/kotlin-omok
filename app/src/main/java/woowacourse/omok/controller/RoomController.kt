@@ -60,7 +60,8 @@ class RoomController(
     }
 
     private fun addStage(user: User) {
-        omokDBHelper.insertStage(user.id)
+        val stageId = omokDBHelper.insertStage(user.id)
         getAllStagesByUserId(user)
+        onSelectStage(Stage(stageId))
     }
 }

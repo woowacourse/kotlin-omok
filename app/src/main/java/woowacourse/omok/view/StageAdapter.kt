@@ -23,9 +23,9 @@ class StageAdapter(var stages: Stages, val onSelectStage: (Stage) -> Unit) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.name.text = position.toString()
+        viewHolder.name.text = stages.value[position].id.toString()
         viewHolder.itemView.setOnClickListener {
-            stages.value[position]?.let { onSelectStage(it) }
+            onSelectStage(stages.value[position])
         }
     }
 

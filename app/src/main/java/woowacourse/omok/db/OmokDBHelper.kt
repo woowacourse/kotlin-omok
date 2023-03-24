@@ -77,21 +77,31 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
 
     fun selectAllStagesByUserId(user: User): Stages {
         val cursor = readableDatabase.rawQuery(
-            "select a.id as StageID, b.* " + "from ${StageTable.name} a, ${StoneTable.name} b, ${StageStonesTable.name} c, ${UserStagesTable.name} d " + "on a.id = c.stageId and b.id = c.stoneId and d.stageId = a.id " + "where d.userId = ${user.id};",
-            null
+            "SELECT stageId FROM ${UserStagesTable.name} WHERE userId = ${user.id}", null
         )
-        val stages = mutableListOf<Pair<Int, MutableList<StoneDTO>>>()
+        val stages = mutableListOf<Pair<Int, List<StoneDTO>>>()
         with(cursor) {
             while (moveToNext()) {
                 val stageId = getInt(0)
-                val stone = StoneDTO(ColorDTO.values()[getInt(4)], VectorDTO(getInt(2), getInt(3)))
-                val stage = stages.find { it.first == stageId }
-                if (stage != null) stage.second.add(stone)
-                else stages.add(stageId to mutableListOf(stone))
+                stages.add(stageId to selectAllStonesByStage(stageId))
             }
         }
         cursor.close()
         return Stages(stages.map { Stage(it.first, StageStones(it.second)) })
+    }
+
+    fun selectAllStonesByStage(stageId: Int): List<StoneDTO> {
+        val stones: MutableList<StoneDTO> = mutableListOf()
+        val stoneCursor = readableDatabase.rawQuery(
+            "SELECT b.* FROM ${StageStonesTable.name} a, ${StoneTable.name} b on a.stoneId = b.id WHERE stageId = $stageId", null
+        )
+        with(stoneCursor) {
+            while (stoneCursor.moveToNext()) {
+                val stone = StoneDTO(ColorDTO.values()[getInt(3)], VectorDTO(getInt(1), getInt(2)))
+                stones.add(stone)
+            }
+        }
+        return stones
     }
 
     fun insertStoneToStage(stone: StoneDTO, stage: Stage) {
@@ -112,7 +122,7 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
         writableDatabase.insert(UserTable.name, null, contentValues)
     }
 
-    fun insertStage(userId: Int) {
+    fun insertStage(userId: Int): Int {
         val cursor = readableDatabase.rawQuery("SELECT MAX(ID) FROM ${StageTable.name}", null)
         cursor.moveToNext()
         val id = cursor.getInt(0) + 1
@@ -124,6 +134,7 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
         contentValues.put("stageId", id)
         writableDatabase.insert(UserStagesTable.name, null, contentValues)
         cursor.close()
+        return id
     }
 
     companion object {
