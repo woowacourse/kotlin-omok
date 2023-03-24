@@ -29,7 +29,7 @@ class RoomController(
     }
 
     private fun getAllStagesByUserId(user: User) {
-        val stages = omokDBHelper.selectAllStagesByUserId(user)
+        val stages = omokDBHelper.selectAllStagesByUser(user)
         roomView.setAllStages(stages)
 
         roomView.stageAddObserver.unsubscribeAll()
@@ -60,7 +60,7 @@ class RoomController(
     }
 
     private fun addStage(user: User) {
-        val stageId = omokDBHelper.insertStage(user.id)
+        val stageId = omokDBHelper.insertStageByUser(user)
         getAllStagesByUserId(user)
         onSelectStage(Stage(stageId))
     }

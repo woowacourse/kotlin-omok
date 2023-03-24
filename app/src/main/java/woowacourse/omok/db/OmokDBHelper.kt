@@ -39,10 +39,10 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
         p0?.execSQL("INSERT INTO USERSTAGES VALUES(1, 2)")
 
         p0?.execSQL("INSERT INTO STONE VALUES(0, 0, 0, 0)")
-        p0?.execSQL("INSERT INTO STONE VALUES(1, 1, 1, 1)")
-        p0?.execSQL("INSERT INTO STONE VALUES(2, 0, 0, 0)")
-        p0?.execSQL("INSERT INTO STONE VALUES(3, 1, 1, 1)")
-        p0?.execSQL("INSERT INTO STONE VALUES(4, 2, 2, 1)")
+        p0?.execSQL("INSERT INTO STONE VALUES(1, 2, 2, 1)")
+        p0?.execSQL("INSERT INTO STONE VALUES(2, 1, 1, 0)")
+        p0?.execSQL("INSERT INTO STONE VALUES(3, 3, 4, 1)")
+        p0?.execSQL("INSERT INTO STONE VALUES(4, 5, 2, 1)")
 
         p0?.execSQL("INSERT INTO STAGESTONES VALUES(0, 0)")
         p0?.execSQL("INSERT INTO STAGESTONES VALUES(0, 1)")
@@ -65,8 +65,8 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
             while (moveToNext()) {
                 users.add(
                     User(
-                        getInt(getColumnIndexOrThrow(UserTable.scheme[0].name)),
-                        getString(getColumnIndexOrThrow(UserTable.scheme[1].name))
+                        getInt(getColumnIndexOrThrow(UserTable.ID)),
+                        getString(getColumnIndexOrThrow(UserTable.NAME))
                     )
                 )
             }
@@ -75,14 +75,15 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
         return Users(users)
     }
 
-    fun selectAllStagesByUserId(user: User): Stages {
+    fun selectAllStagesByUser(user: User): Stages {
         val cursor = readableDatabase.rawQuery(
-            "SELECT stageId FROM ${UserStagesTable.name} WHERE userId = ${user.id}", null
+            "SELECT ${UserStagesTable.STAGE_ID} FROM ${UserStagesTable.name} WHERE ${UserStagesTable.USER_ID} = ${user.id}",
+            null
         )
         val stages = mutableListOf<Pair<Int, List<StoneDTO>>>()
         with(cursor) {
             while (moveToNext()) {
-                val stageId = getInt(0)
+                val stageId = getInt(getColumnIndexOrThrow(UserStagesTable.STAGE_ID))
                 stages.add(stageId to selectAllStonesByStage(stageId))
             }
         }
@@ -93,11 +94,17 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
     fun selectAllStonesByStage(stageId: Int): List<StoneDTO> {
         val stones: MutableList<StoneDTO> = mutableListOf()
         val stoneCursor = readableDatabase.rawQuery(
-            "SELECT b.* FROM ${StageStonesTable.name} a, ${StoneTable.name} b on a.stoneId = b.id WHERE stageId = $stageId", null
+            "SELECT b.* FROM ${StageStonesTable.name} a, ${StoneTable.name} b on a.stoneId = b.id WHERE stageId = $stageId",
+            null
         )
         with(stoneCursor) {
             while (stoneCursor.moveToNext()) {
-                val stone = StoneDTO(ColorDTO.values()[getInt(3)], VectorDTO(getInt(1), getInt(2)))
+                val color = getInt(getColumnIndexOrThrow(StoneTable.COLOR))
+                val vector = VectorDTO(
+                    getInt(getColumnIndexOrThrow(StoneTable.X)),
+                    getInt(getColumnIndexOrThrow(StoneTable.Y))
+                )
+                val stone = StoneDTO(ColorDTO.values()[color], vector)
                 stones.add(stone)
             }
         }
@@ -106,32 +113,32 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
 
     fun insertStoneToStage(stone: StoneDTO, stage: Stage) {
         val contentValues = ContentValues()
-        contentValues.put("x", stone.coordinate.x)
-        contentValues.put("y", stone.coordinate.y)
-        contentValues.put("color", stone.color.ordinal)
+        contentValues.put(StoneTable.X, stone.coordinate.x)
+        contentValues.put(StoneTable.Y, stone.coordinate.y)
+        contentValues.put(StoneTable.COLOR, stone.color.ordinal)
         val id = writableDatabase.insert(StoneTable.name, null, contentValues)
         contentValues.clear()
-        contentValues.put("stageId", stage.id)
-        contentValues.put("stoneId", id)
+        contentValues.put(StageStonesTable.STAGE_ID, stage.id)
+        contentValues.put(StageStonesTable.STONE_ID, id)
         writableDatabase.insert(StageStonesTable.name, null, contentValues)
     }
 
     fun insertUser(userName: String) {
         val contentValues = ContentValues()
-        contentValues.put("name", userName)
+        contentValues.put(UserTable.NAME, userName)
         writableDatabase.insert(UserTable.name, null, contentValues)
     }
 
-    fun insertStage(userId: Int): Int {
+    fun insertStageByUser(user: User): Int {
         val cursor = readableDatabase.rawQuery("SELECT MAX(ID) FROM ${StageTable.name}", null)
         cursor.moveToNext()
         val id = cursor.getInt(0) + 1
         val contentValues = ContentValues()
-        contentValues.put("id", id)
+        contentValues.put(StageTable.ID, id)
         writableDatabase.insert(StageTable.name, null, contentValues)
         contentValues.clear()
-        contentValues.put("userId", userId)
-        contentValues.put("stageId", id)
+        contentValues.put(UserStagesTable.USER_ID, user.id)
+        contentValues.put(UserStagesTable.STAGE_ID, id)
         writableDatabase.insert(UserStagesTable.name, null, contentValues)
         cursor.close()
         return id
