@@ -1,19 +1,17 @@
 package woowacourse.omok
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import domain.OmokBoard
 import domain.OmokGame
 import domain.State
 import domain.Stone
-import domain.listener.OmokListener
-import view.OutputView
+import woowacourse.omok.listener.OmokGameListener
 
 class MainActivity : AppCompatActivity() {
     private val TAG_STONE_POSITION = "착수 위치"
@@ -22,55 +20,91 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val db = OmokDbHelper(this)
         val board = findViewById<TableLayout>(R.id.board)
-        val boardView = board
-            .children
-            .filterIsInstance<TableRow>()
-            .map { it.children.filterIsInstance<ImageView>().toList() }
-            .toList()
+        val boardView = board.children.filterIsInstance<TableRow>()
+            .map { it.children.filterIsInstance<ImageView>().toList() }.toList()
+        val omokGame = makeOmokGame(db)
+        setPreBoardImage(omokGame, db, boardView)
+        addImageViewListener(omokGame, db, boardView)
+    }
 
-        val omokGame = OmokGame(omokGameListener = OmokGameListener())
-
+    private fun addImageViewListener(
+        omokGame: OmokGame,
+        db: OmokDbHelper,
+        boardView: List<List<ImageView>>
+    ) {
         boardView.forEachIndexed { row, imageViews ->
             imageViews.forEachIndexed { column, imageView ->
                 imageView.setOnClickListener {
                     Log.d(TAG_STONE_POSITION, "${row}행 ${column}열")
-                    if (omokGame.successTurn(Stone(row, column))) {
-                        changeImage(omokGame, boardView[row][column])
-                    }
+                    moveTurn(omokGame, Stone(row, column), boardView, db)
                 }
             }
         }
     }
 
-    private fun changeImage(omokGame: OmokGame, boardView: ImageView) {
-        when (omokGame.turn.nextState()) {
-            State.BLACK -> boardView.setImageResource(R.drawable.black_stone)
-            State.WHITE -> boardView.setImageResource(R.drawable.white_stone)
-            else -> null
+    private fun moveTurn(
+        omokGame: OmokGame,
+        stone: Stone,
+        boardView: List<List<ImageView>>,
+        db: OmokDbHelper
+    ) {
+        if (!omokGame.isGameOver()) {
+            moveStone(omokGame, stone, boardView, db)
+        } else {
+            startActivity(Intent(this, GameOverActivity::class.java))
         }
     }
 
-    inner class OmokGameListener() : OmokListener {
-        override fun onStoneRequest(): Stone {
-            TODO("Not yet implemented")
+    private fun moveStone(
+        omokGame: OmokGame,
+        stone: Stone,
+        boardView: List<List<ImageView>>,
+        db: OmokDbHelper
+    ) {
+        if (omokGame.successTurn(stone)) {
+            changeImage(omokGame, boardView[stone.row][stone.column])
+            db.insertData(stone.row, stone.column, omokGame.turn)
+            omokGame.goNext()
         }
+    }
 
-        override fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {
-            OutputView().printOmokState(omokBoard, state, stone)
+    private fun setPreBoardImage(
+        omokGame: OmokGame,
+        db: OmokDbHelper,
+        boardView: List<List<ImageView>>
+    ) {
+        db.getStones(State.BLACK).forEach { stone ->
+            omokGame.initBoard(State.BLACK, stone)
+            setImageViewResource(State.BLACK, boardView[stone.row][stone.column])
         }
+        db.getStones(State.WHITE).forEach { stone ->
+            omokGame.initBoard(State.WHITE, stone)
+            setImageViewResource(State.WHITE, boardView[stone.row][stone.column])
+        }
+    }
 
-        override fun onMoveFail() {
-            Toast.makeText(this@MainActivity, "이미 돌이 존재합니다.", Toast.LENGTH_SHORT).show()
-        }
+    private fun makeOmokGame(db: OmokDbHelper): OmokGame {
+        val blackStones = db.getStones(State.BLACK)
+        Log.d(TAG_STONE_POSITION, "흑돌의 위치 : $blackStones")
 
-        override fun onForbidden() {
-            Toast.makeText(this@MainActivity, "그곳은 금수 입니다.", Toast.LENGTH_SHORT).show()
-        }
+        val whiteStones = db.getStones(State.WHITE)
+        Log.d(TAG_STONE_POSITION, "백돌의 위치 : $whiteStones")
 
-        override fun onFinish(state: State): State {
-            Toast.makeText(this@MainActivity, "${state.name}승!", Toast.LENGTH_SHORT).show()
-            return state
+        val turn = if (blackStones.size > whiteStones.size) State.WHITE else State.BLACK
+        return OmokGame(omokGameListener = OmokGameListener(this), _turn = turn)
+    }
+
+    private fun setImageViewResource(state: State, boardView: ImageView) {
+        when (state) {
+            State.BLACK -> boardView.setImageResource(R.drawable.black_stone)
+            State.WHITE -> boardView.setImageResource(R.drawable.white_stone)
+            State.EMPTY -> null
         }
+    }
+
+    private fun changeImage(omokGame: OmokGame, boardView: ImageView) {
+        setImageViewResource(omokGame.turn, boardView)
     }
 }
