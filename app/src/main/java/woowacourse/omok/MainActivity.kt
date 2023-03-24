@@ -3,6 +3,7 @@ package woowacourse.omok
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -19,8 +20,6 @@ import domain.stone.Stone
 import domain.stone.Stones
 import domain.stone.WhiteStone
 
-const val STONE_COLOR_VALUE_BLACK = "black"
-const val STONE_COLOR_VALUE_WHITE = "white"
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,11 +32,19 @@ class MainActivity : AppCompatActivity() {
         val db = OmokDBHelper(this).writableDatabase
         val stones = mutableSetOf<Stone>()
         val board = findViewById<TableLayout>(R.id.board)
+        val restartButton = findViewById<Button>(R.id.button_restart)
         val boardViews: List<ImageView> = board
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>().toList()
+
+        restartButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            db.delete(OmokContract.TABLE_NAME, null, null)
+            finish()
+        }
 
         //db 데이터 읽어오기
         val cursor = db.query(
