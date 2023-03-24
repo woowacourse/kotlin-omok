@@ -1,8 +1,6 @@
 package woowacourse.omok.activity
 
-import android.content.ContentValues
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -17,64 +15,45 @@ import domain.point.Point
 import domain.point.Points
 import domain.result.TurnResult
 import domain.rule.BlackRenjuRule
+import domain.rule.WhiteRenjuRule
 import domain.state.PlayingState
 import domain.stone.StoneColor
 import woowacourse.omok.listener.GameEventListener
 import woowacourse.omok.R
-import woowacourse.omok.db.OmokConstract
-import woowacourse.omok.db.OmokDBHelper
+import woowacourse.omok.db.OmokDBManager
 
 class MainActivity : AppCompatActivity() {
-    lateinit var omok: Omok
+    private lateinit var omok: Omok
+    private lateinit var dbManager: OmokDBManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val blackPoints = mutableListOf<Point>()
-        val whitePoints = mutableListOf<Point>()
+        dbManager = OmokDBManager(applicationContext)
 
-        val db = OmokDBHelper(this).writableDatabase
-        val cursor = db.query(
-            OmokConstract.TABLE_NAME,
-            arrayOf(
-                OmokConstract.TABLE_COLUMN_POSITION,
-                OmokConstract.TABLE_COLUMN_IS_BLACK,
-            ),
-            null,
-            null,
-            null,
-            null,
-            OmokConstract.TABLE_COLUMN_POSITION
-        )
         val board = findViewById<TableLayout>(R.id.board)
-        val boardSetting = board
+        val boardViews = board
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>().toList()
 
-        while (cursor.moveToNext()) {
-            val position =
-                cursor.getInt(cursor.getColumnIndexOrThrow(OmokConstract.TABLE_COLUMN_POSITION))
-            val isBlack =
-                cursor.getInt(cursor.getColumnIndexOrThrow(OmokConstract.TABLE_COLUMN_IS_BLACK))
-            if (isBlack == 1) {
-                Log.d("isBLACK : ", OmokConstract.TABLE_COLUMN_POSITION)
-                boardSetting[position].setImageResource(R.drawable.pink_bear)
-                blackPoints.add(calculateIndexToPoint(position))
-                continue
-            }
-            boardSetting[position].setImageResource(R.drawable.white_bear)
-            whitePoints.add(calculateIndexToPoint(position))
+        val blackIndexs = dbManager.getIndexsByColor("BLACK")
+        val whiteIndexs = dbManager.getIndexsByColor("WHITE")
+
+        blackIndexs.forEach {
+            boardViews[it].setImageResource(R.drawable.pink_bear)
+        }
+        whiteIndexs.forEach {
+            boardViews[it].setImageResource(R.drawable.white_bear)
         }
 
-        val blackPlayer = BlackPlayer(PlayingState(Points(blackPoints)), rule = BlackRenjuRule())
-        val whitePlayer = WhitePlayer(PlayingState(Points(whitePoints)), rule = BlackRenjuRule())
+        val blackPlayer = BlackPlayer(PlayingState(Points(blackIndexs.map { calculateIndexToPoint(it) })), rule = BlackRenjuRule())
+        val whitePlayer = WhitePlayer(PlayingState(Points(whiteIndexs.map { calculateIndexToPoint(it) })), rule = WhiteRenjuRule())
         omok = Omok(blackPlayer, whitePlayer)
 
         val gameEventListener =
             GameEventListener(applicationContext, findViewById(R.id.description))
-
         gameEventListener.onStartGame()
         gameEventListener.onStartTurn(omok.players.curPlayerColor, omok.players.getLastPoint())
 
@@ -89,14 +68,7 @@ class MainActivity : AppCompatActivity() {
                     val result = omok.takeTurn(calculateIndexToPoint(index))
                     if (result is TurnResult.Success) {
                         setStone(view, omok.players)
-                        db.insert(
-                            OmokConstract.TABLE_NAME,
-                            null,
-                            values(
-                                index,
-                                booleanToInt(omok.players.curPlayerColor.next() == StoneColor.BLACK)
-                            )
-                        )
+                        dbManager.insert(index, omok.players.curPlayerColor.next().name)
                     }
                     gameEventListener.onEndTurn(result)
                     gameEventListener.onEndGame(omok.players)
@@ -106,10 +78,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        val db = OmokDBHelper(this).writableDatabase
-        if (!omok.isPlaying) db.execSQL("DELETE FROM ${OmokConstract.TABLE_NAME}")
+        if (!omok.isPlaying) dbManager.deleteAll()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        dbManager.close()
+    }
     private fun setStone(view: ImageView, players: Players) {
         when (players.curPlayerColor.next()) {
             StoneColor.BLACK -> view.setImageResource(R.drawable.pink_bear)
@@ -117,22 +92,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun values(position: Int, isBlack: Int): ContentValues {
-        val values = ContentValues()
-        values.put(OmokConstract.TABLE_COLUMN_POSITION, position)
-        values.put(OmokConstract.TABLE_COLUMN_IS_BLACK, isBlack)
-        return values
-    }
-
     private fun calculateIndexToPoint(index: Int): Point =
         Point(index / OMOK_BOARD_SIZE + 1, index % OMOK_BOARD_SIZE + 1)
-
-    private fun calculatePointToIndex(point: Point?): Int =
-        point?.let { (point.row - 1) * OMOK_BOARD_SIZE + point.col - 1 } ?: -1
-
-    private fun booleanToInt(value: Boolean): Int {
-        if (value) return 1
-        return 0
-    }
 }
 

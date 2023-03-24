@@ -9,7 +9,7 @@ class OmokDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db?.execSQL(
             "CREATE TABLE ${OmokConstract.TABLE_NAME} (" +
                     "  ${OmokConstract.TABLE_COLUMN_POSITION} int not null," +
-                    "  ${OmokConstract.TABLE_COLUMN_IS_BLACK} int" +
+                    "  ${OmokConstract.TABLE_COLUMN_COLOR} varchar(50) not null" +
                     ");"
         )
     }
