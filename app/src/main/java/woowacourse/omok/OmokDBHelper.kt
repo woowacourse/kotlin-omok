@@ -8,7 +8,7 @@ class OmokDBHelper(
     context: Context?
 ) : SQLiteOpenHelper(
     context,
-    "woogi.db",
+    DB_NAME,
     null,
     1
 ) {
@@ -24,5 +24,9 @@ class OmokDBHelper(
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS ${OmokContract.TABLE_NAME}")
         onCreate(db)
+    }
+
+    companion object {
+        private const val DB_NAME = "woogi.db"
     }
 }
