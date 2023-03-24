@@ -1,5 +1,6 @@
 package woowacourse.omok
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -117,13 +118,9 @@ class GameActivity : AppCompatActivity() {
         message = getString(R.string.request_position_message)
     }
 
-    private fun finishGame() {
-        Toast.makeText(this, "액티비티로 바꿀꺼임", Toast.LENGTH_SHORT).show()
+    private fun finishGame(winner: CoordinateState) {
+        val intent = Intent(this, FinishActivity::class.java).putExtra("winner", winner)
+        startActivity(intent)
+        finish()
     }
-
-    override fun onDestroy() {
-        OmokApplication.controller = AndroidController()
-        super.onDestroy()
-    }
-
 }
