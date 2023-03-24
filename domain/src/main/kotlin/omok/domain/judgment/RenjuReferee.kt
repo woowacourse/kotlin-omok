@@ -1,10 +1,9 @@
 package omok.domain.judgment
 
 import omok.domain.board.Position
-import omok.domain.player.Black
 import omok.domain.player.Stone
 
-class RenjuReferee : PlacementReferee(Black) {
+class RenjuReferee(target: Stone) : PlacementReferee(target) {
     override fun isForbiddenPlacement(board: Map<Position, Stone?>, position: Position): Boolean {
         val virtualBoard = board.toMutableMap()
         virtualBoard[position] = target
