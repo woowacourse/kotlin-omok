@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                     showSelectedStone(view, turn)
                     if ((winningReferee.hasFiveOrMoreStoneInRow(board.positions, selectedPosition))) goToResultView(turn.now)
                     insertData(index, turn, db)
-                    turn.changeTurn()
+                    turn.nextTurn()
                 }
             }
         }

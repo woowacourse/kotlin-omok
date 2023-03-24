@@ -11,7 +11,7 @@ class TurnTest {
     fun `블랙 다음 플레이어는 화이트이다`() {
         val turn = Turn(setOf(Stone.BLACK, Stone.WHITE))
 
-        turn.changeTurn()
+        turn.nextTurn()
 
         assertThat(turn.now).isEqualTo(Stone.WHITE)
     }

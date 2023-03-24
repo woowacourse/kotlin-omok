@@ -41,7 +41,7 @@ class Controller(private val inputView: InputView, private val outputView: Outpu
         outputView.printBoard(board)
 
         if (winningReferee.hasFiveOrMoreStoneInRow(board.positions, selectedPosition)) return
-        turn.changeTurn()
+        turn.nextTurn()
         playUntilWinnerAppears(selectedPosition, board, turn, winningReferee)
     }
 
