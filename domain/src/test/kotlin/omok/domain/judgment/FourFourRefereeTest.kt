@@ -3,7 +3,7 @@ package omok.domain.judgment
 import omok.domain.board.Column
 import omok.domain.board.Position
 import omok.domain.board.Row
-import omok.domain.player.Black
+import omok.domain.player.Stone
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -14,10 +14,10 @@ class FourFourRefereeTest {
     @CsvSource("C, THIRTEEN", "C, EIGHT", "F, TWELVE", "H, FIVE", "I, EIGHT", "J, TEN")
     fun `4-4이면 금지된 수이다`(column: Column, row: Row) {
         val board = FOUR_FOUR_BOARD
-        val referee = FourFourReferee(Black)
+        val referee = FourFourReferee(Stone.BLACK)
         val position = Position(column, row)
 
-        board[position] = Black
+        board[position] = Stone.BLACK
 
         Assertions.assertThat(referee.isForbiddenPlacement(board, position)).isTrue
     }
@@ -26,10 +26,10 @@ class FourFourRefereeTest {
     @CsvSource("E, TWELVE", "H, TWELVE", "J, SEVEN", "H, THREE", "I, SEVEN", "C, NINE")
     fun `4-4가 아니면 금지된 수가 아니다`(column: Column, row: Row) {
         val board = FOUR_FOUR_BOARD
-        val referee = FourFourReferee(Black)
+        val referee = FourFourReferee(Stone.BLACK)
         val position = Position(column, row)
 
-        board[position] = Black
+        board[position] = Stone.BLACK
 
         Assertions.assertThat(referee.isForbiddenPlacement(board, position)).isFalse
     }
@@ -37,10 +37,10 @@ class FourFourRefereeTest {
     @Test
     fun `4-4-3이면 금지된 수이다`() {
         val board = FOUR_FOUR_THREE_BOARD
-        val referee = FourFourReferee(Black)
+        val referee = FourFourReferee(Stone.BLACK)
         val position = Position(Column.C, Row.THIRTEEN)
 
-        board[position] = Black
+        board[position] = Stone.BLACK
 
         Assertions.assertThat(referee.isForbiddenPlacement(board, position)).isTrue
     }

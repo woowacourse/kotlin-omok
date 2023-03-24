@@ -31,7 +31,7 @@ class ThreeThreeReferee(target: Stone) : PlacementReferee(target) {
         return false
     }
 
-    private tailrec fun isNorthOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
+    private fun isNorthOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
         return findNorthEmptyPosition(board, position) != null
     }
 
@@ -53,7 +53,7 @@ class ThreeThreeReferee(target: Stone) : PlacementReferee(target) {
         return false
     }
 
-    private tailrec fun isNorthEastOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
+    private fun isNorthEastOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
         return findNorthEastEmptyPosition(board, position) != null
     }
 
@@ -75,7 +75,7 @@ class ThreeThreeReferee(target: Stone) : PlacementReferee(target) {
         return false
     }
 
-    private tailrec fun isEastOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
+    private fun isEastOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
         return findEastEmptyPosition(board, position) != null
     }
 
@@ -97,7 +97,7 @@ class ThreeThreeReferee(target: Stone) : PlacementReferee(target) {
         return false
     }
 
-    private tailrec fun isSouthEastOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
+    private fun isSouthEastOpen(board: MutableMap<Position, Stone?>, position: Position): Boolean {
         return findSouthEastEmptyPosition(board, position) != null
     }
 

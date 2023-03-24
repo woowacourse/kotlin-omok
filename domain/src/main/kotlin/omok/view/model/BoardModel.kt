@@ -3,7 +3,6 @@ package omok.view.model
 import omok.domain.board.Column
 import omok.domain.board.Position
 import omok.domain.board.Row
-import omok.domain.player.Black
 import omok.domain.player.Stone
 
 enum class BoardModel(val text: String) {
@@ -20,7 +19,7 @@ enum class BoardModel(val text: String) {
 
 fun Position.toPresentation(stone: Stone?): String {
     if (stone != null) {
-        if (stone == Black) return "●"
+        if (stone == Stone.BLACK) return "●"
         return "○"
     }
     if (this.row == Row.FIFTEEN) return this.column.rowFifteenToModel().text

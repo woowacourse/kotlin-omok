@@ -4,14 +4,13 @@ import omok.domain.Turn
 import omok.domain.board.Board
 import omok.domain.board.Position
 import omok.domain.judgment.WinningReferee
-import omok.domain.player.Black
-import omok.domain.player.White
+import omok.domain.player.Stone
 import omok.view.InputView
 import omok.view.OutputView
 
 class Controller(private val inputView: InputView, private val outputView: OutputView) {
     fun start() {
-        startGame(Board(), Turn(setOf(Black, White)), WinningReferee())
+        startGame(Board(), Turn(setOf(Stone.BLACK, Stone.WHITE)), WinningReferee())
     }
 
     private fun startGame(
