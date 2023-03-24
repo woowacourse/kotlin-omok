@@ -103,22 +103,15 @@ class OmokPlayerDbHelper(
 
         with(cursor) {
             while (moveToNext()) {
-                val id = getInt(getColumnIndexOrThrow(TABLE_COLUMN_ID))
-                val name = getString(getColumnIndexOrThrow(TABLE_COLUMN_NAME))
-                val win = getInt(getColumnIndexOrThrow(TABLE_COLUMN_WIN))
-                val lose = getInt(getColumnIndexOrThrow(TABLE_COLUMN_LOSE))
-                val draw = getInt(getColumnIndexOrThrow(TABLE_COLUMN_DRAW))
-                val profile = getInt(getColumnIndexOrThrow(TABLE_COLUMN_PROFILE))
-
                 player = Player(
-                    id = id,
-                    name = name.toString(),
+                    id = getInt(getColumnIndexOrThrow(TABLE_COLUMN_ID)),
+                    name = getString(getColumnIndexOrThrow(TABLE_COLUMN_NAME)),
                     overallRecord = OverallRecord(
-                        win = win,
-                        lose = lose,
-                        draw = draw,
+                        win = getInt(getColumnIndexOrThrow(TABLE_COLUMN_WIN)),
+                        lose = getInt(getColumnIndexOrThrow(TABLE_COLUMN_LOSE)),
+                        draw = getInt(getColumnIndexOrThrow(TABLE_COLUMN_DRAW)),
                     ),
-                    profile = profile,
+                    profile = getInt(getColumnIndexOrThrow(TABLE_COLUMN_PROFILE)),
                 )
             }
         }
@@ -142,23 +135,16 @@ class OmokPlayerDbHelper(
 
         with(cursor) {
             while (moveToNext()) {
-                val id = getInt(getColumnIndexOrThrow(TABLE_COLUMN_ID))
-                val name = getString(getColumnIndexOrThrow(TABLE_COLUMN_NAME))
-                val win = getInt(getColumnIndexOrThrow(TABLE_COLUMN_WIN))
-                val lose = getInt(getColumnIndexOrThrow(TABLE_COLUMN_LOSE))
-                val draw = getInt(getColumnIndexOrThrow(TABLE_COLUMN_DRAW))
-                val profile = getInt(getColumnIndexOrThrow(TABLE_COLUMN_PROFILE))
-
                 players.add(
                     Player(
-                        id = id,
-                        name = name.toString(),
+                        id = getInt(getColumnIndexOrThrow(TABLE_COLUMN_ID)),
+                        name = getString(getColumnIndexOrThrow(TABLE_COLUMN_NAME)),
                         overallRecord = OverallRecord(
-                            win = win,
-                            lose = lose,
-                            draw = draw,
+                            win = getInt(getColumnIndexOrThrow(TABLE_COLUMN_WIN)),
+                            lose = getInt(getColumnIndexOrThrow(TABLE_COLUMN_LOSE)),
+                            draw = getInt(getColumnIndexOrThrow(TABLE_COLUMN_DRAW)),
                         ),
-                        profile = profile,
+                        profile = getInt(getColumnIndexOrThrow(TABLE_COLUMN_PROFILE)),
                     ),
                 )
             }

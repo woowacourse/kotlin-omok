@@ -39,11 +39,10 @@ class RoomActivity : AppCompatActivity() {
     private lateinit var omokController: OmokController
 
     private val matrixBoard get() = findViewById<TableLayout>(R.id.board)
-        .children
-        .filterIsInstance<TableRow>()
-        .flatMapIndexed { row, tableRow ->
-            tableRow.children.filterIsInstance<ImageView>()
-                .mapIndexed { col, imageView -> Triple(col, row, imageView) }
+        .children.filterIsInstance<TableRow>().flatMapIndexed { row, tableRow ->
+            tableRow.children.filterIsInstance<ImageView>().mapIndexed { col, imageView ->
+                Triple(col, row, imageView)
+            }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
