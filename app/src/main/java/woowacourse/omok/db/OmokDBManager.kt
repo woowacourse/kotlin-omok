@@ -2,8 +2,6 @@ package woowacourse.omok.db
 
 import android.content.ContentValues
 import android.content.Context
-import domain.game.Omok
-import domain.point.Point
 
 class OmokDBManager(context: Context) {
     private val db = OmokDBHelper(context).writableDatabase
@@ -24,10 +22,6 @@ class OmokDBManager(context: Context) {
         while (cursor.moveToNext()) indexs.add(cursor.getInt(0))
         return indexs.toList()
     }
-
-    private fun calculateIndexToPoint(index: Int): Point =
-        Point(index / Omok.OMOK_BOARD_SIZE + 1, index % Omok.OMOK_BOARD_SIZE + 1)
-
 
     fun insert(index: Int, color: String) {
         if (!db.isOpen) throw IllegalAccessException()
