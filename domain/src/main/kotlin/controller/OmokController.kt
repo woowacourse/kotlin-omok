@@ -13,12 +13,12 @@ class OmokController(
     override fun run() {
         outputView.printGameStartMessage()
         val omokGame = OmokGame()
-        while (omokGame.turn.boardState.isFinished()) {
-            outputView.printOmokBoardState(omokGame.turn.boardState.board)
-            tryTurn(omokGame, omokGame.turn.color, omokGame.turn.boardState.latestStone?.position)
+        while (omokGame.isFinished) {
+            outputView.printOmokBoardState(omokGame.board)
+            tryTurn(omokGame, omokGame.turnColor, omokGame.latestStone?.position)
         }
-        outputView.printOmokBoardState(omokGame.turn.boardState.board)
-        outputView.printWinner(omokGame.turn.winnerColor!!)
+        outputView.printOmokBoardState(omokGame.board)
+        outputView.printWinner(omokGame.winnerColor!!)
     }
 
     private fun tryTurn(
@@ -28,7 +28,7 @@ class OmokController(
     ) {
         val position = inputView.requestPoint(turnColor, latestPosition)
         val playTurnIsSuccess = omokGame.playTurn(position)
-        if (playTurnIsSuccess == null && omokGame.turn.boardState.isFinished().not()) {
+        if (playTurnIsSuccess == null && omokGame.isFinished.not()) {
             tryTurn(omokGame, turnColor, latestPosition)
         }
     }

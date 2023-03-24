@@ -1,157 +1,171 @@
 package woowacourse.omok
 
-import android.database.sqlite.SQLiteDatabase
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.Toast
+import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import domain.OmokGame
 import domain.stone.Color
+import domain.stone.Column
 import domain.stone.Position
+import domain.stone.Row
 import domain.stone.Stone
-import woowacourse.omok.db.StoneConstract
-import woowacourse.omok.db.StonesHelper
+import woowacourse.omok.db.StoneTableAdapter
 
 class MainActivity : AppCompatActivity() {
     private lateinit var omokGame: OmokGame
-    private lateinit var wDb: SQLiteDatabase
-    private var roomNumber: Int = 0
-    private var latestPutOrderNumber = 0
+    private lateinit var stoneTableAdapter: StoneTableAdapter
+    private var roomId: Int = 0 // 추후 업데이트를 위한 게임방 아이디에 대한 프로터티. 방 목록 액티비티에서 받을 것임.
+    private lateinit var board: TableLayout
     private lateinit var gameEndButton: Button
+    private lateinit var turnColorTextView: TextView
+    private lateinit var turnColorTextBox: LinearLayout
+    private val backKeyHandler = BackKeyHandler(this)
+    private val vibrationService: Vibrator by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibrationServiceManager =
+                getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibrationServiceManager.defaultVibrator
+        } else {
+            @Suppress("DEPRECATION")
+            getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        }
+    }
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            backKeyHandler.onBackPressed(::endButtonOnClick)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        wDb = StonesHelper(this).writableDatabase
-        roomNumber = 0
-
-        // 게임 진행 여부 상태를 먼저 파악해야 함. 그 다음 분기문으로 빠지도록.
-        val (loadBoard, latestStone, latestPutOrderNum) = getAlreadyPutStones(wDb, roomNumber)
+        initFindViewById()
+        stoneTableAdapter = StoneTableAdapter(this, roomId)
+        val (loadBoard, latestStone) = loadAlreadyPutInfo()
         omokGame = OmokGame(loadBoard, latestStone)
-        latestPutOrderNumber = latestPutOrderNum + 1
+        turnColorTextView.text = getTurnColorText(omokGame.turnColor)
+        setInitBoardAndAddClickListener(loadBoard)
+        gameEndButton.setOnClickListener { endButtonOnClick() }
+        this.onBackPressedDispatcher.addCallback(this, callback)
+    }
 
-        val board = findViewById<TableLayout>(R.id.board)
+    private fun initFindViewById() {
+        turnColorTextBox = findViewById(R.id.turn_color_text_box)
+        turnColorTextView = findViewById(R.id.turn_color)
+        gameEndButton = findViewById(R.id.game_end_button)
+        board = findViewById(R.id.board)
+    }
 
-        board
+    private fun getPositionAllImageView(): List<ImageView> {
+        return board
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEachIndexed { index, view ->
-                val position = convertIndexToPosition(index)
-                loadBoard[position]?.let {
-                    setStone(it, view)
-                }
-                view.setOnClickListener {
-                    if (omokGame.turn.boardState.isFinished().not()) positionClick(position, view)
-                }
-            }
-
-        gameEndButton = findViewById(R.id.game_end_button)
-        gameEndButton.setOnClickListener {
-            finish()
-        }
+            .toList()
     }
 
-    override fun onBackPressed() {
+    private fun setInitBoardAndAddClickListener(loadBoard: Map<Position, Color?>) {
+        getPositionAllImageView().forEachIndexed { index, view ->
+            val position = convertIndexToPosition(index)
+            loadBoard[position]?.let {
+                setStone(Stone(position, it), view)
+            }
+            view.setOnClickListener {
+                positionClick(position, view)
+            }
+        }
     }
 
     private fun positionClick(position: Position, view: ImageView) {
         val playTurnColor = omokGame.playTurn(position)
-        if (playTurnColor == null && omokGame.turn.boardState.isFinished().not()) {
-            toast("해당 위치에는 놓을 수 없습니다.")
-        } else if (playTurnColor == null) {
-            toast("이미 게임이 종료됐습니다.")
-        } else {
-            setStone(playTurnColor, view)
-            wDb.execSQL(
-                "INSERT INTO ${StoneConstract.TABLE_NAME} (${StoneConstract.TABLE_COLUMN_ROOM_NUMBER}, ${StoneConstract.TABLE_COLUMN_COLOR}, ${StoneConstract.TABLE_COLUMN_X}, ${StoneConstract.TABLE_COLUMN_Y}, ${StoneConstract.TABLE_COLUMN_PUT_ORDER_NUMBER})" +
-                    "VALUES ($roomNumber, ${playTurnColor.ordinal}, ${position.column.ordinal}, ${position.row.ordinal}, ${latestPutOrderNumber++});"
-            )
+        when {
+            playTurnColor == null && omokGame.isFinished.not() -> makeToastMessage(R.string.can_not_put_this_position)
+            playTurnColor == null -> makeToastMessage(R.string.already_game_is_over)
+            else -> with(Stone(position, playTurnColor)) {
+                putStoneProcess(this)
+                setStone(this, view)
+            }
         }
-        if (omokGame.turn.boardState.isFinished()) {
-            toast("게임이 종료됐습니다.")
-            gameEndButton.visibility = View.VISIBLE
-            // 일단은 삭제로직을 여기에 놓는다. 게임 종료되면 데이터베이스 테이블에서 삭제되도록
-            wDb.execSQL(
-                "DELETE FROM ${StoneConstract.TABLE_NAME} " +
-                    "WHERE ${StoneConstract.TABLE_COLUMN_ROOM_NUMBER} = '$roomNumber';"
-            )
+        if (omokGame.isFinished) gameFinishProcess()
+    }
+
+    private fun gameFinishProcess() {
+        makeToastMessage(R.string.game_is_over)
+        gameEndButton.text =
+            getString(R.string.winner_is_this_color, omokGame.winnerColor.toString())
+        gameEndButton.visibility = View.VISIBLE
+        turnColorTextBox.visibility = View.GONE
+        stoneTableAdapter.deleteAll()
+    }
+
+    private fun getTurnColorText(color: Color): String {
+        return when (color) {
+            Color.BLACK -> getString(R.string.black)
+            Color.WHITE -> getString(R.string.white)
         }
     }
 
-    private fun getAlreadyPutStones(
-        db: SQLiteDatabase,
-        roomNumber: Int
-    ): Triple<Map<Position, Color?>, Stone?, Int> {
-        val cursor = db.query(
-            StoneConstract.TABLE_NAME,
-            arrayOf(
-                StoneConstract.TABLE_COLUMN_ROOM_NUMBER,
-                StoneConstract.TABLE_COLUMN_COLOR,
-                StoneConstract.TABLE_COLUMN_X,
-                StoneConstract.TABLE_COLUMN_Y,
-                StoneConstract.TABLE_COLUMN_PUT_ORDER_NUMBER
-            ),
-            "${StoneConstract.TABLE_COLUMN_ROOM_NUMBER} = ?",
-            arrayOf(roomNumber.toString()),
-            null,
-            null,
-            "${StoneConstract.TABLE_COLUMN_PUT_ORDER_NUMBER} DESC"
-        )
-
-        var latestPutNum = 0
-        val result = mutableListOf<Stone>()
-        while (cursor.moveToNext()) {
-            val colorOrdinal =
-                cursor.getInt(cursor.getColumnIndexOrThrow(StoneConstract.TABLE_COLUMN_COLOR))
-            val column = cursor.getInt(cursor.getColumnIndexOrThrow(StoneConstract.TABLE_COLUMN_X))
-            val row = cursor.getInt(cursor.getColumnIndexOrThrow(StoneConstract.TABLE_COLUMN_Y))
-            val position = Position(column + 1, row + 1)
-            val color = Color.values()[colorOrdinal]
-            if (latestPutNum == 0) {
-                latestPutNum =
-                    cursor.getInt(cursor.getColumnIndexOrThrow(StoneConstract.TABLE_COLUMN_PUT_ORDER_NUMBER))
+    private fun loadAlreadyPutInfo(): Pair<Map<Position, Color?>, Stone?> {
+        val result = stoneTableAdapter.getStoneVOs()
+        val latestStone: Stone? = result.firstOrNull()?.let { Stone(it.position, it.stoneColor) }
+        val loadBoard =
+            Position.all().associateWith { null }.toMutableMap<Position, Color?>().apply {
+                result.forEach {
+                    this[it.position] = it.stoneColor
+                }
             }
-            result.add(Stone(position, color))
-        }
-
-        val latestStone: Stone? = result.firstOrNull()
-        val loadBoard: MutableMap<Position, Color?> =
-            Position.all().associateWith { null }.toMutableMap()
-        result.forEach {
-            loadBoard[it.position] = it.color
-        }
-        cursor.close()
-        return Triple(loadBoard, latestStone, latestPutNum)
+        return Pair(loadBoard, latestStone)
     }
 
     private fun convertIndexToPosition(index: Int): Position {
-        val row = 14 - (index / 15)
-        val column = index % 15
+        val row = ROW_SIZE - 1 - (index / ROW_SIZE)
+        val column = index % COLUMN_SIZE
         Log.d("kmj", "index: $index , column: $column , row: $row")
         return Position(column + 1, row + 1)
     }
 
-    private fun setStone(color: Color, view: ImageView) {
-        when (color) {
+    private fun putStoneProcess(stone: Stone) {
+        vibrationService.vibrate(VibrationEffect.createOneShot(20, 50))
+        stoneTableAdapter.insertStone(stone)
+        turnColorTextView.text = getTurnColorText(omokGame.turnColor)
+    }
+
+    private fun setStone(stone: Stone, view: ImageView) =
+        when (stone.color) {
             Color.BLACK -> view.setImageResource(R.drawable.black_navi_stone)
             Color.WHITE -> view.setImageResource(R.drawable.white_choonbae_stone)
         }
-    }
 
-    private fun toast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    private fun endButtonOnClick() {
+        if (omokGame.isFinished.not()) {
+            showAskDialog(R.string.exit_game, R.string.progressing_game_will_be_save, { finish() })
+        } else {
+            showAskDialog(R.string.exit_game, R.string.exit_game_room_confirm_message, { finish() })
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        wDb.close()
+        stoneTableAdapter.close()
+    }
+
+    companion object {
+        private val COLUMN_SIZE = Column.values().size
+        private val ROW_SIZE = Row.values().size
     }
 }

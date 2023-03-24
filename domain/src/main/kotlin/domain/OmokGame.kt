@@ -13,8 +13,22 @@ class OmokGame(
     latestStone: Stone? = null,
     rule: Rule = RenjuRule()
 ) {
-    var turn: Turn
-        private set
+    private var turn: Turn
+
+    val isFinished: Boolean
+        get() = turn.boardState.isFinished()
+
+    val turnColor: Color
+        get() = turn.color
+
+    val board: Map<Position, Color?>
+        get() = turn.boardState.board
+
+    val latestStone: Stone?
+        get() = turn.boardState.latestStone
+
+    val winnerColor: Color?
+        get() = turn.winnerColor
 
     init {
         val blackCount = board.filter { it.value == Color.BLACK }.size
