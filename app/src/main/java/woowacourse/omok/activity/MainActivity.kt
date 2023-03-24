@@ -30,29 +30,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         dbManager = OmokDBManager(applicationContext)
-
         val board = findViewById<TableLayout>(R.id.board)
-        val boardViews = board
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>().toList()
-
-        val blackIndexs = dbManager.getIndexsByColor(StoneColor.BLACK.name)
-        val whiteIndexs = dbManager.getIndexsByColor(StoneColor.WHITE.name)
-
-        blackIndexs.forEach {
-            setStone(boardViews[it], StoneColor.BLACK)
-        }
-        whiteIndexs.forEach {
-            setStone(boardViews[it], StoneColor.WHITE)
-        }
-
-        val blackPlayer =
-            BlackPlayer(PlayingState(indexsToPoints(blackIndexs)), rule = BlackRenjuRule())
-        val whitePlayer =
-            WhitePlayer(PlayingState(indexsToPoints(whiteIndexs)), rule = WhiteRenjuRule())
-        omok = Omok(blackPlayer, whitePlayer)
+        omok = initOmok(board)
 
         val gameEventListener =
             GameEventListener(applicationContext, findViewById(R.id.description))
@@ -93,6 +72,30 @@ class MainActivity : AppCompatActivity() {
             StoneColor.BLACK -> view.setImageResource(R.drawable.pink_bear)
             StoneColor.WHITE -> view.setImageResource(R.drawable.white_bear)
         }
+    }
+
+    private fun initOmok(board: TableLayout): Omok {
+        val boardViews = board
+            .children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>().toList()
+
+        val blackIndexs = dbManager.getIndexsByColor(StoneColor.BLACK.name)
+        val whiteIndexs = dbManager.getIndexsByColor(StoneColor.WHITE.name)
+
+        blackIndexs.forEach {
+            setStone(boardViews[it], StoneColor.BLACK)
+        }
+        whiteIndexs.forEach {
+            setStone(boardViews[it], StoneColor.WHITE)
+        }
+
+        val blackPlayer =
+            BlackPlayer(PlayingState(indexsToPoints(blackIndexs)), rule = BlackRenjuRule())
+        val whitePlayer =
+            WhitePlayer(PlayingState(indexsToPoints(whiteIndexs)), rule = WhiteRenjuRule())
+        return Omok(blackPlayer, whitePlayer)
     }
 
     private fun calculateIndexToPoint(index: Int): Point =
