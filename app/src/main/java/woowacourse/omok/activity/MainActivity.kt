@@ -48,8 +48,10 @@ class MainActivity : AppCompatActivity() {
             setStone(boardViews[it], StoneColor.WHITE)
         }
 
-        val blackPlayer = BlackPlayer(PlayingState(indexsToPoints(blackIndexs)), rule = BlackRenjuRule())
-        val whitePlayer = WhitePlayer(PlayingState(indexsToPoints(whiteIndexs)), rule = WhiteRenjuRule())
+        val blackPlayer =
+            BlackPlayer(PlayingState(indexsToPoints(blackIndexs)), rule = BlackRenjuRule())
+        val whitePlayer =
+            WhitePlayer(PlayingState(indexsToPoints(whiteIndexs)), rule = WhiteRenjuRule())
         omok = Omok(blackPlayer, whitePlayer)
 
         val gameEventListener =
@@ -88,14 +90,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun setStone(view: ImageView, color: StoneColor) {
         when (color) {
-            StoneColor.BLACK -> view.setImageResource(R.drawable.black_stone)
-            StoneColor.WHITE -> view.setImageResource(R.drawable.white_stone)
+            StoneColor.BLACK -> view.setImageResource(R.drawable.pink_bear)
+            StoneColor.WHITE -> view.setImageResource(R.drawable.white_bear)
         }
     }
 
     private fun calculateIndexToPoint(index: Int): Point =
         Point(index / OMOK_BOARD_SIZE + 1, index % OMOK_BOARD_SIZE + 1)
 
-    private fun indexsToPoints(indexs: List<Int>): Points = Points(indexs.map { calculateIndexToPoint(it) })
+    private fun indexsToPoints(indexs: List<Int>): Points =
+        Points(indexs.map { calculateIndexToPoint(it) })
 }
 
