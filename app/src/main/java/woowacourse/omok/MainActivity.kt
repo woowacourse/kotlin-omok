@@ -64,8 +64,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-        wDb.close()
-        db.close()
     }
 
     private fun whiteTurn(board: TableLayout) {
@@ -98,8 +96,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-        wDb.close()
-        db.close()
     }
 
     private fun turn(state: State, board: TableLayout) {
@@ -134,11 +130,13 @@ class MainActivity : AppCompatActivity() {
                     .filterIsInstance<TableRow>()
                     .flatMap { it.children }
                     .filterIsInstance<ImageView>()
-                    .forEach { view ->
-                        val position = positionFind(index)
-                        view.setImageResource(R.drawable.black_stone)
-                        omokBoard.blackPlayer.put(BlackStone(position))
-                        omokBoard.occupyPosition(position)
+                    .forEachIndexed { itIndex, view ->
+                        if (itIndex == index) {
+                            val position = positionFind(index)
+                            view.setImageResource(R.drawable.black_stone)
+                            omokBoard.blackPlayer.put(BlackStone(position))
+                            omokBoard.occupyPosition(position)
+                        }
                     }
             }
         }
@@ -154,11 +152,13 @@ class MainActivity : AppCompatActivity() {
                     .filterIsInstance<TableRow>()
                     .flatMap { it.children }
                     .filterIsInstance<ImageView>()
-                    .forEach { view ->
-                        val position = positionFind(index)
-                        view.setImageResource(R.drawable.white_stone)
-                        omokBoard.whitePlayer.put(WhiteStone(position))
-                        omokBoard.occupyPosition(position)
+                    .forEachIndexed { itIndex, view ->
+                        if (itIndex == index) {
+                            val position = positionFind(index)
+                            view.setImageResource(R.drawable.white_stone)
+                            omokBoard.whitePlayer.put(WhiteStone(position))
+                            omokBoard.occupyPosition(position)
+                        }
                     }
             }
         }
