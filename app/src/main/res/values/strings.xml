@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Omok</string>
+    <string name="restart">재시작</string>
+    <string name="win_ment">돌의 승리</string>
+    <string name="stone_image_description">돌 이미지</string>
 </resources>

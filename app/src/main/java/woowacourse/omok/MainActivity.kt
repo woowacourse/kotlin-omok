@@ -1,6 +1,7 @@
 package woowacourse.omok
 
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -60,14 +61,17 @@ class MainActivity : AppCompatActivity() {
                     .forEachIndexed { index, view ->
                         if (index == ((14 - y) * 15 + x)) {
                             when (color) {
-                                STONE_COLOR_VALUE_BLACK -> view.setImageResource(R.drawable.black_stone)
-                                STONE_COLOR_VALUE_WHITE -> view.setImageResource(R.drawable.white_stone)
+                                StoneColor.STONE_COLOR_BLACK.color -> view.setImageResource(R.drawable.black_stone)
+                                StoneColor.STONE_COLOR_WHITE.color -> view.setImageResource(R.drawable.white_stone)
                             }
 
                         }
                     }
                 val stone: Stone =
-                    if (color == STONE_COLOR_VALUE_BLACK) BlackStone(x, y) else WhiteStone(x, y)
+                    if (color == StoneColor.STONE_COLOR_BLACK.color) BlackStone(
+                        x,
+                        y
+                    ) else WhiteStone(x, y)
                 stones.add(stone)
             }
             close()
@@ -80,16 +84,17 @@ class MainActivity : AppCompatActivity() {
                 var stoneColor: String? = null
                 if (omokBoard.isBlackTurn()) {
                     stoneResource = R.drawable.black_stone
-                    stoneColor = STONE_COLOR_VALUE_BLACK
+                    stoneColor = StoneColor.STONE_COLOR_BLACK.color
                 }
                 if (omokBoard.isWhiteTurn()) {
                     stoneResource = R.drawable.white_stone
-                    stoneColor = STONE_COLOR_VALUE_WHITE
+                    stoneColor = StoneColor.STONE_COLOR_WHITE.color
                 }
                 val result = putStoneAndReturnResult(omokBoard, blackReferee, point)
                 if (result) {
                     stoneColor?.let {
                         //db 데이터 저장하기
+
                         val values = ContentValues()
                         values.put(OmokContract.TABLE_COLUMN_X_POINT, point.first)
                         values.put(OmokContract.TABLE_COLUMN_Y_POINT, point.second)
@@ -97,6 +102,15 @@ class MainActivity : AppCompatActivity() {
                         db.insert(OmokContract.TABLE_NAME, null, values)
                     }
                     stoneResource?.let { view.setImageResource(it) }
+                }
+                if (omokBoard.isFinished()) {
+                    val intent = Intent(this, WinActivity::class.java)
+                    val winner: String =
+                        if (omokBoard.isBlackWin()) StoneColor.STONE_COLOR_BLACK.color else StoneColor.STONE_COLOR_WHITE.color
+                    intent.putExtra("winner", winner)
+                    startActivity(intent)
+                    db.delete(OmokContract.TABLE_NAME, null, null)
+                    finish()
                 }
             }
         }

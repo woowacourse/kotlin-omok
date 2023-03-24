@@ -1,18 +1,18 @@
 package domain
 
 import domain.rule.Referee
-import domain.state.BlackTurn
-import domain.state.BlackWin
-import domain.state.Finished
-import domain.state.State
-import domain.state.WhiteTurn
+import domain.state.*
 import domain.stone.Stone
 import domain.stone.Stones
 import java.lang.IllegalArgumentException
 
-class Board(stones: Stones = Stones(setOf())) {
+class Board(val stones: Stones = Stones(setOf())) {
 
-    private var state: State = BlackTurn(stones)
+    private var state: State =
+        when (stones.blackStones.size) {
+            stones.whiteStones.size + 1 -> WhiteTurn(stones)
+            else -> BlackTurn(stones)
+        }
     private val defaultReferee = Referee(listOf())
 
     fun put(point: Pair<Int, Int>, blackReferee: Referee = defaultReferee) {
