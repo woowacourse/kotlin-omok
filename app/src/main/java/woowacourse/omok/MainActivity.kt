@@ -1,6 +1,7 @@
 package woowacourse.omok
 
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -23,7 +24,13 @@ import woowacourse.omok.database.OmokConstract
 import woowacourse.omok.database.OmokDBHelper
 
 class MainActivity : AppCompatActivity() {
-    private val omokBoard = Board(Player(), Player())
+    private var omokBoard = Board(Player(), Player())
+
+    init {
+        println("board,white ${omokBoard.whitePlayer.hand.stones}")
+        println("board,black,w ${omokBoard.blackPlayer.hand.stones}")
+        println("board ${omokBoard.positions.map{ it.isEmpty() }.toList()}")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                 view.setOnClickListener {
                     position = positionFind(index)
                     if (!omokBoard.isWhitePlaceable(position)) {
-                        Toast.makeText(applicationContext, "해당 자리에 둘 수 없습니다.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(applicationContext, "해당 자리에 둘 수 없습니다.", Toast.LENGTH_SHORT).show()
                         turn(Turn.White, board)
                     } else {
                         val values = ContentValues()
@@ -102,8 +109,16 @@ class MainActivity : AppCompatActivity() {
         when (state) {
             Turn.Black -> blackTurn(board)
             Turn.White -> whiteTurn(board)
-            Win.Black -> Toast.makeText(applicationContext, "흑이 승리했습니다.", Toast.LENGTH_LONG).show()
-            Win.White -> Toast.makeText(applicationContext, "백이 승리했습니다.", Toast.LENGTH_LONG).show()
+            Win.Black -> {
+                val intent = Intent(this, WinActivity::class.java)
+                intent.putExtra("color", "black")
+                startActivity(intent)
+            }
+            Win.White -> {
+                val intent = Intent(this, WinActivity::class.java)
+                intent.putExtra("color", "white")
+                startActivity(intent)
+            }
         }
     }
 
@@ -116,6 +131,7 @@ class MainActivity : AppCompatActivity() {
     private fun lineJudge(player: Player, stone: Stone) = LineJudgement(player, stone).check()
 
     fun putBoard(board: TableLayout) {
+        omokBoard = Board(Player(), Player())
         val db = OmokDBHelper(this)
         val wDb = db.writableDatabase
 
