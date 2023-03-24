@@ -25,7 +25,7 @@ class RoomController(
     private fun getAllUsers() {
         val users = omokDBHelper.selectAllUsers()
         roomView.setAllUsers(users)
-        getAllStagesByUserId(users.value[0])
+        if (users.value.isNotEmpty()) getAllStagesByUserId(users.value[0])
     }
 
     private fun getAllStagesByUserId(user: User) {
