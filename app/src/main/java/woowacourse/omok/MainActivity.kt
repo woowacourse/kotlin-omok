@@ -59,8 +59,18 @@ class MainActivity : AppCompatActivity() {
             val row = index / BOARD_SIZE
             val col = index % BOARD_SIZE
             view.setOnClickListener {
-                val state = if (isBlackTurn) State.BLACK else State.WHITE
-                val stoneImage = if (isBlackTurn) R.drawable.black_stone else R.drawable.white_stone
+
+                val state = if (isBlackTurn) {
+                    State.BLACK
+                } else {
+                    State.WHITE
+                }
+
+                val stoneImage = if (isBlackTurn) {
+                    R.drawable.black_stone
+                } else {
+                    R.drawable.white_stone
+                }
 
                 if (omokGame.successTurn(Stone(row, col), state)) {
                     view.setImageResource(stoneImage)

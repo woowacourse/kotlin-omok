@@ -38,7 +38,11 @@ class ConsoleOutputView : OutputView {
                     builder.also {
                         it.setCharAt(
                             rowIndex * ROW_SIZE + COLUMN_SIZE + columnIndex * COLUMN_SIZE,
-                            if (item == State.WHITE) WHITE_STONE else BLACK_STONE
+                            if (item == State.WHITE) {
+                                WHITE_STONE
+                            } else {
+                                BLACK_STONE
+                            }
                         )
                     }
                 }

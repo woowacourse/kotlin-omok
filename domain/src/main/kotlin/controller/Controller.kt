@@ -53,6 +53,9 @@ class Controller(
     }
 
     private fun State.nextState(): State =
-        if (this == State.BLACK) State.WHITE
-        else State.BLACK
+        if (this == State.BLACK) {
+            State.WHITE
+        } else {
+            State.BLACK
+        }
 }
