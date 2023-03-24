@@ -12,8 +12,8 @@ abstract class Running : State {
 
     abstract override fun next(board: Board, stonePosition: StonePosition): State
 
-    protected fun isValidPut(board: Board, stonePosition: StonePosition): Boolean =
-        !board.stones.containsPosition(stonePosition)
-
     override fun isEnd(): Boolean = false
+
+    fun isPlaced(board: Board, stonePosition: StonePosition): Boolean =
+        board.stones.containsPosition(stonePosition)
 }

@@ -11,7 +11,7 @@ class BlackTurn : Running() {
     override fun next(board: Board, stonePosition: StonePosition): State {
         val stone: Stone = Stone(stonePosition, StoneType.BLACK)
 
-        if (!isValidPut(board, stonePosition)) return this
+        if (isPlaced(board, stonePosition)) return this
         if (omokRule.isForbidden(board.board, stone)) return this
         board.putStone(stone)
 
