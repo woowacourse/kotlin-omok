@@ -13,7 +13,14 @@ import domain.board.Board
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var boards: List<ImageView>
+    private val boards: List<ImageView> by lazy {
+        findViewById<TableLayout>(R.id.board)
+            .children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .toList()
+    }
     private lateinit var omokGame: OmokGame
     private val omokDBAdapter: OmokDBAdapter by lazy {
         OmokDBAdapter(OmokDBHelper(this))
@@ -22,12 +29,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        boards = findViewById<TableLayout>(R.id.board)
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .toList()
         omokGame = OmokGame(omokDBAdapter.getStones())
 
         printBoard(omokGame.board)
