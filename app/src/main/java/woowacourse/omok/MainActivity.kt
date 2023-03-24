@@ -72,16 +72,7 @@ class MainActivity : AppCompatActivity() {
         boardViews.forEachIndexed { index, view ->
             view.setOnClickListener {
                 point = calculatePoint(index)
-                var stoneResource: Int? = null
-                var stoneColor: String? = null
-                if (omokBoard.isBlackTurn()) {
-                    stoneResource = R.drawable.black_stone
-                    stoneColor = StoneColor.STONE_COLOR_BLACK.color
-                }
-                if (omokBoard.isWhiteTurn()) {
-                    stoneResource = R.drawable.white_stone
-                    stoneColor = StoneColor.STONE_COLOR_WHITE.color
-                }
+                val (stoneResource: Int?, stoneColor: String?) = getStoneColor(omokBoard)
                 val result = putStoneAndReturnResult(omokBoard, blackReferee, point)
                 if (result) {
                     stoneColor?.let {
@@ -101,6 +92,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun getStoneColor(omokBoard: Board): Pair<Int?, String?> {
+        var stoneResource: Int? = null
+        var stoneColor: String? = null
+        if (omokBoard.isBlackTurn()) {
+            stoneResource = R.drawable.black_stone
+            stoneColor = StoneColor.STONE_COLOR_BLACK.color
+        }
+        if (omokBoard.isWhiteTurn()) {
+            stoneResource = R.drawable.white_stone
+            stoneColor = StoneColor.STONE_COLOR_WHITE.color
+        }
+        return Pair(stoneResource, stoneColor)
     }
 
     private fun calculatePoint(index: Int): Pair<Int, Int> {
