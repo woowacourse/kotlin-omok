@@ -14,7 +14,7 @@ class AndroidController {
         position: Position,
         Error: print,
         Request: print,
-        End: (CoordinateState)->Unit
+        End: (CoordinateState) -> Unit
     ): Boolean {
         return when (omokGame.progressTurn(position)) {
             ProgressState.ERROR -> {

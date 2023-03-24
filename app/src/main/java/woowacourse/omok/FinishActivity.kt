@@ -24,6 +24,7 @@ class FinishActivity : AppCompatActivity() {
         initExtraData()
         initViewId()
         initWinnerMessage()
+        setBoardInitState(findViewById(R.id.finish_board))
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -37,7 +38,42 @@ class FinishActivity : AppCompatActivity() {
     }
 
     private fun initWinnerMessage() {
-        tvWinnerMessage.text = "${winner.name} 가 승리하였습니다"
+        tvWinnerMessage.text = "${winner.name}의 승리"
+    }
+
+    private fun setBoardInitState(board: TableLayout) {
+        board
+            .children
+            .filterIsInstance<TableRow>()
+            .forEachIndexed { rowIndex, tableRow ->
+                setCoordinateInitState(
+                    tableRow,
+                    rowIndex
+                )
+            }
+    }
+
+    private fun setCoordinateInitState(
+        tableRow: TableRow,
+        rowIndex: Int
+    ) = tableRow.children
+        .filterIsInstance<ImageView>()
+        .forEachIndexed() { columIndex, imageView ->
+            initBard(rowIndex, columIndex, imageView)
+        }
+
+    private fun initBard(
+        rowIndex: Int,
+        columIndex: Int,
+        imageView: ImageView
+    ) {
+        OmokApplication.controller.omokGame.board.boardState.value.forEachIndexed { yIndex, rowList ->
+            rowList.forEachIndexed { xIndex, coordinateState ->
+                if (rowIndex == yIndex && columIndex == xIndex) {
+                    if (coordinateState == CoordinateState.BLACK) imageView.setImageResource(R.drawable.black_stone)
+                    if (coordinateState == CoordinateState.WHITE) imageView.setImageResource(R.drawable.white_stone)
+                }
+            }
+        }
     }
 }
-
