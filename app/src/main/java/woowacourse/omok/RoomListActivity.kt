@@ -38,6 +38,7 @@ class RoomListActivity : AppCompatActivity() {
     private fun onRoomClicked(room: Room) {
         val intent = Intent(this, RoomActivity::class.java)
         intent.putExtra("gameId", room.gameId)
+        intent.putExtra("playerId", room.player.id)
         startActivity(intent)
     }
 }

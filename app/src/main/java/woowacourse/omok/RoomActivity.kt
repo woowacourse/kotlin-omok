@@ -5,6 +5,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
@@ -15,9 +16,11 @@ import omok.domain.OmokPoint
 import omok.domain.gameState.GameState
 import omok.domain.state.BlackStoneState
 import omok.domain.state.WhiteStoneState
+import woowacourse.omok.data.Player
 
 class RoomActivity : AppCompatActivity() {
     private val boardDb = OmokBoardDbHelper(this)
+    lateinit var player: Player
 
     private val omokGameListener = object : OmokGameListener {
         override fun onOmokStart() {
@@ -47,9 +50,19 @@ class RoomActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_room)
 
         omokController = OmokController(omokGameListener, boardDb.getGameState(intent.getIntExtra("gameId", 0)))
+
+        intent.getIntExtra("playerId", 0).let {
+            OmokPlayerDbHelper(this).getPlayer(it)?.let { player ->
+                this.player = player
+            }
+        }
+
+        findViewById<ImageView>(R.id.opposing_player_image).setImageResource(player.profile)
+        findViewById<TextView>(R.id.opposing_player_name).text = player.name
+        findViewById<TextView>(R.id.opposing_player_score).text = player.overallRecord.toString()
 
         addStoneListener()
         addListenerResetGameState()

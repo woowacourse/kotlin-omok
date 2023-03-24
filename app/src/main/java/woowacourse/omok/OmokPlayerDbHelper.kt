@@ -143,4 +143,14 @@ class OmokPlayerDbHelper(
 
         return players
     }
+
+    fun updateOverallRecord(playerId: Int, overallRecord: OverallRecord) {
+        val wDb = this.writableDatabase
+        val values = ContentValues().apply {
+            put(TABLE_COLUMN_WIN, overallRecord.win)
+            put(TABLE_COLUMN_LOSE, overallRecord.lose)
+            put(TABLE_COLUMN_DRAW, overallRecord.draw)
+        }
+        wDb.update(TABLE_NAME_PLAYER, values, "$TABLE_COLUMN_ID = ?", arrayOf(playerId.toString()))
+    }
 }
