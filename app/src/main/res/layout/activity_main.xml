@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TableLayout
         android:id="@+id/board"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stretchColumns="*">
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TableRow android:layout_weight="1">
 
@@ -1188,10 +1192,16 @@
         android:layout_height="50dp"
         android:layout_marginStart="15dp"
         android:gravity="center_vertical"
-        android:text="게임 메시지 : " />
+        android:text="게임 메시지 : "
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/board" />
 
     <FrameLayout
         android:id="@+id/layout_room"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_message" />
+</androidx.constraintlayout.widget.ConstraintLayout>
