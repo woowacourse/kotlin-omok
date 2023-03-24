@@ -43,8 +43,7 @@ class OutputView {
 
     private fun setBoard(stones: Stones) {
         stones.values.forEach {
-            if (getStoneTypeEmoji(it.type) != null)
-                board[(15 - it.position.y)][it.position.x - 1] = getStoneTypeEmoji(it.type)!!
+            board[(15 - it.position.y)][it.position.x - 1] = getStoneTypeEmoji(it.type)
         }
     }
 
@@ -65,7 +64,7 @@ class OutputView {
         else -> null
     }
 
-    private fun getWinnerText(end: End): String = when (end.getWinner()) {
+    fun getWinnerText(end: End): String = when (end.getWinner()) {
         StoneType.BLACK -> "흑"
         StoneType.WHITE -> "백"
     }

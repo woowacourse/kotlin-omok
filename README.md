@@ -1,6 +1,11 @@
 # kotlin-omok
 
-## 기능 목록
+## android 
+- [ ] 보드 각 칸의 이미지 클릭시 좌표를 기록하고, 이미지를 바꾼다.
+
+---
+
+## 기능 목록 (domain)
 
 data class Position
 - [X] x좌표와 y좌표를 알고 있다.
