@@ -11,7 +11,7 @@ class Omok(blackPlayer: BlackPlayer, whitePlayer: WhitePlayer) {
     val players: Players
         get() = _players.copy()
     val isPlaying: Boolean
-        get() = players.isPlaying
+        get() = _players.isPlaying
 
     fun takeTurn(point: Point): TurnResult {
         val endTurnPlayers = _players.putStone(point)
