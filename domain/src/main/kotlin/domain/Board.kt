@@ -6,7 +6,7 @@ class Board(val stones: Stones) {
         while (true) {
             val stone = makeStone(currentColor, coordinateReader)
             if (!processTurn(stone)) continue
-            if (stones.isWinPlace()) return stones.value.last().color
+            if (stones.isWinPlace()) return stones.getLastStone().color
             currentColor = currentColor.turnColor()
         }
     }
@@ -26,11 +26,6 @@ class Board(val stones: Stones) {
 
     fun isWinPlace(): Boolean {
         return stones.isWinPlace()
-    }
-
-    fun getLastColor(): Color {
-        stones.validateEmptyStones()
-        return stones.value.last().color
     }
 
     companion object {

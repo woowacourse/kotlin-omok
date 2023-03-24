@@ -16,7 +16,9 @@ class Stones(value: List<Stone> = listOf()) {
 
     fun validateRenju(stone: Stone): Boolean {
         return when (stone.color) {
-            Color.BLACK -> !renjuRuleAdapter.isThreeToThree(stone) && !renjuRuleAdapter.isFourToFour(stone) && renjuRuleAdapter.findScore(
+            Color.BLACK -> !renjuRuleAdapter.isThreeToThree(stone) && !renjuRuleAdapter.isFourToFour(
+                stone
+            ) && renjuRuleAdapter.findScore(
                 stone
             ) < LARGE_PLACE
 
@@ -25,12 +27,11 @@ class Stones(value: List<Stone> = listOf()) {
     }
 
     fun isWinPlace(): Boolean {
-        validateEmptyStones()
-        return renjuRuleAdapter.findScore(this.value.last()) >= WINNING_CONDITION
+        return renjuRuleAdapter.findScore(getLastStone()) >= WINNING_CONDITION
     }
 
-    fun validateEmptyStones() {
-        require(this.value.isNotEmpty()) { ERROR_STONES_EMPTY }
+    fun getLastStone(): Stone {
+        return requireNotNull(this.value.lastOrNull()) { ERROR_STONES_EMPTY }
     }
 
     companion object {
