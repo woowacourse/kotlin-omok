@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -66,7 +65,8 @@ class RoomActivity : AppCompatActivity() {
 
     private fun addListenerBackToRoomList() {
         findViewById<Button>(R.id.back_button).setOnClickListener {
-            startActivity(Intent(this, RoomListActivity::class.java))
+            finish()
+            // startActivity(Intent(this, RoomListActivity::class.java))
         }
     }
 

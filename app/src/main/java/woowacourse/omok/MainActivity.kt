@@ -48,19 +48,17 @@ class MainActivity : AppCompatActivity() {
     private fun makeSampleData() {
         val db = OmokRoomDbHelper(this)
         val playerDb = OmokPlayerDbHelper(this)
-        db.onUpgrade(db.writableDatabase, 1, 1)
-        playerDb.onUpgrade(playerDb.writableDatabase, 1, 1)
-        playerNames.forEach(playerDb::insert)
+        playerNames.forEach(playerDb::insertOrReplace)
         val player = playerDb.getPlayers()
         player.forEachIndexed { idx, it ->
             println("idx: $idx, it: $it")
             val room = Room(
                 player = it,
-                title = "제목$idx",
+                title = "제목${idx + 1}",
                 status = 0,
                 time = 0,
             )
-            db.insert(room)
+            db.insertOrReplace(room)
         }
         db.close()
         playerDb.close()

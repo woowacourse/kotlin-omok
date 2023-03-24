@@ -36,16 +36,54 @@ class OmokPlayerDbHelper(
         onCreate(db)
     }
 
-    fun insert(player: Player) {
-        val wDb = this.writableDatabase
-        val values = ContentValues()
-        values.put(TABLE_COLUMN_NAME, player.name)
-        values.put(TABLE_COLUMN_WIN, player.overallRecord.win)
-        values.put(TABLE_COLUMN_DRAW, player.overallRecord.draw)
-        values.put(TABLE_COLUMN_LOSE, player.overallRecord.lose)
-        values.put(TABLE_COLUMN_PROFILE, player.profile)
+    private fun checkAlreadyExist(playerName: String): Boolean {
+        val rDb = this.readableDatabase
 
-        wDb.insertWithOnConflict(TABLE_NAME_PLAYER, null, values, SQLiteDatabase.CONFLICT_IGNORE)
+        val cursor = rDb.query(
+            TABLE_NAME_PLAYER,
+            arrayOf(TABLE_COLUMN_NAME),
+            "$TABLE_COLUMN_NAME = ?",
+            arrayOf(playerName),
+            null,
+            null,
+            null,
+        )
+
+        return cursor.count > 0
+    }
+
+    fun insertOrReplace(player: Player) = when {
+        checkAlreadyExist(player.name) -> update(player)
+        else -> insert(player)
+    }
+
+    private fun getPlayerContentValues(player: Player) = ContentValues().apply {
+        put(TABLE_COLUMN_NAME, player.name)
+        put(TABLE_COLUMN_WIN, player.overallRecord.win)
+        put(TABLE_COLUMN_LOSE, player.overallRecord.lose)
+        put(TABLE_COLUMN_DRAW, player.overallRecord.draw)
+        put(TABLE_COLUMN_PROFILE, player.profile)
+    }
+
+    private fun insert(player: Player) {
+        val wDb = this.writableDatabase
+
+        if (checkAlreadyExist(player.name)) {
+            update(player)
+            return
+        }
+
+        val values = getPlayerContentValues(player)
+
+        wDb.insertWithOnConflict(TABLE_NAME_PLAYER, null, values, SQLiteDatabase.CONFLICT_REPLACE)
+    }
+
+    private fun update(player: Player) {
+        val wDb = this.writableDatabase
+
+        val values = getPlayerContentValues(player)
+
+        wDb.update(TABLE_NAME_PLAYER, values, "$TABLE_COLUMN_NAME = ?", arrayOf(player.name))
     }
 
     fun getPlayer(playerId: Int): Player? {
