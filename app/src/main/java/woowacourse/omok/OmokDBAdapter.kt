@@ -26,7 +26,7 @@ class OmokDBAdapter(db: OmokDBHelper) {
         }
     }
 
-    fun getStones(): MutableList<Stone> {
+    fun getStones(): List<Stone> {
         val stones = mutableListOf<Stone>()
 
         with(cursor) {
@@ -37,7 +37,7 @@ class OmokDBAdapter(db: OmokDBHelper) {
             }
         }
 
-        return stones
+        return stones.toList()
     }
 
     fun addStone(clickedIndex: Int, color: Color) {
