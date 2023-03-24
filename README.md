@@ -5,18 +5,18 @@
 ## 기존 View 함수와 대치되는 함수를 작성하면된다.
 
 ### InputView 
-- [ ] inputPosition
+- [x] inputPosition
 
 ### OutputView
-- [ ] printStart
-- [ ] printBoard
-- [ ] printTurn
-- [ ] printLastPosition
-- [ ] printRequestPosition
+- [x] printStart
+- [x] printBoard
+- [x] printTurn
+- [x] printLastPosition
+- [x] printRequestPosition
 - [ ] printWinner
-- [ ] printError
+- [x] printError
 
 ### OmokView
 - [x] printStart -> startActivity를 통해서 시작을 알림
-- [ ] putPhase
-- [ ] printResult
+- [x] putPhase -> GameActivity에 클릭리스너로 구현
+- [ ] printResult 

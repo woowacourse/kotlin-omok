@@ -19,6 +19,7 @@ class GameActivity : AppCompatActivity() {
 
     private lateinit var tvTurn: TextView
     private lateinit var tvLastPosition: TextView
+    private lateinit var tvMessage: TextView
     private var turn by Delegates.observable(OmokApplication.controller.omokGame.turn) { _, _, new ->
         tvTurn.text = new.name
     }
@@ -30,10 +31,13 @@ class GameActivity : AppCompatActivity() {
                 "${AlphabetCoordinate.convertAlphabet(new.coordinateX)}${Board.BOARD_SIZE - new.coordinateY}"
         }
     }
+    private var message: String by Delegates.observable("") { _, _, new ->
+        tvMessage.text = new
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_game)
 
         val board = findViewById<TableLayout>(R.id.board)
         setBoardOnclickListener(board)
@@ -44,6 +48,7 @@ class GameActivity : AppCompatActivity() {
     private fun initViewId() {
         tvTurn = findViewById(R.id.tv_turn)
         tvLastPosition = findViewById(R.id.tv_last_position)
+        tvMessage = findViewById(R.id.tv_message)
     }
 
     private fun initGameViewState() {
@@ -52,6 +57,7 @@ class GameActivity : AppCompatActivity() {
             tvLastPosition.text =
                 "${AlphabetCoordinate.convertAlphabet(it.coordinateX)}${Board.BOARD_SIZE - it.coordinateY}"
         }
+        tvMessage.text = getText(R.string.start_message)
     }
 
     private fun setBoardOnclickListener(board: TableLayout) {
@@ -104,11 +110,11 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun printError() {
-        Toast.makeText(this, TURN_ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
+        message = getString(R.string.turn_error_message)
     }
 
     private fun printRequestPosition() {
-        Toast.makeText(this, REQUEST_POSITION_MESSAGE, Toast.LENGTH_SHORT).show()
+        message = getString(R.string.request_position_message)
     }
 
     private fun finishGame() {
@@ -120,8 +126,4 @@ class GameActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    companion object {
-        private const val TURN_ERROR_MESSAGE = "금수 혹은 이미 놓은 자리입니다 다시 시도해주세요"
-        private const val REQUEST_POSITION_MESSAGE = "위치를 터치해 주세요"
-    }
 }
