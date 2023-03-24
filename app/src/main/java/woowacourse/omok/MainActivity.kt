@@ -55,12 +55,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initFindViewById()
         stoneTableAdapter = StoneTableAdapter(this, roomId)
-        val (loadBoard, latestStone) = loadAlreadyPutInfo()
-        omokGame = OmokGame(loadBoard, latestStone)
-        turnColorTextView.text = getTurnColorText(omokGame.turnColor)
-        setInitBoardAndAddClickListener(loadBoard)
         gameEndButton.setOnClickListener { endButtonOnClick() }
         this.onBackPressedDispatcher.addCallback(this, callback)
+        setBoardClickListener()
+        setGame()
     }
 
     private fun initFindViewById() {
@@ -68,6 +66,16 @@ class MainActivity : AppCompatActivity() {
         turnColorTextView = findViewById(R.id.turn_color)
         gameEndButton = findViewById(R.id.game_end_button)
         board = findViewById(R.id.board)
+    }
+
+    private fun setGame() {
+        omokGame = OmokGame()
+        val loadData = stoneTableAdapter.getAlreadyPutStones()
+        loadData.forEach {
+            omokGame.playTurn(it.position)
+        }
+        turnColorTextView.text = omokGame.turnColor.korean
+        setBoardView()
     }
 
     private fun getPositionAllImageView(): List<ImageView> {
@@ -79,14 +87,19 @@ class MainActivity : AppCompatActivity() {
             .toList()
     }
 
-    private fun setInitBoardAndAddClickListener(loadBoard: Map<Position, Color?>) {
+    private fun setBoardView() {
         getPositionAllImageView().forEachIndexed { index, view ->
             val position = convertIndexToPosition(index)
-            loadBoard[position]?.let {
+            omokGame.board[position]?.let {
                 setStone(Stone(position, it), view)
             }
+        }
+    }
+
+    private fun setBoardClickListener() {
+        getPositionAllImageView().forEachIndexed { index, view ->
             view.setOnClickListener {
-                positionClick(position, view)
+                positionClick(convertIndexToPosition(index), view)
             }
         }
     }
@@ -107,42 +120,23 @@ class MainActivity : AppCompatActivity() {
     private fun gameFinishProcess() {
         makeToastMessage(R.string.game_is_over)
         gameEndButton.text =
-            getString(R.string.winner_is_this_color, omokGame.winnerColor.toString())
+            getString(R.string.winner_is_this_color, omokGame.winnerColor?.korean)
         gameEndButton.visibility = View.VISIBLE
         turnColorTextBox.visibility = View.GONE
         stoneTableAdapter.deleteAll()
     }
 
-    private fun getTurnColorText(color: Color): String {
-        return when (color) {
-            Color.BLACK -> getString(R.string.black)
-            Color.WHITE -> getString(R.string.white)
-        }
-    }
-
-    private fun loadAlreadyPutInfo(): Pair<Map<Position, Color?>, Stone?> {
-        val result = stoneTableAdapter.getStoneVOs()
-        val latestStone: Stone? = result.firstOrNull()?.let { Stone(it.position, it.stoneColor) }
-        val loadBoard =
-            Position.all().associateWith { null }.toMutableMap<Position, Color?>().apply {
-                result.forEach {
-                    this[it.position] = it.stoneColor
-                }
-            }
-        return Pair(loadBoard, latestStone)
-    }
-
     private fun convertIndexToPosition(index: Int): Position {
         val row = ROW_SIZE - 1 - (index / ROW_SIZE)
         val column = index % COLUMN_SIZE
-        Log.d("kmj", "index: $index , column: $column , row: $row")
+        Log.d("mendel", "index: $index , column: $column , row: $row")
         return Position(column + 1, row + 1)
     }
 
     private fun putStoneProcess(stone: Stone) {
         vibrationService.vibrate(VibrationEffect.createOneShot(20, 50))
         stoneTableAdapter.insertStone(stone)
-        turnColorTextView.text = getTurnColorText(omokGame.turnColor)
+        turnColorTextView.text = omokGame.turnColor.korean
     }
 
     private fun setStone(stone: Stone, view: ImageView) =
@@ -151,13 +145,12 @@ class MainActivity : AppCompatActivity() {
             Color.WHITE -> view.setImageResource(R.drawable.white_choonbae_stone)
         }
 
-    private fun endButtonOnClick() {
+    private fun endButtonOnClick() =
         if (omokGame.isFinished.not()) {
             showAskDialog(R.string.exit_game, R.string.progressing_game_will_be_save, { finish() })
         } else {
             showAskDialog(R.string.exit_game, R.string.exit_game_room_confirm_message, { finish() })
         }
-    }
 
     override fun onDestroy() {
         super.onDestroy()

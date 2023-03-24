@@ -20,15 +20,15 @@ class StoneTableAdapter(
         )
     }
 
-    fun getStoneVOs(): List<StoneVO> {
+    fun getAlreadyPutStones(): List<Stone> {
         val cursor = getAllStonesCursor()
-        val result = mutableListOf<StoneVO>().apply {
+        val stoneVOs = mutableListOf<StoneVO>().apply {
             while (cursor.moveToNext()) {
                 add(convertCursorToStoneVO(cursor))
             }
         }
         cursor.close()
-        return result
+        return stoneVOs.map { Stone(it.position, it.stoneColor) }
     }
 
     private fun getAllStonesCursor(): Cursor {
@@ -39,7 +39,7 @@ class StoneTableAdapter(
             arrayOf(roomNumber.toString()),
             null,
             null,
-            "${StoneConstract.TABLE_COLUMN_ID} DESC"
+            "${StoneConstract.TABLE_COLUMN_ID} ASC"
         )
     }
 

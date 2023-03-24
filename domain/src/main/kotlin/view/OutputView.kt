@@ -57,7 +57,7 @@ class OutputView {
     }
 
     fun printWinner(color: Color) {
-        println(WINNER.format(color))
+        println(WINNER.format(color.korean))
     }
 
     companion object {

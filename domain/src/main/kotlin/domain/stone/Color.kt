@@ -1,6 +1,6 @@
 package domain.stone
 
-enum class Color {
-    BLACK,
-    WHITE;
+enum class Color(val korean: String) {
+    BLACK("흑"),
+    WHITE("백");
 }

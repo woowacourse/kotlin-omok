@@ -9,11 +9,9 @@ import domain.turn.RunningBoardState
 import domain.turn.Turn
 
 class OmokGame(
-    board: Map<Position, Color?> = mapOf(),
-    latestStone: Stone? = null,
     rule: Rule = RenjuRule()
 ) {
-    private var turn: Turn
+    private var turn: Turn = Turn(Color.BLACK, RunningBoardState(rule, mapOf(), null))
 
     val isFinished: Boolean
         get() = turn.boardState.isFinished()
@@ -29,16 +27,6 @@ class OmokGame(
 
     val winnerColor: Color?
         get() = turn.winnerColor
-
-    init {
-        val blackCount = board.filter { it.value == Color.BLACK }.size
-        val whiteCount = board.filter { it.value == Color.WHITE }.size
-        turn = if (blackCount > whiteCount) {
-            Turn(Color.WHITE, RunningBoardState(rule, board, latestStone))
-        } else {
-            Turn(Color.BLACK, RunningBoardState(rule, board, latestStone))
-        }
-    }
 
     fun playTurn(
         newPosition: Position
