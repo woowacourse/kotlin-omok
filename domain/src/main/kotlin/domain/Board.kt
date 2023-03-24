@@ -16,8 +16,7 @@ class Board(private val players: Players = Players(), val stones: Stones = Stone
         ) {
             is OmokResult.Success<*> -> {
                 val stone = result.value as Stone
-                stones.place(stone)
-                currentPlayer = players.nextPlayer(currentPlayer)
+                place(stone)
                 result
             }
             else -> result
@@ -26,6 +25,16 @@ class Board(private val players: Players = Players(), val stones: Stones = Stone
 
     fun isWinPlace(stone: Stone, omokRule: OmokRule): Boolean =
         omokRule.findScore(stone) >= WINNING_CONDITION
+
+    fun place(stone: Stone) {
+        stones.place(stone)
+        currentPlayer = players.nextPlayer(currentPlayer)
+    }
+
+    fun clear() {
+        stones.clear()
+        currentPlayer = Player.BlackPlayer()
+    }
 
     companion object {
         val BOARD_SIZE = Vector(15, 15)

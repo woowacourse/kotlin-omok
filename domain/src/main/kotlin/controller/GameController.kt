@@ -33,11 +33,18 @@ class GameController(private val gameView: GameView, private val errorHandler: E
         when (val result = board.repeatTurn(validatedCoordinate, omokRule)) {
             is OmokResult.Success<*> -> {
                 onPlaceStone(result.value as Stone)
-                if (placeStoneSuccess(result.value as Stone)) return true
+                if (placeStoneSuccess(result.value)) return true
             }
             else -> errorHandler.log(result)
         }
         return false
+    }
+
+    fun resetStage(stones: Stones) {
+        board.clear()
+        stones.value.forEach { board.place(it) }
+
+        renderBoard(stones)
     }
 
     private fun placeStoneSuccess(
@@ -76,12 +83,5 @@ class GameController(private val gameView: GameView, private val errorHandler: E
     private fun vectorToScalar(vector: Vector): Int {
         val stoneY = (Board.BOARD_SIZE.y - vector.y - 1) * Board.BOARD_SIZE.y
         return (stoneY + vector.x)
-    }
-
-    fun resetStage(stones: Stones) {
-        board.stones.clear()
-        stones.value.forEach { board.stones.place(it) }
-
-        renderBoard(stones)
     }
 }
