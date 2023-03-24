@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             UserTable, UserStagesTable, StageTable, StageStonesTable, StoneTable
         )
 
-        deleteDatabase(OmokDBHelper.DB_NAME)
+        //deleteDatabase(OmokDBHelper.DB_NAME)
         val omokController = GameController(
             AndroidGameView(
                 this,

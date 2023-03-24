@@ -1,6 +1,7 @@
 package woowacourse.omok.controller
 
 import controller.GameController
+import controller.StoneMapper.toDTO
 import controller.StoneMapper.toDomain
 import domain.Stones
 import dto.StoneDTO
@@ -36,10 +37,14 @@ class RoomController(
     }
 
     private fun onSelectStage(stage: Stage) {
+        omokController.onPlaceStone = {
+            onPlaceStone(it.toDTO(), stage)
+            getAllUsers()
+        }
         omokController.resetStage(Stones(stage.value.value.map { it.toDomain() }))
     }
 
-    fun onPlaceStone(stoneDTO: StoneDTO, stage: Stage) {
+    private fun onPlaceStone(stoneDTO: StoneDTO, stage: Stage) {
         omokDBHelper.insertStoneToStage(stoneDTO, stage)
     }
 }

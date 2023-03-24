@@ -20,6 +20,7 @@ class GameController(private val gameView: GameView, private val errorHandler: E
     PlaceStoneObservable {
     private val board = Board()
     private val omokRule = RenjuRule(board.stones)
+    var onPlaceStone: (stone: Stone) -> Unit = {}
 
     fun process() {
         gameView.placeStoneObserver.subscribe(this)
@@ -31,6 +32,7 @@ class GameController(private val gameView: GameView, private val errorHandler: E
         val validatedCoordinate = validateStone(coordinate) ?: return false
         when (val result = board.repeatTurn(validatedCoordinate, omokRule)) {
             is OmokResult.Success<*> -> {
+                onPlaceStone(result.value as Stone)
                 if (placeStoneSuccess(result.value as Stone)) return true
             }
             else -> errorHandler.log(result)
