@@ -7,6 +7,10 @@ class Turn(private val stones: Set<Stone>) {
     val now: Stone
         get() = stones.elementAt(currentIndex)
 
+    init {
+        require(stones.isNotEmpty()) { "[ERROR] 돌이 1개이상 존재해야 합니다." }
+    }
+
     fun changeTurn() {
         currentIndex = if (currentIndex == stones.size - 1) 0 else currentIndex + 1
     }
