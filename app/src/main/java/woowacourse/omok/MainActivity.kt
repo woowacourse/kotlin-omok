@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         val stageRecycler = room.findViewById<RecyclerView>(R.id.recycler_stage)
         val userAdd = room.findViewById<Button>(R.id.recycler_user_add_button)
         val stageAdd = room.findViewById<Button>(R.id.recycler_stage_add_button)
+        val roomMessage = room.findViewById<TextView>(R.id.room_message)
 
         val tables = listOf(
             UserTable, UserStagesTable, StageTable, StageStonesTable, StoneTable
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         RoomController(
             OmokDBHelper(this, tables),
-            AndroidRoomView(userRecycler, stageRecycler, userAdd, stageAdd),
+            AndroidRoomView(userRecycler, stageRecycler, userAdd, stageAdd, roomMessage),
             omokController
         ).process()
     }

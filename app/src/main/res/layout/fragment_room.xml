@@ -4,6 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/room_message"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center_vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/recycler_user_add_button"
         android:layout_width="wrap_content"
@@ -11,7 +20,7 @@
         android:layout_marginStart="5dp"
         android:text="유저 추가"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/room_message" />
 
     <Button
         android:id="@+id/recycler_stage_add_button"
@@ -20,7 +29,7 @@
         android:layout_marginStart="5dp"
         android:text="방 추가"
         app:layout_constraintLeft_toLeftOf="@id/recycler_stage"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/room_message" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_user"
