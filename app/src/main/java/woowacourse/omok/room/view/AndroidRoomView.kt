@@ -1,11 +1,11 @@
-package woowacourse.omok.view
+package woowacourse.omok.room.view
 
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
-import woowacourse.omok.domain.Stage
-import woowacourse.omok.domain.Stages
-import woowacourse.omok.domain.User
-import woowacourse.omok.domain.Users
+import woowacourse.omok.room.domain.Stage
+import woowacourse.omok.room.domain.Stages
+import woowacourse.omok.room.domain.User
+import woowacourse.omok.room.domain.Users
 
 class AndroidRoomView(
     private val usersRecycler: RecyclerView,

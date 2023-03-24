@@ -1,4 +1,4 @@
-package woowacourse.omok.view
+package woowacourse.omok.room.view
 
 class RoomEventObserver {
     private val roomEvent: MutableList<RoomEventObservable> = mutableListOf()

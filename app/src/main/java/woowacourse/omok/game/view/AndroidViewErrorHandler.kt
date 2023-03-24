@@ -1,4 +1,4 @@
-package woowacourse.omok.view
+package woowacourse.omok.game.view
 
 import android.content.Context
 import android.widget.Toast

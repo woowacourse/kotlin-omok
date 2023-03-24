@@ -1,4 +1,4 @@
-package woowacourse.omok.view
+package woowacourse.omok.room.view
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.R
-import woowacourse.omok.domain.Stage
-import woowacourse.omok.domain.Stages
+import woowacourse.omok.room.domain.Stage
+import woowacourse.omok.room.domain.Stages
 
 class StageAdapter(var stages: Stages, val onSelectStage: (Stage) -> Unit) :
     RecyclerView.Adapter<StageAdapter.ViewHolder>() {

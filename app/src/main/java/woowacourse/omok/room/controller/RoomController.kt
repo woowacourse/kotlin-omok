@@ -1,14 +1,14 @@
-package woowacourse.omok.controller
+package woowacourse.omok.room.controller
 
 import controller.GameController
 import controller.StoneMapper.toDTO
 import controller.StoneMapper.toDomain
 import domain.Stones
 import dto.StoneDTO
-import woowacourse.omok.db.OmokDBHelper
-import woowacourse.omok.domain.Stage
-import woowacourse.omok.domain.User
-import woowacourse.omok.view.AndroidRoomView
+import woowacourse.omok.room.db.OmokDBHelper
+import woowacourse.omok.room.domain.Stage
+import woowacourse.omok.room.domain.User
+import woowacourse.omok.room.view.AndroidRoomView
 
 class RoomController(
     private val omokDBHelper: OmokDBHelper,

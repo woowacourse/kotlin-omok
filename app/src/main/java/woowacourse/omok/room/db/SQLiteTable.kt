@@ -1,4 +1,4 @@
-package woowacourse.omok.db
+package woowacourse.omok.room.db
 
 interface SQLiteTable {
     val name: String

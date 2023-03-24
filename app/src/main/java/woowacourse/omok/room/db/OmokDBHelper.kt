@@ -1,4 +1,4 @@
-package woowacourse.omok.db
+package woowacourse.omok.room.db
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,16 +7,16 @@ import android.database.sqlite.SQLiteOpenHelper
 import dto.ColorDTO
 import dto.StoneDTO
 import dto.VectorDTO
-import woowacourse.omok.db.table.StageStonesTable
-import woowacourse.omok.db.table.StageTable
-import woowacourse.omok.db.table.StoneTable
-import woowacourse.omok.db.table.UserStagesTable
-import woowacourse.omok.db.table.UserTable
-import woowacourse.omok.domain.Stage
-import woowacourse.omok.domain.StageStones
-import woowacourse.omok.domain.Stages
-import woowacourse.omok.domain.User
-import woowacourse.omok.domain.Users
+import woowacourse.omok.room.db.table.StageStonesTable
+import woowacourse.omok.room.db.table.StageTable
+import woowacourse.omok.room.db.table.StoneTable
+import woowacourse.omok.room.db.table.UserStagesTable
+import woowacourse.omok.room.db.table.UserTable
+import woowacourse.omok.room.domain.Stage
+import woowacourse.omok.room.domain.StageStones
+import woowacourse.omok.room.domain.Stages
+import woowacourse.omok.room.domain.User
+import woowacourse.omok.room.domain.Users
 
 class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
     SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {

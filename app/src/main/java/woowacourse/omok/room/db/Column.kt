@@ -1,4 +1,4 @@
-package woowacourse.omok.db
+package woowacourse.omok.room.db
 
 data class Column(
     val name: String,

@@ -9,17 +9,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import controller.GameController
-import woowacourse.omok.controller.RoomController
-import woowacourse.omok.db.OmokDBHelper
-import woowacourse.omok.db.table.StageStonesTable
-import woowacourse.omok.db.table.StageTable
-import woowacourse.omok.db.table.StoneTable
-import woowacourse.omok.db.table.UserStagesTable
-import woowacourse.omok.db.table.UserTable
-import woowacourse.omok.view.AndroidGameView
-import woowacourse.omok.view.AndroidRenderBoard
-import woowacourse.omok.view.AndroidRoomView
-import woowacourse.omok.view.AndroidViewErrorHandler
+import woowacourse.omok.game.view.AndroidGameView
+import woowacourse.omok.game.view.AndroidRenderBoard
+import woowacourse.omok.game.view.AndroidViewErrorHandler
+import woowacourse.omok.room.controller.RoomController
+import woowacourse.omok.room.db.OmokDBHelper
+import woowacourse.omok.room.db.table.StageStonesTable
+import woowacourse.omok.room.db.table.StageTable
+import woowacourse.omok.room.db.table.StoneTable
+import woowacourse.omok.room.db.table.UserStagesTable
+import woowacourse.omok.room.db.table.UserTable
+import woowacourse.omok.room.view.AndroidRoomView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

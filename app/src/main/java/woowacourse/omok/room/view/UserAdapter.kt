@@ -1,4 +1,4 @@
-package woowacourse.omok.view
+package woowacourse.omok.room.view
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.R
-import woowacourse.omok.domain.User
-import woowacourse.omok.domain.Users
+import woowacourse.omok.room.domain.User
+import woowacourse.omok.room.domain.Users
 
 class UserAdapter(var users: Users, val onSelectUsers: (User) -> Unit) :
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {

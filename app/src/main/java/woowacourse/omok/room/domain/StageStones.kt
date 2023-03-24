@@ -1,4 +1,4 @@
-package woowacourse.omok.domain
+package woowacourse.omok.room.domain
 
 import dto.StoneDTO
 

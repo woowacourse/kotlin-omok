@@ -1,4 +1,4 @@
-package woowacourse.omok.view
+package woowacourse.omok.game.view
 
 import android.widget.ImageView
 import dto.ColorDTO

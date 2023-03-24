@@ -1,7 +1,7 @@
-package woowacourse.omok.db.table
+package woowacourse.omok.room.db.table
 
-import woowacourse.omok.db.Column
-import woowacourse.omok.db.SQLiteTable
+import woowacourse.omok.room.db.Column
+import woowacourse.omok.room.db.SQLiteTable
 
 object StoneTable : SQLiteTable {
     const val ID = "id"
