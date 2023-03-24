@@ -1,15 +1,20 @@
 package woowacourse.omok
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.OmokGame
 import omok.OmokPoint
+import omok.gameState.BlackWin
+import omok.gameState.WhiteWin
 import omok.state.BlackStoneState
 import omok.state.StoneState
 import omok.state.WhiteStoneState
@@ -18,53 +23,50 @@ import woowacourse.omok.db.OmokDBHelper
 class MainActivity : AppCompatActivity() {
     private val omokGame = OmokGame()
     private lateinit var board: TableLayout
+    private lateinit var tvStatus: TextView
+    private lateinit var btnReset: Button
     private lateinit var dbHelper: OmokDBHelper
-    private lateinit var boardView: Sequence<ImageView>
+    private lateinit var boardView: List<List<ImageView>>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        board = findViewById(R.id.board)
-        boardView = board.children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-
         dbHelper = OmokDBHelper(this)
+
+        initView()
         initData()
 
-        boardView.forEachIndexed { index, view ->
-            view.setOnClickListener {
-                val point = OmokPoint.from(index)
-                runCatching {
-                    var color: Int? = null
-                    when (omokGame.play(point)) {
-                        BlackStoneState -> {
-                            color = 0
-                            view.setImageResource(R.drawable.black_stone)
-                        }
-                        WhiteStoneState -> {
-                            color = 1
-                            view.setImageResource(R.drawable.white_stone)
-                        }
-                    }
-                    dbHelper.insertData(point, color!!)
-                    if (!omokGame.gameState.isRunning) {
-                        Toast.makeText(this, "끝", Toast.LENGTH_SHORT).show()
-                    }
+        btnReset.setOnClickListener {
+            when (omokGame.gameState.isRunning) {
+                true -> Toast.makeText(this, "진행중 일 때는 초기화 할 수 없습니다", Toast.LENGTH_SHORT).show()
+                false -> {
+                    dbHelper.deleteAll()
+                    changeActivity(WaitingRoomActivity::class.java)
                 }
-                    .onFailure {
-                        Log.e("ERROR", it.toString())
-                    }
+            }
+        }
+
+        boardView.forEachIndexed { row, images ->
+            images.forEachIndexed { col, view ->
+                view.setOnClickListener {
+                    omokEventListener(OmokPoint(row, col), view)
+                }
             }
         }
     }
 
-    private fun initData() {
-        val dbHelper = OmokDBHelper(this)
-        val omokBoard = dbHelper.selectAll()
+    private fun initView() {
+        board = findViewById(R.id.board)
+        tvStatus = findViewById(R.id.tv_status)
+        btnReset = findViewById(R.id.btn_reset)
 
-        omokBoard?.let {
+        boardView = board.children
+            .filterIsInstance<TableRow>()
+            .map { it.children.filterIsInstance<ImageView>().toList() }.toList()
+    }
+
+    private fun initData() {
+        dbHelper.selectAll()?.let {
             it.value.forEach { stone ->
                 Log.i("stone Info", "point: ${stone.key}, state: ${stone.value}")
                 omokGame.play(stone.key)
@@ -74,14 +76,59 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun eventListener(omokPoint: OmokPoint, stoneState: StoneState) {
-        boardView.forEachIndexed { index, view ->
-            val point = OmokPoint.from(index)
-            if (omokPoint == point) {
-                when (stoneState) {
-                    BlackStoneState -> view.setImageResource(R.drawable.black_stone)
-                    WhiteStoneState -> view.setImageResource(R.drawable.white_stone)
+        boardView.forEachIndexed { row, images ->
+            images.forEachIndexed { col, view ->
+                if (omokPoint == OmokPoint(row, col)) {
+                    setViewToPlaceStone(stoneState, view, OmokPoint(row, col))
                 }
             }
+        }
+    }
+
+    private fun omokEventListener(point: OmokPoint, view: ImageView) {
+        runningGame(point)?.let {
+            saveData(point, it)
+            determineImageView(it, view)
+            setViewToPlaceStone(it, view, point)
+            when (omokGame.gameState) {
+                is BlackWin -> tvStatus.text = "흑돌이 이겼습니다"
+                is WhiteWin -> tvStatus.text = "흰돌이 이겼습니다"
+            }
+        }
+    }
+
+    private fun setViewToPlaceStone(stoneState: StoneState, view: ImageView, point: OmokPoint) {
+        determineImageView(stoneState, view)
+        tvStatus.text = "마지막 돌의 위치 (${point.x}, ${point.y})"
+    }
+
+    private fun runningGame(point: OmokPoint): StoneState? =
+        runCatching {
+            omokGame.play(point)
+        }
+            .onFailure {
+                tvStatus.text = it.message.toString()
+                Log.e("ERROR", it.toString())
+            }
+            .getOrNull()
+
+    private fun saveData(point: OmokPoint, stoneState: StoneState) {
+        when (stoneState) {
+            BlackStoneState -> dbHelper.insertData(point, 0)
+            WhiteStoneState -> dbHelper.insertData(point, 1)
+        }
+    }
+
+    private fun <T> changeActivity(activity: Class<T>) {
+        val intent = Intent(this, activity)
+        finish()
+        startActivity(intent)
+    }
+
+    private fun determineImageView(stoneState: StoneState, view: ImageView) {
+        when (stoneState) {
+            BlackStoneState -> view.setImageResource(R.drawable.black_stone)
+            WhiteStoneState -> view.setImageResource(R.drawable.white_stone)
         }
     }
 }
