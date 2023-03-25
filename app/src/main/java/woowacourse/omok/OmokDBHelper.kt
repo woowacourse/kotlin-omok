@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class OmokDBHelper(
-    context: Context?
+    context: Context
 ) : SQLiteOpenHelper(
     context,
     DB_NAME,
