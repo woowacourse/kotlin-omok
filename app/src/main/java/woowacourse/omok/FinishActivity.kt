@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import domain.domain.Board
 import domain.domain.BoardState
 import domain.domain.CoordinateState
 

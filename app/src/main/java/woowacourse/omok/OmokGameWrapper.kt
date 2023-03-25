@@ -1,6 +1,9 @@
 package woowacourse.omok
 
-import domain.domain.*
+import domain.domain.CoordinateState
+import domain.domain.OmokGame
+import domain.domain.Position
+import domain.domain.ProgressState
 import domain.library.combinerule.CombinedRuleAdapter
 import woowacourse.omok.util.print
 

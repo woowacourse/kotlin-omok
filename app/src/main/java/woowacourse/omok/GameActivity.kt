@@ -2,35 +2,28 @@ package woowacourse.omok
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import domain.domain.Board
 import domain.domain.CoordinateState
+import domain.domain.OmokGame
 import domain.domain.Position
-import domain.view.AlphabetCoordinate
+import domain.domain.ProgressState
+import domain.library.combinerule.CombinedRuleAdapter
 import woowacourse.omok.util.setOnSingleClickListener
 import kotlin.properties.Delegates
 
 class GameActivity : AppCompatActivity() {
 
-    private var controller: OmokGameWrapper = OmokGameWrapper()
+    private val omokGame: OmokGame = OmokGame(gameRule = CombinedRuleAdapter())
 
-    private lateinit var tvTurn: TextView
-    private lateinit var tvLastPosition: TextView
+    private lateinit var turnView: TurnView
+    private lateinit var lastPositionView: LastPositionView
     private lateinit var tvMessage: TextView
 
-    private var turn by Delegates.observable(controller.omokGame.turn) { _, _, new ->
-        tvTurn.text = new.name
-    }
-    private var lastPosition: Position? by Delegates.observable(controller.omokGame.board.lastPosition) { _, _, new ->
-        if (new == null) {
-            tvLastPosition.text = ""
-        } else {
-            tvLastPosition.text =
-                "${AlphabetCoordinate.convertAlphabet(new.coordinateX)}${Board.BOARD_SIZE - new.coordinateY}"
-        }
-    }
     private var message: String by Delegates.observable("") { _, _, new ->
         tvMessage.text = new
     }
@@ -46,17 +39,12 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun initViewId() {
-        tvTurn = findViewById(R.id.tv_turn)
-        tvLastPosition = findViewById(R.id.tv_last_position)
+        turnView = TurnView(findViewById(R.id.tv_turn), omokGame)
+        lastPositionView = LastPositionView(findViewById(R.id.tv_last_position), omokGame)
         tvMessage = findViewById(R.id.tv_message)
     }
 
     private fun initGameViewState() {
-        tvTurn.text = turn.name
-        lastPosition?.let {
-            tvLastPosition.text =
-                "${AlphabetCoordinate.convertAlphabet(it.coordinateX)}${Board.BOARD_SIZE - it.coordinateY}"
-        }
         tvMessage.text = getText(R.string.start_message)
     }
 
@@ -88,23 +76,20 @@ class GameActivity : AppCompatActivity() {
         }
 
     private fun coordinateClickListener(imageView: ImageView, rowIndex: Int, columIndex: Int) {
-        val turnStoneColor = controller.omokGame.turn
-        if (controller.progressGame(
-                Position(rowIndex, columIndex),
-                ::printError,
-                ::printRequestPosition,
-                ::finishGame
+        val turnStoneColor = omokGame.turn
+        if (progressGame(
+                Position(rowIndex, columIndex)
             )
         ) {
             if (turnStoneColor == CoordinateState.BLACK) {
                 imageView.setImageResource(R.drawable.black_stone)
-                turn = controller.omokGame.turn
-                lastPosition = controller.omokGame.board.lastPosition
+                turnView.turn = omokGame.turn
+                lastPositionView.lastPosition = omokGame.board.lastPosition
             }
             if (turnStoneColor == CoordinateState.WHITE) {
                 imageView.setImageResource(R.drawable.white_stone)
-                turn = controller.omokGame.turn
-                lastPosition = controller.omokGame.board.lastPosition
+                turnView.turn = omokGame.turn
+                lastPositionView.lastPosition = omokGame.board.lastPosition
             }
         }
     }
@@ -120,9 +105,25 @@ class GameActivity : AppCompatActivity() {
     private fun finishGame(winner: CoordinateState) {
         val intent = Intent(this, FinishActivity::class.java).apply {
             putExtra("winner", winner)
-            putExtra("board", controller.omokGame.board.boardState)
+            putExtra("board", omokGame.board.boardState)
         }
         startActivity(intent)
         finish()
     }
+
+    private fun progressGame(position: Position): Boolean =
+        when (omokGame.progressTurn(position)) {
+            ProgressState.ERROR -> {
+                printError()
+                false
+            }
+            ProgressState.END -> {
+                finishGame(omokGame.turn)
+                true
+            }
+            ProgressState.CONTINUE -> {
+                printRequestPosition()
+                true
+            }
+        }
 }
