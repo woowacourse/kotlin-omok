@@ -1,5 +1,7 @@
 package woowacourse.omok
 
+import android.content.ContentValues
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -15,42 +17,61 @@ import domain.state.running.WhiteTurn
 import domain.stone.Board
 import domain.stone.StonePosition
 import view.OutputView
+import woowacourse.omok.database.StonePositionConstract
+import woowacourse.omok.database.StonePositionDbHelper
 
 class MainActivity : AppCompatActivity() {
 
-    val outputView: OutputView = OutputView()
-    val board = findViewById<TableLayout>(R.id.board)
-    val boardMap: Board = Board()
-    var state: State = BlackTurn()
+    private lateinit var board: TableLayout
+    private lateinit var db: SQLiteDatabase
+    private var state: State = BlackTurn()
+    private val boardMap: Board = Board()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        outputView.printOmokStart()
+        db = StonePositionDbHelper(this).writableDatabase
+        board = findViewById<TableLayout>(R.id.board)
+
+        setBoardClickEvent()
+    }
+
+    private fun setBoardClickEvent() {
         board
             .children
             .filterIsInstance<TableRow>()
             .forEachIndexed { row, it ->
                 it.children.filterIsInstance<ImageView>()
                     .forEachIndexed { col, view ->
-                        view.setOnClickListener { coordinateViewClickEvent(row, col, view) }
+                        view.setOnClickListener { putStone(row, col, view) }
                     }
             }
     }
 
-    private fun coordinateViewClickEvent(row: Int, col: Int, view: ImageView) {
+    private fun putStone(row: Int, col: Int, view: ImageView) {
         val stonePosition: StonePosition = StonePosition(col + 1, row + 1)
         if (!state.isEnd() && !(state as Running).isPlaced(boardMap, stonePosition)) {
             view.setImageResource(getStoneImage(state))
             state = state.next(boardMap, stonePosition)
-
-            outputView.printBoard(boardMap.stones)
-            outputView.printTurn(state, boardMap.stones)
+            saveStoneToDb(row, col)
         }
         if (state.isEnd()) {
-            Toast.makeText(this, "${OutputView().getWinnerText(state as End)}돌이 승리하였습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "${OutputView().getWinnerText(state as End)}돌이 승리하였습니다.",
+                Toast.LENGTH_SHORT
+            ).show()
         }
+    }
+
+    private fun saveStoneToDb(row: Int, col: Int) {
+        val values = ContentValues().apply {
+            put(StonePositionConstract.TABLE_COLUMN_ROW, row + 1)
+            put(StonePositionConstract.TABLE_COLUMN_COLUMN, col + 1)
+        }
+
+        db.insert(StonePositionConstract.TABLE_NAME, null, values)
     }
 
     private fun getStoneImage(state: State): Int {
