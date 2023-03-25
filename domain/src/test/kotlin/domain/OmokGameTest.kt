@@ -15,7 +15,8 @@ internal class OmokGameTest {
         val board = generateBlackWinOmokBoard()
         val omokGame = OmokGame(board)
         // when
-        val actual = omokGame.getWinnerColorPhase({}) { Position(1, 6) }
+        val stone = omokGame.getStone { Position(1, 6) }
+        val actual = omokGame.getWinnerColorPhase(stone)
         val expected = Color.BLACK
         // then
         Assertions.assertThat(actual).isEqualTo(expected)
@@ -42,7 +43,8 @@ internal class OmokGameTest {
         val omokGame = OmokGame(board)
         // when
         omokGame.currentColor = Color.WHITE
-        val actual = omokGame.getWinnerColorPhase({}) { Position(1, 6) }
+        val stone = omokGame.getStone { Position(1, 6) }
+        val actual = omokGame.getWinnerColorPhase(stone)
         val expected = Color.WHITE
         // then
         Assertions.assertThat(actual).isEqualTo(expected)
@@ -61,19 +63,6 @@ internal class OmokGameTest {
             placeStone(Stone(Color.BLACK, 2, 10))
         }
         return board
-    }
-
-    @Test
-    fun `처음 수와 두번째 수에 아무도 이기지못하고 3번째수에 백이 이겼을 때 하얀색을 반환한다`() {
-        // given
-        val board = generateWhiteWinOmokBoard()
-        val omokGame = OmokGame(board)
-        // when
-        omokGame.currentColor = Color.WHITE
-        val actual = omokGame.getWinnerColorPhase({}) { getPosition() }
-        val expected = Color.WHITE
-        // then
-        Assertions.assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -106,13 +95,5 @@ internal class OmokGameTest {
 
         // then
         assertThat(actual).isEqualTo(expected)
-    }
-
-    private var count = 0
-    private fun getPosition(): Position {
-        count++
-        if (count == 1) return Position(5, 10)
-        if (count == 2) return Position(5, 11)
-        return Position(1, 6)
     }
 }

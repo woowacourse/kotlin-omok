@@ -3,23 +3,21 @@ package domain
 class OmokGame(val board: Board) {
     var currentColor: Color = INITIAL_COLOR
     fun getWinnerColorPhase(
-        getCurrentState: (OmokGame) -> Unit,
-        getPosition: () -> Position
+        stone: Stone?
     ): Color? {
-        val stone = getStone(getPosition) ?: return null
+        if (stone == null) return null
         board.placeStone(stone)
-        getCurrentState(this)
         currentColor = nextColor(currentColor)
         return board.getWinnerColor()
     }
 
-    private fun getStone(getPosition: () -> Position): Stone? {
+    fun getStone(getPosition: () -> Position): Stone? {
         val stone = Stone(currentColor, getPosition())
         if (!board.isEmpty(stone)) return null
         return stone
     }
 
-    private fun nextColor(color: Color): Color {
+    fun nextColor(color: Color): Color {
         return when (color) {
             Color.BLACK -> Color.WHITE
             Color.WHITE -> Color.BLACK
