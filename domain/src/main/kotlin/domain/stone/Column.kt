@@ -17,8 +17,8 @@ enum class Column(private val x: Int) {
     N(13),
     O(14);
 
-    fun right(): Column? = Column.values().getOrNull(ordinal + 1)
-    fun left(): Column? = Column.values().getOrNull(ordinal - 1)
+    fun right(): Column? = runCatching { Column.valueOf(ordinal + 1) }.getOrNull()
+    fun left(): Column? = runCatching { Column.valueOf(ordinal - 1) }.getOrNull()
 
     companion object {
         private const val ERROR_COLUMN_RANGE = "[ERROR] COLUMN의 범위는 1에서 15사이입니다."

@@ -5,15 +5,16 @@ import domain.stone.Position
 import domain.stone.Stone
 
 abstract class BoardState(
-    private val _board: Map<Position, Color?>,
+    board: Map<Position, Color?>,
     val latestStone: Stone?
 ) {
+    private val _board: Map<Position, Color?> = board.toMap()
     val board: Map<Position, Color?>
         get() = _board.toMap()
 
     init {
         latestStone?.let {
-            check(_board[it.position] != null) { ERROR_NOT_EXIST_LATEST_STONE }
+            check(board[it.position] != null) { ERROR_NOT_EXIST_LATEST_STONE }
         }
     }
 
