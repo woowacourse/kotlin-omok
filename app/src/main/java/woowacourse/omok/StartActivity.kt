@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.content.ContentValues
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
@@ -47,16 +46,7 @@ class StartActivity : AppCompatActivity() {
     }
 
     private fun hasNickname(nickname: String): Boolean {
-        val cursor = omokDB.query(
-            PlayerContract.TABLE_NAME,
-            arrayOf(PlayerContract.COLUMN_NAME_NICKNAME),
-            "${PlayerContract.COLUMN_NAME_NICKNAME} = ?",
-            arrayOf(nickname),
-            null,
-            null,
-            null
-        )
-
+        val cursor = PlayerContract.readRecord(omokDB, nickname)
         val count = cursor.count
         cursor.close()
         return count != 0
@@ -70,27 +60,15 @@ class StartActivity : AppCompatActivity() {
         builder.setNegativeButton(
             "새로하기"
         ) { _, _ ->
-            deletePlayer(nickname)
+            PlayerContract.deleteRecord(omokDB, nickname)
             startNewGame(nickname)
         }
         builder.show()
     }
 
-    private fun deletePlayer(nickname: String) {
-        val condition = "${PlayerContract.COLUMN_NAME_NICKNAME} = ?"
-        omokDB.delete(PlayerContract.TABLE_NAME, condition, arrayOf(nickname))
-    }
-
     private fun startNewGame(nickname: String) {
-        createPlayer(nickname)
+        PlayerContract.createRecord(omokDB, nickname)
         goToGame(nickname)
-    }
-
-    private fun createPlayer(nickname: String) {
-        val values = ContentValues()
-        values.put(PlayerContract.COLUMN_NAME_NICKNAME, nickname)
-
-        omokDB.insert(PlayerContract.TABLE_NAME, null, values)
     }
 
     private fun goToGame(nickname: String) {

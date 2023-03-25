@@ -1,8 +1,6 @@
 package woowacourse.omok
 
-import android.content.ContentValues
 import android.content.Intent
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.util.Log
@@ -52,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     private fun setBoard(views: Sequence<ImageView>) {
         val positions: MutableMap<Position, Stone?> = Board.POSITIONS.associateWith { null }.toMutableMap()
         val stoneCounts = mutableListOf(0, 0)
-        val cursor = getPrevBoardCursor()
+        val cursor = BoardContract.readRecords(omokDB, nickname)
         while (cursor.moveToNext()) {
             val positionNumber = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_NAME_POSITION))
             val stoneId = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_NAME_STONE))
@@ -65,18 +63,6 @@ class MainActivity : AppCompatActivity() {
         val turn = getTurn(stoneCounts)
         renderTurn(turn)
         setPositionViewsListener(views, Board(positions), turn)
-    }
-
-    private fun getPrevBoardCursor(): Cursor {
-        return omokDB.query(
-            BoardContract.TABLE_NAME,
-            arrayOf(BoardContract.COLUMN_NAME_POSITION, BoardContract.COLUMN_NAME_STONE),
-            "${BoardContract.COLUMN_NAME_NICKNAME} = ?",
-            arrayOf(nickname),
-            null,
-            null,
-            "${BoardContract.COLUMN_NAME_POSITION} ASC"
-        )
     }
 
     private fun getStone(stoneId: Int): Stone {
@@ -122,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         val result = placeStone(board, turn, position)
         result
             .onSuccess {
-                addBoardValue(positionNumber, turn)
+                BoardContract.createRecord(omokDB, nickname, positionNumber, turn.now.id)
                 setStoneImage(view, turn.now.id)
                 judgeWinner(board, turn, position)
                 changeTurn(turn)
@@ -142,15 +128,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun addBoardValue(positionNumber: Int, turn: Turn) {
-        val values = ContentValues()
-        values.put(BoardContract.COLUMN_NAME_NICKNAME, nickname)
-        values.put(BoardContract.COLUMN_NAME_POSITION, positionNumber)
-        values.put(BoardContract.COLUMN_NAME_STONE, turn.now.id)
-
-        omokDB.insert(BoardContract.TABLE_NAME, null, values)
-    }
-
     private fun showAlertDialog(message: String) {
         val builder = AlertDialog.Builder(this)
         builder.setIcon(R.drawable.error_24)
@@ -162,7 +139,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun judgeWinner(board: Board, turn: Turn, position: Position) {
         if (ResultReferee().checkWinner(board.positions, position)) {
-            deletePlayer()
+            PlayerContract.deleteRecord(omokDB, nickname)
             val intent = Intent(this, WinnerActivity::class.java)
             intent.putExtra("winner", turn.now.toString())
             startActivity(intent)
@@ -173,11 +150,6 @@ class MainActivity : AppCompatActivity() {
     private fun changeTurn(turn: Turn) {
         turn.changeTurn()
         renderTurn(turn)
-    }
-
-    private fun deletePlayer() {
-        val condition = "${PlayerContract.COLUMN_NAME_NICKNAME} = ?"
-        omokDB.delete(PlayerContract.TABLE_NAME, condition, arrayOf(nickname))
     }
 
     override fun onDestroy() {

@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.content.ContentValues
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
@@ -44,15 +43,8 @@ class WinnerActivity : AppCompatActivity() {
     }
 
     private fun startNewGame(nickname: String) {
-        createPlayer(nickname)
+        PlayerContract.createRecord(omokDB, nickname)
         goToGame()
-    }
-
-    private fun createPlayer(nickname: String) {
-        val values = ContentValues()
-        values.put(PlayerContract.COLUMN_NAME_NICKNAME, nickname)
-
-        omokDB.insert(PlayerContract.TABLE_NAME, null, values)
     }
 
     private fun goToGame() {
