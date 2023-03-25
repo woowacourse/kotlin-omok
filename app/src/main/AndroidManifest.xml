@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Oomok"
         tools:targetApi="31">
         <activity
-            android:name=".FinishActivity"
+            android:name=".finishactivity.FinishActivity"
             android:exported="false" />
         <activity
             android:name=".StartActivity"

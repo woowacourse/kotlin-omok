@@ -10,8 +10,8 @@ import domain.domain.OmokGame
 import domain.domain.Position
 import domain.domain.ProgressState
 import domain.library.combinerule.CombinedRuleAdapter
-import woowacourse.omok.FinishActivity
 import woowacourse.omok.R
+import woowacourse.omok.finishactivity.FinishActivity
 
 class GameActivity : AppCompatActivity() {
 
