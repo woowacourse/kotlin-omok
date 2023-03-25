@@ -10,7 +10,11 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import domain.game.*
+import domain.game.GameFinish
+import domain.game.Omok
+import domain.game.PutFailed
+import domain.game.PutResult
+import domain.game.PutSuccess
 import domain.point.Point
 import domain.rule.BlackRenjuRule
 import domain.rule.WhiteRenjuRule
@@ -98,7 +102,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun toggleTurnHolder(prevStoneColor: StoneColorModel) {
-        when(prevStoneColor) {
+        when (prevStoneColor) {
             StoneColorModel.BLACK -> {
                 manTurnHolder.visibility = View.GONE
                 womanTurnHolder.visibility = View.VISIBLE
