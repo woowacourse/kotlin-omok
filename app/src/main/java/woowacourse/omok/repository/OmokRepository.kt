@@ -3,6 +3,7 @@ package woowacourse.omok.repository
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import woowacourse.omok.database.OmokConstact.TABLE_COLUMN_ID
 import woowacourse.omok.database.OmokConstact.TABLE_NAME
 
 class OmokRepository(val database: SQLiteDatabase) {
@@ -29,5 +30,10 @@ class OmokRepository(val database: SQLiteDatabase) {
 
     fun close() {
         database.close()
+    }
+
+    fun getLast(): Cursor {
+        val query = "SELECT * FROM $TABLE_NAME ORDER BY $TABLE_COLUMN_ID DESC LIMIT 1"
+        return database.rawQuery(query, null)
     }
 }
