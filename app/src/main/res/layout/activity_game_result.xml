@@ -11,8 +11,8 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/man_player" />
 
@@ -24,8 +24,8 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/winner_stone_iv"
         tools:text="흑 승" />
 
@@ -36,8 +36,8 @@
         android:layout_marginBottom="30dp"
         android:text="@string/end_game"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/restart_btn" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/restart_btn" />
 
     <Button
         android:id="@+id/restart_btn"
@@ -45,6 +45,6 @@
         android:layout_height="wrap_content"
         android:text="@string/restart"
         app:layout_constraintBottom_toBottomOf="@+id/end_game_btn"
-        app:layout_constraintLeft_toRightOf="@+id/end_game_btn"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/end_game_btn"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
