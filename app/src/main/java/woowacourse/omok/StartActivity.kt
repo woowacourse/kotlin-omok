@@ -20,6 +20,8 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
+        nicknameView.setText(Omok.sharedPref.getString("nickname", ""))
+
         val startButton = findViewById<Button>(R.id.start_game)
         startButton.setOnClickListener {
             if (validateNickname()) startGame()
