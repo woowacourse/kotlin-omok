@@ -15,8 +15,8 @@ class OmokDBHelper(
     private fun createPlayerTable(db: SQLiteDatabase?) {
         db?.execSQL(
             """
-            create table ${PlayerContract.TABLE_NAME} (
-            ${PlayerContract.COLUMN_NICKNAME} varchar(4) primary key
+            CREATE TABLE ${PlayerContract.TABLE_NAME} (
+            ${PlayerContract.COLUMN_NICKNAME} VARCHAR(4) PRIMARY KEY
             );
             """.trimIndent()
         )
@@ -25,14 +25,14 @@ class OmokDBHelper(
     private fun createBoardTable(db: SQLiteDatabase?) {
         db?.execSQL(
             """
-            create table ${BoardContract.TABLE_NAME} (
-            ${BoardContract.COLUMN_NICKNAME} varchar(4),
-            ${BoardContract.COLUMN_POSITION} int,
-            ${BoardContract.COLUMN_STONE} int not null,
-            primary key(${BoardContract.COLUMN_NICKNAME}, ${BoardContract.COLUMN_POSITION}),
-            foreign key (${BoardContract.COLUMN_NICKNAME}) 
-            references ${PlayerContract.TABLE_NAME} (${PlayerContract.COLUMN_NICKNAME}) 
-            on delete cascade
+            CREATE TABLE ${BoardContract.TABLE_NAME} (
+            ${BoardContract.COLUMN_NICKNAME} VARCHAR(4),
+            ${BoardContract.COLUMN_POSITION} INT,
+            ${BoardContract.COLUMN_STONE} INT NOT NULL,
+            PRIMARY KEY (${BoardContract.COLUMN_NICKNAME}, ${BoardContract.COLUMN_POSITION}),
+            FOREIGN KEY (${BoardContract.COLUMN_NICKNAME}) 
+            REFERENCES ${PlayerContract.TABLE_NAME} (${PlayerContract.COLUMN_NICKNAME}) 
+            ON DELETE CASCADE
             );
             """.trimIndent()
         )
@@ -50,7 +50,7 @@ class OmokDBHelper(
     }
 
     private fun dropPlayerTable(db: SQLiteDatabase?) {
-        db?.execSQL("drop table if exists ${PlayerContract.TABLE_NAME}")
+        db?.execSQL("DROP TABLE IF EXISTS ${PlayerContract.TABLE_NAME}")
     }
 
     private fun dropBoardTable(db: SQLiteDatabase?) {
