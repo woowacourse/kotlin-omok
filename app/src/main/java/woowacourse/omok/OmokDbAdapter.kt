@@ -3,6 +3,7 @@ package woowacourse.omok
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import model.domain.tools.Board
+import model.domain.tools.Dot
 import model.domain.tools.Location
 import model.domain.tools.Stone
 import woowacourse.omok.OmokViewUtil.getStoneColor
@@ -31,7 +32,7 @@ class OmokDbAdapter(db: OmokDbHelper) {
             val stone =
                 cursor.getString(cursor.getColumnIndexOrThrow(TABLE_COLUMN_STONE_COLOR))
 
-            val dot = OmokViewUtil.getDot(index)
+            val dot = Dot.from(index, BOARD_SIZE)
             getStoneColor(stone)?.let { board.placeStone(Location(dot.row, dot.col), it) }
         }
     }

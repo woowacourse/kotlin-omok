@@ -14,6 +14,7 @@ import model.domain.state.End
 import model.domain.state.State
 import model.domain.state.WhiteTurn
 import model.domain.tools.Board
+import model.domain.tools.Dot
 import model.domain.tools.Location
 import model.domain.tools.Stone
 import woowacourse.omok.OmokViewUtil.getDot
@@ -77,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setStoneWithBoard(index: Int, view: ImageView) {
-        val dot = getDot(index)
+        val dot = Dot.from(index, BOARD_SIZE)
         val stoneColor = state.board.getStone(Location(dot.row, dot.col))
         setStoneImage(stoneColor, view)
     }
