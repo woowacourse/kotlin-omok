@@ -1,16 +1,15 @@
 package woowacourse.omok
 
-import android.os.Build
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import domain.domain.BoardState
 import domain.domain.CoordinateState
+import woowacourse.omok.util.customGetSerializable
 
 class FinishActivity : AppCompatActivity() {
 
@@ -18,7 +17,6 @@ class FinishActivity : AppCompatActivity() {
     private lateinit var board: BoardState
     private lateinit var tvWinnerMessage: TextView
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finish)
@@ -29,11 +27,10 @@ class FinishActivity : AppCompatActivity() {
         setBoardInitState(findViewById(R.id.finish_board))
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun initExtraData() {
-        winner = intent.getParcelableExtra("winner", CoordinateState::class.java)
+        winner = intent.customGetSerializable("winner")
             ?: throw IllegalStateException()
-        board = intent.getSerializableExtra("board", BoardState::class.java)
+        board = intent.customGetSerializable("board")
             ?: throw IllegalStateException()
     }
 
