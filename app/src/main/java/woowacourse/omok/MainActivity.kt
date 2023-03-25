@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFinish(state: State) {
-                // Toast.makeText(this@MainActivity, "${state.name} 승", Toast.LENGTH_SHORT).show()
+                moveToGameOver(state)
             }
         }
 
@@ -87,9 +87,7 @@ class MainActivity : AppCompatActivity() {
                     stoneImage?.let { view.setImageResource(it) }
                     omokDatabase.saveStone(index, state)
                     isBlackTurn = !isBlackTurn
-                    if (omokGame.isVictory(state)) {
-                        moveToGameOver(state)
-                    }
+                    omokGame.isVictory(state)
                 }
             }
         }
