@@ -10,7 +10,3 @@ fun Context.shortToastWithInt(message: Int) {
 fun Context.shortToastWithString(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
-
-fun Context.customShortToast(message: String, ) {
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-}
