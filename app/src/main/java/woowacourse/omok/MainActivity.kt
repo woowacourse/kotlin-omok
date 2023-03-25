@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBoard(board: TableLayout) {
         listOf(Turn.Black.color, Turn.White.color).forEach { color ->
-            val indexes = DBController(OmokDBHelper(this).writableDatabase).checkDB(color)
+            val indexes = DBController(OmokDBHelper(this).writableDatabase).getIndex(color)
             indexes.forEach { index -> initDisplay(board, color, index) }
         }
     }

@@ -11,7 +11,7 @@ class DBController(private val wDb: SQLiteDatabase) {
         wDb.insert(OmokConstract.TABLE_NAME, null, values)
     }
 
-    fun checkDB(color: String): List<Int> {
+    fun getIndex(color: String): List<Int> {
         val result = mutableListOf<Int>()
         val cursor = wDb.rawQuery("SELECT * FROM ${OmokConstract.TABLE_NAME} WHERE ${OmokConstract.TABLE_COLUMN_COLOR} = '" + color + "';", null)
         with(cursor) {
