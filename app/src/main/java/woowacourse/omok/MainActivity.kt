@@ -4,7 +4,6 @@ import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.util.Log
-import android.view.View.OnClickListener
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -49,12 +48,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBoard(views: Sequence<ImageView>) {
-        val positions: MutableMap<Position, Stone?> = Board.POSITIONS.associateWith { null }.toMutableMap()
+        val positions: MutableMap<Position, Stone?> =
+            Board.POSITIONS.associateWith { null }.toMutableMap()
         val stoneCounts = mutableListOf(0, 0)
         val cursor = BoardContract.readRecords(omokDB, nickname)
         while (cursor.moveToNext()) {
-            val positionNumber = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_NAME_POSITION))
-            val stoneId = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_NAME_STONE))
+            val positionNumber =
+                cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_NAME_POSITION))
+            val stoneId =
+                cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_NAME_STONE))
             stoneCounts[stoneId]++
             positions[Position.of(positionNumber)] = Stone.of(stoneId)
             setStoneImage(views.elementAt(positionNumber), stoneId)
@@ -88,11 +90,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setPositionViewsListener(views: Sequence<ImageView>, board: Board, turn: Turn) {
         views.forEachIndexed { index, view ->
-            view.setOnClickListener(takeTurn(index, board, turn, view))
+            view.setOnClickListener { takeTurn(index, board, turn, view) }
         }
     }
 
-    private fun takeTurn(positionNumber: Int, board: Board, turn: Turn, view: ImageView) = OnClickListener {
+    private fun takeTurn(positionNumber: Int, board: Board, turn: Turn, view: ImageView) {
         val position = Position.of(positionNumber)
         Log.d("test_position", position.toString())
         Log.d("test_turn", turn.now.javaClass.simpleName.toString())
