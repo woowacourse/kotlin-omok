@@ -49,8 +49,8 @@ class StartActivity : AppCompatActivity() {
     private fun hasNickname(nickname: String): Boolean {
         val cursor = omokDB.query(
             PlayerContract.TABLE_NAME,
-            arrayOf(PlayerContract.COLUMN_NICKNAME),
-            "${PlayerContract.COLUMN_NICKNAME} = ?",
+            arrayOf(PlayerContract.COLUMN_NAME_NICKNAME),
+            "${PlayerContract.COLUMN_NAME_NICKNAME} = ?",
             arrayOf(nickname),
             null,
             null,
@@ -77,7 +77,7 @@ class StartActivity : AppCompatActivity() {
     }
 
     private fun deletePlayer(nickname: String) {
-        val condition = "${PlayerContract.COLUMN_NICKNAME} = ?"
+        val condition = "${PlayerContract.COLUMN_NAME_NICKNAME} = ?"
         omokDB.delete(PlayerContract.TABLE_NAME, condition, arrayOf(nickname))
     }
 
@@ -88,7 +88,7 @@ class StartActivity : AppCompatActivity() {
 
     private fun createPlayer(nickname: String) {
         val values = ContentValues()
-        values.put(PlayerContract.COLUMN_NICKNAME, nickname)
+        values.put(PlayerContract.COLUMN_NAME_NICKNAME, nickname)
 
         omokDB.insert(PlayerContract.TABLE_NAME, null, values)
     }

@@ -50,7 +50,7 @@ class WinnerActivity : AppCompatActivity() {
 
     private fun createPlayer(nickname: String) {
         val values = ContentValues()
-        values.put(PlayerContract.COLUMN_NICKNAME, nickname)
+        values.put(PlayerContract.COLUMN_NAME_NICKNAME, nickname)
 
         omokDB.insert(PlayerContract.TABLE_NAME, null, values)
     }

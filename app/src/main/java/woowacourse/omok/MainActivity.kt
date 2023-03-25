@@ -54,8 +54,8 @@ class MainActivity : AppCompatActivity() {
         val stoneCounts = mutableListOf(0, 0)
         val cursor = getPrevBoardCursor()
         while (cursor.moveToNext()) {
-            val positionNumber = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_POSITION))
-            val stoneId = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_STONE))
+            val positionNumber = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_NAME_POSITION))
+            val stoneId = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_NAME_STONE))
             stoneCounts[stoneId]++
             positions[getPosition(positionNumber)] = getStone(stoneId)
             setStoneImage(views.elementAt(positionNumber), stoneId)
@@ -70,12 +70,12 @@ class MainActivity : AppCompatActivity() {
     private fun getPrevBoardCursor(): Cursor {
         return omokDB.query(
             BoardContract.TABLE_NAME,
-            arrayOf(BoardContract.COLUMN_POSITION, BoardContract.COLUMN_STONE),
-            "${BoardContract.COLUMN_NICKNAME} = ?",
+            arrayOf(BoardContract.COLUMN_NAME_POSITION, BoardContract.COLUMN_NAME_STONE),
+            "${BoardContract.COLUMN_NAME_NICKNAME} = ?",
             arrayOf(nickname),
             null,
             null,
-            "${BoardContract.COLUMN_POSITION} ASC"
+            "${BoardContract.COLUMN_NAME_POSITION} ASC"
         )
     }
 
@@ -144,9 +144,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun addBoardValue(positionNumber: Int, turn: Turn) {
         val values = ContentValues()
-        values.put(BoardContract.COLUMN_NICKNAME, nickname)
-        values.put(BoardContract.COLUMN_POSITION, positionNumber)
-        values.put(BoardContract.COLUMN_STONE, turn.now.id)
+        values.put(BoardContract.COLUMN_NAME_NICKNAME, nickname)
+        values.put(BoardContract.COLUMN_NAME_POSITION, positionNumber)
+        values.put(BoardContract.COLUMN_NAME_STONE, turn.now.id)
 
         omokDB.insert(BoardContract.TABLE_NAME, null, values)
     }
@@ -176,7 +176,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun deletePlayer() {
-        val condition = "${PlayerContract.COLUMN_NICKNAME} = ?"
+        val condition = "${PlayerContract.COLUMN_NAME_NICKNAME} = ?"
         omokDB.delete(PlayerContract.TABLE_NAME, condition, arrayOf(nickname))
     }
 

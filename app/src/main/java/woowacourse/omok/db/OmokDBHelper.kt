@@ -6,36 +6,10 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class OmokDBHelper(
     context: Context
-) : SQLiteOpenHelper(context, DBInfo.DB_NAME, null, DBInfo.DB_VERSION) {
+) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase?) {
-        createPlayerTable(db)
-        createBoardTable(db)
-    }
-
-    private fun createPlayerTable(db: SQLiteDatabase?) {
-        db?.execSQL(
-            """
-            CREATE TABLE ${PlayerContract.TABLE_NAME} (
-            ${PlayerContract.COLUMN_NICKNAME} VARCHAR(4) PRIMARY KEY
-            );
-            """.trimIndent()
-        )
-    }
-
-    private fun createBoardTable(db: SQLiteDatabase?) {
-        db?.execSQL(
-            """
-            CREATE TABLE ${BoardContract.TABLE_NAME} (
-            ${BoardContract.COLUMN_NICKNAME} VARCHAR(4),
-            ${BoardContract.COLUMN_POSITION} INT,
-            ${BoardContract.COLUMN_STONE} INT NOT NULL,
-            PRIMARY KEY (${BoardContract.COLUMN_NICKNAME}, ${BoardContract.COLUMN_POSITION}),
-            FOREIGN KEY (${BoardContract.COLUMN_NICKNAME}) 
-            REFERENCES ${PlayerContract.TABLE_NAME} (${PlayerContract.COLUMN_NICKNAME}) 
-            ON DELETE CASCADE
-            );
-            """.trimIndent()
-        )
+        db?.execSQL(PlayerContract.CREATE_TABLE)
+        db?.execSQL(BoardContract.CREATE_TABLE)
     }
 
     override fun onOpen(db: SQLiteDatabase?) {
@@ -44,16 +18,13 @@ class OmokDBHelper(
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        dropPlayerTable(db)
-        dropBoardTable(db)
+        db?.execSQL(PlayerContract.DROP_TABLE)
+        db?.execSQL(BoardContract.DROP_TABLE)
         onCreate(db)
     }
 
-    private fun dropPlayerTable(db: SQLiteDatabase?) {
-        db?.execSQL("DROP TABLE IF EXISTS ${PlayerContract.TABLE_NAME}")
-    }
-
-    private fun dropBoardTable(db: SQLiteDatabase?) {
-        db?.execSQL("DROP TABLE IF EXISTS ${BoardContract.TABLE_NAME}")
+    companion object {
+        const val DATABASE_NAME = "omok.db"
+        const val DATABASE_VERSION = 1
     }
 }
