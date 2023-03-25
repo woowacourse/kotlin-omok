@@ -20,12 +20,12 @@ class GameActivity : AppCompatActivity() {
     private lateinit var turnView: TurnView
     private lateinit var lastPositionView: LastPositionView
     private lateinit var messageView: MessageView
+    private lateinit var boardView: GameBoardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
-        val board = findViewById<TableLayout>(R.id.board)
         initViewId()
     }
 
@@ -33,34 +33,8 @@ class GameActivity : AppCompatActivity() {
         turnView = TurnView(findViewById(R.id.tv_turn), omokGame)
         lastPositionView = LastPositionView(findViewById(R.id.tv_last_position), omokGame)
         messageView = MessageView(findViewById(R.id.tv_message), omokGame)
+        boardView = GameBoardView(findViewById<TableLayout>(R.id.board), ::coordinateClickListener)
     }
-
-//    private fun setBoardOnclickListener(board: TableLayout) {
-//        board
-//            .children
-//            .filterIsInstance<TableRow>()
-//            .forEachIndexed { rowIndex, tableRow ->
-//                setCoordinateOnclickListener(
-//                    tableRow,
-//                    rowIndex
-//                )
-//            }
-//    }
-//
-//    private fun setCoordinateOnclickListener(
-//        tableRow: TableRow,
-//        rowIndex: Int
-//    ) = tableRow.children
-//        .filterIsInstance<ImageView>()
-//        .forEachIndexed() { columIndex, imageView ->
-//            imageView.setOnSingleClickListener {
-//                coordinateClickListener(
-//                    imageView = imageView,
-//                    rowIndex = rowIndex,
-//                    columIndex = columIndex
-//                )
-//            }
-//        }
 
     private fun coordinateClickListener(imageView: ImageView, rowIndex: Int, columIndex: Int) {
         val turnStoneColor = omokGame.turn
@@ -68,26 +42,24 @@ class GameActivity : AppCompatActivity() {
                 Position(rowIndex, columIndex)
             )
         ) {
-            if (turnStoneColor == CoordinateState.BLACK) {
-                imageView.setImageResource(R.drawable.black_stone)
-                turnView.turn = omokGame.turn
-                lastPositionView.lastPosition = omokGame.board.lastPosition
-            }
-            if (turnStoneColor == CoordinateState.WHITE) {
-                imageView.setImageResource(R.drawable.white_stone)
-                turnView.turn = omokGame.turn
-                lastPositionView.lastPosition = omokGame.board.lastPosition
-            }
+            setViewState(turnStoneColor, imageView)
         }
     }
 
-    private fun finishGame(winner: CoordinateState) {
-        val intent = Intent(this, FinishActivity::class.java).apply {
-            putExtra("winner", winner)
-            putExtra("board", omokGame.board.boardState)
+    private fun setViewState(
+        turnStoneColor: CoordinateState,
+        imageView: ImageView
+    ) {
+        if (turnStoneColor == CoordinateState.BLACK) {
+            imageView.setImageResource(R.drawable.black_stone)
+            turnView.turn = omokGame.turn
+            lastPositionView.lastPosition = omokGame.board.lastPosition
         }
-        startActivity(intent)
-        finish()
+        if (turnStoneColor == CoordinateState.WHITE) {
+            imageView.setImageResource(R.drawable.white_stone)
+            turnView.turn = omokGame.turn
+            lastPositionView.lastPosition = omokGame.board.lastPosition
+        }
     }
 
     private fun progressGame(position: Position): Boolean =
@@ -105,4 +77,13 @@ class GameActivity : AppCompatActivity() {
                 true
             }
         }
+
+    private fun finishGame(winner: CoordinateState) {
+        val intent = Intent(this, FinishActivity::class.java).apply {
+            putExtra("winner", winner)
+            putExtra("board", omokGame.board.boardState)
+        }
+        startActivity(intent)
+        finish()
+    }
 }

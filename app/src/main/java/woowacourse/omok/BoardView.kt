@@ -6,7 +6,7 @@ import android.widget.TableRow
 import androidx.core.view.children
 
 abstract class BoardView(private val value: TableLayout) {
-    private fun setBoardTask() {
+    fun setBoardTask() {
         value
             .children
             .filterIsInstance<TableRow>()
