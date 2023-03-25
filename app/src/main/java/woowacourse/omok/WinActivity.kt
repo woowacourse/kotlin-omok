@@ -12,11 +12,13 @@ import woowacourse.omok.database.OmokConstract
 import woowacourse.omok.database.OmokDBHelper
 
 class WinActivity : AppCompatActivity() {
+    private val dBController = DBController(OmokDBHelper(this).writableDatabase)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_win)
 
-        val resetBtn = findViewById<Button>(R.id.retry)
+        val retryBtn = findViewById<Button>(R.id.retry)
         val winImage = findViewById<ImageView>(R.id.winImage)
         val winWho = findViewById<TextView>(R.id.winWho)
 
@@ -30,8 +32,12 @@ class WinActivity : AppCompatActivity() {
             winWho.text = "백"
         }
 
-        resetBtn.setOnClickListener {
-            DBController(OmokDBHelper(this).writableDatabase).deleteDB()
+        retryGame(retryBtn)
+    }
+
+    private fun retryGame(retryBtn: Button) {
+        retryBtn.setOnClickListener {
+            dBController.deleteDB()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -39,7 +45,7 @@ class WinActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        DBController(OmokDBHelper(this).writableDatabase).deleteDB()
+        dBController.deleteDB()
         super.onDestroy()
     }
 }
