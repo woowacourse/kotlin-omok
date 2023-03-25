@@ -27,17 +27,16 @@ import woowacourse.omok.db.OmokDBHelper
 import woowacourse.omok.db.PlayerContract
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var omokDB: SQLiteDatabase
-    private lateinit var nickname: String
+    private val omokDB: SQLiteDatabase by lazy { OmokDBHelper(this).writableDatabase }
+    private val nickname: String by lazy {
+        getSharedPreferences("Omok", MODE_PRIVATE).getString("nickname", "닉네임") ?: ""
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        omokDB = OmokDBHelper(this).writableDatabase
-
         val nicknameView = findViewById<TextView>(R.id.nickname)
-        nickname = getSharedPreferences("Omok", MODE_PRIVATE).getString("nickname", "닉네임") ?: ""
         nicknameView.text = nickname
 
         val board = findViewById<TableLayout>(R.id.board)

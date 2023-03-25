@@ -14,13 +14,11 @@ import woowacourse.omok.db.OmokDBHelper
 import woowacourse.omok.db.PlayerContract
 
 class WinnerActivity : AppCompatActivity() {
-    private lateinit var omokDB: SQLiteDatabase
+    private val omokDB: SQLiteDatabase by lazy { OmokDBHelper(this).writableDatabase }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_winner)
-
-        omokDB = OmokDBHelper(this).writableDatabase
 
         val winnerImageView = findViewById<ImageView>(R.id.winner)
         val winnerTextView = findViewById<TextView>(R.id.winner_nickname)

@@ -13,15 +13,12 @@ import woowacourse.omok.db.OmokDBHelper
 import woowacourse.omok.db.PlayerContract
 
 class StartActivity : AppCompatActivity() {
-    private lateinit var omokDB: SQLiteDatabase
-    private lateinit var nicknameView: EditText
+    private val omokDB: SQLiteDatabase by lazy { OmokDBHelper(this).writableDatabase }
+    private val nicknameView: EditText by lazy { findViewById(R.id.nickname_input) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
-
-        omokDB = OmokDBHelper(this).writableDatabase
-        nicknameView = findViewById(R.id.nickname_input)
 
         val startButton = findViewById<Button>(R.id.start_game)
         startButton.setOnClickListener {
