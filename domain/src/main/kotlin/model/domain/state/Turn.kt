@@ -1,6 +1,7 @@
 package model.domain.state
 
 import model.domain.rule.OmokRule
+import model.domain.rule.omokForbiddenRule.OmokForbiddenRuleAdapter
 import model.domain.tools.Board
 import model.domain.tools.Location
 import model.domain.tools.Stone
@@ -21,5 +22,6 @@ abstract class Turn(override val board: Board) : State {
         else -> throw IllegalStateException()
     }
 
-    abstract fun isForbidden(location: Location): Boolean
+    private fun isForbidden(location: Location) =
+        OmokForbiddenRuleAdapter(board, stone).isForbidden(location)
 }
