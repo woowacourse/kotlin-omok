@@ -1,11 +1,11 @@
-package woowacourse.omok.finishactivity
+package woowacourse.omok.presentation.finishactivity
 
 import android.widget.ImageView
 import android.widget.TableLayout
 import domain.domain.BoardState
 import domain.domain.CoordinateState
-import woowacourse.omok.BoardView
 import woowacourse.omok.R
+import woowacourse.omok.presentation.BoardView
 
 class FinishBoardView(
     value: TableLayout,

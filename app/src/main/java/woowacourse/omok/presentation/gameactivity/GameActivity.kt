@@ -1,4 +1,4 @@
-package woowacourse.omok.gameactivity
+package woowacourse.omok.presentation.gameactivity
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +11,7 @@ import domain.domain.Position
 import domain.domain.ProgressState
 import domain.library.combinerule.CombinedRuleAdapter
 import woowacourse.omok.R
-import woowacourse.omok.finishactivity.FinishActivity
+import woowacourse.omok.presentation.finishactivity.FinishActivity
 
 class GameActivity : AppCompatActivity() {
 

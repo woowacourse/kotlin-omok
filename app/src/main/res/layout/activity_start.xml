@@ -5,7 +5,7 @@
     android:id="@+id/layout_start"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StartActivity">
+    tools:context=".presentation.StartActivity">
 
     <TextView
         android:id="@+id/tv_start"

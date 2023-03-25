@@ -12,10 +12,10 @@
         android:theme="@style/Theme.Oomok"
         tools:targetApi="31">
         <activity
-            android:name=".finishactivity.FinishActivity"
+            android:name=".presentation.finishactivity.FinishActivity"
             android:exported="false" />
         <activity
-            android:name=".StartActivity"
+            android:name=".presentation.StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".gameactivity.GameActivity"
+            android:name=".presentation.gameactivity.GameActivity"
             android:exported="false" />
     </application>
 

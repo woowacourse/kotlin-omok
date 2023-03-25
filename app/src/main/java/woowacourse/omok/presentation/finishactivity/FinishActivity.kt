@@ -1,4 +1,4 @@
-package woowacourse.omok.finishactivity
+package woowacourse.omok.presentation.finishactivity
 
 import android.os.Bundle
 import android.widget.TextView

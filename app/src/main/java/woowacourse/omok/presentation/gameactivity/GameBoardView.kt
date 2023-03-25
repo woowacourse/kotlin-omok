@@ -1,8 +1,8 @@
-package woowacourse.omok.gameactivity
+package woowacourse.omok.presentation.gameactivity
 
 import android.widget.ImageView
 import android.widget.TableLayout
-import woowacourse.omok.BoardView
+import woowacourse.omok.presentation.BoardView
 import woowacourse.omok.util.setOnSingleClickListener
 
 class GameBoardView(

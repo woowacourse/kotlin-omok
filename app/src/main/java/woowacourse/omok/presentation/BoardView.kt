@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.presentation
 
 import android.widget.ImageView
 import android.widget.TableLayout
