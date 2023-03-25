@@ -24,11 +24,11 @@ import woowacourse.omok.database.StonePositionDbHelper
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var board: TableLayout
-    private lateinit var retryButton: Button
+    private val board: TableLayout by lazy { findViewById<TableLayout>(R.id.board) }
+    private val retryButton: Button by lazy { findViewById(R.id.retry_btn) }
     private lateinit var boardViews: List<List<ImageView>>
 
-    private lateinit var db: SQLiteDatabase
+    private val db: SQLiteDatabase by lazy { StonePositionDbHelper(this).writableDatabase }
     private var state: State = BlackTurn()
     private val boardMap: Board = Board()
 
@@ -36,9 +36,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        db = StonePositionDbHelper(this).writableDatabase
-        board = findViewById<TableLayout>(R.id.board)
-        retryButton = findViewById(R.id.retry_btn)
         boardViews = getBoardViews()
 
         updateBoardViewFromDb()
@@ -118,7 +115,6 @@ class MainActivity : AppCompatActivity() {
     private fun setRetryButtonClickEvent() {
         retryButton.setOnClickListener {
             db.delete(StonePositionConstract.TABLE_NAME, "", arrayOf())
-            val originBoardViews: List<List<ImageView>> = getBoardViews()
         }
     }
 
