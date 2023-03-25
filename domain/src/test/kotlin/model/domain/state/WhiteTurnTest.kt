@@ -9,7 +9,7 @@ import org.junit.jupiter.api.assertAll
 
 class WhiteTurnTest {
     @Test
-    fun `WhiteTurn 에서 BlackTurn 이 된다`() {
+    fun `BlackTurn 에서 돌을 하나 놓으면 WhiteTurn 이 된다`() {
         // given
         val board = Board.from(15)
         val state: State = WhiteTurn(board)
