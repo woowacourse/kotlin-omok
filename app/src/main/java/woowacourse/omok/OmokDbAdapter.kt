@@ -39,7 +39,6 @@ class OmokDbAdapter(db: OmokDbHelper) {
 
     fun nextStone(): Stone {
         if (cursor.count.isOdd()) {
-            cursor.close()
             return Stone.WHITE
         }
         return Stone.BLACK
