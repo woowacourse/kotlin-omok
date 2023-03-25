@@ -1,6 +1,7 @@
 package woowacourse.omok.presentation
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -9,8 +10,10 @@ import androidx.core.view.children
 import model.domain.tools.Stone.BLACK
 import model.domain.tools.Stone.EMPTY
 import model.domain.tools.Stone.WHITE
-import view.GuideView
 import woowacourse.omok.R
+import woowacourse.omok.model.data.BoardContract.FeedEntry.TABLE_COLUMN_LOCATION
+import woowacourse.omok.model.data.BoardDbHelper
+import woowacourse.omok.model.domain.GameStateManager
 import woowacourse.omok.model.domain.StoneWithStateInBoard
 import woowacourse.omok.model.domain.StoneWithStateInBoard.PlaceState.ABLE
 import woowacourse.omok.model.domain.StoneWithStateInBoard.PlaceState.DISABLE
@@ -21,20 +24,47 @@ import woowacourse.omok.util.shortToastWithString
 class MainActivity : AppCompatActivity() {
     private val stoneWithStateInBoard: StoneWithStateInBoard by lazy { StoneWithStateInBoard() }
     private val board: Sequence<ImageView> by lazy { createBoard() }
+    private val boardDbHelper: BoardDbHelper by lazy { BoardDbHelper(this) }
+    private val gameStateManager: GameStateManager by lazy { GameStateManager(boardDbHelper) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        GuideView.printStart()
+        setBoardWhenResumed()
         setClickEventOnBoard()
+        setClickEventOfResetButton()
+    }
+
+    private fun setBoardWhenResumed() {
+        with(gameStateManager.cursor) {
+            while (moveToNext()) {
+                val location = getInt(getColumnIndexOrThrow(TABLE_COLUMN_LOCATION))
+                stoneWithStateInBoard.placeStone(location)
+                setStoneWhenResumed(location)
+            }
+        }
+    }
+
+    private fun setStoneWhenResumed(location: Int) {
+        board.forEachIndexed { index, view ->
+            if (index == location) setStoneImageByColor(view)
+        }
+    }
+
+    private fun setClickEventOfResetButton() {
+        val resetButton = findViewById<Button>(R.id.btn_main_reset)
+        resetButton.setOnClickListener {
+            gameStateManager.deleteGame()
+        }
     }
 
     private fun setClickEventOnBoard() {
-        board.forEachIndexed { number, view ->
+        board.forEachIndexed { location, view ->
             view.setOnClickListener {
-                stoneWithStateInBoard.placeStone(number)
+                stoneWithStateInBoard.placeStone(location)
                 observePlaceState(view)
+                gameStateManager.saveGame(location)
             }
         }
     }
@@ -68,6 +98,11 @@ class MainActivity : AppCompatActivity() {
         .filterIsInstance<TableRow>()
         .flatMap { it.children }
         .filterIsInstance<ImageView>()
+
+    override fun onDestroy() {
+        boardDbHelper.close()
+        super.onDestroy()
+    }
 
     companion object {
         private const val IDLE = "IDLE"
