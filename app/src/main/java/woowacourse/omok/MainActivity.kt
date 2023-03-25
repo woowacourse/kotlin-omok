@@ -22,18 +22,27 @@ import woowacourse.omok.db.OmokDBHelper
 
 class MainActivity : AppCompatActivity() {
     private val omokGame = OmokGame()
-    private lateinit var board: TableLayout
-    private lateinit var tvStatus: TextView
-    private lateinit var btnReset: Button
-    private lateinit var dbHelper: OmokDBHelper
-    private lateinit var boardView: List<List<ImageView>>
+    private val board: TableLayout by lazy {
+        findViewById(R.id.board)
+    }
+    private val tvStatus: TextView by lazy {
+        findViewById(R.id.tv_status)
+    }
+    private val btnReset: Button by lazy {
+        findViewById(R.id.btn_reset)
+    }
+    private val boardView: List<List<ImageView>> by lazy {
+        board.children
+            .filterIsInstance<TableRow>()
+            .map { it.children.filterIsInstance<ImageView>().toList() }.toList()
+    }
+    private val dbHelper: OmokDBHelper by lazy {
+        OmokDBHelper(this)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        dbHelper = OmokDBHelper(this)
-
-        initView()
         initData()
 
         btnReset.setOnClickListener {
@@ -53,16 +62,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun initView() {
-        board = findViewById(R.id.board)
-        tvStatus = findViewById(R.id.tv_status)
-        btnReset = findViewById(R.id.btn_reset)
-
-        boardView = board.children
-            .filterIsInstance<TableRow>()
-            .map { it.children.filterIsInstance<ImageView>().toList() }.toList()
     }
 
     private fun initData() {
