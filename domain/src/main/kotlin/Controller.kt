@@ -1,4 +1,5 @@
 import domain.Board
+import domain.Color
 import domain.OmokGame
 import domain.RenjuRuleAdapter
 import view.InputView
@@ -9,13 +10,13 @@ class Controller {
         OutputView.printStart()
         val omokGame = OmokGame(Board(rule = RenjuRuleAdapter()))
         OutputView.printCurrentState(omokGame)
-        var winnerColor =
-            omokGame.getWinnerColorPhase(OutputView::printCurrentState, InputView::inputPosition)
+        var winnerColor: Color? = null
         while (winnerColor == null) {
+            val stone = omokGame.getStone(InputView::inputPosition)
             winnerColor = omokGame.getWinnerColorPhase(
-                OutputView::printCurrentState,
-                InputView::inputPosition
+                stone = stone
             )
+            OutputView.printCurrentState(omokGame)
         }
         if (winnerColor != null) {
             OutputView.printResult(winnerColor, omokGame.board)
