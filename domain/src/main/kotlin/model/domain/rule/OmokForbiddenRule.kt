@@ -4,7 +4,9 @@ import model.domain.tools.Board
 import model.domain.tools.Coordination
 import model.domain.tools.Location
 import model.domain.tools.Stone
-import model.domain.tools.Stone.*
+import model.domain.tools.Stone.BLACK
+import model.domain.tools.Stone.EMPTY
+import model.domain.tools.Stone.WHITE
 
 class OmokForbiddenRule(private val board: Board, currentStone: Stone) {
 
@@ -15,7 +17,14 @@ class OmokForbiddenRule(private val board: Board, currentStone: Stone) {
     private fun getLocationRow(row: Int): List<Int> =
         List(15) { col ->
             getStoneNumber(
-                requireNotNull(board.system[Location(Coordination.from(row), Coordination.from(col))]),
+                requireNotNull(
+                    board.system[
+                        Location(
+                            Coordination.from(row),
+                            Coordination.from(col),
+                        ),
+                    ],
+                ),
             )
         }
 
