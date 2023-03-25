@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import domain.OmokBoard
-import domain.OmokGame
 import domain.OmokGameListener
 import domain.State
 import domain.Stone
@@ -33,7 +32,17 @@ class MainActivity : AppCompatActivity() {
 
         val omokGameListener = object : OmokGameListener {
 
-            override fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {}
+            override fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {
+                val stoneImage = when (state) {
+                    State.BLACK -> R.drawable.white_stone
+                    State.WHITE -> R.drawable.black_stone
+                    State.EMPTY -> null
+                }
+
+                stoneImage?.let {
+                    omokUiBoard[stone.row * BOARD_SIZE + stone.column].setImageResource(it)
+                }
+            }
 
             override fun onMoveFail() {
                 Toast.makeText(this@MainActivity, "중복된 위치입니다.", Toast.LENGTH_SHORT).show()
@@ -48,74 +57,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val stones: List<StoneEntity> = omokDatabase.fetchStones()
-
-        val blackCount: Int = stones.filter { stone ->
-            stone.color == State.BLACK.name
-        }.size
-
-        var isBlackTurn = (blackCount == stones.size - blackCount)
-
-        val omokBoard = setUpBoard(
-            omokUiBoard = omokUiBoard,
-            stones = stones
-        )
-
-        val omokGame = OmokGame(
-            omokBoard = omokBoard,
-            omokGameListener = omokGameListener
+        val omokController = OmokController(
+            omokGameListener, omokDatabase, omokUiBoard
         )
 
         omokUiBoard.forEachIndexed { index, view ->
-
             view.setOnClickListener {
-                val row = index / BOARD_SIZE
-                val col = index % BOARD_SIZE
-
-                val state = if (isBlackTurn) {
-                    State.BLACK
-                } else {
-                    State.WHITE
-                }
-                val stoneImage = when (state) {
-                    State.BLACK -> R.drawable.black_stone
-                    State.WHITE -> R.drawable.white_stone
-                    State.EMPTY -> null
-                }
-
-                if (omokGame.successTurn(Stone(row, col), state)) {
-                    stoneImage?.let { view.setImageResource(it) }
-                    omokDatabase.saveStone(index, state)
-                    isBlackTurn = !isBlackTurn
-                    omokGame.isVictory(state)
-                }
+                omokController.run(index)
             }
         }
-    }
-
-    private fun setUpBoard(omokUiBoard: List<ImageView>, stones: List<StoneEntity>): OmokBoard {
-
-        val omokBoard = MutableList(OmokBoard.BOARD_SIZE) {
-            MutableList(OmokBoard.BOARD_SIZE) {
-                State.EMPTY
-            }
-        }
-
-        stones.forEach { stone ->
-            val index = stone.index
-            val row = index / BOARD_SIZE
-            val column = index % BOARD_SIZE
-
-            if (stone.color == State.BLACK.name) {
-                omokUiBoard[index].setImageResource(R.drawable.black_stone)
-                omokBoard[row][column] = State.BLACK
-            }
-            if (stone.color == State.WHITE.name) {
-                omokUiBoard[index].setImageResource(R.drawable.white_stone)
-                omokBoard[row][column] = State.WHITE
-            }
-        }
-        return OmokBoard(omokBoard)
     }
 
     private fun moveToGameOver(state: State) {
