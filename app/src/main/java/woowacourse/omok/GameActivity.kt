@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import domain.domain.CoordinateState
@@ -14,7 +13,6 @@ import domain.domain.Position
 import domain.domain.ProgressState
 import domain.library.combinerule.CombinedRuleAdapter
 import woowacourse.omok.util.setOnSingleClickListener
-import kotlin.properties.Delegates
 
 class GameActivity : AppCompatActivity() {
 
@@ -22,11 +20,7 @@ class GameActivity : AppCompatActivity() {
 
     private lateinit var turnView: TurnView
     private lateinit var lastPositionView: LastPositionView
-    private lateinit var tvMessage: TextView
-
-    private var message: String by Delegates.observable("") { _, _, new ->
-        tvMessage.text = new
-    }
+    private lateinit var messageView: MessageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,17 +29,12 @@ class GameActivity : AppCompatActivity() {
         val board = findViewById<TableLayout>(R.id.board)
         setBoardOnclickListener(board)
         initViewId()
-        initGameViewState()
     }
 
     private fun initViewId() {
         turnView = TurnView(findViewById(R.id.tv_turn), omokGame)
         lastPositionView = LastPositionView(findViewById(R.id.tv_last_position), omokGame)
-        tvMessage = findViewById(R.id.tv_message)
-    }
-
-    private fun initGameViewState() {
-        tvMessage.text = getText(R.string.start_message)
+        messageView = MessageView(findViewById(R.id.tv_message), omokGame)
     }
 
     private fun setBoardOnclickListener(board: TableLayout) {
@@ -94,14 +83,6 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun printError() {
-        message = getString(R.string.turn_error_message)
-    }
-
-    private fun printRequestPosition() {
-        message = getString(R.string.request_position_message)
-    }
-
     private fun finishGame(winner: CoordinateState) {
         val intent = Intent(this, FinishActivity::class.java).apply {
             putExtra("winner", winner)
@@ -114,7 +95,7 @@ class GameActivity : AppCompatActivity() {
     private fun progressGame(position: Position): Boolean =
         when (omokGame.progressTurn(position)) {
             ProgressState.ERROR -> {
-                printError()
+                messageView.printError()
                 false
             }
             ProgressState.END -> {
@@ -122,7 +103,7 @@ class GameActivity : AppCompatActivity() {
                 true
             }
             ProgressState.CONTINUE -> {
-                printRequestPosition()
+                messageView.printRequestPosition()
                 true
             }
         }
