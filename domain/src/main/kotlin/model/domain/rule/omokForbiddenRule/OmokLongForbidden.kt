@@ -1,17 +1,12 @@
-package model.domain.rule
+package model.domain.rule.omokForbiddenRule
 
 import model.domain.tools.Board
 import model.domain.tools.Location
 import model.domain.tools.Stone
 
-object OmokLongForbidden {
-    private const val START = 0
-    private const val END = 14
-    private const val NOTHING = 0
-    private const val LONGOMOK = 6
-    private val COORDINATION_SYSTEM_RANGE = START..END
+class OmokLongForbidden(private val board: Board, private val stone: Stone) : OmokForbiddenRule {
 
-    fun isForbidden(board: Board, location: Location, stone: Stone): Boolean {
+    override fun isForbidden(location: Location): Boolean {
         val row = location.coordinationX.value
         val col = location.coordinationY.value
         val directions: List<Pair<Int, Int>> = listOf(
@@ -44,5 +39,13 @@ object OmokLongForbidden {
             }
         }
         return false
+    }
+
+    companion object {
+        private const val START = 0
+        private const val END = 14
+        private const val NOTHING = 0
+        private const val LONGOMOK = 6
+        private val COORDINATION_SYSTEM_RANGE = START..END
     }
 }

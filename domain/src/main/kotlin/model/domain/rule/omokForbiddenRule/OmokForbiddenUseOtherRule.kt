@@ -1,16 +1,16 @@
-package model.domain.rule
+package model.domain.rule.omokForbiddenRule
 
 import model.domain.tools.Board
 import model.domain.tools.Location
 import model.domain.tools.Stone
 
-class OmokForbiddenRuleAdapter(board: Board, currentStone: Stone) : OmokForbiddenRule {
+abstract class OmokForbiddenUseOtherRule(board: Board, currentStone: Stone) {
 
-    private val convertBoard: List<List<Int>> = List(OMOK_SIZE) { row ->
+    protected val convertBoard: List<List<Int>> = List(OMOK_SIZE) { row ->
         getLocationRow(row, board)
     }
 
-    private val stoneState: Int = when (currentStone) {
+    protected val stoneState: Int = when (currentStone) {
         Stone.BLACK -> BLACK_STONE
         Stone.WHITE -> WHITE_STONE
         Stone.EMPTY -> EMPTY_STONE
@@ -20,13 +20,6 @@ class OmokForbiddenRuleAdapter(board: Board, currentStone: Stone) : OmokForbidde
         List(OMOK_SIZE) { col ->
             getStoneNumber(requireNotNull(board.system[Location(row, col)]))
         }
-
-    override fun isForbidden(location: Location): Boolean {
-        val x = location.coordinationY.value
-        val y = location.coordinationX.value
-        val otherRule = OtherForbiddenRule(convertBoard, stoneState)
-        return otherRule.countOpenFours(x, y) >= 2 || otherRule.countOpenThrees(x, y) >= 2
-    }
 
     private fun getStoneNumber(stone: Stone): Int = when (stone) {
         Stone.BLACK -> BLACK_STONE

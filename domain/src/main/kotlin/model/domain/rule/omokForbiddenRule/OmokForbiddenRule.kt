@@ -1,4 +1,4 @@
-package model.domain.rule
+package model.domain.rule.omokForbiddenRule
 
 import model.domain.tools.Location
 
