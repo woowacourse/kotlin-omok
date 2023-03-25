@@ -1179,5 +1179,14 @@
                 android:background="@drawable/board_bottom_right" />
         </TableRow>
 
+        <Button
+            android:id="@+id/btn_main_reset"
+            android:layout_width="15dp"
+            android:text="reset"
+            android:layout_marginTop="200dp"
+            android:layout_marginStart="150dp"
+            android:layout_marginEnd="150dp"
+            />
     </TableLayout>
+
 </LinearLayout>
