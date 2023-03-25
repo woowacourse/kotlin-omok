@@ -29,13 +29,13 @@ class WinnerActivity : AppCompatActivity() {
 
         val restart = findViewById<Button>(R.id.restart_game)
         restart.setOnClickListener {
-            startNewGame(getSharedPreferences("Omok", MODE_PRIVATE).getString("nickname", "닉네임") ?: "")
+            startNewGame(Omok.sharedPref.getString("nickname", "닉네임") ?: "")
         }
     }
 
     private fun setPlayerWin(imageView: ImageView, textView: TextView) {
         imageView.setImageResource(R.drawable.black_stone)
-        val winnerNickname = getSharedPreferences("Omok", MODE_PRIVATE).getString("nickname", "닉네임")
+        val winnerNickname = Omok.sharedPref.getString("nickname", "닉네임")
         textView.text = "$winnerNickname 우승"
     }
 

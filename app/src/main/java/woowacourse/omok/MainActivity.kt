@@ -29,7 +29,7 @@ import woowacourse.omok.db.PlayerContract
 class MainActivity : AppCompatActivity() {
     private val omokDB: SQLiteDatabase by lazy { OmokDBHelper(this).writableDatabase }
     private val nickname: String by lazy {
-        getSharedPreferences("Omok", MODE_PRIVATE).getString("nickname", "닉네임") ?: ""
+        Omok.sharedPref.getString("nickname", "닉네임") ?: ""
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

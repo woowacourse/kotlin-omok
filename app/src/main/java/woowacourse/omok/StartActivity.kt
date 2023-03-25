@@ -93,7 +93,7 @@ class StartActivity : AppCompatActivity() {
 
     private fun goToGame(nickname: String) {
         val intent = Intent(this, MainActivity::class.java)
-        getSharedPreferences("Omok", MODE_PRIVATE)
+        Omok.sharedPref
             .edit()
             .putString("nickname", nickname)
             .apply()
