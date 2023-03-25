@@ -23,8 +23,13 @@ class WinnerActivity : AppCompatActivity() {
         val winnerImageView = findViewById<ImageView>(R.id.winner)
         val winnerTextView = findViewById<TextView>(R.id.winner_nickname)
         when (intent.getStringExtra("winner")) {
-            Black.toString() -> setPlayerWin(winnerImageView, winnerTextView)
-            White.toString() -> setKungYaWin(winnerImageView, winnerTextView)
+            Black.toString() -> {
+                val nickname = Omok.sharedPref.getString("nickname", "닉네임") ?: ""
+                setWinner(winnerImageView, R.drawable.black_stone, winnerTextView, nickname)
+            }
+            White.toString() -> {
+                setWinner(winnerImageView, R.drawable.white_stone, winnerTextView, "양파 쿵야")
+            }
         }
 
         val restart = findViewById<Button>(R.id.restart_game)
@@ -33,15 +38,9 @@ class WinnerActivity : AppCompatActivity() {
         }
     }
 
-    private fun setPlayerWin(imageView: ImageView, textView: TextView) {
-        imageView.setImageResource(R.drawable.black_stone)
-        val winnerNickname = Omok.sharedPref.getString("nickname", "닉네임")
-        textView.text = "$winnerNickname 우승"
-    }
-
-    private fun setKungYaWin(imageView: ImageView, textView: TextView) {
-        imageView.setImageResource(R.drawable.white_stone)
-        textView.text = "양파 쿵야 우승"
+    private fun setWinner(imageView: ImageView, imageResource: Int, textView: TextView, nickname: String) {
+        imageView.setImageResource(imageResource)
+        textView.text = "$nickname 승리"
     }
 
     private fun startNewGame(nickname: String) {
