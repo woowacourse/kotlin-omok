@@ -13,7 +13,7 @@ class OmokController(
     override fun run() {
         outputView.printGameStartMessage()
         val omokGame = OmokGame()
-        while (omokGame.isFinished) {
+        while (omokGame.isFinished.not()) {
             outputView.printOmokBoardState(omokGame.board)
             tryTurn(omokGame, omokGame.turnColor, omokGame.latestStone?.position)
         }
