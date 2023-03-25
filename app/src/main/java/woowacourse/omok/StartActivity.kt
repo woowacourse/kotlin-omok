@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import woowacourse.omok.gameactivity.GameActivity
 import woowacourse.omok.util.setOnSingleClickListener
 
 class StartActivity : AppCompatActivity() {

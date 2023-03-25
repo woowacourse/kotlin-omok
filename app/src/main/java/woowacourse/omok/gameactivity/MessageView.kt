@@ -1,10 +1,10 @@
-package woowacourse.omok
+package woowacourse.omok.gameactivity
 
-import android.provider.Settings.Global.getString
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import domain.domain.OmokGame
+import woowacourse.omok.R
 import kotlin.properties.Delegates
 
 class MessageView(private val value: TextView, omokGame: OmokGame) {

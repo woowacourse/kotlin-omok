@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.gameactivity
 
 import android.widget.TextView
 import domain.domain.OmokGame
