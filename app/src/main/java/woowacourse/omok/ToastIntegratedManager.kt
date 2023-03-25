@@ -3,7 +3,7 @@ package woowacourse.omok
 import android.content.Context
 import android.widget.Toast
 
-object ToastFactory {
+object ToastIntegratedManager {
     private var toast: Toast? = null
     fun showToast(context: Context, messageId: Int) {
         toast?.cancel()

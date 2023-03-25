@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var gameRetryButton: Button
     private lateinit var turnColorTextView: TextView
     private lateinit var turnColorTextBox: LinearLayout
-    private val originBoardDrawableSet: List<Drawable> by lazy { getPositionAllImageView().map { it.drawable } }
+    private val originBoardDrawableSet: List<Drawable> by lazy { getAllOmokPositionImageView().map { it.drawable } }
     private val backKeyHandler = BackKeyHandler(this)
     private val vibrationService: Vibrator by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -61,10 +61,10 @@ class MainActivity : AppCompatActivity() {
         setClickListener()
         stoneTableAdapter = StoneTableAdapter(this, roomId)
         this.onBackPressedDispatcher.addCallback(this, callback)
-        setGame()
+        startGame()
     }
 
-    private fun getPositionAllImageView(): List<ImageView> {
+    private fun getAllOmokPositionImageView(): List<ImageView> {
         return board
             .children
             .filterIsInstance<TableRow>()
@@ -84,15 +84,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun setClickListener() {
         gameEndButton.setOnClickListener { endButtonOnClick() }
-        gameRetryButton.setOnClickListener { setGame() }
-        getPositionAllImageView().forEachIndexed { index, view ->
+        gameRetryButton.setOnClickListener { startGame() }
+        getAllOmokPositionImageView().forEachIndexed { index, view ->
             view.setOnClickListener {
                 positionClick(convertIndexToPosition(index), view)
             }
         }
     }
 
-    private fun setGame() {
+    private fun startGame() {
         omokGame = OmokGame()
         val loadData = stoneTableAdapter.getAlreadyPutStones()
         loadData.forEach {
@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBoardView() {
-        getPositionAllImageView().forEachIndexed { index, view ->
+        getAllOmokPositionImageView().forEachIndexed { index, view ->
             val position = convertIndexToPosition(index)
             when (val color = omokGame.board[position]) {
                 null -> view.setImageDrawable(originBoardDrawableSet[index])
