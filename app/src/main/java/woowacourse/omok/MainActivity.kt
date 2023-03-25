@@ -1,54 +1,65 @@
 package woowacourse.omok
 
+import android.content.ContentValues
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import domain.*
 
 class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        val omokGame = OmokGame(Board(rule = RenjuRuleAdapter()))
-        var winner: Color? = null
-        val board = findViewById<TableLayout>(R.id.board)
-
-        getAllCoordinateView(board).forEachIndexed { index, view ->
-            view.setOnClickListener {
-                if (winner == null) {
-                    winner = omokGame.getWinnerColorPhase(
-                        { drawStone(view, omokGame.currentColor) },
-                        { getPosition(index) }
-                    )
-                }
-                winner?.let { showWinner(it) }
-            }
-        }
-    }
-
-    private fun getAllCoordinateView(board: TableLayout): List<ImageView> {
-        return board
+    private val turnTextView: TextView by lazy { findViewById<TextView>(R.id.turn) }
+    private val boardCoordinateViews: List<ImageView> by lazy {
+        findViewById<TableLayout>(R.id.board)
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .toList()
     }
-
-    private fun drawStone(view: ImageView, color: Color) {
-        view.setImageResource(getStoneImage(color))
+    private lateinit var omokGame: OmokGame
+    private val omokDbManager: OmokDbManager by lazy {
+        OmokDbManager(OmokDbHelper(this))
     }
 
-    private fun getPosition(number: Int): Position {
-        val boardSize = Board.getSize()
-        val x = number / boardSize
-        val y = number % boardSize
-        return Position(x, y)
+    private var winner: Color? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        omokGame = omokDbManager.getOmokGame()
+        printInitBoard(boardCoordinateViews, omokGame.board)
+        showTurn(omokGame.currentColor)
+
+        boardCoordinateViews.forEachIndexed { index, view ->
+            view.setOnClickListener {
+                val stone = omokGame.getStone { Converter.indexToPosition(index) }
+                printStone(view, stone)
+                omokDbManager.updateOmokDatabase(stone)
+                winner = omokGame.getWinnerColorPhase(stone)
+                showWinner(winner)
+                winner = reset(boardCoordinateViews, omokGame, winner)
+                showTurn(omokGame.currentColor)
+            }
+        }
+    }
+
+    private fun printInitBoard(boardCoordinateViews: List<ImageView>, board: Board) {
+        board.stones.values.forEach { stone ->
+            val index = Converter.positionToIndex(stone.position)
+            val stoneImage = getStoneImage(stone.color)
+            boardCoordinateViews[index].setImageResource(stoneImage)
+        }
+    }
+
+    private fun printStone(view: ImageView, stone: Stone?) {
+        if (stone != null) view.setImageResource(getStoneImage(stone.color))
     }
 
     private fun getStoneImage(color: Color): Int {
@@ -59,11 +70,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showWinner(color: Color?) {
-        return when (color) {
-            Color.BLACK -> showToastMessage(WINNER_MESSAGE.format("흑"))
-            Color.WHITE -> showToastMessage(WINNER_MESSAGE.format("백"))
-            null -> {}
+        when (color) {
+            Color.BLACK -> {
+                showToastMessage(WINNER_MESSAGE.format("흑"))
+                omokDbManager.deleteOmokDatabase()
+            }
+            Color.WHITE -> {
+                showToastMessage(WINNER_MESSAGE.format("백"))
+                omokDbManager.deleteOmokDatabase()
+            }
+            else -> {}
         }
+    }
+
+    private fun showTurn(color: Color) {
+        turnTextView.text = TURN_MESSAGE.format(Converter.colorToString(color))
+    }
+
+    private fun reset(allCoordinate: List<ImageView>, omokGame: OmokGame, winner: Color?): Color? {
+        if (winner == null) return null
+        omokGame.resetGame()
+        allCoordinate.forEach { it.setImageResource(0) }
+        return null
     }
 
     private fun showToastMessage(message: String) {
@@ -72,5 +100,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val WINNER_MESSAGE = "%s의 승리입니다"
+        private const val TURN_MESSAGE = "%s의 차례입니다"
     }
 }
