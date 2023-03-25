@@ -21,6 +21,10 @@ class OmokGame(private val board: Board) {
         }
     }
 
+    fun addStoneDirect(goStone: GoStone) {
+        board.addStone(goStone)
+    }
+
     private fun turn(
         coordinate: () -> Coordinate,
         showBoard: (Board) -> Unit,
