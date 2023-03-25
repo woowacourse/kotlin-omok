@@ -1,10 +1,10 @@
 package omok.view
 
-import omok.domain.Turn
 import omok.domain.board.Board
 import omok.domain.board.Column
 import omok.domain.board.Position
 import omok.domain.board.Row
+import omok.domain.player.Stone
 import omok.view.model.toPresentation
 
 class OutputView {
@@ -34,11 +34,11 @@ class OutputView {
         """.trimMargin()
     }
 
-    fun printWinner(turn: Turn) {
+    fun printWinner(turn: Stone) {
         println(
             """
             |
-            |${turn.now.toPresentation()}의 승리입니다~!!!
+            |${turn.toPresentation()}의 승리입니다~!!!
         """.trimMargin()
         )
     }
