@@ -3,7 +3,7 @@ package woowacourse.omok.database.stoneposition
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 
-class StonePositionHandler {
+class StonePositionDbHandler {
 
     fun deleteAllColumns(db: SQLiteDatabase) {
         db.delete(StonePositionConstract.TABLE_NAME, "", arrayOf())

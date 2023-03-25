@@ -20,8 +20,8 @@ import domain.stone.Board
 import domain.stone.StonePosition
 import view.OutputView
 import woowacourse.omok.database.stoneposition.StonePositionConstract
+import woowacourse.omok.database.stoneposition.StonePositionDbHandler
 import woowacourse.omok.database.stoneposition.StonePositionDbHelper
-import woowacourse.omok.database.stoneposition.StonePositionHandler
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var boardViews: List<List<ImageView>>
 
     private val db: SQLiteDatabase by lazy { StonePositionDbHelper(this).writableDatabase }
-    private val dbHandler: StonePositionHandler = StonePositionHandler()
+    private val dbHandler: StonePositionDbHandler = StonePositionDbHandler()
     private var state: State = BlackTurn()
     private val boardMap: Board = Board()
 
@@ -60,17 +60,16 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { row, it ->
                 it.children.filterIsInstance<ImageView>()
                     .forEachIndexed { col, view ->
-                        view.setOnClickListener { putStone(row, col, view) }
+                        view.setOnClickListener { putStone(StonePosition(col + 1, row + 1), view) }
                     }
             }
     }
 
-    private fun putStone(row: Int, col: Int, view: ImageView) {
-        val stonePosition: StonePosition = StonePosition(col + 1, row + 1)
+    private fun putStone(stonePosition: StonePosition, view: ImageView) {
         if (!state.isEnd() && !(state as Running).isPlaced(boardMap, stonePosition)) {
             view.setImageResource(getStoneImage(state))
             state = state.next(boardMap, stonePosition)
-            saveStoneToDb(row, col)
+            saveStoneToDb(stonePosition)
         }
         if (state.isEnd()) {
             retryButton.visibility = View.VISIBLE
@@ -82,10 +81,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveStoneToDb(row: Int, col: Int) {
+    private fun saveStoneToDb(stonePosition: StonePosition) {
         val values = ContentValues().apply {
-            put(StonePositionConstract.TABLE_COLUMN_ROW, row)
-            put(StonePositionConstract.TABLE_COLUMN_COLUMN, col)
+            put(StonePositionConstract.TABLE_COLUMN_ROW, stonePosition.y)
+            put(StonePositionConstract.TABLE_COLUMN_COLUMN, stonePosition.x)
         }
 
         db.insert(StonePositionConstract.TABLE_NAME, null, values)
@@ -100,7 +99,7 @@ class MainActivity : AppCompatActivity() {
                     getInt(getColumnIndexOrThrow(StonePositionConstract.TABLE_COLUMN_ROW))
                 val positionCol: Int =
                     getInt(getColumnIndexOrThrow(StonePositionConstract.TABLE_COLUMN_COLUMN))
-                putStone(positionRow, positionCol, boardViews[positionRow][positionCol])
+                putStone(StonePosition(positionCol, positionRow), boardViews[positionRow][positionCol])
             }
         }
 
