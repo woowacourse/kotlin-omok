@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                     if (gameBoard.processTurn(
                             Stone(
                                 currentColor,
-                                Coordinate.from(x, y)!!
+                                Coordinate.from(x, y)
                             )
                         )
                     ) {
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                     if (getString(getColumnIndexOrThrow(OmokGameContract.Stone.COLOR)) == Color.BLACK.toString()) Color.BLACK else Color.WHITE
                 val x = getInt(getColumnIndexOrThrow(OmokGameContract.Stone.X))
                 val y = getInt(getColumnIndexOrThrow(OmokGameContract.Stone.Y))
-                stones.add(Stone(color, Coordinate.from(x, y)!!))
+                stones.add(Stone(color, Coordinate.from(x, y)))
             }
         }
         return stones

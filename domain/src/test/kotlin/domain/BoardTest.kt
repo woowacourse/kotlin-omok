@@ -11,15 +11,15 @@ class BoardTest {
         val stones = Stones()
         val board = Board(stones)
         val coordinates = listOf<Coordinate>(
-            Coordinate.from(1, 1)!!,
-            Coordinate.from(1, 2)!!,
-            Coordinate.from(2, 1)!!,
-            Coordinate.from(2, 2)!!,
-            Coordinate.from(3, 1)!!,
-            Coordinate.from(3, 2)!!,
-            Coordinate.from(4, 1)!!,
-            Coordinate.from(4, 2)!!,
-            Coordinate.from(5, 1)!!,
+            Coordinate.from(1, 1),
+            Coordinate.from(1, 2),
+            Coordinate.from(2, 1),
+            Coordinate.from(2, 2),
+            Coordinate.from(3, 1),
+            Coordinate.from(3, 2),
+            Coordinate.from(4, 1),
+            Coordinate.from(4, 2),
+            Coordinate.from(5, 1),
         )
         var coordinateIndex = 0
         board.repeatTurn {

@@ -26,7 +26,7 @@ class GameController(
         ) ?: return readStone(color, stones)
 
         val point = PointMapper.dtoToDomain(pointDto)
-        return Coordinate.from(point.x, point.y) ?: return readStone(color, stones)
+        return Coordinate.from(point.x, point.y)
     }
 
     private fun renderBoard(stones: Stones) {

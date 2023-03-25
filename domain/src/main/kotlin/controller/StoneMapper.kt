@@ -15,7 +15,7 @@ object StoneMapper : Mapper<Stone, StoneDTO> {
     override fun dtoToDomain(source: StoneDTO): Stone {
         return Stone(
             ColorMapper.dtoToDomain(source.color),
-            Coordinate.from(source.coordinate.x, source.coordinate.y)!!
+            Coordinate.from(source.coordinate.x, source.coordinate.y)
         )
     }
 }
