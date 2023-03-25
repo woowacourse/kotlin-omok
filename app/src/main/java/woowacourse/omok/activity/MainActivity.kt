@@ -1,6 +1,5 @@
 package woowacourse.omok.activity
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -33,7 +32,7 @@ import woowacourse.omok.utils.positiveButton
 class MainActivity : AppCompatActivity() {
     private lateinit var board: TableLayout
     private lateinit var omok: Omok
-    private lateinit var omokRepo: Repository
+    private lateinit var omokRepo: Repository<Point>
     private lateinit var manTurnHolder: View
     private lateinit var womanTurnHolder: View
 
@@ -59,17 +58,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun continuePreviousGame() {
-        omokRepo.getAll {
-            if (it.count % 2 == 1) toggleTurnHolder(StoneColorModel.BLACK)
-            while (it.moveToNext()) {
-                val col = it.getInt(it.getColumnIndexOrThrow("x"))
-                val row = it.getInt(it.getColumnIndexOrThrow("y"))
-                val index = row * Omok.OMOK_BOARD_SIZE + col
-                val omokIv: ImageView = boardImageViews()[index]
-                val putResult = omok.put { Point(row, col) }
-                if (putResult is PutSuccess) {
-                    drawStoneOnBoard(omokIv, putResult.stoneColor)
-                }
+        val points = omokRepo.getAll()
+        if (points.size % 2 == 1) toggleTurnHolder(StoneColorModel.BLACK)
+        points.forEach { point ->
+            val index = point.row * Omok.OMOK_BOARD_SIZE + point.col
+            val omokIv: ImageView = boardImageViews()[index]
+            val putResult = omok.put { point }
+            if (putResult is PutSuccess) {
+                drawStoneOnBoard(omokIv, putResult.stoneColor)
             }
         }
     }
@@ -115,12 +111,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun savePoint(stoneColor: StoneColorModel, point: Point) {
-        val record = ContentValues().apply {
-            put("stone_color", stoneColor.value)
-            put("x", point.col)
-            put("y", point.row)
-        }
-        omokRepo.insert(record)
+        omokRepo.insert(point)
     }
 
     private fun hasPreviousGameHistory(): Boolean = !omokRepo.isEmpty()

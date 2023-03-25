@@ -1,11 +1,8 @@
 package woowacourse.omok.database.repository
 
-import android.content.ContentValues
-import android.database.Cursor
-
-interface Repository {
-    fun getAll(action: (Cursor) -> Unit)
-    fun insert(record: ContentValues)
+interface Repository<T> {
+    fun getAll(): List<T>
+    fun insert(item: T)
     fun isEmpty(): Boolean
     fun clear()
     fun close()
