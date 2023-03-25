@@ -1,16 +1,15 @@
 package domain
 
-class RenjuRuleAdapter(stones : Stones) {
-    private val renjuRule = RenjuRule(stones)
-    fun isThreeToThree(stone: Stone): Boolean {
-        return renjuRule.isThreeToThree(stone.coordinate.point)
+class RenjuRuleAdapter(private val renjuRule: RenjuRuleInterface) : RenjuRuleInterface {
+    override fun isThreeToThree(stone: Stone, stones: Stones): Boolean {
+        return renjuRule.isThreeToThree(stone, stones)
     }
 
-    fun isFourToFour(stone: Stone): Boolean {
-        return renjuRule.isFourToFour(stone.coordinate.point)
+    override fun isFourToFour(stone: Stone, stones: Stones): Boolean {
+        return renjuRule.isFourToFour(stone, stones)
     }
 
-    fun findScore(stone: Stone): Int {
-        return renjuRule.findScore(stone.coordinate,stone.color)
+    override fun isOverFive(stoneScore: Int): Boolean {
+        return renjuRule.isOverFive(stoneScore)
     }
 }

@@ -19,9 +19,10 @@ class RenjuRuleTest {
             WhiteStone(0, 3),
         )
         val stones = Stones(placedStones)
+        val blackStone = BlackStone(3, 11)
 
         // when
-        val actual = RenjuRule(stones).isThreeToThree(Point(3, 11))
+        val actual = RenjuRule().isThreeToThree(blackStone, stones)
 
         // then
         assertThat(actual).isTrue
@@ -37,9 +38,10 @@ class RenjuRuleTest {
             BlackStone(4, 4),
         )
         val stones = Stones(placedStones)
+        val blackStone = BlackStone(4, 2)
 
         // when
-        val actual = RenjuRule(stones).isThreeToThree(Point(4, 2))
+        val actual = RenjuRule().isThreeToThree(blackStone, stones)
 
         // then
         assertThat(actual).isTrue
@@ -55,9 +57,10 @@ class RenjuRuleTest {
             BlackStone(13, 8),
         )
         val stones = Stones(placedStones)
+        val blackStone = BlackStone(11, 10)
 
         // when
-        val actual = RenjuRule(stones).isThreeToThree(Point(11, 10))
+        val actual = RenjuRule().isThreeToThree(blackStone, stones)
 
         // then
         assertThat(actual).isTrue
@@ -73,9 +76,10 @@ class RenjuRuleTest {
             BlackStone(13, 3),
         )
         val stones = Stones(placedStones)
+        val blackStone = BlackStone(10, 3)
 
         // when
-        val actual = RenjuRule(stones).isThreeToThree(Point(10, 3))
+        val actual = RenjuRule().isThreeToThree(blackStone, stones)
 
         // then
         assertThat(actual).isTrue
@@ -92,30 +96,24 @@ class RenjuRuleTest {
             WhiteStone(9, 3),
         )
         val stones = Stones(placedStones)
+        val blackStone = BlackStone(11, 3)
 
         // when
-        val actual = RenjuRule(stones).isThreeToThree(Point(10, 3))
+        val actual = RenjuRule().isThreeToThree(blackStone, stones)
 
         // then
         assertThat(actual).isFalse
     }
 
     @Test
-    fun `흑색돌이 6개 연속 있을 때 육목이다`() {
-        val placedStones = listOf<Stone>(
-            BlackStone(2, 14),
-            BlackStone(2, 13),
-            BlackStone(2, 11),
-            BlackStone(2, 10),
-            BlackStone(2, 9),
-        )
-        val stones = Stones(placedStones)
-
+    fun `돌이 6개이상 연속 있을 때 육목이다`() {
+        //given
+        val stoneScore = 6
         // when
-        val actual = RenjuRule(stones).findScore(Coordinate.from(2, 12)!!, Color.BLACK)
+        val actual = RenjuRule().isOverFive(stoneScore)
 
         // then
-        assertThat(actual).isGreaterThanOrEqualTo(5)
+        assertThat(actual).isFalse
     }
 
     @Test
@@ -131,7 +129,7 @@ class RenjuRuleTest {
         val stones = Stones(placedStones)
 
         // when
-        val actual = RenjuRule(stones).isFourToFour(Point(2, 7))
+        val actual = RenjuRule().isFourToFour(BlackStone(2, 7), stones)
 
         assertThat(actual).isTrue
     }
@@ -148,7 +146,7 @@ class RenjuRuleTest {
         val stones = Stones(placedStones)
 
         // when
-        val actual = RenjuRule(stones).isFourToFour(Point(5, 12))
+        val actual = RenjuRule().isFourToFour(BlackStone(5, 12), stones)
 
         assertThat(actual).isTrue
     }
@@ -165,7 +163,7 @@ class RenjuRuleTest {
         val stones = Stones(placedStones)
 
         // when
-        val actual = RenjuRule(stones).isFourToFour(Point(9, 9))
+        val actual = RenjuRule().isFourToFour(BlackStone(9, 9), stones)
 
         assertThat(actual).isTrue
     }
@@ -184,7 +182,7 @@ class RenjuRuleTest {
         val stones = Stones(placedStones)
 
         // when
-        val actual = RenjuRule(stones).isFourToFour(Point(8, 7))
+        val actual = RenjuRule().isFourToFour(BlackStone(8, 7), stones)
 
         assertThat(actual).isTrue
     }
@@ -205,7 +203,7 @@ class RenjuRuleTest {
         val stones = Stones(placedStones)
 
         // when
-        val actual = RenjuRule(stones).isFourToFour(Point(7, 4))
+        val actual = RenjuRule().isFourToFour(BlackStone(7, 4), stones)
 
         assertThat(actual).isTrue
     }

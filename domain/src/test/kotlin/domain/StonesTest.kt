@@ -172,13 +172,15 @@ class StonesTest {
     }
 
     @Test
-    fun `돌이 없는 경우 IllegalArgumentException을 발생시킨다`() {
+    fun `돌이 없을 때, 승리 판별시, IllegalArugumentException을 반환한다`() {
         //given
-        val stones = Stones()
+        val placedStones = emptyList<Stone>()
+        val stones = Stones(placedStones)
 
         //then
-        assertThrows<IllegalArgumentException> {
-            stones.validateEmptyStones()
+        assertThrows<java.lang.IllegalArgumentException> {
+            stones.isWinPlace()
         }
+
     }
 }

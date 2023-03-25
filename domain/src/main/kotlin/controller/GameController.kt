@@ -1,15 +1,12 @@
 package controller
 
-import domain.Board
-import domain.Color
-import domain.Coordinate
-import domain.Stones
+import domain.*
 import dto.PointDTO
 import view.ConsoleGameView
 import view.GameView
 
 class GameController(
-    private val gameView: GameView = ConsoleGameView()
+    private val gameView: GameView = ConsoleGameView(),
 ) {
     fun process() {
         val stones = Stones()
