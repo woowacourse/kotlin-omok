@@ -18,13 +18,6 @@ class OmokDBAdapter(db: OmokDBHelper) {
         null
     )
 
-    private fun String.descriptionToColor(): Color {
-        return when (this) {
-            BLACK_DESCRIPTION -> Color.Black
-            WHITE_DESCRIPTION -> Color.White
-            else -> throw IllegalArgumentException(COLOR_ERROR)
-        }
-    }
 
     fun getStones(): List<Stone> {
         val stones = mutableListOf<Stone>()
@@ -52,9 +45,5 @@ class OmokDBAdapter(db: OmokDBHelper) {
         if (writableDB.isOpen) {
             writableDB.delete(OmokContract.TABLE_NAME, null, null)
         }
-    }
-
-    companion object {
-        private const val COLOR_ERROR = "[ERROR] 알 수 없는 색깔입니다."
     }
 }
