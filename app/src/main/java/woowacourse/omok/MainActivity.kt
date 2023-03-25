@@ -17,8 +17,6 @@ import model.domain.tools.Board
 import model.domain.tools.Dot
 import model.domain.tools.Location
 import model.domain.tools.Stone
-import woowacourse.omok.OmokViewUtil.getDot
-import woowacourse.omok.OmokViewUtil.getStoneMessage
 import woowacourse.omok.model.data.OmokDbHelper
 
 class MainActivity : AppCompatActivity() {
@@ -32,14 +30,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        omokDbHelper = OmokDbHelper(this)
         runOmok()
+    }
+
+    override fun onDestroy() {
+        omokDbHelper.close()
+        super.onDestroy()
     }
 
     private fun runOmok() {
         val omokGame = OmokGame()
         val board = Board.from(BOARD_SIZE)
 
-        omokDbHelper = OmokDbHelper(this)
         setOmokTurn(board)
         omokDbAdapter.load(state.board)
         loadBoardView(omokGame)
@@ -84,7 +87,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun clickEvent(omokGame: OmokGame, index: Int, view: ImageView) {
-        val nextState = omokGame.playNextTurn(state, getDot(index))
+        val nextState = omokGame.playNextTurn(state, Dot.from(index, BOARD_SIZE))
 
         putStone(nextState, index, view)
         state = nextState
@@ -101,13 +104,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun endOmokGame() {
-        Toast.makeText(
-            this,
-            WINNER_MESSAGE.format(getStoneMessage(state.stone)),
-            Toast.LENGTH_SHORT
-        ).show()
+        Toast.makeText(this, getWinnerText(state.stone), Toast.LENGTH_SHORT).show()
         omokDbAdapter.deleteStones()
     }
+
+    private fun getWinnerText(stone: Stone) =
+        when (stone) {
+            Stone.BLACK -> WINNER_MESSAGE.format(BLACK_TEXT)
+            Stone.WHITE -> WINNER_MESSAGE.format(WHITE_TEXT)
+            Stone.EMPTY -> ""
+        }
 
     private fun setStoneImage(stone: Stone, view: ImageView) {
         when (stone) {
@@ -118,6 +124,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        private const val BLACK_TEXT = "흑돌"
+        private const val WHITE_TEXT = "백돌"
         private const val WINNER_MESSAGE = "%s 이 승리했습니다!"
         private const val FORBIDDEN_MESSAGE = "돌을 놓을 수 없습니다."
     }
