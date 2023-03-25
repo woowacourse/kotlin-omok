@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.view.View
@@ -69,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         if (!state.isEnd() && !(state as Running).isPlaced(boardMap, stonePosition)) {
             view.setImageResource(getStoneImage(state))
             state = state.next(boardMap, stonePosition)
-            saveStoneToDb(stonePosition)
+            dbHandler.addColumn(db, stonePosition)
         }
         if (state.isEnd()) {
             retryButton.visibility = View.VISIBLE
@@ -79,15 +78,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
-    }
-
-    private fun saveStoneToDb(stonePosition: StonePosition) {
-        val values = ContentValues().apply {
-            put(StonePositionConstract.TABLE_COLUMN_ROW, stonePosition.y)
-            put(StonePositionConstract.TABLE_COLUMN_COLUMN, stonePosition.x)
-        }
-
-        db.insert(StonePositionConstract.TABLE_NAME, null, values)
     }
 
     private fun updateBoardViewFromDb() {

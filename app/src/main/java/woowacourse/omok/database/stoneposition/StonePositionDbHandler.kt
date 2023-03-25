@@ -1,7 +1,9 @@
 package woowacourse.omok.database.stoneposition
 
+import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import domain.stone.StonePosition
 
 class StonePositionDbHandler {
 
@@ -18,5 +20,14 @@ class StonePositionDbHandler {
             ),
             "", arrayOf(), null, null, ""
         )
+    }
+
+    fun addColumn(db: SQLiteDatabase, stonePosition: StonePosition) {
+        val values = ContentValues().apply {
+            put(StonePositionConstract.TABLE_COLUMN_ROW, stonePosition.y)
+            put(StonePositionConstract.TABLE_COLUMN_COLUMN, stonePosition.x)
+        }
+
+        db.insert(StonePositionConstract.TABLE_NAME, null, values)
     }
 }
