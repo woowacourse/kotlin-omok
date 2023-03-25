@@ -14,17 +14,18 @@ import woowacourse.omok.model.data.OmokDbHelper
 class OmokDbAdapter(db: OmokDbHelper) {
 
     private val wdb: SQLiteDatabase = db.writableDatabase
+    private val cursor = wdb.query(
+        TABLE_NAME,
+        arrayOf(TABLE_COLUMN_INDEX, TABLE_COLUMN_STONE_COLOR),
+        null,
+        null,
+        null,
+        null,
+        null
+    )
 
     fun load(board: Board) {
-        val cursor = wdb.query(
-            TABLE_NAME,
-            arrayOf(TABLE_COLUMN_INDEX, TABLE_COLUMN_STONE_COLOR),
-            null,
-            null,
-            null,
-            null,
-            null
-        )
+
         while (cursor.moveToNext()) {
             val index = cursor.getInt(cursor.getColumnIndexOrThrow(TABLE_COLUMN_INDEX))
             val stone =
@@ -33,25 +34,13 @@ class OmokDbAdapter(db: OmokDbHelper) {
             val dot = OmokViewUtil.getDot(index)
             getStoneColor(stone)?.let { board.placeStone(Location(dot.row, dot.col), it) }
         }
-        cursor.close()
     }
 
     fun nextStone(): Stone {
-        val cursor = wdb.query(
-            TABLE_NAME,
-            arrayOf(TABLE_COLUMN_INDEX, TABLE_COLUMN_STONE_COLOR),
-            null,
-            null,
-            null,
-            null,
-            null
-        )
-
         if (cursor.count.isOdd()) {
             cursor.close()
             return Stone.WHITE
         }
-        cursor.close()
         return Stone.BLACK
     }
 
