@@ -15,7 +15,7 @@ internal fun String?.toPosition(): Position {
 
 data class Position(val column: Column, val row: Row) {
 
-    constructor(columnAxis: Int, rowAxis: Int) : this(toColumn(columnAxis), toRow(rowAxis))
+    private constructor(columnAxis: Int, rowAxis: Int) : this(toColumn(columnAxis), toRow(rowAxis))
 
     fun getNorth(): Position? {
         val northRow = row.up()
@@ -67,5 +67,13 @@ data class Position(val column: Column, val row: Row) {
         val northRow = row.up()
         if (westColumn != null && northRow != null) return copy(column = westColumn, row = northRow)
         return null
+    }
+
+    companion object {
+        fun of(index: Int): Position {
+            val columnAxis = index % 15
+            val rowAxis = 15 - (index / 15) - 1
+            return Position(columnAxis, rowAxis)
+        }
     }
 }

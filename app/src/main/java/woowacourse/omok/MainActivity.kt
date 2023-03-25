@@ -15,6 +15,7 @@ import androidx.core.view.children
 import omok.domain.Turn
 import omok.domain.board.Board
 import omok.domain.board.Position
+import omok.domain.getTurn
 import omok.domain.judgment.BlackReferee
 import omok.domain.judgment.ResultReferee
 import omok.domain.player.Black
@@ -55,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             val positionNumber = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_NAME_POSITION))
             val stoneId = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.COLUMN_NAME_STONE))
             stoneCounts[stoneId]++
-            positions[getPosition(positionNumber)] = getStone(stoneId)
+            positions[Position.of(positionNumber)] = Stone.of(stoneId)
             setStoneImage(views.elementAt(positionNumber), stoneId)
         }
         cursor.close()
@@ -63,11 +64,6 @@ class MainActivity : AppCompatActivity() {
         val turn = getTurn(stoneCounts)
         renderTurn(turn)
         setPositionViewsListener(views, Board(positions), turn)
-    }
-
-    private fun getStone(stoneId: Int): Stone {
-        if (stoneId == Black.id) return Black
-        return White
     }
 
     private fun setStoneImage(view: ImageView, stoneId: Int) {
@@ -96,13 +92,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getTurn(counts: List<Int>): Turn {
-        if (counts[Black.id] <= counts[White.id]) return Turn(setOf(Black, White), Black.id)
-        return Turn(setOf(Black, White), White.id)
-    }
-
     private fun takeTurn(positionNumber: Int, board: Board, turn: Turn, view: ImageView) = OnClickListener {
-        val position = getPosition(positionNumber)
+        val position = Position.of(positionNumber)
         Log.d("test_position", position.toString())
         Log.d("test_turn", turn.now.javaClass.simpleName.toString())
         val result = placeStone(board, turn, position)
@@ -114,12 +105,6 @@ class MainActivity : AppCompatActivity() {
                 changeTurn(turn)
             }
             .onFailure { error: Throwable -> showAlertDialog(error.message ?: "") }
-    }
-
-    private fun getPosition(index: Int): Position {
-        val columnAxis = index % 15
-        val rowAxis = 15 - (index / 15) - 1
-        return Position(columnAxis, rowAxis)
     }
 
     private fun placeStone(board: Board, turn: Turn, position: Position): Result<Unit> {

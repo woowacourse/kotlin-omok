@@ -7,4 +7,11 @@ sealed interface Stone {
     val id: Int
 
     fun canPlace(referee: PlacementReferee, board: Map<Position, Stone?>, position: Position): Boolean
+
+    companion object {
+        fun of(id: Int): Stone {
+            if (id == Black.id) return Black
+            return White
+        }
+    }
 }
