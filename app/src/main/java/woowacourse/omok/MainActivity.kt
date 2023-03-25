@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
     private fun setClickListener(omokGame: OmokGame, index: Int, view: ImageView) {
         view.setOnClickListener {
             if (state is End) {
-                viewWinAndDeleteStone()
+                endOmokGame()
                 return@setOnClickListener
             }
             clickEvent(omokGame, index, view)
@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         omokDbAdapter.saveStone(index, state.stone)
     }
 
-    private fun viewWinAndDeleteStone() {
+    private fun endOmokGame() {
         Toast.makeText(
             this,
             WINNER_MESSAGE.format(getStoneMessage(state.stone)),
