@@ -47,7 +47,11 @@ class RenjuRule : RenjuRuleInterface { // 원시값을 받는다고 생각한다
     private fun validateCheckBlock(start: Point, direction: Point, size: Int): Boolean {
         repeat(size) {
             val next = (direction * it)
-            if (Coordinate.from(start.x + next.x, start.y + next.y) == null) return false
+            val currentX = start.x + next.x
+            val currentY = start.y + next.y
+            if (currentX < Board.BOARD_START_POINT.x || currentY < Board.BOARD_START_POINT.y ||
+                currentX >= Board.BOARD_END_POINT.x || currentY >= Board.BOARD_END_POINT.y
+            ) return false
         }
         return true
     }
