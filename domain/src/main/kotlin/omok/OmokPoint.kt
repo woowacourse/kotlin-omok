@@ -10,7 +10,5 @@ data class OmokPoint(val x: Int, val y: Int) {
                     OmokPoint(x, y)
                 }
             }
-
-        fun from(index: Int): OmokPoint = OmokPoint(index % 15 + 1, index / 15 + 1)
     }
 }
