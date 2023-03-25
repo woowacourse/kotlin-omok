@@ -23,7 +23,11 @@ import woowacourse.omok.model.data.OmokDbHelper
 class MainActivity : AppCompatActivity() {
 
     private lateinit var state: State
-    private lateinit var omokDbAdapter: OmokDbAdapter
+    private lateinit var omokDbHelper: OmokDbHelper
+    private val omokDbAdapter: OmokDbAdapter by lazy {
+        OmokDbAdapter(OmokDbHelper(this))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         val omokGame = OmokGame()
         val board = Board.from(BOARD_SIZE)
 
-        omokDbAdapter = OmokDbAdapter(OmokDbHelper(this))
+        omokDbHelper = OmokDbHelper(this)
         setOmokTurn(board)
         omokDbAdapter.load(state.board)
         loadBoardView(omokGame)
