@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class StonesHelper(
-    context: Context?
+    context: Context
 ) : SQLiteOpenHelper(context, db_name, null, db_version) {
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(

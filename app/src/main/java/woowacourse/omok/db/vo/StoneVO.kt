@@ -7,5 +7,5 @@ data class StoneVO(
     val id: Int,
     val stoneColor: Color,
     val position: Position,
-    val roomNum: Int
+    val roomId: Int
 )

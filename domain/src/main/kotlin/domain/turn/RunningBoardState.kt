@@ -7,15 +7,14 @@ import domain.stone.Stone
 
 class RunningBoardState(
     private val rule: Rule,
-    board: Map<Position, Color?> = POSITIONS.associateWith { null }.toMap(),
-    latestStone: Stone? = null,
+    board: Map<Position, Color?>,
+    latestStone: Stone,
 ) : BoardState(board, latestStone) {
 
     init {
-        latestStone?.let {
-            val previousBoard = board.toMutableMap().apply { this[it.position] = null }
-            check(rule.isWin(previousBoard, it).not()) { ERROR_ALREADY_FINISHED_BOARD }
-        }
+        check(board[latestStone.position] != null) { ERROR_NOT_EXIST_LATEST_STONE_IN_BOARD }
+        val previousBoard = board.toMutableMap().apply { this[latestStone.position] = null }
+        check(rule.isWin(previousBoard, latestStone).not()) { ERROR_ALREADY_FINISHED_BOARD }
     }
 
     override fun isFinished(): Boolean = false
@@ -33,13 +32,13 @@ class RunningBoardState(
 
     private fun nextBoardState(nextBoard: Map<Position, Color?>, newStone: Stone): BoardState {
         if (rule.isWin(board.toMap(), newStone)) {
-            return FinishedBoardState(rule, nextBoard, newStone)
+            return FinishedBoardState(nextBoard, newStone)
         }
         return RunningBoardState(rule, nextBoard, newStone)
     }
 
     companion object {
-        private val POSITIONS: List<Position> = Position.all()
         private const val ERROR_ALREADY_FINISHED_BOARD = "[ERROR] 이미 오목 게임이 종료된 보드 입니다."
+        private const val ERROR_NOT_EXIST_LATEST_STONE_IN_BOARD = "[ERROR] 마지막 돌이 보드에 존재하지 않습니다."
     }
 }

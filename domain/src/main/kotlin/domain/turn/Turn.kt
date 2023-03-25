@@ -8,13 +8,6 @@ class Turn(
     val color: Color,
     val boardState: BoardState
 ) {
-    init {
-        if (boardState.latestStone != null) {
-            check(boardState.latestStone.color.nextTurnColor() == color) { ERROR_LATEST_COLOR_IS_NOT_MATCH_CUR_COLOR }
-        } else {
-            check(Color.BLACK == color) { ERROR_FIRST_TURN_IS_NOT_BLACK }
-        }
-    }
 
     val winnerColor: Color?
         get() {
@@ -33,10 +26,4 @@ class Turn(
             Color.BLACK -> Color.WHITE
             Color.WHITE -> Color.BLACK
         }
-
-    companion object {
-        private const val ERROR_FIRST_TURN_IS_NOT_BLACK = "[ERROR] 첫 번째 턴은 검은색이여야 합니다."
-        private const val ERROR_LATEST_COLOR_IS_NOT_MATCH_CUR_COLOR =
-            "[ERROR] 이번 턴의 색상이 마지막에 놓은 돌의 다음 턴 색상이 아닙니다."
-    }
 }

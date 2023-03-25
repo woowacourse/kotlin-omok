@@ -5,13 +5,13 @@ import domain.judgement.Rule
 import domain.stone.Color
 import domain.stone.Position
 import domain.stone.Stone
-import domain.turn.RunningBoardState
+import domain.turn.StartBoardState
 import domain.turn.Turn
 
 class OmokGame(
     rule: Rule = RenjuRule()
 ) {
-    private var turn: Turn = Turn(Color.BLACK, RunningBoardState(rule, mapOf(), null))
+    private var turn: Turn = Turn(Color.BLACK, StartBoardState(rule))
 
     val isFinished: Boolean
         get() = turn.boardState.isFinished()
