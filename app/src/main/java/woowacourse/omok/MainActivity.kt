@@ -3,6 +3,8 @@ package woowacourse.omok
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -23,8 +25,10 @@ import woowacourse.omok.database.StonePositionDbHelper
 class MainActivity : AppCompatActivity() {
 
     private lateinit var board: TableLayout
-    private lateinit var db: SQLiteDatabase
+    private lateinit var retryButton: Button
     private lateinit var boardViews: List<List<ImageView>>
+
+    private lateinit var db: SQLiteDatabase
     private var state: State = BlackTurn()
     private val boardMap: Board = Board()
 
@@ -34,16 +38,21 @@ class MainActivity : AppCompatActivity() {
 
         db = StonePositionDbHelper(this).writableDatabase
         board = findViewById<TableLayout>(R.id.board)
-        boardViews = List(board.childCount) { row ->
+        retryButton = findViewById(R.id.retry_btn)
+        boardViews = getBoardViews()
+
+        updateBoardViewFromDb()
+        setBoardClickEvent()
+        setRetryButtonClickEvent()
+    }
+
+    private fun getBoardViews(): List<List<ImageView>> =
+        List(board.childCount) { row ->
             val tableRow = board.getChildAt(row) as TableRow
             List(tableRow.childCount) { col ->
                 tableRow.getChildAt(col) as ImageView
             }
         }
-
-        loadStonesFromDb(boardViews)
-        setBoardClickEvent()
-    }
 
     private fun setBoardClickEvent() {
         board
@@ -65,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             saveStoneToDb(row, col)
         }
         if (state.isEnd()) {
+            retryButton.visibility = View.VISIBLE
             Toast.makeText(
                 this,
                 "${OutputView().getWinnerText(state as End)}돌이 승리하였습니다.",
@@ -82,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         db.insert(StonePositionConstract.TABLE_NAME, null, values)
     }
 
-    private fun loadStonesFromDb(boardViews: List<List<ImageView>>) {
+    private fun updateBoardViewFromDb() {
         val cursor = db.query(
             StonePositionConstract.TABLE_NAME,
             arrayOf(
@@ -94,13 +104,22 @@ class MainActivity : AppCompatActivity() {
 
         with(cursor) {
             while (moveToNext()) {
-                val positionRow: Int = getInt(getColumnIndexOrThrow(StonePositionConstract.TABLE_COLUMN_ROW))
-                val positionCol: Int = getInt(getColumnIndexOrThrow(StonePositionConstract.TABLE_COLUMN_COLUMN))
+                val positionRow: Int =
+                    getInt(getColumnIndexOrThrow(StonePositionConstract.TABLE_COLUMN_ROW))
+                val positionCol: Int =
+                    getInt(getColumnIndexOrThrow(StonePositionConstract.TABLE_COLUMN_COLUMN))
                 putStone(positionRow, positionCol, boardViews[positionRow][positionCol])
             }
         }
 
         cursor.close()
+    }
+
+    private fun setRetryButtonClickEvent() {
+        retryButton.setOnClickListener {
+            db.delete(StonePositionConstract.TABLE_NAME, "", arrayOf())
+            val originBoardViews: List<List<ImageView>> = getBoardViews()
+        }
     }
 
     private fun getStoneImage(state: State): Int {
