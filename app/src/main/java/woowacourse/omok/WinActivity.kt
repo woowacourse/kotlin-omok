@@ -12,8 +12,6 @@ import woowacourse.omok.database.OmokConstract
 import woowacourse.omok.database.OmokDBHelper
 
 class WinActivity : AppCompatActivity() {
-    private val dBController = DBController(OmokDBHelper(this).writableDatabase)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_win)
@@ -37,7 +35,7 @@ class WinActivity : AppCompatActivity() {
 
     private fun retryGame(retryBtn: Button) {
         retryBtn.setOnClickListener {
-            dBController.deleteDB()
+            DBController(OmokDBHelper(this).writableDatabase).deleteDB()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -45,7 +43,7 @@ class WinActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        dBController.deleteDB()
+        DBController(OmokDBHelper(this).writableDatabase).deleteDB()
         super.onDestroy()
     }
 }

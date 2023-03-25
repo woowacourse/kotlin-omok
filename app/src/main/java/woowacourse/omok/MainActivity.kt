@@ -54,8 +54,14 @@ class MainActivity : AppCompatActivity() {
     }
     private fun initPut(index: Int, color: String, view: ImageView) {
         val position = positionFind(index)
-        if (color == Turn.Black.color) view.setImageResource(R.drawable.black_stone) else view.setImageResource(R.drawable.white_stone)
-        if (color == Turn.Black.color) omokBoard.blackPlayer.put(BlackStone(position)) else omokBoard.whitePlayer.put(WhiteStone(position))
+        if (color == Turn.Black.color) {
+            view.setImageResource(R.drawable.black_stone)
+            omokBoard.blackPlayer.put(BlackStone(position))
+        }
+        if (color == Turn.White.color) {
+            view.setImageResource(R.drawable.white_stone)
+            omokBoard.whitePlayer.put(WhiteStone(position))
+        }
         omokBoard.occupyPosition(position)
     }
 
