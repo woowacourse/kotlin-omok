@@ -61,7 +61,10 @@ class MainActivity : AppCompatActivity() {
             setStoneImage(views.elementAt(positionNumber), stoneId)
         }
         cursor.close()
-        setPositionViewsListener(views, Board(positions), getTurn(stoneCounts))
+
+        val turn = getTurn(stoneCounts)
+        renderTurn(turn)
+        setPositionViewsListener(views, Board(positions), turn)
     }
 
     private fun getPrevBoardCursor(): Cursor {
@@ -88,6 +91,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun renderTurn(turn: Turn) {
+        when (turn.now) {
+            Black -> {
+                findViewById<ImageView>(R.id.black_turn).setImageResource(R.drawable.turn_on)
+                findViewById<ImageView>(R.id.white_turn).setImageResource(R.drawable.turn_off)
+            }
+            White -> {
+                findViewById<ImageView>(R.id.white_turn).setImageResource(R.drawable.turn_on)
+                findViewById<ImageView>(R.id.black_turn).setImageResource(R.drawable.turn_off)
+            }
+        }
+    }
+
     private fun setPositionViewsListener(views: Sequence<ImageView>, board: Board, turn: Turn) {
         views.forEachIndexed { index, view ->
             view.setOnClickListener(takeTurn(index, board, turn, view))
@@ -109,7 +125,7 @@ class MainActivity : AppCompatActivity() {
                 addBoardValue(positionNumber, turn)
                 setStoneImage(view, turn.now.id)
                 judgeWinner(board, turn, position)
-                turn.changeTurn()
+                changeTurn(turn)
             }
             .onFailure { error: Throwable -> showAlertDialog(error.message ?: "") }
     }
@@ -152,6 +168,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun changeTurn(turn: Turn) {
+        turn.changeTurn()
+        renderTurn(turn)
     }
 
     private fun deletePlayer() {

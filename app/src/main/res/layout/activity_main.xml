@@ -36,11 +36,23 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/turn_off"
+                android:id="@+id/white_turn"
+                android:layout_gravity="center"
+                android:layout_weight="1" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
             <TextView
                 android:text="양파 쿵야"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView2"
                 android:layout_gravity="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textStyle="bold"
@@ -1290,6 +1302,19 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textStyle="bold"
                 android:textColor="#ffffff" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/turn_on"
+                android:id="@+id/black_turn"
+                android:layout_weight="1"
+                android:layout_gravity="center" />
 
         </LinearLayout>
 
