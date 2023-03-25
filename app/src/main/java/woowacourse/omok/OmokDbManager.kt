@@ -2,7 +2,13 @@ package woowacourse.omok
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
-import domain.*
+import domain.Board
+import domain.Color
+import domain.OmokGame
+import domain.Position
+import domain.RenjuRuleAdapter
+import domain.Stone
+import domain.Stones
 
 class OmokDbManager(omokDbHelper: OmokDbHelper) {
 

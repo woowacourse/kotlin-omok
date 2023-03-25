@@ -3,7 +3,7 @@ package domain
 class OmokGame(val board: Board) {
     var currentColor: Color = INITIAL_COLOR
     fun getWinnerColorPhase(
-        stone: Stone?
+        stone: Stone?,
     ): Color? {
         if (stone == null) return null
         board.placeStone(stone)

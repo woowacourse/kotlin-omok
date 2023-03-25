@@ -1,7 +1,5 @@
 package woowacourse.omok
 
-import android.content.ContentValues
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -10,7 +8,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import domain.*
+import domain.Board
+import domain.Color
+import domain.OmokGame
+import domain.Stone
 
 class MainActivity : AppCompatActivity() {
 

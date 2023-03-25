@@ -14,7 +14,7 @@ class Controller {
         while (winnerColor == null) {
             val stone = omokGame.getStone(InputView::inputPosition)
             winnerColor = omokGame.getWinnerColorPhase(
-                stone = stone
+                stone = stone,
             )
             OutputView.printCurrentState(omokGame)
         }

@@ -2,7 +2,7 @@ package domain
 
 class Board(
     initStones: Stones = Stones(listOf()),
-    private val rule: Rule
+    private val rule: Rule,
 ) {
     var stones: Stones = initStones
         private set

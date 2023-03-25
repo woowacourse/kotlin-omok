@@ -1,6 +1,6 @@
 package domain
 
-import library.*
+import library.* // ktlint-disable no-wildcard-imports
 
 class RenjuRuleAdapter() : Rule {
 
@@ -22,43 +22,45 @@ class RenjuRuleAdapter() : Rule {
         if (lastPlacedStone.color != Color.BLACK) return false
         return blackWinRule.validate(
             board,
-            Pair(lastPlacedStone.position.x, lastPlacedStone.position.y)
+            Pair(lastPlacedStone.position.x, lastPlacedStone.position.y),
         )
     }
 
     private fun isWhiteWin(board: List<List<Int>>, lastPlacedStone: Stone): Boolean {
-        if (lastPlacedStone.color == Color.WHITE) return whiteWinRule.validate(
-            board,
-            Pair(lastPlacedStone.position.x, lastPlacedStone.position.y)
-        )
+        if (lastPlacedStone.color == Color.WHITE) {
+            return whiteWinRule.validate(
+                board,
+                Pair(lastPlacedStone.position.x, lastPlacedStone.position.y),
+            )
+        }
         return isBlackLose(board, lastPlacedStone)
     }
 
     private fun isBlackLose(board: List<List<Int>>, lastPlacedStone: Stone): Boolean {
         return isFourFour(board, lastPlacedStone) or isThreeThree(
             board,
-            lastPlacedStone
+            lastPlacedStone,
         ) or isMoreThanFive(board, lastPlacedStone)
     }
 
     private fun isFourFour(board: List<List<Int>>, stone: Stone): Boolean {
         return fourFourRule.validate(
             board,
-            Pair(stone.position.x, stone.position.y)
+            Pair(stone.position.x, stone.position.y),
         )
     }
 
     private fun isThreeThree(board: List<List<Int>>, stone: Stone): Boolean {
         return threeThreeRule.validate(
             board,
-            Pair(stone.position.x, stone.position.y)
+            Pair(stone.position.x, stone.position.y),
         )
     }
 
     private fun isMoreThanFive(board: List<List<Int>>, stone: Stone): Boolean {
         return moreThanFiveRule.validate(
             board,
-            Pair(stone.position.x, stone.position.y)
+            Pair(stone.position.x, stone.position.y),
         )
     }
 
