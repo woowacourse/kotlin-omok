@@ -19,8 +19,9 @@ import domain.state.running.WhiteTurn
 import domain.stone.Board
 import domain.stone.StonePosition
 import view.OutputView
-import woowacourse.omok.database.StonePositionConstract
-import woowacourse.omok.database.StonePositionDbHelper
+import woowacourse.omok.database.stoneposition.StonePositionConstract
+import woowacourse.omok.database.stoneposition.StonePositionDbHelper
+import woowacourse.omok.database.stoneposition.StonePositionHandler
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var boardViews: List<List<ImageView>>
 
     private val db: SQLiteDatabase by lazy { StonePositionDbHelper(this).writableDatabase }
+    private val dbHandler: StonePositionHandler = StonePositionHandler()
     private var state: State = BlackTurn()
     private val boardMap: Board = Board()
 
@@ -90,14 +92,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateBoardViewFromDb() {
-        val cursor = db.query(
-            StonePositionConstract.TABLE_NAME,
-            arrayOf(
-                StonePositionConstract.TABLE_COLUMN_ROW,
-                StonePositionConstract.TABLE_COLUMN_COLUMN
-            ),
-            "", arrayOf(), null, null, ""
-        )
+        val cursor = dbHandler.getCursor(db)
 
         with(cursor) {
             while (moveToNext()) {
@@ -114,7 +109,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setRetryButtonClickEvent() {
         retryButton.setOnClickListener {
-            db.delete(StonePositionConstract.TABLE_NAME, "", arrayOf())
+            dbHandler.deleteAllColumns(db)
         }
     }
 

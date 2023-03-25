@@ -1,4 +1,4 @@
-package woowacourse.omok.database
+package woowacourse.omok.database.stoneposition
 
 import android.provider.BaseColumns
 
