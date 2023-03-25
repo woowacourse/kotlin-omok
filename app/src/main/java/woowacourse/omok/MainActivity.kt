@@ -1,9 +1,6 @@
 package woowacourse.omok
 
-import android.content.ContentValues
 import android.content.Intent
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -19,13 +16,15 @@ import domain.Stone
 
 class MainActivity : AppCompatActivity() {
 
+    private val omokDatabase by lazy { OmokDatabase(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val board = findViewById<TableLayout>(R.id.board)
 
-        val omokBoard = board
+        val omokUiBoard = board
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
@@ -49,103 +48,88 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val omokGame = OmokGame(omokGameListener = omokGameListener)
+        val stones: List<StoneEntity> = omokDatabase.fetchStones()
 
-        val db = OmokDbHelper(this).writableDatabase
+        val blackCount: Int = stones.filter { stone ->
+            stone.color == State.BLACK.name
+        }.size
 
-        var isBlackTurn = loadGame(db, omokBoard, omokGame)
+        var isBlackTurn = (blackCount == stones.size - blackCount)
 
-        omokBoard.forEachIndexed { index, view ->
-            val row = index / BOARD_SIZE
-            val col = index % BOARD_SIZE
+        val omokBoard = setUpBoard(
+            omokUiBoard = omokUiBoard,
+            stones = stones
+        )
+
+        val omokGame = OmokGame(
+            omokBoard = omokBoard,
+            omokGameListener = omokGameListener
+        )
+
+        omokUiBoard.forEachIndexed { index, view ->
+
             view.setOnClickListener {
+                val row = index / BOARD_SIZE
+                val col = index % BOARD_SIZE
 
                 val state = if (isBlackTurn) {
                     State.BLACK
                 } else {
                     State.WHITE
                 }
-
-                val stoneImage = if (isBlackTurn) {
-                    R.drawable.black_stone
-                } else {
-                    R.drawable.white_stone
+                val stoneImage = when (state) {
+                    State.BLACK -> R.drawable.black_stone
+                    State.WHITE -> R.drawable.white_stone
+                    State.EMPTY -> null
                 }
 
                 if (omokGame.successTurn(Stone(row, col), state)) {
-                    view.setImageResource(stoneImage)
-                    saveStone(db, index, state)
+                    stoneImage?.let { view.setImageResource(it) }
+                    omokDatabase.saveStone(index, state)
                     isBlackTurn = !isBlackTurn
                     if (omokGame.isVictory(state)) {
-                        val intent = Intent(this, GameOverActivity::class.java).apply {
-                            putExtra(OMOK_WINNER, state.name)
-                        }
-                        startActivity(intent)
+                        moveToGameOver(state)
                     }
                 }
             }
         }
     }
 
-    private fun saveStone(db: SQLiteDatabase, index: Int, state: State) {
-        val values = ContentValues()
-        values.put(OmokContract.TABLE_COLUMN_INDEX, index)
-        values.put(OmokContract.TABLE_COLUMN_COLOR, state.name)
+    private fun setUpBoard(omokUiBoard: List<ImageView>, stones: List<StoneEntity>): OmokBoard {
 
-        db.insert(OmokContract.TABLE_NAME, null, values)
-    }
+        val omokBoard = MutableList(OmokBoard.BOARD_SIZE) {
+            MutableList(OmokBoard.BOARD_SIZE) {
+                State.EMPTY
+            }
+        }
 
-    private fun loadGame(
-        db: SQLiteDatabase,
-        omokBoard: List<ImageView>,
-        omokGame: OmokGame
-    ): Boolean {
-
-        var blackCount = 0
-        var whiteCount = 0
-        val cursor = getStonesCursor(db)
-
-        while (cursor.moveToNext()) {
-            val index = cursor.getInt(
-                cursor.getColumnIndexOrThrow(OmokContract.TABLE_COLUMN_INDEX)
-            )
-            val color = cursor.getString(
-                cursor.getColumnIndexOrThrow(OmokContract.TABLE_COLUMN_COLOR)
-            )
+        stones.forEach { stone ->
+            val index = stone.index
             val row = index / BOARD_SIZE
             val column = index % BOARD_SIZE
 
-            if (color == State.BLACK.name) {
-                omokBoard[index].setImageResource(R.drawable.black_stone)
-                omokGame.successTurn(Stone(row, column), State.BLACK)
-                blackCount++
-            } else {
-                omokBoard[index].setImageResource(R.drawable.white_stone)
-                omokGame.successTurn(Stone(row, column), State.WHITE)
-                whiteCount++
+            if (stone.color == State.BLACK.name) {
+                omokUiBoard[index].setImageResource(R.drawable.black_stone)
+                omokBoard[row][column] = State.BLACK
+            }
+            if (stone.color == State.WHITE.name) {
+                omokUiBoard[index].setImageResource(R.drawable.white_stone)
+                omokBoard[row][column] = State.WHITE
             }
         }
-        cursor.close()
-
-        if (blackCount != whiteCount) {
-            return false
-        }
-        return true
+        return OmokBoard(omokBoard)
     }
 
-    private fun getStonesCursor(db: SQLiteDatabase): Cursor {
-        return db.query(
-            OmokContract.TABLE_NAME,
-            arrayOf(
-                OmokContract.TABLE_COLUMN_INDEX,
-                OmokContract.TABLE_COLUMN_COLOR
-            ),
-            null,
-            null,
-            null,
-            null,
-            null
-        )
+    private fun moveToGameOver(state: State) {
+        val intent = Intent(this, GameOverActivity::class.java).apply {
+            putExtra(OMOK_WINNER, state.name)
+        }
+        startActivity(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        omokDatabase.close()
     }
 
     companion object {
