@@ -26,7 +26,7 @@ import woowacourse.omok.repository.OmokRepository
 class MainActivity : AppCompatActivity() {
 
     private val omokRepository by lazy { OmokRepository(OmokDatabase.getDatabase(this)) }
-    private val board: Board = Board()
+    private val board by lazy { Board() }
     private var state: State = BlackTurn(board)
 
     override fun onCreate(savedInstanceState: Bundle?) {
