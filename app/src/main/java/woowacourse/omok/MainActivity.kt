@@ -32,16 +32,10 @@ class MainActivity : AppCompatActivity() {
         omokGame = OmokGame(omokDBAdapter.getStones())
 
         printBoard(omokGame.board)
-        boards.forEachIndexed { index, view ->
-            view.setOnClickListener {
-                placeStone(index)
-                checkEnded()
-            }
-        }
+        initClickListener()
     }
 
     private fun printBoard(currentBoard: Board) {
-        omokDBAdapter.getStones()
         currentBoard.placedStones.forEach { placedStone ->
             boards[placedStone.point.toIndex()].setImageResource(placedStone.color.toStoneImage())
         }
@@ -52,6 +46,22 @@ class MainActivity : AppCompatActivity() {
             omokDBAdapter.addStone(clickedIndex, omokGame.turnColor)
             omokGame.placeStone(::printBoard) { _, _ -> clickedIndex.toPoint() }
             printBoard(omokGame.board)
+        }
+    }
+
+    private fun checkEnded() {
+        if (omokGame.state is OmokGameState.End) {
+            printEndMessage()
+            initOmokGames()
+        }
+    }
+
+    private fun initClickListener() {
+        boards.forEachIndexed { index, view ->
+            view.setOnClickListener {
+                placeStone(index)
+                checkEnded()
+            }
         }
     }
 
@@ -67,20 +77,17 @@ class MainActivity : AppCompatActivity() {
         clearBoard()
     }
 
-    private fun checkEnded() {
-        if (omokGame.state is OmokGameState.End) {
-            Toast.makeText(
-                this,
-                WINNING_MESSAGE.format(
-                    omokGame
-                        .state
-                        .getResult()
-                        .toName()
-                ),
-                Toast.LENGTH_SHORT
-            ).show()
-            initOmokGames()
-        }
+    private fun printEndMessage() {
+        Toast.makeText(
+            this,
+            WINNING_MESSAGE.format(
+                omokGame
+                    .state
+                    .getResult()
+                    .toName()
+            ),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     companion object {
