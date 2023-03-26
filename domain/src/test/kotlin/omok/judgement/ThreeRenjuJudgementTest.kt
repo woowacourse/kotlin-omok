@@ -7,7 +7,7 @@ import omok.Stone
 import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.Test
 
-class ThreeJudgementTest {
+class ThreeRenjuJudgementTest {
     @Test
     fun `3-3(가로, 부대각선)이면 True를 반환한다`() {
         val blackPlayer = Player(

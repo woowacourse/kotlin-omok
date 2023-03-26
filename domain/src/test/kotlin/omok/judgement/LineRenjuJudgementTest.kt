@@ -7,7 +7,7 @@ import omok.Stone
 import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.Test
 
-class LineJudgementTest {
+class LineRenjuJudgementTest {
     @Test
     fun `가로축에서 연속된 돌의 갯수가 5개이면 True를 반환한다`() {
         val player = Player(

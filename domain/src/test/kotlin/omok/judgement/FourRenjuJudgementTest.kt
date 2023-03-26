@@ -7,7 +7,7 @@ import omok.Stone
 import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.Test
 
-class FourJudgementTest {
+class FourRenjuJudgementTest {
 
     @Test
     fun `4-4(가로, 가로)이면 True를 반환한다`() {

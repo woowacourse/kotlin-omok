@@ -1,13 +1,6 @@
 package omok
 
 data class Position(val horizontalAxis: HorizontalAxis, val verticalAxis: Int) {
-
-    // constructor(val input: String) {
-    //     this.horizontalAxis = (HorizontalAxis.valueOf(input.first().toString()),
-    //     this.verticalAxis = input.slice(1 until input.length).toInt()
-    //
-    // }
-
     private var empty = true
 
     init {

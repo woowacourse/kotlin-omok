@@ -3,14 +3,14 @@ package omok
 import omok.judgement.Judgement
 import omok.state.Turn
 
-class Board(val blackPlayer: Player, val whitePlayer: Player) {
+class Board(val renjuJudgement: Judgement, val blackPlayer: Player, val whitePlayer: Player) {
     private val positions: List<Position> = Position.POSITIONS.toList()
 
     fun isPlaceable(turn: Turn, position: Position): Boolean {
         if (turn == Turn.White) {
             return isEmpty(position)
         }
-        return isEmpty(position) && !Judgement.isForbiddenMove(blackPlayer, whitePlayer, position)
+        return isEmpty(position) && !renjuJudgement.isForbiddenMove(blackPlayer, whitePlayer, position)
     }
 
     private fun isEmpty(position: Position) = positions.find { it == position }?.isEmpty() == true
@@ -25,8 +25,8 @@ class Board(val blackPlayer: Player, val whitePlayer: Player) {
 
     fun lineJudge(turn: Turn, position: Position): Boolean {
         return when (turn) {
-            Turn.Black -> Judgement.line(blackPlayer, position)
-            Turn.White -> Judgement.line(whitePlayer, position)
+            Turn.Black -> renjuJudgement.line(blackPlayer, position)
+            Turn.White -> renjuJudgement.line(whitePlayer, position)
         }
     }
 }

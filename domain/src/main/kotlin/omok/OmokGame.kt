@@ -1,10 +1,11 @@
 package omok
 
+import omok.judgement.RenjuJudgement
 import omok.state.State
 import omok.state.Turn
 import omok.state.Win
 
-class OmokGame(val board: Board = Board(Player(), Player())) {
+class OmokGame(val board: Board = Board(RenjuJudgement(), Player(), Player())) {
     var lastPosition: String? = null
 
     fun blackTurn(position: Position): State {

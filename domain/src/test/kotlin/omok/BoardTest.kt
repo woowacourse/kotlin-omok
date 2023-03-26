@@ -1,5 +1,6 @@
 package omok
 
+import omok.judgement.RenjuJudgement
 import omok.state.Turn
 import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.Test
@@ -11,7 +12,7 @@ class BoardTest {
         val position = Position(HorizontalAxis.H, 3)
         val whitePlayer = Player()
         val blackPlayer = Player(listOf(Stone(position)))
-        val board = Board(whitePlayer, blackPlayer)
+        val board = Board(RenjuJudgement(), whitePlayer, blackPlayer)
 
         // then
         assertThat(board.isPlaceable(Turn.Black, position)).isFalse
@@ -33,7 +34,7 @@ class BoardTest {
                 Stone(Position(HorizontalAxis.C, 10))
             )
         )
-        val board = Board(blackPlayer, whitePlayer)
+        val board = Board(RenjuJudgement(), blackPlayer, whitePlayer)
 
         // then
         assertThat(board.isPlaceable(Turn.Black, position)).isTrue
