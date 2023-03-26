@@ -2,29 +2,22 @@ package view
 
 import domain.point.Point
 import domain.stone.StoneColor
-import listener.OmokTurnEventListener
 import view.mapper.toDomain
 import view.model.PointModel
 
-class OmokInputView : OmokTurnEventListener {
-    override fun onTakeTurn(stoneColor: StoneColor): Point = askPosition()
-
-    override fun onNotPlaceable() {
-        askPosition()
-    }
-
-    private fun askPosition(): Point {
+class OmokInputView {
+    fun askPosition(stoneColor: StoneColor): Point {
         print(ASK_POSITION_MESSAGE)
         val colRow = readln()
         if (colRow.length !in POSITION_INPUT_RANGE) {
             println(INVALID_FORMAT_ERROR_MESSAGE)
-            return askPosition()
+            return askPosition(stoneColor)
         }
 
         return PointModel(
             row = colRow.substring(ROW_INPUT_SIZE),
             col = colRow.first().toString(),
-        ).toDomain() ?: askPosition()
+        ).toDomain() ?: askPosition(stoneColor)
     }
 
     companion object {

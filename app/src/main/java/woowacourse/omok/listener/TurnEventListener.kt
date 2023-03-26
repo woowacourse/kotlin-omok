@@ -7,11 +7,11 @@ import domain.player.Players
 import domain.point.Point
 import domain.result.TurnResult
 import domain.stone.StoneColor
-import listener.OmokGameEventListener
+import listener.OmokTurnEventListener
 import view.mapper.toPresentation
 import woowacourse.omok.R
 
-class GameEventListener(private val context: Context, private val descriptionView: TextView) : OmokGameEventListener {
+class TurnEventListener(private val context: Context, private val descriptionView: TextView) : OmokTurnEventListener {
     override fun onStartGame() {
         Toast.makeText(context, R.string.start_game, Toast.LENGTH_LONG).show()
     }

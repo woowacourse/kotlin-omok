@@ -19,7 +19,7 @@ import domain.state.PlayingState
 import domain.stone.StoneColor
 import woowacourse.omok.R
 import woowacourse.omok.db.OmokDBManager
-import woowacourse.omok.listener.GameEventListener
+import woowacourse.omok.listener.TurnEventListener
 
 class MainActivity : AppCompatActivity() {
     private val dbManager by lazy { OmokDBManager(applicationContext) }
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val gameEventListener =
-            GameEventListener(applicationContext, findViewById(R.id.description))
+            TurnEventListener(applicationContext, findViewById(R.id.description))
         gameEventListener.onStartGame()
         gameEventListener.onStartTurn(omok.players.curPlayerColor, omok.players.getLastPoint())
 

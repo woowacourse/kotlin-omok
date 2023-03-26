@@ -14,15 +14,12 @@ class Omok(blackPlayer: BlackPlayer, whitePlayer: WhitePlayer) {
         get() = _players.isPlaying
 
     init {
-        val latestPlayer = when (blackPlayer.getPointSize() == whitePlayer.getPointSize()) {
-            true -> blackPlayer
-            false -> whitePlayer
-        }
+        val latestPlayer = blackPlayer.getLatestPlayer(whitePlayer)
         _players = Players(latestPlayer, listOf(blackPlayer, whitePlayer))
     }
 
     fun takeTurn(point: Point): TurnResult {
-        val endTurnPlayers = _players.putStone(point)
+        val endTurnPlayers = _players.putPoint(point)
         if (endTurnPlayers == _players) return TurnResult.Failure(_players)
         _players = endTurnPlayers
         return TurnResult.Success(_players)

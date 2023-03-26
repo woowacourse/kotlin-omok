@@ -1,9 +1,13 @@
 package listener
 
+import domain.player.Players
 import domain.point.Point
+import domain.result.TurnResult
 import domain.stone.StoneColor
 
 interface OmokTurnEventListener {
-    fun onTakeTurn(stoneColor: StoneColor): Point
-    fun onNotPlaceable()
+    fun onStartTurn(stoneColor: StoneColor, point: Point?)
+    fun onEndTurn(result: TurnResult)
+    fun onStartGame()
+    fun onEndGame(players: Players)
 }

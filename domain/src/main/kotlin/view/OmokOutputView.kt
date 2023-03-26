@@ -6,10 +6,10 @@ import domain.player.Players
 import domain.point.Point
 import domain.result.TurnResult
 import domain.stone.StoneColor
-import listener.OmokGameEventListener
+import listener.OmokTurnEventListener
 import view.mapper.toPresentation
 
-class OmokOutputView : OmokGameEventListener {
+class OmokOutputView : OmokTurnEventListener {
     override fun onStartGame() {
         println(START_MESSAGE)
         println(OMOK_BOARD)
@@ -45,7 +45,7 @@ class OmokOutputView : OmokGameEventListener {
     }
 
     private fun drawPoint(player: Player, board: MutableList<Char>, it: Point) {
-        when (player.getStoneColor()) {
+        when (player.getColor()) {
             StoneColor.BLACK -> board[calculateIndex(it, OMOK_BOARD_SIZE)] = BLACK_STONE
             StoneColor.WHITE -> board[calculateIndex(it, OMOK_BOARD_SIZE)] = WHITE_STONE
         }
