@@ -77,13 +77,11 @@ class RoomActivity : AppCompatActivity() {
     private fun addListenerBackToRoomList() {
         findViewById<Button>(R.id.back_button).setOnClickListener {
             finish()
-            // startActivity(Intent(this, RoomListActivity::class.java))
         }
     }
 
     private fun addListenerResetGameState() {
         findViewById<Button>(R.id.resetButton).setOnClickListener {
-//            boardDb.onUpgrade(boardDb.readableDatabase, 1, 1)
             boardDb.delete(intent.getIntExtra("gameId", 0))
             omokController = OmokController(omokGameListener)
 
