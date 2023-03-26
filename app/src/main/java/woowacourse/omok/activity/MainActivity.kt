@@ -6,12 +6,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import controller.OmokController
 import domain.game.Omok
-import domain.game.PutSuccess
 import domain.point.Point
 import domain.rule.BlackRenjuRule
 import domain.rule.WhiteRenjuRule
@@ -19,45 +16,36 @@ import domain.stone.StoneColor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainCoroutineDispatcher
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import view.InputView
-import view.OutputView
 import woowacourse.omok.R
-import woowacourse.omok.database.OmokDatabase
-import woowacourse.omok.database.repository.OmokRepository
-import woowacourse.omok.database.repository.Repository
+import woowacourse.omok.controller.AndroidOmokController
+import woowacourse.omok.controller.ConsoleOmokController
+import woowacourse.omok.data.database.OmokDatabase
+import woowacourse.omok.data.database.repository.OmokRepository
 import woowacourse.omok.mapper.toPresentation
 import woowacourse.omok.model.StoneColorModel
 import woowacourse.omok.utils.createAlertDialog
 import woowacourse.omok.utils.message
 import woowacourse.omok.utils.negativeButton
 import woowacourse.omok.utils.positiveButton
+import woowacourse.omok.utils.showMessage
+import woowacourse.omok.view.InputView
+import woowacourse.omok.view.OutputView
 
 class MainActivity(override val coroutineContext: MainCoroutineDispatcher = Dispatchers.Main) :
     AppCompatActivity(), InputView, OutputView, CoroutineScope {
     private lateinit var board: TableLayout
-    private lateinit var omok: Omok
-    private lateinit var omokRepo: Repository<Point>
     private lateinit var manTurnHolder: View
     private lateinit var womanTurnHolder: View
-    private lateinit var omokController: OmokController
-
-    private val pointChannel = Channel<Point>()
+    private lateinit var omokController: AndroidOmokController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        omokController = OmokController(this, this)
-        omokRepo = OmokRepository(OmokDatabase.getInstance(this))
-        omok = Omok(BlackRenjuRule(), WhiteRenjuRule())
         initView()
-        setOmokClickListener()
-
-        launch {
-            omokController.startGame(BlackRenjuRule(), WhiteRenjuRule())
-        }
+        initOmokController()
+        initOmokIntersectionClickListener()
+        launch { omokController.startGame(BlackRenjuRule(), WhiteRenjuRule()) }
     }
 
     private fun initView() {
@@ -66,67 +54,87 @@ class MainActivity(override val coroutineContext: MainCoroutineDispatcher = Disp
         womanTurnHolder = findViewById(R.id.woman_turn_iv)
     }
 
-    private fun continuePreviousGame() {
-        val points = omokRepo.getAll()
-        if (points.size % 2 == 1) toggleTurnHolder(StoneColorModel.BLACK)
-        points.forEach { point ->
-            val index = point.row * Omok.OMOK_BOARD_SIZE + point.col
-            val omokIv: ImageView = boardImageViews()[index]
-            val putResult = omok.put { point }
-            if (putResult is PutSuccess) {
-                drawStoneOnBoard(omokIv, putResult.stoneColor)
-            }
-        }
+    private fun initOmokController() {
+        omokController = AndroidOmokController(
+            ConsoleOmokController(this, this),
+            OmokRepository(OmokDatabase.getInstance(this)),
+        )
     }
 
-    private fun setOmokClickListener() {
-        boardImageViews().forEachIndexed { index, view ->
+    private fun initOmokIntersectionClickListener() {
+        boardImageViews().forEachIndexed { index, omokIntersection ->
             val row: Int = index / Omok.OMOK_BOARD_SIZE
             val col: Int = index % Omok.OMOK_BOARD_SIZE
-
-            view.setOnClickListener {
-                CoroutineScope(coroutineContext).launch {
-                    pointChannel.send(Point(row, col))
-                }
+            omokIntersection.setOnClickListener {
+                launch { omokController.putStone(row, col) }
             }
         }
     }
 
-    override suspend fun askPosition(onPutStone: (Point) -> Unit) {
-        for (newPoint in pointChannel) {
+    private fun continuePreviousGame() {
+        launch(Dispatchers.IO) {
+            omokController.loadPreviousPoints { points, pointsCount ->
+                showLatestTurnHolder(pointsCount)
+                drawPreviousPoints(points)
+            }
+        }
+    }
+
+    private fun showLatestTurnHolder(pointsCount: Int) {
+        val latestColor = StoneColorModel.calcLatestTurn(pointsCount + 1)
+        toggleTurnHolder(latestColor ?: StoneColorModel.WHITE)
+    }
+
+    private fun drawPreviousPoints(points: List<Point>) {
+        points.forEachIndexed { index, point ->
+            val viewIndex = point.row * Omok.OMOK_BOARD_SIZE + point.col
+            val omokIv: ImageView = boardImageViews()[viewIndex]
+            val curColor = StoneColorModel.calcLatestTurn(index) ?: StoneColorModel.BLACK
+
+            launch(Dispatchers.Main) { drawStoneOnBoard(omokIv, curColor) }
+        }
+    }
+
+    private fun drawStoneOnBoard(view: ImageView, stoneColor: StoneColorModel) {
+        when (stoneColor) {
+            StoneColorModel.BLACK -> view.setImageResource(R.drawable.white_bear)
+            StoneColorModel.WHITE -> view.setImageResource(R.drawable.pink_bear)
+        }
+    }
+
+    override suspend fun readPosition(onPutStone: (Point) -> Unit) {
+        for (newPoint in omokController.pointChannel) {
             onPutStone(newPoint)
         }
     }
 
     override fun startGame() {
         showMessage(getString(R.string.omok_start_message))
-        if (hasPreviousGameHistory()) {
-            showRestartDialog()
-        }
+        if (omokController.hasPreviousGameHistory()) showRestartDialog()
     }
 
-    override fun drawPoint(stoneColor: StoneColor, newPoint: Point) {
-        toggleTurnHolder(stoneColor.toPresentation())
-        savePoint(newPoint)
+    override fun drawStone(lastStoneColor: StoneColor, newPoint: Point) {
+        toggleTurnHolder(lastStoneColor.toPresentation())
+        omokController.savePoint(newPoint)
         val index = newPoint.row * Omok.OMOK_BOARD_SIZE + newPoint.col
-        drawStoneOnBoard(boardImageViews()[index], stoneColor)
+        drawStoneOnBoard(boardImageViews()[index], lastStoneColor.toPresentation())
     }
 
-    override fun printPutFailed() {
+    override fun showPutFailed() {
         showMessage(getString(R.string.inplace_stone))
     }
 
-    override fun printResult(
+    override fun showResult(
         lastStoneColor: StoneColor,
         winnerStoneColor: StoneColor,
         newPoint: Point,
     ) {
-        omokRepo.clear()
+        omokController.clearPoints()
         showWinner(winnerStoneColor.toPresentation())
     }
 
-    override fun printTurnStartMessage(stoneColor: StoneColor, point: Point?) {
-        toggleTurnHolder(stoneColor.toPresentation())
+    override fun showThisTurn(nowTurnStoneColor: StoneColor, point: Point?) {
+        // toggleTurnHolder(nowTurnStoneColor.toPresentation())
         if (point != null) {
             // TODO("마지막 돌을 놓은 위치에 border 처리")
 //            val viewPosition = point.toPresentation()
@@ -135,46 +143,23 @@ class MainActivity(override val coroutineContext: MainCoroutineDispatcher = Disp
     }
 
     private fun toggleTurnHolder(prevStoneColor: StoneColorModel) {
-        when (prevStoneColor) {
-            StoneColorModel.BLACK -> {
-                manTurnHolder.visibility = View.GONE
-                womanTurnHolder.visibility = View.VISIBLE
-            }
-            StoneColorModel.WHITE -> {
-                womanTurnHolder.visibility = View.GONE
-                manTurnHolder.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    private fun savePoint(point: Point) {
-        omokRepo.insert(point)
-    }
-
-    private fun hasPreviousGameHistory(): Boolean = !omokRepo.isEmpty()
-
-    private fun drawStoneOnBoard(view: ImageView, stoneColor: StoneColor) {
-        when (stoneColor) {
-            StoneColor.BLACK -> view.setImageResource(R.drawable.pink_bear)
-            StoneColor.WHITE -> view.setImageResource(R.drawable.white_bear)
+        launch(Dispatchers.Main) {
+            manTurnHolder.visibility = if (prevStoneColor == StoneColorModel.WHITE) View.VISIBLE else View.GONE
+            womanTurnHolder.visibility = if (prevStoneColor == StoneColorModel.BLACK) View.VISIBLE else View.GONE
         }
     }
 
     private fun showWinner(winnerColor: StoneColorModel) {
         val resultIntent = Intent(this, GameResultActivity::class.java)
-            .putExtra("winner_color", winnerColor)
+            .putExtra(GameResultActivity.WINNER_KEY, winnerColor)
         startActivity(resultIntent)
         finish()
-    }
-
-    private fun showMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun showRestartDialog(): Unit = createAlertDialog {
         message(getString(R.string.restart_game_ask_message))
         positiveButton(getString(R.string.yes)) { continuePreviousGame() }
-        negativeButton(getString(R.string.no)) { omokRepo.clear() }
+        negativeButton(getString(R.string.no)) { omokController.clearPoints() }
     }.show()
 
     private fun boardImageViews(): List<ImageView> = board.children
@@ -182,9 +167,4 @@ class MainActivity(override val coroutineContext: MainCoroutineDispatcher = Disp
         .flatMap { it.children }
         .filterIsInstance<ImageView>()
         .toList()
-
-    override fun onDestroy() {
-        super.onDestroy()
-        omokRepo.close()
-    }
 }

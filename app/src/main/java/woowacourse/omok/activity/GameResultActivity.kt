@@ -22,9 +22,9 @@ class GameResultActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setWinnerStoneImage() {
         val winnerStoneColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getSerializableExtra("winner_color", StoneColorModel::class.java)
+            intent.getSerializableExtra(WINNER_KEY, StoneColorModel::class.java)
         } else {
-            intent.getSerializableExtra("winner_color")
+            intent.getSerializableExtra(WINNER_KEY)
         }
         val winnerStoneIv = findViewById<ImageView>(R.id.winner_stone_iv)
         val winnerStoneTv = findViewById<TextView>(R.id.winner_stone_tv)
@@ -60,5 +60,9 @@ class GameResultActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun endGame() {
         finish()
+    }
+
+    companion object {
+        internal const val WINNER_KEY = "winner_color"
     }
 }

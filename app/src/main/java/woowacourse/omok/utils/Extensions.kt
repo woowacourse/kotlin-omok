@@ -3,6 +3,7 @@ package woowacourse.omok.utils
 import android.content.Context
 import android.content.DialogInterface
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -33,4 +34,8 @@ fun AlertDialog.Builder.negativeButton(
 
 fun ImageView.setImageByResId(@DrawableRes resId: Int) {
     this.setImageDrawable(ContextCompat.getDrawable(this.context, resId))
+}
+
+fun Context.showMessage(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
