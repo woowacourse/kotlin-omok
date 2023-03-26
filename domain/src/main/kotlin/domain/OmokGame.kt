@@ -15,10 +15,13 @@ class OmokGame(stones: List<Stone> = listOf()) {
     private var currentPlayer: Player = decideInitialPlayer()
     val turnColor: Color
         get() = currentPlayer.color
-    private var state: OmokGameState = OmokGameState.valueOf(board, stones.last().color)
+    private var state: OmokGameState = stones.lastOrNull()
+        ?.let { OmokGameState.valueOf(board, it.color) }
+        ?: OmokGameState.Running
+
 
     private fun decideInitialPlayer(): Player {
-        if(board.latestStone?.color == Color.Black){
+        if (board.latestStone?.color == Color.Black) {
             return WhiteStonePlayer()
         }
         return BlackStonePlayer()
@@ -28,7 +31,7 @@ class OmokGame(stones: List<Stone> = listOf()) {
         checkBoard: (currentBoard: Board) -> Unit,
         decidePoint: (latestStone: Stone?, currentColor: Color) -> Point,
     ): OmokGameState {
-        if(state is OmokGameState.Running){
+        if (state is OmokGameState.Running) {
             board = currentPlayer.placeStone(board, checkBoard, decidePoint)
             state = OmokGameState.valueOf(board, turnColor)
             currentPlayer = currentPlayer.toNextPlayer()
@@ -37,7 +40,7 @@ class OmokGame(stones: List<Stone> = listOf()) {
         throw IllegalStateException(ERROR_PLACING_STONE)
     }
 
-    companion object{
+    companion object {
         private const val ERROR_PLACING_STONE = "[ERROR] 게임에서 돌을 둘 수 없는 상태입니다."
     }
 }
