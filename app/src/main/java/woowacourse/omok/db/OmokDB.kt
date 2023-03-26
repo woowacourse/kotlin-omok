@@ -32,4 +32,8 @@ class OmokDB(
         }
         repository.insert(value)
     }
+
+    fun clear() {
+        repository.clear()
+    }
 }

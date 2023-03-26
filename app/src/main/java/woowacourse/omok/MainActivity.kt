@@ -37,7 +37,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         val restartButton = findViewById<Button>(R.id.button_restart)
-        restartButton.setOnClickListener { recreate() }
+        restartButton.setOnClickListener {
+            recreate()
+            db.clear()
+        }
     }
 
     private fun updateBoard(view: ImageView, index: Int) {
