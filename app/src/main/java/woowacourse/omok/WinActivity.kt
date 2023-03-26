@@ -12,6 +12,7 @@ import woowacourse.omok.database.OmokConstract
 import woowacourse.omok.database.OmokDBHelper
 
 class WinActivity : AppCompatActivity() {
+    lateinit var dBController: DBController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_win)
@@ -19,6 +20,7 @@ class WinActivity : AppCompatActivity() {
         val retryBtn = findViewById<Button>(R.id.retry)
         val winImage = findViewById<ImageView>(R.id.winImage)
         val winWho = findViewById<TextView>(R.id.winWho)
+        dBController = DBController(OmokDBHelper(this).writableDatabase)
 
         val color = intent.getStringExtra(OmokConstract.TABLE_COLUMN_COLOR)
         if (color == Turn.Black.color) {
@@ -35,7 +37,7 @@ class WinActivity : AppCompatActivity() {
 
     private fun retryGame(retryBtn: Button) {
         retryBtn.setOnClickListener {
-            DBController(OmokDBHelper(this).writableDatabase).deleteDB()
+            dBController.deleteDB()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -43,7 +45,7 @@ class WinActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        DBController(OmokDBHelper(this).writableDatabase).deleteDB()
+        dBController.deleteDB()
         super.onDestroy()
     }
 }
