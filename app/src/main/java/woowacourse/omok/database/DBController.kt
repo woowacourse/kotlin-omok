@@ -24,4 +24,8 @@ class DBController(private val writableDb: SQLiteDatabase) {
     fun deleteDB() {
         writableDb.execSQL("DELETE FROM ${OmokConstract.TABLE_NAME}")
     }
+
+    fun closeDB() {
+        writableDb.close()
+    }
 }
