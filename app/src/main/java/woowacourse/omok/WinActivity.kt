@@ -24,7 +24,7 @@ class WinActivity : AppCompatActivity() {
         dBController = DBController(OmokDBHelper(this).writableDatabase)
 
         displayWinner(winImage, winWho)
-        retryGame(retryBtn)
+        setOnRetryClickListener(retryBtn)
     }
 
     private fun displayWinner(winImage: ImageView, winWho: TextView) {
@@ -39,7 +39,7 @@ class WinActivity : AppCompatActivity() {
         }
     }
 
-    private fun retryGame(retryBtn: Button) {
+    private fun setOnRetryClickListener(retryBtn: Button) {
         retryBtn.setOnClickListener {
             dBController.deleteDB()
             val intent = Intent(this, MainActivity::class.java)
