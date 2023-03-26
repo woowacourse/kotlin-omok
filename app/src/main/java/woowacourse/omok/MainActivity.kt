@@ -59,14 +59,13 @@ class MainActivity : AppCompatActivity() {
 
         retryButton.setOnClickListener {
             omokRepo.clear()
-            recreate()
+            omokGame = OmokGame(Board())
+            getBoardImageViews().forEach {
+                it.setImageResource(0)
+                it.isEnabled = true
+            }
+            findViewById<TextView>(R.id.winner_text).text = ""
         }
-    }
-
-    private fun initView() {
-        board = findViewById(R.id.board)
-        winner = findViewById(R.id.winner_text)
-        retryButton = findViewById(R.id.retry_button)
     }
 
     private fun reloadPreviousGame() {
