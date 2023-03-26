@@ -33,48 +33,30 @@ class OmokGameActivity : AppCompatActivity(), Observer {
     private val boardTable by lazy { findViewById<TableLayout>(R.id.board_table) }
     private val room by lazy { getRoomInfo() }
 
-    private val gameDescriptionText by lazy { findViewById<TextView>(R.id.gameDescriptionText) }
     private val boardDao = BoardDao(this)
-    private val roomDao = RoomDao(this)
-    private val userDao = UserDao(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.omok_game_activity)
 
-        val storedState = boardDao.readBoard(room.roomId)
-        initView(storedState)
-
-        val board = Board(storedState)
+        val board = Board(boardDao.readBoard(room.roomId))
         runOmokGame(board)
         synchronizeConsoleView(board)
     }
 
-    private fun initView(state: State) {
-        val gameTitle = findViewById<TextView>(R.id.gameTitleText)
-        val firstUserName = findViewById<TextView>(R.id.gameFirstUserNameText)
-        val secondUserName = findViewById<TextView>(R.id.gameSecondUserNameText)
-
-        gameTitle.text = room.roomTitle
-        firstUserName.text = room.firstUserEntity.userName
-        secondUserName.text = room.secondUserEntity.userName
-        initDescription(state.getTurn())
-        drawStone(state)
-    }
-
-    private fun initDescription(turn: CoordinateState) {
-        gameDescriptionText.text = DESCRIPTION.format(turn.toColor(), turn.toName(), turn.toColor())
-    }
-
     private fun getRoomInfo(): Room {
+        val roomDao = RoomDao(this)
+        val userDao = UserDao(this)
+
         val roomId = intent.getIntExtra(ROOM_ID, -1)
         val roomEntity = roomDao.getRoom(roomId)
-        return Room(
-            roomEntity.roomId,
-            roomEntity.roomTitle,
-            userDao.getUser(roomEntity.firstUserId),
-            userDao.getUser(roomEntity.secondUserId),
-        )
+        val room = with(roomEntity) {
+            Room(roomId, roomTitle, userDao.getUser(firstUserId), userDao.getUser(secondUserId))
+        }
+
+        roomDao.closeDb()
+        userDao.closeDb()
+        return room
     }
 
     private fun synchronizeConsoleView(board: Board) {
@@ -82,8 +64,22 @@ class OmokGameActivity : AppCompatActivity(), Observer {
     }
 
     private fun runOmokGame(board: Board) {
+        initView(board.state)
         board.registerObserver(this)
         setOmokClickListener(board)
+    }
+
+    private fun initView(state: State) {
+        findViewById<TextView>(R.id.gameTitleText).text = room.roomTitle
+        findViewById<TextView>(R.id.gameFirstUserNameText).text = room.firstUserEntity.userName
+        findViewById<TextView>(R.id.gameSecondUserNameText).text = room.secondUserEntity.userName
+        initDescription(state.getTurn())
+        drawStone(state)
+    }
+
+    private fun initDescription(turn: CoordinateState) {
+        val gameDescriptionText = findViewById<TextView>(R.id.gameDescriptionText)
+        gameDescriptionText.text = DESCRIPTION.format(turn.toColor(), turn.toName(), turn.toColor())
     }
 
     private fun setOmokClickListener(board: Board) {
@@ -141,10 +137,11 @@ class OmokGameActivity : AppCompatActivity(), Observer {
     }
 
     private fun goToResultActivity(turn: CoordinateState) {
-        val intent = Intent(this, ResultActivity::class.java)
-        intent.putExtra(ROOM_ID, room.roomId)
-        intent.putExtra(ROOM_TITLE, room.roomTitle)
-        intent.putExtra(WINNER_NAME, turn.toName())
+        val intent = Intent(this, ResultActivity::class.java).apply {
+            putExtra(ROOM_ID, room.roomId)
+            putExtra(ROOM_TITLE, room.roomTitle)
+            putExtra(WINNER_NAME, turn.toName())
+        }
         startActivity(intent)
         finish()
     }
@@ -159,7 +156,6 @@ class OmokGameActivity : AppCompatActivity(), Observer {
 
     override fun onDestroy() {
         boardDao.closeDb()
-        roomDao.closeDb()
         super.onDestroy()
     }
 
