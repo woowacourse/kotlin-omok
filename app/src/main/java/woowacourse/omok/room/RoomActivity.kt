@@ -22,7 +22,8 @@ import woowacourse.omok.dbHelper.OmokBoardDbHelper
 
 class RoomActivity : AppCompatActivity() {
     private val boardDb = OmokBoardDbHelper(this)
-    lateinit var player: Player
+    private val gameId: Int by lazy { intent.getIntExtra("gameId", 0) }
+    private val player: Player by lazy { intent.getSerializableExtra("player") as Player }
 
     private val omokGameListener = object : OmokGameListener {
         override fun onOmokStart() {
@@ -33,7 +34,7 @@ class RoomActivity : AppCompatActivity() {
             matrixBoard.forEach { (col, row, imageView) ->
                 setStoneImage(gameState.omokBoard, imageView, OmokPoint(col + 1, row + 1))
             }
-            omokPoint?.let { boardDb.insert(gameState, omokPoint, intent.getIntExtra("gameId", 0)) }
+            omokPoint?.let { boardDb.insert(gameState, omokPoint, gameId) }
         }
 
         override fun onError(message: String?) {
@@ -42,6 +43,12 @@ class RoomActivity : AppCompatActivity() {
     }
 
     private lateinit var omokController: OmokController
+
+    private val listeners = listOf<() -> Unit>(
+        ::addStoneListener,
+        ::addListenerResetGameState,
+        ::addListenerBackToRoomList,
+    )
 
     private val matrixBoard get() = findViewById<TableLayout>(R.id.board)
         .children.filterIsInstance<TableRow>().flatMapIndexed { row, tableRow ->
@@ -54,18 +61,17 @@ class RoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room)
 
-        player = intent.getSerializableExtra("player") as Player
-        omokController = OmokController(omokGameListener, boardDb.getGameState(intent.getIntExtra("gameId", 0)))
+        omokController = OmokController(omokGameListener, boardDb.getGameState(gameId))
 
-        player.run {
-            findViewById<ImageView>(R.id.opposing_player_image).setImageResource(profile)
-            findViewById<TextView>(R.id.opposing_player_name).text = name
-            findViewById<TextView>(R.id.opposing_player_score).text = "$win 승 $lose 패 $draw 무"
-        }
+        setUpOpposingPlayer(player)
 
-        addStoneListener()
-        addListenerResetGameState()
-        addListenerBackToRoomList()
+        listeners.forEach { listener -> listener() }
+    }
+
+    private fun setUpOpposingPlayer(player: Player) = player.run {
+        findViewById<ImageView>(R.id.opposing_player_image).setImageResource(profile)
+        findViewById<TextView>(R.id.opposing_player_name).text = name
+        findViewById<TextView>(R.id.opposing_player_score).text = "$win 승 $lose 패 $draw 무"
     }
 
     private fun addStoneListener() {
@@ -82,7 +88,7 @@ class RoomActivity : AppCompatActivity() {
 
     private fun addListenerResetGameState() {
         findViewById<Button>(R.id.resetButton).setOnClickListener {
-            boardDb.delete(intent.getIntExtra("gameId", 0))
+            boardDb.delete(gameId)
             omokController = OmokController(omokGameListener)
 
             matrixBoard.forEach { (_, _, imageView) -> imageView.setImageResource(0) }
