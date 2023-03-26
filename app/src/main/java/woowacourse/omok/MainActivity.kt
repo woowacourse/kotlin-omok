@@ -125,8 +125,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         omokRepo.close()
+        super.onDestroy()
     }
 
     companion object {
