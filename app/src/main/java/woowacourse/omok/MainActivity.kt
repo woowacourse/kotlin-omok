@@ -8,6 +8,7 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import domain.OmokBoard
 import domain.OmokGame
 import domain.State
 import domain.Stone
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         val boardView = board.children.filterIsInstance<TableRow>()
             .map { it.children.filterIsInstance<ImageView>().toList() }.toList()
         val omokGame = makeOmokGame(db)
-        setPreBoardImage(omokGame, db, boardView)
+        setPreBoardImage(omokGame, boardView)
         addImageViewListener(omokGame, db, boardView)
     }
 
@@ -72,34 +73,42 @@ class MainActivity : AppCompatActivity() {
 
     private fun setPreBoardImage(
         omokGame: OmokGame,
-        db: OmokDbHelper,
         boardView: List<List<ImageView>>
     ) {
-        db.getStones(State.BLACK).forEach { stone ->
-            omokGame.initBoard(State.BLACK, stone)
-            setImageViewResource(State.BLACK, boardView[stone.row][stone.column])
-        }
-        db.getStones(State.WHITE).forEach { stone ->
-            omokGame.initBoard(State.WHITE, stone)
-            setImageViewResource(State.WHITE, boardView[stone.row][stone.column])
+        val omokBoard = omokGame.omokBoard.value
+        omokBoard.forEachIndexed { rowIndex, row ->
+            row.forEachIndexed { columnIndex, column ->
+                when (omokBoard[rowIndex][columnIndex]) {
+                    State.BLACK -> setImageViewResource(State.BLACK, boardView[rowIndex][columnIndex])
+                    State.WHITE -> setImageViewResource(State.WHITE, boardView[rowIndex][columnIndex])
+                    State.EMPTY -> null
+                }
+            }
         }
     }
 
     private fun makeOmokGame(db: OmokDbHelper): OmokGame {
+        val omokBoard =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+
         val blackStones = db.getStones(State.BLACK)
-        Log.d(TAG_STONE_POSITION, "흑돌의 위치 : $blackStones")
+        blackStones.forEach { stone ->
+            omokBoard[stone.row][stone.column] = State.BLACK
+        }
 
         val whiteStones = db.getStones(State.WHITE)
-        Log.d(TAG_STONE_POSITION, "백돌의 위치 : $whiteStones")
+        whiteStones.forEach { stone ->
+            omokBoard[stone.row][stone.column] = State.WHITE
+        }
 
         val turn = if (blackStones.size > whiteStones.size) State.WHITE else State.BLACK
-        return OmokGame(omokGameListener = OmokGameListener(this), _turn = turn)
+        return OmokGame(OmokBoard(omokBoard), OmokGameListener(this), turn)
     }
 
-    private fun setImageViewResource(state: State, boardView: ImageView) {
+    private fun setImageViewResource(state: State, imageView: ImageView) {
         when (state) {
-            State.BLACK -> boardView.setImageResource(R.drawable.black_stone)
-            State.WHITE -> boardView.setImageResource(R.drawable.white_stone)
+            State.BLACK -> imageView.setImageResource(R.drawable.black_stone)
+            State.WHITE -> imageView.setImageResource(R.drawable.white_stone)
             State.EMPTY -> null
         }
     }

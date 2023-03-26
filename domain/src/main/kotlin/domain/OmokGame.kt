@@ -3,7 +3,7 @@ package domain
 import domain.listener.OmokListener
 
 class OmokGame(
-    private val omokBoard: OmokBoard = OmokBoard(),
+    val omokBoard: OmokBoard = OmokBoard(),
     private val omokGameListener: OmokListener,
     private var _turn: State = State.BLACK
 ) {
@@ -19,10 +19,6 @@ class OmokGame(
             doTurn(State.WHITE)
             if (omokBoard.isVictory(State.WHITE)) return omokGameListener.onFinish(State.WHITE)
         }
-    }
-
-    fun initBoard(state: State, stone: Stone) {
-        omokBoard.move(stone, state)
     }
 
     private fun doTurn(state: State) {
