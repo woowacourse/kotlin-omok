@@ -10,6 +10,7 @@ import omok.domain.board.Board
 import omok.domain.board.Position
 import omok.domain.player.Stone
 import omok.domain.player.changeToStone
+import woowacourse.omok.MainActivity.Companion.changeIndexToPosition
 
 class BoardDBHelper(context: Context?) :
     SQLiteOpenHelper(context, BoardContract.DATABASE_NAME, null, 1) {
@@ -66,11 +67,6 @@ class BoardDBHelper(context: Context?) :
         db.close()
     }
 
-    private fun changeIndexToPosition(index: Int): Position {
-        val row = 14 - (index / 15)
-        val column = index % 15
-        return Position(Pair(column, row))
-    }
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
         db?.execSQL("DROP TABLE IF EXISTS ${BoardContract.TABLE_NAME}")
         onCreate(db)

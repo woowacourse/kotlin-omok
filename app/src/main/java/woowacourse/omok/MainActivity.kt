@@ -12,6 +12,7 @@ import omok.OmokGame
 import omok.domain.board.Board
 import omok.domain.board.Column
 import omok.domain.board.Position
+import omok.domain.board.Row
 import omok.domain.player.Stone
 
 class MainActivity : AppCompatActivity() {
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         Column.values().forEachIndexed { index, column ->
             if (column == position.column) result += index
         }
-        result += (14 - position.row.axis) * 15
+        result += (Row.values().size - position.row.axis - 1) * Row.values().size
         return result
     }
 
@@ -72,12 +73,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "다시 놓아주세요.", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun changeIndexToPosition(index: Int): Position {
-        val row = 14 - (index / 15)
-        val column = index % 15
-        return Position(Pair(column, row))
     }
 
     private fun placeStone(game: OmokGame, selectedPosition: Position): Boolean {
@@ -115,5 +110,13 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         db.deleteData()
         finish()
+    }
+
+    companion object {
+        fun changeIndexToPosition(index: Int): Position {
+            val row = Row.values().size - (index / Row.values().size) - 1
+            val column = index % Column.values().size
+            return Position(Pair(column, row))
+        }
     }
 }
