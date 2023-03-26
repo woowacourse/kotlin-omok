@@ -16,14 +16,13 @@ class TurnEventListener(private val context: Context, private val descriptionVie
         Toast.makeText(context, R.string.start_game, Toast.LENGTH_LONG).show()
     }
 
-    override fun onEndGame(players: Players) {
-        if (players.isPlaying) return
-        Toast.makeText(context, R.string.end_game, Toast.LENGTH_LONG).show()
-        if (players.isFoul) {
-            descriptionView.text = context.getString(R.string.is_forbidden).plus(context.getString(R.string.who_is_winner).format(players.curPlayerColor.toPresentation().text))
-            return
+    override fun onEndGame(result: TurnResult) {
+        when (result) {
+            is TurnResult.Playing -> return
+            is TurnResult.Foul -> descriptionView.text = context.getString(R.string.is_forbidden).plus(context.getString(R.string.who_is_winner).format(result.winColor.toPresentation().text))
+            is TurnResult.Win -> descriptionView.text = context.getString(R.string.who_is_winner).format(result.winColor.next().toPresentation().text)
         }
-        descriptionView.text = context.getString(R.string.who_is_winner).format(players.curPlayerColor.next().toPresentation().text)
+        Toast.makeText(context, R.string.end_game, Toast.LENGTH_LONG).show()
     }
 
     override fun onStartTurn(stoneColor: StoneColor, point: Point?) {
@@ -31,7 +30,7 @@ class TurnEventListener(private val context: Context, private val descriptionVie
     }
 
     override fun onEndTurn(result: TurnResult) {
-        if (result is TurnResult.Failure) Toast.makeText(context, R.string.already_exist, Toast.LENGTH_LONG).show()
+        if (result is TurnResult.Playing && result.isExistPoint) Toast.makeText(context, R.string.already_exist, Toast.LENGTH_LONG).show()
         descriptionView.text = context.getString(R.string.who_is_turn).format(result.players.curPlayerColor.toPresentation().text)
     }
 }

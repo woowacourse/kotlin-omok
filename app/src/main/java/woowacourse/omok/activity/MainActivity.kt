@@ -34,23 +34,24 @@ class MainActivity : AppCompatActivity() {
         gameEventListener.onStartGame()
         gameEventListener.onStartTurn(omok.players.curPlayerColor, omok.players.getLastPoint())
 
+        var result: TurnResult = TurnResult.Playing(false, omok.players)
         getBoardViews().forEachIndexed { index, view ->
             view.setOnClickListener {
-                if (!omok.isPlaying) return@setOnClickListener
-                val result = omok.takeTurn(calculateIndexToPoint(index))
-                if (result is TurnResult.Success) {
+                if (result !is TurnResult.Playing) return@setOnClickListener
+                result = omok.takeTurn(calculateIndexToPoint(index))
+                if (result !is TurnResult.Playing || !(result as TurnResult.Playing).isExistPoint) {
                     setStone(view, omok.players.curPlayerColor.next())
                     dbManager.insert(index, omok.players.curPlayerColor.next().name)
                 }
                 gameEventListener.onEndTurn(result)
-                gameEventListener.onEndGame(omok.players)
+                gameEventListener.onEndGame(result)
             }
         }
     }
 
     override fun onStop() {
         super.onStop()
-        if (!omok.isPlaying) dbManager.deleteAll()
+        if (!omok.players.isPlaying) dbManager.deleteAll()
     }
 
     override fun onDestroy() {
