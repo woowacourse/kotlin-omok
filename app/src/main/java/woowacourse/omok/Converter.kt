@@ -12,14 +12,6 @@ object Converter {
         }
     }
 
-    fun stringToColor(message: String): Color {
-        return when (message) {
-            "흑" -> Color.BLACK
-            "백" -> Color.WHITE
-            else -> throw IllegalArgumentException("잘못된 색")
-        }
-    }
-
     fun indexToPosition(index: Int): Position {
         val boardSize = Board.getSize()
         val x = index / boardSize
