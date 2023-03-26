@@ -18,7 +18,6 @@ class OmokDBAdapter(db: OmokDBHelper) {
         null
     )
 
-
     fun getStones(): List<Stone> {
         val stones = mutableListOf<Stone>()
 

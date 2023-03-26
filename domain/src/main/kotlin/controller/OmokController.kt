@@ -11,11 +11,14 @@ class OmokController(private val omokGame: OmokGame = OmokGame()) {
     fun run() {
         runCatching {
             OutputView.printGameStartMessage()
-            do{
-                omokGame.placeStone(OutputView::printOmokBoard, InputView::requestPoint)
-            }while(omokGame.state == OmokGameState.Running)
-            OutputView.printOmokBoard(omokGame.board)
-            OutputView.printWinner(omokGame.state.getResult())
+            while (true) {
+                val state = omokGame.placeStone(OutputView::printOmokBoard, InputView::requestPoint)
+                if (state is OmokGameState.End) {
+                    OutputView.printOmokBoard(omokGame.board)
+                    OutputView.printWinner(state.getResult())
+                    return
+                }
+            }
         }.onFailure { ex ->
             OutputView.printExceptionMessage(ex)
         }

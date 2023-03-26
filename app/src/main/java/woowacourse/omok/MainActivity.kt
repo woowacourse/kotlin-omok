@@ -1,6 +1,7 @@
 package woowacourse.omok
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -10,6 +11,7 @@ import androidx.core.view.children
 import domain.OmokGame
 import domain.OmokGameState
 import domain.board.Board
+import domain.stone.Color
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,17 +44,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun placeStone(clickedIndex: Int) {
-        if (omokGame.state is OmokGameState.Running) {
+        runCatching {
+            val state = omokGame.placeStone(::printBoard) { _, _ -> clickedIndex.toPoint() }
             omokDBAdapter.addStone(clickedIndex, omokGame.turnColor)
-            omokGame.placeStone(::printBoard) { _, _ -> clickedIndex.toPoint() }
             printBoard(omokGame.board)
+            if (state is OmokGameState.End) {
+                getResult(state)
+            }
+        }.onFailure { ex ->
+            ex.message?.let { message ->
+                Log.e(PLACE_STONE_ERROR, message)
+            }
         }
     }
 
-    private fun checkEnded() {
-        if (omokGame.state is OmokGameState.End) {
-            printEndMessage()
+    private fun getResult(state: OmokGameState) {
+        runCatching {
+            printEndMessage(state.getResult())
             initOmokGames()
+        }.onFailure { ex ->
+            ex.message?.let { message ->
+                Log.e(RESULT_ERROR, message)
+            }
         }
     }
 
@@ -60,7 +73,6 @@ class MainActivity : AppCompatActivity() {
         boards.forEachIndexed { index, view ->
             view.setOnClickListener {
                 placeStone(index)
-                checkEnded()
             }
         }
     }
@@ -77,14 +89,11 @@ class MainActivity : AppCompatActivity() {
         clearBoard()
     }
 
-    private fun printEndMessage() {
+    private fun printEndMessage(winningColor: Color) {
         Toast.makeText(
             this,
             WINNING_MESSAGE.format(
-                omokGame
-                    .state
-                    .getResult()
-                    .toName()
+                winningColor.toName()
             ),
             Toast.LENGTH_SHORT
         ).show()
@@ -92,5 +101,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val WINNING_MESSAGE = "우승자는 %s입니다."
+        private const val PLACE_STONE_ERROR = "placing stone error"
+        private const val RESULT_ERROR = "result error"
     }
 }
