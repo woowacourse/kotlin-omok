@@ -17,7 +17,6 @@ import woowacourse.omok.omokgame.OmokGameUtil
 import woowacourse.omok.omokgame.OmokGameUtil.loopBoardTable
 
 class ResultActivity : AppCompatActivity() {
-    private val boardDao = BoardDao(this)
     private val roomDao = RoomDao(this)
     private val roomId by lazy { intent.getIntExtra(ROOM_ID, -1) }
 
@@ -29,10 +28,12 @@ class ResultActivity : AppCompatActivity() {
     }
 
     private fun getRoom() {
+        val boardDao = BoardDao(this)
         val winnerName = intent.getStringExtra(WINNER_NAME) ?: ""
         val roomTitle = intent.getStringExtra(ROOM_TITLE) ?: ""
         val boardState = boardDao.readBoard(roomId)
         initView(roomTitle, winnerName, boardState)
+        boardDao.closeDb()
     }
 
     private fun initView(roomTitle: String, winnerName: String, state: State) {
@@ -50,8 +51,10 @@ class ResultActivity : AppCompatActivity() {
     }
 
     private fun clickFinish() {
-        roomDao.deleteRoom(roomId)
-        findViewById<Button>(R.id.resultFinishButton).setOnClickListener { finish() }
+        findViewById<Button>(R.id.resultFinishButton).setOnClickListener {
+            roomDao.deleteRoom(roomId)
+            finish()
+        }
     }
 
     override fun onDestroy() {
