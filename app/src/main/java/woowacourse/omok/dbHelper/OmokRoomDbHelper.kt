@@ -19,7 +19,7 @@ class OmokRoomDbHelper(
         db?.execSQL(
             "CREATE TABLE IF NOT EXISTS $TABLE_NAME_ROOM (" +
                 "$TABLE_COLUMN_GAME_ID INTEGER PRIMARY KEY UNIQUE ON CONFLICT REPLACE," +
-                "$TABLE_COLUMN_PLAYER_ID INTEGER," +
+                "$TABLE_COLUMN_PLAYER_ID LONG UNIQUE," +
                 "$TABLE_COLUMN_TITLE TEXT," +
                 "$TABLE_COLUMN_STATUS INTEGER," +
                 "$TABLE_COLUMN_TIME INTEGER" +
@@ -31,32 +31,6 @@ class OmokRoomDbHelper(
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME_ROOM")
         onCreate(db)
     }
-
-    private fun checkAlreadyExist(playerId: Int): Boolean {
-        val rDb = this.readableDatabase
-
-        val cursor = rDb.query(
-            TABLE_NAME_ROOM,
-            arrayOf(TABLE_COLUMN_PLAYER_ID),
-            "$TABLE_COLUMN_PLAYER_ID = ?",
-            arrayOf(playerId.toString()),
-            null,
-            null,
-            null,
-        )
-
-        return cursor.count > 0
-    }
-
-    fun insertOrReplace(room: Room) {
-        room.player.id?.let {
-            when {
-                checkAlreadyExist(it) -> update(room)
-                else -> insert(room)
-            }
-        }
-    }
-
     private fun getRoomContentValues(room: Room) = ContentValues().apply {
         put(TABLE_COLUMN_PLAYER_ID, room.player.id)
         put(TABLE_COLUMN_TITLE, room.title)
@@ -64,7 +38,7 @@ class OmokRoomDbHelper(
         put(TABLE_COLUMN_TIME, room.time)
     }
 
-    private fun insert(room: Room) {
+    fun insert(room: Room) {
         val wDb = this.writableDatabase
 
         val values = getRoomContentValues(room)
@@ -111,7 +85,7 @@ class OmokRoomDbHelper(
 
         with(cursor) {
             while (moveToNext()) {
-                val playerId = getInt(getColumnIndexOrThrow(TABLE_COLUMN_PLAYER_ID))
+                val playerId = getLong(getColumnIndexOrThrow(TABLE_COLUMN_PLAYER_ID))
 
                 OmokPlayerDbHelper(context).getPlayer(playerId)?.let {
                     roomInfo.add(

@@ -13,7 +13,7 @@ class RestartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restart)
 
-        val player = intent.getSerializableExtra("player") as Player
+        val player = intent.getSerializableExtra("winner") as Player
 
         findViewById<TextView>(R.id.restart_text).text = "${player.name}님의 승리입니다."
         findViewById<ImageView>(R.id.restart_image).setImageResource(player.profile)

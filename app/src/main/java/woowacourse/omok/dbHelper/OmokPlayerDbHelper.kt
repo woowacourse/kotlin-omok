@@ -2,6 +2,7 @@ package woowacourse.omok.dbHelper
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import woowacourse.omok.data.Player
@@ -21,7 +22,7 @@ class OmokPlayerDbHelper(
         db?.execSQL(
             "CREATE TABLE IF NOT EXISTS $TABLE_NAME_PLAYER (" +
                 "$TABLE_COLUMN_ID INTEGER UNIQUE ON CONFLICT REPLACE PRIMARY KEY," +
-                "$TABLE_COLUMN_NAME TEXT," +
+                "$TABLE_COLUMN_NAME TEXT UNIQUE," +
                 "$TABLE_COLUMN_WIN INTEGER," +
                 "$TABLE_COLUMN_LOSE INTEGER," +
                 "$TABLE_COLUMN_DRAW INTEGER," +
@@ -35,25 +36,63 @@ class OmokPlayerDbHelper(
         onCreate(db)
     }
 
-    private fun checkAlreadyExist(playerName: String): Boolean {
-        val rDb = this.readableDatabase
-
-        val cursor = rDb.query(
-            TABLE_NAME_PLAYER,
-            arrayOf(TABLE_COLUMN_NAME),
-            "$TABLE_COLUMN_NAME = ?",
-            arrayOf(playerName),
-            null,
-            null,
-            null,
-        )
-
-        return cursor.count > 0
+    fun insert(player: Player): Long {
+        val wDb = this.writableDatabase
+        val values = getPlayerContentValues(player)
+        return wDb.insert(TABLE_NAME_PLAYER, null, values)
     }
 
-    fun insertOrReplace(player: Player) = when {
-        checkAlreadyExist(player.name) -> update(player)
-        else -> insert(player)
+    fun update(player: Player) {
+        val wDb = this.writableDatabase
+        val values = getPlayerContentValues(player)
+        wDb.update(TABLE_NAME_PLAYER, values, "$TABLE_COLUMN_NAME = ?", arrayOf(player.name))
+    }
+
+    fun getPlayer(playerId: Long): Player? {
+        val rDb = this.readableDatabase
+        val cursor = rDb.customQuery(
+            table = TABLE_NAME_PLAYER,
+            columns = arrayOf(TABLE_COLUMN_ID, TABLE_COLUMN_NAME, TABLE_COLUMN_WIN, TABLE_COLUMN_LOSE, TABLE_COLUMN_DRAW, TABLE_COLUMN_PROFILE),
+            selection = "$TABLE_COLUMN_ID = ?",
+            selectionArgs = arrayOf(playerId.toString()),
+        )
+
+        var player: Player? = null
+        if (cursor.moveToNext()) { player = getPlayerFrom(cursor) }
+
+        cursor.close()
+        return player
+    }
+
+    fun getPlayer(name: String): Player? {
+        val rDb = this.readableDatabase
+        val cursor = rDb.customQuery(
+            table = TABLE_NAME_PLAYER,
+            columns = arrayOf(TABLE_COLUMN_ID, TABLE_COLUMN_NAME, TABLE_COLUMN_WIN, TABLE_COLUMN_LOSE, TABLE_COLUMN_DRAW, TABLE_COLUMN_PROFILE),
+            selection = "$TABLE_COLUMN_NAME = ?",
+            selectionArgs = arrayOf(name),
+        )
+
+        var player: Player? = null
+        if (cursor.moveToNext()) { player = getPlayerFrom(cursor) }
+
+        cursor.close()
+        return player
+    }
+
+    fun getPlayers(): List<Player> {
+        val rDb = this.readableDatabase
+
+        val cursor = rDb.customQuery(
+            table = TABLE_NAME_PLAYER,
+            columns = arrayOf(TABLE_COLUMN_ID, TABLE_COLUMN_NAME, TABLE_COLUMN_WIN, TABLE_COLUMN_LOSE, TABLE_COLUMN_DRAW, TABLE_COLUMN_PROFILE),
+        )
+
+        val players = mutableListOf<Player>()
+        while (cursor.moveToNext()) { players.add(getPlayerFrom(cursor)) }
+
+        cursor.close()
+        return players
     }
 
     private fun getPlayerContentValues(player: Player) = ContentValues().apply {
@@ -64,80 +103,23 @@ class OmokPlayerDbHelper(
         put(TABLE_COLUMN_PROFILE, player.profile)
     }
 
-    private fun insert(player: Player) {
-        val wDb = this.writableDatabase
-        val values = getPlayerContentValues(player)
-        wDb.insert(TABLE_NAME_PLAYER, null, values)
-    }
+    private fun SQLiteDatabase.customQuery(
+        table: String,
+        columns: Array<String> = arrayOf(),
+        selection: String? = null,
+        selectionArgs: Array<String>? = null,
+        groupBy: String? = null,
+        having: String? = null,
+        orderBy: String? = null,
+        limit: String? = null,
+    ): Cursor = query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit)
 
-    fun update(player: Player) {
-        val wDb = this.writableDatabase
-        val values = getPlayerContentValues(player)
-        wDb.update(TABLE_NAME_PLAYER, values, "$TABLE_COLUMN_NAME = ?", arrayOf(player.name))
-    }
-
-    fun getPlayer(playerId: Int): Player? {
-        val rDb = this.readableDatabase
-        val cursor = rDb.query(
-            TABLE_NAME_PLAYER,
-            arrayOf(TABLE_COLUMN_ID, TABLE_COLUMN_NAME, TABLE_COLUMN_WIN, TABLE_COLUMN_LOSE, TABLE_COLUMN_DRAW, TABLE_COLUMN_PROFILE),
-            "$TABLE_COLUMN_ID = ?",
-            arrayOf(playerId.toString()),
-            null,
-            null,
-            null,
-            null,
-        )
-
-        var player: Player? = null
-
-        with(cursor) {
-            while (moveToNext()) {
-                player = Player(
-                    id = getInt(getColumnIndexOrThrow(TABLE_COLUMN_ID)),
-                    name = getString(getColumnIndexOrThrow(TABLE_COLUMN_NAME)),
-                    win = getInt(getColumnIndexOrThrow(TABLE_COLUMN_WIN)),
-                    lose = getInt(getColumnIndexOrThrow(TABLE_COLUMN_LOSE)),
-                    draw = getInt(getColumnIndexOrThrow(TABLE_COLUMN_DRAW)),
-                    profile = getInt(getColumnIndexOrThrow(TABLE_COLUMN_PROFILE)),
-                )
-            }
-        }
-
-        return player
-    }
-
-    fun getPlayers(): List<Player> {
-        val rDb = this.readableDatabase
-        val cursor = rDb.query(
-            TABLE_NAME_PLAYER,
-            arrayOf(TABLE_COLUMN_ID, TABLE_COLUMN_NAME, TABLE_COLUMN_WIN, TABLE_COLUMN_LOSE, TABLE_COLUMN_DRAW, TABLE_COLUMN_PROFILE),
-            null,
-            null,
-            null,
-            null,
-            null,
-        )
-
-        val players = mutableListOf<Player>()
-
-        with(cursor) {
-            while (moveToNext()) {
-                players.add(
-                    Player(
-                        id = getInt(getColumnIndexOrThrow(TABLE_COLUMN_ID)),
-                        name = getString(getColumnIndexOrThrow(TABLE_COLUMN_NAME)),
-                        win = getInt(getColumnIndexOrThrow(TABLE_COLUMN_WIN)),
-                        lose = getInt(getColumnIndexOrThrow(TABLE_COLUMN_LOSE)),
-                        draw = getInt(getColumnIndexOrThrow(TABLE_COLUMN_DRAW)),
-                        profile = getInt(getColumnIndexOrThrow(TABLE_COLUMN_PROFILE)),
-                    ),
-                )
-            }
-        }
-
-        return players
-    }
-
-    fun getPlayerOrThrow(playerId: Int): Player = getPlayer(playerId) ?: throw Exception("Player not found")
+    private fun getPlayerFrom(cursor: Cursor) = Player(
+        id = cursor.getLong(cursor.getColumnIndexOrThrow(TABLE_COLUMN_ID)),
+        name = cursor.getString(cursor.getColumnIndexOrThrow(TABLE_COLUMN_NAME)),
+        win = cursor.getInt(cursor.getColumnIndexOrThrow(TABLE_COLUMN_WIN)),
+        lose = cursor.getInt(cursor.getColumnIndexOrThrow(TABLE_COLUMN_LOSE)),
+        draw = cursor.getInt(cursor.getColumnIndexOrThrow(TABLE_COLUMN_DRAW)),
+        profile = cursor.getInt(cursor.getColumnIndexOrThrow(TABLE_COLUMN_PROFILE)),
+    )
 }

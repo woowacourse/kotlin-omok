@@ -9,6 +9,7 @@ import woowacourse.omok.dbHelper.OmokRoomDbHelper
 object SampleData {
     private val playerNames: List<Player> =
         listOf(
+            Player(name = "player", profile = R.drawable.player_ark),
             Player(name = "아크", profile = R.drawable.player_ark),
             Player(name = "크롱", profile = R.drawable.player_krrong),
             Player(name = "해시", profile = R.drawable.player_hash),
@@ -43,9 +44,7 @@ object SampleData {
         val db = OmokRoomDbHelper(context)
         val playerDb = OmokPlayerDbHelper(context)
 
-        if (playerDb.getPlayers().size < playerNames.size) return
-
-        playerNames.forEach(playerDb::insertOrReplace)
+        playerNames.forEach(playerDb::insert)
         val player = playerDb.getPlayers()
         player.forEachIndexed { idx, it ->
             println("idx: $idx, it: $it")
@@ -55,7 +54,7 @@ object SampleData {
                 status = 0,
                 time = 0,
             )
-            db.insertOrReplace(room)
+            db.insert(room)
         }
         db.close()
         playerDb.close()

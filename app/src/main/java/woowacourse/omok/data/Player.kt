@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import java.io.Serializable
 
 data class Player(
-    val id: Int = -1,
+    val id: Long = -1,
     val name: String,
     val win: Int = 0,
     val lose: Int = 0,

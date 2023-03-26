@@ -31,6 +31,7 @@ class RoomActivity : AppCompatActivity() {
     private val playerDb = OmokPlayerDbHelper(this)
     private val gameId: Int by lazy { intent.getIntExtra("gameId", 0) }
     private lateinit var opposingPlayer: Player
+    private lateinit var player: Player
 
     private val omokGameListener = object : OmokGameListener {
         override fun onStartGame() {
@@ -71,11 +72,13 @@ class RoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room)
 
-        opposingPlayer = intent.getSerializableExtra("player") as Player
+        opposingPlayer = intent.getSerializableExtra("opposingPlayer") as Player
+        player = intent.getSerializableExtra("player") as Player
 
         omokController = OmokController(omokGameListener, boardDb.getGameState(gameId))
 
         setUpOpposingPlayer(opposingPlayer)
+        setUpPlayer(player)
 
         listeners.forEach { listener -> listener() }
     }
@@ -90,22 +93,37 @@ class RoomActivity : AppCompatActivity() {
     }
     private fun updateGameInfo(gameState: GameState) {
         when (gameState) {
-            is BlackWin -> playerDb.update(opposingPlayer.copy(lose = opposingPlayer.lose + 1))
-            is WhiteWin -> playerDb.update(opposingPlayer.copy(win = opposingPlayer.win + 1))
+            is BlackWin -> {
+                playerDb.update(opposingPlayer.copy(lose = opposingPlayer.lose + 1))
+                playerDb.update(player.copy(win = player.win + 1))
+                runRestartActivity(player)
+            }
+            is WhiteWin -> {
+                playerDb.update(opposingPlayer.copy(win = opposingPlayer.win + 1))
+                playerDb.update(player.copy(lose = player.lose + 1))
+                runRestartActivity(opposingPlayer)
+            }
             else -> null
         }?.let {
-            opposingPlayer = playerDb.getPlayerOrThrow(opposingPlayer.id)
-            runRestartActivity()
+            opposingPlayer = playerDb.getPlayer(opposingPlayer.id) ?: opposingPlayer
+            player = playerDb.getPlayer(player.id) ?: player
             resetGameState()
         }
 
         setUpOpposingPlayer(opposingPlayer)
+        setUpPlayer(player)
     }
 
     private fun setUpOpposingPlayer(player: Player) = player.run {
         findViewById<ImageView>(R.id.opposing_player_image).setImageResource(profile)
         findViewById<TextView>(R.id.opposing_player_name).text = name
         findViewById<TextView>(R.id.opposing_player_score).text = "$win 승 $lose 패 $draw 무"
+    }
+
+    private fun setUpPlayer(player: Player) = player.run {
+        findViewById<ImageView>(R.id.player_image).setImageResource(profile)
+        findViewById<TextView>(R.id.player_name).text = name
+        findViewById<TextView>(R.id.player_score).text = "$win 승 $lose 패 $draw 무"
     }
 
     private fun addStoneListener() =
@@ -119,10 +137,10 @@ class RoomActivity : AppCompatActivity() {
     private fun addListenerResetGameState() =
         findViewById<Button>(R.id.resetButton).setOnClickListener { resetGameState() }
 
-    private fun runRestartActivity() {
+    private fun runRestartActivity(winner: Player) {
         startActivity(
             Intent(this, RestartActivity::class.java).apply {
-                putExtra("player", opposingPlayer)
+                putExtra("winner", winner)
             },
         )
     }

@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.R
+import woowacourse.omok.data.Player
 import woowacourse.omok.data.Room
 import woowacourse.omok.dbHelper.OmokRoomDbHelper
 import woowacourse.omok.room.RoomActivity
@@ -48,7 +49,8 @@ class RoomListActivity : AppCompatActivity() {
         startActivity(
             Intent(this, RoomActivity::class.java).apply {
                 putExtra("gameId", room.gameId)
-                putExtra("player", room.player)
+                putExtra("opposingPlayer", room.player)
+                putExtra("player", intent.getSerializableExtra("player") as Player)
             },
         )
     }
