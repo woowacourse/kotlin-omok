@@ -22,27 +22,19 @@ import woowacourse.omok.R
 import woowacourse.omok.db.OmokDBManager
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var omok: Omok
-    private lateinit var dbManager: OmokDBManager
+    private val dbManager by lazy { OmokDBManager(applicationContext) }
+    private val omok: Omok by lazy { initOmok() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        dbManager = OmokDBManager(applicationContext)
-        val board = findViewById<TableLayout>(R.id.board)
-        omok = initOmok(board)
 
         val gameEventListener =
             GameEventListener(applicationContext, findViewById(R.id.description))
         gameEventListener.onStartGame()
         gameEventListener.onStartTurn(omok.players.curPlayerColor, omok.players.getLastPoint())
 
-        board
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEachIndexed { index, view ->
+        getBoardViews().forEachIndexed { index, view ->
                 view.setOnClickListener {
                     if (!omok.isPlaying) return@setOnClickListener
                     val result = omok.takeTurn(calculateIndexToPoint(index))
@@ -73,12 +65,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initOmok(board: TableLayout): Omok {
-        val boardViews = board
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>().toList()
+    private fun initOmok(): Omok {
+        val boardViews = getBoardViews()
 
         val blackIndexs = dbManager.getIndexsByColor(StoneColor.BLACK.name)
         val whiteIndexs = dbManager.getIndexsByColor(StoneColor.WHITE.name)
@@ -96,6 +84,12 @@ class MainActivity : AppCompatActivity() {
             WhitePlayer(PlayingState(indexsToPoints(whiteIndexs)), rule = WhiteRenjuRule())
         return Omok(blackPlayer, whitePlayer)
     }
+
+    private fun getBoardViews(): List<ImageView> = findViewById<TableLayout>(R.id.board)
+        .children
+        .filterIsInstance<TableRow>()
+        .flatMap { it.children }
+        .filterIsInstance<ImageView>().toList()
 
     private fun calculateIndexToPoint(index: Int): Point =
         Point(index / OMOK_BOARD_SIZE + 1, index % OMOK_BOARD_SIZE + 1)
