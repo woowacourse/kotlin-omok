@@ -1,18 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/record"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="100dp"
+    <TextView
+        android:id="@+id/gameTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        tools:text="금수 오목 대전" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_gravity="end"
-        android:layout_marginEnd="20dp"
         android:layout_weight="1"
-        android:src="@drawable/bixby" />
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/gameFirstUserNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            tools:text="멧돼지" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/bixby" />
+    </LinearLayout>
 
     <TableLayout
         android:id="@+id/board_table"
@@ -1193,11 +1223,41 @@
 
     </TableLayout>
 
-    <ImageView
-        android:layout_width="100dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_gravity="bottom"
-        android:layout_marginStart="20dp"
         android:layout_weight="1"
-        android:src="@drawable/siri" />
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/siri" />
+
+        <TextView
+            android:id="@+id/gameSecondUserNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            tools:text="산군" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/gameDescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        tools:text="흑의 차례입니다. 산군이 흑입니다." />
+
 </LinearLayout>
