@@ -120,7 +120,6 @@ class MainActivity : AppCompatActivity() {
                     state.stoneColor,
                 )
                 state = state.put(stone)
-                Log.d("state", state.toString())
                 checkState(view, stone)
             }
         }
