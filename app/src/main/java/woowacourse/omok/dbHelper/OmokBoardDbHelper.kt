@@ -7,14 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper
 import omok.domain.OmokBoard
 import omok.domain.OmokPoint
 import omok.domain.gameState.BlackTurn
-import omok.domain.gameState.BlackWin
 import omok.domain.gameState.GameState
-import omok.domain.gameState.WhiteTurn
-import omok.domain.gameState.WhiteWin
-import omok.domain.state.BlackStoneState
-import omok.domain.state.EmptyStoneState
 import omok.domain.state.StoneState
-import omok.domain.state.WhiteStoneState
 import woowacourse.omok.dbHelper.OmokBoardConstract.TABLE_COLUMN_OMOK_COL
 import woowacourse.omok.dbHelper.OmokBoardConstract.TABLE_COLUMN_OMOK_GAME_ID
 import woowacourse.omok.dbHelper.OmokBoardConstract.TABLE_COLUMN_OMOK_NEXT_TURN
@@ -47,23 +41,8 @@ class OmokBoardDbHelper(context: Context?) : SQLiteOpenHelper(context, "ark.db",
         values.put(TABLE_COLUMN_OMOK_GAME_ID, gameId)
         values.put(TABLE_COLUMN_OMOK_COL, omokPoint.x.value)
         values.put(TABLE_COLUMN_OMOK_ROW, omokPoint.y.value)
-        values.put(
-            TABLE_COLUMN_OMOK_NEXT_TURN,
-            when (gameState) {
-                is BlackTurn -> 1
-                is BlackWin -> 2
-                is WhiteTurn -> 3
-                is WhiteWin -> 4
-            },
-        )
-        values.put(
-            TABLE_COLUMN_OMOK_STONE,
-            when (gameState.omokBoard[omokPoint]) {
-                BlackStoneState -> 1
-                WhiteStoneState -> 2
-                else -> 0
-            },
-        )
+        values.put(TABLE_COLUMN_OMOK_NEXT_TURN, GameStateDbModel.fromGameState(gameState).value)
+        values.put(TABLE_COLUMN_OMOK_STONE, StoneDbModel.of(gameState.omokBoard[omokPoint]).value)
 
         wDb.insert(TABLE_NAME_OMOK_BOARD, null, values)
     }
@@ -72,13 +51,7 @@ class OmokBoardDbHelper(context: Context?) : SQLiteOpenHelper(context, "ark.db",
         val rDb = this.readableDatabase
         val cursor = rDb.query(
             TABLE_NAME_OMOK_BOARD,
-            arrayOf(
-                TABLE_COLUMN_OMOK_GAME_ID,
-                TABLE_COLUMN_OMOK_COL,
-                TABLE_COLUMN_OMOK_ROW,
-                TABLE_COLUMN_OMOK_NEXT_TURN,
-                TABLE_COLUMN_OMOK_STONE,
-            ),
+            arrayOf(TABLE_COLUMN_OMOK_GAME_ID, TABLE_COLUMN_OMOK_COL, TABLE_COLUMN_OMOK_ROW, TABLE_COLUMN_OMOK_NEXT_TURN, TABLE_COLUMN_OMOK_STONE),
             "$TABLE_COLUMN_OMOK_GAME_ID = ?",
             arrayOf(gameId.toString()),
             null,
@@ -92,27 +65,13 @@ class OmokBoardDbHelper(context: Context?) : SQLiteOpenHelper(context, "ark.db",
             while (moveToNext()) {
                 val col = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_COL))
                 val row = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_ROW))
-                val nextTurn =
-                    getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_NEXT_TURN))
-                val stone =
-                    getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_STONE))
+                val nextTurn = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_NEXT_TURN))
+                val stone = getInt(getColumnIndexOrThrow(TABLE_COLUMN_OMOK_STONE))
 
-                omokMap[OmokPoint(col, row)] = when (stone) {
-                    1 -> BlackStoneState
-                    2 -> WhiteStoneState
-                    else -> EmptyStoneState
-                }
+                omokMap[OmokPoint(col, row)] = StoneDbModel.toStoneState(stone)
 
                 if (isLast) {
-                    when (nextTurn) {
-                        1 -> BlackTurn(OmokBoard(omokMap))
-                        2 -> BlackWin(OmokBoard(omokMap))
-                        3 -> WhiteTurn(OmokBoard(omokMap))
-                        4 -> WhiteWin(OmokBoard(omokMap))
-                        else -> null
-                    }?.let {
-                        return it
-                    }
+                    return GameStateDbModel.toGameState(nextTurn, OmokBoard(omokMap))
                 }
             }
         }
