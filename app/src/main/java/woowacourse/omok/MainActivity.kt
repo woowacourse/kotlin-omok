@@ -43,13 +43,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initDisplay(board: TableLayout, color: String, index: Int) {
-        board
-            .children
+        board.children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEachIndexed { itIndex, view ->
-                if (itIndex == index) { initPut(index, color, view) }
+                if (itIndex == index) {
+                    initPut(index, color, view)
+                }
             }
     }
     private fun initPut(index: Int, color: String, view: ImageView) {
@@ -83,14 +84,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun putBoard(board: TableLayout, turn: State) {
-        board
-            .children
+        board.children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
                 view.setOnClickListener {
-                    if (turn == Turn.Black) blackTurn(board, index, view) else whiteTurn(board, index, view)
+                    if (turn == Turn.Black) {
+                        blackTurn(board, index, view)
+                    }
+                    if (turn == Turn.White) {
+                        whiteTurn(board, index, view)
+                    }
                 }
             }
     }
@@ -100,13 +105,18 @@ class MainActivity : AppCompatActivity() {
         if (!omokBoard.isBlackPlaceable(position)) {
             Toast.makeText(applicationContext, "해당 자리에 둘 수 없습니다.", Toast.LENGTH_SHORT).show()
             turn(Turn.Black, board)
-        } else {
+        }
+        if (omokBoard.isBlackPlaceable(position)) {
             DBController(OmokDBHelper(this).writableDatabase).insertDB(Turn.Black.color, index)
             view.setImageResource(R.drawable.black_stone)
             omokBoard.blackPlayer.put(BlackStone(position))
             omokBoard.occupyPosition(position)
-            if (lineJudge(omokBoard.blackPlayer, BlackStone(position))) turn(Win.Black, board)
-            else turn(Turn.White, board)
+            if (lineJudge(omokBoard.blackPlayer, BlackStone(position))) {
+                turn(Win.Black, board)
+            }
+            if (!lineJudge(omokBoard.blackPlayer, BlackStone(position))) {
+                turn(Turn.White, board)
+            }
         }
     }
 
@@ -115,13 +125,18 @@ class MainActivity : AppCompatActivity() {
         if (!omokBoard.isWhitePlaceable(position)) {
             Toast.makeText(applicationContext, "해당 자리에 둘 수 없습니다.", Toast.LENGTH_SHORT).show()
             turn(Turn.White, board)
-        } else {
+        }
+        if (omokBoard.isBlackPlaceable(position)) {
             DBController(OmokDBHelper(this).writableDatabase).insertDB(Turn.White.color, index)
             view.setImageResource(R.drawable.white_stone)
             omokBoard.whitePlayer.put(WhiteStone(position))
             omokBoard.occupyPosition(position)
-            if (lineJudge(omokBoard.whitePlayer, WhiteStone(position))) turn(Win.White, board)
-            else turn(Turn.Black, board)
+            if (lineJudge(omokBoard.whitePlayer, WhiteStone(position))) {
+                turn(Win.White, board)
+            }
+            if (!lineJudge(omokBoard.whitePlayer, WhiteStone(position))) {
+                turn(Turn.Black, board)
+            }
         }
     }
 
