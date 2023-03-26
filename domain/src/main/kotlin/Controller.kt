@@ -42,6 +42,6 @@ class Controller(
 
     private fun OmokGame.nextTurn(turn: State) {
         val stone = inputView.readPosition()
-        if (!this.successTurn2(stone, turn)) return nextTurn(turn)
+        if (!this.successTurn(stone, turn)) return nextTurn(turn)
     }
 }

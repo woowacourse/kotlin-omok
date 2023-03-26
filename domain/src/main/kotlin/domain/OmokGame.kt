@@ -11,7 +11,7 @@ class OmokGame(
         get() = _turn
     private var isOver = false
 
-    fun successTurn2(stone: Stone, state: State): Boolean {
+    fun successTurn(stone: Stone, state: State): Boolean {
         if (!omokBoard.isEmpty(stone)) {
             omokGameListener.onMoveFail()
             return false
@@ -27,31 +27,8 @@ class OmokGame(
         return true
     }
 
-    fun successTurn(stone: Stone): Boolean {
-        if (!isGameOver()) {
-            when {
-                !omokBoard.isEmpty(stone) -> omokGameListener.onMoveFail()
-                _turn == State.BLACK && omokBoard.isForbidden(stone) -> omokGameListener.onForbidden()
-                else -> null
-            }?.let { return false }
-            moveStone(stone)
-            isOver = isVictory(_turn)
-            return true
-        }
-        return false
-    }
-
     fun goNext() {
         _turn = _turn.nextState()
-    }
-
-    fun isGameOver(): Boolean {
-        return isOver
-    }
-
-    private fun moveStone(stone: Stone) {
-        omokBoard.move(stone, _turn)
-        omokGameListener.onMove(omokBoard, _turn, stone)
     }
 
     fun isVictory(state: State): Boolean {

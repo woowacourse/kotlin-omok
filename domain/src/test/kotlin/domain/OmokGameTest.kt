@@ -15,7 +15,7 @@ class OmokGameTest {
 
         val omokGame = OmokGame(OmokBoard(board), FakeOmokListener())
 
-        val actual = omokGame.successTurn2(Stone(3, 3), State.BLACK)
+        val actual = omokGame.successTurn(Stone(3, 3), State.BLACK)
 
         assertThat(actual).isFalse
     }
@@ -30,7 +30,7 @@ class OmokGameTest {
 
         val omokGame = OmokGame(OmokBoard(board), FakeOmokListener())
 
-        val actual = omokGame.successTurn2(Stone(3, 3), State.BLACK)
+        val actual = omokGame.successTurn(Stone(3, 3), State.BLACK)
 
         assertThat(actual).isTrue
     }
