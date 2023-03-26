@@ -9,8 +9,8 @@ import omok.domain.state.BlackStoneState
 import omok.domain.state.StoneState
 import omok.domain.state.WhiteStoneState
 
-object OmokMap {
-    fun makeMap(omokBoard: OmokBoard): List<List<String>> {
+object OmokMapUIModel {
+    fun adaptMap(omokBoard: OmokBoard): List<List<String>> {
         val omokMap = MutableList(omokBoard.ySize) { MutableList(omokBoard.xSize) { "" } }
         omokBoard.keys.forEach { point ->
             omokMap[point.y.value - 1][point.x.value - 1] = getString(omokBoard[point], point.y.value - 1, point.x.value - 1)

@@ -9,7 +9,7 @@ object OutputView {
 
     fun outputBoard(omokBoard: OmokBoard) {
         val stringBuilder = StringBuilder()
-        OmokMap.makeMap(omokBoard).reversed().forEachIndexed { y, list ->
+        OmokMapUIModel.adaptMap(omokBoard).reversed().forEachIndexed { y, list ->
             stringBuilder.append("${omokBoard.ySize - y}".padStart(3, ' '))
             list.forEach { stoneState -> stringBuilder.append(stoneState) }
             stringBuilder.appendLine()

@@ -1,5 +1,5 @@
 package omok.domain.state
 
-interface StoneState {
+sealed interface StoneState {
     fun next(): StoneState
 }

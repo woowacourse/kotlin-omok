@@ -3,20 +3,12 @@ package omok.view
 import omok.domain.OmokPoint
 import omok.domain.XCoordinate
 import omok.domain.YCoordinate
-import omok.domain.state.BlackStoneState
 import omok.domain.state.StoneState
-import omok.domain.state.WhiteStoneState
 
 object InputView {
-    private fun StoneState.name(): String = when (this) {
-        BlackStoneState -> "흑"
-        WhiteStoneState -> "백"
-        else -> ""
-    }
-
     fun inputPoint(stoneState: StoneState, omokPoint: OmokPoint?): OmokPoint {
         val lastLocation = omokPoint?.let { "(마지막 돌의 위치: ${it.x.toChar()}${it.y.value})" } ?: ""
-        println("${stoneState.name()}의 차례입니다. $lastLocation")
+        println("${stoneState.toUiModel().text}의 차례입니다. $lastLocation")
         print("위치를 입력하세요: ")
         return readPoint()
     }
