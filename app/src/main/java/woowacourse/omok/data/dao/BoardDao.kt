@@ -1,9 +1,8 @@
-package woowacourse.omok.data
+package woowacourse.omok.data.dao
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import android.provider.BaseColumns
 import domain.CoordinateState
 import domain.CoordinateState.BLACK
 import domain.CoordinateState.EMPTY
@@ -14,28 +13,31 @@ import domain.domain.state.BlackTurn
 import domain.domain.state.State
 import domain.domain.state.WhiteTurn
 import woowacourse.omok.data.OmokContract.Board.CREATE_BOARD_TABLE
+import woowacourse.omok.data.OmokContract.Board.DELETE_BOARD_TABLE
 import woowacourse.omok.data.OmokContract.Board.TABLE_COLUMN_COLOR
+import woowacourse.omok.data.OmokContract.Board.TABLE_COLUMN_ID
 import woowacourse.omok.data.OmokContract.Board.TABLE_COLUMN_X
 import woowacourse.omok.data.OmokContract.Board.TABLE_COLUMN_Y
 import woowacourse.omok.data.OmokContract.Board.TABLE_NAME
+import woowacourse.omok.data.OmokDbHelper
 
-class BoardTableModifier(private val context: Context) {
+class BoardDao(private val context: Context) {
     private val omokDb by lazy { OmokDbHelper(context).readableDatabase }
 
-    fun insertStone(y: Int, x: Int, color: CoordinateState) {
+    fun insertStone(roomId: Int, y: Int, x: Int, color: CoordinateState) {
         val data = ContentValues()
+        data.put(TABLE_COLUMN_ID, roomId)
         data.put(TABLE_COLUMN_Y, y)
         data.put(TABLE_COLUMN_X, x)
         data.put(TABLE_COLUMN_COLOR, color.ordinal)
         omokDb.insert(TABLE_NAME, null, data)
     }
 
-    fun readBoard(): State {
-        val cursor = makeBoardCursor()
-        val stones = makeStones(cursor)
+    fun readBoard(roomId: Int): State {
+        val cursor = makeBoardCursor(roomId)
+        val state = makeStones(cursor)
         cursor.close()
-
-        return stones
+        return state
     }
 
     private fun makeStones(cursor: Cursor): State {
@@ -60,15 +62,15 @@ class BoardTableModifier(private val context: Context) {
         }
     }
 
-    private fun makeBoardCursor(): Cursor {
+    private fun makeBoardCursor(roomId: Int): Cursor {
         return omokDb.query(
             TABLE_NAME,
-            arrayOf(TABLE_COLUMN_Y, TABLE_COLUMN_X, TABLE_COLUMN_COLOR),
+            arrayOf(TABLE_COLUMN_ID, TABLE_COLUMN_Y, TABLE_COLUMN_X, TABLE_COLUMN_COLOR),
+            "$TABLE_COLUMN_ID == ?",
+            arrayOf("$roomId"),
             null,
             null,
-            null,
-            null,
-            "${BaseColumns._ID} ASC",
+            "$TABLE_COLUMN_ID ASC",
         )
     }
 
@@ -77,7 +79,7 @@ class BoardTableModifier(private val context: Context) {
     }
 
     fun clear() {
-        omokDb.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        omokDb.execSQL(DELETE_BOARD_TABLE)
         omokDb.execSQL(CREATE_BOARD_TABLE)
     }
 }
