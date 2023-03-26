@@ -13,6 +13,7 @@ import woowacourse.omok.database.OmokDBHelper
 
 class WinActivity : AppCompatActivity() {
     lateinit var dBController: DBController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_win)
