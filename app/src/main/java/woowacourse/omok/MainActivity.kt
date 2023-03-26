@@ -13,7 +13,6 @@ import omok.domain.board.Board
 import omok.domain.board.Column
 import omok.domain.board.Position
 import omok.domain.player.Stone
-import omok.view.model.toPresentation
 
 class MainActivity : AppCompatActivity() {
     private val db by lazy { BoardDBHelper(this) }
@@ -112,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         currentStone: Stone
     ) {
         val intent = Intent(this, ResultActivity::class.java)
-        intent.putExtra("winner", currentStone.toPresentation())
+        intent.putExtra("winner", currentStone.name)
         startActivity(intent)
         db.deleteData()
         finish()
