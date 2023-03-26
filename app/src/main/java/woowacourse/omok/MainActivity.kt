@@ -69,16 +69,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun blackTurn(index: Int, view: ImageView) {
         val position = positionFind(index)
-        if (!omokBoard.isBlackPlaceable(position)) {
-            Toast.makeText(applicationContext, "해당 자리에 둘 수 없습니다.", Toast.LENGTH_SHORT).show()
-            turn(Turn.Black)
-        }
         if (omokBoard.isBlackPlaceable(position)) {
             dBController.insertDB(Turn.Black.color, index)
             view.setImageResource(R.drawable.black_stone)
             omokBoard.blackPlayer.put(BlackStone(position))
             omokBoard.occupyPosition(position)
             nextStepBlack(position)
+        }
+        if (!omokBoard.isBlackPlaceable(position)) {
+            Toast.makeText(applicationContext, BOARD_PUT_ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
+            turn(Turn.Black)
         }
     }
 
@@ -91,16 +91,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun whiteTurn(index: Int, view: ImageView) {
         val position = positionFind(index)
-        if (!omokBoard.isWhitePlaceable(position)) {
-            Toast.makeText(applicationContext, "해당 자리에 둘 수 없습니다.", Toast.LENGTH_SHORT).show()
-            turn(Turn.White)
-        }
         if (omokBoard.isBlackPlaceable(position)) {
             dBController.insertDB(Turn.White.color, index)
             view.setImageResource(R.drawable.white_stone)
             omokBoard.whitePlayer.put(WhiteStone(position))
             omokBoard.occupyPosition(position)
             nextStepWhite(position)
+        }
+        if (!omokBoard.isWhitePlaceable(position)) {
+            Toast.makeText(applicationContext, BOARD_PUT_ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
+            turn(Turn.White)
         }
     }
 
@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun positionFind(index: Int): Position {
-        val x = (index % Position.MAX_VERTICAL_AXIS) + 1
+        val x = (index % Position.MAX_VERTICAL_AXIS) + POSITION_CALCULATE_PLUS_NUMBER
         val y = Position.MAX_VERTICAL_AXIS - index / Position.MAX_VERTICAL_AXIS
         return Position(HorizontalAxis.getHorizontalAxis(x), y)
     }
@@ -132,5 +132,10 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         dBController.closeDB()
         super.onDestroy()
+    }
+
+    companion object {
+        const val POSITION_CALCULATE_PLUS_NUMBER = 1
+        const val BOARD_PUT_ERROR_MESSAGE = "해당 자리에 둘 수 없습니다."
     }
 }
