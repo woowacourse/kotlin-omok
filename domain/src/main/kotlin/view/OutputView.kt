@@ -21,28 +21,30 @@ class OutputView {
         println(columnString())
     }
 
-    private fun rowString(board: Map<Position, Color?>, rowNumber: Int, start: String, center: String, last: String) =
+    private fun rowString(
+        board: Map<Position, Color?>,
+        rowNumber: Int,
+        start: String,
+        center: String,
+        last: String
+    ) =
         buildString {
             append(ROW_NUMBER.format(rowNumber))
-            val leftPosition = board[Position(Column.valueOf(COLUMN_START - 1), Row.valueOf(rowNumber - 1))]
-            when (leftPosition) {
+            when (board[Position(Column.valueOf(COLUMN_START - 1), Row.valueOf(rowNumber - 1))]) {
                 Color.BLACK -> append(BLACK_STONE)
                 Color.WHITE -> append(WHITE_STONE)
                 else -> append(start)
             }
-
-            (2..COLUMN_SIZE - 1).forEach { columnNumber ->
+            (2 until COLUMN_SIZE).forEach { columnNumber ->
                 append("──")
-                val position = board[Position(Column.valueOf(columnNumber - 1), Row.valueOf(rowNumber - 1))]
-                when (position) {
+                when (board[Position(Column.valueOf(columnNumber - 1), Row.valueOf(rowNumber - 1))]) {
                     Color.BLACK -> append(BLACK_STONE)
                     Color.WHITE -> append(WHITE_STONE)
                     else -> append(center)
                 }
             }
             append("──")
-            val rightPosition = board[Position(Column.valueOf(COLUMN_SIZE - 1), Row.valueOf(rowNumber - 1))]
-            when (rightPosition) {
+            when (board[Position(Column.valueOf(COLUMN_SIZE - 1), Row.valueOf(rowNumber - 1))]) {
                 Color.BLACK -> append(BLACK_STONE)
                 Color.WHITE -> append(WHITE_STONE)
                 else -> append(last)
@@ -56,9 +58,19 @@ class OutputView {
         }
     }
 
-    fun printWinner(color: Color) {
-        println(WINNER.format(color.korean))
+    fun printFailedPutStone() {
+        println(CAN_NOT_PUSH_HERE)
     }
+
+    fun printWinner(color: Color) {
+        println(WINNER.format(stoneColorKorean(color)))
+    }
+
+    private fun stoneColorKorean(color: Color): String =
+        when (color) {
+            Color.BLACK -> BLACK
+            Color.WHITE -> WHITE
+        }
 
     companion object {
         private val COLUMN_SIZE = Column.values().size
@@ -69,8 +81,12 @@ class OutputView {
         private const val WHITE_STONE = "○"
 
         private const val GAME_START_MESSAGE = "오목 게임을 시작합니다."
+        private const val CAN_NOT_PUSH_HERE = "해당 위치에 돌을 놓을 수 없습니다."
         private const val WINNER = "승리자: %s"
 
         private const val ROW_NUMBER = "%2d "
+
+        private const val BLACK = "흑"
+        private const val WHITE = "백"
     }
 }

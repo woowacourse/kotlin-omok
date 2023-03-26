@@ -12,7 +12,6 @@ class RunningBoardState(
 ) : BoardState(board, latestStone) {
 
     init {
-        check(board[latestStone.position] != null) { ERROR_NOT_EXIST_LATEST_STONE_IN_BOARD }
         val previousBoard = board.toMutableMap().apply { this[latestStone.position] = null }
         check(rule.isWin(previousBoard, latestStone).not()) { ERROR_ALREADY_FINISHED_BOARD }
     }
@@ -39,6 +38,5 @@ class RunningBoardState(
 
     companion object {
         private const val ERROR_ALREADY_FINISHED_BOARD = "[ERROR] 이미 오목 게임이 종료된 보드 입니다."
-        private const val ERROR_NOT_EXIST_LATEST_STONE_IN_BOARD = "[ERROR] 마지막 돌이 보드에 존재하지 않습니다."
     }
 }

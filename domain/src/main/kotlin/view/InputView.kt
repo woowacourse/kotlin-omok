@@ -8,7 +8,7 @@ import domain.stone.Row
 class InputView {
 
     fun requestPoint(turnColor: Color, latestPosition: Position?): Position {
-        println(TURN_MESSAGE.format(turnColor.korean, getLatestPoint(latestPosition)))
+        println(TURN_MESSAGE.format(stoneColorKorean(turnColor), getLatestPoint(latestPosition)))
         print(REQUEST_POINT_MESSAGE)
         val input = readln()
         return runCatchingOrNull {
@@ -36,11 +36,19 @@ class InputView {
         }.getOrNull()
     }
 
+    private fun stoneColorKorean(color: Color): String =
+        when (color) {
+            Color.BLACK -> BLACK
+            Color.WHITE -> WHITE
+        }
+
     companion object {
         private const val TURN_MESSAGE = "%s의 차례입니다. %s"
         private const val REQUEST_POINT_MESSAGE = "위치를 입력하세요: "
         private const val EMPTY_STRING = ""
         private const val LAST_STONE_POINT_MESSAGE = "(마지막 돌의 위치:%c%d)"
         private const val CONVERTING_BASE_NUMBER = 64
+        private const val BLACK = "흑"
+        private const val WHITE = "백"
     }
 }

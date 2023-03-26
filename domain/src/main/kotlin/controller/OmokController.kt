@@ -1,8 +1,6 @@
 package controller
 
 import domain.OmokGame
-import domain.stone.Color
-import domain.stone.Position
 import view.InputView
 import view.OutputView
 
@@ -13,23 +11,22 @@ class OmokController(
     override fun run() {
         outputView.printGameStartMessage()
         val omokGame = OmokGame()
-        while (omokGame.isFinished.not()) {
-            outputView.printOmokBoardState(omokGame.board)
-            tryTurn(omokGame, omokGame.turnColor, omokGame.latestStone?.position)
-        }
         outputView.printOmokBoardState(omokGame.board)
-        outputView.printWinner(omokGame.winnerColor!!)
+        while (omokGame.isFinished.not()) {
+            val position =
+                inputView.requestPoint(omokGame.turnColor, omokGame.latestStone?.position)
+            omokGame.playTurn(position, ::successProcess, ::failedProcess)
+        }
     }
 
-    private fun tryTurn(
-        omokGame: OmokGame,
-        turnColor: Color = Color.BLACK,
-        latestPosition: Position? = null
-    ) {
-        val position = inputView.requestPoint(turnColor, latestPosition)
-        val playTurnIsSuccess = omokGame.playTurn(position)
-        if (playTurnIsSuccess == null && omokGame.isFinished.not()) {
-            tryTurn(omokGame, turnColor, latestPosition)
+    private fun successProcess(omokGame: OmokGame) {
+        outputView.printOmokBoardState(omokGame.board)
+        if (omokGame.isFinished) {
+            outputView.printWinner(omokGame.winnerColor!!)
         }
+    }
+
+    private fun failedProcess() {
+        outputView.printFailedPutStone()
     }
 }

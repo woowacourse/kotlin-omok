@@ -16,9 +16,9 @@ class Turn(
         }
 
     fun putStone(position: Position): Turn {
-        val newBoardState = boardState.putStone(Stone(position, color))
-        if (newBoardState === boardState) return this // 이미 놓여있어서 놓을 수 없는 경우
-        return Turn(color.nextTurnColor(), newBoardState)
+        val nextBoardState = boardState.putStone(Stone(position, color))
+        if (nextBoardState === boardState) return this // 이미 놓여있어서 놓을 수 없는 경우
+        return Turn(color.nextTurnColor(), nextBoardState)
     }
 
     private fun Color.nextTurnColor(): Color =

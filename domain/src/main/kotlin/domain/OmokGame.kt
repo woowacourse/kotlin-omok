@@ -9,9 +9,15 @@ import domain.turn.StartBoardState
 import domain.turn.Turn
 
 class OmokGame(
+    private val turnChangeProcess: () -> Unit = {},
     rule: Rule = RenjuRule()
 ) {
     private var turn: Turn = Turn(Color.BLACK, StartBoardState(rule))
+        set(value) {
+            if (turn === value) return
+            field = value
+            turnChangeProcess()
+        }
 
     val isFinished: Boolean
         get() = turn.boardState.isFinished()
@@ -29,12 +35,15 @@ class OmokGame(
         get() = turn.winnerColor
 
     fun playTurn(
-        newPosition: Position
-    ): Color? {
-        val nextTurn = turn.putStone(newPosition)
-        if (nextTurn === turn) return null
-        val playTurnColor = turn.color
-        turn = nextTurn
-        return playTurnColor
+        newPosition: Position,
+        successProcess: (OmokGame) -> Unit = {},
+        failedProcess: () -> Unit = {},
+    ) {
+        val previousTurn = turn
+        turn = turn.putStone(newPosition)
+        return when {
+            turn === previousTurn -> failedProcess()
+            else -> successProcess(this)
+        }
     }
 }

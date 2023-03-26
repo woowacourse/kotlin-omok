@@ -24,11 +24,11 @@ import domain.stone.Column
 import domain.stone.Position
 import domain.stone.Row
 import domain.stone.Stone
-import woowacourse.omok.db.StoneTableAdapter
+import woowacourse.omok.db.StonesHelper
 
 class MainActivity : AppCompatActivity() {
     private lateinit var omokGame: OmokGame
-    private lateinit var stoneTableAdapter: StoneTableAdapter
+    private lateinit var stonesHelper: StonesHelper
     private var roomId: Int = 0 // 추후 업데이트를 위한 게임방 아이디에 대한 프로터티. 방 목록 액티비티에서 받을 것임.
     private lateinit var board: TableLayout
     private lateinit var gameEndBox: LinearLayout
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initFindViewById()
         setClickListener()
-        stoneTableAdapter = StoneTableAdapter(this, roomId)
+        stonesHelper = StonesHelper(this, roomId)
         this.onBackPressedDispatcher.addCallback(this, callback)
         startGame()
     }
@@ -71,6 +71,12 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .toList()
+    }
+
+    private fun getOmokImageViewFromPosition(position: Position): ImageView {
+        val index = (ROW_SIZE - 1 - position.row.ordinal) * COLUMN_SIZE + position.column.ordinal
+        Log.d("mendel", "column: ${position.column} , row: ${position.row} , index: $index")
+        return getAllOmokPositionImageView()[index]
     }
 
     private fun initFindViewById() {
@@ -87,18 +93,19 @@ class MainActivity : AppCompatActivity() {
         gameRetryButton.setOnClickListener { startGame() }
         getAllOmokPositionImageView().forEachIndexed { index, view ->
             view.setOnClickListener {
-                positionClick(convertIndexToPosition(index), view)
+                val position = convertIndexToPosition(index)
+                omokGame.playTurn(position, ::putStoneProcess, ::putFailedProcess)
             }
         }
     }
 
     private fun startGame() {
-        omokGame = OmokGame()
-        val loadData = stoneTableAdapter.getAlreadyPutStones()
+        omokGame = OmokGame(::turnTextUpdate)
+        val loadData = stonesHelper.getAlreadyPutStones()
         loadData.forEach {
             omokGame.playTurn(it.position) // 게임 복기
         }
-        turnColorTextView.text = omokGame.turnColor.korean
+        turnTextUpdate() // 현재 턴 텍스트뷰 설정
         setBoardView() // 뷰 되돌리기
         gameStartProcess() // 전처리 수행
     }
@@ -113,17 +120,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun positionClick(position: Position, view: ImageView) {
-        val playTurnColor = omokGame.playTurn(position)
-        when {
-            playTurnColor == null && omokGame.isFinished.not() -> makeToastMessage(R.string.can_not_put_this_position)
-            playTurnColor == null -> makeToastMessage(R.string.already_game_is_over)
-            else -> with(Stone(position, playTurnColor)) {
-                putStoneProcess(this)
-                setStone(this, view)
-            }
+    private fun putStoneProcess(omokGame: OmokGame) {
+        omokGame.latestStone?.let { stone ->
+            vibrationService.vibrate(VibrationEffect.createOneShot(20, 50))
+            stonesHelper.insertStone(stone)
+            setStone(stone, getOmokImageViewFromPosition(stone.position))
+            if (omokGame.isFinished) gameFinishProcess(omokGame)
         }
-        if (omokGame.isFinished) gameFinishProcess()
+    }
+
+    private fun putFailedProcess() =
+        if (omokGame.isFinished.not()) {
+            makeToastMessage(R.string.can_not_put_this_position)
+        } else {
+            makeToastMessage(R.string.already_game_is_over)
+        }
+
+    private fun gameFinishProcess(omokGame: OmokGame) {
+        makeToastMessage(R.string.game_is_over)
+        val winner =
+            omokGame.winnerColor?.let { stoneColorKorean(it) } ?: getString(R.string.no_winner)
+        gameEndButton.text =
+            getString(R.string.winner_is_this_color, winner)
+        gameEndBox.visibility = View.VISIBLE
+        turnColorTextBox.visibility = View.GONE
+        stonesHelper.deleteAll()
     }
 
     private fun convertIndexToPosition(index: Int): Position {
@@ -131,12 +152,6 @@ class MainActivity : AppCompatActivity() {
         val column = index % COLUMN_SIZE
         Log.d("mendel", "index: $index , column: $column , row: $row")
         return Position(column + 1, row + 1)
-    }
-
-    private fun putStoneProcess(stone: Stone) {
-        vibrationService.vibrate(VibrationEffect.createOneShot(20, 50))
-        stoneTableAdapter.insertStone(stone)
-        turnColorTextView.text = omokGame.turnColor.korean
     }
 
     private fun setStone(stone: Stone, view: ImageView) =
@@ -148,21 +163,15 @@ class MainActivity : AppCompatActivity() {
     private fun gameStartProcess() {
         gameEndBox.visibility = View.GONE
         turnColorTextBox.visibility = View.VISIBLE
-        turnColorTextView.text = omokGame.turnColor.korean
     }
 
-    private fun gameFinishProcess() {
-        makeToastMessage(R.string.game_is_over)
-        gameEndButton.text =
-            getString(R.string.winner_is_this_color, omokGame.winnerColor?.korean)
-        gameEndBox.visibility = View.VISIBLE
-        turnColorTextBox.visibility = View.GONE
-        stoneTableAdapter.deleteAll()
+    private fun turnTextUpdate() {
+        turnColorTextView.text = stoneColorKorean(omokGame.turnColor)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        stoneTableAdapter.close()
+        stonesHelper.close()
     }
 
     private fun endButtonOnClick() =
@@ -172,8 +181,16 @@ class MainActivity : AppCompatActivity() {
             showAskDialog(R.string.exit_game, R.string.exit_game_room_confirm_message, { finish() })
         }
 
+    private fun stoneColorKorean(color: Color): String =
+        when (color) {
+            Color.BLACK -> BLACK
+            Color.WHITE -> WHITE
+        }
+
     companion object {
         private val COLUMN_SIZE = Column.values().size
         private val ROW_SIZE = Row.values().size
+        private const val BLACK = "흑"
+        private const val WHITE = "백"
     }
 }

@@ -15,4 +15,5 @@
     <string name="progressing_game_will_be_save">진행 중인 게임은 자동으로 저장됩니다</string>
     <string name="exit_game_room_confirm_message">방을 정말 나가시겠습니까?</string>
     <string name="game_retry">다시하기</string>
+    <string name="no_winner">승자 없음</string>
 </resources>
