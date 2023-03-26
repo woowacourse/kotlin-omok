@@ -16,9 +16,7 @@ class OmokDbManager(omokDbHelper: OmokDbHelper) {
 
     fun getOmokGame(): OmokGame {
         val stones = getAllStonesInDatabase()
-        return OmokGame(Board(stones, RenjuRuleAdapter())).apply {
-            currentColor = nextColor(stones.getLastStone()?.color ?: Color.WHITE)
-        }
+        return OmokGame(Board(stones, RenjuRuleAdapter()))
     }
 
     fun updateOmokDatabase(stone: Stone?) {

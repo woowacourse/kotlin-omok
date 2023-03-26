@@ -42,7 +42,6 @@ internal class OmokGameTest {
         val board = generateWhiteWinOmokBoard()
         val omokGame = OmokGame(board)
         // when
-        omokGame.currentColor = Color.WHITE
         val stone = omokGame.getStone { Position(1, 6) }
         val actual = omokGame.getWinnerColorPhase(stone)
         val expected = Color.WHITE
@@ -84,12 +83,33 @@ internal class OmokGameTest {
     fun `게임을 초기화 하면 게임의 턴은 흑이된다`() {
         // given
         val board = generateWhiteWinOmokBoard()
-        val omokGame = OmokGame(board).apply {
-            currentColor = Color.WHITE
-        }
-
+        val omokGame = OmokGame(board)
         // when
         omokGame.resetGame()
+        val actual = omokGame.currentColor
+        val expected = Color.BLACK
+
+        // then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `마지막에 위치한 돌이 검정색이라면, 다음 차례는 흰색이다`() {
+        val board = Board(Stones(listOf(Stone(Color.BLACK, 1, 1))), RenjuRuleAdapter())
+        val omokGame = OmokGame(board)
+        // when
+        val actual = omokGame.currentColor
+        val expected = Color.WHITE
+
+        // then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `마지막에 위치한 돌이 흰색이라면, 다음 차례는 검정색이다`() {
+        val board = Board(Stones(listOf(Stone(Color.WHITE, 1, 1))), RenjuRuleAdapter())
+        val omokGame = OmokGame(board)
+        // when
         val actual = omokGame.currentColor
         val expected = Color.BLACK
 
