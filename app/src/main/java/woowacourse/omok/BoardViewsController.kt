@@ -11,6 +11,7 @@ import domain.rule.Referee
 import domain.rule.ThreeThreeRule
 import domain.stone.*
 import woowacourse.omok.database.OmokDB
+import woowacourse.omok.database.StoneData
 
 class BoardViewsController(
     private val activity: AppCompatActivity,
@@ -25,11 +26,11 @@ class BoardViewsController(
         val dbStones = omokDB.getStoneData()
         val stones = mutableSetOf<Stone>()
         dbStones.forEach {
-            val (omokPoint, stoneColor) = it
-            setDBStoneOnView(omokPoint, stoneColor)
-            val (x, y) = omokPoint
+            setDBStoneOnView(it)
             val stone: Stone =
-                if (stoneColor == StoneColor.BLACK.english) BlackStone(x, y) else WhiteStone(x, y)
+                if (it.stoneColor == StoneColor.BLACK.english) BlackStone(it.point) else WhiteStone(
+                    it.point
+                )
             stones.add(stone)
         }
         board = Board(Stones(stones))
@@ -45,12 +46,11 @@ class BoardViewsController(
         board = Board(Stones(setOf()))
     }
 
-    private fun setDBStoneOnView(point: Pair<Int, Int>, stoneColor: String) {
-        val (x, y) = point
+    private fun setDBStoneOnView(stoneData: StoneData) {
         boardViews
             .forEachIndexed { index, view ->
-                if (index == convertPointIntoIndex(x, y)) {
-                    setStoneImageView(stoneColor, view)
+                if (index == convertPointIntoIndex(stoneData.point)) {
+                    setStoneImageView(stoneData.stoneColor, view)
                 }
             }
     }
@@ -133,5 +133,5 @@ class BoardViewsController(
         }
     }
 
-    private fun convertPointIntoIndex(x: Int, y: Int): Int = ((14 - y) * 15 + x)
+    private fun convertPointIntoIndex(point: Point): Int = ((14 - point.y) * 15 + point.x)
 }
