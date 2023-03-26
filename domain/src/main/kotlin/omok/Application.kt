@@ -11,11 +11,11 @@ import omok.view.OutputView
 fun main() {
     val omokController = OmokController(
         object : OmokGameListener {
-            override fun onOmokStart() {
+            override fun onStartGame() {
                 OutputView.outputInit()
             }
 
-            override fun onBoardShow(gameState: GameState, omokPoint: OmokPoint?) {
+            override fun onProgressGame(gameState: GameState, omokPoint: OmokPoint?) {
                 OutputView.outputBoard(gameState.omokBoard)
             }
 
