@@ -3,11 +3,11 @@ package woowacourse.omok.database
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import woowacourse.omok.database.OmokConstact.TABLE_COLUMN_ID
-import woowacourse.omok.database.OmokConstact.TABLE_COLUMN_POSITION_X
-import woowacourse.omok.database.OmokConstact.TABLE_COLUMN_POSITION_Y
-import woowacourse.omok.database.OmokConstact.TABLE_COLUMN_STONE_COLOR
-import woowacourse.omok.database.OmokConstact.TABLE_NAME
+import woowacourse.omok.database.OmokContract.TABLE_COLUMN_ID
+import woowacourse.omok.database.OmokContract.TABLE_COLUMN_POSITION_X
+import woowacourse.omok.database.OmokContract.TABLE_COLUMN_POSITION_Y
+import woowacourse.omok.database.OmokContract.TABLE_COLUMN_STONE_COLOR
+import woowacourse.omok.database.OmokContract.TABLE_NAME
 
 class OmokDBHelper(
     context: Context?,

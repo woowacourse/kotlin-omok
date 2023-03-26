@@ -2,7 +2,7 @@ package woowacourse.omok.database
 
 import android.provider.BaseColumns
 
-object OmokConstact : BaseColumns {
+object OmokContract : BaseColumns {
     const val TABLE_NAME = "OMOK_STONE"
     const val TABLE_COLUMN_ID = "id"
     const val TABLE_COLUMN_STONE_COLOR = "stone_color"
