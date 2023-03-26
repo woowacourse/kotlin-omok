@@ -9,6 +9,7 @@ import omok.domain.Turn
 import omok.domain.board.Board
 import omok.domain.board.Position
 import omok.domain.player.Stone
+import omok.domain.player.changeToStone
 
 class BoardDBHelper(context: Context?) :
     SQLiteOpenHelper(context, BoardContract.DATABASE_NAME, null, 1) {
@@ -17,7 +18,7 @@ class BoardDBHelper(context: Context?) :
         db?.execSQL(
             "CREATE TABLE ${BoardContract.TABLE_NAME}(" +
                 " ${BoardContract.TABLE_COLUMN_POSITION_INDEX} int, " +
-                " ${BoardContract.TABLE_COLUMN_STONE} int" +
+                " ${BoardContract.TABLE_COLUMN_STONE} varchar(10)" +
                 ");"
         )
     }
@@ -37,8 +38,8 @@ class BoardDBHelper(context: Context?) :
     ) {
         do {
             val index = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.TABLE_COLUMN_POSITION_INDEX))
-            val stone = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.TABLE_COLUMN_STONE))
-            cells[changeIndexToPosition(index)] = changeDataToStone(stone)
+            val stoneColor = cursor.getString(cursor.getColumnIndexOrThrow(BoardContract.TABLE_COLUMN_STONE))
+            cells[changeIndexToPosition(index)] = stoneColor.changeToStone()
         } while (cursor.moveToNext())
     }
 
@@ -55,7 +56,7 @@ class BoardDBHelper(context: Context?) :
     fun insertData(indexPosition: Int, currentStone: Stone) {
         val values = ContentValues().apply {
             put(BoardContract.TABLE_COLUMN_POSITION_INDEX, indexPosition)
-            put(BoardContract.TABLE_COLUMN_STONE, "${changeStoneToData(currentStone)}")
+            put(BoardContract.TABLE_COLUMN_STONE, "$currentStone")
         }
         db.insert(BoardContract.TABLE_NAME, null, values)
     }
@@ -64,10 +65,6 @@ class BoardDBHelper(context: Context?) :
         db.execSQL("DELETE FROM ${BoardContract.TABLE_NAME}")
         db.close()
     }
-
-    private fun changeStoneToData(stone: Stone) = if (stone == Stone.BLACK) 0 else 1
-
-    private fun changeDataToStone(stone: Int) = if (stone == 0) Stone.BLACK else Stone.WHITE
 
     private fun changeIndexToPosition(index: Int): Position {
         val row = 14 - (index / 15)
