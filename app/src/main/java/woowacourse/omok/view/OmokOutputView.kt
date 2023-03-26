@@ -33,7 +33,7 @@ class OmokOutputView : OutputView {
         println(WINNER_MESSAGE.format(winnerStoneColor.toPresentation().text))
     }
 
-    override fun showThisTurn(stoneColor: StoneColor, point: Point?) {
+    override fun showCurrentTurnColor(stoneColor: StoneColor, point: Point?) {
         print("\n${stoneColor.toPresentation().text}의 차례입니다.\n")
         if (point != null) {
             val viewPosition = point.toPresentation()

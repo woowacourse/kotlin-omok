@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import domain.game.Omok
@@ -42,10 +43,14 @@ class MainActivity(override val coroutineContext: MainCoroutineDispatcher = Disp
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        init()
+        launch { omokController.startGame(BlackRenjuRule(), WhiteRenjuRule()) }
+    }
+
+    private fun init() {
         initView()
         initOmokController()
         initOmokIntersectionClickListener()
-        launch { omokController.startGame(BlackRenjuRule(), WhiteRenjuRule()) }
     }
 
     private fun initView() {
@@ -114,7 +119,6 @@ class MainActivity(override val coroutineContext: MainCoroutineDispatcher = Disp
     }
 
     override fun drawStone(lastStoneColor: StoneColor, newPoint: Point) {
-        toggleTurnHolder(lastStoneColor.toPresentation())
         omokController.savePoint(newPoint)
         val index = newPoint.row * Omok.OMOK_BOARD_SIZE + newPoint.col
         drawStoneOnBoard(boardImageViews()[index], lastStoneColor.toPresentation())
@@ -133,19 +137,20 @@ class MainActivity(override val coroutineContext: MainCoroutineDispatcher = Disp
         showWinner(winnerStoneColor.toPresentation())
     }
 
-    override fun showThisTurn(nowTurnStoneColor: StoneColor, point: Point?) {
-        // toggleTurnHolder(nowTurnStoneColor.toPresentation())
-        if (point != null) {
-            // TODO("마지막 돌을 놓은 위치에 border 처리")
-//            val viewPosition = point.toPresentation()
-//            print("(마지막 돌의 위치: ${viewPosition.row})\n")
+    override fun showCurrentTurnColor(curStoneColor: StoneColor, point: Point?) {
+        point?.let {
+            toggleTurnHolder(curStoneColor.next().toPresentation())
+            findViewById<TextView>(R.id.last_point_tv).text =
+                getString(R.string.last_put_point, it.col, it.row)
         }
     }
 
     private fun toggleTurnHolder(prevStoneColor: StoneColorModel) {
         launch(Dispatchers.Main) {
-            manTurnHolder.visibility = if (prevStoneColor == StoneColorModel.WHITE) View.VISIBLE else View.GONE
-            womanTurnHolder.visibility = if (prevStoneColor == StoneColorModel.BLACK) View.VISIBLE else View.GONE
+            manTurnHolder.visibility =
+                if (prevStoneColor == StoneColorModel.WHITE) View.VISIBLE else View.GONE
+            womanTurnHolder.visibility =
+                if (prevStoneColor == StoneColorModel.BLACK) View.VISIBLE else View.GONE
         }
     }
 

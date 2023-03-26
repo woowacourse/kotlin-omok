@@ -17,18 +17,22 @@ class ConsoleOmokController(
         val omok = Omok(blackRule, whiteRule)
         outputView.startGame()
 
-        while (omok.canPlay) {
-            outputView.showThisTurn(omok.curPlayerColor, omok.lastPoint)
-            takeTurn(omok) { putResult -> processPutResult(putResult) }
+        while (omok.canPlay()) {
+            takeTurn(omok) { putResult ->
+                processPutResult(putResult)
+                outputView.showCurrentTurnColor(omok.curPlayerColor, omok.lastPoint)
+            }
         }
     }
 
     suspend fun startGame(omok: Omok) {
         outputView.startGame()
 
-        while (omok.canPlay) {
-            outputView.showThisTurn(omok.curPlayerColor, omok.lastPoint)
-            takeTurn(omok) { putResult -> processPutResult(putResult) }
+        while (omok.canPlay()) {
+            takeTurn(omok) { putResult ->
+                processPutResult(putResult)
+                outputView.showCurrentTurnColor(omok.curPlayerColor, omok.lastPoint)
+            }
         }
     }
 

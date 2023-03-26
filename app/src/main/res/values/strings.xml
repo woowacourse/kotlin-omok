@@ -9,4 +9,5 @@
     <string name="end_game">게임 종료</string>
     <string name="restart">재시작</string>
     <string name="winner_result_format">%s 승!</string>
+    <string name="last_put_point">마지막 둔 위치 : (%d, %d)</string>
 </resources>

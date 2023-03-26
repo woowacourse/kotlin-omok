@@ -8,5 +8,5 @@ interface OutputView {
     fun drawStone(lastStoneColor: StoneColor, newPoint: Point)
     fun showPutFailed()
     fun showResult(lastStoneColor: StoneColor, winnerStoneColor: StoneColor, newPoint: Point)
-    fun showThisTurn(nowTurnStoneColor: StoneColor, point: Point?)
+    fun showCurrentTurnColor(curStoneColor: StoneColor, point: Point?)
 }
