@@ -9,10 +9,7 @@ import domain.rule.FourFourRule
 import domain.rule.LongMokRule
 import domain.rule.Referee
 import domain.rule.ThreeThreeRule
-import domain.stone.BlackStone
-import domain.stone.Stone
-import domain.stone.Stones
-import domain.stone.WhiteStone
+import domain.stone.*
 import woowacourse.omok.database.OmokDB
 
 class BoardViewsController(
@@ -72,7 +69,7 @@ class BoardViewsController(
     private fun setPutStoneOnClickListener() {
         boardViews.forEachIndexed { index, view ->
             view.setOnClickListener {
-                val point: Pair<Int, Int> = calculatePoint(index)
+                val point: Point = calculatePoint(index)
                 val (stoneResource: Int?, stoneColor: String?) = getStoneResource(board)
                 val blackReferee = Referee(listOf(ThreeThreeRule(), FourFourRule(), LongMokRule()))
                 if (putStoneAndReturnResult(board, blackReferee, point)) {
@@ -87,10 +84,10 @@ class BoardViewsController(
         }
     }
 
-    private fun calculatePoint(index: Int): Pair<Int, Int> {
+    private fun calculatePoint(index: Int): Point {
         val x: Int = index % 15
         val y: Int = 14 - index / 15
-        return Pair(x, y)
+        return Point(x, y)
     }
 
     private fun getStoneResource(omokBoard: Board): Pair<Int?, String?> {
@@ -110,7 +107,7 @@ class BoardViewsController(
     private fun putStoneAndReturnResult(
         board: Board,
         blackReferee: Referee,
-        point: Pair<Int, Int>
+        point: Point
     ): Boolean {
         runCatching {
             board.put(

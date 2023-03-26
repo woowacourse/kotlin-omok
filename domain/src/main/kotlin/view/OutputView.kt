@@ -3,6 +3,7 @@ package view
 import domain.Board
 import domain.Board.Companion.MIN_VIEW_X
 import domain.Board.Companion.MIN_VIEW_Y
+import domain.stone.Point
 
 object OutputView {
 
@@ -10,8 +11,7 @@ object OutputView {
         return println(BoardView(board))
     }
 
-    fun printLastPoint(point: Pair<Int, Int>){
-        val (x,y) = point
-        println(" (마지막 돌의 위치: ${(x + MIN_VIEW_X.code).toChar() + (y + MIN_VIEW_Y).toString()})")
+    fun printLastPoint(point: Point){
+        println(" (마지막 돌의 위치: ${(point.x + MIN_VIEW_X.code).toChar() + (point.y + MIN_VIEW_Y).toString()})")
     }
 }

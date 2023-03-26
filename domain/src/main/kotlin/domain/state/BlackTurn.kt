@@ -3,6 +3,7 @@ package domain.state
 import domain.stone.BlackStone
 import domain.stone.Stones
 import domain.rule.Referee
+import domain.stone.Point
 
 class BlackTurn(override val stones: Stones) :
     Running(stones) {
@@ -10,9 +11,8 @@ class BlackTurn(override val stones: Stones) :
         require(stones.blackStones.size == stones.whiteStones.size) { STONE_COUNT_ERROR }
     }
 
-    override fun put(point: Pair<Int, Int>, referee: Referee): State {
-        val (x, y) = point
-        val stone = BlackStone(x, y)
+    override fun put(point: Point, referee: Referee): State {
+        val stone = BlackStone(point)
         checkAlreadyPlaced(point)
         referee.checkStone(stones, stone)
         val nextStones = stones.addStone(stone)

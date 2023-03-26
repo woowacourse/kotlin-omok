@@ -2,6 +2,7 @@ package domain.state
 
 import domain.stone.Stones
 import domain.rule.Referee
+import domain.stone.Point
 
 abstract class Finished(stones: Stones) : State {
 
@@ -9,7 +10,7 @@ abstract class Finished(stones: Stones) : State {
         require(stones.blackStones.intersect(stones.whiteStones).isEmpty()) { BLACK_WHITE_INTERSECT_ERROR }
     }
 
-    override fun put(point: Pair<Int, Int>, referee: Referee): State {
+    override fun put(point: Point, referee: Referee): State {
         throw IllegalStateException(WHEN_FINISHED_PUT_ERROR)
     }
 

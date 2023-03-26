@@ -4,20 +4,21 @@ import domain.Board.Companion.MAX_VIEW_X
 import domain.Board.Companion.MAX_VIEW_Y
 import domain.Board.Companion.MIN_VIEW_X
 import domain.Board.Companion.MIN_VIEW_Y
+import domain.stone.Point
 
 object InputView {
 
     private const val INPUT_POINT = "위치를 입력하세요: "
     private const val NOT_CORRECT_TYPE_ERROR = "정확한 좌표를 입력바랍니다."
 
-    fun readPoint(): Pair<Int, Int> {
+    fun readPoint(): Point {
         kotlin.runCatching {
             val point = tryToGetPointUntilCorrectType()
             val x = point[0].uppercase()[0]
             val y = point.substring(1).toInt()
             require(x in MIN_VIEW_X..MAX_VIEW_X) { "x의 범위가 좌표를 넘어갑니다." }
             require(y in MIN_VIEW_Y..MAX_VIEW_Y) { "y의 범위가 좌표를 넘어갑니다." }
-            return Pair(x - MIN_VIEW_X, y - MIN_VIEW_Y)
+            return Point(x - MIN_VIEW_X, y - MIN_VIEW_Y)
         }.onFailure {
             println(it.message)
         }

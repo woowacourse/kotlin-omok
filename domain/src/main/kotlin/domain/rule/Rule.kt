@@ -15,35 +15,34 @@ interface Rule {
         return x in 0 until BOARD_SIZE && y in 0 until BOARD_SIZE
     }
 
-    private fun Pair<Int, Int>.isPlacedOnBlank(stones: Stones): Boolean {
-        return this !in stones.stones.map { it.x to it.y }
+    private fun Point.isPlacedOnBlank(stones: Stones): Boolean {
+        return this !in stones.stones.map { it.point }
     }
 
-    private fun Pair<Int, Int>.isInSameColorStones(
+    private fun Point.isInSameColorStones(
         justPlacedStone: Stone,
         stones: Stones
     ): Boolean {
         return when (justPlacedStone) {
-            is BlackStone -> this in stones.blackStones.map { it.x to it.y }
-            else -> this in stones.whiteStones.map { it.x to it.y }
+            is BlackStone -> this in stones.blackStones.map { it.point }
+            else -> this in stones.whiteStones.map { it.point }
         }
     }
 
-    private fun Pair<Int, Int>.isInOtherColorStones(
+    private fun Point.isInOtherColorStones(
         justPlacedStone: Stone,
         stones: Stones
     ): Boolean {
         return when (justPlacedStone) {
-            is BlackStone -> this in stones.whiteStones.map { it.x to it.y }
-            else -> this in stones.blackStones.map { it.x to it.y }
+            is BlackStone -> this in stones.whiteStones.map { it.point }
+            else -> this in stones.blackStones.map { it.point }
         }
     }
 
-    private fun createStone(stone: Stone, point: Pair<Int, Int>): Stone {
-        val (x, y) = point
+    private fun createStone(stone: Stone, point: Point): Stone {
         return when (stone) {
-            is BlackStone -> BlackStone(x, y)
-            else -> WhiteStone(x, y)
+            is BlackStone -> BlackStone(point)
+            else -> WhiteStone(point)
         }
     }
 
@@ -77,11 +76,11 @@ interface Rule {
         justPlacedStone: Stone,
         direction: Direction,
     ): Pair<Int, Int> {
-        var nextX = justPlacedStone.x
-        var nextY = justPlacedStone.y
-        while (Pair(nextX, nextY).isInRange() && Pair(nextX, nextY).isInSameColorStones(
+        var nextX = justPlacedStone.point.x
+        var nextY = justPlacedStone.point.y
+        while (Pair(nextX, nextY).isInRange() && Point(nextX, nextY).isInSameColorStones(
                 justPlacedStone, stones
-            ) && !Pair(nextX, nextY).isInOtherColorStones(
+            ) && !Point(nextX, nextY).isInOtherColorStones(
                 justPlacedStone, stones
             )
         ) {
@@ -99,10 +98,10 @@ interface Rule {
         direction: Direction,
     ): Boolean {
         val (x, y) = firstBlankWithThisDirection(stones, justPlacedStone, direction)
-        if (Pair(x, y).isInRange() && Pair(x, y).isPlacedOnBlank(stones)) {
+        if (Pair(x, y).isInRange() && Point(x, y).isPlacedOnBlank(stones)) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
             return calculateContinuousStonesCountWithInclination(
-                stones.addStone(createStone(justPlacedStone, x to y)),
+                stones.addStone(createStone(justPlacedStone, Point(x, y))),
                 justPlacedStone,
                 inclination
             ) == 5
@@ -126,7 +125,7 @@ interface Rule {
         if (Pair(x, y).isInRange()) {
             val inclination = Inclination.values().first { it.directions.contains(direction) }
             return isOpen4WithThisInclination(  // 다음 기울기로 열린4인지 판단
-                stones.addStone(createStone(justPlacedStone, x to y)),
+                stones.addStone(createStone(justPlacedStone, Point(x, y))),
                 justPlacedStone,
                 inclination
             )
@@ -152,7 +151,7 @@ interface Rule {
             inclination.directions[1],
         )
         if (!Pair(leftX, leftY).isInRange() || !Pair(rightX, rightY).isInRange()) return false
-        if (Pair(leftX, leftY).isPlacedOnBlank(stones) && Pair(rightX, rightY).isPlacedOnBlank(
+        if (Point(leftX, leftY).isPlacedOnBlank(stones) && Point(rightX, rightY).isPlacedOnBlank(
                 stones
             )
         ) {
