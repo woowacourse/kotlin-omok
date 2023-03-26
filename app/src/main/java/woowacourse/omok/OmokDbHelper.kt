@@ -9,7 +9,7 @@ import domain.Stone
 
 class OmokDbHelper(
     context: Context
-) : SQLiteOpenHelper(context, "krrong_db", null, 1) {
+) : SQLiteOpenHelper(context, DB_NAME, null, 1) {
     override fun onCreate(db: SQLiteDatabase?) {
         val createQuery = "CREATE TABLE ${OmokConstract.TABLE_NAME} (" +
             "  ${OmokConstract.TABLE_COLUMN_STATE} varchar(30) not null," +
@@ -64,5 +64,9 @@ class OmokDbHelper(
     fun deleteData() {
         val db = this.writableDatabase
         db.execSQL("DELETE FROM ${OmokConstract.TABLE_NAME}")
+    }
+
+    companion object {
+        private const val DB_NAME = "krrong_db"
     }
 }
