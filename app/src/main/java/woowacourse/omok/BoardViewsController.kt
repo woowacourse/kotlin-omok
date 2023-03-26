@@ -91,17 +91,17 @@ class BoardViewsController(
     }
 
     private fun getStoneResource(omokBoard: Board): Pair<Int?, String?> {
-        var stoneResource: Int? = null
-        var stoneColor: String? = null
         if (omokBoard.isBlackTurn()) {
-            stoneResource = R.drawable.black_stone
-            stoneColor = StoneColor.BLACK.english
+            val stoneResource = R.drawable.black_stone
+            val stoneColor = StoneColor.BLACK.english
+            return stoneResource to stoneColor
         }
         if (omokBoard.isWhiteTurn()) {
-            stoneResource = R.drawable.white_stone
-            stoneColor = StoneColor.WHITE.english
+            val stoneResource = R.drawable.white_stone
+            val stoneColor = StoneColor.WHITE.english
+            return stoneResource to stoneColor
         }
-        return Pair(stoneResource, stoneColor)
+        return Pair(null, null)
     }
 
     private fun putStoneAndReturnResult(
