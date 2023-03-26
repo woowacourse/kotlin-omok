@@ -4,7 +4,7 @@ import domain.point.Point
 import domain.point.Points
 import domain.rule.OmokRule
 
-abstract class PlayerState(protected val points: Points = Points()) {
+abstract class PlayerState(val points: Points = Points()) {
     abstract val isPlaying: Boolean
 
     abstract val isFoul: Boolean
@@ -15,5 +15,4 @@ abstract class PlayerState(protected val points: Points = Points()) {
 
     fun getLastStone(): Point? = points.last
 
-    fun getAllPoints(): Points = points.copy()
 }
