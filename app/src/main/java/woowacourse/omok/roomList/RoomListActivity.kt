@@ -16,13 +16,13 @@ class RoomListActivity : AppCompatActivity() {
         { roomInfo -> onRoomClicked(room = roomInfo) },
     )
 
-    lateinit var rooms: List<Room>
+    private lateinit var rooms: List<Room>
+
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_list)
 
-        val roomList = findViewById<RecyclerView>(R.id.room_list)
-        roomList.adapter = adapter
+        findViewById<RecyclerView>(R.id.room_list).adapter = adapter
 
         rooms = db.getRooms(this)
         adapter.submitList(rooms)
