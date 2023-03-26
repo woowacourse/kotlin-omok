@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.content.ContentValues
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -18,28 +17,24 @@ import omok.model.stone.GoStoneColor
 import woowacourse.omok.database.OmokDB
 import woowacourse.omok.database.OmokRepository
 import woowacourse.omok.database.Repository
-import woowacourse.omok.model.GoStoneColorNumber
 
 class MainActivity : AppCompatActivity() {
-    private val omokGame = OmokGame(Board())
-    private lateinit var omokRepo: Repository
-    private lateinit var board: TableLayout
-    private lateinit var winner: TextView
-    private lateinit var retryButton: Button
+    private var omokGame = OmokGame(Board())
+    private val omokRepo: Repository by lazy { OmokRepository(OmokDB.getInstance(this)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        omokRepo = OmokRepository(OmokDB.getInstance(this))
-        initView()
+        initListener()
+        if (!omokRepo.isEmpty()) reloadPreviousGame()
+    }
 
-        if (hasPreviousGame()) setPreviousGame()
-
+    private fun initListener() {
         getBoardImageViews()
             .forEachIndexed { index, view ->
                 view.setOnClickListener {
-                    val clickedCoordinate: Coordinate = index.toCoordinate()
+                    val clickedCoordinate: Coordinate = convertCoordinate(index)
                     val lastPlacedStone = omokGame.turn(coordinate = { clickedCoordinate })
                     val placedStoneState = omokGame.judge(lastPlacedStone)
                     if (placedStoneState == PlacementState.STAY) {
@@ -52,12 +47,12 @@ class MainActivity : AppCompatActivity() {
                     placeGoStoneOnBoard(lastPlacedStone, view)
                     omokRepo.insert(lastPlacedStone, index)
                     omokRepo.clear()
-                    disableBoard(board)
-                    setWinnerText(winner, lastPlacedStone.color, placedStoneState)
+                    disableBoard()
+                    setWinnerText(lastPlacedStone.color, placedStoneState)
                 }
             }
 
-        retryButton.setOnClickListener {
+        findViewById<Button>(R.id.retry_button).setOnClickListener {
             omokRepo.clear()
             omokGame = OmokGame(Board())
             getBoardImageViews().forEach {
@@ -77,47 +72,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getBoardImageViews() = board.children
-        .filterIsInstance<TableRow>()
-        .flatMap { it.children }
-        .filterIsInstance<ImageView>()
-        .toList()
-
-    private fun Int.toCoordinate(): Coordinate {
-        val index = this + 1
+    private fun convertCoordinate(target: Int): Coordinate {
+        val index = target + 1
         val x = if (index % BOARD_SIZE == 0) BOARD_SIZE else index % BOARD_SIZE
         val y = if (index % BOARD_SIZE == 0) BOARD_SIZE - index / BOARD_SIZE + 1 else BOARD_SIZE - index / BOARD_SIZE
         return Coordinate(x, y)
     }
 
+    private fun getBoardImageViews() = findViewById<TableLayout>(R.id.board).children
+        .filterIsInstance<TableRow>()
+        .flatMap { it.children }
+        .filterIsInstance<ImageView>()
+        .toList()
+
     private fun placeGoStoneOnBoard(goStone: GoStone, view: ImageView) {
         if (goStone.color == GoStoneColor.BLACK) {
             view.setImageResource(R.drawable.black_stone)
-        } else {
-            view.setImageResource(R.drawable.white_stone)
+            return
         }
+        view.setImageResource(R.drawable.white_stone)
     }
 
-    private fun recordGoStone(goStone: GoStone, index: Int) {
-        val record = ContentValues().apply {
-            put(KEY_GO_STONE_COLOR, GoStoneColorNumber.convertGoStoneColorNumber(goStone.color).number)
-            put(KEY_BOARD_INDEX, index)
-            put(KEY_COORDINATE_X, goStone.coordinate.x)
-            put(KEY_COORDINATE_Y, goStone.coordinate.y)
-        }
-        omokRepo.insert(record)
-    }
-
-    private fun disableBoard(board: TableLayout) {
-        board.children
+    private fun disableBoard() {
+        findViewById<TableLayout>(R.id.board).children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEach { it.isClickable = false }
+            .forEach { it.isEnabled = false }
     }
 
-    private fun setWinnerText(winnerTextView: TextView, color: GoStoneColor, placementState: PlacementState) {
-        winnerTextView.text = when (placementState) {
+    private fun setWinnerText(color: GoStoneColor, placementState: PlacementState) {
+        findViewById<TextView>(R.id.winner_text).text = when (placementState) {
             PlacementState.WIN -> "${color.name} 승리!"
             else -> "금수!: ${placementState.name}, ${GoStoneColor.WHITE.name} 승리!"
         }
