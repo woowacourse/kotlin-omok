@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             initState()
             setPreviousGameStone()
         }
-        omokClick()
+        clickOmokBoard()
 
         resetButton.setOnClickListener {
             resetGame()
@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun omokClick() {
+    private fun clickOmokBoard() {
         getOmokBoardView().forEachIndexed { index, view ->
             view.setOnClickListener {
                 val stone = Stone(
