@@ -1,11 +1,12 @@
 package omok
 
-class Player() {
-    private val _stones = mutableListOf<Stone>()
+class Player(stones: List<Stone> = listOf()) {
+
+    private var _stones = stones
     val stones
         get() = _stones.toList()
 
     fun put(stone: Stone) {
-        _stones.add(stone)
+        _stones = _stones + stone
     }
 }
