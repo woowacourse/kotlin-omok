@@ -14,7 +14,7 @@ class LineJudgement(val player: Player, val position: Position) {
         var count = 0
         var prev = true
         var present: Boolean
-        val expect = player.hand.stones + Stone(position)
+        val expect = player.stones + Stone(position)
         horizontal.zip(vertical).forEach { axis ->
             present = expect.any { stone ->
                 stone.findPosition(

@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             with(cursor) {
                 turn = getString(getColumnIndexOrThrow(OmokContract.TURN))
                 if (turn == "black") {
-                    blackPlayer.hand.add(
+                    blackPlayer.put(
                         Stone(
                             Position(
                                 HorizontalAxis.getHorizontalAxis((getInt(getColumnIndexOrThrow(OmokContract.POSITION_X)))),
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
                 if (turn == "white") {
-                    whitePlayer.hand.add(
+                    whitePlayer.put(
                         Stone(
                             Position(
                                 HorizontalAxis.getHorizontalAxis((getInt(getColumnIndexOrThrow(OmokContract.POSITION_X)))),
@@ -88,10 +88,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBoardView(board: Sequence<ImageView>) {
-        omokGame.board.blackPlayer.hand.stones.forEach { stone ->
+        omokGame.board.blackPlayer.stones.forEach { stone ->
             board.toList()[transformStonePositionToView(stone)].setImageResource(R.drawable.black_stone_nabi)
         }
-        omokGame.board.whitePlayer.hand.stones.forEach { stone ->
+        omokGame.board.whitePlayer.stones.forEach { stone ->
             board.toList()[transformStonePositionToView(stone)].setImageResource(R.drawable.white_stone_choonbae)
         }
     }

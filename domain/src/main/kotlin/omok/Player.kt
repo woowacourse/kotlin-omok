@@ -1,8 +1,11 @@
 package omok
 
-class Player(val hand: Hand = Hand()) {
+class Player() {
+    private val _stones = mutableListOf<Stone>()
+    val stones
+        get() = _stones.toList()
 
     fun put(stone: Stone) {
-        hand.add(stone)
+        _stones.add(stone)
     }
 }

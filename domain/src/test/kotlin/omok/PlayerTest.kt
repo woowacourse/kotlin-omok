@@ -14,6 +14,6 @@ class PlayerTest {
         player.put(stone)
 
         // then
-        assertThat(player.hand.stones.size).isEqualTo(1)
+        assertThat(player.stones.size).isEqualTo(1)
     }
 }
