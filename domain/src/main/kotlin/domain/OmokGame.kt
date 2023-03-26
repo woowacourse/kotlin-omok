@@ -11,30 +11,20 @@ class OmokGame(
         get() = _turn
     private var isOver = false
 
-    fun runGame(): State {
-        while (true) {
-            doTurn(State.BLACK)
-            if (omokBoard.isVictory(State.BLACK)) return omokGameListener.onFinish(State.BLACK)
-
-            doTurn(State.WHITE)
-            if (omokBoard.isVictory(State.WHITE)) return omokGameListener.onFinish(State.WHITE)
-        }
-    }
-
-    private fun doTurn(state: State) {
-        val stone = omokGameListener.onStoneRequest()
+    fun successTurn2(stone: Stone, state: State): Boolean {
         if (!omokBoard.isEmpty(stone)) {
             omokGameListener.onMoveFail()
-            return doTurn(state)
+            return false
         }
 
         if (state == State.BLACK && omokBoard.isForbidden(stone)) {
             omokGameListener.onForbidden()
-            return doTurn(state)
+            return false
         }
 
         omokBoard.move(stone, state)
         omokGameListener.onMove(omokBoard, state.nextState(), stone)
+        return true
     }
 
     fun successTurn(stone: Stone): Boolean {
@@ -64,7 +54,7 @@ class OmokGame(
         omokGameListener.onMove(omokBoard, _turn, stone)
     }
 
-    private fun isVictory(state: State): Boolean {
+    fun isVictory(state: State): Boolean {
         if (omokBoard.isVictory(state)) {
             omokGameListener.onFinish(state)
             return true

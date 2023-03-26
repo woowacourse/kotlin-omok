@@ -5,49 +5,33 @@ import org.junit.jupiter.api.Test
 
 class OmokGameTest {
     @Test
-    fun `흑돌이 오목을 완성하면 게임이 종료되고, 흑돌이 승리한다`() {
-        // given
-        val black = (1..5).map { Stone(it, 0) }.toMutableList()
-        val white = (1..5).map { Stone(it, 3) }.toMutableList()
-        val turn = mutableListOf<Stone>()
-        repeat(5) {
-            turn.add(black.removeFirst())
-            turn.add(white.removeFirst())
-        }
+    fun `금수인 경우 착수할 수 없다`() {
+        val board =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        board[1][3] = State.BLACK
+        board[2][3] = State.BLACK
+        board[3][2] = State.BLACK
+        board[3][4] = State.BLACK
 
-        val omokGame = OmokGame(omokGameListener = FakeListener(turn))
+        val omokGame = OmokGame(OmokBoard(board), FakeOmokListener())
 
-        // when
-        val result = omokGame.runGame()
+        val actual = omokGame.successTurn2(Stone(3, 3), State.BLACK)
 
-        // then
-        assertThat(result).isEqualTo(State.BLACK)
+        assertThat(actual).isFalse
     }
 
     @Test
-    fun `백돌이 오목을 완성하면 게임이 종료되고, 백돌이 승리한다`() {
-        // given
-        val black = (1..4).map { Stone(it, it) }.toMutableList()
-        black.add(Stone(14, 14))
-        val white = (1..5).map { Stone(13, it) }.toMutableList()
-        val turn = mutableListOf<Stone>()
-        repeat(5) {
-            turn.add(black.removeFirst())
-            turn.add(white.removeFirst())
-        }
+    fun `금수가 아닌경우 착수할 수 있다`() {
+        val board =
+            MutableList(OmokBoard.BOARD_SIZE) { MutableList(OmokBoard.BOARD_SIZE) { State.EMPTY } }
+        board[1][3] = State.BLACK
+        board[2][3] = State.BLACK
+        board[3][2] = State.BLACK
 
-        val omokGame = OmokGame(omokGameListener = FakeListener(turn))
+        val omokGame = OmokGame(OmokBoard(board), FakeOmokListener())
 
-        // when
-        val result = omokGame.runGame()
+        val actual = omokGame.successTurn2(Stone(3, 3), State.BLACK)
 
-        // then
-        assertThat(result).isEqualTo(State.WHITE)
-    }
-
-    private class FakeListener(val turn: MutableList<Stone>) : FakeOmokListener() {
-        override fun onStoneRequest(): Stone {
-            return turn.removeFirst()
-        }
+        assertThat(actual).isTrue
     }
 }

@@ -9,10 +9,6 @@ import domain.listener.OmokListener
 import view.OutputView
 
 class OmokGameListener(private val context: Context) : OmokListener {
-    override fun onStoneRequest(): Stone {
-        TODO("Not yet implemented")
-    }
-
     override fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {
         OutputView().printOmokState(omokBoard, state, stone)
     }

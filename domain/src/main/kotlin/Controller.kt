@@ -11,10 +11,6 @@ class Controller(
     val outputView: OutputViewInterface,
 ) {
     private val omokGameListener = object : OmokListener {
-        override fun onStoneRequest(): Stone {
-            return inputView.readPosition()
-        }
-
         override fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {
             outputView.printOmokState(omokBoard, state, stone)
         }
@@ -36,6 +32,16 @@ class Controller(
     fun run() {
         val omokGame = OmokGame(omokGameListener = omokGameListener)
         outputView.printStart()
-        omokGame.runGame()
+        var turn = State.BLACK
+        while (true) {
+            omokGame.nextTurn(turn)
+            if (omokGame.isVictory(turn)) break
+            turn = turn.nextState()
+        }
+    }
+
+    private fun OmokGame.nextTurn(turn: State) {
+        val stone = inputView.readPosition()
+        if (!this.successTurn2(stone, turn)) return nextTurn(turn)
     }
 }
