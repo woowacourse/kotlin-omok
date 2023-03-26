@@ -3,6 +3,7 @@ package controller
 import domain.game.Omok
 import domain.player.BlackPlayer
 import domain.player.WhitePlayer
+import domain.result.TurnResult
 import domain.rule.OmokRule
 import listener.OmokTurnEventListener
 import view.OmokInputView
@@ -13,13 +14,14 @@ class OmokController(
 ) {
     fun start(blackRule: OmokRule, whiteRule: OmokRule) {
         Omok(BlackPlayer(rule = blackRule), WhitePlayer(rule = whiteRule)).apply {
+            var result: TurnResult = TurnResult.Playing(false, players)
             outputView.onStartGame()
-            while (isPlaying) {
+            while (result is TurnResult.Playing) {
                 outputView.onStartTurn(players.curPlayerColor, players.getLastPoint())
-                val result = takeTurn(inputView.askPosition(players.curPlayerColor))
+                result = takeTurn(inputView.askPosition(players.curPlayerColor))
                 outputView.onEndTurn(result)
             }
-            outputView.onEndGame(players)
+            outputView.onEndGame(result)
         }
     }
 }

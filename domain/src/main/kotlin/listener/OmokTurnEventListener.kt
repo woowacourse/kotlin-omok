@@ -9,5 +9,5 @@ interface OmokTurnEventListener {
     fun onStartTurn(stoneColor: StoneColor, point: Point?)
     fun onEndTurn(result: TurnResult)
     fun onStartGame()
-    fun onEndGame(players: Players)
+    fun onEndGame(result: TurnResult)
 }

@@ -15,14 +15,14 @@ class OmokOutputView : OmokTurnEventListener {
         println(OMOK_BOARD)
     }
 
-    override fun onEndGame(players: Players) {
+    override fun onEndGame(result: TurnResult) {
         println(GAME_END_MESSAGE)
-        if (players.isFoul) {
+        if (result is TurnResult.Foul) {
             println("금수를 두었습니다.")
-            println(WINNER_MESSAGE.format(players.curPlayerColor.toPresentation().text))
+            println(WINNER_MESSAGE.format(result.winColor.toPresentation().text))
             return
         }
-        println(WINNER_MESSAGE.format(players.curPlayerColor.next().toPresentation().text))
+        if (result is TurnResult.Win) println(WINNER_MESSAGE.format(result.winColor.toPresentation().text))
     }
 
     override fun onStartTurn(stoneColor: StoneColor, point: Point?) {
@@ -35,7 +35,7 @@ class OmokOutputView : OmokTurnEventListener {
     }
 
     override fun onEndTurn(result: TurnResult) {
-        if (result is TurnResult.Failure) println(ALREADY_EXIST_STONE)
+        if (result is TurnResult.Playing && result.isExistPoint) println(ALREADY_EXIST_STONE)
         val board = OMOK_BOARD.toMutableList()
         val players = result.players
         players.toList().forEach { player ->
