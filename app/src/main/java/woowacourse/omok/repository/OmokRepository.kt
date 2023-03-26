@@ -8,6 +8,8 @@ import woowacourse.omok.database.OmokContract.TABLE_NAME
 
 class OmokRepository(val database: SQLiteDatabase) {
 
+    private var cursor: Cursor? = null
+
     fun insert(values: ContentValues) {
         database.insert(TABLE_NAME, null, values)
     }
@@ -24,8 +26,7 @@ class OmokRepository(val database: SQLiteDatabase) {
 
     fun isEmpty(): Boolean {
         val query = "SELECT * FROM $TABLE_NAME"
-        val cursor = database.rawQuery(query, null)
-        return cursor.count == 0
+        return database.rawQuery(query, null).use { it.count == 0 }
     }
 
     fun close() {
