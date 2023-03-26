@@ -7,11 +7,19 @@ import domain.point.Point
 import domain.result.TurnResult
 
 class Omok(blackPlayer: BlackPlayer, whitePlayer: WhitePlayer) {
-    private var _players = Players(blackPlayer, whitePlayer)
+    private var _players: Players
     val players: Players
         get() = _players.copy()
     val isPlaying: Boolean
         get() = _players.isPlaying
+
+    init {
+        val latestPlayer = when (blackPlayer.getPointSize() == whitePlayer.getPointSize()) {
+            true -> blackPlayer
+            false -> whitePlayer
+        }
+        _players = Players(latestPlayer, listOf(blackPlayer, whitePlayer))
+    }
 
     fun takeTurn(point: Point): TurnResult {
         val endTurnPlayers = _players.putStone(point)

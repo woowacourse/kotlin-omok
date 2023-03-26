@@ -3,8 +3,7 @@ package domain.player
 import domain.point.Point
 import domain.stone.StoneColor
 
-data class Players private constructor(private val players: List<Player>) {
-    private lateinit var latestPlayer: Player
+class Players(private val latestPlayer: Player, private val players: List<Player>) {
     val isPlaying: Boolean
         get() = players.all { it.isPlaying }
     val isFoul: Boolean
@@ -16,19 +15,6 @@ data class Players private constructor(private val players: List<Player>) {
         require(players.size == PLAYER_SIZE) { INVALID_PLAYERS_SIZE_ERROR_MESSAGE }
     }
 
-    constructor(blackPlayer: Player, whitePlayer: Player) :
-        this(listOf(blackPlayer, whitePlayer)) {
-            if (blackPlayer.getPointSize() == whitePlayer.getPointSize()) {
-                latestPlayer = whitePlayer
-                return
-            }
-            latestPlayer = blackPlayer
-        }
-
-    private constructor(latestPlayer: Player, players: List<Player>) : this(players.toList()) {
-        this.latestPlayer = latestPlayer
-    }
-
     private fun nextPlayer(): Player = players.first { it != latestPlayer }
 
     fun putStone(point: Point): Players {
@@ -36,8 +22,7 @@ data class Players private constructor(private val players: List<Player>) {
 
         val otherStones = latestPlayer.getAllPoints()
         val nextLatestPlayer = nextPlayer().putStone(point, otherStones)
-        val newPlayers =
-            players.filter { it.getStoneColor() != nextLatestPlayer.getStoneColor() } + nextLatestPlayer
+        val newPlayers = players.filter { it.getStoneColor() != nextLatestPlayer.getStoneColor() } + nextLatestPlayer
         return Players(nextLatestPlayer, newPlayers)
     }
 
