@@ -52,9 +52,7 @@ class MainActivity : AppCompatActivity() {
                 getResult(state)
             }
         }.onFailure { ex ->
-            ex.message?.let { message ->
-                Log.e(PLACE_STONE_ERROR, message)
-            }
+            ex.message?.let { Log.e(PLACE_STONE_ERROR, it) }
         }
     }
 
@@ -63,9 +61,7 @@ class MainActivity : AppCompatActivity() {
             printEndMessage(state.getResult())
             initOmokGames()
         }.onFailure { ex ->
-            ex.message?.let { message ->
-                Log.e(RESULT_ERROR, message)
-            }
+            ex.message?.let { it -> Log.e(RESULT_ERROR, it) }
         }
     }
 
