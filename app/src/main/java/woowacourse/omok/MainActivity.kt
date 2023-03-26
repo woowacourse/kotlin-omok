@@ -15,18 +15,22 @@ import omok.model.state.Win
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStoneColor
 import omok.view.toKorean
+import woowacourse.omok.db.OmokDB
 
 class MainActivity : AppCompatActivity() {
 
     private val controller = OmokController()
+    private lateinit var db: OmokDB
     private var isRunning = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val boardLayout = findViewById<TableLayout>(R.id.board)
-        val board = boardLayout
+        db = OmokDB(this)
+
+        val boardUi = findViewById<TableLayout>(R.id.board)
+        val board = boardUi
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
@@ -54,7 +58,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         val state = controller.playTurn(coordinate)
-        if (!state.isForbidden) setStoneImage(view)
+        if (!state.isForbidden) {
+            setStoneImage(view)
+            db.insert(controller.board.lastPlacedStone)
+        }
+
         when (state) {
             is Win -> {
                 makeMessage("${controller.board.lastPlacedStone?.color?.toKorean()}이 승리했습니다!")
