@@ -12,7 +12,11 @@ import woowacourse.omok.MainActivity
 import woowacourse.omok.R
 import woowacourse.omok.database.DBController
 
-class InitController(private val omokBoard: Board, private val board: TableLayout, private val dbController: DBController) {
+class InitController(
+    private val omokBoard: Board,
+    private val board: TableLayout,
+    private val dbController: DBController,
+) {
     fun initBoard() {
         listOf(Turn.Black.color, Turn.White.color).forEach { color ->
             val indexes = dbController.getIndex(color)
