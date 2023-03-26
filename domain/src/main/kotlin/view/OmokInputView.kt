@@ -5,18 +5,19 @@ import view.mapper.toDomain
 import view.model.PointModel
 
 class OmokInputView : InputView {
-    fun askPosition(): Point {
+    override suspend fun askPosition(onPutStone: (Point) -> Unit) {
         print(ASK_POSITION_MESSAGE)
         val colRow = readln()
         if (colRow.length !in POSITION_INPUT_RANGE) {
             println(INVALID_FORMAT_ERROR_MESSAGE)
-            return askPosition()
+            askPosition(onPutStone)
         }
 
-        return PointModel(
+        val newPoint = PointModel(
             row = colRow.substring(ROW_INPUT_SIZE),
             col = colRow.first().toString(),
-        ).toDomain() ?: askPosition()
+        ).toDomain()
+        newPoint?.let(onPutStone) ?: askPosition(onPutStone)
     }
 
     companion object {

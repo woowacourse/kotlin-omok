@@ -1,3 +1,7 @@
 package view
 
-interface InputView
+import domain.point.Point
+
+interface InputView {
+    suspend fun askPosition(onPutStone: (Point) -> Unit)
+}

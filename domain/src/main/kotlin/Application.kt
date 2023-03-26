@@ -5,7 +5,7 @@ import domain.rule.WhiteRenjuRule
 import view.OmokInputView
 import view.OmokOutputView
 
-fun main() {
+suspend fun main() {
     OmokController(
         OmokInputView(),
         OmokOutputView(),

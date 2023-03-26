@@ -13,6 +13,8 @@ class Omok(blackRule: OmokRule, whiteRule: OmokRule) {
         get() = players.curPlayerColor
     val lastPoint: Point?
         get() = players.getLastPoint()
+    val canPlay: Boolean
+        get() = !players.isFinish
 
     fun put(onPut: () -> Point): PutResult {
         val newPoint = onPut()
@@ -21,7 +23,7 @@ class Omok(blackRule: OmokRule, whiteRule: OmokRule) {
         val latestStoneColor = players.curPlayerColor
         players = players.putStone(newPoint)
 
-        if (players.isFinish) return GameFinish(latestStoneColor, gameEnd(players))
+        if (players.isFinish) return GameFinish(latestStoneColor, gameEnd(players), newPoint)
         return PutSuccess(latestStoneColor, newPoint)
     }
 

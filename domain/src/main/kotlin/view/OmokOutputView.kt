@@ -6,12 +6,12 @@ import domain.stone.StoneColor
 import view.mapper.toPresentation
 
 class OmokOutputView : OutputView {
-    fun startGame() {
+    override fun startGame() {
         println("오목 게임을 시작합니다.\n")
         println(OMOK_BOARD)
     }
 
-    fun drawPoint(stoneColor: StoneColor, newPoint: Point) {
+    override fun drawPoint(stoneColor: StoneColor, newPoint: Point) {
         val pointIndex = calculateIndex(newPoint, OMOK_BOARD_SIZE)
         val frontBoard = OMOK_BOARD.substring(0, pointIndex)
         val backBoard = OMOK_BOARD.substring(pointIndex + 1)
@@ -23,17 +23,17 @@ class OmokOutputView : OutputView {
         println(OMOK_BOARD)
     }
 
-    fun printPutFailed() {
+    override fun printPutFailed() {
         println("그 자리에는 놓을 수 없습니다!")
     }
 
-    fun printResult(lastStoneColor: StoneColor, winnerStoneColor: StoneColor, newPoint: Point) {
+    override fun printResult(lastStoneColor: StoneColor, winnerStoneColor: StoneColor, newPoint: Point) {
         drawPoint(lastStoneColor, newPoint)
         println(GAME_END_MESSAGE)
         println(WINNER_MESSAGE.format(winnerStoneColor.toPresentation().text))
     }
 
-    fun printTurnStartMessage(stoneColor: StoneColor, point: Point?) {
+    override fun printTurnStartMessage(stoneColor: StoneColor, point: Point?) {
         print("\n${stoneColor.toPresentation().text}의 차례입니다.\n")
         if (point != null) {
             val viewPosition = point.toPresentation()
