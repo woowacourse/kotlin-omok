@@ -45,8 +45,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun placeStone(clickedIndex: Int) {
         runCatching {
-            val state = omokGame.placeStone(::printBoard) { _, _ -> clickedIndex.toPoint() }
             omokDBAdapter.addStone(clickedIndex, omokGame.turnColor)
+            val state = omokGame.placeStone(::printBoard) { _, _ -> clickedIndex.toPoint() }
             printBoard(omokGame.board)
             if (state is OmokGameState.End) {
                 getResult(state)
