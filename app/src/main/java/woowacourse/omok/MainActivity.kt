@@ -151,11 +151,5 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val BOARD_SIZE = 15
-        private const val KEY_GO_STONE_COLOR = "go_stone_color"
-        private const val KEY_BOARD_INDEX = "board_index"
-        private const val KEY_COORDINATE_X = "x"
-        private const val KEY_COORDINATE_Y = "y"
-        private const val GO_STONE_COLOR_BLACK_NUMBER = 1
-        private const val GO_STONE_COLOR_WHITE_NUMBER = 2
     }
 }
