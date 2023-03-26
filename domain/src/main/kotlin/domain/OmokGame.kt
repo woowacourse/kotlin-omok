@@ -12,10 +12,10 @@ class OmokGame(stones: List<Stone> = listOf()) {
 
     var board = Board(stones)
         private set
-    private var state: OmokGameState = OmokGameState.Running
     private var currentPlayer: Player = decideInitialPlayer()
     val turnColor: Color
         get() = currentPlayer.color
+    private var state: OmokGameState = OmokGameState.valueOf(board, stones.last().color)
 
     private fun decideInitialPlayer(): Player {
         if(board.latestStone?.color == Color.Black){
