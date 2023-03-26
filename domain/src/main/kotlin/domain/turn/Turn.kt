@@ -8,7 +8,6 @@ class Turn(
     val color: Color,
     val boardState: BoardState
 ) {
-
     val winnerColor: Color?
         get() {
             if (boardState.isFinished()) return boardState.latestStone?.color
