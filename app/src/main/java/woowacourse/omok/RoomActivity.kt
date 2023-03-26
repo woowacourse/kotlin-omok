@@ -55,9 +55,11 @@ class RoomActivity : AppCompatActivity() {
         player = intent.getSerializableExtra("player") as Player
         omokController = OmokController(omokGameListener, boardDb.getGameState(intent.getIntExtra("gameId", 0)))
 
-        findViewById<ImageView>(R.id.opposing_player_image).setImageResource(player.profile)
-        findViewById<TextView>(R.id.opposing_player_name).text = player.name
-        findViewById<TextView>(R.id.opposing_player_score).text = player.overallRecord.toString()
+        player.run {
+            findViewById<ImageView>(R.id.opposing_player_image).setImageResource(profile)
+            findViewById<TextView>(R.id.opposing_player_name).text = name
+            findViewById<TextView>(R.id.opposing_player_score).text = "$win 승 $lose 패 $draw 무"
+        }
 
         addStoneListener()
         addListenerResetGameState()

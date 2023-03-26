@@ -38,7 +38,7 @@ class RoomListAdapter(
             statusView.text = room.status.toString()
             timeView.text = room.time.toString()
             playerView.text = room.player.name
-            overallResultView.text = "%d승 %d패 %d무".format(room.player.overallRecord.win, room.player.overallRecord.lose, room.player.overallRecord.draw)
+            overallResultView.text = "%d승 %d패 %d무".format(room.player.win, room.player.lose, room.player.draw)
             imageView.setImageResource(room.player.profile)
             itemView.setOnClickListener {
                 showProductDetail(room)

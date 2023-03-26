@@ -11,7 +11,6 @@ import woowacourse.omok.OmokPlayerConstract.TABLE_COLUMN_NAME
 import woowacourse.omok.OmokPlayerConstract.TABLE_COLUMN_PROFILE
 import woowacourse.omok.OmokPlayerConstract.TABLE_COLUMN_WIN
 import woowacourse.omok.OmokPlayerConstract.TABLE_NAME_PLAYER
-import woowacourse.omok.data.OverallRecord
 import woowacourse.omok.data.Player
 
 class OmokPlayerDbHelper(
@@ -59,9 +58,9 @@ class OmokPlayerDbHelper(
 
     private fun getPlayerContentValues(player: Player) = ContentValues().apply {
         put(TABLE_COLUMN_NAME, player.name)
-        put(TABLE_COLUMN_WIN, player.overallRecord.win)
-        put(TABLE_COLUMN_LOSE, player.overallRecord.lose)
-        put(TABLE_COLUMN_DRAW, player.overallRecord.draw)
+        put(TABLE_COLUMN_WIN, player.win)
+        put(TABLE_COLUMN_LOSE, player.lose)
+        put(TABLE_COLUMN_DRAW, player.draw)
         put(TABLE_COLUMN_PROFILE, player.profile)
     }
 
@@ -97,11 +96,9 @@ class OmokPlayerDbHelper(
                 player = Player(
                     id = getInt(getColumnIndexOrThrow(TABLE_COLUMN_ID)),
                     name = getString(getColumnIndexOrThrow(TABLE_COLUMN_NAME)),
-                    overallRecord = OverallRecord(
-                        win = getInt(getColumnIndexOrThrow(TABLE_COLUMN_WIN)),
-                        lose = getInt(getColumnIndexOrThrow(TABLE_COLUMN_LOSE)),
-                        draw = getInt(getColumnIndexOrThrow(TABLE_COLUMN_DRAW)),
-                    ),
+                    win = getInt(getColumnIndexOrThrow(TABLE_COLUMN_WIN)),
+                    lose = getInt(getColumnIndexOrThrow(TABLE_COLUMN_LOSE)),
+                    draw = getInt(getColumnIndexOrThrow(TABLE_COLUMN_DRAW)),
                     profile = getInt(getColumnIndexOrThrow(TABLE_COLUMN_PROFILE)),
                 )
             }
@@ -130,11 +127,9 @@ class OmokPlayerDbHelper(
                     Player(
                         id = getInt(getColumnIndexOrThrow(TABLE_COLUMN_ID)),
                         name = getString(getColumnIndexOrThrow(TABLE_COLUMN_NAME)),
-                        overallRecord = OverallRecord(
-                            win = getInt(getColumnIndexOrThrow(TABLE_COLUMN_WIN)),
-                            lose = getInt(getColumnIndexOrThrow(TABLE_COLUMN_LOSE)),
-                            draw = getInt(getColumnIndexOrThrow(TABLE_COLUMN_DRAW)),
-                        ),
+                        win = getInt(getColumnIndexOrThrow(TABLE_COLUMN_WIN)),
+                        lose = getInt(getColumnIndexOrThrow(TABLE_COLUMN_LOSE)),
+                        draw = getInt(getColumnIndexOrThrow(TABLE_COLUMN_DRAW)),
                         profile = getInt(getColumnIndexOrThrow(TABLE_COLUMN_PROFILE)),
                     ),
                 )
@@ -142,15 +137,5 @@ class OmokPlayerDbHelper(
         }
 
         return players
-    }
-
-    fun updateOverallRecord(playerId: Int, overallRecord: OverallRecord) {
-        val wDb = this.writableDatabase
-        val values = ContentValues().apply {
-            put(TABLE_COLUMN_WIN, overallRecord.win)
-            put(TABLE_COLUMN_LOSE, overallRecord.lose)
-            put(TABLE_COLUMN_DRAW, overallRecord.draw)
-        }
-        wDb.update(TABLE_NAME_PLAYER, values, "$TABLE_COLUMN_ID = ?", arrayOf(playerId.toString()))
     }
 }

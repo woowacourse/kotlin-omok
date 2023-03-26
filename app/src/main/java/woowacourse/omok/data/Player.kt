@@ -6,7 +6,9 @@ import java.io.Serializable
 data class Player(
     val id: Int = -1,
     val name: String,
-    val overallRecord: OverallRecord = OverallRecord(),
+    val win: Int = 0,
+    val lose: Int = 0,
+    val draw: Int = 0,
 
     @DrawableRes
     val profile: Int,
