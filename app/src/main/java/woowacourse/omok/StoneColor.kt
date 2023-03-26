@@ -4,5 +4,5 @@ enum class StoneColor(val korean: String, val english: String, val imageResource
 
     BLACK("흑", "black", R.drawable.black_stone),
 
-    WHITE("백", "white", R.drawable.black_stone)
+    WHITE("백", "white", R.drawable.white_stone)
 }
