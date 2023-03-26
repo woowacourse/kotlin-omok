@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="30dp"
-    tools:context=".omokgame.RoomMakingActivity">
+    tools:context=".roommaking.RoomMakingActivity">
 
     <TextView
         android:id="@+id/firstUserText"

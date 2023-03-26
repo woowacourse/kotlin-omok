@@ -15,7 +15,7 @@
             android:name=".result.ResultActivity"
             android:exported="false" />
         <activity
-            android:name=".omokgame.RoomMakingActivity"
+            android:name=".roommaking.RoomMakingActivity"
             android:exported="false" />
         <activity
             android:name=".home.HomeActivity"

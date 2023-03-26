@@ -9,7 +9,7 @@ import woowacourse.omok.R
 import woowacourse.omok.data.dao.RoomDao
 import woowacourse.omok.data.dao.UserDao
 import woowacourse.omok.omokgame.OmokGameActivity
-import woowacourse.omok.omokgame.RoomMakingActivity
+import woowacourse.omok.roommaking.RoomMakingActivity
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var roomsAdapter: RoomsAdapter
