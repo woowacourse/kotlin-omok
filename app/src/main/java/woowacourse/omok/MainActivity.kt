@@ -44,13 +44,13 @@ class MainActivity : AppCompatActivity() {
                     val placedStoneState = omokGame.judge(lastPlacedStone)
                     if (placedStoneState == PlacementState.STAY) {
                         placeGoStoneOnBoard(lastPlacedStone, view)
-                        recordGoStone(lastPlacedStone, index)
-                        view.isClickable = false
+                        omokRepo.insert(lastPlacedStone, index)
+                        view.isEnabled = false
                         return@setOnClickListener
                     }
 
                     placeGoStoneOnBoard(lastPlacedStone, view)
-                    recordGoStone(lastPlacedStone, index)
+                    omokRepo.insert(lastPlacedStone, index)
                     omokRepo.clear()
                     disableBoard(board)
                     setWinnerText(winner, lastPlacedStone.color, placedStoneState)
@@ -69,32 +69,12 @@ class MainActivity : AppCompatActivity() {
         retryButton = findViewById(R.id.retry_button)
     }
 
-    private fun hasPreviousGame(): Boolean = !omokRepo.isEmpty()
-
-    private fun setPreviousGame() {
-        omokRepo.getAll {
-            while (it.moveToNext()) {
-                val goStoneColorNumber = it.getInt(it.getColumnIndexOrThrow(KEY_GO_STONE_COLOR))
-                val index = it.getInt(it.getColumnIndexOrThrow(KEY_BOARD_INDEX))
-                val x = it.getInt(it.getColumnIndexOrThrow(KEY_COORDINATE_X))
-                val y = it.getInt(it.getColumnIndexOrThrow(KEY_COORDINATE_Y))
-                val boardImageViews = getBoardImageViews()
-
-                when (goStoneColorNumber) {
-                    GO_STONE_COLOR_BLACK_NUMBER -> {
-                        val goStone = GoStone(GoStoneColor.BLACK, Coordinate(x, y))
-                        omokGame.addStoneDirect(goStone)
-                        placeGoStoneOnBoard(goStone, boardImageViews[index])
-                    }
-
-                    GO_STONE_COLOR_WHITE_NUMBER -> {
-                        val goStone = GoStone(GoStoneColor.WHITE, Coordinate(x, y))
-                        omokGame.addStoneDirect(goStone)
-                        placeGoStoneOnBoard(goStone, boardImageViews[index])
-                    }
-                }
-                boardImageViews[index].isEnabled = false
-            }
+    private fun reloadPreviousGame() {
+        val boardImageViews = getBoardImageViews()
+        omokRepo.getAll().forEach {
+            omokGame.addStoneDirect(it.key)
+            placeGoStoneOnBoard(it.key, boardImageViews[it.value])
+            boardImageViews[it.value].isEnabled = false
         }
     }
 

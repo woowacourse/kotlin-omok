@@ -1,11 +1,10 @@
 package woowacourse.omok.database
 
-import android.content.ContentValues
-import android.database.Cursor
+import omok.model.stone.GoStone
 
 interface Repository {
-    fun getAll(action: (Cursor) -> Unit)
-    fun insert(record: ContentValues)
+    fun getAll(): Map<GoStone, Int>
+    fun insert(goStone: GoStone, index: Int)
     fun isEmpty(): Boolean
     fun clear()
     fun close()
