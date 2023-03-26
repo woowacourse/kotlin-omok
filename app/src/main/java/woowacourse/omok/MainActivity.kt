@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //db 데이터 읽어오기
-        val dbData = omokDB.getData()
+        val dbData = omokDB.getStoneData()
         val stones = mutableSetOf<Stone>()
         dbData.forEach {
             val (omokPoint, stoneColor) = it
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 if (result) {
                     stoneColor?.let {
                         //db 데이터 저장하기
-                        omokDB.insert(point, stoneColor)
+                        omokDB.insertStoneData(point, stoneColor)
                     }
                     stoneResource?.let { view.setImageResource(it) }
                 }
