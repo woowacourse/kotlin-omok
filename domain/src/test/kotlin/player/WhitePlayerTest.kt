@@ -47,7 +47,7 @@ class WhitePlayerTest {
 
     @Test
     fun `마지막 놓은 돌을 반환한다`() {
-        val player: Player = WhitePlayer(PlayingState(Points(Point(1, 1))), rule)
+        val player: Player = WhitePlayer(Point(1, 1))
         assertThat(player.getLastStone()).isEqualTo(Point(1, 1))
     }
 
@@ -56,4 +56,6 @@ class WhitePlayerTest {
         val player: Player = WhitePlayer(rule = rule)
         assertThat(player.getStoneColor()).isEqualTo(StoneColor.WHITE)
     }
+
+    private fun WhitePlayer(point: Point) = WhitePlayer(PlayingState(Points(point)), rule)
 }
