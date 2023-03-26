@@ -1,16 +1,16 @@
-package woowacourse.omok
+package woowacourse.omok.dbHelper
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import woowacourse.omok.OmokRoomConstract.TABLE_COLUMN_GAME_ID
-import woowacourse.omok.OmokRoomConstract.TABLE_COLUMN_PLAYER_ID
-import woowacourse.omok.OmokRoomConstract.TABLE_COLUMN_STATUS
-import woowacourse.omok.OmokRoomConstract.TABLE_COLUMN_TIME
-import woowacourse.omok.OmokRoomConstract.TABLE_COLUMN_TITLE
-import woowacourse.omok.OmokRoomConstract.TABLE_NAME_ROOM
 import woowacourse.omok.data.Room
+import woowacourse.omok.dbHelper.OmokRoomConstract.TABLE_COLUMN_GAME_ID
+import woowacourse.omok.dbHelper.OmokRoomConstract.TABLE_COLUMN_PLAYER_ID
+import woowacourse.omok.dbHelper.OmokRoomConstract.TABLE_COLUMN_STATUS
+import woowacourse.omok.dbHelper.OmokRoomConstract.TABLE_COLUMN_TIME
+import woowacourse.omok.dbHelper.OmokRoomConstract.TABLE_COLUMN_TITLE
+import woowacourse.omok.dbHelper.OmokRoomConstract.TABLE_NAME_ROOM
 
 class OmokRoomDbHelper(
     context: Context?,

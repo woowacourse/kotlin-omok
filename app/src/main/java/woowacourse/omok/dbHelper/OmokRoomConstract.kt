@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.dbHelper
 
 object OmokRoomConstract {
     const val TABLE_NAME_ROOM = "rooms"

@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.data.Room
+import woowacourse.omok.dbHelper.OmokRoomDbHelper
 
 class RoomListActivity : AppCompatActivity() {
     private val db = OmokRoomDbHelper(this)

@@ -1,17 +1,17 @@
-package woowacourse.omok
+package woowacourse.omok.dbHelper
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import woowacourse.omok.OmokPlayerConstract.TABLE_COLUMN_DRAW
-import woowacourse.omok.OmokPlayerConstract.TABLE_COLUMN_ID
-import woowacourse.omok.OmokPlayerConstract.TABLE_COLUMN_LOSE
-import woowacourse.omok.OmokPlayerConstract.TABLE_COLUMN_NAME
-import woowacourse.omok.OmokPlayerConstract.TABLE_COLUMN_PROFILE
-import woowacourse.omok.OmokPlayerConstract.TABLE_COLUMN_WIN
-import woowacourse.omok.OmokPlayerConstract.TABLE_NAME_PLAYER
 import woowacourse.omok.data.Player
+import woowacourse.omok.dbHelper.OmokPlayerConstract.TABLE_COLUMN_DRAW
+import woowacourse.omok.dbHelper.OmokPlayerConstract.TABLE_COLUMN_ID
+import woowacourse.omok.dbHelper.OmokPlayerConstract.TABLE_COLUMN_LOSE
+import woowacourse.omok.dbHelper.OmokPlayerConstract.TABLE_COLUMN_NAME
+import woowacourse.omok.dbHelper.OmokPlayerConstract.TABLE_COLUMN_PROFILE
+import woowacourse.omok.dbHelper.OmokPlayerConstract.TABLE_COLUMN_WIN
+import woowacourse.omok.dbHelper.OmokPlayerConstract.TABLE_NAME_PLAYER
 
 class OmokPlayerDbHelper(
     context: Context?,

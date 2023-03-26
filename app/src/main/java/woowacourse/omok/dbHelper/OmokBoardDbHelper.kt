@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.dbHelper
 
 import android.content.ContentValues
 import android.content.Context
@@ -15,12 +15,12 @@ import omok.domain.state.BlackStoneState
 import omok.domain.state.EmptyStoneState
 import omok.domain.state.StoneState
 import omok.domain.state.WhiteStoneState
-import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_COL
-import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_GAME_ID
-import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_NEXT_TURN
-import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_ROW
-import woowacourse.omok.OmokBoardConstract.TABLE_COLUMN_OMOK_STONE
-import woowacourse.omok.OmokBoardConstract.TABLE_NAME_OMOK_BOARD
+import woowacourse.omok.dbHelper.OmokBoardConstract.TABLE_COLUMN_OMOK_COL
+import woowacourse.omok.dbHelper.OmokBoardConstract.TABLE_COLUMN_OMOK_GAME_ID
+import woowacourse.omok.dbHelper.OmokBoardConstract.TABLE_COLUMN_OMOK_NEXT_TURN
+import woowacourse.omok.dbHelper.OmokBoardConstract.TABLE_COLUMN_OMOK_ROW
+import woowacourse.omok.dbHelper.OmokBoardConstract.TABLE_COLUMN_OMOK_STONE
+import woowacourse.omok.dbHelper.OmokBoardConstract.TABLE_NAME_OMOK_BOARD
 
 class OmokBoardDbHelper(context: Context?) : SQLiteOpenHelper(context, "ark.db", null, 1) {
     override fun onCreate(db: SQLiteDatabase?) {

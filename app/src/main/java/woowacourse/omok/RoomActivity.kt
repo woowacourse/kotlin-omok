@@ -17,6 +17,7 @@ import omok.domain.gameState.GameState
 import omok.domain.state.BlackStoneState
 import omok.domain.state.WhiteStoneState
 import woowacourse.omok.data.Player
+import woowacourse.omok.dbHelper.OmokBoardDbHelper
 
 class RoomActivity : AppCompatActivity() {
     private val boardDb = OmokBoardDbHelper(this)

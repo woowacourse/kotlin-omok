@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.dbHelper
 
 object OmokPlayerConstract {
     const val TABLE_NAME_PLAYER = "players"
