@@ -52,4 +52,8 @@ class OmokController {
             }
         }
     }
+
+    fun addAll(stones: List<GoStone>) {
+        board.addAllStones(stones)
+    }
 }

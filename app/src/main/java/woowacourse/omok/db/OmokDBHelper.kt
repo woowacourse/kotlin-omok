@@ -12,7 +12,7 @@ class OmokDBHelper(
             "CREATE TABLE ${OmokConstant.TABLE_NAME} (" +
                 "${OmokConstant.TABLE_COLUMN_X} int not null," +
                 "${OmokConstant.TABLE_COLUMN_Y} int not null," +
-                "${OmokConstant.TABLE_COLUMN_COLOR} varchar(30) not null" +
+                "${OmokConstant.TABLE_COLUMN_COLOR} int not null" +
                 ");"
         )
     }

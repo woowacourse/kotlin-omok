@@ -24,6 +24,12 @@ class Board {
         return _board[coordinate.y][coordinate.x] == null
     }
 
+    fun addAllStones(stones: List<GoStone>) {
+        stones.forEach {
+            addStone(it)
+        }
+    }
+
     companion object {
         const val BOARD_LENGTH = 15
     }

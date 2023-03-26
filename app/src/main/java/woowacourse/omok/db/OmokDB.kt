@@ -3,6 +3,7 @@ package woowacourse.omok.db
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
 import woowacourse.omok.db.OmokConstant.STONE_COLOR_BLACK
@@ -35,5 +36,24 @@ class OmokDB(
 
     fun clear() {
         repository.clear()
+    }
+
+    fun getExistingStones(): List<GoStone> {
+        val stones = mutableListOf<GoStone>()
+        val cursor = repository.cursor
+
+        while (cursor.moveToNext()) {
+            val xCoordinate = cursor.getInt(cursor.getColumnIndexOrThrow(TABLE_COLUMN_X))
+            val yCoordinate = cursor.getInt(cursor.getColumnIndexOrThrow(TABLE_COLUMN_Y))
+            val color = when (cursor.getInt(cursor.getColumnIndexOrThrow(TABLE_COLUMN_COLOR))) {
+                STONE_COLOR_BLACK -> GoStoneColor.BLACK
+                STONE_COLOR_WHITE -> GoStoneColor.WHITE
+                else -> GoStoneColor.BLACK
+            }
+
+            stones.add(GoStone(color, Coordinate(xCoordinate, yCoordinate)))
+        }
+
+        return stones
     }
 }

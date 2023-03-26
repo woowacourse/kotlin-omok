@@ -1,6 +1,7 @@
 package woowacourse.omok
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
@@ -41,6 +42,8 @@ class MainActivity : AppCompatActivity() {
             recreate()
             db.clear()
         }
+
+        setPreviousGame(board)
     }
 
     private fun updateBoard(view: ImageView, index: Int) {
@@ -52,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         val row = index / 15
         val col = index % 15
 
-        val coordinate = Coordinate(col, 15 - row)
+        val coordinate = Coordinate(col, 14 - row)
         if (!controller.board.canAdd(coordinate)) {
             makeMessage("이미 해당 위치에 돌이 있어요!")
             return
@@ -60,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
         val state = controller.playTurn(coordinate)
         if (!state.isForbidden) {
-            setStoneImage(view)
+            setStoneImage(view, controller.board.lastPlacedStone?.color)
             db.insert(controller.board.lastPlacedStone)
         }
 
@@ -75,8 +78,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setStoneImage(view: ImageView) {
-        when (controller.board.lastPlacedStone?.color) {
+    private fun setPreviousGame(board: List<ImageView>) {
+        val stones = db.getExistingStones()
+        controller.addAll(stones)
+
+        stones.forEach {
+            val index = (14 - it.coordinate.y) * 15 + it.coordinate.x
+            setStoneImage(board[index], it.color)
+        }
+    }
+
+    private fun setStoneImage(view: ImageView, color: GoStoneColor?) {
+        when (color) {
             GoStoneColor.BLACK, null -> view.setImageResource(R.drawable.black_stone)
             GoStoneColor.WHITE -> view.setImageResource(R.drawable.white_stone)
         }
