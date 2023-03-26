@@ -69,16 +69,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun blackTurn(index: Int, view: ImageView) {
         val position = positionFind(index)
+        if (!omokBoard.isBlackPlaceable(position)) {
+            Toast.makeText(applicationContext, BOARD_PUT_ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
+            turn(Turn.Black)
+        }
         if (omokBoard.isBlackPlaceable(position)) {
             dBController.insertDB(Turn.Black.color, index)
             view.setImageResource(R.drawable.black_stone)
             omokBoard.blackPlayer.put(BlackStone(position))
             omokBoard.occupyPosition(position)
             nextStepBlack(position)
-        }
-        if (!omokBoard.isBlackPlaceable(position)) {
-            Toast.makeText(applicationContext, BOARD_PUT_ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
-            turn(Turn.Black)
         }
     }
 
@@ -91,16 +91,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun whiteTurn(index: Int, view: ImageView) {
         val position = positionFind(index)
-        if (omokBoard.isBlackPlaceable(position)) {
+        if (!omokBoard.isWhitePlaceable(position)) {
+            Toast.makeText(applicationContext, BOARD_PUT_ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
+            turn(Turn.White)
+        }
+        if (omokBoard.isWhitePlaceable(position)) {
             dBController.insertDB(Turn.White.color, index)
             view.setImageResource(R.drawable.white_stone)
             omokBoard.whitePlayer.put(WhiteStone(position))
             omokBoard.occupyPosition(position)
             nextStepWhite(position)
-        }
-        if (!omokBoard.isWhitePlaceable(position)) {
-            Toast.makeText(applicationContext, BOARD_PUT_ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
-            turn(Turn.White)
         }
     }
 
