@@ -26,6 +26,9 @@
         <activity
             android:name=".room.RoomActivity"
             android:exported="true"/>
+        <activity
+            android:name=".room.RestartActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

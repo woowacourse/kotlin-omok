@@ -70,7 +70,7 @@ class OmokPlayerDbHelper(
         wDb.insert(TABLE_NAME_PLAYER, null, values)
     }
 
-    private fun update(player: Player) {
+    fun update(player: Player) {
         val wDb = this.writableDatabase
         val values = getPlayerContentValues(player)
         wDb.update(TABLE_NAME_PLAYER, values, "$TABLE_COLUMN_NAME = ?", arrayOf(player.name))
@@ -138,4 +138,6 @@ class OmokPlayerDbHelper(
 
         return players
     }
+
+    fun getPlayerOrThrow(playerId: Int): Player = getPlayer(playerId) ?: throw Exception("Player not found")
 }

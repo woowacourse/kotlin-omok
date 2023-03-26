@@ -28,6 +28,12 @@ class RoomListActivity : AppCompatActivity() {
         adapter.submitList(rooms)
     }
 
+    override fun onResume() {
+        super.onResume()
+        rooms = db.getRooms(this)
+        adapter.submitList(rooms)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         db.close()
@@ -39,9 +45,11 @@ class RoomListActivity : AppCompatActivity() {
     }
 
     private fun onRoomClicked(room: Room) {
-        val intent = Intent(this, RoomActivity::class.java)
-        intent.putExtra("gameId", room.gameId)
-        intent.putExtra("player", room.player)
-        startActivity(intent)
+        startActivity(
+            Intent(this, RoomActivity::class.java).apply {
+                putExtra("gameId", room.gameId)
+                putExtra("player", room.player)
+            },
+        )
     }
 }
