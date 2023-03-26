@@ -10,7 +10,7 @@ data class Points(private val points: List<Point> = emptyList()) {
         require(points.distinct().size == points.size) { DUPLICATED_ERROR_MESSAGE }
     }
 
-    fun getAll(): List<Point> = points.toList()
+    fun getAll(): List<Point> = points.map { Point(it.row, it.col) }
 
     fun add(newStone: Point): Points {
         return copy(points = points + newStone)
