@@ -3,9 +3,9 @@ package omok.domain.state
 sealed class Turn : State {
 
     object Black : Turn() {
-        val color = "black"
+        const val color = "black"
     }
     object White : Turn() {
-        val color = "white"
+        const val color = "white"
     }
 }
