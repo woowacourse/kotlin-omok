@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.room
 
 import android.os.Bundle
 import android.widget.Button
@@ -16,6 +16,7 @@ import omok.domain.OmokPoint
 import omok.domain.gameState.GameState
 import omok.domain.state.BlackStoneState
 import omok.domain.state.WhiteStoneState
+import woowacourse.omok.R
 import woowacourse.omok.data.Player
 import woowacourse.omok.dbHelper.OmokBoardDbHelper
 

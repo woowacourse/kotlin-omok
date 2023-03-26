@@ -21,10 +21,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RoomListActivity"
+            android:name=".roomList.RoomListActivity"
             android:exported="true"/>
         <activity
-            android:name=".RoomActivity"
+            android:name=".room.RoomActivity"
             android:exported="true"/>
     </application>
 

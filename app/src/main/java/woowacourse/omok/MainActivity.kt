@@ -7,6 +7,7 @@ import woowacourse.omok.data.Player
 import woowacourse.omok.data.Room
 import woowacourse.omok.dbHelper.OmokPlayerDbHelper
 import woowacourse.omok.dbHelper.OmokRoomDbHelper
+import woowacourse.omok.roomList.RoomListActivity
 
 class MainActivity : AppCompatActivity() {
     private val playerNames: List<Player> =

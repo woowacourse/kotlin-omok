@@ -1,11 +1,13 @@
-package woowacourse.omok
+package woowacourse.omok.roomList
 
 import android.content.Intent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import woowacourse.omok.R
 import woowacourse.omok.data.Room
 import woowacourse.omok.dbHelper.OmokRoomDbHelper
+import woowacourse.omok.room.RoomActivity
 
 class RoomListActivity : AppCompatActivity() {
     private val db = OmokRoomDbHelper(this)

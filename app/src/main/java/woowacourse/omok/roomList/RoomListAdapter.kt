@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.roomList
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import woowacourse.omok.R
 import woowacourse.omok.data.Room
 import woowacourse.omok.data.RoomListType
 import woowacourse.omok.data.RoomRefresh
