@@ -9,8 +9,8 @@ class Stones(
     val value: List<Stone>
         get() = _value.toList()
 
-    fun place(stone: Stone) : PlaceResult {
-        if(!value.none { it.coordinate == stone.coordinate }) {
+    fun place(stone: Stone): PlaceResult {
+        if (!value.none { it.coordinate == stone.coordinate }) {
             println(MESSAGE_CORRUPT_STONE.format(stone.coordinate.x, stone.coordinate.y))
             return PlaceResult.ERROR_ALREADY_PLACE
         }
@@ -23,7 +23,8 @@ class Stones(
             Color.BLACK -> {
                 if (renjuRule.isThreeToThree(stone, this) || renjuRule.isFourToFour(
                         stone, this
-                    ) || renjuRule.isOverFive(findScore(stone.coordinate, stone.color))) PlaceResult.ERROR_RENJU_RULE
+                    ) || renjuRule.isOverFive(findScore(stone.coordinate, stone.color))
+                ) PlaceResult.ERROR_RENJU_RULE
                 else PlaceResult.SUCCESS
             }
             Color.WHITE -> {
@@ -66,6 +67,10 @@ class Stones(
             return startSearch(nextCoordinate, direction, color, count + SEARCH_INTERVAL)
         }
         return count
+    }
+
+    fun clearStones() {
+        this._value.clear()
     }
 
     companion object {

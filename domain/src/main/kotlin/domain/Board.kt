@@ -20,7 +20,7 @@ class Board(val stones: Stones) {
         if (stones.validateRenju(stone) != PlaceResult.SUCCESS) {
             return false
         }
-        if(stones.place(stone)!= PlaceResult.SUCCESS){
+        if (stones.place(stone) != PlaceResult.SUCCESS) {
             return false
         }
         return true
