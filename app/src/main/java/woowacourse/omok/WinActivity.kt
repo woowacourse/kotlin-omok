@@ -23,6 +23,11 @@ class WinActivity : AppCompatActivity() {
         val winWho = findViewById<TextView>(R.id.winWho)
         dBController = DBController(OmokDBHelper(this).writableDatabase)
 
+        displayWinner(winImage, winWho)
+        retryGame(retryBtn)
+    }
+
+    private fun displayWinner(winImage: ImageView, winWho: TextView) {
         val color = intent.getStringExtra(OmokConstract.TABLE_COLUMN_COLOR)
         if (color == Turn.Black.color) {
             winImage.setImageResource(R.drawable.black_stone)
@@ -32,8 +37,6 @@ class WinActivity : AppCompatActivity() {
             winImage.setImageResource(R.drawable.white_stone)
             winWho.text = "백"
         }
-
-        retryGame(retryBtn)
     }
 
     private fun retryGame(retryBtn: Button) {
