@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val POSITION_CALCULATE_PLUS_NUMBER = 1
-        const val BOARD_PUT_ERROR_MESSAGE = "해당 자리에 둘 수 없습니다."
+        private const val POSITION_CALCULATE_PLUS_NUMBER = 1
+        private const val BOARD_PUT_ERROR_MESSAGE = "해당 자리에 둘 수 없습니다."
     }
 }
