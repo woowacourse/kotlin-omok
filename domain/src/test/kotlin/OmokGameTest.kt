@@ -9,7 +9,7 @@ class OmokGameTest {
 
 
     @Test
-    fun `오목 게임이 끝난 상태에서 돌을 두려고 하면 예외를 던진다`() {
+    fun `오목 게임이 끝난 상태에서 placeStone을 호출하면 예외를 던진다`() {
         val omokGame = OmokGame(makeBlackWin())
 
         assertThrows<IllegalStateException> {
