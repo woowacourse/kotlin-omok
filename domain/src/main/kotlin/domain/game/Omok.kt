@@ -10,8 +10,6 @@ class Omok(blackPlayer: BlackPlayer, whitePlayer: WhitePlayer) {
     private var _players: Players
     val players: Players
         get() = _players.copy()
-    val isPlaying: Boolean
-        get() = _players.isPlaying
 
     init {
         val latestPlayer = blackPlayer.getLatestPlayer(whitePlayer)
