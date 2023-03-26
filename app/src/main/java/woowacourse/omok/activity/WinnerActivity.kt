@@ -21,7 +21,7 @@ class WinnerActivity : AppCompatActivity() {
         endButton.setOnClickListener { endGame() }
     }
 
-    fun showWinnerStone() {
+    private fun showWinnerStone() {
         val winner = findViewById<TextView>(R.id.winner)
         val winnerStone = intent.getIntExtra("winner", 0)
         when (StoneType.getStoneType(winnerStone)) {
@@ -31,13 +31,13 @@ class WinnerActivity : AppCompatActivity() {
         }
     }
 
-    fun restartGame() {
+    private fun restartGame() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
 
-    fun endGame() {
+    private fun endGame() {
         finish()
     }
 
