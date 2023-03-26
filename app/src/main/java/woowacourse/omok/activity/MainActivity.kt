@@ -154,8 +154,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetGame() {
-        getOmokBoardView().forEach { it.setImageResource(0) }
-        omokRepository.reset()
+        if (!omokRepository.isEmpty()) {
+            getOmokBoardView().forEach { it.setImageResource(0) }
+            omokRepository.reset()
+        }
         state = BlackTurn(Board())
     }
 
