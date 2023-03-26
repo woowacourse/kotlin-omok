@@ -2,10 +2,11 @@ package domain
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class StonesTest {
     @Test
-    fun `바둑돌을 추가 할 수 있다`() {
+    fun `다른 위치에 있는 바둑돌을 추가 할 수 있다`() {
         // given
         val stones = makeStones()
         val newStone = Stone(Color.BLACK, Position(5, 6))
@@ -17,28 +18,29 @@ class StonesTest {
     }
 
     @Test
-    fun `같은 위치의 바둑돌을 포함하고 있으면 True 이다`() {
+    fun `같은 위치에 있는 바둑돌을 추가 할 수 없다`() {
         // given
         val stones = makeStones()
-        val samePosition = Position(1, 2)
+        val newStone = Stone(Color.BLACK, Position(1, 2))
         // when
-        val actual = stones.isContainSamePositionStone(samePosition)
+        val actual = stones.addStone(newStone).values
+        val expected = makeStones().values
         // then
-        assertThat(actual).isTrue
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
-    fun `같은 위치의 바둑돌을 포함하고 있지 않다면 false 이다`() {
-        // given
-        val stones = makeStones()
-        val differentPosition = Position(7, 9)
-        // when
-        val actual = stones.isContainSamePositionStone(differentPosition)
-        // then
-        assertThat(actual).isFalse
+    fun `같은 위치의 바둑돌을 포함하고 있을 수 없다`() {
+        assertThrows<IllegalStateException> { makeDuplicateStones() }
     }
 
     private fun makeStones(): Stones {
+        val blackStone = Stone(Color.BLACK, Position(1, 2))
+        val whiteStone = Stone(Color.WHITE, Position(2, 3))
+        return Stones(listOf(blackStone, whiteStone))
+    }
+
+    private fun makeDuplicateStones(): Stones {
         val blackStone = Stone(Color.BLACK, Position(1, 2))
         val whiteStone = Stone(Color.WHITE, Position(2, 3))
         return Stones(listOf(blackStone, whiteStone))

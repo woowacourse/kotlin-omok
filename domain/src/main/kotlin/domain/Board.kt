@@ -11,10 +11,6 @@ class Board(
         stones = stones.addStone(stone)
     }
 
-    fun isEmpty(stone: Stone): Boolean {
-        return !stones.isContainSamePositionStone(stone.position)
-    }
-
     fun getWinnerColor(): Color? {
         return rule.getWinner(stones)
     }

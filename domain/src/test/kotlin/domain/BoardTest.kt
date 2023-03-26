@@ -29,21 +29,25 @@ class BoardTest {
         val board = Board(Stones(listOf(stone)), rule = RenjuRuleAdapter())
         val samePositionStone = Stone(Color.BLACK, Position(1, 2))
         // when
-        val actual = board.isEmpty(samePositionStone)
+        board.placeStone(samePositionStone)
+        val actual = board.stones.values.size
+        val expected = 1
         // then
-        Assertions.assertThat(actual).isFalse
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `다른 위치에 바둑돌을 놓을 수 있다`() {
         // given
         val stone = Stone(Color.WHITE, Position(1, 2))
-        val board = Board(rule = RenjuRuleAdapter())
+        val board = Board(Stones(listOf(stone)), rule = RenjuRuleAdapter())
         val differentPositionStone = Stone(Color.WHITE, Position(2, 3))
         // when
-        val actual = board.isEmpty(differentPositionStone)
+        board.placeStone(differentPositionStone)
+        val actual = board.stones.values.size
+        val expected = 2
         // then
-        Assertions.assertThat(actual).isTrue
+        assertThat(actual).isEqualTo(expected)
     }
 
     // 1
