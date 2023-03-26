@@ -1,11 +1,15 @@
 package woowacourse.omok
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.controller.OmokController
+import omok.model.game.Judgement
 import omok.model.state.ForbiddenFour
 import omok.model.state.ForbiddenThree
 import omok.model.state.Stay
@@ -85,6 +89,12 @@ class MainActivity : AppCompatActivity() {
         stones.forEach {
             val index = (14 - it.coordinate.y) * 15 + it.coordinate.x
             setStoneImage(board[index], it.color)
+        }
+
+        controller.board.lastPlacedStone.apply {
+            if (this != null) {
+                isRunning = Judgement.judge(controller.board, this) !is Win
+            }
         }
     }
 
