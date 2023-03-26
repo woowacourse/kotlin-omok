@@ -12,22 +12,21 @@ class WinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_win)
 
-        val winner = intent.getStringExtra("winner")
+
         val stoneImageView = findViewById<ImageView>(R.id.imageView_stone)
         val stoneTextView = findViewById<TextView>(R.id.textView_stoneColor)
-        val restartButton = findViewById<Button>(R.id.button_restart)
-
-        when (winner) {
-            StoneColor.STONE_COLOR_BLACK.color -> {
-                stoneImageView.setImageResource(R.drawable.black_stone)
-                stoneTextView.text = "흑"
+        when (intent.getStringExtra("winner")) {
+            StoneColor.BLACK.english -> {
+                stoneImageView.setImageResource(StoneColor.BLACK.imageResource)
+                stoneTextView.text = StoneColor.BLACK.korean
             }
-            StoneColor.STONE_COLOR_WHITE.color -> {
-                stoneImageView.setImageResource(R.drawable.white_stone)
-                stoneTextView.text = "백"
+            StoneColor.WHITE.english -> {
+                stoneImageView.setImageResource(StoneColor.WHITE.imageResource)
+                stoneTextView.text = StoneColor.WHITE.korean
             }
         }
 
+        val restartButton = findViewById<Button>(R.id.button_restart)
         restartButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

@@ -25,19 +25,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        lateinit var omokBoard: Board
-        lateinit var point: Pair<Int, Int>
-        val blackReferee = Referee(listOf(ThreeThreeRule(), FourFourRule(), LongMokRule()))
-        val omokDB = OmokDB(this)
-        val stones = mutableSetOf<Stone>()
         val board = findViewById<TableLayout>(R.id.board)
-        val restartButton = findViewById<Button>(R.id.button_restart)
         val boardViews: List<ImageView> = board
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>().toList()
 
+        val omokDB = OmokDB(this)
+        val restartButton = findViewById<Button>(R.id.button_restart)
         restartButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -47,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         //db 데이터 읽어오기
         val dbData = omokDB.getData()
+        val stones = mutableSetOf<Stone>()
         dbData.forEach {
             val (omokPoint, stoneColor) = it
             val (x, y) = omokPoint
@@ -54,25 +51,32 @@ class MainActivity : AppCompatActivity() {
                 .forEachIndexed { index, view ->
                     if (index == ((14 - y) * 15 + x)) {
                         when (stoneColor) {
-                            StoneColor.STONE_COLOR_BLACK.color -> view.setImageResource(R.drawable.black_stone)
-                            StoneColor.STONE_COLOR_WHITE.color -> view.setImageResource(R.drawable.white_stone)
+                            StoneColor.BLACK.english -> view.setImageResource(
+                                StoneColor.BLACK.imageResource
+                            )
+                            StoneColor.WHITE.english -> view.setImageResource(
+                                StoneColor.WHITE.imageResource
+                            )
                         }
 
                     }
                 }
+
             val stone: Stone =
-                if (stoneColor == StoneColor.STONE_COLOR_BLACK.color) BlackStone(
+                if (stoneColor == StoneColor.BLACK.english) BlackStone(
                     x,
                     y
                 ) else WhiteStone(x, y)
             stones.add(stone)
         }
 
-        omokBoard = Board(Stones(stones))
+        val omokBoard = Board(Stones(stones))
+
         boardViews.forEachIndexed { index, view ->
             view.setOnClickListener {
-                point = calculatePoint(index)
+                val point: Pair<Int, Int> = calculatePoint(index)
                 val (stoneResource: Int?, stoneColor: String?) = getStoneColor(omokBoard)
+                val blackReferee = Referee(listOf(ThreeThreeRule(), FourFourRule(), LongMokRule()))
                 val result = putStoneAndReturnResult(omokBoard, blackReferee, point)
                 if (result) {
                     stoneColor?.let {
@@ -90,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         if (omokBoard.isFinished()) {
             val intent = Intent(this, WinActivity::class.java)
             val winner: String =
-                if (omokBoard.isBlackWin()) StoneColor.STONE_COLOR_BLACK.color else StoneColor.STONE_COLOR_WHITE.color
+                if (omokBoard.isBlackWin()) StoneColor.BLACK.english else StoneColor.WHITE.english
             intent.putExtra("winner", winner)
             startActivity(intent)
             omokDB.deleteDB()
@@ -103,11 +107,11 @@ class MainActivity : AppCompatActivity() {
         var stoneColor: String? = null
         if (omokBoard.isBlackTurn()) {
             stoneResource = R.drawable.black_stone
-            stoneColor = StoneColor.STONE_COLOR_BLACK.color
+            stoneColor = StoneColor.BLACK.english
         }
         if (omokBoard.isWhiteTurn()) {
             stoneResource = R.drawable.white_stone
-            stoneColor = StoneColor.STONE_COLOR_WHITE.color
+            stoneColor = StoneColor.WHITE.english
         }
         return Pair(stoneResource, stoneColor)
     }
