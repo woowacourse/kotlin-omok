@@ -1,5 +1,6 @@
 
 import omok.domain.omokRule.FourFourRule
+import omok.domain.omokRule.RulePosition
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -18,7 +19,7 @@ class OmokRuleFourTest {
         val x = 1
         val y = 1
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][2] = 1
@@ -39,7 +40,7 @@ class OmokRuleFourTest {
         val x = 1
         val y = 1
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][2] = 1
@@ -61,7 +62,7 @@ class OmokRuleFourTest {
         val x = 1
         val y = 1
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][2] = 1
@@ -84,7 +85,7 @@ class OmokRuleFourTest {
         val x = 1
         val y = 1
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][2] = 1

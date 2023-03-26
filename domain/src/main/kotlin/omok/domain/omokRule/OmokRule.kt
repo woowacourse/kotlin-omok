@@ -9,24 +9,20 @@ abstract class OmokRule(
     private val currentStone: Int = BLACK_STONE,
     val opponentStone: Int = WHITE_STONE,
 ) {
-    abstract fun validate(board: List<List<Int>>, position: Pair<Int, Int>): Boolean
-
-    protected val directions = listOf(Pair(1, 0), Pair(1, 1), Pair(0, 1), Pair(1, -1))
+    abstract fun validate(board: List<List<Int>>, position: RulePosition): Boolean
 
     protected fun search(
         board: List<List<Int>>,
-        position: Pair<Int, Int>,
-        direction: Pair<Int, Int>,
+        position: RulePosition,
+        direction: RuleDirection,
     ): Pair<Int, Int> {
-        var (x, y) = position
-        val (dx, dy) = direction
+        var curPosition = position
         var stone = 0
         var blink = 0
         var blinkCount = 0
-        while (willExceedBounds(x, y, dx, dy).not()) {
-            x += dx
-            y += dy
-            when (board[y][x]) {
+        while (willExceedBounds(curPosition, direction).not()) {
+            curPosition += direction
+            when (board[curPosition.y][curPosition.x]) {
                 currentStone -> {
                     stone++
                     blink = blinkCount
@@ -44,16 +40,14 @@ abstract class OmokRule(
 
     protected fun countToWall(
         board: List<List<Int>>,
-        position: Pair<Int, Int>,
-        direction: Pair<Int, Int>,
+        position: RulePosition,
+        direction: RuleDirection,
     ): Int {
-        var (x, y) = position
-        val (dx, dy) = direction
+        var curPosition = position
         var distance = 0
-        while (willExceedBounds(x, y, dx, dy).not()) {
-            x += dx
-            y += dy
-            when (board[y][x]) {
+        while (willExceedBounds(curPosition, direction).not()) {
+            curPosition += direction
+            when (board[curPosition.y][curPosition.x]) {
                 in listOf(currentStone, EMPTY_STONE) -> distance++
                 opponentStone -> break
                 else -> throw IllegalArgumentException()
@@ -62,11 +56,11 @@ abstract class OmokRule(
         return distance
     }
 
-    private fun willExceedBounds(x: Int, y: Int, dx: Int, dy: Int): Boolean = when {
-        dx > 0 && x == MAX_X -> true
-        dx < 0 && x == MIN_X -> true
-        dy > 0 && y == MAX_Y -> true
-        dy < 0 && y == MIN_Y -> true
+    private fun willExceedBounds(position: RulePosition, direction: RuleDirection): Boolean = when {
+        direction.x > 0 && position.x == MAX_X -> true
+        direction.x < 0 && position.x == MIN_X -> true
+        direction.y > 0 && position.y == MAX_Y -> true
+        direction.y < 0 && position.y == MIN_Y -> true
         else -> false
     }
 

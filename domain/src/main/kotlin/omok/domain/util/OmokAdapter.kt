@@ -2,6 +2,7 @@ package omok.domain.util
 
 import omok.domain.OmokBoard
 import omok.domain.OmokPoint
+import omok.domain.omokRule.RulePosition
 import omok.domain.state.BlackStoneState
 import omok.domain.state.WhiteStoneState
 
@@ -18,7 +19,7 @@ object OmokAdapter {
         return adapted
     }
 
-    fun adaptOmokPoint(point: OmokPoint): Pair<Int, Int> {
-        return Pair(point.x.value - 1, point.y.value - 1)
+    fun adaptOmokPoint(point: OmokPoint): RulePosition {
+        return RulePosition(point.x.value - 1, point.y.value - 1)
     }
 }

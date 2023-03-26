@@ -18,7 +18,7 @@ class OmokRuleBlackWinTest {
         val x = 5
         val y = 1
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][1] = 1
@@ -36,7 +36,7 @@ class OmokRuleBlackWinTest {
         val x = 1
         val y = 5
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][1] = 1
@@ -54,7 +54,7 @@ class OmokRuleBlackWinTest {
         val x = 5
         val y = 5
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][1] = 1
@@ -72,7 +72,7 @@ class OmokRuleBlackWinTest {
         val x = 1
         val y = 5
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[4][2] = 1
@@ -90,7 +90,7 @@ class OmokRuleBlackWinTest {
         val x = 1
         val y = 4
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][1] = 1
@@ -107,7 +107,7 @@ class OmokRuleBlackWinTest {
         val x = 1
         val y = 6
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][1] = 1

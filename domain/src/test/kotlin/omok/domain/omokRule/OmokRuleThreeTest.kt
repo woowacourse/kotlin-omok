@@ -1,4 +1,5 @@
 
+import omok.domain.omokRule.RulePosition
 import omok.domain.omokRule.ThreeThreeRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -18,7 +19,7 @@ class OmokRuleThreeTest {
         val x = 3
         val y = 3
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][1] = 1
@@ -36,7 +37,7 @@ class OmokRuleThreeTest {
         val x = 3
         val y = 3
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][1] = 1
@@ -53,7 +54,7 @@ class OmokRuleThreeTest {
         val x = 3
         val y = 3
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][1] = 1
@@ -72,7 +73,7 @@ class OmokRuleThreeTest {
         val x = 6
         val y = 5
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[5][3] = 2

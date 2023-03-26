@@ -9,12 +9,12 @@ class OmokRuleTest {
     private var board = MutableList(15) { MutableList(15) { 0 } }
 
     class TestOmokRule : OmokRule() {
-        override fun validate(board: List<List<Int>>, position: Pair<Int, Int>): Boolean = true
+        override fun validate(board: List<List<Int>>, position: RulePosition): Boolean = true
 
-        fun testSearch(board: List<List<Int>>, position: Pair<Int, Int>, direction: Pair<Int, Int>): Pair<Int, Int> =
+        fun testSearch(board: List<List<Int>>, position: RulePosition, direction: RuleDirection): Pair<Int, Int> =
             search(board, position, direction)
 
-        fun testCountToWall(board: List<List<Int>>, position: Pair<Int, Int>, direction: Pair<Int, Int>): Int =
+        fun testCountToWall(board: List<List<Int>>, position: RulePosition, direction: RuleDirection): Int =
             countToWall(board, position, direction)
     }
 
@@ -29,12 +29,12 @@ class OmokRuleTest {
         val x = 5
         val y = 5
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[2][2] = 1
         board[4][4] = 1
-        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, Pair(-1, -1))
+        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, RuleDirection(-1, -1))
 
         // then
         assertThat(stoneCount).isEqualTo(2)
@@ -47,11 +47,11 @@ class OmokRuleTest {
         val x = 5
         val y = 5
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][1] = 1
-        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, Pair(-1, -1))
+        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, RuleDirection(-1, -1))
 
         // then
         assertThat(stoneCount).isEqualTo(0)
@@ -64,12 +64,12 @@ class OmokRuleTest {
         val x = 5
         val y = 5
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[3][3] = 1
         board[4][4] = 1
-        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, Pair(-1, -1))
+        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, RuleDirection(-1, -1))
 
         // then
         assertThat(stoneCount).isEqualTo(2)
@@ -82,10 +82,10 @@ class OmokRuleTest {
         val x = 1
         val y = 1
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
-        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, Pair(-1, -1))
+        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, RuleDirection(-1, -1))
 
         // then
         assertThat(stoneCount).isEqualTo(0)
@@ -98,13 +98,13 @@ class OmokRuleTest {
         val x = 5
         val y = 5
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[2][2] = 2
         board[3][3] = 1
         board[4][4] = 1
-        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, Pair(-1, -1))
+        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, RuleDirection(-1, -1))
 
         // then
         assertThat(stoneCount).isEqualTo(2)
@@ -117,12 +117,12 @@ class OmokRuleTest {
         val x = 5
         val y = 5
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][1] = 1
         board[4][4] = 1
-        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, Pair(-1, -1))
+        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, RuleDirection(-1, -1))
 
         // then
         assertThat(stoneCount).isEqualTo(1)
@@ -135,14 +135,14 @@ class OmokRuleTest {
         val x = 5
         val y = 5
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][1] = 1
         board[2][2] = 1
         board[3][3] = 1
         board[4][4] = 1
-        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, Pair(-1, -1))
+        val (stoneCount, blinkCount) = omokRule.testSearch(board, nextPlace, RuleDirection(-1, -1))
 
         // then
         assertThat(stoneCount).isEqualTo(4)
@@ -156,7 +156,7 @@ class OmokRuleTest {
         val x = 5
         val y = 5
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][1] = 1
@@ -164,14 +164,14 @@ class OmokRuleTest {
 
         // then
         assertAll(
-            { assertThat(omokRule.testCountToWall(board, nextPlace, Pair(1, 0))).isEqualTo(9) },
-            { assertThat(omokRule.testCountToWall(board, nextPlace, Pair(-1, 0))).isEqualTo(5) },
-            { assertThat(omokRule.testCountToWall(board, nextPlace, Pair(0, 1))).isEqualTo(9) },
-            { assertThat(omokRule.testCountToWall(board, nextPlace, Pair(0, -1))).isEqualTo(5) },
-            { assertThat(omokRule.testCountToWall(board, nextPlace, Pair(1, 1))).isEqualTo(9) },
-            { assertThat(omokRule.testCountToWall(board, nextPlace, Pair(-1, -1))).isEqualTo(5) },
-            { assertThat(omokRule.testCountToWall(board, nextPlace, Pair(-1, 1))).isEqualTo(5) },
-            { assertThat(omokRule.testCountToWall(board, nextPlace, Pair(1, -1))).isEqualTo(5) },
+            { assertThat(omokRule.testCountToWall(board, nextPlace, RuleDirection(1, 0))).isEqualTo(9) },
+            { assertThat(omokRule.testCountToWall(board, nextPlace, RuleDirection(-1, 0))).isEqualTo(5) },
+            { assertThat(omokRule.testCountToWall(board, nextPlace, RuleDirection(0, 1))).isEqualTo(9) },
+            { assertThat(omokRule.testCountToWall(board, nextPlace, RuleDirection(0, -1))).isEqualTo(5) },
+            { assertThat(omokRule.testCountToWall(board, nextPlace, RuleDirection(1, 1))).isEqualTo(9) },
+            { assertThat(omokRule.testCountToWall(board, nextPlace, RuleDirection(-1, -1))).isEqualTo(5) },
+            { assertThat(omokRule.testCountToWall(board, nextPlace, RuleDirection(-1, 1))).isEqualTo(5) },
+            { assertThat(omokRule.testCountToWall(board, nextPlace, RuleDirection(1, -1))).isEqualTo(5) },
         )
     }
 
@@ -183,15 +183,15 @@ class OmokRuleTest {
         val x = 5
         val y = 5
 
-        val nextPlace = Pair(x, y)
+        val nextPlace = RulePosition(x, y)
 
         // when
         board[1][1] = 2
         board[5][1] = 2
         // then
         assertAll(
-            { assertThat(omokRule.testCountToWall(board, nextPlace, Pair(-1, 0))).isEqualTo(3) },
-            { assertThat(omokRule.testCountToWall(board, nextPlace, Pair(-1, -1))).isEqualTo(3) },
+            { assertThat(omokRule.testCountToWall(board, nextPlace, RuleDirection(-1, 0))).isEqualTo(3) },
+            { assertThat(omokRule.testCountToWall(board, nextPlace, RuleDirection(-1, -1))).isEqualTo(3) },
         )
     }
 }
