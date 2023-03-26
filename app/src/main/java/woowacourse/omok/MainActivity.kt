@@ -1,10 +1,7 @@
 package woowacourse.omok
 
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TableLayout
-import android.widget.TableRow
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.controller.OmokController
@@ -19,15 +16,13 @@ import woowacourse.omok.db.OmokDB
 
 class MainActivity : AppCompatActivity() {
 
-    private val controller = OmokController()
-    private lateinit var db: OmokDB
+    private var controller = OmokController()
+    private val db by lazy { OmokDB(this) }
     private var isRunning = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        db = OmokDB(this)
 
         val boardUi = findViewById<TableLayout>(R.id.board)
         val board = boardUi
@@ -40,6 +35,9 @@ class MainActivity : AppCompatActivity() {
         board.forEachIndexed { index, view ->
             view.setOnClickListener { updateBoard(view, index) }
         }
+
+        val restartButton = findViewById<Button>(R.id.button_restart)
+        restartButton.setOnClickListener { recreate() }
     }
 
     private fun updateBoard(view: ImageView, index: Int) {
