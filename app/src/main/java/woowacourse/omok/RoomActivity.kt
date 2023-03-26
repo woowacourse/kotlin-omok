@@ -52,13 +52,8 @@ class RoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room)
 
+        player = intent.getSerializableExtra("player") as Player
         omokController = OmokController(omokGameListener, boardDb.getGameState(intent.getIntExtra("gameId", 0)))
-
-        intent.getIntExtra("playerId", 0).let {
-            OmokPlayerDbHelper(this).getPlayer(it)?.let { player ->
-                this.player = player
-            }
-        }
 
         findViewById<ImageView>(R.id.opposing_player_image).setImageResource(player.profile)
         findViewById<TextView>(R.id.opposing_player_name).text = player.name
