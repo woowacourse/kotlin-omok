@@ -1,6 +1,5 @@
 package omok.domain
 
-import omok.domain.state.Turn
 import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.Test
 
@@ -18,7 +17,7 @@ class BoardTest {
         board.occupyPosition(position)
 
         // then
-        assertThat(board.isPlaceable(Turn.Black, position)).isFalse
+        assertThat(board.isBlackPlaceable(position)).isFalse
     }
 
     @Test
@@ -37,6 +36,6 @@ class BoardTest {
         blackPlayer.put(BlackStone(Position(HorizontalAxis.C, 10)))
 
         // then
-        assertThat(board.isPlaceable(Turn.Black, position)).isTrue
+        assertThat(board.isBlackPlaceable(position)).isTrue
     }
 }
