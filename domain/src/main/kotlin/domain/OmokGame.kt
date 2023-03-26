@@ -1,6 +1,7 @@
 package domain
 
 import domain.listener.OmokListener
+import domain.turn.MoveResult
 
 class OmokGame(
     val omokBoard: OmokBoard = OmokBoard(),
@@ -9,26 +10,28 @@ class OmokGame(
 ) {
     val turn
         get() = _turn
-    private var isOver = false
 
-    fun successTurn(stone: Stone, state: State): Boolean {
+    fun successTurn(stone: Stone, state: State): MoveResult {
         if (!omokBoard.isEmpty(stone)) {
             omokGameListener.onMoveFail()
-            return false
+            return MoveResult.Fail()
         }
 
         if (state == State.BLACK && omokBoard.isForbidden(stone)) {
             omokGameListener.onForbidden()
-            return false
+            return MoveResult.Fail()
         }
 
         omokBoard.move(stone, state)
         omokGameListener.onMove(omokBoard, state.nextState(), stone)
-        return true
+        return MoveResult.Success()
     }
 
-    fun goNext() {
-        _turn = _turn.nextState()
+    fun changeTurn(moveResult: MoveResult) {
+        when (moveResult) {
+            is MoveResult.Success -> _turn = _turn.nextState()
+            is MoveResult.Fail -> _turn
+        }
     }
 
     fun isVictory(state: State): Boolean {

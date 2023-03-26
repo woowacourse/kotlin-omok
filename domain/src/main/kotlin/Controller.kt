@@ -3,6 +3,7 @@ import domain.OmokGame
 import domain.State
 import domain.Stone
 import domain.listener.OmokListener
+import domain.turn.MoveResult
 import view.InputViewInterface
 import view.OutputViewInterface
 
@@ -42,6 +43,6 @@ class Controller(
 
     private fun OmokGame.nextTurn(turn: State) {
         val stone = inputView.readPosition()
-        if (!this.successTurn(stone, turn)) return nextTurn(turn)
+        if (this.successTurn(stone, turn) is MoveResult.Success) return nextTurn(turn)
     }
 }
