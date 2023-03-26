@@ -12,9 +12,6 @@ import woowacourse.omok.database.OmokDB
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var boardViewsController: BoardViewsController
-    private lateinit var omokDB: OmokDB
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,8 +22,8 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>().toList()
 
-        omokDB = OmokDB(this)
-        boardViewsController = BoardViewsController(this, boardViews, omokDB)
+        val omokDB = OmokDB(this)
+        val boardViewsController = BoardViewsController(this, boardViews, omokDB)
 
         val restartButton = findViewById<Button>(R.id.button_restart)
         restartButton.setOnClickListener {
