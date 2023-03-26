@@ -17,7 +17,7 @@ class RestartActivity : AppCompatActivity() {
 
     private fun setUpRestartActivity(player: Player) = player.run {
         findViewById<ImageView>(R.id.restart_image).setImageResource(profile)
-        findViewById<TextView>(R.id.restart_text).text = "$player.name님의 승리입니다."
+        findViewById<TextView>(R.id.restart_text).text = "${player.name}님의 승리입니다."
         findViewById<Button>(R.id.restart_button).setOnClickListener { finish() }
     }
 }
