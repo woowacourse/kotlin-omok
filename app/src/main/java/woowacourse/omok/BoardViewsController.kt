@@ -9,39 +9,71 @@ import domain.rule.FourFourRule
 import domain.rule.LongMokRule
 import domain.rule.Referee
 import domain.rule.ThreeThreeRule
+import domain.stone.BlackStone
+import domain.stone.Stone
 import domain.stone.Stones
+import domain.stone.WhiteStone
 import woowacourse.omok.database.OmokDB
 
-class BoardViewsController(private val activity: AppCompatActivity, private val boardViews:List<ImageView>) {
+class BoardViewsController(
+    private val activity: AppCompatActivity,
+    private val boardViews: List<ImageView>,
+    private val omokDB: OmokDB
+) {
 
-    var board = Board(Stones(setOf()))
-    //boardViews
-    // db 데이터를 읽어와서 오목판에 다시 돌을 둔다
-    // 화면을 클릭할 때마다 화면에 돌을 두고, 둔 돌을 db에 저장한다.
+    private var board = Board(Stones(setOf()))
 
-    fun setDBStoneOnView(point: Pair<Int, Int>, stoneColor: String) {
+    init {
+        //db에 저장된 돌들을 오목판에 세팅
+        val dbStones = omokDB.getStoneData()
+        val stones = mutableSetOf<Stone>()
+        dbStones.forEach {
+            val (omokPoint, stoneColor) = it
+            setDBStoneOnView(omokPoint, stoneColor)
+            val (x, y) = omokPoint
+            val stone: Stone =
+                if (stoneColor == StoneColor.BLACK.english) BlackStone(x, y) else WhiteStone(x, y)
+            stones.add(stone)
+        }
+        board = Board(Stones(stones))
+
+        //뷰 클릭시 돌을 놓는 리스너 설정
+        setPutStoneOnClickListener()
+    }
+
+    fun resetView() {
+        boardViews.forEach { view ->
+            view.setImageResource(0)
+        }
+        board = Board(Stones(setOf()))
+    }
+
+    private fun setDBStoneOnView(point: Pair<Int, Int>, stoneColor: String) {
         val (x, y) = point
         boardViews
             .forEachIndexed { index, view ->
-                if (index == ((14 - y) * 15 + x)) {
-                    when (stoneColor) {
-                        StoneColor.BLACK.english -> view.setImageResource(
-                            StoneColor.BLACK.imageResource
-                        )
-                        StoneColor.WHITE.english -> view.setImageResource(
-                            StoneColor.WHITE.imageResource
-                        )
-                    }
-
+                if (index == convertPointIntoIndex(x, y)) {
+                    setStoneImageView(stoneColor, view)
                 }
             }
     }
 
-    fun setPutStoneOnClickListener(omokDB: OmokDB) {
+    private fun setStoneImageView(stoneColor: String, view: ImageView) {
+        when (stoneColor) {
+            StoneColor.BLACK.english -> view.setImageResource(
+                StoneColor.BLACK.imageResource
+            )
+            StoneColor.WHITE.english -> view.setImageResource(
+                StoneColor.WHITE.imageResource
+            )
+        }
+    }
+
+    private fun setPutStoneOnClickListener() {
         boardViews.forEachIndexed { index, view ->
             view.setOnClickListener {
                 val point: Pair<Int, Int> = calculatePoint(index)
-                val (stoneResource: Int?, stoneColor: String?) = getStoneColor(board)
+                val (stoneResource: Int?, stoneColor: String?) = getStoneResource(board)
                 val blackReferee = Referee(listOf(ThreeThreeRule(), FourFourRule(), LongMokRule()))
                 if (putStoneAndReturnResult(board, blackReferee, point)) {
                     stoneColor?.let {
@@ -55,19 +87,13 @@ class BoardViewsController(private val activity: AppCompatActivity, private val 
         }
     }
 
-    fun resetView() {
-        boardViews.forEach { view ->
-            view.setImageResource(0)
-        }
-    }
-
     private fun calculatePoint(index: Int): Pair<Int, Int> {
         val x: Int = index % 15
         val y: Int = 14 - index / 15
         return Pair(x, y)
     }
 
-    private fun getStoneColor(omokBoard: Board): Pair<Int?, String?> {
+    private fun getStoneResource(omokBoard: Board): Pair<Int?, String?> {
         var stoneResource: Int? = null
         var stoneColor: String? = null
         if (omokBoard.isBlackTurn()) {
@@ -110,4 +136,5 @@ class BoardViewsController(private val activity: AppCompatActivity, private val 
         }
     }
 
+    private fun convertPointIntoIndex(x: Int, y: Int): Int = ((14 - y) * 15 + x)
 }
