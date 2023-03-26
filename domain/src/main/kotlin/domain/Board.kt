@@ -30,6 +30,10 @@ class Board(val stones: Stones) {
         return stones.isWinPlace()
     }
 
+    fun restartGame() {
+        stones.clearStones()
+    }
+
     companion object {
         val BOARD_END_POINT = Point(15, 15)
         val BOARD_START_POINT = Point(0, 0)

@@ -10,7 +10,7 @@ import androidx.core.view.children
 import domain.*
 
 class MainActivity : AppCompatActivity() {
-    private var gameBoard = Board(Stones())
+    private lateinit var gameBoard: Board
     private val dbHelper = OmokGameDbHelper(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +63,14 @@ class MainActivity : AppCompatActivity() {
                 "${currentColor} 승",
                 Toast.LENGTH_SHORT
             ).show()
+            restartGame()
         }
+    }
+
+    private fun restartGame() {
+        dbHelper.clearBoard()
+        gameBoard.restartGame()
+        recreate()
     }
 
     private fun setStoneDrawable(currentColor: Color, view: ImageView) {
