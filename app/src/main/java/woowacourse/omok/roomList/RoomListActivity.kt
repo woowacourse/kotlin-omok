@@ -22,17 +22,13 @@ class RoomListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_list)
-
         findViewById<RecyclerView>(R.id.room_list).adapter = adapter
-
-        rooms = db.getRooms(this)
-        adapter.submitList(rooms)
+        refreshRoomList()
     }
 
     override fun onResume() {
         super.onResume()
-        rooms = db.getRooms(this)
-        adapter.submitList(rooms)
+        refreshRoomList()
     }
 
     override fun onDestroy() {
@@ -41,8 +37,13 @@ class RoomListActivity : AppCompatActivity() {
     }
 
     private fun onRefreshButtonClicked() {
-        adapter.submitList(rooms)
+        refreshRoomList()
         Toast.makeText(this, "새로고침", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun refreshRoomList() {
+        rooms = db.getRooms(this)
+        adapter.submitList(rooms)
     }
 
     private fun onRoomClicked(room: Room) {
