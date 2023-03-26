@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setOmokBoard(stones: List<Stone>) {
-        var currentColor = if (stones.isEmpty()) Color.BLACK else stones.last().color.turnColor()
+        gameBoard.currentColor = if (stones.isEmpty()) Color.BLACK else stones.last().color.turnColor()
         val viewBoard = findViewById<TableLayout>(R.id.board)
         viewBoard
             .children
@@ -42,15 +42,14 @@ class MainActivity : AppCompatActivity() {
                     setStoneDrawable(it.color, view)
                 }
                 view.setOnClickListener {
-                    val stone = Stone(currentColor, Coordinate.from(x, y))
+                    val stone = Stone(gameBoard.currentColor, Coordinate.from(x, y))
                     if (gameBoard.processTurn(
                             stone
                         )
                     ) {
-                        setStoneDrawable(currentColor, view)
-                        checkWin(currentColor)
+                        setStoneDrawable(gameBoard.currentColor, view)
+                        checkWin(gameBoard.currentColor)
                         dbHelper.writeOmokStone(stone)
-                        currentColor = currentColor.turnColor()
                     }
                 }
             }

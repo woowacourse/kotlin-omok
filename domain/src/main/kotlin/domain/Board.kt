@@ -1,13 +1,12 @@
 package domain
 
 class Board(val stones: Stones) {
+    var currentColor = Color.BLACK
     fun repeatTurn(coordinateReader: CoordinateReader): Color {
-        var currentColor = Color.BLACK
         while (true) {
             val stone = makeStone(currentColor, coordinateReader)
             if (!processTurn(stone)) continue
             if (stones.isWinPlace()) return stones.getLastStone().color
-            currentColor = currentColor.turnColor()
         }
     }
 
@@ -23,6 +22,7 @@ class Board(val stones: Stones) {
         if (stones.place(stone) != PlaceResult.SUCCESS) {
             return false
         }
+        currentColor = currentColor.turnColor()
         return true
     }
 
