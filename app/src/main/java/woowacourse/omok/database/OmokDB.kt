@@ -9,16 +9,16 @@ class OmokDB(context: Context) {
 
     fun insertStoneData(point: Point, stoneColor: String) {
         val values = ContentValues()
-        values.put(OmokContract.TABLE_COLUMN_X_POINT, point.x)
-        values.put(OmokContract.TABLE_COLUMN_Y_POINT, point.y)
-        values.put(OmokContract.TABLE_COLUMN_STONE_COLOR, stoneColor)
-        db.insert(OmokContract.TABLE_NAME, null, values)
+        values.put(OmokDBNames.TABLE_COLUMN_X_POINT, point.x)
+        values.put(OmokDBNames.TABLE_COLUMN_Y_POINT, point.y)
+        values.put(OmokDBNames.TABLE_COLUMN_STONE_COLOR, stoneColor)
+        db.insert(OmokDBNames.TABLE_NAME, null, values)
     }
 
     fun getStoneData(): MutableList<StoneData> {
         val data = mutableListOf<StoneData>()
         val cursor = db.query(
-            OmokContract.TABLE_NAME,
+            OmokDBNames.TABLE_NAME,
             null,
             null,
             null,
@@ -29,11 +29,11 @@ class OmokDB(context: Context) {
 
         while (cursor.moveToNext()) {
             val x =
-                cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.TABLE_COLUMN_X_POINT))
+                cursor.getInt(cursor.getColumnIndexOrThrow(OmokDBNames.TABLE_COLUMN_X_POINT))
             val y =
-                cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.TABLE_COLUMN_Y_POINT))
+                cursor.getInt(cursor.getColumnIndexOrThrow(OmokDBNames.TABLE_COLUMN_Y_POINT))
             val color =
-                cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.TABLE_COLUMN_STONE_COLOR))
+                cursor.getString(cursor.getColumnIndexOrThrow(OmokDBNames.TABLE_COLUMN_STONE_COLOR))
             data.add(StoneData(Point(x, y), color))
         }
         cursor.close()
@@ -42,6 +42,6 @@ class OmokDB(context: Context) {
     }
 
     fun deleteDB() {
-        db.delete(OmokContract.TABLE_NAME, null, null)
+        db.delete(OmokDBNames.TABLE_NAME, null, null)
     }
 }
