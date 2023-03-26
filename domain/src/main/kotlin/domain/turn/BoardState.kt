@@ -1,20 +1,15 @@
 package domain.turn
 
-import domain.stone.Color
-import domain.stone.Position
 import domain.stone.Stone
 
 abstract class BoardState(
-    board: Map<Position, Color?>,
+    val board: Board,
     val latestStone: Stone?
 ) {
-    private val _board: Map<Position, Color?> = board.toMap()
-    val board: Map<Position, Color?>
-        get() = _board.toMap()
 
     init {
         latestStone?.let {
-            check(board[it.position] != null) { ERROR_NOT_EXIST_LATEST_STONE }
+            check(board.isAlreadyPut(it.position)) { ERROR_NOT_EXIST_LATEST_STONE }
         }
     }
 

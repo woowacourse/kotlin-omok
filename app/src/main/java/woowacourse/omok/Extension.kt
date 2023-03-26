@@ -3,7 +3,7 @@ package woowacourse.omok
 import android.app.Activity
 import androidx.appcompat.app.AlertDialog
 
-fun Activity.makeToastMessage(messageId: Int) = ToastIntegratedManager.showToast(this, messageId)
+fun Activity.makeToastMessage(messageId: Int) = ToastIntegratedManager.showToast(baseContext, messageId)
 
 fun Activity.showAskDialog(
     titleId: Int,

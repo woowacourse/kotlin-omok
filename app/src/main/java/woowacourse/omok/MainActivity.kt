@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var turnColorTextView: TextView
     private lateinit var turnColorTextBox: LinearLayout
     private val originBoardDrawableSet: List<Drawable> by lazy { getAllOmokPositionImageView().map { it.drawable } }
-    private val backKeyHandler = BackKeyHandler(this)
+    private val backKeyHandler = DoubleClickBackKeyHandler(this)
     private val vibrationService: Vibrator by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibrationServiceManager =
@@ -50,7 +50,15 @@ class MainActivity : AppCompatActivity() {
     }
     private val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            backKeyHandler.onBackPressed(::endButtonOnClick)
+            backKeyHandler.onBackPressed(
+                {
+                    ToastIntegratedManager.showToast(
+                        this@MainActivity,
+                        R.string.one_more_click_please_back_key
+                    )
+                },
+                ::endButtonOnClick
+            )
         }
     }
 

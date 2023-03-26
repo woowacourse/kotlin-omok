@@ -2,35 +2,34 @@ package domain.turn
 
 import domain.judgement.Rule
 import domain.stone.Color
-import domain.stone.Position
 import domain.stone.Stone
 
 class RunningBoardState(
     private val rule: Rule,
-    board: Map<Position, Color?>,
+    board: Board,
     latestStone: Stone,
 ) : BoardState(board, latestStone) {
 
     init {
-        val previousBoard = board.toMutableMap().apply { this[latestStone.position] = null }
+        val previousBoard = board.map.toMutableMap().apply { this[latestStone.position] = null }
         check(rule.isWin(previousBoard, latestStone).not()) { ERROR_ALREADY_FINISHED_BOARD }
     }
 
     override fun isFinished(): Boolean = false
 
     private fun isPossiblePut(stone: Stone, rule: Rule): Boolean {
-        if (stone.color == Color.BLACK && rule.isForbidden(board, stone)) return false
-        return board[stone.position] == null
+        if (stone.color == Color.BLACK && rule.isForbidden(board.map, stone)) return false
+        return board.isAlreadyPut(stone.position).not()
     }
 
     override fun putStone(stone: Stone): BoardState {
         if (isPossiblePut(stone, rule).not()) return this
-        val nextBoard = board.toMutableMap().apply { this[stone.position] = stone.color }
+        val nextBoard = board.putStone(stone)
         return nextBoardState(nextBoard, stone)
     }
 
-    private fun nextBoardState(nextBoard: Map<Position, Color?>, newStone: Stone): BoardState {
-        if (rule.isWin(board.toMap(), newStone)) {
+    private fun nextBoardState(nextBoard: Board, newStone: Stone): BoardState {
+        if (rule.isWin(board.map, newStone)) {
             return FinishedBoardState(nextBoard, newStone)
         }
         return RunningBoardState(rule, nextBoard, newStone)

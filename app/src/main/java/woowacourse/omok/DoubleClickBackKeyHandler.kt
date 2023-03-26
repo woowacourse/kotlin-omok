@@ -2,16 +2,16 @@ package woowacourse.omok
 
 import android.app.Activity
 
-class BackKeyHandler(private val activity: Activity) {
+class DoubleClickBackKeyHandler(private val activity: Activity) {
     private var backPressedTime = 0L
 
-    fun onBackPressed(exitProcess: () -> Unit) {
+    fun onBackPressed(oneClickAction: () -> Unit, secondClickAction: () -> Unit) {
         if (System.currentTimeMillis() > (backPressedTime + BACK_PRESSED_INTERVAL_TIME)) {
             backPressedTime = System.currentTimeMillis()
+            oneClickAction()
             ToastIntegratedManager.showToast(activity, R.string.one_more_click_please_back_key)
         } else if (System.currentTimeMillis() <= (backPressedTime + BACK_PRESSED_INTERVAL_TIME)) {
-            exitProcess()
-            ToastIntegratedManager.cancel()
+            secondClickAction()
         }
     }
 

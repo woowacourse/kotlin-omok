@@ -26,7 +26,7 @@ class OmokGame(
         get() = turn.color
 
     val board: Map<Position, Color?>
-        get() = turn.boardState.board
+        get() = turn.boardState.board.map
 
     val latestStone: Stone?
         get() = turn.boardState.latestStone
