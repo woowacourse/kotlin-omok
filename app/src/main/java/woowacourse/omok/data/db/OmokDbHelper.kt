@@ -4,8 +4,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import domain.domain.Board
 import woowacourse.omok.data.SerializableBoard
+import woowacourse.omok.data.db.entity.Game
+import woowacourse.omok.data.db.entity.User
 import woowacourse.omok.data.db.table.GameTable
 import woowacourse.omok.data.db.table.UserTable
 

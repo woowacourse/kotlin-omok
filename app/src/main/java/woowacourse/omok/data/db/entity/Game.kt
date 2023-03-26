@@ -1,4 +1,4 @@
-package woowacourse.omok.data.db
+package woowacourse.omok.data.db.entity
 
 import domain.domain.BoardState
 import domain.domain.CoordinateState
