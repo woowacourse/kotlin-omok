@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initState() {
-        omokRepository.getLast().let {
+        omokRepository.getLast().use {
             while (it.moveToNext()) {
                 val stoneColor = it.getInt(it.getColumnIndexOrThrow("stone_color"))
                 when (stoneColor) {
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setPreviousGameStone() {
-        omokRepository.getAll().let {
+        omokRepository.getAll().use {
             while (it.moveToNext()) {
                 val stoneColor = it.getInt(it.getColumnIndexOrThrow("stone_color"))
                 val row = it.getInt(it.getColumnIndexOrThrow("x"))
