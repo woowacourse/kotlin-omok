@@ -83,10 +83,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun nextStepBlack(position: Position) {
-        when (lineJudge(omokBoard.blackPlayer, BlackStone(position))) {
-            true -> turn(Win.Black)
-            false -> turn(Turn.White)
+        if (lineJudge(omokBoard.blackPlayer, BlackStone(position))) {
+            turn(Win.Black)
         }
+        turn(Turn.White)
     }
 
     private fun whiteTurn(index: Int, view: ImageView) {
@@ -105,10 +105,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun nextStepWhite(position: Position) {
-        when (lineJudge(omokBoard.whitePlayer, WhiteStone(position))) {
-            true -> turn(Win.White)
-            false -> turn(Turn.Black)
+        if (lineJudge(omokBoard.whitePlayer, WhiteStone(position))) {
+            turn(Win.White)
         }
+        turn(Turn.Black)
     }
 
     fun positionFind(index: Int): Position {
