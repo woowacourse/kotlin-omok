@@ -26,11 +26,11 @@ class RoomActivity : AppCompatActivity() {
     private val player: Player by lazy { intent.getSerializableExtra("player") as Player }
 
     private val omokGameListener = object : OmokGameListener {
-        override fun onOmokStart() {
+        override fun onStartGame() {
             Toast.makeText(applicationContext, "게임을 시작합니다.", Toast.LENGTH_SHORT).show()
         }
 
-        override fun onBoardShow(gameState: GameState, omokPoint: OmokPoint?) {
+        override fun onProgressGame(gameState: GameState, omokPoint: OmokPoint?) {
             matrixBoard.forEach { (col, row, imageView) ->
                 setStoneImage(gameState.omokBoard, imageView, OmokPoint(col + 1, row + 1))
             }

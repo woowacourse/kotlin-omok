@@ -7,8 +7,8 @@ class OmokGame(private val listener: OmokGameListener) {
     fun initialize(
         gameState: GameState = BlackTurn(OmokBoard()),
     ) {
-        listener.onOmokStart()
-        listener.onBoardShow(gameState, null)
+        listener.onStartGame()
+        listener.onProgressGame(gameState, null)
     }
 
     fun play(
@@ -17,7 +17,7 @@ class OmokGame(private val listener: OmokGameListener) {
     ): GameState {
         point ?: return gameState
         return runCatching { gameState.play(point) }
-            .onSuccess { listener.onBoardShow(it, point) }
+            .onSuccess { listener.onProgressGame(it, point) }
             .onFailure { listener.onError(it.message) }
             .getOrDefault(gameState)
     }
