@@ -16,7 +16,7 @@ object Converter {
         return when (message) {
             "흑" -> Color.BLACK
             "백" -> Color.WHITE
-            else -> throw java.lang.IllegalArgumentException("잘못된 색")
+            else -> throw IllegalArgumentException("잘못된 색")
         }
     }
 
