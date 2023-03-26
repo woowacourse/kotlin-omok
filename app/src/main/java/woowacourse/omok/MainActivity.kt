@@ -8,14 +8,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import domain.Board
-import domain.Color
-import domain.OmokGame
-import domain.Stone
+import domain.* // ktlint-disable no-wildcard-imports
 
 class MainActivity : AppCompatActivity() {
 
-    private val turnTextView: TextView by lazy { findViewById<TextView>(R.id.turn) }
+    private val turnTextView: TextView by lazy { findViewById(R.id.turn) }
     private val boardCoordinateViews: List<ImageView> by lazy {
         findViewById<TableLayout>(R.id.board)
             .children
@@ -24,31 +21,20 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<ImageView>()
             .toList()
     }
-    private lateinit var omokGame: OmokGame
+    private val omokGame: OmokGame by lazy {
+        omokDbManager.getOmokGame(rule = RenjuRuleAdapter())
+    }
     private val omokDbManager: OmokDbManager by lazy {
         OmokDbManager(OmokDbHelper(this))
     }
 
-    private var winner: Color? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        omokGame = omokDbManager.getOmokGame()
         printInitBoard(boardCoordinateViews, omokGame.board)
         showTurn(omokGame.currentColor)
-
-        boardCoordinateViews.forEachIndexed { index, view ->
-            view.setOnClickListener {
-                val stone = omokGame.getStone { Converter.indexToPosition(index) }
-                printStone(view, stone)
-                omokDbManager.updateOmokDatabase(stone)
-                winner = omokGame.getWinnerColorPhase(stone)
-                showWinner(winner)
-                winner = reset(boardCoordinateViews, omokGame, winner)
-                showTurn(omokGame.currentColor)
-            }
-        }
+        gameStart()
     }
 
     private fun printInitBoard(boardCoordinateViews: List<ImageView>, board: Board) {
@@ -59,8 +45,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun printStone(view: ImageView, stone: Stone?) {
-        if (stone != null) view.setImageResource(getStoneImage(stone.color))
+    private fun printStone(view: ImageView, stone: Stone) {
+        view.setImageResource(getStoneImage(stone.color))
     }
 
     private fun getStoneImage(color: Color): Int {
@@ -70,17 +56,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showWinner(color: Color?) {
+    private fun printWinner(color: Color) {
         when (color) {
-            Color.BLACK -> {
-                showToastMessage(WINNER_MESSAGE.format("흑"))
-                omokDbManager.deleteOmokDatabase()
-            }
-            Color.WHITE -> {
-                showToastMessage(WINNER_MESSAGE.format("백"))
-                omokDbManager.deleteOmokDatabase()
-            }
-            else -> {}
+            Color.BLACK -> showToastMessage(WINNER_MESSAGE.format(BLACK))
+            Color.WHITE -> showToastMessage(WINNER_MESSAGE.format(WHITE))
         }
     }
 
@@ -88,19 +67,47 @@ class MainActivity : AppCompatActivity() {
         turnTextView.text = TURN_MESSAGE.format(Converter.colorToString(color))
     }
 
-    private fun reset(allCoordinate: List<ImageView>, omokGame: OmokGame, winner: Color?): Color? {
-        if (winner == null) return null
+    private fun reset(allCoordinate: List<ImageView>, omokGame: OmokGame) {
         omokGame.resetGame()
         allCoordinate.forEach { it.setImageResource(0) }
-        return null
+        omokDbManager.deleteOmokDatabase()
     }
 
-    private fun showToastMessage(message: String) {
+    private fun showToastMessage(message: String): Unit =
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+    private fun gameStart(): Unit = boardCoordinateViews.forEachIndexed { index, view ->
+        clickBoard(index, view)
+    }
+
+    private fun clickBoard(index: Int, view: ImageView) {
+        view.setOnClickListener {
+            if (omokGame.isRunning()) gameRunning(index, view)
+            if (!omokGame.isRunning()) gameFinished()
+        }
+    }
+
+    private fun gameRunning(index: Int, view: ImageView) {
+        val stone = omokGame.getStone(Converter.indexToPosition(index))
+        val isSuccess = omokGame.placeTo(stone)
+        if (isSuccess) {
+            printStone(view, stone)
+            omokDbManager.updateOmokDatabase(stone)
+            omokGame.checkFinished()
+        }
+        showTurn(omokGame.currentColor)
+    }
+
+    private fun gameFinished() {
+        omokGame.getWinnerColor()?.let { printWinner(it) }
+        reset(boardCoordinateViews, omokGame)
+        showTurn(omokGame.currentColor)
     }
 
     companion object {
         private const val WINNER_MESSAGE = "%s의 승리입니다"
         private const val TURN_MESSAGE = "%s의 차례입니다"
+        private const val BLACK = "흑"
+        private const val WHITE = "백"
     }
 }
