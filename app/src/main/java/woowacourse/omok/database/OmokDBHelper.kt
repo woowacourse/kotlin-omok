@@ -26,13 +26,13 @@ class OmokDBHelper(
             "$TABLE_COLUMN_POSITION_Y INTEGER NOT NULL" +
             ")"
 
-        db!!.execSQL(sql)
+        db?.execSQL(sql)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
         val sql: String = "DROP TABLE IF EXISTS $TABLE_NAME"
 
-        db!!.execSQL(sql)
+        db?.execSQL(sql)
         onCreate(db)
     }
 }
