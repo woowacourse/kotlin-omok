@@ -37,7 +37,7 @@ class InitController(
     }
 
     private fun initPut(index: Int, color: String, view: ImageView) {
-        val position = MainActivity().positionFind(index)
+        val position = MainActivity.positionFind(index)
         if (color == Turn.Black.color) {
             view.setImageResource(R.drawable.black_stone)
             omokBoard.blackPlayer.put(BlackStone(position))

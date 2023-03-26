@@ -25,96 +25,89 @@ import woowacourse.omok.database.OmokConstract
 import woowacourse.omok.database.OmokDBHelper
 
 class MainActivity : AppCompatActivity() {
-    private var omokBoard = Board(Player(), Player())
-    lateinit var board: TableLayout
-    lateinit var dBController: DBController
+    private val omokBoard = Board(Player(), Player())
+    private lateinit var dBController: DBController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        board = findViewById(R.id.board)
+        val board = findViewById<TableLayout>(R.id.board)
         dBController = DBController(OmokDBHelper(this).writableDatabase)
 
         InitController(omokBoard, board, dBController).initBoard()
-        turn(Turn.Black)
+        turn(Turn.Black, board)
     }
 
-    private fun turn(state: State) {
+    private fun turn(state: State, board: TableLayout) {
         when (state) {
-            Turn.Black -> putBoard(state)
-            Turn.White -> putBoard(state)
+            Turn.Black -> putBoard(state, board)
+            Turn.White -> putBoard(state, board)
             Win.Black -> goWinActivity(state as Win)
             Win.White -> goWinActivity(state as Win)
         }
     }
 
-    private fun putBoard(turn: State) {
+    private fun putBoard(turn: State, board: TableLayout) {
         board.children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
-                setOnClickListener(view, index, turn)
+                setOnClickListener(view, index, turn, board)
             }
     }
 
-    private fun setOnClickListener(view: ImageView, index: Int, turn: State) {
+    private fun setOnClickListener(view: ImageView, index: Int, turn: State, board: TableLayout) {
         view.setOnClickListener {
             when (turn as Turn) {
-                Turn.Black -> blackTurn(index, view)
-                Turn.White -> whiteTurn(index, view)
+                Turn.Black -> blackTurn(index, view, board)
+                Turn.White -> whiteTurn(index, view, board)
             }
         }
     }
 
-    private fun blackTurn(index: Int, view: ImageView) {
+    private fun blackTurn(index: Int, view: ImageView, board: TableLayout) {
         val position = positionFind(index)
         if (!omokBoard.isBlackPlaceable(position)) {
             Toast.makeText(applicationContext, BOARD_PUT_ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
-            turn(Turn.Black)
+            turn(Turn.Black, board)
         }
         if (omokBoard.isBlackPlaceable(position)) {
             dBController.insertDB(Turn.Black.color, index)
             view.setImageResource(R.drawable.black_stone)
             omokBoard.blackPlayer.put(BlackStone(position))
             omokBoard.occupyPosition(position)
-            nextStepBlack(position)
+            nextStepBlack(position, board)
         }
     }
 
-    private fun nextStepBlack(position: Position) {
+    private fun nextStepBlack(position: Position, board: TableLayout) {
         if (lineJudge(omokBoard.blackPlayer, BlackStone(position))) {
-            turn(Win.Black)
+            turn(Win.Black, board)
         }
-        turn(Turn.White)
+        turn(Turn.White, board)
     }
 
-    private fun whiteTurn(index: Int, view: ImageView) {
+    private fun whiteTurn(index: Int, view: ImageView, board: TableLayout) {
         val position = positionFind(index)
         if (!omokBoard.isWhitePlaceable(position)) {
             Toast.makeText(applicationContext, BOARD_PUT_ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
-            turn(Turn.White)
+            turn(Turn.White, board)
         }
         if (omokBoard.isWhitePlaceable(position)) {
             dBController.insertDB(Turn.White.color, index)
             view.setImageResource(R.drawable.white_stone)
             omokBoard.whitePlayer.put(WhiteStone(position))
             omokBoard.occupyPosition(position)
-            nextStepWhite(position)
+            nextStepWhite(position, board)
         }
     }
 
-    private fun nextStepWhite(position: Position) {
+    private fun nextStepWhite(position: Position, board: TableLayout) {
         if (lineJudge(omokBoard.whitePlayer, WhiteStone(position))) {
-            turn(Win.White)
+            turn(Win.White, board)
         }
-        turn(Turn.Black)
-    }
-
-    fun positionFind(index: Int): Position {
-        val x = (index % Position.MAX_VERTICAL_AXIS) + POSITION_CALCULATE_PLUS_NUMBER
-        val y = Position.MAX_VERTICAL_AXIS - index / Position.MAX_VERTICAL_AXIS
-        return Position(HorizontalAxis.getHorizontalAxis(x), y)
+        turn(Turn.Black, board)
     }
 
     private fun lineJudge(player: Player, stone: Stone) = LineJudgement(player, stone).check()
@@ -137,5 +130,10 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val POSITION_CALCULATE_PLUS_NUMBER = 1
         private const val BOARD_PUT_ERROR_MESSAGE = "해당 자리에 둘 수 없습니다."
+        fun positionFind(index: Int): Position {
+            val x = (index % Position.MAX_VERTICAL_AXIS) + POSITION_CALCULATE_PLUS_NUMBER
+            val y = Position.MAX_VERTICAL_AXIS - index / Position.MAX_VERTICAL_AXIS
+            return Position(HorizontalAxis.getHorizontalAxis(x), y)
+        }
     }
 }
