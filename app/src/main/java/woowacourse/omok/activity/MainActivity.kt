@@ -3,7 +3,6 @@ package woowacourse.omok.activity
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -146,9 +145,9 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun insertStone(color: StoneType, position: StonePosition) {
+    private fun insertStone(type: StoneType, position: StonePosition) {
         val values = ContentValues()
-        values.put("stone_color", color.number)
+        values.put("stone_color", type.number)
         values.put("x", position.x)
         values.put("y", position.y)
         omokRepository.insert(values)
