@@ -16,6 +16,8 @@ abstract class Player(protected val state: PlayerState, val rule: OmokRule) {
 
     fun getLastStone(): Point? = state.getLastStone()
 
+    fun getPointSize(): Int = state.getAllPoints().getAll().size
+
     fun getAllPoints(): Points = state.getAllPoints()
 
     abstract fun getStoneColor(): StoneColor

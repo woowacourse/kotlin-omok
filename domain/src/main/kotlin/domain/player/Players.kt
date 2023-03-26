@@ -18,7 +18,7 @@ data class Players private constructor(private val players: List<Player>) {
 
     constructor(blackPlayer: Player, whitePlayer: Player) :
             this(listOf(blackPlayer, whitePlayer)) {
-        if (blackPlayer.getAllPoints().getAll().size == whitePlayer.getAllPoints().getAll().size) {
+        if (blackPlayer.getPointSize() == whitePlayer.getPointSize()) {
             latestPlayer = whitePlayer
             return
         }
@@ -35,11 +35,13 @@ data class Players private constructor(private val players: List<Player>) {
         if (players.any { it.isPlaced(point) }) return this
 
         val otherStones = latestPlayer.getAllPoints()
-        latestPlayer = nextPlayer().putStone(point, otherStones)
+        val nextLatestPlayer = nextPlayer().putStone(point, otherStones)
         val newPlayers =
-            players.filter { it.getStoneColor() != latestPlayer.getStoneColor() } + latestPlayer
-        return Players(latestPlayer, newPlayers)
+            players.filter { it.getStoneColor() != nextLatestPlayer.getStoneColor() } + nextLatestPlayer
+        return Players(nextLatestPlayer, newPlayers)
     }
+
+//    fun getWinner(): Player? = players.find { !it.isFoul && !it.isPlaying }
 
     fun getLastPoint(): Point? = latestPlayer.getLastStone()
 
