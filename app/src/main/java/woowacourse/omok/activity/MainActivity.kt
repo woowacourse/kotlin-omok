@@ -64,8 +64,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun stonePositionToIndex(row: Int, col: Int): Int = (col - 1) * BOARD_SIZE + row - 1
 
-    private fun putStone(view: ImageView, color: StoneType) {
-        when (color) {
+    private fun putStone(view: ImageView, type: StoneType) {
+        when (type) {
             StoneType.BLACK -> view.setImageResource(R.drawable.black_stone)
             StoneType.WHITE -> view.setImageResource(R.drawable.white_stone)
             StoneType.EMPTY -> view.setImageResource(0)
