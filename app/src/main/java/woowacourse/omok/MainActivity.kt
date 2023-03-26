@@ -51,12 +51,7 @@ class MainActivity : AppCompatActivity() {
     private val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             backKeyHandler.onBackPressed(
-                {
-                    ToastIntegratedManager.showToast(
-                        this@MainActivity,
-                        R.string.one_more_click_please_back_key
-                    )
-                },
+                { IntegratedToast.showToast(baseContext, R.string.one_more_click_please_back_key) },
                 ::endButtonOnClick
             )
         }
@@ -148,8 +143,7 @@ class MainActivity : AppCompatActivity() {
         makeToastMessage(R.string.game_is_over)
         val winner =
             omokGame.winnerColor?.let { stoneColorKorean(it) } ?: getString(R.string.no_winner)
-        gameEndButton.text =
-            getString(R.string.winner_is_this_color, winner)
+        gameEndButton.text = getString(R.string.winner_is_this_color, winner)
         gameEndBox.visibility = View.VISIBLE
         turnColorTextBox.visibility = View.GONE
         stonesHelper.deleteAll()
