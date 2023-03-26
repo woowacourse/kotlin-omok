@@ -1,7 +1,5 @@
 package woowacourse.omok
 
-import android.content.ContentValues
-import android.database.Cursor
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -21,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val stones = getStones()
+        val stones = dbHelper.readOmokBoardData()
         gameBoard = Board(Stones(stones))
 
         setOmokBoard(stones)
@@ -44,16 +42,14 @@ class MainActivity : AppCompatActivity() {
                     setStoneDrawable(it.color, view)
                 }
                 view.setOnClickListener {
-
+                    val stone = Stone(currentColor, Coordinate.from(x, y))
                     if (gameBoard.processTurn(
-                            Stone(
-                                currentColor,
-                                Coordinate.from(x, y)
-                            )
+                            stone
                         )
                     ) {
                         setStoneDrawable(currentColor, view)
                         checkWin(currentColor)
+                        dbHelper.writeOmokStone(stone)
                         currentColor = currentColor.turnColor()
                     }
                 }
@@ -74,47 +70,6 @@ class MainActivity : AppCompatActivity() {
         when (currentColor) {
             Color.BLACK -> view.setImageDrawable(getDrawable(R.drawable.black_stone))
             Color.WHITE -> view.setImageDrawable(getDrawable(R.drawable.white_stone))
-        }
-    }
-
-    private fun getStones(): List<Stone> {
-        val db = dbHelper.readableDatabase
-
-        val cursor: Cursor = db.query(
-            OmokGameContract.Stone.TABLE_NAME,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        )
-
-        val stones = mutableListOf<Stone>()
-        with(cursor) {
-            while (moveToNext()) {
-                val color =
-                    if (getString(getColumnIndexOrThrow(OmokGameContract.Stone.COLOR)) == Color.BLACK.toString()) Color.BLACK else Color.WHITE
-                val x = getInt(getColumnIndexOrThrow(OmokGameContract.Stone.X))
-                val y = getInt(getColumnIndexOrThrow(OmokGameContract.Stone.Y))
-                stones.add(Stone(color, Coordinate.from(x, y)))
-            }
-        }
-        return stones
-    }
-
-    override fun onStop() {
-        super.onStop()
-        val db = dbHelper.writableDatabase
-        db.delete(OmokGameContract.Stone.TABLE_NAME, null, null)
-
-        gameBoard.stones.value.forEach {
-            val values = ContentValues().apply {
-                put(OmokGameContract.Stone.X, it.coordinate.x)
-                put(OmokGameContract.Stone.Y, it.coordinate.y)
-                put(OmokGameContract.Stone.COLOR, it.color.toString())
-            }
-            db?.insert(OmokGameContract.Stone.TABLE_NAME, null, values)
         }
     }
 }
