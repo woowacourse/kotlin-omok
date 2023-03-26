@@ -4,7 +4,6 @@ import domain.player.Player
 import domain.player.WhitePlayer
 import domain.point.Point
 import domain.point.Points
-import domain.rule.BlackRenjuRule
 import domain.rule.OmokRule
 import domain.rule.WhiteRenjuRule
 import domain.state.PlayingState

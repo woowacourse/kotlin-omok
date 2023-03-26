@@ -1,14 +1,13 @@
 package view
 
+import domain.game.Omok.Companion.OMOK_BOARD_SIZE
 import domain.player.Player
 import domain.player.Players
 import domain.point.Point
-import domain.stone.StoneColor
-import view.mapper.toPresentation
-import domain.game.Omok.Companion.OMOK_BOARD_SIZE
 import domain.result.TurnResult
+import domain.stone.StoneColor
 import listener.OmokGameEventListener
-
+import view.mapper.toPresentation
 
 class OmokOutputView : OmokGameEventListener {
     override fun onStartGame() {
@@ -36,7 +35,7 @@ class OmokOutputView : OmokGameEventListener {
     }
 
     override fun onEndTurn(result: TurnResult) {
-        if(result is TurnResult.Failure) println(ALREADY_EXIST_STONE)
+        if (result is TurnResult.Failure) println(ALREADY_EXIST_STONE)
         val board = OMOK_BOARD.toMutableList()
         val players = result.players
         players.toList().forEach { player ->
@@ -74,7 +73,7 @@ class OmokOutputView : OmokGameEventListener {
             for (i in size downTo 1) {
                 board.append(String.format("%3d ", i))
                 when {
-                    i == size ->board.append(topHorizontal) // top
+                    i == size -> board.append(topHorizontal) // top
                     i == BOTTOM_NUMBER -> board.append(bottomHorizontal) // middle
                     i != BOTTOM_NUMBER -> board.append(middleHorizontal) // bottom
                 }

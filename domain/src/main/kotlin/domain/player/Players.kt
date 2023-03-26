@@ -17,13 +17,13 @@ data class Players private constructor(private val players: List<Player>) {
     }
 
     constructor(blackPlayer: Player, whitePlayer: Player) :
-            this(listOf(blackPlayer, whitePlayer)) {
-        if (blackPlayer.getPointSize() == whitePlayer.getPointSize()) {
-            latestPlayer = whitePlayer
-            return
+        this(listOf(blackPlayer, whitePlayer)) {
+            if (blackPlayer.getPointSize() == whitePlayer.getPointSize()) {
+                latestPlayer = whitePlayer
+                return
+            }
+            latestPlayer = blackPlayer
         }
-        latestPlayer = blackPlayer
-    }
 
     private constructor(latestPlayer: Player, players: List<Player>) : this(players.toList()) {
         this.latestPlayer = latestPlayer

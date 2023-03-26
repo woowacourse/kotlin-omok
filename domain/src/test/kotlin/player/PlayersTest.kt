@@ -10,9 +10,9 @@ import domain.rule.WhiteRenjuRule
 import domain.state.FoulState
 import domain.state.PlayingState
 import domain.stone.StoneColor
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.assertj.core.api.Assertions.assertThat
 
 class PlayersTest {
     private lateinit var blackRenjuRule: BlackRenjuRule

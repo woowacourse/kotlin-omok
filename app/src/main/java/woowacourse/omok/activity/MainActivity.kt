@@ -17,9 +17,9 @@ import domain.rule.BlackRenjuRule
 import domain.rule.WhiteRenjuRule
 import domain.state.PlayingState
 import domain.stone.StoneColor
-import woowacourse.omok.listener.GameEventListener
 import woowacourse.omok.R
 import woowacourse.omok.db.OmokDBManager
+import woowacourse.omok.listener.GameEventListener
 
 class MainActivity : AppCompatActivity() {
     private val dbManager by lazy { OmokDBManager(applicationContext) }
@@ -35,17 +35,17 @@ class MainActivity : AppCompatActivity() {
         gameEventListener.onStartTurn(omok.players.curPlayerColor, omok.players.getLastPoint())
 
         getBoardViews().forEachIndexed { index, view ->
-                view.setOnClickListener {
-                    if (!omok.isPlaying) return@setOnClickListener
-                    val result = omok.takeTurn(calculateIndexToPoint(index))
-                    if (result is TurnResult.Success) {
-                        setStone(view, omok.players.curPlayerColor.next())
-                        dbManager.insert(index, omok.players.curPlayerColor.next().name)
-                    }
-                    gameEventListener.onEndTurn(result)
-                    gameEventListener.onEndGame(omok.players)
+            view.setOnClickListener {
+                if (!omok.isPlaying) return@setOnClickListener
+                val result = omok.takeTurn(calculateIndexToPoint(index))
+                if (result is TurnResult.Success) {
+                    setStone(view, omok.players.curPlayerColor.next())
+                    dbManager.insert(index, omok.players.curPlayerColor.next().name)
                 }
+                gameEventListener.onEndTurn(result)
+                gameEventListener.onEndGame(omok.players)
             }
+        }
     }
 
     override fun onStop() {
@@ -97,4 +97,3 @@ class MainActivity : AppCompatActivity() {
     private fun indexsToPoints(indexs: List<Int>): Points =
         Points(indexs.map { calculateIndexToPoint(it) })
 }
-

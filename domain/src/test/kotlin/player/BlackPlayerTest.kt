@@ -6,7 +6,6 @@ import domain.point.Points
 import domain.rule.BlackRenjuRule
 import domain.rule.OmokRule
 import domain.state.PlayingState
-
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

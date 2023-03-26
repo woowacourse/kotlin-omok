@@ -2,7 +2,6 @@ package controller
 
 import domain.game.Omok
 import domain.player.BlackPlayer
-import domain.player.Players
 import domain.player.WhitePlayer
 import domain.rule.OmokRule
 import listener.OmokGameEventListener

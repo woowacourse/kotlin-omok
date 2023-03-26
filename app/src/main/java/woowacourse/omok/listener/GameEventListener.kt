@@ -31,7 +31,7 @@ class GameEventListener(private val context: Context, private val descriptionVie
     }
 
     override fun onEndTurn(result: TurnResult) {
-        if(result is TurnResult.Failure) Toast.makeText(context, R.string.already_exist, Toast.LENGTH_LONG).show()
+        if (result is TurnResult.Failure) Toast.makeText(context, R.string.already_exist, Toast.LENGTH_LONG).show()
         descriptionView.text = context.getString(R.string.who_is_turn).format(result.players.curPlayerColor.toPresentation().text)
     }
 }

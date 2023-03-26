@@ -9,7 +9,7 @@ class DirectionsTest {
     fun `더 이상 반환할 방향이 없으면 에러를 발생한다`() {
         val iterator = Directions().iterator()
         assertThrows<IllegalStateException> {
-            while(true) {
+            while (true) {
                 iterator.next()
             }
         }

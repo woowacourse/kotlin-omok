@@ -1,9 +1,9 @@
 package rule
 
-import domain.rule.OmokRule
-import domain.rule.type.Foul
 import domain.point.Point
+import domain.rule.OmokRule
 import domain.rule.WhiteRenjuRule
+import domain.rule.type.Foul
 import domain.rule.type.Violation
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -22,8 +22,8 @@ class WhiteRenjuRuleTest {
     @Test
     fun `연속 백돌이 5개이면 승리이다`() {
         val whiteStones = listOf(
-                Point(5, 5), Point(5, 6),
-                Point(5, 8), Point(5, 9),
+            Point(5, 5), Point(5, 6),
+            Point(5, 8), Point(5, 9),
         )
         val blackStones = listOf<Point>()
         val newStone = Point(5, 7)
@@ -86,6 +86,4 @@ class WhiteRenjuRuleTest {
 
         assertThat(expected).isEqualTo(Violation.NONE)
     }
-
-
 }
