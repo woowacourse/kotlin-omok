@@ -7,11 +7,10 @@ class Stones(val values: List<Stone>) {
     }
 
     fun addStone(stone: Stone): Stones {
-        if (isContainSamePositionStone(stone.position)) return this
         return Stones(values.plus(stone))
     }
 
-    private fun isContainSamePositionStone(position: Position): Boolean {
+    fun isContainSamePositionStone(position: Position): Boolean {
         return values.any { it.position == position }
     }
 

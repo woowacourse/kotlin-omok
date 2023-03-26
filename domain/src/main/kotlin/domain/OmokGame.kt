@@ -3,42 +3,54 @@ package domain
 class OmokGame(val board: Board) {
     var currentColor: Color = INITIAL_COLOR
         private set
+    private var currentState: State = State.Running
 
     init {
         val lastStone = board.stones.getLastStone()
-        lastStone?.let {
-            currentColor = when (it.color) {
+        lastStone?.let { lastStone ->
+            currentColor = when (lastStone.color) {
                 Color.BLACK -> Color.WHITE
                 Color.WHITE -> Color.BLACK
             }
         }
     }
 
-    fun getWinnerColorPhase(
-        stone: Stone?,
-    ): Color? {
-        if (stone == null) return null
-        board.placeStone(stone)
-        changeCurrentColor()
+    fun checkFinished() {
+        if (board.getWinnerColor() != null) currentState = State.Finished
+    }
+
+    fun getWinnerColor(): Color? {
         return board.getWinnerColor()
     }
 
-    fun getStone(getPosition: () -> Position): Stone? {
-        val stone = Stone(currentColor, getPosition())
-        if (!board.isEmpty(stone)) return null
-        return stone
+    fun placeTo(stone: Stone): Boolean {
+        if (board.canPlace(stone)) {
+            board.placeStone(stone)
+            changeCurrentColor()
+            return true
+        }
+        return false
     }
 
-    fun changeCurrentColor() {
+    fun getStone(position: Position): Stone {
+        return Stone(currentColor, position)
+    }
+
+    private fun changeCurrentColor() {
         currentColor = when (currentColor) {
             Color.BLACK -> Color.WHITE
             Color.WHITE -> Color.BLACK
         }
     }
 
+    fun isRunning(): Boolean {
+        return currentState == State.Running
+    }
+
     fun resetGame() {
         board.removeAllStones()
-        currentColor = Color.BLACK
+        currentState = State.Running
+        currentColor = INITIAL_COLOR
     }
 
     companion object {

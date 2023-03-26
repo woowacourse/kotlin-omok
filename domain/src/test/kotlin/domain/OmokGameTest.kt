@@ -1,6 +1,5 @@
 package domain
 
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -15,11 +14,12 @@ internal class OmokGameTest {
         val board = generateBlackWinOmokBoard()
         val omokGame = OmokGame(board)
         // when
-        val stone = omokGame.getStone { Position(1, 6) }
-        val actual = omokGame.getWinnerColorPhase(stone)
+        val stone = omokGame.getStone(Position(1, 6))
+        omokGame.placeTo(stone)
+        val actual = omokGame.getWinnerColor()
         val expected = Color.BLACK
         // then
-        Assertions.assertThat(actual).isEqualTo(expected)
+        assertThat(actual).isEqualTo(expected)
     }
 
     private fun generateBlackWinOmokBoard(): Board {
@@ -42,11 +42,12 @@ internal class OmokGameTest {
         val board = generateWhiteWinOmokBoard()
         val omokGame = OmokGame(board)
         // when
-        val stone = omokGame.getStone { Position(1, 6) }
-        val actual = omokGame.getWinnerColorPhase(stone)
+        val stone = omokGame.getStone(Position(1, 6))
+        omokGame.placeTo(stone)
+        val actual = omokGame.getWinnerColor()
         val expected = Color.WHITE
         // then
-        Assertions.assertThat(actual).isEqualTo(expected)
+        assertThat(actual).isEqualTo(expected)
     }
 
     private fun generateWhiteWinOmokBoard(): Board {

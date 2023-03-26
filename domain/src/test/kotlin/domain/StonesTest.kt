@@ -18,18 +18,6 @@ class StonesTest {
     }
 
     @Test
-    fun `같은 위치에 있는 바둑돌을 추가 할 수 없다`() {
-        // given
-        val stones = makeStones()
-        val newStone = Stone(Color.BLACK, Position(1, 2))
-        // when
-        val actual = stones.addStone(newStone).values
-        val expected = makeStones().values
-        // then
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
     fun `같은 위치의 바둑돌을 포함하고 있을 수 없다`() {
         assertThrows<IllegalStateException> { makeDuplicateStones() }
     }
