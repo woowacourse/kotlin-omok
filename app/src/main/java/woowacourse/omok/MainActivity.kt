@@ -29,6 +29,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val board = setBoard()
+        setRestartButton()
+        setPreviousGame(board)
+    }
+
+    private fun setRestartButton() {
+        val restartButton = findViewById<Button>(R.id.button_restart)
+        restartButton.setOnClickListener {
+            recreate()
+            db.clear()
+        }
+    }
+
+    private fun setBoard(): List<ImageView> {
         val boardUi = findViewById<TableLayout>(R.id.board)
         val board = boardUi
             .children
@@ -40,14 +54,7 @@ class MainActivity : AppCompatActivity() {
         board.forEachIndexed { index, view ->
             view.setOnClickListener { updateBoard(view, index) }
         }
-
-        val restartButton = findViewById<Button>(R.id.button_restart)
-        restartButton.setOnClickListener {
-            recreate()
-            db.clear()
-        }
-
-        setPreviousGame(board)
+        return board
     }
 
     private fun updateBoard(view: ImageView, index: Int) {
@@ -56,15 +63,13 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        val row = index / 15
-        val col = index % 15
+        val coordinate = Coordinate.of(index)
+        if (isStoneExisted(coordinate)) return
 
-        val coordinate = Coordinate(col, 14 - row)
-        if (!controller.board.canAdd(coordinate)) {
-            makeMessage("이미 해당 위치에 돌이 있어요!")
-            return
-        }
+        addStone(coordinate, view)
+    }
 
+    private fun addStone(coordinate: Coordinate, view: ImageView) {
         val state = controller.playTurn(coordinate)
         if (!state.isForbidden) {
             setStoneImage(view, controller.board.lastPlacedStone?.color)
@@ -80,6 +85,14 @@ class MainActivity : AppCompatActivity() {
             is ForbiddenFour -> makeMessage("돌을 놓을 수 없어요! (4-4)")
             is Stay -> {}
         }
+    }
+
+    private fun isStoneExisted(coordinate: Coordinate): Boolean {
+        if (!controller.board.canAdd(coordinate)) {
+            makeMessage("이미 해당 위치에 돌이 있어요!")
+            return true
+        }
+        return false
     }
 
     private fun setPreviousGame(board: List<ImageView>) {

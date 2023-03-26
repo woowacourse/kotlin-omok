@@ -3,6 +3,7 @@ package omok.model.stone
 import omok.model.game.Board
 
 data class Coordinate(val x: Int, val y: Int) {
+
     companion object {
         private val BOARD_SIZE_RANGE: IntRange = 1..Board.BOARD_LENGTH
 
@@ -12,6 +13,10 @@ data class Coordinate(val x: Int, val y: Int) {
             require(first.isWithinRange() && second.isWithinRange()) { "범위 내의 위치를 입력해주세요. (잘못된 값: $mark)" }
 
             return Coordinate(first - 1, second.toInt() - 1)
+        }
+
+        fun of(index: Int): Coordinate {
+            return Coordinate(index % 15, 14 - index / 15)
         }
 
         private fun Int.isWithinRange(): Boolean = this in BOARD_SIZE_RANGE
