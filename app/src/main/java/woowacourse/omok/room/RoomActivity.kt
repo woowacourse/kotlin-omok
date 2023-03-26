@@ -39,12 +39,8 @@ class RoomActivity : AppCompatActivity() {
         }
 
         override fun onProgressGame(gameState: GameState, omokPoint: OmokPoint?) {
-            matrixBoard.forEach { (col, row, imageView) ->
-                setStoneImage(gameState.omokBoard, imageView, OmokPoint(col + 1, row + 1))
-            }
-            omokPoint?.let { boardDb.insert(gameState, omokPoint, gameId) }
-
-            updateCurrentTurn(gameState)
+            drawBoard(gameState)
+            recordGame(gameState, omokPoint)
             updateGameInfo(gameState)
         }
 
@@ -71,16 +67,47 @@ class RoomActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room)
-
-        opposingPlayer = intent.getSerializableExtra("opposingPlayer") as Player
-        player = intent.getSerializableExtra("player") as Player
-
+        setUpPlayers()
         omokController = OmokController(omokGameListener, boardDb.getGameState(gameId))
-
-        setUpOpposingPlayer(opposingPlayer)
-        setUpPlayer(player)
-
         listeners.forEach { listener -> listener() }
+    }
+
+    private fun drawBoard(gameState: GameState) {
+        matrixBoard.forEach { (col, row, imageView) ->
+            setStoneImage(gameState.omokBoard, imageView, OmokPoint(col + 1, row + 1))
+        }
+    }
+
+    private fun recordGame(gameState: GameState, omokPoint: OmokPoint?) {
+        omokPoint?.let { boardDb.insert(gameState, omokPoint, gameId) }
+    }
+
+    private fun setUpPlayers() {
+        opposingPlayer = intent.getSerializableExtra("opposingPlayer") as Player
+        updateViewOpposingPlayer(opposingPlayer)
+        player = intent.getSerializableExtra("player") as Player
+        updateViewPlayer(player)
+    }
+
+    private fun updateViewOpposingPlayer(player: Player) = player.run {
+        findViewById<ImageView>(R.id.opposing_player_image).setImageResource(profile)
+        findViewById<TextView>(R.id.opposing_player_name).text = name
+        findViewById<TextView>(R.id.opposing_player_score).text = "$win 승 $lose 패 $draw 무"
+    }
+
+    private fun updateViewPlayer(player: Player) = player.run {
+        findViewById<ImageView>(R.id.player_image).setImageResource(profile)
+        findViewById<TextView>(R.id.player_name).text = name
+        findViewById<TextView>(R.id.player_score).text = "$win 승 $lose 패 $draw 무"
+    }
+
+    private fun updateGameInfo(gameState: GameState) {
+        updateCurrentTurn(gameState)
+        when (gameState) {
+            is BlackWin -> updateBlackWin()
+            is WhiteWin -> updateWhiteWin()
+            else -> null
+        }?.let { updateGameEnd() }
     }
 
     private fun updateCurrentTurn(gameState: GameState) {
@@ -91,39 +118,25 @@ class RoomActivity : AppCompatActivity() {
             is WhiteWin -> "백돌 승리"
         }.let { findViewById<TextView>(R.id.turn).text = it }
     }
-    private fun updateGameInfo(gameState: GameState) {
-        when (gameState) {
-            is BlackWin -> {
-                playerDb.update(opposingPlayer.copy(lose = opposingPlayer.lose + 1))
-                playerDb.update(player.copy(win = player.win + 1))
-                runRestartActivity(player)
-            }
-            is WhiteWin -> {
-                playerDb.update(opposingPlayer.copy(win = opposingPlayer.win + 1))
-                playerDb.update(player.copy(lose = player.lose + 1))
-                runRestartActivity(opposingPlayer)
-            }
-            else -> null
-        }?.let {
-            opposingPlayer = playerDb.getPlayer(opposingPlayer.id) ?: opposingPlayer
-            player = playerDb.getPlayer(player.id) ?: player
-            resetGameState()
-        }
 
-        setUpOpposingPlayer(opposingPlayer)
-        setUpPlayer(player)
+    private fun updateBlackWin() {
+        playerDb.update(opposingPlayer.copy(lose = opposingPlayer.lose + 1))
+        playerDb.update(player.copy(win = player.win + 1))
+        runRestartActivity(player)
     }
 
-    private fun setUpOpposingPlayer(player: Player) = player.run {
-        findViewById<ImageView>(R.id.opposing_player_image).setImageResource(profile)
-        findViewById<TextView>(R.id.opposing_player_name).text = name
-        findViewById<TextView>(R.id.opposing_player_score).text = "$win 승 $lose 패 $draw 무"
+    private fun updateWhiteWin() {
+        playerDb.update(opposingPlayer.copy(win = opposingPlayer.win + 1))
+        playerDb.update(player.copy(lose = player.lose + 1))
+        runRestartActivity(opposingPlayer)
     }
 
-    private fun setUpPlayer(player: Player) = player.run {
-        findViewById<ImageView>(R.id.player_image).setImageResource(profile)
-        findViewById<TextView>(R.id.player_name).text = name
-        findViewById<TextView>(R.id.player_score).text = "$win 승 $lose 패 $draw 무"
+    private fun updateGameEnd() {
+        opposingPlayer = playerDb.getPlayer(opposingPlayer.id) ?: opposingPlayer
+        player = playerDb.getPlayer(player.id) ?: player
+        resetGameState()
+        updateViewOpposingPlayer(opposingPlayer)
+        updateViewPlayer(player)
     }
 
     private fun addStoneListener() =
