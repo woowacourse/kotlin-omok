@@ -47,6 +47,7 @@ class WinActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         dBController.deleteDB()
+        dBController.closeDB()
         super.onDestroy()
     }
 }
