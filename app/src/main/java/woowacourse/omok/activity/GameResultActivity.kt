@@ -1,7 +1,6 @@
 package woowacourse.omok.activity
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -9,6 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import woowacourse.omok.R
 import woowacourse.omok.model.StoneColorModel
+import woowacourse.omok.utils.getSerializable
 import woowacourse.omok.utils.setImageByResId
 
 class GameResultActivity : AppCompatActivity(), View.OnClickListener {
@@ -21,11 +21,7 @@ class GameResultActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setWinnerStoneImage() {
-        val winnerStoneColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getSerializableExtra(WINNER_KEY, StoneColorModel::class.java)
-        } else {
-            intent.getSerializableExtra(WINNER_KEY)
-        }
+        val winnerStoneColor = getSerializable(WINNER_KEY, StoneColorModel::class.java)
         val winnerStoneIv = findViewById<ImageView>(R.id.winner_stone_iv)
         val winnerStoneTv = findViewById<TextView>(R.id.winner_stone_tv)
 

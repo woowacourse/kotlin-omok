@@ -1,12 +1,15 @@
 package woowacourse.omok.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
+import android.os.Build
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import java.io.Serializable
 
 fun Context.createAlertDialog(builder: AlertDialog.Builder.() -> Unit): AlertDialog =
     AlertDialog.Builder(this).apply {
@@ -38,4 +41,11 @@ fun ImageView.setImageByResId(@DrawableRes resId: Int) {
 
 fun Context.showMessage(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
+
+fun <T : Serializable> Activity.getSerializable(name: String, clazz: Class<T>): T {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+        intent.getSerializableExtra(name, clazz)!!
+    else
+        intent.getSerializableExtra(name) as T
 }
