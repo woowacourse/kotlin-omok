@@ -9,20 +9,26 @@ class Stones(
     val value: List<Stone>
         get() = _value.toList()
 
-    fun place(stone: Stone) {
-        require(value.none { it.coordinate == stone.coordinate }) {
-            MESSAGE_CORRUPT_STONE.format(stone.coordinate.x, stone.coordinate.y)
+    fun place(stone: Stone) : PlaceResult {
+        if(!value.none { it.coordinate == stone.coordinate }) {
+            println(MESSAGE_CORRUPT_STONE.format(stone.coordinate.x, stone.coordinate.y))
+            return PlaceResult.ERROR_ALREADY_PLACE
         }
         _value.add(stone)
+        return PlaceResult.SUCCESS
     }
 
-    fun validateRenju(stone: Stone): Boolean {
+    fun validateRenju(stone: Stone): PlaceResult {
         return when (stone.color) {
-            Color.BLACK -> !renjuRule.isThreeToThree(stone, this) && !renjuRule.isFourToFour(
-                stone, this
-            ) && renjuRule.isOverFive(findScore(stone.coordinate, stone.color))
-
-            Color.WHITE -> true
+            Color.BLACK -> {
+                if (renjuRule.isThreeToThree(stone, this) || renjuRule.isFourToFour(
+                        stone, this
+                    ) || renjuRule.isOverFive(findScore(stone.coordinate, stone.color))) PlaceResult.ERROR_RENJU_RULE
+                else PlaceResult.SUCCESS
+            }
+            Color.WHITE -> {
+                PlaceResult.SUCCESS
+            }
         }
     }
 

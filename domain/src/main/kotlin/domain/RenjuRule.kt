@@ -63,7 +63,7 @@ class RenjuRule : RenjuRuleInterface { // 원시값을 받는다고 생각한다
         return false
     }
 
-    override fun isOverFive(stoneScore: Int): Boolean = stoneScore <= LARGE_PLACE
+    override fun isOverFive(stoneScore: Int): Boolean = stoneScore > LARGE_PLACE
 
     companion object {
         private const val RENJU_LINE_CONDITION = 2

@@ -113,7 +113,7 @@ class RenjuRuleTest {
         val actual = RenjuRule().isOverFive(stoneScore)
 
         // then
-        assertThat(actual).isFalse
+        assertThat(actual).isTrue
     }
 
     @Test

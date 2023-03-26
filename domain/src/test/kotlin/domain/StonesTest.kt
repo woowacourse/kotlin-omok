@@ -12,14 +12,10 @@ class StonesTest {
         val stone2 = Stone(Color.BLACK, Coordinate.from(3, 3))
         val stones = Stones(listOf(stone1))
         // when
-        val message = assertThrows<IllegalArgumentException> {
-            stones.place(stone2)
-        }.message
-
-        val except = "같은 위치에 이미 돌이 있습니다. 위치 : (3, 3)"
+        val actual = stones.place(stone2)
 
         // then
-        assertThat(message).isEqualTo(except)
+        assertThat(actual).isEqualTo(PlaceResult.ERROR_ALREADY_PLACE)
     }
 
     @Test
@@ -55,7 +51,7 @@ class StonesTest {
         val actual = stones.validateRenju(BlackStone(3, 11))
 
         // then
-        assertThat(actual).isFalse
+        assertThat(actual).isEqualTo(PlaceResult.ERROR_RENJU_RULE)
     }
 
     @Test
@@ -77,7 +73,7 @@ class StonesTest {
         val actual = stones.validateRenju(WhiteStone(3, 11))
 
         // then
-        assertThat(actual).isTrue
+        assertThat(actual).isEqualTo(PlaceResult.SUCCESS)
     }
 
     @Test
@@ -95,7 +91,7 @@ class StonesTest {
         // when
         val actual = stones.validateRenju(BlackStone(2, 7))
 
-        assertThat(actual).isFalse
+        assertThat(actual).isEqualTo(PlaceResult.ERROR_RENJU_RULE)
     }
 
     @Test
@@ -113,7 +109,7 @@ class StonesTest {
         // when
         val actual = stones.validateRenju(WhiteStone(2, 7))
 
-        assertThat(actual).isTrue
+        assertThat(actual).isEqualTo(PlaceResult.SUCCESS)
     }
 
     @Test
@@ -131,7 +127,7 @@ class StonesTest {
         val actual = stones.validateRenju(BlackStone(2, 12))
 
         // then
-        assertThat(actual).isFalse
+        assertThat(actual).isEqualTo(PlaceResult.ERROR_RENJU_RULE)
     }
 
     @Test
@@ -149,7 +145,7 @@ class StonesTest {
         val actual = stones.validateRenju(WhiteStone(2, 12))
 
         // then
-        assertThat(actual).isTrue
+        assertThat(actual).isEqualTo(PlaceResult.SUCCESS)
     }
 
     @Test

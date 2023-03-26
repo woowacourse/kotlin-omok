@@ -17,10 +17,12 @@ class Board(val stones: Stones) {
     }
 
     fun processTurn(stone: Stone): Boolean {
-        if (!stones.validateRenju(stone)) {
+        if (stones.validateRenju(stone) != PlaceResult.SUCCESS) {
             return false
         }
-        stones.place(stone)
+        if(stones.place(stone)!= PlaceResult.SUCCESS){
+            return false
+        }
         return true
     }
 
