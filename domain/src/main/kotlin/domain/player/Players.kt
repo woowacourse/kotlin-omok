@@ -26,8 +26,6 @@ class Players(private val latestPlayer: Player, private val players: List<Player
         return Players(nextLatestPlayer, newPlayers)
     }
 
-//    fun getWinner(): Player? = players.find { !it.isFoul && !it.isPlaying }
-
     fun getLastPoint(): Point? = latestPlayer.getLastPoint()
 
     fun toList(): List<Player> = players.toList()

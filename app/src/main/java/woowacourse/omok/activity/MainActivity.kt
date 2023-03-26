@@ -29,10 +29,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val gameEventListener =
-            TurnEventListener(applicationContext, findViewById(R.id.description))
-        gameEventListener.onStartGame()
-        gameEventListener.onStartTurn(omok.players.curPlayerColor, omok.players.getLastPoint())
+        val turnEventListener = TurnEventListener(applicationContext, findViewById(R.id.description))
+        turnEventListener.onStartGame()
+        turnEventListener.onStartTurn(omok.players.curPlayerColor, omok.players.getLastPoint())
 
         var result: TurnResult = TurnResult.Playing(false, omok.players)
         getBoardViews().forEachIndexed { index, view ->
@@ -43,8 +42,8 @@ class MainActivity : AppCompatActivity() {
                     setStone(view, omok.players.curPlayerColor.next())
                     dbManager.insert(index, omok.players.curPlayerColor.next().name)
                 }
-                gameEventListener.onEndTurn(result)
-                gameEventListener.onEndGame(result)
+                turnEventListener.onEndTurn(result)
+                turnEventListener.onEndGame(result)
             }
         }
     }
@@ -79,10 +78,8 @@ class MainActivity : AppCompatActivity() {
             setStone(boardViews[it], StoneColor.WHITE)
         }
 
-        val blackPlayer =
-            BlackPlayer(PlayingState(indexsToPoints(blackIndexs)), rule = BlackRenjuRule())
-        val whitePlayer =
-            WhitePlayer(PlayingState(indexsToPoints(whiteIndexs)), rule = WhiteRenjuRule())
+        val blackPlayer = BlackPlayer(PlayingState(indexsToPoints(blackIndexs)), rule = BlackRenjuRule())
+        val whitePlayer = WhitePlayer(PlayingState(indexsToPoints(whiteIndexs)), rule = WhiteRenjuRule())
         return Omok(blackPlayer, whitePlayer)
     }
 
