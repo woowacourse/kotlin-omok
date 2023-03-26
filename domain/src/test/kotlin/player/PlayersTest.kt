@@ -28,7 +28,7 @@ class PlayersTest {
     fun `첫 턴은 흑이며, 현재 턴의 플레이어가 오목알을 성공적으로 놓으면 턴이 백으로 바뀐다`() {
         val players =
             Players(BlackPlayer(rule = blackRenjuRule), WhitePlayer(rule = whiteRenjuRule))
-        val actual = players.putStone(Point(1, 1))
+        val actual = players.putPoint(Point(1, 1))
         val expected = Players(
             BlackPlayer(rule = blackRenjuRule, Point(1, 1)),
             WhitePlayer(rule = whiteRenjuRule)
@@ -43,7 +43,7 @@ class PlayersTest {
             BlackPlayer(rule = blackRenjuRule, Point(2, 1)),
             WhitePlayer(rule = whiteRenjuRule)
         )
-        val actual = players.putStone(Point(1, 1))
+        val actual = players.putPoint(Point(1, 1))
         val expected = Players(
             BlackPlayer(rule = blackRenjuRule, Point(2, 1)),
             WhitePlayer(rule = whiteRenjuRule, Point(1, 1))
@@ -83,7 +83,7 @@ class PlayersTest {
         val players = Players(
             BlackPlayer(rule = blackRenjuRule),
             WhitePlayer(rule = whiteRenjuRule)
-        ).putStone(Point(1, 1)).putStone(Point(2, 2))
+        ).putPoint(Point(1, 1)).putPoint(Point(2, 2))
         val actual = players.getLastPoint()
 
         assertThat(actual).isEqualTo(Point(2, 2))
@@ -111,6 +111,7 @@ class PlayersTest {
         assertThat(actual).isNotSameAs(players)
     }
 
+    private fun Players(blackPlayer: BlackPlayer, whitePlayer: WhitePlayer) = Players(blackPlayer, listOf(blackPlayer, whitePlayer))
     private fun BlackPlayer(rule: BlackRenjuRule, vararg points: Point) =
         BlackPlayer(PlayingState(Points(points.toList())), rule)
     private fun WhitePlayer(rule: WhiteRenjuRule, vararg points: Point) = WhitePlayer(PlayingState(Points(points.toList())), rule)

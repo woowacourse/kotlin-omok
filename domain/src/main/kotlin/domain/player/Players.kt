@@ -9,7 +9,7 @@ class Players(private val latestPlayer: Player, private val players: List<Player
     val isFoul: Boolean
         get() = players.any { it.isFoul }
     val curPlayerColor: StoneColor
-        get() = players.first { it != latestPlayer }.getStoneColor()
+        get() = players.first { it != latestPlayer }.getColor()
 
     init {
         require(players.size == PLAYER_SIZE) { INVALID_PLAYERS_SIZE_ERROR_MESSAGE }
@@ -17,18 +17,18 @@ class Players(private val latestPlayer: Player, private val players: List<Player
 
     private fun nextPlayer(): Player = players.first { it != latestPlayer }
 
-    fun putStone(point: Point): Players {
+    fun putPoint(point: Point): Players {
         if (players.any { it.isPlaced(point) }) return this
 
-        val otherStones = latestPlayer.getAllPoints()
-        val nextLatestPlayer = nextPlayer().putStone(point, otherStones)
-        val newPlayers = players.filter { it.getStoneColor() != nextLatestPlayer.getStoneColor() } + nextLatestPlayer
+        val otherPoints = latestPlayer.getAllPoints()
+        val nextLatestPlayer = nextPlayer().putPoint(point, otherPoints)
+        val newPlayers = players.filter { it.getColor() != nextLatestPlayer.getColor() } + nextLatestPlayer
         return Players(nextLatestPlayer, newPlayers)
     }
 
 //    fun getWinner(): Player? = players.find { !it.isFoul && !it.isPlaying }
 
-    fun getLastPoint(): Point? = latestPlayer.getLastStone()
+    fun getLastPoint(): Point? = latestPlayer.getLastPoint()
 
     fun toList(): List<Player> = players.toList()
 

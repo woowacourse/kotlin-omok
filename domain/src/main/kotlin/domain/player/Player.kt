@@ -14,13 +14,15 @@ abstract class Player(protected val state: PlayerState, val rule: OmokRule) {
 
     fun isPlaced(stone: Point): Boolean = state.hasStone(stone)
 
-    fun getLastStone(): Point? = state.getLastStone()
+    fun getLastPoint(): Point? = state.getLastStone()
 
     fun getPointSize(): Int = state.getAllPoints().getAll().size
 
     fun getAllPoints(): Points = state.getAllPoints()
 
-    abstract fun getStoneColor(): StoneColor
+    abstract fun getLatestPlayer(player: Player): Player
 
-    abstract fun putStone(stone: Point, otherStones: Points): Player
+    abstract fun getColor(): StoneColor
+
+    abstract fun putPoint(point: Point, otherPoints: Points): Player
 }

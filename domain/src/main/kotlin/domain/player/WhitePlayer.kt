@@ -8,7 +8,10 @@ import domain.state.PlayingState
 import domain.stone.StoneColor
 
 class WhitePlayer(state: PlayerState = PlayingState(), rule: OmokRule) : Player(state, rule) {
-    override fun putStone(stone: Point, otherStones: Points): Player = WhitePlayer(state.add(stone, otherStones, rule), rule)
-
-    override fun getStoneColor(): StoneColor = StoneColor.WHITE
+    override fun putPoint(point: Point, otherPoints: Points): Player = WhitePlayer(state.add(point, otherPoints, rule), rule)
+    override fun getLatestPlayer(player: Player): Player {
+        if(player.getPointSize() == getPointSize()) return player
+        return this
+    }
+    override fun getColor(): StoneColor = StoneColor.WHITE
 }

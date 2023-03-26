@@ -39,13 +39,13 @@ class BlackPlayerTest {
     @Test
     fun `마지막 놓은 돌을 반환한다`() {
         val player = BlackPlayer(Point(1, 1))
-        assertThat(player.getLastStone()).isEqualTo(Point(1, 1))
+        assertThat(player.getLastPoint()).isEqualTo(Point(1, 1))
     }
 
     @Test
     fun `새롭게 오목알을 두었을 때, 룰을 어기지 않았다면 파울이 아니다`() {
         val player = BlackPlayer(Point(1, 1))
-        val expected = player.putStone(Point(1, 2), otherStones).isFoul
+        val expected = player.putPoint(Point(1, 2), otherStones).isFoul
 
         assertThat(expected).isFalse
     }
@@ -53,7 +53,7 @@ class BlackPlayerTest {
     @Test
     fun `새롭게 오목알을 두었을 때, 룰을 어기면 파울이다`() {
         val player = BlackPlayer(Point(1, 1), Point(1, 3), Point(1, 4), Point(1, 5), Point(1, 6))
-        val expected = player.putStone(Point(1, 2), otherStones).isFoul
+        val expected = player.putPoint(Point(1, 2), otherStones).isFoul
 
         assertThat(expected).isTrue
     }
