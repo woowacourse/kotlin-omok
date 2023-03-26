@@ -35,25 +35,12 @@ class MainActivity : AppCompatActivity() {
         val resetButton = findViewById<Button>(R.id.resetButton)
 
         if (!omokRepository.isEmpty()) {
-            initState()
             setPreviousGameStone()
         }
         clickOmokBoard()
 
         resetButton.setOnClickListener {
             resetGame()
-        }
-    }
-
-    private fun initState() {
-        omokRepository.getLast().use {
-            while (it.moveToNext()) {
-                val stoneColor = it.getInt(it.getColumnIndexOrThrow("stone_color"))
-                when (stoneColor) {
-                    0 -> state = WhiteTurn(board)
-                    1 -> state = BlackTurn(board)
-                }
-            }
         }
     }
 
@@ -70,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                     StoneType.getStoneType(stoneColor)!!,
                 )
                 state = state.put(stone)
-                checkState(view, stone)
+                putStone(view, stone.type)
             }
         }
     }
