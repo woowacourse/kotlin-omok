@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setOmokBoard(stones: List<Stone>) {
-        gameBoard.currentColor = if (stones.isEmpty()) Color.BLACK else stones.last().color.turnColor()
+        gameBoard.currentColor =
+            if (stones.isEmpty()) Color.BLACK else stones.last().color.turnColor()
         val viewBoard = findViewById<TableLayout>(R.id.board)
         viewBoard
             .children
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                 gameBoard.stones.value.find {
                     it.coordinate.x == x && it.coordinate.y == y
                 }?.let {
-                    setStoneDrawable(it.color, view)
+                    view.setStoneDrawable(it.color)
                 }
                 view.setOnClickListener {
                     val stone = Stone(gameBoard.currentColor, Coordinate.from(x, y))
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                             stone
                         )
                     ) {
-                        setStoneDrawable(gameBoard.currentColor, view)
+                        view.setStoneDrawable(gameBoard.currentColor)
                         checkWin(gameBoard.currentColor)
                         dbHelper.writeOmokStone(stone)
                     }
@@ -72,10 +73,10 @@ class MainActivity : AppCompatActivity() {
         recreate()
     }
 
-    private fun setStoneDrawable(currentColor: Color, view: ImageView) {
+    private fun ImageView.setStoneDrawable(currentColor: Color) {
         when (currentColor) {
-            Color.BLACK -> view.setImageDrawable(getDrawable(R.drawable.black_stone))
-            Color.WHITE -> view.setImageDrawable(getDrawable(R.drawable.white_stone))
+            Color.BLACK -> setImageDrawable(getDrawable(R.drawable.black_stone))
+            Color.WHITE -> setImageDrawable(getDrawable(R.drawable.white_stone))
         }
     }
 }
