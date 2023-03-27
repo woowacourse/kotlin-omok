@@ -6,13 +6,7 @@ class OmokGame(val board: Board) {
     private var currentState: State = State.Running
 
     init {
-        val lastStone = board.stones.getLastStone()
-        lastStone?.let { lastStone ->
-            currentColor = when (lastStone.color) {
-                Color.BLACK -> Color.WHITE
-                Color.WHITE -> Color.BLACK
-            }
-        }
+        changeCurrentColor()
     }
 
     fun checkFinished() {
@@ -24,12 +18,10 @@ class OmokGame(val board: Board) {
     }
 
     fun placeTo(stone: Stone): Boolean {
-        if (board.canPlace(stone)) {
-            board.placeStone(stone)
-            changeCurrentColor()
-            return true
-        }
-        return false
+        if (!board.canPlace(stone)) return false
+        board.placeStone(stone)
+        changeCurrentColor()
+        return true
     }
 
     fun getStone(position: Position): Stone {
@@ -37,9 +29,12 @@ class OmokGame(val board: Board) {
     }
 
     private fun changeCurrentColor() {
-        currentColor = when (currentColor) {
-            Color.BLACK -> Color.WHITE
-            Color.WHITE -> Color.BLACK
+        val lastStone = board.stones.getLastStone()
+        lastStone?.let { lastStone ->
+            currentColor = when (lastStone.color) {
+                Color.BLACK -> Color.WHITE
+                Color.WHITE -> Color.BLACK
+            }
         }
     }
 
