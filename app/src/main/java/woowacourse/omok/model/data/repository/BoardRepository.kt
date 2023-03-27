@@ -1,11 +1,11 @@
-package woowacourse.omok.model.domain
+package woowacourse.omok.model.data.repository
 
 import android.content.ContentValues
 import android.database.Cursor
 import woowacourse.omok.model.data.BoardContract
 import woowacourse.omok.model.data.BoardDbHelper
 
-class GameStateManager(boardDbHelper: BoardDbHelper) {
+class BoardRepository(boardDbHelper: BoardDbHelper) {
     private val boardDbOnlyWriteable = boardDbHelper.writableDatabase
     private val _cursor: Cursor = boardDbOnlyWriteable.query(
         BoardContract.FeedEntry.TABLE_NAME,
