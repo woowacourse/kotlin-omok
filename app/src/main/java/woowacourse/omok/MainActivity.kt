@@ -16,7 +16,6 @@ import omok.model.state.Stay
 import omok.model.state.Win
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStoneColor
-import omok.view.toKorean
 import woowacourse.omok.db.OmokDB
 import woowacourse.omok.db.OmokRepository
 
@@ -76,13 +75,13 @@ class MainActivity : AppCompatActivity() {
     private fun addStone(coordinate: Coordinate, view: ImageView) {
         val state = controller.playTurn(coordinate)
         if (!state.isForbidden) {
-            setStoneImage(view, controller.board.lastPlacedStone.color)
-            db.insert(controller.board.lastPlacedStone)
+            setStoneImage(view, controller.getLastTurnColor())
+            db.insert(controller.getLastPlacedStone())
         }
 
         when (state) {
             is Win -> {
-                makeMessage("${controller.board.lastPlacedStone.color.toKorean()}이 승리했습니다!")
+                makeMessage("${controller.getLastTurnColor().toKorean()}이 승리했습니다!")
                 isRunning = false
             }
             is ForbiddenThree -> makeMessage("돌을 놓을 수 없어요! (3-3)")
@@ -102,9 +101,9 @@ class MainActivity : AppCompatActivity() {
             setStoneImage(board[index], it.color)
         }
 
-        controller.board.lastPlacedStone.apply {
+/*        controller.getLastPlacedStone().apply {
             isRunning = Judgement.judge(controller.board, this) !is Win
-        }
+        }*/
     }
 
     private fun setStoneImage(view: ImageView, color: GoStoneColor) {

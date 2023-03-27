@@ -5,6 +5,7 @@ import omok.model.game.Judgement
 import omok.model.state.State
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
+import omok.model.stone.GoStoneColor
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -32,6 +33,10 @@ class OmokController {
         OutputView.printEachTurn(board, newStone, state)
         return state
     }
+
+    fun getLastTurnColor(): GoStoneColor = board.lastPlacedStone.color
+
+    fun getLastPlacedStone(): GoStone = board.lastPlacedStone
 
     private fun putStone(
         state: State,
