@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Omok</string>
     <string name="element_text">room</string>
+    <string name="room_list_refresh_button_clicked">새로고침</string>
+    <string name="room_message_start_game">게임을 시작합니다.</string>
+    <string name="room_black_turn">흑돌 차례</string>
+    <string name="room_white_turn">백돌 차례</string>
+    <string name="room_black_win">흑돌 승리</string>
+    <string name="room_white_win">백돌 승리</string>
+    <string name="room_overall_result">%d 승 %d 패 %d 무</string>
+    <string name="restart_message_name">%s님의 승리입니다.</string>
+    <string name="main_message_input_name">이름을 입력해주세요</string>
 </resources>

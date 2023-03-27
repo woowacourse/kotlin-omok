@@ -47,7 +47,7 @@ class RoomActivity : AppCompatActivity() {
 
     private val omokGameListener = object : OmokGameListener {
         override fun onStartGame() {
-            Toast.makeText(applicationContext, "게임을 시작합니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, getString(R.string.room_message_start_game), Toast.LENGTH_SHORT).show()
         }
 
         override fun onProgressGame(gameState: GameState, omokPoint: OmokPoint?) {
@@ -104,13 +104,13 @@ class RoomActivity : AppCompatActivity() {
     private fun updateViewOpposingPlayer(player: Player) = player.run {
         opposingPlayerImage.setImageResource(profile)
         opposingPlayerName.text = name
-        opposingPlayerScore.text = "$win 승 $lose 패 $draw 무"
+        opposingPlayerScore.text = getString(R.string.room_overall_result).format(win, lose, draw)
     }
 
     private fun updateViewPlayer(player: Player) = player.run {
         playerImage.setImageResource(profile)
         playerName.text = name
-        playerScore.text = "$win 승 $lose 패 $draw 무"
+        playerScore.text = getString(R.string.room_overall_result).format(win, lose, draw)
     }
 
     private fun updateGameInfo(gameState: GameState) {
@@ -124,10 +124,10 @@ class RoomActivity : AppCompatActivity() {
 
     private fun updateCurrentTurn(gameState: GameState) {
         when (gameState) {
-            is BlackTurn -> "흑돌 차례"
-            is WhiteTurn -> "백돌 차례"
-            is BlackWin -> "흑돌 승리"
-            is WhiteWin -> "백돌 승리"
+            is BlackTurn -> getString(R.string.room_black_turn)
+            is WhiteTurn -> getString(R.string.room_white_turn)
+            is BlackWin -> getString(R.string.room_black_win)
+            is WhiteWin -> getString(R.string.room_white_win)
         }.let { currentTurn.text = it }
     }
 

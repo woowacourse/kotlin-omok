@@ -20,7 +20,7 @@ class RestartActivity : AppCompatActivity() {
 
     private fun setUpRestartActivity(player: Player) = player.run {
         restartImage.setImageResource(profile)
-        restartText.text = "${player.name}님의 승리입니다."
+        restartText.text = getString(R.string.restart_message_name).format(player.name)
         restartButton.setOnClickListener { finish() }
     }
 }

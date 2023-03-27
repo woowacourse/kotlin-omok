@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             val player = playerDb.getPlayer(nameText.text.toString()) ?: createPlayer(nameText)
 
             if (player == null) {
-                Toast.makeText(this, "이름을 입력해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.main_message_input_name), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             startRoomListActivity(player)
