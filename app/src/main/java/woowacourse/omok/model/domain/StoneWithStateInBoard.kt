@@ -5,14 +5,12 @@ import model.domain.state.Omok
 import model.domain.tools.Board
 import model.domain.tools.Location
 import model.domain.tools.Stone
-import view.BoardView
-import view.GuideView
 import woowacourse.omok.model.domain.StoneWithStateInBoard.PlaceState.ABLE
 import woowacourse.omok.model.domain.StoneWithStateInBoard.PlaceState.DISABLE
 import woowacourse.omok.model.domain.StoneWithStateInBoard.PlaceState.OMOK
 
 class StoneWithStateInBoard {
-    private val omokGame: OmokGame by lazy { OmokGame(Board.create()) }
+    val omokGame: OmokGame by lazy { OmokGame(Board.create()) }
 
     private var _stoneColor: Stone = Stone.EMPTY
     val stoneColor: Stone get() = _stoneColor
@@ -51,7 +49,6 @@ class StoneWithStateInBoard {
     private fun checkWinnerIfOmok() {
         if (omokGame.state is Omok) {
             _placeState = OMOK
-            omokGame.getWinner(GuideView::printWinner, BoardView::printBoard)
             return
         }
         _placeState = DISABLE

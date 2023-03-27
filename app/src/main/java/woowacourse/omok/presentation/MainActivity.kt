@@ -10,10 +10,12 @@ import androidx.core.view.children
 import model.domain.tools.Stone.BLACK
 import model.domain.tools.Stone.EMPTY
 import model.domain.tools.Stone.WHITE
+import view.BoardView
+import view.GuideView
 import woowacourse.omok.R
 import woowacourse.omok.model.data.BoardContract.FeedEntry.TABLE_COLUMN_LOCATION
 import woowacourse.omok.model.data.BoardDbHelper
-import woowacourse.omok.model.domain.GameStateManager
+import woowacourse.omok.model.data.repository.BoardRepository
 import woowacourse.omok.model.domain.StoneWithStateInBoard
 import woowacourse.omok.model.domain.StoneWithStateInBoard.PlaceState.ABLE
 import woowacourse.omok.model.domain.StoneWithStateInBoard.PlaceState.DISABLE
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     private val stoneWithStateInBoard: StoneWithStateInBoard by lazy { StoneWithStateInBoard() }
     private val board: Sequence<ImageView> by lazy { createBoard() }
     private val boardDbHelper: BoardDbHelper by lazy { BoardDbHelper(this) }
-    private val gameStateManager: GameStateManager by lazy { GameStateManager(boardDbHelper) }
+    private val boardRepository: BoardRepository by lazy { BoardRepository(boardDbHelper) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBoardWhenResumed() {
-        with(gameStateManager.cursor) {
+        with(boardRepository.cursor) {
             while (moveToNext()) {
                 val location = getInt(getColumnIndexOrThrow(TABLE_COLUMN_LOCATION))
                 stoneWithStateInBoard.placeStone(location)
@@ -55,7 +57,7 @@ class MainActivity : AppCompatActivity() {
     private fun setClickEventOfResetButton() {
         val resetButton = findViewById<Button>(R.id.btn_main_reset)
         resetButton.setOnClickListener {
-            gameStateManager.deleteGame()
+            boardRepository.deleteGame()
         }
     }
 
@@ -64,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             view.setOnClickListener {
                 stoneWithStateInBoard.placeStone(location)
                 observePlaceState(view)
-                gameStateManager.saveGame(location)
+                boardRepository.saveGame(location)
             }
         }
     }
@@ -81,6 +83,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOmokState(view: ImageView) {
         setStoneImageByColor(view)
+        stoneWithStateInBoard.omokGame.getWinner(GuideView::printWinner, BoardView::printBoard)
         shortToastWithString(
             stoneWithStateInBoard.stoneColor.name +
                 getString(R.string.tv_main_omok),
