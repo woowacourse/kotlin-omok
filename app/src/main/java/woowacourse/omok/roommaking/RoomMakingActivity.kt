@@ -1,6 +1,5 @@
 package woowacourse.omok.roommaking
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -8,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import woowacourse.omok.R
 import woowacourse.omok.data.dao.RoomDao
 import woowacourse.omok.data.dao.UserDao
-import woowacourse.omok.home.HomeActivity.Companion.ROOM_ID
 import woowacourse.omok.omokgame.OmokGameActivity
 import woowacourse.omok.util.ContextUtil.shortToast
 
@@ -49,9 +47,7 @@ class RoomMakingActivity : AppCompatActivity() {
     }
 
     private fun goToOmokGameActivity(roomId: Int) {
-        val intent = Intent(this, OmokGameActivity::class.java)
-        intent.putExtra(ROOM_ID, roomId)
-        startActivity(intent)
+        startActivity(OmokGameActivity.getIntent(this, roomId))
         finish()
     }
 }

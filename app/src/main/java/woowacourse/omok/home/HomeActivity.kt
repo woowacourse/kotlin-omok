@@ -45,18 +45,13 @@ class HomeActivity : AppCompatActivity() {
     private fun clickNewRoom() {
         val button = findViewById<FloatingActionButton>(R.id.newRoomButton)
         button.setOnClickListener {
-            startOtherActivity(RoomMakingActivity::class.java)
+            val intent = Intent(this, RoomMakingActivity::class.java)
+            startActivity(intent)
         }
     }
 
     private fun clickRoom(roomId: Int) {
-        startOtherActivity(OmokGameActivity::class.java, roomId)
-    }
-
-    private fun <T> startOtherActivity(activity: Class<T>, roomId: Int? = null) {
-        val intent = Intent(this, activity)
-        if (roomId != null) intent.putExtra(ROOM_ID, roomId)
-        startActivity(intent)
+        startActivity(OmokGameActivity.getIntent(this, roomId))
     }
 
     private fun initAdapter() {

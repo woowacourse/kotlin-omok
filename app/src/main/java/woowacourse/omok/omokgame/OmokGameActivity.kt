@@ -1,5 +1,6 @@
 package woowacourse.omok.omokgame
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -162,5 +163,9 @@ class OmokGameActivity : AppCompatActivity(), Observer {
         const val WINNER_NAME = "winnerName"
         const val ROOM_TITLE = "roomTitle"
         const val DESCRIPTION = "%s의 차례입니다. %s가 %s입니다"
+
+        fun getIntent(context: Context, roomId: Int) =
+            Intent(context, OmokGameActivity::class.java)
+                .apply { putExtra(ROOM_ID, roomId) }
     }
 }
