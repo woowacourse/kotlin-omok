@@ -2,10 +2,10 @@ package woowacourse.omok.game.view
 
 import android.widget.ImageView
 import android.widget.TextView
-import domain.Board
 import dto.ColorDTO
 import dto.StoneDTO
 import dto.VectorDTO
+import dto.VectorSystem
 import view.GameView
 import view.PlaceStoneObserver
 import view.RenderBoard
@@ -24,12 +24,7 @@ class AndroidGameView(
     override fun setUpInput() {
         stoneButtons.forEachIndexed { index, imageButton ->
             imageButton.setOnClickListener {
-                notifyPlaceStone(
-                    VectorDTO(
-                        index % Board.BOARD_SIZE.x,
-                        Board.BOARD_SIZE.y - (index / Board.BOARD_SIZE.y) - FACTOR_ROW_FIXER
-                    )
-                )
+                notifyPlaceStone(AndroidVectorSystem(index))
             }
         }
     }
@@ -38,7 +33,7 @@ class AndroidGameView(
         renderBoard.render(stones, size)
     }
 
-    override fun notifyPlaceStone(placedCoordinate: VectorDTO): Boolean {
+    override fun notifyPlaceStone(placedCoordinate: VectorSystem): Boolean {
         return placeStoneObserver.notify(placedCoordinate).all { it }
     }
 
@@ -65,6 +60,5 @@ class AndroidGameView(
         private const val GAME_START = "오목 게임을 시작합니다."
         private const val USER_TURN = "%s의 차례입니다."
         private const val GAME_WINNER = "%s가 승리자입니다."
-        private const val FACTOR_ROW_FIXER = 1
     }
 }

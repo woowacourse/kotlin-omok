@@ -1,7 +1,7 @@
 package view
 
-import dto.VectorDTO
+import dto.VectorSystem
 
 interface PlaceStoneObservable {
-    fun placeStone(coordinate: VectorDTO): Boolean
+    fun placeStone(coordinate: VectorSystem): Boolean
 }

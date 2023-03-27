@@ -10,6 +10,7 @@ import domain.Stones
 import domain.Vector
 import domain.omokrule.RenjuRule
 import dto.VectorDTO
+import dto.VectorSystem
 import error.CoordinateError
 import error.ErrorHandler
 import error.OmokResult
@@ -28,8 +29,8 @@ class GameController(private val gameView: GameView, private val errorHandler: E
         gameView.setUpInput()
     }
 
-    override fun placeStone(coordinate: VectorDTO): Boolean {
-        val validatedCoordinate = validateStone(coordinate) ?: return false
+    override fun placeStone(coordinate: VectorSystem): Boolean {
+        val validatedCoordinate = validateStone(coordinate.toDTO()) ?: return false
         when (val result = board.repeatTurn(validatedCoordinate, omokRule)) {
             is OmokResult.Success<*> -> {
                 onPlaceStone(result.value as Stone)

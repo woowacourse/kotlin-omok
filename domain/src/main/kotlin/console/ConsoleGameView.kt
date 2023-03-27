@@ -1,5 +1,6 @@
 package console
 
+import dto.VectorSystem
 import dto.ColorDTO
 import dto.StoneDTO
 import dto.VectorDTO
@@ -37,10 +38,10 @@ class ConsoleGameView(
         if (input.substring(1).toIntOrNull() == null) {
             return StoneReadError.RowNotNumeric
         }
-        return OmokResult.Success(VectorDTO(input[0] - 'A', input.substring(1).toInt() - 1))
+        return OmokResult.Success(ConsoleVectorSystem(VectorDTO(input[0] - 'A', input.substring(1).toInt() - 1)))
     }
 
-    private fun processStoneRead(): VectorDTO? {
+    private fun processStoneRead(): VectorSystem? {
         when (val input = readStone()) {
             StoneReadError.ColumnNotAlpha ->
                 renderError(ConsoleViewErrorHandler.MESSAGE_COLUMN_MUST_BE_ALPHA)
@@ -49,7 +50,7 @@ class ConsoleGameView(
             StoneReadError.Empty ->
                 renderError(ConsoleViewErrorHandler.MESSAGE_INPUT_EMPTY)
             is OmokResult.Success<*> -> {
-                return input.value as VectorDTO
+                return input.value as VectorSystem
             }
         }
         return null
@@ -59,7 +60,7 @@ class ConsoleGameView(
         println(renderBoard.render(stones, size))
     }
 
-    override fun notifyPlaceStone(placedCoordinate: VectorDTO): Boolean {
+    override fun notifyPlaceStone(placedCoordinate: VectorSystem): Boolean {
         return placeStoneObserver.notify(placedCoordinate).all { it }
     }
 

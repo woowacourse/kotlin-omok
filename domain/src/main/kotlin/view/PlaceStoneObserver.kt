@@ -1,6 +1,6 @@
 package view
 
-import dto.VectorDTO
+import dto.VectorSystem
 
 class PlaceStoneObserver {
     private val placeEvent: MutableList<PlaceStoneObservable> = mutableListOf()
@@ -13,7 +13,7 @@ class PlaceStoneObserver {
         placeEvent.remove(placeStoneObservable)
     }
 
-    fun notify(coordinate: VectorDTO): List<Boolean> {
+    fun notify(coordinate: VectorSystem): List<Boolean> {
         return placeEvent.map {
             it.placeStone(coordinate)
         }
