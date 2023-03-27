@@ -19,7 +19,7 @@ import woowacourse.omok.dbHelper.OmokBoardConstract.TABLE_NAME_OMOK_BOARD
 class OmokBoardDbHelper(context: Context?) : SQLiteOpenHelper(context, "ark.db", null, 1) {
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
-            "CREATE TABLE $TABLE_NAME_OMOK_BOARD (" +
+            "CREATE TABLE IF NOT EXISTS $TABLE_NAME_OMOK_BOARD (" +
                 "  $TABLE_COLUMN_OMOK_GAME_ID int," +
                 "  $TABLE_COLUMN_OMOK_ROW int," +
                 "  $TABLE_COLUMN_OMOK_COL int," +
