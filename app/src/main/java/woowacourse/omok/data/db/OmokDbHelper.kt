@@ -4,6 +4,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import domain.domain.Board
+import domain.domain.Position
+import domain.view.AlphabetCoordinate
 import woowacourse.omok.data.SerializableBoard
 import woowacourse.omok.data.db.entity.Game
 import woowacourse.omok.data.db.entity.User
@@ -70,7 +73,7 @@ class OmokDbHelper(
                     Game(
                         getInt(getColumnIndexOrThrow(GameTable.ID)),
                         GameTable.numberToCoordinateState(getInt(getColumnIndexOrThrow(GameTable.TURN))),
-                        GameTable.numberToCoordinateState(getInt(getColumnIndexOrThrow(GameTable.LAST_POSITION))),
+                        stringToPosition(getString(getColumnIndexOrThrow(GameTable.LAST_POSITION))),
                         SerializableBoard.stringToBoardState(
                             getString(
                                 getColumnIndexOrThrow(
@@ -86,21 +89,27 @@ class OmokDbHelper(
         return games
     }
 
-    fun insertGame(game: Game) {
+    fun insertGame(game: Game): Game {
         val contentValues = ContentValues().apply {
             put(GameTable.TURN, GameTable.coordinateStateToNumber(game.turn))
-            put(GameTable.LAST_POSITION, GameTable.coordinateStateToNumber(game.lastPosition))
+            put(GameTable.LAST_POSITION, positionToString(game.lastPosition))
             put(GameTable.BOARD, SerializableBoard.boardStateToString(game.Board))
             put(GameTable.USERID, game.userId)
         }
         writableDatabase.insert(GameTable.name, null, contentValues)
+        val cursor = readableDatabase.rawQuery("SELECT last_insert_rowid()", null)
+
+        cursor.moveToFirst()
+        val id = cursor.getInt(0)
+
+        return Game(id, game.turn, game.lastPosition, game.Board, game.userId)
     }
 
     fun updateGame(game: Game) {
         writableDatabase.execSQL(
             "UPDATE ${GameTable.name}" +
                 "SET ${GameTable.TURN} = ${GameTable.coordinateStateToNumber(game.turn)}," +
-                "${GameTable.LAST_POSITION} = ${GameTable.coordinateStateToNumber(game.lastPosition)}," +
+                "${GameTable.LAST_POSITION} = ${positionToString(game.lastPosition)}," +
                 "${GameTable.BOARD} = ${SerializableBoard.boardStateToString(game.Board)} " +
                 "WHERE ${GameTable.ID} = ${game.gameId} "
         )
@@ -108,6 +117,15 @@ class OmokDbHelper(
 
     fun deleteGame(game: Game) {
         writableDatabase.execSQL("DELETE FROM ${GameTable.name} WHERE ${GameTable.ID} = ${game.gameId}")
+    }
+
+    private fun positionToString(position: Position): String =
+        AlphabetCoordinate.convertAlphabet(position.coordinateX).name + ((Board.BOARD_SIZE - position.coordinateY).toString())
+
+    private fun stringToPosition(string: String): Position {
+        val x: Int = AlphabetCoordinate.convertX(string.first().toString().uppercase()) ?: 0
+        val y: Int = string.substring(1, string.length).toIntOrNull() ?: 0
+        return Position(Board.BOARD_SIZE - y, x)
     }
 
     companion object {

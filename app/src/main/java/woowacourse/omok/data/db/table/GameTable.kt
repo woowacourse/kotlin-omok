@@ -21,7 +21,7 @@ object GameTable : SQLiteTable {
     override val scheme: List<Column> = listOf(
         Column(ID, "INTEGER PRIMARY KEY AUTOINCREMENT"),
         Column(TURN, "int"),
-        Column(LAST_POSITION, "int"),
+        Column(LAST_POSITION, "TEXT"),
         Column(BOARD, "TEXT"),
         Column(USERID, "int")
     )
