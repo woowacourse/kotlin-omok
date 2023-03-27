@@ -67,7 +67,15 @@ class MainActivity : AppCompatActivity() {
                     blackPlayer.put(
                         Stone(
                             Position(
-                                HorizontalAxis.getHorizontalAxis((getInt(getColumnIndexOrThrow(OmokContract.POSITION_X)))),
+                                HorizontalAxis.getHorizontalAxis(
+                                    (
+                                        getInt(
+                                            getColumnIndexOrThrow(
+                                                OmokContract.POSITION_X
+                                            )
+                                        )
+                                        )
+                                ),
                                 getInt(getColumnIndexOrThrow(OmokContract.POSITION_Y))
                             )
                         )
@@ -77,7 +85,15 @@ class MainActivity : AppCompatActivity() {
                     whitePlayer.put(
                         Stone(
                             Position(
-                                HorizontalAxis.getHorizontalAxis((getInt(getColumnIndexOrThrow(OmokContract.POSITION_X)))),
+                                HorizontalAxis.getHorizontalAxis(
+                                    (
+                                        getInt(
+                                            getColumnIndexOrThrow(
+                                                OmokContract.POSITION_X
+                                            )
+                                        )
+                                        )
+                                ),
                                 getInt(getColumnIndexOrThrow(OmokContract.POSITION_Y))
                             )
                         )
@@ -109,13 +125,15 @@ class MainActivity : AppCompatActivity() {
         }
         putStone(position, turn, db)
 
-        when (turn) {
-            Turn.Black -> view.setImageResource(R.drawable.black_stone_nabi)
-            Turn.White -> view.setImageResource(R.drawable.white_stone_choonbae)
-        }
         return when (turn) {
-            Turn.Black -> omokGame.blackTurn(position)
-            Turn.White -> omokGame.whiteTurn(position)
+            Turn.Black -> view.run {
+                setImageResource(R.drawable.black_stone_nabi)
+                omokGame.blackTurn(position)
+            }
+            Turn.White -> view.run {
+                setImageResource(R.drawable.white_stone_choonbae)
+                omokGame.whiteTurn(position)
+            }
         }
     }
 
