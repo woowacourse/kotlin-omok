@@ -4,4 +4,7 @@ enum class Stone {
     BLACK, WHITE;
 }
 
-fun String.changeToStone() = if (this == "BLACK") Stone.BLACK else Stone.WHITE
+fun changeToStone(value: Int): Stone {
+    return if (value == 0) Stone.BLACK
+    else Stone.WHITE
+}

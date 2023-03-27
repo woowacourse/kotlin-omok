@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import omok.domain.player.Stone
-import omok.domain.player.changeToStone
+import woowacourse.omok.StoneModel.toStone
 
 class ResultActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +17,7 @@ class ResultActivity : AppCompatActivity() {
         val img = findViewById<ImageView>(R.id.stoneImg)
         val resultText = findViewById<TextView>(R.id.resultText)
 
-        val winner = intent.getStringExtra("winner")?.changeToStone()
+        val winner = intent.getStringExtra("winner")?.toStone()
         if (winner == Stone.BLACK)
             img.setImageResource(R.drawable.black_stone)
         else

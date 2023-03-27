@@ -9,8 +9,8 @@ import omok.domain.Turn
 import omok.domain.board.Board
 import omok.domain.board.Position
 import omok.domain.player.Stone
-import omok.domain.player.changeToStone
 import woowacourse.omok.MainActivity.Companion.changeIndexToPosition
+import woowacourse.omok.StoneModel.toStone
 
 class BoardDBHelper(context: Context?) :
     SQLiteOpenHelper(context, BoardContract.DATABASE_NAME, null, 1) {
@@ -40,7 +40,7 @@ class BoardDBHelper(context: Context?) :
         do {
             val index = cursor.getInt(cursor.getColumnIndexOrThrow(BoardContract.TABLE_COLUMN_POSITION_INDEX))
             val stoneColor = cursor.getString(cursor.getColumnIndexOrThrow(BoardContract.TABLE_COLUMN_STONE))
-            cells[changeIndexToPosition(index)] = stoneColor.changeToStone()
+            cells[changeIndexToPosition(index)] = stoneColor.toStone()
         } while (cursor.moveToNext())
     }
 
