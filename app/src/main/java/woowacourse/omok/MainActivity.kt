@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var turnColorTextView: TextView
     private lateinit var turnColorTextBox: LinearLayout
     private val originBoardDrawableSet: List<Drawable> by lazy { getAllOmokPositionImageView().map { it.drawable } }
-    private val backKeyHandler = DoubleClickBackKeyHandler(this)
+    private val backKeyHandler = DoubleClickBackKeyHandler()
     private val vibrationService: Vibrator by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibrationServiceManager =
@@ -124,8 +124,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun putStoneProcess(omokGame: OmokGame) {
-        if (omokGame.latestStone == null) return
-        val newStone = omokGame.latestStone!!
+        val newStone = omokGame.latestStone ?: return
         vibrationService.vibrate(VibrationEffect.createOneShot(20, 50))
         stonesHelper.insertStone(newStone)
         setStone(newStone, getOmokImageViewFromPosition(newStone.position))

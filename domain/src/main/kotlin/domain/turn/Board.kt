@@ -12,11 +12,11 @@ class Board(
         get() = _map.toMap()
 
     fun isAlreadyPut(position: Position): Boolean {
-        map.getOrElse(position) { return false }
-        return true
+        return map[position] != null
     }
 
     fun putStone(stone: Stone): Board {
+        if (isAlreadyPut(stone.position)) return this
         return Board(map.plus(stone.position to stone.color))
     }
 }
