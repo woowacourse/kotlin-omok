@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import omok.domain.player.Stone
+import woowacourse.omok.StoneModel.toPresentation
 import woowacourse.omok.StoneModel.toStone
 
 class ResultActivity : AppCompatActivity() {
@@ -22,19 +23,12 @@ class ResultActivity : AppCompatActivity() {
             img.setImageResource(R.drawable.black_stone)
         else
             img.setImageResource(R.drawable.white_stone)
-        resultText.text = changeToWord(winner)
+        resultText.text = winner?.toPresentation()
 
         findViewById<Button>(R.id.retryBtn).setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
-    }
-
-    private fun changeToWord(winner: Stone?) = if (winner == Stone.BLACK) BLACK else WHITE
-
-    companion object {
-        private const val BLACK = "흑"
-        private const val WHITE = "백"
     }
 }
