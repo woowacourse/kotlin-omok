@@ -14,6 +14,10 @@ data class Position(val horizontalAxis: HorizontalAxis, val verticalAxis: Int) {
         empty = false
     }
 
+    override fun toString(): String {
+        return horizontalAxis.toString() + verticalAxis.toString()
+    }
+
     companion object {
         private const val MIN_VERTICAL_AXIS = 1
         private const val MAX_VERTICAL_AXIS = 15

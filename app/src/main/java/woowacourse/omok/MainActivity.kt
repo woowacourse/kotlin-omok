@@ -12,6 +12,7 @@ import androidx.core.view.children
 import omok.HorizontalAxis
 import omok.OmokGame
 import omok.Position
+import omok.state.Fail
 import omok.state.State
 import omok.state.Turn
 import omok.state.Win
@@ -38,12 +39,16 @@ class MainActivity : AppCompatActivity() {
 
         board.forEachIndexed { index, view ->
             view.setOnClickListener {
-                state = gameOn(index, view, state as Turn, dbHelper)
+                state = gameOn(index.toPosition(), view, state as Turn, dbHelper)
                 if (state is Win) {
                     gameOver(state as Win, dbHelper)
                 }
             }
         }
+    }
+
+    private fun Int.toPosition(): Position {
+        return Position(HorizontalAxis.getHorizontalAxis(this / 15 + 1), this % 15 + 1)
     }
 
     private fun setBoardView(board: Sequence<ImageView>) {
@@ -55,24 +60,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun gameOn(index: Int, view: ImageView, turn: Turn, db: OmokDBHelper): State {
-        val position = Position(HorizontalAxis.getHorizontalAxis(index / 15 + 1), index % 15 + 1)
-        if (!omokGame.board.isPlaceable(turn, position)) {
+    private fun gameOn(position: Position, view: ImageView, turn: Turn, db: OmokDBHelper): State {
+        val state = omokGame.takeTurn(turn, position)
+        if (state is Fail) {
             Toast.makeText(this, "해당 자리에 돌을 둘 수 없습니다.", Toast.LENGTH_LONG).show()
             return turn
         }
-        db.insertStone(position, turn)
 
-        return when (turn) {
-            Turn.Black -> view.run {
-                setImageResource(R.drawable.black_stone_nabi)
-                omokGame.blackTurn(position)
-            }
-            Turn.White -> view.run {
-                setImageResource(R.drawable.white_stone_choonbae)
-                omokGame.whiteTurn(position)
-            }
+        db.insertStone(position, turn)
+        when (turn) {
+            Turn.Black -> view.setImageResource(R.drawable.black_stone_nabi)
+            Turn.White -> view.setImageResource(R.drawable.white_stone_choonbae)
         }
+        return state
     }
 
     private fun gameOver(win: Win, db: OmokDBHelper) {
