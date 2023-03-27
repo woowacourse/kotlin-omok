@@ -19,10 +19,12 @@ class RoomListActivity : AppCompatActivity() {
 
     private lateinit var rooms: List<Room>
 
+    private val roomList by lazy { findViewById<RecyclerView>(R.id.room_list) }
+
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_list)
-        findViewById<RecyclerView>(R.id.room_list).adapter = adapter
+        roomList.adapter = adapter
         refreshRoomList()
     }
 

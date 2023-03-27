@@ -18,21 +18,12 @@ class RoomListAdapter(
     private val showProductDetail: (Room) -> Unit,
 ) : ListAdapter<RoomListType, RecyclerView.ViewHolder>(diffUtil) {
     inner class RoomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val textView: TextView
-        private val imageView: ImageView
-        private val statusView: TextView
-        private val timeView: TextView
-        private val playerView: TextView
-        private val overallResultView: TextView
-
-        init {
-            this.textView = view.findViewById(R.id.titleView)
-            this.imageView = view.findViewById(R.id.imageView)
-            this.statusView = view.findViewById(R.id.statusView)
-            this.timeView = view.findViewById(R.id.timeView)
-            this.playerView = view.findViewById(R.id.playerNameView)
-            this.overallResultView = view.findViewById(R.id.overallResultView)
-        }
+        private val textView: TextView by lazy { view.findViewById(R.id.titleView) }
+        private val imageView: ImageView by lazy { view.findViewById(R.id.imageView) }
+        private val statusView: TextView by lazy { view.findViewById(R.id.statusView) }
+        private val timeView: TextView by lazy { view.findViewById(R.id.timeView) }
+        private val playerView: TextView by lazy { view.findViewById(R.id.playerNameView) }
+        private val overallResultView: TextView by lazy { view.findViewById(R.id.overallResultView) }
 
         fun bind(room: Room) {
             textView.text = room.title
@@ -48,11 +39,7 @@ class RoomListAdapter(
     }
 
     inner class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val textView: TextView
-
-        init {
-            this.textView = view.findViewById(R.id.titleView)
-        }
+        private val textView: TextView = view.findViewById(R.id.titleView)
 
         fun bind(roomRefresh: RoomRefresh) {
             textView.text = roomRefresh.title

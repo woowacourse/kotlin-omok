@@ -30,6 +30,18 @@ class RoomActivity : AppCompatActivity() {
     private val boardDb = OmokBoardDbHelper(this)
     private val playerDb = OmokPlayerDbHelper(this)
     private val gameId: Int by lazy { intent.getIntExtra("gameId", 0) }
+
+    private val backButton by lazy { findViewById<Button>(R.id.back_button) }
+    private val resetButton by lazy { findViewById<Button>(R.id.reset_button) }
+    private val opposingPlayerImage by lazy { findViewById<ImageView>(R.id.opposing_player_image) }
+    private val opposingPlayerName by lazy { findViewById<TextView>(R.id.opposing_player_name) }
+    private val opposingPlayerScore by lazy { findViewById<TextView>(R.id.opposing_player_score) }
+    private val playerImage by lazy { findViewById<ImageView>(R.id.player_image) }
+    private val playerName by lazy { findViewById<TextView>(R.id.player_name) }
+    private val playerScore by lazy { findViewById<TextView>(R.id.player_score) }
+    private val omokBoard by lazy { findViewById<TableLayout>(R.id.board) }
+    private val currentTurn by lazy { findViewById<TextView>(R.id.current_turn) }
+
     private lateinit var opposingPlayer: Player
     private lateinit var player: Player
 
@@ -57,7 +69,7 @@ class RoomActivity : AppCompatActivity() {
         ::addListenerBackToRoomList,
     )
 
-    private val matrixBoard get() = findViewById<TableLayout>(R.id.board)
+    private val matrixBoard get() = omokBoard
         .children.filterIsInstance<TableRow>().flatMapIndexed { row, tableRow ->
             tableRow.children.filterIsInstance<ImageView>().mapIndexed { col, imageView ->
                 Triple(col, row, imageView)
@@ -90,15 +102,15 @@ class RoomActivity : AppCompatActivity() {
     }
 
     private fun updateViewOpposingPlayer(player: Player) = player.run {
-        findViewById<ImageView>(R.id.opposing_player_image).setImageResource(profile)
-        findViewById<TextView>(R.id.opposing_player_name).text = name
-        findViewById<TextView>(R.id.opposing_player_score).text = "$win 승 $lose 패 $draw 무"
+        opposingPlayerImage.setImageResource(profile)
+        opposingPlayerName.text = name
+        opposingPlayerScore.text = "$win 승 $lose 패 $draw 무"
     }
 
     private fun updateViewPlayer(player: Player) = player.run {
-        findViewById<ImageView>(R.id.player_image).setImageResource(profile)
-        findViewById<TextView>(R.id.player_name).text = name
-        findViewById<TextView>(R.id.player_score).text = "$win 승 $lose 패 $draw 무"
+        playerImage.setImageResource(profile)
+        playerName.text = name
+        playerScore.text = "$win 승 $lose 패 $draw 무"
     }
 
     private fun updateGameInfo(gameState: GameState) {
@@ -116,7 +128,7 @@ class RoomActivity : AppCompatActivity() {
             is WhiteTurn -> "백돌 차례"
             is BlackWin -> "흑돌 승리"
             is WhiteWin -> "백돌 승리"
-        }.let { findViewById<TextView>(R.id.turn).text = it }
+        }.let { currentTurn.text = it }
     }
 
     private fun updateBlackWin() {
@@ -145,10 +157,10 @@ class RoomActivity : AppCompatActivity() {
         }
 
     private fun addListenerBackToRoomList() =
-        findViewById<Button>(R.id.back_button).setOnClickListener { finish() }
+        backButton.setOnClickListener { finish() }
 
     private fun addListenerResetGameState() =
-        findViewById<Button>(R.id.resetButton).setOnClickListener { resetGameState() }
+        resetButton.setOnClickListener { resetGameState() }
 
     private fun runRestartActivity(winner: Player) {
         startActivity(

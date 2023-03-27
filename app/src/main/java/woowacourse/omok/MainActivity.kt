@@ -12,7 +12,10 @@ import woowacourse.omok.dbHelper.OmokPlayerDbHelper
 import woowacourse.omok.roomList.RoomListActivity
 
 class MainActivity : AppCompatActivity() {
-    val playerDb = OmokPlayerDbHelper(this)
+    private val playerDb = OmokPlayerDbHelper(this)
+    private val button by lazy { findViewById<Button>(R.id.main_button) }
+    private val nameText by lazy { findViewById<EditText>(R.id.main_edit_text) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,9 +23,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addListenerOnButton() {
-        val button = findViewById<Button>(R.id.main_button)
         button.setOnClickListener {
-            val nameText = findViewById<EditText>(R.id.main_edit_text)
             val player = playerDb.getPlayer(nameText.text.toString()) ?: createPlayer(nameText)
 
             if (player == null) {
