@@ -6,17 +6,21 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class StonePositionDbHelper(
     context: Context
-) : SQLiteOpenHelper(context, "otter.db", null, 1) {
+) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
             "CREATE TABLE ${StonePositionConstract.TABLE_NAME} (" +
-                "position_row int," +
-                "position_cal int" +
+                "${StonePositionConstract.TABLE_COLUMN_ROW} INTEGER, " +
+                "${StonePositionConstract.TABLE_COLUMN_COLUMN} INTEGER" +
                 ");"
         )
     }
 
     override fun onUpgrade(p0: SQLiteDatabase, p1: Int, p2: Int) {
         TODO("Not yet implemented")
+    }
+
+    companion object {
+        private const val DATABASE_NAME = "otter.db"
     }
 }
