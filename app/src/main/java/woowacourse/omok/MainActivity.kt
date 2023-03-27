@@ -117,4 +117,9 @@ class MainActivity : AppCompatActivity() {
     private fun makeMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
+
+    private fun GoStoneColor.toKorean(): String = when (this) {
+        GoStoneColor.BLACK -> "흑돌"
+        GoStoneColor.WHITE -> "백돌"
+    }
 }

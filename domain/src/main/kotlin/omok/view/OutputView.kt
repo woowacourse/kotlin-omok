@@ -81,10 +81,10 @@ object OutputView {
         GoStoneColor.WHITE -> '○'
     }
 
-    private fun Coordinate.toMark(): String = "${'A' + this.x}${this.y + 1}"
-}
+    private fun GoStoneColor.toKorean(): String = when (this) {
+        GoStoneColor.BLACK -> "흑"
+        GoStoneColor.WHITE -> "백"
+    }
 
-fun GoStoneColor.toKorean(): String = when (this) {
-    GoStoneColor.BLACK -> "흑"
-    GoStoneColor.WHITE -> "백"
+    private fun Coordinate.toMark(): String = "${'A' + this.x}${this.y + 1}"
 }
