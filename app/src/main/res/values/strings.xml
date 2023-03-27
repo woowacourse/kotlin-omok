@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Omok</string>
+    <string name="retry">Retry</string>
+    <string name="win_img_description">승리한 돌을 표시해주는 이미지</string>
+    <string name="white">백</string>
+    <string name="black">흑</string>
+    <string name="win_msg">이 승리했습니다.</string>
+</resources>
