@@ -21,13 +21,11 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         val stones = dbHelper.readOmokBoardData()
         gameBoard = Board(Stones(stones))
-
         setOmokBoard(stones)
     }
 
     private fun setOmokBoard(stones: List<Stone>) {
-        gameBoard.currentColor =
-            if (stones.isEmpty()) Color.BLACK else stones.last().color.turnColor()
+        gameBoard.setCurrentColor()
         val viewBoard = findViewById<TableLayout>(R.id.board)
         viewBoard
             .children
@@ -44,9 +42,9 @@ class MainActivity : AppCompatActivity() {
                     val stone = Stone(gameBoard.currentColor, Coordinate.from(x, y))
                     when (gameBoard.processTurn(stone)) {
                         PlaceResult.SUCCESS -> {
-                            view.setStoneDrawable(gameBoard.currentColor)
-                            checkWin(gameBoard.currentColor)
+                            view.setStoneDrawable(stone.color)
                             dbHelper.writeOmokStone(stone)
+                            checkWin(stone.color)
                         }
                         PlaceResult.ERROR_ALREADY_PLACE ->
                             Toast.makeText(this, "이미 놓여진 돌이 있습니다.", Toast.LENGTH_SHORT).show()

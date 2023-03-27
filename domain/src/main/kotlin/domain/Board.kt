@@ -2,6 +2,8 @@ package domain
 
 class Board(val stones: Stones) {
     var currentColor = Color.BLACK
+        private set
+
     fun repeatTurn(coordinateReader: CoordinateReader): Color {
         while (true) {
             val stone = makeStone(currentColor, coordinateReader)
@@ -22,7 +24,7 @@ class Board(val stones: Stones) {
         if (stones.place(stone) == PlaceResult.ERROR_ALREADY_PLACE) {
             return PlaceResult.ERROR_ALREADY_PLACE
         }
-        currentColor = currentColor.turnColor()
+        setCurrentColor()
         return PlaceResult.SUCCESS
     }
 
@@ -32,6 +34,12 @@ class Board(val stones: Stones) {
 
     fun restartGame() {
         stones.clearStones()
+        currentColor = Color.BLACK
+    }
+
+    fun setCurrentColor() {
+        currentColor =
+            if (stones.value.isEmpty()) Color.BLACK else stones.getLastStone().color.turnColor()
     }
 
     companion object {
