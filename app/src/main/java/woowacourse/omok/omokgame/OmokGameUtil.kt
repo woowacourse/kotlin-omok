@@ -6,6 +6,7 @@ import android.widget.TableRow
 import androidx.core.view.children
 import domain.CoordinateState
 import domain.CoordinateState.BLACK
+import domain.CoordinateState.EMPTY
 import domain.CoordinateState.WHITE
 import domain.Position
 import woowacourse.omok.R
@@ -16,7 +17,7 @@ object OmokGameUtil {
         return when (color) {
             BLACK -> R.drawable.black_stone
             WHITE -> R.drawable.white_stone
-            else -> null
+            EMPTY -> null
         }
     }
 
