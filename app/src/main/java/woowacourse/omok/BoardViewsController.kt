@@ -19,7 +19,8 @@ class BoardViewsController(
     private val omokDB: OmokDB
 ) {
 
-    private var board = Board(Stones(setOf()))
+    private val blackReferee = Referee(listOf(ThreeThreeRule(), FourFourRule(), LongMokRule()))
+    private var board = Board(Stones(setOf()), blackReferee)
 
     init {
         //db에 저장된 돌들을 오목판에 세팅
@@ -33,7 +34,7 @@ class BoardViewsController(
                 )
             stones.add(stone)
         }
-        board = Board(Stones(stones))
+        board = Board(Stones(stones), blackReferee)
 
         //뷰 클릭시 돌을 놓는 리스너 설정
         setPutStoneOnClickListener()
@@ -43,7 +44,7 @@ class BoardViewsController(
         boardViews.forEach { view ->
             view.setImageResource(0)
         }
-        board = Board(Stones(setOf()))
+        board = Board(Stones(setOf()), blackReferee)
     }
 
     private fun setDBStoneOnView(stoneData: StoneData) {
@@ -71,8 +72,7 @@ class BoardViewsController(
             view.setOnClickListener {
                 val point: Point = calculatePoint(index)
                 val stoneColor = getCurrentStoneColor(board)
-                val blackReferee = Referee(listOf(ThreeThreeRule(), FourFourRule(), LongMokRule()))
-                if (putStoneAndReturnResult(board, blackReferee, point)) {
+                if (putStoneAndReturnResult(board, point)) {
                     stoneColor?.let {
                         //db 데이터 저장하기
                         omokDB.insertStoneData(point, it.english)
@@ -102,13 +102,11 @@ class BoardViewsController(
 
     private fun putStoneAndReturnResult(
         board: Board,
-        blackReferee: Referee,
         point: Point
     ): Boolean {
         runCatching {
             board.put(
-                point,
-                blackReferee
+                point
             )
         }.onFailure {
             Toast.makeText(activity.baseContext, it.message, Toast.LENGTH_SHORT).show()

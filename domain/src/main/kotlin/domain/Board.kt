@@ -7,16 +7,15 @@ import domain.stone.Stone
 import domain.stone.Stones
 import java.lang.IllegalArgumentException
 
-class Board(val stones: Stones = Stones(setOf())) {
+class Board(val stones: Stones = Stones(setOf()), private val blackReferee: Referee) {
 
     private var state: State =
         when (stones.blackStones.size) {
             stones.whiteStones.size + 1 -> WhiteTurn(stones)
             else -> BlackTurn(stones)
         }
-    private val defaultReferee = Referee(listOf())
 
-    fun put(point: Point, blackReferee: Referee = defaultReferee) {
+    fun put(point: Point) {
         state = when {
             isBlackTurn() -> state.put(point, blackReferee)
             isWhiteTurn() -> state.put(point)

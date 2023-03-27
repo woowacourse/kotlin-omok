@@ -9,9 +9,9 @@ import view.OutputView
 
 fun main() {
     println("오목 게임을 시작합니다.")
-    val board = Board()
-    var point: Point? = null
     val blackReferee = Referee(listOf(ThreeThreeRule(), FourFourRule(), LongMokRule()))
+    val board = Board(blackReferee = blackReferee)
+    var point: Point? = null
     while (board.isFinished().not()) {
         OutputView.printBoard(board)
         if (board.isBlackTurn()) {
@@ -22,22 +22,20 @@ fun main() {
         }
         point?.let { OutputView.printLastPoint(it) }
         println()
-        point = putStoneUntilNotOccurErrorAndReturnPoint(board, blackReferee)
+        point = putStoneUntilNotOccurErrorAndReturnPoint(board)
     }
     OutputView.printBoard(board)
     if (board.isBlackWin()) println("흑의 승리입니다.") else println("백의 승리입니다.")
 }
 
 private fun putStoneUntilNotOccurErrorAndReturnPoint(
-    board: Board,
-    blackReferee: Referee
+    board: Board
 ): Point {
     while (true) {
         runCatching {
             val point = InputView.readPoint()
             board.put(
-                point,
-                blackReferee
+                point
             )
             return point
         }.onFailure {
