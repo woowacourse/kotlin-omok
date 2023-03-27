@@ -1,31 +1,32 @@
 package view
 
-import domain.OmokGame
+import domain.Board
 import domain.stone.Point
 import domain.stone.Stone
+import domain.stone.Team
 
-class BoardView(omokGame: OmokGame) {
+class BoardView(board: Board) {
 
     private val boardLines by lazy {
-        (OmokGame.BOARD_SIZE downTo 1).joinToString(
+        (Board.BOARD_SIZE downTo 1).joinToString(
             separator = "\n",
             postfix = createBoardColumnNames(),
-        ) { createBoardLine(it, omokGame) }
+        ) { createBoardLine(it, board) }
     }
 
     private fun createBoardColumnNames(): String =
-        "\n    " + ('A' until 'A' + OmokGame.BOARD_SIZE).joinToString("  ") { "$it" }
+        "\n    " + ('A' until 'A' + Board.BOARD_SIZE).joinToString("  ") { "$it" }
 
-    private fun createBoardLine(y: Int, omokGame: OmokGame): String =
-        (1..OmokGame.BOARD_SIZE).joinToString(
+    private fun createBoardLine(y: Int, board: Board): String =
+        (1..Board.BOARD_SIZE).joinToString(
             prefix = "%3s ".format(y),
             separator = HORIZONTAL_LINE,
-        ) { Point(it, y).getMark(omokGame) }
+        ) { Point(it, y).getMark(board) }
 
-    private fun Point.getMark(omokGame: OmokGame): String =
+    private fun Point.getMark(board: Board): String =
         when {
-            this.isWhereBlackStoneIsPlaced(omokGame) -> BLACK_STONE
-            this.isWhereWhiteStoneIsPlaced(omokGame) -> WHITE_STONE
+            this.isWhereBlackStoneIsPlaced(board) -> BLACK_STONE
+            this.isWhereWhiteStoneIsPlaced(board) -> WHITE_STONE
             this.isLeftTopCornerOfBoard() -> LEFT_TOP
             this.isRightTopCornerOfBoard() -> RIGHT_TOP
             this.isLeftBottomCornerOfBoard() -> LEFT_BOTTOM
@@ -37,18 +38,24 @@ class BoardView(omokGame: OmokGame) {
             else -> MIDDLE
         }
 
-    private fun Point.isWhereBlackStoneIsPlaced(omokGame: OmokGame): Boolean = omokGame.blackStoneIsPlaced(Stone(this))
-    private fun Point.isWhereWhiteStoneIsPlaced(omokGame: OmokGame): Boolean = omokGame.whiteStoneIsPlaced(Stone(this))
-    private fun Point.isLeftTopCornerOfBoard(): Boolean = x == 'A' && y == OmokGame.BOARD_SIZE
+    private fun Point.isWhereBlackStoneIsPlaced(board: Board): Boolean =
+        board.isPlaced(Team.BLACK, Stone(this))
+
+    private fun Point.isWhereWhiteStoneIsPlaced(board: Board): Boolean =
+        board.isPlaced(Team.WHITE, Stone(this))
+
+    private fun Point.isLeftTopCornerOfBoard(): Boolean = x == 'A' && y == Board.BOARD_SIZE
     private fun Point.isRightTopCornerOfBoard(): Boolean =
-        x == 'A' + OmokGame.BOARD_SIZE - 1 && y == OmokGame.BOARD_SIZE
+        x == 'A' + Board.BOARD_SIZE - 1 && y == Board.BOARD_SIZE
 
     private fun Point.isLeftBottomCornerOfBoard(): Boolean = x == 'A' && y == 1
-    private fun Point.isRightBottomCornerOfBoard(): Boolean = x == 'A' + OmokGame.BOARD_SIZE - 1 && y == 1
-    private fun Point.isTopCornerOfBoard(): Boolean = y == OmokGame.BOARD_SIZE
+    private fun Point.isRightBottomCornerOfBoard(): Boolean =
+        x == 'A' + Board.BOARD_SIZE - 1 && y == 1
+
+    private fun Point.isTopCornerOfBoard(): Boolean = y == Board.BOARD_SIZE
     private fun Point.isBottomCornerOfBoard(): Boolean = y == 1
     private fun Point.isLeftCornerOfBoard(): Boolean = x == 'A'
-    private fun Point.isRightCornerOfBoard(): Boolean = x == 'A' + OmokGame.BOARD_SIZE - 1
+    private fun Point.isRightCornerOfBoard(): Boolean = x == 'A' + Board.BOARD_SIZE - 1
 
     override fun toString(): String = boardLines
 

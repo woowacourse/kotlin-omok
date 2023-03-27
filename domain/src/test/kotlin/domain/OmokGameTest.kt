@@ -1,25 +1,54 @@
 package domain
 
 import domain.event.*
-import domain.stone.Point
 import domain.stone.Stone
-import org.assertj.core.api.Assertions.assertThat
+import domain.stone.Team
+import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class OmokGameTest {
 
     @Test
-    fun `좌표가 오목판의 크기를 벗어난다면 좌표는 오목판에 포함되어 있지 않은 것이다`() {
-        val point = Point(OmokGame.BOARD_SIZE + 1, 1)
+    fun `오목 게임은 흑이 먼저 시작한다`() {
+        val omokGame = OmokGame()
 
-        assertThat(OmokGame.boardContains(point)).isFalse
+        assertThat(omokGame.turn).isEqualTo(Team.BLACK)
     }
 
     @Test
-    fun `좌표가 오목판의 크기를 벗어나지 않는다면 좌표는 오목판에 포함되어 있는 것이다`() {
-        val point = Point(OmokGame.BOARD_SIZE, OmokGame.BOARD_SIZE)
+    fun `흑턴일 때 돌을 두면 백턴이 된다`() {
+        val omokGame = OmokGame()
 
-        assertThat(OmokGame.boardContains(point)).isTrue
+        omokGame.place(Stone('A', 1))
+
+        assertThat(omokGame.turn).isEqualTo(Team.WHITE)
+    }
+
+    @Test
+    fun `백턴일 때 돌을 두면 흑턴이 된다`() {
+        val omokGame = OmokGame().apply { place(Stone('B', 1)) }
+
+        omokGame.place(Stone('A', 1))
+
+        assertThat(omokGame.turn).isEqualTo(Team.BLACK)
+    }
+
+    @Test
+    fun `만약 게임이 끝난 상태일 때 돌을 두면 에러가 발생한다`() {
+        val omokGame = OmokGame().apply {
+            place(Stone('A', 1))
+            place(Stone('B', 1))
+            place(Stone('A', 2))
+            place(Stone('B', 2))
+            place(Stone('A', 3))
+            place(Stone('B', 3))
+            place(Stone('A', 4))
+            place(Stone('B', 4))
+            place(Stone('A', 5))
+        }
+
+        assertThatIllegalArgumentException().isThrownBy { omokGame.place(Stone('B', 5)) }
+            .withMessage("돌을 둘 수 없습니다.")
     }
 
     @Test
@@ -66,15 +95,16 @@ class OmokGameTest {
         val finishEventManager = FinishEventManager()
         val listener = TestFinishEventListener()
         finishEventManager.add(listener)
-        val omokGame = OmokGame(finishEventManager = finishEventManager)
-        omokGame.place(Stone('A', 1))
-        omokGame.place(Stone('B', 1))
-        omokGame.place(Stone('A', 2))
-        omokGame.place(Stone('B', 2))
-        omokGame.place(Stone('A', 3))
-        omokGame.place(Stone('B', 3))
-        omokGame.place(Stone('A', 4))
-        omokGame.place(Stone('B', 4))
+        val omokGame = OmokGame(finishEventManager = finishEventManager).apply {
+            place(Stone('A', 1))
+            place(Stone('B', 1))
+            place(Stone('A', 2))
+            place(Stone('B', 2))
+            place(Stone('A', 3))
+            place(Stone('B', 3))
+            place(Stone('A', 4))
+            place(Stone('B', 4))
+        }
 
         omokGame.place(Stone('A', 5))
 

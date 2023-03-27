@@ -1,8 +1,10 @@
 package woowacourse.omok
 
 import domain.OmokGame
+import domain.Board
 import domain.stone.Point
 import domain.stone.Stone
+import domain.stone.Team
 
 fun Point.getResourceForRunningGame(omokGame: OmokGame): Int =
     when {
@@ -36,24 +38,24 @@ fun Point.getResourceForFinishedGame(omokGame: OmokGame): Int =
     }
 
 private fun Point.isWhereBlackStoneIsPlaced(omokGame: OmokGame): Boolean =
-    omokGame.blackStoneIsPlaced(Stone(this))
+    omokGame.board.isPlaced(Team.BLACK, Stone(this))
 
 private fun Point.isWhereWhiteStoneIsPlaced(omokGame: OmokGame): Boolean =
-    omokGame.whiteStoneIsPlaced(Stone(this))
+    omokGame.board.isPlaced(Team.WHITE, Stone(this))
 
 private fun Point.isWhereNoStoneCanBePlaced(omokGame: OmokGame): Boolean =
     omokGame.canPlace(Stone(this)).not()
 
-private fun Point.isLeftTopCornerOfBoard(): Boolean = x == 'A' && y == OmokGame.BOARD_SIZE
+private fun Point.isLeftTopCornerOfBoard(): Boolean = x == 'A' && y == Board.BOARD_SIZE
 private fun Point.isRightTopCornerOfBoard(): Boolean =
-    x == 'A' + OmokGame.BOARD_SIZE - 1 && y == OmokGame.BOARD_SIZE
+    x == 'A' + Board.BOARD_SIZE - 1 && y == Board.BOARD_SIZE
 
 private fun Point.isLeftBottomCornerOfBoard(): Boolean = x == 'A' && y == 1
 private fun Point.isRightBottomCornerOfBoard(): Boolean =
-    x == 'A' + OmokGame.BOARD_SIZE - 1 && y == 1
+    x == 'A' + Board.BOARD_SIZE - 1 && y == 1
 
-private fun Point.isTopCornerOfBoard(): Boolean = y == OmokGame.BOARD_SIZE
+private fun Point.isTopCornerOfBoard(): Boolean = y == Board.BOARD_SIZE
 private fun Point.isBottomCornerOfBoard(): Boolean = y == 1
 private fun Point.isLeftCornerOfBoard(): Boolean = x == 'A'
-private fun Point.isRightCornerOfBoard(): Boolean = x == 'A' + OmokGame.BOARD_SIZE - 1
+private fun Point.isRightCornerOfBoard(): Boolean = x == 'A' + Board.BOARD_SIZE - 1
 

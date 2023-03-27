@@ -1,6 +1,6 @@
 package domain.stone
 
-import domain.OmokGame
+import domain.Board
 
 class XCoordinate private constructor(val x: Char) {
 
@@ -13,7 +13,7 @@ class XCoordinate private constructor(val x: Char) {
     companion object {
 
         private val COORDINATES: Map<Char, XCoordinate> =
-            ('A' until 'A' + OmokGame.BOARD_SIZE).associateWith { XCoordinate(it) }
+            ('A' until 'A' + Board.BOARD_SIZE).associateWith { XCoordinate(it) }
 
         fun of(x: Char): XCoordinate {
             val upperX = x.uppercase()[0]

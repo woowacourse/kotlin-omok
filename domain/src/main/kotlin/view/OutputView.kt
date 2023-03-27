@@ -4,6 +4,7 @@ import domain.OmokGame
 import domain.event.FinishEventListener
 import domain.event.PlaceStoneEventListener
 import domain.event.StartEventListener
+import domain.stone.Team
 
 object OutputView : StartEventListener, PlaceStoneEventListener, FinishEventListener {
 
@@ -15,28 +16,34 @@ object OutputView : StartEventListener, PlaceStoneEventListener, FinishEventList
     private const val STONE_VIOLATE_RULE_MESSAGE = "해당 돌을 두면 규칙에 어긋납니다."
 
     private fun printBoard(omokGame: OmokGame) {
-        println(BoardView(omokGame))
+        println(BoardView(omokGame.board))
         println()
     }
 
     override fun notifyStartEventHasOccurred(omokGame: OmokGame) {
         println(OMOK_GAME_START_MESSAGE)
         printBoard(omokGame)
-        println(TURN_CHANGE_MESSAGE.format(if (omokGame.isBlackTurn()) "흑" else "백"))
+        println(TURN_CHANGE_MESSAGE.format(omokGame.turn.toKorean()))
     }
 
     override fun notifyPlaceStoneEventHasOccurred(omokGame: OmokGame) {
         printBoard(omokGame)
-        print(TURN_CHANGE_MESSAGE.format(if (omokGame.isBlackTurn()) "흑" else "백"))
-        val lastPoint = omokGame.getPointOfLastStonePlaced()
+        print(TURN_CHANGE_MESSAGE.format(omokGame.turn.toKorean()))
+        val lastPoint = omokGame.lastPoint
         check(lastPoint != null) { LAST_POINT_IS_NULL_ERROR }
         println(LAST_STONE_POINT_MESSAGE.format(lastPoint.x + lastPoint.y.toString()))
     }
 
     override fun notifyFinishEventHasOccurred(omokGame: OmokGame) {
         printBoard(omokGame)
-        println(WIN_MESSAGE.format(if (omokGame.isBlackWin()) "흑" else "백"))
+        println(WIN_MESSAGE.format(omokGame.getWinner().toKorean()))
     }
+
+    private fun Team.toKorean(): String =
+        when(this) {
+            Team.BLACK -> "흑"
+            Team.WHITE -> "백"
+        }
 
     fun printStoneViolateRuleMessage() {
         println(STONE_VIOLATE_RULE_MESSAGE)

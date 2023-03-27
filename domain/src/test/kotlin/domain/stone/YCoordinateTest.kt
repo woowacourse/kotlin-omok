@@ -1,6 +1,5 @@
-package domain
+package domain.stone
 
-import domain.stone.YCoordinate
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 

@@ -8,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import domain.OmokGame
 import domain.event.*
+import domain.Board
 import domain.stone.Point
 import domain.stone.Stone
+import domain.stone.Team
 import woowacourse.omok.repository.StoneDbHelper
 import woowacourse.omok.repository.StoneRepository
 
@@ -53,7 +55,7 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
 
     override fun notifyPlaceStoneEventHasOccurred(omokGame: OmokGame) {
         drawRunningBoardView(omokGame)
-        stoneRepository.insert(Stone(omokGame.getPointOfLastStonePlaced()!!))
+        stoneRepository.insert(Stone(omokGame.lastPoint!!))
     }
 
     private fun drawRunningBoardView(omokGame: OmokGame) {
@@ -74,8 +76,8 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
 
     private fun List<ImageView>.forEachPointed(action: (Point, ImageView) -> Unit) {
         this.forEachIndexed { index, imageView ->
-            val row = index % OmokGame.BOARD_SIZE + 1
-            val col = OmokGame.BOARD_SIZE - index / OmokGame.BOARD_SIZE
+            val row = index % Board.BOARD_SIZE + 1
+            val col = Board.BOARD_SIZE - index / Board.BOARD_SIZE
 
             action(Point(row, col), imageView)
         }
@@ -83,10 +85,16 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
 
     override fun notifyFinishEventHasOccurred(omokGame: OmokGame) {
         drawFinalBoardView(omokGame)
-        NonDelayToast.show(this, "%s의 승리입니다.".format(if (omokGame.isBlackWin()) "흑" else "백"))
+        NonDelayToast.show(this, "%s의 승리입니다.".format(omokGame.getWinner().toKorean()))
         getBoardView().forEach { it.setOnClickListener { } }
         stoneRepository.deleteAll()
     }
+
+    private fun Team.toKorean(): String =
+        when(this) {
+            Team.BLACK -> "흑"
+            Team.WHITE -> "백"
+        }
 
     private fun drawFinalBoardView(omokGame: OmokGame) {
         getBoardView().forEachPointed { point, view ->

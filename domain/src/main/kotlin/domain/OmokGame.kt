@@ -3,9 +3,10 @@ package domain
 import domain.event.FinishEventManager
 import domain.event.PlaceStoneEventManager
 import domain.event.StartEventManager
-import domain.state.*
+import domain.rule.RenjuRule
 import domain.stone.Point
 import domain.stone.Stone
+import domain.stone.Team
 
 class OmokGame(
     startEventManager: StartEventManager? = null,
@@ -13,37 +14,31 @@ class OmokGame(
     private val finishEventManager: FinishEventManager? = null,
 ) {
 
-    private var state: State = BlackTurn(setOf(), setOf())
+    var turn: Team = Team.BLACK
+        private set
+    val board = Board(RenjuRule)
+    val lastPoint: Point?
+        get() = board.lastStonePoint
 
     init {
         startEventManager?.notify(this)
     }
 
     fun place(stone: Stone) {
-        state = state.put(stone)
-        if (state is Running) placeStoneEventManager?.notify(this)
-        if (state is Finished) finishEventManager?.notify(this)
+        require(canPlace(stone)) { STONE_PLACE_ERROR }
+        board.place(turn, stone)
+        turn = turn.next()
+        if (isFinished()) finishEventManager?.notify(this)
+        else placeStoneEventManager?.notify(this)
     }
 
-    fun canPlace(stone: Stone): Boolean = state.canPut(stone)
+    fun canPlace(stone: Stone): Boolean = isFinished().not() && board.canPlace(turn, stone)
 
-    fun isFinished(): Boolean = state is Finished
+    fun isFinished(): Boolean = board.hasTeamThatCompletedOmok()
 
-    fun isBlackTurn(): Boolean = state is BlackTurn
-
-    fun isBlackWin(): Boolean = state is BlackWin
-
-    fun blackStoneIsPlaced(stone: Stone): Boolean = state.blackStones.contains(stone)
-
-    fun whiteStoneIsPlaced(stone: Stone): Boolean = state.whiteStones.contains(stone)
-
-    fun getPointOfLastStonePlaced(): Point? =
-        if (state is WhiteTurn || state is BlackWin) state.blackStones.lastOrNull()?.point else state.whiteStones.lastOrNull()?.point
+    fun getWinner(): Team = board.getTeamThatCompletedOmok()
 
     companion object {
-        const val BOARD_SIZE = 15
-
-        fun boardContains(point: Point): Boolean =
-            point.x in ('A' until 'A' + BOARD_SIZE) && point.y in (1..BOARD_SIZE)
+        private const val STONE_PLACE_ERROR = "돌을 둘 수 없습니다."
     }
 }
