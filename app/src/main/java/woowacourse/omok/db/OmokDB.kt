@@ -20,9 +20,7 @@ class OmokDB(
     }
     private val repository = OmokRepository(db)
 
-    fun insert(goStone: GoStone?) {
-        if (goStone == null) return
-
+    fun insert(goStone: GoStone) {
         val value = ContentValues().apply {
             put(TABLE_COLUMN_X, goStone.coordinate.x)
             put(TABLE_COLUMN_Y, goStone.coordinate.y)
@@ -48,7 +46,7 @@ class OmokDB(
             val color = when (cursor.getInt(cursor.getColumnIndexOrThrow(TABLE_COLUMN_COLOR))) {
                 STONE_COLOR_BLACK -> GoStoneColor.BLACK
                 STONE_COLOR_WHITE -> GoStoneColor.WHITE
-                else -> GoStoneColor.BLACK
+                else -> throw NoSuchElementException()
             }
 
             stones.add(GoStone(color, Coordinate(xCoordinate, yCoordinate)))

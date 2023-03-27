@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setBoard() {
         val boardUi = findViewById<TableLayout>(R.id.board)
-        val board = boardUi
+        board = boardUi
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
@@ -75,13 +75,13 @@ class MainActivity : AppCompatActivity() {
     private fun addStone(coordinate: Coordinate, view: ImageView) {
         val state = controller.playTurn(coordinate)
         if (!state.isForbidden) {
-            setStoneImage(view, controller.board.lastPlacedStone?.color)
+            setStoneImage(view, controller.board.lastPlacedStone.color)
             db.insert(controller.board.lastPlacedStone)
         }
 
         when (state) {
             is Win -> {
-                makeMessage("${controller.board.lastPlacedStone?.color?.toKorean()}이 승리했습니다!")
+                makeMessage("${controller.board.lastPlacedStone.color.toKorean()}이 승리했습니다!")
                 isRunning = false
             }
             is ForbiddenThree -> makeMessage("돌을 놓을 수 없어요! (3-3)")
@@ -102,15 +102,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         controller.board.lastPlacedStone.apply {
-            if (this != null) {
-                isRunning = Judgement.judge(controller.board, this) !is Win
-            }
+            isRunning = Judgement.judge(controller.board, this) !is Win
         }
     }
 
-    private fun setStoneImage(view: ImageView, color: GoStoneColor?) {
+    private fun setStoneImage(view: ImageView, color: GoStoneColor) {
         when (color) {
-            GoStoneColor.BLACK, null -> view.setImageResource(R.drawable.black_stone)
+            GoStoneColor.BLACK -> view.setImageResource(R.drawable.black_stone)
             GoStoneColor.WHITE -> view.setImageResource(R.drawable.white_stone)
         }
     }

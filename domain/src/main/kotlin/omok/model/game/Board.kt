@@ -10,10 +10,10 @@ class Board {
     val board: List<List<GoStone?>>
         get() = _board.map { it.toList() }
 
-    var lastPlacedStone: GoStone? = null
+    var lastPlacedStone: GoStone = GoStone.EMPTY
         private set
 
-    fun getNextColor(): GoStoneColor = GoStoneColor.getNextColor(lastPlacedStone?.color)
+    fun getNextColor(): GoStoneColor = GoStoneColor.getNextColor(lastPlacedStone.color)
 
     fun addStone(goStone: GoStone) {
         lastPlacedStone = goStone
