@@ -2,20 +2,18 @@ package view
 
 import domain.game.Omok.Companion.OMOK_BOARD_SIZE
 import domain.player.Player
-import domain.player.Players
 import domain.point.Point
 import domain.result.TurnResult
 import domain.stone.StoneColor
-import listener.OmokTurnEventListener
 import view.mapper.toPresentation
 
-class OmokOutputView : OmokTurnEventListener {
-    override fun onStartGame() {
+class OmokOutputView {
+    fun onStartGame() {
         println(START_MESSAGE)
         println(OMOK_BOARD)
     }
 
-    override fun onEndGame(result: TurnResult) {
+    fun onEndGame(result: TurnResult) {
         println(GAME_END_MESSAGE)
         if (result is TurnResult.Foul) {
             println("금수를 두었습니다.")
@@ -25,7 +23,7 @@ class OmokOutputView : OmokTurnEventListener {
         if (result is TurnResult.Win) println(WINNER_MESSAGE.format(result.winColor.toPresentation().text))
     }
 
-    override fun onStartTurn(stoneColor: StoneColor, point: Point?) {
+    fun onStartTurn(stoneColor: StoneColor, point: Point?) {
         print(TURN_MESSAGE.format(stoneColor.toPresentation().text))
         if (point != null) {
             val viewPosition = point.toPresentation()
@@ -34,7 +32,7 @@ class OmokOutputView : OmokTurnEventListener {
         println()
     }
 
-    override fun onEndTurn(result: TurnResult) {
+    fun onEndTurn(result: TurnResult) {
         if (result is TurnResult.Playing && result.isExistPoint) println(ALREADY_EXIST_STONE)
         val board = OMOK_BOARD.toMutableList()
         val players = result.players

@@ -1,9 +1,12 @@
 package woowacourse.omok.activity
 
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import domain.game.Omok
@@ -17,45 +20,79 @@ import domain.rule.BlackRenjuRule
 import domain.rule.WhiteRenjuRule
 import domain.state.PlayingState
 import domain.stone.StoneColor
+import view.mapper.toPresentation
 import woowacourse.omok.R
-import woowacourse.omok.db.OmokDBManager
-import woowacourse.omok.listener.TurnEventListener
+import woowacourse.omok.db.OmokDBHelper
 
 class MainActivity : AppCompatActivity() {
-    private val dbManager by lazy { OmokDBManager(applicationContext) }
+    private val boards: List<ImageView> by lazy { getBoardViews() }
+    private val descriptionView: TextView by lazy { findViewById(R.id.description) }
+    private val dbHelper: OmokDBHelper by lazy { OmokDBHelper(applicationContext) }
+    private val db: SQLiteDatabase by lazy { dbHelper.writableDatabase }
     private val omok: Omok by lazy { initOmok() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val turnEventListener = TurnEventListener(applicationContext, findViewById(R.id.description))
-        turnEventListener.onStartGame()
-        turnEventListener.onStartTurn(omok.players.curPlayerColor, omok.players.getLastPoint())
+        onStartGame()
+        onStartTurn(omok.players.curPlayerColor)
 
         var result: TurnResult = TurnResult.Playing(false, omok.players)
-        getBoardViews().forEachIndexed { index, view ->
+        boards.forEachIndexed { index, view ->
             view.setOnClickListener {
                 if (result !is TurnResult.Playing) return@setOnClickListener
                 result = omok.takeTurn(calculateIndexToPoint(index))
-                if (result !is TurnResult.Playing || !(result as TurnResult.Playing).isExistPoint) {
-                    setStone(view, omok.players.curPlayerColor.next())
-                    dbManager.insert(index, omok.players.curPlayerColor.next().name)
-                }
-                turnEventListener.onEndTurn(result)
-                turnEventListener.onEndGame(result)
+                onEndTurn(view, index, result)
+                onEndGame(result)
             }
         }
     }
 
     override fun onStop() {
         super.onStop()
-        if (!omok.players.isPlaying) dbManager.deleteAll()
+        if (!omok.players.isPlaying) dbHelper.deleteAll(db)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        dbManager.close()
+        dbHelper.close(db)
+    }
+
+    private fun initOmok(): Omok {
+        val blackIndexs = dbHelper.getIndexsByColor(db, StoneColor.BLACK.name)
+        val whiteIndexs = dbHelper.getIndexsByColor(db, StoneColor.WHITE.name)
+
+        blackIndexs.forEach {
+            setStone(boards[it], StoneColor.BLACK)
+        }
+        whiteIndexs.forEach {
+            setStone(boards[it], StoneColor.WHITE)
+        }
+
+        val blackPlayer = BlackPlayer(PlayingState(indexsToPoints(blackIndexs)), rule = BlackRenjuRule())
+        val whitePlayer = WhitePlayer(PlayingState(indexsToPoints(whiteIndexs)), rule = WhiteRenjuRule())
+        return Omok(blackPlayer, whitePlayer)
+    }
+
+    private fun onStartGame() {
+        Toast.makeText(applicationContext, R.string.start_game, Toast.LENGTH_LONG).show()
+    }
+
+    private fun onEndGame(result: TurnResult) {
+        val descriptionView = findViewById<TextView>(R.id.description)
+        val context = applicationContext
+        when (result) {
+            is TurnResult.Playing -> return
+            is TurnResult.Foul -> descriptionView.text = context.getString(R.string.is_forbidden).plus(context.getString(R.string.who_is_winner).format(result.winColor.toPresentation().text))
+            is TurnResult.Win -> descriptionView.text = context.getString(R.string.who_is_winner).format(result.winColor.toPresentation().text)
+        }
+        Toast.makeText(context, R.string.end_game, Toast.LENGTH_LONG).show()
+    }
+
+    private fun onStartTurn(stoneColor: StoneColor) {
+        val context = applicationContext
+        descriptionView.text = context.getString(R.string.who_is_turn).format(stoneColor.toPresentation().text)
     }
 
     private fun setStone(view: ImageView, color: StoneColor) {
@@ -65,22 +102,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initOmok(): Omok {
-        val boardViews = getBoardViews()
-
-        val blackIndexs = dbManager.getIndexsByColor(StoneColor.BLACK.name)
-        val whiteIndexs = dbManager.getIndexsByColor(StoneColor.WHITE.name)
-
-        blackIndexs.forEach {
-            setStone(boardViews[it], StoneColor.BLACK)
+    private fun onEndTurn(view: ImageView, index: Int, result: TurnResult) {
+        val context = applicationContext
+        if (result is TurnResult.Playing && result.isExistPoint) Toast.makeText(context, R.string.already_exist, Toast.LENGTH_LONG).show()
+        if (result !is TurnResult.Playing || !result.isExistPoint) {
+            setStone(view, omok.players.curPlayerColor.next())
+            dbHelper.insert(db, index, omok.players.curPlayerColor.next().name)
         }
-        whiteIndexs.forEach {
-            setStone(boardViews[it], StoneColor.WHITE)
-        }
-
-        val blackPlayer = BlackPlayer(PlayingState(indexsToPoints(blackIndexs)), rule = BlackRenjuRule())
-        val whitePlayer = WhitePlayer(PlayingState(indexsToPoints(whiteIndexs)), rule = WhiteRenjuRule())
-        return Omok(blackPlayer, whitePlayer)
+        descriptionView.text = context.getString(R.string.who_is_turn).format(result.players.curPlayerColor.toPresentation().text)
     }
 
     private fun getBoardViews(): List<ImageView> = findViewById<TableLayout>(R.id.board)
