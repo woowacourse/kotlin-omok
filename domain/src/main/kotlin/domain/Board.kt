@@ -5,7 +5,7 @@ class Board(val stones: Stones) {
     fun repeatTurn(coordinateReader: CoordinateReader): Color {
         while (true) {
             val stone = makeStone(currentColor, coordinateReader)
-            if (!processTurn(stone)) continue
+            if (processTurn(stone) != PlaceResult.SUCCESS) continue
             if (stones.isWinPlace()) return stones.getLastStone().color
         }
     }
@@ -15,15 +15,15 @@ class Board(val stones: Stones) {
         return Stone(color, coordinate)
     }
 
-    fun processTurn(stone: Stone): Boolean {
-        if (stones.validateRenju(stone) != PlaceResult.SUCCESS) {
-            return false
+    fun processTurn(stone: Stone): PlaceResult {
+        if (stones.validateRenju(stone) == PlaceResult.ERROR_RENJU_RULE) {
+            return PlaceResult.ERROR_RENJU_RULE
         }
-        if (stones.place(stone) != PlaceResult.SUCCESS) {
-            return false
+        if (stones.place(stone) == PlaceResult.ERROR_ALREADY_PLACE) {
+            return PlaceResult.ERROR_ALREADY_PLACE
         }
         currentColor = currentColor.turnColor()
-        return true
+        return PlaceResult.SUCCESS
     }
 
     fun isWinPlace(): Boolean {

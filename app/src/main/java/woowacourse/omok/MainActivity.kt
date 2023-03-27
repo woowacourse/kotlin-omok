@@ -37,18 +37,21 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { index, view ->
                 val x = index % 15
                 val y = index / 15
-                gameBoard.stones.findStone(x,y)?.let {
+                gameBoard.stones.findStone(x, y)?.let {
                     view.setStoneDrawable(it.color)
                 }
                 view.setOnClickListener {
                     val stone = Stone(gameBoard.currentColor, Coordinate.from(x, y))
-                    if (gameBoard.processTurn(
-                            stone
-                        )
-                    ) {
-                        view.setStoneDrawable(gameBoard.currentColor)
-                        checkWin(gameBoard.currentColor)
-                        dbHelper.writeOmokStone(stone)
+                    when (gameBoard.processTurn(stone)) {
+                        PlaceResult.SUCCESS -> {
+                            view.setStoneDrawable(gameBoard.currentColor)
+                            checkWin(gameBoard.currentColor)
+                            dbHelper.writeOmokStone(stone)
+                        }
+                        PlaceResult.ERROR_ALREADY_PLACE ->
+                            Toast.makeText(this, "이미 놓여진 돌이 있습니다.", Toast.LENGTH_SHORT).show()
+                        PlaceResult.ERROR_RENJU_RULE ->
+                            Toast.makeText(this, "렌주룰 위반입니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
