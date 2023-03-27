@@ -40,16 +40,20 @@ class OmokTest {
 
     @Test
     fun `돌을 놓고 이긴 경우 Win 객체를 반환한다`() {
-        val omok = Omok(BlackPlayer(Point(1, 1), Point(1, 3), Point(1, 4), Point(1, 5), rule = blackRule),
-            WhitePlayer(Point(10, 1), Point(10, 3), Point(10, 4), Point(10, 5), rule = whiteRule))
+        val omok = Omok(
+            BlackPlayer(Point(1, 1), Point(1, 3), Point(1, 4), Point(1, 5), rule = blackRule),
+            WhitePlayer(Point(10, 1), Point(10, 3), Point(10, 4), Point(10, 5), rule = whiteRule)
+        )
         val actual = omok.takeTurn(Point(1, 2))
         assertThat(actual is TurnResult.Win).isTrue
     }
 
     @Test
     fun `돌을 놓고 반칙한 경우 Foul 객체를 반환한다`() {
-        val omok = Omok(BlackPlayer(Point(1, 1), Point(1, 3), Point(1, 4), Point(1, 5), Point(1, 6), rule = blackRule),
-            WhitePlayer(Point(10, 1), Point(10, 3), Point(10, 4), Point(10, 5), Point(10, 6), rule = whiteRule))
+        val omok = Omok(
+            BlackPlayer(Point(1, 1), Point(1, 3), Point(1, 4), Point(1, 5), Point(1, 6), rule = blackRule),
+            WhitePlayer(Point(10, 1), Point(10, 3), Point(10, 4), Point(10, 5), Point(10, 6), rule = whiteRule)
+        )
         val actual = omok.takeTurn(Point(1, 2))
         assertThat(actual is TurnResult.Foul).isTrue
     }
