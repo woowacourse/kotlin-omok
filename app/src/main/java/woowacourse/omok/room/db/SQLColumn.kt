@@ -1,6 +1,6 @@
 package woowacourse.omok.room.db
 
-data class Column(
+data class SQLColumn(
     val name: String,
     val type: String
 )

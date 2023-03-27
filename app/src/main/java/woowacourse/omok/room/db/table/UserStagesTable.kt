@@ -1,6 +1,6 @@
 package woowacourse.omok.room.db.table
 
-import woowacourse.omok.room.db.Column
+import woowacourse.omok.room.db.SQLColumn
 import woowacourse.omok.room.db.SQLiteTable
 
 object UserStagesTable : SQLiteTable {
@@ -8,8 +8,8 @@ object UserStagesTable : SQLiteTable {
     const val STAGE_ID = "stageId"
 
     override val name: String = "userStages"
-    override val scheme: List<Column> = listOf(
-        Column(USER_ID, "int"),
-        Column(STAGE_ID, "int")
+    override val scheme: List<SQLColumn> = listOf(
+        SQLColumn(USER_ID, "int"),
+        SQLColumn(STAGE_ID, "int")
     )
 }
