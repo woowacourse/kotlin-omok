@@ -17,9 +17,15 @@ class RoomController(
 ) {
     fun process() {
         roomView.setUp(::onSelectUser, ::onSelectStage)
-        roomView.userAddObserver.subscribe(::addUser)
+        setUpEvent()
         getAllUsers()
         omokController.process()
+    }
+
+    private fun setUpEvent() {
+        roomView.userAdd.setOnClickListener {
+            addUser()
+        }
     }
 
     private fun getAllUsers() {
@@ -32,8 +38,7 @@ class RoomController(
         val stages = omokDBHelper.selectAllStagesByUser(user)
         roomView.setAllStages(stages)
 
-        roomView.stageAddObserver.unsubscribeAll()
-        roomView.stageAddObserver.subscribe {
+        roomView.stageAdd.setOnClickListener {
             addStage(user)
         }
     }

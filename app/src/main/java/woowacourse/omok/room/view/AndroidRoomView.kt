@@ -11,12 +11,10 @@ import woowacourse.omok.room.domain.Users
 class AndroidRoomView(
     private val usersRecycler: RecyclerView,
     private val stagesRecycler: RecyclerView,
-    private val userAdd: Button,
-    private val stageAdd: Button,
+    val userAdd: Button,
+    val stageAdd: Button,
     private val roomMessage: TextView
 ) {
-    val userAddObserver: RoomEventObserver = RoomEventObserver()
-    val stageAddObserver: RoomEventObserver = RoomEventObserver()
 
     fun setUp(onSelectUser: (User) -> Unit, onSelectStage: (Stage) -> Unit) {
         usersRecycler.adapter = UserAdapter(Users(listOf())) {
@@ -27,14 +25,6 @@ class AndroidRoomView(
         stagesRecycler.adapter = StageAdapter(Stages(listOf())) {
             onSelectStage(it)
             roomMessage.text = MESSAGE_STAGE_SELECT.format(it.id.toString())
-        }
-
-        userAdd.setOnClickListener {
-            userAddObserver.notifyEvent()
-        }
-
-        stageAdd.setOnClickListener {
-            stageAddObserver.notifyEvent()
         }
     }
 
