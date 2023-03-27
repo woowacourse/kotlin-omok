@@ -9,7 +9,7 @@ import woowacourse.omok.R
 
 class RoomsAdapter(private val clickItem: (Int) -> Unit) :
     RecyclerView.Adapter<RoomsAdapter.RoomViewHolder>() {
-    private var rooms: List<Room> = emptyList()
+    private val rooms = mutableListOf<Room>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -24,7 +24,8 @@ class RoomsAdapter(private val clickItem: (Int) -> Unit) :
     }
 
     fun initRooms(newRooms: List<Room>) {
-        rooms = newRooms
+        rooms.clear()
+        rooms.addAll(newRooms)
         notifyDataSetChanged()
     }
 
