@@ -6,9 +6,14 @@ import omok.domain.board.Position
 import omok.domain.judgment.WinningReferee
 import omok.domain.player.Stone
 
-class OmokGame(val board: Board, private val turn: Turn, private val referee: WinningReferee = WinningReferee()) {
+class OmokGame(
+    val board: Board,
+    private val turn: Turn,
+    private val referee: WinningReferee = WinningReferee()
+) {
 
     var isFinished: Boolean = false
+        private set
     val currentStone: Stone
         get() = turn.now
 
