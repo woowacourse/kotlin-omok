@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.controller.OmokController
+import omok.model.game.Board
 import omok.model.state.ForbiddenFour
 import omok.model.state.ForbiddenThree
 import omok.model.state.Stay
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        val coordinate = Coordinate.of(index)
+        val coordinate = Coordinate(calculateCoordinate(index))
         if (isStoneExisted(coordinate)) {
             makeMessage("이미 해당 위치에 돌이 있어요!")
             return
@@ -106,6 +107,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun makeMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+
+    private fun calculateCoordinate(index: Int): Pair<Int, Int> {
+        return index % Board.BOARD_LENGTH to (Board.BOARD_LENGTH - 1) - index / Board.BOARD_LENGTH
     }
 
     private fun GoStoneColor.toKorean(): String = when (this) {

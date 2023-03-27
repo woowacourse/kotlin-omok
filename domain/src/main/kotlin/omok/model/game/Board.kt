@@ -6,7 +6,7 @@ import omok.model.stone.GoStoneColor
 
 class Board {
     private val _board: List<MutableList<GoStone?>> =
-        List(15) { MutableList(15) { null } }
+        List(BOARD_LENGTH) { MutableList(BOARD_LENGTH) { null } }
     val board: List<List<GoStone?>>
         get() = _board.map { it.toList() }
 
