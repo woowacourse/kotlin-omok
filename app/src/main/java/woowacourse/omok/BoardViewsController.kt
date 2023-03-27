@@ -70,14 +70,14 @@ class BoardViewsController(
         boardViews.forEachIndexed { index, view ->
             view.setOnClickListener {
                 val point: Point = calculatePoint(index)
-                val (stoneResource: Int?, stoneColor: String?) = getStoneResource(board)
+                val stoneColor = getCurrentStoneColor(board)
                 val blackReferee = Referee(listOf(ThreeThreeRule(), FourFourRule(), LongMokRule()))
                 if (putStoneAndReturnResult(board, blackReferee, point)) {
                     stoneColor?.let {
                         //db 데이터 저장하기
-                        omokDB.insertStoneData(point, stoneColor)
+                        omokDB.insertStoneData(point, it.english)
+                        view.setImageResource(it.imageResource)
                     }
-                    stoneResource?.let { view.setImageResource(it) }
                 }
                 manageFinished(board, omokDB)
             }
@@ -90,18 +90,14 @@ class BoardViewsController(
         return Point(x, y)
     }
 
-    private fun getStoneResource(omokBoard: Board): Pair<Int?, String?> {
+    private fun getCurrentStoneColor(omokBoard: Board): StoneColor? {
         if (omokBoard.isBlackTurn()) {
-            val stoneResource = R.drawable.black_stone
-            val stoneColor = StoneColor.BLACK.english
-            return stoneResource to stoneColor
+            return StoneColor.BLACK
         }
         if (omokBoard.isWhiteTurn()) {
-            val stoneResource = R.drawable.white_stone
-            val stoneColor = StoneColor.WHITE.english
-            return stoneResource to stoneColor
+            return StoneColor.WHITE
         }
-        return Pair(null, null)
+        return null
     }
 
     private fun putStoneAndReturnResult(
