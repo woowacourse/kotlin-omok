@@ -18,6 +18,7 @@ import omok.OmokGame
 import omok.Player
 import omok.Position
 import omok.Stone
+import omok.judgement.RenjuJudgement
 import omok.state.State
 import omok.state.Turn
 import omok.state.Win
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        omokGame = OmokGame(Board(blackPlayer, whitePlayer))
+        omokGame = OmokGame(Board(RenjuJudgement(), blackPlayer, whitePlayer))
     }
 
     private fun setBoardView(board: Sequence<ImageView>) {
