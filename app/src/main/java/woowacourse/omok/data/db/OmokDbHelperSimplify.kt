@@ -2,6 +2,7 @@ package woowacourse.omok.data.db
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import domain.domain.BoardState
@@ -9,6 +10,9 @@ import domain.domain.CoordinateState
 import woowacourse.omok.data.SerializableBoard
 import woowacourse.omok.data.db.entity.GameSimplify
 import woowacourse.omok.data.db.table.GameTableSimplify
+import woowacourse.omok.data.db.table.GameTableSimplify.BOARD
+import woowacourse.omok.data.db.table.GameTableSimplify.ID
+import woowacourse.omok.data.db.table.GameTableSimplify.TURN
 
 class OmokDbHelperSimplify(
     context: Context,
@@ -36,66 +40,60 @@ class OmokDbHelperSimplify(
         )
         val games = mutableListOf<GameSimplify>()
         if (cursor != null) {
-            with(cursor) {
-                while (moveToNext()) {
-                    games.add(
-                        GameSimplify(
-                            getInt(getColumnIndexOrThrow(GameTableSimplify.ID)),
-                            GameTableSimplify.numberToCoordinateState(
-                                getInt(
-                                    getColumnIndexOrThrow(
-                                        GameTableSimplify.TURN
-                                    )
-                                )
-                            ),
-                            SerializableBoard.stringToBoardState(
-                                getString(
-                                    getColumnIndexOrThrow(
-                                        GameTableSimplify.BOARD
-                                    )
-                                )
-                            )
-                        )
-                    )
-                }
-            }
+            surchCursor(cursor, games)
         }
         cursor.close()
         return games.firstOrNull()
     }
 
+    private fun surchCursor(
+        cursor: Cursor,
+        games: MutableList<GameSimplify>
+    ) {
+        while (cursor.moveToNext()) {
+            cursor.eachCursorTask(games)
+        }
+    }
+
+    private fun Cursor.eachCursorTask(games: MutableList<GameSimplify>) {
+        games.add(
+            getGameSimplify()
+        )
+    }
+
+    private fun Cursor.getGameSimplify() = GameSimplify(
+        getInt(getColumnIndexOrThrow(ID)),
+        GameTableSimplify.numberToCoordinateState(getInt(getColumnIndexOrThrow(TURN))),
+        SerializableBoard.stringToBoardState(getString(getColumnIndexOrThrow(BOARD)))
+    )
+
     fun insertGame(): GameSimplify {
         val contentValues = ContentValues().apply {
-            put(
-                GameTableSimplify.TURN,
-                GameTableSimplify.coordinateStateToNumber(CoordinateState.BLACK)
-            )
-            put(GameTableSimplify.BOARD, SerializableBoard.boardStateToString(BoardState()))
+            put(TURN, GameTableSimplify.coordinateStateToNumber(CoordinateState.BLACK))
+            put(BOARD, SerializableBoard.boardStateToString(BoardState()))
         }
         writableDatabase.insert(GameTableSimplify.name, null, contentValues)
         val cursor = readableDatabase.rawQuery("SELECT last_insert_rowid()", null)
-
         cursor.moveToFirst()
         val id = cursor.getInt(0)
-
         return GameSimplify(id, CoordinateState.BLACK, BoardState())
     }
 
     fun updateGame(game: GameSimplify) {
         val contentValues = ContentValues().apply {
-            put(GameTableSimplify.TURN, GameTableSimplify.coordinateStateToNumber(game.turn))
-            put(GameTableSimplify.BOARD, SerializableBoard.boardStateToString(game.board))
+            put(TURN, GameTableSimplify.coordinateStateToNumber(game.turn))
+            put(BOARD, SerializableBoard.boardStateToString(game.board))
         }
         writableDatabase.update(
             GameTableSimplify.name,
             contentValues,
-            "${GameTableSimplify.ID} = ${game.gameId}",
+            "$ID = ${game.gameId}",
             null
         )
     }
 
     fun deleteGame(gameId: Int) {
-        writableDatabase.execSQL("DELETE FROM ${GameTableSimplify.name} WHERE ${GameTableSimplify.ID} = $gameId")
+        writableDatabase.execSQL("DELETE FROM ${GameTableSimplify.name} WHERE $ID = $gameId")
     }
 
     companion object {
