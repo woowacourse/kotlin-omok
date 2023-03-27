@@ -11,7 +11,10 @@ class Board(
     val map: Map<Position, Color?>
         get() = _map.toMap()
 
-    fun isAlreadyPut(position: Position): Boolean = (map[position] != null)
+    fun isAlreadyPut(position: Position): Boolean {
+        map.getOrElse(position) { return false }
+        return true
+    }
 
     fun putStone(stone: Stone): Board {
         return Board(map.plus(stone.position to stone.color))

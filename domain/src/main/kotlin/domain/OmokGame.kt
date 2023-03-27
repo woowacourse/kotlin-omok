@@ -14,7 +14,6 @@ class OmokGame(
 ) {
     private var turn: Turn = Turn(Color.BLACK, StartBoardState(rule))
         set(value) {
-            if (turn === value) return
             field = value
             turnChangeProcess()
         }
@@ -39,11 +38,10 @@ class OmokGame(
         successProcess: (OmokGame) -> Unit = {},
         failedProcess: () -> Unit = {},
     ) {
-        val previousTurn = turn
-        turn = turn.putStone(newPosition)
-        return when {
-            turn === previousTurn -> failedProcess()
-            else -> successProcess(this)
+        val nextTurn = turn.putStone(newPosition)
+        if (turn === nextTurn) { failedProcess() } else {
+            turn = nextTurn
+            successProcess(this)
         }
     }
 }

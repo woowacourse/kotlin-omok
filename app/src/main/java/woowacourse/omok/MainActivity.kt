@@ -124,12 +124,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun putStoneProcess(omokGame: OmokGame) {
-        omokGame.latestStone?.let { stone ->
-            vibrationService.vibrate(VibrationEffect.createOneShot(20, 50))
-            stonesHelper.insertStone(stone)
-            setStone(stone, getOmokImageViewFromPosition(stone.position))
-            if (omokGame.isFinished) gameFinishProcess(omokGame)
-        }
+        if (omokGame.latestStone == null) return
+        val newStone = omokGame.latestStone!!
+        vibrationService.vibrate(VibrationEffect.createOneShot(20, 50))
+        stonesHelper.insertStone(newStone)
+        setStone(newStone, getOmokImageViewFromPosition(newStone.position))
+        if (omokGame.isFinished) gameFinishProcess(omokGame)
     }
 
     private fun putFailedProcess() =
