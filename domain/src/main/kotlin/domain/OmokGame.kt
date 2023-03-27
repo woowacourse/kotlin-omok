@@ -39,7 +39,9 @@ class OmokGame(
         failedProcess: () -> Unit = {},
     ) {
         val nextTurn = turn.putStone(newPosition)
-        if (turn === nextTurn) { failedProcess() } else {
+        if (turn === nextTurn) {
+            failedProcess()
+        } else {
             turn = nextTurn
             successProcess(this)
         }

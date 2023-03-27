@@ -17,11 +17,12 @@ enum class Row(private val y: Int) {
     FOURTEEN(13),
     FIFTEEN(14);
 
-    fun up(): Row? = runCatching { values()[ordinal + 1] }.getOrNull()
-    fun down(): Row? = runCatching { values()[ordinal - 1] }.getOrNull()
+    fun up(): Row? = runCatching { valueOf(ordinal + 1) }.getOrNull()
+    fun down(): Row? = runCatching { valueOf(ordinal - 1) }.getOrNull()
 
     companion object {
         private const val ERROR_ROW_RANGE = "[ERROR] COLUMN의 범위는 1에서 15사이입니다."
-        fun valueOf(y: Int): Row = values().find { it.y == y } ?: throw IllegalArgumentException(ERROR_ROW_RANGE)
+        private val ROWS: Map<Int, Row> = Row.values().associateBy { it.y }
+        fun valueOf(y: Int): Row = ROWS[y] ?: throw IllegalArgumentException(ERROR_ROW_RANGE)
     }
 }
