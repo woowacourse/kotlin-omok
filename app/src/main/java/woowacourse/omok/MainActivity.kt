@@ -10,10 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.controller.OmokController
 import omok.model.game.Board
-import omok.model.state.ForbiddenFour
-import omok.model.state.ForbiddenThree
-import omok.model.state.Stay
-import omok.model.state.Win
+import omok.model.state.*
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStoneColor
 import woowacourse.omok.db.OmokDB
@@ -78,6 +75,10 @@ class MainActivity : AppCompatActivity() {
             db.insert(controller.getLastPlacedStone())
         }
 
+        makeMessageByState(state)
+    }
+
+    private fun makeMessageByState(state: State) {
         when (state) {
             is Win -> makeMessage("${controller.getLastTurnColor().toKorean()}이 승리했습니다!")
             is ForbiddenThree -> makeMessage("돌을 놓을 수 없어요! (3-3)")
