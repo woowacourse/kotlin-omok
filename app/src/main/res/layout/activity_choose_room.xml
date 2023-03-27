@@ -32,11 +32,15 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_choose_room_explain" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_choose_room_explain"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_room"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
