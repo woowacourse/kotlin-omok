@@ -5,13 +5,15 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import domain.stone.StonePosition
 
-class StonePositionDbHandler {
+class StonePositionDbHandler(
+    private val db: SQLiteDatabase
+) {
 
-    fun deleteAllColumns(db: SQLiteDatabase) {
+    fun deleteAllColumns() {
         db.delete(StonePositionConstract.TABLE_NAME, "", arrayOf())
     }
 
-    fun getCursor(db: SQLiteDatabase): Cursor {
+    fun getCursor(): Cursor {
         return db.query(
             StonePositionConstract.TABLE_NAME,
             arrayOf(
@@ -22,7 +24,7 @@ class StonePositionDbHandler {
         )
     }
 
-    fun addColumn(db: SQLiteDatabase, stonePosition: StonePosition) {
+    fun addColumn(stonePosition: StonePosition) {
         val values = ContentValues().apply {
             put(StonePositionConstract.TABLE_COLUMN_ROW, stonePosition.y)
             put(StonePositionConstract.TABLE_COLUMN_COLUMN, stonePosition.x)

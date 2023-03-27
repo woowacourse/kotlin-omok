@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var boardViews: List<List<ImageView>>
 
     private val db: SQLiteDatabase by lazy { StonePositionDbHelper(this).writableDatabase }
-    private val dbHandler: StonePositionDbHandler = StonePositionDbHandler()
+    private val dbHandler: StonePositionDbHandler by lazy { StonePositionDbHandler(db) }
     private var state: State = BlackTurn()
     private val boardMap: Board = Board()
 
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         if (!state.isEnd() && !(state as Running).isPlaced(boardMap, stonePosition)) {
             view.setImageResource(getStoneImage(state))
             state = state.next(boardMap, stonePosition)
-            dbHandler.addColumn(db, stonePosition)
+            dbHandler.addColumn(stonePosition)
         }
         if (state.isEnd()) {
             retryButton.visibility = View.VISIBLE
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateBoardViewFromDb() {
-        val cursor = dbHandler.getCursor(db)
+        val cursor = dbHandler.getCursor()
 
         with(cursor) {
             while (moveToNext()) {
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setRetryButtonClickEvent() {
         retryButton.setOnClickListener {
-            dbHandler.deleteAllColumns(db)
+            dbHandler.deleteAllColumns()
         }
     }
 
