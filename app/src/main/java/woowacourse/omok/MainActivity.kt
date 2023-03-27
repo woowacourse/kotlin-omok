@@ -106,15 +106,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setBoardView(board: Sequence<ImageView>) {
         omokGame.board.blackPlayer.stones.forEach { stone ->
-            board.toList()[transformStonePositionToView(stone)].setImageResource(R.drawable.black_stone_nabi)
+            board.toList()[stone.toViewPosition()].setImageResource(R.drawable.black_stone_nabi)
         }
         omokGame.board.whitePlayer.stones.forEach { stone ->
-            board.toList()[transformStonePositionToView(stone)].setImageResource(R.drawable.white_stone_choonbae)
+            board.toList()[stone.toViewPosition()].setImageResource(R.drawable.white_stone_choonbae)
         }
-    }
-
-    private fun transformStonePositionToView(stone: Stone): Int {
-        return (stone.position.horizontalAxis.axis - 1) * 15 + (stone.position.verticalAxis - 1)
     }
 
     private fun gameOn(index: Int, view: ImageView, turn: Turn, db: SQLiteDatabase): State {
