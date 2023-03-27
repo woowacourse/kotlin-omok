@@ -9,10 +9,12 @@ class StonePositionDbHelper(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
-            "CREATE TABLE ${StonePositionConstract.TABLE_NAME} (" +
-                "${StonePositionConstract.TABLE_COLUMN_ROW} INTEGER, " +
-                "${StonePositionConstract.TABLE_COLUMN_COLUMN} INTEGER" +
-                ");"
+            """
+                CREATE TABLE ${StonePositionConstract.TABLE_NAME} (
+                    ${StonePositionConstract.TABLE_COLUMN_ROW} INTEGER, 
+                    ${StonePositionConstract.TABLE_COLUMN_COLUMN} INTEGER
+                )
+            """.trimIndent()
         )
     }
 
