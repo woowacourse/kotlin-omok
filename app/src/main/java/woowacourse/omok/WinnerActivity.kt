@@ -19,7 +19,7 @@ class WinnerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_winner)
 
-        val nickname = Omok.getNickname()
+        val nickname = Storage.getNickname()
         val winnerImageView = findViewById<ImageView>(R.id.winner)
         val winnerTextView = findViewById<TextView>(R.id.winner_nickname)
         when (intent.getStringExtra("winner")) {

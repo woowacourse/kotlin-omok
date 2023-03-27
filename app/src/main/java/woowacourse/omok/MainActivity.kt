@@ -26,7 +26,7 @@ import woowacourse.omok.db.PlayerContract
 
 class MainActivity : AppCompatActivity() {
     private val omokDB: SQLiteDatabase by lazy { OmokDBHelper(this).writableDatabase }
-    private val nickname: String by lazy { Omok.getNickname() }
+    private val nickname: String by lazy { Storage.getNickname() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
