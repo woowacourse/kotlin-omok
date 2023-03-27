@@ -6,36 +6,6 @@ import omok.domain.gameState.BlackWin
 import omok.domain.gameState.GameState
 import omok.domain.gameState.WhiteTurn
 import omok.domain.gameState.WhiteWin
-import omok.domain.state.BlackStoneState
-import omok.domain.state.EmptyStoneState
-import omok.domain.state.StoneState
-import omok.domain.state.WhiteStoneState
-
-enum class StoneDbModel(val value: Int) {
-    BLACK(1),
-    WHITE(2),
-    EMPTY(0),
-    ;
-
-    companion object {
-        fun of(stoneState: StoneState): StoneDbModel {
-            return when (stoneState) {
-                BlackStoneState -> BLACK
-                WhiteStoneState -> WHITE
-                EmptyStoneState -> EMPTY
-            }
-        }
-
-        fun toStoneState(value: Int): StoneState {
-            return when (value) {
-                1 -> BlackStoneState
-                2 -> WhiteStoneState
-                0 -> EmptyStoneState
-                else -> throw IllegalArgumentException("Invalid value: $value")
-            }
-        }
-    }
-}
 
 enum class GameStateDbModel(val value: Int) {
     BLACKTURN(1),
