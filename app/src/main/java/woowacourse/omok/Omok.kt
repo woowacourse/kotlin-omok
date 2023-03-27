@@ -13,7 +13,17 @@ class Omok : Application() {
     companion object {
         lateinit var instance: Omok
             private set
-        lateinit var sharedPref: SharedPreferences
-            private set
+        private lateinit var sharedPref: SharedPreferences
+
+        fun getNickname(): String {
+            return sharedPref.getString("nickname", "") ?: ""
+        }
+
+        fun editNickname(nickname: String) {
+            sharedPref
+                .edit()
+                .putString("nickname", nickname)
+                .apply()
+        }
     }
 }

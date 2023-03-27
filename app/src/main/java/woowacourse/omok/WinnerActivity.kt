@@ -19,11 +19,11 @@ class WinnerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_winner)
 
+        val nickname = Omok.getNickname()
         val winnerImageView = findViewById<ImageView>(R.id.winner)
         val winnerTextView = findViewById<TextView>(R.id.winner_nickname)
         when (intent.getStringExtra("winner")) {
             Black.toString() -> {
-                val nickname = Omok.sharedPref.getString("nickname", "닉네임") ?: ""
                 setWinner(winnerImageView, R.drawable.black_stone, winnerTextView, nickname)
             }
             White.toString() -> {
@@ -33,7 +33,7 @@ class WinnerActivity : AppCompatActivity() {
 
         val restart = findViewById<Button>(R.id.restart_game)
         restart.setOnClickListener {
-            startNewGame(Omok.sharedPref.getString("nickname", "닉네임") ?: "")
+            startNewGame(nickname)
         }
     }
 

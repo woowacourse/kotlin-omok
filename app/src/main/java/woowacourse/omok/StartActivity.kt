@@ -19,7 +19,7 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
-        nicknameView.setText(Omok.sharedPref.getString("nickname", ""))
+        nicknameView.setText(Omok.getNickname())
 
         val startButton = findViewById<Button>(R.id.start_game)
         startButton.setOnClickListener {
@@ -80,10 +80,7 @@ class StartActivity : AppCompatActivity() {
 
     private fun goToGame(nickname: String) {
         val intent = Intent(this, MainActivity::class.java)
-        Omok.sharedPref
-            .edit()
-            .putString("nickname", nickname)
-            .apply()
+        Omok.editNickname(nickname)
         startActivity(intent)
     }
 
