@@ -5,10 +5,10 @@ import android.app.Activity
 class DoubleClickBackKeyHandler(private val activity: Activity) {
     private var backPressedTime = 0L
 
-    fun onBackPressed(oneClickAction: () -> Unit, secondClickAction: () -> Unit) {
+    fun onBackPressed(firstClickAction: () -> Unit, secondClickAction: () -> Unit) {
         if (System.currentTimeMillis() > (backPressedTime + BACK_PRESSED_INTERVAL_TIME)) {
             backPressedTime = System.currentTimeMillis()
-            oneClickAction()
+            firstClickAction()
             Toaster.showToast(activity, R.string.one_more_click_please_back_key)
         } else if (System.currentTimeMillis() <= (backPressedTime + BACK_PRESSED_INTERVAL_TIME)) {
             secondClickAction()
