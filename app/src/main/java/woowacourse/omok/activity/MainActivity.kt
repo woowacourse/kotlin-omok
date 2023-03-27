@@ -9,14 +9,13 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import androidx.lifecycle.lifecycleScope
 import domain.game.Omok
 import domain.point.Point
 import domain.rule.BlackRenjuRule
 import domain.rule.WhiteRenjuRule
 import domain.stone.StoneColor
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainCoroutineDispatcher
 import kotlinx.coroutines.launch
 import woowacourse.omok.R
 import woowacourse.omok.controller.AndroidOmokController
@@ -33,8 +32,7 @@ import woowacourse.omok.utils.showMessage
 import woowacourse.omok.view.InputView
 import woowacourse.omok.view.OutputView
 
-class MainActivity(override val coroutineContext: MainCoroutineDispatcher = Dispatchers.Main) :
-    AppCompatActivity(), InputView, OutputView, CoroutineScope {
+class MainActivity : AppCompatActivity(), InputView, OutputView {
     private lateinit var board: TableLayout
     private lateinit var manTurnHolder: View
     private lateinit var womanTurnHolder: View
@@ -44,7 +42,7 @@ class MainActivity(override val coroutineContext: MainCoroutineDispatcher = Disp
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
-        launch { omokController.startGame(BlackRenjuRule(), WhiteRenjuRule()) }
+        lifecycleScope.launch { omokController.startGame(BlackRenjuRule(), WhiteRenjuRule()) }
     }
 
     private fun init() {
@@ -71,13 +69,13 @@ class MainActivity(override val coroutineContext: MainCoroutineDispatcher = Disp
             val row: Int = index / Omok.OMOK_BOARD_SIZE
             val col: Int = index % Omok.OMOK_BOARD_SIZE
             omokIntersection.setOnClickListener {
-                launch { omokController.putStone(row, col) }
+                lifecycleScope.launch { omokController.putStone(row, col) }
             }
         }
     }
 
     private fun continuePreviousGame() {
-        launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.IO) {
             omokController.loadPreviousPoints { points, pointsCount ->
                 showLatestTurnHolder(pointsCount)
                 drawPreviousPoints(points)
@@ -96,7 +94,7 @@ class MainActivity(override val coroutineContext: MainCoroutineDispatcher = Disp
             val omokIv: ImageView = boardImageViews()[viewIndex]
             val curColor = StoneColorModel.calcLatestTurn(index) ?: StoneColorModel.BLACK
 
-            launch(Dispatchers.Main) { drawStoneOnBoard(omokIv, curColor) }
+            lifecycleScope.launch(Dispatchers.Main) { drawStoneOnBoard(omokIv, curColor) }
         }
     }
 
@@ -146,7 +144,7 @@ class MainActivity(override val coroutineContext: MainCoroutineDispatcher = Disp
     }
 
     private fun toggleTurnHolder(prevStoneColor: StoneColorModel) {
-        launch(Dispatchers.Main) {
+        lifecycleScope.launch(Dispatchers.Main) {
             manTurnHolder.visibility =
                 if (prevStoneColor == StoneColorModel.WHITE) View.VISIBLE else View.GONE
             womanTurnHolder.visibility =
