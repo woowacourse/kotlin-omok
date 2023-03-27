@@ -1,9 +1,6 @@
 package woowacourse.omok
 
-import android.content.ContentValues
 import android.content.Intent
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -12,13 +9,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import omok.Board
 import omok.HorizontalAxis
 import omok.OmokGame
-import omok.Player
 import omok.Position
-import omok.Stone
-import omok.judgement.RenjuJudgement
 import omok.state.State
 import omok.state.Turn
 import omok.state.Win
@@ -37,71 +30,20 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
 
-        val db = OmokDBHelper(this).writableDatabase
-        setOmokGame(db)
+        val dbHelper = OmokDBHelper(this)
+        omokGame = dbHelper.setOmokGame()
         setBoardView(board)
 
         var state: State = Turn.Black
 
         board.forEachIndexed { index, view ->
             view.setOnClickListener {
-                state = gameOn(index, view, state as Turn, db)
+                state = gameOn(index, view, state as Turn, dbHelper)
                 if (state is Win) {
-                    gameOver(state as Win, db)
+                    gameOver(state as Win, dbHelper)
                 }
             }
         }
-    }
-
-    private fun setOmokGame(db: SQLiteDatabase) {
-        val sql = "SELECT * FROM ${OmokContract.TABLE_NAME}"
-        val cursor: Cursor = db.rawQuery(sql, null)
-        val blackPlayer = Player()
-        val whitePlayer = Player()
-        var turn: String? = null
-
-        while (cursor.moveToNext()) {
-            with(cursor) {
-                turn = getString(getColumnIndexOrThrow(OmokContract.TURN))
-                if (turn == "black") {
-                    blackPlayer.put(
-                        Stone(
-                            Position(
-                                HorizontalAxis.getHorizontalAxis(
-                                    (
-                                        getInt(
-                                            getColumnIndexOrThrow(
-                                                OmokContract.POSITION_X
-                                            )
-                                        )
-                                        )
-                                ),
-                                getInt(getColumnIndexOrThrow(OmokContract.POSITION_Y))
-                            )
-                        )
-                    )
-                }
-                if (turn == "white") {
-                    whitePlayer.put(
-                        Stone(
-                            Position(
-                                HorizontalAxis.getHorizontalAxis(
-                                    (
-                                        getInt(
-                                            getColumnIndexOrThrow(
-                                                OmokContract.POSITION_X
-                                            )
-                                        )
-                                        )
-                                ),
-                                getInt(getColumnIndexOrThrow(OmokContract.POSITION_Y))
-                            )
-                        )
-                    )
-                }
-            }
-        }
-        omokGame = OmokGame(Board(RenjuJudgement(), blackPlayer, whitePlayer))
     }
 
     private fun setBoardView(board: Sequence<ImageView>) {
@@ -113,13 +55,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun gameOn(index: Int, view: ImageView, turn: Turn, db: SQLiteDatabase): State {
+    private fun gameOn(index: Int, view: ImageView, turn: Turn, db: OmokDBHelper): State {
         val position = Position(HorizontalAxis.getHorizontalAxis(index / 15 + 1), index % 15 + 1)
         if (!omokGame.board.isPlaceable(turn, position)) {
             Toast.makeText(this, "해당 자리에 돌을 둘 수 없습니다.", Toast.LENGTH_LONG).show()
             return turn
         }
-        putStone(position, turn, db)
+        db.insertStone(position, turn)
 
         return when (turn) {
             Turn.Black -> view.run {
@@ -133,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun gameOver(win: Win, db: SQLiteDatabase) {
+    private fun gameOver(win: Win, db: OmokDBHelper) {
         val winMessage = if (win == Win.White) "백의 승리입니다." else "흑의 승리입니다."
         val alertDialog = AlertDialog.Builder(this)
             .setTitle("축하합니다")
@@ -147,18 +89,8 @@ class MainActivity : AppCompatActivity() {
             .setNeutralButton("게임 종료") { dialog, which -> finish() }
             .create()
 
-        db.delete(OmokContract.TABLE_NAME, null, null)
+        db.deleteAll()
 
         alertDialog.show()
-    }
-
-    private fun putStone(position: Position, turn: Turn, db: SQLiteDatabase) {
-        val values = ContentValues()
-        with(values) {
-            put(OmokContract.POSITION_X, position.horizontalAxis.axis)
-            put(OmokContract.POSITION_Y, position.verticalAxis)
-            put(OmokContract.TURN, turn.toString())
-        }
-        db.insert(OmokContract.TABLE_NAME, null, values)
     }
 }
