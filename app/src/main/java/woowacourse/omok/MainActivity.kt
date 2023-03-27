@@ -43,9 +43,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun insertStoneToView(boardView: Sequence<ImageView>, board: Board) {
+        val boardUI = boardView.toList()
         board.positions.forEach { (position, stone) ->
             if (stone != null) {
-                boardView.toList()[changePositionToIndex(position)].setImageResource(
+                boardUI[changePositionToIndex(position)].setImageResource(
                     changeStoneToImg(stone)
                 )
             }
@@ -61,8 +62,12 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
-    private fun changeStoneToImg(stone: Stone) =
-        if (stone == Stone.BLACK) R.drawable.black_stone else R.drawable.white_stone
+    private fun changeStoneToImg(stone: Stone): Int {
+        return when (stone) {
+            Stone.BLACK -> R.drawable.black_stone
+            Stone.WHITE -> R.drawable.white_stone
+        }
+    }
 
     private fun playGame(game: OmokGame, indexPosition: Int, view: ImageView) {
         val selectedPosition = changeIndexToPosition(indexPosition)
@@ -70,9 +75,9 @@ class MainActivity : AppCompatActivity() {
         if (isSuccess) {
             db.insertData(indexPosition, game.currentStone)
             if (checkWinner(selectedPosition, game, view)) goToResultView(game.currentStone)
-        } else {
-            Toast.makeText(this, "다시 놓아주세요.", Toast.LENGTH_SHORT).show()
+            return
         }
+        Toast.makeText(this, "다시 놓아주세요.", Toast.LENGTH_SHORT).show()
     }
 
     private fun placeStone(game: OmokGame, selectedPosition: Position): Boolean {
@@ -88,18 +93,11 @@ class MainActivity : AppCompatActivity() {
         game: OmokGame,
         view: ImageView
     ): Boolean {
-        showSelectedStone(view, game.currentStone)
+        view.setImageResource(changeStoneToImg(game.currentStone))
         game.checkWinner(selectedPosition)
         if (game.isFinished) return true
         game.changeTurn()
         return false
-    }
-
-    private fun showSelectedStone(cell: ImageView, currentStone: Stone) {
-        if (currentStone == Stone.BLACK)
-            cell.setImageResource(R.drawable.black_stone)
-        else
-            cell.setImageResource(R.drawable.white_stone)
     }
 
     private fun goToResultView(
