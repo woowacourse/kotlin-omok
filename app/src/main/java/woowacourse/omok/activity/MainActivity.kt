@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity() {
     private fun showAlertDialog() {
         AlertDialog.Builder(this)
             .setTitle("")
-            .setMessage("이 위치에 돌을 놓을 수 없습니다.")
+            .setMessage(R.string.PUT_STONE_ERROR_MESSAGE)
             .setPositiveButton("ok", null)
             .create()
             .show()
