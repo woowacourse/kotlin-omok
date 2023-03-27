@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import woowacourse.omok.OmokApplication
 import woowacourse.omok.R
 import woowacourse.omok.data.db.OmokDbHelper
+import woowacourse.omok.presentation.chooseroomactivity.ChooseRoomActivity
 import woowacourse.omok.util.setOnSingleClickListener
 
 class LoginActivity : AppCompatActivity() {

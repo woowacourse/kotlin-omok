@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Oomok"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.ChooseRoomActivity"
+            android:name=".presentation.chooseroomactivity.ChooseRoomActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.LoginActivity"

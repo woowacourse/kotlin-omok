@@ -1,4 +1,4 @@
-package woowacourse.omok.presentation
+package woowacourse.omok.presentation.chooseroomactivity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
