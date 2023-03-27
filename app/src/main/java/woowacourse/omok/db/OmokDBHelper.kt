@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class OmokDBHelper(
-    context: Context?,
+    context: Context,
 ) : SQLiteOpenHelper(context, "game.db", null, 1) {
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(

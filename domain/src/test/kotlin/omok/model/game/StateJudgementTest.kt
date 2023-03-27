@@ -1,6 +1,6 @@
 package omok.model.game
 
-import OmokRuleConverter
+import StateJudgement
 import omok.model.state.ForbiddenFour
 import omok.model.state.ForbiddenThree
 import omok.model.state.Stay
@@ -12,7 +12,7 @@ import omok.model.stone.GoStoneColor.WHITE
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class OmokRuleConverterTest {
+class StateJudgementTest {
     @Test
     fun `5개의 같은 색의 돌이 가로로 연이어 놓이면 승리이다`() {
         val board = Board().apply {
@@ -21,7 +21,7 @@ class OmokRuleConverterTest {
             addStone(GoStone(BLACK, Coordinate.of("H11")))
             addStone(GoStone(BLACK, Coordinate.of("H12")))
         }
-        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("H10")))
+        val rule = StateJudgement(board, GoStone(BLACK, Coordinate.of("H10")))
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
@@ -36,7 +36,7 @@ class OmokRuleConverterTest {
             addStone(GoStone(BLACK, Coordinate.of("I10")))
             addStone(GoStone(BLACK, Coordinate.of("J10")))
         }
-        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("H10")))
+        val rule = StateJudgement(board, GoStone(BLACK, Coordinate.of("H10")))
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
@@ -51,7 +51,7 @@ class OmokRuleConverterTest {
             addStone(GoStone(BLACK, Coordinate.of("I11")))
             addStone(GoStone(BLACK, Coordinate.of("J12")))
         }
-        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("H10")))
+        val rule = StateJudgement(board, GoStone(BLACK, Coordinate.of("H10")))
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
@@ -66,7 +66,7 @@ class OmokRuleConverterTest {
             addStone(GoStone(BLACK, Coordinate.of("I9")))
             addStone(GoStone(BLACK, Coordinate.of("J8")))
         }
-        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("H10")))
+        val rule = StateJudgement(board, GoStone(BLACK, Coordinate.of("H10")))
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
@@ -81,7 +81,7 @@ class OmokRuleConverterTest {
             addStone(GoStone(WHITE, Coordinate.of("H11")))
             addStone(GoStone(BLACK, Coordinate.of("H12")))
         }
-        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("H10")))
+        val rule = StateJudgement(board, GoStone(BLACK, Coordinate.of("H10")))
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
@@ -95,7 +95,7 @@ class OmokRuleConverterTest {
             addStone(GoStone(BLACK, Coordinate.of("H9")))
             addStone(GoStone(BLACK, Coordinate.of("H11")))
         }
-        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("H10")))
+        val rule = StateJudgement(board, GoStone(BLACK, Coordinate.of("H10")))
 
         assertThat(
             rule.checkBlackWin(Coordinate.of("H10"))
@@ -111,7 +111,7 @@ class OmokRuleConverterTest {
             addStone(GoStone(WHITE, Coordinate.of("H12")))
             addStone(GoStone(WHITE, Coordinate.of("H13")))
         }
-        val rule = OmokRuleConverter(board, GoStone(WHITE, Coordinate.of("H10")))
+        val rule = StateJudgement(board, GoStone(WHITE, Coordinate.of("H10")))
 
         assertThat(
             rule.checkWhiteWin(Coordinate.of("H10"))
@@ -126,7 +126,7 @@ class OmokRuleConverterTest {
             addStone(GoStone(BLACK, Coordinate.of("M4")))
             addStone(GoStone(BLACK, Coordinate.of("N4")))
         }
-        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("K4")))
+        val rule = StateJudgement(board, GoStone(BLACK, Coordinate.of("K4")))
 
         assertThat(
             rule.countOpenThrees(Coordinate.of("K4"))
@@ -141,7 +141,7 @@ class OmokRuleConverterTest {
             addStone(GoStone(BLACK, Coordinate.of("E6")))
             addStone(GoStone(BLACK, Coordinate.of("E5")))
         }
-        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("E3")))
+        val rule = StateJudgement(board, GoStone(BLACK, Coordinate.of("E3")))
 
         assertThat(
             rule.countOpenThrees(Coordinate.of("E3"))
@@ -156,7 +156,7 @@ class OmokRuleConverterTest {
             addStone(GoStone(BLACK, Coordinate.of("M10")))
             addStone(GoStone(BLACK, Coordinate.of("M12")))
         }
-        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("L11")))
+        val rule = StateJudgement(board, GoStone(BLACK, Coordinate.of("L11")))
 
         assertThat(
             rule.countOpenThrees(Coordinate.of("L11"))
@@ -175,7 +175,7 @@ class OmokRuleConverterTest {
             addStone(GoStone(WHITE, Coordinate.of("D5")))
             addStone(GoStone(WHITE, Coordinate.of("H9")))
         }
-        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("H5")))
+        val rule = StateJudgement(board, GoStone(BLACK, Coordinate.of("H5")))
 
         assertThat(
             rule.countOpenFours(Coordinate.of("H5"))
@@ -191,7 +191,7 @@ class OmokRuleConverterTest {
             addStone(GoStone(BLACK, Coordinate.of("I12")))
             addStone(GoStone(BLACK, Coordinate.of("J12")))
         }
-        val rule = OmokRuleConverter(board, GoStone(BLACK, Coordinate.of("F12")))
+        val rule = StateJudgement(board, GoStone(BLACK, Coordinate.of("F12")))
 
         assertThat(
             rule.countOpenFours(Coordinate.of("F12"))

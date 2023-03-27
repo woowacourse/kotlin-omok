@@ -5,7 +5,7 @@ import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
 
-class OmokRuleConverter(
+class StateJudgement(
     private val board: Board,
     private val goStone: GoStone
 ) {
@@ -44,17 +44,17 @@ class OmokRuleConverter(
             return board.map { it.map(::convertColor) }
         }
 
-        private fun convertColor(it: GoStone?): Int {
+        private fun convertColor(stone: GoStone?): Int {
             return when {
-                it == null -> 0
-                it.color == GoStoneColor.BLACK -> 1
-                it.color == GoStoneColor.WHITE -> 2
+                stone == null -> 0
+                stone.color == GoStoneColor.BLACK -> 1
+                stone.color == GoStoneColor.WHITE -> 2
                 else -> throw IllegalArgumentException()
             }
         }
 
-        private fun reverseColor(it: GoStoneColor): Int {
-            return when (it) {
+        private fun reverseColor(stoneColor: GoStoneColor): Int {
+            return when (stoneColor) {
                 GoStoneColor.BLACK -> 2
                 GoStoneColor.WHITE -> 1
             }

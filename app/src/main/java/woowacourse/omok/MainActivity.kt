@@ -23,15 +23,16 @@ class MainActivity : AppCompatActivity() {
 
     private val controller = OmokController()
     private val db by lazy { OmokDB(this) }
+    private lateinit var board: List<ImageView>
     private var isRunning = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val board = setBoard()
+        setBoard()
         setRestartButton()
-        setPreviousGame(board)
+        setPreviousGame()
     }
 
     private fun setRestartButton() {
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setBoard(): List<ImageView> {
+    private fun setBoard() {
         val boardUi = findViewById<TableLayout>(R.id.board)
         val board = boardUi
             .children
@@ -54,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         board.forEachIndexed { index, view ->
             view.setOnClickListener { updateBoard(view, index) }
         }
-        return board
     }
 
     private fun updateBoard(view: ImageView, index: Int) {
@@ -64,7 +64,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         val coordinate = Coordinate.of(index)
-        if (isStoneExisted(coordinate)) return
+        if (isStoneExisted(coordinate)) {
+            makeMessage("이미 해당 위치에 돌이 있어요!")
+            return
+        }
 
         addStone(coordinate, view)
     }
@@ -87,15 +90,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun isStoneExisted(coordinate: Coordinate): Boolean {
-        if (!controller.board.canAdd(coordinate)) {
-            makeMessage("이미 해당 위치에 돌이 있어요!")
-            return true
-        }
-        return false
-    }
+    private fun isStoneExisted(coordinate: Coordinate): Boolean = !controller.board.canAdd(coordinate)
 
-    private fun setPreviousGame(board: List<ImageView>) {
+    private fun setPreviousGame() {
         val stones = db.getExistingStones()
         controller.addAll(stones)
 
