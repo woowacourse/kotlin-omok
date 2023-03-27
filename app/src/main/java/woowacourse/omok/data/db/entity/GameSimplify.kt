@@ -6,5 +6,5 @@ import domain.domain.CoordinateState
 data class GameSimplify(
     val gameId: Int?,
     val turn: CoordinateState,
-    val Board: BoardState
+    val board: BoardState
 )

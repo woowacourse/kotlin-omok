@@ -15,11 +15,11 @@ object GameTableSimplify : SQLiteTable {
     const val TURN = "turn"
     const val BOARD = "board"
 
-    override val name: String = "gamesimplify"
+    override val name: String = "gameSimplify"
     override val scheme: List<Column> = listOf(
         Column(ID, "INTEGER PRIMARY KEY AUTOINCREMENT"),
         Column(TURN, "int"),
-        Column(BOARD, "TEXT"),
+        Column(BOARD, "TEXT")
     )
 
     fun numberToCoordinateState(number: Int): CoordinateState {

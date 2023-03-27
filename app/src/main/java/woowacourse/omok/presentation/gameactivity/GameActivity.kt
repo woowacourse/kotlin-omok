@@ -5,17 +5,19 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import androidx.appcompat.app.AppCompatActivity
-import domain.domain.CoordinateState
-import domain.domain.OmokGame
-import domain.domain.Position
-import domain.domain.ProgressState
+import domain.domain.*
 import domain.library.combinerule.CombinedRuleAdapter
 import woowacourse.omok.R
+import woowacourse.omok.data.db.OmokDbHelperSimplify
+import woowacourse.omok.data.db.entity.GameSimplify
 import woowacourse.omok.presentation.finishactivity.FinishActivity
+import kotlin.properties.Delegates
 
 class GameActivity : AppCompatActivity() {
 
-    private val omokGame: OmokGame = OmokGame(gameRule = CombinedRuleAdapter())
+    private val omokDbHelperSimplify = OmokDbHelperSimplify(this)
+    var gameId by Delegates.notNull<Int>()
+    private lateinit var omokGame: OmokGame
 
     private lateinit var turnView: TurnView
     private lateinit var lastPositionView: LastPositionView
@@ -26,22 +28,34 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        getDbGameState()
         initViewId()
+    }
+
+    private fun getDbGameState() {
+        val simplifyGame = omokDbHelperSimplify.selectGame() ?: omokDbHelperSimplify.insertGame()
+        gameId = simplifyGame.gameId ?: throw IllegalStateException(DB_GET_GAME_ID_ERROR)
+        omokGame = OmokGame(
+            board = Board(simplifyGame.board),
+            gameRule = CombinedRuleAdapter(),
+            initTurn = simplifyGame.turn
+        )
     }
 
     private fun initViewId() {
         turnView = TurnView(findViewById(R.id.tv_turn), omokGame)
         lastPositionView = LastPositionView(findViewById(R.id.tv_last_position), omokGame)
         messageView = MessageView(findViewById(R.id.tv_message), omokGame)
-        boardView = GameBoardView(findViewById<TableLayout>(R.id.board), ::coordinateClickListener)
+        boardView = GameBoardView(
+            findViewById<TableLayout>(R.id.board),
+            omokGame.board.boardState,
+            ::coordinateClickListener
+        )
     }
 
     private fun coordinateClickListener(imageView: ImageView, rowIndex: Int, columIndex: Int) {
         val turnStoneColor = omokGame.turn
-        if (progressGame(
-                Position(rowIndex, columIndex)
-            )
-        ) {
+        if (progressGame(Position(rowIndex, columIndex))) {
             setViewState(turnStoneColor, imageView)
         }
     }
@@ -82,8 +96,24 @@ class GameActivity : AppCompatActivity() {
         val intent = Intent(this, FinishActivity::class.java).apply {
             putExtra("winner", winner)
             putExtra("board", omokGame.board.boardState)
+            putExtra("gameId", gameId)
         }
         startActivity(intent)
         finish()
+    }
+
+    override fun onDestroy() {
+        omokDbHelperSimplify.updateGame(
+            GameSimplify(
+                gameId = gameId,
+                turn = omokGame.turn,
+                board = omokGame.board.boardState
+            )
+        )
+        super.onDestroy()
+    }
+
+    companion object {
+        private const val DB_GET_GAME_ID_ERROR = "DB의 자료를 불러오는중 ID값에 문제가 생겼습니다"
     }
 }

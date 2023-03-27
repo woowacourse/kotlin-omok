@@ -4,9 +4,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import domain.domain.BoardState
+import domain.domain.CoordinateState
 import woowacourse.omok.data.SerializableBoard
 import woowacourse.omok.data.db.entity.GameSimplify
-import woowacourse.omok.data.db.table.GameTable
 import woowacourse.omok.data.db.table.GameTableSimplify
 
 class OmokDbHelperSimplify(
@@ -28,37 +29,48 @@ class OmokDbHelperSimplify(
         onCreate(db)
     }
 
-    fun selectGameById(gameId: Int): GameSimplify? {
-        val cursor = readableDatabase.rawQuery(
-            "SELECT ${GameTableSimplify.TURN},${GameTableSimplify.BOARD} FROM ${GameTableSimplify.name} WHERE ${GameTableSimplify.ID} = \"$gameId\"",
+    fun selectGame(): GameSimplify? {
+        val cursor = writableDatabase.rawQuery(
+            "SELECT * FROM ${GameTableSimplify.name}",
             null
         )
         val games = mutableListOf<GameSimplify>()
-        with(cursor) {
-            while (moveToNext()) {
-                games.add(
-                    GameSimplify(
-                        getInt(getColumnIndexOrThrow(GameTable.ID)),
-                        GameTable.numberToCoordinateState(getInt(getColumnIndexOrThrow(GameTable.TURN))),
-                        SerializableBoard.stringToBoardState(
-                            getString(
-                                getColumnIndexOrThrow(
-                                    GameTable.BOARD
+        if (cursor != null) {
+            with(cursor) {
+                while (moveToNext()) {
+                    games.add(
+                        GameSimplify(
+                            getInt(getColumnIndexOrThrow(GameTableSimplify.ID)),
+                            GameTableSimplify.numberToCoordinateState(
+                                getInt(
+                                    getColumnIndexOrThrow(
+                                        GameTableSimplify.TURN
+                                    )
+                                )
+                            ),
+                            SerializableBoard.stringToBoardState(
+                                getString(
+                                    getColumnIndexOrThrow(
+                                        GameTableSimplify.BOARD
+                                    )
                                 )
                             )
                         )
                     )
-                )
+                }
             }
         }
         cursor.close()
         return games.firstOrNull()
     }
 
-    fun insertGame(game: GameSimplify): GameSimplify {
+    fun insertGame(): GameSimplify {
         val contentValues = ContentValues().apply {
-            put(GameTableSimplify.TURN, GameTableSimplify.coordinateStateToNumber(game.turn))
-            put(GameTableSimplify.BOARD, SerializableBoard.boardStateToString(game.Board))
+            put(
+                GameTableSimplify.TURN,
+                GameTableSimplify.coordinateStateToNumber(CoordinateState.BLACK)
+            )
+            put(GameTableSimplify.BOARD, SerializableBoard.boardStateToString(BoardState()))
         }
         writableDatabase.insert(GameTableSimplify.name, null, contentValues)
         val cursor = readableDatabase.rawQuery("SELECT last_insert_rowid()", null)
@@ -66,24 +78,24 @@ class OmokDbHelperSimplify(
         cursor.moveToFirst()
         val id = cursor.getInt(0)
 
-        return GameSimplify(id, game.turn, game.Board)
+        return GameSimplify(id, CoordinateState.BLACK, BoardState())
     }
 
     fun updateGame(game: GameSimplify) {
-        writableDatabase.execSQL(
-            "UPDATE ${GameTableSimplify.name}" +
-                "SET ${GameTableSimplify.TURN} = ${
-                GameTableSimplify.coordinateStateToNumber(
-                    game.turn
-                )
-                }," +
-                "${GameTableSimplify.BOARD} = ${SerializableBoard.boardStateToString(game.Board)} " +
-                "WHERE ${GameTableSimplify.ID} = ${game.gameId} "
+        val contentValues = ContentValues().apply {
+            put(GameTableSimplify.TURN, GameTableSimplify.coordinateStateToNumber(game.turn))
+            put(GameTableSimplify.BOARD, SerializableBoard.boardStateToString(game.board))
+        }
+        writableDatabase.update(
+            GameTableSimplify.name,
+            contentValues,
+            "${GameTableSimplify.ID} = ${game.gameId}",
+            null
         )
     }
 
-    fun deleteGame(game: GameSimplify) {
-        writableDatabase.execSQL("DELETE FROM ${GameTableSimplify.name} WHERE ${GameTableSimplify.ID} = ${game.gameId}")
+    fun deleteGame(gameId: Int) {
+        writableDatabase.execSQL("DELETE FROM ${GameTableSimplify.name} WHERE ${GameTableSimplify.ID} = $gameId")
     }
 
     companion object {

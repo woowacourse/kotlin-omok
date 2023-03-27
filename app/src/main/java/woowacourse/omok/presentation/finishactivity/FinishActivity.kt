@@ -6,12 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import domain.domain.BoardState
 import domain.domain.CoordinateState
 import woowacourse.omok.R
+import woowacourse.omok.data.db.OmokDbHelperSimplify
 import woowacourse.omok.util.customGetSerializable
+import kotlin.properties.Delegates
 
 class FinishActivity : AppCompatActivity() {
 
+    private val omokDbHelperSimplify = OmokDbHelperSimplify(this)
+
     private lateinit var winner: CoordinateState
     private lateinit var board: BoardState
+    private var gameId by Delegates.notNull<Int>()
     private lateinit var tvWinnerMessage: TextView
     private lateinit var finishBoardView: FinishBoardView
 
@@ -23,6 +28,7 @@ class FinishActivity : AppCompatActivity() {
         initViewId()
         initWinnerMessage()
         initFinishBoardView()
+        clearGameState()
     }
 
     private fun initExtraData() {
@@ -30,6 +36,7 @@ class FinishActivity : AppCompatActivity() {
             ?: throw IllegalStateException()
         board = intent.customGetSerializable("board")
             ?: throw IllegalStateException()
+        gameId = intent.getIntExtra("gameId", -1)
     }
 
     private fun initViewId() {
@@ -42,5 +49,10 @@ class FinishActivity : AppCompatActivity() {
 
     private fun initFinishBoardView() {
         finishBoardView = FinishBoardView(findViewById(R.id.finish_board), board)
+        finishBoardView.setBoardTask()
+    }
+
+    private fun clearGameState() {
+        omokDbHelperSimplify.deleteGame(gameId)
     }
 }
