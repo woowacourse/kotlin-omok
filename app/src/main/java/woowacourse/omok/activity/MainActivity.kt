@@ -21,7 +21,6 @@ import woowacourse.omok.R
 import woowacourse.omok.console.InputView
 import woowacourse.omok.console.OutputView
 import woowacourse.omok.controller.AndroidOmokController
-import woowacourse.omok.controller.ConsoleOmokController
 import woowacourse.omok.data.database.OmokDatabase
 import woowacourse.omok.data.database.repository.OmokRepository
 import woowacourse.omok.mapper.toPresentation
@@ -61,7 +60,8 @@ class MainActivity : AppCompatActivity(), InputView, OutputView {
 
     private fun initOmokController() {
         omokController = AndroidOmokController(
-            ConsoleOmokController(this, this),
+            inputView = this,
+            outputView = this,
             OmokRepository(OmokDatabase.getInstance(this)),
         )
     }

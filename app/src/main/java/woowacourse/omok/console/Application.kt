@@ -1,10 +1,8 @@
-package woowacourse.omok
+package woowacourse.omok.console
 
 import domain.game.Omok.Companion.OMOK_BOARD_SIZE
 import domain.rule.BlackRenjuRule
 import domain.rule.WhiteRenjuRule
-import woowacourse.omok.console.OmokInputView
-import woowacourse.omok.console.OmokOutputView
 import woowacourse.omok.controller.ConsoleOmokController
 
 suspend fun main() {
