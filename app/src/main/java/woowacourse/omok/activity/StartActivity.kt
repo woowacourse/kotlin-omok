@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.activity
 
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
@@ -8,6 +8,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import woowacourse.omok.R
+import woowacourse.omok.Storage
+import woowacourse.omok.component.DialogButton
 import woowacourse.omok.db.OmokDBHelper
 import woowacourse.omok.db.PlayerContract
 

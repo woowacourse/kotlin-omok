@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.activity
 
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import omok.domain.player.Black
 import omok.domain.player.White
+import woowacourse.omok.R
+import woowacourse.omok.Storage
 import woowacourse.omok.db.OmokDBHelper
 import woowacourse.omok.db.PlayerContract
 

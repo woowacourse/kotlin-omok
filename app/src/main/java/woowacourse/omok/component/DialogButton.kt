@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.component
 
 import android.content.DialogInterface.OnClickListener
 

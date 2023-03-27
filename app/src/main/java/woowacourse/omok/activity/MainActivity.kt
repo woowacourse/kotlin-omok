@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.activity
 
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
@@ -20,6 +20,8 @@ import omok.domain.judgment.ResultReferee
 import omok.domain.player.Black
 import omok.domain.player.Stone
 import omok.domain.player.White
+import woowacourse.omok.R
+import woowacourse.omok.Storage
 import woowacourse.omok.db.BoardContract
 import woowacourse.omok.db.OmokDBHelper
 import woowacourse.omok.db.PlayerContract
