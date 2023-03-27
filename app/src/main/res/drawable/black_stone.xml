@@ -1,0 +1,33 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="500"
+    android:viewportHeight="500">
+    <group
+        android:scaleX="1.697852"
+        android:scaleY="1.792177"
+        android:translateX="-100.307"
+        android:translateY="-97.08333">
+        <path android:pathData="M350.62369 193.66579A144.3 136.70526 0 1 1 62.023682 193.66579A144.3 136.70526 0 1 1 350.62369 193.66579z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:centerX="142.4033"
+                    android:centerY="140.2687"
+                    android:gradientRadius="208.2216"
+                    android:tileMode="clamp"
+                    android:type="radial">
+                    <item
+                        android:color="#575757"
+                        android:offset="0" />
+                    <item
+                        android:color="#343434"
+                        android:offset="0.2727273" />
+                    <item
+                        android:color="@color/omokBoardLineColor"
+                        android:offset="1" />
+                </gradient>
+            </aapt:attr>
+        </path>
+    </group>
+</vector>
