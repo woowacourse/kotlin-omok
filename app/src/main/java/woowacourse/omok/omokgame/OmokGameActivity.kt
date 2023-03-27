@@ -105,14 +105,13 @@ class OmokGameActivity : AppCompatActivity(), Observer {
     }
 
     private fun updateView(state: State) {
-        when (preColor == state.getTurn()) {
-            true -> defaultSnackBar(findViewById(R.id.root), "놓을 수 없는 수 입니다")
-            false -> {
-                initDescription(state.getTurn())
-                drawStone(state)
-                updateDb(state)
-            }
+        if (preColor == state.getTurn()) {
+            defaultSnackBar(findViewById(R.id.root), "놓을 수 없는 수 입니다")
+            return
         }
+        initDescription(state.getTurn())
+        drawStone(state)
+        updateDb(state)
     }
 
     private fun drawStone(state: State) {
