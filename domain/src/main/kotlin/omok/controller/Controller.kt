@@ -55,7 +55,7 @@ class Controller(private val inputView: InputView, private val outputView: Outpu
     ): Boolean {
         if (selectedPosition != latestPosition) {
             outputView.printBoard(game.board)
-            game.checkWinner(selectedPosition)
+            game.changeFinishState(selectedPosition)
             if (game.isFinished) return true
             game.changeTurn()
         }

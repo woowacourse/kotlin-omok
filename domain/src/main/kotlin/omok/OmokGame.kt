@@ -27,7 +27,7 @@ class OmokGame(
         turn.nextTurn()
     }
 
-    fun checkWinner(position: Position) {
+    fun changeFinishState(position: Position) {
         val isWinner = referee.hasFiveOrMoreStoneInRow(board.positions, position)
         if (isWinner) {
             isFinished = true

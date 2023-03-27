@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         view: ImageView
     ): Boolean {
         view.setImageResource(changeStoneToImg(game.currentStone))
-        game.checkWinner(selectedPosition)
+        game.changeFinishState(selectedPosition)
         if (game.isFinished) return true
         game.changeTurn()
         return false
