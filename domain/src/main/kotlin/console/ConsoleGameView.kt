@@ -43,14 +43,11 @@ class ConsoleGameView(
 
     private fun processStoneRead(): VectorSystem? {
         when (val input = readStone()) {
-            StoneReadError.ColumnNotAlpha ->
-                renderError(ConsoleViewErrorHandler.MESSAGE_COLUMN_MUST_BE_ALPHA)
-            StoneReadError.RowNotNumeric ->
-                renderError(ConsoleViewErrorHandler.MESSAGE_ROW_MUST_BE_NUM)
-            StoneReadError.Empty ->
-                renderError(ConsoleViewErrorHandler.MESSAGE_INPUT_EMPTY)
             is OmokResult.Success<*> -> {
                 return input.value as VectorSystem
+            }
+            else -> {
+                renderError(input.message)
             }
         }
         return null
