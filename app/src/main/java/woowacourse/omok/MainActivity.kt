@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     private val board: TableLayout by lazy { findViewById<TableLayout>(R.id.board) }
     private val retryButton: Button by lazy { findViewById(R.id.retry_btn) }
-    private lateinit var boardViews: List<List<ImageView>>
+    private val boardViews: List<List<ImageView>> by lazy { createBoardViews() }
 
     private val db: SQLiteDatabase by lazy { StonePositionDbHelper(this).writableDatabase }
     private val dbHandler: StonePositionDbHandler by lazy { StonePositionDbHandler(db) }
@@ -37,14 +37,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        boardViews = getBoardViews()
-
         updateBoardViewFromDb()
         setBoardClickEvent()
         setRetryButtonClickEvent()
     }
 
-    private fun getBoardViews(): List<List<ImageView>> =
+    private fun createBoardViews(): List<List<ImageView>> =
         List(board.childCount) { row ->
             val tableRow = board.getChildAt(row) as TableRow
             List(tableRow.childCount) { col ->
