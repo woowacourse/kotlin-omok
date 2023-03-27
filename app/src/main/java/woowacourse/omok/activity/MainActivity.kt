@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     private val boards: List<ImageView> by lazy { getBoardViews() }
     private val descriptionView: TextView by lazy { findViewById(R.id.description) }
     private val dbHelper: OmokDBHelper by lazy { OmokDBHelper(applicationContext) }
-    private val db: SQLiteDatabase by lazy { dbHelper.writableDatabase }
     private val omok: Omok by lazy { initOmok() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,17 +50,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        if (!omok.players.isPlaying) dbHelper.deleteAll(db)
+        if (!omok.players.isPlaying) dbHelper.deleteAll()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        dbHelper.close(db)
+        dbHelper.close()
     }
 
     private fun initOmok(): Omok {
-        val blackIndexs = dbHelper.getIndexsByColor(db, StoneColor.BLACK.name)
-        val whiteIndexs = dbHelper.getIndexsByColor(db, StoneColor.WHITE.name)
+        val blackIndexs = dbHelper.getIndexsByColor(StoneColor.BLACK.name)
+        val whiteIndexs = dbHelper.getIndexsByColor(StoneColor.WHITE.name)
 
         blackIndexs.forEach {
             setStone(boards[it], StoneColor.BLACK)
@@ -107,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         if (result is TurnResult.Playing && result.isExistPoint) Toast.makeText(context, R.string.already_exist, Toast.LENGTH_LONG).show()
         if (result !is TurnResult.Playing || !result.isExistPoint) {
             setStone(view, omok.players.curPlayerColor.next())
-            dbHelper.insert(db, index, omok.players.curPlayerColor.next().name)
+            dbHelper.insert(index, omok.players.curPlayerColor.next().name)
         }
         descriptionView.text = context.getString(R.string.who_is_turn).format(result.players.curPlayerColor.toPresentation().text)
     }

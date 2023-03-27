@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class OmokDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+    private val db = writableDatabase
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
             "CREATE TABLE ${OmokConstract.TABLE_NAME} (" +
@@ -20,7 +21,7 @@ class OmokDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         onCreate(db)
     }
 
-    fun getIndexsByColor(db: SQLiteDatabase, color: String): List<Int> {
+    fun getIndexsByColor(color: String): List<Int> {
         val indexs = mutableListOf<Int>()
         if (!db.isOpen) throw IllegalAccessException()
         val cursor = db.query(
@@ -37,7 +38,7 @@ class OmokDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return indexs.toList()
     }
 
-    fun insert(db: SQLiteDatabase, index: Int, color: String) {
+    fun insert(index: Int, color: String) {
         if (!db.isOpen) throw IllegalAccessException()
         db.insert(OmokConstract.TABLE_NAME, null, values(index, color))
     }
@@ -49,12 +50,8 @@ class OmokDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return values
     }
 
-    fun deleteAll(db: SQLiteDatabase) {
+    fun deleteAll() {
         db.execSQL("DELETE FROM ${OmokConstract.TABLE_NAME}")
-    }
-
-    fun close(db: SQLiteDatabase) {
-        db.close()
     }
 
     companion object {
