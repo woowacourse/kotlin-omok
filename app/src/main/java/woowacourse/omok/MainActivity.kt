@@ -18,11 +18,12 @@ import omok.model.stone.Coordinate
 import omok.model.stone.GoStoneColor
 import omok.view.toKorean
 import woowacourse.omok.db.OmokDB
+import woowacourse.omok.db.OmokRepository
 
 class MainActivity : AppCompatActivity() {
 
     private val controller = OmokController()
-    private val db by lazy { OmokDB(this) }
+    private val db by lazy { OmokDB(OmokRepository(this)) }
     private lateinit var board: List<ImageView>
     private var isRunning = true
 

@@ -1,8 +1,6 @@
 package woowacourse.omok.db
 
 import android.content.ContentValues
-import android.content.Context
-import android.database.sqlite.SQLiteDatabase
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
@@ -13,13 +11,8 @@ import woowacourse.omok.db.OmokConstant.TABLE_COLUMN_X
 import woowacourse.omok.db.OmokConstant.TABLE_COLUMN_Y
 
 class OmokDB(
-    private val context: Context
+    private val repository: OmokRepository
 ) {
-    private val db: SQLiteDatabase by lazy {
-        OmokDBHelper(context).writableDatabase
-    }
-    private val repository = OmokRepository(db)
-
     fun insert(goStone: GoStone) {
         val value = ContentValues().apply {
             put(TABLE_COLUMN_X, goStone.coordinate.x)

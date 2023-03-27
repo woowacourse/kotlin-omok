@@ -1,7 +1,11 @@
 package omok.view
 
 import omok.model.game.Board
-import omok.model.state.*
+import omok.model.state.ForbiddenFour
+import omok.model.state.ForbiddenThree
+import omok.model.state.State
+import omok.model.state.Stay
+import omok.model.state.Win
 import omok.model.stone.Coordinate
 import omok.model.stone.GoStone
 import omok.model.stone.GoStoneColor
