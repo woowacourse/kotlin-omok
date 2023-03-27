@@ -141,11 +141,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetGame() {
-        getOmokBoardView().forEach { it.setImageResource(0) }
         if (!omokRepository.isEmpty()) {
+            resetBoardView()
             omokRepository.reset()
         }
         state = BlackTurn(Board())
+    }
+
+    private fun resetBoardView() {
+        getOmokBoardView().forEach { it.setImageResource(0) }
     }
 
     private fun isPutBlackStone(stone: Stone): Boolean =
