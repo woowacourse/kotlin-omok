@@ -21,11 +21,11 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<ImageView>()
             .toList()
     }
-    private val omokGame: OmokGame by lazy {
-        omokDbManager.getOmokGame(rule = RenjuRuleAdapter())
+    private val omokDbHelper: OmokDbHelper by lazy {
+        OmokDbHelper(this)
     }
-    private val omokDbManager: OmokDbManager by lazy {
-        OmokDbManager(OmokDbHelper(this))
+    private val omokGame: OmokGame by lazy {
+        omokDbHelper.getOmokGame(rule = RenjuRuleAdapter())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
     private fun reset(allCoordinate: List<ImageView>, omokGame: OmokGame) {
         omokGame.resetGame()
         allCoordinate.forEach { it.setImageResource(0) }
-        omokDbManager.deleteOmokDatabase()
+        omokDbHelper.deleteOmokDatabase()
     }
 
     private fun showToastMessage(message: String): Unit =
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         val isSuccess = omokGame.placeTo(stone)
         if (isSuccess) {
             printStone(view, stone)
-            omokDbManager.updateOmokDatabase(stone)
+            omokDbHelper.updateOmokDatabase(stone)
         }
         showTurn(omokGame.currentColor)
     }

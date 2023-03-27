@@ -11,6 +11,27 @@ class OmokDbHelper(context: Context?) :
     SQLiteOpenHelper(context, "${OmokContract.TABLE_NAME}", null, 1) {
 
     private val omokWritableDb: SQLiteDatabase = this.writableDatabase
+    override fun onCreate(db: SQLiteDatabase?) {
+        db?.execSQL(
+            "CREATE TABLE ${OmokContract.TABLE_NAME} (" +
+                "${OmokContract.TABLE_COLUMN_COLOR} varchar(2) not null," +
+                "${OmokContract.TABLE_COLUMN_X} int not null," +
+                "${OmokContract.TABLE_COLUMN_Y} int not null," +
+                "UNIQUE (x,y)" +
+                ");",
+        )
+    }
+
+    override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
+        db?.execSQL("DROP TABLE IF EXISTS ${OmokContract.TABLE_NAME}")
+        onCreate(db)
+    }
+
+    fun getOmokGame(rule: Rule): OmokGame {
+        val stones = getAllStonesInDatabase()
+        return OmokGame(Board(stones, rule))
+    }
+
     fun updateOmokDatabase(stone: Stone) {
         val contentValues = getStoneContentValues(stone)
         omokWritableDb.insert(OmokContract.TABLE_NAME, null, contentValues)
@@ -20,8 +41,21 @@ class OmokDbHelper(context: Context?) :
         omokWritableDb.delete(OmokContract.TABLE_NAME, null, null)
     }
 
-    fun getAllStonesSearchCursor(): Cursor {
+    private fun getAllStonesSearchCursor(): Cursor {
         return omokWritableDb.rawQuery("SELECT * FROM ${OmokContract.TABLE_NAME}", null)
+    }
+
+    private fun getAllStonesInDatabase(): Stones {
+        val cursor = getAllStonesSearchCursor()
+        var stones = Stones(listOf())
+        while (cursor.moveToNext()) {
+            val color =
+                cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.TABLE_COLUMN_COLOR))
+            val x = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.TABLE_COLUMN_X))
+            val y = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.TABLE_COLUMN_Y))
+            stones = stones.addStone(Stone(stringToColorInDb(color), Position(x, y)))
+        }
+        return stones
     }
 
     private fun getStoneContentValues(stone: Stone): ContentValues {
@@ -39,20 +73,12 @@ class OmokDbHelper(context: Context?) :
         }
     }
 
-    override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL(
-            "CREATE TABLE ${OmokContract.TABLE_NAME} (" +
-                "${OmokContract.TABLE_COLUMN_COLOR} varchar(2) not null," +
-                "${OmokContract.TABLE_COLUMN_X} int not null," +
-                "${OmokContract.TABLE_COLUMN_Y} int not null," +
-                "UNIQUE (x,y)" +
-                ");",
-        )
-    }
-
-    override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
-        db?.execSQL("DROP TABLE IF EXISTS ${OmokContract.TABLE_NAME}")
-        onCreate(db)
+    private fun stringToColorInDb(message: String): Color {
+        return when (message) {
+            BLACK_STONE_COLOR -> Color.BLACK
+            WHITE_STONE_COLOR -> Color.WHITE
+            else -> throw IllegalArgumentException("잘못된 색")
+        }
     }
 
     companion object {
