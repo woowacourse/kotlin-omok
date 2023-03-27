@@ -41,7 +41,14 @@ class StartActivity : AppCompatActivity() {
 
     private fun startGame() {
         val nickname = nicknameView.text.toString()
-        if (hasNickname(nickname)) return showStartDialog(nickname)
+        if (hasNickname(nickname)) {
+            val positiveButton = DialogButton("이어하기") { _, _ -> goToGame(nickname) }
+            val negativeButton = DialogButton("새로하기") { _, _ ->
+                PlayerContract.deleteRecord(omokDB, nickname)
+                startNewGame(nickname)
+            }
+            return showDialog("이미 게임이 존재합니다", positiveButton, negativeButton)
+        }
         startNewGame(nickname)
     }
 
@@ -52,16 +59,17 @@ class StartActivity : AppCompatActivity() {
         return count != 0
     }
 
-    private fun showStartDialog(nickname: String) {
+    private fun showDialog(
+        title: String,
+        positiveButton: DialogButton,
+        negativeButton: DialogButton
+    ) {
         val builder = AlertDialog
             .Builder(this)
             .setIcon(R.drawable.glo_icon)
-            .setTitle("이미 게임이 존재합니다")
-            .setPositiveButton("이어하기") { _, _ -> goToGame(nickname) }
-            .setNegativeButton("새로하기") { _, _ ->
-                PlayerContract.deleteRecord(omokDB, nickname)
-                startNewGame(nickname)
-            }
+            .setTitle(title)
+            .setPositiveButton(positiveButton.name, positiveButton.listener)
+            .setNegativeButton(negativeButton.name, negativeButton.listener)
         builder.show()
     }
 
@@ -81,18 +89,12 @@ class StartActivity : AppCompatActivity() {
 
     private fun continueGame() {
         val nickname = nicknameView.text.toString()
-        if (!hasNickname(nickname)) return showContinueDialog(nickname)
+        if (!hasNickname(nickname)) {
+            val positiveButton = DialogButton("새로하기") { _, _ -> startNewGame(nickname) }
+            val negativeButton = DialogButton("취소", null)
+            return showDialog("진행중인 게임이 존재하지 않습니다", positiveButton, negativeButton)
+        }
         goToGame(nickname)
-    }
-
-    private fun showContinueDialog(nickname: String) {
-        val builder = AlertDialog
-            .Builder(this)
-            .setIcon(R.drawable.glo_icon)
-            .setTitle("진행중인 게임이 존재하지 않습니다")
-            .setPositiveButton("새로하기") { _, _ -> startNewGame(nickname) }
-            .setNegativeButton("취소", null)
-        builder.show()
     }
 
     override fun onDestroy() {
