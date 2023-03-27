@@ -10,21 +10,4 @@ object OmokGameContract {
         const val X = "x"
         const val Y = "y"
     }
-
-    // Stone
-    // stoneId
-    // color
-    // row
-    // column
-
-    // Player
-    // userId
-    // name
-
-    // GameRoom
-    // Id
-    // roomName
-    // BlackPlayerId
-    // WhitePlayerId
-
 }
