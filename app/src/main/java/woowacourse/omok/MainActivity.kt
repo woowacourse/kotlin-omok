@@ -21,7 +21,7 @@ import woowacourse.omok.db.OmokDB
 
 class MainActivity : AppCompatActivity() {
 
-    private var controller = OmokController()
+    private val controller = OmokController()
     private val db by lazy { OmokDB(this) }
     private var isRunning = true
 
