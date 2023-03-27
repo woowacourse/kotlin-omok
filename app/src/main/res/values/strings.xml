@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Omok</string>
+
+    <!-- StartActivity -->
+    <string name="game_start_script">🐗오목 게임을 시작합니다🐗\n터치로 시작해보세요\n사랑해요 MOME❤️</string>
+
+    <!-- GameActivity -->
+    <string name="start_message">게임 시작!!!!!!</string>
+    <string name="turn_explain">현재 턴 :</string>
+    <string name="last_position_explain">마지막수 위치 :</string>
+    <string name="turn_error_message">금수 혹은 이미 놓은 자리입니다\n다시 시도해주세요</string>
+    <string name="request_position_message">돌을 놓을 위치를 터치해 주세요</string>
+    <string name="edit_text_nick_name_hint">닉네임을 입력하세요</string>
+    <string name="login_button">로그인</string>
+    <string name="button_new_game">새로운 게임 시작하기</string>
+    <string name="choose_room_explain">기존게임을 다시하고 싶으시다면 목록을 클릭해주세요</string>
+</resources>
