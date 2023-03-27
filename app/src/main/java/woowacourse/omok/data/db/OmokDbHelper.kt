@@ -10,12 +10,15 @@ import woowacourse.omok.data.db.entity.User
 import woowacourse.omok.data.db.table.GameTable
 import woowacourse.omok.data.db.table.UserTable
 
-class OmokDbHelper(context: Context, private val tables: List<SQLiteTable>) :
+class OmokDbHelper(
+    context: Context,
+    private val tables: List<SQLiteTable> = listOf(GameTable, UserTable)
+) :
     SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     override fun onCreate(db: SQLiteDatabase?) {
         tables.forEach {
             val columns = it.scheme.joinToString(",") { scheme -> "${scheme.name} ${scheme.type}" }
-            db?.execSQL("CREATE TABLE ${it.name} ($columns)")
+            db?.execSQL("CREATE TABLE IF NOT EXISTS ${it.name} ($columns)")
         }
     }
 
@@ -28,18 +31,20 @@ class OmokDbHelper(context: Context, private val tables: List<SQLiteTable>) :
 
     fun selectUserByName(name: String): User? {
         val cursor = readableDatabase.rawQuery(
-            "SELECT * FROM ${UserTable.name}  WHERE ${UserTable.NAME} = $name",
+            "SELECT * FROM ${UserTable.name} WHERE ${UserTable.NAME} = \"$name\"",
             null
         )
         val users = mutableListOf<User>()
-        with(cursor) {
-            while (moveToNext()) {
-                users.add(
-                    User(
-                        getInt(getColumnIndexOrThrow(UserTable.ID)),
-                        getString(getColumnIndexOrThrow(UserTable.NAME))
+        if (cursor != null) {
+            with(cursor) {
+                while (moveToNext()) {
+                    users.add(
+                        User(
+                            getInt(getColumnIndexOrThrow(UserTable.ID)),
+                            getString(getColumnIndexOrThrow(UserTable.NAME))
+                        )
                     )
-                )
+                }
             }
         }
         cursor.close()

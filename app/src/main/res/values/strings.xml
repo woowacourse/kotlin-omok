@@ -10,4 +10,6 @@
     <string name="last_position_explain">마지막수 위치 :</string>
     <string name="turn_error_message">금수 혹은 이미 놓은 자리입니다\n다시 시도해주세요</string>
     <string name="request_position_message">돌을 놓을 위치를 터치해 주세요</string>
+    <string name="edit_text_nick_name_hint">닉네임을 입력하세요</string>
+    <string name="login_button">로그인</string>
 </resources>

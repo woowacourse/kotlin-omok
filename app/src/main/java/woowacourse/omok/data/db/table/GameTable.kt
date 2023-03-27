@@ -17,7 +17,7 @@ object GameTable : SQLiteTable {
     const val BOARD = "board"
     const val USERID = "userId"
 
-    override val name: String = "stone"
+    override val name: String = "game"
     override val scheme: List<Column> = listOf(
         Column(ID, "INTEGER PRIMARY KEY AUTOINCREMENT"),
         Column(TURN, "int"),
