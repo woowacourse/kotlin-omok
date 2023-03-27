@@ -116,11 +116,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showAlertDialog(message: String) {
-        val builder = AlertDialog.Builder(this)
-        builder.setIcon(R.drawable.error_24)
-        builder.setTitle("돌을 놓을 수 없습니다!")
-        builder.setMessage(message)
-        builder.setPositiveButton("확인", null)
+        val builder = AlertDialog
+            .Builder(this)
+            .setIcon(R.drawable.error_24)
+            .setTitle("돌을 놓을 수 없습니다!")
+            .setMessage(message)
+            .setPositiveButton("확인", null)
         builder.show()
     }
 
