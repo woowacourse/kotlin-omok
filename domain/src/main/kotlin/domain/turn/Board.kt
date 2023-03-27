@@ -14,6 +14,6 @@ class Board(
     fun isAlreadyPut(position: Position): Boolean = (map[position] != null)
 
     fun putStone(stone: Stone): Board {
-        return Board(map.toMutableMap().apply { this[stone.position] = stone.color })
+        return Board(map.plus(stone.position to stone.color))
     }
 }

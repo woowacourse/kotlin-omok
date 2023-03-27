@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     private val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             backKeyHandler.onBackPressed(
-                { IntegratedToast.showToast(baseContext, R.string.one_more_click_please_back_key) },
+                { Toaster.showToast(baseContext, R.string.one_more_click_please_back_key) },
                 ::endButtonOnClick
             )
         }

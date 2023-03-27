@@ -9,7 +9,7 @@ class DoubleClickBackKeyHandler(private val activity: Activity) {
         if (System.currentTimeMillis() > (backPressedTime + BACK_PRESSED_INTERVAL_TIME)) {
             backPressedTime = System.currentTimeMillis()
             oneClickAction()
-            IntegratedToast.showToast(activity, R.string.one_more_click_please_back_key)
+            Toaster.showToast(activity, R.string.one_more_click_please_back_key)
         } else if (System.currentTimeMillis() <= (backPressedTime + BACK_PRESSED_INTERVAL_TIME)) {
             secondClickAction()
         }
