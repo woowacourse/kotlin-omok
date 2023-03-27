@@ -12,6 +12,8 @@ import omok.view.OutputView
 class OmokController {
 
     val board = Board()
+    var isGameRunning = true
+        private set
 
     fun init() {
         OutputView.printInitGame()
@@ -29,6 +31,7 @@ class OmokController {
     fun playTurn(coordinate: Coordinate): State {
         val newStone = GoStone(board.getNextColor(), coordinate)
         val state = Judgement.judge(board, newStone)
+        isGameRunning = state.isRunning
         putStone(state, newStone)
         OutputView.printEachTurn(board, newStone, state)
         return state
@@ -37,6 +40,18 @@ class OmokController {
     fun getLastTurnColor(): GoStoneColor = board.lastPlacedStone.color
 
     fun getLastPlacedStone(): GoStone = board.lastPlacedStone
+
+    fun addAll(stones: List<GoStone>) {
+        board.addAllStones(stones)
+        updateGameStatus()
+    }
+
+    private fun updateGameStatus() {
+        val stone = getLastPlacedStone()
+        if (stone != GoStone.EMPTY && !Judgement.judge(board, getLastPlacedStone()).isRunning) {
+            isGameRunning = false
+        }
+    }
 
     private fun putStone(
         state: State,
@@ -56,9 +71,5 @@ class OmokController {
                 println(it.message)
             }
         }
-    }
-
-    fun addAll(stones: List<GoStone>) {
-        board.addAllStones(stones)
     }
 }

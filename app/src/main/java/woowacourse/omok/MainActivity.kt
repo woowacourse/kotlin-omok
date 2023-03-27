@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.controller.OmokController
-import omok.model.game.Judgement
 import omok.model.state.ForbiddenFour
 import omok.model.state.ForbiddenThree
 import omok.model.state.Stay
@@ -24,7 +23,6 @@ class MainActivity : AppCompatActivity() {
     private val controller = OmokController()
     private val db by lazy { OmokDB(OmokRepository(this)) }
     private lateinit var board: List<ImageView>
-    private var isRunning = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateBoard(view: ImageView, index: Int) {
-        if (!isRunning) {
+        if (!controller.isGameRunning) {
             makeMessage("게임이 끝났습니다!")
             return
         }
@@ -80,10 +78,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         when (state) {
-            is Win -> {
-                makeMessage("${controller.getLastTurnColor().toKorean()}이 승리했습니다!")
-                isRunning = false
-            }
+            is Win -> makeMessage("${controller.getLastTurnColor().toKorean()}이 승리했습니다!")
             is ForbiddenThree -> makeMessage("돌을 놓을 수 없어요! (3-3)")
             is ForbiddenFour -> makeMessage("돌을 놓을 수 없어요! (4-4)")
             is Stay -> {}
@@ -100,10 +95,6 @@ class MainActivity : AppCompatActivity() {
             val index = (14 - it.coordinate.y) * 15 + it.coordinate.x
             setStoneImage(board[index], it.color)
         }
-
-/*        controller.getLastPlacedStone().apply {
-            isRunning = Judgement.judge(controller.board, this) !is Win
-        }*/
     }
 
     private fun setStoneImage(view: ImageView, color: GoStoneColor) {
