@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             .toList()
     }
 
-    private fun checkState(view: ImageView, stone: Stone) {
+    private fun determineGameState(view: ImageView, stone: Stone) {
         when {
             state is End -> {
                 putStone(view, stone.type)
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                     state.stoneColor,
                 )
                 state = state.put(stone)
-                checkState(view, stone)
+                determineGameState(view, stone)
             }
         }
     }
