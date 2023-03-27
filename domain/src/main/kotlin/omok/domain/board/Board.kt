@@ -6,9 +6,10 @@ import omok.domain.judgment.RenjuReferee
 import omok.domain.player.Stone
 
 class Board(
-    initialPositions: MutableMap<Position, Stone?> = POSITIONS.associateWith { null }.toMutableMap()
+    initialPositions: MutableMap<Position, Stone?> = POSITIONS.associateWith { null }.toMutableMap(),
+    selectedReferee: PlacementReferee = RenjuReferee(Stone.BLACK)
 ) {
-    private val referee: Map<Stone, PlacementReferee> = mapOf(Stone.BLACK to RenjuReferee(Stone.BLACK))
+    private val referee: Map<Stone, PlacementReferee> = mapOf(Stone.BLACK to selectedReferee)
     private val cells = initialPositions.toMutableMap()
     val positions: Map<Position, Stone?>
         get() = cells.toMap()
