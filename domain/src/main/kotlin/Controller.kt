@@ -13,14 +13,9 @@ class Controller {
             val position = InputView.inputPosition()
             val stone = omokGame.getStone(position)
             val isSuccess = omokGame.placeTo(stone)
-            if (isSuccess) {
-                OutputView.printCurrentState(omokGame)
-                omokGame.checkFinished()
-            }
+            if (isSuccess) OutputView.printCurrentState(omokGame)
         }
         val winner = omokGame.getWinnerColor()
-        if (winner != null) {
-            OutputView.printResult(winner, omokGame.board)
-        }
+        if (winner != null) OutputView.printResult(winner, omokGame.board)
     }
 }

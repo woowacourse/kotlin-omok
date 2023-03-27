@@ -93,7 +93,6 @@ class MainActivity : AppCompatActivity() {
         if (isSuccess) {
             printStone(view, stone)
             omokDbManager.updateOmokDatabase(stone)
-            omokGame.checkFinished()
         }
         showTurn(omokGame.currentColor)
     }

@@ -9,7 +9,7 @@ class OmokGame(val board: Board) {
         changeCurrentColor()
     }
 
-    fun checkFinished() {
+    private fun changeStateFinished() {
         if (board.getWinnerColor() != null) currentState = State.Finished
     }
 
@@ -21,6 +21,7 @@ class OmokGame(val board: Board) {
         if (!board.canPlace(stone)) return false
         board.placeStone(stone)
         changeCurrentColor()
+        changeStateFinished()
         return true
     }
 
