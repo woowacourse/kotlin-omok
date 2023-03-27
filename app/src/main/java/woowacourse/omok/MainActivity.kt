@@ -37,9 +37,7 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { index, view ->
                 val x = index % 15
                 val y = index / 15
-                gameBoard.stones.value.find {
-                    it.coordinate.x == x && it.coordinate.y == y
-                }?.let {
+                gameBoard.stones.findStone(x,y)?.let {
                     view.setStoneDrawable(it.color)
                 }
                 view.setOnClickListener {

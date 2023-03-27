@@ -69,6 +69,13 @@ class Stones(
         return count
     }
 
+    fun findStone(x: Int, y: Int): Stone? {
+        return this.value.find {
+            it.coordinate.x == x
+                    && it.coordinate.y == y
+        }
+    }
+
     fun clearStones() {
         this._value.clear()
     }
