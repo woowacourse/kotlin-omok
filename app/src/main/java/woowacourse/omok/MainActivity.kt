@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -28,8 +27,9 @@ class MainActivity : AppCompatActivity() {
     private val retryButton: Button by lazy { findViewById(R.id.retry_btn) }
     private val boardViews: List<List<ImageView>> by lazy { createBoardViews() }
 
-    private val db: SQLiteDatabase by lazy { StonePositionDbHelper(this).writableDatabase }
-    private val dbHandler: StonePositionDbHandler by lazy { StonePositionDbHandler(db) }
+    private val dbHandler: StonePositionDbHandler by lazy {
+        StonePositionDbHandler(StonePositionDbHelper(this).writableDatabase)
+    }
     private var state: State = BlackTurn()
     private val boardMap: Board = Board()
 
@@ -42,13 +42,14 @@ class MainActivity : AppCompatActivity() {
         setRetryButtonClickEvent()
     }
 
-    private fun createBoardViews(): List<List<ImageView>> =
-        List(board.childCount) { row ->
+    private fun createBoardViews(): List<List<ImageView>> {
+        return List(board.childCount) { row ->
             val tableRow = board.getChildAt(row) as TableRow
             List(tableRow.childCount) { col ->
                 tableRow.getChildAt(col) as ImageView
             }
         }
+    }
 
     private fun setBoardClickEvent() {
         board
@@ -57,7 +58,9 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { row, it ->
                 it.children.filterIsInstance<ImageView>()
                     .forEachIndexed { col, view ->
-                        view.setOnClickListener { putStone(StonePosition(col + 1, row + 1), view) }
+                        view.setOnClickListener {
+                            putStone(StonePosition(col + 1, row + 1), view)
+                        }
                     }
             }
     }
@@ -87,7 +90,10 @@ class MainActivity : AppCompatActivity() {
                     getInt(getColumnIndexOrThrow(StonePositionConstract.TABLE_COLUMN_ROW))
                 val positionCol: Int =
                     getInt(getColumnIndexOrThrow(StonePositionConstract.TABLE_COLUMN_COLUMN))
-                putStone(StonePosition(positionCol, positionRow), boardViews[positionRow][positionCol])
+                putStone(
+                    StonePosition(positionCol, positionRow),
+                    boardViews[positionRow][positionCol]
+                )
             }
         }
 
