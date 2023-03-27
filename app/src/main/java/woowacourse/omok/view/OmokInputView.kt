@@ -1,23 +1,29 @@
 package woowacourse.omok.view
 
 import domain.point.Point
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import woowacourse.omok.view.mapper.toDomain
 import woowacourse.omok.view.model.PointModel
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class OmokInputView : InputView {
-    override suspend fun readPosition(onPutStone: (Point) -> Unit) {
+    override suspend fun readPosition(): Point = suspendCoroutine { continuation ->
         print(ASK_POSITION_MESSAGE)
         val colRow = readln()
         if (colRow.length !in POSITION_INPUT_RANGE) {
             println(INVALID_FORMAT_ERROR_MESSAGE)
-            readPosition(onPutStone)
+            CoroutineScope(Dispatchers.Main).launch { readPosition() }
         }
 
         val newPoint = PointModel(
             row = colRow.substring(ROW_INPUT_SIZE),
             col = colRow.first().toString(),
         ).toDomain()
-        newPoint?.let(onPutStone) ?: readPosition(onPutStone)
+        newPoint?.let { continuation.resume(it) }
+            ?: CoroutineScope(Dispatchers.Main).launch { readPosition() }
     }
 
     companion object {

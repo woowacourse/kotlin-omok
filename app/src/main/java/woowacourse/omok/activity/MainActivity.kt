@@ -31,6 +31,8 @@ import woowacourse.omok.utils.positiveButton
 import woowacourse.omok.utils.showMessage
 import woowacourse.omok.view.InputView
 import woowacourse.omok.view.OutputView
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class MainActivity : AppCompatActivity(), InputView, OutputView {
     private lateinit var board: TableLayout
@@ -105,9 +107,9 @@ class MainActivity : AppCompatActivity(), InputView, OutputView {
         }
     }
 
-    override suspend fun readPosition(onPutStone: (Point) -> Unit) {
-        for (newPoint in omokController.pointChannel) {
-            onPutStone(newPoint)
+    override suspend fun readPosition(): Point = suspendCoroutine { continuation ->
+        lifecycleScope.launch {
+            continuation.resume(omokController.pointChannel.receive())
         }
     }
 

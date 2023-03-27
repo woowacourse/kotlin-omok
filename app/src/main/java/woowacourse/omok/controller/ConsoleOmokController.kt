@@ -37,10 +37,9 @@ class ConsoleOmokController(
     }
 
     private suspend fun takeTurn(omok: Omok, onPutStone: (PutResult) -> Unit) {
-        inputView.readPosition { newPoint ->
-            val putResult = omok.put { newPoint }
-            onPutStone(putResult)
-        }
+        val newPoint = inputView.readPosition()
+        val putResult = omok.put { newPoint }
+        onPutStone(putResult)
     }
 
     private fun processPutResult(result: PutResult) {
