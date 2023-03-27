@@ -1,9 +1,9 @@
-package woowacourse.omok.view
+package woowacourse.omok.console
 
 import domain.game.Omok.Companion.OMOK_BOARD_SIZE
 import domain.point.Point
 import domain.stone.StoneColor
-import woowacourse.omok.view.mapper.toPresentation
+import woowacourse.omok.console.mapper.toPresentation
 
 class OmokOutputView : OutputView {
     override fun startGame() {

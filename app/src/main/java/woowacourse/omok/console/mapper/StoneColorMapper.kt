@@ -1,7 +1,7 @@
-package woowacourse.omok.view.mapper
+package woowacourse.omok.console.mapper
 
 import domain.stone.StoneColor
-import woowacourse.omok.view.model.StoneColorModel
+import woowacourse.omok.console.model.StoneColorModel
 
 fun StoneColor.toPresentation(): StoneColorModel = when (this) {
     StoneColor.BLACK -> StoneColorModel.BLACK

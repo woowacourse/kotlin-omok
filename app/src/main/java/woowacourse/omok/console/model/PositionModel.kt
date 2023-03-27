@@ -1,4 +1,4 @@
-package woowacourse.omok.view.model
+package woowacourse.omok.console.model
 
 class PositionModel(val row: String, val col: String) {
     override fun toString(): String = "$col$row"

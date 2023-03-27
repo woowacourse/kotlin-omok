@@ -6,8 +6,8 @@ import domain.game.PutFailed
 import domain.game.PutResult
 import domain.game.PutSuccess
 import domain.rule.OmokRule
-import woowacourse.omok.view.InputView
-import woowacourse.omok.view.OutputView
+import woowacourse.omok.console.InputView
+import woowacourse.omok.console.OutputView
 
 class ConsoleOmokController(
     private val inputView: InputView,

@@ -1,9 +1,9 @@
-package woowacourse.omok.view.mapper
+package woowacourse.omok.console.mapper
 
 import domain.point.Point
-import woowacourse.omok.view.model.PointModel
-import woowacourse.omok.view.model.PointModel.Companion.COLUMN_RANGE
-import woowacourse.omok.view.model.PointModel.Companion.ROW_RANGE
+import woowacourse.omok.console.model.PointModel
+import woowacourse.omok.console.model.PointModel.Companion.COLUMN_RANGE
+import woowacourse.omok.console.model.PointModel.Companion.ROW_RANGE
 
 fun Point.toPresentation(): PointModel {
     val row = ROW_RANGE[row - 1]

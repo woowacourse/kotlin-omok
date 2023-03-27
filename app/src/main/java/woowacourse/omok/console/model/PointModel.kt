@@ -1,4 +1,4 @@
-package woowacourse.omok.view.model
+package woowacourse.omok.console.model
 import domain.game.Omok.Companion.OMOK_BOARD_SIZE
 
 class PointModel(val row: String, val col: String) {

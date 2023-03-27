@@ -1,11 +1,11 @@
-package woowacourse.omok.view
+package woowacourse.omok.console
 
 import domain.point.Point
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import woowacourse.omok.view.mapper.toDomain
-import woowacourse.omok.view.model.PointModel
+import woowacourse.omok.console.mapper.toDomain
+import woowacourse.omok.console.model.PointModel
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 

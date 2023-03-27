@@ -18,6 +18,8 @@ import domain.stone.StoneColor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import woowacourse.omok.R
+import woowacourse.omok.console.InputView
+import woowacourse.omok.console.OutputView
 import woowacourse.omok.controller.AndroidOmokController
 import woowacourse.omok.controller.ConsoleOmokController
 import woowacourse.omok.data.database.OmokDatabase
@@ -29,8 +31,6 @@ import woowacourse.omok.utils.message
 import woowacourse.omok.utils.negativeButton
 import woowacourse.omok.utils.positiveButton
 import woowacourse.omok.utils.showMessage
-import woowacourse.omok.view.InputView
-import woowacourse.omok.view.OutputView
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 

@@ -1,4 +1,4 @@
-package woowacourse.omok.view
+package woowacourse.omok.console
 
 import domain.point.Point
 import domain.stone.StoneColor
