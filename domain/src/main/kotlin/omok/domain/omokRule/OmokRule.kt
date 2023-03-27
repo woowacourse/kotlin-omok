@@ -56,6 +56,25 @@ abstract class OmokRule(
         return distance
     }
 
+    protected fun countLine(
+        board: List<List<Int>>,
+        position: RulePosition,
+        direction: RuleDirection,
+    ): Int {
+        var curPosition = position
+        var distance = 0
+        while (willExceedBounds(curPosition, direction).not()) {
+            curPosition += direction
+            when (board[curPosition.y][curPosition.x]) {
+                currentStone -> distance++
+                opponentStone -> break
+                EMPTY_STONE -> break
+                else -> throw IllegalArgumentException()
+            }
+        }
+        return distance
+    }
+
     private fun willExceedBounds(position: RulePosition, direction: RuleDirection): Boolean = when {
         direction.x > 0 && position.x == MAX_X -> true
         direction.x < 0 && position.x == MIN_X -> true
