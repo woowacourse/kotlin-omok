@@ -87,6 +87,7 @@ class MainActivity : AppCompatActivity() {
                 System.exit(0)
             }
             .setNeutralButton("게임 종료") { dialog, which -> finish() }
+            .setCancelable(false)
             .create()
 
         db.deleteAll()
