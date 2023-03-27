@@ -25,30 +25,6 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
             val columns = it.scheme.joinToString(",") { scheme -> "${scheme.name} ${scheme.type}" }
             p0?.execSQL("CREATE TABLE ${it.name} ($columns)")
         }
-        p0?.execSQL("INSERT INTO STAGE VALUES(0)")
-        p0?.execSQL("INSERT INTO STAGE VALUES(1)")
-        p0?.execSQL("INSERT INTO STAGE VALUES(2)")
-
-        p0?.execSQL("INSERT INTO USER VALUES(0, \"dy\")")
-        p0?.execSQL("INSERT INTO USER VALUES(1, \"corgan\")")
-
-        p0?.execSQL("INSERT INTO USERSTAGES VALUES(0, 0)")
-        p0?.execSQL("INSERT INTO USERSTAGES VALUES(0, 1)")
-        p0?.execSQL("INSERT INTO USERSTAGES VALUES(1, 0)")
-        p0?.execSQL("INSERT INTO USERSTAGES VALUES(1, 1)")
-        p0?.execSQL("INSERT INTO USERSTAGES VALUES(1, 2)")
-
-        p0?.execSQL("INSERT INTO STONE VALUES(0, 0, 0, 0)")
-        p0?.execSQL("INSERT INTO STONE VALUES(1, 2, 2, 1)")
-        p0?.execSQL("INSERT INTO STONE VALUES(2, 1, 1, 0)")
-        p0?.execSQL("INSERT INTO STONE VALUES(3, 3, 4, 1)")
-        p0?.execSQL("INSERT INTO STONE VALUES(4, 5, 2, 1)")
-
-        p0?.execSQL("INSERT INTO STAGESTONES VALUES(0, 0)")
-        p0?.execSQL("INSERT INTO STAGESTONES VALUES(0, 1)")
-        p0?.execSQL("INSERT INTO STAGESTONES VALUES(1, 2)")
-        p0?.execSQL("INSERT INTO STAGESTONES VALUES(1, 3)")
-        p0?.execSQL("INSERT INTO STAGESTONES VALUES(2, 4)")
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
