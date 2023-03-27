@@ -11,10 +11,12 @@ import domain.OmokGame
 import domain.event.*
 import domain.stone.Point
 import domain.stone.Stone
+import woowacourse.omok.repository.StoneRepository
 
 class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventListener {
 
     private var toast: Toast? = null
+    private val stoneRepository: StoneRepository by lazy { StoneRepository(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,10 +32,14 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
         val finishEventManager = FinishEventManager()
         finishEventManager.add(this)
 
-        return OmokGame(
+        val omokGame = OmokGame(
             placeStoneEventManager = placeStoneEventManager,
             finishEventManager = finishEventManager
         )
+
+        stoneRepository.readAll().forEach { omokGame.place(it) }
+
+        return omokGame
     }
 
     private fun initBoardViewClickListener(omokGame: OmokGame) {
@@ -52,6 +58,8 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
 
     override fun notifyPlaceStoneEventHasOccurred(omokGame: OmokGame) {
         updateBoardView(omokGame)
+        stoneRepository.addStone(Stone(omokGame.getPointOfLastStonePlaced()!!))
+        println(omokGame.getPointOfLastStonePlaced())
     }
 
     private fun updateBoardView(omokGame: OmokGame) {
@@ -121,6 +129,7 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
         drawFinalBoardView(omokGame)
         showToast("%s의 승리입니다.".format(if (omokGame.isBlackWin()) "흑" else "백"))
         getBoardView().forEach { it.setOnClickListener { } }
+        stoneRepository.deleteAll()
     }
 
     private fun drawFinalBoardView(omokGame: OmokGame) {
