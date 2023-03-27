@@ -3,7 +3,7 @@ package domain
 class Stones(val values: List<Stone>) {
 
     init {
-        check(values.all { stone -> values.count { it.position == stone.position } == ONLY_ONE_POSITION }) { DUPLICATE_POSITION_ERROR }
+        checkHasDuplicatePosition()
     }
 
     fun addStone(stone: Stone): Stones {
@@ -16,6 +16,14 @@ class Stones(val values: List<Stone>) {
 
     fun getLastStone(): Stone? {
         return values.lastOrNull()
+    }
+
+    private fun checkHasDuplicatePosition() {
+        check(values.all { stone -> getCountSamePositionStone(stone) == ONLY_ONE_POSITION }) { DUPLICATE_POSITION_ERROR }
+    }
+
+    private fun getCountSamePositionStone(stone: Stone): Int {
+        return values.count { it.position == stone.position }
     }
 
     companion object {
