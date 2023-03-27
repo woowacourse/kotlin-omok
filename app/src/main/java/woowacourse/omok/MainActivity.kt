@@ -87,7 +87,6 @@ class MainActivity : AppCompatActivity() {
     private fun omokEventListener(point: OmokPoint, view: ImageView) {
         runningGame(point)?.let {
             saveData(point, it)
-            determineImageView(it, view)
             setViewToPlaceStone(it, view, point)
             when (omokGame.gameState) {
                 is BlackWin -> tvStatus.text = "흑돌이 이겼습니다"
