@@ -3,7 +3,6 @@ package woowacourse.omok.repository
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import woowacourse.omok.database.OmokContract.TABLE_COLUMN_ID
 import woowacourse.omok.database.OmokContract.TABLE_NAME
 
 class OmokRepository(val database: SQLiteDatabase) {
