@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import woowacourse.omok.R
+import woowacourse.omok.presentation.gameactivity.GameActivity
 import woowacourse.omok.util.setOnSingleClickListener
 
 class StartActivity : AppCompatActivity() {
@@ -24,7 +25,7 @@ class StartActivity : AppCompatActivity() {
 
     private fun initMoveLoginActivity() {
         backgroundLayout.setOnSingleClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, GameActivity::class.java)
             startActivity(intent)
             finish()
         }
