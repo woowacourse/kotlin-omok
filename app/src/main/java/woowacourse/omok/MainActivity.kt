@@ -1,6 +1,7 @@
 package woowacourse.omok
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun putStone(stonePosition: StonePosition, view: ImageView) {
         if (!state.isEnd() && !(state as Running).isPlaced(boardMap, stonePosition)) {
+            Log.d("stone_position_debug", "row: ${stonePosition.y}, col: ${stonePosition.x}")
             view.setImageResource(getStoneImage(state))
             state = state.next(boardMap, stonePosition)
             dbHandler.addColumn(stonePosition)
@@ -92,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                     getInt(getColumnIndexOrThrow(StonePositionConstract.TABLE_COLUMN_COLUMN))
                 putStone(
                     StonePosition(positionCol, positionRow),
-                    boardViews[positionRow][positionCol]
+                    boardViews[positionRow - 1][positionCol - 1]
                 )
             }
         }

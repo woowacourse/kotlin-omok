@@ -23,6 +23,6 @@ class StonePositionDbHelper(
     }
 
     companion object {
-        private const val DATABASE_NAME = "otter.db"
+        private const val DATABASE_NAME = "omok.db"
     }
 }
