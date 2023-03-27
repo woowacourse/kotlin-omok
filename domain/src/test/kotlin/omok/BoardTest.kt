@@ -9,13 +9,17 @@ class BoardTest {
 
     @Test
     fun `플레이어가 돌을 두면 더 이상 그 위치에 돌을 둘 수 없다`() {
+        // given
         val position = Position(HorizontalAxis.H, 3)
         val whitePlayer = Player()
-        val blackPlayer = Player(listOf(Stone(position)))
+        val blackPlayer = Player()
         val board = Board(RenjuJudgement(), whitePlayer, blackPlayer)
 
+        // when
+        board.putStone(Turn.Black, position)
+
         // then
-        assertThat(board.isPlaceable(Turn.Black, position)).isFalse
+        assertThat(board.isPlaceable(Turn.White, position)).isFalse
     }
 
     @Test
