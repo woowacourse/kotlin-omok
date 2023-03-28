@@ -48,4 +48,14 @@ class OmokBoardTest {
         omokBoard.placeStone(point, BlackStoneState)
         assertDoesNotThrow { omokBoard.placeStone(point, WhiteStoneState) }
     }
+
+    @Test
+    fun `이미 착수되있는 오목판을 새 오목판에 초기화 할 수 있다`() {
+        val omokBoard = OmokBoard()
+        val point = OmokPoint(1, 1)
+        val anotherBoard = mapOf(point to BlackStoneState)
+
+        val actual = omokBoard.initBoard(anotherBoard)[point]
+        assertThat(actual is BlackStoneState).isTrue
+    }
 }

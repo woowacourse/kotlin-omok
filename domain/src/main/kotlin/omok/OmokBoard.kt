@@ -6,6 +6,13 @@ import omok.state.StoneState
 class OmokBoard(value: Map<OmokPoint, StoneState> = EMPTY_BOARD) {
     val value: Map<OmokPoint, StoneState> = value.toMap()
 
+    fun initBoard(board: Map<OmokPoint, StoneState>): OmokBoard {
+        val newValue = value.toMutableMap()
+        board.forEach { (omokPoint, stoneState) ->
+            newValue[omokPoint] = stoneState
+        }
+        return OmokBoard(newValue)
+    }
     fun placeStone(point: OmokPoint, stoneState: StoneState): OmokBoard {
         val newValue = value.toMutableMap()
         newValue[point] = when (newValue[point]) {
