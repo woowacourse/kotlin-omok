@@ -91,4 +91,9 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
             view.setImageResource(point.getResourceForFinishedGame(omokGame))
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stoneRepository.close()
+    }
 }

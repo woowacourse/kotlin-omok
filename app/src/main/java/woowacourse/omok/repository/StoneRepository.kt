@@ -38,4 +38,8 @@ class StoneRepository(context: Context) {
     fun deleteAll() {
         db.delete(StoneEntry.TABLE_NAME, null, null)
     }
+
+    fun close() {
+        db.close()
+    }
 }
