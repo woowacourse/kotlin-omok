@@ -12,8 +12,7 @@ class Omok(blackPlayer: BlackPlayer, whitePlayer: WhitePlayer) {
         get() = _players.copy()
 
     init {
-        val latestPlayer = blackPlayer.getLatestPlayer(whitePlayer)
-        _players = Players(latestPlayer, listOf(blackPlayer, whitePlayer))
+        _players = Players.from(blackPlayer, whitePlayer)
     }
 
     fun takeTurn(point: Point): TurnResult {

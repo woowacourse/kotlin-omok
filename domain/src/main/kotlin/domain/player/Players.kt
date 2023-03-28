@@ -35,5 +35,10 @@ class Players(private val latestPlayer: Player, private val players: List<Player
     companion object {
         private const val PLAYER_SIZE = 2
         private const val INVALID_PLAYERS_SIZE_ERROR_MESSAGE = "플레이어는 ${PLAYER_SIZE}명이어야 합니다."
+
+        fun from(blackPlayer: BlackPlayer, whitePlayer: WhitePlayer): Players {
+            if (blackPlayer.getPointSize() == whitePlayer.getPointSize()) return Players(whitePlayer, listOf(blackPlayer, whitePlayer))
+            return Players(blackPlayer, listOf(blackPlayer, whitePlayer))
+        }
     }
 }

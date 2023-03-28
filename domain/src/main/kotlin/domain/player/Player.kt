@@ -20,8 +20,6 @@ abstract class Player(protected val state: PlayerState, val rule: OmokRule) {
 
     fun getAllPoints(): Points = state.getAllPoints()
 
-    abstract fun getLatestPlayer(player: Player): Player
-
     abstract fun getColor(): StoneColor
 
     abstract fun putPoint(point: Point, otherPoints: Points): Player

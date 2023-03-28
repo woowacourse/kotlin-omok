@@ -9,10 +9,6 @@ import domain.stone.StoneColor
 
 class BlackPlayer(state: PlayerState = PlayingState(), rule: OmokRule) : Player(state, rule) {
     override fun putPoint(point: Point, otherPoints: Points): Player = BlackPlayer(state.add(point, otherPoints, rule), rule)
-    override fun getLatestPlayer(player: Player): Player {
-        if (player.getPointSize() == getPointSize()) return player
-        return this
-    }
 
     override fun getColor(): StoneColor = StoneColor.BLACK
 }
