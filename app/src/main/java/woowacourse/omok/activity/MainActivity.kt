@@ -27,7 +27,7 @@ import woowacourse.omok.db.OmokDBHelper
 class MainActivity : AppCompatActivity() {
     private val boards: List<ImageView> by lazy { getBoardViews() }
     private val descriptionView: TextView by lazy { findViewById(R.id.description) }
-    private val dbHelper: OmokDBHelper by lazy { OmokDBHelper(applicationContext) }
+    private val dbHelper: OmokDBHelper by lazy { OmokDBHelper(this) }
     private val omok: Omok by lazy { initOmok() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,23 +75,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onStartGame() {
-        Toast.makeText(applicationContext, R.string.start_game, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, R.string.start_game, Toast.LENGTH_LONG).show()
     }
 
     private fun onEndGame(result: TurnResult) {
         val descriptionView = findViewById<TextView>(R.id.description)
-        val context = applicationContext
         when (result) {
             is TurnResult.Playing -> return
-            is TurnResult.Foul -> descriptionView.text = context.getString(R.string.is_forbidden).plus(context.getString(R.string.who_is_winner).format(result.winColor.toPresentation().text))
-            is TurnResult.Win -> descriptionView.text = context.getString(R.string.who_is_winner).format(result.winColor.toPresentation().text)
+            is TurnResult.Foul -> descriptionView.text = this.getString(R.string.is_forbidden).plus(this.getString(R.string.who_is_winner).format(result.winColor.toPresentation().text))
+            is TurnResult.Win -> descriptionView.text = this.getString(R.string.who_is_winner).format(result.winColor.toPresentation().text)
         }
-        Toast.makeText(context, R.string.end_game, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, R.string.end_game, Toast.LENGTH_LONG).show()
     }
 
     private fun onStartTurn(stoneColor: StoneColor) {
-        val context = applicationContext
-        descriptionView.text = context.getString(R.string.who_is_turn).format(stoneColor.toPresentation().text)
+        descriptionView.text = this.getString(R.string.who_is_turn).format(stoneColor.toPresentation().text)
     }
 
     private fun setStone(view: ImageView, color: StoneColor) {
@@ -102,13 +100,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onEndTurn(view: ImageView, index: Int, result: TurnResult) {
-        val context = applicationContext
-        if (result is TurnResult.Playing && result.isExistPoint) Toast.makeText(context, R.string.already_exist, Toast.LENGTH_LONG).show()
+        if (result is TurnResult.Playing && result.isExistPoint) Toast.makeText(this, R.string.already_exist, Toast.LENGTH_LONG).show()
         if (result !is TurnResult.Playing || !result.isExistPoint) {
             setStone(view, omok.players.curPlayerColor.next())
             dbHelper.insert(index, omok.players.curPlayerColor.next().name)
         }
-        descriptionView.text = context.getString(R.string.who_is_turn).format(result.players.curPlayerColor.toPresentation().text)
+        descriptionView.text = this.getString(R.string.who_is_turn).format(result.players.curPlayerColor.toPresentation().text)
     }
 
     private fun getBoardViews(): List<ImageView> = findViewById<TableLayout>(R.id.board)
