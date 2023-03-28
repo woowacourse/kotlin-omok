@@ -1,6 +1,5 @@
 package woowacourse.omok.activity
 
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -59,8 +58,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initOmok(): Omok {
-        val blackIndexs = dbHelper.getIndexsByColor(StoneColor.BLACK.name)
-        val whiteIndexs = dbHelper.getIndexsByColor(StoneColor.WHITE.name)
+        val blackIndexs = dbHelper.getIndexsByColor(StoneColor.BLACK)
+        val whiteIndexs = dbHelper.getIndexsByColor(StoneColor.WHITE)
 
         blackIndexs.forEach {
             setStone(boards[it], StoneColor.BLACK)
@@ -103,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         if (result is TurnResult.Playing && result.isExistPoint) Toast.makeText(this, R.string.already_exist, Toast.LENGTH_LONG).show()
         if (result !is TurnResult.Playing || !result.isExistPoint) {
             setStone(view, omok.players.curPlayerColor.next())
-            dbHelper.insert(index, omok.players.curPlayerColor.next().name)
+            dbHelper.insert(index, omok.players.curPlayerColor.next())
         }
         descriptionView.text = this.getString(R.string.who_is_turn).format(result.players.curPlayerColor.toPresentation().text)
     }

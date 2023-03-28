@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import domain.stone.StoneColor
 
 class OmokDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
     private val db = writableDatabase
@@ -21,14 +22,14 @@ class OmokDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         onCreate(db)
     }
 
-    fun getIndexsByColor(color: String): List<Int> {
+    fun getIndexsByColor(color: StoneColor): List<Int> {
         val indexs = mutableListOf<Int>()
         if (!db.isOpen) throw IllegalAccessException()
         val cursor = db.query(
             OmokConstract.TABLE_NAME,
             arrayOf(OmokConstract.TABLE_COLUMN_POSITION),
             "${OmokConstract.TABLE_COLUMN_COLOR} = ?",
-            arrayOf(color),
+            arrayOf(color.name),
             null,
             null,
             null
@@ -38,15 +39,15 @@ class OmokDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return indexs.toList()
     }
 
-    fun insert(index: Int, color: String) {
+    fun insert(index: Int, color: StoneColor) {
         if (!db.isOpen) throw IllegalAccessException()
         db.insert(OmokConstract.TABLE_NAME, null, values(index, color))
     }
 
-    private fun values(position: Int, color: String): ContentValues {
+    private fun values(position: Int, color: StoneColor): ContentValues {
         val values = ContentValues()
         values.put(OmokConstract.TABLE_COLUMN_POSITION, position)
-        values.put(OmokConstract.TABLE_COLUMN_COLOR, color)
+        values.put(OmokConstract.TABLE_COLUMN_COLOR, color.name)
         return values
     }
 
