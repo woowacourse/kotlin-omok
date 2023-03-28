@@ -8,7 +8,7 @@ import domain.stone.Stone
 class StoneRepository(context: Context) {
     private val db = StoneDbHelper(context).writableDatabase
 
-    fun addStone(stone: Stone) {
+    fun insert(stone: Stone) {
         val values = ContentValues().apply {
             put(StoneEntry.COLUMN_NAME_X, stone.x.toString())
             put(StoneEntry.COLUMN_NAME_Y, stone.y)
@@ -17,7 +17,7 @@ class StoneRepository(context: Context) {
         db.insert(StoneEntry.TABLE_NAME, null, values)
     }
 
-    fun readAll(): Set<Stone> {
+    fun findAll(): Set<Stone> {
         val projection = arrayOf(StoneEntry.COLUMN_NAME_X, StoneEntry.COLUMN_NAME_Y)
         val sortOrder = BaseColumns._ID
 

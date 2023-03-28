@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
             finishEventManager = finishEventManager
         )
 
-        val stones = stoneRepository.readAll()
+        val stones = stoneRepository.findAll()
         stoneRepository.deleteAll()
         stones.forEach { omokGame.place(it) }
 
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
 
     override fun notifyPlaceStoneEventHasOccurred(omokGame: OmokGame) {
         updateBoardView(omokGame)
-        stoneRepository.addStone(Stone(omokGame.getPointOfLastStonePlaced()!!))
+        stoneRepository.insert(Stone(omokGame.getPointOfLastStonePlaced()!!))
         println(omokGame.getPointOfLastStonePlaced())
     }
 
