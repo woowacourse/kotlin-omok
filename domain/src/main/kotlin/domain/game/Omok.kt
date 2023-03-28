@@ -19,8 +19,10 @@ class Omok(blackPlayer: BlackPlayer, whitePlayer: WhitePlayer) {
         val endTurnPlayers = _players.putPoint(point)
         if (endTurnPlayers == _players) return TurnResult.Playing(true, _players)
         _players = endTurnPlayers
-        if (_players.isFoul) return TurnResult.Foul(_players.curPlayerColor, _players)
-        if (_players.isPlaying) return TurnResult.Playing(false, _players)
+        when {
+            _players.isFoul -> return TurnResult.Foul(_players.curPlayerColor, _players)
+            _players.isPlaying -> return TurnResult.Playing(false, _players)
+        }
         return TurnResult.Win(_players.curPlayerColor.next(), _players)
     }
 
