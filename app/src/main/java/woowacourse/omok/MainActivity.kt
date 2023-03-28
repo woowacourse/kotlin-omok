@@ -10,11 +10,12 @@ import domain.OmokGame
 import domain.event.*
 import domain.stone.Point
 import domain.stone.Stone
+import woowacourse.omok.repository.StoneDbHelper
 import woowacourse.omok.repository.StoneRepository
 
 class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventListener {
 
-    private val stoneRepository: StoneRepository by lazy { StoneRepository(this) }
+    private val stoneRepository: StoneRepository by lazy { StoneRepository(StoneDbHelper(this).writableDatabase) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,13 +1,11 @@
 package woowacourse.omok.repository
 
 import android.content.ContentValues
-import android.content.Context
+import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import domain.stone.Stone
 
-class StoneRepository(context: Context) {
-    private val db = StoneDbHelper(context).writableDatabase
-
+class StoneRepository(private val db: SQLiteDatabase) {
     fun insert(stone: Stone) {
         val values = ContentValues().apply {
             put(StoneEntry.COLUMN_NAME_X, stone.x.toString())
