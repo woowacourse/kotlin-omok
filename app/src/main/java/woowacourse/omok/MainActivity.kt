@@ -7,12 +7,7 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import domain.Board
-import domain.Color
-import domain.Coordinate
-import domain.PlaceResult
-import domain.Stone
-import domain.Stones
+import domain.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var gameBoard: Board
@@ -30,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setOmokBoard() {
-        gameBoard.setCurrentColor()
         val viewBoard = findViewById<TableLayout>(R.id.board)
         viewBoard
             .children
@@ -73,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun restartGame() {
         dbHelper.clearBoard()
-        gameBoard.restartGame()
+        gameBoard = Board(Stones())
         recreate()
     }
 
