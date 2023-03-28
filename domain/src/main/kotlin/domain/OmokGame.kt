@@ -26,7 +26,7 @@ class OmokGame(
         return true
     }
 
-    private fun changeTurn() {
+    fun changeTurn() {
         _turn = _turn.nextState()
     }
 

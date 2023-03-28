@@ -1,17 +1,11 @@
 package woowacourse.omok
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import domain.OmokBoard
-import domain.State
-import domain.Stone
-import domain.listener.OmokListener
 import woowacourse.omok.controller.OmokGameController
 
 class MainActivity : AppCompatActivity() {
@@ -26,32 +20,7 @@ class MainActivity : AppCompatActivity() {
         val boardView = board.children.filterIsInstance<TableRow>()
             .map { it.children.filterIsInstance<ImageView>().toList() }.toList()
 
-        val omokGameListener = object : OmokListener {
-            override fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {
-                when (state) {
-                    State.BLACK -> omokGameController.setImageViewResource(State.BLACK, boardView[stone.row][stone.column])
-                    State.WHITE -> omokGameController.setImageViewResource(State.WHITE, boardView[stone.row][stone.column])
-                    State.EMPTY -> null
-                }
-            }
-
-            override fun onMoveFail() {
-                Toast.makeText(this@MainActivity, "이미 돌이 존재합니다.", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onForbidden() {
-                Toast.makeText(this@MainActivity, "그곳은 금수 입니다.", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onFinish(state: State): State {
-                Toast.makeText(this@MainActivity, "${state.name}승!", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this@MainActivity, GameOverActivity::class.java)
-                startActivity(intent)
-                return state
-            }
-        }
-
-        omokGameController = OmokGameController(omokGameListener, db, boardView)
+        omokGameController = OmokGameController(this, db, boardView)
         addImageViewListener(boardView)
     }
 
