@@ -3,7 +3,7 @@ package controller
 import domain.Color
 import dto.ColorDTO
 
-object ColorMapper : Mapper<Color,ColorDTO> {
+object ColorMapper : Mapper<Color, ColorDTO> {
     override fun domainToDTO(color: Color): ColorDTO {
         return when (color) {
             Color.BLACK -> ColorDTO.BLACK

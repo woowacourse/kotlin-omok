@@ -29,7 +29,10 @@ class ConsoleRenderBoard : RenderBoard {
     }
 
     private fun findStone(
-        stones: List<StoneDTO>, x: Int, y: Int, size: PointDTO
+        stones: List<StoneDTO>,
+        x: Int,
+        y: Int,
+        size: PointDTO
     ): StoneDTO? {
         val stone = stones.find {
             it.coordinate.x == x && it.coordinate.y == size.y - y - 1

@@ -7,7 +7,12 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import domain.*
+import domain.Board
+import domain.Color
+import domain.Coordinate
+import domain.PlaceResult
+import domain.Stone
+import domain.Stones
 
 class MainActivity : AppCompatActivity() {
     private lateinit var gameBoard: Board
@@ -59,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         if (gameBoard.isWinPlace()) {
             Toast.makeText(
                 this,
-                "${currentColor} 승",
+                "$currentColor 승",
                 Toast.LENGTH_SHORT
             ).show()
             restartGame()

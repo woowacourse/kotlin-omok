@@ -107,7 +107,7 @@ class RenjuRuleTest {
 
     @Test
     fun `돌이 6개이상 연속 있을 때 육목이다`() {
-        //given
+        // given
         val stoneScore = 6
         // when
         val actual = RenjuRule().isOverFive(stoneScore)
@@ -178,7 +178,7 @@ class RenjuRuleTest {
             BlackStone(7, 6),
             BlackStone(5, 4),
 
-            )
+        )
         val stones = Stones(placedStones)
 
         // when
@@ -199,7 +199,7 @@ class RenjuRuleTest {
             BlackStone(7, 6),
             BlackStone(7, 5),
 
-            )
+        )
         val stones = Stones(placedStones)
 
         // when

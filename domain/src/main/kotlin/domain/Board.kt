@@ -40,10 +40,22 @@ class Board(val stones: Stones) {
     fun setCurrentColor() {
         currentColor =
             if (stones.value.isEmpty()) Color.BLACK else stones.getLastStone().color.turnColor()
+
+        val k = kotlin.runCatching {
+            val q = 0
+            // ...
+        }.recoverCatching {
+        }
+            .onSuccess {
+                // 실행구문...
+            }.onFailure {
+                // 실행구문...
+            }
     }
 
     companion object {
         val BOARD_END_POINT = Point(15, 15)
         val BOARD_START_POINT = Point(0, 0)
+        val k = kotlin.runCatching { }
     }
 }

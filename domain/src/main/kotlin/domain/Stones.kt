@@ -71,8 +71,8 @@ class Stones(
 
     fun findStone(x: Int, y: Int): Stone? {
         return this.value.find {
-            it.coordinate.x == x
-                    && it.coordinate.y == y
+            it.coordinate.x == x &&
+                it.coordinate.y == y
         }
     }
 

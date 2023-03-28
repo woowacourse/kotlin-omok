@@ -150,7 +150,7 @@ class StonesTest {
 
     @Test
     fun `연속한 돌이 5개 놓여졌을 때 이긴다`() {
-        //given
+        // given
         val placedStones = listOf<Stone>(
             WhiteStone(2, 14),
             WhiteStone(2, 13),
@@ -160,23 +160,22 @@ class StonesTest {
         )
         val stones = Stones(placedStones)
 
-        //when
+        // when
         val actual = stones.isWinPlace()
 
-        //then
+        // then
         assertThat(actual).isTrue
     }
 
     @Test
     fun `돌이 없을 때, 승리 판별시, IllegalArugumentException을 반환한다`() {
-        //given
+        // given
         val placedStones = emptyList<Stone>()
         val stones = Stones(placedStones)
 
-        //then
+        // then
         assertThrows<java.lang.IllegalArgumentException> {
             stones.isWinPlace()
         }
-
     }
 }

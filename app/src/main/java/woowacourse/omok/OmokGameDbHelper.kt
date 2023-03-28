@@ -25,7 +25,7 @@ class OmokGameDbHelper(context: Context) :
         onUpgrade(db, oldVersion, newVersion)
     }
 
-    fun readOmokBoardData() : List<Stone> {
+    fun readOmokBoardData(): List<Stone> {
         val db = this.readableDatabase
 
         val cursor: Cursor = db.query(
@@ -51,7 +51,7 @@ class OmokGameDbHelper(context: Context) :
         return stones
     }
 
-    fun writeOmokStone(stone : Stone) {
+    fun writeOmokStone(stone: Stone) {
         val db = this.writableDatabase
         val values = ContentValues().apply {
             put(OmokGameContract.Stone.X, stone.coordinate.x)
@@ -71,10 +71,10 @@ class OmokGameDbHelper(context: Context) :
         const val DATABASE_NAME = "omokGame.db"
         private const val SQL_CREATE_STONE_ENTRIES =
             "CREATE TABLE IF NOT EXISTS ${OmokGameContract.Stone.TABLE_NAME} (" +
-                    "${BaseColumns._ID} INTEGER PRIMARY KEY," +
-                    "${OmokGameContract.Stone.COLOR} TEXT," +
-                    "${OmokGameContract.Stone.X} INTEGER," +
-                    "${OmokGameContract.Stone.Y} INTEGER)"
+                "${BaseColumns._ID} INTEGER PRIMARY KEY," +
+                "${OmokGameContract.Stone.COLOR} TEXT," +
+                "${OmokGameContract.Stone.X} INTEGER," +
+                "${OmokGameContract.Stone.Y} INTEGER)"
         private const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS ${OmokGameContract.Stone.TABLE_NAME}"
     }
 }
