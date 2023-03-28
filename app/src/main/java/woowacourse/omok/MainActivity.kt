@@ -16,9 +16,10 @@ import omok.OmokPoint
 import omok.gameState.BlackWin
 import omok.gameState.WhiteWin
 import omok.state.BlackStoneState
+import omok.state.EmptyStoneState
 import omok.state.StoneState
 import omok.state.WhiteStoneState
-import woowacourse.omok.db.OmokDBHelper
+import woowacourse.omok.db.OmokDB
 
 class MainActivity : AppCompatActivity() {
     private val omokGame = OmokGame()
@@ -36,9 +37,10 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<TableRow>()
             .map { it.children.filterIsInstance<ImageView>().toList() }.toList()
     }
-    private val dbHelper: OmokDBHelper by lazy {
-        OmokDBHelper(this)
+    private val db: OmokDB by lazy {
+        OmokDB(this)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -49,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             when (omokGame.gameState.isRunning) {
                 true -> Toast.makeText(this, "진행중 일 때는 초기화 할 수 없습니다", Toast.LENGTH_SHORT).show()
                 false -> {
-                    dbHelper.deleteAll()
+                    db.clearStoneInfo()
                     changeActivity(WaitingRoomActivity::class.java)
                 }
             }
@@ -58,27 +60,29 @@ class MainActivity : AppCompatActivity() {
         boardView.forEachIndexed { row, images ->
             images.forEachIndexed { col, view ->
                 view.setOnClickListener {
-                    omokEventListener(OmokPoint(row, col), view)
+                    omokEventListener(OmokPoint(row + 1, col + 1), view)
                 }
             }
         }
     }
 
     private fun initData() {
-        dbHelper.selectAll()?.let {
-            it.value.forEach { stone ->
+        db.getBoard().value
+            .asSequence()
+            .filter { it.value != EmptyStoneState }
+            .forEach { stone ->
+                stone.value
                 Log.i("stone Info", "point: ${stone.key}, state: ${stone.value}")
                 omokGame.play(stone.key)
                 eventListener(stone.key, stone.value)
             }
-        }
     }
 
     private fun eventListener(omokPoint: OmokPoint, stoneState: StoneState) {
         boardView.forEachIndexed { row, images ->
             images.forEachIndexed { col, view ->
-                if (omokPoint == OmokPoint(row, col)) {
-                    setViewToPlaceStone(stoneState, view, OmokPoint(row, col))
+                if (omokPoint == OmokPoint(row + 1, col + 1)) {
+                    setViewToPlaceStone(stoneState, view, OmokPoint(row + 1, col + 1))
                 }
             }
         }
@@ -112,8 +116,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveData(point: OmokPoint, stoneState: StoneState) {
         when (stoneState) {
-            BlackStoneState -> dbHelper.insertData(point, 0)
-            WhiteStoneState -> dbHelper.insertData(point, 1)
+            BlackStoneState -> db.recordStoneInfo(point, 0)
+            WhiteStoneState -> db.recordStoneInfo(point, 1)
         }
     }
 
