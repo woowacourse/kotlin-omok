@@ -35,7 +35,9 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
             finishEventManager = finishEventManager
         )
 
-        stoneRepository.readAll().forEach { omokGame.place(it) }
+        val stones = stoneRepository.readAll()
+        stoneRepository.deleteAll()
+        stones.forEach { omokGame.place(it) }
 
         return omokGame
     }
