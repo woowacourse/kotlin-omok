@@ -9,8 +9,11 @@ import omok.OmokGame
 import woowacourse.omok.db.OmokDB
 
 class MainActivity : AppCompatActivity() {
+    private val omokStatusView: OmokStatusView by lazy {
+        OmokStatusView(findViewById(R.id.tv_status))
+    }
     private val omokGame: OmokGame by lazy {
-        OmokGame(db.getBoard())
+        OmokGame(db.getBoard(), omokStatusView::onSuccessProcess, omokStatusView::onFailedProcess)
     }
     private val board: TableLayout by lazy {
         findViewById(R.id.board)

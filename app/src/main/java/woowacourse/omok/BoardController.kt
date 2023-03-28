@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -64,22 +63,15 @@ class BoardController(
                 view.setOnClickListener {
                     if (omokGame.gameState.isRunning) {
                         val point = OmokPoint(row + 1, col + 1)
-                        placeStone(point)?.let {
-                            db.recordStoneInfo(point, determineStoneColor(it))
-                            placeStoneView(point, it)
+                        val state = omokGame.play(point)
+                        if (omokGame.gameState === state) {
+                            return@setOnClickListener
                         }
+                        db.recordStoneInfo(point, determineStoneColor(state.stoneState))
+                        placeStoneView(point, state.stoneState)
                     }
                 }
             }
         }
     }
-
-    private fun placeStone(point: OmokPoint): StoneState? =
-        runCatching {
-            omokGame.play(point)
-        }
-            .onFailure {
-                Log.e("ERROR", it.toString())
-            }
-            .getOrNull()
 }

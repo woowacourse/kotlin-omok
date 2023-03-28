@@ -2,16 +2,28 @@ package omok
 
 import omok.gameState.BlackTurn
 import omok.gameState.GameState
-import omok.state.StoneState
 
-class OmokGame(state: GameState = BlackTurn(OmokBoard())) {
+class OmokGame(
+    state: GameState = BlackTurn(OmokBoard()),
+    val onSuccessProcess: (OmokPoint) -> Unit = {},
+    val onFailedProcess: (String) -> Unit = {}
+) {
     var gameState: GameState = state
         private set
 
-    fun play(point: OmokPoint): StoneState {
+    fun play(point: OmokPoint): GameState {
         require(point in gameState.omokBoard.value) { ERROR_POINT_OVER.format(point.x, point.y) }
-        val currentState = gameState.stoneState
-        gameState = gameState.play(point)
+        val currentState = gameState
+
+        runCatching {
+            gameState = gameState.play(point)
+        }
+            .onFailure {
+                onFailedProcess(it.message.toString())
+            }
+            .onSuccess {
+                onSuccessProcess(point)
+            }
         return currentState
     }
 
