@@ -1,9 +1,9 @@
 package console
 
-import dto.VectorSystem
 import dto.ColorDTO
 import dto.StoneDTO
 import dto.VectorDTO
+import dto.VectorSystem
 import error.OmokResult
 import error.StoneReadError
 import view.GameView

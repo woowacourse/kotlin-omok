@@ -1,9 +1,9 @@
 package view
 
-import dto.VectorSystem
 import dto.ColorDTO
 import dto.StoneDTO
 import dto.VectorDTO
+import dto.VectorSystem
 
 interface GameView {
     val renderBoard: RenderBoard

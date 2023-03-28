@@ -14,11 +14,9 @@ sealed interface PlaceStoneError : OmokError {
     object FourToFour : PlaceStoneError {
         override val message: String
             get() = "4-4입니다."
-
     }
     object LongPlaceStone : PlaceStoneError {
         override val message: String
             get() = "육목입니다."
-
     }
 }
