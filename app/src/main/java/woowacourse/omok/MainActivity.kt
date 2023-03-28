@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import domain.OmokGame
@@ -15,7 +14,6 @@ import woowacourse.omok.repository.StoneRepository
 
 class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventListener {
 
-    private var toast: Toast? = null
     private val stoneRepository: StoneRepository by lazy { StoneRepository(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,12 +46,6 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
 
             imageView.setOnClickListener { if (omokGame.canPlace(stone)) omokGame.place(stone) }
         }
-    }
-
-    private fun showToast(text: String) {
-        toast?.cancel()
-        toast = Toast.makeText(this, text, Toast.LENGTH_SHORT)
-        toast?.show()
     }
 
     override fun notifyPlaceStoneEventHasOccurred(omokGame: OmokGame) {
@@ -127,7 +119,7 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
 
     override fun notifyFinishEventHasOccurred(omokGame: OmokGame) {
         drawFinalBoardView(omokGame)
-        showToast("%s의 승리입니다.".format(if (omokGame.isBlackWin()) "흑" else "백"))
+        NonDelayToast.show(this, "%s의 승리입니다.".format(if (omokGame.isBlackWin()) "흑" else "백"))
         getBoardView().forEach { it.setOnClickListener { } }
         stoneRepository.deleteAll()
     }
