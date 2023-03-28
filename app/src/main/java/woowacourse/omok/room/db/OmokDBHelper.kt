@@ -22,7 +22,8 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
     SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     override fun onCreate(p0: SQLiteDatabase?) {
         tables.forEach {
-            val columns = it.scheme.joinToString(",") { scheme -> "${scheme.name} ${scheme.type}" }
+            val columns =
+                it.scheme.joinToString(",") { scheme -> "${scheme.name} ${scheme.type} ${scheme.constraint}" }
             p0?.execSQL("CREATE TABLE ${it.name} ($columns)")
         }
     }
@@ -32,6 +33,24 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
             p0?.execSQL("DROP TABLE IF EXISTS ${it.name}")
         }
         onCreate(p0)
+    }
+
+    fun insert(table: SQLiteTable, row: Map<String, Any>): Long {
+        val contentValues = ContentValues()
+
+        for (item in row) {
+            val column = table.scheme.find { it.name == item.key } ?: continue
+            contentValues.put(column, item.value)
+        }
+
+        return writableDatabase.insert(table.name, null, contentValues)
+    }
+
+    private fun ContentValues.put(column: SQLColumn, value: Any) {
+        when (column.type) {
+            is SQLType.INTEGER -> put(column.name, value as Int)
+            is SQLType.TEXT -> put(column.name, value as String)
+        }
     }
 
     fun selectAllUsers(): Users {
@@ -88,34 +107,34 @@ class OmokDBHelper(context: Context, private val tables: List<SQLiteTable>) :
     }
 
     fun insertStoneToStage(stone: StoneDTO, stage: Stage) {
-        val contentValues = ContentValues()
-        contentValues.put(StoneTable.X, stone.coordinate.x)
-        contentValues.put(StoneTable.Y, stone.coordinate.y)
-        contentValues.put(StoneTable.COLOR, stone.color.ordinal)
-        val id = writableDatabase.insert(StoneTable.name, null, contentValues)
+        val contentValues: MutableMap<String, Any> = mutableMapOf()
+        contentValues[StoneTable.X] = stone.coordinate.x
+        contentValues[StoneTable.Y] = stone.coordinate.y
+        contentValues[StoneTable.COLOR] = stone.color.ordinal
+        val id = insert(StoneTable, contentValues)
         contentValues.clear()
-        contentValues.put(StageStonesTable.STAGE_ID, stage.id)
-        contentValues.put(StageStonesTable.STONE_ID, id)
-        writableDatabase.insert(StageStonesTable.name, null, contentValues)
+        contentValues[StageStonesTable.STAGE_ID] = stage.id
+        contentValues[StageStonesTable.STONE_ID] = id.toInt()
+        insert(StageStonesTable, contentValues)
     }
 
     fun insertUser(userName: String) {
-        val contentValues = ContentValues()
-        contentValues.put(UserTable.NAME, userName)
-        writableDatabase.insert(UserTable.name, null, contentValues)
+        val contentValues: MutableMap<String, Any> = mutableMapOf()
+        contentValues[UserTable.NAME] = userName
+        insert(UserTable, contentValues)
     }
 
     fun insertStageByUser(user: User): Int {
         val cursor = readableDatabase.rawQuery("SELECT MAX(ID) FROM ${StageTable.name}", null)
         cursor.moveToNext()
         val id = cursor.getInt(0) + 1
-        val contentValues = ContentValues()
-        contentValues.put(StageTable.ID, id)
-        writableDatabase.insert(StageTable.name, null, contentValues)
+        val contentValues: MutableMap<String, Any> = mutableMapOf()
+        contentValues[StageTable.ID] = id
+        insert(StageTable, contentValues)
         contentValues.clear()
-        contentValues.put(UserStagesTable.USER_ID, user.id)
-        contentValues.put(UserStagesTable.STAGE_ID, id)
-        writableDatabase.insert(UserStagesTable.name, null, contentValues)
+        contentValues[UserStagesTable.USER_ID] = user.id
+        contentValues[UserStagesTable.STAGE_ID] = id
+        insert(UserStagesTable, contentValues)
         cursor.close()
         return id
     }

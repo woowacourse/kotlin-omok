@@ -1,6 +1,7 @@
 package woowacourse.omok.room.db.table
 
 import woowacourse.omok.room.db.SQLColumn
+import woowacourse.omok.room.db.SQLType
 import woowacourse.omok.room.db.SQLiteTable
 
 object StageStonesTable : SQLiteTable {
@@ -9,7 +10,7 @@ object StageStonesTable : SQLiteTable {
 
     override val name: String = "stageStones"
     override val scheme: List<SQLColumn> = listOf(
-        SQLColumn(STAGE_ID, "int"),
-        SQLColumn(STONE_ID, "int"),
+        SQLColumn(STAGE_ID, SQLType.INTEGER),
+        SQLColumn(STONE_ID, SQLType.INTEGER),
     )
 }

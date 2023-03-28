@@ -1,6 +1,7 @@
 package woowacourse.omok.room.db.table
 
 import woowacourse.omok.room.db.SQLColumn
+import woowacourse.omok.room.db.SQLType
 import woowacourse.omok.room.db.SQLiteTable
 
 object StoneTable : SQLiteTable {
@@ -11,9 +12,9 @@ object StoneTable : SQLiteTable {
 
     override val name: String = "stone"
     override val scheme: List<SQLColumn> = listOf(
-        SQLColumn(ID, "INTEGER PRIMARY KEY AUTOINCREMENT"),
-        SQLColumn(X, "int"),
-        SQLColumn(Y, "int"),
-        SQLColumn(COLOR, "int"),
+        SQLColumn(ID, SQLType.INTEGER, "PRIMARY KEY AUTOINCREMENT"),
+        SQLColumn(X, SQLType.INTEGER),
+        SQLColumn(Y, SQLType.INTEGER),
+        SQLColumn(COLOR, SQLType.INTEGER),
     )
 }

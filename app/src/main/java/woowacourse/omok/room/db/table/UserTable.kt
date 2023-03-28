@@ -1,6 +1,7 @@
 package woowacourse.omok.room.db.table
 
 import woowacourse.omok.room.db.SQLColumn
+import woowacourse.omok.room.db.SQLType
 import woowacourse.omok.room.db.SQLiteTable
 
 object UserTable : SQLiteTable {
@@ -9,7 +10,7 @@ object UserTable : SQLiteTable {
 
     override val name: String = "user"
     override val scheme: List<SQLColumn> = listOf(
-        SQLColumn(ID, "INTEGER PRIMARY KEY AUTOINCREMENT"),
-        SQLColumn(NAME, "varchar(255)")
+        SQLColumn(ID, SQLType.INTEGER, "PRIMARY KEY AUTOINCREMENT"),
+        SQLColumn(NAME, SQLType.TEXT)
     )
 }
