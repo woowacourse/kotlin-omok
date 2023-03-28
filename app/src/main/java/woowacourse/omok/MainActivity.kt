@@ -74,11 +74,11 @@ class MainActivity : AppCompatActivity() {
                 stone.value
                 Log.i("stone Info", "point: ${stone.key}, state: ${stone.value}")
                 omokGame.play(stone.key)
-                eventListener(stone.key, stone.value)
+                initBoardView(stone.key, stone.value)
             }
     }
 
-    private fun eventListener(omokPoint: OmokPoint, stoneState: StoneState) {
+    private fun initBoardView(omokPoint: OmokPoint, stoneState: StoneState) {
         boardView.forEachIndexed { row, images ->
             images.forEachIndexed { col, view ->
                 if (omokPoint == OmokPoint(row + 1, col + 1)) {
