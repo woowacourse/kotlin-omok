@@ -52,12 +52,11 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
     }
 
     override fun notifyPlaceStoneEventHasOccurred(omokGame: OmokGame) {
-        updateBoardView(omokGame)
+        drawRunningBoardView(omokGame)
         stoneRepository.insert(Stone(omokGame.getPointOfLastStonePlaced()!!))
-        println(omokGame.getPointOfLastStonePlaced())
     }
 
-    private fun updateBoardView(omokGame: OmokGame) {
+    private fun drawRunningBoardView(omokGame: OmokGame) {
         getBoardView().forEachPointed { point, view ->
             view.setImageResource(point.getResourceForRunningGame(omokGame))
         }
