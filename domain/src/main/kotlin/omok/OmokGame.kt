@@ -4,8 +4,8 @@ import omok.gameState.BlackTurn
 import omok.gameState.GameState
 import omok.state.StoneState
 
-class OmokGame {
-    var gameState: GameState = BlackTurn(OmokBoard())
+class OmokGame(state: GameState = BlackTurn(OmokBoard())) {
+    var gameState: GameState = state
         private set
 
     fun play(point: OmokPoint): StoneState {

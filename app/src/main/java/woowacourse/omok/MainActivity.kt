@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.OmokGame
@@ -22,7 +21,9 @@ import omok.state.WhiteStoneState
 import woowacourse.omok.db.OmokDB
 
 class MainActivity : AppCompatActivity() {
-    private val omokGame = OmokGame()
+    private val omokGame: OmokGame by lazy {
+        OmokGame(db.getBoard())
+    }
     private val board: TableLayout by lazy {
         findViewById(R.id.board)
     }
@@ -45,16 +46,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initData()
+        initView()
 
         btnReset.setOnClickListener {
-            when (omokGame.gameState.isRunning) {
-                true -> Toast.makeText(this, "진행중 일 때는 초기화 할 수 없습니다", Toast.LENGTH_SHORT).show()
-                false -> {
-                    db.clearStoneInfo()
-                    changeActivity(WaitingRoomActivity::class.java)
-                }
-            }
+            db.clearStoneInfo()
+            changeActivity(WaitingRoomActivity::class.java)
         }
 
         boardView.forEachIndexed { row, images ->
@@ -66,15 +62,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initData() {
-        db.getBoard().value
+    private fun initView() {
+        omokGame.gameState.omokBoard.value
             .asSequence()
             .filter { it.value != EmptyStoneState }
-            .forEach { stone ->
-                stone.value
-                Log.i("stone Info", "point: ${stone.key}, state: ${stone.value}")
-                omokGame.play(stone.key)
-                initBoardView(stone.key, stone.value)
+            .forEach {
+                initBoardView(it.key, it.value)
             }
     }
 

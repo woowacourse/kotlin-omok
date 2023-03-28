@@ -4,6 +4,9 @@ import android.content.Context
 import android.database.Cursor
 import omok.OmokBoard
 import omok.OmokPoint
+import omok.gameState.BlackTurn
+import omok.gameState.GameState
+import omok.gameState.WhiteTurn
 import omok.state.BlackStoneState
 import omok.state.StoneState
 import omok.state.WhiteStoneState
@@ -17,12 +20,18 @@ class OmokDB(context: Context) {
         db.execSQL(query)
     }
 
-    fun getBoard(): OmokBoard {
+    fun getBoard(): GameState {
         val cursor = db.rawQuery("SELECT * FROM ${OmokContract.TABLE_NAME}", null)
-        val board = getStonesInfo(cursor)
+        val tempBoard = getStonesInfo(cursor)
+        val board = OmokBoard().initBoard(tempBoard)
         cursor.close()
-        return if (board.isEmpty()) OmokBoard() else OmokBoard(board)
+        return when (determineTurn(tempBoard.size)) {
+            BlackStoneState -> BlackTurn(board)
+            else -> WhiteTurn(board)
+        }
     }
+
+    private fun determineTurn(size: Int): StoneState = if (size % 2 == 0) BlackStoneState else WhiteStoneState
 
     private fun getStonesInfo(cursor: Cursor): Map<OmokPoint, StoneState> {
         val board = mutableMapOf<OmokPoint, StoneState>()
