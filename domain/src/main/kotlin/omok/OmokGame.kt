@@ -8,6 +8,7 @@ import omok.state.Win
 
 class OmokGame(val board: Board = Board(RenjuJudgement(), Player(), Player())) {
     var lastPosition: String? = null
+        private set
 
     fun takeTurn(turn: Turn, position: Position): State {
         if (!board.isPlaceable(turn, position)) {
