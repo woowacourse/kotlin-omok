@@ -7,6 +7,7 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import woowacourse.omok.controller.OmokGameController
+import woowacourse.omok.view.BoardView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var omokGameController: OmokGameController
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         val boardView = board.children.filterIsInstance<TableRow>()
             .map { it.children.filterIsInstance<ImageView>().toList() }.toList()
 
-        omokGameController = OmokGameController(this, db, boardView)
+        omokGameController = OmokGameController(this, db, BoardView(boardView))
         addImageViewListener(boardView)
     }
 

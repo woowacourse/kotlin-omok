@@ -2,7 +2,6 @@ package woowacourse.omok.controller
 
 import android.content.Context
 import android.content.Intent
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import domain.OmokBoard
@@ -12,12 +11,12 @@ import domain.Stone
 import domain.listener.OmokListener
 import woowacourse.omok.GameOverActivity
 import woowacourse.omok.OmokDbHelper
-import woowacourse.omok.R
+import woowacourse.omok.view.BoardView
 
 class OmokGameController(
     private val context: Context,
     private val db: OmokDbHelper,
-    private val boardView: List<List<ImageView>>
+    private val boardView: BoardView
 ) {
     private val omokGame: OmokGame
 
@@ -47,23 +46,15 @@ class OmokGameController(
     private fun setPreBoardImage() {
         omokGame.omokBoard.value.forEachIndexed { rowIndex, row ->
             row.forEachIndexed { columnIndex, state ->
-                setImageViewResource(state, boardView[rowIndex][columnIndex])
+                boardView.setImageViewResource(state, rowIndex, columnIndex)
             }
-        }
-    }
-
-    private fun setImageViewResource(state: State, imageView: ImageView) {
-        when (state) {
-            State.BLACK -> imageView.setImageResource(R.drawable.black_stone)
-            State.WHITE -> imageView.setImageResource(R.drawable.white_stone)
-            State.EMPTY -> null
         }
     }
 
     fun move(row: Int, column: Int) {
         if (omokGame.successTurn(Stone(row, column), omokGame.turn)) {
             db.insertData(row, column, omokGame.turn)
-            setImageViewResource(omokGame.turn, boardView[row][column])
+            boardView.setImageViewResource(omokGame.turn, row, column)
             omokGame.isVictory(omokGame.turn)
             omokGame.changeTurn()
         }
@@ -71,11 +62,7 @@ class OmokGameController(
 
     inner class OmokGameListener : OmokListener {
         override fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {
-            when (state) {
-                State.BLACK -> setImageViewResource(State.BLACK, boardView[stone.row][stone.column])
-                State.WHITE -> setImageViewResource(State.WHITE, boardView[stone.row][stone.column])
-                State.EMPTY -> null
-            }
+            boardView.setImageViewResource(state, stone.row, stone.column)
         }
 
         override fun onMoveFail() {
