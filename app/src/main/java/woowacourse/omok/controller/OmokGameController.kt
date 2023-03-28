@@ -6,7 +6,6 @@ import domain.OmokGame
 import domain.State
 import domain.Stone
 import domain.listener.OmokListener
-import domain.turn.MoveResult
 import woowacourse.omok.OmokDbHelper
 import woowacourse.omok.R
 
@@ -23,14 +22,10 @@ class OmokGameController(
     }
 
     fun move(row: Int, column: Int) {
-        when (val moveResult = omokGame.successTurn(Stone(row, column), omokGame.turn)) {
-            is MoveResult.Success -> {
-                db.insertData(row, column, omokGame.turn)
-                setImageViewResource(omokGame.turn, boardView[row][column])
-                omokGame.isVictory(omokGame.turn)
-                omokGame.changeTurn(moveResult)
-            }
-            is MoveResult.Fail -> null
+        if(omokGame.successTurn(Stone(row, column), omokGame.turn)) {
+            db.insertData(row, column, omokGame.turn)
+            setImageViewResource(omokGame.turn, boardView[row][column])
+            omokGame.isVictory(omokGame.turn)
         }
     }
 
