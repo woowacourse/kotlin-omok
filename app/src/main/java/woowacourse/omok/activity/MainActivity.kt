@@ -28,22 +28,16 @@ class MainActivity : AppCompatActivity() {
     private val descriptionView: TextView by lazy { findViewById(R.id.description) }
     private val dbHelper: OmokDBHelper by lazy { OmokDBHelper(this) }
     private val omok: Omok by lazy { initOmok() }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         onStartGame()
         onStartTurn(omok.players.curPlayerColor)
+        var result: TurnResult  = TurnResult.Playing(false, omok.players)
 
-        var result: TurnResult = TurnResult.Playing(false, omok.players)
         boards.forEachIndexed { index, view ->
-            view.setOnClickListener {
-                if (result !is TurnResult.Playing) return@setOnClickListener
-                result = omok.takeTurn(calculateIndexToPoint(index))
-                onEndTurn(view, index, result)
-                onEndGame(result)
-            }
+            view.setOnClickListener { result = onClick(result, index, view) }
         }
     }
 
@@ -75,6 +69,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun onStartGame() {
         Toast.makeText(this, R.string.start_game, Toast.LENGTH_LONG).show()
+    }
+
+    private fun onClick(result: TurnResult, index: Int, view: ImageView): TurnResult {
+        if (result !is TurnResult.Playing) return result
+        val nextResult = omok.takeTurn(calculateIndexToPoint(index))
+        onEndTurn(view, index, nextResult)
+        onEndGame(nextResult)
+        return nextResult
     }
 
     private fun onEndGame(result: TurnResult) {
