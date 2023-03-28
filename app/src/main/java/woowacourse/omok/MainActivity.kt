@@ -21,10 +21,10 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         val stones = dbHelper.readOmokBoardData()
         gameBoard = Board(Stones(stones))
-        setOmokBoard(stones)
+        setOmokBoard()
     }
 
-    private fun setOmokBoard(stones: List<Stone>) {
+    private fun setOmokBoard() {
         gameBoard.setCurrentColor()
         val viewBoard = findViewById<TableLayout>(R.id.board)
         viewBoard
