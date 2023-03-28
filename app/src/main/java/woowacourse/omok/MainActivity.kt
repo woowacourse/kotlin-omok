@@ -80,13 +80,13 @@ class MainActivity : AppCompatActivity() {
         val alertDialog = AlertDialog.Builder(this)
             .setTitle("축하합니다")
             .setMessage(winMessage)
-            .setPositiveButton("다시 시작") { dialog, which ->
+            .setPositiveButton("다시 시작") { _, _ ->
                 finishAffinity()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 System.exit(0)
             }
-            .setNeutralButton("게임 종료") { dialog, which -> finish() }
+            .setNeutralButton("게임 종료") { _, _ -> finish() }
             .setCancelable(false)
             .create()
 

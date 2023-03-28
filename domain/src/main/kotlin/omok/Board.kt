@@ -4,7 +4,7 @@ import omok.judgement.Judgement
 import omok.state.Turn
 
 class Board(val judgement: Judgement, val blackPlayer: Player, val whitePlayer: Player) {
-    private val positions: List<Position> = Position.POSITIONS.toList()
+    private val positions: List<Position> = Position.POSITIONS.map { it.copy() }
 
     fun isPlaceable(turn: Turn, position: Position): Boolean {
         if (turn == Turn.White) {
