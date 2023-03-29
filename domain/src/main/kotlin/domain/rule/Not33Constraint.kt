@@ -7,10 +7,10 @@ import domain.stone.*
 object Not33Constraint : StonesConstraint {
 
     override fun isSatisfied(stones: Stones, forbiddenPoints: Set<Point>): Boolean {
-        if (stones.lastPoint == null) return true
+        val lastPoint = stones.lastPoint ?: return true
         var count33 = 0
         Inclination.values().forEach {
-            if (stones.canBeOpen4At(stones.lastPoint!!, it, forbiddenPoints)) count33++
+            if (stones.canBeOpen4At(lastPoint, it, forbiddenPoints)) count33++
         }
         return count33 < 2
     }
@@ -18,19 +18,19 @@ object Not33Constraint : StonesConstraint {
     private fun Stones.canBeOpen4At(
         point: Point,
         inclination: Inclination,
-        forbiddenPoints: Set<Point>
+        forbiddenPoints: Set<Point>,
     ): Boolean {
         val onePoint = this.getNextBlankPointAt(point, inclination.oneDirection)
         val otherPoint = this.getNextBlankPointAt(point, inclination.otherDirection)
 
         return this.willBeOpen4IfStonePlaceAt(onePoint, inclination, forbiddenPoints) ||
-                this.willBeOpen4IfStonePlaceAt(otherPoint, inclination, forbiddenPoints)
+            this.willBeOpen4IfStonePlaceAt(otherPoint, inclination, forbiddenPoints)
     }
 
     private fun Stones.willBeOpen4IfStonePlaceAt(
         point: Point,
         inclination: Inclination,
-        forbiddenPoints: Set<Point>
+        forbiddenPoints: Set<Point>,
     ): Boolean {
         if (point !in forbiddenPoints) {
             val nextStones: Stones = this.copy().apply { add(Stone(point)) }
@@ -42,7 +42,7 @@ object Not33Constraint : StonesConstraint {
     private fun Stones.isOpen4At(
         point: Point,
         inclination: Inclination,
-        forbiddenPoints: Set<Point>
+        forbiddenPoints: Set<Point>,
     ): Boolean {
         val onePoint = this.getNextBlankPointAt(point, inclination.oneDirection)
         val otherPoint = this.getNextBlankPointAt(point, inclination.otherDirection)

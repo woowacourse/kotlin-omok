@@ -24,8 +24,8 @@ class Board(private val rule: Rule) {
     }
 
     fun canPlace(team: Team, stone: Stone): Boolean = pointIsWithinBoardRange(stone.point) &&
-            stone.point !in stonePlacedPoints &&
-            rule.isObeyed(this.copy().apply { place(team, stone) })
+        stone.point !in stonePlacedPoints &&
+        rule.isObeyed(this.copy().apply { place(team, stone) })
 
     fun isPlaced(team: Team, stone: Stone): Boolean = stone in boardStones[team]!!
 

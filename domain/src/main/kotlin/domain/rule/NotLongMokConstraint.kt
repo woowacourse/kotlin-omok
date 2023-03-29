@@ -7,8 +7,8 @@ import domain.stone.Stones
 object NotLongMokConstraint : StonesConstraint {
 
     override fun isSatisfied(stones: Stones, forbiddenPoints: Set<Point>): Boolean {
-        if (stones.lastPoint == null) return true
+        val lastPoint = stones.lastPoint ?: return true
         return Inclination.values()
-            .any { stones.getLinkedStonesCountAt(stones.lastPoint!!, it) > 5 }.not()
+            .any { stones.getLinkedStonesCountAt(lastPoint, it) > 5 }.not()
     }
 }
