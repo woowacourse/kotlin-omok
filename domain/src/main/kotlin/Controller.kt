@@ -32,16 +32,14 @@ class Controller(
     fun run() {
         val omokGame = OmokGame(omokGameListener = omokGameListener)
         outputView.printStart()
-        var turn = State.BLACK
         while (true) {
-            omokGame.nextTurn(turn)
-            if (omokGame.isVictory(turn)) break
-            turn = turn.nextState()
+            omokGame.nextTurn()
+            if (omokGame.isVictory()) break
         }
     }
 
-    private fun OmokGame.nextTurn(turn: State) {
+    private fun OmokGame.nextTurn() {
         val stone = inputView.readPosition()
-        if (!successTurn(stone, turn)) return nextTurn(turn)
+        if (!successTurn(stone)) return nextTurn()
     }
 }
