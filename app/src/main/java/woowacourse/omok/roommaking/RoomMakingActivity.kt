@@ -5,12 +5,11 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import woowacourse.omok.R
-import woowacourse.omok.data.dao.RoomDao
-import woowacourse.omok.data.dao.UserDao
 import woowacourse.omok.omokgame.OmokGameActivity
 import woowacourse.omok.util.ContextUtil.shortToast
 
 class RoomMakingActivity : AppCompatActivity() {
+    private val roomMakingService = RoomMakingService(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,15 +33,9 @@ class RoomMakingActivity : AppCompatActivity() {
     }
 
     private fun makeRoom(roomTitle: String, firstUserName: String, secondUserName: String): Int {
-        val userDao = UserDao(this)
-        val roomDao = RoomDao(this)
-        return roomDao.insertRoom(
-            roomTitle,
-            userDao.insertUser(firstUserName),
-            userDao.insertUser(secondUserName),
-        ).also {
-            roomDao.closeDb()
-            userDao.closeDb()
+        with(roomMakingService) {
+            return insertRoom(roomTitle, firstUserName, secondUserName)
+                .also { closeDb() }
         }
     }
 
