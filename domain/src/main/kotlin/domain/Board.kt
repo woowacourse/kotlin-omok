@@ -20,12 +20,16 @@ class Board(private val rule: Rule) {
         require(stone.point !in stonePlacedPoints) { STONE_OVERLAP_ERROR.format(stone.point) }
         boardStones[team]!!.add(stone)
         lastStonePoint = stone.point
-        check(rule.isObeyed(this)) { RULE_NOT_OBEY_ERROR }
+        check(rule.isObeyed(boardStones)) { RULE_NOT_OBEY_ERROR }
     }
 
     fun canPlace(team: Team, stone: Stone): Boolean = pointIsWithinBoardRange(stone.point) &&
-        stone.point !in stonePlacedPoints &&
-        rule.isObeyed(this.copy().apply { place(team, stone) })
+            stone.point !in stonePlacedPoints &&
+            rule.isObeyed(Team.values().associateWith {
+                val stones = boardStones[it]!!.copy()
+                if (it == team) stones.add(stone)
+                stones
+            })
 
     fun isPlaced(team: Team, stone: Stone): Boolean = stone in boardStones[team]!!
 
@@ -33,14 +37,6 @@ class Board(private val rule: Rule) {
 
     fun getTeamThatCompletedOmok(): Team =
         boardStones.keys.first { boardStones[it]!!.completeOmok() }
-
-    private fun copy(): Board {
-        val copyBoard = Board(rule)
-        Team.values().forEach {
-            boardStones[it]!!.stones.forEach { stone -> copyBoard.place(it, stone) }
-        }
-        return copyBoard
-    }
 
     companion object {
         private const val STONE_POINT_RANGE_ERROR = "돌이 오목판의 범위를 벗어났습니다.\n돌의 좌표: %s"

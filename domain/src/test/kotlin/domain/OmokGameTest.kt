@@ -53,19 +53,19 @@ class OmokGameTest {
 
     @Test
     fun `오목 게임이 생성되면 시작 이벤트 리스너가 알림을 받는다`() {
-        val startEventManager = StartEventManager()
-        val listener = TestStartEventListener()
-        startEventManager.add(listener)
+        val createEventManager = CreateEventManager()
+        val listener = TestCreateEventListener()
+        createEventManager.add(listener)
 
-        OmokGame(startEventManager)
+        OmokGame(createEventManager)
 
         assertThat(listener.notified).isTrue
     }
 
-    private class TestStartEventListener : StartEventListener {
+    private class TestCreateEventListener : CreateEventListener {
         var notified = false
 
-        override fun notifyStartEventHasOccurred(omokGame: OmokGame) {
+        override fun notifyCreateEventHasOccurred(omokGame: OmokGame) {
             notified = true
         }
     }

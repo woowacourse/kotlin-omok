@@ -1,12 +1,12 @@
 package view
 
 import domain.OmokGame
+import domain.event.CreateEventListener
 import domain.event.FinishEventListener
 import domain.event.PlaceStoneEventListener
-import domain.event.StartEventListener
 import domain.stone.Team
 
-object OutputView : StartEventListener, PlaceStoneEventListener, FinishEventListener {
+object OutputView : CreateEventListener, PlaceStoneEventListener, FinishEventListener {
 
     private const val OMOK_GAME_START_MESSAGE = "오목 게임을 시작합니다."
     private const val TURN_CHANGE_MESSAGE = "%s의 차례입니다."
@@ -20,7 +20,7 @@ object OutputView : StartEventListener, PlaceStoneEventListener, FinishEventList
         println()
     }
 
-    override fun notifyStartEventHasOccurred(omokGame: OmokGame) {
+    override fun notifyCreateEventHasOccurred(omokGame: OmokGame) {
         println(OMOK_GAME_START_MESSAGE)
         printBoard(omokGame)
         println(TURN_CHANGE_MESSAGE.format(omokGame.turn.toKorean()))
@@ -40,7 +40,7 @@ object OutputView : StartEventListener, PlaceStoneEventListener, FinishEventList
     }
 
     private fun Team.toKorean(): String =
-        when(this) {
+        when (this) {
             Team.BLACK -> "흑"
             Team.WHITE -> "백"
         }

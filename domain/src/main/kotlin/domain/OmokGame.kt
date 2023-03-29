@@ -1,15 +1,15 @@
 package domain
 
+import domain.event.CreateEventManager
 import domain.event.FinishEventManager
 import domain.event.PlaceStoneEventManager
-import domain.event.StartEventManager
 import domain.rule.RenjuRule
 import domain.stone.Point
 import domain.stone.Stone
 import domain.stone.Team
 
 class OmokGame(
-    startEventManager: StartEventManager? = null,
+    createEventManager: CreateEventManager? = null,
     private val placeStoneEventManager: PlaceStoneEventManager? = null,
     private val finishEventManager: FinishEventManager? = null,
 ) {
@@ -21,15 +21,18 @@ class OmokGame(
         get() = board.lastStonePoint
 
     init {
-        startEventManager?.notify(this)
+        createEventManager?.notify(this)
     }
 
     fun place(stone: Stone) {
         require(canPlace(stone)) { STONE_PLACE_ERROR }
         board.place(turn, stone)
         turn = turn.next()
-        if (isFinished()) finishEventManager?.notify(this)
-        else placeStoneEventManager?.notify(this)
+        if (isFinished()) {
+            finishEventManager?.notify(this)
+        } else {
+            placeStoneEventManager?.notify(this)
+        }
     }
 
     fun canPlace(stone: Stone): Boolean = isFinished().not() && board.canPlace(turn, stone)

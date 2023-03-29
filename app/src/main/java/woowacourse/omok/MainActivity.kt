@@ -6,16 +6,16 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import domain.Board
 import domain.OmokGame
 import domain.event.*
-import domain.Board
 import domain.stone.Point
 import domain.stone.Stone
 import domain.stone.Team
 import woowacourse.omok.repository.StoneDbHelper
 import woowacourse.omok.repository.StoneRepository
 
-class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventListener {
+class MainActivity : AppCompatActivity(), CreateEventListener, PlaceStoneEventListener, FinishEventListener {
 
     private val stoneRepository: StoneRepository by lazy { StoneRepository(StoneDbHelper(this).writableDatabase) }
 
@@ -28,21 +28,18 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
     }
 
     private fun createOmokGame(): OmokGame {
+        val createEventManager = CreateEventManager()
+        createEventManager.add(this)
         val placeStoneEventManager = PlaceStoneEventManager()
         placeStoneEventManager.add(this)
         val finishEventManager = FinishEventManager()
         finishEventManager.add(this)
 
-        val omokGame = OmokGame(
+        return OmokGame(
+            createEventManager = createEventManager,
             placeStoneEventManager = placeStoneEventManager,
-            finishEventManager = finishEventManager
+            finishEventManager = finishEventManager,
         )
-
-        val stones = stoneRepository.findAll()
-        stoneRepository.deleteAll()
-        stones.forEach { omokGame.place(it) }
-
-        return omokGame
     }
 
     private fun initBoardViewClickListener(omokGame: OmokGame) {
@@ -51,6 +48,12 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
 
             imageView.setOnClickListener { if (omokGame.canPlace(stone)) omokGame.place(stone) }
         }
+    }
+
+    override fun notifyCreateEventHasOccurred(omokGame: OmokGame) {
+        val stones = stoneRepository.findAll()
+        stoneRepository.deleteAll()
+        stones.forEach { omokGame.place(it) }
     }
 
     override fun notifyPlaceStoneEventHasOccurred(omokGame: OmokGame) {
@@ -91,7 +94,7 @@ class MainActivity : AppCompatActivity(), PlaceStoneEventListener, FinishEventLi
     }
 
     private fun Team.toKorean(): String =
-        when(this) {
+        when (this) {
             Team.BLACK -> "흑"
             Team.WHITE -> "백"
         }

@@ -1,7 +1,7 @@
 import domain.OmokGame
+import domain.event.CreateEventManager
 import domain.event.FinishEventManager
 import domain.event.PlaceStoneEventManager
-import domain.event.StartEventManager
 import domain.stone.Stone
 import view.InputView
 import view.OutputView
@@ -15,13 +15,13 @@ fun main() {
 }
 
 private fun createOmokGame(): OmokGame {
-    val startEventManager = StartEventManager()
-    startEventManager.add(OutputView)
+    val createEventManager = CreateEventManager()
+    createEventManager.add(OutputView)
     val placeStoneEventManager = PlaceStoneEventManager()
     placeStoneEventManager.add(OutputView)
     val finishEventManager = FinishEventManager()
     finishEventManager.add(OutputView)
-    return OmokGame(startEventManager, placeStoneEventManager, finishEventManager)
+    return OmokGame(createEventManager, placeStoneEventManager, finishEventManager)
 }
 
 private fun getStoneThatCanPlace(omokGame: OmokGame): Stone {
