@@ -1,5 +1,7 @@
 package woowacourse.omok.result
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TableLayout
@@ -10,8 +12,6 @@ import domain.domain.state.State
 import woowacourse.omok.R
 import woowacourse.omok.data.dao.BoardDao
 import woowacourse.omok.home.HomeActivity.Companion.ROOM_ID
-import woowacourse.omok.omokgame.OmokGameActivity.Companion.ROOM_TITLE
-import woowacourse.omok.omokgame.OmokGameActivity.Companion.WINNER_NAME
 import woowacourse.omok.omokgame.OmokGameUtil
 import woowacourse.omok.omokgame.OmokGameUtil.loopBoardTable
 
@@ -60,5 +60,16 @@ class ResultActivity : AppCompatActivity() {
         resultService.deleteRoom(roomId)
         resultService.closeDb()
         super.onDestroy()
+    }
+
+    companion object {
+        const val WINNER_NAME = "winnerName"
+        const val ROOM_TITLE = "roomTitle"
+        fun getIntent(context: Context, roomId: Int, roomTitle: String, winnerName: String) =
+            Intent(context, ResultActivity::class.java).apply {
+                putExtra(ROOM_ID, roomId)
+                putExtra(ROOM_TITLE, roomTitle)
+                putExtra(WINNER_NAME, winnerName)
+            }
     }
 }

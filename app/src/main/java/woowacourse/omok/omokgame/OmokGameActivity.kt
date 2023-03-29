@@ -137,11 +137,12 @@ class OmokGameActivity : AppCompatActivity(), Observer {
     }
 
     private fun goToResultActivity(turn: CoordinateState) {
-        val intent = Intent(this, ResultActivity::class.java).apply {
-            putExtra(ROOM_ID, room.roomId)
-            putExtra(ROOM_TITLE, room.roomTitle)
-            putExtra(WINNER_NAME, turn.toName())
-        }
+        val intent = ResultActivity.getIntent(
+            this@OmokGameActivity,
+            omokGameService.roomId,
+            omokGameService.roomTitle,
+            turn.toName(),
+        )
         startActivity(intent)
         finish()
     }
@@ -160,8 +161,6 @@ class OmokGameActivity : AppCompatActivity(), Observer {
     }
 
     companion object {
-        const val WINNER_NAME = "winnerName"
-        const val ROOM_TITLE = "roomTitle"
         const val DESCRIPTION = "%s의 차례입니다. %s가 %s입니다"
 
         fun getIntent(context: Context, roomId: Int) =
