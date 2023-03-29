@@ -6,15 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import woowacourse.omok.R
-import woowacourse.omok.data.dao.RoomDao
-import woowacourse.omok.data.dao.UserDao
 import woowacourse.omok.omokgame.OmokGameActivity
 import woowacourse.omok.roommaking.RoomMakingActivity
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var roomsAdapter: RoomsAdapter
-    private val roomDao = RoomDao(this)
-    private val userDao = UserDao(this)
+    private val homeService = HomeService(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,16 +26,13 @@ class HomeActivity : AppCompatActivity() {
         initRooms()
     }
 
+    override fun onDestroy() {
+        homeService.closeDb()
+        super.onDestroy()
+    }
+
     private fun initRooms() {
-        val roomEntities = roomDao.getRooms()
-        val rooms: List<Room> = roomEntities.map {
-            Room(
-                roomId = it.roomId,
-                roomTitle = it.roomTitle,
-                firstUserEntity = userDao.getUser(it.firstUserId),
-                secondUserEntity = userDao.getUser(it.secondUserId),
-            )
-        }
+        val rooms: List<Room> = homeService.getRooms()
         roomsAdapter.initRooms(rooms)
     }
 
@@ -50,20 +44,14 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun clickRoom(roomId: Int) {
-        startActivity(OmokGameActivity.getIntent(this, roomId))
-    }
-
     private fun initAdapter() {
         val roomRecyclerView = findViewById<RecyclerView>(R.id.roomRecyclerView)
         roomsAdapter = RoomsAdapter { clickRoom(it) }
         roomRecyclerView.adapter = roomsAdapter
     }
 
-    override fun onDestroy() {
-        roomDao.closeDb()
-        userDao.closeDb()
-        super.onDestroy()
+    private fun clickRoom(roomId: Int) {
+        startActivity(OmokGameActivity.getIntent(this, roomId))
     }
 
     companion object {
