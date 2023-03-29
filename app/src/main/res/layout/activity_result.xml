@@ -1,0 +1,1230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".result.ResultActivity">
+
+    <TextView
+        android:id="@+id/resultTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="금수 오목 대전" />
+
+    <TextView
+        android:id="@+id/resultWinnerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resultTitleText"
+        tools:text="승자: 산군" />
+
+    <TableLayout
+        android:id="@+id/resultBoardTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="30dp"
+        android:stretchColumns="*"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/resultWinnerText">
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_top_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_center" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_right" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom_left" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/board_bottom_right" />
+        </TableRow>
+
+    </TableLayout>
+
+    <Button
+        android:id="@+id/resultFinishButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="30dp"
+        android:text="종료하기"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
