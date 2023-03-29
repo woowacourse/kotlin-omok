@@ -6,14 +6,20 @@ import android.widget.Button
 import android.widget.TableLayout
 import androidx.appcompat.app.AppCompatActivity
 import omok.OmokGame
+import omok.OmokPoint
+import omok.state.BlackStoneState
+import omok.state.StoneState
 import woowacourse.omok.db.OmokDB
 
 class MainActivity : AppCompatActivity() {
     private val omokStatusView: OmokStatusView by lazy {
         OmokStatusView(findViewById(R.id.tv_status))
     }
+    private val omokBoardView: BoardView by lazy {
+        BoardView(board, omokGame)
+    }
     private val omokGame: OmokGame by lazy {
-        OmokGame(db.getBoard(), omokStatusView::onSuccessProcess, omokStatusView::onFailedProcess)
+        OmokGame(db.getBoard(), ::onSuccessProcess, omokStatusView::onFailedProcess)
     }
     private val board: TableLayout by lazy {
         findViewById(R.id.board)
@@ -29,8 +35,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        BoardController(board, omokGame, db)
-
+        omokBoardView.boardView.forEachIndexed { row, images ->
+            images.forEachIndexed { col, view ->
+                view.setOnClickListener {
+                    val point = OmokPoint(row + 1, col + 1)
+                    val state = omokGame.play(point)
+                    if (omokGame.gameState !== state) {
+                        db.recordStoneInfo(point, determineStoneColor(state.stoneState))
+                    }
+                }
+            }
+        }
         btnReset.setOnClickListener {
             db.clearStoneInfo()
             changeActivity(WaitingRoomActivity::class.java)
@@ -41,5 +56,17 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, activity)
         finish()
         startActivity(intent)
+    }
+
+    private fun onSuccessProcess(point: OmokPoint, stoneState: StoneState) {
+        omokStatusView.onSuccessProcess(point, stoneState)
+        omokBoardView.onSuccessProcess(point, stoneState)
+    }
+
+    private fun determineStoneColor(stoneState: StoneState): Int {
+        return when (stoneState) {
+            BlackStoneState -> 0
+            else -> 1
+        }
     }
 }

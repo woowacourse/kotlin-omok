@@ -2,10 +2,11 @@ package omok
 
 import omok.gameState.BlackTurn
 import omok.gameState.GameState
+import omok.state.StoneState
 
 class OmokGame(
     state: GameState = BlackTurn(OmokBoard()),
-    val onSuccessProcess: (OmokPoint) -> Unit = {},
+    val onSuccessProcess: (OmokPoint, StoneState) -> Unit = { _, _ -> },
     val onFailedProcess: (String) -> Unit = {}
 ) {
     var gameState: GameState = state
@@ -22,7 +23,7 @@ class OmokGame(
                 onFailedProcess(it.message.toString())
             }
             .onSuccess {
-                onSuccessProcess(point)
+                onSuccessProcess(point, currentState.stoneState)
             }
         return currentState
     }
