@@ -129,7 +129,7 @@ class OmokGameActivity : AppCompatActivity(), Observer {
     }
 
     private fun CoordinateState.toName(): String {
-        return if (this == BLACK) omokGameService.firstUserName else omokGameService.firstUserName
+        return if (this == BLACK) omokGameService.firstUserName else omokGameService.secondUserName
     }
 
     override fun onDestroy() {
