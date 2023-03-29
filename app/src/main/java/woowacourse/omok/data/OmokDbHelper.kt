@@ -12,7 +12,7 @@ import woowacourse.omok.data.OmokContract.User.DELETE_USER_TABLE
 
 class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL("PRAGMA foreign_keys=ON;")
+        db.execSQL(PERMIT_FOREIGN_KEY)
         db.execSQL(CREATE_BOARD_TABLE)
         db.execSQL(CREATE_ROOM_TABLE)
         db.execSQL(CREATE_USER_TABLE)
@@ -20,7 +20,7 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
     override fun onOpen(db: SQLiteDatabase?) {
         super.onOpen(db)
-        db?.execSQL("PRAGMA foreign_keys=ON")
+        db?.execSQL(PERMIT_FOREIGN_KEY)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -32,5 +32,6 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
     companion object {
         private const val DATABASE_NAME = "vix database"
+        private const val PERMIT_FOREIGN_KEY = "PRAGMA foreign_keys=ON"
     }
 }
