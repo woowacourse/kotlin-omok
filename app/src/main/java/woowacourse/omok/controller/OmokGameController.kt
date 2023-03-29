@@ -52,11 +52,11 @@ class OmokGameController(
     }
 
     fun move(row: Int, column: Int) {
-        if (omokGame.successTurn(Stone(row, column), omokGame.turn)) {
-            db.insertData(row, column, omokGame.turn)
-            boardView.setImageViewResource(omokGame.turn, row, column)
-            omokGame.isVictory(omokGame.turn)
-            omokGame.changeTurn()
+        if (omokGame.successTurn(Stone(row, column))) {
+            val turn = omokGame.turn.prevState()
+            db.insertData(row, column, turn)
+            boardView.setImageViewResource(turn, row, column)
+            omokGame.isVictory()
         }
     }
 
