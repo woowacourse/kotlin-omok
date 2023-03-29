@@ -9,7 +9,6 @@ import domain.Position
 import domain.domain.state.State
 import woowacourse.omok.R
 import woowacourse.omok.data.dao.BoardDao
-import woowacourse.omok.data.dao.RoomDao
 import woowacourse.omok.home.HomeActivity.Companion.ROOM_ID
 import woowacourse.omok.omokgame.OmokGameActivity.Companion.ROOM_TITLE
 import woowacourse.omok.omokgame.OmokGameActivity.Companion.WINNER_NAME
@@ -17,7 +16,7 @@ import woowacourse.omok.omokgame.OmokGameUtil
 import woowacourse.omok.omokgame.OmokGameUtil.loopBoardTable
 
 class ResultActivity : AppCompatActivity() {
-    private val roomDao = RoomDao(this)
+    private val resultService = ResultService(this)
     private val roomId by lazy { intent.getIntExtra(ROOM_ID, -1) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,13 +51,14 @@ class ResultActivity : AppCompatActivity() {
 
     private fun clickFinish() {
         findViewById<Button>(R.id.resultFinishButton).setOnClickListener {
-            roomDao.deleteRoom(roomId)
+            resultService.deleteRoom(roomId)
             finish()
         }
     }
 
     override fun onDestroy() {
-        roomDao.deleteRoom(roomId)
+        resultService.deleteRoom(roomId)
+        resultService.closeDb()
         super.onDestroy()
     }
 }
