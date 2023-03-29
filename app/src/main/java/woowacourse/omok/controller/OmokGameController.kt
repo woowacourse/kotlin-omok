@@ -44,25 +44,21 @@ class OmokGameController(
     }
 
     private fun setPreBoardImage() {
-        omokGame.omokBoard.value.forEachIndexed { rowIndex, row ->
-            row.forEachIndexed { columnIndex, state ->
-                boardView.setImageViewResource(state, rowIndex, columnIndex)
-            }
-        }
+        boardView.setImageResources(omokGame.omokBoard)
     }
 
     fun move(row: Int, column: Int) {
         if (omokGame.successTurn(Stone(row, column))) {
             val turn = omokGame.turn.prevState()
             db.insertData(row, column, turn)
-            boardView.setImageViewResource(turn, row, column)
+            boardView.setImageResources(omokGame.omokBoard)
             omokGame.isVictory()
         }
     }
 
     inner class OmokGameListener : OmokListener {
         override fun onMove(omokBoard: OmokBoard, state: State, stone: Stone) {
-            boardView.setImageViewResource(state, stone.row, stone.column)
+            boardView.setImageResources(omokGame.omokBoard)
         }
 
         override fun onMoveFail() {
