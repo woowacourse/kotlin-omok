@@ -15,7 +15,8 @@ import domain.stone.Team
 import woowacourse.omok.repository.StoneDbHelper
 import woowacourse.omok.repository.StoneRepository
 
-class MainActivity : AppCompatActivity(), CreateEventListener, PlaceStoneEventListener, FinishEventListener {
+class MainActivity : AppCompatActivity(), CreateEventListener, PlaceStoneEventListener,
+    FinishEventListener {
 
     private val stoneRepository: StoneRepository by lazy { StoneRepository(StoneDbHelper(this).writableDatabase) }
 

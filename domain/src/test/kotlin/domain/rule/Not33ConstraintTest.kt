@@ -40,21 +40,21 @@ class Not33ConstraintTest {
             add(Stone('D', 12))
         }),
         arguments(Stones().apply {
-            add(Stone('B',  6))
+            add(Stone('B', 6))
             add(Stone('C', 5))
             add(Stone('E', 6))
             add(Stone('E', 5))
             add(Stone('E', 3))
         }),
         arguments(Stones().apply {
-            add(Stone('J',  9))
+            add(Stone('J', 9))
             add(Stone('N', 9))
             add(Stone('M', 10))
             add(Stone('M', 12))
             add(Stone('L', 11))
         }),
         arguments(Stones().apply {
-            add(Stone('K',  6))
+            add(Stone('K', 6))
             add(Stone('K', 3))
             add(Stone('M', 4))
             add(Stone('N', 4))

@@ -16,9 +16,6 @@ abstract class Rule(private val constraints: Map<Team, List<StonesConstraint>>) 
     }
 
     private fun Stones.satisfy(
-        constraints: List<StonesConstraint>,
-        forbiddenPoints: Set<Point>
-    ): Boolean =
-        constraints.all { it.isSatisfied(this, forbiddenPoints) }
-
+        constraints: List<StonesConstraint>, forbiddenPoints: Set<Point>
+    ): Boolean = constraints.all { it.isSatisfied(this, forbiddenPoints) }
 }

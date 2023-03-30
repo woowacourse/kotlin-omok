@@ -31,7 +31,7 @@ class BoardTest {
             Point('H', 2),
         )
         val board = Board(RenjuRule).apply {
-            points.forEach{ place(Team.WHITE, Stone(it)) }
+            points.forEach { place(Team.WHITE, Stone(it)) }
         }
 
         assertThat(board.stonePlacedPoints).isEqualTo(points)

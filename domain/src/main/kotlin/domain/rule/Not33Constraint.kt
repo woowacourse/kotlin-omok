@@ -24,7 +24,7 @@ object Not33Constraint : StonesConstraint {
         val otherPoint = this.getNextBlankPointAt(point, inclination.otherDirection)
 
         return this.willBeOpen4IfStonePlaceAt(onePoint, inclination, forbiddenPoints) ||
-            this.willBeOpen4IfStonePlaceAt(otherPoint, inclination, forbiddenPoints)
+                this.willBeOpen4IfStonePlaceAt(otherPoint, inclination, forbiddenPoints)
     }
 
     private fun Stones.willBeOpen4IfStonePlaceAt(
