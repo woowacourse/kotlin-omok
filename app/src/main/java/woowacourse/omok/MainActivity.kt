@@ -15,8 +15,7 @@ import domain.stone.Team
 import woowacourse.omok.repository.StoneDbHelper
 import woowacourse.omok.repository.StoneRepository
 
-class MainActivity : AppCompatActivity(), CreateEventListener, PlaceStoneEventListener,
-    FinishEventListener {
+class MainActivity : AppCompatActivity(), GameEventListener {
 
     private val stoneRepository: StoneRepository by lazy { StoneRepository(StoneDbHelper(this).writableDatabase) }
 
@@ -29,18 +28,10 @@ class MainActivity : AppCompatActivity(), CreateEventListener, PlaceStoneEventLi
     }
 
     private fun createOmokGame(): OmokGame {
-        val createEventManager = CreateEventManager()
-        createEventManager.add(this)
-        val placeStoneEventManager = PlaceStoneEventManager()
-        placeStoneEventManager.add(this)
-        val finishEventManager = FinishEventManager()
-        finishEventManager.add(this)
+        val gameEventManager = GameEventManager()
+        gameEventManager.add(this)
 
-        return OmokGame(
-            createEventManager = createEventManager,
-            placeStoneEventManager = placeStoneEventManager,
-            finishEventManager = finishEventManager,
-        )
+        return OmokGame(gameEventManager)
     }
 
     private fun initBoardViewClickListener(omokGame: OmokGame) {
@@ -51,13 +42,13 @@ class MainActivity : AppCompatActivity(), CreateEventListener, PlaceStoneEventLi
         }
     }
 
-    override fun notifyCreateEventHasOccurred(omokGame: OmokGame) {
+    override fun onGameCreated(omokGame: OmokGame) {
         val stones = stoneRepository.findAll()
         stoneRepository.deleteAll()
         stones.forEach { omokGame.place(it) }
     }
 
-    override fun notifyPlaceStoneEventHasOccurred(omokGame: OmokGame) {
+    override fun onStonePlaced(omokGame: OmokGame) {
         drawRunningBoardView(omokGame)
         val lastPoint = omokGame.getLastPoint()
             ?: throw IllegalArgumentException("오목 게임에 돌이 하나도 없을 때 이 메서드가 실행될 수 없습니다.")
@@ -89,7 +80,7 @@ class MainActivity : AppCompatActivity(), CreateEventListener, PlaceStoneEventLi
         }
     }
 
-    override fun notifyFinishEventHasOccurred(omokGame: OmokGame) {
+    override fun onGameFinished(omokGame: OmokGame) {
         drawFinalBoardView(omokGame)
         NonDelayToast.show(this, "%s의 승리입니다.".format(omokGame.getWinner().toKorean()))
         getBoardView().forEach { it.setOnClickListener { } }

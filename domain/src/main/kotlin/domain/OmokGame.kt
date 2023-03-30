@@ -1,17 +1,13 @@
 package domain
 
-import domain.event.CreateEventManager
-import domain.event.FinishEventManager
-import domain.event.PlaceStoneEventManager
+import domain.event.GameEventManager
 import domain.rule.RenjuRule
 import domain.stone.Point
 import domain.stone.Stone
 import domain.stone.Team
 
 class OmokGame(
-    createEventManager: CreateEventManager? = null,
-    private val placeStoneEventManager: PlaceStoneEventManager? = null,
-    private val finishEventManager: FinishEventManager? = null,
+    private val gameEventManager: GameEventManager? = null
 ) {
 
     var turn: Team = Team.BLACK
@@ -19,7 +15,7 @@ class OmokGame(
     val board = Board(RenjuRule)
 
     init {
-        createEventManager?.notify(this)
+        gameEventManager?.notifyCreateEvent(this)
     }
 
     fun place(stone: Stone) {
@@ -27,9 +23,9 @@ class OmokGame(
         board.place(turn, stone)
         turn = turn.next()
         if (isFinished()) {
-            finishEventManager?.notify(this)
+            gameEventManager?.notifyFinishedEvent(this)
         } else {
-            placeStoneEventManager?.notify(this)
+            gameEventManager?.notifyStonePlaceEvent(this)
         }
     }
 

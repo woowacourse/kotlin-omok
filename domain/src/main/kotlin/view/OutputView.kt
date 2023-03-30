@@ -1,12 +1,10 @@
 package view
 
 import domain.OmokGame
-import domain.event.CreateEventListener
-import domain.event.FinishEventListener
-import domain.event.PlaceStoneEventListener
+import domain.event.GameEventListener
 import domain.stone.Team
 
-object OutputView : CreateEventListener, PlaceStoneEventListener, FinishEventListener {
+object OutputView : GameEventListener {
 
     private const val OMOK_GAME_START_MESSAGE = "오목 게임을 시작합니다."
     private const val TURN_CHANGE_MESSAGE = "%s의 차례입니다."
@@ -20,13 +18,13 @@ object OutputView : CreateEventListener, PlaceStoneEventListener, FinishEventLis
         println()
     }
 
-    override fun notifyCreateEventHasOccurred(omokGame: OmokGame) {
+    override fun onGameCreated(omokGame: OmokGame) {
         println(OMOK_GAME_START_MESSAGE)
         printBoard(omokGame)
         println(TURN_CHANGE_MESSAGE.format(omokGame.turn.toKorean()))
     }
 
-    override fun notifyPlaceStoneEventHasOccurred(omokGame: OmokGame) {
+    override fun onStonePlaced(omokGame: OmokGame) {
         printBoard(omokGame)
         print(TURN_CHANGE_MESSAGE.format(omokGame.turn.toKorean()))
         val lastPoint = omokGame.getLastPoint()
@@ -34,7 +32,7 @@ object OutputView : CreateEventListener, PlaceStoneEventListener, FinishEventLis
         println(LAST_STONE_POINT_MESSAGE.format(lastPoint.x + lastPoint.y.toString()))
     }
 
-    override fun notifyFinishEventHasOccurred(omokGame: OmokGame) {
+    override fun onGameFinished(omokGame: OmokGame) {
         printBoard(omokGame)
         println(WIN_MESSAGE.format(omokGame.getWinner().toKorean()))
     }

@@ -52,50 +52,34 @@ class OmokGameTest {
     }
 
     @Test
-    fun `오목 게임이 생성되면 시작 이벤트 리스너가 알림을 받는다`() {
-        val createEventManager = CreateEventManager()
-        val listener = TestCreateEventListener()
-        createEventManager.add(listener)
+    fun `오목 게임이 생성되면 게임 이벤트 리스너가 게임 생성 알림을 받는다`() {
+        val gameEventManager = GameEventManager()
+        val listener = TestGameEventListener()
+        gameEventManager.add(listener)
 
-        OmokGame(createEventManager)
+        OmokGame(gameEventManager)
 
-        assertThat(listener.notified).isTrue
-    }
-
-    private class TestCreateEventListener : CreateEventListener {
-        var notified = false
-
-        override fun notifyCreateEventHasOccurred(omokGame: OmokGame) {
-            notified = true
-        }
+        assertThat(listener.notifiedGameCreateEvent).isTrue
     }
 
     @Test
     fun `돌을 뒀을 때 게임이 끝나지 않았다면 돌 두기 이벤트 리스너가 알림을 받는다`() {
-        val placeStoneEventManager = PlaceStoneEventManager()
-        val listener = TestPlaceStoneEventListener()
-        placeStoneEventManager.add(listener)
-        val omokGame = OmokGame(placeStoneEventManager = placeStoneEventManager)
+        val gameEventManager = GameEventManager()
+        val listener = TestGameEventListener()
+        gameEventManager.add(listener)
+        val omokGame = OmokGame(gameEventManager)
 
         omokGame.place(Stone('A', 1))
 
-        assertThat(listener.notified).isTrue
-    }
-
-    private class TestPlaceStoneEventListener : PlaceStoneEventListener {
-        var notified = false
-
-        override fun notifyPlaceStoneEventHasOccurred(omokGame: OmokGame) {
-            notified = true
-        }
+        assertThat(listener.notifiedStonePlaceEvent).isTrue
     }
 
     @Test
     fun `돌을 뒀을 때 게임이 끝났다면 종료 이벤트 리스너가 알림을 받는다`() {
-        val finishEventManager = FinishEventManager()
-        val listener = TestFinishEventListener()
-        finishEventManager.add(listener)
-        val omokGame = OmokGame(finishEventManager = finishEventManager).apply {
+        val gameEventManager = GameEventManager()
+        val listener = TestGameEventListener()
+        gameEventManager.add(listener)
+        val omokGame = OmokGame(gameEventManager).apply {
             place(Stone('A', 1))
             place(Stone('B', 1))
             place(Stone('A', 2))
@@ -108,14 +92,23 @@ class OmokGameTest {
 
         omokGame.place(Stone('A', 5))
 
-        assertThat(listener.notified).isTrue
+        assertThat(listener.notifiedGameFinishEvent).isTrue
     }
 
-    private class TestFinishEventListener : FinishEventListener {
-        var notified = false
+    private class TestGameEventListener : GameEventListener {
+        var notifiedGameCreateEvent = false
+        var notifiedStonePlaceEvent = false
+        var notifiedGameFinishEvent = false
+        override fun onGameCreated(omokGame: OmokGame) {
+            notifiedGameCreateEvent = true
+        }
 
-        override fun notifyFinishEventHasOccurred(omokGame: OmokGame) {
-            notified = true
+        override fun onStonePlaced(omokGame: OmokGame) {
+            notifiedStonePlaceEvent = true
+        }
+
+        override fun onGameFinished(omokGame: OmokGame) {
+            notifiedGameFinishEvent = true
         }
     }
 }
