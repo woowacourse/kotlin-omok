@@ -3,7 +3,7 @@ package domain.state
 import domain.Board
 import domain.stone.Point
 import domain.stone.Stone
-import domain.stone.Team
+import domain.Team
 
 class Running(override val turn: Team, override val board: Board) : GameState() {
 

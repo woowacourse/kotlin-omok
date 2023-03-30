@@ -3,7 +3,7 @@ package view
 import domain.Board
 import domain.stone.Point
 import domain.stone.Stone
-import domain.stone.Team
+import domain.Team
 
 class BoardView(board: Board) {
 

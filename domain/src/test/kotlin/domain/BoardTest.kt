@@ -3,7 +3,6 @@ package domain
 import domain.rule.RenjuRule
 import domain.stone.Point
 import domain.stone.Stone
-import domain.stone.Team
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow

@@ -2,7 +2,7 @@ package view
 
 import domain.OmokGame
 import domain.event.GameEventListener
-import domain.stone.Team
+import domain.Team
 
 object OutputView : GameEventListener {
 

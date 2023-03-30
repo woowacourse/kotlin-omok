@@ -1,4 +1,4 @@
-package domain.stone
+package domain
 
 enum class Team {
     BLACK {

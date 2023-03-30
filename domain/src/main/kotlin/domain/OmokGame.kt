@@ -7,7 +7,6 @@ import domain.state.GameState
 import domain.state.Running
 import domain.stone.Point
 import domain.stone.Stone
-import domain.stone.Team
 
 class OmokGame(
     private val gameEventManager: GameEventManager? = null

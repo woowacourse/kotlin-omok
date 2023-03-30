@@ -11,7 +11,7 @@ import domain.OmokGame
 import domain.event.*
 import domain.stone.Point
 import domain.stone.Stone
-import domain.stone.Team
+import domain.Team
 import woowacourse.omok.repository.StoneDbHelper
 import woowacourse.omok.repository.StoneRepository
 

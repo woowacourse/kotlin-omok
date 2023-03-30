@@ -2,7 +2,7 @@ package domain.rule
 
 import domain.stone.Point
 import domain.stone.Stones
-import domain.stone.Team
+import domain.Team
 
 abstract class Rule(private val constraints: Map<Team, List<StonesConstraint>>) {
 

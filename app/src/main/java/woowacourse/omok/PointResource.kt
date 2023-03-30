@@ -4,7 +4,7 @@ import domain.OmokGame
 import domain.Board
 import domain.stone.Point
 import domain.stone.Stone
-import domain.stone.Team
+import domain.Team
 
 fun Point.getResourceForRunningGame(omokGame: OmokGame): Int =
     when {

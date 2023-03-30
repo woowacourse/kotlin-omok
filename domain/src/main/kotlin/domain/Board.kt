@@ -4,7 +4,6 @@ import domain.rule.Rule
 import domain.stone.Point
 import domain.stone.Stone
 import domain.stone.Stones
-import domain.stone.Team
 
 class Board(private val rule: Rule) {
 

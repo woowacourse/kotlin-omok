@@ -2,7 +2,6 @@ package domain
 
 import domain.event.*
 import domain.stone.Stone
-import domain.stone.Team
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
 

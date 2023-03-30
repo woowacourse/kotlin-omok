@@ -1,6 +1,6 @@
 package domain.rule
 
-import domain.stone.Team
+import domain.Team
 
 object RenjuRule : Rule(
     mapOf(
