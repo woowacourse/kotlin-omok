@@ -59,7 +59,9 @@ class MainActivity : AppCompatActivity(), CreateEventListener, PlaceStoneEventLi
 
     override fun notifyPlaceStoneEventHasOccurred(omokGame: OmokGame) {
         drawRunningBoardView(omokGame)
-        stoneRepository.insert(Stone(omokGame.lastPoint!!))
+        val lastPoint = omokGame.getLastPoint()
+            ?: throw IllegalArgumentException("오목 게임에 돌이 하나도 없을 때 이 메서드가 실행될 수 없습니다.")
+        stoneRepository.insert(Stone(lastPoint))
     }
 
     private fun drawRunningBoardView(omokGame: OmokGame) {

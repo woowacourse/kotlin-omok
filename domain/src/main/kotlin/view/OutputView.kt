@@ -29,7 +29,7 @@ object OutputView : CreateEventListener, PlaceStoneEventListener, FinishEventLis
     override fun notifyPlaceStoneEventHasOccurred(omokGame: OmokGame) {
         printBoard(omokGame)
         print(TURN_CHANGE_MESSAGE.format(omokGame.turn.toKorean()))
-        val lastPoint = omokGame.lastPoint
+        val lastPoint = omokGame.getLastPoint()
         check(lastPoint != null) { LAST_POINT_IS_NULL_ERROR }
         println(LAST_STONE_POINT_MESSAGE.format(lastPoint.x + lastPoint.y.toString()))
     }

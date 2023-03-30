@@ -11,30 +11,13 @@ import org.junit.jupiter.api.assertDoesNotThrow
 class BoardTest {
 
     @Test
-    fun `마지막으로 넣은 돌의 좌표를 알 수 있다`() {
+    fun `특정 팀의 마지막으로 넣은 돌의 좌표를 알 수 있다`() {
         val point = Point('A', 1)
         val board = Board(RenjuRule).apply {
             place(Team.WHITE, Stone(point))
         }
 
-        assertThat(board.lastStonePoint).isEqualTo(point)
-    }
-
-    @Test
-    fun `돌이 놓여진 좌표들을 알 수 있다`() {
-        val points = setOf(
-            Point('A', 1),
-            Point('B', 2),
-            Point('B', 3),
-            Point('D', 2),
-            Point('D', 2),
-            Point('H', 2),
-        )
-        val board = Board(RenjuRule).apply {
-            points.forEach { place(Team.WHITE, Stone(it)) }
-        }
-
-        assertThat(board.stonePlacedPoints).isEqualTo(points)
+        assertThat(board.getLastPoint(Team.WHITE)).isEqualTo(point)
     }
 
     @Test

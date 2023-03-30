@@ -17,8 +17,6 @@ class OmokGame(
     var turn: Team = Team.BLACK
         private set
     val board = Board(RenjuRule)
-    val lastPoint: Point?
-        get() = board.lastStonePoint
 
     init {
         createEventManager?.notify(this)
@@ -40,6 +38,8 @@ class OmokGame(
     fun isFinished(): Boolean = board.hasTeamThatCompletedOmok()
 
     fun getWinner(): Team = board.getTeamThatCompletedOmok()
+
+    fun getLastPoint(): Point? = board.getLastPoint(turn.previous())
 
     companion object {
         private const val STONE_PLACE_ERROR = "돌을 둘 수 없습니다."
