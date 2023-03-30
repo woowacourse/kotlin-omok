@@ -38,10 +38,10 @@ fun Point.getResourceForFinishedGame(omokGame: OmokGame): Int =
     }
 
 private fun Point.isWhereBlackStoneIsPlaced(omokGame: OmokGame): Boolean =
-    omokGame.board.isPlaced(Team.BLACK, Stone(this))
+    omokGame.isPlaced(Team.BLACK, Stone(this))
 
 private fun Point.isWhereWhiteStoneIsPlaced(omokGame: OmokGame): Boolean =
-    omokGame.board.isPlaced(Team.WHITE, Stone(this))
+    omokGame.isPlaced(Team.WHITE, Stone(this))
 
 private fun Point.isWhereNoStoneCanBePlaced(omokGame: OmokGame): Boolean =
     omokGame.canPlace(Stone(this)).not()

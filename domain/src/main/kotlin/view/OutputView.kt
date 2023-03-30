@@ -14,19 +14,19 @@ object OutputView : GameEventListener {
     private const val STONE_VIOLATE_RULE_MESSAGE = "해당 돌을 두면 규칙에 어긋납니다."
 
     private fun printBoard(omokGame: OmokGame) {
-        println(BoardView(omokGame.board))
+        println(BoardView(omokGame.getBoard()))
         println()
     }
 
     override fun onGameCreated(omokGame: OmokGame) {
         println(OMOK_GAME_START_MESSAGE)
         printBoard(omokGame)
-        println(TURN_CHANGE_MESSAGE.format(omokGame.turn.toKorean()))
+        println(TURN_CHANGE_MESSAGE.format(omokGame.getTurn().toKorean()))
     }
 
     override fun onStonePlaced(omokGame: OmokGame) {
         printBoard(omokGame)
-        print(TURN_CHANGE_MESSAGE.format(omokGame.turn.toKorean()))
+        print(TURN_CHANGE_MESSAGE.format(omokGame.getTurn().toKorean()))
         val lastPoint = omokGame.getLastPoint()
         check(lastPoint != null) { LAST_POINT_IS_NULL_ERROR }
         println(LAST_STONE_POINT_MESSAGE.format(lastPoint.x + lastPoint.y.toString()))

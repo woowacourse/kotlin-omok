@@ -31,9 +31,6 @@ class Board(private val rule: Rule) {
 
     fun hasTeamThatCompletedOmok(): Boolean = boardStones.values.any(Stones::completeOmok)
 
-    fun getTeamThatCompletedOmok(): Team =
-        boardStones.keys.first { boardStones[it]!!.completeOmok() }
-
     private fun getStonePlacedPoints(): Set<Point> =
         boardStones.values.flatMap { it.stones.map { stone -> stone.point } }.toSet()
 

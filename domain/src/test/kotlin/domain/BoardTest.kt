@@ -75,17 +75,4 @@ class BoardTest {
 
         assertThat(board.isPlaced(Team.BLACK, Stone('C', 12))).isTrue
     }
-
-    @Test
-    fun `어떤 팀이 오목을 완성했는지 알 수 있다`() {
-        val board = Board(RenjuRule).apply {
-            place(Team.BLACK, Stone('A', 11))
-            place(Team.BLACK, Stone('A', 12))
-            place(Team.BLACK, Stone('A', 13))
-            place(Team.BLACK, Stone('A', 14))
-            place(Team.BLACK, Stone('A', 15))
-        }
-
-        assertThat(board.getTeamThatCompletedOmok()).isEqualTo(Team.BLACK)
-    }
 }

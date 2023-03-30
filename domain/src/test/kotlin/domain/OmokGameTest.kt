@@ -12,7 +12,7 @@ class OmokGameTest {
     fun `오목 게임은 흑이 먼저 시작한다`() {
         val omokGame = OmokGame()
 
-        assertThat(omokGame.turn).isEqualTo(Team.BLACK)
+        assertThat(omokGame.getTurn()).isEqualTo(Team.BLACK)
     }
 
     @Test
@@ -21,7 +21,7 @@ class OmokGameTest {
 
         omokGame.place(Stone('A', 1))
 
-        assertThat(omokGame.turn).isEqualTo(Team.WHITE)
+        assertThat(omokGame.getTurn()).isEqualTo(Team.WHITE)
     }
 
     @Test
@@ -30,7 +30,7 @@ class OmokGameTest {
 
         omokGame.place(Stone('A', 1))
 
-        assertThat(omokGame.turn).isEqualTo(Team.BLACK)
+        assertThat(omokGame.getTurn()).isEqualTo(Team.BLACK)
     }
 
     @Test
