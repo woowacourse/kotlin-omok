@@ -14,4 +14,9 @@ enum class Team {
 
     abstract fun previous(): Team
     abstract fun next(): Team
+
+    companion object {
+        inline fun <V> associateWith(valueSelector: (Team) -> V): Map<Team, V> =
+            Team.values().associateWith(valueSelector)
+    }
 }

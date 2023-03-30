@@ -7,7 +7,7 @@ import domain.stone.Stones
 
 class Board(private val rule: Rule) {
 
-    private val boardStones = Team.values().associateWith { Stones() }
+    private val boardStones = Team.associateWith { Stones() }
 
     operator fun get(team: Team): Stones = boardStones[team]!!
 
