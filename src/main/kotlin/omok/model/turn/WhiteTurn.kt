@@ -9,4 +9,8 @@ class WhiteTurn(val board: Board) : Turn {
         board.place(point, StoneColor.WHITE)
         return BlackTurn(board)
     }
+
+    override fun color(): StoneColor {
+        return StoneColor.WHITE
+    }
 }
