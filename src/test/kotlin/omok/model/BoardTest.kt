@@ -1,5 +1,6 @@
 package omok.model
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -14,7 +15,21 @@ class BoardTest {
             )
         val board = Board(stones)
         assertThrows<IllegalArgumentException> {
-            board.place(Stone(Color.BLACK, Position(Row.ONE, Column.A)))
+            board.place(Position(Row.ONE, Column.A))
         }
+    }
+
+    @Test
+    fun `플레이어가 번갈아가며 착수하게 한다`() {
+        // given
+        val stones =
+            listOf(
+                Stone(Color.BLACK, Position(Row.ONE, Column.A)),
+            )
+        val board = Board(stones)
+        // when
+        board.place(Position(Row.TEN, Column.B))
+        // then
+        assertThat(board.stones.last().color).isEqualTo(Color.WHITE)
     }
 }

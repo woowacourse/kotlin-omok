@@ -1,13 +1,21 @@
 package omok.model
 
 class Board(
-    private var stones: List<Stone> = emptyList(),
+    stones: List<Stone> = emptyList(),
 ) {
     private val positions = stones.map { it.position }
+    var stones = stones
+        private set
 
-    fun place(stone: Stone) {
-        require(stone.position !in positions) { EXCEPTION_DUPLICATED_POSITION }
-        stones = stones.plus(stone)
+    fun place(position: Position) {
+        require(position !in positions) { EXCEPTION_DUPLICATED_POSITION }
+        val stonesCount = stones.size
+        if (stonesCount % 2 == 0) {
+            stones = stones.plus(BlackStone(position))
+        }
+        if (stonesCount % 2 == 1) {
+            stones = stones.plus(WhiteStone(position))
+        }
     }
 
     companion object {
