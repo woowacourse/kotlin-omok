@@ -4,7 +4,9 @@ import omok.model.entity.Point
 import omok.model.entity.StoneColor
 
 class Board {
-    val map: MutableMap<Point, StoneColor> = mutableMapOf()
+    private val _board: MutableMap<Point, StoneColor> = mutableMapOf()
+    val board: Map<Point, StoneColor>
+        get() = _board.toMap()
 
     fun place(
         point: Point,
@@ -14,21 +16,23 @@ class Board {
             point.x in 1..15 &&
                 point.y in 1..15,
         ) { "보드 밖에 돌을 두었습니다." }
-        require(map.contains(point).not()) { "그 포인트에 이미 돌이 존재합니다." }
-        map[point] = color
+        require(_board.contains(point).not()) { "그 포인트에 이미 돌이 존재합니다." }
+        _board[point] = color
     }
 
     fun previousPoint(): Point? {
-        return map.keys.lastOrNull()
+        return _board.keys.lastOrNull()
     }
 
     fun contains(point: Point): Boolean {
-        return map.contains(point)
+        return _board.contains(point)
     }
+
+    fun isFull(): Boolean = _board.count() == 15 * 15
 
     fun startCheckOmok(color: StoneColor): Boolean {
         val visited: MutableMap<Point, Boolean> = mutableMapOf()
-        return map.keys.any {
+        return _board.keys.any {
             checkOmok(it, color, 1, visited)
         }
     }
@@ -40,8 +44,8 @@ class Board {
         visited: MutableMap<Point, Boolean>,
     ): Boolean {
         if (visited[point] == true) return false
-        if (map.contains(point).not()) return false
-        if (map[point] != color) return false
+        if (_board.contains(point).not()) return false
+        if (_board[point] != color) return false
         if (omokCount == 5) return true
         visited[point] = true
         val x = point.x
