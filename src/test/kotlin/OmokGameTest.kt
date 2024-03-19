@@ -1,7 +1,7 @@
-import omok.Board
-import omok.Point
-import omok.StoneColor
-import omok.turn.BlackTurn
+import omok.model.Board
+import omok.model.entity.Point
+import omok.model.entity.StoneColor
+import omok.model.turn.BlackTurn
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

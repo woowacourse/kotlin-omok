@@ -1,4 +1,7 @@
-package omok
+package omok.model
+
+import omok.model.entity.Point
+import omok.model.entity.StoneColor
 
 class Board {
     val map: MutableMap<Point, StoneColor> = mutableMapOf()
