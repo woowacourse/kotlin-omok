@@ -8,7 +8,7 @@ class BlackTurn(val board: Board) : Turn {
     override fun placeStone(point: Point): Turn {
         board.place(point, StoneColor.BLACK)
 
-        if (board.startCheckOmok(StoneColor.BLACK)) return Finished(StoneColor.BLACK)
+        if (board.isFull() || board.startCheckOmok(StoneColor.BLACK)) return Finished(StoneColor.BLACK)
 
         return WhiteTurn(board)
     }
