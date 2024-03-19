@@ -35,8 +35,10 @@
 
 
 ### BlackStonePlayer
+- [x] 흑색 상태를 담고 있다
+- [x] Stone 을 더할 수 있다
+- [x] 마지막 Stone 을 알 수 있다
 - [ ] 렌주룰이 적용된다
-- [ ] 흑색 상태를 담고 있다
 
 
 ### WhiteStonePlayer
