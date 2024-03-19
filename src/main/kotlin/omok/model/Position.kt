@@ -8,6 +8,6 @@ data class Position(val row: Int, val col: Int) {
     companion object {
         private const val MIN_INDEX = 0
         private const val MAX_INDEX = 14
-        private val INDEX_RANGE = MIN_INDEX..MAX_INDEX
+        val INDEX_RANGE = MIN_INDEX..MAX_INDEX
     }
 }
