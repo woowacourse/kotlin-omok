@@ -1,5 +1,7 @@
 package omok.turn
 
+import omok.Point
+
 interface Turn {
-    fun proceed(): Turn
+    fun placeStone(point: Point): Turn
 }
