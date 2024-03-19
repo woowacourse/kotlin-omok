@@ -35,6 +35,7 @@ class ConsoleOutputView : OutputView {
     fun intToAlphabet(num: Int): Char = (num + 'A'.code).toChar()
 
     private fun buildOmokBoard(board: Board): String {
+        println()
         val strMap =
             """
             15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
