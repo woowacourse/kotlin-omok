@@ -2,16 +2,17 @@ package omok.model
 
 sealed interface Turn {
     fun putStone(
-        stone: Stone,
+        point: Point,
         board: Board,
     ): Turn
 }
 
 class BlackTurn : Turn {
     override fun putStone(
-        stone: Stone,
+        point: Point,
         board: Board,
     ): Turn {
+        val stone = Stone(StoneType.BLACK, point)
         board.putStone(stone)
         return WhiteTurn()
     }
@@ -19,9 +20,10 @@ class BlackTurn : Turn {
 
 class WhiteTurn() : Turn {
     override fun putStone(
-        stone: Stone,
+        point: Point,
         board: Board,
     ): Turn {
+        val stone = Stone(StoneType.WHITE, point)
         board.putStone(stone)
         return BlackTurn()
     }
