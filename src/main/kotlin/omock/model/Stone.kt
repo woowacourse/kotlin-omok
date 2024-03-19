@@ -1,14 +1,17 @@
 package omock.model
 
 data class Stone(
-    val row: Row, val column: Column
+    val row: Row,
+    val column: Column,
 ) {
     companion object {
-        private val stones = Column.COLUM_RANGE.zip(Row.COLUM_RANGE).map { (columnComma, rowComma) ->
-            Stone(
-                row = Row(rowComma),
-                column = Column(columnComma),
-            )
+        val stones = Row.ROW_RANGE.flatMap { rowComma ->
+            (Column.COLUM_RANGE).map { columnComma ->
+                Stone(
+                    row = Row(rowComma),
+                    column = Column(columnComma),
+                )
+            }
         }
 
         fun from(row: Row, column: Column): Stone {
