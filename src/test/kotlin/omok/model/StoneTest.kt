@@ -1,15 +1,21 @@
 package omok.model
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 
 class StoneTest {
-    @Test
-    fun `돌은 흑과 백으로 구분 한다`() {
-        val blackStone = Stone("black")
-        val whiteStone = Stone("white")
+    @ParameterizedTest
+    @CsvSource("1,A", "13,F", "4,G")
+    fun `돌은 위치와 색상을 가지고 있다`(
+        row: Int,
+        col: String,
+    ) {
+        val color = "black"
+        val coordinate = Coordinate(row, col)
+        val stone = Stone(color, coordinate)
 
-        assertThat(blackStone.color).isEqualTo("black")
-        assertThat(whiteStone.color).isEqualTo("white")
+        assertThat(stone.color).isEqualTo(color)
+        assertThat(stone.coordinate).isEqualTo(coordinate)
     }
 }
