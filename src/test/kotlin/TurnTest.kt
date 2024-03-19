@@ -26,7 +26,7 @@ class TurnTest {
         val whiteTurn = WhiteTurn(board)
         val point = Point(1, 1)
         whiteTurn.placeStone(point)
-        val actual: Point = board.previousPoint()
+        val actual: Point = board.previousPoint()!!
         assertThat(actual).isEqualTo(point)
     }
 }

@@ -18,8 +18,8 @@ class Board {
         map[point] = color
     }
 
-    fun previousPoint(): Point {
-        return map.keys.lastOrNull() ?: throw NoSuchElementException("첫 돌이기에 이전 이력이 없습니다.")
+    fun previousPoint(): Point? {
+        return map.keys.lastOrNull()
     }
 
     fun contains(point: Point): Boolean {
