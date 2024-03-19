@@ -1,16 +1,16 @@
 package omok
 
 class Board {
-    private val map: MutableMap<Stone, Boolean> = mutableMapOf()
-    fun place(stone: Stone) {
+    val map: MutableMap<Point, StoneColor> = mutableMapOf()
+    fun place(point: Point, color: StoneColor) {
         require(
-            stone.x in 1..15 &&
-                stone.y in 1..15,
+            point.x in 1..15 &&
+                point.y in 1..15,
         ) { "보드 밖에 돌을 두었습니다." }
-        map[stone] = true
+        map[point] = color
     }
 
-    fun contains(stone: Stone): Boolean {
-        return map.contains(stone)
+    fun contains(point: Point): Boolean {
+        return map.contains(point)
     }
 }
