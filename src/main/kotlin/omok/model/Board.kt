@@ -11,10 +11,10 @@ class Board(
         require(position !in positions) { EXCEPTION_DUPLICATED_POSITION }
         val stonesCount = stones.size
         if (isEven(stonesCount)) {
-            stones = stones.plus(BlackStone(position))
+            stones = stones.plus(Stone.Black(position))
         }
         if (!isEven(stonesCount)) {
-            stones = stones.plus(WhiteStone(position))
+            stones = stones.plus(Stone.White(position))
         }
     }
 

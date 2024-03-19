@@ -10,8 +10,8 @@ class BoardTest {
         // given
         val stones =
             listOf(
-                Stone(Color.BLACK, Position(Row.ONE, Column.A)),
-                Stone(Color.WHITE, Position(Row.TEN, Column.C)),
+                Stone.Black(Position(Row.ONE, Column.A)),
+                Stone.White(Position(Row.TEN, Column.C)),
             )
         val board = Board(stones)
         assertThrows<IllegalArgumentException> {
@@ -24,7 +24,7 @@ class BoardTest {
         // given
         val stones =
             listOf(
-                Stone(Color.BLACK, Position(Row.ONE, Column.A)),
+                Stone.Black(Position(Row.ONE, Column.A)),
             )
         val board = Board(stones)
         // when
