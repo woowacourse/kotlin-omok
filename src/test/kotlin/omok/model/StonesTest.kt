@@ -1,5 +1,7 @@
 package omok.model
 
+import fixture.H_1
+import fixture.H_2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -24,10 +26,5 @@ class StonesTest {
         stones.add(H_2)
 
         assertThat(stones.lastStone()).isEqualTo(H_2)
-    }
-
-    companion object {
-        private val H_1 = Stone("H", 1)
-        private val H_2 = Stone("H", 2)
     }
 }
