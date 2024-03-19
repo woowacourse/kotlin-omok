@@ -20,4 +20,35 @@ class Board {
     }
 
     fun find(position: Position): Stone = board[position] ?: throw IllegalArgumentException("올바르지 않은 위치입니다.")
+
+    fun isWin(position: Position): Boolean {
+        Direction.biDirections().forEach { (direction1, direction2) ->
+            var count = 1
+            count += continualCount(position, direction1)
+            count += continualCount(position, direction2)
+
+            if (count >= 5) return true
+        }
+        return false
+    }
+
+    private fun continualCount(
+        position: Position,
+        direction: Direction,
+    ): Int {
+        val myStone = find(position)
+        var count = 0
+        var nowPos = position
+
+        while (true) {
+            try {
+                nowPos = nowPos.move(direction)
+            } catch (e: IllegalArgumentException) {
+                return count
+            }
+
+            if (find(nowPos) != myStone) return count
+            count++
+        }
+    }
 }
