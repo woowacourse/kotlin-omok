@@ -11,9 +11,8 @@ data class Point(val row: Int, val col: Int) {
     }
 
     companion object {
-        private const val MIN_ROW = "A"
-        private const val MAX_ROW = "O"
-        private const val MIN_COL = 1
-        private const val MAX_COL = 15
+        private const val MIN_VALUE = 1
+        private const val MAX_VALUE = 15
+        private val VALUE_RANGE = MIN_VALUE..MAX_VALUE
     }
 }
