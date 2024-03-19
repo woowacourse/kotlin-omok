@@ -1,5 +1,7 @@
 package omok.model
 
+import omok.model.Rule.isWinCondition
+
 class Board {
     val board: List<List<StoneType?>>
         get() = _board.toList()
@@ -8,7 +10,8 @@ class Board {
             MutableList(15) { null }
         }
 
-    fun putStone(stone: Stone) {
-        _board[15 - (stone.point.row)][stone.point.column] = stone.type
+    fun putStone(stone: Stone): Boolean {
+        _board[stone.point.column][stone.point.row] = stone.type
+        return isWinCondition(board, stone)
     }
 }

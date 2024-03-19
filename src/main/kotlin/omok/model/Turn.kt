@@ -13,7 +13,7 @@ class BlackTurn : Turn {
         board: Board,
     ): Turn {
         val stone = Stone(StoneType.BLACK, point)
-        board.putStone(stone)
+        if (board.putStone(stone)) return FinishedTurn()
         return WhiteTurn()
     }
 }
@@ -24,7 +24,16 @@ class WhiteTurn() : Turn {
         board: Board,
     ): Turn {
         val stone = Stone(StoneType.WHITE, point)
-        board.putStone(stone)
+        if (board.putStone(stone)) return FinishedTurn()
         return BlackTurn()
+    }
+}
+
+class FinishedTurn : Turn {
+    override fun putStone(
+        point: Point,
+        board: Board,
+    ): Turn {
+        throw IllegalStateException()
     }
 }
