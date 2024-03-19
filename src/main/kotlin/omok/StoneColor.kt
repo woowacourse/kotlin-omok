@@ -1,5 +1,6 @@
 package omok
 
 enum class StoneColor {
-    BLACK, WHITE
+    BLACK,
+    WHITE,
 }
