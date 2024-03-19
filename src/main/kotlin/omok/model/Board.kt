@@ -4,9 +4,10 @@ class Board(var layout: Array<Array<StoneType>> = Array(BOARD_SIZE) { Array(BOAR
     private var gameState = GameState.BlackTurn
 
     fun placeStone(
-        position: Position,
+        onRead: () -> Position,
         onShow: (Board) -> Unit,
     ) {
+        val position = onRead()
         layout[position.x][position.y] = gameState.currentStone
         gameState.updateState()
         onShow(this)

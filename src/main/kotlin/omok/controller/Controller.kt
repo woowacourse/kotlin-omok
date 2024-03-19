@@ -6,20 +6,22 @@ import omok.view.BoardView
 import omok.view.InputView
 import omok.view.OutputView
 
-class Controller {
+class Controller(private val board: Board = Board()) {
     fun play() {
-        val board = Board()
-        printStart(board)
-
-        val position = readPosition()
+        printStart()
+        board.placeStone(::readPosition, ::printBoard)
     }
 
     private fun readPosition(): Position {
         return InputView.readPosition()
     }
 
-    private fun printStart(board: Board) {
+    private fun printStart() {
         OutputView.printStartHeader()
+        printBoard(board)
+    }
+
+    private fun printBoard(board: Board) {
         BoardView.printBoard(board)
     }
 }
