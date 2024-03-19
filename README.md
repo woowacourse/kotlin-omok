@@ -11,6 +11,13 @@
 - 책임 주도 설계를 지양하자!
 - 객체 지향 5원칙을 준수하자!
 
+### 구조 정의
+- 상태 (좌표(돌)) -> state(stone) 이상적
+- 플레이어가 돌을 뒤집는다  -> 보드 (15 * 15(상태(돌(좌표)))) -> 3선택 오셜록
+- StoneState
+- unplaced - Clear
+- placed - White,black
+
 ### 기능 목록
 -  두 사람이 번갈아 돌을 놓는다.
 - 가로,세로,대각선으로 5개의 연속된 돌을 먼저 놓는 사람이 승리한다.
@@ -44,8 +51,8 @@
 - Stone
   - [x] Coordinate를 생성자로 가짐
 - StoneState
-  - [ ] NONE, WHITE, BLACK을 가지는 enum class 
-  - [ ] 플레이어의 명령을 통해서 Stone의 상태를 변화 시킴 
+  - [x] NONE, WHITE, BLACK을 가지는 enum class 
+  - [x] 플레이어의 명령을 통해서 Stone의 상태를 변화 시킴 
 - Board
   - [ ] 15 * 15의 NONE Type Stone을 가짐
   - [ ] 현재 둔 스톤 주번의 좌표 이동 방향을 탐색

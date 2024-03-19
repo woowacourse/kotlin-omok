@@ -1,68 +1,40 @@
 package omock
 
-//import omock.model.Column
-//import omock.model.Row
-//import org.junit.jupiter.api.Test
-//import java.lang.IllegalArgumentException
-//
-////상태 (좌표(돌)) -> state(stone) 이상적
-////플레이어가 돌을 뒤집는다  -> 보드 (15 * 15(상태(돌(좌표)))) -> 3선택 오셜록
-////State
-////Init - NONE
-////Done - White,black
-//
-//
-//class WhitePlayer() : Player()
-//
-//class BlackPlayer() : Player()
-//
-//sealed class Type {
-//    class NONE(): Type(),
-//    class BLACK(): Type(),
-//    class WHITE(): Type()
-//}
-//fun makePlayer(vararg type: Type){
-//
-//}
-//
-//interface StoneState {
-//    fun put(player: Player) : StoneState
-//}
-//
-//abstract class None() : StoneState {
-//    override fun put(player: Player): StoneState {
-//      return  when (player) {
-//           is BlackPlayer -> Black()
-//          is Type.WHITE -> White()
-//            Type.NONE -> throw IllegalArgumentException()
-//        }
-//    }
-//
-//}
-//
-//abstract class Done() : StoneState {
-//    override fun put(type : Type): StoneState {
-//        throw IllegalArgumentException()
-//    }
-//
-//}
-//
-//class White() : Done() {
-//
-//}
-//
-//
-//class Black() : Done() {
-//
-//}
-//
-//class Init() : None() {
-//
-//}
+import omock.model.Black
+import omock.model.BlackPlayer
+import omock.model.Clear
+import omock.model.White
+import omock.model.WhitePlayer
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
-//class StoneStateTest {
-//    @Test
-//    fun ` `(){
-//        makePlayer(Type.NONE(),Type.BLACK(),Type.WHITE())
-//    }
-//}
+class StoneStateTest {
+    @Test
+    fun `흑 플레이어가 UnPlaced 상태에서 put을하면 돌의 상태가 흑돌로 변한다`() {
+        val unPlacedStone = Clear()
+        assertThat(unPlacedStone.put(BlackPlayer) is Black).isTrue()
+    }
+
+    @Test
+    fun `백 플레이어가 UnPlaced 상태에서 put을하면 돌의 상태가 백돌로 변한다`() {
+        val unPlacedStone = Clear()
+        assertThat(unPlacedStone.put(WhitePlayer) is White).isTrue()
+    }
+
+    @Test
+    fun `Placed 상태에서는 흑 플레이어가 put을 하면 예외가 발생한다`() {
+        val placedStone = Black()
+        assertThrows<IllegalArgumentException> {
+            placedStone.put(BlackPlayer)
+        }
+    }
+
+    @Test
+    fun `Placed 상태에서는 백 플레이어가  put을 하면 예외가 발생한다`() {
+        val placedStone = White()
+        assertThrows<IllegalArgumentException> {
+            placedStone.put(WhitePlayer)
+        }
+    }
+}
