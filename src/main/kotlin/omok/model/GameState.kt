@@ -1,21 +1,20 @@
 package omok.model
 
-sealed class GameState {
+sealed class GameState(var lastPosition: Position? = null) {
     open var currentStone = StoneType.EMPTY
 
-    fun updateState() {
-        currentStone =
-            when (this) {
-                is BlackTurn -> StoneType.WHITE_STONE
-                is WhiteTurn -> StoneType.BLACK_STONE
-            }
+    fun updateState(lastPosition: Position): GameState {
+        return when (this) {
+            is BlackTurn -> WhiteTurn(lastPosition)
+            is WhiteTurn -> BlackTurn(lastPosition)
+        }
     }
 
-    data object BlackTurn : GameState() {
+    class BlackTurn(lastPosition: Position? = null) : GameState(lastPosition) {
         override var currentStone = StoneType.BLACK_STONE
     }
 
-    data object WhiteTurn : GameState() {
+    class WhiteTurn(lastPosition: Position? = null) : GameState(lastPosition) {
         override var currentStone = StoneType.WHITE_STONE
     }
 }
