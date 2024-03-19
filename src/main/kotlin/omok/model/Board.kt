@@ -29,40 +29,4 @@ class Board {
     }
 
     fun isFull(): Boolean = _board.count() == 15 * 15
-
-    fun startCheckOmok(color: StoneColor): Boolean {
-        val visited: MutableMap<Point, Boolean> = mutableMapOf()
-        return _board.keys.any {
-            checkOmok(it, color, 1, visited)
-        }
-    }
-
-    private fun checkOmok(
-        point: Point,
-        color: StoneColor,
-        omokCount: Int,
-        visited: MutableMap<Point, Boolean>,
-    ): Boolean {
-        if (visited[point] == true) return false
-        if (_board.contains(point).not()) return false
-        if (_board[point] != color) return false
-        if (omokCount == 5) return true
-        visited[point] = true
-        val x = point.x
-        val y = point.y
-        val targetList =
-            listOf(
-                Point(x - 1, y - 1),
-                Point(x, y - 1),
-                Point(x + 1, y - 1),
-                Point(x - 1, y),
-                Point(x + 1, y),
-                Point(x + 1, y + 1),
-                Point(x, y + 1),
-                Point(x - 1, y + 1),
-            )
-        return targetList.any {
-            checkOmok(it, color, omokCount + 1, visited)
-        }
-    }
 }
