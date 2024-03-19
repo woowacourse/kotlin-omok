@@ -1,6 +1,6 @@
 package omok.model
 
-class Coordinate(val row: Int, val col: String) {
+data class Coordinate(val row: Int, val col: String) {
     init {
         require(row in COORDINATE_ROW_RANGE && col in COORDINATE_COL_RANGE) {
             COORDINATE_ERROR_OUT_OF_RANGE
