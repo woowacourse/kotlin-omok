@@ -1,5 +1,5 @@
 package omock.model
 
-class Black() : Placed() {
+class Black(private val stone: Stone) : Placed(stone) {
 
 }
