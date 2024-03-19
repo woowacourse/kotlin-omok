@@ -1,18 +1,21 @@
 package omok.model
 
 class Board {
-    private val board = Array(BOARD_SIZE) { Array(BOARD_SIZE) { 0 } }
+    private val board = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Stone.NONE } }
     private val _positionInfo: MutableList<Pair<Int, Int>> = mutableListOf()
     val positionInfo: List<Pair<Int, Int>>
         get() = _positionInfo.toList()
 
-    fun putStone(position: Position) {
-        board[position.row][position.col] = 1
+    fun putStone(
+        position: Position,
+        stone: Stone,
+    ) {
+        board[position.row][position.col] = stone
     }
 
     fun judgeWinning(
         startPosition: Position,
-        stone: Int,
+        stone: Stone,
     ): Boolean {
         // 이 함수에서, 주어진 위치에 실제로 player의 돌이 있는지 확인
         if (board[startPosition.row][startPosition.col] != stone) return false
@@ -22,7 +25,7 @@ class Board {
 
     private fun findOmok(
         startPosition: Position,
-        stone: Int,
+        stone: Stone,
     ) = checkWinningPosition(startPosition, horizontalDirection, stone) || // 수평 방향
         checkWinningPosition(startPosition, verticalDirection, stone) || // 수직 방향
         checkWinningPosition(startPosition, upwardDirection, stone) || // 대각선 (\) 방향
@@ -31,7 +34,7 @@ class Board {
     private fun checkWinningPosition(
         startPosition: Position,
         deltaPosition: DeltaPosition,
-        stone: Int,
+        stone: Stone,
     ): Boolean {
         var stoneCount = DEFAULT_STONE_COUNT // 현재 돌을 포함해야 하므로 1부터 시작
 
@@ -47,7 +50,7 @@ class Board {
     private fun countSameStones(
         startPosition: Position,
         deltaPosition: DeltaPosition,
-        stone: Int,
+        stone: Stone,
     ): Int {
         var sameStoneCount = 0
         var row = startPosition.row + deltaPosition.deltaRow
