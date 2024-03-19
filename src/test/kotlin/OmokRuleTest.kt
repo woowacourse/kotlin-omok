@@ -1,11 +1,12 @@
 import omok.model.Board
 import omok.model.entity.Point
 import omok.model.entity.StoneColor
+import omok.model.rule.OmokRule
 import omok.model.turn.BlackTurn
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class OmokGameTest {
+class OmokRuleTest {
     @Test
     fun `흑 턴일때 돌을 놓으면 흑돌이다`() {
         val board = Board()
@@ -23,7 +24,7 @@ class OmokGameTest {
         board.place(Point(3, 1), StoneColor.BLACK)
         board.place(Point(4, 1), StoneColor.BLACK)
         board.place(Point(5, 1), StoneColor.BLACK)
-        val actual = board.startCheckOmok(StoneColor.BLACK)
+        val actual = OmokRule().check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
 
@@ -35,7 +36,7 @@ class OmokGameTest {
         board.place(Point(3, 3), StoneColor.BLACK)
         board.place(Point(4, 4), StoneColor.BLACK)
         board.place(Point(5, 5), StoneColor.BLACK)
-        val actual = board.startCheckOmok(StoneColor.BLACK)
+        val actual = OmokRule().check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
 
@@ -47,7 +48,7 @@ class OmokGameTest {
         board.place(Point(1, 3), StoneColor.WHITE)
         board.place(Point(1, 4), StoneColor.WHITE)
         board.place(Point(1, 5), StoneColor.WHITE)
-        val actual = board.startCheckOmok(StoneColor.WHITE)
+        val actual = OmokRule().check(board, StoneColor.WHITE)
         assertThat(actual).isTrue()
     }
 
@@ -59,7 +60,7 @@ class OmokGameTest {
         board.place(Point(1, 3), StoneColor.BLACK)
         board.place(Point(1, 4), StoneColor.BLACK)
         board.place(Point(1, 5), StoneColor.BLACK)
-        val actual = board.startCheckOmok(StoneColor.BLACK)
+        val actual = OmokRule().check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
 
@@ -71,7 +72,7 @@ class OmokGameTest {
         board.place(Point(3, 3), StoneColor.BLACK)
         board.place(Point(2, 4), StoneColor.BLACK)
         board.place(Point(1, 5), StoneColor.BLACK)
-        val actual = board.startCheckOmok(StoneColor.BLACK)
+        val actual = OmokRule().check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
 }
