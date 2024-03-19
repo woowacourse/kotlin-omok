@@ -38,13 +38,12 @@
 ## Model
 
 - Coordinate
-  - [ ] x,y를 생성자로 가짐
-  - [ ] x 좌표는 1 ~ 15
-  - [ ] y 좌표는 A ~ O
+  - [x] x,y를 생성자로 가짐
+  - [x] x 좌표는 1 ~ 15
+  - [x] y 좌표는 A ~ O
 - Stone
-  - [ ] Coordinate를 생성자로 가짐
-  - [ ] 3가지 Stone Type을 가짐 
-- StoneType
+  - [x] Coordinate를 생성자로 가짐
+- StoneState
   - [ ] NONE, WHITE, BLACK을 가지는 enum class 
   - [ ] 플레이어의 명령을 통해서 Stone의 상태를 변화 시킴 
 - Board
