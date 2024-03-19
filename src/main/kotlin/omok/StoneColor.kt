@@ -1,10 +1,10 @@
 package omok
 
-enum class Stone {
+enum class StoneColor {
     BLACK,
     WHITE;
 
-    fun reverse(): Stone {
+    fun reverse(): StoneColor {
         return when (this) {
             BLACK -> WHITE
             WHITE -> BLACK
