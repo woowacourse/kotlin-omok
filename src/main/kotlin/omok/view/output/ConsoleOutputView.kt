@@ -11,9 +11,9 @@ class ConsoleOutputView : OutputView {
 
     override fun printOneTurn(board: Board, color: StoneColor) {
         val strMap = buildOmokBoard(board)
+        println(strMap)
         printTurn(color)
         printPreviousPoint(board.previousPoint())
-        println(strMap)
     }
 
     private fun printTurn(color: StoneColor) {
@@ -25,7 +25,7 @@ class ConsoleOutputView : OutputView {
 
     fun printPreviousPoint(point: Point?) {
         val (x, y) = point ?: return println("")
-        val xAlphabet = intToAlphabet(x)
+        val xAlphabet = intToAlphabet(x - 1)
         println("(마지막 돌의 위치: ${xAlphabet}$y)")
     }
 
