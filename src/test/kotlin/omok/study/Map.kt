@@ -7,11 +7,12 @@ class Map {
     @Test
     fun `mutableMap 은 순서 보장함`() {
         // given
-        val map = mutableMapOf<Pair<Int, Int>, Int>(
-            (1 to 1) to 1,
-            (2 to 2) to 2,
-            (3 to 3) to 3
-        )
+        val map =
+            mutableMapOf<Pair<Int, Int>, Int>(
+                (1 to 1) to 1,
+                (2 to 2) to 2,
+                (3 to 3) to 3,
+            )
         val ekeys = listOf(1 to 1, 2 to 2, 3 to 3)
         val evalues = listOf(1, 2, 3)
         // when
@@ -25,11 +26,12 @@ class Map {
     @Test
     fun `mutableMap 은 순서 보장함2`() {
         // given
-        val map = mutableMapOf<Pair<Int, Int>, Int>(
-            (1 to 1) to 1,
-            (2 to 2) to 2,
-            (3 to 3) to 3
-        )
+        val map =
+            mutableMapOf<Pair<Int, Int>, Int>(
+                (1 to 1) to 1,
+                (2 to 2) to 2,
+                (3 to 3) to 3,
+            )
         val eKey = (3 to 3)
         val eValue = 3
         // when

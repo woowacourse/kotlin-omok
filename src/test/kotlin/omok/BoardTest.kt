@@ -7,13 +7,14 @@ import omok.fixtures.createPoint
 import org.junit.jupiter.api.Test
 
 class BoardTest {
-
     @Test
     fun `마지막으로 넣은 돌의 정보를 불러올 수 있다`() {
         // given
-        val board = createBoard(
-            createPoint(1, 1), createPoint(2, 2)
-        )
+        val board =
+            createBoard(
+                createPoint(1, 1),
+                createPoint(2, 2),
+            )
         val expected = createOmokStone(x = 2, y = 2, color = StoneColor.WHITE)
         // when
         val actual = board.last()

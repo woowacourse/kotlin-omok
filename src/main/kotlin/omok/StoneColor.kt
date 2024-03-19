@@ -2,7 +2,8 @@ package omok
 
 enum class StoneColor {
     BLACK,
-    WHITE;
+    WHITE,
+    ;
 
     fun reverse(): StoneColor {
         return when (this) {

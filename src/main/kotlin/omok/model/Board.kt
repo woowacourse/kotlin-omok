@@ -7,7 +7,10 @@ class Board(initialGrid: Map<Point, OmokStone>) {
     private val _grid = initialGrid.toMutableMap()
     val grid get() = _grid.toMap()
 
-    fun put(point: Point, color: StoneColor) {
+    fun put(
+        point: Point,
+        color: StoneColor,
+    ) {
         _grid[point] = OmokStone(point, color)
     }
 
