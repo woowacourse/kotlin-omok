@@ -4,8 +4,8 @@ class Board {
     val board: List<List<StoneType>>
         get() = _board.toList()
     private val _board: MutableList<MutableList<StoneType>> =
-        MutableList(15) {
-            MutableList(15) {
+        MutableList(16) {
+            MutableList(16) {
                 StoneType.EMPTY
             }
         }
