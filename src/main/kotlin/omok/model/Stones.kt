@@ -9,6 +9,5 @@ class Stones {
         _stones.add(stone)
     }
 
-    fun lastStone(): Stone =
-        stones.last()
+    fun lastStone(): Stone = stones.last()
 }
