@@ -1,6 +1,6 @@
-package omok.turn
+package omok.model.turn
 
-import omok.Point
+import omok.model.entity.Point
 
 interface Turn {
     fun placeStone(point: Point): Turn

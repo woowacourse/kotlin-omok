@@ -1,8 +1,8 @@
-package omok.turn
+package omok.model.turn
 
-import omok.Board
-import omok.Point
-import omok.StoneColor
+import omok.model.Board
+import omok.model.entity.Point
+import omok.model.entity.StoneColor
 
 class WhiteTurn(val board: Board) : Turn {
     override fun placeStone(point: Point): Turn {
