@@ -4,8 +4,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class BoardTest {
-    class Board(val stones: List<Stone>)
-
     @Test
     fun `오목판은 판 위에 놓인 돌을 가지고 있다`() {
         val board = Board(
