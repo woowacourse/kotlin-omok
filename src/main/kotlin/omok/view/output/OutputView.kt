@@ -6,5 +6,8 @@ import omok.model.entity.StoneColor
 interface OutputView {
     fun printStartGuide()
 
-    fun printOneTurn(board: Board, color: StoneColor)
+    fun printOneTurn(
+        board: Board,
+        color: StoneColor,
+    )
 }
