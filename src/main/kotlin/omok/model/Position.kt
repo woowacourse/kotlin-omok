@@ -5,6 +5,8 @@ data class Position(val row: Int, val col: Int) {
         require(row in INDEX_RANGE && col in INDEX_RANGE) { "올바르지 않은 위치입니다." }
     }
 
+    fun move(direction: Direction) = Position(row + direction.row, col + direction.col)
+
     companion object {
         private const val MIN_INDEX = 0
         private const val MAX_INDEX = 14
