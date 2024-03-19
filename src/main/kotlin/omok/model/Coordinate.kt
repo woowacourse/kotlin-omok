@@ -1,6 +1,6 @@
 package omok.model
 
-data class Axis(val row: String, val col: Int) {
+data class Coordinate(val row: String, val col: Int) {
     init {
         require(row in MIN_ROW..MAX_ROW && row.length == 1) {
             "행의 범위는 $MIN_ROW ~ $MAX_ROW 사이어야 합니다."

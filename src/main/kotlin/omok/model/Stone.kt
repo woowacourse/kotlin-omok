@@ -1,3 +1,3 @@
 package omok.model
 
-class Stone(val axis: Axis)
+class Stone(val coordinate: Coordinate)
