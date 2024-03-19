@@ -8,7 +8,7 @@ class Board(var layout: Array<Array<StoneType>> = Array(BOARD_SIZE) { Array(BOAR
         onShow: (Board) -> Unit,
     ) {
         val position = onRead()
-        layout[position.x][position.y] = gameState.currentStone
+        layout[position.coordinate.x][position.coordinate.y] = gameState.currentStone
         gameState.updateState()
         onShow(this)
     }
