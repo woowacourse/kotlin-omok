@@ -38,6 +38,7 @@ class OmokGameTest {
         val actual = board.startCheckOmok(StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
+
     @Test
     fun `세로로 같은 색 돌이 5개 연속으로 있을 경우 오목이다`() {
         val board = Board()
@@ -49,6 +50,7 @@ class OmokGameTest {
         val actual = board.startCheckOmok(StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
+
     @Test
     fun `오른쪽 위에서 왼쪽 아래 대각선으로 같은 색 돌이 5개 연속으로 있을 경우 오목이다`() {
         val board = Board()

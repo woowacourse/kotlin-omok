@@ -2,7 +2,11 @@ package omok
 
 class Board {
     val map: MutableMap<Point, StoneColor> = mutableMapOf()
-    fun place(point: Point, color: StoneColor) {
+
+    fun place(
+        point: Point,
+        color: StoneColor,
+    ) {
         require(
             point.x in 1..15 &&
                 point.y in 1..15,
@@ -19,26 +23,32 @@ class Board {
         return map.contains(point)
     }
 
-    fun startCheckOmok(color: StoneColor) = map.keys.any {
-        checkOmok(it, color, 0)
-    }
+    fun startCheckOmok(color: StoneColor) =
+        map.keys.any {
+            checkOmok(it, color, 0)
+        }
 
-    private fun checkOmok(point: Point, color: StoneColor, omokCount: Int): Boolean {
+    private fun checkOmok(
+        point: Point,
+        color: StoneColor,
+        omokCount: Int,
+    ): Boolean {
         if (map.contains(point).not()) return false
         if (map[point] != color) return false
         if (omokCount == 5) return true
         val x = point.x
         val y = point.y
-        val targetList = listOf(
-            Point(x - 1, y - 1),
-            Point(x, y - 1),
-            Point(x + 1, y - 1),
-            Point(x - 1, y),
-            Point(x + 1, y),
-            Point(x + 1, y + 1),
-            Point(x, y + 1),
-            Point(x - 1, y + 1),
-        )
+        val targetList =
+            listOf(
+                Point(x - 1, y - 1),
+                Point(x, y - 1),
+                Point(x + 1, y - 1),
+                Point(x - 1, y),
+                Point(x + 1, y),
+                Point(x + 1, y + 1),
+                Point(x, y + 1),
+                Point(x - 1, y + 1),
+            )
         return targetList.any {
             checkOmok(it, color, omokCount + 1)
         }
