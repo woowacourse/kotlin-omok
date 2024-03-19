@@ -1,6 +1,6 @@
 package omok.model
 
-class Stone(val coordinate: Coordinate) {
-    constructor(row: String, col: Int) :
-        this(Coordinate(row, col))
+class Stone(val point: Point) {
+    constructor(row: Int, col: Int) :
+        this(Point(row, col))
 }
