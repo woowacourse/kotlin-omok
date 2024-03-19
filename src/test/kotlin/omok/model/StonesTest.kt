@@ -1,7 +1,7 @@
 package omok.model
 
-import fixture.H_1
-import fixture.H_2
+import fixture.FIRST_ROW_FIRST_COL
+import fixture.FIRST_ROW_SECOND_COL
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -13,7 +13,7 @@ class StonesTest {
         assertThat(stones.stones.size).isEqualTo(0)
 
         // given
-        stones.add(Stone("A", 1))
+        stones.add(FIRST_ROW_FIRST_COL)
 
         // then
         assertThat(stones.stones.size).isEqualTo(1)
@@ -22,9 +22,9 @@ class StonesTest {
     @Test
     fun `Stones 의 마지막 스톤을 확인할 수 있다`() {
         val stones = Stones()
-        stones.add(H_1)
-        stones.add(H_2)
+        stones.add(FIRST_ROW_FIRST_COL)
+        stones.add(FIRST_ROW_SECOND_COL)
 
-        assertThat(stones.lastStone()).isEqualTo(H_2)
+        assertThat(stones.lastStone()).isEqualTo(FIRST_ROW_SECOND_COL)
     }
 }

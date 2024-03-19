@@ -2,5 +2,5 @@ package fixture
 
 import omok.model.Stone
 
-val H_1 = Stone("H", 1)
-val H_2 = Stone("H", 2)
+val FIRST_ROW_FIRST_COL = Stone(1, 1)
+val FIRST_ROW_SECOND_COL = Stone(1, 2)
