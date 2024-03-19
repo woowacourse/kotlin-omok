@@ -11,9 +11,8 @@ class OmokRule : Rule {
         board: Board,
         color: StoneColor,
     ): Boolean {
-        return board.board.keys.any {
-            checkOmok(it, color, 1, board)
-        }
+        val lastPoint = board.previousPoint() ?: throw IllegalStateException()
+        return checkOmok(lastPoint, color, 1, board)
     }
 
     private fun checkOmok(
