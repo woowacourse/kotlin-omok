@@ -15,4 +15,13 @@ class CoordinateTest {
         assertThat(coordinate.row.comma).isEqualTo("1")
         assertThat(coordinate.column.comma).isEqualTo("A")
     }
+
+    @Test
+    fun `row, column을 통해 Coordinate를 재활용 할 수 있다`() {
+        val row = Row("1")
+        val column = Column("A")
+        val actual = Coordinate.from(row = row, column = column)
+        assertThat(actual.row).isEqualTo(row)
+        assertThat(actual.column).isEqualTo(column)
+    }
 }
