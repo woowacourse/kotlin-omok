@@ -9,7 +9,10 @@ class ConsoleOutputView : OutputView {
         println("오목 게임을 시작합니다")
     }
 
-    override fun printOneTurn(board: Board, color: StoneColor) {
+    override fun printOneTurn(
+        board: Board,
+        color: StoneColor,
+    ) {
         val strMap = buildOmokBoard(board)
         println(strMap)
         printTurn(color)
@@ -32,7 +35,8 @@ class ConsoleOutputView : OutputView {
     fun intToAlphabet(num: Int): Char = (num + 'A'.code).toChar()
 
     private fun buildOmokBoard(board: Board): String {
-        val strMap = """
+        val strMap =
+            """
             15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
             14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
             13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
@@ -49,9 +53,9 @@ class ConsoleOutputView : OutputView {
             2  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
             1  └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
                A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-        """.trimIndent()
+            """.trimIndent()
         val sb = StringBuilder(strMap)
-        board.map.forEach {
+        board.board.forEach {
             val stoneChar = if (it.value == StoneColor.WHITE) '○' else '●'
             val x = (it.key.x) * 3
             val y = 15 - it.key.y

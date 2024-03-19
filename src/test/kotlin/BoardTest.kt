@@ -30,4 +30,11 @@ class BoardTest {
         val blackTurn = BlackTurn(board)
         blackTurn.placeStone(Point(1, 1))
     }
+
+    @Test
+    fun `보드가 꽉 찼을때`() {
+        val board = Board()
+        val blackTurn = BlackTurn(board)
+        blackTurn.placeStone(Point(1, 1))
+    }
 }
