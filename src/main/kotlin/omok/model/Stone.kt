@@ -1,7 +1,3 @@
 package omok.model
 
-enum class Stone {
-    BLACK,
-    WHITE,
-    EMPTY,
-}
+data class Stone(val type: StoneType, val point: Point)

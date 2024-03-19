@@ -1,12 +1,16 @@
 package omok.model
 
 class Board {
-    val board: List<List<Stone>>
+    val board: List<List<StoneType>>
         get() = _board.toList()
-    private val _board: MutableList<MutableList<Stone>> =
+    private val _board: MutableList<MutableList<StoneType>> =
         MutableList(15) {
             MutableList(15) {
-                Stone.EMPTY
+                StoneType.EMPTY
             }
         }
+
+    fun putStone(stone: Stone) {
+        _board[stone.point.x][stone.point.y] = stone.type
+    }
 }
