@@ -1,8 +1,5 @@
 package omok.model
 
-import omok.Point
-import omok.StoneColor
-
 class Board(initialGrid: Map<Point, OmokStone>) {
     private val _grid = initialGrid.toMutableMap()
     val grid get() = _grid.toMap()

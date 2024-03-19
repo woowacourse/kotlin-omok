@@ -1,7 +1,7 @@
 package omok.fixtures
 
-import omok.Point
-import omok.StoneColor
+import omok.model.Point
+import omok.model.StoneColor
 import omok.model.Board
 import omok.model.OmokStone
 

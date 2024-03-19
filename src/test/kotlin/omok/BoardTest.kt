@@ -4,6 +4,7 @@ import io.kotest.matchers.shouldBe
 import omok.fixtures.createBoard
 import omok.fixtures.createOmokStone
 import omok.fixtures.createPoint
+import omok.model.StoneColor
 import org.junit.jupiter.api.Test
 
 class BoardTest {

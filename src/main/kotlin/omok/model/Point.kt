@@ -1,4 +1,4 @@
-package omok
+package omok.model
 
 class Point private constructor(val x: Int, val y: Int) {
     constructor(pair: Pair<Int, Int>) : this(pair.first, pair.second)

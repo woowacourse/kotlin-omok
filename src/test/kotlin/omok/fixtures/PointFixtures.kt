@@ -1,6 +1,6 @@
 package omok.fixtures
 
-import omok.Point
+import omok.model.Point
 
 fun createPoint(
     x: Int,
