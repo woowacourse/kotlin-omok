@@ -40,6 +40,17 @@ class OmokGameTest {
     }
 
     @Test
+    fun `세로로 하얀 색 돌이 5개 연속으로 있을 경우 오목이다`() {
+        val board = Board()
+        board.map[Point(1, 1)] = StoneColor.WHITE
+        board.map[Point(1, 2)] = StoneColor.WHITE
+        board.map[Point(1, 3)] = StoneColor.WHITE
+        board.map[Point(1, 4)] = StoneColor.WHITE
+        board.map[Point(1, 5)] = StoneColor.WHITE
+        val actual = board.startCheckOmok(StoneColor.WHITE)
+        assertThat(actual).isTrue()
+    }
+    @Test
     fun `세로로 같은 색 돌이 5개 연속으로 있을 경우 오목이다`() {
         val board = Board()
         board.map[Point(1, 1)] = StoneColor.BLACK
@@ -62,4 +73,16 @@ class OmokGameTest {
         val actual = board.startCheckOmok(StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
+
+    @Test
+    fun `tst`() {
+        val board = Board()
+        board.map[Point(2, 2)] = StoneColor.BLACK
+        board.map[Point(1, 2)] = StoneColor.BLACK
+        board.map[Point(2, 1)] = StoneColor.WHITE
+        board.map[Point(1, 1)] = StoneColor.WHITE
+        val actual = board.startCheckOmok(StoneColor.BLACK)
+        assertThat(actual).isFalse()
+    }
 }
+
