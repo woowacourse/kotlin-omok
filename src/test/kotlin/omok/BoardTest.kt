@@ -1,36 +1,37 @@
 package omok
 
+import io.kotest.matchers.shouldBe
+import omok.fixtures.createBoard
+import omok.fixtures.createOmokStone
 import omok.fixtures.createPoint
-import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.Test
 
 class BoardTest {
 
     @Test
+    fun `마지막으로 넣은 돌의 정보를 불러올 수 있다`() {
+        // given
+        val board = createBoard(
+            createPoint(1, 1), createPoint(2, 2)
+        )
+        val expected = createOmokStone(x = 2, y = 2, color = StoneColor.WHITE)
+        // when
+        val actual = board.last()
+        // then
+        actual shouldBe expected
+    }
+
+    @Test
     fun `좌표에 해당하는 오목판 위치에 돌을 놓을 수 있다`() {
         // given
-        val board = Board(mutableMapOf())
-        val stone = Stone.BLACK
+        val board = createBoard()
         val point = createPoint(1, 1)
-        val onDecidePoint = { point }
+        val color = StoneColor.BLACK
+        val expect = createOmokStone(1, 1, color)
         // when
-        board.put(stone, onDecidePoint)
+        board.put(point, color)
         val actual = board[point]
         // then
-        assertThat(actual).isEqualTo(stone)
-    }
-}
-
-class Board(initialGrid: Map<Point, Stone>) {
-    private val _grid = initialGrid.toMutableMap()
-    val grid get() = _grid.toMap()
-
-    fun put(stone: Stone, onDecidePoint: () -> (Point), onDone: (Stone, Point) -> Unit = { _, _ -> }) {
-        val point = onDecidePoint()
-        _grid[point] = stone
-    }
-
-    operator fun get(point: Point): Stone? {
-        return grid[point]
+        actual shouldBe expect
     }
 }
