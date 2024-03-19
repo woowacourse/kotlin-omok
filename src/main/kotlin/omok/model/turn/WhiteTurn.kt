@@ -7,6 +7,9 @@ import omok.model.entity.StoneColor
 class WhiteTurn(val board: Board) : Turn {
     override fun placeStone(point: Point): Turn {
         board.place(point, StoneColor.WHITE)
+
+        if (board.startCheckOmok(StoneColor.WHITE)) return Finished(StoneColor.WHITE)
+
         return BlackTurn(board)
     }
 
