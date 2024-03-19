@@ -10,15 +10,20 @@ class Board(
     fun place(position: Position) {
         require(position !in positions) { EXCEPTION_DUPLICATED_POSITION }
         val stonesCount = stones.size
-        if (stonesCount % 2 == 0) {
+        if (isEven(stonesCount)) {
             stones = stones.plus(BlackStone(position))
         }
-        if (stonesCount % 2 == 1) {
+        if (!isEven(stonesCount)) {
             stones = stones.plus(WhiteStone(position))
         }
     }
 
+    private fun isEven(num: Int): Boolean {
+        return num % ODD_EVEN_INDICATOR == 0
+    }
+
     companion object {
         private const val EXCEPTION_DUPLICATED_POSITION = "중복된 곳에 착수할 수 없습니다."
+        private const val ODD_EVEN_INDICATOR = 2
     }
 }
