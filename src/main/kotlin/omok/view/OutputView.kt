@@ -5,6 +5,10 @@ import omok.model.Color.BLACK
 import omok.model.Color.WHITE
 
 class OutputView {
+    fun showGameStartMessage()  {
+        println(MESSAGE_GAME_START)
+    }
+
     fun showCurrentBoard(board: Array<Array<Color?>>) {
         for (i in 1..<board.size) {
             print(ROW_INDICATOR.format(BOARD_SIZE - i))
@@ -39,5 +43,6 @@ class OutputView {
         private const val SIGNATURE_WHITE = "○"
         private const val DIVIDER_ROW = "─"
         private const val BOARD_SIZE = 16
+        private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
     }
 }
