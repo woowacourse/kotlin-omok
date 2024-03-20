@@ -9,15 +9,7 @@ class OmokRule : Rule {
     override fun check(
         board: Board,
         color: StoneColor,
-    ): Boolean {
-        val lastPoint = board.previousPoint() ?: throw IllegalStateException()
-        return checkOmok(lastPoint, color, board)
-    }
-
-    private fun checkOmok(
         point: Point,
-        color: StoneColor,
-        board: Board,
     ): Boolean {
         val directions =
             listOf(

@@ -24,7 +24,7 @@ class OmokRuleTest {
         board.place(3, 1)
         board.place(4, 1)
         board.place(5, 1)
-        val actual = OmokRule().check(board, StoneColor.BLACK)
+        val actual = OmokRule().check(board, StoneColor.BLACK, board.previousPoint()!!)
         assertThat(actual).isTrue()
     }
 
@@ -36,7 +36,7 @@ class OmokRuleTest {
         board.place(3, 3)
         board.place(4, 4)
         board.place(5, 5)
-        val actual = OmokRule().check(board, StoneColor.BLACK)
+        val actual = OmokRule().check(board, StoneColor.BLACK, board.previousPoint()!!)
         assertThat(actual).isTrue()
     }
 
@@ -48,7 +48,7 @@ class OmokRuleTest {
         board.place(1, 3)
         board.place(1, 4)
         board.place(1, 5)
-        val actual = OmokRule().check(board, StoneColor.BLACK)
+        val actual = OmokRule().check(board, StoneColor.BLACK, board.previousPoint()!!)
         assertThat(actual).isTrue()
     }
 
@@ -60,7 +60,7 @@ class OmokRuleTest {
         board.place(3, 3)
         board.place(2, 4)
         board.place(1, 5)
-        val actual = OmokRule().check(board, StoneColor.BLACK)
+        val actual = OmokRule().check(board, StoneColor.BLACK, board.previousPoint()!!)
         assertThat(actual).isTrue()
     }
 
@@ -72,7 +72,7 @@ class OmokRuleTest {
         board.place(1, 3)
         board.place(2, 4)
         board.place(1, 5)
-        val actual = OmokRule().check(board, StoneColor.BLACK)
+        val actual = OmokRule().check(board, StoneColor.BLACK, board.previousPoint()!!)
         assertThat(actual).isFalse()
     }
 }
