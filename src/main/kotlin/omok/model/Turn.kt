@@ -1,5 +1,7 @@
 package omok.model
 
+import omok.model.Rule.isWinCondition
+
 sealed interface Turn {
     val before: Stone?
 
@@ -15,7 +17,8 @@ class BlackTurn(override val before: Stone? = null) : Turn {
         board: Board,
     ): Turn {
         val stone = Stone(StoneType.BLACK, point)
-        if (board.putStone(stone)) return FinishedTurn()
+        board.putStone(stone)
+        if (isWinCondition(board.board, stone)) return FinishedTurn()
         return WhiteTurn(stone)
     }
 }
@@ -26,7 +29,8 @@ class WhiteTurn(override val before: Stone) : Turn {
         board: Board,
     ): Turn {
         val stone = Stone(StoneType.WHITE, point)
-        if (board.putStone(stone)) return FinishedTurn()
+        board.putStone(stone)
+        if (isWinCondition(board.board, stone)) return FinishedTurn()
         return BlackTurn(stone)
     }
 }
