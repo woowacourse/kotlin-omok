@@ -2,13 +2,10 @@ package omok.model.rule
 
 import omok.model.Board
 import omok.model.entity.Point
-import omok.model.entity.StoneColor
+import omok.model.entity.Stone
 
 object SamSamRule : Rule {
-    override fun check(
-        board: Board,
-        color: StoneColor,
-    ): Boolean {
+    override fun check(board: Board): Boolean {
         val directions =
             listOf(
                 1 to 0,
@@ -16,21 +13,21 @@ object SamSamRule : Rule {
                 1 to 1,
                 -1 to 1,
             )
-        val previousPoint = board.previousPoint() ?: throw IllegalStateException()
+        val previousStone = board.previousStone() ?: throw IllegalStateException()
         val sum =
             directions.count { direction ->
                 val (vecX, vecY) = direction
                 val oppositeDirection = -vecX to -vecY
                 (0..2).any {
-                    val left = stoneCount(oppositeDirection, previousPoint, board, color, 0, it)
-                    val right = stoneCount(direction, previousPoint, board, color, 0, 2 - it)
+                    val left = stoneCount(oppositeDirection, previousStone, board, 0, it)
+                    val right = stoneCount(direction, previousStone, board, 0, 2 - it)
                     val withBlank =
                         (0..1).any { targetBlankCount ->
                             val leftWithBlank =
-                                stoneCountWithBlank(oppositeDirection, previousPoint, board, color, 0, it, 0, targetBlankCount)
+                                stoneCountWithBlank(oppositeDirection, previousStone, board, 0, it, 0, targetBlankCount)
                             val rightWithBlank =
-                                stoneCountWithBlank(direction, previousPoint, board, color, 0, 2 - it, 0, targetBlankCount)
-                            stoneCountWithBlank(direction, previousPoint, board, color, 0, 2 - it, 0, targetBlankCount)
+                                stoneCountWithBlank(direction, previousStone, board, 0, 2 - it, 0, targetBlankCount)
+                            stoneCountWithBlank(direction, previousStone, board, 0, 2 - it, 0, targetBlankCount)
                             leftWithBlank && rightWithBlank
                         }
                     left && right || withBlank
@@ -41,65 +38,64 @@ object SamSamRule : Rule {
 
     private tailrec fun stoneCount(
         direction: Pair<Int, Int>,
-        point: Point,
+        stone: Stone,
         board: Board,
-        color: StoneColor,
         omokCount: Int,
         targetOmokCount: Int,
     ): Boolean {
         val (vecX, vecY) = direction
+        val point = stone.point
         val newPoint = Point(point.x + vecX, point.y + vecY)
+        val newStone = Stone(newPoint, stone.stoneColor)
+
         if (targetOmokCount == 0) {
-            return !board.board.contains(newPoint)
+            return !board.stones.contains(newStone)
         }
-        if (board.board.contains(point).not()) return false
-        if (board.board[point] != color) return false
+        if (board.stones.contains(stone).not()) return false
         if (omokCount == targetOmokCount) {
-            return !board.board.contains(newPoint)
+            return !board.stones.contains(newStone)
         }
-        return stoneCount(direction, newPoint, board, color, omokCount + 1, targetOmokCount)
+        return stoneCount(direction, newStone, board, omokCount + 1, targetOmokCount)
     }
 
     private tailrec fun stoneCountWithBlank(
         direction: Pair<Int, Int>,
-        point: Point,
+        stone: Stone,
         board: Board,
-        color: StoneColor,
         omokCount: Int,
         targetOmokCount: Int,
         blankCount: Int,
         targetBlankCount: Int,
     ): Boolean {
         val (vecX, vecY) = direction
+        val point = stone.point
         val newPoint = Point(point.x + vecX, point.y + vecY)
+        val newStone = Stone(newPoint, stone.stoneColor)
         if (targetOmokCount == 0) {
-            return !board.board.contains(newPoint)
+            return !board.stones.contains(newStone)
         }
-        if (board.board.contains(point).not()) {
+        if (board.stones.contains(stone).not()) {
             if (blankCount == 1) {
                 return false
             }
             return stoneCountWithBlank(
                 direction,
-                newPoint,
+                newStone,
                 board,
-                color,
                 omokCount,
                 targetOmokCount,
                 blankCount + 1,
                 targetBlankCount,
             )
         }
-        if (board.board[point] != color) return false
         if (omokCount == targetOmokCount) {
-            return !board.board.contains(newPoint)
+            return !board.stones.contains(newStone)
         }
 
         return stoneCountWithBlank(
             direction,
-            newPoint,
+            newStone,
             board,
-            color,
             omokCount + 1,
             targetOmokCount,
             blankCount,

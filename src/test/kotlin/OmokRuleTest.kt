@@ -1,5 +1,6 @@
 import omok.model.Board
 import omok.model.entity.Point
+import omok.model.entity.Stone
 import omok.model.entity.StoneColor
 import omok.model.rule.OmokRule
 import omok.model.turn.BlackTurn
@@ -12,8 +13,9 @@ class OmokRuleTest {
         val board = Board()
         val blackTurn = BlackTurn(board)
         val point = Point(1, 1)
+        val stone = Stone(point, StoneColor.BLACK)
         blackTurn.placeStone(point)
-        assertThat(board.board[point]).isEqualTo(StoneColor.BLACK)
+        assertThat(board.previousStone()).isEqualTo(stone)
     }
 
     @Test
@@ -24,7 +26,7 @@ class OmokRuleTest {
         board.place(3, 1)
         board.place(4, 1)
         board.place(5, 1)
-        val actual = OmokRule.check(board, StoneColor.BLACK)
+        val actual = OmokRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -36,7 +38,7 @@ class OmokRuleTest {
         board.place(3, 3)
         board.place(4, 4)
         board.place(5, 5)
-        val actual = OmokRule.check(board, StoneColor.BLACK)
+        val actual = OmokRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -48,7 +50,7 @@ class OmokRuleTest {
         board.place(1, 3)
         board.place(1, 4)
         board.place(1, 5)
-        val actual = OmokRule.check(board, StoneColor.BLACK)
+        val actual = OmokRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -60,7 +62,7 @@ class OmokRuleTest {
         board.place(3, 3)
         board.place(2, 4)
         board.place(1, 5)
-        val actual = OmokRule.check(board, StoneColor.BLACK)
+        val actual = OmokRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -72,7 +74,7 @@ class OmokRuleTest {
         board.place(1, 3)
         board.place(2, 4)
         board.place(1, 5)
-        val actual = OmokRule.check(board, StoneColor.BLACK)
+        val actual = OmokRule.check(board)
         assertThat(actual).isFalse()
     }
 }

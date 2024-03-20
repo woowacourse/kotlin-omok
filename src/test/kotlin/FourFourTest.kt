@@ -1,5 +1,4 @@
 import omok.model.Board
-import omok.model.entity.StoneColor
 import omok.model.rule.FourFourRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -16,7 +15,7 @@ class FourFourTest {
         board.place(4, 4)
         board.place(4, 1)
 
-        val actual = FourFourRule.check(board, StoneColor.BLACK)
+        val actual = FourFourRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -31,7 +30,7 @@ class FourFourTest {
         board.place(4, 4)
         board.place(4, 1)
 
-        val actual = FourFourRule.check(board, StoneColor.BLACK)
+        val actual = FourFourRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -46,7 +45,7 @@ class FourFourTest {
         board.place(4, 4)
         board.place(4, 1)
 
-        val actual = FourFourRule.check(board, StoneColor.BLACK)
+        val actual = FourFourRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -61,7 +60,7 @@ class FourFourTest {
         board.place(3, 4)
         board.place(3, 2)
 
-        val actual = FourFourRule.check(board, StoneColor.BLACK)
+        val actual = FourFourRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -79,7 +78,7 @@ class FourFourTest {
         board.place(5, 4)
         board.place(3, 2)
 
-        val actual = FourFourRule.check(board, StoneColor.BLACK)
+        val actual = FourFourRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -93,7 +92,7 @@ class FourFourTest {
         board.place(2, 4)
         board.place(2, 2)
 
-        val actual = FourFourRule.check(board, StoneColor.BLACK)
+        val actual = FourFourRule.check(board)
         assertThat(actual).isFalse()
     }
 }

@@ -1,5 +1,4 @@
 import omok.model.Board
-import omok.model.entity.StoneColor
 import omok.model.rule.SamSamRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -14,7 +13,7 @@ class SamSamTest {
         board.place(4, 2)
         board.place(2, 2)
 
-        val actual = SamSamRule.check(board, StoneColor.BLACK)
+        val actual = SamSamRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -27,7 +26,7 @@ class SamSamTest {
         board.place(5, 2)
         board.place(2, 2)
 
-        val actual = SamSamRule.check(board, StoneColor.BLACK)
+        val actual = SamSamRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -40,7 +39,7 @@ class SamSamTest {
         board.place(5, 2)
         board.place(2, 2)
 
-        val actual = SamSamRule.check(board, StoneColor.BLACK)
+        val actual = SamSamRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -53,7 +52,7 @@ class SamSamTest {
         board.place(2, 3)
         board.place(2, 2)
 
-        val actual = SamSamRule.check(board, StoneColor.BLACK)
+        val actual = SamSamRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -68,7 +67,7 @@ class SamSamTest {
         board.place(2, 3)
         board.place(2, 2)
 
-        val actual = SamSamRule.check(board, StoneColor.BLACK)
+        val actual = SamSamRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -81,7 +80,7 @@ class SamSamTest {
         board.place(2, 4)
         board.place(2, 2)
 
-        val actual = SamSamRule.check(board, StoneColor.BLACK)
+        val actual = SamSamRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -96,7 +95,7 @@ class SamSamTest {
         board.place(2, 5)
         board.place(2, 2)
 
-        val actual = SamSamRule.check(board, StoneColor.BLACK)
+        val actual = SamSamRule.check(board)
         assertThat(actual).isFalse()
     }
 }
