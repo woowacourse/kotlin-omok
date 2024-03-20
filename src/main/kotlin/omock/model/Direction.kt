@@ -1,21 +1,21 @@
 package omock.model
 
 enum class Direction(
-    val x: Int,
     val y: Int,
+    val x: Int,
 ) {
     TOP(1, 0),
     TOP_RIGHT(1, 1),
     RIGHT(0, 1),
-    RIGHT_BOTTOM(1, -1),
+    RIGHT_BOTTOM(-1, 1),
     BOTTOM(-1, 0),
     BOTTOM_LEFT(-1, -1),
     LEFT(0, -1),
-    LEFT_TOP(-1, 1), ;
+    LEFT_TOP(1, -1), ;
 
     companion object {
         fun reverse(direction: Direction): Direction {
-            return when(direction){
+            return when (direction) {
                 TOP -> BOTTOM
                 TOP_RIGHT -> BOTTOM_LEFT
                 RIGHT -> LEFT
