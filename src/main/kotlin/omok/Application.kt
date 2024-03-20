@@ -5,5 +5,5 @@ import omok.view.InputView
 import omok.view.OutputView
 
 fun main() {
-    OmokController(InputView(), OutputView()).run()
+    OmokController(InputView(), OutputView()).startGame()
 }
