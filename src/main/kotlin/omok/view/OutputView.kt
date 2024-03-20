@@ -48,10 +48,15 @@ object OutputView {
         println(MESSAGE_OMOK_START)
     }
 
-    private fun convertStoneIcon(stoneType: StoneType): Char {
+    private fun convertStoneIcon(
+        stoneType: StoneType,
+        column: Int,
+        row: Int,
+    ): Char {
         return when (stoneType) {
             StoneType.WHITE -> '○'
             StoneType.BLACK -> '●'
+            StoneType.EMPTY -> boardTable[column][row]
         }
     }
 
@@ -64,10 +69,10 @@ object OutputView {
 
     private fun generatePrintedLine(
         lineIndex: Int,
-        stoneTypes: List<StoneType?>,
+        stoneTypes: List<StoneType>,
     ): List<Char> {
         return boardTable[lineIndex].mapIndexed { columnIdx, char ->
-            stoneTypes[columnIdx]?.let { convertStoneIcon(it) } ?: char
+            convertStoneIcon(stoneTypes[columnIdx], lineIndex, columnIdx)
         }
     }
 
