@@ -75,4 +75,16 @@ class OmokRuleTest {
         val actual = OmokRule().check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
+
+    @Test
+    fun `5개가 지렁이꼴로 연달아 나타나지만 오목은 아닐 때`() {
+        val board = Board()
+        board.place(Point(1, 1), StoneColor.BLACK)
+        board.place(Point(2, 2), StoneColor.BLACK)
+        board.place(Point(1, 3), StoneColor.BLACK)
+        board.place(Point(2, 4), StoneColor.BLACK)
+        board.place(Point(1, 5), StoneColor.BLACK)
+        val actual = OmokRule().check(board, StoneColor.BLACK)
+        assertThat(actual).isFalse()
+    }
 }
