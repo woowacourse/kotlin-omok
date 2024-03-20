@@ -20,6 +20,10 @@ class Board {
         _board[point] = color
     }
 
+    fun removePoint(point: Point) {
+        _board.remove(point)
+    }
+
     fun previousPoint(): Point? {
         return _board.keys.lastOrNull()
     }

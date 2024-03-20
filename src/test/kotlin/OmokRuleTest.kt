@@ -24,7 +24,7 @@ class OmokRuleTest {
         board.place(3, 1)
         board.place(4, 1)
         board.place(5, 1)
-        val actual = OmokRule().check(board, StoneColor.BLACK )
+        val actual = OmokRule().check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
 

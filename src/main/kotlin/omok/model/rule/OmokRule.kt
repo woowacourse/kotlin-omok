@@ -5,7 +5,6 @@ import omok.model.entity.Point
 import omok.model.entity.StoneColor
 
 class OmokRule : Rule {
-
     override fun check(
         board: Board,
         color: StoneColor,
