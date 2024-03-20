@@ -1,7 +1,6 @@
 package omok.model
 
 enum class Direction(val row: Int, val col: Int) {
-    // 단방향
     UP(-1, 0),
     DOWN(1, 0),
     LEFT(0, -1),
@@ -11,6 +10,19 @@ enum class Direction(val row: Int, val col: Int) {
     LEFT_DOWN(1, -1),
     RIGHT_DOWN(1, 1),
     ;
+
+    fun reverse(): Direction {
+        return when (this) {
+            UP -> DOWN
+            DOWN -> UP
+            LEFT -> RIGHT
+            RIGHT -> LEFT
+            LEFT_UP -> RIGHT_DOWN
+            RIGHT_UP -> LEFT_DOWN
+            LEFT_DOWN -> RIGHT_UP
+            RIGHT_DOWN -> LEFT_UP
+        }
+    }
 
     companion object {
         fun biDirections(): List<BiDirection> {
