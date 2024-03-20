@@ -3,7 +3,9 @@ package omok.model
 import omok.model.Position.Companion.INDEX_RANGE
 
 class Board {
-    private val board: MutableMap<Position, Stone> = initBoard()
+    private val _board: MutableMap<Position, Stone> = initBoard()
+    val board: Map<Position, Stone>
+        get() = _board.toMap()
 
     private fun initBoard() =
         INDEX_RANGE.flatMap { row ->
@@ -16,10 +18,10 @@ class Board {
         stone: Stone,
     ) {
         require(find(position) == Stone.NONE) { "이미 바둑돌이 있는 위치입니다." }
-        board[position] = stone
+        _board[position] = stone
     }
 
-    fun find(position: Position): Stone = board[position] ?: throw IllegalArgumentException("올바르지 않은 위치입니다.")
+    fun find(position: Position): Stone = _board[position] ?: throw IllegalArgumentException("올바르지 않은 위치입니다.")
 
     fun isWin(position: Position): Boolean {
         Direction.biDirections().forEach { (direction1, direction2) ->
