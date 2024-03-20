@@ -18,6 +18,11 @@ class Board {
         stone: Stone,
     ) {
         require(find(position) == Stone.NONE) { "이미 바둑돌이 있는 위치입니다." }
+        if (stone == Stone.BLACK) {
+            require(!RuleAdapter.violateDoubleOpenThree(this, position)
+                    && !RuleAdapter.violateDoubleFour(this, position)) { "이 위치에는 돌을 놓을 수 없습니다." }
+        }
+
         _board[position] = stone
     }
 
