@@ -3,7 +3,7 @@ package omok.model
 abstract class Dfs(
     private val status: Array<Array<Color?>>,
 ) {
-    private val visited = Array(15) { Array(15) { false } }
+    private val visited = Array(16) { Array(16) { false } }
     var count: Int = 0
         protected set
 
