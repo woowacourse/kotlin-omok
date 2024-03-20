@@ -11,12 +11,12 @@ class BlackTurn(val board: Board) : Turn {
     override fun placeStone(point: Point): Turn {
         board.place(point, StoneColor.BLACK)
 
-        if (SamSamRule().check(board, StoneColor.BLACK) || FourFourRule().check(board, StoneColor.BLACK)) {
+        if (SamSamRule.check(board, StoneColor.BLACK) || FourFourRule.check(board, StoneColor.BLACK)) {
             board.removePoint(point)
             return BlackTurn(board)
         }
 
-        if (board.isFull() || OmokRule().check(board, StoneColor.BLACK)) return Finished(StoneColor.BLACK)
+        if (board.isFull() || OmokRule.check(board, StoneColor.BLACK)) return Finished(StoneColor.BLACK)
 
         return WhiteTurn(board)
     }

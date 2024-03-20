@@ -16,7 +16,7 @@ class FourFourTest {
         board.place(4, 4)
         board.place(4, 1)
 
-        val actual = FourFourRule().check(board, StoneColor.BLACK)
+        val actual = FourFourRule.check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
 
@@ -31,7 +31,7 @@ class FourFourTest {
         board.place(4, 4)
         board.place(4, 1)
 
-        val actual = FourFourRule().check(board, StoneColor.BLACK)
+        val actual = FourFourRule.check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
 
@@ -46,7 +46,7 @@ class FourFourTest {
         board.place(4, 4)
         board.place(4, 1)
 
-        val actual = FourFourRule().check(board, StoneColor.BLACK)
+        val actual = FourFourRule.check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
 
@@ -61,7 +61,7 @@ class FourFourTest {
         board.place(3, 4)
         board.place(3, 2)
 
-        val actual = FourFourRule().check(board, StoneColor.BLACK)
+        val actual = FourFourRule.check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
 
@@ -79,7 +79,7 @@ class FourFourTest {
         board.place(5, 4)
         board.place(3, 2)
 
-        val actual = FourFourRule().check(board, StoneColor.BLACK)
+        val actual = FourFourRule.check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
 
@@ -93,7 +93,7 @@ class FourFourTest {
         board.place(2, 4)
         board.place(2, 2)
 
-        val actual = FourFourRule().check(board, StoneColor.BLACK)
+        val actual = FourFourRule.check(board, StoneColor.BLACK)
         assertThat(actual).isFalse()
     }
 }
