@@ -1,8 +1,6 @@
 package omok.model
 
-object Rule {
-    private const val BOARD_SIZE = 15
-
+interface Rule {
     fun isWinCondition(
         board: List<List<StoneType?>>,
         stone: Stone,
@@ -27,6 +25,7 @@ object Rule {
         directionColumn: Int,
         directionRow: Int,
     ): Boolean {
+        var maxCount = 0
         var count = 0
         for (i in -4..4) {
             val targetColumn = column + i * directionColumn
@@ -34,11 +33,26 @@ object Rule {
             if (targetColumn !in 0 until BOARD_SIZE || targetRow !in 0 until BOARD_SIZE) continue
             if (board[targetColumn][targetRow] == stoneType) {
                 count++
-                if (count >= 5) return true
+                if (count > maxCount) maxCount = count
             } else {
                 count = 0
             }
         }
+        if (checkCount(maxCount)) return true
         return false
     }
+
+    fun checkCount(count: Int): Boolean
+
+    companion object {
+        const val BOARD_SIZE = 15
+    }
+}
+
+object BlackRule : Rule {
+    override fun checkCount(count: Int): Boolean = count == 5
+}
+
+object WhiteRule : Rule {
+    override fun checkCount(count: Int): Boolean = count >= 5
 }
