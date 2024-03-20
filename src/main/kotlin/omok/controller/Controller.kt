@@ -1,23 +1,24 @@
 package omok.controller
 
 import omok.model.Board
+import omok.model.GameManager
 import omok.model.GameState
 import omok.model.Position
 import omok.view.BoardView
 import omok.view.InputView
 import omok.view.OutputView
 
-class Controller(private val board: Board = Board()) {
+class Controller(private val gameManager: GameManager) {
     fun play() {
-        printStart()
-        board.play(::printGameState, ::readPosition, ::printBoard)
+        gameManager.showGameStart(::printStart)
+        gameManager.play(::printRunningInfo, ::readPosition, ::printBoard)
     }
 
     private fun readPosition(): Position {
         return InputView.readPosition()
     }
 
-    private fun printStart() {
+    private fun printStart(board: Board) {
         OutputView.printStartHeader()
         printBoard(board)
     }
@@ -26,7 +27,7 @@ class Controller(private val board: Board = Board()) {
         BoardView.printBoard(board)
     }
 
-    private fun printGameState(gameState: GameState) {
-        OutputView.printTurnInfo(gameState)
+    private fun printRunningInfo(gameState: GameState) {
+        OutputView.printRunningInfo(gameState)
     }
 }
