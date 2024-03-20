@@ -1,5 +1,6 @@
 package omok.view
 
+import omok.model.Board
 import omok.model.GoStone
 import omok.model.Position
 import omok.model.Stone
@@ -7,7 +8,7 @@ import omok.model.Stone
 class InputView {
     fun readPosition(stone: GoStone): Position {
         print("${stone.stoneType.value()}의 차례입니다.")
-        val lastPosition = stone.getLastPosition()
+        val lastPosition = Board.getLastStonePosition()
         if (lastPosition != null) {
             print("(마지막 돌의 위치: ${lastPosition.convert()})")
         }

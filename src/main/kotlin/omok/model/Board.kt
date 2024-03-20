@@ -10,6 +10,12 @@ object Board {
     private val downwardDirection = DeltaPosition(1, -1)
 
     val board = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Stone.NONE } }
+    lateinit var lastPosition: Position
+
+    fun getLastStonePosition(): Position? {
+        if (::lastPosition.isInitialized) return lastPosition
+        return null
+    }
 
     fun findOmok(
         lastPosition: Position,
@@ -42,7 +48,7 @@ object Board {
         var row = lastPosition.row + deltaPosition.deltaRow
         var col = lastPosition.col + deltaPosition.deltaCol
 
-        while (row in 0 until BOARD_SIZE && col in 0 until BOARD_SIZE && board[row][col] == stone) {
+        while (row in 0 until BOARD_SIZE && col in 0 until BOARD_SIZE && board[col][row] == stone) {
             sameStoneCount++
             row += deltaPosition.deltaRow
             col += deltaPosition.deltaCol
