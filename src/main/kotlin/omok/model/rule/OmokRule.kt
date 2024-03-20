@@ -9,7 +9,6 @@ class OmokRule : Rule {
     override fun check(
         board: Board,
         color: StoneColor,
-        point: Point,
     ): Boolean {
         val directions =
             listOf(
@@ -18,11 +17,12 @@ class OmokRule : Rule {
                 1 to 1, // 오른쪽 위에서 왼쪽 아래
                 -1 to 1, // 왼쪽 위에서 오른쪽 아래
             )
+        val previousPoint = board.previousPoint() ?: throw IllegalStateException()
         return directions.any { direction ->
             val (vecX, vecY) = direction
             (0..4).any {
-                val left = checkStoneCountOnDirection(-vecX, -vecY, point, board, color, 0, it)
-                val right = checkStoneCountOnDirection(vecX, vecY, point, board, color, 0, 4 - it)
+                val left = checkStoneCountOnDirection(-vecX, -vecY, previousPoint, board, color, 0, it)
+                val right = checkStoneCountOnDirection(vecX, vecY, previousPoint, board, color, 0, 4 - it)
                 left && right
             }
         }

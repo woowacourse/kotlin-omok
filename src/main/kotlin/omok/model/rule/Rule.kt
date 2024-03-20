@@ -8,6 +8,5 @@ interface Rule {
     fun check(
         board: Board,
         color: StoneColor,
-        point: Point,
     ): Boolean
 }
