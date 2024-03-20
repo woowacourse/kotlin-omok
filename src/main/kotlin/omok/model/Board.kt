@@ -41,12 +41,7 @@ class Board {
         var nowPos = position
 
         while (true) {
-            try {
-                nowPos = nowPos.move(direction)
-            } catch (e: IllegalArgumentException) {
-                return count
-            }
-
+            nowPos = nowPos.move(direction) ?: return count
             if (find(nowPos) != myStone) return count
             count++
         }
