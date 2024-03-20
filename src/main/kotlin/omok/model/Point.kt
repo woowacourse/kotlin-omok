@@ -1,6 +1,12 @@
 package omok.model
 
 class Point private constructor(val x: Int, val y: Int) {
+
+    init {
+        require(x >= MIN) { "x는 $MIN 보다 이상이야 한다" }
+        require(y >= MIN) { "y는 $MIN 보다 이상이야 한다" }
+    }
+
     constructor(pair: Pair<Int, Int>) : this(pair.first, pair.second)
 
     companion object {
@@ -18,7 +24,7 @@ class Point private constructor(val x: Int, val y: Int) {
             x: Int,
             y: Int,
         ): Point {
-            return cachedPointMap[x to y] ?: error("$x $y 는 ($MIN, $MIN) ~ ($MAX, $MAX) 사이여야 합니다.")
+            return cachedPointMap[x to y] ?: Point(x, y)
         }
     }
 }
