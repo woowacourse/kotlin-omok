@@ -1,7 +1,6 @@
 package omok.model.rule
 
 import omok.model.Board
-import omok.model.entity.Point
 import omok.model.entity.StoneColor
 
 interface Rule {

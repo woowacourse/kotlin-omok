@@ -9,7 +9,7 @@ class WhiteTurn(val board: Board) : Turn {
     override fun placeStone(point: Point): Turn {
         board.place(point, StoneColor.WHITE)
 
-        if (board.isFull() || OmokRule().check(board, StoneColor.WHITE, point)) return Finished(StoneColor.WHITE)
+        if (board.isFull() || OmokRule().check(board, StoneColor.WHITE)) return Finished(StoneColor.WHITE)
 
         return BlackTurn(board)
     }
