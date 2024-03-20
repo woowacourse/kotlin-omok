@@ -1,7 +1,7 @@
 package omok.model
 
-import fixture.FIRST_ROW_FIRST_COL
-import fixture.FIRST_ROW_SECOND_COL
+import omok.fixture.FIRST_ROW_FIRST_COL
+import omok.fixture.FIRST_ROW_SECOND_COL
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
