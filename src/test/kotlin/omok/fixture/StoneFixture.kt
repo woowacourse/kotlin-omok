@@ -1,4 +1,4 @@
-package fixture
+package omok.fixture
 
 import omok.model.Stone
 
