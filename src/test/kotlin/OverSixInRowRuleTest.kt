@@ -1,9 +1,9 @@
 import omok.model.Board
-import omok.model.rule.SixMokRule
+import omok.model.rule.OverSixInRowRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class SixMokRuleTest {
+class OverSixInRowRuleTest {
     @Test
     fun `가로로 같은 색 돌이 6개 연속으로 있을 경우 육목이다`() {
         val board = Board()
@@ -13,7 +13,7 @@ class SixMokRuleTest {
         board.place(4, 1)
         board.place(5, 1)
         board.place(6, 1)
-        val actual = SixMokRule.check(board)
+        val actual = OverSixInRowRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -26,7 +26,7 @@ class SixMokRuleTest {
         board.place(4, 4)
         board.place(5, 5)
         board.place(6, 6)
-        val actual = SixMokRule.check(board)
+        val actual = OverSixInRowRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -39,7 +39,7 @@ class SixMokRuleTest {
         board.place(1, 4)
         board.place(1, 5)
         board.place(1, 6)
-        val actual = SixMokRule.check(board)
+        val actual = OverSixInRowRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -52,7 +52,7 @@ class SixMokRuleTest {
         board.place(3, 4)
         board.place(2, 5)
         board.place(1, 6)
-        val actual = SixMokRule.check(board)
+        val actual = OverSixInRowRule.check(board)
         assertThat(actual).isTrue()
     }
 }

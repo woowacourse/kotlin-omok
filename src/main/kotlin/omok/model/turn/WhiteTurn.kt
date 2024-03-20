@@ -4,14 +4,14 @@ import omok.model.Board
 import omok.model.entity.Point
 import omok.model.entity.Stone
 import omok.model.entity.StoneColor
-import omok.model.rule.OmokRule
+import omok.model.rule.FiveInRowRule
 
 class WhiteTurn(val board: Board) : Turn {
     override fun placeStone(point: Point): Turn {
         val stone = Stone(point, StoneColor.WHITE)
 
         board.place(stone)
-        if (board.isFull() || OmokRule.check(board)) return Finished(StoneColor.WHITE)
+        if (board.isFull() || FiveInRowRule.check(board)) return Finished(StoneColor.WHITE)
 
         return BlackTurn(board)
     }

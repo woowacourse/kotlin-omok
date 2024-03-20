@@ -4,7 +4,7 @@ import omok.model.Board
 import omok.model.entity.Point
 import omok.model.entity.Stone
 
-object SixMokRule : Rule {
+object OverSixInRowRule : Rule {
     override fun check(board: Board): Boolean {
         val directions =
             listOf(
