@@ -1,5 +1,3 @@
 package omock.model
 
-class Clear(private val stone: Stone) : UnPlaced(stone) {
-
-}
+class Clear(private val stone: Stone) : UnPlaced(stone)
