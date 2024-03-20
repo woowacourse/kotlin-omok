@@ -5,7 +5,13 @@ import omok.model.Position
 import omok.model.Stone
 
 class OutputView {
+    fun printInitialGuide(board: Board) {
+        println("오목 게임을 시작합니다.")
+        printBoard(board)
+    }
+
     fun printBoard(board: Board) {
+        println()
         Position.INDEX_RANGE.forEach { row ->
             printBoardRowName(row)
             Position.INDEX_RANGE.forEach { col ->
@@ -14,6 +20,7 @@ class OutputView {
             println()
         }
         println("    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O")
+        println()
     }
 
     private fun printBoardRowName(row: Int) {
