@@ -1,7 +1,7 @@
 import omok.model.Board
 import omok.model.entity.StoneColor
+import omok.model.rule.FiveInRowRule
 import omok.model.rule.FourByFourRule
-import omok.model.rule.OmokRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -128,7 +128,7 @@ class FourFourTest {
         board.place(8, 1)
 
         board.place(4, 1)
-        val actual = OmokRule.check(board)
+        val actual = FiveInRowRule.check(board)
         assertThat(actual).isTrue()
     }
 }

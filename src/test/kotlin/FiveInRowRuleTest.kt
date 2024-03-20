@@ -2,12 +2,12 @@ import omok.model.Board
 import omok.model.entity.Point
 import omok.model.entity.Stone
 import omok.model.entity.StoneColor
-import omok.model.rule.OmokRule
+import omok.model.rule.FiveInRowRule
 import omok.model.turn.BlackTurn
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class OmokRuleTest {
+class FiveInRowRuleTest {
     @Test
     fun `흑 턴일때 돌을 놓으면 흑돌이다`() {
         val board = Board()
@@ -26,7 +26,7 @@ class OmokRuleTest {
         board.place(3, 1)
         board.place(4, 1)
         board.place(5, 1)
-        val actual = OmokRule.check(board)
+        val actual = FiveInRowRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -38,7 +38,7 @@ class OmokRuleTest {
         board.place(3, 3)
         board.place(4, 4)
         board.place(5, 5)
-        val actual = OmokRule.check(board)
+        val actual = FiveInRowRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -50,7 +50,7 @@ class OmokRuleTest {
         board.place(1, 3)
         board.place(1, 4)
         board.place(1, 5)
-        val actual = OmokRule.check(board)
+        val actual = FiveInRowRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -62,7 +62,7 @@ class OmokRuleTest {
         board.place(3, 3)
         board.place(2, 4)
         board.place(1, 5)
-        val actual = OmokRule.check(board)
+        val actual = FiveInRowRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -74,7 +74,7 @@ class OmokRuleTest {
         board.place(1, 3)
         board.place(2, 4)
         board.place(1, 5)
-        val actual = OmokRule.check(board)
+        val actual = FiveInRowRule.check(board)
         assertThat(actual).isFalse()
     }
 }
