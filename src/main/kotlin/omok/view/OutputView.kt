@@ -3,9 +3,10 @@ package omok.view
 import omok.model.Color
 import omok.model.Color.BLACK
 import omok.model.Color.WHITE
+import omok.model.GameResult
 
 class OutputView {
-    fun showGameStartMessage()  {
+    fun showGameStartMessage() {
         println(MESSAGE_GAME_START)
     }
 
@@ -16,6 +17,13 @@ class OutputView {
             println(DIVIDER_ROW)
         }
         println(COLUMN_INDICATOR)
+    }
+
+    fun showGameResult(gameResult: GameResult) {
+        when (gameResult) {
+            GameResult.DRAW -> println("무승부 입니다")
+            else -> println("%s이 이겼습니다".format(gameResult.label))
+        }
     }
 
     private fun showSingleRow(
