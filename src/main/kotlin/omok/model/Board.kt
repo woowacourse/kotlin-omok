@@ -1,28 +1,19 @@
 package omok.model
 
-class Board(var layout: Array<Array<StoneType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { StoneType.EMPTY } }) {
-    private var gameState: GameState = GameState.BlackTurn()
+class Board() {
+    var layout: Array<Array<StoneType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { StoneType.EMPTY } }
+    var lastPosition: Position? = null
 
-    fun play(
-        onTurn: (GameState) -> Unit,
-        onRead: () -> Position,
-        onShow: (Board) -> Unit,
+    fun placeStone(
+        position: Position,
+        stoneType: StoneType,
     ) {
-        while (true) {
-            placeStone(onTurn, onRead, onShow)
+        if (layout[position.coordinate.x][position.coordinate.y] == StoneType.EMPTY) {
+            layout[position.coordinate.x][position.coordinate.y] = stoneType
+            lastPosition = position
+        } else {
+            throw IllegalArgumentException("이미 돌이 놓인 자리입니다.")
         }
-    }
-
-    private fun placeStone(
-        onTurn: (GameState) -> Unit,
-        onRead: () -> Position,
-        onShow: (Board) -> Unit,
-    ) {
-        onTurn(gameState)
-        val position = onRead()
-        layout[position.coordinate.x][position.coordinate.y] = gameState.currentStone
-        gameState = gameState.updateState(position)
-        onShow(this)
     }
 
     companion object {
