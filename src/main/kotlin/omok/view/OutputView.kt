@@ -62,4 +62,8 @@ class OutputView {
             Stone.NONE -> print(none)
         }
     }
+
+    fun printWinner(stone: Stone) {
+        println("우승은 🎉${stone.output()}🎉 입니다")
+    }
 }
