@@ -2,7 +2,7 @@ import omok.model.Board
 import omok.model.entity.Point
 import omok.model.entity.StoneColor
 import omok.model.turn.BlackTurn
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -13,7 +13,7 @@ class BoardTest {
         val board = Board()
         board.place(point, StoneColor.BLACK)
         val actual = board.contains(point)
-        Assertions.assertThat(actual).isTrue()
+        assertThat(actual).isTrue()
     }
 
     @Test
@@ -21,7 +21,7 @@ class BoardTest {
         val point = Point(-1, -1)
         val board = Board()
         val actual = assertThrows<IllegalArgumentException> { board.place(point, StoneColor.WHITE) }.message
-        Assertions.assertThat(actual).isEqualTo("보드 밖에 돌을 두었습니다.")
+        assertThat(actual).isEqualTo("보드 밖에 돌을 두었습니다.")
     }
 
     @Test

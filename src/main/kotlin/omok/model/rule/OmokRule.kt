@@ -4,17 +4,17 @@ import omok.model.Board
 import omok.model.entity.Point
 import omok.model.entity.StoneColor
 
-class OmokRule : Rule {
+object OmokRule : Rule {
     override fun check(
         board: Board,
         color: StoneColor,
     ): Boolean {
         val directions =
             listOf(
-                1 to 0, // 가로
-                0 to 1, // 세로
-                1 to 1, // 오른쪽 위에서 왼쪽 아래
-                -1 to 1, // 왼쪽 위에서 오른쪽 아래
+                1 to 0,
+                0 to 1,
+                1 to 1,
+                -1 to 1,
             )
         val previousPoint = board.previousPoint() ?: throw IllegalStateException()
         return directions.any { direction ->
