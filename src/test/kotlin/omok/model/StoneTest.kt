@@ -8,11 +8,11 @@ class StoneTest {
     @ParameterizedTest
     @CsvSource("1,A", "13,F", "4,G")
     fun `돌은 위치와 색상을 가지고 있다`(
-        row: Int,
+        row: String,
         col: String,
     ) {
         val color = "black"
-        val coordinate = Coordinate(row, col)
+        val coordinate = Coordinate(Row.from(row), Column.from(col))
         val stone = Stone(color, coordinate)
 
         assertThat(stone.color).isEqualTo(color)

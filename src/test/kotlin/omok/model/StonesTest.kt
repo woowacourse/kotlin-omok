@@ -14,7 +14,9 @@ class StonesTest {
     @BeforeEach
     fun setUp() {
         stones = Stones()
-        coordinate = Coordinate(6, "C")
+        val row = Row.from("6")
+        val column = Column.from("C")
+        coordinate = Coordinate(row, column)
         blackStone = Stone("black", coordinate)
         whiteStone = Stone("white", coordinate)
     }

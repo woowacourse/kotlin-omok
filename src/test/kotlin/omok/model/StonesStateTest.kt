@@ -8,17 +8,20 @@ class StonesStateTest {
     class MockStonesState : StonesState()
 
     private val mockStonesState = MockStonesState()
+    lateinit var coordinate: Coordinate
 
     @BeforeEach
     fun setUp() {
-        val coordinate = Coordinate(6, "C")
+        val row = Row.from("6")
+        val column = Column.from("C")
+        coordinate = Coordinate(row, column)
         val blackStone = Stone("black", coordinate)
         mockStonesState.put(blackStone)
     }
 
     @Test
     fun `착수하려는 위치에 이미 돌이 있다면, true를 반환한다`() {
-        val unableCoordinate = Coordinate(6, "C")
+        val unableCoordinate = coordinate
         val actual = mockStonesState.checkOccupiedCoordinate(unableCoordinate)
 
         assertThat(actual).isTrue()
@@ -26,7 +29,7 @@ class StonesStateTest {
 
     @Test
     fun `착수하려는 위치에 돌이 없다면, false를 반환한다`() {
-        val ableCoordinate = Coordinate(7, "H")
+        val ableCoordinate = Coordinate(Row.from("7"), Column.from("H"))
         val actual = mockStonesState.checkOccupiedCoordinate(ableCoordinate)
 
         assertThat(actual).isFalse()

@@ -13,7 +13,7 @@ class BoardTest {
     @BeforeEach
     fun setUp() {
         board = Board(Stones())
-        coordinate = Coordinate(6, "C")
+        coordinate = Coordinate(Row.from("6"), Column.from("C"))
         blackStone = Stone("black", coordinate)
         whiteStone = Stone("white", coordinate)
     }
