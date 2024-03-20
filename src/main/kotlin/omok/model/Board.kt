@@ -14,4 +14,8 @@ class Board {
         _board[stone.point.column][stone.point.row] = stone.type
         return isWinCondition(board, stone)
     }
+
+    operator fun contains(point: Point): Boolean {
+        return board[point.column][point.row] != null
+    }
 }

@@ -25,6 +25,11 @@ class Controller {
 
     private fun getPoint(board: Board): Point {
         val point = InputView.readPoint()
-        return if (point in board) getPoint(board) else point
+        return if (point in board) {
+            OutputView.printDuplicatedPointMessage()
+            getPoint(board)
+        } else {
+            point
+        }
     }
 }

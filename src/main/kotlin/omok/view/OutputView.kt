@@ -94,4 +94,8 @@ object OutputView {
         val column = 15 - stone.point.column
         return MESSAGE_BEFORE_STONE.format(row, column)
     }
+
+    fun printDuplicatedPointMessage() {
+        println("해당 위치 좌표에 이미 돌이 착수되어 있습니다. 다시 입력해주세요.")
+    }
 }
