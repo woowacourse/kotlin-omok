@@ -1,7 +1,6 @@
 package omok.model
 
-class Board(private val stones: Map<Position, OmokStone>) {
-
+class Board(val stones: Map<Position, OmokStone>) {
     operator fun plus(
         stone: OmokStone
     ): Board {
