@@ -73,4 +73,17 @@ class StonesTest {
 
         assertThat(actual).isTrue()
     }
+
+    @Test
+    fun `마지막에 착수된 돌의 좌표를 가져온다`() {
+        stones.putStone(blackStone)
+        val lastCoordinate = stones.getLastStoneCoordinate()
+
+        assertThat(lastCoordinate).isEqualTo(coordinate)
+    }
+
+    @Test
+    fun `마지막에 착수된 돌이 없다면 null을 반환한다`() {
+        assertThat(stones.getLastStoneCoordinate()).isNull()
+    }
 }

@@ -56,6 +56,11 @@ class Stones {
         return count
     }
 
+    fun getLastStoneCoordinate(): Coordinate? {
+        if(_stones.isEmpty()) return null
+        return _stones.last().coordinate
+    }
+
     companion object {
         const val ERROR_CANT_PUT_STONE = "이미 돌이 착수된 위치입니다."
         val OMOK_COUNT: Int = 5
