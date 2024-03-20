@@ -1,7 +1,7 @@
 package omok.model
 
 object Rule {
-    private val BOARD_SIZE = 15
+    private const val BOARD_SIZE = 15
 
     fun isWinCondition(
         board: List<List<StoneType?>>,
