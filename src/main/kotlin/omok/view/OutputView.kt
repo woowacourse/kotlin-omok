@@ -44,13 +44,13 @@ class OutputView {
         }
 
     companion object {
-        private const val COLUMN_INDICATOR = "   A B C D E F G H I J K L M N O"
+        private const val COLUMN_INDICATOR = "   A B C D E F G H I J K L M N O\n"
         private const val ROW_INDICATOR = "%2d─"
         private const val SIGNATURE_BLANK = "┼"
         private const val SIGNATURE_BLACK = "●"
         private const val SIGNATURE_WHITE = "○"
         private const val DIVIDER_ROW = "─"
         private const val BOARD_SIZE = 16
-        private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
+        private const val MESSAGE_GAME_START = "오목 게임을 시작합니다.\n"
     }
 }
