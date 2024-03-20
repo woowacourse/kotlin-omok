@@ -11,11 +11,10 @@ class StoneTest {
         row: String,
         col: String,
     ) {
-        val color = "black"
         val coordinate = Coordinate(Row.from(row), Column.from(col))
-        val stone = Stone(color, coordinate)
+        val stone = Stone(Color.BLACK, coordinate)
 
-        assertThat(stone.color).isEqualTo(color)
+        assertThat(stone.color).isEqualTo(Color.BLACK)
         assertThat(stone.coordinate).isEqualTo(coordinate)
     }
 }

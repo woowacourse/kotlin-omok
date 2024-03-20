@@ -15,7 +15,7 @@ class StonesStateTest {
         val row = Row.from("6")
         val column = Column.from("C")
         coordinate = Coordinate(row, column)
-        val blackStone = Stone("black", coordinate)
+        val blackStone = Stone(Color.BLACK, coordinate)
         mockStonesState.put(blackStone)
     }
 

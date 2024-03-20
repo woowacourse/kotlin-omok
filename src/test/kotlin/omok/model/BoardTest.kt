@@ -14,8 +14,8 @@ class BoardTest {
     fun setUp() {
         board = Board(Stones())
         coordinate = Coordinate(Row.from("6"), Column.from("C"))
-        blackStone = Stone("black", coordinate)
-        whiteStone = Stone("white", coordinate)
+        blackStone = Stone(Color.BLACK, coordinate)
+        whiteStone = Stone(Color.WHITE, coordinate)
     }
 
     @Test

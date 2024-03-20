@@ -1,3 +1,3 @@
 package omok.model
 
-data class Stone(val color: String, val coordinate: Coordinate)
+data class Stone(val color: Color, val coordinate: Coordinate)

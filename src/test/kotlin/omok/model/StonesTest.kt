@@ -17,8 +17,8 @@ class StonesTest {
         val row = Row.from("6")
         val column = Column.from("C")
         coordinate = Coordinate(row, column)
-        blackStone = Stone("black", coordinate)
-        whiteStone = Stone("white", coordinate)
+        blackStone = Stone(Color.BLACK, coordinate)
+        whiteStone = Stone(Color.WHITE, coordinate)
     }
 
     @Test

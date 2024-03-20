@@ -20,9 +20,8 @@ class Stones {
 
     private fun addStone(stone: Stone) {
         when (stone.color) {
-            "black" -> blackStones.put(stone)
-            "white" -> whiteStones.put(stone)
-            else -> return
+            Color.BLACK -> blackStones.put(stone)
+            Color.WHITE -> whiteStones.put(stone)
         }
     }
 
