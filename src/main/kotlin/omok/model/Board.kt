@@ -8,15 +8,12 @@ import omok.model.search.VerticalDfs
 class Board(
     stones: List<Stone> = emptyList(),
 ) {
-    private val status =
-        Array(BOARD_SIZE) {
-            Array<Color?>(BOARD_SIZE) { null }
-        }
+    val status: Array<Array<Color?>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { null } }
 
     var stones: List<Stone> = stones.toList()
         private set
 
-    fun place(position: Position): Array<Array<Color?>> {
+    fun place(position: Position): GameResult? {
         require(position !in stones.map { it.position }) {
             EXCEPTION_DUPLICATED_POSITION
         }
@@ -27,16 +24,21 @@ class Board(
             true -> {
                 addStone(row, position.col.title, Color.BLACK)
                 stones = stones.plus(Stone.Black(Position.of(position.row.value, position.col.title)))
-                dfs(row, col, Color.BLACK)
+                if (calculateSearchResult(row, col, Color.BLACK)) {
+                    return GameResult.WINNER_BLACK
+                }
             }
+
             false -> {
                 addStone(row, position.col.title, Color.WHITE)
                 stones = stones.plus(Stone.White(Position.of(position.row.value, position.col.title)))
-                dfs(row, col, Color.WHITE)
+                if (calculateSearchResult(row, col, Color.WHITE)) {
+                    return GameResult.WINNER_WHITE
+                }
             }
         }
-
-        return status
+        if (stones.size >= 225) return GameResult.DRAW
+        return null
     }
 
     private fun addStone(
@@ -47,15 +49,16 @@ class Board(
         status[row][Column.valueOf(col)?.value ?: return] = color
     }
 
-    private fun dfs(
+    private fun calculateSearchResult(
         row: Int,
         col: Int,
         color: Color,
-    ) {
-        VerticalDfs(status).apply { search(color, row, col) }
-        HorizontalDfs(status).apply { search(color, row, col) }
-        AscendingDfs(status).apply { search(color, row, col) }
-        DescendingDfs(status).apply { search(color, row, col) }
+    ): Boolean {
+        val verticalCount = VerticalDfs(status).apply { search(color, row, col) }.count
+        val horizontalCount = HorizontalDfs(status).apply { search(color, row, col) }.count
+        val ascendingCount = AscendingDfs(status).apply { search(color, row, col) }.count
+        val descendingCount = DescendingDfs(status).apply { search(color, row, col) }.count
+        return listOf(verticalCount, horizontalCount, ascendingCount, descendingCount).any { it >= 5 }
     }
 
     private fun isEven(num: Int): Boolean {
