@@ -1,5 +1,7 @@
 import omok.model.Board
-import omok.model.rule.FourFourRule
+import omok.model.entity.StoneColor
+import omok.model.rule.FourByFourRule
+import omok.model.rule.OmokRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -15,7 +17,25 @@ class FourFourTest {
         board.place(4, 4)
         board.place(4, 1)
 
-        val actual = FourFourRule.check(board)
+        val actual = FourByFourRule.check(board)
+        assertThat(actual).isTrue()
+    }
+
+    @Test
+    fun `가로 세로 줄 사이 빈 곳이 없는 44이고 끝이 다른색 돌로 막혀 있을 때`() {
+        val board = Board()
+        board.place(2, 1, StoneColor.WHITE)
+        board.place(2, 1, StoneColor.BLACK)
+        board.place(3, 1, StoneColor.BLACK)
+        board.place(4, 1, StoneColor.BLACK)
+        board.place(5, 2, StoneColor.BLACK)
+        board.place(5, 3, StoneColor.BLACK)
+        board.place(5, 4, StoneColor.BLACK)
+        board.place(5, 5, StoneColor.WHITE)
+
+        board.place(5, 1, StoneColor.BLACK)
+
+        val actual = FourByFourRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -30,7 +50,7 @@ class FourFourTest {
         board.place(4, 4)
         board.place(4, 1)
 
-        val actual = FourFourRule.check(board)
+        val actual = FourByFourRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -45,7 +65,7 @@ class FourFourTest {
         board.place(4, 4)
         board.place(4, 1)
 
-        val actual = FourFourRule.check(board)
+        val actual = FourByFourRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -60,7 +80,7 @@ class FourFourTest {
         board.place(3, 4)
         board.place(3, 2)
 
-        val actual = FourFourRule.check(board)
+        val actual = FourByFourRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -78,7 +98,7 @@ class FourFourTest {
         board.place(5, 4)
         board.place(3, 2)
 
-        val actual = FourFourRule.check(board)
+        val actual = FourByFourRule.check(board)
         assertThat(actual).isTrue()
     }
 
@@ -92,7 +112,23 @@ class FourFourTest {
         board.place(2, 4)
         board.place(2, 2)
 
-        val actual = FourFourRule.check(board)
+        val actual = FourByFourRule.check(board)
         assertThat(actual).isFalse()
+    }
+
+    @Test
+    fun `돌 2개 빈 칸 돌 2개 빈 칸 돌 2개`() {
+        val board = Board()
+        board.place(1, 1)
+        board.place(2, 1)
+
+        board.place(5, 1)
+
+        board.place(7, 1)
+        board.place(8, 1)
+
+        board.place(4, 1)
+        val actual = OmokRule.check(board)
+        assertThat(actual).isTrue()
     }
 }

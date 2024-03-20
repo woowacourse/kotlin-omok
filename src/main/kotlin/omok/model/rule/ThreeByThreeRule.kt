@@ -4,7 +4,7 @@ import omok.model.Board
 import omok.model.entity.Point
 import omok.model.entity.Stone
 
-object FourFourRule : Rule {
+object ThreeByThreeRule : Rule {
     override fun check(board: Board): Boolean {
         val directions =
             listOf(
@@ -14,21 +14,20 @@ object FourFourRule : Rule {
                 -1 to 1,
             )
         val previousStone = board.previousStone() ?: throw IllegalStateException()
-
         val sum =
             directions.count { direction ->
                 val (vecX, vecY) = direction
                 val oppositeDirection = -vecX to -vecY
-                (0..3).any {
+                (0..2).any {
                     val left = stoneCount(oppositeDirection, previousStone, board, 0, it)
-                    val right = stoneCount(direction, previousStone, board, 0, 3 - it)
+                    val right = stoneCount(direction, previousStone, board, 0, 2 - it)
                     val withBlank =
                         (0..1).any { targetBlankCount ->
                             val leftWithBlank =
                                 stoneCountWithBlank(oppositeDirection, previousStone, board, 0, it, 0, targetBlankCount)
                             val rightWithBlank =
-                                stoneCountWithBlank(direction, previousStone, board, 0, 3 - it, 0, targetBlankCount)
-                            stoneCountWithBlank(direction, previousStone, board, 0, 3 - it, 0, targetBlankCount)
+                                stoneCountWithBlank(direction, previousStone, board, 0, 2 - it, 0, targetBlankCount)
+                            stoneCountWithBlank(direction, previousStone, board, 0, 2 - it, 0, targetBlankCount)
                             leftWithBlank && rightWithBlank
                         }
                     left && right || withBlank
@@ -46,9 +45,9 @@ object FourFourRule : Rule {
     ): Boolean {
         val (vecX, vecY) = direction
         val point = stone.point
-        val color = stone.stoneColor
         val newPoint = Point(point.x + vecX, point.y + vecY)
-        val newStone = Stone(newPoint, color)
+        val newStone = Stone(newPoint, stone.stoneColor)
+
         if (targetOmokCount == 0) {
             return !board.stones.contains(newStone)
         }
