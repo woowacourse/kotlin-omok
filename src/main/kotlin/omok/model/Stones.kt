@@ -57,7 +57,7 @@ class Stones {
     }
 
     fun getLastStoneCoordinate(): Coordinate? {
-        if(_stones.isEmpty()) return null
+        if (_stones.isEmpty()) return null
         return _stones.last().coordinate
     }
 

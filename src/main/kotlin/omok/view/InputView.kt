@@ -8,7 +8,7 @@ object InputView {
     private const val MESSAGE_INPUT_COORDINATE = "위치를 입력하세요: "
 
     fun inputStoneCoordinate(): Coordinate {
-        println(MESSAGE_INPUT_COORDINATE)
+        print(MESSAGE_INPUT_COORDINATE)
         val input = readlnOrNull().orEmpty()
         val result = input.validateCoordinate()
 

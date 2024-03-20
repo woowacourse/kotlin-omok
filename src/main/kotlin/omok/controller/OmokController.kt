@@ -19,7 +19,10 @@ class OmokController {
         }
     }
 
-    private fun playGame(player: Player, board: Board): Boolean {
+    private fun playGame(
+        player: Player,
+        board: Board,
+    ): Boolean {
         OutputView.printTurnName(player.color)
         OutputView.printLastStone(board.stones.getLastStoneCoordinate())
         val coordinate = InputView.inputStoneCoordinate()
