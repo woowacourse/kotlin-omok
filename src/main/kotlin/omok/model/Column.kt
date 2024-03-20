@@ -15,7 +15,8 @@ enum class Column(val title: Char, val value: Int) {
     L('L', 12),
     M('M', 13),
     N('N', 14),
-    O('O', 15), ;
+    O('O', 15),
+    ;
 
     companion object {
         fun valueOf(col: Char): Column? {
