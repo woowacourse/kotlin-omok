@@ -10,6 +10,7 @@ object OutputView {
     private const val MESSAGE_LAST_COORDINATE = "(마지막 돌의 위치: %s)"
     private const val PLAYER_COLOR_BLACK = "흑"
     private const val PLAYER_COLOR_WHITE = "백"
+    private const val MESSAGE_PLAYER_COLOR = "%s 플레이어가 이겼습니다 !"
     private const val BLACK_STONE = '●'
     private const val WHITE_STONE = '○'
     private const val BOARD_SIZE: Int = 15
@@ -33,9 +34,13 @@ object OutputView {
     }
 
     fun printTurnName(color: Color) {
-        when (color) {
-            Color.BLACK -> print(MESSAGE_TURN.format(PLAYER_COLOR_BLACK))
-            Color.WHITE -> print(MESSAGE_TURN.format(PLAYER_COLOR_WHITE))
+        print(MESSAGE_TURN.format(getPlayerColor(color)))
+    }
+
+    private fun getPlayerColor(color: Color): String {
+        return when (color) {
+            Color.BLACK -> PLAYER_COLOR_BLACK
+            Color.WHITE -> PLAYER_COLOR_WHITE
         }
     }
 
@@ -68,5 +73,13 @@ object OutputView {
             print(MESSAGE_LAST_COORDINATE.format(colCh + "" + row))
         }
         println()
+    }
+
+    fun printErrorMessage(errorMessage: String) {
+        println(errorMessage)
+    }
+
+    fun printWinner(winnerColor: Color) {
+        println(MESSAGE_PLAYER_COLOR.format(getPlayerColor(winnerColor)))
     }
 }

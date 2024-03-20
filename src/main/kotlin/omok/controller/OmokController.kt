@@ -51,4 +51,11 @@ class OmokController {
         val coordinate = InputView.inputStoneCoordinate()
         player.playTurn(board, coordinate)
     }
+
+    private fun displayWinner(players: Pair<Player, Player>) {
+        when (players.first.isWin) {
+            true -> OutputView.printWinner(players.first.color)
+            false -> OutputView.printWinner(players.second.color)
+        }
+    }
 }
