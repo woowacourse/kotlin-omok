@@ -21,6 +21,6 @@ class BoardTest {
     @Test
     fun `오목판은 착수된 돌을 가지고 있다`() {
         board.putStone(blackStone)
-        assertThat(board.stones.blackStones.stones).contains(blackStone)
+        assertThat(board.stones.stones).contains(blackStone)
     }
 }

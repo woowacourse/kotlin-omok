@@ -1,5 +1,6 @@
 package omok.model
 
+import omok.model.Stones.Companion.TOP_RIGHT
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -23,20 +24,19 @@ class StonesTest {
 
     @Test
     fun `게임 시작 시 바둑돌은 오목판 위에 없다`() {
-        assertThat(stones.blackStones.stones.size).isEqualTo(0)
-        assertThat(stones.whiteStones.stones.size).isEqualTo(0)
+        assertThat(stones.stones.size).isEqualTo(0)
     }
 
     @Test
     fun `흰 돌을 착수하면 해당 돌을 가지고있어야 한다`() {
         stones.putStone(whiteStone)
-        assertThat(stones.whiteStones.stones).contains(whiteStone)
+        assertThat(stones.stones).contains(whiteStone)
     }
 
     @Test
     fun `검은 돌을 착수하면 해당 돌을 가지고있어야 한다`() {
         stones.putStone(blackStone)
-        assertThat(stones.blackStones.stones).contains(blackStone)
+        assertThat(stones.stones).contains(blackStone)
     }
 
     @Test
@@ -45,5 +45,32 @@ class StonesTest {
         assertThrows<IllegalStateException> {
             stones.putStone(whiteStone)
         }
+    }
+
+    @Test
+    fun `한 방향으로 연속된 같은 색상의 돌 개수를 반환한다`() {
+        stones.putStone(Stone(Color.BLACK, Coordinate(Row.from("6"), Column.from("F"))))
+        stones.putStone(Stone(Color.BLACK, Coordinate(Row.from("7"), Column.from("G"))))
+        stones.putStone(Stone(Color.WHITE, Coordinate(Row.from("8"), Column.from("H"))))
+        stones.putStone(Stone(Color.BLACK, Coordinate(Row.from("9"), Column.from("I"))))
+
+        val actual =
+            stones.countSameColorStoneInDirection(
+                Stone(Color.BLACK, Coordinate(Row.from("10"), Column.from("J"))),
+                TOP_RIGHT,
+            )
+        assertThat(actual).isEqualTo(2)
+    }
+
+    @Test
+    fun `같은 색상의 연속된 돌이 5개 이상이라면 true를 반환한다`() {
+        stones.putStone(Stone(Color.BLACK, Coordinate(Row.from("6"), Column.from("F"))))
+        stones.putStone(Stone(Color.BLACK, Coordinate(Row.from("7"), Column.from("G"))))
+        stones.putStone(Stone(Color.BLACK, Coordinate(Row.from("8"), Column.from("H"))))
+        stones.putStone(Stone(Color.BLACK, Coordinate(Row.from("9"), Column.from("I"))))
+
+        val actual = stones.findOmok(Stone(Color.BLACK, Coordinate(Row.from("10"), Column.from("J"))))
+
+        assertThat(actual).isTrue()
     }
 }
