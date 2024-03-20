@@ -10,3 +10,12 @@ fun Board.place(
     val stone = Stone(Point(x, y), StoneColor.BLACK)
     this.place(stone)
 }
+
+fun Board.place(
+    x: Int,
+    y: Int,
+    color: StoneColor,
+) {
+    val stone = Stone(Point(x, y), color)
+    this.place(stone)
+}
