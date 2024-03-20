@@ -1,8 +1,8 @@
 package omok.fixtures
 
-import omok.model.Point
+import omok.model.Position
 
 fun createPoint(
     x: Int,
     y: Int,
-) = Point.of(x, y)
+) = Position.of(x, y)

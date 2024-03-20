@@ -8,7 +8,7 @@ import omok.fixtures.createPoint
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
-class PointTest {
+class PositionTest {
     @ParameterizedTest
     @CsvSource(value = ["1:1", "1:2", "15:15"], delimiter = ':')
     fun `Point 는 (15,15) 까지 싱글톤이다`(

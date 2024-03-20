@@ -1,11 +1,10 @@
 package omok.model
 
-class Point private constructor(val x: Int, val y: Int) {
+class Position private constructor(val x: Int, val y: Int) {
 
-    init {
-        require(x >= MIN) { "x는 $MIN 보다 이상이야 한다" }
-        require(y >= MIN) { "y는 $MIN 보다 이상이야 한다" }
-    }
+    operator fun plus(other: Vector): Position = of(x + other.x, y + other.y)
+
+    operator fun minus(other: Vector): Position = of(x - other.x, y - other.y)
 
     constructor(pair: Pair<Int, Int>) : this(pair.first, pair.second)
 
@@ -18,13 +17,13 @@ class Point private constructor(val x: Int, val y: Int) {
                 val x = it + 1
                 RANGE.map { y -> x to y }
             }.flatten()
-        private val cachedPointMap: Map<Pair<Int, Int>, Point> = cachedKeys.associateWith { Point(it) }
+        private val cachedPositionMap: Map<Pair<Int, Int>, Position> = cachedKeys.associateWith { Position(it) }
 
         fun of(
             x: Int,
             y: Int,
-        ): Point {
-            return cachedPointMap[x to y] ?: Point(x, y)
+        ): Position {
+            return cachedPositionMap[x to y] ?: Position(x, y)
         }
     }
 }

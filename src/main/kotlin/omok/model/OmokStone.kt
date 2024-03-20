@@ -1,3 +1,3 @@
 package omok.model
 
-data class OmokStone(val point: Point, val color: StoneColor)
+data class OmokStone(val position: Position, val color: StoneColor)
