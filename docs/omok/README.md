@@ -10,3 +10,11 @@
 - [ ] : 대각선이나 일직선으로 5개 이상 놓으면 승리
 - [ ] : 흑부터 놓는다
 - [ ] : 번갈아 가면서 놓는다
+
+## 상태
+- 1. PutOmokRule() , CanPut()
+- 2. put
+- 3. Win??? -> Finish 
+- 4. Black
+
+보드 상태 종류 : Init, Running(TurnOne, TurnTwo), Finish
