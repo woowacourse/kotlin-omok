@@ -1,5 +1,6 @@
-package omok.model
+package omok.model.search
 
+import omok.model.Color
 import omok.model.fixture.createPlayingBoard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest

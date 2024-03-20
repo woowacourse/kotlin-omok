@@ -1,5 +1,10 @@
 package omok.model
 
+import omok.model.search.AscendingDfs
+import omok.model.search.DescendingDfs
+import omok.model.search.HorizontalDfs
+import omok.model.search.VerticalDfs
+
 class Board(
     stones: List<Stone> = emptyList(),
 ) {
