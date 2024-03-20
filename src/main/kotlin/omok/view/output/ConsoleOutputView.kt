@@ -9,17 +9,17 @@ class ConsoleOutputView : OutputView {
         println("오목 게임을 시작합니다")
     }
 
-    override fun printOneTurn(
+    override fun printTurn(
         board: Board,
         color: StoneColor,
     ) {
         val strMap = buildOmokBoard(board)
         println(strMap)
-        printTurn(color)
+        printTurnGuide(color)
         printPreviousPoint(board.previousStone())
     }
 
-    private fun printTurn(color: StoneColor) {
+    private fun printTurnGuide(color: StoneColor) {
         val colorString = getColorString(color)
         print("${colorString}의 차례입니다.  ")
     }
