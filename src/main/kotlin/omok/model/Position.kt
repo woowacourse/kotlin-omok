@@ -8,6 +8,8 @@ class Position private constructor(val x: Int, val y: Int) {
 
     constructor(pair: Pair<Int, Int>) : this(pair.first, pair.second)
 
+    override fun toString(): String = "Position ($x, $y)"
+
     companion object {
         private const val MIN = 1
         private const val MAX = 15
