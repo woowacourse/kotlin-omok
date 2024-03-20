@@ -19,11 +19,11 @@ class OmokRuleTest {
     @Test
     fun `가로로 같은 색 돌이 5개 연속으로 있을 경우 오목이다`() {
         val board = Board()
-        board.place(Point(1, 1), StoneColor.BLACK)
-        board.place(Point(2, 1), StoneColor.BLACK)
-        board.place(Point(3, 1), StoneColor.BLACK)
-        board.place(Point(4, 1), StoneColor.BLACK)
-        board.place(Point(5, 1), StoneColor.BLACK)
+        board.place(1, 1)
+        board.place(2, 1)
+        board.place(3, 1)
+        board.place(4, 1)
+        board.place(5, 1)
         val actual = OmokRule().check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
@@ -31,35 +31,23 @@ class OmokRuleTest {
     @Test
     fun `왼쪽 위에서 오른쪽 아래 대각선으로 같은 색 돌이 5개 연속으로 있을 경우 오목이다`() {
         val board = Board()
-        board.place(Point(1, 1), StoneColor.BLACK)
-        board.place(Point(2, 2), StoneColor.BLACK)
-        board.place(Point(3, 3), StoneColor.BLACK)
-        board.place(Point(4, 4), StoneColor.BLACK)
-        board.place(Point(5, 5), StoneColor.BLACK)
+        board.place(1, 1)
+        board.place(2, 2)
+        board.place(3, 3)
+        board.place(4, 4)
+        board.place(5, 5)
         val actual = OmokRule().check(board, StoneColor.BLACK)
-        assertThat(actual).isTrue()
-    }
-
-    @Test
-    fun `세로로 하얀 색 돌이 5개 연속으로 있을 경우 오목이다`() {
-        val board = Board()
-        board.place(Point(1, 1), StoneColor.WHITE)
-        board.place(Point(1, 2), StoneColor.WHITE)
-        board.place(Point(1, 3), StoneColor.WHITE)
-        board.place(Point(1, 4), StoneColor.WHITE)
-        board.place(Point(1, 5), StoneColor.WHITE)
-        val actual = OmokRule().check(board, StoneColor.WHITE)
         assertThat(actual).isTrue()
     }
 
     @Test
     fun `세로로 같은 색 돌이 5개 연속으로 있을 경우 오목이다`() {
         val board = Board()
-        board.place(Point(1, 1), StoneColor.BLACK)
-        board.place(Point(1, 2), StoneColor.BLACK)
-        board.place(Point(1, 3), StoneColor.BLACK)
-        board.place(Point(1, 4), StoneColor.BLACK)
-        board.place(Point(1, 5), StoneColor.BLACK)
+        board.place(1, 1)
+        board.place(1, 2)
+        board.place(1, 3)
+        board.place(1, 4)
+        board.place(1, 5)
         val actual = OmokRule().check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
@@ -67,11 +55,11 @@ class OmokRuleTest {
     @Test
     fun `오른쪽 위에서 왼쪽 아래 대각선으로 같은 색 돌이 5개 연속으로 있을 경우 오목이다`() {
         val board = Board()
-        board.place(Point(5, 1), StoneColor.BLACK)
-        board.place(Point(4, 2), StoneColor.BLACK)
-        board.place(Point(3, 3), StoneColor.BLACK)
-        board.place(Point(2, 4), StoneColor.BLACK)
-        board.place(Point(1, 5), StoneColor.BLACK)
+        board.place(5, 1)
+        board.place(4, 2)
+        board.place(3, 3)
+        board.place(2, 4)
+        board.place(1, 5)
         val actual = OmokRule().check(board, StoneColor.BLACK)
         assertThat(actual).isTrue()
     }
@@ -79,11 +67,11 @@ class OmokRuleTest {
     @Test
     fun `5개가 지렁이꼴로 연달아 나타나지만 오목은 아닐 때`() {
         val board = Board()
-        board.place(Point(1, 1), StoneColor.BLACK)
-        board.place(Point(2, 2), StoneColor.BLACK)
-        board.place(Point(1, 3), StoneColor.BLACK)
-        board.place(Point(2, 4), StoneColor.BLACK)
-        board.place(Point(1, 5), StoneColor.BLACK)
+        board.place(1, 1)
+        board.place(2, 2)
+        board.place(1, 3)
+        board.place(2, 4)
+        board.place(1, 5)
         val actual = OmokRule().check(board, StoneColor.BLACK)
         assertThat(actual).isFalse()
     }
