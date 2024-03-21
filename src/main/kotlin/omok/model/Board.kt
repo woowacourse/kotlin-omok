@@ -1,20 +1,45 @@
 package omok.model
 
 class Board {
-    var layout: Array<Array<PositionType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { PositionType.EMPTY } }
+    val layout: Array<Array<PositionType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { PositionType.EMPTY } }
     var lastPosition: Position? = null
+    private lateinit var omokRule: OmokRule
 
-    private fun copy(): Board {
-        val newBoard = Board()
-        newBoard.layout =
-            Array(layout.size) { i ->
-                layout[i].copyOf()
+    fun setupOmokRule(current: PositionType) {
+        when (current) {
+            PositionType.BLACK_STONE -> {
+                omokRule = OmokRule(layout, PositionType.BLACK_STONE, PositionType.WHITE_STONE, BOARD_SIZE)
+                setBlock(omokRule::checkThreeThree, omokRule::countFourFour, omokRule::checkMoreThanFive)
             }
-        newBoard.lastPosition = lastPosition?.copy()
-        return newBoard
+
+            PositionType.WHITE_STONE -> {
+                omokRule = OmokRule(layout, PositionType.WHITE_STONE, PositionType.BLACK_STONE, BOARD_SIZE)
+                removeBlock()
+            }
+
+            else -> throw IllegalArgumentException(ERROR_POSITION_TYPE)
+        }
     }
 
-    fun removeBlock() {
+    fun isOmok(
+        position: Position,
+        positionType: PositionType,
+    ): Boolean {
+        return when (positionType) {
+            PositionType.BLACK_STONE -> {
+                omokRule.validateOmok(position.coordinate.x, position.coordinate.y) &&
+                    !omokRule.checkMoreThanFive(position.coordinate.x, position.coordinate.y)
+            }
+
+            PositionType.WHITE_STONE -> {
+                omokRule.validateOmok(position.coordinate.x, position.coordinate.y)
+            }
+
+            else -> throw IllegalArgumentException()
+        }
+    }
+
+    private fun removeBlock() {
         layout.forEach { row ->
             row.forEachIndexed { index, stoneType ->
                 if (stoneType == PositionType.BLOCK) {
@@ -36,37 +61,38 @@ class Board {
         }
     }
 
-    fun generateBlock(
-        a: (Int, Int) -> Boolean,
-        b: (Int, Int) -> Boolean,
-        c: (Int, Int) -> Boolean,
-    ): Board {
-        var newBoard = this.copy()
-        val parList: MutableList<Pair<Int, Int>> = mutableListOf()
+    private fun setBlock(
+        checkThreeThree: (Int, Int) -> Boolean,
+        checkFourFour: (Int, Int) -> Boolean,
+        checkMoreThanFive: (Int, Int) -> Boolean,
+    ) {
+        val blockPositions: MutableList<Pair<Int, Int>> = mutableListOf()
 
-        runCatching {
-            for (i in MIN_INDEX until BOARD_SIZE) {
-                for (j in MIN_INDEX until BOARD_SIZE) {
-                    if ((a(i, j) || b(i, j) || c(i, j)) && newBoard.layout[i][j] == PositionType.EMPTY) {
-                        parList.add(Pair(i, j))
-                    }
+        for (i in MIN_INDEX until BOARD_SIZE) {
+            for (j in MIN_INDEX until BOARD_SIZE) {
+                if (isBlockPosition(i, j, checkThreeThree, checkFourFour, checkMoreThanFive)) {
+                    blockPositions.add(Pair(i, j))
                 }
             }
-        }.onFailure {
-            throw IllegalArgumentException(ERROR_BLOCK_STONE)
         }
-
-        parList.forEach {
-            newBoard.layout[it.first][it.second] = PositionType.BLOCK
+        blockPositions.forEach {
+            layout[it.first][it.second] = PositionType.BLOCK
         }
-
-        return newBoard
     }
+
+    private fun isBlockPosition(
+        i: Int,
+        j: Int,
+        checkThreeThree: (Int, Int) -> Boolean,
+        checkFourFour: (Int, Int) -> Boolean,
+        checkMoreThanFive: (Int, Int) -> Boolean,
+    ) = (checkThreeThree(i, j) || checkFourFour(i, j) || checkMoreThanFive(i, j)) && layout[i][j] == PositionType.EMPTY
 
     companion object {
         private const val MIN_INDEX = 0
         private const val BOARD_SIZE = 15
         private const val ERROR_INVALID_POSITION = "돌을 놓을 수 없는 자리입니다."
         private const val ERROR_BLOCK_STONE = "BLOCK 생성을 실패했습니다."
+        private const val ERROR_POSITION_TYPE = "올바른 PositionType이 아닙니다."
     }
 }
