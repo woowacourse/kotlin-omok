@@ -8,10 +8,8 @@ class Board {
         get() = _stones.toSet()
 
     fun place(stone: Stone) {
-        require(stone.point.x in SIZE_RANGE && stone.point.y in SIZE_RANGE) {
-            "보드 밖에 돌을 두었습니다.돌을 놓은 곳 : ${stone.point.x} ${stone.point.y}"
-        }
-        require(_stones.contains(stone).not()) { "그 포인트에 이미 돌이 존재합니다." }
+        require(stone.point.x in SIZE_RANGE && stone.point.y in SIZE_RANGE) { "보드 밖에 돌을 두었습니다.돌을 놓은 곳 : ${stone.point.x} ${stone.point.y}" }
+        require(_stones.find { it.point == stone.point } == null) { "돌이 이미 존재합니다. ${stone.point.x} ${stone.point.y}" }
         _stones.add(stone)
     }
 

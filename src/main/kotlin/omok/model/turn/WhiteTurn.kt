@@ -10,7 +10,12 @@ class WhiteTurn(val board: Board) : Turn {
     override fun placeStone(point: Point): Turn {
         val stone = Stone(point, StoneColor.WHITE)
 
-        board.place(stone)
+        try {
+            board.place(stone)
+        } catch (e: IllegalArgumentException) {
+            return WhiteTurn(board)
+        }
+
         if (board.isFull() || FiveInRowRule.check(board)) return Finished(StoneColor.WHITE)
 
         return BlackTurn(board)
