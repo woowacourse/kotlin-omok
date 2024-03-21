@@ -2,6 +2,7 @@ package omok.view
 
 import omok.model.board.Board
 import omok.model.position.Position
+import omok.model.position.Position.Companion.X_AXIS_START
 import omok.model.stone.GoStone
 import omok.model.stone.Stone
 
@@ -31,7 +32,7 @@ class InputView {
 
     private fun lineBreak() = println()
 
-    private fun Position.convert() = "${'A' + row}${col + 1}"
+    private fun Position.convert() = "${X_AXIS_START + row}${col + 1}"
 
     private fun Stone.value() =
         when (this) {

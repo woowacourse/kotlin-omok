@@ -6,6 +6,7 @@ data class Position(val row: Int, val col: Int) {
     }
 
     companion object {
+        const val X_AXIS_START = 'A'
         private const val MIN_RANGE = 0
         private const val MAX_RANGE = 14
         private const val EXCEPTION_INVALID_POSITION = "유효하지 않은 위치입니다. 현재 입력 값: %s%d\n"
@@ -15,7 +16,7 @@ data class Position(val row: Int, val col: Int) {
             row: Int,
             col: Int,
         ): String {
-            val rowValue = 'A' + row
+            val rowValue = X_AXIS_START + row
             return EXCEPTION_INVALID_POSITION.format(rowValue, col + 1)
         }
 
@@ -23,7 +24,7 @@ data class Position(val row: Int, val col: Int) {
             rowValue: Char,
             col: Int,
         ): Position {
-            val row = rowValue - 'A'
+            val row = rowValue - X_AXIS_START
             validPosition(row, col - 1)
             return Position(row, col - 1)
         }
