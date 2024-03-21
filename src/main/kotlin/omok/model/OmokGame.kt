@@ -12,12 +12,14 @@ class OmokGame(
 ) {
     fun run(
         inputPoint: () -> Point,
-        printTurn: (Board, StoneColor) -> Unit,
+        beforeTurn: (Board, StoneColor) -> Unit,
+        afterGame: (Board, StoneColor) -> Unit,
     ) {
         while (turn !is Finished) {
-            printTurn(board, turn.color())
+            beforeTurn(board, turn.color())
             proceedTurn(inputPoint)
         }
+        afterGame(board, turn.color())
     }
 
     private fun proceedTurn(inputPoint: () -> Point) {

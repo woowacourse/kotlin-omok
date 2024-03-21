@@ -66,4 +66,14 @@ class ConsoleOutputView : OutputView {
         }
         return sb.toString()
     }
+
+    override fun printWinner(
+        board: Board,
+        color: StoneColor,
+    ) {
+        val strMap = buildOmokBoard(board)
+        println(strMap)
+        val colorString = getColorString(color)
+        print("${colorString}이 승리했습니다")
+    }
 }
