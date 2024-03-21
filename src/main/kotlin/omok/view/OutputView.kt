@@ -26,18 +26,21 @@ object OutputView {
         println("잘못된 위치 입력입니다.")
     }
 
+    fun showWinner(currentStone: Stone) {
+        println("우승자는 $currentStone")
+    }
+
     fun printBoard(
         board: Array<Array<Stone>>,
         forbiddenPositions: List<Pair<CoordsNumber, CoordsNumber>> = emptyList(),
     ) {
         val boardForDisplay = initializeBoard()
-        println(forbiddenPositions)
         for (row in board.indices) {
             print("${row + 1}".padStart(2, ' ') + " ")
             for (col in board[row].indices) {
                 val displayChar =
                     when {
-                        CoordsNumber(row) to CoordsNumber(col) in forbiddenPositions -> X
+                        CoordsNumber(col) to CoordsNumber(row) in forbiddenPositions -> X
                         board[col][row] == Stone.WHITE -> WHITE_STONE
                         board[col][row] == Stone.BLACK -> BLACK_STONE
                         else -> boardForDisplay[row][col]

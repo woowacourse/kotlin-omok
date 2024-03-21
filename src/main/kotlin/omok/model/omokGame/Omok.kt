@@ -8,6 +8,10 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
 
     fun isRunning() = omokGameState == OmokGameState.RUNNING
 
+    fun gameFinish() {
+        omokGameState = OmokGameState.STOP
+    }
+
     fun setStone(
         x: CoordsNumber,
         y: CoordsNumber,
@@ -20,9 +24,6 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
         val coords = mutableListOf<Pair<CoordsNumber, CoordsNumber>>()
         for (y in gameBoard.indices) {
             for (x in gameBoard[y].indices) {
-                if (isFive(CoordsNumber(x), CoordsNumber(y), stone)) {
-                    omokGameState = OmokGameState.STOP
-                }
                 if (gameBoard[y][x] != Stone.EMPTY) {
                     continue
                 }
@@ -86,7 +87,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
         return cnt
     }
 
-    private fun isLong(
+    private fun isGameOver(
         x: CoordsNumber,
         y: CoordsNumber,
         stone: Stone,
@@ -229,16 +230,17 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
         y: CoordsNumber,
         stone: Stone,
     ): Boolean {
-        if (isLong(x, y, stone) > 5) {
+        if (isFive(x, y, stone)) {
+            return false
+        } else if (isGameOver(x, y, stone) > 5) {
             return true
-        }
-        if (doubleThree(x, y, stone) || doubleFour(x, y, stone)) {
+        } else if (doubleThree(x, y, stone) || doubleFour(x, y, stone)) {
             return true
         }
         return false
     }
 
-    private fun isFive(
+    fun isFive(
         x: CoordsNumber,
         y: CoordsNumber,
         stone: Stone,
