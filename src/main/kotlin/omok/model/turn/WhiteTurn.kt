@@ -19,7 +19,7 @@ class WhiteTurn(board: Board) : Turn(board) {
                 is Success -> placeResult.board
             }
 
-        if (nextBoard.isFull() || FiveInRowRule.check(nextBoard)) return Finished(board)
+        if (nextBoard.isFull() || FiveInRowRule.check(nextBoard)) return Finished(nextBoard)
 
         return BlackTurn(nextBoard)
     }
