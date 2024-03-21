@@ -6,15 +6,10 @@ import omok.model.entity.Stone
 import omok.model.entity.StoneColor
 
 object ThreeByThreeRule : Rule {
-    override fun check(board: Board): Boolean {
-        val previousStone = board.previousStone() ?: throw IllegalStateException()
-        val color = previousStone.stoneColor
-        return board.stones
-            .filter { it.stoneColor == color }
-            .any {
-                checkOneStone(it, board)
-            }
-    }
+    override fun check(board: Board): Boolean =
+        board.stones.any {
+            checkOneStone(it, board)
+        }
 
     private fun checkOneStone(
         stone: Stone,
