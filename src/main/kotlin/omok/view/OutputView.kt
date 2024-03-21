@@ -36,21 +36,21 @@ class OutputView {
         val stone = board.find(Position(row, col))
         if (row == Position.MIN_INDEX) {
             when (col) {
-                Position.MIN_INDEX -> stone.printBoardSingleAxis(" ●─", " ○─", " ┌─")
-                Position.MAX_INDEX -> stone.printBoardSingleAxis("─● ", "─○ ", "─┐ ")
-                else -> stone.printBoardSingleAxis("─●─", "─○─", "─┬─")
+                Position.MIN_INDEX -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " ┌─")
+                Position.MAX_INDEX -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┐ ")
+                else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", "─┬─")
             }
         } else if (row == Position.MAX_INDEX) {
             when (col) {
-                Position.MIN_INDEX -> stone.printBoardSingleAxis(" ●─", " ○─", " └─")
-                Position.MAX_INDEX -> stone.printBoardSingleAxis("─● ", "─○ ", "─┘ ")
-                else -> stone.printBoardSingleAxis("─●─", "─○─", "─┴─")
+                Position.MIN_INDEX -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " └─")
+                Position.MAX_INDEX -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┘ ")
+                else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", "─┴─")
             }
         } else {
             when (col) {
-                Position.MIN_INDEX -> stone.printBoardSingleAxis(" ●─", " ○─", " ├─")
-                Position.MAX_INDEX -> stone.printBoardSingleAxis("─● ", "─○ ", "─┤ ")
-                else -> stone.printBoardSingleAxis("─●─", "─○─", "─┼─")
+                Position.MIN_INDEX -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " ├─")
+                Position.MAX_INDEX -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┤ ")
+                else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", "─┼─")
             }
         }
     }
@@ -65,5 +65,10 @@ class OutputView {
 
     fun printWinner(stone: Stone) {
         println("우승은 🎉${stone.output()}🎉 입니다")
+    }
+    
+    companion object {
+        private const val BLACK_STONE = "●"
+        private const val WHITE_STONE = "○"
     }
 }
