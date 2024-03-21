@@ -2,6 +2,8 @@ package omok.model.state
 
 import omok.model.GameResult
 import omok.model.Position
+import omok.model.fixture.createFourFourBoard
+import omok.model.fixture.createOverLineBoard
 import omok.model.fixture.createPlayingBoard
 import omok.model.fixture.createThreeThreeBoard
 import org.assertj.core.api.Assertions.assertThat
@@ -22,8 +24,7 @@ class BlackTest {
                 markSinglePlace = { row, col, color ->
                     board[row][col] = color
                 },
-                addSingleStone = { color, position ->
-                },
+                addSingleStone = { color, position -> Unit },
             )
 
         assertThat(result).isEqualTo(GameResult.WINNER_BLACK)
@@ -41,8 +42,41 @@ class BlackTest {
                 markSinglePlace = { row, col, color ->
                     board[row][col] = color
                 },
-                addSingleStone = { color, position ->
+                addSingleStone = { color, position -> Unit },
+            )
+        }
+    }
+
+    @Test
+    fun `44 조건일 때, 흑돌은 착수할 수 없다`() {
+        assertThrows<IllegalArgumentException> {
+            val board = createFourFourBoard()
+            val blackBoard = Black(board)
+            val position = Position.of(7, 'G')
+            // when
+            blackBoard.getWinningResult(
+                position = position,
+                markSinglePlace = { row, col, color ->
+                    board[row][col] = color
                 },
+                addSingleStone = { color, position -> Unit },
+            )
+        }
+    }
+
+    @Test
+    fun `장목 조건일 때, 흑돌은 착수할 수 없다`() {
+        assertThrows<IllegalArgumentException> {
+            val board = createOverLineBoard()
+            val blackBoard = Black(board)
+            val position = Position.of(3, 'F')
+            // when
+            blackBoard.getWinningResult(
+                position = position,
+                markSinglePlace = { row, col, color ->
+                    board[row][col] = color
+                },
+                addSingleStone = { color, position -> Unit },
             )
         }
     }
