@@ -4,7 +4,7 @@ abstract class OmokRule(
     private val currentStone: Int = BLACK_STONE,
     val opponentStone: Int = WHITE_STONE,
 ) {
-    abstract fun canPlaceStone(board: List<List<Int>>, position: Pair<Int, Int>): Boolean
+    abstract fun abide(board: List<List<Int>>, position: Pair<Int, Int>): Boolean
 
     protected val directions = listOf(Pair(1, 0), Pair(1, 1), Pair(0, 1), Pair(1, -1))
 

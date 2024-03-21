@@ -1,7 +1,7 @@
 package omok.model.rule
 
 object OverlineRule : OmokRule() {
-    override fun canPlaceStone(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
+    override fun abide(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
         directions.all { direction -> !checkOverline(board, position, direction) }
 
     private fun checkOverline(board: List<List<Int>>, position: Pair<Int, Int>, direction: Pair<Int, Int>): Boolean {

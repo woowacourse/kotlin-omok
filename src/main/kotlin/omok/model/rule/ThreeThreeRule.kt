@@ -1,7 +1,7 @@
 package omok.model.rule
 
 object ThreeThreeRule : OmokRule() {
-    override fun canPlaceStone(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
+    override fun abide(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
         countOpenThrees(board, position) < 2
 
     private fun countOpenThrees(board: List<List<Int>>, position: Pair<Int, Int>): Int =

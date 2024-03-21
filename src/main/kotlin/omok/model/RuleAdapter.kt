@@ -6,15 +6,15 @@ import omok.model.rule.ThreeThreeRule
 
 object RuleAdapter {
     fun abideDoubleFourRule(board: Board, position: Position): Boolean {
-        return FourFourRule.canPlaceStone(board.convert(), position.convert())
+        return FourFourRule.abide(board.convert(), position.convert())
     }
 
     fun abideDoubleOpenThreeRule(board: Board, position: Position): Boolean {
-        return ThreeThreeRule.canPlaceStone(board.convert(), position.convert())
+        return ThreeThreeRule.abide(board.convert(), position.convert())
     }
 
     fun abideOverLineRule(board: Board, position: Position): Boolean {
-        return OverlineRule.canPlaceStone(board.convert(), position.convert())
+        return OverlineRule.abide(board.convert(), position.convert())
     }
 
     private fun Board.convert(): List<List<Int>> {
