@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource
 class HorizontalDfsTest {
     @ParameterizedTest
     @CsvSource(
-        "BLACK,12,3,4",
+        "BLACK,13,3,4",
         "WHITE,4,2,2",
     )
     fun `수평 dfs를 할 수 있다`(

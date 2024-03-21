@@ -9,8 +9,8 @@ import org.junit.jupiter.params.provider.CsvSource
 class AscendingDfsTest {
     @ParameterizedTest
     @CsvSource(
-        "BLACK,12,3,3",
-        "WHITE,4,2,2",
+        "BLACK,13,3,3",
+        "WHITE,6,1,2",
     )
     fun `우상향대각선 dfs를 할 수 있다`(
         color: Color,
