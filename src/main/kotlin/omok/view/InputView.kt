@@ -21,9 +21,8 @@ class InputView {
 
     private fun requirePositionInput(stone: GoStone): String {
         print(TURN_MESSAGE.format(stone.stoneType.value()))
-        val lastPosition = Board.getLastStonePosition()
-        if (lastPosition != null) {
-            print(LAST_STONE_MESSAGE.format(lastPosition.convert()))
+        Board.getLastStonePosition()?.let {
+            print(LAST_STONE_MESSAGE.format(it.convert()))
         }
         lineBreak()
         print(ENTER_POSITION_MESSAGE)
