@@ -99,7 +99,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
         return cnt
     }
 
-    private fun `isLong`(
+    private fun isLong(
         x: CoordsNumber,
         y: CoordsNumber,
         stone: Stone,
