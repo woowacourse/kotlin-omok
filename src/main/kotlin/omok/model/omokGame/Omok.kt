@@ -4,7 +4,7 @@ import omok.model.board.CoordsNumber
 import omok.model.board.Stone
 import omok.view.OutputView
 
-class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EMPTY } }) {
+class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Stone.EMPTY } }) {
     private var omokGameState = OmokGameState.RUNNING
 
     fun isRunning() = omokGameState == OmokGameState.RUNNING
@@ -104,9 +104,9 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
         y: CoordsNumber,
         stone: Stone,
     ): Int {
-        for (i in 0 until 4) {
+        for (i in 0 until DIRECTION_HALF_COUNT) {
             val cnt = getStoneCount(x, y, stone, i)
-            if (cnt >= 5) return cnt
+            if (cnt >= MIN_COUNT_FOR_WIN) return cnt
         }
         return 0
     }
@@ -168,7 +168,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
             }
         }
         if (cnt == 2) {
-            if (getStoneCount(x, y, stone, direction) == 4) cnt = 1
+            if (getStoneCount(x, y, stone, direction) == DIRECTION_HALF_COUNT) cnt = 1
         } else {
             cnt = 0
         }
@@ -195,7 +195,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
         stone: Stone,
         direction: Int,
     ): Boolean {
-        return getStoneCount(x, y, stone, direction) == 5
+        return getStoneCount(x, y, stone, direction) == MIN_COUNT_FOR_WIN
     }
 
     private fun doubleThree(
@@ -205,7 +205,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
     ): Boolean {
         var cnt = 0
         setStone(x, y, stone)
-        for (i in 0 until 4) {
+        for (i in 0 until DIRECTION_HALF_COUNT) {
             if (openThree(x, y, stone, i)) cnt++
         }
         setStone(x, y, Stone.EMPTY)
@@ -222,7 +222,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
     ): Boolean {
         var cnt = 0
         setStone(x, y, stone)
-        for (i in 0 until 4) {
+        for (i in 0 until DIRECTION_HALF_COUNT) {
             if (openFour(x, y, stone, i) == 2) {
                 cnt += 2
             } else if (four(x, y, stone, i)) {
@@ -244,7 +244,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
     ): Boolean {
         if (isFive(x, y, stone)) {
             return false
-        } else if (isLong(x, y, stone) > 5) {
+        } else if (isLong(x, y, stone) > MIN_COUNT_FOR_WIN) {
             return true
         } else if (doubleThree(x, y, stone) || doubleFour(x, y, stone)) {
             return true
@@ -257,13 +257,15 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
         y: CoordsNumber,
         stone: Stone,
     ): Boolean {
-        for (i in 0 until 4) {
-            if (getStoneCount(x, y, stone, i) == 5) return true
+        for (i in 0 until DIRECTION_HALF_COUNT) {
+            if (getStoneCount(x, y, stone, i) == MIN_COUNT_FOR_WIN) return true
         }
         return false
     }
 
     companion object {
         const val BOARD_SIZE = 15
+        const val MIN_COUNT_FOR_WIN = 5
+        const val DIRECTION_HALF_COUNT = 4
     }
 }
