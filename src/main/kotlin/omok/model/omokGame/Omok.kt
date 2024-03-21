@@ -1,4 +1,4 @@
-package omok.model
+package omok.model.omokGame
 
 class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
     private var omokGameState = OmokGameState.RUNNING

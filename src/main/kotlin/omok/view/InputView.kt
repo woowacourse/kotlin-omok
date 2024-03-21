@@ -1,6 +1,6 @@
 package omok.view
 
-import omok.model.Stone
+import omok.model.board.Stone
 
 object InputView {
     private var input = ""
