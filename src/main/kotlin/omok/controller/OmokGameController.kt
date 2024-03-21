@@ -7,9 +7,15 @@ import omok.view.OutputView
 object OmokGameController {
     fun startOmokGame() {
         OutputView.printStartMessage()
-        val omok = Omok()
-        var currentStone = Stone.BLACK
+        val omok = playGame(Omok())
+        OutputView.printBoard(omok.gameBoard)
+    }
 
+    private fun playGame(
+        omok: Omok,
+        startStone: Stone = Stone.BLACK,
+    ): Omok {
+        var currentStone = startStone
         while (omok.isRunning()) {
             val forbiddenPositions = omok.checkBoard(currentStone.value)
             OutputView.printBoard(omok.gameBoard, forbiddenPositions)
@@ -19,19 +25,48 @@ object OmokGameController {
 
             val columnNumber = BoardColumn.fromLetter(columnLetter)!!.column.minus(1)
 
-            if (omok.isNotEmpty(rowNumber, columnNumber)) {
-                OutputView.printOccupiedPositionMessage()
-                continue
-            }
-            if (omok.isForbidden(rowNumber, columnNumber, forbiddenPositions)) {
-                OutputView.printForbiddenMoveMessage()
-                continue
-            }
+            if (canSetStone(omok, rowNumber, columnNumber, forbiddenPositions)) continue
+
             omok.setStone(rowNumber, columnNumber, currentStone.value)
             currentStone = togglePlayer(currentStone)
         }
+        return omok
+    }
 
-        OutputView.printBoard(omok.gameBoard)
+    private fun canSetStone(
+        omok: Omok,
+        rowNumber: Int,
+        columnNumber: Int,
+        forbiddenPositions: List<Pair<Int, Int>>,
+    ): Boolean {
+        if (checkEmpty(omok, rowNumber, columnNumber)) return true
+        if (checkForbidden(omok, rowNumber, columnNumber, forbiddenPositions)) return true
+        return false
+    }
+
+    private fun checkForbidden(
+        omok: Omok,
+        rowNumber: Int,
+        columnNumber: Int,
+        forbiddenPositions: List<Pair<Int, Int>>,
+    ): Boolean {
+        if (omok.isForbidden(rowNumber, columnNumber, forbiddenPositions)) {
+            OutputView.printForbiddenMoveMessage()
+            return true
+        }
+        return false
+    }
+
+    private fun checkEmpty(
+        omok: Omok,
+        rowNumber: Int,
+        columnNumber: Int,
+    ): Boolean {
+        if (omok.isNotEmpty(rowNumber, columnNumber)) {
+            OutputView.printOccupiedPositionMessage()
+            return true
+        }
+        return false
     }
 
     private fun isWrongCoords(
