@@ -4,15 +4,19 @@ class Board {
     val board: List<List<StoneType>>
         get() = _board.toList()
     private val _board: MutableList<MutableList<StoneType>> =
-        MutableList(15) {
-            MutableList(15) { StoneType.EMPTY }
+        MutableList(BOARD_SIZE) {
+            MutableList(BOARD_SIZE) { StoneType.EMPTY }
         }
 
     fun putStone(stone: Stone) {
-        _board[stone.point.column][stone.point.row] = stone.type
+        _board[stone.point.y][stone.point.x] = stone.type
     }
 
     operator fun contains(point: Point): Boolean {
-        return board[point.column][point.row] != StoneType.EMPTY
+        return board[point.y][point.x] != StoneType.EMPTY
+    }
+
+    companion object {
+        private const val BOARD_SIZE = 15
     }
 }

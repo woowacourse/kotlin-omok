@@ -2,57 +2,61 @@ package omok.model
 
 interface Rule {
     fun isWinCondition(
-        board: List<List<StoneType?>>,
+        board: List<List<StoneType>>,
         stone: Stone,
     ): Boolean {
-        val column = stone.point.column
-        val row = stone.point.row
-        val stoneType = stone.type
-
-        return (
-            checkDirection(board, column, row, stoneType, 1, 0) ||
-                checkDirection(board, column, row, stoneType, 0, 1) ||
-                checkDirection(board, column, row, stoneType, 1, 1) ||
-                checkDirection(board, column, row, stoneType, 1, -1)
-        )
+        return Direction.entries.any { direction ->
+            checkCount(checkDirection(board, stone.point.y, stone.point.x, stone.type, direction.dx, direction.dy))
+        }
     }
 
-    private fun checkDirection(
-        board: List<List<StoneType?>>,
-        column: Int,
-        row: Int,
+    fun checkDirection(
+        board: List<List<StoneType>>,
+        y: Int,
+        x: Int,
         stoneType: StoneType,
-        directionColumn: Int,
-        directionRow: Int,
-    ): Boolean {
-        var maxCount = 0
-        var count = 0
+        dy: Int,
+        dx: Int,
+    ): Int {
+        var maxCount = DEFAULT_COUNT
+        var count = DEFAULT_COUNT
         for (i in -4..4) {
-            val targetColumn = column + i * directionColumn
-            val targetRow = row + i * directionRow
-            if (targetColumn !in 0 until BOARD_SIZE || targetRow !in 0 until BOARD_SIZE) continue
-            if (board[targetColumn][targetRow] == stoneType) {
-                count++
-                if (count > maxCount) maxCount = count
-            } else {
-                count = 0
+            val targetY = y + i * dy
+            val targetX = x + i * dx
+            if (targetY !in 0 until BOARD_SIZE || targetX !in 0 until BOARD_SIZE) continue
+
+            when (board[targetY][targetX]) {
+                stoneType -> {
+                    count++
+                    maxCount = maxOf(maxCount, count)
+                }
+                StoneType.EMPTY -> continue
+                else -> count = DEFAULT_COUNT
             }
         }
-        if (checkCount(maxCount)) return true
-        return false
+        return maxCount
     }
 
     fun checkCount(count: Int): Boolean
 
     companion object {
+        const val DEFAULT_COUNT = 0
+        const val WINNING_COUNT = 5
         const val BOARD_SIZE = 15
     }
 }
 
 object BlackRule : Rule {
-    override fun checkCount(count: Int): Boolean = count == 5
+    override fun checkCount(count: Int): Boolean = count == Rule.WINNING_COUNT
+
+    fun isForbidden(
+        board: List<List<StoneType>>,
+        stone: Stone,
+    ): Boolean {
+        return RenjuRule.isForbidden(board, stone)
+    }
 }
 
 object WhiteRule : Rule {
-    override fun checkCount(count: Int): Boolean = count >= 5
+    override fun checkCount(count: Int): Boolean = count >= Rule.WINNING_COUNT
 }

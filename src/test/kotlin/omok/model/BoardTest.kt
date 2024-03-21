@@ -18,6 +18,6 @@ class BoardTest {
 
         board.putStone(stone)
 
-        assertThat(board.board[3][8] == StoneType.BLACK).isTrue
+        assertThat(board.board[8][3] == StoneType.BLACK).isTrue
     }
 }
