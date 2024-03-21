@@ -1,6 +1,6 @@
 package omok.model.rule
 
-import omok.model.Board
+import omok.model.board.Board
 
 object ThreeThreeChecker : OmokRule(Board.board) {
     fun checkThreeThree(

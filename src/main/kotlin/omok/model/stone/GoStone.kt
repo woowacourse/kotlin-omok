@@ -1,5 +1,7 @@
-package omok.model
+package omok.model.stone
 
+import omok.model.board.Board
+import omok.model.position.Position
 import omok.model.rule.OmokChecker
 import omok.model.rule.OmokRule
 

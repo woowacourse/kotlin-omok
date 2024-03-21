@@ -1,5 +1,12 @@
 package omok.model
 
+import omok.model.board.Board
+import omok.model.position.Position
+import omok.model.stone.BlackStone
+import omok.model.stone.GoStone
+import omok.model.stone.Stone
+import omok.model.stone.WhiteStone
+
 class OmokGame(private val blackStone: BlackStone, private val whiteStone: WhiteStone) {
     fun start(
         readPosition: (GoStone) -> Position,

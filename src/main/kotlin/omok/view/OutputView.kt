@@ -1,8 +1,8 @@
 package omok.view
 
-import omok.model.Board
-import omok.model.GoStone
-import omok.model.Stone
+import omok.model.board.Board
+import omok.model.stone.GoStone
+import omok.model.stone.Stone
 
 class OutputView {
     fun printStartGameComment() = println(START_GAME_MESSAGE)

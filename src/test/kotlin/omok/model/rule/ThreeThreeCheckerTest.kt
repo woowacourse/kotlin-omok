@@ -1,13 +1,15 @@
-package omok.model
+package omok.model.rule
 
-import omok.model.rule.ExceedFiveChecker
-import omok.model.rule.FourFourChecker
-import omok.model.rule.ThreeThreeChecker
+import omok.model.board.Board
+import omok.model.position.Position
+import omok.model.stone.BlackStone
+import omok.model.stone.Stone
+import omok.model.stone.WhiteStone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class OmokRuleTest {
+class ThreeThreeCheckerTest {
     @BeforeEach
     fun setUp() {
         repeat(Board.BOARD_SIZE) { row ->

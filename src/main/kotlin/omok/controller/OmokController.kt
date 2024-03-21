@@ -1,9 +1,9 @@
 package omok.controller
 
-import omok.model.BlackStone
-import omok.model.Board
 import omok.model.OmokGame
-import omok.model.WhiteStone
+import omok.model.board.Board
+import omok.model.stone.BlackStone
+import omok.model.stone.WhiteStone
 import omok.view.InputView
 import omok.view.OutputView
 

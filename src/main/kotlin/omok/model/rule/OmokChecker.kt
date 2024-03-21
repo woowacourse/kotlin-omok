@@ -1,9 +1,9 @@
 package omok.model.rule
 
-import omok.model.Board
-import omok.model.DeltaPosition
-import omok.model.Position
-import omok.model.Stone
+import omok.model.board.Board
+import omok.model.position.DeltaPosition
+import omok.model.position.Position
+import omok.model.stone.Stone
 
 object OmokChecker {
     private const val DEFAULT_STONE_COUNT = 1

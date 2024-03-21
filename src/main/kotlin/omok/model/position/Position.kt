@@ -1,4 +1,4 @@
-package omok.model
+package omok.model.position
 
 data class Position(val row: Int, val col: Int) {
     init {

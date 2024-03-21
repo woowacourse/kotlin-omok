@@ -1,6 +1,6 @@
 package omok.model.rule
 
-import omok.model.Board
+import omok.model.board.Board
 
 object ExceedFiveChecker : OmokRule(Board.board) {
     fun checkMoreThanFive(

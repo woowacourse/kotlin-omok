@@ -1,4 +1,7 @@
-package omok.model
+package omok.model.board
+
+import omok.model.position.Position
+import omok.model.stone.Stone
 
 object Board {
     const val BOARD_SIZE = 15
@@ -7,7 +10,7 @@ object Board {
     lateinit var lastPosition: Position
 
     fun getLastStonePosition(): Position? {
-        if (::lastPosition.isInitialized) return lastPosition
+        if (Board::lastPosition.isInitialized) return lastPosition
         return null
     }
 }

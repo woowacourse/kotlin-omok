@@ -1,15 +1,17 @@
-package omok.model
+package omok.model.rule
 
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
+import omok.model.board.Board
+import omok.model.position.Position
+import omok.model.stone.BlackStone
+import omok.model.stone.Stone
+import omok.model.stone.WhiteStone
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
-class BlackStoneTest {
+class OmokCheckerTest {
     @BeforeEach
     fun setUp() {
         repeat(Board.BOARD_SIZE) { row ->
@@ -17,22 +19,6 @@ class BlackStoneTest {
                 Board.board[row][col] = Stone.NONE
             }
         }
-    }
-
-    @Test
-    fun `이미 돌이 놓인 자리에 돌을 놓을 경우 예외가 발생한다`() {
-        val stone = BlackStone()
-        val position = Position(0, 0)
-        stone.putStone(position)
-        assertThatThrownBy { stone.putStone(position) }.isExactlyInstanceOf(IllegalArgumentException::class.java)
-            .hasMessage("이미 놓여진 자리입니다.\n")
-    }
-
-    @Test
-    fun `유효한 자리에 돌을 놓을 경우 예외가 발생하지 않는다`() {
-        val stone = BlackStone()
-        val position = Position(1, 2)
-        assertDoesNotThrow { stone.putStone(position) }
     }
 
     @MethodSource("오목 여부 판단 테스트 데이터 - 성공")
@@ -47,11 +33,11 @@ class BlackStoneTest {
 
         val lastPosition = Position(4, 4)
         // when
-        val actual = blackStone.findOmok(lastPosition)
+        val actual = OmokChecker.findOmok(lastPosition, Stone.BLACK_STONE)
         val expected = true
 
         // then
-        assertThat(actual).isEqualTo(expected)
+        Assertions.assertThat(actual).isEqualTo(expected)
     }
 
     @MethodSource("오목 여부 판단 테스트 데이터 - 실패")
@@ -68,11 +54,11 @@ class BlackStoneTest {
 
         val lastPosition = Position(11, 11)
         // when
-        val actual = blackStone.findOmok(lastPosition)
+        val actual = OmokChecker.findOmok(lastPosition, Stone.BLACK_STONE)
         val expected = false
 
         // then
-        assertThat(actual).isEqualTo(expected)
+        Assertions.assertThat(actual).isEqualTo(expected)
     }
 
     companion object {

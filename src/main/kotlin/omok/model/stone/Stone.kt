@@ -1,4 +1,4 @@
-package omok.model
+package omok.model.stone
 
 enum class Stone {
     BLACK_STONE,

@@ -1,5 +1,8 @@
-package omok.model
+package omok.model.board
 
+import omok.model.position.Position
+import omok.model.stone.BlackStone
+import omok.model.stone.Stone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

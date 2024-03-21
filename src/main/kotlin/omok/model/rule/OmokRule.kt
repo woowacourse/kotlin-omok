@@ -1,7 +1,7 @@
 package omok.model.rule
 
-import omok.model.Board
-import omok.model.Stone
+import omok.model.board.Board
+import omok.model.stone.Stone
 
 open class OmokRule(private val board: Array<Array<Stone>>) {
     val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
