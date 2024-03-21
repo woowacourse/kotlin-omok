@@ -5,12 +5,14 @@ import omok.model.ForbiddenPlace
 import omok.model.Player
 import omok.model.Position
 import omok.model.Stone
+import omok.model.WinningCondition
 import omok.view.InputView
 import omok.view.OutputView
 
 class OmokController(
     private val inputView: InputView,
     private val outputView: OutputView,
+    private val winningCondition: WinningCondition,
     blackStoneForbiddenPlaces: List<ForbiddenPlace>,
     whiteStoneForbiddenPlaces: List<ForbiddenPlace>,
 ) {
@@ -34,7 +36,7 @@ class OmokController(
         while (true) {
             recentPosition = recentPosition.next(board, recentPlayer)
             outputView.printBoard(board)
-            if (board.isWin(recentPosition)) break
+            if (winningCondition.isWin(board, recentPosition)) break
             recentPlayer = recentPlayer.next()
         }
         return recentPlayer

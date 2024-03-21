@@ -18,32 +18,6 @@ class Board(private val _board: MutableMap<Position, Stone> = initBoard()) {
 
     fun find(position: Position): Stone = _board[position] ?: throw IllegalArgumentException("올바르지 않은 위치입니다.")
 
-    fun isWin(position: Position): Boolean {
-        Direction.biDirections().forEach { (direction1, direction2) ->
-            var count = 1
-            count += continualCount(position, direction1)
-            count += continualCount(position, direction2)
-
-            if (count == 5) return true
-        }
-        return false
-    }
-
-    private fun continualCount(
-        position: Position,
-        direction: Direction,
-    ): Int {
-        val myStone = find(position)
-        var count = 0
-        var nowPos = position
-
-        while (true) {
-            nowPos = nowPos.move(direction) ?: return count
-            if (find(nowPos) != myStone) return count
-            count++
-        }
-    }
-
     companion object {
         private fun initBoard() =
             INDEX_RANGE.flatMap { row ->
