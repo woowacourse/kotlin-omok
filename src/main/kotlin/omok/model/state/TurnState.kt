@@ -17,15 +17,6 @@ abstract class TurnState(
         addSingleStone: (Color, Position) -> Unit,
     ): GameResult?
 
-    protected abstract fun addStone(
-        row: Int,
-        col: Char,
-        color: Color,
-        position: Position,
-        markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
-        addSingleStone: (Color, Position) -> Unit,
-    )
-
     protected fun isCurrentStoneWinner(
         position: Position,
         color: Color,
@@ -33,9 +24,16 @@ abstract class TurnState(
         addSingleStone: (Color, Position) -> Unit,
     ): Boolean {
         val row = ARRAY_SIZE - position.row.value
-        addStone(row, position.col.title, color, position, markSinglePlace, addSingleStone)
+        addStone(color, position, markSinglePlace, addSingleStone)
         return calculateSearchResult(row, position.col.value, color)
     }
+
+    protected abstract fun addStone(
+        color: Color,
+        position: Position,
+        markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
+        addSingleStone: (Color, Position) -> Unit,
+    )
 
     private fun calculateSearchResult(
         row: Int,
@@ -46,19 +44,10 @@ abstract class TurnState(
         val horizontalCount = HorizontalDfs(status).apply { search(color, row, col) }.count
         val ascendingCount = AscendingDfs(status).apply { search(color, row, col) }.count
         val descendingCount = DescendingDfs(status).apply { search(color, row, col) }.count
-        println(
-            """
-            color : $color
-            verticalCount : $verticalCount
-            horizontalCount : $horizontalCount
-            ascendingCount : $ascendingCount
-            descendingCount : $descendingCount
-            """.trimIndent(),
-        )
         return listOf(verticalCount, horizontalCount, ascendingCount, descendingCount).any { it >= 5 }
     }
 
     companion object {
-        private const val ARRAY_SIZE = 16
+        const val ARRAY_SIZE = 16
     }
 }

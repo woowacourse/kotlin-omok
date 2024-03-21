@@ -18,14 +18,13 @@ class White(whiteStatus: Array<Array<Color?>>) : TurnState(whiteStatus) {
     }
 
     override fun addStone(
-        row: Int,
-        col: Char,
         color: Color,
         position: Position,
         markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
         addSingleStone: (Color, Position) -> Unit,
     ) {
-        val column = Column.valueOf(col)?.value ?: return
+        val row = ARRAY_SIZE - position.row.value
+        val column = Column.valueOf(position.col.title)?.value ?: return
         markSinglePlace(row, column, Color.WHITE)
         addSingleStone(Color.WHITE, position)
     }

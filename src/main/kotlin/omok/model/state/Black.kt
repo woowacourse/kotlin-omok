@@ -23,26 +23,31 @@ class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStat
     }
 
     override fun addStone(
-        row: Int,
-        col: Char,
         color: Color,
         position: Position,
         markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
         addSingleStone: (Color, Position) -> Unit,
     ) {
         val arkBoard = blackStatus.toArkOmokBoard()
-        val arkPoint = Position.of(row, col).toArkOmokPoint()
-        val isNotFourFour = ArkFourFourRule.validate(arkBoard, arkPoint).not()
-        val isNotThreeThree = ArkThreeThreeRule.validate(arkBoard, arkPoint).not()
-        val isNotJangMok = ArkOverLineRule.validate(arkBoard, arkPoint).not()
-        val isPlacementAvailable = isNotFourFour && isNotThreeThree && isNotJangMok
-        if (isPlacementAvailable) {
-            val column = Column.valueOf(col)?.value ?: return
+        val row = ARRAY_SIZE - position.row.value
+        val arkPoint = Position.of(row, position.col.title).toArkOmokPoint()
+        if (placementAvailable(arkBoard, arkPoint)) {
+            val column = Column.valueOf(position.col.title)?.value ?: return
             markSinglePlace(row, column, Color.BLACK)
             addSingleStone(Color.BLACK, position)
         } else {
             throw IllegalArgumentException(EXCEPTION_FORBIDDEN_PLACEMENT)
         }
+    }
+
+    private fun placementAvailable(
+        arkBoard: List<List<Int>>,
+        arkPoint: Pair<Int, Int>,
+    ): Boolean {
+        val isNotFourFour = ArkFourFourRule.validate(arkBoard, arkPoint).not()
+        val isNotThreeThree = ArkThreeThreeRule.validate(arkBoard, arkPoint).not()
+        val isNotOverLine = ArkOverLineRule.validate(arkBoard, arkPoint).not()
+        return isNotFourFour && isNotThreeThree && isNotOverLine
     }
 
     companion object {
