@@ -1,6 +1,6 @@
 package omok.model
 
-enum class OmokState {
+enum class OmokGameState {
     RUNNING,
     STOP,
 }

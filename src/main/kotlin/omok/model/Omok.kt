@@ -1,30 +1,23 @@
 package omok.model
 
-class Board(private val board: Array<Array<Int>>) {
-    private var omokState = OmokState.RUNNING
+class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
+    private var omokGameState = OmokGameState.RUNNING
 
-    fun isRunning() = omokState == OmokState.RUNNING
-
-    fun isInvalid(
-        x: Int,
-        y: Int,
-    ): Boolean {
-        return x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE
-    }
+    fun isRunning() = omokGameState == OmokGameState.RUNNING
 
     fun setStone(
         x: Int,
         y: Int,
         stone: Int,
     ) {
-        board[y][x] = stone
+        gameBoard[y][x] = stone
     }
 
     fun checkBoard(stone: Int): List<Pair<Int, Int>> {
         val coords = mutableListOf<Pair<Int, Int>>()
-        for (y in board.indices) {
-            for (x in board[y].indices) {
-                if (board[y][x] != EMPTY) {
+        for (y in gameBoard.indices) {
+            for (x in gameBoard[y].indices) {
+                if (gameBoard[y][x] != EMPTY) {
                     continue
                 }
                 if (forbiddenPoint(x, y, stone)) {
@@ -35,12 +28,20 @@ class Board(private val board: Array<Array<Int>>) {
         return coords
     }
 
+    private fun isInvalid(
+        x: Int,
+        y: Int,
+    ): Boolean {
+        return x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE
+    }
+
     private fun getXY(direction: Int): Pair<Int, Int> {
         val listDx = listOf(-1, 1, -1, 1, 0, 0, 1, -1)
         val listDy = listOf(0, 0, -1, 1, -1, 1, -1, 1)
         return Pair(listDx[direction], listDy[direction])
     }
 
+    @Suppress("NAME_SHADOWING")
     private fun getStoneCount(
         x: Int,
         y: Int,
@@ -48,14 +49,14 @@ class Board(private val board: Array<Array<Int>>) {
         direction: Int,
     ): Int {
         var cnt = 1
-        var (x1, y1) = x to y
+        val (x1, y1) = x to y
         for (i in 0..1) {
             val (dx, dy) = getXY(direction * 2 + i)
             var (x, y) = x1 to y1
             while (true) {
                 x += dx
                 y += dy
-                if (isInvalid(x, y) || board[y][x] != stone) {
+                if (isInvalid(x, y) || gameBoard[y][x] != stone) {
                     break
                 } else {
                     cnt++
@@ -88,9 +89,9 @@ class Board(private val board: Array<Array<Int>>) {
         while (true) {
             x += dx
             y += dy
-            if (isInvalid(x, y) || board[y][x] != stone) break
+            if (isInvalid(x, y) || gameBoard[y][x] != stone) break
         }
-        if (!isInvalid(x, y) && board[y][x] == EMPTY) {
+        if (!isInvalid(x, y) && gameBoard[y][x] == EMPTY) {
             return x to y
         } else {
             return null
@@ -211,7 +212,7 @@ class Board(private val board: Array<Array<Int>>) {
         stone: Int,
     ): Boolean {
         if (isFive(x, y, stone)) {
-            omokState = OmokState.STOP
+            omokGameState = OmokGameState.STOP
             return false
         }
         if (isLong(x, y, stone) > 5) {

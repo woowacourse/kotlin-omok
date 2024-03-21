@@ -13,8 +13,4 @@ object InputView {
         )
         return readln()
     }
-
-    fun printWorngPosition() {
-        println("Invalid move or position occupied. Try again.")
-    }
 }

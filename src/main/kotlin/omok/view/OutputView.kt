@@ -4,14 +4,22 @@ private const val COLUMN_STRING = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  
 
 private const val X = "X"
 
-object OutputVIew {
+object OutputView {
     fun printStartMessage() {
         println("오목 게임을 시작합니다.")
     }
 
+    fun printForbiddenMoveMessage() {
+        println("놓을 수 없는 자리입니다.")
+    }
+
+    fun printOccupiedPositionMessage() {
+        println("빈 자리에 놓아주세요.")
+    }
+
     fun printBoard(
         board: Array<Array<Int>>,
-        forbiddenPositions: List<Pair<Int, Int>>,
+        forbiddenPositions: List<Pair<Int, Int>> = emptyList(),
     ) {
         val boardForDisplay = initializeBoard()
         for (row in 0 until 15) {
