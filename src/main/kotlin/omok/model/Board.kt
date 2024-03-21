@@ -14,6 +14,16 @@ class Board {
         return newBoard
     }
 
+    fun removeBlock() {
+        layout.forEach { row ->
+            row.forEachIndexed { index, stoneType ->
+                if (stoneType == StoneType.BLOCK) {
+                    row[index] = StoneType.EMPTY
+                }
+            }
+        }
+    }
+
     fun placeStone(
         position: Position,
         stoneType: StoneType,
@@ -22,7 +32,7 @@ class Board {
             layout[position.coordinate.x][position.coordinate.y] = stoneType
             lastPosition = position
         } else {
-            throw IllegalArgumentException(ERROR_DUPLICATED_STONE)
+            throw IllegalArgumentException(ERROR_INVALID_POSITION)
         }
     }
 
@@ -55,7 +65,7 @@ class Board {
 
     companion object {
         const val BOARD_SIZE = 15
-        private const val ERROR_DUPLICATED_STONE = "이미 돌이 놓인 자리입니다."
+        private const val ERROR_INVALID_POSITION = "돌을 놓을 수 없는 자리입니다."
         private const val ERROR_BLOCK_STONE = "BLOCK 생성을 실패했습니다."
     }
 }

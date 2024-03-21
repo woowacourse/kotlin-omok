@@ -17,9 +17,7 @@ class GameManager {
                 println(it.message)
             }
         }
-    }
-
-    fun showGameStart(onStart: (Board) -> Unit) {
-        onStart(gameState.board)
+        onTurn(gameState)
+        onShow(gameState.board)
     }
 }
