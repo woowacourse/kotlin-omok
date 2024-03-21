@@ -23,7 +23,6 @@ class FourFourTest {
     @Test
     fun `가로 세로 줄 사이 빈 곳이 없는 44이고 끝이 다른색 돌로 막혀 있을 때`() {
         val board = Board()
-        board.place(4, 3, StoneColor.WHITE)
         board.place(4, 3, StoneColor.BLACK)
         board.place(5, 3, StoneColor.BLACK)
         board.place(6, 3, StoneColor.BLACK)
