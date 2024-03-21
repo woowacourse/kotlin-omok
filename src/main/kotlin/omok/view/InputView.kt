@@ -14,10 +14,15 @@ class InputView {
         }
         lineBreak()
         print("위치를 입력하세요: ")
+
         val input = readln()
         val row = input[0]
-        val col = input.substring(1).toInt()
-        return Position.of(row, col)
+        val col = input.substring(1).toIntOrNull()
+
+        if (col != null) return Position.of(row, col)
+        println("y 축은 숫자만 입력 가능합니다.")
+        lineBreak()
+        return readPosition(stone)
     }
 
     private fun lineBreak() = println()
