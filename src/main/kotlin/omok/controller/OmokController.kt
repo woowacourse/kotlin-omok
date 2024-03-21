@@ -25,9 +25,30 @@ class OmokController {
     ): Boolean {
         OutputView.printTurnName(player.color)
         OutputView.printLastStone(board.stones.getLastStoneCoordinate())
-        val coordinate = InputView.inputStoneCoordinate()
-        player.playTurn(board, coordinate)
+        retryPlayTurnUntilSuccess(player, board)
         OutputView.printBoard(board.stones)
         return player.isWin
+    }
+
+    private fun retryPlayTurnUntilSuccess(
+        player: Player,
+        board: Board,
+    ) {
+        while (true) {
+            val result = playTurn(player, board)
+            if (result.isSuccess) {
+                break
+            } else {
+                result.onFailure { e -> println(e.message) }
+            }
+        }
+    }
+
+    private fun playTurn(
+        player: Player,
+        board: Board,
+    ) = runCatching {
+        val coordinate = InputView.inputStoneCoordinate()
+        player.playTurn(board, coordinate)
     }
 }
