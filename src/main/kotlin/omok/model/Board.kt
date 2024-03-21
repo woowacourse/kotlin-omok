@@ -13,7 +13,7 @@ class Board(val stones: Map<Position, OmokStone>) {
 
     fun isInRange(stone: OmokStone): Boolean {
         val position = stone.position
-        return (position.x in RANGE) || (position.y in RANGE)
+        return (position.x in RANGE) && (position.y in RANGE)
     }
 
     operator fun get(position: Position): OmokStone? = stones[position]

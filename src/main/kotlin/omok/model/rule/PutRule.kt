@@ -20,12 +20,14 @@ object BlackPutRule : PutRule {
         stone: OmokStone,
         board: Board,
     ): Boolean {
+        if (WhiteCanPutRule.canPut(stone, board).not()) return false
+        println(stone)
         val arkBoard = board.toArkOmokBoard()
         val arkPoint = stone.position.toArkOmokPoint()
         val isNotFourFour = ArkFourFourRule.validate(arkBoard, arkPoint).not()
         val isNotThreeThree = ArkThreeThreeRule.validate(arkBoard, arkPoint).not()
         val isNotJangMok = ArkOverLineRule.validate(arkBoard, arkPoint)
-        return isNotFourFour && isNotThreeThree && isNotJangMok && WhiteCanPutRule.canPut(stone, board)
+        return isNotFourFour && isNotThreeThree && isNotJangMok
     }
 }
 
