@@ -15,7 +15,7 @@ data class Position(val row: Int, val col: Int) {
             col: Int,
         ): String {
             val rowValue = 'A' + row
-            return "유효하지 않은 위치입니다. 현재 입력 값: $rowValue${col + 1}"
+            return "유효하지 않은 위치입니다. 현재 입력 값: $rowValue${col + 1}\n"
         }
 
         fun of(
