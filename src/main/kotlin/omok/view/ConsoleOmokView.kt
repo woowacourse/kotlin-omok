@@ -58,7 +58,7 @@ object ConsoleOmokView : OmokView {
             return println("승자가 나오지 않았습니다!")
         }
         val color = getColor(stone)
-        println("축하합니다! %s가 이겼습니다.".format(color))
+        println("축하합니다! %s이(가) 이겼습니다.".format(color))
     }
 
     override fun readPosition(): Position {
