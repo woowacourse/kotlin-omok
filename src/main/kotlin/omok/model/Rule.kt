@@ -1,11 +1,23 @@
 package omok.model
 
 interface Rule {
-    fun checkThreeThree(stone: Stone): Boolean
+    fun isInValid(
+        stones: Stones,
+        lastPlacedStone: Stone,
+    ): Boolean
 
-    fun checkFourFour(stone: Stone): Boolean
+    fun isThreeThree(
+        board: List<List<Int>>,
+        stone: Stone,
+    ): Boolean
 
-    fun checkMoreThanFive(stone: Stone): Boolean
+    fun isFourFour(
+        board: List<List<Int>>,
+        stone: Stone,
+    ): Boolean
 
-    fun generateCustomBoard(stones: Stones): List<List<Int>>
+    fun isMoreThanFive(
+        board: List<List<Int>>,
+        stone: Stone,
+    ): Boolean
 }
