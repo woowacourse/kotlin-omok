@@ -3,8 +3,10 @@ package omok.model.state
 import omok.model.Board
 import omok.model.OmokStone
 import omok.model.Position
-import omok.model.PutRule
 import omok.model.StoneColor
+import omok.model.rule.BlackPutRule
+import omok.model.rule.PutRule
+import omok.model.rule.WhiteCanPutRule
 
 
 sealed class GameState(protected var board: Board) {
@@ -15,7 +17,7 @@ sealed class GameState(protected var board: Board) {
         abstract fun put(position: Position): GameState
 
         override fun canPut(stone: OmokStone): Boolean {
-            return putRule.canPut(stone = stone, board)
+            return putRule.canPut(stone, board)
         }
 
         fun isFinished(position: Position) = board.isInOmok(position)
@@ -24,8 +26,7 @@ sealed class GameState(protected var board: Board) {
             override fun put(position: Position): GameState {
                 val newStones = board + OmokStone(position, StoneColor.BLACK)
                 if (newStones.isInOmok(position)) return Finish(board)
-//                return WhiteTurn(newStones)
-                error("")
+                return WhiteTurn(WhiteCanPutRule, newStones)
             }
         }
 
@@ -33,8 +34,7 @@ sealed class GameState(protected var board: Board) {
             override fun put(position: Position): GameState {
                 val newStones = board + OmokStone(position, StoneColor.WHITE)
                 if (newStones.isInOmok(position)) return Finish(board)
-//                return BlackTurn(newStones)
-                error("")
+                return BlackTurn(BlackPutRule, newStones)
             }
         }
     }

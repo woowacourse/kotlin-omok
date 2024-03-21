@@ -4,6 +4,7 @@ import io.kotest.matchers.booleans.shouldBeFalse
 import omok.fixtures.createBlackBoard
 import omok.fixtures.createBlackStone
 import omok.fixtures.createPoint
+import omok.model.rule.BlackPutRule
 import org.junit.jupiter.api.Test
 
 class BlackPutRuleTest {
