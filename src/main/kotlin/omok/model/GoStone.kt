@@ -1,5 +1,7 @@
 package omok.model
 
+import omok.model.rule.OmokChecker
+
 abstract class GoStone {
     abstract val stoneType: Stone
 
@@ -18,6 +20,6 @@ abstract class GoStone {
     fun findOmok(position: Position): Boolean {
         if (Board.board[position.col][position.row] != stoneType) return false
 
-        return Board.findOmok(position, stoneType)
+        return OmokChecker.findOmok(position, stoneType)
     }
 }
