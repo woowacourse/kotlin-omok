@@ -14,7 +14,6 @@ class OmokController(val inputView: InputView, val outputView: OutputView) {
             outputView.showCurrentBoard(board.status)
             val position = getInputPosition()
             val result = board.place(Position.of(position.first, position.second))
-            println(result)
             result?.let {
                 outputView.showGameResult(it)
                 return

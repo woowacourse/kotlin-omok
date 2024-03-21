@@ -11,6 +11,7 @@ class OutputView {
     }
 
     fun showCurrentBoard(board: Array<Array<Color?>>) {
+        println()
         for (i in 1..<board.size) {
             print(ROW_INDICATOR.format(BOARD_SIZE - i))
             showSingleRow(board, i)
