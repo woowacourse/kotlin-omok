@@ -15,11 +15,7 @@ abstract class GoStone {
         return if (stoneType == Stone.BLACK_STONE) Stone.WHITE_STONE else Stone.BLACK_STONE
     }
 
-    fun findOmok(position: Position): Boolean {
-        if (Board.board[position.col][position.row] != stoneType) return false
-
-        return OmokChecker.findOmok(position, stoneType)
-    }
+    fun findOmok(position: Position): Boolean = OmokChecker.findOmok(position, stoneType)
 
     private fun validatePosition(position: Position) {
         require(!OmokRule(Board.board).checkRenjuRule(position.row, position.col)) { EXCEPTION_FORBIDDEN_MOVE }
