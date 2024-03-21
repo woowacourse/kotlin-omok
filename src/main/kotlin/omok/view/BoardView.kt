@@ -6,6 +6,7 @@ import omok.model.StoneType
 object BoardView {
     private const val BLACK_STONE = '●'
     private const val WHITE_STONE = '○'
+    private const val BLOCK = 'X'
 
     private var initialBoardLayout =
         """
@@ -55,6 +56,7 @@ object BoardView {
         return when (stoneType) {
             StoneType.BLACK_STONE -> BLACK_STONE
             StoneType.WHITE_STONE -> WHITE_STONE
+            StoneType.BLOCK -> BLOCK
             StoneType.EMPTY -> null
         }
     }
