@@ -17,7 +17,7 @@ abstract class TurnState(
         addSingleStone: (Color, Position) -> Unit,
     ): GameResult?
 
-    protected fun isCurrentStoneWinner(
+    protected fun isCurrentTurnWin(
         position: Position,
         color: Color,
         markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,

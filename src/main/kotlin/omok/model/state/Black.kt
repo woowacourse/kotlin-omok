@@ -16,7 +16,7 @@ class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStat
         markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
         addSingleStone: (Color, Position) -> Unit,
     ): GameResult? {
-        if (isCurrentStoneWinner(position, Color.BLACK, markSinglePlace, addSingleStone)) {
+        if (isCurrentTurnWin(position, Color.BLACK, markSinglePlace, addSingleStone)) {
             return GameResult.WINNER_BLACK
         }
         return null

@@ -11,7 +11,7 @@ class White(whiteStatus: Array<Array<Color?>>) : TurnState(whiteStatus) {
         markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
         addSingleStone: (Color, Position) -> Unit,
     ): GameResult? {
-        if (isCurrentStoneWinner(position, Color.WHITE, markSinglePlace, addSingleStone)) {
+        if (isCurrentTurnWin(position, Color.WHITE, markSinglePlace, addSingleStone)) {
             return GameResult.WINNER_WHITE
         }
         return null
