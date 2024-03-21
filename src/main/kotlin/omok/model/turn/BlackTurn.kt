@@ -21,7 +21,7 @@ class BlackTurn(board: Board) : Turn(board) {
 
         val nextBoard =
             when (val placeResult = board.place(stone)) {
-                is StoneOutOfBoard, is StoneAlreadyExists -> return BlackTurn(board)
+                is StoneOutOfBoard, is StoneAlreadyExists -> return this
                 is Success -> placeResult.board
             }
 
@@ -30,7 +30,7 @@ class BlackTurn(board: Board) : Turn(board) {
                 it.check(nextBoard)
             }
         if (isViolated) {
-            return BlackTurn(board)
+            return this
         }
 
         if (nextBoard.isFull() || FiveInRowRule.check(nextBoard)) return Finished(nextBoard)
