@@ -24,7 +24,7 @@ class Board(private val _board: MutableMap<Position, Stone> = initBoard()) {
             count += continualCount(position, direction1)
             count += continualCount(position, direction2)
 
-            if (count >= 5) return true
+            if (count == 5) return true
         }
         return false
     }
