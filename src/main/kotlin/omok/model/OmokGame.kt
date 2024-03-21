@@ -1,7 +1,7 @@
 package omok.model
 
 class OmokGame(private val blackStone: BlackStone, private val whiteStone: WhiteStone) {
-    fun startGame(
+    fun start(
         readPosition: (GoStone) -> Position,
         drawBoard: (Board) -> Unit,
         printWinner: (GoStone) -> Unit,
