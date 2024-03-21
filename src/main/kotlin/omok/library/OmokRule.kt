@@ -1,182 +1,92 @@
-package library
+package omok.library
 
-class OmokRule(
-    private val board: List<List<Int>>,
+abstract class OmokRule(
+    boardSize: Int,
     private val currentStone: Int = BLACK_STONE,
-    private val otherStone: Int = WHITE_STONE,
-    private val boardSize: Int,
+    val opponentStone: Int = WHITE_STONE,
 ) {
-    private val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
+    private val maxX = boardSize - 1
+    private val maxY = boardSize - 1
+    protected val xEdge = listOf(MIN_X, maxX)
+    protected val yEdge = listOf(MIN_Y, maxY)
 
-    fun checkThreeThree(
-        x: Int,
-        y: Int,
-    ): Boolean = directions.sumOf { direction -> checkOpenThree(x, y, direction[0], direction[1]) } >= 2
+    abstract fun validate(
+        board: List<List<Int>>,
+        position: Pair<Int, Int>,
+    ): Boolean
 
-    fun countFourFour(
-        x: Int,
-        y: Int,
-    ): Boolean = directions.sumOf { direction -> checkOpenFour(x, y, direction[0], direction[1]) } >= 2
+    protected val directions = listOf(Pair(1, 0), Pair(1, 1), Pair(0, 1), Pair(1, -1))
 
-    fun checkMoreThanFive(
-        x: Int,
-        y: Int,
-    ): Boolean = directions.map { direction -> checkMoreThanFive(x, y, direction[0], direction[1]) }.contains(true)
+    protected fun search(
+        board: List<List<Int>>,
+        position: Pair<Int, Int>,
+        direction: Pair<Int, Int>,
+    ): Pair<Int, Int> {
+        var (x, y) = position
+        val (dx, dy) = direction
+        var stone = 0
+        var blink = 0
+        var blinkCount = 0
+        while (willExceedBounds(x, y, dx, dy).not()) {
+            x += dx
+            y += dy
+            when (board[y][x]) {
+                currentStone -> {
+                    stone++
+                    blink = blinkCount
+                }
 
-    private fun checkOpenThree(
-        y: Int,
-        x: Int,
-        dx: Int,
-        dy: Int,
-    ): Int {
-        val (stone1, blink1) = search(x, y, -dx, -dy)
-        val (stone2, blink2) = search(x, y, dx, dy)
+                opponentStone -> break
+                EMPTY_STONE -> {
+                    if (blink == 1) break
+                    if (blinkCount++ == 1) break
+                }
 
-        val leftDown = stone1 + blink1
-        val left = dx * (leftDown + 1)
-        val down = dy * (leftDown + 1)
-
-        val rightUp = stone2 + blink2
-        val right = dx * (rightUp + 1)
-        val up = dy * (rightUp + 1)
-
-        return when {
-            stone1 + stone2 != 2 -> 0
-            blink1 + blink2 == 2 -> 0
-            dx != 0 && x - leftDown in listOf(MIN_X, boardSize - 1) -> 0
-            dy != 0 && y - leftDown in listOf(MIN_Y, boardSize - 1) -> 0
-            dx != 0 && x + rightUp in listOf(MIN_X, boardSize - 1) -> 0
-            dy != 0 && y + rightUp in listOf(MIN_Y, boardSize - 1) -> 0
-            board[y - down][x - left] == otherStone -> 0
-            board[y + up][x + right] == otherStone -> 0
-            countToWall(x, y, -dx, -dy) + countToWall(x, y, dx, dy) <= 5 -> 0
-            else -> 1
+                else -> throw IllegalArgumentException("스톤 케이스를 에러")
+            }
         }
+        return Pair(stone, blink)
     }
 
-    private fun countToWall(
-        y: Int,
-        x: Int,
-        dx: Int,
-        dy: Int,
+    protected fun countToWall(
+        board: List<List<Int>>,
+        position: Pair<Int, Int>,
+        direction: Pair<Int, Int>,
     ): Int {
-        var toRight = x
-        var toTop = y
+        var (x, y) = position
+        val (dx, dy) = direction
         var distance = 0
-        while (true) {
-            if (dx > 0 && toRight == boardSize - 1) break
-            if (dx < 0 && toRight == MIN_X) break
-            if (dy > 0 && toTop == boardSize - 1) break
-            if (dy < 0 && toTop == MIN_X) break
-            toRight += dx
-            toTop += dy
-            when (board[toTop][toRight]) {
+        while (willExceedBounds(x, y, dx, dy).not()) {
+            x += dx
+            y += dy
+            when (board[y][x]) {
                 in listOf(currentStone, EMPTY_STONE) -> distance++
-                otherStone -> break
+                opponentStone -> break
                 else -> throw IllegalArgumentException()
             }
         }
         return distance
     }
 
-    private fun checkOpenFour(
-        y: Int,
+    private fun willExceedBounds(
         x: Int,
+        y: Int,
         dx: Int,
         dy: Int,
-    ): Int {
-        val (stone1, blink1) = search(x, y, -dx, -dy)
-        val (stone2, blink2) = search(x, y, dx, dy)
-
-        val leftDown = stone1 + blink1
-        val left = dx * (leftDown + 1)
-        val down = dy * (leftDown + 1)
-
-        val rightUp = stone2 + blink2
-        val right = dx * (rightUp + 1)
-        val up = dy * (rightUp + 1)
-
+    ): Boolean =
         when {
-            blink1 + blink2 == 2 && stone1 + stone2 == 4 -> return 2
-            blink1 + blink2 == 2 && stone1 + stone2 == 5 -> return 2
-            stone1 + stone2 != 3 -> return 0
-            blink1 + blink2 == 2 -> return 0
-        }
-
-        val leftDownValid =
-            when {
-                dx != 0 && x - dx * leftDown in listOf(MIN_X, boardSize - 1) -> 0
-                dy != 0 && y - dy * leftDown in listOf(MIN_Y, boardSize - 1) -> 0
-                board[y - down][x - left] == otherStone -> 0
-                else -> 1
-            }
-        val rightUpValid =
-            when {
-                dx != 0 && x + (dx * rightUp) in listOf(MIN_X, boardSize - 1) -> 0
-                dy != 0 && y + (dy * rightUp) in listOf(MIN_Y, boardSize - 1) -> 0
-                board[y + up][x + right] == otherStone -> 0
-                else -> 1
-            }
-
-        return if (leftDownValid + rightUpValid >= 1) 1 else 0
-    }
-
-    private fun checkMoreThanFive(
-        y: Int,
-        x: Int,
-        dx: Int,
-        dy: Int,
-    ): Boolean {
-        val (stone1, blink1) = search(x, y, -dx, -dy)
-        val (stone2, blink2) = search(x, y, dx, dy)
-
-        return when {
-            blink1 + blink2 == 0 && stone1 + stone2 > 4 -> true
+            dx > 0 && x == maxX -> true
+            dx < 0 && x == MIN_X -> true
+            dy > 0 && y == maxY -> true
+            dy < 0 && y == MIN_Y -> true
             else -> false
         }
-    }
-
-    private fun search(
-        x: Int,
-        y: Int,
-        dx: Int,
-        dy: Int,
-    ): Pair<Int, Int> {
-        var toRight = x
-        var toTop = y
-        var stone = 0
-        var blink = 0
-        var blinkCount = 0
-        while (true) {
-            if (dx > 0 && toRight == boardSize - 1) break
-            if (dx < 0 && toRight == MIN_X) break
-            if (dy > 0 && toTop == boardSize - 1) break
-            if (dy < 0 && toTop == MIN_X) break
-            toRight += dx
-            toTop += dy
-            when (board[toTop][toRight]) {
-                currentStone -> {
-                    stone++
-                    blink = blinkCount
-                }
-
-                otherStone -> break
-                EMPTY_STONE -> {
-                    if (blink == 1) break
-                    if (blinkCount++ == 1) break
-                }
-
-                else -> throw IllegalArgumentException()
-            }
-        }
-        return Pair(stone, blink)
-    }
 
     companion object {
-        private const val EMPTY_STONE = 0
-        private const val BLACK_STONE = 1
-        private const val WHITE_STONE = 2
-        private const val MIN_X = 0
-        private const val MIN_Y = 0
+        protected const val EMPTY_STONE = 0
+        const val BLACK_STONE = 1
+        const val WHITE_STONE = 2
+        const val MIN_X = 0
+        const val MIN_Y = 0
     }
 }
