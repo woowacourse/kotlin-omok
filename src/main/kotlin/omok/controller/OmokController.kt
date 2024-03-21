@@ -1,33 +1,40 @@
 package omok.controller
 
 import omok.model.BlackStonePlayer
+import omok.model.Board
+import omok.model.Color
 import omok.model.WhiteStonePlayer
+import omok.model.change
 import omok.view.InputView
 import omok.view.OutputView
 
 class OmokController {
     private val outputView = OutputView()
     private val inputView = InputView()
+    private val board = Board()
     val whitePlayer = WhiteStonePlayer()
     val blackPlayer = BlackStonePlayer()
 
     fun start() {
-        outputView.printBoard(blackPlayer, whitePlayer)
-        var turn = false
+        outputView.showGameStartHeader()
+        outputView.showBoard(blackPlayer, whitePlayer)
+        var turn = Color.BLACK
         while (true) {
-            if (!turn) {
-                val stone = inputView.getStone(turn)
+            if (turn == Color.BLACK) {
+                val stone = inputView.getStone(board, Color.BLACK, board.lastStone())
+                board.add(stone)
                 blackPlayer.add(stone)
-
-                outputView.printBoard(blackPlayer = blackPlayer, whitePlayer = whitePlayer)
+                outputView.showBoard(blackPlayer = blackPlayer, whitePlayer = whitePlayer)
                 if (blackPlayer.checkContinuity(stone)) break
             } else {
-                val stone = inputView.getStone(turn)
+                val stone = inputView.getStone(board, Color.WHITE, board.lastStone())
+                board.add(stone)
                 whitePlayer.add(stone)
-                outputView.printBoard(blackPlayer = blackPlayer, whitePlayer = whitePlayer)
+                outputView.showBoard(blackPlayer = blackPlayer, whitePlayer = whitePlayer)
                 if (whitePlayer.checkContinuity(stone)) break
             }
-            turn = !turn
+            turn = turn.change()
         }
+        outputView.showGameResult(turn)
     }
 }
