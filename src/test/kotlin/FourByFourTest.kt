@@ -4,7 +4,7 @@ import omok.model.rule.FourByFourRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class FourFourTest {
+class FourByFourTest {
     @Test
     fun `가로 세로 줄 사이 빈 곳이 없는 44일 때`() {
         val board = Board()
