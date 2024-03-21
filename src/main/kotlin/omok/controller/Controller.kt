@@ -25,12 +25,19 @@ class Controller {
     }
 
     private fun getPoint(board: Board): Point {
-        val point = InputView.readPoint()
-        return if (point in board) {
-            OutputView.printDuplicatedPointMessage()
-            getPoint(board)
-        } else {
-            point
+        runCatching {
+            val point = InputView.readPoint()
+            if (point in board) {
+                throw IllegalArgumentException(MESSAGE_INVALID_POINT_INPUT)
+            }
+            return point
+        }.onFailure {
+            println(it.message)
         }
+        return getPoint(board)
+    }
+
+    companion object {
+        private const val MESSAGE_INVALID_POINT_INPUT = "해당 위치 좌표에 이미 돌이 착수되어 있습니다. 다시 입력해주세요."
     }
 }
