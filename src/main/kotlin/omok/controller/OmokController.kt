@@ -1,47 +1,54 @@
 package omok.controller
 
 import omok.model.Board
+import omok.model.ForbiddenPlace
+import omok.model.Player
 import omok.model.Position
 import omok.model.Stone
-import omok.model.rule.StoneForbiddenPlaces
 import omok.view.InputView
 import omok.view.OutputView
 
 class OmokController(
     private val inputView: InputView,
     private val outputView: OutputView,
-    private val stoneForbiddenPlaces: StoneForbiddenPlaces
+    blackStoneForbiddenPlaces: List<ForbiddenPlace>,
+    whiteStoneForbiddenPlaces: List<ForbiddenPlace>,
 ) {
+    private val blackStonePlayer = Player(Stone.BLACK, blackStoneForbiddenPlaces)
+    private val whiteStonePlayer = Player(Stone.WHITE, whiteStoneForbiddenPlaces)
+
     fun startGame() {
-        val board = initializedBoard(stoneForbiddenPlaces)
+        val board = initializedBoard()
         val winner = gameWinner(board)
-        outputView.printWinner(winner)
+        outputView.printWinner(winner.stone)
     }
 
-    private fun initializedBoard(stoneForbiddenPlaces: StoneForbiddenPlaces): Board {
-        return Board(stoneForbiddenPlaces).apply { outputView.printInitialGuide(this) }
+    private fun initializedBoard(): Board {
+        return Board().apply { outputView.printInitialGuide(this) }
     }
 
-    private fun gameWinner(board: Board): Stone {
-        var recentStone = Stone.BLACK
+    private fun gameWinner(board: Board): Player {
+        var recentPlayer = blackStonePlayer
         var recentPosition: Position? = null
 
         while (true) {
-            recentPosition = recentPosition.next(board, recentStone)
+            recentPosition = recentPosition.next(board, recentPlayer)
             outputView.printBoard(board)
             if (board.isWin(recentPosition)) break
-            recentStone = recentStone.next()
+            recentPlayer = recentPlayer.next()
         }
-        return recentStone
+        return recentPlayer
     }
 
-    private fun Position?.next(board: Board, recentStone: Stone): Position {
+    private fun Position?.next(board: Board, recentPlayer: Player): Position {
         return retryUntilNotException {
-            val nextPosition = inputView.readStonePosition(recentStone, this)
-            board.place(nextPosition, recentStone)
+            val nextPosition = inputView.readStonePosition(recentPlayer.stone, this)
+            board.place(nextPosition, recentPlayer)
             nextPosition
         }
     }
+
+    private fun Player.next() = if (stone == Stone.BLACK) whiteStonePlayer else blackStonePlayer
 }
 
 fun <T> retryUntilNotException(block: () -> (T)): T {

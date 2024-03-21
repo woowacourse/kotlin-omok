@@ -1,27 +1,19 @@
 package omok.model
 
 import omok.model.Position.Companion.INDEX_RANGE
-import omok.model.rule.StoneForbiddenPlaces
 
-class Board(private val stoneForbiddenPlaces: StoneForbiddenPlaces) {
-    private val _board: MutableMap<Position, Stone> = initBoard()
+class Board(private val _board: MutableMap<Position, Stone> = initBoard()) {
     val board: Map<Position, Stone>
         get() = _board.toMap()
 
-    private fun initBoard() =
-        INDEX_RANGE.flatMap { row ->
-            INDEX_RANGE.map { col -> Position(row, col) }
-        }.associateWith { Stone.NONE }
-            .toMutableMap()
-
     fun place(
         position: Position,
-        stone: Stone,
+        player: Player
     ) {
         require(find(position) == Stone.NONE) { "이미 바둑돌이 있는 위치입니다." }
-        require(stoneForbiddenPlaces.forbiddenPlaces(stone).all { it.availablePosition(this, position) }) { "돌을 놓을 수 없는 위치입니다." }
+        require(player.canPlace(this, position)) { "바둑돌을 놓을 수 없는 위치입니다." }
 
-        _board[position] = stone
+        _board[position] = player.stone
     }
 
     fun find(position: Position): Stone = _board[position] ?: throw IllegalArgumentException("올바르지 않은 위치입니다.")
@@ -50,5 +42,13 @@ class Board(private val stoneForbiddenPlaces: StoneForbiddenPlaces) {
             if (find(nowPos) != myStone) return count
             count++
         }
+    }
+
+    companion object {
+        private fun initBoard() =
+            INDEX_RANGE.flatMap { row ->
+                INDEX_RANGE.map { col -> Position(row, col) }
+            }.associateWith { Stone.NONE }
+                .toMutableMap()
     }
 }
