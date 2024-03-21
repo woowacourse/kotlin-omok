@@ -4,7 +4,7 @@ import omok.model.rule.ThreeByThreeRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class SamSamTest {
+class ThreeByThreeTest {
     @Test
     fun `가로 세로 줄 사이 빈 곳이 없는 33일 때`() {
         val board = Board()
