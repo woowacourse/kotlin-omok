@@ -8,18 +8,26 @@ import omok.view.InputView
 import omok.view.OutputView
 
 class OmokController {
-    fun gameStart() {
+    fun run() {
         OutputView.printStart()
         val players = Player(Color.BLACK) to Player(Color.WHITE)
         val board = Board(Stones())
 
-        while (true) {
-            if (playGame(players.first, board)) break
-            if (playGame(players.second, board)) break
-        }
+        playGame(players, board)
+        displayWinner(players)
     }
 
     private fun playGame(
+        players: Pair<Player, Player>,
+        board: Board,
+    ) {
+        while (true) {
+            if (playOmok(players.first, board)) break
+            if (playOmok(players.second, board)) break
+        }
+    }
+
+    private fun playOmok(
         player: Player,
         board: Board,
     ): Boolean {
@@ -39,7 +47,7 @@ class OmokController {
             if (result.isSuccess) {
                 break
             } else {
-                result.onFailure { e -> println(e.message) }
+                result.onFailure { e -> OutputView.printErrorMessage(e.message!!) }
             }
         }
     }

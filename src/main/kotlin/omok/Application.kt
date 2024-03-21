@@ -4,5 +4,5 @@ import omok.controller.OmokController
 
 fun main() {
     val controller = OmokController()
-    controller.gameStart()
+    controller.run()
 }
