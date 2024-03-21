@@ -21,8 +21,8 @@ class OutputView {
 
     fun showGameResult(gameResult: GameResult) {
         when (gameResult) {
-            GameResult.DRAW -> println("무승부 입니다")
-            else -> println("%s이 이겼습니다".format(gameResult.label))
+            GameResult.DRAW -> println(MESSAGE_DRAW)
+            else -> println(MESSAGE_WINNER.format(gameResult.label))
         }
     }
 
@@ -52,5 +52,7 @@ class OutputView {
         private const val DIVIDER_ROW = "─"
         private const val BOARD_SIZE = 16
         private const val MESSAGE_GAME_START = "오목 게임을 시작합니다.\n"
+        private const val MESSAGE_DRAW = "무승부 입니다"
+        private const val MESSAGE_WINNER = "%s이 이겼습니다"
     }
 }
