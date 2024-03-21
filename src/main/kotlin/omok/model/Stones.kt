@@ -10,8 +10,8 @@ class Stones {
     }
 
     fun match(stone: Stone): Boolean {
-        return (_stones.contains(stone))
+        return (stones.contains(stone))
     }
 
-    fun lastStone(): Stone = stones.last()
+    fun lastStone(): Stone? = stones.lastOrNull()
 }
