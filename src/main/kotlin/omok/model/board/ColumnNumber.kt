@@ -1,24 +1,24 @@
 package omok.model.board
 
-enum class ColumnNumber(val column: Int) {
-    A(1),
-    B(2),
-    C(3),
-    D(4),
-    E(5),
-    F(6),
-    G(7),
-    H(8),
-    I(9),
-    J(10),
-    K(11),
-    L(12),
-    M(13),
-    N(14),
-    O(15),
+enum class ColumnNumber(val coordsNumber: CoordsNumber) {
+    A(CoordsNumber(1)),
+    B(CoordsNumber(2)),
+    C(CoordsNumber(3)),
+    D(CoordsNumber(4)),
+    E(CoordsNumber(5)),
+    F(CoordsNumber(6)),
+    G(CoordsNumber(7)),
+    H(CoordsNumber(8)),
+    I(CoordsNumber(9)),
+    J(CoordsNumber(10)),
+    K(CoordsNumber(11)),
+    L(CoordsNumber(12)),
+    M(CoordsNumber(13)),
+    N(CoordsNumber(14)),
+    O(CoordsNumber(15)),
     ;
 
     companion object {
-        fun fromLetter(letter: Char): ColumnNumber? = entries.firstOrNull { it.name == letter.toString() }
+        fun fromLetter(letter: Char): CoordsNumber? = entries.firstOrNull { it.name == letter.toString() }?.coordsNumber
     }
 }

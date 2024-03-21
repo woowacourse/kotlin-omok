@@ -1,4 +1,5 @@
 import omok.model.board.ColumnNumber
+import omok.model.board.CoordsNumber
 import omok.model.board.Stone
 import omok.model.omokGame.Omok
 import omok.view.InputView
@@ -17,20 +18,22 @@ object OmokGameController {
     ): Omok {
         var currentStone = startStone
         while (omok.isRunning()) {
-            val forbiddenPositions = omok.checkBoard(currentStone.value)
+            val forbiddenPositions = omok.checkBoard(currentStone.color)
             OutputView.printBoard(omok.gameBoard, forbiddenPositions)
-
-            val (rowNumber, columnLetter) = InputView.readPlayerMove(currentStone)
-            if (isWrongCoords(columnLetter, rowNumber)) continue
-
-            val columnNumber = ColumnNumber.fromLetter(columnLetter)!!.column.minus(1)
-
-            if (canSetStone(omok, rowNumber, columnNumber, forbiddenPositions)) continue
-
-            omok.setStone(rowNumber, columnNumber, currentStone.value)
+            val (rowNumber, columnNumber) = convertToCoords(currentStone)
+            if (isWrongCoords(columnNumber, rowNumber)) continue
+            if (canSetStone(omok, rowNumber!!.number, columnNumber!!.number, forbiddenPositions)) continue
+            omok.setStone(rowNumber, columnNumber, currentStone)
             currentStone = togglePlayer(currentStone)
         }
         return omok
+    }
+
+    private fun convertToCoords(currentStone: Stone): Pair<CoordsNumber?, CoordsNumber?> {
+        val (rowLetter, columnLetter) = InputView.readPlayerMove(currentStone)
+        val rowNumber = CoordsNumber.of(rowLetter)
+        val columnNumber = ColumnNumber.fromLetter(columnLetter)
+        return Pair(rowNumber, columnNumber)
     }
 
     private fun canSetStone(
@@ -70,10 +73,10 @@ object OmokGameController {
     }
 
     private fun isWrongCoords(
-        columnLetter: Char,
-        rowNumber: Int,
+        columnNumber: CoordsNumber?,
+        rowNumber: CoordsNumber?,
     ): Boolean {
-        if (ColumnNumber.fromLetter(columnLetter) == null || rowNumber !in (0..14)) {
+        if (columnNumber == null || rowNumber == null) {
             OutputView.printWrongPositionMessage()
             return true
         }
