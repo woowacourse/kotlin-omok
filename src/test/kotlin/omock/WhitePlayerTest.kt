@@ -12,7 +12,7 @@ class WhitePlayerTest {
 
     @Test
     fun `플레이어가 돌을 놓을 때, Board는 오목인 경우 true를 반환한다`() {
-        val player = WhitePlayer
+        val player = WhitePlayer()
         val board = Board.from()
         board.makeStones(
             player = player, stones = arrayOf(
@@ -37,7 +37,7 @@ class WhitePlayerTest {
 
     @Test
     fun `플레이어가 돌을 놓을 때, Board는 오목이 아닌 경우 false 반환한다`() {
-        val player = WhitePlayer
+        val player = WhitePlayer()
         val board = Board.from()
         board.makeStones(
             player = player, stones = arrayOf(

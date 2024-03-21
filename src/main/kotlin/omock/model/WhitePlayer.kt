@@ -1,10 +1,12 @@
 package omock.model
 
-data object WhitePlayer : Player {
+data class WhitePlayer(
+    override val stoneHistory: ArrayDeque<Stone> = ArrayDeque()
+) : Player() {
     override fun judgementResult(visited: Map<Direction, Result>): Boolean {
         visited.entries.forEach { (key, result) ->
-            val reverseResultCount: Int = visited[Direction.reverse(key)]?.count ?: Player.MIN_REVERSE_COUNT
-            return reverseResultCount + result.count >= Player.MIN_O_MOCK_COUNT
+            val reverseResultCount: Int = visited[Direction.reverse(key)]?.count ?: MIN_REVERSE_COUNT
+            return reverseResultCount + result.count >= MIN_O_MOCK_COUNT
         }
         return false
     }

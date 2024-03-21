@@ -1,16 +1,15 @@
 package omock.model
 
 import omock.model.CalculateType.Companion.checkCalculateType
-import omock.model.Player.Companion.EDGE_FOUR_TO_FOUR_COUNT
-import omock.model.Player.Companion.EDGE_THREE_TO_THREE_COUNT
-import omock.model.Player.Companion.MIN_O_MOCK_COUNT
 
-data object BlackPlayer : Player {
+data class BlackPlayer(
+    override val stoneHistory: ArrayDeque<Stone> = ArrayDeque()
+) : Player() {
     override fun judgementResult(visited: Map<Direction, Result>): Boolean {
-        var threeToThreeCount = Player.INIT_COUNT
-        var fourToFourCount = Player.INIT_COUNT
+        var threeToThreeCount = INIT_COUNT
+        var fourToFourCount = INIT_COUNT
         var isReverseTwoAndThree = false
-        var isClearFourToFourCount = Player.INIT_COUNT
+        var isClearFourToFourCount = INIT_COUNT
         visited.entries.forEach { (key, result) ->
             val isReverseResultFirstClear: Boolean = visited[Direction.reverse(key)]?.isFirstClear ?: false
             val reverseResultCount: Int = visited[Direction.reverse(key)]?.count ?: Player.MIN_REVERSE_COUNT
@@ -30,9 +29,8 @@ data object BlackPlayer : Player {
                     CalculateType.ThreeToThreeCount -> CalculateType.ThreeToThreeCount.checkCalculateType { ++threeToThreeCount >= Player.MIN_THREE_TO_THREE_COUNT }
                 }
             }
-            if (!isReverseTwoAndThree && reverseResultCount + result.count >= MIN_O_MOCK_COUNT) return true
+            if (!isReverseTwoAndThree && (reverseResultCount + result.count >= MIN_O_MOCK_COUNT)) return true
         }
-
         return false
     }
 

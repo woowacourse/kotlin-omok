@@ -8,24 +8,28 @@ import omock.model.Row.Companion.MIN_ROW_INDEX
 
 
 class Board(val stoneStates: List<ColumnStates>) {
-
     fun setStoneState(
         player: Player,
         stone: Stone,
     ) {
         val row = stone.row.getIndex()
         val column = stone.column.getIndex()
-
-        stoneStates[column].change(row, player)
+        stoneStates[row].change(column, player)
     }
 
+    fun rollbackState(stone: Stone) {
+        val row = stone.row.getIndex()
+        val column = stone.column.getIndex()
+        stoneStates[row].rollback(column)
+    }
 
     fun loadMap(stone: Stone): Map<Direction, Result> {
         val row = stone.row.getIndex()
         val column = stone.column.getIndex()
         val node = Node(x = column, y = row)
         val visited = mutableMapOf<Direction, Result>()
-        val playerState = stoneStates[column].getStoneState(row)
+        val playerState = stoneStates[row].getStoneState(column)
+
         Direction.entries.forEach { direction ->
             visited[direction] = bfs(node, direction, playerState)
         }
@@ -43,13 +47,14 @@ class Board(val stoneStates: List<ColumnStates>) {
         var isLastClear = true
         var count = 0
         var flag = false
+
         while (queue.isNotEmpty()) {
             val current = queue.removeFirst()
-            val (nx, ny) = current.x + direction.x to current.y + direction.y
+            val (nx, ny) = current.x + direction.y to current.y + direction.x
 
             if (!(nx in MIN_COLUMN_INDEX..MAX_COLUMN_INDEX && ny in MIN_ROW_INDEX..MAX_ROW_INDEX)) continue
 
-            val nextState = stoneStates[nx].getStoneState(ny)::class
+            val nextState = stoneStates[ny].getStoneState(nx)::class
 
             if (!flag) {
                 flag = true

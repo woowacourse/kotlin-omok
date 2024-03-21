@@ -16,8 +16,22 @@ data class Stone(
 
         fun from(row: Row, column: Column): Stone {
             return stones.find {
-                it.row == row && it.column == column
+                it.row.comma == row.comma && it.column.comma == column.comma
             } ?: throw IllegalArgumentException()
+        }
+
+        fun getStoneIcon(player: Player): Char {
+            return when (player) {
+                is BlackPlayer -> '●'
+                is WhitePlayer -> '○'
+            }
+        }
+
+        fun getStoneName(player: Player): String {
+            return when (player) {
+                is BlackPlayer -> "흑"
+                is WhitePlayer -> "백"
+            }
         }
     }
 }

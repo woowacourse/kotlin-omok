@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 class BoardTest {
     @Test
     fun `플레이어가 돌을 놓을 때, direction에 따른 정상적인 돌 개수 반환한다`() {
-        val player = WhitePlayer
+        val player = WhitePlayer()
         val board = Board.from()
         board.makeStones(
             player = player,

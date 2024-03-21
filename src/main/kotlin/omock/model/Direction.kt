@@ -1,8 +1,8 @@
 package omock.model
 
 enum class Direction(
-    val y: Int,
     val x: Int,
+    val y: Int,
 ) {
     TOP(1, 0),
     TOP_RIGHT(1, 1),

@@ -7,4 +7,8 @@ abstract class UnPlaced(private val stone: Stone) : StoneState {
             is WhitePlayer -> White(stone)
         }
     }
+
+    override fun rollback(): StoneState {
+        return Clear(stone)
+    }
 }
