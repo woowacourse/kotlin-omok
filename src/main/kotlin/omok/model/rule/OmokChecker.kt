@@ -16,10 +16,12 @@ object OmokChecker {
     fun findOmok(
         lastPosition: Position,
         stone: Stone,
-    ) = checkWinningPosition(lastPosition, horizontalDirection, stone) ||
-        checkWinningPosition(lastPosition, verticalDirection, stone) ||
-        checkWinningPosition(lastPosition, upwardDirection, stone) ||
-        checkWinningPosition(lastPosition, downwardDirection, stone)
+    ): Boolean {
+        val directionType = listOf(horizontalDirection, verticalDirection, upwardDirection, downwardDirection)
+        return directionType.any { direction ->
+            checkWinningPosition(lastPosition, direction, stone)
+        }
+    }
 
     private fun checkWinningPosition(
         lastPosition: Position,
