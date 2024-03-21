@@ -18,25 +18,25 @@ class OmokGame(private val blackStone: BlackStone, private val whiteStone: White
         do {
             var isOmok = false
             retryUntilSuccess {
-                val position = readPosition(stone)
-                val currentStone = stone.putStone(position)
+                val (position, currentStone) = putStone(readPosition, stone)
                 isOmok = stone.findOmok(position)
-                showWinner(isOmok, stone, printWinner)
-                stone = if (currentStone == Stone.BLACK_STONE) blackStone else whiteStone
+                if (isOmok) printWinner(stone)
+                stone = changeStone(currentStone)
                 drawBoard(Board)
             }
         } while (!isOmok)
     }
 
-    private fun showWinner(
-        isOmok: Boolean,
+    private fun putStone(
+        readPosition: (GoStone) -> Position,
         stone: GoStone,
-        printWinner: (GoStone) -> Unit,
-    ) {
-        if (isOmok) {
-            printWinner(stone)
-        }
+    ): Pair<Position, Stone> {
+        val position = readPosition(stone)
+        val currentStone = stone.putStone(position)
+        return Pair(position, currentStone)
     }
+
+    private fun changeStone(currentStone: Stone) = if (currentStone == Stone.BLACK_STONE) blackStone else whiteStone
 
     private fun <T> retryUntilSuccess(action: () -> T): T =
         runCatching {
