@@ -13,10 +13,10 @@ class PlayerTest {
     fun setUp() {
         stones = Stones()
         board = Board(stones)
-        stones.putStone(Stone(Color.BLACK, Coordinate(Row.from("6"), Column.from("F"))))
-        stones.putStone(Stone(Color.BLACK, Coordinate(Row.from("7"), Column.from("G"))))
-        stones.putStone(Stone(Color.BLACK, Coordinate(Row.from("8"), Column.from("H"))))
-        stones.putStone(Stone(Color.BLACK, Coordinate(Row.from("9"), Column.from("I"))))
+        stones.putStone(Stone(Color.BLACK, COORDINATE_F5))
+        stones.putStone(Stone(Color.BLACK, COORDINATE_F6))
+        stones.putStone(Stone(Color.BLACK, COORDINATE_F7))
+        stones.putStone(Stone(Color.BLACK, COORDINATE_F9))
     }
 
     @Test
@@ -30,32 +30,28 @@ class PlayerTest {
 
     @Test
     fun `플레이어 차례가 되면 돌을 보드에 착수 한다`() {
-        val coordinate = Coordinate(Row.from("2"), Column.from("J"))
         player = Player(Color.BLACK)
 
-        player.playTurn(board, coordinate)
+        player.playTurn(board, COORDINATE_A1)
 
         assertThat(stones.stones.size).isEqualTo(5)
     }
 
     @Test
     fun `플레이어의 차례에 오목이 만들어지면 승리한다`() {
-        val coordinate = Coordinate(Row.from("10"), Column.from("J"))
         player = Player(Color.BLACK)
 
-        player.playTurn(board, coordinate)
+        player.playTurn(board, COORDINATE_F8)
 
         assertThat(player.isWin).isTrue()
     }
 
     @Test
     fun `플레이어의 차례에 장목이 만들어지면 승리한다`() {
-        val coordinateFirst = Coordinate(Row.from("11"), Column.from("K"))
-        val coordinateSecond = Coordinate(Row.from("10"), Column.from("J"))
         player = Player(Color.BLACK)
 
-        player.playTurn(board, coordinateFirst)
-        player.playTurn(board, coordinateSecond)
+        player.playTurn(board, COORDINATE_F8)
+        player.playTurn(board, COORDINATE_F10)
 
         assertThat(player.isWin).isTrue()
     }

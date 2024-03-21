@@ -3,20 +3,25 @@ package omok.model
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 
 class BoardTest {
     private lateinit var board: Board
     private lateinit var blackStone: Stone
     private lateinit var whiteStone: Stone
-    private lateinit var coordinate: Coordinate
+
+    private fun createBoard(stones: List<Stone>) {
+        stones.forEach { stone ->
+            board.putStone(stone)
+        }
+    }
 
     @BeforeEach
     fun setUp() {
         board = Board(Stones())
-        coordinate = Coordinate(Row.from("8"), Column.from("F"))
-        blackStone = Stone(black, coordinate)
-        whiteStone = Stone(white, coordinate)
+        blackStone = Stone(black, COORDINATE_F8)
+        whiteStone = Stone(white, COORDINATE_F8)
     }
 
     @Test
@@ -27,7 +32,7 @@ class BoardTest {
 
     @Test
     fun `흑 플레이어가 3-3을 만드는 경우, 착수할 수 없다`() {
-        samsamStones.forEach { stone -> board.putStone(stone) }
+        createBoard(samSamBlackStones)
         assertThrows<IllegalStateException> {
             board.putStone(blackStone)
         }
@@ -35,7 +40,7 @@ class BoardTest {
 
     @Test
     fun `흑 플레이어가 4-4을 만드는 경우, 착수할 수 없다`() {
-        fourfourStones.forEach { stone -> board.putStone(stone) }
+        createBoard(fourFourBlackStones)
         assertThrows<IllegalStateException> {
             board.putStone(blackStone)
         }
@@ -43,7 +48,7 @@ class BoardTest {
 
     @Test
     fun `흑 플레이어가 장목을 만드는 경우, 착수할 수 없다`() {
-        moreThanFiveStones.forEach { stone -> board.putStone(stone) }
+        createBoard(moreThanFiveBlackStones)
         assertThrows<IllegalStateException> {
             board.putStone(blackStone)
         }
@@ -51,9 +56,17 @@ class BoardTest {
 
     @Test
     fun `흑 플레이어가 열린 4-4을 만드는 경우, 착수할 수 없다`() {
-        openFourFourStones.forEach { stone -> board.putStone(stone) }
+        createBoard(openFourFourBlackStones)
         assertThrows<IllegalStateException> {
             board.putStone(blackStone)
+        }
+    }
+
+    @Test
+    fun `백 플레이어는 렌주룰을 적용받지 않는다`() {
+        createBoard(samSamWhiteStones)
+        assertDoesNotThrow {
+            board.putStone(whiteStone)
         }
     }
 }
