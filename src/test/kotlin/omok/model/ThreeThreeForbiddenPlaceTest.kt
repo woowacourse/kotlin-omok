@@ -19,7 +19,7 @@ class ThreeThreeForbiddenPlaceTest {
         board.place(Position(3, 2), Stone.BLACK)
         board.place(Position(3, 4), Stone.BLACK)
 
-        val actual = forbiddenPlace.availablePosition(board, Position(3, 3), Stone.BLACK)
+        val actual = forbiddenPlace.availablePosition(board, Position(3, 3))
         assertThat(actual).isFalse
     }
 
@@ -35,7 +35,7 @@ class ThreeThreeForbiddenPlaceTest {
         board.place(Position(10, 4), Stone.BLACK)
         board.place(Position(11, 4), Stone.BLACK)
 
-        val actual = forbiddenPlace.availablePosition(board, Position(13, 4), Stone.BLACK)
+        val actual = forbiddenPlace.availablePosition(board, Position(13, 4))
         assertThat(actual).isFalse
     }
 
@@ -51,7 +51,7 @@ class ThreeThreeForbiddenPlaceTest {
         board.place(Position(7, 7), Stone.BLACK)
         board.place(Position(7, 8), Stone.BLACK)
 
-        val actual = forbiddenPlace.availablePosition(board, Position(7, 5), Stone.BLACK)
+        val actual = forbiddenPlace.availablePosition(board, Position(7, 5))
         assertThat(actual).isFalse
     }
 
@@ -67,7 +67,7 @@ class ThreeThreeForbiddenPlaceTest {
         board.place(Position(2, 4), Stone.BLACK)
         board.place(Position(3, 5), Stone.BLACK)
 
-        val actual = forbiddenPlace.availablePosition(board, Position(1, 3), Stone.BLACK)
+        val actual = forbiddenPlace.availablePosition(board, Position(1, 3))
         assertThat(actual).isFalse
     }
 }

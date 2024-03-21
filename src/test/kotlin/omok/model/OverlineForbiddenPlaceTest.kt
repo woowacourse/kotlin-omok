@@ -24,7 +24,7 @@ class OverlineForbiddenPlaceTest {
         board.place(Position(0, 5), Stone.BLACK)
         board.place(Position(0, 6), Stone.BLACK)
 
-        val actual = forbiddenPlace.availablePosition(board, Position(0, 3), Stone.BLACK)
+        val actual = forbiddenPlace.availablePosition(board, Position(0, 3))
         Assertions.assertThat(actual).isFalse
     }
 }
