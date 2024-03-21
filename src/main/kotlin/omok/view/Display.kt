@@ -12,6 +12,7 @@ fun Position.output(): String {
 }
 
 fun String.toPosition(): Position {
+    require(isNotBlank()) { "공백을 입력하셨습니다. 다시 입력해 주세요." }
     require(substring(1, length).toIntOrNull() in 1..15) { "올바르지 않은 행입니다." }
     require(this[0] in 'A'..'O') { "올바르지 않은 열입니다." }
 
