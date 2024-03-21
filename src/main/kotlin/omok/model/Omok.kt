@@ -28,6 +28,21 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
         return coords
     }
 
+    fun isNotEmpty(
+        row: Int,
+        column: Int,
+    ): Boolean {
+        return gameBoard[column][row] != EMPTY
+    }
+
+    fun isForbidden(
+        row: Int,
+        column: Int,
+        forbiddenPositions: List<Pair<Int, Int>>,
+    ): Boolean {
+        return column to row in forbiddenPositions
+    }
+
     private fun isInvalid(
         x: Int,
         y: Int,
@@ -177,7 +192,6 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
         }
         setStone(x, y, EMPTY)
         if (cnt >= 2) {
-            println("double three")
             return true
         }
         return false
@@ -200,7 +214,6 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
 
         setStone(x, y, EMPTY)
         if (cnt >= 2) {
-            println("double four")
             return true
         }
         return false
@@ -216,11 +229,9 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
             return false
         }
         if (isLong(x, y, stone) > 5) {
-            println("--------------------------------------------")
             return true
         }
         if (doubleThree(x, y, stone) || doubleFour(x, y, stone)) {
-            println("--------------------------------------------")
             return true
         }
         return false
