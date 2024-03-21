@@ -21,6 +21,7 @@ class Controller {
             turn = turn.putStone(point, board)
             OutputView.printBoard(board)
         }
+        OutputView.printTurn(turn)
     }
 
     private fun getPoint(board: Board): Point {

@@ -1,11 +1,22 @@
 package omok.view
 
-import omok.model.*
+import omok.model.BlackTurn
+import omok.model.Board
+import omok.model.FinishedTurn
+import omok.model.Stone
+import omok.model.StoneType
+import omok.model.Turn
+import omok.model.WhiteTurn
 
 object OutputView {
-    private const val MESSAGE_OMOK_START = "오목 게임을 시작합니다."
-    private const val MESSAGE_OMOK_TURN = "\n%s의 차례입니다. "
+    private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
+    private const val MESSAGE_TURN = "\n%s의 차례입니다. "
     private const val MESSAGE_BEFORE_STONE = "(마지막 돌의 위치: %c%d)"
+    private const val STONE_TYPE_BLACK = "흑"
+    private const val STONE_TYPE_WHITE = "백"
+    private const val STONE_ICON_BLACK = '●'
+    private const val STONE_ICON_WHITE = '○'
+
     private val boardTable: MutableList<MutableList<Char>> =
         mutableListOf(
             mutableListOf('┌', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┐'),
@@ -45,7 +56,7 @@ object OutputView {
         )
 
     fun printGameStart() {
-        println(MESSAGE_OMOK_START)
+        println(MESSAGE_GAME_START)
     }
 
     private fun convertStoneIcon(
@@ -54,15 +65,15 @@ object OutputView {
         row: Int,
     ): Char {
         return when (stoneType) {
-            StoneType.WHITE -> '○'
-            StoneType.BLACK -> '●'
+            StoneType.BLACK -> STONE_ICON_BLACK
+            StoneType.WHITE -> STONE_ICON_WHITE
             StoneType.EMPTY -> boardTable[column][row]
         }
     }
 
     fun printBoard(board: Board) {
         boardTable.indices.forEach {
-            println(boardForm[it].format(*generatePrintedLine(it, board.board[it]).toTypedArray()))
+            println(boardForm[it].format(*generatePrintedLine(it, board.board[14 - it]).toTypedArray()))
         }
         println(boardForm.last())
     }
@@ -71,7 +82,7 @@ object OutputView {
         lineIndex: Int,
         stoneTypes: List<StoneType>,
     ): List<Char> {
-        return boardTable[lineIndex].mapIndexed { columnIdx, char ->
+        return List(boardTable[lineIndex].size) { columnIdx ->
             convertStoneIcon(stoneTypes[columnIdx], lineIndex, columnIdx)
         }
     }
@@ -83,21 +94,27 @@ object OutputView {
     private fun generateTurnMessage(turn: Turn): String {
         return when (turn) {
             is BlackTurn -> {
-                MESSAGE_OMOK_TURN.format("흑") + (turn.before?.let { generateBeforeMessage(it) } ?: "")
+                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (turn.before?.let { generateBeforeMessage(it) } ?: "")
             }
 
             is WhiteTurn -> {
-                MESSAGE_OMOK_TURN.format("백") + generateBeforeMessage(turn.before)
+                MESSAGE_TURN.format(STONE_TYPE_WHITE) + generateBeforeMessage(turn.before)
             }
 
-            is FinishedTurn -> "게임이 종료되었습니다."
+            is FinishedTurn -> {
+                val winner =
+                    when (turn.before.type) {
+                        StoneType.BLACK -> STONE_TYPE_BLACK
+                        StoneType.WHITE -> STONE_TYPE_WHITE
+                        StoneType.EMPTY -> ""
+                    }
+                "\n${winner}돌이 승리했습니다!!!"
+            }
         }
     }
 
     private fun generateBeforeMessage(stone: Stone): String {
-        val row = (stone.point.row + 65).toChar()
-        val column = 15 - stone.point.column
-        return MESSAGE_BEFORE_STONE.format(row, column)
+        return MESSAGE_BEFORE_STONE.format(stone.point.x + 65, stone.point.y + 1)
     }
 
     fun printDuplicatedPointMessage() {
