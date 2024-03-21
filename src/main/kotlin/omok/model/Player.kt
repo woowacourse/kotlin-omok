@@ -6,15 +6,13 @@ abstract class Player() {
     fun getStones(): List<Stone> = stones.stones
 
     open fun add(stone: Stone) {
-        require(!duplicatedPoint(stone)) { "중복된 위치다 이녀석아!" }
+        require(!duplicatedPoint(stone)) { ERROR_DUPLICATED_POSITION }
         stones.add(stone)
     }
 
     fun lastStone(): Stone? = stones.lastStone()
 
-    private fun duplicatedPoint(stone: Stone): Boolean {
-        return stones.match(stone)
-    }
+    private fun duplicatedPoint(stone: Stone): Boolean = stones.match(stone)
 
     open fun checkContinuity(stone: Stone): Boolean = true
 
@@ -34,5 +32,9 @@ abstract class Player() {
         }
 
         return count
+    }
+
+    companion object {
+        private const val ERROR_DUPLICATED_POSITION = "중복된 위치입니다."
     }
 }
