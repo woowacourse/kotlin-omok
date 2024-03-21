@@ -1,6 +1,9 @@
 package omok.model.turn
 
 import omok.model.Board
+import omok.model.StoneAlreadyExists
+import omok.model.StoneOutOfBoard
+import omok.model.Success
 import omok.model.entity.Point
 import omok.model.entity.Stone
 import omok.model.entity.StoneColor
@@ -10,30 +13,29 @@ import omok.model.rule.OverSixInRowRule
 import omok.model.rule.Rule
 import omok.model.rule.ThreeByThreeRule
 
-class BlackTurn(val board: Board) : Turn {
+class BlackTurn(board: Board) : Turn(board) {
     private val prohibitedRules: List<Rule> = listOf(ThreeByThreeRule, FourByFourRule, OverSixInRowRule)
 
     override fun placeStone(point: Point): Turn {
         val stone = Stone(point, StoneColor.BLACK)
 
-        try {
-            board.place(stone)
-        } catch (e: IllegalArgumentException) {
-            return BlackTurn(board)
-        }
+        val nextBoard =
+            when (val placeResult = board.place(stone)) {
+                is StoneOutOfBoard, is StoneAlreadyExists -> return BlackTurn(board)
+                is Success -> placeResult.board
+            }
 
         val isViolated =
             prohibitedRules.any {
-                it.check(board)
+                it.check(nextBoard)
             }
         if (isViolated) {
-            board.removeStone(stone)
             return BlackTurn(board)
         }
 
-        if (board.isFull() || FiveInRowRule.check(board)) return Finished(StoneColor.BLACK)
+        if (nextBoard.isFull() || FiveInRowRule.check(nextBoard)) return Finished(nextBoard)
 
-        return WhiteTurn(board)
+        return WhiteTurn(nextBoard)
     }
 
     override fun color(): StoneColor {

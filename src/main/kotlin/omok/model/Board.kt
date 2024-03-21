@@ -1,31 +1,29 @@
 package omok.model
 
 import omok.model.entity.Stone
+import omok.model.rule.Rule
 
-class Board {
-    private val _stones: MutableSet<Stone> = mutableSetOf()
-    val stones: Set<Stone>
-        get() = _stones.toSet()
+class Board private constructor(val stones: Set<Stone>) {
+    constructor() : this(setOf<Stone>())
 
-    fun place(stone: Stone) {
-        require(stone.point.x in SIZE_RANGE && stone.point.y in SIZE_RANGE) { "보드 밖에 돌을 두었습니다.돌을 놓은 곳 : ${stone.point.x} ${stone.point.y}" }
-        require(_stones.find { it.point == stone.point } == null) { "돌이 이미 존재합니다. ${stone.point.x} ${stone.point.y}" }
-        _stones.add(stone)
-    }
-
-    fun removeStone(stone: Stone) {
-        _stones.remove(stone)
-    }
+    fun place(stone: Stone): PlaceStoneResult =
+        when {
+            !(stone.point.x in SIZE_RANGE && stone.point.y in SIZE_RANGE) -> StoneOutOfBoard()
+            stones.find { it.point == stone.point } != null -> StoneAlreadyExists()
+            else -> Success(Board(stones.plus(stone)))
+        }
 
     fun previousStone(): Stone? {
-        return _stones.lastOrNull()
+        return stones.lastOrNull()
     }
 
     fun contains(stone: Stone): Boolean {
-        return _stones.contains(stone)
+        return stones.contains(stone)
     }
 
-    fun isFull(): Boolean = _stones.count() == MAX_SIZE * MAX_SIZE
+    fun isFull(): Boolean = stones.count() == MAX_SIZE * MAX_SIZE
+
+    fun check(rule: Rule): Boolean = rule.check(this)
 
     companion object {
         private const val MIN_SIZE = 1

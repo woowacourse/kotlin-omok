@@ -7,7 +7,7 @@ import omok.model.turn.Finished
 import omok.model.turn.Turn
 
 class OmokGame(
-    val board: Board = Board(),
+    board: Board = Board(),
     private var turn: Turn = BlackTurn(board),
 ) {
     fun run(
@@ -16,10 +16,10 @@ class OmokGame(
         afterGame: (Board, StoneColor) -> Unit,
     ) {
         while (turn !is Finished) {
-            beforeTurn(board, turn.color())
+            beforeTurn(turn.board, turn.color())
             proceedTurn(inputPoint)
         }
-        afterGame(board, turn.color())
+        afterGame(turn.board, turn.color())
     }
 
     private fun proceedTurn(inputPoint: () -> Point) {

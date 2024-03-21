@@ -23,10 +23,9 @@ class TurnTest {
     @Test
     fun `이전 턴에 어떤 곳에 돌을 놓았는지 알 수 있다`() {
         val board = Board()
-        val whiteTurn = WhiteTurn(board)
         val point = Point(1, 1)
-        whiteTurn.placeStone(point)
-        val actual: Point = board.previousStone()!!.point
+        val boardAfterPlace = WhiteTurn(board).placeStone(point).board
+        val actual: Point = boardAfterPlace.previousStone()!!.point
         assertThat(actual).isEqualTo(point)
     }
 }
