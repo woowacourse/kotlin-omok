@@ -1,6 +1,6 @@
-package omok.model
+package omok.model.board
 
-enum class BoardColumn(val column: Int) {
+enum class ColumnNumber(val column: Int) {
     A(1),
     B(2),
     C(3),
@@ -19,6 +19,6 @@ enum class BoardColumn(val column: Int) {
     ;
 
     companion object {
-        fun fromLetter(letter: Char): BoardColumn? = entries.firstOrNull { it.name == letter.toString() }
+        fun fromLetter(letter: Char): ColumnNumber? = entries.firstOrNull { it.name == letter.toString() }
     }
 }

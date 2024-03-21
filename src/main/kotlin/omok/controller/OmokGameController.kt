@@ -1,6 +1,6 @@
-import omok.model.BoardColumn
-import omok.model.Omok
-import omok.model.Stone
+import omok.model.board.ColumnNumber
+import omok.model.board.Stone
+import omok.model.omokGame.Omok
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -23,7 +23,7 @@ object OmokGameController {
             val (rowNumber, columnLetter) = InputView.readPlayerMove(currentStone)
             if (isWrongCoords(columnLetter, rowNumber)) continue
 
-            val columnNumber = BoardColumn.fromLetter(columnLetter)!!.column.minus(1)
+            val columnNumber = ColumnNumber.fromLetter(columnLetter)!!.column.minus(1)
 
             if (canSetStone(omok, rowNumber, columnNumber, forbiddenPositions)) continue
 
@@ -73,7 +73,7 @@ object OmokGameController {
         columnLetter: Char,
         rowNumber: Int,
     ): Boolean {
-        if (BoardColumn.fromLetter(columnLetter) == null || rowNumber !in (0..14)) {
+        if (ColumnNumber.fromLetter(columnLetter) == null || rowNumber !in (0..14)) {
             OutputView.printWrongPositionMessage()
             return true
         }
