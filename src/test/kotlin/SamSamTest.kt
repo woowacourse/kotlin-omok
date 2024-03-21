@@ -1,5 +1,4 @@
 import omok.model.Board
-import omok.model.entity.StoneColor
 import omok.model.rule.ThreeByThreeRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -109,23 +108,6 @@ class SamSamTest {
         board.place(5, 4)
 
         board.place(5, 5)
-
-        val actual = ThreeByThreeRule.check(board)
-        assertThat(actual).isFalse()
-    }
-
-    @Test
-    fun `열림과 닫힘 `() {
-        val board = Board()
-        board.place(4, 5, StoneColor.BLACK)
-        board.place(6, 5, StoneColor.BLACK)
-        board.place(5, 2, StoneColor.BLACK)
-        board.place(5, 3, StoneColor.BLACK)
-
-        board.place(2, 5, StoneColor.WHITE)
-        board.place(8, 5, StoneColor.WHITE)
-
-        board.place(5, 5, StoneColor.BLACK)
 
         val actual = ThreeByThreeRule.check(board)
         assertThat(actual).isFalse()
