@@ -11,19 +11,6 @@ enum class Direction(val row: Int, val col: Int) {
     RIGHT_DOWN(1, 1),
     ;
 
-    fun reverse(): Direction {
-        return when (this) {
-            UP -> DOWN
-            DOWN -> UP
-            LEFT -> RIGHT
-            RIGHT -> LEFT
-            LEFT_UP -> RIGHT_DOWN
-            RIGHT_UP -> LEFT_DOWN
-            LEFT_DOWN -> RIGHT_UP
-            RIGHT_DOWN -> LEFT_UP
-        }
-    }
-
     companion object {
         fun biDirections(): List<BiDirection> {
             return listOf(

@@ -1,20 +1,10 @@
 package omok.model
 
-import omok.model.rule.BlackWinRule
 import omok.model.rule.FourFourRule
 import omok.model.rule.OverlineRule
 import omok.model.rule.ThreeThreeRule
-import omok.model.rule.WhiteWinRule
 
 object RuleAdapter {
-    fun isBlackWin(board: Board, position: Position): Boolean {
-        return BlackWinRule.canPlaceStone(board.convert(), position.convert())
-    }
-
-    fun isWhiteWin(board: Board, position: Position): Boolean {
-        return WhiteWinRule.canPlaceStone(board.convert(), position.convert())
-    }
-
     fun abideDoubleFourRule(board: Board, position: Position): Boolean {
         return FourFourRule.canPlaceStone(board.convert(), position.convert())
     }
