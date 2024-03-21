@@ -6,30 +6,44 @@ import omok.view.OutputView
 
 object OmokGameController {
     fun startOmokGame() {
-        var input = ""
         OutputView.printStartMessage()
         val omok = Omok()
         var currentStone = Stone.BLACK
+
         while (omok.isRunning()) {
             val forbiddenPositions = omok.checkBoard(currentStone.value)
             OutputView.printBoard(omok.gameBoard, forbiddenPositions)
-            input = InputView.readPlayerInput(currentStone, input)
-            val columnLetter = (input[0].uppercase())[0]
-            val columnNumber = input.substring(1).toInt() - 1
-            val rowNumber = BoardColumn.fromLetter(columnLetter)?.column!! - 1
-            if (omok.gameBoard[columnNumber][rowNumber] != Omok.EMPTY) {
+
+            val (rowNumber, columnLetter) = InputView.readPlayerMove(currentStone)
+            if (isWrongCoords(columnLetter, rowNumber)) continue
+
+            val columnNumber = BoardColumn.fromLetter(columnLetter)!!.column.minus(1)
+
+            if (omok.isNotEmpty(rowNumber, columnNumber)) {
                 OutputView.printOccupiedPositionMessage()
-            } else if (columnNumber to rowNumber in forbiddenPositions) {
-                OutputView.printForbiddenMoveMessage()
-            } else {
-                omok.setStone(rowNumber, columnNumber, currentStone.value)
-                currentStone = togglePlayer(currentStone)
+                continue
             }
+            if (omok.isForbidden(rowNumber, columnNumber, forbiddenPositions)) {
+                OutputView.printForbiddenMoveMessage()
+                continue
+            }
+            omok.setStone(rowNumber, columnNumber, currentStone.value)
+            currentStone = togglePlayer(currentStone)
         }
+
         OutputView.printBoard(omok.gameBoard)
     }
 
-    private fun togglePlayer(currentStone: Stone): Stone {
-        return if (currentStone == Stone.BLACK) Stone.WHITE else Stone.BLACK
+    private fun isWrongCoords(
+        columnLetter: Char,
+        rowNumber: Int,
+    ): Boolean {
+        if (BoardColumn.fromLetter(columnLetter) == null || rowNumber !in (0..14)) {
+            OutputView.printWrongPositionMessage()
+            return true
+        }
+        return false
     }
+
+    private fun togglePlayer(currentStone: Stone): Stone = if (currentStone == Stone.BLACK) Stone.WHITE else Stone.BLACK
 }

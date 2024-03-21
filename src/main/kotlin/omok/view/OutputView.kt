@@ -1,8 +1,10 @@
 package omok.view
 
 private const val COLUMN_STRING = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
-
 private const val X = "X"
+private const val EMPTY = "┼"
+private const val BLACK_STONE = "●"
+private const val WHITE_STONE = "○"
 
 object OutputView {
     fun printStartMessage() {
@@ -17,23 +19,27 @@ object OutputView {
         println("빈 자리에 놓아주세요.")
     }
 
+    fun printWrongPositionMessage() {
+        println("잘못된 위치 입력입니다.")
+    }
+
     fun printBoard(
         board: Array<Array<Int>>,
         forbiddenPositions: List<Pair<Int, Int>> = emptyList(),
     ) {
         val boardForDisplay = initializeBoard()
-        for (row in 0 until 15) {
-            // Row labels
+        for (row in board.indices) {
             print("${row + 1}".padStart(2, ' ') + " ")
-            for (col in 0 until 15) {
-                if (row to col in forbiddenPositions) {
-                    print(X)
-                } else if (board[row][col] == 0) {
-                    print(boardForDisplay[row][col]) // 격자 모양 출력
-                } else {
-                    print(if (board[row][col] == 1) "○" else "●") // 1 또는 -1에 대한 돌 모양 출력
-                }
-                if (col < 14) print("──")
+            for (col in board[row].indices) {
+                val displayChar =
+                    when {
+                        row to col in forbiddenPositions -> X
+                        board[col][row] == 1 -> WHITE_STONE
+                        board[col][row] == -1 -> BLACK_STONE
+                        else -> boardForDisplay[row][col]
+                    }
+                print(displayChar)
+                if (col < board[row].lastIndex) print("──")
             }
             println()
         }
@@ -41,37 +47,34 @@ object OutputView {
     }
 
     private fun initializeBoard(): Array<Array<String>> {
-        val board = Array(15) { Array(15) { "┼" } } // 게임판 전체를 격자로 초기화
-        for (i in 0..14) {
-            board[i][0] = "├" // 왼쪽 테두리
-            board[i][14] = "┤" // 오른쪽 테두리
-            board[0][i] =
-                if (i == 0) {
-                    "┌"
-                } else if (i == 14) {
-                    "┐"
-                } else {
-                    "┬" // 상단 테두리
+        return Array(15) { row ->
+            Array(15) { col ->
+                when {
+                    row == 0 -> topEdge(col)
+                    row == 14 -> bottomEdge(col)
+                    col == 0 -> leftEdge(row)
+                    col == 14 -> rightEdge(row)
+                    else -> EMPTY
                 }
-            board[14][i] =
-                if (i == 0) {
-                    "└"
-                } else if (i == 14) {
-                    "┘"
-                } else {
-                    "┴" // 하단 테두리
-                }
+            }
         }
-        board[0][0] = "┌" // 왼쪽 상단 모서리
-        board[0][14] = "┐" // 오른쪽 상단 모서리
-        board[14][0] = "└" // 왼쪽 하단 모서리
-        board[14][14] = "┘" // 오른쪽 하단 모서리
-        board[0].fill("┬", 1, 14) // 상단 가로선
-        board[14].fill("┴", 1, 14) // 하단 가로선
-        for (row in 1 until 14) {
-            board[row][0] = "├" // 왼쪽 세로선
-            board[row][14] = "┤" // 오른쪽 세로선
-        }
-        return board
     }
+
+    private fun topEdge(col: Int) =
+        when (col) {
+            0 -> "┌"
+            14 -> "┐"
+            else -> "┬"
+        }
+
+    private fun bottomEdge(col: Int) =
+        when (col) {
+            0 -> "└"
+            14 -> "┘"
+            else -> "┴"
+        }
+
+    private fun leftEdge(row: Int) = if (row in 1..13) "├" else "┼"
+
+    private fun rightEdge(row: Int) = if (row in 1..13) "┤" else "┼"
 }

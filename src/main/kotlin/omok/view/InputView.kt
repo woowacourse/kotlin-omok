@@ -3,7 +3,16 @@ package omok.view
 import omok.model.Stone
 
 object InputView {
-    fun readPlayerInput(
+    private var input = ""
+
+    fun readPlayerMove(currentStone: Stone): Pair<Int, Char> {
+        val input = readPlayerInput(currentStone, input)
+        val columnLetter = input[0].uppercaseChar()
+        val rowNumber = input.substring(1).toInt() - 1
+        return rowNumber to columnLetter
+    }
+
+    private fun readPlayerInput(
         stone: Stone,
         currentPosition: String,
     ): String {
