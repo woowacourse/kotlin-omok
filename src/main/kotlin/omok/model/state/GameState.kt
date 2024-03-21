@@ -11,37 +11,42 @@ import omok.model.rule.WhiteCanPutRule
 
 sealed class GameState(protected var board: Board) {
 
-    abstract fun canPut(stone: OmokStone): Boolean
-
     sealed class Running(private val putRule: PutRule, board: Board) : GameState(board) {
-        abstract fun put(position: Position): GameState
+        abstract fun put(onPlace: () -> Position): GameState
 
-        override fun canPut(stone: OmokStone): Boolean {
+        protected fun canPut(stone: OmokStone): Boolean {
             return putRule.canPut(stone, board)
         }
 
-        fun isFinished(position: Position) = board.isInOmok(position)
-
         class BlackTurn(putRule: PutRule, board: Board) : Running(putRule, board) {
-            override fun put(position: Position): GameState {
-                val newStones = board + OmokStone(position, StoneColor.BLACK)
-                if (newStones.isInOmok(position)) return Finish(board)
-                return WhiteTurn(WhiteCanPutRule, newStones)
+
+            override fun put(onPlace: () -> Position): GameState {
+                val position = onPlace()
+                val newStone = OmokStone(position, StoneColor.BLACK)
+                if (canPut(newStone)) {
+                    val newBoard = board + newStone
+                    if (newBoard.isInOmok(position)) return Finish(newBoard)
+                    return WhiteTurn(WhiteCanPutRule, newBoard)
+                }
+                return put(onPlace)
             }
         }
 
         class WhiteTurn(putRule: PutRule, board: Board) : Running(putRule, board) {
-            override fun put(position: Position): GameState {
-                val newStones = board + OmokStone(position, StoneColor.WHITE)
-                if (newStones.isInOmok(position)) return Finish(board)
-                return BlackTurn(BlackPutRule, newStones)
+
+            override fun put(onPlace: () -> Position): GameState {
+                val position = onPlace()
+                val newStone = OmokStone(position, StoneColor.WHITE)
+                if (canPut(newStone)) {
+                    val newBoard = board + newStone
+                    if (newBoard.isInOmok(position)) return Finish(newBoard)
+                    return BlackTurn(BlackPutRule, newBoard)
+                }
+                return put(onPlace)
             }
         }
     }
 
     class Finish(board: Board) : GameState(board) {
-        override fun canPut(stone: OmokStone): Boolean = false
-//
-//        fun winner(): OmokStone = board.last()
     }
 }
