@@ -91,9 +91,9 @@ class OutputView {
         firstSymbol: String,
     ) {
         if (board.board[row][0] != Stone.NONE) {
-            print("${board.board[row][0].value()}")
+            print(board.board[row][0].value())
         } else if (board.board[row][BOARD_SIZE - 1] != Stone.NONE) {
-            print("${board.board[row][BOARD_SIZE - 1].value()}")
+            print(board.board[row][BOARD_SIZE - 1].value())
         } else {
             print(firstSymbol)
         }
