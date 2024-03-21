@@ -89,12 +89,10 @@ class OutputView {
         row: Int,
         firstSymbol: String,
     ) {
-        if (board.board[row][MIN_COL] != Stone.NONE) {
-            print(board.board[row][MIN_COL].value())
-        } else if (board.board[row][UPPER_LENGTH] != Stone.NONE) {
-            print(board.board[row][UPPER_LENGTH].value())
-        } else {
-            print(firstSymbol)
+        when {
+            board.board[row][MIN_COL] != Stone.NONE -> print(board.board[row][MIN_COL].value())
+            board.board[row][UPPER_LENGTH] != Stone.NONE -> print(board.board[row][UPPER_LENGTH].value())
+            else -> print(firstSymbol)
         }
     }
 
