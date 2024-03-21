@@ -1,6 +1,6 @@
 package omok.model
 
-class ThreeThreeForbiddenPlace : ForbiddenPlace {
+class DoubleOpenThreeForbiddenPlace : ForbiddenPlace {
     override fun availablePosition(board: Board, position: Position): Boolean {
         return true
     }

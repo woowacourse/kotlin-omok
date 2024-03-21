@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test
 /**
  * docs/3-3 금수 테스트 케이스.png 참조
  */
-class ThreeThreeForbiddenPlaceTest {
+class DoubleOpenThreeForbiddenPlaceTest {
     @Test
     fun `3-3 금수 테스트 케이스 A의 경우 돌을 놓을 수 없다`() {
         // given
         val board = Board()
-        val forbiddenPlace = ThreeThreeForbiddenPlace()
+        val forbiddenPlace = DoubleOpenThreeForbiddenPlace()
 
         // when
         board.place(Position(1, 3), Stone.BLACK)
@@ -27,7 +27,7 @@ class ThreeThreeForbiddenPlaceTest {
     fun `3-3 금수 테스트 케이스 B의 경우 돌을 놓을 수 없다`() {
         // given
         val board = Board()
-        val forbiddenPlace = ThreeThreeForbiddenPlace()
+        val forbiddenPlace = DoubleOpenThreeForbiddenPlace()
 
         // when
         board.place(Position(10, 1), Stone.BLACK)
@@ -43,7 +43,7 @@ class ThreeThreeForbiddenPlaceTest {
     fun `3-3 금수 테스트 케이스 D의 경우 돌을 놓을 수 없다`() {
         // given
         val board = Board()
-        val forbiddenPlace = ThreeThreeForbiddenPlace()
+        val forbiddenPlace = DoubleOpenThreeForbiddenPlace()
 
         // when
         board.place(Position(5, 5), Stone.BLACK)
@@ -59,7 +59,7 @@ class ThreeThreeForbiddenPlaceTest {
     fun `3-3 금수 테스트 케이스 C의 경우 돌을 놓을 수 없다`() {
         // given
         val board = Board()
-        val forbiddenPlace = ThreeThreeForbiddenPlace()
+        val forbiddenPlace = DoubleOpenThreeForbiddenPlace()
 
         // when
         board.place(Position(0, 4), Stone.BLACK)

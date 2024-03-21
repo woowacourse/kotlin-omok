@@ -7,14 +7,14 @@ import org.junit.jupiter.api.Test
 /**
  * docs/4-4 금수 테스트 케이스.png 참조
  */
-class FourFourForbiddenPlaceTest {
+class DoubleFourForbiddenPlaceTest {
     private lateinit var board: Board
     private lateinit var forbiddenPlace: ForbiddenPlace
 
     @BeforeEach
     fun setUp() {
         board = Board()
-        forbiddenPlace = FourFourForbiddenPlace()
+        forbiddenPlace = DoubleFourForbiddenPlace()
     }
 
     @Test
