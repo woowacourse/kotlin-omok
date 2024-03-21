@@ -1,10 +1,15 @@
 package omok.view
 
 import omok.model.BlackStonePlayer
+import omok.model.Color
 import omok.model.WhiteStonePlayer
 
 class OutputView {
-    fun printBoard(
+    fun showGameStartHeader() {
+        println("오목 게임을 시작합니다")
+    }
+
+    fun showBoard(
         blackPlayer: BlackStonePlayer,
         whitePlayer: WhiteStonePlayer,
     ) {
@@ -36,12 +41,12 @@ class OutputView {
 
         // 검은 돌 위치 설정
         for (stone in blackPlayer.getStones()) {
-            board[(stone.point.col - 1)][(stone.point.row - 1) * 3] = "●"
+            board[(stone.point.col)][(stone.point.row) * 3] = "●"
         }
 
         // 흰 돌 위치 설정
         for (stone in whitePlayer.getStones()) {
-            board[(stone.point.col - 1)][(stone.point.row - 1) * 3] = "○"
+            board[(stone.point.col)][(stone.point.row) * 3] = "○"
         }
 
         for (row in 14 downTo 0) {
@@ -54,5 +59,9 @@ class OutputView {
 
         // 바둑판 상단의 알파벳 인덱스 출력
         println("   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O")
+    }
+
+    fun showGameResult(turn: Color) {
+        println("${if (turn == Color.WHITE) "백" else "흑"}의 승리입니다. 축하합니다.")
     }
 }
