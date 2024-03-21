@@ -3,6 +3,7 @@ package omok.model.rule
 import omok.model.Board
 import omok.model.entity.Point
 import omok.model.entity.Stone
+import omok.model.entity.StoneColor
 
 object ThreeByThreeRule : Rule {
     override fun check(board: Board): Boolean {
@@ -45,17 +46,26 @@ object ThreeByThreeRule : Rule {
     ): Boolean {
         val (vecX, vecY) = direction
         val point = stone.point
-        val newPoint = Point(point.x + vecX, point.y + vecY)
-        val newStone = Stone(newPoint, stone.stoneColor)
+        val nextPoint = Point(point.x + vecX, point.y + vecY)
+        val nextStone = Stone(nextPoint, stone.stoneColor)
+
+        val nextNextPoint = Point(point.x + vecX * 2, point.y + vecY * 2)
+        val nextNextBlackStone = Stone(nextNextPoint, StoneColor.BLACK)
+        val nextNextWhiteStone = Stone(nextNextPoint, StoneColor.WHITE)
+
+        val checkNotRealThree =
+            !board.stones.contains(nextStone) &&
+                !board.stones.contains(nextNextBlackStone) &&
+                !board.stones.contains(nextNextWhiteStone)
 
         if (targetOmokCount == 0) {
-            return !board.stones.contains(newStone)
+            return checkNotRealThree
         }
         if (board.stones.contains(stone).not()) return false
-        if (omokCount == targetOmokCount) {
-            return !board.stones.contains(newStone)
+        if (targetOmokCount == omokCount) {
+            return checkNotRealThree
         }
-        return stoneCount(direction, newStone, board, omokCount + 1, targetOmokCount)
+        return stoneCount(direction, nextStone, board, omokCount + 1, targetOmokCount)
     }
 
     private tailrec fun stoneCountWithBlank(
@@ -70,9 +80,18 @@ object ThreeByThreeRule : Rule {
         val (vecX, vecY) = direction
         val point = stone.point
         val newPoint = Point(point.x + vecX, point.y + vecY)
-        val newStone = Stone(newPoint, stone.stoneColor)
+        val nextStone = Stone(newPoint, stone.stoneColor)
+        val nextNextPoint = Point(point.x + vecX * 2, point.y + vecY * 2)
+        val nextNextBlackStone = Stone(nextNextPoint, StoneColor.BLACK)
+        val nextNextWhiteStone = Stone(nextNextPoint, StoneColor.WHITE)
+
+        val checkNotRealThree =
+            !board.stones.contains(nextStone) &&
+                !board.stones.contains(nextNextBlackStone) &&
+                !board.stones.contains(nextNextWhiteStone)
+
         if (targetOmokCount == 0) {
-            return !board.stones.contains(newStone)
+            return checkNotRealThree
         }
         if (board.stones.contains(stone).not()) {
             if (blankCount == 1) {
@@ -80,7 +99,7 @@ object ThreeByThreeRule : Rule {
             }
             return stoneCountWithBlank(
                 direction,
-                newStone,
+                nextStone,
                 board,
                 omokCount,
                 targetOmokCount,
@@ -88,13 +107,13 @@ object ThreeByThreeRule : Rule {
                 targetBlankCount,
             )
         }
-        if (omokCount == targetOmokCount) {
-            return !board.stones.contains(newStone)
+        if (targetOmokCount == omokCount) {
+            return checkNotRealThree
         }
 
         return stoneCountWithBlank(
             direction,
-            newStone,
+            nextStone,
             board,
             omokCount + 1,
             targetOmokCount,
