@@ -6,13 +6,14 @@ import omok.model.state.White
 
 class Board(
     stones: List<Stone> = emptyList(),
+    private val _status: Array<Array<Color?>> = Array(ARRAY_SIZE) { Array(ARRAY_SIZE) { null } },
 ) {
-    private val _status: Array<Array<Color?>> = Array(ARRAY_SIZE) { Array(ARRAY_SIZE) { null } }
     val status: List<List<Color?>>
         get() = _status.map { it.toList() }.toList()
 
     var stones: List<Stone> = stones.toList()
         private set
+
     private val turnState: TurnState
         get() = if (isEven(stones.size)) Black(_status) else White(_status)
 
