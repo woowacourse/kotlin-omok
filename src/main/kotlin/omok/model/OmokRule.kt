@@ -19,7 +19,7 @@ class OmokRule(
         y: Int,
     ): Boolean = directions.sumOf { direction -> checkOpenThree(y, x, direction.first, direction.second) } >= 2
 
-    fun checkFourFour(
+    fun countFourFour(
         x: Int,
         y: Int,
     ): Boolean = directions.sumOf { direction -> checkOpenFour(y, x, direction.first, direction.second) } >= 2
@@ -29,10 +29,10 @@ class OmokRule(
         y: Int,
     ): Boolean = directions.map { direction -> checkMoreThanFive(y, x, direction.first, direction.second) }.contains(true)
 
-    fun checkOmok(
+    fun validateOmok(
         x: Int,
         y: Int,
-    ): Boolean = directions.map { direction -> validateOmok(y, x, direction.first, direction.second) }.contains(true)
+    ): Boolean = directions.map { direction -> checkOmok(y, x, direction.first, direction.second) }.contains(true)
 
     private fun checkOpenThree(
         x: Int,
@@ -147,7 +147,7 @@ class OmokRule(
         }
     }
 
-    private fun validateOmok(
+    private fun checkOmok(
         x: Int,
         y: Int,
         dx: Int,

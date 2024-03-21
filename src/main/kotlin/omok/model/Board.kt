@@ -5,11 +5,11 @@ class Board {
     var lastPosition: Position? = null
     private lateinit var omokRule: OmokRule
 
-    fun setupOmokRule(currentType: PositionType) {
-        when (currentType) {
+    fun setupOmokRule(current: PositionType) {
+        when (current) {
             PositionType.BLACK_STONE -> {
                 omokRule = OmokRule(layout, PositionType.BLACK_STONE, PositionType.WHITE_STONE, BOARD_SIZE)
-                setBlock(omokRule::checkThreeThree, omokRule::checkFourFour, omokRule::checkMoreThanFive)
+                setBlock(omokRule::checkThreeThree, omokRule::countFourFour, omokRule::checkMoreThanFive)
             }
 
             PositionType.WHITE_STONE -> {
@@ -27,12 +27,12 @@ class Board {
     ): Boolean {
         return when (positionType) {
             PositionType.BLACK_STONE -> {
-                omokRule.checkOmok(position.coordinate.x, position.coordinate.y) &&
+                omokRule.validateOmok(position.coordinate.x, position.coordinate.y) &&
                     !omokRule.checkMoreThanFive(position.coordinate.x, position.coordinate.y)
             }
 
             PositionType.WHITE_STONE -> {
-                omokRule.checkOmok(position.coordinate.x, position.coordinate.y)
+                omokRule.validateOmok(position.coordinate.x, position.coordinate.y)
             }
 
             else -> throw IllegalArgumentException()
