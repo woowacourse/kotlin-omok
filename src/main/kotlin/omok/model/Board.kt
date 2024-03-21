@@ -1,6 +1,7 @@
 package omok.model
 
 import omok.model.entity.Stone
+import omok.model.rule.Rule
 
 class Board private constructor(val stones: Set<Stone>) {
     constructor() : this(setOf<Stone>())
