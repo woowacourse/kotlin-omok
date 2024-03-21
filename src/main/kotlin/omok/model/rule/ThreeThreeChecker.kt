@@ -49,10 +49,7 @@ object ThreeThreeChecker : OmokRule(Board.board) {
         var toTop = y
         var distance = 0
         while (true) {
-            if (dx > 0 && toRight == Board.BOARD_SIZE - 1) break
-            if (dx < 0 && toRight == MIN_X) break
-            if (dy > 0 && toTop == Board.BOARD_SIZE - 1) break
-            if (dy < 0 && toTop == MIN_X) break
+            if (isBoardRange(dx, toRight, dy, toTop)) break
             toRight += dx
             toTop += dy
             when (Board.board[toTop][toRight]) {

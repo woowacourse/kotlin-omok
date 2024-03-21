@@ -20,17 +20,13 @@ open class OmokRule(private val board: Array<Array<Stone>>) {
         dx: Int,
         dy: Int,
     ): Pair<Int, Int> {
-        // 반대의 반대의 반대,,
         var toRight = x
         var toTop = y
         var stone = 0
         var blink = 0
         var blinkCount = 0
         while (true) {
-            if (dx > 0 && toRight == Board.BOARD_SIZE - 1) break
-            if (dx < 0 && toRight == MIN_X) break
-            if (dy > 0 && toTop == Board.BOARD_SIZE - 1) break
-            if (dy < 0 && toTop == MIN_X) break
+            if (isBoardRange(dx, toRight, dy, toTop)) break
             toRight += dx
             toTop += dy
             when (board[toTop][toRight]) {
@@ -49,6 +45,19 @@ open class OmokRule(private val board: Array<Array<Stone>>) {
             }
         }
         return Pair(stone, blink)
+    }
+
+    fun isBoardRange(
+        dx: Int,
+        toRight: Int,
+        dy: Int,
+        toTop: Int,
+    ): Boolean {
+        if (dx > 0 && toRight == Board.BOARD_SIZE - 1) return true
+        if (dx < 0 && toRight == MIN_X) return true
+        if (dy > 0 && toTop == Board.BOARD_SIZE - 1) return true
+        if (dy < 0 && toTop == MIN_X) return true
+        return false
     }
 
     companion object {
