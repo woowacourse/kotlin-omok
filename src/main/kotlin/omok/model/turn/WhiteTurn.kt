@@ -15,7 +15,7 @@ class WhiteTurn(board: Board) : Turn(board) {
 
         val nextBoard =
             when (val placeResult = board.place(stone)) {
-                is StoneOutOfBoard, is StoneAlreadyExists -> return WhiteTurn(board)
+                is StoneOutOfBoard, is StoneAlreadyExists -> return this
                 is Success -> placeResult.board
             }
 
