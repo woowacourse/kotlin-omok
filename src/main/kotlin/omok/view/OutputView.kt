@@ -6,7 +6,7 @@ import omok.model.WhiteStonePlayer
 
 class OutputView {
     fun showGameStartHeader() {
-        println("오목 게임을 시작합니다")
+        println(HEADER_GAME_START)
     }
 
     fun showBoard(
@@ -58,10 +58,15 @@ class OutputView {
         }
 
         // 바둑판 상단의 알파벳 인덱스 출력
-        println("   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O")
+        println(ROW_INDEX)
     }
 
     fun showGameResult(turn: Color) {
         println("${if (turn == Color.WHITE) "백" else "흑"}의 승리입니다. 축하합니다.")
+    }
+
+    companion object {
+        private const val HEADER_GAME_START = "오목 게임을 시작합니다"
+        private const val ROW_INDEX = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
     }
 }
