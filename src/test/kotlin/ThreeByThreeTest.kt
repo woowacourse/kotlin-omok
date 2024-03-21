@@ -149,4 +149,18 @@ class ThreeByThreeTest {
         val actual = ThreeByThreeRule.check(board)
         assertThat(actual).isFalse()
     }
+
+    @Test
+    fun `한 쪽 귀퉁이를 마지막으로 두는 십자형 33`() {
+        val board =
+            Board()
+                .place(3, 4)
+                .place(5, 4)
+                .place(4, 4)
+                .place(4, 3)
+                .place(4, 5)
+
+        val actual = ThreeByThreeRule.check(board)
+        assertThat(actual).isTrue()
+    }
 }

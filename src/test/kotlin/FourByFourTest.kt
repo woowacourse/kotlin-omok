@@ -22,6 +22,22 @@ class FourByFourTest {
     }
 
     @Test
+    fun `가로 세로 줄 사이 빈 곳이 없는 44에 한 귀퉁이를 제일 마지막에 둘 때`() {
+        val board =
+            Board()
+                .place(3, 3)
+                .place(4, 3)
+                .place(5, 3)
+                .place(6, 3)
+                .place(6, 4)
+                .place(6, 5)
+                .place(6, 6)
+
+        val actual = FourByFourRule.check(board)
+        assertThat(actual).isTrue()
+    }
+
+    @Test
     fun `가로 세로 줄 사이 빈 곳이 없는 44이고 끝이 다른색 돌로 막혀 있을 때`() {
         val board =
             Board()

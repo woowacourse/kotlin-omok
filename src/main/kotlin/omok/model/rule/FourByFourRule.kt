@@ -6,6 +6,19 @@ import omok.model.entity.Stone
 
 object FourByFourRule : Rule {
     override fun check(board: Board): Boolean {
+        val previousStone = board.previousStone() ?: throw IllegalStateException()
+        val color = previousStone.stoneColor
+        return board.stones
+            .filter { it.stoneColor == color }
+            .any {
+                checkOneStone(it, board)
+            }
+    }
+
+    private fun checkOneStone(
+        stone: Stone,
+        board: Board,
+    ): Boolean {
         val directions =
             listOf(
                 1 to 0,
@@ -13,22 +26,21 @@ object FourByFourRule : Rule {
                 1 to 1,
                 -1 to 1,
             )
-        val previousStone = board.previousStone() ?: throw IllegalStateException()
 
         val sum =
             directions.count { direction ->
                 val (vecX, vecY) = direction
                 val oppositeDirection = -vecX to -vecY
                 (0..3).any {
-                    val left = stoneCount(oppositeDirection, previousStone, board, 0, it)
-                    val right = stoneCount(direction, previousStone, board, 0, 3 - it)
+                    val left = stoneCount(oppositeDirection, stone, board, 0, it)
+                    val right = stoneCount(direction, stone, board, 0, 3 - it)
                     val withBlank =
                         (0..1).any { targetBlankCount ->
                             val leftWithBlank =
-                                stoneCountWithBlank(oppositeDirection, previousStone, board, 0, it, 0, targetBlankCount)
+                                stoneCountWithBlank(oppositeDirection, stone, board, 0, it, 0, targetBlankCount)
                             val rightWithBlank =
-                                stoneCountWithBlank(direction, previousStone, board, 0, 3 - it, 0, targetBlankCount)
-                            stoneCountWithBlank(direction, previousStone, board, 0, 3 - it, 0, targetBlankCount)
+                                stoneCountWithBlank(direction, stone, board, 0, 3 - it, 0, targetBlankCount)
+                            stoneCountWithBlank(direction, stone, board, 0, 3 - it, 0, targetBlankCount)
                             leftWithBlank && rightWithBlank
                         }
                     left && right || withBlank
