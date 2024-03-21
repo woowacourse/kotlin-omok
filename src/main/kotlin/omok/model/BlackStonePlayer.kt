@@ -16,9 +16,7 @@ class BlackStonePlayer : Player() {
     }
 
     override fun add(stone: Stone) {
-        require(!rule.isInValid(stones, stone)) {
-            "렌주룰 어겼다 이놈아"
-        }
+        require(!rule.isInValid(stones, stone)) { "렌주룰을 어겼습니다." }
 
         stones.add(stone)
     }

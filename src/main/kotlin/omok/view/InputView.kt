@@ -4,6 +4,7 @@ import omok.model.Board
 import omok.model.Color
 import omok.model.Point
 import omok.model.Stone
+import omok.retryWhileNotException
 
 class InputView {
     fun getStone(
@@ -25,15 +26,6 @@ class InputView {
         return when (color) {
             Color.BLACK -> "흑"
             Color.WHITE -> "백"
-        }
-    }
-
-    fun <T> retryWhileNotException(block: () -> T): T {
-        return try {
-            block()
-        } catch (e: IllegalArgumentException) {
-            println(e.message)
-            retryWhileNotException(block)
         }
     }
 
