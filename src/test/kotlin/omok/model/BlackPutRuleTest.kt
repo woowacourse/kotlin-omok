@@ -32,12 +32,12 @@ class BlackPutRuleTest {
     fun `3-3이면 금수다`() {
         // given
         val blackBoard = createBlackBoard(
-            createPoint(1, 2),
-            createPoint(1, 3),
-            createPoint(2, 1),
-            createPoint(3, 1),
+            createPoint(4, 5),
+            createPoint(4, 6),
+            createPoint(5, 4),
+            createPoint(6, 4),
         )
-        val blackStone = createBlackStone(1, 1)
+        val blackStone = createBlackStone(4, 4)
         // when
         val canPut = BlackPutRule.canPut(blackStone, blackBoard)
         // then

@@ -19,9 +19,6 @@ object BlackPutRule : PutRule {
         val isNotFourFour = ArkFourFourRule.validate(arkBoard, arkPoint).not()
         val isNotThreeThree = ArkThreeThreeRule.validate(arkBoard, arkPoint).not()
         val isNotJangMok = ArkOverLineRule.validate(arkBoard, arkPoint)
-        println("사사임? : ${isNotFourFour.not()}")
-        println("삼삼임? : ${isNotThreeThree.not()}")
-        println("장목임?? : ${isNotJangMok.not()}")
         return isNotFourFour && isNotThreeThree && isNotJangMok && WhiteCanPutRule.canPut(stone, board)
     }
 }
