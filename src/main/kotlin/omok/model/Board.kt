@@ -37,7 +37,7 @@ class Board {
         runCatching {
             for (i in 0 until BOARD_SIZE) {
                 for (j in 0 until BOARD_SIZE) {
-                    if (a(i, j) || b(i, j) || c(i, j)) {
+                    if ((a(i, j) || b(i, j) || c(i, j)) && newBoard.layout[i][j] == StoneType.EMPTY) {
                         parList.add(Pair(i, j))
                     }
                 }

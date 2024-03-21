@@ -82,7 +82,7 @@ class OmokRule(
             toRight += dx
             toTop += dy
             when (board[toTop][toRight]) {
-                in listOf(currentStone, StoneType.EMPTY) -> distance++
+                in listOf(currentStone, StoneType.EMPTY, StoneType.BLOCK) -> distance++
                 otherStone -> break
                 else -> throw IllegalArgumentException()
             }
@@ -187,11 +187,10 @@ class OmokRule(
                 }
 
                 otherStone -> break
-                StoneType.EMPTY -> {
+                StoneType.EMPTY, StoneType.BLOCK -> {
                     if (blink == 1) break
                     if (blinkCount++ == 1) break
                 }
-
                 else -> throw IllegalArgumentException()
             }
         }

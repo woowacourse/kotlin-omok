@@ -1,6 +1,6 @@
 package omok.model
 
-sealed class GameState(val board: Board) {
+sealed class GameState(var board: Board) {
     abstract fun placeStone(
         onTurn: (GameState) -> Unit,
         onRead: () -> Position,
@@ -13,69 +13,71 @@ sealed class GameState(val board: Board) {
         }
 
         class BlackTurn(board: Board) : Running(board) {
+            private val omokRule: OmokRule
+
+            init {
+                omokRule =
+                    OmokRule(
+                        board.layout,
+                        currentStone = StoneType.BLACK_STONE,
+                        otherStone = StoneType.WHITE_STONE,
+                        boardSize = BOARD_SIZE,
+                    )
+                this.board =
+                    board.generateBlock(
+                        omokRule::checkThreeThree,
+                        omokRule::countFourFour,
+                        omokRule::checkMoreThanFive,
+                    )
+            }
+
             override fun placeStone(
                 onTurn: (GameState) -> Unit,
                 onRead: () -> Position,
                 onShow: (Board) -> Unit,
             ): GameState {
+                onShow(board)
                 onTurn(this)
                 val position = onRead()
 
                 board.placeStone(position, StoneType.BLACK_STONE)
-                onShow(board)
 
-                val omokRule =
-                    OmokRule(
-                        board.layout,
-                        currentStone = StoneType.BLACK_STONE,
-                        otherStone = StoneType.WHITE_STONE,
-                        boardSize = 15,
-                    )
                 if (omokRule.validateOmok(
                         position.coordinate.x, position.coordinate.y,
                     ) &&
-                    omokRule.checkMoreThanFive(position.coordinate.x, position.coordinate.y)
+                    !omokRule.checkMoreThanFive(position.coordinate.x, position.coordinate.y)
                 ) {
                     return Finish(board)
                 }
-
                 return WhiteTurn(board)
             }
         }
 
         class WhiteTurn(board: Board) : Running(board) {
+            private val omokRule: OmokRule
+
+            init {
+                this.board.removeBlock()
+                omokRule =
+                    OmokRule(
+                        board.layout,
+                        currentStone = StoneType.WHITE_STONE,
+                        otherStone = StoneType.BLACK_STONE,
+                        boardSize = BOARD_SIZE,
+                    )
+            }
+
             override fun placeStone(
                 onTurn: (GameState) -> Unit,
                 onRead: () -> Position,
                 onShow: (Board) -> Unit,
             ): GameState {
+                onShow(board)
                 onTurn(this)
                 val position = onRead()
 
                 board.placeStone(position, StoneType.WHITE_STONE)
 
-                val blockRule =
-                    OmokRule(
-                        board.layout,
-                        currentStone = StoneType.BLACK_STONE,
-                        otherStone = StoneType.WHITE_STONE,
-                        boardSize = 15,
-                    )
-                val blockBoard =
-                    board.generateBlock(
-                        blockRule::checkThreeThree,
-                        blockRule::countFourFour,
-                        blockRule::checkMoreThanFive,
-                    )
-                onShow(blockBoard)
-
-                val omokRule =
-                    OmokRule(
-                        board.layout,
-                        currentStone = StoneType.WHITE_STONE,
-                        otherStone = StoneType.BLACK_STONE,
-                        boardSize = 15,
-                    )
                 if (omokRule.validateOmok(position.coordinate.x, position.coordinate.y)) {
                     return Finish(board)
                 }

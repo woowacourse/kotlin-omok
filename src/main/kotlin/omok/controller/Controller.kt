@@ -10,7 +10,7 @@ import omok.view.OutputView
 
 class Controller(private val gameManager: GameManager) {
     fun play() {
-        gameManager.showGameStart(::printStart)
+        printStart()
         gameManager.play(::printRunningInfo, ::readPosition, ::printBoard)
     }
 
@@ -18,9 +18,8 @@ class Controller(private val gameManager: GameManager) {
         return InputView.readPosition()
     }
 
-    private fun printStart(board: Board) {
+    private fun printStart() {
         OutputView.printStartHeader()
-        printBoard(board)
     }
 
     private fun printBoard(board: Board) {
