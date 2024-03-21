@@ -1,7 +1,7 @@
 package omok.model
 
 class Board {
-    var layout: Array<Array<StoneType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { StoneType.EMPTY } }
+    var layout: Array<Array<PositionType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { PositionType.EMPTY } }
     var lastPosition: Position? = null
 
     private fun copy(): Board {
@@ -17,8 +17,8 @@ class Board {
     fun removeBlock() {
         layout.forEach { row ->
             row.forEachIndexed { index, stoneType ->
-                if (stoneType == StoneType.BLOCK) {
-                    row[index] = StoneType.EMPTY
+                if (stoneType == PositionType.BLOCK) {
+                    row[index] = PositionType.EMPTY
                 }
             }
         }
@@ -26,10 +26,10 @@ class Board {
 
     fun placeStone(
         position: Position,
-        stoneType: StoneType,
+        positionType: PositionType,
     ) {
-        if (layout[position.coordinate.x][position.coordinate.y] == StoneType.EMPTY) {
-            layout[position.coordinate.x][position.coordinate.y] = stoneType
+        if (layout[position.coordinate.x][position.coordinate.y] == PositionType.EMPTY) {
+            layout[position.coordinate.x][position.coordinate.y] = positionType
             lastPosition = position
         } else {
             throw IllegalArgumentException(ERROR_INVALID_POSITION)
@@ -47,7 +47,7 @@ class Board {
         runCatching {
             for (i in 0 until BOARD_SIZE) {
                 for (j in 0 until BOARD_SIZE) {
-                    if ((a(i, j) || b(i, j) || c(i, j)) && newBoard.layout[i][j] == StoneType.EMPTY) {
+                    if ((a(i, j) || b(i, j) || c(i, j)) && newBoard.layout[i][j] == PositionType.EMPTY) {
                         parList.add(Pair(i, j))
                     }
                 }
@@ -57,7 +57,7 @@ class Board {
         }
 
         parList.forEach {
-            newBoard.layout[it.first][it.second] = StoneType.BLOCK
+            newBoard.layout[it.first][it.second] = PositionType.BLOCK
         }
 
         return newBoard

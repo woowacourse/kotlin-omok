@@ -1,7 +1,7 @@
 package omok.view
 
 import omok.model.Board
-import omok.model.StoneType
+import omok.model.PositionType
 
 object BoardView {
     private const val BLACK_STONE = '●'
@@ -52,12 +52,12 @@ object BoardView {
         return BASE_POSITION + (rowIndex * INTERVAL_X) - (colIndex * INTERVAL_Y)
     }
 
-    private fun getStoneSymbol(stoneType: StoneType): Char? {
-        return when (stoneType) {
-            StoneType.BLACK_STONE -> BLACK_STONE
-            StoneType.WHITE_STONE -> WHITE_STONE
-            StoneType.BLOCK -> BLOCK
-            StoneType.EMPTY -> null
+    private fun getStoneSymbol(positionType: PositionType): Char? {
+        return when (positionType) {
+            PositionType.BLACK_STONE -> BLACK_STONE
+            PositionType.WHITE_STONE -> WHITE_STONE
+            PositionType.BLOCK -> BLOCK
+            PositionType.EMPTY -> null
         }
     }
 }

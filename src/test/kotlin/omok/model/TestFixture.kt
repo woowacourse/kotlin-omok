@@ -45,5 +45,5 @@ val G4 = Position.from("G4")
 val J6 = Position.from("J6")
 val J8 = Position.from("J8")
 
-val BLACK_STONE = StoneType.BLACK_STONE
-val WHITE_STONE = StoneType.WHITE_STONE
+val BLACK_STONE = PositionType.BLACK_STONE
+val WHITE_STONE = PositionType.WHITE_STONE

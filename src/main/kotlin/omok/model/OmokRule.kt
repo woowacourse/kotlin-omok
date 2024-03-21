@@ -1,9 +1,9 @@
 package omok.model
 
 class OmokRule(
-    private val board: Array<Array<StoneType>>,
-    private val currentStone: StoneType = StoneType.BLACK_STONE,
-    private val otherStone: StoneType = StoneType.WHITE_STONE,
+    private val board: Array<Array<PositionType>>,
+    private val currentStone: PositionType = PositionType.BLACK_STONE,
+    private val otherStone: PositionType = PositionType.WHITE_STONE,
     private val boardSize: Int = 15,
 ) {
     private val directions =
@@ -82,7 +82,7 @@ class OmokRule(
             toRight += dx
             toTop += dy
             when (board[toTop][toRight]) {
-                in listOf(currentStone, StoneType.EMPTY, StoneType.BLOCK) -> distance++
+                in listOf(currentStone, PositionType.EMPTY, PositionType.BLOCK) -> distance++
                 otherStone -> break
                 else -> throw IllegalArgumentException()
             }
@@ -187,7 +187,7 @@ class OmokRule(
                 }
 
                 otherStone -> break
-                StoneType.EMPTY, StoneType.BLOCK -> {
+                PositionType.EMPTY, PositionType.BLOCK -> {
                     if (blink == 1) break
                     if (blinkCount++ == 1) break
                 }

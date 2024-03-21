@@ -19,8 +19,8 @@ sealed class GameState(var board: Board) {
                 omokRule =
                     OmokRule(
                         board.layout,
-                        currentStone = StoneType.BLACK_STONE,
-                        otherStone = StoneType.WHITE_STONE,
+                        currentStone = PositionType.BLACK_STONE,
+                        otherStone = PositionType.WHITE_STONE,
                         boardSize = BOARD_SIZE,
                     )
                 this.board =
@@ -40,7 +40,7 @@ sealed class GameState(var board: Board) {
                 onTurn(this)
                 val position = onRead()
 
-                board.placeStone(position, StoneType.BLACK_STONE)
+                board.placeStone(position, PositionType.BLACK_STONE)
 
                 if (omokRule.validateOmok(
                         position.coordinate.x, position.coordinate.y,
@@ -61,8 +61,8 @@ sealed class GameState(var board: Board) {
                 omokRule =
                     OmokRule(
                         board.layout,
-                        currentStone = StoneType.WHITE_STONE,
-                        otherStone = StoneType.BLACK_STONE,
+                        currentStone = PositionType.WHITE_STONE,
+                        otherStone = PositionType.BLACK_STONE,
                         boardSize = BOARD_SIZE,
                     )
             }
@@ -76,7 +76,7 @@ sealed class GameState(var board: Board) {
                 onTurn(this)
                 val position = onRead()
 
-                board.placeStone(position, StoneType.WHITE_STONE)
+                board.placeStone(position, PositionType.WHITE_STONE)
 
                 if (omokRule.validateOmok(position.coordinate.x, position.coordinate.y)) {
                     return Finish(board)

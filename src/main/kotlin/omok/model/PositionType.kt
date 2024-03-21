@@ -1,6 +1,6 @@
 package omok.model
 
-enum class StoneType {
+enum class PositionType {
     BLACK_STONE,
     WHITE_STONE,
     BLOCK,
