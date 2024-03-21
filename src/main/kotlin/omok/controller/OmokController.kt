@@ -10,7 +10,6 @@ class OmokController(val inputView: InputView, val outputView: OutputView) {
 
     fun start() {
         outputView.showGameStartMessage()
-
         while (true) {
             outputView.showCurrentBoard(board.status)
             val position = getInputPosition()
