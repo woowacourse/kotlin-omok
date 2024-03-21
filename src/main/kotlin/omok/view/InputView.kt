@@ -2,7 +2,6 @@ package omok.view
 
 import omok.model.board.Board
 import omok.model.position.Position
-import omok.model.position.Position.Companion.X_AXIS_START
 import omok.model.stone.GoStone
 import omok.model.stone.Stone
 
@@ -22,7 +21,7 @@ class InputView {
     private fun requirePositionInput(stone: GoStone): String {
         print(TURN_MESSAGE.format(stone.stoneType.value()))
         Board.getLastStonePosition()?.let {
-            print(LAST_STONE_MESSAGE.format(it.convert()))
+            print(LAST_STONE_MESSAGE.format(it.toString()))
         }
         lineBreak()
         print(ENTER_POSITION_MESSAGE)
@@ -30,8 +29,6 @@ class InputView {
     }
 
     private fun lineBreak() = println()
-
-    private fun Position.convert() = "${X_AXIS_START + row}${col + 1}"
 
     private fun Stone.value() =
         when (this) {

@@ -5,6 +5,8 @@ data class Position(val row: Int, val col: Int) {
         validPosition(row, col)
     }
 
+    override fun toString(): String = "${X_AXIS_START + row}${col + 1}"
+
     companion object {
         const val X_AXIS_START = 'A'
         private const val MIN_RANGE = 0
