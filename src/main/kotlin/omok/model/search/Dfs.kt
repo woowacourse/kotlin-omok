@@ -30,8 +30,8 @@ abstract class Dfs(
         column: Int,
         color: Color,
     ): Boolean =
-        row in 0..14 &&
-            column in 0..14 &&
+        row in 1..15 &&
+            column in 1..15 &&
             status[row][column] == color &&
             !visited[row][column]
 
