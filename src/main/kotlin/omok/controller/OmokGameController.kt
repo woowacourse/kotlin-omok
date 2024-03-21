@@ -23,22 +23,26 @@ object OmokGameController {
         omok.gameBoard[0][5] = Stone.BLACK
         omok.gameBoard[0][6] = Stone.BLACK
         omok.gameBoard[0][7] = Stone.BLACK
-
+        var previousStoneCoords = ""
         while (omok.isRunning()) {
             val forbiddenPositions = omok.checkBoard(currentStone)
             OutputView.printBoard(omok.gameBoard, forbiddenPositions)
-            val (rowCoords, columnCoords) = readPlayerCoords(currentStone)
+            val (rowCoords, columnCoords) = readPlayerCoords(currentStone, previousStoneCoords)
             if (isWrongCoords(columnCoords, rowCoords)) continue
             if (canSetStone(omok, rowCoords!!, columnCoords!!, forbiddenPositions)) continue
             omok.setStone(rowCoords, columnCoords, currentStone)
+            previousStoneCoords = (columnCoords.number + 65).toChar() + (rowCoords.number + 1).toString()
             omok.isGameOver(rowCoords, columnCoords, currentStone)
             currentStone = togglePlayer(currentStone)
         }
         return omok
     }
 
-    private fun readPlayerCoords(currentStone: Stone): Pair<CoordsNumber?, CoordsNumber?> {
-        val (rowLetter, columnLetter) = InputView.readPlayerMove(currentStone)
+    private fun readPlayerCoords(
+        currentStone: Stone,
+        previousStoneCoords: String,
+    ): Pair<CoordsNumber?, CoordsNumber?> {
+        val (rowLetter, columnLetter) = InputView.readPlayerMove(currentStone, previousStoneCoords)
         val rowNumber = CoordsNumber.of(rowLetter)
         val columnNumber = ColumnNumber.fromLetter(columnLetter)
         return Pair(rowNumber, columnNumber)
