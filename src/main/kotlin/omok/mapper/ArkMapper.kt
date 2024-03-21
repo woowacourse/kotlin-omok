@@ -3,22 +3,27 @@ package omok.mapper
 import omok.model.Color
 import omok.model.Position
 
-fun Array<Array<Color?>>.toArkOmokBoard(): List<List<Int>> {
-    val arkBoard = MutableList(15) { MutableList(15) { 0 } }
+private const val BOARD_SIZE = 15
+private const val BLANK_SIGNATURE_NUMBER = 0
+private const val BLACK_SIGNATURE_NUMBER = 1
+private const val WHITE_SIGNATURE_NUMBER = 2
 
+fun Array<Array<Color?>>.toArkOmokBoard(): List<List<Int>> {
+    val arkBoard = MutableList(BOARD_SIZE) { MutableList(BOARD_SIZE) { BLANK_SIGNATURE_NUMBER } }
     for (i in 1..<this.size) {
         for (j in 1..<this[i].size) {
-            arkBoard[i - 1][j - 1] =
-                when (this[i][j]) {
-                    Color.BLACK -> 1
-                    Color.WHITE -> 2
-                    else -> 0
-                }
+            arkBoard[i - 1][j - 1] = this[i][j].toSignatureNumber()
         }
     }
-
     return arkBoard
 }
+
+private fun Color?.toSignatureNumber() =
+    when (this) {
+        Color.BLACK -> BLACK_SIGNATURE_NUMBER
+        Color.WHITE -> WHITE_SIGNATURE_NUMBER
+        else -> BLANK_SIGNATURE_NUMBER
+    }
 
 fun Position.toArkOmokPoint(): Pair<Int, Int> {
     return Pair(this.col.value - 1, this.row.value - 1)
