@@ -5,6 +5,9 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 class BlackStoneTest {
     @BeforeEach
@@ -21,8 +24,7 @@ class BlackStoneTest {
         val stone = BlackStone()
         val position = Position(0, 0)
         stone.putStone(position)
-        assertThatThrownBy { stone.putStone(position) }
-            .isExactlyInstanceOf(IllegalArgumentException::class.java)
+        assertThatThrownBy { stone.putStone(position) }.isExactlyInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("이미 놓여진 자리입니다.\n")
     }
 
@@ -33,16 +35,15 @@ class BlackStoneTest {
         assertDoesNotThrow { stone.putStone(position) }
     }
 
-    @Test
-    fun `오목 여부를 판단한다 - 오목일 때`() {
+    @MethodSource("오목 여부 판단 테스트 데이터 - 성공")
+    @ParameterizedTest
+    fun `오목 여부를 판단한다 - 오목일 때`(stonePositions: List<Position>) {
         // given
         val blackStone = BlackStone()
 
-        blackStone.putStone(Position(1, 1))
-        blackStone.putStone(Position(2, 2))
-        blackStone.putStone(Position(3, 3))
-        blackStone.putStone(Position(4, 4))
-        blackStone.putStone(Position(5, 5))
+        stonePositions.forEach {
+            blackStone.putStone(it)
+        }
 
         val lastPosition = Position(4, 4)
         // when
@@ -53,16 +54,17 @@ class BlackStoneTest {
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test
-    fun `오목 여부를 판단한다 - 오목이 아닐 때`() {
+    @MethodSource("오목 여부 판단 테스트 데이터 - 실패")
+    @ParameterizedTest
+    fun `오목 여부를 판단한다 - 오목이 아닐 때`(stonePositions: List<Position>) {
         // given
         val blackStone = BlackStone()
         val whiteStone = WhiteStone()
-        blackStone.putStone(Position(10, 10))
-        blackStone.putStone(Position(11, 11))
+
+        stonePositions.forEach {
+            blackStone.putStone(it)
+        }
         whiteStone.putStone(Position(12, 12))
-        blackStone.putStone(Position(13, 13))
-        blackStone.putStone(Position(14, 14))
 
         val lastPosition = Position(11, 11)
         // when
@@ -71,5 +73,19 @@ class BlackStoneTest {
 
         // then
         assertThat(actual).isEqualTo(expected)
+    }
+
+    companion object {
+        @JvmStatic
+        fun `오목 여부 판단 테스트 데이터 - 성공`() =
+            listOf(
+                Arguments.of(listOf(Position(1, 1), Position(2, 2), Position(3, 3), Position(4, 4), Position(5, 5))),
+            )
+
+        @JvmStatic
+        fun `오목 여부 판단 테스트 데이터 - 실패`() =
+            listOf(
+                Arguments.of(listOf(Position(10, 10), Position(11, 11), Position(13, 13), Position(14, 14))),
+            )
     }
 }
