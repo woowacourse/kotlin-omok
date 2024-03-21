@@ -13,7 +13,7 @@ class BlackStoneTest {
         stone.putStone(position)
         assertThatThrownBy { stone.putStone(position) }
             .isExactlyInstanceOf(IllegalArgumentException::class.java)
-            .hasMessage("이미 놓여진 자리입니다.")
+            .hasMessage("이미 놓여진 자리입니다.\n")
     }
 
     @Test
