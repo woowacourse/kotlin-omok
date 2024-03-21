@@ -1,27 +1,33 @@
 package omok.model.omokGame
 
-class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
+import omok.model.board.CoordsNumber
+import omok.model.board.Stone
+
+class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EMPTY } }) {
     private var omokGameState = OmokGameState.RUNNING
 
     fun isRunning() = omokGameState == OmokGameState.RUNNING
 
     fun setStone(
-        x: Int,
-        y: Int,
-        stone: Int,
+        x: CoordsNumber,
+        y: CoordsNumber,
+        stone: Stone,
     ) {
-        gameBoard[y][x] = stone
+        gameBoard[y.number][x.number] = stone
     }
 
-    fun checkBoard(stone: Int): List<Pair<Int, Int>> {
-        val coords = mutableListOf<Pair<Int, Int>>()
+    fun checkBoard(stone: Stone): List<Pair<CoordsNumber, CoordsNumber>> {
+        val coords = mutableListOf<Pair<CoordsNumber, CoordsNumber>>()
         for (y in gameBoard.indices) {
             for (x in gameBoard[y].indices) {
-                if (gameBoard[y][x] != EMPTY) {
+                if (isFive(CoordsNumber(x), CoordsNumber(y), stone)) {
+                    omokGameState = OmokGameState.STOP
+                }
+                if (gameBoard[y][x] != Stone.EMPTY) {
                     continue
                 }
-                if (forbiddenPoint(x, y, stone)) {
-                    coords.add(y to x)
+                if (forbiddenPoint(CoordsNumber(x), CoordsNumber(y), stone)) {
+                    coords.add(CoordsNumber(y) to CoordsNumber(x))
                 }
             }
         }
@@ -29,16 +35,16 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
     }
 
     fun isNotEmpty(
-        row: Int,
-        column: Int,
+        row: CoordsNumber,
+        column: CoordsNumber,
     ): Boolean {
-        return gameBoard[column][row] != EMPTY
+        return gameBoard[column.number][row.number] != Stone.EMPTY
     }
 
     fun isForbidden(
-        row: Int,
-        column: Int,
-        forbiddenPositions: List<Pair<Int, Int>>,
+        row: CoordsNumber,
+        column: CoordsNumber,
+        forbiddenPositions: List<Pair<CoordsNumber, CoordsNumber>>,
     ): Boolean {
         return column to row in forbiddenPositions
     }
@@ -56,18 +62,17 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
         return Pair(listDx[direction], listDy[direction])
     }
 
-    @Suppress("NAME_SHADOWING")
     private fun getStoneCount(
-        x: Int,
-        y: Int,
-        stone: Int,
+        x: CoordsNumber,
+        y: CoordsNumber,
+        stone: Stone,
         direction: Int,
     ): Int {
         var cnt = 1
         val (x1, y1) = x to y
         for (i in 0..1) {
             val (dx, dy) = getXY(direction * 2 + i)
-            var (x, y) = x1 to y1
+            var (x, y) = x1.number to y1.number
             while (true) {
                 x += dx
                 y += dy
@@ -82,9 +87,9 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
     }
 
     private fun isLong(
-        x: Int,
-        y: Int,
-        stone: Int,
+        x: CoordsNumber,
+        y: CoordsNumber,
+        stone: Stone,
     ): Int {
         for (i in 0 until 4) {
             val cnt = getStoneCount(x, y, stone, i)
@@ -94,29 +99,29 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
     }
 
     private fun findEmptyPoint(
-        x: Int,
-        y: Int,
-        stone: Int,
+        x: CoordsNumber,
+        y: CoordsNumber,
+        stone: Stone,
         direction: Int,
-    ): Pair<Int, Int>? {
-        var (x, y) = x to y
+    ): Pair<CoordsNumber, CoordsNumber>? {
+        var (x, y) = x.number to y.number
         val (dx, dy) = getXY(direction)
         while (true) {
             x += dx
             y += dy
             if (isInvalid(x, y) || gameBoard[y][x] != stone) break
         }
-        if (!isInvalid(x, y) && gameBoard[y][x] == EMPTY) {
-            return x to y
+        if (!isInvalid(x, y) && gameBoard[y][x] == Stone.EMPTY) {
+            return CoordsNumber(x) to CoordsNumber(y)
         } else {
             return null
         }
     }
 
     private fun openThree(
-        x: Int,
-        y: Int,
-        stone: Int,
+        x: CoordsNumber,
+        y: CoordsNumber,
+        stone: Stone,
         direction: Int,
     ): Boolean {
         for (i in 0..1) {
@@ -124,25 +129,25 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
                 setStone(dx, dy, stone)
                 if (openFour(dx, dy, stone, direction) == 1) {
                     if (!forbiddenPoint(dx, dy, stone)) {
-                        setStone(dx, dy, EMPTY)
+                        setStone(dx, dy, Stone.EMPTY)
                         return true
                     }
                 }
-                setStone(dx, dy, EMPTY)
+                setStone(dx, dy, Stone.EMPTY)
             }
         }
         return false
     }
 
     private fun openFour(
-        x: Int,
-        y: Int,
-        stone: Int,
+        x: CoordsNumber,
+        y: CoordsNumber,
+        stone: Stone,
         direction: Int,
     ): Int {
         var cnt = 0
         if (isFive(x, y, stone)) {
-            return cnt
+            return 0
         }
         for (i in 0..1) {
             findEmptyPoint(x, y, stone, direction * 2 + i)?.let { (dx, dy) ->
@@ -158,9 +163,9 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
     }
 
     private fun four(
-        x: Int,
-        y: Int,
-        stone: Int,
+        x: CoordsNumber,
+        y: CoordsNumber,
+        stone: Stone,
         direction: Int,
     ): Boolean {
         for (i in 0..1) {
@@ -172,25 +177,25 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
     }
 
     private fun five(
-        x: Int,
-        y: Int,
-        stone: Int,
+        x: CoordsNumber,
+        y: CoordsNumber,
+        stone: Stone,
         direction: Int,
     ): Boolean {
         return getStoneCount(x, y, stone, direction) == 5
     }
 
     private fun doubleThree(
-        x: Int,
-        y: Int,
-        stone: Int,
+        x: CoordsNumber,
+        y: CoordsNumber,
+        stone: Stone,
     ): Boolean {
         var cnt = 0
         setStone(x, y, stone)
         for (i in 0 until 4) {
             if (openThree(x, y, stone, i)) cnt++
         }
-        setStone(x, y, EMPTY)
+        setStone(x, y, Stone.EMPTY)
         if (cnt >= 2) {
             return true
         }
@@ -198,9 +203,9 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
     }
 
     private fun doubleFour(
-        x: Int,
-        y: Int,
-        stone: Int,
+        x: CoordsNumber,
+        y: CoordsNumber,
+        stone: Stone,
     ): Boolean {
         var cnt = 0
         setStone(x, y, stone)
@@ -212,7 +217,7 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
             }
         }
 
-        setStone(x, y, EMPTY)
+        setStone(x, y, Stone.EMPTY)
         if (cnt >= 2) {
             return true
         }
@@ -220,14 +225,10 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
     }
 
     private fun forbiddenPoint(
-        x: Int,
-        y: Int,
-        stone: Int,
+        x: CoordsNumber,
+        y: CoordsNumber,
+        stone: Stone,
     ): Boolean {
-        if (isFive(x, y, stone)) {
-            omokGameState = OmokGameState.STOP
-            return false
-        }
         if (isLong(x, y, stone) > 5) {
             return true
         }
@@ -238,9 +239,9 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
     }
 
     private fun isFive(
-        x: Int,
-        y: Int,
-        stone: Int,
+        x: CoordsNumber,
+        y: CoordsNumber,
+        stone: Stone,
     ): Boolean {
         for (i in 0 until 4) {
             if (getStoneCount(x, y, stone, i) == 5) return true
@@ -250,6 +251,5 @@ class Omok(val gameBoard: Array<Array<Int>> = Array(15) { Array(15) { 0 } }) {
 
     companion object {
         const val BOARD_SIZE = 15
-        const val EMPTY = 0
     }
 }

@@ -1,21 +1,21 @@
 package omok.model.board
 
 enum class ColumnNumber(val coordsNumber: CoordsNumber) {
-    A(CoordsNumber(1)),
-    B(CoordsNumber(2)),
-    C(CoordsNumber(3)),
-    D(CoordsNumber(4)),
-    E(CoordsNumber(5)),
-    F(CoordsNumber(6)),
-    G(CoordsNumber(7)),
-    H(CoordsNumber(8)),
-    I(CoordsNumber(9)),
-    J(CoordsNumber(10)),
-    K(CoordsNumber(11)),
-    L(CoordsNumber(12)),
-    M(CoordsNumber(13)),
-    N(CoordsNumber(14)),
-    O(CoordsNumber(15)),
+    A(CoordsNumber(0)),
+    B(CoordsNumber(1)),
+    C(CoordsNumber(2)),
+    D(CoordsNumber(3)),
+    E(CoordsNumber(4)),
+    F(CoordsNumber(5)),
+    G(CoordsNumber(6)),
+    H(CoordsNumber(7)),
+    I(CoordsNumber(8)),
+    J(CoordsNumber(9)),
+    K(CoordsNumber(10)),
+    L(CoordsNumber(11)),
+    M(CoordsNumber(12)),
+    N(CoordsNumber(13)),
+    O(CoordsNumber(14)),
     ;
 
     companion object {

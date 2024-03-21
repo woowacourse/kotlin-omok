@@ -1,5 +1,8 @@
 package omok.view
 
+import omok.model.board.CoordsNumber
+import omok.model.board.Stone
+
 private const val COLUMN_STRING = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
 private const val X = "X"
 private const val EMPTY = "┼"
@@ -24,18 +27,19 @@ object OutputView {
     }
 
     fun printBoard(
-        board: Array<Array<Int>>,
-        forbiddenPositions: List<Pair<Int, Int>> = emptyList(),
+        board: Array<Array<Stone>>,
+        forbiddenPositions: List<Pair<CoordsNumber, CoordsNumber>> = emptyList(),
     ) {
         val boardForDisplay = initializeBoard()
+        println(forbiddenPositions)
         for (row in board.indices) {
             print("${row + 1}".padStart(2, ' ') + " ")
             for (col in board[row].indices) {
                 val displayChar =
                     when {
-                        row to col in forbiddenPositions -> X
-                        board[col][row] == 1 -> WHITE_STONE
-                        board[col][row] == -1 -> BLACK_STONE
+                        CoordsNumber(row) to CoordsNumber(col) in forbiddenPositions -> X
+                        board[col][row] == Stone.WHITE -> WHITE_STONE
+                        board[col][row] == Stone.BLACK -> BLACK_STONE
                         else -> boardForDisplay[row][col]
                     }
                 print(displayChar)

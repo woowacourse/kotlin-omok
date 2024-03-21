@@ -17,19 +17,26 @@ object OmokGameController {
         startStone: Stone = Stone.BLACK,
     ): Omok {
         var currentStone = startStone
+        omok.gameBoard[0][1] = Stone.BLACK
+        omok.gameBoard[0][2] = Stone.BLACK
+        omok.gameBoard[0][3] = Stone.BLACK
+        omok.gameBoard[0][5] = Stone.BLACK
+        omok.gameBoard[0][6] = Stone.BLACK
+        omok.gameBoard[0][7] = Stone.BLACK
+
         while (omok.isRunning()) {
-            val forbiddenPositions = omok.checkBoard(currentStone.color)
+            val forbiddenPositions = omok.checkBoard(currentStone)
             OutputView.printBoard(omok.gameBoard, forbiddenPositions)
-            val (rowNumber, columnNumber) = convertToCoords(currentStone)
-            if (isWrongCoords(columnNumber, rowNumber)) continue
-            if (canSetStone(omok, rowNumber!!.number, columnNumber!!.number, forbiddenPositions)) continue
-            omok.setStone(rowNumber, columnNumber, currentStone)
+            val (rowCoords, columnCoords) = readPlayerCoords(currentStone)
+            if (isWrongCoords(columnCoords, rowCoords)) continue
+            if (canSetStone(omok, rowCoords!!, columnCoords!!, forbiddenPositions)) continue
+            omok.setStone(rowCoords, columnCoords, currentStone)
             currentStone = togglePlayer(currentStone)
         }
         return omok
     }
 
-    private fun convertToCoords(currentStone: Stone): Pair<CoordsNumber?, CoordsNumber?> {
+    private fun readPlayerCoords(currentStone: Stone): Pair<CoordsNumber?, CoordsNumber?> {
         val (rowLetter, columnLetter) = InputView.readPlayerMove(currentStone)
         val rowNumber = CoordsNumber.of(rowLetter)
         val columnNumber = ColumnNumber.fromLetter(columnLetter)
@@ -38,9 +45,9 @@ object OmokGameController {
 
     private fun canSetStone(
         omok: Omok,
-        rowNumber: Int,
-        columnNumber: Int,
-        forbiddenPositions: List<Pair<Int, Int>>,
+        rowNumber: CoordsNumber,
+        columnNumber: CoordsNumber,
+        forbiddenPositions: List<Pair<CoordsNumber, CoordsNumber>>,
     ): Boolean {
         if (checkEmpty(omok, rowNumber, columnNumber)) return true
         if (checkForbidden(omok, rowNumber, columnNumber, forbiddenPositions)) return true
@@ -49,9 +56,9 @@ object OmokGameController {
 
     private fun checkForbidden(
         omok: Omok,
-        rowNumber: Int,
-        columnNumber: Int,
-        forbiddenPositions: List<Pair<Int, Int>>,
+        rowNumber: CoordsNumber,
+        columnNumber: CoordsNumber,
+        forbiddenPositions: List<Pair<CoordsNumber, CoordsNumber>>,
     ): Boolean {
         if (omok.isForbidden(rowNumber, columnNumber, forbiddenPositions)) {
             OutputView.printForbiddenMoveMessage()
@@ -62,8 +69,8 @@ object OmokGameController {
 
     private fun checkEmpty(
         omok: Omok,
-        rowNumber: Int,
-        columnNumber: Int,
+        rowNumber: CoordsNumber,
+        columnNumber: CoordsNumber,
     ): Boolean {
         if (omok.isNotEmpty(rowNumber, columnNumber)) {
             OutputView.printOccupiedPositionMessage()
