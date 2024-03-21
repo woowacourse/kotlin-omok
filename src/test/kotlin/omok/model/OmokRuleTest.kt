@@ -4,9 +4,19 @@ import omok.model.rule.ExceedFiveChecker
 import omok.model.rule.FourFourChecker
 import omok.model.rule.ThreeThreeChecker
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class OmokRuleTest {
+    @BeforeEach
+    fun setUp() {
+        repeat(Board.BOARD_SIZE) { row ->
+            repeat(Board.BOARD_SIZE) { col ->
+                Board.board[row][col] = Stone.NONE
+            }
+        }
+    }
+
     @Test
     fun `3-3 케이스 1`() {
         val blackStone = BlackStone()
