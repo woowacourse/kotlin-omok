@@ -1,5 +1,10 @@
 package omok.model
 
+import lib.ark.ArkFourFourRule
+import lib.ark.ArkOverLineRule
+import lib.ark.ArkThreeThreeRule
+import omok.mapper.toArkOmokBoard
+import omok.mapper.toArkOmokPoint
 import omok.model.search.AscendingDfs
 import omok.model.search.DescendingDfs
 import omok.model.search.HorizontalDfs
@@ -22,16 +27,14 @@ class Board(
         val col = position.col.value
         when (isEven(stonesCount)) {
             true -> {
-                addStone(row, position.col.title, Color.BLACK)
-                stones = stones.plus(Stone.Black(Position.of(position.row.value, position.col.title)))
+                addStone(row, position.col.title, Color.BLACK, position)
                 if (calculateSearchResult(row, col, Color.BLACK)) {
                     return GameResult.WINNER_BLACK
                 }
             }
 
             false -> {
-                addStone(row, position.col.title, Color.WHITE)
-                stones = stones.plus(Stone.White(Position.of(position.row.value, position.col.title)))
+                addStone(row, position.col.title, Color.WHITE, position)
                 if (calculateSearchResult(row, col, Color.WHITE)) {
                     return GameResult.WINNER_WHITE
                 }
@@ -45,8 +48,32 @@ class Board(
         row: Int,
         col: Char,
         color: Color,
+        position: Position,
     ) {
-        status[row][Column.valueOf(col)?.value ?: return] = color
+        if (color == Color.BLACK) {
+            val arkBoard = status.toArkOmokBoard()
+            val arkPoint = Position.of(row, col).toArkOmokPoint()
+            val isNotFourFour = ArkFourFourRule.validate(arkBoard, arkPoint).not()
+            val isNotThreeThree = ArkThreeThreeRule.validate(arkBoard, arkPoint).not()
+            val isNotJangMok = ArkOverLineRule.validate(arkBoard, arkPoint).not()
+            val isPlacementAvailable = isNotFourFour && isNotThreeThree && isNotJangMok
+            println(
+                """
+                isNotFourFour : $isNotFourFour
+                isNotThreeThree : $isNotThreeThree
+                isNotJangmok : $isNotJangMok
+                """.trimIndent(),
+            )
+            if (isPlacementAvailable) {
+                status[row][Column.valueOf(col)?.value ?: return] = color
+                stones = stones.plus(Stone.Black(Position.of(position.row.value, position.col.title)))
+            } else {
+                throw IllegalArgumentException("금수입니다.")
+            }
+        } else {
+            status[row][Column.valueOf(col)?.value ?: return] = color
+            stones = stones.plus(Stone.White(Position.of(position.row.value, position.col.title)))
+        }
     }
 
     private fun calculateSearchResult(
