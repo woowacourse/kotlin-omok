@@ -13,7 +13,7 @@ import omok.model.search.VerticalDfs
 class Board(
     stones: List<Stone> = emptyList(),
 ) {
-    val status: Array<Array<Color?>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { null } }
+    val status: Array<Array<Color?>> = Array(ARRAY_SIZE) { Array(ARRAY_SIZE) { null } }
 
     var stones: List<Stone> = stones.toList()
         private set
@@ -23,7 +23,7 @@ class Board(
             EXCEPTION_DUPLICATED_POSITION
         }
         val stonesCount = stones.size
-        val row = BOARD_SIZE - position.row.value
+        val row = ARRAY_SIZE - position.row.value
         val col = position.col.value
         when (isEven(stonesCount)) {
             true -> {
@@ -40,7 +40,7 @@ class Board(
                 }
             }
         }
-        if (stones.size >= 225) return GameResult.DRAW
+        if (stones.size >= BOARD_SIZE * BOARD_SIZE) return GameResult.DRAW
         return null
     }
 
@@ -57,18 +57,11 @@ class Board(
             val isNotThreeThree = ArkThreeThreeRule.validate(arkBoard, arkPoint).not()
             val isNotJangMok = ArkOverLineRule.validate(arkBoard, arkPoint).not()
             val isPlacementAvailable = isNotFourFour && isNotThreeThree && isNotJangMok
-            println(
-                """
-                isNotFourFour : $isNotFourFour
-                isNotThreeThree : $isNotThreeThree
-                isNotJangmok : $isNotJangMok
-                """.trimIndent(),
-            )
             if (isPlacementAvailable) {
                 status[row][Column.valueOf(col)?.value ?: return] = color
                 stones = stones.plus(Stone.Black(Position.of(position.row.value, position.col.title)))
             } else {
-                throw IllegalArgumentException("금수입니다.")
+                throw IllegalArgumentException(EXCEPTION_FORBIDDEN_PLACEMENT)
             }
         } else {
             status[row][Column.valueOf(col)?.value ?: return] = color
@@ -94,7 +87,9 @@ class Board(
 
     companion object {
         private const val EXCEPTION_DUPLICATED_POSITION = "중복된 곳에 착수할 수 없습니다."
+        private const val EXCEPTION_FORBIDDEN_PLACEMENT = "금수인 위치입니다."
         private const val ODD_EVEN_INDICATOR = 2
-        private const val BOARD_SIZE = 16
+        private const val ARRAY_SIZE = 16
+        private const val BOARD_SIZE = ARRAY_SIZE - 1
     }
 }
