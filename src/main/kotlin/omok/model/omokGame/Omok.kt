@@ -2,6 +2,7 @@ package omok.model.omokGame
 
 import omok.model.board.CoordsNumber
 import omok.model.board.Stone
+import omok.view.OutputView
 
 class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EMPTY } }) {
     private var omokGameState = OmokGameState.RUNNING
@@ -10,6 +11,17 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
 
     fun gameFinish() {
         omokGameState = OmokGameState.STOP
+    }
+
+    fun isGameOver(
+        rowCoords: CoordsNumber,
+        columnCoords: CoordsNumber,
+        currentStone: Stone,
+    ) {
+        if (isFive(rowCoords, columnCoords, currentStone)) {
+            gameFinish()
+            OutputView.showWinner(currentStone)
+        }
     }
 
     fun setStone(
@@ -87,7 +99,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
         return cnt
     }
 
-    private fun isGameOver(
+    private fun `isLong`(
         x: CoordsNumber,
         y: CoordsNumber,
         stone: Stone,
@@ -232,7 +244,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
     ): Boolean {
         if (isFive(x, y, stone)) {
             return false
-        } else if (isGameOver(x, y, stone) > 5) {
+        } else if (isLong(x, y, stone) > 5) {
             return true
         } else if (doubleThree(x, y, stone) || doubleFour(x, y, stone)) {
             return true
@@ -240,7 +252,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(15) { Array(15) { Stone.EM
         return false
     }
 
-    fun isFive(
+    private fun isFive(
         x: CoordsNumber,
         y: CoordsNumber,
         stone: Stone,
