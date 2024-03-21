@@ -45,17 +45,19 @@ object ThreeByThreeRule : Rule {
     ): Boolean {
         val (vecX, vecY) = direction
         val point = stone.point
-        val newPoint = Point(point.x + vecX, point.y + vecY)
-        val newStone = Stone(newPoint, stone.stoneColor)
+        val nextPoint = Point(point.x + vecX, point.y + vecY)
+        val nextStone = Stone(nextPoint, stone.stoneColor)
+        val nextNextPoint = Point(point.x + vecX * 2, point.y + vecY * 2)
+        val nextNextStone = Stone(nextNextPoint, stone.stoneColor)
 
         if (targetOmokCount == 0) {
-            return !board.stones.contains(newStone)
+            return !board.stones.contains(nextStone) && !board.stones.contains(nextNextStone)
         }
         if (board.stones.contains(stone).not()) return false
         if (omokCount == targetOmokCount) {
-            return !board.stones.contains(newStone)
+            return !board.stones.contains(nextStone)
         }
-        return stoneCount(direction, newStone, board, omokCount + 1, targetOmokCount)
+        return stoneCount(direction, nextStone, board, omokCount + 1, targetOmokCount)
     }
 
     private tailrec fun stoneCountWithBlank(
@@ -71,8 +73,11 @@ object ThreeByThreeRule : Rule {
         val point = stone.point
         val newPoint = Point(point.x + vecX, point.y + vecY)
         val newStone = Stone(newPoint, stone.stoneColor)
+        val nextNextPoint = Point(point.x + vecX * 2, point.y + vecY * 2)
+        val nextNextStone = Stone(nextNextPoint, stone.stoneColor)
+
         if (targetOmokCount == 0) {
-            return !board.stones.contains(newStone)
+            return !board.stones.contains(newStone) && !board.stones.contains(nextNextStone)
         }
         if (board.stones.contains(stone).not()) {
             if (blankCount == 1) {
