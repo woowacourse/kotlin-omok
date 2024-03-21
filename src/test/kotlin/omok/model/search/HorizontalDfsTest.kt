@@ -1,8 +1,10 @@
 package omok.model.search
 
 import omok.model.Color
+import omok.model.Color.BLACK
 import omok.model.fixture.createPlayingBoard
 import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
@@ -24,5 +26,32 @@ class HorizontalDfsTest {
         horizontalDfs.search(color, row, col)
         // then
         Assertions.assertThat(horizontalDfs.count).isEqualTo(count)
+    }
+
+    @Test
+    fun `가장자리 수평 dfs 테스트`() {
+        val horizontalDfs =
+            HorizontalDfs(
+                arrayOf(
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(null, BLACK, BLACK, BLACK, BLACK, BLACK, null, null, null, null, null, null, null, null, null, null),
+                ),
+            )
+        horizontalDfs.search(BLACK, 15, 2)
+        Assertions.assertThat(horizontalDfs.count).isEqualTo(5)
     }
 }
