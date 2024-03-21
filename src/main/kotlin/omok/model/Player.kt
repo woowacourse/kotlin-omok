@@ -1,22 +1,22 @@
 package omok.model
 
 abstract class Player() {
-    private val stones: Stones = Stones()
+    protected val stones: Stones = Stones()
 
     fun getStones(): List<Stone> = stones.stones
 
-    fun add(stone: Stone) {
+    open fun add(stone: Stone) {
         require(!duplicatedPoint(stone)) { "중복된 위치다 이녀석아!" }
         stones.add(stone)
     }
 
-    fun lastStone(): Stone = stones.lastStone()
+    fun lastStone(): Stone? = stones.lastStone()
 
     private fun duplicatedPoint(stone: Stone): Boolean {
         return stones.match(stone)
     }
 
-    abstract fun checkContinuity(stone: Stone): Boolean
+    open fun checkContinuity(stone: Stone): Boolean = true
 
     fun countStones(
         start: Point,
