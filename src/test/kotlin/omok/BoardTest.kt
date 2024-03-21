@@ -45,7 +45,10 @@ class BoardTest {
 
     @ParameterizedTest
     @CsvSource(value = ["1:1", "2:2", "3:3", "4:4", "5:5"], delimiter = ':')
-    fun `오른쪽 연속 5개의 돌이 있으면 오목이다`(x: Int, y: Int) {
+    fun `오른쪽 연속 5개의 돌이 있으면 오목이다`(
+        x: Int,
+        y: Int,
+    ) {
         // given
         val board =
             createBlackBoard(
@@ -63,7 +66,10 @@ class BoardTest {
 
     @ParameterizedTest
     @CsvSource(value = ["1:1", "2:2", "3:3", "5:5"], delimiter = ':')
-    fun `5개의 돌이 연속적이지 않으면 오목이 아니다`(x: Int, y: Int) {
+    fun `5개의 돌이 연속적이지 않으면 오목이 아니다`(
+        x: Int,
+        y: Int,
+    ) {
         // given
         val board =
             createBlackBoard(
@@ -81,7 +87,10 @@ class BoardTest {
 
     @ParameterizedTest
     @CsvSource(value = ["1:1", "2:2", "3:3", "4:4 ", "5:5"], delimiter = ':')
-    fun `5개의 돌의 색이 같지 않으면 오목이 아니다`(x: Int, y: Int) {
+    fun `5개의 돌의 색이 같지 않으면 오목이 아니다`(
+        x: Int,
+        y: Int,
+    ) {
         // given
         val board =
             createBoard(

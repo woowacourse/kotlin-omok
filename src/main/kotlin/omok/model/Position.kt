@@ -1,7 +1,6 @@
 package omok.model
 
 class Position private constructor(val x: Int, val y: Int) {
-
     operator fun plus(other: Vector): Position = of(x + other.x, y + other.y)
 
     operator fun minus(other: Vector): Position = of(x - other.x, y - other.y)

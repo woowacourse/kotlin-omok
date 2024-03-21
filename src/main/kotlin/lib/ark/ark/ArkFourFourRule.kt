@@ -1,11 +1,15 @@
 package lib.ark.ark
 
 object ArkFourFourRule : ArkRule() {
-    override fun validate(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
-        countOpenThrees(board, position) >= 2
+    override fun validate(
+        board: List<List<Int>>,
+        position: Pair<Int, Int>,
+    ): Boolean = countOpenThrees(board, position) >= 2
 
-    private fun countOpenThrees(board: List<List<Int>>, position: Pair<Int, Int>): Int =
-        directions.sumOf { direction -> checkOpenFour(board, position, direction) }
+    private fun countOpenThrees(
+        board: List<List<Int>>,
+        position: Pair<Int, Int>,
+    ): Int = directions.sumOf { direction -> checkOpenFour(board, position, direction) }
 
     private fun checkOpenFour(
         board: List<List<Int>>,
@@ -34,18 +38,20 @@ object ArkFourFourRule : ArkRule() {
             blink1 + blink2 == 2 -> return 0
         }
 
-        val leftDownValid = when {
-            dx != 0 && x - dx * leftDown in X_Edge -> 0
-            dy != 0 && y - dy * leftDown in Y_Edge -> 0
-            board[y - down][x - left] == opponentStone -> 0
-            else -> 1
-        }
-        val rightUpValid = when {
-            dx != 0 && x + (dx * rightUp) in X_Edge -> 0
-            dy != 0 && y + (dy * rightUp) in Y_Edge -> 0
-            board[y + up][x + right] == opponentStone -> 0
-            else -> 1
-        }
+        val leftDownValid =
+            when {
+                dx != 0 && x - dx * leftDown in X_Edge -> 0
+                dy != 0 && y - dy * leftDown in Y_Edge -> 0
+                board[y - down][x - left] == opponentStone -> 0
+                else -> 1
+            }
+        val rightUpValid =
+            when {
+                dx != 0 && x + (dx * rightUp) in X_Edge -> 0
+                dy != 0 && y + (dy * rightUp) in Y_Edge -> 0
+                board[y + up][x + right] == opponentStone -> 0
+                else -> 1
+            }
 
         return if (leftDownValid + rightUpValid >= 1) 1 else 0
     }

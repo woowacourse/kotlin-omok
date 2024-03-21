@@ -6,11 +6,16 @@ import omok.model.Position
 
 interface OmokView {
     fun showStartMessage()
+
     fun showProgress(
         board: Board,
-        stone: OmokStone?
+        stone: OmokStone?,
     )
 
     fun readPosition(): Position
-    fun showGameResult(board: Board, stone: OmokStone)
+
+    fun showGameResult(
+        board: Board,
+        stone: OmokStone,
+    )
 }

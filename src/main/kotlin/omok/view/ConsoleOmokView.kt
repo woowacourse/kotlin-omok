@@ -10,35 +10,48 @@ object ConsoleOmokView : OmokView {
         println("오목 게임을 시작합니다.")
     }
 
-    override fun showProgress(board: Board, stone: OmokStone?) {
+    override fun showProgress(
+        board: Board,
+        stone: OmokStone?,
+    ) {
         showOmokBoard(board)
         printWhoIsNext(stone)
     }
 
-    override fun showGameResult(board: Board, stone: OmokStone) {
+    override fun showGameResult(
+        board: Board,
+        stone: OmokStone,
+    ) {
         showOmokBoard(board)
         showWinner(stone)
     }
 
     private fun printWhoIsNext(stone: OmokStone?) {
-        val stoneColor = if (stone != null) {
-            getColor(stone)
-        } else {
-            "흑"
-        } + "의 차례입니다"
+        val stoneColor =
+            if (stone != null) {
+                getColor(stone)
+            } else {
+                "흑"
+            } + "의 차례입니다"
 
-        val lastPosition = if (stone != null) {
-            "(마지막 돌의 위치: %s)".format(stone.position.run {
-                x.formatToPositionX() + y.formatToPositionY()
-            })
-        } else ""
+        val lastPosition =
+            if (stone != null) {
+                "(마지막 돌의 위치: %s)".format(
+                    stone.position.run {
+                        x.formatToPositionX() + y.formatToPositionY()
+                    },
+                )
+            } else {
+                ""
+            }
         println(stoneColor + lastPosition)
     }
 
-    private fun getColor(stone: OmokStone) = when (stone.color) {
-        StoneColor.BLACK -> "흑"
-        StoneColor.WHITE -> "백"
-    }
+    private fun getColor(stone: OmokStone) =
+        when (stone.color) {
+            StoneColor.BLACK -> "흑"
+            StoneColor.WHITE -> "백"
+        }
 
     private fun showWinner(stone: OmokStone?) {
         if (stone == null) {

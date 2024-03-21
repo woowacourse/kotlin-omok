@@ -16,5 +16,5 @@ fun createBlackStone(
 
 fun createWhiteStone(
     x: Int,
-    y: Int
+    y: Int,
 ): OmokStone = OmokStone(createPoint(x, y), StoneColor.WHITE)

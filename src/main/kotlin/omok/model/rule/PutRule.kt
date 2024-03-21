@@ -9,11 +9,17 @@ import omok.model.Board
 import omok.model.OmokStone
 
 interface PutRule {
-    fun canPut(stone: OmokStone, board: Board): Boolean
+    fun canPut(
+        stone: OmokStone,
+        board: Board,
+    ): Boolean
 }
 
 object BlackPutRule : PutRule {
-    override fun canPut(stone: OmokStone, board: Board): Boolean {
+    override fun canPut(
+        stone: OmokStone,
+        board: Board,
+    ): Boolean {
         val arkBoard = board.toArkOmokBoard()
         val arkPoint = stone.position.toArkOmokPoint()
         val isNotFourFour = ArkFourFourRule.validate(arkBoard, arkPoint).not()
@@ -24,7 +30,10 @@ object BlackPutRule : PutRule {
 }
 
 object WhiteCanPutRule : PutRule {
-    override fun canPut(stone: OmokStone, board: Board): Boolean {
+    override fun canPut(
+        stone: OmokStone,
+        board: Board,
+    ): Boolean {
         val isEmptyPosition = board.isEmptyPosition(stone)
         val isInRange = board.isInRange(stone)
         return isEmptyPosition && isInRange

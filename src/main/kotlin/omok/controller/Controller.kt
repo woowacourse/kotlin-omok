@@ -14,17 +14,17 @@ class Controller(
     private val event: PutEvent =
         PutEvent(
             omokView::readPosition,
-            omokView::readPosition
+            omokView::readPosition,
         ),
 ) {
-
     fun start() {
         omokView.showStartMessage()
-        val game = OmokGame(
-            state = state,
-            putEvent = event,
-            onFinishGame = omokView::showGameResult
-        )
+        val game =
+            OmokGame(
+                state = state,
+                putEvent = event,
+                onFinishGame = omokView::showGameResult,
+            )
         game.play(omokView::showProgress)
     }
 }

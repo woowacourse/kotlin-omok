@@ -1,9 +1,7 @@
 package omok.model
 
 class Board(val stones: Map<Position, OmokStone>) {
-    operator fun plus(
-        stone: OmokStone
-    ): Board {
+    operator fun plus(stone: OmokStone): Board {
         validate(stone.position)
         return Board(stones + (stone.position to stone))
     }
@@ -31,30 +29,45 @@ class Board(val stones: Map<Position, OmokStone>) {
 
     fun isEmptyPosition(stone: OmokStone): Boolean = stones.contains(stone.position).not()
 
-    private fun isInOmok(stone: OmokStone, vector: Vector): Boolean {
+    private fun isInOmok(
+        stone: OmokStone,
+        vector: Vector,
+    ): Boolean {
         return sumLeft(stone, vector) + sumRight(stone, vector) >= OMOK_THRESHOLD
     }
 
-    private fun sumRight(stone: OmokStone, vector: Vector): Int {
+    private fun sumRight(
+        stone: OmokStone,
+        vector: Vector,
+    ): Int {
         val (position, color) = stone
         var now = position
         var count = INITIAL_COUNT
         for (i in OMOK_CANDIDATE_RANGE) {
             now += vector
-            if (stones[now]?.color == color) count++
-            else break
+            if (stones[now]?.color == color) {
+                count++
+            } else {
+                break
+            }
         }
         return count
     }
 
-    private fun sumLeft(stone: OmokStone, vector: Vector): Int {
+    private fun sumLeft(
+        stone: OmokStone,
+        vector: Vector,
+    ): Int {
         val (position, color) = stone
         var now = position
         var count = INITIAL_COUNT
         for (i in OMOK_CANDIDATE_RANGE) {
             now -= vector
-            if (stones[now]?.color == color) count++
-            else break
+            if (stones[now]?.color == color) {
+                count++
+            } else {
+                break
+            }
         }
         return count
     }
@@ -66,11 +79,12 @@ class Board(val stones: Map<Position, OmokStone>) {
         private const val INITIAL_COUNT = 0
         private const val OMOK_THRESHOLD = 4
         private val OMOK_CANDIDATE_RANGE = 0..3
-        private val vectors = listOf(
-            Vector(1, 1),
-            Vector(1, -1),
-            Vector(0, 1),
-            Vector(1, 0)
-        )
+        private val vectors =
+            listOf(
+                Vector(1, 1),
+                Vector(1, -1),
+                Vector(0, 1),
+                Vector(1, 0),
+            )
     }
 }

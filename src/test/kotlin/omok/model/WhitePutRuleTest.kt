@@ -10,9 +10,10 @@ import org.junit.jupiter.api.Test
 class WhitePutRuleTest {
     @Test
     fun `이미 알이 있으면 금수`() {
-        val whiteBoard = createWhiteBoard(
-            createPoint(1, 2),
-        )
+        val whiteBoard =
+            createWhiteBoard(
+                createPoint(1, 2),
+            )
         val whiteStone = createWhiteStone(1, 2)
         // when
         val canPut = WhiteCanPutRule.canPut(whiteStone, whiteBoard)

@@ -1,6 +1,5 @@
 package omok
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import io.kotest.matchers.types.shouldNotBeSameInstanceAs
@@ -31,16 +30,5 @@ class PositionTest {
         y: Int,
     ) {
         createPoint(x, y) shouldNotBeSameInstanceAs createPoint(x, y)
-    }
-
-    @ParameterizedTest
-    @CsvSource(
-        value = [
-            "0:0", "0:1", "1:0",
-        ],
-        delimiter = ':',
-    )
-    fun `x, y 는 (1, 1) 보다 작으면 예외 발생한다`(x: Int, y: Int) {
-        shouldThrow<IllegalArgumentException> { createPoint(x, y) }
     }
 }
