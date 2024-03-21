@@ -16,7 +16,11 @@ class BlackTurn(val board: Board) : Turn {
     override fun placeStone(point: Point): Turn {
         val stone = Stone(point, StoneColor.BLACK)
 
-        board.place(stone)
+        try {
+            board.place(stone)
+        } catch (e: IllegalArgumentException) {
+            return BlackTurn(board)
+        }
 
         val isViolated =
             prohibitedRules.any {
