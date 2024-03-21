@@ -3,6 +3,7 @@ package omok.model.rule
 import omok.model.Board
 import omok.model.entity.Point
 import omok.model.entity.Stone
+import omok.model.entity.StoneColor
 
 object ThreeByThreeRule : Rule {
     override fun check(board: Board): Boolean {
@@ -47,15 +48,28 @@ object ThreeByThreeRule : Rule {
         val point = stone.point
         val nextPoint = Point(point.x + vecX, point.y + vecY)
         val nextStone = Stone(nextPoint, stone.stoneColor)
-        val nextNextPoint = Point(point.x + vecX * 2, point.y + vecY * 2)
-        val nextNextStone = Stone(nextNextPoint, stone.stoneColor)
+        val nextWhiteStone = Stone(nextPoint, StoneColor.WHITE)
+        val nextBlackStone = Stone(nextPoint, StoneColor.BLACK)
 
-        if (targetOmokCount == 0) {
-            return !board.stones.contains(nextStone) && !board.stones.contains(nextNextStone)
-        }
+        val nextNextPoint = Point(point.x + vecX * 2, point.y + vecY * 2)
+        val nextNextBlackStone = Stone(nextNextPoint, StoneColor.BLACK)
+        val nextNextWhiteStone = Stone(nextNextPoint, StoneColor.WHITE)
+
+        val isNextStoneBlank =
+            isInBoard(nextPoint) &&
+                !board.stones.contains(nextWhiteStone) &&
+                !board.stones.contains(nextBlackStone)
+        val isNextNextStoneBlank =
+            isInBoard(nextNextPoint) &&
+                !board.stones.contains(nextNextBlackStone) &&
+                !board.stones.contains(nextNextWhiteStone)
+
+        val checkNotRealThree =
+            isNextStoneBlank && isNextNextStoneBlank
+
         if (board.stones.contains(stone).not()) return false
-        if (omokCount == targetOmokCount) {
-            return !board.stones.contains(nextStone)
+        if (targetOmokCount == omokCount || targetOmokCount == 0) {
+            return checkNotRealThree
         }
         return stoneCount(direction, nextStone, board, omokCount + 1, targetOmokCount)
     }
@@ -71,21 +85,34 @@ object ThreeByThreeRule : Rule {
     ): Boolean {
         val (vecX, vecY) = direction
         val point = stone.point
-        val newPoint = Point(point.x + vecX, point.y + vecY)
-        val newStone = Stone(newPoint, stone.stoneColor)
-        val nextNextPoint = Point(point.x + vecX * 2, point.y + vecY * 2)
-        val nextNextStone = Stone(nextNextPoint, stone.stoneColor)
+        val nextPoint = Point(point.x + vecX, point.y + vecY)
+        val nextStone = Stone(nextPoint, stone.stoneColor)
+        val nextWhiteStone = Stone(nextPoint, StoneColor.WHITE)
+        val nextBlackStone = Stone(nextPoint, StoneColor.BLACK)
 
-        if (targetOmokCount == 0) {
-            return !board.stones.contains(newStone) && !board.stones.contains(nextNextStone)
-        }
+        val nextNextPoint = Point(point.x + vecX * 2, point.y + vecY * 2)
+        val nextNextBlackStone = Stone(nextNextPoint, StoneColor.BLACK)
+        val nextNextWhiteStone = Stone(nextNextPoint, StoneColor.WHITE)
+
+        val isNextStoneBlank =
+            isInBoard(nextPoint) &&
+                !board.stones.contains(nextWhiteStone) &&
+                !board.stones.contains(nextBlackStone)
+        val isNextNextStoneBlank =
+            isInBoard(nextNextPoint) &&
+                !board.stones.contains(nextNextBlackStone) &&
+                !board.stones.contains(nextNextWhiteStone)
+
+        val checkNotRealThree =
+            isNextStoneBlank && isNextNextStoneBlank
+
         if (board.stones.contains(stone).not()) {
             if (blankCount == 1) {
                 return false
             }
             return stoneCountWithBlank(
                 direction,
-                newStone,
+                nextStone,
                 board,
                 omokCount,
                 targetOmokCount,
@@ -93,13 +120,13 @@ object ThreeByThreeRule : Rule {
                 targetBlankCount,
             )
         }
-        if (omokCount == targetOmokCount) {
-            return !board.stones.contains(newStone)
+        if (targetOmokCount == omokCount || targetOmokCount == 0) {
+            return checkNotRealThree
         }
 
         return stoneCountWithBlank(
             direction,
-            newStone,
+            nextStone,
             board,
             omokCount + 1,
             targetOmokCount,
@@ -107,4 +134,6 @@ object ThreeByThreeRule : Rule {
             targetBlankCount,
         )
     }
+
+    fun isInBoard(point: Point) = point.x in 1..15 && point.y in 1..15
 }
