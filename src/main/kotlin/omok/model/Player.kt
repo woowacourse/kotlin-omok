@@ -25,8 +25,8 @@ abstract class Player() {
         var currentPoint = Point(start.row + direction.row, start.col + direction.col)
         var count = 0
 
-        while (currentPoint.row in 1..15 &&
-            currentPoint.col in 1..15 &&
+        while (currentPoint.row in 0..14 &&
+            currentPoint.col in 0..14 &&
             stones.stones.any { it.point == currentPoint }
         ) {
             count++
