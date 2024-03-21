@@ -10,4 +10,9 @@ interface OutputView {
         board: Board,
         color: StoneColor,
     )
+
+    fun printWinner(
+        board: Board,
+        color: StoneColor,
+    )
 }
