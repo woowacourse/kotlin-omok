@@ -1,5 +1,6 @@
 package omok.model
 
+import omok.model.rule.winning.FiveStonesWinningCondition
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

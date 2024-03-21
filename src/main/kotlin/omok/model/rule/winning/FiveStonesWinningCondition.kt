@@ -1,4 +1,8 @@
-package omok.model
+package omok.model.rule.winning
+
+import omok.model.Board
+import omok.model.Direction
+import omok.model.Position
 
 class FiveStonesWinningCondition : WinningCondition {
     override fun isWin(board: Board, position: Position): Boolean {

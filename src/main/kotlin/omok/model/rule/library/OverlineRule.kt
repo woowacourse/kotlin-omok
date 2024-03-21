@@ -1,4 +1,4 @@
-package omok.model.rule
+package omok.model.rule.library
 
 object OverlineRule : OmokRule() {
     override fun abide(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =

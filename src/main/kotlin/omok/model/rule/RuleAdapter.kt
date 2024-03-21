@@ -1,8 +1,11 @@
-package omok.model
+package omok.model.rule
 
-import omok.model.rule.FourFourRule
-import omok.model.rule.OverlineRule
-import omok.model.rule.ThreeThreeRule
+import omok.model.Board
+import omok.model.Position
+import omok.model.Stone
+import omok.model.rule.library.FourFourRule
+import omok.model.rule.library.OverlineRule
+import omok.model.rule.library.ThreeThreeRule
 
 object RuleAdapter {
     fun abideDoubleFourRule(board: Board, position: Position): Boolean {

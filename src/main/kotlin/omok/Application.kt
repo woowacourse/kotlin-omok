@@ -1,10 +1,10 @@
 package omok
 
 import omok.controller.OmokController
-import omok.model.DoubleFourForbiddenPlace
-import omok.model.DoubleOpenThreeForbiddenPlace
-import omok.model.FiveStonesWinningCondition
-import omok.model.OverlineForbiddenPlace
+import omok.model.rule.ban.DoubleFourForbiddenPlace
+import omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
+import omok.model.rule.winning.FiveStonesWinningCondition
+import omok.model.rule.ban.OverlineForbiddenPlace
 import omok.view.InputView
 import omok.view.OutputView
 

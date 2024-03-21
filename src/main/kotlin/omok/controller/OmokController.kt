@@ -1,11 +1,11 @@
 package omok.controller
 
 import omok.model.Board
-import omok.model.ForbiddenPlace
+import omok.model.rule.ban.ForbiddenPlace
 import omok.model.Player
 import omok.model.Position
 import omok.model.Stone
-import omok.model.WinningCondition
+import omok.model.rule.winning.WinningCondition
 import omok.view.InputView
 import omok.view.OutputView
 

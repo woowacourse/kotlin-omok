@@ -1,4 +1,4 @@
-package omok.model.rule
+package omok.model.rule.library
 
 abstract class OmokRule(
     private val currentStone: Int = BLACK_STONE,
