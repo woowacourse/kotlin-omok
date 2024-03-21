@@ -1,19 +1,30 @@
 package omok.model
 
+import omok.model.rule.StoneForbiddenPlaces
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 /**
  * docs/3-3 금수 테스트 케이스.png 참조
  */
 class DoubleOpenThreeForbiddenPlaceTest {
+    private lateinit var board: Board
+    private lateinit var forbiddenPlace: ForbiddenPlace
+
+    @BeforeEach
+    fun setUp() {
+        board = Board(
+            StoneForbiddenPlaces(
+                blackForbiddenPlaces = listOf(DoubleFourForbiddenPlace(), DoubleOpenThreeForbiddenPlace(), OverlineForbiddenPlace()),
+                whiteForbiddenPlaces = listOf()
+            )
+        )
+        forbiddenPlace = DoubleOpenThreeForbiddenPlace()
+    }
+
     @Test
     fun `3-3 금수 테스트 케이스 A의 경우 돌을 놓을 수 없다`() {
-        // given
-        val board = Board()
-        val forbiddenPlace = DoubleOpenThreeForbiddenPlace()
-
-        // when
         board.place(Position(1, 3), Stone.BLACK)
         board.place(Position(2, 3), Stone.BLACK)
         board.place(Position(3, 2), Stone.BLACK)
@@ -25,11 +36,6 @@ class DoubleOpenThreeForbiddenPlaceTest {
 
     @Test
     fun `3-3 금수 테스트 케이스 B의 경우 돌을 놓을 수 없다`() {
-        // given
-        val board = Board()
-        val forbiddenPlace = DoubleOpenThreeForbiddenPlace()
-
-        // when
         board.place(Position(9, 1), Stone.BLACK)
         board.place(Position(10, 2), Stone.BLACK)
         board.place(Position(9, 4), Stone.BLACK)
@@ -41,11 +47,6 @@ class DoubleOpenThreeForbiddenPlaceTest {
 
     @Test
     fun `3-3 금수 테스트 케이스 C의 경우 돌을 놓을 수 없다`() {
-        // given
-        val board = Board()
-        val forbiddenPlace = DoubleOpenThreeForbiddenPlace()
-
-        // when
         board.place(Position(3, 12), Stone.BLACK)
         board.place(Position(5, 12), Stone.BLACK)
         board.place(Position(6, 9), Stone.BLACK)
@@ -57,11 +58,6 @@ class DoubleOpenThreeForbiddenPlaceTest {
 
     @Test
     fun `3-3 금수 테스트 케이스 D의 경우 돌을 놓을 수 없다`() {
-        // given
-        val board = Board()
-        val forbiddenPlace = DoubleOpenThreeForbiddenPlace()
-
-        // when
         board.place(Position(5, 5), Stone.BLACK)
         board.place(Position(8, 5), Stone.BLACK)
         board.place(Position(7, 7), Stone.BLACK)

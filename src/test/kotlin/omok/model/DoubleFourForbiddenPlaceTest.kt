@@ -1,5 +1,6 @@
 package omok.model
 
+import omok.model.rule.StoneForbiddenPlaces
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -13,7 +14,12 @@ class DoubleFourForbiddenPlaceTest {
 
     @BeforeEach
     fun setUp() {
-        board = Board()
+        board = Board(
+            StoneForbiddenPlaces(
+                blackForbiddenPlaces = listOf(DoubleFourForbiddenPlace(), DoubleOpenThreeForbiddenPlace(), OverlineForbiddenPlace()),
+                whiteForbiddenPlaces = listOf()
+            )
+        )
         forbiddenPlace = DoubleFourForbiddenPlace()
     }
 

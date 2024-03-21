@@ -3,21 +3,23 @@ package omok.controller
 import omok.model.Board
 import omok.model.Position
 import omok.model.Stone
+import omok.model.rule.StoneForbiddenPlaces
 import omok.view.InputView
 import omok.view.OutputView
 
 class OmokController(
     private val inputView: InputView,
     private val outputView: OutputView,
+    private val stoneForbiddenPlaces: StoneForbiddenPlaces
 ) {
     fun startGame() {
-        val board = initializedBoard()
+        val board = initializedBoard(stoneForbiddenPlaces)
         val winner = gameWinner(board)
         outputView.printWinner(winner)
     }
 
-    private fun initializedBoard(): Board {
-        return Board().apply { outputView.printInitialGuide(this) }
+    private fun initializedBoard(stoneForbiddenPlaces: StoneForbiddenPlaces): Board {
+        return Board(stoneForbiddenPlaces).apply { outputView.printInitialGuide(this) }
     }
 
     private fun gameWinner(board: Board): Stone {

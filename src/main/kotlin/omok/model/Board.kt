@@ -1,8 +1,9 @@
 package omok.model
 
 import omok.model.Position.Companion.INDEX_RANGE
+import omok.model.rule.StoneForbiddenPlaces
 
-class Board {
+class Board(private val stoneForbiddenPlaces: StoneForbiddenPlaces) {
     private val _board: MutableMap<Position, Stone> = initBoard()
     val board: Map<Position, Stone>
         get() = _board.toMap()
@@ -18,6 +19,8 @@ class Board {
         stone: Stone,
     ) {
         require(find(position) == Stone.NONE) { "이미 바둑돌이 있는 위치입니다." }
+        require(stoneForbiddenPlaces.forbiddenPlaces(stone).all { it.availablePosition(this, position) }) { "돌을 놓을 수 없는 위치입니다." }
+
         _board[position] = stone
     }
 
