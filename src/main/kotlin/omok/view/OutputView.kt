@@ -10,7 +10,7 @@ class OutputView {
         println(MESSAGE_GAME_START)
     }
 
-    fun showCurrentBoard(board: Array<Array<Color?>>) {
+    fun showCurrentBoard(board: List<List<Color?>>) {
         println()
         for (i in 1..<board.size) {
             print(ROW_INDICATOR.format(BOARD_SIZE - i))
@@ -28,7 +28,7 @@ class OutputView {
     }
 
     private fun showSingleRow(
-        board: Array<Array<Color?>>,
+        board: List<List<Color?>>,
         i: Int,
     ) {
         for (j in 1..<board[i].size) {
