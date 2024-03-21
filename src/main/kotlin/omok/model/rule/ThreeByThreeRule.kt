@@ -6,7 +6,15 @@ import omok.model.entity.Stone
 import omok.model.entity.StoneColor
 
 object ThreeByThreeRule : Rule {
-    override fun check(board: Board): Boolean {
+    override fun check(board: Board): Boolean =
+        board.stones.any {
+            checkOneStone(it, board)
+        }
+
+    private fun checkOneStone(
+        stone: Stone,
+        board: Board,
+    ): Boolean {
         val directions =
             listOf(
                 1 to 0,
@@ -14,21 +22,20 @@ object ThreeByThreeRule : Rule {
                 1 to 1,
                 -1 to 1,
             )
-        val previousStone = board.previousStone() ?: throw IllegalStateException()
         val sum =
             directions.count { direction ->
                 val (vecX, vecY) = direction
                 val oppositeDirection = -vecX to -vecY
                 (0..2).any {
-                    val left = stoneCount(oppositeDirection, previousStone, board, 0, it)
-                    val right = stoneCount(direction, previousStone, board, 0, 2 - it)
+                    val left = stoneCount(oppositeDirection, stone, board, 0, it)
+                    val right = stoneCount(direction, stone, board, 0, 2 - it)
                     val withBlank =
                         (0..1).any { targetBlankCount ->
                             val leftWithBlank =
-                                stoneCountWithBlank(oppositeDirection, previousStone, board, 0, it, 0, targetBlankCount)
+                                stoneCountWithBlank(oppositeDirection, stone, board, 0, it, 0, targetBlankCount)
                             val rightWithBlank =
-                                stoneCountWithBlank(direction, previousStone, board, 0, 2 - it, 0, targetBlankCount)
-                            stoneCountWithBlank(direction, previousStone, board, 0, 2 - it, 0, targetBlankCount)
+                                stoneCountWithBlank(direction, stone, board, 0, 2 - it, 0, targetBlankCount)
+                            stoneCountWithBlank(direction, stone, board, 0, 2 - it, 0, targetBlankCount)
                             leftWithBlank && rightWithBlank
                         }
                     left && right || withBlank
@@ -135,5 +142,5 @@ object ThreeByThreeRule : Rule {
         )
     }
 
-    fun isInBoard(point: Point) = point.x in 1..15 && point.y in 1..15
+    private fun isInBoard(point: Point) = point.x in 1..15 && point.y in 1..15
 }
