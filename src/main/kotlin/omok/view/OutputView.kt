@@ -11,12 +11,13 @@ class OutputView {
     }
 
     fun showCurrentBoard(board: List<List<Color?>>) {
-        println()
+        println(TOP_CORNER)
         for (i in 1..<board.size) {
-            print(ROW_INDICATOR.format(BOARD_SIZE - i))
+            print(ROW_INDICATOR.format(BOARD_SIZE - i) + LEFT_CORNER)
             showSingleRow(board, i)
-            println(DIVIDER_ROW)
+            println(DIVIDER_ROW + RIGHT_CORNER)
         }
+        println(BOTTOM_CORNER)
         println(COLUMN_INDICATOR)
     }
 
@@ -45,12 +46,16 @@ class OutputView {
         }
 
     companion object {
-        private const val COLUMN_INDICATOR = "   A B C D E F G H I J K L M N O\n"
-        private const val ROW_INDICATOR = "%2d─"
+        private const val COLUMN_INDICATOR = "    A B C D E F G H I J K L M N O\n"
+        private const val ROW_INDICATOR = "%2d"
+        private const val LEFT_CORNER = "├─"
+        private const val RIGHT_CORNER = "┤"
         private const val SIGNATURE_BLANK = "┼"
         private const val SIGNATURE_BLACK = "●"
         private const val SIGNATURE_WHITE = "○"
         private const val DIVIDER_ROW = "─"
+        private const val TOP_CORNER = "  ┌─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┐"
+        private const val BOTTOM_CORNER = "  └─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘"
         private const val BOARD_SIZE = 16
         private const val MESSAGE_GAME_START = "오목 게임을 시작합니다.\n"
         private const val MESSAGE_DRAW = "무승부 입니다"
