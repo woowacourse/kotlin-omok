@@ -1,6 +1,6 @@
 package omok.model
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -25,6 +25,18 @@ class OverlineForbiddenPlaceTest {
         board.place(Position(0, 6), Stone.BLACK)
 
         val actual = forbiddenPlace.availablePosition(board, Position(0, 3))
-        Assertions.assertThat(actual).isFalse
+        assertThat(actual).isFalse
+    }
+
+
+    @Test
+    fun `돌을 두려는 위치로 오목이 되면 놓을 수 있다`() {
+        board.place(Position(0, 1), Stone.BLACK)
+        board.place(Position(0, 2), Stone.BLACK)
+        board.place(Position(0, 4), Stone.BLACK)
+        board.place(Position(0, 5), Stone.BLACK)
+
+        val actual = forbiddenPlace.availablePosition(board, Position(0, 3))
+        assertThat(actual).isTrue
     }
 }

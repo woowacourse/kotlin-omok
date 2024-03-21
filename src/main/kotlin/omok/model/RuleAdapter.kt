@@ -2,6 +2,7 @@ package omok.model
 
 import omok.model.rule.BlackWinRule
 import omok.model.rule.FourFourRule
+import omok.model.rule.OverlineRule
 import omok.model.rule.ThreeThreeRule
 import omok.model.rule.WhiteWinRule
 
@@ -20,6 +21,10 @@ object RuleAdapter {
 
     fun abideDoubleOpenThreeRule(board: Board, position: Position): Boolean {
         return ThreeThreeRule.canPlaceStone(board.convert(), position.convert())
+    }
+
+    fun abideOverLineRule(board: Board, position: Position): Boolean {
+        return OverlineRule.canPlaceStone(board.convert(), position.convert())
     }
 
     private fun Board.convert(): List<List<Int>> {
