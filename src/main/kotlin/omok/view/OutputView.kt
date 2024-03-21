@@ -1,6 +1,7 @@
 package omok.view
 
 import omok.model.Board
+import omok.model.GoStone
 import omok.model.Stone
 
 class OutputView {
@@ -16,6 +17,15 @@ class OutputView {
             printBoard(board, row)
         }
         printAlphabet()
+    }
+
+    fun printWinner(stone: GoStone) {
+        lineBreak()
+        if (stone.stoneType == Stone.BLACK_STONE) {
+            println("흑의 승리입니다.")
+        } else {
+            println("백의 승리입니다.")
+        }
     }
 
     private fun printBoard(
@@ -95,6 +105,8 @@ class OutputView {
             Stone.WHITE_STONE -> "○"
             Stone.NONE -> ""
         }
+
+    private fun lineBreak() = println()
 
     companion object {
         private const val BOARD_SIZE = 15

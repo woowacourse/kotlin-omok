@@ -17,11 +17,12 @@ class InputView {
 
         val input = readln()
         val row = input[0]
-        val col = input.substring(1).toIntOrNull() ?: run {
-            println("x 축은 숫자만 입력 가능합니다.")
-            lineBreak()
-            return readPosition(stone)
-        }
+        val col =
+            input.substring(1).toIntOrNull() ?: run {
+                println("x 축은 숫자만 입력 가능합니다.")
+                lineBreak()
+                return readPosition(stone)
+            }
         return Position.of(row, col)
     }
 

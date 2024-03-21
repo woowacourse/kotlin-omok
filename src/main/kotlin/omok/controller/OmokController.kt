@@ -14,6 +14,7 @@ class OmokController(private val inputView: InputView, private val outputView: O
         omokGame.startGame(
             { inputView.readPosition(it) },
             { outputView.drawBoard(it) },
+            { outputView.printWinner(it) },
         )
     }
 
