@@ -1,17 +1,20 @@
 package omok.model
 
+import omok.model.event.PutEvent
 import omok.model.state.GameState
 
-class OmokGame(private var state: GameState) {
-    private var finishState: GameState.Finish? = null
-    fun play(onPut: () -> Position, onFinish: (Board) -> Unit) {
-        val point = onPut()
-        val newState = (state as GameState.Running).put(point)
-        state = newState
-//        finishState = GameState.Finish(state.getBoard())
-    }
-
-    private fun playByState(position: Position) {
-
+class OmokGame(
+    private var state: GameState,
+    private val putEvent: PutEvent,
+    private val onFinishGame: (Board, OmokStone) -> Unit,
+) {
+    fun play(onStartPut: (Board, OmokStone?) -> Unit) {
+        var event = putEvent.onPutBlack
+        while (!state.isFinished) {
+            onStartPut(state.board, state.board.lastOrNull())
+            state = state.put(event)
+            event = putEvent.reverse(event)
+        }
+        state.winner?.let { onFinishGame(state.board, it) }
     }
 }

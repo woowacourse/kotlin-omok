@@ -9,16 +9,19 @@ import omok.model.rule.PutRule
 import omok.model.rule.WhiteCanPutRule
 
 
-sealed class GameState(protected var board: Board) {
+sealed class GameState(val board: Board) {
+    abstract val isFinished: Boolean
 
+    val winner get() = if (isFinished) board.lastOrNull() else null
+    abstract fun put(onPlace: () -> Position): GameState
     sealed class Running(private val putRule: PutRule, board: Board) : GameState(board) {
-        abstract fun put(onPlace: () -> Position): GameState
 
         protected fun canPut(stone: OmokStone): Boolean {
             return putRule.canPut(stone, board)
         }
 
         class BlackTurn(putRule: PutRule, board: Board) : Running(putRule, board) {
+            override val isFinished = false
 
             override fun put(onPlace: () -> Position): GameState {
                 val position = onPlace()
@@ -34,6 +37,7 @@ sealed class GameState(protected var board: Board) {
 
         class WhiteTurn(putRule: PutRule, board: Board) : Running(putRule, board) {
 
+            override val isFinished = false
             override fun put(onPlace: () -> Position): GameState {
                 val position = onPlace()
                 val newStone = OmokStone(position, StoneColor.WHITE)
@@ -48,5 +52,9 @@ sealed class GameState(protected var board: Board) {
     }
 
     class Finish(board: Board) : GameState(board) {
+        override val isFinished = true
+        override fun put(onPlace: () -> Position): GameState {
+            error("게임이 이미 종료됐습니다.")
+        }
     }
 }
