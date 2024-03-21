@@ -1,6 +1,6 @@
 package omok.model
 
-enum class Stone() {
+enum class Stone {
     BLACK_STONE,
     WHITE_STONE,
     NONE,

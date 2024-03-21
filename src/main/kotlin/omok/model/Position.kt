@@ -8,6 +8,7 @@ data class Position(val row: Int, val col: Int) {
     companion object {
         private const val MIN_RANGE = 0
         private const val MAX_RANGE = 14
+        private const val EXCEPTION_INVALID_POSITION = "유효하지 않은 위치입니다. 현재 입력 값: %s%d\n"
         private val positionRange = MIN_RANGE..MAX_RANGE
 
         private fun invalidPositionMessage(
@@ -15,7 +16,7 @@ data class Position(val row: Int, val col: Int) {
             col: Int,
         ): String {
             val rowValue = 'A' + row
-            return "유효하지 않은 위치입니다. 현재 입력 값: $rowValue${col + 1}\n"
+            return EXCEPTION_INVALID_POSITION.format(rowValue, col + 1)
         }
 
         fun of(

@@ -5,26 +5,26 @@ import omok.model.GoStone
 import omok.model.Stone
 
 class OutputView {
-    fun printStartGameComment() = println("오목 게임을 시작합니다.")
+    fun printStartGameComment() = println(START_GAME_MESSAGE)
 
     fun drawBoard(board: Board) {
         // 오목판 그리기
-        for (row in BOARD_SIZE - 1 downTo 0) {
+        for (row in UPPER_LENGTH downTo 0) {
             // 왼쪽 번호
             print("${(row + 1).toString().padStart(2)} ")
 
             // 이제 drawRow를 각 경우에 맞게 호출
             printBoard(board, row)
         }
-        printAlphabet()
+        printRowValue()
     }
 
     fun printWinner(stone: GoStone) {
         lineBreak()
         if (stone.stoneType == Stone.BLACK_STONE) {
-            println("흑의 승리입니다.")
+            println(BLACK_STONE_WIN_MESSAGE)
         } else {
-            println("백의 승리입니다.")
+            println(WHITE_STONE_WIN_MESSAGE)
         }
     }
 
@@ -33,11 +33,11 @@ class OutputView {
         row: Int,
     ) {
         when (row) {
-            BOARD_SIZE - 1 -> {
+            UPPER_LENGTH -> {
                 drawRow(board, row, "┌", "┬", "┐")
             }
 
-            0 -> {
+            LOWER_ROW -> {
                 drawRow(board, row, "└", "┴", "┘")
             }
 
@@ -47,10 +47,9 @@ class OutputView {
         }
     }
 
-    private fun printAlphabet() {
-        // 하단 알파벳
+    private fun printRowValue() {
         print("   ")
-        for (col in 'A'..'O') {
+        for (col in ROW_RANGE) {
             print("$col  ")
         }
         println()
@@ -64,7 +63,7 @@ class OutputView {
         lastSymbol: String,
     ) {
         printSymbol(board, row, firstSymbol)
-        for (col in 1 until BOARD_SIZE - 1) {
+        for (col in 1 until UPPER_LENGTH) {
             val stone = board.board[row][col]
             print(if (stone == Stone.NONE) "──$middleSymbol" else "──${stone.value()}")
         }
@@ -77,7 +76,7 @@ class OutputView {
         row: Int,
         lastSymbol: String,
     ) {
-        val stone = board.board[row][BOARD_SIZE - 1]
+        val stone = board.board[row][UPPER_LENGTH]
         if (stone != Stone.NONE) {
             print("──${stone.value()}")
         } else {
@@ -90,10 +89,10 @@ class OutputView {
         row: Int,
         firstSymbol: String,
     ) {
-        if (board.board[row][0] != Stone.NONE) {
-            print(board.board[row][0].value())
-        } else if (board.board[row][BOARD_SIZE - 1] != Stone.NONE) {
-            print(board.board[row][BOARD_SIZE - 1].value())
+        if (board.board[row][MIN_COL] != Stone.NONE) {
+            print(board.board[row][MIN_COL].value())
+        } else if (board.board[row][UPPER_LENGTH] != Stone.NONE) {
+            print(board.board[row][UPPER_LENGTH].value())
         } else {
             print(firstSymbol)
         }
@@ -109,6 +108,14 @@ class OutputView {
     private fun lineBreak() = println()
 
     companion object {
-        private const val BOARD_SIZE = 15
+        private const val UPPER_LENGTH = 14
+        private const val LOWER_ROW = 0
+        private const val ROW_START = 'A'
+        private const val ROW_END = 'O'
+        private const val MIN_COL = 0
+        private val ROW_RANGE = ROW_START..ROW_END
+        private const val START_GAME_MESSAGE = "오목 게임을 시작합니다."
+        private const val BLACK_STONE_WIN_MESSAGE = "흑의 승리입니다."
+        private const val WHITE_STONE_WIN_MESSAGE = "백의 승리입니다."
     }
 }
