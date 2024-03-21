@@ -11,13 +11,26 @@ class GameManager {
         onShow: (Board) -> Unit,
     ) {
         while (isRunning()) {
-            runCatching {
-                gameState = gameState.placeStone(onTurn, onRead, onShow)
-            }.onFailure {
-                println(it.message)
-            }
+            playTurn(onTurn, onRead, onShow)
         }
+        gameOver(onTurn, onShow)
+    }
+
+    private fun gameOver(
+        onTurn: (GameState) -> Unit,
+        onShow: (Board) -> Unit,
+    ) {
         onTurn(gameState)
         onShow(gameState.board)
+    }
+
+    private fun playTurn(
+        onTurn: (GameState) -> Unit,
+        onRead: () -> Position,
+        onShow: (Board) -> Unit,
+    ) = runCatching {
+        gameState = gameState.placeStone(onTurn, onRead, onShow)
+    }.onFailure { throwable ->
+        println(throwable.message)
     }
 }

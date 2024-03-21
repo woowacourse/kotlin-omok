@@ -38,8 +38,8 @@ sealed class GameState(var board: Board) {
             ): GameState {
                 onShow(board)
                 onTurn(this)
-                val position = onRead()
 
+                val position = onRead()
                 board.placeStone(position, PositionType.BLACK_STONE)
 
                 if (omokRule.validateOmok(
@@ -74,14 +74,13 @@ sealed class GameState(var board: Board) {
             ): GameState {
                 onShow(board)
                 onTurn(this)
-                val position = onRead()
 
+                val position = onRead()
                 board.placeStone(position, PositionType.WHITE_STONE)
 
                 if (omokRule.validateOmok(position.coordinate.x, position.coordinate.y)) {
                     return Finish(board)
                 }
-
                 return BlackTurn(board)
             }
         }

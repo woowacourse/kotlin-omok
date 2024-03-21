@@ -45,8 +45,8 @@ class Board {
         val parList: MutableList<Pair<Int, Int>> = mutableListOf()
 
         runCatching {
-            for (i in 0 until BOARD_SIZE) {
-                for (j in 0 until BOARD_SIZE) {
+            for (i in MIN_INDEX until BOARD_SIZE) {
+                for (j in MIN_INDEX until BOARD_SIZE) {
                     if ((a(i, j) || b(i, j) || c(i, j)) && newBoard.layout[i][j] == PositionType.EMPTY) {
                         parList.add(Pair(i, j))
                     }
@@ -64,7 +64,8 @@ class Board {
     }
 
     companion object {
-        const val BOARD_SIZE = 15
+        private const val MIN_INDEX = 0
+        private const val BOARD_SIZE = 15
         private const val ERROR_INVALID_POSITION = "돌을 놓을 수 없는 자리입니다."
         private const val ERROR_BLOCK_STONE = "BLOCK 생성을 실패했습니다."
     }
