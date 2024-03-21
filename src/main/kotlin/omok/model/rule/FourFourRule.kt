@@ -1,8 +1,8 @@
 package omok.model.rule
 
 object FourFourRule : OmokRule() {
-    override fun validate(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
-        countOpenThrees(board, position) >= 2
+    override fun canPlaceStone(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
+        countOpenThrees(board, position) < 2
 
     private fun countOpenThrees(board: List<List<Int>>, position: Pair<Int, Int>): Int =
         directions.sumOf { direction -> checkOpenFour(board, position, direction) }

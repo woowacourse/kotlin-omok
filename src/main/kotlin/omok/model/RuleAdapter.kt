@@ -7,25 +7,25 @@ import omok.model.rule.WhiteWinRule
 
 object RuleAdapter {
     fun isBlackWin(board: Board, position: Position): Boolean {
-        return BlackWinRule.validate(board.convert(), position.convert())
+        return BlackWinRule.canPlaceStone(board.convert(), position.convert())
     }
 
     fun isWhiteWin(board: Board, position: Position): Boolean {
-        return WhiteWinRule.validate(board.convert(), position.convert())
+        return WhiteWinRule.canPlaceStone(board.convert(), position.convert())
     }
 
-    fun violateDoubleFour(board: Board, position: Position): Boolean {
-        return FourFourRule.validate(board.convert(), position.convert())
+    fun abideDoubleFourRule(board: Board, position: Position): Boolean {
+        return FourFourRule.canPlaceStone(board.convert(), position.convert())
     }
 
-    fun violateDoubleOpenThree(board: Board, position: Position): Boolean {
-        return ThreeThreeRule.validate(board.convert(), position.convert())
+    fun abideDoubleOpenThreeRule(board: Board, position: Position): Boolean {
+        return ThreeThreeRule.canPlaceStone(board.convert(), position.convert())
     }
 
     private fun Board.convert(): List<List<Int>> {
         val array = Array(15) { IntArray(15) }
         board.forEach { (position, stone) ->
-            array[position.row][position.col] =
+            array[position.col][position.row] =
                 when (stone) {
                     Stone.BLACK -> 1
                     Stone.WHITE -> 2
