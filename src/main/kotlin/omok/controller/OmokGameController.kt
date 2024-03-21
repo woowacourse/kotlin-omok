@@ -31,6 +31,10 @@ object OmokGameController {
             if (isWrongCoords(columnCoords, rowCoords)) continue
             if (canSetStone(omok, rowCoords!!, columnCoords!!, forbiddenPositions)) continue
             omok.setStone(rowCoords, columnCoords, currentStone)
+            if (omok.isFive(rowCoords, columnCoords, currentStone)) {
+                omok.gameFinish()
+                OutputView.showWinner(currentStone)
+            }
             currentStone = togglePlayer(currentStone)
         }
         return omok
