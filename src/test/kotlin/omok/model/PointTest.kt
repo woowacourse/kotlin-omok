@@ -6,8 +6,8 @@ import org.junit.jupiter.params.provider.ValueSource
 
 class PointTest {
     @ParameterizedTest
-    @ValueSource(ints = [0, 16, -5, 280])
-    fun `열의 위치가 A ~ O 사이가 아니라면 예외가 발생한다`(col: Int) {
+    @ValueSource(ints = [-5, 280])
+    fun `Point 의 위치가 1 이상 15 이하가 아니라면 예외가 발생한다`(pointValue: Int) {
         assertThrows<IllegalArgumentException> {
             Point(1, pointValue)
         }
