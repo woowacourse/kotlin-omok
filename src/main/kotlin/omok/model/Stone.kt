@@ -1,8 +1,6 @@
 package omok.model
 
-class Stone(val point: Point) {
-    constructor(row: Int, col: Int) :
-        this(Point(row, col))
+data class Stone(val point: Point, val color: Color) {
+    constructor(row: Int, col: Int, color: Color) :
+        this(Point(row, col), color)
 }
-
-//
