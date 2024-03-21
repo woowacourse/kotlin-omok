@@ -25,7 +25,6 @@ class ConsoleInputView : InputView {
     private fun alphabetToInt(alphabet: Char): Int = alphabet - 'A' + 1
 
     companion object {
-
         private const val INPUTY_MIN_SIZE = 1
         private const val INPUTY_MAX_SIZE = 15
         private val INPUTY_SIZE_RANGE = INPUTY_MIN_SIZE..INPUTY_MAX_SIZE
