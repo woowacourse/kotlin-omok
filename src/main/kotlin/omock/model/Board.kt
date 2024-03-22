@@ -6,7 +6,6 @@ import omock.model.Row.Companion.MAX_ROW
 import omock.model.Row.Companion.MAX_ROW_INDEX
 import omock.model.Row.Companion.MIN_ROW_INDEX
 
-
 class Board(val stoneStates: List<ColumnStates>) {
     fun setStoneState(
         player: Player,
@@ -35,7 +34,6 @@ class Board(val stoneStates: List<ColumnStates>) {
         }
         return visited
     }
-
 
     private fun bfs(
         node: Node,
@@ -86,16 +84,18 @@ class Board(val stoneStates: List<ColumnStates>) {
         return Result(count, isClear, isLastClear)
     }
 
-
     companion object {
         fun from(): Board {
-            return Board(stoneStates = Stone.stones.chunked(MAX_ROW).map { stones ->
-                ColumnStates(
-                    stones.map {
-                        Clear(it)
-                    }.toMutableList()
-                )
-            })
+            return Board(
+                stoneStates =
+                    Stone.stones.chunked(MAX_ROW).map { stones ->
+                        ColumnStates(
+                            stones.map {
+                                Clear(it)
+                            }.toMutableList(),
+                        )
+                    },
+            )
         }
     }
 }

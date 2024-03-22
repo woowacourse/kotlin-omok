@@ -1,10 +1,12 @@
 package omock.model
 
 data class ColumnStates(
-    private val columnStates: MutableList<StoneState>
+    private val columnStates: MutableList<StoneState>,
 ) {
-
-    fun change(row: Int, player: Player) {
+    fun change(
+        row: Int,
+        player: Player,
+    ) {
         columnStates[row] = getStoneState(row).put(player)
     }
 

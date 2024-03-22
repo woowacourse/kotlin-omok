@@ -16,7 +16,6 @@ import omock.view.OutputView.outputSuccessOMock
 import omock.view.OutputView.outputUserTurn
 
 class OMokController {
-
     private val board = Board.from()
     private var gameTurn = GameTurn.BLACK_TURN
 
@@ -25,7 +24,6 @@ class OMokController {
         boardForm.forEachIndexed { index, s ->
             if (index == boardForm.size - 1) {
                 println(s)
-
             } else {
                 println(s.format(*boardTable[index].toTypedArray()))
             }
@@ -35,7 +33,6 @@ class OMokController {
         val whitePlayer = WhitePlayer()
 
         while (true) {
-
             when (gameTurn) {
                 GameTurn.BLACK_TURN -> {
                     outputUserTurn(Stone.getStoneName(blackPlayer))
@@ -61,22 +58,18 @@ class OMokController {
             boardForm.forEachIndexed { index, s ->
                 if (index == boardForm.size - 1) {
                     println(s)
-
                 } else {
                     println(s.format(*boardTable[index].toTypedArray()))
                 }
             }
         }
-
     }
 
     private fun start(player: Player) {
         playerPick(player = player).onSuccess { playerStone ->
             playerTurn(player, playerStone).onSuccess {
-                boardTable[playerStone.row.toIntIndex() - 1][playerStone.column.getIndex()] =
-                    Stone.getStoneIcon(player)
+                boardTable[playerStone.row.toIntIndex() - 1][playerStone.column.getIndex()] = Stone.getStoneIcon(player)
                 player.stoneHistory.add(playerStone)
-
             }.onFailure {
                 board.rollbackState(playerStone)
                 println(it.message)
@@ -86,16 +79,19 @@ class OMokController {
         }
     }
 
-
-    private fun playerTurn(player: Player, playerStone: Stone): Result<Unit> {
+    private fun playerTurn(
+        player: Player,
+        playerStone: Stone,
+    ): Result<Unit> {
         return runCatching {
             board.setStoneState(player, playerStone)
             val visited = board.loadMap(playerStone)
 
-            gameTurn = when (player.judgementResult(visited)) {
-                true -> GameTurn.FINISHED
-                false -> gameTurn.turnOff()
-            }
+            gameTurn =
+                when (player.judgementResult(visited)) {
+                    true -> GameTurn.FINISHED
+                    false -> gameTurn.turnOff()
+                }
         }
     }
 }

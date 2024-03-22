@@ -5,16 +5,20 @@ data class Stone(
     val column: Column,
 ) {
     companion object {
-        val stones = Row.ROW_RANGE.flatMap { rowComma ->
-            (Column.COLUM_RANGE).map { columnComma ->
-                Stone(
-                    row = Row(rowComma),
-                    column = Column(columnComma),
-                )
+        val stones =
+            Row.ROW_RANGE.flatMap { rowComma ->
+                (Column.COLUM_RANGE).map { columnComma ->
+                    Stone(
+                        row = Row(rowComma),
+                        column = Column(columnComma),
+                    )
+                }
             }
-        }
 
-        fun from(row: Row, column: Column): Stone {
+        fun from(
+            row: Row,
+            column: Column,
+        ): Stone {
             return stones.find {
                 it.row.comma == row.comma && it.column.comma == column.comma
             } ?: throw IllegalArgumentException()

@@ -1,7 +1,7 @@
 package omock.model
 
 data class WhitePlayer(
-    override val stoneHistory: ArrayDeque<Stone> = ArrayDeque()
+    override val stoneHistory: ArrayDeque<Stone> = ArrayDeque(),
 ) : Player() {
     override fun judgementResult(visited: Map<Direction, Result>): Boolean {
         visited.entries.forEach { (key, result) ->

@@ -10,6 +10,6 @@ abstract class Placed(private val stone: Stone) : StoneState {
     }
 
     companion object {
-        private const val ERROR_STONE_DUPLICATION =  "이미 돌이 있습니다."
+        private const val ERROR_STONE_DUPLICATION = "이미 돌이 있습니다."
     }
 }

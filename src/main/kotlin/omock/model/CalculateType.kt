@@ -2,13 +2,14 @@ package omock.model
 
 sealed interface CalculateType {
     data object ThreeToThreeCount : CalculateType
+
     data object FourToFourCount : CalculateType
+
     data object IsReverseTwoAndThree : CalculateType
+
     data object IsClearFourToFourCount : CalculateType
 
-
     companion object {
-
         inline fun CalculateType.checkCalculateType(action: () -> Boolean) {
             if (action()) {
                 throw IllegalArgumentException(getCalculateMessage(this))
@@ -23,6 +24,5 @@ sealed interface CalculateType {
                 ThreeToThreeCount -> "3-3 금수를 어겼습니다."
             }
         }
-
     }
 }
