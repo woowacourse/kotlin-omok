@@ -1,11 +1,11 @@
 package omok.model
 
 class Board {
-    val table: List<List<StoneType>>
-        get() = _board.toList()
-    private val _board: MutableList<MutableList<StoneType>> =
-        MutableList(BOARD_SIZE) {
-            MutableList(BOARD_SIZE) { StoneType.EMPTY }
+    val table: Array<Array<StoneType>>
+        get() = _board
+    private val _board: Array<Array<StoneType>> =
+        Array(BOARD_SIZE) {
+            Array(BOARD_SIZE) { StoneType.EMPTY }
         }
 
     val turn: Turn

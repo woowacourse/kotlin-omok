@@ -81,7 +81,7 @@ object OutputView {
 
     private fun generatePrintedLine(
         lineIndex: Int,
-        stoneTypes: List<StoneType>,
+        stoneTypes: Array<StoneType>,
     ): List<Char> {
         return List(boardTable[lineIndex].size) { columnIdx ->
             convertStoneIcon(stoneTypes[columnIdx], lineIndex, columnIdx)
