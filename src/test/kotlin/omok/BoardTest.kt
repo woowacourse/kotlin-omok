@@ -5,6 +5,8 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import omok.fixtures.createBlackStone
 import omok.fixtures.createBoard
 import omok.fixtures.createPosition
@@ -71,16 +73,14 @@ class BoardTest {
     }
 
     @Test
-    fun `좌표에 해당하는 오목판 위치에 돌을 놓을 수 있다`() {
+    fun `오목판에 돌을 놓으면 새로운 오목판이 만들어진다`() {
         // given
         val board = createBoard()
-        val point = createPosition(1, 1)
-        val expect = createBlackStone(1, 1)
         // when
-        val newBoard = board + createBlackStone(point)
-        val actual = newBoard[point]
+        val newBoard = board + createBlackStone(1, 1)
         // then
-        actual shouldBe expect
+        newBoard shouldNotBe board
+        newBoard shouldNotBeSameInstanceAs board
     }
 
     @ParameterizedTest
