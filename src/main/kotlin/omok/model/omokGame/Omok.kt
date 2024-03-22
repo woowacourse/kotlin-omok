@@ -1,6 +1,7 @@
 package omok.model.omokGame
 
 import omok.model.board.CoordsNumber
+import omok.model.board.Position
 import omok.model.board.Stone
 
 class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Stone.EMPTY } }) {
@@ -32,15 +33,15 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_
         gameBoard[y.number][x.number] = stone
     }
 
-    fun checkBoard(stone: Stone): List<Pair<CoordsNumber, CoordsNumber>> {
-        val coords = mutableListOf<Pair<CoordsNumber, CoordsNumber>>()
+    fun checkBoard(stone: Stone): List<Position> {
+        val coords = mutableListOf<Position>()
         for (y in gameBoard.indices) {
             for (x in gameBoard[y].indices) {
                 if (gameBoard[y][x] != Stone.EMPTY) {
                     continue
                 }
                 if (forbiddenPoint(CoordsNumber(x), CoordsNumber(y), stone)) {
-                    coords.add(CoordsNumber(y) to CoordsNumber(x))
+                    coords.add(Position(CoordsNumber(y), CoordsNumber(x)))
                 }
             }
         }
@@ -57,9 +58,9 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_
     fun isForbidden(
         row: CoordsNumber,
         column: CoordsNumber,
-        forbiddenPositions: List<Pair<CoordsNumber, CoordsNumber>>,
+        forbiddenPositions: List<Position>,
     ): Boolean {
-        return column to row in forbiddenPositions
+        return Position(column, row) in forbiddenPositions
     }
 
     private fun isInvalid(

@@ -1,6 +1,7 @@
 package omok.view
 
 import omok.model.board.CoordsNumber
+import omok.model.board.Position
 import omok.model.board.Stone
 
 private const val COLUMN_STRING = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
@@ -23,7 +24,7 @@ private const val OMOK_START_MESSAGE = "오목 게임을 시작합니다."
 private const val FORBIDDEN_MESSAGE = "놓을 수 없는 자리입니다.(금수-렌주룰)"
 private const val NOT_EMPTY_MESSAGE = "빈 자리에 놓아주세요."
 private const val WRONG_COORDS_MESSAGE = "잘못된 위치 입력입니다."
-private const val WINNER_MESSAGE = "우승자는 %s."
+private const val WINNER_MESSAGE = "💫우승자💫는 %s."
 
 private const val BOARD_SIZE = 15
 
@@ -50,7 +51,7 @@ object OutputView {
 
     fun printBoard(
         board: Array<Array<Stone>>,
-        forbiddenPositions: List<Pair<CoordsNumber, CoordsNumber>> = emptyList(),
+        forbiddenPositions: List<Position> = emptyList(),
     ) {
         val boardForDisplay = initializeBoard()
         for (row in board.indices) {
@@ -58,7 +59,7 @@ object OutputView {
             for (col in board[row].indices) {
                 val displayChar =
                     when {
-                        CoordsNumber(col) to CoordsNumber(row) in forbiddenPositions -> X
+                        Position(CoordsNumber(col), CoordsNumber(row)) in forbiddenPositions -> X
                         board[col][row] == Stone.WHITE -> WHITE_STONE
                         board[col][row] == Stone.BLACK -> BLACK_STONE
                         else -> boardForDisplay[row][col]

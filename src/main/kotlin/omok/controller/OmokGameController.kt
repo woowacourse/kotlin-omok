@@ -1,5 +1,6 @@
 import omok.model.board.ColumnNumber
 import omok.model.board.CoordsNumber
+import omok.model.board.Position
 import omok.model.board.Stone
 import omok.model.omokGame.Omok
 import omok.view.InputView
@@ -48,7 +49,7 @@ object OmokGameController {
         omok: Omok,
         rowNumber: CoordsNumber,
         columnNumber: CoordsNumber,
-        forbiddenPositions: List<Pair<CoordsNumber, CoordsNumber>>,
+        forbiddenPositions: List<Position>,
     ): Boolean {
         if (checkEmpty(omok, rowNumber, columnNumber)) return true
         if (checkForbidden(omok, rowNumber, columnNumber, forbiddenPositions)) return true
@@ -59,7 +60,7 @@ object OmokGameController {
         omok: Omok,
         rowNumber: CoordsNumber,
         columnNumber: CoordsNumber,
-        forbiddenPositions: List<Pair<CoordsNumber, CoordsNumber>>,
+        forbiddenPositions: List<Position>,
     ): Boolean {
         if (omok.isForbidden(rowNumber, columnNumber, forbiddenPositions)) {
             OutputView.printForbiddenMoveMessage()
