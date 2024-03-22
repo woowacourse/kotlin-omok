@@ -2,7 +2,7 @@
 
 - [ ] : domain 로직들 테스트코드 모두 작성
 ## Board
-- [ ] : Board - sumLeft, sumRight 공통 로직 개선
+- [x] : Board - sumLeft, sumRight 공통 로직 개선
 - [x] : Board 의 크기를 size 를 넘어가면 못 놓게 리팩토링
 - [x] : 오목판에 돌을 놓으면 새로운 오목판이 만들어진다 - testCase 추가
 - [x] : Board 의 좌표에 해당하는 곳에 이미 돌이 있으면 돌을 놓을 수 없다 - testCase 추가
@@ -25,7 +25,7 @@
 ## Rule
 - [ ] : PutRule - 네이밍 좀 더 구체적으로 변경
 - [ ] : rule - 개별 sealed class 별로 파일을 분리
-
+- [ ] : WhiteCanPutRule 삭제 및 리팩토링
 ## GameState
 
 - [ ] : GameState - 개별 sealed class 별로 파일을 분리

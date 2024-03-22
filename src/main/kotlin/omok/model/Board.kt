@@ -46,10 +46,10 @@ class Board(private val size: Int = DEFAULT_BOARD_SIZE, val stones: Map<Position
         stone: OmokStone,
         vector: Vector,
     ): Boolean {
-        return sumLeft(stone, vector) + sumRight(stone, vector) >= OMOK_THRESHOLD
+        return sumSameStone(stone, vector) + sumSameStone(stone, -vector) >= OMOK_THRESHOLD
     }
 
-    private fun sumRight(
+    private fun sumSameStone(
         stone: OmokStone,
         vector: Vector,
     ): Int {
@@ -58,29 +58,8 @@ class Board(private val size: Int = DEFAULT_BOARD_SIZE, val stones: Map<Position
         var count = INITIAL_COUNT
         for (i in OMOK_CANDIDATE_RANGE) {
             now += vector
-            if (stones[now]?.color == color) {
-                count++
-            } else {
-                break
-            }
-        }
-        return count
-    }
-
-    private fun sumLeft(
-        stone: OmokStone,
-        vector: Vector,
-    ): Int {
-        val (position, color) = stone
-        var now = position
-        var count = INITIAL_COUNT
-        for (i in OMOK_CANDIDATE_RANGE) {
-            now -= vector
-            if (stones[now]?.color == color) {
-                count++
-            } else {
-                break
-            }
+            if (stones[now]?.color != color) break
+            count++
         }
         return count
     }
