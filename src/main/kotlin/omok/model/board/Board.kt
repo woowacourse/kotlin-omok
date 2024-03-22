@@ -4,43 +4,52 @@ import omok.model.OmokStone
 import omok.model.Position
 import omok.model.Vector
 
-class Board(private val size: Int = DEFAULT_BOARD_SIZE, val stones: Map<Position, OmokStone>) {
+class Board(val size: BoardSize = DEFAULT_BOARD_SIZE, val boxes: Boxes = Boxes()) {
+    val positions get() = boxes.keys
+    val stones get() = boxes.values
+
     init {
-        validate(stones)
+        validate(boxes)
     }
 
-    private val boardRage: IntRange get() = MIN..size
+    private fun validate(boxes: Map<Position, OmokStone>) {
+        boxes.keys.forEach(::validate)
+    }
 
     private fun validate(position: Position) {
-        require(position.x in boardRage && position.y in boardRage) { "Position 은 ($MIN, $MIN) ~ ($size, $size) 사이여야 한다" }
-    }
-
-    private fun validate(stones: Map<Position, OmokStone>) {
-        stones.keys.forEach(::validate)
+        require(
+            size.isInBounds(
+                position.x,
+                position.y,
+            ),
+        ) { "Position 은 ($MIN, $MIN) ~ (${size.width}, ${size.width}) 사이여야 한다" }
     }
 
     operator fun plus(stone: OmokStone): Board {
         validate(stone.position)
-        return Board(size, stones + (stone.position to stone))
+        return Board(size, boxes + stone)
     }
 
     fun canPlace(stone: OmokStone): Boolean {
-        return isInRange(stone) && isEmptyPosition(stone)
+        return isInBounds(stone) && isEmptyPosition(stone)
     }
 
-    private fun isInRange(stone: OmokStone): Boolean {
+    private fun isInBounds(stone: OmokStone): Boolean {
         val position = stone.position
-        return (position.x in boardRage) && (position.y in boardRage)
+        return size.isInBounds(
+            position.x,
+            position.y,
+        )
     }
 
-    private fun isEmptyPosition(stone: OmokStone): Boolean = stones.contains(stone.position).not()
+    private fun isEmptyPosition(stone: OmokStone): Boolean = (stone.position !in boxes)
 
-    operator fun get(position: Position): OmokStone? = stones[position]
+    operator fun get(position: Position): OmokStone? = boxes[position]
 
-    fun lastOrNull(): OmokStone? = stones.entries.lastOrNull()?.value
+    fun lastOrNull(): OmokStone? = boxes.entries.lastOrNull()?.value
 
     fun isInOmok(position: Position): Boolean {
-        val stone = stones[position] ?: return false
+        val stone = boxes[position] ?: return false
         return Vector.FOUR_DIRECTIONS.any { vector ->
             isInOmok(stone, vector)
         }
@@ -62,14 +71,14 @@ class Board(private val size: Int = DEFAULT_BOARD_SIZE, val stones: Map<Position
         var count = INITIAL_COUNT
         for (i in OMOK_CANDIDATE_RANGE) {
             now += vector
-            if (stones[now]?.color != color) break
+            if (boxes[now]?.color != color) break
             count++
         }
         return count
     }
 
     companion object {
-        private const val DEFAULT_BOARD_SIZE = 15
+        private val DEFAULT_BOARD_SIZE = BoardSize(15)
         private const val MIN = 1
         private const val INITIAL_COUNT = 0
         private const val OMOK_THRESHOLD = 4

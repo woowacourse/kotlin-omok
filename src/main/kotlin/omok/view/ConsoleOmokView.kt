@@ -98,7 +98,7 @@ object ConsoleOmokView : OmokView {
                A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
             """.trimIndent()
         val sb = StringBuilder(strMap)
-        board.stones.values.forEach {
+        board.stones.forEach {
             val stoneChar = if (it.color == StoneColor.WHITE) '○' else '●'
             val x = (it.position.x) * 3
             val y = 15 - it.position.y

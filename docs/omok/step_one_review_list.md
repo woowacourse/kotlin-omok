@@ -11,19 +11,8 @@
 ## Vector
 - [x] : Vector 에 4방향 vectors 추가
 
-## Box
-- [ ] : position: Position ,state : BoxState 을 갖도록 바꾸기
-- [ ] : 기존 OmokStone 을 block 으로 바꾸기
-
-이유는 size x size 에 해당하는 map 을 먼저 만들 것인데, Empty omokStones 들로 Board 를
-채운다는 개념이 이상하기 때문에
-
-## BoxType
-- [ ] : EMPTY, BLACK_STONE, WHITE_STONE
-## Boxes
-- [ ] : BoardSize 를 받으면 기본적으로 size x size 에 해당하는 map 만들기
 ## BoardSize
-- [ ] : BoardSize
+- [x] : BoardSize 는 1 이상이여야함
 
 ## OmokGame
 - [ ] : OmokGame

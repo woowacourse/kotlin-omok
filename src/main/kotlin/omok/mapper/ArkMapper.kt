@@ -7,7 +7,7 @@ import omok.model.board.Board
 
 fun Board.toArkOmokBoard(): List<List<Int>> {
     val arkBoard = MutableList(15) { MutableList(15) { 0 } }
-    stones.keys.forEach {
+    positions.forEach {
         arkBoard[it.y - 1][it.x - 1] = get(it).toInt()
     }
     return arkBoard

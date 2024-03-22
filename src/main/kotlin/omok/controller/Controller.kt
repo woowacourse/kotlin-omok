@@ -9,7 +9,7 @@ import omok.view.OmokView
 
 class Controller(
     private val omokView: OmokView = ConsoleOmokView,
-    private val state: GameState = GameState.Running.BlackTurn(Board(stones = emptyMap())),
+    private val state: GameState = GameState.Running.BlackTurn(Board()),
     private val event: PutEvent =
         PutEvent(
             omokView::readPosition,

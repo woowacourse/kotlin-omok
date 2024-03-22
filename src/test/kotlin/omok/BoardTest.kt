@@ -25,6 +25,7 @@ class BoardTest {
     ) {
         shouldThrow<IllegalArgumentException> {
             createBoard(
+                size,
                 createWhiteStone(x, y),
             )
         }
@@ -52,6 +53,7 @@ class BoardTest {
     ) {
         shouldNotThrow<IllegalArgumentException> {
             createBoard(
+                size,
                 createWhiteStone(x, y),
             )
         }
