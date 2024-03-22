@@ -14,6 +14,10 @@ class FinishedTurn(
     override fun isFinished(): Boolean = true
 
     override fun judgementResult(visited: Map<Direction, Result>): Turn {
-        throw IllegalArgumentException("게임이 이미 종료되었습니다")
+        throw IllegalArgumentException(ERROR_FINISHED_MESSAGE)
+    }
+
+    companion object {
+        const val ERROR_FINISHED_MESSAGE = "게임이 이미 종료되었습니다"
     }
 }

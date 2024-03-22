@@ -2,6 +2,7 @@ package omock.model
 
 import omock.model.turn.BlackTurn
 import omock.model.turn.FinishedTurn
+import omock.model.turn.FinishedTurn.Companion.ERROR_FINISHED_MESSAGE
 import omock.model.turn.Turn
 import omock.model.turn.WhiteTurn
 
@@ -33,7 +34,7 @@ data class Stone(
             return when (player) {
                 is BlackTurn -> '●'
                 is WhiteTurn -> '○'
-                is FinishedTurn -> throw java.lang.IllegalArgumentException("게임이 이미 종료되었습니다")
+                is FinishedTurn -> throw java.lang.IllegalArgumentException(ERROR_FINISHED_MESSAGE)
             }
         }
 
@@ -41,7 +42,7 @@ data class Stone(
             return when (player) {
                 is BlackTurn -> "흑"
                 is WhiteTurn -> "백"
-                is FinishedTurn -> throw java.lang.IllegalArgumentException("게임이 이미 종료되었습니다")
+                is FinishedTurn -> throw java.lang.IllegalArgumentException(ERROR_FINISHED_MESSAGE)
             }
         }
     }
