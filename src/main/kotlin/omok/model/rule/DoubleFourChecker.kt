@@ -1,29 +1,27 @@
 package omok.model.rule
 
 import omok.model.board.Board
+import omok.model.position.DeltaPosition
+import omok.model.position.Position
 
 object DoubleFourChecker : RenjuRule(Board.board) {
-    fun isDoubleFour(
-        x: Int,
-        y: Int,
-    ): Boolean = directions.sumOf { direction -> checkOpenFour(x, y, direction[0], direction[1]) } >= 2
+    fun isDoubleFour(position: Position): Boolean =
+        directions.sumOf { direction -> checkOpenFour(position, DeltaPosition(direction[0], direction[1])) } >= 2
 
     private fun checkOpenFour(
-        x: Int,
-        y: Int,
-        dx: Int,
-        dy: Int,
+        position: Position,
+        deltaPosition: DeltaPosition,
     ): Int {
-        val (stone1, blink1) = search(x, y, -dx, -dy)
-        val (stone2, blink2) = search(x, y, dx, dy)
+        val (stone1, blink1) = search(position, -deltaPosition)
+        val (stone2, blink2) = search(position, deltaPosition)
 
         val leftDown = stone1 + blink1
-        val left = dx * (leftDown + 1)
-        val down = dy * (leftDown + 1)
+        val left = deltaPosition.deltaRow * (leftDown + 1)
+        val down = deltaPosition.deltaCol * (leftDown + 1)
 
         val rightUp = stone2 + blink2
-        val right = dx * (rightUp + 1)
-        val up = dy * (rightUp + 1)
+        val right = deltaPosition.deltaRow * (rightUp + 1)
+        val up = deltaPosition.deltaCol * (rightUp + 1)
 
         when {
             blink1 + blink2 == 2 && stone1 + stone2 == 4 -> return 2
@@ -34,16 +32,16 @@ object DoubleFourChecker : RenjuRule(Board.board) {
 
         val leftDownValid =
             when {
-                dx != 0 && x - dx * leftDown in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
-                dy != 0 && y - dy * leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
-                Board.board[y - down][x - left] == OTHER_STONE -> 0
+                deltaPosition.deltaRow != 0 && position.row - deltaPosition.deltaRow * leftDown in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
+                deltaPosition.deltaCol != 0 && position.col - deltaPosition.deltaCol * leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
+                Board.board[position.col - down][position.row - left] == OTHER_STONE -> 0
                 else -> 1
             }
         val rightUpValid =
             when {
-                dx != 0 && x + (dx * rightUp) in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
-                dy != 0 && y + (dy * rightUp) in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
-                Board.board[y + up][x + right] == OTHER_STONE -> 0
+                deltaPosition.deltaRow != 0 && position.row + (deltaPosition.deltaRow * rightUp) in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
+                deltaPosition.deltaCol != 0 && position.col + (deltaPosition.deltaCol * rightUp) in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
+                Board.board[position.col + up][position.row + right] == OTHER_STONE -> 0
                 else -> 1
             }
 

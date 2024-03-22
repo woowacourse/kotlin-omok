@@ -1,21 +1,19 @@
 package omok.model.rule
 
 import omok.model.board.Board
+import omok.model.position.DeltaPosition
+import omok.model.position.Position
 
 object DoubleThreeChecker : RenjuRule(Board.board) {
-    fun isDoubleThree(
-        x: Int,
-        y: Int,
-    ): Boolean = directions.sumOf { direction -> checkOpenThree(x, y, direction[0], direction[1]) } >= 2
+    fun isDoubleThree(position: Position): Boolean =
+        directions.sumOf { direction -> checkOpenThree(position, DeltaPosition(direction[0], direction[1])) } >= 2
 
     private fun checkOpenThree(
-        x: Int,
-        y: Int,
-        dx: Int,
-        dy: Int,
+        position: Position,
+        deltaPosition: DeltaPosition,
     ): Int {
-        val (stone1, blink1) = search(x, y, -dx, -dy)
-        val (stone2, blink2) = search(x, y, dx, dy)
+        val (stone1, blink1) = search(position, -deltaPosition)
+        val (stone2, blink2) = search(position, deltaPosition)
 
         val leftDown = stone1 + blink1
         val rightUp = stone2 + blink2
@@ -23,9 +21,9 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         return when {
             isValidStoneCount(stone1, stone2) -> 0
             isValidBlinkCount(blink1, blink2) -> 0
-            isAtBoardEdge(x, y, dx, dy, leftDown, rightUp) -> 0
-            isBesideAnotherStone(x, y, dx, dy, leftDown, rightUp) -> 0
-            countToWall(x, y, -dx, -dy) + countToWall(x, y, dx, dy) <= 5 -> 0
+            isAtBoardEdge(position, deltaPosition, leftDown, rightUp) -> 0
+            isBesideAnotherStone(position, deltaPosition, leftDown, rightUp) -> 0
+            countToWall(position, -deltaPosition) + countToWall(position, deltaPosition) <= 5 -> 0
             else -> 1
         }
     }
@@ -49,56 +47,59 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         }
 
     private fun isAtBoardEdge(
-        x: Int,
-        y: Int,
-        dx: Int,
-        dy: Int,
+        position: Position,
+        deltaPosition: DeltaPosition,
         leftDown: Int,
         rightUp: Int,
     ): Boolean {
+        val row = position.row
+        val col = position.col
+        val deltaRow = deltaPosition.deltaRow
+        val deltaCol = deltaPosition.deltaCol
         return when {
-            dx != 0 && x - leftDown in listOf(MIN_X, Board.BOARD_SIZE - 1) -> true
-            dy != 0 && y - leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> true
-            dx != 0 && x + rightUp in listOf(MIN_X, Board.BOARD_SIZE - 1) -> true
-            dy != 0 && y + rightUp in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> true
+            deltaRow != 0 && row - leftDown in listOf(MIN_X, Board.BOARD_SIZE - 1) -> true
+            deltaCol != 0 && col - leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> true
+            deltaRow != 0 && row + rightUp in listOf(MIN_X, Board.BOARD_SIZE - 1) -> true
+            deltaCol != 0 && col + rightUp in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> true
             else -> false
         }
     }
 
     private fun isBesideAnotherStone(
-        x: Int,
-        y: Int,
-        dx: Int,
-        dy: Int,
+        position: Position,
+        deltaPosition: DeltaPosition,
         leftDown: Int,
         rightUp: Int,
     ): Boolean {
-        val left = dx * (leftDown + 1)
-        val down = dy * (leftDown + 1)
+        val deltaRow = deltaPosition.deltaRow
+        val deltaCol = deltaPosition.deltaCol
+        val row = position.row
+        val col = position.col
 
-        val right = dx * (rightUp + 1)
-        val up = dy * (rightUp + 1)
+        val left = deltaRow * (leftDown + 1)
+        val down = deltaCol * (leftDown + 1)
+
+        val right = deltaRow * (rightUp + 1)
+        val up = deltaCol * (rightUp + 1)
 
         return when (OTHER_STONE) {
-            Board.board[y - down][x - left] -> true
-            Board.board[y + up][x + right] -> true
+            Board.board[col - down][row - left] -> true
+            Board.board[col + up][row + right] -> true
             else -> false
         }
     }
 
     private fun countToWall(
-        x: Int,
-        y: Int,
-        dx: Int,
-        dy: Int,
+        position: Position,
+        deltaPosition: DeltaPosition,
     ): Int {
-        var toRight = x
-        var toTop = y
+        var toRight = position.row
+        var toTop = position.col
         var distance = 0
         while (true) {
-            if (isBoardRange(dx, toRight, dy, toTop)) break
-            toRight += dx
-            toTop += dy
+            if (isBoardRange(deltaPosition, toRight, toTop)) break
+            toRight += deltaPosition.deltaRow
+            toTop += deltaPosition.deltaCol
             when (Board.board[toTop][toRight]) {
                 in listOf(CURRENT_STONE, EMPTY_STONE) -> distance++
                 OTHER_STONE -> break

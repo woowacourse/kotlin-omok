@@ -1,40 +1,36 @@
 package omok.model.rule
 
 import omok.model.board.Board
+import omok.model.position.DeltaPosition
+import omok.model.position.Position
 import omok.model.stone.Stone
 
 open class RenjuRule(private val board: Array<Array<Stone>>) {
     val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
 
-    fun checkRenjuRule(
-        row: Int,
-        col: Int,
-    ): Boolean =
-        DoubleThreeChecker.isDoubleThree(row, col) ||
-            DoubleFourChecker.isDoubleFour(row, col) ||
-            ExceedFiveChecker.isMoreThanFive(row, col)
+    fun checkRenjuRule(position: Position): Boolean =
+        DoubleThreeChecker.isDoubleThree(position) ||
+            DoubleFourChecker.isDoubleFour(position) ||
+            ExceedFiveChecker.isMoreThanFive(position)
 
     fun search(
-        x: Int,
-        y: Int,
-        dx: Int,
-        dy: Int,
+        position: Position,
+        deltaPosition: DeltaPosition,
     ): Pair<Int, Int> {
-        var toRight = x
-        var toTop = y
+        var toRight = position.row
+        var toTop = position.col
         var stone = 0
         var blink = 0
         var blinkCount = 0
         while (true) {
-            if (isBoardRange(dx, toRight, dy, toTop)) break
-            toRight += dx
-            toTop += dy
+            if (isBoardRange(deltaPosition, toRight, toTop)) break
+            toRight += deltaPosition.deltaRow
+            toTop += deltaPosition.deltaCol
             when (board[toTop][toRight]) {
                 CURRENT_STONE -> {
                     stone++
                     blink = blinkCount
                 }
-
                 OTHER_STONE -> break
                 EMPTY_STONE -> {
                     if (blink == 1) break
@@ -48,22 +44,23 @@ open class RenjuRule(private val board: Array<Array<Stone>>) {
     }
 
     fun isBoardRange(
-        dx: Int,
+        deltaPosition: DeltaPosition,
         toRight: Int,
-        dy: Int,
         toTop: Int,
     ): Boolean {
-        if (dx > 0 && toRight == Board.BOARD_SIZE - 1) return true
-        if (dx < 0 && toRight == MIN_X) return true
-        if (dy > 0 && toTop == Board.BOARD_SIZE - 1) return true
-        if (dy < 0 && toTop == MIN_X) return true
+        val deltaRow = deltaPosition.deltaRow
+        val deltaCol = deltaPosition.deltaCol
+        if (deltaRow > 0 && toRight == Board.BOARD_SIZE - 1) return true
+        if (deltaRow < 0 && toRight == MIN_X) return true
+        if (deltaCol > 0 && toTop == Board.BOARD_SIZE - 1) return true
+        if (deltaCol < 0 && toTop == MIN_X) return true
         return false
     }
 
     companion object {
-        val EMPTY_STONE = Stone.NONE
         const val MIN_X = 0
         const val MIN_Y = 0
+        val EMPTY_STONE = Stone.NONE
         val CURRENT_STONE = Stone.BLACK_STONE
         val OTHER_STONE: Stone = Stone.WHITE_STONE
     }

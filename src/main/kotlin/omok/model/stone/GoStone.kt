@@ -18,7 +18,7 @@ abstract class GoStone {
     fun findOmok(position: Position): Boolean = OmokChecker.findOmok(position, stoneType)
 
     private fun validatePosition(position: Position) {
-        require(!RenjuRule(Board.board).checkRenjuRule(position.row, position.col)) { EXCEPTION_FORBIDDEN_MOVE }
+        require(!RenjuRule(Board.board).checkRenjuRule(position)) { EXCEPTION_FORBIDDEN_MOVE }
         require(Board.board[position.col][position.row] == Stone.NONE) { EXCEPTION_PLACED_STONE_POSITION }
     }
 
