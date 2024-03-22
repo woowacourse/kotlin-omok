@@ -21,12 +21,13 @@ class OMokController {
 
     fun run() {
         outputGameStart()
-        outputBoard()
 
         val blackPlayer = BlackPlayer()
         val whitePlayer = WhitePlayer()
 
         while (true) {
+            outputBoard()
+
             when (gameTurn) {
                 GameTurn.BLACK_TURN -> {
                     outputUserTurn(Stone.getStoneName(blackPlayer))
@@ -48,7 +49,6 @@ class OMokController {
                     outputSuccessOMock()
                 }
             }
-            outputBoard()
         }
     }
 
