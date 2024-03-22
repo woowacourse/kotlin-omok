@@ -1,4 +1,8 @@
-package omok.model
+package omok.model.board
+
+import omok.model.OmokStone
+import omok.model.Position
+import omok.model.Vector
 
 class Board(private val size: Int = DEFAULT_BOARD_SIZE, val stones: Map<Position, OmokStone>) {
     init {

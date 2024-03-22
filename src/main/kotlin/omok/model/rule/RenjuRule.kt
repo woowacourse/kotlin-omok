@@ -5,8 +5,8 @@ import lib.ark.ark.ArkOverLineRule
 import lib.ark.ark.ArkThreeThreeRule
 import omok.mapper.toArkOmokBoard
 import omok.mapper.toArkOmokPoint
-import omok.model.Board
 import omok.model.OmokStone
+import omok.model.board.Board
 
 object RenjuRule : OmokGameRule {
     override fun canPlaceStone(

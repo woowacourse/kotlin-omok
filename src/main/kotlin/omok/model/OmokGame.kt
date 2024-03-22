@@ -1,5 +1,6 @@
 package omok.model
 
+import omok.model.board.Board
 import omok.model.event.PutEvent
 import omok.model.state.GameState
 

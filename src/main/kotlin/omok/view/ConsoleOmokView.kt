@@ -1,9 +1,9 @@
 package omok.view
 
-import omok.model.Board
 import omok.model.OmokStone
 import omok.model.Position
 import omok.model.StoneColor
+import omok.model.board.Board
 
 object ConsoleOmokView : OmokView {
     override fun showStartMessage() {

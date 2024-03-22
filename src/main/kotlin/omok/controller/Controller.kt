@@ -1,7 +1,7 @@
 package omok.controller
 
-import omok.model.Board
 import omok.model.OmokGame
+import omok.model.board.Board
 import omok.model.event.PutEvent
 import omok.model.state.GameState
 import omok.view.ConsoleOmokView

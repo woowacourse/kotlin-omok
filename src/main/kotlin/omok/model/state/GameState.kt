@@ -1,9 +1,9 @@
 package omok.model.state
 
-import omok.model.Board
 import omok.model.OmokStone
 import omok.model.Position
 import omok.model.StoneColor
+import omok.model.board.Board
 import omok.model.rule.OmokGameRule
 import omok.model.rule.RenjuRule
 

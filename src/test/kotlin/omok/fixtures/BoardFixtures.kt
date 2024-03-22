@@ -1,7 +1,7 @@
 package omok.fixtures
 
-import omok.model.Board
 import omok.model.OmokStone
+import omok.model.board.Board
 
 private const val DEFAULT_BOARD_SIZE = 15
 

@@ -1,8 +1,8 @@
 package omok.view
 
-import omok.model.Board
 import omok.model.OmokStone
 import omok.model.Position
+import omok.model.board.Board
 
 interface OmokView {
     fun showStartMessage()
