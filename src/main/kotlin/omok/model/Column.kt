@@ -19,7 +19,7 @@ enum class Column(val title: Char, val value: Int) {
     ;
 
     companion object {
-        fun valueOf(col: Char): Column? {
+        fun titleOf(col: Char): Column? {
             return entries.find {
                 it.title == col
             }

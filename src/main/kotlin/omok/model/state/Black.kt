@@ -32,8 +32,8 @@ class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStat
         val row = ARRAY_SIZE - position.row.value
         val arkPoint = Position.of(row, position.col.title).toArkOmokPoint()
         if (placementAvailable(arkBoard, arkPoint)) {
-            val column = Column.valueOf(position.col.title)?.value ?: return
-            markSinglePlace(row, column, Color.BLACK)
+            val column = Column.titleOf(position.col.title)?.value ?: return
+            markSinglePlace(Color.BLACK, position)
             addSingleStone(Color.BLACK, position)
         } else {
             throw IllegalArgumentException(EXCEPTION_FORBIDDEN_PLACEMENT)

@@ -24,8 +24,8 @@ class White(whiteStatus: Array<Array<Color?>>) : TurnState(whiteStatus) {
         addSingleStone: (Color, Position) -> Unit,
     ) {
         val row = ARRAY_SIZE - position.row.value
-        val column = Column.valueOf(position.col.title)?.value ?: return
-        markSinglePlace(row, column, Color.WHITE)
+        val column = Column.titleOf(position.col.title)?.value ?: return
+        markSinglePlace(Color.WHITE, position)
         addSingleStone(Color.WHITE, position)
     }
 }
