@@ -10,8 +10,6 @@ import omok.model.rule.RenjuRule
 sealed class GameState(val board: Board) {
     abstract val isFinished: Boolean
 
-    val winner get() = if (isFinished) board.lastOrNull() else null
-
     abstract fun placeStone(onPlace: () -> Position): GameState
 
     sealed class Running(private val putRule: OmokGameRule, board: Board) : GameState(board) {

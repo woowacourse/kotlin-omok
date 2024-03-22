@@ -15,18 +15,17 @@
 - [x] : BoardSize 는 1 이상이여야함
 
 ## OmokGame
-- [ ] : OmokGame
+- [x] : OmokGame while 문 변경
 
 ## GameEvent (as is : PutEvent)
-- [ ] : GameEvent 변경에 유연한 구조로 개선
-- [ ] : GameEvent - reverse() 로직 삭제
+- [ ] : GameEvent 변경에 유연한 구조로 개선 (의문점 있음 대기..)
+- [x] : GameEvent - reverse() 로직 삭제
 > 이 부분도 마찬가지로 reverse() 라는 함수가 여러곳에 파편화 되어있으면,
 > 추후에 요구사항이 변경됐을 때 관리가 너무 어려울 것 같아요.
 > 돌이 바뀌는 로직을 한곳으로 모아서 관리해볼 수 있을까요?
 
-조금 더 고려해볼 부분 : GameStart, GameEnd event 를 받아서 꼭 처리를 해야할까...?
-그냥 Game 시작하기 전에 controller 에서 start 하기 전 로직 처리하고, 게임 끝나고 결과 받아서
-end 이벤트 처리하면 될 거 같은데 🤔
+조금 더 고려해볼 부분 : GameEnd event 를 받아서 꼭 처리를 해야할까...?
+controller 에서 게임 끝나고 결과 받아서 end 이벤트 처리하면 될 거 같은데 🤔
 
 ## StoneColor
 - [x] : StoneColor 삭제

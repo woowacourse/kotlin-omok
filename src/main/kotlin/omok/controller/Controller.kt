@@ -22,8 +22,9 @@ class Controller(
             OmokGame(
                 state = state,
                 playersEvent = event,
-                onFinishGame = omokView::showGameResult,
             )
-        game.play(omokView::showProgress)
+        val result = game.play(omokView::showProgress)
+
+        omokView.showGameResult(result, requireNotNull(result.lastOrNull()) { "게임이 종료되지 않았습니다." })
     }
 }

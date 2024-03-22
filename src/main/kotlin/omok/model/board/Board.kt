@@ -46,7 +46,7 @@ class Board(val size: BoardSize = DEFAULT_BOARD_SIZE, val boxes: Boxes = Boxes()
 
     operator fun get(position: Position): OmokStone? = boxes[position]
 
-    fun lastOrNull(): OmokStone? = boxes.entries.lastOrNull()?.value
+    fun lastOrNull(): OmokStone? = stones.lastOrNull()
 
     fun isInOmok(position: Position): Boolean {
         val stone = boxes[position] ?: return false

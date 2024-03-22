@@ -8,25 +8,21 @@ import omok.model.state.GameState
 private typealias PlaceOmokEvent = () -> Position
 
 class OmokGame(
-    private var state: GameState,
+    private val state: GameState,
     private val playersEvent: OmokPlayersPlaceEvent,
-    private val onFinishGame: (Board, OmokStone) -> Unit,
 ) {
-    fun play(onStartPut: (Board, OmokStone?) -> Unit) {
-        play(state, onStartPut, playersEvent.startingPlayerPlaceEvent)
+    fun play(onStartPut: (Board, OmokStone?) -> Unit): Board {
+        return play(state, onStartPut, playersEvent.startingPlayerPlaceEvent)
     }
 
     tailrec fun play(
         state: GameState,
         onStartPlaceStone: (Board, OmokStone?) -> Unit,
         event: PlaceOmokEvent,
-    ) {
+    ): Board {
         onStartPlaceStone(state.board, state.board.lastOrNull())
         val newState = state.placeStone(event)
-        if (newState.isFinished) {
-            newState.winner?.let { onFinishGame(newState.board, it) }
-            return
-        }
+        if (newState.isFinished) return newState.board
 
         return play(newState, onStartPlaceStone, changePlaceOmokEvent(event))
     }
