@@ -30,7 +30,7 @@ class BlackPlayerTest {
         val board = Board.from()
         board.makeStones(
             player = player,
-            coordinates = arrayOf( "15C","14C","12C","11C","10C"),
+            coordinates = arrayOf("15C", "14C", "12C", "11C", "10C"),
         )
 
         val stone = Stone.from(Row("13"), Column("C"))
@@ -47,7 +47,7 @@ class BlackPlayerTest {
         val board = Board.from()
         board.makeStones(
             player = player,
-            coordinates = arrayOf("6B","5C","6E","5E"),
+            coordinates = arrayOf("6B", "5C", "6E", "5E"),
         )
 
         val stone = Stone.from(Row("3"), Column("E"))

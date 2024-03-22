@@ -13,7 +13,7 @@ fun Board.makeStones(
     coordinates.forEach { coordinate ->
         this.setStoneState(
             player = player,
-            Stone.from(Row(coordinate.substring(0,coordinate.length-1)), Column(coordinate.substring(coordinate.length-1))),
+            Stone.from(Row(coordinate.substring(0, coordinate.length - 1)), Column(coordinate.substring(coordinate.length - 1))),
         )
     }
 }

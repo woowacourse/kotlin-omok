@@ -10,7 +10,10 @@ sealed class Player {
         return generateStone(row, column)
     }
 
-    private fun generateStone(row: Row, column: Column): Stone {
+    private fun generateStone(
+        row: Row,
+        column: Column,
+    ): Stone {
         return Stone.from(row = row, column = column)
     }
 

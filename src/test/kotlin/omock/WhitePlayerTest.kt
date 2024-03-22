@@ -29,7 +29,7 @@ class WhitePlayerTest {
         val board = Board.from()
         board.makeStones(
             player = player,
-            coordinates = arrayOf("2B", "1B", "2A", "3A", "5A")
+            coordinates = arrayOf("2B", "1B", "2A", "3A", "5A"),
         )
 
         val stone =

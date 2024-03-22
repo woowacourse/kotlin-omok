@@ -17,7 +17,7 @@ class BoardTest {
         board.makeStones(
             player = player,
             coordinates =
-            arrayOf("2B","1B","2A","3A","4A","5A"),
+                arrayOf("2B", "1B", "2A", "3A", "4A", "5A"),
         )
 
         val stone = Stone.from(Row("1"), Column("A"))

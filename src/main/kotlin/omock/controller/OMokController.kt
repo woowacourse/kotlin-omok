@@ -71,7 +71,6 @@ class OMokController {
                 boardTable[playerStone.row.toIntIndex() - 1][playerStone.column.getIndex()] =
                     Stone.getStoneIcon(player)
                 player.stoneHistory.add(playerStone)
-
             }.onFailure {
                 board.rollbackState(playerStone)
                 println(it.message)
@@ -81,16 +80,19 @@ class OMokController {
         }
     }
 
-
-    private fun playerTurn(player: Player, playerStone: Stone): Result<Unit> {
+    private fun playerTurn(
+        player: Player,
+        playerStone: Stone,
+    ): Result<Unit> {
         return runCatching {
             board.setStoneState(player, playerStone)
             val visited = board.loadMap(playerStone)
 
-            gameTurn = when (player.judgementResult(visited)) {
-                true -> GameTurn.FINISHED
-                false -> gameTurn.turnOff()
-            }
+            gameTurn =
+                when (player.judgementResult(visited)) {
+                    true -> GameTurn.FINISHED
+                    false -> gameTurn.turnOff()
+                }
         }
     }
 }
