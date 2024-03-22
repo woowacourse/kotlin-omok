@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class OmokTest {
-    lateinit var omok: Omok
+    private lateinit var omok: Omok
 
     @BeforeEach
     fun setUp() {
