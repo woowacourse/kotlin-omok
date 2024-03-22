@@ -3,30 +3,15 @@ package omok.model.rule
 import omok.model.Board
 import omok.model.Position
 import omok.model.Stone
-import omok.model.rule.library.FourFourRule
-import omok.model.rule.library.OverlineRule
-import omok.model.rule.library.ThreeThreeRule
+import omok.model.rule.library.OmokRule
 
 object RuleAdapter {
-    fun abideDoubleFourRule(
+    fun abideRule(
+        omokRule: OmokRule,
         board: Board,
         position: Position,
     ): Boolean {
-        return FourFourRule.abide(board.convert(), position.convert())
-    }
-
-    fun abideDoubleOpenThreeRule(
-        board: Board,
-        position: Position,
-    ): Boolean {
-        return ThreeThreeRule.abide(board.convert(), position.convert())
-    }
-
-    fun abideOverLineRule(
-        board: Board,
-        position: Position,
-    ): Boolean {
-        return OverlineRule.abide(board.convert(), position.convert())
+        return omokRule.abide(board.convert(), position.convert())
     }
 
     private fun Board.convert(): List<List<Int>> {
