@@ -7,8 +7,8 @@ import omock.model.Player
 import omock.model.Stone
 import omock.model.WhitePlayer
 import omock.view.InputView.playerPick
-import omock.view.OutputView.boardForm
 import omock.view.OutputView.boardTable
+import omock.view.OutputView.outputBoard
 import omock.view.OutputView.outputGameStart
 import omock.view.OutputView.outputLastStone
 import omock.view.OutputView.outputPrintLine
@@ -21,13 +21,7 @@ class OMokController {
 
     fun run() {
         outputGameStart()
-        boardForm.forEachIndexed { index, s ->
-            if (index == boardForm.size - 1) {
-                println(s)
-            } else {
-                println(s.format(*boardTable[index].toTypedArray()))
-            }
-        }
+        outputBoard()
 
         val blackPlayer = BlackPlayer()
         val whitePlayer = WhitePlayer()
@@ -54,14 +48,7 @@ class OMokController {
                     outputSuccessOMock()
                 }
             }
-
-            boardForm.forEachIndexed { index, s ->
-                if (index == boardForm.size - 1) {
-                    println(s)
-                } else {
-                    println(s.format(*boardTable[index].toTypedArray()))
-                }
-            }
+            outputBoard()
         }
     }
 
