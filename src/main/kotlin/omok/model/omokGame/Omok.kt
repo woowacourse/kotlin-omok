@@ -9,10 +9,6 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_
 
     fun isRunning() = omokGameState == OmokGameState.RUNNING
 
-    fun gameFinish() {
-        omokGameState = OmokGameState.STOP
-    }
-
     fun isGameOver(
         rowCoords: CoordsNumber,
         columnCoords: CoordsNumber,
@@ -74,6 +70,10 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_
         val listDx = listOf(-1, 1, -1, 1, 0, 0, 1, -1)
         val listDy = listOf(0, 0, -1, 1, -1, 1, -1, 1)
         return Pair(listDx[direction], listDy[direction])
+    }
+
+    private fun gameFinish() {
+        omokGameState = OmokGameState.STOP
     }
 
     private fun getStoneCount(
