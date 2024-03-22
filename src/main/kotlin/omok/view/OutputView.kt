@@ -7,12 +7,13 @@ import omok.model.Stone
 import omok.model.StoneType
 import omok.model.Turn
 import omok.model.WhiteTurn
+import java.lang.Exception
 
 object OutputView {
     private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
     private const val MESSAGE_TURN = "\n%s의 차례입니다. "
     private const val MESSAGE_BEFORE_STONE = "(마지막 돌의 위치: %c%d)"
-    private const val MESSAGE_DUPLICATE_POINT = "\n해당 위치 좌표에 이미 돌이 착수되어 있습니다. 다시 입력해주세요."
+    private const val MESSAGE_INVALID_POINT_INPUT = "\n잘못된 위치 좌표입니다. 재입력 해주세요."
     private const val STONE_TYPE_BLACK = "흑"
     private const val STONE_TYPE_WHITE = "백"
     private const val STONE_ICON_BLACK = '●'
@@ -118,7 +119,7 @@ object OutputView {
         return MESSAGE_BEFORE_STONE.format(stone.point.x + 65, stone.point.y + 1)
     }
 
-    fun printDuplicatedPointMessage() {
-        println(MESSAGE_DUPLICATE_POINT)
+    fun printPointInputErrorMessage() {
+        println(MESSAGE_INVALID_POINT_INPUT)
     }
 }

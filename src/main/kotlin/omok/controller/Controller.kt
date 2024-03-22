@@ -36,7 +36,7 @@ class Controller {
             }
             return point
         }.onFailure {
-            OutputView.printDuplicatedPointMessage()
+            OutputView.printPointInputErrorMessage()
             OutputView.printTurn(turn)
         }
         return getPoint(board, turn)
