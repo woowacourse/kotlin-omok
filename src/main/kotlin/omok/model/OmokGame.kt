@@ -10,7 +10,7 @@ class OmokGame(
 ) {
     fun play(onStartPut: (Board, OmokStone?) -> Unit) {
         var event = putEvent.onPutBlack
-        while (!state.isFinished) {
+        while (state !is GameState.Finish) {
             onStartPut(state.board, state.board.lastOrNull())
             state = state.put(event)
             event = putEvent.reverse(event)
