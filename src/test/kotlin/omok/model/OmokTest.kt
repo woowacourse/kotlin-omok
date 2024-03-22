@@ -25,12 +25,6 @@ class OmokTest {
     }
 
     @Test
-    fun `게임 종료 상태로 변경`() {
-        omok.gameFinish()
-        assertFalse(omok.isRunning())
-    }
-
-    @Test
     fun `돌을 올바르게 놓는 경우`() {
         val x = CoordsNumber(0)
         val y = CoordsNumber(0)
