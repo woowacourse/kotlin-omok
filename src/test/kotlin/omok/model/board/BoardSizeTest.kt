@@ -8,7 +8,6 @@ import io.kotest.matchers.booleans.shouldBeTrue
 import org.junit.jupiter.api.Test
 
 class BoardSizeTest {
-
     @Test
     fun `BoardSize 의 크기는 1 이상이다`() {
         assertSoftly {
