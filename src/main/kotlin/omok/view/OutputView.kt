@@ -7,7 +7,6 @@ import omok.model.Stone
 import omok.model.StoneType
 import omok.model.Turn
 import omok.model.WhiteTurn
-import java.lang.Exception
 
 object OutputView {
     private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
@@ -75,7 +74,7 @@ object OutputView {
 
     fun printBoard(board: Board) {
         boardTable.indices.forEach {
-            println(boardForm[it].format(*generatePrintedLine(it, board.table[14 - it]).toTypedArray()))
+            println(boardForm[it].format(*generatePrintedLine(it, board.getPointStoneLine(it + 1)).toTypedArray()))
         }
         println(boardForm.last())
     }

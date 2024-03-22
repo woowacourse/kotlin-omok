@@ -19,6 +19,8 @@ class Board {
         return turn
     }
 
+    fun getPointStoneLine(x: Int): Array<StoneType> = table[BOARD_SIZE - x]
+
     operator fun contains(point: Point): Boolean {
         return table[point.y][point.x] != StoneType.EMPTY
     }
