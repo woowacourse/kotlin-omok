@@ -1,5 +1,8 @@
 package omok.model
 
+import omok.rule.BlackRule
+import omok.rule.WhiteRule
+
 sealed interface Turn {
     val before: Stone?
 

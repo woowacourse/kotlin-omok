@@ -1,4 +1,7 @@
-package omok.model
+package omok.rule
+
+import omok.model.Stone
+import omok.model.StoneType
 
 interface Rule {
     fun isWinCondition(

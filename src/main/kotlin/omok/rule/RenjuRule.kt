@@ -1,4 +1,7 @@
-package omok.model
+package omok.rule
+
+import omok.model.Stone
+import omok.model.StoneType
 
 object RenjuRule {
     private const val MIN_OPEN_THREES = 2
