@@ -1,9 +1,8 @@
 package omok.model
 
 class Player(val color: Color) {
-    private var _isWin = false
-    val isWin: Boolean
-        get() = _isWin
+    var isWin: Boolean = false
+        private set
 
     fun playTurn(
         board: Board,
@@ -11,7 +10,7 @@ class Player(val color: Color) {
     ) {
         val stone = Stone(color, coordinate)
         putStoneOnBoard(board, stone)
-        _isWin = checkOmok(board.stones, stone)
+        isWin = checkOmok(board.stones, stone)
     }
 
     private fun putStoneOnBoard(
