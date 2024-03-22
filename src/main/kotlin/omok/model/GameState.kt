@@ -24,10 +24,9 @@ sealed class GameState(val board: Board) {
                 val position = onRead()
                 board.placeStone(position, PositionType.BLACK_STONE)
 
-                if (board.isOmok(position, PositionType.BLACK_STONE))
-                    {
-                        return Finish(board)
-                    }
+                if (board.isOmok(position, PositionType.BLACK_STONE)) {
+                    return Finish(board)
+                }
                 return WhiteTurn(board)
             }
         }

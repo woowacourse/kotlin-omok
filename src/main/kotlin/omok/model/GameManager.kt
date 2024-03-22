@@ -13,10 +13,10 @@ class GameManager {
         while (isRunning()) {
             playTurn(onTurn, onRead, onShow)
         }
-        gameOver(onTurn, onShow)
+        gameResult(onTurn, onShow)
     }
 
-    private fun gameOver(
+    private fun gameResult(
         onTurn: (GameState) -> Unit,
         onShow: (Board) -> Unit,
     ) {
