@@ -3,7 +3,6 @@ package omock
 import omock.model.Board
 import omock.model.Column
 import omock.model.Direction
-import omock.model.Player
 import omock.model.Row
 import omock.model.Stone
 import omock.model.WhitePlayer
@@ -17,14 +16,8 @@ class BoardTest {
         val board = Board.from()
         board.makeStones(
             player = player,
-            stones = arrayOf(
-                Stone.from(Row("2"), Column("B")),
-                Stone.from(Row("1"), Column("B")),
-                Stone.from(Row("2"), Column("A")),
-                Stone.from(Row("3"), Column("A")),
-                Stone.from(Row("4"), Column("A")),
-                Stone.from(Row("5"), Column("A")),
-            )
+            coordinates =
+            arrayOf("2B","1B","2A","3A","4A","5A"),
         )
 
         val stone = Stone.from(Row("1"), Column("A"))
@@ -38,11 +31,5 @@ class BoardTest {
         assertThat(visited[Direction.BOTTOM_LEFT]?.count).isEqualTo(0)
         assertThat(visited[Direction.LEFT]?.count).isEqualTo(0)
         assertThat(visited[Direction.LEFT_TOP]?.count).isEqualTo(0)
-    }
-}
-
-fun Board.makeStones(player: Player, vararg stones: Stone) {
-    stones.forEach { stone ->
-        this.setStoneState(player, stone)
     }
 }

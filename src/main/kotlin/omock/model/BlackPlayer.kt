@@ -12,21 +12,25 @@ data class BlackPlayer(
         var isClearFourToFourCount = INIT_COUNT
         visited.entries.forEach { (key, result) ->
             val isReverseResultFirstClear: Boolean = visited[Direction.reverse(key)]?.isFirstClear ?: false
-            val reverseResultCount: Int = visited[Direction.reverse(key)]?.count ?: Player.MIN_REVERSE_COUNT
+            val reverseResultCount: Int = visited[Direction.reverse(key)]?.count ?: MIN_REVERSE_COUNT
             getCalculateType(
                 isReverseResultFirstClear = isReverseResultFirstClear,
                 reverseResultCount = reverseResultCount,
                 result = result,
             ) { calculateType ->
                 when (calculateType) {
-                    CalculateType.FourToFourCount -> CalculateType.FourToFourCount.checkCalculateType { ++fourToFourCount >= Player.MIN_FOUR_TO_FOUR_COUNT }
-                    CalculateType.IsClearFourToFourCount -> CalculateType.IsClearFourToFourCount.checkCalculateType { ++isClearFourToFourCount >= Player.MIN_IS_CLEAR_FOUR_TO_FOUR_COUNT }
+                    CalculateType.FourToFourCount -> CalculateType.FourToFourCount.checkCalculateType {
+                        ++fourToFourCount >= MIN_FOUR_TO_FOUR_COUNT
+                    }
+                    CalculateType.IsClearFourToFourCount -> CalculateType.IsClearFourToFourCount.checkCalculateType {
+                        ++isClearFourToFourCount >= MIN_IS_CLEAR_FOUR_TO_FOUR_COUNT
+                    }
                     CalculateType.IsReverseTwoAndThree -> CalculateType.IsReverseTwoAndThree.checkCalculateType {
                         isReverseTwoAndThree = true
                         true
                     }
 
-                    CalculateType.ThreeToThreeCount -> CalculateType.ThreeToThreeCount.checkCalculateType { ++threeToThreeCount >= Player.MIN_THREE_TO_THREE_COUNT }
+                    CalculateType.ThreeToThreeCount -> CalculateType.ThreeToThreeCount.checkCalculateType { ++threeToThreeCount >= MIN_THREE_TO_THREE_COUNT }
                 }
             }
             if (!isReverseTwoAndThree && (reverseResultCount + result.count >= MIN_O_MOCK_COUNT)) return true

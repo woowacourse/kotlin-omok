@@ -6,12 +6,10 @@ import omock.model.Stone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-
 class StoneTest {
     @Test
     fun `돌은 row, column를 가지고 있다`() {
         val stone = Stone(row = Row("1"), column = Column("A"))
-
         assertThat(stone.row.comma).isEqualTo("1")
         assertThat(stone.column.comma).isEqualTo("A")
     }

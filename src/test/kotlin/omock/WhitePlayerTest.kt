@@ -9,30 +9,18 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
 class WhitePlayerTest {
-
     @Test
     fun `플레이어가 돌을 놓을 때, Board는 오목인 경우 true를 반환한다`() {
         val player = WhitePlayer()
         val board = Board.from()
         board.makeStones(
-            player = player, stones = arrayOf(
-                Stone.from(Row("2"), Column("B")),
-                Stone.from(Row("1"), Column("B")),
-                Stone.from(Row("2"), Column("A")),
-                Stone.from(Row("3"), Column("A")),
-                Stone.from(Row("4"), Column("A")),
-                Stone.from(
-                    Row("5"), Column("A")
-                )
-            )
+            player = player,
+            coordinates = arrayOf("2B", "1B", "2A", "3A", "4A", "5A"),
         )
-
         val stone = Stone.from(Row("1"), Column("A"))
         board.setStoneState(player, stone)
         val visited = board.loadMap(stone)
-
         Assertions.assertThat(player.judgementResult(visited)).isTrue()
-
     }
 
     @Test
@@ -40,19 +28,13 @@ class WhitePlayerTest {
         val player = WhitePlayer()
         val board = Board.from()
         board.makeStones(
-            player = player, stones = arrayOf(
-                Stone.from(Row("2"), Column("B")),
-                Stone.from(Row("1"), Column("B")),
-                Stone.from(Row("2"), Column("A")),
-                Stone.from(Row("3"), Column("A")),
-                Stone.from(Row("5"), Column("A")),
-            )
+            player = player,
+            coordinates = arrayOf("2B", "1B", "2A", "3A", "5A")
         )
 
-        val stone = Stone.from(Row("1"), Column("A"))
+        val stone =
+            Stone.from(Row("1"), Column("A"))
         val visited = board.loadMap(stone)
-
         Assertions.assertThat(player.judgementResult(visited)).isFalse()
-
     }
 }

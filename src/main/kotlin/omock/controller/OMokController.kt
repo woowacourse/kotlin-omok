@@ -16,7 +16,6 @@ import omock.view.OutputView.outputSuccessOMock
 import omock.view.OutputView.outputUserTurn
 
 class OMokController {
-
     private val board = Board.from()
     private var gameTurn = GameTurn.BLACK_TURN
 
@@ -25,7 +24,6 @@ class OMokController {
         boardForm.forEachIndexed { index, s ->
             if (index == boardForm.size - 1) {
                 println(s)
-
             } else {
                 println(s.format(*boardTable[index].toTypedArray()))
             }
@@ -35,7 +33,6 @@ class OMokController {
         val whitePlayer = WhitePlayer()
 
         while (true) {
-
             when (gameTurn) {
                 GameTurn.BLACK_TURN -> {
                     outputUserTurn(Stone.getStoneName(blackPlayer))
@@ -61,13 +58,11 @@ class OMokController {
             boardForm.forEachIndexed { index, s ->
                 if (index == boardForm.size - 1) {
                     println(s)
-
                 } else {
                     println(s.format(*boardTable[index].toTypedArray()))
                 }
             }
         }
-
     }
 
     private fun start(player: Player) {

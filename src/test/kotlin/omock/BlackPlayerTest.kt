@@ -14,20 +14,14 @@ class BlackPlayerTest {
         val player = BlackPlayer()
         val board = Board.from()
         board.makeStones(
-            player = player, stones = arrayOf(
-                Stone.from(Row("12"), Column("C")),
-                Stone.from(Row("12"), Column("E")),
-                Stone.from(Row("13"), Column("D")),
-                Stone.from(Row("14"), Column("D"))
-            )
+            player = player,
+            coordinates = arrayOf("12C", "12E", "13D", "14D"),
         )
 
         val stone = Stone.from(Row("12"), Column("D"))
         board.setStoneState(player, stone)
         val visited = board.loadMap(stone)
-
         assertThrows<IllegalArgumentException> { player.judgementResult(visited) }
-
     }
 
     @Test
@@ -35,13 +29,8 @@ class BlackPlayerTest {
         val player = BlackPlayer()
         val board = Board.from()
         board.makeStones(
-            player = player, stones = arrayOf(
-                Stone.from(Row("15"), Column("C")),
-                Stone.from(Row("14"), Column("C")),
-                Stone.from(Row("12"), Column("C")),
-                Stone.from(Row("11"), Column("C")),
-                Stone.from(Row("10"), Column("C")),
-            )
+            player = player,
+            coordinates = arrayOf( "15C","14C","12C","11C","10C"),
         )
 
         val stone = Stone.from(Row("13"), Column("C"))
@@ -57,12 +46,8 @@ class BlackPlayerTest {
         val player = BlackPlayer()
         val board = Board.from()
         board.makeStones(
-            player = player, stones = arrayOf(
-                Stone.from(Row("6"), Column("B")),
-                Stone.from(Row("5"), Column("C")),
-                Stone.from(Row("6"), Column("E")),
-                Stone.from(Row("5"), Column("E")),
-            )
+            player = player,
+            coordinates = arrayOf("6B","5C","6E","5E"),
         )
 
         val stone = Stone.from(Row("3"), Column("E"))
