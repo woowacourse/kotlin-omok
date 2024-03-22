@@ -113,4 +113,27 @@ class OmokTest {
         val forbids = omok.checkBoard(Stone.BLACK)
         Assertions.assertThat(forbids.size).isEqualTo(0)
     }
+
+    @Test
+    fun `금수때문에 못 놓는 수는 33 금수로 취급하지 않는다`() {
+        val omok = Omok()
+        omok.gameBoard[8][7] = Stone.BLACK
+        omok.gameBoard[6][5] = Stone.BLACK
+        omok.gameBoard[6][7] = Stone.BLACK
+        omok.gameBoard[7][7] = Stone.BLACK
+        omok.gameBoard[8][7] = Stone.BLACK
+        omok.gameBoard[9][8] = Stone.BLACK
+        omok.gameBoard[10][9] = Stone.BLACK
+        omok.gameBoard[12][8] = Stone.BLACK
+        omok.gameBoard[9][10] = Stone.BLACK
+        omok.gameBoard[12][9] = Stone.BLACK
+        omok.gameBoard[10][8] = Stone.BLACK
+        omok.gameBoard[8][6] = Stone.BLACK
+        omok.gameBoard[13][7] = Stone.BLACK
+        omok.gameBoard[5][5] = Stone.BLACK
+        omok.gameBoard[7][8] = Stone.BLACK
+
+        val forbids = omok.checkBoard(Stone.BLACK)
+        Assertions.assertThat(CoordsNumber(7) to CoordsNumber(5) in forbids).isFalse()
+    }
 }

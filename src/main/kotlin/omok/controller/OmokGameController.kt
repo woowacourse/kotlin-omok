@@ -19,6 +19,22 @@ object OmokGameController {
         var currentStone = startStone
         var previousStoneCoords = ""
 
+        omok.gameBoard[8][7] = Stone.BLACK
+        omok.gameBoard[6][5] = Stone.BLACK
+        omok.gameBoard[6][7] = Stone.BLACK
+        omok.gameBoard[7][7] = Stone.BLACK
+        omok.gameBoard[8][7] = Stone.BLACK
+        omok.gameBoard[9][8] = Stone.BLACK
+        omok.gameBoard[10][9] = Stone.BLACK
+        omok.gameBoard[12][8] = Stone.BLACK
+        omok.gameBoard[9][10] = Stone.BLACK
+        omok.gameBoard[12][9] = Stone.BLACK
+        omok.gameBoard[10][8] = Stone.BLACK
+        omok.gameBoard[8][6] = Stone.BLACK
+        omok.gameBoard[13][7] = Stone.BLACK
+        omok.gameBoard[5][5] = Stone.BLACK
+        omok.gameBoard[7][8] = Stone.BLACK
+
         while (omok.isRunning()) {
             val forbiddenPositions = omok.checkBoard(currentStone)
             OutputView.printBoard(omok.gameBoard, forbiddenPositions)
