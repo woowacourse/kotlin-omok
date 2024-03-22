@@ -1,6 +1,8 @@
 package omok.model
 
-class GameManager {
+import omok.ExceptionMessageHandler
+
+class GameManager(private val exceptionMessageHandler: ExceptionMessageHandler) {
     private var gameState: GameState = GameState.Running.BlackTurn(Board())
 
     fun play(
@@ -23,7 +25,7 @@ class GameManager {
     ) = runCatching {
         gameState = gameState.placeStone(onTurn, onRead, onShow)
     }.onFailure { throwable ->
-        println(throwable.message)
+        exceptionMessageHandler.onMessageHandle(throwable)
     }
 
     private fun gameOver(

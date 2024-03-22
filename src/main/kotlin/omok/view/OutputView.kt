@@ -22,6 +22,10 @@ object OutputView {
         }
     }
 
+    fun printErrorMessage(error: Throwable) {
+        println(error.message)
+    }
+
     private fun switchGameState(gameState: GameState): String {
         return when (gameState) {
             is GameState.Finish -> FINISH_MESSAGE

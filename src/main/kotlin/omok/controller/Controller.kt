@@ -1,5 +1,6 @@
 package omok.controller
 
+import omok.ExceptionMessageHandler
 import omok.model.Board
 import omok.model.GameManager
 import omok.model.GameState
@@ -8,7 +9,9 @@ import omok.view.BoardView
 import omok.view.InputView
 import omok.view.OutputView
 
-class Controller(private val gameManager: GameManager) {
+class Controller() : ExceptionMessageHandler {
+    private val gameManager: GameManager = GameManager(this)
+
     fun play() {
         printStart()
         gameManager.play(::printRunningInfo, ::readPosition, ::printBoard)
@@ -28,5 +31,9 @@ class Controller(private val gameManager: GameManager) {
 
     private fun printRunningInfo(gameState: GameState) {
         OutputView.printRunningInfo(gameState)
+    }
+
+    override fun onMessageHandle(error: Throwable) {
+        OutputView.printErrorMessage(error)
     }
 }
