@@ -2,7 +2,6 @@ package omok.model.omokGame
 
 import omok.model.board.CoordsNumber
 import omok.model.board.Stone
-import omok.view.OutputView
 
 class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Stone.EMPTY } }) {
     private var omokGameState = OmokGameState.RUNNING
@@ -17,11 +16,12 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_
         rowCoords: CoordsNumber,
         columnCoords: CoordsNumber,
         currentStone: Stone,
-    ) {
+    ): Boolean {
         if (isFive(rowCoords, columnCoords, currentStone)) {
             gameFinish()
-            OutputView.showWinner(currentStone)
+            return true
         }
+        return false
     }
 
     fun setStone(
