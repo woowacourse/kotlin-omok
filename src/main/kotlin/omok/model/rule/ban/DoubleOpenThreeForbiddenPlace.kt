@@ -5,7 +5,10 @@ import omok.model.Position
 import omok.model.rule.RuleAdapter
 
 class DoubleOpenThreeForbiddenPlace : ForbiddenPlace {
-    override fun availablePosition(board: Board, position: Position): Boolean {
+    override fun availablePosition(
+        board: Board,
+        position: Position,
+    ): Boolean {
         return RuleAdapter.abideDoubleOpenThreeRule(board, position)
     }
 }

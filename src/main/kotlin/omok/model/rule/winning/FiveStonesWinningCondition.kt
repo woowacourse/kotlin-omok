@@ -5,7 +5,10 @@ import omok.model.Direction
 import omok.model.Position
 
 class FiveStonesWinningCondition : WinningCondition {
-    override fun isWin(board: Board, position: Position): Boolean {
+    override fun isWin(
+        board: Board,
+        position: Position,
+    ): Boolean {
         Direction.biDirections().forEach { (direction1, direction2) ->
             var count = 1
             count += continualCount(board, position, direction1)

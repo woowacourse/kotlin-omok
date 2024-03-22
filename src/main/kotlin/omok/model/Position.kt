@@ -10,7 +10,12 @@ data class Position(val row: Int, val col: Int) {
         return Position(row + direction.row, col + direction.col)
     }
 
-    private fun isOnBoard(row: Int, col: Int): Boolean = row in INDEX_RANGE && col in INDEX_RANGE
+    private fun isOnBoard(
+        row: Int,
+        col: Int,
+    ): Boolean {
+        return row in INDEX_RANGE && col in INDEX_RANGE
+    }
 
     companion object {
         const val MIN_INDEX = 0

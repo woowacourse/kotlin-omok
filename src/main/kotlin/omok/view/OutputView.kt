@@ -32,7 +32,11 @@ class OutputView {
         print("$rowName ")
     }
 
-    private fun printBoardAxis(board: Board, row: Int, col: Int) {
+    private fun printBoardAxis(
+        board: Board,
+        row: Int,
+        col: Int,
+    ) {
         val stone = board.find(Position(row, col))
         if (row == Position.MIN_INDEX) {
             when (col) {
@@ -55,7 +59,11 @@ class OutputView {
         }
     }
 
-    private fun Stone.printBoardSingleAxis(black: String, white: String, none: String) {
+    private fun Stone.printBoardSingleAxis(
+        black: String,
+        white: String,
+        none: String,
+    ) {
         when (this) {
             Stone.BLACK -> print(black)
             Stone.WHITE -> print(white)
@@ -66,7 +74,7 @@ class OutputView {
     fun printWinner(stone: Stone) {
         println("우승은 🎉${stone.output()}🎉 입니다")
     }
-    
+
     companion object {
         private const val BLACK_STONE = "●"
         private const val WHITE_STONE = "○"

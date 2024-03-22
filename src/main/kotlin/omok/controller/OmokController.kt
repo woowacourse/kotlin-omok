@@ -1,10 +1,10 @@
 package omok.controller
 
 import omok.model.Board
-import omok.model.rule.ban.ForbiddenPlace
 import omok.model.Player
 import omok.model.Position
 import omok.model.Stone
+import omok.model.rule.ban.ForbiddenPlace
 import omok.model.rule.winning.WinningCondition
 import omok.view.InputView
 import omok.view.OutputView
@@ -42,7 +42,10 @@ class OmokController(
         return recentPlayer
     }
 
-    private fun Position?.next(board: Board, recentPlayer: Player): Position {
+    private fun Position?.next(
+        board: Board,
+        recentPlayer: Player,
+    ): Position {
         return retryUntilNotException {
             val nextPosition = inputView.readStonePosition(recentPlayer.stone, this)
             board.place(nextPosition, recentPlayer)

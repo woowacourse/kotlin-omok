@@ -8,7 +8,7 @@ class Board(private val _board: MutableMap<Position, Stone> = initBoard()) {
 
     fun place(
         position: Position,
-        player: Player
+        player: Player,
     ) {
         require(find(position) == Stone.NONE) { "이미 바둑돌이 있는 위치입니다." }
         require(player.canPlace(this, position)) { "바둑돌을 놓을 수 없는 위치입니다." }
