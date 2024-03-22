@@ -36,7 +36,7 @@ object WhiteCanPutRule : PutRule {
         board: Board,
     ): Boolean {
         val isEmptyPosition = board.isEmptyPosition(stone)
-        val isInRange = board.isInRange(stone)
+        val isInRange = board.canPlace(stone)
         return isEmptyPosition && isInRange
     }
 }

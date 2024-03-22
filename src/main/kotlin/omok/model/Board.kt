@@ -1,19 +1,28 @@
 package omok.model
 
-class Board(val stones: Map<Position, OmokStone>) {
-    operator fun plus(stone: OmokStone): Board {
-        validate(stone.position)
-        return Board(stones + (stone.position to stone))
+class Board(private val size: Int = DEFAULT_BOARD_SIZE, val stones: Map<Position, OmokStone>) {
+    init {
+        validate(stones)
     }
+
+    private val boardRage: IntRange get() = MIN..size
 
     private fun validate(position: Position) {
-        require(position.x in RANGE) { "x는 $MIN ~ $MAX 사이여야 한다" }
-        require(position.y in RANGE) { "y는 $MIN ~ $MAX 사이여야 한다" }
+        require(position.x in boardRage && position.y in boardRage) { "Position 은 ($MIN, $MIN) ~ ($size, $size) 사이여야 한다" }
     }
 
-    fun isInRange(stone: OmokStone): Boolean {
+    private fun validate(stones: Map<Position, OmokStone>) {
+        stones.keys.forEach(::validate)
+    }
+
+    operator fun plus(stone: OmokStone): Board {
+        validate(stone.position)
+        return Board(size, stones + (stone.position to stone))
+    }
+
+    fun canPlace(stone: OmokStone): Boolean {
         val position = stone.position
-        return (position.x in RANGE) && (position.y in RANGE)
+        return (position.x in boardRage) && (position.y in boardRage)
     }
 
     operator fun get(position: Position): OmokStone? = stones[position]
@@ -73,9 +82,8 @@ class Board(val stones: Map<Position, OmokStone>) {
     }
 
     companion object {
+        private const val DEFAULT_BOARD_SIZE = 15
         private const val MIN = 1
-        private const val MAX = 15
-        private val RANGE = 1..15
         private const val INITIAL_COUNT = 0
         private const val OMOK_THRESHOLD = 4
         private val OMOK_CANDIDATE_RANGE = 0..3

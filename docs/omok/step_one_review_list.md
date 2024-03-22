@@ -3,7 +3,7 @@
 - [ ] : domain 로직들 테스트코드 모두 작성
 ## Board
 - [ ] : Board - sumLeft, sumRight 공통 로직 개선
-
+- [x] : Board 의 크기를 size 를 넘어가면 못 놓게 리팩토링 
 ## OmokGame
 - [ ] : OmokGame
 

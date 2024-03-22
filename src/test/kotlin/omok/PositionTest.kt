@@ -3,7 +3,7 @@ package omok
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import io.kotest.matchers.types.shouldNotBeSameInstanceAs
-import omok.fixtures.createPoint
+import omok.fixtures.createPosition
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
@@ -14,8 +14,8 @@ class PositionTest {
         x: Int,
         y: Int,
     ) {
-        createPoint(x, y) shouldBe createPoint(x, y)
-        createPoint(x, y) shouldBeSameInstanceAs createPoint(x, y)
+        createPosition(x, y) shouldBe createPosition(x, y)
+        createPosition(x, y) shouldBeSameInstanceAs createPosition(x, y)
     }
 
     @ParameterizedTest
@@ -29,6 +29,6 @@ class PositionTest {
         x: Int,
         y: Int,
     ) {
-        createPoint(x, y) shouldNotBeSameInstanceAs createPoint(x, y)
+        createPosition(x, y) shouldNotBeSameInstanceAs createPosition(x, y)
     }
 }

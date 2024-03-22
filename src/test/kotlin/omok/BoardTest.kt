@@ -1,28 +1,69 @@
 package omok
 
+import io.kotest.assertions.throwables.shouldNotThrow
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
-import omok.fixtures.createBlackBoard
+import omok.fixtures.createBlackStone
 import omok.fixtures.createBoard
-import omok.fixtures.createOmokStone
-import omok.fixtures.createPoint
-import omok.model.OmokStone
-import omok.model.StoneColor
+import omok.fixtures.createPosition
+import omok.fixtures.createWhiteStone
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
 class BoardTest {
+    @ParameterizedTest
+    @CsvSource(value = ["15:16:15", "15:16:15", "15:16:16"], delimiter = ':')
+    fun `Board 의 size 를 넘어가면 돌을 놓을 수 없음`(
+        size: Int,
+        x: Int,
+        y: Int,
+    ) {
+        shouldThrow<IllegalArgumentException> {
+            createBoard(
+                createWhiteStone(x, y),
+            )
+        }
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = ["1:0", "0:1", "0:0"], delimiter = ':')
+    fun `Board 에 x 가 1보다 작거나, y가 1보다 작으면 돌을 놓을 수 없음`(
+        x: Int,
+        y: Int,
+    ) {
+        shouldThrow<IllegalArgumentException> {
+            createBoard(
+                createWhiteStone(x, y),
+            )
+        }
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = ["15:1:1", "15:7:7", "15:15:15"], delimiter = ':')
+    fun `Board (1, 1) ~ (size, size) 안에만 돌을 놓을 수 있음`(
+        size: Int,
+        x: Int,
+        y: Int,
+    ) {
+        shouldNotThrow<IllegalArgumentException> {
+            createBoard(
+                createWhiteStone(x, y),
+            )
+        }
+    }
+
     @Test
     fun `마지막으로 넣은 돌의 정보를 불러올 수 있다`() {
         // given
         val board =
             createBoard(
-                createPoint(1, 1),
-                createPoint(2, 2),
+                createBlackStone(1, 1),
+                createBlackStone(2, 2),
             )
-        val expected = createOmokStone(x = 2, y = 2, color = StoneColor.WHITE)
+        val expected = createBlackStone(x = 2, y = 2)
         // when
         val actual = board.lastOrNull()
         // then
@@ -33,11 +74,10 @@ class BoardTest {
     fun `좌표에 해당하는 오목판 위치에 돌을 놓을 수 있다`() {
         // given
         val board = createBoard()
-        val point = createPoint(1, 1)
-        val color = StoneColor.BLACK
-        val expect = createOmokStone(1, 1, color)
+        val point = createPosition(1, 1)
+        val expect = createBlackStone(1, 1)
         // when
-        val newBoard = board + OmokStone(point, color)
+        val newBoard = board + createBlackStone(point)
         val actual = newBoard[point]
         // then
         actual shouldBe expect
@@ -51,15 +91,15 @@ class BoardTest {
     ) {
         // given
         val board =
-            createBlackBoard(
-                createPoint(1, 1),
-                createPoint(2, 2),
-                createPoint(3, 3),
-                createPoint(4, 4),
-                createPoint(5, 5),
+            createBoard(
+                createBlackStone(1, 1),
+                createBlackStone(2, 2),
+                createBlackStone(3, 3),
+                createBlackStone(4, 4),
+                createBlackStone(5, 5),
             )
         // when
-        val actual = board.isInOmok(createPoint(x, y))
+        val actual = board.isInOmok(createPosition(x, y))
         // then
         actual.shouldBeTrue()
     }
@@ -72,15 +112,15 @@ class BoardTest {
     ) {
         // given
         val board =
-            createBlackBoard(
-                createPoint(1, 1),
-                createPoint(2, 2),
-                createPoint(3, 3),
-                createPoint(5, 5),
-                createPoint(6, 6),
+            createBoard(
+                createBlackStone(1, 1),
+                createBlackStone(2, 2),
+                createBlackStone(3, 3),
+                createBlackStone(5, 5),
+                createBlackStone(6, 6),
             )
         // when
-        val actual = board.isInOmok(createPoint(x, y))
+        val actual = board.isInOmok(createPosition(x, y))
         // then
         actual.shouldBeFalse()
     }
@@ -94,14 +134,14 @@ class BoardTest {
         // given
         val board =
             createBoard(
-                createPoint(1, 1),
-                createPoint(2, 1),
-                createPoint(3, 1),
-                createPoint(4, 1),
-                createPoint(5, 1),
+                createBlackStone(1, 1),
+                createBlackStone(2, 1),
+                createBlackStone(3, 1),
+                createBlackStone(4, 1),
+                createWhiteStone(5, 1),
             )
         // when
-        val actual = board.isInOmok(createPoint(x, y))
+        val actual = board.isInOmok(createPosition(x, y))
         // then
         actual.shouldBeFalse()
     }
