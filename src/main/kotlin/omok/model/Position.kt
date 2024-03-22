@@ -26,5 +26,9 @@ class Position private constructor(val x: Int, val y: Int) {
         ): Position {
             return cachedPositionMap[x to y] ?: Position(x, y)
         }
+
+        fun createPositions(range: IntRange): List<Position> {
+            return range.flatMap { x -> range.map { y -> of(x, y) } }
+        }
     }
 }
