@@ -18,10 +18,10 @@ class BoardTest {
 
     @Test
     fun `보드에 돌 착수 확인`() {
-        val stone = Stone(StoneType.BLACK, Point(3, 8))
+        val point = Point(3, 8)
 
-        board.putStone(stone)
+        board.putStone(point)
 
-        assertThat(board.board[8][3] == StoneType.BLACK).isTrue
+        assertThat(board.table[8][3] == StoneType.BLACK).isTrue
     }
 }

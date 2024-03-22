@@ -4,6 +4,7 @@ import omok.model.BlackTurn
 import omok.model.Board
 import omok.model.FinishedTurn
 import omok.model.Point
+import omok.model.Stone
 import omok.model.Turn
 import omok.view.InputView
 import omok.view.OutputView
@@ -11,33 +12,31 @@ import omok.view.OutputView
 class Controller {
     fun play() {
         val board = Board()
+        var turn: Turn = BlackTurn()
+
         OutputView.printGameStart()
         OutputView.printBoard(board)
-        var turn: Turn = BlackTurn()
 
         while (turn !is FinishedTurn) {
             OutputView.printTurn(turn)
-            val point = getPoint(board)
-            turn = turn.putStone(point, board)
+            val point = getPoint(board, turn)
+            turn = board.putStone(point)
             OutputView.printBoard(board)
         }
         OutputView.printTurn(turn)
     }
 
-    private fun getPoint(board: Board): Point {
+    private fun getPoint(board: Board, turn: Turn): Point {
         runCatching {
             val point = InputView.readPoint()
             if (point in board) {
-                throw IllegalArgumentException(MESSAGE_INVALID_POINT_INPUT)
+                throw IllegalArgumentException()
             }
             return point
         }.onFailure {
-            println(it.message)
+            OutputView.printDuplicatedPointMessage()
+            OutputView.printTurn(turn)
         }
-        return getPoint(board)
-    }
-
-    companion object {
-        private const val MESSAGE_INVALID_POINT_INPUT = "해당 위치 좌표에 이미 돌이 착수되어 있습니다. 다시 입력해주세요."
+        return getPoint(board, turn)
     }
 }

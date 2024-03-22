@@ -1,5 +1,6 @@
 package omok.rule
 
+import omok.model.Board
 import omok.model.Stone
 import omok.model.StoneType
 
@@ -10,21 +11,21 @@ object RenjuRule {
     private const val MAX_X = 14
     private const val MIN_Y = 0
     private const val MAX_Y = 14
-    private const val MAX_STONES_IN_DIRECTION = 4
+    private const val MAX_STONES_IN_DIRECTION = 5
     private val X_Edge = listOf(MIN_X, MAX_X)
     private val Y_Edge = listOf(MIN_Y, MAX_Y)
 
     fun isForbidden(
-        board: List<List<StoneType>>,
+        board: Board,
         stone: Stone,
     ): Boolean {
         return countOpenThrees(board, stone) >= MIN_OPEN_THREES ||
-            countOpenFours(board, stone) >= MIN_OPEN_FOURS ||
-            isOverLine(board, stone)
+                countOpenFours(board, stone) >= MIN_OPEN_FOURS ||
+                isOverLine(board, stone)
     }
 
     private fun isOverLine(
-        board: List<List<StoneType>>,
+        board: Board,
         stone: Stone,
     ): Boolean {
         val y = stone.point.y
@@ -47,25 +48,25 @@ object RenjuRule {
     }
 
     private fun countOpenThrees(
-        board: List<List<StoneType>>,
+        board: Board,
         stone: Stone,
     ): Int =
         checkOpenThree(board, stone, Direction.HORIZONTAL) +
-            checkOpenThree(board, stone, Direction.DIAGONAL_UP) +
-            checkOpenThree(board, stone, Direction.VERTICAL) +
-            checkOpenThreeReverse(board, stone, Direction.DIAGONAL_DOWN)
+                checkOpenThree(board, stone, Direction.DIAGONAL_UP) +
+                checkOpenThree(board, stone, Direction.VERTICAL) +
+                checkOpenThreeReverse(board, stone, Direction.DIAGONAL_DOWN)
 
     private fun countOpenFours(
-        board: List<List<StoneType>>,
+        board: Board,
         stone: Stone,
     ): Int =
         checkOpenFour(board, stone, Direction.HORIZONTAL) +
-            checkOpenFour(board, stone, Direction.DIAGONAL_UP) +
-            checkOpenFour(board, stone, Direction.VERTICAL) +
-            checkOpenFourReverse(board, stone, Direction.DIAGONAL_DOWN)
+                checkOpenFour(board, stone, Direction.DIAGONAL_UP) +
+                checkOpenFour(board, stone, Direction.VERTICAL) +
+                checkOpenFourReverse(board, stone, Direction.DIAGONAL_DOWN)
 
     private fun checkOpenThree(
-        board: List<List<StoneType>>,
+        board: Board,
         stone: Stone,
         direction: Direction,
     ): Int {
@@ -86,14 +87,14 @@ object RenjuRule {
             dy != 0 && stone.point.y.minus(leftDown) in Y_Edge -> 0
             dx != 0 && stone.point.x.plus(rightUp) in X_Edge -> 0
             dy != 0 && stone.point.y.plus(rightUp) in Y_Edge -> 0
-            board[stone.point.y - dy * (leftDown + 1)][stone.point.x - dx * (leftDown + 1)] == StoneType.WHITE -> 0
-            board[stone.point.y + dy * (rightUp + 1)][stone.point.x + dx * (rightUp + 1)] == StoneType.WHITE -> 0
+            board.table[stone.point.y - dy * (leftDown + 1)][stone.point.x - dx * (leftDown + 1)] == StoneType.WHITE -> 0
+            board.table[stone.point.y + dy * (rightUp + 1)][stone.point.x + dx * (rightUp + 1)] == StoneType.WHITE -> 0
             else -> 1
         }
     }
 
     private fun checkOpenThreeReverse(
-        board: List<List<StoneType>>,
+        board: Board,
         stone: Stone,
         direction: Direction,
     ): Int {
@@ -115,14 +116,14 @@ object RenjuRule {
             dy != 0 && stone.point.y.plus(leftUp) in Y_Edge -> 0
             dx != 0 && stone.point.x.plus(rightBottom) in X_Edge -> 0
             dy != 0 && stone.point.y.minus(rightBottom) in Y_Edge -> 0
-            board[stone.point.y - rightBottom - 1][stone.point.x + rightBottom + 1] == StoneType.WHITE -> 0
-            board[stone.point.y + leftUp + 1][stone.point.x - leftUp - 1] == StoneType.WHITE -> 0
+            board.table[stone.point.y - rightBottom - 1][stone.point.x + rightBottom + 1] == StoneType.WHITE -> 0
+            board.table[stone.point.y + leftUp + 1][stone.point.x - leftUp - 1] == StoneType.WHITE -> 0
             else -> 1
         }
     }
 
     private fun checkOpenFour(
-        board: List<List<StoneType>>,
+        board: Board,
         stone: Stone,
         direction: Direction,
     ): Int {
@@ -146,14 +147,14 @@ object RenjuRule {
             when {
                 dx != 0 && stone.point.x.minus(dx * leftDown) in X_Edge -> 0
                 dy != 0 && stone.point.y.minus(dy * leftDown) in Y_Edge -> 0
-                board[stone.point.y - dy * (leftDown + 1)][stone.point.x - dx * (leftDown + 1)] == StoneType.WHITE -> 0
+                board.table[stone.point.y - dy * (leftDown + 1)][stone.point.x - dx * (leftDown + 1)] == StoneType.WHITE -> 0
                 else -> 1
             }
         val rightUpValid =
             when {
                 dx != 0 && stone.point.x.plus(dx * rightUp) in X_Edge -> 0
                 dy != 0 && stone.point.y.plus(dy * rightUp) in Y_Edge -> 0
-                board[stone.point.y + dy * (rightUp + 1)][stone.point.x + dx * (rightUp + 1)] == StoneType.WHITE -> 0
+                board.table[stone.point.y + dy * (rightUp + 1)][stone.point.x + dx * (rightUp + 1)] == StoneType.WHITE -> 0
                 else -> 1
             }
 
@@ -161,7 +162,7 @@ object RenjuRule {
     }
 
     private fun checkOpenFourReverse(
-        board: List<List<StoneType>>,
+        board: Board,
         stone: Stone,
         direction: Direction,
     ): Int {
@@ -185,7 +186,7 @@ object RenjuRule {
             when {
                 dx != 0 && stone.point.x.minus(leftUp) in X_Edge -> 0
                 dy != 0 && stone.point.y.plus(leftUp) in Y_Edge -> 0
-                board[stone.point.y - rightBottom - 1][stone.point.x + rightBottom + 1] == StoneType.WHITE -> 0
+                board.table[stone.point.y - rightBottom - 1][stone.point.x + rightBottom + 1] == StoneType.WHITE -> 0
                 else -> 1
             }
 
@@ -193,7 +194,7 @@ object RenjuRule {
             when {
                 dx != 0 && stone.point.x.plus(rightBottom) in X_Edge -> 0
                 dy != 0 && stone.point.y.minus(rightBottom) in Y_Edge -> 0
-                board[stone.point.y + leftUp + 1][stone.point.x - leftUp - 1] == StoneType.WHITE -> 0
+                board.table[stone.point.y + leftUp + 1][stone.point.x - leftUp - 1] == StoneType.WHITE -> 0
                 else -> 1
             }
 
@@ -201,7 +202,7 @@ object RenjuRule {
     }
 
     private fun search(
-        board: List<List<StoneType>>,
+        board: Board,
         stone: Stone,
         dx: Int,
         dy: Int,
@@ -218,7 +219,7 @@ object RenjuRule {
             if (dy < 0 && toTop == MIN_X) break
             toRight += dx
             toTop += dy
-            when (board[toTop][toRight]) {
+            when (board.table[toTop][toRight]) {
                 StoneType.BLACK -> {
                     stoneCount++
                     blink = blinkCount

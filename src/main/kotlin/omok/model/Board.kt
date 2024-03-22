@@ -1,19 +1,26 @@
 package omok.model
 
 class Board {
-    val board: List<List<StoneType>>
+    val table: List<List<StoneType>>
         get() = _board.toList()
     private val _board: MutableList<MutableList<StoneType>> =
         MutableList(BOARD_SIZE) {
             MutableList(BOARD_SIZE) { StoneType.EMPTY }
         }
 
-    fun putStone(stone: Stone) {
-        _board[stone.point.y][stone.point.x] = stone.type
+    val turn: Turn
+        get() = _turn
+    private var _turn: Turn = BlackTurn()
+
+    fun putStone(point: Point): Turn {
+        val previousTurn = _turn
+        _turn = turn.nextTurn(point, this)
+        if (previousTurn != turn) _board[point.y][point.x] = turn.before!!.type
+        return turn
     }
 
     operator fun contains(point: Point): Boolean {
-        return board[point.y][point.x] != StoneType.EMPTY
+        return table[point.y][point.x] != StoneType.EMPTY
     }
 
     companion object {

@@ -1,11 +1,12 @@
 package omok.rule
 
+import omok.model.Board
 import omok.model.Stone
 import omok.model.StoneType
 
 interface Rule {
     fun isWinCondition(
-        board: List<List<StoneType>>,
+        board: Board,
         stone: Stone,
     ): Boolean {
         return Direction.entries.any { direction ->
@@ -14,7 +15,7 @@ interface Rule {
     }
 
     fun checkDirection(
-        board: List<List<StoneType>>,
+        board: Board,
         y: Int,
         x: Int,
         stoneType: StoneType,
@@ -28,7 +29,7 @@ interface Rule {
             val targetX = x + i * dx
             if (targetY !in 0 until BOARD_SIZE || targetX !in 0 until BOARD_SIZE) continue
 
-            when (board[targetY][targetX]) {
+            when (board.table[targetY][targetX]) {
                 stoneType -> {
                     count++
                     maxCount = maxOf(maxCount, count)
@@ -43,7 +44,7 @@ interface Rule {
     fun checkCount(count: Int): Boolean
 
     companion object {
-        const val DEFAULT_COUNT = 0
+        const val DEFAULT_COUNT = 1
         const val WINNING_COUNT = 5
         const val BOARD_SIZE = 15
     }
@@ -53,7 +54,7 @@ object BlackRule : Rule {
     override fun checkCount(count: Int): Boolean = count == Rule.WINNING_COUNT
 
     fun isForbidden(
-        board: List<List<StoneType>>,
+        board: Board,
         stone: Stone,
     ): Boolean {
         return RenjuRule.isForbidden(board, stone)
