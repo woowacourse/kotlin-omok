@@ -41,7 +41,7 @@ class Board(private val size: Int = DEFAULT_BOARD_SIZE, val stones: Map<Position
 
     fun isInOmok(position: Position): Boolean {
         val stone = stones[position] ?: return false
-        return vectors.any { vector ->
+        return Vector.FOUR_DIRECTIONS.any { vector ->
             isInOmok(stone, vector)
         }
     }
@@ -74,12 +74,5 @@ class Board(private val size: Int = DEFAULT_BOARD_SIZE, val stones: Map<Position
         private const val INITIAL_COUNT = 0
         private const val OMOK_THRESHOLD = 4
         private val OMOK_CANDIDATE_RANGE = 0..3
-        private val vectors =
-            listOf(
-                Vector(1, 1),
-                Vector(1, -1),
-                Vector(0, 1),
-                Vector(1, 0),
-            )
     }
 }

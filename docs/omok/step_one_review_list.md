@@ -1,11 +1,15 @@
 # 1차 리뷰 후 수정 사항
 
 - [ ] : domain 로직들 테스트코드 모두 작성
+
 ## Board
 - [x] : Board - sumLeft, sumRight 공통 로직 개선
 - [x] : Board 의 크기를 size 를 넘어가면 못 놓게 리팩토링
 - [x] : 오목판에 돌을 놓으면 새로운 오목판이 만들어진다 - testCase 추가
 - [x] : Board 의 좌표에 해당하는 곳에 이미 돌이 있으면 돌을 놓을 수 없다 - testCase 추가
+
+## Vector
+- [x] : Vector 에 4방향 vectors 추가
 
 ## Box
 - [ ] : position: Position ,state : BoxState 을 갖도록 바꾸기
@@ -13,6 +17,7 @@
 
 이유는 size x size 에 해당하는 map 을 먼저 만들 것인데, Empty omokStones 들로 Board 를
 채운다는 개념이 이상하기 때문에
+
 ## BoxType
 - [ ] : EMPTY, BLACK_STONE, WHITE_STONE
 ## Boxes
