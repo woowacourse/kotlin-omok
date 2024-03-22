@@ -3,11 +3,10 @@ package omok.model
 import io.kotest.matchers.booleans.shouldBeFalse
 import omok.fixtures.createBlackStone
 import omok.fixtures.createBoard
-import omok.model.rule.BlackPutRule
-import omok.model.rule.WhiteCanPutRule
+import omok.model.rule.RenjuRule
 import org.junit.jupiter.api.Test
 
-class BlackPutRuleTest {
+class BlackOmokGameRuleTest {
     @Test
     fun `장목이면 금수다`() {
         // given
@@ -21,7 +20,7 @@ class BlackPutRuleTest {
             )
         val blackStone = createBlackStone(1, 6)
         // when
-        val canPut = BlackPutRule.canPut(blackStone, blackBoard)
+        val canPut = RenjuRule.canPlaceStone(blackStone, blackBoard)
         // then
         canPut.shouldBeFalse()
     }
@@ -38,7 +37,7 @@ class BlackPutRuleTest {
             )
         val blackStone = createBlackStone(4, 4)
         // when
-        val canPut = BlackPutRule.canPut(blackStone, blackBoard)
+        val canPut = RenjuRule.canPlaceStone(blackStone, blackBoard)
         // then
         canPut.shouldBeFalse()
     }
@@ -56,7 +55,7 @@ class BlackPutRuleTest {
             )
         val blackStone = createBlackStone(1, 1)
         // when
-        val canPut = BlackPutRule.canPut(blackStone, blackBoard)
+        val canPut = RenjuRule.canPlaceStone(blackStone, blackBoard)
         // then
         canPut.shouldBeFalse()
     }
@@ -69,7 +68,7 @@ class BlackPutRuleTest {
             )
         val stone = createBlackStone(1, 2)
         // when
-        val canPut = WhiteCanPutRule.canPut(stone, board)
+        val canPut = RenjuRule.canPlaceStone(stone, board)
         // then
         canPut.shouldBeFalse()
     }
@@ -79,7 +78,7 @@ class BlackPutRuleTest {
         val board = createBoard()
         val stone = createBlackStone(0, 0)
         // when
-        val canPut = WhiteCanPutRule.canPut(stone, board)
+        val canPut = RenjuRule.canPlaceStone(stone, board)
         // then
         canPut.shouldBeFalse()
     }

@@ -4,9 +4,8 @@ import omok.model.Board
 import omok.model.OmokStone
 import omok.model.Position
 import omok.model.StoneColor
-import omok.model.rule.BlackPutRule
-import omok.model.rule.PutRule
-import omok.model.rule.WhiteCanPutRule
+import omok.model.rule.OmokGameRule
+import omok.model.rule.RenjuRule
 
 sealed class GameState(val board: Board) {
     abstract val isFinished: Boolean
@@ -15,12 +14,12 @@ sealed class GameState(val board: Board) {
 
     abstract fun put(onPlace: () -> Position): GameState
 
-    sealed class Running(private val putRule: PutRule, board: Board) : GameState(board) {
+    sealed class Running(private val putRule: OmokGameRule, board: Board) : GameState(board) {
         protected fun canPut(stone: OmokStone): Boolean {
-            return putRule.canPut(stone, board)
+            return putRule.canPlaceStone(stone, board)
         }
 
-        class BlackTurn(putRule: PutRule, board: Board) : Running(putRule, board) {
+        class BlackTurn(board: Board) : Running(RenjuRule, board) {
             override val isFinished = false
 
             override fun put(onPlace: () -> Position): GameState {
@@ -29,13 +28,13 @@ sealed class GameState(val board: Board) {
                 if (canPut(newStone)) {
                     val newBoard = board + newStone
                     if (newBoard.isInOmok(position)) return Finish(newBoard)
-                    return WhiteTurn(WhiteCanPutRule, newBoard)
+                    return WhiteTurn(newBoard)
                 }
                 return put(onPlace)
             }
         }
 
-        class WhiteTurn(putRule: PutRule, board: Board) : Running(putRule, board) {
+        class WhiteTurn(board: Board) : Running(whiteStoneRule, board) {
             override val isFinished = false
 
             override fun put(onPlace: () -> Position): GameState {
@@ -44,9 +43,13 @@ sealed class GameState(val board: Board) {
                 if (canPut(newStone)) {
                     val newBoard = board + newStone
                     if (newBoard.isInOmok(position)) return Finish(newBoard)
-                    return BlackTurn(BlackPutRule, newBoard)
+                    return BlackTurn(newBoard)
                 }
                 return put(onPlace)
+            }
+
+            companion object {
+                private val whiteStoneRule: OmokGameRule = OmokGameRule { stone, board -> board.canPlace(stone) }
             }
         }
     }

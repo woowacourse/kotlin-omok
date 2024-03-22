@@ -23,9 +23,9 @@
 > 적절하다면 StoneColor 의 코드를 중심으로 돌이 교체되는 로직들이 구현되어야합니다.
 
 ## Rule
-- [ ] : PutRule - 네이밍 좀 더 구체적으로 변경
-- [ ] : rule - 개별 sealed class 별로 파일을 분리
-- [ ] : WhiteCanPutRule 삭제 및 리팩토링
+- [x] : PutRule - 네이밍 좀 더 구체적으로 변경
+- [x] : rule - 개별 class 별로 파일을 분리
+- [x] : WhiteCanPutRule 삭제 및 리팩토링
 ## GameState
 
 - [ ] : GameState - 개별 sealed class 별로 파일을 분리
