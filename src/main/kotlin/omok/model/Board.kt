@@ -2,8 +2,8 @@ package omok.model
 
 class Board {
     val table: Array<Array<StoneType>>
-        get() = _board
-    private val _board: Array<Array<StoneType>> =
+        get() = _table
+    private val _table: Array<Array<StoneType>> =
         Array(BOARD_SIZE) {
             Array(BOARD_SIZE) { StoneType.EMPTY }
         }
@@ -15,7 +15,7 @@ class Board {
     fun putStone(point: Point): Turn {
         val previousTurn = _turn
         _turn = turn.nextTurn(point, this)
-        if (previousTurn != turn) _board[point.y][point.x] = turn.before!!.type
+        if (previousTurn != turn) _table[point.y][point.x] = turn.before!!.type
         return turn
     }
 

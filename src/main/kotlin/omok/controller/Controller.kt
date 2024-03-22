@@ -4,7 +4,6 @@ import omok.model.BlackTurn
 import omok.model.Board
 import omok.model.FinishedTurn
 import omok.model.Point
-import omok.model.Stone
 import omok.model.Turn
 import omok.view.InputView
 import omok.view.OutputView
@@ -26,7 +25,10 @@ class Controller {
         OutputView.printTurn(turn)
     }
 
-    private fun getPoint(board: Board, turn: Turn): Point {
+    private fun getPoint(
+        board: Board,
+        turn: Turn,
+    ): Point {
         runCatching {
             val point = InputView.readPoint()
             if (point in board) {

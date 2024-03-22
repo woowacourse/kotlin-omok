@@ -19,9 +19,10 @@ object RenjuRule {
         board: Board,
         stone: Stone,
     ): Boolean {
-        return countOpenThrees(board, stone) >= MIN_OPEN_THREES ||
-                countOpenFours(board, stone) >= MIN_OPEN_FOURS ||
-                isOverLine(board, stone)
+        return countOpenThrees(board, stone) >= MIN_OPEN_THREES || countOpenFours(
+            board,
+            stone,
+        ) >= MIN_OPEN_FOURS || isOverLine(board, stone)
     }
 
     private fun isOverLine(
@@ -52,18 +53,32 @@ object RenjuRule {
         stone: Stone,
     ): Int =
         checkOpenThree(board, stone, Direction.HORIZONTAL) +
-                checkOpenThree(board, stone, Direction.DIAGONAL_UP) +
-                checkOpenThree(board, stone, Direction.VERTICAL) +
-                checkOpenThreeReverse(board, stone, Direction.DIAGONAL_DOWN)
+            checkOpenThree(
+                board,
+                stone,
+                Direction.DIAGONAL_UP,
+            ) + checkOpenThree(board, stone, Direction.VERTICAL) +
+            checkOpenThreeReverse(
+                board,
+                stone,
+                Direction.DIAGONAL_DOWN,
+            )
 
     private fun countOpenFours(
         board: Board,
         stone: Stone,
     ): Int =
         checkOpenFour(board, stone, Direction.HORIZONTAL) +
-                checkOpenFour(board, stone, Direction.DIAGONAL_UP) +
-                checkOpenFour(board, stone, Direction.VERTICAL) +
-                checkOpenFourReverse(board, stone, Direction.DIAGONAL_DOWN)
+            checkOpenFour(
+                board,
+                stone,
+                Direction.DIAGONAL_UP,
+            ) + checkOpenFour(board, stone, Direction.VERTICAL) +
+            checkOpenFourReverse(
+                board,
+                stone,
+                Direction.DIAGONAL_DOWN,
+            )
 
     private fun checkOpenThree(
         board: Board,
