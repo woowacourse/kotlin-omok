@@ -8,27 +8,33 @@ sealed class GameState(val board: Board) {
     ): GameState
 
     sealed class Running(board: Board) : GameState(board) {
+        abstract fun getCurrentType(): PositionType
+
+        abstract fun getNextTurn(): GameState
+
+        override fun placeStone(
+            onTurn: (GameState) -> Unit,
+            onRead: () -> Position,
+            onShow: (Board) -> Unit,
+        ): GameState {
+            onShow(board)
+            onTurn(this)
+
+            val position = onRead()
+            board.placeStone(position, getCurrentType())
+
+            if (board.isOmok(position, getCurrentType())) return Finish(board)
+            return (getNextTurn())
+        }
+
         class BlackTurn(board: Board) : Running(board) {
             init {
                 board.setupOmokRule(PositionType.BLACK_STONE)
             }
 
-            override fun placeStone(
-                onTurn: (GameState) -> Unit,
-                onRead: () -> Position,
-                onShow: (Board) -> Unit,
-            ): GameState {
-                onShow(board)
-                onTurn(this)
+            override fun getCurrentType() = PositionType.BLACK_STONE
 
-                val position = onRead()
-                board.placeStone(position, PositionType.BLACK_STONE)
-
-                if (board.isOmok(position, PositionType.BLACK_STONE)) {
-                    return Finish(board)
-                }
-                return WhiteTurn(board)
-            }
+            override fun getNextTurn() = WhiteTurn(board)
         }
 
         class WhiteTurn(board: Board) : Running(board) {
@@ -36,22 +42,9 @@ sealed class GameState(val board: Board) {
                 board.setupOmokRule(PositionType.WHITE_STONE)
             }
 
-            override fun placeStone(
-                onTurn: (GameState) -> Unit,
-                onRead: () -> Position,
-                onShow: (Board) -> Unit,
-            ): GameState {
-                onShow(board)
-                onTurn(this)
+            override fun getCurrentType() = PositionType.WHITE_STONE
 
-                val position = onRead()
-                board.placeStone(position, PositionType.WHITE_STONE)
-
-                if (board.isOmok(position, PositionType.WHITE_STONE)) {
-                    return Finish(board)
-                }
-                return BlackTurn(board)
-            }
+            override fun getNextTurn() = BlackTurn(board)
         }
     }
 
