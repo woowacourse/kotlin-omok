@@ -3,6 +3,7 @@
 package omok.model
 
 import omok.model.board.CoordsNumber
+import omok.model.board.Position
 import omok.model.board.Stone
 import omok.model.omokGame.Omok
 import org.assertj.core.api.Assertions
@@ -47,7 +48,7 @@ class OmokTest {
 
     @Test
     fun `금지된 위치에 돌을 놓으려는 경우 확인`() {
-        val forbiddenPositions = listOf(CoordsNumber(0) to CoordsNumber(1))
+        val forbiddenPositions = listOf(Position(CoordsNumber(0), CoordsNumber(1)))
         assertTrue(omok.isForbidden(CoordsNumber(1), CoordsNumber(0), forbiddenPositions))
     }
 
@@ -70,7 +71,7 @@ class OmokTest {
             omok.setStone(CoordsNumber(1), CoordsNumber(j), Stone.BLACK)
         }
         val forbids = omok.checkBoard(Stone.BLACK)
-        Assertions.assertThat(forbids).isEqualTo(listOf(CoordsNumber(1) to CoordsNumber(1)))
+        Assertions.assertThat(forbids).isEqualTo(listOf(Position(CoordsNumber(1), CoordsNumber(1))))
     }
 
     @Test
@@ -95,7 +96,7 @@ class OmokTest {
         }
         omok.setStone(CoordsNumber(1), CoordsNumber(5), Stone.WHITE)
         val forbids = omok.checkBoard(Stone.BLACK)
-        Assertions.assertThat(forbids).isEqualTo(listOf(CoordsNumber(1) to CoordsNumber(1)))
+        Assertions.assertThat(forbids).isEqualTo(listOf(Position(CoordsNumber(1), CoordsNumber(1))))
     }
 
     @Test
@@ -131,6 +132,6 @@ class OmokTest {
         omok.gameBoard[7][8] = Stone.BLACK
 
         val forbids = omok.checkBoard(Stone.BLACK)
-        Assertions.assertThat(CoordsNumber(7) to CoordsNumber(5) in forbids).isFalse()
+        Assertions.assertThat(Position(CoordsNumber(7), CoordsNumber(5)) in forbids).isFalse()
     }
 }
