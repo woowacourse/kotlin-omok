@@ -7,25 +7,30 @@ import omok.model.board.Stone
 import omok.model.omokGame.Omok
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class OmokTest {
+    lateinit var omok: Omok
+
+    @BeforeEach
+    fun setUp() {
+        omok = Omok()
+    }
+
     @Test
     fun `게임 상태가 실행 중인지 확인`() {
-        val omok = Omok()
         assertTrue(omok.isRunning())
     }
 
     @Test
     fun `게임 종료 상태로 변경`() {
-        val omok = Omok()
         omok.gameFinish()
         assertFalse(omok.isRunning())
     }
 
     @Test
     fun `돌을 올바르게 놓는 경우`() {
-        val omok = Omok()
         val x = CoordsNumber(0)
         val y = CoordsNumber(0)
         omok.setStone(x, y, Stone.BLACK)
@@ -34,7 +39,6 @@ class OmokTest {
 
     @Test
     fun `돌을 놓은 위치가 비어 있지 않은 경우 확인`() {
-        val omok = Omok()
         val x = CoordsNumber(0)
         val y = CoordsNumber(0)
         omok.setStone(x, y, Stone.WHITE)
@@ -43,14 +47,12 @@ class OmokTest {
 
     @Test
     fun `금지된 위치에 돌을 놓으려는 경우 확인`() {
-        val omok = Omok()
         val forbiddenPositions = listOf(CoordsNumber(0) to CoordsNumber(1))
         assertTrue(omok.isForbidden(CoordsNumber(1), CoordsNumber(0), forbiddenPositions))
     }
 
     @Test
     fun `돌을 놓은 후 게임이 종료되는 경우 확인`() {
-        val omok = Omok()
         for (i in 0 until 4) {
             omok.setStone(CoordsNumber(i), CoordsNumber(0), Stone.BLACK)
         }
@@ -61,7 +63,6 @@ class OmokTest {
 
     @Test
     fun `33 금수 확인`() {
-        val omok = Omok()
         for (i in 2 until 4) {
             omok.setStone(CoordsNumber(i), CoordsNumber(1), Stone.BLACK)
         }
@@ -74,7 +75,6 @@ class OmokTest {
 
     @Test
     fun `43은 금수아니다`() {
-        val omok = Omok()
         for (i in 2 until 5) {
             omok.setStone(CoordsNumber(i), CoordsNumber(1), Stone.BLACK)
         }
@@ -87,7 +87,6 @@ class OmokTest {
 
     @Test
     fun `44는 한쪽이 막혀있어도 금수다`() {
-        val omok = Omok()
         for (i in 2 until 5) {
             omok.setStone(CoordsNumber(i), CoordsNumber(1), Stone.BLACK)
         }
@@ -101,7 +100,6 @@ class OmokTest {
 
     @Test
     fun `두쪽이 다 막힌 44는 금수아니다`() {
-        val omok = Omok()
         for (i in 2 until 5) {
             omok.setStone(CoordsNumber(i), CoordsNumber(1), Stone.BLACK)
         }
@@ -116,7 +114,6 @@ class OmokTest {
 
     @Test
     fun `금수때문에 못 놓는 수는 33 금수로 취급하지 않는다`() {
-        val omok = Omok()
         omok.gameBoard[8][7] = Stone.BLACK
         omok.gameBoard[6][5] = Stone.BLACK
         omok.gameBoard[6][7] = Stone.BLACK
