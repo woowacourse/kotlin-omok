@@ -12,7 +12,7 @@ class OmokGame(
         var event = putEvent.onPutBlack
         while (!state.isFinished) {
             onStartPut(state.board, state.board.lastOrNull())
-            state = state.put(event)
+            state = state.placeStone(event)
             event = putEvent.reverse(event)
         }
         state.winner?.let { onFinishGame(state.board, it) }

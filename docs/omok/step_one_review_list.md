@@ -17,10 +17,7 @@
 > 돌이 바뀌는 로직을 한곳으로 모아서 관리해볼 수 있을까요?
 
 ## StoneColor
-- [ ] : StoneColor - reverse() 개선
-> 돌이 순차적으로 바뀐다는 규칙은 다른 도메인에서도 반복해서 사용될 것 같은데요.
-> StoneColor 에서 돌을 바꾼다는 규칙을 정의하는게 적절할까요?
-> 적절하다면 StoneColor 의 코드를 중심으로 돌이 교체되는 로직들이 구현되어야합니다.
+- [x] : StoneColor 삭제
 
 ## Rule
 - [x] : PutRule - 네이밍 좀 더 구체적으로 변경
@@ -33,7 +30,7 @@
 > winner 는 GameState 를 구현하는 모든 구현체가 알게되는 상태인데요,
 > Running 에서는 사용할 일이 없습니다. 적절한 인터페이스 구조인지 고민해보면 좋을 것 같아요.
 - [ ] : WhiteTurn, BlackTurn 공통 로직 빼기
-- [ ] : White 와 Black 각각 rule 을 만들어주셨으므로, 생성 시점에 스스로 초기화 시켜줘도 괜찮겠습니다 :)
+- [x] : White 와 Black 각각 rule 을 만들어주셨으므로, 생성 시점에 스스로 초기화 시켜줘도 괜찮겠습니다 :)
 
 ## View
 - [ ] : input 과 outpust 을 구분

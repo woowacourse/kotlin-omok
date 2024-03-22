@@ -12,7 +12,7 @@ sealed class GameState(val board: Board) {
 
     val winner get() = if (isFinished) board.lastOrNull() else null
 
-    abstract fun put(onPlace: () -> Position): GameState
+    abstract fun placeStone(onPlace: () -> Position): GameState
 
     sealed class Running(private val putRule: OmokGameRule, board: Board) : GameState(board) {
         protected fun canPut(stone: OmokStone): Boolean {
@@ -22,7 +22,7 @@ sealed class GameState(val board: Board) {
         class BlackTurn(board: Board) : Running(RenjuRule, board) {
             override val isFinished = false
 
-            override fun put(onPlace: () -> Position): GameState {
+            override fun placeStone(onPlace: () -> Position): GameState {
                 val position = onPlace()
                 val newStone = OmokStone(position, StoneColor.BLACK)
                 if (canPut(newStone)) {
@@ -30,14 +30,14 @@ sealed class GameState(val board: Board) {
                     if (newBoard.isInOmok(position)) return Finish(newBoard)
                     return WhiteTurn(newBoard)
                 }
-                return put(onPlace)
+                return placeStone(onPlace)
             }
         }
 
         class WhiteTurn(board: Board) : Running(whiteStoneRule, board) {
             override val isFinished = false
 
-            override fun put(onPlace: () -> Position): GameState {
+            override fun placeStone(onPlace: () -> Position): GameState {
                 val position = onPlace()
                 val newStone = OmokStone(position, StoneColor.WHITE)
                 if (canPut(newStone)) {
@@ -45,7 +45,7 @@ sealed class GameState(val board: Board) {
                     if (newBoard.isInOmok(position)) return Finish(newBoard)
                     return BlackTurn(newBoard)
                 }
-                return put(onPlace)
+                return placeStone(onPlace)
             }
 
             companion object {
@@ -57,7 +57,7 @@ sealed class GameState(val board: Board) {
     class Finish(board: Board) : GameState(board) {
         override val isFinished = true
 
-        override fun put(onPlace: () -> Position): GameState {
+        override fun placeStone(onPlace: () -> Position): GameState {
             error("게임이 이미 종료됐습니다.")
         }
     }
