@@ -13,7 +13,7 @@ class GameManager(private val exceptionMessageHandler: ExceptionMessageHandler) 
         while (isRunning()) {
             playTurn(onTurn, onRead, onShow)
         }
-        gameOver(onTurn, onShow)
+        showGameResult(onTurn, onShow)
     }
 
     private fun isRunning() = gameState is GameState.Running
@@ -28,7 +28,7 @@ class GameManager(private val exceptionMessageHandler: ExceptionMessageHandler) 
         exceptionMessageHandler.onMessageHandle(throwable)
     }
 
-    private fun gameOver(
+    private fun showGameResult(
         onTurn: (GameState) -> Unit,
         onShow: (Board) -> Unit,
     ) {

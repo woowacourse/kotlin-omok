@@ -3,6 +3,7 @@ package omok.model
 class Board {
     val layout: Array<Array<PositionType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { PositionType.EMPTY } }
     var lastPosition: Position? = null
+        private set
     private lateinit var omokRule: OmokRule
 
     fun setupOmokRule(currentType: PositionType) {
