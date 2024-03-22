@@ -1,4 +1,6 @@
-package omok.model
+package omok.library
+
+import omok.model.PositionType
 
 class OmokRule(
     private val board: Array<Array<PositionType>>,

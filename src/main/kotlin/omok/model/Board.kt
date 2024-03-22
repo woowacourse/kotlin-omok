@@ -1,5 +1,7 @@
 package omok.model
 
+import omok.library.OmokRule
+
 class Board {
     val layout: Array<Array<PositionType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { PositionType.EMPTY } }
     var lastPosition: Position? = null

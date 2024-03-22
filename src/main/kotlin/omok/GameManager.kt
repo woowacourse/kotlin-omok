@@ -1,6 +1,8 @@
-package omok.model
+package omok
 
-import omok.ExceptionMessageHandler
+import omok.model.Board
+import omok.model.GameState
+import omok.model.Position
 
 class GameManager(private val exceptionMessageHandler: ExceptionMessageHandler) {
     private var gameState: GameState = GameState.Running.BlackTurn(Board())

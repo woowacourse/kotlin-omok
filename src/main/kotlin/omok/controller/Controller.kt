@@ -2,7 +2,7 @@ package omok.controller
 
 import omok.ExceptionMessageHandler
 import omok.model.Board
-import omok.model.GameManager
+import omok.GameManager
 import omok.model.GameState
 import omok.model.Position
 import omok.view.BoardView

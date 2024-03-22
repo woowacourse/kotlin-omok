@@ -1,5 +1,6 @@
 package omok.model
 
+import omok.library.OmokRule
 import omok.view.BoardView
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
