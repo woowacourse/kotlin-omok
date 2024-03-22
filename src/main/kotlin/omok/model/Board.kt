@@ -21,46 +21,6 @@ class Board {
         }
     }
 
-    fun isOmok(
-        position: Position,
-        positionType: PositionType,
-    ): Boolean {
-        return when (positionType) {
-            PositionType.BLACK_STONE -> {
-                omokRule.checkOmok(position.coordinate.x, position.coordinate.y) &&
-                    !omokRule.checkMoreThanFive(position.coordinate.x, position.coordinate.y)
-            }
-
-            PositionType.WHITE_STONE -> {
-                omokRule.checkOmok(position.coordinate.x, position.coordinate.y)
-            }
-
-            else -> throw IllegalArgumentException()
-        }
-    }
-
-    private fun removeBlock() {
-        layout.forEach { row ->
-            row.forEachIndexed { index, stoneType ->
-                if (stoneType == PositionType.BLOCK) {
-                    row[index] = PositionType.EMPTY
-                }
-            }
-        }
-    }
-
-    fun placeStone(
-        position: Position,
-        positionType: PositionType,
-    ) {
-        if (layout[position.coordinate.x][position.coordinate.y] == PositionType.EMPTY) {
-            layout[position.coordinate.x][position.coordinate.y] = positionType
-            lastPosition = position
-        } else {
-            throw IllegalArgumentException(ERROR_INVALID_POSITION)
-        }
-    }
-
     private fun setBlock(
         checkThreeThree: (Int, Int) -> Boolean,
         checkFourFour: (Int, Int) -> Boolean,
@@ -87,6 +47,47 @@ class Board {
         checkFourFour: (Int, Int) -> Boolean,
         checkMoreThanFive: (Int, Int) -> Boolean,
     ) = (checkThreeThree(i, j) || checkFourFour(i, j) || checkMoreThanFive(i, j)) && layout[i][j] == PositionType.EMPTY
+
+
+    private fun removeBlock() {
+        layout.forEach { row ->
+            row.forEachIndexed { index, stoneType ->
+                if (stoneType == PositionType.BLOCK) {
+                    row[index] = PositionType.EMPTY
+                }
+            }
+        }
+    }
+
+    fun isOmok(
+        position: Position,
+        positionType: PositionType,
+    ): Boolean {
+        return when (positionType) {
+            PositionType.BLACK_STONE -> {
+                omokRule.checkOmok(position.coordinate.x, position.coordinate.y) &&
+                    !omokRule.checkMoreThanFive(position.coordinate.x, position.coordinate.y)
+            }
+
+            PositionType.WHITE_STONE -> {
+                omokRule.checkOmok(position.coordinate.x, position.coordinate.y)
+            }
+
+            else -> throw IllegalArgumentException()
+        }
+    }
+
+    fun placeStone(
+        position: Position,
+        positionType: PositionType,
+    ) {
+        if (layout[position.coordinate.x][position.coordinate.y] == PositionType.EMPTY) {
+            layout[position.coordinate.x][position.coordinate.y] = positionType
+            lastPosition = position
+        } else {
+            throw IllegalArgumentException(ERROR_INVALID_POSITION)
+        }
+    }
 
     companion object {
         private const val MIN_INDEX = 0
