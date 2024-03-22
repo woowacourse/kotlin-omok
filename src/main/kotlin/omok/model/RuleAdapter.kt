@@ -1,8 +1,6 @@
+package omok.model
+
 import library.OmokRule
-import omok.model.Color
-import omok.model.Rule
-import omok.model.Stone
-import omok.model.Stones
 
 class RuleAdapter(stones: Stones) : Rule {
     private val omokRule =

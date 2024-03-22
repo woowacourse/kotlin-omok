@@ -1,7 +1,5 @@
 package omok.model
 
-import RuleAdapter
-
 class Board(val stones: Stones) {
     private val rule: Rule
         get() = RuleAdapter(stones)
