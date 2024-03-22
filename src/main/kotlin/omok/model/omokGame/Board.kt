@@ -4,7 +4,7 @@ import omok.model.board.CoordsNumber
 import omok.model.board.Position
 import omok.model.board.Stone
 
-class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Stone.EMPTY } }) {
+class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Stone.EMPTY } }) {
     private var omokGameState = OmokGameState.RUNNING
 
     fun isRunning() = omokGameState == OmokGameState.RUNNING
@@ -29,7 +29,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_
         gameBoard[y.number][x.number] = stone
     }
 
-    fun checkBoard(stone: Stone): List<Position> {
+    fun findForbiddenPositions(stone: Stone): List<Position> {
         val coords = mutableListOf<Position>()
         for (y in gameBoard.indices) {
             for (x in gameBoard[y].indices) {
@@ -117,7 +117,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_
         y: CoordsNumber,
         stone: Stone,
         direction: Int,
-    ): Pair<CoordsNumber, CoordsNumber>? {
+    ): Position? {
         var (x, y) = x.number to y.number
         val (dx, dy) = getXY(direction)
         while (true) {
@@ -125,10 +125,10 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_
             y += dy
             if (isInvalid(x, y) || gameBoard[y][x] != stone) break
         }
-        if (!isInvalid(x, y) && gameBoard[y][x] == Stone.EMPTY) {
-            return CoordsNumber(x) to CoordsNumber(y)
+        return if (!isInvalid(x, y) && gameBoard[y][x] == Stone.EMPTY) {
+            Position(CoordsNumber(x), CoordsNumber(y))
         } else {
-            return null
+            null
         }
     }
 
@@ -210,10 +210,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_
             if (openThree(x, y, stone, i)) cnt++
         }
         setStone(x, y, Stone.EMPTY)
-        if (cnt >= 2) {
-            return true
-        }
-        return false
+        return cnt >= 2
     }
 
     private fun doubleFour(
@@ -232,10 +229,7 @@ class Omok(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_
         }
 
         setStone(x, y, Stone.EMPTY)
-        if (cnt >= 2) {
-            return true
-        }
-        return false
+        return cnt >= 2
     }
 
     private fun forbiddenPoint(
