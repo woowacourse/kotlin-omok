@@ -8,20 +8,33 @@ class OmokRule(
 ) {
     private val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
 
-    fun checkThreeThree(x: Int, y: Int): Boolean {
+    fun checkThreeThree(
+        x: Int,
+        y: Int,
+    ): Boolean {
         val sum = directions.sumOf { direction -> checkOpenThree(x, y, direction[0], direction[1]) }
         return sum >= 2
     }
 
-    fun countFourFour(x: Int, y: Int): Boolean {
+    fun countFourFour(
+        x: Int,
+        y: Int,
+    ): Boolean {
         val sum = directions.sumOf { direction -> checkOpenFour(x, y, direction[0], direction[1]) }
         return sum >= 2
     }
 
-    fun checkMoreThanFive(x: Int, y: Int): Boolean =
-        directions.map { direction -> checkMoreThanFive(x, y, direction[0], direction[1]) }.contains(true)
+    fun checkMoreThanFive(
+        x: Int,
+        y: Int,
+    ): Boolean = directions.map { direction -> checkMoreThanFive(x, y, direction[0], direction[1]) }.contains(true)
 
-    private fun checkOpenThree(x: Int, y: Int, dx: Int, dy: Int): Int {
+    private fun checkOpenThree(
+        x: Int,
+        y: Int,
+        dx: Int,
+        dy: Int,
+    ): Int {
         val (stone1, blink1) = search(x, y, -dx, -dy)
         val (stone2, blink2) = search(x, y, dx, dy)
         val leftDown = stone1 + blink1
@@ -36,7 +49,12 @@ class OmokRule(
         return 1
     }
 
-    private fun checkOpenFour(x: Int, y: Int, dx: Int, dy: Int): Int {
+    private fun checkOpenFour(
+        x: Int,
+        y: Int,
+        dx: Int,
+        dy: Int,
+    ): Int {
         val (stone1, blink1) = search(x, y, -dx, -dy)
         val (stone2, blink2) = search(x, y, dx, dy)
         val leftDown = stone1 + blink1
@@ -52,14 +70,24 @@ class OmokRule(
         return 1
     }
 
-    private fun checkMoreThanFive(x: Int, y: Int, dx: Int, dy: Int): Boolean {
+    private fun checkMoreThanFive(
+        x: Int,
+        y: Int,
+        dx: Int,
+        dy: Int,
+    ): Boolean {
         val (stone1, blink1) = search(x, y, -dx, -dy)
         val (stone2, blink2) = search(x, y, dx, dy)
 
         return blink1 + blink2 == 0 && stone1 + stone2 > 4
     }
 
-    private fun search(x: Int, y: Int, dx: Int, dy: Int): Pair<Int, Int> {
+    private fun search(
+        x: Int,
+        y: Int,
+        dx: Int,
+        dy: Int,
+    ): Pair<Int, Int> {
         var toRight = x
         var toTop = y
         var stone = 0
