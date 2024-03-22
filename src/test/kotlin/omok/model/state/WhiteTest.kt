@@ -17,10 +17,8 @@ class WhiteTest {
         val result =
             whiteBoard.getWinningResult(
                 position = position,
-                markSinglePlace = { row, col, color ->
-                    board[row][col] = color
-                },
-                addSingleStone = { color, position ->
+                placeStone = { color, position ->
+                    board[16 - position.row.value][position.col.value] = color
                 },
             )
         assertThat(result).isEqualTo(GameResult.WINNER_WHITE)

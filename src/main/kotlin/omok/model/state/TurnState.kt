@@ -13,26 +13,23 @@ abstract class TurnState(
 ) {
     abstract fun getWinningResult(
         position: Position,
-        markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
-        addSingleStone: (Color, Position) -> Unit,
+        placeStone: (Color, Position) -> Unit,
     ): GameResult?
 
     protected fun isCurrentTurnWin(
         position: Position,
         color: Color,
-        markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
-        addSingleStone: (Color, Position) -> Unit,
+        placeStone: (Color, Position) -> Unit,
     ): Boolean {
         val row = ARRAY_SIZE - position.row.value
-        addStone(color, position, markSinglePlace, addSingleStone)
+        addStone(color, position, placeStone)
         return calculateSearchResult(row, position.col.value, color)
     }
 
     protected abstract fun addStone(
         color: Color,
         position: Position,
-        markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
-        addSingleStone: (Color, Position) -> Unit,
+        placeStone: (Color, Position) -> Unit,
     )
 
     private fun calculateSearchResult(

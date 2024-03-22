@@ -20,14 +20,14 @@ class Board(
     fun place(position: Position): GameResult? {
         require(position !in stones.map { it.position }) { EXCEPTION_DUPLICATED_POSITION }
         if (stones.size >= BOARD_SIZE * BOARD_SIZE) return GameResult.DRAW
-        return turnState.getWinningResult(position, ::markSinglePlace, ::addSingleStone)
+        return turnState.getWinningResult(position, ::placeStone)
     }
 
     private fun isEven(num: Int): Boolean {
         return num % ODD_EVEN_INDICATOR == 0
     }
 
-    private fun addSingleStone(
+    private fun placeStone(
         color: Color,
         position: Position,
     ) {
@@ -36,14 +36,7 @@ class Board(
                 Color.BLACK -> stones.plus(Stone.Black(Position.of(position.row.value, position.col.title)))
                 Color.WHITE -> stones.plus(Stone.White(Position.of(position.row.value, position.col.title)))
             }
-    }
-
-    private fun markSinglePlace(
-        row: Int,
-        col: Int,
-        color: Color,
-    ) {
-        _status[row][col] = color
+        _status[ARRAY_SIZE - position.row.value][position.col.value] = color
     }
 
     companion object {

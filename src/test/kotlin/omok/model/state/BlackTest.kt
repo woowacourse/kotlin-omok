@@ -21,12 +21,10 @@ class BlackTest {
         val result =
             blackBoard.getWinningResult(
                 position = position,
-                markSinglePlace = { row, col, color ->
-                    board[row][col] = color
+                placeStone = { color, position ->
+                    board[16 - position.row.value][position.col.value] = color
                 },
-                addSingleStone = { color, position -> Unit },
             )
-
         assertThat(result).isEqualTo(GameResult.WINNER_BLACK)
     }
 
@@ -39,10 +37,7 @@ class BlackTest {
             // when
             blackBoard.getWinningResult(
                 position = position,
-                markSinglePlace = { row, col, color ->
-                    board[row][col] = color
-                },
-                addSingleStone = { color, position -> Unit },
+                placeStone = { color, position -> Unit },
             )
         }
     }
@@ -56,10 +51,7 @@ class BlackTest {
             // when
             blackBoard.getWinningResult(
                 position = position,
-                markSinglePlace = { row, col, color ->
-                    board[row][col] = color
-                },
-                addSingleStone = { color, position -> Unit },
+                placeStone = { color, position -> Unit },
             )
         }
     }
@@ -73,10 +65,7 @@ class BlackTest {
             // when
             blackBoard.getWinningResult(
                 position = position,
-                markSinglePlace = { row, col, color ->
-                    board[row][col] = color
-                },
-                addSingleStone = { color, position -> Unit },
+                placeStone = { color, position -> Unit },
             )
         }
     }

@@ -6,17 +6,15 @@ import lib.ark.ArkThreeThreeRule
 import omok.mapper.toArkOmokBoard
 import omok.mapper.toArkOmokPoint
 import omok.model.Color
-import omok.model.Column
 import omok.model.GameResult
 import omok.model.Position
 
 class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStatus) {
     override fun getWinningResult(
         position: Position,
-        markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
-        addSingleStone: (Color, Position) -> Unit,
+        placeStone: (Color, Position) -> Unit,
     ): GameResult? {
-        if (isCurrentTurnWin(position, Color.BLACK, markSinglePlace, addSingleStone)) {
+        if (isCurrentTurnWin(position, Color.BLACK, placeStone)) {
             return GameResult.WINNER_BLACK
         }
         return null
@@ -25,16 +23,13 @@ class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStat
     override fun addStone(
         color: Color,
         position: Position,
-        markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
-        addSingleStone: (Color, Position) -> Unit,
+        placeStone: (Color, Position) -> Unit,
     ) {
         val arkBoard = blackStatus.toArkOmokBoard()
         val row = ARRAY_SIZE - position.row.value
         val arkPoint = Position.of(row, position.col.title).toArkOmokPoint()
         if (placementAvailable(arkBoard, arkPoint)) {
-            val column = Column.titleOf(position.col.title)?.value ?: return
-            markSinglePlace(Color.BLACK, position)
-            addSingleStone(Color.BLACK, position)
+            placeStone(Color.BLACK, position)
         } else {
             throw IllegalArgumentException(EXCEPTION_FORBIDDEN_PLACEMENT)
         }
