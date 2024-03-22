@@ -1,4 +1,4 @@
-package library
+package omok.library
 
 class OmokRule(
     private val board: List<List<Int>>,
