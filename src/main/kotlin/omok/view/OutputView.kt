@@ -12,6 +12,7 @@ object OutputView {
     private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
     private const val MESSAGE_TURN = "\n%s의 차례입니다. "
     private const val MESSAGE_BEFORE_STONE = "(마지막 돌의 위치: %c%d)"
+    private const val MESSAGE_DUPLICATE_POINT = "\n해당 위치 좌표에 이미 돌이 착수되어 있습니다. 다시 입력해주세요."
     private const val STONE_TYPE_BLACK = "흑"
     private const val STONE_TYPE_WHITE = "백"
     private const val STONE_ICON_BLACK = '●'
@@ -73,7 +74,7 @@ object OutputView {
 
     fun printBoard(board: Board) {
         boardTable.indices.forEach {
-            println(boardForm[it].format(*generatePrintedLine(it, board.board[14 - it]).toTypedArray()))
+            println(boardForm[it].format(*generatePrintedLine(it, board.table[14 - it]).toTypedArray()))
         }
         println(boardForm.last())
     }
@@ -118,6 +119,6 @@ object OutputView {
     }
 
     fun printDuplicatedPointMessage() {
-        println("해당 위치 좌표에 이미 돌이 착수되어 있습니다. 다시 입력해주세요.")
+        println(MESSAGE_DUPLICATE_POINT)
     }
 }
