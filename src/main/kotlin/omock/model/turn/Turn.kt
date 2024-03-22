@@ -4,8 +4,8 @@ import omock.model.Column
 import omock.model.Direction
 import omock.model.Result
 import omock.model.Row
-import omock.model.Stone
 import omock.model.rule.OMockRule
+import omock.model.state.Stone
 
 sealed class Turn {
     abstract val stoneHistory: ArrayDeque<Stone>

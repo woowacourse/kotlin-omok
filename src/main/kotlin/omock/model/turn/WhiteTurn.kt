@@ -2,9 +2,9 @@ package omock.model.turn
 
 import omock.model.Direction
 import omock.model.Result
-import omock.model.Stone
 import omock.model.rule.OMockRule
 import omock.model.rule.WhiteRule
+import omock.model.state.Stone
 
 class WhiteTurn(
     override val stoneHistory: ArrayDeque<Stone> = ArrayDeque(),

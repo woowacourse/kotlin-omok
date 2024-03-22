@@ -1,6 +1,6 @@
 package omock.view
 
-import omock.model.Stone
+import omock.model.state.Stone
 import omock.model.turn.Turn
 
 object InputView {

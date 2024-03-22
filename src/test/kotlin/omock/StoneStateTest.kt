@@ -1,11 +1,11 @@
 package omock
 
-import omock.model.Black
-import omock.model.Clear
 import omock.model.Column
 import omock.model.Row
-import omock.model.Stone
-import omock.model.White
+import omock.model.state.Black
+import omock.model.state.Clear
+import omock.model.state.Stone
+import omock.model.state.White
 import omock.model.turn.BlackTurn
 import omock.model.turn.WhiteTurn
 import org.assertj.core.api.Assertions.assertThat

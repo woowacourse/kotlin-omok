@@ -1,4 +1,4 @@
-package omock.model
+package omock.model.rule
 
 sealed interface CalculateType {
     data object ThreeToThreeCount : CalculateType

@@ -1,5 +1,6 @@
 package omock.model
 
+import omock.model.state.StoneState
 import omock.model.turn.Turn
 
 data class ColumnStates(

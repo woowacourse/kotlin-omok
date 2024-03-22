@@ -1,7 +1,7 @@
 package omock.controller
 
 import omock.model.Board
-import omock.model.Stone
+import omock.model.state.Stone
 import omock.model.turn.BlackTurn
 import omock.model.turn.Turn
 import omock.view.InputView.playerPick

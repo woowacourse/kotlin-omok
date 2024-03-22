@@ -2,10 +2,9 @@ package omock
 
 import omock.model.Column
 import omock.model.Row
-import omock.model.Stone
+import omock.model.state.Stone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-
 
 class StoneTest {
     @Test

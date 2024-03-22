@@ -1,5 +1,7 @@
-package omock.model
+package omock.model.state
 
+import omock.model.Column
+import omock.model.Row
 import omock.model.turn.BlackTurn
 import omock.model.turn.FinishedTurn
 import omock.model.turn.FinishedTurn.Companion.ERROR_FINISHED_MESSAGE

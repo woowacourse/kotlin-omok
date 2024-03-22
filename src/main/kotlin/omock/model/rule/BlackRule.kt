@@ -1,9 +1,8 @@
 package omock.model.rule
 
-import omock.model.CalculateType
-import omock.model.CalculateType.Companion.checkCalculateType
 import omock.model.Direction
 import omock.model.Result
+import omock.model.rule.CalculateType.Companion.checkCalculateType
 import omock.model.rule.OMockRule.Companion.EDGE_FOUR_TO_FOUR_COUNT
 import omock.model.rule.OMockRule.Companion.EDGE_THREE_TO_THREE_COUNT
 import omock.model.rule.OMockRule.Companion.INIT_COUNT

@@ -1,4 +1,4 @@
-package omock.model
+package omock.model.state
 
 import omock.model.turn.Turn
 

@@ -1,4 +1,4 @@
-package omock.model
+package omock.model.state
 
 import omock.model.turn.BlackTurn
 import omock.model.turn.FinishedTurn

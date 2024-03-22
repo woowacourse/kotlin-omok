@@ -2,9 +2,9 @@ package omock.model.turn
 
 import omock.model.Direction
 import omock.model.Result
-import omock.model.Stone
 import omock.model.rule.BlackRule
 import omock.model.rule.OMockRule
+import omock.model.state.Stone
 
 class BlackTurn(
     override val stoneHistory: ArrayDeque<Stone> = ArrayDeque(),

@@ -4,7 +4,7 @@ import omock.model.Board
 import omock.model.Column
 import omock.model.Direction
 import omock.model.Row
-import omock.model.Stone
+import omock.model.state.Stone
 import omock.model.turn.Turn
 import omock.model.turn.WhiteTurn
 import org.assertj.core.api.Assertions.assertThat
