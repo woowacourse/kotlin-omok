@@ -30,7 +30,7 @@ class BoardTest {
     @Test
     fun `이미 돌이 놓인 자리에 돌을 놓을 수 없다`() {
         board.placeStone(A1, BLACK_STONE)
-        assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalStateException::class.java) {
             board.placeStone(A1, BLACK_STONE)
         }
     }

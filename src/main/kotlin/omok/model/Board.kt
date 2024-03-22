@@ -48,7 +48,6 @@ class Board {
         checkMoreThanFive: (Int, Int) -> Boolean,
     ) = (checkThreeThree(i, j) || checkFourFour(i, j) || checkMoreThanFive(i, j)) && layout[i][j] == PositionType.EMPTY
 
-
     private fun removeBlock() {
         layout.forEach { row ->
             row.forEachIndexed { index, stoneType ->
@@ -85,7 +84,7 @@ class Board {
             layout[position.coordinate.x][position.coordinate.y] = positionType
             lastPosition = position
         } else {
-            throw IllegalArgumentException(ERROR_INVALID_POSITION)
+            throw IllegalStateException(ERROR_INVALID_POSITION)
         }
     }
 
@@ -93,7 +92,6 @@ class Board {
         private const val MIN_INDEX = 0
         private const val BOARD_SIZE = 15
         private const val ERROR_INVALID_POSITION = "돌을 놓을 수 없는 자리입니다."
-        private const val ERROR_BLOCK_STONE = "BLOCK 생성을 실패했습니다."
         private const val ERROR_POSITION_TYPE = "올바른 PositionType이 아닙니다."
     }
 }
