@@ -48,19 +48,19 @@ class FourFourCheckerTest {
         whiteStone.putStone(Position.of('D', 5))
         whiteStone.putStone(Position.of('H', 9))
 
-        val actual1 = FourFourChecker.checkFourFour(2, 7)
+        val actual1 = DoubleFourChecker.isDoubleFour(2, 7)
         assertThat(actual1).isEqualTo(true)
 
-        val actual2 = FourFourChecker.checkFourFour(5, 11)
+        val actual2 = DoubleFourChecker.isDoubleFour(5, 11)
         assertThat(actual2).isEqualTo(true)
 
-        val actual3 = FourFourChecker.checkFourFour(7, 4)
+        val actual3 = DoubleFourChecker.isDoubleFour(7, 4)
         assertThat(actual3).isEqualTo(true)
 
-        val actual4 = FourFourChecker.checkFourFour(8, 7)
+        val actual4 = DoubleFourChecker.isDoubleFour(8, 7)
         assertThat(actual4).isEqualTo(true)
 
-        val actual5 = FourFourChecker.checkFourFour(9, 9)
+        val actual5 = DoubleFourChecker.isDoubleFour(9, 9)
         assertThat(actual5).isEqualTo(true)
     }
 }

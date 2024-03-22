@@ -2,8 +2,8 @@ package omok.model.rule
 
 import omok.model.board.Board
 
-object ThreeThreeChecker : OmokRule(Board.board) {
-    fun checkThreeThree(
+object DoubleThreeChecker : RenjuRule(Board.board) {
+    fun isDoubleThree(
         x: Int,
         y: Int,
     ): Boolean = directions.sumOf { direction -> checkOpenThree(x, y, direction[0], direction[1]) } >= 2

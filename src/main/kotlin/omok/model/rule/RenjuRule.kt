@@ -3,16 +3,16 @@ package omok.model.rule
 import omok.model.board.Board
 import omok.model.stone.Stone
 
-open class OmokRule(private val board: Array<Array<Stone>>) {
+open class RenjuRule(private val board: Array<Array<Stone>>) {
     val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
 
     fun checkRenjuRule(
         row: Int,
         col: Int,
     ): Boolean =
-        ThreeThreeChecker.checkThreeThree(row, col) ||
-            FourFourChecker.checkFourFour(row, col) ||
-            ExceedFiveChecker.checkMoreThanFive(row, col)
+        DoubleThreeChecker.isDoubleThree(row, col) ||
+            DoubleFourChecker.isDoubleFour(row, col) ||
+            ExceedFiveChecker.isMoreThanFive(row, col)
 
     fun search(
         x: Int,

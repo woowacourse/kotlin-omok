@@ -27,7 +27,7 @@ class ExceedFiveCheckerTest {
         blackStone.putStone(Position.of('C', 14))
         blackStone.putStone(Position.of('C', 15))
 
-        val actual = ExceedFiveChecker.checkMoreThanFive(2, 12)
+        val actual = ExceedFiveChecker.isMoreThanFive(2, 12)
         Assertions.assertThat(actual).isEqualTo(true)
     }
 }

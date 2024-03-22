@@ -2,13 +2,13 @@ package omok.model.rule
 
 import omok.model.board.Board
 
-object ExceedFiveChecker : OmokRule(Board.board) {
-    fun checkMoreThanFive(
+object ExceedFiveChecker : RenjuRule(Board.board) {
+    fun isMoreThanFive(
         x: Int,
         y: Int,
-    ): Boolean = directions.map { direction -> checkMoreThanFive(x, y, direction[0], direction[1]) }.contains(true)
+    ): Boolean = directions.map { direction -> isMoreThanFive(x, y, direction[0], direction[1]) }.contains(true)
 
-    private fun checkMoreThanFive(
+    private fun isMoreThanFive(
         x: Int,
         y: Int,
         dx: Int,
