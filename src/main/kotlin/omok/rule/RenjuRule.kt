@@ -61,7 +61,6 @@ object RenjuRule {
             checkOpenThreeReverse(
                 board,
                 stone,
-                Direction.DIAGONAL_DOWN,
             )
 
     private fun countOpenFours(
@@ -77,7 +76,6 @@ object RenjuRule {
             checkOpenFourReverse(
                 board,
                 stone,
-                Direction.DIAGONAL_DOWN,
             )
 
     private fun checkOpenThree(
@@ -111,10 +109,9 @@ object RenjuRule {
     private fun checkOpenThreeReverse(
         board: Board,
         stone: Stone,
-        direction: Direction,
     ): Int {
-        val dx = direction.dx
-        val dy = direction.dy
+        val dx = Direction.DIAGONAL_DOWN.dx
+        val dy = Direction.DIAGONAL_DOWN.dy
 
         val (stone1, blink1) = search(board, stone, -dx, -dy)
         val (stone2, blink2) = search(board, stone, dx, dy)
@@ -179,10 +176,9 @@ object RenjuRule {
     private fun checkOpenFourReverse(
         board: Board,
         stone: Stone,
-        direction: Direction,
     ): Int {
-        val dx = direction.dx
-        val dy = direction.dy
+        val dx = Direction.DIAGONAL_DOWN.dx
+        val dy = Direction.DIAGONAL_DOWN.dy
 
         val (stone1, blink1) = search(board, stone, -dx, -dy)
         val (stone2, blink2) = search(board, stone, dx, dy)
