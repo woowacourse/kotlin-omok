@@ -61,7 +61,7 @@ object OmokGameController {
         columnNumber: CoordsNumber,
         forbiddenPositions: List<Position>,
     ): Boolean {
-        if (board.isForbidden(rowNumber, columnNumber, forbiddenPositions)) {
+        if (board.isPositionForbidden(rowNumber, columnNumber, forbiddenPositions)) {
             OutputView.printForbiddenMoveMessage()
             return true
         }

@@ -51,7 +51,7 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
         return gameBoard[column.number][row.number] != Stone.EMPTY
     }
 
-    fun isForbidden(
+    fun isPositionForbidden(
         row: CoordsNumber,
         column: CoordsNumber,
         forbiddenPositions: List<Position>,
@@ -59,7 +59,7 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
         return Position(column, row) in forbiddenPositions
     }
 
-    private fun isInvalid(
+    private fun isOutOfBounds(
         x: Int,
         y: Int,
     ): Boolean {
@@ -90,7 +90,7 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
             while (true) {
                 x += dx
                 y += dy
-                if (isInvalid(x, y) || gameBoard[y][x] != stone) {
+                if (isOutOfBounds(x, y) || gameBoard[y][x] != stone) {
                     break
                 } else {
                     cnt++
@@ -123,9 +123,9 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
         while (true) {
             x += dx
             y += dy
-            if (isInvalid(x, y) || gameBoard[y][x] != stone) break
+            if (isOutOfBounds(x, y) || gameBoard[y][x] != stone) break
         }
-        return if (!isInvalid(x, y) && gameBoard[y][x] == Stone.EMPTY) {
+        return if (!isOutOfBounds(x, y) && gameBoard[y][x] == Stone.EMPTY) {
             Position(CoordsNumber(x), CoordsNumber(y))
         } else {
             null

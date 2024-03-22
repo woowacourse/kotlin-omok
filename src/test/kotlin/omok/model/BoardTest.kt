@@ -43,7 +43,7 @@ class BoardTest {
     @Test
     fun `금지된 위치에 돌을 놓으려는 경우 확인`() {
         val forbiddenPositions = listOf(Position(CoordsNumber(0), CoordsNumber(1)))
-        assertTrue(board.isForbidden(CoordsNumber(1), CoordsNumber(0), forbiddenPositions))
+        assertTrue(board.isPositionForbidden(CoordsNumber(1), CoordsNumber(0), forbiddenPositions))
     }
 
     @Test
