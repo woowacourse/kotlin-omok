@@ -1,11 +1,9 @@
 package omock.controller
 
-import omock.model.BlackPlayer
 import omock.model.Board
-import omock.model.GameTurn
-import omock.model.Player
 import omock.model.Stone
-import omock.model.WhitePlayer
+import omock.model.turn.BlackTurn
+import omock.model.turn.Turn
 import omock.view.InputView.playerPick
 import omock.view.OutputView.boardTable
 import omock.view.OutputView.outputBoard
@@ -16,69 +14,68 @@ import omock.view.OutputView.outputSuccessOMock
 import omock.view.OutputView.outputUserTurn
 
 class OMokController {
+    private var player: Turn = BlackTurn()
     private val board = Board.from()
-    private var gameTurn = GameTurn.BLACK_TURN
 
     fun run() {
         outputGameStart()
 
-        val blackPlayer = BlackPlayer()
-        val whitePlayer = WhitePlayer()
-
-        while (true) {
+        while (!player.isFinished()) {
             outputBoard()
-
-            when (gameTurn) {
-                GameTurn.BLACK_TURN -> {
-                    outputUserTurn(Stone.getStoneName(blackPlayer))
-                    whitePlayer.stoneHistory.lastOrNull()?.let { stone ->
-                        outputLastStone(stone)
-                    } ?: outputPrintLine()
-                    start(player = blackPlayer)
-                }
-
-                GameTurn.WHITE_TURN -> {
-                    outputUserTurn(Stone.getStoneName(whitePlayer))
-                    blackPlayer.stoneHistory.lastOrNull()?.let { stone ->
-                        outputLastStone(stone)
-                    } ?: outputPrintLine()
-                    start(player = whitePlayer)
-                }
-
-                GameTurn.FINISHED -> {
-                    outputSuccessOMock()
-                }
-            }
+            processPlayerTurn()
         }
+
+        outputSuccessOMock()
     }
 
-    private fun start(player: Player) {
+    private fun processPlayerTurn() {
+        displayTurnInfo()
+        start()
+    }
+
+    private fun displayTurnInfo() {
+        outputUserTurn(Stone.getStoneName(player))
+        player.stoneHistory.lastOrNull()?.let { stone ->
+            outputLastStone(stone)
+        } ?: outputPrintLine()
+    }
+
+    private fun start() {
         playerPick(player = player).onSuccess { playerStone ->
-            playerTurn(player, playerStone).onSuccess {
-                boardTable[playerStone.row.toIntIndex() - 1][playerStone.column.getIndex()] = Stone.getStoneIcon(player)
-                player.stoneHistory.add(playerStone)
-            }.onFailure {
-                board.rollbackState(playerStone)
-                println(it.message)
-            }
+            executePlayerTurn(playerStone)
         }.onFailure {
             println(it.message)
         }
     }
 
-    private fun playerTurn(
-        player: Player,
+    private fun executePlayerTurn(playerStone: Stone) {
+        playerTurn(playerStone).onSuccess {
+            updateBoard(playerStone)
+            player.stoneHistoryAdd(playerStone)
+        }.onFailure { error ->
+            handleTurnFailure(playerStone, error)
+        }
+    }
+
+    private fun handleTurnFailure(
         playerStone: Stone,
-    ): Result<Unit> {
+        error: Throwable,
+    ) {
+        board.rollbackState(playerStone)
+        println(error.message)
+    }
+
+    private fun updateBoard(playerStone: Stone) {
+        val row = playerStone.row.toIntIndex() - 1
+        val column = playerStone.column.getIndex()
+        boardTable[row][column] = Stone.getStoneIcon(player)
+    }
+
+    private fun playerTurn(playerStone: Stone): Result<Unit> {
         return runCatching {
             board.setStoneState(player, playerStone)
             val visited = board.loadMap(playerStone)
-
-            gameTurn =
-                when (player.judgementResult(visited)) {
-                    true -> GameTurn.FINISHED
-                    false -> gameTurn.turnOff()
-                }
+            player = player.judgementResult(visited)
         }
     }
 }

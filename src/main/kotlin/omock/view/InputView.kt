@@ -1,13 +1,13 @@
 package omock.view
 
-import omock.model.Player
 import omock.model.Stone
+import omock.model.turn.Turn
 
 object InputView {
     private const val FIRST_INDEX_INPUT = 0
     private const val SECOND_INDEX_INPUT = 1
 
-    fun playerPick(player: Player): Result<Stone> {
+    fun playerPick(player: Turn): Result<Stone> {
         return runCatching {
             player.turn {
                 OutputView.outputUserLocation()

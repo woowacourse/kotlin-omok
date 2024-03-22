@@ -5,10 +5,11 @@ import omock.model.Column.Companion.MIN_COLUMN_INDEX
 import omock.model.Row.Companion.MAX_ROW
 import omock.model.Row.Companion.MAX_ROW_INDEX
 import omock.model.Row.Companion.MIN_ROW_INDEX
+import omock.model.turn.Turn
 
 class Board(val stoneStates: List<ColumnStates>) {
     fun setStoneState(
-        player: Player,
+        player: Turn,
         stone: Stone,
     ) {
         val row = stone.row.getIndex()

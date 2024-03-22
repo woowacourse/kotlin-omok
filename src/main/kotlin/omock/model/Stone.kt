@@ -1,5 +1,10 @@
 package omock.model
 
+import omock.model.turn.BlackTurn
+import omock.model.turn.FinishedTurn
+import omock.model.turn.Turn
+import omock.model.turn.WhiteTurn
+
 data class Stone(
     val row: Row,
     val column: Column,
@@ -24,17 +29,19 @@ data class Stone(
             } ?: throw IllegalArgumentException()
         }
 
-        fun getStoneIcon(player: Player): Char {
+        fun getStoneIcon(player: Turn): Char {
             return when (player) {
-                is BlackPlayer -> '●'
-                is WhitePlayer -> '○'
+                is BlackTurn -> '●'
+                is WhiteTurn -> '○'
+                is FinishedTurn -> throw java.lang.IllegalArgumentException("게임이 이미 종료되었습니다")
             }
         }
 
-        fun getStoneName(player: Player): String {
+        fun getStoneName(player: Turn): String {
             return when (player) {
-                is BlackPlayer -> "흑"
-                is WhitePlayer -> "백"
+                is BlackTurn -> "흑"
+                is WhiteTurn -> "백"
+                is FinishedTurn -> throw java.lang.IllegalArgumentException("게임이 이미 종료되었습니다")
             }
         }
     }

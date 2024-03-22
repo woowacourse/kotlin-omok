@@ -1,22 +1,22 @@
 package omock
 
-import omock.model.BlackPlayer
 import omock.model.Board
 import omock.model.Column
-import omock.model.Player
 import omock.model.Row
 import omock.model.Stone
+import omock.model.turn.BlackTurn
+import omock.model.turn.Turn
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class BlackPlayerTest {
-    private lateinit var player: Player
+class BlackTurnTest {
+    private lateinit var player: Turn
     private lateinit var board: Board
 
     @BeforeEach
     fun setUp() {
-        player = BlackPlayer()
+        player = BlackTurn()
         board = Board.from()
     }
 

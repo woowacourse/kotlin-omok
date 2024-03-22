@@ -2,26 +2,28 @@ package omock
 
 import omock.model.Board
 import omock.model.Column
-import omock.model.Player
 import omock.model.Row
 import omock.model.Stone
-import omock.model.WhitePlayer
+import omock.model.turn.BlackTurn
+import omock.model.turn.FinishedTurn
+import omock.model.turn.Turn
+import omock.model.turn.WhiteTurn
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class WhitePlayerTest {
-    private lateinit var player: Player
+class WhiteTurnTest {
+    private lateinit var player: Turn
     private lateinit var board: Board
 
     @BeforeEach
     fun setUp() {
-        player = WhitePlayer()
+        player = WhiteTurn()
         board = Board.from()
     }
 
     @Test
-    fun `플레이어가 돌을 놓을 때, Board는 오목인 경우 true를 반환한다`() {
+    fun `White Turn일 때 돌을 놓으면, Board가 오목인 경우 Finished Turn을 반환한다`() {
         board.makeStones(
             player = player,
             stones =
@@ -42,11 +44,11 @@ class WhitePlayerTest {
         board.setStoneState(player, stone)
         val visited = board.loadMap(stone)
 
-        Assertions.assertThat(player.judgementResult(visited)).isTrue()
+        Assertions.assertThat(player.judgementResult(visited)::class.java).isEqualTo(FinishedTurn::class.java)
     }
 
     @Test
-    fun `플레이어가 돌을 놓을 때, Board는 오목이 아닌 경우 false 반환한다`() {
+    fun `White Turn일 때 돌을 놓으면, Board가 오목이 아닌 경우 Black Turn을 반환한다`() {
         board.makeStones(
             player = player,
             stones =
@@ -62,6 +64,6 @@ class WhitePlayerTest {
         val stone = Stone.from(Row("1"), Column("A"))
         val visited = board.loadMap(stone)
 
-        Assertions.assertThat(player.judgementResult(visited)).isFalse()
+        Assertions.assertThat(player.judgementResult(visited)::class.java).isEqualTo(BlackTurn::class.java)
     }
 }

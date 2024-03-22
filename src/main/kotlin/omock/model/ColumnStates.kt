@@ -1,11 +1,13 @@
 package omock.model
 
+import omock.model.turn.Turn
+
 data class ColumnStates(
     private val columnStates: MutableList<StoneState>,
 ) {
     fun change(
         row: Int,
-        player: Player,
+        player: Turn,
     ) {
         columnStates[row] = getStoneState(row).put(player)
     }
