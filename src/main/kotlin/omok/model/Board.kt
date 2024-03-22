@@ -21,9 +21,15 @@ class Board(private val size: Int = DEFAULT_BOARD_SIZE, val stones: Map<Position
     }
 
     fun canPlace(stone: OmokStone): Boolean {
+        return isInRange(stone) && isEmptyPosition(stone)
+    }
+
+    private fun isInRange(stone: OmokStone): Boolean {
         val position = stone.position
         return (position.x in boardRage) && (position.y in boardRage)
     }
+
+    private fun isEmptyPosition(stone: OmokStone): Boolean = stones.contains(stone.position).not()
 
     operator fun get(position: Position): OmokStone? = stones[position]
 
@@ -35,8 +41,6 @@ class Board(private val size: Int = DEFAULT_BOARD_SIZE, val stones: Map<Position
             isInOmok(stone, vector)
         }
     }
-
-    fun isEmptyPosition(stone: OmokStone): Boolean = stones.contains(stone.position).not()
 
     private fun isInOmok(
         stone: OmokStone,

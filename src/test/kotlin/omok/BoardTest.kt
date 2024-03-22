@@ -83,6 +83,26 @@ class BoardTest {
         newBoard shouldNotBeSameInstanceAs board
     }
 
+    @Test
+    fun `Board 의 좌표에 해당하는 곳이 빈 값이면 돌을 놓을 수 있다`() {
+        // given
+        val board = createBoard(createBlackStone(1, 1))
+        // when
+        val canPlace = board.canPlace(createWhiteStone(1, 2))
+        // then
+        canPlace.shouldBeTrue()
+    }
+
+    @Test
+    fun `Board 의 좌표에 해당하는 곳에 이미 돌이 있으면 돌을 놓을 수 없다`() {
+        // given
+        val board = createBoard(createBlackStone(1, 1))
+        // when
+        val canPlace = board.canPlace(createWhiteStone(1, 1))
+        // then
+        canPlace.shouldBeFalse()
+    }
+
     @ParameterizedTest
     @CsvSource(value = ["1:1", "2:2", "3:3", "4:4", "5:5"], delimiter = ':')
     fun `오른쪽 연속 5개의 돌이 있으면 오목이다`(
