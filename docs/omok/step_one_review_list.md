@@ -6,15 +6,33 @@
 - [x] : Board 의 크기를 size 를 넘어가면 못 놓게 리팩토링
 - [x] : 오목판에 돌을 놓으면 새로운 오목판이 만들어진다 - testCase 추가
 - [x] : Board 의 좌표에 해당하는 곳에 이미 돌이 있으면 돌을 놓을 수 없다 - testCase 추가
+
+## Box
+- [ ] : position: Position ,state : BoxState 을 갖도록 바꾸기
+- [ ] : 기존 OmokStone 을 block 으로 바꾸기
+
+이유는 size x size 에 해당하는 map 을 먼저 만들 것인데, Empty omokStones 들로 Board 를
+채운다는 개념이 이상하기 때문에
+## BoxType
+- [ ] : EMPTY, BLACK_STONE, WHITE_STONE
+## Boxes
+- [ ] : BoardSize 를 받으면 기본적으로 size x size 에 해당하는 map 만들기
+## BoardSize
+- [ ] : BoardSize
+
 ## OmokGame
 - [ ] : OmokGame
 
-## PutEvent
-- [ ] : PutEvent 변경에 유연한 구조로 개선
-- [ ] : PutEvent - reverse() 로직 수정
+## GameEvent (as is : PutEvent)
+- [ ] : GameEvent 변경에 유연한 구조로 개선
+- [ ] : GameEvent - reverse() 로직 삭제
 > 이 부분도 마찬가지로 reverse() 라는 함수가 여러곳에 파편화 되어있으면,
 > 추후에 요구사항이 변경됐을 때 관리가 너무 어려울 것 같아요.
 > 돌이 바뀌는 로직을 한곳으로 모아서 관리해볼 수 있을까요?
+
+조금 더 고려해볼 부분 : GameStart, GameEnd event 를 받아서 꼭 처리를 해야할까...?
+그냥 Game 시작하기 전에 controller 에서 start 하기 전 로직 처리하고, 게임 끝나고 결과 받아서
+end 이벤트 처리하면 될 거 같은데 🤔
 
 ## StoneColor
 - [x] : StoneColor 삭제
