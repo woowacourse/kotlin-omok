@@ -14,7 +14,7 @@ class OmokController {
         val board = Board(Stones())
 
         playGame(players, board)
-        displayWinner(players)
+        displayWinner(checkWhoIsWinner(players))
     }
 
     private fun playGame(
@@ -60,10 +60,14 @@ class OmokController {
         player.playTurn(board, coordinate)
     }
 
-    private fun displayWinner(players: Pair<Player, Player>) {
-        when (players.first.isWin) {
-            true -> OutputView.printWinner(players.first.color)
-            false -> OutputView.printWinner(players.second.color)
+    private fun checkWhoIsWinner(players: Pair<Player, Player>): Color {
+        return when (players.first.isWin) {
+            true -> players.first.color
+            false -> players.second.color
         }
+    }
+
+    private fun displayWinner(playerColor: Color) {
+        OutputView.printWinner(playerColor)
     }
 }
