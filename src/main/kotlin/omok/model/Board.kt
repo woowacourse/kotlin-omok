@@ -1,5 +1,8 @@
 package omok.model
 
+import omok.controller.retryUntilNotException
+import omok.model.rule.winning.WinningCondition
+
 class Board(
     val size: Int,
     private val _board: MutableMap<Position, Stone> = initBoard(size),
@@ -21,6 +24,34 @@ class Board(
     }
 
     fun findOrNull(position: Position): Stone? = _board[position]
+
+    fun gameWinner(
+        omokTurnAction: OmokTurnAction,
+        omokPlayers: OmokPlayers,
+        winningCondition: WinningCondition,
+    ): Player {
+        var recentPlayer = omokPlayers.firstOrderPlayer()
+        var recentPosition: Position? = null
+
+        while (true) {
+            recentPosition = recentPosition.next(omokTurnAction, recentPlayer)
+            omokTurnAction.onStonePlace(this)
+            if (winningCondition.isWin(this, recentPosition)) break
+            recentPlayer = omokPlayers.next(recentPlayer)
+        }
+        return recentPlayer
+    }
+
+    private fun Position?.next(
+        omokTurnAction: OmokTurnAction,
+        recentPlayer: Player,
+    ): Position {
+        return retryUntilNotException {
+            val nextPosition = omokTurnAction.nextStonePosition(recentPlayer.stone, this)
+            place(nextPosition, recentPlayer)
+            nextPosition
+        }
+    }
 
     companion object {
         private const val INVALID_POSITION_MESSAGE = "올바르지 않은 위치입니다."

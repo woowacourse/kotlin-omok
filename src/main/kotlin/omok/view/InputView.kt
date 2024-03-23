@@ -6,10 +6,10 @@ import omok.model.Stone
 class InputView {
     fun readStonePosition(
         boardSize: Int,
-        stone: Stone,
+        nowOrderStone: Stone,
         recentPosition: Position?,
     ): Position {
-        print(POSITION_ORDER_MESSAGE.format(stone.output()))
+        print(POSITION_ORDER_MESSAGE.format(nowOrderStone.output()))
         recentPosition?.run { println(LAST_POSITION_MESSAGE.format(this.output(boardSize))) } ?: println()
         print(INPUT_POSITION_MESSAGE)
         return readln().toPosition(boardSize)
