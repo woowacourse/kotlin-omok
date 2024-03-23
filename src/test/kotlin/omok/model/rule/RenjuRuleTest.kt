@@ -1,12 +1,11 @@
-package omok.model
+package omok.model.rule
 
 import io.kotest.matchers.booleans.shouldBeFalse
 import omok.fixtures.createBlackStone
 import omok.fixtures.createBoard
-import omok.model.rule.RenjuRule
 import org.junit.jupiter.api.Test
 
-class BlackOmokGameRuleTest {
+class RenjuRuleTest {
     @Test
     fun `장목이면 금수다`() {
         // given
