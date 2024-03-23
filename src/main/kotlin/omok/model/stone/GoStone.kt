@@ -3,7 +3,6 @@ package omok.model.stone
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.rule.OmokChecker
-import omok.model.rule.RenjuRule
 
 abstract class GoStone {
     abstract val stoneType: Stone
@@ -18,7 +17,7 @@ abstract class GoStone {
     fun findOmok(position: Position): Boolean = OmokChecker.findOmok(position, stoneType)
 
     private fun validatePosition(position: Position) {
-        require(!RenjuRule(Board.board).checkRenjuRule(position)) { EXCEPTION_FORBIDDEN_MOVE }
+        require(!position.checkForbidden()) { EXCEPTION_FORBIDDEN_MOVE }
         require(Board.board[position.col.value][position.row.value] == Stone.NONE) { EXCEPTION_PLACED_STONE_POSITION }
     }
 

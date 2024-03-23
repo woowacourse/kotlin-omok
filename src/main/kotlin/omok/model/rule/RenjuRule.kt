@@ -8,11 +8,6 @@ import omok.model.stone.Stone
 open class RenjuRule(private val board: Array<Array<Stone>>) {
     val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
 
-    fun checkRenjuRule(position: Position): Boolean =
-        DoubleThreeChecker.isDoubleThree(position) ||
-            DoubleFourChecker.isDoubleFour(position) ||
-            ExceedFiveChecker.isMoreThanFive(position)
-
     fun search(
         position: Position,
         deltaPosition: DeltaPosition,
