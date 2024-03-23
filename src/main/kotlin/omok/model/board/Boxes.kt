@@ -4,7 +4,7 @@ import omok.model.OmokStone
 import omok.model.Position
 
 @JvmInline
-value class Boxes(val boxes: Map<Position, OmokStone>) : Map<Position, OmokStone> by boxes {
+value class Boxes(val boxes: Map<Position, OmokStone> = emptyMap()) : Map<Position, OmokStone> by boxes {
     constructor(vararg omokStones: OmokStone) : this(createBoxes(*omokStones))
 
     constructor(omokStones: List<OmokStone>) : this(createBoxes(*omokStones.toTypedArray()))

@@ -34,6 +34,14 @@ class Board(val size: BoardSize = DEFAULT_BOARD_SIZE, val boxes: Boxes = Boxes()
         return isInBounds(stone) && isEmptyPosition(stone)
     }
 
+    fun toList(): List<List<OmokStone?>> {
+        return (size.range()).map { x ->
+            (size.range()).map { y ->
+                boxes[Position.of(x, y)]
+            }
+        }
+    }
+
     private fun isInBounds(stone: OmokStone): Boolean {
         val position = stone.position
         return size.isInBounds(
