@@ -1,11 +1,9 @@
-package omok.model.rule
+package omok.rule
 
 import omok.model.Board
 import omok.model.Point
 import omok.model.Stone
 import omok.model.StoneType
-import omok.rule.BlackRule
-import omok.rule.WhiteRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

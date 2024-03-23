@@ -1,4 +1,4 @@
-package omok.model.rule
+package omok.rule
 
 import omok.model.BlackTurn
 import omok.model.Board
