@@ -4,7 +4,7 @@ import omok.rule.BlackRule
 import omok.rule.WhiteRule
 
 sealed interface Turn {
-    val before: Stone?
+    val stoneType: StoneType
 
     fun nextTurn(
         point: Point,
@@ -12,30 +12,34 @@ sealed interface Turn {
     ): Turn
 }
 
-class BlackTurn(override val before: Stone? = null) : Turn {
+class BlackTurn : Turn {
+    override val stoneType: StoneType = StoneType.BLACK
+
     override fun nextTurn(
         point: Point,
         board: Board,
     ): Turn {
-        val stone = Stone(StoneType.BLACK, point)
+        val stone = Stone(stoneType, point)
         if (BlackRule.isForbidden(board, stone)) return this
-        if (BlackRule.isWinCondition(board, stone)) return FinishedTurn(stone)
-        return WhiteTurn(stone)
+        if (BlackRule.isWinCondition(board, stone)) return FinishedTurn(stoneType)
+        return WhiteTurn()
     }
 }
 
-class WhiteTurn(override val before: Stone) : Turn {
+class WhiteTurn : Turn {
+    override val stoneType: StoneType = StoneType.WHITE
+
     override fun nextTurn(
         point: Point,
         board: Board,
     ): Turn {
-        val stone = Stone(StoneType.WHITE, point)
-        if (WhiteRule.isWinCondition(board, stone)) return FinishedTurn(stone)
-        return BlackTurn(stone)
+        val stone = Stone(stoneType, point)
+        if (WhiteRule.isWinCondition(board, stone)) return FinishedTurn(stoneType)
+        return BlackTurn()
     }
 }
 
-class FinishedTurn(override val before: Stone) : Turn {
+class FinishedTurn(override val stoneType: StoneType) : Turn {
     override fun nextTurn(
         point: Point,
         board: Board,

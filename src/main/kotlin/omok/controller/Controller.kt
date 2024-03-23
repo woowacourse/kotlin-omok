@@ -4,7 +4,6 @@ import omok.model.BlackTurn
 import omok.model.Board
 import omok.model.FinishedTurn
 import omok.model.Point
-import omok.model.StoneType
 import omok.model.Turn
 import omok.view.InputView
 import omok.view.OutputView
@@ -18,12 +17,12 @@ class Controller {
         OutputView.printBoard(board)
 
         while (turn !is FinishedTurn) {
-            OutputView.printTurn(turn)
+            OutputView.printTurn(turn, board.beforePoint)
             val point = getPoint(board, turn)
-            turn = board.putStone(point)
+            turn = board.putStone(point, turn)
             OutputView.printBoard(board)
         }
-        OutputView.printTurn(turn)
+        OutputView.printTurn(turn, board.beforePoint)
     }
 
     private fun getPoint(
@@ -38,7 +37,7 @@ class Controller {
             return point
         }.onFailure {
             OutputView.printInvalidPointInputMessage()
-            OutputView.printTurn(turn)
+            OutputView.printTurn(turn, board.beforePoint)
         }
         return getPoint(board, turn)
     }

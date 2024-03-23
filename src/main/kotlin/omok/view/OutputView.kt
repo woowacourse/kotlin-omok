@@ -3,7 +3,7 @@ package omok.view
 import omok.model.BlackTurn
 import omok.model.Board
 import omok.model.FinishedTurn
-import omok.model.Stone
+import omok.model.Point
 import omok.model.StoneType
 import omok.model.Turn
 import omok.model.WhiteTurn
@@ -11,7 +11,7 @@ import omok.model.WhiteTurn
 object OutputView {
     private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
     private const val MESSAGE_TURN = "\n%s의 차례입니다. "
-    private const val MESSAGE_BEFORE_STONE = "(마지막 돌의 위치: %c%d)"
+    private const val MESSAGE_BEFORE_POINT = "(마지막 돌의 위치: %c%d)"
     private const val MESSAGE_INVALID_POINT_INPUT = "\n잘못된 위치 좌표입니다. 재입력 해주세요."
     private const val STONE_TYPE_BLACK = "흑"
     private const val STONE_TYPE_WHITE = "백"
@@ -88,23 +88,29 @@ object OutputView {
         }
     }
 
-    fun printTurn(turn: Turn) {
-        println(generateTurnMessage(turn))
+    fun printTurn(
+        turn: Turn,
+        beforePoint: Point?,
+    ) {
+        println(generateTurnMessage(turn, beforePoint))
     }
 
-    private fun generateTurnMessage(turn: Turn): String {
+    private fun generateTurnMessage(
+        turn: Turn,
+        beforePoint: Point?,
+    ): String {
         return when (turn) {
             is BlackTurn -> {
-                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (turn.before?.let { generateBeforeMessage(it) } ?: "")
+                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (beforePoint?.let { generateBeforePointMessage(it) } ?: "")
             }
 
             is WhiteTurn -> {
-                MESSAGE_TURN.format(STONE_TYPE_WHITE) + generateBeforeMessage(turn.before)
+                MESSAGE_TURN.format(STONE_TYPE_WHITE) + (beforePoint?.let { generateBeforePointMessage(it) } ?: "")
             }
 
             is FinishedTurn -> {
                 val winner =
-                    when (turn.before.type) {
+                    when (turn.stoneType) {
                         StoneType.BLACK -> STONE_TYPE_BLACK
                         StoneType.WHITE -> STONE_TYPE_WHITE
                         StoneType.EMPTY -> ""
@@ -114,8 +120,8 @@ object OutputView {
         }
     }
 
-    private fun generateBeforeMessage(stone: Stone): String {
-        return MESSAGE_BEFORE_STONE.format(stone.point.x + 65, stone.point.y + 1)
+    private fun generateBeforePointMessage(point: Point): String {
+        return MESSAGE_BEFORE_POINT.format(point.x + 65, point.y + 1)
     }
 
     fun printInvalidPointInputMessage() {
