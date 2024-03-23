@@ -11,20 +11,24 @@ class OutputView {
     }
 
     fun printBoard(board: Board) {
+        val boardSizeRange = board.startIndex..board.endIndex
         lineBreak()
-        Position.INDEX_RANGE.forEach { row ->
-            printBoardRowName(row)
-            Position.INDEX_RANGE.forEach { col ->
+        boardSizeRange.forEach { row ->
+            printBoardRowName(board, row)
+            boardSizeRange.forEach { col ->
                 printBoardAxis(board, row, col)
             }
             lineBreak()
         }
-        println("    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O")
+        println(boardSizeRange.joinToString(prefix = "    ", separator = "  ") { (it + 'A'.code).toChar().toString() })
         lineBreak()
     }
 
-    private fun printBoardRowName(row: Int) {
-        val rowName = (Position.MAX_INDEX - row + 1).toString()
+    private fun printBoardRowName(
+        board: Board,
+        row: Int,
+    ) {
+        val rowName = (board.endIndex - row + 1).toString()
         if (rowName.length == 1) {
             print(" $rowName ")
             return
@@ -37,23 +41,23 @@ class OutputView {
         row: Int,
         col: Int,
     ) {
-        val stone = board.find(Position(row, col))
-        if (row == Position.MIN_INDEX) {
+        val stone = board.findOrNull(Position(row, col)) ?: return
+        if (row == board.startIndex) {
             when (col) {
-                Position.MIN_INDEX -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " ┌─")
-                Position.MAX_INDEX -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┐ ")
+                board.startIndex -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " ┌─")
+                board.endIndex -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┐ ")
                 else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", "─┬─")
             }
-        } else if (row == Position.MAX_INDEX) {
+        } else if (row == board.endIndex) {
             when (col) {
-                Position.MIN_INDEX -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " └─")
-                Position.MAX_INDEX -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┘ ")
+                board.startIndex -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " └─")
+                board.endIndex -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┘ ")
                 else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", "─┴─")
             }
         } else {
             when (col) {
-                Position.MIN_INDEX -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " ├─")
-                Position.MAX_INDEX -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┤ ")
+                board.startIndex -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " ├─")
+                board.endIndex -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┤ ")
                 else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", "─┼─")
             }
         }

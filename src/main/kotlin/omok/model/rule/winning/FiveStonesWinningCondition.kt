@@ -24,13 +24,13 @@ class FiveStonesWinningCondition : WinningCondition {
         position: Position,
         direction: Direction,
     ): Int {
-        val myStone = board.find(position)
+        val myStone = board.findOrNull(position)
         var count = 0
         var nowPos = position
 
         while (true) {
-            nowPos = nowPos.move(direction) ?: return count
-            if (board.find(nowPos) != myStone) return count
+            nowPos = nowPos.move(direction)
+            if (board.findOrNull(nowPos) != myStone) return count
             count++
         }
     }

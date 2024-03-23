@@ -12,6 +12,7 @@ import omok.view.OutputView
 class OmokController(
     private val inputView: InputView,
     private val outputView: OutputView,
+    private val boardSize: Int,
     private val winningCondition: WinningCondition,
     blackStoneForbiddenPlaces: List<ForbiddenPlace>,
     whiteStoneForbiddenPlaces: List<ForbiddenPlace>,
@@ -26,7 +27,7 @@ class OmokController(
     }
 
     private fun initializedBoard(): Board {
-        return Board().apply { outputView.printInitialGuide(this) }
+        return Board(boardSize).apply { outputView.printInitialGuide(this) }
     }
 
     private fun gameWinner(board: Board): Player {
@@ -47,7 +48,7 @@ class OmokController(
         recentPlayer: Player,
     ): Position {
         return retryUntilNotException {
-            val nextPosition = inputView.readStonePosition(recentPlayer.stone, this)
+            val nextPosition = inputView.readStonePosition(board.size, recentPlayer.stone, this)
             board.place(nextPosition, recentPlayer)
             nextPosition
         }

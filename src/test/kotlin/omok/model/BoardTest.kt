@@ -12,7 +12,7 @@ class BoardTest {
 
     @BeforeEach
     fun setUp() {
-        emptyBoard = Board()
+        emptyBoard = Board(15)
         player = Player(playerStone)
     }
 
@@ -20,7 +20,7 @@ class BoardTest {
     fun `오목판에 돌을 놓는다`() {
         emptyBoard.place(Position(3, 3), player)
 
-        val actual = emptyBoard.find(Position(3, 3))
+        val actual = emptyBoard.findOrNull(Position(3, 3))
         assertThat(actual).isEqualTo(playerStone)
     }
 

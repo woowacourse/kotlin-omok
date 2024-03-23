@@ -5,18 +5,18 @@ import omok.model.Stone
 
 fun Stone.output(): String = if (this == Stone.BLACK) "흑" else "백"
 
-fun Position.output(): String {
+fun Position.output(boardSize: Int): String {
     val colName = (this.col + 'A'.code).toChar()
-    val rowName = Position.MAX_INDEX - this.row + 1
+    val rowName = boardSize - this.row
     return "$colName$rowName"
 }
 
-fun String.toPosition(): Position {
+fun String.toPosition(boardSize: Int): Position {
     require(isNotBlank()) { BLANK_MESSAGE }
     require(substring(1, length).toIntOrNull() in 1..15) { INVALID_ROW_MESSAGE }
     require(this[0] in 'A'..'O') { INVALID_COL_MESSAGE }
 
-    val row = Position.MAX_INDEX - substring(1, length).toInt() + 1
+    val row = boardSize - substring(1, length).toInt()
     val col = this[0] - 'A'
     return Position(row, col)
 }

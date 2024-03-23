@@ -1,11 +1,9 @@
 package omok.model
 
-import omok.model.Position.Companion.INDEX_RANGE
-
 fun initBoard(vararg stonePosition: StonePosition): Board {
     val board =
-        INDEX_RANGE.flatMap { row ->
-            INDEX_RANGE.map { col -> Position(row, col) }
+        (0..14).flatMap { row ->
+            (0..14).map { col -> Position(row, col) }
         }.associateWith { Stone.NONE }
             .toMutableMap()
 
@@ -16,7 +14,7 @@ fun initBoard(vararg stonePosition: StonePosition): Board {
             }
         }
     }
-    return Board(board)
+    return Board(15, board)
 }
 
 data class StonePosition(val position: Position, val stone: Stone)

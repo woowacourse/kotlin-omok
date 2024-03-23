@@ -15,7 +15,7 @@ object RuleAdapter {
     }
 
     private fun Board.convert(): List<List<Int>> {
-        val array = Array(Position.MAX_INDEX + 1) { IntArray(Position.MAX_INDEX + 1) }
+        val array = Array(size) { IntArray(size) }
         board.forEach { (position, stone) ->
             array[position.col][position.row] =
                 when (stone) {
