@@ -1,7 +1,10 @@
 package omok
 
 import omok.controller.Controller
+import omok.view.ConsoleOmokInputView
 
 fun main() {
-    Controller().start()
+    Controller(
+        inputView = ConsoleOmokInputView(),
+    ).start()
 }
