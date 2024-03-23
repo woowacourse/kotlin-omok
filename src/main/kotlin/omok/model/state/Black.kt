@@ -12,14 +12,14 @@ import omok.model.Position
 class Black(private val blackStatus: Array<Array<Color>>) : TurnState() {
     override fun addStone(
         position: Position,
-        placeStone: (Color, Position) -> Unit,
+        placeStone: (Position) -> Unit,
     ) {
         val arkBoard = blackStatus.toArkOmokBoard()
         val row = Board.ARRAY_SIZE - position.row.value
         val col = position.col.title
         val arkPoint = Position.of(row, col).toArkOmokPoint()
         if (placementAvailable(arkBoard, arkPoint)) {
-            placeStone(Color.BLACK, position)
+            placeStone(position)
         } else {
             throw IllegalArgumentException(EXCEPTION_FORBIDDEN_PLACEMENT)
         }

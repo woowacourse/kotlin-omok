@@ -18,57 +18,52 @@ class Board(
     var stones: List<Stone> = stones.toList()
         private set
 
+    private val lastStoneColor: Color
+        get() = if (isEven(stones.size)) Color.WHITE else Color.BLACK
+
+    private val nextStoneColor: Color
+        get() = if (isEven(stones.size)) Color.BLACK else Color.WHITE
+
     private val turnState: TurnState
         get() = if (isEven(stones.size)) Black(_status) else White()
 
-    fun place(position: Position): GameResult {
-        val color = if (isEven(stones.size)) Color.BLACK else Color.WHITE
+    fun place(position: Position) {
         require(position !in stones.map { it.position }) { EXCEPTION_DUPLICATED_POSITION }
-        if (stones.size >= BOARD_SIZE * BOARD_SIZE) return GameResult.DRAW
         turnState.addStone(position, ::placeStone)
-        return getGameResult(position, color)
     }
 
     private fun isEven(num: Int): Boolean {
         return num % ODD_EVEN_INDICATOR == 0
     }
 
-    private fun getGameResult(
-        position: Position,
-        color: Color,
-    ): GameResult {
-        if (this.isCurrentTurnWin(position, color)) {
-            return GameResult.entries.first { it.color == color }
+    fun getGameResult(position: Position): GameResult {
+        if (isCurrentTurnWin(position)) {
+            return GameResult.entries.first { it.color == lastStoneColor }
         }
+        if (stones.size >= BOARD_SIZE * BOARD_SIZE) return GameResult.DRAW
         return GameResult.PROCEEDING
     }
 
-    private fun isCurrentTurnWin(
-        position: Position,
-        color: Color,
-    ): Boolean {
+    private fun isCurrentTurnWin(position: Position): Boolean {
         val row = ARRAY_SIZE - position.row.value
         val col = position.col.value
-        val verticalCount = VerticalDfs(_status).apply { search(color, row, col) }.count
-        val horizontalCount = HorizontalDfs(_status).apply { search(color, row, col) }.count
-        val ascendingCount = AscendingDfs(_status).apply { search(color, row, col) }.count
-        val descendingCount = DescendingDfs(_status).apply { search(color, row, col) }.count
+        val verticalCount = VerticalDfs(_status).apply { search(lastStoneColor, row, col) }.count
+        val horizontalCount = HorizontalDfs(_status).apply { search(lastStoneColor, row, col) }.count
+        val ascendingCount = AscendingDfs(_status).apply { search(lastStoneColor, row, col) }.count
+        val descendingCount = DescendingDfs(_status).apply { search(lastStoneColor, row, col) }.count
         return listOf(verticalCount, horizontalCount, ascendingCount, descendingCount).any { it >= 5 }
     }
 
-    private fun placeStone(
-        color: Color,
-        position: Position,
-    ) {
+    private fun placeStone(position: Position) {
         val row = position.row.value
         val col = position.col.title
         stones =
-            when (color) {
+            when (nextStoneColor) {
                 Color.BLACK -> stones.plus(Stone.Black(Position.of(row, col)))
                 Color.WHITE -> stones.plus(Stone.White(Position.of(row, col)))
                 Color.NONE -> stones
             }
-        _status[ARRAY_SIZE - position.row.value][position.col.value] = color
+        _status[ARRAY_SIZE - position.row.value][position.col.value] = lastStoneColor
     }
 
     companion object {

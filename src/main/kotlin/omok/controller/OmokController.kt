@@ -17,7 +17,10 @@ class OmokController(val inputView: InputView, val outputView: OutputView) {
     private fun playUntilFinish() {
         runCatching {
             outputView.showCurrentBoard(board.status)
-            val result = playEachTurn()
+            val inputPosition = getInputPosition()
+            val position = Position.of(inputPosition.first, inputPosition.second)
+            board.place(position)
+            val result = board.getGameResult(position)
             if (result == GameResult.PROCEEDING) {
                 return playUntilFinish()
             } else {
@@ -29,9 +32,9 @@ class OmokController(val inputView: InputView, val outputView: OutputView) {
         }
     }
 
-    private fun playEachTurn(): GameResult {
+    private fun playEachTurn() {
         val position = getInputPosition()
-        return board.place(Position.of(position.first, position.second))
+        board.place(Position.of(position.first, position.second))
     }
 
     private fun getInputPosition(): Pair<Int, Char> = inputView.inputPosition(board.stones.lastOrNull())

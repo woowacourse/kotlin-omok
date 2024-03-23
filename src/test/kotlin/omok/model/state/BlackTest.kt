@@ -19,8 +19,9 @@ class BlackTest {
         val blackTurnBoard = Board(_status = board)
         val position = Position.of(3, 'G')
         // when
-        val result =
-            blackTurnBoard.place(position)
+        blackTurnBoard.place(position)
+        val result = blackTurnBoard.getGameResult(position)
+        // then
         assertThat(result).isEqualTo(GameResult.WINNER_BLACK)
     }
 

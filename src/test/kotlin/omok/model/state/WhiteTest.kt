@@ -17,8 +17,8 @@ class WhiteTest {
         val whiteTurnBoard = Board(listOf(firstStone), board)
         val position = Position.of(8, 'C')
         // when
-        val result =
-            whiteTurnBoard.place(position)
+        whiteTurnBoard.place(position)
+        val result = whiteTurnBoard.getGameResult(position)
         assertThat(result).isEqualTo(GameResult.WINNER_WHITE)
     }
 }
