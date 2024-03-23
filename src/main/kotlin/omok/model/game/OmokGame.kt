@@ -9,7 +9,7 @@ private typealias PlaceOmokEvent = () -> Position
 
 class OmokGame(
     private val state: GameState,
-    private val playersEvent: OmokPlayersPlaceEvent,
+    private val playersEvent: GamePlayersEvent,
 ) {
     fun play(onStartPut: (Board, OmokStone?) -> Unit): Board {
         return play(state, onStartPut, playersEvent.startingPlayerPlaceEvent)
