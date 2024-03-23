@@ -10,6 +10,6 @@ class DoubleOpenThreeForbiddenPlace : ForbiddenPlace {
         board: Board,
         position: Position,
     ): Boolean {
-        return RuleAdapter.abideRule(ThreeThreeRule, board, position)
+        return RuleAdapter.abideRule(ThreeThreeRule(board.size), board, position)
     }
 }

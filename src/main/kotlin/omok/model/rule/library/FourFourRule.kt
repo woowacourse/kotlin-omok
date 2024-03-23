@@ -1,6 +1,6 @@
 package omok.model.rule.library
 
-object FourFourRule : OmokRule() {
+class FourFourRule(boardSize: Int) : OmokRule(boardSize) {
     override fun abide(
         board: List<List<Int>>,
         position: Pair<Int, Int>,
@@ -44,15 +44,15 @@ object FourFourRule : OmokRule() {
 
         val leftDownValid =
             when {
-                dx != 0 && x - dx * leftDown in X_Edge -> 0
-                dy != 0 && y - dy * leftDown in Y_Edge -> 0
+                dx != 0 && x - dx * leftDown in edges -> 0
+                dy != 0 && y - dy * leftDown in edges -> 0
                 board[y - down][x - left] == opponentStone -> 0
                 else -> 1
             }
         val rightUpValid =
             when {
-                dx != 0 && x + (dx * rightUp) in X_Edge -> 0
-                dy != 0 && y + (dy * rightUp) in Y_Edge -> 0
+                dx != 0 && x + (dx * rightUp) in edges -> 0
+                dy != 0 && y + (dy * rightUp) in edges -> 0
                 board[y + up][x + right] == opponentStone -> 0
                 else -> 1
             }

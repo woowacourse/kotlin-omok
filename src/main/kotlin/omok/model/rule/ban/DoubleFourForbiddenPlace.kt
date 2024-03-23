@@ -10,6 +10,6 @@ class DoubleFourForbiddenPlace : ForbiddenPlace {
         board: Board,
         position: Position,
     ): Boolean {
-        return RuleAdapter.abideRule(FourFourRule, board, position)
+        return RuleAdapter.abideRule(FourFourRule(board.size), board, position)
     }
 }

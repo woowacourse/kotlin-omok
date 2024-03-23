@@ -12,7 +12,7 @@ fun main() {
     OmokController(
         InputView(),
         OutputView(),
-        boardSize = 10,
+        boardSize = 15,
         winningCondition = FiveStonesWinningCondition(),
         blackStoneForbiddenPlaces =
             listOf(

@@ -1,9 +1,14 @@
 package omok.model.rule.library
 
 abstract class OmokRule(
+    boardSize: Int,
     private val currentStone: Int = BLACK_STONE,
     val opponentStone: Int = WHITE_STONE,
 ) {
+    private val startIndex = 0
+    private val endIndex = boardSize - 1
+    val edges = listOf(startIndex, endIndex)
+
     abstract fun abide(
         board: List<List<Int>>,
         position: Pair<Int, Int>,
@@ -69,10 +74,10 @@ abstract class OmokRule(
         dy: Int,
     ): Boolean {
         return when {
-            dx > 0 && x == MAX_X -> true
-            dx < 0 && x == MIN_X -> true
-            dy > 0 && y == MAX_Y -> true
-            dy < 0 && y == MIN_Y -> true
+            dx > 0 && x == endIndex -> true
+            dx < 0 && x == startIndex -> true
+            dy > 0 && y == endIndex -> true
+            dy < 0 && y == startIndex -> true
             else -> false
         }
     }
@@ -81,15 +86,5 @@ abstract class OmokRule(
         protected const val EMPTY_STONE = 0
         const val BLACK_STONE = 1
         const val WHITE_STONE = 2
-        const val MIN_X = 0
-        const val MAX_X = 14
-        const val MIN_Y = 0
-        const val MAX_Y = 14
-
-        @JvmStatic
-        protected val X_Edge = listOf(MIN_X, MAX_X)
-
-        @JvmStatic
-        protected val Y_Edge = listOf(MIN_Y, MAX_Y)
     }
 }

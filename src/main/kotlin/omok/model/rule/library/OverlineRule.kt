@@ -1,6 +1,6 @@
 package omok.model.rule.library
 
-object OverlineRule : OmokRule() {
+class OverlineRule(boardSize: Int) : OmokRule(boardSize) {
     override fun abide(
         board: List<List<Int>>,
         position: Pair<Int, Int>,

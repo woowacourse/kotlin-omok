@@ -10,6 +10,6 @@ class OverlineForbiddenPlace : ForbiddenPlace {
         board: Board,
         position: Position,
     ): Boolean {
-        return RuleAdapter.abideRule(OverlineRule, board, position)
+        return RuleAdapter.abideRule(OverlineRule(board.size), board, position)
     }
 }
