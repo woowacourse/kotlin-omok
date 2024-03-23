@@ -12,28 +12,19 @@ object OmokGameController {
         OutputView.printBoard(board.gameBoard)
     }
 
-    private fun playGame(
-        board: Board,
-        startStone: Stone = Stone.BLACK,
-    ): Board {
-        var currentStone = startStone
+    private fun playGame(board: Board): Board {
+        var currentStone = Stone.BLACK
         var previousStoneCoords = ""
         while (board.isRunning()) {
             val forbiddenPositions = board.findForbiddenPositions(currentStone)
+            println(forbiddenPositions)
             OutputView.printBoard(board.gameBoard, forbiddenPositions)
             val (rowCoords, columnCoords) = readPlayerCoords(currentStone, previousStoneCoords)
             if (isWrongCoords(columnCoords, rowCoords)) continue
-            if (board.isPositionForbidden(
-                    rowCoords!!,
-                    columnCoords!!,
-                    forbiddenPositions,
-                ) || board.isNotEmpty(rowCoords, columnCoords)
-            ) {
-                continue
-            }
+            if (board.isMoveForbidden(rowCoords!!, columnCoords!!, forbiddenPositions)) continue
+            if (board.isNotEmpty(rowCoords, columnCoords)) continue
             board.setStone(rowCoords, columnCoords, currentStone)
             previousStoneCoords = "${(columnCoords.number + 65).toChar()}${rowCoords.number + 1}"
-            if (board.isGameOver(rowCoords, columnCoords, currentStone)) break
             currentStone = togglePlayer(currentStone)
         }
         OutputView.showWinner(currentStone)
