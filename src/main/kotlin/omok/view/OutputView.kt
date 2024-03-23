@@ -24,7 +24,7 @@ private const val OMOK_START_MESSAGE = "오목 게임을 시작합니다."
 private const val FORBIDDEN_MESSAGE = "놓을 수 없는 자리입니다.(금수-렌주룰)"
 private const val NOT_EMPTY_MESSAGE = "빈 자리에 놓아주세요."
 private const val WRONG_COORDS_MESSAGE = "잘못된 위치 입력입니다."
-private const val WINNER_MESSAGE = "💫우승자💫는 %s."
+private const val WINNER_MESSAGE = "Game-over 💫우승자💫는 %s."
 
 private const val BOARD_SIZE = 15
 
