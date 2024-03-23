@@ -4,6 +4,7 @@ import omok.model.BlackTurn
 import omok.model.Board
 import omok.model.FinishedTurn
 import omok.model.Point
+import omok.model.StoneType
 import omok.model.Turn
 import omok.view.InputView
 import omok.view.OutputView
@@ -36,7 +37,7 @@ class Controller {
             }
             return point
         }.onFailure {
-            OutputView.printPointInputErrorMessage()
+            OutputView.printInvalidPointInputMessage()
             OutputView.printTurn(turn)
         }
         return getPoint(board, turn)

@@ -81,7 +81,7 @@ object OutputView {
 
     private fun generatePrintedLine(
         lineIndex: Int,
-        stoneTypes: Array<StoneType>,
+        stoneTypes: List<StoneType>,
     ): List<Char> {
         return List(boardTable[lineIndex].size) { columnIdx ->
             convertStoneIcon(stoneTypes[columnIdx], lineIndex, columnIdx)
@@ -118,7 +118,7 @@ object OutputView {
         return MESSAGE_BEFORE_STONE.format(stone.point.x + 65, stone.point.y + 1)
     }
 
-    fun printPointInputErrorMessage() {
+    fun printInvalidPointInputMessage() {
         println(MESSAGE_INVALID_POINT_INPUT)
     }
 }
