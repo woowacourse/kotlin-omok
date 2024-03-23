@@ -1,9 +1,9 @@
 package omok.controller
 
 import omok.model.board.Board
+import omok.model.game.GameState
 import omok.model.game.OmokGame
 import omok.model.game.OmokPlayersPlaceEvent
-import omok.model.state.GameState
 import omok.view.ConsoleOmokView
 import omok.view.OmokView
 

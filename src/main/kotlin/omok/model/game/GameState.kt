@@ -1,4 +1,4 @@
-package omok.model.state
+package omok.model.game
 
 import omok.model.OmokStone
 import omok.model.Position
@@ -13,37 +13,36 @@ sealed class GameState(val board: Board) {
     abstract fun placeStone(onPlace: () -> Position): GameState
 
     sealed class Running(private val putRule: OmokGameRule, board: Board) : GameState(board) {
-        protected fun canPut(stone: OmokStone): Boolean {
+        override val isFinished = false
+
+        private fun canPut(stone: OmokStone): Boolean {
             return putRule.canPlaceStone(stone, board)
         }
 
-        class BlackTurn(board: Board) : Running(RenjuRule, board) {
-            override val isFinished = false
+        protected fun placeStone(
+            stoneColor: StoneColor,
+            onDetermineTurn: (Board) -> Running,
+            onPlace: () -> Position,
+        ): GameState {
+            val position = onPlace()
+            val newStone = OmokStone(position, stoneColor)
+            if (canPut(newStone)) {
+                val newBoard = board + newStone
+                if (newBoard.isInOmok(position)) return Finish(newBoard)
+                return onDetermineTurn(newBoard)
+            }
+            return placeStone(stoneColor, onDetermineTurn, onPlace)
+        }
 
+        class BlackTurn(board: Board) : Running(RenjuRule, board) {
             override fun placeStone(onPlace: () -> Position): GameState {
-                val position = onPlace()
-                val newStone = OmokStone(position, StoneColor.BLACK)
-                if (canPut(newStone)) {
-                    val newBoard = board + newStone
-                    if (newBoard.isInOmok(position)) return Finish(newBoard)
-                    return WhiteTurn(newBoard)
-                }
-                return placeStone(onPlace)
+                return super.placeStone(StoneColor.BLACK, ::WhiteTurn, onPlace)
             }
         }
 
         class WhiteTurn(board: Board) : Running(whiteStoneRule, board) {
-            override val isFinished = false
-
             override fun placeStone(onPlace: () -> Position): GameState {
-                val position = onPlace()
-                val newStone = OmokStone(position, StoneColor.WHITE)
-                if (canPut(newStone)) {
-                    val newBoard = board + newStone
-                    if (newBoard.isInOmok(position)) return Finish(newBoard)
-                    return BlackTurn(newBoard)
-                }
-                return placeStone(onPlace)
+                return super.placeStone(StoneColor.WHITE, ::BlackTurn, onPlace)
             }
 
             companion object {

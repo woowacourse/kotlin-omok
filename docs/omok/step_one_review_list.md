@@ -37,10 +37,8 @@ controller 에서 게임 끝나고 결과 받아서 end 이벤트 처리하면 �
 ## GameState
 
 - [ ] : GameState - 개별 sealed class 별로 파일을 분리
-- [ ] : GameState - winner 개선
-> winner 는 GameState 를 구현하는 모든 구현체가 알게되는 상태인데요,
-> Running 에서는 사용할 일이 없습니다. 적절한 인터페이스 구조인지 고민해보면 좋을 것 같아요.
-- [ ] : WhiteTurn, BlackTurn 공통 로직 빼기
+- [x] : GameState - winner 삭제
+- [x] : WhiteTurn, BlackTurn 공통 로직 빼기
 - [x] : White 와 Black 각각 rule 을 만들어주셨으므로, 생성 시점에 스스로 초기화 시켜줘도 괜찮겠습니다 :)
 
 ## View

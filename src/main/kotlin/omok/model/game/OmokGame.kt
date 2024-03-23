@@ -3,7 +3,6 @@ package omok.model.game
 import omok.model.OmokStone
 import omok.model.Position
 import omok.model.board.Board
-import omok.model.state.GameState
 
 private typealias PlaceOmokEvent = () -> Position
 
