@@ -5,6 +5,7 @@ import lib.ark.ArkOverLineRule
 import lib.ark.ArkThreeThreeRule
 import omok.mapper.toArkOmokBoard
 import omok.mapper.toArkOmokPoint
+import omok.model.Board
 import omok.model.Color
 import omok.model.Position
 
@@ -14,7 +15,7 @@ class Black(private val blackStatus: Array<Array<Color>>) : TurnState(blackStatu
         placeStone: (Color, Position) -> Unit,
     ) {
         val arkBoard = blackStatus.toArkOmokBoard()
-        val row = ARRAY_SIZE - position.row.value
+        val row = Board.ARRAY_SIZE - position.row.value
         val col = position.col.title
         val arkPoint = Position.of(row, col).toArkOmokPoint()
         if (placementAvailable(arkBoard, arkPoint)) {

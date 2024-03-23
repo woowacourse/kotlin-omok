@@ -16,7 +16,7 @@ class WhiteTest {
         val position = Position.of(8, 'C')
         // when
         val result =
-            whiteBoard.getWinningResult(
+            whiteBoard.getGameResult(
                 position = position,
                 color = Color.WHITE,
                 placeStone = { color, position ->

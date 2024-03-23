@@ -17,11 +17,11 @@ class Board(
     private val turnState: TurnState
         get() = if (isEven(stones.size)) Black(_status) else White(_status)
 
-    fun place(position: Position): GameResult? {
+    fun place(position: Position): GameResult {
         val color = if (isEven(stones.size)) Color.BLACK else Color.WHITE
         require(position !in stones.map { it.position }) { EXCEPTION_DUPLICATED_POSITION }
         if (stones.size >= BOARD_SIZE * BOARD_SIZE) return GameResult.DRAW
-        return turnState.getWinningResult(position, color, ::placeStone)
+        return turnState.getGameResult(position, color, ::placeStone)
     }
 
     private fun isEven(num: Int): Boolean {
@@ -46,7 +46,7 @@ class Board(
     companion object {
         private const val EXCEPTION_DUPLICATED_POSITION = "중복된 곳에 착수할 수 없습니다."
         private const val ODD_EVEN_INDICATOR = 2
-        private const val BOARD_SIZE = 15
-        private const val ARRAY_SIZE = BOARD_SIZE + 1
+        const val BOARD_SIZE = 15
+        const val ARRAY_SIZE = BOARD_SIZE + 1
     }
 }

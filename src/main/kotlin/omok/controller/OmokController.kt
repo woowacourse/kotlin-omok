@@ -17,16 +17,19 @@ class OmokController(val inputView: InputView, val outputView: OutputView) {
     private fun playUntilFinish() {
         runCatching {
             outputView.showCurrentBoard(board.status)
-            playEachTurn()?.let { result ->
+            val result = playEachTurn()
+            if (result == GameResult.PROCEEDING) {
+                return playUntilFinish()
+            } else {
                 outputView.showGameResult(result)
-            } ?: playUntilFinish()
+            }
         }.onFailure {
             println(it.message)
-            playUntilFinish()
+            return playUntilFinish()
         }
     }
 
-    private fun playEachTurn(): GameResult? {
+    private fun playEachTurn(): GameResult {
         val position = getInputPosition()
         return board.place(Position.of(position.first, position.second))
     }

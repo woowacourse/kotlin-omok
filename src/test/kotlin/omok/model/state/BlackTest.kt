@@ -20,7 +20,7 @@ class BlackTest {
         val position = Position.of(3, 'G')
         // when
         val result =
-            blackBoard.getWinningResult(
+            blackBoard.getGameResult(
                 position = position,
                 color = Color.BLACK,
                 placeStone = { color, position ->
@@ -37,7 +37,7 @@ class BlackTest {
             val blackBoard = Black(board)
             val position = Position.of(3, 'C')
             // when
-            blackBoard.getWinningResult(
+            blackBoard.getGameResult(
                 position = position,
                 color = Color.BLACK,
                 placeStone = { color, position -> Unit },
@@ -52,7 +52,7 @@ class BlackTest {
             val blackBoard = Black(board)
             val position = Position.of(7, 'G')
             // when
-            blackBoard.getWinningResult(
+            blackBoard.getGameResult(
                 position = position,
                 color = Color.BLACK,
                 placeStone = { color, position -> Unit },
@@ -67,7 +67,7 @@ class BlackTest {
             val blackBoard = Black(board)
             val position = Position.of(3, 'F')
             // when
-            blackBoard.getWinningResult(
+            blackBoard.getGameResult(
                 position = position,
                 color = Color.BLACK,
                 placeStone = { color, position -> Unit },
