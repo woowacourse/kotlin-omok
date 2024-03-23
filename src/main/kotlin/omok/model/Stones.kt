@@ -37,12 +37,12 @@ class Stones {
 
     private fun countSameColorStonesInOneDirection(
         startStone: Stone,
-        dr: Int,
-        dc: Int,
+        directionX: Int,
+        directionY: Int,
     ): Int {
         var count = 0
-        var row = startStone.coordinate.x.value + dr
-        var col = startStone.coordinate.y.value + dc
+        var row = startStone.coordinate.x.value + directionX
+        var col = startStone.coordinate.y.value + directionY
         val color = startStone.color
         while (
             _stones
@@ -50,8 +50,8 @@ class Stones {
                 .any { it.coordinate.x.value == row && it.coordinate.y.value == col }
         ) {
             count++
-            row += dr
-            col += dc
+            row += directionX
+            col += directionY
         }
         return count
     }
