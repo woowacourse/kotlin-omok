@@ -27,22 +27,21 @@ class Stones {
 
     fun countSameColorStoneInDirection(
         startStone: Stone,
-        direction: List<Int>,
+        direction: Direction,
     ): Int {
         var count = 1
-        count += countSameColorStonesInOneDirection(startStone, direction.first(), direction.last())
-        count += countSameColorStonesInOneDirection(startStone, -direction.first(), -direction.last())
+        count += countSameColorStonesInOneDirection(startStone, direction)
+        count += countSameColorStonesInOneDirection(startStone, direction.invert())
         return count
     }
 
     private fun countSameColorStonesInOneDirection(
         startStone: Stone,
-        directionX: Int,
-        directionY: Int,
+        direction: Direction,
     ): Int {
         var count = 0
-        var row = startStone.coordinate.x.value + directionX
-        var col = startStone.coordinate.y.value + directionY
+        var row = startStone.coordinate.x.value + direction.x
+        var col = startStone.coordinate.y.value + direction.y
         val color = startStone.color
         while (
             _stones
@@ -50,8 +49,8 @@ class Stones {
                 .any { it.coordinate.x.value == row && it.coordinate.y.value == col }
         ) {
             count++
-            row += directionX
-            col += directionY
+            row += direction.x
+            col += direction.y
         }
         return count
     }
@@ -64,16 +63,13 @@ class Stones {
     companion object {
         const val ERROR_CANT_PUT_STONE = "이미 돌이 착수된 위치입니다."
         val OMOK_COUNT: Int = 5
-        val TOP = listOf(1, 0)
-        val TOP_RIGHT = listOf(1, 1)
-        val RIGHT = listOf(0, 1)
-        val RIGHT_BOTTOM = listOf(-1, 1)
         val Directions =
             listOf(
-                TOP,
-                TOP_RIGHT,
-                RIGHT,
-                RIGHT_BOTTOM,
+                // TOP,TOP_RIGHT,RIGHT,RIGHT_BOTTOM
+                Direction(1, 0),
+                Direction(1, 1),
+                Direction(0, 1),
+                Direction(-1, 1),
             )
     }
 }

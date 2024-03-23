@@ -1,8 +1,8 @@
 package omok.view
 
-import omok.model.PositionY
 import omok.model.Coordinate
 import omok.model.PositionX
+import omok.model.PositionY
 
 object InputView {
     private const val MESSAGE_INPUT_COORDINATE = "위치를 입력하세요: "

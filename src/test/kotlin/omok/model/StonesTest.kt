@@ -1,6 +1,5 @@
 package omok.model
 
-import omok.model.Stones.Companion.TOP
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -49,7 +48,7 @@ class StonesTest {
         val actual =
             stones.countSameColorStoneInDirection(
                 Stone(Color.BLACK, COORDINATE_F8),
-                TOP,
+                Direction(1, 0),
             )
         assertThat(actual).isEqualTo(2)
     }
