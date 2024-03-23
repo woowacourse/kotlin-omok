@@ -17,8 +17,8 @@ open class RenjuRule(private val board: Array<Array<Stone>>) {
         position: Position,
         deltaPosition: DeltaPosition,
     ): Pair<Int, Int> {
-        var toRight = position.row
-        var toTop = position.col
+        var toRight = position.row.value
+        var toTop = position.col.value
         var stone = 0
         var blink = 0
         var blinkCount = 0

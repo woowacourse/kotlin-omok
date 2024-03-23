@@ -30,18 +30,23 @@ object DoubleFourChecker : RenjuRule(Board.board) {
             blink1 + blink2 == 2 -> return 0
         }
 
+        val row = position.row.value
+        val col = position.col.value
+        val deltaRow = deltaPosition.deltaRow
+        val deltaCol = deltaPosition.deltaCol
+
         val leftDownValid =
             when {
-                deltaPosition.deltaRow != 0 && position.row - deltaPosition.deltaRow * leftDown in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
-                deltaPosition.deltaCol != 0 && position.col - deltaPosition.deltaCol * leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
-                Board.board[position.col - down][position.row - left] == OTHER_STONE -> 0
+                deltaRow != 0 && row - deltaRow * leftDown in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
+                deltaCol != 0 && col - deltaCol * leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
+                Board.board[col - down][row - left] == OTHER_STONE -> 0
                 else -> 1
             }
         val rightUpValid =
             when {
-                deltaPosition.deltaRow != 0 && position.row + (deltaPosition.deltaRow * rightUp) in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
-                deltaPosition.deltaCol != 0 && position.col + (deltaPosition.deltaCol * rightUp) in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
-                Board.board[position.col + up][position.row + right] == OTHER_STONE -> 0
+                deltaRow != 0 && row + (deltaRow * rightUp) in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
+                deltaCol != 0 && col + (deltaCol * rightUp) in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
+                Board.board[col + up][row + right] == OTHER_STONE -> 0
                 else -> 1
             }
 

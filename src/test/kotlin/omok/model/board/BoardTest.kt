@@ -1,6 +1,8 @@
 package omok.model.board
 
+import omok.model.position.Col
 import omok.model.position.Position
+import omok.model.position.Row
 import omok.model.stone.BlackStone
 import omok.model.stone.Stone
 import org.assertj.core.api.Assertions.assertThat
@@ -28,9 +30,10 @@ class BoardTest {
     @Test
     fun `마지막 돌이 있다면 돌의 위치를 반환한다`() {
         val stone = BlackStone()
-        stone.putStone(Position(1, 5))
+        stone.putStone(Position(Row(1), Col.from(5)))
         val actual = Board.getLastStonePosition()
-        val expected = Position(1, 5)
+        val expected = Position(Row(1), Col.from(5))
+
         assertThat(actual).isEqualTo(expected)
     }
 

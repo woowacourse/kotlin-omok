@@ -1,7 +1,9 @@
 package omok.view
 
 import omok.model.board.Board
+import omok.model.position.Col
 import omok.model.position.Position
+import omok.model.position.Row
 import omok.model.stone.GoStone
 import omok.model.stone.Stone
 
@@ -15,7 +17,7 @@ class InputView {
                 lineBreak()
                 return readPosition(stone)
             }
-        return Position.of(row, col)
+        return Position(Row(row), Col.from(col))
     }
 
     private fun requirePositionInput(stone: GoStone): String {

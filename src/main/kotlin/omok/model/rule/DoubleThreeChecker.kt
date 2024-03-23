@@ -52,8 +52,8 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         leftDown: Int,
         rightUp: Int,
     ): Boolean {
-        val row = position.row
-        val col = position.col
+        val row = position.row.value
+        val col = position.col.value
         val deltaRow = deltaPosition.deltaRow
         val deltaCol = deltaPosition.deltaCol
         return when {
@@ -71,10 +71,10 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         leftDown: Int,
         rightUp: Int,
     ): Boolean {
+        val row = position.row.value
+        val col = position.col.value
         val deltaRow = deltaPosition.deltaRow
         val deltaCol = deltaPosition.deltaCol
-        val row = position.row
-        val col = position.col
 
         val left = deltaRow * (leftDown + 1)
         val down = deltaCol * (leftDown + 1)
@@ -93,8 +93,8 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         position: Position,
         deltaPosition: DeltaPosition,
     ): Int {
-        var toRight = position.row
-        var toTop = position.col
+        var toRight = position.row.value
+        var toTop = position.col.value
         var distance = 0
         while (true) {
             if (isBoardRange(deltaPosition, toRight, toTop)) break

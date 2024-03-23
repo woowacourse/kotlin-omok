@@ -1,7 +1,9 @@
 package omok.model.rule
 
 import omok.model.board.Board
+import omok.model.position.Col
 import omok.model.position.Position
+import omok.model.position.Row
 import omok.model.stone.BlackStone
 import omok.model.stone.Stone
 import omok.model.stone.WhiteStone
@@ -31,7 +33,7 @@ class OmokCheckerTest {
             blackStone.putStone(it)
         }
 
-        val lastPosition = Position(4, 4)
+        val lastPosition = Position(Row(4), Col.from(4))
         // when
         val actual = OmokChecker.findOmok(lastPosition, Stone.BLACK_STONE)
         val expected = true
@@ -50,9 +52,9 @@ class OmokCheckerTest {
         stonePositions.forEach {
             blackStone.putStone(it)
         }
-        whiteStone.putStone(Position(12, 12))
+        whiteStone.putStone(Position(Row(12), Col.from(12)))
 
-        val lastPosition = Position(11, 11)
+        val lastPosition = Position(Row(11), Col.from(11))
         // when
         val actual = OmokChecker.findOmok(lastPosition, Stone.BLACK_STONE)
         val expected = false
@@ -65,13 +67,28 @@ class OmokCheckerTest {
         @JvmStatic
         fun `오목 여부 판단 테스트 데이터 - 성공`() =
             listOf(
-                Arguments.of(listOf(Position(1, 1), Position(2, 2), Position(3, 3), Position(4, 4), Position(5, 5))),
+                Arguments.of(
+                    listOf(
+                        Position(Row(1), Col.from(1)),
+                        Position(Row(2), Col.from(2)),
+                        Position(Row(3), Col.from(3)),
+                        Position(Row(4), Col.from(4)),
+                        Position(Row(5), Col.from(5)),
+                    ),
+                ),
             )
 
         @JvmStatic
         fun `오목 여부 판단 테스트 데이터 - 실패`() =
             listOf(
-                Arguments.of(listOf(Position(10, 10), Position(11, 11), Position(13, 13), Position(14, 14))),
+                Arguments.of(
+                    listOf(
+                        Position(Row(10), Col.from(10)),
+                        Position(Row(11), Col.from(11)),
+                        Position(Row(13), Col.from(13)),
+                        Position(Row(14), Col.from(14)),
+                    ),
+                ),
             )
     }
 }
