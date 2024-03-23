@@ -9,7 +9,7 @@ import omok.model.Board
 import omok.model.Color
 import omok.model.Position
 
-class Black(private val blackStatus: Array<Array<Color>>) : TurnState(blackStatus) {
+class Black(private val blackStatus: Array<Array<Color>>) : TurnState() {
     override fun addStone(
         position: Position,
         placeStone: (Color, Position) -> Unit,

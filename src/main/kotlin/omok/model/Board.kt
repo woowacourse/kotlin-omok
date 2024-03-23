@@ -1,5 +1,9 @@
 package omok.model
 
+import omok.model.search.AscendingDfs
+import omok.model.search.DescendingDfs
+import omok.model.search.HorizontalDfs
+import omok.model.search.VerticalDfs
 import omok.model.state.Black
 import omok.model.state.TurnState
 import omok.model.state.White
@@ -15,17 +19,50 @@ class Board(
         private set
 
     private val turnState: TurnState
-        get() = if (isEven(stones.size)) Black(_status) else White(_status)
+        get() = if (isEven(stones.size)) Black(_status) else White()
 
     fun place(position: Position): GameResult {
         val color = if (isEven(stones.size)) Color.BLACK else Color.WHITE
         require(position !in stones.map { it.position }) { EXCEPTION_DUPLICATED_POSITION }
         if (stones.size >= BOARD_SIZE * BOARD_SIZE) return GameResult.DRAW
-        return turnState.getGameResult(position, color, ::placeStone)
+        return getGameResult(position, color, ::placeStone)
     }
 
     private fun isEven(num: Int): Boolean {
         return num % ODD_EVEN_INDICATOR == 0
+    }
+
+    private fun getGameResult(
+        position: Position,
+        color: Color,
+        placeStone: (Color, Position) -> Unit,
+    ): GameResult {
+        if (isCurrentTurnWin(position, color, placeStone)) {
+            return GameResult.entries.first { it.color == color }
+        }
+        return GameResult.PROCEEDING
+    }
+
+    private fun isCurrentTurnWin(
+        position: Position,
+        color: Color,
+        placeStone: (Color, Position) -> Unit,
+    ): Boolean {
+        turnState.addStone(position, placeStone)
+        return calculateSearchResult(position, color)
+    }
+
+    private fun calculateSearchResult(
+        position: Position,
+        color: Color,
+    ): Boolean {
+        val row = ARRAY_SIZE - position.row.value
+        val col = position.col.value
+        val verticalCount = VerticalDfs(_status).apply { search(color, row, col) }.count
+        val horizontalCount = HorizontalDfs(_status).apply { search(color, row, col) }.count
+        val ascendingCount = AscendingDfs(_status).apply { search(color, row, col) }.count
+        val descendingCount = DescendingDfs(_status).apply { search(color, row, col) }.count
+        return listOf(verticalCount, horizontalCount, ascendingCount, descendingCount).any { it >= 5 }
     }
 
     private fun placeStone(

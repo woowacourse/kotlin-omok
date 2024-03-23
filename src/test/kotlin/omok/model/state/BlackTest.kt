@@ -1,6 +1,6 @@
 package omok.model.state
 
-import omok.model.Color
+import omok.model.Board
 import omok.model.GameResult
 import omok.model.Position
 import omok.model.fixture.createFourFourBoard
@@ -16,17 +16,11 @@ class BlackTest {
     fun `흑돌이 연속으로 다섯 개가 놓였다면 흑이 승리한다`() {
         // given
         val board = createPlayingBoard()
-        val blackBoard = Black(board)
+        val blackTurnBoard = Board(_status = board)
         val position = Position.of(3, 'G')
         // when
         val result =
-            blackBoard.getGameResult(
-                position = position,
-                color = Color.BLACK,
-                placeStone = { color, position ->
-                    board[16 - position.row.value][position.col.value] = color
-                },
-            )
+            blackTurnBoard.place(position)
         assertThat(result).isEqualTo(GameResult.WINNER_BLACK)
     }
 
@@ -34,14 +28,10 @@ class BlackTest {
     fun `33 조건일 때, 흑돌은 착수할 수 없다`() {
         assertThrows<IllegalArgumentException> {
             val board = createThreeThreeBoard()
-            val blackBoard = Black(board)
+            val blackTurnBoard = Board(_status = board)
             val position = Position.of(3, 'C')
             // when
-            blackBoard.getGameResult(
-                position = position,
-                color = Color.BLACK,
-                placeStone = { color, position -> Unit },
-            )
+            blackTurnBoard.place(position)
         }
     }
 
@@ -49,14 +39,10 @@ class BlackTest {
     fun `44 조건일 때, 흑돌은 착수할 수 없다`() {
         assertThrows<IllegalArgumentException> {
             val board = createFourFourBoard()
-            val blackBoard = Black(board)
+            val blackTurnBoard = Board(_status = board)
             val position = Position.of(7, 'G')
             // when
-            blackBoard.getGameResult(
-                position = position,
-                color = Color.BLACK,
-                placeStone = { color, position -> Unit },
-            )
+            blackTurnBoard.place(position)
         }
     }
 
@@ -64,14 +50,10 @@ class BlackTest {
     fun `장목 조건일 때, 흑돌은 착수할 수 없다`() {
         assertThrows<IllegalArgumentException> {
             val board = createOverLineBoard()
-            val blackBoard = Black(board)
+            val blackTurnBoard = Board(_status = board)
             val position = Position.of(3, 'F')
             // when
-            blackBoard.getGameResult(
-                position = position,
-                color = Color.BLACK,
-                placeStone = { color, position -> Unit },
-            )
+            blackTurnBoard.place(position)
         }
     }
 }
