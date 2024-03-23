@@ -5,6 +5,7 @@ import omock.model.state.Stone
 import omock.model.turn.BlackTurn
 import omock.model.turn.Turn
 import omock.view.InputView.playerPick
+import omock.view.OutputView.boardDefaultTable
 import omock.view.OutputView.boardTable
 import omock.view.OutputView.outputBoard
 import omock.view.OutputView.outputGameStart
@@ -24,7 +25,7 @@ class OMokController {
             outputBoard()
             processPlayerTurn()
         }
-
+        outputBoard()
         outputSuccessOMock()
     }
 
@@ -50,7 +51,6 @@ class OMokController {
 
     private fun executePlayerTurn(playerStone: Stone) {
         playerTurn(playerStone).onSuccess {
-            updateBoard(playerStone)
             turn.stoneHistoryAdd(playerStone)
         }.onFailure { error ->
             handleTurnFailure(playerStone, error)
@@ -62,7 +62,14 @@ class OMokController {
         error: Throwable,
     ) {
         board.rollbackState(playerStone)
+        rollbackBoard(playerStone)
         println(error.message)
+    }
+
+    private fun rollbackBoard(playerStone: Stone) {
+        val row = playerStone.row.toIntIndex() - 1
+        val column = playerStone.column.getIndex()
+        boardTable[row][column] = boardDefaultTable[row][column]
     }
 
     private fun updateBoard(playerStone: Stone) {
@@ -74,6 +81,7 @@ class OMokController {
     private fun playerTurn(playerStone: Stone): Result<Unit> {
         return runCatching {
             board.setStoneState(turn, playerStone)
+            updateBoard(playerStone)
             val visited = board.loadMap(playerStone)
             turn = turn.judgementResult(visited)
         }
