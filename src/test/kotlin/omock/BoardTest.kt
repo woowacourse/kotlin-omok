@@ -31,7 +31,8 @@ class BoardTest {
         val stone = Stone.from(Row("1"), Column("A"))
         board.setStoneState(player, stone)
 
-        val visited = board.loadMap(stone)
+        val visited = player.oMockRule.loadMap(board.stoneStates, stone)
+
         assertThat(visited[Direction.TOP]?.count).isEqualTo(4)
         assertThat(visited[Direction.TOP_RIGHT]?.count).isEqualTo(1)
         assertThat(visited[Direction.RIGHT]?.count).isEqualTo(1)

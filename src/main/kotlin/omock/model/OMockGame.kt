@@ -29,7 +29,7 @@ class OMockGame(
         return runCatching {
             board.setStoneState(turn, playerStone)
             updateBoard(playerStone)
-            val visited = board.loadMap(playerStone)
+            val visited = turn.oMockRule.loadMap(board.stoneStates, playerStone)
             turn = turn.judgementResult(visited)
         }
     }

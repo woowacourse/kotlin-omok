@@ -42,7 +42,7 @@ class WhiteTurnTest {
 
         val stone = Stone.from(Row("1"), Column("A"))
         board.setStoneState(player, stone)
-        val visited = board.loadMap(stone)
+        val visited = player.oMockRule.loadMap(board.stoneStates, stone)
 
         Assertions.assertThat(player.judgementResult(visited)::class.java).isEqualTo(FinishedTurn::class.java)
     }
@@ -62,7 +62,7 @@ class WhiteTurnTest {
         )
 
         val stone = Stone.from(Row("1"), Column("A"))
-        val visited = board.loadMap(stone)
+        val visited = player.oMockRule.loadMap(board.stoneStates, stone)
 
         Assertions.assertThat(player.judgementResult(visited)::class.java).isEqualTo(BlackTurn::class.java)
     }

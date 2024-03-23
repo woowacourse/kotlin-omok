@@ -35,7 +35,7 @@ class BlackTurnTest {
 
         val stone = Stone.from(Row("12"), Column("D"))
         board.setStoneState(player, stone)
-        val visited = board.loadMap(stone)
+        val visited = player.oMockRule.loadMap(board.stoneStates, stone)
 
         assertThrows<IllegalArgumentException> { player.judgementResult(visited) }
     }
@@ -57,7 +57,7 @@ class BlackTurnTest {
         val stone = Stone.from(Row("13"), Column("C"))
         board.setStoneState(player, stone)
 
-        val visited = board.loadMap(stone)
+        val visited = player.oMockRule.loadMap(board.stoneStates, stone)
 
         assertThrows<IllegalArgumentException> { player.judgementResult(visited) }
     }
@@ -78,7 +78,7 @@ class BlackTurnTest {
         val stone = Stone.from(Row("3"), Column("E"))
         board.setStoneState(player, stone)
 
-        val visited = board.loadMap(stone)
+        val visited = player.oMockRule.loadMap(board.stoneStates, stone)
 
         assertThrows<IllegalArgumentException> { player.judgementResult(visited) }
     }
