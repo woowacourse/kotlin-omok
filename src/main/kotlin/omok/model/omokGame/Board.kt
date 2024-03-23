@@ -19,9 +19,6 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
         stone: Stone,
     ) {
         gameBoard[y.number][x.number] = stone
-        if (checkGameOver(x, y, stone)) {
-            gameFinish()
-        }
     }
 
     fun isNotEmpty(
@@ -40,14 +37,10 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
         columnCoords: CoordsNumber,
         forbiddenPositions: List<Position>,
     ): Boolean {
-        return Position(rowCoords, columnCoords) in forbiddenPositions
+        return Position(columnCoords, rowCoords) in forbiddenPositions
     }
 
-    private fun gameFinish() {
-        omokGameState = OmokGameState.STOP
-    }
-
-    private fun checkGameOver(
+    fun checkGameOver(
         x: CoordsNumber,
         y: CoordsNumber,
         stone: Stone,

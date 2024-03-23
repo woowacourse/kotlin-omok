@@ -17,6 +17,7 @@ class RenjuGameRule : GameRule {
         columnCoords: CoordsNumber,
         stone: Stone,
     ): Boolean {
+        if (stone == Stone.WHITE) return isLong(rowCoords, columnCoords, stone) >= 5
         return isFive(rowCoords, columnCoords, stone)
     }
 
