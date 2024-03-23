@@ -20,7 +20,7 @@ class OutputView {
             }
             lineBreak()
         }
-        println(boardSizeRange.joinToString(prefix = "    ", separator = "  ") { (it + 'A'.code).toChar().toString() })
+        printBoardColName(boardSizeRange)
         lineBreak()
     }
 
@@ -75,6 +75,10 @@ class OutputView {
             Stone.WHITE -> print(white)
             Stone.NONE -> print(none)
         }
+    }
+
+    private fun printBoardColName(boardSizeRange: IntRange) {
+        println(boardSizeRange.joinToString(prefix = "    ", separator = "  ") { (it + 'A'.code).toChar().toString() })
     }
 
     fun printWinner(stone: Stone) {
