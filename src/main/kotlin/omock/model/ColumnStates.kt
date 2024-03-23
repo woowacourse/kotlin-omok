@@ -8,9 +8,9 @@ data class ColumnStates(
 ) {
     fun change(
         row: Int,
-        player: Turn,
+        turn: Turn,
     ) {
-        columnStates[row] = getStoneState(row).put(player)
+        columnStates[row] = getStoneState(row).put(turn)
     }
 
     fun rollback(row: Int) {

@@ -14,13 +14,13 @@ import omock.view.OutputView.outputSuccessOMock
 import omock.view.OutputView.outputUserTurn
 
 class OMokController {
-    private var player: Turn = BlackTurn()
+    private var turn: Turn = BlackTurn()
     private val board = Board.from()
 
     fun run() {
         outputGameStart()
 
-        while (!player.isFinished()) {
+        while (!turn.isFinished()) {
             outputBoard()
             processPlayerTurn()
         }
@@ -34,14 +34,14 @@ class OMokController {
     }
 
     private fun displayTurnInfo() {
-        outputUserTurn(Stone.getStoneName(player))
-        player.stoneHistory.lastOrNull()?.let { stone ->
+        outputUserTurn(Stone.getStoneName(turn))
+        turn.stoneHistory.lastOrNull()?.let { stone ->
             outputLastStone(stone)
         } ?: outputPrintLine()
     }
 
     private fun start() {
-        playerPick(player = player).onSuccess { playerStone ->
+        playerPick(turn = turn).onSuccess { playerStone ->
             executePlayerTurn(playerStone)
         }.onFailure {
             println(it.message)
@@ -51,7 +51,7 @@ class OMokController {
     private fun executePlayerTurn(playerStone: Stone) {
         playerTurn(playerStone).onSuccess {
             updateBoard(playerStone)
-            player.stoneHistoryAdd(playerStone)
+            turn.stoneHistoryAdd(playerStone)
         }.onFailure { error ->
             handleTurnFailure(playerStone, error)
         }
@@ -68,14 +68,14 @@ class OMokController {
     private fun updateBoard(playerStone: Stone) {
         val row = playerStone.row.toIntIndex() - 1
         val column = playerStone.column.getIndex()
-        boardTable[row][column] = Stone.getStoneIcon(player)
+        boardTable[row][column] = Stone.getStoneIcon(turn)
     }
 
     private fun playerTurn(playerStone: Stone): Result<Unit> {
         return runCatching {
-            board.setStoneState(player, playerStone)
+            board.setStoneState(turn, playerStone)
             val visited = board.loadMap(playerStone)
-            player = player.judgementResult(visited)
+            turn = turn.judgementResult(visited)
         }
     }
 }

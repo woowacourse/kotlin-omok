@@ -32,16 +32,16 @@ data class Stone(
             } ?: throw IllegalArgumentException()
         }
 
-        fun getStoneIcon(player: Turn): Char {
-            return when (player) {
+        fun getStoneIcon(turn: Turn): Char {
+            return when (turn) {
                 is BlackTurn -> '●'
                 is WhiteTurn -> '○'
                 is FinishedTurn -> throw java.lang.IllegalArgumentException(ERROR_FINISHED_MESSAGE)
             }
         }
 
-        fun getStoneName(player: Turn): String {
-            return when (player) {
+        fun getStoneName(turn: Turn): String {
+            return when (turn) {
                 is BlackTurn -> "흑"
                 is WhiteTurn -> "백"
                 is FinishedTurn -> throw java.lang.IllegalArgumentException(ERROR_FINISHED_MESSAGE)

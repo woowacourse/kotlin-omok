@@ -3,7 +3,7 @@ package omock.model.state
 import omock.model.turn.Turn
 
 abstract class Placed(private val stone: Stone) : StoneState {
-    override fun put(player: Turn): StoneState {
+    override fun put(turn: Turn): StoneState {
         throw IllegalArgumentException(ERROR_STONE_DUPLICATION)
     }
 

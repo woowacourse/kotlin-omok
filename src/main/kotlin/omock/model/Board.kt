@@ -12,12 +12,12 @@ import omock.model.turn.Turn
 
 class Board(val stoneStates: List<ColumnStates>) {
     fun setStoneState(
-        player: Turn,
+        turn: Turn,
         stone: Stone,
     ) {
         val row = stone.row.getIndex()
         val column = stone.column.getIndex()
-        stoneStates[row].change(column, player)
+        stoneStates[row].change(column, turn)
     }
 
     fun rollbackState(stone: Stone) {
