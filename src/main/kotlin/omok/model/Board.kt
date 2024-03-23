@@ -6,9 +6,9 @@ import omok.model.state.White
 
 class Board(
     stones: List<Stone> = emptyList(),
-    private val _status: Array<Array<Color?>> = Array(ARRAY_SIZE) { Array(ARRAY_SIZE) { null } },
+    private val _status: Array<Array<Color>> = Array(ARRAY_SIZE) { Array(ARRAY_SIZE) { Color.NONE } },
 ) {
-    val status: List<List<Color?>>
+    val status: List<List<Color>>
         get() = _status.map { it.toList() }.toList()
 
     var stones: List<Stone> = stones.toList()
@@ -38,6 +38,7 @@ class Board(
             when (color) {
                 Color.BLACK -> stones.plus(Stone.Black(Position.of(row, col)))
                 Color.WHITE -> stones.plus(Stone.White(Position.of(row, col)))
+                Color.NONE -> stones
             }
         _status[ARRAY_SIZE - position.row.value][position.col.value] = color
     }

@@ -8,7 +8,7 @@ private const val BLANK_SIGNATURE_NUMBER = 0
 private const val BLACK_SIGNATURE_NUMBER = 1
 private const val WHITE_SIGNATURE_NUMBER = 2
 
-fun Array<Array<Color?>>.toArkOmokBoard(): List<List<Int>> {
+fun Array<Array<Color>>.toArkOmokBoard(): List<List<Int>> {
     val arkBoard = MutableList(BOARD_SIZE) { MutableList(BOARD_SIZE) { BLANK_SIGNATURE_NUMBER } }
     for (i in 1 until this.size) {
         for (j in 1 until this[i].size) {
@@ -18,7 +18,7 @@ fun Array<Array<Color?>>.toArkOmokBoard(): List<List<Int>> {
     return arkBoard
 }
 
-private fun Color?.toSignatureNumber() =
+private fun Color.toSignatureNumber() =
     when (this) {
         Color.BLACK -> BLACK_SIGNATURE_NUMBER
         Color.WHITE -> WHITE_SIGNATURE_NUMBER

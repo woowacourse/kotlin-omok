@@ -3,7 +3,7 @@ package omok.model.search
 import omok.model.Color
 
 class HorizontalDfs(
-    status: Array<Array<Color?>>,
+    status: Array<Array<Color>>,
 ) : Dfs(status) {
     override fun search(
         color: Color,

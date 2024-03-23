@@ -8,7 +8,7 @@ import omok.mapper.toArkOmokPoint
 import omok.model.Color
 import omok.model.Position
 
-class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStatus) {
+class Black(private val blackStatus: Array<Array<Color>>) : TurnState(blackStatus) {
     override fun addStone(
         position: Position,
         placeStone: (Color, Position) -> Unit,

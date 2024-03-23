@@ -9,7 +9,7 @@ import omok.model.search.HorizontalDfs
 import omok.model.search.VerticalDfs
 
 abstract class TurnState(
-    private val status: Array<Array<Color?>>,
+    private val status: Array<Array<Color>>,
 ) {
     fun getWinningResult(
         position: Position,

@@ -3,7 +3,7 @@ package omok.model.search
 import omok.model.Color
 
 abstract class Dfs(
-    private val status: Array<Array<Color?>>,
+    private val status: Array<Array<Color>>,
 ) {
     private val visited = Array(16) { Array(16) { false } }
     var count: Int = 0

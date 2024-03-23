@@ -2,6 +2,7 @@ package omok.model.search
 
 import omok.model.Color
 import omok.model.Color.BLACK
+import omok.model.Color.NONE
 import omok.model.fixture.createPlayingBoard
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
@@ -33,22 +34,22 @@ class HorizontalDfsTest {
         val horizontalDfs =
             HorizontalDfs(
                 arrayOf(
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, BLACK, BLACK, BLACK, BLACK, BLACK, null, null, null, null, null, null, null, null, null, null),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
+                    arrayOf(NONE, BLACK, BLACK, BLACK, BLACK, BLACK, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE),
                 ),
             )
         horizontalDfs.search(BLACK, 15, 2)
