@@ -13,7 +13,7 @@ sealed class Running(private val putRule: OmokGameRule, board: Board) : GameStat
         return putRule.canPlaceStone(stone, board)
     }
 
-    protected fun placeStone(
+    protected tailrec fun placeStone(
         stoneColor: StoneColor,
         onDetermineTurn: (Board) -> Running,
         onPlace: () -> Position,
