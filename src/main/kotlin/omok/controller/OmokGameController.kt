@@ -17,7 +17,6 @@ object OmokGameController {
         var previousStoneCoords = ""
         while (board.isRunning()) {
             val forbiddenPositions = board.findForbiddenPositions(currentStone)
-            println(forbiddenPositions)
             OutputView.printBoard(board.gameBoard, forbiddenPositions)
             val (rowCoords, columnCoords) = readPlayerCoords(currentStone, previousStoneCoords)
             if (isWrongCoords(columnCoords, rowCoords)) continue
