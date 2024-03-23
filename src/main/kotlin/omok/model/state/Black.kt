@@ -6,28 +6,17 @@ import lib.ark.ArkThreeThreeRule
 import omok.mapper.toArkOmokBoard
 import omok.mapper.toArkOmokPoint
 import omok.model.Color
-import omok.model.GameResult
 import omok.model.Position
 
 class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStatus) {
-    override fun getWinningResult(
-        position: Position,
-        placeStone: (Color, Position) -> Unit,
-    ): GameResult? {
-        if (isCurrentTurnWin(position, Color.BLACK, placeStone)) {
-            return GameResult.WINNER_BLACK
-        }
-        return null
-    }
-
     override fun addStone(
-        color: Color,
         position: Position,
         placeStone: (Color, Position) -> Unit,
     ) {
         val arkBoard = blackStatus.toArkOmokBoard()
         val row = ARRAY_SIZE - position.row.value
-        val arkPoint = Position.of(row, position.col.title).toArkOmokPoint()
+        val col = position.col.title
+        val arkPoint = Position.of(row, col).toArkOmokPoint()
         if (placementAvailable(arkBoard, arkPoint)) {
             placeStone(Color.BLACK, position)
         } else {

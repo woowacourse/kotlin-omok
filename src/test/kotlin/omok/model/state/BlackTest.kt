@@ -1,5 +1,6 @@
 package omok.model.state
 
+import omok.model.Color
 import omok.model.GameResult
 import omok.model.Position
 import omok.model.fixture.createFourFourBoard
@@ -21,6 +22,7 @@ class BlackTest {
         val result =
             blackBoard.getWinningResult(
                 position = position,
+                color = Color.BLACK,
                 placeStone = { color, position ->
                     board[16 - position.row.value][position.col.value] = color
                 },
@@ -37,6 +39,7 @@ class BlackTest {
             // when
             blackBoard.getWinningResult(
                 position = position,
+                color = Color.BLACK,
                 placeStone = { color, position -> Unit },
             )
         }
@@ -51,6 +54,7 @@ class BlackTest {
             // when
             blackBoard.getWinningResult(
                 position = position,
+                color = Color.BLACK,
                 placeStone = { color, position -> Unit },
             )
         }
@@ -65,6 +69,7 @@ class BlackTest {
             // when
             blackBoard.getWinningResult(
                 position = position,
+                color = Color.BLACK,
                 placeStone = { color, position -> Unit },
             )
         }

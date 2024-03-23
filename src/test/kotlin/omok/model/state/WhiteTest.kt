@@ -1,5 +1,6 @@
 package omok.model.state
 
+import omok.model.Color
 import omok.model.GameResult
 import omok.model.Position
 import omok.model.fixture.createWhiteWinningBoard
@@ -17,6 +18,7 @@ class WhiteTest {
         val result =
             whiteBoard.getWinningResult(
                 position = position,
+                color = Color.WHITE,
                 placeStone = { color, position ->
                     board[16 - position.row.value][position.col.value] = color
                 },

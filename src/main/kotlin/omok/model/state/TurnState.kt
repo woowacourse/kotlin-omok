@@ -11,32 +11,37 @@ import omok.model.search.VerticalDfs
 abstract class TurnState(
     private val status: Array<Array<Color?>>,
 ) {
-    abstract fun getWinningResult(
+    fun getWinningResult(
         position: Position,
+        color: Color,
         placeStone: (Color, Position) -> Unit,
-    ): GameResult?
+    ): GameResult? {
+        if (isCurrentTurnWin(position, color, placeStone)) {
+            return GameResult.entries.first { it.color == color }
+        }
+        return null
+    }
 
-    protected fun isCurrentTurnWin(
+    private fun isCurrentTurnWin(
         position: Position,
         color: Color,
         placeStone: (Color, Position) -> Unit,
     ): Boolean {
-        val row = ARRAY_SIZE - position.row.value
-        addStone(color, position, placeStone)
-        return calculateSearchResult(row, position.col.value, color)
+        addStone(position, placeStone)
+        return calculateSearchResult(position, color)
     }
 
     protected abstract fun addStone(
-        color: Color,
         position: Position,
         placeStone: (Color, Position) -> Unit,
     )
 
     private fun calculateSearchResult(
-        row: Int,
-        col: Int,
+        position: Position,
         color: Color,
     ): Boolean {
+        val row = ARRAY_SIZE - position.row.value
+        val col = position.col.value
         val verticalCount = VerticalDfs(status).apply { search(color, row, col) }.count
         val horizontalCount = HorizontalDfs(status).apply { search(color, row, col) }.count
         val ascendingCount = AscendingDfs(status).apply { search(color, row, col) }.count

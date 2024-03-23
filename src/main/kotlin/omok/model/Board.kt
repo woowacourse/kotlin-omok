@@ -18,9 +18,10 @@ class Board(
         get() = if (isEven(stones.size)) Black(_status) else White(_status)
 
     fun place(position: Position): GameResult? {
+        val color = if (isEven(stones.size)) Color.BLACK else Color.WHITE
         require(position !in stones.map { it.position }) { EXCEPTION_DUPLICATED_POSITION }
         if (stones.size >= BOARD_SIZE * BOARD_SIZE) return GameResult.DRAW
-        return turnState.getWinningResult(position, ::placeStone)
+        return turnState.getWinningResult(position, color, ::placeStone)
     }
 
     private fun isEven(num: Int): Boolean {
@@ -31,10 +32,12 @@ class Board(
         color: Color,
         position: Position,
     ) {
+        val row = position.row.value
+        val col = position.col.title
         stones =
             when (color) {
-                Color.BLACK -> stones.plus(Stone.Black(Position.of(position.row.value, position.col.title)))
-                Color.WHITE -> stones.plus(Stone.White(Position.of(position.row.value, position.col.title)))
+                Color.BLACK -> stones.plus(Stone.Black(Position.of(row, col)))
+                Color.WHITE -> stones.plus(Stone.White(Position.of(row, col)))
             }
         _status[ARRAY_SIZE - position.row.value][position.col.value] = color
     }
