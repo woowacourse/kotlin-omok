@@ -2,7 +2,7 @@ package omok.model
 
 data class Position(val row: Int, val col: Int) {
     init {
-        require(isOnBoard(row, col)) { "올바르지 않은 위치입니다." }
+        require(isOnBoard(row, col)) { INVALID_POSITION_MESSAGE }
     }
 
     fun move(direction: Direction): Position? {
@@ -18,6 +18,7 @@ data class Position(val row: Int, val col: Int) {
     }
 
     companion object {
+        private const val INVALID_POSITION_MESSAGE = "올바르지 않은 위치입니다."
         const val MIN_INDEX = 0
         const val MAX_INDEX = 14
         val INDEX_RANGE = MIN_INDEX..MAX_INDEX

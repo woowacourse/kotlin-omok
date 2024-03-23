@@ -6,21 +6,21 @@ import omok.model.Stone
 
 class OutputView {
     fun printInitialGuide(board: Board) {
-        println("오목 게임을 시작합니다.")
+        println(INITIAL_GUIDE_MESSAGE)
         printBoard(board)
     }
 
     fun printBoard(board: Board) {
-        println()
+        lineBreak()
         Position.INDEX_RANGE.forEach { row ->
             printBoardRowName(row)
             Position.INDEX_RANGE.forEach { col ->
                 printBoardAxis(board, row, col)
             }
-            println()
+            lineBreak()
         }
         println("    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O")
-        println()
+        lineBreak()
     }
 
     private fun printBoardRowName(row: Int) {
@@ -59,6 +59,8 @@ class OutputView {
         }
     }
 
+    private fun lineBreak() = println()
+
     private fun Stone.printBoardSingleAxis(
         black: String,
         white: String,
@@ -72,10 +74,12 @@ class OutputView {
     }
 
     fun printWinner(stone: Stone) {
-        println("우승은 🎉${stone.output()}🎉 입니다")
+        println(WINNER_MESSAGE.format(stone.output()))
     }
 
     companion object {
+        private const val INITIAL_GUIDE_MESSAGE = "오목 게임을 시작합니다."
+        private const val WINNER_MESSAGE = "우승은 %s🎉 입니다"
         private const val BLACK_STONE = "●"
         private const val WHITE_STONE = "○"
     }

@@ -12,11 +12,15 @@ fun Position.output(): String {
 }
 
 fun String.toPosition(): Position {
-    require(isNotBlank()) { "공백을 입력하셨습니다. 다시 입력해 주세요." }
-    require(substring(1, length).toIntOrNull() in 1..15) { "올바르지 않은 행입니다." }
-    require(this[0] in 'A'..'O') { "올바르지 않은 열입니다." }
+    require(isNotBlank()) { BLANK_MESSAGE }
+    require(substring(1, length).toIntOrNull() in 1..15) { INVALID_ROW_MESSAGE }
+    require(this[0] in 'A'..'O') { INVALID_COL_MESSAGE }
 
     val row = Position.MAX_INDEX - substring(1, length).toInt() + 1
     val col = this[0] - 'A'
     return Position(row, col)
 }
+
+private const val BLANK_MESSAGE = "공백을 입력하셨습니다. 다시 입력해 주세요."
+private const val INVALID_ROW_MESSAGE = "올바르지 않은 행입니다."
+private const val INVALID_COL_MESSAGE = "올바르지 않은 열입니다."
