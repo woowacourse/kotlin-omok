@@ -27,6 +27,6 @@ class Board {
     }
 
     companion object {
-        private const val BOARD_SIZE = 15
+        const val BOARD_SIZE = 15
     }
 }
