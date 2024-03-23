@@ -1,6 +1,6 @@
 # 1차 리뷰 후 수정 사항
 
-- [ ] : domain 로직들 테스트코드 모두 작성
+- [x] : domain 로직들 테스트코드 모두 작성
 
 ## Board
 - [x] : Board - sumLeft, sumRight 공통 로직 개선
@@ -18,7 +18,7 @@
 - [x] : OmokGame while 문 변경
 
 ## GameEvent (as is : PutEvent)
-- [ ] : GameEvent 변경에 유연한 구조로 개선 (의문점 있음 대기..)
+- [x] : GameEvent 변경에 유연한 구조로 개선 (의문점 있음 대기..)
 - [x] : GameEvent - reverse() 로직 삭제
 
 조금 더 고려해볼 부분 : GameEnd event 를 받아서 꼭 처리를 해야할까...?
@@ -41,6 +41,6 @@ controller 에서 게임 끝나고 결과 받아서 end 이벤트 처리하면 �
 - [x] : test - 오목알을 놓고, 오목이 완성되지 않으면 다음 플레이어 턴으로 넘어간다
 - [x] : test - 오목알을 놓고, 오목이 완성되면 게임이 끝난다
 ## View
-- [ ] : input 과 outpust 을 구분
-- [ ] : input 은 내부적으로 어떻게 쓰일지 아직 알 수 없으므로 model 과의 의존성을 끊도록 구현해보면 어떨까요?
-- [ ] : View 함수화하기
+- [x] : input 과 outpust 을 구분
+- [x] : uimodel 
+- [x] : View 함수화하기
