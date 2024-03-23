@@ -21,7 +21,7 @@ object InputView {
     fun String.validateCoordinate(): Result<Coordinate> {
         return runCatching {
             Coordinate(
-                Row.from(this.substring(1)),
+                Row(this.substring(1).toInt()),
                 Column.from(this.substring(0, 1)),
             )
         }
