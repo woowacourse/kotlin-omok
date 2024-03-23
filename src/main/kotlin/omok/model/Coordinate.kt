@@ -1,3 +1,3 @@
 package omok.model
 
-data class Coordinate(val row: Row, val col: Column)
+data class Coordinate(val x: PositionX, val y: PositionY)

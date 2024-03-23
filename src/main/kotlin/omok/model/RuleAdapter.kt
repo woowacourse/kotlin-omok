@@ -15,22 +15,22 @@ class RuleAdapter(stones: Stones) : Rule {
 
     override fun checkThreeThree(stone: Stone): Boolean {
         return omokRule.checkThreeThree(
-            stone.coordinate.col.value - INDEX_ADJUSTMENT,
-            stone.coordinate.row.value - INDEX_ADJUSTMENT,
+            stone.coordinate.y.value - INDEX_ADJUSTMENT,
+            stone.coordinate.x.value - INDEX_ADJUSTMENT,
         )
     }
 
     override fun checkFourFour(stone: Stone): Boolean {
         return omokRule.countFourFour(
-            stone.coordinate.col.value - INDEX_ADJUSTMENT,
-            stone.coordinate.row.value - INDEX_ADJUSTMENT,
+            stone.coordinate.y.value - INDEX_ADJUSTMENT,
+            stone.coordinate.x.value - INDEX_ADJUSTMENT,
         )
     }
 
     override fun checkMoreThanFive(stone: Stone): Boolean {
         return omokRule.checkMoreThanFive(
-            stone.coordinate.col.value - INDEX_ADJUSTMENT,
-            stone.coordinate.row.value - INDEX_ADJUSTMENT,
+            stone.coordinate.y.value - INDEX_ADJUSTMENT,
+            stone.coordinate.x.value - INDEX_ADJUSTMENT,
         )
     }
 
@@ -54,9 +54,9 @@ class RuleAdapter(stones: Stones) : Rule {
             }
         stones.stones.forEach {
             if (it.color == Color.BLACK) {
-                libraryBoard[it.coordinate.row.value - 1][it.coordinate.col.value - 1] = 1
+                libraryBoard[it.coordinate.x.value - 1][it.coordinate.y.value - 1] = 1
             } else {
-                libraryBoard[it.coordinate.row.value - 1][it.coordinate.col.value - 1] = 2
+                libraryBoard[it.coordinate.x.value - 1][it.coordinate.y.value - 1] = 2
             }
         }
         return libraryBoard

@@ -1,6 +1,6 @@
 package omok.model
 
-data class Row(val value: Int) {
+data class PositionX(val value: Int) {
     init {
         require(value in COORDINATE_ROW_RANGE) {
             ERROR_ROW_OUT_OF_RANGE

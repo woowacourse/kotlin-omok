@@ -1,8 +1,8 @@
 package omok
 
-import omok.model.Column
+import omok.model.PositionY
 import omok.model.Coordinate
-import omok.model.Row
+import omok.model.PositionX
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -11,12 +11,12 @@ class CoordinateTest {
     @ParameterizedTest
     @CsvSource("1,A", "13,F", "4,G")
     fun `좌표 객체는 좌표 값을 가지고 있다`(
-        row: String,
-        col: String,
+        x: Int,
+        y: String,
     ) {
-        val coordinate = Coordinate(Row.from(row), Column.from(col))
+        val coordinate = Coordinate(PositionX(x), PositionY.from(y))
 
-        assertThat(coordinate.row.value).isEqualTo(row.toInt())
-        assertThat(coordinate.col.value).isEqualTo(col.first() - 'A' + 1)
+        assertThat(coordinate.x.value).isEqualTo(x)
+        assertThat(coordinate.y.value).isEqualTo(y.first() - 'A' + 1)
     }
 }

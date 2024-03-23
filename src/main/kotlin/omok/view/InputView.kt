@@ -1,8 +1,8 @@
 package omok.view
 
-import omok.model.Column
+import omok.model.PositionY
 import omok.model.Coordinate
-import omok.model.Row
+import omok.model.PositionX
 
 object InputView {
     private const val MESSAGE_INPUT_COORDINATE = "위치를 입력하세요: "
@@ -21,8 +21,8 @@ object InputView {
     fun String.validateCoordinate(): Result<Coordinate> {
         return runCatching {
             Coordinate(
-                Row(this.substring(1).toInt()),
-                Column.from(this.substring(0, 1)),
+                PositionX(this.substring(1).toInt()),
+                PositionY.from(this.substring(0, 1)),
             )
         }
     }

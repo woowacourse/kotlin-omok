@@ -3,18 +3,18 @@ package omok.model
 val black = Color.BLACK
 val white = Color.WHITE
 
-val COORDINATE_A1 = Coordinate(Row.from("1"), Column.from("A"))
-val COORDINATE_C8 = Coordinate(Row.from("8"), Column.from("C"))
-val COORDINATE_D8 = Coordinate(Row.from("8"), Column.from("D"))
-val COORDINATE_E8 = Coordinate(Row.from("8"), Column.from("E"))
-val COORDINATE_F4 = Coordinate(Row.from("4"), Column.from("F"))
-val COORDINATE_F5 = Coordinate(Row.from("5"), Column.from("F"))
-val COORDINATE_F6 = Coordinate(Row.from("6"), Column.from("F"))
-val COORDINATE_F7 = Coordinate(Row.from("7"), Column.from("F"))
-val COORDINATE_F8 = Coordinate(Row.from("8"), Column.from("F"))
-val COORDINATE_F9 = Coordinate(Row.from("9"), Column.from("F"))
-val COORDINATE_F10 = Coordinate(Row.from("10"), Column.from("F"))
-val COORDINATE_F11 = Coordinate(Row.from("11"), Column.from("F"))
+val COORDINATE_A1 = Coordinate(PositionX(1), PositionY.from("A"))
+val COORDINATE_C8 = Coordinate(PositionX(8), PositionY.from("C"))
+val COORDINATE_D8 = Coordinate(PositionX(8), PositionY.from("D"))
+val COORDINATE_E8 = Coordinate(PositionX(8), PositionY.from("E"))
+val COORDINATE_F4 = Coordinate(PositionX(4), PositionY.from("F"))
+val COORDINATE_F5 = Coordinate(PositionX(5), PositionY.from("F"))
+val COORDINATE_F6 = Coordinate(PositionX(6), PositionY.from("F"))
+val COORDINATE_F7 = Coordinate(PositionX(7), PositionY.from("F"))
+val COORDINATE_F8 = Coordinate(PositionX(8), PositionY.from("F"))
+val COORDINATE_F9 = Coordinate(PositionX(9), PositionY.from("F"))
+val COORDINATE_F10 = Coordinate(PositionX(10), PositionY.from("F"))
+val COORDINATE_F11 = Coordinate(PositionX(11), PositionY.from("F"))
 
 val samSamBlackStones =
     listOf(

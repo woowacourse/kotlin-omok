@@ -41,13 +41,13 @@ class Stones {
         dc: Int,
     ): Int {
         var count = 0
-        var row = startStone.coordinate.row.value + dr
-        var col = startStone.coordinate.col.value + dc
+        var row = startStone.coordinate.x.value + dr
+        var col = startStone.coordinate.y.value + dc
         val color = startStone.color
         while (
             _stones
                 .filter { stone -> stone.color == color }
-                .any { it.coordinate.row.value == row && it.coordinate.col.value == col }
+                .any { it.coordinate.x.value == row && it.coordinate.y.value == col }
         ) {
             count++
             row += dr
