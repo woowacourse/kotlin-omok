@@ -29,7 +29,7 @@ class GameManager {
         onRead: () -> Position,
         onShow: (Board) -> Unit,
     ) = runCatching {
-        gameState = gameState.placeStone(onTurn, onRead, onShow)
+        gameState = gameState.updateState(onTurn, onRead, onShow)
     }.onFailure { throwable ->
         println(throwable.message)
     }

@@ -1,7 +1,7 @@
 package omok.model
 
 sealed class GameState(val board: Board) {
-    abstract fun placeStone(
+    abstract fun updateState(
         onTurn: (GameState) -> Unit,
         onRead: () -> Position,
         onShow: (Board) -> Unit,
@@ -12,7 +12,7 @@ sealed class GameState(val board: Board) {
 
         abstract fun getNextTurn(): GameState
 
-        override fun placeStone(
+        override fun updateState(
             onTurn: (GameState) -> Unit,
             onRead: () -> Position,
             onShow: (Board) -> Unit,
@@ -49,7 +49,7 @@ sealed class GameState(val board: Board) {
     }
 
     class Finish(board: Board) : GameState(board) {
-        override fun placeStone(
+        override fun updateState(
             onTurn: (GameState) -> Unit,
             onRead: () -> Position,
             onShow: (Board) -> Unit,

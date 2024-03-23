@@ -15,7 +15,7 @@ class GameStateTest {
     @Test
     fun `BlackTurn에서 돌을 두면 WhiteTurn으로 간다`() {
         assertThat(
-            BLACK_STATE.placeStone(
+            BLACK_STATE.updateState(
                 { },
                 { A1 },
                 { },
@@ -26,7 +26,7 @@ class GameStateTest {
     @Test
     fun `WhiteTurn에서 돌을 두면 BlackTurn으로 간다`() {
         assertThat(
-            WHITE_STATE.placeStone(
+            WHITE_STATE.updateState(
                 { },
                 { A1 },
                 { },
@@ -38,7 +38,7 @@ class GameStateTest {
     fun `오목이 되면 Finish 상태로 변한다`() {
         OMOK_FINISH.forEach { stone ->
             gameState =
-                gameState.placeStone(
+                gameState.updateState(
                     { },
                     { stone },
                     { },

@@ -13,7 +13,10 @@ class Position private constructor(val format: String, val coordinate: Coordinat
         fun from(input: String): Position {
             input.validateEmpty()
             val x = input.first().uppercaseChar() - BASE_CHAR
-            val y = input.drop(CHAR_DIGIT).toIntOrNull()?.minus(BASE_NUMBER) ?: throw IllegalArgumentException(ERROR_INVALID_POSITION)
+            val y =
+                input.drop(CHAR_DIGIT).toIntOrNull()?.minus(BASE_NUMBER) ?: throw IllegalArgumentException(
+                    ERROR_INVALID_POSITION,
+                )
             return Position(input, Coordinate(x.validateRange(), y.validateRange()))
         }
 
