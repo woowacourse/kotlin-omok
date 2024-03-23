@@ -1,9 +1,27 @@
 package omok.model.rule
 
+import X_A
+import X_B
+import X_C
+import X_D
+import X_E
+import X_K
+import X_L
+import X_M
+import X_N
+import X_O
+import Y_1
+import Y_10
+import Y_11
+import Y_12
+import Y_13
+import Y_14
+import Y_2
+import Y_3
+import Y_4
+import Y_5
 import omok.model.board.Board
-import omok.model.position.Col
 import omok.model.position.Position
-import omok.model.position.Row
 import omok.model.stone.BlackStone
 import omok.model.stone.Stone
 import omok.model.stone.WhiteStone
@@ -33,7 +51,7 @@ class OmokCheckerTest {
             blackStone.putStone(it)
         }
 
-        val lastPosition = Position(Row(4), Col.from(4))
+        val lastPosition = Position(X_D, Y_4)
         // when
         val actual = OmokChecker.findOmok(lastPosition, Stone.BLACK_STONE)
         val expected = true
@@ -52,9 +70,9 @@ class OmokCheckerTest {
         stonePositions.forEach {
             blackStone.putStone(it)
         }
-        whiteStone.putStone(Position(Row(12), Col.from(12)))
+        whiteStone.putStone(Position(X_M, Y_12))
 
-        val lastPosition = Position(Row(11), Col.from(11))
+        val lastPosition = Position(X_L, Y_11)
         // when
         val actual = OmokChecker.findOmok(lastPosition, Stone.BLACK_STONE)
         val expected = false
@@ -69,11 +87,11 @@ class OmokCheckerTest {
             listOf(
                 Arguments.of(
                     listOf(
-                        Position(Row(1), Col.from(1)),
-                        Position(Row(2), Col.from(2)),
-                        Position(Row(3), Col.from(3)),
-                        Position(Row(4), Col.from(4)),
-                        Position(Row(5), Col.from(5)),
+                        Position(X_A, Y_1),
+                        Position(X_B, Y_2),
+                        Position(X_C, Y_3),
+                        Position(X_D, Y_4),
+                        Position(X_E, Y_5),
                     ),
                 ),
             )
@@ -83,10 +101,10 @@ class OmokCheckerTest {
             listOf(
                 Arguments.of(
                     listOf(
-                        Position(Row(10), Col.from(10)),
-                        Position(Row(11), Col.from(11)),
-                        Position(Row(13), Col.from(13)),
-                        Position(Row(14), Col.from(14)),
+                        Position(X_K, Y_10),
+                        Position(X_L, Y_11),
+                        Position(X_N, Y_13),
+                        Position(X_O, Y_14),
                     ),
                 ),
             )

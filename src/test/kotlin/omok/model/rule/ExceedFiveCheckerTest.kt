@@ -1,9 +1,14 @@
 package omok.model.rule
 
+import X_C
+import Y_10
+import Y_11
+import Y_12
+import Y_13
+import Y_14
+import Y_15
 import omok.model.board.Board
-import omok.model.position.Col
 import omok.model.position.Position
-import omok.model.position.Row
 import omok.model.stone.BlackStone
 import omok.model.stone.Stone
 import org.assertj.core.api.Assertions
@@ -23,13 +28,13 @@ class ExceedFiveCheckerTest {
     @Test
     fun `장목 케이스`() {
         val blackStone = BlackStone()
-        blackStone.putStone(Position(Row('C'), Col.from(10)))
-        blackStone.putStone(Position(Row('C'), Col.from(11)))
-        blackStone.putStone(Position(Row('C'), Col.from(12)))
-        blackStone.putStone(Position(Row('C'), Col.from(14)))
-        blackStone.putStone(Position(Row('C'), Col.from(15)))
+        blackStone.putStone(Position(X_C, Y_10))
+        blackStone.putStone(Position(X_C, Y_11))
+        blackStone.putStone(Position(X_C, Y_12))
+        blackStone.putStone(Position(X_C, Y_14))
+        blackStone.putStone(Position(X_C, Y_15))
 
-        val actual = ExceedFiveChecker.isMoreThanFive(Position(Row('C'), Col.from(13)))
+        val actual = ExceedFiveChecker.isMoreThanFive(Position(X_C, Y_13))
         Assertions.assertThat(actual).isEqualTo(true)
     }
 }

@@ -1,0 +1,36 @@
+import omok.model.position.Col
+import omok.model.position.Row
+
+// x축
+val X_A = Row('A')
+val X_B = Row('B')
+val X_C = Row('C')
+val X_D = Row('D')
+val X_E = Row('E')
+val X_F = Row('F')
+val X_G = Row('G')
+val X_H = Row('H')
+val X_I = Row('I')
+val X_J = Row('J')
+val X_K = Row('K')
+val X_L = Row('L')
+val X_M = Row('M')
+val X_N = Row('N')
+val X_O = Row('O')
+
+// y축
+val Y_1 = Col.from(1)
+val Y_2 = Col.from(2)
+val Y_3 = Col.from(3)
+val Y_4 = Col.from(4)
+val Y_5 = Col.from(5)
+val Y_6 = Col.from(6)
+val Y_7 = Col.from(7)
+val Y_8 = Col.from(8)
+val Y_9 = Col.from(9)
+val Y_10 = Col.from(10)
+val Y_11 = Col.from(11)
+val Y_12 = Col.from(12)
+val Y_13 = Col.from(13)
+val Y_14 = Col.from(14)
+val Y_15 = Col.from(15)
