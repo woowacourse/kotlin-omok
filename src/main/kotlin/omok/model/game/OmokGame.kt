@@ -3,6 +3,7 @@ package omok.model.game
 import omok.model.OmokStone
 import omok.model.Position
 import omok.model.board.Board
+import omok.model.game.state.GameState
 
 private typealias PlaceOmokEvent = () -> Position
 
@@ -14,7 +15,7 @@ class OmokGame(
         return play(state, onStartPut, playersEvent.startingPlayerPlaceEvent)
     }
 
-    tailrec fun play(
+    private tailrec fun play(
         state: GameState,
         onStartPlaceStone: (Board, OmokStone?) -> Unit,
         event: PlaceOmokEvent,

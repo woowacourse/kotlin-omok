@@ -36,7 +36,7 @@ controller 에서 게임 끝나고 결과 받아서 end 이벤트 처리하면 �
 - [x] : WhiteCanPutRule 삭제 및 리팩토링
 ## GameState
 
-- [ ] : GameState - 개별 sealed class 별로 파일을 분리
+- [x] : GameState - 개별 sealed class 별로 파일을 분리
 - [x] : GameState - winner 삭제
 - [x] : WhiteTurn, BlackTurn 공통 로직 빼기
 - [x] : White 와 Black 각각 rule 을 만들어주셨으므로, 생성 시점에 스스로 초기화 시켜줘도 괜찮겠습니다 :)

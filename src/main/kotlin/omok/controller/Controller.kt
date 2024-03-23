@@ -1,15 +1,16 @@
 package omok.controller
 
 import omok.model.board.Board
-import omok.model.game.GameState
 import omok.model.game.OmokGame
 import omok.model.game.OmokPlayersPlaceEvent
+import omok.model.game.state.BlackTurn
+import omok.model.game.state.GameState
 import omok.view.ConsoleOmokView
 import omok.view.OmokView
 
 class Controller(
     private val omokView: OmokView = ConsoleOmokView,
-    private val state: GameState = GameState.Running.BlackTurn(Board()),
+    private val state: GameState = BlackTurn(Board()),
     private val event: OmokPlayersPlaceEvent =
         OmokPlayersPlaceEvent(
             omokView::readPosition,
