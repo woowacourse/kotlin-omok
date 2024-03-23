@@ -38,12 +38,23 @@ class StonesTest {
         }
     }
 
+    /*
+      9 [ ] [●] [ ] [ ] [ ]
+      8 [ ] [●] [ ] [ ] [ ]
+      7 [ ] [○] [ ] [ ] [ ]
+      6 [ ] [●] [ ] [ ] [ ]
+      5 [ ] [●] [ ] [ ] [ ]
+         E   F
+    * */
     @Test
     fun `한 방향으로 연속된 같은 색상의 돌 개수를 반환한다`() {
-        stones.putStone(Stone(Color.BLACK, COORDINATE_F5))
-        stones.putStone(Stone(Color.BLACK, COORDINATE_F6))
-        stones.putStone(Stone(Color.WHITE, COORDINATE_F7))
-        stones.putStone(Stone(Color.BLACK, COORDINATE_F9))
+        val initStones = listOf(
+            Stone(Color.BLACK, COORDINATE_F5),
+            Stone(Color.BLACK, COORDINATE_F6),
+            Stone(Color.WHITE, COORDINATE_F7),
+            Stone(Color.BLACK, COORDINATE_F9)
+        )
+        val stones = Stones(initStones)
 
         val actual =
             stones.countSameColorStoneInDirection(
@@ -53,12 +64,23 @@ class StonesTest {
         assertThat(actual).isEqualTo(2)
     }
 
+    /*
+      9 [ ] [●] [ ] [ ] [ ]
+      8 [ ] [●] [ ] [ ] [ ]
+      7 [ ] [●] [ ] [ ] [ ]
+      6 [ ] [●] [ ] [ ] [ ]
+      5 [ ] [●] [ ] [ ] [ ]
+         E   F
+    * */
     @Test
     fun `같은 색상의 연속된 돌이 5개 이상이라면 true를 반환한다`() {
-        stones.putStone(Stone(Color.BLACK, COORDINATE_F5))
-        stones.putStone(Stone(Color.BLACK, COORDINATE_F6))
-        stones.putStone(Stone(Color.BLACK, COORDINATE_F7))
-        stones.putStone(Stone(Color.BLACK, COORDINATE_F9))
+        val initStones = listOf(
+            Stone(Color.BLACK, COORDINATE_F5),
+            Stone(Color.BLACK, COORDINATE_F6),
+            Stone(Color.BLACK, COORDINATE_F7),
+            Stone(Color.BLACK, COORDINATE_F9)
+        )
+        val stones = Stones(initStones)
 
         val actual = stones.findOmok(Stone(Color.BLACK, COORDINATE_F8))
 

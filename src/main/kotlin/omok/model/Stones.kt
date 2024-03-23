@@ -1,9 +1,13 @@
 package omok.model
 
-class Stones {
+class Stones(initialStones: List<Stone> = emptyList()) {
     private val _stones: MutableList<Stone> = mutableListOf()
     val stones: List<Stone>
         get() = _stones
+
+    init {
+        _stones.addAll(initialStones)
+    }
 
     fun putStone(stone: Stone) {
         val isOccupied = checkOccupiedCoordinate(stone.coordinate)

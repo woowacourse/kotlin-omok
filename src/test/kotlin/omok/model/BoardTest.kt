@@ -30,6 +30,14 @@ class BoardTest {
         assertThat(board.stones.stones).contains(blackStone)
     }
 
+    /*
+     12 [ ] [ ] [ ] [ ] [ ]
+     11 [ ] [ ] [ ] [ ] [ ]
+     10 [ ] [ ] [●] [ ] [ ]
+      9 [ ] [ ] [●] [ ] [ ]
+      8 [●] [●] [X] [ ] [ ]
+         D   E   F   G   H
+    * */
     @Test
     fun `흑 플레이어가 3-3을 만드는 경우, 착수할 수 없다`() {
         createBoard(samSamBlackStones)
@@ -38,6 +46,14 @@ class BoardTest {
         }
     }
 
+    /*
+     12 [ ] [ ] [ ] [ ] [ ]
+     11 [ ] [ ] [ ] [●] [ ]
+     10 [ ] [ ] [ ] [●] [ ]
+      9 [ ] [ ] [ ] [●] [ ]
+      8 [●] [●] [●] [X] [ ]
+         C   D   E   F   G
+    * */
     @Test
     fun `흑 플레이어가 4-4을 만드는 경우, 착수할 수 없다`() {
         createBoard(fourFourBlackStones)
@@ -46,6 +62,15 @@ class BoardTest {
         }
     }
 
+    /*
+      10 [ ] [ ] [ ] [●] [ ]
+       9 [ ] [ ] [ ] [●] [ ]
+       8 [ ] [ ] [ ] [X] [ ]
+       7 [ ] [ ] [ ] [●] [ ]
+       6 [ ] [ ] [ ] [●] [ ]
+       5 [ ] [ ] [ ] [●] [ ]
+          C   D   E   F   G
+    * */
     @Test
     fun `흑 플레이어가 장목을 만드는 경우, 착수할 수 없다`() {
         createBoard(moreThanFiveBlackStones)
@@ -54,6 +79,17 @@ class BoardTest {
         }
     }
 
+    /*
+      11 [ ] [ ] [ ] [●] [ ]
+      10 [ ] [ ] [ ] [●] [ ]
+       9 [ ] [ ] [ ] [ ] [ ]
+       8 [ ] [ ] [ ] [X] [ ]
+       7 [ ] [ ] [ ] [●] [ ]
+       6 [ ] [ ] [ ] [●] [ ]
+       5 [ ] [ ] [ ] [ ] [ ]
+       4 [ ] [ ] [ ] [●] [ ]
+          C   D   E   F   G
+    * */
     @Test
     fun `흑 플레이어가 열린 4-4을 만드는 경우, 착수할 수 없다`() {
         createBoard(openFourFourBlackStones)
