@@ -1,5 +1,10 @@
 package omock.model.rule
 
+import omock.model.rule.CalculateTypeErrorMessage.FOUR_TO_FOUR_COUNT_ERROR
+import omock.model.rule.CalculateTypeErrorMessage.IS_CLEAR_FOUR_TO_FOUR_COUNT_ERROR
+import omock.model.rule.CalculateTypeErrorMessage.IS_RESERVE_TWO_AND_THREE_ERROR
+import omock.model.rule.CalculateTypeErrorMessage.THREE_TO_THREE_COUNT_ERROR
+
 sealed interface CalculateType {
     data object ThreeToThreeCount : CalculateType
 
@@ -8,19 +13,21 @@ sealed interface CalculateType {
     data object IsReverseTwoAndThree : CalculateType
 
     data object IsClearFourToFourCount : CalculateType
-}
 
-inline fun CalculateType.checkCalculateType(action: () -> Boolean) {
-    if (action()) {
-        throw IllegalArgumentException(getCalculateMessage(this))
-    }
-}
+    companion object {
+        inline fun CalculateType.checkCalculateType(action: () -> Boolean) {
+            if (action()) {
+                throw IllegalArgumentException(getCalculateMessage(this))
+            }
+        }
 
-fun getCalculateMessage(calculateType: CalculateType): String {
-    return when (calculateType) {
-        CalculateType.FourToFourCount -> "4-4 금수를 어겼습니다."
-        CalculateType.IsClearFourToFourCount -> "열린 4-4 금수를 어겼습니다."
-        CalculateType.IsReverseTwoAndThree -> "장목 금수를 어겼습니다."
-        CalculateType.ThreeToThreeCount -> "3-3 금수를 어겼습니다."
+        fun getCalculateMessage(calculateType: CalculateType): String {
+            return when (calculateType) {
+                is FourToFourCount -> THREE_TO_THREE_COUNT_ERROR.message
+                is IsClearFourToFourCount -> FOUR_TO_FOUR_COUNT_ERROR.message
+                is IsReverseTwoAndThree -> IS_RESERVE_TWO_AND_THREE_ERROR.message
+                is ThreeToThreeCount -> IS_CLEAR_FOUR_TO_FOUR_COUNT_ERROR.message
+            }
+        }
     }
 }
