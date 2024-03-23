@@ -45,7 +45,7 @@ class Board(
     companion object {
         private const val EXCEPTION_DUPLICATED_POSITION = "중복된 곳에 착수할 수 없습니다."
         private const val ODD_EVEN_INDICATOR = 2
-        private const val ARRAY_SIZE = 16
-        private const val BOARD_SIZE = ARRAY_SIZE - 1
+        private const val BOARD_SIZE = 15
+        private const val ARRAY_SIZE = BOARD_SIZE + 1
     }
 }
