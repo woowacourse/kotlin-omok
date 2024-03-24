@@ -11,11 +11,18 @@ private const val WHITE_SIGNATURE_NUMBER = 2
 fun Array<Array<Color>>.toArkOmokBoard(): List<List<Int>> {
     val arkBoard = MutableList(BOARD_SIZE) { MutableList(BOARD_SIZE) { BLANK_SIGNATURE_NUMBER } }
     for (i in 1 until this.size) {
-        for (j in 1 until this[i].size) {
-            arkBoard[i - 1][j - 1] = this[i][j].toSignatureNumber()
-        }
+        changeToArk(i, arkBoard)
     }
     return arkBoard
+}
+
+private fun Array<Array<Color>>.changeToArk(
+    i: Int,
+    arkBoard: MutableList<MutableList<Int>>,
+) {
+    for (j in 1 until this[i].size) {
+        arkBoard[i - 1][j - 1] = this[i][j].toSignatureNumber()
+    }
 }
 
 private fun Color.toSignatureNumber() =
