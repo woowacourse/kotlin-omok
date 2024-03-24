@@ -10,7 +10,8 @@ class HorizontalDfs(
         row: Int,
         column: Int,
     ) {
-        if (!isVisitedPosition(color, row, column)) return
+        if (!isVisitAble(color, row, column)) return
+        visit(row, column)
         search(color, row, column - 1)
         search(color, row, column + 1)
     }

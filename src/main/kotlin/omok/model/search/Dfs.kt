@@ -16,27 +16,18 @@ sealed class Dfs(
         column: Int,
     )
 
-    protected fun isVisitedPosition(
+    protected fun isVisitAble(
         color: Color,
         row: Int,
         column: Int,
     ): Boolean {
-        if (!isVisitAvailable(row, column, color)) return false
-        visit(row, column)
-        return true
-    }
-
-    private fun isVisitAvailable(
-        row: Int,
-        column: Int,
-        color: Color,
-    ): Boolean =
-        row in 1..Board.BOARD_SIZE &&
+        return row in 1..Board.BOARD_SIZE &&
             column in 1..Board.BOARD_SIZE &&
             status[row][column] == color &&
             !visited[row][column]
+    }
 
-    private fun visit(
+    protected fun visit(
         row: Int,
         column: Int,
     ) {
