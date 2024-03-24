@@ -7,7 +7,7 @@ class OmokGame(
     val players: Pair<Player, Player>,
     val board: Board,
 ) {
-     fun playGame() {
+    fun playGame() {
         while (true) {
             if (playOmok(players.first, board)) break
             if (playOmok(players.second, board)) break
@@ -29,22 +29,17 @@ class OmokGame(
         player: Player,
         board: Board,
     ) {
-        while (true) {
-            val result = playTurn(player, board)
-            if (result.isSuccess) {
-                break
-            } else {
-                result.onFailure { e -> OutputView.printErrorMessage(e.message!!) }
-            }
+        var finishTurn = false
+        while (!finishTurn) {
+            finishTurn = playTurn(player, board)
         }
     }
 
     private fun playTurn(
         player: Player,
         board: Board,
-    ) = runCatching {
+    ): Boolean {
         val coordinate = InputView.inputStoneCoordinate()
-        player.playTurn(board, coordinate)
+        return player.playTurn(board, coordinate)
     }
-
 }

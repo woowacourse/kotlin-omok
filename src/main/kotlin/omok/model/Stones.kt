@@ -9,12 +9,13 @@ class Stones(initialStones: List<Stone> = emptyList()) {
         _stones.addAll(initialStones)
     }
 
-    fun putStone(stone: Stone) {
+    fun putStone(stone: Stone): Boolean {
         val isOccupied = checkOccupiedCoordinate(stone.coordinate)
         when (isOccupied) {
             false -> _stones.add(stone)
-            true -> throw IllegalStateException(ERROR_CANT_PUT_STONE)
+            true -> return false
         }
+        return true
     }
 
     private fun checkOccupiedCoordinate(coordinate: Coordinate): Boolean {

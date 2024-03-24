@@ -3,7 +3,6 @@ package omok.model
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class StonesTest {
     private lateinit var stones: Stones
@@ -31,11 +30,12 @@ class StonesTest {
     }
 
     @Test
-    fun `착수하려는 돌의 위치가 중복되면 예외를 던져야한다`() {
+    fun `착수하려는 돌의 위치가 중복되면 착수할 수 없다`() {
         stones.putStone(Stone(white, COORDINATE_F5))
-        assertThrows<IllegalStateException> {
-            stones.putStone(Stone(black, COORDINATE_F5))
-        }
+
+        val isPutStone = stones.putStone(Stone(black, COORDINATE_F5))
+
+        assertThat(isPutStone).isFalse()
     }
 
     /*
@@ -45,15 +45,16 @@ class StonesTest {
       6 [ ] [●] [ ] [ ] [ ]
       5 [ ] [●] [ ] [ ] [ ]
          E   F
-    * */
+     */
     @Test
     fun `한 방향으로 연속된 같은 색상의 돌 개수를 반환한다`() {
-        val initStones = listOf(
-            Stone(Color.BLACK, COORDINATE_F5),
-            Stone(Color.BLACK, COORDINATE_F6),
-            Stone(Color.WHITE, COORDINATE_F7),
-            Stone(Color.BLACK, COORDINATE_F9)
-        )
+        val initStones =
+            listOf(
+                Stone(Color.BLACK, COORDINATE_F5),
+                Stone(Color.BLACK, COORDINATE_F6),
+                Stone(Color.WHITE, COORDINATE_F7),
+                Stone(Color.BLACK, COORDINATE_F9),
+            )
         val stones = Stones(initStones)
 
         val actual =
@@ -74,12 +75,13 @@ class StonesTest {
     * */
     @Test
     fun `같은 색상의 연속된 돌이 5개 이상이라면 true를 반환한다`() {
-        val initStones = listOf(
-            Stone(Color.BLACK, COORDINATE_F5),
-            Stone(Color.BLACK, COORDINATE_F6),
-            Stone(Color.BLACK, COORDINATE_F7),
-            Stone(Color.BLACK, COORDINATE_F9)
-        )
+        val initStones =
+            listOf(
+                Stone(Color.BLACK, COORDINATE_F5),
+                Stone(Color.BLACK, COORDINATE_F6),
+                Stone(Color.BLACK, COORDINATE_F7),
+                Stone(Color.BLACK, COORDINATE_F9),
+            )
         val stones = Stones(initStones)
 
         val actual = stones.findOmok(Stone(Color.BLACK, COORDINATE_F8))
