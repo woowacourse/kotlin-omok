@@ -1,27 +1,34 @@
 package omok.model
 
+import omok.model.entity.Point
 import omok.model.entity.Stone
-import omok.model.rule.Rule
 
-class Board private constructor(val stones: Set<Stone>) {
+class Board private constructor(private val _stones: Set<Stone>) {
     constructor() : this(setOf<Stone>())
+
+    val stones: Set<Stone>
+        get() = _stones.toSet()
 
     fun place(stone: Stone): PlaceStoneResult =
         when {
-            !(stone.point.x in SIZE_RANGE && stone.point.y in SIZE_RANGE) -> StoneOutOfBoard()
-            stones.find { it.point == stone.point } != null -> StoneAlreadyExists()
-            else -> Success(Board(stones.plus(stone)))
+            !isPointInBoard(stone.point) -> StoneOutOfBoard()
+            !isPointEmpty(stone.point) -> StoneAlreadyExists()
+            else -> Success(Board(_stones + stone))
         }
 
     fun previousStone(): Stone? {
-        return stones.lastOrNull()
+        return _stones.lastOrNull()
     }
 
     fun contains(stone: Stone): Boolean {
-        return stones.contains(stone)
+        return _stones.contains(stone)
     }
 
-    fun isFull(): Boolean = stones.count() == MAX_SIZE * MAX_SIZE
+    fun isPointInBoard(point: Point): Boolean = (point.x in SIZE_RANGE && point.y in SIZE_RANGE)
+
+    fun isPointEmpty(point: Point): Boolean = _stones.find { it.point == point } == null
+
+    fun isFull(): Boolean = _stones.count() == MAX_SIZE * MAX_SIZE
 
     companion object {
         private const val MIN_SIZE = 1

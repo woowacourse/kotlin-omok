@@ -1,118 +1,35 @@
 package omok.model.rule
 
 import omok.model.Board
-import omok.model.entity.Point
 import omok.model.entity.Stone
 
 object FourByFourRule : Rule {
     override fun check(board: Board): Boolean {
-        val previousStone = board.previousStone() ?: throw IllegalStateException()
-        val color = previousStone.stoneColor
-        return board.stones
-            .filter { it.stoneColor == color }
-            .any {
-                checkOneStone(it, board)
-            }
-    }
-
-    private fun checkOneStone(
-        stone: Stone,
-        board: Board,
-    ): Boolean {
-        val directions =
-            listOf(
-                1 to 0,
-                0 to 1,
-                1 to 1,
-                -1 to 1,
-            )
-
         val sum =
             directions.count { direction ->
-                val (vecX, vecY) = direction
-                val oppositeDirection = -vecX to -vecY
-                (0..3).any {
-                    val left = stoneCount(oppositeDirection, stone, board, 0, it)
-                    val right = stoneCount(direction, stone, board, 0, 3 - it)
-                    val withBlank =
-                        (0..1).any { targetBlankCount ->
-                            val leftWithBlank =
-                                stoneCountWithBlank(oppositeDirection, stone, board, 0, it, 0, targetBlankCount)
-                            val rightWithBlank =
-                                stoneCountWithBlank(direction, stone, board, 0, 3 - it, 0, targetBlankCount)
-                            stoneCountWithBlank(direction, stone, board, 0, 3 - it, 0, targetBlankCount)
-                            leftWithBlank && rightWithBlank
-                        }
-                    left && right || withBlank
-                }
+                checkDirection(board, direction)
             }
         return sum >= 2
     }
 
-    private tailrec fun stoneCount(
-        direction: Pair<Int, Int>,
-        stone: Stone,
+    private fun checkDirection(
         board: Board,
-        omokCount: Int,
-        targetOmokCount: Int,
+        direction: Direction,
     ): Boolean {
-        val (vecX, vecY) = direction
-        val point = stone.point
-        val color = stone.stoneColor
-        val newPoint = Point(point.x + vecX, point.y + vecY)
-        val newStone = Stone(newPoint, color)
-        if (targetOmokCount == 0) {
-            return !board.stones.contains(newStone)
+        val previousStone = board.previousStone() ?: throw IllegalStateException()
+        return (0..3).any {
+            val left = uniDirectionalScan(board, direction, previousStone, it)
+            val right = uniDirectionalScan(board, -direction, previousStone, 3 - it)
+            left && right
         }
-        if (board.stones.contains(stone).not()) return false
-        if (omokCount == targetOmokCount) {
-            return !board.stones.contains(newStone)
-        }
-        return stoneCount(direction, newStone, board, omokCount + 1, targetOmokCount)
     }
 
-    private tailrec fun stoneCountWithBlank(
-        direction: Pair<Int, Int>,
-        stone: Stone,
+    private fun uniDirectionalScan(
         board: Board,
-        omokCount: Int,
-        targetOmokCount: Int,
-        blankCount: Int,
-        targetBlankCount: Int,
-    ): Boolean {
-        val (vecX, vecY) = direction
-        val point = stone.point
-        val newPoint = Point(point.x + vecX, point.y + vecY)
-        val newStone = Stone(newPoint, stone.stoneColor)
-        if (targetOmokCount == 0) {
-            return !board.stones.contains(newStone)
-        }
-        if (board.stones.contains(stone).not()) {
-            if (blankCount == 1) {
-                return false
-            }
-            return stoneCountWithBlank(
-                direction,
-                newStone,
-                board,
-                omokCount,
-                targetOmokCount,
-                blankCount + 1,
-                targetBlankCount,
-            )
-        }
-        if (omokCount == targetOmokCount) {
-            return !board.stones.contains(newStone)
-        }
-
-        return stoneCountWithBlank(
-            direction,
-            newStone,
-            board,
-            omokCount + 1,
-            targetOmokCount,
-            blankCount,
-            targetBlankCount,
-        )
-    }
+        direction: Direction,
+        stone: Stone,
+        length: Int,
+    ): Boolean =
+        isLineWithoutBlank(board, direction, stone, length) ||
+            isLineWithBlank(board, direction, stone, length + 1)
 }
