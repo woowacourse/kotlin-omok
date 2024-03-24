@@ -1,12 +1,15 @@
 package omok.view
 
+import omok.model.Board
 import omok.model.Color
 import omok.model.Position
-import omok.model.Stone
 
 class InputView {
-    fun inputPosition(lastTurn: Stone?): Pair<Int, Char> {
-        showCurrentTurn(lastTurn)
+    fun inputPosition(
+        currentTurn: Color,
+        board: Board,
+    ): Pair<Int, Char> {
+        showCurrentTurn(currentTurn, board)
         print(MESSAGE_INPUT_POSITION)
         return getPositionData()
     }
@@ -18,12 +21,18 @@ class InputView {
         return Pair(row, col)
     }
 
-    private fun showCurrentTurn(lastTurn: Stone?) {
-        lastTurn?.let {
-            val currentColor = Color.getReversedColor(it.color)
-            println(MESSAGE_PLAYERS_TURN.format(currentColor.label))
-            showLastPosition(lastTurn.position)
-        } ?: println(MESSAGE_PLAYERS_TURN.format(Color.BLACK.label))
+    private fun showCurrentTurn(
+        currentTurn: Color,
+        board: Board,
+    ) {
+        if (board.notation.isEmpty()) {
+            println(MESSAGE_PLAYERS_TURN.format(currentTurn.label))
+        }
+        if (board.notation.isNotEmpty())
+            {
+                println(MESSAGE_PLAYERS_TURN.format(currentTurn.label))
+                showLastPosition(board.notation.last().position)
+            }
     }
 
     private fun showLastPosition(position: Position) {

@@ -1,5 +1,6 @@
 package omok.model
 
+import omok.model.fixture.createDrawBoard
 import omok.model.fixture.createGameOverBoard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -9,14 +10,11 @@ import org.junit.jupiter.params.provider.CsvSource
 
 class BoardTest {
     @Test
-    fun `이미 돌이 있는 자리에 착수를 진행하면, 예외를 발생시킬 수 있어야 한다`() {
+    fun `이미 돌이 있는 자리에 착수를 진행하면, 예외를 발생시켜야 한다`() {
         // given
-        val stones =
-            listOf(
-                Stone.Black(Position(Row.ONE, Column.A)),
-                Stone.White(Position(Row.TEN, Column.C)),
-            )
-        val board = Board(stones)
+        val board = Board()
+        // when
+        board.place(Position(Row.ONE, Column.A))
         assertThrows<IllegalArgumentException> {
             board.place(Position(Row.ONE, Column.A))
         }
@@ -30,7 +28,7 @@ class BoardTest {
         board.place(Position(Row.TEN, Column.B))
         board.place(Position(Row.ONE, Column.A))
         // then
-        assertThat(board.stones.last().color).isEqualTo(Color.WHITE)
+        assertThat(board.notation.last().color).isEqualTo(Color.WHITE)
     }
 
     @ParameterizedTest
@@ -50,5 +48,15 @@ class BoardTest {
         val result = board.getGameResult(Position.of(row, col))
         // then
         assertThat(result).isEqualTo(gameResult)
+    }
+
+    @Test
+    fun `같은돌 연속 5개가 완성되지 않으면서 판이 모두 채워졌다면 무승부를 반환해야 한다`() {
+        // given
+        val board = Board(_status = createDrawBoard())
+        // when
+        val result = board.getGameResult(Position.of(1, 'A'))
+        // then
+        assertThat(result).isEqualTo(GameResult.DRAW)
     }
 }

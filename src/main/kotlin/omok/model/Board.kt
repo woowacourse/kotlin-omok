@@ -9,28 +9,24 @@ import omok.model.state.TurnState
 import omok.model.state.White
 
 class Board(
-    stones: List<Stone> = emptyList(),
+    notation: List<Stone> = emptyList(),
     private val _status: Array<Array<Color>> = Array(ARRAY_SIZE) { Array(ARRAY_SIZE) { Color.NONE } },
 ) {
+    var notation: List<Stone> = notation.toList()
+        private set
+
     val status: List<List<Color>>
         get() = _status.map { it.toList() }.toList()
 
-    var stones: List<Stone> = stones.toList()
-        private set
-
-    private val nextStoneColor: Color
-        get() = if (isEven(stones.size)) Color.BLACK else Color.WHITE
+    val turn: Color
+        get() = if (isEven(notation.size)) Color.BLACK else Color.WHITE
 
     private val turnState: TurnState
-        get() = if (isEven(stones.size)) Black(_status) else White()
+        get() = if (turn == Color.BLACK) Black(_status) else White()
 
     fun place(position: Position) {
-        require(position !in stones.map { it.position }) { EXCEPTION_DUPLICATED_POSITION }
+        require(!isDuplicated(position)) { EXCEPTION_DUPLICATED_POSITION }
         turnState.addStone(position, ::placeStone)
-    }
-
-    private fun isEven(num: Int): Boolean {
-        return num % ODD_EVEN_INDICATOR == 0
     }
 
     fun getGameResult(position: Position): GameResult {
@@ -40,8 +36,26 @@ class Board(
         if (isCurrentTurnWin(position)) {
             return GameResult.entries.first { it.color == color }
         }
-        if (stones.size >= BOARD_SIZE * BOARD_SIZE) return GameResult.DRAW
+        if (isBoardFull()) return GameResult.DRAW
         return GameResult.PROCEEDING
+    }
+
+    private fun isDuplicated(position: Position): Boolean {
+        val row = ARRAY_SIZE - position.row.value
+        val col = position.col.value
+        return _status[row][col] != Color.NONE
+    }
+
+    private fun placeStone(position: Position) {
+        val row = position.row.value
+        val col = position.col.title
+        _status[ARRAY_SIZE - position.row.value][position.col.value] = turn
+        notation =
+            when (turn) {
+                Color.BLACK -> notation.plus(Stone.Black(Position.of(row, col)))
+                Color.WHITE -> notation.plus(Stone.White(Position.of(row, col)))
+                Color.NONE -> notation
+            }
     }
 
     private fun isCurrentTurnWin(position: Position): Boolean {
@@ -55,16 +69,20 @@ class Board(
         return listOf(verticalCount, horizontalCount, ascendingCount, descendingCount).any { it >= 5 }
     }
 
-    private fun placeStone(position: Position) {
-        val row = position.row.value
-        val col = position.col.title
-        _status[ARRAY_SIZE - position.row.value][position.col.value] = nextStoneColor
-        stones =
-            when (nextStoneColor) {
-                Color.BLACK -> stones.plus(Stone.Black(Position.of(row, col)))
-                Color.WHITE -> stones.plus(Stone.White(Position.of(row, col)))
-                Color.NONE -> stones
-            }
+    private fun isBoardFull(): Boolean {
+        return status.all { oneDimensionalList ->
+            isOneLineOfBoardFull(oneDimensionalList)
+        }
+    }
+
+    private fun isOneLineOfBoardFull(oneLine: List<Color>): Boolean {
+        return oneLine.all { color ->
+            color != Color.NONE
+        }
+    }
+
+    private fun isEven(num: Int): Boolean {
+        return num % ODD_EVEN_INDICATOR == 0
     }
 
     companion object {
