@@ -1,6 +1,7 @@
 package omok.model.rule
 
 import omok.model.Board
+import omok.model.rule.Rule.Companion.directions
 
 class StonesInRowRule(private val maxStoneCount: Int) : Rule {
     override fun check(board: Board): Boolean {
@@ -13,10 +14,10 @@ class StonesInRowRule(private val maxStoneCount: Int) : Rule {
         board: Board,
         direction: Direction,
     ): Boolean {
-        val previousStone = board.previousStone() ?: throw IllegalStateException()
+        val centerStone = board.previousStone() ?: throw IllegalStateException()
         return (0..<maxStoneCount - 1).any {
-            val left = isLineWithoutBlank(board, -direction, previousStone, it)
-            val right = isLineWithoutBlank(board, -direction, previousStone, maxStoneCount - it)
+            val left = isLineWithoutBlank(board, -direction, centerStone, it)
+            val right = isLineWithoutBlank(board, -direction, centerStone, maxStoneCount - it)
             left && right
         }
     }
