@@ -1,53 +1,12 @@
 package omok.model
 
-class Board {
-    val layout: Array<Array<PositionType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { PositionType.EMPTY } }
+import omok.library.BlackStoneOmokRule
+
+class Board(private val boardSize: Int = BOARD_SIZE) {
+    val layout: Array<Array<PositionType>> = Array(boardSize) { Array(boardSize) { PositionType.EMPTY } }
     var lastPosition: Position? = null
-    private lateinit var omokRule: OmokRule
-
-    fun setupOmokRule(current: PositionType) {
-        when (current) {
-            PositionType.BLACK_STONE -> {
-                omokRule = OmokRule(layout, PositionType.BLACK_STONE, PositionType.WHITE_STONE, BOARD_SIZE)
-                setBlock(omokRule::checkThreeThree, omokRule::countFourFour, omokRule::checkMoreThanFive)
-            }
-
-            PositionType.WHITE_STONE -> {
-                omokRule = OmokRule(layout, PositionType.WHITE_STONE, PositionType.BLACK_STONE, BOARD_SIZE)
-                removeBlock()
-            }
-
-            else -> throw IllegalArgumentException(ERROR_POSITION_TYPE)
-        }
-    }
-
-    fun isOmok(
-        position: Position,
-        positionType: PositionType,
-    ): Boolean {
-        return when (positionType) {
-            PositionType.BLACK_STONE -> {
-                omokRule.validateOmok(position.coordinate.x, position.coordinate.y) &&
-                    !omokRule.checkMoreThanFive(position.coordinate.x, position.coordinate.y)
-            }
-
-            PositionType.WHITE_STONE -> {
-                omokRule.validateOmok(position.coordinate.x, position.coordinate.y)
-            }
-
-            else -> throw IllegalArgumentException()
-        }
-    }
-
-    private fun removeBlock() {
-        layout.forEach { row ->
-            row.forEachIndexed { index, stoneType ->
-                if (stoneType == PositionType.BLOCK) {
-                    row[index] = PositionType.EMPTY
-                }
-            }
-        }
-    }
+        private set
+    private val blackStoneOmokRule: BlackStoneOmokRule = BlackStoneOmokRule()
 
     fun placeStone(
         position: Position,
@@ -61,16 +20,34 @@ class Board {
         }
     }
 
+    fun setupBoard(current: PositionType) {
+        when (current) {
+            PositionType.BLACK_STONE -> {
+                setBlock(
+                    blackStoneOmokRule::isThreeThree,
+                    blackStoneOmokRule::isFourFour,
+                    blackStoneOmokRule::isMoreThanFive,
+                )
+            }
+
+            PositionType.WHITE_STONE -> {
+                removeBlock()
+            }
+
+            else -> throw IllegalArgumentException(ERROR_POSITION_TYPE)
+        }
+    }
+
     private fun setBlock(
-        checkThreeThree: (Int, Int) -> Boolean,
-        checkFourFour: (Int, Int) -> Boolean,
-        checkMoreThanFive: (Int, Int) -> Boolean,
+        isThreeThree: (Int, Int, Array<Array<PositionType>>) -> Boolean,
+        isFourFour: (Int, Int, Array<Array<PositionType>>) -> Boolean,
+        isMoreThanFive: (Int, Int, Array<Array<PositionType>>) -> Boolean,
     ) {
         val blockPositions: MutableList<Pair<Int, Int>> = mutableListOf()
 
-        for (i in MIN_INDEX until BOARD_SIZE) {
-            for (j in MIN_INDEX until BOARD_SIZE) {
-                if (isBlockPosition(i, j, checkThreeThree, checkFourFour, checkMoreThanFive)) {
+        for (i in MIN_INDEX until boardSize) {
+            for (j in MIN_INDEX until boardSize) {
+                if (isBlockPosition(i, j, isThreeThree, isFourFour, isMoreThanFive)) {
                     blockPositions.add(Pair(i, j))
                 }
             }
@@ -83,16 +60,26 @@ class Board {
     private fun isBlockPosition(
         i: Int,
         j: Int,
-        checkThreeThree: (Int, Int) -> Boolean,
-        checkFourFour: (Int, Int) -> Boolean,
-        checkMoreThanFive: (Int, Int) -> Boolean,
-    ) = (checkThreeThree(i, j) || checkFourFour(i, j) || checkMoreThanFive(i, j)) && layout[i][j] == PositionType.EMPTY
+        isThreeThree: (Int, Int, Array<Array<PositionType>>) -> Boolean,
+        isFourFour: (Int, Int, Array<Array<PositionType>>) -> Boolean,
+        isMoreThanFive: (Int, Int, Array<Array<PositionType>>) -> Boolean,
+    ) = (isThreeThree(i, j, layout) || isFourFour(i, j, layout) || isMoreThanFive(i, j, layout)) &&
+        layout[i][j] == PositionType.EMPTY
+
+    private fun removeBlock() {
+        layout.forEach { row ->
+            row.forEachIndexed { index, stoneType ->
+                if (stoneType == PositionType.BLOCK) {
+                    row[index] = PositionType.EMPTY
+                }
+            }
+        }
+    }
 
     companion object {
         private const val MIN_INDEX = 0
         private const val BOARD_SIZE = 15
         private const val ERROR_INVALID_POSITION = "돌을 놓을 수 없는 자리입니다."
-        private const val ERROR_BLOCK_STONE = "BLOCK 생성을 실패했습니다."
         private const val ERROR_POSITION_TYPE = "올바른 PositionType이 아닙니다."
     }
 }
