@@ -1,10 +1,8 @@
 package omok.model
 
-import omok.rule.Rule
-
 data class Point(val x: Int, val y: Int) {
     init {
-        require(x in MIN_POINT until Rule.BOARD_SIZE && y in MIN_POINT until Rule.BOARD_SIZE)
+        require(x in MIN_POINT until Board.BOARD_SIZE && y in MIN_POINT until Board.BOARD_SIZE)
     }
 
     companion object {

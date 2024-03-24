@@ -1,8 +1,5 @@
 package omok.model
 
-import omok.rule.BlackRule
-import omok.rule.WhiteRule
-
 sealed interface Turn {
     val stoneType: StoneType
 
@@ -12,7 +9,7 @@ sealed interface Turn {
     ): Turn
 }
 
-class BlackTurn : Turn {
+class BlackTurn(private val ruleAdapter: RuleAdapter) : Turn {
     override val stoneType: StoneType = StoneType.BLACK
 
     override fun nextTurn(
@@ -20,13 +17,13 @@ class BlackTurn : Turn {
         board: Board,
     ): Turn {
         val stone = Stone(stoneType, point)
-        if (BlackRule.isForbidden(board, stone)) return this
-        if (BlackRule.isWinCondition(board, stone)) return FinishedTurn(stoneType)
-        return WhiteTurn()
+        if (ruleAdapter.checkCanPutStone(board, stone)) return this
+        if (ruleAdapter.checkWin(board, stone)) return FinishedTurn(stoneType)
+        return WhiteTurn(WhiteRule())
     }
 }
 
-class WhiteTurn : Turn {
+class WhiteTurn(private val ruleAdapter: RuleAdapter) : Turn {
     override val stoneType: StoneType = StoneType.WHITE
 
     override fun nextTurn(
@@ -34,8 +31,8 @@ class WhiteTurn : Turn {
         board: Board,
     ): Turn {
         val stone = Stone(stoneType, point)
-        if (WhiteRule.isWinCondition(board, stone)) return FinishedTurn(stoneType)
-        return BlackTurn()
+        if (ruleAdapter.checkWin(board, stone)) return FinishedTurn(stoneType)
+        return BlackTurn(BlackRule())
     }
 }
 
