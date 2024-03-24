@@ -12,7 +12,7 @@ class DescendingDfsTest {
         "BLACK,11,3,3",
         "WHITE,4,1,3",
     )
-    fun `우하향대각선 dfs를 할 수 있다`(
+    fun `우하향대각선 dfs로 우하향 대각선으로 연속된 돌의 개수를 셀 수 있어야 한다`(
         color: Color,
         row: Int,
         col: Int,

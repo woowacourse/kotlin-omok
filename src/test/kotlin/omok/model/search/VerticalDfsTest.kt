@@ -15,7 +15,7 @@ class VerticalDfsTest {
         "BLACK,15,3,5",
         "WHITE,5,2,2",
     )
-    fun `수직 dfs를 할 수 있다`(
+    fun `수직 dfs로 수직으로 연속된 돌의 개수를 셀 수 있어야 한다`(
         color: Color,
         row: Int,
         col: Int,
@@ -30,7 +30,7 @@ class VerticalDfsTest {
     }
 
     @Test
-    fun `가장자리 수직 dfs 테스트`() {
+    fun `흑돌이 수직으로 5개가 연속으로 놓여있다면 수직 dfs로 5개의 흑돌을 셀 수 있어야 한다`() {
         val verticalDfs =
             VerticalDfs(
                 arrayOf(

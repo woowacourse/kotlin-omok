@@ -13,7 +13,7 @@ import org.junit.jupiter.api.assertThrows
 
 class BlackTest {
     @Test
-    fun `흑돌이 연속으로 다섯 개가 놓였다면 흑이 승리한다`() {
+    fun `흑돌이 연속으로 다섯 개가 놓였다면 흑이 승리해야 한다`() {
         // given
         val board = createPlayingBoard()
         val blackTurnBoard = Board(_status = board)
@@ -26,7 +26,7 @@ class BlackTest {
     }
 
     @Test
-    fun `33 조건일 때, 흑돌은 착수할 수 없다`() {
+    fun `33 위치라면 흑돌은 착수할 수 없어야 한다`() {
         assertThrows<IllegalArgumentException> {
             val board = createThreeThreeBoard()
             val blackTurnBoard = Board(_status = board)
@@ -37,7 +37,7 @@ class BlackTest {
     }
 
     @Test
-    fun `44 조건일 때, 흑돌은 착수할 수 없다`() {
+    fun `44 위치라면 흑돌은 착수할 수 없어야 한다`() {
         assertThrows<IllegalArgumentException> {
             val board = createFourFourBoard()
             val blackTurnBoard = Board(_status = board)
@@ -48,7 +48,7 @@ class BlackTest {
     }
 
     @Test
-    fun `장목 조건일 때, 흑돌은 착수할 수 없다`() {
+    fun `장목 위치라면 흑돌은 착수할 수 없어야 한다`() {
         assertThrows<IllegalArgumentException> {
             val board = createOverLineBoard()
             val blackTurnBoard = Board(_status = board)

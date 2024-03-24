@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 
 class WhiteTest {
     @Test
-    fun `백돌이 연속으로 다섯 개가 놓였다면 백이 승리한다`() {
+    fun `백돌이 연속으로 다섯 개가 놓였다면 백이 승리해야 한다`() {
         // given
         val board = createWhiteWinningBoard()
         val firstStone = Stone.Black(Position.of(1, 'A'))

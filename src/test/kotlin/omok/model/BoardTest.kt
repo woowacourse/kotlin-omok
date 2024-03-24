@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertThrows
 
 class BoardTest {
     @Test
-    fun `이미 돌이 있는 자리에 착수를 진행하면, 예외를 발생시킨다`() {
+    fun `이미 돌이 있는 자리에 착수를 진행하면, 예외를 발생시킬 수 있어야 한다`() {
         // given
         val stones =
             listOf(
@@ -20,7 +20,7 @@ class BoardTest {
     }
 
     @Test
-    fun `플레이어가 번갈아가며 착수하게 한다`() {
+    fun `플레이어가 번갈아가며 착수할 수 있어야 한다`() {
         // given
         val board = Board()
         // when
