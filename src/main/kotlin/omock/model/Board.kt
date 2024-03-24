@@ -30,12 +30,12 @@ class Board(val stoneStates: List<ColumnStates>) {
         val playerState = stoneStates[row].getStoneState(column)
 
         Direction.entries.forEach { direction ->
-            visited[direction] = bfs(node, direction, playerState)
+            visited[direction] = getResultWithDirection(node, direction, playerState)
         }
         return visited
     }
 
-    private fun bfs(
+    private fun getResultWithDirection(
         node: Node,
         direction: Direction,
         playerState: StoneState,
