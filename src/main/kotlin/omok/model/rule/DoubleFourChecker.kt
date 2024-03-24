@@ -5,6 +5,13 @@ import omok.model.position.DeltaPosition
 import omok.model.position.Position
 
 object DoubleFourChecker : RenjuRule(Board.board) {
+    private const val OPEN_FOUR_NOT_FOUND = 0
+    private const val MIN_BLINKS_OPEN_FOUR = 2
+    private const val OPEN_FOUR_FOUND = 2
+    private const val REQUIRED_STONES = 3
+    private const val STONES_FOR_WIN = 4
+    private const val MAX_STONES_OPEN_FOUR = 5
+
     fun isDoubleFour(position: Position): Boolean =
         directions.sumOf { direction -> checkOpenFour(position, DeltaPosition(direction[0], direction[1])) } >= 2
 
@@ -24,10 +31,10 @@ object DoubleFourChecker : RenjuRule(Board.board) {
         val up = deltaPosition.deltaCol * (rightUp + 1)
 
         when {
-            blink1 + blink2 == 2 && stone1 + stone2 == 4 -> return 2
-            blink1 + blink2 == 2 && stone1 + stone2 == 5 -> return 2
-            stone1 + stone2 != 3 -> return 0
-            blink1 + blink2 == 2 -> return 0
+            blink1 + blink2 == MIN_BLINKS_OPEN_FOUR && stone1 + stone2 == STONES_FOR_WIN -> return OPEN_FOUR_FOUND
+            blink1 + blink2 == MIN_BLINKS_OPEN_FOUR && stone1 + stone2 == MAX_STONES_OPEN_FOUR -> return OPEN_FOUR_FOUND
+            stone1 + stone2 != REQUIRED_STONES -> return OPEN_FOUR_NOT_FOUND
+            blink1 + blink2 == MIN_BLINKS_OPEN_FOUR -> return OPEN_FOUR_NOT_FOUND
         }
 
         val row = position.row.value
