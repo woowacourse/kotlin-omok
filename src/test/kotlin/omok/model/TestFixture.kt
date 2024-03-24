@@ -15,6 +15,8 @@ val COORDINATE_F8 = Coordinate(PositionX(8), PositionY.from("F"))
 val COORDINATE_F9 = Coordinate(PositionX(9), PositionY.from("F"))
 val COORDINATE_F10 = Coordinate(PositionX(10), PositionY.from("F"))
 val COORDINATE_F11 = Coordinate(PositionX(11), PositionY.from("F"))
+val COORDINATE_F12 = Coordinate(PositionX(12), PositionY.from("F"))
+val COORDINATE_F13 = Coordinate(PositionX(13), PositionY.from("F"))
 
 val samSamBlackStones =
     listOf(

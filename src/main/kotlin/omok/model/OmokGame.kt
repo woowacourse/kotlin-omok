@@ -1,45 +1,37 @@
 package omok.model
 
-import omok.view.InputView
-import omok.view.OutputView
-
 class OmokGame(
-    val players: Pair<Player, Player>,
+    val player: Pair<Player, Player>,
     val board: Board,
 ) {
-    fun playGame() {
-        while (true) {
-            if (playOmok(players.first, board)) break
-            if (playOmok(players.second, board)) break
+    private var currentState: State = State.Running
+
+    fun isRunning(): Boolean {
+        return currentState == State.Running
+    }
+
+    private fun changeState() {
+        if (getWinnerColor() != null) {
+            currentState = State.Finished
         }
     }
 
-    private fun playOmok(
-        player: Player,
-        board: Board,
-    ): Boolean {
-        OutputView.printTurnName(player.color)
-        OutputView.printLastStone(board.stones.getLastStoneCoordinate())
-        retryPlayTurnUntilSuccess(player, board)
-        OutputView.printBoard(board.stones)
-        return player.isWin
+    private fun getWinnerColor(): Color? {
+        if (player.first.isWin) return player.first.color
+        if (player.second.isWin) return player.second.color
+        return null
     }
 
-    private fun retryPlayTurnUntilSuccess(
+    fun playTurn(
         player: Player,
-        board: Board,
-    ) {
-        var finishTurn = false
-        while (!finishTurn) {
-            finishTurn = playTurn(player, board)
-        }
-    }
-
-    private fun playTurn(
-        player: Player,
-        board: Board,
+        coordinate: Coordinate,
     ): Boolean {
-        val coordinate = InputView.inputStoneCoordinate()
-        return player.playTurn(board, coordinate)
+        val isPutStone =
+            player.playTurn(
+                board,
+                coordinate,
+            )
+        changeState()
+        return isPutStone
     }
 }
