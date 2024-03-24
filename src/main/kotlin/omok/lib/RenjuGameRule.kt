@@ -13,23 +13,23 @@ class RenjuGameRule : GameRule {
     }
 
     override fun isWinningMove(
-        rowCoords: CoordsNumber,
-        columnCoords: CoordsNumber,
+        rowCoords: Int,
+        columnCoords: Int,
         stone: Stone,
     ): Boolean {
-        if (stone == Stone.WHITE) return isLong(rowCoords, columnCoords, stone) >= 5
-        return isFive(rowCoords, columnCoords, stone)
+        if (stone == Stone.WHITE) return isLong(CoordsNumber(rowCoords), CoordsNumber(columnCoords), stone) >= 5
+        return isFive(CoordsNumber(rowCoords), CoordsNumber(columnCoords), stone)
     }
 
-    override fun findForbiddenPositions(stone: Stone): List<Position> {
-        val coords = mutableListOf<Position>()
+    override fun findForbiddenPositions(stone: Stone): List<Pair<Int, Int>> {
+        val coords = mutableListOf<Pair<Int, Int>>()
         for (y in board.gameBoard.indices) {
             for (x in board.gameBoard[y].indices) {
                 if (board.gameBoard[y][x] != Stone.EMPTY) {
                     continue
                 }
                 if (forbiddenPoint(CoordsNumber(x), CoordsNumber(y), stone)) {
-                    coords.add(Position(CoordsNumber(y), CoordsNumber(x)))
+                    coords.add(y to x)
                 }
             }
         }
@@ -37,21 +37,21 @@ class RenjuGameRule : GameRule {
     }
 
     override fun isMoveAllowed(
-        board: Board,
-        rowCoords: CoordsNumber,
-        columnCoords: CoordsNumber,
+        board: Array<Array<Stone>>,
+        rowCoords: Int,
+        columnCoords: Int,
         stone: Stone,
-        forbiddenPositions: List<Position>,
+        forbiddenPositions: List<Pair<Int, Int>>,
     ): Boolean {
-        if (Position(columnCoords, rowCoords) in forbiddenPositions) {
+        if (forbiddenPositions.contains<Pair<Any, Any>>(CoordsNumber(columnCoords) to CoordsNumber(rowCoords))) {
             return false
         }
-        if (rowCoords.number < 0 || rowCoords.number >= Board.BOARD_SIZE ||
-            columnCoords.number < 0 || columnCoords.number >= Board.BOARD_SIZE
+        if (rowCoords < 0 || rowCoords >= Board.BOARD_SIZE ||
+            columnCoords < 0 || columnCoords >= Board.BOARD_SIZE
         ) {
             return false
         }
-        if (board.gameBoard[rowCoords.number][columnCoords.number] != Stone.EMPTY) {
+        if (board[rowCoords][columnCoords] != Stone.EMPTY) {
             return false
         }
         return true
