@@ -18,9 +18,6 @@ class Board(
     var stones: List<Stone> = stones.toList()
         private set
 
-    private val lastStoneColor: Color
-        get() = if (isEven(stones.size)) Color.WHITE else Color.BLACK
-
     private val nextStoneColor: Color
         get() = if (isEven(stones.size)) Color.BLACK else Color.WHITE
 
@@ -37,8 +34,11 @@ class Board(
     }
 
     fun getGameResult(position: Position): GameResult {
+        val row = ARRAY_SIZE - position.row.value
+        val col = position.col.value
+        val color = status[row][col]
         if (isCurrentTurnWin(position)) {
-            return GameResult.entries.first { it.color == lastStoneColor }
+            return GameResult.entries.first { it.color == color }
         }
         if (stones.size >= BOARD_SIZE * BOARD_SIZE) return GameResult.DRAW
         return GameResult.PROCEEDING
@@ -47,23 +47,24 @@ class Board(
     private fun isCurrentTurnWin(position: Position): Boolean {
         val row = ARRAY_SIZE - position.row.value
         val col = position.col.value
-        val verticalCount = VerticalDfs(_status).apply { search(lastStoneColor, row, col) }.count
-        val horizontalCount = HorizontalDfs(_status).apply { search(lastStoneColor, row, col) }.count
-        val ascendingCount = AscendingDfs(_status).apply { search(lastStoneColor, row, col) }.count
-        val descendingCount = DescendingDfs(_status).apply { search(lastStoneColor, row, col) }.count
+        val color = status[row][col]
+        val verticalCount = VerticalDfs(_status).apply { search(color, row, col) }.count
+        val horizontalCount = HorizontalDfs(_status).apply { search(color, row, col) }.count
+        val ascendingCount = AscendingDfs(_status).apply { search(color, row, col) }.count
+        val descendingCount = DescendingDfs(_status).apply { search(color, row, col) }.count
         return listOf(verticalCount, horizontalCount, ascendingCount, descendingCount).any { it >= 5 }
     }
 
     private fun placeStone(position: Position) {
         val row = position.row.value
         val col = position.col.title
+        _status[ARRAY_SIZE - position.row.value][position.col.value] = nextStoneColor
         stones =
             when (nextStoneColor) {
                 Color.BLACK -> stones.plus(Stone.Black(Position.of(row, col)))
                 Color.WHITE -> stones.plus(Stone.White(Position.of(row, col)))
                 Color.NONE -> stones
             }
-        _status[ARRAY_SIZE - position.row.value][position.col.value] = lastStoneColor
     }
 
     companion object {
