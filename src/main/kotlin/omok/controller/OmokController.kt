@@ -14,27 +14,26 @@ class OmokController(val inputView: InputView, val outputView: OutputView) {
         playUntilFinish()
     }
 
-    private fun playUntilFinish() {
+    private tailrec fun playUntilFinish() {
         runCatching {
             outputView.showCurrentBoard(board.status)
             val inputPosition = getInputPosition()
             val position = Position.of(inputPosition.first, inputPosition.second)
-            board.place(position)
-            val result = board.getGameResult(position)
-            if (result == GameResult.PROCEEDING) {
-                return playUntilFinish()
-            } else {
-                outputView.showGameResult(result)
-            }
+            placeEachTurn(position)
         }.onFailure {
             println(it.message)
             return playUntilFinish()
         }
     }
 
-    private fun playEachTurn() {
-        val position = getInputPosition()
-        board.place(Position.of(position.first, position.second))
+    private fun placeEachTurn(position: Position) {
+        board.place(position)
+        val result = board.getGameResult(position)
+        if (result == GameResult.PROCEEDING) {
+            playUntilFinish()
+        } else {
+            outputView.showGameResult(result)
+        }
     }
 
     private fun getInputPosition(): Pair<Int, Char> = inputView.inputPosition(board.stones.lastOrNull())
