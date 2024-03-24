@@ -1,5 +1,7 @@
 package omok.library
 
+import omok.model.Board
+
 class RenjuRule(
     val board: List<List<Int>>,
 ) {
@@ -65,7 +67,7 @@ class RenjuRule(
         for (i in -4..4) {
             val targetY = y + i * dy
             val targetX = x + i * dx
-            if (targetY !in 0 until BOARD_SIZE || targetX !in 0 until BOARD_SIZE) continue
+            if (targetY !in 0 until Board.BOARD_SIZE || targetX !in 0 until Board.BOARD_SIZE) continue
 
             when (board[targetY][targetX]) {
                 stoneType -> {
@@ -267,15 +269,14 @@ class RenjuRule(
         private const val MIN_OPEN_THREES = 2
         private const val MIN_OPEN_FOURS = 2
         private const val MIN_X = 0
-        private const val MAX_X = 14
+        private const val MAX_X = Board.BOARD_SIZE - 1
         private const val MIN_Y = 0
-        private const val MAX_Y = 14
+        private const val MAX_Y = Board.BOARD_SIZE - 1
         private const val MAX_STONES_IN_DIRECTION = 5
         private const val STONE_TYPE_EMPTY = 0
         private const val STONE_TYPE_BLACK = 1
         private const val STONE_TYPE_WHITE = 2
         private const val DEFAULT_COUNT = 1
-        private const val BOARD_SIZE = 15
         private val X_Edge = listOf(MIN_X, MAX_X)
         private val Y_Edge = listOf(MIN_Y, MAX_Y)
     }

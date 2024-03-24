@@ -18,44 +18,52 @@ object OutputView {
     private const val STONE_ICON_BLACK = '●'
     private const val STONE_ICON_WHITE = '○'
 
-    private val boardTable: MutableList<MutableList<Char>> =
-        mutableListOf(
-            mutableListOf('┌', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┬', '┐'),
-            mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
-            mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
-            mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
-            mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
-            mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
-            mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
-            mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
-            mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
-            mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
-            mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
-            mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
-            mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
-            mutableListOf('├', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┼', '┤'),
-            mutableListOf('└', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┘'),
-        )
+    private val boardTable: MutableList<MutableList<Char>> = generateBoardTable()
 
-    private val boardForm =
-        listOf(
-            " 15 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            " 14 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            " 13 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            " 12 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            " 11 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            " 10 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            "  9 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            "  8 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            "  7 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            "  6 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            "  5 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            "  4 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            "  3 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            "  2 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            "  1 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
-            "    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O",
-        )
+    private val boardForm = generateBoardForm()
+
+    private fun generateBoardForm(): List<String> {
+        val formattedLines = mutableListOf<String>()
+        for (i in Board.BOARD_SIZE downTo 1) {
+            val line =
+                buildString {
+                    if (i < 10) append("  $i ") else append(" $i ")
+                    for (j in 1..Board.BOARD_SIZE) {
+                        append("%c──")
+                    }
+                }
+            formattedLines.add(line.dropLast(2))
+        }
+        formattedLines.add("    " + ('A' until ('A' + Board.BOARD_SIZE)).joinToString("  "))
+        return formattedLines
+    }
+
+    private fun generateBoardTable(): MutableList<MutableList<Char>> {
+        val table = mutableListOf<MutableList<Char>>()
+        table.add(mutableListOf('┌'))
+        repeat(Board.BOARD_SIZE - 2) {
+            table[0].add('┬')
+        }
+        table[0].add('┐')
+
+        repeat(Board.BOARD_SIZE - 2) {
+            val row = mutableListOf<Char>()
+            row.add('├')
+            repeat(Board.BOARD_SIZE - 2) {
+                row.add('┼')
+            }
+            row.add('┤')
+            table.add(row)
+        }
+
+        table.add(mutableListOf('└'))
+        repeat(Board.BOARD_SIZE - 2) {
+            table[Board.BOARD_SIZE - 1].add('┴')
+        }
+        table[Board.BOARD_SIZE - 1].add('┘')
+
+        return table
+    }
 
     fun printGameStart() {
         println(MESSAGE_GAME_START)
@@ -74,7 +82,7 @@ object OutputView {
     }
 
     fun printBoard(board: Board) {
-        boardTable.indices.forEach {
+        repeat(Board.BOARD_SIZE) {
             println(boardForm[it].format(*generatePrintedLine(it, board.getPointStoneLine(it + 1)).toTypedArray()))
         }
         println(boardForm.last())
@@ -84,7 +92,7 @@ object OutputView {
         lineIndex: Int,
         stoneTypes: List<StoneType>,
     ): List<Char> {
-        return List(boardTable[lineIndex].size) { columnIdx ->
+        return List(Board.BOARD_SIZE) { columnIdx ->
             convertStoneIcon(stoneTypes[columnIdx], lineIndex, columnIdx)
         }
     }
