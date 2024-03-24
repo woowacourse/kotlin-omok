@@ -33,8 +33,8 @@ class Board(
     ) {
         stones =
             when (color) {
-                Color.BLACK -> stones.plus(Stone.Black(Position.of(position.horizontalCoordinate.value, position.verticalCoordinate.value)))
-                Color.WHITE -> stones.plus(Stone.White(Position.of(position.horizontalCoordinate.value, position.verticalCoordinate.value)))
+                Color.BLACK -> stones.plus(Stone.Black(Position.of(position.horizontalCoordinate.index, position.verticalCoordinate.value)))
+                Color.WHITE -> stones.plus(Stone.White(Position.of(position.horizontalCoordinate.index, position.verticalCoordinate.value)))
             }
     }
 

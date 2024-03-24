@@ -33,7 +33,7 @@ class InputView {
         }
 
     private fun showLastPosition(position: Position) {
-        println(MESSAGE_LAST_PLACE.format(position.verticalCoordinate.name, position.horizontalCoordinate.value))
+        println(MESSAGE_LAST_PLACE.format(position.verticalCoordinate.name, position.horizontalCoordinate.index))
     }
 
     companion object {

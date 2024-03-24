@@ -1,6 +1,6 @@
 package omok.model
 
-enum class HorizontalCoordinate(val value: Int) {
+enum class HorizontalCoordinate(val index: Int) {
     ONE(1),
     TWO(2),
     THREE(3),
@@ -20,7 +20,7 @@ enum class HorizontalCoordinate(val value: Int) {
     companion object {
         fun valueOf(horizontalCoordinate: Int): HorizontalCoordinate? {
             return entries.find {
-                it.value == horizontalCoordinate
+                it.index == horizontalCoordinate
             }
         }
     }
