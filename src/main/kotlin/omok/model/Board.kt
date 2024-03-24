@@ -70,12 +70,12 @@ class Board(
     }
 
     private fun isBoardFull(): Boolean {
-        return status.all { oneDimensionalList ->
-            isOneLineOfBoardFull(oneDimensionalList)
+        return status.all { oneLine ->
+            isFull(oneLine)
         }
     }
 
-    private fun isOneLineOfBoardFull(oneLine: List<Color>): Boolean {
+    private fun isFull(oneLine: List<Color>): Boolean {
         return oneLine.all { color ->
             color != Color.NONE
         }
