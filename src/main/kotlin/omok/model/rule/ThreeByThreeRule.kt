@@ -1,37 +1,32 @@
 package omok.model.rule
 
 import omok.model.Board
-import omok.model.entity.Stone
+import omok.model.rule.Rule.Companion.directions
 
 object ThreeByThreeRule : Rule {
     override fun check(board: Board): Boolean {
-        val sum =
+        val threeCount =
             directions.count {
-                checkDirection(board, it)
+                isThree(board, it)
             }
-        return sum >= 2
+        return threeCount >= 2
     }
 
-    private fun checkDirection(
+    private fun isThree(
         board: Board,
         direction: Direction,
     ): Boolean {
-        val previousStone = board.previousStone() ?: throw IllegalStateException()
+        val centerStone = board.previousStone() ?: throw IllegalStateException()
         return (0..2).any {
+            val leftWithBlank =
+                isLineWithBlankWithPadding(board, -direction, centerStone, it + 1)
             val left =
-                uniDirectionalScan(board, -direction, previousStone, it)
+                isLineWithoutBlankWithPadding(board, -direction, centerStone, it)
+            val rightWithBlank =
+                isLineWithBlankWithPadding(board, direction, centerStone, 3 - it)
             val right =
-                uniDirectionalScan(board, direction, previousStone, 2 - it)
-            left && right
+                isLineWithoutBlankWithPadding(board, direction, centerStone, 2 - it)
+            leftWithBlank && right || left && rightWithBlank
         }
     }
-
-    private fun uniDirectionalScan(
-        board: Board,
-        direction: Direction,
-        stone: Stone,
-        length: Int,
-    ): Boolean =
-        isLineWithoutBlankWithPadding(board, direction, stone, length) ||
-            isLineWithBlankWithPadding(board, direction, stone, length + 1)
 }

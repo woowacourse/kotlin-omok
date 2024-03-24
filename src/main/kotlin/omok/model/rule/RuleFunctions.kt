@@ -6,14 +6,6 @@ import omok.model.entity.Stone
 
 typealias Direction = Point
 
-val directions =
-    listOf(
-        Direction(1, 0),
-        Direction(0, 1),
-        Direction(1, 1),
-        Direction(-1, 1),
-    )
-
 fun isLineWithoutBlank(
     board: Board,
     direction: Direction,
