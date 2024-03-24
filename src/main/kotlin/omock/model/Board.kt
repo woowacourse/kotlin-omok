@@ -45,56 +45,55 @@ class Board(val stoneStates: List<ColumnStates>) {
         var isLastClear = true
         var count = 0
         var flag = false
-
-        while (queue.isNotEmpty()) {
+        do {
+            if (queue.isEmpty()) break
             val current = queue.removeFirst()
             val (nx, ny) = current.x + direction.y to current.y + direction.x
 
-            if (!(nx in MIN_COLUMN_INDEX..MAX_COLUMN_INDEX && ny in MIN_ROW_INDEX..MAX_ROW_INDEX)) continue
-
+            if (!isBoardIndex(nx, ny)) continue
             val nextState = stoneStates[ny].getStoneState(nx)::class
 
-            if (!flag) {
-                flag = true
-                when (nextState) {
-                    playerState::class -> {
-                        queue.addFirst(Node(nx, ny))
-                        count++
-                    }
+            when (nextState) {
+                playerState::class -> {
+                    queue.addFirst(Node(nx, ny))
+                    count++
+                }
 
-                    Clear::class -> {
+                Clear::class -> {
+                    if (flag) {
+                        isLastClear = true
+                    } else {
                         queue.addFirst(Node(nx, ny))
                         isClear = true
                     }
                 }
-                continue
-            }
 
-            when (nextState) {
-                playerState::class -> {
-                    count++
-                    queue.addFirst(Node(nx, ny))
-                }
-
-                Clear::class -> isLastClear = true
-                else -> isLastClear = false
+                else -> if (flag) isLastClear = false
             }
-        }
+            flag = true
+        } while (queue.isNotEmpty())
 
         return Result(count, isClear, isLastClear)
+    }
+
+    private fun isBoardIndex(
+        nx: Int,
+        ny: Int,
+    ): Boolean {
+        return nx in MIN_COLUMN_INDEX..MAX_COLUMN_INDEX && ny in MIN_ROW_INDEX..MAX_ROW_INDEX
     }
 
     companion object {
         fun from(): Board {
             return Board(
                 stoneStates =
-                    Stone.stones.chunked(MAX_ROW).map { stones ->
-                        ColumnStates(
-                            stones.map {
-                                Clear(it)
-                            }.toMutableList(),
-                        )
-                    },
+                Stone.stones.chunked(MAX_ROW).map { stones ->
+                    ColumnStates(
+                        stones.map {
+                            Clear(it)
+                        }.toMutableList(),
+                    )
+                },
             )
         }
     }
