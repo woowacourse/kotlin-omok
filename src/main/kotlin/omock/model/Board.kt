@@ -22,11 +22,11 @@ class Board(val stoneStates: List<ColumnStates>) {
         stoneStates[row].rollback(column)
     }
 
-    fun loadMap(stone: Stone): Map<Direction, Result> {
+    fun loadMap(stone: Stone): Map<Direction, DirectionResult> {
         val row = stone.row.getIndex()
         val column = stone.column.getIndex()
         val node = Node(x = column, y = row)
-        val visited = mutableMapOf<Direction, Result>()
+        val visited = mutableMapOf<Direction, DirectionResult>()
         val playerState = stoneStates[row].getStoneState(column)
 
         Direction.entries.forEach { direction ->
@@ -39,7 +39,7 @@ class Board(val stoneStates: List<ColumnStates>) {
         node: Node,
         direction: Direction,
         playerState: StoneState,
-    ): Result {
+    ): DirectionResult {
         val queue = ArrayDeque<Node>().apply { add(node) }
         var isClear = false
         var isLastClear = true
@@ -73,7 +73,7 @@ class Board(val stoneStates: List<ColumnStates>) {
             flag = true
         } while (queue.isNotEmpty())
 
-        return Result(count, isClear, isLastClear)
+        return DirectionResult(count, isClear, isLastClear)
     }
 
     private fun isBoardIndex(

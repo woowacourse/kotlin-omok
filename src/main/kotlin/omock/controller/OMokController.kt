@@ -2,16 +2,18 @@ package omock.controller
 
 import omock.model.BlackPlayer
 import omock.model.Board
+import omock.model.Direction
+import omock.model.DirectionResult
 import omock.model.GameTurn
 import omock.model.Player
 import omock.model.Stone
 import omock.model.WhitePlayer
 import omock.view.InputView.playerPick
-import omock.view.OutputView.boardForm
 import omock.view.OutputView.boardTable
+import omock.view.OutputView.outputBoardForm
+import omock.view.OutputView.outputFailureMessage
 import omock.view.OutputView.outputGameStart
 import omock.view.OutputView.outputLastStone
-import omock.view.OutputView.outputPrintLine
 import omock.view.OutputView.outputSuccessOMock
 import omock.view.OutputView.outputUserTurn
 
@@ -21,63 +23,57 @@ class OMokController {
 
     fun run() {
         outputGameStart()
-        boardForm.forEachIndexed { index, s ->
-            if (index == boardForm.size - 1) {
-                println(s)
-            } else {
-                println(s.format(*boardTable[index].toTypedArray()))
-            }
-        }
-
         val blackPlayer = BlackPlayer()
         val whitePlayer = WhitePlayer()
 
         while (true) {
+            outputBoardForm()
             when (gameTurn) {
-                GameTurn.BLACK_TURN -> {
-                    outputUserTurn(Stone.getStoneName(blackPlayer))
-                    whitePlayer.stoneHistory.lastOrNull()?.let { stone ->
-                        println(stone.toString())
-                    } ?: outputPrintLine()
-                    start(player = blackPlayer)
-                }
-
-                GameTurn.WHITE_TURN -> {
-                    outputUserTurn(Stone.getStoneName(whitePlayer))
-                    blackPlayer.stoneHistory.lastOrNull()?.let { stone ->
-                        println(stone.toString())
-                    } ?: outputPrintLine()
-                    start(player = whitePlayer)
-                }
-
-                GameTurn.FINISHED -> {
-                    outputSuccessOMock()
-                }
-            }
-
-            boardForm.forEachIndexed { index, s ->
-                if (index == boardForm.size - 1) {
-                    println(s)
-                } else {
-                    println(s.format(*boardTable[index].toTypedArray()))
-                }
+                GameTurn.BLACK_TURN -> userTurnFlow(blackPlayer)
+                GameTurn.WHITE_TURN -> userTurnFlow(whitePlayer)
+                GameTurn.FINISHED -> outputSuccessOMock()
             }
         }
     }
 
+    private fun userTurnFlow(player: Player) {
+        outputUserTurn(Stone.getStoneName(player))
+        outputLastStone(player.stoneHistory.lastOrNull())
+        start(player = player)
+    }
+
+
     private fun start(player: Player) {
         playerPick(player = player).onSuccess { playerStone ->
             playerTurn(player, playerStone).onSuccess {
-                boardTable[playerStone.row.toIntIndex() - 1][playerStone.column.getIndex()] =
-                    Stone.getStoneIcon(player)
-                player.stoneHistory.add(playerStone)
+                executePlayerSuccessStep(playerStone, player)
             }.onFailure {
-                board.rollbackState(playerStone)
-                println(it.message)
+                executePlayerTurnFailStep(playerStone, it)
             }
         }.onFailure {
-            println(it.message)
+            executePlayerPickFailStep(it)
         }
+    }
+
+    private fun executePlayerSuccessStep(
+        playerStone: Stone,
+        player: Player,
+    ) {
+        boardTable[playerStone.row.toIntIndex() - 1][playerStone.column.getIndex()] =
+            Stone.getStoneIcon(player)
+        player.stoneHistory.add(playerStone)
+    }
+
+    private fun executePlayerTurnFailStep(
+        playerStone: Stone,
+        throwable: Throwable,
+    ) {
+        board.rollbackState(playerStone)
+        outputFailureMessage(throwable)
+    }
+
+    private fun executePlayerPickFailStep(throwable: Throwable) {
+        outputFailureMessage(throwable)
     }
 
     private fun playerTurn(
@@ -88,11 +84,18 @@ class OMokController {
             board.setStoneState(player, playerStone)
             val visited = board.loadMap(playerStone)
 
-            gameTurn =
-                when (player.judgementResult(visited)) {
-                    true -> GameTurn.FINISHED
-                    false -> gameTurn.turnOff()
-                }
+            applyPlayerJudgement(player, visited)
         }
+    }
+
+    private fun applyPlayerJudgement(
+        player: Player,
+        visited: Map<Direction, DirectionResult>,
+    ) {
+        gameTurn =
+            when (player.judgementResult(visited)) {
+                true -> GameTurn.FINISHED
+                false -> gameTurn.turnOff()
+            }
     }
 }

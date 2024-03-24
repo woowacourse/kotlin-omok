@@ -17,7 +17,7 @@ sealed class Player {
         return Stone.from(row = row, column = column)
     }
 
-    abstract fun judgementResult(visited: Map<Direction, Result>): Boolean
+    abstract fun judgementResult(visited: Map<Direction, DirectionResult>): Boolean
 
     companion object {
         const val INIT_COUNT = 0

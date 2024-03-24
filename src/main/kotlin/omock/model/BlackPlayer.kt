@@ -5,7 +5,7 @@ import omock.model.CalculateType.Companion.checkCalculateType
 data class BlackPlayer(
     override val stoneHistory: ArrayDeque<Stone> = ArrayDeque(),
 ) : Player() {
-    override fun judgementResult(visited: Map<Direction, Result>): Boolean {
+    override fun judgementResult(visited: Map<Direction, DirectionResult>): Boolean {
         var threeToThreeCount = INIT_COUNT
         var fourToFourCount = INIT_COUNT
         var isReverseTwoAndThree = false
@@ -16,7 +16,7 @@ data class BlackPlayer(
             getCalculateType(
                 isReverseResultFirstClear = isReverseResultFirstClear,
                 reverseResultCount = reverseResultCount,
-                result = result,
+                directionResult = result,
             ) { calculateType ->
                 when (calculateType) {
                     CalculateType.FourToFourCount ->
@@ -45,16 +45,16 @@ data class BlackPlayer(
     private inline fun getCalculateType(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
-        result: Result,
+        directionResult: DirectionResult,
         type: (CalculateType) -> Unit,
     ) {
-        if (!result.isLastClear) return
-        if (!result.isFirstClear) {
-            if (result.count + reverseResultCount == EDGE_THREE_TO_THREE_COUNT) {
+        if (!directionResult.isLastClear) return
+        if (!directionResult.isFirstClear) {
+            if (directionResult.count + reverseResultCount == EDGE_THREE_TO_THREE_COUNT) {
                 type(CalculateType.ThreeToThreeCount)
-            } else if (result.count + reverseResultCount == EDGE_FOUR_TO_FOUR_COUNT) {
+            } else if (directionResult.count + reverseResultCount == EDGE_FOUR_TO_FOUR_COUNT) {
                 type(CalculateType.FourToFourCount)
-            } else if (result.count == EDGE_THREE_TO_THREE_COUNT &&
+            } else if (directionResult.count == EDGE_THREE_TO_THREE_COUNT &&
                 reverseResultCount == EDGE_FOUR_TO_FOUR_COUNT && !isReverseResultFirstClear
             ) {
                 type(
@@ -62,10 +62,10 @@ data class BlackPlayer(
                 )
             }
         } else {
-            if (isReverseResultFirstClear && result.count == EDGE_THREE_TO_THREE_COUNT) {
+            if (isReverseResultFirstClear && directionResult.count == EDGE_THREE_TO_THREE_COUNT) {
                 type(CalculateType.IsClearFourToFourCount)
             } else {
-                if (result.count + reverseResultCount == EDGE_THREE_TO_THREE_COUNT) type(CalculateType.IsClearFourToFourCount)
+                if (directionResult.count + reverseResultCount == EDGE_THREE_TO_THREE_COUNT) type(CalculateType.IsClearFourToFourCount)
                 if (reverseResultCount == EDGE_THREE_TO_THREE_COUNT) type(CalculateType.ThreeToThreeCount)
                 if (reverseResultCount == EDGE_FOUR_TO_FOUR_COUNT) type(CalculateType.FourToFourCount)
             }
