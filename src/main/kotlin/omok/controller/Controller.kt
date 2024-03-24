@@ -11,7 +11,7 @@ import omok.view.OutputView
 class Controller(private val gameManager: GameManager) {
     fun play() {
         printStart()
-        gameManager.play(::printRunningInfo, ::readPosition, ::printBoard)
+        gameManager.play(::printRunningInfo, ::printBoard, ::readPosition)
     }
 
     private fun readPosition(): Position {

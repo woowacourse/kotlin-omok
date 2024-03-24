@@ -14,12 +14,12 @@ class GameManager {
 
     fun play(
         onTurn: (GameState) -> Unit,
-        onRead: () -> Position,
-        onShow: (Board) -> Unit,
+        onBoard: (Board) -> Unit,
+        onPosition: () -> Position,
     ) {
         while (isRunning()) {
             setRuleBasedOnTurn()
-            playTurn(onTurn, onRead, onShow, this.omokRule)
+            playTurn(onTurn, onBoard, onPosition, omokRule)
         }
     }
 
@@ -36,14 +36,14 @@ class GameManager {
 
     private fun playTurn(
         onTurn: (GameState) -> Unit,
-        onRead: () -> Position,
-        onShow: (Board) -> Unit,
-        omokRule: OmokRule,
+        onBoard: (Board) -> Unit,
+        onPosition: () -> Position,
+        onOmokRule: OmokRule,
     ) {
         var retry = true
         while (retry) {
             runCatching {
-                gameState = gameState.updateState(onTurn, onRead, onShow, omokRule)
+                gameState = gameState.updateState(onTurn, onBoard, onPosition, onOmokRule)
             }.onSuccess {
                 retry = false
             }.onFailure { throwable ->

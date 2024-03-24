@@ -5,9 +5,9 @@ import omok.library.OmokRule
 sealed class GameState(val board: Board) {
     abstract fun updateState(
         onTurn: (GameState) -> Unit,
-        onRead: () -> Position,
-        onShow: (Board) -> Unit,
-        omokRule: OmokRule,
+        onBoard: (Board) -> Unit,
+        onPosition: () -> Position,
+        onOmokRule: OmokRule,
     ): GameState
 
     sealed class Running(board: Board) : GameState(board) {
@@ -17,17 +17,17 @@ sealed class GameState(val board: Board) {
 
         override fun updateState(
             onTurn: (GameState) -> Unit,
-            onRead: () -> Position,
-            onShow: (Board) -> Unit,
-            omokRule: OmokRule,
+            onBoard: (Board) -> Unit,
+            onPosition: () -> Position,
+            onOmokRule: OmokRule,
         ): GameState {
             onTurn(this)
-            onShow(board)
+            onBoard(board)
 
-            val position = onRead()
+            val position = onPosition()
             board.placeStone(position, currentType())
 
-            if (omokRule.isOmok(position.coordinate.x, position.coordinate.y, board.layout)) return Finish(board)
+            if (onOmokRule.isOmok(position.coordinate.x, position.coordinate.y, board.layout)) return Finish(board)
             return (nextTurn())
         }
 
@@ -55,12 +55,12 @@ sealed class GameState(val board: Board) {
     class Finish(board: Board) : GameState(board) {
         override fun updateState(
             onTurn: (GameState) -> Unit,
-            onRead: () -> Position,
-            onShow: (Board) -> Unit,
-            omokRule: OmokRule,
+            onBoard: (Board) -> Unit,
+            onPosition: () -> Position,
+            onOmokRule: OmokRule,
         ): GameState {
             onTurn(this)
-            onShow(board)
+            onBoard(board)
             return this
         }
     }
