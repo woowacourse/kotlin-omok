@@ -14,11 +14,11 @@ class PositionTest {
         "15,A",
     )
     fun `보드 범위 안에 포지션을 설정할 수 있다`(
-        row: Int,
-        col: Char,
+        horizontalCoordinate: Int,
+        verticalCoordinate: Char,
     ) {
         assertDoesNotThrow {
-            Position.of(row, col)
+            Position.of(horizontalCoordinate, verticalCoordinate)
         }
     }
 
@@ -30,11 +30,11 @@ class PositionTest {
         "15,P",
     )
     fun `보드 범위를 벗어나는 좌표를 입력하면 예외를 발생시킨다`(
-        row: Int,
-        col: Char,
+        horizontalCoordinate: Int,
+        verticalCoordinate: Char,
     ) {
         assertThrows<IllegalArgumentException> {
-            Position.of(row, col)
+            Position.of(horizontalCoordinate, verticalCoordinate)
         }
     }
 }

@@ -1,6 +1,6 @@
 package omok.model
 
-enum class Row(val title: String, val value: Int) {
+enum class HorizontalCoordinate(val title: String, val value: Int) {
     ONE("1", 1),
     TWO("2", 2),
     THREE("3", 3),
@@ -18,9 +18,9 @@ enum class Row(val title: String, val value: Int) {
     FIFTEEN("15", 15), ;
 
     companion object {
-        fun valueOf(row: Int): Row? {
+        fun valueOf(horizontalCoordinate: Int): HorizontalCoordinate? {
             return entries.find {
-                it.value == row
+                it.value == horizontalCoordinate
             }
         }
     }

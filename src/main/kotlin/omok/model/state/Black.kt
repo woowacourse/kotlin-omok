@@ -6,14 +6,14 @@ import lib.ark.ArkThreeThreeRule
 import omok.mapper.toArkOmokBoard
 import omok.mapper.toArkOmokPoint
 import omok.model.Color
-import omok.model.Column
 import omok.model.GameResult
 import omok.model.Position
+import omok.model.VerticalCoordinate
 
 class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStatus) {
     override fun getWinningResult(
         position: Position,
-        markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
+        markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,
         addSingleStone: (Color, Position) -> Unit,
     ): GameResult? {
         if (isCurrentStoneWinner(position, Color.BLACK, markSinglePlace, addSingleStone)) {
@@ -25,15 +25,15 @@ class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStat
     override fun addStone(
         color: Color,
         position: Position,
-        markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
+        markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,
         addSingleStone: (Color, Position) -> Unit,
     ) {
         val arkBoard = blackStatus.toArkOmokBoard()
-        val row = COMPUTATION_BOARD_SIZE - position.row.value
-        val arkPoint = Position.of(row, position.col.title).toArkOmokPoint()
+        val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate.value
+        val arkPoint = Position.of(horizontalCoordinate, position.verticalCoordinate.title).toArkOmokPoint()
         if (placementAvailable(arkBoard, arkPoint)) {
-            val column = Column.valueOf(position.col.title)?.value ?: return
-            markSinglePlace(row, column, Color.BLACK)
+            val verticalCoordinate = VerticalCoordinate.valueOf(position.verticalCoordinate.title)?.value ?: return
+            markSinglePlace(horizontalCoordinate, verticalCoordinate, Color.BLACK)
             addSingleStone(Color.BLACK, position)
         } else {
             throw IllegalArgumentException(EXCEPTION_FORBIDDEN_PLACEMENT)

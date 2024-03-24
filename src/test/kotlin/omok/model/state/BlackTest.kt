@@ -21,8 +21,8 @@ class BlackTest {
         val result =
             blackBoard.getWinningResult(
                 position = position,
-                markSinglePlace = { row, col, color ->
-                    board[row][col] = color
+                markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
+                    board[horizontalCoordinate][verticalCoordinate] = color
                 },
                 addSingleStone = { color, position -> Unit },
             )
@@ -39,8 +39,8 @@ class BlackTest {
             // when
             blackBoard.getWinningResult(
                 position = position,
-                markSinglePlace = { row, col, color ->
-                    board[row][col] = color
+                markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
+                    board[horizontalCoordinate][verticalCoordinate] = color
                 },
                 addSingleStone = { color, position -> Unit },
             )
@@ -56,8 +56,8 @@ class BlackTest {
             // when
             blackBoard.getWinningResult(
                 position = position,
-                markSinglePlace = { row, col, color ->
-                    board[row][col] = color
+                markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
+                    board[horizontalCoordinate][verticalCoordinate] = color
                 },
                 addSingleStone = { color, position -> Unit },
             )
@@ -73,8 +73,8 @@ class BlackTest {
             // when
             blackBoard.getWinningResult(
                 position = position,
-                markSinglePlace = { row, col, color ->
-                    board[row][col] = color
+                markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
+                    board[horizontalCoordinate][verticalCoordinate] = color
                 },
                 addSingleStone = { color, position -> Unit },
             )

@@ -13,9 +13,9 @@ class InputView {
 
     private fun getPositionData(): Pair<Int, Char> {
         val position = readln()
-        val col = position.first()
-        val row = position.drop(1).toInt()
-        return Pair(row, col)
+        val verticalCoordinate = position.first()
+        val horizontalCoordinate = position.drop(1).toInt()
+        return Pair(horizontalCoordinate, verticalCoordinate)
     }
 
     private fun showCurrentTurn(lastTurn: Stone?) {
@@ -33,7 +33,7 @@ class InputView {
         }
 
     private fun showLastPosition(position: Position) {
-        println(MESSAGE_LAST_PLACE.format(position.col.title, position.row.title))
+        println(MESSAGE_LAST_PLACE.format(position.verticalCoordinate.name, position.horizontalCoordinate.title))
     }
 
     companion object {

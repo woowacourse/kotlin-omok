@@ -11,35 +11,35 @@ abstract class Dfs(
 
     abstract fun search(
         color: Color,
-        row: Int,
-        column: Int,
+        horizontalCoordinate: Int,
+        verticalCoordinate: Int,
     )
 
     protected fun isVisitedPosition(
         color: Color,
-        row: Int,
-        column: Int,
+        horizontalCoordinate: Int,
+        verticalCoordinate: Int,
     ): Boolean {
-        if (!isVisitAvailable(row, column, color)) return false
-        visit(row, column)
+        if (!isVisitAvailable(horizontalCoordinate, verticalCoordinate, color)) return false
+        visit(horizontalCoordinate, verticalCoordinate)
         return true
     }
 
     private fun isVisitAvailable(
-        row: Int,
-        column: Int,
+        horizontalCoordinate: Int,
+        verticalCoordinate: Int,
         color: Color,
     ): Boolean =
-        row in VISIT_INDEX_RANGE &&
-            column in VISIT_INDEX_RANGE &&
-            status[row][column] == color &&
-            !visited[row][column]
+        horizontalCoordinate in VISIT_INDEX_RANGE &&
+            verticalCoordinate in VISIT_INDEX_RANGE &&
+            status[horizontalCoordinate][verticalCoordinate] == color &&
+            !visited[horizontalCoordinate][verticalCoordinate]
 
     private fun visit(
-        row: Int,
-        column: Int,
+        horizontalCoordinate: Int,
+        verticalCoordinate: Int,
     ) {
-        visited[row][column] = true
+        visited[horizontalCoordinate][verticalCoordinate] = true
         count++
     }
 

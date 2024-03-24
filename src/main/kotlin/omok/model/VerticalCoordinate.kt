@@ -1,6 +1,6 @@
 package omok.model
 
-enum class Column(val title: Char, val value: Int) {
+enum class VerticalCoordinate(val title: Char, val value: Int) {
     A('A', 1),
     B('B', 2),
     C('C', 3),
@@ -19,9 +19,9 @@ enum class Column(val title: Char, val value: Int) {
     ;
 
     companion object {
-        fun valueOf(col: Char): Column? {
+        fun valueOf(verticalCoordinate: Char): VerticalCoordinate? {
             return entries.find {
-                it.title == col
+                it.title == verticalCoordinate
             }
         }
     }

@@ -10,12 +10,12 @@ class BoardTest {
         // given
         val stones =
             listOf(
-                Stone.Black(Position(Row.ONE, Column.A)),
-                Stone.White(Position(Row.TEN, Column.C)),
+                Stone.Black(Position(HorizontalCoordinate.ONE, VerticalCoordinate.A)),
+                Stone.White(Position(HorizontalCoordinate.TEN, VerticalCoordinate.C)),
             )
         val board = Board(stones)
         assertThrows<IllegalArgumentException> {
-            board.place(Position(Row.ONE, Column.A))
+            board.place(Position(HorizontalCoordinate.ONE, VerticalCoordinate.A))
         }
     }
 
@@ -24,8 +24,8 @@ class BoardTest {
         // given
         val board = Board()
         // when
-        board.place(Position(Row.TEN, Column.B))
-        board.place(Position(Row.ONE, Column.A))
+        board.place(Position(HorizontalCoordinate.TEN, VerticalCoordinate.B))
+        board.place(Position(HorizontalCoordinate.ONE, VerticalCoordinate.A))
         // then
         assertThat(board.stones.last().color).isEqualTo(Color.WHITE)
     }

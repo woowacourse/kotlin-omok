@@ -17,8 +17,8 @@ class WhiteTest {
         val result =
             whiteBoard.getWinningResult(
                 position = position,
-                markSinglePlace = { row, col, color ->
-                    board[row][col] = color
+                markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
+                    board[horizontalCoordinate][verticalCoordinate] = color
                 },
                 addSingleStone = { color, position ->
                 },

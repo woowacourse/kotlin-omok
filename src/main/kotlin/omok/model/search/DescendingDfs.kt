@@ -7,11 +7,11 @@ class DescendingDfs(
 ) : Dfs(status) {
     override fun search(
         color: Color,
-        row: Int,
-        column: Int,
+        horizontalCoordinate: Int,
+        verticalCoordinate: Int,
     ) {
-        if (!isVisitedPosition(color, row, column)) return
-        search(color, row - 1, column - 1)
-        search(color, row + 1, column + 1)
+        if (!isVisitedPosition(color, horizontalCoordinate, verticalCoordinate)) return
+        search(color, horizontalCoordinate - 1, verticalCoordinate - 1)
+        search(color, horizontalCoordinate + 1, verticalCoordinate + 1)
     }
 }

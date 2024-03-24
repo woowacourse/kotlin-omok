@@ -7,11 +7,11 @@ class HorizontalDfs(
 ) : Dfs(status) {
     override fun search(
         color: Color,
-        row: Int,
-        column: Int,
+        horizontalCoordinate: Int,
+        verticalCoordinate: Int,
     ) {
-        if (!isVisitedPosition(color, row, column)) return
-        search(color, row, column - 1)
-        search(color, row, column + 1)
+        if (!isVisitedPosition(color, horizontalCoordinate, verticalCoordinate)) return
+        search(color, horizontalCoordinate, verticalCoordinate - 1)
+        search(color, horizontalCoordinate, verticalCoordinate + 1)
     }
 }

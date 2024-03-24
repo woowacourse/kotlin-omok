@@ -16,14 +16,14 @@ class HorizontalDfsTest {
     )
     fun `수평 dfs를 할 수 있다`(
         color: Color,
-        row: Int,
-        col: Int,
+        horizontalCoordinate: Int,
+        verticalCoordinate: Int,
         count: Int,
     ) {
         // given
         val horizontalDfs = HorizontalDfs(createPlayingBoard())
         // when
-        horizontalDfs.search(color, row, col)
+        horizontalDfs.search(color, horizontalCoordinate, verticalCoordinate)
         // then
         Assertions.assertThat(horizontalDfs.count).isEqualTo(count)
     }

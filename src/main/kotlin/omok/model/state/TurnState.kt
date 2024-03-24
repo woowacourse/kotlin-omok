@@ -13,37 +13,37 @@ abstract class TurnState(
 ) {
     abstract fun getWinningResult(
         position: Position,
-        markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
+        markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,
         addSingleStone: (Color, Position) -> Unit,
     ): GameResult?
 
     protected fun isCurrentStoneWinner(
         position: Position,
         color: Color,
-        markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
+        markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,
         addSingleStone: (Color, Position) -> Unit,
     ): Boolean {
-        val row = COMPUTATION_BOARD_SIZE - position.row.value
+        val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate.value
         addStone(color, position, markSinglePlace, addSingleStone)
-        return calculateSearchResult(row, position.col.value, color)
+        return calculateSearchResult(horizontalCoordinate, position.verticalCoordinate.value, color)
     }
 
     protected abstract fun addStone(
         color: Color,
         position: Position,
-        markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
+        markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,
         addSingleStone: (Color, Position) -> Unit,
     )
 
     private fun calculateSearchResult(
-        row: Int,
-        col: Int,
+        horizontalCoordinate: Int,
+        verticalCoordinate: Int,
         color: Color,
     ): Boolean {
-        val verticalCount = VerticalDfs(status).apply { search(color, row, col) }.count
-        val horizontalCount = HorizontalDfs(status).apply { search(color, row, col) }.count
-        val ascendingCount = AscendingDfs(status).apply { search(color, row, col) }.count
-        val descendingCount = DescendingDfs(status).apply { search(color, row, col) }.count
+        val verticalCount = VerticalDfs(status).apply { search(color, horizontalCoordinate, verticalCoordinate) }.count
+        val horizontalCount = HorizontalDfs(status).apply { search(color, horizontalCoordinate, verticalCoordinate) }.count
+        val ascendingCount = AscendingDfs(status).apply { search(color, horizontalCoordinate, verticalCoordinate) }.count
+        val descendingCount = DescendingDfs(status).apply { search(color, horizontalCoordinate, verticalCoordinate) }.count
         return listOf(verticalCount, horizontalCount, ascendingCount, descendingCount).any { it >= 5 }
     }
 

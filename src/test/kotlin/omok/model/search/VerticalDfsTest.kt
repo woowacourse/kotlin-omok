@@ -16,14 +16,14 @@ class VerticalDfsTest {
     )
     fun `수직 dfs를 할 수 있다`(
         color: Color,
-        row: Int,
-        col: Int,
+        horizontalCoordinate: Int,
+        verticalCoordinate: Int,
         count: Int,
     ) {
         // given
         val verticalDfs = VerticalDfs(createPlayingBoard())
         // when
-        verticalDfs.search(color, row, col)
+        verticalDfs.search(color, horizontalCoordinate, verticalCoordinate)
         // then
         assertThat(verticalDfs.count).isEqualTo(count)
     }

@@ -14,14 +14,14 @@ class AscendingDfsTest {
     )
     fun `우상향대각선 dfs를 할 수 있다`(
         color: Color,
-        row: Int,
-        col: Int,
+        horizontalCoordinate: Int,
+        verticalCoordinate: Int,
         count: Int,
     ) {
         // given
         val ascendingDfs = AscendingDfs(createPlayingBoard())
         // when
-        ascendingDfs.search(color, row, col)
+        ascendingDfs.search(color, horizontalCoordinate, verticalCoordinate)
         // then
         Assertions.assertThat(ascendingDfs.count).isEqualTo(count)
     }
