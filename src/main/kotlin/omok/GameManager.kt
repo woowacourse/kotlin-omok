@@ -1,8 +1,11 @@
-package omok.model
+package omok
 
 import omok.library.BlackStoneOmokRule
 import omok.library.OmokRule
 import omok.library.WhiteStoneOmokRule
+import omok.model.Board
+import omok.model.GameState
+import omok.model.Position
 
 class GameManager {
     private var omokRule: OmokRule = BlackStoneOmokRule()
