@@ -47,11 +47,7 @@ object Controller {
     }
 
     fun start() {
-        game.startGame()
-    }
-
-    private fun end(stone: Stone) {
-        game.endGame(stone)
+        game.endGame(game.startGame())
     }
 
     private fun requestPlayerMove(currentStone: Stone) {
