@@ -4,6 +4,10 @@ data class Stone(
     val row: Row,
     val column: Column,
 ) {
+    override fun toString(): String {
+        return LAST_STONE_LOCATION_MESSAGE.format(column.comma, row.comma)
+    }
+
     companion object {
         val stones =
             Row.ROW_RANGE.flatMap { rowComma ->
@@ -37,5 +41,7 @@ data class Stone(
                 is WhitePlayer -> "백"
             }
         }
+
+        const val LAST_STONE_LOCATION_MESSAGE = "(마지막 돌의 위치: %s%s)"
     }
 }

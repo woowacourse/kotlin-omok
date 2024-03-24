@@ -37,7 +37,7 @@ class OMokController {
                 GameTurn.BLACK_TURN -> {
                     outputUserTurn(Stone.getStoneName(blackPlayer))
                     whitePlayer.stoneHistory.lastOrNull()?.let { stone ->
-                        outputLastStone(stone)
+                        println(stone.toString())
                     } ?: outputPrintLine()
                     start(player = blackPlayer)
                 }
@@ -45,7 +45,7 @@ class OMokController {
                 GameTurn.WHITE_TURN -> {
                     outputUserTurn(Stone.getStoneName(whitePlayer))
                     blackPlayer.stoneHistory.lastOrNull()?.let { stone ->
-                        outputLastStone(stone)
+                        println(stone.toString())
                     } ?: outputPrintLine()
                     start(player = whitePlayer)
                 }

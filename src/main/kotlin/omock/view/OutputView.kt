@@ -57,10 +57,6 @@ object OutputView {
         println()
     }
 
-    fun outputLastStone(lastStone: Stone) {
-        println("(마지막 돌의 위치: ${lastStone.column.comma}${lastStone.row.comma})")
-    }
-
     fun outputGameStart() {
         println("오목 게임을 시작합니다.")
     }
