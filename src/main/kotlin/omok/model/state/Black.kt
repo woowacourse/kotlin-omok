@@ -30,9 +30,9 @@ class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStat
     ) {
         val arkBoard = blackStatus.toArkOmokBoard()
         val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate.value
-        val arkPoint = Position.of(horizontalCoordinate, position.verticalCoordinate.title).toArkOmokPoint()
+        val arkPoint = Position.of(horizontalCoordinate, position.verticalCoordinate.value).toArkOmokPoint()
         if (placementAvailable(arkBoard, arkPoint)) {
-            val verticalCoordinate = VerticalCoordinate.valueOf(position.verticalCoordinate.title)?.value ?: return
+            val verticalCoordinate = VerticalCoordinate.valueOf(position.verticalCoordinate.value)?.index ?: return
             markSinglePlace(horizontalCoordinate, verticalCoordinate, Color.BLACK)
             addSingleStone(Color.BLACK, position)
         } else {

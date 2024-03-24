@@ -33,7 +33,7 @@ class InputView {
         }
 
     private fun showLastPosition(position: Position) {
-        println(MESSAGE_LAST_PLACE.format(position.verticalCoordinate.name, position.horizontalCoordinate.title))
+        println(MESSAGE_LAST_PLACE.format(position.verticalCoordinate.name, position.horizontalCoordinate.value))
     }
 
     companion object {
@@ -41,6 +41,6 @@ class InputView {
         private const val COLOR_WHITE = "백"
         private const val MESSAGE_PLAYERS_TURN = "%s의 차례입니다."
         private const val MESSAGE_INPUT_POSITION = "위치를 입력하세요: "
-        private const val MESSAGE_LAST_PLACE = "(마지막 돌의 위치: %s%s)"
+        private const val MESSAGE_LAST_PLACE = "(마지막 돌의 위치: %s%d)"
     }
 }
