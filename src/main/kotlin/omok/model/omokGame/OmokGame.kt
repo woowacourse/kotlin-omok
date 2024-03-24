@@ -8,9 +8,10 @@ class OmokGame {
     val board = Board()
     var listener: GameEventListener? = null
 
-    fun startGame() {
+    fun startGame(): Stone {
         currentStone = Stone.BLACK
         listener?.onGameStart()
+        return currentStone
     }
 
     fun endGame(winner: Stone) {

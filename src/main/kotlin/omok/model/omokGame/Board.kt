@@ -44,8 +44,10 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
         x: CoordsNumber,
         y: CoordsNumber,
         stone: Stone,
-    ) {
-        if (gameRule.isWinningMove(x, y, stone)) gameOver()
+    )  {
+        if (gameRule.isWinningMove(x, y, stone)) {
+            gameOver()
+        }
     }
 
     private fun gameOver() {
