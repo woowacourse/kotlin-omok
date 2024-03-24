@@ -1,3 +1,3 @@
 fun main() {
-    OmokGameController.startOmokGame()
+    Controller.start()
 }

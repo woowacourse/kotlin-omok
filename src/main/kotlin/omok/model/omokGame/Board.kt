@@ -44,8 +44,12 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
         x: CoordsNumber,
         y: CoordsNumber,
         stone: Stone,
-    ): Boolean {
-        return gameRule.isWinningMove(x, y, stone)
+    ) {
+        if (gameRule.isWinningMove(x, y, stone)) gameOver()
+    }
+
+    private fun gameOver() {
+        omokGameState = OmokGameState.STOP
     }
 
     companion object {
