@@ -28,11 +28,10 @@ class InputView {
         if (board.notation.isEmpty()) {
             println(MESSAGE_PLAYERS_TURN.format(currentTurn.label))
         }
-        if (board.notation.isNotEmpty())
-            {
-                println(MESSAGE_PLAYERS_TURN.format(currentTurn.label))
-                showLastPosition(board.notation.last().position)
-            }
+        if (board.notation.isNotEmpty()) {
+            println(MESSAGE_PLAYERS_TURN.format(currentTurn.label))
+            showLastPosition(board.notation.last().position)
+        }
     }
 
     private fun showLastPosition(position: Position) {

@@ -19,10 +19,6 @@ enum class Column(val title: Char, val value: Int) {
     ;
 
     companion object {
-        fun titleOf(col: Char): Column? {
-            return entries.find {
-                it.title == col
-            }
-        }
+        fun titleOf(col: Char): Column? = entries.find { it.title == col }
     }
 }
