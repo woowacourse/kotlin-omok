@@ -1,20 +1,14 @@
 package omok.model
 
-import RuleAdapter
+import RenjuRule
 
 class Board(val stones: Stones) {
-    private val rule: Rule
-        get() = RuleAdapter(stones)
+    private val rule: Rule = RenjuRule(stones)
 
-    fun putStone(stone: Stone) {
-        if (!rule.checkInvalid(stone)) {
-            stones.putStone(stone)
-        } else {
-            throw IllegalStateException(ERROR_FORBIDDEN_STONE)
+    fun putStone(stone: Stone): Boolean {
+        if (rule.checkInvalid(stone)) {
+            return false
         }
-    }
-
-    companion object {
-        const val ERROR_FORBIDDEN_STONE = "금지된 수입니다."
+        return stones.putStone(stone)
     }
 }
