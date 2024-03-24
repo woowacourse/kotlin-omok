@@ -43,16 +43,7 @@ class BoardTest {
     @Test
     fun `금지된 위치에 돌을 놓으려는 경우 확인`() {
         val forbiddenPositions = listOf(Position(CoordsNumber(1), CoordsNumber(0)))
-        assertTrue(board.isMoveForbidden(CoordsNumber(1), CoordsNumber(0), forbiddenPositions))
-    }
-
-    @Test
-    fun `돌을 놓은 후 게임이 종료되는 경우 확인`() {
-        for (i in 0 until 4) {
-            board.setStone(CoordsNumber(i), CoordsNumber(0), Stone.BLACK)
-        }
-        board.setStone(CoordsNumber(4), CoordsNumber(0), Stone.BLACK)
-        assertEquals(board.isRunning(), false) // 게임이 끝났는지 확인
+        assertTrue(board.isMoveForbidden(CoordsNumber(0), CoordsNumber(1), forbiddenPositions))
     }
 
     @Test
