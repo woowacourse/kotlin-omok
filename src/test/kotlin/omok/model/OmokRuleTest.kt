@@ -1,5 +1,7 @@
 package omok.model
 
+import omok.library.BlackStoneOmokRule
+import omok.library.WhiteStoneOmokRule
 import omok.view.BoardView
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -18,7 +20,7 @@ class OmokRuleTest {
         listOf(C12, E12, D13, D14).map {
             board.layout[it.coordinate.x][it.coordinate.y] = PositionType.BLACK_STONE
         }
-        assertThat(OmokRule(board.layout).checkThreeThree(3, 11)).isEqualTo(true)
+        assertThat(BlackStoneOmokRule().isThreeThree(3, 11, board.layout)).isEqualTo(true)
     }
 
     @Test
@@ -26,7 +28,7 @@ class OmokRuleTest {
         listOf(M12, M10, N9, J9).map {
             board.layout[it.coordinate.x][it.coordinate.y] = PositionType.BLACK_STONE
         }
-        assertThat(OmokRule(board.layout).checkThreeThree(11, 10)).isEqualTo(true)
+        assertThat(BlackStoneOmokRule().isThreeThree(11, 10, board.layout)).isEqualTo(true)
     }
 
     @Test
@@ -34,7 +36,7 @@ class OmokRuleTest {
         listOf(K3, K6, M4, N4).map {
             board.layout[it.coordinate.x][it.coordinate.y] = PositionType.BLACK_STONE
         }
-        assertThat(OmokRule(board.layout).checkThreeThree(10, 3)).isEqualTo(true)
+        assertThat(BlackStoneOmokRule().isThreeThree(10, 3, board.layout)).isEqualTo(true)
     }
 
     @Test
@@ -42,7 +44,7 @@ class OmokRuleTest {
         listOf(B6, C5, E5, E6).map {
             board.layout[it.coordinate.x][it.coordinate.y] = PositionType.BLACK_STONE
         }
-        assertThat(OmokRule(board.layout).checkThreeThree(4, 2)).isEqualTo(true)
+        assertThat(BlackStoneOmokRule().isThreeThree(4, 2, board.layout)).isEqualTo(true)
     }
 
     @Test
@@ -50,7 +52,7 @@ class OmokRuleTest {
         listOf(C12, D12, G12, I12, J12).map {
             board.layout[it.coordinate.x][it.coordinate.y] = PositionType.BLACK_STONE
         }
-        assertThat(OmokRule(board.layout).countFourFour(5, 11)).isEqualTo(true)
+        assertThat(BlackStoneOmokRule().isFourFour(5, 11, board.layout)).isEqualTo(true)
     }
 
     @Test
@@ -58,7 +60,7 @@ class OmokRuleTest {
         listOf(C10, C11, C12, E6, F5, G4).map {
             board.layout[it.coordinate.x][it.coordinate.y] = PositionType.BLACK_STONE
         }
-        assertThat(OmokRule(board.layout).countFourFour(2, 7)).isEqualTo(true)
+        assertThat(BlackStoneOmokRule().isFourFour(2, 7, board.layout)).isEqualTo(true)
     }
 
     @Test
@@ -66,7 +68,7 @@ class OmokRuleTest {
         listOf(J6, J8, J9, J12).map {
             board.layout[it.coordinate.x][it.coordinate.y] = PositionType.BLACK_STONE
         }
-        assertThat(OmokRule(board.layout).countFourFour(9, 9)).isEqualTo(true)
+        assertThat(BlackStoneOmokRule().isFourFour(9, 9, board.layout)).isEqualTo(true)
     }
 
     @Test
@@ -74,7 +76,7 @@ class OmokRuleTest {
         listOf(A1, A2, A3, A4, A5).map {
             board.layout[it.coordinate.x][it.coordinate.y] = PositionType.BLACK_STONE
         }
-        assertThat(OmokRule(board.layout).checkMoreThanFive(0, 5)).isEqualTo(true)
+        assertThat(BlackStoneOmokRule().isMoreThanFive(0, 5, board.layout)).isEqualTo(true)
     }
 
     @Test
@@ -84,7 +86,7 @@ class OmokRuleTest {
         }
         BoardView.printBoard(board)
         assertThat(
-            OmokRule(board.layout, currentStone = PositionType.WHITE_STONE, otherStone = PositionType.BLACK_STONE).validateOmok(0, 4),
+            WhiteStoneOmokRule().isOmok(0, 4, board.layout),
         ).isEqualTo(true)
     }
 
@@ -93,6 +95,6 @@ class OmokRuleTest {
         listOf(A1, A2, A3, A4, A5).map {
             board.layout[it.coordinate.x][it.coordinate.y] = PositionType.BLACK_STONE
         }
-        assertThat(OmokRule(board.layout).validateOmok(0, 4)).isEqualTo(true)
+        assertThat(BlackStoneOmokRule().isOmok(0, 4, board.layout)).isEqualTo(true)
     }
 }

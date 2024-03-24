@@ -1,14 +1,20 @@
 package omok.model
 
+import omok.library.BlackStoneOmokRule
+import omok.library.OmokRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class GameStateTest {
+    private lateinit var board: Board
+    private lateinit var omokRule: OmokRule
     private lateinit var gameState: GameState
 
     @BeforeEach
     fun setUp() {
+        board = Board()
+        omokRule = BlackStoneOmokRule()
         gameState = GameState.Running.BlackTurn(Board())
     }
 
@@ -19,6 +25,7 @@ class GameStateTest {
                 { },
                 { A1 },
                 { },
+                omokRule,
             ),
         ).isInstanceOf(GameState.Running.WhiteTurn::class.java)
     }
@@ -30,6 +37,7 @@ class GameStateTest {
                 { },
                 { A1 },
                 { },
+                omokRule,
             ),
         ).isInstanceOf(GameState.Running.BlackTurn::class.java)
     }
@@ -42,6 +50,7 @@ class GameStateTest {
                     { },
                     { stone },
                     { },
+                    omokRule,
                 )
         }
         assertThat(gameState).isInstanceOf(GameState.Finish::class.java)

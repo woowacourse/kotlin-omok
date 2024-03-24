@@ -1,50 +1,54 @@
 package omok.model
 
+import omok.library.OmokRule
+
 sealed class GameState(val board: Board) {
     abstract fun updateState(
         onTurn: (GameState) -> Unit,
         onRead: () -> Position,
         onShow: (Board) -> Unit,
+        omokRule: OmokRule,
     ): GameState
 
     sealed class Running(board: Board) : GameState(board) {
-        abstract fun getCurrentType(): PositionType
+        abstract fun currentType(): PositionType
 
-        abstract fun getNextTurn(): GameState
+        abstract fun nextTurn(): GameState
 
         override fun updateState(
             onTurn: (GameState) -> Unit,
             onRead: () -> Position,
             onShow: (Board) -> Unit,
+            omokRule: OmokRule,
         ): GameState {
-            onShow(board)
             onTurn(this)
+            onShow(board)
 
             val position = onRead()
-            board.placeStone(position, getCurrentType())
+            board.placeStone(position, currentType())
 
-            if (board.isOmok(position, getCurrentType())) return Finish(board)
-            return (getNextTurn())
+            if (omokRule.isOmok(position.coordinate.x, position.coordinate.y, board.layout)) return Finish(board)
+            return (nextTurn())
         }
 
         class BlackTurn(board: Board) : Running(board) {
             init {
-                board.setupOmokRule(PositionType.BLACK_STONE)
+                board.setupBoard(PositionType.BLACK_STONE)
             }
 
-            override fun getCurrentType() = PositionType.BLACK_STONE
+            override fun currentType() = PositionType.BLACK_STONE
 
-            override fun getNextTurn() = WhiteTurn(board)
+            override fun nextTurn() = WhiteTurn(board)
         }
 
         class WhiteTurn(board: Board) : Running(board) {
             init {
-                board.setupOmokRule(PositionType.WHITE_STONE)
+                board.setupBoard(PositionType.WHITE_STONE)
             }
 
-            override fun getCurrentType() = PositionType.WHITE_STONE
+            override fun currentType() = PositionType.WHITE_STONE
 
-            override fun getNextTurn() = BlackTurn(board)
+            override fun nextTurn() = BlackTurn(board)
         }
     }
 
@@ -53,8 +57,11 @@ sealed class GameState(val board: Board) {
             onTurn: (GameState) -> Unit,
             onRead: () -> Position,
             onShow: (Board) -> Unit,
+            omokRule: OmokRule,
         ): GameState {
-            TODO("Not yet implemented")
+            onTurn(this)
+            onShow(board)
+            return this
         }
     }
 }
