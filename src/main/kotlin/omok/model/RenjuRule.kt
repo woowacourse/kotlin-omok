@@ -4,14 +4,15 @@ import omok.model.Rule
 import omok.model.Stone
 import omok.model.Stones
 
-class RuleAdapter(stones: Stones) : Rule {
-    private val omokRule =
-        OmokRule(
-            generateCustomBoard(stones),
-            colorToInt(getCurrentTurn(stones)),
-            getOtherColorToInt(getCurrentTurn(stones)),
-            BOARD_SIZE,
-        )
+class RenjuRule(private val stones: Stones) : Rule {
+    private val omokRule: OmokRule
+        get() =
+            OmokRule(
+                generateCustomBoard(stones),
+                colorToInt(getCurrentTurn(stones)),
+                getOtherColorToInt(getCurrentTurn(stones)),
+                BOARD_SIZE,
+            )
 
     override fun checkThreeThree(stone: Stone): Boolean {
         return omokRule.checkThreeThree(
