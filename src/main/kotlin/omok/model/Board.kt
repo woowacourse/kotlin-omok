@@ -4,17 +4,17 @@ import omok.library.BlackStoneOmokRule
 
 class Board(private val boardSize: Int = BOARD_SIZE) {
     val layout: Array<Array<PositionType>> = Array(boardSize) { Array(boardSize) { PositionType.EMPTY } }
-    var lastPosition: Position? = null
+    var lastCoordinate: Coordinate? = null
         private set
     private val blackStoneOmokRule: BlackStoneOmokRule = BlackStoneOmokRule()
 
     fun placeStone(
-        position: Position,
+        coordinate: Coordinate,
         positionType: PositionType,
     ) {
-        if (layout[position.coordinate.x][position.coordinate.y] == PositionType.EMPTY) {
-            layout[position.coordinate.x][position.coordinate.y] = positionType
-            lastPosition = position
+        if (layout[coordinate.x][coordinate.y] == PositionType.EMPTY) {
+            layout[coordinate.x][coordinate.y] = positionType
+            lastCoordinate = coordinate
         } else {
             throw IllegalArgumentException(ERROR_INVALID_POSITION)
         }

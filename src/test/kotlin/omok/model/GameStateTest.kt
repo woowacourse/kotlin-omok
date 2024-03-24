@@ -23,8 +23,8 @@ class GameStateTest {
         assertThat(
             BLACK_STATE.updateState(
                 { },
-                { A1 },
                 { },
+                { A1 },
                 omokRule,
             ),
         ).isInstanceOf(GameState.Running.WhiteTurn::class.java)
@@ -35,8 +35,8 @@ class GameStateTest {
         assertThat(
             WHITE_STATE.updateState(
                 { },
-                { A1 },
                 { },
+                { A1 },
                 omokRule,
             ),
         ).isInstanceOf(GameState.Running.BlackTurn::class.java)
@@ -48,8 +48,8 @@ class GameStateTest {
             gameState =
                 gameState.updateState(
                     { },
-                    { stone },
                     { },
+                    { stone },
                     omokRule,
                 )
         }

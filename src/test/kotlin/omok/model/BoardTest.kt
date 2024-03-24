@@ -22,8 +22,8 @@ class BoardTest {
         x: Int,
         y: Int,
     ) {
-        val position = Position.from(format)
-        board.placeStone(position, BLACK_STONE)
+        val coordinate = Coordinate.from(format)
+        board.placeStone(coordinate, BLACK_STONE)
         assertEquals(BLACK_STONE, board.layout[x][y])
     }
 

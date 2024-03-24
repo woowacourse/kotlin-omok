@@ -4,8 +4,8 @@ import omok.library.BlackStoneOmokRule
 import omok.library.OmokRule
 import omok.library.WhiteStoneOmokRule
 import omok.model.Board
+import omok.model.Coordinate
 import omok.model.GameState
-import omok.model.Position
 
 class GameManager {
     private var omokRule: OmokRule = BlackStoneOmokRule()
@@ -15,11 +15,11 @@ class GameManager {
     fun play(
         onTurn: (GameState) -> Unit,
         onBoard: (Board) -> Unit,
-        onPosition: () -> Position,
+        onCoordinate: () -> Coordinate,
     ) {
         while (isRunning()) {
             setRuleBasedOnTurn()
-            playTurn(onTurn, onBoard, onPosition, omokRule)
+            playTurn(onTurn, onBoard, onCoordinate, omokRule)
         }
     }
 
@@ -37,13 +37,13 @@ class GameManager {
     private fun playTurn(
         onTurn: (GameState) -> Unit,
         onBoard: (Board) -> Unit,
-        onPosition: () -> Position,
+        onCoordinate: () -> Coordinate,
         onOmokRule: OmokRule,
     ) {
         var retry = true
         while (retry) {
             runCatching {
-                gameState = gameState.updateState(onTurn, onBoard, onPosition, onOmokRule)
+                gameState = gameState.updateState(onTurn, onBoard, onCoordinate, onOmokRule)
             }.onSuccess {
                 retry = false
             }.onFailure { throwable ->

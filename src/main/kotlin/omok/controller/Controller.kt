@@ -2,8 +2,8 @@ package omok.controller
 
 import omok.GameManager
 import omok.model.Board
+import omok.model.Coordinate
 import omok.model.GameState
-import omok.model.Position
 import omok.view.BoardView
 import omok.view.InputView
 import omok.view.OutputView
@@ -14,7 +14,7 @@ class Controller(private val gameManager: GameManager) {
         gameManager.play(::printRunningInfo, ::printBoard, ::readPosition)
     }
 
-    private fun readPosition(): Position {
+    private fun readPosition(): Coordinate {
         return InputView.readPosition()
     }
 

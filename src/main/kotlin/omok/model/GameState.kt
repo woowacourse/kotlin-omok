@@ -6,7 +6,7 @@ sealed class GameState(val board: Board) {
     abstract fun updateState(
         onTurn: (GameState) -> Unit,
         onBoard: (Board) -> Unit,
-        onPosition: () -> Position,
+        onCoordinate: () -> Coordinate,
         onOmokRule: OmokRule,
     ): GameState
 
@@ -18,16 +18,16 @@ sealed class GameState(val board: Board) {
         override fun updateState(
             onTurn: (GameState) -> Unit,
             onBoard: (Board) -> Unit,
-            onPosition: () -> Position,
+            onCoordinate: () -> Coordinate,
             onOmokRule: OmokRule,
         ): GameState {
             onTurn(this)
             onBoard(board)
 
-            val position = onPosition()
+            val position = onCoordinate()
             board.placeStone(position, currentType())
 
-            if (onOmokRule.isOmok(position.coordinate.x, position.coordinate.y, board.layout)) return Finish(board)
+            if (onOmokRule.isOmok(position.x, position.y, board.layout)) return Finish(board)
             return (nextTurn())
         }
 
@@ -56,7 +56,7 @@ sealed class GameState(val board: Board) {
         override fun updateState(
             onTurn: (GameState) -> Unit,
             onBoard: (Board) -> Unit,
-            onPosition: () -> Position,
+            onCoordinate: () -> Coordinate,
             onOmokRule: OmokRule,
         ): GameState {
             onTurn(this)

@@ -16,8 +16,8 @@ object OutputView {
 
     fun printRunningInfo(gameState: GameState) {
         println(switchGameState(gameState))
-        gameState.board.lastPosition?.let {
-            println(LAST_STONE_POSITION_MESSAGE.format(it.format))
+        gameState.board.lastCoordinate?.let {
+            println(LAST_STONE_POSITION_MESSAGE.format(it))
         }
     }
 
