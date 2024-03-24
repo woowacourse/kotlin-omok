@@ -41,7 +41,7 @@ object OutputView {
             "    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O",
         )
 
-    fun outputBoardForm(){
+    fun outputBoardForm() {
         boardForm.forEachIndexed { index, s ->
             if (index == boardForm.size - 1) {
                 println(s)
@@ -50,6 +50,7 @@ object OutputView {
             }
         }
     }
+
     fun outputUserLocation() {
         print("위치를 입력하세요:")
     }
@@ -76,7 +77,7 @@ object OutputView {
         println("오목 게임을 시작합니다.")
     }
 
-    fun outputFailureMessage(throwable: Throwable){
+    fun outputFailureMessage(throwable: Throwable) {
         println(throwable.message)
     }
 }

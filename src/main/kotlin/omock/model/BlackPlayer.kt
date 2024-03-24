@@ -25,7 +25,7 @@ data class BlackPlayer(
                     CalculateType.ThreeToThreeCount -> checkThreeToThreeCount(++threeToThreeCount)
                 }
             }
-            if (isOMockWinState(!isReverseTwoAndThree ,reverseResultCount + result.count)) return true
+            if (isOMockWinState(!isReverseTwoAndThree, reverseResultCount + result.count)) return true
         }
         return false
     }
@@ -66,7 +66,6 @@ data class BlackPlayer(
         CalculateType.ThreeToThreeCount.checkCalculateType { threeToThreeCount >= MIN_THREE_TO_THREE_COUNT }
     }
 
-
     private inline fun getCalculateType(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
@@ -74,17 +73,21 @@ data class BlackPlayer(
         type: (CalculateType) -> Unit,
     ) {
         if (isNotLastClearResult(directionResult)) return
-        if (isNotFirstClearResult(directionResult)) provideFirstClearResult(
-            isReverseResultFirstClear = isReverseResultFirstClear,
-            reverseResultCount = reverseResultCount,
-            directionResult = directionResult,
-            type = type,
-        ) else provideNotFirstClearResult(
-            isReverseResultFirstClear = isReverseResultFirstClear,
-            reverseResultCount = reverseResultCount,
-            directionResult = directionResult,
-            type = type,
-        )
+        if (isNotFirstClearResult(directionResult)) {
+            provideFirstClearResult(
+                isReverseResultFirstClear = isReverseResultFirstClear,
+                reverseResultCount = reverseResultCount,
+                directionResult = directionResult,
+                type = type,
+            )
+        } else {
+            provideNotFirstClearResult(
+                isReverseResultFirstClear = isReverseResultFirstClear,
+                reverseResultCount = reverseResultCount,
+                directionResult = directionResult,
+                type = type,
+            )
+        }
     }
 
     private inline fun provideFirstClearResult(

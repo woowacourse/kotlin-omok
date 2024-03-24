@@ -42,7 +42,6 @@ class OMokController {
         start(player = player)
     }
 
-
     private fun start(player: Player) {
         playerPick(player = player).onSuccess { playerStone ->
             playerTurn(player, playerStone).onSuccess {
