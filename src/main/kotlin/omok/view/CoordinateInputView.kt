@@ -2,14 +2,14 @@ package omok.view
 
 import omok.model.Coordinate
 
-object InputView {
+object CoordinateInputView {
     private const val INPUT_POSITION_MESSAGE = "위치를 입력하세요: "
     private const val BASE_CHAR = 'A'
     private const val BASE_NUMBER = 1
     private const val DIVIDE_INDEX = 1
     private const val ERROR_EMPTY_INPUT = "입력값이 필요합니다."
 
-    fun readPosition(): Coordinate {
+    fun readCoordinate(): Coordinate {
         print(INPUT_POSITION_MESSAGE)
         val input = readln().validateEmpty()
         val inputX = input.first().uppercaseChar() - BASE_CHAR

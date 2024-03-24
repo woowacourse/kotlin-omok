@@ -7,12 +7,12 @@ import omok.model.Board
 import omok.model.Coordinate
 import omok.model.GameState
 
-class GameManager {
+class GameManager : GameStateManager {
     private var omokRule: OmokRule = BlackStoneOmokRule()
     private val board = Board()
     private var gameState: GameState = GameState.Running.BlackTurn(board)
 
-    fun play(
+    override fun play(
         onTurn: (GameState) -> Unit,
         onBoard: (Board) -> Unit,
         onCoordinate: () -> Coordinate,

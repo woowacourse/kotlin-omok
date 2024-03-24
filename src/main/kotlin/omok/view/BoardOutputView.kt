@@ -3,7 +3,7 @@ package omok.view
 import omok.model.Board
 import omok.model.PositionType
 
-object BoardView {
+object BoardOutputView : BoardOutput {
     private const val BLACK_STONE = '●'
     private const val WHITE_STONE = '○'
     private const val BLOCK = 'X'
@@ -32,7 +32,7 @@ object BoardView {
     private const val INTERVAL_X = 3
     private const val INTERVAL_Y = 47
 
-    fun printBoard(board: Board) {
+    override fun printBoard(board: Board) {
         val stringBuilder = StringBuilder(initialBoardLayout)
         board.layout.forEachIndexed { rowIndex, row ->
             row.forEachIndexed { columnIndex, stoneType ->

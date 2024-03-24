@@ -2,13 +2,13 @@ package omok.model
 
 import omok.library.BlackStoneOmokRule
 
-class Board(private val boardSize: Int = BOARD_SIZE) {
+class Board(private val boardSize: Int = BOARD_SIZE) : BoardInterface {
     val layout: Array<Array<PositionType>> = Array(boardSize) { Array(boardSize) { PositionType.EMPTY } }
     var lastCoordinate: Coordinate? = null
         private set
     private val blackStoneOmokRule: BlackStoneOmokRule = BlackStoneOmokRule()
 
-    fun placeStone(
+    override fun placeStone(
         coordinate: Coordinate,
         positionType: PositionType,
     ) {
@@ -20,7 +20,7 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
         }
     }
 
-    fun setupBoard(current: PositionType) {
+    override fun setupBoard(current: PositionType) {
         when (current) {
             PositionType.BLACK_STONE -> {
                 setBlock(

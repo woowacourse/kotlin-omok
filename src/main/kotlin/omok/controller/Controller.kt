@@ -4,9 +4,9 @@ import omok.GameManager
 import omok.model.Board
 import omok.model.Coordinate
 import omok.model.GameState
-import omok.view.BoardView
-import omok.view.InputView
-import omok.view.OutputView
+import omok.view.BoardOutputView
+import omok.view.CoordinateInputView
+import omok.view.GameStateOutputView
 
 class Controller(private val gameManager: GameManager) {
     fun play() {
@@ -15,18 +15,18 @@ class Controller(private val gameManager: GameManager) {
     }
 
     private fun readPosition(): Coordinate {
-        return InputView.readPosition()
+        return CoordinateInputView.readCoordinate()
     }
 
     private fun printStart() {
-        OutputView.printStartHeader()
+        GameStateOutputView.printStartHeader()
     }
 
     private fun printBoard(board: Board) {
-        BoardView.printBoard(board)
+        BoardOutputView.printBoard(board)
     }
 
     private fun printRunningInfo(gameState: GameState) {
-        OutputView.printRunningInfo(gameState)
+        GameStateOutputView.printRunningInfo(gameState)
     }
 }

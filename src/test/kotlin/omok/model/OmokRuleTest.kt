@@ -2,7 +2,7 @@ package omok.model
 
 import omok.library.BlackStoneOmokRule
 import omok.library.WhiteStoneOmokRule
-import omok.view.BoardView
+import omok.view.BoardOutputView
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -84,7 +84,7 @@ class OmokRuleTest {
         listOf(A1, A2, A3, A4, A5).map {
             board.layout[it.x][it.y] = PositionType.WHITE_STONE
         }
-        BoardView.printBoard(board)
+        BoardOutputView.printBoard(board)
         assertThat(
             WhiteStoneOmokRule().isOmok(0, 4, board.layout),
         ).isEqualTo(true)
