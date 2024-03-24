@@ -32,6 +32,7 @@ object Controller {
                     position: Position,
                     currentStone: Stone,
                 ) {
+                    game.currentStone = togglePlayer(currentStone)
                     OutputView.printBoard(
                         game.board.gameBoard,
                         game.board.findForbiddenPositions(
@@ -39,7 +40,6 @@ object Controller {
                         ),
                     )
                     if (game.board.isRunning()) {
-                        game.currentStone = togglePlayer(currentStone)
                         requestPlayerMove(game.currentStone)
                     }
                 }

@@ -29,6 +29,7 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
     }
 
     fun findForbiddenPositions(stone: Stone): List<Position> {
+        if (stone == Stone.WHITE) return listOf()
         return gameRule.findForbiddenPositions(stone)
     }
 
@@ -44,7 +45,7 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
         x: CoordsNumber,
         y: CoordsNumber,
         stone: Stone,
-    )  {
+    ) {
         if (gameRule.isWinningMove(x, y, stone)) {
             gameOver()
         }
