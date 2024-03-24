@@ -7,18 +7,19 @@ import omok.model.state.White
 class Board(
     stones: List<Stone> = emptyList(),
 ) {
-    private val _status: Array<Array<Color?>> = Array(ARRAY_SIZE) { Array(ARRAY_SIZE) { null } }
+    private val _status: Array<Array<Color?>> = Array(COMPUTATION_BOARD_SIZE) { Array(COMPUTATION_BOARD_SIZE) { null } }
     val status: List<List<Color?>>
         get() = _status.map { it.toList() }.toList()
 
     var stones: List<Stone> = stones.toList()
         private set
+
     private val turnState: TurnState
         get() = if (isEven(stones.size)) Black(_status) else White(_status)
 
     fun place(position: Position): GameResult? {
         require(position !in stones.map { it.position }) { EXCEPTION_DUPLICATED_POSITION }
-        if (stones.size >= BOARD_SIZE * BOARD_SIZE) return GameResult.DRAW
+        if (stones.size >= DISPLAY_BOARD_SIZE * DISPLAY_BOARD_SIZE) return GameResult.DRAW
         return turnState.getWinningResult(position, ::markSinglePlace, ::addSingleStone)
     }
 
@@ -48,7 +49,7 @@ class Board(
     companion object {
         private const val EXCEPTION_DUPLICATED_POSITION = "중복된 곳에 착수할 수 없습니다."
         private const val ODD_EVEN_INDICATOR = 2
-        private const val ARRAY_SIZE = 16
-        private const val BOARD_SIZE = ARRAY_SIZE - 1
+        private const val COMPUTATION_BOARD_SIZE = 16
+        private const val DISPLAY_BOARD_SIZE = COMPUTATION_BOARD_SIZE - 1
     }
 }

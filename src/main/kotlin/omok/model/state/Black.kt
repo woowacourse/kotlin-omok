@@ -29,7 +29,7 @@ class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStat
         addSingleStone: (Color, Position) -> Unit,
     ) {
         val arkBoard = blackStatus.toArkOmokBoard()
-        val row = ARRAY_SIZE - position.row.value
+        val row = COMPUTATION_BOARD_SIZE - position.row.value
         val arkPoint = Position.of(row, position.col.title).toArkOmokPoint()
         if (placementAvailable(arkBoard, arkPoint)) {
             val column = Column.valueOf(position.col.title)?.value ?: return

@@ -23,7 +23,7 @@ class White(whiteStatus: Array<Array<Color?>>) : TurnState(whiteStatus) {
         markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
         addSingleStone: (Color, Position) -> Unit,
     ) {
-        val row = ARRAY_SIZE - position.row.value
+        val row = COMPUTATION_BOARD_SIZE - position.row.value
         val column = Column.valueOf(position.col.title)?.value ?: return
         markSinglePlace(row, column, Color.WHITE)
         addSingleStone(Color.WHITE, position)

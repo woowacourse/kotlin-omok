@@ -23,7 +23,7 @@ abstract class TurnState(
         markSinglePlace: (row: Int, col: Int, color: Color) -> Unit,
         addSingleStone: (Color, Position) -> Unit,
     ): Boolean {
-        val row = ARRAY_SIZE - position.row.value
+        val row = COMPUTATION_BOARD_SIZE - position.row.value
         addStone(color, position, markSinglePlace, addSingleStone)
         return calculateSearchResult(row, position.col.value, color)
     }
@@ -48,6 +48,6 @@ abstract class TurnState(
     }
 
     companion object {
-        const val ARRAY_SIZE = 16
+        const val COMPUTATION_BOARD_SIZE = 16
     }
 }

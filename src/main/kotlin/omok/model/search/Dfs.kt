@@ -5,7 +5,7 @@ import omok.model.Color
 abstract class Dfs(
     private val status: Array<Array<Color?>>,
 ) {
-    private val visited = Array(16) { Array(16) { false } }
+    private val visited = Array(COMPUTATION_BOARD_SIZE) { Array(COMPUTATION_BOARD_SIZE) { false } }
     var count: Int = 0
         protected set
 
@@ -30,8 +30,8 @@ abstract class Dfs(
         column: Int,
         color: Color,
     ): Boolean =
-        row in 1..15 &&
-            column in 1..15 &&
+        row in VISIT_INDEX_RANGE &&
+            column in VISIT_INDEX_RANGE &&
             status[row][column] == color &&
             !visited[row][column]
 
@@ -41,5 +41,10 @@ abstract class Dfs(
     ) {
         visited[row][column] = true
         count++
+    }
+
+    companion object {
+        private const val COMPUTATION_BOARD_SIZE = 16
+        private val VISIT_INDEX_RANGE = 1..15
     }
 }
