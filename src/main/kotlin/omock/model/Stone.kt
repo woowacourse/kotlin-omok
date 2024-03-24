@@ -9,8 +9,10 @@ data class Stone(
     }
 
     companion object {
-        val stones =
-            Row.ROW_RANGE.flatMap { rowComma ->
+        val stones: List<Stone> = generateStones()
+
+        private fun generateStones(): List<Stone> {
+            return Row.ROW_RANGE.flatMap { rowComma ->
                 (Column.COLUM_RANGE).map { columnComma ->
                     Stone(
                         row = Row(rowComma),
@@ -18,6 +20,7 @@ data class Stone(
                     )
                 }
             }
+        }
 
         fun from(
             row: Row,
