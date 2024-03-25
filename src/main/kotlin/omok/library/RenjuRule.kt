@@ -1,10 +1,10 @@
 package omok.library
 
-import omok.model.Board
-
 class RenjuRule(
     val board: List<List<Int>>,
 ) {
+    private val size = board.size
+
     private val directions =
         listOf(
             Pair(1, 0),
@@ -67,7 +67,7 @@ class RenjuRule(
         for (i in -4..4) {
             val targetY = y + i * dy
             val targetX = x + i * dx
-            if (targetY !in 0 until Board.BOARD_SIZE || targetX !in 0 until Board.BOARD_SIZE) continue
+            if (targetY !in 0 until size || targetX !in 0 until size) continue
 
             when (board[targetY][targetX]) {
                 stoneType -> {
@@ -117,10 +117,10 @@ class RenjuRule(
         return when {
             stone1 + stone2 != 2 -> 0
             !separatedSets -> 0
-            dx != 0 && x.minus(leftDown) in X_Edge -> 0
-            dy != 0 && y.minus(leftDown) in Y_Edge -> 0
-            dx != 0 && x.plus(rightUp) in X_Edge -> 0
-            dy != 0 && y.plus(rightUp) in Y_Edge -> 0
+            dx != 0 && x.minus(leftDown) in listOf(MIN_X, size - 1) -> 0
+            dy != 0 && y.minus(leftDown) in listOf(MIN_Y, size - 1)-> 0
+            dx != 0 && x.plus(rightUp) in listOf(MIN_X, size - 1) -> 0
+            dy != 0 && y.plus(rightUp) in listOf(MIN_Y, size - 1) -> 0
             board[y - dy * (leftDown + 1)][x - dx * (leftDown + 1)] == STONE_TYPE_WHITE -> 0
             board[y + dy * (rightUp + 1)][x + dx * (rightUp + 1)] == STONE_TYPE_WHITE -> 0
             else -> 1
@@ -145,10 +145,10 @@ class RenjuRule(
         return when {
             stone1 + stone2 != 2 -> 0
             !separatedSets -> 0
-            dx != 0 && x.minus(leftUp) in X_Edge -> 0
-            dy != 0 && y.plus(leftUp) in Y_Edge -> 0
-            dx != 0 && x.plus(rightBottom) in X_Edge -> 0
-            dy != 0 && y.minus(rightBottom) in Y_Edge -> 0
+            dx != 0 && x.minus(leftUp) in listOf(MIN_X, size - 1) -> 0
+            dy != 0 && y.plus(leftUp) in listOf(MIN_Y, size - 1)-> 0
+            dx != 0 && x.plus(rightBottom) in listOf(MIN_X, size - 1) -> 0
+            dy != 0 && y.minus(rightBottom) in listOf(MIN_Y, size - 1) -> 0
             board[y - rightBottom - 1][x + rightBottom + 1] == STONE_TYPE_WHITE -> 0
             board[y + leftUp + 1][x - leftUp - 1] == STONE_TYPE_WHITE -> 0
             else -> 1
@@ -176,15 +176,15 @@ class RenjuRule(
 
         val leftDownValid =
             when {
-                dx != 0 && x.minus(dx * leftDown) in X_Edge -> 0
-                dy != 0 && y.minus(dy * leftDown) in Y_Edge -> 0
+                dx != 0 && x.minus(dx * leftDown) in listOf(MIN_X, size - 1) -> 0
+                dy != 0 && y.minus(dy * leftDown) in listOf(MIN_Y, size - 1) -> 0
                 board[y - dy * (leftDown + 1)][x - dx * (leftDown + 1)] == STONE_TYPE_WHITE -> 0
                 else -> 1
             }
         val rightUpValid =
             when {
-                dx != 0 && x.plus(dx * rightUp) in X_Edge -> 0
-                dy != 0 && y.plus(dy * rightUp) in Y_Edge -> 0
+                dx != 0 && x.plus(dx * rightUp) in listOf(MIN_X, size - 1) -> 0
+                dy != 0 && y.plus(dy * rightUp) in listOf(MIN_Y, size - 1) -> 0
                 board[y + dy * (rightUp + 1)][x + dx * (rightUp + 1)] == STONE_TYPE_WHITE -> 0
                 else -> 1
             }
@@ -214,16 +214,16 @@ class RenjuRule(
 
         val leftUpValid =
             when {
-                dx != 0 && x.minus(leftUp) in X_Edge -> 0
-                dy != 0 && y.plus(leftUp) in Y_Edge -> 0
+                dx != 0 && x.minus(leftUp) in listOf(MIN_X, size - 1) -> 0
+                dy != 0 && y.plus(leftUp) in listOf(MIN_Y, size - 1) -> 0
                 board[y - rightBottom - 1][x + rightBottom + 1] == STONE_TYPE_WHITE -> 0
                 else -> 1
             }
 
         val rightBottomValid =
             when {
-                dx != 0 && x.plus(rightBottom) in X_Edge -> 0
-                dy != 0 && y.minus(rightBottom) in Y_Edge -> 0
+                dx != 0 && x.plus(rightBottom) in listOf(MIN_X, size - 1) -> 0
+                dy != 0 && y.minus(rightBottom) in listOf(MIN_Y, size - 1) -> 0
                 board[y + leftUp + 1][x - leftUp - 1] == STONE_TYPE_WHITE -> 0
                 else -> 1
             }
@@ -243,9 +243,9 @@ class RenjuRule(
         var blink = 0
         var blinkCount = 0
         while (true) {
-            if (dx > 0 && toRight == MAX_X) break
+            if (dx > 0 && toRight == size - 1) break
             if (dx < 0 && toRight == MIN_X) break
-            if (dy > 0 && toTop == MAX_Y) break
+            if (dy > 0 && toTop == size - 1) break
             if (dy < 0 && toTop == MIN_X) break
             toRight += dx
             toTop += dy
@@ -269,15 +269,11 @@ class RenjuRule(
         private const val MIN_OPEN_THREES = 2
         private const val MIN_OPEN_FOURS = 2
         private const val MIN_X = 0
-        private const val MAX_X = Board.BOARD_SIZE - 1
         private const val MIN_Y = 0
-        private const val MAX_Y = Board.BOARD_SIZE - 1
         private const val MAX_STONES_IN_DIRECTION = 5
         private const val STONE_TYPE_EMPTY = 0
         private const val STONE_TYPE_BLACK = 1
         private const val STONE_TYPE_WHITE = 2
         private const val DEFAULT_COUNT = 1
-        private val X_Edge = listOf(MIN_X, MAX_X)
-        private val Y_Edge = listOf(MIN_Y, MAX_Y)
     }
 }
