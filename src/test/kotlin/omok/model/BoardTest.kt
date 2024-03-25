@@ -8,44 +8,13 @@ import org.junit.jupiter.api.assertThrows
 
 class BoardTest {
     @Test
-    fun `보드에 바둑돌을 놓으면,보드에 바둑돌이 추가된다`() {
-        // given
+    fun `놓고자 하는 stone의 위치에 이미 stone이 있는지 확인한다`() {
         val board = Board()
-        val newStone = Stone(Point(1, 2), Color.WHITE)
-        // when
-        board.add(newStone)
-        // then
-        val actual = board.stones.stones
-        val expected = listOf<Stone>(newStone)
-        assertThat(actual).isEqualTo(expected)
-    }
+        val stones = Stones().also { it.add(Stone(1,1,Color.BLACK)) }
+        board.addStones(stones)
 
-    @Test
-    fun `같은 위치에 바둑돌은 놓을 수 없다`() {
-        // given
-        val stone = FIRST_ROW_FIRST_COL
-        val board = Board()
-        board.add(stone)
-        val samePositionStone = FIRST_ROW_FIRST_COL
-        // when
         assertThrows<IllegalArgumentException> {
-            board.add(samePositionStone)
+            board.checkDuplicate(Stone(1,1,Color.WHITE))
         }
-    }
-
-    @Test
-    fun `다른 위치에 바둑돌을 놓을 수 있다`() {
-        // given
-        val stone = FIRST_ROW_FIRST_COL
-        val board = Board()
-        board.add(stone)
-
-        val differentPositionStone = FIRST_ROW_SECOND_COL
-        // when
-        board.add(differentPositionStone)
-        val actual = board.stones.stones.size
-        val expected = 2
-        // then
-        assertThat(actual).isEqualTo(expected)
     }
 }

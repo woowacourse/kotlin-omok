@@ -1,9 +1,21 @@
 package omok.model
 
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import kotlin.math.PI
 
 class BlackPlayerTest {
+    private lateinit var board: Board
+    private lateinit var blackStonePlayer: BlackStonePlayer
+
+    @BeforeEach
+    fun setUp() {
+        board = Board()
+        blackStonePlayer = BlackStonePlayer(board)
+    }
+
+
     private fun stone(
         color: Color,
         vararg positions: Int,
@@ -20,72 +32,67 @@ class BlackPlayerTest {
 
     @Test
     fun `흑이 33이면 백의 승리이다_1(흑의 패배이다)`() {
-        val blackStonePlayer = BlackStonePlayer()
         blackStonePlayer.apply {
-            add(stone(Color.BLACK, 2, 2))
-            add(stone(Color.BLACK, 2, 3))
-            add(stone(Color.BLACK, 3, 4))
-            add(stone(Color.BLACK, 4, 4))
+            add(Point(2, 2))
+            add(Point(2, 3))
+            add(Point(3, 4))
+            add(Point(4, 4))
         }
         assertThrows<IllegalArgumentException> {
-            blackStonePlayer.add(stone(Color.BLACK, 2, 4))
+            blackStonePlayer.add(Point(2, 4))
         }
     }
 
     @Test
     fun `흑이 33이면 백의 승리이다_2(흑의 패배이다)`() {
-        val blackStonePlayer = BlackStonePlayer()
         blackStonePlayer.apply {
-            add(stone(Color.BLACK, 6, 2))
-            add(stone(Color.BLACK, 5, 3))
-            add(stone(Color.BLACK, 5, 5))
-            add(stone(Color.BLACK, 6, 5))
+            add(Point(6, 2))
+            add(Point(5, 3))
+            add(Point(5, 5))
+            add(Point(6, 5))
         }
         assertThrows<IllegalArgumentException> {
-            blackStonePlayer.add(stone(Color.BLACK, 3, 5))
+            blackStonePlayer.add(Point(3, 5))
         }
     }
 
     @Test
     fun `흑이 33이면 백의 승리이다_3(흑의 패배이다)`() {
-        val blackStonePlayer = BlackStonePlayer()
         blackStonePlayer.apply {
-            add(stone(Color.BLACK, 5, 10))
-            add(stone(Color.BLACK, 2, 10))
-            add(stone(Color.BLACK, 3, 12))
-            add(stone(Color.BLACK, 3, 13))
+            add(Point(5, 10))
+            add(Point(2, 10))
+            add(Point(3, 12))
+            add(Point(3, 13))
         }
         assertThrows<IllegalArgumentException> {
-            blackStonePlayer.add(stone(Color.BLACK, 3, 10))
+            blackStonePlayer.add(Point(3, 10))
         }
     }
 
     @Test
     fun `흑이 33이면 백의 승리이다_4(흑의 패배이다)`() {
-        val blackStonePlayer = BlackStonePlayer()
         blackStonePlayer.apply {
-            add(stone(Color.BLACK, 8, 9))
-            add(stone(Color.BLACK, 11, 12))
-            add(stone(Color.BLACK, 9, 12))
-            add(stone(Color.BLACK, 8, 13))
+            add(Point(8, 9))
+            add(Point(11, 12))
+            add(Point(9, 12))
+            add(Point(8, 13))
         }
         assertThrows<IllegalArgumentException> {
-            blackStonePlayer.add(stone(Color.BLACK, 10, 11))
+            blackStonePlayer.add(Point(10, 11))
         }
     }
 
     @Test
     fun `흑이 44이면 예외를 던진다_1`() {
-        val blackStonePlayer = BlackStonePlayer()
         blackStonePlayer.apply {
-            add(blackStone("C", 12))
-            add(blackStone("D", 12))
-            add(blackStone("G", 12))
-            add(blackStone("I", 12))
-            add(blackStone("J", 12))
+            add(Point(2, 12))
+            add(Point(3, 12))
+            add(Point(6, 12))
+            add(Point(8, 12))
+            add(Point(9, 12))
         }
         assertThrows<IllegalArgumentException> {
-            blackStonePlayer.add(blackStone("F", 12))
+            blackStonePlayer.add(Point(5, 12))
         }
     }
 }

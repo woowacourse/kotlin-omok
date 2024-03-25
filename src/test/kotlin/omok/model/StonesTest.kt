@@ -13,7 +13,7 @@ class StonesTest {
         assertThat(stones.stones.size).isEqualTo(0)
 
         // given
-        stones.add(FIRST_ROW_FIRST_COL)
+        stones.add(Stone(FIRST_ROW_FIRST_COL, Color.BLACK))
 
         // then
         assertThat(stones.stones.size).isEqualTo(1)
@@ -22,9 +22,9 @@ class StonesTest {
     @Test
     fun `Stones 의 마지막 스톤을 확인할 수 있다`() {
         val stones = Stones()
-        stones.add(FIRST_ROW_FIRST_COL)
-        stones.add(FIRST_ROW_SECOND_COL)
+        stones.add(Stone(FIRST_ROW_FIRST_COL, Color.BLACK))
+        stones.add(Stone(FIRST_ROW_SECOND_COL, Color.BLACK))
 
-        assertThat(stones.lastStone()).isEqualTo(FIRST_ROW_SECOND_COL)
+        assertThat(stones.lastStone()).isEqualTo(Stone(FIRST_ROW_SECOND_COL, Color.BLACK))
     }
 }

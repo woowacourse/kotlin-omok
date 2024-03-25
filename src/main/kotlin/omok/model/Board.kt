@@ -1,15 +1,16 @@
 package omok.model
 
-class Board() {
-    val stones = Stones()
+class Board {
+    private val stonesBundle: MutableList<Stones> = mutableListOf()
 
-    fun add(stone: Stone) {
-        require(stones.stones.all { it.point != stone.point }) { "중복입니다" }
-        stones.add(stone)
+    fun addStones(stones: Stones) {
+        this.stonesBundle.add(stones)
     }
 
-    fun lastStone(): Stone? {
-        return stones.lastStone()
+    fun checkDuplicate(stone: Stone) {
+        require(stonesBundle.none { stones ->
+            stones.stones.any { it.point == stone.point }
+        }) { "중복된 위치입니다." }
     }
 
     companion object {

@@ -1,25 +1,22 @@
 package omok.view
 
-import omok.model.Board
 import omok.model.Color
 import omok.model.Point
 import omok.model.Stone
 import omok.retryWhileNotException
 
 class InputView {
-    fun getStone(
-        board: Board,
+    fun getPoint(
         color: Color,
         lastStone: Stone?,
-    ): Stone =
+    ): Point =
         retryWhileNotException {
             println("${colorToString(color)}의 차례입니다.${convertPosition(lastStone)}")
             print("위치를 입력하세요 : ")
             val input = readln()
             val x: Int = convertX(input.first()) ?: throw IllegalArgumentException("행 값 오류")
             val y: Int = convertY(input.substring(1, input.length)) ?: throw IllegalArgumentException("열 값 오류")
-            if (board.stones.stones.any { it.point == Point(x, y) }) throw IllegalArgumentException("중복 오류")
-            Stone(x, y, color)
+            Point(x, y)
         }
 
     private fun colorToString(color: Color): String {

@@ -40,12 +40,12 @@ class OutputView {
         }
 
         // 검은 돌 위치 설정
-        for (stone in blackPlayer.getStones()) {
+        for (stone in blackPlayer.stones()) {
             board[(stone.point.col)][(stone.point.row) * 3] = "●"
         }
 
         // 흰 돌 위치 설정
-        for (stone in whitePlayer.getStones()) {
+        for (stone in whitePlayer.stones()) {
             board[(stone.point.col)][(stone.point.row) * 3] = "○"
         }
 

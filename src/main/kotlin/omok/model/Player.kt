@@ -1,20 +1,24 @@
 package omok.model
 
-abstract class Player() {
+abstract class Player {
+
+    abstract val color: Color
+    abstract val board: Board
     protected val stones: Stones = Stones()
 
-    fun getStones(): List<Stone> = stones.stones
 
-    open fun add(stone: Stone) {
-        require(!duplicatedPoint(stone)) { ERROR_DUPLICATED_POSITION }
-        stones.add(stone)
+    open fun add(point:Point) {
+        val stone = Stone(point, color)
+        board.checkDuplicate(stone)
+
+        stones.add(Stone(point, color))
     }
 
     fun lastStone(): Stone? = stones.lastStone()
 
-    private fun duplicatedPoint(stone: Stone): Boolean = stones.match(stone)
+    abstract fun checkContinuity(): Boolean
 
-    open fun checkContinuity(stone: Stone): Boolean = true
+    fun stones() = stones.stones
 
     fun countStones(
         start: Point,
@@ -32,9 +36,5 @@ abstract class Player() {
         }
 
         return count
-    }
-
-    companion object {
-        private const val ERROR_DUPLICATED_POSITION = "중복된 위치입니다."
     }
 }

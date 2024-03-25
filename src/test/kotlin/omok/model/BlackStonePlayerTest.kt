@@ -9,22 +9,22 @@ class BlackStonePlayerTest {
     @Test
     fun `BlackStonePlayer 는 Stone 을 추가할 수 있다`() {
         // when
-        val blackStonePlayer = BlackStonePlayer()
-        assertThat(blackStonePlayer.getStones().size).isEqualTo(0)
+        val blackStonePlayer = BlackStonePlayer(Board())
+        assertThat(blackStonePlayer.stones().size).isEqualTo(0)
 
         // given
         blackStonePlayer.add(FIRST_ROW_SECOND_COL)
 
         // Then
-        assertThat(blackStonePlayer.getStones().size).isEqualTo(1)
+        assertThat(blackStonePlayer.stones().size).isEqualTo(1)
     }
 
     @Test
     fun `마지막 스톤을 알 수 있다`() {
-        val blackStonePlayer = BlackStonePlayer()
+        val blackStonePlayer = BlackStonePlayer(Board())
         blackStonePlayer.add(FIRST_ROW_FIRST_COL)
         blackStonePlayer.add(FIRST_ROW_SECOND_COL)
 
-        assertThat(blackStonePlayer.lastStone()).isEqualTo(FIRST_ROW_SECOND_COL)
+        assertThat(blackStonePlayer.lastStone()).isEqualTo(Stone(FIRST_ROW_SECOND_COL, Color.BLACK))
     }
 }
