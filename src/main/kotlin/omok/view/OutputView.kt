@@ -116,8 +116,4 @@ object OutputView {
     private fun generateBeforeMessage(stone: Stone): String {
         return MESSAGE_BEFORE_STONE.format(stone.point.x + 65, stone.point.y + 1)
     }
-
-    fun printDuplicatedPointMessage() {
-        println("해당 위치 좌표에 이미 돌이 착수되어 있습니다. 다시 입력해주세요.")
-    }
 }
