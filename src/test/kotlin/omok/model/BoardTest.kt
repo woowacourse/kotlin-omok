@@ -9,7 +9,7 @@ class BoardTest {
 
     @BeforeEach
     fun setUp() {
-        board = Board()
+        board = Board(15)
     }
 
     @Test

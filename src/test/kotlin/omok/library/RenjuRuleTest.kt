@@ -13,7 +13,7 @@ class RenjuRuleTest {
 
     @BeforeEach
     fun setUp() {
-        board = Board()
+        board = Board(15)
     }
 
     @Test

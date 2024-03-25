@@ -9,7 +9,7 @@ class RuleAdapterTest {
 
     @BeforeEach
     fun setUp() {
-        board = Board()
+        board = Board(15)
     }
 
     @Test
