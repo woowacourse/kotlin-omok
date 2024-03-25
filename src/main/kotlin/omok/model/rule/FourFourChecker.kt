@@ -2,7 +2,7 @@ package omok.model.rule
 
 import omok.model.board.Board
 
-object FourFourChecker : OmokRule(Board.board) {
+object FourFourChecker : OmokRule() {
     fun checkFourFour(
         x: Int,
         y: Int,
@@ -34,16 +34,16 @@ object FourFourChecker : OmokRule(Board.board) {
 
         val leftDownValid =
             when {
-                dx != 0 && x - dx * leftDown in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
-                dy != 0 && y - dy * leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
-                Board.board[y - down][x - left] == OTHER_STONEType -> 0
+                dx != 0 && Board.isBoardEdge(x - dx * leftDown) -> 0
+                dy != 0 && Board.isBoardEdge(y - dy * leftDown) -> 0
+                Board.getStoneType(y - down, x - left) == OTHER_STONEType -> 0
                 else -> 1
             }
         val rightUpValid =
             when {
-                dx != 0 && x + (dx * rightUp) in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
-                dy != 0 && y + (dy * rightUp) in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
-                Board.board[y + up][x + right] == OTHER_STONEType -> 0
+                dx != 0 && Board.isBoardEdge(x + dx * rightUp) -> 0
+                dy != 0 && Board.isBoardEdge(y + dy * rightUp) -> 0
+                Board.getStoneType(y + up, x + right) == OTHER_STONEType -> 0
                 else -> 1
             }
 

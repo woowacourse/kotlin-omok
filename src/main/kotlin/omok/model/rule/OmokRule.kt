@@ -3,7 +3,7 @@ package omok.model.rule
 import omok.model.board.Board
 import omok.model.stone.StoneType
 
-open class OmokRule(private val board: Array<Array<StoneType>>) {
+open class OmokRule {
     val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
 
     fun checkRenjuRule(
@@ -27,13 +27,13 @@ open class OmokRule(private val board: Array<Array<StoneType>>) {
         var blink = 0
         var blinkCount = 0
         while (true) {
-            if (dx > 0 && toRight == Board.BOARD_SIZE - 1) break
-            if (dx < 0 && toRight == MIN_X) break
-            if (dy > 0 && toTop == Board.BOARD_SIZE - 1) break
-            if (dy < 0 && toTop == MIN_X) break
+            if (dx > 0 && Board.isBoardEdge(toRight)) break
+            if (dx < 0 && Board.isBoardEdge(toRight)) break
+            if (dy > 0 && Board.isBoardEdge(toTop)) break
+            if (dy < 0 && Board.isBoardEdge(toTop)) break
             toRight += dx
             toTop += dy
-            when (board[toTop][toRight]) {
+            when (Board.getStoneType(toTop, toRight)) {
                 CURRENT_STONEType -> {
                     stone++
                     blink = blinkCount
@@ -53,8 +53,6 @@ open class OmokRule(private val board: Array<Array<StoneType>>) {
 
     companion object {
         val EMPTY_STONEType = StoneType.NONE
-        const val MIN_X = 0
-        const val MIN_Y = 0
         val CURRENT_STONEType = StoneType.BLACK_STONE
         val OTHER_STONEType: StoneType = StoneType.WHITE_STONE
     }

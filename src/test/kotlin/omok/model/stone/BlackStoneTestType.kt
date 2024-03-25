@@ -1,7 +1,7 @@
 package omok.model.stone
 
-import omok.model.board.Board
 import omok.model.position.Position
+import omok.model.resetBoard
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -10,11 +10,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 class BlackStoneTestType {
     @BeforeEach
     fun setUp() {
-        repeat(Board.BOARD_SIZE) { row ->
-            repeat(Board.BOARD_SIZE) { col ->
-                Board.board[row][col] = StoneType.NONE
-            }
-        }
+        resetBoard()
     }
 
     @Test

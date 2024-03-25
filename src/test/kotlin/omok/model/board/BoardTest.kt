@@ -1,8 +1,9 @@
 package omok.model.board
 
 import omok.model.position.Position
+import omok.model.resetBoard
+import omok.model.resetPosition
 import omok.model.stone.BlackStone
-import omok.model.stone.StoneType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -10,11 +11,7 @@ import org.junit.jupiter.api.Test
 class BoardTest {
     @BeforeEach
     fun setUp() {
-        repeat(Board.BOARD_SIZE) { row ->
-            repeat(Board.BOARD_SIZE) { col ->
-                Board.board[row][col] = StoneType.NONE
-            }
-        }
+        resetBoard()
         resetPosition(Board, "lastPosition")
     }
 
@@ -32,17 +29,5 @@ class BoardTest {
         val actual = Board.getLastStonePosition()
         val expected = Position(1, 5)
         assertThat(actual).isEqualTo(expected)
-    }
-
-    private fun resetPosition(
-        target: Any,
-        fieldName: String,
-    ) {
-        val field = target.javaClass.getDeclaredField(fieldName)
-
-        with(field) {
-            isAccessible = true
-            set(target, null)
-        }
     }
 }

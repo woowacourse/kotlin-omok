@@ -63,8 +63,8 @@ class OutputView {
         lastSymbol: String,
     ) {
         printSymbol(board, row, firstSymbol)
-        for (col in 1 until UPPER_LENGTH) {
-            val stone = board.board[row][col]
+        for (column in 1 until UPPER_LENGTH) {
+            val stone = Board.getStoneType(row, column)
             print(if (stone == StoneType.NONE) "──$middleSymbol" else "──${stone.value()}")
         }
         printLastSymbol(board, row, lastSymbol)
@@ -76,7 +76,7 @@ class OutputView {
         row: Int,
         lastSymbol: String,
     ) {
-        val stone = board.board[row][UPPER_LENGTH]
+        val stone = Board.getStoneType(row, UPPER_LENGTH)
         if (stone != StoneType.NONE) {
             print("──${stone.value()}")
         } else {
@@ -89,10 +89,10 @@ class OutputView {
         row: Int,
         firstSymbol: String,
     ) {
-        if (board.board[row][MIN_COL] != StoneType.NONE) {
-            print(board.board[row][MIN_COL].value())
-        } else if (board.board[row][UPPER_LENGTH] != StoneType.NONE) {
-            print(board.board[row][UPPER_LENGTH].value())
+        if (Board.getStoneType(row, MIN_COL) != StoneType.NONE) {
+            print(Board.getStoneType(row, MIN_COL).value())
+        } else if (Board.getStoneType(row, UPPER_LENGTH) != StoneType.NONE) {
+            print(Board.getStoneType(row, UPPER_LENGTH).value())
         } else {
             print(firstSymbol)
         }

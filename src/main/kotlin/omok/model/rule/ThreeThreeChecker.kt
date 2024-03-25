@@ -2,7 +2,7 @@ package omok.model.rule
 
 import omok.model.board.Board
 
-object ThreeThreeChecker : OmokRule(Board.board) {
+object ThreeThreeChecker : OmokRule() {
     fun checkThreeThree(
         x: Int,
         y: Int,
@@ -28,12 +28,13 @@ object ThreeThreeChecker : OmokRule(Board.board) {
         return when {
             stone1 + stone2 != 2 -> 0
             blink1 + blink2 == 2 -> 0
-            dx != 0 && x - leftDown in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
-            dy != 0 && y - leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
-            dx != 0 && x + rightUp in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
-            dy != 0 && y + rightUp in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
-            Board.board[y - down][x - left] == OTHER_STONEType -> 0
-            Board.board[y + up][x + right] == OTHER_STONEType -> 0
+            dx != 0 && Board.isBoardEdge(x - leftDown) -> 0
+            dy != 0 && Board.isBoardEdge(y - leftDown) -> 0
+            dx != 0 && Board.isBoardEdge(x + rightUp) -> 0
+            dy != 0 && Board.isBoardEdge(y + rightUp) -> 0
+
+            Board.getStoneType(y - down, x - left) == OTHER_STONEType -> 0
+            Board.getStoneType(y + up, x + right) == OTHER_STONEType -> 0
             countToWall(x, y, -dx, -dy) + countToWall(x, y, dx, dy) <= 5 -> 0
             else -> 1
         }
@@ -49,13 +50,13 @@ object ThreeThreeChecker : OmokRule(Board.board) {
         var toTop = y
         var distance = 0
         while (true) {
-            if (dx > 0 && toRight == Board.BOARD_SIZE - 1) break
-            if (dx < 0 && toRight == MIN_X) break
-            if (dy > 0 && toTop == Board.BOARD_SIZE - 1) break
-            if (dy < 0 && toTop == MIN_X) break
+            if (dx > 0 && Board.isBoardEdge(toRight)) break
+            if (dx < 0 && Board.isBoardEdge(toRight)) break
+            if (dy > 0 && Board.isBoardEdge(toTop)) break
+            if (dy < 0 && Board.isBoardEdge(toTop)) break
             toRight += dx
             toTop += dy
-            when (Board.board[toTop][toRight]) {
+            when (Board.getStoneType(toTop, toRight)) {
                 in listOf(CURRENT_STONEType, EMPTY_STONEType) -> distance++
                 OTHER_STONEType -> break
                 else -> throw IllegalArgumentException()

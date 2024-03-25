@@ -37,12 +37,12 @@ object OmokChecker {
     ): Int {
         var sameStoneCount = 0
         var row = lastPosition.row + relativeDirection.relativeRowDirection
-        var col = lastPosition.column + relativeDirection.relativeColumnDirection
+        var column = lastPosition.column + relativeDirection.relativeColumnDirection
 
-        while (row in 0 until Board.BOARD_SIZE && col in 0 until Board.BOARD_SIZE && Board.board[col][row] == stoneType) {
+        while (Board.isPositionInRange(row, column) && Board.isSameStone(column, row, stoneType)) {
             sameStoneCount++
             row += relativeDirection.relativeRowDirection
-            col += relativeDirection.relativeColumnDirection
+            column += relativeDirection.relativeColumnDirection
         }
 
         return sameStoneCount

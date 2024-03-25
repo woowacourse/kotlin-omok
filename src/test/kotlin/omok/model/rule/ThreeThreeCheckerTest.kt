@@ -1,9 +1,8 @@
 package omok.model.rule
 
-import omok.model.board.Board
 import omok.model.position.Position
+import omok.model.resetBoard
 import omok.model.stone.BlackStone
-import omok.model.stone.StoneType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -11,11 +10,7 @@ import org.junit.jupiter.api.Test
 class ThreeThreeCheckerTest {
     @BeforeEach
     fun setUp() {
-        repeat(Board.BOARD_SIZE) { row ->
-            repeat(Board.BOARD_SIZE) { col ->
-                Board.board[row][col] = StoneType.NONE
-            }
-        }
+        resetBoard()
     }
 
     @Test
