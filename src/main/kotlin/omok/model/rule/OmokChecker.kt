@@ -23,15 +23,12 @@ object OmokChecker {
         lastPosition: Position,
         relativeDirection: RelativeDirection,
         stoneType: StoneType,
-    ): Boolean {
-        var stoneCount = DEFAULT_STONE_COUNT
-
-        stoneCount += countSameStones(lastPosition, relativeDirection, stoneType)
-
-        stoneCount += countSameStones(lastPosition, -relativeDirection, stoneType)
-
-        return stoneCount >= OMOK_PRECONDITION
-    }
+    ): Boolean =
+        (
+            DEFAULT_STONE_COUNT +
+                countSameStones(lastPosition, relativeDirection, stoneType) +
+                countSameStones(lastPosition, -relativeDirection, stoneType)
+        ) >= OMOK_PRECONDITION
 
     private fun countSameStones(
         lastPosition: Position,
