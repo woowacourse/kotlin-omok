@@ -2,7 +2,7 @@ package omok.view
 
 import omok.model.board.Board
 import omok.model.stone.GoStone
-import omok.model.stone.Stone
+import omok.model.stone.StoneType
 
 class OutputView {
     fun printStartGameComment() = println(START_GAME_MESSAGE)
@@ -21,7 +21,7 @@ class OutputView {
 
     fun printWinner(stone: GoStone) {
         lineBreak()
-        if (stone.stoneType == Stone.BLACK_STONE) {
+        if (stone.stoneType == StoneType.BLACK_STONE) {
             println(BLACK_STONE_WIN_MESSAGE)
         } else {
             println(WHITE_STONE_WIN_MESSAGE)
@@ -65,7 +65,7 @@ class OutputView {
         printSymbol(board, row, firstSymbol)
         for (col in 1 until UPPER_LENGTH) {
             val stone = board.board[row][col]
-            print(if (stone == Stone.NONE) "──$middleSymbol" else "──${stone.value()}")
+            print(if (stone == StoneType.NONE) "──$middleSymbol" else "──${stone.value()}")
         }
         printLastSymbol(board, row, lastSymbol)
         println()
@@ -77,7 +77,7 @@ class OutputView {
         lastSymbol: String,
     ) {
         val stone = board.board[row][UPPER_LENGTH]
-        if (stone != Stone.NONE) {
+        if (stone != StoneType.NONE) {
             print("──${stone.value()}")
         } else {
             print("──$lastSymbol")
@@ -89,20 +89,20 @@ class OutputView {
         row: Int,
         firstSymbol: String,
     ) {
-        if (board.board[row][MIN_COL] != Stone.NONE) {
+        if (board.board[row][MIN_COL] != StoneType.NONE) {
             print(board.board[row][MIN_COL].value())
-        } else if (board.board[row][UPPER_LENGTH] != Stone.NONE) {
+        } else if (board.board[row][UPPER_LENGTH] != StoneType.NONE) {
             print(board.board[row][UPPER_LENGTH].value())
         } else {
             print(firstSymbol)
         }
     }
 
-    private fun Stone.value() =
+    private fun StoneType.value() =
         when (this) {
-            Stone.BLACK_STONE -> "●"
-            Stone.WHITE_STONE -> "○"
-            Stone.NONE -> ""
+            StoneType.BLACK_STONE -> "●"
+            StoneType.WHITE_STONE -> "○"
+            StoneType.NONE -> ""
         }
 
     private fun lineBreak() = println()

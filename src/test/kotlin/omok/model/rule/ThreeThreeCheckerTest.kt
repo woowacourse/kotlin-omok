@@ -3,7 +3,7 @@ package omok.model.rule
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone
-import omok.model.stone.Stone
+import omok.model.stone.StoneType
 import omok.model.stone.WhiteStone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -14,7 +14,7 @@ class ThreeThreeCheckerTest {
     fun setUp() {
         repeat(Board.BOARD_SIZE) { row ->
             repeat(Board.BOARD_SIZE) { col ->
-                Board.board[row][col] = Stone.NONE
+                Board.board[row][col] = StoneType.NONE
             }
         }
     }

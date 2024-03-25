@@ -36,14 +36,14 @@ object FourFourChecker : OmokRule(Board.board) {
             when {
                 dx != 0 && x - dx * leftDown in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
                 dy != 0 && y - dy * leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
-                Board.board[y - down][x - left] == OTHER_STONE -> 0
+                Board.board[y - down][x - left] == OTHER_STONEType -> 0
                 else -> 1
             }
         val rightUpValid =
             when {
                 dx != 0 && x + (dx * rightUp) in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
                 dy != 0 && y + (dy * rightUp) in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
-                Board.board[y + up][x + right] == OTHER_STONE -> 0
+                Board.board[y + up][x + right] == OTHER_STONEType -> 0
                 else -> 1
             }
 

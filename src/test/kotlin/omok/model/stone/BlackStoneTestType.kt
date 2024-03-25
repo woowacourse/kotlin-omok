@@ -7,12 +7,12 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 
-class BlackStoneTest {
+class BlackStoneTestType {
     @BeforeEach
     fun setUp() {
         repeat(Board.BOARD_SIZE) { row ->
             repeat(Board.BOARD_SIZE) { col ->
-                Board.board[row][col] = Stone.NONE
+                Board.board[row][col] = StoneType.NONE
             }
         }
     }

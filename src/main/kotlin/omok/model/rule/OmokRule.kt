@@ -1,9 +1,9 @@
 package omok.model.rule
 
 import omok.model.board.Board
-import omok.model.stone.Stone
+import omok.model.stone.StoneType
 
-open class OmokRule(private val board: Array<Array<Stone>>) {
+open class OmokRule(private val board: Array<Array<StoneType>>) {
     val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
 
     fun checkRenjuRule(
@@ -34,13 +34,13 @@ open class OmokRule(private val board: Array<Array<Stone>>) {
             toRight += dx
             toTop += dy
             when (board[toTop][toRight]) {
-                CURRENT_STONE -> {
+                CURRENT_STONEType -> {
                     stone++
                     blink = blinkCount
                 }
 
-                OTHER_STONE -> break
-                EMPTY_STONE -> {
+                OTHER_STONEType -> break
+                EMPTY_STONEType -> {
                     if (blink == 1) break
                     if (blinkCount++ == 1) break
                 }
@@ -52,10 +52,10 @@ open class OmokRule(private val board: Array<Array<Stone>>) {
     }
 
     companion object {
-        val EMPTY_STONE = Stone.NONE
+        val EMPTY_STONEType = StoneType.NONE
         const val MIN_X = 0
         const val MIN_Y = 0
-        val CURRENT_STONE = Stone.BLACK_STONE
-        val OTHER_STONE: Stone = Stone.WHITE_STONE
+        val CURRENT_STONEType = StoneType.BLACK_STONE
+        val OTHER_STONEType: StoneType = StoneType.WHITE_STONE
     }
 }

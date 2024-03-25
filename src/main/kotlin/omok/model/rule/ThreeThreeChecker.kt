@@ -32,8 +32,8 @@ object ThreeThreeChecker : OmokRule(Board.board) {
             dy != 0 && y - leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
             dx != 0 && x + rightUp in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
             dy != 0 && y + rightUp in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
-            Board.board[y - down][x - left] == OTHER_STONE -> 0
-            Board.board[y + up][x + right] == OTHER_STONE -> 0
+            Board.board[y - down][x - left] == OTHER_STONEType -> 0
+            Board.board[y + up][x + right] == OTHER_STONEType -> 0
             countToWall(x, y, -dx, -dy) + countToWall(x, y, dx, dy) <= 5 -> 0
             else -> 1
         }
@@ -56,8 +56,8 @@ object ThreeThreeChecker : OmokRule(Board.board) {
             toRight += dx
             toTop += dy
             when (Board.board[toTop][toRight]) {
-                in listOf(CURRENT_STONE, EMPTY_STONE) -> distance++
-                OTHER_STONE -> break
+                in listOf(CURRENT_STONEType, EMPTY_STONEType) -> distance++
+                OTHER_STONEType -> break
                 else -> throw IllegalArgumentException()
             }
         }
