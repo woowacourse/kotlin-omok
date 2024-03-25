@@ -1,8 +1,5 @@
 package omok.model
 
-import omok.controller.retryUntilNotException
-import omok.model.rule.winning.WinningCondition
-
 class Board(
     val size: Int,
     private val _board: MutableMap<Position, Stone> = initBoard(size),
@@ -23,38 +20,11 @@ class Board(
         _board[position] = player.stone
     }
 
-    fun findOrNull(position: Position): Stone? = _board[position]
-
-    fun gameWinner(
-        omokTurnAction: OmokTurnAction,
-        omokPlayers: OmokPlayers,
-        winningCondition: WinningCondition,
-    ): FinishType {
-        var recentPlayer = omokPlayers.firstOrderPlayer()
-        var recentPosition: Position? = null
-
-        while (true) {
-            recentPosition = recentPosition.next(omokTurnAction, recentPlayer)
-            omokTurnAction.onStonePlace(this)
-            if (winningCondition.isWin(this, recentPosition)) break
-            if (isFull()) return FinishType.DRAW
-            recentPlayer = omokPlayers.next(recentPlayer)
-        }
-        return omokPlayers.winningFinishType(recentPlayer)
+    fun findOrNull(position: Position): Stone? {
+        return _board[position]
     }
 
-    private fun Position?.next(
-        omokTurnAction: OmokTurnAction,
-        recentPlayer: Player,
-    ): Position {
-        return retryUntilNotException {
-            val nextPosition = omokTurnAction.nextStonePosition(recentPlayer.stone, this)
-            place(nextPosition, recentPlayer)
-            nextPosition
-        }
-    }
-
-    private fun isFull(): Boolean {
+    fun isFull(): Boolean {
         return _board.all { it.value != Stone.NONE }
     }
 

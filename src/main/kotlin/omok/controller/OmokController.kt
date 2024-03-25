@@ -1,6 +1,7 @@
 package omok.controller
 
 import omok.model.Board
+import omok.model.OmokGame
 import omok.model.OmokPlayers
 import omok.model.OmokTurnAction
 import omok.model.Player
@@ -27,7 +28,8 @@ class OmokController(
 
     fun startGame() {
         val board = initializedBoard()
-        val winner = board.gameWinner(omokTurnAction(), omokPlayers, winningCondition)
+        val omokGame = OmokGame(board, omokPlayers)
+        val winner = omokGame.gameWinner(omokTurnAction(), winningCondition)
         outputView.printWinner(winner)
     }
 
