@@ -1,44 +1,47 @@
-import omok.model.Board
+import omok.model.board.Board
+import omok.model.board.Duplicated
+import omok.model.board.Full
+import omok.model.board.OutOfRange
+import omok.model.board.Success
 import omok.model.entity.Point
 import omok.model.entity.Stone
 import omok.model.entity.StoneColor
-import omok.model.turn.BlackTurn
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class BoardTest {
     @Test
-    fun `보드에 돌을 놓는다`() {
-        val point = Point(1, 2)
-        val stone = Stone(point, StoneColor.BLACK)
-        val board = Board()
-        board.place(stone)
-        val actual = board.contains(stone)
-        assertThat(actual).isTrue()
+    fun `중복된 위치에 돌을 놓을경우 중복되었다고 알린다`() {
+        val point = Point(1, 1)
+        val firstBoard = Board()
+        val stone = Stone(point, StoneColor.WHITE)
+        val secondBoard = firstBoard.place(stone) as Success
+        val actual = secondBoard.board.place(stone)
+        assertThat(actual).isInstanceOf(Duplicated::class.java)
     }
 
     @Test
-    fun `Stone이 좌표 범위 밖을 벗어났을 경우 예외를 표기한다`() {
+    fun `오목판이 가득찼을때 가득 찼다고 알린다`() {
+        val stones = mutableSetOf<Stone>()
+        val board = Board(stones)
+
+        for (i in 1..15) {
+            for (j in 1..15) {
+                stones.add(Stone(Point(i, j), StoneColor.WHITE))
+            }
+        }
+
+        val stone = Stone(Point(1, 1), StoneColor.WHITE)
+        val boardState = board.place(stone)
+        assertThat(boardState).isInstanceOf(Full::class.java)
+    }
+
+    @Test
+    fun `Stone이 좌표 범위 밖을 벗어났을 경우 범위를 벗어났다고 알린다`() {
         val point = Point(-1, -1)
         val board = Board()
         val stone = Stone(point, StoneColor.WHITE)
-        val actual = assertThrows<IllegalArgumentException> { board.place(stone) }.message
-        assertThat(actual).isEqualTo("보드 밖에 돌을 두었습니다.돌을 놓은 곳 : ${stone.point.x} ${stone.point.y}")
-    }
-
-    @Test
-    fun `특정 좌표에 흑돌을 놓는 기능`() {
-        val board = Board()
-        val point = Point(1, 1)
-        val stone = Stone(point, StoneColor.BLACK)
-        board.place(stone)
-    }
-
-    @Test
-    fun `보드가 꽉 찼을때`() {
-        val board = Board()
-        val blackTurn = BlackTurn(board)
-        blackTurn.placeStone(Point(1, 1))
+        val actual = board.place(stone)
+        assertThat(actual).isInstanceOf(OutOfRange::class.java)
     }
 }
