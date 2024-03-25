@@ -6,7 +6,7 @@ class Board(private val boardSize: Int = BOARD_SIZE) : BoardInterface {
     val layout: Array<Array<PositionType>> = Array(boardSize) { Array(boardSize) { PositionType.EMPTY } }
     var lastCoordinate: Coordinate? = null
         private set
-    private val blackStoneOmokRule: BlackStoneOmokRule = BlackStoneOmokRule()
+    private val blackStoneOmokRule: BlackStoneOmokRule = BlackStoneOmokRule
 
     override fun placeStone(
         coordinate: Coordinate,

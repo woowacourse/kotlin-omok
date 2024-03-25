@@ -2,15 +2,19 @@ package omok.library
 
 import omok.model.PositionType
 
-class WhiteStoneOmokRule : OmokRule {
+object WhiteStoneOmokRule : OmokRule {
     private lateinit var board: Array<Array<PositionType>>
+    private val currentStone: PositionType = PositionType.WHITE_STONE
+    private val otherStone: PositionType = PositionType.BLACK_STONE
+    private const val BOARD_SIZE: Int = 15
+    private const val MIN_X = 0
 
     private val directions =
         listOf(
-            Direction(1, 0),
-            Direction(1, 1),
-            Direction(0, 1),
-            Direction(1, -1),
+            Pair(1, 0),
+            Pair(1, 1),
+            Pair(0, 1),
+            Pair(1, -1),
         )
 
     override fun isOmok(
@@ -19,7 +23,7 @@ class WhiteStoneOmokRule : OmokRule {
         board: Array<Array<PositionType>>,
     ): Boolean {
         this.board = board
-        return directions.any { checkOmok(y, x, it.dx, it.dy) }
+        return directions.any { checkOmok(y, x, it.first, it.second) }
     }
 
     private fun checkOmok(
@@ -68,14 +72,5 @@ class WhiteStoneOmokRule : OmokRule {
             }
         }
         return Pair(stone, blink)
-    }
-
-    data class Direction(val dx: Int, val dy: Int)
-
-    companion object {
-        private val currentStone: PositionType = PositionType.WHITE_STONE
-        private val otherStone: PositionType = PositionType.BLACK_STONE
-        private const val BOARD_SIZE: Int = 15
-        private const val MIN_X = 0
     }
 }

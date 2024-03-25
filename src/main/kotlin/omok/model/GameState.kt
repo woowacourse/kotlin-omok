@@ -1,13 +1,14 @@
 package omok.model
 
+import omok.library.BlackStoneOmokRule
 import omok.library.OmokRule
+import omok.library.WhiteStoneOmokRule
 
 sealed class GameState(val board: Board) {
     abstract fun updateState(
         onTurn: (GameState) -> Unit,
         onBoard: (Board) -> Unit,
         onCoordinate: () -> Coordinate,
-        onOmokRule: OmokRule,
     ): GameState
 
     sealed class Running(board: Board) : GameState(board) {
@@ -15,11 +16,12 @@ sealed class GameState(val board: Board) {
 
         abstract fun nextTurn(): GameState
 
+        abstract fun omoRule(): OmokRule
+
         override fun updateState(
             onTurn: (GameState) -> Unit,
             onBoard: (Board) -> Unit,
             onCoordinate: () -> Coordinate,
-            onOmokRule: OmokRule,
         ): GameState {
             onTurn(this)
             onBoard(board)
@@ -27,7 +29,7 @@ sealed class GameState(val board: Board) {
             val position = onCoordinate()
             board.placeStone(position, currentType())
 
-            if (onOmokRule.isOmok(position.x, position.y, board.layout)) return Finish(board)
+            if (omoRule().isOmok(position.x, position.y, board.layout)) return Finish(board)
             return (nextTurn())
         }
 
@@ -39,6 +41,8 @@ sealed class GameState(val board: Board) {
             override fun currentType() = PositionType.BLACK_STONE
 
             override fun nextTurn() = WhiteTurn(board)
+
+            override fun omoRule() = BlackStoneOmokRule
         }
 
         class WhiteTurn(board: Board) : Running(board) {
@@ -49,6 +53,8 @@ sealed class GameState(val board: Board) {
             override fun currentType() = PositionType.WHITE_STONE
 
             override fun nextTurn() = BlackTurn(board)
+
+            override fun omoRule() = WhiteStoneOmokRule
         }
     }
 
@@ -57,7 +63,6 @@ sealed class GameState(val board: Board) {
             onTurn: (GameState) -> Unit,
             onBoard: (Board) -> Unit,
             onCoordinate: () -> Coordinate,
-            onOmokRule: OmokRule,
         ): GameState {
             onTurn(this)
             onBoard(board)

@@ -2,8 +2,13 @@ package omok.library
 
 import omok.model.PositionType
 
-class BlackStoneOmokRule : OmokRule {
+object BlackStoneOmokRule : OmokRule {
     private lateinit var board: Array<Array<PositionType>>
+    private val currentStone: PositionType = PositionType.BLACK_STONE
+    private val otherStone: PositionType = PositionType.WHITE_STONE
+    private const val BOARD_SIZE: Int = 15
+    private const val MIN_X = 0
+    private const val MIN_Y = 0
 
     private val directions =
         listOf(
@@ -211,13 +216,5 @@ class BlackStoneOmokRule : OmokRule {
             }
         }
         return Pair(stone, blink)
-    }
-
-    companion object {
-        private val currentStone: PositionType = PositionType.BLACK_STONE
-        private val otherStone: PositionType = PositionType.WHITE_STONE
-        private const val BOARD_SIZE: Int = 15
-        private const val MIN_X = 0
-        private const val MIN_Y = 0
     }
 }
