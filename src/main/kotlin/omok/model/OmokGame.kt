@@ -6,6 +6,7 @@ import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
 import omok.model.stone.Stone
 import omok.model.stone.WhiteStone
+import omok.utils.HandlingExceptionUtils
 
 class OmokGame(private val blackStone: BlackStone, private val whiteStone: WhiteStone) {
     fun start(
@@ -17,7 +18,7 @@ class OmokGame(private val blackStone: BlackStone, private val whiteStone: White
 
         do {
             var isOmok = false
-            retryUntilSuccess {
+            HandlingExceptionUtils.retryUntilSuccess {
                 val (position, currentStone) = putStone(readPosition, stone)
                 isOmok = stone.findOmok(position)
                 if (isOmok) printWinner(stone)
@@ -37,12 +38,4 @@ class OmokGame(private val blackStone: BlackStone, private val whiteStone: White
     }
 
     private fun changeStone(currentStone: Stone) = if (currentStone == Stone.BLACK_STONE) blackStone else whiteStone
-
-    private fun <T> retryUntilSuccess(action: () -> T): T =
-        runCatching {
-            action()
-        }.getOrElse {
-            println(it.localizedMessage)
-            retryUntilSuccess(action)
-        }
 }
