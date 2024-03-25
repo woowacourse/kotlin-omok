@@ -1,8 +1,8 @@
 package omok.controller
 
-import omok.GameManager
 import omok.model.Board
 import omok.model.Coordinate
+import omok.model.GameManager
 import omok.model.GameState
 import omok.view.BoardOutputView
 import omok.view.CoordinateInputView

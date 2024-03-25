@@ -1,11 +1,8 @@
-package omok
+package omok.model
 
 import omok.library.BlackStoneOmokRule
 import omok.library.OmokRule
 import omok.library.WhiteStoneOmokRule
-import omok.model.Board
-import omok.model.Coordinate
-import omok.model.GameState
 
 class GameManager : GameStateManager {
     private var omokRule: OmokRule = BlackStoneOmokRule()
@@ -21,6 +18,7 @@ class GameManager : GameStateManager {
             setRuleBasedOnTurn()
             playTurn(onTurn, onBoard, onCoordinate, omokRule)
         }
+        playTurn(onTurn, onBoard, onCoordinate, omokRule)
     }
 
     private fun isRunning() = gameState is GameState.Running

@@ -1,8 +1,4 @@
-package omok
-
-import omok.model.Board
-import omok.model.Coordinate
-import omok.model.GameState
+package omok.model
 
 interface GameStateManager {
     fun play(
