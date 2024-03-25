@@ -5,10 +5,14 @@ class Players(val whiteStonePlayer: WhiteStonePlayer, val blackStonePlayer: Blac
     val winner: Player
         get() = _winner ?: throw IllegalStateException("게임을 플레이 해야 우승자를 판별할 수 있습니다")
 
-    fun playGame(putStone: (Player) -> Point) {
+    fun playGame(
+        putStone: (Player) -> Point,
+        getResult: () -> Unit,
+    ) {
         var currentPlayer: Player = blackStonePlayer
-        while (_winner != null) {
+        while (_winner == null) {
             playerTurn(currentPlayer, putStone)
+            getResult.invoke()
             currentPlayer = currentPlayer.next()
         }
     }
@@ -17,7 +21,8 @@ class Players(val whiteStonePlayer: WhiteStonePlayer, val blackStonePlayer: Blac
         currentPlayer: Player,
         putStone: (Player) -> Point,
     ) {
-        currentPlayer.add(putStone(currentPlayer))
+        val point = putStone.invoke(currentPlayer)
+        currentPlayer.add(point)
         if (currentPlayer.checkContinuity()) {
             _winner = currentPlayer
         }
