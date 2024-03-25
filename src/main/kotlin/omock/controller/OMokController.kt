@@ -8,6 +8,7 @@ import omock.model.GameTurn
 import omock.model.player.Player
 import omock.model.stone.Stone
 import omock.model.player.WhitePlayer
+import omock.model.rule.OMockRule
 import omock.view.InputView.playerPick
 import omock.view.OutputView.boardTable
 import omock.view.OutputView.outputBoardForm
@@ -19,6 +20,7 @@ import omock.view.OutputView.outputUserTurn
 
 class OMokController {
     private val board = Board.from()
+    private val oMockRule = OMockRule()
     private var gameTurn = GameTurn.BLACK_TURN
 
     fun run() {
@@ -91,6 +93,9 @@ class OMokController {
         player: Player,
         visited: Map<Direction, DirectionResult>,
     ) {
+        if (player is BlackPlayer){
+            oMockRule.checkRules(visited)
+        }
         gameTurn =
             when (player.judgementResult(visited)) {
                 true -> GameTurn.FINISHED
