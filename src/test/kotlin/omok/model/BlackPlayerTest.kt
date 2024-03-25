@@ -3,7 +3,6 @@ package omok.model
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import kotlin.math.PI
 
 class BlackPlayerTest {
     private lateinit var board: Board
@@ -13,21 +12,6 @@ class BlackPlayerTest {
     fun setUp() {
         board = Board()
         blackStonePlayer = BlackStonePlayer(board)
-    }
-
-
-    private fun stone(
-        color: Color,
-        vararg positions: Int,
-    ): Stone {
-        return Stone(Point(positions[0], positions[1]), color)
-    }
-
-    private fun blackStone(
-        row: String,
-        col: Int,
-    ): Stone {
-        return Stone(Point(row[0] - 'A', col - 1), Color.BLACK)
     }
 
     @Test
