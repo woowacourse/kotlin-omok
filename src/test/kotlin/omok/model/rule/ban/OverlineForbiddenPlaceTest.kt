@@ -1,6 +1,9 @@
-package omok.model
+package omok.model.rule.ban
 
-import omok.model.rule.ban.OverlineForbiddenPlace
+import omok.model.Position
+import omok.model.Stone
+import omok.model.StonePosition
+import omok.model.initBoard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

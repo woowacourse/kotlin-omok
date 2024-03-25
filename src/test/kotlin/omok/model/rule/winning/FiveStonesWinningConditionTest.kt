@@ -1,6 +1,9 @@
-package omok.model
+package omok.model.rule.winning
 
-import omok.model.rule.winning.FiveStonesWinningCondition
+import omok.model.Position
+import omok.model.Stone
+import omok.model.StonePosition
+import omok.model.initBoard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
