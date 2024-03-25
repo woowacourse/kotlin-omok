@@ -29,7 +29,7 @@ class Board(
         omokTurnAction: OmokTurnAction,
         omokPlayers: OmokPlayers,
         winningCondition: WinningCondition,
-    ): Player {
+    ): FinishType {
         var recentPlayer = omokPlayers.firstOrderPlayer()
         var recentPosition: Position? = null
 
@@ -37,9 +37,10 @@ class Board(
             recentPosition = recentPosition.next(omokTurnAction, recentPlayer)
             omokTurnAction.onStonePlace(this)
             if (winningCondition.isWin(this, recentPosition)) break
+            if (isFull()) return FinishType.DRAW
             recentPlayer = omokPlayers.next(recentPlayer)
         }
-        return recentPlayer
+        return omokPlayers.winningFinishType(recentPlayer)
     }
 
     private fun Position?.next(
@@ -51,6 +52,10 @@ class Board(
             place(nextPosition, recentPlayer)
             nextPosition
         }
+    }
+
+    private fun isFull(): Boolean {
+        return _board.all { it.value != Stone.NONE }
     }
 
     companion object {

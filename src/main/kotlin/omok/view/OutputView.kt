@@ -1,6 +1,7 @@
 package omok.view
 
 import omok.model.Board
+import omok.model.FinishType
 import omok.model.Position
 import omok.model.Stone
 
@@ -81,8 +82,12 @@ class OutputView {
         println(boardSizeRange.joinToString(prefix = "    ", separator = "  ") { (it + 'A'.code).toChar().toString() })
     }
 
-    fun printWinner(stone: Stone) {
-        println(WINNER_MESSAGE.format(stone.output()))
+    fun printWinner(finishType: FinishType) {
+        if (finishType == FinishType.DRAW) {
+            println("무승부입니다.")
+            return
+        }
+        println(WINNER_MESSAGE.format(finishType.stone.output()))
     }
 
     companion object {
