@@ -2,10 +2,9 @@ package omok.controller
 
 import omok.model.BlackStonePlayer
 import omok.model.Board
-import omok.model.Color
 import omok.model.Player
+import omok.model.Players
 import omok.model.WhiteStonePlayer
-import omok.model.change
 import omok.retryWhileNotException
 import omok.view.InputView
 import omok.view.OutputView
@@ -16,33 +15,25 @@ class OmokController {
     private val board = Board()
     private val whitePlayer = WhiteStonePlayer(board)
     private val blackPlayer = BlackStonePlayer(board)
+    private val players = Players(whitePlayer, blackPlayer)
 
     fun start() {
         outputView.showGameStartHeader()
         outputView.showBoard(blackPlayer, whitePlayer)
 
-        var turn = Color.BLACK
-        while (true) {
-            if (turn == Color.BLACK) {
-                putStone(blackPlayer, turn)
-                if (blackPlayer.checkContinuity()) break
-            } else {
-                putStone(whitePlayer, turn)
-                if (whitePlayer.checkContinuity()) break
-            }
-            turn = turn.change()
+        players.playGame {
+            putStone(it)
         }
-        outputView.showGameResult(turn)
+
+        outputView.showGameResult(players.winner.color)
     }
 
-    private fun putStone(
-        player: Player,
-        turn: Color,
-    ) =
+    private fun putStone(player: Player) =
         retryWhileNotException {
-            val point = inputView.getPoint(turn, player.lastStone())
+            val point = inputView.getPoint(player.color, player.lastStone())
             player.add(point)
             showBoard()
+            point
         }
 
     private fun showBoard() {
