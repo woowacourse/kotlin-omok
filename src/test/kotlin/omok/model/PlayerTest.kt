@@ -2,7 +2,7 @@ package omok.model
 
 import omok.model.rule.ban.DoubleFourForbiddenPlace
 import omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
-import omok.model.rule.ban.OverlineForbiddenPlace2
+import omok.model.rule.ban.OverlineForbiddenPlace
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -13,7 +13,7 @@ class PlayerTest {
             listOf(
                 DoubleFourForbiddenPlace(),
                 DoubleOpenThreeForbiddenPlace(),
-                OverlineForbiddenPlace2(5),
+                OverlineForbiddenPlace(5),
             ),
         )
     private val whiteStonePlayer = Player(Stone.WHITE)
