@@ -1,6 +1,10 @@
-package omock.model
+package omock.model.player
 
+import omock.model.CalculateType
 import omock.model.CalculateType.Companion.checkCalculateType
+import omock.model.search.Direction
+import omock.model.search.DirectionResult
+import omock.model.stone.Stone
 
 data class BlackPlayer(
     override val stoneHistory: ArrayDeque<Stone> = ArrayDeque(),

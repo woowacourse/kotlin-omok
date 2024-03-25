@@ -1,10 +1,10 @@
 package omock
 
-import omock.model.BlackPlayer
-import omock.model.Board
-import omock.model.Column
-import omock.model.Row
-import omock.model.Stone
+import omock.model.player.BlackPlayer
+import omock.model.board.Board
+import omock.model.position.Column
+import omock.model.position.Row
+import omock.model.stone.Stone
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 

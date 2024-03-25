@@ -1,4 +1,4 @@
-package omock.model
+package omock.model.search
 
 enum class Direction(
     val x: Int,

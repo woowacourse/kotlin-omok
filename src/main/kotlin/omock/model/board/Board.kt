@@ -1,10 +1,18 @@
-package omock.model
+package omock.model.board
 
-import omock.model.Column.Companion.MAX_COLUMN_INDEX
-import omock.model.Column.Companion.MIN_COLUMN_INDEX
-import omock.model.Row.Companion.MAX_ROW
-import omock.model.Row.Companion.MAX_ROW_INDEX
-import omock.model.Row.Companion.MIN_ROW_INDEX
+import omock.model.stonestate.ColumnStates
+import omock.model.search.Direction
+import omock.model.search.DirectionResult
+import omock.model.search.Node
+import omock.model.player.Player
+import omock.model.position.Column.Companion.MAX_COLUMN_INDEX
+import omock.model.position.Column.Companion.MIN_COLUMN_INDEX
+import omock.model.position.Row.Companion.MAX_ROW
+import omock.model.position.Row.Companion.MAX_ROW_INDEX
+import omock.model.position.Row.Companion.MIN_ROW_INDEX
+import omock.model.stone.Stone
+import omock.model.stonestate.Clear
+import omock.model.stonestate.StoneState
 
 class Board(val stoneStates: List<ColumnStates>) {
     fun setStoneState(

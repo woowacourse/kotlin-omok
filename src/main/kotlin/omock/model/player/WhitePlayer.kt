@@ -1,4 +1,8 @@
-package omock.model
+package omock.model.player
+
+import omock.model.search.Direction
+import omock.model.search.DirectionResult
+import omock.model.stone.Stone
 
 data class WhitePlayer(
     override val stoneHistory: ArrayDeque<Stone> = ArrayDeque(),

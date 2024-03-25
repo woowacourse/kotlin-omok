@@ -1,7 +1,7 @@
 package omock.view
 
-import omock.model.Player
-import omock.model.Stone
+import omock.model.player.Player
+import omock.model.stone.Stone
 
 object InputView {
     private const val FIRST_INDEX_INPUT = 0

@@ -1,6 +1,6 @@
 package omock
 
-import omock.model.Row
+import omock.model.position.Row
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

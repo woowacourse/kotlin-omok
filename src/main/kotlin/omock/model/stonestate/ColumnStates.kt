@@ -1,4 +1,7 @@
-package omock.model
+package omock.model.stonestate
+
+import omock.model.player.Player
+import omock.model.stonestate.StoneState
 
 data class ColumnStates(
     private val columnStates: MutableList<StoneState>,

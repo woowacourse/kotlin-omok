@@ -1,6 +1,6 @@
 package omock.view
 
-import omock.model.Stone
+import omock.model.stone.Stone
 
 object OutputView {
     val boardTable: MutableList<MutableList<Char>> =

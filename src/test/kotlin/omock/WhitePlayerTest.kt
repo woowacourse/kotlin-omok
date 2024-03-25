@@ -1,10 +1,10 @@
 package omock
 
-import omock.model.Board
-import omock.model.Column
-import omock.model.Row
-import omock.model.Stone
-import omock.model.WhitePlayer
+import omock.model.board.Board
+import omock.model.position.Column
+import omock.model.position.Row
+import omock.model.stone.Stone
+import omock.model.player.WhitePlayer
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 

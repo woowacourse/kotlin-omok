@@ -1,13 +1,13 @@
 package omock.controller
 
-import omock.model.BlackPlayer
-import omock.model.Board
-import omock.model.Direction
-import omock.model.DirectionResult
+import omock.model.player.BlackPlayer
+import omock.model.board.Board
+import omock.model.search.Direction
+import omock.model.search.DirectionResult
 import omock.model.GameTurn
-import omock.model.Player
-import omock.model.Stone
-import omock.model.WhitePlayer
+import omock.model.player.Player
+import omock.model.stone.Stone
+import omock.model.player.WhitePlayer
 import omock.view.InputView.playerPick
 import omock.view.OutputView.boardTable
 import omock.view.OutputView.outputBoardForm

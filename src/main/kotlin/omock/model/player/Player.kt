@@ -1,4 +1,10 @@
-package omock.model
+package omock.model.player
+
+import omock.model.search.Direction
+import omock.model.search.DirectionResult
+import omock.model.stone.Stone
+import omock.model.position.Column
+import omock.model.position.Row
 
 sealed class Player {
     abstract val stoneHistory: ArrayDeque<Stone>

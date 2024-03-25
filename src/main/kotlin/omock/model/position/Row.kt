@@ -1,4 +1,4 @@
-package omock.model
+package omock.model.position
 
 @JvmInline
 value class Row(val comma: String) {
@@ -19,10 +19,6 @@ value class Row(val comma: String) {
         return MIN_ROW + MAX_ROW - comma.toInt()
     }
 
-    fun toInt(): Int {
-        return comma.toInt()
-    }
-
     companion object {
         const val MIN_ROW = 1
         const val MAX_ROW = 15
@@ -32,6 +28,6 @@ value class Row(val comma: String) {
 
         //        val ROW_RANGE = (MAX_ROW downTo MIN_ROW).map { it.toString() }
         private const val ERROR_ROW_TYPE = "Row는 정수형이어야 합니다."
-        private const val ERROR_ROW_RANGE = "Row는 ${MIN_ROW}~${MAX_ROW} 사이여야 합니다."
+        private const val ERROR_ROW_RANGE = "Row는 $MIN_ROW~$MAX_ROW 사이여야 합니다."
     }
 }
