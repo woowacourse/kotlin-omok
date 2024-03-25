@@ -1,18 +1,17 @@
 package omok.model.rule.winning
 
 import omok.model.Board
+import omok.model.ContinualStonesCondition
 import omok.model.Position
 
-class ContinualStonesWinningCondition(private val continualStones: ContinualStones) : WinningCondition {
+class ContinualStonesWinningCondition(
+    private val continualStonesStandard: Int,
+    private val continualStonesCondition: ContinualStonesCondition,
+    private val continualStones: ContinualStones,
+) : WinningCondition {
     override fun isWin(
         board: Board,
         position: Position,
-    ): Boolean {
-        if (continualStones.count(board, position) == WINNING_STONE_COUNT) return true
-        return false
-    }
+    ): Boolean = continualStonesCondition.map(continualStones.count(board, position), continualStonesStandard)
 
-    companion object {
-        private const val WINNING_STONE_COUNT = 5
-    }
 }
