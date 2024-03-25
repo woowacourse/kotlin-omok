@@ -6,11 +6,11 @@ interface Rule {
         stone: Stone,
     ): Boolean {
         return Direction.entries.any { direction ->
-            checkCount(checkDirection(board, stone.point.y, stone.point.x, stone.type, direction.dx, direction.dy))
+            checkCount(countStonesInDirection(board, stone.point.y, stone.point.x, stone.type, direction.dx, direction.dy))
         }
     }
 
-    fun checkDirection(
+    fun countStonesInDirection(
         board: List<List<StoneType>>,
         y: Int,
         x: Int,
