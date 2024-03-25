@@ -21,8 +21,8 @@ class FourFourCheckerTest {
 
     @Test
     fun `4-4 케이스`() {
-        val blackStone = BlackStone()
-        val whiteStone = WhiteStone()
+        val blackStone = BlackStone
+        val whiteStone = WhiteStone
         blackStone.putStone(Position.of('C', 10))
         blackStone.putStone(Position.of('C', 11))
         blackStone.putStone(Position.of('C', 12))

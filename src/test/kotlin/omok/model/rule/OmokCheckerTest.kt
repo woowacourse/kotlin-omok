@@ -25,7 +25,7 @@ class OmokCheckerTest {
     @ParameterizedTest
     fun `오목 여부를 판단한다 - 오목일 때`(stonePositions: List<Position>) {
         // given
-        val blackStone = BlackStone()
+        val blackStone = BlackStone
 
         stonePositions.forEach {
             blackStone.putStone(it)
@@ -44,8 +44,8 @@ class OmokCheckerTest {
     @ParameterizedTest
     fun `오목 여부를 판단한다 - 오목이 아닐 때`(stonePositions: List<Position>) {
         // given
-        val blackStone = BlackStone()
-        val whiteStone = WhiteStone()
+        val blackStone = BlackStone
+        val whiteStone = WhiteStone
 
         stonePositions.forEach {
             blackStone.putStone(it)

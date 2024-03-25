@@ -20,7 +20,7 @@ class ExceedFiveCheckerTest {
 
     @Test
     fun `장목 케이스`() {
-        val blackStone = BlackStone()
+        val blackStone = BlackStone
         blackStone.putStone(Position.of('C', 10))
         blackStone.putStone(Position.of('C', 11))
         blackStone.putStone(Position.of('C', 12))

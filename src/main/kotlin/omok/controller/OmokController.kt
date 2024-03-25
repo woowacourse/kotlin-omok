@@ -21,6 +21,6 @@ class OmokController(private val inputView: InputView, private val outputView: O
     private fun readyOmokGame(): OmokGame {
         outputView.printStartGameComment()
         outputView.drawBoard(Board)
-        return OmokGame(BlackStone(), WhiteStone())
+        return OmokGame(BlackStone, WhiteStone)
     }
 }

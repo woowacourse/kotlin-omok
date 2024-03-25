@@ -27,7 +27,7 @@ class BoardTest {
 
     @Test
     fun `마지막 돌이 있다면 돌의 위치를 반환한다`() {
-        val stone = BlackStone()
+        val stone = BlackStone
         stone.putStone(Position(1, 5))
         val actual = Board.getLastStonePosition()
         val expected = Position(1, 5)

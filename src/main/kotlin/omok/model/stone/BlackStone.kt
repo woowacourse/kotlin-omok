@@ -1,5 +1,5 @@
 package omok.model.stone
 
-class BlackStone : GoStone() {
+object BlackStone : GoStone() {
     override val stoneType = StoneType.BLACK_STONE
 }
