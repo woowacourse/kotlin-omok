@@ -6,9 +6,8 @@ class Board(val size: Int) {
             MutableList(size) { StoneType.EMPTY }
         }
 
-    val beforePoint: Point?
-        get() = _beforePoint
-    private var _beforePoint: Point? = null
+    var beforePoint: Point? = null
+        private set
 
     fun putStone(
         point: Point,
@@ -16,7 +15,7 @@ class Board(val size: Int) {
     ): Turn {
         val nextTurn = turn.nextTurn(point, this)
         if (turn != nextTurn) {
-            _beforePoint = point
+            beforePoint = point
             table[point.y][point.x] = turn.stoneType
         }
         return nextTurn
