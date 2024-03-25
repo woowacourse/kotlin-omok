@@ -4,7 +4,7 @@ import omok.library.FourFourRule
 import omok.library.MoreThanFiveRule
 import omok.library.ThreeThreeRule
 
-class RenjuRuleAdapter() : Rule {
+class RenjuRuleAdapter : Rule {
     private val fourFourRule = FourFourRule(Board.getSize())
     private val threeThreeRule = ThreeThreeRule(Board.getSize())
     private val moreThanFiveRule = MoreThanFiveRule(Board.getSize())
@@ -12,13 +12,12 @@ class RenjuRuleAdapter() : Rule {
     override fun isInValid(
         stones: Stones,
         lastPlacedStone: Stone,
+        customBoard: Array<Array<Int>>,
     ): Boolean {
-        val board = generateCustomBoard(stones)
+        val board = customBoard
         return isFourFour(board, lastPlacedStone) or
-            isThreeThree(
-                board,
-                lastPlacedStone,
-            ) or isMoreThanFive(board, lastPlacedStone)
+            isThreeThree(board, lastPlacedStone) or
+            isMoreThanFive(board, lastPlacedStone)
     }
 
     private fun isFourFour(
