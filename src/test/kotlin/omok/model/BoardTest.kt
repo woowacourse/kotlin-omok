@@ -1,10 +1,9 @@
 package omok.model
 
-import omok.fixture.FIRST_ROW_FIRST_COL
-import omok.fixture.FIRST_ROW_SECOND_COL
+import omok.fixture.BLACK_A_1
+import omok.fixture.BLACK_A_2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class BoardTest {
     @Test
@@ -23,11 +22,11 @@ class BoardTest {
     @Test
     fun `다른 위치에 바둑돌을 놓을 수 있다`() {
         // given
-        val stone = FIRST_ROW_FIRST_COL
+        val stone = BLACK_A_1
         val board = Board()
         board.add(stone)
 
-        val differentPositionStone = FIRST_ROW_SECOND_COL
+        val differentPositionStone = BLACK_A_2
         // when
         board.add(differentPositionStone)
         val actual = board.stones.stones.size
