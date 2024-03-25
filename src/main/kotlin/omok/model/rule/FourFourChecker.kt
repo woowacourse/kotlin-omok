@@ -6,7 +6,10 @@ object FourFourChecker : OmokRule() {
     fun checkFourFour(
         x: Int,
         y: Int,
-    ): Boolean = directions.sumOf { direction -> checkOpenFour(x, y, direction[0], direction[1]) } >= 2
+    ): Boolean =
+        directions.sumOf { direction ->
+            checkOpenFour(x, y, direction.relativeRowDirection, direction.relativeColumnDirection)
+        } >= 2
 
     private fun checkOpenFour(
         x: Int,

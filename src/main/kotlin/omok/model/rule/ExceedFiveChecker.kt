@@ -7,7 +7,10 @@ object ExceedFiveChecker : OmokRule() {
     fun checkMoreThanFive(
         x: Int,
         y: Int,
-    ): Boolean = directions.map { direction -> checkMoreThanFive(x, y, direction[0], direction[1]) }.contains(true)
+    ): Boolean =
+        directions.map { direction ->
+            checkMoreThanFive(x, y, direction.relativeRowDirection, direction.relativeColumnDirection)
+        }.contains(true)
 
     private fun checkMoreThanFive(
         x: Int,

@@ -6,7 +6,10 @@ object ThreeThreeChecker : OmokRule() {
     fun checkThreeThree(
         x: Int,
         y: Int,
-    ): Boolean = directions.sumOf { direction -> checkOpenThree(x, y, direction[0], direction[1]) } >= 2
+    ): Boolean =
+        directions.sumOf { direction ->
+            checkOpenThree(x, y, direction.relativeRowDirection, direction.relativeColumnDirection)
+        } >= 2
 
     private fun checkOpenThree(
         x: Int,

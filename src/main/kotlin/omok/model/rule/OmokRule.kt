@@ -1,10 +1,11 @@
 package omok.model.rule
 
 import omok.model.board.Board
+import omok.model.position.RelativeDirection
 import omok.model.stone.StoneType
 
 open class OmokRule {
-    val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
+    val directions = RelativeDirection.getRelativeDirections()
 
     fun search(
         x: Int,
@@ -12,7 +13,6 @@ open class OmokRule {
         dx: Int,
         dy: Int,
     ): Pair<Int, Int> {
-        // 반대의 반대의 반대,,
         var toRight = x
         var toTop = y
         var stone = 0
