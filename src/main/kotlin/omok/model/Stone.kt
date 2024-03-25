@@ -2,9 +2,10 @@ package omok.model
 
 sealed class Stone(
     val color: Color,
-    val position: Position,
 ) {
-    data class Black(private val stonePosition: Position) : Stone(Color.BLACK, stonePosition)
+    abstract val position: Position
 
-    data class White(private val stonePosition: Position) : Stone(Color.WHITE, stonePosition)
+    data class Black(override val position: Position) : Stone(Color.BLACK)
+
+    data class White(override val position: Position) : Stone(Color.WHITE)
 }
