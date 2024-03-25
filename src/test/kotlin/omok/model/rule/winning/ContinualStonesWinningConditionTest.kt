@@ -19,7 +19,6 @@ class ContinualStonesWinningConditionTest {
             ContinualStonesWinningCondition(
                 continualStonesStandard = 5,
                 continualStonesCondition = ContinualStonesCondition.EXACT,
-                ContinualStones(),
             )
 
         val board =
@@ -47,7 +46,6 @@ class ContinualStonesWinningConditionTest {
             ContinualStonesWinningCondition(
                 continualStonesStandard = 5,
                 continualStonesCondition = ContinualStonesCondition.EXACT,
-                ContinualStones(),
             )
 
         val board =

@@ -5,7 +5,7 @@ import omok.model.Direction
 import omok.model.Position
 import kotlin.math.max
 
-class ContinualStones {
+object ContinualStones {
     fun count(
         board: Board,
         position: Position,

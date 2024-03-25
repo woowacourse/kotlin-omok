@@ -8,8 +8,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class ContinualStonesTest {
-    private val continualStones = ContinualStones()
-
     @Test
     fun `가로로 연속된 돌의 개수를 센다`() {
         val board =
@@ -24,7 +22,7 @@ class ContinualStonesTest {
                 StonePosition(Position(0, 3), Stone.BLACK),
             )
 
-        val actual = continualStones.count(board, Position(0, 3))
+        val actual = ContinualStones.count(board, Position(0, 3))
         assertThat(actual).isEqualTo(6)
     }
 
@@ -40,7 +38,7 @@ class ContinualStonesTest {
                 StonePosition(Position(6, 6), Stone.BLACK),
             )
 
-        val actual = continualStones.count(board, Position(6, 6))
+        val actual = ContinualStones.count(board, Position(6, 6))
         assertThat(actual).isEqualTo(6)
     }
 }

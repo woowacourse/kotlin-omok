@@ -7,11 +7,9 @@ import omok.model.Position
 class ContinualStonesWinningCondition(
     private val continualStonesStandard: Int,
     private val continualStonesCondition: ContinualStonesCondition,
-    private val continualStones: ContinualStones,
 ) : WinningCondition {
     override fun isWin(
         board: Board,
         position: Position,
-    ): Boolean = continualStonesCondition.map(continualStones.count(board, position), continualStonesStandard)
-
+    ): Boolean = continualStonesCondition.map(ContinualStones.count(board, position), continualStonesStandard)
 }
