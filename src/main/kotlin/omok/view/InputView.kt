@@ -8,14 +8,14 @@ import omok.model.stone.StoneType
 class InputView {
     fun readPosition(stone: GoStone): Position {
         val input = requirePositionInput(stone)
-        val row = input[0]
-        val col =
-            input.substring(1).toIntOrNull() ?: run {
+        val row = input[ROW_INDEX]
+        val column =
+            input.substring(COLUMN_INDEX).toIntOrNull() ?: run {
                 println(INVALID_AXIS_POSITION_MESSAGE)
                 lineBreak()
                 return readPosition(stone)
             }
-        return Position.of(row, col)
+        return Position.of(row, column)
     }
 
     private fun requirePositionInput(stone: GoStone): String {
@@ -31,8 +31,6 @@ class InputView {
 
     private fun lineBreak() = println()
 
-    private fun Position.convert() = "${'A' + row}${column + 1}"
-
     private fun StoneType.value() =
         when (this) {
             StoneType.BLACK_STONE -> "흑"
@@ -41,6 +39,8 @@ class InputView {
         }
 
     companion object {
+        private const val ROW_INDEX = 0
+        private const val COLUMN_INDEX = 1
         private const val TURN_MESSAGE = "%s의 차례입니다."
         private const val LAST_STONE_MESSAGE = "(마지막 돌의 위치: %s)"
         private const val ENTER_POSITION_MESSAGE = "위치를 입력하세요: "
