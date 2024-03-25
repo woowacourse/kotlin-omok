@@ -5,8 +5,18 @@ class Stones {
     val stones: List<Stone>
         get() = _stones.toList()
 
-    fun add(stone: Stone) {
-        _stones.add(stone)
+    fun add(stone: Stone): Boolean {
+        if (!occupied(stone.point)) {
+            _stones.add(stone)
+            return true
+        }
+        return false
+    }
+
+    fun occupied(point: Point): Boolean {
+        return stones.any { stone ->
+            stone.point == point
+        }
     }
 
     fun match(stone: Stone): Boolean {
