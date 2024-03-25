@@ -1,9 +1,7 @@
 package omok.view.input
 
-import omok.model.entity.Point
-
 class ConsoleInputView : InputView {
-    override tailrec fun getStonePoint(): Point {
+    override tailrec fun getStonePoint(): Pair<Int, Int> {
         print("위치를 입력하세요: ")
         val input = readln()
         val inputX = input[0]
@@ -19,7 +17,7 @@ class ConsoleInputView : InputView {
         val x = alphabetToInt(inputX)
         val y = inputY
 
-        return Point(x, y)
+        return x to y
     }
 
     private fun alphabetToInt(alphabet: Char): Int = alphabet - 'A' + 1

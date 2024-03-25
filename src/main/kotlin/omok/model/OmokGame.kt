@@ -11,7 +11,7 @@ class OmokGame(
     private var turn: Turn = BlackTurn(board = Board()),
 ) {
     fun run(
-        inputPoint: () -> Point,
+        inputPoint: () -> Pair<Int, Int>,
         beforeTurn: (Board, StoneColor) -> Unit,
         afterGame: (Board, StoneColor) -> Unit,
         onInappropriate: (String) -> Unit,
@@ -24,9 +24,10 @@ class OmokGame(
     }
 
     private fun proceedTurn(
-        inputPoint: () -> Point,
+        inputPoint: () -> Pair<Int, Int>,
         onInappropriate: (String) -> Unit,
     ) {
-        turn = turn.placeStone(inputPoint(), onInappropriate)
+        val point = inputPoint()
+        turn = turn.placeStone(Point(point.first, point.second), onInappropriate)
     }
 }
