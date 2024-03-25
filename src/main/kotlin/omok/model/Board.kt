@@ -2,7 +2,7 @@ package omok.model
 
 import omok.library.BlackStoneOmokRule
 
-class Board(private val boardSize: Int = BOARD_SIZE) : BoardInterface {
+class Board(private val boardSize: Int = BOARD_SIZE) {
     private var boardLayout = BoardLayout(boardSize)
     var lastCoordinate: Coordinate? = null
         private set
@@ -12,7 +12,7 @@ class Board(private val boardSize: Int = BOARD_SIZE) : BoardInterface {
         return boardLayout.deepCopy()
     }
 
-    override fun placeStone(
+    fun placeStone(
         coordinate: Coordinate,
         positionType: PositionType,
     ) {
@@ -24,7 +24,7 @@ class Board(private val boardSize: Int = BOARD_SIZE) : BoardInterface {
         }
     }
 
-    override fun setupBoard(current: PositionType) {
+    fun setupBoard(current: PositionType) {
         when (current) {
             PositionType.BLACK_STONE -> {
                 setBlock(
