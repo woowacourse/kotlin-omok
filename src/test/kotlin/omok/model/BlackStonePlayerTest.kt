@@ -1,7 +1,7 @@
 package omok.model
 
-import omok.fixture.FIRST_ROW_FIRST_COL
-import omok.fixture.FIRST_ROW_SECOND_COL
+import omok.fixture.BLACK_A_1
+import omok.fixture.BLACK_A_2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -13,7 +13,7 @@ class BlackStonePlayerTest {
         assertThat(blackStonePlayer.getStones().size).isEqualTo(0)
 
         // given
-        blackStonePlayer.add(FIRST_ROW_SECOND_COL)
+        blackStonePlayer.add(BLACK_A_2)
 
         // Then
         assertThat(blackStonePlayer.getStones().size).isEqualTo(1)
@@ -22,9 +22,9 @@ class BlackStonePlayerTest {
     @Test
     fun `마지막 스톤을 알 수 있다`() {
         val blackStonePlayer = BlackStonePlayer()
-        blackStonePlayer.add(FIRST_ROW_FIRST_COL)
-        blackStonePlayer.add(FIRST_ROW_SECOND_COL)
+        blackStonePlayer.add(BLACK_A_1)
+        blackStonePlayer.add(BLACK_A_2)
 
-        assertThat(blackStonePlayer.lastStone()).isEqualTo(FIRST_ROW_SECOND_COL)
+        assertThat(blackStonePlayer.lastStone()).isEqualTo(BLACK_A_2)
     }
 }
