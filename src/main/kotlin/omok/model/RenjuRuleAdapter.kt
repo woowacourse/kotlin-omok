@@ -21,8 +21,8 @@ class RenjuRuleAdapter() : Rule {
             ) or isMoreThanFive(board, lastPlacedStone)
     }
 
-    override fun isFourFour(
-        board: List<List<Int>>,
+    private fun isFourFour(
+        board: Array<Array<Int>>,
         stone: Stone,
     ): Boolean {
         return fourFourRule.validate(
@@ -31,8 +31,8 @@ class RenjuRuleAdapter() : Rule {
         )
     }
 
-    override fun isThreeThree(
-        board: List<List<Int>>,
+    private fun isThreeThree(
+        board: Array<Array<Int>>,
         stone: Stone,
     ): Boolean {
         return threeThreeRule.validate(
@@ -41,8 +41,8 @@ class RenjuRuleAdapter() : Rule {
         )
     }
 
-    override fun isMoreThanFive(
-        board: List<List<Int>>,
+    private fun isMoreThanFive(
+        board: Array<Array<Int>>,
         stone: Stone,
     ): Boolean {
         return moreThanFiveRule.validate(
