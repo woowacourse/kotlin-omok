@@ -26,10 +26,13 @@ class BoardTest {
 
     @Test
     fun `오목판에 이미 돌이 있는 곳에 놓으면 예외가 발생한다`() {
-        val board =
-            initBoard(
-                StonePosition(Position(3, 3), playerStone),
-            )
+        val board = initBoard(StonePosition(Position(3, 3), playerStone))
         assertThrows<IllegalArgumentException> { board.place(Position(3, 3), player) }
+    }
+
+    @Test
+    fun `오목판에 벗어나는 위치에 돌을 놓으면 예외가 발생한다`() {
+        val board = initBoard()
+        assertThrows<IllegalArgumentException> { board.place(Position(20, 3), player) }
     }
 }
