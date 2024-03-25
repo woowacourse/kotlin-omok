@@ -32,8 +32,8 @@ class ThreeThreeCheckerTest {
     @BeforeEach
     fun setUp() {
         repeat(Board.BOARD_SIZE) { row ->
-            repeat(Board.BOARD_SIZE) { col ->
-                Board.board[row][col] = Stone.NONE
+            repeat(Board.BOARD_SIZE) { column ->
+                Board.board[row][column] = Stone.NONE
             }
         }
     }

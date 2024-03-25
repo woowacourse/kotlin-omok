@@ -53,14 +53,14 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         rightUp: Int,
     ): Boolean {
         val row = position.row.value
-        val col = position.col.value
+        val column = position.column.value
         val deltaRow = deltaPosition.deltaRow
-        val deltaCol = deltaPosition.deltaCol
+        val deltaCol = deltaPosition.deltaColumn
         return when {
             deltaRow != 0 && row - leftDown in listOf(MIN_X, Board.BOARD_SIZE - 1) -> true
-            deltaCol != 0 && col - leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> true
+            deltaCol != 0 && column - leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> true
             deltaRow != 0 && row + rightUp in listOf(MIN_X, Board.BOARD_SIZE - 1) -> true
-            deltaCol != 0 && col + rightUp in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> true
+            deltaCol != 0 && column + rightUp in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> true
             else -> false
         }
     }
@@ -72,9 +72,9 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         rightUp: Int,
     ): Boolean {
         val row = position.row.value
-        val col = position.col.value
+        val column = position.column.value
         val deltaRow = deltaPosition.deltaRow
-        val deltaCol = deltaPosition.deltaCol
+        val deltaCol = deltaPosition.deltaColumn
 
         val left = deltaRow * (leftDown + 1)
         val down = deltaCol * (leftDown + 1)
@@ -83,8 +83,8 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         val up = deltaCol * (rightUp + 1)
 
         return when (OTHER_STONE) {
-            Board.board[col - down][row - left] -> true
-            Board.board[col + up][row + right] -> true
+            Board.board[column - down][row - left] -> true
+            Board.board[column + up][row + right] -> true
             else -> false
         }
     }
@@ -94,12 +94,12 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         deltaPosition: DeltaPosition,
     ): Int {
         var toRight = position.row.value
-        var toTop = position.col.value
+        var toTop = position.column.value
         var distance = 0
         while (true) {
             if (isBoardRange(deltaPosition, toRight, toTop)) break
             toRight += deltaPosition.deltaRow
-            toTop += deltaPosition.deltaCol
+            toTop += deltaPosition.deltaColumn
             when (Board.board[toTop][toRight]) {
                 in listOf(CURRENT_STONE, EMPTY_STONE) -> distance++
                 OTHER_STONE -> break

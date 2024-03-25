@@ -9,7 +9,7 @@ abstract class GoStone {
 
     fun putStone(position: Position): Stone {
         validatePosition(position)
-        Board.board[position.col.value][position.row.value] = stoneType
+        Board.board[position.column.value][position.row.value] = stoneType
         Board.lastPosition = position
         return if (stoneType == Stone.BLACK_STONE) Stone.WHITE_STONE else Stone.BLACK_STONE
     }
@@ -18,7 +18,7 @@ abstract class GoStone {
 
     private fun validatePosition(position: Position) {
         require(!position.checkForbidden()) { EXCEPTION_FORBIDDEN_MOVE }
-        require(Board.board[position.col.value][position.row.value] == Stone.NONE) { EXCEPTION_PLACED_STONE_POSITION }
+        require(Board.board[position.column.value][position.row.value] == Stone.NONE) { EXCEPTION_PLACED_STONE_POSITION }
     }
 
     companion object {

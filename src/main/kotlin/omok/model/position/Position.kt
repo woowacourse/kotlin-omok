@@ -4,8 +4,8 @@ import omok.model.rule.DoubleFourChecker
 import omok.model.rule.DoubleThreeChecker
 import omok.model.rule.ExceedFiveChecker
 
-data class Position(val row: Row, val col: Col) {
-    override fun toString(): String = "${Row.X_AXIS_START + row.value}${col.value + 1}"
+data class Position(val row: Row, val column: Column) {
+    override fun toString(): String = "${Row.X_AXIS_START + row.value}${column.value + 1}"
 
     fun checkForbidden(): Boolean =
         DoubleThreeChecker.isDoubleThree(this) ||

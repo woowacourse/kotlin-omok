@@ -1,7 +1,7 @@
 package omok.view
 
 import omok.model.board.Board
-import omok.model.position.Col
+import omok.model.position.Column
 import omok.model.position.Position
 import omok.model.position.Row
 import omok.model.stone.GoStone
@@ -11,13 +11,13 @@ class InputView {
     fun readPosition(stone: GoStone): Position {
         val input = requirePositionInput(stone)
         val row = input[0]
-        val col =
+        val column =
             input.substring(1).toIntOrNull() ?: run {
                 println(INVALID_AXIS_POSITION_MESSAGE)
                 lineBreak()
                 return readPosition(stone)
             }
-        return Position(Row(row), Col.from(col))
+        return Position(Row(row), Column.from(column))
     }
 
     private fun requirePositionInput(stone: GoStone): String {

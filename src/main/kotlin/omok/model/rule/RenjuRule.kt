@@ -13,14 +13,14 @@ open class RenjuRule(private val board: Array<Array<Stone>>) {
         deltaPosition: DeltaPosition,
     ): Pair<Int, Int> {
         var toRight = position.row.value
-        var toTop = position.col.value
+        var toTop = position.column.value
         var stone = 0
         var blink = 0
         var blinkCount = 0
         while (true) {
             if (isBoardRange(deltaPosition, toRight, toTop)) break
             toRight += deltaPosition.deltaRow
-            toTop += deltaPosition.deltaCol
+            toTop += deltaPosition.deltaColumn
             when (board[toTop][toRight]) {
                 CURRENT_STONE -> {
                     stone++
@@ -44,7 +44,7 @@ open class RenjuRule(private val board: Array<Array<Stone>>) {
         toTop: Int,
     ): Boolean {
         val deltaRow = deltaPosition.deltaRow
-        val deltaCol = deltaPosition.deltaCol
+        val deltaCol = deltaPosition.deltaColumn
         if (deltaRow > 0 && toRight == Board.BOARD_SIZE - 1) return true
         if (deltaRow < 0 && toRight == MIN_X) return true
         if (deltaCol > 0 && toTop == Board.BOARD_SIZE - 1) return true

@@ -44,12 +44,12 @@ object OmokChecker {
     ): Int {
         var sameStoneCount = 0
         var row = lastPosition.row.value + deltaPosition.deltaRow
-        var col = lastPosition.col.value + deltaPosition.deltaCol
+        var column = lastPosition.column.value + deltaPosition.deltaColumn
 
-        while (row in 0 until Board.BOARD_SIZE && col in 0 until Board.BOARD_SIZE && Board.board[col][row] == stone) {
+        while (row in 0 until Board.BOARD_SIZE && column in 0 until Board.BOARD_SIZE && Board.board[column][row] == stone) {
             sameStoneCount++
             row += deltaPosition.deltaRow
-            col += deltaPosition.deltaCol
+            column += deltaPosition.deltaColumn
         }
 
         return sameStoneCount

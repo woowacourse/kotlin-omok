@@ -39,8 +39,8 @@ class ProgressView {
 
     private fun printRowValue() {
         print("   ")
-        for (col in ROW_RANGE) {
-            print("$col  ")
+        for (column in ROW_RANGE) {
+            print("$column  ")
         }
         println()
     }
@@ -53,8 +53,8 @@ class ProgressView {
         lastSymbol: String,
     ) {
         printSymbol(board, row, firstSymbol)
-        for (col in 1 until UPPER_LENGTH) {
-            val stone = board.board[row][col]
+        for (column in 1 until UPPER_LENGTH) {
+            val stone = board.board[row][column]
             print(if (stone == Stone.NONE) "──$middleSymbol" else "──${stone.value()}")
         }
         printLastSymbol(board, row, lastSymbol)
@@ -80,7 +80,7 @@ class ProgressView {
         firstSymbol: String,
     ) {
         when {
-            board.board[row][MIN_COL] != Stone.NONE -> print(board.board[row][MIN_COL].value())
+            board.board[row][MIN_COLUMN] != Stone.NONE -> print(board.board[row][MIN_COLUMN].value())
             board.board[row][UPPER_LENGTH] != Stone.NONE -> print(board.board[row][UPPER_LENGTH].value())
             else -> print(firstSymbol)
         }
@@ -98,7 +98,7 @@ class ProgressView {
         private const val LOWER_ROW = 0
         private const val ROW_START = 'A'
         private const val ROW_END = 'O'
-        private const val MIN_COL = 0
+        private const val MIN_COLUMN = 0
         private val ROW_RANGE = ROW_START..ROW_END
         private const val START_GAME_MESSAGE = "오목 게임을 시작합니다."
     }
