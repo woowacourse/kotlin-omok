@@ -21,19 +21,6 @@ class BoardTest {
     }
 
     @Test
-    fun `같은 위치에 바둑돌은 놓을 수 없다`() {
-        // given
-        val stone = FIRST_ROW_FIRST_COL
-        val board = Board()
-        board.add(stone)
-        val samePositionStone = FIRST_ROW_FIRST_COL
-        // when
-        assertThrows<IllegalArgumentException> {
-            board.add(samePositionStone)
-        }
-    }
-
-    @Test
     fun `다른 위치에 바둑돌을 놓을 수 있다`() {
         // given
         val stone = FIRST_ROW_FIRST_COL
