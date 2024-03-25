@@ -43,7 +43,7 @@ class OmokCheckerTest {
 
     @MethodSource("오목 여부 판단 테스트 데이터 - 성공")
     @ParameterizedTest
-    fun `오목 여부를 판단한다 - 오목일 때`(stonePositions: List<Position>) {
+    fun `오목이라면 true를 반환한다`(stonePositions: List<Position>) {
         // given
         val blackStone = BlackStone()
 
@@ -62,7 +62,7 @@ class OmokCheckerTest {
 
     @MethodSource("오목 여부 판단 테스트 데이터 - 실패")
     @ParameterizedTest
-    fun `오목 여부를 판단한다 - 오목이 아닐 때`(stonePositions: List<Position>) {
+    fun `오목이 아니라면 false를 반환한다`(stonePositions: List<Position>) {
         // given
         val blackStone = BlackStone()
         val whiteStone = WhiteStone()

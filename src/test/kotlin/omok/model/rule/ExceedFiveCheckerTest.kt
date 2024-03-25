@@ -26,7 +26,7 @@ class ExceedFiveCheckerTest {
     }
 
     @Test
-    fun `장목 케이스`() {
+    fun `장목이라면 true를 반환한다`() {
         val blackStone = BlackStone()
         blackStone.putStone(Position(X_C, Y_10))
         blackStone.putStone(Position(X_C, Y_11))

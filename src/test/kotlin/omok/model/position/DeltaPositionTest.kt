@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class DeltaPositionTest {
     @Test
-    fun `돌의 위치 값이 반전되는지 확인한다`() {
+    fun `돌의 위치 값에 -를 붙이면 Row와 Column 값이 반전된다`() {
         // given
         val position = DeltaPosition(1, 1)
 

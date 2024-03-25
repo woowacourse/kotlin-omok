@@ -40,7 +40,7 @@ class FourFourCheckerTest {
     }
 
     @Test
-    fun `4-4 케이스`() {
+    fun `4-4 케이스라면 true를 반환한다`() {
         val blackStone = BlackStone()
         val whiteStone = WhiteStone()
         blackStone.putStone(Position(X_C, Y_10))

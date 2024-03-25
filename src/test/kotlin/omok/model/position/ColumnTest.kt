@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class ColumnTest {
     @Test
-    fun `y축 위치가 유효하지 않을 경우 예외처리한다`() {
+    fun `플레이어가 유효하지 않은 y축 위치를 입력한다면 예외가 발생한다`() {
         assertThatThrownBy { Column.from(16) }
             .isExactlyInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("유효하지 않은 y축 입니다. 현재 입력 값: 16\n")
