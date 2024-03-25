@@ -13,5 +13,7 @@ abstract class Placed(private val stone: Stone) : StoneState {
 
     companion object {
         private const val ERROR_STONE_DUPLICATION = "이미 돌이 있습니다."
+        const val BLACK_NUMBER = 1
+        const val WHITE_NUMBER = 2
     }
 }

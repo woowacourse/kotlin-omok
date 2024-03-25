@@ -42,9 +42,17 @@ class WhiteTurnTest {
 
         val stone = Stone.from(Row("1"), Column("A"))
         board.setStoneState(player, stone)
-        val visited = player.oMockRule.loadMap(board.stoneStates, stone)
 
-        Assertions.assertThat(player.judgementResult(visited)::class.java).isEqualTo(FinishedTurn::class.java)
+        val row = stone.row.getIndex()
+        val column = stone.column.getIndex()
+
+        val isOMock =
+            player.judgementResult(
+                board.stoneStates.map { it.getStoneNumber() },
+                row,
+                column,
+            )
+        Assertions.assertThat(isOMock::class.java).isEqualTo(FinishedTurn::class.java)
     }
 
     @Test
@@ -62,8 +70,14 @@ class WhiteTurnTest {
         )
 
         val stone = Stone.from(Row("1"), Column("A"))
-        val visited = player.oMockRule.loadMap(board.stoneStates, stone)
-
-        Assertions.assertThat(player.judgementResult(visited)::class.java).isEqualTo(BlackTurn::class.java)
+        val row = stone.row.getIndex()
+        val column = stone.column.getIndex()
+        val isOMock =
+            player.judgementResult(
+                board.stoneStates.map { it.getStoneNumber() },
+                row,
+                column,
+            )
+        Assertions.assertThat(isOMock::class.java).isEqualTo(BlackTurn::class.java)
     }
 }

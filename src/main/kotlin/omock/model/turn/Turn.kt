@@ -1,16 +1,11 @@
 package omock.model.turn
 
 import omock.model.Column
-import omock.model.Direction
-import omock.model.Result
 import omock.model.Row
-import omock.model.rule.OMockRule
 import omock.model.state.Stone
 
 sealed class Turn {
     abstract val stoneHistory: ArrayDeque<Stone>
-
-    abstract val oMockRule: OMockRule
 
     fun stoneHistoryAdd(stone: Stone) {
         stoneHistory.add(stone)
@@ -40,5 +35,9 @@ sealed class Turn {
         return Stone.from(row = row, column = column)
     }
 
-    abstract fun judgementResult(visited: Map<Direction, Result>): Turn
+    abstract fun judgementResult(
+        stoneStates: List<List<Int>>,
+        row: Int,
+        column: Int,
+    ): Turn
 }

@@ -1,12 +1,12 @@
 package omock
 
-import omock.model.Direction
+import core.omock.Direction
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class DirectionTest {
     @Test
-    fun `Direcation의 reverse를 통해서 반대 방향을 확인한다`(){
+    fun `Direcation의 reverse를 통해서 반대 방향을 확인한다`() {
         assertThat(Direction.reverse(Direction.TOP)).isEqualTo(Direction.BOTTOM)
         assertThat(Direction.reverse(Direction.TOP_RIGHT)).isEqualTo(Direction.BOTTOM_LEFT)
         assertThat(Direction.reverse(Direction.RIGHT)).isEqualTo(Direction.LEFT)

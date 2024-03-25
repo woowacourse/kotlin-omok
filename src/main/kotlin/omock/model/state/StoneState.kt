@@ -6,4 +6,6 @@ interface StoneState {
     fun put(turn: Turn): StoneState
 
     fun rollback(): StoneState
+
+    fun getNumber(): Int
 }

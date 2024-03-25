@@ -6,6 +6,8 @@ import omock.model.turn.Turn
 data class ColumnStates(
     private val columnStates: MutableList<StoneState>,
 ) {
+    fun getStoneNumber(): List<Int> = columnStates.map { it.getNumber() }
+
     fun change(
         row: Int,
         turn: Turn,

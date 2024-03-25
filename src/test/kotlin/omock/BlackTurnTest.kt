@@ -1,14 +1,15 @@
 package omock
 
+import core.omock.rule.OMockRule
 import omock.model.Board
 import omock.model.Column
 import omock.model.Row
 import omock.model.state.Stone
 import omock.model.turn.BlackTurn
 import omock.model.turn.Turn
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class BlackTurnTest {
     private lateinit var player: Turn
@@ -35,9 +36,16 @@ class BlackTurnTest {
 
         val stone = Stone.from(Row("12"), Column("D"))
         board.setStoneState(player, stone)
-        val visited = player.oMockRule.loadMap(board.stoneStates, stone)
+        val row = stone.row.getIndex()
+        val column = stone.column.getIndex()
 
-        assertThrows<IllegalArgumentException> { player.judgementResult(visited) }
+        assertThat(
+            OMockRule.threeToThreeCount(
+                board.stoneStates.map { it.getStoneNumber() },
+                row,
+                column,
+            ),
+        ).isEqualTo(true)
     }
 
     @Test
@@ -57,9 +65,16 @@ class BlackTurnTest {
         val stone = Stone.from(Row("13"), Column("C"))
         board.setStoneState(player, stone)
 
-        val visited = player.oMockRule.loadMap(board.stoneStates, stone)
+        val row = stone.row.getIndex()
+        val column = stone.column.getIndex()
 
-        assertThrows<IllegalArgumentException> { player.judgementResult(visited) }
+        assertThat(
+            OMockRule.isReverseTwoAndThree(
+                board.stoneStates.map { it.getStoneNumber() },
+                row,
+                column,
+            ),
+        ).isEqualTo(true)
     }
 
     @Test
@@ -78,8 +93,15 @@ class BlackTurnTest {
         val stone = Stone.from(Row("3"), Column("E"))
         board.setStoneState(player, stone)
 
-        val visited = player.oMockRule.loadMap(board.stoneStates, stone)
+        val row = stone.row.getIndex()
+        val column = stone.column.getIndex()
 
-        assertThrows<IllegalArgumentException> { player.judgementResult(visited) }
+        assertThat(
+            OMockRule.isClearFourToFour(
+                board.stoneStates.map { it.getStoneNumber() },
+                row,
+                column,
+            ),
+        ).isEqualTo(true)
     }
 }

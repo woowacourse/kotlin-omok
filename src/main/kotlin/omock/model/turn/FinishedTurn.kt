@@ -1,19 +1,18 @@
 package omock.model.turn
 
-import omock.model.Direction
-import omock.model.Result
-import omock.model.rule.BlackRule
-import omock.model.rule.OMockRule
 import omock.model.state.Stone
 import java.lang.IllegalArgumentException
 
 class FinishedTurn(
     override val stoneHistory: ArrayDeque<Stone> = ArrayDeque(),
-    override val oMockRule: OMockRule = BlackRule(),
 ) : Turn() {
     override fun isFinished(): Boolean = true
 
-    override fun judgementResult(visited: Map<Direction, Result>): Turn {
+    override fun judgementResult(
+        stoneStates: List<List<Int>>,
+        row: Int,
+        column: Int,
+    ): Turn {
         throw IllegalArgumentException(ERROR_FINISHED_MESSAGE)
     }
 

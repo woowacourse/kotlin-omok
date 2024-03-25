@@ -18,4 +18,8 @@ abstract class UnPlaced(private val stone: Stone) : StoneState {
     override fun rollback(): StoneState {
         return Clear(stone)
     }
+
+    companion object {
+        const val CLEAR_NUMBER = 0
+    }
 }

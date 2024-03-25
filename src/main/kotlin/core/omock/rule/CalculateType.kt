@@ -1,9 +1,9 @@
-package omock.model.rule
+package core.omock.rule
 
-import omock.model.rule.CalculateTypeErrorMessage.FOUR_TO_FOUR_COUNT_ERROR
-import omock.model.rule.CalculateTypeErrorMessage.IS_CLEAR_FOUR_TO_FOUR_COUNT_ERROR
-import omock.model.rule.CalculateTypeErrorMessage.IS_RESERVE_TWO_AND_THREE_ERROR
-import omock.model.rule.CalculateTypeErrorMessage.THREE_TO_THREE_COUNT_ERROR
+import core.omock.rule.CalculateTypeErrorMessage.FOUR_TO_FOUR_COUNT_ERROR
+import core.omock.rule.CalculateTypeErrorMessage.IS_CLEAR_FOUR_TO_FOUR_COUNT_ERROR
+import core.omock.rule.CalculateTypeErrorMessage.IS_RESERVE_TWO_AND_THREE_ERROR
+import core.omock.rule.CalculateTypeErrorMessage.THREE_TO_THREE_COUNT_ERROR
 
 sealed interface CalculateType {
     data object ThreeToThreeCount : CalculateType

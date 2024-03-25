@@ -1,4 +1,4 @@
-package omock.model.rule
+package core.omock.rule
 
 enum class CalculateTypeErrorMessage(val message: String) {
     THREE_TO_THREE_COUNT_ERROR("4-4 금수를 어겼습니다."),

@@ -1,4 +1,4 @@
-package omock.model
+package core.omock
 
 enum class Direction(
     val x: Int,

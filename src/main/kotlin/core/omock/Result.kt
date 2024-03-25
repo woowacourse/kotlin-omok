@@ -1,4 +1,4 @@
-package omock.model
+package core.omock
 
 data class Result(
     val count: Int,
