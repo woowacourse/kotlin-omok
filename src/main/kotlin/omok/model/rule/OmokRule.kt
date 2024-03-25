@@ -6,14 +6,6 @@ import omok.model.stone.StoneType
 open class OmokRule {
     val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
 
-    fun checkRenjuRule(
-        row: Int,
-        col: Int,
-    ): Boolean =
-        ThreeThreeChecker.checkThreeThree(row, col) ||
-            FourFourChecker.checkFourFour(row, col) ||
-            ExceedFiveChecker.checkMoreThanFive(row, col)
-
     fun search(
         x: Int,
         y: Int,

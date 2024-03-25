@@ -1,6 +1,9 @@
 package omok.model.rule
 
 object ExceedFiveChecker : OmokRule() {
+    private const val NO_SPACE = 0
+    private const val EXCEED_STANDARD = 4
+
     fun checkMoreThanFive(
         x: Int,
         y: Int,
@@ -16,7 +19,7 @@ object ExceedFiveChecker : OmokRule() {
         val (stone2, blink2) = search(x, y, dx, dy)
 
         return when {
-            blink1 + blink2 == 0 && stone1 + stone2 > 4 -> true
+            blink1 + blink2 == NO_SPACE && stone1 + stone2 > EXCEED_STANDARD -> true
             else -> false
         }
     }

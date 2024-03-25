@@ -3,7 +3,6 @@ package omok.model.stone
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.rule.OmokChecker
-import omok.model.rule.OmokRule
 
 sealed class GoStone {
     abstract val stoneType: StoneType
@@ -25,7 +24,7 @@ sealed class GoStone {
         }
 
     private fun validatePosition(position: Position) {
-        require(!OmokRule().checkRenjuRule(position.row, position.column)) { EXCEPTION_FORBIDDEN_MOVE }
+        require(!position.checkRenjuRule()) { EXCEPTION_FORBIDDEN_MOVE }
         require(Board.getStoneType(position.column, position.row) == StoneType.NONE) { EXCEPTION_PLACED_STONE_POSITION }
     }
 

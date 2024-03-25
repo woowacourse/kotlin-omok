@@ -1,9 +1,18 @@
 package omok.model.position
 
+import omok.model.rule.ExceedFiveChecker
+import omok.model.rule.FourFourChecker
+import omok.model.rule.ThreeThreeChecker
+
 data class Position(val row: Int, val column: Int) {
     init {
         validPosition(row, column)
     }
+
+    fun checkRenjuRule(): Boolean =
+        ThreeThreeChecker.checkThreeThree(row, column) ||
+            FourFourChecker.checkFourFour(row, column) ||
+            ExceedFiveChecker.checkMoreThanFive(row, column)
 
     fun convert() = "${START_ROW_VALUE + row}${COLUMN_OFFSET + column}"
 
@@ -12,6 +21,7 @@ data class Position(val row: Int, val column: Int) {
         private const val COLUMN_OFFSET = 1
         private const val MIN_RANGE = 0
         private const val MAX_RANGE = 14
+
         private const val EXCEPTION_INVALID_POSITION = "유효하지 않은 위치입니다. 현재 입력 값: %s%d\n"
 
         private val positionRange = MIN_RANGE..MAX_RANGE
