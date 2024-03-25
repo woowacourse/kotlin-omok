@@ -5,10 +5,6 @@ enum class Color {
     WHITE,
 }
 
-fun Color.change(): Color {
-    return if (this == Color.BLACK) {
-        Color.WHITE
-    } else {
-        Color.BLACK
-    }
-}
+fun Color.isWhite(): Boolean = this == Color.WHITE
+
+fun Color.isBLACK(): Boolean = this == Color.BLACK
