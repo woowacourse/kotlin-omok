@@ -3,7 +3,7 @@ package omok.view
 import omok.model.Board
 import omok.model.PositionType
 
-object BoardView {
+object BoardOutputView {
     private const val BLACK_STONE = '●'
     private const val WHITE_STONE = '○'
     private const val BLOCK = 'X'

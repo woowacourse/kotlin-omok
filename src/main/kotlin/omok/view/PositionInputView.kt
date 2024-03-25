@@ -2,7 +2,7 @@ package omok.view
 
 import omok.model.Position
 
-object InputView {
+object PositionInputView {
     private const val INPUT_POSITION_MESSAGE = "위치를 입력하세요: "
 
     fun readPosition(): Position {

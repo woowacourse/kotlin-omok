@@ -2,7 +2,7 @@ package omok.view
 
 import omok.model.GameState
 
-object OutputView {
+object GameStateOutputView {
     private const val HEADER_START_MESSAGE = "오목 게임을 시작합니다."
     private const val LAST_STONE_POSITION_MESSAGE = "(마지막 돌의 위치: %s)"
     private const val RUNNING_INFO_MESSAGE = "%s의 차례입니다."
