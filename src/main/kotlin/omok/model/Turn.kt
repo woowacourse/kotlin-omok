@@ -17,7 +17,7 @@ class BlackTurn(override val before: Stone? = null) : Turn {
         val stone = Stone(StoneType.BLACK, point)
         if (board.isForbidden(stone)) return this
         board.putStone(stone)
-        if (BlackRule.isWinCondition(board.board, stone)) return FinishedTurn(stone)
+        if (board.isWinCondition(stone)) return FinishedTurn(stone)
         return WhiteTurn(stone)
     }
 }
@@ -29,7 +29,7 @@ class WhiteTurn(override val before: Stone) : Turn {
     ): Turn {
         val stone = Stone(StoneType.WHITE, point)
         board.putStone(stone)
-        if (WhiteRule.isWinCondition(board.board, stone)) return FinishedTurn(stone)
+        if (board.isWinCondition(stone)) return FinishedTurn(stone)
         return BlackTurn(stone)
     }
 }
