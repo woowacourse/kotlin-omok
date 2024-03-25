@@ -1,21 +1,19 @@
 package omok.view.output
 
-import omok.model.Board
+import omok.model.board.Board
 import omok.model.entity.Stone
 import omok.model.entity.StoneColor
 
 class ConsoleOutputView : OutputView {
-    override fun printStartGuide() {
-        println("오목 게임을 시작합니다")
-    }
+    override fun printStartGuide() = println("오목 게임을 시작합니다")
 
     override fun printTurn(
         board: Board,
-        color: StoneColor,
+        stoneColor: StoneColor,
     ) {
-        val strMap = buildOmokBoard(board)
-        println(strMap)
-        printTurnGuide(color)
+        val omokBoard = buildOmokBoard(board)
+        println(omokBoard)
+        printTurnGuide(stoneColor)
         printPreviousPoint(board.previousStone())
     }
 
@@ -37,43 +35,52 @@ class ConsoleOutputView : OutputView {
 
     private fun buildOmokBoard(board: Board): String {
         println()
-        val strMap =
-            """
-            15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
-            14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            9  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            8  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            7  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            6  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            5  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            4  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            3  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            2  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            1  └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
-               A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-            """.trimIndent()
-        val sb = StringBuilder(strMap)
+        val boardMap =
+            StringBuilder(
+                """
+                15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
+                14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                9  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                8  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                7  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                6  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                5  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                4  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                3  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                2  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                1  └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
+                   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+                """.trimIndent(),
+            )
         board.stones.forEach {
-            val stoneChar = if (it.stoneColor == StoneColor.WHITE) '○' else '●'
-            val x = (it.point.x) * 3
-            val y = 15 - it.point.y
-            val idx = 47 * y + x
-            sb.setCharAt(idx, stoneChar)
+            val stone = if (it.stoneColor == StoneColor.WHITE) '○' else '●'
+            val pointX = (it.point.x) * BOARD_INTERVAL
+            val pointY = BOARD_LENGTH - it.point.y
+            val idx = (BOARD_LENGTH * BOARD_INTERVAL + BOARD_EMPTY_INTERVAL) * pointY + pointX
+            boardMap.setCharAt(idx, stone)
         }
-        return sb.toString()
+        return boardMap.toString()
     }
 
     override fun printWinner(
         board: Board,
-        color: StoneColor,
+        stoneColor: StoneColor,
     ) {
         val strMap = buildOmokBoard(board)
         println(strMap)
-        val colorString = getColorString(color)
+        val colorString = getColorString(stoneColor)
         print("${colorString}이 승리했습니다")
+    }
+
+    override fun printInAppropriatePlace(message: String) = println(message)
+
+    companion object {
+        private const val BOARD_INTERVAL = 3
+        private const val BOARD_LENGTH = 15
+        private const val BOARD_EMPTY_INTERVAL = 2
     }
 }

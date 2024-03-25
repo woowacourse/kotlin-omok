@@ -1,6 +1,6 @@
 package omok.view.output
 
-import omok.model.Board
+import omok.model.board.Board
 import omok.model.entity.StoneColor
 
 interface OutputView {
@@ -8,11 +8,13 @@ interface OutputView {
 
     fun printTurn(
         board: Board,
-        color: StoneColor,
+        stoneColor: StoneColor,
     )
 
     fun printWinner(
         board: Board,
-        color: StoneColor,
+        stoneColor: StoneColor,
     )
+
+    fun printInAppropriatePlace(message: String)
 }
