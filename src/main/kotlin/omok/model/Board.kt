@@ -1,11 +1,11 @@
 package omok.model
 
-class Board {
+class Board(val size: Int) {
     val table: List<List<StoneType>>
         get() = _table.toList()
     private val _table: List<MutableList<StoneType>> =
-        List(BOARD_SIZE) {
-            MutableList(BOARD_SIZE) { StoneType.EMPTY }
+        List(size) {
+            MutableList(size) { StoneType.EMPTY }
         }
 
     val beforePoint: Point?
@@ -24,13 +24,9 @@ class Board {
         return nextTurn
     }
 
-    fun getPointStoneLine(x: Int): List<StoneType> = table[BOARD_SIZE - x]
+    fun getPointStoneLine(x: Int): List<StoneType> = table[size - x]
 
     operator fun contains(point: Point): Boolean {
         return table[point.y][point.x] != StoneType.EMPTY
-    }
-
-    companion object {
-        const val BOARD_SIZE = 15
     }
 }

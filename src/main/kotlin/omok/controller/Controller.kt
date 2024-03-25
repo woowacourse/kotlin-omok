@@ -11,7 +11,7 @@ import omok.view.OutputView
 
 class Controller {
     fun play() {
-        val board = Board()
+        val board = Board(15)
         var turn: Turn = BlackTurn(BlackRule())
 
         OutputView.printGameStart()
@@ -31,7 +31,7 @@ class Controller {
         turn: Turn,
     ): Point {
         runCatching {
-            val point = InputView.readPoint()
+            val point = InputView.readPoint(board.size)
             if (point in board) {
                 OutputView.printInvalidPointInputMessage()
                 return getPoint(board, turn)

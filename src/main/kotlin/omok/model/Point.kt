@@ -1,8 +1,8 @@
 package omok.model
 
-data class Point(val x: Int, val y: Int) {
+data class Point(val x: Int, val y: Int, val boardSize: Int) {
     init {
-        require(x in MIN_POINT until Board.BOARD_SIZE && y in MIN_POINT until Board.BOARD_SIZE)
+        require(x in MIN_POINT until boardSize && y in MIN_POINT until boardSize)
     }
 
     companion object {

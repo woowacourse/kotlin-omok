@@ -118,7 +118,7 @@ class RenjuRule(
             stone1 + stone2 != 2 -> 0
             !separatedSets -> 0
             dx != 0 && x.minus(leftDown) in listOf(MIN_X, size - 1) -> 0
-            dy != 0 && y.minus(leftDown) in listOf(MIN_Y, size - 1)-> 0
+            dy != 0 && y.minus(leftDown) in listOf(MIN_Y, size - 1) -> 0
             dx != 0 && x.plus(rightUp) in listOf(MIN_X, size - 1) -> 0
             dy != 0 && y.plus(rightUp) in listOf(MIN_Y, size - 1) -> 0
             board[y - dy * (leftDown + 1)][x - dx * (leftDown + 1)] == STONE_TYPE_WHITE -> 0
@@ -146,7 +146,7 @@ class RenjuRule(
             stone1 + stone2 != 2 -> 0
             !separatedSets -> 0
             dx != 0 && x.minus(leftUp) in listOf(MIN_X, size - 1) -> 0
-            dy != 0 && y.plus(leftUp) in listOf(MIN_Y, size - 1)-> 0
+            dy != 0 && y.plus(leftUp) in listOf(MIN_Y, size - 1) -> 0
             dx != 0 && x.plus(rightBottom) in listOf(MIN_X, size - 1) -> 0
             dy != 0 && y.minus(rightBottom) in listOf(MIN_Y, size - 1) -> 0
             board[y - rightBottom - 1][x + rightBottom + 1] == STONE_TYPE_WHITE -> 0

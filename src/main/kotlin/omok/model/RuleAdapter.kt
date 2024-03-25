@@ -26,11 +26,11 @@ interface RuleAdapter {
 
     fun convertBoard(board: Board): List<List<Int>> {
         val table =
-            List(Board.BOARD_SIZE) {
-                MutableList(Board.BOARD_SIZE) { STONE_TYPE_EMPTY }
+            List(board.size) {
+                MutableList(board.size) { STONE_TYPE_EMPTY }
             }
-        repeat(Board.BOARD_SIZE) { y ->
-            repeat(Board.BOARD_SIZE) { x ->
+        repeat(board.size) { y ->
+            repeat(board.size) { x ->
                 table[y][x] = (convertStoneType(board.table[y][x]))
             }
         }
