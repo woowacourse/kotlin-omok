@@ -31,7 +31,7 @@ class InputView {
 
     private fun lineBreak() = println()
 
-    private fun Position.convert() = "${'A' + row}${col + 1}"
+    private fun Position.convert() = "${'A' + row}${column + 1}"
 
     private fun StoneType.value() =
         when (this) {

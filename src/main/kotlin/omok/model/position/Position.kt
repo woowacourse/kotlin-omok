@@ -1,8 +1,8 @@
 package omok.model.position
 
-data class Position(val row: Int, val col: Int) {
+data class Position(val row: Int, val column: Int) {
     init {
-        validPosition(row, col)
+        validPosition(row, column)
     }
 
     companion object {

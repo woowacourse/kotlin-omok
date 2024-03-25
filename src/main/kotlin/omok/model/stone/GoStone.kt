@@ -10,14 +10,14 @@ sealed class GoStone {
 
     fun putStone(position: Position): StoneType {
         validatePosition(position)
-        Board.board[position.col][position.row] = stoneType
+        Board.board[position.column][position.row] = stoneType
         Board.lastPosition = position
         return if (stoneType == StoneType.BLACK_STONE) StoneType.WHITE_STONE else StoneType.BLACK_STONE
     }
 
     fun findOmok(position: Position): Boolean =
         if (
-            Board.board[position.col][position.row] != stoneType
+            Board.board[position.column][position.row] != stoneType
         ) {
             false
         } else {
@@ -25,8 +25,8 @@ sealed class GoStone {
         }
 
     private fun validatePosition(position: Position) {
-        require(!OmokRule(Board.board).checkRenjuRule(position.row, position.col)) { EXCEPTION_FORBIDDEN_MOVE }
-        require(Board.board[position.col][position.row] == StoneType.NONE) { EXCEPTION_PLACED_STONE_POSITION }
+        require(!OmokRule(Board.board).checkRenjuRule(position.row, position.column)) { EXCEPTION_FORBIDDEN_MOVE }
+        require(Board.board[position.column][position.row] == StoneType.NONE) { EXCEPTION_PLACED_STONE_POSITION }
     }
 
     companion object {
