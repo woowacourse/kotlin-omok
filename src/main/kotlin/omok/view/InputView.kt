@@ -22,7 +22,7 @@ class InputView {
 
     private fun requirePositionInput(stone: GoStone): String {
         print(TURN_MESSAGE.format(stone.stoneType.value()))
-        Board.getLastStonePosition()?.let {
+        Board.lastPosition?.let {
             print(LAST_STONE_MESSAGE.format(it.toString()))
         }
         lineBreak()

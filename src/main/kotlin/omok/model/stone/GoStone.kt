@@ -10,7 +10,7 @@ abstract class GoStone {
     fun putStone(position: Position): Stone {
         validatePosition(position)
         Board.board[position.column.value][position.row.value] = stoneType
-        Board.lastPosition = position
+        Board.updateLastPosition(position)
         return if (stoneType == Stone.BLACK_STONE) Stone.WHITE_STONE else Stone.BLACK_STONE
     }
 

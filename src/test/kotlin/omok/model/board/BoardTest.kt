@@ -17,12 +17,12 @@ class BoardTest {
                 Board.board[row][column] = Stone.NONE
             }
         }
-        resetPosition(Board, "lastPosition")
+        Board.updateLastPosition(null)
     }
 
     @Test
     fun `이전 순서에 돌을 두지 않았다면 null을 반환한다`() {
-        val actual = Board.getLastStonePosition()
+        val actual = Board.lastPosition
         val expected = null
         assertThat(actual).isEqualTo(expected)
     }
@@ -31,21 +31,9 @@ class BoardTest {
     fun `이전 순서에 돌을 두었다면 마지막에 돌을 둔 위치를 반환한다`() {
         val stone = BlackStone()
         stone.putStone(Position(X_A, Y_5))
-        val actual = Board.getLastStonePosition()
+        val actual = Board.lastPosition
         val expected = Position(X_A, Y_5)
 
         assertThat(actual).isEqualTo(expected)
-    }
-
-    private fun resetPosition(
-        target: Any,
-        fieldName: String,
-    ) {
-        val field = target.javaClass.getDeclaredField(fieldName)
-
-        with(field) {
-            isAccessible = true
-            set(target, null)
-        }
     }
 }
