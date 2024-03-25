@@ -3,7 +3,7 @@ package omok.model.rule
 import omok.model.board.Board
 import omok.model.position.DeltaPosition
 import omok.model.position.Position
-import omok.model.stone.Stone
+import omok.model.stone.StoneType
 
 object OmokChecker {
     private const val DEFAULT_STONE_COUNT = 1
@@ -15,24 +15,24 @@ object OmokChecker {
 
     fun findOmok(
         lastPosition: Position,
-        stone: Stone,
+        stoneType: StoneType,
     ): Boolean {
         val directionType = listOf(horizontalDirection, verticalDirection, upwardDirection, downwardDirection)
         return directionType.any { direction ->
-            checkWinningPosition(lastPosition, direction, stone)
+            checkWinningPosition(lastPosition, direction, stoneType)
         }
     }
 
     private fun checkWinningPosition(
         lastPosition: Position,
         deltaPosition: DeltaPosition,
-        stone: Stone,
+        stoneType: StoneType,
     ): Boolean {
         var stoneCount = DEFAULT_STONE_COUNT
 
-        stoneCount += countSameStones(lastPosition, deltaPosition, stone)
+        stoneCount += countSameStones(lastPosition, deltaPosition, stoneType)
 
-        stoneCount += countSameStones(lastPosition, -deltaPosition, stone)
+        stoneCount += countSameStones(lastPosition, -deltaPosition, stoneType)
 
         return stoneCount >= OMOK_PRECONDITION
     }
@@ -40,13 +40,13 @@ object OmokChecker {
     private fun countSameStones(
         lastPosition: Position,
         deltaPosition: DeltaPosition,
-        stone: Stone,
+        stoneType: StoneType,
     ): Int {
         var sameStoneCount = 0
         var row = lastPosition.row.value + deltaPosition.deltaRow
         var column = lastPosition.column.value + deltaPosition.deltaColumn
 
-        while (row in 0 until Board.BOARD_SIZE && column in 0 until Board.BOARD_SIZE && Board.board[column][row] == stone) {
+        while (row in 0 until Board.BOARD_SIZE && column in 0 until Board.BOARD_SIZE && Board.board[column][row] == stoneType) {
             sameStoneCount++
             row += deltaPosition.deltaRow
             column += deltaPosition.deltaColumn

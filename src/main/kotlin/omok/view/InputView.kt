@@ -5,7 +5,7 @@ import omok.model.position.Column
 import omok.model.position.Position
 import omok.model.position.Row
 import omok.model.stone.GoStone
-import omok.model.stone.Stone
+import omok.model.stone.StoneType
 
 class InputView {
     fun readPosition(stone: GoStone): Position {
@@ -32,11 +32,11 @@ class InputView {
 
     private fun lineBreak() = println()
 
-    private fun Stone.value() =
+    private fun StoneType.value() =
         when (this) {
-            Stone.BLACK_STONE -> "흑"
-            Stone.WHITE_STONE -> "백"
-            Stone.NONE -> ""
+            StoneType.BLACK_STONE -> "흑"
+            StoneType.WHITE_STONE -> "백"
+            StoneType.NONE -> ""
         }
 
     companion object {

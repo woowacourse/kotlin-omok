@@ -23,7 +23,7 @@ import Y_5
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone
-import omok.model.stone.Stone
+import omok.model.stone.StoneType
 import omok.model.stone.WhiteStone
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -36,7 +36,7 @@ class OmokCheckerTest {
     fun setUp() {
         repeat(Board.BOARD_SIZE) { row ->
             repeat(Board.BOARD_SIZE) { column ->
-                Board.board[row][column] = Stone.NONE
+                Board.board[row][column] = StoneType.NONE
             }
         }
     }
@@ -53,7 +53,7 @@ class OmokCheckerTest {
 
         val lastPosition = Position(X_D, Y_4)
         // when
-        val actual = OmokChecker.findOmok(lastPosition, Stone.BLACK_STONE)
+        val actual = OmokChecker.findOmok(lastPosition, StoneType.BLACK_STONE)
         val expected = true
 
         // then
@@ -74,7 +74,7 @@ class OmokCheckerTest {
 
         val lastPosition = Position(X_L, Y_11)
         // when
-        val actual = OmokChecker.findOmok(lastPosition, Stone.BLACK_STONE)
+        val actual = OmokChecker.findOmok(lastPosition, StoneType.BLACK_STONE)
         val expected = false
 
         // then

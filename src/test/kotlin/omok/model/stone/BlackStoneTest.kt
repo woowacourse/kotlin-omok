@@ -15,7 +15,7 @@ class BlackStoneTest {
     fun setUp() {
         repeat(Board.BOARD_SIZE) { row ->
             repeat(Board.BOARD_SIZE) { column ->
-                Board.board[row][column] = Stone.NONE
+                Board.board[row][column] = StoneType.NONE
             }
         }
     }

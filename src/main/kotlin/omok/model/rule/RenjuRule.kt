@@ -3,9 +3,9 @@ package omok.model.rule
 import omok.model.board.Board
 import omok.model.position.DeltaPosition
 import omok.model.position.Position
-import omok.model.stone.Stone
+import omok.model.stone.StoneType
 
-open class RenjuRule(private val board: Array<Array<Stone>>) {
+open class RenjuRule(private val board: Array<Array<StoneType>>) {
     val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
 
     fun search(
@@ -55,8 +55,8 @@ open class RenjuRule(private val board: Array<Array<Stone>>) {
     companion object {
         const val MIN_X = 0
         const val MIN_Y = 0
-        val EMPTY_STONE = Stone.NONE
-        val CURRENT_STONE = Stone.BLACK_STONE
-        val OTHER_STONE: Stone = Stone.WHITE_STONE
+        val EMPTY_STONE = StoneType.NONE
+        val CURRENT_STONE = StoneType.BLACK_STONE
+        val OTHER_STONE = StoneType.WHITE_STONE
     }
 }

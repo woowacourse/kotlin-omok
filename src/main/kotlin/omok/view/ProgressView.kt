@@ -1,7 +1,7 @@
 package omok.view
 
 import omok.model.board.Board
-import omok.model.stone.Stone
+import omok.model.stone.StoneType
 
 class ProgressView {
     fun printStartGameComment() = println(START_GAME_MESSAGE)
@@ -55,7 +55,7 @@ class ProgressView {
         printSymbol(board, row, firstSymbol)
         for (column in 1 until UPPER_LENGTH) {
             val stone = board.board[row][column]
-            print(if (stone == Stone.NONE) "──$middleSymbol" else "──${stone.value()}")
+            print(if (stone == StoneType.NONE) "──$middleSymbol" else "──${stone.value()}")
         }
         printLastSymbol(board, row, lastSymbol)
         println()
@@ -67,7 +67,7 @@ class ProgressView {
         lastSymbol: String,
     ) {
         val stone = board.board[row][UPPER_LENGTH]
-        if (stone != Stone.NONE) {
+        if (stone != StoneType.NONE) {
             print("──${stone.value()}")
         } else {
             print("──$lastSymbol")
@@ -80,17 +80,17 @@ class ProgressView {
         firstSymbol: String,
     ) {
         when {
-            board.board[row][MIN_COLUMN] != Stone.NONE -> print(board.board[row][MIN_COLUMN].value())
-            board.board[row][UPPER_LENGTH] != Stone.NONE -> print(board.board[row][UPPER_LENGTH].value())
+            board.board[row][MIN_COLUMN] != StoneType.NONE -> print(board.board[row][MIN_COLUMN].value())
+            board.board[row][UPPER_LENGTH] != StoneType.NONE -> print(board.board[row][UPPER_LENGTH].value())
             else -> print(firstSymbol)
         }
     }
 
-    private fun Stone.value() =
+    private fun StoneType.value() =
         when (this) {
-            Stone.BLACK_STONE -> "●"
-            Stone.WHITE_STONE -> "○"
-            Stone.NONE -> ""
+            StoneType.BLACK_STONE -> "●"
+            StoneType.WHITE_STONE -> "○"
+            StoneType.NONE -> ""
         }
 
     companion object {
