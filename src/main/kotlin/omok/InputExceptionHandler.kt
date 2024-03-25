@@ -1,6 +1,6 @@
 package omok
 
-fun <T> retryWhileNotException(block: () -> T): T {
+tailrec fun <T> retryWhileNotException(block: () -> T): T {
     return try {
         block()
     } catch (e: IllegalArgumentException) {
