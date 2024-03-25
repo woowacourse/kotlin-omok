@@ -17,19 +17,21 @@ data class BlackPlayer(
         visited.entries.forEach { (key, result) ->
             val isReverseResultFirstClear: Boolean = visited[Direction.reverse(key)]?.isFirstClear ?: false
             val reverseResultCount: Int = visited[Direction.reverse(key)]?.count ?: MIN_REVERSE_COUNT
-            getCalculateType(
-                isReverseResultFirstClear = isReverseResultFirstClear,
-                reverseResultCount = reverseResultCount,
-                directionResult = result,
-            ) { calculateType ->
-                when (calculateType) {
-                    CalculateType.FourToFourCount -> checkFourToFour(++fourToFourCount)
-                    CalculateType.IsClearFourToFourCount -> checkIsClearFourToFour(++isClearFourToFourCount)
-                    CalculateType.IsReverseTwoAndThree -> isReverseTwoAndThree = checkIsReverseTwoAndThree()
-                    CalculateType.ThreeToThreeCount -> checkThreeToThreeCount(++threeToThreeCount)
+            if (isLastClearResult(result)) {
+                getCalculateType(
+                    isReverseResultFirstClear = isReverseResultFirstClear,
+                    reverseResultCount = reverseResultCount,
+                    directionResult = result,
+                ).forEach { calculateType ->
+                    when (calculateType) {
+                        CalculateType.FourToFourCount -> checkFourToFour(++fourToFourCount)
+                        CalculateType.IsClearFourToFourCount -> checkIsClearFourToFour(++isClearFourToFourCount)
+                        CalculateType.IsReverseTwoAndThree -> isReverseTwoAndThree = checkIsReverseTwoAndThree()
+                        CalculateType.ThreeToThreeCount -> checkThreeToThreeCount(++threeToThreeCount)
+                    }
                 }
+                if (isOMockWinState(!isReverseTwoAndThree, reverseResultCount + result.count)) return true
             }
-            if (isOMockWinState(!isReverseTwoAndThree, reverseResultCount + result.count)) return true
         }
         return false
     }
@@ -70,64 +72,94 @@ data class BlackPlayer(
         CalculateType.ThreeToThreeCount.checkCalculateType { threeToThreeCount >= MIN_THREE_TO_THREE_COUNT }
     }
 
-    private inline fun getCalculateType(
+    private fun getCalculateType(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
         directionResult: DirectionResult,
-        type: (CalculateType) -> Unit,
-    ) {
-        if (isNotLastClearResult(directionResult)) return
+    ): List<CalculateType> {
+        val calculateTypes: MutableList<CalculateType> = mutableListOf()
         if (isNotFirstClearResult(directionResult)) {
             provideFirstClearResult(
                 isReverseResultFirstClear = isReverseResultFirstClear,
                 reverseResultCount = reverseResultCount,
                 directionResult = directionResult,
-                type = type,
-            )
+            )?.let { calculateType ->
+                calculateTypes.add(calculateType)
+            }
         } else {
             provideNotFirstClearResult(
                 isReverseResultFirstClear = isReverseResultFirstClear,
                 reverseResultCount = reverseResultCount,
                 directionResult = directionResult,
-                type = type,
-            )
+            ).forEach { calculateType ->
+                calculateTypes.add(calculateType)
+            }
         }
+        return calculateTypes
+
     }
 
-    private inline fun provideFirstClearResult(
+    private fun provideFirstClearResult(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
         directionResult: DirectionResult,
-        type: (CalculateType) -> Unit,
-    ) {
-        if (isThreeToThreeCount(directionResult.count + reverseResultCount)) {
-            type(CalculateType.ThreeToThreeCount)
+    ): CalculateType? {
+        return if (isThreeToThreeCount(directionResult.count + reverseResultCount)) {
+            CalculateType.ThreeToThreeCount
         } else if (isFourToFourCount(directionResult.count + reverseResultCount)) {
-            type(CalculateType.FourToFourCount)
+            CalculateType.FourToFourCount
         } else if (isThreeToThreeCount(directionResult.count) &&
             isFourToFourCount(reverseResultCount) && !isReverseResultFirstClear
         ) {
-            type(CalculateType.IsReverseTwoAndThree)
+            CalculateType.IsReverseTwoAndThree
+        } else {
+            null
         }
     }
 
-    private inline fun provideNotFirstClearResult(
+    private fun provideNotFirstClearResult(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
         directionResult: DirectionResult,
-        type: (CalculateType) -> Unit,
-    ) {
-        if (isReverseResultFirstClear && isThreeToThreeCount(directionResult.count)) {
-            type(CalculateType.IsClearFourToFourCount)
-        } else {
-            if (isThreeToThreeCount(directionResult.count + reverseResultCount)) type(CalculateType.IsClearFourToFourCount)
-            if (isThreeToThreeCount(reverseResultCount)) type(CalculateType.ThreeToThreeCount)
-            if (isFourToFourCount(reverseResultCount)) type(CalculateType.FourToFourCount)
+    ): List<CalculateType> {
+        val calculateTypes: MutableList<CalculateType> = mutableListOf()
+        getClearFourToFourResult(isReverseResultFirstClear, directionResult)?.let { calculateTypes.add(it) }
+        if (calculateTypes.isEmpty()) {
+            getClearFourToFourResult(directionResult, reverseResultCount)?.let { calculateTypes.add(it) }
+            getThreeToThreeCountResult(reverseResultCount)?.let { calculateTypes.add(it) }
+            getFourToFourCountResult(reverseResultCount)?.let { calculateTypes.add(it) }
         }
+        return calculateTypes
     }
 
-    private fun isNotLastClearResult(directionResult: DirectionResult): Boolean {
-        return !directionResult.isLastClear
+    private fun getClearFourToFourResult(
+        isReverseResultFirstClear: Boolean,
+        directionResult: DirectionResult,
+    ): CalculateType? {
+        return if (isReverseResultFirstClear && isThreeToThreeCount(directionResult.count)) CalculateType.IsClearFourToFourCount else null
+    }
+
+    private fun getClearFourToFourResult(
+        directionResult: DirectionResult,
+        reverseResultCount: Int
+    ): CalculateType? {
+        return if (isThreeToThreeCount(directionResult.count + reverseResultCount)) CalculateType.IsClearFourToFourCount else null
+    }
+
+    private fun getThreeToThreeCountResult(
+        reverseResultCount: Int,
+    ): CalculateType? {
+        return if (isThreeToThreeCount(reverseResultCount)) CalculateType.ThreeToThreeCount else null
+    }
+
+    private fun getFourToFourCountResult(
+        reverseResultCount: Int,
+    ): CalculateType? {
+        return if (isFourToFourCount(reverseResultCount)) CalculateType.FourToFourCount else null
+    }
+
+    private fun isLastClearResult(directionResult: DirectionResult): Boolean {
+        return directionResult.isLastClear
     }
 
     private fun isNotFirstClearResult(directionResult: DirectionResult): Boolean {
