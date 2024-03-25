@@ -9,19 +9,26 @@ class OMockGame(
     private var turn: Turn = BlackTurn(),
     private val board: Board = Board.from(),
 ) {
-    fun playGame(showBoard: (Turn) -> Stone?) {
+    fun playGame(
+        showBoard: (Turn) -> Stone?,
+        error: (Throwable) -> Unit,
+    ) {
         while (!turn.isFinished()) {
             showBoard(turn)?.let { playerStone ->
-                executePlayerTurn(playerStone)
+                executePlayerTurn(playerStone, error)
             }
         }
     }
 
-    private fun executePlayerTurn(playerStone: Stone) {
+    private fun executePlayerTurn(
+        playerStone: Stone,
+        error: (Throwable) -> Unit,
+    ) {
         playerTurn(playerStone).onSuccess {
             turn.stoneHistoryAdd(playerStone)
-        }.onFailure { error ->
-            handleTurnFailure(playerStone, error)
+        }.onFailure { e ->
+            handleTurnFailure(playerStone, e)
+            error(e)
         }
     }
 
@@ -47,9 +54,10 @@ class OMockGame(
         playerStone: Stone,
         error: Throwable,
     ) {
-        board.rollbackState(playerStone)
-        rollbackBoard(playerStone)
-        println(error.message)
+        if (error is IllegalArgumentException) {
+            board.rollbackState(playerStone)
+            rollbackBoard(playerStone)
+        }
     }
 
     private fun rollbackBoard(playerStone: Stone) {

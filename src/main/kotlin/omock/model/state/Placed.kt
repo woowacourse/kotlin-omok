@@ -4,7 +4,7 @@ import omock.model.turn.Turn
 
 abstract class Placed(private val stone: Stone) : StoneState {
     override fun put(turn: Turn): StoneState {
-        throw IllegalArgumentException(ERROR_STONE_DUPLICATION)
+        throw IllegalStateException(ERROR_STONE_DUPLICATION)
     }
 
     override fun rollback(): StoneState {

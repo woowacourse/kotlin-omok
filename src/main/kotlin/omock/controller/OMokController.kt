@@ -6,6 +6,7 @@ import omock.model.turn.Turn
 import omock.view.InputView.playerPick
 import omock.view.OutputView
 import omock.view.OutputView.outputBoard
+import omock.view.OutputView.outputErrorMessage
 import omock.view.OutputView.outputGameStart
 import omock.view.OutputView.outputSuccessOMock
 import omock.view.OutputView.outputUserTurn
@@ -14,10 +15,12 @@ class OMokController(private val oMockGame: OMockGame = OMockGame()) {
     fun run() {
         outputGameStart()
 
-        oMockGame.playGame { turn ->
+        oMockGame.playGame({ turn ->
             outputBoard()
             displayTurnInfo(turn)
             startPlayerTurn(turn)
+        }) { e ->
+            outputErrorMessage(e)
         }
 
         outputBoard()

@@ -2,6 +2,10 @@ package omock.view
 
 import omock.model.OMockBoard
 import omock.model.state.Stone
+import omock.model.turn.ErrorType.FourToFourCount
+import omock.model.turn.ErrorType.IsClearFourToFourCount
+import omock.model.turn.ErrorType.IsReverseTwoAndThree
+import omock.model.turn.ErrorType.ThreeToThreeCount
 
 object OutputView {
     fun outputUserLocation() {
@@ -36,5 +40,18 @@ object OutputView {
                 println(s.format(*OMockBoard.boardTable[index].toTypedArray()))
             }
         }
+    }
+
+    fun outputErrorMessage(e: Throwable) {
+        val errorMessage =
+            when (e.cause) {
+                is ThreeToThreeCount -> ErrorMessage.THREE_TO_THREE_COUNT_ERROR.message
+                is FourToFourCount -> ErrorMessage.FOUR_TO_FOUR_COUNT_ERROR.message
+                is IsReverseTwoAndThree -> ErrorMessage.IS_RESERVE_TWO_AND_THREE_ERROR.message
+                is IsClearFourToFourCount -> ErrorMessage.IS_CLEAR_FOUR_TO_FOUR_COUNT_ERROR.message
+                else -> e.message
+            }
+
+        println(errorMessage)
     }
 }
