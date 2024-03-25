@@ -1,72 +1,69 @@
 package omok.view
 
-import omok.model.BlackStonePlayer
-import omok.model.Color
-import omok.model.WhiteStonePlayer
+import omok.model.Turn
 
 class OutputView {
     fun showGameStartHeader() {
         println(HEADER_GAME_START)
     }
 
-    fun showBoard(
-        blackPlayer: BlackStonePlayer,
-        whitePlayer: WhiteStonePlayer,
-    ) {
-        val board = MutableList(15) { MutableList(43) { "─" } }
+    fun showBoard(customBoard: Array<Array<Int>>) {
+        val board = generateBoardArray(customBoard)
 
-        for (i in 0 until 15) {
-            for (j in 0 until 43) {
-                if (i == 0 && j == 0) {
-                    board[i][j] = "└"
-                } else if (i == 14 && j == 42) {
-                    board[i][j] = "┐"
-                } else if (i == 0 && j == 42) {
-                    board[i][j] = "┘"
-                } else if (i == 14 && j == 0) {
-                    board[i][j] = "┌"
-                } else if (i == 0 && j % 3 == 0) {
-                    board[i][j] = "┴"
-                } else if (i == 14 && j % 3 == 0) {
-                    board[i][j] = "┬"
-                } else if (j == 0) {
-                    board[i][j] = "├"
-                } else if (j == 42) {
-                    board[i][j] = "┤"
-                } else if (j % 3 == 0) {
-                    board[i][j] = "┼"
-                }
-            }
-        }
-
-        // 검은 돌 위치 설정
-        for (stone in blackPlayer.getStones()) {
-            board[(stone.point.col)][(stone.point.row) * 3] = "●"
-        }
-
-        // 흰 돌 위치 설정
-        for (stone in whitePlayer.getStones()) {
-            board[(stone.point.col)][(stone.point.row) * 3] = "○"
-        }
-
-        for (row in 14 downTo 0) {
+        for (row in board.size - 1 downTo 0) {
             print("${(row + 1).toString().padStart(2)} ")
-            for (col in 0 until 43) {
+            for (col in 0 until board[row].size) {
                 print(board[row][col])
             }
             println()
         }
 
-        // 바둑판 상단의 알파벳 인덱스 출력
+        // 바둑판 하단의 알파벳 인덱스 출력
         println(ROW_INDEX)
     }
 
-    fun showGameResult(turn: Color) {
-        println("${if (turn == Color.WHITE) "백" else "흑"}의 승리입니다. 축하합니다.")
+    private fun generateBoardArray(customBoard: Array<Array<Int>>): Array<Array<String>> {
+        val minX = 0
+        val maxX = customBoard.size
+        val minY = 0
+        val maxY = maxX * 3 - 2
+
+        val board = Array(maxX) { Array(maxY) { "─" } }
+
+        for (i in customBoard.indices) {
+            for (j in 0 until customBoard[i].size) {
+                if (customBoard[i][j] == 1) board[j][i * 3] = "●"
+                if (customBoard[i][j] == 2) board[j][i * 3] = "○"
+            }
+        }
+
+        for (i in board.indices) {
+            for (j in 0 until board[i].size) {
+                if (board[i][j] == "●" || board[i][j] == "○") continue
+                when {
+                    i == minX && j == minY -> board[i][j] = "└"
+                    i == maxX - 1 && j == maxY - 1 -> board[i][j] = "┐"
+                    i == minX && j == maxY - 1 -> board[i][j] = "┘"
+                    i == maxX - 1 && j == minY -> board[i][j] = "┌"
+                    i == minX && j % 3 == 0 -> board[i][j] = "┴"
+                    i == maxX - 1 && j % 3 == 0 -> board[i][j] = "┬"
+                    j == minY -> board[i][j] = "├"
+                    j == maxY - 1 -> board[i][j] = "┤"
+                    j % 3 == 0 -> board[i][j] = "┼"
+                }
+            }
+        }
+
+        return board
+    }
+
+    fun showGameResult(turn: Turn) {
+        println(HEADER_WINNER_RESULT.format(if (turn.isWhite()) "백" else "흑"))
     }
 
     companion object {
         private const val HEADER_GAME_START = "오목 게임을 시작합니다"
         private const val ROW_INDEX = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
+        private const val HEADER_WINNER_RESULT = "%s의 승리입니다. 축하합니다."
     }
 }
