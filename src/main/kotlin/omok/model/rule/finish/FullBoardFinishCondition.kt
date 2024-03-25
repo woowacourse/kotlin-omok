@@ -1,4 +1,4 @@
-package omok.model.rule.winning
+package omok.model.rule.finish
 
 import omok.model.Board
 import omok.model.FinishType

@@ -8,7 +8,7 @@ import omok.model.Player
 import omok.model.Position
 import omok.model.Stone
 import omok.model.rule.ban.ForbiddenPlace
-import omok.model.rule.winning.FinishCondition
+import omok.model.rule.finish.FinishCondition
 import omok.view.InputView
 import omok.view.OutputView
 

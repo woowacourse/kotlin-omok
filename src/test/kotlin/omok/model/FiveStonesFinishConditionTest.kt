@@ -1,6 +1,6 @@
 package omok.model
 
-import omok.model.rule.winning.FiveStonesFinishCondition
+import omok.model.rule.finish.FiveStonesFinishCondition
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
