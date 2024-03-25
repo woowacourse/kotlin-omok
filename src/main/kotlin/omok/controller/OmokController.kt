@@ -27,25 +27,27 @@ class OmokController(
 
     fun startGame() {
         val board = initializedBoard()
-        val omokTurnAction =
-            object : OmokTurnAction {
-                override fun nextStonePosition(
-                    nowOrderStone: Stone,
-                    recentPosition: Position?,
-                ): Position {
-                    return inputView.readStonePosition(boardSize, nowOrderStone, recentPosition)
-                }
-
-                override fun onStonePlace(board: Board) {
-                    outputView.printBoard(board)
-                }
-            }
-        val winner = board.gameWinner(omokTurnAction, omokPlayers, winningCondition)
+        val winner = board.gameWinner(omokTurnAction(), omokPlayers, winningCondition)
         outputView.printWinner(winner.stone)
     }
 
     private fun initializedBoard(): Board {
         return Board(boardSize).apply { outputView.printInitialGuide(this) }
+    }
+
+    private fun omokTurnAction(): OmokTurnAction {
+        return object : OmokTurnAction {
+            override fun nextStonePosition(
+                nowOrderStone: Stone,
+                recentPosition: Position?,
+            ): Position {
+                return inputView.readStonePosition(boardSize, nowOrderStone, recentPosition)
+            }
+
+            override fun onStonePlace(board: Board) {
+                outputView.printBoard(board)
+            }
+        }
     }
 }
 
