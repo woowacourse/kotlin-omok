@@ -4,5 +4,8 @@ import omok.model.Board
 import omok.model.Position
 
 interface ForbiddenPlace {
-    fun availablePosition(board: Board, position: Position): Boolean
+    fun availablePosition(
+        board: Board,
+        position: Position,
+    ): Boolean
 }

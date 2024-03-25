@@ -8,15 +8,24 @@ import omok.model.rule.library.OverlineRule
 import omok.model.rule.library.ThreeThreeRule
 
 object RuleAdapter {
-    fun abideDoubleFourRule(board: Board, position: Position): Boolean {
+    fun abideDoubleFourRule(
+        board: Board,
+        position: Position,
+    ): Boolean {
         return FourFourRule.abide(board.convert(), position.convert())
     }
 
-    fun abideDoubleOpenThreeRule(board: Board, position: Position): Boolean {
+    fun abideDoubleOpenThreeRule(
+        board: Board,
+        position: Position,
+    ): Boolean {
         return ThreeThreeRule.abide(board.convert(), position.convert())
     }
 
-    fun abideOverLineRule(board: Board, position: Position): Boolean {
+    fun abideOverLineRule(
+        board: Board,
+        position: Position,
+    ): Boolean {
         return OverlineRule.abide(board.convert(), position.convert())
     }
 

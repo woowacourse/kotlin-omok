@@ -1,11 +1,15 @@
 package omok.model.rule.library
 
 object ThreeThreeRule : OmokRule() {
-    override fun abide(board: List<List<Int>>, position: Pair<Int, Int>): Boolean =
-        countOpenThrees(board, position) < 2
+    override fun abide(
+        board: List<List<Int>>,
+        position: Pair<Int, Int>,
+    ): Boolean = countOpenThrees(board, position) < 2
 
-    private fun countOpenThrees(board: List<List<Int>>, position: Pair<Int, Int>): Int =
-        directions.sumOf { direction -> checkOpenThree(board, position, direction) }
+    private fun countOpenThrees(
+        board: List<List<Int>>,
+        position: Pair<Int, Int>,
+    ): Int = directions.sumOf { direction -> checkOpenThree(board, position, direction) }
 
     private fun checkOpenThree(
         board: List<List<Int>>,

@@ -4,7 +4,10 @@ abstract class OmokRule(
     private val currentStone: Int = BLACK_STONE,
     val opponentStone: Int = WHITE_STONE,
 ) {
-    abstract fun abide(board: List<List<Int>>, position: Pair<Int, Int>): Boolean
+    abstract fun abide(
+        board: List<List<Int>>,
+        position: Pair<Int, Int>,
+    ): Boolean
 
     protected val directions = listOf(Pair(1, 0), Pair(1, 1), Pair(0, 1), Pair(1, -1))
 
@@ -57,13 +60,19 @@ abstract class OmokRule(
         return distance
     }
 
-    private fun willExceedBounds(x: Int, y: Int, dx: Int, dy: Int): Boolean = when {
-        dx > 0 && x == MAX_X -> true
-        dx < 0 && x == MIN_X -> true
-        dy > 0 && y == MAX_Y -> true
-        dy < 0 && y == MIN_Y -> true
-        else -> false
-    }
+    private fun willExceedBounds(
+        x: Int,
+        y: Int,
+        dx: Int,
+        dy: Int,
+    ): Boolean =
+        when {
+            dx > 0 && x == MAX_X -> true
+            dx < 0 && x == MIN_X -> true
+            dy > 0 && y == MAX_Y -> true
+            dy < 0 && y == MIN_Y -> true
+            else -> false
+        }
 
     companion object {
         protected const val EMPTY_STONE = 0
