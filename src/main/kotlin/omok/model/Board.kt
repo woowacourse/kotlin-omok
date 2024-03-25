@@ -18,7 +18,7 @@ class Board(
         get() = if (isEven(stones.size)) Black(_status) else White(_status)
 
     fun place(position: Position): GameResult? {
-        require(position !in stones.map { it.position }) { EXCEPTION_DUPLICATED_POSITION }
+        if (position in stones.map { it.position }) return null
         if (stones.size >= DISPLAY_BOARD_SIZE * DISPLAY_BOARD_SIZE) return GameResult.DRAW
         return turnState.getWinningResult(position, ::markSinglePlace, ::addSingleStone)
     }

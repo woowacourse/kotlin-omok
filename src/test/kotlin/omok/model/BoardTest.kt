@@ -2,11 +2,10 @@ package omok.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class BoardTest {
     @Test
-    fun `이미 돌이 있는 자리에 착수를 진행하면, 예외를 발생시킨다`() {
+    fun `이미 돌이 있는 자리에 착수를 진행하면, null을 반환시킨다`() {
         // given
         val stones =
             listOf(
@@ -14,9 +13,10 @@ class BoardTest {
                 Stone.White(Position(HorizontalCoordinate.TEN, VerticalCoordinate.C)),
             )
         val board = Board(stones)
-        assertThrows<IllegalArgumentException> {
-            board.place(Position(HorizontalCoordinate.ONE, VerticalCoordinate.A))
-        }
+        // when
+        val actualResult = board.place(Position(HorizontalCoordinate.ONE, VerticalCoordinate.A))
+        // then
+        assertThat(actualResult).isNull()
     }
 
     @Test
