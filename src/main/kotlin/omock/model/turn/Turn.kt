@@ -35,7 +35,7 @@ sealed class Turn {
         return Stone.from(row = row, column = column)
     }
 
-    abstract fun judgementResult(
+    abstract fun processTurn(
         stoneStates: List<List<Int>>,
         row: Int,
         column: Int,

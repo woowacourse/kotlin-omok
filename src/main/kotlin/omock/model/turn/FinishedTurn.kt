@@ -8,7 +8,7 @@ class FinishedTurn(
 ) : Turn() {
     override fun isFinished(): Boolean = true
 
-    override fun judgementResult(
+    override fun processTurn(
         stoneStates: List<List<Int>>,
         row: Int,
         column: Int,
