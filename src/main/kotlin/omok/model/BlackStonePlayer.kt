@@ -16,8 +16,7 @@ class BlackStonePlayer : Player() {
     }
 
     override fun add(stone: Stone) {
-        require(!rule.isInValid(stones, stone)) { "렌주룰을 어겼습니다." }
-
+        require(isValidPoint(stone.point)) { ERROR_INVALID_POINT }
         stones.add(stone)
     }
 
@@ -40,13 +39,7 @@ class BlackStonePlayer : Player() {
     }
 
     companion object {
-        val directions =
-            arrayOf(
-                Point(0, 1),
-                Point(1, 0),
-                Point(1, 1),
-                Point(-1, 1),
-            )
+        private const val ERROR_INVALID_POINT = "해당 자리에는 수를 둘 수 없습니다. 다른 위치에 수를 놓아주세요!"
         private val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
     }
 }
