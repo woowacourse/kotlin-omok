@@ -29,8 +29,8 @@ class OmokController(
     fun startGame() {
         val board = initializedBoard()
         val omokGame = OmokGame(board, omokPlayers)
-        val winner = omokGame.gameWinner(omokTurnAction(), winningCondition)
-        outputView.printWinner(winner)
+        val finishType = omokGame.gameResult(omokTurnAction(), winningCondition)
+        outputView.printResult(finishType)
     }
 
     private fun initializedBoard(): Board {

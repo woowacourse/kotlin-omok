@@ -82,7 +82,7 @@ class OutputView {
         println(boardSizeRange.joinToString(prefix = "    ", separator = "  ") { (it + 'A'.code).toChar().toString() })
     }
 
-    fun printWinner(finishType: FinishType) {
+    fun printResult(finishType: FinishType) {
         if (finishType == FinishType.DRAW) {
             println("무승부입니다.")
             return

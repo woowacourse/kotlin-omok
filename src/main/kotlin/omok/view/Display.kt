@@ -13,8 +13,8 @@ fun Position.output(boardSize: Int): String {
 
 fun String.toPosition(boardSize: Int): Position {
     require(isNotBlank()) { BLANK_MESSAGE }
-    require(substring(1, length).toIntOrNull() in 1..15) { INVALID_ROW_MESSAGE }
-    require(this[0] in 'A'..'O') { INVALID_COL_MESSAGE }
+    require(substring(1, length).toIntOrNull() in 1..boardSize) { INVALID_ROW_MESSAGE }
+    require(this[0] - 'A' + 1 in 1..boardSize) { INVALID_COL_MESSAGE }
 
     val row = boardSize - substring(1, length).toInt()
     val col = this[0] - 'A'

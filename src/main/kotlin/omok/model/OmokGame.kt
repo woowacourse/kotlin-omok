@@ -7,7 +7,7 @@ class OmokGame(
     private val board: Board,
     private val omokPlayers: OmokPlayers,
 ) {
-    fun gameWinner(
+    fun gameResult(
         omokTurnAction: OmokTurnAction,
         winningCondition: WinningCondition,
     ): FinishType {
