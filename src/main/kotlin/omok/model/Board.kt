@@ -3,17 +3,21 @@ package omok.model
 import omok.library.BlackStoneOmokRule
 
 class Board(private val boardSize: Int = BOARD_SIZE) : BoardInterface {
-    val layout: Array<Array<PositionType>> = Array(boardSize) { Array(boardSize) { PositionType.EMPTY } }
+    private var boardLayout = BoardLayout(boardSize)
     var lastCoordinate: Coordinate? = null
         private set
     private val blackStoneOmokRule: BlackStoneOmokRule = BlackStoneOmokRule
+
+    fun getBoardLayout(): Array<Array<PositionType>> {
+        return boardLayout.deepCopy()
+    }
 
     override fun placeStone(
         coordinate: Coordinate,
         positionType: PositionType,
     ) {
-        if (layout[coordinate.x][coordinate.y] == PositionType.EMPTY) {
-            layout[coordinate.x][coordinate.y] = positionType
+        if (boardLayout[coordinate.x, coordinate.y] == PositionType.EMPTY) {
+            boardLayout[coordinate.x, coordinate.y] = positionType
             lastCoordinate = coordinate
         } else {
             throw IllegalArgumentException(ERROR_INVALID_POSITION)
@@ -53,7 +57,7 @@ class Board(private val boardSize: Int = BOARD_SIZE) : BoardInterface {
             }
         }
         blockPositions.forEach {
-            layout[it.first][it.second] = PositionType.BLOCK
+            boardLayout[it.first, it.second] = PositionType.BLOCK
         }
     }
 
@@ -63,14 +67,17 @@ class Board(private val boardSize: Int = BOARD_SIZE) : BoardInterface {
         isThreeThree: (Int, Int, Array<Array<PositionType>>) -> Boolean,
         isFourFour: (Int, Int, Array<Array<PositionType>>) -> Boolean,
         isMoreThanFive: (Int, Int, Array<Array<PositionType>>) -> Boolean,
-    ) = (isThreeThree(i, j, layout) || isFourFour(i, j, layout) || isMoreThanFive(i, j, layout)) &&
-        layout[i][j] == PositionType.EMPTY
+    ) = (
+        isThreeThree(i, j, boardLayout.deepCopy()) ||
+            isFourFour(i, j, boardLayout.deepCopy()) ||
+            isMoreThanFive(i, j, boardLayout.deepCopy())
+    ) && boardLayout.isEmpty(i, j)
 
     private fun removeBlock() {
-        layout.forEach { row ->
-            row.forEachIndexed { index, stoneType ->
-                if (stoneType == PositionType.BLOCK) {
-                    row[index] = PositionType.EMPTY
+        for (x in 0 until boardSize) {
+            for (y in 0 until boardSize) {
+                if (boardLayout[x, y] == PositionType.BLOCK) {
+                    boardLayout[x, y] = PositionType.EMPTY
                 }
             }
         }

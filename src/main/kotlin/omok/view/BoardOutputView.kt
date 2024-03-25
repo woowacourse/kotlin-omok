@@ -34,7 +34,7 @@ object BoardOutputView : BoardOutput {
 
     override fun printBoard(board: Board) {
         val stringBuilder = StringBuilder(initialBoardLayout)
-        board.layout.forEachIndexed { rowIndex, row ->
+        board.getBoardLayout().forEachIndexed { rowIndex, row ->
             row.forEachIndexed { columnIndex, stoneType ->
                 val index = calculatePositionIndex(rowIndex, columnIndex)
                 getStoneSymbol(stoneType)?.apply {

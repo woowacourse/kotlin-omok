@@ -29,7 +29,7 @@ sealed class GameState(val board: Board) {
             val position = onCoordinate()
             board.placeStone(position, currentType())
 
-            if (omoRule().isOmok(position.x, position.y, board.layout)) return Finish(board)
+            if (omoRule().isOmok(position.x, position.y, board.getBoardLayout())) return Finish(board)
             return (nextTurn())
         }
 
