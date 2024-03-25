@@ -1,5 +1,7 @@
 package omok.model
 
+import omok.retryWhileNotException
+
 class Players(val whiteStonePlayer: WhiteStonePlayer, val blackStonePlayer: BlackStonePlayer) {
     private var _winner: Player? = null
     val winner: Player
@@ -20,7 +22,7 @@ class Players(val whiteStonePlayer: WhiteStonePlayer, val blackStonePlayer: Blac
     private fun playerTurn(
         currentPlayer: Player,
         putStone: (Player) -> Point,
-    ) {
+    ) = retryWhileNotException {
         val point = putStone.invoke(currentPlayer)
         currentPlayer.add(point)
         if (currentPlayer.checkContinuity()) {
