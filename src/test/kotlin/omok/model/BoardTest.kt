@@ -18,7 +18,7 @@ class BoardTest {
 
         board.putStone(point, BlackTurn(BlackRule()))
 
-        assertThat(board.table[8][3] == StoneType.BLACK).isTrue
+        assertThat(board.getBoardPoint(8, 3) == StoneType.BLACK).isTrue
     }
 
     @Test

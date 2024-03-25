@@ -31,7 +31,7 @@ interface RuleAdapter {
             }
         repeat(board.size) { y ->
             repeat(board.size) { x ->
-                table[y][x] = (convertStoneType(board.table[y][x]))
+                table[y][x] = (convertStoneType(board.getBoardPoint(y, x)))
             }
         }
         return table

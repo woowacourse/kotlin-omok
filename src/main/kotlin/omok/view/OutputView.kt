@@ -86,7 +86,7 @@ object OutputView {
         boardForm = generateBoardForm(board.size)
 
         repeat(board.size) {
-            println(boardForm[it].format(*generatePrintedLine(it, board.getPointStoneLine(it + 1)).toTypedArray()))
+            println(boardForm[it].format(*generatePrintedLine(it, board.getBoardLine(it + 1)).toTypedArray()))
         }
         println(boardForm.last())
     }
