@@ -1,6 +1,5 @@
 package omock.model.board
 
-import omock.model.stonestate.ColumnStates
 import omock.model.search.Direction
 import omock.model.search.DirectionResult
 import omock.model.search.Node
@@ -11,7 +10,7 @@ import omock.model.position.Row.Companion.MAX_ROW
 import omock.model.position.Row.Companion.MAX_ROW_INDEX
 import omock.model.position.Row.Companion.MIN_ROW_INDEX
 import omock.model.stone.Stone
-import omock.model.stonestate.Clear
+import omock.model.stonestate.unplaced.Clear
 import omock.model.stonestate.StoneState
 
 class Board(val stoneStates: List<ColumnStates>) {

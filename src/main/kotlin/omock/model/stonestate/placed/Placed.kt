@@ -1,7 +1,9 @@
-package omock.model.stonestate
+package omock.model.stonestate.placed
 
 import omock.model.stone.Stone
 import omock.model.player.Player
+import omock.model.stonestate.StoneState
+import omock.model.stonestate.unplaced.Clear
 
 abstract class Placed(private val stone: Stone) : StoneState {
     override fun put(player: Player): StoneState {

@@ -1,4 +1,4 @@
-package omock.model.stonestate
+package omock.model.board
 
 import omock.model.player.Player
 import omock.model.stonestate.StoneState
