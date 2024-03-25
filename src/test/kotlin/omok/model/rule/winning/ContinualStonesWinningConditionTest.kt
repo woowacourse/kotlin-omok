@@ -7,9 +7,9 @@ import omok.model.initBoard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class FiveStonesWinningConditionTest {
+class ContinualStonesWinningConditionTest {
     private val playerStone = Stone.BLACK
-    private val winningCondition = FiveStonesWinningCondition()
+    private val winningCondition = ContinualStonesWinningCondition(ContinualStones())
 
     @Test
     fun `오목이 되면 승리한다`() {
