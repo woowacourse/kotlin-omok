@@ -7,14 +7,14 @@ import omok.model.stone.StoneType
 class OutputView {
     fun printStartGameComment() = println(START_GAME_MESSAGE)
 
-    fun drawBoard(board: Board) {
+    fun drawBoard() {
         // 오목판 그리기
         for (row in UPPER_LENGTH downTo 0) {
             // 왼쪽 번호
             print("${(row + 1).toString().padStart(2)} ")
 
             // 이제 drawRow를 각 경우에 맞게 호출
-            printBoard(board, row)
+            printBoard(row)
         }
         printRowValue()
     }
@@ -28,21 +28,18 @@ class OutputView {
         }
     }
 
-    private fun printBoard(
-        board: Board,
-        row: Int,
-    ) {
+    private fun printBoard(row: Int) {
         when (row) {
             UPPER_LENGTH -> {
-                drawRow(board, row, "┌", "┬", "┐")
+                drawRow(row, "┌", "┬", "┐")
             }
 
             LOWER_ROW -> {
-                drawRow(board, row, "└", "┴", "┘")
+                drawRow(row, "└", "┴", "┘")
             }
 
             else -> {
-                drawRow(board, row, "├", "┼", "┤")
+                drawRow(row, "├", "┼", "┤")
             }
         }
     }
@@ -56,23 +53,21 @@ class OutputView {
     }
 
     private fun drawRow(
-        board: Board,
         row: Int,
         firstSymbol: String,
         middleSymbol: String,
         lastSymbol: String,
     ) {
-        printSymbol(board, row, firstSymbol)
+        printSymbol(row, firstSymbol)
         for (column in 1 until UPPER_LENGTH) {
             val stone = Board.getStoneType(row, column)
             print(if (stone == StoneType.NONE) "──$middleSymbol" else "──${stone.value()}")
         }
-        printLastSymbol(board, row, lastSymbol)
+        printLastSymbol(row, lastSymbol)
         println()
     }
 
     private fun printLastSymbol(
-        board: Board,
         row: Int,
         lastSymbol: String,
     ) {
@@ -85,7 +80,6 @@ class OutputView {
     }
 
     private fun printSymbol(
-        board: Board,
         row: Int,
         firstSymbol: String,
     ) {
