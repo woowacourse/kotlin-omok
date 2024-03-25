@@ -9,8 +9,12 @@ object Board {
     val board = Array(BOARD_SIZE) { Array(BOARD_SIZE) { StoneType.NONE } }
     lateinit var lastPosition: Position
 
-    fun getLastStonePosition(): Position? {
-        if (Board::lastPosition.isInitialized) return lastPosition
-        return null
-    }
+    fun getLastStonePosition(): Position? =
+        if (
+            Board::lastPosition.isInitialized
+        ) {
+            lastPosition
+        } else {
+            null
+        }
 }
