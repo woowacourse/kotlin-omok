@@ -2,21 +2,24 @@ package omok.model.rule.winning
 
 import omok.model.Board
 import omok.model.Direction
+import omok.model.FinishType
+import omok.model.Player
 import omok.model.Position
 
-class FiveStonesWinningCondition : WinningCondition {
-    override fun isWin(
+class FiveStonesFinishCondition : FinishCondition {
+    override fun finishType(
         board: Board,
         position: Position,
-    ): Boolean {
+        player: Player,
+    ): FinishType {
         Direction.biDirections().forEach { (direction1, direction2) ->
             var count = 1
             count += continualCount(board, position, direction1)
             count += continualCount(board, position, direction2)
 
-            if (count == WINNING_STONE_COUNT) return true
+            if (count == WINNING_STONE_COUNT) return FinishType.winning(board.findOrNull(position))
         }
-        return false
+        return FinishType.NOT_FINISH
     }
 
     private fun continualCount(

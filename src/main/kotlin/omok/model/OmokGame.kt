@@ -1,27 +1,24 @@
 package omok.model
 
 import omok.controller.retryUntilNotException
-import omok.model.rule.winning.WinningCondition
+import omok.model.rule.winning.FinishCondition
 
 class OmokGame(
     private val board: Board,
     private val omokPlayers: OmokPlayers,
+    private val finishConditions: List<FinishCondition>,
 ) {
-    fun gameResult(
-        omokTurnAction: OmokTurnAction,
-        winningCondition: WinningCondition,
-    ): FinishType {
+    fun gameResult(omokTurnAction: OmokTurnAction): FinishType {
         var recentPlayer = omokPlayers.firstOrderPlayer()
         var recentPosition: Position? = null
 
         while (true) {
             recentPosition = recentPosition.next(omokTurnAction, recentPlayer)
             omokTurnAction.onStonePlace(board)
-            if (winningCondition.isWin(board, recentPosition)) break
-            if (board.isFull()) return FinishType.DRAW
+            val finishType = finishType(board, recentPosition, recentPlayer)
+            if (finishType.isFinish()) return finishType
             recentPlayer = omokPlayers.next(recentPlayer)
         }
-        return omokPlayers.winningFinishType(recentPlayer)
     }
 
     private fun Position?.next(
@@ -33,5 +30,15 @@ class OmokGame(
             board.place(nextPosition, recentPlayer)
             nextPosition
         }
+    }
+
+    private fun finishType(
+        board: Board,
+        recentPosition: Position,
+        player: Player,
+    ): FinishType {
+        return finishConditions
+            .map { it.finishType(board, recentPosition, player) }
+            .minBy { it.ordinal }
     }
 }

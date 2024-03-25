@@ -24,6 +24,12 @@ class Board(
         return _board[position]
     }
 
+    fun emptyPosition(block: (Position) -> Boolean): Boolean {
+        return _board.all {
+            if (it.value == Stone.NONE) block(it.key) else true
+        }
+    }
+
     fun isFull(): Boolean {
         return _board.all { it.value != Stone.NONE }
     }

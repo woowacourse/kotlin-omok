@@ -1,12 +1,13 @@
 package omok.model
 
-import omok.model.rule.winning.FiveStonesWinningCondition
+import omok.model.rule.winning.FiveStonesFinishCondition
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class FiveStonesWinningConditionTest {
+class FiveStonesFinishConditionTest {
+    private val player = Player(Stone.BLACK)
     private val playerStone = Stone.BLACK
-    private val winningCondition = FiveStonesWinningCondition()
+    private val winningCondition = FiveStonesFinishCondition()
 
     @Test
     fun `오목이 되면 승리한다`() {
@@ -21,10 +22,10 @@ class FiveStonesWinningConditionTest {
             )
 
         // when
-        val actual = winningCondition.isWin(board, Position(3, 7))
+        val actual = winningCondition.finishType(board, Position(3, 7), player)
 
         // then
-        assertThat(actual).isTrue
+        assertThat(actual).isEqualTo(FinishType.BLACK_PLAYER_WIN)
     }
 
     @Test
@@ -40,9 +41,9 @@ class FiveStonesWinningConditionTest {
             )
 
         // when
-        val actual = winningCondition.isWin(board, Position(1, 3))
+        val actual = winningCondition.finishType(board, Position(1, 3), player)
 
         // then
-        assertThat(actual).isFalse
+        assertThat(actual).isEqualTo(FinishType.NOT_FINISH)
     }
 }

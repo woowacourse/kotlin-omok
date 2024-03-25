@@ -8,7 +8,7 @@ import omok.model.Player
 import omok.model.Position
 import omok.model.Stone
 import omok.model.rule.ban.ForbiddenPlace
-import omok.model.rule.winning.WinningCondition
+import omok.model.rule.winning.FinishCondition
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -16,7 +16,7 @@ class OmokController(
     private val inputView: InputView,
     private val outputView: OutputView,
     private val boardSize: Int,
-    private val winningCondition: WinningCondition,
+    private val finishConditions: List<FinishCondition>,
     blackStoneForbiddenPlaces: List<ForbiddenPlace>,
     whiteStoneForbiddenPlaces: List<ForbiddenPlace>,
 ) {
@@ -28,8 +28,8 @@ class OmokController(
 
     fun startGame() {
         val board = initializedBoard()
-        val omokGame = OmokGame(board, omokPlayers)
-        val finishType = omokGame.gameResult(omokTurnAction(), winningCondition)
+        val omokGame = OmokGame(board, omokPlayers, finishConditions)
+        val finishType = omokGame.gameResult(omokTurnAction())
         outputView.printResult(finishType)
     }
 
