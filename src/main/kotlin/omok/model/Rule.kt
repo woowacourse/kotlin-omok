@@ -48,13 +48,6 @@ interface Rule {
 
 object BlackRule : Rule {
     override fun checkCount(count: Int): Boolean = count == Rule.WINNING_COUNT
-
-    fun isForbidden(
-        board: List<List<StoneType>>,
-        stone: Stone,
-    ): Boolean {
-        return RenjuRule.isForbidden(board, stone)
-    }
 }
 
 object WhiteRule : Rule {

@@ -8,6 +8,10 @@ class Board {
             MutableList(BOARD_SIZE) { StoneType.EMPTY }
         }
 
+    fun isForbidden(stone: Stone): Boolean {
+        return RenjuRuleAdaptor.isForbidden(this, stone)
+    }
+
     fun putStone(stone: Stone) {
         _board[stone.point.y][stone.point.x] = stone.type
     }

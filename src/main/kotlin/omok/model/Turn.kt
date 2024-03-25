@@ -15,7 +15,7 @@ class BlackTurn(override val before: Stone? = null) : Turn {
         board: Board,
     ): Turn {
         val stone = Stone(StoneType.BLACK, point)
-        if (BlackRule.isForbidden(board.board, stone)) return this
+        if (board.isForbidden(stone)) return this
         board.putStone(stone)
         if (BlackRule.isWinCondition(board.board, stone)) return FinishedTurn(stone)
         return WhiteTurn(stone)
