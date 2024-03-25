@@ -3,7 +3,6 @@ package omok.model
 import java.lang.IllegalStateException
 
 class BlackStonePlayer(override val board: Board) : Player() {
-
     override val color: Color = Color.BLACK
 
     init {

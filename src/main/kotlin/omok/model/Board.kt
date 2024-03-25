@@ -8,9 +8,11 @@ class Board {
     }
 
     fun checkDuplicate(stone: Stone) {
-        require(stonesBundle.none { stones ->
-            stones.stones.any { it.point == stone.point }
-        }) { "중복된 위치입니다." }
+        require(
+            stonesBundle.none { stones ->
+                stones.stones.any { it.point == stone.point }
+            },
+        ) { "중복된 위치입니다." }
     }
 
     companion object {
