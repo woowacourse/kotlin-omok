@@ -11,14 +11,14 @@ abstract class OmokRule(
     protected val yEdge = listOf(MIN_Y, maxY)
 
     abstract fun validate(
-        board: List<List<Int>>,
+        board: Array<Array<Int>>,
         position: Pair<Int, Int>,
     ): Boolean
 
     protected val directions = listOf(Pair(1, 0), Pair(1, 1), Pair(0, 1), Pair(1, -1))
 
     protected fun search(
-        board: List<List<Int>>,
+        board: Array<Array<Int>>,
         position: Pair<Int, Int>,
         direction: Pair<Int, Int>,
     ): Pair<Int, Int> {
@@ -49,7 +49,7 @@ abstract class OmokRule(
     }
 
     protected fun countToWall(
-        board: List<List<Int>>,
+        board: Array<Array<Int>>,
         position: Pair<Int, Int>,
         direction: Pair<Int, Int>,
     ): Int {
