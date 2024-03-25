@@ -49,18 +49,4 @@ class RenjuRuleAdapter : Rule {
             Pair(stone.point.row, stone.point.col),
         )
     }
-
-    private fun generateCustomBoard(stones: Stones): List<List<Int>> {
-        val libraryBoard =
-            List(Board.getSize()) {
-                MutableList(Board.getSize()) { 0 }
-            }
-        stones.stones.forEach {
-            when (it.color) {
-                Color.BLACK -> libraryBoard[it.point.col][it.point.row] = 1
-                Color.WHITE -> libraryBoard[it.point.col][it.point.row] = 2
-            }
-        }
-        return libraryBoard
-    }
 }
