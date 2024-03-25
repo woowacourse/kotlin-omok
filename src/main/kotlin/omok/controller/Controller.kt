@@ -33,7 +33,8 @@ class Controller {
         runCatching {
             val point = InputView.readPoint()
             if (point in board) {
-                throw IllegalArgumentException()
+                OutputView.printInvalidPointInputMessage()
+                return getPoint(board, turn)
             }
             return point
         }.onFailure {
