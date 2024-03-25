@@ -1,18 +1,9 @@
 package omok.model.position
 
-import omok.model.rule.ExceedFiveChecker
-import omok.model.rule.FourFourChecker
-import omok.model.rule.ThreeThreeChecker
-
 data class Position(val row: Int, val column: Int) {
     init {
         validPosition(row, column)
     }
-
-    fun checkRenjuRule(): Boolean =
-        ThreeThreeChecker.checkThreeThree(row, column) ||
-            FourFourChecker.checkFourFour(row, column) ||
-            ExceedFiveChecker.checkMoreThanFive(row, column)
 
     fun convert() = "${START_ROW_VALUE + row}${COLUMN_OFFSET + column}"
 

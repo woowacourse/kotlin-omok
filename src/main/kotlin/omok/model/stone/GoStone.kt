@@ -24,7 +24,7 @@ sealed class GoStone {
         }
 
     private fun validatePosition(position: Position) {
-        require(!position.checkRenjuRule()) { EXCEPTION_FORBIDDEN_MOVE }
+        require(!Board.checkRenjuRule(position.row, position.column)) { EXCEPTION_FORBIDDEN_MOVE }
         require(Board.getStoneType(position.column, position.row) == StoneType.NONE) { EXCEPTION_PLACED_STONE_POSITION }
     }
 

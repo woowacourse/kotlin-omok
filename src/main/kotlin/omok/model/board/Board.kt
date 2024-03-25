@@ -1,6 +1,7 @@
 package omok.model.board
 
 import omok.model.position.Position
+import omok.model.rule.RenjuRuleAdapter
 import omok.model.stone.StoneType
 
 object Board {
@@ -16,6 +17,11 @@ object Board {
     ) {
         board[row][column] = stoneType
     }
+
+    fun checkRenjuRule(
+        row: Int,
+        column: Int,
+    ): Boolean = RenjuRuleAdapter.checkRenjuRule(board, row, column)
 
     fun changeLstStonePosition(position: Position) {
         lastPosition = position

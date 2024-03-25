@@ -1,5 +1,6 @@
 package omok.model.rule
 
+import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.resetBoard
 import omok.model.stone.BlackStone
@@ -43,19 +44,19 @@ class FourFourCheckerTest {
         whiteStone.putStone(Position.of('D', 5))
         whiteStone.putStone(Position.of('H', 9))
 
-        val actual1 = FourFourChecker.checkFourFour(2, 7)
+        val actual1 = Board.checkRenjuRule(2, 7)
         assertThat(actual1).isEqualTo(true)
 
-        val actual2 = FourFourChecker.checkFourFour(5, 11)
+        val actual2 = Board.checkRenjuRule(5, 11)
         assertThat(actual2).isEqualTo(true)
 
-        val actual3 = FourFourChecker.checkFourFour(7, 4)
+        val actual3 = Board.checkRenjuRule(7, 4)
         assertThat(actual3).isEqualTo(true)
 
-        val actual4 = FourFourChecker.checkFourFour(8, 7)
+        val actual4 = Board.checkRenjuRule(8, 7)
         assertThat(actual4).isEqualTo(true)
 
-        val actual5 = FourFourChecker.checkFourFour(9, 9)
+        val actual5 = Board.checkRenjuRule(9, 9)
         assertThat(actual5).isEqualTo(true)
     }
 }

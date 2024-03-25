@@ -6,6 +6,7 @@ import omok.model.position.RelativeDirection
 import omok.model.stone.StoneType
 
 object OmokChecker {
+    private const val DEFAULT_COUNT = 0
     private const val DEFAULT_STONE_COUNT = 1
     private const val OMOK_PRECONDITION = 5
 
@@ -35,7 +36,7 @@ object OmokChecker {
         relativeDirection: RelativeDirection,
         stoneType: StoneType,
     ): Int {
-        var sameStoneCount = 0
+        var sameStoneCount = DEFAULT_COUNT
         var row = lastPosition.row + relativeDirection.relativeRowDirection
         var column = lastPosition.column + relativeDirection.relativeColumnDirection
 
