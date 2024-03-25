@@ -1,20 +1,25 @@
 package omok.model
 
-fun initBoard(vararg stonePosition: StonePosition): Board {
+fun initBoard(
+    vararg stonePositions: StonePosition,
+    size: Int = 15,
+): Board {
     val board =
-        (0..14).flatMap { row ->
-            (0..14).map { col -> Position(row, col) }
+        boardSizeRange(size).flatMap { row ->
+            boardSizeRange(size).map { col -> Position(row, col) }
         }.associateWith { Stone.NONE }
             .toMutableMap()
 
     board.forEach { (position, _) ->
-        stonePosition.forEach {
+        stonePositions.forEach {
             if (position == it.position) {
                 board[position] = it.stone
             }
         }
     }
-    return Board(15, board)
+    return Board(size, board)
 }
+
+private fun boardSizeRange(size: Int) = 0..<size
 
 data class StonePosition(val position: Position, val stone: Stone)
