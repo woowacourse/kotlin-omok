@@ -1,5 +1,6 @@
 package omok.model
 
+import omok.model.rule.ContinualStonesStandard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -11,7 +12,7 @@ class ContinualStonesConditionTest {
         val exact = ContinualStonesCondition.EXACT
         val standardContinualCount = 5
         val actualContinualCount = 5
-        assertThat(exact.map(actualContinualCount, standardContinualCount)).isTrue
+        assertThat(exact.map(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isTrue
     }
 
     @Test
@@ -19,7 +20,7 @@ class ContinualStonesConditionTest {
         val exact = ContinualStonesCondition.EXACT
         val standardContinualCount = 5
         val actualContinualCount = 4
-        assertThat(exact.map(actualContinualCount, standardContinualCount)).isFalse
+        assertThat(exact.map(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isFalse
     }
 
     @ParameterizedTest
@@ -27,7 +28,7 @@ class ContinualStonesConditionTest {
     fun `CAN_OVERLINE 일 때, 연속 돌의 숫자가 기준보다 크거나 같으면 참이다`(actualContinualCount: Int) {
         val canOverline = ContinualStonesCondition.CAN_OVERLINE
         val standardContinualCount = 5
-        assertThat(canOverline.map(actualContinualCount, standardContinualCount)).isTrue
+        assertThat(canOverline.map(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isTrue
     }
 
     @Test
@@ -35,6 +36,6 @@ class ContinualStonesConditionTest {
         val canOverline = ContinualStonesCondition.CAN_OVERLINE
         val standardContinualCount = 5
         val actualContinualCount = 4
-        assertThat(canOverline.map(actualContinualCount, standardContinualCount)).isFalse
+        assertThat(canOverline.map(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isFalse
     }
 }

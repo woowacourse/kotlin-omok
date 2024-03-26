@@ -4,13 +4,14 @@ import omok.model.Position
 import omok.model.Stone
 import omok.model.StonePosition
 import omok.model.initBoard
+import omok.model.rule.ContinualStonesStandard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class OverlineForbiddenPlaceTest {
     @Test
     fun `승리 조건이 오목일 때, 돌을 두려는 위치로 육목 이상이 되면 놓을 수 없다`() {
-        val forbiddenPlace = OverlineForbiddenPlace(5)
+        val forbiddenPlace = OverlineForbiddenPlace(ContinualStonesStandard(5))
 
         val board =
             initBoard(
@@ -29,7 +30,7 @@ class OverlineForbiddenPlaceTest {
 
     @Test
     fun `승리 조건이 사목일 때, 돌을 두려는 위치로 오목 이상이 되면 놓을 수 없다`() {
-        val forbiddenPlace = OverlineForbiddenPlace(4)
+        val forbiddenPlace = OverlineForbiddenPlace(ContinualStonesStandard(4))
 
         val board =
             initBoard(

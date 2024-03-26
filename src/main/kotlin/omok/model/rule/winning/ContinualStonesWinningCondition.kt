@@ -3,9 +3,10 @@ package omok.model.rule.winning
 import omok.model.Board
 import omok.model.ContinualStonesCondition
 import omok.model.Position
+import omok.model.rule.ContinualStonesStandard
 
 class ContinualStonesWinningCondition(
-    private val continualStonesStandard: Int,
+    val continualStonesStandard: ContinualStonesStandard,
     private val continualStonesCondition: ContinualStonesCondition,
 ) : WinningCondition {
     override fun isWin(

@@ -1,5 +1,6 @@
 package omok.model
 
+import omok.model.rule.ContinualStonesStandard
 import omok.model.rule.ban.DoubleFourForbiddenPlace
 import omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
 import omok.model.rule.ban.OverlineForbiddenPlace
@@ -13,7 +14,7 @@ class PlayerTest {
             listOf(
                 DoubleFourForbiddenPlace(),
                 DoubleOpenThreeForbiddenPlace(),
-                OverlineForbiddenPlace(5),
+                OverlineForbiddenPlace(ContinualStonesStandard(5)),
             ),
         )
     private val whiteStonePlayer = Player(Stone.WHITE)

@@ -2,6 +2,7 @@ package omok
 
 import omok.controller.OmokController
 import omok.model.ContinualStonesCondition
+import omok.model.rule.ContinualStonesStandard
 import omok.model.rule.ban.DoubleFourForbiddenPlace
 import omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
 import omok.model.rule.ban.OverlineForbiddenPlace
@@ -15,7 +16,7 @@ fun main() {
         OutputView(),
         winningCondition =
             ContinualStonesWinningCondition(
-                continualStonesStandard = 5,
+                continualStonesStandard = ContinualStonesStandard(5),
                 continualStonesCondition = ContinualStonesCondition.EXACT,
             ),
         blackStoneForbiddenPlaces =
@@ -23,7 +24,7 @@ fun main() {
                 DoubleFourForbiddenPlace(),
                 DoubleOpenThreeForbiddenPlace(),
                 OverlineForbiddenPlace(
-                    continualStonesStandard = 5,
+                    continualStonesStandard = ContinualStonesStandard(5),
                 ),
             ),
         whiteStoneForbiddenPlaces = listOf(),

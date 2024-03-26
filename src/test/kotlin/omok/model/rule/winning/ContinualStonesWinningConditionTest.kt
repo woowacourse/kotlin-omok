@@ -5,6 +5,7 @@ import omok.model.Position
 import omok.model.Stone
 import omok.model.StonePosition
 import omok.model.initBoard
+import omok.model.rule.ContinualStonesStandard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -17,7 +18,7 @@ class ContinualStonesWinningConditionTest {
         val playerStone = Stone.valueOf(stoneName)
         val winningCondition =
             ContinualStonesWinningCondition(
-                continualStonesStandard = 5,
+                continualStonesStandard = ContinualStonesStandard(5),
                 continualStonesCondition = ContinualStonesCondition.EXACT,
             )
 
@@ -44,7 +45,7 @@ class ContinualStonesWinningConditionTest {
         val playerStone = Stone.valueOf(stoneName)
         val winningCondition =
             ContinualStonesWinningCondition(
-                continualStonesStandard = 5,
+                continualStonesStandard = ContinualStonesStandard(5),
                 continualStonesCondition = ContinualStonesCondition.EXACT,
             )
 
