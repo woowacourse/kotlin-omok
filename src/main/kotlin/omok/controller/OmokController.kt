@@ -2,8 +2,10 @@ package omok.controller
 
 import omok.model.Board
 import omok.model.Player
+import omok.model.Player2
 import omok.model.Position
 import omok.model.Stone
+import omok.model.rule.GamePlayingRules
 import omok.model.rule.ban.ForbiddenPlace
 import omok.model.rule.winning.WinningCondition
 import omok.view.InputView
@@ -63,4 +65,50 @@ fun <T> retryUntilNotException(block: () -> (T)): T {
         println(e.localizedMessage)
         retryUntilNotException(block)
     }
+}
+
+class OmokController2(
+    private val inputView: InputView,
+    private val outputView: OutputView,
+    blackStoneGamePlayingRules: GamePlayingRules,
+    whiteStoneGamePlayingRules: GamePlayingRules,
+) {
+    private val blackStonePlayer = Player2(Stone.BLACK, blackStoneGamePlayingRules)
+    private val whiteStonePlayer = Player2(Stone.WHITE, whiteStoneGamePlayingRules)
+
+    fun startGame() {
+        val board = initializedBoard()
+        val winner = gameWinner(board)
+        outputView.printWinner(winner.stone)
+    }
+
+    private fun initializedBoard(): Board {
+        return Board().apply { outputView.printInitialGuide(this) }
+    }
+
+    private fun gameWinner(board: Board): Player2 {
+        var recentPlayer = blackStonePlayer
+        var recentPosition: Position? = null
+
+        while (true) {
+            recentPosition = recentPosition.next(board, recentPlayer)
+            outputView.printBoard(board)
+            if (recentPlayer.isWin(board, recentPosition)) break
+            recentPlayer = recentPlayer.next()
+        }
+        return recentPlayer
+    }
+
+    private fun Position?.next(
+        board: Board,
+        recentPlayer: Player2,
+    ): Position {
+        return retryUntilNotException {
+            val nextPosition = inputView.readStonePosition(recentPlayer.stone, this)
+            board.place(nextPosition, recentPlayer)
+            nextPosition
+        }
+    }
+
+    private fun Player2.next() = if (stone == Stone.BLACK) whiteStonePlayer else blackStonePlayer
 }

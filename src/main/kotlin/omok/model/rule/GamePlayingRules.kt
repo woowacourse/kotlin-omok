@@ -7,7 +7,7 @@ import omok.model.rule.ban.OverlineForbiddenPlace2
 import omok.model.rule.winning.ContinualStonesWinningCondition
 
 class GamePlayingRules private constructor(
-    continualStonesWinningCondition: ContinualStonesWinningCondition,
+    private val continualStonesWinningCondition: ContinualStonesWinningCondition,
     private val forbiddenPlaces: ForbiddenPlaces,
 ) {
     init {
@@ -25,6 +25,11 @@ class GamePlayingRules private constructor(
         if (forbiddenPlaces.list.isEmpty()) return true
         return forbiddenPlaces.list.all { it.availablePosition(board, position) }
     }
+
+    fun isWin(
+        board: Board,
+        position: Position,
+    ): Boolean = continualStonesWinningCondition.isWin(board, position)
 
     companion object {
         fun from(
