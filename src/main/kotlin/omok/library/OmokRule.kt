@@ -10,12 +10,12 @@ abstract class OmokRule(
     protected val xEdge = listOf(MIN_X, maxX)
     protected val yEdge = listOf(MIN_Y, maxY)
 
+    protected val directions = listOf(Pair(1, 0), Pair(1, 1), Pair(0, 1), Pair(1, -1))
+
     abstract fun validate(
         board: List<List<Int>>,
         position: Pair<Int, Int>,
     ): Boolean
-
-    protected val directions = listOf(Pair(1, 0), Pair(1, 1), Pair(0, 1), Pair(1, -1))
 
     protected fun search(
         board: List<List<Int>>,
@@ -24,28 +24,49 @@ abstract class OmokRule(
     ): Pair<Int, Int> {
         var (x, y) = position
         val (dx, dy) = direction
-        var stone = 0
-        var blink = 0
-        var blinkCount = 0
-        while (willExceedBounds(x, y, dx, dy).not()) {
+        var stone = INIT_COUNT
+        var blink = INIT_COUNT
+        var blinkCount = INIT_COUNT
+        var isDone = false
+        while (willExceedBounds(x, y, dx, dy).not() && !isDone) {
             x += dx
             y += dy
-            when (board[y][x]) {
-                currentStone -> {
-                    stone++
-                    blink = blinkCount
-                }
-
-                opponentStone -> break
-                EMPTY_STONE -> {
-                    if (blink == 1) break
-                    if (blinkCount++ == 1) break
-                }
-
-                else -> throw IllegalArgumentException("스톤 케이스를 에러")
-            }
+            val triple = result(board, y, x, stone, blink, blinkCount, isDone)
+            blink = triple.first
+            isDone = triple.second
+            stone = triple.third
         }
         return Pair(stone, blink)
+    }
+
+    private fun result(
+        board: List<List<Int>>,
+        y: Int,
+        x: Int,
+        stone: Int,
+        blink: Int,
+        blinkCount: Int,
+        isDone: Boolean,
+    ): Triple<Int, Boolean, Int> {
+        var stone1 = stone
+        var blink1 = blink
+        var blinkCount1 = blinkCount
+        var isDone1 = isDone
+        when (board[y][x]) {
+            currentStone -> {
+                stone1++
+                blink1 = blinkCount1
+            }
+
+            opponentStone -> isDone1 = true
+            EMPTY_STONE -> {
+                if (blink1 == BLANK_ALLOWANCE) isDone1 = true
+                if (blinkCount1++ == BLANK_ALLOWANCE) isDone1 = true
+            }
+
+            else -> throw IllegalArgumentException("스톤 케이스를 에러")
+        }
+        return Triple(blink1, isDone1, stone1)
     }
 
     protected fun countToWall(
@@ -55,7 +76,7 @@ abstract class OmokRule(
     ): Int {
         var (x, y) = position
         val (dx, dy) = direction
-        var distance = 0
+        var distance = INIT_COUNT
         while (willExceedBounds(x, y, dx, dy).not()) {
             x += dx
             y += dy
@@ -75,10 +96,10 @@ abstract class OmokRule(
         dy: Int,
     ): Boolean =
         when {
-            dx > 0 && x == maxX -> true
-            dx < 0 && x == MIN_X -> true
-            dy > 0 && y == maxY -> true
-            dy < 0 && y == MIN_Y -> true
+            dx > BOUND_CONDITION && x == maxX -> true
+            dx < BOUND_CONDITION && x == MIN_X -> true
+            dy > BOUND_CONDITION && y == maxY -> true
+            dy < BOUND_CONDITION && y == MIN_Y -> true
             else -> false
         }
 
@@ -88,5 +109,8 @@ abstract class OmokRule(
         const val WHITE_STONE = 2
         const val MIN_X = 0
         const val MIN_Y = 0
+        const val INIT_COUNT = 0
+        const val BLANK_ALLOWANCE = 1
+        const val BOUND_CONDITION = 0
     }
 }

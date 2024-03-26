@@ -4,7 +4,7 @@ class ThreeThreeRule(boardSize: Int) : OmokRule(boardSize) {
     override fun validate(
         board: List<List<Int>>,
         position: Pair<Int, Int>,
-    ): Boolean = countOpenThrees(board, position) >= 2
+    ): Boolean = countOpenThrees(board, position) >= VALID_CONDITION
 
     private fun countOpenThrees(
         board: List<List<Int>>,
@@ -22,27 +22,37 @@ class ThreeThreeRule(boardSize: Int) : OmokRule(boardSize) {
         val (stone1, blink1) = search(board, position, oppositeDirection)
         val (stone2, blink2) = search(board, position, direction)
         val leftDown = stone1 + blink1
-        val left = dx * (leftDown + 1)
-        val down = dy * (leftDown + 1)
+        val left = dx * (leftDown + GO_NEXT)
+        val down = dy * (leftDown + GO_NEXT)
         val rightUp = stone2 + blink2
-        val right = dx * (rightUp + 1)
-        val up = dy * (rightUp + 1)
+        val right = dx * (rightUp + GO_NEXT)
+        val up = dy * (rightUp + GO_NEXT)
         return when {
-            stone1 + stone2 != 2 -> 0
-            blink1 + blink2 == 2 -> 0
-            dx != 0 && x - dx * leftDown in xEdge -> 0
-            dy != 0 && y - dy * leftDown in yEdge -> 0
-            dx != 0 && x + dx * rightUp in xEdge -> 0
-            dy != 0 && y + dy * rightUp in yEdge -> 0
-            board[y - down][x - left] == WHITE_STONE -> 0
-            board[y + up][x + right] == WHITE_STONE -> 0
+            stone1 + stone2 != CONTINUOUS_STONE -> NO_OPEN_THREE
+            blink1 + blink2 == CONTINUOUS_STONE -> NO_OPEN_THREE
+            dx != NO_DIRECTION && x - dx * leftDown in xEdge -> NO_OPEN_THREE
+            dy != NO_DIRECTION && y - dy * leftDown in yEdge -> NO_OPEN_THREE
+            dx != NO_DIRECTION && x + dx * rightUp in xEdge -> NO_OPEN_THREE
+            dy != NO_DIRECTION && y + dy * rightUp in yEdge -> NO_OPEN_THREE
+            board[y - down][x - left] == WHITE_STONE -> NO_OPEN_THREE
+            board[y + up][x + right] == WHITE_STONE -> NO_OPEN_THREE
             countToWall(board, position, oppositeDirection) +
                 countToWall(
                     board,
                     position,
                     direction,
-                ) <= 5 -> 0
-            else -> 1
+                ) <= WIN_CONDITION -> NO_OPEN_THREE
+            else -> YES_OPEN_THREE
         }
+    }
+
+    companion object {
+        const val NO_DIRECTION = 0
+        const val GO_NEXT = 1
+        const val NO_OPEN_THREE = 0
+        const val YES_OPEN_THREE = 1
+        const val CONTINUOUS_STONE = 2
+        const val WIN_CONDITION = 5
+        const val VALID_CONDITION = 2
     }
 }
