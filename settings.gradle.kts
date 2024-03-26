@@ -14,4 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "kotlin-omok"
 include(":app")
-include(":domain")
