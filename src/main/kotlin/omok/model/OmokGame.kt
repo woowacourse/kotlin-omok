@@ -1,7 +1,6 @@
 package omok.model
 
 class OmokGame(
-    val player: Pair<Player, Player>,
     val board: Board,
 ) {
     private var currentState: State = State.Running
@@ -10,16 +9,14 @@ class OmokGame(
         return currentState == State.Running
     }
 
-    private fun changeState() {
-        if (getWinnerColor() != null) {
-            currentState = State.Finished
+    private fun canFindOmokPlayer(player: Player) {
+        if (player.isWin) {
+            changeState()
         }
     }
 
-    private fun getWinnerColor(): Color? {
-        if (player.first.isWin) return player.first.color
-        if (player.second.isWin) return player.second.color
-        return null
+    private fun changeState() {
+        currentState = State.Finished
     }
 
     fun playTurn(
@@ -31,7 +28,7 @@ class OmokGame(
                 board,
                 coordinate,
             )
-        changeState()
+        canFindOmokPlayer(player)
         return isPutStone
     }
 }

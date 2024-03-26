@@ -17,7 +17,7 @@ class OmokGameTest {
 
     @Test
     fun `현재 오목 게임이 진행중인 상태라면 true를 반환한다`() {
-        val omokGame = OmokGame(players, board)
+        val omokGame = OmokGame(board)
 
         val expected = omokGame.isRunning()
 
@@ -26,7 +26,7 @@ class OmokGameTest {
 
     @Test
     fun `플레이어가 착수 할 수 있는 위치에 돌을 놓았다면 true를 반환한다`() {
-        val omokGame = OmokGame(players, board)
+        val omokGame = OmokGame(board)
 
         val isPutStone = omokGame.playTurn(players.first, COORDINATE_F4)
 
@@ -36,7 +36,7 @@ class OmokGameTest {
     // 이미 돌이 놓여진 자리에 돌을 넣는 경우
     @Test
     fun `플레이어가 착수 할 수 없는 위치에 돌을 놓았다면 false 반환한다`() {
-        val omokGame = OmokGame(players, board)
+        val omokGame = OmokGame(board)
 
         val isPutStone = omokGame.playTurn(players.first, COORDINATE_F10)
 
@@ -45,7 +45,7 @@ class OmokGameTest {
 
     @Test
     fun `플레이어턴에 오목을 만들었다면 게임의 상태가 finish로 바뀌어야 한다`() {
-        val omokGame = OmokGame(players, board)
+        val omokGame = OmokGame(board)
 
         omokGame.playTurn(players.first, COORDINATE_F13)
         val expected = omokGame.isRunning()

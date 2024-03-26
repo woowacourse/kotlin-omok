@@ -21,7 +21,7 @@ class OmokController {
         players: Pair<Player, Player>,
         board: Board,
     ) {
-        val omokGame = OmokGame(players, board)
+        val omokGame = OmokGame(board)
         while (omokGame.isRunning()) {
             for (player in players.toList()) {
                 OutputView.printTurnName(player.color)
