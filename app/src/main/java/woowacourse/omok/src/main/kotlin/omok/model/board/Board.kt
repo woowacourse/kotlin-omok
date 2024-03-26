@@ -51,4 +51,12 @@ object Board {
         row: Int,
         column: Int,
     ) = board[row][column]
+
+    fun resetBoard() {
+        repeat(BOARD_SIZE) { row ->
+            repeat(BOARD_SIZE) { col ->
+                putStone(row, col, StoneType.NONE)
+            }
+        }
+    }
 }
