@@ -4,20 +4,25 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import omok.model.Board
+import omok.model.rule.RenjuRule
+import omok.model.state.BlackTurn
+import omok.model.state.GameState
 
 class MainActivity : AppCompatActivity() {
+    private var state: GameState = BlackTurn(RenjuRule, Board(emptyMap()))
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         initView()
     }
 
     private fun initView() {
-        val boardView = makeBoardView()
-        initBoardView(boardView)
+        setContentView(R.layout.activity_main)
+        val board = makeBoardView()
+        initBoardView(board)
     }
 
     private fun makeBoardView() =
@@ -30,10 +35,13 @@ class MainActivity : AppCompatActivity() {
     private fun initBoardView(boardView: Sequence<ImageView>) {
         boardView.forEachIndexed { index, view ->
             view.setOnClickListener {
-                val position = indexToPosition(index)
-                Toast.makeText(this, "$position", Toast.LENGTH_SHORT).show()
-                view.setImageResource(R.drawable.black_stone)
+                onPlace(index)
             }
         }
+    }
+
+    private fun onPlace(index: Int) {
+        val position = indexToPosition(index)
+        state = state.put(position)
     }
 }
