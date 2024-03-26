@@ -20,8 +20,6 @@ class WhiteTest {
                 markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
                     board[horizontalCoordinate][verticalCoordinate] = color
                 },
-                addSingleStone = { color, position ->
-                },
             )
         assertThat(result).isEqualTo(GameResult.WINNER_WHITE)
     }

@@ -13,9 +13,8 @@ class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStat
     override fun getWinningResult(
         position: Position,
         markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,
-        addSingleStone: (Color, Position) -> Unit,
     ): GameResult? {
-        if (isCurrentStoneWinner(position, Color.BLACK, markSinglePlace, addSingleStone)) {
+        if (isCurrentStoneWinner(position, Color.BLACK, markSinglePlace)) {
             return GameResult.WINNER_BLACK
         }
         return null
@@ -25,7 +24,6 @@ class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStat
         color: Color,
         position: Position,
         markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,
-        addSingleStone: (Color, Position) -> Unit,
     ) {
         val arkBoard = blackStatus.toArkOmokBoard()
         val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate.index
@@ -33,7 +31,6 @@ class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStat
         if (placementAvailable(arkBoard, arkPoint)) {
             val verticalCoordinate = position.verticalCoordinate.index
             markSinglePlace(horizontalCoordinate, verticalCoordinate, Color.BLACK)
-            addSingleStone(Color.BLACK, position)
         } else {
             throw IllegalArgumentException(EXCEPTION_FORBIDDEN_PLACEMENT)
         }

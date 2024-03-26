@@ -6,41 +6,44 @@ import omok.model.state.TurnState
 import omok.model.state.White
 
 class Board(
-    stones: List<Stone> = emptyList(),
+    status: Array<Array<Color?>> = Array(COMPUTATION_BOARD_SIZE) { Array(COMPUTATION_BOARD_SIZE) { null } },
 ) {
-    private val _status: Array<Array<Color?>> = Array(COMPUTATION_BOARD_SIZE) { Array(COMPUTATION_BOARD_SIZE) { null } }
+    private val _status: Array<Array<Color?>> = status
     val status: List<List<Color?>>
         get() = _status.map { it.toList() }.toList()
 
-    var stones: List<Stone> = stones.toList()
+    private val placementCount: Int
+        get() = status.flatten().count { it != null }
+
+    var lastPlacement: Stone? = null
         private set
 
     private val turnState: TurnState
-        get() = if (isEven(stones.size)) Black(_status) else White(_status)
+        get() = if (isEven(placementCount)) Black(_status) else White(_status)
 
     fun place(position: Position): GameState {
         if (position.horizontalCoordinate.index !in MIN_INDEX..MAX_INDEX) return GameState.Error(message = MESSAGE_WRONG_ROW_RANGE)
         if (position.verticalCoordinate.index !in MIN_INDEX..MAX_INDEX) return GameState.Error(message = MESSAGE_WRONG_COL_RANGE)
-        if (position in stones.map { it.position }) return GameState.Error(message = MESSAGE_DUPLICATED_POSITION)
-        if (stones.size >= DISPLAY_BOARD_SIZE * DISPLAY_BOARD_SIZE) return GameState.GameOver(gameResult = GameResult.DRAW)
+        if (status[COMPUTATION_BOARD_SIZE - position.horizontalCoordinate.index][position.verticalCoordinate.index] != null) {
+            return GameState.Error(
+                message = MESSAGE_DUPLICATED_POSITION,
+            )
+        }
+        if (placementCount >= DISPLAY_BOARD_SIZE * DISPLAY_BOARD_SIZE) return GameState.GameOver(gameResult = GameResult.DRAW)
 
-        val turnResult = turnState.getWinningResult(position, ::markSinglePlace, ::addSingleStone)
+        lastPlacement = getLastPlacementInfo(position)
+        val turnResult = turnState.getWinningResult(position, ::markSinglePlace)
         return turnResult?.let { GameState.GameOver(turnResult) } ?: GameState.OnProgress
     }
 
+    private fun getLastPlacementInfo(position: Position) =
+        when (turnState) {
+            is Black -> Stone.Black(position)
+            else -> Stone.White(position)
+        }
+
     private fun isEven(num: Int): Boolean {
         return num % ODD_EVEN_INDICATOR == 0
-    }
-
-    private fun addSingleStone(
-        color: Color,
-        position: Position,
-    ) {
-        stones =
-            when (color) {
-                Color.BLACK -> stones.plus(Stone.Black(Position.of(position.horizontalCoordinate.index, position.verticalCoordinate.index)))
-                Color.WHITE -> stones.plus(Stone.White(Position.of(position.horizontalCoordinate.index, position.verticalCoordinate.index)))
-            }
     }
 
     private fun markSinglePlace(

@@ -24,7 +24,6 @@ class BlackTest {
                 markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
                     board[horizontalCoordinate][verticalCoordinate] = color
                 },
-                addSingleStone = { color, position -> Unit },
             )
 
         assertThat(result).isEqualTo(GameResult.WINNER_BLACK)
@@ -42,7 +41,6 @@ class BlackTest {
                 markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
                     board[horizontalCoordinate][verticalCoordinate] = color
                 },
-                addSingleStone = { color, position -> Unit },
             )
         }
     }
@@ -59,7 +57,6 @@ class BlackTest {
                 markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
                     board[horizontalCoordinate][verticalCoordinate] = color
                 },
-                addSingleStone = { color, position -> Unit },
             )
         }
     }
@@ -76,7 +73,6 @@ class BlackTest {
                 markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
                     board[horizontalCoordinate][verticalCoordinate] = color
                 },
-                addSingleStone = { color, position -> Unit },
             )
         }
     }

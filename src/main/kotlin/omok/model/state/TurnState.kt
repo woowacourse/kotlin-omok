@@ -14,17 +14,15 @@ abstract class TurnState(
     abstract fun getWinningResult(
         position: Position,
         markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,
-        addSingleStone: (Color, Position) -> Unit,
     ): GameResult?
 
     protected fun isCurrentStoneWinner(
         position: Position,
         color: Color,
         markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,
-        addSingleStone: (Color, Position) -> Unit,
     ): Boolean {
         val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate.index
-        addStone(color, position, markSinglePlace, addSingleStone)
+        addStone(color, position, markSinglePlace)
         return calculateSearchResult(horizontalCoordinate, position.verticalCoordinate.index, color)
     }
 
@@ -32,7 +30,6 @@ abstract class TurnState(
         color: Color,
         position: Position,
         markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,
-        addSingleStone: (Color, Position) -> Unit,
     )
 
     private fun calculateSearchResult(
