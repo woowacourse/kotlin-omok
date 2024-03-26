@@ -3,7 +3,6 @@ package omok.library
 import omok.model.PositionType
 
 object WhiteStoneOmokRule : OmokRule {
-    private lateinit var board: Array<Array<PositionType>>
     private val currentStone: PositionType = PositionType.WHITE_STONE
     private val otherStone: PositionType = PositionType.BLACK_STONE
     private const val BOARD_SIZE: Int = 15
@@ -22,8 +21,7 @@ object WhiteStoneOmokRule : OmokRule {
         y: Int,
         board: Array<Array<PositionType>>,
     ): Boolean {
-        this.board = board
-        return directions.any { checkOmok(y, x, it.first, it.second) }
+        return directions.any { checkOmok(y, x, it.first, it.second, board) }
     }
 
     private fun checkOmok(
@@ -31,9 +29,10 @@ object WhiteStoneOmokRule : OmokRule {
         y: Int,
         dx: Int,
         dy: Int,
+        board: Array<Array<PositionType>>,
     ): Boolean {
-        val (stone1, blink1) = search(y, x, -dx, -dy)
-        val (stone2, blink2) = search(y, x, dx, dy)
+        val (stone1, blink1) = search(y, x, -dx, -dy, board)
+        val (stone2, blink2) = search(y, x, dx, dy, board)
 
         return blink1 + blink2 == 0 && stone1 + stone2 == 4
     }
@@ -43,6 +42,7 @@ object WhiteStoneOmokRule : OmokRule {
         x: Int,
         dx: Int,
         dy: Int,
+        board: Array<Array<PositionType>>,
     ): Pair<Int, Int> {
         var toRight = x
         var toTop = y

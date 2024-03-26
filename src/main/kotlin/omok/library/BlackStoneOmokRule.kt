@@ -3,7 +3,6 @@ package omok.library
 import omok.model.PositionType
 
 object BlackStoneOmokRule : OmokRule {
-    private lateinit var board: Array<Array<PositionType>>
     private val currentStone: PositionType = PositionType.BLACK_STONE
     private val otherStone: PositionType = PositionType.WHITE_STONE
     private const val BOARD_SIZE: Int = 15
@@ -23,8 +22,7 @@ object BlackStoneOmokRule : OmokRule {
         y: Int,
         board: Array<Array<PositionType>>,
     ): Boolean {
-        this.board = board
-        return directions.sumOf { checkOpenThree(y, x, it.first, it.second) } >= 2
+        return directions.sumOf { checkOpenThree(y, x, it.first, it.second, board) } >= 2
     }
 
     fun isFourFour(
@@ -32,8 +30,7 @@ object BlackStoneOmokRule : OmokRule {
         y: Int,
         board: Array<Array<PositionType>>,
     ): Boolean {
-        this.board = board
-        return directions.sumOf { checkOpenFour(y, x, it.first, it.second) } >= 2
+        return directions.sumOf { checkOpenFour(y, x, it.first, it.second, board) } >= 2
     }
 
     fun isMoreThanFive(
@@ -41,8 +38,8 @@ object BlackStoneOmokRule : OmokRule {
         y: Int,
         board: Array<Array<PositionType>>,
     ): Boolean {
-        this.board = board
-        return directions.map { direction -> checkMoreThanFive(y, x, direction.first, direction.second) }.contains(true)
+        return directions.map { direction -> checkMoreThanFive(y, x, direction.first, direction.second, board) }
+            .contains(true)
     }
 
     override fun isOmok(
@@ -50,8 +47,7 @@ object BlackStoneOmokRule : OmokRule {
         y: Int,
         board: Array<Array<PositionType>>,
     ): Boolean {
-        this.board = board
-        return directions.map { direction -> checkOmok(y, x, direction.first, direction.second) }.contains(true)
+        return directions.map { direction -> checkOmok(y, x, direction.first, direction.second, board) }.contains(true)
     }
 
     private fun checkOpenThree(
@@ -59,9 +55,10 @@ object BlackStoneOmokRule : OmokRule {
         y: Int,
         dx: Int,
         dy: Int,
+        board: Array<Array<PositionType>>,
     ): Int {
-        val (stone1, blink1) = search(y, x, -dx, -dy)
-        val (stone2, blink2) = search(y, x, dx, dy)
+        val (stone1, blink1) = search(y, x, -dx, -dy, board)
+        val (stone2, blink2) = search(y, x, dx, dy, board)
 
         val leftDown = stone1 + blink1
         val left = dx * (leftDown + 1)
@@ -80,7 +77,7 @@ object BlackStoneOmokRule : OmokRule {
             dy != 0 && y + rightUp in listOf(MIN_Y, BOARD_SIZE - 1) -> 0
             board[y - down][x - left] == otherStone -> 0
             board[y + up][x + right] == otherStone -> 0
-            countToWall(y, x, -dx, -dy) + countToWall(y, x, dx, dy) <= 5 -> 0
+            countToWall(y, x, -dx, -dy, board) + countToWall(y, x, dx, dy, board) <= 5 -> 0
             else -> 1
         }
     }
@@ -90,6 +87,7 @@ object BlackStoneOmokRule : OmokRule {
         y: Int,
         dx: Int,
         dy: Int,
+        board: Array<Array<PositionType>>,
     ): Int {
         var toRight = x
         var toTop = y
@@ -115,9 +113,10 @@ object BlackStoneOmokRule : OmokRule {
         y: Int,
         dx: Int,
         dy: Int,
+        board: Array<Array<PositionType>>,
     ): Int {
-        val (stone1, blink1) = search(y, x, -dx, -dy)
-        val (stone2, blink2) = search(y, x, dx, dy)
+        val (stone1, blink1) = search(y, x, -dx, -dy, board)
+        val (stone2, blink2) = search(y, x, dx, dy, board)
 
         val leftDown = stone1 + blink1
         val left = dx * (leftDown + 1)
@@ -157,9 +156,10 @@ object BlackStoneOmokRule : OmokRule {
         y: Int,
         dx: Int,
         dy: Int,
+        board: Array<Array<PositionType>>,
     ): Boolean {
-        val (stone1, blink1) = search(y, x, -dx, -dy)
-        val (stone2, blink2) = search(y, x, dx, dy)
+        val (stone1, blink1) = search(y, x, -dx, -dy, board)
+        val (stone2, blink2) = search(y, x, dx, dy, board)
 
         return when {
             blink1 + blink2 == 0 && stone1 + stone2 > 4 -> true
@@ -172,9 +172,10 @@ object BlackStoneOmokRule : OmokRule {
         y: Int,
         dx: Int,
         dy: Int,
+        board: Array<Array<PositionType>>,
     ): Boolean {
-        val (stone1, blink1) = search(y, x, -dx, -dy)
-        val (stone2, blink2) = search(y, x, dx, dy)
+        val (stone1, blink1) = search(y, x, -dx, -dy, board)
+        val (stone2, blink2) = search(y, x, dx, dy, board)
 
         return when {
             blink1 + blink2 == 0 && stone1 + stone2 == 4 -> true
@@ -187,6 +188,7 @@ object BlackStoneOmokRule : OmokRule {
         x: Int,
         dx: Int,
         dy: Int,
+        board: Array<Array<PositionType>>,
     ): Pair<Int, Int> {
         var toRight = x
         var toTop = y
