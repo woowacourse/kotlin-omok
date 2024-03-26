@@ -1,0 +1,4 @@
+- [ ] : Board plus 함수 리팩토링
+- [ ] : Board lastOrNull 함수 리팩
+- [ ] : Game play 반환값이 Board 인 것이 어색
+- [ ] : GameState 에 isFinshed 가 있는 것은 sub class 들의 세부 사항과 너무 엮여있음
