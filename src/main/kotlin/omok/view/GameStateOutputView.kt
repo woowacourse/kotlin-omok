@@ -8,7 +8,8 @@ object GameStateOutputView {
     private const val RUNNING_INFO_MESSAGE = "%s의 차례입니다."
     private const val BLACK = "흑"
     private const val WHITE = "백"
-    private const val ERROR_GAME_NOT_RUNNING = "게임이 진행중이지 않습니다."
+    private const val ERROR_DUPLICATED_POSITION = "이미 돌이 놓인 자리입니다. "
+    private const val ERROR_BLOCKED_POSITION = "금지된 자리입니다. "
     private const val FINISH_MESSAGE = "게임이 종료되었습니다~ 🥳"
 
     fun printStartHeader() {
@@ -29,9 +30,11 @@ object GameStateOutputView {
     private fun switchGameState(gameState: GameState): String {
         return when (gameState) {
             is GameState.Finish -> FINISH_MESSAGE
-            is GameState.Running.BlackTurn -> RUNNING_INFO_MESSAGE.format(BLACK)
-            is GameState.Running.WhiteTurn -> RUNNING_INFO_MESSAGE.format(WHITE)
-            else -> throw IllegalArgumentException(ERROR_GAME_NOT_RUNNING)
+            is GameState.Running.BlackTurn.Start -> RUNNING_INFO_MESSAGE.format(BLACK)
+            is GameState.Running.BlackTurn.Duplicate -> ERROR_DUPLICATED_POSITION + RUNNING_INFO_MESSAGE.format(BLACK)
+            is GameState.Running.BlackTurn.Block -> ERROR_BLOCKED_POSITION + RUNNING_INFO_MESSAGE.format(BLACK)
+            is GameState.Running.WhiteTurn.Start -> RUNNING_INFO_MESSAGE.format(WHITE)
+            is GameState.Running.WhiteTurn.Duplicate -> ERROR_DUPLICATED_POSITION + RUNNING_INFO_MESSAGE.format(WHITE)
         }
     }
 }

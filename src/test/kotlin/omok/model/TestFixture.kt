@@ -50,5 +50,5 @@ val WHITE_STONE = PositionType.WHITE_STONE
 
 val OMOK_FINISH = listOf(A1, B1, A2, B2, A3, B3, A4, B4, A5)
 
-val BLACK_STATE = GameState.Running.BlackTurn(Board())
-val WHITE_STATE = GameState.Running.WhiteTurn(Board())
+val BLACK_STATE = GameState.Running.BlackTurn.Start(Board())
+val WHITE_STATE = GameState.Running.WhiteTurn.Start(Board())

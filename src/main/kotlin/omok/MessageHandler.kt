@@ -1,5 +1,5 @@
 package omok
 
-interface ExceptionMessageHandler {
+interface MessageHandler {
     fun onMessageHandle(error: Throwable)
 }

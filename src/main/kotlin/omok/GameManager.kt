@@ -4,8 +4,8 @@ import omok.model.Board
 import omok.model.GameState
 import omok.model.Position
 
-class GameManager(private val exceptionMessageHandler: ExceptionMessageHandler) {
-    private var gameState: GameState = GameState.Running.BlackTurn(Board())
+class GameManager {
+    private var gameState: GameState = GameState.Running.BlackTurn.Start(Board())
 
     fun play(
         onTurn: (GameState) -> Unit,
@@ -24,10 +24,8 @@ class GameManager(private val exceptionMessageHandler: ExceptionMessageHandler) 
         onTurn: (GameState) -> Unit,
         onRead: () -> Position,
         onShow: (Board) -> Unit,
-    ) = runCatching {
+    ) {
         gameState = gameState.placeStone(onTurn, onRead, onShow)
-    }.onFailure { throwable ->
-        exceptionMessageHandler.onMessageHandle(throwable)
     }
 
     private fun showGameResult(

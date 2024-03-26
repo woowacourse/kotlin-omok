@@ -6,7 +6,11 @@ class Board {
     val layout: Array<Array<PositionType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { PositionType.EMPTY } }
     var lastPosition: Position? = null
         private set
-    private lateinit var omokRule: OmokRule
+    private var omokRule: OmokRule
+
+    init {
+        omokRule = OmokRule(layout, PositionType.BLACK_STONE, PositionType.WHITE_STONE, BOARD_SIZE)
+    }
 
     fun setupOmokRule(currentType: PositionType) {
         when (currentType) {
@@ -14,13 +18,10 @@ class Board {
                 omokRule = OmokRule(layout, PositionType.BLACK_STONE, PositionType.WHITE_STONE, BOARD_SIZE)
                 setBlock(omokRule::checkThreeThree, omokRule::checkFourFour, omokRule::checkMoreThanFive)
             }
-
-            PositionType.WHITE_STONE -> {
+            else -> {
                 omokRule = OmokRule(layout, PositionType.WHITE_STONE, PositionType.BLACK_STONE, BOARD_SIZE)
                 removeBlock()
             }
-
-            else -> throw IllegalArgumentException(ERROR_POSITION_TYPE)
         }
     }
 
@@ -70,24 +71,30 @@ class Board {
                 omokRule.checkOmok(position.coordinate.x, position.coordinate.y) &&
                     !omokRule.checkMoreThanFive(position.coordinate.x, position.coordinate.y)
             }
-
             PositionType.WHITE_STONE -> {
                 omokRule.checkOmok(position.coordinate.x, position.coordinate.y)
             }
-
-            else -> throw IllegalArgumentException()
+            else -> false
         }
     }
 
+    // 겹치게 놓을 수 없다, 이미 놓은 곳이다, 놓은 곳이다, 오목이다,
     fun placeStone(
         position: Position,
         positionType: PositionType,
-    ) {
-        if (layout[position.coordinate.x][position.coordinate.y] == PositionType.EMPTY) {
-            layout[position.coordinate.x][position.coordinate.y] = positionType
-            lastPosition = position
-        } else {
-            throw IllegalStateException(ERROR_INVALID_POSITION)
+    ): BoardResult {
+        return when(layout[position.coordinate.x][position.coordinate.y]) {
+            PositionType.BLOCK -> {
+                BoardResult.Block
+            }
+            PositionType.EMPTY -> {
+                layout[position.coordinate.x][position.coordinate.y] = positionType
+                lastPosition = position
+                if(isOmok(position, positionType)) BoardResult.Omok else BoardResult.Done
+            }
+            else -> {
+                BoardResult.Duplicate
+            }
         }
     }
 

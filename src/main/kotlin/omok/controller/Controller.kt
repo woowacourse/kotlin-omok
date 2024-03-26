@@ -1,6 +1,6 @@
 package omok.controller
 
-import omok.ExceptionMessageHandler
+import omok.MessageHandler
 import omok.model.Board
 import omok.GameManager
 import omok.model.GameState
@@ -9,8 +9,8 @@ import omok.view.BoardOutputView
 import omok.view.PositionInputView
 import omok.view.GameStateOutputView
 
-class Controller() : ExceptionMessageHandler {
-    private val gameManager: GameManager = GameManager(this)
+class Controller : MessageHandler {
+    private val gameManager: GameManager = GameManager()
 
     fun play() {
         printStart()

@@ -9,7 +9,7 @@ class GameStateTest {
 
     @BeforeEach
     fun setUp() {
-        gameState = GameState.Running.BlackTurn(Board())
+        gameState = GameState.Running.BlackTurn.Start(Board())
     }
 
     @Test
@@ -20,7 +20,7 @@ class GameStateTest {
                 { A1 },
                 { },
             ),
-        ).isInstanceOf(GameState.Running.WhiteTurn::class.java)
+        ).isInstanceOf(GameState.Running.WhiteTurn.Start::class.java)
     }
 
     @Test
@@ -31,7 +31,7 @@ class GameStateTest {
                 { A1 },
                 { },
             ),
-        ).isInstanceOf(GameState.Running.BlackTurn::class.java)
+        ).isExactlyInstanceOf(GameState.Running.BlackTurn.Start::class.java)
     }
 
     @Test
