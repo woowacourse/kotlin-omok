@@ -5,6 +5,7 @@ import omok.model.entity.Stone
 import omok.model.entity.StoneColor
 
 class ConsoleOutputView : OutputView {
+    private val emptyOmokBoardString = buildEmptyOmokBoard()
     override fun printStartGuide() {
         println("오목 게임을 시작합니다")
     }
@@ -37,34 +38,82 @@ class ConsoleOutputView : OutputView {
 
     private fun buildOmokBoard(board: Board): String {
         println()
-        val strMap =
-            """
-            15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
-            14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            9  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            8  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            7  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            6  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            5  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            4  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            3  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            2  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            1  └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
-               A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-            """.trimIndent()
-        val sb = StringBuilder(strMap)
+        val sb = StringBuilder(emptyOmokBoardString)
         board.stones.forEach {
             val stoneChar = if (it.stoneColor == StoneColor.WHITE) '○' else '●'
             val x = (it.point.x) * 3
-            val y = 15 - it.point.y
-            val idx = 47 * y + x
+            val y = Board.MAX_SIZE - it.point.y
+            val oneLineLength = 2 * 2 + (Board.MAX_SIZE - 2) * 3 + ROW_LABEL_PADDING_LENGTH + 1 // 4 + 39 + 3 + 1
+            val idx = oneLineLength * y + x
             sb.setCharAt(idx, stoneChar)
         }
         return sb.toString()
+    }
+
+    private fun buildEmptyOmokBoard(): String {
+        val stringBuilder = StringBuilder()
+
+        stringBuilder.appendLine(buildEmptyTopLine(Board.MAX_SIZE.toString(), ROW_LABEL_PADDING_LENGTH))
+        (Board.MAX_SIZE - 1 downTo Board.MIN_SIZE + 1).forEach {
+            stringBuilder.appendLine(buildEmptyMidLine(it.toString(), ROW_LABEL_PADDING_LENGTH))
+        }
+        stringBuilder.appendLine(buildEmptyBottomLine(Board.MIN_SIZE.toString(), ROW_LABEL_PADDING_LENGTH))
+
+        val columnLabel = " ".repeat(ROW_LABEL_PADDING_LENGTH) + Board.SIZE_RANGE.map { (it - 1 + 'A'.code).toChar() }
+            .joinToString("  ")
+        stringBuilder.appendLine(columnLabel)
+        return stringBuilder.toString()
+    }
+
+    private fun buildEmptyTopLine(
+        label: String,
+        labelPadLength: Int,
+    ): String =
+        buildEmptyLine(
+            label,
+            labelPadLength,
+            TOP_LEFT_BOARD_STRING,
+            TOP_MID_BOARD_STRING,
+            TOP_RIGHT_BOARD_STRING,
+        )
+
+    private fun buildEmptyMidLine(
+        label: String,
+        labelPadLength: Int,
+    ): String =
+        buildEmptyLine(
+            label,
+            labelPadLength,
+            MID_LEFT_BOARD_STRING,
+            MID_MID_BOARD_STRING,
+            MID_RIGHT_BOARD_STRING,
+        )
+
+    private fun buildEmptyBottomLine(
+        label: String,
+        labelPadLength: Int,
+    ): String =
+        buildEmptyLine(
+            label,
+            labelPadLength,
+            BOTTOM_LEFT_BOARD_STRING,
+            BOTTOM_MID_BOARD_STRING,
+            BOTTOM_RIGHT_BOARD_STRING,
+        )
+
+    private fun buildEmptyLine(
+        label: String,
+        labelPadLength: Int,
+        startString: String,
+        midString: String,
+        endString: String,
+    ): String {
+        val stringBuilder = StringBuilder()
+        stringBuilder.append(label.padStart(labelPadLength))
+        stringBuilder.append(startString)
+        repeat(Board.SIZE_RANGE.count() - 2) { stringBuilder.append(midString) }
+        stringBuilder.append(endString)
+        return stringBuilder.toString()
     }
 
     override fun printWinner(
@@ -75,5 +124,21 @@ class ConsoleOutputView : OutputView {
         println(strMap)
         val colorString = getColorString(color)
         print("${colorString}이 승리했습니다")
+    }
+
+    companion object {
+        const val ROW_LABEL_PADDING_LENGTH = 3
+
+        const val TOP_LEFT_BOARD_STRING = "┌─"
+        const val TOP_MID_BOARD_STRING = "─┬─"
+        const val TOP_RIGHT_BOARD_STRING = "─┐"
+
+        const val MID_LEFT_BOARD_STRING = "├─"
+        const val MID_MID_BOARD_STRING = "─┼─"
+        const val MID_RIGHT_BOARD_STRING = "─┤"
+
+        const val BOTTOM_LEFT_BOARD_STRING = "└─"
+        const val BOTTOM_MID_BOARD_STRING = "─┴─"
+        const val BOTTOM_RIGHT_BOARD_STRING = "─┘"
     }
 }
