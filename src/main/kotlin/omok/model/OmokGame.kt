@@ -1,7 +1,7 @@
 package omok.model
 
-import omok.controller.retryUntilNotException
 import omok.model.rule.finish.FinishCondition
+import omok.utils.retryUntilNotException
 
 class OmokGame(
     private val board: Board,
