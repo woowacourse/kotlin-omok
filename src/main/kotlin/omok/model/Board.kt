@@ -15,7 +15,7 @@ class Board {
         ) { "중복된 위치입니다." }
     }
 
-    fun getAllStones(): List<Stone> {
+    fun allStones(): List<Stone> {
         return stonesBundle.flatMap { it.stones }
     }
 
