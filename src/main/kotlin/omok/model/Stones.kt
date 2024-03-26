@@ -5,16 +5,12 @@ class Stones {
     val stones: List<Stone>
         get() = _stones
 
-    fun putStone(stone: Stone) {
-        val isOccupied = checkOccupiedCoordinate(stone.coordinate)
-        when (isOccupied) {
-            false -> _stones.add(stone)
-            true -> throw IllegalStateException(ERROR_CANT_PUT_STONE)
-        }
+    fun checkOccupiedCoordinate(coordinate: Coordinate): Boolean {
+        return stones.any { it.coordinate == coordinate }
     }
 
-    private fun checkOccupiedCoordinate(coordinate: Coordinate): Boolean {
-        return stones.any { it.coordinate == coordinate }
+    fun putStone(stone: Stone) {
+        _stones.add(stone)
     }
 
     fun findOmok(stone: Stone): Boolean {
@@ -62,7 +58,6 @@ class Stones {
     }
 
     companion object {
-        const val ERROR_CANT_PUT_STONE = "이미 돌이 착수된 위치입니다."
         val OMOK_COUNT: Int = 5
         val TOP = listOf(1, 0)
         val TOP_RIGHT = listOf(1, 1)

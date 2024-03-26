@@ -3,17 +3,21 @@ package omok.view
 import omok.model.Color
 import omok.model.Coordinate
 import omok.model.Stones
+import omok.model.Board.Companion.BOARD_SIZE
+import omok.model.StoneState
 
 object OutputView {
     private const val MESSAGE_START = "오목 게임을 시작합니다.\n"
     private const val MESSAGE_TURN = "%s의 차례입니다. "
     private const val MESSAGE_LAST_COORDINATE = "(마지막 돌의 위치: %s)"
+    private const val MESSAGE_STONE_OUTSIDE_THE_BOARD = "돌의 위치가 바둑판을 벗어났습니다."
+    private const val MESSAGE_OCCUPIED_STONE = "이미 돌이 착수된 위치입니다."
+    private const val MESSAGE_FORBIDDEN_STONE = "해당 위치는 금수입니다."
+    private const val MESSAGE_PLAYER_COLOR = "%s 플레이어가 이겼습니다 !"
     private const val PLAYER_COLOR_BLACK = "흑"
     private const val PLAYER_COLOR_WHITE = "백"
-    private const val MESSAGE_PLAYER_COLOR = "%s 플레이어가 이겼습니다 !"
     private const val BLACK_STONE = '●'
     private const val WHITE_STONE = '○'
-    private const val BOARD_SIZE: Int = 15
     private const val SINGLE_DIGIT: Int = 9
     private var boardLines = mutableListOf<String>()
 
@@ -77,6 +81,16 @@ object OutputView {
 
     fun printErrorMessage(errorMessage: String) {
         println(errorMessage)
+    }
+
+    fun printForbiddenStone(stoneState: StoneState) {
+        when (stoneState) {
+            StoneState.OUTSIDE_THE_BOARD -> println(MESSAGE_STONE_OUTSIDE_THE_BOARD)
+            StoneState.FORBIDDEN -> println(MESSAGE_FORBIDDEN_STONE)
+            StoneState.OCCUPIED -> println(MESSAGE_OCCUPIED_STONE)
+            StoneState.PLACED -> return
+            StoneState.BEFORE_PLACED -> return
+        }
     }
 
     fun printWinner(winnerColor: Color) {
