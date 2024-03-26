@@ -20,14 +20,4 @@ class WhiteStonePlayer(override val board: Board) : Player() {
         }
         return false
     }
-
-    companion object {
-        val directions =
-            arrayOf(
-                Point(0, 1),
-                Point(1, 0),
-                Point(1, 1),
-                Point(-1, 1),
-            )
-    }
 }
