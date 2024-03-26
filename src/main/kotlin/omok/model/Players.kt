@@ -2,7 +2,7 @@ package omok.model
 
 import omok.retryWhileNotException
 
-class Players(val whiteStonePlayer: WhiteStonePlayer, val blackStonePlayer: BlackStonePlayer) {
+class Players(private val whiteStonePlayer: WhiteStonePlayer, private val blackStonePlayer: BlackStonePlayer) {
     private var _winner: Player? = null
     val winner: Player
         get() = _winner ?: throw IllegalStateException("게임을 플레이 해야 우승자를 판별할 수 있습니다")

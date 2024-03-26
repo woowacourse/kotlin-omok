@@ -33,12 +33,12 @@ class OutputView {
     }
 
     companion object {
-        const val SPLIT_DIVIDER = "\n"
-        const val ROW_INTERVAL = 3
-        const val ROW_PADDING = 3
-        const val BOARD_TOP_POSITION = 14
-        const val BOARD_START_POSITION = 0
-        const val NEXT = 1
+        private const val SPLIT_DIVIDER = "\n"
+        private const val ROW_INTERVAL = 3
+        private const val ROW_PADDING = 3
+        private const val BOARD_TOP_POSITION = 14
+        private const val BOARD_START_POSITION = 0
+        private const val NEXT = 1
 
         private var initialBoardLayout =
             """

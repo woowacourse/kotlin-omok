@@ -37,22 +37,23 @@ class ThreeThreeRule(boardSize: Int) : OmokRule(boardSize) {
             board[y - down][x - left] == WHITE_STONE -> NO_OPEN_THREE
             board[y + up][x + right] == WHITE_STONE -> NO_OPEN_THREE
             countToWall(board, position, oppositeDirection) +
-                countToWall(
-                    board,
-                    position,
-                    direction,
-                ) <= WIN_CONDITION -> NO_OPEN_THREE
+                    countToWall(
+                        board,
+                        position,
+                        direction,
+                    ) <= WIN_CONDITION -> NO_OPEN_THREE
+
             else -> YES_OPEN_THREE
         }
     }
 
     companion object {
-        const val NO_DIRECTION = 0
-        const val GO_NEXT = 1
-        const val NO_OPEN_THREE = 0
-        const val YES_OPEN_THREE = 1
-        const val CONTINUOUS_STONE = 2
-        const val WIN_CONDITION = 5
-        const val VALID_CONDITION = 2
+        private const val NO_DIRECTION = 0
+        private const val GO_NEXT = 1
+        private const val NO_OPEN_THREE = 0
+        private const val YES_OPEN_THREE = 1
+        private const val CONTINUOUS_STONE = 2
+        private const val WIN_CONDITION = 5
+        private const val VALID_CONDITION = 2
     }
 }

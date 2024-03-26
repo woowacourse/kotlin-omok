@@ -10,7 +10,8 @@ abstract class OmokRule(
     protected val xEdge = listOf(MIN_X, maxX)
     protected val yEdge = listOf(MIN_Y, maxY)
 
-    protected val directions = listOf(Pair(RIGHT, SAME_POSITION), Pair(RIGHT, DOWN), Pair(SAME_POSITION, DOWN), Pair(RIGHT, UP))
+    protected val directions =
+        listOf(Pair(RIGHT, SAME_POSITION), Pair(RIGHT, DOWN), Pair(SAME_POSITION, DOWN), Pair(RIGHT, UP))
 
     abstract fun validate(
         board: List<List<Int>>,
@@ -57,6 +58,7 @@ abstract class OmokRule(
                 stone1++
                 blink1 = blinkCount1
             }
+
             opponentStone -> isDone1 = true
             EMPTY_STONE -> isDone1 = checkBlankAllowance(blink1, isDone1, blinkCount1)
 
@@ -119,22 +121,22 @@ abstract class OmokRule(
         dy: Int,
     ): Boolean =
         dx > BOUND_CONDITION && x == maxX ||
-            dx < BOUND_CONDITION && x == MIN_X ||
-            dy > BOUND_CONDITION && y == maxY ||
-            dy < BOUND_CONDITION && y == MIN_Y
+                dx < BOUND_CONDITION && x == MIN_X ||
+                dy > BOUND_CONDITION && y == maxY ||
+                dy < BOUND_CONDITION && y == MIN_Y
 
     companion object {
         protected const val EMPTY_STONE = 0
         const val BLACK_STONE = 1
         const val WHITE_STONE = 2
-        const val MIN_X = 0
-        const val MIN_Y = 0
-        const val INIT_COUNT = 0
-        const val BLANK_ALLOWANCE = 1
-        const val BOUND_CONDITION = 0
-        const val RIGHT = 1
-        const val DOWN = 1
-        const val UP = -1
-        const val SAME_POSITION = 0
+        private const val MIN_X = 0
+        private const val MIN_Y = 0
+        private const val INIT_COUNT = 0
+        private const val BLANK_ALLOWANCE = 1
+        private const val BOUND_CONDITION = 0
+        private const val RIGHT = 1
+        private const val DOWN = 1
+        private const val UP = -1
+        private const val SAME_POSITION = 0
     }
 }

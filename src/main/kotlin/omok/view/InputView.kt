@@ -15,7 +15,7 @@ class InputView {
             print("위치를 입력하세요 : ")
             val input = readln()
             val x: Int = convertX(input.first()) ?: throw IllegalArgumentException("행 값 오류")
-            val y: Int = convertY(input.substring(1, input.length)) ?: throw IllegalArgumentException("열 값 오류")
+            val y: Int = convertY(input.substring(COL_START, input.length)) ?: throw IllegalArgumentException("열 값 오류")
             Point(x, y)
         }
 
@@ -28,12 +28,12 @@ class InputView {
 
     private fun convertPosition(stone: Stone?): String {
         if (stone == null) return ""
-        return " (마지막 돌의 위치: ${('A'.code + stone.point.row).toChar()}${stone.point.col + 1})"
+        return " (마지막 돌의 위치: ${('A'.code + stone.point.row).toChar()}${stone.point.col + CONVERT_POSITION})"
     }
 
     private fun convertX(x: Char): Int? {
         val res = x.uppercaseChar().code - 'A'.code
-        return if (res in 0..14) {
+        return if (res in ROW_RANGE) {
             res
         } else {
             null
@@ -42,10 +42,18 @@ class InputView {
 
     private fun convertY(y: String): Int? {
         return when {
-            y.length !in 1..2 -> null
+            y.length !in COL_INPUT_RANGE -> null
             y.toIntOrNull() == null -> null
-            y.toInt() !in 1..15 -> null
-            else -> y.toInt() - 1
+            y.toInt() !in COL_RANGE -> null
+            else -> y.toInt() - CONVERT_POSITION
         }
+    }
+
+    companion object {
+        private const val COL_START = 1
+        private val ROW_RANGE = 0..14
+        private val COL_RANGE = 1..15
+        private val COL_INPUT_RANGE = 1..2
+        private const val CONVERT_POSITION = 1
     }
 }

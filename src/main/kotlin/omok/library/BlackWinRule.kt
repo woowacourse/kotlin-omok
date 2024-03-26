@@ -21,7 +21,7 @@ class BlackWinRule(boardSize: Int) : OmokRule(boardSize) {
     }
 
     companion object {
-        const val CONTINUOUS_STONE = 0
-        const val WIN_CONDITION = 4
+        private const val CONTINUOUS_STONE = 0
+        private const val WIN_CONDITION = 4
     }
 }

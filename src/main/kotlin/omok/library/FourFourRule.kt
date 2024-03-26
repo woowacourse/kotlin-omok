@@ -52,14 +52,14 @@ class FourFourRule(boardSize: Int) : OmokRule(boardSize) {
     }
 
     companion object {
-        const val REQUIRED_OPEN_THREES_FOR_FOUR_FOUR = 2
-        const val TOTAL_BLINKS_FOR_VALID_POSITION = 2
-        const val TOTAL_BLINKS_FOR_INVALID_POSITION = 2
-        val VALID_STONE_COMBINATION_FOR_FOUR_FOUR = 4..5
-        const val DOUBLE_OPEN_FOUR = 2
-        const val SINGLE_OPEN_FOUR = 1
-        const val NO_OPEN_THREE = 0
-        const val TOTAL_STONES_FOR_OPEN_THREE = 3
-        const val NO_DIRECTION = 0
+        private const val REQUIRED_OPEN_THREES_FOR_FOUR_FOUR = 2
+        private const val TOTAL_BLINKS_FOR_VALID_POSITION = 2
+        private const val TOTAL_BLINKS_FOR_INVALID_POSITION = 2
+        private val VALID_STONE_COMBINATION_FOR_FOUR_FOUR = 4..5
+        private const val DOUBLE_OPEN_FOUR = 2
+        private const val SINGLE_OPEN_FOUR = 1
+        private const val NO_OPEN_THREE = 0
+        private const val TOTAL_STONES_FOR_OPEN_THREE = 3
+        private const val NO_DIRECTION = 0
     }
 }
