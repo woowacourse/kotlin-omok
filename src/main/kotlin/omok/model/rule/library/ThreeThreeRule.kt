@@ -1,6 +1,6 @@
 package omok.model.rule.library
 
-object ThreeThreeRule : OmokRule() {
+class ThreeThreeRule(currentStone: Int, private val opponentStone: Int) : OmokRule(currentStone, opponentStone) {
     override fun abide(
         board: List<List<Int>>,
         position: Pair<Int, Int>,
@@ -37,8 +37,8 @@ object ThreeThreeRule : OmokRule() {
             dy != 0 && y - dy * leftDown in Y_Edge -> 0
             dx != 0 && x + dx * rightUp in X_Edge -> 0
             dy != 0 && y + dy * rightUp in Y_Edge -> 0
-            board[y - down ][x - left] == WHITE_STONE -> 0
-            board[y + up][x + right] == WHITE_STONE -> 0
+            board[y - down ][x - left] == opponentStone -> 0
+            board[y + up][x + right] == opponentStone -> 0
             countToWall(board, position, oppositeDirection) + countToWall(board, position, direction) <= 5 -> 0
             else -> 1
         }

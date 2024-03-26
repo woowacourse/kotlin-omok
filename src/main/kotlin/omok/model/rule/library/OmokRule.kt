@@ -1,8 +1,8 @@
 package omok.model.rule.library
 
 abstract class OmokRule(
-    private val currentStone: Int = BLACK_STONE,
-    val opponentStone: Int = WHITE_STONE,
+    private val currentStone: Int,
+    private val opponentStone: Int,
 ) {
     abstract fun abide(
         board: List<List<Int>>,
@@ -29,11 +29,13 @@ abstract class OmokRule(
                     stone++
                     blink = blinkCount
                 }
+
                 opponentStone -> break
                 EMPTY_STONE -> {
                     if (blink == 1) break
                     if (blinkCount++ == 1) break
                 }
+
                 else -> throw IllegalArgumentException("스톤 케이스를 에러")
             }
         }
@@ -76,8 +78,6 @@ abstract class OmokRule(
 
     companion object {
         protected const val EMPTY_STONE = 0
-        const val BLACK_STONE = 1
-        const val WHITE_STONE = 2
         const val MIN_X = 0
         const val MAX_X = 14
         const val MIN_Y = 0

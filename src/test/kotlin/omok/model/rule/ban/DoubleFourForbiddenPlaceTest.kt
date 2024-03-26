@@ -11,10 +11,9 @@ import org.junit.jupiter.api.Test
  * docs/4-4 금수 테스트 케이스.png 참조
  */
 class DoubleFourForbiddenPlaceTest {
-    private val forbiddenPlace = DoubleFourForbiddenPlace()
-
     @Test
     fun `4-4 금수 테스트 케이스 A의 경우 돌을 놓을 수 없다`() {
+        val forbiddenPlace = DoubleFourForbiddenPlace(Stone.BLACK)
         val board =
             initBoard(
                 StonePosition(Position(3, 2), Stone.BLACK),
@@ -30,12 +29,13 @@ class DoubleFourForbiddenPlaceTest {
 
     @Test
     fun `4-4 금수 테스트 케이스 B의 경우 돌을 놓을 수 없다`() {
+        val forbiddenPlace = DoubleFourForbiddenPlace(Stone.WHITE)
         val board =
             initBoard(
-                StonePosition(Position(3, 9), Stone.BLACK),
-                StonePosition(Position(6, 9), Stone.BLACK),
-                StonePosition(Position(7, 9), Stone.BLACK),
-                StonePosition(Position(9, 9), Stone.BLACK),
+                StonePosition(Position(3, 9), Stone.WHITE),
+                StonePosition(Position(6, 9), Stone.WHITE),
+                StonePosition(Position(7, 9), Stone.WHITE),
+                StonePosition(Position(9, 9), Stone.WHITE),
             )
 
         val actual = forbiddenPlace.availablePosition(board, Position(5, 9))
@@ -44,6 +44,7 @@ class DoubleFourForbiddenPlaceTest {
 
     @Test
     fun `4-4 금수 테스트 케이스 C의 경우 돌을 놓을 수 없다`() {
+        val forbiddenPlace = DoubleFourForbiddenPlace(Stone.BLACK)
         val board =
             initBoard(
                 StonePosition(Position(0, 2), Stone.BLACK),
@@ -62,6 +63,7 @@ class DoubleFourForbiddenPlaceTest {
 
     @Test
     fun `4-4 금수 테스트 케이스 D의 경우 돌을 놓을 수 없다`() {
+        val forbiddenPlace = DoubleFourForbiddenPlace(Stone.BLACK)
         val board =
             initBoard(
                 StonePosition(Position(5, 9), Stone.BLACK),
@@ -78,16 +80,17 @@ class DoubleFourForbiddenPlaceTest {
 
     @Test
     fun `4-4 금수 테스트 케이스 E의 경우 돌을 놓을 수 없다`() {
+        val forbiddenPlace = DoubleFourForbiddenPlace(Stone.WHITE)
         val board =
             initBoard(
-                StonePosition(Position(7, 7), Stone.BLACK),
-                StonePosition(Position(8, 7), Stone.BLACK),
-                StonePosition(Position(9, 7), Stone.BLACK),
-                StonePosition(Position(10, 6), Stone.BLACK),
-                StonePosition(Position(10, 5), Stone.BLACK),
-                StonePosition(Position(10, 4), Stone.BLACK),
-                StonePosition(Position(6, 7), Stone.WHITE),
-                StonePosition(Position(10, 3), Stone.WHITE),
+                StonePosition(Position(7, 7), Stone.WHITE),
+                StonePosition(Position(8, 7), Stone.WHITE),
+                StonePosition(Position(9, 7), Stone.WHITE),
+                StonePosition(Position(10, 6), Stone.WHITE),
+                StonePosition(Position(10, 5), Stone.WHITE),
+                StonePosition(Position(10, 4), Stone.WHITE),
+                StonePosition(Position(6, 7), Stone.BLACK),
+                StonePosition(Position(10, 3), Stone.BLACK),
             )
 
         val actual = forbiddenPlace.availablePosition(board, Position(10, 7))

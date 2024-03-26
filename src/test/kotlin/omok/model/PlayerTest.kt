@@ -12,8 +12,8 @@ class PlayerTest {
         Player(
             Stone.BLACK,
             listOf(
-                DoubleFourForbiddenPlace(),
-                DoubleOpenThreeForbiddenPlace(),
+                DoubleFourForbiddenPlace(Stone.BLACK),
+                DoubleOpenThreeForbiddenPlace(Stone.BLACK),
                 OverlineForbiddenPlace(ContinualStonesStandard(5)),
             ),
         )

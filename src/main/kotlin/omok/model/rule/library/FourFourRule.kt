@@ -1,6 +1,6 @@
 package omok.model.rule.library
 
-object FourFourRule : OmokRule() {
+class FourFourRule(currentStone: Int, private val opponentStone: Int) : OmokRule(currentStone, opponentStone) {
     override fun abide(
         board: List<List<Int>>,
         position: Pair<Int, Int>,

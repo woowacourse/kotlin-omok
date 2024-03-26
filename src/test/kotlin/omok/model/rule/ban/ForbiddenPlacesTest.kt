@@ -1,5 +1,6 @@
 package omok.model.rule.ban
 
+import omok.model.Stone
 import omok.model.rule.ContinualStonesStandard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -10,8 +11,8 @@ class ForbiddenPlacesTest {
         // given
         val forbiddenPlaces =
             ForbiddenPlaces(
-                DoubleOpenThreeForbiddenPlace(),
-                DoubleFourForbiddenPlace(),
+                DoubleOpenThreeForbiddenPlace(Stone.BLACK),
+                DoubleFourForbiddenPlace(Stone.BLACK),
                 OverlineForbiddenPlace(),
             )
 
@@ -29,7 +30,7 @@ class ForbiddenPlacesTest {
         // given
         val forbiddenPlaces =
             ForbiddenPlaces(
-                DoubleOpenThreeForbiddenPlace(),
+                DoubleOpenThreeForbiddenPlace(Stone.BLACK),
                 OverlineForbiddenPlace(),
             )
 
