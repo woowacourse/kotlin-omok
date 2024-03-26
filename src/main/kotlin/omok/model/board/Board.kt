@@ -4,7 +4,10 @@ import omok.model.position.Position
 import omok.model.stone.StoneType
 
 object Board {
-    const val BOARD_SIZE = 15
+    private const val BOARD_SIZE = 15
+    const val MIN_AXIS = 0
+    const val MAX_AXIS = BOARD_SIZE - 1
+    val axisRange = MIN_AXIS..MAX_AXIS
 
     val board = Array(BOARD_SIZE) { Array(BOARD_SIZE) { StoneType.NONE } }
 
@@ -14,5 +17,13 @@ object Board {
 
     fun updateLastPosition(position: Position?) {
         _lastPosition = position
+    }
+
+    fun reset() {
+        repeat(BOARD_SIZE) { row ->
+            repeat(BOARD_SIZE) { column ->
+                board[row][column] = StoneType.NONE
+            }
+        }
     }
 }

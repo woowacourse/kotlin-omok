@@ -13,11 +13,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 class BlackStoneTest {
     @BeforeEach
     fun setUp() {
-        repeat(Board.BOARD_SIZE) { row ->
-            repeat(Board.BOARD_SIZE) { column ->
-                Board.board[row][column] = StoneType.NONE
-            }
-        }
+        Board.reset()
     }
 
     @Test

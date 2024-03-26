@@ -4,7 +4,6 @@ import X_A
 import Y_5
 import omok.model.position.Position
 import omok.model.stone.BlackStone
-import omok.model.stone.StoneType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -12,11 +11,7 @@ import org.junit.jupiter.api.Test
 class BoardTest {
     @BeforeEach
     fun setUp() {
-        repeat(Board.BOARD_SIZE) { row ->
-            repeat(Board.BOARD_SIZE) { column ->
-                Board.board[row][column] = StoneType.NONE
-            }
-        }
+        Board.reset()
         Board.updateLastPosition(null)
     }
 

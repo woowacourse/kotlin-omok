@@ -45,16 +45,14 @@ open class RenjuRule(private val board: Array<Array<StoneType>>) {
     ): Boolean {
         val deltaRow = deltaPosition.deltaRow
         val deltaCol = deltaPosition.deltaColumn
-        if (deltaRow > 0 && toRight == Board.BOARD_SIZE - 1) return true
-        if (deltaRow < 0 && toRight == MIN_X) return true
-        if (deltaCol > 0 && toTop == Board.BOARD_SIZE - 1) return true
-        if (deltaCol < 0 && toTop == MIN_X) return true
+        if (deltaRow > 0 && toRight == Board.MAX_AXIS) return true
+        if (deltaRow < 0 && toRight == Board.MIN_AXIS) return true
+        if (deltaCol > 0 && toTop == Board.MAX_AXIS) return true
+        if (deltaCol < 0 && toTop == Board.MIN_AXIS) return true
         return false
     }
 
     companion object {
-        const val MIN_X = 0
-        const val MIN_Y = 0
         val EMPTY_STONE = StoneType.NONE
         val CURRENT_STONE = StoneType.BLACK_STONE
         val OTHER_STONE = StoneType.WHITE_STONE

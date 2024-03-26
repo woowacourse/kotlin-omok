@@ -44,15 +44,15 @@ object DoubleFourChecker : RenjuRule(Board.board) {
 
         val leftDownValid =
             when {
-                deltaRow != 0 && row - deltaRow * leftDown in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
-                deltaCol != 0 && column - deltaCol * leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
+                deltaRow != 0 && row - deltaRow * leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> 0
+                deltaCol != 0 && column - deltaCol * leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> 0
                 Board.board[column - down][row - left] == OTHER_STONE -> 0
                 else -> 1
             }
         val rightUpValid =
             when {
-                deltaRow != 0 && row + (deltaRow * rightUp) in listOf(MIN_X, Board.BOARD_SIZE - 1) -> 0
-                deltaCol != 0 && column + (deltaCol * rightUp) in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> 0
+                deltaRow != 0 && row + (deltaRow * rightUp) in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> 0
+                deltaCol != 0 && column + (deltaCol * rightUp) in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> 0
                 Board.board[column + up][row + right] == OTHER_STONE -> 0
                 else -> 1
             }

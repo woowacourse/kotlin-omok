@@ -57,10 +57,10 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         val deltaRow = deltaPosition.deltaRow
         val deltaCol = deltaPosition.deltaColumn
         return when {
-            deltaRow != 0 && row - leftDown in listOf(MIN_X, Board.BOARD_SIZE - 1) -> true
-            deltaCol != 0 && column - leftDown in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> true
-            deltaRow != 0 && row + rightUp in listOf(MIN_X, Board.BOARD_SIZE - 1) -> true
-            deltaCol != 0 && column + rightUp in listOf(MIN_Y, Board.BOARD_SIZE - 1) -> true
+            deltaRow != 0 && row - leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
+            deltaCol != 0 && column - leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
+            deltaRow != 0 && row + rightUp in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
+            deltaCol != 0 && column + rightUp in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
             else -> false
         }
     }

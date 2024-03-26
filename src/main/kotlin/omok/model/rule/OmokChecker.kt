@@ -46,7 +46,7 @@ object OmokChecker {
         var row = lastPosition.row.value + deltaPosition.deltaRow
         var column = lastPosition.column.value + deltaPosition.deltaColumn
 
-        while (row in 0 until Board.BOARD_SIZE && column in 0 until Board.BOARD_SIZE && Board.board[column][row] == stoneType) {
+        while (row in Board.axisRange && column in Board.axisRange && Board.board[column][row] == stoneType) {
             sameStoneCount++
             row += deltaPosition.deltaRow
             column += deltaPosition.deltaColumn
