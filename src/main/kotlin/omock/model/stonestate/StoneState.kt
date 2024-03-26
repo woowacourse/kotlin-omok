@@ -1,9 +1,13 @@
 package omock.model.stonestate
 
 import omock.model.player.Player
+import omock.model.stone.Stone
+import kotlin.reflect.KClass
 
-interface StoneState {
-    fun put(player: Player): StoneState
+sealed class StoneState(private val stone: Stone) {
 
-    fun rollback(): StoneState
+    abstract fun put(player: Player): StoneState
+
+    abstract fun rollback(): StoneState
+
 }

@@ -10,8 +10,10 @@ import omock.model.position.Row.Companion.MAX_ROW
 import omock.model.position.Row.Companion.MAX_ROW_INDEX
 import omock.model.position.Row.Companion.MIN_ROW_INDEX
 import omock.model.stone.Stone
-import omock.model.stonestate.unplaced.Clear
+import omock.model.stonestate.Black
+import omock.model.stonestate.Clear
 import omock.model.stonestate.StoneState
+import omock.model.stonestate.White
 
 class Board(val stoneStates: List<ColumnStates>) {
     fun setStoneState(
@@ -58,15 +60,28 @@ class Board(val stoneStates: List<ColumnStates>) {
             val (nx, ny) = current.x + direction.y to current.y + direction.x
 
             if (!isBoardIndex(nx, ny)) continue
-            val nextState = stoneStates[ny].getStoneState(nx)::class
+            val nextState = stoneStates[ny].getStoneState(nx)
 
             when (nextState) {
-                playerState::class -> {
-                    queue.addFirst(Node(nx, ny))
-                    count++
+                is Black -> {
+                    if (playerState is Black){
+                        queue.addFirst(Node(nx, ny))
+                        count++
+                    }else{
+                        isLastClear = !flag
+                    }
                 }
 
-                Clear::class -> {
+                is White -> {
+                    if (playerState is White){
+                        queue.addFirst(Node(nx, ny))
+                        count++
+                    }else{
+                        isLastClear = !flag
+                    }
+                }
+
+                is Clear -> {
                     if (flag) {
                         isLastClear = true
                     } else {
@@ -74,8 +89,6 @@ class Board(val stoneStates: List<ColumnStates>) {
                         isClear = true
                     }
                 }
-
-                else -> if (flag) isLastClear = false
             }
             flag = true
         } while (queue.isNotEmpty())

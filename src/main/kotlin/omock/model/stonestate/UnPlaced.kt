@@ -1,14 +1,11 @@
-package omock.model.stonestate.unplaced
+package omock.model.stonestate
 
 import omock.model.stone.Stone
 import omock.model.player.BlackPlayer
 import omock.model.player.Player
 import omock.model.player.WhitePlayer
-import omock.model.stonestate.placed.Black
-import omock.model.stonestate.StoneState
-import omock.model.stonestate.placed.White
 
-abstract class UnPlaced(private val stone: Stone) : StoneState {
+sealed class UnPlaced(private val stone: Stone) : StoneState(stone) {
     override fun put(player: Player): StoneState {
         return when (player) {
             is BlackPlayer -> Black(stone)

@@ -1,6 +1,5 @@
-package omock.model.stonestate.placed
+package omock.model.stonestate
 
 import omock.model.stone.Stone
-import omock.model.stonestate.placed.Placed
 
 class White(private val stone: Stone) : Placed(stone)

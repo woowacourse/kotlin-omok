@@ -1,4 +1,4 @@
-package omock.model.stonestate.placed
+package omock.model.stonestate
 
 import omock.model.stone.Stone
 

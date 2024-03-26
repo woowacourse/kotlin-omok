@@ -1,11 +1,9 @@
-package omock.model.stonestate.placed
+package omock.model.stonestate
 
 import omock.model.stone.Stone
 import omock.model.player.Player
-import omock.model.stonestate.StoneState
-import omock.model.stonestate.unplaced.Clear
 
-abstract class Placed(private val stone: Stone) : StoneState {
+sealed class Placed(private val stone: Stone) : StoneState(stone) {
     override fun put(player: Player): StoneState {
         throw IllegalArgumentException(ERROR_STONE_DUPLICATION)
     }
