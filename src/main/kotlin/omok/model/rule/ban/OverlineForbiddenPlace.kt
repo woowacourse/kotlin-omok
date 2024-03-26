@@ -12,3 +12,13 @@ class OverlineForbiddenPlace(val continualStonesStandard: ContinualStonesStandar
         position: Position,
     ): Boolean = ContinualStones.count(board, position) < continualStonesStandard.count
 }
+
+class OverlineForbiddenPlace2 :
+    ForbiddenPlace {
+    lateinit var continualStonesStandard: ContinualStonesStandard
+
+    override fun availablePosition(
+        board: Board,
+        position: Position,
+    ): Boolean = ContinualStones.count(board, position) < continualStonesStandard.count
+}
