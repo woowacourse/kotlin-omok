@@ -77,16 +77,31 @@ abstract class OmokRule(
         var (x, y) = position
         val (dx, dy) = direction
         var distance = INIT_COUNT
-        while (willExceedBounds(x, y, dx, dy).not()) {
-            x += dx
-            y += dy
-            when (board[y][x]) {
-                in listOf(currentStone, EMPTY_STONE) -> distance++
+        distance = getDistance(x, y, dx, dy, board, distance)
+        return distance
+    }
+
+    private fun getDistance(
+        x: Int,
+        y: Int,
+        dx: Int,
+        dy: Int,
+        board: List<List<Int>>,
+        distance: Int
+    ): Int {
+        var x1 = x
+        var y1 = y
+        var distance1 = distance
+        while (willExceedBounds(x1, y1, dx, dy).not()) {
+            x1 += dx
+            y1 += dy
+            when (board[y1][x1]) {
+                in listOf(currentStone, EMPTY_STONE) -> distance1++
                 opponentStone -> break
                 else -> throw IllegalArgumentException()
             }
         }
-        return distance
+        return distance1
     }
 
     private fun willExceedBounds(
