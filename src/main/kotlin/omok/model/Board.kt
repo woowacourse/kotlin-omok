@@ -31,8 +31,8 @@ class Board private constructor(private val _stones: Set<Stone>) {
     fun isFull(): Boolean = _stones.count() == MAX_SIZE * MAX_SIZE
 
     companion object {
-        private const val MIN_SIZE = 1
-        private const val MAX_SIZE = 15
-        private val SIZE_RANGE = MIN_SIZE..MAX_SIZE
+        const val MIN_SIZE = 1
+        const val MAX_SIZE = 15
+        val SIZE_RANGE = MIN_SIZE..MAX_SIZE
     }
 }
