@@ -15,7 +15,7 @@ class BlackPlayerTest {
     }
 
     @Test
-    fun `흑이 33이면 백의 승리이다_1(흑의 패배이다)`() {
+    fun `흑이 33이면 백의 승리이다_1`() {
         blackStonePlayer.apply {
             add(Point(2, 2))
             add(Point(2, 3))
@@ -28,7 +28,7 @@ class BlackPlayerTest {
     }
 
     @Test
-    fun `흑이 33이면 백의 승리이다_2(흑의 패배이다)`() {
+    fun `흑이 33이면 백의 승리이다_2`() {
         blackStonePlayer.apply {
             add(Point(6, 2))
             add(Point(5, 3))
@@ -41,7 +41,7 @@ class BlackPlayerTest {
     }
 
     @Test
-    fun `흑이 33이면 백의 승리이다_3(흑의 패배이다)`() {
+    fun `흑이 33이면 백의 승리이다_3`() {
         blackStonePlayer.apply {
             add(Point(5, 10))
             add(Point(2, 10))
@@ -54,7 +54,7 @@ class BlackPlayerTest {
     }
 
     @Test
-    fun `흑이 33이면 백의 승리이다_4(흑의 패배이다)`() {
+    fun `흑이 33이면 백의 승리이다_4`() {
         blackStonePlayer.apply {
             add(Point(8, 9))
             add(Point(11, 12))
