@@ -17,7 +17,7 @@ class FiveStonesFinishCondition : FinishCondition {
             count += continualCount(board, position, direction1)
             count += continualCount(board, position, direction2)
 
-            if (count == WINNING_STONE_COUNT) return FinishType.winning(board.findOrNull(position))
+            if (count == WINNING_STONE_COUNT) return FinishType.winning(board.find(position))
         }
         return FinishType.NOT_FINISH
     }
@@ -27,13 +27,13 @@ class FiveStonesFinishCondition : FinishCondition {
         position: Position,
         direction: Direction,
     ): Int {
-        val stone = board.findOrNull(position)
+        val stone = board.find(position)
         var count = 0
         var nowPosition = position
 
         while (true) {
             nowPosition = nowPosition.move(direction)
-            if (board.findOrNull(nowPosition) != stone) return count
+            if (board.find(nowPosition) != stone) return count
             count++
         }
     }

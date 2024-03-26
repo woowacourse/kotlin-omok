@@ -42,7 +42,7 @@ class OutputView {
         row: Int,
         col: Int,
     ) {
-        val stone = board.findOrNull(Position(row, col)) ?: return
+        val stone = board.find(Position(row, col)) ?: return
         if (row == 0) {
             when (col) {
                 0 -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " ┌─")

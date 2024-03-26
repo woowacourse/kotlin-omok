@@ -11,15 +11,13 @@ class Board(
         position: Position,
         player: Player,
     ) {
-        requireNotNull(findOrNull(position)) { INVALID_POSITION_MESSAGE }
-        require(findOrNull(position) == Stone.NONE) { DUPLICATION_POSITION_MESSAGE }
+        require(find(position) == Stone.NONE) { DUPLICATION_POSITION_MESSAGE }
         require(player.canPlace(this, position)) { FORBIDDEN_POSITION_MESSAGE }
-
         _board[position] = player.stone
     }
 
-    fun findOrNull(position: Position): Stone? {
-        return _board[position]
+    fun find(position: Position): Stone {
+        return _board[position] ?: throw IllegalArgumentException(INVALID_POSITION_MESSAGE)
     }
 
     fun emptyPosition(block: (Position) -> Boolean): Boolean {
