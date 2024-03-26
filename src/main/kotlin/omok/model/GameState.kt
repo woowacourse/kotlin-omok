@@ -16,7 +16,9 @@ sealed class GameState(val board: Board) {
 
         abstract fun nextTurn(): GameState
 
-        abstract fun omoRule(): OmokRule
+        abstract fun omokRule(): OmokRule
+
+        abstract fun updateBoard()
 
         override fun updateState(
             onTurn: (GameState) -> Unit,
@@ -24,37 +26,39 @@ sealed class GameState(val board: Board) {
             onCoordinate: () -> Coordinate,
         ): GameState {
             onTurn(this)
+            updateBoard()
             onBoard(board)
 
             val position = onCoordinate()
             board.placeStone(position, currentType())
 
-            if (omoRule().isOmok(position.x, position.y, board.getBoardLayout())) return Finish(board)
+            if (omokRule().isOmok(position.x, position.y, board.getBoardLayout())) return Finish(board)
             return (nextTurn())
         }
 
         class BlackTurn(board: Board) : Running(board) {
-            init {
-                board.setupBoard(PositionType.BLACK_STONE)
-            }
-
             override fun currentType() = PositionType.BLACK_STONE
 
             override fun nextTurn() = WhiteTurn(board)
 
-            override fun omoRule() = BlackStoneOmokRule
+            override fun omokRule() = BlackStoneOmokRule
+
+            override fun updateBoard() =
+                board.setBlock(
+                    BlackStoneOmokRule::isThreeThree,
+                    BlackStoneOmokRule::isFourFour,
+                    BlackStoneOmokRule::isMoreThanFive,
+                )
         }
 
         class WhiteTurn(board: Board) : Running(board) {
-            init {
-                board.setupBoard(PositionType.WHITE_STONE)
-            }
-
             override fun currentType() = PositionType.WHITE_STONE
 
             override fun nextTurn() = BlackTurn(board)
 
-            override fun omoRule() = WhiteStoneOmokRule
+            override fun omokRule() = WhiteStoneOmokRule
+
+            override fun updateBoard() = board.removeBlock()
         }
     }
 

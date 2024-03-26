@@ -1,12 +1,9 @@
 package omok.model
 
-import omok.library.BlackStoneOmokRule
-
 class Board(private val boardSize: Int = BOARD_SIZE) {
     private var boardLayout = BoardLayout(boardSize)
     var lastCoordinate: Coordinate? = null
         private set
-    private val blackStoneOmokRule: BlackStoneOmokRule = BlackStoneOmokRule
 
     fun getBoardLayout(): Array<Array<PositionType>> {
         return boardLayout.deepCopy()
@@ -24,25 +21,7 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
         }
     }
 
-    fun setupBoard(current: PositionType) {
-        when (current) {
-            PositionType.BLACK_STONE -> {
-                setBlock(
-                    blackStoneOmokRule::isThreeThree,
-                    blackStoneOmokRule::isFourFour,
-                    blackStoneOmokRule::isMoreThanFive,
-                )
-            }
-
-            PositionType.WHITE_STONE -> {
-                removeBlock()
-            }
-
-            else -> throw IllegalArgumentException(ERROR_POSITION_TYPE)
-        }
-    }
-
-    private fun setBlock(
+    fun setBlock(
         isThreeThree: (Int, Int, Array<Array<PositionType>>) -> Boolean,
         isFourFour: (Int, Int, Array<Array<PositionType>>) -> Boolean,
         isMoreThanFive: (Int, Int, Array<Array<PositionType>>) -> Boolean,
@@ -73,7 +52,7 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
             isMoreThanFive(i, j, boardLayout.deepCopy())
     ) && boardLayout.isEmpty(i, j)
 
-    private fun removeBlock() {
+    fun removeBlock() {
         for (x in 0 until boardSize) {
             for (y in 0 until boardSize) {
                 if (boardLayout[x, y] == PositionType.BLOCK) {
@@ -87,6 +66,5 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
         private const val MIN_INDEX = 0
         private const val BOARD_SIZE = 15
         private const val ERROR_INVALID_POSITION = "돌을 놓을 수 없는 자리입니다."
-        private const val ERROR_POSITION_TYPE = "올바른 PositionType이 아닙니다."
     }
 }
