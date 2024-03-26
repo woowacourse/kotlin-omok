@@ -65,7 +65,11 @@ abstract class OmokRule(
         return Triple(blink1, isDone1, stone1)
     }
 
-    private fun checkBlankAllowance(blink1: Int, isDone1: Boolean, blinkCount1: Int): Boolean {
+    private fun checkBlankAllowance(
+        blink1: Int,
+        isDone1: Boolean,
+        blinkCount1: Int,
+    ): Boolean {
         var isDone11 = isDone1
         var blinkCount11 = blinkCount1
         if (blink1 == BLANK_ALLOWANCE) isDone11 = true
