@@ -42,25 +42,27 @@ class OutputView {
         row: Int,
         col: Int,
     ) {
-        val stone = board.find(Position(row, col)) ?: return
+        val stone = board.find(Position(row, col))
         if (row == 0) {
-            when (col) {
-                0 -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " ┌─")
-                board.size - 1 -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┐ ")
-                else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", "─┬─")
-            }
+            stone.printBoardColAxis(board.size, col, " ┌─", "─┐ ", "─┬─")
         } else if (row == board.size - 1) {
-            when (col) {
-                0 -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " └─")
-                board.size - 1 -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┘ ")
-                else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", "─┴─")
-            }
+            stone.printBoardColAxis(board.size, col, " └─", "─┘ ", "─┴─")
         } else {
-            when (col) {
-                0 -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " ├─")
-                board.size - 1 -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┤ ")
-                else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", "─┼─")
-            }
+            stone.printBoardColAxis(board.size, col, " ├─", "─┤ ", "─┼─")
+        }
+    }
+
+    private fun Stone.printBoardColAxis(
+        boardSize: Int,
+        col: Int,
+        firstCol: String,
+        endCol: String,
+        middleCol: String,
+    ) {
+        when (col) {
+            0 -> printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", firstCol)
+            boardSize - 1 -> printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", endCol)
+            else -> printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", middleCol)
         }
     }
 
