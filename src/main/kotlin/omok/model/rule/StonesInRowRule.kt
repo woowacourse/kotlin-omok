@@ -15,9 +15,9 @@ class StonesInRowRule(private val maxStoneCount: Int) : Rule {
         direction: Direction,
     ): Boolean {
         val centerStone = board.previousStone() ?: throw IllegalStateException()
-        return (0..<maxStoneCount - 1).any {
+        return (0..<maxStoneCount).any {
             val left = isLineWithoutBlank(board, -direction, centerStone, it)
-            val right = isLineWithoutBlank(board, -direction, centerStone, maxStoneCount - it)
+            val right = isLineWithoutBlank(board, direction, centerStone, maxStoneCount - 1 - it)
             left && right
         }
     }
