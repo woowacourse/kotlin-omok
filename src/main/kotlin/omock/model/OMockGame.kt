@@ -38,7 +38,7 @@ class OMockGame(
             updateBoard(playerStone)
             val row = playerStone.row.getIndex()
             val column = playerStone.column.getIndex()
-            return turn.processTurn(board.stoneStates.map { it.getStoneNumber() }, row, column)
+            return turn.processTurn(board.stoneStates, row, column)
         }.onFailure { e ->
             return Result.failure(e)
         }

@@ -48,7 +48,7 @@ class WhiteTurnTest {
 
         val isOMock =
             player.processTurn(
-                board.stoneStates.map { it.getStoneNumber() },
+                board.stoneStates,
                 row,
                 column,
             )
@@ -72,9 +72,10 @@ class WhiteTurnTest {
         val stone = Stone.from(Row("1"), Column("A"))
         val row = stone.row.getIndex()
         val column = stone.column.getIndex()
+
         val isOMock =
             player.processTurn(
-                board.stoneStates.map { it.getStoneNumber() },
+                board.stoneStates,
                 row,
                 column,
             )

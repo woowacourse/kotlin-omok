@@ -1,29 +1,39 @@
 package omock.model.turn
 
-import core.omock.rule.OMockRule
-import omock.model.ErrorType.FourToFourCount
-import omock.model.ErrorType.IsClearFourToFourCount
-import omock.model.ErrorType.IsReverseTwoAndThree
-import omock.model.ErrorType.ThreeToThreeCount
+import core.omock.rule.FourToFourRule
+import core.omock.rule.IsClearFourToFourRule
+import core.omock.rule.IsReverseTwoAndThreeRule
+import core.omock.rule.ThreeToThreeRule
+import omock.adapter.RuleAdapter
+import omock.model.ColumnStates
+import omock.model.ErrorType.RanjuRuleException
 import omock.model.state.Stone
 
 class BlackTurn(
     override val stoneHistory: ArrayDeque<Stone> = ArrayDeque(),
+    override val adapter: RuleAdapter =
+        RuleAdapter(
+            listOf(
+                FourToFourRule(),
+                IsClearFourToFourRule(),
+                IsReverseTwoAndThreeRule(),
+                ThreeToThreeRule(),
+            ),
+        ),
 ) : Turn() {
     override fun isFinished(): Boolean = false
 
     override fun processTurn(
-        stoneStates: List<List<Int>>,
+        stoneStates: List<ColumnStates>,
         row: Int,
         column: Int,
     ): Result<Turn> {
-        OMockRule.run {
-            if (threeToThreeCount(stoneStates, row, column)) return Result.failure(ThreeToThreeCount())
-            if (fourToFourCount(stoneStates, row, column)) return Result.failure(FourToFourCount())
-            if (isClearFourToFour(stoneStates, row, column)) return Result.failure(IsClearFourToFourCount())
-            if (isReverseTwoAndThree(stoneStates, row, column)) return Result.failure(IsReverseTwoAndThree())
-            if (isGameWon(stoneStates, row, column)) return Result.success(FinishedTurn())
-            return Result.success(turnOff())
+        if (adapter.convertToInteger(stoneStates)
+                .validPosition(row, column)
+        ) {
+            return Result.failure(RanjuRuleException())
         }
+        if (adapter.isGameWon(row, column)) return Result.success(FinishedTurn())
+        return Result.success(turnOff())
     }
 }

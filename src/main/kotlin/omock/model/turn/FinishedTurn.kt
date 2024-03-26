@@ -1,14 +1,17 @@
 package omock.model.turn
 
+import omock.adapter.RuleAdapter
+import omock.model.ColumnStates
 import omock.model.state.Stone
 
 class FinishedTurn(
     override val stoneHistory: ArrayDeque<Stone> = ArrayDeque(),
+    override val adapter: RuleAdapter = RuleAdapter(),
 ) : Turn() {
     override fun isFinished(): Boolean = true
 
     override fun processTurn(
-        stoneStates: List<List<Int>>,
+        stoneStates: List<ColumnStates>,
         row: Int,
         column: Int,
     ): Result<Turn> {

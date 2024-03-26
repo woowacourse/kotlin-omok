@@ -1,6 +1,5 @@
 package omock
 
-import core.omock.rule.OMockRule
 import omock.model.Board
 import omock.model.Column
 import omock.model.Row
@@ -40,12 +39,8 @@ class BlackTurnTest {
         val column = stone.column.getIndex()
 
         assertThat(
-            OMockRule.threeToThreeCount(
-                board.stoneStates.map { it.getStoneNumber() },
-                row,
-                column,
-            ),
-        ).isEqualTo(true)
+            player.processTurn(board.stoneStates, row, column).isFailure,
+        ).isTrue
     }
 
     @Test
@@ -69,12 +64,8 @@ class BlackTurnTest {
         val column = stone.column.getIndex()
 
         assertThat(
-            OMockRule.isReverseTwoAndThree(
-                board.stoneStates.map { it.getStoneNumber() },
-                row,
-                column,
-            ),
-        ).isEqualTo(true)
+            player.processTurn(board.stoneStates, row, column).isFailure,
+        ).isTrue
     }
 
     @Test
@@ -97,11 +88,7 @@ class BlackTurnTest {
         val column = stone.column.getIndex()
 
         assertThat(
-            OMockRule.isClearFourToFour(
-                board.stoneStates.map { it.getStoneNumber() },
-                row,
-                column,
-            ),
-        ).isEqualTo(true)
+            player.processTurn(board.stoneStates, row, column).isFailure,
+        ).isTrue
     }
 }

@@ -1,77 +1,31 @@
 package core.omock.rule
 
-abstract class OMockRule {
-    abstract fun threeToThreeCount(
+import core.omock.Direction
+import core.omock.serach.OMockSearch
+
+interface OMockRule {
+    fun validPosition(
         stoneStates: List<List<Int>>,
         row: Int,
         column: Int,
     ): Boolean
 
-    abstract fun fourToFourCount(
-        stoneStates: List<List<Int>>,
-        row: Int,
-        column: Int,
-    ): Boolean
+    companion object {
+        private const val MIN_REVERSE_COUNT = 0
+        private const val MIN_O_MOCK_COUNT = 4
 
-    abstract fun isClearFourToFour(
-        stoneStates: List<List<Int>>,
-        row: Int,
-        column: Int,
-    ): Boolean
-
-    abstract fun isReverseTwoAndThree(
-        stoneStates: List<List<Int>>,
-        row: Int,
-        column: Int,
-    ): Boolean
-
-    abstract fun isGameWon(
-        stoneStates: List<List<Int>>,
-        row: Int,
-        column: Int,
-    ): Boolean
-
-    companion object Default : OMockRule() {
-        private val oMockRule = OMockRuleImpl()
-
-        override fun threeToThreeCount(
+        fun isGameWon(
             stoneStates: List<List<Int>>,
             row: Int,
             column: Int,
         ): Boolean {
-            return oMockRule.threeToThreeCount(stoneStates, row, column)
-        }
+            val visited = OMockSearch.loadMap(stoneStates, row, column)
 
-        override fun fourToFourCount(
-            stoneStates: List<List<Int>>,
-            row: Int,
-            column: Int,
-        ): Boolean {
-            return oMockRule.fourToFourCount(stoneStates, row, column)
-        }
-
-        override fun isClearFourToFour(
-            stoneStates: List<List<Int>>,
-            row: Int,
-            column: Int,
-        ): Boolean {
-            return oMockRule.isClearFourToFour(stoneStates, row, column)
-        }
-
-        override fun isReverseTwoAndThree(
-            stoneStates: List<List<Int>>,
-            row: Int,
-            column: Int,
-        ): Boolean {
-            return oMockRule.isReverseTwoAndThree(stoneStates, row, column)
-        }
-
-        override fun isGameWon(
-            stoneStates: List<List<Int>>,
-            row: Int,
-            column: Int,
-        ): Boolean {
-            return oMockRule.isGameWon(stoneStates, row, column)
+            visited.entries.forEach { (key, result) ->
+                val reverseResultCount: Int = visited[Direction.reverse(key)]?.count ?: MIN_REVERSE_COUNT
+                return reverseResultCount + result.count >= MIN_O_MOCK_COUNT
+            }
+            return false
         }
     }
 }

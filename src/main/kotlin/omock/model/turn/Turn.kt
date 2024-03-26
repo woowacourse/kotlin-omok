@@ -1,11 +1,14 @@
 package omock.model.turn
 
+import omock.adapter.RuleAdapter
 import omock.model.Column
+import omock.model.ColumnStates
 import omock.model.Row
 import omock.model.state.Stone
 
 sealed class Turn {
     abstract val stoneHistory: ArrayDeque<Stone>
+    abstract val adapter: RuleAdapter
 
     fun stoneHistoryAdd(stone: Stone) {
         stoneHistory.add(stone)
@@ -36,7 +39,7 @@ sealed class Turn {
     }
 
     abstract fun processTurn(
-        stoneStates: List<List<Int>>,
+        stoneStates: List<ColumnStates>,
         row: Int,
         column: Int,
     ): Result<Turn>

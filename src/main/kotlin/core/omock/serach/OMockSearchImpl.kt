@@ -3,7 +3,9 @@ package core.omock.serach
 import core.omock.Direction
 import core.omock.Result
 
-class OMockSearchImpl : OMockSearch() {
+object OMockSearchImpl : OMockSearch() {
+    const val CLEAR_NUMBER = 0
+
     override fun loadMap(
         stoneStates: List<List<Int>>,
         row: Int,
@@ -73,9 +75,5 @@ class OMockSearchImpl : OMockSearch() {
         }
 
         return Result(count, isClear, isLastClear)
-    }
-
-    companion object {
-        const val CLEAR_NUMBER = 0
     }
 }

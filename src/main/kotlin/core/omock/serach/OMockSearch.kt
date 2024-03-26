@@ -11,12 +11,10 @@ abstract class OMockSearch {
     ): Map<Direction, Result>
 
     companion object Default : OMockSearch() {
-        private val oMockSearch = OMockSearchImpl()
-
         override fun loadMap(
             stoneStates: List<List<Int>>,
             row: Int,
             column: Int,
-        ): Map<Direction, Result> = oMockSearch.loadMap(stoneStates, row, column)
+        ): Map<Direction, Result> = OMockSearchImpl.loadMap(stoneStates, row, column)
     }
 }
