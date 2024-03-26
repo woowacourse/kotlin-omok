@@ -6,8 +6,9 @@ import omok.model.position.Position
 
 object DoubleFourChecker : RenjuRule(Board.board) {
     private const val OPEN_FOUR_NOT_FOUND = 0
+    private const val OPEN_FOUR_FOUND = 1
     private const val MIN_BLINKS_OPEN_FOUR = 2
-    private const val OPEN_FOUR_FOUND = 2
+    private const val INVALID_OPEN_FOUR_COUNT = 2
     private const val REQUIRED_STONES = 3
     private const val STONES_FOR_WIN = 4
     private const val MAX_STONES_OPEN_FOUR = 5
@@ -31,8 +32,8 @@ object DoubleFourChecker : RenjuRule(Board.board) {
         val up = deltaPosition.deltaColumn * (rightUp + 1)
 
         when {
-            blink1 + blink2 == MIN_BLINKS_OPEN_FOUR && stone1 + stone2 == STONES_FOR_WIN -> return OPEN_FOUR_FOUND
-            blink1 + blink2 == MIN_BLINKS_OPEN_FOUR && stone1 + stone2 == MAX_STONES_OPEN_FOUR -> return OPEN_FOUR_FOUND
+            blink1 + blink2 == MIN_BLINKS_OPEN_FOUR && stone1 + stone2 == STONES_FOR_WIN -> return INVALID_OPEN_FOUR_COUNT
+            blink1 + blink2 == MIN_BLINKS_OPEN_FOUR && stone1 + stone2 == MAX_STONES_OPEN_FOUR -> return INVALID_OPEN_FOUR_COUNT
             stone1 + stone2 != REQUIRED_STONES -> return OPEN_FOUR_NOT_FOUND
             blink1 + blink2 == MIN_BLINKS_OPEN_FOUR -> return OPEN_FOUR_NOT_FOUND
         }
@@ -44,19 +45,19 @@ object DoubleFourChecker : RenjuRule(Board.board) {
 
         val leftDownValid =
             when {
-                deltaRow != 0 && row - deltaRow * leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> 0
-                deltaCol != 0 && column - deltaCol * leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> 0
-                Board.board[column - down][row - left] == OTHER_STONE -> 0
-                else -> 1
+                deltaRow != Board.MIN_AXIS && row - deltaRow * leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> OPEN_FOUR_NOT_FOUND
+                deltaCol != Board.MIN_AXIS && column - deltaCol * leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> OPEN_FOUR_NOT_FOUND
+                Board.board[column - down][row - left] == OTHER_STONE -> OPEN_FOUR_NOT_FOUND
+                else -> OPEN_FOUR_FOUND
             }
         val rightUpValid =
             when {
-                deltaRow != 0 && row + (deltaRow * rightUp) in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> 0
-                deltaCol != 0 && column + (deltaCol * rightUp) in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> 0
-                Board.board[column + up][row + right] == OTHER_STONE -> 0
-                else -> 1
+                deltaRow != Board.MIN_AXIS && row + (deltaRow * rightUp) in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> OPEN_FOUR_NOT_FOUND
+                deltaCol != Board.MIN_AXIS && column + (deltaCol * rightUp) in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> OPEN_FOUR_NOT_FOUND
+                Board.board[column + up][row + right] == OTHER_STONE -> OPEN_FOUR_NOT_FOUND
+                else -> OPEN_FOUR_FOUND
             }
 
-        return if (leftDownValid + rightUpValid >= 1) 1 else 0
+        return if (leftDownValid + rightUpValid >= OPEN_FOUR_FOUND) OPEN_FOUR_FOUND else OPEN_FOUR_NOT_FOUND
     }
 }

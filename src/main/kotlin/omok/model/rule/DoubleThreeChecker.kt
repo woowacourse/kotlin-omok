@@ -5,8 +5,14 @@ import omok.model.position.DeltaPosition
 import omok.model.position.Position
 
 object DoubleThreeChecker : RenjuRule(Board.board) {
+    private const val OPEN_THREE_NOT_FOUND = 0
+    private const val OPEN_THREE_FOUND = 1
+    private const val INVALID_OPEN_THREE_COUNT = 2
+    private const val MIN_BLINKS_OPEN_THREE = 2
+    private const val MAX_STEPS_COUNT_WALL = 5
+
     fun isDoubleThree(position: Position): Boolean =
-        directions.sumOf { direction -> checkOpenThree(position, DeltaPosition(direction[0], direction[1])) } >= 2
+        directions.sumOf { direction -> checkOpenThree(position, DeltaPosition(direction[0], direction[1])) } >= INVALID_OPEN_THREE_COUNT
 
     private fun checkOpenThree(
         position: Position,
@@ -19,12 +25,12 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         val rightUp = stone2 + blink2
 
         return when {
-            isValidStoneCount(stone1, stone2) -> 0
-            isValidBlinkCount(blink1, blink2) -> 0
-            isAtBoardEdge(position, deltaPosition, leftDown, rightUp) -> 0
-            isBesideAnotherStone(position, deltaPosition, leftDown, rightUp) -> 0
-            countToWall(position, -deltaPosition) + countToWall(position, deltaPosition) <= 5 -> 0
-            else -> 1
+            isValidStoneCount(stone1, stone2) -> OPEN_THREE_NOT_FOUND
+            isValidBlinkCount(blink1, blink2) -> OPEN_THREE_NOT_FOUND
+            isAtBoardEdge(position, deltaPosition, leftDown, rightUp) -> OPEN_THREE_NOT_FOUND
+            isBesideAnotherStone(position, deltaPosition, leftDown, rightUp) -> OPEN_THREE_NOT_FOUND
+            countToWall(position, -deltaPosition) + countToWall(position, deltaPosition) <= MAX_STEPS_COUNT_WALL -> OPEN_THREE_NOT_FOUND
+            else -> OPEN_THREE_FOUND
         }
     }
 
@@ -33,7 +39,7 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         stone2: Int,
     ): Boolean =
         when {
-            stone1 + stone2 != 2 -> true
+            stone1 + stone2 != INVALID_OPEN_THREE_COUNT -> true
             else -> false
         }
 
@@ -42,7 +48,7 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         blink2: Int,
     ): Boolean =
         when {
-            blink1 + blink2 == 2 -> true
+            blink1 + blink2 == MIN_BLINKS_OPEN_THREE -> true
             else -> false
         }
 
@@ -57,10 +63,10 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         val deltaRow = deltaPosition.deltaRow
         val deltaCol = deltaPosition.deltaColumn
         return when {
-            deltaRow != 0 && row - leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
-            deltaCol != 0 && column - leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
-            deltaRow != 0 && row + rightUp in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
-            deltaCol != 0 && column + rightUp in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
+            deltaRow != Board.MIN_AXIS && row - leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
+            deltaCol != Board.MIN_AXIS && column - leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
+            deltaRow != Board.MIN_AXIS && row + rightUp in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
+            deltaCol != Board.MIN_AXIS && column + rightUp in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
             else -> false
         }
     }
