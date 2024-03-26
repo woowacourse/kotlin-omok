@@ -3,8 +3,8 @@ package omok.model
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertDoesNotThrow
-import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 
 class BoardTest {
     private lateinit var board: Board
@@ -30,43 +30,49 @@ class BoardTest {
         assertThat(board.stones.stones).contains(blackStone)
     }
 
+    @ParameterizedTest
+    @CsvSource("1,0", "16,5", "3,-9")
+    fun `착수하려는 위치가 바둑판 바깥이라면 착수할 수 없다`(
+        row: Int,
+        col: Int,
+    ) {
+        val outsideStone = Stone(black, Coordinate(Row(row), Column(col)))
+        assertThat(board.putStone(outsideStone)).isEqualTo(StoneState.OUTSIDE_THE_BOARD)
+    }
+
     @Test
-    fun `흑 플레이어가 3-3을 만드는 경우, 착수할 수 없다`() {
+    fun `착수하려는 위치에 이미 다른 돌이 있다면 착수할 수 없다`() {
+        board.putStone(blackStone)
+        assertThat(board.putStone(whiteStone)).isEqualTo(StoneState.OCCUPIED)
+    }
+
+    @Test
+    fun `흑 플레이어가 3-3을 만드는 경우는 금수이다`() {
         createBoard(samSamBlackStones)
-        assertThrows<IllegalStateException> {
-            board.putStone(blackStone)
-        }
+        assertThat(board.putStone(blackStone)).isEqualTo(StoneState.FORBIDDEN)
     }
 
     @Test
-    fun `흑 플레이어가 4-4을 만드는 경우, 착수할 수 없다`() {
+    fun `흑 플레이어가 4-4을 만드는 경우는 금수이다`() {
         createBoard(fourFourBlackStones)
-        assertThrows<IllegalStateException> {
-            board.putStone(blackStone)
-        }
+        assertThat(board.putStone(blackStone)).isEqualTo(StoneState.FORBIDDEN)
     }
 
     @Test
-    fun `흑 플레이어가 장목을 만드는 경우, 착수할 수 없다`() {
+    fun `흑 플레이어가 장목을 만드는 경우는 금수이다`() {
         createBoard(moreThanFiveBlackStones)
-        assertThrows<IllegalStateException> {
-            board.putStone(blackStone)
-        }
+        assertThat(board.putStone(blackStone)).isEqualTo(StoneState.FORBIDDEN)
     }
 
     @Test
-    fun `흑 플레이어가 열린 4-4을 만드는 경우, 착수할 수 없다`() {
+    fun `흑 플레이어가 열린 4-4을 만드는 경우는 금수이다`() {
         createBoard(openFourFourBlackStones)
-        assertThrows<IllegalStateException> {
-            board.putStone(blackStone)
-        }
+        assertThat(board.putStone(blackStone)).isEqualTo(StoneState.FORBIDDEN)
     }
 
     @Test
     fun `백 플레이어는 렌주룰을 적용받지 않는다`() {
         createBoard(samSamWhiteStones)
-        assertDoesNotThrow {
-            board.putStone(whiteStone)
-        }
+        assertThat(board.putStone(whiteStone)).isEqualTo(StoneState.PLACED)
     }
 }

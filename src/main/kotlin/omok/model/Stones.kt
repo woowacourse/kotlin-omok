@@ -16,7 +16,7 @@ class Stones {
     fun findOmok(stone: Stone): Boolean {
         for (direction in Directions) {
             val count = countSameColorStoneInDirection(stone, direction)
-            if (count >= OMOK_COUNT) return true
+            if (count == OMOK_COUNT) return true
         }
         return false
     }

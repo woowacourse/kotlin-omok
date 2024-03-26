@@ -9,14 +9,14 @@ import org.junit.jupiter.params.provider.CsvSource
 
 class CoordinateTest {
     @ParameterizedTest
-    @CsvSource("1,A", "13,F", "4,G")
+    @CsvSource("1,1", "13,6", "4,7")
     fun `좌표 객체는 좌표 값을 가지고 있다`(
-        row: String,
-        col: String,
+        row: Int,
+        col: Int,
     ) {
-        val coordinate = Coordinate(Row.from(row), Column.from(col))
+        val coordinate = Coordinate(Row(row), Column(col))
 
-        assertThat(coordinate.row.value).isEqualTo(row.toInt())
-        assertThat(coordinate.col.value).isEqualTo(col.first() - 'A' + 1)
+        assertThat(coordinate.row.value).isEqualTo(row)
+        assertThat(coordinate.col.value).isEqualTo(col)
     }
 }

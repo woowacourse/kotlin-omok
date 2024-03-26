@@ -29,30 +29,33 @@ class PlayerTest {
     }
 
     @Test
-    fun `플레이어 차례가 되면 돌을 보드에 착수 한다`() {
+    fun `플레이어는 자기 색깔의 돌을 반환한다`() {
         player = Player(Color.BLACK)
+        fun inputCoordinate(): () -> Coordinate = {COORDINATE_A1}
+        val stone = player.getStone(inputCoordinate())
 
-        player.playTurn(board, COORDINATE_A1)
-
-        assertThat(stones.stones.size).isEqualTo(5)
+        assertThat(player.color).isEqualTo(stone.color)
     }
 
     @Test
     fun `플레이어의 차례에 오목이 만들어지면 승리한다`() {
         player = Player(Color.BLACK)
+        fun inputCoordinate(): () -> Coordinate = {COORDINATE_F8}
+        val stone = player.getStone(inputCoordinate())
 
-        player.playTurn(board, COORDINATE_F8)
+        board.putStone(stone)
+        player.checkOmok(stones, stone)
 
         assertThat(player.isWin).isTrue()
     }
 
     @Test
-    fun `플레이어의 차례에 장목이 만들어지면 승리한다`() {
+    fun `플레이어의 차례에 장목이 만들어지면 승리하지 못한다`() {
         player = Player(Color.BLACK)
 
-        player.playTurn(board, COORDINATE_F8)
-        player.playTurn(board, COORDINATE_F10)
+        board.putStone(Stone(black, COORDINATE_F8))
+        player.checkOmok(stones, Stone(black, COORDINATE_F10))
 
-        assertThat(player.isWin).isTrue()
+        assertThat(player.isWin).isFalse()
     }
 }
