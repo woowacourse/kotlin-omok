@@ -23,4 +23,20 @@ class ForbiddenPlacesTest {
         // then
         assertThat(actual).isEqualTo(ContinualStonesStandard(5))
     }
+
+    @Test
+    fun `금수 규칙에 더블 금수 규칙(3-3, 4-4)이 있는지 확인한다`() {
+        // given
+        val forbiddenPlaces =
+            ForbiddenPlaces(
+                DoubleOpenThreeForbiddenPlace(),
+                OverlineForbiddenPlace(),
+            )
+
+        // when
+        val actual = forbiddenPlaces.haveDoubleRule()
+
+        // then
+        assertThat(actual).isTrue
+    }
 }
