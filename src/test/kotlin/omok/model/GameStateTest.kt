@@ -16,9 +16,7 @@ class GameStateTest {
     fun `BlackTurn에서 돌을 두면 WhiteTurn으로 간다`() {
         assertThat(
             BLACK_STATE.placeStone(
-                { },
-                { A1 },
-                { },
+                A1
             ),
         ).isInstanceOf(GameState.Running.WhiteTurn.Start::class.java)
     }
@@ -27,9 +25,7 @@ class GameStateTest {
     fun `WhiteTurn에서 돌을 두면 BlackTurn으로 간다`() {
         assertThat(
             WHITE_STATE.placeStone(
-                { },
-                { A1 },
-                { },
+                A1
             ),
         ).isExactlyInstanceOf(GameState.Running.BlackTurn.Start::class.java)
     }
@@ -39,9 +35,7 @@ class GameStateTest {
         OMOK_FINISH.forEach { stone ->
             gameState =
                 gameState.placeStone(
-                    { },
-                    { stone },
-                    { },
+                    stone
                 )
         }
         assertThat(gameState).isInstanceOf(GameState.Finish::class.java)

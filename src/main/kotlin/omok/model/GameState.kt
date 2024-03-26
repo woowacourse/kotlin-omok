@@ -2,9 +2,7 @@ package omok.model
 
 sealed class GameState(val board: Board) {
     abstract fun placeStone(
-        onTurn: (GameState) -> Unit,
-        onRead: () -> Position,
-        onShow: (Board) -> Unit,
+        position: Position
     ): GameState
 
     abstract fun getNextTurn(boardResult: BoardResult): GameState
@@ -18,16 +16,9 @@ sealed class GameState(val board: Board) {
     sealed class Running(board: Board) : GameState(board) {
 
         override fun placeStone(
-            onTurn: (GameState) -> Unit,
-            onRead: () -> Position,
-            onShow: (Board) -> Unit,
+            position: Position
         ): GameState {
-            onShow(board)
-            onTurn(this)
-
-            val position = onRead()
             val boardResult = board.placeStone(position, getCurrentStoneType())
-
             return getNextTurn(boardResult)
         }
 
@@ -86,7 +77,6 @@ sealed class GameState(val board: Board) {
             override fun getNextTurn(boardResult: BoardResult): GameState {
                 return when(boardResult) {
                     BoardResult.Done -> {
-                        println("여기로와야하는데")
                         BlackTurn.Start(board)
                     }
                     BoardResult.Duplicate -> {
@@ -123,9 +113,7 @@ sealed class GameState(val board: Board) {
         }
 
         override fun placeStone(
-            onTurn: (GameState) -> Unit,
-            onRead: () -> Position,
-            onShow: (Board) -> Unit,
+            position: Position
         ): GameState {
             return this
         }
