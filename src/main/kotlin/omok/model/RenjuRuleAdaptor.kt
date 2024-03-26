@@ -1,18 +1,16 @@
 package omok.model
 
+import omok.model.Board.Companion.BOARD_SIZE
 import omok.rule.RenjuRule
 
-object RenjuRuleAdaptor {
+class RenjuRuleAdaptor(private val rule: RenjuRule = RenjuRule(boardSize = BOARD_SIZE)) {
     fun isForbidden(
         board: Board,
         stone: Stone,
     ): Boolean {
         val boardConverted = board.convert()
         val point = stone.point
-        val rule = RenjuRule(boardConverted, boardSize = 15)
-        return rule.run {
-            checkThreeThree(point.x, point.y) || checkFourFour(point.x, point.y) || checkMoreThanFive(point.x, point.y)
-        }
+        return rule.validPosition(boardConverted, point.x, point.y)
     }
 
     private fun Board.convert(): List<List<Int>> {

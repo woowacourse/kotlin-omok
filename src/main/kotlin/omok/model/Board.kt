@@ -7,9 +7,10 @@ class Board {
         MutableList(BOARD_SIZE) {
             MutableList(BOARD_SIZE) { StoneType.EMPTY }
         }
+    private val ruleAdaptor = RenjuRuleAdaptor()
 
     fun isForbidden(stone: Stone): Boolean {
-        return RenjuRuleAdaptor.isForbidden(this, stone)
+        return ruleAdaptor.isForbidden(this, stone)
     }
 
     fun putStone(stone: Stone) {
@@ -57,6 +58,6 @@ class Board {
     companion object {
         const val DEFAULT_COUNT = 0
         const val WINNING_COUNT = 5
-        private const val BOARD_SIZE = 15
+        const val BOARD_SIZE = 15
     }
 }

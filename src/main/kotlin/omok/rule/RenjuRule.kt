@@ -1,36 +1,45 @@
 package omok.rule
 
 class RenjuRule(
-    private val board: List<List<Int>>,
     private val currentStone: Int = BLACK_STONE,
     private val otherStone: Int = WHITE_STONE,
     private val boardSize: Int,
 ) {
     private val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
 
-    fun checkThreeThree(
+    fun validPosition(
+        board: List<List<Int>>,
         x: Int,
         y: Int,
-    ): Boolean = directions.sumOf { direction -> checkOpenThree(x, y, direction[0], direction[1]) } >= 2
+    ): Boolean = checkThreeThree(board, x, y) || checkFourFour(board, x, y) || checkMoreThanFive(board, x, y)
 
-    fun checkFourFour(
+    private fun checkThreeThree(
+        board: List<List<Int>>,
         x: Int,
         y: Int,
-    ): Boolean = directions.sumOf { direction -> checkOpenFour(x, y, direction[0], direction[1]) } >= 2
+    ): Boolean = directions.sumOf { direction -> checkOpenThree(board, x, y, direction[0], direction[1]) } >= 2
 
-    fun checkMoreThanFive(
+    private fun checkFourFour(
+        board: List<List<Int>>,
         x: Int,
         y: Int,
-    ): Boolean = directions.map { direction -> checkMoreThanFive(x, y, direction[0], direction[1]) }.contains(true)
+    ): Boolean = directions.sumOf { direction -> checkOpenFour(board, x, y, direction[0], direction[1]) } >= 2
+
+    private fun checkMoreThanFive(
+        board: List<List<Int>>,
+        x: Int,
+        y: Int,
+    ): Boolean = directions.map { direction -> checkMoreThanFive(board, x, y, direction[0], direction[1]) }.contains(true)
 
     private fun checkOpenThree(
+        board: List<List<Int>>,
         x: Int,
         y: Int,
         dx: Int,
         dy: Int,
     ): Int {
-        val (stone1, blink1) = search(x, y, -dx, -dy)
-        val (stone2, blink2) = search(x, y, dx, dy)
+        val (stone1, blink1) = search(board, x, y, -dx, -dy)
+        val (stone2, blink2) = search(board, x, y, dx, dy)
 
         val leftDown = stone1 + blink1
         val left = dx * (leftDown + 1)
@@ -49,12 +58,13 @@ class RenjuRule(
             dy != 0 && y + rightUp in listOf(MIN_Y, boardSize - 1) -> 0
             board[y - down][x - left] == otherStone -> 0
             board[y + up][x + right] == otherStone -> 0
-            countToWall(x, y, -dx, -dy) + countToWall(x, y, dx, dy) <= 5 -> 0
+            countToWall(board, x, y, -dx, -dy) + countToWall(board, x, y, dx, dy) <= 5 -> 0
             else -> 1
         }
     }
 
     private fun countToWall(
+        board: List<List<Int>>,
         x: Int,
         y: Int,
         dx: Int,
@@ -80,13 +90,14 @@ class RenjuRule(
     }
 
     private fun checkOpenFour(
+        board: List<List<Int>>,
         x: Int,
         y: Int,
         dx: Int,
         dy: Int,
     ): Int {
-        val (stone1, blink1) = search(x, y, -dx, -dy)
-        val (stone2, blink2) = search(x, y, dx, dy)
+        val (stone1, blink1) = search(board, x, y, -dx, -dy)
+        val (stone2, blink2) = search(board, x, y, dx, dy)
 
         val leftDown = stone1 + blink1
         val left = dx * (leftDown + 1)
@@ -122,13 +133,14 @@ class RenjuRule(
     }
 
     private fun checkMoreThanFive(
+        board: List<List<Int>>,
         x: Int,
         y: Int,
         dx: Int,
         dy: Int,
     ): Boolean {
-        val (stone1, blink1) = search(x, y, -dx, -dy)
-        val (stone2, blink2) = search(x, y, dx, dy)
+        val (stone1, blink1) = search(board, x, y, -dx, -dy)
+        val (stone2, blink2) = search(board, x, y, dx, dy)
 
         return when {
             blink1 + blink2 == 0 && stone1 + stone2 > 4 -> true
@@ -137,6 +149,7 @@ class RenjuRule(
     }
 
     private fun search(
+        board: List<List<Int>>,
         x: Int,
         y: Int,
         dx: Int,
