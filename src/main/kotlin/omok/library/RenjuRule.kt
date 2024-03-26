@@ -1,7 +1,9 @@
 package omok.library
 
+import omok.model.RuleAdapter
+
 class RenjuRule(
-    val board: List<List<Int>>,
+    private val board: List<List<Int>>,
 ) {
     private val size = board.size
 
@@ -13,17 +15,6 @@ class RenjuRule(
             Pair(1, -1),
         )
 
-    fun isWinCondition(
-        x: Int,
-        y: Int,
-        stoneType: Int,
-        checkCount: (Int) -> Boolean,
-    ): Boolean {
-        return directions.any { direction ->
-            checkCount(checkDirection(x, y, stoneType, direction.first, direction.second))
-        }
-    }
-
     fun isForbidden(
         x: Int,
         y: Int,
@@ -33,6 +24,20 @@ class RenjuRule(
             x,
             y,
         ) >= MIN_OPEN_FOURS || isOverLine(x, y, stoneType)
+    }
+
+    fun isWinCondition(
+        x: Int,
+        y: Int,
+        stoneType: Int,
+    ): Boolean {
+        return directions.any { direction ->
+            checkCount(checkDirection(x, y, stoneType, direction.first, direction.second))
+        }
+    }
+
+    private fun checkCount(count: Int): Boolean {
+        return count >= RuleAdapter.WINNING_COUNT
     }
 
     private fun isOverLine(

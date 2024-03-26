@@ -1,6 +1,5 @@
 package omok.controller
 
-import omok.model.BlackRule
 import omok.model.BlackTurn
 import omok.model.Board
 import omok.model.FinishedTurn
@@ -12,7 +11,7 @@ import omok.view.OutputView
 class Controller {
     fun play() {
         val board = Board(15)
-        var turn: Turn = BlackTurn(BlackRule())
+        var turn: Turn = BlackTurn()
 
         OutputView.printGameStart()
         OutputView.printBoard(board)

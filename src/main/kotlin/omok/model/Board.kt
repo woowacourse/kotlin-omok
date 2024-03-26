@@ -13,7 +13,7 @@ class Board(val size: Int) {
         point: Point,
         turn: Turn,
     ): Turn {
-        val nextTurn = turn.nextTurn(point, this)
+        val nextTurn = turn.nextTurn(point, RuleAdapter(this))
         if (turn != nextTurn) {
             beforePoint = point
             table[point.y][point.x] = turn.stoneType
@@ -23,7 +23,10 @@ class Board(val size: Int) {
 
     fun getBoardLine(index: Int): List<StoneType> = table[size - index]
 
-    fun getBoardPoint(y: Int, x: Int): StoneType = table[y][x]
+    fun getBoardPoint(
+        y: Int,
+        x: Int,
+    ): StoneType = table[y][x]
 
     operator fun contains(point: Point): Boolean {
         return table[point.y][point.x] != StoneType.EMPTY
