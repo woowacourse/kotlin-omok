@@ -23,7 +23,7 @@ class Stones(initialStones: List<Stone> = emptyList()) {
     }
 
     fun findOmok(stone: Stone): Boolean {
-        for (direction in Directions) {
+        for (direction in Direction.biDirection()) {
             val count = countSameColorStoneInDirection(stone, direction)
             if (count >= OMOK_COUNT) return true
         }
@@ -32,11 +32,11 @@ class Stones(initialStones: List<Stone> = emptyList()) {
 
     fun countSameColorStoneInDirection(
         startStone: Stone,
-        direction: Direction,
+        direction: BiDirection,
     ): Int {
         var count = 1
-        count += countSameColorStonesInOneDirection(startStone, direction)
-        count += countSameColorStonesInOneDirection(startStone, direction.invert())
+        count += countSameColorStonesInOneDirection(startStone, direction.direction1)
+        count += countSameColorStonesInOneDirection(startStone, direction.direction2)
         return count
     }
 
@@ -68,13 +68,5 @@ class Stones(initialStones: List<Stone> = emptyList()) {
     companion object {
         const val ERROR_CANT_PUT_STONE = "이미 돌이 착수된 위치입니다."
         val OMOK_COUNT: Int = 5
-        val Directions =
-            listOf(
-                // TOP,TOP_RIGHT,RIGHT,RIGHT_BOTTOM
-                Direction(1, 0),
-                Direction(1, 1),
-                Direction(0, 1),
-                Direction(-1, 1),
-            )
     }
 }

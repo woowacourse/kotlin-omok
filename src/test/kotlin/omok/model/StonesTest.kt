@@ -60,7 +60,7 @@ class StonesTest {
         val actual =
             stones.countSameColorStoneInDirection(
                 Stone(Color.BLACK, COORDINATE_F8),
-                Direction(1, 0),
+                BiDirection(Direction.TOP, Direction.BOTTOM),
             )
         assertThat(actual).isEqualTo(2)
     }
