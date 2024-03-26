@@ -3,7 +3,7 @@ package omok.model.rule
 import omok.model.position.Position
 
 object RulesAdapter {
-    private const val EXCEED_FIVE_PRECONDITION = 5
+    const val EXCEED_FIVE_PRECONDITION = 5
 
     fun checkForbidden(position: Position): Boolean =
         DoubleThreeChecker.isDoubleThree(position) ||

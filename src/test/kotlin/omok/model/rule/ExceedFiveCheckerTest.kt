@@ -10,7 +10,7 @@ import Y_15
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -29,7 +29,7 @@ class ExceedFiveCheckerTest {
         blackStone.putStone(Position(X_C, Y_14))
         blackStone.putStone(Position(X_C, Y_15))
 
-        val actual = ExceedFiveChecker.isMoreThanFive(Position(X_C, Y_13))
-        Assertions.assertThat(actual).isEqualTo(true)
+        val actual = ExceedFiveChecker.isMoreThanFive(Position(X_C, Y_13), RulesAdapter.EXCEED_FIVE_PRECONDITION)
+        assertThat(actual).isEqualTo(true)
     }
 }
