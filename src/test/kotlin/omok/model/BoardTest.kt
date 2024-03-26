@@ -8,8 +8,8 @@ class BoardTest {
     @Test
     fun `이미 돌이 있는 자리에 착수를 진행하면, 착수 실패임을 알린다`() {
         // given
-        val status = createPlayingBoard()
-        val board = Board(status)
+        val placementInfo = PlacementInfo(createPlayingBoard())
+        val board = Board(placementInfo)
         // when
         val actualResult = board.place(Position(HorizontalCoordinate.ONE, VerticalCoordinate.C))
         // then

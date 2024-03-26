@@ -123,3 +123,23 @@ fun createOverLineBoard() =
         arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
         arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
     )
+
+fun createEdgePlacedBoard() =
+    arrayOf(
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, Color.BLACK, null, null, null, null, null, null, null, null, null, null, null, null, null, Color.WHITE),
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        arrayOf<Color?>(null, Color.BLACK, null, null, null, null, null, null, null, null, null, null, null, null, null, Color.WHITE),
+    )

@@ -6,11 +6,10 @@ import omok.model.state.TurnState
 import omok.model.state.White
 
 class Board(
-    status: Array<Array<Color?>> = Array(COMPUTATION_BOARD_SIZE) { Array(COMPUTATION_BOARD_SIZE) { null } },
+    private val placementInfo: PlacementInfo = PlacementInfo(),
 ) {
-    private val _status: Array<Array<Color?>> = status
     val status: List<List<Color?>>
-        get() = _status.map { it.toList() }.toList()
+        get() = placementInfo.status.map { it.toList() }.toList()
 
     private val placementCount: Int
         get() = status.flatten().count { it != null }
@@ -19,7 +18,7 @@ class Board(
         private set
 
     private val turnState: TurnState
-        get() = if (isEven(placementCount)) Black(_status) else White(_status)
+        get() = if (isEven(placementCount)) Black(placementInfo.status) else White(placementInfo.status)
 
     fun place(position: Position): GameState {
         if (position.horizontalCoordinate.index !in MIN_INDEX..MAX_INDEX) return GameState.Error(message = MESSAGE_WRONG_ROW_RANGE)
@@ -32,7 +31,7 @@ class Board(
         if (placementCount >= DISPLAY_BOARD_SIZE * DISPLAY_BOARD_SIZE) return GameState.GameOver(gameResult = GameResult.DRAW)
 
         lastPlacement = getLastPlacementInfo(position)
-        val turnResult = turnState.getWinningResult(position, ::markSinglePlace)
+        val turnResult = turnState.getWinningResult(position, placementInfo::markSinglePlace)
         return turnResult?.let { GameState.GameOver(turnResult) } ?: GameState.OnProgress
     }
 
@@ -44,14 +43,6 @@ class Board(
 
     private fun isEven(num: Int): Boolean {
         return num % ODD_EVEN_INDICATOR == 0
-    }
-
-    private fun markSinglePlace(
-        horizontalCoordinate: Int,
-        verticalCoordinate: Int,
-        color: Color,
-    ) {
-        _status[horizontalCoordinate][verticalCoordinate] = color
     }
 
     companion object {
