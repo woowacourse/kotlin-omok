@@ -32,11 +32,11 @@ class BlackTest {
 
     @Test
     fun `33 조건일 때, 흑돌은 착수할 수 없다`() {
-        assertThrows<IllegalArgumentException> {
-            val board = createThreeThreeBoard()
-            val blackBoard = Black(board)
-            val position = Position.of(3, 'C')
-            // when
+        val board = createThreeThreeBoard()
+        val blackBoard = Black(board)
+        val position = Position.of(3, 'C')
+        // when
+        assertThrows<IllegalArgumentException>(EXCEPTION_FORBIDDEN_PLACEMENT) {
             blackBoard.getWinningResult(
                 position = position,
                 markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
@@ -49,11 +49,11 @@ class BlackTest {
 
     @Test
     fun `44 조건일 때, 흑돌은 착수할 수 없다`() {
-        assertThrows<IllegalArgumentException> {
-            val board = createFourFourBoard()
-            val blackBoard = Black(board)
-            val position = Position.of(7, 'G')
-            // when
+        val board = createFourFourBoard()
+        val blackBoard = Black(board)
+        val position = Position.of(7, 'G')
+        // when
+        assertThrows<IllegalArgumentException>(EXCEPTION_FORBIDDEN_PLACEMENT) {
             blackBoard.getWinningResult(
                 position = position,
                 markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
@@ -66,11 +66,11 @@ class BlackTest {
 
     @Test
     fun `장목 조건일 때, 흑돌은 착수할 수 없다`() {
-        assertThrows<IllegalArgumentException> {
-            val board = createOverLineBoard()
-            val blackBoard = Black(board)
-            val position = Position.of(3, 'F')
-            // when
+        val board = createOverLineBoard()
+        val blackBoard = Black(board)
+        val position = Position.of(3, 'F')
+        // when
+        assertThrows<IllegalArgumentException>(EXCEPTION_FORBIDDEN_PLACEMENT) {
             blackBoard.getWinningResult(
                 position = position,
                 markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
@@ -79,5 +79,9 @@ class BlackTest {
                 addSingleStone = { color, position -> Unit },
             )
         }
+    }
+
+    companion object {
+        private const val EXCEPTION_FORBIDDEN_PLACEMENT = "금수인 위치입니다."
     }
 }
