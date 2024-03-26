@@ -11,7 +11,10 @@ class GamePlayingRules private constructor(
 ) {
     init {
         if (!continualStonesWinningCondition.canHaveDoubleRule()) {
-            require(!forbiddenPlaces.haveDoubleRule()) { "승리 조건이 오목 미만일 경우에는 더블 규칙(3-3, 4-4)을 가질 수 없습니다" }
+            require(!forbiddenPlaces.hasDoubleRule()) { "승리 조건이 오목 미만일 경우에는 더블 규칙(3-3, 4-4)을 가질 수 없습니다." }
+        }
+        if (!continualStonesWinningCondition.canHaveOverlineRule()) {
+            require(!forbiddenPlaces.hasOverlineRule()) { "승리 조건이 N목 이상을 완성일 경우에는 장목 규칙을 가질 수 없습니다." }
         }
     }
 

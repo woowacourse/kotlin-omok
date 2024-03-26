@@ -17,23 +17,28 @@ fun main() {
     OmokController(
         InputView(),
         OutputView(),
-        blackStoneGamePlayingRules = GamePlayingRules.from(
-            continualStonesWinningCondition = ContinualStonesWinningCondition(
-                ContinualStonesStandard(5),
-                ContinualStonesCondition.EXACT,
+        blackStoneGamePlayingRules =
+            GamePlayingRules.from(
+                continualStonesWinningCondition =
+                    ContinualStonesWinningCondition(
+                        ContinualStonesStandard(5),
+                        ContinualStonesCondition.EXACT,
+                    ),
+                forbiddenPlaces =
+                    ForbiddenPlaces(
+                        DoubleOpenThreeForbiddenPlace(Stone.BLACK),
+                        DoubleFourForbiddenPlace(Stone.BLACK),
+                        OverlineForbiddenPlace(),
+                    ),
             ),
-            forbiddenPlaces = ForbiddenPlaces(
-                DoubleOpenThreeForbiddenPlace(Stone.BLACK),
-                DoubleFourForbiddenPlace(Stone.BLACK),
-                OverlineForbiddenPlace(),
+        whiteStoneGamePlayingRules =
+            GamePlayingRules.from(
+                continualStonesWinningCondition =
+                    ContinualStonesWinningCondition(
+                        ContinualStonesStandard(5),
+                        ContinualStonesCondition.EXACT,
+                    ),
+                forbiddenPlaces = ForbiddenPlaces(),
             ),
-        ),
-        whiteStoneGamePlayingRules = GamePlayingRules.from(
-            continualStonesWinningCondition = ContinualStonesWinningCondition(
-                ContinualStonesStandard(5),
-                ContinualStonesCondition.EXACT,
-            ),
-            forbiddenPlaces = ForbiddenPlaces(),
-        ),
     ).startGame()
 }

@@ -23,7 +23,7 @@ class ContinualStonesWinningConditionTest {
     }
 
     @Test
-    fun `연속 돌 기준이 정확히 N목 으로 지정되어 있다면 장목 금수 규칙을 지정할 수 없다`() {
+    fun `우승 기준이 N목 이상으로 지정되어 있다면 장목 금수 규칙을 지정할 수 없다`() {
         val continualStonesWinningCondition =
             ContinualStonesWinningCondition(
                 ContinualStonesStandard(5),

@@ -8,7 +8,9 @@ class ForbiddenPlaces(list: List<ForbiddenPlace>) {
 
     constructor(vararg forbiddenPlace: ForbiddenPlace) : this(listOf(*forbiddenPlace))
 
-    fun haveDoubleRule(): Boolean = _list.any { it is DoubleFourForbiddenPlace || it is DoubleOpenThreeForbiddenPlace }
+    fun hasDoubleRule(): Boolean = list.any { it is DoubleFourForbiddenPlace || it is DoubleOpenThreeForbiddenPlace }
+
+    fun hasOverlineRule(): Boolean = list.any { it is OverlineForbiddenPlace }
 
     fun initOverlineStandard(continualStonesStandard: ContinualStonesStandard): ForbiddenPlaces {
         (_list.find { it is OverlineForbiddenPlace } as? OverlineForbiddenPlace)?.continualStonesStandard =

@@ -29,6 +29,20 @@ class GamePlayingRulesTest {
     }
 
     @Test
+    fun `우승 조건이 N 목 이상일 경우 장목 규칙을 가질 수 없다`() {
+        assertThrows<IllegalArgumentException> {
+            GamePlayingRules.from(
+                ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.CAN_OVERLINE),
+                ForbiddenPlaces(
+                    DoubleOpenThreeForbiddenPlace(Stone.BLACK),
+                    DoubleFourForbiddenPlace(Stone.BLACK),
+                    OverlineForbiddenPlace(),
+                ),
+            )
+        }
+    }
+
+    @Test
     fun `규칙을 가지고 있지 않으면 비어있는 위치에 모든 돌을 둘 수 있다`() {
         val board = initBoard()
         val gamePlayingRules =
