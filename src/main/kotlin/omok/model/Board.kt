@@ -1,9 +1,9 @@
 package omok.model
 
 import omok.model.StoneState.BEFORE_PLACED
-import omok.model.StoneState.OUTSIDE_THE_BOARD
 import omok.model.StoneState.FORBIDDEN
 import omok.model.StoneState.OCCUPIED
+import omok.model.StoneState.OUTSIDE_THE_BOARD
 import omok.model.StoneState.PLACED
 
 class Board(val stones: Stones = Stones()) {
@@ -77,8 +77,11 @@ class Board(val stones: Stones = Stones()) {
     }
 
     private fun checkWhoIsWinner(): Color {
-        return if (players.first().isWin) players.first().color
-        else players.last().color
+        return if (players.first().isWin) {
+            players.first().color
+        } else {
+            players.last().color
+        }
     }
 
     companion object {

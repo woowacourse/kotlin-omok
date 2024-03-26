@@ -37,7 +37,10 @@ object InputView {
     fun changeAlphabetToInt(input: String): Int {
         require(input.length == 1) { ERROR_INVALID_COLUMN_INPUT }
         require(input.matches("^[a-zA-Z]$".toRegex())) { ERROR_INVALID_COLUMN_INPUT }
-        return if (input.matches("^[a-z]$".toRegex())) input.first() - 'a' + 1
-        else input.first() - 'A' + 1
+        return if (input.matches("^[a-z]$".toRegex())) {
+            input.first() - 'a' + 1
+        } else {
+            input.first() - 'A' + 1
+        }
     }
 }

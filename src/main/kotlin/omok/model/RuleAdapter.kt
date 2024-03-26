@@ -4,12 +4,13 @@ import omok.library.RenjuRule
 
 class RuleAdapter(private val boardSize: Int, private val getStones: () -> Stones) : Rule {
     private val renjuRule: RenjuRule
-        get() = RenjuRule(
-            generateCustomBoard(boardSize, getStones()),
-            colorToInt(getCurrentTurn(getStones())),
-            getOtherColorToInt(getCurrentTurn(getStones())),
-            boardSize,
-        )
+        get() =
+            RenjuRule(
+                generateCustomBoard(boardSize, getStones()),
+                colorToInt(getCurrentTurn(getStones())),
+                getOtherColorToInt(getCurrentTurn(getStones())),
+                boardSize,
+            )
 
     override fun checkPlaceable(stone: Stone): Boolean {
         return !checkUnable(stone)
@@ -49,7 +50,10 @@ class RuleAdapter(private val boardSize: Int, private val getStones: () -> Stone
         }
     }
 
-    private fun generateCustomBoard(boardSize: Int, stones: Stones): List<List<Int>> {
+    private fun generateCustomBoard(
+        boardSize: Int,
+        stones: Stones,
+    ): List<List<Int>> {
         val libraryBoard =
             List(boardSize) {
                 MutableList(boardSize) { UNPLACED_INT }
