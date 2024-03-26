@@ -3,7 +3,7 @@ package omok.model.rule
 import omok.model.Board
 import omok.model.Position
 import omok.model.rule.ban.ForbiddenPlaces
-import omok.model.rule.ban.OverlineForbiddenPlace2
+import omok.model.rule.ban.OverlineForbiddenPlace
 import omok.model.rule.winning.ContinualStonesWinningCondition
 
 class GamePlayingRules private constructor(
@@ -16,7 +16,8 @@ class GamePlayingRules private constructor(
         }
     }
 
-    fun overlineRule(): OverlineForbiddenPlace2? = forbiddenPlaces.list.find { it is OverlineForbiddenPlace2 } as? OverlineForbiddenPlace2
+    fun overlineRule(): OverlineForbiddenPlace? =
+        forbiddenPlaces.list.find { it is OverlineForbiddenPlace } as OverlineForbiddenPlace?
 
     fun availablePosition(
         board: Board,

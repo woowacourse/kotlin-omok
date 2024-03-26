@@ -11,7 +11,7 @@ class ForbiddenPlaces(list: List<ForbiddenPlace>) {
     fun haveDoubleRule(): Boolean = _list.any { it is DoubleFourForbiddenPlace || it is DoubleOpenThreeForbiddenPlace }
 
     fun initOverlineStandard(continualStonesStandard: ContinualStonesStandard): ForbiddenPlaces {
-        (_list.find { it is OverlineForbiddenPlace2 } as? OverlineForbiddenPlace2)?.continualStonesStandard =
+        (_list.find { it is OverlineForbiddenPlace } as? OverlineForbiddenPlace)?.continualStonesStandard =
             continualStonesStandard
         return ForbiddenPlaces(list)
     }

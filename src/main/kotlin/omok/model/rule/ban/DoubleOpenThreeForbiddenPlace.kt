@@ -9,7 +9,5 @@ class DoubleOpenThreeForbiddenPlace(private val stone: Stone) : ForbiddenPlace {
     override fun availablePosition(
         board: Board,
         position: Position,
-    ): Boolean {
-        return RuleAdapter.abideDoubleOpenThreeRule(stone, board, position)
-    }
+    ): Boolean = RuleAdapter.abideDoubleOpenThreeRule(stone, board, position)
 }

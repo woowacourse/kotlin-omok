@@ -8,7 +8,7 @@ import omok.model.rule.GamePlayingRules
 import omok.model.rule.ban.DoubleFourForbiddenPlace
 import omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
 import omok.model.rule.ban.ForbiddenPlaces
-import omok.model.rule.ban.OverlineForbiddenPlace2
+import omok.model.rule.ban.OverlineForbiddenPlace
 import omok.model.rule.winning.ContinualStonesWinningCondition
 import omok.view.InputView
 import omok.view.OutputView
@@ -18,27 +18,27 @@ fun main() {
         InputView(),
         OutputView(),
         blackStoneGamePlayingRules =
-            GamePlayingRules.from(
-                continualStonesWinningCondition =
-                    ContinualStonesWinningCondition(
-                        ContinualStonesStandard(5),
-                        ContinualStonesCondition.EXACT,
-                    ),
-                forbiddenPlaces =
-                    ForbiddenPlaces(
-                        DoubleOpenThreeForbiddenPlace(Stone.BLACK),
-                        DoubleFourForbiddenPlace(Stone.BLACK),
-                        OverlineForbiddenPlace2(Stone.BLACK),
-                    ),
+        GamePlayingRules.from(
+            continualStonesWinningCondition =
+            ContinualStonesWinningCondition(
+                ContinualStonesStandard(5),
+                ContinualStonesCondition.EXACT,
             ),
+            forbiddenPlaces =
+            ForbiddenPlaces(
+                DoubleOpenThreeForbiddenPlace(Stone.BLACK),
+                DoubleFourForbiddenPlace(Stone.BLACK),
+                OverlineForbiddenPlace(Stone.BLACK),
+            ),
+        ),
         whiteStoneGamePlayingRules =
-            GamePlayingRules.from(
-                continualStonesWinningCondition =
-                    ContinualStonesWinningCondition(
-                        ContinualStonesStandard(5),
-                        ContinualStonesCondition.CAN_OVERLINE,
-                    ),
-                forbiddenPlaces = ForbiddenPlaces(),
+        GamePlayingRules.from(
+            continualStonesWinningCondition =
+            ContinualStonesWinningCondition(
+                ContinualStonesStandard(5),
+                ContinualStonesCondition.CAN_OVERLINE,
             ),
+            forbiddenPlaces = ForbiddenPlaces(),
+        ),
     ).startGame()
 }

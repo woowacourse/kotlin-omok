@@ -6,7 +6,6 @@ import omok.model.rule.ban.DoubleFourForbiddenPlace
 import omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
 import omok.model.rule.ban.ForbiddenPlaces
 import omok.model.rule.ban.OverlineForbiddenPlace
-import omok.model.rule.ban.OverlineForbiddenPlace2
 import omok.model.rule.winning.ContinualStonesWinningCondition
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -20,7 +19,7 @@ class PlayerTest {
                 ForbiddenPlaces(
                     DoubleOpenThreeForbiddenPlace(Stone.BLACK),
                     DoubleFourForbiddenPlace(Stone.BLACK),
-                    OverlineForbiddenPlace(),
+                    OverlineForbiddenPlace(Stone.BLACK),
                 ),
             ),
         )
@@ -112,7 +111,7 @@ class PlayerTest {
                     ForbiddenPlaces(
                         DoubleOpenThreeForbiddenPlace(Stone.WHITE),
                         DoubleFourForbiddenPlace(Stone.WHITE),
-                        OverlineForbiddenPlace2(Stone.WHITE),
+                        OverlineForbiddenPlace(Stone.WHITE),
                     ),
                 ),
             )

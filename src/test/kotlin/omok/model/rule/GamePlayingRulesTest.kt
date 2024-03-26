@@ -7,7 +7,7 @@ import omok.model.initBoard
 import omok.model.rule.ban.DoubleFourForbiddenPlace
 import omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
 import omok.model.rule.ban.ForbiddenPlaces
-import omok.model.rule.ban.OverlineForbiddenPlace2
+import omok.model.rule.ban.OverlineForbiddenPlace
 import omok.model.rule.winning.ContinualStonesWinningCondition
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -23,15 +23,15 @@ class GamePlayingRulesTest {
                 ForbiddenPlaces(
                     DoubleOpenThreeForbiddenPlace(Stone.BLACK),
                     DoubleFourForbiddenPlace(Stone.BLACK),
-                    OverlineForbiddenPlace2(Stone.BLACK),
+                    OverlineForbiddenPlace(Stone.BLACK),
                 ),
             )
 
         // when
-        val overlineForbiddenPlace2 = gamePlayingRules.overlineRule()
+        val overlineForbiddenPlace = gamePlayingRules.overlineRule()
 
         // then
-        assertThat(overlineForbiddenPlace2?.continualStonesStandard).isEqualTo(ContinualStonesStandard(5))
+        assertThat(overlineForbiddenPlace?.continualStonesStandard).isEqualTo(ContinualStonesStandard(5))
     }
 
     @Test
@@ -42,7 +42,7 @@ class GamePlayingRulesTest {
                 ForbiddenPlaces(
                     DoubleOpenThreeForbiddenPlace(Stone.BLACK),
                     DoubleFourForbiddenPlace(Stone.BLACK),
-                    OverlineForbiddenPlace2(Stone.BLACK),
+                    OverlineForbiddenPlace(Stone.BLACK),
                 ),
             )
         }

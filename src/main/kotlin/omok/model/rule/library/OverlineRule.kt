@@ -16,7 +16,7 @@ class OverlineRule(currentStone: Int, opponentStone: Int) : OmokRule(currentSton
         val (stone2, blink2) = search(board, position, direction)
 
         return when {
-            blink1 + blink2 == 0 && stone1 + stone2 > 4 -> true
+            blink1 + blink2 == 0 && stone1 + stone2 >= 5 -> true
             else -> false
         }
     }
