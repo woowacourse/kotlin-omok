@@ -14,10 +14,11 @@ import org.junit.jupiter.params.provider.ValueSource
 class ContinualStonesWinningConditionTest {
     @Test
     fun `연속 돌 기준이 사목으로 지정되어 있다면 Double 금수 규칙(3-3, 4-4) 을 지정할 수 없다`() {
-        val continualStonesWinningCondition = ContinualStonesWinningCondition(
-            ContinualStonesStandard(4),
-            ContinualStonesCondition.EXACT
-        )
+        val continualStonesWinningCondition =
+            ContinualStonesWinningCondition(
+                ContinualStonesStandard(4),
+                ContinualStonesCondition.EXACT,
+            )
         assertThat(continualStonesWinningCondition.canHaveDoubleRule()).isFalse
     }
 
