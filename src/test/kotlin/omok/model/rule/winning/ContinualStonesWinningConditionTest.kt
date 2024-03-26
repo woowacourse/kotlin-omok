@@ -7,10 +7,20 @@ import omok.model.StonePosition
 import omok.model.initBoard
 import omok.model.rule.ContinualStonesStandard
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
 class ContinualStonesWinningConditionTest {
+    @Test
+    fun `연속 돌 기준이 사목으로 지정되어 있다면 Double 금수 규칙(3-3, 4-4) 을 지정할 수 없다`() {
+        val continualStonesWinningCondition = ContinualStonesWinningCondition(
+            ContinualStonesStandard(4),
+            ContinualStonesCondition.EXACT
+        )
+        assertThat(continualStonesWinningCondition.canHaveDoubleRule()).isFalse
+    }
+
     @ParameterizedTest
     @ValueSource(strings = ["BLACK", "WHITE"])
     fun `장목 비허용 & 오목 우승일 경우, 정확히 오목이 되면 승리한다`(stoneName: String) {
