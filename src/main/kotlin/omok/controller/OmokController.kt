@@ -31,5 +31,5 @@ class OmokController(val inputView: InputView, val outputView: OutputView) {
         return board.place(Position.of(position.first, position.second))
     }
 
-    private fun getInputPosition(): Pair<Int, Char> = inputView.inputPosition(board.stones.lastOrNull())
+    private fun getInputPosition(): Pair<Int, Int> = inputView.inputPosition(board.stones.lastOrNull())
 }

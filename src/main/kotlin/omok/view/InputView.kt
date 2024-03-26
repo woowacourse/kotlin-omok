@@ -5,15 +5,15 @@ import omok.model.Position
 import omok.model.Stone
 
 class InputView {
-    fun inputPosition(lastTurn: Stone?): Pair<Int, Char> {
+    fun inputPosition(lastTurn: Stone?): Pair<Int, Int> {
         showCurrentTurn(lastTurn)
         print(MESSAGE_INPUT_POSITION)
         return getPositionData()
     }
 
-    private fun getPositionData(): Pair<Int, Char> {
+    private fun getPositionData(): Pair<Int, Int> {
         val position = readln()
-        val verticalCoordinate = position.first()
+        val verticalCoordinate = position.first().code - START_CHAR.code + 1
         val horizontalCoordinate = position.drop(1).toInt()
         return Pair(horizontalCoordinate, verticalCoordinate)
     }
@@ -37,6 +37,7 @@ class InputView {
     }
 
     companion object {
+        private const val START_CHAR = 'A'
         private const val COLOR_BLACK = "흑"
         private const val COLOR_WHITE = "백"
         private const val MESSAGE_PLAYERS_TURN = "%s의 차례입니다."

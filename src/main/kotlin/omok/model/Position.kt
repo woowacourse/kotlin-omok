@@ -7,7 +7,7 @@ data class Position(
     companion object {
         fun of(
             horizontalCoordinate: Int,
-            verticalCoordinate: Char,
+            verticalCoordinate: Int,
         ): Position {
             return Position(
                 horizontalCoordinate = HorizontalCoordinate.valueOf(horizontalCoordinate),

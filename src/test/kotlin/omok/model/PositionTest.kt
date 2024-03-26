@@ -8,14 +8,14 @@ import org.junit.jupiter.params.provider.CsvSource
 class PositionTest {
     @ParameterizedTest
     @CsvSource(
-        "1,A",
-        "15,O",
-        "1,O",
-        "15,A",
+        "1,1",
+        "15,15",
+        "1,15",
+        "15,1",
     )
     fun `보드 범위 안에 포지션을 설정할 수 있다`(
         horizontalCoordinate: Int,
-        verticalCoordinate: Char,
+        verticalCoordinate: Int,
     ) {
         assertDoesNotThrow {
             Position.of(horizontalCoordinate, verticalCoordinate)
@@ -24,14 +24,14 @@ class PositionTest {
 
     @ParameterizedTest
     @CsvSource(
-        "0,A",
-        "16,O",
-        "1,Z",
-        "15,P",
+        "0,1",
+        "16,16",
+        "1,27",
+        "15,19",
     )
     fun `보드 범위를 벗어나는 좌표를 입력하면 예외를 발생시킨다`(
         horizontalCoordinate: Int,
-        verticalCoordinate: Char,
+        verticalCoordinate: Int,
     ) {
         assertThrows<IllegalArgumentException> {
             Position.of(horizontalCoordinate, verticalCoordinate)

@@ -1,27 +1,27 @@
 package omok.model
 
-enum class VerticalCoordinate(val value: Char, val index: Int) {
-    A('A', 1),
-    B('B', 2),
-    C('C', 3),
-    D('D', 4),
-    E('E', 5),
-    F('F', 6),
-    G('G', 7),
-    H('H', 8),
-    I('I', 9),
-    J('J', 10),
-    K('K', 11),
-    L('L', 12),
-    M('M', 13),
-    N('N', 14),
-    O('O', 15),
+enum class VerticalCoordinate(val index: Int) {
+    A(1),
+    B(2),
+    C(3),
+    D(4),
+    E(5),
+    F(6),
+    G(7),
+    H(8),
+    I(9),
+    J(10),
+    K(11),
+    L(12),
+    M(13),
+    N(14),
+    O(15),
     ;
 
     companion object {
-        fun valueOf(verticalCoordinate: Char): VerticalCoordinate {
+        fun valueOf(verticalCoordinate: Int): VerticalCoordinate {
             return entries.find {
-                it.value == verticalCoordinate
+                it.index == verticalCoordinate
             } ?: throw IllegalArgumentException()
         }
     }

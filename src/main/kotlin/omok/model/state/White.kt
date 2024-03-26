@@ -3,7 +3,6 @@ package omok.model.state
 import omok.model.Color
 import omok.model.GameResult
 import omok.model.Position
-import omok.model.VerticalCoordinate
 
 class White(whiteStatus: Array<Array<Color?>>) : TurnState(whiteStatus) {
     override fun getWinningResult(
@@ -24,7 +23,7 @@ class White(whiteStatus: Array<Array<Color?>>) : TurnState(whiteStatus) {
         addSingleStone: (Color, Position) -> Unit,
     ) {
         val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate.index
-        val verticalCoordinate = VerticalCoordinate.valueOf(position.verticalCoordinate.value)?.index ?: return
+        val verticalCoordinate = position.verticalCoordinate.index
         markSinglePlace(horizontalCoordinate, verticalCoordinate, Color.WHITE)
         addSingleStone(Color.WHITE, position)
     }

@@ -8,7 +8,6 @@ import omok.mapper.toArkOmokPoint
 import omok.model.Color
 import omok.model.GameResult
 import omok.model.Position
-import omok.model.VerticalCoordinate
 
 class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStatus) {
     override fun getWinningResult(
@@ -30,9 +29,9 @@ class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStat
     ) {
         val arkBoard = blackStatus.toArkOmokBoard()
         val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate.index
-        val arkPoint = Position.of(horizontalCoordinate, position.verticalCoordinate.value).toArkOmokPoint()
+        val arkPoint = Position.of(horizontalCoordinate, position.verticalCoordinate.index).toArkOmokPoint()
         if (placementAvailable(arkBoard, arkPoint)) {
-            val verticalCoordinate = VerticalCoordinate.valueOf(position.verticalCoordinate.value)?.index ?: return
+            val verticalCoordinate = position.verticalCoordinate.index
             markSinglePlace(horizontalCoordinate, verticalCoordinate, Color.BLACK)
             addSingleStone(Color.BLACK, position)
         } else {
