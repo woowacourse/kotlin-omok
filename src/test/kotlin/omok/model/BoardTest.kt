@@ -8,7 +8,30 @@ class BoardTest {
     @Test
     fun `이미 돌이 있는 자리에 착수를 진행하면, 착수 실패임을 알린다`() {
         // given
-        val placementInfo = PlacementInfo(createPlayingBoard())
+        val placementInfo =
+            PlacementInfo(
+                createPlayingBoard(
+                    Position(HorizontalCoordinate.ONE, VerticalCoordinate.C),
+                    Position(HorizontalCoordinate.NINE, VerticalCoordinate.E),
+                    Position(HorizontalCoordinate.TWO, VerticalCoordinate.C),
+                    Position(HorizontalCoordinate.TEN, VerticalCoordinate.A),
+                    Position(HorizontalCoordinate.THREE, VerticalCoordinate.C),
+                    Position(HorizontalCoordinate.TEN, VerticalCoordinate.C),
+                    Position(HorizontalCoordinate.THREE, VerticalCoordinate.D),
+                    Position(HorizontalCoordinate.TWELVE, VerticalCoordinate.A),
+                    Position(HorizontalCoordinate.THREE, VerticalCoordinate.E),
+                    Position(HorizontalCoordinate.TWELVE, VerticalCoordinate.B),
+                    Position(HorizontalCoordinate.THREE, VerticalCoordinate.F),
+                    Position(HorizontalCoordinate.ELEVEN, VerticalCoordinate.B),
+                    Position(HorizontalCoordinate.FOUR, VerticalCoordinate.C),
+                    Position(HorizontalCoordinate.ELEVEN, VerticalCoordinate.C),
+                    Position(HorizontalCoordinate.FOUR, VerticalCoordinate.D),
+                    Position(HorizontalCoordinate.ELEVEN, VerticalCoordinate.O),
+                    Position(HorizontalCoordinate.FIVE, VerticalCoordinate.C),
+                    Position(HorizontalCoordinate.ELEVEN, VerticalCoordinate.N),
+                    Position(HorizontalCoordinate.FIVE, VerticalCoordinate.E),
+                ),
+            )
         val board = Board(placementInfo)
         // when
         val actualResult = board.place(Position(HorizontalCoordinate.ONE, VerticalCoordinate.C))

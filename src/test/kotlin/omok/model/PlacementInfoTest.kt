@@ -1,6 +1,5 @@
 package omok.model
 
-import omok.model.fixture.createEdgePlacedBoard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -15,6 +14,27 @@ class PlacementInfoTest {
                 markSinglePlace(15, 15, Color.WHITE)
             }
 
-        assertThat(placementInfo.status).isEqualTo(createEdgePlacedBoard())
+        val expectedResult = createEdgePlacedBoard()
+        assertThat(placementInfo.status).isEqualTo(expectedResult)
     }
+
+    private fun createEdgePlacedBoard() =
+        arrayOf(
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, Color.BLACK, null, null, null, null, null, null, null, null, null, null, null, null, null, Color.WHITE),
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+            arrayOf<Color?>(null, Color.BLACK, null, null, null, null, null, null, null, null, null, null, null, null, null, Color.WHITE),
+        )
 }
