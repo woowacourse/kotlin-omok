@@ -1,6 +1,6 @@
 package omok.model
 
-import omok.library.OmokRule
+import omok.library.RenjuRule
 
 class RuleAdapter(stones: Stones) : Rule {
     private val omokRule =
