@@ -6,23 +6,23 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
-class DescendingDfsTest {
+class AscendingFiveInRowSearchTest {
     @ParameterizedTest
     @CsvSource(
-        "BLACK,11,3,3",
-        "WHITE,4,1,3",
+        "BLACK,13,3,3",
+        "WHITE,6,1,2",
     )
-    fun `우하향대각선 dfs를 할 수 있다`(
+    fun `우상향대각선 dfs를 할 수 있다`(
         color: Color,
         horizontalCoordinate: Int,
         verticalCoordinate: Int,
         count: Int,
     ) {
         // given
-        val descendingDfs = DescendingDfs(createPlayingBoard())
+        val ascendingDfs = AscendingFiveInRowSearch(createPlayingBoard())
         // when
-        descendingDfs.search(color, horizontalCoordinate, verticalCoordinate)
+        ascendingDfs.search(color, horizontalCoordinate, verticalCoordinate)
         // then
-        Assertions.assertThat(descendingDfs.count).isEqualTo(count)
+        Assertions.assertThat(ascendingDfs.count).isEqualTo(count)
     }
 }

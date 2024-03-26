@@ -3,10 +3,10 @@ package omok.model.state
 import omok.model.Color
 import omok.model.GameResult
 import omok.model.Position
-import omok.model.search.AscendingDfs
-import omok.model.search.DescendingDfs
-import omok.model.search.HorizontalDfs
-import omok.model.search.VerticalDfs
+import omok.model.search.AscendingFiveInRowSearch
+import omok.model.search.DescendingFiveInRowSearch
+import omok.model.search.HorizontalFiveInRowSearch
+import omok.model.search.VerticalFiveInRowSearch
 
 abstract class TurnState(
     private val status: Array<Array<Color?>>,
@@ -40,10 +40,10 @@ abstract class TurnState(
         verticalCoordinate: Int,
         color: Color,
     ): Boolean {
-        val verticalCount = VerticalDfs(status).apply { search(color, horizontalCoordinate, verticalCoordinate) }.count
-        val horizontalCount = HorizontalDfs(status).apply { search(color, horizontalCoordinate, verticalCoordinate) }.count
-        val ascendingCount = AscendingDfs(status).apply { search(color, horizontalCoordinate, verticalCoordinate) }.count
-        val descendingCount = DescendingDfs(status).apply { search(color, horizontalCoordinate, verticalCoordinate) }.count
+        val verticalCount = VerticalFiveInRowSearch(status).apply { search(color, horizontalCoordinate, verticalCoordinate) }.count
+        val horizontalCount = HorizontalFiveInRowSearch(status).apply { search(color, horizontalCoordinate, verticalCoordinate) }.count
+        val ascendingCount = AscendingFiveInRowSearch(status).apply { search(color, horizontalCoordinate, verticalCoordinate) }.count
+        val descendingCount = DescendingFiveInRowSearch(status).apply { search(color, horizontalCoordinate, verticalCoordinate) }.count
         return listOf(verticalCount, horizontalCount, ascendingCount, descendingCount).any { it >= 5 }
     }
 

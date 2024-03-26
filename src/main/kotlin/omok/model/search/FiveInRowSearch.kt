@@ -2,7 +2,7 @@ package omok.model.search
 
 import omok.model.Color
 
-abstract class Dfs(
+abstract class FiveInRowSearch(
     private val status: Array<Array<Color?>>,
 ) {
     private val visited = Array(COMPUTATION_BOARD_SIZE) { Array(COMPUTATION_BOARD_SIZE) { false } }
