@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class BoardTest {
     @Test
-    fun `이미 돌이 있는 자리에 착수를 진행하면, null을 반환시킨다`() {
+    fun `이미 돌이 있는 자리에 착수를 진행하면, 착수 실패임을 알린다`() {
         // given
         val stones =
             listOf(
@@ -16,7 +16,7 @@ class BoardTest {
         // when
         val actualResult = board.place(Position(HorizontalCoordinate.ONE, VerticalCoordinate.A))
         // then
-        assertThat(actualResult).isNull()
+        assertThat(actualResult.message).isEqualTo("중복된 곳에 착수할 수 없습니다.")
     }
 
     @Test

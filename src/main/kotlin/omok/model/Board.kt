@@ -1,6 +1,7 @@
 package omok.model
 
 import omok.model.state.Black
+import omok.model.state.GameState
 import omok.model.state.TurnState
 import omok.model.state.White
 
@@ -17,10 +18,14 @@ class Board(
     private val turnState: TurnState
         get() = if (isEven(stones.size)) Black(_status) else White(_status)
 
-    fun place(position: Position): GameResult? {
-        if (position in stones.map { it.position }) return null
-        if (stones.size >= DISPLAY_BOARD_SIZE * DISPLAY_BOARD_SIZE) return GameResult.DRAW
-        return turnState.getWinningResult(position, ::markSinglePlace, ::addSingleStone)
+    fun place(position: Position): GameState {
+        if (position.horizontalCoordinate.index !in MIN_ROW..MAX_ROW) return GameState.Error(message = MESSAGE_WRONG_ROW_RANGE)
+        if (position.verticalCoordinate.value !in MIN_COL..MAX_COL) return GameState.Error(message = MESSAGE_WRONG_COL_RANGE)
+        if (position in stones.map { it.position }) return GameState.Error(message = MESSAGE_DUPLICATED_POSITION)
+        if (stones.size >= DISPLAY_BOARD_SIZE * DISPLAY_BOARD_SIZE) return GameState.GameOver(gameResult = GameResult.DRAW)
+
+        val turnResult = turnState.getWinningResult(position, ::markSinglePlace, ::addSingleStone)
+        return turnResult?.let { GameState.GameOver(turnResult) } ?: GameState.OnProgress
     }
 
     private fun isEven(num: Int): Boolean {
@@ -47,9 +52,15 @@ class Board(
     }
 
     companion object {
-        private const val EXCEPTION_DUPLICATED_POSITION = "중복된 곳에 착수할 수 없습니다."
+        private const val MESSAGE_DUPLICATED_POSITION = "중복된 곳에 착수할 수 없습니다."
         private const val ODD_EVEN_INDICATOR = 2
         private const val COMPUTATION_BOARD_SIZE = 16
         private const val DISPLAY_BOARD_SIZE = COMPUTATION_BOARD_SIZE - 1
+        private const val MIN_ROW = 1
+        private const val MAX_ROW = 15
+        private const val MIN_COL = 'A'
+        private const val MAX_COL = 'O'
+        private const val MESSAGE_WRONG_ROW_RANGE = "$MIN_ROW 부터 ${MAX_ROW}사이의 정수를 입력해야 합니다"
+        private const val MESSAGE_WRONG_COL_RANGE = "$MIN_COL 부터 ${MAX_COL}사이의 알파벳을 입력해야 합니다"
     }
 }
