@@ -25,11 +25,11 @@ object RuleAdapter {
     }
 
     fun abideOverLineRule(
-        stone: Stone,
+        continualStonesStandard: ContinualStonesStandard,
         board: Board,
         position: Position,
     ): Boolean {
-        return OverlineRule(stone.convert(), stone.next().convert()).abide(board.convert(), position.convert())
+        return OverlineRule(continualStonesStandard.count).abide(board.convert(), position.convert())
     }
 
     private fun Board.convert(): List<List<Int>> {

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 class OverlineForbiddenPlaceTest {
     @Test
     fun `승리 조건이 오목일 때, 돌을 두려는 위치로 육목 이상이 되면 놓을 수 없다`() {
-        val forbiddenPlace = OverlineForbiddenPlace(Stone.BLACK)
+        val forbiddenPlace = OverlineForbiddenPlace()
         forbiddenPlace.continualStonesStandard = ContinualStonesStandard(5)
 
         val board =

@@ -1,6 +1,6 @@
 package omok.model.rule.library
 
-class OverlineRule(currentStone: Int, opponentStone: Int) : OmokRule(currentStone, opponentStone) {
+class OverlineRule(private val count: Int) : OmokRule() {
     override fun abide(
         board: List<List<Int>>,
         position: Pair<Int, Int>,
@@ -16,7 +16,7 @@ class OverlineRule(currentStone: Int, opponentStone: Int) : OmokRule(currentSton
         val (stone2, blink2) = search(board, position, direction)
 
         return when {
-            blink1 + blink2 == 0 && stone1 + stone2 >= 5 -> true
+            blink1 + blink2 == 0 && stone1 + stone2 >= count -> true
             else -> false
         }
     }

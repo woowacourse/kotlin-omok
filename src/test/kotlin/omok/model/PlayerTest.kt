@@ -19,7 +19,7 @@ class PlayerTest {
                 ForbiddenPlaces(
                     DoubleOpenThreeForbiddenPlace(Stone.BLACK),
                     DoubleFourForbiddenPlace(Stone.BLACK),
-                    OverlineForbiddenPlace(Stone.BLACK),
+                    OverlineForbiddenPlace(),
                 ),
             ),
         )
@@ -111,7 +111,7 @@ class PlayerTest {
                     ForbiddenPlaces(
                         DoubleOpenThreeForbiddenPlace(Stone.WHITE),
                         DoubleFourForbiddenPlace(Stone.WHITE),
-                        OverlineForbiddenPlace(Stone.WHITE),
+                        OverlineForbiddenPlace(),
                     ),
                 ),
             )

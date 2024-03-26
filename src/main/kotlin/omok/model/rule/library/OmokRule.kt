@@ -1,8 +1,8 @@
 package omok.model.rule.library
 
 abstract class OmokRule(
-    private val currentStone: Int,
-    private val opponentStone: Int,
+    private val currentStone: Int = BLACK_STONE,
+    private val opponentStone: Int = WHITE_STONE,
 ) {
     abstract fun abide(
         board: List<List<Int>>,
@@ -78,6 +78,8 @@ abstract class OmokRule(
 
     companion object {
         protected const val EMPTY_STONE = 0
+        private const val BLACK_STONE = 1
+        private const val WHITE_STONE = 2
         const val MIN_X = 0
         const val MAX_X = 14
         const val MIN_Y = 0

@@ -15,26 +15,6 @@ import org.junit.jupiter.api.assertThrows
 
 class GamePlayingRulesTest {
     @Test
-    fun `플레이어가 가지는 장목 금수 규칙을 만든다`() {
-        // given
-        val gamePlayingRules =
-            GamePlayingRules.from(
-                ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.EXACT),
-                ForbiddenPlaces(
-                    DoubleOpenThreeForbiddenPlace(Stone.BLACK),
-                    DoubleFourForbiddenPlace(Stone.BLACK),
-                    OverlineForbiddenPlace(Stone.BLACK),
-                ),
-            )
-
-        // when
-        val overlineForbiddenPlace = gamePlayingRules.overlineRule()
-
-        // then
-        assertThat(overlineForbiddenPlace?.continualStonesStandard).isEqualTo(ContinualStonesStandard(5))
-    }
-
-    @Test
     fun `사목으로 지정할 경우 더블 규칙을 가질 수 없다`() {
         assertThrows<IllegalArgumentException> {
             GamePlayingRules.from(
@@ -42,7 +22,7 @@ class GamePlayingRulesTest {
                 ForbiddenPlaces(
                     DoubleOpenThreeForbiddenPlace(Stone.BLACK),
                     DoubleFourForbiddenPlace(Stone.BLACK),
-                    OverlineForbiddenPlace(Stone.BLACK),
+                    OverlineForbiddenPlace(),
                 ),
             )
         }

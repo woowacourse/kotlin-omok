@@ -3,7 +3,6 @@ package omok.model.rule
 import omok.model.Board
 import omok.model.Position
 import omok.model.rule.ban.ForbiddenPlaces
-import omok.model.rule.ban.OverlineForbiddenPlace
 import omok.model.rule.winning.ContinualStonesWinningCondition
 
 class GamePlayingRules private constructor(
@@ -15,9 +14,6 @@ class GamePlayingRules private constructor(
             require(!forbiddenPlaces.haveDoubleRule()) { "승리 조건이 오목 미만일 경우에는 더블 규칙(3-3, 4-4)을 가질 수 없습니다" }
         }
     }
-
-    fun overlineRule(): OverlineForbiddenPlace? =
-        forbiddenPlaces.list.find { it is OverlineForbiddenPlace } as OverlineForbiddenPlace?
 
     fun availablePosition(
         board: Board,
