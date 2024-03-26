@@ -4,11 +4,12 @@ import omock.model.player.BlackPlayer
 import omock.model.board.Board
 import omock.model.position.Column
 import omock.model.position.Row
+import omock.model.rule.OMockRule
 import omock.model.stone.Stone
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class BlackPlayerTest {
+class OmockRuleTest {
     @Test
     fun `BlackPlayer가 돌을 놓을 때, 놓은 지점이 Board에서 3-3이라면, 예외를 발생시킨다 `() {
         val player = BlackPlayer()
@@ -20,8 +21,9 @@ class BlackPlayerTest {
 
         val stone = Stone.from(Row("12"), Column("D"))
         board.setStoneState(player, stone)
+        val oMockRule = OMockRule()
         val visited = board.loadMap(stone)
-        assertThrows<IllegalArgumentException> { player.judgementResult(visited) }
+        assertThrows<IllegalArgumentException> { oMockRule.checkRules(visited) }
     }
 
     @Test
@@ -35,10 +37,10 @@ class BlackPlayerTest {
 
         val stone = Stone.from(Row("13"), Column("C"))
         board.setStoneState(player, stone)
-
+        val oMockRule = OMockRule()
         val visited = board.loadMap(stone)
 
-        assertThrows<IllegalArgumentException> { player.judgementResult(visited) }
+        assertThrows<IllegalArgumentException> { oMockRule.checkRules(visited) }
     }
 
     @Test
@@ -52,9 +54,9 @@ class BlackPlayerTest {
 
         val stone = Stone.from(Row("3"), Column("E"))
         board.setStoneState(player, stone)
-
+        val oMockRule = OMockRule()
         val visited = board.loadMap(stone)
 
-        assertThrows<IllegalArgumentException> { player.judgementResult(visited) }
+        assertThrows<IllegalArgumentException> { oMockRule.checkRules(visited) }
     }
 }
