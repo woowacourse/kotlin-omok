@@ -1,5 +1,9 @@
 package omok.model
 
+import omok.model.rule.ContinualStonesStandard
+import omok.model.rule.GamePlayingRules
+import omok.model.rule.ban.ForbiddenPlaces
+import omok.model.rule.winning.ContinualStonesWinningCondition
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -13,7 +17,14 @@ class BoardTest {
     @BeforeEach
     fun setUp() {
         emptyBoard = Board()
-        player = Player(playerStone)
+        player =
+            Player(
+                playerStone,
+                GamePlayingRules.from(
+                    ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.EXACT),
+                    ForbiddenPlaces(),
+                ),
+            )
     }
 
     @Test
