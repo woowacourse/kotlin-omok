@@ -1,34 +1,37 @@
 package omok.lib
 
-import omok.model.board.CoordsNumber
-import omok.model.board.Position
-import omok.model.board.Stone
-import omok.model.omokGame.Board
-
 class RenjuGameRule : GameRule {
-    private lateinit var board: Board
+    private lateinit var board: Array<Array<Int>>
 
-    override fun setupBoard(board: Board) {
+    override fun setupBoard(board: Array<Array<Int>>) {
         this.board = board
+    }
+
+    override fun setStone(
+        x: Int,
+        y: Int,
+        stone: Int,
+    ) {
+        board[y][x] = stone
     }
 
     override fun isWinningMove(
         rowCoords: Int,
         columnCoords: Int,
-        stone: Stone,
+        stone: Int,
     ): Boolean {
-        if (stone == Stone.WHITE) return isLong(CoordsNumber(rowCoords), CoordsNumber(columnCoords), stone) >= 5
-        return isFive(CoordsNumber(rowCoords), CoordsNumber(columnCoords), stone)
+        if (stone == WHITE) return isLong(rowCoords, columnCoords, stone) >= 5
+        return isFive(rowCoords, columnCoords, stone)
     }
 
-    override fun findForbiddenPositions(stone: Stone): List<Pair<Int, Int>> {
+    override fun findForbiddenPositions(stone: Int): List<Pair<Int, Int>> {
         val coords = mutableListOf<Pair<Int, Int>>()
-        for (y in board.gameBoard.indices) {
-            for (x in board.gameBoard[y].indices) {
-                if (board.gameBoard[y][x] != Stone.EMPTY) {
+        for (y in board.indices) {
+            for (x in board[y].indices) {
+                if (board[y][x] != EMPTY) {
                     continue
                 }
-                if (forbiddenPoint(CoordsNumber(x), CoordsNumber(y), stone)) {
+                if (forbiddenPoint(x, y, stone)) {
                     coords.add(y to x)
                 }
             }
@@ -37,41 +40,41 @@ class RenjuGameRule : GameRule {
     }
 
     override fun isMoveAllowed(
-        board: Array<Array<Stone>>,
+        board: Array<Array<Int>>,
         rowCoords: Int,
         columnCoords: Int,
-        stone: Stone,
+        stone: Int,
         forbiddenPositions: List<Pair<Int, Int>>,
     ): Boolean {
-        if (forbiddenPositions.contains<Pair<Any, Any>>(CoordsNumber(columnCoords) to CoordsNumber(rowCoords))) {
+        if (forbiddenPositions.contains<Pair<Any, Any>>(columnCoords to rowCoords)) {
             return false
         }
-        if (rowCoords < 0 || rowCoords >= Board.BOARD_SIZE ||
-            columnCoords < 0 || columnCoords >= Board.BOARD_SIZE
+        if (rowCoords < 0 || rowCoords >= board.size ||
+            columnCoords < 0 || columnCoords >= board.size
         ) {
             return false
         }
-        if (board[rowCoords][columnCoords] != Stone.EMPTY) {
+        if (board[rowCoords][columnCoords] != EMPTY) {
             return false
         }
         return true
     }
 
     private fun getStoneCount(
-        x: CoordsNumber,
-        y: CoordsNumber,
-        stone: Stone,
+        x: Int,
+        y: Int,
+        stone: Int,
         direction: Int,
     ): Int {
         var cnt = 1
         val (x1, y1) = x to y
         for (i in 0..1) {
             val (dx, dy) = getXY(direction * 2 + i)
-            var (x, y) = x1.number to y1.number
+            var (x, y) = x1 to y1
             while (true) {
                 x += dx
                 y += dy
-                if (isOutOfBounds(x, y) || board.gameBoard[y][x] != stone) {
+                if (isOutOfBounds(x, y) || board[y][x] != stone) {
                     break
                 } else {
                     cnt++
@@ -91,13 +94,13 @@ class RenjuGameRule : GameRule {
         x: Int,
         y: Int,
     ): Boolean {
-        return x < 0 || x >= Board.BOARD_SIZE || y < 0 || y >= Board.BOARD_SIZE
+        return x < 0 || x >= board.size || y < 0 || y >= board.size
     }
 
     private fun isLong(
-        x: CoordsNumber,
-        y: CoordsNumber,
-        stone: Stone,
+        x: Int,
+        y: Int,
+        stone: Int,
     ): Int {
         for (i in 0 until DIRECTION_HALF_COUNT) {
             val cnt = getStoneCount(x, y, stone, i)
@@ -107,50 +110,50 @@ class RenjuGameRule : GameRule {
     }
 
     private fun findEmptyPoint(
-        x: CoordsNumber,
-        y: CoordsNumber,
-        stone: Stone,
+        x: Int,
+        y: Int,
+        stone: Int,
         direction: Int,
-    ): Position? {
-        var (x, y) = x.number to y.number
+    ): Pair<Int, Int>? {
+        var (x, y) = x to y
         val (dx, dy) = getXY(direction)
         while (true) {
             x += dx
             y += dy
-            if (isOutOfBounds(x, y) || board.gameBoard[y][x] != stone) break
+            if (isOutOfBounds(x, y) || board[y][x] != stone) break
         }
-        return if (!isOutOfBounds(x, y) && board.gameBoard[y][x] == Stone.EMPTY) {
-            Position(CoordsNumber(x), CoordsNumber(y))
+        return if (!isOutOfBounds(x, y) && board[y][x] == EMPTY) {
+            x to y
         } else {
             null
         }
     }
 
     private fun openThree(
-        x: CoordsNumber,
-        y: CoordsNumber,
-        stone: Stone,
+        x: Int,
+        y: Int,
+        stone: Int,
         direction: Int,
     ): Boolean {
         for (i in 0..1) {
             findEmptyPoint(x, y, stone, direction * 2 + i)?.let { (dx, dy) ->
-                board.setStone(dx, dy, stone)
+                setStone(dx, dy, stone)
                 if (openFour(dx, dy, stone, direction) == 1) {
                     if (!forbiddenPoint(dx, dy, stone)) {
-                        board.setStone(dx, dy, Stone.EMPTY)
+                        setStone(dx, dy, EMPTY)
                         return true
                     }
                 }
-                board.setStone(dx, dy, Stone.EMPTY)
+                setStone(dx, dy, EMPTY)
             }
         }
         return false
     }
 
     private fun openFour(
-        x: CoordsNumber,
-        y: CoordsNumber,
-        stone: Stone,
+        x: Int,
+        y: Int,
+        stone: Int,
         direction: Int,
     ): Int {
         var cnt = 0
@@ -171,9 +174,9 @@ class RenjuGameRule : GameRule {
     }
 
     private fun four(
-        x: CoordsNumber,
-        y: CoordsNumber,
-        stone: Stone,
+        x: Int,
+        y: Int,
+        stone: Int,
         direction: Int,
     ): Boolean {
         for (i in 0..1) {
@@ -185,35 +188,35 @@ class RenjuGameRule : GameRule {
     }
 
     private fun five(
-        x: CoordsNumber,
-        y: CoordsNumber,
-        stone: Stone,
+        x: Int,
+        y: Int,
+        stone: Int,
         direction: Int,
     ): Boolean {
         return getStoneCount(x, y, stone, direction) == MIN_COUNT_FOR_WIN
     }
 
     private fun doubleThree(
-        x: CoordsNumber,
-        y: CoordsNumber,
-        stone: Stone,
+        x: Int,
+        y: Int,
+        stone: Int,
     ): Boolean {
         var cnt = 0
-        board.setStone(x, y, stone)
+        setStone(x, y, stone)
         for (i in 0 until DIRECTION_HALF_COUNT) {
             if (openThree(x, y, stone, i)) cnt++
         }
-        board.setStone(x, y, Stone.EMPTY)
+        setStone(x, y, EMPTY)
         return cnt >= 2
     }
 
     private fun doubleFour(
-        x: CoordsNumber,
-        y: CoordsNumber,
-        stone: Stone,
+        x: Int,
+        y: Int,
+        stone: Int,
     ): Boolean {
         var cnt = 0
-        board.setStone(x, y, stone)
+        setStone(x, y, stone)
         for (i in 0 until DIRECTION_HALF_COUNT) {
             if (openFour(x, y, stone, i) == 2) {
                 cnt += 2
@@ -221,14 +224,14 @@ class RenjuGameRule : GameRule {
                 cnt += 1
             }
         }
-        board.setStone(x, y, Stone.EMPTY)
+        setStone(x, y, EMPTY)
         return cnt >= 2
     }
 
     private fun forbiddenPoint(
-        x: CoordsNumber,
-        y: CoordsNumber,
-        stone: Stone,
+        x: Int,
+        y: Int,
+        stone: Int,
     ): Boolean {
         if (isFive(x, y, stone)) {
             return false
@@ -241,9 +244,9 @@ class RenjuGameRule : GameRule {
     }
 
     private fun isFive(
-        x: CoordsNumber,
-        y: CoordsNumber,
-        stone: Stone,
+        x: Int,
+        y: Int,
+        stone: Int,
     ): Boolean {
         for (i in 0 until DIRECTION_HALF_COUNT) {
             if (getStoneCount(x, y, stone, i) == MIN_COUNT_FOR_WIN) return true
@@ -254,5 +257,7 @@ class RenjuGameRule : GameRule {
     companion object {
         const val MIN_COUNT_FOR_WIN = 5
         const val DIRECTION_HALF_COUNT = 4
+        const val WHITE = -1
+        const val EMPTY = 0
     }
 }
