@@ -14,35 +14,7 @@ abstract class Player {
 
     fun lastStone(): Stone? = stones.lastStone()
 
-    abstract fun checkContinuity(): Boolean
+    abstract fun isWin(): Boolean
 
     fun stones() = stones.stones
-
-    fun countStones(
-        start: Point,
-        direction: Pair<Int, Int>,
-    ): Int {
-        var currentRow = start.row + direction.first
-        var currentCol = start.col + direction.second
-        var count = 0
-
-        while (currentRow in 0..14 && currentCol in 0..14 &&
-            stones.stones.any { it.point.row == currentRow && it.point.col == currentCol }) {
-            count++
-            currentRow += direction.first
-            currentCol += direction.second
-        }
-
-        return count
-    }
-
-    companion object {
-        val directions =
-            arrayOf(
-                Pair(0, 1),
-                Pair(1, 0),
-                Pair(1, 1),
-                Pair(-1, 1),
-            )
-    }
 }

@@ -10,16 +10,8 @@ class BlackStonePlayer(override val board: Board) : Player() {
     private val rule: Rule
         get() = RenjuRuleAdapter()
 
-    override fun checkContinuity(): Boolean {
-        val lastStone = stones.lastStone() ?: throw IllegalStateException("돌을 먼저 놓아주세요")
-        directions.forEach { direction ->
-            var count = 1
-            count += countStones(lastStone.point, direction)
-            count += countStones(lastStone.point, Pair(-direction.first, -direction.second))
-
-            if (count == 5) return true
-        }
-        return false
+    override fun isWin(): Boolean {
+        return rule.isBlackWin(stones, stones.lastStone().point)
     }
 
     override fun add(point: Point) {

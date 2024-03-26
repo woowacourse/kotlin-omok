@@ -6,18 +6,13 @@ interface Rule {
         lastPlacedStone: Stone,
     ): Boolean
 
-    fun isThreeThree(
-        board: List<List<Int>>,
-        stone: Stone,
+    fun isBlackWin(
+        tones: Stones,
+        lastPlacedPosition: Point,
     ): Boolean
 
-    fun isFourFour(
-        board: List<List<Int>>,
-        stone: Stone,
-    ): Boolean
-
-    fun isMoreThanFive(
-        board: List<List<Int>>,
-        stone: Stone,
+    fun isWhiteWin(
+        tones: Stones,
+        lastPlacedPosition: Point,
     ): Boolean
 }

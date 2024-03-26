@@ -25,7 +25,7 @@ class Players(val whiteStonePlayer: WhiteStonePlayer, val blackStonePlayer: Blac
     ) = retryWhileNotException {
         val point = putStone.invoke(currentPlayer)
         currentPlayer.add(point)
-        if (currentPlayer.checkContinuity()) {
+        if (currentPlayer.isWin()) {
             _winner = currentPlayer
         }
     }
