@@ -138,5 +138,4 @@ class BlackPlayerTest {
             blackStonePlayer.add(Point(8, 7))
         }
     }
-
 }
