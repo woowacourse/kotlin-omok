@@ -18,28 +18,22 @@ class Controller {
 
         while (turn !is FinishedTurn) {
             OutputView.printTurn(turn, board.beforePoint)
-            val point = getPoint(board, turn)
-            turn = board.putStone(point, turn)
+            turn = board.putStone(readPoint(board, turn), turn)
             OutputView.printBoard(board)
         }
         OutputView.printTurn(turn, board.beforePoint)
     }
 
-    private fun getPoint(
+    private fun readPoint(
         board: Board,
         turn: Turn,
     ): Point {
         runCatching {
-            val point = InputView.readPoint(board.size)
-            if (point in board) {
-                OutputView.printInvalidPointInputMessage()
-                return getPoint(board, turn)
-            }
-            return point
+            return InputView.readPoint(board)
         }.onFailure {
             OutputView.printInvalidPointInputMessage()
             OutputView.printTurn(turn, board.beforePoint)
         }
-        return getPoint(board, turn)
+        return readPoint(board, turn)
     }
 }
