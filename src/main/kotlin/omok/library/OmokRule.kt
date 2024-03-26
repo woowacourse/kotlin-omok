@@ -10,7 +10,7 @@ abstract class OmokRule(
     protected val xEdge = listOf(MIN_X, maxX)
     protected val yEdge = listOf(MIN_Y, maxY)
 
-    protected val directions = listOf(Pair(1, 0), Pair(1, 1), Pair(0, 1), Pair(1, -1))
+    protected val directions = listOf(Pair(RIGHT, SAME_POSITION), Pair(RIGHT, DOWN), Pair(SAME_POSITION, DOWN), Pair(RIGHT, UP))
 
     abstract fun validate(
         board: List<List<Int>>,
@@ -112,5 +112,9 @@ abstract class OmokRule(
         const val INIT_COUNT = 0
         const val BLANK_ALLOWANCE = 1
         const val BOUND_CONDITION = 0
+        const val RIGHT = 1
+        const val DOWN = 1
+        const val UP = -1
+        const val SAME_POSITION = 0
     }
 }
