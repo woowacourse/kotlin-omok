@@ -6,6 +6,7 @@ import omock.model.search.Direction
 import omock.model.position.Row
 import omock.model.stone.Stone
 import omock.model.player.WhitePlayer
+import omock.model.rule.LoadMap
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -14,6 +15,7 @@ class BoardTest {
     fun `플레이어가 돌을 놓을 때, direction에 따른 정상적인 돌 개수 반환한다`() {
         val player = WhitePlayer()
         val board = Board.from()
+        val loadMap = LoadMap(board.stoneStates)
         board.makeStones(
             player = player,
             coordinates =
@@ -23,7 +25,7 @@ class BoardTest {
         val stone = Stone.from(Row("1"), Column("A"))
         board.setStoneState(player, stone)
 
-        val visited = board.loadMap(stone)
+        val visited = loadMap.loadMap(stone)
         assertThat(visited[Direction.TOP]?.count).isEqualTo(4)
         assertThat(visited[Direction.TOP_RIGHT]?.count).isEqualTo(1)
         assertThat(visited[Direction.RIGHT]?.count).isEqualTo(1)
