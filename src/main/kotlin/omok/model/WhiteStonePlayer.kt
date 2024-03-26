@@ -14,7 +14,7 @@ class WhiteStonePlayer(override val board: Board) : Player() {
         directions.forEach { direction ->
             var count = 1
             count += countStones(lastStone.point, direction)
-            count += countStones(lastStone.point, Point(-direction.row, -direction.col))
+            count += countStones(lastStone.point, Pair(-direction.first, -direction.second))
 
             if (count >= 5) return true
         }

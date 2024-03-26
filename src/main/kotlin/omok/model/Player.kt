@@ -20,17 +20,17 @@ abstract class Player {
 
     fun countStones(
         start: Point,
-        direction: Point,
+        direction: Pair<Int, Int>,
     ): Int {
-        var currentPoint = Point(start.row + direction.row, start.col + direction.col)
+        var currentRow = start.row + direction.first
+        var currentCol = start.col + direction.second
         var count = 0
 
-        while (currentPoint.row in 0..14 &&
-            currentPoint.col in 0..14 &&
-            stones.stones.any { it.point == currentPoint }
-        ) {
+        while (currentRow in 0..14 && currentCol in 0..14 &&
+            stones.stones.any { it.point.row == currentRow && it.point.col == currentCol }) {
             count++
-            currentPoint = Point(currentPoint.row + direction.row, currentPoint.col + direction.col)
+            currentRow += direction.first
+            currentCol += direction.second
         }
 
         return count
@@ -39,10 +39,10 @@ abstract class Player {
     companion object {
         val directions =
             arrayOf(
-                Point(0, 1),
-                Point(1, 0),
-                Point(1, 1),
-                Point(-1, 1),
+                Pair(0, 1),
+                Pair(1, 0),
+                Pair(1, 1),
+                Pair(-1, 1),
             )
     }
 }
