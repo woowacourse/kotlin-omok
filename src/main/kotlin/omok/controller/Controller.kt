@@ -10,12 +10,13 @@ import omok.view.OutputView
 
 class Controller {
     fun play() {
-        val board = Board(15)
-        var turn: Turn = BlackTurn()
+        gameStart(Board(15))
+    }
 
+    private fun gameStart(board: Board) {
         OutputView.printGameStart()
         OutputView.printBoard(board)
-
+        var turn: Turn = BlackTurn()
         while (turn !is FinishedTurn) {
             OutputView.printTurn(turn, board.beforePoint)
             turn = board.putStone(readPoint(board, turn), turn)
