@@ -18,10 +18,10 @@ enum class HorizontalCoordinate(val index: Int) {
     FIFTEEN(15), ;
 
     companion object {
-        fun valueOf(horizontalCoordinate: Int): HorizontalCoordinate? {
+        fun valueOf(horizontalCoordinate: Int): HorizontalCoordinate {
             return entries.find {
                 it.index == horizontalCoordinate
-            }
+            } ?: throw IllegalArgumentException()
         }
     }
 }

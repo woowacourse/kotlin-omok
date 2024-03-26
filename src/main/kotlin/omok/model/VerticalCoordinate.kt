@@ -19,10 +19,10 @@ enum class VerticalCoordinate(val value: Char, val index: Int) {
     ;
 
     companion object {
-        fun valueOf(verticalCoordinate: Char): VerticalCoordinate? {
+        fun valueOf(verticalCoordinate: Char): VerticalCoordinate {
             return entries.find {
                 it.value == verticalCoordinate
-            }
+            } ?: throw IllegalArgumentException()
         }
     }
 }
