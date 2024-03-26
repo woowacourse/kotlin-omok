@@ -15,6 +15,10 @@ class Board {
         ) { "중복된 위치입니다." }
     }
 
+    fun getAllStones(): List<Stone> {
+        return stonesBundle.flatMap { it.stones }
+    }
+
     companion object {
         private const val BOARD_SIZE = 15
 

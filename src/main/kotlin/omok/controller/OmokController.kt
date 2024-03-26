@@ -19,7 +19,7 @@ class OmokController {
 
     fun start() {
         outputView.showGameStartHeader()
-        outputView.showBoard(blackPlayer, whitePlayer)
+        outputView.showBoard(board.getAllStones())
 
         players.playGame(
             putStone = { player -> putStone(player) },
@@ -36,6 +36,6 @@ class OmokController {
         }
 
     private fun showBoard() {
-        outputView.showBoard(blackPlayer = blackPlayer, whitePlayer = whitePlayer)
+        outputView.showBoard(board.getAllStones())
     }
 }
