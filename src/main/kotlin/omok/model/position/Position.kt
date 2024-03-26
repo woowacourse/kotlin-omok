@@ -10,5 +10,9 @@ data class Position(val row: Row, val column: Column) {
     fun checkForbidden(): Boolean =
         DoubleThreeChecker.isDoubleThree(this) ||
             DoubleFourChecker.isDoubleFour(this) ||
-            ExceedFiveChecker.isMoreThanFive(this)
+            ExceedFiveChecker.isMoreThanFive(this, EXCEED_FIVE_PRECONDITION)
+
+    companion object {
+        private const val EXCEED_FIVE_PRECONDITION = 5
+    }
 }
