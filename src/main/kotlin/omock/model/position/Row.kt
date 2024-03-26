@@ -26,7 +26,6 @@ value class Row(val comma: String) {
         const val MAX_ROW_INDEX = MAX_ROW - 1
         val ROW_RANGE = (MIN_ROW..MAX_ROW).map { it.toString() }
 
-        //        val ROW_RANGE = (MAX_ROW downTo MIN_ROW).map { it.toString() }
         private const val ERROR_ROW_TYPE = "Row는 정수형이어야 합니다."
         private const val ERROR_ROW_RANGE = "Row는 $MIN_ROW~$MAX_ROW 사이여야 합니다."
     }

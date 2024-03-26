@@ -1,14 +1,14 @@
 package omock.controller
 
-import omock.model.player.BlackPlayer
-import omock.model.board.Board
-import omock.model.search.Direction
-import omock.model.search.DirectionResult
 import omock.model.GameTurn
+import omock.model.board.Board
+import omock.model.player.BlackPlayer
 import omock.model.player.Player
-import omock.model.stone.Stone
 import omock.model.player.WhitePlayer
 import omock.model.rule.OMockRule
+import omock.model.search.Direction
+import omock.model.search.DirectionResult
+import omock.model.stone.Stone
 import omock.view.InputView.playerPick
 import omock.view.OutputView.boardTable
 import omock.view.OutputView.outputBoardForm
@@ -84,8 +84,19 @@ class OMokController {
         return runCatching {
             board.setStoneState(player, playerStone)
             val visited = board.loadMap(playerStone)
-
+            checkPlayerRules(player, visited, playerStone)
             applyPlayerJudgement(player, visited)
+        }
+    }
+
+    private fun checkPlayerRules(
+        player: Player,
+        visited: Map<Direction, DirectionResult>,
+        playerStone: Stone
+    ) {
+        val visitedFirstClear = board.firstClearLoadMap(playerStone)
+        if (player is BlackPlayer) {
+            oMockRule.checkRules(visited, visitedFirstClear)
         }
     }
 
@@ -93,9 +104,6 @@ class OMokController {
         player: Player,
         visited: Map<Direction, DirectionResult>,
     ) {
-        if (player is BlackPlayer){
-            oMockRule.checkRules(visited)
-        }
         gameTurn =
             when (player.judgementResult(visited)) {
                 true -> GameTurn.FINISHED

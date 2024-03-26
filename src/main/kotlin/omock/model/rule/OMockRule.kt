@@ -4,16 +4,20 @@ import omock.model.CalculateType
 import omock.model.CalculateType.Companion.checkCalculateType
 import omock.model.player.Player
 import omock.model.search.Direction
+import omock.model.search.DirectionFirstClearResult
 import omock.model.search.DirectionResult
 
 class OMockRule: OMockRuleInterface {
 
-    override fun checkRules(visited: Map<Direction, DirectionResult>) {
+    override fun checkRules(
+        visited: Map<Direction, DirectionResult>,
+        visitedFirstClear: Map<Direction,DirectionFirstClearResult>,
+    ) {
         var threeToThreeCount = Player.INIT_COUNT
         var fourToFourCount = Player.INIT_COUNT
         var isClearFourToFourCount = Player.INIT_COUNT
         visited.entries.forEach { (key, result) ->
-            val isReverseResultFirstClear: Boolean = visited[Direction.reverse(key)]?.isFirstClear ?: false
+            val isReverseResultFirstClear: Boolean = visitedFirstClear[Direction.reverse(key)]?.isFirstClear ?: false
             val reverseResultCount: Int = visited[Direction.reverse(key)]?.count ?: Player.MIN_REVERSE_COUNT
             if (isLastClearResult(result)) {
                 getCalculateType(
@@ -63,7 +67,7 @@ class OMockRule: OMockRuleInterface {
         directionResult: DirectionResult,
     ): List<CalculateType> {
         val calculateTypes: MutableList<CalculateType> = mutableListOf()
-        if (isNotFirstClearResult(directionResult)) {
+        if (isNotFirstClearResult(isReverseResultFirstClear)) {
             provideFirstClearResult(
                 isReverseResultFirstClear = isReverseResultFirstClear,
                 reverseResultCount = reverseResultCount,
@@ -121,7 +125,7 @@ class OMockRule: OMockRuleInterface {
         isReverseResultFirstClear: Boolean,
         directionResult: DirectionResult,
     ): CalculateType? {
-        return if (isReverseResultFirstClear && isThreeToThreeCount(directionResult.count)) CalculateType.IsClearFourToFourCount else null
+        return if (isReverseResultFirstClear && isThreeToThreeCount(directionResult.count)) CalculateType.ThreeToThreeCount else null
     }
 
     private fun getClearFourToFourResult(
@@ -147,8 +151,8 @@ class OMockRule: OMockRuleInterface {
         return directionResult.isLastClear
     }
 
-    private fun isNotFirstClearResult(directionResult: DirectionResult): Boolean {
-        return !directionResult.isFirstClear
+    private fun isNotFirstClearResult(isReverseResultFirstClear: Boolean): Boolean {
+        return !isReverseResultFirstClear
     }
 
     private fun isThreeToThreeCount(count: Int): Boolean {
