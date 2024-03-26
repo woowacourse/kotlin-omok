@@ -57,16 +57,20 @@ abstract class OmokRule(
                 stone1++
                 blink1 = blinkCount1
             }
-
             opponentStone -> isDone1 = true
-            EMPTY_STONE -> {
-                if (blink1 == BLANK_ALLOWANCE) isDone1 = true
-                if (blinkCount1++ == BLANK_ALLOWANCE) isDone1 = true
-            }
+            EMPTY_STONE -> isDone1 = checkBlankAllowance(blink1, isDone1, blinkCount1)
 
             else -> throw IllegalArgumentException("스톤 케이스를 에러")
         }
         return Triple(blink1, isDone1, stone1)
+    }
+
+    private fun checkBlankAllowance(blink1: Int, isDone1: Boolean, blinkCount1: Int): Boolean {
+        var isDone11 = isDone1
+        var blinkCount11 = blinkCount1
+        if (blink1 == BLANK_ALLOWANCE) isDone11 = true
+        if (blinkCount11++ == BLANK_ALLOWANCE) isDone11 = true
+        return isDone11
     }
 
     protected fun countToWall(
