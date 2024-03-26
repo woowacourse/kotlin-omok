@@ -193,19 +193,19 @@ class Player2Test {
                     ForbiddenPlaces(
                         DoubleOpenThreeForbiddenPlace(Stone.WHITE),
                         DoubleFourForbiddenPlace(Stone.WHITE),
-                        OverlineForbiddenPlace2(),
+                        OverlineForbiddenPlace2(Stone.WHITE),
                     ),
                 ),
             )
 
         val board =
             initBoard(
-                StonePosition(Position(5, 5), Stone.WHITE),
-                StonePosition(Position(8, 5), Stone.WHITE),
-                StonePosition(Position(7, 7), Stone.WHITE),
-                StonePosition(Position(7, 8), Stone.WHITE),
+                StonePosition(Position(3, 9), Stone.WHITE),
+                StonePosition(Position(6, 9), Stone.WHITE),
+                StonePosition(Position(7, 9), Stone.WHITE),
+                StonePosition(Position(9, 9), Stone.WHITE),
             )
 
-        assertThat(whiteStonePlayer.canPlace(board, (Position(6, 6)))).isFalse
+        assertThat(whiteStonePlayer.canPlace(board, (Position(5, 9)))).isFalse
     }
 }

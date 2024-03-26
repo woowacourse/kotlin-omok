@@ -17,4 +17,11 @@ class Player2(val stone: Stone, private val gamePlayingRules: GamePlayingRules) 
         board: Board,
         position: Position,
     ): Boolean = gamePlayingRules.availablePosition(board, position)
+
+    fun isWin(
+        board: Board,
+        position: Position,
+    ): Boolean {
+        return gamePlayingRules.isWin(board, position)
+    }
 }
