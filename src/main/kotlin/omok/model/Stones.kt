@@ -9,5 +9,5 @@ class Stones {
         _stones.add(stone)
     }
 
-    fun lastStone(): Stone = stones.lastOrNull() ?: throw IllegalArgumentException("놓여진 바둑이 없습니다.")
+    fun lastStone(): Stone? = stones.lastOrNull()
 }

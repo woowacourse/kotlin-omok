@@ -11,7 +11,7 @@ class BlackStonePlayer(override val board: Board) : Player() {
         get() = RenjuRuleAdapter()
 
     override fun isWin(): Boolean {
-        return rule.isBlackWin(stones, stones.lastStone().point)
+        return rule.isBlackWin(stones, stones.lastStone()?.point ?: throw IllegalStateException("놓여진 바둑이 없습니다."))
     }
 
     override fun add(point: Point) {
