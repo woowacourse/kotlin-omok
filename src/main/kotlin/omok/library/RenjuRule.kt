@@ -1,7 +1,9 @@
 package omok.library
 
+import omok.model.RuleAdapter
+
 class RenjuRule(
-    val board: List<List<Int>>,
+    private val board: List<List<Int>>,
 ) {
     private val size = board.size
 
@@ -13,17 +15,6 @@ class RenjuRule(
             Pair(1, -1),
         )
 
-    fun isWinCondition(
-        x: Int,
-        y: Int,
-        stoneType: Int,
-        checkCount: (Int) -> Boolean,
-    ): Boolean {
-        return directions.any { direction ->
-            checkCount(checkDirection(x, y, stoneType, direction.first, direction.second))
-        }
-    }
-
     fun isForbidden(
         x: Int,
         y: Int,
@@ -33,6 +24,20 @@ class RenjuRule(
             x,
             y,
         ) >= MIN_OPEN_FOURS || isOverLine(x, y, stoneType)
+    }
+
+    fun isWinCondition(
+        x: Int,
+        y: Int,
+        stoneType: Int,
+    ): Boolean {
+        return directions.any { direction ->
+            checkCount(checkDirection(x, y, stoneType, direction.first, direction.second))
+        }
+    }
+
+    private fun checkCount(count: Int): Boolean {
+        return count >= RuleAdapter.WINNING_COUNT
     }
 
     private fun isOverLine(
@@ -118,7 +123,7 @@ class RenjuRule(
             stone1 + stone2 != 2 -> 0
             !separatedSets -> 0
             dx != 0 && x.minus(leftDown) in listOf(MIN_X, size - 1) -> 0
-            dy != 0 && y.minus(leftDown) in listOf(MIN_Y, size - 1)-> 0
+            dy != 0 && y.minus(leftDown) in listOf(MIN_Y, size - 1) -> 0
             dx != 0 && x.plus(rightUp) in listOf(MIN_X, size - 1) -> 0
             dy != 0 && y.plus(rightUp) in listOf(MIN_Y, size - 1) -> 0
             board[y - dy * (leftDown + 1)][x - dx * (leftDown + 1)] == STONE_TYPE_WHITE -> 0
@@ -146,7 +151,7 @@ class RenjuRule(
             stone1 + stone2 != 2 -> 0
             !separatedSets -> 0
             dx != 0 && x.minus(leftUp) in listOf(MIN_X, size - 1) -> 0
-            dy != 0 && y.plus(leftUp) in listOf(MIN_Y, size - 1)-> 0
+            dy != 0 && y.plus(leftUp) in listOf(MIN_Y, size - 1) -> 0
             dx != 0 && x.plus(rightBottom) in listOf(MIN_X, size - 1) -> 0
             dy != 0 && y.minus(rightBottom) in listOf(MIN_Y, size - 1) -> 0
             board[y - rightBottom - 1][x + rightBottom + 1] == STONE_TYPE_WHITE -> 0

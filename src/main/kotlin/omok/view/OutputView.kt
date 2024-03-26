@@ -18,38 +18,38 @@ object OutputView {
     private const val STONE_ICON_BLACK = '●'
     private const val STONE_ICON_WHITE = '○'
 
-    private val boardTable: MutableList<MutableList<Char>> = generateBoardTable()
+    private lateinit var boardTable: MutableList<MutableList<Char>>
 
-    private val boardForm = generateBoardForm()
+    private lateinit var boardForm: List<String>
 
-    private fun generateBoardForm(): List<String> {
+    private fun generateBoardForm(boardSize: Int): List<String> {
         val formattedLines = mutableListOf<String>()
-        for (i in Board.BOARD_SIZE downTo 1) {
+        for (i in boardSize downTo 1) {
             val line =
                 buildString {
                     if (i < 10) append("  $i ") else append(" $i ")
-                    for (j in 1..Board.BOARD_SIZE) {
+                    for (j in 1..boardSize) {
                         append("%c──")
                     }
                 }
             formattedLines.add(line.dropLast(2))
         }
-        formattedLines.add("    " + ('A' until ('A' + Board.BOARD_SIZE)).joinToString("  "))
+        formattedLines.add("    " + ('A' until ('A' + boardSize)).joinToString("  "))
         return formattedLines
     }
 
-    private fun generateBoardTable(): MutableList<MutableList<Char>> {
+    private fun generateBoardTable(boardSize: Int): MutableList<MutableList<Char>> {
         val table = mutableListOf<MutableList<Char>>()
         table.add(mutableListOf('┌'))
-        repeat(Board.BOARD_SIZE - 2) {
+        repeat(boardSize - 2) {
             table[0].add('┬')
         }
         table[0].add('┐')
 
-        repeat(Board.BOARD_SIZE - 2) {
+        repeat(boardSize - 2) {
             val row = mutableListOf<Char>()
             row.add('├')
-            repeat(Board.BOARD_SIZE - 2) {
+            repeat(boardSize - 2) {
                 row.add('┼')
             }
             row.add('┤')
@@ -57,10 +57,10 @@ object OutputView {
         }
 
         table.add(mutableListOf('└'))
-        repeat(Board.BOARD_SIZE - 2) {
-            table[Board.BOARD_SIZE - 1].add('┴')
+        repeat(boardSize - 2) {
+            table[boardSize - 1].add('┴')
         }
-        table[Board.BOARD_SIZE - 1].add('┘')
+        table[boardSize - 1].add('┘')
 
         return table
     }
@@ -82,8 +82,11 @@ object OutputView {
     }
 
     fun printBoard(board: Board) {
-        repeat(Board.BOARD_SIZE) {
-            println(boardForm[it].format(*generatePrintedLine(it, board.getPointStoneLine(it + 1)).toTypedArray()))
+        boardTable = generateBoardTable(board.size)
+        boardForm = generateBoardForm(board.size)
+
+        repeat(board.size) {
+            println(boardForm[it].format(*generatePrintedLine(it, board.getBoardLine(it + 1)).toTypedArray()))
         }
         println(boardForm.last())
     }
@@ -92,7 +95,7 @@ object OutputView {
         lineIndex: Int,
         stoneTypes: List<StoneType>,
     ): List<Char> {
-        return List(Board.BOARD_SIZE) { columnIdx ->
+        return List(stoneTypes.size) { columnIdx ->
             convertStoneIcon(stoneTypes[columnIdx], lineIndex, columnIdx)
         }
     }

@@ -1,43 +1,43 @@
 package omok.model
 
 import omok.library.RenjuRule
-import omok.model.RuleAdapter.Companion.WINNING_COUNT
 
-interface RuleAdapter {
-    fun checkCanPutStone(
-        board: Board,
-        stone: Stone,
-    ): Boolean
+class RuleAdapter(val board: Board) {
+    fun checkForbidden(stone: Stone): Boolean {
+        val renjuRule = RenjuRule(convertBoard())
+        if (stone.type == StoneType.BLACK) {
+            return renjuRule.isForbidden(
+                stone.point.x,
+                stone.point.y,
+                convertStoneType(stone.type),
+            )
+        }
+        return false
+    }
 
-    fun checkCount(count: Int): Boolean
-
-    fun checkWin(
-        board: Board,
-        stone: Stone,
-    ): Boolean {
-        val renjuRule = RenjuRule(convertBoard(board))
+    fun checkWin(stone: Stone): Boolean {
+        val renjuRule = RenjuRule(convertBoard())
         return renjuRule.isWinCondition(
             stone.point.x,
             stone.point.y,
             convertStoneType(stone.type),
-            ::checkCount,
         )
     }
 
-    fun convertBoard(board: Board): List<List<Int>> {
+    private fun convertBoard(): List<List<Int>> {
         val table =
-            List(Board.BOARD_SIZE) {
-                MutableList(Board.BOARD_SIZE) { STONE_TYPE_EMPTY }
+            List(board.size) {
+                MutableList(board.size) { STONE_TYPE_EMPTY }
             }
-        repeat(Board.BOARD_SIZE) { y ->
-            repeat(Board.BOARD_SIZE) { x ->
-                table[y][x] = (convertStoneType(board.table[y][x]))
+        repeat(board.size) { y ->
+            repeat(board.size) { x ->
+                table[y][x] = (convertStoneType(board.getBoardPoint(y, x)))
             }
         }
         return table
     }
 
-    fun convertStoneType(stoneType: StoneType): Int {
+    private fun convertStoneType(stoneType: StoneType): Int {
         return when (stoneType) {
             StoneType.EMPTY -> STONE_TYPE_EMPTY
             StoneType.BLACK -> STONE_TYPE_BLACK
@@ -51,27 +51,4 @@ interface RuleAdapter {
         private const val STONE_TYPE_BLACK = 1
         private const val STONE_TYPE_WHITE = 2
     }
-}
-
-class BlackRule : RuleAdapter {
-    override fun checkCanPutStone(
-        board: Board,
-        stone: Stone,
-    ): Boolean {
-        val renjuRule = RenjuRule(convertBoard(board))
-        return renjuRule.isForbidden(stone.point.x, stone.point.y, convertStoneType(stone.type))
-    }
-
-    override fun checkCount(count: Int): Boolean = count == WINNING_COUNT
-}
-
-class WhiteRule : RuleAdapter {
-    override fun checkCanPutStone(
-        board: Board,
-        stone: Stone,
-    ): Boolean {
-        return true
-    }
-
-    override fun checkCount(count: Int): Boolean = count >= WINNING_COUNT
 }

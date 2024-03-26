@@ -9,23 +9,23 @@ class BoardTest {
 
     @BeforeEach
     fun setUp() {
-        board = Board()
+        board = Board(15)
     }
 
     @Test
     fun `보드에 돌 착수 확인`() {
         val point = Point(3, 8)
 
-        board.putStone(point, BlackTurn(BlackRule()))
+        board.putStone(point, BlackTurn())
 
-        assertThat(board.table[8][3] == StoneType.BLACK).isTrue
+        assertThat(board.getBoardPoint(8, 3) == StoneType.BLACK).isTrue
     }
 
     @Test
     fun `보드는 이전 차례에서 둔 돌의 위치를 알고있다`() {
         board.putStone(
             Point(0, 0),
-            BlackTurn(BlackRule()),
+            BlackTurn(),
         )
 
         val actual = board.beforePoint
