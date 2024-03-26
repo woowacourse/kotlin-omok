@@ -6,8 +6,6 @@ class Board(
 ) {
     val board: Map<Position, Stone>
         get() = _board.toMap()
-    val startIndex = 0
-    val endIndex = size - 1
 
     fun place(
         position: Position,
