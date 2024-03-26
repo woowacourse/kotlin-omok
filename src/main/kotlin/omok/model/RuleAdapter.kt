@@ -2,39 +2,43 @@ package omok.model
 
 import omok.library.RenjuRule
 
-class RuleAdapter(stones: Stones) : Rule {
-    private val omokRule =
-        OmokRule(
-            generateCustomBoard(stones),
-            colorToInt(getCurrentTurn(stones)),
-            getOtherColorToInt(getCurrentTurn(stones)),
-            BOARD_SIZE,
+class RuleAdapter(private val boardSize: Int, private val getStones: () -> Stones) : Rule {
+    private val renjuRule: RenjuRule
+        get() = RenjuRule(
+            generateCustomBoard(boardSize, getStones()),
+            colorToInt(getCurrentTurn(getStones())),
+            getOtherColorToInt(getCurrentTurn(getStones())),
+            boardSize,
         )
 
-    override fun checkThreeThree(stone: Stone): Boolean {
-        return omokRule.checkThreeThree(
-            stone.coordinate.col.value - INDEX_ADJUSTMENT,
-            stone.coordinate.row.value - INDEX_ADJUSTMENT,
-        )
+    override fun checkPlaceable(stone: Stone): Boolean {
+        return !checkUnable(stone)
     }
 
-    override fun checkFourFour(stone: Stone): Boolean {
-        return omokRule.countFourFour(
-            stone.coordinate.col.value - INDEX_ADJUSTMENT,
-            stone.coordinate.row.value - INDEX_ADJUSTMENT,
-        )
-    }
-
-    override fun checkMoreThanFive(stone: Stone): Boolean {
-        return omokRule.checkMoreThanFive(
-            stone.coordinate.col.value - INDEX_ADJUSTMENT,
-            stone.coordinate.row.value - INDEX_ADJUSTMENT,
-        )
-    }
-
-    override fun checkInvalid(stone: Stone): Boolean {
+    private fun checkUnable(stone: Stone): Boolean {
         if (stone.color == Color.BLACK) return checkThreeThree(stone) || checkFourFour(stone) || checkMoreThanFive(stone)
         return false
+    }
+
+    private fun checkThreeThree(stone: Stone): Boolean {
+        return renjuRule.checkThreeThree(
+            stone.coordinate.col.value - INDEX_ADJUSTMENT,
+            stone.coordinate.row.value - INDEX_ADJUSTMENT,
+        )
+    }
+
+    private fun checkFourFour(stone: Stone): Boolean {
+        return renjuRule.countFourFour(
+            stone.coordinate.col.value - INDEX_ADJUSTMENT,
+            stone.coordinate.row.value - INDEX_ADJUSTMENT,
+        )
+    }
+
+    private fun checkMoreThanFive(stone: Stone): Boolean {
+        return renjuRule.checkMoreThanFive(
+            stone.coordinate.col.value - INDEX_ADJUSTMENT,
+            stone.coordinate.row.value - INDEX_ADJUSTMENT,
+        )
     }
 
     private fun getCurrentTurn(stones: Stones): Color {
@@ -45,33 +49,37 @@ class RuleAdapter(stones: Stones) : Rule {
         }
     }
 
-    private fun generateCustomBoard(stones: Stones): List<List<Int>> {
+    private fun generateCustomBoard(boardSize: Int, stones: Stones): List<List<Int>> {
         val libraryBoard =
-            List(BOARD_SIZE) {
-                MutableList(BOARD_SIZE) { 0 }
+            List(boardSize) {
+                MutableList(boardSize) { UNPLACED_INT }
             }
         stones.stones.forEach {
             if (it.color == Color.BLACK) {
-                libraryBoard[it.coordinate.row.value - 1][it.coordinate.col.value - 1] = 1
+                libraryBoard[it.coordinate.row.value - INDEX_ADJUSTMENT][it.coordinate.col.value - INDEX_ADJUSTMENT] =
+                    BLACK_COLOR_INT
             } else {
-                libraryBoard[it.coordinate.row.value - 1][it.coordinate.col.value - 1] = 2
+                libraryBoard[it.coordinate.row.value - INDEX_ADJUSTMENT][it.coordinate.col.value - INDEX_ADJUSTMENT] =
+                    WHITE_COLOR_INT
             }
         }
         return libraryBoard
     }
 
     private fun colorToInt(color: Color): Int {
-        if (color == Color.BLACK) return 1
-        return 2
+        if (color == Color.BLACK) return BLACK_COLOR_INT
+        return WHITE_COLOR_INT
     }
 
     private fun getOtherColorToInt(color: Color): Int {
-        if (color == Color.BLACK) return 2
-        return 1
+        if (color == Color.BLACK) return WHITE_COLOR_INT
+        return BLACK_COLOR_INT
     }
 
     companion object {
-        const val BOARD_SIZE: Int = 15
         const val INDEX_ADJUSTMENT: Int = 1
+        const val BLACK_COLOR_INT: Int = 1
+        const val WHITE_COLOR_INT: Int = 2
+        const val UNPLACED_INT: Int = 0
     }
 }

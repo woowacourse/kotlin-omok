@@ -3,6 +3,7 @@ package omok.model
 class Board(val stones: Stones) {
     private val rule: Rule
         get() = RuleAdapter(stones)
+    private val rule = RuleAdapter(BOARD_SIZE, ::getCurrentStones)
 
     fun putStone(stone: Stone) {
         if (!rule.checkInvalid(stone)) {
@@ -10,6 +11,10 @@ class Board(val stones: Stones) {
         } else {
             throw IllegalStateException(ERROR_FORBIDDEN_STONE)
         }
+    }
+
+    private fun getCurrentStones(): Stones {
+        return stones
     }
 
     companion object {
