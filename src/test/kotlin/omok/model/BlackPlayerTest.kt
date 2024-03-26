@@ -79,4 +79,64 @@ class BlackPlayerTest {
             blackStonePlayer.add(Point(5, 12))
         }
     }
+
+    @Test
+    fun `흑이 44이면 예외를 던진다_2`() {
+        blackStonePlayer.apply {
+            add(Point(2, 14))
+            add(Point(2, 13))
+            add(Point(2, 11))
+            add(Point(2, 10))
+            add(Point(2, 9))
+        }
+        assertThrows<IllegalArgumentException> {
+            blackStonePlayer.add(Point(2, 12))
+        }
+    }
+
+    @Test
+    fun `흑이 44이면 예외를 던진다_3`() {
+        blackStonePlayer.apply {
+            add(Point(2, 11))
+            add(Point(2, 10))
+            add(Point(2, 9))
+            add(Point(4, 5))
+            add(Point(5, 4))
+            add(Point(6, 3))
+        }
+        assertThrows<IllegalArgumentException> {
+            blackStonePlayer.add(Point(2, 7))
+        }
+    }
+
+    @Test
+    fun `흑이 44이면 예외를 던진다_4`() {
+        blackStonePlayer.apply {
+            add(Point(4, 4))
+            add(Point(5, 4))
+            add(Point(6, 4))
+            add(Point(7, 5))
+            add(Point(7, 6))
+            add(Point(7, 7))
+        }
+        assertThrows<IllegalArgumentException> {
+            blackStonePlayer.add(Point(7, 4))
+        }
+    }
+
+    @Test
+    fun `흑이 44이면 예외를 던진다_5`() {
+        blackStonePlayer.apply {
+            add(Point(5, 4))
+            add(Point(7, 6))
+            add(Point(7, 7))
+            add(Point(9, 7))
+            add(Point(10, 7))
+            add(Point(9, 8))
+        }
+        assertThrows<IllegalArgumentException> {
+            blackStonePlayer.add(Point(8, 7))
+        }
+    }
+
 }
