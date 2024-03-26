@@ -17,10 +17,10 @@ fun Position.toArkOmokPoint(): Pair<Int, Int> {
     return Pair(x - 1, y - 1)
 }
 
-private fun OmokStone?.toInt(): Int {
-    return when (this?.color) {
+private fun OmokStone.toInt(): Int {
+    return when (this.color) {
         StoneColor.BLACK -> 1
         StoneColor.WHITE -> 2
-        null -> 0
+        StoneColor.NONE -> 0
     }
 }

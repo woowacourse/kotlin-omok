@@ -2,6 +2,7 @@ package omok.model.board
 
 import omok.model.OmokStone
 import omok.model.Position
+import omok.model.StoneColor
 import omok.model.Vector
 
 class Board(val size: BoardSize = DEFAULT_BOARD_SIZE, val boxes: Boxes = Boxes()) {
@@ -52,7 +53,7 @@ class Board(val size: BoardSize = DEFAULT_BOARD_SIZE, val boxes: Boxes = Boxes()
 
     private fun isEmptyPosition(stone: OmokStone): Boolean = (stone.position !in boxes)
 
-    operator fun get(position: Position): OmokStone? = boxes[position]
+    operator fun get(position: Position): OmokStone = boxes[position] ?: OmokStone(position, StoneColor.NONE)
 
     fun lastOrNull(): OmokStone? = stones.lastOrNull()
 

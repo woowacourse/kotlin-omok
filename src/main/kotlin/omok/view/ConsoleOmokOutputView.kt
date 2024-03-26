@@ -29,6 +29,7 @@ class ConsoleOmokOutputView : OmokOutputView {
         return when (this) {
             StoneColorUiModel.BLACK -> StoneColorUiModel.WHITE
             StoneColorUiModel.WHITE -> StoneColorUiModel.BLACK
+            StoneColorUiModel.EMPTY -> throw IllegalArgumentException("EMPTY 는 다음 차례가 없습니다.")
         }
     }
 

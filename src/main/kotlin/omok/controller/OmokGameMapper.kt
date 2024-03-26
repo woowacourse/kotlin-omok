@@ -17,6 +17,7 @@ fun StoneColor.toUiModel(): StoneColorUiModel {
     return when (this) {
         StoneColor.BLACK -> StoneColorUiModel.BLACK
         StoneColor.WHITE -> StoneColorUiModel.WHITE
+        StoneColor.NONE -> StoneColorUiModel.EMPTY
     }
 }
 
