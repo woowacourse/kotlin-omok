@@ -27,7 +27,7 @@ class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStat
     ) {
         val arkBoard = blackStatus.toArkOmokBoard()
         val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate.index
-        val arkPoint = Position.of(horizontalCoordinate, position.verticalCoordinate.index).toArkOmokPoint()
+        val arkPoint = Position(horizontalCoordinate, position.verticalCoordinate.index).toArkOmokPoint()
         if (placementAvailable(arkBoard, arkPoint)) {
             val verticalCoordinate = position.verticalCoordinate.index
             markSinglePlace(horizontalCoordinate, verticalCoordinate, Color.BLACK)

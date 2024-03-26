@@ -18,7 +18,7 @@ class PositionTest {
         verticalCoordinate: Int,
     ) {
         assertDoesNotThrow {
-            Position.of(horizontalCoordinate, verticalCoordinate)
+            Position(horizontalCoordinate, verticalCoordinate)
         }
     }
 
@@ -34,7 +34,7 @@ class PositionTest {
         verticalCoordinate: Int,
     ) {
         assertThrows<IllegalArgumentException> {
-            Position.of(horizontalCoordinate, verticalCoordinate)
+            Position(horizontalCoordinate, verticalCoordinate)
         }
     }
 }

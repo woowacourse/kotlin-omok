@@ -12,7 +12,7 @@ class WhiteTest {
         // given
         val board = createWhiteWinningBoard()
         val whiteBoard = White(board)
-        val position = Position.of(8, 3)
+        val position = Position(8, 3)
         // when
         val result =
             whiteBoard.getWinningResult(

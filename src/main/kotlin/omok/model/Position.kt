@@ -4,15 +4,11 @@ data class Position(
     val horizontalCoordinate: HorizontalCoordinate,
     val verticalCoordinate: VerticalCoordinate,
 ) {
-    companion object {
-        fun of(
-            horizontalCoordinate: Int,
-            verticalCoordinate: Int,
-        ): Position {
-            return Position(
-                horizontalCoordinate = HorizontalCoordinate.valueOf(horizontalCoordinate),
-                verticalCoordinate = VerticalCoordinate.valueOf(verticalCoordinate),
-            )
-        }
-    }
+    constructor(
+        horizontalCoordinate: Int,
+        verticalCoordinate: Int,
+    ) : this(
+        horizontalCoordinate = HorizontalCoordinate.valueOf(horizontalCoordinate),
+        verticalCoordinate = VerticalCoordinate.valueOf(verticalCoordinate),
+    )
 }

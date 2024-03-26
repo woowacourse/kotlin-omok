@@ -16,7 +16,7 @@ class BlackTest {
         // given
         val board = createPlayingBoard()
         val blackBoard = Black(board)
-        val position = Position.of(3, 7)
+        val position = Position(3, 7)
         // when
         val result =
             blackBoard.getWinningResult(
@@ -33,7 +33,7 @@ class BlackTest {
     fun `33 조건일 때, 흑돌은 착수할 수 없다`() {
         val board = createThreeThreeBoard()
         val blackBoard = Black(board)
-        val position = Position.of(3, 3)
+        val position = Position(3, 3)
         // when
         assertThrows<IllegalArgumentException>(EXCEPTION_FORBIDDEN_PLACEMENT) {
             blackBoard.getWinningResult(
@@ -49,7 +49,7 @@ class BlackTest {
     fun `44 조건일 때, 흑돌은 착수할 수 없다`() {
         val board = createFourFourBoard()
         val blackBoard = Black(board)
-        val position = Position.of(7, 7)
+        val position = Position(7, 7)
         // when
         assertThrows<IllegalArgumentException>(EXCEPTION_FORBIDDEN_PLACEMENT) {
             blackBoard.getWinningResult(
@@ -65,7 +65,7 @@ class BlackTest {
     fun `장목 조건일 때, 흑돌은 착수할 수 없다`() {
         val board = createOverLineBoard()
         val blackBoard = Black(board)
-        val position = Position.of(3, 6)
+        val position = Position(3, 6)
         // when
         assertThrows<IllegalArgumentException>(EXCEPTION_FORBIDDEN_PLACEMENT) {
             blackBoard.getWinningResult(

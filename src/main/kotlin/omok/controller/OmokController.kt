@@ -28,7 +28,7 @@ class OmokController(val inputView: InputView, val outputView: OutputView) {
 
     private fun playEachTurn(): GameState {
         val position = getInputPosition()
-        return board.place(Position.of(position.first, position.second))
+        return board.place(Position(position.first, position.second))
     }
 
     private fun getInputPosition(): Pair<Int, Int> = inputView.inputPosition(board.lastPlacement)
