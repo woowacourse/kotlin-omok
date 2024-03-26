@@ -7,11 +7,10 @@ import omock.model.search.Direction
 import omock.model.search.DirectionFirstClearResult
 import omock.model.search.DirectionResult
 
-class OMockRule: OMockRuleInterface {
-
+class OMockRule : OMockRuleInterface {
     override fun checkRules(
         visited: Map<Direction, DirectionResult>,
-        visitedFirstClear: Map<Direction,DirectionFirstClearResult>,
+        visitedFirstClear: Map<Direction, DirectionFirstClearResult>,
     ) {
         var threeToThreeCount = Player.INIT_COUNT
         var fourToFourCount = Player.INIT_COUNT
@@ -28,7 +27,7 @@ class OMockRule: OMockRuleInterface {
                     when (calculateType) {
                         CalculateType.FourToFourCount -> checkFourToFour(++fourToFourCount)
                         CalculateType.IsClearFourToFourCount -> checkIsClearFourToFour(++isClearFourToFourCount)
-                        CalculateType.IsReverseTwoAndThree ->  checkIsReverseTwoAndThree()
+                        CalculateType.IsReverseTwoAndThree -> checkIsReverseTwoAndThree()
                         CalculateType.ThreeToThreeCount -> checkThreeToThreeCount(++threeToThreeCount)
                     }
                 }
@@ -85,7 +84,6 @@ class OMockRule: OMockRuleInterface {
             }
         }
         return calculateTypes
-
     }
 
     private fun provideFirstClearResult(
@@ -130,20 +128,16 @@ class OMockRule: OMockRuleInterface {
 
     private fun getClearFourToFourResult(
         directionResult: DirectionResult,
-        reverseResultCount: Int
+        reverseResultCount: Int,
     ): CalculateType? {
         return if (isThreeToThreeCount(directionResult.count + reverseResultCount)) CalculateType.IsClearFourToFourCount else null
     }
 
-    private fun getThreeToThreeCountResult(
-        reverseResultCount: Int,
-    ): CalculateType? {
+    private fun getThreeToThreeCountResult(reverseResultCount: Int): CalculateType? {
         return if (isThreeToThreeCount(reverseResultCount)) CalculateType.ThreeToThreeCount else null
     }
 
-    private fun getFourToFourCountResult(
-        reverseResultCount: Int,
-    ): CalculateType? {
+    private fun getFourToFourCountResult(reverseResultCount: Int): CalculateType? {
         return if (isFourToFourCount(reverseResultCount)) CalculateType.FourToFourCount else null
     }
 

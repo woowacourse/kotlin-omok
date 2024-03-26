@@ -94,7 +94,7 @@ class OMokController {
     private fun checkPlayerRules(
         player: Player,
         visited: Map<Direction, DirectionResult>,
-        playerStone: Stone
+        playerStone: Stone,
     ) {
         val visitedFirstClear = loadMap.firstClearLoadMap(playerStone)
         if (player is BlackPlayer) {

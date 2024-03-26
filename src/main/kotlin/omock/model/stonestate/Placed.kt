@@ -1,7 +1,7 @@
 package omock.model.stonestate
 
-import omock.model.stone.Stone
 import omock.model.player.Player
+import omock.model.stone.Stone
 
 sealed class Placed(private val stone: Stone) : StoneState(stone) {
     override fun put(player: Player): StoneState {

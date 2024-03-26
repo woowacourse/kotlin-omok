@@ -1,13 +1,12 @@
 package omock
 
-import omock.model.player.BlackPlayer
 import omock.model.board.Board
+import omock.model.player.BlackPlayer
 import omock.model.position.Column
 import omock.model.position.Row
 import omock.model.rule.LoadMap
 import omock.model.rule.OMockRule
 import omock.model.stone.Stone
-import omock.model.stonestate.Clear
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -27,7 +26,7 @@ class OmockRuleTest {
         val oMockRule = OMockRule()
         val visited = loadMap.loadMap(stone)
         val visitedFirstClear = loadMap.firstClearLoadMap(stone)
-        assertThrows<IllegalArgumentException> { oMockRule.checkRules(visited,visitedFirstClear) }
+        assertThrows<IllegalArgumentException> { oMockRule.checkRules(visited, visitedFirstClear) }
     }
 
     @Test
@@ -45,7 +44,7 @@ class OmockRuleTest {
         val oMockRule = OMockRule()
         val visited = loadMap.loadMap(stone)
         val visitedFirstClear = loadMap.firstClearLoadMap(stone)
-        assertThrows<IllegalArgumentException> { oMockRule.checkRules(visited,visitedFirstClear) }
+        assertThrows<IllegalArgumentException> { oMockRule.checkRules(visited, visitedFirstClear) }
     }
 
     @Test
@@ -63,6 +62,6 @@ class OmockRuleTest {
         val oMockRule = OMockRule()
         val visited = loadMap.loadMap(stone)
         val visitedFirstClear = loadMap.firstClearLoadMap(stone)
-        assertThrows<IllegalArgumentException> { oMockRule.checkRules(visited,visitedFirstClear) }
+        assertThrows<IllegalArgumentException> { oMockRule.checkRules(visited, visitedFirstClear) }
     }
 }

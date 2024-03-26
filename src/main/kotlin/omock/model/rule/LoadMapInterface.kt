@@ -7,10 +7,9 @@ import omock.model.search.Node
 import omock.model.stone.Stone
 
 interface LoadMapInterface {
+    fun loadMap(stone: Stone): Map<Direction, DirectionResult>
 
-    fun loadMap(stone: Stone): Map<Direction,DirectionResult>
-
-    fun firstClearLoadMap(stone: Stone): Map<Direction,DirectionFirstClearResult>
+    fun firstClearLoadMap(stone: Stone): Map<Direction, DirectionFirstClearResult>
 
     fun getCurrentNode(stone: Stone): Node
 }

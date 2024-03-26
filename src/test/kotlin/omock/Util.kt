@@ -1,8 +1,8 @@
 package omock
 
 import omock.model.board.Board
-import omock.model.position.Column
 import omock.model.player.Player
+import omock.model.position.Column
 import omock.model.position.Row
 import omock.model.stone.Stone
 

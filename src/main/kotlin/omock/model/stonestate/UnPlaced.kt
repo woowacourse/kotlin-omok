@@ -1,9 +1,9 @@
 package omock.model.stonestate
 
-import omock.model.stone.Stone
 import omock.model.player.BlackPlayer
 import omock.model.player.Player
 import omock.model.player.WhitePlayer
+import omock.model.stone.Stone
 
 sealed class UnPlaced(private val stone: Stone) : StoneState(stone) {
     override fun put(player: Player): StoneState {

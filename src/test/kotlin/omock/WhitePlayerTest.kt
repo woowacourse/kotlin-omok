@@ -2,11 +2,11 @@ package omock
 
 import omock.model.board.Board
 import omock.model.player.BlackPlayer
+import omock.model.player.WhitePlayer
 import omock.model.position.Column
 import omock.model.position.Row
-import omock.model.stone.Stone
-import omock.model.player.WhitePlayer
 import omock.model.rule.LoadMap
+import omock.model.stone.Stone
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 

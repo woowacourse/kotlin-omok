@@ -27,9 +27,9 @@ class LoadMap(private val stoneStates: List<ColumnStates>) : LoadMapInterface {
 
     override fun firstClearLoadMap(stone: Stone): Map<Direction, DirectionFirstClearResult> {
         val node = getCurrentNode(stone)
-        val visited = mutableMapOf<Direction,DirectionFirstClearResult>()
+        val visited = mutableMapOf<Direction, DirectionFirstClearResult>()
         Direction.entries.forEach { direction ->
-            visited[direction] = getResultWithDirectionFirstClear(node,direction)
+            visited[direction] = getResultWithDirectionFirstClear(node, direction)
         }
         return visited
     }
@@ -43,7 +43,7 @@ class LoadMap(private val stoneStates: List<ColumnStates>) : LoadMapInterface {
     private fun getResultWithDirectionFirstClear(
         node: Node,
         direction: Direction,
-    ): DirectionFirstClearResult{
+    ): DirectionFirstClearResult {
         val (nx, ny) = node.x + direction.y to node.y + direction.x
         if (!isBoardIndex(nx, ny)) return DirectionFirstClearResult(false)
         val nextState = stoneStates[ny].getStoneState(nx)
@@ -63,7 +63,8 @@ class LoadMap(private val stoneStates: List<ColumnStates>) : LoadMapInterface {
         while (queue.isNotEmpty()) {
             val current = queue.removeFirst()
             val (nx, ny) = current.x + direction.y to current.y + direction.x
-            fun addFindState(){
+
+            fun addFindState() {
                 queue.addFirst(Node(nx, ny))
                 count++
             }
@@ -73,17 +74,17 @@ class LoadMap(private val stoneStates: List<ColumnStates>) : LoadMapInterface {
 
             when (nextState) {
                 is Black -> {
-                    if (playerState is Black){
+                    if (playerState is Black) {
                         addFindState()
-                    }else{
+                    } else {
                         isLastClear = !flag
                     }
                 }
 
                 is White -> {
-                    if (playerState is White){
+                    if (playerState is White) {
                         addFindState()
-                    }else{
+                    } else {
                         isLastClear = !flag
                     }
                 }
