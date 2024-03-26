@@ -1,9 +1,7 @@
 package omok.model
 
 sealed class GameState(val board: Board) {
-    abstract fun placeStone(
-        position: Position
-    ): GameState
+    abstract fun placeStone(position: Position): GameState
 
     abstract fun getNextTurn(boardResult: BoardResult): GameState
 
@@ -14,10 +12,7 @@ sealed class GameState(val board: Board) {
     abstract fun setupRule()
 
     sealed class Running(board: Board) : GameState(board) {
-
-        override fun placeStone(
-            position: Position
-        ): GameState {
+        override fun placeStone(position: Position): GameState {
             val boardResult = board.placeStone(position, getCurrentStoneType())
             return getNextTurn(boardResult)
         }
@@ -30,11 +25,13 @@ sealed class GameState(val board: Board) {
             init {
                 setupRule()
             }
+
             final override fun setupRule() {
-                board.setupOmokRule(PositionType.BLACK_STONE)
+                board.setUpBoard(PositionType.BLACK_STONE)
             }
+
             override fun getNextTurn(boardResult: BoardResult): GameState {
-                return when(boardResult) {
+                return when (boardResult) {
                     BoardResult.Block -> {
                         Block(board)
                     }
@@ -52,15 +49,15 @@ sealed class GameState(val board: Board) {
 
             override fun getCurrentStoneType(): PositionType = PositionType.BLACK_STONE
 
-            class Start(board: Board): BlackTurn(board) {
+            class Start(board: Board) : BlackTurn(board) {
                 override fun getCurrentTurn(): GameState = Start(board)
             }
 
-            class Block(board: Board): BlackTurn(board) {
+            class Block(board: Board) : BlackTurn(board) {
                 override fun getCurrentTurn(): GameState = Block(board)
             }
 
-            class Duplicate(board: Board): BlackTurn(board) {
+            class Duplicate(board: Board) : BlackTurn(board) {
                 override fun getCurrentTurn(): GameState = Duplicate(board)
             }
         }
@@ -71,11 +68,11 @@ sealed class GameState(val board: Board) {
             }
 
             final override fun setupRule() {
-                board.setupOmokRule(PositionType.WHITE_STONE)
+                board.setUpBoard(PositionType.WHITE_STONE)
             }
 
             override fun getNextTurn(boardResult: BoardResult): GameState {
-                return when(boardResult) {
+                return when (boardResult) {
                     BoardResult.Done -> {
                         BlackTurn.Start(board)
                     }
@@ -90,11 +87,11 @@ sealed class GameState(val board: Board) {
 
             override fun getCurrentStoneType(): PositionType = PositionType.WHITE_STONE
 
-            class Start(board: Board): WhiteTurn(board) {
+            class Start(board: Board) : WhiteTurn(board) {
                 override fun getCurrentTurn(): GameState = Start(board)
             }
 
-            class Duplicate(board: Board): WhiteTurn(board) {
+            class Duplicate(board: Board) : WhiteTurn(board) {
                 override fun getCurrentTurn(): GameState = Duplicate(board)
             }
         }
@@ -112,11 +109,10 @@ sealed class GameState(val board: Board) {
             return this
         }
 
-        override fun placeStone(
-            position: Position
-        ): GameState {
+        override fun placeStone(position: Position): GameState {
             return this
         }
+
         override fun getNextTurn(boardResult: BoardResult): GameState {
             return this
         }

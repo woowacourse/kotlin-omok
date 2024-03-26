@@ -2,7 +2,6 @@ package omok
 
 import omok.model.Board
 import omok.model.GameState
-import omok.model.Position
 
 class GameManager(private val gamePlayHandler: GamePlayHandler) {
     private var gameState: GameState = GameState.Running.BlackTurn.Start(Board())

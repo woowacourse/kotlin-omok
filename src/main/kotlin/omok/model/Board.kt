@@ -1,78 +1,73 @@
 package omok.model
 
-import omok.library.OmokRule
+import omok.library.BlackOmokRule
+import omok.library.WhiteOmokRule
 
-class Board {
-    val layout: Array<Array<PositionType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { PositionType.EMPTY } }
+class Board(private val boardSize: Int = BOARD_SIZE) {
+    private var boardLayout = BoardLayout(boardSize)
     var lastPosition: Position? = null
         private set
-    private var omokRule: OmokRule
 
-    init {
-        omokRule = OmokRule(layout, PositionType.BLACK_STONE, PositionType.WHITE_STONE, BOARD_SIZE)
+    fun getBoardLayout(): Array<Array<PositionType>> {
+        return boardLayout.deepCopy()
     }
 
-    fun setupOmokRule(currentType: PositionType) {
+    fun setUpBoard(currentType: PositionType) {
         when (currentType) {
             PositionType.BLACK_STONE -> {
-                omokRule = OmokRule(layout, PositionType.BLACK_STONE, PositionType.WHITE_STONE, BOARD_SIZE)
-                setBlock(omokRule::checkThreeThree, omokRule::checkFourFour, omokRule::checkMoreThanFive)
+                setBlock()
             }
             else -> {
-                omokRule = OmokRule(layout, PositionType.WHITE_STONE, PositionType.BLACK_STONE, BOARD_SIZE)
                 removeBlock()
             }
         }
     }
 
-    private fun setBlock(
-        checkThreeThree: (Int, Int) -> Boolean,
-        checkFourFour: (Int, Int) -> Boolean,
-        checkMoreThanFive: (Int, Int) -> Boolean,
-    ) {
+    private fun setBlock() {
         val blockPositions: MutableList<Pair<Int, Int>> = mutableListOf()
 
         for (i in MIN_INDEX until BOARD_SIZE) {
             for (j in MIN_INDEX until BOARD_SIZE) {
-                if (isBlockPosition(i, j, checkThreeThree, checkFourFour, checkMoreThanFive)) {
+                if (isBlockPosition(i, j)) {
                     blockPositions.add(Pair(i, j))
                 }
             }
         }
         blockPositions.forEach {
-            layout[it.first][it.second] = PositionType.BLOCK
+            boardLayout[it.first, it.second] = PositionType.BLOCK
         }
     }
 
     private fun isBlockPosition(
         i: Int,
         j: Int,
-        checkThreeThree: (Int, Int) -> Boolean,
-        checkFourFour: (Int, Int) -> Boolean,
-        checkMoreThanFive: (Int, Int) -> Boolean,
-    ) = (checkThreeThree(i, j) || checkFourFour(i, j) || checkMoreThanFive(i, j)) && layout[i][j] == PositionType.EMPTY
+    ) = (
+        BlackOmokRule.isThreeThree(i, j, boardLayout.deepCopy()) ||
+            BlackOmokRule.isFourFour(i, j, boardLayout.deepCopy()) ||
+            BlackOmokRule.isMoreThanFive(i, j, boardLayout.deepCopy())
+    ) &&
+        boardLayout[i, j] == PositionType.EMPTY
 
     private fun removeBlock() {
-        layout.forEach { row ->
-            row.forEachIndexed { index, stoneType ->
-                if (stoneType == PositionType.BLOCK) {
-                    row[index] = PositionType.EMPTY
+        for (x in 0 until boardSize) {
+            for (y in 0 until boardSize) {
+                if (boardLayout[x, y] == PositionType.BLOCK) {
+                    boardLayout[x, y] = PositionType.EMPTY
                 }
             }
         }
     }
 
-    fun isOmok(
+    private fun isWin(
         position: Position,
         positionType: PositionType,
     ): Boolean {
         return when (positionType) {
             PositionType.BLACK_STONE -> {
-                omokRule.checkOmok(position.coordinate.x, position.coordinate.y) &&
-                    !omokRule.checkMoreThanFive(position.coordinate.x, position.coordinate.y)
+                BlackOmokRule.isWin(position.coordinate.x, position.coordinate.y, boardLayout.deepCopy())
             }
             PositionType.WHITE_STONE -> {
-                omokRule.checkOmok(position.coordinate.x, position.coordinate.y)
+                WhiteOmokRule.isWin(position.coordinate.x, position.coordinate.y, boardLayout.deepCopy())
             }
             else -> false
         }
@@ -83,14 +78,14 @@ class Board {
         position: Position,
         positionType: PositionType,
     ): BoardResult {
-        return when(layout[position.coordinate.x][position.coordinate.y]) {
+        return when (boardLayout[position.coordinate.x, position.coordinate.y]) {
             PositionType.BLOCK -> {
                 BoardResult.Block
             }
             PositionType.EMPTY -> {
-                layout[position.coordinate.x][position.coordinate.y] = positionType
+                boardLayout[position.coordinate.x, position.coordinate.y] = positionType
                 lastPosition = position
-                if(isOmok(position, positionType)) BoardResult.Omok else BoardResult.Done
+                if (isWin(position, positionType)) BoardResult.Omok else BoardResult.Done
             }
             else -> {
                 BoardResult.Duplicate
@@ -101,7 +96,5 @@ class Board {
     companion object {
         private const val MIN_INDEX = 0
         private const val BOARD_SIZE = 15
-        private const val ERROR_INVALID_POSITION = "돌을 놓을 수 없는 자리입니다."
-        private const val ERROR_POSITION_TYPE = "올바른 PositionType이 아닙니다."
     }
 }

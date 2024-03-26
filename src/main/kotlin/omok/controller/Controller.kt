@@ -1,13 +1,13 @@
 package omok.controller
 
+import omok.GameManager
 import omok.GamePlayHandler
 import omok.model.Board
-import omok.GameManager
 import omok.model.GameState
 import omok.model.Position
 import omok.view.BoardOutputView
-import omok.view.PositionInputView
 import omok.view.GameStateOutputView
+import omok.view.PositionInputView
 
 class Controller : GamePlayHandler {
     private val gameManager: GameManager = GameManager(this)
