@@ -39,5 +39,5 @@ sealed class Turn {
         stoneStates: List<List<Int>>,
         row: Int,
         column: Int,
-    ): Turn
+    ): Result<Turn>
 }

@@ -1,9 +1,9 @@
 package omock.model
 
+import omock.model.ErrorType.AlreadyExistStone
 import omock.model.state.Stone
 import omock.model.turn.BlackTurn
 import omock.model.turn.Turn
-import kotlin.Result
 
 class OMockGame(
     private var turn: Turn = BlackTurn(),
@@ -24,7 +24,8 @@ class OMockGame(
         playerStone: Stone,
         error: (Throwable) -> Unit,
     ) {
-        playerTurn(playerStone).onSuccess {
+        playerTurn(playerStone).onSuccess { newTurn ->
+            turn = newTurn
             turn.stoneHistoryAdd(playerStone)
         }.onFailure { e ->
             handleTurnFailure(playerStone, e)
@@ -32,16 +33,16 @@ class OMockGame(
         }
     }
 
-    private fun playerTurn(playerStone: Stone): Result<Unit> {
-        return runCatching {
-            board.setStoneState(turn, playerStone)
+    private fun playerTurn(playerStone: Stone): Result<Turn> {
+        board.setStoneState(turn, playerStone).onSuccess {
             updateBoard(playerStone)
-
             val row = playerStone.row.getIndex()
             val column = playerStone.column.getIndex()
-
-            turn = turn.processTurn(board.stoneStates.map { it.getStoneNumber() }, row, column)
+            return turn.processTurn(board.stoneStates.map { it.getStoneNumber() }, row, column)
+        }.onFailure { e ->
+            return Result.failure(e)
         }
+        return Result.failure(AlreadyExistStone())
     }
 
     private fun updateBoard(playerStone: Stone) {
@@ -54,7 +55,7 @@ class OMockGame(
         playerStone: Stone,
         error: Throwable,
     ) {
-        if (error is IllegalArgumentException) {
+        if (error !is AlreadyExistStone) {
             board.rollbackState(playerStone)
             rollbackBoard(playerStone)
         }

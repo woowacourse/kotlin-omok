@@ -1,5 +1,6 @@
 package omock.model
 
+import omock.model.ErrorType.AlreadyExistStone
 import omock.model.state.StoneState
 import omock.model.turn.Turn
 
@@ -11,8 +12,14 @@ data class ColumnStates(
     fun change(
         row: Int,
         turn: Turn,
-    ) {
-        columnStates[row] = getStoneState(row).put(turn)
+    ): Result<Unit> {
+        getStoneState(row).put(turn).onSuccess { stoneState ->
+            columnStates[row] = stoneState
+            return Result.success(Unit)
+        }.onFailure { e ->
+            return Result.failure(e)
+        }
+        return Result.failure(AlreadyExistStone())
     }
 
     fun rollback(row: Int) {

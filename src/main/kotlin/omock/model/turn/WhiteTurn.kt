@@ -12,12 +12,12 @@ class WhiteTurn(
         stoneStates: List<List<Int>>,
         row: Int,
         column: Int,
-    ): Turn {
+    ): Result<Turn> {
         OMockRule.run {
             if (isGameWon(stoneStates, row, column)) {
-                return FinishedTurn()
+                return Result.success(FinishedTurn())
             }
-            return turnOff()
+            return Result.success(turnOff())
         }
     }
 }

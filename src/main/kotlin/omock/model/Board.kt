@@ -9,10 +9,10 @@ class Board(val stoneStates: List<ColumnStates>) {
     fun setStoneState(
         turn: Turn,
         stone: Stone,
-    ) {
+    ): Result<Unit> {
         val row = stone.row.getIndex()
         val column = stone.column.getIndex()
-        stoneStates[row].change(column, turn)
+        return stoneStates[row].change(column, turn)
     }
 
     fun rollbackState(stone: Stone) {

@@ -52,7 +52,7 @@ class WhiteTurnTest {
                 row,
                 column,
             )
-        Assertions.assertThat(isOMock::class.java).isEqualTo(FinishedTurn::class.java)
+        Assertions.assertThat(isOMock.getOrThrow()::class.java).isEqualTo(FinishedTurn::class.java)
     }
 
     @Test
@@ -78,6 +78,6 @@ class WhiteTurnTest {
                 row,
                 column,
             )
-        Assertions.assertThat(isOMock::class.java).isEqualTo(BlackTurn::class.java)
+        Assertions.assertThat(isOMock.getOrThrow()::class.java).isEqualTo(BlackTurn::class.java)
     }
 }

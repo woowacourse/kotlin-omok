@@ -1,11 +1,12 @@
 package omock.view
 
+import omock.model.ErrorType.AlreadyExistStone
+import omock.model.ErrorType.FourToFourCount
+import omock.model.ErrorType.IsClearFourToFourCount
+import omock.model.ErrorType.IsReverseTwoAndThree
+import omock.model.ErrorType.ThreeToThreeCount
 import omock.model.OMockBoard
 import omock.model.state.Stone
-import omock.model.turn.ErrorType.FourToFourCount
-import omock.model.turn.ErrorType.IsClearFourToFourCount
-import omock.model.turn.ErrorType.IsReverseTwoAndThree
-import omock.model.turn.ErrorType.ThreeToThreeCount
 
 object OutputView {
     fun outputUserLocation() {
@@ -49,6 +50,7 @@ object OutputView {
                 is FourToFourCount -> ErrorMessage.FOUR_TO_FOUR_COUNT_ERROR.message
                 is IsReverseTwoAndThree -> ErrorMessage.IS_RESERVE_TWO_AND_THREE_ERROR.message
                 is IsClearFourToFourCount -> ErrorMessage.IS_CLEAR_FOUR_TO_FOUR_COUNT_ERROR.message
+                is AlreadyExistStone -> ErrorMessage.ALREADY_EXIST_STONE_ERROR
                 else -> e.message
             }
 

@@ -1,7 +1,6 @@
 package omock.model.turn
 
 import omock.model.state.Stone
-import java.lang.IllegalArgumentException
 
 class FinishedTurn(
     override val stoneHistory: ArrayDeque<Stone> = ArrayDeque(),
@@ -12,7 +11,7 @@ class FinishedTurn(
         stoneStates: List<List<Int>>,
         row: Int,
         column: Int,
-    ): Turn {
+    ): Result<Turn> {
         throw IllegalArgumentException(ERROR_FINISHED_MESSAGE)
     }
 

@@ -1,4 +1,4 @@
-package omock.model.turn
+package omock.model
 
 sealed class ErrorType : Throwable() {
     class ThreeToThreeCount : Throwable()
@@ -8,4 +8,6 @@ sealed class ErrorType : Throwable() {
     class IsReverseTwoAndThree : Throwable()
 
     class IsClearFourToFourCount : Throwable()
+
+    class AlreadyExistStone : Throwable()
 }

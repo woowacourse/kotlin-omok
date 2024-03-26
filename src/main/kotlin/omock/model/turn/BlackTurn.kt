@@ -1,11 +1,11 @@
 package omock.model.turn
 
 import core.omock.rule.OMockRule
+import omock.model.ErrorType.FourToFourCount
+import omock.model.ErrorType.IsClearFourToFourCount
+import omock.model.ErrorType.IsReverseTwoAndThree
+import omock.model.ErrorType.ThreeToThreeCount
 import omock.model.state.Stone
-import omock.model.turn.ErrorType.FourToFourCount
-import omock.model.turn.ErrorType.IsClearFourToFourCount
-import omock.model.turn.ErrorType.IsReverseTwoAndThree
-import omock.model.turn.ErrorType.ThreeToThreeCount
 
 class BlackTurn(
     override val stoneHistory: ArrayDeque<Stone> = ArrayDeque(),
@@ -16,14 +16,14 @@ class BlackTurn(
         stoneStates: List<List<Int>>,
         row: Int,
         column: Int,
-    ): Turn {
+    ): Result<Turn> {
         OMockRule.run {
-            if (threeToThreeCount(stoneStates, row, column)) throw IllegalArgumentException(ThreeToThreeCount())
-            if (fourToFourCount(stoneStates, row, column)) throw IllegalArgumentException(FourToFourCount())
-            if (isClearFourToFour(stoneStates, row, column)) throw IllegalArgumentException(IsClearFourToFourCount())
-            if (isReverseTwoAndThree(stoneStates, row, column)) throw IllegalArgumentException(IsReverseTwoAndThree())
-            if (isGameWon(stoneStates, row, column)) return FinishedTurn()
-            return turnOff()
+            if (threeToThreeCount(stoneStates, row, column)) return Result.failure(ThreeToThreeCount())
+            if (fourToFourCount(stoneStates, row, column)) return Result.failure(FourToFourCount())
+            if (isClearFourToFour(stoneStates, row, column)) return Result.failure(IsClearFourToFourCount())
+            if (isReverseTwoAndThree(stoneStates, row, column)) return Result.failure(IsReverseTwoAndThree())
+            if (isGameWon(stoneStates, row, column)) return Result.success(FinishedTurn())
+            return Result.success(turnOff())
         }
     }
 }
