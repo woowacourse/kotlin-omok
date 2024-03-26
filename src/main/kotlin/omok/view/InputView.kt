@@ -22,7 +22,7 @@ object InputView {
         return runCatching {
             Coordinate(
                 PositionX(this.substring(1).toInt()),
-                PositionY.from(this.substring(0, 1)),
+                PositionY(this.substring(0, 1).first() - 'A' + 1),
             )
         }
     }
