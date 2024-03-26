@@ -14,7 +14,7 @@ class GameStateTest {
     @BeforeEach
     fun setUp() {
         board = Board()
-        omokRule = BlackStoneOmokRule()
+        omokRule = BlackStoneOmokRule
         gameState = GameState.Running.BlackTurn(Board())
     }
 
@@ -25,7 +25,6 @@ class GameStateTest {
                 { },
                 { },
                 { A1 },
-                omokRule,
             ),
         ).isInstanceOf(GameState.Running.WhiteTurn::class.java)
     }
@@ -37,7 +36,6 @@ class GameStateTest {
                 { },
                 { },
                 { A1 },
-                omokRule,
             ),
         ).isInstanceOf(GameState.Running.BlackTurn::class.java)
     }
@@ -50,7 +48,6 @@ class GameStateTest {
                     { },
                     { },
                     { stone },
-                    omokRule,
                 )
         }
         assertThat(gameState).isInstanceOf(GameState.Finish::class.java)

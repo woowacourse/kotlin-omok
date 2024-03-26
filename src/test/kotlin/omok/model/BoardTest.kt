@@ -1,5 +1,6 @@
-package omok.model
-
+import omok.model.Board
+import omok.model.Coordinate
+import omok.model.PositionType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
@@ -16,22 +17,22 @@ class BoardTest {
     }
 
     @ParameterizedTest
-    @CsvSource("A1, 0, 0", "A2, 0, 1", "A3, 0, 2")
+    @CsvSource("0, 0", "0, 1", "0, 2")
     fun `오목판 위 빈 공간에 돌을 놓을 수 있다`(
-        format: String,
         x: Int,
         y: Int,
     ) {
-        val coordinate = Coordinate.from(format)
-        board.placeStone(coordinate, BLACK_STONE)
-        assertEquals(BLACK_STONE, board.layout[x][y])
+        val coordinate = Coordinate(x, y)
+        board.placeStone(coordinate, PositionType.BLACK_STONE)
+        assertEquals(PositionType.BLACK_STONE, board.getBoardLayout()[x][y])
     }
 
     @Test
     fun `이미 돌이 놓인 자리에 돌을 놓을 수 없다`() {
-        board.placeStone(A1, BLACK_STONE)
+        val a1 = Coordinate(0, 0)
+        board.placeStone(a1, PositionType.BLACK_STONE)
         assertThrows(IllegalArgumentException::class.java) {
-            board.placeStone(A1, BLACK_STONE)
+            board.placeStone(a1, PositionType.BLACK_STONE)
         }
     }
 }
