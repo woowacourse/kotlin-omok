@@ -2,7 +2,7 @@ package omok.model
 
 import RenjuRule
 
-class Board(val stones: Stones, var width: Int = DEFAULT_BOARD_WIDTH, var height: Int = DEFAULT_BOARD_HEIGHT) {
+class Board(val stones: Stones, val width: Int = DEFAULT_BOARD_WIDTH, val height: Int = DEFAULT_BOARD_HEIGHT) {
     private val rule: Rule = RenjuRule(stones)
 
     fun putStone(stone: Stone): Boolean {
@@ -19,7 +19,11 @@ class Board(val stones: Stones, var width: Int = DEFAULT_BOARD_WIDTH, var height
     private fun validateStoneCoordinate(coordinate: Coordinate): Boolean {
         val x = coordinate.x.value
         val y = coordinate.y.value
-        return (x in BOARD_START_INDEX..width && y in BOARD_START_INDEX..height)
+        return (x !in BOARD_START_INDEX..width && y !in BOARD_START_INDEX..height)
+    }
+
+    private fun validateOccupiedCoordinate(coordinate: Coordinate): Boolean {
+        return stones.stones.any { it.coordinate == coordinate }
     }
 
     companion object {

@@ -23,6 +23,19 @@ class BoardTest {
     }
 
     @Test
+    fun `오목판을 생성하면 기본적으로 15 x 15 사이즈를 갖는다`() {
+        assertThat(board.width).isEqualTo(15)
+        assertThat(board.height).isEqualTo(15)
+    }
+
+    @Test
+    fun `오목판의 사이즈를 정해서 생성할 수 있다`() {
+        val newBoard = Board(Stones(), 30, 30)
+        assertThat(newBoard.width).isEqualTo(30)
+        assertThat(newBoard.height).isEqualTo(30)
+    }
+
+    @Test
     fun `오목판은 착수된 돌을 가지고 있다`() {
         board.putStone(blackStone)
         assertThat(board.stones.stones).contains(blackStone)
