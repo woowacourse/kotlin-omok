@@ -4,6 +4,7 @@ import omok.model.Board
 import omok.model.Position
 import omok.model.Stone
 import omok.model.rule.library.FourFourRule
+import omok.model.rule.library.OverlineRule
 import omok.model.rule.library.ThreeThreeRule
 
 object RuleAdapter {
@@ -21,6 +22,14 @@ object RuleAdapter {
         position: Position,
     ): Boolean {
         return ThreeThreeRule(stone.convert(), stone.next().convert()).abide(board.convert(), position.convert())
+    }
+
+    fun abideOverLineRule(
+        stone: Stone,
+        board: Board,
+        position: Position,
+    ): Boolean {
+        return OverlineRule(stone.convert(), stone.next().convert()).abide(board.convert(), position.convert())
     }
 
     private fun Board.convert(): List<List<Int>> {
