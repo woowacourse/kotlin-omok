@@ -51,16 +51,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun restoreOriginalImage(board: TableLayout) {
-        board.children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { view ->
-                view.setImageResource(0)
-            }
-        Board.resetBoard()
+    private fun <T> detectRenjuRule(
+        view: View,
+        action: () -> T,
+    ): T? =
+        runCatching {
+            action()
+        }.getOrElse {
+            Snackbar.make(view, it.localizedMessage, Snackbar.LENGTH_SHORT).show()
+            return null
+        }
+
+    private fun changeStone(currentStone: StoneType): GoStone {
+        return if (currentStone == StoneType.BLACK_STONE) BlackStone else WhiteStone
     }
+
+    private fun GoStone.imageView() =
+        when (this) {
+            BlackStone -> R.drawable.black_stone
+            WhiteStone -> R.drawable.white_stone
+        }
 
     private fun checkOmok(
         board: TableLayout,
@@ -78,32 +88,22 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
-    private fun <T> detectRenjuRule(
-        view: View,
-        action: () -> T,
-    ): T? =
-        runCatching {
-            action()
-        }.getOrElse {
-            Snackbar.make(view, it.localizedMessage, Snackbar.LENGTH_SHORT).show()
-            return null
-        }
-
-    private fun changeStone(currentStone: StoneType): GoStone {
-        return if (currentStone == StoneType.BLACK_STONE) BlackStone else WhiteStone
-    }
-
     private fun indexAdapter(index: Int): Position {
         val row = FIRST_COLUMN + (index % BOARD_SIZE)
         val column = BOARD_SIZE - (index / BOARD_SIZE)
         return Position.of(row, column)
     }
 
-    private fun GoStone.imageView() =
-        when (this) {
-            BlackStone -> R.drawable.black_stone
-            WhiteStone -> R.drawable.white_stone
-        }
+    private fun restoreOriginalImage(board: TableLayout) {
+        board.children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .forEach { view ->
+                view.setImageResource(0)
+            }
+        Board.resetBoard()
+    }
 
     private fun GoStone.value() =
         when (this) {
