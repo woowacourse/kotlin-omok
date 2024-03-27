@@ -22,9 +22,10 @@ class OmockRuleTest {
         val player = BlackPlayer()
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
-        val oMockRule = OMockRule(
-            ruleTypes = listOf(ThreeToThreeCount)
-        )
+        val oMockRule =
+            OMockRule(
+                ruleTypes = listOf(ThreeToThreeCount),
+            )
         val stone = Stone.from(Row("12"), Column("D"))
 
         board.makeStones(
@@ -46,9 +47,10 @@ class OmockRuleTest {
         val player = BlackPlayer()
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
-        val oMockRule = OMockRule(
-            ruleTypes = listOf(FourToFourCount)
-        )
+        val oMockRule =
+            OMockRule(
+                ruleTypes = listOf(FourToFourCount),
+            )
         val stone = Stone.from(Row("12"), Column("D"))
 
         board.makeStones(
@@ -71,9 +73,10 @@ class OmockRuleTest {
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
         val stone = Stone.from(Row("13"), Column("C"))
-        val oMockRule = OMockRule(
-            ruleTypes = listOf(IsReverseTwoAndThree)
-        )
+        val oMockRule =
+            OMockRule(
+                ruleTypes = listOf(IsReverseTwoAndThree),
+            )
 
         board.makeStones(
             player = player,
@@ -84,7 +87,7 @@ class OmockRuleTest {
         assertThrows<IllegalArgumentException> {
             oMockRule.checkRules(
                 VisitedDirectionResult(loadMap.loadMap(stone)),
-                VisitedDirectionFirstClearResult(loadMap.firstClearLoadMap(stone))
+                VisitedDirectionFirstClearResult(loadMap.firstClearLoadMap(stone)),
             )
         }
     }
@@ -95,13 +98,14 @@ class OmockRuleTest {
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
         val stone = Stone.from(Row("3"), Column("E"))
-        val oMockRule = OMockRule(
-            ruleTypes = listOf(IsClearFourToFourCount)
-        )
+        val oMockRule =
+            OMockRule(
+                ruleTypes = listOf(IsClearFourToFourCount),
+            )
 
         board.makeStones(
             player = player,
-            coordinates = arrayOf("6B", "5C", "6E", "5E","2E","2F"),
+            coordinates = arrayOf("6B", "5C", "6E", "5E", "2E", "2F"),
         )
         board.setStoneState(player, stone)
 

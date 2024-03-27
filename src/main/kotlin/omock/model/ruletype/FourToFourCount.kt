@@ -13,7 +13,7 @@ data object FourToFourCount : RuleType {
 
     override fun checkRule(
         visitedDirectionResult: VisitedDirectionResult,
-        visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult
+        visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult,
     ) {
         var count = OMockRule.INIT_COUNT
         visitedDirectionResult.visited.entries.forEach { (key, result) ->
@@ -28,7 +28,9 @@ data object FourToFourCount : RuleType {
                         reverseResultCount = reverseResultCount,
                         directionResult = result,
                     )
-                ) count++
+                ) {
+                    count++
+                }
             }
         }
         checkFourToFour(count)
@@ -37,7 +39,7 @@ data object FourToFourCount : RuleType {
     override fun isCalculateType(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
-        directionResult: DirectionResult
+        directionResult: DirectionResult,
     ): Boolean {
         return if (isNotFirstClearResult(isReverseResultFirstClear)) {
             provideNotFirstClearResult(
@@ -57,7 +59,7 @@ data object FourToFourCount : RuleType {
     override fun provideFirstClearResult(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
-        directionResult: DirectionResult
+        directionResult: DirectionResult,
     ): Boolean {
         return isFourToFourCount(directionResult.count)
     }
@@ -65,7 +67,7 @@ data object FourToFourCount : RuleType {
     override fun provideNotFirstClearResult(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
-        directionResult: DirectionResult
+        directionResult: DirectionResult,
     ): Boolean {
         return isFourToFourCount(directionResult.count + reverseResultCount)
     }

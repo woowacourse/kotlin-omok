@@ -6,7 +6,7 @@ import omock.model.player.WhitePlayer
 import omock.model.stone.Stone
 
 object LocalBoard {
-    private const val BLACK_ICON  = '●'
+    private const val BLACK_ICON = '●'
     private const val WHITE_ICON = '○'
 
     val boardTable: MutableList<MutableList<Char>> = makeLocalBoard()
@@ -33,7 +33,7 @@ object LocalBoard {
     fun setBoardIcon(
         playerStone: Stone,
         player: Player,
-    ){
+    ) {
         boardTable[playerStone.row.toBoardIndex() - 1][playerStone.column.getIndex()] =
             getStoneIcon(player)
     }

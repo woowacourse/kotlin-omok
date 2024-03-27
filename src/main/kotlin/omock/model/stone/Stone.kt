@@ -1,8 +1,5 @@
 package omock.model.stone
 
-import omock.model.player.BlackPlayer
-import omock.model.player.Player
-import omock.model.player.WhitePlayer
 import omock.model.position.Column
 import omock.model.position.Row
 

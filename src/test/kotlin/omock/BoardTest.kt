@@ -22,7 +22,7 @@ class BoardTest {
         board.makeStones(
             player = player,
             coordinates =
-            arrayOf("2B", "1B", "2A", "3A", "4A", "5A"),
+                arrayOf("2B", "1B", "2A", "3A", "4A", "5A"),
         )
         board.setStoneState(player, stone)
 
@@ -46,12 +46,11 @@ class BoardTest {
         board.makeStones(
             player = player,
             coordinates =
-                arrayOf("1A")
+                arrayOf("1A"),
         )
 
-        assertThrows<IllegalArgumentException> { board.setStoneState(player, stone)}
+        assertThrows<IllegalArgumentException> { board.setStoneState(player, stone) }
     }
-
 
     @Test
     fun `플레이어가 인덱스를 벗어난 위치에 돌을 놓을 때, 예외를 던진다`() {
@@ -61,7 +60,7 @@ class BoardTest {
         board.makeStones(
             player = player,
             coordinates =
-            arrayOf("1A")
+                arrayOf("1A"),
         )
 
         assertThrows<IllegalArgumentException> {

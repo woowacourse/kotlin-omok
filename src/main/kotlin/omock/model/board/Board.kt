@@ -10,7 +10,7 @@ import omock.model.stonestate.Clear
 class Board(val stoneStates: List<ColumnStates>) {
     private var gameTurn = GameTurn.BLACK_TURN
 
-    fun getTurn(): GameTurn{
+    fun getTurn(): GameTurn {
         return gameTurn
     }
 
@@ -24,11 +24,11 @@ class Board(val stoneStates: List<ColumnStates>) {
         }
     }
 
-    private fun finishTurn(){
+    private fun finishTurn() {
         gameTurn = GameTurn.FINISHED
     }
 
-    private fun turnOff(){
+    private fun turnOff() {
         gameTurn = gameTurn.turnOff()
     }
 

@@ -25,7 +25,6 @@ sealed class Player {
     }
 
     fun judgementResult(visitedDirectionResult: VisitedDirectionResult): Boolean {
-
         visitedDirectionResult.visited.entries.forEach { (key, result) ->
             val reverseResultCount: Int =
                 visitedDirectionResult.visited[Direction.reverse(key)]?.count ?: OMockRule.MIN_REVERSE_COUNT

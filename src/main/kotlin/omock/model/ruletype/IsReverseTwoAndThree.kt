@@ -12,7 +12,7 @@ data object IsReverseTwoAndThree : RuleType {
 
     override fun checkRule(
         visitedDirectionResult: VisitedDirectionResult,
-        visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult
+        visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult,
     ) {
         visitedDirectionResult.visited.entries.forEach { (key, result) ->
             val isReverseResultFirstClear: Boolean =
@@ -20,12 +20,12 @@ data object IsReverseTwoAndThree : RuleType {
             val reverseResultCount: Int =
                 visitedDirectionResult.visited[Direction.reverse(key)]?.count ?: OMockRule.MIN_REVERSE_COUNT
             if (isLastClearResult(result)) {
-                checkIsReverseTwoAndThree (
+                checkIsReverseTwoAndThree(
                     isCalculateType(
                         isReverseResultFirstClear = isReverseResultFirstClear,
                         reverseResultCount = reverseResultCount,
                         directionResult = result,
-                    )
+                    ),
                 )
             }
         }
@@ -34,32 +34,33 @@ data object IsReverseTwoAndThree : RuleType {
     override fun isCalculateType(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
-        directionResult: DirectionResult
+        directionResult: DirectionResult,
     ): Boolean {
         return provideFirstClearResult(
             isReverseResultFirstClear = isReverseResultFirstClear,
             reverseResultCount = reverseResultCount,
             directionResult = directionResult,
-        ) && provideNotFirstClearResult(
-            isReverseResultFirstClear = isReverseResultFirstClear,
-            reverseResultCount = reverseResultCount,
-            directionResult = directionResult,
-        )
+        ) &&
+            provideNotFirstClearResult(
+                isReverseResultFirstClear = isReverseResultFirstClear,
+                reverseResultCount = reverseResultCount,
+                directionResult = directionResult,
+            )
     }
 
     override fun provideFirstClearResult(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
-        directionResult: DirectionResult
+        directionResult: DirectionResult,
     ): Boolean {
         return isThreeToThreeCount(directionResult.count) &&
-                isFourToFourCount(reverseResultCount) && !isReverseResultFirstClear
+            isFourToFourCount(reverseResultCount) && !isReverseResultFirstClear
     }
 
     override fun provideNotFirstClearResult(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
-        directionResult: DirectionResult
+        directionResult: DirectionResult,
     ): Boolean {
         return true
     }
@@ -68,7 +69,7 @@ data object IsReverseTwoAndThree : RuleType {
         return IS_REVERSE_TWO_AND_THREE_MESSAGE
     }
 
-    private fun checkIsReverseTwoAndThree(result : Boolean) {
+    private fun checkIsReverseTwoAndThree(result: Boolean) {
         IsReverseTwoAndThree.checkCalculateType { result }
     }
 }

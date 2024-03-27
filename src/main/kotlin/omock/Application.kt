@@ -8,11 +8,12 @@ import omock.model.ruletype.ThreeToThreeCount
 
 fun main() {
     OMokController(
-        ruleTypes = listOf(
-            ThreeToThreeCount,
-            FourToFourCount,
-            IsClearFourToFourCount,
-            IsReverseTwoAndThree,
-        )
+        ruleTypes =
+            listOf(
+                ThreeToThreeCount,
+                FourToFourCount,
+                IsClearFourToFourCount,
+                IsReverseTwoAndThree,
+            ),
     ).run()
 }

@@ -12,7 +12,7 @@ data object ThreeToThreeCount : RuleType {
 
     override fun checkRule(
         visitedDirectionResult: VisitedDirectionResult,
-        visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult
+        visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult,
     ) {
         var count = OMockRule.INIT_COUNT
         visitedDirectionResult.visited.entries.forEach { (key, result) ->
@@ -27,7 +27,9 @@ data object ThreeToThreeCount : RuleType {
                         reverseResultCount = reverseResultCount,
                         directionResult = result,
                     )
-                ) count++
+                ) {
+                    count++
+                }
             }
         }
         checkThreeToThreeCount(count)
@@ -36,7 +38,7 @@ data object ThreeToThreeCount : RuleType {
     override fun isCalculateType(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
-        directionResult: DirectionResult
+        directionResult: DirectionResult,
     ): Boolean {
         return if (isNotFirstClearResult(isReverseResultFirstClear)) {
             provideNotFirstClearResult(
@@ -56,7 +58,7 @@ data object ThreeToThreeCount : RuleType {
     override fun provideFirstClearResult(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
-        directionResult: DirectionResult
+        directionResult: DirectionResult,
     ): Boolean {
         return isThreeToThreeCount(directionResult.count)
     }
@@ -64,7 +66,7 @@ data object ThreeToThreeCount : RuleType {
     override fun provideNotFirstClearResult(
         isReverseResultFirstClear: Boolean,
         reverseResultCount: Int,
-        directionResult: DirectionResult
+        directionResult: DirectionResult,
     ): Boolean {
         return isThreeToThreeCount(directionResult.count + reverseResultCount)
     }
