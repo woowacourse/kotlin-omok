@@ -1,8 +1,8 @@
 package omok.model.rule
 
-import lib.ark.ark.ArkFourFourRule
-import lib.ark.ark.ArkOverLineRule
-import lib.ark.ark.ArkThreeThreeRule
+import lib.ark.ArkFourFourRule
+import lib.ark.ArkOverLineRule
+import lib.ark.ArkThreeThreeRule
 import omok.mapper.toArkOmokBoard
 import omok.mapper.toArkOmokPoint
 import omok.model.OmokStone

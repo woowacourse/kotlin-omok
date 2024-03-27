@@ -17,7 +17,7 @@ class BlackTurnTest {
         val expect = WhiteTurn::class.java
         // when
         val actual = blackTurn.placeStone { createPosition(1, 1) }
-        val isFinished = actual.isFinished
+        val isFinished = actual.hasOmok()
         // then
         actual shouldNotBeSameInstanceAs expect
         isFinished.shouldBeFalse()
@@ -37,7 +37,7 @@ class BlackTurnTest {
         val expect = Finish::class.java
         // when
         val actual = blackTurn.placeStone { createPosition(1, 5) }
-        val isFinished = actual.isFinished
+        val isFinished = actual.hasOmok()
         // then
         actual shouldNotBeSameInstanceAs expect
         isFinished.shouldBeTrue()

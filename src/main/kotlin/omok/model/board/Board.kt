@@ -55,7 +55,7 @@ class Board(val size: BoardSize = DEFAULT_BOARD_SIZE, val boxes: Boxes = Boxes()
 
     operator fun get(position: Position): OmokStone = boxes[position] ?: OmokStone(position, StoneColor.NONE)
 
-    fun lastOrNull(): OmokStone? = stones.lastOrNull()
+    fun lastStoneOrNull(): OmokStone? = stones.lastOrNull()
 
     fun isInOmok(position: Position): Boolean {
         val stone = boxes[position] ?: return false
@@ -65,6 +65,7 @@ class Board(val size: BoardSize = DEFAULT_BOARD_SIZE, val boxes: Boxes = Boxes()
     }
 
     fun hasOmok(): Boolean = positions.any(::isInOmok)
+
     private fun isInOmok(
         stone: OmokStone,
         vector: Vector,

@@ -7,8 +7,6 @@ import omok.model.board.Board
 import omok.model.rule.OmokGameRule
 
 sealed class Running(private val putRule: OmokGameRule, board: Board) : GameState(board) {
-    override val isFinished = false
-
     private fun canPut(stone: OmokStone): Boolean {
         return putRule.canPlaceStone(stone, board)
     }

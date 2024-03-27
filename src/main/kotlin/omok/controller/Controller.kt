@@ -26,9 +26,8 @@ class Controller(
                 state = state,
                 playersEvent = event,
             )
-        val result = game.play(::showCurrentGameState)
-        val winner = requireNotNull(result.lastOrNull()) { "게임이 종료되지 않았습니다." }
-        outputView.showGameResult(result.toUiModel(), winner.toUiModel())
+        val (board, winner) = game.play(::showCurrentGameState)
+        outputView.showGameResult(board.toUiModel(), winner.toUiModel())
     }
 
     private fun showCurrentGameState(

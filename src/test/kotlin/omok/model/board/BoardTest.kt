@@ -69,7 +69,7 @@ class BoardTest {
             )
         val expected = createBlackStone(x = 2, y = 2)
         // when
-        val actual = board.lastOrNull()
+        val actual = board.lastStoneOrNull()
         // then
         actual shouldBe expected
     }
