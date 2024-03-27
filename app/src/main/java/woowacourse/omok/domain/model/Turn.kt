@@ -10,7 +10,7 @@ sealed class Turn {
         val stone = Stone(stoneType, point)
         if (ruleAdapter.checkForbidden(stone)) return this
         if (ruleAdapter.checkWin(stone)) return FinishedTurn(stoneType)
-        return when(stoneType) {
+        return when (stoneType) {
             StoneType.BLACK -> WhiteTurn()
             StoneType.WHITE -> BlackTurn()
             StoneType.EMPTY -> FinishedTurn(stoneType)

@@ -86,7 +86,14 @@ object OutputView {
         boardForm = generateBoardForm(board.size)
 
         repeat(board.size) {
-            println(boardForm[it].format(*generatePrintedLine(it, board.getBoardLine(it + 1)).toTypedArray()))
+            println(
+                boardForm[it].format(
+                    *generatePrintedLine(
+                        it,
+                        board.getBoardLine(it + 1)
+                    ).toTypedArray()
+                )
+            )
         }
         println(boardForm.last())
     }
@@ -113,11 +120,19 @@ object OutputView {
     ): String {
         return when (turn) {
             is BlackTurn -> {
-                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (beforePoint?.let { generateBeforePointMessage(it) } ?: "")
+                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (beforePoint?.let {
+                    generateBeforePointMessage(
+                        it
+                    )
+                } ?: "")
             }
 
             is WhiteTurn -> {
-                MESSAGE_TURN.format(STONE_TYPE_WHITE) + (beforePoint?.let { generateBeforePointMessage(it) } ?: "")
+                MESSAGE_TURN.format(STONE_TYPE_WHITE) + (beforePoint?.let {
+                    generateBeforePointMessage(
+                        it
+                    )
+                } ?: "")
             }
 
             is FinishedTurn -> {

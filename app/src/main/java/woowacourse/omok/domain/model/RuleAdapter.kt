@@ -28,7 +28,7 @@ class RuleAdapter(val board: Board) {
             }
         repeat(board.size) { y ->
             repeat(board.size) { x ->
-                table[y][x] = (convertStoneType(board.getBoardPoint(Point(x,y))))
+                table[y][x] = (convertStoneType(board.getBoardPoint(Point(x, y))))
             }
         }
         return table

@@ -3,11 +3,6 @@ package woowacourse.omok.domain.model
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import woowacourse.omok.domain.model.BlackTurn
-import woowacourse.omok.domain.model.Board
-import woowacourse.omok.domain.model.Point
-import woowacourse.omok.domain.model.RuleAdapter
-import woowacourse.omok.domain.model.StoneType
 
 class BoardTest {
     private lateinit var board: Board

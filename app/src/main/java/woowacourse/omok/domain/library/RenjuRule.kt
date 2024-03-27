@@ -20,7 +20,10 @@ class RenjuRule(
         y: Int,
         stoneType: Int,
     ): Boolean {
-        if (stoneType == STONE_TYPE_BLACK) return countOpenThrees(x, y) >= MIN_OPEN_THREES || countOpenFours(
+        if (stoneType == STONE_TYPE_BLACK) return countOpenThrees(
+            x,
+            y
+        ) >= MIN_OPEN_THREES || countOpenFours(
             x,
             y,
         ) >= MIN_OPEN_FOURS || isOverLine(x, y, stoneType)
