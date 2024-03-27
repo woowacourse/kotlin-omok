@@ -39,13 +39,13 @@ data object ThreeToThreeCount : RuleType {
         directionResult: DirectionResult
     ): Boolean {
         return if (isNotFirstClearResult(isReverseResultFirstClear)) {
-            provideFirstClearResult(
+            provideNotFirstClearResult(
                 isReverseResultFirstClear = isReverseResultFirstClear,
                 reverseResultCount = reverseResultCount,
                 directionResult = directionResult,
             )
         } else {
-            provideNotFirstClearResult(
+            provideFirstClearResult(
                 isReverseResultFirstClear = isReverseResultFirstClear,
                 reverseResultCount = reverseResultCount,
                 directionResult = directionResult,
@@ -58,7 +58,7 @@ data object ThreeToThreeCount : RuleType {
         reverseResultCount: Int,
         directionResult: DirectionResult
     ): Boolean {
-        return isThreeToThreeCount(directionResult.count + reverseResultCount)
+        return isThreeToThreeCount(directionResult.count)
     }
 
     override fun provideNotFirstClearResult(
@@ -66,7 +66,7 @@ data object ThreeToThreeCount : RuleType {
         reverseResultCount: Int,
         directionResult: DirectionResult
     ): Boolean {
-        return isThreeToThreeCount(reverseResultCount)
+        return isThreeToThreeCount(directionResult.count + reverseResultCount)
     }
 
     private fun checkThreeToThreeCount(threeToThreeCount: Int) {

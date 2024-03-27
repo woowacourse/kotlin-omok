@@ -40,13 +40,13 @@ data object FourToFourCount : RuleType {
         directionResult: DirectionResult
     ): Boolean {
         return if (isNotFirstClearResult(isReverseResultFirstClear)) {
-            provideFirstClearResult(
+            provideNotFirstClearResult(
                 isReverseResultFirstClear = isReverseResultFirstClear,
                 reverseResultCount = reverseResultCount,
                 directionResult = directionResult,
             )
         } else {
-            provideNotFirstClearResult(
+            provideFirstClearResult(
                 isReverseResultFirstClear = isReverseResultFirstClear,
                 reverseResultCount = reverseResultCount,
                 directionResult = directionResult,
@@ -59,7 +59,7 @@ data object FourToFourCount : RuleType {
         reverseResultCount: Int,
         directionResult: DirectionResult
     ): Boolean {
-        return isFourToFourCount(directionResult.count + reverseResultCount)
+        return isFourToFourCount(directionResult.count)
     }
 
     override fun provideNotFirstClearResult(
@@ -67,7 +67,7 @@ data object FourToFourCount : RuleType {
         reverseResultCount: Int,
         directionResult: DirectionResult
     ): Boolean {
-        return isFourToFourCount(reverseResultCount)
+        return isFourToFourCount(directionResult.count + reverseResultCount)
     }
 
     override fun getCalculateMessage(ruleType: RuleType): String {

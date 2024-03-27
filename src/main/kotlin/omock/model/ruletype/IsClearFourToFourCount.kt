@@ -20,13 +20,15 @@ data object IsClearFourToFourCount : RuleType {
                 visitedDirectionFirstClearResult.visitedFirstClear[Direction.reverse(key)]?.isFirstClear ?: false
             val reverseResultCount: Int =
                 visitedDirectionResult.visited[Direction.reverse(key)]?.count ?: OMockRule.MIN_REVERSE_COUNT
+            val isResultFirstClear: Boolean =
+                visitedDirectionFirstClearResult.visitedFirstClear[key]?.isFirstClear ?: false
             if (isLastClearResult(result)) {
                 if (
                     isCalculateType(
                         isReverseResultFirstClear = isReverseResultFirstClear,
                         reverseResultCount = reverseResultCount,
                         directionResult = result,
-                    )
+                    ) && isResultFirstClear
                 ) count++
             }
         }
@@ -39,13 +41,13 @@ data object IsClearFourToFourCount : RuleType {
         directionResult: DirectionResult
     ): Boolean {
         return if (isNotFirstClearResult(isReverseResultFirstClear)) {
-            provideFirstClearResult(
+            provideNotFirstClearResult(
                 isReverseResultFirstClear = isReverseResultFirstClear,
                 reverseResultCount = reverseResultCount,
                 directionResult = directionResult,
             )
         } else {
-            provideNotFirstClearResult(
+            provideFirstClearResult(
                 isReverseResultFirstClear = isReverseResultFirstClear,
                 reverseResultCount = reverseResultCount,
                 directionResult = directionResult,
@@ -58,7 +60,7 @@ data object IsClearFourToFourCount : RuleType {
         reverseResultCount: Int,
         directionResult: DirectionResult
     ): Boolean {
-        return true
+        return false
     }
 
     override fun provideNotFirstClearResult(
@@ -66,14 +68,7 @@ data object IsClearFourToFourCount : RuleType {
         reverseResultCount: Int,
         directionResult: DirectionResult
     ): Boolean {
-        return getClearFourToFourResult(isReverseResultFirstClear, directionResult)
-    }
-
-    private fun getClearFourToFourResult(
-        isReverseResultFirstClear: Boolean,
-        directionResult: DirectionResult,
-    ): Boolean {
-        return isReverseResultFirstClear && isThreeToThreeCount(directionResult.count)
+        return isThreeToThreeCount(directionResult.count)
     }
 
     override fun getCalculateMessage(ruleType: RuleType): String {
