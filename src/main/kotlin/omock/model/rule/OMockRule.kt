@@ -12,12 +12,12 @@ class OMockRule : OMockRuleInterface {
         visited: Map<Direction, DirectionResult>,
         visitedFirstClear: Map<Direction, DirectionFirstClearResult>,
     ) {
-        var threeToThreeCount = Player.INIT_COUNT
-        var fourToFourCount = Player.INIT_COUNT
-        var isClearFourToFourCount = Player.INIT_COUNT
+        var threeToThreeCount = INIT_COUNT
+        var fourToFourCount = INIT_COUNT
+        var isClearFourToFourCount = INIT_COUNT
         visited.entries.forEach { (key, result) ->
             val isReverseResultFirstClear: Boolean = visitedFirstClear[Direction.reverse(key)]?.isFirstClear ?: false
-            val reverseResultCount: Int = visited[Direction.reverse(key)]?.count ?: Player.MIN_REVERSE_COUNT
+            val reverseResultCount: Int = visited[Direction.reverse(key)]?.count ?: MIN_REVERSE_COUNT
             if (isLastClearResult(result)) {
                 getCalculateType(
                     isReverseResultFirstClear = isReverseResultFirstClear,
@@ -37,13 +37,13 @@ class OMockRule : OMockRuleInterface {
 
     private fun checkFourToFour(fourToFourCount: Int) {
         CalculateType.FourToFourCount.checkCalculateType {
-            fourToFourCount >= Player.MIN_FOUR_TO_FOUR_COUNT
+            fourToFourCount >= MIN_FOUR_TO_FOUR_COUNT
         }
     }
 
     private fun checkIsClearFourToFour(isClearFourToFourCount: Int) {
         CalculateType.IsClearFourToFourCount.checkCalculateType {
-            isClearFourToFourCount >= Player.MIN_IS_CLEAR_FOUR_TO_FOUR_COUNT
+            isClearFourToFourCount >= MIN_IS_CLEAR_FOUR_TO_FOUR_COUNT
         }
     }
 
@@ -57,7 +57,7 @@ class OMockRule : OMockRuleInterface {
     }
 
     private fun checkThreeToThreeCount(threeToThreeCount: Int) {
-        CalculateType.ThreeToThreeCount.checkCalculateType { threeToThreeCount >= Player.MIN_THREE_TO_THREE_COUNT }
+        CalculateType.ThreeToThreeCount.checkCalculateType { threeToThreeCount >= MIN_THREE_TO_THREE_COUNT }
     }
 
     private fun getCalculateType(
@@ -150,10 +150,21 @@ class OMockRule : OMockRuleInterface {
     }
 
     private fun isThreeToThreeCount(count: Int): Boolean {
-        return count == Player.EDGE_THREE_TO_THREE_COUNT
+        return count == EDGE_THREE_TO_THREE_COUNT
     }
 
     private fun isFourToFourCount(count: Int): Boolean {
-        return count == Player.EDGE_FOUR_TO_FOUR_COUNT
+        return count == EDGE_FOUR_TO_FOUR_COUNT
+    }
+
+    companion object {
+        const val INIT_COUNT = 0
+        const val MIN_FOUR_TO_FOUR_COUNT = 4
+        const val MIN_IS_CLEAR_FOUR_TO_FOUR_COUNT = 4
+        const val MIN_THREE_TO_THREE_COUNT = 4
+        const val MIN_REVERSE_COUNT = 0
+        const val MIN_O_MOCK_COUNT = 4
+        const val EDGE_THREE_TO_THREE_COUNT = 2
+        const val EDGE_FOUR_TO_FOUR_COUNT = 3
     }
 }
