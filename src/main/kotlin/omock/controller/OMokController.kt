@@ -7,8 +7,6 @@ import omock.model.player.Player
 import omock.model.player.WhitePlayer
 import omock.model.rule.LoadMap
 import omock.model.rule.OMockRule
-import omock.model.search.Direction
-import omock.model.search.DirectionResult
 import omock.model.search.VisitedDirectionFirstClearResult
 import omock.model.search.VisitedDirectionResult
 import omock.model.stone.Stone
@@ -25,7 +23,6 @@ class OMokController {
     private val board = Board.from()
     private val oMockRule = OMockRule()
     private val loadMap = LoadMap(board.stoneStates)
-    private var gameTurn = GameTurn.BLACK_TURN
 
     fun run() {
         outputGameStart()
@@ -34,7 +31,7 @@ class OMokController {
 
         while (true) {
             outputBoardForm()
-            when (gameTurn) {
+            when (board.getTurn()) {
                 GameTurn.BLACK_TURN -> userTurnFlow(blackPlayer)
                 GameTurn.WHITE_TURN -> userTurnFlow(whitePlayer)
                 GameTurn.FINISHED -> outputSuccessOMock()
@@ -108,10 +105,9 @@ class OMokController {
         player: Player,
         visitedDirectionResult: VisitedDirectionResult,
     ) {
-        gameTurn =
-            when (player.judgementResult(visitedDirectionResult)) {
-                true -> GameTurn.FINISHED
-                false -> gameTurn.turnOff()
-            }
+        when (player.judgementResult(visitedDirectionResult)) {
+            true -> board.setTurn(GameTurn.FINISHED)
+            false -> board.turnOff()
+        }
     }
 }

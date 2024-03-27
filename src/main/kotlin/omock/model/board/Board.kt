@@ -1,11 +1,26 @@
 package omock.model.board
 
+import omock.model.GameTurn
 import omock.model.player.Player
 import omock.model.position.Row.Companion.MAX_ROW
 import omock.model.stone.Stone
 import omock.model.stonestate.Clear
 
 class Board(val stoneStates: List<ColumnStates>) {
+    private var gameTurn = GameTurn.BLACK_TURN
+
+    fun getTurn(): GameTurn{
+        return gameTurn
+    }
+
+    fun setTurn(nextGameTurn: GameTurn){
+        gameTurn = nextGameTurn
+    }
+
+    fun turnOff(){
+        gameTurn.turnOff()
+    }
+
     fun setStoneState(
         player: Player,
         stone: Stone,
