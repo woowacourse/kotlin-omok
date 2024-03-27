@@ -18,26 +18,26 @@ import omok.model.stone.WhiteStone
 class MainActivity : AppCompatActivity() {
     private var stone: GoStone = BlackStone
     private lateinit var dbHelper: OmokDbHelper
-    lateinit var board: TableLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        board = findViewById(R.id.board)
+        val board = findViewById<TableLayout>(R.id.board)
         dbHelper = OmokDbHelper(this)
-        restoreGameData()
+        restoreGameData(board)
         startOmokGame(board)
     }
 
-    private fun restoreGameData() {
-        dbHelper.selectStonesInfo().forEach {
-            recoverBoard(board, it.first, it.second)
+    private fun restoreGameData(board: TableLayout) {
+        dbHelper.selectStonesInfo().forEach { (stoneIndex, stoneColor) ->
+            recoverBoard(board, stoneIndex, stoneColor)
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        val board = findViewById<TableLayout>(R.id.board)
         resetGameData(board)
     }
 
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         stone.putStone(indexAdapter(stoneIndex))
     }
 
-    private fun String.stone() = if (this == "흑") BlackStone else WhiteStone
+    private fun String.stone() = if (this == BLACK_STONE_VALUE) BlackStone else WhiteStone
 
     private fun startOmokGame(board: TableLayout) {
         board.children
@@ -135,6 +135,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetGameData(board: TableLayout) {
+        resetBoardImage(board)
+        Board.resetBoard()
+        dbHelper.reset()
+    }
+
+    private fun resetBoardImage(board: TableLayout) {
         board.children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
@@ -142,13 +148,12 @@ class MainActivity : AppCompatActivity() {
             .forEach { view ->
                 view.setImageResource(RESET_IMAGE_ID)
             }
-        Board.resetBoard()
-        dbHelper.reset()
     }
 
     companion object {
         private const val RESET_IMAGE_ID = 0
         private const val BOARD_SIZE = 15
+        private const val BLACK_STONE_VALUE = "흑"
         private const val FIRST_COLUMN = 'A'
         private const val CONFIRM_BUTTON_MESSAGE = "확인"
     }
