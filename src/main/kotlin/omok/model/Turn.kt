@@ -1,11 +1,18 @@
 package omok.model
 
-data class Turn(private var color: Color) {
+data class Turn(private var turn: Color = Color.BLACK) {
     fun next() {
-        color = if (color.isWhite()) Color.BLACK else Color.WHITE
+        turn =
+            if (turn == Color.BLACK) {
+                Color.WHITE
+            } else {
+                Color.BLACK
+            }
     }
 
-    fun isBlack(): Boolean = color.isBLACK()
+    fun color(): Color = turn
 
-    fun isWhite(): Boolean = color.isWhite()
+    fun isBlack(): Boolean = turn.isBLACK()
+
+    fun isWhite(): Boolean = turn.isWhite()
 }
