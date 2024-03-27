@@ -1,4 +1,6 @@
-package omok.model
+package omok.model.game
+
+import omok.model.player.Player
 
 class OmokPlayers(val blackStonePlayer: Player, val whiteStonePlayer: Player) {
     fun firstOrderPlayer() = blackStonePlayer

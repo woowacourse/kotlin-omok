@@ -1,8 +1,8 @@
 package omok.model.rule
 
-import omok.model.Board
-import omok.model.Position
-import omok.model.Stone
+import omok.model.board.Board
+import omok.model.board.Position
+import omok.model.board.Stone
 import omok.model.rule.library.OmokRule
 
 object RuleAdapter {

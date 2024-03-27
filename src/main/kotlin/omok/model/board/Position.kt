@@ -1,4 +1,4 @@
-package omok.model
+package omok.model.board
 
 data class Position(val row: Int, val col: Int) {
     fun move(direction: Direction): Position {

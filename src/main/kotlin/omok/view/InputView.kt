@@ -1,7 +1,7 @@
 package omok.view
 
-import omok.model.Position
-import omok.model.Stone
+import omok.model.board.Position
+import omok.model.board.Stone
 
 class InputView {
     fun readStonePosition(

@@ -1,5 +1,7 @@
 package omok.model
 
+import omok.model.board.Direction
+import omok.model.board.Position
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

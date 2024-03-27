@@ -1,9 +1,9 @@
 package omok.view
 
-import omok.model.Board
-import omok.model.FinishType
-import omok.model.Position
-import omok.model.Stone
+import omok.model.board.Board
+import omok.model.board.Position
+import omok.model.board.Stone
+import omok.model.game.FinishType
 
 class OutputView {
     fun printInitialGuide(board: Board) {

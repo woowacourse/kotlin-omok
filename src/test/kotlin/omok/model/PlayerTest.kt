@@ -1,5 +1,8 @@
 package omok.model
 
+import omok.model.board.Position
+import omok.model.board.Stone
+import omok.model.player.Player
 import omok.model.rule.ban.DoubleFourForbiddenPlace
 import omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
 import omok.model.rule.ban.OverlineForbiddenPlace

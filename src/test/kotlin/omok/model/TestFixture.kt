@@ -1,5 +1,9 @@
 package omok.model
 
+import omok.model.board.Board
+import omok.model.board.Position
+import omok.model.board.Stone
+
 fun initBoard(
     vararg stonePositions: StonePosition,
     size: Int = 15,

@@ -1,7 +1,7 @@
 package omok.view
 
-import omok.model.Position
-import omok.model.Stone
+import omok.model.board.Position
+import omok.model.board.Stone
 
 fun Stone.output(): String = if (this == Stone.BLACK) "흑" else "백"
 

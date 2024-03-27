@@ -1,5 +1,9 @@
 package omok.model
 
+import omok.model.board.Position
+import omok.model.board.Stone
+import omok.model.game.FinishType
+import omok.model.player.Player
 import omok.model.rule.finish.FiveStonesFinishCondition
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

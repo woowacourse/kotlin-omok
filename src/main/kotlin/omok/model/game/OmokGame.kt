@@ -1,5 +1,8 @@
-package omok.model
+package omok.model.game
 
+import omok.model.board.Board
+import omok.model.board.Position
+import omok.model.player.Player
 import omok.model.rule.finish.FinishCondition
 import omok.utils.retryUntilNotException
 

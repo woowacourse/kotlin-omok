@@ -1,7 +1,7 @@
 package omok.model.rule.ban
 
-import omok.model.Board
-import omok.model.Position
+import omok.model.board.Board
+import omok.model.board.Position
 
 interface ForbiddenPlace {
     fun availablePosition(

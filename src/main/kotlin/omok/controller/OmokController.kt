@@ -1,12 +1,12 @@
 package omok.controller
 
-import omok.model.Board
-import omok.model.OmokGame
-import omok.model.OmokPlayers
-import omok.model.OmokTurnAction
-import omok.model.Player
-import omok.model.Position
-import omok.model.Stone
+import omok.model.board.Board
+import omok.model.board.Position
+import omok.model.board.Stone
+import omok.model.game.OmokGame
+import omok.model.game.OmokPlayers
+import omok.model.game.OmokTurnAction
+import omok.model.player.Player
 import omok.model.rule.ban.ForbiddenPlace
 import omok.model.rule.finish.FinishCondition
 import omok.view.InputView

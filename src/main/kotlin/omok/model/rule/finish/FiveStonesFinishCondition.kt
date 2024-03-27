@@ -1,10 +1,10 @@
 package omok.model.rule.finish
 
-import omok.model.Board
-import omok.model.Direction
-import omok.model.FinishType
-import omok.model.Player
-import omok.model.Position
+import omok.model.board.Board
+import omok.model.board.Direction
+import omok.model.board.Position
+import omok.model.game.FinishType
+import omok.model.player.Player
 
 class FiveStonesFinishCondition : FinishCondition {
     override fun finishType(

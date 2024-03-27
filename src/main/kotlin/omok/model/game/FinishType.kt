@@ -1,4 +1,6 @@
-package omok.model
+package omok.model.game
+
+import omok.model.board.Stone
 
 enum class FinishType(val stone: Stone) {
     BLACK_PLAYER_WIN(Stone.BLACK),

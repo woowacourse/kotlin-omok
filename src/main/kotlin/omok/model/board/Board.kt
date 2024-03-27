@@ -1,4 +1,6 @@
-package omok.model
+package omok.model.board
+
+import omok.model.player.Player
 
 class Board(
     val size: Int,

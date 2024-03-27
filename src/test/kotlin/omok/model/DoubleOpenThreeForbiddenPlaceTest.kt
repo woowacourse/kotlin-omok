@@ -1,5 +1,7 @@
 package omok.model
 
+import omok.model.board.Position
+import omok.model.board.Stone
 import omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
