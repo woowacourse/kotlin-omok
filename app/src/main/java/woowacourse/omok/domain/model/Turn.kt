@@ -21,14 +21,15 @@ sealed class Turn {
         val winner = when (stoneType) {
             StoneType.BLACK -> STONE_TYPE_BLACK
             StoneType.WHITE -> STONE_TYPE_WHITE
-            StoneType.EMPTY -> ""
+            StoneType.EMPTY -> return ""
         }
-        return "${winner}돌이 승리했습니다!!!"
+        return MESSAGE_WINNER.format(winner)
     }
 
     companion object {
         private const val STONE_TYPE_BLACK = "흑"
         private const val STONE_TYPE_WHITE = "백"
+        private const val MESSAGE_WINNER = "%s돌이 승리했습니다!!"
     }
 }
 
