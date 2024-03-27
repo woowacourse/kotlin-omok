@@ -2,7 +2,7 @@ package omock.controller
 
 import omock.model.GameTurn
 import omock.model.board.Board
-import omock.model.board.LocalBoard.boardTable
+import omock.model.board.LocalBoard
 import omock.model.player.BlackPlayer
 import omock.model.player.Player
 import omock.model.player.WhitePlayer
@@ -61,8 +61,7 @@ class OMokController {
         playerStone: Stone,
         player: Player,
     ) {
-        boardTable[playerStone.row.toIntIndex() - 1][playerStone.column.getIndex()] =
-            Stone.getStoneIcon(player)
+        LocalBoard.setBoardIcon(playerStone,player)
         player.stoneHistory.add(playerStone)
     }
 

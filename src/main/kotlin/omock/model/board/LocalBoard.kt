@@ -1,5 +1,8 @@
 package omock.model.board
 
+import omock.model.player.Player
+import omock.model.stone.Stone
+
 object LocalBoard {
     val boardTable: MutableList<MutableList<Char>> = makeLocalBoard()
     val boardForm =
@@ -21,6 +24,14 @@ object LocalBoard {
             "  1 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
             "    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O",
         )
+
+    fun setBoardIcon(
+        playerStone: Stone,
+        player: Player,
+    ){
+        boardTable[playerStone.row.toIntIndex() - 1][playerStone.column.getIndex()] =
+            Stone.getStoneIcon(player)
+    }
 
     private fun makeLocalBoard(): MutableList<MutableList<Char>> {
         return mutableListOf(
