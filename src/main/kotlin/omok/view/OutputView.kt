@@ -1,6 +1,10 @@
 package omok.view
 
-import omok.model.*
+import omok.model.Black
+import omok.model.BoardCoordinate
+import omok.model.BoardPosition
+import omok.model.OmokStone
+import omok.model.White
 
 private const val COLUMN_STRING = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
 private const val X = "X"
