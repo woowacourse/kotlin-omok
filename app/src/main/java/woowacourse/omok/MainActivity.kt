@@ -104,6 +104,7 @@ class MainActivity : AppCompatActivity() {
                 view.setImageResource(RESET_IMAGE_ID)
             }
         Board.resetBoard()
+        dbHelper.reset()
     }
 
     private fun GoStone.value() =
