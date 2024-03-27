@@ -16,12 +16,16 @@ import omok.model.stone.WhiteStone
 
 class MainActivity : AppCompatActivity() {
     private var stone: GoStone = BlackStone
+    private lateinit var dbHelper: OmokDbHelper
+    lateinit var board: TableLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val board = findViewById<TableLayout>(R.id.board)
+        board = findViewById(R.id.board)
+        dbHelper = OmokDbHelper(this)
+
         startOmokGame(board)
     }
 
@@ -45,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         val stonePosition = indexAdapter(index)
         val currentStone = detectRenjuRule(view) { stone.putStone(stonePosition) }
         currentStone?.let {
+            dbHelper.insert(index, stone.value())
             view.setImageResource(stone.imageView())
             if (checkOmok(board, stonePosition, view)) return
             stone = currentStone
