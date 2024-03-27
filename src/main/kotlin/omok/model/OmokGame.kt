@@ -10,7 +10,7 @@ class OmokGame(private val board: Board, private val players: Players) {
 
         while (true) {
             recentPosition = recentPosition.next(recentPlayer, nextStonePosition)
-            nextStonePositionResult.invoke()
+            nextStonePositionResult()
             if (recentPlayer.isWin(board, recentPosition)) break
             recentPlayer = players.nextOrder(recentPlayer)
         }
@@ -27,7 +27,7 @@ class OmokGame(private val board: Board, private val players: Players) {
     }
 }
 
-fun <T> retryUntilNotException(block: () -> (T)): T {
+private fun <T> retryUntilNotException(block: () -> (T)): T {
     return try {
         block()
     } catch (e: IllegalArgumentException) {
