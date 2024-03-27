@@ -51,4 +51,9 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, "omok.db", null
 
         return dataList
     }
+
+    fun reset() {
+        val db = this.writableDatabase
+        db?.execSQL("DELETE FROM ${OmokContract.TABLE_NAME}")
+    }
 }
