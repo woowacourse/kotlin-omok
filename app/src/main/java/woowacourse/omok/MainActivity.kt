@@ -8,6 +8,7 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
+import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
@@ -50,6 +51,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun restoreOriginalImage(board: TableLayout) {
+        board.children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .forEach { view ->
+                view.setImageResource(0)
+            }
+        Board.resetBoard()
+    }
+
     private fun checkOmok(
         board: TableLayout,
         index: Int,
@@ -58,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         if (stone.findOmok(indexAdapter(index))) {
             val snackBar = Snackbar.make(view, "${stone.value()} 승리", Snackbar.LENGTH_INDEFINITE)
             snackBar.setAction("확인") {
+                restoreOriginalImage(board)
             }
             snackBar.show()
             return true
