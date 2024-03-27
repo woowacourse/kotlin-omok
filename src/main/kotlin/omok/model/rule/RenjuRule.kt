@@ -1,16 +1,14 @@
 package omok.model.rule
 
 import omok.model.board.Board
-import omok.model.position.DeltaPosition
+import omok.model.position.Direction
 import omok.model.position.Position
 import omok.model.stone.StoneType
 
 open class RenjuRule(private val board: Array<Array<StoneType>>) {
-    val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
-
     fun search(
         position: Position,
-        deltaPosition: DeltaPosition,
+        direction: Direction,
     ): Pair<Int, Int> {
         var toRight = position.row.value
         var toTop = position.column.value
@@ -18,9 +16,9 @@ open class RenjuRule(private val board: Array<Array<StoneType>>) {
         var blink = 0
         var blinkCount = 0
         while (true) {
-            if (isBoardRange(deltaPosition, toRight, toTop)) break
-            toRight += deltaPosition.deltaRow
-            toTop += deltaPosition.deltaColumn
+            if (isBoardRange(direction, toRight, toTop)) break
+            toRight += direction.rowDirection
+            toTop += direction.columnDirection
             when (board[toTop][toRight]) {
                 CURRENT_STONE -> {
                     stone++
@@ -39,12 +37,12 @@ open class RenjuRule(private val board: Array<Array<StoneType>>) {
     }
 
     fun isBoardRange(
-        deltaPosition: DeltaPosition,
+        direction: Direction,
         toRight: Int,
         toTop: Int,
     ): Boolean {
-        val deltaRow = deltaPosition.deltaRow
-        val deltaCol = deltaPosition.deltaColumn
+        val deltaRow = direction.rowDirection
+        val deltaCol = direction.columnDirection
         if (deltaRow > 0 && toRight == Board.MAX_AXIS) return true
         if (deltaRow < 0 && toRight == Board.MIN_AXIS) return true
         if (deltaCol > 0 && toTop == Board.MAX_AXIS) return true

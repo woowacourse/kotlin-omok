@@ -1,7 +1,7 @@
 package omok.model.rule
 
 import omok.model.board.Board
-import omok.model.position.DeltaPosition
+import omok.model.position.Direction
 import omok.model.position.Position
 
 object DoubleThreeChecker : RenjuRule(Board.board) {
@@ -12,14 +12,17 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
     private const val MAX_STEPS_COUNT_WALL = 5
 
     fun isDoubleThree(position: Position): Boolean =
-        directions.sumOf { direction -> checkOpenThree(position, DeltaPosition(direction[0], direction[1])) } >= INVALID_OPEN_THREE_COUNT
+        Direction.types.sumOf {
+                direction ->
+            checkOpenThree(position, Direction(direction.rowDirection, direction.columnDirection))
+        } >= INVALID_OPEN_THREE_COUNT
 
     private fun checkOpenThree(
         position: Position,
-        deltaPosition: DeltaPosition,
+        direction: Direction,
     ): Int {
-        val (stone1, blink1) = search(position, -deltaPosition)
-        val (stone2, blink2) = search(position, deltaPosition)
+        val (stone1, blink1) = search(position, -direction)
+        val (stone2, blink2) = search(position, direction)
 
         val leftDown = stone1 + blink1
         val rightUp = stone2 + blink2
@@ -27,9 +30,9 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         return when {
             isValidStoneCount(stone1, stone2) -> OPEN_THREE_NOT_FOUND
             isValidBlinkCount(blink1, blink2) -> OPEN_THREE_NOT_FOUND
-            isAtBoardEdge(position, deltaPosition, leftDown, rightUp) -> OPEN_THREE_NOT_FOUND
-            isBesideAnotherStone(position, deltaPosition, leftDown, rightUp) -> OPEN_THREE_NOT_FOUND
-            countToWall(position, -deltaPosition) + countToWall(position, deltaPosition) <= MAX_STEPS_COUNT_WALL -> OPEN_THREE_NOT_FOUND
+            isAtBoardEdge(position, direction, leftDown, rightUp) -> OPEN_THREE_NOT_FOUND
+            isBesideAnotherStone(position, direction, leftDown, rightUp) -> OPEN_THREE_NOT_FOUND
+            countToWall(position, -direction) + countToWall(position, direction) <= MAX_STEPS_COUNT_WALL -> OPEN_THREE_NOT_FOUND
             else -> OPEN_THREE_FOUND
         }
     }
@@ -54,14 +57,14 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
 
     private fun isAtBoardEdge(
         position: Position,
-        deltaPosition: DeltaPosition,
+        direction: Direction,
         leftDown: Int,
         rightUp: Int,
     ): Boolean {
         val row = position.row.value
         val column = position.column.value
-        val deltaRow = deltaPosition.deltaRow
-        val deltaCol = deltaPosition.deltaColumn
+        val deltaRow = direction.rowDirection
+        val deltaCol = direction.columnDirection
         return when {
             deltaRow != Board.MIN_AXIS && row - leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
             deltaCol != Board.MIN_AXIS && column - leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
@@ -73,14 +76,14 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
 
     private fun isBesideAnotherStone(
         position: Position,
-        deltaPosition: DeltaPosition,
+        direction: Direction,
         leftDown: Int,
         rightUp: Int,
     ): Boolean {
         val row = position.row.value
         val column = position.column.value
-        val deltaRow = deltaPosition.deltaRow
-        val deltaCol = deltaPosition.deltaColumn
+        val deltaRow = direction.rowDirection
+        val deltaCol = direction.columnDirection
 
         val left = deltaRow * (leftDown + 1)
         val down = deltaCol * (leftDown + 1)
@@ -97,15 +100,15 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
 
     private fun countToWall(
         position: Position,
-        deltaPosition: DeltaPosition,
+        direction: Direction,
     ): Int {
         var toRight = position.row.value
         var toTop = position.column.value
         var distance = 0
         while (true) {
-            if (isBoardRange(deltaPosition, toRight, toTop)) break
-            toRight += deltaPosition.deltaRow
-            toTop += deltaPosition.deltaColumn
+            if (isBoardRange(direction, toRight, toTop)) break
+            toRight += direction.rowDirection
+            toTop += direction.columnDirection
             when (Board.board[toTop][toRight]) {
                 in listOf(CURRENT_STONE, EMPTY_STONE) -> distance++
                 OTHER_STONE -> break

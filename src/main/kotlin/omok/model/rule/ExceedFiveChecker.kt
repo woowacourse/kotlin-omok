@@ -1,7 +1,7 @@
 package omok.model.rule
 
 import omok.model.board.Board
-import omok.model.position.DeltaPosition
+import omok.model.position.Direction
 import omok.model.position.Position
 
 object ExceedFiveChecker : RenjuRule(Board.board) {
@@ -11,18 +11,18 @@ object ExceedFiveChecker : RenjuRule(Board.board) {
         position: Position,
         exceedFivePrecondition: Int,
     ): Boolean =
-        directions.map {
+        Direction.types.map {
                 direction ->
-            isMoreThanFive(position, DeltaPosition(direction[0], direction[1]), exceedFivePrecondition)
+            isMoreThanFive(position, Direction(direction.rowDirection, direction.columnDirection), exceedFivePrecondition)
         }.contains(true)
 
     private fun isMoreThanFive(
         position: Position,
-        deltaPosition: DeltaPosition,
+        direction: Direction,
         exceedFivePrecondition: Int,
     ): Boolean {
-        val (stone1, blink1) = search(position, -deltaPosition)
-        val (stone2, blink2) = search(position, deltaPosition)
+        val (stone1, blink1) = search(position, -direction)
+        val (stone2, blink2) = search(position, direction)
 
         return when {
             blink1 + blink2 == MIN_BLINKS_EXCEED_FIVE && stone1 + stone2 >= exceedFivePrecondition -> true

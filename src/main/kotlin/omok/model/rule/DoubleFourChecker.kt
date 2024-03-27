@@ -1,7 +1,7 @@
 package omok.model.rule
 
 import omok.model.board.Board
-import omok.model.position.DeltaPosition
+import omok.model.position.Direction
 import omok.model.position.Position
 
 object DoubleFourChecker : RenjuRule(Board.board) {
@@ -14,22 +14,22 @@ object DoubleFourChecker : RenjuRule(Board.board) {
     private const val MAX_STONES_OPEN_FOUR = 5
 
     fun isDoubleFour(position: Position): Boolean =
-        directions.sumOf { direction -> checkOpenFour(position, DeltaPosition(direction[0], direction[1])) } >= 2
+        Direction.types.sumOf { direction -> checkOpenFour(position, Direction(direction.rowDirection, direction.columnDirection)) } >= 2
 
     private fun checkOpenFour(
         position: Position,
-        deltaPosition: DeltaPosition,
+        direction: Direction,
     ): Int {
-        val (stone1, blink1) = search(position, -deltaPosition)
-        val (stone2, blink2) = search(position, deltaPosition)
+        val (stone1, blink1) = search(position, -direction)
+        val (stone2, blink2) = search(position, direction)
 
         val leftDown = stone1 + blink1
-        val left = deltaPosition.deltaRow * (leftDown + 1)
-        val down = deltaPosition.deltaColumn * (leftDown + 1)
+        val left = direction.rowDirection * (leftDown + 1)
+        val down = direction.columnDirection * (leftDown + 1)
 
         val rightUp = stone2 + blink2
-        val right = deltaPosition.deltaRow * (rightUp + 1)
-        val up = deltaPosition.deltaColumn * (rightUp + 1)
+        val right = direction.rowDirection * (rightUp + 1)
+        val up = direction.columnDirection * (rightUp + 1)
 
         when {
             blink1 + blink2 == MIN_BLINKS_OPEN_FOUR && stone1 + stone2 == STONES_FOR_WIN -> return INVALID_OPEN_FOUR_COUNT
@@ -40,8 +40,8 @@ object DoubleFourChecker : RenjuRule(Board.board) {
 
         val row = position.row.value
         val column = position.column.value
-        val deltaRow = deltaPosition.deltaRow
-        val deltaCol = deltaPosition.deltaColumn
+        val deltaRow = direction.rowDirection
+        val deltaCol = direction.columnDirection
 
         val leftDownValid =
             when {
