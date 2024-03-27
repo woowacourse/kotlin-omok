@@ -118,14 +118,22 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
     ): Boolean {
         if (stone.findOmok(stonePosition)) {
-            val snackBar = Snackbar.make(view, "${stone.value()} 승리", Snackbar.LENGTH_INDEFINITE)
-            snackBar.setAction(CONFIRM_BUTTON_MESSAGE) {
-                resetGameData(board)
-            }
-            snackBar.show()
+            showWinnerMessage(view, board)
+            stone = BlackStone
             return true
         }
         return false
+    }
+
+    private fun showWinnerMessage(
+        view: ImageView,
+        board: TableLayout,
+    ) {
+        val snackBar = Snackbar.make(view, "${stone.value()} 승리", Snackbar.LENGTH_INDEFINITE)
+        snackBar.setAction(CONFIRM_BUTTON_MESSAGE) {
+            resetGameData(board)
+        }
+        snackBar.show()
     }
 
     private fun indexAdapter(index: Int): Position {
