@@ -6,23 +6,38 @@ enum class OmokStoneType {
     EMPTY,
 }
 
-sealed class OmokStone(open val rowCoords: CoordsNumber, open val columnCoords: CoordsNumber, private val type: OmokStoneType) {
+sealed class OmokStone(open val boardPosition: BoardPosition, private val type: OmokStoneType) {
+    abstract val isBlack: Boolean
+    abstract val isWhite: Boolean
+    abstract val isEmpty: Boolean
+
     fun isSameType(opponent: OmokStone): Boolean = this.type == opponent.type
+
+    fun getRow() = boardPosition.getRow()
+
+    fun getColumn() = boardPosition.getColumn()
 }
 
-data class Black(override val rowCoords: CoordsNumber, override val columnCoords: CoordsNumber) : OmokStone(
-    rowCoords,
-    columnCoords,
+data class Black(override val boardPosition: BoardPosition) : OmokStone(
+    boardPosition,
     OmokStoneType.BLACK,
-)
+) {
+    override val isBlack = true
+    override val isWhite = false
+    override val isEmpty = false
+}
 
-data class White(override val rowCoords: CoordsNumber, override val columnCoords: CoordsNumber) : OmokStone(
-    rowCoords,
-    columnCoords,
+data class White(override val boardPosition: BoardPosition) : OmokStone(
+    boardPosition,
     OmokStoneType.WHITE,
-)
+) {
+    override val isBlack = false
+    override val isWhite = true
+    override val isEmpty = false
+}
 
-data class Empty(
-    override val rowCoords: CoordsNumber = CoordsNumber(-100),
-    override val columnCoords: CoordsNumber = CoordsNumber(-100),
-) : OmokStone(rowCoords, columnCoords, OmokStoneType.EMPTY)
+class Empty : OmokStone(BoardPosition(BoardCoordinate(-1), BoardCoordinate(-1)), OmokStoneType.EMPTY) {
+    override val isBlack = false
+    override val isWhite = false
+    override val isEmpty = true
+}

@@ -1,9 +1,6 @@
 package omok.view
 
-import omok.model.Black
-import omok.model.CoordsNumber
-import omok.model.OmokStone
-import omok.model.White
+import omok.model.*
 
 private const val COLUMN_STRING = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
 private const val X = "X"
@@ -22,10 +19,8 @@ private const val WHITE_STONE = "●"
 private const val EMPTY_CHAR = ' '
 private const val EMPTY_STRING = " "
 private const val OMOK_START_MESSAGE = "오목 게임을 시작합니다."
-private const val FORBIDDEN_MESSAGE = "놓을 수 없는 자리입니다.(금수-렌주룰)"
-private const val NOT_EMPTY_MESSAGE = "빈 자리에 놓아주세요."
+private const val INVALID_POSITION_MESSAGE = "유효하지 않은 위치입니다."
 private const val WRONG_COORDS_MESSAGE = "잘못된 위치 입력입니다."
-private const val WINNER_MESSAGE = "우승자는 %s."
 
 private const val BOARD_SIZE = 15
 
@@ -34,25 +29,17 @@ object OutputView {
         println(OMOK_START_MESSAGE)
     }
 
-    fun printForbiddenMoveMessage() {
-        println(FORBIDDEN_MESSAGE)
-    }
-
-    fun printOccupiedPositionMessage() {
-        println(NOT_EMPTY_MESSAGE)
+    fun printInvalidPositionMessage() {
+        println(INVALID_POSITION_MESSAGE)
     }
 
     fun printWrongPositionMessage() {
         println(WRONG_COORDS_MESSAGE)
     }
 
-    fun showWinner(currentOmokStone: OmokStone) {
-        println(WINNER_MESSAGE.format(currentOmokStone))
-    }
-
-    fun printBoard(
+    fun printOmokGameBoard(
         board: Array<Array<OmokStone>>,
-        forbiddenPositions: List<Pair<CoordsNumber, CoordsNumber>> = emptyList(),
+        forbiddenPositions: List<BoardPosition> = emptyList(),
     ) {
         val boardForDisplay = initializeBoard()
         for (row in board.indices) {
@@ -60,9 +47,9 @@ object OutputView {
             for (col in board[row].indices) {
                 val displayChar =
                     when {
-                        CoordsNumber(col) to CoordsNumber(row) in forbiddenPositions -> X
-                        board[col][row] is White -> WHITE_STONE
-                        board[col][row] is Black -> BLACK_STONE
+                        BoardPosition(BoardCoordinate(row), BoardCoordinate(col)) in forbiddenPositions -> X
+                        board[row][col] is White -> WHITE_STONE
+                        board[row][col] is Black -> BLACK_STONE
                         else -> boardForDisplay[row][col]
                     }
                 print(displayChar)

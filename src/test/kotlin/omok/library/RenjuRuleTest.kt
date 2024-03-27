@@ -1,66 +1,59 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package omok.library
 
-import omok.model.Black
-import omok.model.CoordsNumber
-import omok.model.OmokGame
-import omok.model.White
+import omok.model.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class RenjuRuleTest {
-    @Test
-    fun `돌을 올바르게 놓는 경우`() {
-        val omokGame = OmokGame(rule = RenjuRule)
-        val x = CoordsNumber(0)
-        val y = CoordsNumber(0)
-        omokGame.setStone(Black(x, y))
-        assertThat(Black(x, y)).isEqualTo(omokGame.gameBoard[y.number][x.number])
+    fun Black(
+        row: Int,
+        col: Int,
+    ): Black {
+        return Black(BoardPosition(BoardCoordinate(row), BoardCoordinate(col)))
     }
 
-    @Test
-    fun `돌을 놓은 위치가 비어 있지 않은 경우 확인`() {
-        val omokGame = OmokGame(rule = RenjuRule)
-        val x = CoordsNumber(0)
-        val y = CoordsNumber(0)
-        omokGame.setStone(White(x, y))
-        val result2 = omokGame.setStone(White(x, y))
-        assertThat(result2).isEqualTo(false)
+    fun White(
+        row: Int,
+        col: Int,
+    ): White {
+        return White(BoardPosition(BoardCoordinate(row), BoardCoordinate(col)))
     }
 
     @Test
     fun `돌을 놓은 후 게임이 종료되는 경우 확인`() {
         val omokGame = OmokGame(rule = RenjuRule)
         for (i in 0 until 4) {
-            omokGame.setStone(Black(CoordsNumber(i), CoordsNumber(0)))
+            omokGame.placeStoneOnBoard(Black(i, 0))
         }
-        omokGame.setStone(Black(CoordsNumber(4), CoordsNumber(0)))
-        println(omokGame.omokStones)
-        assertThat(omokGame.isRunning()).isEqualTo(false)
+        omokGame.placeStoneOnBoard(Black(4, 0))
+        assertThat(RenjuRule.isGameOver(omokGame.getBoard(), omokGame.getCurrentStone())).isEqualTo(true)
     }
 
     @Test
     fun `33 금수 확인`() {
         val omokGame = OmokGame(rule = RenjuRule)
         for (i in 2 until 4) {
-            omokGame.setStone(Black(CoordsNumber(i), CoordsNumber(1)))
+            omokGame.placeStoneOnBoard(Black(i, 1))
         }
         for (j in 2 until 4) {
-            omokGame.setStone(Black(CoordsNumber(1), CoordsNumber(j)))
+            omokGame.placeStoneOnBoard(Black(1, j))
         }
-        val forbids = omokGame.getForbiddenPositions()
-        assertThat(forbids).isEqualTo(listOf(CoordsNumber(1) to CoordsNumber(1)))
+        val forbids = RenjuRule.findForbiddenMoves(omokGame.getBoard(), omokGame.getCurrentStone())
+        assertThat(forbids).isEqualTo(listOf(1 to 1))
     }
 
     @Test
     fun `43은 금수아니다`() {
         val omokGame = OmokGame(rule = RenjuRule)
         for (i in 2 until 5) {
-            omokGame.setStone(Black(CoordsNumber(i), CoordsNumber(1)))
+            omokGame.placeStoneOnBoard(Black(i, 1))
         }
         for (j in 2 until 4) {
-            omokGame.setStone(Black(CoordsNumber(1), CoordsNumber(j)))
+            omokGame.placeStoneOnBoard(Black(1, j))
         }
-        val forbids = omokGame.getForbiddenPositions()
+        val forbids = RenjuRule.findForbiddenMoves(omokGame.getBoard(), omokGame.getCurrentStone())
         assertThat(forbids.size).isEqualTo(0)
     }
 
@@ -68,30 +61,30 @@ class RenjuRuleTest {
     fun `44는 한쪽이 막혀있어도 금수다`() {
         val omokGame = OmokGame(rule = RenjuRule)
         for (i in 2 until 5) {
-            omokGame.setStone(Black(CoordsNumber(i), CoordsNumber(1)))
+            omokGame.placeStoneOnBoard(Black(i, 1))
         }
         for (j in 2 until 5) {
-            omokGame.setStone(Black(CoordsNumber(1), CoordsNumber(j)))
+            omokGame.placeStoneOnBoard(Black(1, j))
         }
-        omokGame.setStone(White(CoordsNumber(1), CoordsNumber(5)))
-        omokGame.setStone(Black(CoordsNumber(14), CoordsNumber(14)))
-        val forbids = omokGame.getForbiddenPositions()
-        assertThat(forbids).isEqualTo(listOf(CoordsNumber(1) to CoordsNumber(1)))
+        omokGame.placeStoneOnBoard(White(1, 5))
+        omokGame.placeStoneOnBoard(Black(14, 14)) // 검을 돌을 놔야 금수로직이 발동
+        val forbids = RenjuRule.findForbiddenMoves(omokGame.getBoard(), omokGame.getCurrentStone())
+        assertThat(forbids).isEqualTo(listOf((1 to 1)))
     }
 
     @Test
     fun `두쪽이 다 막힌 44는 금수아니다`() {
         val omokGame = OmokGame(rule = RenjuRule)
         for (i in 2 until 5) {
-            omokGame.setStone(Black(CoordsNumber(i), CoordsNumber(1)))
+            omokGame.placeStoneOnBoard(Black(i, 1))
         }
         for (j in 2 until 5) {
-            omokGame.setStone(Black(CoordsNumber(1), CoordsNumber(j)))
+            omokGame.placeStoneOnBoard(Black(1, j))
         }
-        omokGame.setStone(White(CoordsNumber(1), CoordsNumber(5)))
-        omokGame.setStone(White(CoordsNumber(1), CoordsNumber(1)))
-        omokGame.setStone(Black(CoordsNumber(14), CoordsNumber(14)))
-        val forbids = omokGame.getForbiddenPositions()
+        omokGame.placeStoneOnBoard(White(1, 5))
+        omokGame.placeStoneOnBoard(White(1, 1))
+        omokGame.placeStoneOnBoard(Black(14, 14)) // 검을 돌을 놔야 금수로직이 발동
+        val forbids = RenjuRule.findForbiddenMoves(omokGame.getBoard(), omokGame.getCurrentStone())
         assertThat(forbids.size).isEqualTo(0)
     }
 }

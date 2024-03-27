@@ -3,51 +3,49 @@ package omok.model
 import omok.library.RenjuRule
 
 class OmokGame(
-    val gameBoard: Array<Array<OmokStone>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Empty() } },
     private val rule: RenjuRule,
 ) {
-    val omokStones = mutableListOf<OmokStone>()
-    private var omokGameState = OmokGameState.RUNNING
+    private val gameBoard: Array<Array<OmokStone>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Empty() } }
+    private val omokStones = mutableListOf<OmokStone>()
+
+    fun getBoard() = gameBoard
 
     fun getCurrentStone(): OmokStone? = omokStones.lastOrNull()
 
-    fun getForbiddenPositions() = rule.findForbiddenMovesForStone(gameBoard, getCurrentStone())
-
-    fun isRunning() = omokGameState == OmokGameState.RUNNING
-
-    fun setStone(omokStone: OmokStone): Boolean {
-        if (canSetStone(omokStone)) {
-            gameBoard[omokStone.columnCoords.number][omokStone.rowCoords.number] = omokStone
-            omokStones.add(omokStone)
-            updateGameStatus()
-            return true
+    fun getForbiddenPositions(): List<BoardPosition> =
+        rule.findForbiddenMoves(gameBoard, getCurrentStone()).map {
+            BoardPosition(BoardCoordinate(it.first), BoardCoordinate(it.second))
         }
-        return false
+
+    fun isRunning(): Boolean {
+        return !(rule.isGameOver(gameBoard, getCurrentStone()))
     }
 
-    private fun updateGameStatus() {
-        val currentStone = getCurrentStone()
-
-        if (currentStone != null &&
-            rule.isGameOver(
-                gameBoard,
-                currentStone.rowCoords,
-                currentStone.columnCoords,
-                currentStone,
-            )
-        ) {
-            finish()
-        }
-    }
-
-    private fun canSetStone(omokStone: OmokStone): Boolean {
-        if (omokStone in omokStones) return false
-        if (omokStone.columnCoords to omokStone.rowCoords in getForbiddenPositions()) return false
+    fun placeStoneOnBoard(stone: OmokStone): Boolean {
+        if (!canSetStone(stone)) return false
+        gameBoard[stone.getRow()][stone.getColumn()] = stone
+        omokStones.add(stone)
         return true
     }
 
-    private fun finish() {
-        omokGameState = OmokGameState.STOP
+    fun getNextStoneType(): OmokStoneType {
+        val currentStone = getCurrentStone()
+        return if (currentStone == null || currentStone.isWhite) OmokStoneType.BLACK else OmokStoneType.WHITE
+    }
+
+    fun generateNextOmokStone(boardPosition: BoardPosition): OmokStone {
+        val currentStone = getCurrentStone()
+        return if (currentStone == null || currentStone.isWhite) {
+            Black(boardPosition)
+        } else {
+            White(boardPosition)
+        }
+    }
+
+    private fun canSetStone(stone: OmokStone): Boolean {
+        if (stone.boardPosition in omokStones.map { omokStone -> omokStone.boardPosition }) return false
+        if (stone.boardPosition in getForbiddenPositions()) return false
+        return true
     }
 
     companion object {

@@ -1,11 +1,25 @@
 package omok.model
+
 import omok.library.RenjuRule
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 class OmokGameTest {
+    fun Black(
+        row: Int,
+        col: Int,
+    ): Black {
+        return Black(BoardPosition(BoardCoordinate(row), BoardCoordinate(col)))
+    }
+
+    fun White(
+        row: Int,
+        col: Int,
+    ): White {
+        return White(BoardPosition(BoardCoordinate(row), BoardCoordinate(col)))
+    }
+
     @Test
     fun `게임 상태가 실행 중인지 확인`() {
         val omokGame = OmokGame(rule = RenjuRule)
@@ -13,14 +27,18 @@ class OmokGameTest {
     }
 
     @Test
-    fun `유효한 값으로 CoordsNumber 객체 생성 성공`() {
-        val validCoordsNumber = CoordsNumber.fromNumber(5)
-        assertNotNull(validCoordsNumber)
+    fun `돌을 올바르게 놓는 경우`() {
+        val omokGame = OmokGame(rule = RenjuRule)
+
+        omokGame.placeStoneOnBoard(Black(0, 0))
+        assertThat(Black(0, 0)).isEqualTo(omokGame.getBoard()[0][0])
     }
 
     @Test
-    fun `유효하지 않은 값으로 CoordsNumber 객체 생성 실패`() {
-        val invalidCoordsNumber = CoordsNumber.fromNumber(15)
-        assertNull(invalidCoordsNumber)
+    fun `이미 돌이 놓아진 자리에 다른 돌을 놓을 경우, 실패한다`() {
+        val omokGame = OmokGame(rule = RenjuRule)
+        omokGame.placeStoneOnBoard(Black(0, 0))
+        val result = omokGame.placeStoneOnBoard(White(0, 0))
+        assertThat(result).isEqualTo(false)
     }
 }
