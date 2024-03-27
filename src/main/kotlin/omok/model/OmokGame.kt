@@ -4,12 +4,13 @@ class OmokGame(private val board: Board, private val players: Players) {
     fun gameWinner(
         nextStonePosition: (Player, Position?) -> Position,
         nextStonePositionResult: () -> Unit,
+        handleException: (Exception) -> Unit,
     ): Player {
         var recentPlayer = players.firstOrderedPlayer()
         var recentPosition: Position? = null
 
         while (true) {
-            recentPosition = recentPosition.next(recentPlayer, nextStonePosition)
+            recentPosition = recentPosition.next(recentPlayer, nextStonePosition, handleException)
             nextStonePositionResult()
             if (recentPlayer.isWin(board, recentPosition)) break
             recentPlayer = players.nextOrder(recentPlayer)
@@ -20,18 +21,28 @@ class OmokGame(private val board: Board, private val players: Players) {
     private fun Position?.next(
         recentPlayer: Player,
         nextStonePosition: (Player, Position?) -> Position,
-    ) = retryUntilNotException {
-        val nextPosition = nextStonePosition(recentPlayer, this)
-        board.place(nextPosition, recentPlayer)
-        nextPosition
-    }
+        handleException: (Exception) -> Unit,
+    ) = retryUntilNotException(
+        block = {
+            val nextPosition = nextStonePosition(recentPlayer, this)
+            board.place(nextPosition, recentPlayer)
+            nextPosition
+        },
+        handleException,
+    )
 }
 
-private fun <T> retryUntilNotException(block: () -> (T)): T {
+private fun <T> retryUntilNotException(
+    block: () -> (T),
+    handleException: (Exception) -> Unit,
+): T {
     return try {
         block()
     } catch (e: IllegalArgumentException) {
-        println(e.localizedMessage)
-        retryUntilNotException(block)
+        handleException(e)
+        retryUntilNotException(block, handleException)
+    } catch (e: IllegalStateException) {
+        handleException(e)
+        retryUntilNotException(block, handleException)
     }
 }

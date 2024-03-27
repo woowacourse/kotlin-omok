@@ -41,6 +41,6 @@ class BoardTest {
             initBoard(
                 StonePosition(Position(3, 3), playerStone),
             )
-        assertThrows<IllegalArgumentException> { board.place(Position(3, 3), player) }
+        assertThrows<IllegalStateException> { board.place(Position(3, 3), player) }
     }
 }

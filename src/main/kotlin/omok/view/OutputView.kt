@@ -75,6 +75,11 @@ class OutputView {
         println("우승은 🎉${stone.output()}🎉 입니다")
     }
 
+    fun printException(e: Exception) {
+        println(e.message)
+        println()
+    }
+
     companion object {
         private const val BLACK_STONE = "●"
         private const val WHITE_STONE = "○"

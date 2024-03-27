@@ -27,6 +27,7 @@ class OmokController(
             OmokGame(board, players).gameWinner(
                 nextStonePosition = { player, position -> inputView.readStonePosition(player.stone, position) },
                 nextStonePositionResult = { outputView.printBoard(board) },
+                handleException = { exception -> outputView.printException(exception) },
             )
         outputView.printWinner(winner.stone)
     }
