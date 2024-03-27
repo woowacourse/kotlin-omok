@@ -8,6 +8,12 @@ import omock.model.player.WhitePlayer
 import omock.model.stone.Stone
 
 object OutputView {
+    private const val REQUIRE_LOCATION_MESSAGE = "위치를 입력하세요:"
+    private const val OUTPUT_SUCCESS_MESSAGE = "오목~!~!~!~!~!~"
+    private const val OUTPUT_USER_TURN_MESSAGE = "%s의 차례입니다."
+    private const val OUTPUT_GAME_START_MESSAGE = "오목 게임을 시작합니다."
+    private const val BLACK_STONE_NAME = "흑"
+    private const val WHITE_STONE_NAME = "백"
 
     fun outputBoardForm() {
         boardForm.forEachIndexed { index, s ->
@@ -20,15 +26,15 @@ object OutputView {
     }
 
     fun outputUserLocation() {
-        print("위치를 입력하세요:")
+        print(REQUIRE_LOCATION_MESSAGE)
     }
 
     fun outputSuccessOMock() {
-        println("오목~!~!~!~!~!~")
+        println(OUTPUT_SUCCESS_MESSAGE)
     }
 
     fun outputUserTurn(player: Player) {
-        print("${getStoneName(player)}의 차례입니다.")
+        print(OUTPUT_USER_TURN_MESSAGE.format(getStoneName(player)))
     }
 
     private fun outputPrintLine() {
@@ -42,17 +48,17 @@ object OutputView {
     }
 
     fun outputGameStart() {
-        println("오목 게임을 시작합니다.")
+        println(OUTPUT_GAME_START_MESSAGE)
     }
 
     fun outputFailureMessage(throwable: Throwable) {
         println(throwable.message)
     }
 
-    fun getStoneName(player: Player): String {
+    private fun getStoneName(player: Player): String {
         return when (player) {
-            is BlackPlayer -> "흑"
-            is WhitePlayer -> "백"
+            is BlackPlayer -> BLACK_STONE_NAME
+            is WhitePlayer -> WHITE_STONE_NAME
         }
     }
 }
