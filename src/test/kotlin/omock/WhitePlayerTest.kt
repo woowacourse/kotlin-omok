@@ -6,7 +6,6 @@ import omock.model.player.WhitePlayer
 import omock.model.position.Column
 import omock.model.position.Row
 import omock.model.rule.LoadMap
-import omock.model.search.VisitedDirectionFirstClearResult
 import omock.model.search.VisitedDirectionResult
 import omock.model.stone.Stone
 import org.assertj.core.api.Assertions
