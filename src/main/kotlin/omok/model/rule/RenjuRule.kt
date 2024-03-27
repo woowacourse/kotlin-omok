@@ -5,7 +5,9 @@ import omok.model.position.Direction
 import omok.model.position.Position
 import omok.model.stone.StoneType
 
-open class RenjuRule(private val board: Array<Array<StoneType>>) {
+abstract class RenjuRule(private val board: Array<Array<StoneType>>) {
+    abstract fun check(position: Position): Boolean
+
     fun search(
         position: Position,
         direction: Direction,

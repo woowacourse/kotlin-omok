@@ -13,7 +13,7 @@ object DoubleFourChecker : RenjuRule(Board.board) {
     private const val STONES_FOR_WIN = 4
     private const val MAX_STONES_OPEN_FOUR = 5
 
-    fun isDoubleFour(position: Position): Boolean =
+    override fun check(position: Position): Boolean =
         Direction.types.sumOf { direction -> checkOpenFour(position, Direction(direction.row, direction.column)) } >= 2
 
     private fun checkOpenFour(

@@ -11,7 +11,7 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
     private const val MIN_BLINKS_OPEN_THREE = 2
     private const val MAX_STEPS_COUNT_WALL = 5
 
-    fun isDoubleThree(position: Position): Boolean =
+    override fun check(position: Position): Boolean =
         Direction.types.sumOf {
                 direction ->
             checkOpenThree(position, Direction(direction.row, direction.column))

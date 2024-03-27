@@ -2,6 +2,7 @@ package omok.model.rule
 
 import omok.model.board.Board
 import omok.model.position.Position
+import omok.model.rule.ForbiddenChecker.EXCEED_FIVE_PRECONDITION
 import omok.model.stone.BlackStone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -22,7 +23,7 @@ class ExceedFiveCheckerTest {
         blackStone.putStone(Position(X_C, Y_14))
         blackStone.putStone(Position(X_C, Y_15))
 
-        val actual = ExceedFiveChecker.isMoreThanFive(Position(X_C, Y_13), RulesAdapter.EXCEED_FIVE_PRECONDITION)
+        val actual = ExceedFiveChecker(EXCEED_FIVE_PRECONDITION).check(Position(X_C, Y_13))
         assertThat(actual).isEqualTo(true)
     }
 }

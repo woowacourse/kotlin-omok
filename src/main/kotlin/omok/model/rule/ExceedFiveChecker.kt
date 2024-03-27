@@ -4,22 +4,16 @@ import omok.model.board.Board
 import omok.model.position.Direction
 import omok.model.position.Position
 
-object ExceedFiveChecker : RenjuRule(Board.board) {
-    private const val MIN_BLINKS_EXCEED_FIVE = 0
-
-    fun isMoreThanFive(
-        position: Position,
-        exceedFivePrecondition: Int,
-    ): Boolean =
+class ExceedFiveChecker(private val exceedFivePrecondition: Int) : RenjuRule(Board.board) {
+    override fun check(position: Position): Boolean =
         Direction.types.map {
                 direction ->
-            isMoreThanFive(position, Direction(direction.row, direction.column), exceedFivePrecondition)
+            isMoreThanFive(position, Direction(direction.row, direction.column))
         }.contains(true)
 
     private fun isMoreThanFive(
         position: Position,
         direction: Direction,
-        exceedFivePrecondition: Int,
     ): Boolean {
         val (stone1, blink1) = search(position, -direction)
         val (stone2, blink2) = search(position, direction)
@@ -28,5 +22,9 @@ object ExceedFiveChecker : RenjuRule(Board.board) {
             blink1 + blink2 == MIN_BLINKS_EXCEED_FIVE && stone1 + stone2 >= exceedFivePrecondition -> true
             else -> false
         }
+    }
+
+    companion object {
+        private const val MIN_BLINKS_EXCEED_FIVE = 0
     }
 }

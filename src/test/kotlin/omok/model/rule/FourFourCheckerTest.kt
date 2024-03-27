@@ -16,19 +16,19 @@ class FourFourCheckerTest {
     fun `4-4 케이스라면 true를 반환한다`() {
         createDoubleFour()
 
-        val actual1 = DoubleFourChecker.isDoubleFour(Position(X_C, Y_8))
+        val actual1 = DoubleFourChecker.check(Position(X_C, Y_8))
         assertThat(actual1).isEqualTo(true)
 
-        val actual2 = DoubleFourChecker.isDoubleFour(Position(X_F, Y_12))
+        val actual2 = DoubleFourChecker.check(Position(X_F, Y_12))
         assertThat(actual2).isEqualTo(true)
 
-        val actual3 = DoubleFourChecker.isDoubleFour(Position(X_H, Y_5))
+        val actual3 = DoubleFourChecker.check(Position(X_H, Y_5))
         assertThat(actual3).isEqualTo(true)
 
-        val actual4 = DoubleFourChecker.isDoubleFour(Position(X_I, Y_8))
+        val actual4 = DoubleFourChecker.check(Position(X_I, Y_8))
         assertThat(actual4).isEqualTo(true)
 
-        val actual5 = DoubleFourChecker.isDoubleFour(Position(X_J, Y_10))
+        val actual5 = DoubleFourChecker.check(Position(X_J, Y_10))
         assertThat(actual5).isEqualTo(true)
     }
 }
