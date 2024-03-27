@@ -1,6 +1,7 @@
 package woowacourse.omok
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         index: Int,
         view: ImageView,
     ) {
-        val currentStone = stone.putStone(indexAdapter(index))
+        val currentStone = detectRenjuRule(view) { stone.putStone(indexAdapter(index)) }
         currentStone?.let {
             view.setImageResource(stone.imageView())
             if (checkOmok(board, index, view)) return
@@ -63,6 +64,17 @@ class MainActivity : AppCompatActivity() {
         }
         return false
     }
+
+    private fun <T> detectRenjuRule(
+        view: View,
+        action: () -> T,
+    ): T? =
+        runCatching {
+            action()
+        }.getOrElse {
+            Snackbar.make(view, it.localizedMessage, Snackbar.LENGTH_SHORT).show()
+            return null
+        }
 
     private fun changeStone(currentStone: StoneType): GoStone {
         return if (currentStone == StoneType.BLACK_STONE) BlackStone else WhiteStone
