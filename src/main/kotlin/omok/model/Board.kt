@@ -9,11 +9,11 @@ class Board private constructor(private val _stones: Set<Stone>) {
     val stones: Set<Stone>
         get() = _stones.toSet()
 
-    fun place(stone: Stone): PlaceStoneResult =
+    fun place(stone: Stone): Either<PlaceStoneError, Board> =
         when {
-            !isPointInBoard(stone.point) -> StoneOutOfBoard()
-            !isPointEmpty(stone.point) -> StoneAlreadyExists()
-            else -> Success(Board(_stones + stone))
+            !isPointInBoard(stone.point) -> Either.Left(PlaceStoneError.StoneOutOfBoard())
+            !isPointEmpty(stone.point) -> Either.Left(PlaceStoneError.StoneAlreadyExists())
+            else -> Either.Right(Board(_stones + stone))
         }
 
     fun previousStone(): Stone? {

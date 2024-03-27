@@ -15,4 +15,6 @@ interface OutputView {
         board: Board,
         color: StoneColor,
     )
+
+    fun printError(message: String)
 }
