@@ -1,0 +1,15 @@
+package omok.model.rule.ban
+
+import omok.model.board.Board
+import omok.model.board.Position
+import omok.model.rule.RuleAdapter
+import omok.model.rule.library.ThreeThreeRule
+
+class DoubleOpenThreeForbiddenPlace : ForbiddenPlace {
+    override fun availablePosition(
+        board: Board,
+        position: Position,
+    ): Boolean {
+        return RuleAdapter.abideRule(ThreeThreeRule(board.size), board, position)
+    }
+}
