@@ -2,6 +2,9 @@ package omock.view
 
 import omock.model.board.LocalBoard.boardForm
 import omock.model.board.LocalBoard.boardTable
+import omock.model.player.BlackPlayer
+import omock.model.player.Player
+import omock.model.player.WhitePlayer
 import omock.model.stone.Stone
 
 object OutputView {
@@ -24,8 +27,8 @@ object OutputView {
         println("오목~!~!~!~!~!~")
     }
 
-    fun outputUserTurn(name: String) {
-        print("${name}의 차례입니다.")
+    fun outputUserTurn(player: Player) {
+        print("${getStoneName(player)}의 차례입니다.")
     }
 
     private fun outputPrintLine() {
@@ -44,5 +47,12 @@ object OutputView {
 
     fun outputFailureMessage(throwable: Throwable) {
         println(throwable.message)
+    }
+
+    fun getStoneName(player: Player): String {
+        return when (player) {
+            is BlackPlayer -> "흑"
+            is WhitePlayer -> "백"
+        }
     }
 }

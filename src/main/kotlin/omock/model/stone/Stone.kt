@@ -37,20 +37,6 @@ data class Stone(
             } ?: throw IllegalArgumentException()
         }
 
-        fun getStoneIcon(player: Player): Char {
-            return when (player) {
-                is BlackPlayer -> '●'
-                is WhitePlayer -> '○'
-            }
-        }
-
-        fun getStoneName(player: Player): String {
-            return when (player) {
-                is BlackPlayer -> "흑"
-                is WhitePlayer -> "백"
-            }
-        }
-
         const val LAST_STONE_LOCATION_MESSAGE = "(마지막 돌의 위치: %s%s)"
     }
 }

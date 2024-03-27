@@ -40,7 +40,7 @@ class OMokController {
     }
 
     private fun userTurnFlow(player: Player) {
-        outputUserTurn(Stone.getStoneName(player))
+        outputUserTurn(player)
         outputLastStone(player.stoneHistory.lastOrNull())
         start(player = player)
     }
