@@ -1,4 +1,4 @@
-package lib.ark.ark
+package lib.ark
 
 object ArkWhiteWinRule : ArkRule(WHITE_STONE, BLACK_STONE) {
     override fun validate(

@@ -1,4 +1,4 @@
-package lib.ark.ark
+package lib.ark
 
 import lib.ark.constant.LibraryConstant.BOARD_SIZE
 

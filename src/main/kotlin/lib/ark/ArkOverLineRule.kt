@@ -1,4 +1,4 @@
-package lib.ark.ark
+package lib.ark
 
 object ArkOverLineRule : ArkRule() {
     override fun validate(

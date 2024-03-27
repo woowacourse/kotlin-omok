@@ -1,4 +1,4 @@
-package lib.ark.ark
+package lib.ark
 
 object ArkFourFourRule : ArkRule() {
     override fun validate(
