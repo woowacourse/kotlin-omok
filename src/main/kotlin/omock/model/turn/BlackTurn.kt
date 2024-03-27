@@ -1,9 +1,6 @@
 package omock.model.turn
 
-import core.omock.rule.FourToFourRule
-import core.omock.rule.IsClearFourToFourRule
-import core.omock.rule.IsReverseTwoAndThreeRule
-import core.omock.rule.ThreeToThreeRule
+import core.omock.rule.RanjuRule
 import omock.adapter.RuleAdapter
 import omock.model.ColumnStates
 import omock.model.ErrorType.RanjuRuleException
@@ -11,15 +8,7 @@ import omock.model.state.Stone
 
 class BlackTurn(
     override val stoneHistory: ArrayDeque<Stone> = ArrayDeque(),
-    override val adapter: RuleAdapter =
-        RuleAdapter(
-            listOf(
-                FourToFourRule(),
-                IsClearFourToFourRule(),
-                IsReverseTwoAndThreeRule(),
-                ThreeToThreeRule(),
-            ),
-        ),
+    override val adapter: RuleAdapter = RuleAdapter(listOf(RanjuRule())),
 ) : Turn() {
     override fun isFinished(): Boolean = false
 
@@ -28,11 +17,8 @@ class BlackTurn(
         row: Int,
         column: Int,
     ): Result<Turn> {
-        if (adapter.convertToInteger(stoneStates)
-                .validPosition(row, column)
-        ) {
-            return Result.failure(RanjuRuleException())
-        }
+        adapter.convertToInteger(stoneStates)
+        if (adapter.validPosition(row, column)) return Result.failure(RanjuRuleException())
         if (adapter.isGameWon(row, column)) return Result.success(FinishedTurn())
         return Result.success(turnOff())
     }

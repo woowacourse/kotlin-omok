@@ -1,6 +1,6 @@
 package core.omock
 
-data class Result(
+data class OMockResult(
     val count: Int,
     val isFirstClear: Boolean,
     val isLastClear: Boolean,

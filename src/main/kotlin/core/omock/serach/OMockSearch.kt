@@ -1,20 +1,20 @@
 package core.omock.serach
 
 import core.omock.Direction
-import core.omock.Result
+import core.omock.OMockResult
 
 abstract class OMockSearch {
     abstract fun loadMap(
         stoneStates: List<List<Int>>,
         row: Int,
         column: Int,
-    ): Map<Direction, Result>
+    ): Map<Direction, OMockResult>
 
     companion object Default : OMockSearch() {
         override fun loadMap(
             stoneStates: List<List<Int>>,
             row: Int,
             column: Int,
-        ): Map<Direction, Result> = OMockSearchImpl.loadMap(stoneStates, row, column)
+        ): Map<Direction, OMockResult> = OMockSearchImpl.loadMap(stoneStates, row, column)
     }
 }

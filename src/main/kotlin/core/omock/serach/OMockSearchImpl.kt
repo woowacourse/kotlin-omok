@@ -1,7 +1,7 @@
 package core.omock.serach
 
 import core.omock.Direction
-import core.omock.Result
+import core.omock.OMockResult
 
 object OMockSearchImpl : OMockSearch() {
     const val CLEAR_NUMBER = 0
@@ -10,9 +10,9 @@ object OMockSearchImpl : OMockSearch() {
         stoneStates: List<List<Int>>,
         row: Int,
         column: Int,
-    ): Map<Direction, Result> {
+    ): Map<Direction, OMockResult> {
         val node = Node(x = column, y = row)
-        val visited = mutableMapOf<Direction, Result>()
+        val visited = mutableMapOf<Direction, OMockResult>()
         val playerState = stoneStates[row][column]
 
         Direction.entries.forEach { direction ->
@@ -27,7 +27,7 @@ object OMockSearchImpl : OMockSearch() {
         node: Node,
         direction: Direction,
         currentStone: Int,
-    ): Result {
+    ): OMockResult {
         val minColumn = 0
         val maxColumn = stoneStates.size - 1
         val minRow = 0
@@ -74,6 +74,6 @@ object OMockSearchImpl : OMockSearch() {
             }
         }
 
-        return Result(count, isClear, isLastClear)
+        return OMockResult(count, isClear, isLastClear)
     }
 }

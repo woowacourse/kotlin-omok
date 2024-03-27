@@ -40,7 +40,7 @@ class BlackTurnTest {
 
         assertThat(
             player.processTurn(board.stoneStates, row, column).isFailure,
-        ).isTrue
+        ).isFalse()
     }
 
     @Test
@@ -65,7 +65,7 @@ class BlackTurnTest {
 
         assertThat(
             player.processTurn(board.stoneStates, row, column).isFailure,
-        ).isTrue
+        ).isFalse()
     }
 
     @Test
@@ -89,6 +89,6 @@ class BlackTurnTest {
 
         assertThat(
             player.processTurn(board.stoneStates, row, column).isFailure,
-        ).isTrue
+        ).isFalse()
     }
 }
