@@ -16,7 +16,7 @@ data class Position(val row: Row, val col: Column) {
             require(row in MIN_ROW..MAX_ROW) { EXCEPTION_ROW_RANGE }
             require(col in MIN_COL..MAX_COL) { EXCEPTION_COL_RANGE }
             val rowValue = Row.valueOf(row) ?: throw IllegalArgumentException()
-            val colValue = Column.titleOf(col) ?: throw IllegalArgumentException()
+            val colValue = Column.valueOf(col) ?: throw IllegalArgumentException()
             return Position(rowValue, colValue)
         }
     }
