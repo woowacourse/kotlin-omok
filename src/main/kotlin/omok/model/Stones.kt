@@ -12,5 +12,5 @@ abstract class Stones {
 
     fun stones() = board.stones
 
-    fun requireLastStone() = board.lastStone()?.point ?: throw IllegalStateException("놓여진 바둑이 없습니다.")
+    fun requireLastStone() = board.lastStone() ?: throw IllegalStateException("놓여진 바둑이 없습니다.")
 }

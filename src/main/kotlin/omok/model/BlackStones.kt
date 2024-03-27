@@ -7,7 +7,7 @@ class BlackStones(override val board: Board) : Stones() {
         get() = RenjuRuleAdapter()
 
     override fun isWin(): Boolean {
-        return rule.isBlackWin(blackStones(), requireLastStone())
+        return rule.isBlackWin(blackStones(), requireLastStone().point)
     }
 
     private fun blackStones() = stones().filter { it.color == color }
