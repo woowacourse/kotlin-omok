@@ -1,23 +1,9 @@
 import omok.model.Board
-import omok.model.entity.Point
-import omok.model.entity.Stone
-import omok.model.entity.StoneColor
 import omok.model.rule.FiveInRowRule
-import omok.model.turn.BlackTurn
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class FiveInRowRuleTest {
-    @Test
-    fun `흑 턴일때 돌을 놓으면 흑돌이다`() {
-        val board = Board()
-        val point = Point(1, 1)
-        val stone = Stone(point, StoneColor.BLACK)
-        val nextBoard = BlackTurn(board).placeStone(point).board
-        val actual = nextBoard.previousStone()
-        assertThat(actual).isEqualTo(stone)
-    }
-
     @Test
     fun `가로로 같은 색 돌이 5개 연속으로 있을 경우 오목이다`() {
         val board =
