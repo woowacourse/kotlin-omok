@@ -1,10 +1,10 @@
 package omok
 
 tailrec fun <T> retryWhileNotException(block: () -> T): T {
-    return try {
+    return runCatching {
         block()
-    } catch (e: IllegalArgumentException) {
-        println(e.message)
-        retryWhileNotException(block)
-    }
+    }.onFailure {
+        println(it.message)
+        return retryWhileNotException(block)
+    }.getOrThrow()
 }
