@@ -8,6 +8,10 @@ import omock.model.player.Player
 import omock.model.player.WhitePlayer
 import omock.model.rule.LoadMap
 import omock.model.rule.OMockRule
+import omock.model.ruletype.FourToFourCount
+import omock.model.ruletype.IsClearFourToFourCount
+import omock.model.ruletype.IsReverseTwoAndThree
+import omock.model.ruletype.ThreeToThreeCount
 import omock.model.search.VisitedDirectionFirstClearResult
 import omock.model.search.VisitedDirectionResult
 import omock.model.stone.Stone
@@ -21,7 +25,14 @@ import omock.view.OutputView.outputUserTurn
 
 class OMokController {
     private val board = Board.from()
-    private val oMockRule = OMockRule()
+    private val oMockRule = OMockRule(
+        ruleTypes = listOf(
+            ThreeToThreeCount,
+            FourToFourCount,
+            IsClearFourToFourCount,
+            IsReverseTwoAndThree,
+        )
+    )
     private val loadMap = LoadMap(board.stoneStates)
 
     fun run() {
@@ -61,7 +72,7 @@ class OMokController {
         playerStone: Stone,
         player: Player,
     ) {
-        LocalBoard.setBoardIcon(playerStone,player)
+        LocalBoard.setBoardIcon(playerStone, player)
         player.stoneHistory.add(playerStone)
     }
 
@@ -84,7 +95,8 @@ class OMokController {
         return runCatching {
             board.setStoneState(player, playerStone)
             val visitedDirectionResult = VisitedDirectionResult(loadMap.loadMap(playerStone))
-            val visitedDirectionFirstClearResult = VisitedDirectionFirstClearResult(loadMap.firstClearLoadMap(playerStone))
+            val visitedDirectionFirstClearResult =
+                VisitedDirectionFirstClearResult(loadMap.firstClearLoadMap(playerStone))
             oMockRule.checkPlayerRules(player, visitedDirectionResult, visitedDirectionFirstClearResult)
             board.applyPlayerJudgement(player, visitedDirectionResult)
         }

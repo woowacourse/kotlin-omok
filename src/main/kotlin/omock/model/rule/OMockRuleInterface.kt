@@ -1,5 +1,6 @@
 package omock.model.rule
 
+import omock.model.ruletype.RuleType
 import omock.model.search.VisitedDirectionFirstClearResult
 import omock.model.search.VisitedDirectionResult
 
