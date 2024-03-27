@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.presentation
 
 import android.os.Bundle
 import android.view.View
@@ -19,6 +19,7 @@ import omok.model.turn.FinishedTurn
 import omok.model.turn.Turn
 import omok.model.turn.WhiteTurn
 import omok.view.OutputView
+import woowacourse.omok.R
 
 class MainActivity : AppCompatActivity() {
     private val oMokGame = OMokGame()
