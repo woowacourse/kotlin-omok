@@ -2,36 +2,36 @@ package omok.model
 
 import omok.retryWhileNotException
 
-class Players(private val whiteStonePlayer: WhiteStonePlayer, private val blackStonePlayer: BlackStonePlayer) {
-    private var _winner: Player? = null
-    val winner: Player
+class Players(private val whiteStonePlayer: WhiteStones, private val blackStonesPlayer: BlackStones) {
+    private var _winner: Stones? = null
+    val winner: Stones
         get() = _winner ?: throw IllegalStateException("게임을 플레이 해야 우승자를 판별할 수 있습니다")
 
     fun playGame(
-        putStone: (Player) -> Point,
+        putStone: (Stones) -> Point,
         getResult: () -> Unit,
     ) {
-        var currentPlayer: Player = blackStonePlayer
+        var currentStones: Stones = blackStonesPlayer
         while (_winner == null) {
-            playerTurn(currentPlayer, putStone)
+            playerTurn(currentStones, putStone)
             getResult.invoke()
-            currentPlayer = currentPlayer.next()
+            currentStones = currentStones.next()
         }
     }
 
     private fun playerTurn(
-        currentPlayer: Player,
-        putStone: (Player) -> Point,
+        currentStones: Stones,
+        putStone: (Stones) -> Point,
     ) = retryWhileNotException {
-        val point = putStone.invoke(currentPlayer)
-        currentPlayer.add(point)
-        if (currentPlayer.isWin()) {
-            _winner = currentPlayer
+        val point = putStone.invoke(currentStones)
+        currentStones.add(point)
+        if (currentStones.isWin()) {
+            _winner = currentStones
         }
     }
 
-    private fun Player.next(): Player {
+    private fun Stones.next(): Stones {
         if (this.color == Color.BLACK) return whiteStonePlayer
-        return blackStonePlayer
+        return blackStonesPlayer
     }
 }

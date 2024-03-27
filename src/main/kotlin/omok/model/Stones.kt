@@ -1,6 +1,6 @@
 package omok.model
 
-abstract class Player {
+abstract class Stones {
     abstract val color: Color
     protected abstract val board: Board
 
