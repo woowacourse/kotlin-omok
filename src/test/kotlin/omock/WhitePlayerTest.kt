@@ -17,14 +17,15 @@ class WhitePlayerTest {
         val player = BlackPlayer()
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
+        val stone = Stone.from(Row("1"), Column("A"))
+
         board.makeStones(
             player = player,
             coordinates = arrayOf("2B", "1B", "2A", "3A", "4A", "5A"),
         )
-        val stone = Stone.from(Row("1"), Column("A"))
         board.setStoneState(player, stone)
-        val visited = VisitedDirectionResult(loadMap.loadMap(stone))
-        Assertions.assertThat(player.judgementResult(visited)).isTrue()
+
+        Assertions.assertThat(player.judgementResult(VisitedDirectionResult(loadMap.loadMap(stone)))).isTrue()
     }
 
     @Test
@@ -32,14 +33,15 @@ class WhitePlayerTest {
         val player = WhitePlayer()
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
+        val stone =
+            Stone.from(Row("1"), Column("A"))
+
+
         board.makeStones(
             player = player,
             coordinates = arrayOf("2B", "1B", "2A", "3A", "5A"),
         )
 
-        val stone =
-            Stone.from(Row("1"), Column("A"))
-        val visited = VisitedDirectionResult(loadMap.loadMap(stone))
-        Assertions.assertThat(player.judgementResult(visited)).isFalse()
+        Assertions.assertThat(player.judgementResult(VisitedDirectionResult(loadMap.loadMap(stone)))).isFalse()
     }
 }

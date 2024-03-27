@@ -17,36 +17,38 @@ class BoardTest {
         val player = WhitePlayer()
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
+        val stone = Stone.from(Row("1"), Column("A"))
+
         board.makeStones(
             player = player,
             coordinates =
             arrayOf("2B", "1B", "2A", "3A", "4A", "5A"),
         )
-
-        val stone = Stone.from(Row("1"), Column("A"))
         board.setStoneState(player, stone)
 
-        val visited = loadMap.loadMap(stone)
-        assertThat(visited[Direction.TOP]?.count).isEqualTo(4)
-        assertThat(visited[Direction.TOP_RIGHT]?.count).isEqualTo(1)
-        assertThat(visited[Direction.RIGHT]?.count).isEqualTo(1)
-        assertThat(visited[Direction.RIGHT_BOTTOM]?.count).isEqualTo(0)
-        assertThat(visited[Direction.BOTTOM_LEFT]?.count).isEqualTo(0)
-        assertThat(visited[Direction.LEFT]?.count).isEqualTo(0)
-        assertThat(visited[Direction.LEFT_TOP]?.count).isEqualTo(0)
+        loadMap.loadMap(stone).apply {
+            assertThat(this[Direction.TOP]?.count).isEqualTo(4)
+            assertThat(this[Direction.TOP_RIGHT]?.count).isEqualTo(1)
+            assertThat(this[Direction.RIGHT]?.count).isEqualTo(1)
+            assertThat(this[Direction.RIGHT_BOTTOM]?.count).isEqualTo(0)
+            assertThat(this[Direction.BOTTOM_LEFT]?.count).isEqualTo(0)
+            assertThat(this[Direction.LEFT]?.count).isEqualTo(0)
+            assertThat(this[Direction.LEFT_TOP]?.count).isEqualTo(0)
+        }
     }
 
     @Test
     fun `플레이어가 이미 돌이 놓여 있는 위치에 돌을 놓으려 할 때, 예외를 던진다`() {
         val player = WhitePlayer()
         val board = Board.from()
+        val stone = Stone.from(Row("1"), Column("A"))
+
         board.makeStones(
             player = player,
             coordinates =
                 arrayOf("1A")
         )
 
-        val stone = Stone.from(Row("1"), Column("A"))
         assertThrows<IllegalArgumentException> { board.setStoneState(player, stone)}
     }
 
@@ -55,11 +57,13 @@ class BoardTest {
     fun `플레이어가 인덱스를 벗어난 위치에 돌을 놓을 때, 예외를 던진다`() {
         val player = WhitePlayer()
         val board = Board.from()
+
         board.makeStones(
             player = player,
             coordinates =
             arrayOf("1A")
         )
+
         assertThrows<IllegalArgumentException> {
             val stone = Stone.from(Row("16"), Column("A"))
             board.setStoneState(player, stone)

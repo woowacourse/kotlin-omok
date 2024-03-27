@@ -10,6 +10,7 @@ class PlayerTest {
         val whiteStone =
             WhitePlayer()
                 .turn { Pair("A", "1") }
+
         Assertions.assertThat(whiteStone.column.comma).isEqualTo("A")
         Assertions.assertThat(whiteStone.row.comma).isEqualTo("1")
     }
