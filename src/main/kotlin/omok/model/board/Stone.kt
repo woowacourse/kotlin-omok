@@ -5,11 +5,3 @@ enum class Stone(val value: Int) {
     WHITE(-1),
     EMPTY(0),
 }
-
-fun convertStoneArrayToIntArray(stoneArray: Array<Array<Stone>>): Array<Array<Int>> {
-    return stoneArray.map { row ->
-        row.map { stone ->
-            stone.value
-        }.toTypedArray()
-    }.toTypedArray()
-}
