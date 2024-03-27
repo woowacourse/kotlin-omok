@@ -18,10 +18,6 @@ enum class Row(val title: String, val value: Int) {
     FIFTEEN("15", 15), ;
 
     companion object {
-        fun valueOf(row: Int): Row? {
-            return entries.find {
-                it.value == row
-            }
-        }
+        fun valueOf(row: Int): Row? = entries.find { it.value == row }
     }
 }
