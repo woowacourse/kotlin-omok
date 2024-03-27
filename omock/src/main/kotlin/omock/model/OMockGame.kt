@@ -9,6 +9,8 @@ class OMockGame(
     private var turn: Turn = BlackTurn(),
     private val board: Board = Board.from(),
 ) {
+    fun getTurn() = turn
+
     fun playGame(
         showBoard: (Turn) -> Stone?,
         error: (Throwable) -> Unit,
