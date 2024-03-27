@@ -8,6 +8,7 @@ import omock.model.stone.Stone
 object LocalBoard {
     private const val BLACK_ICON  = '●'
     private const val WHITE_ICON = '○'
+
     val boardTable: MutableList<MutableList<Char>> = makeLocalBoard()
     val boardForm =
         listOf(

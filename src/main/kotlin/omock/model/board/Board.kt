@@ -29,7 +29,7 @@ class Board(val stoneStates: List<ColumnStates>) {
     }
 
     private fun turnOff(){
-        gameTurn.turnOff()
+        gameTurn = gameTurn.turnOff()
     }
 
     fun setStoneState(
