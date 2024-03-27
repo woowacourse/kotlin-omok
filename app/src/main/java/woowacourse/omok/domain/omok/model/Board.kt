@@ -1,12 +1,12 @@
 package woowacourse.omok.domain.omok.model
 
+import omok.model.state.Black
+import omok.model.state.TurnState
+import omok.model.state.White
 import woowacourse.omok.domain.omok.model.search.AscendingDfs
 import woowacourse.omok.domain.omok.model.search.DescendingDfs
 import woowacourse.omok.domain.omok.model.search.HorizontalDfs
 import woowacourse.omok.domain.omok.model.search.VerticalDfs
-import omok.model.state.Black
-import omok.model.state.TurnState
-import omok.model.state.White
 
 class Board(
     notation: List<Stone> = emptyList(),
