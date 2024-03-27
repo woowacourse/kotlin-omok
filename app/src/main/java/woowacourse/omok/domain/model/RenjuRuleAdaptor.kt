@@ -2,15 +2,16 @@ package omok.model
 
 import omok.model.Board.Companion.BOARD_SIZE
 import omok.rule.RenjuRule
+import woowacourse.omok.domain.model.OmokRule
 
-class RenjuRuleAdaptor(private val rule: RenjuRule = RenjuRule(boardSize = BOARD_SIZE)) {
+class RenjuRuleAdaptor(private val rule: List<OmokRule>) {
     fun isForbidden(
         board: Board,
         stone: Stone,
     ): Boolean {
         val boardConverted = board.convert()
         val point = stone.point
-        return rule.validPosition(boardConverted, point.x, point.y)
+        return rule.all { it.validPosition(boardConverted, point.x, point.y) }
     }
 
     private fun Board.convert(): List<List<Int>> {

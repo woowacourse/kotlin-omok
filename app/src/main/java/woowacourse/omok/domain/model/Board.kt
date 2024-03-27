@@ -1,5 +1,7 @@
 package omok.model
 
+import omok.rule.RenjuRule
+
 class Board {
     val board: List<List<StoneType>>
         get() = _board.toList()
@@ -7,7 +9,7 @@ class Board {
         MutableList(BOARD_SIZE) {
             MutableList(BOARD_SIZE) { StoneType.EMPTY }
         }
-    private val ruleAdaptor = RenjuRuleAdaptor()
+    private val ruleAdaptor = RenjuRuleAdaptor(listOf(RenjuRule(boardSize = BOARD_SIZE)))
 
     fun isForbidden(stone: Stone): Boolean {
         return ruleAdaptor.isForbidden(this, stone)
