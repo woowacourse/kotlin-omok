@@ -8,6 +8,8 @@ class ForbiddenPlaces(list: List<ForbiddenPlace>) {
 
     constructor(vararg forbiddenPlace: ForbiddenPlace) : this(listOf(*forbiddenPlace))
 
+    fun hasNoRule(): Boolean = list.isEmpty()
+
     fun hasDoubleRule(): Boolean = list.any { it is DoubleFourForbiddenPlace || it is DoubleOpenThreeForbiddenPlace }
 
     fun hasOverlineRule(): Boolean = list.any { it is OverlineForbiddenPlace }

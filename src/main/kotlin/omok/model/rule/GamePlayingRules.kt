@@ -22,7 +22,7 @@ class GamePlayingRules private constructor(
         board: Board,
         position: Position,
     ): Boolean {
-        if (forbiddenPlaces.list.isEmpty()) return true
+        if (forbiddenPlaces.hasNoRule()) return true
         return forbiddenPlaces.list.all { it.availablePosition(board, position) }
     }
 
