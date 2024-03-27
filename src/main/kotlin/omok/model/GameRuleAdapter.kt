@@ -8,7 +8,7 @@ class GameRuleAdapter(private val renjuGameRule: RenjuGameRule = RenjuGameRule()
     fun setupBoard(board: Board) {
         val intBoard =
             board.gameBoard.map { row ->
-                row.map { stone -> stone.ordinal }.toTypedArray()
+                row.map { stone -> stone.value }.toTypedArray()
             }.toTypedArray()
         renjuGameRule.setupBoard(intBoard)
     }
@@ -22,6 +22,7 @@ class GameRuleAdapter(private val renjuGameRule: RenjuGameRule = RenjuGameRule()
     }
 
     fun findForbiddenPositions(stone: Stone): List<Position> {
+        if (stone == Stone.WHITE) return listOf()
         return renjuGameRule.findForbiddenPositions(stone.value)
             .map { Position(CoordsNumber(it.first), CoordsNumber(it.second)) }
     }

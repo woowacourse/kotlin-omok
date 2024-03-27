@@ -1,6 +1,6 @@
 package omok.view
 
-import Controller.game
+import Controller.omok
 import omok.model.board.CoordsNumber
 import omok.model.board.Position
 import omok.model.board.Stone
@@ -23,9 +23,7 @@ private const val WHITE_STONE = "●"
 private const val EMPTY_CHAR = ' '
 private const val EMPTY_STRING = " "
 private const val OMOK_START_MESSAGE = "오목 게임을 시작합니다."
-private const val FORBIDDEN_MESSAGE = "놓을 수 없는 자리입니다.(금수-렌주룰)"
-private const val NOT_EMPTY_MESSAGE = "빈 자리에 놓아주세요."
-private const val WRONG_COORDS_MESSAGE = "잘못된 위치 입력입니다."
+private const val FORBIDDEN_MESSAGE = "놓을 수 없는 자리입니다. 빈 자리에 놓아주세요. (금수-렌주룰)"
 private const val WINNER_MESSAGE = "Game-over 💫우승자💫는 %s."
 
 private const val BOARD_SIZE = 15
@@ -34,9 +32,9 @@ class OutputView : GameEventListener {
     override fun onGameStart() {
         printStartMessage()
         printBoard(
-            game.board.gameBoard,
-            game.board.findForbiddenPositions(
-                game.currentStone,
+            omok.board.gameBoard,
+            omok.board.findForbiddenPositions(
+                omok.currentStone,
             ),
         )
     }
@@ -74,14 +72,6 @@ class OutputView : GameEventListener {
 
     fun printForbiddenMoveMessage() {
         println(FORBIDDEN_MESSAGE)
-    }
-
-    fun printOccupiedPositionMessage() {
-        println(NOT_EMPTY_MESSAGE)
-    }
-
-    fun printWrongPositionMessage() {
-        println(WRONG_COORDS_MESSAGE)
     }
 
     fun showWinner(currentStone: Stone) {

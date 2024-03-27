@@ -8,25 +8,25 @@ import omok.view.OutputView
 
 object Controller {
     private val outputView = OutputView()
-    val game = OmokGame(outputView)
+    val omok = OmokGame(outputView)
 
     fun start() {
-        game.endGame(game.startGame())
+        omok.endGame(omok.startGame())
     }
 
     fun requestPlayerMove(currentStone: Stone) {
         val (rowCoords, columnCoords) = readPlayerCoords(currentStone, "")
         if (rowCoords != null && columnCoords != null &&
-            !game.board.isMoveForbidden(
+            !omok.board.isMoveForbidden(
                 rowCoords,
                 columnCoords,
-                @Suppress("ktlint:standard:max-line-length") game.board.findForbiddenPositions(currentStone),
-            ) && !game.board.isNotEmpty(rowCoords, columnCoords)
+                omok.renjuGameRule.findForbiddenPositions(currentStone),
+            ) && !omok.board.isNotEmpty(rowCoords, columnCoords)
         ) {
-            game.placeStone(Position(rowCoords, columnCoords), currentStone)
-            outputView.printBoard(game.board.gameBoard, game.board.findForbiddenPositions(game.currentStone))
+            omok.placeStone(Position(rowCoords, columnCoords), currentStone)
+            outputView.printBoard(omok.board.gameBoard, omok.board.findForbiddenPositions(omok.currentStone))
         } else {
-            println("Invalid move. Please try again.")
+            outputView.printForbiddenMoveMessage()
             requestPlayerMove(currentStone)
         }
     }

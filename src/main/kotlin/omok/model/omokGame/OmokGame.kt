@@ -1,6 +1,5 @@
 package omok.model.omokGame
 
-import Controller.game
 import Controller.requestPlayerMove
 import GameRuleAdapter
 import omok.model.board.Position
@@ -8,7 +7,7 @@ import omok.model.board.Stone
 
 class OmokGame(private val listener: GameEventListener) {
     lateinit var currentStone: Stone
-    var board = Board()
+    val board = Board()
     val renjuGameRule =
         GameRuleAdapter().apply {
             setupBoard(board)
@@ -36,15 +35,15 @@ class OmokGame(private val listener: GameEventListener) {
     }
 
     private fun onStonePlaced(currentStone: Stone) {
-        game.currentStone = togglePlayer(currentStone)
+        val changeStone = togglePlayer(currentStone)
         listener.printBoard(
-            game.board.gameBoard,
-            game.board.findForbiddenPositions(
-                game.currentStone,
+            board.gameBoard,
+            renjuGameRule.findForbiddenPositions(
+                changeStone,
             ),
         )
-        if (game.board.isRunning()) {
-            requestPlayerMove(game.currentStone)
+        if (board.isRunning()) {
+            requestPlayerMove(changeStone)
         }
     }
 

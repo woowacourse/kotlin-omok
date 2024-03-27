@@ -6,10 +6,10 @@ import omok.model.board.Position
 import omok.model.board.Stone
 
 class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Stone.EMPTY } }) {
-    private var gameAdapter: GameRuleAdapter = GameRuleAdapter()
+    private var renjuGameRule: GameRuleAdapter = GameRuleAdapter()
 
     init {
-        gameAdapter.setupBoard(this)
+        renjuGameRule.setupBoard(this)
     }
 
     private var omokGameState = OmokGameState.RUNNING
@@ -33,9 +33,8 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
 
     fun findForbiddenPositions(stone: Stone): List<Position> {
         if (stone == Stone.WHITE) return listOf()
-        val forbiddenPairs: List<Position> = gameAdapter.findForbiddenPositions(stone)
-        println(forbiddenPairs)
-        return forbiddenPairs
+        val tmp = renjuGameRule.findForbiddenPositions(stone)
+        return tmp
     }
 
     fun isMoveForbidden(
