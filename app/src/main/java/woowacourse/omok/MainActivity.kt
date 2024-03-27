@@ -25,12 +25,40 @@ class MainActivity : AppCompatActivity() {
 
         board = findViewById(R.id.board)
         dbHelper = OmokDbHelper(this)
+        dbHelper.selectStonesInfo().forEach {
+            recoverBoard(board, it.first, it.second)
+        }
         startOmokGame(board)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         restoreOriginalImage(board)
+    }
+
+    fun recoverBoard(
+        board: TableLayout,
+        stoneIndex: Int,
+        stoneColor: String,
+    ) {
+        board.children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .forEachIndexed { index, view ->
+                if (index == stoneIndex) {
+                    if (stoneColor == "흑") {
+                        view.setImageResource(R.drawable.black_stone)
+                    } else if (stoneColor == "백") {
+                        view.setImageResource(R.drawable.white_stone)
+                    }
+                }
+            }
+        if (stoneColor == "흑") {
+            BlackStone.putStone(indexAdapter(stoneIndex))
+        } else if (stoneColor == "백") {
+            WhiteStone.putStone(indexAdapter(stoneIndex))
+        }
     }
 
     private fun startOmokGame(board: TableLayout) {
