@@ -17,8 +17,8 @@ open class RenjuRule(private val board: Array<Array<StoneType>>) {
         var blinkCount = 0
         while (true) {
             if (isBoardRange(direction, toRight, toTop)) break
-            toRight += direction.rowDirection
-            toTop += direction.columnDirection
+            toRight += direction.row.value
+            toTop += direction.column.value
             when (board[toTop][toRight]) {
                 CURRENT_STONE -> {
                     stone++
@@ -41,12 +41,12 @@ open class RenjuRule(private val board: Array<Array<StoneType>>) {
         toRight: Int,
         toTop: Int,
     ): Boolean {
-        val deltaRow = direction.rowDirection
-        val deltaCol = direction.columnDirection
-        if (deltaRow > 0 && toRight == Board.MAX_AXIS) return true
-        if (deltaRow < 0 && toRight == Board.MIN_AXIS) return true
-        if (deltaCol > 0 && toTop == Board.MAX_AXIS) return true
-        if (deltaCol < 0 && toTop == Board.MIN_AXIS) return true
+        val rowDirection = direction.row.value
+        val columnDirection = direction.column.value
+        if (rowDirection > 0 && toRight == Board.MAX_AXIS) return true
+        if (rowDirection < 0 && toRight == Board.MIN_AXIS) return true
+        if (columnDirection > 0 && toTop == Board.MAX_AXIS) return true
+        if (columnDirection < 0 && toTop == Board.MIN_AXIS) return true
         return false
     }
 

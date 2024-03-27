@@ -7,11 +7,11 @@ class DirectionTest {
     @Test
     fun `돌의 위치 값에 -를 붙이면 Row와 Column 값이 반전된다`() {
         // given
-        val position = Direction(1, 1)
+        val position = Direction(Row(1), Column(1))
 
         // when
         val actual = -position
-        val expected = Direction(-1, -1)
+        val expected = Direction(Row(-1), Column(-1))
 
         // then
         assertThat(actual).isEqualTo(expected)

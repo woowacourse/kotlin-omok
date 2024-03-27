@@ -14,7 +14,7 @@ object DoubleFourChecker : RenjuRule(Board.board) {
     private const val MAX_STONES_OPEN_FOUR = 5
 
     fun isDoubleFour(position: Position): Boolean =
-        Direction.types.sumOf { direction -> checkOpenFour(position, Direction(direction.rowDirection, direction.columnDirection)) } >= 2
+        Direction.types.sumOf { direction -> checkOpenFour(position, Direction(direction.row, direction.column)) } >= 2
 
     private fun checkOpenFour(
         position: Position,
@@ -23,13 +23,16 @@ object DoubleFourChecker : RenjuRule(Board.board) {
         val (stone1, blink1) = search(position, -direction)
         val (stone2, blink2) = search(position, direction)
 
+        val rowDirection = direction.row.value
+        val columnDirection = direction.column.value
+
         val leftDown = stone1 + blink1
-        val left = direction.rowDirection * (leftDown + 1)
-        val down = direction.columnDirection * (leftDown + 1)
+        val left = rowDirection * (leftDown + 1)
+        val down = columnDirection * (leftDown + 1)
 
         val rightUp = stone2 + blink2
-        val right = direction.rowDirection * (rightUp + 1)
-        val up = direction.columnDirection * (rightUp + 1)
+        val right = rowDirection * (rightUp + 1)
+        val up = columnDirection * (rightUp + 1)
 
         when {
             blink1 + blink2 == MIN_BLINKS_OPEN_FOUR && stone1 + stone2 == STONES_FOR_WIN -> return INVALID_OPEN_FOUR_COUNT
@@ -40,20 +43,19 @@ object DoubleFourChecker : RenjuRule(Board.board) {
 
         val row = position.row.value
         val column = position.column.value
-        val deltaRow = direction.rowDirection
-        val deltaCol = direction.columnDirection
+        val axisRange = listOf(Board.MIN_AXIS, Board.MAX_AXIS)
 
         val leftDownValid =
             when {
-                deltaRow != Board.MIN_AXIS && row - deltaRow * leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> OPEN_FOUR_NOT_FOUND
-                deltaCol != Board.MIN_AXIS && column - deltaCol * leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> OPEN_FOUR_NOT_FOUND
+                rowDirection != Board.MIN_AXIS && row - rowDirection * leftDown in axisRange -> OPEN_FOUR_NOT_FOUND
+                columnDirection != Board.MIN_AXIS && column - columnDirection * leftDown in axisRange -> OPEN_FOUR_NOT_FOUND
                 Board.board[column - down][row - left] == OTHER_STONE -> OPEN_FOUR_NOT_FOUND
                 else -> OPEN_FOUR_FOUND
             }
         val rightUpValid =
             when {
-                deltaRow != Board.MIN_AXIS && row + (deltaRow * rightUp) in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> OPEN_FOUR_NOT_FOUND
-                deltaCol != Board.MIN_AXIS && column + (deltaCol * rightUp) in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> OPEN_FOUR_NOT_FOUND
+                rowDirection != Board.MIN_AXIS && row + (rowDirection * rightUp) in axisRange -> OPEN_FOUR_NOT_FOUND
+                columnDirection != Board.MIN_AXIS && column + (columnDirection * rightUp) in axisRange -> OPEN_FOUR_NOT_FOUND
                 Board.board[column + up][row + right] == OTHER_STONE -> OPEN_FOUR_NOT_FOUND
                 else -> OPEN_FOUR_FOUND
             }

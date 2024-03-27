@@ -14,7 +14,7 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
     fun isDoubleThree(position: Position): Boolean =
         Direction.types.sumOf {
                 direction ->
-            checkOpenThree(position, Direction(direction.rowDirection, direction.columnDirection))
+            checkOpenThree(position, Direction(direction.row, direction.column))
         } >= INVALID_OPEN_THREE_COUNT
 
     private fun checkOpenThree(
@@ -63,13 +63,13 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
     ): Boolean {
         val row = position.row.value
         val column = position.column.value
-        val deltaRow = direction.rowDirection
-        val deltaCol = direction.columnDirection
+        val rowDirection = direction.row.value
+        val columnDirection = direction.column.value
         return when {
-            deltaRow != Board.MIN_AXIS && row - leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
-            deltaCol != Board.MIN_AXIS && column - leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
-            deltaRow != Board.MIN_AXIS && row + rightUp in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
-            deltaCol != Board.MIN_AXIS && column + rightUp in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
+            rowDirection != Board.MIN_AXIS && row - leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
+            columnDirection != Board.MIN_AXIS && column - leftDown in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
+            rowDirection != Board.MIN_AXIS && row + rightUp in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
+            columnDirection != Board.MIN_AXIS && column + rightUp in listOf(Board.MIN_AXIS, Board.MAX_AXIS) -> true
             else -> false
         }
     }
@@ -82,14 +82,14 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
     ): Boolean {
         val row = position.row.value
         val column = position.column.value
-        val deltaRow = direction.rowDirection
-        val deltaCol = direction.columnDirection
+        val rowDirection = direction.row.value
+        val colDirection = direction.column.value
 
-        val left = deltaRow * (leftDown + 1)
-        val down = deltaCol * (leftDown + 1)
+        val left = rowDirection * (leftDown + 1)
+        val down = colDirection * (leftDown + 1)
 
-        val right = deltaRow * (rightUp + 1)
-        val up = deltaCol * (rightUp + 1)
+        val right = rowDirection * (rightUp + 1)
+        val up = colDirection * (rightUp + 1)
 
         return when (OTHER_STONE) {
             Board.board[column - down][row - left] -> true
@@ -107,8 +107,8 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
         var distance = 0
         while (true) {
             if (isBoardRange(direction, toRight, toTop)) break
-            toRight += direction.rowDirection
-            toTop += direction.columnDirection
+            toRight += direction.row.value
+            toTop += direction.column.value
             when (Board.board[toTop][toRight]) {
                 in listOf(CURRENT_STONE, EMPTY_STONE) -> distance++
                 OTHER_STONE -> break

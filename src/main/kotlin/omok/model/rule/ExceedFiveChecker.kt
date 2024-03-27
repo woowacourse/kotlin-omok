@@ -13,7 +13,7 @@ object ExceedFiveChecker : RenjuRule(Board.board) {
     ): Boolean =
         Direction.types.map {
                 direction ->
-            isMoreThanFive(position, Direction(direction.rowDirection, direction.columnDirection), exceedFivePrecondition)
+            isMoreThanFive(position, Direction(direction.row, direction.column), exceedFivePrecondition)
         }.contains(true)
 
     private fun isMoreThanFive(

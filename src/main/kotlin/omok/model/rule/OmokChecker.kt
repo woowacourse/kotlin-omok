@@ -38,13 +38,15 @@ object OmokChecker {
         stoneType: StoneType,
     ): Int {
         var sameStoneCount = 0
-        var row = lastPosition.row.value + direction.rowDirection
-        var column = lastPosition.column.value + direction.columnDirection
+        val rowDirection = direction.row.value
+        val columnDirection = direction.column.value
+        var row = lastPosition.row.value + rowDirection
+        var column = lastPosition.column.value + columnDirection
 
         while (row in Board.axisRange && column in Board.axisRange && Board.board[column][row] == stoneType) {
             sameStoneCount++
-            row += direction.rowDirection
-            column += direction.columnDirection
+            row += rowDirection
+            column += columnDirection
         }
 
         return sameStoneCount

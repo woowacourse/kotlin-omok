@@ -1,15 +1,15 @@
 package omok.model.position
 
-data class Direction(val rowDirection: Int, val columnDirection: Int) {
+data class Direction(val row: Row, val column: Column) {
     operator fun unaryMinus(): Direction {
-        return Direction(-rowDirection, -columnDirection)
+        return Direction(Row(-row.value), Column(-column.value))
     }
 
     companion object {
-        private val horizontalDirection = Direction(0, 1)
-        private val verticalDirection = Direction(1, 0)
-        private val upwardDirection = Direction(1, 1)
-        private val downwardDirection = Direction(1, -1)
+        private val horizontalDirection = Direction(Row(0), Column(1))
+        private val verticalDirection = Direction(Row(1), Column(0))
+        private val upwardDirection = Direction(Row(1), Column(1))
+        private val downwardDirection = Direction(Row(1), Column(-1))
         val types: List<Direction> = listOf(horizontalDirection, verticalDirection, upwardDirection, downwardDirection)
     }
 }
