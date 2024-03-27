@@ -6,6 +6,10 @@ import omock.model.position.Column
 import omock.model.position.Row
 import omock.model.rule.LoadMap
 import omock.model.rule.OMockRule
+import omock.model.ruletype.FourToFourCount
+import omock.model.ruletype.IsClearFourToFourCount
+import omock.model.ruletype.IsReverseTwoAndThree
+import omock.model.ruletype.ThreeToThreeCount
 import omock.model.search.VisitedDirectionFirstClearResult
 import omock.model.search.VisitedDirectionResult
 import omock.model.stone.Stone
@@ -18,7 +22,9 @@ class OmockRuleTest {
         val player = BlackPlayer()
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
-        val oMockRule = OMockRule()
+        val oMockRule = OMockRule(
+            ruleTypes = listOf(ThreeToThreeCount)
+        )
         val stone = Stone.from(Row("12"), Column("D"))
 
         board.makeStones(
@@ -36,12 +42,38 @@ class OmockRuleTest {
     }
 
     @Test
+    fun `BlackPlayer가 돌을 놓을 때, 놓은 지점이 Board에서 4-4라면, 예외를 발생시킨다 `() {
+        val player = BlackPlayer()
+        val board = Board.from()
+        val loadMap = LoadMap(board.stoneStates)
+        val oMockRule = OMockRule(
+            ruleTypes = listOf(FourToFourCount)
+        )
+        val stone = Stone.from(Row("12"), Column("D"))
+
+        board.makeStones(
+            player = player,
+            coordinates = arrayOf("12C", "12E", "13D", "14D", "12F", "11D"),
+        )
+        board.setStoneState(player, stone)
+
+        assertThrows<IllegalArgumentException> {
+            oMockRule.checkRules(
+                VisitedDirectionResult(loadMap.loadMap(stone)),
+                VisitedDirectionFirstClearResult(loadMap.firstClearLoadMap(stone)),
+            )
+        }
+    }
+
+    @Test
     fun `BlackPlayer가 돌을 놓을 때, 놓은 지점이 Board에서 장목이라면, 예외를 발생시킨다 `() {
         val player = BlackPlayer()
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
         val stone = Stone.from(Row("13"), Column("C"))
-        val oMockRule = OMockRule()
+        val oMockRule = OMockRule(
+            ruleTypes = listOf(IsReverseTwoAndThree)
+        )
 
         board.makeStones(
             player = player,
@@ -63,11 +95,13 @@ class OmockRuleTest {
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
         val stone = Stone.from(Row("3"), Column("E"))
-        val oMockRule = OMockRule()
+        val oMockRule = OMockRule(
+            ruleTypes = listOf(IsClearFourToFourCount)
+        )
 
         board.makeStones(
             player = player,
-            coordinates = arrayOf("6B", "5C", "6E", "5E"),
+            coordinates = arrayOf("6B", "5C", "6E", "5E","2E","2F"),
         )
         board.setStoneState(player, stone)
 
