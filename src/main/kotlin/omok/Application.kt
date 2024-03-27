@@ -1,3 +1,7 @@
+package omok
+
+import OmokGameController
+
 fun main() {
-    OmokGameController.startOmokGame()
+    OmokGameController().startOmokGame()
 }

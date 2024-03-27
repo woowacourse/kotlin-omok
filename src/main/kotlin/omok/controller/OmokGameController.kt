@@ -1,94 +1,48 @@
-import omok.model.board.ColumnNumber
-import omok.model.board.CoordsNumber
-import omok.model.board.Stone
-import omok.model.omokGame.Omok
+import omok.library.RenjuRule
+import omok.model.Black
+import omok.model.CoordsNumber
+import omok.model.OmokGame
+import omok.model.OmokStone
+import omok.model.White
 import omok.view.InputView
 import omok.view.OutputView
 
-object OmokGameController {
+class OmokGameController {
     fun startOmokGame() {
         OutputView.printStartMessage()
-        val omok = playGame(Omok())
-        OutputView.printBoard(omok.gameBoard)
+        val omokGame = playGame(OmokGame(rule = RenjuRule))
+        OutputView.printBoard(omokGame.gameBoard)
     }
 
-    private fun playGame(
-        omok: Omok,
-        startStone: Stone = Stone.BLACK,
-    ): Omok {
-        var currentStone = startStone
-        var previousStoneCoords = ""
-
-        while (omok.isRunning()) {
-            val forbiddenPositions = omok.checkBoard(currentStone)
-            OutputView.printBoard(omok.gameBoard, forbiddenPositions)
-            val (rowCoords, columnCoords) = readPlayerCoords(currentStone, previousStoneCoords)
-            if (isWrongCoords(columnCoords, rowCoords)) continue
-            if (canSetStone(omok, rowCoords!!, columnCoords!!, forbiddenPositions)) continue
-            omok.setStone(rowCoords, columnCoords, currentStone)
-            previousStoneCoords = (columnCoords.number + 65).toChar() + (rowCoords.number + 1).toString()
-            omok.isGameOver(rowCoords, columnCoords, currentStone)
-            currentStone = togglePlayer(currentStone)
+    private fun playGame(omokGame: OmokGame): OmokGame {
+        while (omokGame.isRunning()) {
+            OutputView.printBoard(omokGame.gameBoard, omokGame.getForbiddenPositions())
+            val currentStone = readCurrentStone(omokGame.getCurrentStone())
+            val result = omokGame.setStone(currentStone)
         }
-        return omok
+        return omokGame
     }
 
-    private fun readPlayerCoords(
-        currentStone: Stone,
-        previousStoneCoords: String,
-    ): Pair<CoordsNumber?, CoordsNumber?> {
-        val (rowLetter, columnLetter) = InputView.readPlayerMove(currentStone, previousStoneCoords)
-        val rowNumber = CoordsNumber.of(rowLetter)
-        val columnNumber = ColumnNumber.fromLetter(columnLetter)
-        return Pair(rowNumber, columnNumber)
-    }
+    private fun readCurrentStone(previousOmokStone: OmokStone?): OmokStone {
+        val currentColor = if (previousOmokStone is Black) "백" else "흑"
+        val playerInput = InputView.readPlayerInput(currentColor, convert(previousOmokStone))
 
-    private fun canSetStone(
-        omok: Omok,
-        rowNumber: CoordsNumber,
-        columnNumber: CoordsNumber,
-        forbiddenPositions: List<Pair<CoordsNumber, CoordsNumber>>,
-    ): Boolean {
-        if (checkEmpty(omok, rowNumber, columnNumber)) return true
-        if (checkForbidden(omok, rowNumber, columnNumber, forbiddenPositions)) return true
-        return false
-    }
+        val columnNumber = CoordsNumber.fromLetter(playerInput[0].uppercaseChar())
+        val rowNumber = CoordsNumber.fromNumber(playerInput.substring(1).toInt() - 1)
 
-    private fun checkForbidden(
-        omok: Omok,
-        rowNumber: CoordsNumber,
-        columnNumber: CoordsNumber,
-        forbiddenPositions: List<Pair<CoordsNumber, CoordsNumber>>,
-    ): Boolean {
-        if (omok.isForbidden(rowNumber, columnNumber, forbiddenPositions)) {
-            OutputView.printForbiddenMoveMessage()
-            return true
+        if (columnNumber != null && rowNumber != null) {
+            return when (currentColor) {
+                "흑" -> Black(rowNumber, columnNumber)
+                "백" -> White(rowNumber, columnNumber)
+                else -> throw IllegalStateException("Unexpected color: $currentColor")
+            }
+        } else {
+            return readCurrentStone(previousOmokStone)
         }
-        return false
     }
 
-    private fun checkEmpty(
-        omok: Omok,
-        rowNumber: CoordsNumber,
-        columnNumber: CoordsNumber,
-    ): Boolean {
-        if (omok.isNotEmpty(rowNumber, columnNumber)) {
-            OutputView.printOccupiedPositionMessage()
-            return true
-        }
-        return false
+    private fun convert(omokStone: OmokStone?): String {
+        if (omokStone == null) return ""
+        return (omokStone.columnCoords.number + 65).toChar() + (omokStone.rowCoords.number + 1).toString()
     }
-
-    private fun isWrongCoords(
-        columnNumber: CoordsNumber?,
-        rowNumber: CoordsNumber?,
-    ): Boolean {
-        if (columnNumber == null || rowNumber == null) {
-            OutputView.printWrongPositionMessage()
-            return true
-        }
-        return false
-    }
-
-    private fun togglePlayer(currentStone: Stone): Stone = if (currentStone == Stone.BLACK) Stone.WHITE else Stone.BLACK
 }

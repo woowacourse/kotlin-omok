@@ -1,4 +1,4 @@
-package omok.model.omokGame
+package omok.model
 
 enum class OmokGameState {
     RUNNING,
