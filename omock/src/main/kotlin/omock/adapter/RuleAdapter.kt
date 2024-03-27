@@ -10,7 +10,7 @@ class RuleAdapter(private val rules: List<OMockRule> = emptyList()) {
         row: Int,
         column: Int,
     ): Boolean {
-        return rules.all { oMockRule ->
+        return rules.any { oMockRule ->
             oMockRule.validPosition(ruleBoard, row, column)
         }
     }

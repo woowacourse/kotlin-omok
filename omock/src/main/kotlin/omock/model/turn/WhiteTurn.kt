@@ -15,7 +15,9 @@ class WhiteTurn(
         row: Int,
         column: Int,
     ): Result<Turn> {
-        if (adapter.convertToInteger(stoneStates).isGameWon(row, column)) return Result.success(FinishedTurn())
+        if (adapter.convertToInteger(stoneStates).isGameWon(row, column)) {
+            return Result.success(FinishedTurn())
+        }
         return Result.success(turnOff())
     }
 }

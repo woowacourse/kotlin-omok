@@ -15,7 +15,7 @@ class RanjuRule : OMockRule {
             fourToFourCount(stoneStates, row, column),
             isClearFourToFour(stoneStates, row, column),
             isReverseTwoAndThree(stoneStates, row, column),
-        ).all { it }
+        ).any { it }
     }
 
     private fun threeToThreeCount(

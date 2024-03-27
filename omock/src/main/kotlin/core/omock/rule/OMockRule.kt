@@ -20,12 +20,13 @@ interface OMockRule {
             column: Int,
         ): Boolean {
             val visited = OMockSearch.loadMap(stoneStates, row, column)
-
+            val oMockResults = mutableListOf<Int>()
             visited.entries.forEach { (key, result) ->
-                val reverseResultCount: Int = visited[Direction.reverse(key)]?.count ?: MIN_REVERSE_COUNT
-                return reverseResultCount + result.count >= MIN_O_MOCK_COUNT
+                val reverseResultCount: Int =
+                    visited[Direction.reverse(key)]?.count ?: MIN_REVERSE_COUNT
+                oMockResults.add(reverseResultCount + result.count)
             }
-            return false
+            return oMockResults.max() >= MIN_O_MOCK_COUNT
         }
     }
 }
