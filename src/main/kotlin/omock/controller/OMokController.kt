@@ -85,29 +85,9 @@ class OMokController {
         return runCatching {
             board.setStoneState(player, playerStone)
             val visitedDirectionResult = VisitedDirectionResult(loadMap.loadMap(playerStone))
-            checkPlayerRules(player, visitedDirectionResult, playerStone)
-            applyPlayerJudgement(player, visitedDirectionResult)
-        }
-    }
-
-    private fun checkPlayerRules(
-        player: Player,
-        visitedDirectionResult: VisitedDirectionResult,
-        playerStone: Stone,
-    ) {
-        val visitedDirectionFirstClearResult = VisitedDirectionFirstClearResult(loadMap.firstClearLoadMap(playerStone))
-        if (player is BlackPlayer) {
-            oMockRule.checkRules(visitedDirectionResult, visitedDirectionFirstClearResult)
-        }
-    }
-
-    private fun applyPlayerJudgement(
-        player: Player,
-        visitedDirectionResult: VisitedDirectionResult,
-    ) {
-        when (player.judgementResult(visitedDirectionResult)) {
-            true -> board.setTurn(GameTurn.FINISHED)
-            false -> board.turnOff()
+            val visitedDirectionFirstClearResult = VisitedDirectionFirstClearResult(loadMap.firstClearLoadMap(playerStone))
+            oMockRule.checkPlayerRules(player, visitedDirectionResult, visitedDirectionFirstClearResult)
+            board.applyPlayerJudgement(player, visitedDirectionResult)
         }
     }
 }

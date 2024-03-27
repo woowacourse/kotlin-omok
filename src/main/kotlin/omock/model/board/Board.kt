@@ -3,6 +3,7 @@ package omock.model.board
 import omock.model.GameTurn
 import omock.model.player.Player
 import omock.model.position.Row.Companion.MAX_ROW
+import omock.model.search.VisitedDirectionResult
 import omock.model.stone.Stone
 import omock.model.stonestate.Clear
 
@@ -13,11 +14,21 @@ class Board(val stoneStates: List<ColumnStates>) {
         return gameTurn
     }
 
-    fun setTurn(nextGameTurn: GameTurn){
-        gameTurn = nextGameTurn
+    fun applyPlayerJudgement(
+        player: Player,
+        visitedDirectionResult: VisitedDirectionResult,
+    ) {
+        when (player.judgementResult(visitedDirectionResult)) {
+            true -> finishTurn()
+            false -> turnOff()
+        }
     }
 
-    fun turnOff(){
+    private fun finishTurn(){
+        gameTurn = GameTurn.FINISHED
+    }
+
+    private fun turnOff(){
         gameTurn.turnOff()
     }
 

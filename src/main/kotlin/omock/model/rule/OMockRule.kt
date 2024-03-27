@@ -2,12 +2,14 @@ package omock.model.rule
 
 import omock.model.CalculateType
 import omock.model.CalculateType.Companion.checkCalculateType
+import omock.model.player.BlackPlayer
 import omock.model.player.Player
 import omock.model.search.Direction
 import omock.model.search.DirectionFirstClearResult
 import omock.model.search.DirectionResult
 import omock.model.search.VisitedDirectionFirstClearResult
 import omock.model.search.VisitedDirectionResult
+import omock.model.stone.Stone
 
 class OMockRule : OMockRuleInterface {
     override fun checkRules(
@@ -35,6 +37,16 @@ class OMockRule : OMockRuleInterface {
                     }
                 }
             }
+        }
+    }
+
+    fun checkPlayerRules(
+        player: Player,
+        visitedDirectionResult: VisitedDirectionResult,
+        visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult,
+    ) {
+        if (player is BlackPlayer) {
+            checkRules(visitedDirectionResult, visitedDirectionFirstClearResult)
         }
     }
 
