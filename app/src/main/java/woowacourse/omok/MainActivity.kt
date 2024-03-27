@@ -8,20 +8,20 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
-import omock.model.Column
-import omock.model.Column.Companion.toColumn
-import omock.model.OMockGame
-import omock.model.Row
-import omock.model.Row.Companion.toRow
-import omock.model.state.Stone
-import omock.model.turn.BlackTurn
-import omock.model.turn.FinishedTurn
-import omock.model.turn.Turn
-import omock.model.turn.WhiteTurn
-import omock.view.OutputView
+import omok.model.Column
+import omok.model.Column.Companion.toColumn
+import omok.model.OMokGame
+import omok.model.Row
+import omok.model.Row.Companion.toRow
+import omok.model.state.Stone
+import omok.model.turn.BlackTurn
+import omok.model.turn.FinishedTurn
+import omok.model.turn.Turn
+import omok.model.turn.WhiteTurn
+import omok.view.OutputView
 
 class MainActivity : AppCompatActivity() {
-    private val oMockGame = OMockGame()
+    private val oMokGame = OMokGame()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         size: Int,
         view: ImageView,
     ) {
-        val turn = oMockGame.getTurn()
+        val turn = oMokGame.getTurn()
         turn.toStoneIconRes()?.let { stoneIconRes ->
             val rowIndex = idx / size
             val columnIndex = idx % size
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     ): Boolean {
         var isSuccess = true
 
-        oMockGame.playGame({ turn ->
+        oMokGame.playGame({ turn ->
             displayTurnInfo(turn)
             Stone(row, column)
         }) { e ->
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleTurnCompletion(view: View) {
-        if (oMockGame.getTurn() is FinishedTurn) {
+        if (oMokGame.getTurn() is FinishedTurn) {
             showSuccessSnackbar(view)
             OutputView.outputSuccessOMock()
         }
