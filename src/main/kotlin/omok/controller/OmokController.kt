@@ -4,8 +4,8 @@ import omok.model.Board
 import omok.model.Color
 import omok.model.OmokGame
 import omok.model.Player
-import omok.model.Stones
 import omok.model.StoneState
+import omok.model.Stones
 import omok.view.InputView
 import omok.view.OutputView
 

@@ -1,44 +1,49 @@
 package omok.model
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class BoardTest {
-    private lateinit var board: Board
-    private lateinit var blackStone: Stone
-    private lateinit var whiteStone: Stone
-
-    private fun createBoard(stones: List<Stone>) {
+    private fun createBoard(
+        board: Board,
+        stones: List<Stone>,
+    ) {
         stones.forEach { stone ->
             board.putStone(stone)
         }
     }
 
-    @BeforeEach
-    fun setUp() {
-        board = Board(Stones())
-        blackStone = Stone(black, COORDINATE_F8)
-        whiteStone = Stone(white, COORDINATE_F8)
-    }
-
     @Test
     fun `오목판을 생성하면 기본적으로 15 x 15 사이즈를 갖는다`() {
+        // given,when
+        val board = Board(Stones())
+
+        // then
         assertThat(board.width).isEqualTo(15)
         assertThat(board.height).isEqualTo(15)
     }
 
     @Test
     fun `오목판의 사이즈를 정해서 생성할 수 있다`() {
+        // given,when
         val newBoard = Board(Stones(), 30, 30)
+
+        // then
         assertThat(newBoard.width).isEqualTo(30)
         assertThat(newBoard.height).isEqualTo(30)
     }
 
     @Test
     fun `오목판은 착수된 돌을 가지고 있다`() {
-        board.putStone(blackStone)
-        assertThat(board.stones.stones).contains(blackStone)
+        // given
+        val board = Board(Stones())
+        val stone = Stone(Color.BLACK, COORDINATE_F8)
+
+        // when
+        board.putStone(stone)
+
+        // then
+        assertThat(board.stones.stones).contains(stone)
     }
 
     /*
@@ -51,10 +56,14 @@ class BoardTest {
      */
     @Test
     fun `흑 플레이어가 3-3을 만드는 경우, 착수할 수 없다`() {
-        createBoard(samSamBlackStones)
+        // given
+        val board = Board(Stones())
+        createBoard(board, samSamBlackStones)
 
-        val stoneState = board.putStone(blackStone)
+        // when
+        val stoneState = board.putStone(Stone(Color.BLACK, COORDINATE_F8))
 
+        // then
         assertThat(stoneState).isEqualTo(StoneState.FailedPlaced("금수를 두었습니다."))
     }
 
@@ -68,9 +77,12 @@ class BoardTest {
     */
     @Test
     fun `흑 플레이어가 4-4을 만드는 경우, 착수할 수 없다`() {
-        createBoard(fourFourBlackStones)
+        // given
+        val board = Board(Stones())
+        createBoard(board, fourFourBlackStones)
 
-        val stoneState = board.putStone(blackStone)
+        // when
+        val stoneState = board.putStone(Stone(Color.BLACK, COORDINATE_F8))
 
         assertThat(stoneState).isEqualTo(StoneState.FailedPlaced("금수를 두었습니다."))
     }
@@ -86,9 +98,12 @@ class BoardTest {
     */
     @Test
     fun `흑 플레이어가 장목을 만드는 경우, 착수할 수 없다`() {
-        createBoard(moreThanFiveBlackStones)
+        // given
+        val board = Board(Stones())
+        createBoard(board, moreThanFiveBlackStones)
 
-        val stoneState = board.putStone(blackStone)
+        // when
+        val stoneState = board.putStone(Stone(Color.BLACK, COORDINATE_F8))
 
         assertThat(stoneState).isEqualTo(StoneState.FailedPlaced("금수를 두었습니다."))
     }
@@ -106,19 +121,27 @@ class BoardTest {
      */
     @Test
     fun `흑 플레이어가 열린 4-4을 만드는 경우, 착수할 수 없다`() {
-        createBoard(openFourFourBlackStones)
+        // given
+        val board = Board(Stones())
+        createBoard(board, openFourFourBlackStones)
 
-        val stoneState = board.putStone(blackStone)
+        // when
+        val stoneState = board.putStone(Stone(Color.BLACK, COORDINATE_F8))
 
+        // then
         assertThat(stoneState).isEqualTo(StoneState.FailedPlaced("금수를 두었습니다."))
     }
 
     @Test
     fun `백 플레이어는 렌주룰을 적용받지 않는다`() {
-        createBoard(samSamWhiteStones)
+        // given
+        val board = Board(Stones())
+        createBoard(board, samSamWhiteStones)
 
-        val stoneState = board.putStone(whiteStone)
+        // when
+        val stoneState = board.putStone(Stone(Color.WHITE, COORDINATE_F8))
 
+        // then
         assertThat(stoneState).isEqualTo(StoneState.SuccessfulPlaced)
     }
 }
