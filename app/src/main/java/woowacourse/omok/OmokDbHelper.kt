@@ -1,5 +1,6 @@
 package woowacourse.omok
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -19,5 +20,16 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, "omok.db", null
         oldVersion: Int,
         newVersion: Int,
     ) {
+    }
+
+    fun insert(
+        index: Int,
+        stoneColor: String,
+    ) {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put("${OmokContract.COLUMN_INDEX}", index)
+        values.put("${OmokContract.COLUMN_COLOR}", stoneColor)
+        db.insert(OmokContract.TABLE_NAME, null, values)
     }
 }
