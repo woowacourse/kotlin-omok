@@ -22,7 +22,7 @@ class OmokGame(
     ): Board {
         onStartPlaceStone(state.board, state.board.lastOrNull())
         val newState = state.placeStone(event)
-        if (newState.isFinished) return newState.board
+        if (newState.hasOmok()) return newState.board
 
         return play(newState, onStartPlaceStone, changePlaceOmokEvent(event))
     }

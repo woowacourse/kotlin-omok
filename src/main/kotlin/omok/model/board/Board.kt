@@ -64,6 +64,7 @@ class Board(val size: BoardSize = DEFAULT_BOARD_SIZE, val boxes: Boxes = Boxes()
         }
     }
 
+    fun hasOmok(): Boolean = positions.any(::isInOmok)
     private fun isInOmok(
         stone: OmokStone,
         vector: Vector,
