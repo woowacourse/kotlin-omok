@@ -17,9 +17,10 @@ class OMockRule : OMockRuleInterface {
         var threeToThreeCount = INIT_COUNT
         var fourToFourCount = INIT_COUNT
         var isClearFourToFourCount = INIT_COUNT
-        visited.entries.forEach { (key, result) ->
-            val isReverseResultFirstClear: Boolean = visitedFirstClear[Direction.reverse(key)]?.isFirstClear ?: false
-            val reverseResultCount: Int = visited[Direction.reverse(key)]?.count ?: MIN_REVERSE_COUNT
+        visitedDirectionResult.visited.entries.forEach { (key, result) ->
+            val isReverseResultFirstClear: Boolean =
+                visitedDirectionFirstClearResult.visitedFirstClear[Direction.reverse(key)]?.isFirstClear ?: false
+            val reverseResultCount: Int = visitedDirectionResult.visited[Direction.reverse(key)]?.count ?: MIN_REVERSE_COUNT
             if (isLastClearResult(result)) {
                 getCalculateType(
                     isReverseResultFirstClear = isReverseResultFirstClear,

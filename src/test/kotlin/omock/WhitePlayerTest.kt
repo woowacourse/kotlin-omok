@@ -6,6 +6,8 @@ import omock.model.player.WhitePlayer
 import omock.model.position.Column
 import omock.model.position.Row
 import omock.model.rule.LoadMap
+import omock.model.search.VisitedDirectionFirstClearResult
+import omock.model.search.VisitedDirectionResult
 import omock.model.stone.Stone
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
@@ -22,7 +24,7 @@ class WhitePlayerTest {
         )
         val stone = Stone.from(Row("1"), Column("A"))
         board.setStoneState(player, stone)
-        val visited = loadMap.loadMap(stone)
+        val visited = VisitedDirectionResult(loadMap.loadMap(stone))
         Assertions.assertThat(player.judgementResult(visited)).isTrue()
     }
 
@@ -38,7 +40,7 @@ class WhitePlayerTest {
 
         val stone =
             Stone.from(Row("1"), Column("A"))
-        val visited = loadMap.loadMap(stone)
+        val visited = VisitedDirectionResult(loadMap.loadMap(stone))
         Assertions.assertThat(player.judgementResult(visited)).isFalse()
     }
 }

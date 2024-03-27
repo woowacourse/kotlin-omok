@@ -4,6 +4,7 @@ import omock.model.position.Column
 import omock.model.position.Row
 import omock.model.search.Direction
 import omock.model.search.DirectionResult
+import omock.model.search.VisitedDirectionResult
 import omock.model.stone.Stone
 
 sealed class Player {
@@ -23,5 +24,5 @@ sealed class Player {
         return Stone.from(row = row, column = column)
     }
 
-    abstract fun judgementResult(visited: Map<Direction, DirectionResult>): Boolean
+    abstract fun judgementResult(visitedDirectionResult: VisitedDirectionResult): Boolean
 }

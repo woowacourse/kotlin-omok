@@ -6,6 +6,8 @@ import omock.model.position.Column
 import omock.model.position.Row
 import omock.model.rule.LoadMap
 import omock.model.rule.OMockRule
+import omock.model.search.VisitedDirectionFirstClearResult
+import omock.model.search.VisitedDirectionResult
 import omock.model.stone.Stone
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -24,8 +26,8 @@ class OmockRuleTest {
         val stone = Stone.from(Row("12"), Column("D"))
         board.setStoneState(player, stone)
         val oMockRule = OMockRule()
-        val visited = loadMap.loadMap(stone)
-        val visitedFirstClear = loadMap.firstClearLoadMap(stone)
+        val visited = VisitedDirectionResult(loadMap.loadMap(stone))
+        val visitedFirstClear = VisitedDirectionFirstClearResult(loadMap.firstClearLoadMap(stone))
         assertThrows<IllegalArgumentException> { oMockRule.checkRules(visited, visitedFirstClear) }
     }
 
@@ -42,8 +44,8 @@ class OmockRuleTest {
         val stone = Stone.from(Row("13"), Column("C"))
         board.setStoneState(player, stone)
         val oMockRule = OMockRule()
-        val visited = loadMap.loadMap(stone)
-        val visitedFirstClear = loadMap.firstClearLoadMap(stone)
+        val visited = VisitedDirectionResult(loadMap.loadMap(stone))
+        val visitedFirstClear = VisitedDirectionFirstClearResult(loadMap.firstClearLoadMap(stone))
         assertThrows<IllegalArgumentException> { oMockRule.checkRules(visited, visitedFirstClear) }
     }
 
@@ -60,8 +62,8 @@ class OmockRuleTest {
         val stone = Stone.from(Row("3"), Column("E"))
         board.setStoneState(player, stone)
         val oMockRule = OMockRule()
-        val visited = loadMap.loadMap(stone)
-        val visitedFirstClear = loadMap.firstClearLoadMap(stone)
+        val visited = VisitedDirectionResult(loadMap.loadMap(stone))
+        val visitedFirstClear = VisitedDirectionFirstClearResult(loadMap.firstClearLoadMap(stone))
         assertThrows<IllegalArgumentException> { oMockRule.checkRules(visited, visitedFirstClear) }
     }
 }

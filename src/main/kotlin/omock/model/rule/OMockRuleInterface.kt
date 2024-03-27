@@ -1,12 +1,11 @@
 package omock.model.rule
 
-import omock.model.search.Direction
-import omock.model.search.DirectionFirstClearResult
-import omock.model.search.DirectionResult
+import omock.model.search.VisitedDirectionFirstClearResult
+import omock.model.search.VisitedDirectionResult
 
 interface OMockRuleInterface {
     fun checkRules(
-        visited: Map<Direction, DirectionResult>,
-        visitedFirstClear: Map<Direction, DirectionFirstClearResult>,
+        visitedDirectionResult: VisitedDirectionResult,
+        visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult,
     )
 }

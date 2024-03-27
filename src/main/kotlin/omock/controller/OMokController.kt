@@ -9,6 +9,8 @@ import omock.model.rule.LoadMap
 import omock.model.rule.OMockRule
 import omock.model.search.Direction
 import omock.model.search.DirectionResult
+import omock.model.search.VisitedDirectionFirstClearResult
+import omock.model.search.VisitedDirectionResult
 import omock.model.stone.Stone
 import omock.view.InputView.playerPick
 import omock.view.OutputView.boardTable
@@ -85,29 +87,29 @@ class OMokController {
     ): Result<Unit> {
         return runCatching {
             board.setStoneState(player, playerStone)
-            val visited = loadMap.loadMap(playerStone)
-            checkPlayerRules(player, visited, playerStone)
-            applyPlayerJudgement(player, visited)
+            val visitedDirectionResult = VisitedDirectionResult(loadMap.loadMap(playerStone))
+            checkPlayerRules(player, visitedDirectionResult, playerStone)
+            applyPlayerJudgement(player, visitedDirectionResult)
         }
     }
 
     private fun checkPlayerRules(
         player: Player,
-        visited: Map<Direction, DirectionResult>,
+        visitedDirectionResult: VisitedDirectionResult,
         playerStone: Stone,
     ) {
-        val visitedFirstClear = loadMap.firstClearLoadMap(playerStone)
+        val visitedDirectionFirstClearResult = VisitedDirectionFirstClearResult(loadMap.firstClearLoadMap(playerStone))
         if (player is BlackPlayer) {
-            oMockRule.checkRules(visited, visitedFirstClear)
+            oMockRule.checkRules(visitedDirectionResult, visitedDirectionFirstClearResult)
         }
     }
 
     private fun applyPlayerJudgement(
         player: Player,
-        visited: Map<Direction, DirectionResult>,
+        visitedDirectionResult: VisitedDirectionResult,
     ) {
         gameTurn =
-            when (player.judgementResult(visited)) {
+            when (player.judgementResult(visitedDirectionResult)) {
                 true -> GameTurn.FINISHED
                 false -> gameTurn.turnOff()
             }
