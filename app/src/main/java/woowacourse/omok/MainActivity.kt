@@ -37,6 +37,12 @@ class MainActivity : AppCompatActivity() {
             WhiteStone -> R.drawable.white_stone
         }
 
+    private fun GoStone.value() =
+        when (this) {
+            BlackStone -> "흑"
+            WhiteStone -> "백"
+        }
+
     companion object {
         private const val BOARD_SIZE = 15
         private const val FIRST_COLUMN = 'A'
