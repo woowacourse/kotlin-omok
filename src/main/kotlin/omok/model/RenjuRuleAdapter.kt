@@ -14,7 +14,7 @@ class RenjuRuleAdapter() : Rule {
     private val whiteWinRule = WhiteWinRule(Board.getSize())
 
     override fun isInValid(
-        stones: Stones,
+        stones: List<Stone>,
         lastPlacedStone: Stone,
     ): Boolean {
         val board = generateCustomBoard(stones)
@@ -26,7 +26,7 @@ class RenjuRuleAdapter() : Rule {
     }
 
     override fun isBlackWin(
-        stones: Stones,
+        stones: List<Stone>,
         lastPlacedPosition: Point,
     ): Boolean {
         return blackWinRule.validate(
@@ -36,7 +36,7 @@ class RenjuRuleAdapter() : Rule {
     }
 
     override fun isWhiteWin(
-        stones: Stones,
+        stones: List<Stone>,
         lastPlacedStonePosition: Point,
     ): Boolean {
         return whiteWinRule.validate(
@@ -75,12 +75,12 @@ class RenjuRuleAdapter() : Rule {
         )
     }
 
-    private fun generateCustomBoard(stones: Stones): List<List<Int>> {
+    private fun generateCustomBoard(stones: List<Stone>): List<List<Int>> {
         val libraryBoard =
             List(Board.getSize()) {
                 MutableList(Board.getSize()) { 0 }
             }
-        stones.stones.forEach {
+        stones.forEach {
             when (it.color) {
                 Color.BLACK -> libraryBoard[it.point.col][it.point.row] = 1
                 Color.WHITE -> libraryBoard[it.point.col][it.point.row] = 2

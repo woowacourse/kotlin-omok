@@ -1,23 +1,27 @@
 package omok.model
 
 class Board {
-    private val stonesBundle: MutableList<Stones> = mutableListOf()
+    private val _stones = mutableListOf<Stone>()
+    val stones: List<Stone>
+        get() = _stones.toList()
 
-    fun addStones(stones: Stones) {
-        this.stonesBundle.add(stones)
+    private val rule: Rule
+        get() = RenjuRuleAdapter()
+
+    fun add(stone: Stone) {
+        require(!rule.isInValid(stones, stone)) { "렌주룰을 어겼습니다." }
+        checkDuplicate(stone)
+
+        _stones.add(stone)
     }
 
-    fun checkDuplicate(stone: Stone) {
+    private fun checkDuplicate(stone: Stone) {
         require(
-            stonesBundle.none { stones ->
-                stones.stones.any { it.point == stone.point }
-            },
+            stones.all { it.point != stone.point }
         ) { "중복된 위치입니다." }
     }
 
-    fun allStones(): List<Stone> {
-        return stonesBundle.flatMap { it.stones }
-    }
+    fun lastStone(): Stone? = stones.lastOrNull()
 
     companion object {
         private const val BOARD_SIZE = 15

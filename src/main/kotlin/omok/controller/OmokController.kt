@@ -19,7 +19,7 @@ class OmokController {
 
     fun start() {
         outputView.showGameStartHeader()
-        outputView.showBoard(board.allStones())
+        outputView.showBoard(board.stones)
 
         players.playGame(
             putStone = { player -> putStone(player) },
@@ -31,11 +31,11 @@ class OmokController {
 
     private fun putStone(player: Player) =
         retryWhileNotException {
-            val point = inputView.getPoint(player.color, player.lastStone())
+            val point = inputView.getPoint(player.color, board.lastStone())
             point
         }
 
     private fun showBoard() {
-        outputView.showBoard(board.allStones())
+        outputView.showBoard(board.stones)
     }
 }

@@ -2,17 +2,17 @@ package omok.model
 
 interface Rule {
     fun isInValid(
-        stones: Stones,
+        stones: List<Stone>,
         lastPlacedStone: Stone,
     ): Boolean
 
     fun isBlackWin(
-        tones: Stones,
+        stones: List<Stone>,
         lastPlacedPosition: Point,
     ): Boolean
 
     fun isWhiteWin(
-        tones: Stones,
+        stones: List<Stone>,
         lastPlacedPosition: Point,
     ): Boolean
 }

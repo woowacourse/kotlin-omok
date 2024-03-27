@@ -2,19 +2,16 @@ package omok.model
 
 abstract class Player {
     abstract val color: Color
-    abstract val board: Board
-    protected val stones: Stones = Stones()
+    protected abstract val board: Board
 
-    open fun add(point: Point) {
+    fun add(point: Point) {
         val stone = Stone(point, color)
-        board.checkDuplicate(stone)
-
-        stones.add(Stone(point, color))
+        board.add(stone)
     }
-
-    fun lastStone(): Stone? = stones.lastStone()
 
     abstract fun isWin(): Boolean
 
-    fun stones() = stones.stones
+    fun stones() = board.stones
+
+    fun requireLastStone() = board.lastStone()?.point ?: throw IllegalStateException("놓여진 바둑이 없습니다.")
 }
