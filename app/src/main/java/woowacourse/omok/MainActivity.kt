@@ -14,6 +14,7 @@ import omok.model.stone.BlackStone
 import omok.model.stone.BlackStone.value
 import omok.model.stone.GoStone
 import omok.model.stone.WhiteStone
+import woowacourse.omok.omokdb.OmokDbHelper
 
 class MainActivity : AppCompatActivity() {
     private var stone: GoStone = BlackStone

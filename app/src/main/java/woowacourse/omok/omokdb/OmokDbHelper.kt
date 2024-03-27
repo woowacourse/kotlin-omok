@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.omokdb
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
