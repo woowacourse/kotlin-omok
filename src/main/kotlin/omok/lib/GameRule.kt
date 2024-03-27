@@ -19,7 +19,7 @@ interface GameRule {
         forbiddenPositions: List<Pair<Int, Int>>,
     ): Boolean
 
-    fun setStone(
+    fun placeForRuleCheck(
         x: Int,
         y: Int,
         stone: Int,
