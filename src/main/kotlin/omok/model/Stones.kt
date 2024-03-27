@@ -5,8 +5,7 @@ abstract class Stones {
     protected abstract val board: Board
 
     fun add(point: Point) {
-        val stone = Stone(point, color)
-        board.add(stone)
+        board.add(Stone(point, color))
     }
 
     abstract fun isWin(): Boolean
