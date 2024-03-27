@@ -14,7 +14,7 @@ abstract class OmokRule(
         position: Pair<Int, Int>,
     ): Boolean
 
-    protected val directions = listOf(Pair(1, 0), Pair(1, 1), Pair(0, 1), Pair(1, -1))
+    protected val directions = listOf(1 to 0, 1 to 1, 0 to 1, 1 to -1)
 
     protected fun search(
         board: List<List<Int>>,
@@ -36,15 +36,11 @@ abstract class OmokRule(
                 }
 
                 opponentStone -> break
-                EMPTY_STONE -> {
-                    if (blink == 1) break
-                    if (blinkCount++ == 1) break
-                }
-
+                EMPTY_STONE -> if (blink == 1 || blinkCount++ == 1) break
                 else -> throw IllegalArgumentException("스톤 케이스를 에러")
             }
         }
-        return Pair(stone, blink)
+        return stone to blink
     }
 
     protected fun countToWall(
@@ -55,7 +51,7 @@ abstract class OmokRule(
         var (x, y) = position
         val (dx, dy) = direction
         var distance = 0
-        while (willExceedBounds(x, y, dx, dy).not()) {
+        while (!willExceedBounds(x, y, dx, dy)) {
             x += dx
             y += dy
             when (board[y][x]) {
@@ -82,9 +78,44 @@ abstract class OmokRule(
         }
     }
 
+    fun omokRuleData(
+        board: List<List<Int>>,
+        position: Pair<Int, Int>,
+        direction: Pair<Int, Int>,
+    ): OmokRuleData {
+        val (dx, dy) = direction
+        val oppositeDirection = -dx to -dy
+
+        val (stone1, blink1) = search(board, position, oppositeDirection)
+        val (stone2, blink2) = search(board, position, direction)
+
+        val leftDown = stone1 + blink1
+        val left = dx * (leftDown + 1)
+        val down = dy * (leftDown + 1)
+
+        val rightUp = stone2 + blink2
+        val right = dx * (rightUp + 1)
+        val up = dy * (rightUp + 1)
+
+        return OmokRuleData(stone1, blink1, stone2, blink2, leftDown, left, down, rightUp, right, up)
+    }
+
     companion object {
         protected const val EMPTY_STONE = 0
         const val BLACK_STONE = 1
         const val WHITE_STONE = 2
     }
 }
+
+class OmokRuleData(
+    val stone1: Int,
+    val blink1: Int,
+    val stone2: Int,
+    val blink2: Int,
+    val leftDown: Int,
+    val left: Int,
+    val down: Int,
+    val rightUp: Int,
+    val right: Int,
+    val up: Int,
+)
