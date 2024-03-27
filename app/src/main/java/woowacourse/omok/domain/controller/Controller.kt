@@ -4,6 +4,7 @@ import woowacourse.omok.domain.model.BlackTurn
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.Point
+import woowacourse.omok.domain.model.Point.Companion.MESSAGE_INVALID_POINT_INPUT
 import woowacourse.omok.domain.model.RuleAdapter
 import woowacourse.omok.domain.model.Turn
 import woowacourse.omok.domain.view.InputView
@@ -24,7 +25,7 @@ class Controller {
             turn = board.putStone(readPoint(board, turn), turn, ruleAdapter)
             OutputView.printBoard(board)
         }
-        OutputView.printTurn(turn, board.beforePoint)
+        OutputView.printWinner(turn)
     }
 
     private fun readPoint(
@@ -34,7 +35,7 @@ class Controller {
         runCatching {
             return InputView.readPoint(board)
         }.onFailure {
-            OutputView.printInvalidPointInputMessage()
+            OutputView.printInvalidPointInputMessage(MESSAGE_INVALID_POINT_INPUT)
             OutputView.printTurn(turn, board.beforePoint)
         }
         return readPoint(board, turn)

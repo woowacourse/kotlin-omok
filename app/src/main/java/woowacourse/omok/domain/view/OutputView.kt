@@ -12,7 +12,6 @@ object OutputView {
     private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
     private const val MESSAGE_TURN = "\n%s의 차례입니다. "
     private const val MESSAGE_BEFORE_POINT = "(마지막 돌의 위치: %c%d)"
-    private const val MESSAGE_INVALID_POINT_INPUT = "\n잘못된 위치 좌표입니다. 재입력 해주세요."
     private const val STONE_TYPE_BLACK = "흑"
     private const val STONE_TYPE_WHITE = "백"
     private const val STONE_ICON_BLACK = '●'
@@ -114,6 +113,10 @@ object OutputView {
         println(generateTurnMessage(turn, beforePoint))
     }
 
+    fun printWinner(turn: Turn) {
+        println(turn.getWinner())
+    }
+
     private fun generateTurnMessage(
         turn: Turn,
         beforePoint: Point?,
@@ -135,15 +138,7 @@ object OutputView {
                 } ?: "")
             }
 
-            is FinishedTurn -> {
-                val winner =
-                    when (turn.stoneType) {
-                        StoneType.BLACK -> STONE_TYPE_BLACK
-                        StoneType.WHITE -> STONE_TYPE_WHITE
-                        StoneType.EMPTY -> ""
-                    }
-                "\n${winner}돌이 승리했습니다!!!"
-            }
+            is FinishedTurn -> turn.getWinner()
         }
     }
 
@@ -151,7 +146,7 @@ object OutputView {
         return MESSAGE_BEFORE_POINT.format(point.x + 65, point.y + 1)
     }
 
-    fun printInvalidPointInputMessage() {
-        println(MESSAGE_INVALID_POINT_INPUT)
+    fun printInvalidPointInputMessage(message: String) {
+        println(message)
     }
 }
