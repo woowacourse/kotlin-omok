@@ -23,6 +23,12 @@ sealed class GoStone {
             OmokChecker.findOmok(position, stoneType)
         }
 
+    fun GoStone.value() =
+        when (this) {
+            BlackStone -> BLACK_STONE_VALUE_MESSAGE
+            WhiteStone -> WHITE_STONE_VALUE_MESSAGE
+        }
+
     private fun validatePosition(position: Position) {
         require(!Board.checkRenjuRule(position.row, position.column)) { EXCEPTION_FORBIDDEN_MOVE }
         require(
@@ -36,5 +42,7 @@ sealed class GoStone {
     companion object {
         private const val EXCEPTION_FORBIDDEN_MOVE = "금수입니다.\n"
         private const val EXCEPTION_PLACED_STONE_POSITION = "이미 놓여진 자리입니다.\n"
+        private const val BLACK_STONE_VALUE_MESSAGE = "흑"
+        private const val WHITE_STONE_VALUE_MESSAGE = "백"
     }
 }

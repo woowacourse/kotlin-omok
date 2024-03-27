@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone
+import omok.model.stone.BlackStone.value
 import omok.model.stone.GoStone
 import omok.model.stone.WhiteStone
 
@@ -25,18 +26,22 @@ class MainActivity : AppCompatActivity() {
 
         board = findViewById(R.id.board)
         dbHelper = OmokDbHelper(this)
+        restoreGameData()
+        startOmokGame(board)
+    }
+
+    private fun restoreGameData() {
         dbHelper.selectStonesInfo().forEach {
             recoverBoard(board, it.first, it.second)
         }
-        startOmokGame(board)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        restoreOriginalImage(board)
+        resetGameData(board)
     }
 
-    fun recoverBoard(
+    private fun recoverBoard(
         board: TableLayout,
         stoneIndex: Int,
         stoneColor: String,
@@ -47,19 +52,21 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
                 if (index == stoneIndex) {
-                    if (stoneColor == "흑") {
-                        view.setImageResource(R.drawable.black_stone)
-                    } else if (stoneColor == "백") {
-                        view.setImageResource(R.drawable.white_stone)
-                    }
+                    recoverStone(stoneColor.stone(), stoneIndex, view)
                 }
             }
-        if (stoneColor == "흑") {
-            BlackStone.putStone(indexAdapter(stoneIndex))
-        } else if (stoneColor == "백") {
-            WhiteStone.putStone(indexAdapter(stoneIndex))
-        }
     }
+
+    private fun recoverStone(
+        stone: GoStone,
+        stoneIndex: Int,
+        view: ImageView,
+    ) {
+        view.setImageResource(stone.imageView())
+        stone.putStone(indexAdapter(stoneIndex))
+    }
+
+    private fun String.stone() = if (this == "흑") BlackStone else WhiteStone
 
     private fun startOmokGame(board: TableLayout) {
         board.children
@@ -113,7 +120,7 @@ class MainActivity : AppCompatActivity() {
         if (stone.findOmok(stonePosition)) {
             val snackBar = Snackbar.make(view, "${stone.value()} 승리", Snackbar.LENGTH_INDEFINITE)
             snackBar.setAction(CONFIRM_BUTTON_MESSAGE) {
-                restoreOriginalImage(board)
+                resetGameData(board)
             }
             snackBar.show()
             return true
@@ -127,7 +134,7 @@ class MainActivity : AppCompatActivity() {
         return Position.of(row, column)
     }
 
-    private fun restoreOriginalImage(board: TableLayout) {
+    private fun resetGameData(board: TableLayout) {
         board.children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
@@ -139,18 +146,10 @@ class MainActivity : AppCompatActivity() {
         dbHelper.reset()
     }
 
-    private fun GoStone.value() =
-        when (this) {
-            BlackStone -> BLACK_STONE_VALUE_MESSAGE
-            WhiteStone -> WHITE_STONE_VALUE_MESSAGE
-        }
-
     companion object {
         private const val RESET_IMAGE_ID = 0
         private const val BOARD_SIZE = 15
         private const val FIRST_COLUMN = 'A'
         private const val CONFIRM_BUTTON_MESSAGE = "확인"
-        private const val BLACK_STONE_VALUE_MESSAGE = "흑"
-        private const val WHITE_STONE_VALUE_MESSAGE = "백"
     }
 }
