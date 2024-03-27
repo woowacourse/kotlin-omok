@@ -17,8 +17,6 @@ class OutputView {
             }
             println()
         }
-
-        // 바둑판 하단의 알파벳 인덱스 출력
         println(ROW_INDEX)
     }
 
