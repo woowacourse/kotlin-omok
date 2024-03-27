@@ -7,11 +7,11 @@ import omok.model.rule.OmokChecker
 sealed class GoStone {
     abstract val stoneType: StoneType
 
-    fun putStone(position: Position): StoneType {
+    fun putStone(position: Position): GoStone {
         validatePosition(position)
         Board.putStone(position.column, position.row, stoneType)
         Board.changeLstStonePosition(position)
-        return if (stoneType == StoneType.BLACK_STONE) StoneType.WHITE_STONE else StoneType.BLACK_STONE
+        return if (stoneType == StoneType.BLACK_STONE) WhiteStone else BlackStone
     }
 
     fun findOmok(position: Position): Boolean =
@@ -25,7 +25,12 @@ sealed class GoStone {
 
     private fun validatePosition(position: Position) {
         require(!Board.checkRenjuRule(position.row, position.column)) { EXCEPTION_FORBIDDEN_MOVE }
-        require(Board.getStoneType(position.column, position.row) == StoneType.NONE) { EXCEPTION_PLACED_STONE_POSITION }
+        require(
+            Board.getStoneType(
+                position.column,
+                position.row,
+            ) == StoneType.NONE,
+        ) { EXCEPTION_PLACED_STONE_POSITION }
     }
 
     companion object {

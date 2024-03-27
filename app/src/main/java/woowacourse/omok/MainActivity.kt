@@ -12,7 +12,6 @@ import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
-import omok.model.stone.StoneType
 import omok.model.stone.WhiteStone
 
 class MainActivity : AppCompatActivity() {
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         currentStone?.let {
             view.setImageResource(stone.imageView())
             if (checkOmok(board, stonePosition, view)) return
-            stone = changeStone(currentStone)
+            stone = currentStone
         }
     }
 
@@ -62,8 +61,6 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, it.localizedMessage, Snackbar.LENGTH_SHORT).show()
             return null
         }
-
-    private fun changeStone(currentStone: StoneType): GoStone = if (currentStone == StoneType.BLACK_STONE) BlackStone else WhiteStone
 
     private fun GoStone.imageView() =
         when (this) {
