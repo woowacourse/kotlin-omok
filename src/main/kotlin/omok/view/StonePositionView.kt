@@ -3,8 +3,8 @@ package omok.view
 import omok.model.board.Position
 import omok.model.board.Stone
 
-class InputView {
-    fun readStonePosition(
+class StonePositionView {
+    fun read(
         boardSize: Int,
         nowOrderStone: Stone,
         recentPosition: Position?,

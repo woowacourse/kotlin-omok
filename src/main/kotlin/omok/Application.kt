@@ -1,13 +1,17 @@
 package omok
 
 import omok.controller.OmokController
-import omok.view.InputView
-import omok.view.OutputView
+import omok.view.BoardView
+import omok.view.ResultView
+import omok.view.StartView
+import omok.view.StonePositionView
 
 fun main() {
     OmokController(
-        InputView(),
-        OutputView(),
+        StonePositionView(),
+        StartView(),
+        BoardView(),
+        ResultView(),
         boardSize = 15,
     ).startGame()
 }

@@ -10,12 +10,16 @@ import omok.model.player.Player
 import omok.model.rule.ban.DoubleFourForbiddenPlace
 import omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
 import omok.model.rule.ban.OverlineForbiddenPlace
-import omok.view.InputView
-import omok.view.OutputView
+import omok.view.BoardView
+import omok.view.ResultView
+import omok.view.StartView
+import omok.view.StonePositionView
 
 class OmokController(
-    private val inputView: InputView,
-    private val outputView: OutputView,
+    private val stonePositionView: StonePositionView,
+    private val startView: StartView,
+    private val boardView: BoardView,
+    private val resultView: ResultView,
     private val boardSize: Int,
 ) {
     private val omokPlayers: OmokPlayers
@@ -39,11 +43,11 @@ class OmokController(
         val board = initializedBoard()
         val omokGame = OmokGame(board, omokPlayers)
         val finishType = omokGame.gameResult(omokTurnAction())
-        outputView.printResult(finishType)
+        resultView.print(finishType)
     }
 
     private fun initializedBoard(): Board {
-        return Board(boardSize).apply { outputView.printInitialGuide(this) }
+        return Board(boardSize).apply { startView.print(this, boardView) }
     }
 
     private fun omokTurnAction(): OmokTurnAction {
@@ -52,11 +56,11 @@ class OmokController(
                 nowOrderStone: Stone,
                 recentPosition: Position?,
             ): Position {
-                return inputView.readStonePosition(boardSize, nowOrderStone, recentPosition)
+                return stonePositionView.read(boardSize, nowOrderStone, recentPosition)
             }
 
             override fun onStonePlace(board: Board) {
-                outputView.printBoard(board)
+                boardView.print(board)
             }
         }
     }

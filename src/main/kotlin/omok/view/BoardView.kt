@@ -3,15 +3,9 @@ package omok.view
 import omok.model.board.Board
 import omok.model.board.Position
 import omok.model.board.Stone
-import omok.model.game.FinishType
 
-class OutputView {
-    fun printInitialGuide(board: Board) {
-        println(INITIAL_GUIDE_MESSAGE)
-        printBoard(board)
-    }
-
-    fun printBoard(board: Board) {
+class BoardView {
+    fun print(board: Board) {
         val boardSizeRange = 0..<board.size
         lineBreak()
         boardSizeRange.forEach { row ->
@@ -82,17 +76,7 @@ class OutputView {
         println(boardSizeRange.joinToString(prefix = "    ", separator = "  ") { (it + 'A'.code).toChar().toString() })
     }
 
-    fun printResult(finishType: FinishType) {
-        if (finishType == FinishType.DRAW) {
-            println("무승부입니다.")
-            return
-        }
-        println(WINNER_MESSAGE.format(finishType.stone.output()))
-    }
-
     companion object {
-        private const val INITIAL_GUIDE_MESSAGE = "오목 게임을 시작합니다."
-        private const val WINNER_MESSAGE = "우승은 %s🎉 입니다"
         private const val BLACK_STONE = "●"
         private const val WHITE_STONE = "○"
     }
