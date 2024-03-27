@@ -23,7 +23,7 @@ class InputView {
     private fun requirePositionInput(stone: GoStone): String {
         print(TURN_MESSAGE.format(stone.stoneType.value()))
         Board.lastPosition?.let {
-            print(LAST_STONE_MESSAGE.format(it.toString()))
+            print(LAST_STONE_MESSAGE.format(it.convert()))
         }
         lineBreak()
         print(ENTER_POSITION_MESSAGE)
@@ -38,6 +38,8 @@ class InputView {
             StoneType.WHITE_STONE -> "백"
             StoneType.NONE -> ""
         }
+
+    private fun Position.convert(): String = "${Row.X_AXIS_START + row.value}${column.value + 1}"
 
     companion object {
         private const val TURN_MESSAGE = "%s의 차례입니다."
