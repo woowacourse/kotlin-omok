@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     ): Boolean {
         if (stone.findOmok(stonePosition)) {
             val snackBar = Snackbar.make(view, "${stone.value()} 승리", Snackbar.LENGTH_INDEFINITE)
-            snackBar.setAction("확인") {
+            snackBar.setAction(CONFIRM_BUTTON_MESSAGE) {
                 restoreOriginalImage(board)
             }
             snackBar.show()
@@ -96,19 +96,23 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEach { view ->
-                view.setImageResource(0)
+                view.setImageResource(RESET_IMAGE_ID)
             }
         Board.resetBoard()
     }
 
     private fun GoStone.value() =
         when (this) {
-            BlackStone -> "흑"
-            WhiteStone -> "백"
+            BlackStone -> BLACK_STONE_VALUE_MESSAGE
+            WhiteStone -> WHITE_STONE_VALUE_MESSAGE
         }
 
     companion object {
+        private const val RESET_IMAGE_ID = 0
         private const val BOARD_SIZE = 15
         private const val FIRST_COLUMN = 'A'
+        private const val CONFIRM_BUTTON_MESSAGE = "확인"
+        private const val BLACK_STONE_VALUE_MESSAGE = "흑"
+        private const val WHITE_STONE_VALUE_MESSAGE = "백"
     }
 }
