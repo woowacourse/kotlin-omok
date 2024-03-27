@@ -26,9 +26,13 @@ class Board(val size: BoardSize = DEFAULT_BOARD_SIZE, val boxes: Boxes = Boxes()
         ) { "Position 은 ($MIN, $MIN) ~ (${size.width}, ${size.width}) 사이여야 한다" }
     }
 
-    operator fun plus(stone: OmokStone): Board {
-        validate(stone.position)
-        return Board(size, boxes + stone)
+    fun placeStone(
+        position: Position,
+        color: StoneColor,
+    ): Board {
+        validate(position)
+        val stone = OmokStone(position, color)
+        return Board(size, boxes + (position to stone))
     }
 
     fun canPlace(stone: OmokStone): Boolean {

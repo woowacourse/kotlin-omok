@@ -9,8 +9,8 @@ value class Boxes(val boxes: Map<Position, OmokStone> = emptyMap()) : Map<Positi
 
     constructor(omokStones: List<OmokStone>) : this(createBoxes(*omokStones.toTypedArray()))
 
-    operator fun plus(stone: OmokStone): Boxes {
-        return Boxes(boxes + (stone.position to stone))
+    operator fun plus(stone: Pair<Position, OmokStone>): Boxes {
+        return Boxes(boxes + stone)
     }
 
     companion object {

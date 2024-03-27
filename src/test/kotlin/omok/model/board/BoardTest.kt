@@ -11,6 +11,7 @@ import omok.fixtures.createBlackStone
 import omok.fixtures.createBoard
 import omok.fixtures.createPosition
 import omok.fixtures.createWhiteStone
+import omok.model.StoneColor
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -79,7 +80,8 @@ class BoardTest {
         // given
         val board = createBoard()
         // when
-        val newBoard = board + createBlackStone(1, 1)
+        val position = createPosition(1, 1)
+        val newBoard = board.placeStone(position, StoneColor.BLACK)
         // then
         newBoard shouldNotBe board
         newBoard shouldNotBeSameInstanceAs board

@@ -19,7 +19,7 @@ sealed class Running(private val putRule: OmokGameRule, board: Board) : GameStat
         val position = onPlace()
         val newStone = OmokStone(position, stoneColor)
         if (canPut(newStone)) {
-            val newBoard = board + newStone
+            val newBoard = board.placeStone(position, stoneColor)
             if (newBoard.isInOmok(position)) return Finish(newBoard)
             return onDetermineTurn(newBoard)
         }
