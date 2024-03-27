@@ -63,39 +63,41 @@ class LoadMap(private val stoneStates: List<ColumnStates>) : LoadMapInterface {
         while (queue.isNotEmpty()) {
             val current = queue.removeFirst()
             val (nx, ny) = current.x + direction.y to current.y + direction.x
+            if (!isBoardIndex(nx, ny)) continue
+            val nextState = stoneStates[ny].getStoneState(nx)
 
             fun addFindState() {
                 queue.addFirst(Node(nx, ny))
                 count++
             }
 
-            if (!isBoardIndex(nx, ny)) continue
-            val nextState = stoneStates[ny].getStoneState(nx)
+            fun queueNextNode() {
+                queue.addFirst(Node(nx, ny))
+            }
+
+            fun updateIsLastClear(value: Boolean) {
+                isLastClear = value
+            }
+
+            fun updateNextClearState() {
+                if (flag) {
+                    updateIsLastClear(true)
+                } else {
+                    queueNextNode()
+                }
+            }
+
+            fun updateNextState() {
+                if (playerState.isSameState(nextState)) {
+                    addFindState()
+                } else {
+                    updateIsLastClear(!flag)
+                }
+            }
 
             when (nextState) {
-                is Black -> {
-                    if (playerState is Black) {
-                        addFindState()
-                    } else {
-                        isLastClear = !flag
-                    }
-                }
-
-                is White -> {
-                    if (playerState is White) {
-                        addFindState()
-                    } else {
-                        isLastClear = !flag
-                    }
-                }
-
-                is Clear -> {
-                    if (flag) {
-                        isLastClear = true
-                    } else {
-                        queue.addFirst(Node(nx, ny))
-                    }
-                }
+                is Black, is White -> updateNextState()
+                is Clear -> updateNextClearState()
             }
             flag = true
         }
