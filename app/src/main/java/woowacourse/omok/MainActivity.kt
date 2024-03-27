@@ -25,8 +25,12 @@ class MainActivity : AppCompatActivity() {
 
         board = findViewById(R.id.board)
         dbHelper = OmokDbHelper(this)
-
         startOmokGame(board)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        restoreOriginalImage(board)
     }
 
     private fun startOmokGame(board: TableLayout) {
