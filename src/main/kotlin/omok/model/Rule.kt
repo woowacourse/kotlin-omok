@@ -1,7 +1,7 @@
 package omok.model
 
 interface Rule {
-    fun isInValid(
+    fun isInvalid(
         stones: Stones,
         lastPlacedStone: Stone,
         customBoard: Array<Array<Int>>,

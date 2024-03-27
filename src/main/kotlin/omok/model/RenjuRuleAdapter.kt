@@ -9,15 +9,14 @@ class RenjuRuleAdapter : Rule {
     private val threeThreeRule = ThreeThreeRule(Board.getSize())
     private val moreThanFiveRule = MoreThanFiveRule(Board.getSize())
 
-    override fun isInValid(
+    override fun isInvalid(
         stones: Stones,
         lastPlacedStone: Stone,
         customBoard: Array<Array<Int>>,
     ): Boolean {
-        val board = customBoard
-        return isFourFour(board, lastPlacedStone) or
-            isThreeThree(board, lastPlacedStone) or
-            isMoreThanFive(board, lastPlacedStone)
+        return isFourFour(customBoard, lastPlacedStone) or
+            isThreeThree(customBoard, lastPlacedStone) or
+            isMoreThanFive(customBoard, lastPlacedStone)
     }
 
     private fun isFourFour(
