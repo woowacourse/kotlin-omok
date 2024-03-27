@@ -2,6 +2,7 @@ package omock.controller
 
 import omock.model.GameTurn
 import omock.model.board.Board
+import omock.model.board.LocalBoard.boardTable
 import omock.model.player.BlackPlayer
 import omock.model.player.Player
 import omock.model.player.WhitePlayer
@@ -11,7 +12,6 @@ import omock.model.search.VisitedDirectionFirstClearResult
 import omock.model.search.VisitedDirectionResult
 import omock.model.stone.Stone
 import omock.view.InputView.playerPick
-import omock.view.OutputView.boardTable
 import omock.view.OutputView.outputBoardForm
 import omock.view.OutputView.outputFailureMessage
 import omock.view.OutputView.outputGameStart
