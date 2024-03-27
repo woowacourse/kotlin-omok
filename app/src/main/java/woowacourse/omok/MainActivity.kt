@@ -35,26 +35,25 @@ class MainActivity : AppCompatActivity() {
                     .forEachIndexed { y, view ->
                         view.setOnClickListener {
                             if (!onGame) return@setOnClickListener
-
-                            val nextTurn = board.putStone(Point(x, y), turn, ruleAdapter)
-                            if (turn != nextTurn) {
-                                view.setImageResource(getStoneImage(turn.stoneType))
-                                turn = nextTurn
-                            } else {
-                                Toast.makeText(
-                                    this,
-                                    MESSAGE_INVALID_POINT_INPUT,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            if (turn is FinishedTurn) {
-                                Toast.makeText(this, turn.getWinner(), Toast.LENGTH_SHORT).show()
-                                onGame = false
-                            }
+                            progressGameTurn(x, y, view)
+                            checkGameFinished()
                         }
                     }
             }
+    }
+
+    private fun progressGameTurn(x: Int, y: Int, view: ImageView) {
+        val nextTurn = board.putStone(Point(x, y), turn, ruleAdapter)
+        if (turn != nextTurn) {
+            view.setImageResource(getStoneImage(turn.stoneType))
+            turn = nextTurn
+        } else {
+            Toast.makeText(
+                this,
+                MESSAGE_INVALID_POINT_INPUT,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun getStoneImage(stoneType: StoneType): Int {
@@ -62,6 +61,13 @@ class MainActivity : AppCompatActivity() {
             StoneType.BLACK -> R.drawable.black_stone
             StoneType.WHITE -> R.drawable.white_stone
             StoneType.EMPTY -> 0
+        }
+    }
+
+    private fun checkGameFinished() {
+        if (turn is FinishedTurn) {
+            Toast.makeText(this, turn.getWinner(), Toast.LENGTH_SHORT).show()
+            onGame = false
         }
     }
 }
