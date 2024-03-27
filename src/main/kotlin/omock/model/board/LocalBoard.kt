@@ -29,7 +29,7 @@ object LocalBoard {
         playerStone: Stone,
         player: Player,
     ){
-        boardTable[playerStone.row.toIntIndex() - 1][playerStone.column.getIndex()] =
+        boardTable[playerStone.row.toBoardIndex() - 1][playerStone.column.getIndex()] =
             Stone.getStoneIcon(player)
     }
 

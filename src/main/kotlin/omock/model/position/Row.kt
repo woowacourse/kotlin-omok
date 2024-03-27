@@ -15,7 +15,7 @@ value class Row(val comma: String) {
         return comma.toInt() - MIN_ROW
     }
 
-    fun toIntIndex(): Int {
+    fun toBoardIndex(): Int {
         return MIN_ROW + MAX_ROW - comma.toInt()
     }
 
