@@ -34,6 +34,7 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
     fun findForbiddenPositions(stone: Stone): List<Position> {
         if (stone == Stone.WHITE) return listOf()
         val forbiddenPairs: List<Position> = gameAdapter.findForbiddenPositions(stone)
+        println(forbiddenPairs)
         return forbiddenPairs
     }
 

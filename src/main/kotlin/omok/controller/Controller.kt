@@ -2,55 +2,19 @@ import omok.model.board.ColumnNumber
 import omok.model.board.CoordsNumber
 import omok.model.board.Position
 import omok.model.board.Stone
-import omok.model.omokGame.GameEventListener
 import omok.model.omokGame.OmokGame
 import omok.view.InputView
 import omok.view.OutputView
 
 object Controller {
-    private val game = OmokGame()
-
-    init {
-        game.listener =
-            object : GameEventListener {
-                override fun onGameStart() {
-                    OutputView.printStartMessage()
-                    OutputView.printBoard(
-                        game.board.gameBoard,
-                        game.board.findForbiddenPositions(
-                            game.currentStone,
-                        ),
-                    )
-                    requestPlayerMove(game.currentStone)
-                }
-
-                override fun onGameEnd(winner: Stone) {
-                    OutputView.showWinner(winner)
-                }
-
-                override fun onStonePlaced(
-                    position: Position,
-                    currentStone: Stone,
-                ) {
-                    game.currentStone = togglePlayer(currentStone)
-                    OutputView.printBoard(
-                        game.board.gameBoard,
-                        game.board.findForbiddenPositions(
-                            game.currentStone,
-                        ),
-                    )
-                    if (game.board.isRunning()) {
-                        requestPlayerMove(game.currentStone)
-                    }
-                }
-            }
-    }
+    private val outputView = OutputView()
+    val game = OmokGame(outputView)
 
     fun start() {
         game.endGame(game.startGame())
     }
 
-    private fun requestPlayerMove(currentStone: Stone) {
+    fun requestPlayerMove(currentStone: Stone) {
         val (rowCoords, columnCoords) = readPlayerCoords(currentStone, "")
         if (rowCoords != null && columnCoords != null &&
             !game.board.isMoveForbidden(
@@ -60,6 +24,7 @@ object Controller {
             ) && !game.board.isNotEmpty(rowCoords, columnCoords)
         ) {
             game.placeStone(Position(rowCoords, columnCoords), currentStone)
+            outputView.printBoard(game.board.gameBoard, game.board.findForbiddenPositions(game.currentStone))
         } else {
             println("Invalid move. Please try again.")
             requestPlayerMove(currentStone)
@@ -74,6 +39,4 @@ object Controller {
         val columnNumber = ColumnNumber.fromLetter(columnLetter)
         return Pair(rowNumber, columnNumber)
     }
-
-    private fun togglePlayer(currentStone: Stone): Stone = if (currentStone == Stone.BLACK) Stone.WHITE else Stone.BLACK
 }
