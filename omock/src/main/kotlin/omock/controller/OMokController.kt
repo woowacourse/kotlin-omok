@@ -2,6 +2,7 @@ package omock.controller
 
 import omock.model.OMockGame
 import omock.model.state.Stone
+import omock.model.turn.FinishedTurn
 import omock.model.turn.Turn
 import omock.view.InputView.playerPick
 import omock.view.OutputView
@@ -15,12 +16,14 @@ class OMokController(private val oMockGame: OMockGame = OMockGame()) {
     fun run() {
         outputGameStart()
 
-        oMockGame.playGame({ turn ->
-            outputBoard()
-            displayTurnInfo(turn)
-            startPlayerTurn(turn)
-        }) { e ->
-            outputErrorMessage(e)
+        while (oMockGame.getTurn() !is FinishedTurn) {
+            oMockGame.playGame({ turn ->
+                outputBoard()
+                displayTurnInfo(turn)
+                startPlayerTurn(turn)
+            }) { e ->
+                outputErrorMessage(e)
+            }
         }
 
         outputBoard()

@@ -15,7 +15,7 @@ class OMockGame(
         showBoard: (Turn) -> Stone?,
         error: (Throwable) -> Unit,
     ) {
-        while (!turn.isFinished()) {
+        if (!turn.isFinished()) {
             showBoard(turn)?.let { playerStone ->
                 executePlayerTurn(playerStone, error)
             }
