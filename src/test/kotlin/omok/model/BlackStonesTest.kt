@@ -25,6 +25,6 @@ class BlackStonesTest {
         blackStonesPlayer.add(FIRST_ROW_FIRST_COL)
         blackStonesPlayer.add(FIRST_ROW_SECOND_COL)
 
-        assertThat(blackStonesPlayer.lastStone()).isEqualTo(Stone(FIRST_ROW_SECOND_COL, Color.BLACK))
+        assertThat(blackStonesPlayer.requireLastStone()).isEqualTo(Stone(FIRST_ROW_SECOND_COL, Color.BLACK))
     }
 }

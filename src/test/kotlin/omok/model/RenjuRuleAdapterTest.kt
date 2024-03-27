@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test
 
 class RenjuRuleAdapterTest {
     private lateinit var adapter: RenjuRuleAdapter
-    private lateinit var stones: Stones
+    private lateinit var stones: MutableList<Stone>
 
     @BeforeEach
     fun setUp() {
         adapter = RenjuRuleAdapter()
-        stones = Stones()
+        stones = mutableListOf()
     }
 
     @Test
@@ -149,7 +149,8 @@ class RenjuRuleAdapterTest {
             add(Stone(11, 4, Color.BLACK))
         }
 
-        val result = adapter.isInValid(stones, Stone(8, 4, Color.BLACK))
+
+        val result = adapter.isInValid(this.stones, Stone(11, 4, Color.BLACK))
         assertThat(result).isTrue
     }
 
@@ -164,6 +165,7 @@ class RenjuRuleAdapterTest {
 
         val result = adapter.isBlackWin(stones, Point(8, 4))
         assertThat(result).isTrue
+
     }
 
     @Test
