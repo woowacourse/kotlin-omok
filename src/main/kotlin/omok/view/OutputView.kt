@@ -17,7 +17,7 @@ class OutputView {
         boardSizeRange.forEach { row ->
             printBoardRowName(board, row)
             boardSizeRange.forEach { col ->
-                printBoardAxis(board, row, col)
+                printBoardAxis(board, Position(row, col))
             }
             lineBreak()
         }
@@ -39,30 +39,28 @@ class OutputView {
 
     private fun printBoardAxis(
         board: Board,
-        row: Int,
-        col: Int,
+        position: Position,
     ) {
-        val stone = board.find(Position(row, col))
-        if (row == 0) {
-            stone.printBoardColAxis(board.size, col, " ┌─", "─┐ ", "─┬─")
-        } else if (row == board.size - 1) {
-            stone.printBoardColAxis(board.size, col, " └─", "─┘ ", "─┴─")
+        if (position.row == 0) {
+            board.printBoardColAxis(position, " ┌─", "─┐ ", "─┬─")
+        } else if (position.row == board.size - 1) {
+            board.printBoardColAxis(position, " └─", "─┘ ", "─┴─")
         } else {
-            stone.printBoardColAxis(board.size, col, " ├─", "─┤ ", "─┼─")
+            board.printBoardColAxis(position, " ├─", "─┤ ", "─┼─")
         }
     }
 
-    private fun Stone.printBoardColAxis(
-        boardSize: Int,
-        col: Int,
+    private fun Board.printBoardColAxis(
+        position: Position,
         firstCol: String,
         endCol: String,
         middleCol: String,
     ) {
-        when (col) {
-            0 -> printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", firstCol)
-            boardSize - 1 -> printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", endCol)
-            else -> printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", middleCol)
+        val stone = find(position)
+        when (position.col) {
+            0 -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", firstCol)
+            size - 1 -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", endCol)
+            else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", middleCol)
         }
     }
 
