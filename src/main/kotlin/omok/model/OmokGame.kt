@@ -3,10 +3,10 @@ package omok.model
 class OmokGame(
     val board: Board,
 ) {
-    private var currentState: State = State.Running
+    private var isRunning = true
 
     fun isRunning(): Boolean {
-        return currentState == State.Running
+        return isRunning
     }
 
     private fun canFindOmokPlayer(player: Player) {
@@ -16,7 +16,7 @@ class OmokGame(
     }
 
     private fun changeState() {
-        currentState = State.Finished
+        isRunning = false
     }
 
     fun playTurn(
