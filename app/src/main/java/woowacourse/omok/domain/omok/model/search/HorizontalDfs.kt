@@ -1,7 +1,6 @@
 package woowacourse.omok.domain.omok.model.search
 
 import woowacourse.omok.domain.omok.model.Color
-import woowacourse.omok.domain.omok.model.search.Dfs
 
 class HorizontalDfs(
     status: Array<Array<Color>>,
