@@ -6,11 +6,13 @@ import omock.model.player.Player
 import omock.model.search.Direction
 import omock.model.search.DirectionFirstClearResult
 import omock.model.search.DirectionResult
+import omock.model.search.VisitedDirectionFirstClearResult
+import omock.model.search.VisitedDirectionResult
 
 class OMockRule : OMockRuleInterface {
     override fun checkRules(
-        visited: Map<Direction, DirectionResult>,
-        visitedFirstClear: Map<Direction, DirectionFirstClearResult>,
+        visitedDirectionResult: VisitedDirectionResult,
+        visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult,
     ) {
         var threeToThreeCount = INIT_COUNT
         var fourToFourCount = INIT_COUNT
