@@ -3,13 +3,21 @@ package omok.model.game
 import omok.model.board.Board
 import omok.model.board.Position
 import omok.model.player.Player
+import omok.model.rule.finish.AllForbiddenPositionFinishCondition
 import omok.model.rule.finish.FinishCondition
+import omok.model.rule.finish.FiveStonesFinishCondition
+import omok.model.rule.finish.FullBoardFinishCondition
 import omok.utils.retryUntilNotException
 
 class OmokGame(
     private val board: Board,
     private val omokPlayers: OmokPlayers,
-    private val finishConditions: List<FinishCondition>,
+    private val finishConditions: List<FinishCondition> =
+        listOf(
+            FiveStonesFinishCondition(),
+            FullBoardFinishCondition(),
+            AllForbiddenPositionFinishCondition(),
+        ),
 ) {
     fun gameResult(omokTurnAction: OmokTurnAction): FinishType {
         var recentPlayer = omokPlayers.firstOrderPlayer()
