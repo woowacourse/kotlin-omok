@@ -7,6 +7,9 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.model.position.Position
+import omok.model.stone.BlackStone
+import omok.model.stone.GoStone
+import omok.model.stone.WhiteStone
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +30,12 @@ class MainActivity : AppCompatActivity() {
         val column = BOARD_SIZE - (index / BOARD_SIZE)
         return Position.of(row, column)
     }
+
+    private fun GoStone.imageView() =
+        when (this) {
+            BlackStone -> R.drawable.black_stone
+            WhiteStone -> R.drawable.white_stone
+        }
 
     companion object {
         private const val BOARD_SIZE = 15
