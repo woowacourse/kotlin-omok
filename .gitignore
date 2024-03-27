@@ -1,36 +1,36 @@
-# Gradle files
-.gradle/
+
+HELP.md
+.gradle
 build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**
+!**/src/test/**
 
-# Local configuration file (sdk path, etc)
-local.properties
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.apk
-output.json
-
-# IntelliJ
+### IntelliJ IDEA ###
+.idea
+*.iws
 *.iml
-.idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
+*.ipr
+out/
 
-# Keystore files
-*.jks
-*.keystore
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
+### VS Code ###
+.vscode/
 
-# Android Profiling
-*.hprof
-
-# Mac OS
+### macOS ###
 .DS_Store
