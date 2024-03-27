@@ -1,5 +1,6 @@
 package omok.model
 
+import RuleAdaptor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -42,7 +43,9 @@ class PlayerTest {
     @Test
     fun `플레이어 차례가 되면 돌을 보드에 착수 한다`() {
         // given
-        val board = Board(Stones())
+        val stones = Stones()
+        val rule = RuleAdaptor(stones)
+        val board = Board(stones, rule)
         val player = Player(Color.BLACK)
 
         // when
@@ -55,7 +58,9 @@ class PlayerTest {
     @Test
     fun `플레이어의 차례에 오목이 만들어지면 승리한다`() {
         // given
-        val board = Board(Stones())
+        val stones = Stones()
+        val rule = RuleAdaptor(stones)
+        val board = Board(stones, rule)
         val player = Player(Color.BLACK)
         createCustomBoard(board, blackStones)
 

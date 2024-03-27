@@ -1,10 +1,11 @@
 package omok.model
 
-import RenjuRule
-
-class Board(val stones: Stones, val width: Int = DEFAULT_BOARD_WIDTH, val height: Int = DEFAULT_BOARD_HEIGHT) {
-    private val rule: Rule = RenjuRule(stones)
-
+class Board(
+    val stones: Stones,
+    private val rule: Rule,
+    val width: Int = DEFAULT_BOARD_WIDTH,
+    val height: Int = DEFAULT_BOARD_HEIGHT,
+) {
     fun putStone(stone: Stone): StoneState {
         val state = determineStoneState(stone)
         return when (state) {
@@ -18,7 +19,7 @@ class Board(val stones: Stones, val width: Int = DEFAULT_BOARD_WIDTH, val height
     }
 
     private fun determineStoneState(stone: Stone): StoneState {
-        if (rule.checkInvalid(stone)) {
+        if (rule.checkPlaceable(stone)) {
             return StoneState.FailedPlaced(ERROR_FORBIDDEN_MESSAGE)
         }
         if (validateStoneCoordinate(stone.coordinate)) {

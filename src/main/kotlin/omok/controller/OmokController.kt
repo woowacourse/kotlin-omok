@@ -1,5 +1,6 @@
 package omok.controller
 
+import RuleAdaptor
 import omok.model.Board
 import omok.model.Color
 import omok.model.OmokGame
@@ -13,7 +14,12 @@ class OmokController {
     fun run() {
         OutputView.printStart()
         val players = Player(Color.BLACK) to Player(Color.WHITE)
-        val board = Board(Stones())
+        val stones = Stones()
+        val board =
+            Board(
+                stones,
+                rule = RuleAdaptor(stones),
+            )
         startGame(players, board)
         displayWinner(players)
     }

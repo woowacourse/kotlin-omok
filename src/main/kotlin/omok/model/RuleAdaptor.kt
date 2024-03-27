@@ -14,30 +14,33 @@ class RuleAdaptor(private val stones: Stones) : Rule {
                 BOARD_SIZE,
             )
 
-    override fun checkThreeThree(stone: Stone): Boolean {
-        return omokRule.checkThreeThree(
+    override fun checkPlaceable(stone: Stone): Boolean {
+        return !checkInvalid(stone)
+    }
+
+    fun checkInvalid(stone: Stone): Boolean {
+        return checkThreeThree(stone) || checkFourFour(stone) || checkMoreThanFive(stone)
+    }
+
+    private fun checkThreeThree(stone: Stone): Boolean {
+        return renjuRule.checkThreeThree(
             stone.coordinate.y.value - INDEX_ADJUSTMENT,
             stone.coordinate.x.value - INDEX_ADJUSTMENT,
         )
     }
 
-    override fun checkFourFour(stone: Stone): Boolean {
-        return omokRule.countFourFour(
+    private fun checkFourFour(stone: Stone): Boolean {
+        return renjuRule.countFourFour(
             stone.coordinate.y.value - INDEX_ADJUSTMENT,
             stone.coordinate.x.value - INDEX_ADJUSTMENT,
         )
     }
 
-    override fun checkMoreThanFive(stone: Stone): Boolean {
-        return omokRule.checkMoreThanFive(
+    private fun checkMoreThanFive(stone: Stone): Boolean {
+        return renjuRule.checkMoreThanFive(
             stone.coordinate.y.value - INDEX_ADJUSTMENT,
             stone.coordinate.x.value - INDEX_ADJUSTMENT,
         )
-    }
-
-    override fun checkInvalid(stone: Stone): Boolean {
-        if (stone.color == Color.BLACK) return checkThreeThree(stone) || checkFourFour(stone) || checkMoreThanFive(stone)
-        return false
     }
 
     private fun getCurrentTurn(stones: Stones): Color {
