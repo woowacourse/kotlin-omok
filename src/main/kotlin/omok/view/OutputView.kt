@@ -1,8 +1,10 @@
 package omok.view
 
+import Controller.game
 import omok.model.board.CoordsNumber
 import omok.model.board.Position
 import omok.model.board.Stone
+import omok.model.omokGame.GameEventListener
 
 private const val COLUMN_STRING = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
 private const val X = "X"
@@ -28,30 +30,20 @@ private const val WINNER_MESSAGE = "Game-over 💫우승자💫는 %s."
 
 private const val BOARD_SIZE = 15
 
-object OutputView {
-    fun printStartMessage() {
-        println(OMOK_START_MESSAGE)
+class OutputView : GameEventListener {
+    override fun onGameStart() {
+        printStartMessage()
+        printBoard(
+            game.board.gameBoard,
+            game.board.findForbiddenPositions(
+                game.currentStone,
+            ),
+        )
     }
 
-    fun printForbiddenMoveMessage() {
-        println(FORBIDDEN_MESSAGE)
-    }
-
-    fun printOccupiedPositionMessage() {
-        println(NOT_EMPTY_MESSAGE)
-    }
-
-    fun printWrongPositionMessage() {
-        println(WRONG_COORDS_MESSAGE)
-    }
-
-    fun showWinner(currentStone: Stone) {
-        println(WINNER_MESSAGE.format(currentStone))
-    }
-
-    fun printBoard(
+    override fun printBoard(
         board: Array<Array<Stone>>,
-        forbiddenPositions: List<Position> = emptyList(),
+        forbiddenPositions: List<Position>,
     ) {
         val boardForDisplay = initializeBoard()
         for (row in board.indices) {
@@ -70,6 +62,30 @@ object OutputView {
             println()
         }
         println(COLUMN_STRING)
+    }
+
+    override fun onGameEnd(winner: Stone) {
+        showWinner(winner)
+    }
+
+    private fun printStartMessage() {
+        println(OMOK_START_MESSAGE)
+    }
+
+    fun printForbiddenMoveMessage() {
+        println(FORBIDDEN_MESSAGE)
+    }
+
+    fun printOccupiedPositionMessage() {
+        println(NOT_EMPTY_MESSAGE)
+    }
+
+    fun printWrongPositionMessage() {
+        println(WRONG_COORDS_MESSAGE)
+    }
+
+    fun showWinner(currentStone: Stone) {
+        println(WINNER_MESSAGE.format(currentStone))
     }
 
     private fun initializeBoard(): Array<Array<String>> {

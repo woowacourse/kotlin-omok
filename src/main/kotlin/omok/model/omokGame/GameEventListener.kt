@@ -8,8 +8,8 @@ interface GameEventListener {
 
     fun onGameEnd(winner: Stone)
 
-    fun onStonePlaced(
-        position: Position,
-        currentStone: Stone,
+    fun printBoard(
+        board: Array<Array<Stone>>,
+        forbiddenPositions: List<Position>,
     )
 }
