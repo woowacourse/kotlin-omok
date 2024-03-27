@@ -11,6 +11,7 @@ import omock.model.rule.OMockRule
 import omock.model.ruletype.FourToFourCount
 import omock.model.ruletype.IsClearFourToFourCount
 import omock.model.ruletype.IsReverseTwoAndThree
+import omock.model.ruletype.RuleType
 import omock.model.ruletype.ThreeToThreeCount
 import omock.model.search.VisitedDirectionFirstClearResult
 import omock.model.search.VisitedDirectionResult
@@ -23,16 +24,9 @@ import omock.view.OutputView.outputLastStone
 import omock.view.OutputView.outputSuccessOMock
 import omock.view.OutputView.outputUserTurn
 
-class OMokController {
+class OMokController(ruleTypes: List<RuleType>, ) {
     private val board = Board.from()
-    private val oMockRule = OMockRule(
-        ruleTypes = listOf(
-            ThreeToThreeCount,
-            FourToFourCount,
-            IsClearFourToFourCount,
-            IsReverseTwoAndThree,
-        )
-    )
+    private val oMockRule = OMockRule(ruleTypes = ruleTypes)
     private val loadMap = LoadMap(board.stoneStates)
 
     fun run() {
@@ -40,7 +34,7 @@ class OMokController {
         val blackPlayer = BlackPlayer()
         val whitePlayer = WhitePlayer()
 
-        while (true) {
+        while (board.getTurn()!=GameTurn.FINISHED) {
             outputBoardForm()
             when (board.getTurn()) {
                 GameTurn.BLACK_TURN -> userTurnFlow(blackPlayer)
