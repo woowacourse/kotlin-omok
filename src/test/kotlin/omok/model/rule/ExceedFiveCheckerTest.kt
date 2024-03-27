@@ -1,12 +1,5 @@
 package omok.model.rule
 
-import X_C
-import Y_10
-import Y_11
-import Y_12
-import Y_13
-import Y_14
-import Y_15
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone

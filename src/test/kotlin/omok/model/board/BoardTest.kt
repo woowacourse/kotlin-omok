@@ -1,8 +1,8 @@
 package omok.model.board
 
-import X_A
-import Y_5
 import omok.model.position.Position
+import omok.model.rule.X_A
+import omok.model.rule.Y_5
 import omok.model.stone.BlackStone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach

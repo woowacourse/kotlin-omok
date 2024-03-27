@@ -1,3 +1,5 @@
+package omok.model.rule
+
 import omok.model.position.Column
 import omok.model.position.Position
 import omok.model.position.Row

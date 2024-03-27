@@ -1,25 +1,5 @@
 package omok.model.rule
 
-import X_A
-import X_B
-import X_C
-import X_D
-import X_E
-import X_K
-import X_L
-import X_M
-import X_N
-import X_O
-import Y_1
-import Y_10
-import Y_11
-import Y_12
-import Y_13
-import Y_14
-import Y_2
-import Y_3
-import Y_4
-import Y_5
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone

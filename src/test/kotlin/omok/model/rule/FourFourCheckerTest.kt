@@ -1,15 +1,5 @@
 package omok.model.rule
 
-import X_C
-import X_F
-import X_H
-import X_I
-import X_J
-import Y_10
-import Y_12
-import Y_5
-import Y_8
-import createDoubleFour
 import omok.model.board.Board
 import omok.model.position.Position
 import org.assertj.core.api.Assertions.assertThat

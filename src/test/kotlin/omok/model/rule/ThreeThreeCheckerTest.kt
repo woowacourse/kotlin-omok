@@ -1,20 +1,5 @@
 package omok.model.rule
 
-import X_C
-import X_D
-import X_E
-import X_K
-import X_L
-import Y_11
-import Y_12
-import Y_3
-import Y_4
-import createDoubleThree
-import doubleThreeForbiddenCaseFour
-import doubleThreeForbiddenCaseOne
-import doubleThreeForbiddenCaseThree
-import doubleThreeForbiddenCaseTwo
-import doubleThreeNotForbidden
 import omok.model.board.Board
 import omok.model.position.Position
 import org.assertj.core.api.Assertions.assertThat

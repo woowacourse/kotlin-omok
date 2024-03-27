@@ -1,10 +1,10 @@
 package omok.model.stone
 
-import X_A
-import Y_1
-import Y_2
 import omok.model.board.Board
 import omok.model.position.Position
+import omok.model.rule.X_A
+import omok.model.rule.Y_1
+import omok.model.rule.Y_2
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
