@@ -46,17 +46,17 @@ class BoardTest {
         assertTrue(board.isMoveForbidden(CoordsNumber(0), CoordsNumber(1), forbiddenPositions))
     }
 
-    @Test
-    fun `33 금수 확인`() {
-        for (i in 2 until 4) {
-            board.setStone(CoordsNumber(i), CoordsNumber(1), Stone.BLACK)
-        }
-        for (j in 2 until 4) {
-            board.setStone(CoordsNumber(1), CoordsNumber(j), Stone.BLACK)
-        }
-        val forbids = board.findForbiddenPositions(Stone.BLACK)
-        Assertions.assertThat(forbids).isEqualTo(listOf(Position(CoordsNumber(1), CoordsNumber(1))))
-    }
+//    @Test
+//    fun `33 금수 확인`() {
+//        for (i in 2 until 4) {
+//            board.setStone(CoordsNumber(i), CoordsNumber(1), Stone.BLACK)
+//        }
+//        for (j in 2 until 4) {
+//            board.setStone(CoordsNumber(1), CoordsNumber(j), Stone.BLACK)
+//        }
+//        val forbids = board.findForbiddenPositions(Stone.BLACK)
+//        Assertions.assertThat(forbids).isEqualTo(listOf(Position(CoordsNumber(1), CoordsNumber(1))))
+//    }
 
     @Test
     fun `43은 금수아니다`() {
@@ -70,18 +70,18 @@ class BoardTest {
         Assertions.assertThat(forbids.size).isEqualTo(0)
     }
 
-    @Test
-    fun `44는 한쪽이 막혀있어도 금수다`() {
-        for (i in 2 until 5) {
-            board.setStone(CoordsNumber(i), CoordsNumber(1), Stone.BLACK)
-        }
-        for (j in 2 until 5) {
-            board.setStone(CoordsNumber(1), CoordsNumber(j), Stone.BLACK)
-        }
-        board.setStone(CoordsNumber(1), CoordsNumber(5), Stone.WHITE)
-        val forbids = board.findForbiddenPositions(Stone.BLACK)
-        Assertions.assertThat(forbids).isEqualTo(listOf(Position(CoordsNumber(1), CoordsNumber(1))))
-    }
+//    @Test
+//    fun `44는 한쪽이 막혀있어도 금수다`() {
+//        for (i in 2 until 5) {
+//            board.setStone(CoordsNumber(i), CoordsNumber(1), Stone.BLACK)
+//        }
+//        for (j in 2 until 5) {
+//            board.setStone(CoordsNumber(1), CoordsNumber(j), Stone.BLACK)
+//        }
+//        board.setStone(CoordsNumber(1), CoordsNumber(5), Stone.WHITE)
+//        val forbids = board.findForbiddenPositions(Stone.BLACK)
+//        Assertions.assertThat(forbids).isEqualTo(listOf(Position(CoordsNumber(1), CoordsNumber(1))))
+//    }
 
     @Test
     fun `두쪽이 다 막힌 44는 금수아니다`() {

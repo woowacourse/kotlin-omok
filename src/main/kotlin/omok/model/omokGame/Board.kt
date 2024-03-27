@@ -1,16 +1,15 @@
 package omok.model.omokGame
 
-import omok.lib.GameRule
-import omok.lib.RenjuGameRule
+import GameRuleAdapter
 import omok.model.board.CoordsNumber
 import omok.model.board.Position
 import omok.model.board.Stone
 
 class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Stone.EMPTY } }) {
-    private var gameRule: GameRule = RenjuGameRule()
+    private var gameAdapter: GameRuleAdapter = GameRuleAdapter()
 
     init {
-        gameRule.setupBoard(this)
+        gameAdapter.setupBoard(this)
     }
 
     private var omokGameState = OmokGameState.RUNNING
@@ -34,8 +33,8 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
 
     fun findForbiddenPositions(stone: Stone): List<Position> {
         if (stone == Stone.WHITE) return listOf()
-        val forbiddenPairs: List<Pair<Int, Int>> = gameRule.findForbiddenPositions(stone)
-        return forbiddenPairs.map { (x, y) -> Position(CoordsNumber(x), CoordsNumber(y)) }
+        val forbiddenPairs: List<Position> = gameAdapter.findForbiddenPositions(stone)
+        return forbiddenPairs
     }
 
     fun isMoveForbidden(
@@ -46,17 +45,7 @@ class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
         return Position(columnCoords, rowCoords) in forbiddenPositions
     }
 
-    fun checkGameOver(
-        x: CoordsNumber,
-        y: CoordsNumber,
-        stone: Stone,
-    ) {
-        if (gameRule.isWinningMove(x.number, y.number, stone)) {
-            gameOver()
-        }
-    }
-
-    private fun gameOver() {
+    fun gameOver() {
         omokGameState = OmokGameState.STOP
     }
 

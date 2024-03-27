@@ -7,7 +7,7 @@ class RenjuGameRule : GameRule {
         this.board = board
     }
 
-    override fun setStone(
+    override fun placeForRuleCheck(
         x: Int,
         y: Int,
         stone: Int,
@@ -141,14 +141,14 @@ class RenjuGameRule : GameRule {
     ): Boolean {
         for (i in 0..1) {
             findEmptyPoint(x, y, stone, direction * 2 + i)?.let { (dx, dy) ->
-                setStone(dx, dy, stone)
+                placeForRuleCheck(dx, dy, stone)
                 if (openFour(dx, dy, stone, direction) == 1) {
                     if (!forbiddenPoint(dx, dy, stone)) {
-                        setStone(dx, dy, EMPTY)
+                        placeForRuleCheck(dx, dy, EMPTY)
                         return true
                     }
                 }
-                setStone(dx, dy, EMPTY)
+                placeForRuleCheck(dx, dy, EMPTY)
             }
         }
         return false
@@ -206,11 +206,11 @@ class RenjuGameRule : GameRule {
         stone: Int,
     ): Boolean {
         var cnt = 0
-        setStone(x, y, stone)
+        placeForRuleCheck(x, y, stone)
         for (i in 0 until DIRECTION_HALF_COUNT) {
             if (openThree(x, y, stone, i)) cnt++
         }
-        setStone(x, y, EMPTY)
+        placeForRuleCheck(x, y, EMPTY)
         return cnt >= 2
     }
 
@@ -220,7 +220,7 @@ class RenjuGameRule : GameRule {
         stone: Int,
     ): Boolean {
         var cnt = 0
-        setStone(x, y, stone)
+        placeForRuleCheck(x, y, stone)
         for (i in 0 until DIRECTION_HALF_COUNT) {
             if (openFour(x, y, stone, i) == 2) {
                 cnt += 2
@@ -228,7 +228,7 @@ class RenjuGameRule : GameRule {
                 cnt += 1
             }
         }
-        setStone(x, y, EMPTY)
+        placeForRuleCheck(x, y, EMPTY)
         return cnt >= 2
     }
 
