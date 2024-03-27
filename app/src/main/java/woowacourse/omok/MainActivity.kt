@@ -63,9 +63,7 @@ class MainActivity : AppCompatActivity() {
             return null
         }
 
-    private fun changeStone(currentStone: StoneType): GoStone {
-        return if (currentStone == StoneType.BLACK_STONE) BlackStone else WhiteStone
-    }
+    private fun changeStone(currentStone: StoneType): GoStone = if (currentStone == StoneType.BLACK_STONE) BlackStone else WhiteStone
 
     private fun GoStone.imageView() =
         when (this) {
