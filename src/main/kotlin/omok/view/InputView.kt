@@ -34,9 +34,9 @@ class InputView {
 
     private fun StoneType.value() =
         when (this) {
-            StoneType.BLACK_STONE -> "흑"
-            StoneType.WHITE_STONE -> "백"
-            StoneType.NONE -> ""
+            StoneType.BLACK_STONE -> StoneType.BLACK_STONE.type
+            StoneType.WHITE_STONE -> StoneType.WHITE_STONE.type
+            StoneType.NONE -> StoneType.NONE.type
         }
 
     private fun Position.convert(): String = "${Row.X_AXIS_START + row.value}${column.value + 1}"
