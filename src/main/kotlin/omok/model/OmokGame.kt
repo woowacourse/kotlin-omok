@@ -9,7 +9,7 @@ class OmokGame(
         return isRunning
     }
 
-    private fun canFindOmokPlayer(player: Player) {
+    private fun checkWin(player: Player) {
         if (player.isWin) {
             changeState()
         }
@@ -22,13 +22,13 @@ class OmokGame(
     fun playTurn(
         player: Player,
         coordinate: Coordinate,
-    ): Boolean {
-        val isPutStone =
+    ): StoneState {
+        val stoneState =
             player.playTurn(
                 board,
                 coordinate,
             )
-        canFindOmokPlayer(player)
-        return isPutStone
+        checkWin(player)
+        return stoneState
     }
 }

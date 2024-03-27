@@ -5,15 +5,29 @@ import RenjuRule
 class Board(val stones: Stones, val width: Int = DEFAULT_BOARD_WIDTH, val height: Int = DEFAULT_BOARD_HEIGHT) {
     private val rule: Rule = RenjuRule(stones)
 
-    fun putStone(stone: Stone): Boolean {
-        if (canPutStone(stone)) {
-            return stones.putStone(stone)
+    fun putStone(stone: Stone): StoneState {
+        val state = determineStoneState(stone)
+        return when (state) {
+            is StoneState.SuccessfulPlaced -> {
+                stones.putStone(stone)
+                state
+            }
+
+            is StoneState.FailedPlaced -> state
         }
-        return false
     }
 
-    private fun canPutStone(stone: Stone): Boolean {
-        return validateStoneCoordinate(stone.coordinate) && !rule.checkInvalid(stone)
+    private fun determineStoneState(stone: Stone): StoneState {
+        if (rule.checkInvalid(stone)) {
+            return StoneState.FailedPlaced(ERROR_FORBIDDEN_MESSAGE)
+        }
+        if (validateStoneCoordinate(stone.coordinate)) {
+            return StoneState.FailedPlaced(ERROR_OUT_OF_RANGE_BOARD_MESSAGE)
+        }
+        if (validateOccupiedCoordinate(stone.coordinate)) {
+            return StoneState.FailedPlaced(ERROR_OCCUPIED_MESSAGE)
+        }
+        return StoneState.SuccessfulPlaced
     }
 
     private fun validateStoneCoordinate(coordinate: Coordinate): Boolean {
@@ -30,5 +44,8 @@ class Board(val stones: Stones, val width: Int = DEFAULT_BOARD_WIDTH, val height
         const val BOARD_START_INDEX: Int = 1
         const val DEFAULT_BOARD_WIDTH: Int = 15
         const val DEFAULT_BOARD_HEIGHT: Int = 15
+        const val ERROR_FORBIDDEN_MESSAGE = "금수를 두었습니다."
+        const val ERROR_OUT_OF_RANGE_BOARD_MESSAGE = "보드의 사이즈를 벗어났습니다."
+        const val ERROR_OCCUPIED_MESSAGE = "이미 돌이 착수된 위치입니다."
     }
 }

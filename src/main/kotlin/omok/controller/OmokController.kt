@@ -5,6 +5,7 @@ import omok.model.Color
 import omok.model.OmokGame
 import omok.model.Player
 import omok.model.Stones
+import omok.model.StoneState
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -26,21 +27,25 @@ class OmokController {
             for (player in players.toList()) {
                 OutputView.printTurnName(player.color)
                 OutputView.printLastStone(board.stones.getLastStoneCoordinate())
-                retryPlayTurnUntilSuccess(omokGame, player)
+                playTurn(omokGame, player)
                 OutputView.printBoard(board.stones)
             }
         }
     }
 
-    private fun retryPlayTurnUntilSuccess(
+    private fun playTurn(
         omokGame: OmokGame,
         player: Player,
     ) {
         val coordinate = InputView.inputStoneCoordinate()
-        val isFinishTurn = omokGame.playTurn(player, coordinate)
+        val stonePlaced = omokGame.playTurn(player, coordinate)
+        when (stonePlaced) {
+            is StoneState.FailedPlaced -> {
+                OutputView.printErrorMessage(stonePlaced.message)
+                playTurn(omokGame, player)
+            }
 
-        if (!isFinishTurn) {
-            retryPlayTurnUntilSuccess(omokGame, player)
+            is StoneState.SuccessfulPlaced -> return
         }
     }
 

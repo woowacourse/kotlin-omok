@@ -8,17 +8,17 @@ class Player(val color: Color) {
     fun playTurn(
         board: Board,
         coordinate: Coordinate,
-    ): Boolean {
+    ): StoneState {
         val stone = Stone(color, coordinate)
-        val isPutStone = putStoneOnBoard(board, stone)
+        val stoneState = putStoneOnBoard(board, stone)
         _isWin = checkOmok(board.stones, stone)
-        return isPutStone
+        return stoneState
     }
 
     private fun putStoneOnBoard(
         board: Board,
         stone: Stone,
-    ): Boolean {
+    ): StoneState {
         return board.putStone(stone)
     }
 

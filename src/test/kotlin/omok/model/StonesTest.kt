@@ -29,15 +29,6 @@ class StonesTest {
         assertThat(stones.stones).contains(Stone(black, COORDINATE_F5))
     }
 
-    @Test
-    fun `착수하려는 돌의 위치가 중복되면 착수할 수 없다`() {
-        stones.putStone(Stone(white, COORDINATE_F5))
-
-        val isPutStone = stones.putStone(Stone(black, COORDINATE_F5))
-
-        assertThat(isPutStone).isFalse()
-    }
-
     /*
       9 [ ] [●] [ ] [ ] [ ]
       8 [ ] [●] [ ] [ ] [ ]

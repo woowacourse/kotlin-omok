@@ -53,9 +53,9 @@ class BoardTest {
     fun `흑 플레이어가 3-3을 만드는 경우, 착수할 수 없다`() {
         createBoard(samSamBlackStones)
 
-        val isPutStone = board.putStone(blackStone)
+        val stoneState = board.putStone(blackStone)
 
-        assertThat(isPutStone).isFalse()
+        assertThat(stoneState).isEqualTo(StoneState.FailedPlaced("금수를 두었습니다."))
     }
 
     /*
@@ -70,9 +70,9 @@ class BoardTest {
     fun `흑 플레이어가 4-4을 만드는 경우, 착수할 수 없다`() {
         createBoard(fourFourBlackStones)
 
-        val isPutStone = board.putStone(blackStone)
+        val stoneState = board.putStone(blackStone)
 
-        assertThat(isPutStone).isFalse()
+        assertThat(stoneState).isEqualTo(StoneState.FailedPlaced("금수를 두었습니다."))
     }
 
     /*
@@ -88,9 +88,9 @@ class BoardTest {
     fun `흑 플레이어가 장목을 만드는 경우, 착수할 수 없다`() {
         createBoard(moreThanFiveBlackStones)
 
-        val isPutStone = board.putStone(blackStone)
+        val stoneState = board.putStone(blackStone)
 
-        assertThat(isPutStone).isFalse()
+        assertThat(stoneState).isEqualTo(StoneState.FailedPlaced("금수를 두었습니다."))
     }
 
     /*
@@ -108,17 +108,17 @@ class BoardTest {
     fun `흑 플레이어가 열린 4-4을 만드는 경우, 착수할 수 없다`() {
         createBoard(openFourFourBlackStones)
 
-        val isPutStone = board.putStone(blackStone)
+        val stoneState = board.putStone(blackStone)
 
-        assertThat(isPutStone).isFalse()
+        assertThat(stoneState).isEqualTo(StoneState.FailedPlaced("금수를 두었습니다."))
     }
 
     @Test
     fun `백 플레이어는 렌주룰을 적용받지 않는다`() {
         createBoard(samSamWhiteStones)
 
-        val isPutStone = board.putStone(whiteStone)
+        val stoneState = board.putStone(whiteStone)
 
-        assertThat(isPutStone).isTrue()
+        assertThat(stoneState).isEqualTo(StoneState.SuccessfulPlaced)
     }
 }

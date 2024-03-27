@@ -25,22 +25,22 @@ class OmokGameTest {
     }
 
     @Test
-    fun `플레이어가 착수 할 수 있는 위치에 돌을 놓았다면 true를 반환한다`() {
+    fun `플레이어가 착수 할 수 있는 위치에 돌을 놓았다면, 돌의 상태는 보드에 놓일 수 있는 상태다`() {
         val omokGame = OmokGame(board)
 
-        val isPutStone = omokGame.playTurn(players.first, COORDINATE_F4)
+        val stoneState = omokGame.playTurn(players.first, COORDINATE_F4)
 
-        assertThat(isPutStone).isTrue()
+        assertThat(stoneState).isEqualTo(StoneState.SuccessfulPlaced)
     }
 
     // 이미 돌이 놓여진 자리에 돌을 넣는 경우
     @Test
-    fun `플레이어가 착수 할 수 없는 위치에 돌을 놓았다면 false 반환한다`() {
+    fun `흑 플레이어가 이미 돌이 놓여진 자리에 돌을 놓았다면, 돌의 상태는 보드에 놓일 수 없는 상태다`() {
         val omokGame = OmokGame(board)
 
-        val isPutStone = omokGame.playTurn(players.first, COORDINATE_F10)
+        val stoneState = omokGame.playTurn(players.first, COORDINATE_F10)
 
-        assertThat(isPutStone).isFalse()
+        assertThat(stoneState).isEqualTo(StoneState.FailedPlaced("이미 돌이 착수된 위치입니다."))
     }
 
     @Test

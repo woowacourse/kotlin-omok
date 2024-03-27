@@ -9,17 +9,8 @@ class Stones(initialStones: List<Stone> = emptyList()) {
         _stones.addAll(initialStones)
     }
 
-    fun putStone(stone: Stone): Boolean {
-        val isOccupied = checkOccupiedCoordinate(stone.coordinate)
-        when (isOccupied) {
-            false -> _stones.add(stone)
-            true -> return false
-        }
-        return true
-    }
-
-    private fun checkOccupiedCoordinate(coordinate: Coordinate): Boolean {
-        return stones.any { it.coordinate == coordinate }
+    fun putStone(stone: Stone) {
+        _stones.add(stone)
     }
 
     fun findOmok(stone: Stone): Boolean {
@@ -66,7 +57,6 @@ class Stones(initialStones: List<Stone> = emptyList()) {
     }
 
     companion object {
-        const val ERROR_CANT_PUT_STONE = "이미 돌이 착수된 위치입니다."
         val OMOK_COUNT: Int = 5
     }
 }
