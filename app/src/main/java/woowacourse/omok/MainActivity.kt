@@ -43,10 +43,11 @@ class MainActivity : AppCompatActivity() {
         index: Int,
         view: ImageView,
     ) {
-        val currentStone = detectRenjuRule(view) { stone.putStone(indexAdapter(index)) }
+        val stonePosition = indexAdapter(index)
+        val currentStone = detectRenjuRule(view) { stone.putStone(stonePosition) }
         currentStone?.let {
             view.setImageResource(stone.imageView())
-            if (checkOmok(board, index, view)) return
+            if (checkOmok(board, stonePosition, view)) return
             stone = changeStone(currentStone)
         }
     }
@@ -74,10 +75,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkOmok(
         board: TableLayout,
-        index: Int,
+        stonePosition: Position,
         view: ImageView,
     ): Boolean {
-        if (stone.findOmok(indexAdapter(index))) {
+        if (stone.findOmok(stonePosition)) {
             val snackBar = Snackbar.make(view, "${stone.value()} 승리", Snackbar.LENGTH_INDEFINITE)
             snackBar.setAction("확인") {
                 restoreOriginalImage(board)
