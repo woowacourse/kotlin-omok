@@ -60,6 +60,10 @@ class RenjuGameRule : GameRule {
         return true
     }
 
+    fun returnBoard(): Array<Array<Int>> {
+        return board
+    }
+
     private fun getStoneCount(
         x: Int,
         y: Int,

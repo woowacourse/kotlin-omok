@@ -1,24 +1,27 @@
 package omok.lib
 
-import omok.model.board.Stone
-import omok.model.omokGame.Board
-
 interface GameRule {
-    fun setupBoard(board: Board)
+    fun setupBoard(board: Array<Array<Int>>)
 
     fun isWinningMove(
         rowCoords: Int,
         columnCoords: Int,
-        stone: Stone,
+        stone: Int,
     ): Boolean
 
-    fun findForbiddenPositions(stone: Stone): List<Pair<Int, Int>>
+    fun findForbiddenPositions(stone: Int): List<Pair<Int, Int>>
 
     fun isMoveAllowed(
-        board: Array<Array<Stone>>,
+        board: Array<Array<Int>>,
         rowCoords: Int,
         columnCoords: Int,
-        stone: Stone,
+        stone: Int,
         forbiddenPositions: List<Pair<Int, Int>>,
     ): Boolean
+
+    fun setStone(
+        x: Int,
+        y: Int,
+        stone: Int,
+    )
 }
