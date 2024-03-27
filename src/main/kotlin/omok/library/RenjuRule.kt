@@ -1,6 +1,6 @@
 package library
 
-class OmokRule(
+class RenjuRule(
     private val board: List<List<Int>>,
     private val currentStone: Int = BLACK_STONE,
     private val otherStone: Int = WHITE_STONE,

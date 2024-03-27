@@ -1,13 +1,13 @@
-import library.OmokRule
+import library.RenjuRule
 import omok.model.Color
 import omok.model.Rule
 import omok.model.Stone
 import omok.model.Stones
 
-class RenjuRule(private val stones: Stones) : Rule {
-    private val omokRule: OmokRule
+class RuleAdaptor(private val stones: Stones) : Rule {
+    private val renjuRule: RenjuRule
         get() =
-            OmokRule(
+            RenjuRule(
                 generateCustomBoard(stones),
                 colorToInt(getCurrentTurn(stones)),
                 getOtherColorToInt(getCurrentTurn(stones)),
