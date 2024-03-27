@@ -30,7 +30,7 @@ abstract class OmokRule(
         while (willExceedBounds(x, y, dx, dy).not()) {
             x += dx
             y += dy
-            when (board[y][x]) {
+            when (board[x][y]) {
                 currentStone -> {
                     stone++
                     blink = blinkCount
