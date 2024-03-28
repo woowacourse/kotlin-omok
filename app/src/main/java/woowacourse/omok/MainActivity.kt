@@ -7,10 +7,14 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import omok.model.BlackTurn
+import omok.model.FinishedTurn
 import omok.model.OmokGame
 import omok.model.Point
 import omok.model.Point.Companion.MESSAGE_INVALID_POINT_INPUT
 import omok.model.StoneType
+import omok.model.Turn
+import omok.model.WhiteTurn
 
 class MainActivity : AppCompatActivity() {
     private val omokGame = OmokGame()
@@ -28,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                     .forEachIndexed { y, view ->
                         view.setOnClickListener {
                             if (omokGame.isGameFinished()) {
-                                Toast.makeText(this, "게임이 종료 되었습니다.", Toast.LENGTH_SHORT).show()
+                                displayMessage("게임이 종료되었습니다.")
                                 return@setOnClickListener
                             }
                             progressGameTurn(view, x, y)
@@ -44,10 +48,28 @@ class MainActivity : AppCompatActivity() {
     ) {
         val isSuccess =
             omokGame.tryPlayTurn(
-                updateTurn = { view.setImageResource(getStoneImage(it.before?.type)) },
+                updateTurn = {
+                    view.setImageResource(getStoneImage(it.before?.type))
+                    displayMessage(getTurnMessage(it))
+                },
                 getPoint = { Point(x, y) },
             )
-        if (!isSuccess) Toast.makeText(this, MESSAGE_INVALID_POINT_INPUT, Toast.LENGTH_SHORT).show()
+        if (!isSuccess) displayMessage(MESSAGE_INVALID_POINT_INPUT)
+    }
+
+    private fun getTurnMessage(turn: Turn): String =
+        when (turn) {
+            is BlackTurn -> "흑의 차례입니다."
+            is WhiteTurn -> "백의 차례입니다."
+            is FinishedTurn -> "게임이 종료되었습니다. ${getStoneTypeMessage(turn.before.type)}의 승리"
+        }
+
+    private fun getStoneTypeMessage(stoneType: StoneType): String {
+        return when (stoneType) {
+            StoneType.BLACK -> "흑"
+            StoneType.WHITE -> "백"
+            StoneType.EMPTY -> ""
+        }
     }
 
     private fun getStoneImage(stoneType: StoneType?): Int {
@@ -57,5 +79,9 @@ class MainActivity : AppCompatActivity() {
             StoneType.EMPTY -> 0
             null -> 0
         }
+    }
+
+    private fun displayMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
