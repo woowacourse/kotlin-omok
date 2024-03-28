@@ -38,8 +38,10 @@ class MainActivity : AppCompatActivity() {
                                 Position.of(rowIndex + 1, colIndex.toChar() + 'A'.code)
                             androidBoard.place(eachPlacedPosition)
                             if (androidBoard.getGameResult(eachPlacedPosition) != GameResult.PROCEEDING) {
-                                explainMessage.text = "게임끝"
+                                explainMessage.text = "${androidBoard.getGameResult(eachPlacedPosition).label}의 승리"
+                                return@setOnClickListener
                             }
+                            explainMessage.text = androidBoard.turn.label + "의 차례입니다"
                         }
                     }
             }
