@@ -14,6 +14,7 @@ import woowacourse.omok.db.OmokDbHelper
 import woowacourse.omok.domain.model.BlackTurn
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Board.Companion.BOARD_SIZE
+import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Point
 import woowacourse.omok.domain.model.Point.Companion.MESSAGE_INVALID_POINT_INPUT
@@ -79,7 +80,10 @@ class MainActivity : AppCompatActivity() {
             boardUi[coordinate].setImageResource(getStoneImage(stoneType))
             initialBoard.putStone(Stone(stoneType, Point(pointX, pointY)))
         }
-        omokGame = OmokGame(turn = createTurn(stoneType), board = initialBoard)
+        val isGameEnd = initialBoard.latestStone?.let { initialBoard.isWinCondition(it) } ?: false
+        val initialTurn = if (isGameEnd) FinishedTurn(initialBoard.latestStone!!) else createTurn(stoneType)
+        omokGame = OmokGame(turn = initialTurn, board = initialBoard)
+        displayMessage(generateTurnMessage(initialTurn))
         cursor.close()
     }
 
@@ -108,20 +112,16 @@ class MainActivity : AppCompatActivity() {
                 },
                 getPoint = { Point(x, y) },
             )
-        if (!isSuccess) {
-            displayMessage(MESSAGE_INVALID_POINT_INPUT)
-            return
-        }
+        if (!isSuccess) displayMessage(MESSAGE_INVALID_POINT_INPUT)
     }
 
-    private fun getStoneImage(stoneType: StoneType?): Int {
-        return when (stoneType) {
+    private fun getStoneImage(stoneType: StoneType?): Int =
+        when (stoneType) {
             StoneType.BLACK -> R.drawable.black_stone
             StoneType.WHITE -> R.drawable.white_stone
             StoneType.EMPTY -> 0
             null -> 0
         }
-    }
 
     private fun saveStoneData(stone: Stone) {
         val newStone =

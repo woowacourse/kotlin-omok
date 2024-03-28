@@ -1,5 +1,7 @@
 package woowacourse.omok.domain.controller
 
+import woowacourse.omok.domain.model.BlackTurn
+import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Point
 import woowacourse.omok.domain.view.InputView
@@ -8,8 +10,15 @@ import woowacourse.omok.domain.view.OutputView
 class Controller {
     fun run() {
         OutputView.printGameStart()
-        OmokGame().play(OutputView::printBoard, OutputView::printTurn, ::getPoint)
+        val board = Board()
+        val turn = BlackTurn()
+        val omokGame = OmokGame(turn, board)
+        OutputView.printBoard(board)
+        OutputView.printTurn(turn, null)
+        do {
+            omokGame.tryPlayTurn(OutputView::printBoard, OutputView::printTurn, ::getPoint)
+        } while (!omokGame.isGameFinished())
     }
 
-    private fun getPoint(): Point = runCatching { InputView.readPoint() }.getOrNull() ?: getPoint()
+    private tailrec fun getPoint(): Point = runCatching { InputView.readPoint() }.getOrNull() ?: getPoint()
 }
