@@ -1,14 +1,11 @@
 package woowacourse.omok.presentation
 
-import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import com.google.android.material.snackbar.Snackbar
 import omok.model.Column
 import omok.model.Column.Companion.toColumnComma
 import omok.model.OMokBoard
@@ -16,30 +13,25 @@ import omok.model.OMokGame
 import omok.model.Row
 import omok.model.Row.Companion.toRowComma
 import omok.model.state.Stone
-import omok.model.turn.BlackTurn
 import omok.model.turn.FinishedTurn
 import omok.model.turn.Turn
-import omok.model.turn.WhiteTurn
 import omok.view.OutputView
 import woowacourse.omok.R
 import woowacourse.omok.local.Omok
 import woowacourse.omok.local.OmokDbHelper
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var db: OmokDbHelper
-    private var oMokGame = OMokGame()
+class MainActivity : OmokGameActivity(R.layout.activity_main) {
+    override lateinit var db: OmokDbHelper
+    override var oMokGame = OMokGame()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        db = OmokDbHelper(this)
+    override fun initStartView() {
         initOmok()
         resetOmok()
         OutputView.outputGameStart()
         setupBoardClickListener()
     }
 
-    private fun initOmok() {
+    override fun initOmok() {
         val board = findViewById<TableLayout>(R.id.board)
         val size = board.children.toMutableList().size
         val omoks = db.selectOmok()
@@ -64,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun resetOmok() {
+    override fun resetOmok() {
         val resetBtn = findViewById<Button>(R.id.btn_reset)
         resetBtn.setOnClickListener {
             db.deleteAllOmok()
@@ -81,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupBoardClickListener() {
+    override fun setupBoardClickListener() {
         val board = findViewById<TableLayout>(R.id.board)
         val size = board.children.toMutableList().size
 
@@ -146,21 +138,6 @@ class MainActivity : AppCompatActivity() {
         if (oMokGame.getTurn() is FinishedTurn) {
             showSuccessSnackbar(view, getString(R.string.success_omock))
             OutputView.outputSuccessOMock()
-        }
-    }
-
-    private fun showSuccessSnackbar(
-        view: View,
-        message: String,
-    ) {
-        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
-    }
-
-    private fun Turn.toStoneIconRes(): Int? {
-        return when (this) {
-            is BlackTurn -> R.drawable.black_stone
-            is WhiteTurn -> R.drawable.white_stone
-            is FinishedTurn -> null
         }
     }
 }
