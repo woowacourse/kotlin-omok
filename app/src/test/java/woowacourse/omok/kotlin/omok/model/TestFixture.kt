@@ -1,7 +1,7 @@
-package omok.model
+package woowacourse.omok.kotlin.omok.model
 
-import omok.model.board.Board
-import omok.model.stone.StoneType
+import woowacourse.omok.src.main.kotlin.omok.model.board.Board
+import woowacourse.omok.src.main.kotlin.omok.model.stone.StoneType
 
 const val BOARD_SIZE = 15
 

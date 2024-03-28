@@ -1,7 +1,8 @@
-package omok.model.position
+package woowacourse.omok.kotlin.omok.model.position
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.src.main.kotlin.omok.model.position.RelativeDirection
 
 class RelativeDirectionTest {
     @Test

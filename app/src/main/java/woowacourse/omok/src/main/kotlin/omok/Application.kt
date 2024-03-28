@@ -1,8 +1,8 @@
-package omok
+package woowacourse.omok.src.main.kotlin.omok
 
-import omok.controller.OmokController
-import omok.view.InputView
-import omok.view.OutputView
+import woowacourse.omok.src.main.kotlin.omok.controller.OmokController
+import woowacourse.omok.src.main.kotlin.omok.view.InputView
+import woowacourse.omok.src.main.kotlin.omok.view.OutputView
 
 fun main() {
     val controller = OmokController(InputView(), OutputView())

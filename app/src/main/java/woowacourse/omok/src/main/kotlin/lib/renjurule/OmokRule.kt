@@ -1,4 +1,4 @@
-package lib.renjurule
+package woowacourse.omok.src.main.kotlin.lib.renjurule
 
 abstract class OmokRule {
     val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))

@@ -1,9 +1,9 @@
-package omok.model.rule
+package woowacourse.omok.src.main.kotlin.omok.model.rule
 
-import lib.renjurule.ExceedFiveChecker
-import lib.renjurule.FourFourChecker
-import lib.renjurule.ThreeThreeChecker
-import omok.model.stone.StoneType
+import woowacourse.omok.src.main.kotlin.lib.renjurule.ExceedFiveChecker
+import woowacourse.omok.src.main.kotlin.lib.renjurule.FourFourChecker
+import woowacourse.omok.src.main.kotlin.lib.renjurule.ThreeThreeChecker
+import woowacourse.omok.src.main.kotlin.omok.model.stone.StoneType
 
 object RenjuRuleAdapter {
     fun checkRenjuRule(

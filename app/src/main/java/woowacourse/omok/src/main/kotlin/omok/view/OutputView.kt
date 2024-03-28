@@ -1,8 +1,8 @@
-package omok.view
+package woowacourse.omok.src.main.kotlin.omok.view
 
-import omok.model.board.Board
-import omok.model.stone.GoStone
-import omok.model.stone.StoneType
+import woowacourse.omok.src.main.kotlin.omok.model.board.Board
+import woowacourse.omok.src.main.kotlin.omok.model.stone.GoStone
+import woowacourse.omok.src.main.kotlin.omok.model.stone.StoneType
 
 class OutputView {
     fun printStartGameComment() = println(START_GAME_MESSAGE)

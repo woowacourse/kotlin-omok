@@ -1,9 +1,9 @@
-package omok.model
+package woowacourse.omok.src.main.kotlin.omok.model
 
-import omok.model.position.Position
-import omok.model.stone.BlackStone
-import omok.model.stone.GoStone
-import omok.model.stone.WhiteStone
+import woowacourse.omok.src.main.kotlin.omok.model.position.Position
+import woowacourse.omok.src.main.kotlin.omok.model.stone.BlackStone
+import woowacourse.omok.src.main.kotlin.omok.model.stone.GoStone
+import woowacourse.omok.src.main.kotlin.omok.model.stone.WhiteStone
 
 class OmokGame(private val blackStone: BlackStone, private val whiteStone: WhiteStone) {
     fun start(

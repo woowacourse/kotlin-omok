@@ -8,13 +8,13 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
-import omok.model.board.Board
-import omok.model.position.Position
-import omok.model.stone.BlackStone
-import omok.model.stone.BlackStone.value
-import omok.model.stone.GoStone
-import omok.model.stone.WhiteStone
 import woowacourse.omok.omokdb.OmokDbHelper
+import woowacourse.omok.src.main.kotlin.omok.model.board.Board
+import woowacourse.omok.src.main.kotlin.omok.model.position.Position
+import woowacourse.omok.src.main.kotlin.omok.model.stone.BlackStone
+import woowacourse.omok.src.main.kotlin.omok.model.stone.BlackStone.value
+import woowacourse.omok.src.main.kotlin.omok.model.stone.GoStone
+import woowacourse.omok.src.main.kotlin.omok.model.stone.WhiteStone
 
 class MainActivity : AppCompatActivity() {
     private var stone: GoStone = BlackStone

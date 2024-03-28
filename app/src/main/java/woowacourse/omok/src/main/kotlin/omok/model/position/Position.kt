@@ -1,4 +1,4 @@
-package omok.model.position
+package woowacourse.omok.src.main.kotlin.omok.model.position
 
 data class Position(val row: Int, val column: Int) {
     init {

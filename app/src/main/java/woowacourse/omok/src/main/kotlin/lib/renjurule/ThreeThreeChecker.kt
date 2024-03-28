@@ -1,4 +1,4 @@
-package lib.renjurule
+package woowacourse.omok.src.main.kotlin.lib.renjurule
 
 object ThreeThreeChecker : OmokRule() {
     private const val NOT_THREE = 0

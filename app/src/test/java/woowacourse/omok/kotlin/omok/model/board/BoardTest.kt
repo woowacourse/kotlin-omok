@@ -1,12 +1,13 @@
-package omok.model.board
+package woowacourse.omok.kotlin.omok.model.board
 
-import omok.model.position.Position
-import omok.model.resetBoard
-import omok.model.resetPosition
-import omok.model.stone.BlackStone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import woowacourse.omok.kotlin.omok.model.resetBoard
+import woowacourse.omok.kotlin.omok.model.resetPosition
+import woowacourse.omok.src.main.kotlin.omok.model.board.Board
+import woowacourse.omok.src.main.kotlin.omok.model.position.Position
+import woowacourse.omok.src.main.kotlin.omok.model.stone.BlackStone
 
 class BoardTest {
     @BeforeEach

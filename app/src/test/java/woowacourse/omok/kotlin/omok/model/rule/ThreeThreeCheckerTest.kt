@@ -1,12 +1,12 @@
-package omok.model.rule
+package woowacourse.omok.kotlin.omok.model.rule
 
-import omok.model.board.Board
-import omok.model.position.Position
-import omok.model.resetBoard
-import omok.model.stone.BlackStone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import woowacourse.omok.kotlin.omok.model.resetBoard
+import woowacourse.omok.src.main.kotlin.omok.model.board.Board
+import woowacourse.omok.src.main.kotlin.omok.model.position.Position
+import woowacourse.omok.src.main.kotlin.omok.model.stone.BlackStone
 
 class ThreeThreeCheckerTest {
     @BeforeEach

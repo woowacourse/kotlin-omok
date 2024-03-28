@@ -1,11 +1,12 @@
-package omok.model.stone
+package woowacourse.omok.kotlin.omok.model.stone
 
-import omok.model.position.Position
-import omok.model.resetBoard
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import woowacourse.omok.kotlin.omok.model.resetBoard
+import woowacourse.omok.src.main.kotlin.omok.model.position.Position
+import woowacourse.omok.src.main.kotlin.omok.model.stone.BlackStone
 
 class BlackStoneTestType {
     @BeforeEach

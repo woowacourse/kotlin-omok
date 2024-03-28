@@ -1,8 +1,8 @@
-package omok.model.board
+package woowacourse.omok.src.main.kotlin.omok.model.board
 
-import omok.model.position.Position
-import omok.model.rule.RenjuRuleAdapter
-import omok.model.stone.StoneType
+import woowacourse.omok.src.main.kotlin.omok.model.position.Position
+import woowacourse.omok.src.main.kotlin.omok.model.rule.RenjuRuleAdapter
+import woowacourse.omok.src.main.kotlin.omok.model.stone.StoneType
 
 object Board {
     private const val BOARD_SIZE = 15

@@ -1,4 +1,4 @@
-package omok.model.position
+package woowacourse.omok.src.main.kotlin.omok.model.position
 
 data class RelativeDirection(val relativeRowDirection: Int, val relativeColumnDirection: Int) {
     operator fun unaryMinus() = RelativeDirection(-relativeRowDirection, -relativeColumnDirection)

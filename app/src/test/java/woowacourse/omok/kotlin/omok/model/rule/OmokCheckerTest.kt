@@ -1,15 +1,16 @@
-package omok.model.rule
+package woowacourse.omok.kotlin.omok.model.rule
 
-import omok.model.position.Position
-import omok.model.resetBoard
-import omok.model.stone.BlackStone
-import omok.model.stone.StoneType
-import omok.model.stone.WhiteStone
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import woowacourse.omok.kotlin.omok.model.resetBoard
+import woowacourse.omok.src.main.kotlin.omok.model.position.Position
+import woowacourse.omok.src.main.kotlin.omok.model.rule.OmokChecker
+import woowacourse.omok.src.main.kotlin.omok.model.stone.BlackStone
+import woowacourse.omok.src.main.kotlin.omok.model.stone.StoneType
+import woowacourse.omok.src.main.kotlin.omok.model.stone.WhiteStone
 
 class OmokCheckerTest {
     @BeforeEach

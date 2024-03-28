@@ -1,9 +1,9 @@
-package omok.model.rule
+package woowacourse.omok.src.main.kotlin.omok.model.rule
 
-import omok.model.board.Board
-import omok.model.position.Position
-import omok.model.position.RelativeDirection
-import omok.model.stone.StoneType
+import woowacourse.omok.src.main.kotlin.omok.model.board.Board
+import woowacourse.omok.src.main.kotlin.omok.model.position.Position
+import woowacourse.omok.src.main.kotlin.omok.model.position.RelativeDirection
+import woowacourse.omok.src.main.kotlin.omok.model.stone.StoneType
 
 object OmokChecker {
     private const val DEFAULT_COUNT = 0

@@ -1,8 +1,9 @@
-package omok.model.position
+package woowacourse.omok.kotlin.omok.model.position
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
+import woowacourse.omok.src.main.kotlin.omok.model.position.Position
 
 class PositionTest {
     @Test

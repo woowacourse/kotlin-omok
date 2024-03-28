@@ -1,4 +1,4 @@
-package lib.renjurule
+package woowacourse.omok.src.main.kotlin.lib.renjurule
 
 object FourFourChecker : OmokRule() {
     private const val NOT_FOUR = 0

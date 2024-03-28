@@ -1,8 +1,8 @@
-package omok.model.stone
+package woowacourse.omok.src.main.kotlin.omok.model.stone
 
-import omok.model.board.Board
-import omok.model.position.Position
-import omok.model.rule.OmokChecker
+import woowacourse.omok.src.main.kotlin.omok.model.board.Board
+import woowacourse.omok.src.main.kotlin.omok.model.position.Position
+import woowacourse.omok.src.main.kotlin.omok.model.rule.OmokChecker
 
 sealed class GoStone {
     abstract val stoneType: StoneType

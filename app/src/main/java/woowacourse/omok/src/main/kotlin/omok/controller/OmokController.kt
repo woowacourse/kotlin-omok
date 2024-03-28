@@ -1,10 +1,10 @@
-package omok.controller
+package woowacourse.omok.src.main.kotlin.omok.controller
 
-import omok.model.OmokGame
-import omok.model.stone.BlackStone
-import omok.model.stone.WhiteStone
-import omok.view.InputView
-import omok.view.OutputView
+import woowacourse.omok.src.main.kotlin.omok.model.OmokGame
+import woowacourse.omok.src.main.kotlin.omok.model.stone.BlackStone
+import woowacourse.omok.src.main.kotlin.omok.model.stone.WhiteStone
+import woowacourse.omok.src.main.kotlin.omok.view.InputView
+import woowacourse.omok.src.main.kotlin.omok.view.OutputView
 
 class OmokController(private val inputView: InputView, private val outputView: OutputView) {
     fun start() {

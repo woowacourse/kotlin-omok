@@ -1,4 +1,4 @@
-package lib.renjurule
+package woowacourse.omok.src.main.kotlin.lib.renjurule
 
 object ExceedFiveChecker : OmokRule() {
     private const val NO_SPACE = 0
