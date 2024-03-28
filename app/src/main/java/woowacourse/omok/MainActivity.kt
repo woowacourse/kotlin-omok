@@ -11,6 +11,7 @@ import androidx.core.view.children
 import woowacourse.omok.db.OmokContract
 import woowacourse.omok.db.OmokDbHelper
 import woowacourse.omok.domain.model.BlackTurn
+import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Board.Companion.BOARD_SIZE
 import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.OmokGame
@@ -22,7 +23,7 @@ import woowacourse.omok.domain.model.Turn
 import woowacourse.omok.domain.model.WhiteTurn
 
 class MainActivity : AppCompatActivity() {
-    private val omokGame = OmokGame()
+    private lateinit var omokGame: OmokGame
     private val omokDb by lazy { OmokDbHelper(this).writableDatabase }
     private val boardUi: List<ImageView> by lazy {
         findViewById<TableLayout>(R.id.board)
@@ -65,17 +66,29 @@ class MainActivity : AppCompatActivity() {
                 null,
             )
 
-        with(cursor) {
-            while (moveToNext()) {
-                val stoneType = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.STONE_TYPE))
-                val pointX = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_X))
-                val pointY = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_Y))
+        val initialBoard = Board()
+        var stoneType = StoneType.BLACK
+        while (cursor.moveToNext()) {
+            val stoneTypeValue = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.STONE_TYPE))
+            val pointX = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_X))
+            val pointY = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_Y))
+            val coordinate = pointY * BOARD_SIZE + pointX
 
-                val coordinate = pointY * BOARD_SIZE + pointX
-                boardUi[coordinate].setImageResource(getStoneImage(StoneType.fromValue(stoneType)))
-            }
+            stoneType = StoneType.fromValue(stoneTypeValue)
+            boardUi[coordinate].setImageResource(getStoneImage(stoneType))
+            initialBoard.putStone(Stone(stoneType, Point(pointX, pointY)))
         }
+        omokGame = OmokGame(turn = createTurn(stoneType), board = initialBoard)
         cursor.close()
+    }
+
+    private fun createTurn(stoneType: StoneType?): Turn {
+        return when (stoneType) {
+            StoneType.BLACK -> BlackTurn()
+            StoneType.WHITE -> WhiteTurn()
+            StoneType.EMPTY -> throw IllegalStateException()
+            null -> throw IllegalStateException()
+        }
     }
 
     private fun progressGameTurn(
@@ -85,11 +98,13 @@ class MainActivity : AppCompatActivity() {
     ) {
         val isSuccess =
             omokGame.tryPlayTurn(
-                updateTurn = {
-                    view.setImageResource(getStoneImage(it.before?.type))
-                    displayMessage(getTurnMessage(it))
-                    it.before?.let { stone -> saveStoneData(stone) }
-                    // omokDb.delete(OmokContract.TABLE_NAME, null, null)
+                updateBoard = { board ->
+                    view.setImageResource(getStoneImage(board.latestStone?.type))
+                },
+                updateTurn = { turn, stone ->
+                    displayMessage(generateTurnMessage(turn))
+                    stone?.let { saveStoneData(it) }
+                    omokDb.delete(OmokContract.TABLE_NAME, null, null)
                 },
                 getPoint = { Point(x, y) },
             )

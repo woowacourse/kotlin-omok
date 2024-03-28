@@ -94,34 +94,26 @@ object OutputView {
         }
     }
 
-    fun printTurn(turn: Turn) {
-        println(generateTurnMessage(turn))
+    fun printTurn(
+        turn: Turn,
+        stone: Stone?,
+    ) {
+        println(generateTurnMessage(turn) + stone?.let { generateBeforeMessage(it) })
     }
 
-    private fun generateTurnMessage(turn: Turn): String {
-        return when (turn) {
-            is BlackTurn -> {
-                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (
-                    turn.before?.let { generateBeforeMessage(it) }
-                        ?: ""
-                )
-            }
-
-            is WhiteTurn -> {
-                MESSAGE_TURN.format(STONE_TYPE_WHITE) + generateBeforeMessage(turn.before)
-            }
-
-            is FinishedTurn -> {
-                val winner =
-                    when (turn.before.type) {
-                        StoneType.BLACK -> STONE_TYPE_BLACK
-                        StoneType.WHITE -> STONE_TYPE_WHITE
-                        StoneType.EMPTY -> ""
-                    }
-                "\n${winner}돌이 승리했습니다!!!"
-            }
+    fun generateTurnMessage(turn: Turn): String =
+        when (turn) {
+            is BlackTurn -> MESSAGE_TURN.format(STONE_TYPE_BLACK)
+            is WhiteTurn -> MESSAGE_TURN.format(STONE_TYPE_WHITE)
+            is FinishedTurn -> "$MESSAGE_GAME_END ${generateStoneTypeMessage(turn.beforeStone.type)}의 승리!"
         }
-    }
+
+    private fun generateStoneTypeMessage(stoneType: StoneType): String =
+        when (stoneType) {
+            StoneType.BLACK -> STONE_TYPE_BLACK
+            StoneType.WHITE -> STONE_TYPE_WHITE
+            StoneType.EMPTY -> ""
+        }
 
     private fun generateBeforeMessage(stone: Stone): String {
         return MESSAGE_BEFORE_STONE.format(stone.point.x + 65, stone.point.y + 1)

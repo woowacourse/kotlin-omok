@@ -10,6 +10,8 @@ class Board {
             MutableList(BOARD_SIZE) { StoneType.EMPTY }
         }
     private val ruleAdaptor = RenjuRuleAdaptor(listOf(RenjuRule(boardSize = BOARD_SIZE)))
+    var latestStone: Stone? = null
+        private set
 
     fun isForbidden(stone: Stone): Boolean {
         return ruleAdaptor.isForbidden(this, stone)
@@ -17,6 +19,7 @@ class Board {
 
     fun putStone(stone: Stone) {
         _board[stone.point.y][stone.point.x] = stone.type
+        latestStone = stone
     }
 
     operator fun contains(point: Point): Boolean {

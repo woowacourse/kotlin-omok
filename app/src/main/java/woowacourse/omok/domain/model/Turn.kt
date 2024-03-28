@@ -1,15 +1,13 @@
 package woowacourse.omok.domain.model
 
 sealed interface Turn {
-    val before: Stone?
-
     fun putStone(
         point: Point,
         board: Board,
     ): Turn
 }
 
-class BlackTurn(override val before: Stone? = null) : Turn {
+class BlackTurn : Turn {
     override fun putStone(
         point: Point,
         board: Board,
@@ -18,11 +16,11 @@ class BlackTurn(override val before: Stone? = null) : Turn {
         if (board.isForbidden(stone) || point in board) return this
         board.putStone(stone)
         if (board.isWinCondition(stone)) return FinishedTurn(stone)
-        return WhiteTurn(stone)
+        return WhiteTurn()
     }
 }
 
-class WhiteTurn(override val before: Stone) : Turn {
+class WhiteTurn : Turn {
     override fun putStone(
         point: Point,
         board: Board,
@@ -31,11 +29,11 @@ class WhiteTurn(override val before: Stone) : Turn {
         if (point in board) return this
         board.putStone(stone)
         if (board.isWinCondition(stone)) return FinishedTurn(stone)
-        return BlackTurn(stone)
+        return BlackTurn()
     }
 }
 
-class FinishedTurn(override val before: Stone) : Turn {
+class FinishedTurn(val beforeStone: Stone) : Turn {
     override fun putStone(
         point: Point,
         board: Board,
