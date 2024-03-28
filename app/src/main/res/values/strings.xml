@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Omok</string>
+    <string name="message_draw">무승부입니다.</string>
+    <string name="message_winner">%s이 이겼습니다.</string>
 </resources>

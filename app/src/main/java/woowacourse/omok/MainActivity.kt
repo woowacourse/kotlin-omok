@@ -61,15 +61,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun generateResultMessage(gameState: GameState.GameOver) =
+    private fun generateResultMessage(gameState: GameState.GameOver): String =
         when (gameState.gameResult) {
-            GameResult.DRAW -> MESSAGE_DRAW
-            else -> MESSAGE_WINNER.format(gameState.gameResult.label)
+            GameResult.DRAW -> getString(R.string.message_draw)
+            else -> getString(R.string.message_winner).format(gameState.gameResult.label)
         }
 
-    private fun playEachTurn(position: Pair<Int, Int>): GameState {
-        return placementData.place(Position(position.first, position.second))
-    }
+    private fun playEachTurn(position: Pair<Int, Int>): GameState = placementData.place(Position(position.first, position.second))
 
     private fun getInputPosition(index: Int): Pair<Int, Int> {
         val row = index / BOARD_DISPLAY_SIZE + 1
@@ -81,7 +79,5 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val BOARD_DISPLAY_SIZE = 15
-        private const val MESSAGE_WINNER = "%s이 이겼습니다."
-        private const val MESSAGE_DRAW = "무승부입니다."
     }
 }
