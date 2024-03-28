@@ -57,23 +57,23 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
     }
 
     // View의 역할
-    private fun Int.toCoordinate(): Coordinate = Coordinate(this / 15, this % 15)
+    private fun Int.toCoordinate(): Coordinate = Coordinate(this / Board.BOARD_SIZE, this % Board.BOARD_SIZE)
 
     override fun onDraw(gameState: GameState) {
         val copiedBoard = gameState.board.getBoardLayout()
 
         when (gameState) {
             is GameState.Running.BlackTurn.Block -> {
-                Snackbar.make(binding.root, "금수의 위치입니다.", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, R.string.block_position, Snackbar.LENGTH_SHORT).show()
             }
             is GameState.Running.BlackTurn.Duplicate -> {
-                Snackbar.make(binding.root, "이미 돌이 놓인 자리입니다.", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, R.string.already_placed, Snackbar.LENGTH_SHORT).show()
             }
             is GameState.Running.WhiteTurn.Duplicate -> {
-                Snackbar.make(binding.root, "이미 돌이 놓인 자리입니다.", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, R.string.already_placed, Snackbar.LENGTH_SHORT).show()
             }
             is GameState.Finish -> {
-                Snackbar.make(binding.root, "게임이 종료되었습니다.", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, R.string.game_over, Snackbar.LENGTH_SHORT).show()
             }
             else -> {
             }

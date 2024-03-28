@@ -94,7 +94,7 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
     }
 
     companion object {
+        const val BOARD_SIZE = 15
         private const val MIN_INDEX = 0
-        private const val BOARD_SIZE = 15
     }
 }
