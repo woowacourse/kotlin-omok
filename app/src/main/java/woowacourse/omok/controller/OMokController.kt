@@ -30,12 +30,15 @@ class OMokController(ruleTypes: List<RuleType>) {
         val blackPlayer = BlackPlayer()
         val whitePlayer = WhitePlayer()
 
-        while (board.getTurn() != GameTurn.FINISHED) {
+        while (true) {
             outputBoardForm()
             when (board.getTurn()) {
                 GameTurn.BLACK_TURN -> userTurnFlow(blackPlayer)
                 GameTurn.WHITE_TURN -> userTurnFlow(whitePlayer)
-                GameTurn.FINISHED -> outputSuccessOMock()
+                GameTurn.FINISHED -> {
+                    outputSuccessOMock()
+                    break
+                }
             }
         }
     }
