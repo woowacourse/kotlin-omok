@@ -5,6 +5,10 @@ sealed class PlaceStoneError(val errorMessage: String) {
 
     class StoneAlreadyExists() : PlaceStoneError(STONE_ALREADY_EXISTS_MESSAGE)
 
+    fun handleErrorMessage(method: (String) -> Unit) {
+        method(errorMessage)
+    }
+
     companion object {
         private const val STONE_OUT_OF_BOARD_MESSAGE = "돌을 보드 밖에 두었습니다."
         private const val STONE_ALREADY_EXISTS_MESSAGE = "그 위치에는 이미 돌이 있습니다."
