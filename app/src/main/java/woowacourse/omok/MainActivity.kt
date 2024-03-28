@@ -29,25 +29,32 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
                 view.setOnClickListener {
-                    val position = getInputPosition(index)
-                    if (!::gameState.isInitialized || gameState !is GameState.GameOver) {
-                        gameState = playEachTurn(position)
-                        playUntilFinish(gameState)
-                        if (gameState !is GameState.Error) {
-                            val stone =
-                                when (domainBoard.lastPlacement) {
-                                    is Stone.Black -> R.drawable.black_stone
-                                    is Stone.White -> R.drawable.white_stone
-                                    null -> R.drawable.black_stone
-                                }
-                            view.setImageResource(stone)
-                        }
-                    }
+                    markPosition(index, view)
                 }
             }
     }
 
-    private fun playUntilFinish(gameState: GameState) {
+    private fun markPosition(
+        index: Int,
+        view: ImageView,
+    ) {
+        val position = getInputPosition(index)
+        if (!::gameState.isInitialized || gameState !is GameState.GameOver) {
+            gameState = playEachTurn(position)
+            showGameStateMessage(gameState)
+            if (gameState !is GameState.Error) setStoneImage(view)
+        }
+    }
+
+    private fun setStoneImage(view: ImageView) {
+        when (domainBoard.lastPlacement) {
+            is Stone.Black -> view.setImageResource(R.drawable.black_stone)
+            is Stone.White -> view.setImageResource(R.drawable.white_stone)
+            null -> view.setImageResource(R.drawable.black_stone)
+        }
+    }
+
+    private fun showGameStateMessage(gameState: GameState) {
         when (gameState) {
             is GameState.GameOver -> showToastMessage(generateResultMessage(gameState))
             is GameState.OnProgress -> return
