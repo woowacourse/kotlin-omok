@@ -1,11 +1,11 @@
-package omock.model.ruletype
+package woowacourse.omok.model.ruletype
 
-import omock.model.rule.OMockRule
-import omock.model.ruletype.RuleType.Companion.checkCalculateType
-import omock.model.search.Direction
-import omock.model.search.DirectionResult
-import omock.model.search.VisitedDirectionFirstClearResult
-import omock.model.search.VisitedDirectionResult
+import woowacourse.omok.model.ruletype.RuleType.Companion.checkCalculateType
+import woowacourse.omok.model.search.Direction
+import woowacourse.omok.model.search.DirectionResult
+import woowacourse.omok.model.search.VisitedDirectionFirstClearResult
+import woowacourse.omok.model.search.VisitedDirectionResult
+import woowacourse.omok.model.rule.OMockRule
 
 data object IsReverseTwoAndThree : RuleType {
     private const val IS_REVERSE_TWO_AND_THREE_MESSAGE = "장목 금수를 어겼습니다."
@@ -16,9 +16,11 @@ data object IsReverseTwoAndThree : RuleType {
     ) {
         visitedDirectionResult.visited.entries.forEach { (key, result) ->
             val isReverseResultFirstClear: Boolean =
-                visitedDirectionFirstClearResult.visitedFirstClear[Direction.reverse(key)]?.isFirstClear ?: false
+                visitedDirectionFirstClearResult.visitedFirstClear[Direction.reverse(key)]?.isFirstClear
+                    ?: false
             val reverseResultCount: Int =
-                visitedDirectionResult.visited[Direction.reverse(key)]?.count ?: OMockRule.MIN_REVERSE_COUNT
+                visitedDirectionResult.visited[Direction.reverse(key)]?.count
+                    ?: OMockRule.MIN_REVERSE_COUNT
             if (isLastClearResult(result)) {
                 checkIsReverseTwoAndThree(
                     isCalculateType(
@@ -41,11 +43,11 @@ data object IsReverseTwoAndThree : RuleType {
             reverseResultCount = reverseResultCount,
             directionResult = directionResult,
         ) &&
-            provideNotFirstClearResult(
-                isReverseResultFirstClear = isReverseResultFirstClear,
-                reverseResultCount = reverseResultCount,
-                directionResult = directionResult,
-            )
+                provideNotFirstClearResult(
+                    isReverseResultFirstClear = isReverseResultFirstClear,
+                    reverseResultCount = reverseResultCount,
+                    directionResult = directionResult,
+                )
     }
 
     override fun provideFirstClearResult(
@@ -54,7 +56,7 @@ data object IsReverseTwoAndThree : RuleType {
         directionResult: DirectionResult,
     ): Boolean {
         return isThreeToThreeCount(directionResult.count) &&
-            isFourToFourCount(reverseResultCount) && !isReverseResultFirstClear
+                isFourToFourCount(reverseResultCount) && !isReverseResultFirstClear
     }
 
     override fun provideNotFirstClearResult(

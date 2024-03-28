@@ -1,17 +1,17 @@
-package omock.model.rule
+package woowacourse.omok.model.rule
 
-import omock.model.board.ColumnStates
-import omock.model.position.Column
-import omock.model.position.Row
-import omock.model.search.Direction
-import omock.model.search.DirectionFirstClearResult
-import omock.model.search.DirectionResult
-import omock.model.search.Node
-import omock.model.stone.Stone
-import omock.model.stonestate.Black
-import omock.model.stonestate.Clear
-import omock.model.stonestate.StoneState
-import omock.model.stonestate.White
+import woowacourse.omok.model.search.Direction
+import woowacourse.omok.model.search.DirectionFirstClearResult
+import woowacourse.omok.model.search.DirectionResult
+import woowacourse.omok.model.search.Node
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stonestate.Black
+import woowacourse.omok.model.stonestate.Clear
+import woowacourse.omok.model.stonestate.StoneState
+import woowacourse.omok.model.stonestate.White
+import woowacourse.omok.model.board.ColumnStates
+import woowacourse.omok.model.position.Column
+import woowacourse.omok.model.position.Row
 
 class LoadMap(private val stoneStates: List<ColumnStates>) : LoadMapInterface {
     override fun loadMap(stone: Stone): Map<Direction, DirectionResult> {

@@ -1,9 +1,9 @@
-package omock.model.board
+package woowacourse.omok.model.board
 
-import omock.model.player.BlackPlayer
-import omock.model.player.Player
-import omock.model.player.WhitePlayer
-import omock.model.stone.Stone
+import woowacourse.omok.model.player.BlackPlayer
+import woowacourse.omok.model.player.Player
+import woowacourse.omok.model.player.WhitePlayer
+import woowacourse.omok.model.stone.Stone
 
 object LocalBoard {
     private const val BLACK_ICON = '●'

@@ -1,10 +1,10 @@
-package omock.model.rule
+package woowacourse.omok.model.rule
 
-import omock.model.search.Direction
-import omock.model.search.DirectionFirstClearResult
-import omock.model.search.DirectionResult
-import omock.model.search.Node
-import omock.model.stone.Stone
+import woowacourse.omok.model.search.Direction
+import woowacourse.omok.model.search.DirectionFirstClearResult
+import woowacourse.omok.model.search.DirectionResult
+import woowacourse.omok.model.search.Node
+import woowacourse.omok.model.stone.Stone
 
 interface LoadMapInterface {
     fun loadMap(stone: Stone): Map<Direction, DirectionResult>

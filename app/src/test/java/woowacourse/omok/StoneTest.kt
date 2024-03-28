@@ -1,8 +1,8 @@
 package omock
 
-import omock.model.position.Column
-import omock.model.position.Row
-import omock.model.stone.Stone
+import woowacourse.omok.model.position.Column
+import woowacourse.omok.model.position.Row
+import woowacourse.omok.model.stone.Stone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

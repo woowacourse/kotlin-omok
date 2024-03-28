@@ -1,15 +1,15 @@
-package omock.view
+package woowacourse.omok.view
 
-import omock.model.board.LocalBoard.boardForm
-import omock.model.board.LocalBoard.boardTable
-import omock.model.player.BlackPlayer
-import omock.model.player.Player
-import omock.model.player.WhitePlayer
-import omock.model.stone.Stone
+import woowacourse.omok.model.board.LocalBoard.boardForm
+import woowacourse.omok.model.board.LocalBoard.boardTable
+import woowacourse.omok.model.player.BlackPlayer
+import woowacourse.omok.model.player.Player
+import woowacourse.omok.model.player.WhitePlayer
+import woowacourse.omok.model.stone.Stone
 
 object OutputView {
     private const val REQUIRE_LOCATION_MESSAGE = "위치를 입력하세요:"
-    private const val OUTPUT_SUCCESS_MESSAGE = "오목~!~!~!~!~!~"
+    const val OUTPUT_SUCCESS_MESSAGE = "오목~!~!~!~!~!~"
     private const val OUTPUT_USER_TURN_MESSAGE = "%s의 차례입니다."
     private const val OUTPUT_GAME_START_MESSAGE = "오목 게임을 시작합니다."
     private const val BLACK_STONE_NAME = "흑"

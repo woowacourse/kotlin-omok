@@ -1,6 +1,6 @@
-package omock.model.player
+package woowacourse.omok.model.player
 
-import omock.model.stone.Stone
+import woowacourse.omok.model.stone.Stone
 
 data class WhitePlayer(
     override val stoneHistory: ArrayDeque<Stone> = ArrayDeque(),

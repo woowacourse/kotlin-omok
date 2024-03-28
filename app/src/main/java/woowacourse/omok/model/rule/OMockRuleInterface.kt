@@ -1,7 +1,7 @@
-package omock.model.rule
+package woowacourse.omok.model.rule
 
-import omock.model.search.VisitedDirectionFirstClearResult
-import omock.model.search.VisitedDirectionResult
+import woowacourse.omok.model.search.VisitedDirectionFirstClearResult
+import woowacourse.omok.model.search.VisitedDirectionResult
 
 interface OMockRuleInterface {
     fun checkRules(

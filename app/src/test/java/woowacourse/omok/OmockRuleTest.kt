@@ -1,18 +1,18 @@
 package omock
 
-import omock.model.board.Board
-import omock.model.player.BlackPlayer
-import omock.model.position.Column
-import omock.model.position.Row
-import omock.model.rule.LoadMap
-import omock.model.rule.OMockRule
-import omock.model.ruletype.FourToFourCount
-import omock.model.ruletype.IsClearFourToFourCount
-import omock.model.ruletype.IsReverseTwoAndThree
-import omock.model.ruletype.ThreeToThreeCount
-import omock.model.search.VisitedDirectionFirstClearResult
-import omock.model.search.VisitedDirectionResult
-import omock.model.stone.Stone
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.player.BlackPlayer
+import woowacourse.omok.model.position.Column
+import woowacourse.omok.model.position.Row
+import woowacourse.omok.model.rule.LoadMap
+import woowacourse.omok.model.rule.OMockRule
+import woowacourse.omok.model.ruletype.FourToFourCount
+import woowacourse.omok.model.ruletype.IsClearFourToFourCount
+import woowacourse.omok.model.ruletype.IsReverseTwoAndThree
+import woowacourse.omok.model.ruletype.ThreeToThreeCount
+import woowacourse.omok.model.search.VisitedDirectionFirstClearResult
+import woowacourse.omok.model.search.VisitedDirectionResult
+import woowacourse.omok.model.stone.Stone
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 

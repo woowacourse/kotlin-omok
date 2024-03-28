@@ -1,7 +1,7 @@
-package omock.model.stonestate
+package woowacourse.omok.model.stonestate
 
-import omock.model.player.Player
-import omock.model.stone.Stone
+import woowacourse.omok.model.player.Player
+import woowacourse.omok.model.stone.Stone
 
 sealed class StoneState(private val stone: Stone) {
     abstract fun put(player: Player): StoneState

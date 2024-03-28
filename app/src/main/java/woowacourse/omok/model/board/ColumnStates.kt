@@ -1,8 +1,8 @@
-package omock.model.board
+package woowacourse.omok.model.board
 
-import omock.model.player.Player
-import omock.model.stonestate.Clear
-import omock.model.stonestate.StoneState
+import woowacourse.omok.model.player.Player
+import woowacourse.omok.model.stonestate.Clear
+import woowacourse.omok.model.stonestate.StoneState
 
 data class ColumnStates(
     private val columnStates: MutableList<StoneState>,

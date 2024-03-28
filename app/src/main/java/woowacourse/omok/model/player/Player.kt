@@ -1,11 +1,11 @@
-package omock.model.player
+package woowacourse.omok.model.player
 
-import omock.model.position.Column
-import omock.model.position.Row
-import omock.model.rule.OMockRule
-import omock.model.search.Direction
-import omock.model.search.VisitedDirectionResult
-import omock.model.stone.Stone
+import woowacourse.omok.model.position.Column
+import woowacourse.omok.model.position.Row
+import woowacourse.omok.model.rule.OMockRule
+import woowacourse.omok.model.search.Direction
+import woowacourse.omok.model.search.VisitedDirectionResult
+import woowacourse.omok.model.stone.Stone
 
 sealed class Player {
     abstract val stoneHistory: ArrayDeque<Stone>

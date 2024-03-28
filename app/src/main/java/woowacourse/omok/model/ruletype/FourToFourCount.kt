@@ -1,12 +1,12 @@
-package omock.model.ruletype
+package woowacourse.omok.model.ruletype
 
-import omock.model.rule.OMockRule
-import omock.model.rule.OMockRule.Companion.MIN_FOUR_TO_FOUR_COUNT
-import omock.model.ruletype.RuleType.Companion.checkCalculateType
-import omock.model.search.Direction
-import omock.model.search.DirectionResult
-import omock.model.search.VisitedDirectionFirstClearResult
-import omock.model.search.VisitedDirectionResult
+import woowacourse.omok.model.ruletype.RuleType.Companion.checkCalculateType
+import woowacourse.omok.model.search.Direction
+import woowacourse.omok.model.search.DirectionResult
+import woowacourse.omok.model.search.VisitedDirectionFirstClearResult
+import woowacourse.omok.model.search.VisitedDirectionResult
+import woowacourse.omok.model.rule.OMockRule
+import woowacourse.omok.model.rule.OMockRule.Companion.MIN_FOUR_TO_FOUR_COUNT
 
 data object FourToFourCount : RuleType {
     private const val FOUR_TO_FOUR_COUNT_MESSAGE = "4-4 금수를 어겼습니다."
@@ -18,9 +18,11 @@ data object FourToFourCount : RuleType {
         var count = OMockRule.INIT_COUNT
         visitedDirectionResult.visited.entries.forEach { (key, result) ->
             val isReverseResultFirstClear: Boolean =
-                visitedDirectionFirstClearResult.visitedFirstClear[Direction.reverse(key)]?.isFirstClear ?: false
+                visitedDirectionFirstClearResult.visitedFirstClear[Direction.reverse(key)]?.isFirstClear
+                    ?: false
             val reverseResultCount: Int =
-                visitedDirectionResult.visited[Direction.reverse(key)]?.count ?: OMockRule.MIN_REVERSE_COUNT
+                visitedDirectionResult.visited[Direction.reverse(key)]?.count
+                    ?: OMockRule.MIN_REVERSE_COUNT
             if (isLastClearResult(result)) {
                 if (
                     isCalculateType(

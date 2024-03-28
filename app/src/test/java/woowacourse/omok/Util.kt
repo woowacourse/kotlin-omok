@@ -1,10 +1,10 @@
 package omock
 
-import omock.model.board.Board
-import omock.model.player.Player
-import omock.model.position.Column
-import omock.model.position.Row
-import omock.model.stone.Stone
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.player.Player
+import woowacourse.omok.model.position.Column
+import woowacourse.omok.model.position.Row
+import woowacourse.omok.model.stone.Stone
 
 fun Board.makeStones(
     player: Player,

@@ -1,12 +1,12 @@
 package omock
 
-import omock.model.board.Board
-import omock.model.player.WhitePlayer
-import omock.model.position.Column
-import omock.model.position.Row
-import omock.model.rule.LoadMap
-import omock.model.search.Direction
-import omock.model.stone.Stone
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.player.WhitePlayer
+import woowacourse.omok.model.position.Column
+import woowacourse.omok.model.position.Row
+import woowacourse.omok.model.rule.LoadMap
+import woowacourse.omok.model.search.Direction
+import woowacourse.omok.model.stone.Stone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

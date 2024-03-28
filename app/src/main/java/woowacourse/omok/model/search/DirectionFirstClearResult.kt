@@ -1,4 +1,4 @@
-package omock.model.search
+package woowacourse.omok.model.search
 
 class DirectionFirstClearResult(
     val isFirstClear: Boolean,

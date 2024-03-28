@@ -1,6 +1,6 @@
 package omock
 
-import omock.model.search.Direction
+import woowacourse.omok.model.search.Direction
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

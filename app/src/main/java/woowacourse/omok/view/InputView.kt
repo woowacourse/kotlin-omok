@@ -1,7 +1,7 @@
-package omock.view
+package woowacourse.omok.view
 
-import omock.model.player.Player
-import omock.model.stone.Stone
+import woowacourse.omok.model.player.Player
+import woowacourse.omok.model.stone.Stone
 
 object InputView {
     private const val FIRST_INDEX_INPUT = 0
@@ -12,7 +12,9 @@ object InputView {
             player.turn {
                 OutputView.outputUserLocation()
                 val input = readln().trim()
-                Pair(input.substring(FIRST_INDEX_INPUT, SECOND_INDEX_INPUT), input.substring(SECOND_INDEX_INPUT))
+                Pair(input.substring(FIRST_INDEX_INPUT, SECOND_INDEX_INPUT), input.substring(
+                    SECOND_INDEX_INPUT
+                ))
             }
         }
     }

@@ -1,13 +1,13 @@
 package omock
 
-import omock.model.player.BlackPlayer
-import omock.model.player.WhitePlayer
-import omock.model.position.Column
-import omock.model.position.Row
-import omock.model.stone.Stone
-import omock.model.stonestate.Black
-import omock.model.stonestate.Clear
-import omock.model.stonestate.White
+import woowacourse.omok.model.player.BlackPlayer
+import woowacourse.omok.model.player.WhitePlayer
+import woowacourse.omok.model.position.Column
+import woowacourse.omok.model.position.Row
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stonestate.Black
+import woowacourse.omok.model.stonestate.Clear
+import woowacourse.omok.model.stonestate.White
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

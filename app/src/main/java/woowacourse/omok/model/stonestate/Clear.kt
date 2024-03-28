@@ -1,5 +1,5 @@
-package omock.model.stonestate
+package woowacourse.omok.model.stonestate
 
-import omock.model.stone.Stone
+import woowacourse.omok.model.stone.Stone
 
 class Clear(private val stone: Stone) : UnPlaced(stone)

@@ -1,4 +1,4 @@
-package omock.model.search
+package woowacourse.omok.model.search
 
 data class DirectionResult(
     val count: Int,

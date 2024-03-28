@@ -1,6 +1,6 @@
 package omock
 
-import omock.model.player.WhitePlayer
+import woowacourse.omok.model.player.WhitePlayer
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 

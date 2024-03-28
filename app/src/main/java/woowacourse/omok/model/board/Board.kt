@@ -1,11 +1,11 @@
-package omock.model.board
+package woowacourse.omok.model.board
 
-import omock.model.GameTurn
-import omock.model.player.Player
-import omock.model.position.Row.Companion.MAX_ROW
-import omock.model.search.VisitedDirectionResult
-import omock.model.stone.Stone
-import omock.model.stonestate.Clear
+import woowacourse.omok.model.GameTurn
+import woowacourse.omok.model.player.Player
+import woowacourse.omok.model.position.Row.Companion.MAX_ROW
+import woowacourse.omok.model.search.VisitedDirectionResult
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stonestate.Clear
 
 class Board(val stoneStates: List<ColumnStates>) {
     private var gameTurn = GameTurn.BLACK_TURN

@@ -1,7 +1,7 @@
-package omock.model.stone
+package woowacourse.omok.model.stone
 
-import omock.model.position.Column
-import omock.model.position.Row
+import woowacourse.omok.model.position.Column
+import woowacourse.omok.model.position.Row
 
 data class Stone(
     val row: Row,

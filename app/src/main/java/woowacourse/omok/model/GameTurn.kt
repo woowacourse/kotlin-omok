@@ -1,4 +1,4 @@
-package omock.model
+package woowacourse.omok.model
 
 enum class GameTurn {
     BLACK_TURN,

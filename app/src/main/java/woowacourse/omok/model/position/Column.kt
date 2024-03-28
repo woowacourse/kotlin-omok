@@ -1,4 +1,4 @@
-package omock.model.position
+package woowacourse.omok.model.position
 
 @JvmInline
 value class Column(val comma: String) {

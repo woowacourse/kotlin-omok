@@ -1,10 +1,10 @@
-package omock.model.rule
+package woowacourse.omok.model.rule
 
-import omock.model.player.BlackPlayer
-import omock.model.player.Player
-import omock.model.ruletype.RuleType
-import omock.model.search.VisitedDirectionFirstClearResult
-import omock.model.search.VisitedDirectionResult
+import woowacourse.omok.model.ruletype.RuleType
+import woowacourse.omok.model.search.VisitedDirectionFirstClearResult
+import woowacourse.omok.model.search.VisitedDirectionResult
+import woowacourse.omok.model.player.BlackPlayer
+import woowacourse.omok.model.player.Player
 
 class OMockRule(private val ruleTypes: List<RuleType>) : OMockRuleInterface {
     override fun checkRules(
