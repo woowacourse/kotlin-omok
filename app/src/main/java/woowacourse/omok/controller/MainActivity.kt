@@ -13,9 +13,9 @@ import omok.model.state.BlackTurn
 import omok.model.state.GameState
 import woowacourse.omok.R
 import woowacourse.omok.util.convertIndexToPosition
-import woowacourse.omok.view.OmokView
 import woowacourse.omok.util.showToast
 import woowacourse.omok.view.OmokBoardView
+import woowacourse.omok.view.OmokView
 
 class MainActivity : AppCompatActivity(), OmokController {
     private var gameState: GameState = BlackTurn(RenjuRule, Board(emptyMap()))
@@ -62,6 +62,6 @@ class MainActivity : AppCompatActivity(), OmokController {
         position: Position,
     ) {
         gameState = gameState.put(position)
-        view.updateBoard(position, gameState)
+        view.updateBoard(position, gameState.board)
     }
 }
