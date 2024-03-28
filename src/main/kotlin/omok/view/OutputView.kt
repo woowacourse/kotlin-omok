@@ -1,6 +1,7 @@
 package omok.view
 
 import omok.model.Board
+import omok.model.Player
 import omok.model.Position
 import omok.model.Stone
 
@@ -73,6 +74,15 @@ class OutputView {
 
     fun printWinner(stone: Stone) {
         println("우승은 🎉${stone.output()}🎉 입니다")
+    }
+
+    fun printInvalidPosition(
+        player: Player,
+        position: Position,
+        message: String,
+    ) {
+        println("${player.stone}이 둔 위치 ${position.output()}: $message")
+        println()
     }
 
     fun printException(e: Exception) {
