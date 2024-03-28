@@ -2,6 +2,7 @@ package woowacourse.omok.presentation
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -10,6 +11,7 @@ import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import omok.model.Column
 import omok.model.Column.Companion.toColumnComma
+import omok.model.OMokBoard
 import omok.model.OMokGame
 import omok.model.Row
 import omok.model.Row.Companion.toRowComma
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         db = OmokDbHelper(this)
         initOmok()
+        resetOmok()
         OutputView.outputGameStart()
         setupBoardClickListener()
     }
@@ -60,6 +63,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun resetOmok() {
+        val resetBtn = findViewById<Button>(R.id.btn_reset)
+        resetBtn.setOnClickListener {
+            db.deleteAllOmok()
+            oMokGame = OMokGame()
+
+            val board = findViewById<TableLayout>(R.id.board)
+            board.children.filterIsInstance<TableRow>().flatMap { it.children }
+                .filterIsInstance<ImageView>().forEach { view ->
+                    view.setImageResource(0)
+                }
+
+            OMokBoard.resetBoard()
+            OutputView.outputBoard()
+        }
+    }
+
     private fun setupBoardClickListener() {
         val board = findViewById<TableLayout>(R.id.board)
         val size = board.children.toMutableList().size

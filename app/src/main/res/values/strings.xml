@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Omok</string>
     <string name="success_omock">오목입니다!</string>
+    <string name="btn_reset_title">다시 하기</string>
 </resources>
