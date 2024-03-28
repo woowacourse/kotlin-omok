@@ -31,10 +31,35 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         db = OmokDbHelper(this)
+        initOmok()
         OutputView.outputGameStart()
         setupBoardClickListener()
     }
 
+    private fun initOmok() {
+        val board = findViewById<TableLayout>(R.id.board)
+        val size = board.children.toMutableList().size
+        val omoks = db.selectOmok()
+
+        omoks.forEach { omok ->
+            val row = Row(omok.rowComma)
+            val column = Column(omok.columnComma)
+
+            val view =
+                board.children.filterIsInstance<TableRow>().flatMap { it.children }
+                    .filterIsInstance<ImageView>()
+                    .toList()[((row.toIntIndex() - 1) * size) + column.getIndex()]
+
+            val turn = oMokGame.getTurn()
+
+            turn.toStoneIconRes()?.let { stoneIconRes ->
+                if (executeTurn(row, column)) {
+                    view.setImageResource(stoneIconRes)
+                    handleTurnCompletion(view)
+                }
+            }
+        }
+    }
     private fun setupBoardClickListener() {
         val board = findViewById<TableLayout>(R.id.board)
         val size = board.children.toMutableList().size
