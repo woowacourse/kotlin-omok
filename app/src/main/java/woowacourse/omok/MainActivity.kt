@@ -25,12 +25,9 @@ class MainActivity : AppCompatActivity() {
     private fun playUntilFinish() {
         val explainMessage = findViewById<TextView>(R.id.expalin_message)
         explainMessage.text = "흑의 차례입니다"
-        boardView
-            .children
-            .filterIsInstance<TableRow>()
-            .forEachIndexed { rowIndex, tableRow ->
-                setupRowImageViews(tableRow, rowIndex, explainMessage)
-            }
+        boardView.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, tableRow ->
+            setupRowImageViews(tableRow, rowIndex, explainMessage)
+        }
     }
 
     private fun setupRowImageViews(
@@ -38,11 +35,9 @@ class MainActivity : AppCompatActivity() {
         rowIndex: Int,
         explainMessage: TextView,
     ) {
-        tableRow.children
-            .filterIsInstance<ImageView>()
-            .forEachIndexed { colIndex, imageView ->
-                setupImageViewClickListener(imageView, rowIndex, colIndex, explainMessage)
-            }
+        tableRow.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
+            setupImageViewClickListener(imageView, rowIndex, colIndex, explainMessage)
+        }
     }
 
     private fun setupImageViewClickListener(
@@ -52,36 +47,35 @@ class MainActivity : AppCompatActivity() {
         explainMessage: TextView,
     ) {
         imageView.setOnClickListener {
+            explainMessage.text = backingBoard.currentTurn.label + "의 차례입니다"
             imageView.isClickable = false
             runCatching {
-                val eachPlacedPosition =
-                    Position.of(rowIndex + 1, colIndex.toChar() + 'A'.code)
+                val eachPlacedPosition = Position.of(rowIndex + 1, colIndex.toChar() + 'A'.code)
                 backingBoard.place(eachPlacedPosition)
                 displayOnAndroidBoard(backingBoard, imageView)
-                if (backingBoard.getGameResult(eachPlacedPosition) != GameResult.PROCEEDING) {
-                    explainMessage.text =
-                        "${backingBoard.getGameResult(eachPlacedPosition).label}의 승리"
-                    disableBoardClickListener()
-                    return@setOnClickListener
-                }
-                explainMessage.text = backingBoard.currentTurn.label + "의 차례입니다"
+                finishGame(eachPlacedPosition, explainMessage)
             }.onFailure {
                 explainMessage.text = it.message
             }
         }
     }
 
+    private fun finishGame(
+        eachPlacedPosition: Position,
+        explainMessage: TextView,
+    ) {
+        if (backingBoard.getGameResult(eachPlacedPosition) != GameResult.PROCEEDING) {
+            explainMessage.text = "${backingBoard.getGameResult(eachPlacedPosition).label}의 승리"
+            disableBoardClickListener()
+        }
+    }
+
     private fun disableBoardClickListener() {
-        boardView.children
-            .filterIsInstance<TableRow>()
-            .forEach { tableRow ->
-                tableRow
-                    .children
-                    .filterIsInstance<ImageView>()
-                    .forEach { imageView ->
-                        imageView.isClickable = false
-                    }
+        boardView.children.filterIsInstance<TableRow>().forEach { tableRow ->
+            tableRow.children.filterIsInstance<ImageView>().forEach { imageView ->
+                imageView.isClickable = false
             }
+        }
     }
 
     private fun displayOnAndroidBoard(
