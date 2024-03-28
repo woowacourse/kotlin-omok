@@ -14,24 +14,23 @@ import woowacourse.omok.model.Stone
 import woowacourse.omok.model.state.GameState
 
 class MainActivity : AppCompatActivity() {
-    private val domainBoard: Board by lazy { Board() }
+    private val placementData: Board by lazy { Board() }
     private lateinit var gameState: GameState
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val board = findViewById<TableLayout>(R.id.board)
-        board
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEachIndexed { index, view ->
-                view.setOnClickListener {
-                    markPosition(index, view)
+        findViewById<TableLayout>(R.id.board).apply {
+            children
+                .filterIsInstance<TableRow>()
+                .flatMap { it.children }
+                .filterIsInstance<ImageView>()
+                .forEachIndexed { index, view ->
+                    view.setOnClickListener {
+                        markPosition(index, view)
+                    }
                 }
-            }
+        }
     }
 
     private fun markPosition(
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setStoneImage(view: ImageView) {
-        when (domainBoard.lastPlacement) {
+        when (placementData.lastPlacement) {
             is Stone.Black -> view.setImageResource(R.drawable.black_stone)
             is Stone.White -> view.setImageResource(R.drawable.white_stone)
             null -> view.setImageResource(R.drawable.black_stone)
@@ -69,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     private fun playEachTurn(position: Pair<Int, Int>): GameState {
-        return domainBoard.place(Position(position.first, position.second))
+        return placementData.place(Position(position.first, position.second))
     }
 
     private fun getInputPosition(index: Int): Pair<Int, Int> {
