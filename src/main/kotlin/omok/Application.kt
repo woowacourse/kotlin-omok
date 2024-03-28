@@ -1,6 +1,6 @@
 package omok
 
-import omok.controller.OmokController2
+import omok.controller.OmokController
 import omok.model.ContinualStonesCondition
 import omok.model.rule.ContinualStonesStandard
 import omok.model.rule.ForbiddenRules
@@ -13,7 +13,7 @@ import omok.view.InputView
 import omok.view.OutputView
 
 fun main() {
-    OmokController2(
+    OmokController(
         InputView(),
         OutputView(),
         blackStoneGamePlayingRules = RuleAdapter2(
