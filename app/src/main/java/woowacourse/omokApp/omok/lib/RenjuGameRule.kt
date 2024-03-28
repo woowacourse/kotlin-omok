@@ -1,4 +1,4 @@
-package omok.lib
+package woowacourse.omokApp.omok.lib
 
 class RenjuGameRule : GameRule {
     private lateinit var board: Array<Array<Int>>
@@ -58,10 +58,6 @@ class RenjuGameRule : GameRule {
             return false
         }
         return true
-    }
-
-    fun returnBoard(): Array<Array<Int>> {
-        return board
     }
 
     private fun getStoneCount(

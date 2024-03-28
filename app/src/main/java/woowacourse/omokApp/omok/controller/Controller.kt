@@ -1,10 +1,10 @@
-import omok.model.board.ColumnNumber
-import omok.model.board.CoordsNumber
-import omok.model.board.Position
-import omok.model.board.Stone
-import omok.model.omokGame.OmokGame
-import omok.view.InputView
-import omok.view.OutputView
+import woowacourse.omokApp.omok.model.board.ColumnNumber
+import woowacourse.omokApp.omok.model.board.CoordsNumber
+import woowacourse.omokApp.omok.model.board.Position
+import woowacourse.omokApp.omok.model.board.Stone
+import woowacourse.omokApp.omok.model.omokGame.OmokGame
+import woowacourse.omokApp.omok.view.InputView
+import woowacourse.omokApp.omok.view.OutputView
 
 object Controller {
     private val outputView = OutputView()

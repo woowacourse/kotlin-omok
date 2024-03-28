@@ -1,4 +1,4 @@
-package omok.lib
+package woowacourse.omokApp.omok.lib
 
 interface GameRule {
     fun setupBoard(board: Array<Array<Int>>)

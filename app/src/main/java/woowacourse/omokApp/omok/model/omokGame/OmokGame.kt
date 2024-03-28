@@ -1,9 +1,9 @@
-package omok.model.omokGame
+package woowacourse.omokApp.omok.model.omokGame
 
 import Controller.requestPlayerMove
 import GameRuleAdapter
-import omok.model.board.Position
-import omok.model.board.Stone
+import woowacourse.omokApp.omok.model.board.Position
+import woowacourse.omokApp.omok.model.board.Stone
 
 class OmokGame(private val listener: GameEventListener) {
     lateinit var currentStone: Stone

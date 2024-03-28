@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omokApp
 
 import android.os.Bundle
 import android.widget.ImageView
@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone) } }
+            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone)
+            } }
+            Controller.start()
     }
 }
