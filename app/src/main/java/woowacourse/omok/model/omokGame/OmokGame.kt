@@ -1,8 +1,6 @@
 package woowacourse.omok.model.omokGame
 
-import Controller.requestPlayerMove
 import GameRuleAdapter
-import android.util.Log
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.omokGame.Board.Companion.BOARD_SIZE
@@ -22,7 +20,7 @@ class OmokGame(private val listener: GameEventListener) {
             }
         }
         currentStone = Stone.BLACK
-        board.omokGameState=OmokGameState.RUNNING
+        board.omokGameState = OmokGameState.RUNNING
     }
 
     fun startGame(currentStone: Stone): Stone {
@@ -48,7 +46,6 @@ class OmokGame(private val listener: GameEventListener) {
     }
 
     private fun onStonePlaced(currentStone: Stone) {
-        Log.d("되나요", currentStone.toString())
         val changeStone = togglePlayer(currentStone)
         listener.printBoard(
             board.gameBoard,
@@ -56,11 +53,12 @@ class OmokGame(private val listener: GameEventListener) {
                 changeStone,
             ),
         )
-        this.currentStone =changeStone
+        this.currentStone = changeStone
 //        if (board.isRunning()) {
 //            //requestPlayerMove(changeStone)
 //        }
     }
 
-    private fun togglePlayer(currentStone: Stone): Stone = if (currentStone == Stone.BLACK) Stone.WHITE else Stone.BLACK
+    private fun togglePlayer(currentStone: Stone): Stone =
+        if (currentStone == Stone.BLACK) Stone.WHITE else Stone.BLACK
 }
