@@ -13,6 +13,9 @@ import woowacourse.omok.domain.omok.model.GameResult
 import woowacourse.omok.domain.omok.model.Position
 
 class MainActivity : AppCompatActivity() {
+    private val boardView: TableLayout by lazy { findViewById(R.id.board) }
+    private val backingBoard: Board by lazy { Board() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,38 +23,75 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playUntilFinish() {
-        val board = findViewById<TableLayout>(R.id.board)
-        val androidBoard = Board()
         val explainMessage = findViewById<TextView>(R.id.expalin_message)
         explainMessage.text = "흑의 차례입니다"
-        board
+        boardView
             .children
             .filterIsInstance<TableRow>()
             .forEachIndexed { rowIndex, tableRow ->
-                tableRow.children
+                setupRowImageViews(tableRow, rowIndex, explainMessage)
+            }
+    }
+
+    private fun setupRowImageViews(
+        tableRow: TableRow,
+        rowIndex: Int,
+        explainMessage: TextView,
+    ) {
+        tableRow.children
+            .filterIsInstance<ImageView>()
+            .forEachIndexed { colIndex, imageView ->
+                setupImageViewClickListener(imageView, rowIndex, colIndex, explainMessage)
+            }
+    }
+
+    private fun setupImageViewClickListener(
+        imageView: ImageView,
+        rowIndex: Int,
+        colIndex: Int,
+        explainMessage: TextView,
+    ) {
+        imageView.setOnClickListener {
+            imageView.isClickable = false
+            runCatching {
+                val eachPlacedPosition =
+                    Position.of(rowIndex + 1, colIndex.toChar() + 'A'.code)
+                backingBoard.place(eachPlacedPosition)
+                displayOnAndroidBoard(backingBoard, imageView)
+                if (backingBoard.getGameResult(eachPlacedPosition) != GameResult.PROCEEDING) {
+                    explainMessage.text =
+                        "${backingBoard.getGameResult(eachPlacedPosition).label}의 승리"
+                    disableBoardClickListener()
+                    return@setOnClickListener
+                }
+                explainMessage.text = backingBoard.currentTurn.label + "의 차례입니다"
+            }.onFailure {
+                explainMessage.text = it.message
+            }
+        }
+    }
+
+    private fun disableBoardClickListener() {
+        boardView.children
+            .filterIsInstance<TableRow>()
+            .forEach { tableRow ->
+                tableRow
+                    .children
                     .filterIsInstance<ImageView>()
-                    .forEachIndexed { colIndex, imageView ->
-                        imageView.setOnClickListener {
-                            runCatching {
-                                val eachPlacedPosition =
-                                    Position.of(rowIndex + 1, colIndex.toChar() + 'A'.code)
-                                androidBoard.place(eachPlacedPosition)
-                                when (androidBoard.lastTurn) {
-                                    Color.BLACK -> imageView.setImageResource(R.drawable.black_stone)
-                                    Color.WHITE -> imageView.setImageResource(R.drawable.white_stone)
-                                    Color.NONE -> return@setOnClickListener
-                                }
-                                if (androidBoard.getGameResult(eachPlacedPosition) != GameResult.PROCEEDING) {
-                                    explainMessage.text =
-                                        "${androidBoard.getGameResult(eachPlacedPosition).label}의 승리"
-                                    return@setOnClickListener
-                                }
-                                explainMessage.text = androidBoard.currentTurn.label + "의 차례입니다"
-                            }.onFailure {
-                                explainMessage.text = it.message
-                            }
-                        }
+                    .forEach { imageView ->
+                        imageView.isClickable = false
                     }
             }
+    }
+
+    private fun displayOnAndroidBoard(
+        backingBoard: Board,
+        imageView: ImageView,
+    ) {
+        when (backingBoard.lastTurn) {
+            Color.BLACK -> imageView.setImageResource(R.drawable.black_stone)
+            Color.WHITE -> imageView.setImageResource(R.drawable.white_stone)
+            Color.NONE -> return
+        }
     }
 }
