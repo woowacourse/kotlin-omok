@@ -13,7 +13,6 @@ import woowacourse.omok.db.OmokDbHelper
 import woowacourse.omok.domain.model.BlackTurn
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Board.Companion.BOARD_SIZE
-import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Point
 import woowacourse.omok.domain.model.Point.Companion.MESSAGE_INVALID_POINT_INPUT
@@ -21,6 +20,8 @@ import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StoneType
 import woowacourse.omok.domain.model.Turn
 import woowacourse.omok.domain.model.WhiteTurn
+import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_END
+import woowacourse.omok.domain.view.OutputView.generateTurnMessage
 
 class MainActivity : AppCompatActivity() {
     private lateinit var omokGame: OmokGame
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             val y = index / BOARD_SIZE
             view.setOnClickListener {
                 if (omokGame.isGameFinished()) {
-                    displayMessage("게임이 종료되었습니다.")
+                    displayMessage(MESSAGE_GAME_END)
                     return@setOnClickListener
                 }
                 progressGameTurn(view, x, y)
@@ -56,15 +57,7 @@ class MainActivity : AppCompatActivity() {
     private fun initializeBoardSetting() {
         val projection = arrayOf(OmokContract.STONE_TYPE, OmokContract.POINT_X, OmokContract.POINT_Y)
         val cursor =
-            omokDb.query(
-                OmokContract.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null,
-            )
+            omokDb.query(OmokContract.TABLE_NAME, projection, null, null, null, null, null)
 
         val initialBoard = Board()
         var stoneType = StoneType.BLACK
@@ -111,21 +104,6 @@ class MainActivity : AppCompatActivity() {
         if (!isSuccess) {
             displayMessage(MESSAGE_INVALID_POINT_INPUT)
             return
-        }
-    }
-
-    private fun getTurnMessage(turn: Turn): String =
-        when (turn) {
-            is BlackTurn -> "흑의 차례입니다."
-            is WhiteTurn -> "백의 차례입니다."
-            is FinishedTurn -> "게임이 종료되었습니다. ${getStoneTypeMessage(turn.before.type)}의 승리"
-        }
-
-    private fun getStoneTypeMessage(stoneType: StoneType): String {
-        return when (stoneType) {
-            StoneType.BLACK -> "흑"
-            StoneType.WHITE -> "백"
-            StoneType.EMPTY -> ""
         }
     }
 
