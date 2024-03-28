@@ -9,10 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import omok.model.Column
-import omok.model.Column.Companion.toColumn
+import omok.model.Column.Companion.toColumnComma
 import omok.model.OMokGame
 import omok.model.Row
-import omok.model.Row.Companion.toRow
+import omok.model.Row.Companion.toRowComma
 import omok.model.state.Stone
 import omok.model.turn.BlackTurn
 import omok.model.turn.FinishedTurn
@@ -20,13 +20,17 @@ import omok.model.turn.Turn
 import omok.model.turn.WhiteTurn
 import omok.view.OutputView
 import woowacourse.omok.R
+import woowacourse.omok.local.Omok
+import woowacourse.omok.local.OmokDbHelper
 
 class MainActivity : AppCompatActivity() {
-    private val oMokGame = OMokGame()
+    private lateinit var db: OmokDbHelper
+    private var oMokGame = OMokGame()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        db = OmokDbHelper(this)
         OutputView.outputGameStart()
         setupBoardClickListener()
     }
@@ -53,9 +57,15 @@ class MainActivity : AppCompatActivity() {
             val rowIndex = idx / size
             val columnIndex = idx % size
 
-            if (executeTurn(rowIndex.toRow(size), columnIndex.toColumn())) {
+            val rowComma = rowIndex.toRowComma(size)
+            val columnComma = columnIndex.toColumnComma()
+
+            if (executeTurn(Row(rowComma), Column(columnComma))) {
                 view.setImageResource(stoneIconRes)
                 handleTurnCompletion(view)
+
+                val omok = Omok(rowComma = rowComma, columnComma = columnComma)
+                db.insertOmok(omok)
             }
         }
     }
