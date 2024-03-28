@@ -1,4 +1,4 @@
-package woowacourse.omokApp.omok.model.board
+package woowacourse.omok.omok.model.board
 
 enum class ColumnNumber(val coordsNumber: CoordsNumber) {
     A(CoordsNumber(0)),

@@ -1,4 +1,4 @@
-package woowacourse.omokApp.omok.model.board
+package woowacourse.omok.omok.model.board
 
 enum class Stone(val value: Int) {
     BLACK(1),

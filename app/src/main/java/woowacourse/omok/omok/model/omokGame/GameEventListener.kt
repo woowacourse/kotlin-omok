@@ -1,7 +1,7 @@
-package woowacourse.omokApp.omok.model.omokGame
+package woowacourse.omok.omok.model.omokGame
 
-import woowacourse.omokApp.omok.model.board.Position
-import woowacourse.omokApp.omok.model.board.Stone
+import woowacourse.omok.omok.model.board.Position
+import woowacourse.omok.omok.model.board.Stone
 
 interface GameEventListener {
     fun onGameStart()

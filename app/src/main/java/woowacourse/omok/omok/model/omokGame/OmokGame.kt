@@ -1,22 +1,22 @@
-package woowacourse.omokApp.omok.model.omokGame
+package woowacourse.omok.omok.model.omokGame
 
 import Controller.requestPlayerMove
 import GameRuleAdapter
-import woowacourse.omokApp.omok.model.board.Position
-import woowacourse.omokApp.omok.model.board.Stone
+import android.util.Log
+import woowacourse.omok.omok.model.board.Position
+import woowacourse.omok.omok.model.board.Stone
 
 class OmokGame(private val listener: GameEventListener) {
-    lateinit var currentStone: Stone
     val board = Board()
+    var currentStone = Stone.BLACK
     val renjuGameRule =
         GameRuleAdapter().apply {
             setupBoard(board)
         }
 
-    fun startGame(): Stone {
-        currentStone = Stone.BLACK
+    fun startGame(currentStone: Stone): Stone {
         listener.onGameStart()
-        requestPlayerMove(currentStone)
+        //requestPlayerMove(currentStone)
         return currentStone
     }
 
@@ -30,11 +30,14 @@ class OmokGame(private val listener: GameEventListener) {
     ) {
         renjuGameRule.placeForRuleCheck(position.row, position.column, currentStone)
         board.setStone(position.row, position.column, currentStone)
-        if (renjuGameRule.isWinningMove(position.row, position.column, currentStone)) board.gameOver()
+        if (renjuGameRule.isWinningMove(position.row, position.column, currentStone)) {
+            board.gameOver()
+        }
         onStonePlaced(currentStone)
     }
 
     private fun onStonePlaced(currentStone: Stone) {
+        Log.d("되나요", currentStone.toString())
         val changeStone = togglePlayer(currentStone)
         listener.printBoard(
             board.gameBoard,
@@ -42,9 +45,10 @@ class OmokGame(private val listener: GameEventListener) {
                 changeStone,
             ),
         )
-        if (board.isRunning()) {
-            requestPlayerMove(changeStone)
-        }
+        this.currentStone =changeStone
+//        if (board.isRunning()) {
+//            //requestPlayerMove(changeStone)
+//        }
     }
 
     private fun togglePlayer(currentStone: Stone): Stone = if (currentStone == Stone.BLACK) Stone.WHITE else Stone.BLACK

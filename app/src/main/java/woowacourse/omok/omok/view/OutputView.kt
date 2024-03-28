@@ -1,10 +1,10 @@
-package woowacourse.omokApp.omok.view
+package woowacourse.omok.omok.view
 
 import Controller.omok
-import woowacourse.omokApp.omok.model.board.CoordsNumber
-import woowacourse.omokApp.omok.model.board.Position
-import woowacourse.omokApp.omok.model.board.Stone
-import woowacourse.omokApp.omok.model.omokGame.GameEventListener
+import woowacourse.omok.omok.model.board.CoordsNumber
+import woowacourse.omok.omok.model.board.Position
+import woowacourse.omok.omok.model.board.Stone
+import woowacourse.omok.omok.model.omokGame.GameEventListener
 
 private const val COLUMN_STRING = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
 private const val X = "X"
