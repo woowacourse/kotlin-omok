@@ -29,6 +29,6 @@ value class Row(val comma: String) {
         private const val ERROR_ROW_TYPE = "Row는 정수형이어야 합니다."
         private const val ERROR_ROW_RANGE = "Row는 ${MIN_ROW}~${MAX_ROW} 사이여야 합니다."
 
-        fun Int.toRow(size: Int): Row = Row((size - this).toString())
+        fun Int.toRowComma(size: Int): String = (size - this).toString()
     }
 }
