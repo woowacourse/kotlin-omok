@@ -8,13 +8,13 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
-import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone
 import omok.model.stone.BlackStone.value
 import omok.model.stone.GoStone
 import omok.model.stone.WhiteStone
 import omok.model.stone.WhiteStone.changeStone
+import woowacourse.omok.omokdb.OmokDataInitializer.resetGameData
 import woowacourse.omok.omokdb.OmokDbHelper
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         val board = findViewById<TableLayout>(R.id.board)
-        resetGameData(board)
+        resetGameData(dbHelper, board)
     }
 
     private fun recoverBoard(
@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         val snackBar = Snackbar.make(view, "${stone.value()} 승리", Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction(CONFIRM_BUTTON_MESSAGE) {
-            resetGameData(board)
+            resetGameData(dbHelper, board)
         }
         snackBar.show()
     }
@@ -143,24 +143,7 @@ class MainActivity : AppCompatActivity() {
         return Position.of(row, column)
     }
 
-    private fun resetGameData(board: TableLayout) {
-        resetBoardImage(board)
-        Board.resetBoard()
-        dbHelper.reset()
-    }
-
-    private fun resetBoardImage(board: TableLayout) {
-        board.children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { view ->
-                view.setImageResource(RESET_IMAGE_ID)
-            }
-    }
-
     companion object {
-        private const val RESET_IMAGE_ID = 0
         private const val BOARD_SIZE = 15
         private const val BLACK_STONE_VALUE = "흑"
         private const val FIRST_COLUMN = 'A'
