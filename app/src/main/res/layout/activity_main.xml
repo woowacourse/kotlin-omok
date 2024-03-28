@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="임시"
-            android:textSize="40sp"
+            android:textSize="25sp"
             android:gravity="center"/>
 
         <TableRow android:layout_weight="1">
