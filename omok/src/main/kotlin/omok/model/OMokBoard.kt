@@ -20,7 +20,8 @@ object OMokBoard {
             arrayOf('└', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┴', '┘'),
         )
 
-    val boardTable: MutableList<MutableList<Char>> = boardDefaultTable.map { it.toMutableList() }.toMutableList()
+    val boardTable: MutableList<MutableList<Char>> =
+        boardDefaultTable.map { it.toMutableList() }.toMutableList()
 
     val boardForm =
         listOf(
@@ -41,4 +42,9 @@ object OMokBoard {
             "  1 %c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c──%c",
             "    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O",
         )
+
+    fun resetBoard() {
+        boardTable.clear()
+        boardTable.addAll(boardDefaultTable.map { it.toMutableList() }.toMutableList())
+    }
 }
