@@ -2,10 +2,10 @@ package omok.model
 
 class OmokGame(private val board: Board, private val players: Players) {
     fun gameWinner(
-        nextStonePosition: (Player2, Position?) -> Position,
+        nextStonePosition: (Player, Position?) -> Position,
         nextStonePositionResult: () -> Unit,
         handleException: (Exception) -> Unit,
-    ): Player2 {
+    ): Player {
         var recentPlayer = players.firstOrderedPlayer()
         var recentPosition: Position? = null
 
@@ -19,8 +19,8 @@ class OmokGame(private val board: Board, private val players: Players) {
     }
 
     private fun Position?.next(
-        recentPlayer: Player2,
-        nextStonePosition: (Player2, Position?) -> Position,
+        recentPlayer: Player,
+        nextStonePosition: (Player, Position?) -> Position,
         handleException: (Exception) -> Unit,
     ) = retryUntilNotException(
         block = {

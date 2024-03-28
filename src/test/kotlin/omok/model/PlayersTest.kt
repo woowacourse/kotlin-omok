@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 
 class PlayersTest {
     private val blackStonePlayer =
-        Player2(
+        Player(
             Stone.BLACK,
             RuleAdapter2(
                 ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.EXACT),
@@ -25,7 +25,7 @@ class PlayersTest {
         )
 
     private val whiteStonePlayer =
-        Player2(
+        Player(
             Stone.WHITE,
             RuleAdapter2(
                 ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.CAN_OVERLINE),

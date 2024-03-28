@@ -2,7 +2,7 @@ package omok.controller
 
 import omok.model.Board
 import omok.model.OmokGame
-import omok.model.Player2
+import omok.model.Player
 import omok.model.Players
 import omok.model.Stone
 import omok.model.rule.RuleAdapter2
@@ -17,8 +17,8 @@ class OmokController(
 ) {
     private val players =
         Players(
-            blackStonePlayer = Player2(Stone.BLACK, blackStoneGamePlayingRules),
-            whiteStonePlayer = Player2(Stone.WHITE, whiteStoneGamePlayingRules),
+            blackStonePlayer = Player(Stone.BLACK, blackStoneGamePlayingRules),
+            whiteStonePlayer = Player(Stone.WHITE, whiteStoneGamePlayingRules),
         )
 
     fun startGame() {
