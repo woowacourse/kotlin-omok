@@ -1,6 +1,7 @@
 package omock.model.board
 
 import omock.model.player.Player
+import omock.model.stonestate.Clear
 import omock.model.stonestate.StoneState
 
 data class ColumnStates(
@@ -10,7 +11,9 @@ data class ColumnStates(
         row: Int,
         player: Player,
     ) {
-        columnStates[row] = getStoneState(row).put(player)
+        val currentStone = getStoneState(row)
+        require(currentStone is Clear) { ERROR_NOT_CLEAR }
+        columnStates[row] = currentStone.put(player)
     }
 
     fun rollback(row: Int) {
@@ -19,5 +22,9 @@ data class ColumnStates(
 
     fun getStoneState(column: Int): StoneState {
         return columnStates[column]
+    }
+
+    companion object {
+        private const val ERROR_NOT_CLEAR = "이미 돌이 있습니다."
     }
 }
