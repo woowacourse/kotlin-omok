@@ -17,6 +17,7 @@ class OmokGame(private val listener: GameEventListener) {
         for (i in 0 until BOARD_SIZE) {
             for (j in 0 until BOARD_SIZE) {
                 board.gameBoard[i][j] = Stone.EMPTY
+                renjuGameRule.setupBoard(board)
             }
         }
         currentStone = Stone.BLACK

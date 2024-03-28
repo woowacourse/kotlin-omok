@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
         val board = findViewById<TableLayout>(R.id.board)
         dbHelper = DatabaseHelper(this)
         loadGame()
-        Log.d("log완료","log완료")
 
         val button = findViewById<Button>(R.id.resetButton)
         button.setOnClickListener {
@@ -36,15 +35,17 @@ class MainActivity : AppCompatActivity() {
         board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rows ->
             rows.children.filterIsInstance<ImageView>().forEachIndexed { columIndex, view ->
                 view.setOnClickListener {
-                    Log.d("실행중",omok.board.isRunning().toString())
+                    val forbiddenPositions =
+                        omok.renjuGameRule.findForbiddenPositions(omok.currentStone)
                     if (omok.board.isRunning()) {
                         if (requestPlayerMove(
-                                omok.currentStone, CoordsNumber(rowIndex), CoordsNumber(columIndex)
+                                omok.currentStone,
+                                CoordsNumber(rowIndex),
+                                CoordsNumber(columIndex),
+                                forbiddenPositions
                             )
                         ) {
-                            val resId =
-                                if (omok.currentStone == Stone.BLACK) R.drawable.white_stone else R.drawable.black_stone
-                            view.setImageResource(resId)
+                            updateUI()
                         }
                     }
                     saveGame()
@@ -53,22 +54,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun requestPlayerMove(
+    fun resetBoard() {
+        omok.resetGame()
+        val db = dbHelper.writableDatabase
+        db.execSQL("DELETE FROM GameBoard")
+        updateUI()
+    }
+
+    private fun requestPlayerMove(
         currentStone: Stone,
         rowCoords: CoordsNumber,
         columnCoords: CoordsNumber,
+        forbiddenPositions: List<Position>,
     ): Boolean {
         if (rowCoords != null && columnCoords != null &&
             !omok.board.isMoveForbidden(
                 rowCoords,
                 columnCoords,
-                omok.renjuGameRule.findForbiddenPositions(currentStone),
+                forbiddenPositions,
             ) && !omok.board.isNotEmpty(rowCoords, columnCoords)
         ) {
             omok.placeStone(Position(rowCoords, columnCoords), currentStone)
             outputView.printBoard(
                 omok.board.gameBoard,
-                omok.board.findForbiddenPositions(currentStone)
+                forbiddenPositions
             )
             return true
         } else {
@@ -125,7 +134,7 @@ class MainActivity : AppCompatActivity() {
                     2 -> Stone.WHITE
                     else -> Stone.EMPTY
                 }
-                if (stone==Stone.EMPTY) continue
+                if (stone == Stone.EMPTY) continue
                 omok.placeStone(
                     Position(CoordsNumber(columnIndex), CoordsNumber(rowIndex)),
                     stone
@@ -139,24 +148,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateUI() {
         val board = findViewById<TableLayout>(R.id.board)
+        val forbiddenPositions =
+            omok.renjuGameRule.findForbiddenPositions(omok.currentStone)
         board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rows ->
             rows.children.filterIsInstance<ImageView>().forEachIndexed { columnIndex, view ->
-                val stone = omok.board.gameBoard[columnIndex][rowIndex]
-                val resId = when (stone) {
-                    Stone.BLACK -> R.drawable.black_stone
-                    Stone.WHITE -> R.drawable.white_stone
-                    else -> 0
+                if (Position(
+                        CoordsNumber(columnIndex),
+                        CoordsNumber(rowIndex)
+                    ) in forbiddenPositions
+                ) {
+                    view.setImageResource(R.drawable.x_mark)
+                } else {
+                    val stone = omok.board.gameBoard[columnIndex][rowIndex]
+                    val resId = when (stone) {
+                        Stone.BLACK -> R.drawable.black_stone
+                        Stone.WHITE -> R.drawable.white_stone
+                        else -> 0
+                    }
+                    if (resId != 0) view.setImageResource(resId)
+                    else view.setImageDrawable(null)
                 }
-                if (resId != 0) view.setImageResource(resId)
-                else view.setImageDrawable(null) // 돌이 없는 경우
             }
         }
-    }
-
-    fun resetBoard() {
-        omok.resetGame()
-        val db = dbHelper.writableDatabase
-        db.execSQL("DELETE FROM GameBoard")
-        updateUI()
     }
 }
