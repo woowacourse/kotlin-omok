@@ -19,5 +19,9 @@ value class Column(val comma: String) {
         const val MAX_COLUMN_INDEX = MAX_COLUMN.code - MIN_COLUMN.code
         val COLUM_RANGE = (MIN_COLUMN..MAX_COLUMN).map { it.toString() }
         private const val ERROR_COLUMN_RANGE = "Column은 $MIN_COLUMN~$MAX_COLUMN 사이어야 합니다."
+
+        fun transformIndex(index: Int): String{
+            return (MIN_COLUMN + index).toString()
+        }
     }
 }
