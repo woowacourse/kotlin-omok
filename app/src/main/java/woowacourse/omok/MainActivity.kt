@@ -41,8 +41,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initializeBoardSetting()
 
+        setupBoardUi()
+        setupRestartButton()
+        initializeBoardSetting()
+    }
+
+    private fun setupBoardUi() {
         boardUi.forEachIndexed { index, view ->
             val x = index % BOARD_SIZE
             val y = index / BOARD_SIZE
@@ -54,7 +59,9 @@ class MainActivity : AppCompatActivity() {
                 progressGameTurn(view, x, y)
             }
         }
+    }
 
+    private fun setupRestartButton() {
         val restartButton = findViewById<Button>(R.id.btn_restart)
         restartButton.setOnClickListener {
             boardUi.forEach { it.setImageResource(0) }
@@ -67,24 +74,34 @@ class MainActivity : AppCompatActivity() {
         val projection = arrayOf(OmokContract.STONE_TYPE, OmokContract.POINT_X, OmokContract.POINT_Y)
         val cursor =
             omokDb.query(OmokContract.TABLE_NAME, projection, null, null, null, null, null)
-
         val initialBoard = Board()
-        var stoneType = StoneType.WHITE
-        while (cursor.moveToNext()) {
-            val stoneTypeValue = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.STONE_TYPE))
-            val pointX = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_X))
-            val pointY = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_Y))
-            val coordinate = pointY * BOARD_SIZE + pointX
+        var latestStoneType = StoneType.WHITE
 
-            stoneType = StoneType.fromValue(stoneTypeValue)
-            boardUi[coordinate].setImageResource(getStoneImage(stoneType))
-            initialBoard.putStone(Stone(stoneType, Point(pointX, pointY)))
+        with(cursor) {
+            while (moveToNext()) {
+                val stoneTypeValue = getInt(cursor.getColumnIndexOrThrow(OmokContract.STONE_TYPE))
+                val pointX = getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_X))
+                val pointY = getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_Y))
+                val coordinate = pointY * BOARD_SIZE + pointX
+
+                latestStoneType = StoneType.fromValue(stoneTypeValue)
+                boardUi[coordinate].setImageResource(getStoneImage(latestStoneType))
+                initialBoard.putStone(Stone(latestStoneType, Point(pointX, pointY)))
+            }
         }
+        cursor.close()
+        initializeGameSetting(initialBoard, latestStoneType)
+    }
+
+    private fun initializeGameSetting(
+        initialBoard: Board,
+        latestStoneType: StoneType,
+    ) {
         val isGameEnd = initialBoard.latestStone?.let { initialBoard.isWinCondition(it) } ?: false
-        val initialTurn = if (isGameEnd) FinishedTurn(initialBoard.latestStone!!) else createTurn(stoneType)
+        val initialTurn = if (isGameEnd) FinishedTurn(initialBoard.latestStone!!) else createTurn(latestStoneType)
+
         omokGame = OmokGame(turn = initialTurn, board = initialBoard)
         displayMessage(generateTurnMessage(initialTurn))
-        cursor.close()
     }
 
     private fun createTurn(stoneType: StoneType?): Turn {
@@ -103,9 +120,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         val isSuccess =
             omokGame.tryPlayTurn(
-                updateBoard = { board ->
-                    view.setImageResource(getStoneImage(board.latestStone?.type))
-                },
+                updateBoard = { view.setImageResource(getStoneImage(it.latestStone?.type)) },
                 updateTurn = { turn, stone ->
                     displayMessage(generateTurnMessage(turn))
                     stone?.let { saveStoneData(it) }
