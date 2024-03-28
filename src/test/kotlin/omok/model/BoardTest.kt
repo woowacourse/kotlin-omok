@@ -7,7 +7,6 @@ import omok.model.rule.winning.ContinualStonesWinningCondition
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class BoardTest {
     private lateinit var emptyBoard: Board
@@ -33,15 +32,6 @@ class BoardTest {
 
         val actual = emptyBoard.find(Position(3, 3))
         assertThat(actual).isEqualTo(playerStone)
-    }
-
-    @Test
-    fun `오목판에 이미 돌이 있는 곳에 놓으면 예외가 발생한다`() {
-        val board =
-            initBoard(
-                StonePosition(Position(3, 3), playerStone),
-            )
-        assertThrows<IllegalStateException> { board.place(Position(3, 3), player) }
     }
 
     @Test

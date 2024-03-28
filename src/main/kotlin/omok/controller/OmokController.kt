@@ -2,7 +2,6 @@ package omok.controller
 
 import omok.model.Board
 import omok.model.OmokGame
-import omok.model.OmokGame2
 import omok.model.Player
 import omok.model.Players
 import omok.model.Stone
@@ -25,30 +24,15 @@ class OmokController(
     fun startGame2() {
         val board = initializedBoard()
         val winner =
-            OmokGame2(
-                board,
-                players,
-                validPosition =
-                    listOf(
-                        EmptyPosition { player, position, message -> outputView.printInvalidPosition(player, position, message) },
-                        AbideForbiddenRules { player, position, message -> outputView.printInvalidPosition(player, position, message) },
-                    ),
-            ).gameWinner(
+            OmokGame(board, players,
+                listOf(
+                    EmptyPosition { player, position, message -> outputView.printInvalidPosition(player, position, message) },
+                    AbideForbiddenRules { player, position, message -> outputView.printInvalidPosition(player, position, message) },),
+                ).gameWinner(
                 nextStonePosition = { player, position -> inputView.readStonePosition(player.stone, position) },
                 nextStonePositionResult = { outputView.printBoard(board) },
-            )
+                    )
 
-        outputView.printWinner(winner.stone)
-    }
-
-    fun startGame() {
-        val board = initializedBoard()
-        val winner =
-            OmokGame(board, players).gameWinner(
-                nextStonePosition = { player, position -> inputView.readStonePosition(player.stone, position) },
-                nextStonePositionResult = { outputView.printBoard(board) },
-                handleException = { exception -> outputView.printException(exception) },
-            )
         outputView.printWinner(winner.stone)
     }
 

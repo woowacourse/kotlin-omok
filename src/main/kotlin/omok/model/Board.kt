@@ -15,20 +15,10 @@ class Board(private val _board: MutableMap<Position, Stone> = initBoard()) {
 
     fun find(position: Position): Stone = board[position] ?: Stone.NONE
 
-    fun place2(
-        position: Position,
-        player: Player,
-    ) {
-        _board[position] = player.stone
-    }
-
     fun place(
         position: Position,
         player: Player,
     ) {
-        check(find(position) == Stone.NONE) { "이미 바둑돌이 있는 위치입니다." }
-        check(player.canPlace(this, position)) { "바둑돌을 놓을 수 없는 위치입니다." }
-
         _board[position] = player.stone
     }
 
