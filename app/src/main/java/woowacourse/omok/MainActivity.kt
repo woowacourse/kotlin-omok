@@ -2,6 +2,7 @@ package woowacourse.omok
 
 import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -23,25 +24,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-
         val board = findViewById<TableLayout>(R.id.board)
-        val button  = findViewById<Button>(R.id.resetButton)
+        dbHelper = DatabaseHelper(this)
+        loadGame()
+        Log.d("log완료","log완료")
+
+        val button = findViewById<Button>(R.id.resetButton)
         button.setOnClickListener {
             resetBoard()
         }
-        dbHelper = DatabaseHelper(this)
-        loadGame()
-        updateUI()
         board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rows ->
             rows.children.filterIsInstance<ImageView>().forEachIndexed { columIndex, view ->
                 view.setOnClickListener {
+                    Log.d("실행중",omok.board.isRunning().toString())
                     if (omok.board.isRunning()) {
                         if (requestPlayerMove(
                                 omok.currentStone, CoordsNumber(rowIndex), CoordsNumber(columIndex)
                             )
                         ) {
                             val resId =
-                                if (omok.currentStone == Stone.BLACK) R.drawable.black_stone else R.drawable.white_stone
+                                if (omok.currentStone == Stone.BLACK) R.drawable.white_stone else R.drawable.black_stone
                             view.setImageResource(resId)
                         }
                     }
@@ -68,7 +70,6 @@ class MainActivity : AppCompatActivity() {
                 omok.board.gameBoard,
                 omok.board.findForbiddenPositions(currentStone)
             )
-            updateUI()
             return true
         } else {
             outputView.printForbiddenMoveMessage()
@@ -113,6 +114,7 @@ class MainActivity : AppCompatActivity() {
             null,
             null
         )
+        omok.resetGame()
         with(cursor) {
             while (moveToNext()) {
                 val rowIndex = getInt(getColumnIndexOrThrow("rowIndex"))
@@ -123,6 +125,7 @@ class MainActivity : AppCompatActivity() {
                     2 -> Stone.WHITE
                     else -> Stone.EMPTY
                 }
+                if (stone==Stone.EMPTY) continue
                 omok.placeStone(
                     Position(CoordsNumber(columnIndex), CoordsNumber(rowIndex)),
                     stone
@@ -130,16 +133,19 @@ class MainActivity : AppCompatActivity() {
             }
             close()
         }
+        updateUI()
     }
+
+
     private fun updateUI() {
         val board = findViewById<TableLayout>(R.id.board)
         board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rows ->
             rows.children.filterIsInstance<ImageView>().forEachIndexed { columnIndex, view ->
                 val stone = omok.board.gameBoard[columnIndex][rowIndex]
                 val resId = when (stone) {
-                    Stone.BLACK -> R.drawable.white_stone
-                    Stone.WHITE -> R.drawable.black_stone
-                    else -> 0 // 투명 이미지 또는 돌이 없는 상태를 나타내는 이미지
+                    Stone.BLACK -> R.drawable.black_stone
+                    Stone.WHITE -> R.drawable.white_stone
+                    else -> 0
                 }
                 if (resId != 0) view.setImageResource(resId)
                 else view.setImageDrawable(null) // 돌이 없는 경우
@@ -153,5 +159,4 @@ class MainActivity : AppCompatActivity() {
         db.execSQL("DELETE FROM GameBoard")
         updateUI()
     }
-
 }
