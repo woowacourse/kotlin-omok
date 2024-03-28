@@ -11,6 +11,7 @@ import androidx.core.view.children
 import woowacourse.omok.db.OmokContract
 import woowacourse.omok.db.OmokDbHelper
 import woowacourse.omok.domain.model.BlackTurn
+import woowacourse.omok.domain.model.Board.Companion.BOARD_SIZE
 import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Point
@@ -23,26 +24,58 @@ import woowacourse.omok.domain.model.WhiteTurn
 class MainActivity : AppCompatActivity() {
     private val omokGame = OmokGame()
     private val omokDb by lazy { OmokDbHelper(this).writableDatabase }
+    private val boardUi: List<ImageView> by lazy {
+        findViewById<TableLayout>(R.id.board)
+            .children
+            .filterIsInstance<TableRow>()
+            .flatMap { tableRow ->
+                tableRow.children.filterIsInstance<ImageView>().toList()
+            }
+            .toList()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val boardUi = findViewById<TableLayout>(R.id.board)
-        boardUi
-            .children
-            .filterIsInstance<TableRow>()
-            .forEachIndexed { x, row ->
-                row.children.filterIsInstance<ImageView>()
-                    .forEachIndexed { y, view ->
-                        view.setOnClickListener {
-                            if (omokGame.isGameFinished()) {
-                                displayMessage("게임이 종료되었습니다.")
-                                return@setOnClickListener
-                            }
-                            progressGameTurn(view, x, y)
-                        }
-                    }
+        initializeBoardSetting()
+
+        boardUi.forEachIndexed { index, view ->
+            val x = index % BOARD_SIZE
+            val y = index / BOARD_SIZE
+            view.setOnClickListener {
+                if (omokGame.isGameFinished()) {
+                    displayMessage("게임이 종료되었습니다.")
+                    return@setOnClickListener
+                }
+                progressGameTurn(view, x, y)
             }
+        }
+    }
+
+    private fun initializeBoardSetting() {
+        val projection = arrayOf(OmokContract.STONE_TYPE, OmokContract.POINT_X, OmokContract.POINT_Y)
+        val cursor =
+            omokDb.query(
+                OmokContract.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null,
+            )
+
+        with(cursor) {
+            while (moveToNext()) {
+                val stoneType = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.STONE_TYPE))
+                val pointX = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_X))
+                val pointY = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_Y))
+
+                val coordinate = pointY * BOARD_SIZE + pointX
+                boardUi[coordinate].setImageResource(getStoneImage(StoneType.fromValue(stoneType)))
+            }
+        }
+        cursor.close()
     }
 
     private fun progressGameTurn(
