@@ -16,6 +16,7 @@ import omok.model.stone.WhiteStone
 import omok.model.stone.WhiteStone.changeStone
 import woowacourse.omok.omokdb.OmokDataInitializer.resetGameData
 import woowacourse.omok.omokdb.OmokDbHelper
+import woowacourse.omok.omokdb.OmokRestoreData.restoreGameData
 
 class MainActivity : AppCompatActivity() {
     private var stone: GoStone = BlackStone
@@ -27,14 +28,9 @@ class MainActivity : AppCompatActivity() {
 
         val board = findViewById<TableLayout>(R.id.board)
         dbHelper = OmokDbHelper(this)
-        restoreGameData(board)
-        startOmokGame(board)
-    }
 
-    private fun restoreGameData(board: TableLayout) {
-        dbHelper.selectStonesInfo().forEach { (position, stoneColor) ->
-            recoverBoard(board, position, stoneColor)
-        }
+        restoreGameData(dbHelper, board) { imageView(it) }
+        startOmokGame(board)
     }
 
     override fun onDestroy() {
@@ -43,33 +39,6 @@ class MainActivity : AppCompatActivity() {
         resetGameData(dbHelper, board)
     }
 
-    private fun recoverBoard(
-        board: TableLayout,
-        position: Position,
-        stoneColor: String,
-    ) {
-        board.children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEachIndexed { index, view ->
-                if (indexAdapter(index) == position) {
-                    recoverStone(stoneColor.stone(), position, view)
-                }
-            }
-    }
-
-    private fun recoverStone(
-        stone: GoStone,
-        position: Position,
-        view: ImageView,
-    ) {
-        view.setImageResource(stone.imageView())
-        stone.putStone(position)
-    }
-
-    private fun String.stone() = if (this == BLACK_STONE_VALUE) BlackStone else WhiteStone
-
     private fun startOmokGame(board: TableLayout) {
         board.children
             .filterIsInstance<TableRow>()
@@ -77,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
                 view.setOnClickListener {
-                    handleStonePlacement(board, indexAdapter(index), view)
+                    handleStonePlacement(board, Position.fromIndex(index), view)
                 }
             }
     }
@@ -90,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         val currentStone = detectRenjuRule(view) { stone.putStone(position) }
         currentStone?.let {
             dbHelper.insert(position.getRowValue(), position.getColumnValue(), stone.value())
-            view.setImageResource(stone.imageView())
+            view.setImageResource(imageView(stone))
             if (checkOmok(board, position, view)) return
             stone = stone.changeStone()
         }
@@ -107,8 +76,8 @@ class MainActivity : AppCompatActivity() {
             return null
         }
 
-    private fun GoStone.imageView() =
-        when (this) {
+    private fun imageView(stone: GoStone) =
+        when (stone) {
             BlackStone -> R.drawable.black_stone
             WhiteStone -> R.drawable.white_stone
         }
@@ -137,16 +106,7 @@ class MainActivity : AppCompatActivity() {
         snackBar.show()
     }
 
-    private fun indexAdapter(index: Int): Position {
-        val row = FIRST_COLUMN + (index % BOARD_SIZE)
-        val column = BOARD_SIZE - (index / BOARD_SIZE)
-        return Position.of(row, column)
-    }
-
     companion object {
-        private const val BOARD_SIZE = 15
-        private const val BLACK_STONE_VALUE = "흑"
-        private const val FIRST_COLUMN = 'A'
         private const val CONFIRM_BUTTON_MESSAGE = "확인"
     }
 }

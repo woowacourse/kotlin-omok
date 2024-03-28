@@ -13,6 +13,7 @@ data class Position(val row: Int, val column: Int) {
 
     companion object {
         private const val START_ROW_VALUE = 'A'
+        private const val APP_BOARD_SIZE = 15
         private const val COLUMN_OFFSET = 1
         private const val MIN_RANGE = 0
         private const val MAX_RANGE = 14
@@ -27,6 +28,12 @@ data class Position(val row: Int, val column: Int) {
         ): String {
             val rowValue = START_ROW_VALUE + row
             return EXCEPTION_INVALID_POSITION.format(rowValue, column + COLUMN_OFFSET)
+        }
+
+        fun fromIndex(index: Int): Position {
+            val row = index % APP_BOARD_SIZE
+            val column = APP_BOARD_SIZE - (index / APP_BOARD_SIZE) - COLUMN_OFFSET
+            return Position(row, column)
         }
 
         fun of(
