@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.model.OmokGame
 import omok.model.Point
-import omok.model.StoneType
 import omok.model.Point.Companion.MESSAGE_INVALID_POINT_INPUT
+import omok.model.StoneType
 
 class MainActivity : AppCompatActivity() {
     private val omokGame = OmokGame()
@@ -37,11 +37,16 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun progressGameTurn(view: ImageView, x: Int, y: Int) {
-        val isSuccess = omokGame.tryPlayTurn(
-            updateTurn = { view.setImageResource(getStoneImage(it.before?.type)) },
-            getPoint = { Point(x, y) }
-        )
+    private fun progressGameTurn(
+        view: ImageView,
+        x: Int,
+        y: Int,
+    ) {
+        val isSuccess =
+            omokGame.tryPlayTurn(
+                updateTurn = { view.setImageResource(getStoneImage(it.before?.type)) },
+                getPoint = { Point(x, y) },
+            )
         if (!isSuccess) Toast.makeText(this, MESSAGE_INVALID_POINT_INPUT, Toast.LENGTH_SHORT).show()
     }
 

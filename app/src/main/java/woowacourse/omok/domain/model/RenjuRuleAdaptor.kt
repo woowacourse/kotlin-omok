@@ -1,7 +1,5 @@
 package omok.model
 
-import omok.model.Board.Companion.BOARD_SIZE
-import omok.rule.RenjuRule
 import woowacourse.omok.domain.model.OmokRule
 
 class RenjuRuleAdaptor(private val rule: List<OmokRule>) {

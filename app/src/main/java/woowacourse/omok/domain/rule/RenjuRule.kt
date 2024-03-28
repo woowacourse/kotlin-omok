@@ -6,7 +6,7 @@ class RenjuRule(
     private val currentStone: Int = BLACK_STONE,
     private val otherStone: Int = WHITE_STONE,
     private val boardSize: Int,
-): OmokRule {
+) : OmokRule {
     private val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
 
     override fun validPosition(
