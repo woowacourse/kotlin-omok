@@ -1,4 +1,4 @@
-package woowacourse.omok.omok.model.board
+package woowacourse.omok.model.board
 
 data class CoordsNumber(val number: Int) {
     init {

@@ -1,8 +1,8 @@
-import woowacourse.omok.omok.lib.RenjuGameRule
-import woowacourse.omok.omok.model.board.CoordsNumber
-import woowacourse.omok.omok.model.board.Position
-import woowacourse.omok.omok.model.board.Stone
-import woowacourse.omok.omok.model.omokGame.Board
+import woowacourse.omok.lib.RenjuGameRule
+import woowacourse.omok.model.board.CoordsNumber
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.omokGame.Board
 
 class GameRuleAdapter(private val renjuGameRule: RenjuGameRule = RenjuGameRule()) {
     fun setupBoard(board: Board) {

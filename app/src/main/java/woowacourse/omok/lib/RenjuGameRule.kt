@@ -1,4 +1,4 @@
-package woowacourse.omok.omok.lib
+package woowacourse.omok.lib
 
 class RenjuGameRule : GameRule {
     private lateinit var board: Array<Array<Int>>

@@ -1,9 +1,9 @@
-package woowacourse.omok.omok.model.omokGame
+package woowacourse.omok.model.omokGame
 
 import GameRuleAdapter
-import woowacourse.omok.omok.model.board.CoordsNumber
-import woowacourse.omok.omok.model.board.Position
-import woowacourse.omok.omok.model.board.Stone
+import woowacourse.omok.model.board.CoordsNumber
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.Stone
 
 class Board(val gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Stone.EMPTY } }) {
     private var renjuGameRule: GameRuleAdapter = GameRuleAdapter()

@@ -1,4 +1,4 @@
-package woowacourse.omok.omok.model.omokGame
+package woowacourse.omok.model.omokGame
 
 enum class OmokGameState {
     RUNNING,

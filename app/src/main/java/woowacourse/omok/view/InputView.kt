@@ -1,8 +1,8 @@
-package woowacourse.omok.omok.view
+package woowacourse.omok.view
 
-import woowacourse.omok.omok.model.board.ColumnNumber
-import woowacourse.omok.omok.model.board.CoordsNumber
-import woowacourse.omok.omok.model.board.Stone
+import woowacourse.omok.model.board.ColumnNumber
+import woowacourse.omok.model.board.CoordsNumber
+import woowacourse.omok.model.board.Stone
 
 object InputView {
     fun readPlayerMove(

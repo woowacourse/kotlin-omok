@@ -1,10 +1,10 @@
-package woowacourse.omok.omok.model.omokGame
+package woowacourse.omok.model.omokGame
 
 import Controller.requestPlayerMove
 import GameRuleAdapter
 import android.util.Log
-import woowacourse.omok.omok.model.board.Position
-import woowacourse.omok.omok.model.board.Stone
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.Stone
 
 class OmokGame(private val listener: GameEventListener) {
     val board = Board()
