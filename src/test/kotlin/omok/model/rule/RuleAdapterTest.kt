@@ -7,7 +7,7 @@ import omok.model.Stone
 import omok.model.StonePosition
 import omok.model.initBoard
 import omok.model.rule.library.FourFourRule
-import omok.model.rule.library.OverlineRule2
+import omok.model.rule.library.OverlineRule
 import omok.model.rule.library.ThreeThreeRule
 import omok.model.rule.winning.ContinualStonesWinningCondition
 import org.assertj.core.api.Assertions.assertThat
@@ -23,7 +23,7 @@ class RuleAdapterTest {
             ForbiddenRules(
                 ThreeThreeRule.forBlack(),
                 FourFourRule.forBlack(),
-                OverlineRule2(),
+                OverlineRule(),
             ),
         )
 
@@ -192,7 +192,7 @@ class RuleAdapterTest {
         val ruleAdapter =
             RuleAdapter(
                 ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.EXACT),
-                ForbiddenRules(OverlineRule2()),
+                ForbiddenRules(OverlineRule()),
             )
 
         val board =
@@ -216,7 +216,7 @@ class RuleAdapterTest {
         val ruleAdapter =
             RuleAdapter(
                 ContinualStonesWinningCondition(ContinualStonesStandard(4), ContinualStonesCondition.EXACT),
-                ForbiddenRules(OverlineRule2()),
+                ForbiddenRules(OverlineRule()),
             )
 
         val board =
@@ -253,7 +253,7 @@ class RuleAdapterTest {
             RuleAdapter(
                 ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.CAN_OVERLINE),
                 ForbiddenRules(
-                    OverlineRule2(),
+                    OverlineRule(),
                 ),
             )
         }

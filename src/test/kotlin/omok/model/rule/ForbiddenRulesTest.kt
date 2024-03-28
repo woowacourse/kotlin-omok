@@ -1,7 +1,7 @@
 package omok.model.rule
 
 import omok.model.rule.library.FourFourRule
-import omok.model.rule.library.OverlineRule2
+import omok.model.rule.library.OverlineRule
 import omok.model.rule.library.ThreeThreeRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -17,12 +17,12 @@ class ForbiddenRulesTest {
             ForbiddenRules(
                 ThreeThreeRule(1, 2),
                 FourFourRule(1, 2),
-                OverlineRule2(),
+                OverlineRule(),
             )
 
         // when
         forbiddenRules.initOverlineStandard(ContinualStonesStandard(count))
-        val actual = (forbiddenRules.rules.find { it is OverlineRule2 } as OverlineRule2).count
+        val actual = (forbiddenRules.rules.find { it is OverlineRule } as OverlineRule).count
 
         // then
         assertThat(actual).isEqualTo(count)
@@ -50,7 +50,7 @@ class ForbiddenRulesTest {
     fun `장목 금수 규칙을 가지고 있다`() {
         val forbiddenRules =
             ForbiddenRules(
-                OverlineRule2(),
+                OverlineRule(),
             )
 
         assertThat(forbiddenRules.hasOverlineRule()).isTrue

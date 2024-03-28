@@ -4,7 +4,7 @@ import omok.model.rule.ContinualStonesStandard
 import omok.model.rule.ForbiddenRules
 import omok.model.rule.RuleAdapter
 import omok.model.rule.library.FourFourRule
-import omok.model.rule.library.OverlineRule2
+import omok.model.rule.library.OverlineRule
 import omok.model.rule.library.ThreeThreeRule
 import omok.model.rule.winning.ContinualStonesWinningCondition
 import org.assertj.core.api.Assertions.assertThat
@@ -19,7 +19,7 @@ class PlayersTest {
                 ForbiddenRules(
                     ThreeThreeRule.forBlack(),
                     FourFourRule.forBlack(),
-                    OverlineRule2(),
+                    OverlineRule(),
                 ),
             ),
         )

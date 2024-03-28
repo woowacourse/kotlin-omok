@@ -6,7 +6,7 @@ import omok.model.rule.ContinualStonesStandard
 import omok.model.rule.ForbiddenRules
 import omok.model.rule.RuleAdapter
 import omok.model.rule.library.FourFourRule
-import omok.model.rule.library.OverlineRule2
+import omok.model.rule.library.OverlineRule
 import omok.model.rule.library.ThreeThreeRule
 import omok.model.rule.winning.ContinualStonesWinningCondition
 import omok.view.InputView
@@ -17,24 +17,18 @@ fun main() {
         InputView(),
         OutputView(),
         blackStoneGamePlayingRules = RuleAdapter(
-            ContinualStonesWinningCondition(ContinualStonesStandard(4), ContinualStonesCondition.EXACT),
+            ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.EXACT),
             ForbiddenRules(
                 listOf(
                     ThreeThreeRule.forBlack(),
                     FourFourRule.forBlack(),
-                    OverlineRule2(),
+                    OverlineRule(),
                 ),
             ),
         ),
         whiteStoneGamePlayingRules = RuleAdapter(
-            ContinualStonesWinningCondition(ContinualStonesStandard(6), ContinualStonesCondition.EXACT),
-            ForbiddenRules(
-                listOf(
-                    ThreeThreeRule.forWhite(),
-                    FourFourRule.forWhite(),
-                    OverlineRule2(),
-                ),
-            ),
+            ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.CAN_OVERLINE),
+            ForbiddenRules(),
         ),
     ).startGame()
 }
