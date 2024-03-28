@@ -6,6 +6,32 @@ import org.junit.jupiter.api.Test
 
 class PositionTest {
     @Test
+    fun `돌의 row값을 반환한다`() {
+        val position = Position.of('A', 5)
+        val rowValue = position.getRowValue()
+        val expected = 'A'
+        assertThat(rowValue).isEqualTo(expected)
+    }
+
+    @Test
+    fun `돌의 column값을 반환한다`() {
+        val position = Position.of('A', 5)
+        val rowValue = position.getColumnValue()
+        val expected = 5
+        assertThat(rowValue).isEqualTo(expected)
+    }
+
+    @Test
+    fun `Position값을 문자열로 반환한다`() {
+        val position = Position.of('A', 5)
+
+        val actual = position.convert()
+        val expected = "A5"
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
     fun `돌의 위치가 유효하지 않을 경우 예외처리한다`() {
         assertThatThrownBy { Position(15, 15) }
             .isExactlyInstanceOf(IllegalArgumentException::class.java)
