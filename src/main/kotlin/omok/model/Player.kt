@@ -1,8 +1,8 @@
 package omok.model
 
-import omok.model.rule.RuleAdapter2
+import omok.model.rule.RuleAdapter
 
-class Player(val stone: Stone, private val rules: RuleAdapter2) {
+class Player(val stone: Stone, private val rules: RuleAdapter) {
     fun canPlace(
         board: Board,
         position: Position,

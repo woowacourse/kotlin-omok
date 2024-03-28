@@ -2,7 +2,7 @@ package omok.model
 
 import omok.model.rule.ContinualStonesStandard
 import omok.model.rule.ForbiddenRules
-import omok.model.rule.RuleAdapter2
+import omok.model.rule.RuleAdapter
 import omok.model.rule.library.FourFourRule
 import omok.model.rule.library.OverlineRule2
 import omok.model.rule.library.ThreeThreeRule
@@ -14,7 +14,7 @@ class PlayersTest {
     private val blackStonePlayer =
         Player(
             Stone.BLACK,
-            RuleAdapter2(
+            RuleAdapter(
                 ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.EXACT),
                 ForbiddenRules(
                     ThreeThreeRule.forBlack(),
@@ -27,7 +27,7 @@ class PlayersTest {
     private val whiteStonePlayer =
         Player(
             Stone.WHITE,
-            RuleAdapter2(
+            RuleAdapter(
                 ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.CAN_OVERLINE),
                 ForbiddenRules(),
             ),

@@ -14,11 +14,11 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class RuleAdapter2Test {
+class RuleAdapterTest {
     private lateinit var board: Board
 
     private val renjuRule =
-        RuleAdapter2(
+        RuleAdapter(
             ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.EXACT),
             ForbiddenRules(
                 ThreeThreeRule.forBlack(),
@@ -190,7 +190,7 @@ class RuleAdapter2Test {
     fun `승리 조건이 정확히 오목일 때, 돌을 두려는 위치로 육목 이상이 되면 놓을 수 없다`() {
         // given
         val ruleAdapter =
-            RuleAdapter2(
+            RuleAdapter(
                 ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.EXACT),
                 ForbiddenRules(OverlineRule2()),
             )
@@ -214,7 +214,7 @@ class RuleAdapter2Test {
     fun `승리 조건이 정확히 사목일 때, 돌을 두려는 위치로 오목 이상이 되면 놓을 수 없다`() {
         // given
         val ruleAdapter =
-            RuleAdapter2(
+            RuleAdapter(
                 ContinualStonesWinningCondition(ContinualStonesStandard(4), ContinualStonesCondition.EXACT),
                 ForbiddenRules(OverlineRule2()),
             )
@@ -237,7 +237,7 @@ class RuleAdapter2Test {
     @Test
     fun `사목으로 지정할 경우 더블 규칙을 가질 수 없다`() {
         assertThrows<IllegalArgumentException> {
-            RuleAdapter2(
+            RuleAdapter(
                 ContinualStonesWinningCondition(ContinualStonesStandard(4), ContinualStonesCondition.EXACT),
                 ForbiddenRules(
                     ThreeThreeRule.forWhite(),
@@ -250,7 +250,7 @@ class RuleAdapter2Test {
     @Test
     fun `우승 조건이 정확히 N 목이 아닌, N 목 이상일 경우 장목 규칙을 가질 수 없다`() {
         assertThrows<IllegalArgumentException> {
-            RuleAdapter2(
+            RuleAdapter(
                 ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.CAN_OVERLINE),
                 ForbiddenRules(
                     OverlineRule2(),

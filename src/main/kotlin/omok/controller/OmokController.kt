@@ -5,15 +5,15 @@ import omok.model.OmokGame
 import omok.model.Player
 import omok.model.Players
 import omok.model.Stone
-import omok.model.rule.RuleAdapter2
+import omok.model.rule.RuleAdapter
 import omok.view.InputView
 import omok.view.OutputView
 
 class OmokController(
     private val inputView: InputView,
     private val outputView: OutputView,
-    blackStoneGamePlayingRules: RuleAdapter2,
-    whiteStoneGamePlayingRules: RuleAdapter2,
+    blackStoneGamePlayingRules: RuleAdapter,
+    whiteStoneGamePlayingRules: RuleAdapter,
 ) {
     private val players =
         Players(

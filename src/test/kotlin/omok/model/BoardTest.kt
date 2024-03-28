@@ -2,7 +2,7 @@ package omok.model
 
 import omok.model.rule.ContinualStonesStandard
 import omok.model.rule.ForbiddenRules
-import omok.model.rule.RuleAdapter2
+import omok.model.rule.RuleAdapter
 import omok.model.rule.winning.ContinualStonesWinningCondition
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -20,7 +20,7 @@ class BoardTest {
         player =
             Player(
                 playerStone,
-                RuleAdapter2(
+                RuleAdapter(
                     ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.EXACT),
                     ForbiddenRules(),
                 ),
