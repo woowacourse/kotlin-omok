@@ -4,10 +4,9 @@ sealed class Turn {
     abstract val stoneType: StoneType
 
     fun nextTurn(
-        point: Point,
+        stone: Stone,
         ruleAdapter: RuleAdapter,
     ): Turn {
-        val stone = Stone(stoneType, point)
         if (ruleAdapter.checkForbidden(stone)) return this
         if (ruleAdapter.checkWin(stone)) return FinishedTurn(stoneType)
         return when (stoneType) {
@@ -23,13 +22,12 @@ sealed class Turn {
             StoneType.WHITE -> STONE_TYPE_WHITE
             StoneType.EMPTY -> return ""
         }
-        return MESSAGE_WINNER.format(winner)
+        return winner
     }
 
     companion object {
-        private const val STONE_TYPE_BLACK = "흑"
-        private const val STONE_TYPE_WHITE = "백"
-        private const val MESSAGE_WINNER = "%s돌이 승리했습니다!!"
+        const val STONE_TYPE_BLACK = "흑"
+        const val STONE_TYPE_WHITE = "백"
     }
 }
 

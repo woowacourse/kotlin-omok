@@ -6,14 +6,16 @@ import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.Point
 import woowacourse.omok.domain.model.StoneType
 import woowacourse.omok.domain.model.Turn
+import woowacourse.omok.domain.model.Turn.Companion.STONE_TYPE_BLACK
+import woowacourse.omok.domain.model.Turn.Companion.STONE_TYPE_WHITE
 import woowacourse.omok.domain.model.WhiteTurn
 
 object OutputView {
-    private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
-    private const val MESSAGE_TURN = "\n%s의 차례입니다. "
-    private const val MESSAGE_BEFORE_POINT = "(마지막 돌의 위치: %c%d)"
-    private const val STONE_TYPE_BLACK = "흑"
-    private const val STONE_TYPE_WHITE = "백"
+    const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
+    const val MESSAGE_TURN = "%s의 차례입니다. "
+    const val MESSAGE_BEFORE_POINT = "(마지막 돌의 위치: %c%d)"
+    const val MESSAGE_WINNER = "%s돌이 승리했습니다!!"
+    const val MESSAGE_INVALID_POINT_INPUT = "잘못된 위치 좌표입니다. 재입력 해주세요."
     private const val STONE_ICON_BLACK = '●'
     private const val STONE_ICON_WHITE = '○'
 
@@ -114,7 +116,7 @@ object OutputView {
     }
 
     fun printWinner(turn: Turn) {
-        println(turn.getWinner())
+        println(MESSAGE_WINNER.format(turn.getWinner()))
     }
 
     private fun generateTurnMessage(
@@ -123,22 +125,18 @@ object OutputView {
     ): String {
         return when (turn) {
             is BlackTurn -> {
-                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (beforePoint?.let {
-                    generateBeforePointMessage(
-                        it
-                    )
+                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (beforePoint?.let { point ->
+                    generateBeforePointMessage(point)
                 } ?: "")
             }
 
             is WhiteTurn -> {
-                MESSAGE_TURN.format(STONE_TYPE_WHITE) + (beforePoint?.let {
-                    generateBeforePointMessage(
-                        it
-                    )
+                MESSAGE_TURN.format(STONE_TYPE_WHITE) + (beforePoint?.let { point ->
+                    generateBeforePointMessage(point)
                 } ?: "")
             }
 
-            is FinishedTurn -> turn.getWinner()
+            is FinishedTurn -> ""
         }
     }
 
@@ -146,7 +144,7 @@ object OutputView {
         return MESSAGE_BEFORE_POINT.format(point.x + 65, point.y + 1)
     }
 
-    fun printInvalidPointInputMessage(message: String) {
-        println(message)
+    fun printInvalidPointInputMessage() {
+        println(MESSAGE_INVALID_POINT_INPUT)
     }
 }
