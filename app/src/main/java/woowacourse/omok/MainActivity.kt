@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun restoreGameData(board: TableLayout) {
-        dbHelper.selectStonesInfo().forEach { (stoneIndex, stoneColor) ->
-            recoverBoard(board, stoneIndex, stoneColor)
+        dbHelper.selectStonesInfo().forEach { (position, stoneColor) ->
+            recoverBoard(board, position, stoneColor)
         }
     }
 
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun recoverBoard(
         board: TableLayout,
-        stoneIndex: Int,
+        position: Position,
         stoneColor: String,
     ) {
         board.children
@@ -52,19 +52,19 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
-                if (index == stoneIndex) {
-                    recoverStone(stoneColor.stone(), stoneIndex, view)
+                if (indexAdapter(index) == position) {
+                    recoverStone(stoneColor.stone(), position, view)
                 }
             }
     }
 
     private fun recoverStone(
         stone: GoStone,
-        stoneIndex: Int,
+        position: Position,
         view: ImageView,
     ) {
         view.setImageResource(stone.imageView())
-        stone.putStone(indexAdapter(stoneIndex))
+        stone.putStone(position)
     }
 
     private fun String.stone() = if (this == BLACK_STONE_VALUE) BlackStone else WhiteStone
@@ -76,22 +76,21 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
                 view.setOnClickListener {
-                    handleStonePlacement(board, index, view)
+                    handleStonePlacement(board, indexAdapter(index), view)
                 }
             }
     }
 
     private fun handleStonePlacement(
         board: TableLayout,
-        index: Int,
+        position: Position,
         view: ImageView,
     ) {
-        val stonePosition = indexAdapter(index)
-        val currentStone = detectRenjuRule(view) { stone.putStone(stonePosition) }
+        val currentStone = detectRenjuRule(view) { stone.putStone(position) }
         currentStone?.let {
-            dbHelper.insert(index, stone.value())
+            dbHelper.insert(('A' + position.row).toString(), position.column + 1, stone.value())
             view.setImageResource(stone.imageView())
-            if (checkOmok(board, stonePosition, view)) return
+            if (checkOmok(board, position, view)) return
             stone = currentStone
         }
     }
