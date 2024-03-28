@@ -1,6 +1,7 @@
 package omok.model.game
 
-import omok.model.OmokStone
-import omok.model.board.Board
+sealed interface OmokGameResult
 
-data class OmokGameResult(val board: Board, val winner: OmokStone)
+data object Placed : OmokGameResult
+
+data object InvalidGameRule : OmokGameResult

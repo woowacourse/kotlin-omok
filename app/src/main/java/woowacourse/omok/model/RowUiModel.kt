@@ -1,4 +1,4 @@
-package omok.view.model
+package woowacourse.omok.model
 
 class RowUiModel(
     private val rowNumber: Int,
@@ -55,8 +55,8 @@ class RowUiModel(
             row: Set<StoneUiModel>,
         ): List<String> {
             val newRow = createEmptyRow(rowNumber, size).toMutableList()
-            row.forEach { (x, _, color) ->
-                newRow[weight(x)] = color.symbol
+            row.forEach { (x, y, color) ->
+                newRow[weight(y)] = color.symbol
             }
             return newRow
         }

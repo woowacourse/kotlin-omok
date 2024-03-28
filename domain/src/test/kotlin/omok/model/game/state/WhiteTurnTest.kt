@@ -16,7 +16,7 @@ class WhiteTurnTest {
         val whiteTurn = BlackTurn(board)
         val expect = WhiteTurn::class.java
         // when
-        val actual = whiteTurn.placeStone { createPosition(1, 1) }
+        val actual = whiteTurn.placeStone(createPosition(1, 1))
         val hasOmok = actual.hasOmok()
         // then
         actual shouldNotBeSameInstanceAs expect
@@ -36,7 +36,7 @@ class WhiteTurnTest {
         val whiteTurn = WhiteTurn(board)
         val expect = Finish::class.java
         // when
-        val actual = whiteTurn.placeStone { createPosition(1, 5) }
+        val actual = whiteTurn.placeStone(createPosition(1, 5))
         val hasOmok = actual.hasOmok()
         // then
         actual shouldNotBeSameInstanceAs expect

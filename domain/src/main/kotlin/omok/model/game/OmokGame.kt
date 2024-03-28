@@ -5,31 +5,37 @@ import omok.model.Position
 import omok.model.board.Board
 import omok.model.game.state.GameState
 
-private typealias PlaceOmokEvent = () -> Position
-
 class OmokGame(
-    private val state: GameState,
-    private val playersEvent: GamePlayersEvent,
+    private var state: GameState,
+    private val onEndGame: (Board, OmokStone) -> Unit,
 ) {
-    fun play(onStartPut: (Board, OmokStone?) -> Unit): OmokGameResult =
-        play(state, onStartPut, playersEvent.startingPlayerPlaceEvent).let {
-            OmokGameResult(it, it.lastStoneOrNull() ?: error("게임이 종료되지 않았습니다."))
-        }
-
-    private tailrec fun play(
-        state: GameState,
-        onStartPlaceStone: (Board, OmokStone?) -> Unit,
-        event: PlaceOmokEvent,
-    ): Board {
-        onStartPlaceStone(state.board, state.board.lastStoneOrNull())
-        val newState = state.placeStone(event)
-        if (newState.hasOmok()) return newState.board
-
-        return play(newState, onStartPlaceStone, changePlaceOmokEvent(event))
+    fun placeStone(
+        position: Position,
+        onStartPlaced: (Board, OmokStone?) -> Unit = { _, _ -> },
+        onEndPlaced: (Board, OmokStone) -> Unit = { _, _ -> },
+    ): OmokGameResult {
+        if (isEnd()) error("게임이 종료 되었습니다.")
+        if (!canPlaceStone(position)) return InvalidGameRule
+        onStartPlaced(state.board, state.board.lastStoneOrNull())
+        state = state.placeStone(position)
+        val (board, lastStone) = roundResult()
+        onEndPlaced(board, lastStone)
+        if (state.hasOmok()) onEndGame(board, lastStone)
+        return Placed
     }
 
-    private fun changePlaceOmokEvent(event: PlaceOmokEvent): PlaceOmokEvent {
-        if (event == playersEvent.startingPlayerPlaceEvent) return playersEvent.opponentPlaceEvent
-        return playersEvent.startingPlayerPlaceEvent
+    private fun isEnd(): Boolean = state.hasOmok()
+
+    private fun canPlaceStone(position: Position): Boolean = state.canPlaceStone(position)
+
+    private fun roundResult(): RoundResult {
+        val (board, lastStone) = state.board to state.board.lastStoneOrNull()
+        lastStone ?: error("아직 돌을 놓지 않았습니다.")
+        return RoundResult(board, lastStone)
     }
+
+    private data class RoundResult(
+        val board: Board,
+        val lastStone: OmokStone,
+    )
 }

@@ -1,14 +1,19 @@
-package omok.view.model
+package woowacourse.omok.model
 
 data class BoardUiModel(
     private val size: Int,
     private val box: List<RowUiModel>,
 ) {
     constructor(size: Int) : this(size, createEmptyBox(size))
-
     constructor(box: List<Set<StoneUiModel>>) : this(
         box.size,
-        box.mapIndexed { i, set -> RowUiModel(box.size - i, box.size, set) },
+        box.mapIndexed { i, set ->
+            RowUiModel(
+                rowNumber = box.size - i,
+                size = box.size,
+                row = set,
+            )
+        },
     )
 
     operator fun plus(stone: StoneUiModel): BoardUiModel {

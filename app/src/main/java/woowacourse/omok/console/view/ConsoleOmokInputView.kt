@@ -1,6 +1,6 @@
-package omok.view
+package woowacourse.omok.console.view
 
-import omok.view.model.PositionUiModel
+import woowacourse.omok.model.PositionUiModel
 
 class ConsoleOmokInputView : OmokInputView {
     override fun readPosition(): PositionUiModel {

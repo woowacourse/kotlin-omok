@@ -1,7 +1,7 @@
-package omok.view
+package woowacourse.omok.console.view
 
-import omok.view.model.BoardUiModel
-import omok.view.model.StoneUiModel
+import woowacourse.omok.model.BoardUiModel
+import woowacourse.omok.model.StoneUiModel
 
 interface OmokOutputView {
     fun showStartMessage()

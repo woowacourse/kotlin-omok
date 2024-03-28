@@ -1,9 +1,9 @@
-package omok.view
+package woowacourse.omok.console.view
 
-import omok.view.model.BoardUiModel
-import omok.view.model.PositionUiModel
-import omok.view.model.StoneColorUiModel
-import omok.view.model.StoneUiModel
+import woowacourse.omok.model.BoardUiModel
+import woowacourse.omok.model.PositionUiModel
+import woowacourse.omok.model.StoneColorUiModel
+import woowacourse.omok.model.StoneUiModel
 
 class ConsoleOmokOutputView : OmokOutputView {
     override fun showStartMessage() {

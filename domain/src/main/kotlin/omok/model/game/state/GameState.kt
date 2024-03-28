@@ -6,5 +6,7 @@ import omok.model.board.Board
 sealed class GameState(val board: Board) {
     fun hasOmok(): Boolean = board.hasOmok()
 
-    abstract fun placeStone(onPlace: () -> Position): GameState
+    abstract fun canPlaceStone(position: Position): Boolean
+
+    abstract fun placeStone(position: Position): GameState
 }
