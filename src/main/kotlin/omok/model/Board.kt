@@ -1,7 +1,9 @@
 package omok.model
 
+import PlaceStoneInterrupt
 import omok.model.entity.Point
 import omok.model.entity.Stone
+import omok.model.rule.Rule
 
 class Board private constructor(private val _stones: Set<Stone>) {
     constructor() : this(setOf<Stone>())
@@ -9,11 +11,16 @@ class Board private constructor(private val _stones: Set<Stone>) {
     val stones: Set<Stone>
         get() = _stones.toSet()
 
-    fun place(stone: Stone): Either<PlaceStoneError, Board> =
+    fun place(stone: Stone): Either<PlaceStoneInterrupt, Board> =
         when {
-            !isPointInBoard(stone.point) -> Either.Left(PlaceStoneError.StoneOutOfBoard())
-            !isPointEmpty(stone.point) -> Either.Left(PlaceStoneError.StoneAlreadyExists())
+            !isPointInBoard(stone.point) -> Either.Left(PlaceStoneInterrupt.StoneOutOfBoard())
+            !isPointEmpty(stone.point) -> Either.Left(PlaceStoneInterrupt.StoneAlreadyExists())
             else -> Either.Right(Board(_stones + stone))
+        }
+
+    fun checkRulesAny(rules: List<Rule>) =
+        rules.any {
+            it.check(this)
         }
 
     fun previousStone(): Stone? {

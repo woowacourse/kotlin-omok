@@ -11,6 +11,17 @@ class OmokController(
 ) {
     fun startOmok() {
         outputView.printStartGuide()
+        omokGame.justPrintBoard(
+            outputView::printTurn,
+            outputView::printError,
+        )
+        while (!omokGame.isFinished()) {
+            runOmok()
+        }
+        runOmok()
+    }
+
+    private fun runOmok() {
         omokGame.run(
             inputView::getStonePoint,
             outputView::printTurn,
