@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.controller
 
 import android.os.Bundle
 import android.widget.ImageView
@@ -7,12 +7,17 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.model.Board
+import omok.model.Position
 import omok.model.rule.RenjuRule
 import omok.model.state.BlackTurn
 import omok.model.state.GameState
+import woowacourse.omok.R
+import woowacourse.omok.util.convertIndexToPosition
+import woowacourse.omok.view.OmokView
 import woowacourse.omok.util.showToast
+import woowacourse.omok.view.OmokBoardView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OmokController {
     private var gameState: GameState = BlackTurn(RenjuRule, Board(emptyMap()))
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,9 +27,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         setContentView(R.layout.activity_main)
-        val board = makeBoardView()
-        initBoardView(board)
-//        val boardView = OmokBoardView(makeBoardView(), gameState)
+        initBoardView()
+    }
+
+    private fun initBoardView() {
+        val boardView = makeBoardView()
+        boardView.forEachIndexed { index, view ->
+            view.setOnClickListener {
+                placeOmokStone(index, view)
+            }
+        }
     }
 
     private fun makeBoardView() =
@@ -34,41 +46,22 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
 
-    private fun initBoardView(boardView: Sequence<ImageView>) {
-        boardView.forEachIndexed { index, view ->
-            view.setOnClickListener {
-                placeOmokStone(index, view)
-            }
-        }
-    }
-
     private fun placeOmokStone(
         index: Int,
         view: ImageView,
     ) {
         runCatching {
-            onPlace(index, view)
+            onPlace(OmokBoardView(view), convertIndexToPosition(index))
         }.onFailure {
             showToast(this, "${it.message}")
         }
     }
 
-    private fun onPlace(
-        index: Int,
-        view: ImageView,
+    override fun onPlace(
+        view: OmokView,
+        position: Position,
     ) {
-        val position = convertIndexToPosition(index)
         gameState = gameState.put(position)
-        updateStoneImage(index, view)
-    }
-
-    private fun updateStoneImage(
-        index: Int,
-        view: ImageView,
-    ) {
-        gameState.board[convertIndexToPosition(index)]?.run {
-            val targetColor = mapStoneColorToDrawable(this.color)
-            view.setImageResource(targetColor)
-        }
+        view.updateBoard(position, gameState)
     }
 }
