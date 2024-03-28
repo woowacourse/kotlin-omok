@@ -1,4 +1,4 @@
-package omok.rule
+package woowacourse.omok.domain.rule
 
 import woowacourse.omok.domain.model.OmokRule
 
@@ -19,19 +19,39 @@ class RenjuRule(
         board: List<List<Int>>,
         x: Int,
         y: Int,
-    ): Boolean = directions.sumOf { direction -> checkOpenThree(board, x, y, direction[0], direction[1]) } >= 2
+    ): Boolean =
+        directions.sumOf { direction ->
+            checkOpenThree(
+                board,
+                x,
+                y,
+                direction[0],
+                direction[1],
+            )
+        } >= 2
 
     private fun checkFourFour(
         board: List<List<Int>>,
         x: Int,
         y: Int,
-    ): Boolean = directions.sumOf { direction -> checkOpenFour(board, x, y, direction[0], direction[1]) } >= 2
+    ): Boolean =
+        directions.sumOf { direction ->
+            checkOpenFour(
+                board,
+                x,
+                y,
+                direction[0],
+                direction[1],
+            )
+        } >= 2
 
     private fun checkMoreThanFive(
         board: List<List<Int>>,
         x: Int,
         y: Int,
-    ): Boolean = directions.map { direction -> checkMoreThanFive(board, x, y, direction[0], direction[1]) }.contains(true)
+    ): Boolean =
+        directions.map { direction -> checkMoreThanFive(board, x, y, direction[0], direction[1]) }
+            .contains(true)
 
     private fun checkOpenThree(
         board: List<List<Int>>,

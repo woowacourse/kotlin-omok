@@ -7,14 +7,14 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import omok.model.BlackTurn
-import omok.model.FinishedTurn
-import omok.model.OmokGame
-import omok.model.Point
-import omok.model.Point.Companion.MESSAGE_INVALID_POINT_INPUT
-import omok.model.StoneType
-import omok.model.Turn
-import omok.model.WhiteTurn
+import woowacourse.omok.domain.model.BlackTurn
+import woowacourse.omok.domain.model.FinishedTurn
+import woowacourse.omok.domain.model.OmokGame
+import woowacourse.omok.domain.model.Point
+import woowacourse.omok.domain.model.Point.Companion.MESSAGE_INVALID_POINT_INPUT
+import woowacourse.omok.domain.model.StoneType
+import woowacourse.omok.domain.model.Turn
+import woowacourse.omok.domain.model.WhiteTurn
 
 class MainActivity : AppCompatActivity() {
     private val omokGame = OmokGame()

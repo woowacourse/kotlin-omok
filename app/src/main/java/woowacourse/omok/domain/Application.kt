@@ -1,6 +1,6 @@
-package omok
+package woowacourse.omok.domain
 
-import omok.controller.Controller
+import woowacourse.omok.domain.controller.Controller
 
 fun main() {
     Controller().run()

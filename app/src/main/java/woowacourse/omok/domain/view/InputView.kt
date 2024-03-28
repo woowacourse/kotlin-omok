@@ -1,6 +1,6 @@
-package omok.view
+package woowacourse.omok.domain.view
 
-import omok.model.Point
+import woowacourse.omok.domain.model.Point
 
 object InputView {
     fun readPoint(): Point {

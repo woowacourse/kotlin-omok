@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.domain.model
 
 class OmokGame(
     private var turn: Turn = BlackTurn(),

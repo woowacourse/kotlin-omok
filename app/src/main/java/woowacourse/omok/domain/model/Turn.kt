@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.domain.model
 
 sealed interface Turn {
     val before: Stone?

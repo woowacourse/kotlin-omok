@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.domain.model
 
 enum class Direction(val dx: Int, val dy: Int) {
     HORIZONTAL(1, 0),

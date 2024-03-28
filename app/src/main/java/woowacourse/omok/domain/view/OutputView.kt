@@ -1,12 +1,12 @@
-package omok.view
+package woowacourse.omok.domain.view
 
-import omok.model.BlackTurn
-import omok.model.Board
-import omok.model.FinishedTurn
-import omok.model.Stone
-import omok.model.StoneType
-import omok.model.Turn
-import omok.model.WhiteTurn
+import woowacourse.omok.domain.model.BlackTurn
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.FinishedTurn
+import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.model.StoneType
+import woowacourse.omok.domain.model.Turn
+import woowacourse.omok.domain.model.WhiteTurn
 
 object OutputView {
     private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
@@ -73,7 +73,14 @@ object OutputView {
 
     fun printBoard(board: Board) {
         boardTable.indices.forEach {
-            println(boardForm[it].format(*generatePrintedLine(it, board.board[14 - it]).toTypedArray()))
+            println(
+                boardForm[it].format(
+                    *generatePrintedLine(
+                        it,
+                        board.board[14 - it],
+                    ).toTypedArray(),
+                ),
+            )
         }
         println(boardForm.last())
     }
@@ -94,7 +101,10 @@ object OutputView {
     private fun generateTurnMessage(turn: Turn): String {
         return when (turn) {
             is BlackTurn -> {
-                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (turn.before?.let { generateBeforeMessage(it) } ?: "")
+                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (
+                    turn.before?.let { generateBeforeMessage(it) }
+                        ?: ""
+                )
             }
 
             is WhiteTurn -> {

@@ -1,9 +1,9 @@
-package omok.controller
+package woowacourse.omok.domain.controller
 
-import omok.model.OmokGame
-import omok.model.Point
-import omok.view.InputView
-import omok.view.OutputView
+import woowacourse.omok.domain.model.OmokGame
+import woowacourse.omok.domain.model.Point
+import woowacourse.omok.domain.view.InputView
+import woowacourse.omok.domain.view.OutputView
 
 class Controller {
     fun run() {

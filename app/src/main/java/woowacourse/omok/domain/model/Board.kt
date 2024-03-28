@@ -1,6 +1,6 @@
-package omok.model
+package woowacourse.omok.domain.model
 
-import omok.rule.RenjuRule
+import woowacourse.omok.domain.rule.RenjuRule
 
 class Board {
     val board: List<List<StoneType>>
@@ -50,6 +50,7 @@ class Board {
                     count++
                     maxCount = maxOf(maxCount, count)
                 }
+
                 StoneType.EMPTY -> continue
                 else -> count = DEFAULT_COUNT
             }

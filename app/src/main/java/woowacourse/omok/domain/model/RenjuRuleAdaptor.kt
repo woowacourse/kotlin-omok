@@ -1,6 +1,4 @@
-package omok.model
-
-import woowacourse.omok.domain.model.OmokRule
+package woowacourse.omok.domain.model
 
 class RenjuRuleAdaptor(private val rule: List<OmokRule>) {
     fun isForbidden(
