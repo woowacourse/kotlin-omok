@@ -9,7 +9,7 @@ class OmokGame(
         updateTurn: (Turn) -> Unit,
         getPoint: () -> Point,
     ) {
-        while (turn !is FinishedTurn) {
+        while (!isGameFinished()) {
             updateBoard(board)
             updateTurn(turn)
             val point = getPoint()
@@ -17,4 +17,20 @@ class OmokGame(
         }
         updateTurn(turn)
     }
+
+    fun tryPlayTurn(
+        updateTurn: (Turn) -> Unit,
+        getPoint: () -> Point,
+    ): Boolean {
+        val point = getPoint()
+        val nextTurn = turn.putStone(point, board)
+        if (turn != nextTurn) {
+            turn = nextTurn
+            updateTurn(turn)
+            return true
+        }
+        return false
+    }
+
+    fun isGameFinished(): Boolean = turn is FinishedTurn
 }

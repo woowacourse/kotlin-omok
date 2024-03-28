@@ -8,6 +8,6 @@ data class Point(val x: Int, val y: Int) {
     companion object {
         private const val MIN_POINT = 0
         private const val MAX_POINT = 15
-        private const val MESSAGE_INVALID_POINT_INPUT = "잘못된 위치 좌표입니다. 재입력 해주세요."
+        const val MESSAGE_INVALID_POINT_INPUT = "잘못된 위치 좌표입니다. 재입력 해주세요."
     }
 }
