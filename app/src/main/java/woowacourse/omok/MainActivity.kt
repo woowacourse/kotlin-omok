@@ -8,6 +8,7 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import com.google.android.material.snackbar.Snackbar
 import woowacourse.omok.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), GamePlayHandler {
@@ -51,8 +52,25 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
     // View의 역할
     fun Int.toCoordinate(): Coordinate = Coordinate(this / 15, this % 15)
 
-    override fun onDraw(board: Board) {
-        val copiedBoard = board.getBoardLayout()
+    override fun onDraw(gameState: GameState) {
+        val copiedBoard = gameState.board.getBoardLayout()
+
+        when (gameState) {
+            is GameState.Running.BlackTurn.Block -> {
+                Snackbar.make(binding.root, "금수의 위치입니다.", Snackbar.LENGTH_SHORT).show()
+            }
+            is GameState.Running.BlackTurn.Duplicate -> {
+                Snackbar.make(binding.root, "이미 돌이 놓인 자리입니다.", Snackbar.LENGTH_SHORT).show()
+            }
+            is GameState.Running.WhiteTurn.Duplicate -> {
+                Snackbar.make(binding.root, "이미 돌이 놓인 자리입니다.", Snackbar.LENGTH_SHORT).show()
+            }
+            is GameState.Finish -> {
+                Snackbar.make(binding.root, "게임이 종료되었습니다.", Snackbar.LENGTH_SHORT).show()
+            }
+            else -> {
+            }
+        }
 
         copiedBoard.flatten().forEachIndexed { index, positionType ->
             if (allImageViews[index].tag == null) { // 비어 있음. Block 포함. 놓은 곳은 굳이 다시 그리지 않게. 비어있는 곳은 X표시하게.

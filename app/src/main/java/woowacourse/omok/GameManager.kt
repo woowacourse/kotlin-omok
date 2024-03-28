@@ -5,6 +5,6 @@ class GameManager(private val gamePlayHandler: GamePlayHandler) {
 
     fun playTurn(coordinate: Coordinate) {
         gameState = gameState.placeStone(coordinate)
-        gamePlayHandler.onDraw(gameState.board)
+        gamePlayHandler.onDraw(gameState)
     }
 }
