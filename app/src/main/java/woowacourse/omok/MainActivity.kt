@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                                 displayMessage(MESSAGE_GAME_END)
                                 return@setOnClickListener
                             }
-                            progressGameTurn(x, y, view)
+                            progressGameTurn(Point(y,x), view)
                             onGame = judgeGameState()
                         }
                     }
@@ -86,8 +86,8 @@ class MainActivity : AppCompatActivity() {
         gameStart(tableLayoutBoard)
     }
 
-    private fun progressGameTurn(x: Int, y: Int, view: ImageView) {
-        val nextTurn = board.putStone(Stone(turn.stoneType, Point(y, x)), turn, ruleAdapter)
+    private fun progressGameTurn(point: Point, view: ImageView) {
+        val nextTurn = board.putStone(Stone(turn.stoneType, point), turn, ruleAdapter)
         getNextTurnMessage(nextTurn)
         if (turn != nextTurn) {
             view.setImageResource(getStoneImage(turn.stoneType))
