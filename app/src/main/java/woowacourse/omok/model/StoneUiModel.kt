@@ -1,4 +1,4 @@
-package omok.view.model
+package woowacourse.omok.model
 
 data class StoneUiModel(
     val x: Int,

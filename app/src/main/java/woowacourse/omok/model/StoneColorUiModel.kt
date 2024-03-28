@@ -1,4 +1,4 @@
-package omok.view.model
+package woowacourse.omok.model
 
 enum class StoneColorUiModel(val symbol: String = "") {
     BLACK("●"),
