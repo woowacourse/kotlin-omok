@@ -1,7 +1,6 @@
 package woowacourse.omok
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -41,7 +40,20 @@ class MainActivity : AppCompatActivity() {
         val tableLayoutBoard: TableLayout = findViewById(R.id.board)
         val reStartButton: Button = findViewById(R.id.reStartButton)
 
-        gameStart()
+        gameStart(tableLayoutBoard)
+
+        reStartButton.setOnClickListener {
+            gameRestart(tableLayoutBoard)
+        }
+    }
+
+    private fun gameStart(tableLayoutBoard: TableLayout) {
+        board = Board(15)
+        ruleAdapter = RuleAdapter(board)
+        turn = BlackTurn()
+        onGame = true
+
+        displayMessage(MESSAGE_GAME_START + MESSAGE_TURN.format(STONE_TYPE_BLACK))
 
         tableLayoutBoard
             .children
@@ -59,29 +71,19 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
             }
-
-        reStartButton.setOnClickListener {
-            tableLayoutBoard
-                .children
-                .filterIsInstance<TableRow>()
-                .forEach { row ->
-                    row.children.filterIsInstance<ImageView>()
-                        .forEach { view ->
-                            view.setImageResource(0)
-                        }
-                }
-            gameStart()
-        }
     }
 
-    private fun gameStart() {
-        board = Board(15)
-        ruleAdapter = RuleAdapter(board)
-        turn = BlackTurn()
-        onGame = true
-
-        displayMessage(MESSAGE_GAME_START)
-        displayMessage(MESSAGE_TURN.format(STONE_TYPE_BLACK))
+    private fun gameRestart(tableLayoutBoard: TableLayout) {
+        tableLayoutBoard
+            .children
+            .filterIsInstance<TableRow>()
+            .forEach { row ->
+                row.children.filterIsInstance<ImageView>()
+                    .forEach { view ->
+                        view.setImageResource(0)
+                    }
+            }
+        gameStart(tableLayoutBoard)
     }
 
     private fun progressGameTurn(x: Int, y: Int, view: ImageView) {

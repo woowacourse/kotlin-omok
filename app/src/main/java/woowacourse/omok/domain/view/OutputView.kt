@@ -11,7 +11,7 @@ import woowacourse.omok.domain.model.Turn.Companion.STONE_TYPE_WHITE
 import woowacourse.omok.domain.model.WhiteTurn
 
 object OutputView {
-    const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
+    const val MESSAGE_GAME_START = "오목 게임을 시작합니다. "
     const val MESSAGE_TURN = "%s의 차례입니다. "
     const val MESSAGE_BEFORE_POINT = "(마지막 돌의 위치: %c%d)"
     const val MESSAGE_WINNER = "%s돌이 승리했습니다!!"
