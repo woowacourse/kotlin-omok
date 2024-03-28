@@ -8,6 +8,10 @@ android {
     namespace = "woowacourse.omok"
     compileSdk = 34
 
+    viewBinding {
+        enable = true
+    }
+
     defaultConfig {
         applicationId = "woowacourse.omok"
         minSdk = 26
