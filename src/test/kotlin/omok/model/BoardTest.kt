@@ -43,4 +43,11 @@ class BoardTest {
             )
         assertThrows<IllegalStateException> { board.place(Position(3, 3), player) }
     }
+
+    @Test
+    fun `비어있는 위치인지 확인한다`() {
+        val actual = emptyBoard.emptyPosition(Position(4, 4))
+
+        assertThat(actual).isTrue
+    }
 }

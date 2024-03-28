@@ -6,6 +6,22 @@ class Board(private val _board: MutableMap<Position, Stone> = initBoard()) {
     val board: Map<Position, Stone>
         get() = _board.toMap()
 
+    fun emptyPosition(position: Position): Boolean = find(position) == Stone.NONE
+
+    fun validPosition(
+        position: Position,
+        player: Player,
+    ): Boolean = player.canPlace(this, position)
+
+    fun find(position: Position): Stone = board[position] ?: Stone.NONE
+
+    fun place2(
+        position: Position,
+        player: Player,
+    ) {
+        _board[position] = player.stone
+    }
+
     fun place(
         position: Position,
         player: Player,
@@ -15,8 +31,6 @@ class Board(private val _board: MutableMap<Position, Stone> = initBoard()) {
 
         _board[position] = player.stone
     }
-
-    fun find(position: Position): Stone = _board[position] ?: throw IllegalArgumentException("올바르지 않은 위치입니다.")
 
     companion object {
         private fun initBoard() =
