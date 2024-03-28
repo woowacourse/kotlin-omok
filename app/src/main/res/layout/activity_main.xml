@@ -1179,5 +1179,11 @@
                 android:background="@drawable/board_bottom_right" />
         </TableRow>
 
+        <Button
+            android:id="@+id/resetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset Board"
+            android:onClick="resetBoard"/>
     </TableLayout>
 </LinearLayout>

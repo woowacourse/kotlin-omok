@@ -5,6 +5,7 @@ import GameRuleAdapter
 import android.util.Log
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.omokGame.Board.Companion.BOARD_SIZE
 
 class OmokGame(private val listener: GameEventListener) {
     val board = Board()
@@ -13,6 +14,16 @@ class OmokGame(private val listener: GameEventListener) {
         GameRuleAdapter().apply {
             setupBoard(board)
         }
+
+    fun resetGame() {
+        for (i in 0 until BOARD_SIZE) {
+            for (j in 0 until BOARD_SIZE) {
+                board.gameBoard[i][j] = Stone.EMPTY
+            }
+        }
+        currentStone = Stone.BLACK
+        board.omokGameState=OmokGameState.RUNNING
+    }
 
     fun startGame(currentStone: Stone): Stone {
         listener.onGameStart()
