@@ -11,7 +11,6 @@ interface OMokRule {
     ): Boolean
 
     companion object {
-        private const val MIN_REVERSE_COUNT = 0
         private const val MIN_O_MOCK_COUNT = 4
 
         fun isGameWon(
@@ -20,13 +19,17 @@ interface OMokRule {
             column: Int,
         ): Boolean {
             val visited = OMokSearch.loadMap(stoneStates, row, column)
-            val oMokResults = mutableListOf<Int>()
+            var oMokResults = 0
+
             visited.entries.forEach { (key, result) ->
-                val reverseResultCount: Int =
-                    visited[Direction.reverse(key)]?.count ?: MIN_REVERSE_COUNT
-                oMokResults.add(reverseResultCount + result.count)
+                visited[Direction.reverse(key)]?.let { reverseResult ->
+                    if (result.count >= MIN_O_MOCK_COUNT) return true
+                    if (!result.isFirstClear && !reverseResult.isFirstClear) {
+                        oMokResults = maxOf(oMokResults, reverseResult.count + result.count)
+                    }
+                }
             }
-            return oMokResults.max() >= MIN_O_MOCK_COUNT
+            return oMokResults >= MIN_O_MOCK_COUNT
         }
     }
 }
