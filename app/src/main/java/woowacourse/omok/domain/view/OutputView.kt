@@ -6,8 +6,6 @@ import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.Point
 import woowacourse.omok.domain.model.StoneType
 import woowacourse.omok.domain.model.Turn
-import woowacourse.omok.domain.model.Turn.Companion.STONE_TYPE_BLACK
-import woowacourse.omok.domain.model.Turn.Companion.STONE_TYPE_WHITE
 import woowacourse.omok.domain.model.WhiteTurn
 
 object OutputView {
@@ -17,6 +15,8 @@ object OutputView {
     const val MESSAGE_WINNER = "%s돌이 승리했습니다!!"
     const val MESSAGE_INVALID_POINT_INPUT = "잘못된 위치 좌표입니다. 재입력 해주세요."
     const val MESSAGE_GAME_END = "게임이 종료되었습니다.\n재시작 버튼을 클릭해 게임을 재시작해주세요."
+    const val STONE_TYPE_BLACK = "흑"
+    const val STONE_TYPE_WHITE = "백"
     private const val STONE_ICON_BLACK = '●'
     private const val STONE_ICON_WHITE = '○'
 
@@ -116,8 +116,17 @@ object OutputView {
         println(generateTurnMessage(turn, beforePoint))
     }
 
-    fun printWinner(turn: Turn) {
-        println(MESSAGE_WINNER.format(turn.getWinner()))
+    fun printWinner(board: Board) {
+        val winner = generateWinnerMessage(board.beforeStone?.type)
+        println(MESSAGE_WINNER.format(winner))
+    }
+
+    private fun generateWinnerMessage(stoneType: StoneType?): String {
+        return when (stoneType) {
+            StoneType.BLACK -> STONE_TYPE_BLACK
+            StoneType.WHITE -> STONE_TYPE_WHITE
+            else -> ""
+        }
     }
 
     private fun generateTurnMessage(

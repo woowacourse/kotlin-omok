@@ -15,20 +15,6 @@ sealed class Turn {
             StoneType.EMPTY -> FinishedTurn(stoneType)
         }
     }
-
-    fun getWinner(): String {
-        val winner = when (stoneType) {
-            StoneType.BLACK -> STONE_TYPE_BLACK
-            StoneType.WHITE -> STONE_TYPE_WHITE
-            StoneType.EMPTY -> return ""
-        }
-        return winner
-    }
-
-    companion object {
-        const val STONE_TYPE_BLACK = "흑"
-        const val STONE_TYPE_WHITE = "백"
-    }
 }
 
 class BlackTurn : Turn() {

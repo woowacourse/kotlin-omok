@@ -25,7 +25,7 @@ class Controller {
             turn = board.putStone(Stone(turn.stoneType, readPoint(board, turn)), turn, ruleAdapter)
             OutputView.printBoard(board)
         }
-        OutputView.printWinner(turn)
+        OutputView.printWinner(board)
     }
 
     private fun readPoint(

@@ -16,8 +16,6 @@ import woowacourse.omok.domain.model.RuleAdapter
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StoneType
 import woowacourse.omok.domain.model.Turn
-import woowacourse.omok.domain.model.Turn.Companion.STONE_TYPE_BLACK
-import woowacourse.omok.domain.model.Turn.Companion.STONE_TYPE_WHITE
 import woowacourse.omok.domain.model.WhiteTurn
 import woowacourse.omok.domain.view.OutputView.MESSAGE_BEFORE_POINT
 import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_END
@@ -25,6 +23,8 @@ import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_START
 import woowacourse.omok.domain.view.OutputView.MESSAGE_INVALID_POINT_INPUT
 import woowacourse.omok.domain.view.OutputView.MESSAGE_TURN
 import woowacourse.omok.domain.view.OutputView.MESSAGE_WINNER
+import woowacourse.omok.domain.view.OutputView.STONE_TYPE_BLACK
+import woowacourse.omok.domain.view.OutputView.STONE_TYPE_WHITE
 
 class MainActivity : AppCompatActivity() {
     private var toast: Toast? = null
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                                 displayMessage(MESSAGE_GAME_END)
                                 return@setOnClickListener
                             }
-                            progressGameTurn(Point(y,x), view)
+                            progressGameTurn(Point(y, x), view)
                             onGame = judgeGameState()
                         }
                     }
@@ -123,10 +123,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun judgeGameState(): Boolean {
         if (turn is FinishedTurn) {
-            displayMessage(MESSAGE_WINNER.format(turn.getWinner()))
+            displayMessage(MESSAGE_WINNER.format(getWinnerMessage(board.beforeStone?.type)))
             return false
         }
         return true
+    }
+
+    private fun getWinnerMessage(stoneType: StoneType?): String {
+        return when (stoneType) {
+            StoneType.BLACK -> STONE_TYPE_BLACK
+            StoneType.WHITE -> STONE_TYPE_WHITE
+            else -> ""
+        }
     }
 
     private fun displayMessage(message: String) {
