@@ -28,13 +28,13 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, "omok.db", null
     }
 
     fun insert(
-        stoneRow: String,
+        stoneRow: Char,
         stoneColumn: Int,
         stoneColor: String,
     ) {
         val db = this.writableDatabase
         val values = ContentValues()
-        values.put("${OmokContract.COLUMN_ROW}", stoneRow)
+        values.put("${OmokContract.COLUMN_ROW}", stoneRow.toString())
         values.put("${OmokContract.COLUMN_COLUMN}", stoneColumn)
         values.put("${OmokContract.COLUMN_COLOR}", stoneColor)
         db.insert(OmokContract.TABLE_NAME, null, values)

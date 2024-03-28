@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         val currentStone = detectRenjuRule(view) { stone.putStone(position) }
         currentStone?.let {
-            dbHelper.insert(('A' + position.row).toString(), position.column + 1, stone.value())
+            dbHelper.insert(position.getRowValue(), position.getColumnValue(), stone.value())
             view.setImageResource(stone.imageView())
             if (checkOmok(board, position, view)) return
             stone = currentStone

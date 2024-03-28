@@ -7,6 +7,10 @@ data class Position(val row: Int, val column: Int) {
 
     fun convert() = "${START_ROW_VALUE + row}${COLUMN_OFFSET + column}"
 
+    fun getRowValue() = START_ROW_VALUE + row
+
+    fun getColumnValue() = column + COLUMN_OFFSET
+
     companion object {
         private const val START_ROW_VALUE = 'A'
         private const val COLUMN_OFFSET = 1
@@ -27,18 +31,23 @@ data class Position(val row: Int, val column: Int) {
 
         fun of(
             rowValue: Char,
-            column: Int,
+            columnValue: Int,
         ): Position {
             val row = rowValue - START_ROW_VALUE
-            validPosition(row, column - COLUMN_OFFSET)
-            return Position(row, column - COLUMN_OFFSET)
+            validPosition(row, columnValue - COLUMN_OFFSET)
+            return Position(row, columnValue - COLUMN_OFFSET)
         }
 
         private fun validPosition(
             row: Int,
             column: Int,
         ) {
-            require(row in positionRange && column in positionRange) { invalidPositionMessage(row, column) }
+            require(row in positionRange && column in positionRange) {
+                invalidPositionMessage(
+                    row,
+                    column,
+                )
+            }
         }
     }
 }
