@@ -16,15 +16,14 @@ import woowacourse.omok.domain.model.RuleAdapter
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StoneType
 import woowacourse.omok.domain.model.Turn
-import woowacourse.omok.domain.model.WhiteTurn
-import woowacourse.omok.domain.view.OutputView.MESSAGE_BEFORE_POINT
 import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_END
 import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_START
 import woowacourse.omok.domain.view.OutputView.MESSAGE_INVALID_POINT_INPUT
 import woowacourse.omok.domain.view.OutputView.MESSAGE_TURN
 import woowacourse.omok.domain.view.OutputView.MESSAGE_WINNER
 import woowacourse.omok.domain.view.OutputView.STONE_TYPE_BLACK
-import woowacourse.omok.domain.view.OutputView.STONE_TYPE_WHITE
+import woowacourse.omok.domain.view.OutputView.generateTurnMessage
+import woowacourse.omok.domain.view.OutputView.generateWinnerMessage
 
 class MainActivity : AppCompatActivity() {
     private var toast: Toast? = null
@@ -88,28 +87,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun progressGameTurn(point: Point, view: ImageView) {
         val nextTurn = board.putStone(Stone(turn.stoneType, point), turn, ruleAdapter)
-        getNextTurnMessage(nextTurn)
+        displayMessage(generateTurnMessage(nextTurn, board.beforeStone))
         if (turn != nextTurn) {
             view.setImageResource(getStoneImage(turn.stoneType))
             turn = nextTurn
         } else {
             displayMessage(MESSAGE_INVALID_POINT_INPUT)
-        }
-    }
-
-    private fun getNextTurnMessage(nextTurn: Turn) {
-        val beforeStone = board.beforeStone
-        if (beforeStone != null) {
-            val stoneType = when (nextTurn) {
-                is BlackTurn -> STONE_TYPE_BLACK
-                is WhiteTurn -> STONE_TYPE_WHITE
-                is FinishedTurn -> ""
-            }
-            displayMessage(
-                MESSAGE_TURN.format(stoneType) + MESSAGE_BEFORE_POINT.format(
-                    beforeStone.point.x + 'A'.code, board.size - beforeStone.point.y
-                )
-            )
         }
     }
 
@@ -123,18 +106,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun judgeGameState(): Boolean {
         if (turn is FinishedTurn) {
-            displayMessage(MESSAGE_WINNER.format(getWinnerMessage(board.beforeStone?.type)))
+            displayMessage(MESSAGE_WINNER.format(generateWinnerMessage(board.beforeStone?.type)))
             return false
         }
         return true
-    }
-
-    private fun getWinnerMessage(stoneType: StoneType?): String {
-        return when (stoneType) {
-            StoneType.BLACK -> STONE_TYPE_BLACK
-            StoneType.WHITE -> STONE_TYPE_WHITE
-            else -> ""
-        }
     }
 
     private fun displayMessage(message: String) {

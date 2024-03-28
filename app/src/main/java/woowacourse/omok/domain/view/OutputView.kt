@@ -4,6 +4,7 @@ import woowacourse.omok.domain.model.BlackTurn
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.Point
+import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StoneType
 import woowacourse.omok.domain.model.Turn
 import woowacourse.omok.domain.model.WhiteTurn
@@ -111,9 +112,9 @@ object OutputView {
 
     fun printTurn(
         turn: Turn,
-        beforePoint: Point?,
+        beforeStone: Stone?,
     ) {
-        println(generateTurnMessage(turn, beforePoint))
+        println(generateTurnMessage(turn, beforeStone))
     }
 
     fun printWinner(board: Board) {
@@ -121,7 +122,7 @@ object OutputView {
         println(MESSAGE_WINNER.format(winner))
     }
 
-    private fun generateWinnerMessage(stoneType: StoneType?): String {
+    fun generateWinnerMessage(stoneType: StoneType?): String {
         return when (stoneType) {
             StoneType.BLACK -> STONE_TYPE_BLACK
             StoneType.WHITE -> STONE_TYPE_WHITE
@@ -129,20 +130,20 @@ object OutputView {
         }
     }
 
-    private fun generateTurnMessage(
+    fun generateTurnMessage(
         turn: Turn,
-        beforePoint: Point?,
+        beforeStone: Stone?,
     ): String {
         return when (turn) {
             is BlackTurn -> {
-                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (beforePoint?.let { point ->
-                    generateBeforePointMessage(point)
+                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (beforeStone?.let { stone ->
+                    generateBeforePointMessage(stone.point)
                 } ?: "")
             }
 
             is WhiteTurn -> {
-                MESSAGE_TURN.format(STONE_TYPE_WHITE) + (beforePoint?.let { point ->
-                    generateBeforePointMessage(point)
+                MESSAGE_TURN.format(STONE_TYPE_WHITE) + (beforeStone?.let { stone ->
+                    generateBeforePointMessage(stone.point)
                 } ?: "")
             }
 

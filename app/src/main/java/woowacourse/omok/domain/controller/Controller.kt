@@ -21,7 +21,7 @@ class Controller {
         val ruleAdapter = RuleAdapter(board)
         var turn: Turn = BlackTurn()
         while (turn !is FinishedTurn) {
-            OutputView.printTurn(turn, board.beforeStone?.point)
+            OutputView.printTurn(turn, board.beforeStone)
             turn = board.putStone(Stone(turn.stoneType, readPoint(board, turn)), turn, ruleAdapter)
             OutputView.printBoard(board)
         }
@@ -36,7 +36,7 @@ class Controller {
             return InputView.readPoint(board)
         }.onFailure {
             OutputView.printInvalidPointInputMessage()
-            OutputView.printTurn(turn, board.beforeStone?.point)
+            OutputView.printTurn(turn, board.beforeStone)
         }
         return readPoint(board, turn)
     }
