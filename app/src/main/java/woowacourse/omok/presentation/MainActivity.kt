@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
                 val omok = Omok(rowComma = rowComma, columnComma = columnComma)
                 db.insertOmok(omok)
             }
-        }
+        } ?: showSuccessSnackbar(view, getString(R.string.finished_omock))
     }
 
     private fun executeTurn(
@@ -144,20 +144,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleTurnCompletion(view: View) {
         if (oMokGame.getTurn() is FinishedTurn) {
-            showSuccessSnackbar(view)
+            showSuccessSnackbar(view, getString(R.string.success_omock))
             OutputView.outputSuccessOMock()
         }
     }
 
-    private fun showSuccessSnackbar(view: View) {
-        Snackbar.make(view, getString(R.string.success_omock), Snackbar.LENGTH_SHORT).show()
+    private fun showSuccessSnackbar(
+        view: View,
+        message: String,
+    ) {
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun Turn.toStoneIconRes(): Int? {
         return when (this) {
             is BlackTurn -> R.drawable.black_stone
             is WhiteTurn -> R.drawable.white_stone
-            else -> null
+            is FinishedTurn -> null
         }
     }
 }

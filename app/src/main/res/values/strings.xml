@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Omok</string>
-    <string name="success_omock">오목입니다!</string>
     <string name="btn_reset_title">다시 하기</string>
+
+    <!-- message -->
+    <string name="success_omock">오목입니다!</string>
+    <string name="finished_omock">이미 게임이 종료되었습니다. 다시하기 버튼을 눌러주세요!</string>
+
 </resources>
