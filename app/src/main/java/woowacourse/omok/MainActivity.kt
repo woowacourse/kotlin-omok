@@ -12,21 +12,28 @@ import com.google.android.material.snackbar.Snackbar
 import woowacourse.omok.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), GamePlayHandler {
-    val gameManager = GameManager(this)
-    val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private val gameManager = GameManager(this)
+    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    lateinit var allImageViews: List<ImageView>
+    private lateinit var allImageViews: List<ImageView>
 
-    val blackStoneImage: Drawable by lazy {
+    private val blackStoneImage: Drawable by lazy {
         createVectorDrawable(applicationContext, R.drawable.black_stone)
     }
 
-    val whiteStoneImage: Drawable by lazy {
+    private val whiteStoneImage: Drawable by lazy {
         createVectorDrawable(applicationContext, R.drawable.white_stone)
     }
 
-    val blockImage: Drawable by lazy {
+    private val blockImage: Drawable by lazy {
         createVectorDrawable(applicationContext, R.drawable.block)
+    }
+
+    private fun createVectorDrawable(
+        context: Context,
+        vectorResId: Int,
+    ): Drawable {
+        return ContextCompat.getDrawable(context, vectorResId)!!
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +57,7 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
     }
 
     // View의 역할
-    fun Int.toCoordinate(): Coordinate = Coordinate(this / 15, this % 15)
+    private fun Int.toCoordinate(): Coordinate = Coordinate(this / 15, this % 15)
 
     override fun onDraw(gameState: GameState) {
         val copiedBoard = gameState.board.getBoardLayout()
@@ -100,12 +107,5 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
                 }
             }
         }
-    }
-
-    fun createVectorDrawable(
-        context: Context,
-        vectorResId: Int,
-    ): Drawable {
-        return ContextCompat.getDrawable(context, vectorResId)!!
     }
 }
