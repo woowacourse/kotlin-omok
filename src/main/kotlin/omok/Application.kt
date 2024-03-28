@@ -1,44 +1,40 @@
 package omok
 
-import omok.controller.OmokController
+import omok.controller.OmokController2
 import omok.model.ContinualStonesCondition
-import omok.model.Stone
 import omok.model.rule.ContinualStonesStandard
-import omok.model.rule.GamePlayingRules
-import omok.model.rule.ban.DoubleFourForbiddenPlace
-import omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
-import omok.model.rule.ban.ForbiddenPlaces
-import omok.model.rule.ban.OverlineForbiddenPlace
+import omok.model.rule.ForbiddenRules
+import omok.model.rule.RuleAdapter2
+import omok.model.rule.library.FourFourRule
+import omok.model.rule.library.OverlineRule2
+import omok.model.rule.library.ThreeThreeRule
 import omok.model.rule.winning.ContinualStonesWinningCondition
 import omok.view.InputView
 import omok.view.OutputView
 
 fun main() {
-    OmokController(
+    OmokController2(
         InputView(),
         OutputView(),
-        blackStoneGamePlayingRules =
-            GamePlayingRules.from(
-                continualStonesWinningCondition =
-                    ContinualStonesWinningCondition(
-                        ContinualStonesStandard(5),
-                        ContinualStonesCondition.EXACT,
-                    ),
-                forbiddenPlaces =
-                    ForbiddenPlaces(
-                        DoubleOpenThreeForbiddenPlace(Stone.BLACK),
-                        DoubleFourForbiddenPlace(Stone.BLACK),
-                        OverlineForbiddenPlace(),
-                    ),
+        blackStoneGamePlayingRules = RuleAdapter2(
+            ContinualStonesWinningCondition(ContinualStonesStandard(4), ContinualStonesCondition.EXACT),
+            ForbiddenRules(
+                listOf(
+                    ThreeThreeRule.forBlack(),
+                    FourFourRule.forBlack(),
+                    OverlineRule2(),
+                ),
             ),
-        whiteStoneGamePlayingRules =
-            GamePlayingRules.from(
-                continualStonesWinningCondition =
-                    ContinualStonesWinningCondition(
-                        ContinualStonesStandard(5),
-                        ContinualStonesCondition.EXACT,
-                    ),
-                forbiddenPlaces = ForbiddenPlaces(),
+        ),
+        whiteStoneGamePlayingRules = RuleAdapter2(
+            ContinualStonesWinningCondition(ContinualStonesStandard(6), ContinualStonesCondition.EXACT),
+            ForbiddenRules(
+                listOf(
+                    ThreeThreeRule.forWhite(),
+                    FourFourRule.forWhite(),
+                    OverlineRule2(),
+                ),
             ),
+        ),
     ).startGame()
 }
