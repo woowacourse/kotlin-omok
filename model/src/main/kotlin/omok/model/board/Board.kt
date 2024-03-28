@@ -27,14 +27,13 @@ object Board {
         lastPosition = position
     }
 
-    fun getLastStonePosition(): Position? =
-        if (
-            Board::lastPosition.isInitialized
-        ) {
-            lastPosition
-        } else {
-            null
-        }
+    fun getLastStonePosition(): Position {
+        return lastPosition
+    }
+
+    fun isLastPositionExist(): Boolean {
+        return Board::lastPosition.isInitialized
+    }
 
     fun isPositionInRange(
         row: Int,
