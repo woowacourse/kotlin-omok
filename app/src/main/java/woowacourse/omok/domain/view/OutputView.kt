@@ -10,7 +10,7 @@ import woowacourse.omok.domain.model.WhiteTurn
 
 object OutputView {
     private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
-    const val MESSAGE_TURN = "%s의 차례입니다. "
+    private const val MESSAGE_TURN = "%s의 차례입니다. "
     private const val MESSAGE_BEFORE_STONE = "(마지막 돌의 위치: %c%d)"
     const val MESSAGE_GAME_END = "게임이 종료 되었습니다."
     private const val STONE_TYPE_BLACK = "흑"
@@ -99,7 +99,7 @@ object OutputView {
         turn: Turn,
         stone: Stone?,
     ) {
-        println(generateTurnMessage(turn) + stone?.let { generateBeforeMessage(it) })
+        println(generateTurnMessage(turn) + (stone?.let { generateBeforeMessage(it) } ?: ""))
     }
 
     fun generateTurnMessage(turn: Turn): String =
