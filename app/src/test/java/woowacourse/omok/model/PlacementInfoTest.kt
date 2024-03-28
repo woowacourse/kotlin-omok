@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -21,7 +21,11 @@ class PlacementInfoTest {
     private fun createEdgePlacedBoard() =
         arrayOf(
             arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, Color.BLACK, null, null, null, null, null, null, null, null, null, null, null, null, null, Color.WHITE),
+            arrayOf<Color?>(
+                null,
+                Color.BLACK, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                Color.WHITE,
+            ),
             arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
             arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
             arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
@@ -35,6 +39,10 @@ class PlacementInfoTest {
             arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
             arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
             arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, Color.BLACK, null, null, null, null, null, null, null, null, null, null, null, null, null, Color.WHITE),
+            arrayOf<Color?>(
+                null,
+                Color.BLACK, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                Color.WHITE,
+            ),
         )
 }

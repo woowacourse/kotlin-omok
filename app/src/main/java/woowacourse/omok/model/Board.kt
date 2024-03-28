@@ -1,9 +1,9 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.model.state.Black
-import omok.model.state.GameState
-import omok.model.state.TurnState
-import omok.model.state.White
+import woowacourse.omok.model.state.Black
+import woowacourse.omok.model.state.GameState
+import woowacourse.omok.model.state.TurnState
+import woowacourse.omok.model.state.White
 
 class Board(
     private val placementInfo: PlacementInfo = PlacementInfo(),

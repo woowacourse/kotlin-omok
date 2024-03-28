@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 data class Position(
     val horizontalCoordinate: HorizontalCoordinate,

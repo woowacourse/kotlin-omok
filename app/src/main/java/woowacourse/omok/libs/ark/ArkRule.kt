@@ -1,4 +1,4 @@
-package lib.ark
+package woowacourse.omok.libs.ark
 
 abstract class ArkRule(
     private val currentStone: Int = BLACK_STONE,

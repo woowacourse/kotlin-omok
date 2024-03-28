@@ -1,6 +1,6 @@
-package omok.model.search
+package woowacourse.omok.model.search
 
-import omok.model.Color
+import woowacourse.omok.model.Color
 
 abstract class FiveInRowSearch(
     private val status: Array<Array<Color?>>,

@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 enum class GameResult(val label: String) {
     WINNER_BLACK("흑돌"),

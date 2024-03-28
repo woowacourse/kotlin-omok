@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 class PlacementInfo(
     val status: Array<Array<Color?>> = Array(COMPUTATION_BOARD_SIZE) { Array(COMPUTATION_BOARD_SIZE) { null } },

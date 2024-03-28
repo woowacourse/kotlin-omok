@@ -1,6 +1,6 @@
-package omok.model.state
+package woowacourse.omok.model.state
 
-import omok.model.GameResult
+import woowacourse.omok.model.GameResult
 
 sealed class GameState(
     open val message: String? = null,

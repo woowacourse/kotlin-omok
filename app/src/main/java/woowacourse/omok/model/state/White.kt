@@ -1,8 +1,8 @@
-package omok.model.state
+package woowacourse.omok.model.state
 
-import omok.model.Color
-import omok.model.GameResult
-import omok.model.Position
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.GameResult
+import woowacourse.omok.model.Position
 
 class White(whiteStatus: Array<Array<Color?>>) : TurnState(whiteStatus) {
     override fun getWinningResult(

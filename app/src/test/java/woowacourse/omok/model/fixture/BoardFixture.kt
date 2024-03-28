@@ -1,8 +1,8 @@
-package omok.model.fixture
+package woowacourse.omok.model.fixture
 
-import omok.model.Board
-import omok.model.Color
-import omok.model.Position
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.Position
 
 fun createPlayingBoard(vararg positions: Position): Array<Array<Color?>> {
     return Board()

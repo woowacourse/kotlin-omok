@@ -1,4 +1,4 @@
-package lib.ark
+package woowacourse.omok.libs.ark
 
 object ArkOverLineRule : ArkRule() {
     override fun validate(

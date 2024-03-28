@@ -1,4 +1,4 @@
-package lib.ark
+package woowacourse.omok.libs.ark
 
 object ArkFourFourRule : ArkRule() {
     override fun validate(

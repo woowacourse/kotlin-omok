@@ -1,8 +1,8 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.Color
-import omok.model.Position
-import omok.model.Stone
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.Stone
 
 class InputView {
     fun inputPosition(lastTurn: Stone?): Pair<Int, Int> {

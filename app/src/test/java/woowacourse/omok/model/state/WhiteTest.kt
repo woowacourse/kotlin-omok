@@ -1,12 +1,12 @@
-package omok.model.state
+package woowacourse.omok.model.state
 
-import omok.model.Color
-import omok.model.Color.BLACK
-import omok.model.Color.WHITE
-import omok.model.GameResult
-import omok.model.Position
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.Color.BLACK
+import woowacourse.omok.model.Color.WHITE
+import woowacourse.omok.model.GameResult
+import woowacourse.omok.model.Position
 
 class WhiteTest {
     @Test

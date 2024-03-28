@@ -1,12 +1,12 @@
-package omok.model.state
+package woowacourse.omok.model.state
 
-import omok.model.Color
-import omok.model.GameResult
-import omok.model.Position
-import omok.model.search.AscendingFiveInRowSearch
-import omok.model.search.DescendingFiveInRowSearch
-import omok.model.search.HorizontalFiveInRowSearch
-import omok.model.search.VerticalFiveInRowSearch
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.GameResult
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.search.AscendingFiveInRowSearch
+import woowacourse.omok.model.search.DescendingFiveInRowSearch
+import woowacourse.omok.model.search.HorizontalFiveInRowSearch
+import woowacourse.omok.model.search.VerticalFiveInRowSearch
 
 abstract class TurnState(
     private val status: Array<Array<Color?>>,

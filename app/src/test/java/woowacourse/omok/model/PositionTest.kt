@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows

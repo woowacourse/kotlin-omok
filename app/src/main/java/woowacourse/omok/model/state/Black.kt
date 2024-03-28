@@ -1,13 +1,13 @@
-package omok.model.state
+package woowacourse.omok.model.state
 
-import lib.ark.ArkFourFourRule
-import lib.ark.ArkOverLineRule
-import lib.ark.ArkThreeThreeRule
-import omok.mapper.toArkOmokBoard
-import omok.mapper.toArkOmokPoint
-import omok.model.Color
-import omok.model.GameResult
-import omok.model.Position
+import woowacourse.omok.libs.ark.ArkFourFourRule
+import woowacourse.omok.libs.ark.ArkOverLineRule
+import woowacourse.omok.libs.ark.ArkThreeThreeRule
+import woowacourse.omok.mapper.toArkOmokBoard
+import woowacourse.omok.mapper.toArkOmokPoint
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.GameResult
+import woowacourse.omok.model.Position
 
 class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStatus) {
     override fun getWinningResult(

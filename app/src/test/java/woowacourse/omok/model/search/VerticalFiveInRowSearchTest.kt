@@ -1,15 +1,15 @@
-package omok.model.search
+package woowacourse.omok.model.search
 
-import omok.model.Color
-import omok.model.Color.BLACK
-import omok.model.HorizontalCoordinate
-import omok.model.Position
-import omok.model.VerticalCoordinate
-import omok.model.fixture.createPlayingBoard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.Color.BLACK
+import woowacourse.omok.model.HorizontalCoordinate
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.VerticalCoordinate
+import woowacourse.omok.model.fixture.createPlayingBoard
 
 class VerticalFiveInRowSearchTest {
     @ParameterizedTest

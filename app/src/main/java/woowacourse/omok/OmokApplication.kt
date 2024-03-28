@@ -1,8 +1,8 @@
-package omok
+package woowacourse.omok
 
-import omok.controller.OmokController
-import omok.view.InputView
-import omok.view.OutputView
+import woowacourse.omok.controller.OmokController
+import woowacourse.omok.view.InputView
+import woowacourse.omok.view.OutputView
 
 fun main() {
     OmokController(

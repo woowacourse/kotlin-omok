@@ -1,7 +1,7 @@
-package omok.mapper
+package woowacourse.omok.mapper
 
-import omok.model.Color
-import omok.model.Position
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.Position
 
 private const val BOARD_SIZE = 15
 private const val BLANK_SIGNATURE_NUMBER = 0

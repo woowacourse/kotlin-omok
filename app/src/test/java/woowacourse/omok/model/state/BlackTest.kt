@@ -1,16 +1,16 @@
-package omok.model.state
+package woowacourse.omok.model.state
 
-import omok.model.Color
-import omok.model.Color.BLACK
-import omok.model.Color.WHITE
-import omok.model.GameResult
-import omok.model.HorizontalCoordinate
-import omok.model.Position
-import omok.model.VerticalCoordinate
-import omok.model.fixture.createPlayingBoard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.Color.BLACK
+import woowacourse.omok.model.Color.WHITE
+import woowacourse.omok.model.GameResult
+import woowacourse.omok.model.HorizontalCoordinate
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.VerticalCoordinate
+import woowacourse.omok.model.fixture.createPlayingBoard
 
 class BlackTest {
     @Test

@@ -1,8 +1,8 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.model.fixture.createPlayingBoard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.fixture.createPlayingBoard
 
 class BoardTest {
     @Test

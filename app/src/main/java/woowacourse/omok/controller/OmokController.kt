@@ -1,10 +1,10 @@
-package omok.controller
+package woowacourse.omok.controller
 
-import omok.model.Board
-import omok.model.Position
-import omok.model.state.GameState
-import omok.view.InputView
-import omok.view.OutputView
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.state.GameState
+import woowacourse.omok.view.InputView
+import woowacourse.omok.view.OutputView
 
 class OmokController(val inputView: InputView, val outputView: OutputView) {
     private val board: Board by lazy { Board() }
