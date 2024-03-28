@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omok.model.Board
 import omok.model.rule.RenjuRule
 import omok.model.state.BlackTurn
 import omok.model.state.GameState
+import woowacourse.omok.util.showToast
 
 class MainActivity : AppCompatActivity() {
     private var gameState: GameState = BlackTurn(RenjuRule, Board(emptyMap()))
@@ -42,12 +42,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun placeOmokStone(index: Int, view: ImageView) {
-        if (gameState is GameState.Finish) {
-            Toast.makeText(this, "${gameState.winner?.color}의 승리입니다.", Toast.LENGTH_SHORT)
-                .show()
-        } else {
+    private fun placeOmokStone(
+        index: Int,
+        view: ImageView,
+    ) {
+        runCatching {
             onPlace(index, view)
+        }.onFailure {
+            showToast(this, "${it.message}")
         }
     }
 
