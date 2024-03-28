@@ -12,8 +12,6 @@ object OutputView {
     const val OUTPUT_SUCCESS_MESSAGE = "오목~!~!~!~!~!~"
     private const val OUTPUT_USER_TURN_MESSAGE = "%s의 차례입니다."
     private const val OUTPUT_GAME_START_MESSAGE = "오목 게임을 시작합니다."
-    private const val BLACK_STONE_NAME = "흑"
-    private const val WHITE_STONE_NAME = "백"
 
     fun outputBoardForm() {
         boardForm.forEachIndexed { index, s ->
@@ -57,8 +55,8 @@ object OutputView {
 
     private fun getStoneName(player: Player): String {
         return when (player) {
-            is BlackPlayer -> BLACK_STONE_NAME
-            is WhitePlayer -> WHITE_STONE_NAME
+            is BlackPlayer -> Stone.BLACK_STONE_NAME
+            is WhitePlayer -> Stone.WHITE_STONE_NAME
         }
     }
 }

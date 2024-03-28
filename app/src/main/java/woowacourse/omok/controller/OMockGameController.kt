@@ -8,7 +8,6 @@ import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.player.WhitePlayer
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.view.OutputView
-import woowacourse.omok.R
 
 class OMockGameController(private val context: Context) : OMockGame() {
     override fun executePlayerPickFailStep(throwable: Throwable) {
@@ -45,8 +44,8 @@ class OMockGameController(private val context: Context) : OMockGame() {
 
     private fun setLastPickStone(player: Player) {
         when (player) {
-            is BlackPlayer -> lastPickImage?.setImageResource(R.drawable.black_stone)
-            is WhitePlayer -> lastPickImage?.setImageResource(R.drawable.white_stone)
+            is BlackPlayer -> lastPickImage?.setImageResource(Stone.BLACK_STONE_RESOURCE)
+            is WhitePlayer -> lastPickImage?.setImageResource(Stone.WHITE_STONE_RESOURCE)
         }
     }
 }
