@@ -37,10 +37,16 @@ class ThreeThreeRule(currentStone: Int, private val opponentStone: Int) : OmokRu
             dy != 0 && y - dy * leftDown in Y_Edge -> 0
             dx != 0 && x + dx * rightUp in X_Edge -> 0
             dy != 0 && y + dy * rightUp in Y_Edge -> 0
-            board[y - down ][x - left] == opponentStone -> 0
+            board[y - down][x - left] == opponentStone -> 0
             board[y + up][x + right] == opponentStone -> 0
             countToWall(board, position, oppositeDirection) + countToWall(board, position, direction) <= 5 -> 0
             else -> 1
         }
+    }
+
+    companion object {
+        fun forBlack(): ThreeThreeRule = ThreeThreeRule(BLACK_STONE, WHITE_STONE)
+
+        fun forWhite(): ThreeThreeRule = ThreeThreeRule(WHITE_STONE, BLACK_STONE)
     }
 }

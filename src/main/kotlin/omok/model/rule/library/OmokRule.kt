@@ -77,9 +77,9 @@ abstract class OmokRule(
         }
 
     companion object {
-        protected const val EMPTY_STONE = 0
-        private const val BLACK_STONE = 1
-        private const val WHITE_STONE = 2
+        private const val EMPTY_STONE = 0
+        const val BLACK_STONE = 1
+        const val WHITE_STONE = 2
         const val MIN_X = 0
         const val MAX_X = 14
         const val MIN_Y = 0

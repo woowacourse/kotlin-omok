@@ -55,4 +55,10 @@ class FourFourRule(currentStone: Int, private val opponentStone: Int) : OmokRule
 
         return if (leftDownValid + rightUpValid >= 1) 1 else 0
     }
+
+    companion object {
+        fun forBlack(): FourFourRule = FourFourRule(BLACK_STONE, WHITE_STONE)
+
+        fun forWhite(): FourFourRule = FourFourRule(WHITE_STONE, BLACK_STONE)
+    }
 }
