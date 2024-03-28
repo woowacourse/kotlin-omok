@@ -9,7 +9,7 @@ class RuleAdapter(val board: Board) {
             stone.point.x,
             stone.point.y,
             convertStoneType(stone.type),
-        )
+        ) || stone.point in board
     }
 
     fun checkWin(stone: Stone): Boolean {

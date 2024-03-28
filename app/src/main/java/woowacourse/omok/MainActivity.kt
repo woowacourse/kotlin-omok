@@ -1,6 +1,8 @@
 package woowacourse.omok
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -19,29 +21,28 @@ import woowacourse.omok.domain.model.Turn.Companion.STONE_TYPE_BLACK
 import woowacourse.omok.domain.model.Turn.Companion.STONE_TYPE_WHITE
 import woowacourse.omok.domain.model.WhiteTurn
 import woowacourse.omok.domain.view.OutputView.MESSAGE_BEFORE_POINT
+import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_END
 import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_START
 import woowacourse.omok.domain.view.OutputView.MESSAGE_INVALID_POINT_INPUT
 import woowacourse.omok.domain.view.OutputView.MESSAGE_TURN
 import woowacourse.omok.domain.view.OutputView.MESSAGE_WINNER
 
 class MainActivity : AppCompatActivity() {
-    private val board: Board = Board(15)
-    private var turn: Turn = BlackTurn()
-    private val ruleAdapter = RuleAdapter(board)
-    private var onGame = true
+    private var toast: Toast? = null
+    private lateinit var board: Board
+    private lateinit var ruleAdapter: RuleAdapter
+    private lateinit var turn: Turn
+    private var onGame: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        gameStart()
-    }
-
-    private fun gameStart() {
-        displayMessage(MESSAGE_GAME_START)
-        displayMessage(MESSAGE_TURN.format(STONE_TYPE_BLACK))
-
         val tableLayoutBoard: TableLayout = findViewById(R.id.board)
+        val reStartButton: Button = findViewById(R.id.reStartButton)
+
+        gameStart()
+
         tableLayoutBoard
             .children
             .filterIsInstance<TableRow>()
@@ -49,16 +50,42 @@ class MainActivity : AppCompatActivity() {
                 rows.children.filterIsInstance<ImageView>()
                     .forEachIndexed { y, view ->
                         view.setOnClickListener {
-                            if (!onGame) return@setOnClickListener
-                            progressGameTurn(y, x, view)
-                            checkGameFinished()
+                            if (!onGame) {
+                                displayMessage(MESSAGE_GAME_END)
+                                return@setOnClickListener
+                            }
+                            progressGameTurn(x, y, view)
+                            onGame = judgeGameState()
                         }
                     }
             }
+
+        reStartButton.setOnClickListener {
+            tableLayoutBoard
+                .children
+                .filterIsInstance<TableRow>()
+                .forEach { row ->
+                    row.children.filterIsInstance<ImageView>()
+                        .forEach { view ->
+                            view.setImageResource(0)
+                        }
+                }
+            gameStart()
+        }
+    }
+
+    private fun gameStart() {
+        board = Board(15)
+        ruleAdapter = RuleAdapter(board)
+        turn = BlackTurn()
+        onGame = true
+
+        displayMessage(MESSAGE_GAME_START)
+        displayMessage(MESSAGE_TURN.format(STONE_TYPE_BLACK))
     }
 
     private fun progressGameTurn(x: Int, y: Int, view: ImageView) {
-        val nextTurn = board.putStone(Stone(turn.stoneType, Point(x, y)), turn, ruleAdapter)
+        val nextTurn = board.putStone(Stone(turn.stoneType, Point(y, x)), turn, ruleAdapter)
         getNextTurnMessage(nextTurn)
         if (turn != nextTurn) {
             view.setImageResource(getStoneImage(turn.stoneType))
@@ -92,14 +119,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkGameFinished() {
+    private fun judgeGameState(): Boolean {
         if (turn is FinishedTurn) {
             displayMessage(MESSAGE_WINNER.format(turn.getWinner()))
-            onGame = false
+            return false
         }
+        return true
     }
 
     private fun displayMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        toast?.cancel()
+        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+        toast?.show()
     }
 }

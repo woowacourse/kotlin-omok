@@ -13,7 +13,6 @@ object InputView {
         val y: Int = input.substring(1).toIntOrNull()?.let { it - 1 } ?: -1
         val point = Point(x, y)
         require(x in MIN_POINT until board.size && y in MIN_POINT until board.size)
-        require(point !in board)
         return point
     }
 }

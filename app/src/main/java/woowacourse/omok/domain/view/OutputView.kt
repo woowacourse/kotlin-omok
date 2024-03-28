@@ -16,6 +16,7 @@ object OutputView {
     const val MESSAGE_BEFORE_POINT = "(마지막 돌의 위치: %c%d)"
     const val MESSAGE_WINNER = "%s돌이 승리했습니다!!"
     const val MESSAGE_INVALID_POINT_INPUT = "잘못된 위치 좌표입니다. 재입력 해주세요."
+    const val MESSAGE_GAME_END = "게임이 종료되었습니다.\n재시작 버튼을 클릭해 게임을 재시작해주세요."
     private const val STONE_ICON_BLACK = '●'
     private const val STONE_ICON_WHITE = '○'
 
