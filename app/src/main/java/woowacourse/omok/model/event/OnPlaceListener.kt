@@ -1,6 +1,6 @@
-package omok.model.event
+package woowacourse.omok.model.event
 
-import omok.model.Position
+import woowacourse.omok.model.Position
 
 fun interface OnPlaceListener {
     fun onPlace(): Position

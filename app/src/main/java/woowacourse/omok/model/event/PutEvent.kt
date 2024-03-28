@@ -1,4 +1,4 @@
-package omok.model.event
+package woowacourse.omok.model.event
 
 data class PutEvent(
     val onPutBlack: OnPlaceListener,

@@ -1,8 +1,8 @@
 package woowacourse.omok.view
 
 import android.widget.ImageView
-import omok.model.Board
-import omok.model.Position
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Position
 import woowacourse.omok.util.mapStoneColorToDrawable
 
 class OmokBoardView(private val view: ImageView) :

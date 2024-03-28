@@ -1,10 +1,11 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.Board
-import omok.model.OmokStone
-import omok.model.StoneColor
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.OmokStone
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.StoneColor
 
-object ConsoleOmokOutputView : OmokOutputView {
+object ConsoleOmokOutputView : OmokView, OmokOutputView {
     override fun showStartMessage() {
         println("오목 게임을 시작합니다.")
     }
@@ -94,5 +95,12 @@ object ConsoleOmokOutputView : OmokOutputView {
             sb.setCharAt(idx, stoneChar)
         }
         println(sb.toString())
+    }
+
+    override fun updateBoard(
+        position: Position,
+        board: Board,
+    ) {
+        TODO("Not yet implemented")
     }
 }

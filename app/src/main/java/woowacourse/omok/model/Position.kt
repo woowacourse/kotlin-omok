@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 class Position private constructor(val x: Int, val y: Int) {
     operator fun plus(other: Vector): Position = of(x + other.x, y + other.y)
@@ -18,7 +18,8 @@ class Position private constructor(val x: Int, val y: Int) {
                 val x = it + 1
                 RANGE.map { y -> x to y }
             }.flatten()
-        private val cachedPositionMap: Map<Pair<Int, Int>, Position> = cachedKeys.associateWith { Position(it) }
+        private val cachedPositionMap: Map<Pair<Int, Int>, Position> =
+            cachedKeys.associateWith { Position(it) }
 
         fun of(
             x: Int,

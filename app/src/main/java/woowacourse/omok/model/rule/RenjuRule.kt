@@ -1,12 +1,12 @@
-package omok.model.rule
+package woowacourse.omok.model.rule
 
-import lib.ark.ark.ArkFourFourRule
-import lib.ark.ark.ArkOverLineRule
-import lib.ark.ark.ArkThreeThreeRule
-import omok.mapper.toArkOmokBoard
-import omok.mapper.toArkOmokPoint
-import omok.model.Board
-import omok.model.OmokStone
+import woowacourse.lib.ark.ark.ArkFourFourRule
+import woowacourse.lib.ark.ark.ArkOverLineRule
+import woowacourse.lib.ark.ark.ArkThreeThreeRule
+import woowacourse.omok.mapper.toArkOmokBoard
+import woowacourse.omok.mapper.toArkOmokPoint
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.OmokStone
 
 object RenjuRule : StonePlaceRule() {
     override fun canPlace(

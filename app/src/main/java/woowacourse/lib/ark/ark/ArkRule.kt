@@ -1,6 +1,6 @@
-package lib.ark.ark
+package woowacourse.lib.ark.ark
 
-import lib.ark.constant.LibraryConstant.BOARD_SIZE
+import woowacourse.lib.ark.constant.LibraryConstant.BOARD_SIZE
 
 abstract class ArkRule(
     private val currentStone: Int = BLACK_STONE,

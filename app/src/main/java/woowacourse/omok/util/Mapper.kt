@@ -1,8 +1,8 @@
 package woowacourse.omok.util
 
-import omok.model.Position
-import omok.model.StoneColor
 import woowacourse.omok.R
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.StoneColor
 
 fun convertIndexToPosition(index: Int): Position {
     val x = index % 15 + 1

@@ -1,9 +1,9 @@
-package omok.mapper
+package woowacourse.omok.mapper
 
-import omok.model.Board
-import omok.model.OmokStone
-import omok.model.Position
-import omok.model.StoneColor
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.OmokStone
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.StoneColor
 
 fun Board.toArkOmokBoard(): List<List<Int>> {
     val arkBoard = MutableList(15) { MutableList(15) { 0 } }

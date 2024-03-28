@@ -1,6 +1,6 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.Position
+import woowacourse.omok.model.Position
 
 interface OmokInputView {
     fun readPosition(): Position

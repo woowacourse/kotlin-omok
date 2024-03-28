@@ -1,7 +1,7 @@
-package omok.model.state
+package woowacourse.omok.model.state
 
-import omok.model.Board
-import omok.model.Position
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Position
 
 sealed class GameState(val board: Board) {
     val winner get() = if (this is Finish) board.lastStone else null

@@ -6,12 +6,12 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import omok.model.Board
-import omok.model.Position
-import omok.model.rule.RenjuRule
-import omok.model.state.BlackTurn
-import omok.model.state.GameState
 import woowacourse.omok.R
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.rule.RenjuRule
+import woowacourse.omok.model.state.BlackTurn
+import woowacourse.omok.model.state.GameState
 import woowacourse.omok.util.convertIndexToPosition
 import woowacourse.omok.util.showToast
 import woowacourse.omok.view.OmokBoardView

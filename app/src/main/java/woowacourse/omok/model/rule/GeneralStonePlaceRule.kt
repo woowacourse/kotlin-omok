@@ -1,7 +1,7 @@
-package omok.model.rule
+package woowacourse.omok.model.rule
 
-import omok.model.Board
-import omok.model.OmokStone
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.OmokStone
 
 object GeneralStonePlaceRule : StonePlaceRule() {
     override fun canPlace(

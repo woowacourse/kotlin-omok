@@ -1,8 +1,8 @@
-package omok.model.state
+package woowacourse.omok.model.state
 
-import omok.model.Board
-import omok.model.OmokStone
-import omok.model.rule.StonePlaceRule
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.OmokStone
+import woowacourse.omok.model.rule.StonePlaceRule
 
 sealed class Running(private val stonePlaceRule: StonePlaceRule, board: Board) : GameState(board) {
     protected fun canPut(stone: OmokStone): Boolean {
