@@ -18,14 +18,14 @@ class CoordinateTest {
             Coordinate(x, y)
         }
     }
-
+    
     @Test
     fun `입력값이 없으면 예외 발생`() {
         assertThrows<IllegalArgumentException> {
             stringToCoordinate("")
         }
     }
-
+    
     @ParameterizedTest
     @ValueSource(strings = ["A1", "O15", "A6", "C8", "D3", "H10"])
     fun `유효한 위치라면 착수할 수 있다`(input: String) {
@@ -33,10 +33,10 @@ class CoordinateTest {
             stringToCoordinate(input)
         }
     }
-
+    
     private fun stringToCoordinate(input: String): Coordinate {
         require(input.isNotEmpty()) { "입력값이 필요합니다." }
-
+        
         val inputX = input.first().uppercaseChar() - 'A'
         val inputY = input.substring(1).toIntOrNull()?.minus(1) ?: throw IllegalArgumentException("유효하지 않은 위치입니다.")
         return Coordinate(inputX, inputY)
