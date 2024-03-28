@@ -2,6 +2,7 @@ package woowacourse.omok
 
 import android.content.ContentValues
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -52,6 +53,13 @@ class MainActivity : AppCompatActivity() {
                 progressGameTurn(view, x, y)
             }
         }
+
+        val restartButton = findViewById<Button>(R.id.btn_restart)
+        restartButton.setOnClickListener {
+            boardUi.forEach { it.setImageResource(0) }
+            omokDb.delete(OmokContract.TABLE_NAME, null, null)
+            omokGame = OmokGame()
+        }
     }
 
     private fun initializeBoardSetting() {
@@ -60,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             omokDb.query(OmokContract.TABLE_NAME, projection, null, null, null, null, null)
 
         val initialBoard = Board()
-        var stoneType = StoneType.BLACK
+        var stoneType = StoneType.WHITE
         while (cursor.moveToNext()) {
             val stoneTypeValue = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.STONE_TYPE))
             val pointX = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_X))
@@ -77,8 +85,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun createTurn(stoneType: StoneType?): Turn {
         return when (stoneType) {
-            StoneType.BLACK -> BlackTurn()
-            StoneType.WHITE -> WhiteTurn()
+            StoneType.BLACK -> WhiteTurn()
+            StoneType.WHITE -> BlackTurn()
             StoneType.EMPTY -> throw IllegalStateException()
             null -> throw IllegalStateException()
         }
@@ -97,7 +105,6 @@ class MainActivity : AppCompatActivity() {
                 updateTurn = { turn, stone ->
                     displayMessage(generateTurnMessage(turn))
                     stone?.let { saveStoneData(it) }
-                    omokDb.delete(OmokContract.TABLE_NAME, null, null)
                 },
                 getPoint = { Point(x, y) },
             )
