@@ -1191,5 +1191,17 @@
                 android:background="@drawable/board_bottom_right" />
         </TableRow>
 
+        <Button
+            android:id="@+id/restart_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#C8C8C8"
+            android:gravity="center"
+            android:text="다시 시작하려면 터치하세요"
+            android:textSize="25sp"
+            android:visibility="invisible"/>
+
     </TableLayout>
+
 </LinearLayout>
