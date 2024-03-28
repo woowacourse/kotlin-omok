@@ -3,6 +3,7 @@ package omok.model
 import omok.model.position.Position
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
+import omok.model.stone.WhiteStone.changeStone
 
 class OmokGame {
     fun start(
@@ -16,10 +17,10 @@ class OmokGame {
             var isOmok = false
             retryUntilSuccess {
                 val position = readPosition(stone)
-                val currentStone = stone.putStone(position)
+                stone.putStone(position)
                 isOmok = stone.findOmok(position)
                 showWinner(isOmok, stone, printWinner)
-                stone = currentStone
+                stone = stone.changeStone()
                 drawBoard()
             }
         } while (!isOmok)

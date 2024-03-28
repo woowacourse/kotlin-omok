@@ -7,11 +7,10 @@ import omok.model.rule.OmokChecker
 sealed class GoStone {
     abstract val stoneType: StoneType
 
-    fun putStone(position: Position): GoStone {
+    fun putStone(position: Position) {
         validatePosition(position)
         Board.putStone(position.column, position.row, stoneType)
         Board.changeLstStonePosition(position)
-        return if (stoneType == StoneType.BLACK_STONE) WhiteStone else BlackStone
     }
 
     fun findOmok(position: Position): Boolean =
@@ -27,6 +26,12 @@ sealed class GoStone {
         when (this) {
             BlackStone -> BLACK_STONE_VALUE_MESSAGE
             WhiteStone -> WHITE_STONE_VALUE_MESSAGE
+        }
+
+    fun GoStone.changeStone() =
+        when (this) {
+            BlackStone -> WhiteStone
+            WhiteStone -> BlackStone
         }
 
     private fun validatePosition(position: Position) {

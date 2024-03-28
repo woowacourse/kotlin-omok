@@ -14,6 +14,7 @@ import omok.model.stone.BlackStone
 import omok.model.stone.BlackStone.value
 import omok.model.stone.GoStone
 import omok.model.stone.WhiteStone
+import omok.model.stone.WhiteStone.changeStone
 import woowacourse.omok.omokdb.OmokDbHelper
 
 class MainActivity : AppCompatActivity() {
@@ -91,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             dbHelper.insert(position.getRowValue(), position.getColumnValue(), stone.value())
             view.setImageResource(stone.imageView())
             if (checkOmok(board, position, view)) return
-            stone = currentStone
+            stone = stone.changeStone()
         }
     }
 
