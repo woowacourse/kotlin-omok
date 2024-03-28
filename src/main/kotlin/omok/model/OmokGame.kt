@@ -1,6 +1,6 @@
 package omok.model
 
-class OmokGame(private val board: Board, private val players: Players2) {
+class OmokGame(private val board: Board, private val players: Players) {
     fun gameWinner(
         nextStonePosition: (Player2, Position?) -> Position,
         nextStonePositionResult: () -> Unit,
