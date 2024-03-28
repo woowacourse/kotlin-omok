@@ -12,12 +12,12 @@ import woowacourse.omok.domain.model.WhiteTurn
 object OutputView {
     const val MESSAGE_GAME_START = "오목 게임을 시작합니다. "
     const val MESSAGE_TURN = "%s의 차례입니다. "
-    const val MESSAGE_BEFORE_POINT = "(마지막 돌의 위치: %c%d)"
-    const val MESSAGE_WINNER = "%s돌이 승리했습니다!!"
+    private const val MESSAGE_BEFORE_POINT = "(마지막 돌의 위치: %c%d)"
+    const val MESSAGE_WINNER: String = "%s돌이 승리했습니다!!"
     const val MESSAGE_INVALID_POINT_INPUT = "잘못된 위치 좌표입니다. 재입력 해주세요."
     const val MESSAGE_GAME_END = "게임이 종료되었습니다.\n재시작 버튼을 클릭해 게임을 재시작해주세요."
     const val STONE_TYPE_BLACK = "흑"
-    const val STONE_TYPE_WHITE = "백"
+    private const val STONE_TYPE_WHITE = "백"
     private const val STONE_ICON_BLACK = '●'
     private const val STONE_ICON_WHITE = '○'
 
@@ -93,9 +93,9 @@ object OutputView {
                 boardForm[it].format(
                     *generatePrintedLine(
                         it,
-                        board.getBoardLine(it + 1)
-                    ).toTypedArray()
-                )
+                        board.getBoardLine(it + 1),
+                    ).toTypedArray(),
+                ),
             )
         }
         println(boardForm.last())
@@ -136,15 +136,19 @@ object OutputView {
     ): String {
         return when (turn) {
             is BlackTurn -> {
-                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (beforeStone?.let { stone ->
-                    generateBeforePointMessage(stone.point)
-                } ?: "")
+                MESSAGE_TURN.format(STONE_TYPE_BLACK) + (
+                    beforeStone?.let { stone ->
+                        generateBeforePointMessage(stone.point)
+                    } ?: ""
+                )
             }
 
             is WhiteTurn -> {
-                MESSAGE_TURN.format(STONE_TYPE_WHITE) + (beforeStone?.let { stone ->
-                    generateBeforePointMessage(stone.point)
-                } ?: "")
+                MESSAGE_TURN.format(STONE_TYPE_WHITE) + (
+                    beforeStone?.let { stone ->
+                        generateBeforePointMessage(stone.point)
+                    } ?: ""
+                )
             }
 
             is FinishedTurn -> ""

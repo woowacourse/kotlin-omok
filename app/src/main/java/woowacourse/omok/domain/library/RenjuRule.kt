@@ -20,13 +20,15 @@ class RenjuRule(
         y: Int,
         stoneType: Int,
     ): Boolean {
-        if (stoneType == STONE_TYPE_BLACK) return countOpenThrees(
-            x,
-            y
-        ) >= MIN_OPEN_THREES || countOpenFours(
-            x,
-            y,
-        ) >= MIN_OPEN_FOURS || isOverLine(x, y, stoneType)
+        if (stoneType == STONE_TYPE_BLACK) {
+            return countOpenThrees(
+                x,
+                y,
+            ) >= MIN_OPEN_THREES || countOpenFours(
+                x,
+                y,
+            ) >= MIN_OPEN_FOURS || isOverLine(x, y, stoneType)
+        }
         return false
     }
 
@@ -96,18 +98,18 @@ class RenjuRule(
         y: Int,
     ): Int =
         checkOpenThree(x, y, directions[0].first, directions[0].second) +
-                checkOpenThree(x, y, directions[1].first, directions[1].second) +
-                checkOpenThree(x, y, directions[2].first, directions[2].second) +
-                checkOpenThreeReverse(x, y)
+            checkOpenThree(x, y, directions[1].first, directions[1].second) +
+            checkOpenThree(x, y, directions[2].first, directions[2].second) +
+            checkOpenThreeReverse(x, y)
 
     private fun countOpenFours(
         x: Int,
         y: Int,
     ): Int =
         checkOpenFour(x, y, directions[0].first, directions[0].second) +
-                checkOpenFour(x, y, directions[1].first, directions[1].second) +
-                checkOpenFour(x, y, directions[2].first, directions[2].second) +
-                checkOpenFourReverse(x, y)
+            checkOpenFour(x, y, directions[1].first, directions[1].second) +
+            checkOpenFour(x, y, directions[2].first, directions[2].second) +
+            checkOpenFourReverse(x, y)
 
     private fun checkOpenThree(
         x: Int,

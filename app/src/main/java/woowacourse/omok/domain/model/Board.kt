@@ -24,9 +24,7 @@ class Board(val size: Int) {
 
     fun getBoardLine(index: Int): List<StoneType> = table[size - index]
 
-    fun getBoardPoint(
-        point: Point
-    ): StoneType = table[point.y][point.x]
+    fun getBoardPoint(point: Point): StoneType = table[point.y][point.x]
 
     operator fun contains(point: Point): Boolean {
         return table[point.y][point.x] != StoneType.EMPTY

@@ -26,10 +26,10 @@ import woowacourse.omok.domain.view.OutputView.generateTurnMessage
 import woowacourse.omok.domain.view.OutputView.generateWinnerMessage
 
 class MainActivity : AppCompatActivity() {
-    private var toast: Toast? = null
     private lateinit var board: Board
     private lateinit var ruleAdapter: RuleAdapter
     private lateinit var turn: Turn
+    private var toast: Toast? = null
     private var onGame: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,7 +85,10 @@ class MainActivity : AppCompatActivity() {
         gameStart(tableLayoutBoard)
     }
 
-    private fun progressGameTurn(point: Point, view: ImageView) {
+    private fun progressGameTurn(
+        point: Point,
+        view: ImageView,
+    ) {
         val nextTurn = board.putStone(Stone(turn.stoneType, point), turn, ruleAdapter)
         displayMessage(generateTurnMessage(nextTurn, board.beforeStone))
         if (turn != nextTurn) {
