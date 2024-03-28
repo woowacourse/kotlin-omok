@@ -18,11 +18,14 @@ class Board(
     val status: List<List<Color>>
         get() = _status.map { it.toList() }.toList()
 
-    val turn: Color
+    val currentTurn: Color
         get() = if (isEven(notation.size)) Color.BLACK else Color.WHITE
 
+    val lastTurn: Color
+        get() = if (currentTurn == Color.BLACK) Color.WHITE else Color.BLACK
+
     private val turnState: TurnState
-        get() = if (turn == Color.BLACK) Black(_status) else White()
+        get() = if (currentTurn == Color.BLACK) Black(_status) else White()
 
     fun place(position: Position) {
         require(!isDuplicated(position)) { EXCEPTION_DUPLICATED_POSITION }
@@ -49,9 +52,9 @@ class Board(
     private fun placeStone(position: Position) {
         val row = position.row.value
         val col = position.col.title
-        _status[ARRAY_SIZE - position.row.value][position.col.value] = turn
+        _status[ARRAY_SIZE - position.row.value][position.col.value] = currentTurn
         notation =
-            when (turn) {
+            when (currentTurn) {
                 Color.BLACK -> notation.plus(Stone.Black(Position.of(row, col)))
                 Color.WHITE -> notation.plus(Stone.White(Position.of(row, col)))
                 Color.NONE -> notation
