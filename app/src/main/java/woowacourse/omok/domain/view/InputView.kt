@@ -1,7 +1,7 @@
-package omok.view
+package woowacourse.omok.domain.view
 
-import omok.model.Position
-import omok.model.Stone
+import woowacourse.omok.domain.model.Position
+import woowacourse.omok.domain.model.Stone
 
 class InputView {
     fun readStonePosition(

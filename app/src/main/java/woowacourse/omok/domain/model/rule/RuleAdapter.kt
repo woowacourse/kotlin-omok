@@ -1,9 +1,9 @@
-package omok.model.rule
+package woowacourse.omok.domain.model.rule
 
-import omok.model.Board
-import omok.model.Position
-import omok.model.Stone
-import omok.model.rule.winning.ContinualStonesWinningCondition
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.Position
+import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
 
 class RuleAdapter(
     private val continualStonesWinningCondition: ContinualStonesWinningCondition,

@@ -1,9 +1,9 @@
-package omok.view
+package woowacourse.omok.domain.view
 
-import omok.model.Board
-import omok.model.Player
-import omok.model.Position
-import omok.model.Stone
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.Player
+import woowacourse.omok.domain.model.Position
+import woowacourse.omok.domain.model.Stone
 
 class OutputView {
     fun printInitialGuide(board: Board) {
@@ -42,19 +42,19 @@ class OutputView {
         if (row == Position.MIN_INDEX) {
             when (col) {
                 Position.MIN_INDEX -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " ┌─")
-                Position.MAX_INDEX -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┐ ")
+                Position.MAX_INDEX -> stone.printBoardSingleAxis("─$BLACK_STONE ", "─$WHITE_STONE ", "─┐ ")
                 else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", "─┬─")
             }
         } else if (row == Position.MAX_INDEX) {
             when (col) {
                 Position.MIN_INDEX -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " └─")
-                Position.MAX_INDEX -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┘ ")
+                Position.MAX_INDEX -> stone.printBoardSingleAxis("─$BLACK_STONE ", "─$WHITE_STONE ", "─┘ ")
                 else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", "─┴─")
             }
         } else {
             when (col) {
                 Position.MIN_INDEX -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", " ├─")
-                Position.MAX_INDEX -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", "─┤ ")
+                Position.MAX_INDEX -> stone.printBoardSingleAxis("─$BLACK_STONE ", "─$WHITE_STONE ", "─┤ ")
                 else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", "─┼─")
             }
         }

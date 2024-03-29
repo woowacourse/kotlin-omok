@@ -1,11 +1,12 @@
-package omok.model.rule.winning
+package woowacourse.omok.model.rule.winning
 
-import omok.model.Position
-import omok.model.Stone
-import omok.model.StonePosition
-import omok.model.initBoard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.model.Position
+import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.model.rule.winning.ContinualStones
+import woowacourse.omok.model.StonePosition
+import woowacourse.omok.model.initBoard
 
 class ContinualStonesTest {
     @Test

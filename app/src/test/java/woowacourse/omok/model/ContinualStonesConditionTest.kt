@@ -1,10 +1,11 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.model.rule.ContinualStonesStandard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import woowacourse.omok.domain.model.ContinualStonesCondition
+import woowacourse.omok.domain.model.rule.ContinualStonesStandard
 
 class ContinualStonesConditionTest {
     @Test

@@ -1,10 +1,10 @@
-package omok.model.rule.winning
+package woowacourse.omok.domain.model.rule.winning
 
-import omok.model.Board
-import omok.model.ContinualStonesCondition
-import omok.model.Position
-import omok.model.rule.ContinualStonesStandard
-import omok.model.rule.ContinualStonesStandard.Companion.MIN_CONTINUAL_STONES_COUNT
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.ContinualStonesCondition
+import woowacourse.omok.domain.model.Position
+import woowacourse.omok.domain.model.rule.ContinualStonesStandard
+import woowacourse.omok.domain.model.rule.ContinualStonesStandard.Companion.MIN_CONTINUAL_STONES_COUNT
 
 class ContinualStonesWinningCondition(
     val continualStonesStandard: ContinualStonesStandard,

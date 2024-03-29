@@ -1,12 +1,17 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.model.rule.ContinualStonesStandard
-import omok.model.rule.ForbiddenRules
-import omok.model.rule.RuleAdapter
-import omok.model.rule.winning.ContinualStonesWinningCondition
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.ContinualStonesCondition
+import woowacourse.omok.domain.model.Player
+import woowacourse.omok.domain.model.Position
+import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.model.rule.ContinualStonesStandard
+import woowacourse.omok.domain.model.rule.ForbiddenRules
+import woowacourse.omok.domain.model.rule.RuleAdapter
+import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
 
 class BoardTest {
     private lateinit var emptyBoard: Board

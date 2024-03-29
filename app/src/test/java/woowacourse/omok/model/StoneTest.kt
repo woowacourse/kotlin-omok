@@ -1,7 +1,8 @@
-package omok.model
+package woowacourse.omok.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.model.Stone
 
 class StoneTest {
     @Test

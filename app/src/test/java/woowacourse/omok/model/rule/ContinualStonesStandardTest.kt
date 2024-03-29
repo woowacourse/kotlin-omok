@@ -1,4 +1,4 @@
-package omok.model.rule
+package woowacourse.omok.model.rule
 
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -6,6 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import woowacourse.omok.domain.model.rule.ContinualStonesStandard
 
 class ContinualStonesStandardTest {
     @ParameterizedTest

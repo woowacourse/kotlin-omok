@@ -1,6 +1,6 @@
-package omok.model
+package woowacourse.omok.domain.model
 
-import omok.model.rule.RuleAdapter
+import woowacourse.omok.domain.model.rule.RuleAdapter
 
 class Player(val stone: Stone, private val rules: RuleAdapter) {
     fun canPlace(

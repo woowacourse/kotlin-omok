@@ -1,6 +1,6 @@
-package omok.model
+package woowacourse.omok.domain.model
 
-import omok.controller.ValidPosition
+import woowacourse.omok.domain.controller.ValidPosition
 
 class OmokGame(
     private val board: Board,

@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -6,6 +6,8 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import woowacourse.omok.domain.model.Direction
+import woowacourse.omok.domain.model.Position
 
 class PositionTest {
     @CsvSource("-1, 0", "16, 0", "0, -1")

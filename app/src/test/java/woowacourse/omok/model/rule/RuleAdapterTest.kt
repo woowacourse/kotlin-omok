@@ -1,18 +1,21 @@
-package omok.model.rule
+package woowacourse.omok.model.rule
 
-import omok.model.Board
-import omok.model.ContinualStonesCondition
-import omok.model.Position
-import omok.model.Stone
-import omok.model.StonePosition
-import omok.model.initBoard
-import omok.model.rule.library.FourFourRule
-import omok.model.rule.library.OverlineRule
-import omok.model.rule.library.ThreeThreeRule
-import omok.model.rule.winning.ContinualStonesWinningCondition
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.ContinualStonesCondition
+import woowacourse.omok.domain.model.Position
+import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.model.rule.ContinualStonesStandard
+import woowacourse.omok.domain.model.rule.ForbiddenRules
+import woowacourse.omok.domain.model.rule.RuleAdapter
+import woowacourse.omok.domain.model.rule.library.FourFourRule
+import woowacourse.omok.domain.model.rule.library.OverlineRule
+import woowacourse.omok.domain.model.rule.library.ThreeThreeRule
+import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
+import woowacourse.omok.model.StonePosition
+import woowacourse.omok.model.initBoard
 
 class RuleAdapterTest {
     private lateinit var board: Board

@@ -1,14 +1,18 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.model.rule.ContinualStonesStandard
-import omok.model.rule.ForbiddenRules
-import omok.model.rule.RuleAdapter
-import omok.model.rule.library.FourFourRule
-import omok.model.rule.library.OverlineRule
-import omok.model.rule.library.ThreeThreeRule
-import omok.model.rule.winning.ContinualStonesWinningCondition
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.model.ContinualStonesCondition
+import woowacourse.omok.domain.model.Player
+import woowacourse.omok.domain.model.Players
+import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.model.rule.ContinualStonesStandard
+import woowacourse.omok.domain.model.rule.ForbiddenRules
+import woowacourse.omok.domain.model.rule.RuleAdapter
+import woowacourse.omok.domain.model.rule.library.FourFourRule
+import woowacourse.omok.domain.model.rule.library.OverlineRule
+import woowacourse.omok.domain.model.rule.library.ThreeThreeRule
+import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
 
 class PlayersTest {
     private val blackStonePlayer =

@@ -1,8 +1,8 @@
-package omok.model.rule.winning
+package woowacourse.omok.domain.model.rule.winning
 
-import omok.model.Board
-import omok.model.Direction
-import omok.model.Position
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.Direction
+import woowacourse.omok.domain.model.Position
 import kotlin.math.max
 
 object ContinualStones {

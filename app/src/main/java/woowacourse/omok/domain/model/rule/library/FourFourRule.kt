@@ -1,4 +1,4 @@
-package omok.model.rule.library
+package woowacourse.omok.domain.model.rule.library
 
 class FourFourRule(currentStone: Int, private val opponentStone: Int) : OmokRule(currentStone, opponentStone) {
     override fun abide(

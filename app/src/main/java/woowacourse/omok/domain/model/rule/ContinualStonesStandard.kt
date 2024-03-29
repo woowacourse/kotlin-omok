@@ -1,4 +1,4 @@
-package omok.model.rule
+package woowacourse.omok.domain.model.rule
 
 data class ContinualStonesStandard(val count: Int) : Comparable<ContinualStonesStandard> {
     init {

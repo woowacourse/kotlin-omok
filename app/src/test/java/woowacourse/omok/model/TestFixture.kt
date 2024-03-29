@@ -1,6 +1,9 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.model.Position.Companion.INDEX_RANGE
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.Position
+import woowacourse.omok.domain.model.Position.Companion.INDEX_RANGE
+import woowacourse.omok.domain.model.Stone
 
 fun initBoard(vararg stonePosition: StonePosition): Board {
     val board =

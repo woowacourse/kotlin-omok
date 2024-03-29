@@ -1,9 +1,9 @@
-package omok.model.rule
+package woowacourse.omok.domain.model.rule
 
-import omok.model.rule.library.FourFourRule
-import omok.model.rule.library.OmokRule
-import omok.model.rule.library.OverlineRule
-import omok.model.rule.library.ThreeThreeRule
+import woowacourse.omok.domain.model.rule.library.FourFourRule
+import woowacourse.omok.domain.model.rule.library.OmokRule
+import woowacourse.omok.domain.model.rule.library.OverlineRule
+import woowacourse.omok.domain.model.rule.library.ThreeThreeRule
 
 class ForbiddenRules(rules: List<OmokRule>) {
     constructor(vararg rule: OmokRule) : this(listOf(*rule))

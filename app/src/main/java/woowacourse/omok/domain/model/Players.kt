@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.domain.model
 
 class Players(private val blackStonePlayer: Player, private val whiteStonePlayer: Player) {
     fun firstOrderedPlayer(): Player = blackStonePlayer

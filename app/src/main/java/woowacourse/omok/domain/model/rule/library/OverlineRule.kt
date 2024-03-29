@@ -1,4 +1,4 @@
-package omok.model.rule.library
+package woowacourse.omok.domain.model.rule.library
 
 import kotlin.properties.Delegates
 

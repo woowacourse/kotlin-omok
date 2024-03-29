@@ -1,8 +1,8 @@
-package omok.controller
+package woowacourse.omok.domain.controller
 
-import omok.model.Board
-import omok.model.Player
-import omok.model.Position
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.Player
+import woowacourse.omok.domain.model.Position
 
 sealed interface ValidPosition {
     fun valid(

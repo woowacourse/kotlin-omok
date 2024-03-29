@@ -1,6 +1,6 @@
-package omok.model
+package woowacourse.omok.domain.model
 
-import omok.model.Position.Companion.INDEX_RANGE
+import woowacourse.omok.domain.model.Position.Companion.INDEX_RANGE
 
 class Board(private val _board: MutableMap<Position, Stone> = initBoard()) {
     val board: Map<Position, Stone>

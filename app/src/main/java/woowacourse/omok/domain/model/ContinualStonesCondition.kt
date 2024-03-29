@@ -1,6 +1,6 @@
-package omok.model
+package woowacourse.omok.domain.model
 
-import omok.model.rule.ContinualStonesStandard
+import woowacourse.omok.domain.model.rule.ContinualStonesStandard
 
 enum class ContinualStonesCondition {
     EXACT,

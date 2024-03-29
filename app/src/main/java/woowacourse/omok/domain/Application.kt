@@ -1,16 +1,16 @@
-package omok
+package woowacourse.omok.domain
 
-import omok.controller.OmokController
-import omok.model.ContinualStonesCondition
-import omok.model.rule.ContinualStonesStandard
-import omok.model.rule.ForbiddenRules
-import omok.model.rule.RuleAdapter
-import omok.model.rule.library.FourFourRule
-import omok.model.rule.library.OverlineRule
-import omok.model.rule.library.ThreeThreeRule
-import omok.model.rule.winning.ContinualStonesWinningCondition
-import omok.view.InputView
-import omok.view.OutputView
+import woowacourse.omok.domain.controller.OmokController
+import woowacourse.omok.domain.model.ContinualStonesCondition
+import woowacourse.omok.domain.model.rule.ContinualStonesStandard
+import woowacourse.omok.domain.model.rule.ForbiddenRules
+import woowacourse.omok.domain.model.rule.RuleAdapter
+import woowacourse.omok.domain.model.rule.library.FourFourRule
+import woowacourse.omok.domain.model.rule.library.OverlineRule
+import woowacourse.omok.domain.model.rule.library.ThreeThreeRule
+import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
+import woowacourse.omok.domain.view.InputView
+import woowacourse.omok.domain.view.OutputView
 
 fun main() {
     OmokController(

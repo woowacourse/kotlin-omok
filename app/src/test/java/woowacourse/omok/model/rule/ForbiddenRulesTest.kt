@@ -1,12 +1,14 @@
-package omok.model.rule
+package woowacourse.omok.model.rule
 
-import omok.model.rule.library.FourFourRule
-import omok.model.rule.library.OverlineRule
-import omok.model.rule.library.ThreeThreeRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import woowacourse.omok.domain.model.rule.ContinualStonesStandard
+import woowacourse.omok.domain.model.rule.ForbiddenRules
+import woowacourse.omok.domain.model.rule.library.FourFourRule
+import woowacourse.omok.domain.model.rule.library.OverlineRule
+import woowacourse.omok.domain.model.rule.library.ThreeThreeRule
 
 class ForbiddenRulesTest {
     @ParameterizedTest

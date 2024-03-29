@@ -1,7 +1,7 @@
-package omok.model.rule.winning
+package woowacourse.omok.domain.model.rule.winning
 
-import omok.model.Board
-import omok.model.Position
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.Position
 
 interface WinningCondition {
     fun isWin(
