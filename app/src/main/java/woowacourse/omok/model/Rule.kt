@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 interface Rule {
     fun checkPlaceable(stone: Stone): Boolean

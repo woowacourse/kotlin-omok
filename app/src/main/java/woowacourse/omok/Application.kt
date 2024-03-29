@@ -1,6 +1,6 @@
 package omok
 
-import omok.controller.OmokController
+import woowacourse.omok.controller.OmokConsoleController
 
 fun main() {
     val controller = OmokController()

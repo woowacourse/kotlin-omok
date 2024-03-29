@@ -1,8 +1,8 @@
 import library.RenjuRule
-import omok.model.Color
-import omok.model.Rule
-import omok.model.Stone
-import omok.model.Stones
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.Rule
+import woowacourse.omok.model.Stone
+import woowacourse.omok.model.Stones
 
 class RuleAdaptor(private val stones: Stones) : Rule {
     private val renjuRule: RenjuRule

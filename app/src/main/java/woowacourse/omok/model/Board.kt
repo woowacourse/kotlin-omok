@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 class Board(
     val stones: Stones,

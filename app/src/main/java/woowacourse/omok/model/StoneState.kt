@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 sealed class StoneState(
     open val message: String? = null,

@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 import RuleAdaptor
 import org.assertj.core.api.Assertions.assertThat

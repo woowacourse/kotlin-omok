@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 val black = Color.BLACK
 val white = Color.WHITE
