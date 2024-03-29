@@ -1,8 +1,8 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.Column
-import omok.model.Coordinate
-import omok.model.Row
+import woowacourse.omok.model.Column
+import woowacourse.omok.model.Coordinate
+import woowacourse.omok.model.Row
 
 object InputView {
     private const val MESSAGE_INPUT_COORDINATE = "위치를 입력하세요: "

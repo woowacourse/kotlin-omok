@@ -1,10 +1,10 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.Board.Companion.BOARD_SIZE
-import omok.model.Color
-import omok.model.Coordinate
-import omok.model.StoneState
-import omok.model.Stones
+import woowacourse.omok.model.Board.Companion.BOARD_SIZE
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.Coordinate
+import woowacourse.omok.model.StoneState
+import woowacourse.omok.model.Stones
 
 object OutputView {
     private const val MESSAGE_START = "오목 게임을 시작합니다.\n"

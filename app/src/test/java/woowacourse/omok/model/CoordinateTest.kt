@@ -1,8 +1,8 @@
 package omok
 
-import omok.model.Column
-import omok.model.Coordinate
-import omok.model.Row
+import woowacourse.omok.model.Column
+import woowacourse.omok.model.Coordinate
+import woowacourse.omok.model.Row
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource

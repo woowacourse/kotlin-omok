@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 import omok.library.RenjuRule
 

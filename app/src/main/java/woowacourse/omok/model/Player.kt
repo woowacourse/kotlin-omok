@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 class Player(val color: Color) {
     var isWin: Boolean = false

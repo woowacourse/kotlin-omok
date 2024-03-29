@@ -1,5 +1,11 @@
 package omok.model
 
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.Column
+import woowacourse.omok.model.Coordinate
+import woowacourse.omok.model.Row
+import woowacourse.omok.model.Stone
+
 val black = Color.BLACK
 val white = Color.WHITE
 

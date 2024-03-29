@@ -1,10 +1,10 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.model.StoneState.BEFORE_PLACED
-import omok.model.StoneState.FORBIDDEN
-import omok.model.StoneState.OCCUPIED
-import omok.model.StoneState.OUTSIDE_THE_BOARD
-import omok.model.StoneState.PLACED
+import woowacourse.omok.model.StoneState.BEFORE_PLACED
+import woowacourse.omok.model.StoneState.FORBIDDEN
+import woowacourse.omok.model.StoneState.OCCUPIED
+import woowacourse.omok.model.StoneState.OUTSIDE_THE_BOARD
+import woowacourse.omok.model.StoneState.PLACED
 
 class Board(val stones: Stones = Stones()) {
     private val rule = RuleAdapter(BOARD_SIZE, ::getCurrentStones)

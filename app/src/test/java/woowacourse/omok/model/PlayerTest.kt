@@ -3,6 +3,12 @@ package omok.model
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.Coordinate
+import woowacourse.omok.model.Player
+import woowacourse.omok.model.Stone
+import woowacourse.omok.model.Stones
 
 class PlayerTest {
     private lateinit var board: Board

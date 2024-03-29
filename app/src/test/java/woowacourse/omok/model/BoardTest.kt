@@ -5,6 +5,13 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Column
+import woowacourse.omok.model.Coordinate
+import woowacourse.omok.model.Row
+import woowacourse.omok.model.Stone
+import woowacourse.omok.model.StoneState
+import woowacourse.omok.model.Stones
 
 class BoardTest {
     private lateinit var board: Board

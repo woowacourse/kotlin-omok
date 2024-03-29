@@ -1,10 +1,10 @@
-package omok.controller
+package woowacourse.omok.controller
 
-import omok.model.Board
-import omok.model.Stones
-import omok.view.InputView.inputStoneCoordinate
-import omok.view.OutputView
-import omok.view.OutputView.printForbiddenStone
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Stones
+import woowacourse.omok.view.InputView.inputStoneCoordinate
+import woowacourse.omok.view.OutputView
+import woowacourse.omok.view.OutputView.printForbiddenStone
 
 class OmokController {
     fun run() {
