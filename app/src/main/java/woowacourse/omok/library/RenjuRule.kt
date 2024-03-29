@@ -1,5 +1,8 @@
 package omok.library
 
+import omok.model.Black
+import omok.model.BoardCoordinate
+import omok.model.BoardPosition
 import omok.model.Empty
 import omok.model.OmokGame
 import omok.model.OmokStone
@@ -9,8 +12,9 @@ object RenjuRule {
         gameBoard: Array<Array<OmokStone>>,
         omokStone: OmokStone?,
     ): List<Pair<Int, Int>> {
+
         val coords = mutableListOf<Pair<Int, Int>>()
-        if (omokStone == null) return coords
+        if (omokStone == null || omokStone.isBlack) return coords
         for (row in gameBoard.indices) {
             for (col in gameBoard[row].indices) {
                 if (!gameBoard[row][col].isEmpty) {
