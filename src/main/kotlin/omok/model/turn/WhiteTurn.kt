@@ -1,31 +1,30 @@
 package omok.model.turn
 
-import PlaceStoneInterrupt
 import omok.model.Board
 import omok.model.Either
 import omok.model.entity.Point
 import omok.model.entity.Stone
 import omok.model.entity.StoneColor
-import omok.model.flatmap
 import omok.model.rule.FiveInRowRule
 
 class WhiteTurn(
-    board: Either<PlaceStoneInterrupt, Board>,
+    board: Board,
 ) : Turn(board) {
-    override fun proceed(point: Point): Turn {
+    override fun placeStone(point: Point, printError: (String) -> Unit): Turn {
         val stone = Stone(point, StoneColor.WHITE)
 
-        val placeStone: (board: Board) -> Either<PlaceStoneInterrupt, Board> = { it.place(stone) }
-
-        val checkFinished: (board: Board) -> Either<PlaceStoneInterrupt, Board> = {
-            if (it.isFull() || FiveInRowRule.check(it)) {
-                Either.Left(PlaceStoneInterrupt.GameFinished(it))
-            } else {
-                Either.Right(it)
+        val nextBoard =
+            when (val placeResult = board.place(stone)) {
+                is Either.Left -> {
+                    printError(placeResult.value.errorMessage)
+                    return this
+                }
+                is Either.Right -> placeResult.value
             }
-        }
 
-        val nextBoard: Either<PlaceStoneInterrupt, Board> = board flatmap placeStone flatmap checkFinished
+        if (nextBoard.isFull() || FiveInRowRule.check(nextBoard)) {
+            return Finished(nextBoard)
+        }
 
         return BlackTurn(nextBoard)
     }

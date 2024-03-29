@@ -1,12 +1,11 @@
 package omok.model.turn
 
-import PlaceStoneInterrupt
 import omok.model.Board
 import omok.model.Either
+import omok.model.PlaceStoneError
 import omok.model.entity.Point
 import omok.model.entity.Stone
 import omok.model.entity.StoneColor
-import omok.model.flatmap
 import omok.model.rule.FiveInRowRule
 import omok.model.rule.FourByFourRule
 import omok.model.rule.OverSixInRowRule
@@ -14,34 +13,33 @@ import omok.model.rule.Rule
 import omok.model.rule.ThreeByThreeRule
 
 class BlackTurn(
-    board: Either<PlaceStoneInterrupt, Board>,
+    board: Board,
 ) : Turn(board) {
     private val prohibitedRules: List<Rule> = listOf(ThreeByThreeRule, FourByFourRule, OverSixInRowRule)
 
-    override fun proceed(point: Point): Turn {
+    override fun placeStone(point: Point, printError: (String) -> Unit): Turn {
         val stone = Stone(point, StoneColor.BLACK)
 
-        val placeStone: (board: Board) -> Either<PlaceStoneInterrupt, Board> = { it.place(stone) }
-
-        val checkRules: (board: Board) -> Either<PlaceStoneInterrupt, Board> = {
-            val isViolated = it.checkRulesAny(prohibitedRules)
-            if (isViolated) {
-                Either.Left(PlaceStoneInterrupt.StoneViolatedRules())
-            } else {
-                Either.Right(it)
+        val nextBoard =
+            when (val placeResult = board.place(stone)) {
+                is Either.Left -> {
+                    placeResult.value.handleErrorMessage(printError)
+                    return this
+                }
+                is Either.Right -> placeResult.value
             }
+
+        val isViolated =
+            prohibitedRules.any {
+                it.check(nextBoard)
+            }
+        if (isViolated) {
+            return this
         }
 
-        val checkFinished: (board: Board) -> Either<PlaceStoneInterrupt, Board> = {
-            if (it.isFull() || FiveInRowRule.check(it)) {
-                Either.Left(PlaceStoneInterrupt.GameFinished(it))
-            } else {
-                Either.Right(it)
-            }
+        if (nextBoard.isFull() || FiveInRowRule.check(nextBoard)) {
+            return Finished(nextBoard)
         }
-
-        val nextBoard: Either<PlaceStoneInterrupt, Board> =
-            board flatmap placeStone flatmap checkRules flatmap checkFinished
 
         return WhiteTurn(nextBoard)
     }
@@ -50,3 +48,10 @@ class BlackTurn(
         return StoneColor.BLACK
     }
 }
+
+// 하고 싶은 것.
+// Board map ::placeStone flatmap ::checkOutOfBoard flatmap ::checkProhibitedRule flatmap
+// Board to Either<Error,Board> To Either<Error,Board>
+
+// ::checkInvalid - Either<Error, Turn>, Left: Error, Right: Turn
+// 에러 던지기는 어떻게 하는가..

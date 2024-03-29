@@ -8,59 +8,25 @@ import omok.model.turn.Turn
 
 class OmokGame(
     board: Board = Board(),
-    private var turn: Turn =
-        BlackTurn(
-            Either.Right(board),
-        ),
+    private var turn: Turn = BlackTurn(board),
 ) {
     fun run(
         inputPoint: () -> Point,
-        printBoard: (Board, StoneColor) -> Unit,
+        beforeTurn: (Board, StoneColor) -> Unit,
         printError: (String) -> Unit,
         afterGame: (Board, StoneColor) -> Unit,
     ) {
-        if (isFinished()) {
-            justPrintBoard(afterGame, printError)
-            return
+        while (turn !is Finished) {
+            beforeTurn(turn.board, turn.color())
+            proceed(inputPoint, printError)
         }
-        proceedTurn(
-            printBoard,
-            printError,
-            inputPoint,
-        )
+        afterGame(turn.board, turn.color())
     }
 
-    fun isFinished() = turn is Finished
-
-    private fun proceedTurn(
-        printBoard: (Board, StoneColor) -> Unit,
-        printInterruptMessage: (String) -> Unit,
+    private fun proceed(
         inputPoint: () -> Point,
-    ) {
-        val nextTurn = turn.proceed(inputPoint())
-        nextTurn.board.valueOf(
-            onLeft = {
-                printInterruptMessage(it.errorMessage)
-                if (it is PlaceStoneInterrupt.GameFinished) {
-                    turn = Finished(it.board)
-                }
-            },
-            onRight = {
-                printBoard(it, turn.color())
-                turn = nextTurn
-            },
-        )
-    }
-
-    fun justPrintBoard(
-        printBoard: (Board, StoneColor) -> Unit,
         printError: (String) -> Unit,
-    ) = turn.board.valueOf(
-        onLeft = {
-            printError(it.errorMessage)
-        },
-        onRight = {
-            printBoard(it, turn.color())
-        },
-    )
+    ) {
+        turn = turn.placeStone(inputPoint(), printError)
+    }
 }
