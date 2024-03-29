@@ -1,14 +1,15 @@
 package woowacourse.omok
 
-import android.content.ContentValues
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import woowacourse.omok.database.DatabaseHelper
+import woowacourse.omok.database.GameDao
+import woowacourse.omok.database.GameDaoImpl
 import woowacourse.omok.model.board.CoordsNumber
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
@@ -17,6 +18,7 @@ import woowacourse.omok.view.OutputView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var dbHelper: DatabaseHelper
+    private lateinit var gameDao: GameDao
     private val outputView = OutputView()
     val omok = OmokGame(this.outputView)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +28,9 @@ class MainActivity : AppCompatActivity() {
 
         val board = findViewById<TableLayout>(R.id.board)
         dbHelper = DatabaseHelper(this)
-        loadGame()
+        gameDao = GameDaoImpl(dbHelper)
+        omok.board.gameBoard = gameDao.loadGame()
+        updateUI()
 
         val button = findViewById<Button>(R.id.resetButton)
         button.setOnClickListener {
@@ -48,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                             updateUI()
                         }
                     }
-                    saveGame()
+                    gameDao.saveGame(omok.board.gameBoard)
                 }
             }
         }
@@ -85,66 +89,6 @@ class MainActivity : AppCompatActivity() {
             return false
         }
     }
-
-    private fun saveGame() {
-        val db = dbHelper.writableDatabase
-        db.beginTransaction()
-        try {
-            db.delete("GameBoard", null, null) // 기존 데이터 삭제
-            for (i in omok.board.gameBoard.indices) {
-                for (j in omok.board.gameBoard[i].indices) {
-                    val stoneType = when (omok.board.gameBoard[i][j]) {
-                        Stone.EMPTY -> 0
-                        Stone.BLACK -> 1
-                        Stone.WHITE -> 2
-                    }
-                    val values = ContentValues().apply {
-                        put("rowIndex", i)
-                        put("columnIndex", j)
-                        put("stoneType", stoneType)
-                    }
-                    db.insert("GameBoard", null, values)
-                }
-            }
-            db.setTransactionSuccessful()
-        } finally {
-            db.endTransaction()
-        }
-    }
-
-    private fun loadGame() {
-        val db = dbHelper.readableDatabase
-        val cursor = db.query(
-            "GameBoard",
-            arrayOf("rowIndex", "columnIndex", "stoneType"),
-            null,
-            null,
-            null,
-            null,
-            null
-        )
-        omok.resetGame()
-        with(cursor) {
-            while (moveToNext()) {
-                val rowIndex = getInt(getColumnIndexOrThrow("rowIndex"))
-                val columnIndex = getInt(getColumnIndexOrThrow("columnIndex"))
-                val stoneType = getInt(getColumnIndexOrThrow("stoneType"))
-                val stone = when (stoneType) {
-                    1 -> Stone.BLACK
-                    2 -> Stone.WHITE
-                    else -> Stone.EMPTY
-                }
-                if (stone == Stone.EMPTY) continue
-                omok.placeStone(
-                    Position(CoordsNumber(columnIndex), CoordsNumber(rowIndex)),
-                    stone
-                )
-            }
-            close()
-        }
-        updateUI()
-    }
-
 
     private fun updateUI() {
         val board = findViewById<TableLayout>(R.id.board)
