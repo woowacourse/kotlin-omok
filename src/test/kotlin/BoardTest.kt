@@ -1,5 +1,5 @@
 import omok.model.Board
-import omok.model.Either
+import omok.model.StoneOutOfBoard
 import omok.model.entity.Point
 import omok.model.entity.Stone
 import omok.model.entity.StoneColor
@@ -20,6 +20,6 @@ class BoardTest {
         val point = Point(-1, -1)
         val stone = Stone(point, StoneColor.WHITE)
         val actual = Board().place(stone)
-        assertThat(actual).isInstanceOf(Either.Left::class.java)
+        assertThat(actual).isInstanceOf(StoneOutOfBoard::class.java)
     }
 }

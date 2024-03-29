@@ -6,13 +6,8 @@ import omok.model.entity.StoneColor
 
 class ConsoleOutputView : OutputView {
     private val emptyOmokBoardString = buildEmptyOmokBoard()
-
     override fun printStartGuide() {
         println("오목 게임을 시작합니다")
-    }
-
-    override fun printError(message: String) {
-        println(message)
     }
 
     override fun printTurn(
@@ -64,10 +59,8 @@ class ConsoleOutputView : OutputView {
         }
         stringBuilder.appendLine(buildEmptyBottomLine(Board.MIN_SIZE.toString(), ROW_LABEL_PADDING_LENGTH))
 
-        val columnLabel =
-            " ".repeat(ROW_LABEL_PADDING_LENGTH) +
-                Board.SIZE_RANGE.map { (it - 1 + 'A'.code).toChar() }
-                    .joinToString("  ")
+        val columnLabel = " ".repeat(ROW_LABEL_PADDING_LENGTH) + Board.SIZE_RANGE.map { (it - 1 + 'A'.code).toChar() }
+            .joinToString("  ")
         stringBuilder.appendLine(columnLabel)
         return stringBuilder.toString()
     }

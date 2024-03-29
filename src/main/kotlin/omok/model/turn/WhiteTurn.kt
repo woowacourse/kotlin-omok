@@ -1,30 +1,27 @@
 package omok.model.turn
 
 import omok.model.Board
-import omok.model.Either
-import omok.model.PlaceStoneError
+import omok.model.StoneAlreadyExists
+import omok.model.StoneOutOfBoard
+import omok.model.Success
 import omok.model.entity.Point
 import omok.model.entity.Stone
 import omok.model.entity.StoneColor
 import omok.model.rule.FiveInRowRule
 
-class WhiteTurn(
-    board: Board,
-) : Turn(board) {
-    override fun placeStone(point: Point): Either<PlaceStoneError, Turn> {
+class WhiteTurn(board: Board) : Turn(board) {
+    override fun placeStone(point: Point): Turn {
         val stone = Stone(point, StoneColor.WHITE)
 
         val nextBoard =
             when (val placeResult = board.place(stone)) {
-                is Either.Left -> return Either.Left(placeResult.value)
-                is Either.Right -> placeResult.value
+                is StoneOutOfBoard, is StoneAlreadyExists -> return this
+                is Success -> placeResult.board
             }
 
-        if (nextBoard.isFull() || FiveInRowRule.check(nextBoard)) {
-            return Either.Right(Finished(nextBoard))
-        }
+        if (nextBoard.isFull() || FiveInRowRule.check(nextBoard)) return Finished(nextBoard)
 
-        return Either.Right(BlackTurn(nextBoard))
+        return BlackTurn(nextBoard)
     }
 
     override fun color(): StoneColor {
