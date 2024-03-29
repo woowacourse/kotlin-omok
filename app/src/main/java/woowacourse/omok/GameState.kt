@@ -1,113 +1,49 @@
 package woowacourse.omok
 
-sealed class GameState(val board: Board) {
+sealed class GameState(val board: Board, val turn: Turn) {
     abstract fun placeStone(coordinate: Coordinate): GameState
 
     abstract fun getNextTurn(placeResult: PlaceResult): GameState
 
-    abstract fun getCurrentTurn(): GameState
+    sealed class Playing private constructor(board: Board, turn: Turn = Turn.Black): GameState(board, turn) {
+        init {
+            setupRule()
+        }
 
-    abstract fun getCurrentStoneType(): PositionType
-
-    abstract fun setupRule()
-
-    sealed class Running(board: Board) : GameState(board) {
         override fun placeStone(coordinate: Coordinate): GameState {
-            val boardResult = board.placeStone(coordinate)
-            return getNextTurn(boardResult)
+            val placeResult = board.placeStone(coordinate)
+            return getNextTurn(placeResult)
         }
 
         override fun getNextTurn(placeResult: PlaceResult): GameState {
-            return Finish(board)
-        }
-
-        sealed class BlackTurn(board: Board) : Running(board) {
-            init {
-                setupRule()
-            }
-
-            final override fun setupRule() {
-                board.setUpBoard(PositionType.BLACK_STONE)
-            }
-
-            override fun getNextTurn(placeResult: PlaceResult): GameState {
-                return when (placeResult) {
-                    PlaceResult.Block -> {
-                        Block(board)
-                    }
-                    PlaceResult.Duplicate -> {
-                        Duplicate(board)
-                    }
-                    PlaceResult.Done -> {
-                        WhiteTurn.Start(board)
-                    }
-                    else -> {
-                        super.getNextTurn(placeResult)
-                    }
+            return when (placeResult) {
+                PlaceResult.Block -> {
+                    Block(board, turn)
+                }
+                PlaceResult.Duplicate -> {
+                    Duplicate(board, turn)
+                }
+                PlaceResult.Done -> {
+                    Start(board, turn.nextTurn())
+                }
+                PlaceResult.Omok -> {
+                    Finish(board, turn)
                 }
             }
-
-            override fun getCurrentStoneType(): PositionType = PositionType.BLACK_STONE
-
-            class Start(board: Board) : BlackTurn(board) {
-                override fun getCurrentTurn(): GameState = Start(board)
-            }
-
-            class Block(board: Board) : BlackTurn(board) {
-                override fun getCurrentTurn(): GameState = Block(board)
-            }
-
-            class Duplicate(board: Board) : BlackTurn(board) {
-                override fun getCurrentTurn(): GameState = Duplicate(board)
-            }
         }
 
-        sealed class WhiteTurn(board: Board) : Running(board) {
-            init {
-                setupRule()
-            }
-
-            final override fun setupRule() {
-                board.setUpBoard(PositionType.WHITE_STONE)
-            }
-
-            override fun getNextTurn(placeResult: PlaceResult): GameState {
-                return when (placeResult) {
-                    PlaceResult.Done -> {
-                        BlackTurn.Start(board)
-                    }
-                    PlaceResult.Duplicate -> {
-                        Duplicate(board)
-                    }
-                    else -> {
-                        super.getNextTurn(placeResult)
-                    }
-                }
-            }
-
-            override fun getCurrentStoneType(): PositionType = PositionType.WHITE_STONE
-
-            class Start(board: Board) : WhiteTurn(board) {
-                override fun getCurrentTurn(): GameState = Start(board)
-            }
-
-            class Duplicate(board: Board) : WhiteTurn(board) {
-                override fun getCurrentTurn(): GameState = Duplicate(board)
-            }
+        private fun setupRule() {
+            board.setUpBoard(turn)
         }
+
+        class Start(board: Board, turn:  Turn = Turn.Black) : Playing(board, turn)
+
+        class Block(board: Board, turn: Turn) : Playing(board, turn)
+
+        class Duplicate(board: Board, turn: Turn) : Playing(board, turn)
     }
 
-    class Finish(board: Board) : GameState(board) {
-        override fun getCurrentStoneType(): PositionType {
-            return PositionType.EMPTY
-        }
-
-        override fun setupRule() {
-        }
-
-        override fun getCurrentTurn(): GameState {
-            return this
-        }
+    class Finish(board: Board, turn: Turn) : GameState(board, turn) {
 
         override fun placeStone(coordinate: Coordinate): GameState {
             return this

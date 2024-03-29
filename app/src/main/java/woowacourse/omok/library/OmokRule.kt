@@ -1,17 +1,17 @@
 package omok.library
 
-import woowacourse.omok.PositionType
+import woowacourse.omok.CoordinateState
 
 interface OmokRule {
     fun isOmok(
         x: Int,
         y: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Boolean
 
     fun isWin(
         x: Int,
         y: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Boolean
 }

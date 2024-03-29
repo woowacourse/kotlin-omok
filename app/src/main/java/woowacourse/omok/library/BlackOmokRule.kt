@@ -1,10 +1,10 @@
 package omok.library
 
-import woowacourse.omok.PositionType
+import woowacourse.omok.CoordinateState
 
 object BlackOmokRule : OmokRule {
-    private val currentStone: PositionType = PositionType.BLACK_STONE
-    private val otherStone: PositionType = PositionType.WHITE_STONE
+    private val currentStone: CoordinateState = CoordinateState.BlackStone
+    private val otherStone: CoordinateState = CoordinateState.WhiteStone
     private const val BOARD_SIZE: Int = 15
     private const val MIN_X = 0
     private const val MIN_Y = 0
@@ -20,7 +20,7 @@ object BlackOmokRule : OmokRule {
     fun isThreeThree(
         x: Int,
         y: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Boolean {
         return directions.sumOf { checkOpenThree(y, x, it.first, it.second, board) } >= 2
     }
@@ -28,7 +28,7 @@ object BlackOmokRule : OmokRule {
     fun isFourFour(
         x: Int,
         y: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Boolean {
         return directions.sumOf { checkOpenFour(y, x, it.first, it.second, board) } >= 2
     }
@@ -36,7 +36,7 @@ object BlackOmokRule : OmokRule {
     fun isMoreThanFive(
         x: Int,
         y: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Boolean {
         return directions.map { direction -> checkMoreThanFive(y, x, direction.first, direction.second, board) }
             .contains(true)
@@ -45,7 +45,7 @@ object BlackOmokRule : OmokRule {
     override fun isOmok(
         x: Int,
         y: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Boolean {
         return directions.map { direction -> checkOmok(y, x, direction.first, direction.second, board) }.contains(true)
     }
@@ -53,7 +53,7 @@ object BlackOmokRule : OmokRule {
     override fun isWin(
         x: Int,
         y: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Boolean {
         return isOmok(x, y, board) && !isMoreThanFive(x, y, board)
     }
@@ -63,7 +63,7 @@ object BlackOmokRule : OmokRule {
         y: Int,
         dx: Int,
         dy: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Int {
         val (stone1, blink1) = search(y, x, -dx, -dy, board)
         val (stone2, blink2) = search(y, x, dx, dy, board)
@@ -95,7 +95,7 @@ object BlackOmokRule : OmokRule {
         y: Int,
         dx: Int,
         dy: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Int {
         var toRight = x
         var toTop = y
@@ -108,7 +108,7 @@ object BlackOmokRule : OmokRule {
             toRight += dx
             toTop += dy
             when (board[toTop][toRight]) {
-                in listOf(currentStone, PositionType.EMPTY, PositionType.BLOCK) -> distance++
+                in listOf(currentStone, CoordinateState.Empty, CoordinateState.Forbidden) -> distance++
                 otherStone -> break
                 else -> throw IllegalArgumentException()
             }
@@ -121,7 +121,7 @@ object BlackOmokRule : OmokRule {
         y: Int,
         dx: Int,
         dy: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Int {
         val (stone1, blink1) = search(y, x, -dx, -dy, board)
         val (stone2, blink2) = search(y, x, dx, dy, board)
@@ -164,7 +164,7 @@ object BlackOmokRule : OmokRule {
         y: Int,
         dx: Int,
         dy: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Boolean {
         val (stone1, blink1) = search(y, x, -dx, -dy, board)
         val (stone2, blink2) = search(y, x, dx, dy, board)
@@ -180,7 +180,7 @@ object BlackOmokRule : OmokRule {
         y: Int,
         dx: Int,
         dy: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Boolean {
         val (stone1, blink1) = search(y, x, -dx, -dy, board)
         val (stone2, blink2) = search(y, x, dx, dy, board)
@@ -196,7 +196,7 @@ object BlackOmokRule : OmokRule {
         x: Int,
         dx: Int,
         dy: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Pair<Int, Int> {
         var toRight = x
         var toTop = y
@@ -217,7 +217,7 @@ object BlackOmokRule : OmokRule {
                 }
 
                 otherStone -> break
-                PositionType.EMPTY, PositionType.BLOCK -> {
+                CoordinateState.Empty, CoordinateState.Forbidden -> {
                     if (blink == 1) break
                     if (blinkCount++ == 1) break
                 }

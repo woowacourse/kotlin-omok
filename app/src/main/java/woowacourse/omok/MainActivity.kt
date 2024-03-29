@@ -63,43 +63,41 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
         val copiedBoard = gameState.board.getBoardLayout()
 
         when (gameState) {
-            is GameState.Running.BlackTurn.Block -> {
+            is GameState.Playing.Start -> {
+
+            }
+            is GameState.Playing.Block -> {
                 Snackbar.make(binding.root, R.string.block_position, Snackbar.LENGTH_SHORT).show()
             }
-            is GameState.Running.BlackTurn.Duplicate -> {
-                Snackbar.make(binding.root, R.string.already_placed, Snackbar.LENGTH_SHORT).show()
-            }
-            is GameState.Running.WhiteTurn.Duplicate -> {
+            is GameState.Playing.Duplicate -> {
                 Snackbar.make(binding.root, R.string.already_placed, Snackbar.LENGTH_SHORT).show()
             }
             is GameState.Finish -> {
                 Snackbar.make(binding.root, R.string.game_over, Snackbar.LENGTH_SHORT).show()
-            }
-            else -> {
             }
         }
 
         copiedBoard.flatten().forEachIndexed { index, positionType ->
             if (allPositions[index].tag == null) { // 비어 있음. Block 포함. 놓은 곳은 굳이 다시 그리지 않게. 비어있는 곳은 X표시하게.
                 when (positionType) {
-                    PositionType.BLACK_STONE -> {
+                    CoordinateState.BlackStone -> {
                         allPositions[index].apply {
                             tag = 1
                             setImageDrawable(blackStoneDrawable)
                         }
                     }
-                    PositionType.WHITE_STONE -> {
+                    CoordinateState.WhiteStone -> {
                         allPositions[index].apply {
                             tag = 1
                             setImageDrawable(whiteStoneDrawable)
                         }
                     }
-                    PositionType.BLOCK -> {
+                    CoordinateState.Forbidden -> {
                         allPositions[index].apply {
                             setImageDrawable(blockDrawable)
                         }
                     }
-                    PositionType.EMPTY -> {
+                    CoordinateState.Empty -> {
                         allPositions[index].apply {
                             setImageDrawable(null)
                         }

@@ -7,23 +7,31 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
     private var boardLayout = BoardLayout(boardSize)
     var lastCoordinate: Coordinate? = null
         private set
-    var currentType: PositionType = PositionType.BLACK_STONE
+    var currentTurn: Turn = Turn.Black
         private set
+    val currentStone get() = getStoneFromTurn()
 
-    fun getBoardLayout(): Array<Array<PositionType>> {
+    fun getStoneFromTurn(): CoordinateState {
+        return when(currentTurn) {
+            is Turn.Black -> CoordinateState.BlackStone
+            is Turn.White -> CoordinateState.WhiteStone
+        }
+    }
+
+    fun getBoardLayout(): Array<Array<CoordinateState>> {
         return boardLayout.deepCopy()
     }
 
-    fun setUpBoard(currentType: PositionType) {
-        when (currentType) {
-            PositionType.BLACK_STONE -> {
+    fun setUpBoard(currentTurn: Turn) {
+        when (currentTurn) {
+            Turn.Black -> {
                 setBlock()
             }
-            else -> {
+            Turn.White -> {
                 removeBlock()
             }
         }
-        this.currentType = currentType
+        this.currentTurn = currentTurn
     }
 
     private fun setBlock() {
@@ -37,7 +45,7 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
             }
         }
         blockPositions.forEach {
-            boardLayout[it.first, it.second] = PositionType.BLOCK
+            boardLayout[it.first, it.second] = CoordinateState.Forbidden
         }
     }
 
@@ -49,13 +57,13 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
             BlackOmokRule.isFourFour(i, j, boardLayout.deepCopy()) ||
             BlackOmokRule.isMoreThanFive(i, j, boardLayout.deepCopy())
     ) &&
-        boardLayout[i, j] == PositionType.EMPTY
+        boardLayout[i, j] == CoordinateState.Empty
 
     private fun removeBlock() {
         for (x in 0 until boardSize) {
             for (y in 0 until boardSize) {
-                if (boardLayout[x, y] == PositionType.BLOCK) {
-                    boardLayout[x, y] = PositionType.EMPTY
+                if (boardLayout[x, y] == CoordinateState.Forbidden) {
+                    boardLayout[x, y] = CoordinateState.Empty
                 }
             }
         }
@@ -63,13 +71,13 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
 
     private fun isWin(
         coordinate: Coordinate,
-        positionType: PositionType,
+        coordinateState: CoordinateState,
     ): Boolean {
-        return when (positionType) {
-            PositionType.BLACK_STONE -> {
+        return when (coordinateState) {
+            CoordinateState.BlackStone -> {
                 BlackOmokRule.isWin(coordinate.x, coordinate.y, boardLayout.deepCopy())
             }
-            PositionType.WHITE_STONE -> {
+            CoordinateState.WhiteStone -> {
                 WhiteOmokRule.isWin(coordinate.x, coordinate.y, boardLayout.deepCopy())
             }
             else -> false
@@ -81,13 +89,13 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
         coordinate: Coordinate,
     ): PlaceResult {
         return when (boardLayout[coordinate.x, coordinate.y]) {
-            PositionType.BLOCK -> {
+            CoordinateState.Forbidden -> {
                 PlaceResult.Block
             }
-            PositionType.EMPTY -> {
-                boardLayout[coordinate.x, coordinate.y] = currentType
+            CoordinateState.Empty -> {
+                boardLayout[coordinate.x, coordinate.y] = currentStone
                 lastCoordinate = coordinate
-                if (isWin(coordinate, currentType)) PlaceResult.Omok else PlaceResult.Done
+                if (isWin(coordinate, currentStone)) PlaceResult.Omok else PlaceResult.Done
             }
             else -> {
                 PlaceResult.Duplicate

@@ -1,10 +1,10 @@
 package omok.library
 
-import woowacourse.omok.PositionType
+import woowacourse.omok.CoordinateState
 
 object WhiteOmokRule : OmokRule {
-    private val currentStone: PositionType = PositionType.WHITE_STONE
-    private val otherStone: PositionType = PositionType.BLACK_STONE
+    private val currentStone: CoordinateState = CoordinateState.WhiteStone
+    private val otherStone: CoordinateState = CoordinateState.BlackStone
     private const val BOARD_SIZE: Int = 15
     private const val MIN_X = 0
 
@@ -19,7 +19,7 @@ object WhiteOmokRule : OmokRule {
     override fun isOmok(
         x: Int,
         y: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Boolean {
         return directions.any { checkOmok(y, x, it.first, it.second, board) }
     }
@@ -27,7 +27,7 @@ object WhiteOmokRule : OmokRule {
     override fun isWin(
         x: Int,
         y: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Boolean = isOmok(x, y, board)
 
     private fun checkOmok(
@@ -35,7 +35,7 @@ object WhiteOmokRule : OmokRule {
         y: Int,
         dx: Int,
         dy: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Boolean {
         val (stone1, blink1) = search(y, x, -dx, -dy, board)
         val (stone2, blink2) = search(y, x, dx, dy, board)
@@ -48,7 +48,7 @@ object WhiteOmokRule : OmokRule {
         x: Int,
         dx: Int,
         dy: Int,
-        board: Array<Array<PositionType>>,
+        board: Array<Array<CoordinateState>>,
     ): Pair<Int, Int> {
         var toRight = x
         var toTop = y
@@ -69,7 +69,7 @@ object WhiteOmokRule : OmokRule {
                 }
 
                 otherStone -> break
-                PositionType.EMPTY, PositionType.BLOCK -> {
+                CoordinateState.Empty, CoordinateState.Forbidden -> {
                     if (blink == 1) break
                     if (blinkCount++ == 1) break
                 }

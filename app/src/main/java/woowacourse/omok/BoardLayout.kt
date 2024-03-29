@@ -1,17 +1,17 @@
 package woowacourse.omok
 
 class BoardLayout(private val size: Int) {
-    private val layout: Array<Array<PositionType>> = Array(size) { Array(size) { PositionType.EMPTY } }
+    private val layout: Array<Array<CoordinateState>> = Array(size) { Array(size) { CoordinateState.Empty } }
 
     operator fun get(
         x: Int,
         y: Int,
-    ): PositionType = layout[x][y]
+    ): CoordinateState = layout[x][y]
 
     operator fun set(
         x: Int,
         y: Int,
-        value: PositionType,
+        value: CoordinateState,
     ) {
         layout[x][y] = value
     }
@@ -19,9 +19,9 @@ class BoardLayout(private val size: Int) {
     fun isEmpty(
         x: Int,
         y: Int,
-    ): Boolean = layout[x][y] == PositionType.EMPTY
+    ): Boolean = layout[x][y] == CoordinateState.Empty
 
-    fun deepCopy(): Array<Array<PositionType>> =
+    fun deepCopy(): Array<Array<CoordinateState>> =
         Array(size) { x ->
             Array(size) { y -> layout[x][y] }
         }
