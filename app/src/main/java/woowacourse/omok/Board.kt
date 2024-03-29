@@ -25,15 +25,9 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
 
     fun setUpBoard(currentTurn: Turn) {
         omokRule = OmokRuleMapper.map(currentTurn, boardLayout, boardSize)
-        when (currentTurn) {
-            Turn.Black -> {
-                setBlock()
-            }
-            Turn.White -> {
-                removeBlock()
-            }
-        }
         this.currentTurn = currentTurn
+
+        if(omokRule.isBlockable()) setBlock() else removeBlock()
     }
 
     private fun setBlock() {
@@ -73,17 +67,8 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
 
     private fun isWin(
         coordinate: Coordinate,
-        coordinateState: CoordinateState,
     ): Boolean {
-        return when (coordinateState) {
-            CoordinateState.BlackStone -> {
-                omokRule.isBlackTurnWin(coordinate.x, coordinate.y)
-            }
-            CoordinateState.WhiteStone -> {
-                omokRule.isWhiteTurnWin(coordinate.x, coordinate.y)
-            }
-            else -> false
-        }
+        return omokRule.isWin(coordinate.x, coordinate.y)
     }
 
     // 겹치게 놓을 수 없다, 이미 놓은 곳이다, 놓은 곳이다, 오목이다,
@@ -97,7 +82,7 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
             CoordinateState.Empty -> {
                 _boardLayout[coordinate.x][coordinate.y] = currentStone
                 lastCoordinate = coordinate
-                if (isWin(coordinate, currentStone)) PlaceResult.Omok else PlaceResult.Done
+                if (isWin(coordinate)) PlaceResult.Omok else PlaceResult.Done
             }
             else -> {
                 PlaceResult.Duplicate

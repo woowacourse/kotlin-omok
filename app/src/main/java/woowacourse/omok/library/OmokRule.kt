@@ -15,6 +15,8 @@ class OmokRule(
             Pair(1, -1),
         )
 
+    fun isBlockable() : Boolean = currentStone == BLACK_STONE
+
     fun isThreeThree(
         x: Int,
         y: Int,
@@ -44,20 +46,12 @@ class OmokRule(
         return directions.map { direction -> checkOmok(y, x, direction.first, direction.second) }.contains(true)
     }
 
-    fun isWhiteTurnWin(
+    fun isWin(
         x: Int,
         y: Int,
     ): Boolean {
-        return isOmok(x, y)
+        return if(isBlockable()) isOmok(x, y) && !isMoreThanFive(x, y) else isOmok(x, y)
     }
-    fun isBlackTurnWin(
-        x: Int,
-        y: Int,
-    ): Boolean {
-        return isOmok(x, y) && !isMoreThanFive(x, y)
-    }
-
-
 
     private fun checkOpenThree(
         x: Int,
