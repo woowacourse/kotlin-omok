@@ -61,4 +61,25 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
         val db = dbHelper.writableDatabase
         db.execSQL("DELETE FROM GameBoard")
     }
+
+    override fun saveCurrentStone(currentStone: Int) {
+        val db = dbHelper.writableDatabase
+        db.execSQL("DELETE FROM GameStatus") // 기존 상태 삭제
+        val values = ContentValues().apply {
+            put("currentStone", currentStone)
+        }
+        db.insert("GameStatus", null, values)
+    }
+
+    override fun loadCurrentStone(): Int {
+        val db = dbHelper.readableDatabase
+        val cursor = db.query("GameStatus", arrayOf("currentStone"), null, null, null, null, null)
+        var stoneType = -1
+        val columnIndex = cursor.getColumnIndex("currentStone")
+        if (columnIndex != -1 && cursor.moveToFirst()) {
+            stoneType = cursor.getInt(columnIndex)
+        }
+        cursor.close()
+        return stoneType
+    }
 }

@@ -30,6 +30,10 @@ class MainActivity : AppCompatActivity() {
         dbHelper = DatabaseHelper(this)
         gameDao = GameDaoImpl(dbHelper)
         omok.board.gameBoard = gameDao.loadGame()
+        val loadedStoneType = gameDao.loadCurrentStone()
+        if (loadedStoneType != -1) { // -1이 아니면 유효한 차례 정보가 존재함
+            omok.currentStone = Stone.entries.toTypedArray()[loadedStoneType]
+        }
         updateUI()
 
         val button = findViewById<Button>(R.id.resetButton)
@@ -53,6 +57,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     gameDao.saveGame(omok.board.gameBoard)
+                    gameDao.saveCurrentStone(omok.currentStone.ordinal)
                 }
             }
         }
