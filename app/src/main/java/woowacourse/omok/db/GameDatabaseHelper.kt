@@ -6,14 +6,6 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.content.ContentValues
 
 class GameDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
-    companion object {
-        const val DATABASE_NAME = "omok.db"
-        const val DATABASE_VERSION = 1
-        const val TABLE_GAME_STATE = "gameState"
-        const val COLUMN_ID = "id"
-        const val COLUMN_STATE = "state"
-    }
-
     override fun onCreate(db: SQLiteDatabase) {
         val CREATE_GAME_STATE_TABLE = "CREATE TABLE $TABLE_GAME_STATE($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, $COLUMN_STATE TEXT)"
         db.execSQL(CREATE_GAME_STATE_TABLE)
@@ -45,6 +37,14 @@ class GameDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
         }
         cursor.close()
         return state
+    }
+
+    companion object {
+        const val DATABASE_NAME = "omok.db"
+        const val DATABASE_VERSION = 1
+        const val TABLE_GAME_STATE = "gameState"
+        const val COLUMN_ID = "id"
+        const val COLUMN_STATE = "state"
     }
 
 }

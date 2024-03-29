@@ -4,6 +4,7 @@ import omok.model.Black
 import omok.model.Empty
 import woowacourse.omok.model.OmokGame
 import omok.model.OmokStone
+import omok.model.OmokStoneType
 import omok.model.White
 
 object RenjuRule {
@@ -13,13 +14,13 @@ object RenjuRule {
     ): List<Pair<Int, Int>> {
 
         val coords = mutableListOf<Pair<Int, Int>>()
-        if (omokStone == null || omokStone.isBlack) return coords
+        if (omokStone == null || omokStone.getOmokStoneType() == OmokStoneType.BLACK) return coords
         for (row in gameBoard.indices) {
             for (col in gameBoard[row].indices) {
-                if (!gameBoard[row][col].isEmpty) {
+                if (gameBoard[row][col].getOmokStoneType() != OmokStoneType.EMPTY) {
                     continue
                 }
-                val opposite = if(omokStone.isBlack) White(omokStone.boardPosition) else Black(omokStone.boardPosition)
+                val opposite = if(omokStone.getOmokStoneType()  == OmokStoneType.BLACK) White(omokStone.boardPosition) else Black(omokStone.boardPosition)
                 if (isMoveForbiddenForStone(gameBoard, row, col,opposite)) {
                     coords.add(row to col)
                 }
@@ -288,7 +289,7 @@ object RenjuRule {
             y += dy
             if (isInvalid(x, y) || !gameBoard[x][y].isSameType(omokStone)) break
         }
-        return if (!isInvalid(x, y) && gameBoard[x][y].isEmpty) {
+        return if (!isInvalid(x, y) && gameBoard[x][y].getOmokStoneType() == OmokStoneType.EMPTY) {
             x to y
         } else {
             null

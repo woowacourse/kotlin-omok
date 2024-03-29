@@ -79,12 +79,12 @@ class OmokGame(
 
     fun getNextStoneType(): OmokStoneType {
         val currentStone = getCurrentStone()
-        return if (currentStone == null || currentStone.isWhite) OmokStoneType.BLACK else OmokStoneType.WHITE
+        return if (currentStone == null ||  currentStone.getOmokStoneType() == OmokStoneType.WHITE) OmokStoneType.BLACK else OmokStoneType.WHITE
     }
 
     fun generateNextOmokStone(boardPosition: BoardPosition): OmokStone {
         val currentStone = getCurrentStone()
-        return if (currentStone == null || currentStone.isWhite) {
+        return if (currentStone == null || currentStone.getOmokStoneType() == OmokStoneType.WHITE) {
             Black(boardPosition)
         } else {
             White(boardPosition)
