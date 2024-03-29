@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
 
         when (gameState) {
             is GameState.Playing.Start -> {
-
             }
             is GameState.Playing.Block -> {
                 Snackbar.make(binding.root, R.string.block_position, Snackbar.LENGTH_SHORT).show()

@@ -4,9 +4,8 @@ class OmokRule(
     val currentStone: Int = BLACK_STONE,
     val otherStone: Int = WHITE_STONE,
     val board: List<List<Int>>,
-    val boardSize: Int = BOARD_SIZE
+    val boardSize: Int = BOARD_SIZE,
 ) {
-
     private val directions =
         listOf(
             Pair(1, 0),
@@ -15,7 +14,7 @@ class OmokRule(
             Pair(1, -1),
         )
 
-    fun isBlockable() : Boolean = currentStone == BLACK_STONE
+    fun isBlockable(): Boolean = currentStone == BLACK_STONE
 
     fun isThreeThree(
         x: Int,
@@ -50,7 +49,7 @@ class OmokRule(
         x: Int,
         y: Int,
     ): Boolean {
-        return if(isBlockable()) isOmok(x, y) && !isMoreThanFive(x, y) else isOmok(x, y)
+        return if (isBlockable()) isOmok(x, y) && !isMoreThanFive(x, y) else isOmok(x, y)
     }
 
     private fun checkOpenThree(

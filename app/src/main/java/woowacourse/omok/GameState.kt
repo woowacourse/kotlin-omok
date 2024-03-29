@@ -5,7 +5,7 @@ sealed class GameState(val board: Board, val turn: Turn) {
 
     abstract fun getNextTurn(placeResult: PlaceResult): GameState
 
-    sealed class Playing private constructor(board: Board, turn: Turn = Turn.Black): GameState(board, turn) {
+    sealed class Playing private constructor(board: Board, turn: Turn = Turn.Black) : GameState(board, turn) {
         init {
             setupRule()
         }
@@ -36,7 +36,7 @@ sealed class GameState(val board: Board, val turn: Turn) {
             board.setUpBoard(turn)
         }
 
-        class Start(board: Board, turn:  Turn = Turn.Black) : Playing(board, turn)
+        class Start(board: Board, turn: Turn = Turn.Black) : Playing(board, turn)
 
         class Block(board: Board, turn: Turn) : Playing(board, turn)
 
@@ -44,7 +44,6 @@ sealed class GameState(val board: Board, val turn: Turn) {
     }
 
     class Finish(board: Board, turn: Turn) : GameState(board, turn) {
-
         override fun placeStone(coordinate: Coordinate): GameState {
             return this
         }
