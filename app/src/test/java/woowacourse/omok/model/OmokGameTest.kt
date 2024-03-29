@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 import RuleAdaptor
 import org.assertj.core.api.Assertions.assertThat
@@ -39,7 +39,7 @@ class OmokGameTest {
         val player = Player(Color.BLACK)
 
         // when
-        val stoneState = omokGame.playTurn(player, COORDINATE_F4)
+        val stoneState = omokGame.playTurn(player, COORDINATE_F4, {})
 
         // then
         assertThat(stoneState).isEqualTo(StoneState.SuccessfulPlaced)
@@ -64,7 +64,7 @@ class OmokGameTest {
         val player = Player(Color.WHITE)
 
         // when
-        val stoneState = omokGame.playTurn(player, COORDINATE_F7)
+        val stoneState = omokGame.playTurn(player, COORDINATE_F7, {})
 
         // then
         assertThat(stoneState).isEqualTo(StoneState.FailedPlaced("이미 돌이 착수된 위치입니다."))
@@ -97,7 +97,7 @@ class OmokGameTest {
         )
 
         // when
-        omokGame.playTurn(player, COORDINATE_F9)
+        omokGame.playTurn(player, COORDINATE_F9, {})
         val expected = omokGame.isRunning()
 
         // then

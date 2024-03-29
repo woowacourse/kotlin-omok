@@ -3,6 +3,6 @@ package omok
 import woowacourse.omok.controller.OmokConsoleController
 
 fun main() {
-    val controller = OmokController()
+    val controller = OmokConsoleController()
     controller.run()
 }

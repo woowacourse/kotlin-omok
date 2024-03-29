@@ -19,16 +19,27 @@ class OmokGame(
         isRunning = false
     }
 
+    private fun checkPutStone(stoneState: StoneState): Boolean {
+        return when (stoneState) {
+            StoneState.SuccessfulPlaced -> isRunning
+            else -> false
+        }
+    }
+
     fun playTurn(
         player: Player,
         coordinate: Coordinate,
+        onPutStone: () -> Unit
     ): StoneState {
         val stoneState =
             player.playTurn(
                 board,
                 coordinate,
             )
-        checkWin(player)
+        if (checkPutStone(stoneState)) {
+            onPutStone()
+            checkWin(player)
+        }
         return stoneState
     }
 }
