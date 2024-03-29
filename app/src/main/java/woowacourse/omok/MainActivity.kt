@@ -35,6 +35,9 @@ class MainActivity : AppCompatActivity() {
             view.setOnClickListener {
                 val position = putStone(index, view)
                 val isOmok = stone.findOmok(position)
+                if (isOmok) {
+                    endGame(positions, view)
+                }
                 stone = omokGame.changeStone(stone.stoneType)
             }
         }
@@ -58,6 +61,35 @@ class MainActivity : AppCompatActivity() {
             StoneType.WHITE_STONE -> R.drawable.white_stone
             StoneType.NONE -> 0
         }
+    }
+
+    private fun endGame(
+        positions: List<ImageView>,
+        view: ImageView,
+    ) {
+        setBoardClickable(positions, isClickable = false)
+        showWinner(view, positions)
+    }
+
+    private fun setBoardClickable(
+        positions: List<ImageView>,
+        isClickable: Boolean,
+    ) {
+        positions.forEach { position ->
+            position.isClickable = isClickable
+        }
+    }
+
+    private fun showWinner(
+        view: ImageView,
+        positions: List<ImageView>,
+    ) {
+        val snackBar = Snackbar.make(view, "${stone.stoneType.type}의 승리입니다 🏆", Snackbar.LENGTH_INDEFINITE)
+        snackBar.setAction("다시 시작") {
+            snackBar.dismiss()
+            setBoardClickable(positions, isClickable = true)
+        }
+        snackBar.show()
     }
 
     private fun <T> retryUntilSuccess(
