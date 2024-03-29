@@ -19,7 +19,7 @@ class Board(
     }
 
     private fun determineStoneState(stone: Stone): StoneState {
-        if (rule.checkPlaceable(stone)) {
+        if (!rule.checkPlaceable(stone)) {
             return StoneState.FailedPlaced(ERROR_FORBIDDEN_MESSAGE)
         }
         if (validateStoneCoordinate(stone.coordinate)) {

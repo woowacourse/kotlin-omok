@@ -19,6 +19,7 @@ class RuleAdaptor(private val stones: Stones) : Rule {
     }
 
     fun checkInvalid(stone: Stone): Boolean {
+        if (stone.color == Color.WHITE) return false
         return checkThreeThree(stone) || checkFourFour(stone) || checkMoreThanFive(stone)
     }
 
