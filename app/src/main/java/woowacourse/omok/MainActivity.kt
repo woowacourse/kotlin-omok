@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var omokGame: OmokGame
     private lateinit var boardViews: Array<Array<ImageView?>>
     private lateinit var dbHelper: GameDatabaseHelper
-    var positions = listOf<BoardPosition>()
+    private var positions = listOf<BoardPosition>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
