@@ -13,7 +13,7 @@ sealed class GameState(val board: Board) {
 
     sealed class Running(board: Board) : GameState(board) {
         override fun placeStone(coordinate: Coordinate): GameState {
-            val boardResult = board.placeStone(coordinate, getCurrentStoneType())
+            val boardResult = board.placeStone(coordinate)
             return getNextTurn(boardResult)
         }
 

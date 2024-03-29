@@ -5,7 +5,9 @@ import omok.library.WhiteOmokRule
 
 class Board(private val boardSize: Int = BOARD_SIZE) {
     private var boardLayout = BoardLayout(boardSize)
-    var lastPosition: Coordinate? = null
+    var lastCoordinate: Coordinate? = null
+        private set
+    var currentType: PositionType = PositionType.BLACK_STONE
         private set
 
     fun getBoardLayout(): Array<Array<PositionType>> {
@@ -21,6 +23,7 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
                 removeBlock()
             }
         }
+        this.currentType = currentType
     }
 
     private fun setBlock() {
@@ -76,16 +79,15 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
     // 겹치게 놓을 수 없다, 이미 놓은 곳이다, 놓은 곳이다, 오목이다,
     fun placeStone(
         coordinate: Coordinate,
-        positionType: PositionType,
     ): PlaceResult {
         return when (boardLayout[coordinate.x, coordinate.y]) {
             PositionType.BLOCK -> {
                 PlaceResult.Block
             }
             PositionType.EMPTY -> {
-                boardLayout[coordinate.x, coordinate.y] = positionType
-                lastPosition = coordinate
-                if (isWin(coordinate, positionType)) PlaceResult.Omok else PlaceResult.Done
+                boardLayout[coordinate.x, coordinate.y] = currentType
+                lastCoordinate = coordinate
+                if (isWin(coordinate, currentType)) PlaceResult.Omok else PlaceResult.Done
             }
             else -> {
                 PlaceResult.Duplicate
