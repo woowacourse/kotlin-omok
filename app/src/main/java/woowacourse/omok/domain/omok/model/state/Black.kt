@@ -1,8 +1,8 @@
 package omok.model.state
 
-import lib.ark.ArkFourFourRule
-import lib.ark.ArkOverLineRule
-import lib.ark.ArkThreeThreeRule
+import woowacourse.omok.domain.ark.ArkFourFourRule
+import woowacourse.omok.domain.ark.ArkOverLineRule
+import woowacourse.omok.domain.ark.ArkThreeThreeRule
 import woowacourse.omok.domain.omok.mapper.toArkOmokBoard
 import woowacourse.omok.domain.omok.mapper.toArkOmokPoint
 import woowacourse.omok.domain.omok.model.Board
