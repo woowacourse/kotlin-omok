@@ -15,6 +15,10 @@ import woowacourse.omok.view.OutputView.outputSuccessOMock
 import woowacourse.omok.view.OutputView.outputUserTurn
 
 class OMokConsoleController : OMockGame() {
+    init {
+        startGameBoard()
+    }
+
     override fun executePlayerSuccessStep(
         playerStone: Stone,
         player: Player,
