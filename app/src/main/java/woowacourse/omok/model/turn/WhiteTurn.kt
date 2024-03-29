@@ -18,21 +18,24 @@ class WhiteTurn(override val board: Board) : Turn {
     ): Turn {
         val stone = Stone(point, StoneColor.WHITE)
 
-        return when (val boardState: BoardState = board.place(stone)) {
+        when (val boardState: BoardState = board.place(stone)) {
             is Duplicated -> {
                 onInappropriate(boardState.message)
-                WhiteTurn(board)
+                return WhiteTurn(board)
             }
 
             is OutOfRange -> {
                 onInappropriate(boardState.message)
-                WhiteTurn(board)
+                return WhiteTurn(board)
             }
 
-            is Full -> Finished(board, StoneColor.WHITE)
+            is Full -> return Finished(board, StoneColor.WHITE)
             is Success -> {
-                if (FiveInRowRule.check(boardState.board)) Finished(boardState.board, StoneColor.WHITE)
-                BlackTurn(boardState.board)
+                return if (FiveInRowRule.check(boardState.board)) {
+                    Finished(boardState.board, StoneColor.WHITE)
+                } else {
+                    BlackTurn(boardState.board)
+                }
             }
         }
     }

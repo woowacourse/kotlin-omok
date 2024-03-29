@@ -16,7 +16,8 @@ import woowacourse.omok.model.rule.Rule
 import woowacourse.omok.model.rule.ThreeByThreeRule
 
 class BlackTurn(override val board: Board) : Turn {
-    private val prohibitedRules: List<Rule> = listOf(ThreeByThreeRule, FourByFourRule, OverSixInRowRule)
+    private val prohibitedRules: List<Rule> =
+        listOf(ThreeByThreeRule, FourByFourRule, OverSixInRowRule)
 
     override fun placeStone(
         point: Point,
@@ -24,28 +25,30 @@ class BlackTurn(override val board: Board) : Turn {
     ): Turn {
         val stone = Stone(point, StoneColor.BLACK)
 
-        return when (val boardState: BoardState = board.place(stone)) {
+        when (val boardState: BoardState = board.place(stone)) {
             is Duplicated -> {
                 onInappropriate(boardState.message)
-                BlackTurn(board)
+                return BlackTurn(board)
             }
 
             is OutOfRange -> {
                 onInappropriate(boardState.message)
-                BlackTurn(board)
+                return BlackTurn(board)
             }
 
             is Full -> {
                 onInappropriate(boardState.message)
-                Finished(board, StoneColor.BLACK)
+                return Finished(board, StoneColor.BLACK)
             }
 
             is Success -> {
-                if (prohibitedRules.any { it.check(boardState.board) }) {
-                    return BlackTurn(boardState.board)
+                return if (prohibitedRules.any { it.check(boardState.board) }) {
+                    BlackTurn(board)
+                } else if (FiveInRowRule.check(boardState.board)) {
+                    Finished(boardState.board, StoneColor.BLACK)
+                } else {
+                    WhiteTurn(boardState.board)
                 }
-                if (FiveInRowRule.check(boardState.board)) return Finished(boardState.board, StoneColor.BLACK)
-                WhiteTurn(boardState.board)
             }
         }
     }

@@ -12,7 +12,5 @@ class Finished(override val board: Board = Board(), private val color: StoneColo
         throw IllegalStateException("완료된 상태에서는 돌을 놓을 수 없습니다.")
     }
 
-    override fun color(): StoneColor {
-        return color
-    }
+    override fun color(): StoneColor = color
 }
