@@ -11,7 +11,7 @@ abstract class GoStone {
         validatePosition(position)
         Board.board[position.column.value][position.row.value] = stoneType
         Board.updateLastPosition(position)
-        return if (stoneType == StoneType.BLACK_STONE) StoneType.WHITE_STONE else StoneType.BLACK_STONE
+        return stoneType
     }
 
     fun findOmok(position: Position): Boolean = OmokChecker.findOmok(position, stoneType)

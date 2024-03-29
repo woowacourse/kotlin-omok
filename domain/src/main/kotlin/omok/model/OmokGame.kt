@@ -28,6 +28,8 @@ class OmokGame(private val blackStone: BlackStone, private val whiteStone: White
         } while (!isOmok)
     }
 
+    fun changeStone(currentStone: StoneType) = if (currentStone == StoneType.BLACK_STONE) whiteStone else blackStone
+
     private fun putStone(
         readPosition: (GoStone) -> Position,
         stone: GoStone,
@@ -36,6 +38,4 @@ class OmokGame(private val blackStone: BlackStone, private val whiteStone: White
         val currentStone = stone.putStone(position)
         return Pair(position, currentStone)
     }
-
-    private fun changeStone(currentStone: StoneType) = if (currentStone == StoneType.BLACK_STONE) blackStone else whiteStone
 }
