@@ -3,7 +3,7 @@ package woowacourse.omok
 sealed class GameState(val board: Board) {
     abstract fun placeStone(coordinate: Coordinate): GameState
 
-    abstract fun getNextTurn(boardResult: BoardResult): GameState
+    abstract fun getNextTurn(placeResult: PlaceResult): GameState
 
     abstract fun getCurrentTurn(): GameState
 
@@ -17,7 +17,7 @@ sealed class GameState(val board: Board) {
             return getNextTurn(boardResult)
         }
 
-        override fun getNextTurn(boardResult: BoardResult): GameState {
+        override fun getNextTurn(placeResult: PlaceResult): GameState {
             return Finish(board)
         }
 
@@ -30,19 +30,19 @@ sealed class GameState(val board: Board) {
                 board.setUpBoard(PositionType.BLACK_STONE)
             }
 
-            override fun getNextTurn(boardResult: BoardResult): GameState {
-                return when (boardResult) {
-                    BoardResult.Block -> {
+            override fun getNextTurn(placeResult: PlaceResult): GameState {
+                return when (placeResult) {
+                    PlaceResult.Block -> {
                         Block(board)
                     }
-                    BoardResult.Duplicate -> {
+                    PlaceResult.Duplicate -> {
                         Duplicate(board)
                     }
-                    BoardResult.Done -> {
+                    PlaceResult.Done -> {
                         WhiteTurn.Start(board)
                     }
                     else -> {
-                        super.getNextTurn(boardResult)
+                        super.getNextTurn(placeResult)
                     }
                 }
             }
@@ -71,16 +71,16 @@ sealed class GameState(val board: Board) {
                 board.setUpBoard(PositionType.WHITE_STONE)
             }
 
-            override fun getNextTurn(boardResult: BoardResult): GameState {
-                return when (boardResult) {
-                    BoardResult.Done -> {
+            override fun getNextTurn(placeResult: PlaceResult): GameState {
+                return when (placeResult) {
+                    PlaceResult.Done -> {
                         BlackTurn.Start(board)
                     }
-                    BoardResult.Duplicate -> {
+                    PlaceResult.Duplicate -> {
                         Duplicate(board)
                     }
                     else -> {
-                        super.getNextTurn(boardResult)
+                        super.getNextTurn(placeResult)
                     }
                 }
             }
@@ -113,7 +113,7 @@ sealed class GameState(val board: Board) {
             return this
         }
 
-        override fun getNextTurn(boardResult: BoardResult): GameState {
+        override fun getNextTurn(placeResult: PlaceResult): GameState {
             return this
         }
     }

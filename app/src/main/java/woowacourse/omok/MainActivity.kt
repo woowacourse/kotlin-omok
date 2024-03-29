@@ -15,17 +15,17 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
     private val gameManager = GameManager(this)
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    private lateinit var allImageViews: List<ImageView>
+    private lateinit var allPositions: List<ImageView>
 
-    private val blackStoneImage: Drawable by lazy {
+    private val blackStoneDrawable: Drawable by lazy {
         createVectorDrawable(applicationContext, R.drawable.black_stone)
     }
 
-    private val whiteStoneImage: Drawable by lazy {
+    private val whiteStoneDrawable: Drawable by lazy {
         createVectorDrawable(applicationContext, R.drawable.white_stone)
     }
 
-    private val blockImage: Drawable by lazy {
+    private val blockDrawable: Drawable by lazy {
         createVectorDrawable(applicationContext, R.drawable.block)
     }
 
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        allImageViews =
+        allPositions =
             binding.board
                 .children
                 .filterIsInstance<TableRow>()
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
                 .filterIsInstance<ImageView>()
                 .toList()
 
-        allImageViews.forEachIndexed {
+        allPositions.forEachIndexed {
                 index, view ->
             view.setOnClickListener {
                 gameManager.playTurn(index.toCoordinate())
@@ -80,27 +80,27 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
         }
 
         copiedBoard.flatten().forEachIndexed { index, positionType ->
-            if (allImageViews[index].tag == null) { // 비어 있음. Block 포함. 놓은 곳은 굳이 다시 그리지 않게. 비어있는 곳은 X표시하게.
+            if (allPositions[index].tag == null) { // 비어 있음. Block 포함. 놓은 곳은 굳이 다시 그리지 않게. 비어있는 곳은 X표시하게.
                 when (positionType) {
                     PositionType.BLACK_STONE -> {
-                        allImageViews[index].apply {
+                        allPositions[index].apply {
                             tag = 1
-                            setImageDrawable(blackStoneImage)
+                            setImageDrawable(blackStoneDrawable)
                         }
                     }
                     PositionType.WHITE_STONE -> {
-                        allImageViews[index].apply {
+                        allPositions[index].apply {
                             tag = 1
-                            setImageDrawable(whiteStoneImage)
+                            setImageDrawable(whiteStoneDrawable)
                         }
                     }
                     PositionType.BLOCK -> {
-                        allImageViews[index].apply {
-                            setImageDrawable(blockImage)
+                        allPositions[index].apply {
+                            setImageDrawable(blockDrawable)
                         }
                     }
                     PositionType.EMPTY -> {
-                        allImageViews[index].apply {
+                        allPositions[index].apply {
                             setImageDrawable(null)
                         }
                     }

@@ -77,18 +77,18 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
     fun placeStone(
         coordinate: Coordinate,
         positionType: PositionType,
-    ): BoardResult {
+    ): PlaceResult {
         return when (boardLayout[coordinate.x, coordinate.y]) {
             PositionType.BLOCK -> {
-                BoardResult.Block
+                PlaceResult.Block
             }
             PositionType.EMPTY -> {
                 boardLayout[coordinate.x, coordinate.y] = positionType
                 lastPosition = coordinate
-                if (isWin(coordinate, positionType)) BoardResult.Omok else BoardResult.Done
+                if (isWin(coordinate, positionType)) PlaceResult.Omok else PlaceResult.Done
             }
             else -> {
-                BoardResult.Duplicate
+                PlaceResult.Duplicate
             }
         }
     }
