@@ -7,6 +7,8 @@ import woowacourse.omok.model.GameTurn
 import woowacourse.omok.model.player.BlackPlayer
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.player.WhitePlayer
+import woowacourse.omok.model.position.Column
+import woowacourse.omok.model.position.Row
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.view.OutputView
 
@@ -24,7 +26,18 @@ class OMockGameController(private val context: Context) : OMockGame() {
         setLastPickStone(player)
     }
 
-    fun processUserPick(playerPick: Pair<String, String>){
+    fun setBoard(
+        view: ImageView,
+        coordinate: Pair<Int, Int>,
+    ) {
+        val playerPick =
+            Column.transformIndex(coordinate.first) to Row.transformIndex(coordinate.second)
+        setLastPickImage(view)
+        OutputView.outputBoardForm()
+        processUserPick(playerPick)
+    }
+
+    private fun processUserPick(playerPick: Pair<String, String>){
         when (board.getTurn()) {
             GameTurn.BLACK_TURN -> userTurnFlow(blackPlayer, playerPick)
             GameTurn.WHITE_TURN -> userTurnFlow(whitePlayer, playerPick)
@@ -32,7 +45,7 @@ class OMockGameController(private val context: Context) : OMockGame() {
         }
     }
 
-    fun setLastPickImage(imageView: ImageView) {
+    private fun setLastPickImage(imageView: ImageView) {
         lastPickImage = imageView
     }
 
