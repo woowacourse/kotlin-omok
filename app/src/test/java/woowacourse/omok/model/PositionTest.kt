@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 import omok.model.board.Direction
 import omok.model.board.Position

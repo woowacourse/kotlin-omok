@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 import omok.model.board.Position
 import omok.model.board.Stone
