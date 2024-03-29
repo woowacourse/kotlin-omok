@@ -14,7 +14,6 @@ import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.view.OutputView
 
 abstract class OMockGame(
-    val board: Board = Board.from(),
     private val oMockRule: OMockRule = OMockRule(
         ruleTypes = listOf(
             ThreeToThreeCount,
@@ -22,18 +21,15 @@ abstract class OMockGame(
             IsClearFourToFourCount,
             IsReverseTwoAndThree,
         )
-    ),
-    private val loadMap: LoadMap = LoadMap(board.stoneStates),
+    )
 ) {
-
-    init {
-        startGameBoard()
-    }
+    protected val board: Board = Board.from()
+    private val loadMap: LoadMap = LoadMap(board.stoneStates)
 
     abstract fun executePlayerPickFailStep(throwable: Throwable)
     abstract fun executePlayerSuccessStep(playerStone: Stone, player: Player)
 
-    private fun startGameBoard(){
+    fun startGameBoard() {
         OutputView.outputGameStart()
     }
 

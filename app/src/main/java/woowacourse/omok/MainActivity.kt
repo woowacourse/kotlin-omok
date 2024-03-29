@@ -7,22 +7,19 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import woowacourse.omok.controller.OMockGameController
-import woowacourse.omok.model.GameTurn
-import woowacourse.omok.model.player.BlackPlayer
-import woowacourse.omok.model.player.WhitePlayer
+import woowacourse.omok.data.OmokDAO
 import woowacourse.omok.model.position.Column
 import woowacourse.omok.model.position.Row
 import woowacourse.omok.view.OutputView
 
 class MainActivity : AppCompatActivity() {
     private val oMockGameController = OMockGameController(this@MainActivity)
+    private val dao = OmokDAO(this@MainActivity)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val mainBoard = findViewById<TableLayout>(R.id.board)
-        val blackPlayer = BlackPlayer()
-        val whitePlayer = WhitePlayer()
-
+        loadBoard(mainBoard)
         mainBoard
             .children
             .filterIsInstance<TableRow>()
@@ -30,17 +27,30 @@ class MainActivity : AppCompatActivity() {
                 rows.children.filterIsInstance<ImageView>()
                     .forEachIndexed { columIndex, view ->
                         view.setOnClickListener {
-                            oMockGameController.setLastPickImage(view)
-                            OutputView.outputBoardForm()
-                            val playerPick =
-                                Column.transformIndex(columIndex) to Row.transformIndex(rowIndex)
-                            when (oMockGameController.board.getTurn()) {
-                                GameTurn.BLACK_TURN -> oMockGameController.userTurnFlow(blackPlayer, playerPick)
-                                GameTurn.WHITE_TURN -> oMockGameController.userTurnFlow(whitePlayer, playerPick)
-                                GameTurn.FINISHED -> oMockGameController.finishedGameFlow()
-                            }
+                            setBoard(view, columIndex to rowIndex)
+                            dao.insertCoordinate(columIndex, rowIndex)
                         }
                     }
             }
+    }
+
+    private fun setBoard(
+        view: ImageView,
+        coordinate: Pair<Int, Int>,
+    ) {
+        val playerPick =
+            Column.transformIndex(coordinate.first) to Row.transformIndex(coordinate.second)
+        oMockGameController.setLastPickImage(view)
+        OutputView.outputBoardForm()
+        oMockGameController.processUserPick(playerPick)
+    }
+
+    private fun loadBoard(mainBoard : TableLayout) {
+        dao.getAllCoordinates().forEach { (columnIndex, rowIndex) ->
+            val row: TableRow = mainBoard.getChildAt(rowIndex) as TableRow
+            val imageView: ImageView = row.getChildAt(columnIndex) as ImageView
+            setBoard(imageView,columnIndex to rowIndex)
+        }
+        oMockGameController.startGameBoard()
     }
 }
