@@ -1,11 +1,10 @@
 package omok.library
 
 import omok.model.Black
-import omok.model.BoardCoordinate
-import omok.model.BoardPosition
 import omok.model.Empty
-import omok.model.OmokGame
+import woowacourse.omok.model.OmokGame
 import omok.model.OmokStone
+import omok.model.White
 
 object RenjuRule {
     fun findForbiddenMoves(
@@ -20,7 +19,8 @@ object RenjuRule {
                 if (!gameBoard[row][col].isEmpty) {
                     continue
                 }
-                if (isMoveForbiddenForStone(gameBoard, row, col, omokStone)) {
+                val opposite = if(omokStone.isBlack) White(omokStone.boardPosition) else Black(omokStone.boardPosition)
+                if (isMoveForbiddenForStone(gameBoard, row, col,opposite)) {
                     coords.add(row to col)
                 }
             }
@@ -38,14 +38,23 @@ object RenjuRule {
 
     private fun countContinuousStonesBeyondWin(
         gameBoard: Array<Array<OmokStone>>,
+        row: Int,
+        col: Int,
         omokStone: OmokStone,
     ): Int {
+        placeStoneForRuleCheck(gameBoard, row, col, omokStone)
         for (i in 0 until OmokGame.DIRECTION_HALF_COUNT) {
             val cnt = getStoneCount(gameBoard, omokStone.getRow(), omokStone.getColumn(), omokStone, i)
-            if (cnt >= OmokGame.MIN_COUNT_FOR_WIN) return cnt
+            if (cnt >= OmokGame.MIN_COUNT_FOR_WIN) {
+                placeStoneForRuleCheck(gameBoard, row, col, Empty())
+                return cnt
+            }
         }
+        placeStoneForRuleCheck(gameBoard, row, col, Empty())
         return 0
     }
+
+
 
     private fun getStoneCount(
         gameBoard: Array<Array<OmokStone>>,
@@ -203,9 +212,9 @@ object RenjuRule {
         col: Int,
         omokStone: OmokStone,
     ): Boolean {
-        if (isFive(gameBoard, omokStone)) {
+        if (isFiveAll(gameBoard, row, col, omokStone)) {
             return false
-        } else if (countContinuousStonesBeyondWin(gameBoard, omokStone) > OmokGame.MIN_COUNT_FOR_WIN) {
+        } else if (countContinuousStonesBeyondWin(gameBoard, row, col, omokStone) > OmokGame.MIN_COUNT_FOR_WIN) {
             return true
         } else if (checkForDoubleThreeCondition(gameBoard, row, col, omokStone) ||
             checkForDoubleFourCondition(
@@ -219,6 +228,32 @@ object RenjuRule {
         }
         return false
     }
+
+    private fun isFiveAll(
+        gameBoard: Array<Array<OmokStone>>,
+        row: Int,
+        col: Int,
+        omokStone: OmokStone,
+    ): Boolean {
+        placeStoneForRuleCheck(gameBoard, row, col, omokStone)
+        for (i in 0 until OmokGame.DIRECTION_HALF_COUNT) {
+            if (getStoneCount(
+                    gameBoard,
+                    omokStone.getRow(),
+                    omokStone.getColumn(),
+                    omokStone,
+                    i,
+                ) == OmokGame.MIN_COUNT_FOR_WIN
+            ) {
+                placeStoneForRuleCheck(gameBoard, row, col, Empty())
+                return true
+            }
+        }
+        placeStoneForRuleCheck(gameBoard, row, col, Empty())
+        return false
+    }
+
+
 
     private fun isFive(
         gameBoard: Array<Array<OmokStone>>,

@@ -4,6 +4,7 @@ import omok.library.RenjuRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.OmokGame
 
 class OmokGameTest {
     fun Black(

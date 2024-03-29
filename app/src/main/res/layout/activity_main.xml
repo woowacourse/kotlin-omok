@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="wrap_content">
 
     <TableLayout
@@ -1178,6 +1179,37 @@
                 android:layout_weight="1"
                 android:background="@drawable/board_bottom_right" />
         </TableRow>
-
     </TableLayout>
+    <LinearLayout
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <Button
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/black"
+            android:id="@+id/btnClear"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="초기화"
+            android:paddingBottom="8dp"/>
+
+        <Button
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/black"
+            android:id="@+id/btnSaveAndExit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="저장하고 종료"
+            android:paddingBottom="8dp"/>
+
+    </LinearLayout>
+
+
+
 </LinearLayout>

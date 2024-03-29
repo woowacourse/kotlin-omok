@@ -1,7 +1,7 @@
 import omok.library.RenjuRule
 import omok.model.BoardCoordinate
 import omok.model.BoardPosition
-import omok.model.OmokGame
+import woowacourse.omok.model.OmokGame
 import omok.model.OmokStone
 import omok.model.OmokStoneType
 import omok.view.InputView

@@ -5,6 +5,7 @@ package omok.library
 import omok.model.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.OmokGame
 
 class RenjuRuleTest {
     fun Black(
