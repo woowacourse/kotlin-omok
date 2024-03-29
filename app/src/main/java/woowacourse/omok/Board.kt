@@ -27,32 +27,28 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
         omokRule = OmokRuleMapper.map(currentTurn, boardLayout, boardSize)
         this.currentTurn = currentTurn
 
-        if (omokRule.isBlockable()) setBlock() else removeBlock()
+        if (omokRule.isForbiddenUtilizable()) setBlock() else removeBlock()
     }
 
     private fun setBlock() {
-        val blockPositions: MutableList<Pair<Int, Int>> = mutableListOf()
+        val forbiddenCoordinates: MutableList<Pair<Int, Int>> = mutableListOf()
 
         for (i in MIN_INDEX until BOARD_SIZE) {
             for (j in MIN_INDEX until BOARD_SIZE) {
-                if (isBlockPosition(i, j)) {
-                    blockPositions.add(Pair(i, j))
+                if (isForbiddenCoordinate(i, j)) {
+                    forbiddenCoordinates.add(Pair(i, j))
                 }
             }
         }
-        blockPositions.forEach {
+        forbiddenCoordinates.forEach {
             _boardLayout[it.first][it.second] = CoordinateState.Forbidden
         }
     }
 
-    private fun isBlockPosition(
+    private fun isForbiddenCoordinate(
         i: Int,
         j: Int,
-    ) = (
-        omokRule.isThreeThree(i, j) ||
-            omokRule.isFourFour(i, j) ||
-            omokRule.isMoreThanFive(i, j)
-    ) &&
+    ) = omokRule.isForbidden(i, j) &&
         _boardLayout[i][j] == CoordinateState.Empty
 
     private fun removeBlock() {

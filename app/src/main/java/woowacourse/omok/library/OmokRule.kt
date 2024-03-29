@@ -14,7 +14,12 @@ class OmokRule(
             Pair(1, -1),
         )
 
-    fun isBlockable(): Boolean = currentStone == BLACK_STONE
+    fun isForbiddenUtilizable(): Boolean = currentStone == BLACK_STONE
+
+    fun isForbidden(i: Int, j: Int): Boolean {
+        if(!isForbiddenUtilizable()) return false
+        return isThreeThree(i, j) || isFourFour(i, j) || isMoreThanFive(i, j)
+    }
 
     fun isThreeThree(
         x: Int,
@@ -49,7 +54,7 @@ class OmokRule(
         x: Int,
         y: Int,
     ): Boolean {
-        return if (isBlockable()) isOmok(x, y) && !isMoreThanFive(x, y) else isOmok(x, y)
+        return if (isForbiddenUtilizable()) isOmok(x, y) && !isMoreThanFive(x, y) else isOmok(x, y)
     }
 
     private fun checkOpenThree(
