@@ -1,4 +1,5 @@
 import omok.model.Board
+import omok.model.Either
 import omok.model.entity.Point
 import omok.model.turn.BlackTurn
 import omok.model.turn.WhiteTurn
@@ -9,14 +10,14 @@ class TurnTest {
     @Test
     fun `오목판에 흑이 돌을 둔 다음 백이 두어야 한다`() {
         val whiteTurn = WhiteTurn(Board())
-        val actual = whiteTurn.placeStone(Point(1, 1)) {}
+        val actual = (whiteTurn.placeStone(Point(1, 1)) as Either.Right).value
         assertThat(actual).isInstanceOf(BlackTurn::class.java)
     }
 
     @Test
     fun `오목판에 백이 돌을 둔 다음 흑이 두어야 한다`() {
         val blackTurn = BlackTurn(Board())
-        val actual = blackTurn.placeStone(Point(9, 9)) {}
+        val actual = (blackTurn.placeStone(Point(9, 9)) as Either.Right).value
         assertThat(actual).isInstanceOf(WhiteTurn::class.java)
     }
 
@@ -24,7 +25,7 @@ class TurnTest {
     fun `이전 턴에 어떤 곳에 돌을 놓았는지 알 수 있다`() {
         val board = Board()
         val point = Point(1, 1)
-        val boardAfterPlace = WhiteTurn(board).placeStone(point) {}.board
+        val boardAfterPlace = ((WhiteTurn(board).placeStone(point)) as Either.Right).value.board
         val actual: Point = boardAfterPlace.previousStone()!!.point
         assertThat(actual).isEqualTo(point)
     }

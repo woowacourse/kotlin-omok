@@ -17,15 +17,12 @@ class BlackTurn(
 ) : Turn(board) {
     private val prohibitedRules: List<Rule> = listOf(ThreeByThreeRule, FourByFourRule, OverSixInRowRule)
 
-    override fun placeStone(point: Point, printError: (String) -> Unit): Turn {
+    override fun placeStone(point: Point): Either<PlaceStoneError, Turn> {
         val stone = Stone(point, StoneColor.BLACK)
 
         val nextBoard =
             when (val placeResult = board.place(stone)) {
-                is Either.Left -> {
-                    placeResult.value.handleErrorMessage(printError)
-                    return this
-                }
+                is Either.Left -> return Either.Left(placeResult.value)
                 is Either.Right -> placeResult.value
             }
 
@@ -34,14 +31,14 @@ class BlackTurn(
                 it.check(nextBoard)
             }
         if (isViolated) {
-            return this
+            return Either.Right(this)
         }
 
         if (nextBoard.isFull() || FiveInRowRule.check(nextBoard)) {
-            return Finished(nextBoard)
+            return Either.Right(Finished(nextBoard))
         }
 
-        return WhiteTurn(nextBoard)
+        return Either.Right(WhiteTurn(nextBoard))
     }
 
     override fun color(): StoneColor {
@@ -54,4 +51,5 @@ class BlackTurn(
 // Board to Either<Error,Board> To Either<Error,Board>
 
 // ::checkInvalid - Either<Error, Turn>, Left: Error, Right: Turn
+// ::checkFinished - Either<Turn, Turn>, Left: Finished, Right: WhiteTurn
 // 에러 던지기는 어떻게 하는가..
