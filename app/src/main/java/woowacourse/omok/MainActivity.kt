@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
     private fun Int.toCoordinate(): Coordinate = Coordinate(this / Board.BOARD_SIZE, this % Board.BOARD_SIZE)
 
     override fun onDraw(gameState: GameState) {
-        val copiedBoard = gameState.board.getBoardLayout()
+        val copiedBoard = gameState.board.boardLayout
 
         when (gameState) {
             is GameState.Playing.Start -> {

@@ -1,28 +1,30 @@
 package woowacourse.omok
 
-import omok.library.BlackOmokRule
-import omok.library.WhiteOmokRule
+import omok.library.OmokRule
 
 class Board(private val boardSize: Int = BOARD_SIZE) {
-    private var boardLayout = BoardLayout(boardSize)
-    var lastCoordinate: Coordinate? = null
-        private set
-    var currentTurn: Turn = Turn.Black
-        private set
-    val currentStone get() = getStoneFromTurn()
+    private var _boardLayout: MutableList<MutableList<CoordinateState>> =
+        MutableList(BOARD_SIZE) { MutableList(BOARD_SIZE) { CoordinateState.Empty } }
+    val boardLayout: List<List<CoordinateState>>
+        get() = _boardLayout
 
-    fun getStoneFromTurn(): CoordinateState {
+    private var lastCoordinate: Coordinate? = null
+        private set
+    private var currentTurn: Turn = Turn.Black
+        private set
+    private val currentStone get() = getStoneFromTurn()
+
+    var omokRule: OmokRule = OmokRuleMapper.map(currentTurn, boardLayout, boardSize)
+
+    private fun getStoneFromTurn(): CoordinateState {
         return when(currentTurn) {
             is Turn.Black -> CoordinateState.BlackStone
             is Turn.White -> CoordinateState.WhiteStone
         }
     }
 
-    fun getBoardLayout(): Array<Array<CoordinateState>> {
-        return boardLayout.deepCopy()
-    }
-
     fun setUpBoard(currentTurn: Turn) {
+        omokRule = OmokRuleMapper.map(currentTurn, boardLayout, boardSize)
         when (currentTurn) {
             Turn.Black -> {
                 setBlock()
@@ -45,7 +47,7 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
             }
         }
         blockPositions.forEach {
-            boardLayout[it.first, it.second] = CoordinateState.Forbidden
+            _boardLayout[it.first][it.second] = CoordinateState.Forbidden
         }
     }
 
@@ -53,17 +55,17 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
         i: Int,
         j: Int,
     ) = (
-        BlackOmokRule.isThreeThree(i, j, boardLayout.deepCopy()) ||
-            BlackOmokRule.isFourFour(i, j, boardLayout.deepCopy()) ||
-            BlackOmokRule.isMoreThanFive(i, j, boardLayout.deepCopy())
+        omokRule.isThreeThree(i, j) ||
+            omokRule.isFourFour(i, j) ||
+            omokRule.isMoreThanFive(i, j)
     ) &&
-        boardLayout[i, j] == CoordinateState.Empty
+        _boardLayout[i][j] == CoordinateState.Empty
 
     private fun removeBlock() {
         for (x in 0 until boardSize) {
             for (y in 0 until boardSize) {
-                if (boardLayout[x, y] == CoordinateState.Forbidden) {
-                    boardLayout[x, y] = CoordinateState.Empty
+                if (_boardLayout[x][y] == CoordinateState.Forbidden) {
+                    _boardLayout[x][y] = CoordinateState.Empty
                 }
             }
         }
@@ -75,10 +77,10 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
     ): Boolean {
         return when (coordinateState) {
             CoordinateState.BlackStone -> {
-                BlackOmokRule.isWin(coordinate.x, coordinate.y, boardLayout.deepCopy())
+                omokRule.isBlackTurnWin(coordinate.x, coordinate.y)
             }
             CoordinateState.WhiteStone -> {
-                WhiteOmokRule.isWin(coordinate.x, coordinate.y, boardLayout.deepCopy())
+                omokRule.isWhiteTurnWin(coordinate.x, coordinate.y)
             }
             else -> false
         }
@@ -88,12 +90,12 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
     fun placeStone(
         coordinate: Coordinate,
     ): PlaceResult {
-        return when (boardLayout[coordinate.x, coordinate.y]) {
+        return when (_boardLayout[coordinate.x][coordinate.y]) {
             CoordinateState.Forbidden -> {
                 PlaceResult.Block
             }
             CoordinateState.Empty -> {
-                boardLayout[coordinate.x, coordinate.y] = currentStone
+                _boardLayout[coordinate.x][coordinate.y] = currentStone
                 lastCoordinate = coordinate
                 if (isWin(coordinate, currentStone)) PlaceResult.Omok else PlaceResult.Done
             }
