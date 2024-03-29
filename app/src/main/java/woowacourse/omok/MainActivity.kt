@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         positions.forEachIndexed { index, view ->
             view.setOnClickListener {
                 val position = putStone(index, view)
+                val isOmok = stone.findOmok(position)
                 stone = omokGame.changeStone(stone.stoneType)
             }
         }
