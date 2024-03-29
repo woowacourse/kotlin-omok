@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import omok.model.OmokGame
+import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
@@ -87,9 +88,18 @@ class MainActivity : AppCompatActivity() {
         val snackBar = Snackbar.make(view, "${stone.stoneType.type}의 승리입니다 🏆", Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction("다시 시작") {
             snackBar.dismiss()
-            setBoardClickable(positions, isClickable = true)
+            restartGame(positions)
         }
         snackBar.show()
+    }
+
+    private fun restartGame(positions: List<ImageView>) {
+        Board.reset()
+        positions.forEach { stone ->
+            stone.setImageResource(0)
+        }
+        stone = BlackStone()
+        setBoardClickable(positions, isClickable = true)
     }
 
     private fun <T> retryUntilSuccess(
