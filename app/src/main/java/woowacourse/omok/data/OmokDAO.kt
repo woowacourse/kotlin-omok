@@ -8,13 +8,13 @@ class OmokDAO(context: Context) {
     private val dbHelper = DBHelper(context)
 
     fun insertCoordinate(
-        column: String,
-        row: String,
+        x: Int,
+        y: Int,
     ) {
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {
-            put("x_column", column)
-            put("y_row", row)
+            put("x_column", x)
+            put("y_row", y)
         }
         db.insert("omok_coordinates", null, values)
         db.close()
