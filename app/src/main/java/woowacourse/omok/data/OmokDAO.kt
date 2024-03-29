@@ -13,21 +13,25 @@ class OmokDAO(context: Context) {
     ) {
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {
-            put("x_column", x)
-            put("y_row", y)
+            put(OmockDBConstant.X_COORDINATE, x)
+            put(OmockDBConstant.Y_COORDINATE, y)
         }
-        db.insert("omok_coordinates", null, values)
+        db.insert(OmockDBConstant.TABLE_NAME, null, values)
         db.close()
     }
 
     fun getAllCoordinates(): List<Pair<Int, Int>> {
         val db = dbHelper.readableDatabase
-        val cursor: Cursor = db.rawQuery("SELECT x_column, y_row FROM omok_coordinates", null)
+        val cursor: Cursor =
+            db.rawQuery(
+                "SELECT ${OmockDBConstant.X_COORDINATE},${OmockDBConstant.Y_COORDINATE} FROM omok_coordinates",
+                null,
+            )
         val coordinates = mutableListOf<Pair<Int, Int>>()
         with(cursor) {
             while (moveToNext()) {
-                val column = getInt(getColumnIndexOrThrow("x_column"))
-                val row = getInt(getColumnIndexOrThrow("y_row"))
+                val column = getInt(getColumnIndexOrThrow(OmockDBConstant.X_COORDINATE))
+                val row = getInt(getColumnIndexOrThrow(OmockDBConstant.Y_COORDINATE))
                 coordinates.add(Pair(column, row))
             }
         }
@@ -38,7 +42,7 @@ class OmokDAO(context: Context) {
 
     fun resetAllCoordinates() {
         val db = dbHelper.writableDatabase
-        db.delete("omok_coordinates", null, null)
+        db.delete(OmockDBConstant.TABLE_NAME, null, null)
         db.close()
     }
 }
