@@ -12,7 +12,7 @@ import woowacourse.omok.domain.view.OutputView
 
 class Controller {
     fun play() {
-        gameStart(Board(15))
+        gameStart(Board(BOARD_SIZE))
     }
 
     private fun gameStart(board: Board) {
@@ -22,13 +22,13 @@ class Controller {
         var turn: Turn = BlackTurn()
         while (turn !is FinishedTurn) {
             OutputView.printTurn(turn, board.beforeStone)
-            turn = board.putStone(Stone(turn.stoneType, readPoint(board, turn)), turn, ruleAdapter)
+            turn = board.putStone(Stone(turn.stoneType, inputPoint(board, turn)), turn, ruleAdapter)
             OutputView.printBoard(board)
         }
         OutputView.printWinner(board)
     }
 
-    private fun readPoint(
+    private fun inputPoint(
         board: Board,
         turn: Turn,
     ): Point {
@@ -38,6 +38,10 @@ class Controller {
             OutputView.printInvalidPointInputMessage()
             OutputView.printTurn(turn, board.beforeStone)
         }
-        return readPoint(board, turn)
+        return inputPoint(board, turn)
+    }
+
+    companion object {
+        private const val BOARD_SIZE = 15
     }
 }

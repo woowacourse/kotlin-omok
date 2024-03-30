@@ -8,7 +8,7 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import woowacourse.omok.db.OmokDbHelper
+import woowacourse.omok.db.OmokDao
 import woowacourse.omok.domain.model.BlackTurn
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.FinishedTurn
@@ -30,61 +30,64 @@ class MainActivity : AppCompatActivity() {
     private lateinit var board: Board
     private lateinit var ruleAdapter: RuleAdapter
     private lateinit var turn: Turn
-    private var toast: Toast? = null
     private var onGame: Boolean = true
-    private val omokDbHelper: OmokDbHelper by lazy { OmokDbHelper(this) }
+    private var toast: Toast? = null
+    private val omokDao: OmokDao by lazy { OmokDao(this) }
+    private val tableLayoutBoard: List<ImageView> by lazy {
+        findViewById<TableLayout>(R.id.board)
+            .children
+            .filterIsInstance<TableRow>()
+            .flatMap { tableRow ->
+                tableRow.children.filterIsInstance<ImageView>().toList()
+            }
+            .toList()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val tableLayoutBoard: TableLayout = findViewById(R.id.board)
-        val reStartButton: Button = findViewById(R.id.reStartButton)
+        setUpTableLayoutBoard()
+        setUpRestartButton()
 
-        gameStart(tableLayoutBoard)
+        gameStart()
+    }
 
-        reStartButton.setOnClickListener {
-            gameRestart(tableLayoutBoard)
+    private fun setUpTableLayoutBoard() {
+        tableLayoutBoard.forEachIndexed { index, view ->
+            val x = index / BOARD_SIZE
+            val y = index % BOARD_SIZE
+
+            view.setOnClickListener {
+                if (!onGame) {
+                    displayMessage(MESSAGE_GAME_END)
+                    return@setOnClickListener
+                }
+                progressGameTurn(Point(y, 14 - x), view)
+                onGame = judgeGameState()
+            }
         }
     }
 
-    private fun gameStart(tableLayoutBoard: TableLayout) {
-        board = Board(15)
+    private fun setUpRestartButton() {
+        val reStartButton: Button = findViewById(R.id.reStartButton)
+        reStartButton.setOnClickListener {
+            gameRestart()
+        }
+    }
+
+    private fun gameStart() {
+        board = Board(BOARD_SIZE)
         ruleAdapter = RuleAdapter(board)
         turn = BlackTurn()
         onGame = true
-
         displayMessage(MESSAGE_GAME_START + MESSAGE_TURN.format(STONE_TYPE_BLACK))
-
-        tableLayoutBoard
-            .children
-            .filterIsInstance<TableRow>()
-            .forEachIndexed { x, rows ->
-                rows.children.filterIsInstance<ImageView>()
-                    .forEachIndexed { y, view ->
-                        view.setOnClickListener {
-                            if (!onGame) {
-                                displayMessage(MESSAGE_GAME_END)
-                                return@setOnClickListener
-                            }
-                            progressGameTurn(Point(y, 14 - x), view)
-                            onGame = judgeGameState()
-                        }
-                    }
-            }
     }
 
-    private fun gameRestart(tableLayoutBoard: TableLayout) {
-        tableLayoutBoard
-            .children
-            .filterIsInstance<TableRow>()
-            .forEach { row ->
-                row.children.filterIsInstance<ImageView>()
-                    .forEach { view ->
-                        view.setImageResource(0)
-                    }
-            }
-        gameStart(tableLayoutBoard)
+    private fun gameRestart() {
+        tableLayoutBoard.forEach { it.setImageResource(0) }
+        omokDao.deleteAllStones()
+        gameStart()
     }
 
     private fun progressGameTurn(
@@ -96,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         displayMessage(generateTurnMessage(nextTurn, board.beforeStone))
         if (turn != nextTurn) {
             view.setImageResource(getStoneImage(turn.stoneType))
-            omokDbHelper.insertStone(stone)
+            omokDao.insertStone(stone)
             turn = nextTurn
         } else {
             displayMessage(MESSAGE_INVALID_POINT_INPUT)
@@ -123,5 +126,9 @@ class MainActivity : AppCompatActivity() {
         toast?.cancel()
         toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
         toast?.show()
+    }
+
+    companion object {
+        private const val BOARD_SIZE = 15
     }
 }
