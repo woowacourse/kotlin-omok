@@ -36,12 +36,10 @@ class ProgressView {
         board: Board,
         position: Position,
     ) {
-        if (position.row == 0) {
-            board.printBoardColAxis(position, " ┌─", "─┐ ", "─┬─")
-        } else if (position.row == board.size - 1) {
-            board.printBoardColAxis(position, " └─", "─┘ ", "─┴─")
-        } else {
-            board.printBoardColAxis(position, " ├─", "─┤ ", "─┼─")
+        when (position.row) {
+            0 -> board.printBoardColAxis(position, " ┌─", "─┐ ", "─┬─")
+            board.size - 1 -> board.printBoardColAxis(position, " └─", "─┘ ", "─┴─")
+            else -> board.printBoardColAxis(position, " ├─", "─┤ ", "─┼─")
         }
     }
 
