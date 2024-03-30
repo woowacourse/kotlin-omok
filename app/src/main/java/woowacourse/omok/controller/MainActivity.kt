@@ -85,9 +85,10 @@ class MainActivity : AppCompatActivity() {
                 val winnerColor = mapStoneColorToString(it.color)
                 showToast(
                     this,
-                    "${winnerColor}'이(가) 승리했습니다!",
+                    "'${winnerColor}돌'이 승리했습니다! \uD83E\uDD73",
                 )
             }
+            dbDao.drop()
         }
     }
 
