@@ -9,16 +9,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import woowacourse.omok.db.OmokDao
-import woowacourse.omok.domain.model.BlackTurn
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Board.Companion.BOARD_SIZE
-import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Point
 import woowacourse.omok.domain.model.Point.Companion.MESSAGE_INVALID_POINT_INPUT
 import woowacourse.omok.domain.model.StoneType
 import woowacourse.omok.domain.model.Turn
-import woowacourse.omok.domain.model.WhiteTurn
 import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_END
 import woowacourse.omok.domain.view.OutputView.generateTurnMessage
 
@@ -46,13 +43,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBoardUi() {
         boardUi.forEachIndexed { index, view ->
-            val x = index % BOARD_SIZE
-            val y = index / BOARD_SIZE
             view.setOnClickListener {
                 if (omokGame.isGameFinished()) {
                     displayMessage(MESSAGE_GAME_END)
                     return@setOnClickListener
                 }
+                val x = index % BOARD_SIZE
+                val y = index / BOARD_SIZE
                 progressGameTurn(view, x, y)
             }
         }
@@ -69,29 +66,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeBoardSetting() {
         val stones = omokDb.getStonesFromDatabase()
-        val initialBoard = Board(stones)
         stones.forEach { (stoneType, point) ->
             val coordinate = point.y * BOARD_SIZE + point.x
             boardUi[coordinate].setImageResource(getStoneImage(stoneType))
         }
-        initializeGameSetting(initialBoard)
+        initializeGameSetting(Board(stones))
     }
 
     private fun initializeGameSetting(initialBoard: Board) {
-        val isGameEnd = initialBoard.latestStone?.let { initialBoard.isWinCondition(it) } ?: false
-        val initialTurn = if (isGameEnd) FinishedTurn(initialBoard.latestStone!!) else createTurn(initialBoard.latestStone?.type)
-
+        val initialTurn = Turn.determineTurn(initialBoard)
         omokGame = OmokGame(turn = initialTurn, board = initialBoard)
         displayMessage(generateTurnMessage(initialTurn))
-    }
-
-    private fun createTurn(stoneType: StoneType?): Turn {
-        return when (stoneType) {
-            StoneType.BLACK -> WhiteTurn()
-            StoneType.WHITE -> BlackTurn()
-            StoneType.EMPTY -> throw IllegalStateException()
-            null -> BlackTurn()
-        }
     }
 
     private fun progressGameTurn(
