@@ -34,6 +34,8 @@ class MainActivity : AppCompatActivity() {
                 .filterIsInstance<ImageView>()
                 .toList()
 
+        restoreProgressGameData(positions)
+
         positions.forEachIndexed { index, view ->
             view.setOnClickListener {
                 val position = putStone(index, view)
@@ -46,6 +48,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun restoreProgressGameData(positions: List<ImageView>) {
+        val omokGameData = OmokEntryDao(this).findAll().associateBy { it.position }
+
+        positions.forEachIndexed { index, view ->
+            showInProgressGameData(omokGameData, index, view)
+        }
+    }
+
+    private fun showInProgressGameData(
+        omokGameData: Map<Int, OmokEntry>,
+        index: Int,
+        view: ImageView,
+    ) {
+        omokGameData[index]?.let { entry ->
+            placeCurrentGameStones(entry, view)
+        }
+    }
+
+    private fun placeCurrentGameStones(
+        entry: OmokEntry,
+        view: ImageView,
+    ) {
+        StoneType.entries.firstOrNull { it.type == entry.stoneType }?.let {
+            view.setImageResource(getStoneImage(it))
+        }
+    }
+
     private fun putStone(
         index: Int,
         view: ImageView,
@@ -55,13 +84,13 @@ class MainActivity : AppCompatActivity() {
             stone.putStone(position)
             val entry = OmokEntry(stone.stoneType.type, index)
             OmokEntryDao(this).save(entry)
-            view.setImageResource(getStoneImage(stone))
+            view.setImageResource(getStoneImage(stone.stoneType))
         }
         return position
     }
 
-    private fun getStoneImage(stone: GoStone): Int {
-        return when (stone.stoneType) {
+    private fun getStoneImage(stoneType: StoneType): Int {
+        return when (stoneType) {
             StoneType.BLACK_STONE -> R.drawable.black_stone
             StoneType.WHITE_STONE -> R.drawable.white_stone
             StoneType.NONE -> 0
