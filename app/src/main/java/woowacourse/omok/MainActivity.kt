@@ -98,23 +98,32 @@ class MainActivity : AppCompatActivity() {
             omok.renjuGameRule.findForbiddenPositions(omok.currentStone)
         board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rows ->
             rows.children.filterIsInstance<ImageView>().forEachIndexed { columnIndex, view ->
-                if (Position(
-                        CoordsNumber(columnIndex),
-                        CoordsNumber(rowIndex)
-                    ) in forbiddenPositions
-                ) {
-                    view.setImageResource(R.drawable.x_mark)
-                } else {
-                    val stone = omok.board.gameBoard[columnIndex][rowIndex]
-                    val resId = when (stone) {
-                        Stone.BLACK -> R.drawable.black_stone
-                        Stone.WHITE -> R.drawable.white_stone
-                        else -> 0
-                    }
-                    if (resId != 0) view.setImageResource(resId)
-                    else view.setImageDrawable(null)
-                }
+                updateCellView(columnIndex, rowIndex, forbiddenPositions, view)
             }
+        }
+    }
+
+    private fun updateCellView(
+        columnIndex: Int,
+        rowIndex: Int,
+        forbiddenPositions: List<Position>,
+        view: ImageView
+    ) {
+        if (Position(
+                CoordsNumber(columnIndex),
+                CoordsNumber(rowIndex)
+            ) in forbiddenPositions
+        ) {
+            view.setImageResource(R.drawable.x_mark)
+        } else {
+            val stone = omok.board.gameBoard[columnIndex][rowIndex]
+            val resId = when (stone) {
+                Stone.BLACK -> R.drawable.black_stone
+                Stone.WHITE -> R.drawable.white_stone
+                else -> 0
+            }
+            if (resId != 0) view.setImageResource(resId)
+            else view.setImageDrawable(null)
         }
     }
 }
