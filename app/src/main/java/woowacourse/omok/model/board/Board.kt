@@ -36,14 +36,14 @@ class Board(val stoneStates: List<ColumnStates>) {
         player: Player,
         stone: Stone,
     ) {
-        val row = stone.row.getIndex()
-        val column = stone.column.getIndex()
+        val row = stone.getRowIndex()
+        val column = stone.getColumnIndex()
         stoneStates[row].change(column, player)
     }
 
     fun rollbackState(stone: Stone) {
-        val row = stone.row.getIndex()
-        val column = stone.column.getIndex()
+        val row = stone.getRowIndex()
+        val column = stone.getColumnIndex()
         stoneStates[row].rollback(column)
     }
 

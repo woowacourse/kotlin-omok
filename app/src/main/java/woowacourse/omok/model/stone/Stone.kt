@@ -5,11 +5,31 @@ import woowacourse.omok.model.position.Column
 import woowacourse.omok.model.position.Row
 
 data class Stone(
-    val row: Row,
-    val column: Column,
+    private val row: Row,
+    private val column: Column,
 ) {
     override fun toString(): String {
         return LAST_STONE_LOCATION_MESSAGE.format(column.comma, row.comma)
+    }
+
+    fun getRowIndex(): Int{
+        return row.getIndex()
+    }
+
+    fun getColumnIndex(): Int{
+        return column.getIndex()
+    }
+
+    fun getRowComma(): String{
+        return row.comma
+    }
+
+    fun getBoardRowIndex(): Int{
+        return row.toBoardIndex()
+    }
+
+    fun getColumnComma(): String {
+        return column.comma
     }
 
     companion object {

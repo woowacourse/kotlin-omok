@@ -1,4 +1,4 @@
-package woowacourse.omok.view
+package woowacourse.omok
 
 import android.os.Bundle
 import android.widget.Button
@@ -7,7 +7,6 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import woowacourse.omok.R
 import woowacourse.omok.controller.OMockViewController
 import woowacourse.omok.data.OmokDAO
 

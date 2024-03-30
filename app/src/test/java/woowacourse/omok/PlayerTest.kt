@@ -1,8 +1,8 @@
 package omock
 
-import woowacourse.omok.model.player.WhitePlayer
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.player.WhitePlayer
 
 class PlayerTest {
     @Test
@@ -11,7 +11,7 @@ class PlayerTest {
             WhitePlayer()
                 .turn { Pair("A", "1") }
 
-        Assertions.assertThat(whiteStone.column.comma).isEqualTo("A")
-        Assertions.assertThat(whiteStone.row.comma).isEqualTo("1")
+        Assertions.assertThat(whiteStone.getColumnComma()).isEqualTo("A")
+        Assertions.assertThat(whiteStone.getRowComma()).isEqualTo("1")
     }
 }
