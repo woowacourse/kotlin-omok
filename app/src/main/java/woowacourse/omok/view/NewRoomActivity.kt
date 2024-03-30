@@ -9,7 +9,6 @@ import androidx.core.widget.addTextChangedListener
 import woowacourse.omok.R
 import woowacourse.omok.model.database.GameRoomDao
 import woowacourse.omok.model.database.Room
-import woowacourse.omok.model.state.GameState
 
 class NewRoomActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +27,7 @@ class NewRoomActivity : AppCompatActivity() {
             }
 
         startButton.setOnClickListener {
-            val roomInfo = Room(title = gameNameInput.text.toString(), status = GameState.OnProgress::class.simpleName)
+            val roomInfo = Room(title = gameNameInput.text.toString())
             val generationResult = gameRoomDao.save(roomInfo)
             Intent(this, OmokGameActivity::class.java).also {
                 it.putExtra(GAME_ID, generationResult.id)

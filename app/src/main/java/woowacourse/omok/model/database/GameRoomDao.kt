@@ -1,6 +1,7 @@
 package woowacourse.omok.model.database
 
 import android.content.Context
+import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 import androidx.core.content.contentValuesOf
@@ -9,16 +10,15 @@ class GameRoomDao(
     context: Context,
 ) : DatabaseDao<Room> {
     override val dbHelper: SQLiteOpenHelper = GameRoomDbHelper(context)
+    private val writableDb: SQLiteDatabase by lazy { dbHelper.writableDatabase }
 
     override fun save(item: Room): Room {
-        val db = dbHelper.writableDatabase
         val roomId =
-            db.insert(
+            writableDb.insert(
                 GameRoomContract.TABLE_NAME,
                 null,
                 contentValuesOf(
                     GameRoomContract.COLUMN_TITLE to item.title,
-                    GameRoomContract.COLUMN_STATUS to item.status,
                 ),
             )
 
@@ -33,7 +33,6 @@ class GameRoomDao(
                 arrayOf(
                     BaseColumns._ID,
                     GameRoomContract.COLUMN_TITLE,
-                    GameRoomContract.COLUMN_STATUS,
                 ),
                 null,
                 null,
@@ -46,8 +45,7 @@ class GameRoomDao(
         while (cursor.moveToNext()) {
             val roomId = cursor.getLong(cursor.getColumnIndexOrThrow(BaseColumns._ID))
             val roomTitle = cursor.getString(cursor.getColumnIndexOrThrow(GameRoomContract.COLUMN_TITLE))
-            val roomStatus = cursor.getString(cursor.getColumnIndexOrThrow(GameRoomContract.COLUMN_STATUS))
-            entries.add(Room(roomId, roomTitle, roomStatus))
+            entries.add(Room(roomId, roomTitle))
         }
 
         cursor.close()
@@ -56,7 +54,6 @@ class GameRoomDao(
     }
 
     override fun drop() {
-        val db = dbHelper.writableDatabase
-        db.delete(GameRoomContract.TABLE_NAME, null, null)
+        writableDb.delete(GameRoomContract.TABLE_NAME, null, null)
     }
 }

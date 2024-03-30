@@ -19,7 +19,6 @@ class RoomInfoRVAdapter(
 
         fun bind(room: Room) {
             title.text = room.title
-            button.text = room.status
             button.setOnClickListener {
                 val roomId = rooms[adapterPosition].id
                 val title = rooms[adapterPosition].title

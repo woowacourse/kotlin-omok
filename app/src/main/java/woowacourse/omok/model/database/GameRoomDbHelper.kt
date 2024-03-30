@@ -7,14 +7,13 @@ import android.provider.BaseColumns
 
 class GameRoomDbHelper(
     context: Context,
-) : SQLiteOpenHelper(context, GameRoomContract.TABLE_NAME, null, 1) {
+) : SQLiteOpenHelper(context, GameRoomContract.TABLE_NAME, null, 2) {
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
             """
                 CREATE TABLE ${GameRoomContract.TABLE_NAME} (
                   ${BaseColumns._ID} INTEGER PRIMARY KEY AUTOINCREMENT not null,
-                  ${GameRoomContract.COLUMN_TITLE} varchar(30) not null,
-                  ${GameRoomContract.COLUMN_STATUS} varchar(10)
+                  ${GameRoomContract.COLUMN_TITLE} varchar(30) not null
                 )
             """,
         )

@@ -26,7 +26,7 @@ class RoomListActivity : AppCompatActivity() {
         super.onResume()
         val adapter =
             RoomInfoRVAdapter(
-                rooms = gameRoomDao.findAll().map { it.copy(status = getGameStatusText(it.status)) },
+                rooms = gameRoomDao.findAll(),
                 onEnterClick = { id, title ->
                     Intent(this, OmokGameActivity::class.java).also {
                         it.putExtra(GAME_ID, id)
