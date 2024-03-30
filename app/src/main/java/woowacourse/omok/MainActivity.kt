@@ -59,7 +59,9 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
         val board = Board(boardSize)
         val omokGame = OmokGame(board, omokPlayers, finishAction())
         setProgressText(omokGame.nowOrderStone(), omokGame.recentPosition())
-        boardView.setBoardView(omokGame)
+        stoneImageView { index, view ->
+            view.setStoneViewOnClickListener(omokGame, index)
+        }
         restartButton.setOnClickListener {
             restartGame(omokGame)
         }
@@ -103,16 +105,6 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
             resources.getString(R.string.result_win).format(finishType.stone.output())
     }
 
-    private fun TableLayout.setBoardView(omokGame: OmokGame) {
-        children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEachIndexed { index, stoneImage ->
-                stoneImage.setStoneViewOnClickListener(omokGame, index)
-            }
-    }
-
     private fun ImageView.setStoneViewOnClickListener(
         omokGame: OmokGame,
         index: Int,
@@ -147,15 +139,19 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
     private fun restartGame(omokGame: OmokGame) {
         isFinish = false
         omokGame.restart()
+        stoneImageView { _, view -> view.setImageResource(0) }
+        setProgressText(omokGame.nowOrderStone(), omokGame.recentPosition())
+    }
+
+    private fun stoneImageView(block: (Int, ImageView) -> Unit) {
         boardView
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEachIndexed { index, stoneImage ->
-                stoneImage.setImageResource(0)
+            .forEachIndexed { index, view ->
+                block(index, view)
             }
-        setProgressText(omokGame.nowOrderStone(), omokGame.recentPosition())
     }
 
     companion object {
