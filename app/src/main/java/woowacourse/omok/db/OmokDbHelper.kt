@@ -3,10 +3,12 @@ package woowacourse.omok.db
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import woowacourse.omok.db.OmokContract.Companion.POINT_X
-import woowacourse.omok.db.OmokContract.Companion.POINT_Y
-import woowacourse.omok.db.OmokContract.Companion.STONE_TYPE
-import woowacourse.omok.db.OmokContract.Companion.TABLE_NAME
+import woowacourse.omok.db.OmokContract.DATABASE_NAME
+import woowacourse.omok.db.OmokContract.DATABASE_VERSION
+import woowacourse.omok.db.OmokContract.POINT_X
+import woowacourse.omok.db.OmokContract.POINT_Y
+import woowacourse.omok.db.OmokContract.STONE_TYPE
+import woowacourse.omok.db.OmokContract.TABLE_NAME
 
 class OmokDbHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -30,10 +32,5 @@ class OmokDbHelper(context: Context) :
 
         db.execSQL(sql)
         onCreate(db)
-    }
-
-    companion object {
-        const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "Omok.db"
     }
 }
