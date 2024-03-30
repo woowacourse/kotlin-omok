@@ -90,8 +90,9 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
         var resultText = resources.getString(R.string.turn_player).format(nowOrderStone.output())
         recentPosition?.run {
             resultText += "\n"
-            resultText += resources.getString(R.string.last_stone_position)
-                .format(recentPosition.row, recentPosition.col)
+            resultText +=
+                resources.getString(R.string.last_stone_position)
+                    .format(recentPosition.row, recentPosition.col)
         }
         resultTextView.text = resultText
     }
@@ -116,7 +117,10 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
         }
     }
 
-    private fun OmokGame.progressTurn(stoneImageView: ImageView, index: Int) {
+    private fun OmokGame.progressTurn(
+        stoneImageView: ImageView,
+        index: Int,
+    ) {
         val position = Position(index / boardSize, index % boardSize)
         val placeType = turn(position)
         when (placeType) {
