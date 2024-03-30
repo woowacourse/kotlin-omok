@@ -25,6 +25,7 @@ import woowacourse.omok.model.rule.ban.OverlineForbiddenPlace
 import woowacourse.omok.model.rule.finish.AllForbiddenPositionFinishCondition
 import woowacourse.omok.model.rule.finish.FiveStonesFinishCondition
 import woowacourse.omok.model.rule.finish.FullBoardFinishCondition
+import woowacourse.omok.view.output
 
 class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
     private val omokPlayers: OmokPlayers
@@ -57,7 +58,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
         super.onResume()
         val board = Board(boardSize)
         val omokGame = OmokGame(board, omokPlayers, finishAction())
-        resultTextView.text = "흑의 차례입니다."
+        setProgressText(omokGame.nowOrderStone(), omokGame.recentPosition())
         boardView.setBoardView(omokGame)
         restartButton.setOnClickListener {
             restartGame(omokGame)
@@ -75,14 +76,31 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
 
             override fun onFinish(finishType: FinishType) {
                 isFinish = true
-                when (finishType) {
-                    FinishType.BLACK_PLAYER_WIN -> showToast("흑 승")
-                    FinishType.WHITE_PLAYER_WIN -> showToast("백 승")
-                    FinishType.DRAW -> showToast("무승부입니다")
-                    FinishType.NOT_FINISH -> {}
-                }
+                setResultText(finishType)
             }
         }
+    }
+
+    private fun setProgressText(
+        nowOrderStone: Stone,
+        recentPosition: Position?,
+    ) {
+        var resultText = resources.getString(R.string.turn_player).format(nowOrderStone.output())
+        recentPosition?.run {
+            resultText += "\n"
+            resultText += resources.getString(R.string.last_stone_position)
+                .format(recentPosition.row, recentPosition.col)
+        }
+        resultTextView.text = resultText
+    }
+
+    private fun setResultText(finishType: FinishType) {
+        if (finishType == FinishType.DRAW) {
+            resultTextView.text = resources.getString(R.string.result_draw)
+            return
+        }
+        resultTextView.text =
+            resources.getString(R.string.result_win).format(finishType.stone.output())
     }
 
     private fun TableLayout.setBoardView(omokGame: OmokGame) {
@@ -113,14 +131,13 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
             PlaceType.BLACK_PLACE -> stoneImageView.setImageResource(R.drawable.black_stone)
             PlaceType.WHITE_PLACE -> stoneImageView.setImageResource(R.drawable.white_stone)
             PlaceType.CANNOT_PLACE -> {
-                showToast("놓을 수 없음")
+                showToast(resources.getString(R.string.cannot_place_position))
                 return
             }
         }
-        resultTextView.text = """
-            ${if (placeType == PlaceType.BLACK_PLACE) "백" else "흑"}의 차례입니다.
-            최근 위치: ${this.recentPosition()?.row}, ${this.recentPosition()?.col}
-        """.trimMargin()
+
+        if (isFinish) return
+        setProgressText(nowOrderStone(), recentPosition())
     }
 
     private fun showToast(message: String) {
@@ -138,7 +155,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
             .forEachIndexed { index, stoneImage ->
                 stoneImage.setImageResource(0)
             }
-        resultTextView.text = "흑의 차례입니다."
+        setProgressText(omokGame.nowOrderStone(), omokGame.recentPosition())
     }
 
     companion object {

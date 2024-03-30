@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Omok</string>
+    <string name="turn_player">%s의 차례입니다.</string>
+    <string name="last_stone_position">마지막 돌의 위치 (%d, %d)</string>
+    <string name="cannot_place_position">놓을 수 없는 위치입니다.</string>
+    <string name="result_draw">무승부입니다.</string>
+    <string name="result_win">우승은 %s🎉 입니다.</string>
     <string name="game_restart">다시 시작</string>
-
 </resources>
