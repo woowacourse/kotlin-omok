@@ -34,28 +34,31 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
         val size = board.children.toMutableList().size
 
         when (val state = viewModel.selectOmok()) {
-            is UiState.Success -> {
-                (state as UiState.Success.Loaded).data.forEach { omok ->
-                    val row = Row(omok.rowComma)
-                    val column = Column(omok.columnComma)
+            is UiState.Success -> handleSelectedOmok(state, board, size)
+            is UiState.Failure -> showSnackbar(board, state.error)
+        }
+    }
 
-                    val view =
-                        board.children.filterIsInstance<TableRow>().flatMap { it.children }
-                            .filterIsInstance<ImageView>()
-                            .toList()[((row.toIntIndex() - 1) * size) + column.getIndex()]
+    private fun handleSelectedOmok(
+        state: UiState.Success,
+        board: TableLayout,
+        size: Int,
+    ) {
+        (state as UiState.Success.Loaded).data.forEach { omok ->
+            val row = Row(omok.rowComma)
+            val column = Column(omok.columnComma)
+            val view =
+                board.children.filterIsInstance<TableRow>().flatMap { it.children }
+                    .filterIsInstance<ImageView>()
+                    .toList()[((row.toIntIndex() - 1) * size) + column.getIndex()]
+            val turn = oMokGame.getTurn()
 
-                    val turn = oMokGame.getTurn()
-
-                    turn.toStoneIconRes()?.let { stoneIconRes ->
-                        if (oMokGame.executeTurn(row, column)) {
-                            view.setImageResource(stoneIconRes)
-                            handleTurnCompletion(view)
-                        }
-                    }
+            turn.toStoneIconRes()?.let { stoneIconRes ->
+                if (oMokGame.executeTurn(row, column)) {
+                    view.setImageResource(stoneIconRes)
+                    handleTurnCompletion(view)
                 }
             }
-
-            is UiState.Failure -> showSnackbar(board, state.error)
         }
     }
 
