@@ -42,24 +42,28 @@ class MainActivity : AppCompatActivity() {
         board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rows ->
             rows.children.filterIsInstance<ImageView>().forEachIndexed { columIndex, view ->
                 view.setOnClickListener {
-                    val forbiddenPositions =
-                        omok.renjuGameRule.findForbiddenPositions(omok.currentStone)
-                    if (omok.board.isRunning()) {
-                        if (requestPlayerMove(
-                                omok.currentStone,
-                                CoordsNumber(rowIndex),
-                                CoordsNumber(columIndex),
-                                forbiddenPositions
-                            )
-                        ) {
-                            updateUI()
-                        }
-                    }
-                    gameDao.saveGame(omok.board.gameBoard)
-                    gameDao.saveCurrentStone(omok.currentStone.ordinal)
+                    processPlayerMove(rowIndex, columIndex)
                 }
             }
         }
+    }
+
+    private fun processPlayerMove(rowIndex: Int, columIndex: Int) {
+        val forbiddenPositions =
+            omok.renjuGameRule.findForbiddenPositions(omok.currentStone)
+        if (omok.board.isRunning()) {
+            if (requestPlayerMove(
+                    omok.currentStone,
+                    CoordsNumber(rowIndex),
+                    CoordsNumber(columIndex),
+                    forbiddenPositions
+                )
+            ) {
+                updateUI()
+            }
+        }
+        gameDao.saveGame(omok.board.gameBoard)
+        gameDao.saveCurrentStone(omok.currentStone.ordinal)
     }
 
     fun resetBoard() {
