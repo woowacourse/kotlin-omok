@@ -1,4 +1,7 @@
-package woowacourse.omok
+package woowacourse.omok.model.state
+
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Coordinate
 
 sealed class GameState(val board: Board, val turn: Turn) {
     abstract fun placeStone(coordinate: Coordinate): GameState

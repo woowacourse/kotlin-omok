@@ -1,8 +1,8 @@
-package woowacourse.omok
+package woowacourse.omok.utils
 
 import omok.library.OmokRule
-import woowacourse.omok.state.CoordinateState
-import woowacourse.omok.state.Turn
+import woowacourse.omok.model.state.CoordinateState
+import woowacourse.omok.model.state.Turn
 
 class OmokRuleMapper {
     companion object {

@@ -1,11 +1,11 @@
 package woowacourse.omok.data.repository
 
 import android.content.Context
-import woowacourse.omok.Coordinate
 import woowacourse.omok.data.local.LocalDataSource
 import woowacourse.omok.data.local.SQLiteDataSource
 import woowacourse.omok.data.local.mapper.CoordinateMapper
 import woowacourse.omok.data.local.mapper.OmokEntityMapper
+import woowacourse.omok.model.Coordinate
 
 class RepositoryImpl(private val context: Context, private val localDataSource: LocalDataSource = SQLiteDataSource(context)) :
     Repository {

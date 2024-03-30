@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.model.state
 
 sealed interface Turn {
     fun nextTurn(): Turn

@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.ui
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -7,13 +7,16 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
+import woowacourse.omok.R
 import woowacourse.omok.databinding.ActivityMainBinding
-import woowacourse.omok.state.CoordinateState
-import woowacourse.omok.state.GameState
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Coordinate
+import woowacourse.omok.model.state.CoordinateState
+import woowacourse.omok.model.state.GameState
 import woowacourse.omok.utils.createVectorDrawable
 
 class MainActivity : AppCompatActivity(), GamePlayHandler {
-    private val gameManager = GameManager(this)
+    private val gameManager = GameManager(gamePlayHandler = this, context = this)
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var allPositions: List<ImageView>
     private val blackStoneDrawable: Drawable by lazy {
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
         setContentView(binding.root)
 
         initPosition()
+        gameManager.loadGame()
     }
 
     // View의 역할
@@ -52,7 +56,7 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
                 Snackbar.make(binding.root, R.string.game_over, Snackbar.LENGTH_SHORT)
                     .setAction(R.string.restart) {
                         resetPositionTag()
-                        gameManager.reset()
+                        gameManager.replay()
                     }
                     .show()
             }
@@ -62,25 +66,30 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
             if (allPositions[index].tag == NOT_PLACED) { // 비어 있음. Block 포함. 놓은 곳은 굳이 다시 그리지 않게. 비어있는 곳은 X표시하게.
                 allPositions[index].apply {
                     setImageDrawable(
-                    when(positionType) {
-                        CoordinateState.BlackStone -> {
-                            tag = PLACED
-                            blackStoneDrawable
-                        }
-                        CoordinateState.WhiteStone -> {
-                            tag = PLACED
-                            whiteStoneDrawable
-                        }
-                        CoordinateState.Forbidden -> {
-                            blockDrawable
-                        }
-                        CoordinateState.Empty -> {
-                            null
-                        }
-                    })
+                        when (positionType) {
+                            CoordinateState.BlackStone -> {
+                                tag = PLACED
+                                blackStoneDrawable
+                            }
+                            CoordinateState.WhiteStone -> {
+                                tag = PLACED
+                                whiteStoneDrawable
+                            }
+                            CoordinateState.Forbidden -> {
+                                blockDrawable
+                            }
+                            CoordinateState.Empty -> {
+                                null
+                            }
+                        },
+                    )
                 }
             }
         }
+    }
+
+    override fun onError(throwable: Throwable) {
+        Snackbar.make(binding.root, throwable.message.toString(), Snackbar.LENGTH_SHORT).show()
     }
 
     private fun resetPositionTag() {
@@ -88,6 +97,7 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
             it.tag = NOT_PLACED
         }
     }
+
     private fun initPosition() {
         allPositions =
             binding.board

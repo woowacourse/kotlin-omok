@@ -16,8 +16,11 @@ class OmokRule(
 
     fun isForbiddenUtilizable(): Boolean = currentStone == BLACK_STONE
 
-    fun isForbidden(i: Int, j: Int): Boolean {
-        if(!isForbiddenUtilizable()) return false
+    fun isForbidden(
+        i: Int,
+        j: Int,
+    ): Boolean {
+        if (!isForbiddenUtilizable()) return false
         return isThreeThree(i, j) || isFourFour(i, j) || isMoreThanFive(i, j)
     }
 

@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.model.state
 
 sealed interface PlaceResult {
     data object Omok : PlaceResult

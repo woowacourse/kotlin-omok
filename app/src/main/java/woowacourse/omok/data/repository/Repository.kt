@@ -1,6 +1,6 @@
 package woowacourse.omok.data.repository
 
-import woowacourse.omok.Coordinate
+import woowacourse.omok.model.Coordinate
 
 interface Repository {
     fun save(coordinate: Coordinate): Coordinate
