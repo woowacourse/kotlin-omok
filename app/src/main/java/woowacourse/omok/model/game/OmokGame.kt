@@ -46,6 +46,11 @@ class OmokGame(
 
     fun recentPosition() = turnHistory.recentPosition
 
+    fun restart() {
+        turnHistory.clear()
+        board.clear()
+    }
+
     private fun finishType(
         board: Board,
         recentPosition: Position,

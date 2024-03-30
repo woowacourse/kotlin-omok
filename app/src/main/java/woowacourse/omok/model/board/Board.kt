@@ -4,7 +4,7 @@ import woowacourse.omok.model.player.Player
 
 class Board(
     val size: Int,
-    private val _board: MutableMap<Position, Stone> = initBoard(size),
+    private var _board: MutableMap<Position, Stone> = initBoard(size),
 ) {
     val board: Map<Position, Stone>
         get() = _board.toMap()
@@ -30,6 +30,10 @@ class Board(
 
     fun isFull(): Boolean {
         return _board.all { it.value != Stone.NONE }
+    }
+
+    fun clear() {
+        _board = initBoard(size)
     }
 
     companion object {

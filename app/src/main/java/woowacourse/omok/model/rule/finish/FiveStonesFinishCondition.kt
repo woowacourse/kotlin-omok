@@ -27,8 +27,8 @@ class FiveStonesFinishCondition : FinishCondition {
         position: Position,
         direction: Direction,
     ): Int {
-        val stone = board.find(position)
         var count = 0
+        val stone = runCatching { board.find(position) }.getOrNull() ?: return count
         var nowPosition = position
 
         while (true) {

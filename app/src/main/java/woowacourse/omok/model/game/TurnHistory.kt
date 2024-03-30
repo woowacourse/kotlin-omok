@@ -13,4 +13,9 @@ class TurnHistory(private val omokPlayers: OmokPlayers) {
         recentPlayer = omokPlayers.next(recentPlayer)
         recentPosition = position
     }
+
+    fun clear() {
+        recentPlayer = omokPlayers.firstOrderPlayer()
+        recentPosition = null
+    }
 }
