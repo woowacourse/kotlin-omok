@@ -49,28 +49,38 @@ class MainActivity : AppCompatActivity() {
         positions: List<ImageView>,
     ) {
         view.setOnClickListener {
-            val position = putStone(index, view)
-            val isOmok = stone.findOmok(position)
-            if (isOmok) {
-                endGame(positions, view)
-            }
-            stone = omokGame.changeStone(stone.stoneType)
+            putStone(index, view, positions)
         }
     }
 
     private fun putStone(
         index: Int,
         view: ImageView,
+        positions: List<ImageView>,
     ): Position {
         val position = OmokBoardAdapter.convertIndexToPosition(index)
-        HandlingExceptionUtils.retryUntilSuccess(view) {
-            stone.putStone(position)
-            val entry = OmokEntry(stone.stoneType.type, index)
-            dao.save(entry)
-            view.setImageResource(OmokBoardAdapter.convertStoneTypeToDrawable(stone.stoneType))
+        val stoneType =
+            HandlingExceptionUtils.retryUntilSuccess(view) {
+                stone.putStone(position)
+            }
+
+        stoneType?.let {
+            saveData(index)
+            showStone(view)
+            if (stone.findOmok(position)) {
+                endGame(positions, view)
+            }
+            stone = omokGame.changeStone(it)
         }
         return position
     }
+
+    private fun saveData(index: Int) {
+        val entry = OmokEntry(stone.stoneType.type, index)
+        dao.save(entry)
+    }
+
+    private fun showStone(view: ImageView) = view.setImageResource(OmokBoardAdapter.convertStoneTypeToDrawable(stone.stoneType))
 
     private fun endGame(
         positions: List<ImageView>,
