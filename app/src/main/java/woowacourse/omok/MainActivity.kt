@@ -6,8 +6,16 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.entity.Point
+import woowacourse.omok.model.entity.StoneColor
+import woowacourse.omok.model.turn.BlackTurn
+import woowacourse.omok.model.turn.Finished
+import woowacourse.omok.model.turn.Turn
 import woowacourse.omok.view.output.AndroidOutputView
 import woowacourse.omok.view.output.OutputView
+
+var currentTurn: Turn = BlackTurn(Board())
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,18 +25,39 @@ class MainActivity : AppCompatActivity() {
         val board = findViewById<TableLayout>(R.id.board)
         val outputView: OutputView = AndroidOutputView(board)
 
-        board
-            .children
+        printStartGuide(outputView)
+        board.children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEach { view ->
+            .forEachIndexed { index, view ->
                 view.setOnClickListener {
-                    view.setImageResource(R.drawable.black_stone)
+                    val x = index % 15 + 1
+                    val y = 15 - (index / 15)
+                    val point = Point(x, y)
+
+                    val previousTurn: Turn = currentTurn
+                    currentTurn =
+                        currentTurn.placeStone(
+                            point,
+                            outputView::printInAppropriatePlace,
+                        )
+
+                    if (previousTurn.board == currentTurn.board) {
+                        return@setOnClickListener
+                    }
+
+                    if (previousTurn.color() == StoneColor.BLACK) {
+                        view.setImageResource(R.drawable.black_stone)
+                    } else {
+                        view.setImageResource(R.drawable.white_stone)
+                    }
+
+                    if (currentTurn is Finished) {
+                        outputView.printWinner(currentTurn.board)
+                    }
                 }
             }
-
-        printStartGuide(outputView)
     }
 
     private fun printStartGuide(outputView: OutputView) {
