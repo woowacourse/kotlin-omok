@@ -1,7 +1,7 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.board.Position
-import omok.model.board.Stone
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.Stone
 
 fun Stone.output(): String = if (this == Stone.BLACK) "흑" else "백"
 

@@ -1,9 +1,9 @@
-package omok.model.player
+package woowacourse.omok.model.player
 
-import omok.model.board.Board
-import omok.model.board.Position
-import omok.model.board.Stone
-import omok.model.rule.ban.ForbiddenPlace
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.rule.ban.ForbiddenPlace
 
 class Player(val stone: Stone, private val forbiddenPlaces: List<ForbiddenPlace> = listOf()) {
     fun canPlace(

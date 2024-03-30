@@ -1,19 +1,19 @@
-package omok.controller
+package woowacourse.omok.controller
 
-import omok.model.board.Board
-import omok.model.board.Position
-import omok.model.board.Stone
-import omok.model.game.OmokGame
-import omok.model.game.OmokPlayers
-import omok.model.game.OmokTurnAction
-import omok.model.player.Player
-import omok.model.rule.ban.DoubleFourForbiddenPlace
-import omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
-import omok.model.rule.ban.OverlineForbiddenPlace
-import omok.view.BoardView
-import omok.view.ResultView
-import omok.view.StartView
-import omok.view.StonePositionView
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.game.OmokGame
+import woowacourse.omok.model.game.OmokPlayers
+import woowacourse.omok.model.game.OmokTurnAction
+import woowacourse.omok.model.player.Player
+import woowacourse.omok.model.rule.ban.DoubleFourForbiddenPlace
+import woowacourse.omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
+import woowacourse.omok.model.rule.ban.OverlineForbiddenPlace
+import woowacourse.omok.view.BoardView
+import woowacourse.omok.view.ResultView
+import woowacourse.omok.view.StartView
+import woowacourse.omok.view.StonePositionView
 
 class OmokController(
     private val stonePositionView: StonePositionView,

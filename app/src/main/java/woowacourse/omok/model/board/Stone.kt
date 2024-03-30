@@ -1,4 +1,4 @@
-package omok.model.board
+package woowacourse.omok.model.board
 
 enum class Stone {
     BLACK,

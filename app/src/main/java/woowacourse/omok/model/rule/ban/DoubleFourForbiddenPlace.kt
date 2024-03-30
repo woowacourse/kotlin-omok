@@ -1,9 +1,9 @@
-package omok.model.rule.ban
+package woowacourse.omok.model.rule.ban
 
-import omok.model.board.Board
-import omok.model.board.Position
-import omok.model.rule.RuleAdapter
-import omok.model.rule.library.FourFourRule
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.rule.RuleAdapter
+import woowacourse.omok.model.rule.library.FourFourRule
 
 class DoubleFourForbiddenPlace : ForbiddenPlace {
     override fun availablePosition(

@@ -1,4 +1,4 @@
-package omok.model.board
+package woowacourse.omok.model.board
 
 enum class Direction(val row: Int, val col: Int) {
     UP(-1, 0),

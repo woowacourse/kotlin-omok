@@ -1,6 +1,6 @@
-package omok.model.board
+package woowacourse.omok.model.board
 
-import omok.model.player.Player
+import woowacourse.omok.model.player.Player
 
 class Board(
     val size: Int,

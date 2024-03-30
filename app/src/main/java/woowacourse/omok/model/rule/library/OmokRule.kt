@@ -1,4 +1,4 @@
-package omok.model.rule.library
+package woowacourse.omok.model.rule.library
 
 abstract class OmokRule(
     boardSize: Int,

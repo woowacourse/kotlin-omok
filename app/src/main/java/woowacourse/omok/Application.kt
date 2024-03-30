@@ -1,10 +1,10 @@
-package omok
+package woowacourse.omok
 
-import omok.controller.OmokController
-import omok.view.BoardView
-import omok.view.ResultView
-import omok.view.StartView
-import omok.view.StonePositionView
+import woowacourse.omok.controller.OmokController
+import woowacourse.omok.view.BoardView
+import woowacourse.omok.view.ResultView
+import woowacourse.omok.view.StartView
+import woowacourse.omok.view.StonePositionView
 
 fun main() {
     OmokController(

@@ -1,4 +1,4 @@
-package omok.utils
+package woowacourse.omok.utils
 
 fun <T> retryUntilNotException(block: () -> (T)): T {
     return try {

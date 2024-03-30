@@ -1,7 +1,7 @@
-package omok.model.rule.ban
+package woowacourse.omok.model.rule.ban
 
-import omok.model.board.Board
-import omok.model.board.Position
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Position
 
 interface ForbiddenPlace {
     fun availablePosition(

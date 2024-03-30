@@ -1,8 +1,8 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.board.Board
-import omok.model.board.Position
-import omok.model.board.Stone
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.Stone
 
 class BoardView {
     fun print(board: Board) {
@@ -53,7 +53,7 @@ class BoardView {
         val stone = find(position)
         when (position.col) {
             0 -> stone.printBoardSingleAxis(" ${BLACK_STONE}─", " ${WHITE_STONE}─", firstCol)
-            size - 1 -> stone.printBoardSingleAxis("─${BLACK_STONE} ", "─${WHITE_STONE} ", endCol)
+            size - 1 -> stone.printBoardSingleAxis("─$BLACK_STONE ", "─$WHITE_STONE ", endCol)
             else -> stone.printBoardSingleAxis("─${BLACK_STONE}─", "─${WHITE_STONE}─", middleCol)
         }
     }

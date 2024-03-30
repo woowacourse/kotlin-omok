@@ -1,4 +1,4 @@
-package omok.model.rule.library
+package woowacourse.omok.model.rule.library
 
 class FourFourRule(boardSize: Int) : OmokRule(boardSize) {
     override fun abide(

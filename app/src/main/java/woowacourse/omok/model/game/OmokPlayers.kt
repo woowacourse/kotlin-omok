@@ -1,6 +1,6 @@
-package omok.model.game
+package woowacourse.omok.model.game
 
-import omok.model.player.Player
+import woowacourse.omok.model.player.Player
 
 class OmokPlayers(val blackStonePlayer: Player, val whiteStonePlayer: Player) {
     fun firstOrderPlayer() = blackStonePlayer

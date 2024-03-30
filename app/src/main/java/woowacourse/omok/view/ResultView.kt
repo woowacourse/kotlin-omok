@@ -1,6 +1,6 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.game.FinishType
+import woowacourse.omok.model.game.FinishType
 
 class ResultView {
     fun print(finishType: FinishType) {

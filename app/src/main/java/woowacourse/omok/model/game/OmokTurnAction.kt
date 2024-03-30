@@ -1,8 +1,8 @@
-package omok.model.game
+package woowacourse.omok.model.game
 
-import omok.model.board.Board
-import omok.model.board.Position
-import omok.model.board.Stone
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.Stone
 
 interface OmokTurnAction {
     fun nextStonePosition(

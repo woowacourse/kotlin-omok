@@ -1,13 +1,13 @@
-package omok.model.game
+package woowacourse.omok.model.game
 
-import omok.model.board.Board
-import omok.model.board.Position
-import omok.model.player.Player
-import omok.model.rule.finish.AllForbiddenPositionFinishCondition
-import omok.model.rule.finish.FinishCondition
-import omok.model.rule.finish.FiveStonesFinishCondition
-import omok.model.rule.finish.FullBoardFinishCondition
-import omok.utils.retryUntilNotException
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.player.Player
+import woowacourse.omok.model.rule.finish.AllForbiddenPositionFinishCondition
+import woowacourse.omok.model.rule.finish.FinishCondition
+import woowacourse.omok.model.rule.finish.FiveStonesFinishCondition
+import woowacourse.omok.model.rule.finish.FullBoardFinishCondition
+import woowacourse.omok.utils.retryUntilNotException
 
 class OmokGame(
     private val board: Board,
