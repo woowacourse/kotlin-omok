@@ -1,19 +1,13 @@
 package woowacourse.omok.ui
 
-import android.content.Context
 import woowacourse.omok.data.repository.Repository
-import woowacourse.omok.data.repository.RepositoryImpl
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.Coordinate
 import woowacourse.omok.model.state.GameState
 
 class GameManager(
     private val gamePlayHandler: GamePlayHandler,
-    context: Context,
-    private val repository: Repository =
-        RepositoryImpl(
-            context,
-        ),
+    private val repository: Repository,
 ) {
     private var gameState: GameState = GameState.Playing.Start(Board())
 

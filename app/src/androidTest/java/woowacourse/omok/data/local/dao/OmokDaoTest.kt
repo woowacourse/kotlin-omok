@@ -39,7 +39,10 @@ class OmokDaoTest {
 
         val actual = omokDao.findAll()
 
-        assertThat(actual).isNotEmpty()
         assertThat(actual.size).isEqualTo(2)
+        assertThat(actual[0].x).isEqualTo(2)
+        assertThat(actual[0].y).isEqualTo(3)
+        assertThat(actual[1].x).isEqualTo(4)
+        assertThat(actual[1].y).isEqualTo(5)
     }
 }

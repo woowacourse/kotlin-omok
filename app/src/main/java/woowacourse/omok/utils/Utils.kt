@@ -7,6 +7,6 @@ import androidx.core.content.ContextCompat
 fun createVectorDrawable(
     context: Context,
     vectorResId: Int,
-): Drawable {
-    return ContextCompat.getDrawable(context, vectorResId)!!
+): Drawable? {
+    return ContextCompat.getDrawable(context, vectorResId)
 }

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import woowacourse.omok.R
+import woowacourse.omok.data.repository.RepositoryImpl
 import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.Coordinate
@@ -16,16 +17,16 @@ import woowacourse.omok.model.state.GameState
 import woowacourse.omok.utils.createVectorDrawable
 
 class MainActivity : AppCompatActivity(), GamePlayHandler {
-    private val gameManager = GameManager(gamePlayHandler = this, context = this)
+    private val gameManager = GameManager(gamePlayHandler = this, repository = RepositoryImpl(this))
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private lateinit var allPositions: List<ImageView>
-    private val blackStoneDrawable: Drawable by lazy {
+    private lateinit var allCoordinateViews: List<ImageView>
+    private val blackStoneDrawable: Drawable? by lazy {
         createVectorDrawable(applicationContext, R.drawable.black_stone)
     }
-    private val whiteStoneDrawable: Drawable by lazy {
+    private val whiteStoneDrawable: Drawable? by lazy {
         createVectorDrawable(applicationContext, R.drawable.white_stone)
     }
-    private val blockDrawable: Drawable by lazy {
+    private val blockDrawable: Drawable? by lazy {
         createVectorDrawable(applicationContext, R.drawable.block)
     }
 
@@ -33,16 +34,20 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        initPosition()
+        initViews()
         gameManager.loadGame()
     }
 
-    // View의 역할
-    private fun Int.toCoordinate(): Coordinate = Coordinate(this / Board.BOARD_SIZE, this % Board.BOARD_SIZE)
-
     override fun onUpdate(gameState: GameState) {
-        val copiedBoard = gameState.board.boardLayout
+        showGameState(gameState)
+        drawDiff(gameState.board)
+    }
 
+    override fun onError(throwable: Throwable) {
+        Snackbar.make(binding.root, throwable.message.toString(), Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun showGameState(gameState: GameState) {
         when (gameState) {
             is GameState.Playing.Start -> {
             }
@@ -55,16 +60,18 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
             is GameState.Finish -> {
                 Snackbar.make(binding.root, R.string.game_over, Snackbar.LENGTH_SHORT)
                     .setAction(R.string.restart) {
-                        resetPositionTag()
+                        resetViewTags()
                         gameManager.replay()
                     }
                     .show()
             }
         }
+    }
 
-        copiedBoard.flatten().forEachIndexed { index, positionType ->
-            if (allPositions[index].tag == NOT_PLACED) { // 비어 있음. Block 포함. 놓은 곳은 굳이 다시 그리지 않게. 비어있는 곳은 X표시하게.
-                allPositions[index].apply {
+    private fun drawDiff(board: Board) {
+        board.boardLayout.flatten().forEachIndexed { index, positionType ->
+            if (allCoordinateViews[index].tag == NOT_PLACED) {
+                allCoordinateViews[index].apply {
                     setImageDrawable(
                         when (positionType) {
                             CoordinateState.BlackStone -> {
@@ -88,18 +95,8 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
         }
     }
 
-    override fun onError(throwable: Throwable) {
-        Snackbar.make(binding.root, throwable.message.toString(), Snackbar.LENGTH_SHORT).show()
-    }
-
-    private fun resetPositionTag() {
-        allPositions.forEach {
-            it.tag = NOT_PLACED
-        }
-    }
-
-    private fun initPosition() {
-        allPositions =
+    private fun initViews() {
+        allCoordinateViews =
             binding.board
                 .children
                 .filterIsInstance<TableRow>()
@@ -107,7 +104,7 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
                 .filterIsInstance<ImageView>()
                 .toList()
 
-        allPositions.forEachIndexed {
+        allCoordinateViews.forEachIndexed {
                 index, view ->
             view.tag = NOT_PLACED
             view.setOnClickListener {
@@ -115,6 +112,14 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
             }
         }
     }
+
+    private fun resetViewTags() {
+        allCoordinateViews.forEach {
+            it.tag = NOT_PLACED
+        }
+    }
+
+    private fun Int.toCoordinate(): Coordinate = Coordinate(this / Board.BOARD_SIZE, this % Board.BOARD_SIZE)
 
     companion object {
         private const val PLACED = 1

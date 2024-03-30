@@ -19,7 +19,7 @@ class Board(
     val boardLayout: List<List<CoordinateState>>
         get() = _boardLayout
 
-    var omokRule: OmokRule = OmokRuleMapper.map(currentTurn, boardLayout, boardSize)
+    private var omokRule: OmokRule = OmokRuleMapper.map(currentTurn, boardLayout, boardSize)
 
     private fun getStoneFromTurn(): CoordinateState {
         return when (currentTurn) {
