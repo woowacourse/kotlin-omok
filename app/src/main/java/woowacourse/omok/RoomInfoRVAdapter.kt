@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import woowacourse.omok.model.database.Room
 
 class RoomInfoRVAdapter(
     private val rooms: List<Room>,

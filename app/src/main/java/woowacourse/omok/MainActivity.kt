@@ -17,14 +17,13 @@ import woowacourse.omok.model.state.GameState
 
 class MainActivity : AppCompatActivity() {
     private val placementData: Board by lazy { Board() }
+    private val placementDao: PlacementDao by lazy { PlacementDao(this) }
     private lateinit var gameState: GameState
-    private lateinit var placementDao: PlacementDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        placementDao = PlacementDao(this)
         val gameId = intent.getLongExtra(GAME_ID, 0)
         val gameTitle = intent.getStringExtra(GAME_TITLE)
         val placedIndexItems = placementDao.findAll(gameId).map { it.index }

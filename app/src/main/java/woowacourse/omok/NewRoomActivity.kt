@@ -1,14 +1,13 @@
 package woowacourse.omok
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import woowacourse.omok.model.database.GameRoomContract
-import woowacourse.omok.model.database.GameRoomDbHelper
+import woowacourse.omok.model.database.GameRoomDao
+import woowacourse.omok.model.database.Room
 import woowacourse.omok.model.state.GameState
 
 class NewRoomActivity : AppCompatActivity() {
@@ -16,8 +15,7 @@ class NewRoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_room)
 
-        val gameRoomDbHelper = GameRoomDbHelper(this)
-        val gameRoomDb = gameRoomDbHelper.writableDatabase
+        val gameRoomDao = GameRoomDao(this)
         val startButton = findViewById<Button>(R.id.btn_start)
         val gameNameInput =
             findViewById<EditText>(R.id.et_new_game).apply {
@@ -29,16 +27,12 @@ class NewRoomActivity : AppCompatActivity() {
             }
 
         startButton.setOnClickListener {
-            val name = gameNameInput.text.toString()
-            val values =
-                ContentValues().apply {
-                    put(GameRoomContract.COLUMN_TITLE, name)
-                    put(GameRoomContract.COLUMN_STATUS, GameState.OnProgress::class.simpleName)
-                }
-            val gameId = gameRoomDb.insert(GameRoomContract.TABLE_NAME, null, values)
+            val roomInfo = Room(title = gameNameInput.text.toString(), status = GameState.OnProgress::class.simpleName)
+            val gameId = gameRoomDao.save(roomInfo).id
             Intent(this, MainActivity::class.java).also {
                 it.putExtra(GAME_ID, gameId)
                 startActivity(it)
+                finish()
             }
         }
     }
