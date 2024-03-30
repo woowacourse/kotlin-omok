@@ -15,27 +15,27 @@ class OmokGame(
         var recentPosition: Position? = null
 
         while (true) {
-            val next = recentPosition.next(recentPlayer, nextStonePosition)
-            if (next == recentPosition || next == null) {
-                continue
-            }
-            recentPosition = next
-            nextStonePositionResult()
+            val nextPosition = nextPosition(recentPosition, recentPlayer, nextStonePosition, nextStonePositionResult)
+            if (nextPosition == null || nextPosition == recentPosition) continue
+            recentPosition = nextPosition
             if (recentPlayer.isWin(board, recentPosition)) break
             recentPlayer = players.nextOrder(recentPlayer)
         }
         return recentPlayer
     }
 
-    private fun Position?.next(
+    fun nextPosition(
+        currentPosition: Position?,
         recentPlayer: Player,
         nextStonePosition: (Player, Position?) -> Position,
+        nextStonePositionResult: () -> Unit,
     ): Position? {
-        val nextPosition = nextStonePosition(recentPlayer, this)
+        val nextPosition = nextStonePosition(recentPlayer, currentPosition)
         if (validPosition.any { !it.valid(board, nextPosition, recentPlayer) }) {
-            return this // 현 위치ㅣ 리턴
+            return currentPosition
         }
         board.place(nextPosition, recentPlayer)
+        nextStonePositionResult()
         return nextPosition
     }
 }
