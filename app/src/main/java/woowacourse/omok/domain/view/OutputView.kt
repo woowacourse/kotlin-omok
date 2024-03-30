@@ -118,11 +118,11 @@ object OutputView {
     }
 
     fun printWinner(board: Board) {
-        val winner = generateWinnerMessage(board.beforeStone?.type)
+        val winner = generateStoneTypeMessage(board.beforeStone?.type)
         println(MESSAGE_WINNER.format(winner))
     }
 
-    fun generateWinnerMessage(stoneType: StoneType?): String {
+    fun generateStoneTypeMessage(stoneType: StoneType?): String {
         return when (stoneType) {
             StoneType.BLACK -> STONE_TYPE_BLACK
             StoneType.WHITE -> STONE_TYPE_WHITE

@@ -23,13 +23,13 @@ import woowacourse.omok.domain.view.OutputView.MESSAGE_INVALID_POINT_INPUT
 import woowacourse.omok.domain.view.OutputView.MESSAGE_TURN
 import woowacourse.omok.domain.view.OutputView.MESSAGE_WINNER
 import woowacourse.omok.domain.view.OutputView.STONE_TYPE_BLACK
+import woowacourse.omok.domain.view.OutputView.generateStoneTypeMessage
 import woowacourse.omok.domain.view.OutputView.generateTurnMessage
-import woowacourse.omok.domain.view.OutputView.generateWinnerMessage
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var board: Board
-    private lateinit var ruleAdapter: RuleAdapter
-    private lateinit var turn: Turn
+    private var board: Board = Board(BOARD_SIZE)
+    private var ruleAdapter: RuleAdapter = RuleAdapter(board)
+    private var turn: Turn = BlackTurn()
     private var onGame: Boolean = true
     private var toast: Toast? = null
     private val omokDao: OmokDao by lazy { OmokDao(this) }
@@ -47,23 +47,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        gameSetting()
+    }
+
+    private fun gameSetting() {
         setUpTableLayoutBoard()
         setUpRestartButton()
-
-        gameStart()
+        setUpBoardUi()
+        setUpGameState()
     }
 
     private fun setUpTableLayoutBoard() {
         tableLayoutBoard.forEachIndexed { index, view ->
-            val x = index / BOARD_SIZE
-            val y = index % BOARD_SIZE
+            val x = index % BOARD_SIZE
+            val y = BOARD_SIZE - 1 - (index / BOARD_SIZE)
 
             view.setOnClickListener {
                 if (!onGame) {
                     displayMessage(MESSAGE_GAME_END)
                     return@setOnClickListener
                 }
-                progressGameTurn(Point(y, 14 - x), view)
+                progressGameTurn(Point(x, y), view)
                 onGame = judgeGameState()
             }
         }
@@ -76,18 +80,42 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun gameStart() {
+    private fun setUpBoardUi() {
+        val stones = omokDao.findAllStones()
+        stones.forEach { stone ->
+            turn = board.putStone(stone, turn, ruleAdapter)
+            val index = (BOARD_SIZE - stone.point.y - 1) * BOARD_SIZE + stone.point.x
+            tableLayoutBoard[index].setImageResource(getStoneImage(stone.type))
+        }
+    }
+
+    private fun setUpGameState() {
+        val beforeStone = board.beforeStone
+        if (beforeStone != null) {
+            onGame = !ruleAdapter.checkWin(beforeStone)
+        }
+        if (onGame) {
+            displayMessage(
+                MESSAGE_GAME_START +
+                    MESSAGE_TURN.format(
+                        generateStoneTypeMessage(
+                            turn.stoneType,
+                        ),
+                    ),
+            )
+        } else {
+            displayMessage(MESSAGE_GAME_END)
+        }
+    }
+
+    private fun gameRestart() {
         board = Board(BOARD_SIZE)
         ruleAdapter = RuleAdapter(board)
         turn = BlackTurn()
         onGame = true
-        displayMessage(MESSAGE_GAME_START + MESSAGE_TURN.format(STONE_TYPE_BLACK))
-    }
-
-    private fun gameRestart() {
         tableLayoutBoard.forEach { it.setImageResource(0) }
         omokDao.deleteAllStones()
-        gameStart()
+        displayMessage(MESSAGE_GAME_START + MESSAGE_TURN.format(STONE_TYPE_BLACK))
     }
 
     private fun progressGameTurn(
@@ -116,7 +144,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun judgeGameState(): Boolean {
         if (turn is FinishedTurn) {
-            displayMessage(MESSAGE_WINNER.format(generateWinnerMessage(board.beforeStone?.type)))
+            displayMessage(MESSAGE_WINNER.format(generateStoneTypeMessage(board.beforeStone?.type)))
             return false
         }
         return true

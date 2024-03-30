@@ -9,7 +9,7 @@ sealed class Turn {
     ): Turn {
         if (ruleAdapter.checkForbidden(stone)) return this
         if (ruleAdapter.checkWin(stone)) return FinishedTurn(stoneType)
-        return when (stoneType) {
+        return when (stone.type) {
             StoneType.BLACK -> WhiteTurn()
             StoneType.WHITE -> BlackTurn()
             StoneType.EMPTY -> FinishedTurn(stoneType)

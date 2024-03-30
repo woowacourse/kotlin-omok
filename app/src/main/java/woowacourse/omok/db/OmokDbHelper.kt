@@ -18,7 +18,7 @@ class OmokDbHelper(context: Context) :
                 "  $STONE_TYPE text,\n" +
                 "  $POINT_X int,\n" +
                 "  $POINT_Y int\n" +
-                ");"
+                ")"
 
         db.execSQL(sql)
     }
