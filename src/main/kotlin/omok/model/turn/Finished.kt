@@ -1,11 +1,13 @@
 package omok.model.turn
 
 import omok.model.Board
-import omok.model.entity.Point
 import omok.model.entity.StoneColor
+import omok.model.rule.Rule
 
 class Finished(board: Board) : Turn(board) {
-    override fun placeStone(point: Point): Turn {
+    override val prohibitedRules: List<Rule> = listOf()
+
+    override fun destination(board: Board): Turn {
         throw IllegalStateException()
     }
 

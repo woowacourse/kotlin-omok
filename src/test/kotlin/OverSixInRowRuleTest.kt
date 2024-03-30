@@ -13,8 +13,8 @@ class OverSixInRowRuleTest {
                 .place(3, 1)
                 .place(4, 1)
                 .place(5, 1)
-                .place(6, 1)
-        val actual = OverSixInRowRule.check(board)
+        val stone = stone(6, 1)
+        val actual = OverSixInRowRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -27,8 +27,8 @@ class OverSixInRowRuleTest {
                 .place(3, 3)
                 .place(4, 4)
                 .place(5, 5)
-                .place(6, 6)
-        val actual = OverSixInRowRule.check(board)
+        val stone = stone(6, 6)
+        val actual = OverSixInRowRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -41,8 +41,8 @@ class OverSixInRowRuleTest {
                 .place(1, 3)
                 .place(1, 4)
                 .place(1, 5)
-                .place(1, 6)
-        val actual = OverSixInRowRule.check(board)
+        val stone = stone(1, 6)
+        val actual = OverSixInRowRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -55,8 +55,8 @@ class OverSixInRowRuleTest {
                 .place(4, 3)
                 .place(3, 4)
                 .place(2, 5)
-                .place(1, 6)
-        val actual = OverSixInRowRule.check(board)
+        val stone = stone(1, 6)
+        val actual = OverSixInRowRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 }

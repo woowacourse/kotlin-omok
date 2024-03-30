@@ -13,9 +13,9 @@ class ThreeByThreeTest {
                 .place(4, 6)
                 .place(5, 4)
                 .place(6, 4)
-                .place(4, 4)
+        val stone = stone(4, 4)
 
-        val actual = ThreeByThreeRule.check(board)
+        val actual = ThreeByThreeRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -27,9 +27,9 @@ class ThreeByThreeTest {
                 .place(4, 6)
                 .place(6, 4)
                 .place(7, 4)
-                .place(4, 4)
+        val stone = stone(4, 4)
 
-        val actual = ThreeByThreeRule.check(board)
+        val actual = ThreeByThreeRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -41,9 +41,9 @@ class ThreeByThreeTest {
                 .place(4, 6)
                 .place(5, 4)
                 .place(7, 4)
-                .place(4, 4)
+        val stone = stone(4, 4)
 
-        val actual = ThreeByThreeRule.check(board)
+        val actual = ThreeByThreeRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -55,9 +55,9 @@ class ThreeByThreeTest {
                 .place(5, 4)
                 .place(4, 3)
                 .place(4, 5)
-                .place(4, 4)
+        val stone = stone(4, 4)
 
-        val actual = ThreeByThreeRule.check(board)
+        val actual = ThreeByThreeRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -71,9 +71,9 @@ class ThreeByThreeTest {
                 .place(5, 4)
                 .place(4, 3)
                 .place(4, 5)
-                .place(4, 4)
+        val stone = stone(4, 4)
 
-        val actual = ThreeByThreeRule.check(board)
+        val actual = ThreeByThreeRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -85,9 +85,9 @@ class ThreeByThreeTest {
                 .place(6, 4)
                 .place(4, 3)
                 .place(4, 6)
-                .place(4, 4)
+        val stone = stone(4, 4)
 
-        val actual = ThreeByThreeRule.check(board)
+        val actual = ThreeByThreeRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -100,9 +100,9 @@ class ThreeByThreeTest {
                 .place(2, 1)
                 .place(2, 3)
                 .place(2, 4)
-                .place(2, 2)
+        val stone = stone(2, 2)
 
-        val actual = ThreeByThreeRule.check(board)
+        val actual = ThreeByThreeRule.check(stone, board)
         assertThat(actual).isFalse()
     }
 
@@ -115,9 +115,9 @@ class ThreeByThreeTest {
                 .place(7, 5)
                 .place(5, 3)
                 .place(5, 4)
-                .place(5, 5)
+        val stone = stone(5, 5)
 
-        val actual = ThreeByThreeRule.check(board)
+        val actual = ThreeByThreeRule.check(stone, board)
         assertThat(actual).isFalse()
     }
 
@@ -131,9 +131,9 @@ class ThreeByThreeTest {
                 .place(5, 3, StoneColor.BLACK)
                 .place(2, 5, StoneColor.WHITE)
                 .place(8, 5, StoneColor.WHITE)
-                .place(5, 5, StoneColor.BLACK)
+        val stone = stone(5, 5)
 
-        val actual = ThreeByThreeRule.check(board)
+        val actual = ThreeByThreeRule.check(stone, board)
         assertThat(actual).isFalse()
     }
 
@@ -145,8 +145,8 @@ class ThreeByThreeTest {
                 .place(15, 5)
                 .place(13, 3)
                 .place(13, 4)
-                .place(13, 5)
-        val actual = ThreeByThreeRule.check(board)
+        val stone = stone(13, 5)
+        val actual = ThreeByThreeRule.check(stone, board)
         assertThat(actual).isFalse()
     }
 }

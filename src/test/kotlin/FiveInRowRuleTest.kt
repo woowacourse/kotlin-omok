@@ -13,7 +13,7 @@ class FiveInRowRuleTest {
         val board = Board()
         val point = Point(1, 1)
         val stone = Stone(point, StoneColor.BLACK)
-        val nextBoard = BlackTurn(board).placeStone(point).board
+        val nextBoard = BlackTurn(board).nextTurn(point).board
         val actual = nextBoard.previousStone()
         assertThat(actual).isEqualTo(stone)
     }
@@ -26,8 +26,8 @@ class FiveInRowRuleTest {
                 .place(2, 1)
                 .place(3, 1)
                 .place(4, 1)
-                .place(5, 1)
-        val actual = FiveInRowRule.check(board)
+        val stone = stone(5, 1)
+        val actual = FiveInRowRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -39,8 +39,8 @@ class FiveInRowRuleTest {
                 .place(2, 2)
                 .place(3, 3)
                 .place(4, 4)
-                .place(5, 5)
-        val actual = FiveInRowRule.check(board)
+        val stone = stone(5, 5)
+        val actual = FiveInRowRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -52,8 +52,8 @@ class FiveInRowRuleTest {
                 .place(1, 2)
                 .place(1, 3)
                 .place(1, 4)
-                .place(1, 5)
-        val actual = FiveInRowRule.check(board)
+        val stone = stone(1, 5)
+        val actual = FiveInRowRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -65,8 +65,8 @@ class FiveInRowRuleTest {
                 .place(4, 2)
                 .place(3, 3)
                 .place(2, 4)
-                .place(1, 5)
-        val actual = FiveInRowRule.check(board)
+        val stone = stone(1, 5)
+        val actual = FiveInRowRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -78,8 +78,8 @@ class FiveInRowRuleTest {
                 .place(2, 2)
                 .place(1, 3)
                 .place(2, 4)
-                .place(1, 5)
-        val actual = FiveInRowRule.check(board)
+        val stone = stone(1, 5)
+        val actual = FiveInRowRule.check(stone, board)
         assertThat(actual).isFalse()
     }
 }

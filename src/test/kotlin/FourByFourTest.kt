@@ -15,9 +15,9 @@ class FourByFourTest {
                 .place(6, 4)
                 .place(6, 5)
                 .place(6, 6)
-                .place(6, 3)
+        val stone = stone(6, 3)
 
-        val actual = FourByFourRule.check(board)
+        val actual = FourByFourRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -32,9 +32,9 @@ class FourByFourTest {
                 .place(7, 5, StoneColor.BLACK)
                 .place(7, 6, StoneColor.BLACK)
                 .place(7, 7, StoneColor.WHITE)
-                .place(7, 3, StoneColor.BLACK)
+        val stone = stone(7, 3)
 
-        val actual = FourByFourRule.check(board)
+        val actual = FourByFourRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -48,9 +48,9 @@ class FourByFourTest {
                 .place(6, 7)
                 .place(6, 5)
                 .place(6, 6)
-                .place(6, 3)
+        val stone = stone(6, 3)
 
-        val actual = FourByFourRule.check(board)
+        val actual = FourByFourRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -64,9 +64,9 @@ class FourByFourTest {
                 .place(6, 7)
                 .place(6, 5)
                 .place(6, 6)
-                .place(6, 3)
+        val stone = stone(6, 3)
 
-        val actual = FourByFourRule.check(board)
+        val actual = FourByFourRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -80,9 +80,9 @@ class FourByFourTest {
                 .place(5, 3)
                 .place(5, 5)
                 .place(5, 6)
-                .place(5, 4)
+        val stone = stone(5, 4)
 
-        val actual = FourByFourRule.check(board)
+        val actual = FourByFourRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -99,9 +99,9 @@ class FourByFourTest {
                 .place(4, 3)
                 .place(6, 5)
                 .place(7, 6)
-                .place(5, 4)
+        val stone = stone(5, 4)
 
-        val actual = FourByFourRule.check(board)
+        val actual = FourByFourRule.check(stone, board)
         assertThat(actual).isTrue()
     }
 
@@ -114,9 +114,9 @@ class FourByFourTest {
                 .place(4, 3)
                 .place(4, 5)
                 .place(4, 6)
-                .place(4, 4)
+        val stone = stone(4, 4)
 
-        val actual = FourByFourRule.check(board)
+        val actual = FourByFourRule.check(stone, board)
         assertThat(actual).isFalse()
     }
 }

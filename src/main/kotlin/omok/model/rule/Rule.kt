@@ -1,9 +1,13 @@
 package omok.model.rule
 
 import omok.model.Board
+import omok.model.entity.Stone
 
 interface Rule {
-    fun check(board: Board): Boolean
+    fun check(
+        stone: Stone,
+        board: Board,
+    ): Boolean
 
     companion object {
         val directions =

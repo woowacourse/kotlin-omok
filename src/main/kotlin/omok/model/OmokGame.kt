@@ -23,6 +23,6 @@ class OmokGame(
     }
 
     private fun proceedTurn(inputPoint: () -> Point) {
-        turn = turn.placeStone(inputPoint())
+        turn = turn.nextTurn(inputPoint())
     }
 }
