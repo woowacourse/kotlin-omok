@@ -8,6 +8,7 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import woowacourse.omok.db.OmokDbHelper
 import woowacourse.omok.domain.model.BlackTurn
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.FinishedTurn
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var turn: Turn
     private var toast: Toast? = null
     private var onGame: Boolean = true
+    private val omokDbHelper: OmokDbHelper by lazy { OmokDbHelper(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                                 displayMessage(MESSAGE_GAME_END)
                                 return@setOnClickListener
                             }
-                            progressGameTurn(Point(y, x), view)
+                            progressGameTurn(Point(y, 14 - x), view)
                             onGame = judgeGameState()
                         }
                     }
@@ -89,10 +91,12 @@ class MainActivity : AppCompatActivity() {
         point: Point,
         view: ImageView,
     ) {
-        val nextTurn = board.putStone(Stone(turn.stoneType, point), turn, ruleAdapter)
+        val stone = Stone(turn.stoneType, point)
+        val nextTurn = board.putStone(stone, turn, ruleAdapter)
         displayMessage(generateTurnMessage(nextTurn, board.beforeStone))
         if (turn != nextTurn) {
             view.setImageResource(getStoneImage(turn.stoneType))
+            omokDbHelper.insertStone(stone)
             turn = nextTurn
         } else {
             displayMessage(MESSAGE_INVALID_POINT_INPUT)
