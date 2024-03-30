@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.content.ContentValues
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -9,8 +8,7 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import woowacourse.omok.db.OmokContract
-import woowacourse.omok.db.OmokDbHelper
+import woowacourse.omok.db.OmokDao
 import woowacourse.omok.domain.model.BlackTurn
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Board.Companion.BOARD_SIZE
@@ -18,7 +16,6 @@ import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Point
 import woowacourse.omok.domain.model.Point.Companion.MESSAGE_INVALID_POINT_INPUT
-import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StoneType
 import woowacourse.omok.domain.model.Turn
 import woowacourse.omok.domain.model.WhiteTurn
@@ -27,7 +24,7 @@ import woowacourse.omok.domain.view.OutputView.generateTurnMessage
 
 class MainActivity : AppCompatActivity() {
     private lateinit var omokGame: OmokGame
-    private val omokDb by lazy { OmokDbHelper(this).writableDatabase }
+    private val omokDb by lazy { OmokDao(this) }
     private val boardUi: List<ImageView> by lazy {
         findViewById<TableLayout>(R.id.board)
             .children
@@ -65,40 +62,24 @@ class MainActivity : AppCompatActivity() {
         val restartButton = findViewById<Button>(R.id.btn_restart)
         restartButton.setOnClickListener {
             boardUi.forEach { it.setImageResource(0) }
-            omokDb.delete(OmokContract.TABLE_NAME, null, null)
+            omokDb.resetGame()
             omokGame = OmokGame()
         }
     }
 
     private fun initializeBoardSetting() {
-        val projection = arrayOf(OmokContract.STONE_TYPE, OmokContract.POINT_X, OmokContract.POINT_Y)
-        val cursor =
-            omokDb.query(OmokContract.TABLE_NAME, projection, null, null, null, null, null)
-        val initialBoard = Board()
-        var latestStoneType = StoneType.WHITE
-
-        with(cursor) {
-            while (moveToNext()) {
-                val stoneTypeValue = getInt(cursor.getColumnIndexOrThrow(OmokContract.STONE_TYPE))
-                val pointX = getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_X))
-                val pointY = getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_Y))
-                val coordinate = pointY * BOARD_SIZE + pointX
-
-                latestStoneType = StoneType.fromValue(stoneTypeValue)
-                boardUi[coordinate].setImageResource(getStoneImage(latestStoneType))
-                initialBoard.putStone(Stone(latestStoneType, Point(pointX, pointY)))
-            }
+        val stones = omokDb.getStonesFromDatabase()
+        val initialBoard = Board(stones)
+        stones.forEach { (stoneType, point) ->
+            val coordinate = point.y * BOARD_SIZE + point.x
+            boardUi[coordinate].setImageResource(getStoneImage(stoneType))
         }
-        cursor.close()
-        initializeGameSetting(initialBoard, latestStoneType)
+        initializeGameSetting(initialBoard)
     }
 
-    private fun initializeGameSetting(
-        initialBoard: Board,
-        latestStoneType: StoneType,
-    ) {
+    private fun initializeGameSetting(initialBoard: Board) {
         val isGameEnd = initialBoard.latestStone?.let { initialBoard.isWinCondition(it) } ?: false
-        val initialTurn = if (isGameEnd) FinishedTurn(initialBoard.latestStone!!) else createTurn(latestStoneType)
+        val initialTurn = if (isGameEnd) FinishedTurn(initialBoard.latestStone!!) else createTurn(initialBoard.latestStone?.type)
 
         omokGame = OmokGame(turn = initialTurn, board = initialBoard)
         displayMessage(generateTurnMessage(initialTurn))
@@ -109,7 +90,7 @@ class MainActivity : AppCompatActivity() {
             StoneType.BLACK -> WhiteTurn()
             StoneType.WHITE -> BlackTurn()
             StoneType.EMPTY -> throw IllegalStateException()
-            null -> throw IllegalStateException()
+            null -> BlackTurn()
         }
     }
 
@@ -123,7 +104,7 @@ class MainActivity : AppCompatActivity() {
                 updateBoard = { view.setImageResource(getStoneImage(it.latestStone?.type)) },
                 updateTurn = { turn, stone ->
                     displayMessage(generateTurnMessage(turn))
-                    stone?.let { saveStoneData(it) }
+                    stone?.let { omokDb.saveStone(it) }
                 },
                 getPoint = { Point(x, y) },
             )
@@ -137,16 +118,6 @@ class MainActivity : AppCompatActivity() {
             StoneType.EMPTY -> 0
             null -> 0
         }
-
-    private fun saveStoneData(stone: Stone) {
-        val newStone =
-            ContentValues().apply {
-                put(OmokContract.STONE_TYPE, stone.type.value)
-                put(OmokContract.POINT_X, stone.point.x)
-                put(OmokContract.POINT_Y, stone.point.y)
-            }
-        omokDb.insert(OmokContract.TABLE_NAME, null, newStone)
-    }
 
     private fun displayMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

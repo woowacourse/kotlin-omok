@@ -2,7 +2,7 @@ package woowacourse.omok.domain.model
 
 import woowacourse.omok.domain.rule.RenjuRule
 
-class Board {
+class Board(stones: List<Stone>? = null) {
     val board: List<List<StoneType>>
         get() = _board.toList()
     private val _board: MutableList<MutableList<StoneType>> =
@@ -12,6 +12,10 @@ class Board {
     private val ruleAdaptor = RenjuRuleAdaptor(listOf(RenjuRule(boardSize = BOARD_SIZE)))
     var latestStone: Stone? = null
         private set
+
+    init {
+        stones?.forEach { stone -> putStone(stone) }
+    }
 
     fun isForbidden(stone: Stone): Boolean {
         return ruleAdaptor.isForbidden(this, stone)
