@@ -1,6 +1,7 @@
 package woowacourse.omok.database
 
 import android.content.ContentValues
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.omokGame.Board.Companion.BOARD_SIZE
@@ -11,7 +12,8 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
         val db = dbHelper.writableDatabase
         db.beginTransaction()
         try {
-            db.delete("GameBoard", null, null) // 기존 데이터 삭제
+            db.delete(GameBoardContract.GameBoardEntry.TABLE_NAME, null, null)
+
             for (i in board.indices) {
                 for (j in board[i].indices) {
                     val stone = board[i][j]
@@ -22,13 +24,12 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
                             else -> 0
                         }
                         val values = ContentValues().apply {
-                            put("rowIndex", i)
-                            put("columnIndex", j)
-                            put("stoneType", stoneType)
+                            put(GameBoardContract.GameBoardEntry.COLUMN_ROW_INDEX, i)
+                            put(GameBoardContract.GameBoardEntry.COLUMN_COLUMN_INDEX, j)
+                            put(GameBoardContract.GameBoardEntry.COLUMN_STONE_TYPE, stoneType)
                         }
-                        db.insert("GameBoard", null, values)
+                        db.insert(GameBoardContract.GameBoardEntry.TABLE_NAME, null, values)
                     }
-
                 }
             }
             db.setTransactionSuccessful()
@@ -37,25 +38,32 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
         }
     }
 
+
     override fun loadGame(): Array<Array<Stone>> {
         val db = dbHelper.readableDatabase
         val cursor = db.query(
-            "GameBoard",
-            arrayOf("rowIndex", "columnIndex", "stoneType"),
+            GameBoardContract.GameBoardEntry.TABLE_NAME,
+            arrayOf(
+                GameBoardContract.GameBoardEntry.COLUMN_ROW_INDEX,
+                GameBoardContract.GameBoardEntry.COLUMN_COLUMN_INDEX,
+                GameBoardContract.GameBoardEntry.COLUMN_STONE_TYPE
+            ),
             null, null, null, null, null
         )
         val board = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Stone.EMPTY } }
         with(cursor) {
             while (moveToNext()) {
-                val rowIndex = getInt(getColumnIndexOrThrow("rowIndex"))
-                val columnIndex = getInt(getColumnIndexOrThrow("columnIndex"))
-                val stoneType = getInt(getColumnIndexOrThrow("stoneType"))
-                val stone = when (stoneType) {
-                    1 -> Stone.BLACK
-                    2 -> Stone.WHITE
-                    else -> Stone.EMPTY
+                val rowIndex = getIntSafe(GameBoardContract.GameBoardEntry.COLUMN_ROW_INDEX)
+                val columnIndex = getIntSafe(GameBoardContract.GameBoardEntry.COLUMN_COLUMN_INDEX)
+                val stoneType = getIntSafe(GameBoardContract.GameBoardEntry.COLUMN_STONE_TYPE)
+                if (rowIndex != null && columnIndex != null && stoneType != null) {
+                    val stone = when (stoneType) {
+                        1 -> Stone.BLACK
+                        2 -> Stone.WHITE
+                        else -> Stone.EMPTY
+                    }
+                    board[rowIndex][columnIndex] = stone
                 }
-                board[rowIndex][columnIndex] = stone
             }
             close()
         }
@@ -68,12 +76,13 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
     }
 
     override fun saveCurrentStone(currentStone: Int) {
-        val db = resetCurrentStone()
+        val db = resetCurrentStone() // 기존 구현 사용
         val values = ContentValues().apply {
-            put("currentStone", currentStone)
+            put(GameBoardContract.GameStatusEntry.COLUMN_CURRENT_STONE, currentStone)
         }
-        db.insert("GameStatus", null, values)
+        db.insert(GameBoardContract.GameStatusEntry.TABLE_NAME, null, values)
     }
+
 
     private fun resetCurrentStone(): SQLiteDatabase {
         val db = dbHelper.writableDatabase
@@ -83,13 +92,29 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
 
     override fun loadCurrentStone(): Int {
         val db = dbHelper.readableDatabase
-        val cursor = db.query("GameStatus", arrayOf("currentStone"), null, null, null, null, null)
+        val cursor = db.query(
+            GameBoardContract.GameStatusEntry.TABLE_NAME,
+            arrayOf(GameBoardContract.GameStatusEntry.COLUMN_CURRENT_STONE),
+            null, null, null, null, null
+        )
         var stoneType = -1
-        val columnIndex = cursor.getColumnIndex("currentStone")
+        val columnIndex =
+            cursor.getColumnIndex(GameBoardContract.GameStatusEntry.COLUMN_CURRENT_STONE)
         if (columnIndex != -1 && cursor.moveToFirst()) {
             stoneType = cursor.getInt(columnIndex)
         }
         cursor.close()
         return stoneType
     }
+
+
+    private fun Cursor.getIntSafe(columnName: String): Int? {
+        val columnIndex = getColumnIndex(columnName)
+        return if (columnIndex != -1) {
+            getInt(columnIndex)
+        } else {
+            null
+        }
+    }
+
 }
