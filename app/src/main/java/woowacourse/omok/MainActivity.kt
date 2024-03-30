@@ -33,10 +33,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val board = findViewById<TableLayout>(R.id.board)
-        board
         initializeViews()
         setupGame()
+        setupResetButton()
         setupBoardClickListeners()
     }
 
@@ -55,13 +54,19 @@ class MainActivity : AppCompatActivity() {
         updateText("BLACK 플레이어부터 시작합니다.")
     }
 
+    private fun setupResetButton() {
+        val resetButton = findViewById<Button>(R.id.reset_button)
+        resetButton.setOnClickListener {
+            setupGame()
+            resetBoard()
+            setupBoardClickListeners()
+        }
+    }
+
     private fun setupBoardClickListeners() {
         viewBoard
             .children
             .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone) } }
             .forEachIndexed { rowIndex, rows ->
                 rows.children.filterIsInstance<ImageView>()
                     .forEachIndexed { columnIndex, view ->
@@ -93,6 +98,8 @@ class MainActivity : AppCompatActivity() {
         when (stoneState) {
             is StoneState.SuccessfulPlaced -> {
                 if (!omokGame.isRunning()) {
+                    showToast(this, "${currentPlayer.color}플레이어 승리!!!")
+                    removeClickListeners()
                     return
                 }
                 changePlayerTurn(coordinate)
@@ -101,13 +108,40 @@ class MainActivity : AppCompatActivity() {
             is StoneState.FailedPlaced -> showToast(this, stoneState.message)
         }
     }
+
+    private fun removeClickListeners() {
+        viewBoard
+            .children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .forEach { it.setOnClickListener(null) }
+    }
+
     private fun changePlayerTurn(coordinate: Coordinate) {
         updateText("${currentPlayer.color}플레이어가 착수 했습니다.\n 마지막 돌의 위치: (${coordinate.x.value},${coordinate.y.value})")
 
         currentPlayer = players[(currentPlayerIndex + 1) % players.size]
         currentPlayerIndex++
     }
+
+    private fun resetBoard() {
+        viewBoard
+            .children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .forEach { it.setImageResource(0) }
+    }
+
     private fun updateText(newText: String) {
         textView.text = newText
+    }
+
+    private fun showToast(
+        context: Context,
+        message: String?,
+    ) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }
