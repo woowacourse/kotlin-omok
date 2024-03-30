@@ -1,15 +1,17 @@
-package omok.model.state
+package woowacourse.omok.domain.omok.model.state
 
-import woowacourse.omok.domain.ark.ArkFourFourRule
-import woowacourse.omok.domain.ark.ArkOverLineRule
-import woowacourse.omok.domain.ark.ArkThreeThreeRule
 import woowacourse.omok.domain.omok.mapper.toArkOmokBoard
 import woowacourse.omok.domain.omok.mapper.toArkOmokPoint
 import woowacourse.omok.domain.omok.model.Board
 import woowacourse.omok.domain.omok.model.Color
 import woowacourse.omok.domain.omok.model.Position
+import woowacourse.omok.domain.omok.strategy.ArkForbiddenPlaceJudge
+import woowacourse.omok.domain.omok.strategy.ForbiddenPlaceJudge
 
-class Black(private val blackStatus: Array<Array<Color>>) : TurnState() {
+class Black(
+    private val blackStatus: Array<Array<Color>>,
+    private val forbiddenPlaceJudge: ForbiddenPlaceJudge = ArkForbiddenPlaceJudge(),
+) : TurnState() {
     override fun addStone(
         position: Position,
         placeStone: (Position) -> Unit,
@@ -18,22 +20,17 @@ class Black(private val blackStatus: Array<Array<Color>>) : TurnState() {
         val row = Board.ARRAY_SIZE - position.row.value
         val col = position.col.title
         val arkPoint = Position.of(row, col).toArkOmokPoint()
-        if (placementAvailable(arkBoard, arkPoint)) {
+        if (isNotForbiddenPlace(arkBoard, arkPoint)) {
             placeStone(position)
         } else {
             throw IllegalArgumentException(EXCEPTION_FORBIDDEN_PLACEMENT)
         }
     }
 
-    private fun placementAvailable(
-        arkBoard: List<List<Int>>,
-        arkPoint: Pair<Int, Int>,
-    ): Boolean {
-        val isNotFourFour = ArkFourFourRule.validate(arkBoard, arkPoint).not()
-        val isNotThreeThree = ArkThreeThreeRule.validate(arkBoard, arkPoint).not()
-        val isNotOverLine = ArkOverLineRule.validate(arkBoard, arkPoint).not()
-        return isNotFourFour && isNotThreeThree && isNotOverLine
-    }
+    private fun isNotForbiddenPlace(
+        board: List<List<Int>>,
+        point: Pair<Int, Int>,
+    ) = forbiddenPlaceJudge.isNotForbiddenPlace(board, point)
 
     companion object {
         private const val EXCEPTION_FORBIDDEN_PLACEMENT = "금수인 위치입니다."

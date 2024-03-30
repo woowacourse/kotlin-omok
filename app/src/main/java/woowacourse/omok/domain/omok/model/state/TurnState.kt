@@ -1,4 +1,4 @@
-package omok.model.state
+package woowacourse.omok.domain.omok.model.state
 
 import woowacourse.omok.domain.omok.model.Position
 
