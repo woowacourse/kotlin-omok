@@ -1,33 +1,36 @@
 package woowacourse.omok.db
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.kotest.matchers.shouldBe
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
+import org.junit.runner.RunWith
 import woowacourse.omok.fake.FakeOmokSQLiteHelper
 import woowacourse.omok.fixtures.context
 import woowacourse.omok.fixtures.gameTurnOf
 
+@RunWith(AndroidJUnit4::class)
 class GameRecordDaoTest {
     private lateinit var dao: GameRecordDao
 
-    @BeforeEach
+    @Before
     fun setUp() {
         dao = GameRecordDao(FakeOmokSQLiteHelper(context))
         dao.createTable()
     }
 
-    @AfterEach
+    @After
     fun tearDown() {
         dao.dropTable()
     }
 
     @Test
     @DisplayName("오목 게임 한 턴을 저장 한다")
-    fun `test`() {
+    fun test() {
         // given
         val gameTurnEntity = gameTurnOf(x = 1, y = 1)
         val expected = 1L
