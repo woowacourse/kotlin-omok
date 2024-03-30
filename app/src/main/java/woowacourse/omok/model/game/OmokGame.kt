@@ -31,13 +31,19 @@ class OmokGame(
         finishAction.onFinish(finishType)
     }
 
-    private fun placeType(position: Position, turnPlayer: Player): PlaceType {
+    private fun placeType(
+        position: Position,
+        turnPlayer: Player,
+    ): PlaceType {
         runCatching { board.place(position, turnPlayer) }
             .onFailure { return PlaceType.CANNOT_PLACE }
         return if (turnPlayer.stone == Stone.WHITE) PlaceType.WHITE_PLACE else PlaceType.BLACK_PLACE
     }
 
-    private fun updateTurnHistory(placeType: PlaceType, position: Position) {
+    private fun updateTurnHistory(
+        placeType: PlaceType,
+        position: Position,
+    ) {
         if (placeType == PlaceType.CANNOT_PLACE) return
         turnHistory.update(position)
     }

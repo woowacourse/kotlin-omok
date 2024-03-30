@@ -1,13 +1,13 @@
 package woowacourse.omok.controller
 
-import woowacourse.omok.model.game.FinishAction
-import woowacourse.omok.model.game.OmokGame
-import woowacourse.omok.model.game.PlaceType
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.game.FinishAction
 import woowacourse.omok.model.game.FinishType
+import woowacourse.omok.model.game.OmokGame
 import woowacourse.omok.model.game.OmokPlayers
+import woowacourse.omok.model.game.PlaceType
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.rule.ban.DoubleFourForbiddenPlace
 import woowacourse.omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
@@ -63,11 +63,12 @@ class OmokController(
 
     private fun finishAction(): FinishAction {
         return object : FinishAction {
-            override val conditions = listOf(
-                FiveStonesFinishCondition(),
-                FullBoardFinishCondition(),
-                AllForbiddenPositionFinishCondition(),
-            )
+            override val conditions =
+                listOf(
+                    FiveStonesFinishCondition(),
+                    FullBoardFinishCondition(),
+                    AllForbiddenPositionFinishCondition(),
+                )
 
             override fun onFinish(finishType: FinishType) {
                 isFinish = true

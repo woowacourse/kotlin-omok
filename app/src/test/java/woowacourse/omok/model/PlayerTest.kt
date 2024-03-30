@@ -1,13 +1,13 @@
 package woowacourse.omok.model
 
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.rule.ban.DoubleFourForbiddenPlace
 import woowacourse.omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
 import woowacourse.omok.model.rule.ban.OverlineForbiddenPlace
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
 
 class PlayerTest {
     private val blackStonePlayer =

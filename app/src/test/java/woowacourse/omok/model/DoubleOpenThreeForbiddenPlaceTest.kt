@@ -1,10 +1,10 @@
 package woowacourse.omok.model
 
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
 
 /**
  * docs/3-3 금수 테스트 케이스.png 참조

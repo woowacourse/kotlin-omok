@@ -57,11 +57,12 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
 
     private fun finishAction(): FinishAction {
         return object : FinishAction {
-            override val conditions = listOf(
-                FiveStonesFinishCondition(),
-                FullBoardFinishCondition(),
-                AllForbiddenPositionFinishCondition(),
-            )
+            override val conditions =
+                listOf(
+                    FiveStonesFinishCondition(),
+                    FullBoardFinishCondition(),
+                    AllForbiddenPositionFinishCondition(),
+                )
 
             override fun onFinish(finishType: FinishType) {
                 when (finishType) {
@@ -84,7 +85,10 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
             }
     }
 
-    private fun ImageView.setStoneViewOnClickListener(omokGame: OmokGame, index: Int) {
+    private fun ImageView.setStoneViewOnClickListener(
+        omokGame: OmokGame,
+        index: Int,
+    ) {
         setOnClickListener {
             Log.d(TAG, "position (${index / boardSize}, ${index % boardSize})")
             val position = Position(index / boardSize, index % boardSize)

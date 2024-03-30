@@ -1,13 +1,13 @@
 package woowacourse.omok.model
 
-import woowacourse.omok.model.board.Board
-import woowacourse.omok.model.board.Position
-import woowacourse.omok.model.board.Stone
-import woowacourse.omok.model.player.Player
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.player.Player
 
 class BoardTest {
     private lateinit var emptyBoard: Board

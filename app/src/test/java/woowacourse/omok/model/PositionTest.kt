@@ -1,9 +1,9 @@
 package woowacourse.omok.model
 
-import woowacourse.omok.model.board.Direction
-import woowacourse.omok.model.board.Position
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.board.Direction
+import woowacourse.omok.model.board.Position
 
 class PositionTest {
     @Test
