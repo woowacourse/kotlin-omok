@@ -48,7 +48,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val board = Board(boardSize)
-        val omokGame = OmokGame2(board, omokPlayers, finishAction())
+        val omokGame = OmokGame(board, omokPlayers, finishAction())
         boardView.setBoardView(omokGame)
     }
 
@@ -71,7 +71,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
         }
     }
 
-    private fun TableLayout.setBoardView(omokGame: OmokGame2) {
+    private fun TableLayout.setBoardView(omokGame: OmokGame) {
         children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
@@ -81,7 +81,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
             }
     }
 
-    private fun ImageView.setStoneViewOnClickListener(omokGame: OmokGame2, index: Int) {
+    private fun ImageView.setStoneViewOnClickListener(omokGame: OmokGame, index: Int) {
         setOnClickListener {
             Log.d(TAG, "position (${index / boardSize}, ${index % boardSize})")
             val position = Position(index / boardSize, index % boardSize)

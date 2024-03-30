@@ -13,18 +13,24 @@ enum class PlaceType {
     BLACK_PLACE,
 }
 
-class OmokGame2(
+class OmokGame(
     private val board: Board,
-    private val omokPlayers: OmokPlayers,
+    omokPlayers: OmokPlayers,
     private val finishAction: FinishAction,
 ) {
-    private var turnPlayer = omokPlayers.firstOrderPlayer()
+    private val turnHistory = TurnHistory(omokPlayers)
 
     fun turn(position: Position): PlaceType {
-        return placeType(position, turnPlayer).also {
-            finishAction.onFinish(finishType(board, position, turnPlayer))
-            nextPlayer(it)
+        return placeType(position, turnHistory.recentPlayer).also {
+            checkFinish(position)
+            updateTurnHistory(it, position)
         }
+    }
+
+    private fun checkFinish(position: Position) {
+        val finishType = finishType(board, position, turnHistory.recentPlayer)
+        if (finishType == FinishType.NOT_FINISH) return
+        finishAction.onFinish(finishType)
     }
 
     private fun placeType(position: Position, turnPlayer: Player): PlaceType {
@@ -33,10 +39,14 @@ class OmokGame2(
         return if (turnPlayer.stone == Stone.WHITE) PlaceType.WHITE_PLACE else PlaceType.BLACK_PLACE
     }
 
-    private fun nextPlayer(placeType: PlaceType) {
+    private fun updateTurnHistory(placeType: PlaceType, position: Position) {
         if (placeType == PlaceType.CANNOT_PLACE) return
-        turnPlayer = omokPlayers.next(turnPlayer)
+        turnHistory.update(position)
     }
+
+    fun nowOrderStone() = turnHistory.recentPlayer.stone
+
+    fun recentPosition() = turnHistory.recentPosition
 
     private fun finishType(
         board: Board,

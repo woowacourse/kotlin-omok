@@ -1,14 +1,8 @@
 package woowacourse.omok.view
 
-import woowacourse.omok.model.board.Board
-
 class StartView {
-    fun print(
-        board: Board,
-        boardView: BoardView,
-    ) {
+    fun print() {
         println(INITIAL_GUIDE_MESSAGE)
-        boardView.print(board)
     }
 
     companion object {
