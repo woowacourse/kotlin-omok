@@ -1,11 +1,10 @@
 package woowacourse.omok.view
 
 import woowacourse.omok.model.Board
-import woowacourse.omok.model.Position
+import woowacourse.omok.model.OmokStone
 
 interface OmokView {
-    fun updateBoard(
-        position: Position,
-        board: Board,
-    )
+    fun updateBoard(board: Board)
+
+    fun updateSingleSpace(omokStone: OmokStone)
 }
