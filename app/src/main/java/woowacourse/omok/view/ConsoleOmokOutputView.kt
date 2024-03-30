@@ -2,10 +2,9 @@ package woowacourse.omok.view
 
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.OmokStone
-import woowacourse.omok.model.Position
 import woowacourse.omok.model.StoneColor
 
-object ConsoleOmokOutputView : OmokView, OmokOutputView {
+object ConsoleOmokOutputView : OmokOutputView {
     override fun showStartMessage() {
         println("오목 게임을 시작합니다.")
     }
@@ -29,7 +28,7 @@ object ConsoleOmokOutputView : OmokView, OmokOutputView {
     private fun printWhoIsNext(stone: OmokStone?) {
         val stoneColor =
             if (stone != null) {
-                getColor(stone)
+                getNextColor(stone)
             } else {
                 "흑"
             } + "의 차례입니다"
@@ -47,17 +46,17 @@ object ConsoleOmokOutputView : OmokView, OmokOutputView {
         println(stoneColor + lastPosition)
     }
 
-    private fun getColor(stone: OmokStone) =
+    private fun getNextColor(stone: OmokStone) =
         when (stone.color) {
-            StoneColor.BLACK -> "흑"
-            StoneColor.WHITE -> "백"
+            StoneColor.BLACK -> "백"
+            StoneColor.WHITE -> "흑"
         }
 
     private fun showWinner(stone: OmokStone?) {
         if (stone == null) {
             return println("승자가 나오지 않았습니다!")
         }
-        val color = getColor(stone)
+        val color = getNextColor(stone)
         println("축하합니다! %s이(가) 이겼습니다.".format(color))
     }
 
@@ -95,12 +94,5 @@ object ConsoleOmokOutputView : OmokView, OmokOutputView {
             sb.setCharAt(idx, stoneChar)
         }
         println(sb.toString())
-    }
-
-    override fun updateBoard(
-        position: Position,
-        board: Board,
-    ) {
-        TODO("Not yet implemented")
     }
 }
