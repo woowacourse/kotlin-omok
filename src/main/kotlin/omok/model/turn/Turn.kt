@@ -11,17 +11,26 @@ import omok.model.rule.Rule
 
 abstract class Turn(val board: Board) {
     private val baseProhibitedRules: List<Rule> = listOf(OutOfBoardRule, AlreadyExistRule)
-    protected abstract val prohibitedRules: List<Rule>
+    protected open val additionalProhibitedRules: List<Rule> = listOf()
 
     fun nextTurn(point: Point): Turn {
         val stone = Stone(point, color())
-        val isViolated = (baseProhibitedRules + prohibitedRules).any { it.check(stone, board) }
+        val isViolated = (baseProhibitedRules + additionalProhibitedRules).any { it.check(stone, board) }
         if (isViolated) {
             return this
         }
         val nextBoard = board.place(stone)
-        if (nextBoard.isFull() || FiveInRowRule.check(stone, board)) return Finished(nextBoard)
         return destination(nextBoard)
+    }
+
+    protected fun isWin(stone: Stone): Boolean {
+        return FiveInRowRule.check(stone, board)
+    }
+
+    abstract fun isWin(): Boolean
+
+    fun isDraw(): Boolean {
+        return board.isFull()
     }
 
     protected abstract fun destination(board: Board): Turn
