@@ -12,9 +12,9 @@ class GameRoomDbHelper(
         db?.execSQL(
             """
                 CREATE TABLE ${GameRoomContract.TABLE_NAME} (
-                  ${BaseColumns._ID} int PRIMARY KEY AUTOINCREMENT not null,
+                  ${BaseColumns._ID} INTEGER PRIMARY KEY AUTOINCREMENT not null,
                   ${GameRoomContract.COLUMN_TITLE} varchar(30) not null,
-                  ${GameRoomContract.COLUMN_STATUS} int
+                  ${GameRoomContract.COLUMN_STATUS} varchar(10)
                 )
             """,
         )

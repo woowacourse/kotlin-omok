@@ -5,4 +5,7 @@
     <string name="new_game">게임 생성</string>
     <string name="hint_game_name">게임 이름을 30자 이내로 입력해주세요.</string>
     <string name="button_start">시작하기</string>
+    <string name="button_new_room">방 만들기</string>
+    <string name="preview_room_title">방 제목 미리보기 방 제목 미리보기 방 제목 미리보기 방 제목 미리보기</string>
+    <string name="button_enter_game">입장</string>
 </resources>

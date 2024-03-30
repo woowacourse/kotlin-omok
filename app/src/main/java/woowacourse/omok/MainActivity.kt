@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         db = dbHelper.writableDatabase
 
         val gameId = intent.getLongExtra(GAME_ID, 0)
+        val gameTitle = intent.getStringExtra(GAME_TITLE) ?: finish()
         findViewById<TableLayout>(R.id.board).apply {
             children
                 .filterIsInstance<TableRow>()
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                         " ${PlacementContract.COLUMN_VERTICAL_COORDINATE}," +
                         " ${PlacementContract.COLUMN_HORIZONTAL_COORDINATE}" +
                         ") \n" +
-                        "VALUES ($gameId, ${placementData.lastPlacement?.color?.name}, ${position.second}, ${position.first})",
+                        "VALUES ($gameId, '${placementData.lastPlacement?.color?.name}', ${position.second}, ${position.first})",
                 )
             }
         }
@@ -101,5 +102,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val BOARD_DISPLAY_SIZE = 15
         private const val GAME_ID = "game_id"
+        private const val GAME_TITLE = "game_title"
     }
 }

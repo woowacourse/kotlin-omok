@@ -33,7 +33,7 @@ class NewRoomActivity : AppCompatActivity() {
             val values =
                 ContentValues().apply {
                     put(GameRoomContract.COLUMN_TITLE, name)
-                    put(GameRoomContract.COLUMN_STATUS, GameState.OnProgress::class.java.name)
+                    put(GameRoomContract.COLUMN_STATUS, GameState.OnProgress::class.simpleName)
                 }
             val gameId = gameRoomDb.insert(GameRoomContract.TABLE_NAME, null, values)
             Intent(this, MainActivity::class.java).also {

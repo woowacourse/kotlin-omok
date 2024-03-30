@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_game_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="9"
+        android:ellipsize="end"
+        android:maxLength="30"
+        android:maxLines="2"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginEnd="12dp"
+        tools:text="@string/preview_room_title" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_enter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/button_enter_game" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

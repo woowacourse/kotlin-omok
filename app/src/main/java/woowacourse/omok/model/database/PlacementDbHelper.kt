@@ -11,7 +11,7 @@ class PlacementDbHelper(
         db?.execSQL(
             """
                 CREATE TABLE ${PlacementContract.TABLE_NAME} (
-                  ${PlacementContract.COLUMN_ROOM_ID} int not null,
+                  ${PlacementContract.COLUMN_ROOM_ID} INTEGER not null,
                   ${PlacementContract.COLUMN_COLOR} varchar(5) not null,
                   ${PlacementContract.COLUMN_HORIZONTAL_COORDINATE} int,
                   ${PlacementContract.COLUMN_VERTICAL_COORDINATE} int
