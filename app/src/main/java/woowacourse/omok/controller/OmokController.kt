@@ -7,7 +7,6 @@ import woowacourse.omok.model.game.FinishAction
 import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.game.OmokGame
 import woowacourse.omok.model.game.OmokPlayers
-import woowacourse.omok.model.game.PlaceType
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.rule.ban.DoubleFourForbiddenPlace
 import woowacourse.omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
@@ -16,7 +15,7 @@ import woowacourse.omok.model.rule.finish.AllForbiddenPositionFinishCondition
 import woowacourse.omok.model.rule.finish.FiveStonesFinishCondition
 import woowacourse.omok.model.rule.finish.FullBoardFinishCondition
 import woowacourse.omok.utils.retryUntilNotException
-import woowacourse.omok.view.BoardView
+import woowacourse.omok.view.ProgressView
 import woowacourse.omok.view.ResultView
 import woowacourse.omok.view.StartView
 import woowacourse.omok.view.StonePositionView
@@ -24,7 +23,7 @@ import woowacourse.omok.view.StonePositionView
 class OmokController(
     private val stonePositionView: StonePositionView,
     private val startView: StartView,
-    private val boardView: BoardView,
+    private val progressView: ProgressView,
     private val resultView: ResultView,
     private val boardSize: Int,
 ) {
@@ -50,10 +49,10 @@ class OmokController(
         val board = initializedBoard()
         val omokGame = OmokGame(board, omokPlayers, finishAction())
         while (!isFinish) {
-            boardView.print(board)
+            progressView.printBoard(board)
             val position = nextStonePosition(omokGame)
             val placeType = omokGame.turn(position)
-            if (placeType == PlaceType.CANNOT_PLACE) println("놓을 수 없는 위치입니다.")
+            progressView.printPlaceResult(placeType)
         }
     }
 

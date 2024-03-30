@@ -3,9 +3,10 @@ package woowacourse.omok.view
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.game.PlaceType
 
-class BoardView {
-    fun print(board: Board) {
+class ProgressView {
+    fun printBoard(board: Board) {
         val boardSizeRange = 0..<board.size
         lineBreak()
         boardSizeRange.forEach { row ->
@@ -76,8 +77,14 @@ class BoardView {
         println(boardSizeRange.joinToString(prefix = "    ", separator = "  ") { (it + 'A'.code).toChar().toString() })
     }
 
+    fun printPlaceResult(placeType: PlaceType) {
+        if (placeType != PlaceType.CANNOT_PLACE) return
+        println(CANNOT_PLACE_POSITION_MESSAGE)
+    }
+
     companion object {
         private const val BLACK_STONE = "●"
         private const val WHITE_STONE = "○"
+        private const val CANNOT_PLACE_POSITION_MESSAGE = "놓을 수 없는 위치입니다."
     }
 }
