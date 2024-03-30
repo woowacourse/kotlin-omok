@@ -28,20 +28,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val board = findViewById<TableLayout>(R.id.board)
-        val positions =
-            board
-                .children
-                .filterIsInstance<TableRow>()
-                .flatMap { it.children }
-                .filterIsInstance<ImageView>()
-                .toList()
+        val positions = getPositions(board)
 
         GameResume.restoreProgressGameData(positions, dao)
-
         positions.forEachIndexed { index, view ->
             clickToPlaceStone(view, index, positions)
         }
     }
+
+    private fun getPositions(board: TableLayout) =
+        board
+            .children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .toList()
 
     private fun clickToPlaceStone(
         view: ImageView,
