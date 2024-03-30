@@ -22,7 +22,7 @@ import woowacourse.omok.model.state.GameState
 class OmokGameActivity : AppCompatActivity() {
     private val placementData: Board by lazy { Board() }
     private val placementDao: PlacementDao by lazy { PlacementDao(this) }
-    private val currentTurn: TextView by lazy { findViewById(R.id.tv_current_turn) }
+    private val currentTurnTextView: TextView by lazy { findViewById(R.id.tv_current_turn) }
     private val consoleOutputView by lazy { ConsoleOutputView() }
     private lateinit var gameState: GameState
 
@@ -107,7 +107,7 @@ class OmokGameActivity : AppCompatActivity() {
     private fun setCurrentTurnText() {
         val currentColor =
             placementData.lastPlacement?.color?.let { Color.getReversedColor(it) } ?: Color.BLACK
-        currentTurn.text = getString(R.string.message_turn).format(currentColor)
+        currentTurnTextView.text = getString(R.string.message_turn).format(currentColor)
     }
 
     private fun setGameState(index: Int) {
@@ -115,7 +115,7 @@ class OmokGameActivity : AppCompatActivity() {
         gameState = playEachTurn(position)
         showGameStateMessage(gameState)
         if (gameState is GameState.GameOver) {
-            currentTurn.visibility = View.INVISIBLE
+            currentTurnTextView.visibility = View.INVISIBLE
         }
     }
 
