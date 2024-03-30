@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="horizontal"
     android:padding="16dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_game_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="9"
+        android:layout_marginEnd="12dp"
         android:ellipsize="end"
         android:maxLength="30"
         android:maxLines="2"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toStartOf="@id/btn_enter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/preview_room_title" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_enter"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/button_enter_game" />
+        android:text="@string/button_enter_game"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_game_title"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>
