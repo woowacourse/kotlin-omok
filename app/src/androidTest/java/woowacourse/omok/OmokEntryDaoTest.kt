@@ -3,6 +3,7 @@ package woowacourse.omok
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.After
 import org.junit.Test
 import org.junit.jupiter.api.DisplayName
 import org.junit.runner.RunWith
@@ -12,6 +13,11 @@ import woowacourse.omok.db.OmokEntryDao
 @RunWith(AndroidJUnit4::class)
 class OmokEntryDaoTest {
     private val dao = OmokEntryDao(getApplicationContext())
+
+    @After
+    fun tearDown() {
+        dao.drop()
+    }
 
     @DisplayName("사용자가 돌을 두었다면 돌의 유형과 위치를 데이터베이스에 저장한다")
     @Test
@@ -32,5 +38,20 @@ class OmokEntryDaoTest {
 
         val actual = dao.findAll()
         assertThat(actual.size).isEqualTo(2)
+    }
+
+    @DisplayName("오목일 때 사용자가 다시 시작 버튼을 누르면 데이터베이스의 모든 게임 데이터를 삭제한다.")
+    @Test
+    fun drop() {
+        dao.save(OmokEntry("흑", 4))
+        dao.save(OmokEntry("백", 5))
+        dao.save(OmokEntry("흑", 100))
+        dao.save(OmokEntry("백", 120))
+        dao.save(OmokEntry("흑", 32))
+        dao.save(OmokEntry("백", 81))
+
+        dao.drop()
+        val actual = dao.findAll()
+        assertThat(actual).isEmpty()
     }
 }

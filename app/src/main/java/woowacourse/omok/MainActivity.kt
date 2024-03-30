@@ -20,6 +20,7 @@ import woowacourse.omok.db.OmokEntryDao
 class MainActivity : AppCompatActivity() {
     private var stone: GoStone = BlackStone()
     private val omokGame = OmokGame(BlackStone(), WhiteStone())
+    private val dao = OmokEntryDao(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun restoreProgressGameData(positions: List<ImageView>) {
-        val omokGameData = OmokEntryDao(this).findAll().associateBy { it.position }
+        val omokGameData = dao.findAll().associateBy { it.position }
 
         positions.forEachIndexed { index, view ->
             showInProgressGameData(omokGameData, index, view)
@@ -83,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         retryUntilSuccess(view) {
             stone.putStone(position)
             val entry = OmokEntry(stone.stoneType.type, index)
-            OmokEntryDao(this).save(entry)
+            dao.save(entry)
             view.setImageResource(getStoneImage(stone.stoneType))
         }
         return position
@@ -127,6 +128,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun restartGame(positions: List<ImageView>) {
+        dao.drop()
         Board.reset()
         positions.forEach { stone ->
             stone.setImageResource(0)

@@ -44,4 +44,9 @@ class OmokEntryDao(context: Context) {
         cursor.close()
         return entries
     }
+
+    fun drop() {
+        val db = dbHelper.writableDatabase
+        db.delete(OmokContract.TABLE_NAME, null, null)
+    }
 }
