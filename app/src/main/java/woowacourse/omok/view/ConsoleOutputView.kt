@@ -78,7 +78,6 @@ class ConsoleOutputView {
         private const val COLOR_BLACK = "흑"
         private const val COLOR_WHITE = "백"
         private const val MESSAGE_PLAYERS_TURN = "%s의 차례입니다."
-        private const val MESSAGE_INPUT_POSITION = "위치를 입력하세요: "
         private const val MESSAGE_LAST_PLACE = "(마지막 돌의 위치: %s%d)"
     }
 }

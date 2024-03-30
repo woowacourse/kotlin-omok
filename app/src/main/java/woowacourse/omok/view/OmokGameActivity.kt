@@ -48,12 +48,6 @@ class OmokGameActivity : AppCompatActivity() {
         }
     }
 
-    private fun setCurrentTurnText() {
-        val currentColor =
-            placementData.lastPlacement?.color?.let { Color.getReversedColor(it) } ?: Color.BLACK
-        currentTurn.text = getString(R.string.message_turn).format(currentColor)
-    }
-
     private fun initializeGameTitle(gameTitle: String?) {
         findViewById<TextView>(R.id.tv_name).text = gameTitle
     }
@@ -108,6 +102,12 @@ class OmokGameActivity : AppCompatActivity() {
                 index = index,
             ),
         )
+    }
+
+    private fun setCurrentTurnText() {
+        val currentColor =
+            placementData.lastPlacement?.color?.let { Color.getReversedColor(it) } ?: Color.BLACK
+        currentTurn.text = getString(R.string.message_turn).format(currentColor)
     }
 
     private fun setGameState(index: Int) {

@@ -9,4 +9,7 @@
     <string name="preview_room_title">방 제목 미리보기 방 제목 미리보기 방 제목 미리보기 방 제목 미리보기</string>
     <string name="button_enter_game">입장</string>
     <string name="message_turn">%s의 차례입니다.</string>
+    <string name="button_continue">계속\n하기</string>
+    <string name="button_game_over">게임\n종료</string>
+    <string name="button_error">오류</string>
 </resources>
