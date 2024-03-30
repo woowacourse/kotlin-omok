@@ -1,6 +1,6 @@
-package woowacourse.omok.local
+package woowacourse.omok.local.db
 
-data class Omok(
+data class OmokEntity(
     val rowComma: String,
     val columnComma: String,
 )
