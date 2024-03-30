@@ -11,14 +11,13 @@ class Board(
     private var _boardLayout: MutableList<MutableList<CoordinateState>> =
         MutableList(BOARD_SIZE) { MutableList(BOARD_SIZE) { CoordinateState.Empty } },
 ) {
-    val boardLayout: List<List<CoordinateState>>
-        get() = _boardLayout
-
     private var lastCoordinate: Coordinate? = null
         private set
     private var currentTurn: Turn = Turn.Black
         private set
     private val currentStone get() = getStoneFromTurn()
+    val boardLayout: List<List<CoordinateState>>
+        get() = _boardLayout
 
     var omokRule: OmokRule = OmokRuleMapper.map(currentTurn, boardLayout, boardSize)
 
@@ -29,7 +28,7 @@ class Board(
         }
     }
 
-    fun setUpBoard(currentTurn: Turn) {
+    fun setRule(currentTurn: Turn) {
         omokRule = OmokRuleMapper.map(currentTurn, boardLayout, boardSize)
         this.currentTurn = currentTurn
 

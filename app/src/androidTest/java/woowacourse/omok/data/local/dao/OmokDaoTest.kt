@@ -24,7 +24,7 @@ class OmokDaoTest {
     }
 
     @Test
-    fun save()  {
+    fun save() {
         val actual = omokDao.save(OmokEntity(2, 3))
 
         assertThat(actual.id).isGreaterThan(0)
@@ -33,7 +33,7 @@ class OmokDaoTest {
     }
 
     @Test
-    fun findAll()  {
+    fun findAll() {
         omokDao.save(OmokEntity(2, 3))
         omokDao.save(OmokEntity(4, 5))
 

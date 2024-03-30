@@ -36,7 +36,7 @@ sealed class GameState(val board: Board, val turn: Turn) {
         }
 
         private fun setupRule() {
-            board.setUpBoard(turn)
+            board.setRule(turn)
         }
 
         class Start(board: Board, turn: Turn = Turn.Black) : Playing(board, turn)
