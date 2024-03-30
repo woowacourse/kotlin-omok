@@ -8,6 +8,8 @@ import woowacourse.omok.model.rule.GeneralStonePlaceRule
 import woowacourse.omok.model.rule.StonePlaceRule
 
 class BlackTurn(stonePlaceRule: StonePlaceRule, board: Board) : Running(stonePlaceRule, board) {
+    override val isFinished: Boolean = false
+
     override fun put(position: Position): GameState {
         val newStone = OmokStone(position, StoneColor.BLACK)
         if (canPut(newStone)) {
