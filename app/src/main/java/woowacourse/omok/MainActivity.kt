@@ -21,8 +21,7 @@ import woowacourse.omok.model.rule.finish.AllForbiddenPositionFinishCondition
 import woowacourse.omok.model.rule.finish.FiveStonesFinishCondition
 import woowacourse.omok.model.rule.finish.FullBoardFinishCondition
 
-class MainActivity : AppCompatActivity() {
-    private val boardSize: Int = 15
+class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
     private val omokPlayers: OmokPlayers
     private val boardView by lazy { findViewById<TableLayout>(R.id.board) }
 
@@ -48,9 +47,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
         val board = Board(boardSize)
-        val finishAction = object : FinishAction {
+        val omokGame = OmokGame2(board, omokPlayers, finishAction())
+        boardView.setBoardView(omokGame)
+    }
+
+    private fun finishAction(): FinishAction {
+        return object : FinishAction {
             override val conditions = listOf(
                 FiveStonesFinishCondition(),
                 FullBoardFinishCondition(),
@@ -59,33 +62,39 @@ class MainActivity : AppCompatActivity() {
 
             override fun onFinish(finishType: FinishType) {
                 when (finishType) {
-                    FinishType.BLACK_PLAYER_WIN -> Toast.makeText(this@MainActivity, "흑 승", Toast.LENGTH_SHORT).show()
-                    FinishType.WHITE_PLAYER_WIN -> Toast.makeText(this@MainActivity, "백 승", Toast.LENGTH_SHORT).show()
-                    FinishType.DRAW -> Toast.makeText(this@MainActivity, "무승부입니다", Toast.LENGTH_SHORT).show()
+                    FinishType.BLACK_PLAYER_WIN -> showToast("흑 승")
+                    FinishType.WHITE_PLAYER_WIN -> showToast("백 승")
+                    FinishType.DRAW -> showToast("무승부입니다")
                     FinishType.NOT_FINISH -> {}
                 }
             }
         }
-        val omokGame = OmokGame2(board, omokPlayers, finishAction)
+    }
 
-        boardView
-            .children
+    private fun TableLayout.setBoardView(omokGame: OmokGame2) {
+        children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEachIndexed { idx, view ->
-                view.setOnClickListener {
-                    Log.d(TAG, "position : r: ${idx / boardSize} c: ${idx % boardSize}")
-                    val position = Position(idx / boardSize, idx % boardSize)
-                    val placeType = omokGame.nextTurn(position)
-
-                    when (placeType) {
-                        PlaceType.BLACK_PLACE -> view.setImageResource(R.drawable.black_stone)
-                        PlaceType.WHITE_PLACE -> view.setImageResource(R.drawable.white_stone)
-                        PlaceType.CANNOT_PLACE -> Toast.makeText(this@MainActivity, "놓을수없음", Toast.LENGTH_SHORT).show()
-                    }
-                }
+            .forEachIndexed { index, stoneImage ->
+                stoneImage.setStoneViewOnClickListener(omokGame, index)
             }
+    }
+
+    private fun ImageView.setStoneViewOnClickListener(omokGame: OmokGame2, index: Int) {
+        setOnClickListener {
+            Log.d(TAG, "position (${index / boardSize}, ${index % boardSize})")
+            val position = Position(index / boardSize, index % boardSize)
+            when (omokGame.turn(position)) {
+                PlaceType.BLACK_PLACE -> setImageResource(R.drawable.black_stone)
+                PlaceType.WHITE_PLACE -> setImageResource(R.drawable.white_stone)
+                PlaceType.CANNOT_PLACE -> showToast("놓을 수 없음")
+            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

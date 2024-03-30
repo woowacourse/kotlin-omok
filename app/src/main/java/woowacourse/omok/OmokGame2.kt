@@ -20,17 +20,22 @@ class OmokGame2(
 ) {
     private var turnPlayer = omokPlayers.firstOrderPlayer()
 
-    fun nextTurn(position: Position): PlaceType {
-        val stone = turnPlayer.stone
+    fun turn(position: Position): PlaceType {
+        return placeType(position, turnPlayer).also {
+            finishAction.onFinish(finishType(board, position, turnPlayer))
+            nextPlayer(it)
+        }
+    }
+
+    private fun placeType(position: Position, turnPlayer: Player): PlaceType {
         runCatching { board.place(position, turnPlayer) }
             .onFailure { return PlaceType.CANNOT_PLACE }
+        return if (turnPlayer.stone == Stone.WHITE) PlaceType.WHITE_PLACE else PlaceType.BLACK_PLACE
+    }
 
+    private fun nextPlayer(placeType: PlaceType) {
+        if (placeType == PlaceType.CANNOT_PLACE) return
         turnPlayer = omokPlayers.next(turnPlayer)
-        val finishType = finishType(board, position, turnPlayer)
-        finishAction.onFinish(finishType)
-
-        if (stone == Stone.WHITE) return PlaceType.WHITE_PLACE
-        return PlaceType.BLACK_PLACE
     }
 
     private fun finishType(
