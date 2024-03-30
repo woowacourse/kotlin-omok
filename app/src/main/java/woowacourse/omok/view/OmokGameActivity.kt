@@ -1,6 +1,7 @@
 package woowacourse.omok.view
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -21,14 +22,13 @@ import woowacourse.omok.model.state.GameState
 class OmokGameActivity : AppCompatActivity() {
     private val placementData: Board by lazy { Board() }
     private val placementDao: PlacementDao by lazy { PlacementDao(this) }
+    private val currentTurn: TextView by lazy { findViewById(R.id.tv_current_turn) }
+    private val consoleOutputView by lazy { ConsoleOutputView() }
     private lateinit var gameState: GameState
-    private lateinit var currentTurn: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_omok_game)
-
-        currentTurn = findViewById(R.id.tv_current_turn)
 
         val gameId = intent.getLongExtra(GAME_ID, 0)
         val gameTitle = intent.getStringExtra(GAME_TITLE)
@@ -37,6 +37,15 @@ class OmokGameActivity : AppCompatActivity() {
         initializeGameTitle(gameTitle)
         initializeBoard(placedIndexItems, gameId)
         setCurrentTurnText()
+        consoleOutputView.showGameStartMessage()
+        showConsoleState()
+    }
+
+    private fun showConsoleState() {
+        consoleOutputView.showCurrentBoard(placementData.status)
+        if (::gameState.isInitialized && gameState !is GameState.GameOver) {
+            consoleOutputView.showCurrentTurn(placementData.lastPlacement)
+        }
     }
 
     private fun setCurrentTurnText() {
@@ -53,20 +62,24 @@ class OmokGameActivity : AppCompatActivity() {
         placedIndexItems: List<Int>,
         gameId: Long,
     ) {
-        findViewById<TableLayout>(R.id.board)
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEachIndexed { index, view ->
-                if (index in placedIndexItems) {
-                    setGameState(index)
-                    setStoneImage(view)
-                }
-                view.setOnClickListener {
-                    markPosition(index, view, gameId)
-                }
+        val boardItems =
+            findViewById<TableLayout>(R.id.board)
+                .children
+                .filterIsInstance<TableRow>()
+                .flatMap { it.children }
+                .filterIsInstance<ImageView>()
+
+        placedIndexItems.forEach {
+            setGameState(index = it)
+            setStoneImage(boardItems.toList()[it])
+        }
+
+        boardItems.forEachIndexed { index, view ->
+            view.setOnClickListener {
+                markPosition(index, view, gameId)
+                showConsoleState()
             }
+        }
     }
 
     private fun markPosition(
@@ -101,6 +114,9 @@ class OmokGameActivity : AppCompatActivity() {
         val position = getInputPosition(index)
         gameState = playEachTurn(position)
         showGameStateMessage(gameState)
+        if (gameState is GameState.GameOver) {
+            currentTurn.visibility = View.INVISIBLE
+        }
     }
 
     private fun setStoneImage(view: ImageView) {
@@ -113,9 +129,19 @@ class OmokGameActivity : AppCompatActivity() {
 
     private fun showGameStateMessage(gameState: GameState) {
         when (gameState) {
-            is GameState.GameOver -> showToastMessage(generateResultMessage(gameState))
+            is GameState.GameOver -> {
+                val resultMessage = generateResultMessage(gameState)
+                showToastMessage(resultMessage)
+                consoleOutputView.showGameResult(gameState.gameResult)
+            }
+
             is GameState.OnProgress -> return
-            is GameState.Error -> showToastMessage(gameState.message)
+            is GameState.Error -> {
+                gameState.message.also {
+                    showToastMessage(it)
+                    println(it)
+                }
+            }
         }
     }
 
@@ -128,7 +154,7 @@ class OmokGameActivity : AppCompatActivity() {
     private fun playEachTurn(position: Pair<Int, Int>): GameState = placementData.place(Position(position.first, position.second))
 
     private fun getInputPosition(index: Int): Pair<Int, Int> {
-        val row = index / BOARD_DISPLAY_SIZE + 1
+        val row = BOARD_DISPLAY_SIZE - index / BOARD_DISPLAY_SIZE
         val column = index % BOARD_DISPLAY_SIZE + 1
         return Pair(row, column)
     }

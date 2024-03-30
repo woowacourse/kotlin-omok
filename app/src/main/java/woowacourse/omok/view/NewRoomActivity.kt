@@ -29,9 +29,10 @@ class NewRoomActivity : AppCompatActivity() {
 
         startButton.setOnClickListener {
             val roomInfo = Room(title = gameNameInput.text.toString(), status = GameState.OnProgress::class.simpleName)
-            val gameId = gameRoomDao.save(roomInfo).id
+            val generationResult = gameRoomDao.save(roomInfo)
             Intent(this, OmokGameActivity::class.java).also {
-                it.putExtra(GAME_ID, gameId)
+                it.putExtra(GAME_ID, generationResult.id)
+                it.putExtra(GAME_TITLE, generationResult.title)
                 startActivity(it)
                 finish()
             }
@@ -40,5 +41,6 @@ class NewRoomActivity : AppCompatActivity() {
 
     companion object {
         private const val GAME_ID = "game_id"
+        private const val GAME_TITLE = "game_title"
     }
 }
