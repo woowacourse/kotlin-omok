@@ -1,4 +1,4 @@
-package woowacourse.omok.model.board
+package woowacourse.omok.view
 
 import woowacourse.omok.model.player.BlackPlayer
 import woowacourse.omok.model.player.Player

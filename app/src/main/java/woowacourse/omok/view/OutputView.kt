@@ -1,7 +1,7 @@
 package woowacourse.omok.view
 
-import woowacourse.omok.model.board.LocalBoard.boardForm
-import woowacourse.omok.model.board.LocalBoard.boardTable
+import woowacourse.omok.view.LocalBoard.boardForm
+import woowacourse.omok.view.LocalBoard.boardTable
 import woowacourse.omok.model.player.BlackPlayer
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.player.WhitePlayer
