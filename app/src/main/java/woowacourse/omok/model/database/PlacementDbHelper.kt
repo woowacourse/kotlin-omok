@@ -9,11 +9,14 @@ class PlacementDbHelper(
 ) : SQLiteOpenHelper(context, PlacementContract.TABLE_NAME, null, 1) {
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
-            "CREATE TABLE ${PlacementContract.TABLE_NAME} (\n" +
-                "  ${PlacementContract.COLUMN_COLOR} varchar(5) not null,\n" +
-                "  ${PlacementContract.COLUMN_HORIZONTAL_COORDINATE} int,\n" +
-                "  ${PlacementContract.COLUMN_VERTICAL_COORDINATE} int\n" +
-                ")",
+            """
+                CREATE TABLE ${PlacementContract.TABLE_NAME} (
+                  ${PlacementContract.COLUMN_ROOM_ID} int not null,
+                  ${PlacementContract.COLUMN_COLOR} varchar(5) not null,
+                  ${PlacementContract.COLUMN_HORIZONTAL_COORDINATE} int,
+                  ${PlacementContract.COLUMN_VERTICAL_COORDINATE} int
+                )
+            """,
         )
     }
 
