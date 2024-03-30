@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         gameDao = GameDaoImpl(dbHelper)
         omok.board.gameBoard = gameDao.loadGame()
         val loadedStoneType = gameDao.loadCurrentStone()
-        if (loadedStoneType != -1) { // -1이 아니면 유효한 차례 정보가 존재함
+        if (loadedStoneType != -1) {
             omok.currentStone = Stone.entries.toTypedArray()[loadedStoneType]
         }
         updateUI()
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         columnIndex: Int,
         rowIndex: Int,
         forbiddenPositions: List<Position>,
-        view: ImageView
+        view: ImageView,
     ) {
         if (Position(
                 CoordsNumber(columnIndex),
@@ -130,4 +130,5 @@ class MainActivity : AppCompatActivity() {
             else view.setImageDrawable(null)
         }
     }
+
 }

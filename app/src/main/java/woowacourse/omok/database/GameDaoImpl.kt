@@ -76,7 +76,7 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
     }
 
     override fun saveCurrentStone(currentStone: Int) {
-        val db = resetCurrentStone() // 기존 구현 사용
+        val db = resetCurrentStone()
         val values = ContentValues().apply {
             put(GameBoardContract.GameStatusEntry.COLUMN_CURRENT_STONE, currentStone)
         }
