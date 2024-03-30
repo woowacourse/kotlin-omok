@@ -12,6 +12,6 @@ enum class FinishType(val stone: Stone) {
     fun isFinish() = this != NOT_FINISH
 
     companion object {
-        fun winning(stone: Stone?) = if (stone == Stone.BLACK) BLACK_PLAYER_WIN else WHITE_PLAYER_WIN
+        fun winning(stone: Stone) = if (stone == Stone.BLACK) BLACK_PLAYER_WIN else WHITE_PLAYER_WIN
     }
 }

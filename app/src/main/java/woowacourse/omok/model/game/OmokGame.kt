@@ -21,7 +21,7 @@ class OmokGame(
 
     private fun checkFinish(position: Position) {
         val finishType = finishType(board, position, turnHistory.recentPlayer)
-        if (finishType == FinishType.NOT_FINISH) return
+        if (!finishType.isFinish()) return
         finishAction.onFinish(finishType)
     }
 
