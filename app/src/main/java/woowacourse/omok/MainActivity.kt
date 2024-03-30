@@ -14,6 +14,8 @@ import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
 import omok.model.stone.StoneType
 import omok.model.stone.WhiteStone
+import woowacourse.omok.db.OmokEntry
+import woowacourse.omok.db.OmokEntryDao
 
 class MainActivity : AppCompatActivity() {
     private var stone: GoStone = BlackStone()
@@ -51,6 +53,8 @@ class MainActivity : AppCompatActivity() {
         val position = PositionAdapter.convertIndexToPosition(index)
         retryUntilSuccess(view) {
             stone.putStone(position)
+            val entry = OmokEntry(stone.stoneType.type, index)
+            OmokEntryDao(this).save(entry)
             view.setImageResource(getStoneImage(stone))
         }
         return position
