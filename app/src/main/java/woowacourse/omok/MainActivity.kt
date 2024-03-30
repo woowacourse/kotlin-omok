@@ -74,8 +74,7 @@ class MainActivity : AppCompatActivity() {
         columnCoords: CoordsNumber,
         forbiddenPositions: List<Position>,
     ): Boolean {
-        if (rowCoords != null && columnCoords != null &&
-            !omok.board.isMoveForbidden(
+        if (!omok.board.isMoveForbidden(
                 rowCoords,
                 columnCoords,
                 forbiddenPositions,
