@@ -2,8 +2,7 @@ package woowacourse.omok.model.board
 
 import woowacourse.omok.model.entity.Stone
 
-class Board(stones: Set<Stone> = setOf()) {
-    private val _stones: Set<Stone> = stones
+class Board(private val _stones: Set<Stone> = setOf()) {
     val stones: Set<Stone>
         get() = _stones.toSet()
 
