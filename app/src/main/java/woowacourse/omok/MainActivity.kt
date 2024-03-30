@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         val board = findViewById<TableLayout>(R.id.board)
         dbHelper = DatabaseHelper(this)
         gameDao = GameDaoImpl(dbHelper)
@@ -65,8 +64,7 @@ class MainActivity : AppCompatActivity() {
 
     fun resetBoard() {
         omok.resetGame()
-        val db = dbHelper.writableDatabase
-        db.execSQL("DELETE FROM GameBoard")
+        gameDao.resetGame()
         updateUI()
     }
 
