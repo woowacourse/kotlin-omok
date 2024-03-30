@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Omok</string>
+    <string name="reset_game">게임 초기화</string>
 </resources>
