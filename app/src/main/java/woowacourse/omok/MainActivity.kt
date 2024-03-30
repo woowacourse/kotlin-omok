@@ -9,7 +9,6 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import woowacourse.omok.domain.OmokDbHelper
 import woowacourse.omok.domain.omok.model.Board
 import woowacourse.omok.domain.omok.model.Color
 import woowacourse.omok.domain.omok.model.GameResult
@@ -20,8 +19,10 @@ class MainActivity : AppCompatActivity() {
     private val boardView: TableLayout by lazy { findViewById(R.id.board) }
     private lateinit var boardData: Board
     private val restartButton: Button by lazy { findViewById(R.id.restart_button) }
-    private val dbHelper = OmokDbHelper(this)
+    private val dbHelper = FeedReaderDbHelper(this)
     private val db by lazy { dbHelper.writableDatabase }
+    private val notationDao = NotationDao(this)
+    private val explainMessage by lazy { findViewById<TextView>(R.id.expalin_message) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,44 +32,70 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playUntilFinish() {
-        val cursor = db.rawQuery("select * from notation", null)
-        val initialBoardStatus = Array(16) { Array(16) { Color.NONE } }
-        val initialNotation: MutableList<Stone> = mutableListOf()
-        while (cursor.moveToNext()) {
-            initialBoardStatus[cursor.getInt(1)][cursor.getInt(2)] =
-                Color.of(cursor.getString(0))
-            when (cursor.getString(0)) {
-                "흑" -> initialNotation.add(Stone.Black(Position.of(cursor.getInt(1), cursor.getInt(2).toChar() + 'A'.code)))
-                "백" -> initialNotation.add(Stone.White(Position.of(cursor.getInt(1), cursor.getInt(2).toChar() + 'A'.code)))
-            }
-        }
-
-        boardData = Board(initialNotation, initialBoardStatus)
-
-        boardView.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, tableRow ->
-            tableRow.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
-                when (boardData.status[15 - rowIndex][colIndex + 1]) {
-                    Color.BLACK -> imageView.setImageResource(R.drawable.black_stone)
-                    Color.WHITE -> imageView.setImageResource(R.drawable.white_stone)
-                    Color.NONE -> imageView.setImageDrawable(null)
-                }
-            }
-        }
-
-        val explainMessage = findViewById<TextView>(R.id.expalin_message)
+        val places = notationDao.findAll()
+        val initialBoardStatus = Array(Board.ARRAY_SIZE) { Array(Board.ARRAY_SIZE) { Color.NONE } }
+        val notation: MutableList<Stone> = mutableListOf()
+        addPlacesToNotation(places, initialBoardStatus, notation)
+        boardData = Board(notation, initialBoardStatus)
+        setupBoardView()
         explainMessage.text = boardData.currentTurn.label + "의 차례입니다"
         boardView.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, tableRow ->
-            setupRowImageViews(tableRow, rowIndex, explainMessage)
+            setupRowImageViews(tableRow, rowIndex)
+        }
+    }
+
+    private fun addPlacesToNotation(
+        places: List<Notation>,
+        initialBoardStatus: Array<Array<Color>>,
+        notation: MutableList<Stone>,
+    ) {
+        places.forEach { place ->
+            val color = place.color
+            val rowCoordinate = place.rowCoordinate
+            val colCoordinate = place.colCoordinate
+            val blackStone = Stone.Black(Position.of(rowCoordinate, colCoordinate.toChar() + 'A'.code))
+            val whiteStone = Stone.White(Position.of(rowCoordinate, colCoordinate.toChar() + 'A'.code))
+            initialBoardStatus[rowCoordinate][colCoordinate] = Color.of(color)
+            if (color == "흑") notation.add(blackStone)
+            if (color == "백") notation.add(whiteStone)
+        }
+    }
+
+    private fun setupBoardView() {
+        boardView.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, tableRow ->
+            setupRowOfBoardView(tableRow, rowIndex)
+        }
+    }
+
+    private fun setupRowOfBoardView(
+        tableRow: TableRow,
+        rowIndex: Int,
+    ) {
+        tableRow.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
+            val rowCoordinate = Board.ARRAY_SIZE - (rowIndex + 1)
+            val colCoordinate = colIndex + 1
+            setupImageView(rowCoordinate, colCoordinate, imageView)
+        }
+    }
+
+    private fun setupImageView(
+        rowCoordinate: Int,
+        colCoordinate: Int,
+        imageView: ImageView,
+    ) {
+        when (boardData.status[rowCoordinate][colCoordinate]) {
+            Color.BLACK -> imageView.setImageResource(R.drawable.black_stone)
+            Color.WHITE -> imageView.setImageResource(R.drawable.white_stone)
+            Color.NONE -> imageView.setImageDrawable(null)
         }
     }
 
     private fun setupRowImageViews(
         tableRow: TableRow,
         rowIndex: Int,
-        explainMessage: TextView,
     ) {
         tableRow.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
-            setupImageViewClickListener(imageView, rowIndex, colIndex, explainMessage)
+            setupImageViewClickListener(imageView, rowIndex, colIndex)
         }
     }
 
@@ -76,7 +103,6 @@ class MainActivity : AppCompatActivity() {
         imageView: ImageView,
         rowIndex: Int,
         colIndex: Int,
-        explainMessage: TextView,
     ) {
         imageView.setOnClickListener {
             runCatching {
@@ -84,9 +110,9 @@ class MainActivity : AppCompatActivity() {
                 boardData.place(eachPlacedPosition)
                 recordInDb(rowIndex, colIndex)
                 explainMessage.text = boardData.currentTurn.label + "의 차례입니다"
-                displayOnAndroidBoard(boardData, imageView)
+                displayOnBoardView(boardData, imageView)
                 imageView.isClickable = false
-                finishIfGameOver(eachPlacedPosition, explainMessage)
+                finishIfGameOver(eachPlacedPosition)
             }.onFailure {
                 explainMessage.text = it.message
             }
@@ -97,18 +123,13 @@ class MainActivity : AppCompatActivity() {
         rowIndex: Int,
         colIndex: Int,
     ) {
-        db.execSQL(
-            """
-                        insert into notation (color, rowCoordinate, colCoordinate)
-                            values ('${boardData.lastTurn.label}', ${15 - rowIndex}, ${colIndex + 1})
-                        """,
-        )
+        val rowCoordinate = Board.ARRAY_SIZE - (rowIndex + 1)
+        val colCoordinate = colIndex + 1
+        val notation = Notation(boardData.lastTurn.label, rowCoordinate, colCoordinate)
+        notationDao.save(notation)
     }
 
-    private fun finishIfGameOver(
-        eachPlacedPosition: Position,
-        explainMessage: TextView,
-    ) {
+    private fun finishIfGameOver(eachPlacedPosition: Position) {
         if (boardData.getGameResult(eachPlacedPosition) != GameResult.PROCEEDING) {
             explainMessage.text = "${boardData.getGameResult(eachPlacedPosition).label}의 승리"
             disableBoardClickListener()
@@ -128,7 +149,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun displayOnAndroidBoard(
+    private fun displayOnBoardView(
         backingBoard: Board,
         imageView: ImageView,
     ) {
