@@ -7,12 +7,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-data class Room(
-    val id: Long,
-    val title: String,
-    val status: String,
-)
-
 class RoomInfoRVAdapter(
     private val rooms: List<Room>,
     private val onEnterClick: (Long, String) -> Unit,

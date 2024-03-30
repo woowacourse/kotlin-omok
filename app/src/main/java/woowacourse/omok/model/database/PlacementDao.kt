@@ -1,42 +1,29 @@
 package woowacourse.omok.model.database
 
 import android.content.Context
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 import androidx.core.content.contentValuesOf
 
-interface DatabaseDao {
-    val dbHelper: SQLiteOpenHelper
-}
-
-data class Placement(
-    val placementId: Long = 0L,
-    val gameId: Long,
-    val color: String?,
-    val index: Int,
-)
-
 class PlacementDao(
     context: Context,
-) : DatabaseDao {
+) : DatabaseDao<Placement> {
     override val dbHelper: SQLiteOpenHelper = PlacementDbHelper(context)
 
-    fun save(placement: Placement): Placement {
+    override fun save(item: Placement): Placement {
         val db = dbHelper.writableDatabase
         val placementId =
             db.insert(
                 PlacementContract.TABLE_NAME,
                 null,
                 contentValuesOf(
-                    PlacementContract.COLUMN_ROOM_ID to placement.gameId,
-                    PlacementContract.COLUMN_COLOR to placement.color,
-                    PlacementContract.COLUMN_PLACEMENT_INDEX to placement.index,
+                    PlacementContract.COLUMN_ROOM_ID to item.gameId,
+                    PlacementContract.COLUMN_COLOR to item.color,
+                    PlacementContract.COLUMN_PLACEMENT_INDEX to item.index,
                 ),
             )
 
-        return placement.copy(placementId = placementId)
+        return item.copy(placementId = placementId)
     }
 
     fun findAll(gameId: Long): List<Placement> {
@@ -58,7 +45,6 @@ class PlacementDao(
             )
 
         val entries = mutableListOf<Placement>()
-
         while (cursor.moveToNext()) {
             val placementId = cursor.getLong(cursor.getColumnIndexOrThrow(BaseColumns._ID))
             val roomId =
@@ -75,14 +61,7 @@ class PlacementDao(
         return entries
     }
 
-    private fun SQLiteDatabase.query(
-        table: String,
-        columns: Array<String>,
-    ): Cursor {
-        return query(table, columns, null, null, null, null, null)
-    }
-
-    fun drop() {
+    override fun drop() {
         val db = dbHelper.writableDatabase
         db.delete(PlacementContract.TABLE_NAME, null, null)
     }
