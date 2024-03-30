@@ -12,10 +12,11 @@ class OmokDAO(context: Context) {
         y: Int,
     ) {
         val db = dbHelper.writableDatabase
-        val values = ContentValues().apply {
-            put(OmockDBConstant.X_COORDINATE, x)
-            put(OmockDBConstant.Y_COORDINATE, y)
-        }
+        val values =
+            ContentValues().apply {
+                put(OmockDBConstant.X_COORDINATE, x)
+                put(OmockDBConstant.Y_COORDINATE, y)
+            }
         db.insert(OmockDBConstant.TABLE_NAME, null, values)
         db.close()
     }

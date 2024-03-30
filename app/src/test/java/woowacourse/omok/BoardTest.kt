@@ -1,5 +1,8 @@
 package omock
 
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.player.WhitePlayer
 import woowacourse.omok.model.position.Column
@@ -7,9 +10,6 @@ import woowacourse.omok.model.position.Row
 import woowacourse.omok.model.rule.LoadMap
 import woowacourse.omok.model.search.Direction
 import woowacourse.omok.model.stone.Stone
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class BoardTest {
     @Test

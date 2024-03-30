@@ -1,11 +1,11 @@
 package woowacourse.omok.model.ruletype
 
+import woowacourse.omok.model.rule.OMockRule
 import woowacourse.omok.model.ruletype.RuleType.Companion.checkCalculateType
 import woowacourse.omok.model.search.Direction
 import woowacourse.omok.model.search.DirectionResult
 import woowacourse.omok.model.search.VisitedDirectionFirstClearResult
 import woowacourse.omok.model.search.VisitedDirectionResult
-import woowacourse.omok.model.rule.OMockRule
 
 data object IsReverseTwoAndThree : RuleType {
     private const val IS_REVERSE_TWO_AND_THREE_MESSAGE = "장목 금수를 어겼습니다."
@@ -43,11 +43,11 @@ data object IsReverseTwoAndThree : RuleType {
             reverseResultCount = reverseResultCount,
             directionResult = directionResult,
         ) &&
-                provideNotFirstClearResult(
-                    isReverseResultFirstClear = isReverseResultFirstClear,
-                    reverseResultCount = reverseResultCount,
-                    directionResult = directionResult,
-                )
+            provideNotFirstClearResult(
+                isReverseResultFirstClear = isReverseResultFirstClear,
+                reverseResultCount = reverseResultCount,
+                directionResult = directionResult,
+            )
     }
 
     override fun provideFirstClearResult(
@@ -56,7 +56,7 @@ data object IsReverseTwoAndThree : RuleType {
         directionResult: DirectionResult,
     ): Boolean {
         return isThreeToThreeCount(directionResult.count) &&
-                isFourToFourCount(reverseResultCount) && !isReverseResultFirstClear
+            isFourToFourCount(reverseResultCount) && !isReverseResultFirstClear
     }
 
     override fun provideNotFirstClearResult(

@@ -12,19 +12,19 @@ data class Stone(
         return LAST_STONE_LOCATION_MESSAGE.format(column.comma, row.comma)
     }
 
-    fun getRowIndex(): Int{
+    fun getRowIndex(): Int {
         return row.getIndex()
     }
 
-    fun getColumnIndex(): Int{
+    fun getColumnIndex(): Int {
         return column.getIndex()
     }
 
-    fun getRowComma(): String{
+    fun getRowComma(): String {
         return row.comma
     }
 
-    fun getBoardRowIndex(): Int{
+    fun getBoardRowIndex(): Int {
         return row.toBoardIndex()
     }
 

@@ -25,7 +25,10 @@ class OMockViewController(private val context: Context) : OMockGame() {
         Toast.makeText(context, throwable.message, Toast.LENGTH_LONG).show()
     }
 
-    override fun executePlayerSuccessStep(playerStone: Stone, player: Player) {
+    override fun executePlayerSuccessStep(
+        playerStone: Stone,
+        player: Player,
+    ) {
         setLastPickStone(player)
     }
 
@@ -67,9 +70,10 @@ class OMockViewController(private val context: Context) : OMockGame() {
     ) {
         OutputView.outputUserTurn(player)
         OutputView.outputLastStone(player.stoneHistory.lastOrNull())
-        val playerStone = player.turn {
-            playerPick
-        }
+        val playerStone =
+            player.turn {
+                playerPick
+            }
         start(player = player, playerStone)
     }
 

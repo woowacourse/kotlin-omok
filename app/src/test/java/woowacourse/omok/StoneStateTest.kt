@@ -1,5 +1,8 @@
 package omock
 
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.model.player.BlackPlayer
 import woowacourse.omok.model.player.WhitePlayer
 import woowacourse.omok.model.position.Column
@@ -8,9 +11,6 @@ import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stonestate.Black
 import woowacourse.omok.model.stonestate.Clear
 import woowacourse.omok.model.stonestate.White
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class StoneStateTest {
     @Test

@@ -1,9 +1,9 @@
 package woowacourse.omok.model.ruletype
 
+import woowacourse.omok.model.rule.OMockRule
 import woowacourse.omok.model.search.DirectionResult
 import woowacourse.omok.model.search.VisitedDirectionFirstClearResult
 import woowacourse.omok.model.search.VisitedDirectionResult
-import woowacourse.omok.model.rule.OMockRule
 
 sealed interface RuleType {
     fun checkRule(

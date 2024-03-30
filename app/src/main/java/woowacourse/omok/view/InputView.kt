@@ -12,9 +12,12 @@ object InputView {
             player.turn {
                 OutputView.outputUserLocation()
                 val input = readln().trim()
-                Pair(input.substring(FIRST_INDEX_INPUT, SECOND_INDEX_INPUT), input.substring(
-                    SECOND_INDEX_INPUT
-                ))
+                Pair(
+                    input.substring(FIRST_INDEX_INPUT, SECOND_INDEX_INPUT),
+                    input.substring(
+                        SECOND_INDEX_INPUT,
+                    ),
+                )
             }
         }
     }

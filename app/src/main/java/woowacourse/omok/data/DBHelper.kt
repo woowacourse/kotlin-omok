@@ -12,7 +12,8 @@ class DBHelper(context: Context) :
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val createTableQuery = "CREATE TABLE omok_coordinates (" +
+        val createTableQuery =
+            "CREATE TABLE omok_coordinates (" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "${OmockDBConstant.X_COORDINATE} INTEGER," +
                 "${OmockDBConstant.Y_COORDINATE} INTEGER" +
@@ -20,7 +21,11 @@ class DBHelper(context: Context) :
         db?.execSQL(createTableQuery)
     }
 
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+    override fun onUpgrade(
+        db: SQLiteDatabase?,
+        oldVersion: Int,
+        newVersion: Int,
+    ) {
         db?.execSQL("DROP TABLE IF EXISTS omok_coordinates")
         onCreate(db)
     }

@@ -1,12 +1,12 @@
 package woowacourse.omok.model.ruletype
 
+import woowacourse.omok.model.rule.OMockRule
+import woowacourse.omok.model.rule.OMockRule.Companion.MIN_FOUR_TO_FOUR_COUNT
 import woowacourse.omok.model.ruletype.RuleType.Companion.checkCalculateType
 import woowacourse.omok.model.search.Direction
 import woowacourse.omok.model.search.DirectionResult
 import woowacourse.omok.model.search.VisitedDirectionFirstClearResult
 import woowacourse.omok.model.search.VisitedDirectionResult
-import woowacourse.omok.model.rule.OMockRule
-import woowacourse.omok.model.rule.OMockRule.Companion.MIN_FOUR_TO_FOUR_COUNT
 
 data object FourToFourCount : RuleType {
     private const val FOUR_TO_FOUR_COUNT_MESSAGE = "4-4 금수를 어겼습니다."

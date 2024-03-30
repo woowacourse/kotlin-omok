@@ -1,12 +1,12 @@
 package woowacourse.omok.controller
 
 import woowacourse.omok.model.GameTurn
-import woowacourse.omok.view.LocalBoard
 import woowacourse.omok.model.player.BlackPlayer
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.player.WhitePlayer
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.view.InputView
+import woowacourse.omok.view.LocalBoard
 import woowacourse.omok.view.OutputView.outputBoardForm
 import woowacourse.omok.view.OutputView.outputFailureMessage
 import woowacourse.omok.view.OutputView.outputGameStart

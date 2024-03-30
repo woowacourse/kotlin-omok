@@ -1,11 +1,11 @@
 package woowacourse.omok.view
 
-import woowacourse.omok.view.LocalBoard.boardForm
-import woowacourse.omok.view.LocalBoard.boardTable
 import woowacourse.omok.model.player.BlackPlayer
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.player.WhitePlayer
 import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.view.LocalBoard.boardForm
+import woowacourse.omok.view.LocalBoard.boardTable
 
 object OutputView {
     private const val REQUIRE_LOCATION_MESSAGE = "위치를 입력하세요:"

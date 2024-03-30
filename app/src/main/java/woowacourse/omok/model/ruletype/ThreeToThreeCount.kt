@@ -1,11 +1,11 @@
 package woowacourse.omok.model.ruletype
 
+import woowacourse.omok.model.rule.OMockRule
 import woowacourse.omok.model.ruletype.RuleType.Companion.checkCalculateType
 import woowacourse.omok.model.search.Direction
 import woowacourse.omok.model.search.DirectionResult
 import woowacourse.omok.model.search.VisitedDirectionFirstClearResult
 import woowacourse.omok.model.search.VisitedDirectionResult
-import woowacourse.omok.model.rule.OMockRule
 
 data object ThreeToThreeCount : RuleType {
     private const val THREE_TO_THREE_COUNT_MESSAGE = "3-3 금수를 어겼습니다."

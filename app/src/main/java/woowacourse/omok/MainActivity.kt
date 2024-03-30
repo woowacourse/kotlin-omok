@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainBoard: TableLayout
     private val oMockViewController = OMockViewController(this@MainActivity)
     private val dao = OmokDAO(this@MainActivity)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun resetBoard(){
+    private fun resetBoard() {
         dao.resetAllCoordinates()
         oMockViewController.resetBoard(mainBoard)
     }
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         dao.getAllCoordinates().forEach { (columnIndex, rowIndex) ->
             val row: TableRow = mainBoard.getChildAt(rowIndex) as TableRow
             val imageView: ImageView = row.getChildAt(columnIndex) as ImageView
-            oMockViewController.setBoard(imageView,columnIndex to rowIndex)
+            oMockViewController.setBoard(imageView, columnIndex to rowIndex)
         }
         oMockViewController.startGameBoard()
     }

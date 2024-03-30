@@ -1,5 +1,7 @@
 package omock
 
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.player.BlackPlayer
 import woowacourse.omok.model.position.Column
@@ -13,8 +15,6 @@ import woowacourse.omok.model.ruletype.ThreeToThreeCount
 import woowacourse.omok.model.search.VisitedDirectionFirstClearResult
 import woowacourse.omok.model.search.VisitedDirectionResult
 import woowacourse.omok.model.stone.Stone
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class OmockRuleTest {
     @Test
