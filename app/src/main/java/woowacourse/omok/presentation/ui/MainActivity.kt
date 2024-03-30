@@ -1,4 +1,4 @@
-package woowacourse.omok.presentation
+package woowacourse.omok.presentation.ui
 
 import android.view.View
 import android.widget.Button
@@ -19,7 +19,9 @@ import omok.view.OutputView
 import woowacourse.omok.R
 import woowacourse.omok.local.db.OmokDao
 import woowacourse.omok.local.repository.OmokRepositoryImpl
+import woowacourse.omok.presentation.base.OmokGameActivity
 import woowacourse.omok.presentation.model.Omok
+import woowacourse.omok.presentation.toStoneIconRes
 
 class MainActivity : OmokGameActivity(R.layout.activity_main) {
     override lateinit var dao: OmokDao

@@ -1,11 +1,11 @@
-package woowacourse.omok.presentation
+package woowacourse.omok.presentation.ui
 
 import woowacourse.omok.local.repository.OmokRepository
-import woowacourse.omok.presentation.Exception.DbException.DeleteAllOmokException
-import woowacourse.omok.presentation.Exception.DbException.DeleteOmokException
-import woowacourse.omok.presentation.Exception.DbException.InsertOmokException
-import woowacourse.omok.presentation.Exception.DbException.SelectOmokException
 import woowacourse.omok.presentation.model.Omok
+import woowacourse.omok.presentation.ui.Exception.DbException.DeleteAllOmokException
+import woowacourse.omok.presentation.ui.Exception.DbException.DeleteOmokException
+import woowacourse.omok.presentation.ui.Exception.DbException.InsertOmokException
+import woowacourse.omok.presentation.ui.Exception.DbException.SelectOmokException
 
 class MainViewModel(private val repository: OmokRepository) {
     fun insertOmok(omok: Omok): UiState {

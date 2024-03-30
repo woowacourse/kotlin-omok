@@ -1,4 +1,4 @@
-package woowacourse.omok.presentation
+package woowacourse.omok.presentation.ui
 
 import woowacourse.omok.presentation.model.Omok
 

@@ -1,4 +1,4 @@
-package woowacourse.omok.presentation
+package woowacourse.omok.presentation.base
 
 import android.os.Bundle
 import android.view.View
@@ -7,10 +7,10 @@ import com.google.android.material.snackbar.Snackbar
 import omok.model.OMokGame
 import woowacourse.omok.R
 import woowacourse.omok.local.db.OmokDao
-import woowacourse.omok.presentation.Exception.DbException.DeleteAllOmokException
-import woowacourse.omok.presentation.Exception.DbException.DeleteOmokException
-import woowacourse.omok.presentation.Exception.DbException.InsertOmokException
-import woowacourse.omok.presentation.Exception.DbException.SelectOmokException
+import woowacourse.omok.presentation.ui.Exception.DbException.DeleteAllOmokException
+import woowacourse.omok.presentation.ui.Exception.DbException.DeleteOmokException
+import woowacourse.omok.presentation.ui.Exception.DbException.InsertOmokException
+import woowacourse.omok.presentation.ui.Exception.DbException.SelectOmokException
 
 abstract class OmokGameActivity(private val layoutResID: Int) : AppCompatActivity() {
     abstract var dao: OmokDao
