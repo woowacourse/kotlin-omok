@@ -25,6 +25,6 @@ class AndroidOutputView(private val view: View) : OutputView {
     }
 
     override fun printInAppropriatePlace(message: String) {
-        TODO("Not yet implemented")
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
     }
 }
