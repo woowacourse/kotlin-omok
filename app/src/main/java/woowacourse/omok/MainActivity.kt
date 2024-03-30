@@ -5,6 +5,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import woowacourse.omok.database.DatabaseHelper
@@ -49,8 +50,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun processPlayerMove(rowIndex: Int, columIndex: Int) {
-        val forbiddenPositions =
-            omok.renjuGameRule.findForbiddenPositions(omok.currentStone)
+        val forbiddenPositions = omok.renjuGameRule.findForbiddenPositions(omok.currentStone)
         if (omok.board.isRunning()) {
             if (requestPlayerMove(
                     omok.currentStone,
@@ -78,12 +78,15 @@ class MainActivity : AppCompatActivity() {
         columnCoords: CoordsNumber,
         forbiddenPositions: List<Position>,
     ): Boolean {
-        if (!omok.board.isMoveForbidden(
+        if (omok.board.isMoveForbidden(
                 rowCoords,
                 columnCoords,
                 forbiddenPositions,
-            ) && !omok.board.isNotEmpty(rowCoords, columnCoords)
+            )
         ) {
+            Toast.makeText(this, "이 위치에는 둘 수 없습니다!", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (!omok.board.isNotEmpty(rowCoords, columnCoords)) {
             omok.placeStone(Position(rowCoords, columnCoords), currentStone)
             outputView.printBoard(
                 omok.board.gameBoard,
