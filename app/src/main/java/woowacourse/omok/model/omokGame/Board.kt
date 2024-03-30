@@ -33,8 +33,7 @@ class Board(var gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
 
     fun findForbiddenPositions(stone: Stone): List<Position> {
         if (stone == Stone.WHITE) return listOf()
-        val tmp = renjuGameRule.findForbiddenPositions(stone)
-        return tmp
+        return renjuGameRule.findForbiddenPositions(stone)
     }
 
     fun isMoveForbidden(
