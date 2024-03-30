@@ -7,12 +7,8 @@ enum class Color(val label: String) {
     ;
 
     companion object {
-        fun getReversedColor(color: Color): Color {
-            return when (color) {
-                BLACK -> WHITE
-                WHITE -> BLACK
-                NONE -> NONE
-            }
+        fun of(color: String): Color {
+            return entries.first { it.label == color }
         }
     }
 }
