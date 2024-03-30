@@ -2,6 +2,7 @@ package woowacourse.omok
 
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -19,17 +20,47 @@ import woowacourse.omok.model.state.GameState
 class MainActivity : AppCompatActivity() {
     private val placementData: Board by lazy { Board() }
     private lateinit var gameState: GameState
-    private lateinit var db: SQLiteDatabase
+    private lateinit var placementDb: SQLiteDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val dbHelper = PlacementDbHelper(this)
-        db = dbHelper.writableDatabase
-
         val gameId = intent.getLongExtra(GAME_ID, 0)
-        val gameTitle = intent.getStringExtra(GAME_TITLE) ?: finish()
+        val gameTitle = intent.getStringExtra(GAME_TITLE)
+
+        val placementDbHelper = PlacementDbHelper(this)
+        placementDb = placementDbHelper.writableDatabase
+
+        val cursor =
+            placementDb.rawQuery(
+                """
+               SELECT * FROM ${PlacementContract.TABLE_NAME} 
+               WHERE ${PlacementContract.COLUMN_ROOM_ID} = ?
+            """,
+                arrayOf(gameId.toString()),
+            )
+
+        while (cursor.moveToNext()) {
+            val placementIndex =
+                cursor.getInt(cursor.getColumnIndexOrThrow(PlacementContract.COLUMN_PLACEMENT_INDEX))
+            Log.i(TAG, "placement index : $placementIndex")
+            findViewById<TableLayout>(R.id.board).apply {
+                children
+                    .filterIsInstance<TableRow>()
+                    .flatMap { it.children }
+                    .filterIsInstance<ImageView>()
+                    .forEachIndexed { index, view ->
+                        if (placementIndex == index) {
+                            setGameState(index)
+                            setStoneImage(view)
+                        }
+                    }
+            }
+        }
+
+        cursor.close()
+
         findViewById<TableLayout>(R.id.board).apply {
             children
                 .filterIsInstance<TableRow>()
@@ -48,23 +79,26 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
         gameId: Long,
     ) {
-        val position = getInputPosition(index)
         if (!::gameState.isInitialized || gameState !is GameState.GameOver) {
-            gameState = playEachTurn(position)
-            showGameStateMessage(gameState)
+            setGameState(index)
             if (gameState !is GameState.Error) {
                 setStoneImage(view)
-                db.execSQL(
+                placementDb.execSQL(
                     "INSERT INTO ${PlacementContract.TABLE_NAME} (" +
                         "${PlacementContract.COLUMN_ROOM_ID}," +
                         " ${PlacementContract.COLUMN_COLOR}," +
-                        " ${PlacementContract.COLUMN_VERTICAL_COORDINATE}," +
-                        " ${PlacementContract.COLUMN_HORIZONTAL_COORDINATE}" +
+                        " ${PlacementContract.COLUMN_PLACEMENT_INDEX}" +
                         ") \n" +
-                        "VALUES ($gameId, '${placementData.lastPlacement?.color?.name}', ${position.second}, ${position.first})",
+                        "VALUES ($gameId, '${placementData.lastPlacement?.color?.name}', $index)",
                 )
             }
         }
+    }
+
+    private fun setGameState(index: Int) {
+        val position = getInputPosition(index)
+        gameState = playEachTurn(position)
+        showGameStateMessage(gameState)
     }
 
     private fun setStoneImage(view: ImageView) {
@@ -100,6 +134,7 @@ class MainActivity : AppCompatActivity() {
     private fun showToastMessage(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
     companion object {
+        private const val TAG = "MainActivity"
         private const val BOARD_DISPLAY_SIZE = 15
         private const val GAME_ID = "game_id"
         private const val GAME_TITLE = "game_title"

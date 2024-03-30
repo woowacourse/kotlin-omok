@@ -25,5 +25,7 @@ class GameRoomDbHelper(
         oldVersion: Int,
         newVersion: Int,
     ) {
+        db?.execSQL("DROP TABLE IF EXISTS ${GameRoomContract.TABLE_NAME}")
+        onCreate(db)
     }
 }

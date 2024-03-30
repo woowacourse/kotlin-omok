@@ -15,7 +15,7 @@ data class Room(
 
 class RoomInfoRVAdapter(
     private val rooms: List<Room>,
-    private val onEnter: (Long, String) -> Unit,
+    private val onEnterClick: (Long, String) -> Unit,
 ) : RecyclerView.Adapter<RoomInfoRVAdapter.RoomInfoViewHolder>() {
     inner class RoomInfoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val title = view.findViewById<TextView>(R.id.tv_game_title)
@@ -27,7 +27,7 @@ class RoomInfoRVAdapter(
             button.setOnClickListener {
                 val roomId = rooms[adapterPosition].id
                 val title = rooms[adapterPosition].title
-                onEnter(roomId, title)
+                onEnterClick(roomId, title)
             }
         }
     }
