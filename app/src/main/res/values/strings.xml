@@ -6,7 +6,7 @@
     <string name="success_omock">오목입니다!</string>
 
     <!-- error message -->
-    <string name="finished_omock">이미 게임이 종료되었습니다. 다시하기 버튼을 눌러주세요!</string>
+    <string name="omok_placement_invalid">그 곳에는 오목을 놓을 수 없습니다.</string>
     <string name="insert_omok_exceptions_message">오목을 저장하다가 에러가 발생했습니다.</string>
     <string name="select_omok_exceptions_message">오목을 불러오다가 에러가 발생했습니다.</string>
     <string name="delete_omok_exceptions_message">오목을 삭제하다가 에러가 발생했습니다.</string>

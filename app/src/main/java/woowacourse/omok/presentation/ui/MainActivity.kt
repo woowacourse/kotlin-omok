@@ -111,8 +111,8 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
                     is UiState.Failure -> showSnackbar(view, state.error)
                 }
             }
-        } ?: {
-            showSnackbar(view, getString(R.string.finished_omock))
+        } ?: run {
+            showSnackbar(view, getString(R.string.omok_placement_invalid))
         }
     }
 
