@@ -7,11 +7,9 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.core.view.children
 import omok.model.Column
-import omok.model.Column.Companion.toColumnComma
 import omok.model.OMokBoard
 import omok.model.OMokGame
 import omok.model.Row
-import omok.model.Row.Companion.toRowComma
 import omok.model.turn.FinishedTurn
 import woowacourse.omok.R
 import woowacourse.omok.local.db.OmokDao
@@ -100,14 +98,9 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
         view: ImageView,
     ) {
         val turn = oMokGame.getTurn()
-        turn.toStoneIconRes()?.let { stoneIconRes ->
-            val rowIndex = idx / size
-            val columnIndex = idx % size
 
-            val rowComma = rowIndex.toRowComma(size)
-            val columnComma = columnIndex.toColumnComma()
-
-            if (oMokGame.executeTurn(Row(rowComma), Column(columnComma))) {
+        oMokGame.executeValidCoordinates(idx, size)?.let { (rowComma, columnComma) ->
+            turn.toStoneIconRes()?.let { stoneIconRes ->
                 view.setImageResource(stoneIconRes)
                 handleTurnCompletion(view)
 
@@ -115,11 +108,12 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
 
                 when (val state = viewModel.insertOmok(omok)) {
                     is UiState.Success -> Unit
-
                     is UiState.Failure -> showSnackbar(view, state.error)
                 }
             }
-        } ?: showSnackbar(view, getString(R.string.finished_omock))
+        } ?: {
+            showSnackbar(view, getString(R.string.finished_omock))
+        }
     }
 
     private fun handleTurnCompletion(view: View) {

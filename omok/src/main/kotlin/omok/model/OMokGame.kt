@@ -1,6 +1,8 @@
 package omok.model
 
+import omok.model.Column.Companion.toColumnComma
 import omok.model.ErrorType.AlreadyExistStone
+import omok.model.Row.Companion.toRowComma
 import omok.model.state.Stone
 import omok.model.turn.BlackTurn
 import omok.model.turn.Turn
@@ -20,6 +22,23 @@ class OMokGame(
                 executePlayerTurn(playerStone, error)
             }
         }
+    }
+
+    fun executeValidCoordinates(
+        idx: Int,
+        size: Int,
+    ): Pair<String, String>? {
+        if (turn.isFinished()) return null
+
+        val rowIndex = idx / size
+        val columnIndex = idx % size
+
+        val rowComma = rowIndex.toRowComma(size)
+        val columnComma = columnIndex.toColumnComma()
+
+        if (executeTurn(Row(rowComma), Column(columnComma))) return Pair(rowComma, columnComma)
+
+        return null
     }
 
     fun executeTurn(
