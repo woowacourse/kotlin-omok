@@ -1,4 +1,4 @@
-package woowacourse.omok.mapper
+package woowacourse.omok.util
 
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.OmokStone

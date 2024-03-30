@@ -13,7 +13,7 @@ import woowacourse.omok.view.OmokOutputView
 class ConsoleController(
     private val omokOutputView: OmokOutputView = ConsoleOmokOutputView,
     private val state: GameState = BlackTurn(RenjuRule, Board(emptyMap())),
-    private val event: OnPlaceListener = OnPlaceListener { ConsoleOmokInputView.readPosition() }
+    private val event: OnPlaceListener = OnPlaceListener { ConsoleOmokInputView.readPosition() },
 ) {
     fun start() {
         omokOutputView.showStartMessage()
