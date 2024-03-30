@@ -5,12 +5,6 @@ import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.player.Player
 
-enum class PlaceType {
-    CANNOT_PLACE,
-    WHITE_PLACE,
-    BLACK_PLACE,
-}
-
 class OmokGame(
     private val board: Board,
     omokPlayers: OmokPlayers,
