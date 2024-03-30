@@ -2,7 +2,6 @@ package woowacourse.omok.model
 
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.entity.Point
-import woowacourse.omok.model.entity.StoneColor
 import woowacourse.omok.model.turn.BlackTurn
 import woowacourse.omok.model.turn.Finished
 import woowacourse.omok.model.turn.Turn
@@ -12,15 +11,15 @@ class OmokGame(
 ) {
     fun run(
         inputPoint: () -> Pair<Int, Int>,
-        beforeTurn: (Board, StoneColor) -> Unit,
-        afterGame: (Board, StoneColor) -> Unit,
+        beforeTurn: (Board) -> Unit,
+        afterGame: (Board) -> Unit,
         onInappropriate: (String) -> Unit,
     ) {
         while (turn !is Finished) {
-            beforeTurn(turn.board, turn.color())
+            beforeTurn(turn.board)
             proceedTurn(inputPoint, onInappropriate)
         }
-        afterGame(turn.board, turn.color())
+        afterGame(turn.board)
     }
 
     private fun proceedTurn(

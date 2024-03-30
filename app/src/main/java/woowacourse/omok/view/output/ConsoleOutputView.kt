@@ -7,22 +7,19 @@ import woowacourse.omok.model.entity.StoneColor
 class ConsoleOutputView : OutputView {
     override fun printStartGuide() = println("오목 게임을 시작합니다")
 
-    override fun printTurn(
-        board: Board,
-        stoneColor: StoneColor,
-    ) {
+    override fun printTurn(board: Board) {
         val omokBoard = buildOmokBoard(board)
         println(omokBoard)
-        printTurnGuide(stoneColor)
+        printTurnGuide(board.previousStone()?.stoneColor)
         printPreviousPoint(board.previousStone())
     }
 
-    private fun printTurnGuide(color: StoneColor) {
+    private fun printTurnGuide(color: StoneColor?) {
         val colorString = getColorString(color)
         print("${colorString}의 차례입니다.  ")
     }
 
-    private fun getColorString(color: StoneColor): String = if (color == StoneColor.BLACK) "흑" else "백"
+    private fun getColorString(color: StoneColor?): String = if (color == StoneColor.BLACK) "흑" else "백"
 
     private fun printPreviousPoint(nullableStone: Stone?) {
         val stone = nullableStone ?: return println("")
@@ -66,13 +63,10 @@ class ConsoleOutputView : OutputView {
         return boardMap.toString()
     }
 
-    override fun printWinner(
-        board: Board,
-        stoneColor: StoneColor,
-    ) {
+    override fun printWinner(board: Board) {
         val strMap = buildOmokBoard(board)
         println(strMap)
-        val colorString = getColorString(stoneColor)
+        val colorString = getColorString(board.previousStone()?.stoneColor)
         print("${colorString}이 승리했습니다")
     }
 
