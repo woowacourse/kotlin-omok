@@ -45,9 +45,7 @@ class OmokDao(context: Context) {
     }
 
     fun deleteAllOmok() {
-        val omokEntitys = selectOmok()
-        omokEntitys.forEach { omokEntity ->
-            deleteOmok(omokEntity)
-        }
+        val db = db.writableDatabase
+        db.delete(OmokDbContract.TABLE_NAME, null, null)
     }
 }
