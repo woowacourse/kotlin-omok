@@ -29,7 +29,7 @@ class OmokGame(
     fun playTurn(
         player: Player,
         coordinate: Coordinate,
-        onPutStone: () -> Unit
+        onPutStone: () -> Unit,
     ): StoneState {
         val stoneState =
             player.playTurn(
