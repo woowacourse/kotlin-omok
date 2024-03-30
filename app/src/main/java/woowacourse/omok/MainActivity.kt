@@ -12,10 +12,11 @@ import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
-import omok.model.stone.StoneType
 import omok.model.stone.WhiteStone
+import woowacourse.omok.adapter.OmokBoardAdapter
 import woowacourse.omok.db.OmokEntry
 import woowacourse.omok.db.OmokEntryDao
+import woowacourse.omok.utils.HandlingExceptionUtils
 
 class MainActivity : AppCompatActivity() {
     private var stone: GoStone = BlackStone()
@@ -35,44 +36,25 @@ class MainActivity : AppCompatActivity() {
                 .filterIsInstance<ImageView>()
                 .toList()
 
-        restoreProgressGameData(positions)
+        GameResume.restoreProgressGameData(positions, dao)
 
         positions.forEachIndexed { index, view ->
-            view.setOnClickListener {
-                val position = putStone(index, view)
-                val isOmok = stone.findOmok(position)
-                if (isOmok) {
-                    endGame(positions, view)
-                }
-                stone = omokGame.changeStone(stone.stoneType)
-            }
+            clickToPlaceStone(view, index, positions)
         }
     }
 
-    private fun restoreProgressGameData(positions: List<ImageView>) {
-        val omokGameData = dao.findAll().associateBy { it.position }
-
-        positions.forEachIndexed { index, view ->
-            showInProgressGameData(omokGameData, index, view)
-        }
-    }
-
-    private fun showInProgressGameData(
-        omokGameData: Map<Int, OmokEntry>,
+    private fun clickToPlaceStone(
+        view: ImageView,
         index: Int,
-        view: ImageView,
+        positions: List<ImageView>,
     ) {
-        omokGameData[index]?.let { entry ->
-            placeCurrentGameStones(entry, view)
-        }
-    }
-
-    private fun placeCurrentGameStones(
-        entry: OmokEntry,
-        view: ImageView,
-    ) {
-        StoneType.entries.firstOrNull { it.type == entry.stoneType }?.let {
-            view.setImageResource(getStoneImage(it))
+        view.setOnClickListener {
+            val position = putStone(index, view)
+            val isOmok = stone.findOmok(position)
+            if (isOmok) {
+                endGame(positions, view)
+            }
+            stone = omokGame.changeStone(stone.stoneType)
         }
     }
 
@@ -80,22 +62,14 @@ class MainActivity : AppCompatActivity() {
         index: Int,
         view: ImageView,
     ): Position {
-        val position = PositionAdapter.convertIndexToPosition(index)
-        retryUntilSuccess(view) {
+        val position = OmokBoardAdapter.convertIndexToPosition(index)
+        HandlingExceptionUtils.retryUntilSuccess(view) {
             stone.putStone(position)
             val entry = OmokEntry(stone.stoneType.type, index)
             dao.save(entry)
-            view.setImageResource(getStoneImage(stone.stoneType))
+            view.setImageResource(OmokBoardAdapter.convertStoneTypeToDrawable(stone.stoneType))
         }
         return position
-    }
-
-    private fun getStoneImage(stoneType: StoneType): Int {
-        return when (stoneType) {
-            StoneType.BLACK_STONE -> R.drawable.black_stone
-            StoneType.WHITE_STONE -> R.drawable.white_stone
-            StoneType.NONE -> 0
-        }
     }
 
     private fun endGame(
@@ -136,15 +110,4 @@ class MainActivity : AppCompatActivity() {
         stone = BlackStone()
         setBoardClickable(positions, isClickable = true)
     }
-
-    private fun <T> retryUntilSuccess(
-        view: ImageView,
-        action: () -> T,
-    ): T? =
-        runCatching {
-            action()
-        }.getOrElse {
-            Snackbar.make(view, it.localizedMessage, Snackbar.LENGTH_LONG).show()
-            return null
-        }
 }
