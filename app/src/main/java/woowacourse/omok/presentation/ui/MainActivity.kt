@@ -66,21 +66,22 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
         val resetBtn = findViewById<Button>(R.id.btn_reset)
         resetBtn.setOnClickListener {
             when (val state = viewModel.deleteAllOmok()) {
-                is UiState.Success -> {
-                    oMokGame = OMokGame()
-
-                    val board = findViewById<TableLayout>(R.id.board)
-                    board.children.filterIsInstance<TableRow>().flatMap { it.children }
-                        .filterIsInstance<ImageView>().forEach { view ->
-                            view.setImageResource(0)
-                        }
-
-                    OMokBoard.resetBoard()
-                }
-
+                is UiState.Success -> resetOmokView()
                 is UiState.Failure -> showSnackbar(resetBtn, state.error)
             }
         }
+    }
+
+    private fun resetOmokView() {
+        oMokGame = OMokGame()
+
+        val board = findViewById<TableLayout>(R.id.board)
+        board.children.filterIsInstance<TableRow>().flatMap { it.children }
+            .filterIsInstance<ImageView>().forEach { view ->
+                view.setImageResource(0)
+            }
+
+        OMokBoard.resetBoard()
     }
 
     override fun setupBoardClickListener() {
