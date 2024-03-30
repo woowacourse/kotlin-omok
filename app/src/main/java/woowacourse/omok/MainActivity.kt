@@ -18,6 +18,7 @@ import omok.model.game.state.GameState
 import woowacourse.omok.console.view.ConsoleOmokOutputView
 import woowacourse.omok.controller.OmokGameController
 import woowacourse.omok.controller.toUiModel
+import woowacourse.omok.db.OmokSQLiteHelper
 import woowacourse.omok.model.PositionUiModel
 import woowacourse.omok.model.StoneColorUiModel
 
@@ -30,11 +31,11 @@ class MainActivity : AppCompatActivity() {
         )
 
     private lateinit var boardView: List<List<ImageView>>
+    private val dao: OmokSQLiteHelper = OmokSQLiteHelper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        println("onCreate")
         initBoardView()
         initBoardClickListener()
         initResetButton()
@@ -68,7 +69,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun initResetButton() {
         findViewById<Button>(R.id.button_reset).setOnClickListener {
-            recreate()
+            boardView.forEach { row ->
+                row.forEach { imageView ->
+                    imageView.setImageResource(0)
+                    initBoardClickListener()
+                    controller =
+                        OmokGameController(
+                            ConsoleOmokOutputView(),
+                            gameState = determineState(),
+                            onEndGame = ::onEndGame,
+                        )
+                }
+            }
         }
     }
 
