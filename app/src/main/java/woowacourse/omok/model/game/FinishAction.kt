@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.model.game
 
 import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.rule.finish.FinishCondition

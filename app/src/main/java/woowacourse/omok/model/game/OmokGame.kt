@@ -1,10 +1,8 @@
-package woowacourse.omok
+package woowacourse.omok.model.game
 
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
-import woowacourse.omok.model.game.FinishType
-import woowacourse.omok.model.game.OmokPlayers
 import woowacourse.omok.model.player.Player
 
 enum class PlaceType {

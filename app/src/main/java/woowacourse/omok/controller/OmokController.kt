@@ -1,8 +1,8 @@
 package woowacourse.omok.controller
 
-import woowacourse.omok.FinishAction
-import woowacourse.omok.OmokGame
-import woowacourse.omok.PlaceType
+import woowacourse.omok.model.game.FinishAction
+import woowacourse.omok.model.game.OmokGame
+import woowacourse.omok.model.game.PlaceType
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone

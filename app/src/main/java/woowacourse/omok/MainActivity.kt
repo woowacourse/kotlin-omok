@@ -11,8 +11,11 @@ import androidx.core.view.children
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.game.FinishAction
 import woowacourse.omok.model.game.FinishType
+import woowacourse.omok.model.game.OmokGame
 import woowacourse.omok.model.game.OmokPlayers
+import woowacourse.omok.model.game.PlaceType
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.rule.ban.DoubleFourForbiddenPlace
 import woowacourse.omok.model.rule.ban.DoubleOpenThreeForbiddenPlace

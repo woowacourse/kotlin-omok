@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.model.game
 
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.game.OmokPlayers
