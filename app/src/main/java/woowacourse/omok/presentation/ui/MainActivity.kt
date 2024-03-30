@@ -12,10 +12,7 @@ import omok.model.OMokBoard
 import omok.model.OMokGame
 import omok.model.Row
 import omok.model.Row.Companion.toRowComma
-import omok.model.state.Stone
 import omok.model.turn.FinishedTurn
-import omok.model.turn.Turn
-import omok.view.OutputView
 import woowacourse.omok.R
 import woowacourse.omok.local.db.OmokDao
 import woowacourse.omok.local.repository.OmokRepositoryImpl
@@ -31,7 +28,6 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
     override fun initStartView() {
         initOmok()
         resetOmok()
-        OutputView.outputGameStart()
         setupBoardClickListener()
     }
 
@@ -53,7 +49,7 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
                     val turn = oMokGame.getTurn()
 
                     turn.toStoneIconRes()?.let { stoneIconRes ->
-                        if (executeTurn(row, column)) {
+                        if (oMokGame.executeTurn(row, column)) {
                             view.setImageResource(stoneIconRes)
                             handleTurnCompletion(view)
                         }
@@ -79,7 +75,6 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
                         }
 
                     OMokBoard.resetBoard()
-                    OutputView.outputBoard()
                 }
 
                 is UiState.Failure -> showSnackbar(resetBtn, state.error)
@@ -112,7 +107,7 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
             val rowComma = rowIndex.toRowComma(size)
             val columnComma = columnIndex.toColumnComma()
 
-            if (executeTurn(Row(rowComma), Column(columnComma))) {
+            if (oMokGame.executeTurn(Row(rowComma), Column(columnComma))) {
                 view.setImageResource(stoneIconRes)
                 handleTurnCompletion(view)
 
@@ -127,36 +122,9 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
         } ?: showSnackbar(view, getString(R.string.finished_omock))
     }
 
-    private fun executeTurn(
-        row: Row,
-        column: Column,
-    ): Boolean {
-        var isSuccess = true
-
-        oMokGame.playGame({ turn ->
-            displayTurnInfo(turn)
-            Stone(row, column)
-        }) { e ->
-            isSuccess = false
-            OutputView.outputErrorMessage(e)
-        }
-
-        OutputView.outputBoard()
-
-        return isSuccess
-    }
-
-    private fun displayTurnInfo(turn: Turn) {
-        OutputView.outputUserTurn(Stone.getStoneName(turn))
-        turn.stoneHistory.lastOrNull()?.let { stone ->
-            OutputView.outputLastStone(stone)
-        } ?: OutputView.outputPrintLine()
-    }
-
     private fun handleTurnCompletion(view: View) {
         if (oMokGame.getTurn() is FinishedTurn) {
             showSnackbar(view, getString(R.string.success_omock))
-            OutputView.outputSuccessOMock()
         }
     }
 }

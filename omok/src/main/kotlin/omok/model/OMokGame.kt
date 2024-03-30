@@ -22,6 +22,20 @@ class OMokGame(
         }
     }
 
+    fun executeTurn(
+        row: Row,
+        column: Column,
+    ): Boolean {
+        var isSuccess = true
+
+        playGame({ turn ->
+            Stone(row, column)
+        }) { e ->
+            isSuccess = false
+        }
+        return isSuccess
+    }
+
     private fun executePlayerTurn(
         playerStone: Stone,
         error: (Throwable) -> Unit,
