@@ -29,7 +29,7 @@ class NewRoomActivity : AppCompatActivity() {
         startButton.setOnClickListener {
             val roomInfo = Room(title = gameNameInput.text.toString(), status = GameState.OnProgress::class.simpleName)
             val gameId = gameRoomDao.save(roomInfo).id
-            Intent(this, MainActivity::class.java).also {
+            Intent(this, OmokGameActivity::class.java).also {
                 it.putExtra(GAME_ID, gameId)
                 startActivity(it)
                 finish()

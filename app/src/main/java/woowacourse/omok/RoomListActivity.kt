@@ -26,7 +26,7 @@ class RoomListActivity : AppCompatActivity() {
             RoomInfoRVAdapter(
                 rooms = gameRoomDao.findAll(),
                 onEnterClick = { id, title ->
-                    Intent(this, MainActivity::class.java).also {
+                    Intent(this, OmokGameActivity::class.java).also {
                         it.putExtra(GAME_ID, id)
                         it.putExtra(GAME_TITLE, title)
                         startActivity(it)

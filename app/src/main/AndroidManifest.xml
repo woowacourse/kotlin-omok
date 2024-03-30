@@ -25,7 +25,7 @@
             android:name=".NewRoomActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".OmokGameActivity"
             android:exported="false" />
     </application>
 

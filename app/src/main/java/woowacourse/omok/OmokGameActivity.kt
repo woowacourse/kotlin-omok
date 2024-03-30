@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import woowacourse.omok.model.Board
+import woowacourse.omok.model.Color
 import woowacourse.omok.model.GameResult
 import woowacourse.omok.model.Position
 import woowacourse.omok.model.Stone
@@ -15,20 +17,35 @@ import woowacourse.omok.model.database.Placement
 import woowacourse.omok.model.database.PlacementDao
 import woowacourse.omok.model.state.GameState
 
-class MainActivity : AppCompatActivity() {
+class OmokGameActivity : AppCompatActivity() {
     private val placementData: Board by lazy { Board() }
     private val placementDao: PlacementDao by lazy { PlacementDao(this) }
     private lateinit var gameState: GameState
+    private lateinit var currentTurn: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_omok_game)
+
+        currentTurn = findViewById(R.id.tv_current_turn)
 
         val gameId = intent.getLongExtra(GAME_ID, 0)
         val gameTitle = intent.getStringExtra(GAME_TITLE)
         val placedIndexItems = placementDao.findAll(gameId).map { it.index }
 
+        initializeGameTitle(gameTitle)
         initializeBoard(placedIndexItems, gameId)
+        setCurrentTurnText()
+    }
+
+    private fun setCurrentTurnText() {
+        val currentColor =
+            placementData.lastPlacement?.color?.let { Color.getReversedColor(it) } ?: Color.BLACK
+        currentTurn.text = getString(R.string.message_turn).format(currentColor)
+    }
+
+    private fun initializeGameTitle(gameTitle: String?) {
+        findViewById<TextView>(R.id.tv_name).text = gameTitle
     }
 
     private fun initializeBoard(
@@ -60,15 +77,23 @@ class MainActivity : AppCompatActivity() {
             setGameState(index)
             if (gameState !is GameState.Error) {
                 setStoneImage(view)
-                placementDao.save(
-                    Placement(
-                        gameId = gameId,
-                        color = placementData.lastPlacement?.color?.name,
-                        index = index,
-                    ),
-                )
+                savePlacementInfo(gameId, index)
+                setCurrentTurnText()
             }
         }
+    }
+
+    private fun savePlacementInfo(
+        gameId: Long,
+        index: Int,
+    ) {
+        placementDao.save(
+            Placement(
+                gameId = gameId,
+                color = placementData.lastPlacement?.color?.name,
+                index = index,
+            ),
+        )
     }
 
     private fun setGameState(index: Int) {
