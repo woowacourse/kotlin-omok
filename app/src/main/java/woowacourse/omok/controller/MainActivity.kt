@@ -72,9 +72,22 @@ class MainActivity : AppCompatActivity() {
             if (gameState != newState) {
                 gameState = newState
                 updateViewAndDb(position)
+                checkIsFinish()
             }
         }.onFailure {
             showToast(this, "${it.message}")
+        }
+    }
+
+    private fun checkIsFinish() {
+        if (gameState.isFinished) {
+            gameState.board.lastStone?.let {
+                val winnerColor = mapStoneColorToString(it.color)
+                showToast(
+                    this,
+                    "${winnerColor}'이(가) 승리했습니다!",
+                )
+            }
         }
     }
 
