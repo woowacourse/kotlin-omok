@@ -1,6 +1,7 @@
 package woowacourse.omok.database
 
 import android.content.ContentValues
+import android.database.sqlite.SQLiteDatabase
 import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.omokGame.Board.Companion.BOARD_SIZE
 
@@ -13,17 +14,21 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
             db.delete("GameBoard", null, null) // 기존 데이터 삭제
             for (i in board.indices) {
                 for (j in board[i].indices) {
-                    val stoneType = when (board[i][j]) {
-                        Stone.EMPTY -> 0
-                        Stone.BLACK -> 1
-                        Stone.WHITE -> 2
+                    val stone = board[i][j]
+                    if (stone != Stone.EMPTY) {
+                        val stoneType = when (stone) {
+                            Stone.BLACK -> 1
+                            Stone.WHITE -> 2
+                            else -> 0
+                        }
+                        val values = ContentValues().apply {
+                            put("rowIndex", i)
+                            put("columnIndex", j)
+                            put("stoneType", stoneType)
+                        }
+                        db.insert("GameBoard", null, values)
                     }
-                    val values = ContentValues().apply {
-                        put("rowIndex", i)
-                        put("columnIndex", j)
-                        put("stoneType", stoneType)
-                    }
-                    db.insert("GameBoard", null, values)
+
                 }
             }
             db.setTransactionSuccessful()
@@ -63,12 +68,17 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
     }
 
     override fun saveCurrentStone(currentStone: Int) {
-        val db = dbHelper.writableDatabase
-        db.execSQL("DELETE FROM GameStatus") // 기존 상태 삭제
+        val db = resetCurrentStone()
         val values = ContentValues().apply {
             put("currentStone", currentStone)
         }
         db.insert("GameStatus", null, values)
+    }
+
+    private fun resetCurrentStone(): SQLiteDatabase {
+        val db = dbHelper.writableDatabase
+        db.execSQL("DELETE FROM GameStatus")
+        return db
     }
 
     override fun loadCurrentStone(): Int {
