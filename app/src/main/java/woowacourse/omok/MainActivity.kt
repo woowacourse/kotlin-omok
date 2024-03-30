@@ -1,65 +1,42 @@
 package woowacourse.omok
 
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import woowacourse.omok.databinding.ActivityMainBinding
+import woowacourse.omok.state.CoordinateState
+import woowacourse.omok.state.GameState
+import woowacourse.omok.utils.createVectorDrawable
 
 class MainActivity : AppCompatActivity(), GamePlayHandler {
     private val gameManager = GameManager(this)
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-
     private lateinit var allPositions: List<ImageView>
-
     private val blackStoneDrawable: Drawable by lazy {
         createVectorDrawable(applicationContext, R.drawable.black_stone)
     }
-
     private val whiteStoneDrawable: Drawable by lazy {
         createVectorDrawable(applicationContext, R.drawable.white_stone)
     }
-
     private val blockDrawable: Drawable by lazy {
         createVectorDrawable(applicationContext, R.drawable.block)
-    }
-
-    private fun createVectorDrawable(
-        context: Context,
-        vectorResId: Int,
-    ): Drawable {
-        return ContextCompat.getDrawable(context, vectorResId)!!
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        allPositions =
-            binding.board
-                .children
-                .filterIsInstance<TableRow>()
-                .flatMap { it.children }
-                .filterIsInstance<ImageView>()
-                .toList()
-
-        allPositions.forEachIndexed {
-                index, view ->
-            view.setOnClickListener {
-                gameManager.playTurn(index.toCoordinate())
-            }
-        }
+        initPosition()
     }
 
     // View의 역할
     private fun Int.toCoordinate(): Coordinate = Coordinate(this / Board.BOARD_SIZE, this % Board.BOARD_SIZE)
 
-    override fun onDraw(gameState: GameState) {
+    override fun onUpdate(gameState: GameState) {
         val copiedBoard = gameState.board.boardLayout
 
         when (gameState) {
@@ -72,37 +49,65 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
                 Snackbar.make(binding.root, R.string.already_placed, Snackbar.LENGTH_SHORT).show()
             }
             is GameState.Finish -> {
-                Snackbar.make(binding.root, R.string.game_over, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, R.string.game_over, Snackbar.LENGTH_SHORT)
+                    .setAction(R.string.restart) {
+                        resetPositionTag()
+                        gameManager.reset()
+                    }
+                    .show()
             }
         }
 
         copiedBoard.flatten().forEachIndexed { index, positionType ->
-            if (allPositions[index].tag == null) { // 비어 있음. Block 포함. 놓은 곳은 굳이 다시 그리지 않게. 비어있는 곳은 X표시하게.
-                when (positionType) {
-                    CoordinateState.BlackStone -> {
-                        allPositions[index].apply {
-                            tag = 1
-                            setImageDrawable(blackStoneDrawable)
+            if (allPositions[index].tag == NOT_PLACED) { // 비어 있음. Block 포함. 놓은 곳은 굳이 다시 그리지 않게. 비어있는 곳은 X표시하게.
+                allPositions[index].apply {
+                    setImageDrawable(
+                    when(positionType) {
+                        CoordinateState.BlackStone -> {
+                            tag = PLACED
+                            blackStoneDrawable
                         }
-                    }
-                    CoordinateState.WhiteStone -> {
-                        allPositions[index].apply {
-                            tag = 1
-                            setImageDrawable(whiteStoneDrawable)
+                        CoordinateState.WhiteStone -> {
+                            tag = PLACED
+                            whiteStoneDrawable
                         }
-                    }
-                    CoordinateState.Forbidden -> {
-                        allPositions[index].apply {
-                            setImageDrawable(blockDrawable)
+                        CoordinateState.Forbidden -> {
+                            blockDrawable
                         }
-                    }
-                    CoordinateState.Empty -> {
-                        allPositions[index].apply {
-                            setImageDrawable(null)
+                        CoordinateState.Empty -> {
+                            null
                         }
-                    }
+                    })
                 }
             }
         }
+    }
+
+    private fun resetPositionTag() {
+        allPositions.forEach {
+            it.tag = NOT_PLACED
+        }
+    }
+    private fun initPosition() {
+        allPositions =
+            binding.board
+                .children
+                .filterIsInstance<TableRow>()
+                .flatMap { it.children }
+                .filterIsInstance<ImageView>()
+                .toList()
+
+        allPositions.forEachIndexed {
+                index, view ->
+            view.tag = NOT_PLACED
+            view.setOnClickListener {
+                gameManager.playTurn(index.toCoordinate())
+            }
+        }
+    }
+
+    companion object {
+        private const val PLACED = 1
+        private const val NOT_PLACED = 0
     }
 }

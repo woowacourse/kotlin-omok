@@ -1,6 +1,9 @@
 package woowacourse.omok
 
 import omok.library.OmokRule
+import woowacourse.omok.state.CoordinateState
+import woowacourse.omok.state.PlaceResult
+import woowacourse.omok.state.Turn
 
 class Board(private val boardSize: Int = BOARD_SIZE) {
     private var _boardLayout: MutableList<MutableList<CoordinateState>> =
