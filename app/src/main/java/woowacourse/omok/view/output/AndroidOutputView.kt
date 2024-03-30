@@ -10,7 +10,12 @@ class AndroidOutputView(private val view: View) : OutputView {
     }
 
     override fun printTurn(board: Board) {
-        TODO("Not yet implemented")
+        val previousStone = board.previousStone()
+        Snackbar.make(
+            view,
+            "${previousStone?.stoneColor}의 차례입니다.",
+            Snackbar.LENGTH_SHORT,
+        ).show()
     }
 
     override fun printWinner(board: Board) {
