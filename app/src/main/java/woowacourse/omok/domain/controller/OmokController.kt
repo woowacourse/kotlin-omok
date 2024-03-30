@@ -21,17 +21,20 @@ class OmokController(
             whiteStonePlayer = Player(Stone.WHITE, whiteStoneGamePlayingRules),
         )
 
-    fun startGame2() {
+    fun startGame() {
         val board = initializedBoard()
         val winner =
-            OmokGame(board, players,
+            OmokGame(
+                board,
+                players,
                 listOf(
                     EmptyPosition { player, position, message -> outputView.printInvalidPosition(player, position, message) },
-                    AbideForbiddenRules { player, position, message -> outputView.printInvalidPosition(player, position, message) },),
-                ).gameWinner(
+                    AbideForbiddenRules { player, position, message -> outputView.printInvalidPosition(player, position, message) },
+                ),
+            ).gameWinner(
                 nextStonePosition = { player, position -> inputView.readStonePosition(player.stone, position) },
                 nextStonePositionResult = { outputView.printBoard(board) },
-                    )
+            )
 
         outputView.printWinner(winner.stone)
     }
