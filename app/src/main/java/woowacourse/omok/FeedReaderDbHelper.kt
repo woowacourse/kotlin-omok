@@ -1,20 +1,15 @@
-package woowacourse.omok.domain
+package woowacourse.omok
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import woowacourse.omok.FeedReaderContract.SQL_CREATE_ENTRIES
 
-class OmokDbHelper(
+class FeedReaderDbHelper(
     context: Context,
 ) : SQLiteOpenHelper(context, "alsong.db", null, 1) {
     override fun onCreate(db: SQLiteDatabase?) {
-        val createTableQuery = """
-            create table notation (
-                color varchar(30) not null,
-                rowCoordinate int,   
-                colCoordinate int
-            )
-        """
+        val createTableQuery = SQL_CREATE_ENTRIES
         db?.execSQL(createTableQuery)
     }
 
