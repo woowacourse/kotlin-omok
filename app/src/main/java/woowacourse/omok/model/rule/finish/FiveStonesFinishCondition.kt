@@ -33,7 +33,8 @@ class FiveStonesFinishCondition : FinishCondition {
 
         while (true) {
             nowPosition = nowPosition.move(direction)
-            if (board.find(nowPosition) != stone) return count
+            val nowStone = runCatching { board.find(nowPosition) }.getOrNull() ?: return count
+            if (nowStone != stone) return count
             count++
         }
     }
