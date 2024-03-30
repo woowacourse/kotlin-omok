@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Omok"
         tools:targetApi="31">
         <activity
-            android:name=".RoomListActivity"
+            android:name=".view.RoomListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,10 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewRoomActivity"
+            android:name=".view.NewRoomActivity"
             android:exported="false" />
         <activity
-            android:name=".OmokGameActivity"
+            android:name=".view.OmokGameActivity"
             android:exported="false" />
     </application>
 

@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import woowacourse.omok.R
 import woowacourse.omok.model.database.GameRoomDao
 import woowacourse.omok.model.database.Room
 import woowacourse.omok.model.state.GameState

@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.view
 
 import android.os.Bundle
 import android.widget.ImageView
@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import woowacourse.omok.R
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.GameResult
