@@ -27,7 +27,7 @@ abstract class OmokGameActivity(private val layoutResID: Int) : AppCompatActivit
 
     abstract fun initOmok()
 
-    abstract fun resetOmok()
+    abstract fun resetOmokClickListener()
 
     abstract fun setupBoardClickListener()
 

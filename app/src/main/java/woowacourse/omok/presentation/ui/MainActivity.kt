@@ -27,7 +27,7 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
 
     override fun initStartView() {
         initOmok()
-        resetOmok()
+        resetOmokClickListener()
         setupBoardClickListener()
     }
 
@@ -61,7 +61,7 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
         }
     }
 
-    override fun resetOmok() {
+    override fun resetOmokClickListener() {
         val resetBtn = findViewById<Button>(R.id.btn_reset)
         resetBtn.setOnClickListener {
             when (val state = viewModel.deleteAllOmok()) {
