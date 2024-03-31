@@ -1,27 +1,32 @@
 package omok.fixtures
 
-import omok.model.OmokStone
-import omok.model.board.Board
-import omok.model.board.BoardSize
-import omok.model.board.Boxes
+import omock.model.board.Block
+import omock.model.board.OmokBoard
+import omock.model.board.buildOmokBoard
 
-private val DEFAULT_BOARD_SIZE = BoardSize(15)
+private const val DEFAULT_BOARD_SIZE = 15
 
-private fun createBoard(omokStones: List<OmokStone>): Board = createBoard(*omokStones.toTypedArray())
+fun createBoard(blocks: List<Block>): OmokBoard =
+    buildOmokBoard {
+        size(DEFAULT_BOARD_SIZE)
+        blocks(blocks)
+    }
 
-private fun createEmptyBoard() = Board(DEFAULT_BOARD_SIZE, boxes = Boxes())
+private fun createEmptyBoard() = buildOmokBoard { }
 
-fun createBoard(vararg omokStones: OmokStone): Board {
-    if (omokStones.isEmpty()) return createEmptyBoard()
-    val map = omokStones.associateBy { it.position }.let(::Boxes)
-    return Board(DEFAULT_BOARD_SIZE, map)
+fun createBoard(vararg blocks: Block): OmokBoard {
+    if (blocks.isEmpty()) return createEmptyBoard()
+    return createBoard(blocks.toList())
 }
 
 fun createBoard(
     size: Int,
-    vararg omokStones: OmokStone,
-): Board {
-    if (omokStones.isEmpty()) return createEmptyBoard()
-    val map = omokStones.associateBy { it.position }.let(::Boxes)
-    return Board(BoardSize(size), map)
+    vararg blocks: Block,
+): OmokBoard {
+    if (blocks.isEmpty()) return createEmptyBoard()
+    val map = blocks.toList()
+    return buildOmokBoard {
+        size(size)
+        blocks(map)
+    }
 }
