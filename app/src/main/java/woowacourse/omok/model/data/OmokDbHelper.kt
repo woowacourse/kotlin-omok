@@ -8,10 +8,10 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, "omok.db", null
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
             "CREATE TABLE ${OmokContract.TABLE_NAME} (\n" +
-                " ${OmokContract.COLUMN_ROW} int,\n" +
-                " ${OmokContract.COLUMN_COL} int,\n" +
-                " ${OmokContract.COLUMN_STONE} varchar(50),\n" +
-                " ${OmokContract.COLUMN_ID} int\n" +
+                " ${OmokContract.COLUMN_ID} integer primary key autoincrement,\n" +
+                " ${OmokContract.COLUMN_ROW} integer,\n" +
+                " ${OmokContract.COLUMN_COL} integer,\n" +
+                " ${OmokContract.COLUMN_STONE} varchar(50)\n" +
                 ")",
         )
     }

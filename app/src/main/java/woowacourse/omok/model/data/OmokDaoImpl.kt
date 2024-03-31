@@ -29,19 +29,19 @@ class OmokDaoImpl(context: Context) : OmokDao {
             db.query(
                 OmokContract.TABLE_NAME,
                 arrayOf(
+                    OmokContract.COLUMN_ID,
                     OmokContract.COLUMN_ROW,
                     OmokContract.COLUMN_COL,
                     OmokContract.COLUMN_STONE,
-                    OmokContract.COLUMN_ID,
                 ),
             )
 
         val result = mutableListOf<OmokEntity>()
         while (cursor.moveToNext()) {
+            val id = cursor.getLong(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_ID))
             val row = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_ROW))
             val col = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_COL))
             val stone = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_STONE))
-            val id = cursor.getLong(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_ID))
 
             val omokEntity = OmokEntity(row, col, stone, id)
             result.add(omokEntity)
