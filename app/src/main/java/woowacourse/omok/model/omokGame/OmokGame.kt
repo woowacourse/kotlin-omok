@@ -26,7 +26,6 @@ class OmokGame(private val listener: GameEventListener) {
 
     fun startGame(currentStone: Stone): Stone {
         listener.onGameStart()
-        //requestPlayerMove(currentStone)
         return currentStone
     }
 
@@ -55,9 +54,6 @@ class OmokGame(private val listener: GameEventListener) {
             ),
         )
         this.currentStone = changeStone
-//        if (board.isRunning()) {
-//            //requestPlayerMove(changeStone)
-//        }
     }
 
     private fun togglePlayer(currentStone: Stone): Stone =
