@@ -1,16 +1,31 @@
 package omok.model
 
-abstract class Stones {
-    abstract val color: Color
-    protected abstract val board: Board
+class Stones {
+    private val _stones = mutableListOf<Stone>()
+    val stones: List<Stone>
+        get() = _stones.toList()
 
-    fun add(point: Point) {
-        board.add(Stone(point, color))
+    private val rule: Rule
+        get() = RenjuRuleAdapter()
+
+    fun add(stone: Stone) {
+        require(!rule.isInValid(_stones, stone)) { "렌주룰을 어겼습니다." }
+        checkDuplicate(stone)
+
+        _stones.add(stone)
     }
 
-    abstract fun isWin(): Boolean
+    private fun checkDuplicate(stone: Stone) {
+        require(
+            _stones.all { it.point != stone.point }
+        ) { "중복된 위치입니다." }
+    }
 
-    fun stones() = board.stones
+    fun lastStone(): Stone? = _stones.lastOrNull()
 
-    fun requireLastStone() = board.lastStone() ?: throw IllegalStateException("놓여진 바둑이 없습니다.")
+    companion object {
+        private const val BOARD_SIZE = 15
+
+        fun getSize(): Int = BOARD_SIZE
+    }
 }

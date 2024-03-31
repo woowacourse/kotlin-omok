@@ -7,11 +7,11 @@ import omok.library.ThreeThreeRule
 import omok.library.WhiteWinRule
 
 class RenjuRuleAdapter() : Rule {
-    private val fourFourRule = FourFourRule(Board.getSize())
-    private val threeThreeRule = ThreeThreeRule(Board.getSize())
-    private val moreThanFiveRule = MoreThanFiveRule(Board.getSize())
-    private val blackWinRule = BlackWinRule(Board.getSize())
-    private val whiteWinRule = WhiteWinRule(Board.getSize())
+    private val fourFourRule = FourFourRule(Stones.getSize())
+    private val threeThreeRule = ThreeThreeRule(Stones.getSize())
+    private val moreThanFiveRule = MoreThanFiveRule(Stones.getSize())
+    private val blackWinRule = BlackWinRule(Stones.getSize())
+    private val whiteWinRule = WhiteWinRule(Stones.getSize())
 
     override fun isInValid(
         stones: List<Stone>,
@@ -76,16 +76,16 @@ class RenjuRuleAdapter() : Rule {
     }
 
     private fun generateCustomBoard(stones: List<Stone>): List<List<Int>> {
-        val libraryBoard =
-            List(Board.getSize()) {
-                MutableList(Board.getSize()) { 0 }
+        val libraryStones =
+            List(Stones.getSize()) {
+                MutableList(Stones.getSize()) { 0 }
             }
         stones.forEach {
             when (it.color) {
-                Color.BLACK -> libraryBoard[it.point.col][it.point.row] = 1
-                Color.WHITE -> libraryBoard[it.point.col][it.point.row] = 2
+                Color.BLACK -> libraryStones[it.point.col][it.point.row] = 1
+                Color.WHITE -> libraryStones[it.point.col][it.point.row] = 2
             }
         }
-        return libraryBoard
+        return libraryStones
     }
 }

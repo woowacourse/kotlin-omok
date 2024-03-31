@@ -1,10 +1,10 @@
 package omok.controller
 
-import omok.model.BlackStones
-import omok.model.Board
+import omok.model.BlackStonePlayer
 import omok.model.Stones
+import omok.model.Player
 import omok.model.OmokGame
-import omok.model.WhiteStones
+import omok.model.WhiteStonePlayer
 import omok.retryWhileNotException
 import omok.view.InputView
 import omok.view.OutputView
@@ -12,14 +12,14 @@ import omok.view.OutputView
 class OmokController {
     private val outputView = OutputView()
     private val inputView = InputView()
-    private val board = Board()
-    private val whitePlayer = WhiteStones(board)
-    private val blackPlayer = BlackStones(board)
-    private val omokGame = OmokGame(whitePlayer, blackPlayer)
+    private val stones = Stones()
+    private val whiteStonePlayer = WhiteStonePlayer(stones)
+    private val blackStonePlayer = BlackStonePlayer(stones)
+    private val omokGame = OmokGame(whiteStonePlayer, blackStonePlayer)
 
     fun start() {
         outputView.showGameStartHeader()
-        outputView.showBoard(board.stones)
+        outputView.showBoard(stones.stones)
 
         omokGame.start(
             putStone = { player -> putStone(player) },
@@ -29,13 +29,13 @@ class OmokController {
         outputView.showGameResult(omokGame.winner.color)
     }
 
-    private fun putStone(stones: Stones) =
+    private fun putStone(player: Player) =
         retryWhileNotException {
-            val point = inputView.getPoint(stones.color, board.lastStone())
+            val point = inputView.getPoint(player.color, stones.lastStone())
             point
         }
 
     private fun showBoard() {
-        outputView.showBoard(board.stones)
+        outputView.showBoard(stones.stones)
     }
 }

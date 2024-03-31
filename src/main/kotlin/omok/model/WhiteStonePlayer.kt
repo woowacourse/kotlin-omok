@@ -1,6 +1,6 @@
 package omok.model
 
-class WhiteStones(override val board: Board) : Stones() {
+class WhiteStonePlayer(override val stones: Stones) : Player() {
     override val color: Color = Color.WHITE
 
     private val rule: Rule
