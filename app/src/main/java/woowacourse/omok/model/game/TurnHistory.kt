@@ -1,13 +1,25 @@
 package woowacourse.omok.model.game
 
 import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.data.OmokDao
+import woowacourse.omok.model.player.Player
 
-class TurnHistory(private val omokPlayers: OmokPlayers) {
-    var recentPlayer = omokPlayers.firstOrderPlayer()
+class TurnHistory(
+    private val omokPlayers: OmokPlayers,
+    omokDao: OmokDao,
+) {
+    var recentPlayer: Player = omokPlayers.firstOrderPlayer()
         private set
 
     var recentPosition: Position? = null
         private set
+
+    init {
+        omokDao.findAll().maxByOrNull { it.id }?.run {
+            recentPlayer = if (stone == "black") omokPlayers.whiteStonePlayer else omokPlayers.blackStonePlayer
+            recentPosition = Position(row, col)
+        }
+    }
 
     fun update(position: Position) {
         recentPlayer = omokPlayers.next(recentPlayer)

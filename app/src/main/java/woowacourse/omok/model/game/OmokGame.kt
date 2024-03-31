@@ -14,7 +14,7 @@ class OmokGame(
     private val finishAction: FinishAction,
     private val omokDao: OmokDao = FakeOmokDao(),
 ) {
-    private val turnHistory = TurnHistory(omokPlayers)
+    private val turnHistory = TurnHistory(omokPlayers, omokDao)
 
     fun turn(position: Position): PlaceType {
         return placeType(position, turnHistory.recentPlayer).also {

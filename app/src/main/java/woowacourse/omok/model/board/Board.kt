@@ -9,6 +9,16 @@ class Board(
     val board: Map<Position, Stone>
         get() = _board.toMap()
 
+    constructor(
+        size: Int,
+        entites: List<Pair<Position, Stone>>,
+    ) : this(
+        size,
+        initBoard(size).apply {
+            entites.forEach { this[it.first] = it.second }
+        }
+    )
+
     fun place(
         position: Position,
         player: Player,

@@ -13,6 +13,7 @@ import androidx.core.view.children
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.data.OmokDao
 import woowacourse.omok.model.data.OmokDaoImpl
 import woowacourse.omok.model.game.FinishAction
 import woowacourse.omok.model.game.FinishType
@@ -57,13 +58,26 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val board = Board(boardSize)
         val omokDao = OmokDaoImpl(this)
+        updateUI(omokDao)
+    }
+
+    private fun updateUI(omokDao: OmokDao) {
+        val omokEntites = omokDao.findAll().map {
+            Position(it.row, it.col) to if (it.stone == "black") Stone.BLACK else Stone.WHITE
+        }
+        val board = Board(boardSize, omokEntites)
         val omokGame = OmokGame(board, omokPlayers, finishAction(), omokDao)
         setProgressText(omokGame.nowOrderStone(), omokGame.recentPosition())
+
         stoneImageView { index, view ->
             view.setStoneViewOnClickListener(omokGame, index)
+            val entity =
+                omokEntites.firstOrNull { index == it.first.row * boardSize + it.first.col }
+                    ?: return@stoneImageView
+            view.setImageResource(if (entity.second == Stone.BLACK) R.drawable.black_stone else R.drawable.white_stone)
         }
+
         restartButton.setOnClickListener {
             restartGame(omokGame)
         }
@@ -158,6 +172,11 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
             .forEachIndexed { index, view ->
                 block(index, view)
             }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isFinish) OmokDaoImpl(this).drop()
     }
 
     companion object {
