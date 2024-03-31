@@ -1,6 +1,5 @@
 package woowacourse.omok.presentation.ui
 
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -11,7 +10,6 @@ import omok.model.OMokBoard
 import omok.model.OMokGame
 import omok.model.Row
 import omok.model.ValidCoordinatesListener
-import omok.model.turn.FinishedTurn
 import woowacourse.omok.R
 import woowacourse.omok.local.db.OmokDao
 import woowacourse.omok.local.repository.OmokRepositoryImpl
@@ -59,7 +57,6 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
                     turn.toStoneIconRes()?.let { stoneIconRes ->
                         if (oMokGame.executeTurn(row, column)) {
                             view.setImageResource(stoneIconRes)
-                            handleTurnCompletion(view)
                         }
                     }
                 }
@@ -119,8 +116,6 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
                 ) {
                     turn.toStoneIconRes()?.let { stoneIconRes ->
                         view.setImageResource(stoneIconRes)
-                        handleTurnCompletion(view)
-
                         val omok = Omok(rowComma = rowComma, columnComma = columnComma)
 
                         when (val state = viewModel.insertOmok(omok)) {
@@ -133,13 +128,11 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
                 override fun onInvalidCoordinates() {
                     showSnackbar(view, getString(R.string.omok_placement_invalid))
                 }
+
+                override fun onGameEnded() {
+                    showSnackbar(view, getString(R.string.success_omock))
+                }
             },
         )
-    }
-
-    private fun handleTurnCompletion(view: View) {
-        if (oMokGame.getTurn() is FinishedTurn) {
-            showSnackbar(view, getString(R.string.success_omock))
-        }
     }
 }

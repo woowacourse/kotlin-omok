@@ -40,6 +40,8 @@ class OMokGame(
         } else {
             listener.onInvalidCoordinates()
         }
+
+        if (turn.isFinished()) listener.onGameEnded()
     }
 
     fun executeTurn(

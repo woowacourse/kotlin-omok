@@ -7,4 +7,6 @@ interface ValidCoordinatesListener {
     )
 
     fun onInvalidCoordinates()
+
+    fun onGameEnded()
 }
