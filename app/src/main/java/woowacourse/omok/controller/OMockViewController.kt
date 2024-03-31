@@ -62,6 +62,7 @@ class OMockViewController(private val context: Context) : OMockGame() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEach { view -> view.setImageResource(0) }
+        loadNewBoard()
     }
 
     private fun userTurnFlow(

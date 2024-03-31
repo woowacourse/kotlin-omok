@@ -25,8 +25,8 @@ abstract class OMockGame(
                 ),
         ),
 ) {
-    protected val board: Board = Board.from()
-    private val loadMap: LoadMap = LoadMap(board.stoneStates)
+    protected var board: Board = Board.from()
+    private var loadMap: LoadMap = LoadMap(board.stoneStates)
 
     abstract fun executePlayerPickFailStep(throwable: Throwable)
 
@@ -54,6 +54,11 @@ abstract class OMockGame(
             .onFailure {
                 executePlayerPickFailStep(it)
             }
+    }
+
+    fun loadNewBoard(){
+        board = Board.from()
+        loadMap = LoadMap(board.stoneStates)
     }
 
     private fun playerPutStone(
