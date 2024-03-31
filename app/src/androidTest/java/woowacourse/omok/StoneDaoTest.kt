@@ -30,24 +30,23 @@ class StoneDaoTest {
 
     @Test
     fun findAll() {
-        val exampleStones =
-            listOf(Stone(1, 2, Color.BLACK), Stone(1, 13, Color.BLACK), Stone(4, 5, Color.WHITE))
-
         exampleStones.forEach { stoneDao.insert(it) }
 
         val dbStones = stoneDao.stones()
-        assertThat(dbStones).containsExactly(Stone(1, 2, Color.BLACK), Stone(1, 13, Color.BLACK), Stone(4, 5, Color.WHITE))
+        assertThat(dbStones).isEqualTo(exampleStones)
     }
 
     @Test
     fun deleteAll() {
-        val exampleStones =
-            listOf(Stone(1, 2, Color.BLACK), Stone(1, 13, Color.BLACK), Stone(4, 5, Color.WHITE))
-
         exampleStones.forEach { stoneDao.insert(it) }
         stoneDao.deleteAll()
 
         val dbStones = stoneDao.stones()
         assertThat(dbStones).isEmpty()
+    }
+
+    companion object {
+        private val exampleStones =
+            listOf(Stone(1, 2, Color.BLACK), Stone(1, 13, Color.BLACK), Stone(4, 5, Color.WHITE))
     }
 }
