@@ -9,14 +9,14 @@ import woowacourse.omok.domain.model.StoneType
 class OmokDao(context: Context) {
     private val omokDb = OmokDbHelper(context).writableDatabase
 
-    fun saveStone(stone: Stone) {
+    fun saveStone(stone: Stone): Long {
         val newStone =
             ContentValues().apply {
                 put(OmokContract.STONE_TYPE, stone.type.value)
                 put(OmokContract.POINT_X, stone.point.x)
                 put(OmokContract.POINT_Y, stone.point.y)
             }
-        omokDb.insert(OmokContract.TABLE_NAME, null, newStone)
+        return omokDb.insert(OmokContract.TABLE_NAME, null, newStone)
     }
 
     fun resetGame() {
