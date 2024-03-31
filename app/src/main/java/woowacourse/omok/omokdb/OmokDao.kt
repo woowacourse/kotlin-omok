@@ -5,7 +5,7 @@ import android.database.Cursor
 import android.provider.BaseColumns
 import androidx.core.content.contentValuesOf
 
-class OmokDao(private val context: Context) {
+class OmokDao(context: Context) {
     private val dbHelper = OmokDbHelper(context)
 
     fun insert(omokEntry: OmokEntry): OmokEntry {
