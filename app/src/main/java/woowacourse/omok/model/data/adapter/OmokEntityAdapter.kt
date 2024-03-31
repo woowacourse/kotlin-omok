@@ -17,7 +17,10 @@ object OmokEntityAdapter {
         return OmokEntity(position.row, position.col, entityStone)
     }
 
-    fun Board(size: Int, omokEntities: List<OmokEntity>): Board {
+    fun Board(
+        size: Int,
+        omokEntities: List<OmokEntity>,
+    ): Board {
         val stonePositions = omokEntities.map { it.stonePosition() }
         return Board(size, stonePositions)
     }
@@ -25,14 +28,16 @@ object OmokEntityAdapter {
     private fun OmokEntity.stonePosition(): StonePosition {
         return StonePosition(
             Position(row, col),
-            stone(this)
+            stone(this),
         )
     }
 
     fun index(
         boardSize: Int,
-        omokEntity: OmokEntity
+        omokEntity: OmokEntity,
     ) = omokEntity.row * boardSize + omokEntity.col
 
-    fun stone(omokEntity: OmokEntity) = if (omokEntity.stone == BLACK_STONE) Stone.BLACK else Stone.WHITE
+    fun stone(omokEntity: OmokEntity): Stone {
+        return if (omokEntity.stone == BLACK_STONE) Stone.BLACK else Stone.WHITE
+    }
 }

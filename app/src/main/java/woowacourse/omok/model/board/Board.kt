@@ -17,7 +17,7 @@ class Board(
         size,
         initBoard(size).apply {
             stonePositions.forEach { this[it.position] = it.stone }
-        }
+        },
     )
 
     fun place(
