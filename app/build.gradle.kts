@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.storage.CacheResetOnProcessCanceled.enabled
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -7,18 +9,19 @@ plugins {
 android {
     namespace = "woowacourse.omok"
     compileSdk = 34
-
+    
     defaultConfig {
         applicationId = "woowacourse.omok"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
+        
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
+        testInstrumentationRunnerArguments["runnerBuilder"] =
+            "de.mannodermaus.junit5.AndroidJUnit5Builder"
     }
-
+    
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -40,6 +43,9 @@ android {
             excludes += "META-INF/**"
             excludes += "win32-x86*/**"
         }
+    }
+    buildFeatures {
+        viewBinding = true
     }
 }
 

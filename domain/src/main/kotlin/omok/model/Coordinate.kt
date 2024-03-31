@@ -17,7 +17,7 @@ data class Coordinate(val x: Int, val y: Int) {
         private const val MINIMUM_RANGE = 0
         private const val MAXIMUM_RANGE = 14
         private val POSITION_RANGE = MINIMUM_RANGE..MAXIMUM_RANGE
-        private const val ERROR_INVALID_POSITION = "유회하지 않은 위치입니다."
+        private const val ERROR_INVALID_POSITION = "유효하지 않은 위치입니다."
 
         private fun validatePosition(
             x: Int,
