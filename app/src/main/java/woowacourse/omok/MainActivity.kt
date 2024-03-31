@@ -13,6 +13,7 @@ import androidx.core.view.children
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.data.OmokDaoImpl
 import woowacourse.omok.model.game.FinishAction
 import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.game.OmokGame
@@ -57,7 +58,8 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val board = Board(boardSize)
-        val omokGame = OmokGame(board, omokPlayers, finishAction())
+        val omokDao = OmokDaoImpl(this)
+        val omokGame = OmokGame(board, omokPlayers, finishAction(), omokDao)
         setProgressText(omokGame.nowOrderStone(), omokGame.recentPosition())
         stoneImageView { index, view ->
             view.setStoneViewOnClickListener(omokGame, index)

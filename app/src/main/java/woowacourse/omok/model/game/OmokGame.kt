@@ -3,12 +3,16 @@ package woowacourse.omok.model.game
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.data.FakeOmokDao
+import woowacourse.omok.model.data.OmokDao
+import woowacourse.omok.model.data.OmokEntity
 import woowacourse.omok.model.player.Player
 
 class OmokGame(
     private val board: Board,
     omokPlayers: OmokPlayers,
     private val finishAction: FinishAction,
+    private val omokDao: OmokDao = FakeOmokDao(),
 ) {
     private val turnHistory = TurnHistory(omokPlayers)
 
@@ -31,6 +35,7 @@ class OmokGame(
     ): PlaceType {
         runCatching { board.place(position, turnPlayer) }
             .onFailure { return PlaceType.CANNOT_PLACE }
+        omokDao.save(OmokEntity(position, turnPlayer.stone))
         return if (turnPlayer.stone == Stone.WHITE) PlaceType.WHITE_PLACE else PlaceType.BLACK_PLACE
     }
 
@@ -49,6 +54,7 @@ class OmokGame(
     fun restart() {
         turnHistory.clear()
         board.clear()
+        omokDao.drop()
     }
 
     private fun finishType(
