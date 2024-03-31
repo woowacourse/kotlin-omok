@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.local.presentation.model
 
 import omok.library.BlackStoneOmokRule
 import omok.library.OmokRule

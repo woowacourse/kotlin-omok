@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.omok.local.presentation.ui
 
 import android.os.Bundle
 import android.widget.ImageView
@@ -9,19 +9,25 @@ import com.google.android.material.snackbar.Snackbar
 import omok.model.Board
 import omok.model.Coordinate
 import omok.model.PositionType
+import woowacourse.omok.R
 import woowacourse.omok.databinding.ActivityMainBinding
+import woowacourse.omok.local.db.StoneDaoImpl
+import woowacourse.omok.local.presentation.model.AppGameState
+import woowacourse.omok.local.presentation.model.StoneEntity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var allImageViews: List<ImageView>
     private val board = Board()
     private var gameState: AppGameState = AppGameState.Running.BlackTurn(board)
+    private val dao = StoneDaoImpl(this)
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initializeGameBoard()
+        loadGameFromDatabase()
         setImageViewsClickListener()
     }
     
@@ -35,7 +41,21 @@ class MainActivity : AppCompatActivity() {
                 .toList()
     }
     
+    private fun loadGameFromDatabase() {
+        val stones = dao.findAll()
+        stones.forEach { stone ->
+            board.placeStone(Coordinate(stone.x, stone.y), stone.positionType)
+        }
+        printBoard(board)
+    }
+    
     private fun setImageViewsClickListener() {
+        binding.restartButton.setOnClickListener {
+            dao.drop()
+            board.clear()
+            gameState = AppGameState.Running.BlackTurn(board)
+            printBoard(board)
+        }
         allImageViews.forEachIndexed { index, view ->
             view.setOnClickListener {
                 handleUserInput(index)
@@ -48,18 +68,42 @@ class MainActivity : AppCompatActivity() {
             val coordinate = index.toCoordinate()
             playTurn { coordinate }
         }
+        if (gameState is AppGameState.Finish) {
+            showSnackbar("게임이 종료되었습니다.")
+            return
+        }
+    }
+    
+    private fun currentType(gameState: AppGameState): PositionType {
+        return when (gameState) {
+            is AppGameState.Running -> gameState.currentType()
+            else -> PositionType.EMPTY
+        }
     }
     
     private fun playTurn(onCoordinate: () -> Coordinate) {
+        val currentPositionType = currentType(gameState)
         if (isRunning()) {
             runCatching {
-                gameState = gameState.updateState(onCoordinate)
+                val lastCoordinate = onCoordinate()
+                gameState = gameState.updateState { lastCoordinate }
+                
+                if (gameState is AppGameState.Finish || gameState is AppGameState.Running) {
+                    saveStoneToDatabase(lastCoordinate, currentPositionType)
+                }
+                
                 printBoard(board)
                 printRunningInfo(gameState)
             }.onFailure { throwable ->
                 showSnackbar(ERROR_MESSAGE.format(throwable.message))
             }
         }
+    }
+    
+    
+    private fun saveStoneToDatabase(coordinate: Coordinate, positionType: PositionType) {
+        val stoneEntity = StoneEntity(0L, coordinate.x, coordinate.y, positionType)
+        dao.save(stoneEntity)
     }
     
     private fun isRunning() = gameState is AppGameState.Running
