@@ -1,6 +1,7 @@
 package woowacourse.omok.model.stone
 
 import woowacourse.omok.R
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.position.Column
 import woowacourse.omok.model.position.Row
 
@@ -49,12 +50,15 @@ data class Stone(
         fun from(
             row: Row,
             column: Column,
-        ): Stone {
-            return stones.find {
-                it.row.comma == row.comma && it.column.comma == column.comma
-            } ?: throw IllegalArgumentException()
+        ): GameState.LoadStone {
+            return when (val stone =
+                stones.find { it.row.comma == row.comma && it.column.comma == column.comma }) {
+                null -> GameState.LoadStone.Failure(IllegalArgumentException(ERROR_NOT_STONE))
+                else -> GameState.LoadStone.Success(stone)
+            }
         }
 
+        private const val ERROR_NOT_STONE = "둘 수 있는 돌이 없습니다."
         const val LAST_STONE_LOCATION_MESSAGE = "(마지막 돌의 위치: %s%s)"
         const val BLACK_STONE_NAME = "흑"
         const val WHITE_STONE_NAME = "백"

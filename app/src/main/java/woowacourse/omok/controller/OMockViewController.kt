@@ -6,6 +6,7 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.Toast
 import androidx.core.view.children
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.GameTurn
 import woowacourse.omok.model.player.BlackPlayer
 import woowacourse.omok.model.player.Player
@@ -75,7 +76,10 @@ class OMockViewController(private val context: Context) : OMockGame() {
             player.turn {
                 playerPick
             }
-        start(player = player, playerStone)
+        when (playerStone) {
+            is GameState.LoadStone.Success -> start(player = player, playerStone.stone)
+            is GameState.LoadStone.Failure -> executePlayerPickFailStep(playerStone.throwable)
+        }
     }
 
     private fun finishedGameFlow() {

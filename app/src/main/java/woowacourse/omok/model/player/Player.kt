@@ -1,5 +1,6 @@
 package woowacourse.omok.model.player
 
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.position.Column
 import woowacourse.omok.model.position.Row
 import woowacourse.omok.model.rule.OMockRule
@@ -10,7 +11,7 @@ import woowacourse.omok.model.stone.Stone
 sealed class Player {
     abstract val stoneHistory: ArrayDeque<Stone>
 
-    fun turn(action: () -> Pair<String, String>): Stone {
+    fun turn(action: () -> Pair<String, String>): GameState.LoadStone {
         val coordinate = action()
         val row = Row(coordinate.second)
         val column = Column(coordinate.first)
@@ -20,7 +21,7 @@ sealed class Player {
     private fun generateStone(
         row: Row,
         column: Column,
-    ): Stone {
+    ): GameState.LoadStone {
         return Stone.from(row = row, column = column)
     }
 

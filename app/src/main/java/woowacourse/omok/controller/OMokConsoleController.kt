@@ -1,5 +1,6 @@
 package woowacourse.omok.controller
 
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.GameTurn
 import woowacourse.omok.model.player.BlackPlayer
 import woowacourse.omok.model.player.Player
@@ -56,11 +57,9 @@ class OMokConsoleController : OMockGame() {
     }
 
     private fun playerPick(player: Player) {
-        InputView.playerPick(player = player)
-            .onSuccess { playerStone ->
-                start(player, playerStone)
-            }.onFailure {
-                executePlayerPickFailStep(it)
-            }
+        when(val playerStone = InputView.playerPick(player = player)){
+            is GameState.LoadStone.Success -> start(player, playerStone.stone)
+            is GameState.LoadStone.Failure -> executePlayerPickFailStep(playerStone.throwable)
+        }
     }
 }
