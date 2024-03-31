@@ -1,84 +1,119 @@
 package omok.model.rule
 
-import io.kotest.matchers.booleans.shouldBeFalse
-import omok.fixtures.createBlackStone
+import io.kotest.matchers.shouldBe
+import omock.model.InvalidDuplicatedPlaced
+import omock.model.InvalidFourFourRule
+import omock.model.InvalidGameOver
+import omock.model.InvalidOutOfBound
+import omock.model.InvalidOverLineRule
+import omock.model.InvalidThreeThreeRule
+import omock.model.Position
+import omock.model.Stone
+import omock.model.rule.RenjuRule
+import omok.fixtures.createBlackBlock
 import omok.fixtures.createBoard
+import omok.fixtures.createWhiteBlock
 import org.junit.jupiter.api.Test
 
 class RenjuRuleTest {
     @Test
-    fun `장목이면 금수다`() {
+    fun `검은돌 - 장목이면 금수다`() {
         // given
         val blackBoard =
             createBoard(
-                createBlackStone(1, 1),
-                createBlackStone(1, 2),
-                createBlackStone(1, 3),
-                createBlackStone(1, 4),
-                createBlackStone(1, 5),
+                createBlackBlock(1, 1),
+                createBlackBlock(1, 2),
+                createBlackBlock(1, 3),
+                createBlackBlock(1, 4),
+                createBlackBlock(1, 6),
             )
-        val blackStone = createBlackStone(1, 6)
         // when
-        val canPut = RenjuRule.canPlaceStone(blackStone, blackBoard)
+        val position = Position(1, 5)
+        val stone = Stone.BLACK
+        val result = RenjuRule.placeStone(position, stone, blackBoard)
         // then
-        canPut.shouldBeFalse()
+        result shouldBe InvalidOverLineRule
     }
 
     @Test
-    fun `3-3이면 금수다`() {
+    fun `검은돌 - 3-3이면 금수다`() {
         // given
         val blackBoard =
             createBoard(
-                createBlackStone(4, 5),
-                createBlackStone(4, 6),
-                createBlackStone(5, 4),
-                createBlackStone(6, 4),
+                createBlackBlock(4, 5),
+                createBlackBlock(4, 6),
+                createBlackBlock(5, 4),
+                createBlackBlock(6, 4),
             )
-        val blackStone = createBlackStone(4, 4)
         // when
-        val canPut = RenjuRule.canPlaceStone(blackStone, blackBoard)
+        val position = Position(4, 4)
+        val stone = Stone.BLACK
+        val result = RenjuRule.placeStone(position, stone, blackBoard)
         // then
-        canPut.shouldBeFalse()
+        result shouldBe InvalidThreeThreeRule
     }
 
     @Test
-    fun `4-4이면 금수다`() {
+    fun `검은돌 - 4-4이면 금수다`() {
+        // given
         val blackBoard =
             createBoard(
-                createBlackStone(1, 2),
-                createBlackStone(1, 3),
-                createBlackStone(1, 4),
-                createBlackStone(2, 1),
-                createBlackStone(3, 1),
-                createBlackStone(4, 1),
+                createBlackBlock(1, 2),
+                createBlackBlock(1, 3),
+                createBlackBlock(1, 4),
+                createBlackBlock(2, 1),
+                createBlackBlock(3, 1),
+                createBlackBlock(4, 1),
             )
-        val blackStone = createBlackStone(1, 1)
         // when
-        val canPut = RenjuRule.canPlaceStone(blackStone, blackBoard)
+        val position = Position(1, 1)
+        val stone = Stone.BLACK
+        val result = RenjuRule.placeStone(position, stone, blackBoard)
         // then
-        canPut.shouldBeFalse()
+        result shouldBe InvalidFourFourRule
     }
 
     @Test
-    fun `이미 알이 있으면 금수`() {
+    fun `모든 돌 - 이미 알이 있으면 금수`() {
         val board =
             createBoard(
-                createBlackStone(1, 2),
+                createWhiteBlock(1, 2),
             )
-        val stone = createBlackStone(1, 2)
         // when
-        val canPut = RenjuRule.canPlaceStone(stone, board)
+        val position = Position(1, 2)
+        val stone = Stone.WHITE
+        val result = RenjuRule.placeStone(position, stone, board)
         // then
-        canPut.shouldBeFalse()
+        result shouldBe InvalidDuplicatedPlaced
     }
 
     @Test
-    fun `범위 밖에 놓으면 금수`() {
+    fun `모든 돌 - 범위 밖에 놓으면 금수`() {
         val board = createBoard()
-        val stone = createBlackStone(0, 0)
         // when
-        val canPut = RenjuRule.canPlaceStone(stone, board)
+        val position = Position(0, 0)
+        val stone = Stone.BLACK
+        val result = RenjuRule.placeStone(position, stone, board)
         // then
-        canPut.shouldBeFalse()
+        result shouldBe InvalidOutOfBound
+    }
+
+    @Test
+    fun `모든 돌 - 이미 오목이 있으면 금수`() {
+        // given
+        val board =
+            createBoard(
+                createBlackBlock(1, 1),
+                createBlackBlock(1, 2),
+                createBlackBlock(1, 3),
+                createBlackBlock(1, 4),
+                createBlackBlock(1, 5),
+            )
+        // when
+        val position = Position(0, 0)
+        val stone = Stone.WHITE
+        val result = RenjuRule.placeStone(position, stone, board)
+        // then
+        result shouldBe InvalidGameOver
     }
 }
