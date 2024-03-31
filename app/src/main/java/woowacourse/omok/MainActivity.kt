@@ -35,8 +35,7 @@ class MainActivity : AppCompatActivity() {
     private fun playUntilFinish() {
         val notation = notationDao.findAll()
         val initialBoardStatus = Array(Board.ARRAY_SIZE) { Array(Board.ARRAY_SIZE) { Color.NONE } }
-        // val notation: MutableList<Stone> = mutableListOf()
-        addPlacesToNotation(notation, initialBoardStatus)
+        setUpInitialBoardStatus(notation, initialBoardStatus)
         boardData = Board(notation, initialBoardStatus)
         setupBoardView()
         explainMessage.text = boardData.currentTurn.label + "의 차례입니다"
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun addPlacesToNotation(
+    private fun setUpInitialBoardStatus(
         places: List<Place>,
         initialBoardStatus: Array<Array<Color>>,
     ) {
