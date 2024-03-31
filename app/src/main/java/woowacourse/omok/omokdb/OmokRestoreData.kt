@@ -13,12 +13,17 @@ object OmokRestoreData {
     private const val BLACK_STONE_VALUE = "흑"
 
     fun restoreGameData(
-        dbHelper: OmokDbHelper,
+        dao: OmokDao,
         board: TableLayout,
         imageView: (GoStone) -> Int,
     ) {
-        dbHelper.selectStonesInfo().forEach { (position, stoneColor) ->
-            recoverBoard(board, position, stoneColor, imageView)
+        dao.findAll().forEach { omokEntry ->
+            recoverBoard(
+                board,
+                Position.of(omokEntry.row[0], omokEntry.column),
+                omokEntry.color,
+                imageView,
+            )
         }
     }
 

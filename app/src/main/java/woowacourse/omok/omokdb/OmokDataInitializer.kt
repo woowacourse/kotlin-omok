@@ -10,12 +10,12 @@ object OmokDataInitializer {
     private const val RESET_IMAGE_ID = 0
 
     fun resetGameData(
-        omokDbHelper: OmokDbHelper,
+        dao: OmokDao,
         board: TableLayout,
     ) {
         resetBoardImage(board)
         Board.resetBoard()
-        omokDbHelper.reset()
+        dao.reset()
     }
 
     private fun resetBoardImage(board: TableLayout) {

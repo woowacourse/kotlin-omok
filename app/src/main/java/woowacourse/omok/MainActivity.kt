@@ -14,29 +14,29 @@ import omok.model.stone.BlackStone.value
 import omok.model.stone.GoStone
 import omok.model.stone.WhiteStone
 import omok.model.stone.WhiteStone.changeStone
+import woowacourse.omok.omokdb.OmokDao
 import woowacourse.omok.omokdb.OmokDataInitializer.resetGameData
-import woowacourse.omok.omokdb.OmokDbHelper
+import woowacourse.omok.omokdb.OmokEntry
 import woowacourse.omok.omokdb.OmokRestoreData.restoreGameData
 
 class MainActivity : AppCompatActivity() {
     private var stone: GoStone = BlackStone
-    private lateinit var dbHelper: OmokDbHelper
+    private val dao = OmokDao(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val board = findViewById<TableLayout>(R.id.board)
-        dbHelper = OmokDbHelper(this)
 
-        restoreGameData(dbHelper, board) { imageView(it) }
+        restoreGameData(dao, board) { imageView(it) }
         startOmokGame(board)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         val board = findViewById<TableLayout>(R.id.board)
-        resetGameData(dbHelper, board)
+        resetGameData(dao, board)
     }
 
     private fun startOmokGame(board: TableLayout) {
@@ -58,7 +58,13 @@ class MainActivity : AppCompatActivity() {
     ) {
         val currentStone = detectRenjuRule(view) { stone.putStone(position) }
         currentStone?.let {
-            dbHelper.insert(position.getRowValue(), position.getColumnValue(), stone.value())
+            dao.insert(
+                OmokEntry(
+                    position.getRowValue().toString(),
+                    position.getColumnValue(),
+                    stone.value(),
+                ),
+            )
             view.setImageResource(imageView(stone))
             if (checkOmok(board, position, view)) return
             stone = stone.changeStone()
@@ -101,7 +107,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         val snackBar = Snackbar.make(view, "${stone.value()} 승리", Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction(CONFIRM_BUTTON_MESSAGE) {
-            resetGameData(dbHelper, board)
+            resetGameData(dao, board)
         }
         snackBar.show()
     }
