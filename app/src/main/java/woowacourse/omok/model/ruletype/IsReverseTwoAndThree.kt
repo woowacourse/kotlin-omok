@@ -1,5 +1,6 @@
 package woowacourse.omok.model.ruletype
 
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.rule.OMockRule
 import woowacourse.omok.model.ruletype.RuleType.Companion.checkCalculateType
 import woowacourse.omok.model.search.Direction
@@ -13,7 +14,7 @@ data object IsReverseTwoAndThree : RuleType {
     override fun checkRule(
         visitedDirectionResult: VisitedDirectionResult,
         visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult,
-    ) {
+    ): GameState.CheckRuleTypeState {
         visitedDirectionResult.visited.entries.forEach { (key, result) ->
             val isReverseResultFirstClear: Boolean =
                 visitedDirectionFirstClearResult.visitedFirstClear[Direction.reverse(key)]?.isFirstClear
@@ -22,7 +23,7 @@ data object IsReverseTwoAndThree : RuleType {
                 visitedDirectionResult.visited[Direction.reverse(key)]?.count
                     ?: OMockRule.MIN_REVERSE_COUNT
             if (isLastClearResult(result)) {
-                checkIsReverseTwoAndThree(
+                return checkIsReverseTwoAndThree(
                     isCalculateType(
                         isReverseResultFirstClear = isReverseResultFirstClear,
                         reverseResultCount = reverseResultCount,
@@ -31,6 +32,7 @@ data object IsReverseTwoAndThree : RuleType {
                 )
             }
         }
+        return GameState.CheckRuleTypeState.Success
     }
 
     override fun isCalculateType(
@@ -43,11 +45,11 @@ data object IsReverseTwoAndThree : RuleType {
             reverseResultCount = reverseResultCount,
             directionResult = directionResult,
         ) &&
-            provideNotFirstClearResult(
-                isReverseResultFirstClear = isReverseResultFirstClear,
-                reverseResultCount = reverseResultCount,
-                directionResult = directionResult,
-            )
+                provideNotFirstClearResult(
+                    isReverseResultFirstClear = isReverseResultFirstClear,
+                    reverseResultCount = reverseResultCount,
+                    directionResult = directionResult,
+                )
     }
 
     override fun provideFirstClearResult(
@@ -56,7 +58,7 @@ data object IsReverseTwoAndThree : RuleType {
         directionResult: DirectionResult,
     ): Boolean {
         return isThreeToThreeCount(directionResult.count) &&
-            isFourToFourCount(reverseResultCount) && !isReverseResultFirstClear
+                isFourToFourCount(reverseResultCount) && !isReverseResultFirstClear
     }
 
     override fun provideNotFirstClearResult(
@@ -71,7 +73,7 @@ data object IsReverseTwoAndThree : RuleType {
         return IS_REVERSE_TWO_AND_THREE_MESSAGE
     }
 
-    private fun checkIsReverseTwoAndThree(result: Boolean) {
-        IsReverseTwoAndThree.checkCalculateType { result }
+    private fun checkIsReverseTwoAndThree(result: Boolean): GameState.CheckRuleTypeState {
+        return IsReverseTwoAndThree.checkCalculateType { result }
     }
 }

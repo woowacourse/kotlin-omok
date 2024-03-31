@@ -1,5 +1,6 @@
 package woowacourse.omok.model.rule
 
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.player.BlackPlayer
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.ruletype.RuleType
@@ -10,20 +11,23 @@ class OMockRule(private val ruleTypes: List<RuleType>) : OMockRuleInterface {
     override fun checkRules(
         visitedDirectionResult: VisitedDirectionResult,
         visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult,
-    ) {
+    ): GameState.CheckRuleTypeState {
         ruleTypes.forEach {
-            it.checkRule(visitedDirectionResult, visitedDirectionFirstClearResult)
+            val ruleResult = it.checkRule(visitedDirectionResult, visitedDirectionFirstClearResult)
+            if (ruleResult != GameState.CheckRuleTypeState.Success) return ruleResult
         }
+        return GameState.CheckRuleTypeState.Success
     }
 
     fun checkPlayerRules(
         player: Player,
         visitedDirectionResult: VisitedDirectionResult,
         visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult,
-    ) {
+    ): GameState.CheckRuleTypeState {
         if (player is BlackPlayer) {
-            checkRules(visitedDirectionResult, visitedDirectionFirstClearResult)
+            return checkRules(visitedDirectionResult, visitedDirectionFirstClearResult)
         }
+        return GameState.CheckRuleTypeState.Success
     }
 
     companion object {

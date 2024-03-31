@@ -1,5 +1,6 @@
 package woowacourse.omok.model.ruletype
 
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.rule.OMockRule
 import woowacourse.omok.model.search.DirectionResult
 import woowacourse.omok.model.search.VisitedDirectionFirstClearResult
@@ -9,7 +10,7 @@ sealed interface RuleType {
     fun checkRule(
         visitedDirectionResult: VisitedDirectionResult,
         visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult,
-    )
+    ): GameState.CheckRuleTypeState
 
     fun isCalculateType(
         isReverseResultFirstClear: Boolean,
@@ -48,10 +49,11 @@ sealed interface RuleType {
     fun getCalculateMessage(ruleType: RuleType): String
 
     companion object {
-        inline fun RuleType.checkCalculateType(action: () -> Boolean) {
+        inline fun RuleType.checkCalculateType(action: () -> Boolean) : GameState.CheckRuleTypeState{
             if (action()) {
-                throw IllegalArgumentException(getCalculateMessage(this))
+                return GameState.CheckRuleTypeState.Failure(Throwable(getCalculateMessage(this)))
             }
+            return GameState.CheckRuleTypeState.Success
         }
     }
 }

@@ -1,5 +1,6 @@
 package woowacourse.omok.model.ruletype
 
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.rule.OMockRule
 import woowacourse.omok.model.ruletype.RuleType.Companion.checkCalculateType
 import woowacourse.omok.model.search.Direction
@@ -13,7 +14,7 @@ data object IsClearFourToFourCount : RuleType {
     override fun checkRule(
         visitedDirectionResult: VisitedDirectionResult,
         visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult,
-    ) {
+    ): GameState.CheckRuleTypeState {
         var count = OMockRule.INIT_COUNT
         visitedDirectionResult.visited.entries.forEach { (key, result) ->
             val isReverseResultFirstClear: Boolean =
@@ -36,7 +37,7 @@ data object IsClearFourToFourCount : RuleType {
                 }
             }
         }
-        checkIsClearFourToFour(count)
+        return checkIsClearFourToFour(count)
     }
 
     override fun isCalculateType(
@@ -79,8 +80,8 @@ data object IsClearFourToFourCount : RuleType {
         return IS_CLEAR_FOUR_TO_FOUR_COUNT_MESSAGE
     }
 
-    private fun checkIsClearFourToFour(isClearFourToFourCount: Int) {
-        IsClearFourToFourCount.checkCalculateType {
+    private fun checkIsClearFourToFour(isClearFourToFourCount: Int): GameState.CheckRuleTypeState {
+        return IsClearFourToFourCount.checkCalculateType {
             isClearFourToFourCount >= OMockRule.MIN_IS_CLEAR_FOUR_TO_FOUR_COUNT
         }
     }

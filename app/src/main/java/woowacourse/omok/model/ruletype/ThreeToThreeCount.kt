@@ -1,5 +1,6 @@
 package woowacourse.omok.model.ruletype
 
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.rule.OMockRule
 import woowacourse.omok.model.ruletype.RuleType.Companion.checkCalculateType
 import woowacourse.omok.model.search.Direction
@@ -13,7 +14,7 @@ data object ThreeToThreeCount : RuleType {
     override fun checkRule(
         visitedDirectionResult: VisitedDirectionResult,
         visitedDirectionFirstClearResult: VisitedDirectionFirstClearResult,
-    ) {
+    ): GameState.CheckRuleTypeState {
         var count = OMockRule.INIT_COUNT
         visitedDirectionResult.visited.entries.forEach { (key, result) ->
             val isReverseResultFirstClear: Boolean =
@@ -34,7 +35,7 @@ data object ThreeToThreeCount : RuleType {
                 }
             }
         }
-        checkThreeToThreeCount(count)
+        return checkThreeToThreeCount(count)
     }
 
     override fun isCalculateType(
@@ -73,8 +74,10 @@ data object ThreeToThreeCount : RuleType {
         return isThreeToThreeCount(directionResult.count + reverseResultCount)
     }
 
-    private fun checkThreeToThreeCount(threeToThreeCount: Int) {
-        ThreeToThreeCount.checkCalculateType { threeToThreeCount >= OMockRule.MIN_THREE_TO_THREE_COUNT }
+    private fun checkThreeToThreeCount(threeToThreeCount: Int): GameState.CheckRuleTypeState {
+        return ThreeToThreeCount.checkCalculateType {
+            threeToThreeCount >= OMockRule.MIN_THREE_TO_THREE_COUNT
+        }
     }
 
     override fun getCalculateMessage(ruleType: RuleType): String {

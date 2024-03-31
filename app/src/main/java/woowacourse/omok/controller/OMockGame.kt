@@ -1,5 +1,6 @@
 package woowacourse.omok.controller
 
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.rule.LoadMap
@@ -17,12 +18,12 @@ abstract class OMockGame(
     private val oMockRule: OMockRule =
         OMockRule(
             ruleTypes =
-                listOf(
-                    ThreeToThreeCount,
-                    FourToFourCount,
-                    IsClearFourToFourCount,
-                    IsReverseTwoAndThree,
-                ),
+            listOf(
+                ThreeToThreeCount,
+                FourToFourCount,
+                IsClearFourToFourCount,
+                IsReverseTwoAndThree,
+            ),
         ),
 ) {
     protected var board: Board = Board.from()
@@ -45,18 +46,14 @@ abstract class OMockGame(
     ) {
         playerPutStone(player, playerStone)
             .onSuccess {
-                applyPlayerSelected(player, playerStone).onSuccess {
-                    executePlayerSuccessStep(playerStone, player)
-                }.onFailure {
-                    executePlayerTurnFailStep(playerStone, it)
-                }
+                applyPlayerSelected(player, playerStone)
             }
             .onFailure {
                 executePlayerPickFailStep(it)
             }
     }
 
-    fun loadNewBoard(){
+    fun loadNewBoard() {
         board = Board.from()
         loadMap = LoadMap(board.stoneStates)
     }
@@ -73,17 +70,24 @@ abstract class OMockGame(
     private fun applyPlayerSelected(
         player: Player,
         playerStone: Stone,
-    ): Result<Unit> {
-        return runCatching {
-            val visitedDirectionResult = VisitedDirectionResult(loadMap.loadMap(playerStone))
-            val visitedDirectionFirstClearResult =
-                VisitedDirectionFirstClearResult(loadMap.firstClearLoadMap(playerStone))
-            oMockRule.checkPlayerRules(
-                player,
-                visitedDirectionResult,
-                visitedDirectionFirstClearResult,
-            )
-            board.applyPlayerJudgement(player, visitedDirectionResult)
+    ){
+        val visitedDirectionResult = VisitedDirectionResult(loadMap.loadMap(playerStone))
+        val visitedDirectionFirstClearResult =
+            VisitedDirectionFirstClearResult(loadMap.firstClearLoadMap(playerStone))
+        val checkRulesResult = oMockRule.checkPlayerRules(
+            player,
+            visitedDirectionResult,
+            visitedDirectionFirstClearResult,
+        )
+        when (checkRulesResult) {
+            is GameState.CheckRuleTypeState.Success -> {
+                board.applyPlayerJudgement(player, visitedDirectionResult)
+                executePlayerSuccessStep(playerStone, player)
+            }
+
+            is GameState.CheckRuleTypeState.Failure -> {
+                executePlayerTurnFailStep(playerStone,checkRulesResult.throwable)
+            }
         }
     }
 

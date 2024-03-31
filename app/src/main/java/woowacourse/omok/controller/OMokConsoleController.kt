@@ -56,10 +56,11 @@ class OMokConsoleController : OMockGame() {
     }
 
     private fun playerPick(player: Player) {
-        InputView.playerPick(player = player).onSuccess { playerStone ->
-            start(player, playerStone)
-        }.onFailure {
-            executePlayerPickFailStep(it)
-        }
+        InputView.playerPick(player = player)
+            .onSuccess { playerStone ->
+                start(player, playerStone)
+            }.onFailure {
+                executePlayerPickFailStep(it)
+            }
     }
 }
