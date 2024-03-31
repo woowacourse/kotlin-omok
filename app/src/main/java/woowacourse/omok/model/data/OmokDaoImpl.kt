@@ -51,6 +51,10 @@ class OmokDaoImpl(context: Context) : OmokDao {
         return result
     }
 
+    override fun findLast(): OmokEntity? {
+        return findAll().maxByOrNull { it.id }
+    }
+
     override fun drop() {
         val db = omokDbHelper.writableDatabase
         db.delete(OmokContract.TABLE_NAME, null, null)

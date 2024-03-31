@@ -5,5 +5,7 @@ interface OmokDao {
 
     fun findAll(): List<OmokEntity>
 
+    fun findLast(): OmokEntity?
+
     fun drop()
 }

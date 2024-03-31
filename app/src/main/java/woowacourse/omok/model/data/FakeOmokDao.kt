@@ -13,6 +13,10 @@ class FakeOmokDao : OmokDao {
         return values.map { it.value }
     }
 
+    override fun findLast(): OmokEntity? {
+        return findAll().maxByOrNull { it.id }
+    }
+
     override fun drop() {
         values.clear()
     }

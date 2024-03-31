@@ -54,6 +54,25 @@ class OmokDaoImplTest {
     }
 
     @Test
+    fun `가장_최근에_저장된_데이터를_조회한다`() {
+        // given
+        val omokEntity = OmokEntity(5, 5, STONE_WHITE)
+        omokDaoImpl.save(omokEntity)
+        omokDaoImpl.save(omokEntity)
+        omokDaoImpl.save(OmokEntity(10, 10, STONE_BLACK))
+
+        // when
+        val actual = omokDaoImpl.findLast()
+
+        // then
+        assertThat(actual).isNotNull
+        assertThat(actual?.id).isGreaterThan(-1)
+        assertThat(actual?.row).isEqualTo(10)
+        assertThat(actual?.col).isEqualTo(10)
+        assertThat(actual?.stone).isEqualTo(STONE_BLACK)
+    }
+
+    @Test
     fun `모든_데이터를_삭제한다`() {
         // given
         val omokEntity = OmokEntity(7, 7, STONE_BLACK)
