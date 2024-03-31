@@ -4,8 +4,6 @@ import omock.model.board.OmokBoard
 
 sealed interface PlaceResult
 
-data object IDLE : PlaceResult
-
 data class Success(val newBoard: OmokBoard) : PlaceResult
 
 sealed interface Failure : PlaceResult
@@ -34,9 +32,4 @@ inline fun PlaceResult.onSuccess(block: (OmokBoard) -> Unit): PlaceResult {
 inline fun PlaceResult.onFailure(block: (Failure) -> Unit): PlaceResult {
     if (this is Failure) block(this)
     return this
-}
-
-fun PlaceResult.getOrThrow(): OmokBoard {
-    if (this is Success) return newBoard
-    throw IllegalStateException("돌을 놓을 수 없습니다.")
 }

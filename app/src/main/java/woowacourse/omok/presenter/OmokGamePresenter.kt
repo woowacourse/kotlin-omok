@@ -36,11 +36,8 @@ class OmokGamePresenter(
                 view.showCurrentGameState(board, lastBlock)
                 consoleView.showCurrentGameState(board.toUiModel(), lastBlock.toUiModel())
                 if (game.isEnd()) {
-                    view.showGameResult(game.currentBoard(), lastBlock)
-                    consoleView.showGameResult(
-                        game.currentBoard().toUiModel(),
-                        lastBlock.toUiModel(),
-                    )
+                    view.showGameResult(board, lastBlock)
+                    consoleView.showGameResult(board.toUiModel(), lastBlock.toUiModel())
                 }
             }.onFailure {
                 val errorMessage = errorHandler.onError(it)
