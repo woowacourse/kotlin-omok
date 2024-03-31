@@ -39,16 +39,14 @@ class MainActivity : AppCompatActivity() {
         boardData = Board(notation, initialBoardStatus)
         setupBoardView()
         explainMessage.text = boardData.currentTurn.label + "의 차례입니다"
-        boardView.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, tableRow ->
-            setupRowImageViews(tableRow, rowIndex)
-        }
+        placeIfBoardViewClicked()
     }
 
     private fun setUpInitialBoardStatus(
-        places: List<Place>,
+        notation: List<Place>,
         initialBoardStatus: Array<Array<Color>>,
     ) {
-        places.forEach { place ->
+        notation.forEach { place ->
             val color = place.color
             val rowCoordinate = place.rowCoordinate
             val colCoordinate = place.colCoordinate
@@ -82,35 +80,6 @@ class MainActivity : AppCompatActivity() {
             Color.BLACK -> imageView.setImageResource(R.drawable.black_stone)
             Color.WHITE -> imageView.setImageResource(R.drawable.white_stone)
             Color.NONE -> imageView.setImageDrawable(null)
-        }
-    }
-
-    private fun setupRowImageViews(
-        tableRow: TableRow,
-        rowIndex: Int,
-    ) {
-        tableRow.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
-            setupImageViewClickListener(imageView, rowIndex, colIndex)
-        }
-    }
-
-    private fun setupImageViewClickListener(
-        imageView: ImageView,
-        rowIndex: Int,
-        colIndex: Int,
-    ) {
-        imageView.setOnClickListener {
-            runCatching {
-                val eachPlacedPosition = Position.of(rowIndex + 1, colIndex.toChar() + 'A'.code)
-                boardData.place(eachPlacedPosition)
-                recordInDb(rowIndex, colIndex)
-                explainMessage.text = boardData.currentTurn.label + "의 차례입니다"
-                displayOnBoardView(boardData, imageView)
-                imageView.isClickable = false
-                finishIfGameOver(eachPlacedPosition)
-            }.onFailure {
-                explainMessage.text = it.message
-            }
         }
     }
 
@@ -152,6 +121,41 @@ class MainActivity : AppCompatActivity() {
             Color.BLACK -> imageView.setImageResource(R.drawable.black_stone)
             Color.WHITE -> imageView.setImageResource(R.drawable.white_stone)
             Color.NONE -> return
+        }
+    }
+
+    private fun placeIfBoardViewClicked() {
+        boardView.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, tableRow ->
+            placeIfRowClicked(tableRow, rowIndex)
+        }
+    }
+
+    private fun placeIfRowClicked(
+        tableRow: TableRow,
+        rowIndex: Int,
+    ) {
+        tableRow.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
+            placeIfImageViewClicked(imageView, rowIndex, colIndex)
+        }
+    }
+
+    private fun placeIfImageViewClicked(
+        imageView: ImageView,
+        rowIndex: Int,
+        colIndex: Int,
+    ) {
+        imageView.setOnClickListener {
+            runCatching {
+                val eachPlacedPosition = Position.of(rowIndex + 1, colIndex.toChar() + 'A'.code)
+                boardData.place(eachPlacedPosition)
+                recordInDb(rowIndex, colIndex)
+                explainMessage.text = boardData.currentTurn.label + "의 차례입니다"
+                displayOnBoardView(boardData, imageView)
+                imageView.isClickable = false
+                finishIfGameOver(eachPlacedPosition)
+            }.onFailure {
+                explainMessage.text = it.message
+            }
         }
     }
 
