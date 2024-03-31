@@ -1,6 +1,6 @@
-package lib.ark
+package omock.lib.ark
 
-import lib.ark.constant.LibraryConstant.BOARD_SIZE
+import omock.lib.constant.LibraryConstant.BOARD_SIZE
 
 abstract class ArkRule(
     private val currentStone: Int = BLACK_STONE,

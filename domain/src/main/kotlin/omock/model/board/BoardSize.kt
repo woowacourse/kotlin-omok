@@ -1,4 +1,6 @@
-package omok.model.board
+package omock.model.board
+
+import omock.model.Position
 
 @JvmInline
 value class BoardSize(val width: Int) {
@@ -8,10 +10,8 @@ value class BoardSize(val width: Int) {
 
     fun range(): IntRange = MIN_RANGE..width
 
-    fun isInBounds(
-        x: Int,
-        y: Int,
-    ): Boolean {
+    fun isInBounds(position: Position): Boolean {
+        val (x, y) = position
         val range = MIN_RANGE..width
         return x in range && y in range
     }

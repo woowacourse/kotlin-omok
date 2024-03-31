@@ -1,4 +1,4 @@
-package lib.ark
+package omock.lib.ark
 
 object ArkFourFourRule : ArkRule() {
     override fun validate(
