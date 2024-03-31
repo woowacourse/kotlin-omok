@@ -44,21 +44,27 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
         board: TableLayout,
         size: Int,
     ) {
-        (state as UiState.Success.Loaded).data.forEach { omok ->
-            val row = Row(omok.rowComma)
-            val column = Column(omok.columnComma)
-            val view =
-                board.children.filterIsInstance<TableRow>().flatMap { it.children }
-                    .filterIsInstance<ImageView>()
-                    .toList()[((row.toIntIndex() - 1) * size) + column.getIndex()]
-            val turn = oMokGame.getTurn()
+        when (state) {
+            is UiState.Success.Loaded -> {
+                state.data.forEach { omok ->
+                    val row = Row(omok.rowComma)
+                    val column = Column(omok.columnComma)
+                    val view =
+                        board.children.filterIsInstance<TableRow>().flatMap { it.children }
+                            .filterIsInstance<ImageView>()
+                            .toList()[((row.toIntIndex() - 1) * size) + column.getIndex()]
+                    val turn = oMokGame.getTurn()
 
-            turn.toStoneIconRes()?.let { stoneIconRes ->
-                if (oMokGame.executeTurn(row, column)) {
-                    view.setImageResource(stoneIconRes)
-                    handleTurnCompletion(view)
+                    turn.toStoneIconRes()?.let { stoneIconRes ->
+                        if (oMokGame.executeTurn(row, column)) {
+                            view.setImageResource(stoneIconRes)
+                            handleTurnCompletion(view)
+                        }
+                    }
                 }
             }
+
+            is UiState.Success.Empty -> Unit
         }
     }
 
