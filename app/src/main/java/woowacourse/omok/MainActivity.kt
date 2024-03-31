@@ -1,7 +1,6 @@
 package woowacourse.omok
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -26,7 +25,6 @@ class MainActivity : AppCompatActivity() {
                     tableRow.children.filterIsInstance<ImageView>().map { row to it }
                 }.flatMap {
                     it.mapIndexed { column, (row, imageView) ->
-                        Log.i("coord", "$column $row")
                         Point(column + 1, row + 1) to imageView
                     }
                 }.toMap()
@@ -56,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         boardImageViewMap: Map<Point, ImageView>
     ) {
         omokGameState.turn.board.stones.forEach {
-            boardImageViewMap[it.point]?.setImageResource(it.stoneColor.toResourceId())
+            boardImageViewMap[it.point]?.setImageResource(it.stoneColor.toDrawableId())
         }
     }
 
@@ -65,20 +63,20 @@ class MainActivity : AppCompatActivity() {
     ) {
         val turn = omokGameState.turn
         val winnerText = if (turn.isWin()) {
-            turn.color().string() + "(이)가 승리했습니다!"
-        } else "비겼습니다."
+            getString(turn.color().toStringId()) + getString(R.string.winning_message)
+        } else getString(R.string.draw_message)
         Toast.makeText(applicationContext, winnerText, Toast.LENGTH_SHORT).show()
     }
 }
 
-fun StoneColor.toResourceId() =
+fun StoneColor.toDrawableId() =
     when (this) {
         StoneColor.BLACK -> R.drawable.black_stone
         StoneColor.WHITE -> R.drawable.white_stone
     }
 
-fun StoneColor.string() =
+fun StoneColor.toStringId() =
     when (this) {
-        StoneColor.BLACK -> "흑"
-        StoneColor.WHITE -> "백"
+        StoneColor.BLACK -> R.string.black
+        StoneColor.WHITE -> R.string.white
     }

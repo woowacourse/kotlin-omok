@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Omok</string>
+    <string name="app_name">오목눈이</string>
+    <string name="winning_message">이(가) 승리했습니다!</string>
+    <string name="draw_message">비겼습니다.</string>
+    <string name="white">백</string>
+    <string name="black">흑</string>
 </resources>
