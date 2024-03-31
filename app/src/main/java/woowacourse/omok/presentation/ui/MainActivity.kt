@@ -48,17 +48,12 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
                 state.data.forEach { omok ->
                     val row = Row(omok.rowComma)
                     val column = Column(omok.columnComma)
+                    val idx = ((row.toIntIndex() - 1) * size) + column.getIndex()
                     val view =
                         board.children.filterIsInstance<TableRow>().flatMap { it.children }
-                            .filterIsInstance<ImageView>()
-                            .toList()[((row.toIntIndex() - 1) * size) + column.getIndex()]
-                    val turn = oMokGame.getTurn()
+                            .filterIsInstance<ImageView>().toList()[idx]
 
-                    turn.toStoneIconRes()?.let { stoneIconRes ->
-                        if (oMokGame.executeTurn(row, column)) {
-                            view.setImageResource(stoneIconRes)
-                        }
-                    }
+                    handleStonePlacement(idx, size, view)
                 }
             }
 
