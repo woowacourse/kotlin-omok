@@ -14,26 +14,29 @@ object GameResume {
         val omokGameData = dao.findAll().associateBy { it.position }
 
         positions.forEachIndexed { index, view ->
-            showInProgressGameData(omokGameData, index, view)
+            val stoneDrawable = getCurrentStoneDrawable(omokGameData, index)
+            placeCurrentStone(stoneDrawable, view)
         }
     }
 
-    private fun showInProgressGameData(
+    private fun getCurrentStoneDrawable(
         omokGameData: Map<Int, OmokEntry>,
         index: Int,
-        view: ImageView,
-    ) {
-        omokGameData[index]?.let { entry ->
-            placeCurrentGameStones(entry, view)
-        }
+    ): Int? {
+        val stoneType = omokGameData[index]?.stoneType
+        val stoneDrawable =
+            StoneType.entries.firstOrNull { it.type == stoneType }?.let {
+                OmokBoardAdapter.convertStoneTypeToDrawable(it)
+            }
+        return stoneDrawable
     }
 
-    private fun placeCurrentGameStones(
-        entry: OmokEntry,
+    private fun placeCurrentStone(
+        stoneDrawable: Int?,
         view: ImageView,
     ) {
-        StoneType.entries.firstOrNull { it.type == entry.stoneType }?.let {
-            view.setImageResource(OmokBoardAdapter.convertStoneTypeToDrawable(it))
+        stoneDrawable?.let {
+            view.setImageResource(it)
         }
     }
 }
