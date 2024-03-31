@@ -29,14 +29,14 @@ class OmokRepositoryTest {
 
     @Test
     fun `데이터베이스에_오목_좌표를_저장하면_오목_좌표가_저장된다`() {
-        val omok = Omok(columnComma = "A", rowComma = "1")
+        val omok = makeOmok("1A")
         repository.insertOmok(omok)
 
         val actual = repository.selectOmok().getOrThrow()
 
         assertEquals(
             actual,
-            listOf(Omok(columnComma = "A", rowComma = "1")),
+            makeOmoks("1A"),
         )
     }
 
@@ -52,7 +52,7 @@ class OmokRepositoryTest {
 
     @Test
     fun `데이터베이스에_오목_좌표를_저장하고_동일한_오목_좌표를_제거하면_데이터베이스에는_아무것도_없다`() {
-        val omok = Omok(columnComma = "A", rowComma = "1")
+        val omok = makeOmok("1A")
 
         repository.insertOmok(omok)
 
@@ -91,7 +91,9 @@ class OmokRepositoryTest {
 }
 
 fun makeOmoks(vararg omoks: String): List<Omok> {
-    return omoks.map { omok ->
-        Omok(omok[0].toString(), omok[1].toString())
-    }
+    return omoks.map { omok -> makeOmok(omok) }
+}
+
+fun makeOmok(omok: String): Omok {
+    return Omok(omok[0].toString(), omok[1].toString())
 }
