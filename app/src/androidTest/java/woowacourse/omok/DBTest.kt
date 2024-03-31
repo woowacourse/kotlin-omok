@@ -14,20 +14,30 @@ import org.junit.Before
 import org.junit.Test
 
 class DBTest {
-    private lateinit var omokDao: OmokDao
+    private lateinit var stoneDao: StoneDao
 
     @Before
     fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        omokDao = OmokDao(context)
+        stoneDao = StoneDao(context)
+        stoneDao.drop()
     }
 
     @Test
     fun storeOneStone() {
         val point = Point(1, 1)
         val expected = Stone(point, StoneColor.BLACK)
-        omokDao.save(expected)
-        val actual = omokDao.findStoneAt(point)
+        stoneDao.save(expected)
+        val actual = stoneDao.findAt(point)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun findAllStone() {
+        val points = listOf(Point(2,2), Point(3,3), Point(4,4))
+        val expected = points.map { Stone(it, StoneColor.BLACK) }.toSet()
+        expected.forEach{ stoneDao.save(it)}
+        val actual = stoneDao.findAll()
         assertThat(actual).isEqualTo(expected)
     }
 }
@@ -41,7 +51,7 @@ object StoneContract {
     }
 }
 
-class OmokDao(private val context: Context) {
+class StoneDao(context: Context) {
     private val dbHelper: OmokDbHelper = OmokDbHelper(context)
 
     fun save(stone: Stone) {
@@ -57,7 +67,7 @@ class OmokDao(private val context: Context) {
         )
     }
 
-    fun findStoneAt(point: Point): Stone? {
+    fun findAt(point: Point): Stone? {
         val db = dbHelper.writableDatabase
         val projection =
             arrayOf(
@@ -85,6 +95,43 @@ class OmokDao(private val context: Context) {
         }
         cursor.close()
         return null
+    }
+
+    fun findAll(): Set<Stone> {
+        val db = dbHelper.writableDatabase
+        val projection =
+            arrayOf(
+                BaseColumns._ID,
+                StoneContract.StoneEntry.COLUMN_NAME_X,
+                StoneContract.StoneEntry.COLUMN_NAME_Y,
+                StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR,
+            )
+        val cursor =
+            db.query(
+                StoneContract.StoneEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            )
+        val stones = mutableSetOf<Stone>()
+        while(cursor.moveToNext()) {
+            val x = cursor.getInt(cursor.getColumnIndexOrThrow(StoneContract.StoneEntry.COLUMN_NAME_X))
+            val y = cursor.getInt(cursor.getColumnIndexOrThrow(StoneContract.StoneEntry.COLUMN_NAME_Y))
+            val colorOrdinal = cursor.getInt(cursor.getColumnIndexOrThrow(StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR))
+            val color = ordinalToStoneColor(colorOrdinal)
+            val stone = Stone(Point(x, y), color)
+            stones.add(stone)
+        }
+        cursor.close()
+        return stones
+    }
+
+    fun drop() {
+        val db = dbHelper.writableDatabase
+        db.delete(StoneContract.StoneEntry.TABLE_NAME, null, null)
     }
 
     private fun ordinalToStoneColor(ordinal: Int) =
