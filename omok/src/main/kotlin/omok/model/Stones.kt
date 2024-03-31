@@ -17,11 +17,13 @@ class Stones {
 
     private fun checkDuplicate(stone: Stone) {
         require(
-            _stones.all { it.point != stone.point }
+            _stones.all { it.point != stone.point },
         ) { "중복된 위치입니다." }
     }
 
     fun lastStone(): Stone? = _stones.lastOrNull()
+
+    fun clear() = _stones.clear()
 
     companion object {
         private const val BOARD_SIZE = 15
