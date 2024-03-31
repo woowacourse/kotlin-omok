@@ -27,18 +27,19 @@ class OMokGame(
     fun executeValidCoordinates(
         idx: Int,
         size: Int,
-    ): Pair<String, String>? {
-        if (turn.isFinished()) return null
-
+        listener: ValidCoordinatesListener,
+    ) {
         val rowIndex = idx / size
         val columnIndex = idx % size
 
         val rowComma = rowIndex.toRowComma(size)
         val columnComma = columnIndex.toColumnComma()
 
-        if (executeTurn(Row(rowComma), Column(columnComma))) return Pair(rowComma, columnComma)
-
-        return null
+        if (executeTurn(Row(rowComma), Column(columnComma))) {
+            listener.onValidCoordinates(rowComma, columnComma)
+        } else {
+            listener.onInvalidCoordinates()
+        }
     }
 
     fun executeTurn(

@@ -10,6 +10,7 @@ import omok.model.Column
 import omok.model.OMokBoard
 import omok.model.OMokGame
 import omok.model.Row
+import omok.model.ValidCoordinatesListener
 import omok.model.turn.FinishedTurn
 import woowacourse.omok.R
 import woowacourse.omok.local.db.OmokDao
@@ -108,22 +109,32 @@ class MainActivity : OmokGameActivity(R.layout.activity_main) {
         view: ImageView,
     ) {
         val turn = oMokGame.getTurn()
+        oMokGame.executeValidCoordinates(
+            idx,
+            size,
+            object : ValidCoordinatesListener {
+                override fun onValidCoordinates(
+                    rowComma: String,
+                    columnComma: String,
+                ) {
+                    turn.toStoneIconRes()?.let { stoneIconRes ->
+                        view.setImageResource(stoneIconRes)
+                        handleTurnCompletion(view)
 
-        oMokGame.executeValidCoordinates(idx, size)?.let { (rowComma, columnComma) ->
-            turn.toStoneIconRes()?.let { stoneIconRes ->
-                view.setImageResource(stoneIconRes)
-                handleTurnCompletion(view)
+                        val omok = Omok(rowComma = rowComma, columnComma = columnComma)
 
-                val omok = Omok(rowComma = rowComma, columnComma = columnComma)
-
-                when (val state = viewModel.insertOmok(omok)) {
-                    is UiState.Success -> Unit
-                    is UiState.Failure -> showSnackbar(view, state.error)
+                        when (val state = viewModel.insertOmok(omok)) {
+                            is UiState.Success -> Unit
+                            is UiState.Failure -> showSnackbar(view, state.error)
+                        }
+                    }
                 }
-            }
-        } ?: run {
-            showSnackbar(view, getString(R.string.omok_placement_invalid))
-        }
+
+                override fun onInvalidCoordinates() {
+                    showSnackbar(view, getString(R.string.omok_placement_invalid))
+                }
+            },
+        )
     }
 
     private fun handleTurnCompletion(view: View) {
