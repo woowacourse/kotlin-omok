@@ -12,6 +12,7 @@ import omok.model.BlackStonePlayer
 import omok.model.Color
 import omok.model.Player
 import omok.model.Point
+import omok.model.Stone
 import omok.model.Stones
 import omok.model.WhiteStonePlayer
 
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var whiteStonePlayer: WhiteStonePlayer
     private lateinit var currentPlayer: Player
 
+    private lateinit var stoneDao: StoneDao
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,14 +31,28 @@ class MainActivity : AppCompatActivity() {
         initGameSetting()
 
         val board = findViewById<TableLayout>(R.id.board)
+        val dbStones = stoneDao.stones()
+
         board
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
+                restoreStones(view, index, dbStones)
                 view.setOnClickListener { putStone(view, index) }
             }
+    }
+
+    private fun restoreStones(
+        view: ImageView,
+        index: Int,
+        dbStones: List<Stone>,
+    ) {
+        val stone = dbStones.firstOrNull { it.point == index.toPoint() }
+        if (stone != null) {
+            view.setImageResource(if (stone.color == Color.BLACK) R.drawable.black_stone else R.drawable.white_stone)
+        }
     }
 
     private fun initGameSetting() {
@@ -43,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         blackStonePlayer = BlackStonePlayer(stones)
         whiteStonePlayer = WhiteStonePlayer(stones)
         currentPlayer = blackStonePlayer
+        stoneDao = StoneDao(this)
     }
 
     private fun putStone(
@@ -56,22 +74,25 @@ class MainActivity : AppCompatActivity() {
     private fun playerTurn(
         point: Point,
         view: ImageView,
-    ) {
-        runCatching {
-            currentPlayer.add(point)
-        }.onSuccess {
-            changeImage(view)
-            showGameResult()
-        }.onFailure {
-            Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
-        }
+    ) = runCatching {
+        currentPlayer.add(point)
+    }.onSuccess {
+        putStone(view, point)
+        showGameResult()
+    }.onFailure {
+        Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
     }
 
-    private fun changeImage(view: ImageView) {
+    private fun putStone(
+        view: ImageView,
+        point: Point,
+    ) {
         if (currentPlayer.color == Color.BLACK) {
             view.setImageResource(R.drawable.black_stone)
+            stoneDao.insert(Stone(point, Color.BLACK))
         } else if (currentPlayer.color == Color.WHITE) {
             view.setImageResource(R.drawable.white_stone)
+            stoneDao.insert(Stone(point, Color.WHITE))
         }
     }
 
@@ -79,6 +100,7 @@ class MainActivity : AppCompatActivity() {
         if (currentPlayer.isWin()) {
             setContentView(R.layout.activity_main)
             stones.clear()
+            stoneDao.deleteAll()
             Snackbar.make(
                 findViewById(R.id.board),
                 "${if (currentPlayer.color == Color.WHITE) "백" else "흑"}의 승리입니다. 축하합니다.",
@@ -95,7 +117,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun Int.toPoint(): Point = Point(this % BOARD_SIZE, MAX_POINT_VALUE - this / BOARD_SIZE)
-
 
     companion object {
         private const val BOARD_SIZE = 15
