@@ -3,6 +3,7 @@ package omock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.player.WhitePlayer
 import woowacourse.omok.model.position.Column
@@ -17,16 +18,16 @@ class BoardTest {
         val player = WhitePlayer()
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
-        val stone = Stone.from(Row("1"), Column("A"))
+        val stone = Stone.from(Row("1"), Column("A")) as GameState.LoadStone.Success
 
         board.makeStones(
             player = player,
             coordinates =
                 arrayOf("2B", "1B", "2A", "3A", "4A", "5A"),
         )
-        board.setStoneState(player, stone)
+        board.setStoneState(player, stone.stone)
 
-        loadMap.loadMap(stone).apply {
+        loadMap.loadMap(stone.stone).apply {
             assertThat(this[Direction.TOP]?.count).isEqualTo(4)
             assertThat(this[Direction.TOP_RIGHT]?.count).isEqualTo(1)
             assertThat(this[Direction.RIGHT]?.count).isEqualTo(1)
@@ -38,10 +39,10 @@ class BoardTest {
     }
 
     @Test
-    fun `플레이어가 이미 돌이 놓여 있는 위치에 돌을 놓으려 할 때, 예외를 던진다`() {
+    fun `플레이어가 이미 돌이 놓여 있는 위치에 돌을 놓으려 할 때, GameState는 Failure 상태이다`() {
         val player = WhitePlayer()
         val board = Board.from()
-        val stone = Stone.from(Row("1"), Column("A"))
+        val stone = Stone.from(Row("1"), Column("A")) as GameState.LoadStone.Success
 
         board.makeStones(
             player = player,
@@ -49,7 +50,7 @@ class BoardTest {
                 arrayOf("1A"),
         )
 
-        assertThrows<IllegalArgumentException> { board.setStoneState(player, stone) }
+        assertThrows<IllegalArgumentException> { board.setStoneState(player, stone.stone) }
     }
 
     @Test
@@ -64,8 +65,8 @@ class BoardTest {
         )
 
         assertThrows<IllegalArgumentException> {
-            val stone = Stone.from(Row("16"), Column("A"))
-            board.setStoneState(player, stone)
+            val stone = Stone.from(Row("16"), Column("A")) as GameState.LoadStone.Success
+            board.setStoneState(player, stone.stone)
         }
     }
 }

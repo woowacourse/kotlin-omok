@@ -1,5 +1,6 @@
 package omock
 
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.position.Column
@@ -13,7 +14,17 @@ fun Board.makeStones(
     coordinates.forEach { coordinate ->
         this.setStoneState(
             player = player,
-            Stone.from(Row(coordinate.substring(0, coordinate.length - 1)), Column(coordinate.substring(coordinate.length - 1))),
+            stone = (
+                    Stone
+                        .from(
+                            Row(
+                                coordinate.substring(0, coordinate.length - 1)
+                            ),
+                            Column(
+                                coordinate.substring(coordinate.length - 1)
+                            )
+                        ) as GameState.LoadStone.Success
+                    ).stone,
         )
     }
 }

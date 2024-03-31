@@ -2,6 +2,7 @@ package omock
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.player.BlackPlayer
 import woowacourse.omok.model.position.Column
@@ -26,7 +27,7 @@ class OmockRuleTest {
             OMockRule(
                 ruleTypes = listOf(ThreeToThreeCount),
             )
-        val stone = Stone.from(Row("12"), Column("D"))
+        val stone = (Stone.from(Row("12"), Column("D")) as GameState.LoadStone.Success).stone
 
         board.makeStones(
             player = player,
@@ -51,7 +52,7 @@ class OmockRuleTest {
             OMockRule(
                 ruleTypes = listOf(FourToFourCount),
             )
-        val stone = Stone.from(Row("12"), Column("D"))
+        val stone = (Stone.from(Row("12"), Column("D")) as GameState.LoadStone.Success).stone
 
         board.makeStones(
             player = player,
@@ -72,7 +73,7 @@ class OmockRuleTest {
         val player = BlackPlayer()
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
-        val stone = Stone.from(Row("13"), Column("C"))
+        val stone = (Stone.from(Row("13"), Column("C")) as GameState.LoadStone.Success).stone
         val oMockRule =
             OMockRule(
                 ruleTypes = listOf(IsReverseTwoAndThree),
@@ -97,7 +98,7 @@ class OmockRuleTest {
         val player = BlackPlayer()
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
-        val stone = Stone.from(Row("3"), Column("E"))
+        val stone = (Stone.from(Row("3"), Column("E")) as GameState.LoadStone.Success).stone
         val oMockRule =
             OMockRule(
                 ruleTypes = listOf(IsClearFourToFourCount),

@@ -3,6 +3,7 @@ package omock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.player.BlackPlayer
 import woowacourse.omok.model.player.WhitePlayer
 import woowacourse.omok.model.position.Column
@@ -16,13 +17,13 @@ class StoneStateTest {
     @Test
     fun `흑 플레이어가 UnPlaced 상태에서 put을하면 돌의 상태가 흑돌로 변한다`() {
         val unPlacedStone = Clear(Stone(Row("1"), Column("A")))
-        assertThat(unPlacedStone.put(BlackPlayer()) is Black).isTrue()
+        assertThat((unPlacedStone.put(BlackPlayer()) as GameState.LoadStoneState.Success).stoneState is Black).isTrue()
     }
 
     @Test
     fun `백 플레이어가 UnPlaced 상태에서 put을하면 돌의 상태가 백돌로 변한다`() {
         val unPlacedStone = Clear(Stone(Row("1"), Column("A")))
-        assertThat(unPlacedStone.put(WhitePlayer()) is White).isTrue()
+        assertThat((unPlacedStone.put(WhitePlayer())  as GameState.LoadStoneState.Success).stoneState is White).isTrue()
     }
 
     @Test

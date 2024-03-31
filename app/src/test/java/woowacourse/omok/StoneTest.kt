@@ -2,6 +2,7 @@ package omock
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.position.Column
 import woowacourse.omok.model.position.Row
 import woowacourse.omok.model.stone.Stone
@@ -19,8 +20,7 @@ class StoneTest {
     fun `돌을 통해서 Board의 인덱스를 얻을 수 있다`() {
         val row = Row("1")
         val column = Column("A")
-        val actual = Stone.from(row = row, column = column)
-
+        val actual = (Stone.from(row = row, column = column) as GameState.LoadStone.Success).stone
         assertThat(actual.getBoardRowIndex()).isEqualTo(Row.MAX_ROW)
         assertThat(actual.getColumnIndex()).isEqualTo(Column.MIN_COLUMN_INDEX)
     }

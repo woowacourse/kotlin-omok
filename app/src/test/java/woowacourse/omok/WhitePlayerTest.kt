@@ -2,6 +2,7 @@ package omock
 
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.player.BlackPlayer
 import woowacourse.omok.model.player.WhitePlayer
@@ -17,15 +18,15 @@ class WhitePlayerTest {
         val player = BlackPlayer()
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
-        val stone = Stone.from(Row("1"), Column("A"))
+        val stone = Stone.from(Row("1"), Column("A")) as GameState.LoadStone.Success
 
         board.makeStones(
             player = player,
             coordinates = arrayOf("2B", "1B", "2A", "3A", "4A", "5A"),
         )
-        board.setStoneState(player, stone)
+        board.setStoneState(player, stone.stone)
 
-        Assertions.assertThat(player.judgementResult(VisitedDirectionResult(loadMap.loadMap(stone)))).isTrue()
+        Assertions.assertThat(player.judgementResult(VisitedDirectionResult(loadMap.loadMap(stone.stone)))).isTrue()
     }
 
     @Test
@@ -34,13 +35,13 @@ class WhitePlayerTest {
         val board = Board.from()
         val loadMap = LoadMap(board.stoneStates)
         val stone =
-            Stone.from(Row("1"), Column("A"))
+            Stone.from(Row("1"), Column("A")) as GameState.LoadStone.Success
 
         board.makeStones(
             player = player,
             coordinates = arrayOf("2B", "1B", "2A", "3A", "5A"),
         )
 
-        Assertions.assertThat(player.judgementResult(VisitedDirectionResult(loadMap.loadMap(stone)))).isFalse()
+        Assertions.assertThat(player.judgementResult(VisitedDirectionResult(loadMap.loadMap(stone.stone)))).isFalse()
     }
 }
