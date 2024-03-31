@@ -104,8 +104,13 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
         positions: List<ImageView>,
     ) {
-        val snackBar = Snackbar.make(view, WINNER_MESSAGE.format(stone.stoneType.type), Snackbar.LENGTH_INDEFINITE)
-        snackBar.setAction(GAME_RESTART) {
+        val snackBar =
+            Snackbar.make(
+                view,
+                this.getString(R.string.winnier_message).format(stone.stoneType.type),
+                Snackbar.LENGTH_INDEFINITE,
+            )
+        snackBar.setAction(R.string.game_restart) {
             snackBar.dismiss()
             restartGame(positions)
         }
@@ -120,10 +125,5 @@ class MainActivity : AppCompatActivity() {
         }
         stone = BlackStone()
         setBoardClickable(positions, isClickable = true)
-    }
-
-    companion object {
-        private const val WINNER_MESSAGE = "%s의 승리입니다 🏆"
-        private const val GAME_RESTART = "다시 시작"
     }
 }

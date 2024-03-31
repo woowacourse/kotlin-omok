@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Omok</string>
+    <string name="winnier_message">%s의 승리입니다 🏆</string>
+    <string name="game_restart">다시 시작</string>
 </resources>
