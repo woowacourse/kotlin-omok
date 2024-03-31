@@ -7,16 +7,24 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import omok.model.Board
 import omok.model.OmokGameState
 import omok.model.entity.Point
+import omok.model.entity.Stone
 import omok.model.entity.StoneColor
+import omok.model.turn.BlackTurn
+import omok.model.turn.Turn
+import omok.model.turn.WhiteTurn
+import woowacourse.omok.db.StoneDao
 
 class MainActivity : AppCompatActivity() {
-    var omokGameState = OmokGameState()
+    private val stoneDao by lazy{ StoneDao(applicationContext)}
+    lateinit var omokGameState: OmokGameState
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        omokGameState = loadOmokGameState()
         val board = findViewById<TableLayout>(R.id.board)
         val boardImageViewMap: Map<Point, ImageView> =
             board
@@ -37,10 +45,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun loadOmokGameState(): OmokGameState {
+        val stones = stoneDao.findAll()
+        if(stones.isEmpty()) return OmokGameState()
+        val board = Board(stones)
+        val latestStone = stones.first()
+        return if (latestStone.stoneColor == StoneColor.BLACK) {
+            OmokGameState(BlackTurn(board))
+        } else {
+            OmokGameState(WhiteTurn(board))
+        }
+    }
+
     private fun updateOmokState(point: Point) {
         if (omokGameState.isFinished()) {
             return
         }
+        stoneDao.save(Stone(point,omokGameState.turn.color()))
         omokGameState = omokGameState.run(point)
         if (omokGameState.isFinished()) {
             displayWinner(omokGameState)

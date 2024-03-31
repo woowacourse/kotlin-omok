@@ -3,7 +3,7 @@ package omok.model
 import omok.model.entity.Point
 import omok.model.entity.Stone
 
-class Board private constructor(private val _stones: Set<Stone>) {
+class Board(private val _stones: Set<Stone>) {
     constructor() : this(setOf<Stone>())
 
     val stones: Set<Stone>
