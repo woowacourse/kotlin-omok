@@ -1,6 +1,6 @@
 package woowacourse.omok.model
 
-enum class StoneColorUiModel(val symbol: String = "") {
+enum class BlockStateUiModel(val symbol: String = "") {
     BLACK("●"),
 
     WHITE("○"),

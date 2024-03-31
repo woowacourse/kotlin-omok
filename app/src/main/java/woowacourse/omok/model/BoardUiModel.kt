@@ -5,7 +5,7 @@ data class BoardUiModel(
     private val box: List<RowUiModel>,
 ) {
     constructor(size: Int) : this(size, createEmptyBox(size))
-    constructor(box: List<Set<StoneUiModel>>) : this(
+    constructor(box: List<Set<BlockUiModel>>) : this(
         box.size,
         box.mapIndexed { i, set ->
             RowUiModel(
@@ -16,7 +16,7 @@ data class BoardUiModel(
         },
     )
 
-    operator fun plus(stone: StoneUiModel): BoardUiModel {
+    operator fun plus(stone: BlockUiModel): BoardUiModel {
         val newBox =
             box.mapIndexed { index, rowUiModel ->
                 if (index == stone.x) rowUiModel + stone else rowUiModel

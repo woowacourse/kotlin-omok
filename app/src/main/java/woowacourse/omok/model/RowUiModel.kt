@@ -6,9 +6,9 @@ class RowUiModel(
 ) {
     constructor(rowNumber: Int, size: Int) : this(rowNumber, createEmptyRow(rowNumber, size))
 
-    constructor(rowNumber: Int, size: Int, row: Set<StoneUiModel>) : this(rowNumber, createRow(rowNumber, size, row))
+    constructor(rowNumber: Int, size: Int, row: Set<BlockUiModel>) : this(rowNumber, createRow(rowNumber, size, row))
 
-    operator fun plus(stone: StoneUiModel): RowUiModel {
+    operator fun plus(stone: BlockUiModel): RowUiModel {
         val newRow = row.toMutableList()
         val (x, _, color) = stone
         newRow[weight(x)] = color.symbol
@@ -52,7 +52,7 @@ class RowUiModel(
         private fun createRow(
             rowNumber: Int,
             size: Int,
-            row: Set<StoneUiModel>,
+            row: Set<BlockUiModel>,
         ): List<String> {
             val newRow = createEmptyRow(rowNumber, size).toMutableList()
             row.forEach { (x, y, color) ->

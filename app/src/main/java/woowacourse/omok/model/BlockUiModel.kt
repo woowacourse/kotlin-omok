@@ -1,7 +1,7 @@
 package woowacourse.omok.model
 
-data class StoneUiModel(
+data class BlockUiModel(
     val x: Int,
     val y: Int,
-    val stoneColor: StoneColorUiModel,
+    val blockState: BlockStateUiModel,
 )
