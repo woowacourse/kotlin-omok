@@ -44,13 +44,10 @@ abstract class OMockGame(
         player: Player,
         playerStone: Stone,
     ) {
-        playerPutStone(player, playerStone)
-            .onSuccess {
-                applyPlayerSelected(player, playerStone)
-            }
-            .onFailure {
-                executePlayerPickFailStep(it)
-            }
+        when(val playerPutResult = playerPutStone(player, playerStone)){
+            is GameState.LoadStoneState.Success -> applyPlayerSelected(player, playerStone)
+            is GameState.LoadStoneState.Failure -> executePlayerPickFailStep(playerPutResult.throwable)
+        }
     }
 
     fun loadNewBoard() {
@@ -61,10 +58,8 @@ abstract class OMockGame(
     private fun playerPutStone(
         player: Player,
         playerStone: Stone,
-    ): Result<Unit> {
-        return runCatching {
-            board.setStoneState(player, playerStone)
-        }
+    ): GameState.LoadStoneState {
+        return board.setStoneState(player, playerStone)
     }
 
     private fun applyPlayerSelected(

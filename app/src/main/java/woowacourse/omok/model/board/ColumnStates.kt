@@ -1,5 +1,6 @@
 package woowacourse.omok.model.board
 
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.stonestate.Clear
 import woowacourse.omok.model.stonestate.StoneState
@@ -10,10 +11,17 @@ data class ColumnStates(
     fun change(
         row: Int,
         player: Player,
-    ) {
+    ): GameState.LoadStoneState {
         val currentStone = getStoneState(row)
-        require(currentStone is Clear) { ERROR_NOT_CLEAR }
-        columnStates[row] = currentStone.put(player)
+        val stoneState = currentStone.put(player)
+        if (currentStone is Clear) return GameState.LoadStoneState.Failure(Throwable(ERROR_NOT_CLEAR))
+        return when(stoneState){
+            is GameState.LoadStoneState.Success -> {
+                columnStates[row] = stoneState.stoneState
+                GameState.LoadStoneState.Success(currentStone)
+            }
+            is GameState.LoadStoneState.Failure -> stoneState
+        }
     }
 
     fun rollback(row: Int) {

@@ -1,5 +1,6 @@
 package woowacourse.omok.model.board
 
+import woowacourse.omok.model.GameState
 import woowacourse.omok.model.GameTurn
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.position.Row.Companion.MAX_ROW
@@ -35,10 +36,10 @@ class Board(val stoneStates: List<ColumnStates>) {
     fun setStoneState(
         player: Player,
         stone: Stone,
-    ) {
+    ): GameState.LoadStoneState {
         val row = stone.getRowIndex()
         val column = stone.getColumnIndex()
-        stoneStates[row].change(column, player)
+        return stoneStates[row].change(column, player)
     }
 
     fun rollbackState(stone: Stone) {
