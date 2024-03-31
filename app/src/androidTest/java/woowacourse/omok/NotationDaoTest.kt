@@ -14,7 +14,7 @@ class NotationDaoTest {
 
     @After
     fun tearDown() {
-        dao.drop()
+        dao.delete()
     }
 
     @Test

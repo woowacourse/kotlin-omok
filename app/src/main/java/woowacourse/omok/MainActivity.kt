@@ -9,6 +9,7 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import woowacourse.omok.FeedReaderContract.SQL_DELETE_ALL_ENTRIES
 import woowacourse.omok.domain.omok.model.Board
 import woowacourse.omok.domain.omok.model.Color
 import woowacourse.omok.domain.omok.model.GameResult
@@ -158,7 +159,7 @@ class MainActivity : AppCompatActivity() {
     private fun restartIfRestartButtonClicked() {
         restartButton.setOnClickListener {
             restartButton.visibility = View.INVISIBLE
-            db.execSQL("delete from notation")
+            db.execSQL(SQL_DELETE_ALL_ENTRIES)
             playUntilFinish()
         }
     }

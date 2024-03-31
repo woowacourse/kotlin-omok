@@ -11,7 +11,9 @@ object FeedReaderContract {
         ${FeedNotation.COLUMN_NAME_ROW_COORDINATE} text)
     """
 
-    const val SQL_DELETE_ENTRIES = "drop table if exists ${FeedNotation.TABLE_NAME}"
+    const val SQL_DELETE_ALL_ENTRIES = "delete from ${FeedNotation.TABLE_NAME}"
+
+    const val SQL_DROP_TABLE = "drop table if exists ${FeedNotation.TABLE_NAME}"
 
     object FeedNotation : BaseColumns {
         const val TABLE_NAME: String = "notation"

@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import androidx.core.content.contentValuesOf
 import woowacourse.omok.FeedReaderContract.FeedNotation
+import woowacourse.omok.FeedReaderContract.SQL_DROP_TABLE
 import woowacourse.omok.domain.omok.model.Place
 
 class NotationDao(context: Context) {
@@ -44,6 +45,21 @@ class NotationDao(context: Context) {
         return notation
     }
 
+    private fun SQLiteDatabase.query(
+        table: String,
+        columns: Array<String>,
+    ): Cursor {
+        return query(
+            table,
+            columns,
+            null,
+            null,
+            null,
+            null,
+            null,
+        )
+    }
+
     private fun addToNotation(
         cursor: Cursor,
         notation: MutableList<Place>,
@@ -60,23 +76,13 @@ class NotationDao(context: Context) {
         }
     }
 
-    private fun SQLiteDatabase.query(
-        table: String,
-        columns: Array<String>,
-    ): Cursor {
-        return query(
-            table,
-            columns,
-            null,
-            null,
-            null,
-            null,
-            null,
-        )
+    fun delete() {
+        val db = dbHelper.writableDatabase
+        db.delete(FeedNotation.TABLE_NAME, null, null)
     }
 
     fun drop() {
         val db = dbHelper.writableDatabase
-        db.delete(FeedNotation.TABLE_NAME, null, null)
+        db.execSQL(SQL_DROP_TABLE)
     }
 }
