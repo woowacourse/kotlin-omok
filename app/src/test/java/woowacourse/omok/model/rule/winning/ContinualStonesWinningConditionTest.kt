@@ -7,9 +7,9 @@ import org.junit.jupiter.params.provider.ValueSource
 import woowacourse.omok.domain.model.ContinualStonesCondition
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.model.StonePosition
 import woowacourse.omok.domain.model.rule.ContinualStonesStandard
 import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
-import woowacourse.omok.model.StonePosition
 import woowacourse.omok.model.initBoard
 
 class ContinualStonesWinningConditionTest {

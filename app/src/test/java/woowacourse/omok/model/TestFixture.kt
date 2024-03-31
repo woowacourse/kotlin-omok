@@ -4,6 +4,7 @@ import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Position.Companion.INDEX_RANGE
 import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.model.StonePosition
 
 fun initBoard(vararg stonePosition: StonePosition): Board {
     val board =
@@ -21,5 +22,3 @@ fun initBoard(vararg stonePosition: StonePosition): Board {
     }
     return Board(board)
 }
-
-data class StonePosition(val position: Position, val stone: Stone)

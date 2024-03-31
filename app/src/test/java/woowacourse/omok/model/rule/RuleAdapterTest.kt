@@ -7,6 +7,7 @@ import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.ContinualStonesCondition
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.model.StonePosition
 import woowacourse.omok.domain.model.rule.ContinualStonesStandard
 import woowacourse.omok.domain.model.rule.ForbiddenRules
 import woowacourse.omok.domain.model.rule.RuleAdapter
@@ -14,7 +15,6 @@ import woowacourse.omok.domain.model.rule.library.FourFourRule
 import woowacourse.omok.domain.model.rule.library.OverlineRule
 import woowacourse.omok.domain.model.rule.library.ThreeThreeRule
 import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
-import woowacourse.omok.model.StonePosition
 import woowacourse.omok.model.initBoard
 
 class RuleAdapterTest {

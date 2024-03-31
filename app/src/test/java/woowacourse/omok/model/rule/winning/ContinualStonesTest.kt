@@ -4,8 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.model.StonePosition
 import woowacourse.omok.domain.model.rule.winning.ContinualStones
-import woowacourse.omok.model.StonePosition
 import woowacourse.omok.model.initBoard
 
 class ContinualStonesTest {
