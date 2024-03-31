@@ -57,6 +57,10 @@ class Stones {
         return _stones.last().coordinate
     }
 
+    fun getLastStoneColor(): Color? {
+        return _stones.lastOrNull()?.color
+    }
+
     companion object {
         val OMOK_COUNT: Int = 5
         val TOP = listOf(1, 0)
