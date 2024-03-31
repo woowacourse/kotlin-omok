@@ -10,11 +10,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.data.OmokDao
 import woowacourse.omok.model.data.OmokDaoImpl
+import woowacourse.omok.model.data.adapter.OmokEntityAdapter
 import woowacourse.omok.model.game.FinishAction
 import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.game.OmokGame
@@ -27,7 +27,8 @@ import woowacourse.omok.model.rule.ban.OverlineForbiddenPlace
 import woowacourse.omok.model.rule.finish.AllForbiddenPositionFinishCondition
 import woowacourse.omok.model.rule.finish.FiveStonesFinishCondition
 import woowacourse.omok.model.rule.finish.FullBoardFinishCondition
-import woowacourse.omok.view.output
+import woowacourse.omok.ui.message
+import woowacourse.omok.ui.stoneImage
 
 class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
     private val omokPlayers: OmokPlayers
@@ -63,19 +64,15 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
     }
 
     private fun updateUI(omokDao: OmokDao) {
-        val omokEntites = omokDao.findAll().map {
-            Position(it.row, it.col) to if (it.stone == "black") Stone.BLACK else Stone.WHITE
-        }
-        val board = Board(boardSize, omokEntites)
+        val omokEntities = omokDao.findAll()
+        val board = OmokEntityAdapter.Board(boardSize, omokEntities)
         val omokGame = OmokGame(board, omokPlayers, finishAction(), omokDao)
         setProgressText(omokGame.nowOrderStone(), omokGame.recentPosition())
 
         stoneImageView { index, view ->
             view.setStoneViewOnClickListener(omokGame, index)
-            val entity =
-                omokEntites.firstOrNull { index == it.first.row * boardSize + it.first.col }
-                    ?: return@stoneImageView
-            view.setImageResource(if (entity.second == Stone.BLACK) R.drawable.black_stone else R.drawable.white_stone)
+            val entity = omokEntities.firstOrNull { index == OmokEntityAdapter.index(boardSize, it) } ?: return@stoneImageView
+            view.setImageResource(OmokEntityAdapter.stone(entity).stoneImage())
         }
 
         restartButton.setOnClickListener {
@@ -103,7 +100,8 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
         nowOrderStone: Stone,
         recentPosition: Position?,
     ) {
-        var resultText = resources.getString(R.string.turn_player).format(nowOrderStone.output())
+        if (isFinish) return
+        var resultText = resources.getString(R.string.turn_player).format(nowOrderStone.message(this))
         recentPosition?.run {
             resultText += "\n"
             resultText +=
@@ -119,7 +117,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
             return
         }
         resultTextView.text =
-            resources.getString(R.string.result_win).format(finishType.stone.output())
+            resources.getString(R.string.result_win).format(finishType.stone.message(this))
     }
 
     private fun ImageView.setStoneViewOnClickListener(
@@ -139,16 +137,11 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
     ) {
         val position = Position(index / boardSize, index % boardSize)
         val placeType = turn(position)
-        when (placeType) {
-            PlaceType.BLACK_PLACE -> stoneImageView.setImageResource(R.drawable.black_stone)
-            PlaceType.WHITE_PLACE -> stoneImageView.setImageResource(R.drawable.white_stone)
-            PlaceType.CANNOT_PLACE -> {
-                showToast(resources.getString(R.string.cannot_place_position))
-                return
-            }
+        if (placeType == PlaceType.CANNOT_PLACE) {
+            showToast(resources.getString(R.string.cannot_place_position))
+            return
         }
-
-        if (isFinish) return
+        stoneImageView.setImageResource(placeType.stone.stoneImage())
         setProgressText(nowOrderStone(), recentPosition())
     }
 

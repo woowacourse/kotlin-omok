@@ -1,5 +1,6 @@
 package woowacourse.omok.model.board
 
+import woowacourse.omok.model.data.adapter.StonePosition
 import woowacourse.omok.model.player.Player
 
 class Board(
@@ -11,11 +12,11 @@ class Board(
 
     constructor(
         size: Int,
-        entites: List<Pair<Position, Stone>>,
+        stonePositions: List<StonePosition>,
     ) : this(
         size,
         initBoard(size).apply {
-            entites.forEach { this[it.first] = it.second }
+            stonePositions.forEach { this[it.position] = it.stone }
         }
     )
 

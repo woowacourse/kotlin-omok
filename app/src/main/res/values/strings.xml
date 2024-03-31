@@ -6,4 +6,6 @@
     <string name="result_draw">무승부입니다.</string>
     <string name="result_win">우승은 %s🎉 입니다.</string>
     <string name="game_restart">다시 시작</string>
+    <string name="black_stone">흑돌</string>
+    <string name="white_stone">백돌</string>
 </resources>

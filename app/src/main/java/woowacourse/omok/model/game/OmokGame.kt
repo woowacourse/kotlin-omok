@@ -6,6 +6,7 @@ import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.data.FakeOmokDao
 import woowacourse.omok.model.data.OmokDao
 import woowacourse.omok.model.data.OmokEntity
+import woowacourse.omok.model.data.adapter.OmokEntityAdapter
 import woowacourse.omok.model.player.Player
 
 class OmokGame(
@@ -35,7 +36,7 @@ class OmokGame(
     ): PlaceType {
         runCatching { board.place(position, turnPlayer) }
             .onFailure { return PlaceType.CANNOT_PLACE }
-        omokDao.save(OmokEntity(position, turnPlayer.stone))
+        omokDao.save(OmokEntityAdapter.OmokEntity(position, turnPlayer.stone))
         return if (turnPlayer.stone == Stone.WHITE) PlaceType.WHITE_PLACE else PlaceType.BLACK_PLACE
     }
 

@@ -1,7 +1,10 @@
 package woowacourse.omok.model.game
 
 import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.data.OmokDao
+import woowacourse.omok.model.data.OmokEntity
+import woowacourse.omok.model.data.adapter.OmokEntityAdapter
 import woowacourse.omok.model.player.Player
 
 class TurnHistory(
@@ -16,7 +19,7 @@ class TurnHistory(
 
     init {
         omokDao.findAll().maxByOrNull { it.id }?.run {
-            recentPlayer = if (stone == "black") omokPlayers.whiteStonePlayer else omokPlayers.blackStonePlayer
+            recentPlayer = if (OmokEntityAdapter.stone(this) == Stone.BLACK) omokPlayers.whiteStonePlayer else omokPlayers.blackStonePlayer
             recentPosition = Position(row, col)
         }
     }

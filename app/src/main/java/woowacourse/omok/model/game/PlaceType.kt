@@ -1,7 +1,9 @@
 package woowacourse.omok.model.game
 
-enum class PlaceType {
-    BLACK_PLACE,
-    WHITE_PLACE,
-    CANNOT_PLACE,
+import woowacourse.omok.model.board.Stone
+
+enum class PlaceType(val stone: Stone) {
+    BLACK_PLACE(Stone.BLACK),
+    WHITE_PLACE(Stone.WHITE),
+    CANNOT_PLACE(Stone.NONE),
 }
