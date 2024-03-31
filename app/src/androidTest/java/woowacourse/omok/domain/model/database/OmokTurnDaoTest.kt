@@ -16,12 +16,12 @@ class OmokTurnDaoTest {
     @Before
     fun setUp() {
         omokTurnDao = OmokTurnDao(OmokTurnDbHelper(ApplicationProvider.getApplicationContext()))
+        omokTurnDao.createTable()
     }
 
     @After
     fun tearDown() {
         omokTurnDao.drop()
-        omokTurnDao.createTable()
     }
 
     @Test
@@ -65,5 +65,21 @@ class OmokTurnDaoTest {
             assertThat(it.stoneColor).isEqualTo("black")
             assertThat(it.id).isEqualTo(3)
         }
+    }
+
+    @Test
+    fun findLatestStoneColor() {
+        val turn1 = OmokTurn(1, 1, "black")
+        val turn2 = OmokTurn(2, 2, "white")
+        val turn3 = OmokTurn(5, 5, "black")
+
+        omokTurnDao.save(turn1)
+        omokTurnDao.save(turn2)
+        omokTurnDao.save(turn3)
+        val omokTurns = omokTurnDao.findAll()
+        Log.d("omokTurns", omokTurns.toString())
+
+        val latestStoneColor = omokTurnDao.findLatestStoneColor()
+        assertThat(latestStoneColor).isEqualTo("black")
     }
 }

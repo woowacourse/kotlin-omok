@@ -45,6 +45,25 @@ class OmokTurnDao(private val sqLiteOpenHelper: SQLiteOpenHelper) {
         }
     }
 
+    fun findLatestStoneColor(): String? {
+        val db = sqLiteOpenHelper.readableDatabase
+        db.query(
+            OmokTurnContract.TABLE_NAME,
+            arrayOf(OmokTurnContract.COLUMN_STONE_COLOR),
+            null,
+            null,
+            null,
+            null,
+            "${OmokTurnContract.COLUMN_ID} DESC",
+            "1",
+        ).use { cursor ->
+            if (cursor.moveToFirst()) {
+                return cursor.getString(cursor.getColumnIndexOrThrow(OmokTurnContract.COLUMN_STONE_COLOR))
+            }
+        }
+        return null
+    }
+
     fun drop() {
         val db = sqLiteOpenHelper.writableDatabase
         db.execSQL(OmokTurnContract.DROP_OMOK_TURN_TABLE)
