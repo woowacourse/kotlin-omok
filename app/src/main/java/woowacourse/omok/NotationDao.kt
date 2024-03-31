@@ -6,26 +6,27 @@ import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import androidx.core.content.contentValuesOf
 import woowacourse.omok.FeedReaderContract.FeedNotation
+import woowacourse.omok.domain.omok.model.Place
 
 class NotationDao(context: Context) {
     private val dbHelper = FeedReaderDbHelper(context)
 
-    fun save(notation: Notation): Notation {
+    fun save(place: Place): Place {
         val db = dbHelper.writableDatabase
         val id =
             db.insert(
                 FeedNotation.TABLE_NAME,
                 null,
                 contentValuesOf(
-                    FeedNotation.COLUMN_NAME_COLOR to notation.color,
-                    FeedNotation.COLUMN_NAME_ROW_COORDINATE to notation.rowCoordinate,
-                    FeedNotation.COLUMN_NAME_COL_COORDINATE to notation.colCoordinate,
+                    FeedNotation.COLUMN_NAME_COLOR to place.color,
+                    FeedNotation.COLUMN_NAME_ROW_COORDINATE to place.rowCoordinate,
+                    FeedNotation.COLUMN_NAME_COL_COORDINATE to place.colCoordinate,
                 ),
             )
-        return notation.copy(id = id)
+        return place.copy(id = id)
     }
 
-    fun findAll(): List<Notation> {
+    fun findAll(): List<Place> {
         val db = dbHelper.readableDatabase
         val cursor =
             db.query(
@@ -37,7 +38,7 @@ class NotationDao(context: Context) {
                     FeedNotation.COLUMN_NAME_COL_COORDINATE,
                 ),
             )
-        val notation: MutableList<Notation> = mutableListOf()
+        val notation: MutableList<Place> = mutableListOf()
         addToNotation(cursor, notation)
         cursor.close()
         return notation
@@ -45,7 +46,7 @@ class NotationDao(context: Context) {
 
     private fun addToNotation(
         cursor: Cursor,
-        notation: MutableList<Notation>,
+        notation: MutableList<Place>,
     ) {
         while (cursor.moveToNext()) {
             val id = cursor.getLong(cursor.getColumnIndexOrThrow(BaseColumns._ID))
@@ -55,7 +56,7 @@ class NotationDao(context: Context) {
                 cursor.getInt(cursor.getColumnIndexOrThrow(FeedNotation.COLUMN_NAME_ROW_COORDINATE))
             val colCoordinate =
                 cursor.getInt(cursor.getColumnIndexOrThrow(FeedNotation.COLUMN_NAME_COL_COORDINATE))
-            notation.add(Notation(color, rowCoordinate, colCoordinate, id))
+            notation.add(Place(color, rowCoordinate, colCoordinate, id))
         }
     }
 

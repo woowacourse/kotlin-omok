@@ -9,10 +9,10 @@ import woowacourse.omok.domain.omok.model.state.TurnState
 import woowacourse.omok.domain.omok.model.state.White
 
 class Board(
-    notation: List<Stone> = emptyList(),
+    notation: List<Place> = emptyList(),
     private val _status: Array<Array<Color>> = Array(ARRAY_SIZE) { Array(ARRAY_SIZE) { Color.NONE } },
 ) {
-    var notation: List<Stone> = notation.toList()
+    var notation: List<Place> = notation.toList()
         private set
 
     val status: List<List<Color>>
@@ -51,12 +51,12 @@ class Board(
 
     private fun placeStone(position: Position) {
         val row = position.row.value
-        val col = position.col.title
+        val col = position.col.value
         _status[ARRAY_SIZE - position.row.value][position.col.value] = currentTurn
         notation =
             when (currentTurn) {
-                Color.BLACK -> notation.plus(Stone.Black(Position.of(row, col)))
-                Color.WHITE -> notation.plus(Stone.White(Position.of(row, col)))
+                Color.BLACK -> notation.plus(Place("흑", row, col))
+                Color.WHITE -> notation.plus(Place("백", row, col))
                 Color.NONE -> notation
             }
     }

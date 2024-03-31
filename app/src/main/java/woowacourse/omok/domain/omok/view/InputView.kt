@@ -30,7 +30,9 @@ class InputView {
         }
         if (board.notation.isNotEmpty()) {
             println(MESSAGE_PLAYERS_TURN.format(currentTurn.label))
-            showLastPosition(board.notation.last().position)
+            val row = board.notation.last().rowCoordinate
+            val col = board.notation.last().colCoordinate.toChar() + 'A'.code - 1
+            showLastPosition(Position.of(row, col))
         }
     }
 

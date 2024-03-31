@@ -1,6 +1,6 @@
-package woowacourse.omok
+package woowacourse.omok.domain.omok.model
 
-data class Notation(
+data class Place(
     val color: String,
     val rowCoordinate: Int,
     val colCoordinate: Int,

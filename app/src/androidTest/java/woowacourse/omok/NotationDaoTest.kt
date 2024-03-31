@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
+import woowacourse.omok.domain.omok.model.Place
 
 @RunWith(AndroidJUnit4::class)
 class NotationDaoTest {
@@ -18,8 +19,8 @@ class NotationDaoTest {
 
     @Test
     fun `착수가_이뤄지면_기보에_기록되어야_한다`() {
-        val notation = Notation("흑", 1, 2)
-        val actual = dao.save(notation)
+        val place = Place("흑", 1, 2)
+        val actual = dao.save(place)
         assertThat(actual.id).isGreaterThan(0)
         assertThat(actual.color).isEqualTo("흑")
         assertThat(actual.rowCoordinate).isEqualTo(1)
@@ -35,11 +36,11 @@ class NotationDaoTest {
     @Test
     fun `착수가_여러번_이루어지면_기보에_모두_기록되어야_한다`() {
         // given
-        val notation1 = Notation("흑", 2, 3)
-        val notation2 = Notation("백", 10, 11)
+        val place1 = Place("흑", 2, 3)
+        val place2 = Place("백", 10, 11)
         // when
-        dao.save(notation1)
-        dao.save(notation2)
+        dao.save(place1)
+        dao.save(place2)
         val actual = dao.findAll()
         // then
         assertThat(actual[0].color).isEqualTo("흑")

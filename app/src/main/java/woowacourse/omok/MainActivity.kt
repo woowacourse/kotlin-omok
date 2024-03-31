@@ -12,8 +12,8 @@ import androidx.core.view.children
 import woowacourse.omok.domain.omok.model.Board
 import woowacourse.omok.domain.omok.model.Color
 import woowacourse.omok.domain.omok.model.GameResult
+import woowacourse.omok.domain.omok.model.Place
 import woowacourse.omok.domain.omok.model.Position
-import woowacourse.omok.domain.omok.model.Stone
 
 class MainActivity : AppCompatActivity() {
     private val boardView: TableLayout by lazy { findViewById(R.id.board) }
@@ -32,10 +32,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playUntilFinish() {
-        val places = notationDao.findAll()
+        val notation = notationDao.findAll()
         val initialBoardStatus = Array(Board.ARRAY_SIZE) { Array(Board.ARRAY_SIZE) { Color.NONE } }
-        val notation: MutableList<Stone> = mutableListOf()
-        addPlacesToNotation(places, initialBoardStatus, notation)
+        // val notation: MutableList<Stone> = mutableListOf()
+        addPlacesToNotation(notation, initialBoardStatus)
         boardData = Board(notation, initialBoardStatus)
         setupBoardView()
         explainMessage.text = boardData.currentTurn.label + "의 차례입니다"
@@ -45,19 +45,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addPlacesToNotation(
-        places: List<Notation>,
+        places: List<Place>,
         initialBoardStatus: Array<Array<Color>>,
-        notation: MutableList<Stone>,
     ) {
         places.forEach { place ->
             val color = place.color
             val rowCoordinate = place.rowCoordinate
             val colCoordinate = place.colCoordinate
-            val blackStone = Stone.Black(Position.of(rowCoordinate, colCoordinate.toChar() + 'A'.code))
-            val whiteStone = Stone.White(Position.of(rowCoordinate, colCoordinate.toChar() + 'A'.code))
             initialBoardStatus[rowCoordinate][colCoordinate] = Color.of(color)
-            if (color == "흑") notation.add(blackStone)
-            if (color == "백") notation.add(whiteStone)
         }
     }
 
@@ -125,8 +120,8 @@ class MainActivity : AppCompatActivity() {
     ) {
         val rowCoordinate = Board.ARRAY_SIZE - (rowIndex + 1)
         val colCoordinate = colIndex + 1
-        val notation = Notation(boardData.lastTurn.label, rowCoordinate, colCoordinate)
-        notationDao.save(notation)
+        val place = Place(boardData.lastTurn.label, rowCoordinate, colCoordinate)
+        notationDao.save(place)
     }
 
     private fun finishIfGameOver(eachPlacedPosition: Position) {
