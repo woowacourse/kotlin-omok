@@ -35,15 +35,11 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-    }
-
-    override fun onResume() {
-        super.onResume()
         val omokDao = OmokDaoImpl(this)
-        updateUI(omokDao)
+        initializeUI(omokDao)
     }
 
-    private fun updateUI(omokDao: OmokDao) {
+    private fun initializeUI(omokDao: OmokDao) {
         val omokEntities = omokDao.findAll()
         val board = OmokEntityAdapter.Board(boardSize, omokEntities)
         val omokGame = OmokGame(board, OmokPlayers(), finishAction(), omokDao)
