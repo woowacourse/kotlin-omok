@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import woowacourse.omok.db.OmokDao
+import woowacourse.omok.domain.model.BlackTurn
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Board.Companion.BOARD_SIZE
 import woowacourse.omok.domain.model.OmokGame
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeGameSetting(initialBoard: Board) {
-        val initialTurn = Turn.determineTurn(initialBoard)
+        val initialTurn = runCatching { Turn.determineTurn(initialBoard) }.getOrDefault(BlackTurn())
         omokGame = OmokGame(turn = initialTurn, board = initialBoard)
         displayMessage(generateTurnMessage(initialTurn))
     }
