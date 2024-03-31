@@ -14,7 +14,7 @@ data class ColumnStates(
     ): GameState.LoadStoneState {
         val currentStone = getStoneState(row)
         val stoneState = currentStone.put(player)
-        if (currentStone is Clear) return GameState.LoadStoneState.Failure(Throwable(ERROR_NOT_CLEAR))
+        if (currentStone !is Clear) return GameState.LoadStoneState.Failure(Throwable(ERROR_NOT_CLEAR))
         return when(stoneState){
             is GameState.LoadStoneState.Success -> {
                 columnStates[row] = stoneState.stoneState
