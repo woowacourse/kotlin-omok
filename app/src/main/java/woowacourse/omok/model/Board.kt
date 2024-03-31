@@ -1,40 +1,40 @@
 package woowacourse.omok.model
 
-import woowacourse.omok.model.StoneState.BEFORE_PLACED
 import woowacourse.omok.model.StoneState.FORBIDDEN
 import woowacourse.omok.model.StoneState.OCCUPIED
 import woowacourse.omok.model.StoneState.OUTSIDE_THE_BOARD
 import woowacourse.omok.model.StoneState.PLACED
 
 class Board(val stones: Stones = Stones()) {
-    private val rule = RuleAdapter(BOARD_SIZE, ::getCurrentStones)
-    private val players = listOf(Player(Color.BLACK), Player(Color.WHITE))
+    private val rule = RuleAdapter(BOARD_SIZE)
+    private val players = Player(Color.BLACK) to Player(Color.WHITE)
 
-    fun getCurrentTurn(turn: Int): Color {
-        return players[turn % PLAYER_COUNTS].color
+    fun getNextTurn(): Color {
+        return when (stones.getLastStoneColor()){
+            null -> Color.BLACK
+            Color.WHITE -> Color.BLACK
+            Color.BLACK -> Color.WHITE
+        }
     }
 
     fun takeTurn(
-        turn: Int,
-        getCoordinate: () -> Coordinate,
-        returnCurrentState: (stoneState: StoneState) -> Unit,
-    ) {
-        var state: StoneState = BEFORE_PLACED
-        while (checkRetryFromState(state)) {
-            val stone = players[turn % PLAYER_COUNTS].getStone(getCoordinate)
-            state = putStone(stone)
-            returnCurrentState(state)
+        turn: Color,
+        row: Int,
+        col: Int
+    ): StoneState {
+        val player = getPlayerFromTurn(turn)
+        val stone = player.getStone(row, col)
+        val state = putStone(stone)
+        if (stones.findOmok(stone)) {
+            player.win()
         }
-        players[turn % PLAYER_COUNTS].checkOmok(stones, stones.stones.last())
+        return state
     }
 
-    private fun checkRetryFromState(stoneState: StoneState): Boolean {
-        return when (stoneState) {
-            BEFORE_PLACED -> true
-            OUTSIDE_THE_BOARD -> true
-            OCCUPIED -> true
-            FORBIDDEN -> true
-            PLACED -> false
+    private fun getPlayerFromTurn(turn: Color): Player {
+        return when (turn) {
+            Color.BLACK -> players.first
+            Color.WHITE -> players.second
         }
     }
 
@@ -61,7 +61,7 @@ class Board(val stones: Stones = Stones()) {
     }
 
     fun isPlaying(): Boolean {
-        return !(players.first().isWin || players.last().isWin)
+        return !(players.first.isWin || players.second.isWin)
     }
 
     fun getWinner(): Color {
@@ -72,22 +72,17 @@ class Board(val stones: Stones = Stones()) {
         }
     }
 
-    private fun getCurrentStones(): Stones {
-        return stones
-    }
-
     private fun checkWhoIsWinner(): Color {
-        return if (players.first().isWin) {
-            players.first().color
+        return if (players.first.isWin) {
+            players.first.color
         } else {
-            players.last().color
+            players.second.color
         }
     }
 
     companion object {
         const val MIN_POSITION = 1
         const val BOARD_SIZE = 15
-        const val PLAYER_COUNTS = 2
         val BOARD_RANGE = MIN_POSITION..BOARD_SIZE
     }
 }

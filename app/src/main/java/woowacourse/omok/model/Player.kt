@@ -4,8 +4,16 @@ class Player(val color: Color) {
     var isWin: Boolean = false
         private set
 
-    fun getStone(getCoordinate: () -> Coordinate): Stone {
-        return Stone(color, getCoordinate())
+    fun getStone(
+        row: Int,
+        col: Int,
+    ): Stone {
+        val coordinate = Coordinate(Row(row), Column(col))
+        return Stone(color, coordinate)
+    }
+
+    fun win() {
+        isWin = true
     }
 
     fun checkOmok(

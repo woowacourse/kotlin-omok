@@ -1,57 +1,77 @@
 package woowacourse.omok.controller
 
 import woowacourse.omok.model.Board
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.GameEventListener
+import woowacourse.omok.model.StoneState
 import woowacourse.omok.model.Stones
-import woowacourse.omok.view.InputView.inputStoneCoordinate
 import woowacourse.omok.view.OutputView
 import woowacourse.omok.view.OutputView.printForbiddenStone
 
-class OmokController {
-    fun run() {
+class OmokController(
+    private val board: Board = Board(Stones()),
+) {
+    var gameEventListener: GameEventListener? = null
+    var gameEnded: Boolean = false
+        private set
+
+    fun start() {
         OutputView.printStart()
-        val board = Board(Stones())
-
-        playGame(board)
-        displayWinner(board)
     }
 
-    private fun playGame(board: Board) {
-        var turn = 0
-        while (board.isPlaying()) {
-            OutputView.printTurnName(board.getCurrentTurn(turn))
-            OutputView.printLastStone(board.stones.getLastStoneCoordinate())
-            playTurnUntilSuccess(turn, board)
-            OutputView.printBoard(board.stones)
-            turn++
+    fun getNextTurn(): Color {
+        return board.getNextTurn()
+    }
+
+    fun placeStoneAtPosition(row: Int, col: Int): Boolean {
+        val nextTurn = board.getNextTurn()
+        val state = board.takeTurn(nextTurn, row, col)
+        checkForbiddenMove(state)
+        val isGameEnd = checkGameFinished()
+        showPresentBoardStatus(nextTurn, isGameEnd)
+        return checkPlacementSuccess(state)
+    }
+
+    private fun checkForbiddenMove(state: StoneState) {
+        printForbiddenStone(state)
+        if (state == StoneState.FORBIDDEN) {
+            gameEventListener?.onForbiddenStone()
         }
     }
 
-    private fun playTurnUntilSuccess(
-        turn: Int,
-        board: Board,
+    private fun checkGameFinished(): Boolean {
+        return if (!board.isPlaying()) {
+            gameEnded = true
+            gameEventListener?.onGameEnd(board.getWinner())
+            displayWinner()
+            true
+        } else {
+            false
+        }
+    }
+
+    private fun showPresentBoardStatus(
+        nextTurn: Color,
+        isGameEnd: Boolean,
     ) {
-        while (true) {
-            val result = playTurn(turn, board)
-            if (result.isSuccess) {
-                break
-            } else {
-                result.onFailure { e -> OutputView.printErrorMessage(e.message!!) }
-            }
+        OutputView.printBoard(board.stones)
+        if (!isGameEnd) {
+            OutputView.printTurnName(nextTurn)
+            OutputView.printLastStone(board.stones.getLastStoneCoordinate())
         }
     }
 
-    private fun playTurn(
-        turn: Int,
-        board: Board,
-    ) = runCatching {
-        board.takeTurn(
-            turn,
-            getCoordinate = ::inputStoneCoordinate,
-            returnCurrentState = ::printForbiddenStone,
-        )
+    private fun checkPlacementSuccess(stoneState: StoneState): Boolean {
+        return when (stoneState) {
+            StoneState.PLACED -> true
+            StoneState.FORBIDDEN -> false
+            StoneState.OCCUPIED -> false
+            StoneState.BEFORE_PLACED -> false
+            StoneState.OUTSIDE_THE_BOARD -> false
+        }
     }
 
-    private fun displayWinner(board: Board) {
+    private fun displayWinner() {
         runCatching {
             OutputView.printWinner(board.getWinner())
         }.onFailure { error ->
