@@ -12,6 +12,7 @@ import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
+import omok.model.stone.StoneType
 import omok.model.stone.WhiteStone
 import woowacourse.omok.adapter.OmokBoardAdapter
 import woowacourse.omok.db.OmokEntry
@@ -50,31 +51,29 @@ class MainActivity : AppCompatActivity() {
         positions: List<ImageView>,
     ) {
         view.setOnClickListener {
-            putStone(index, view, positions)
+            val position = getPosition(index)
+            val stoneType = getStoneType(position, view)
+
+            stoneType?.let {
+                saveData(index)
+                showStone(view)
+                if (stone.findOmok(position)) {
+                    endGame(positions, view)
+                }
+                stone = omokGame.changeStone(it)
+            }
         }
     }
 
-    private fun putStone(
-        index: Int,
+    private fun getPosition(index: Int) = OmokBoardAdapter.convertIndexToPosition(index)
+
+    private fun getStoneType(
+        position: Position,
         view: ImageView,
-        positions: List<ImageView>,
-    ): Position {
-        val position = OmokBoardAdapter.convertIndexToPosition(index)
-        val stoneType =
-            HandlingExceptionUtils.retryUntilSuccess(view) {
-                stone.putStone(position)
-            }
-
-        stoneType?.let {
-            saveData(index)
-            showStone(view)
-            if (stone.findOmok(position)) {
-                endGame(positions, view)
-            }
-            stone = omokGame.changeStone(it)
+    ): StoneType? =
+        HandlingExceptionUtils.retryUntilSuccess(view) {
+            stone.putStone(position)
         }
-        return position
-    }
 
     private fun saveData(index: Int) {
         val entry = OmokEntry(stone.stoneType.type, index)
