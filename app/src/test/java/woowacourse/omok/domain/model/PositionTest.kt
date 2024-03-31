@@ -1,10 +1,10 @@
 package woowacourse.omok.domain.model
 
-import woowacourse.omok.domain.omok.model.Position
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import woowacourse.omok.domain.omok.model.Position
 
 class PositionTest {
     @ParameterizedTest

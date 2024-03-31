@@ -1,12 +1,12 @@
 package woowacourse.omok.domain.model.state
 
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.model.fixture.createWhiteWinningBoard
 import woowacourse.omok.domain.omok.model.Board
 import woowacourse.omok.domain.omok.model.GameResult
 import woowacourse.omok.domain.omok.model.Position
 import woowacourse.omok.domain.omok.model.Stone
-import woowacourse.omok.domain.model.fixture.createWhiteWinningBoard
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
 
 class WhiteTest {
     @Test

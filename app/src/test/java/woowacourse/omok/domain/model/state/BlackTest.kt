@@ -1,15 +1,15 @@
 package woowacourse.omok.domain.model.state
 
-import woowacourse.omok.domain.omok.model.Board
-import woowacourse.omok.domain.omok.model.GameResult
-import woowacourse.omok.domain.omok.model.Position
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.domain.model.fixture.createFourFourBoard
 import woowacourse.omok.domain.model.fixture.createOverLineBoard
 import woowacourse.omok.domain.model.fixture.createPlayingBoard
 import woowacourse.omok.domain.model.fixture.createThreeThreeBoard
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
+import woowacourse.omok.domain.omok.model.Board
+import woowacourse.omok.domain.omok.model.GameResult
+import woowacourse.omok.domain.omok.model.Position
 
 class BlackTest {
     @Test

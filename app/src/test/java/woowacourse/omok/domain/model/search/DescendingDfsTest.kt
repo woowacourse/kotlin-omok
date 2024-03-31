@@ -1,11 +1,11 @@
 package woowacourse.omok.domain.model.search
 
-import woowacourse.omok.domain.omok.model.Color
-import woowacourse.omok.domain.model.fixture.createPlayingBoard
-import woowacourse.omok.domain.omok.model.search.DescendingDfs
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import woowacourse.omok.domain.model.fixture.createPlayingBoard
+import woowacourse.omok.domain.omok.model.Color
+import woowacourse.omok.domain.omok.model.search.DescendingDfs
 
 class DescendingDfsTest {
     @ParameterizedTest

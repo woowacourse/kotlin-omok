@@ -1,18 +1,18 @@
 package woowacourse.omok.domain.model
 
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
+import woowacourse.omok.domain.model.fixture.createDrawBoard
+import woowacourse.omok.domain.model.fixture.createGameOverBoard
 import woowacourse.omok.domain.omok.model.Board
 import woowacourse.omok.domain.omok.model.Color
 import woowacourse.omok.domain.omok.model.Column
 import woowacourse.omok.domain.omok.model.GameResult
 import woowacourse.omok.domain.omok.model.Position
 import woowacourse.omok.domain.omok.model.Row
-import woowacourse.omok.domain.model.fixture.createDrawBoard
-import woowacourse.omok.domain.model.fixture.createGameOverBoard
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
 
 class BoardTest {
     @Test

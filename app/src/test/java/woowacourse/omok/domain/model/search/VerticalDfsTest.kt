@@ -1,14 +1,14 @@
 package woowacourse.omok.domain.model.search
 
-import woowacourse.omok.domain.omok.model.Color
-import woowacourse.omok.domain.omok.model.Color.BLACK
-import woowacourse.omok.domain.omok.model.Color.NONE
-import woowacourse.omok.domain.model.fixture.createPlayingBoard
-import woowacourse.omok.domain.omok.model.search.VerticalDfs
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import woowacourse.omok.domain.model.fixture.createPlayingBoard
+import woowacourse.omok.domain.omok.model.Color
+import woowacourse.omok.domain.omok.model.Color.BLACK
+import woowacourse.omok.domain.omok.model.Color.NONE
+import woowacourse.omok.domain.omok.model.search.VerticalDfs
 
 class VerticalDfsTest {
     @ParameterizedTest
