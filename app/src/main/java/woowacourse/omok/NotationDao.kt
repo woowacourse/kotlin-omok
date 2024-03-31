@@ -7,7 +7,7 @@ import android.provider.BaseColumns
 import androidx.core.content.contentValuesOf
 import woowacourse.omok.FeedReaderContract.FeedNotation
 
-class NotationDao(private val context: Context) {
+class NotationDao(context: Context) {
     private val dbHelper = FeedReaderDbHelper(context)
 
     fun save(notation: Notation): Notation {
