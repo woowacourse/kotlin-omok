@@ -10,11 +10,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import woowacourse.omok.data.OmokDao
+import woowacourse.omok.data.OmokDaoImpl
+import woowacourse.omok.data.adapter.OmokEntityAdapter
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
-import woowacourse.omok.model.data.OmokDao
-import woowacourse.omok.model.data.OmokDaoImpl
-import woowacourse.omok.model.data.adapter.OmokEntityAdapter
 import woowacourse.omok.model.game.FinishAction
 import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.game.OmokGame

@@ -1,9 +1,9 @@
-package woowacourse.omok.model.data.adapter
+package woowacourse.omok.data.adapter
 
+import woowacourse.omok.data.OmokEntity
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
-import woowacourse.omok.model.data.OmokEntity
 
 object OmokEntityAdapter {
     private const val BLACK_STONE = "black"

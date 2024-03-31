@@ -1,4 +1,4 @@
-package woowacourse.omok.model.data
+package woowacourse.omok.data
 
 object OmokContract {
     const val TABLE_NAME = "omok"

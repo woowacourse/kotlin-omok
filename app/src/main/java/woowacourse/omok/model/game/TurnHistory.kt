@@ -1,9 +1,9 @@
 package woowacourse.omok.model.game
 
+import woowacourse.omok.data.OmokEntity
+import woowacourse.omok.data.adapter.OmokEntityAdapter
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
-import woowacourse.omok.model.data.OmokEntity
-import woowacourse.omok.model.data.adapter.OmokEntityAdapter
 import woowacourse.omok.model.player.Player
 
 class TurnHistory(

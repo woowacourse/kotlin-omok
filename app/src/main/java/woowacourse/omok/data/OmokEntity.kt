@@ -1,4 +1,4 @@
-package woowacourse.omok.model.data
+package woowacourse.omok.data
 
 data class OmokEntity(
     val row: Int,

@@ -1,4 +1,4 @@
-package woowacourse.omok.model.data
+package woowacourse.omok.data
 
 import android.content.Context
 import android.database.Cursor

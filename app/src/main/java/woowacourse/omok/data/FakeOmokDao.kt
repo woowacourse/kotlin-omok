@@ -1,4 +1,4 @@
-package woowacourse.omok.model.data
+package woowacourse.omok.data
 
 class FakeOmokDao : OmokDao {
     private var id = 0L

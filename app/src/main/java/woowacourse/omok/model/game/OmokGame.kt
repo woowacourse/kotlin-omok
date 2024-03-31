@@ -1,12 +1,11 @@
 package woowacourse.omok.model.game
 
+import woowacourse.omok.data.FakeOmokDao
+import woowacourse.omok.data.OmokDao
+import woowacourse.omok.data.adapter.OmokEntityAdapter
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
-import woowacourse.omok.model.data.FakeOmokDao
-import woowacourse.omok.model.data.OmokDao
-import woowacourse.omok.model.data.OmokEntity
-import woowacourse.omok.model.data.adapter.OmokEntityAdapter
 import woowacourse.omok.model.player.Player
 
 class OmokGame(

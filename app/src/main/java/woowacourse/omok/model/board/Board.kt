@@ -1,6 +1,6 @@
 package woowacourse.omok.model.board
 
-import woowacourse.omok.model.data.adapter.StonePosition
+import woowacourse.omok.data.adapter.StonePosition
 import woowacourse.omok.model.player.Player
 
 class Board(

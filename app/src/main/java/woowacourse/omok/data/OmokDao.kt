@@ -1,4 +1,4 @@
-package woowacourse.omok.model.data
+package woowacourse.omok.data
 
 interface OmokDao {
     fun save(omokEntity: OmokEntity): OmokEntity
