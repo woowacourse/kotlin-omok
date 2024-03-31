@@ -5,10 +5,18 @@ object OmokTurnContract {
     const val OMOK_TURN_DATABASE_VERSION = 1
 
     const val TABLE_NAME = "omok_turn"
-    private const val COLUMN_ID = "id"
+    const val COLUMN_ID = "id"
     const val COLUMN_POSITION_ROW = "row"
     const val COLUMN_POSITION_COLUMN = "column"
     const val COLUMN_STONE_COLOR = "stone"
+
+    val ALL_COLUMNS =
+        arrayOf(
+            COLUMN_ID,
+            COLUMN_POSITION_ROW,
+            COLUMN_POSITION_COLUMN,
+            COLUMN_STONE_COLOR,
+        )
 
     const val CREATE_OMOK_TURN_TABLE = """
         CREATE TABLE IF NOT EXISTS  $TABLE_NAME (
