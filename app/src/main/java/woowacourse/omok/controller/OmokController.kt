@@ -2,15 +2,10 @@ package woowacourse.omok.controller
 
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
-import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.game.FinishAction
 import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.game.OmokGame
 import woowacourse.omok.model.game.OmokPlayers
-import woowacourse.omok.model.player.Player
-import woowacourse.omok.model.rule.ban.DoubleFourForbiddenPlace
-import woowacourse.omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
-import woowacourse.omok.model.rule.ban.OverlineForbiddenPlace
 import woowacourse.omok.model.rule.finish.AllForbiddenPositionFinishCondition
 import woowacourse.omok.model.rule.finish.FiveStonesFinishCondition
 import woowacourse.omok.model.rule.finish.FullBoardFinishCondition
@@ -27,27 +22,11 @@ class OmokController(
     private val resultView: ResultView,
     private val boardSize: Int,
 ) {
-    private val omokPlayers: OmokPlayers
     private var isFinish = false
-
-    init {
-        val blackForbiddenPlaces =
-            listOf(
-                DoubleFourForbiddenPlace(),
-                DoubleOpenThreeForbiddenPlace(),
-                OverlineForbiddenPlace(),
-            )
-
-        omokPlayers =
-            OmokPlayers(
-                blackStonePlayer = Player(Stone.BLACK, blackForbiddenPlaces),
-                whiteStonePlayer = Player(Stone.WHITE),
-            )
-    }
 
     fun startGame() {
         val board = initializedBoard()
-        val omokGame = OmokGame(board, omokPlayers, finishAction())
+        val omokGame = OmokGame(board, OmokPlayers(), finishAction())
         while (!isFinish) {
             progressView.printBoard(board)
             val position = nextStonePosition(omokGame)

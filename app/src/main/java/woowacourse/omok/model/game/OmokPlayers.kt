@@ -7,7 +7,7 @@ import woowacourse.omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
 import woowacourse.omok.model.rule.ban.OverlineForbiddenPlace
 
 class OmokPlayers(
-    private val blackStonePlayer: Player =
+    val blackStonePlayer: Player =
         Player(
             Stone.BLACK,
             listOf(
@@ -16,8 +16,7 @@ class OmokPlayers(
                 OverlineForbiddenPlace(),
             ),
         ),
-    private val whiteStonePlayer: Player =
-        Player(Stone.WHITE),
+    val whiteStonePlayer: Player = Player(Stone.WHITE),
 ) {
     fun firstOrderPlayer() = blackStonePlayer
 
