@@ -14,10 +14,10 @@ import omok.model.stone.BlackStone.value
 import omok.model.stone.GoStone
 import omok.model.stone.WhiteStone
 import omok.model.stone.WhiteStone.changeStone
+import woowacourse.omok.game.OmokDataInitializer.resetGameData
+import woowacourse.omok.game.OmokRestoreData.restoreGameData
 import woowacourse.omok.omokdb.OmokDao
-import woowacourse.omok.omokdb.OmokDataInitializer.resetGameData
 import woowacourse.omok.omokdb.OmokEntry
-import woowacourse.omok.omokdb.OmokRestoreData.restoreGameData
 
 class MainActivity : AppCompatActivity() {
     private var stone: GoStone = BlackStone

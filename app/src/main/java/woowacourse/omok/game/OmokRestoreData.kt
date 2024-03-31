@@ -1,4 +1,4 @@
-package woowacourse.omok.omokdb
+package woowacourse.omok.game
 
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -8,6 +8,7 @@ import omok.model.position.Position
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
 import omok.model.stone.WhiteStone
+import woowacourse.omok.omokdb.OmokDao
 
 object OmokRestoreData {
     private const val BLACK_STONE_VALUE = "흑"

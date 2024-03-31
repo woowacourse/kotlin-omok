@@ -1,10 +1,11 @@
-package woowacourse.omok.omokdb
+package woowacourse.omok.game
 
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.core.view.children
 import omok.model.board.Board
+import woowacourse.omok.omokdb.OmokDao
 
 object OmokDataInitializer {
     private const val RESET_IMAGE_ID = 0
