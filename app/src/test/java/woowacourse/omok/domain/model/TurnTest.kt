@@ -25,7 +25,7 @@ class TurnTest {
     @Test
     fun `백돌 차례 다음은 흑돌 차례이다`() {
         val turn = WhiteTurn()
-        val actual = turn.nextTurn(Stone(StoneType.BLACK, Point(0, 0)), ruleAdapter)
+        val actual = turn.nextTurn(Stone(StoneType.WHITE, Point(0, 0)), ruleAdapter)
 
         assertThat(actual).isInstanceOf(BlackTurn::class.java)
     }
