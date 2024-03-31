@@ -11,6 +11,4 @@ data class OmokTurn(
     val id: Long = 0L,
 )
 
-fun OmokTurn.toStonePosition(): StonePosition {
-    return StonePosition(Position(row, column), Stone.valueOf(stoneColor))
-}
+fun OmokTurn.toStonePosition(): StonePosition = StonePosition(Position(row, column), Stone.valueOf(stoneColor.uppercase()))
