@@ -13,6 +13,7 @@ import omok.model.entity.StoneColor
 
 class MainActivity : AppCompatActivity() {
     var omokGameState = OmokGameState()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,10 +37,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun updateOmokState(
-        point: Point,
-    ) {
+    private fun updateOmokState(point: Point) {
         if (omokGameState.isFinished()) {
             return
         }
@@ -51,20 +49,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateOmokImage(
         omokGameState: OmokGameState,
-        boardImageViewMap: Map<Point, ImageView>
+        boardImageViewMap: Map<Point, ImageView>,
     ) {
         omokGameState.turn.board.stones.forEach {
             boardImageViewMap[it.point]?.setImageResource(it.stoneColor.toDrawableId())
         }
     }
 
-    private fun displayWinner(
-        omokGameState: OmokGameState
-    ) {
+    private fun displayWinner(omokGameState: OmokGameState) {
         val turn = omokGameState.turn
-        val winnerText = if (turn.isWin()) {
-            getString(turn.color().toStringId()) + getString(R.string.winning_message)
-        } else getString(R.string.draw_message)
+        val winnerText =
+            if (turn.isWin()) {
+                getString(turn.color().toStringId()) + getString(R.string.winning_message)
+            } else {
+                getString(R.string.draw_message)
+            }
         Toast.makeText(applicationContext, winnerText, Toast.LENGTH_SHORT).show()
     }
 }
