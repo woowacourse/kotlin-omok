@@ -2,6 +2,6 @@ package woowacourse.omok
 
 import woowacourse.omok.controller.OMokConsoleController
 
-fun main() {
+fun OMockConsoleGame() {
     OMokConsoleController().run()
 }
