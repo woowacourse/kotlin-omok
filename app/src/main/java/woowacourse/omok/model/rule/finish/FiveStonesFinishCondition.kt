@@ -3,6 +3,7 @@ package woowacourse.omok.model.rule.finish
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Direction
 import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.player.Player
 
@@ -34,7 +35,7 @@ class FiveStonesFinishCondition : FinishCondition {
         while (true) {
             nowPosition = nowPosition.move(direction)
             val nowStone = runCatching { board.find(nowPosition) }.getOrNull() ?: return count
-            if (nowStone != stone) return count
+            if (nowStone == Stone.NONE || nowStone != stone) return count
             count++
         }
     }
