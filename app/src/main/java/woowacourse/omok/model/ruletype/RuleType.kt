@@ -49,7 +49,7 @@ sealed interface RuleType {
     fun getCalculateMessage(ruleType: RuleType): String
 
     companion object {
-        inline fun RuleType.checkCalculateType(action: () -> Boolean) : GameState.CheckRuleTypeState{
+        inline fun RuleType.checkCalculateType(action: () -> Boolean): GameState.CheckRuleTypeState {
             if (action()) {
                 return GameState.CheckRuleTypeState.Failure(Throwable(getCalculateMessage(this)))
             }

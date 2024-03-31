@@ -14,17 +14,18 @@ fun Board.makeStones(
     coordinates.forEach { coordinate ->
         this.setStoneState(
             player = player,
-            stone = (
+            stone =
+                (
                     Stone
                         .from(
                             Row(
-                                coordinate.substring(0, coordinate.length - 1)
+                                coordinate.substring(0, coordinate.length - 1),
                             ),
                             Column(
-                                coordinate.substring(coordinate.length - 1)
-                            )
+                                coordinate.substring(coordinate.length - 1),
+                            ),
                         ) as GameState.LoadStone.Success
-                    ).stone,
+                ).stone,
         )
     }
 }

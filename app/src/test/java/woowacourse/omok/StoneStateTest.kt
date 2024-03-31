@@ -23,7 +23,7 @@ class StoneStateTest {
     @Test
     fun `백 플레이어가 UnPlaced 상태에서 put을하면 돌의 상태가 백돌로 변한다`() {
         val unPlacedStone = Clear(Stone(Row("1"), Column("A")))
-        assertThat((unPlacedStone.put(WhitePlayer())  as GameState.LoadStoneState.Success).stoneState is White).isTrue()
+        assertThat((unPlacedStone.put(WhitePlayer()) as GameState.LoadStoneState.Success).stoneState is White).isTrue()
     }
 
     @Test

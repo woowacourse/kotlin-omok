@@ -57,7 +57,7 @@ class OMokConsoleController : OMockGame() {
     }
 
     private fun playerPick(player: Player) {
-        when(val playerStone = InputView.playerPick(player = player)){
+        when (val playerStone = InputView.playerPick(player = player)) {
             is GameState.LoadStone.Success -> start(player, playerStone.stone)
             is GameState.LoadStone.Failure -> executePlayerPickFailStep(playerStone.throwable)
         }

@@ -51,8 +51,10 @@ data class Stone(
             row: Row,
             column: Column,
         ): GameState.LoadStone {
-            return when (val stone =
-                stones.find { it.row.comma == row.comma && it.column.comma == column.comma }) {
+            return when (
+                val stone =
+                    stones.find { it.row.comma == row.comma && it.column.comma == column.comma }
+            ) {
                 null -> GameState.LoadStone.Failure(IllegalArgumentException(ERROR_NOT_STONE))
                 else -> GameState.LoadStone.Success(stone)
             }

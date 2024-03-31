@@ -12,7 +12,7 @@ import woowacourse.omok.data.OmokDAO
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBoard: TableLayout
-    private lateinit var resetButton : Button
+    private lateinit var resetButton: Button
     private val oMockViewController = OMockViewController(this@MainActivity)
     private val dao = OmokDAO(this@MainActivity)
 
@@ -23,13 +23,13 @@ class MainActivity : AppCompatActivity() {
         initListener()
     }
 
-    private fun initView(){
+    private fun initView() {
         mainBoard = findViewById(R.id.board)
         resetButton = findViewById(R.id.reset_button)
         loadBoard()
     }
 
-    private fun initListener(){
+    private fun initListener() {
         mainBoard
             .children
             .filterIsInstance<TableRow>()
