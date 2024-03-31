@@ -20,10 +20,6 @@ import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.game.OmokGame
 import woowacourse.omok.model.game.OmokPlayers
 import woowacourse.omok.model.game.PlaceType
-import woowacourse.omok.model.player.Player
-import woowacourse.omok.model.rule.ban.DoubleFourForbiddenPlace
-import woowacourse.omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
-import woowacourse.omok.model.rule.ban.OverlineForbiddenPlace
 import woowacourse.omok.model.rule.finish.AllForbiddenPositionFinishCondition
 import woowacourse.omok.model.rule.finish.FiveStonesFinishCondition
 import woowacourse.omok.model.rule.finish.FullBoardFinishCondition
@@ -31,26 +27,10 @@ import woowacourse.omok.ui.message
 import woowacourse.omok.ui.stoneImage
 
 class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
-    private val omokPlayers: OmokPlayers
     private val boardView by lazy { findViewById<TableLayout>(R.id.board) }
     private val resultTextView by lazy { findViewById<TextView>(R.id.result_text) }
     private val restartButton by lazy { findViewById<Button>(R.id.restart_button) }
     private var isFinish = false
-
-    init {
-        val blackForbiddenPlaces =
-            listOf(
-                DoubleFourForbiddenPlace(),
-                DoubleOpenThreeForbiddenPlace(),
-                OverlineForbiddenPlace(),
-            )
-
-        omokPlayers =
-            OmokPlayers(
-                blackStonePlayer = Player(Stone.BLACK, blackForbiddenPlaces),
-                whiteStonePlayer = Player(Stone.WHITE),
-            )
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,13 +46,15 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
     private fun updateUI(omokDao: OmokDao) {
         val omokEntities = omokDao.findAll()
         val board = OmokEntityAdapter.Board(boardSize, omokEntities)
-        val omokGame = OmokGame(board, omokPlayers, finishAction(), omokDao)
+        val omokGame = OmokGame(board, OmokPlayers(), finishAction(), omokDao)
         setProgressText(omokGame.nowOrderStone(), omokGame.recentPosition())
 
         stoneImageView { index, view ->
             view.setStoneViewOnClickListener(omokGame, index)
-            val entity = omokEntities.firstOrNull { index == OmokEntityAdapter.index(boardSize, it) } ?: return@stoneImageView
-            view.setImageResource(OmokEntityAdapter.stone(entity).stoneImage())
+            val omokEntity =
+                omokEntities.firstOrNull { index == OmokEntityAdapter.index(boardSize, it) }
+                    ?: return@stoneImageView
+            view.setImageResource(OmokEntityAdapter.stone(omokEntity).stoneImage())
         }
 
         restartButton.setOnClickListener {
@@ -101,7 +83,8 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
         recentPosition: Position?,
     ) {
         if (isFinish) return
-        var resultText = resources.getString(R.string.turn_player).format(nowOrderStone.message(this))
+        var resultText =
+            resources.getString(R.string.turn_player).format(nowOrderStone.message(this))
         recentPosition?.run {
             resultText += "\n"
             resultText +=
