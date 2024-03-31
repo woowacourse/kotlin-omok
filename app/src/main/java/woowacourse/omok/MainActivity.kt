@@ -61,16 +61,22 @@ class MainActivity : AppCompatActivity() {
         tableLayoutBoard.forEachIndexed { index, view ->
             val x = index % BOARD_SIZE
             val y = BOARD_SIZE - 1 - (index / BOARD_SIZE)
-
             view.setOnClickListener {
-                if (!onGame) {
-                    displayMessage(MESSAGE_GAME_END)
-                    return@setOnClickListener
-                }
-                progressGameTurn(Point(x, y), view)
-                onGame = judgeGameState()
+                handleGameTurn(Point(x, y), view)
             }
         }
+    }
+
+    private fun handleGameTurn(
+        point: Point,
+        view: ImageView,
+    ) {
+        if (!onGame) {
+            displayMessage(MESSAGE_GAME_END)
+            return
+        }
+        setStoneOnView(point, view)
+        onGame = judgeGameState()
     }
 
     private fun setUpRestartButton() {
@@ -95,14 +101,7 @@ class MainActivity : AppCompatActivity() {
             onGame = !ruleAdapter.checkWin(beforeStone)
         }
         if (onGame) {
-            displayMessage(
-                MESSAGE_GAME_START +
-                    MESSAGE_TURN.format(
-                        generateStoneTypeMessage(
-                            turn.stoneType,
-                        ),
-                    ),
-            )
+            displayMessage(MESSAGE_GAME_START + MESSAGE_TURN.format(generateStoneTypeMessage(turn.stoneType)))
         } else {
             displayMessage(MESSAGE_GAME_END)
         }
@@ -118,7 +117,7 @@ class MainActivity : AppCompatActivity() {
         displayMessage(MESSAGE_GAME_START + MESSAGE_TURN.format(STONE_TYPE_BLACK))
     }
 
-    private fun progressGameTurn(
+    private fun setStoneOnView(
         point: Point,
         view: ImageView,
     ) {
