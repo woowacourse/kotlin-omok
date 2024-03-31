@@ -45,11 +45,11 @@ data object IsReverseTwoAndThree : RuleType {
             reverseResultCount = reverseResultCount,
             directionResult = directionResult,
         ) &&
-            provideNotFirstClearResult(
-                isReverseResultFirstClear = isReverseResultFirstClear,
-                reverseResultCount = reverseResultCount,
-                directionResult = directionResult,
-            )
+                provideNotFirstClearResult(
+                    isReverseResultFirstClear = isReverseResultFirstClear,
+                    reverseResultCount = reverseResultCount,
+                    directionResult = directionResult,
+                )
     }
 
     override fun provideFirstClearResult(
@@ -58,7 +58,7 @@ data object IsReverseTwoAndThree : RuleType {
         directionResult: DirectionResult,
     ): Boolean {
         return isThreeToThreeCount(directionResult.count) &&
-            isFourToFourCount(reverseResultCount) && !isReverseResultFirstClear
+                isFourToFourCount(reverseResultCount) && !isReverseResultFirstClear
     }
 
     override fun provideNotFirstClearResult(

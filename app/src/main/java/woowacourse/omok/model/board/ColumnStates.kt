@@ -20,6 +20,7 @@ data class ColumnStates(
                 columnStates[row] = stoneState.stoneState
                 GameState.LoadStoneState.Success(currentStone)
             }
+
             is GameState.LoadStoneState.Failure -> stoneState
         }
     }
