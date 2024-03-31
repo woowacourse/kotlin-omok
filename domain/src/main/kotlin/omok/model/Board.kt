@@ -4,6 +4,10 @@ class Board(private val boardSize: Int = BOARD_SIZE) {
     private var boardLayout = BoardLayout(boardSize)
     var lastCoordinate: Coordinate? = null
         private set
+    
+    fun clear() {
+        boardLayout = BoardLayout(boardSize)
+    }
 
     fun getBoardLayout(): Array<Array<PositionType>> {
         return boardLayout.deepCopy()
