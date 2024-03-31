@@ -12,15 +12,24 @@ import woowacourse.omok.data.OmokDAO
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBoard: TableLayout
+    private lateinit var resetButton : Button
     private val oMockViewController = OMockViewController(this@MainActivity)
     private val dao = OmokDAO(this@MainActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initView()
+        initListener()
+    }
+
+    private fun initView(){
         mainBoard = findViewById(R.id.board)
-        val resetButton = findViewById<Button>(R.id.reset_button)
+        resetButton = findViewById(R.id.reset_button)
         loadBoard()
+    }
+
+    private fun initListener(){
         mainBoard
             .children
             .filterIsInstance<TableRow>()
