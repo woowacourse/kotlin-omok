@@ -37,11 +37,11 @@ class ThreeThreeRule(boardSize: Int) : OmokRule(boardSize) {
             board[y - down][x - left] == WHITE_STONE -> NO_OPEN_THREE
             board[y + up][x + right] == WHITE_STONE -> NO_OPEN_THREE
             countToWall(board, position, oppositeDirection) +
-                    countToWall(
-                        board,
-                        position,
-                        direction,
-                    ) <= WIN_CONDITION -> NO_OPEN_THREE
+                countToWall(
+                    board,
+                    position,
+                    direction,
+                ) <= WIN_CONDITION -> NO_OPEN_THREE
 
             else -> YES_OPEN_THREE
         }

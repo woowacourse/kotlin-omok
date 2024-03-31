@@ -121,9 +121,9 @@ abstract class OmokRule(
         dy: Int,
     ): Boolean =
         dx > BOUND_CONDITION && x == maxX ||
-                dx < BOUND_CONDITION && x == MIN_X ||
-                dy > BOUND_CONDITION && y == maxY ||
-                dy < BOUND_CONDITION && y == MIN_Y
+            dx < BOUND_CONDITION && x == MIN_X ||
+            dy > BOUND_CONDITION && y == maxY ||
+            dy < BOUND_CONDITION && y == MIN_Y
 
     companion object {
         protected const val EMPTY_STONE = 0

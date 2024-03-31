@@ -1,9 +1,9 @@
 package omok.controller
 
 import omok.model.BlackStonePlayer
-import omok.model.Stones
-import omok.model.Player
 import omok.model.OmokGame
+import omok.model.Player
+import omok.model.Stones
 import omok.model.WhiteStonePlayer
 import omok.retryWhileNotException
 import omok.view.InputView

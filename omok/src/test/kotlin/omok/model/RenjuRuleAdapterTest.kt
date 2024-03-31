@@ -149,7 +149,6 @@ class RenjuRuleAdapterTest {
             add(Stone(11, 4, Color.BLACK))
         }
 
-
         val result = adapter.isInValid(this.stones, Stone(11, 4, Color.BLACK))
         assertThat(result).isTrue
     }
@@ -165,7 +164,6 @@ class RenjuRuleAdapterTest {
 
         val result = adapter.isBlackWin(stones, Point(8, 4))
         assertThat(result).isTrue
-
     }
 
     @Test
