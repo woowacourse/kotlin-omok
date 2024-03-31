@@ -1,4 +1,4 @@
-package woowacourse.omok.model.db
+package woowacourse.omok.db
 
 import android.provider.BaseColumns
 

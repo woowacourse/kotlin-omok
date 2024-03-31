@@ -8,7 +8,7 @@ import omok.model.entity.StoneColor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
-import woowacourse.omok.model.db.StoneDao
+import woowacourse.omok.db.StoneDao
 
 class DBTest {
     private lateinit var stoneDao: StoneDao
