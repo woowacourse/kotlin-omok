@@ -52,7 +52,7 @@ class Board(val stones: Stones = Stones()) {
     }
 
     private fun tryPlaceByRule(stone: Stone): StoneState {
-        return if (rule.checkPlaceable(stone)) {
+        return if (rule.checkPlaceable(stones, stone)) {
             stones.putStone(stone)
             PLACED
         } else {

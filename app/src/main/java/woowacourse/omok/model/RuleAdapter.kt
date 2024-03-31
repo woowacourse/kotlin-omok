@@ -2,40 +2,56 @@ package woowacourse.omok.model
 
 import omok.library.RenjuRule
 
-class RuleAdapter(private val boardSize: Int, private val getStones: () -> Stones) : Rule {
-    private val renjuRule: RenjuRule
-        get() =
-            RenjuRule(
-                generateCustomBoard(boardSize, getStones()),
-                colorToInt(getCurrentTurn(getStones())),
-                getOtherColorToInt(getCurrentTurn(getStones())),
-                boardSize,
-            )
-
-    override fun checkPlaceable(stone: Stone): Boolean {
-        return !checkUnable(stone)
+class RuleAdapter(private val boardSize: Int) : Rule {
+    override fun checkPlaceable(
+        stones: Stones,
+        stone: Stone,
+    ): Boolean {
+        val renjuRule = RenjuRule(
+            generateCustomBoard(boardSize, stones),
+            colorToInt(getCurrentTurn(stones)),
+            getOtherColorToInt(getCurrentTurn(stones)),
+            boardSize,
+        )
+        return !checkUnable(stone, renjuRule)
     }
 
-    private fun checkUnable(stone: Stone): Boolean {
-        if (stone.color == Color.BLACK) return checkThreeThree(stone) || checkFourFour(stone) || checkMoreThanFive(stone)
+    private fun checkUnable(
+        stone: Stone,
+        renjuRule: RenjuRule,
+    ): Boolean {
+        if (stone.color == Color.BLACK)
+            return checkThreeThree(stone, renjuRule) || checkFourFour(
+                stone,
+                renjuRule
+            ) || checkMoreThanFive(stone, renjuRule)
         return false
     }
 
-    private fun checkThreeThree(stone: Stone): Boolean {
+    private fun checkThreeThree(
+        stone: Stone,
+        renjuRule: RenjuRule,
+    ): Boolean {
         return renjuRule.checkThreeThree(
             stone.coordinate.col.value - INDEX_ADJUSTMENT,
             stone.coordinate.row.value - INDEX_ADJUSTMENT,
         )
     }
 
-    private fun checkFourFour(stone: Stone): Boolean {
+    private fun checkFourFour(
+        stone: Stone,
+        renjuRule: RenjuRule,
+    ): Boolean {
         return renjuRule.countFourFour(
             stone.coordinate.col.value - INDEX_ADJUSTMENT,
             stone.coordinate.row.value - INDEX_ADJUSTMENT,
         )
     }
 
-    private fun checkMoreThanFive(stone: Stone): Boolean {
+    private fun checkMoreThanFive(
+        stone: Stone,
+        renjuRule: RenjuRule,
+    ): Boolean {
         return renjuRule.checkMoreThanFive(
             stone.coordinate.col.value - INDEX_ADJUSTMENT,
             stone.coordinate.row.value - INDEX_ADJUSTMENT,
