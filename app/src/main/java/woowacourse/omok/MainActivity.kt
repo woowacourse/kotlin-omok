@@ -43,9 +43,7 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
-                val x = index % 15 + 1
-                val y = 15 - (index / 15)
-                val point = Point(x, y)
+                val point = findPoint(index)
 
                 stones.find { it.point == point }.let {
                     if (it?.stoneColor == StoneColor.BLACK) {
@@ -68,10 +66,10 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     if (previousTurn.color() == StoneColor.BLACK) {
-                        dao.insert(x, y, StoneColor.BLACK.name)
+                        dao.insert(point.x, point.y, StoneColor.BLACK.name)
                         view.setImageResource(R.drawable.black_stone)
                     } else {
-                        dao.insert(x, y, StoneColor.WHITE.name)
+                        dao.insert(point.x, point.y, StoneColor.WHITE.name)
                         view.setImageResource(R.drawable.white_stone)
                     }
 
@@ -86,5 +84,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun printStartGuide(outputView: OutputView) {
         outputView.printStartGuide()
+    }
+
+    private fun findPoint(index: Int): Point {
+        val x = index % 15 + 1
+        val y = 15 - (index / 15)
+
+        return Point(x, y)
     }
 }
