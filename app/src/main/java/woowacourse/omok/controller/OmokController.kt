@@ -9,10 +9,9 @@ import woowacourse.omok.model.Stones
 import woowacourse.omok.view.OutputView
 import woowacourse.omok.view.OutputView.printForbiddenStone
 
-class OmokController(
-    private val board: Board = Board(Stones()),
-) {
-    var gameEventListener: GameEventListener? = null
+class OmokController(gameEventListener: GameEventListener) {
+    private val board: Board = Board(Stones())
+    private val gameEventListener: GameEventListener? = gameEventListener
     var gameEnded: Boolean = false
         private set
 
