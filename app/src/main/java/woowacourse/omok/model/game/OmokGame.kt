@@ -62,7 +62,7 @@ class OmokGame(
         recentPosition: Position,
         player: Player,
     ): FinishType {
-        return finishAction.conditions
+        return finishAction.conditions()
             .map { it.finishType(board, recentPosition, player) }
             .minBy { it.ordinal }
     }

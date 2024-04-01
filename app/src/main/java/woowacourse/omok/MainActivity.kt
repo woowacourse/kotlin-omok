@@ -14,7 +14,6 @@ import woowacourse.omok.data.OmokDao
 import woowacourse.omok.data.OmokDaoImpl
 import woowacourse.omok.data.adapter.OmokEntityAdapter
 import woowacourse.omok.model.board.Position
-import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.game.FinishAction
 import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.game.OmokGame
@@ -27,6 +26,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
     private val boardView by lazy { findViewById<TableLayout>(R.id.board) }
     private val resultTextView by lazy { findViewById<TextView>(R.id.result_text) }
     private val restartButton by lazy { findViewById<Button>(R.id.restart_button) }
+    private lateinit var omokGame: OmokGame
     private var isFinish = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,11 +39,11 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
     private fun initializeUI(omokDao: OmokDao) {
         val omokEntities = omokDao.findAll()
         val board = OmokEntityAdapter.Board(boardSize, omokEntities)
-        val omokGame = OmokGame(board, OmokPlayers(), this, omokDao)
-        setProgressText(omokGame.nowOrderStone(), omokGame.recentPosition())
+        OmokGame(board, OmokPlayers(), this, omokDao)
+        setResultText()
 
         stoneImageView { index, view ->
-            view.setStoneViewOnClickListener(omokGame, index)
+            view.setStoneViewOnClickListener(index)
             val omokEntity =
                 omokEntities.firstOrNull { index == OmokEntityAdapter.index(boardSize, it) }
                     ?: return@stoneImageView
@@ -51,39 +51,33 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
         }
 
         restartButton.setOnClickListener {
-            restartGame(omokGame)
+            restartGame()
         }
     }
 
-    private fun setProgressText(
-        nowOrderStone: Stone,
-        recentPosition: Position?,
-    ) {
-        if (isFinish) return
-        var resultText =
-            resources.getString(R.string.turn_player).format(nowOrderStone.message(this))
-        recentPosition?.run {
-            resultText += "\n"
-            resultText +=
-                resources.getString(R.string.last_stone_position)
-                    .format(recentPosition.row, recentPosition.col)
-        }
-        resultTextView.text = resultText
-    }
-
-    private fun setResultText(finishType: FinishType) {
-        if (finishType == FinishType.DRAW) {
-            resultTextView.text = resources.getString(R.string.result_draw)
-            return
-        }
+    private fun setResultText(finishType: FinishType = FinishType.NOT_FINISH) {
         resultTextView.text =
-            resources.getString(R.string.result_win).format(finishType.stone.message(this))
+            when (finishType) {
+                FinishType.DRAW -> resources.getString(R.string.result_draw)
+                FinishType.BLACK_PLAYER_WIN,
+                FinishType.WHITE_PLAYER_WIN,
+                -> {
+                    resources.getString(R.string.result_win).format(finishType.stone.message(this))
+                }
+
+                FinishType.NOT_FINISH -> progressText()
+            }
     }
 
-    private fun ImageView.setStoneViewOnClickListener(
-        omokGame: OmokGame,
-        index: Int,
-    ) {
+    private fun progressText(): String {
+        val progressText =
+            resources.getString(R.string.turn_player).format(omokGame.nowOrderStone().message(this))
+        return omokGame.recentPosition()?.run {
+            "$progressText \n ${resources.getString(R.string.last_stone_position).format(row, col)}"
+        } ?: progressText
+    }
+
+    private fun ImageView.setStoneViewOnClickListener(index: Int) {
         setOnClickListener {
             Log.d(TAG, "position (${index / boardSize}, ${index % boardSize})")
             if (isFinish) return@setOnClickListener
@@ -102,18 +96,18 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
             return
         }
         stoneImageView.setImageResource(placeType.stone.stoneImage())
-        setProgressText(nowOrderStone(), recentPosition())
+        setResultText()
     }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun restartGame(omokGame: OmokGame) {
+    private fun restartGame() {
         isFinish = false
         omokGame.restart()
         stoneImageView { _, view -> view.setImageResource(0) }
-        setProgressText(omokGame.nowOrderStone(), omokGame.recentPosition())
+        setResultText()
     }
 
     private fun stoneImageView(block: (Int, ImageView) -> Unit) {
