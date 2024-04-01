@@ -26,7 +26,7 @@ class StoneDaoTest {
     }
 
     @Test
-    fun 돌을_저장하면_저장된_돌이_반환된다() {
+    fun `돌을_저장하면_저장된_돌이_반환된다`() {
         // given
         val stoneEntity = StoneEntity(0, 5, 5)
 
@@ -40,7 +40,7 @@ class StoneDaoTest {
     }
 
     @Test
-    fun 돌을_여러_개_저장한_후_모두_조회하면_모든_돌이_반환된다() {
+    fun `돌을_여러_개_저장한_후_모두_조회하면_모든_돌이_반환된다`() {
         // given
         val stoneEntity1 = StoneEntity(0, 1, 1)
         val stoneEntity2 = StoneEntity(0, 2, 2)
@@ -57,7 +57,7 @@ class StoneDaoTest {
     }
 
     @Test
-    fun 모든_돌을_삭제하면_조회할_돌이_없다() {
+    fun `모든_돌을_삭제하면_조회할_돌이_없다`() {
         // given
         stoneDao.save(StoneEntity(0, 3, 3))
         stoneDao.save(StoneEntity(0, 4, 4))

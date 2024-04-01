@@ -11,13 +11,13 @@ class OmokDbHelper(context: Context) :
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
             "CREATE TABLE IF NOT EXISTS ${OmokContract.TABLE_NAME} (\n" +
-                    " ${OmokContract.COLUMN_ID} INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                    " ${OmokContract.COORDINATE_X} INTEGER,\n" +
-                    " ${OmokContract.COORDINATE_Y} INTEGER\n" +
-                    ")"
+                " ${OmokContract.COLUMN_ID} INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                " ${OmokContract.COORDINATE_X} INTEGER,\n" +
+                " ${OmokContract.COORDINATE_Y} INTEGER\n" +
+                ")",
         )
     }
-    
+
     override fun onUpgrade(
         db: SQLiteDatabase,
         oldVersion: Int,

@@ -8,17 +8,18 @@ import woowacourse.omok.local.presentation.model.StoneEntity
 
 class StoneDaoImpl(context: Context) : StoneDao {
     private val omokDbHelper = OmokDbHelper(context)
-    
+
     override fun save(stoneEntity: StoneEntity): StoneEntity {
         val db = omokDbHelper.writableDatabase
-        val values = contentValuesOf(
-            OmokContract.COORDINATE_X to stoneEntity.x,
-            OmokContract.COORDINATE_Y to stoneEntity.y,
-        )
+        val values =
+            contentValuesOf(
+                OmokContract.COORDINATE_X to stoneEntity.x,
+                OmokContract.COORDINATE_Y to stoneEntity.y,
+            )
         val id = db.insert(OmokContract.TABLE_NAME, null, values)
         return stoneEntity.copy(id = id)
     }
-    
+
     override fun findAll(): List<StoneEntity> {
         val db = omokDbHelper.readableDatabase
         return db.query(
@@ -27,7 +28,7 @@ class StoneDaoImpl(context: Context) : StoneDao {
                 OmokContract.COLUMN_ID,
                 OmokContract.COORDINATE_X,
                 OmokContract.COORDINATE_Y,
-            )
+            ),
         ).use { cursor ->
             generateSequence { if (cursor.moveToNext()) cursor else null }
                 .map {
@@ -38,12 +39,12 @@ class StoneDaoImpl(context: Context) : StoneDao {
                 }.toList()
         }
     }
-    
+
     override fun drop() {
         val db = omokDbHelper.writableDatabase
         db.delete(OmokContract.TABLE_NAME, null, null)
     }
-    
+
     private fun SQLiteDatabase.query(
         table: String,
         columns: Array<String>,

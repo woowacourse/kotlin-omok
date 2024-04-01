@@ -18,15 +18,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val board = Board()
     private var gameState: AppGameState = AppGameState.Running.BlackTurn(board)
     private val stoneDao = StoneDaoImpl(this)
-    
+
     override fun initializeViewBinding() = ActivityMainBinding.inflate(layoutInflater)
-    
+
     override fun setup() {
         initializeGameBoard()
         loadGameFromDatabase()
         setImageViewsClickListener()
     }
-    
+
     private fun initializeGameBoard() {
         allImageViews =
             binding.board
@@ -36,7 +36,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 .filterIsInstance<ImageView>()
                 .toList()
     }
-    
+
     private fun loadGameFromDatabase() {
         val stones = stoneDao.findAll()
         stones.forEach { stone ->
@@ -44,7 +44,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
         printBoard(board)
     }
-    
+
     private fun setImageViewsClickListener() {
         binding.restartButton.setOnClickListener {
             stoneDao.drop()
@@ -58,7 +58,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
     }
-    
+
     private fun handleUserInput(index: Int) {
         if (isRunning()) {
             val coordinate = index.toCoordinate()
@@ -69,17 +69,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             return
         }
     }
-    
+
     private fun playTurn(onCoordinate: () -> Coordinate) {
         if (isRunning()) {
             runCatching {
                 val lastCoordinate = onCoordinate()
                 gameState = gameState.updateState { lastCoordinate }
-                
+
                 if (gameState is AppGameState.Finish || gameState is AppGameState.Running) {
                     saveStoneToDatabase(lastCoordinate)
                 }
-                
+
                 printBoard(board)
                 printRunningInfo(gameState)
             }.onFailure { throwable ->
@@ -87,16 +87,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
     }
-    
+
     private fun isRunning() = gameState is AppGameState.Running
-    
+
     private fun saveStoneToDatabase(coordinate: Coordinate) {
         val stoneEntity = StoneEntity(0L, coordinate.x, coordinate.y)
         stoneDao.save(stoneEntity)
     }
-    
+
     private fun Int.toCoordinate(): Coordinate = Coordinate(this / BOARD_SIZE, this % BOARD_SIZE)
-    
+
     private fun printRunningInfo(gameState: AppGameState) {
         when (gameState) {
             is AppGameState.Running.BlackTurn -> showSnackbar(getString(R.string.black_turn))
@@ -104,7 +104,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             is AppGameState.Finish -> showSnackbar(getString(R.string.finish_turn))
         }
     }
-    
+
     private fun printBoard(board: Board) {
         allImageViews.forEachIndexed { index, imageView ->
             val x = index / BOARD_SIZE
@@ -117,7 +117,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
     }
-    
+
     companion object {
         private const val BOARD_SIZE = 15
     }
