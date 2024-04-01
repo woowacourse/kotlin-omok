@@ -9,8 +9,8 @@ import org.junit.runner.RunWith
 import woowacourse.omok.domain.omok.model.Place
 
 @RunWith(AndroidJUnit4::class)
-class NotationDaoTest {
-    private val dao = NotationDao(ApplicationProvider.getApplicationContext())
+class PlaceDaoTest {
+    private val dao = PlaceDao(ApplicationProvider.getApplicationContext())
 
     @After
     fun tearDown() {

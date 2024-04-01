@@ -9,7 +9,7 @@ import woowacourse.omok.FeedReaderContract.FeedNotation
 import woowacourse.omok.FeedReaderContract.SQL_DROP_TABLE
 import woowacourse.omok.domain.omok.model.Place
 
-class NotationDao(context: Context) {
+class PlaceDao(context: Context) {
     private val dbHelper = FeedReaderDbHelper(context)
 
     fun save(place: Place): Place {
@@ -39,10 +39,10 @@ class NotationDao(context: Context) {
                     FeedNotation.COLUMN_NAME_COL_COORDINATE,
                 ),
             )
-        val notation: MutableList<Place> = mutableListOf()
-        addToNotation(cursor, notation)
+        val places: MutableList<Place> = mutableListOf()
+        addToNotation(cursor, places)
         cursor.close()
-        return notation
+        return places
     }
 
     private fun SQLiteDatabase.query(
@@ -62,7 +62,7 @@ class NotationDao(context: Context) {
 
     private fun addToNotation(
         cursor: Cursor,
-        notation: MutableList<Place>,
+        places: MutableList<Place>,
     ) {
         while (cursor.moveToNext()) {
             val id = cursor.getLong(cursor.getColumnIndexOrThrow(BaseColumns._ID))
@@ -72,7 +72,7 @@ class NotationDao(context: Context) {
                 cursor.getInt(cursor.getColumnIndexOrThrow(FeedNotation.COLUMN_NAME_ROW_COORDINATE))
             val colCoordinate =
                 cursor.getInt(cursor.getColumnIndexOrThrow(FeedNotation.COLUMN_NAME_COL_COORDINATE))
-            notation.add(Place(color, rowCoordinate, colCoordinate, id))
+            places.add(Place(color, rowCoordinate, colCoordinate, id))
         }
     }
 

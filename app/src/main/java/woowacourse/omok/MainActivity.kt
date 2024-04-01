@@ -9,7 +9,6 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import woowacourse.omok.FeedReaderContract.SQL_DELETE_ALL_ENTRIES
 import woowacourse.omok.domain.omok.model.Board
 import woowacourse.omok.domain.omok.model.Color
 import woowacourse.omok.domain.omok.model.GameResult
@@ -20,9 +19,7 @@ class MainActivity : AppCompatActivity() {
     private val boardView: TableLayout by lazy { findViewById(R.id.board) }
     private lateinit var boardData: Board
     private val restartButton: Button by lazy { findViewById(R.id.restart_button) }
-    private val dbHelper = FeedReaderDbHelper(this)
-    private val db by lazy { dbHelper.writableDatabase }
-    private val notationDao = NotationDao(this)
+    private val placeDao = PlaceDao(this)
     private val explainMessage by lazy { findViewById<TextView>(R.id.expalin_message) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playUntilFinish() {
-        val notation = notationDao.findAll()
+        val notation = placeDao.findAll()
         val initialBoardStatus = Array(Board.ARRAY_SIZE) { Array(Board.ARRAY_SIZE) { Color.NONE } }
         setUpInitialBoardStatus(notation, initialBoardStatus)
         boardData = Board(notation, initialBoardStatus)
@@ -156,13 +153,13 @@ class MainActivity : AppCompatActivity() {
         val rowCoordinate = Board.ARRAY_SIZE - (rowIndex + 1)
         val colCoordinate = colIndex + 1
         val place = Place(boardData.lastTurn.label, rowCoordinate, colCoordinate)
-        notationDao.save(place)
+        placeDao.save(place)
     }
 
     private fun restartIfRestartButtonClicked() {
         restartButton.setOnClickListener {
             restartButton.visibility = View.INVISIBLE
-            db.execSQL(SQL_DELETE_ALL_ENTRIES)
+            placeDao.delete()
             playUntilFinish()
         }
     }
