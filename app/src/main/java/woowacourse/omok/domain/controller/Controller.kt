@@ -1,33 +1,31 @@
 package woowacourse.omok.domain.controller
 
-import woowacourse.omok.domain.model.BlackTurn
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.FinishedTurn
+import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Point
-import woowacourse.omok.domain.model.RuleAdapter
 import woowacourse.omok.domain.model.Turn
 import woowacourse.omok.domain.view.InputView
 import woowacourse.omok.domain.view.OutputView
 
 class Controller {
+    private val omokGame: OmokGame = OmokGame(BOARD_SIZE)
+
     fun play() {
-        gameStart(Board(BOARD_SIZE))
+        gameStart()
     }
 
-    private fun gameStart(board: Board) {
+    private fun gameStart() {
         OutputView.printGameStart()
-        OutputView.printBoard(board)
-        val ruleAdapter = RuleAdapter(board)
-        var turn: Turn = BlackTurn()
-        var beforePoint: Point? = null
-        while (turn !is FinishedTurn) {
-            OutputView.printTurn(turn, beforePoint)
-            val point = inputPoint(board, turn)
-            turn = board.putStone(point, turn, ruleAdapter)
-            beforePoint = point
-            OutputView.printBoard(board)
+        OutputView.printBoard(omokGame.board)
+        while (omokGame.turn !is FinishedTurn) {
+            OutputView.printTurn(omokGame.turn, omokGame.beforePoint)
+            val point = inputPoint(omokGame.board, omokGame.turn)
+            omokGame.updateTurn(omokGame.board.putStone(point, omokGame.turn, omokGame.ruleAdapter))
+            omokGame.updateBeforePoint(point)
+            OutputView.printBoard(omokGame.board)
         }
-        OutputView.printWinner(turn)
+        OutputView.printWinner(omokGame.turn)
     }
 
     private fun inputPoint(

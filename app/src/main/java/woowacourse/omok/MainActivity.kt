@@ -10,14 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import woowacourse.omok.db.OmokDao
 import woowacourse.omok.db.OmokEntity
-import woowacourse.omok.domain.model.BlackTurn
-import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.FinishedTurn
+import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Point
-import woowacourse.omok.domain.model.RuleAdapter
 import woowacourse.omok.domain.model.StoneType
 import woowacourse.omok.domain.model.StoneType.Companion.getStoneTypeByIndex
-import woowacourse.omok.domain.model.Turn
 import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_END
 import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_START
 import woowacourse.omok.domain.view.OutputView.MESSAGE_INVALID_POINT_INPUT
@@ -28,12 +25,7 @@ import woowacourse.omok.domain.view.OutputView.generateStoneTypeMessage
 import woowacourse.omok.domain.view.OutputView.generateTurnMessage
 
 class MainActivity : AppCompatActivity() {
-    private var board: Board = Board(BOARD_SIZE)
-    private var ruleAdapter: RuleAdapter = RuleAdapter(board)
-    private var turn: Turn = BlackTurn()
-    private var onGame: Boolean = true
-    private var beforePoint: Point? = null
-    private var toast: Toast? = null
+    private val omokGame: OmokGame = OmokGame(BOARD_SIZE)
     private val omokDao: OmokDao by lazy { OmokDao(this) }
     private val tableLayoutBoard: List<ImageView> by lazy {
         findViewById<TableLayout>(R.id.board)
@@ -44,6 +36,7 @@ class MainActivity : AppCompatActivity() {
             }
             .toList()
     }
+    private var toast: Toast? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,12 +66,12 @@ class MainActivity : AppCompatActivity() {
         point: Point,
         view: ImageView,
     ) {
-        if (!onGame) {
+        if (!omokGame.gameState) {
             displayMessage(MESSAGE_GAME_END)
             return
         }
         setStoneOnView(point, view)
-        onGame = judgeGameState()
+        omokGame.updateGameState(judgeGameState())
     }
 
     private fun setUpRestartButton() {
@@ -92,30 +85,31 @@ class MainActivity : AppCompatActivity() {
         val stones = omokDao.findAllStones()
         stones.withIndex().forEach { (index, stone) ->
             val point = Point(stone.pointX, stone.pointY)
-            turn = board.putStone(point, turn, ruleAdapter)
-            beforePoint = point
+            omokGame.updateTurn(omokGame.board.putStone(point, omokGame.turn, omokGame.ruleAdapter))
+            omokGame.updateBeforePoint(point)
             val coordinate = (BOARD_SIZE - stone.pointY - 1) * BOARD_SIZE + stone.pointX
             tableLayoutBoard[coordinate].setImageResource(getStoneImage(getStoneTypeByIndex(index)))
         }
     }
 
     private fun setUpGameState() {
-        if (beforePoint != null) {
-            onGame = !ruleAdapter.checkWin(beforePoint!!, turn.stoneType)
+        if (omokGame.beforePoint != null) {
+            omokGame.updateGameState(
+                !omokGame.ruleAdapter.checkWin(
+                    omokGame.beforePoint!!,
+                    omokGame.turn.stoneType,
+                ),
+            )
         }
-        if (onGame) {
-            displayMessage(generateTurnMessage(turn, beforePoint))
+        if (omokGame.gameState) {
+            displayMessage(generateTurnMessage(omokGame.turn, omokGame.beforePoint))
         } else {
             displayMessage(MESSAGE_GAME_END)
         }
     }
 
     private fun gameRestart() {
-        board = Board(BOARD_SIZE)
-        ruleAdapter = RuleAdapter(board)
-        turn = BlackTurn()
-        onGame = true
-        beforePoint = null
+        omokGame.gameReSet()
         tableLayoutBoard.forEach { it.setImageResource(0) }
         omokDao.deleteAllStones()
         displayMessage(MESSAGE_GAME_START + MESSAGE_TURN.format(STONE_TYPE_BLACK))
@@ -125,13 +119,13 @@ class MainActivity : AppCompatActivity() {
         point: Point,
         view: ImageView,
     ) {
-        val nextTurn = board.putStone(point, turn, ruleAdapter)
-        beforePoint = point
-        displayMessage(generateTurnMessage(nextTurn, beforePoint))
-        if (turn != nextTurn) {
-            view.setImageResource(getStoneImage(turn.stoneType))
+        val nextTurn = omokGame.board.putStone(point, omokGame.turn, omokGame.ruleAdapter)
+        omokGame.updateBeforePoint(point)
+        displayMessage(generateTurnMessage(nextTurn, omokGame.beforePoint))
+        if (omokGame.turn != nextTurn) {
+            view.setImageResource(getStoneImage(omokGame.turn.stoneType))
             omokDao.insertStone(OmokEntity(point.x, point.y))
-            turn = nextTurn
+            omokGame.updateTurn(nextTurn)
         } else {
             displayMessage(MESSAGE_INVALID_POINT_INPUT)
         }
@@ -146,8 +140,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun judgeGameState(): Boolean {
-        if (turn is FinishedTurn) {
-            displayMessage(MESSAGE_WINNER.format(generateStoneTypeMessage(turn.stoneType)))
+        if (omokGame.turn is FinishedTurn) {
+            displayMessage(MESSAGE_WINNER.format(generateStoneTypeMessage(omokGame.turn.stoneType)))
             return false
         }
         return true
@@ -160,6 +154,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val BOARD_SIZE = 15
+        private const val BOARD_SIZE = 15
     }
 }
