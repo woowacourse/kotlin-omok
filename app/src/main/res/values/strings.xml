@@ -12,4 +12,5 @@
     <string name="button_continue">계속\n하기</string>
     <string name="button_game_over">게임\n종료</string>
     <string name="button_error">오류</string>
+    <string name="button_refresh">새로고침</string>
 </resources>

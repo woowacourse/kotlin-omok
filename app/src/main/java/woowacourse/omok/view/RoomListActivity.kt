@@ -8,24 +8,47 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.R
 import woowacourse.omok.model.database.GameRoomDao
+import woowacourse.omok.model.database.Room
 
 class RoomListActivity : AppCompatActivity() {
     private val gameRoomDao: GameRoomDao by lazy { GameRoomDao(this) }
+    private val rooms: MutableList<Room> by lazy { mutableListOf() }
+    private lateinit var adapter: RoomInfoRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_list)
-        val buttonNewRoom = findViewById<Button>(R.id.btn_new_room)
-        buttonNewRoom.setOnClickListener {
-            Intent(this, NewRoomActivity::class.java).also(::startActivity)
-        }
+
+        initializeNewRoomButton()
+        initializeRefreshButton()
+        initializeRoomList()
     }
 
-    override fun onResume() {
-        super.onResume()
-        val adapter =
+    private fun initializeRefreshButton() {
+        findViewById<Button>(R.id.btn_refresh)
+            .setOnClickListener {
+                val existingRoomCount = rooms.size
+                rooms.clear()
+                rooms.addAll(gameRoomDao.findAll())
+
+                val renewedRoomCount = rooms.size
+                val addedRoomCount = renewedRoomCount - existingRoomCount
+                adapter.notifyItemRangeInserted(existingRoomCount, addedRoomCount)
+            }
+    }
+
+    private fun initializeNewRoomButton() {
+        findViewById<Button>(R.id.btn_new_room)
+            .setOnClickListener {
+                Intent(this, NewRoomActivity::class.java).also(::startActivity)
+            }
+    }
+
+    private fun initializeRoomList() {
+        rooms.addAll(gameRoomDao.findAll())
+        adapter =
             RoomInfoRecyclerViewAdapter(
-                rooms = gameRoomDao.findAll(),
+                rooms = rooms,
                 onEnterClick = { id, title ->
                     Intent(this, OmokGameActivity::class.java).also {
                         it.putExtra(GAME_ID, id)
