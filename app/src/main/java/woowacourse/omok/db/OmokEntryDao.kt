@@ -23,7 +23,7 @@ class OmokEntryDao(context: Context) {
         return entry.copy(id = id)
     }
 
-    fun findAll(): List<OmokEntry> {
+    fun findAllDatabase(): List<OmokEntry> {
         val db = dbHelper.readableDatabase
         val cursor =
             db.query(
@@ -52,7 +52,7 @@ class OmokEntryDao(context: Context) {
         return entries
     }
 
-    fun drop() {
+    fun delete() {
         val db = dbHelper.writableDatabase
         db.delete(TABLE_NAME, null, null)
     }

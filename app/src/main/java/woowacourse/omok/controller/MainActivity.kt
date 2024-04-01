@@ -9,14 +9,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import woowacourse.omok.R
-import woowacourse.omok.db.OmokEntry
-import woowacourse.omok.db.OmokEntryDao
+import woowacourse.omok.db.OmokRepository
 import woowacourse.omok.model.AndroidOmokGame
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.OmokStone
 import woowacourse.omok.model.Position
-import woowacourse.omok.model.StoneColor
-import woowacourse.omok.util.mapStoneColorToString
 import woowacourse.omok.util.showToast
 import woowacourse.omok.view.OmokBoardView
 import woowacourse.omok.view.OmokOutputView
@@ -25,7 +22,7 @@ import woowacourse.omok.view.OmokTextView
 class MainActivity : AppCompatActivity() {
     private lateinit var omokBoardView: OmokBoardView
     private lateinit var omokTextView: OmokOutputView
-    private val dbDao by lazy { OmokEntryDao(this) }
+    private val omokRepository by lazy { OmokRepository(this) }
     private val game by lazy {
         AndroidOmokGame(
             onStateChanged = ::handleGameStateChange,
@@ -43,13 +40,7 @@ class MainActivity : AppCompatActivity() {
     private fun addStoneToViewAndDatabase(stone: OmokStone) {
         omokBoardView.updateSingleSpace(stone)
         omokTextView.showProgress(stone)
-        dbDao.save(
-            OmokEntry(
-                x = stone.position.x,
-                y = stone.position.y,
-                color = mapStoneColorToString(stone.color),
-            ),
-        )
+        omokRepository.save(stone)
     }
 
     private fun handleGameFinish(
@@ -57,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         stone: OmokStone,
     ) {
         omokTextView.showGameResult(board, stone)
-        dbDao.delete()
+        omokRepository.delete()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initializeOmokView()
         initializeGameResetButton()
-        restoreSavedGame()
+        omokRepository.restoreSavedGame(::restoreModelAndView)
     }
 
     private fun initializeOmokView() {
@@ -88,32 +79,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeTextView(): TextView = findViewById(R.id.tv_turn_information)
 
-    private fun restoreSavedGame() {
-        dbDao.findAll().takeIf { it.isNotEmpty() }?.let { omokEntries ->
-            val savedBoard = mapEntriesToBoard(omokEntries)
-            restoreModelAndView(savedBoard)
-        }
-    }
-
-    private fun mapEntriesToBoard(omokEntries: List<OmokEntry>): Board {
-        return Board(
-            omokEntries.map { item ->
-                OmokStone(
-                    position = Position.of(item.x, item.y),
-                    color = mapStringToStoneColor(item.color),
-                )
-            }.associateBy(OmokStone::position),
-        )
-    }
-
-    private fun mapStringToStoneColor(colorString: String): StoneColor {
-        return when (colorString) {
-            "흑" -> StoneColor.BLACK
-            "백" -> StoneColor.WHITE
-            else -> throw IllegalArgumentException()
-        }
-    }
-
     private fun restoreModelAndView(board: Board) {
         board.lastStone?.let { lastStone ->
             game.restoreGame(lastStone.color, board)
@@ -127,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         resetButton.setOnClickListener {
             omokBoardView.resetView()
             omokTextView.resetView()
-            dbDao.delete()
+            omokRepository.delete()
             game.resetGame()
         }
     }
