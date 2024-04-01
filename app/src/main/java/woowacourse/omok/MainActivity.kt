@@ -83,16 +83,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun recordInDb(
-        rowIndex: Int,
-        colIndex: Int,
-    ) {
-        val rowCoordinate = Board.ARRAY_SIZE - (rowIndex + 1)
-        val colCoordinate = colIndex + 1
-        val place = Place(boardData.lastTurn.label, rowCoordinate, colCoordinate)
-        notationDao.save(place)
-    }
-
     private fun finishIfGameOver(eachPlacedPosition: Position) {
         if (boardData.getGameResult(eachPlacedPosition) != GameResult.PROCEEDING) {
             explainMessage.text = "${boardData.getGameResult(eachPlacedPosition).label}의 승리"
@@ -157,6 +147,16 @@ class MainActivity : AppCompatActivity() {
                 explainMessage.text = it.message
             }
         }
+    }
+
+    private fun recordInDb(
+        rowIndex: Int,
+        colIndex: Int,
+    ) {
+        val rowCoordinate = Board.ARRAY_SIZE - (rowIndex + 1)
+        val colCoordinate = colIndex + 1
+        val place = Place(boardData.lastTurn.label, rowCoordinate, colCoordinate)
+        notationDao.save(place)
     }
 
     private fun restartIfRestartButtonClicked() {
