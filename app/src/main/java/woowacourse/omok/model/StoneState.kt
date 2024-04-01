@@ -1,11 +1,7 @@
 package woowacourse.omok.model
 
-sealed class StoneState(
-    open val message: String? = null,
-) {
+sealed class StoneState {
     data object SuccessfulPlaced : StoneState()
 
-    data class FailedPlaced(
-        override val message: String,
-    ) : StoneState(message = message)
+    data class FailedPlaced(val message: String) : StoneState()
 }
