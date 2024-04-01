@@ -38,15 +38,28 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
         gameManager.loadGame()
     }
 
+    private fun initViews() {
+        allCoordinateViews =
+            binding.board
+                .children
+                .filterIsInstance<TableRow>()
+                .flatMap { it.children }
+                .filterIsInstance<ImageView>()
+                .toList()
+
+        allCoordinateViews.forEachIndexed {
+                index, view ->
+            view.tag = NOT_PLACED
+            view.setOnClickListener {
+                gameManager.playTurn(index.toCoordinate())
+            }
+        }
+    }
+
     override fun onUpdate(gameState: GameState) {
         showGameState(gameState)
         drawDiff(gameState.board)
     }
-
-    override fun onError(throwable: Throwable) {
-        Snackbar.make(binding.root, throwable.message.toString(), Snackbar.LENGTH_SHORT).show()
-    }
-
     private fun showGameState(gameState: GameState) {
         when (gameState) {
             is GameState.Playing.Start -> {
@@ -95,28 +108,14 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
         }
     }
 
-    private fun initViews() {
-        allCoordinateViews =
-            binding.board
-                .children
-                .filterIsInstance<TableRow>()
-                .flatMap { it.children }
-                .filterIsInstance<ImageView>()
-                .toList()
-
-        allCoordinateViews.forEachIndexed {
-                index, view ->
-            view.tag = NOT_PLACED
-            view.setOnClickListener {
-                gameManager.playTurn(index.toCoordinate())
-            }
-        }
-    }
-
     private fun resetViewTags() {
         allCoordinateViews.forEach {
             it.tag = NOT_PLACED
         }
+    }
+
+    override fun onError(throwable: Throwable) {
+        Snackbar.make(binding.root, throwable.message.toString(), Snackbar.LENGTH_SHORT).show()
     }
 
     private fun Int.toCoordinate(): Coordinate = Coordinate(this / Board.BOARD_SIZE, this % Board.BOARD_SIZE)
