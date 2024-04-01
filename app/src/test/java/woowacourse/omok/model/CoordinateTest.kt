@@ -11,9 +11,9 @@ class CoordinateTest {
         x: Int,
         y: Int,
     ) {
-        val coordinate = Coordinate(PositionX(x), PositionY(y))
+        val coordinate = Coordinate(x, y)
 
-        assertThat(coordinate.x.value).isEqualTo(x)
-        assertThat(coordinate.y.value).isEqualTo(y)
+        assertThat(coordinate.x).isEqualTo(x)
+        assertThat(coordinate.y).isEqualTo(y)
     }
 }

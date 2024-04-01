@@ -11,7 +11,7 @@ class StoneTest {
         x: Int,
         y: Int,
     ) {
-        val coordinate = Coordinate(PositionX(x), PositionY(y))
+        val coordinate = Coordinate(x, y)
         val stone = Stone(Color.BLACK, coordinate)
 
         assertThat(stone.color).isEqualTo(Color.BLACK)

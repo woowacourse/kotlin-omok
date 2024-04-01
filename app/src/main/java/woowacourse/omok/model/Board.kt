@@ -28,8 +28,8 @@ class Board(
     }
 
     private fun validateStoneCoordinate(coordinate: Coordinate): Boolean {
-        val x = coordinate.x.value
-        val y = coordinate.y.value
+        val x = coordinate.x
+        val y = coordinate.y
         return (x !in BOARD_START_INDEX..width && y !in BOARD_START_INDEX..height)
     }
 

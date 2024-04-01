@@ -18,8 +18,6 @@ import woowacourse.omok.model.Color
 import woowacourse.omok.model.Coordinate
 import woowacourse.omok.model.OmokGame
 import woowacourse.omok.model.Player
-import woowacourse.omok.model.PositionX
-import woowacourse.omok.model.PositionY
 import woowacourse.omok.model.Stone
 import woowacourse.omok.model.StoneState
 import woowacourse.omok.model.Stones
@@ -52,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                     Color.BLACK.name -> Color.BLACK
                     else -> Color.WHITE
                 }
-            val coordinate = Coordinate(PositionX(it.positionX), PositionY(it.positionY))
+            val coordinate = Coordinate(it.positionX, it.positionY)
             stonesList.add(
                 Stone(
                     color,
@@ -66,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                     Color.WHITE.name -> R.drawable.white_stone
                     else -> 0
                 }
-            setStoneImage(coordinate.x.value - 1, coordinate.y.value - 1, resourceId)
+            setStoneImage(coordinate.x - 1, coordinate.y - 1, resourceId)
         }
 
         currentPlayerIndex = stonesList.size
@@ -97,8 +95,8 @@ class MainActivity : AppCompatActivity() {
                         view.setOnClickListener {
                             val coordinate =
                                 Coordinate(
-                                    PositionX(rowIndex + 1),
-                                    PositionY(columnIndex + 1),
+                                    rowIndex + 1,
+                                    columnIndex + 1,
                                 )
                             progressGameTurn(currentPlayer, coordinate) {
                                 when (currentPlayer.color) {
@@ -127,8 +125,8 @@ class MainActivity : AppCompatActivity() {
                 omokDao.insertOmok(
                     OmokEntity(
                         currentPlayer.color.name,
-                        coordinate.x.value,
-                        coordinate.y.value,
+                        coordinate.x,
+                        coordinate.y,
                     ),
                 )
                 if (!omokGame.isRunning()) {
@@ -153,7 +151,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changePlayerTurn(coordinate: Coordinate) {
-        updateText("${currentPlayer.color}플레이어가 착수 했습니다.\n 마지막 돌의 위치: (${coordinate.x.value},${coordinate.y.value})")
+        updateText("${currentPlayer.color}플레이어가 착수 했습니다.\n 마지막 돌의 위치: (${coordinate.x},${coordinate.y})")
         currentPlayer = players[(currentPlayerIndex + 1) % players.size]
         currentPlayerIndex++
     }

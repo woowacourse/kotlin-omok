@@ -36,13 +36,13 @@ class Stones(initialStones: List<Stone> = emptyList()) {
         direction: Direction,
     ): Int {
         var count = 0
-        var row = startStone.coordinate.x.value + direction.x
-        var col = startStone.coordinate.y.value + direction.y
+        var row = startStone.coordinate.x + direction.x
+        var col = startStone.coordinate.y + direction.y
         val color = startStone.color
         while (
             _stones
                 .filter { stone -> stone.color == color }
-                .any { it.coordinate.x.value == row && it.coordinate.y.value == col }
+                .any { it.coordinate.x == row && it.coordinate.y == col }
         ) {
             count++
             row += direction.x

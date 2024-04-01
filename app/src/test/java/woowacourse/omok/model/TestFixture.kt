@@ -3,20 +3,20 @@ package woowacourse.omok.model
 val black = Color.BLACK
 val white = Color.WHITE
 
-val COORDINATE_A1 = Coordinate(PositionX(1), PositionY(1))
-val COORDINATE_C8 = Coordinate(PositionX(8), PositionY(3))
-val COORDINATE_D8 = Coordinate(PositionX(8), PositionY(4))
-val COORDINATE_E8 = Coordinate(PositionX(8), PositionY(5))
-val COORDINATE_F4 = Coordinate(PositionX(4), PositionY(6))
-val COORDINATE_F5 = Coordinate(PositionX(5), PositionY(6))
-val COORDINATE_F6 = Coordinate(PositionX(6), PositionY(6))
-val COORDINATE_F7 = Coordinate(PositionX(7), PositionY(6))
-val COORDINATE_F8 = Coordinate(PositionX(8), PositionY(6))
-val COORDINATE_F9 = Coordinate(PositionX(9), PositionY(6))
-val COORDINATE_F10 = Coordinate(PositionX(10), PositionY(6))
-val COORDINATE_F11 = Coordinate(PositionX(11), PositionY(6))
-val COORDINATE_F12 = Coordinate(PositionX(12), PositionY(6))
-val COORDINATE_F13 = Coordinate(PositionX(13), PositionY(6))
+val COORDINATE_A1 = Coordinate(1, 1)
+val COORDINATE_C8 = Coordinate(8, 3)
+val COORDINATE_D8 = Coordinate(8, 4)
+val COORDINATE_E8 = Coordinate(8, 5)
+val COORDINATE_F4 = Coordinate(4, 6)
+val COORDINATE_F5 = Coordinate(5, 6)
+val COORDINATE_F6 = Coordinate(6, 6)
+val COORDINATE_F7 = Coordinate(7, 6)
+val COORDINATE_F8 = Coordinate(8, 6)
+val COORDINATE_F9 = Coordinate(9, 6)
+val COORDINATE_F10 = Coordinate(10, 6)
+val COORDINATE_F11 = Coordinate(11, 6)
+val COORDINATE_F12 = Coordinate(12, 6)
+val COORDINATE_F13 = Coordinate(13, 6)
 
 val samSamBlackStones =
     listOf(

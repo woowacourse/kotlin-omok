@@ -47,8 +47,8 @@ object OutputView {
     fun printBoard(stones: Stones) {
         val tempBoard = boardLines.toMutableList()
         stones.stones.forEach { stone ->
-            val row = BOARD_SIZE - stone.coordinate.x.value
-            val col = (stone.coordinate.y.value) * 3 + 1
+            val row = BOARD_SIZE - stone.coordinate.x
+            val col = (stone.coordinate.y) * 3 + 1
             val line = tempBoard[row]
 
             tempBoard[row] =
@@ -67,8 +67,8 @@ object OutputView {
 
     fun printLastStone(coordinate: Coordinate?) {
         if (coordinate != null) {
-            val col = coordinate.y.value
-            val row = coordinate.x.value
+            val col = coordinate.y
+            val row = coordinate.x
             val colCh = 'A' + col - 1
             print(MESSAGE_LAST_COORDINATE.format(colCh + "" + row))
         }

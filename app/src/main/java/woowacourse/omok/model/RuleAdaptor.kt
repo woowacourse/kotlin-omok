@@ -25,22 +25,22 @@ class RuleAdaptor(private val stones: Stones) : Rule {
 
     private fun checkThreeThree(stone: Stone): Boolean {
         return renjuRule.checkThreeThree(
-            stone.coordinate.y.value - INDEX_ADJUSTMENT,
-            stone.coordinate.x.value - INDEX_ADJUSTMENT,
+            stone.coordinate.y - INDEX_ADJUSTMENT,
+            stone.coordinate.x - INDEX_ADJUSTMENT,
         )
     }
 
     private fun checkFourFour(stone: Stone): Boolean {
         return renjuRule.countFourFour(
-            stone.coordinate.y.value - INDEX_ADJUSTMENT,
-            stone.coordinate.x.value - INDEX_ADJUSTMENT,
+            stone.coordinate.y - INDEX_ADJUSTMENT,
+            stone.coordinate.x - INDEX_ADJUSTMENT,
         )
     }
 
     private fun checkMoreThanFive(stone: Stone): Boolean {
         return renjuRule.checkMoreThanFive(
-            stone.coordinate.y.value - INDEX_ADJUSTMENT,
-            stone.coordinate.x.value - INDEX_ADJUSTMENT,
+            stone.coordinate.y - INDEX_ADJUSTMENT,
+            stone.coordinate.x - INDEX_ADJUSTMENT,
         )
     }
 
@@ -59,9 +59,9 @@ class RuleAdaptor(private val stones: Stones) : Rule {
             }
         stones.stones.forEach {
             if (it.color == Color.BLACK) {
-                libraryBoard[it.coordinate.x.value - 1][it.coordinate.y.value - 1] = 1
+                libraryBoard[it.coordinate.x - 1][it.coordinate.y - 1] = 1
             } else {
-                libraryBoard[it.coordinate.x.value - 1][it.coordinate.y.value - 1] = 2
+                libraryBoard[it.coordinate.x - 1][it.coordinate.y - 1] = 2
             }
         }
         return libraryBoard
