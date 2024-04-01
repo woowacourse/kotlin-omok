@@ -11,22 +11,15 @@ class AndroidOmokGame(
     private val onStateChanged: (position: Position) -> Unit,
     private val onFinishGame: (Board, OmokStone) -> Unit,
 ) {
-    fun placeOmokStone(
-        position: Position,
-        onFailure: () -> Unit,
-    ) {
-        runCatching {
-            val newState = state.put(position)
-            if (state != newState) {
-                state = newState
-                state.board[position]?.run {
-                    onStateChanged(position)
-                }
+    fun placeOmokStone(position: Position) {
+        val newState = state.put(position)
+        if (state != newState) {
+            state = newState
+            state.board[position]?.run {
+                onStateChanged(position)
             }
-            checkIsFinish()
-        }.onFailure {
-            onFailure()
         }
+        checkIsFinish()
     }
 
     private fun checkIsFinish() {
