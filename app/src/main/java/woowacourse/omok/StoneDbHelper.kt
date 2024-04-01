@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, "omok.db", null, 1) {
+class StoneDbHelper(context: Context) : SQLiteOpenHelper(context, "omok.db", null, 1) {
     val tableName = "OMOK"
     val pointRow = "point_row"
     val pointCol = "point_col"
