@@ -7,7 +7,7 @@ import android.provider.BaseColumns
 
 class OmokDbHelper(
     context: Context,
-    dbName: String = DBNAME
+    dbName: String = DBNAME,
 ) : SQLiteOpenHelper(context, dbName, null, 1) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(SQL_CREATE_STONES)

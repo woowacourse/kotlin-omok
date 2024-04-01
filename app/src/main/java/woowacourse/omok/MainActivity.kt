@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView

@@ -9,9 +9,8 @@ import omok.model.entity.StoneColor
 
 class StoneDao(
     context: Context,
-    private val dbHelper: OmokDbHelper = OmokDbHelper(context)
+    private val dbHelper: OmokDbHelper = OmokDbHelper(context),
 ) {
-
     fun save(stone: Stone) {
         val db = dbHelper.writableDatabase
         db.insert(
