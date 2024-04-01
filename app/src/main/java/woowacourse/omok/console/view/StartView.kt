@@ -1,4 +1,4 @@
-package woowacourse.omok.view
+package woowacourse.omok.console.view
 
 class StartView {
     fun print() {

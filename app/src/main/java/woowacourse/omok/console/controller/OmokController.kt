@@ -1,16 +1,16 @@
-package woowacourse.omok.controller
+package woowacourse.omok.console.controller
 
+import woowacourse.omok.console.utils.retryUntilNotException
+import woowacourse.omok.console.view.ProgressView
+import woowacourse.omok.console.view.ResultView
+import woowacourse.omok.console.view.StartView
+import woowacourse.omok.console.view.StonePositionView
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.game.FinishAction
 import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.game.OmokGame
 import woowacourse.omok.model.game.OmokPlayers
-import woowacourse.omok.utils.retryUntilNotException
-import woowacourse.omok.view.ProgressView
-import woowacourse.omok.view.ResultView
-import woowacourse.omok.view.StartView
-import woowacourse.omok.view.StonePositionView
 
 class OmokController(
     private val stonePositionView: StonePositionView,
