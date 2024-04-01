@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "kotlin-omok"
+rootProject.name = "kotlin-game"
 include(":app")
