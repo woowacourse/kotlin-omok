@@ -20,17 +20,4 @@ class BoardTest {
 
         assertThat(board.getBoardPoint(Point(3, 8)) == StoneType.BLACK).isTrue
     }
-
-    @Test
-    fun `보드는 이전 차례에서 둔 돌의 위치를 알고있다`() {
-        board.putStone(
-            Point(0, 0),
-            BlackTurn(),
-            ruleAdapter,
-        )
-
-        val actual = board.beforePoint
-
-        assertThat(actual).isEqualTo(Point(0, 0))
-    }
 }

@@ -19,9 +19,12 @@ class Controller {
         OutputView.printBoard(board)
         val ruleAdapter = RuleAdapter(board)
         var turn: Turn = BlackTurn()
+        var beforePoint: Point? = null
         while (turn !is FinishedTurn) {
-            OutputView.printTurn(turn, board.beforePoint)
-            turn = board.putStone(inputPoint(board, turn), turn, ruleAdapter)
+            OutputView.printTurn(turn, beforePoint)
+            val point = inputPoint(board, turn)
+            turn = board.putStone(point, turn, ruleAdapter)
+            beforePoint = point
             OutputView.printBoard(board)
         }
         OutputView.printWinner(turn)
@@ -35,7 +38,6 @@ class Controller {
             return InputView.readPoint(board)
         }.onFailure {
             OutputView.printInvalidPointInputMessage()
-            OutputView.printTurn(turn, board.beforePoint)
         }
         return inputPoint(board, turn)
     }

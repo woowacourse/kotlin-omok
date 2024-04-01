@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private var ruleAdapter: RuleAdapter = RuleAdapter(board)
     private var turn: Turn = BlackTurn()
     private var onGame: Boolean = true
+    private var beforePoint: Point? = null
     private var toast: Toast? = null
     private val omokDao: OmokDao by lazy { OmokDao(this) }
     private val tableLayoutBoard: List<ImageView> by lazy {
@@ -90,19 +91,20 @@ class MainActivity : AppCompatActivity() {
     private fun setUpBoardUi() {
         val stones = omokDao.findAllStones()
         stones.withIndex().forEach { (index, stone) ->
-            turn = board.putStone(Point(stone.pointX, stone.pointY), turn, ruleAdapter)
+            val point = Point(stone.pointX, stone.pointY)
+            turn = board.putStone(point, turn, ruleAdapter)
+            beforePoint = point
             val coordinate = (BOARD_SIZE - stone.pointY - 1) * BOARD_SIZE + stone.pointX
             tableLayoutBoard[coordinate].setImageResource(getStoneImage(getStoneTypeByIndex(index)))
         }
     }
 
     private fun setUpGameState() {
-        val beforeStone = board.beforePoint
-        if (beforeStone != null) {
-            onGame = !ruleAdapter.checkWin(beforeStone, turn.stoneType)
+        if (beforePoint != null) {
+            onGame = !ruleAdapter.checkWin(beforePoint!!, turn.stoneType)
         }
         if (onGame) {
-            displayMessage(MESSAGE_GAME_START + MESSAGE_TURN.format(generateStoneTypeMessage(turn.stoneType)))
+            displayMessage(generateTurnMessage(turn, beforePoint))
         } else {
             displayMessage(MESSAGE_GAME_END)
         }
@@ -113,6 +115,7 @@ class MainActivity : AppCompatActivity() {
         ruleAdapter = RuleAdapter(board)
         turn = BlackTurn()
         onGame = true
+        beforePoint = null
         tableLayoutBoard.forEach { it.setImageResource(0) }
         omokDao.deleteAllStones()
         displayMessage(MESSAGE_GAME_START + MESSAGE_TURN.format(STONE_TYPE_BLACK))
@@ -123,7 +126,8 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
     ) {
         val nextTurn = board.putStone(point, turn, ruleAdapter)
-        displayMessage(generateTurnMessage(nextTurn, board.beforePoint))
+        beforePoint = point
+        displayMessage(generateTurnMessage(nextTurn, beforePoint))
         if (turn != nextTurn) {
             view.setImageResource(getStoneImage(turn.stoneType))
             omokDao.insertStone(StoneEntity(point.x, point.y))
