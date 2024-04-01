@@ -8,11 +8,11 @@ import woowacourse.omok.model.state.White
 class Board(
     private val placementInfo: PlacementInfo = PlacementInfo(),
 ) {
-    val status: List<List<Color?>>
-        get() = placementInfo.status.map { it.toList() }.toList()
+    val boardPlacement: List<Row>
+        get() = placementInfo.status.map { Row(it.toList()) }.toList()
 
     private val placementCount: Int
-        get() = status.flatten().count { it != null }
+        get() = boardPlacement.flatMap { it.placementData }.count { it != null }
 
     var lastPlacement: Stone? = null
         private set
@@ -23,7 +23,7 @@ class Board(
     fun place(position: Position): GameState {
         if (position.horizontalCoordinate !in MIN_INDEX..MAX_INDEX) return GameState.Error(message = MESSAGE_WRONG_ROW_RANGE)
         if (position.verticalCoordinate !in MIN_INDEX..MAX_INDEX) return GameState.Error(message = MESSAGE_WRONG_COL_RANGE)
-        if (status[COMPUTATION_BOARD_SIZE - position.horizontalCoordinate][position.verticalCoordinate] != null) {
+        if (boardPlacement[COMPUTATION_BOARD_SIZE - position.horizontalCoordinate].placementData[position.verticalCoordinate] != null) {
             return GameState.Error(
                 message = MESSAGE_DUPLICATED_POSITION,
             )

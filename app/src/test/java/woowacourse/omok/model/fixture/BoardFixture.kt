@@ -7,7 +7,7 @@ import woowacourse.omok.model.Position
 fun createPlayingBoard(vararg positions: Position): Array<Array<Color?>> {
     return Board()
         .apply { positions.forEach { place(it) } }
-        .status
-        .map { it.toTypedArray() }
+        .boardPlacement
+        .map { it.placementData.toTypedArray() }
         .toTypedArray()
 }
