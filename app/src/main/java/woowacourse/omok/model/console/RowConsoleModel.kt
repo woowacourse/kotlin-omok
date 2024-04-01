@@ -51,8 +51,8 @@ class RowConsoleModel(
             row: Set<BlockConsoleModel>,
         ): List<String> {
             val newRow = createEmptyRow(rowNumber, size).toMutableList()
-            row.forEach { (x, y, color) ->
-                newRow[weight(y)] = color.symbol
+            row.forEach { (x, y, state) ->
+                if (state !== BlockStateConsoleModel.EMPTY) newRow[weight(y)] = state.symbol
             }
             return newRow
         }
