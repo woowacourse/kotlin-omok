@@ -49,25 +49,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun processPlayerMove(rowIndex: Int, columIndex: Int) {
-        val forbiddenPositions = omok.renjuGameRule.findForbiddenPositions(omok.currentStone)
-        if (omok.board.isRunning()) {
-            if (requestPlayerMove(
-                    omok.currentStone,
-                    CoordsNumber(rowIndex),
-                    CoordsNumber(columIndex),
-                    forbiddenPositions
-                )
-            ) {
-                updateUI()
+    private fun processPlayerMove(rowIndex: Int, columnIndex: Int) {
+        if (omok.processPlayerMove(rowIndex, columnIndex)) {
+            updateUI()
+            if (omok.board.isStop()) {
+                Toast.makeText(this, "Winner: ${omok.currentStone}", Toast.LENGTH_SHORT).show()
             }
-        }
-        if (omok.board.isStop()) {
-            Toast.makeText(this, "우승자는 ${omok.currentStone}", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Invalid move.", Toast.LENGTH_SHORT).show()
         }
         gameDao.saveGame(omok.board.gameBoard)
         gameDao.saveCurrentStone(omok.currentStone.ordinal)
     }
+
 
     fun resetBoard() {
         omok.resetGame()

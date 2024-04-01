@@ -2,6 +2,7 @@ package woowacourse.omok.model.omokGame
 
 import GameRuleAdapter
 import woowacourse.omok.database.GameDao
+import woowacourse.omok.model.board.CoordsNumber
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.omokGame.Board.Companion.BOARD_SIZE
@@ -21,6 +22,28 @@ class OmokGame(private val listener: GameEventListener) {
         if (loadedStoneType != -1) {
             this.currentStone = Stone.entries.toTypedArray()[loadedStoneType]
         }
+    }
+
+    fun processPlayerMove(columnIndex: Int, rowIndex: Int): Boolean {
+        if (!board.isRunning()) return false
+        val position = Position(CoordsNumber(columnIndex), CoordsNumber(rowIndex))
+        val forbiddenPositions = renjuGameRule.findForbiddenPositions(currentStone)
+        if (board.isMoveForbidden(
+                CoordsNumber(columnIndex),
+                CoordsNumber(rowIndex),
+                forbiddenPositions,
+            )
+        ) {
+            return false
+        }
+        if (board.isNotEmpty(CoordsNumber(columnIndex), CoordsNumber(rowIndex))) {
+            return false
+        }
+        placeStone(position, currentStone)
+        if (board.isStop()) {
+            return true
+        }
+        return true
     }
 
     fun resetGame() {
