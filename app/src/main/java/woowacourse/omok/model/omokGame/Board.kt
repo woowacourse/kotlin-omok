@@ -15,6 +15,7 @@ class Board(var gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
     var omokGameState = OmokGameState.RUNNING
 
     fun isRunning() = omokGameState == OmokGameState.RUNNING
+    fun isStop() = omokGameState == OmokGameState.STOP
 
     fun setStone(
         x: CoordsNumber,

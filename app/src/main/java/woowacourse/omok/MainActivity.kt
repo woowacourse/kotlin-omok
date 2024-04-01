@@ -62,6 +62,9 @@ class MainActivity : AppCompatActivity() {
                 updateUI()
             }
         }
+        if (omok.board.isStop()) {
+            Toast.makeText(this, "우승자는 ${omok.currentStone}", Toast.LENGTH_SHORT).show()
+        }
         gameDao.saveGame(omok.board.gameBoard)
         gameDao.saveCurrentStone(omok.currentStone.ordinal)
     }
