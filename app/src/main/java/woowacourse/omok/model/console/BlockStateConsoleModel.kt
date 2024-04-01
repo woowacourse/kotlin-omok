@@ -1,6 +1,6 @@
-package woowacourse.omok.model
+package woowacourse.omok.model.console
 
-enum class BlockStateUiModel(val symbol: String = "") {
+enum class BlockStateConsoleModel(val symbol: String = "") {
     BLACK("●"),
 
     WHITE("○"),

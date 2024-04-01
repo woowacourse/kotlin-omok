@@ -1,19 +1,19 @@
 package woowacourse.omok.view
 
-import omock.model.board.Block
 import omock.model.board.OmokBoard
+import woowacourse.omok.model.android.BlockAndroidModel
 
-interface OmokGameView {
+interface OmokGameAndroidView {
     fun showGameStart(initialBoard: OmokBoard)
 
     fun showCurrentGameState(
         board: OmokBoard,
-        stone: Block,
+        block: BlockAndroidModel,
     )
 
     fun showGameResult(
         board: OmokBoard,
-        stone: Block,
+        block: BlockAndroidModel,
     )
 
     fun showPlaceError(errorMessage: String)

@@ -1,14 +1,14 @@
-package woowacourse.omok.model
+package woowacourse.omok.model.console
 
-data class BoardUiModel(
+data class BoardConsoleModel(
     private val size: Int,
-    private val box: List<RowUiModel>,
+    private val box: List<RowConsoleModel>,
 ) {
     constructor(size: Int) : this(size, createEmptyBox(size))
-    constructor(box: List<Set<BlockUiModel>>) : this(
+    constructor(box: List<Set<BlockConsoleModel>>) : this(
         box.size,
         box.mapIndexed { i, set ->
-            RowUiModel(
+            RowConsoleModel(
                 rowNumber = box.size - i,
                 size = box.size,
                 row = set,
@@ -29,8 +29,8 @@ data class BoardUiModel(
         private val ALPHABET = ('A'..'Z').toList()
         private const val WHITE_SPACE = "   "
 
-        fun createEmptyBox(size: Int): List<RowUiModel> {
-            return List(size) { RowUiModel(it, size) }
+        fun createEmptyBox(size: Int): List<RowConsoleModel> {
+            return List(size) { RowConsoleModel(it, size) }
         }
     }
 }

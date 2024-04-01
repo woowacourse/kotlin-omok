@@ -1,6 +1,6 @@
-package woowacourse.omok.model
+package woowacourse.omok.model.console
 
-data class PositionUiModel(
+data class PositionConsoleModel(
     val x: Int,
     val y: Int,
 ) {

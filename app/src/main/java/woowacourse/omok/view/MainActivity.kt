@@ -23,11 +23,13 @@ import woowacourse.omok.common_ui.showToast
 import woowacourse.omok.data.OmokRepository
 import woowacourse.omok.db.GameRecordDao
 import woowacourse.omok.db.OmokSQLiteHelper
-import woowacourse.omok.model.BlockStateUiModel
+import woowacourse.omok.model.android.BlockAndroidModel
+import woowacourse.omok.model.console.BlockStateConsoleModel
 import woowacourse.omok.presenter.OmokGamePresenter
-import woowacourse.omok.presenter.toUiModel
+import woowacourse.omok.presenter.toAndroid
+import woowacourse.omok.presenter.toConsole
 
-class MainActivity : AppCompatActivity(), OmokGameView, PlaceErrorHandler {
+class MainActivity : AppCompatActivity(), OmokGameAndroidView, PlaceErrorHandler {
     private lateinit var boardView: List<List<ImageView>>
     private val helper: OmokSQLiteHelper = OmokSQLiteHelper(this)
     private lateinit var presenter: OmokGamePresenter
@@ -39,47 +41,44 @@ class MainActivity : AppCompatActivity(), OmokGameView, PlaceErrorHandler {
         presenter =
             OmokGamePresenter(
                 view = this,
-                consoleView = ConsoleOmokGameView(),
+                consoleView = OmokGameConsoleView(),
                 repository = OmokRepository(GameRecordDao(helper)),
                 errorHandler = this,
             )
-        initBoardClickListener()
         initResetButton()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        helper.close()
+    override fun onStop() {
+        super.onStop()
+        presenter.saveGame()
     }
 
     override fun showGameStart(initialBoard: OmokBoard) {
         initBoardClickListener()
         initialBoard.blockRecords
             .blocks
-            .map(Block::toUiModel)
+            .map(Block::toAndroid)
             .forEach { blockUiModel ->
-                val (x, y, stoneColor) = blockUiModel
-                boardView[x][y].setImageResource(stoneColor.resource())
+                val (x, y, state) = blockUiModel
+                boardView[x][y].setImageResource(state.res)
             }
     }
 
     override fun showCurrentGameState(
         board: OmokBoard,
-        stone: Block,
+        block: BlockAndroidModel,
     ) {
-        val block = stone.toUiModel()
-        val state = block.blockState
-        val (x, y) = stone.position
-        val imageView = boardView[x - 1][y - 1]
-        imageView.setImageResource(state.resource())
+        val (x, y, state) = block
+        val imageView = boardView[x][y]
+        imageView.setImageResource(state.res)
     }
 
     override fun showGameResult(
         board: OmokBoard,
-        stone: Block,
+        block: BlockAndroidModel,
     ) {
-        val boardState = stone.toUiModel().blockState
-        findViewById<TextView>(R.id.tv_winner).text = "$boardState 승리!!"
+        val boardState = block.blockState
+        findViewById<TextView>(R.id.tv_winner).text = "${boardState.format()} 승리!!"
         boardView.forEach { row ->
             row.forEach { imageView ->
                 imageView.setOnClickListener(null)
@@ -130,14 +129,6 @@ class MainActivity : AppCompatActivity(), OmokGameView, PlaceErrorHandler {
 
     private fun initResetButton() {
         findViewById<Button>(R.id.button_reset).setOnClickListener { presenter.resetGame() }
-    }
-
-    private fun BlockStateUiModel.resource(): Int {
-        return when (this) {
-            BlockStateUiModel.BLACK -> R.drawable.black_stone
-            BlockStateUiModel.WHITE -> R.drawable.white_stone
-            BlockStateUiModel.EMPTY -> INITIAL_RESOURCE
-        }
     }
 
     companion object {

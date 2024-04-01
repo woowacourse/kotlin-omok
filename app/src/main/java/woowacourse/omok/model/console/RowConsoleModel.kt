@@ -1,12 +1,12 @@
-package woowacourse.omok.model
+package woowacourse.omok.model.console
 
-class RowUiModel(
+class RowConsoleModel(
     private val rowNumber: Int,
     private val row: List<String>,
 ) {
     constructor(rowNumber: Int, size: Int) : this(rowNumber, createEmptyRow(rowNumber, size))
 
-    constructor(rowNumber: Int, size: Int, row: Set<BlockUiModel>) : this(
+    constructor(rowNumber: Int, size: Int, row: Set<BlockConsoleModel>) : this(
         rowNumber,
         createRow(rowNumber, size, row)
     )
@@ -49,7 +49,7 @@ class RowUiModel(
         private fun createRow(
             rowNumber: Int,
             size: Int,
-            row: Set<BlockUiModel>,
+            row: Set<BlockConsoleModel>,
         ): List<String> {
             val newRow = createEmptyRow(rowNumber, size).toMutableList()
             row.forEach { (x, y, color) ->
