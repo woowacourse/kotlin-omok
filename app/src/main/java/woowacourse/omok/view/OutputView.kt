@@ -21,10 +21,10 @@ object OutputView {
     private const val SINGLE_DIGIT: Int = 9
     private var boardLines = mutableListOf<String>()
 
-    fun printStart() {
+    fun printStart(stones: Stones) {
         initializeBoard()
         println(MESSAGE_START)
-        println(boardLines.joinToString("\n"))
+        printBoard(stones)
     }
 
     private fun initializeBoard() {
