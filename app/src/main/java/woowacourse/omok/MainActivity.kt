@@ -37,12 +37,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initializeViews()
-        setupGame()
         setupOmokGame()
         playOmokGame()
         setupResetButton()
-        setupBoardClickListeners()
     }
 
     private fun setupOmokGame() {
@@ -159,6 +156,15 @@ class MainActivity : AppCompatActivity() {
         updateText("${currentPlayer.color}플레이어가 착수 했습니다.\n 마지막 돌의 위치: (${coordinate.x.value},${coordinate.y.value})")
         currentPlayer = players[(currentPlayerIndex + 1) % players.size]
         currentPlayerIndex++
+    }
+
+    private fun setupResetButton() {
+        val resetButton = findViewById<Button>(R.id.reset_button)
+        resetButton.setOnClickListener {
+            resetBoard()
+            omokDao.resetAll()
+            setupOmokGame()
+        }
     }
 
     private fun resetBoard() {
