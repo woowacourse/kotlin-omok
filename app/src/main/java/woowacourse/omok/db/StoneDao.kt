@@ -56,13 +56,6 @@ class StoneDao(
 
     fun findAll(): Set<Stone> {
         val db = dbHelper.writableDatabase
-        val projection =
-            arrayOf(
-                BaseColumns._ID,
-                StoneContract.StoneEntry.COLUMN_NAME_X,
-                StoneContract.StoneEntry.COLUMN_NAME_Y,
-                StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR,
-            )
         val cursor =
             db.query(
                 StoneContract.StoneEntry.TABLE_NAME,
