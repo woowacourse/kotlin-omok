@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         ) {
             view.setImageResource(R.drawable.x_mark)
         } else {
-            val stone = omok.board.gameBoard[columnIndex][rowIndex]
+            val stone = omok.getStoneAt(rowIndex, columnIndex)
             val resId = when (stone) {
                 Stone.BLACK -> R.drawable.black_stone
                 Stone.WHITE -> R.drawable.white_stone

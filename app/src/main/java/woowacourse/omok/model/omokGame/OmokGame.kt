@@ -66,7 +66,11 @@ class OmokGame(private val listener: GameEventListener) {
         listener.onGameEnd(winner)
     }
 
-    fun placeStone(
+    fun getStoneAt(rowIndex: Int, columnIndex: Int): Stone {
+        return board.gameBoard[columnIndex][rowIndex]
+    }
+
+    private fun placeStone(
         position: Position,
         currentStone: Stone,
     ) {
