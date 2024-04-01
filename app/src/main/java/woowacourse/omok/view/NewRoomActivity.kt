@@ -11,35 +11,51 @@ import woowacourse.omok.model.database.GameRoomDao
 import woowacourse.omok.model.database.Room
 
 class NewRoomActivity : AppCompatActivity() {
+    private lateinit var startButton: Button
+    private lateinit var gameNameInput: EditText
+    private lateinit var gameRoomDao: GameRoomDao
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_room)
 
-        val gameRoomDao = GameRoomDao(this)
-        val startButton = findViewById<Button>(R.id.btn_start)
-        val gameNameInput =
+        gameRoomDao = GameRoomDao(this)
+        initializeGameNameInput()
+        initializeStartButton()
+    }
+
+    private fun initializeGameNameInput() {
+        gameNameInput =
             findViewById<EditText>(R.id.et_new_game).apply {
                 addTextChangedListener(
                     onTextChanged = { currentText, _, _, _ ->
-                        startButton.isClickable = currentText?.length in 1..30
+                        startButton.isClickable = currentText?.length in RANGE_ROOM_NAME_LENGTH
                     },
                 )
             }
+    }
 
+    private fun initializeStartButton() {
+        startButton = findViewById(R.id.btn_start)
         startButton.setOnClickListener {
             val roomInfo = Room(title = gameNameInput.text.toString())
             val generationResult = gameRoomDao.save(roomInfo)
-            Intent(this, OmokGameActivity::class.java).also {
-                it.putExtra(GAME_ID, generationResult.id)
-                it.putExtra(GAME_TITLE, generationResult.title)
-                startActivity(it)
-                finish()
-            }
+            val intent = generateGameStartIntent(generationResult)
+            startActivity(intent)
+            finish()
+        }
+    }
+
+    private fun generateGameStartIntent(generationResult: Room): Intent {
+        return Intent(this, OmokGameActivity::class.java).apply {
+            putExtra(GAME_TITLE, generationResult.title)
+            putExtra(GAME_ID, generationResult.id)
         }
     }
 
     companion object {
         private const val GAME_ID = "game_id"
         private const val GAME_TITLE = "game_title"
+        private val RANGE_ROOM_NAME_LENGTH = 1..30
     }
 }
