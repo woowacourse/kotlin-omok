@@ -6,20 +6,17 @@ class RowUiModel(
 ) {
     constructor(rowNumber: Int, size: Int) : this(rowNumber, createEmptyRow(rowNumber, size))
 
-    constructor(rowNumber: Int, size: Int, row: Set<BlockUiModel>) : this(rowNumber, createRow(rowNumber, size, row))
-
-    operator fun plus(stone: BlockUiModel): RowUiModel {
-        val newRow = row.toMutableList()
-        val (x, _, color) = stone
-        newRow[weight(x)] = color.symbol
-        return RowUiModel(rowNumber, newRow)
-    }
+    constructor(rowNumber: Int, size: Int, row: Set<BlockUiModel>) : this(
+        rowNumber,
+        createRow(rowNumber, size, row)
+    )
 
     override fun toString(): String {
         return row.joinToString(prefix = formatOrder(rowNumber), separator = "")
     }
 
-    private fun formatOrder(order: Int): String = if (order < FORMAT_ORDER_CONDITION) " $order " else "$order "
+    private fun formatOrder(order: Int): String =
+        if (order < FORMAT_ORDER_CONDITION) " $order " else "$order "
 
     companion object {
         private const val FORMAT_ORDER_CONDITION = 10

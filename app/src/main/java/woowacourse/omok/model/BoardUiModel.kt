@@ -16,14 +16,6 @@ data class BoardUiModel(
         },
     )
 
-    operator fun plus(stone: BlockUiModel): BoardUiModel {
-        val newBox =
-            box.mapIndexed { index, rowUiModel ->
-                if (index == stone.x) rowUiModel + stone else rowUiModel
-            }
-        return BoardUiModel(size, newBox)
-    }
-
     private fun alphabets(size: Int): String = WHITE_SPACE + ALPHABET.take(size).joinToString("  ")
 
     override fun toString(): String {
