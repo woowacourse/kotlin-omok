@@ -9,7 +9,7 @@ class RowTest {
     @Test
     fun `comma의 범위는 1~ 15의 정수이다`() {
         val row = Row("1")
-        assertThat(row.comma).isEqualTo("1")
+        assertThat(row.coordinate).isEqualTo("1")
     }
 
     @Test

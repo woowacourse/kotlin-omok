@@ -10,7 +10,7 @@ data class Stone(
     private val column: Column,
 ) {
     override fun toString(): String {
-        return LAST_STONE_LOCATION_MESSAGE.format(column.comma, row.comma)
+        return LAST_STONE_LOCATION_MESSAGE.format(column.coordinate, row.coordinate)
     }
 
     fun getRowIndex(): Int {
@@ -22,7 +22,7 @@ data class Stone(
     }
 
     fun getRowComma(): String {
-        return row.comma
+        return row.coordinate
     }
 
     fun getBoardRowIndex(): Int {
@@ -30,7 +30,7 @@ data class Stone(
     }
 
     fun getColumnComma(): String {
-        return column.comma
+        return column.coordinate
     }
 
     companion object {
@@ -53,7 +53,7 @@ data class Stone(
         ): GameState.LoadStone {
             return when (
                 val stone =
-                    stones.find { it.row.comma == row.comma && it.column.comma == column.comma }
+                    stones.find { it.row.coordinate == row.coordinate && it.column.coordinate == column.coordinate }
             ) {
                 null -> GameState.LoadStone.Failure(IllegalArgumentException(ERROR_NOT_STONE))
                 else -> GameState.LoadStone.Success(stone)

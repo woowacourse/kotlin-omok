@@ -9,7 +9,7 @@ class ColumnTest {
     @Test
     fun `comma의 범위는 A ~ O이다`() {
         val row = Column("A")
-        assertThat(row.comma).isEqualTo("A")
+        assertThat(row.coordinate).isEqualTo("A")
     }
 
     @Test

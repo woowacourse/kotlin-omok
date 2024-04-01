@@ -1,15 +1,15 @@
 package woowacourse.omok.model.position
 
 @JvmInline
-value class Column(val comma: String) {
+value class Column(val coordinate: String) {
     init {
-        require(comma in COLUM_RANGE) {
+        require(coordinate in COLUM_RANGE) {
             ERROR_COLUMN_RANGE
         }
     }
 
     fun getIndex(): Int {
-        return comma[0].code - MIN_COLUMN.code
+        return coordinate[0].code - MIN_COLUMN.code
     }
 
     companion object {

@@ -1,22 +1,22 @@
 package woowacourse.omok.model.position
 
 @JvmInline
-value class Row(val comma: String) {
+value class Row(val coordinate: String) {
     init {
-        require(comma.toIntOrNull() != null) {
+        require(coordinate.toIntOrNull() != null) {
             ERROR_ROW_TYPE
         }
-        require(comma in ROW_RANGE) {
+        require(coordinate in ROW_RANGE) {
             ERROR_ROW_RANGE
         }
     }
 
     fun getIndex(): Int {
-        return comma.toInt() - MIN_ROW
+        return coordinate.toInt() - MIN_ROW
     }
 
     fun toBoardIndex(): Int {
-        return MIN_ROW + MAX_ROW - comma.toInt()
+        return MIN_ROW + MAX_ROW - coordinate.toInt()
     }
 
     companion object {
