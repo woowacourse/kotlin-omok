@@ -78,6 +78,10 @@ class OmokController(
         }
     }
 
+    fun getStoneOrder(): Int {
+        return board.getLastStoneOrder()
+    }
+
     fun restartGame() {
         board.resetBoard()
         gameEnded = false
