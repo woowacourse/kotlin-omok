@@ -4,9 +4,15 @@ class OmokGame(
     val board: Board,
 ) {
     private var isRunning = true
+    private val players = listOf(Player(Color.BLACK), Player(Color.WHITE))
 
     fun isRunning(): Boolean {
         return isRunning
+    }
+
+    fun getCurrentPlayer(): Player {
+        val currentPlayerIndex = board.stones.stones.size
+        return players[currentPlayerIndex % players.size]
     }
 
     private fun checkWin(player: Player) {
