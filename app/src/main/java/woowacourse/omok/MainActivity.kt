@@ -17,25 +17,26 @@ import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.game.OmokGame
 import woowacourse.omok.model.game.OmokPlayers
 import woowacourse.omok.model.game.PlaceType
+import woowacourse.omok.model.game.TurnHistory
 import woowacourse.omok.ui.message
 import woowacourse.omok.ui.stoneImage
 
 class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), FinishAction {
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private val omokDao: OmokDao by lazy { OmokDaoImpl(this) }
     private lateinit var omokGame: OmokGame
     private var isFinish = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val omokDao = OmokDaoImpl(this)
-        initializeUI(omokDao)
+        initializeUI()
     }
 
-    private fun initializeUI(omokDao: OmokDao) {
+    private fun initializeUI() {
         val omokEntities = omokDao.findAll()
         val board = OmokEntityAdapter.Board(boardSize, omokEntities)
-        OmokGame(board, OmokPlayers(), this, omokDao)
+        omokGame = OmokGame(board, this, TurnHistory(OmokPlayers(), omokDao.findLast()))
         setResultText()
 
         stoneImageView { index, view ->
@@ -91,6 +92,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
             showToast(resources.getString(R.string.cannot_place_position))
             return
         }
+        omokDao.save(OmokEntityAdapter.OmokEntity(position, placeType.stone))
         stoneImageView.setImageResource(placeType.stone.stoneImage())
         setResultText()
     }
@@ -102,6 +104,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
     private fun restartGame() {
         isFinish = false
         omokGame.restart()
+        omokDao.drop()
         stoneImageView { _, view -> view.setImageResource(0) }
         setResultText()
     }
