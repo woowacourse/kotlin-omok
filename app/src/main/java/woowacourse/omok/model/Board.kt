@@ -5,12 +5,13 @@ import woowacourse.omok.model.StoneState.OCCUPIED
 import woowacourse.omok.model.StoneState.OUTSIDE_THE_BOARD
 import woowacourse.omok.model.StoneState.PLACED
 
+@Suppress("ktlint:standard:no-trailing-spaces")
 class Board(val stones: Stones = Stones()) {
     private val rule = RuleAdapter(BOARD_SIZE)
     private val players = Player(Color.BLACK) to Player(Color.WHITE)
 
     fun getNextTurn(): Color {
-        return when (stones.getLastStoneColor()){
+        return when (stones.getLastStoneColor()) {
             null -> Color.BLACK
             Color.WHITE -> Color.BLACK
             Color.BLACK -> Color.WHITE
@@ -20,7 +21,7 @@ class Board(val stones: Stones = Stones()) {
     fun takeTurn(
         turn: Color,
         row: Int,
-        col: Int
+        col: Int,
     ): StoneState {
         val player = getPlayerFromTurn(turn)
         val stone = player.getStone(row, col)
@@ -78,6 +79,12 @@ class Board(val stones: Stones = Stones()) {
         } else {
             players.second.color
         }
+    }
+    
+    fun resetBoard() {
+        stones.clearStones()
+        players.first.resetWinState()
+        players.second.resetWinState()
     }
 
     companion object {

@@ -71,6 +71,11 @@ class OmokController(
         }
     }
 
+    fun restartGame() {
+        board.resetBoard()
+        gameEnded = false
+    }
+
     private fun displayWinner() {
         runCatching {
             OutputView.printWinner(board.getWinner())

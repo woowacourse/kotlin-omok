@@ -16,6 +16,10 @@ class Player(val color: Color) {
         isWin = true
     }
 
+    fun resetWinState() {
+        isWin = false
+    }
+
     fun checkOmok(
         stones: Stones,
         stone: Stone,
