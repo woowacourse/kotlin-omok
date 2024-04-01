@@ -29,10 +29,14 @@ class OmokController(gameEventListener: GameEventListener) {
         return board.getNextTurn()
     }
 
-    fun placeStoneAtPosition(row: Int, col: Int): Boolean {
-        val nextTurn = board.getNextTurn()
-        val state = board.takeTurn(nextTurn, row, col)
+    fun placeStoneAtPosition(
+        row: Int,
+        col: Int,
+    ): Boolean {
+        val thisTurn = board.getNextTurn()
+        val state = board.takeTurn(thisTurn, row, col)
         checkForbiddenMove(state)
+        val nextTurn = board.getNextTurn()
         val isGameEnd = checkGameFinished()
         showPresentBoardStatus(nextTurn, isGameEnd)
         return checkPlacementSuccess(state)
