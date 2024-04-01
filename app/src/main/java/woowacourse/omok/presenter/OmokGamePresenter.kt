@@ -26,7 +26,10 @@ class OmokGamePresenter(
         consoleView.showGameStart(board.toConsole())
     }
 
-    fun placeStone(x: Int, y: Int) {
+    fun placeStone(
+        x: Int,
+        y: Int,
+    ) {
         game.placeStone(Position(x, y))
             .onSuccess {
                 val (board, lastBlock) = game.lastGameResult()

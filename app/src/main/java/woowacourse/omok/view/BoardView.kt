@@ -10,10 +10,11 @@ class BoardView(tableLayout: TableLayout) {
     private var boardView: List<List<ImageView>>
 
     init {
-        boardView = tableLayout.children
-            .filterIsInstance<TableRow>()
-            .map { row -> row.children.filterIsInstance<ImageView>().toList() }
-            .toList()
+        boardView =
+            tableLayout.children
+                .filterIsInstance<TableRow>()
+                .map { row -> row.children.filterIsInstance<ImageView>().toList() }
+                .toList()
     }
 
     fun updateBlock(block: BlockAndroidModel) {
@@ -55,9 +56,11 @@ class BoardView(tableLayout: TableLayout) {
         }
     }
 
-
     fun interface BlockClickListener {
-        fun onClick(x: Int, y: Int)
+        fun onClick(
+            x: Int,
+            y: Int,
+        )
     }
 
     companion object {

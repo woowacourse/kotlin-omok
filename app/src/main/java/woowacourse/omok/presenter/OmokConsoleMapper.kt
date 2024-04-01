@@ -39,11 +39,12 @@ private fun List<Block>.toConsole(): Set<BlockConsoleModel> {
     }.toSet()
 }
 
-fun Failure.toConsoleErrorMessage(): String = when (this) {
-    InvalidGameOver -> "게임이 이미 종료되었습니다."
-    InvalidOverLineRule -> "장목 규칙을 위반하였습니다."
-    InvalidDuplicatedPlaced -> "이미 돌이 놓여진 자리입니다."
-    InvalidThreeThreeRule -> "33 규칙을 위반하였습니다."
-    InvalidFourFourRule -> "44 규칙을 위반하였습니다."
-    InvalidOutOfBound -> "바둑판을 벗어난 자리입니다."
-}
+fun Failure.toConsoleErrorMessage(): String =
+    when (this) {
+        InvalidGameOver -> "게임이 이미 종료되었습니다."
+        InvalidOverLineRule -> "장목 규칙을 위반하였습니다."
+        InvalidDuplicatedPlaced -> "이미 돌이 놓여진 자리입니다."
+        InvalidThreeThreeRule -> "33 규칙을 위반하였습니다."
+        InvalidFourFourRule -> "44 규칙을 위반하였습니다."
+        InvalidOutOfBound -> "바둑판을 벗어난 자리입니다."
+    }

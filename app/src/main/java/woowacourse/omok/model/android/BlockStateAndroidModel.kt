@@ -5,7 +5,9 @@ import woowacourse.omok.R
 
 private const val INITIAL_RESOURCE = 0
 
-enum class BlockStateAndroidModel(@DrawableRes val res: Int) {
+enum class BlockStateAndroidModel(
+    @DrawableRes val res: Int,
+) {
     BLACK_STONE(R.drawable.black_stone),
 
     WHITE_STONE(R.drawable.white_stone),

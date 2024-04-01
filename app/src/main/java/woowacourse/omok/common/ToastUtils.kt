@@ -1,4 +1,4 @@
-package woowacourse.omok.common_ui
+package woowacourse.omok.common
 
 import android.content.Context
 import android.widget.Toast

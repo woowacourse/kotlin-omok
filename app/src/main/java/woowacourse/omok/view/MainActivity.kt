@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import omock.model.board.OmokBoard
 import woowacourse.omok.R
-import woowacourse.omok.common_ui.showToast
+import woowacourse.omok.common.showToast
 import woowacourse.omok.data.OmokRepository
 import woowacourse.omok.db.GameRecordDao
 import woowacourse.omok.db.OmokSQLiteHelper

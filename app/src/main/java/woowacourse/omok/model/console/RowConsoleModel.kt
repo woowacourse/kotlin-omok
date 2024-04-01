@@ -8,15 +8,14 @@ class RowConsoleModel(
 
     constructor(rowNumber: Int, size: Int, row: Set<BlockConsoleModel>) : this(
         rowNumber,
-        createRow(rowNumber, size, row)
+        createRow(rowNumber, size, row),
     )
 
     override fun toString(): String {
         return row.joinToString(prefix = formatOrder(rowNumber), separator = "")
     }
 
-    private fun formatOrder(order: Int): String =
-        if (order < FORMAT_ORDER_CONDITION) " $order " else "$order "
+    private fun formatOrder(order: Int): String = if (order < FORMAT_ORDER_CONDITION) " $order " else "$order "
 
     companion object {
         private const val FORMAT_ORDER_CONDITION = 10
