@@ -8,14 +8,14 @@ class OmokGame(
         updateBoard: (Board) -> Unit,
         updateTurn: (Turn, Stone?) -> Unit,
         getPoint: () -> Point,
-    ): Result {
+    ): GameResult {
         val point = getPoint()
         val nextTurn = turn.putStone(point, board)
         if (turn != nextTurn) {
             updateBoard(board)
             turn = nextTurn
             updateTurn(turn, board.latestStone)
-            return Result.Success
+            return GameResult.Success
         }
         return turn.forbiddenResult
     }

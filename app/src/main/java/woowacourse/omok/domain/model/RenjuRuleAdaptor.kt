@@ -9,20 +9,20 @@ class RenjuRuleAdaptor(private val omokRules: List<OmokRule>) {
     fun isForbidden(
         board: Board,
         stone: Stone,
-    ): Result {
+    ): GameResult {
         val boardConverted = board.convert()
         val point = stone.point
         omokRules.forEach { omokRule ->
             if (!omokRule.isValidPosition(boardConverted, point.x, point.y)) return generateRuleResult(omokRule)
         }
-        return Result.Success
+        return GameResult.Success
     }
 
-    private fun generateRuleResult(rule: OmokRule): Result =
+    private fun generateRuleResult(rule: OmokRule): GameResult =
         when (rule) {
-            is ThreeThreeRule -> Result.ThreeThree
-            is FourFourRule -> Result.FourFour
-            is MoreThanFiveRule -> Result.MoreThanFive
+            is ThreeThreeRule -> GameResult.ThreeThree
+            is FourFourRule -> GameResult.FourFour
+            is MoreThanFiveRule -> GameResult.MoreThanFive
         }
 
     private fun Board.convert(): List<List<Int>> {

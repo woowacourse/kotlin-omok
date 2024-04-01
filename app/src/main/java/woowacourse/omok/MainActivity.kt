@@ -12,9 +12,9 @@ import woowacourse.omok.db.OmokDao
 import woowacourse.omok.domain.model.BlackTurn
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Board.Companion.BOARD_SIZE
+import woowacourse.omok.domain.model.GameResult
 import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Point
-import woowacourse.omok.domain.model.Result
 import woowacourse.omok.domain.model.StoneType
 import woowacourse.omok.domain.model.Turn
 import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_END
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                 },
                 getPoint = { Point(x, y) },
             )
-        if (gameResult != Result.Success) displayMessage(gameResult.message)
+        if (gameResult != GameResult.Success) displayMessage(gameResult.message)
     }
 
     private fun getStoneImage(stoneType: StoneType?): Int =

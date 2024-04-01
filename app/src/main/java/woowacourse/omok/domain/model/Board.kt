@@ -26,7 +26,7 @@ class Board(stones: List<Stone>? = null) {
         stones?.forEach { stone -> putStone(stone) }
     }
 
-    fun isForbidden(stone: Stone): Result {
+    fun isForbidden(stone: Stone): GameResult {
         return ruleAdaptor.isForbidden(this, stone)
     }
 
