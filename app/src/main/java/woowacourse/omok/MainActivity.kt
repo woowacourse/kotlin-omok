@@ -125,12 +125,12 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
         if (isFinish) OmokDaoImpl(this).drop()
     }
 
-    companion object {
-        private val TAG = MainActivity::class.simpleName
-    }
-
     override fun onFinish(finishType: FinishType) {
         isFinish = true
         setResultText(finishType)
+    }
+
+    companion object {
+        private val TAG = MainActivity::class.simpleName
     }
 }

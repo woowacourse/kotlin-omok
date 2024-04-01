@@ -8,7 +8,7 @@ import woowacourse.omok.model.player.Player
 
 class TurnHistory(
     private val omokPlayers: OmokPlayers,
-    lastOmokEntity: OmokEntity?,
+    lastOmokEntity: OmokEntity? = null,
 ) {
     var recentPlayer: Player = omokPlayers.firstOrderPlayer()
         private set

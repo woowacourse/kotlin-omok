@@ -11,6 +11,7 @@ import woowacourse.omok.model.game.FinishAction
 import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.game.OmokGame
 import woowacourse.omok.model.game.OmokPlayers
+import woowacourse.omok.model.game.TurnHistory
 
 class OmokController(
     private val stonePositionView: StonePositionView,
@@ -23,7 +24,7 @@ class OmokController(
 
     fun startGame() {
         val board = initializedBoard()
-        val omokGame = OmokGame(board, OmokPlayers(), this)
+        val omokGame = OmokGame(board, this, TurnHistory(OmokPlayers()))
         while (!isFinish) {
             progressView.printBoard(board)
             val position = nextStonePosition(omokGame)
