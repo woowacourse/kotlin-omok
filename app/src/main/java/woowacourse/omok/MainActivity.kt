@@ -1,26 +1,25 @@
 package woowacourse.omok
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import omok.model.Board
 import omok.model.OmokGameState
 import omok.model.entity.Point
 import omok.model.entity.Stone
 import omok.model.entity.StoneColor
-import omok.model.turn.BlackTurn
-import omok.model.turn.Turn
-import omok.model.turn.WhiteTurn
 import woowacourse.omok.db.StoneDao
 
 class MainActivity : AppCompatActivity() {
-    private val stoneDao by lazy{ StoneDao(applicationContext)}
+    private val stoneDao by lazy { StoneDao(applicationContext) }
     lateinit var omokGameState: OmokGameState
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,6 +42,12 @@ class MainActivity : AppCompatActivity() {
                 updateOmokImage(omokGameState, boardImageViewMap)
             }
         }
+        val resetButton = findViewById<Button>(R.id.reset_button)
+        resetButton.setOnClickListener {
+            resetOmokGameState()
+            resetOmokUI(boardImageViewMap)
+        }
+        updateOmokUI(omokGameState, boardImageViewMap)
     }
 
     private fun loadOmokGameState(): OmokGameState {
@@ -68,12 +73,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateOmokImage(
+    private fun resetOmokGameState() {
+        stoneDao.drop()
+        omokGameState = OmokGameState()
+    }
+
+    private fun updateOmokUI(
         omokGameState: OmokGameState,
         boardImageViewMap: Map<Point, ImageView>,
     ) {
         omokGameState.turn.board.stones.forEach {
             boardImageViewMap[it.point]?.setImageResource(it.stoneColor.toDrawableId())
+        }
+    }
+
+    private fun resetOmokUI(
+        boardImageViewMap: Map<Point, ImageView>,
+    ) {
+        boardImageViewMap.forEach{
+            it.value.setImageResource(0)
         }
     }
 
