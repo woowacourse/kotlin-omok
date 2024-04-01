@@ -30,20 +30,16 @@ class PlayerTest {
 
     @Test
     fun `플레이어는 자기 색깔의 돌을 반환한다`() {
-        fun inputCoordinate(): () -> Coordinate = { COORDINATE_A1 }
-
         player = Player(Color.BLACK)
-        val stone = player.getStone(inputCoordinate())
+        val stone = player.getStone(COORDINATE_A1.row.value, COORDINATE_A1.col.value)
 
         assertThat(player.color).isEqualTo(stone.color)
     }
 
     @Test
     fun `플레이어의 차례에 오목이 만들어지면 승리한다`() {
-        fun inputCoordinate(): () -> Coordinate = { COORDINATE_F8 }
-
         player = Player(Color.BLACK)
-        val stone = player.getStone(inputCoordinate())
+        val stone = player.getStone(COORDINATE_F8.row.value, COORDINATE_F8.col.value)
         board.putStone(stone)
         player.checkOmok(stones, stone)
 
