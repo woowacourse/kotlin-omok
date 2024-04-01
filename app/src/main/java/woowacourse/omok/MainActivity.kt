@@ -2,17 +2,15 @@ package woowacourse.omok
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import woowacourse.omok.data.OmokDao
 import woowacourse.omok.data.OmokDaoImpl
 import woowacourse.omok.data.adapter.OmokEntityAdapter
+import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.game.FinishAction
 import woowacourse.omok.model.game.FinishType
@@ -23,15 +21,13 @@ import woowacourse.omok.ui.message
 import woowacourse.omok.ui.stoneImage
 
 class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), FinishAction {
-    private val boardView by lazy { findViewById<TableLayout>(R.id.board) }
-    private val resultTextView by lazy { findViewById<TextView>(R.id.result_text) }
-    private val restartButton by lazy { findViewById<Button>(R.id.restart_button) }
+    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var omokGame: OmokGame
     private var isFinish = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
         val omokDao = OmokDaoImpl(this)
         initializeUI(omokDao)
     }
@@ -50,13 +46,13 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
             view.setImageResource(OmokEntityAdapter.stone(omokEntity).stoneImage())
         }
 
-        restartButton.setOnClickListener {
+        binding.restartButton.setOnClickListener {
             restartGame()
         }
     }
 
     private fun setResultText(finishType: FinishType = FinishType.NOT_FINISH) {
-        resultTextView.text =
+        binding.resultText.text =
             when (finishType) {
                 FinishType.DRAW -> resources.getString(R.string.result_draw)
                 FinishType.BLACK_PLAYER_WIN,
@@ -111,7 +107,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
     }
 
     private fun stoneImageView(block: (Int, ImageView) -> Unit) {
-        boardView
+        binding.board
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
