@@ -6,8 +6,6 @@ import woowacourse.omok.model.Board
 import woowacourse.omok.model.OmokStone
 import woowacourse.omok.model.Position
 import woowacourse.omok.model.StoneColor
-import woowacourse.omok.util.convertIndexToPosition
-import woowacourse.omok.util.convertPositionToIndex
 
 class OmokBoardView(val spaceViews: List<ImageView>) : OmokView {
     fun setupClickListener(onPlace: (Position) -> Unit) {
@@ -42,5 +40,17 @@ class OmokBoardView(val spaceViews: List<ImageView>) : OmokView {
             StoneColor.BLACK -> R.drawable.black_stone
             StoneColor.WHITE -> R.drawable.white_stone
         }
+    }
+
+    private fun convertIndexToPosition(index: Int): Position {
+        val x = index % 15 + 1
+        val y = (224 - index) / 15 + 1
+        return Position.of(x, y)
+    }
+
+    private fun convertPositionToIndex(position: Position): Int {
+        val x = position.x - 1
+        val y = 14 - (position.y - 1)
+        return y * 15 + x
     }
 }
