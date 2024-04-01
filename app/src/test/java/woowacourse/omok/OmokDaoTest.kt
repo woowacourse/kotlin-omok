@@ -12,7 +12,6 @@ import woowacourse.omok.data.OmokDAO
 
 @RunWith(AndroidJUnit4::class)
 class OmokDaoTest {
-
     private val applicationContext: Context by lazy { ApplicationProvider.getApplicationContext() }
     private lateinit var omokDAO: OmokDAO
 
@@ -64,5 +63,4 @@ class OmokDaoTest {
         val expected = listOf<Pair<Int, Int>>((1 to 1), (2 to 2))
         Assert.assertTrue(actual == expected)
     }
-
 }

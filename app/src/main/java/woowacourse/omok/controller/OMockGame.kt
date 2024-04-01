@@ -18,12 +18,12 @@ abstract class OMockGame(
     private val oMockRule: OMockRule =
         OMockRule(
             ruleTypes =
-            listOf(
-                ThreeToThreeCount,
-                FourToFourCount,
-                IsClearFourToFourCount,
-                IsReverseTwoAndThree,
-            ),
+                listOf(
+                    ThreeToThreeCount,
+                    FourToFourCount,
+                    IsClearFourToFourCount,
+                    IsReverseTwoAndThree,
+                ),
         ),
 ) {
     protected var board: Board = Board.from()
