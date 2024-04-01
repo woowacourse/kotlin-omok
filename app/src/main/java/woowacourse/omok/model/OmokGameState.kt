@@ -9,5 +9,12 @@ class OmokGameState(
 ) {
     fun run(point: Point): OmokGameState = OmokGameState(turn.nextTurn(point))
 
+    fun runMultiple(points: List<Point>): OmokGameState {
+        var acc: Turn = turn
+        points.forEach{ acc = acc.nextTurn(it) }
+        return OmokGameState(acc)
+    }
+
+
     fun isFinished() = turn.isWin() || turn.isDraw()
 }

@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         boardImageViewMap.forEach { entry ->
             entry.value.setOnClickListener {
                 updateOmokState(entry.key)
-                updateOmokImage(omokGameState, boardImageViewMap)
+                updateOmokUI(omokGameState, boardImageViewMap)
             }
         }
         val resetButton = findViewById<Button>(R.id.reset_button)
@@ -52,21 +52,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadOmokGameState(): OmokGameState {
         val stones = stoneDao.findAll()
-        if(stones.isEmpty()) return OmokGameState()
-        val board = Board(stones)
-        val latestStone = stones.first()
-        return if (latestStone.stoneColor == StoneColor.BLACK) {
-            OmokGameState(BlackTurn(board))
-        } else {
-            OmokGameState(WhiteTurn(board))
-        }
+        val points = stones.map { it.point }
+        return OmokGameState().runMultiple(points)
     }
 
     private fun updateOmokState(point: Point) {
         if (omokGameState.isFinished()) {
             return
         }
-        stoneDao.save(Stone(point,omokGameState.turn.color()))
+        stoneDao.save(Stone(point, omokGameState.turn.color()))
         omokGameState = omokGameState.run(point)
         if (omokGameState.isFinished()) {
             displayWinner(omokGameState)
