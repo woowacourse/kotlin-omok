@@ -7,7 +7,6 @@ import woowacourse.omok.db.OmokContract.DATABASE_NAME
 import woowacourse.omok.db.OmokContract.DATABASE_VERSION
 import woowacourse.omok.db.OmokContract.POINT_X
 import woowacourse.omok.db.OmokContract.POINT_Y
-import woowacourse.omok.db.OmokContract.STONE_TYPE
 import woowacourse.omok.db.OmokContract.TABLE_NAME
 
 class OmokDbHelper(context: Context) :
@@ -15,7 +14,6 @@ class OmokDbHelper(context: Context) :
     override fun onCreate(db: SQLiteDatabase) {
         val sql: String =
             "CREATE TABLE IF NOT EXISTS $TABLE_NAME (\n" +
-                "  $STONE_TYPE text,\n" +
                 "  $POINT_X int,\n" +
                 "  $POINT_Y int\n" +
                 ")"
