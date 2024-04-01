@@ -1,6 +1,7 @@
 package woowacourse.omok.model.omokGame
 
 import GameRuleAdapter
+import woowacourse.omok.database.GameDao
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.omokGame.Board.Companion.BOARD_SIZE
@@ -12,6 +13,15 @@ class OmokGame(private val listener: GameEventListener) {
         GameRuleAdapter().apply {
             setupBoard(board)
         }
+
+    fun loadGame(gameDao: GameDao) {
+        val loadedGameBoard = gameDao.loadGame()
+        this.board.gameBoard = loadedGameBoard
+        val loadedStoneType = gameDao.loadCurrentStone()
+        if (loadedStoneType != -1) {
+            this.currentStone = Stone.entries.toTypedArray()[loadedStoneType]
+        }
+    }
 
     fun resetGame() {
         for (i in 0 until BOARD_SIZE) {

@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         val board = findViewById<TableLayout>(R.id.board)
         dbHelper = DatabaseHelper(this)
         gameDao = GameDaoImpl(dbHelper)
-        omok.board.gameBoard = gameDao.loadGame()
+        omok.loadGame(gameDao)
         val loadedStoneType = gameDao.loadCurrentStone()
         if (loadedStoneType != -1) {
             omok.currentStone = Stone.entries.toTypedArray()[loadedStoneType]
