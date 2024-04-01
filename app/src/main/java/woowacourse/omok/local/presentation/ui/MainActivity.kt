@@ -1,31 +1,27 @@
 package woowacourse.omok.local.presentation.ui
 
-import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableRow
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import com.google.android.material.snackbar.Snackbar
 import omok.model.Board
 import omok.model.Coordinate
 import omok.model.PositionType
 import woowacourse.omok.R
 import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.local.db.StoneDaoImpl
+import woowacourse.omok.local.presentation.base.BaseActivity
 import woowacourse.omok.local.presentation.model.AppGameState
 import woowacourse.omok.local.presentation.model.StoneEntity
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var allImageViews: List<ImageView>
     private val board = Board()
     private var gameState: AppGameState = AppGameState.Running.BlackTurn(board)
     private val stoneDao = StoneDaoImpl(this)
     
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun initializeViewBinding() = ActivityMainBinding.inflate(layoutInflater)
+    
+    override fun setup() {
         initializeGameBoard()
         loadGameFromDatabase()
         setImageViewsClickListener()
@@ -97,11 +93,6 @@ class MainActivity : AppCompatActivity() {
     private fun saveStoneToDatabase(coordinate: Coordinate) {
         val stoneEntity = StoneEntity(0L, coordinate.x, coordinate.y)
         stoneDao.save(stoneEntity)
-    }
-
-    
-    private fun showSnackbar(message: String) {
-        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
     
     private fun Int.toCoordinate(): Coordinate = Coordinate(this / BOARD_SIZE, this % BOARD_SIZE)
