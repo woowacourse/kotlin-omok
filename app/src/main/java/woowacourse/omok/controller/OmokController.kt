@@ -39,7 +39,7 @@ class OmokController(gameEventListener: GameEventListener) {
         val nextTurn = board.getNextTurn()
         val isGameEnd = checkGameFinished()
         showPresentBoardStatus(nextTurn, isGameEnd)
-        return checkPlacementSuccess(state)
+        return state.checkPlacementSuccess()
     }
 
     private fun checkForbiddenMove(state: StoneState) {
@@ -68,16 +68,6 @@ class OmokController(gameEventListener: GameEventListener) {
         if (!isGameEnd) {
             OutputView.printTurnName(nextTurn)
             OutputView.printLastStone(board.stones.getLastStoneCoordinate())
-        }
-    }
-
-    private fun checkPlacementSuccess(stoneState: StoneState): Boolean {
-        return when (stoneState) {
-            StoneState.PLACED -> true
-            StoneState.FORBIDDEN -> false
-            StoneState.OCCUPIED -> false
-            StoneState.BEFORE_PLACED -> false
-            StoneState.OUTSIDE_THE_BOARD -> false
         }
     }
 
