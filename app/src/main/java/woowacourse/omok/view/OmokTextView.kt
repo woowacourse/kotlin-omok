@@ -43,7 +43,7 @@ class OmokTextView(private val textView: TextView) : OmokOutputView {
         textView.text = result
     }
 
-    override fun reset() {
+    override fun resetView() {
         textView.text = ""
     }
 }

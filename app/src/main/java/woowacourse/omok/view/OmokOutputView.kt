@@ -6,13 +6,12 @@ import woowacourse.omok.model.OmokStone
 interface OmokOutputView {
     fun showStartMessage()
 
-    fun showProgress(
-        board: Board,
-        stone: OmokStone?,
-    )
+    fun showProgress(stone: OmokStone?)
 
     fun showGameResult(
         board: Board,
         stone: OmokStone,
     )
+
+    fun resetView()
 }
