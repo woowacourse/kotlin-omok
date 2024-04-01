@@ -1,9 +1,9 @@
 package woowacourse.omok.db
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.content.ContentValues
 
 class GameDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
@@ -16,12 +16,15 @@ class GameDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
         onCreate(db)
     }
 
-    fun saveGameState(state: String) {
+    fun saveGameState(state: String): Boolean {
         val values = ContentValues().apply {
             put(COLUMN_STATE, state)
         }
-        writableDatabase.insert(TABLE_GAME_STATE, null, values)
+        val result = writableDatabase.insert(TABLE_GAME_STATE, null, values)
+
+        return result != -1L
     }
+
 
     fun clearGameState() {
         writableDatabase.delete(TABLE_GAME_STATE, null, null)

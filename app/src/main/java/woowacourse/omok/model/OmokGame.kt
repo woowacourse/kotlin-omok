@@ -12,8 +12,14 @@ import omok.model.White
 class OmokGame(
     private val rule: RenjuRule,
 ) {
-    private val gameBoard: Array<Array<OmokStone>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Empty() } }
+    private var gameBoard: Array<Array<OmokStone>> =
+        Array(BOARD_SIZE) { Array(BOARD_SIZE) { Empty() } }
     private val omokStones = mutableListOf<OmokStone>()
+    private var forbiddenPositions = emptyList<BoardPosition>()
+
+
+    fun getStoneTypeAtPosition(row: Int, col: Int) = gameBoard[row][col].getOmokStoneType()
+
     fun saveTo(): String {
         val stringBuilder = StringBuilder()
         for (row in gameBoard.indices) {
@@ -28,43 +34,50 @@ class OmokGame(
         return stringBuilder.toString()
     }
 
-    fun restoreFrom(savedState: String) {
-        // 초기 상태로 게임 보드를 리셋합니다.
-        for (row in gameBoard.indices) {
-            for (col in gameBoard[row].indices) {
-                gameBoard[row][col] = Empty()
-            }
-        }
-        omokStones.clear()
-
-        val stoneInfos = savedState.split(';')
+    fun restoreFrom(savedState: String): Boolean {
+        val stoneInfos = savedState.split(DELIMITER_INFO).filter { it.isNotEmpty() }
         for (info in stoneInfos) {
-            val parts = info.split(',')
-            if (parts.size == 3) {
-                val row = parts[0].toInt()
-                val col = parts[1].toInt()
-                val type = parts[2]
+            parseStoneInfo(info)?.let {
+                gameBoard[it.getRow()][it.getColumn()] = it
+                omokStones.add(it)
+            } ?: return false
+        }
+        updateForbiddenPositions()
+        return true
+    }
 
-                val position = BoardPosition(BoardCoordinate(row), BoardCoordinate(col))
-                val stone = when (type) {
-                    "B" -> Black(position)
-                    "W" -> White(position)
-                    else -> continue
-                }
-                gameBoard[row][col] = stone
-                omokStones.add(stone)
-            }
+    private fun parseStoneInfo(info: String): OmokStone? {
+        val parts = info.split(DELIMITER_PARTS)
+        if (parts.size != 3) return null
+
+        val row = parts[0].toIntOrNull() ?: return null
+        val col = parts[1].toIntOrNull() ?: return null
+        val type = parts[2]
+
+        val position = BoardPosition(BoardCoordinate(row), BoardCoordinate(col))
+        return when (type) {
+            STONE_TYPE_BLACK -> Black(position)
+            STONE_TYPE_WHITE -> White(position)
+            else -> null
         }
     }
 
+
+
     fun getBoard() = gameBoard
+
+    fun resetGame() {
+        gameBoard = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Empty() } }
+        omokStones.clear()
+    }
 
     fun getCurrentStone(): OmokStone? = omokStones.lastOrNull()
 
-    fun getForbiddenPositions(): List<BoardPosition> =
-        rule.findForbiddenMoves(gameBoard, getCurrentStone()).map {
+    fun updateForbiddenPositions() {
+        forbiddenPositions = rule.findForbiddenMoves(gameBoard, getCurrentStone()).map {
             BoardPosition(BoardCoordinate(it.first), BoardCoordinate(it.second))
         }
+    }
 
     fun isRunning(): Boolean {
         return !(rule.isGameOver(gameBoard, getCurrentStone()))
@@ -74,6 +87,7 @@ class OmokGame(
         if (!canSetStone(stone)) return false
         gameBoard[stone.getRow()][stone.getColumn()] = stone
         omokStones.add(stone)
+        updateForbiddenPositions()
         return true
     }
 
@@ -93,7 +107,7 @@ class OmokGame(
 
     private fun canSetStone(stone: OmokStone): Boolean {
         if (stone.boardPosition in omokStones.map { omokStone -> omokStone.boardPosition }) return false
-        if (stone.boardPosition in getForbiddenPositions()) return false
+        if (stone.boardPosition in forbiddenPositions) return false
         return true
     }
 
@@ -101,5 +115,10 @@ class OmokGame(
         const val BOARD_SIZE = 15
         const val MIN_COUNT_FOR_WIN = 5
         const val DIRECTION_HALF_COUNT = 4
+        const val DELIMITER_INFO = ";"
+        const val DELIMITER_PARTS = ","
+        const val STONE_TYPE_BLACK = "B"
+        const val STONE_TYPE_WHITE = "W"
+
     }
 }

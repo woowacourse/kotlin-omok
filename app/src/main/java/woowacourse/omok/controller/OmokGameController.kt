@@ -17,7 +17,6 @@ class OmokGameController {
 
     private fun playGame(omokGame: OmokGame) {
         while (omokGame.isRunning()) {
-            OutputView.printOmokGameBoard(omokGame.getBoard(), omokGame.getForbiddenPositions())
             val isPlacementSuccessful = placeStone(omokGame)
             if (!isPlacementSuccessful) {
                 OutputView.printInvalidPositionMessage()

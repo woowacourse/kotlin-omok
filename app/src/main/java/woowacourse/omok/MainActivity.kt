@@ -14,7 +14,6 @@ import omok.library.RenjuRule
 import omok.model.BoardCoordinate
 import omok.model.BoardPosition
 import omok.model.OmokStoneType
-import omok.view.OutputView
 import woowacourse.omok.db.GameDatabaseHelper
 import woowacourse.omok.model.OmokGame
 
@@ -22,109 +21,73 @@ class MainActivity : AppCompatActivity() {
     private lateinit var omokGame: OmokGame
     private lateinit var boardViews: Array<Array<ImageView?>>
     private lateinit var dbHelper: GameDatabaseHelper
-    private var positions = listOf<BoardPosition>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setButtons()
-        getDatabase()
+        initializeGameFromDatabase()
+        setupButtons()
         initializeBoard()
-        OutputView.printOmokGameBoard(omokGame.getBoard(), omokGame.getForbiddenPositions())
-
     }
 
-    private fun getDatabase() {
+    private fun initializeGameFromDatabase() {
         dbHelper = GameDatabaseHelper(this)
         omokGame = OmokGame(RenjuRule)
-
         val savedState = dbHelper.loadGameState()
         if (savedState.isNotEmpty()) {
-            omokGame.restoreFrom(savedState)
-            positions = omokGame.getForbiddenPositions()
+            val isRestoreSuccessful = omokGame.restoreFrom(savedState)
+            if (!isRestoreSuccessful) {
+                Toast.makeText(this, "게임 상태 복원에 실패했습니다. 새 게임을 시작합니다.", Toast.LENGTH_LONG).show()
+                dbHelper.clearGameState()
+            }
         }
     }
 
-    private fun setButtons() {
+    private fun setupButtons() {
         findViewById<Button>(R.id.btnClear).setOnClickListener {
             clearGameBoard()
             dbHelper.clearGameState()
         }
         findViewById<Button>(R.id.btnSaveAndExit).setOnClickListener {
             val currentState = omokGame.saveTo()
-            dbHelper.saveGameState(currentState)
-            finish()
+            if (dbHelper.saveGameState(currentState)) finish()
         }
     }
 
     private fun initializeBoard() {
         val board = findViewById<TableLayout>(R.id.board)
-        boardViews = Array(15) { arrayOfNulls<ImageView>(15) }
-
-        board.children.filterIsInstance<TableRow>().forEachIndexed { row, viewGroup ->
-            viewGroup.children.filterIsInstance<ImageView>()
+        boardViews = Array(OmokGame.BOARD_SIZE) { arrayOfNulls(OmokGame.BOARD_SIZE) }
+        board.children.filterIsInstance<TableRow>().forEachIndexed { row, rowView ->
+            rowView.children.filterIsInstance<ImageView>()
                 .forEachIndexed { col, imageView ->
                     boardViews[row][col] = imageView
-                    updateSingleCell(imageView, row, col)
-                    imageView.setOnClickListener {
-                        handleStonePlacement(row, col, it as ImageView)
-                    }
+                    imageView.setOnClickListener { handleStonePlacement(row, col) }
+                    updateBoardViews(row, col, imageView)
                 }
         }
     }
 
-
-    private fun handleStonePlacement(row: Int, col: Int, imageView: ImageView) {
-        val position = BoardPosition(BoardCoordinate(row), BoardCoordinate(col))
-        if (omokGame.placeStoneOnBoard(omokGame.generateNextOmokStone(position))) {
-            updateForbiddenPositions()
-            updateSingleCell(imageView, row, col)
+    private fun handleStonePlacement(row: Int, col: Int) {
+        if (omokGame.placeStoneOnBoard(
+                omokGame.generateNextOmokStone(
+                    BoardPosition(BoardCoordinate(row), BoardCoordinate(col))
+                )
+            )
+        ) {
+            updateBoardViews(row, col, boardViews[row][col]!!)
             checkGameOver()
-            OutputView.printOmokGameBoard(omokGame.getBoard(), omokGame.getForbiddenPositions())
         } else {
-            OutputView.printInvalidPositionMessage()
+            Toast.makeText(this, "놓을 수 없는 자리 입니다.", Toast.LENGTH_LONG).show()
         }
     }
 
-
-    private fun updateForbiddenPositions() {
-        removePreviousForbiddenPositions()
-        addNewForbiddenPositions()
-    }
-
-    private fun removePreviousForbiddenPositions() {
-        positions.filter { it !in omokGame.getForbiddenPositions() }.forEach { forbiddenPosition ->
-            val row = forbiddenPosition.getRow()
-            val col = forbiddenPosition.getColumn()
-            val imageView = boardViews[row][col]
-            imageView?.apply {
-                setImageResource(0)
-            }
+    private fun updateBoardViews(row: Int, col: Int, imageView: ImageView) {
+        val stoneType = omokGame.getStoneTypeAtPosition(row, col)
+        when (stoneType) {
+            OmokStoneType.WHITE -> imageView.setImageResource(R.drawable.white_stone)
+            OmokStoneType.BLACK -> imageView.setImageResource(R.drawable.black_stone)
+            else -> imageView.setImageResource(0)
         }
-    }
-
-    private fun addNewForbiddenPositions() {
-        positions = omokGame.getForbiddenPositions()
-        positions.forEach { forbiddenPosition ->
-            val row = forbiddenPosition.getRow()
-            val col = forbiddenPosition.getColumn()
-            val imageView = boardViews[row][col]
-
-            imageView?.apply {
-                setImageResource(R.drawable.x)
-            }
-        }
-    }
-
-
-    private fun updateSingleCell(imageView: ImageView, row: Int, col: Int) {
-        imageView.setImageResource(
-            when {
-                omokGame.getBoard()[row][col].getOmokStoneType() == OmokStoneType.WHITE -> R.drawable.white_stone
-                omokGame.getBoard()[row][col].getOmokStoneType() == OmokStoneType.BLACK -> R.drawable.black_stone
-                isInForbiddenPositions(row, col) -> R.drawable.x
-                else -> 0
-            }
-        )
     }
 
     private fun checkGameOver() {
@@ -137,26 +100,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun clearGameBoard() {
+        omokGame.resetGame()
         for (row in boardViews.indices) {
             for (col in boardViews[row].indices) {
                 boardViews[row][col]?.setImageResource(0)
             }
         }
-        omokGame = OmokGame(RenjuRule)
-        updateForbiddenPositions()
-    }
-
-    private fun isInForbiddenPositions(row: Int, col: Int): Boolean {
-        if (BoardPosition(
-                BoardCoordinate(row),
-                BoardCoordinate(col)
-            ) in positions
-        ) {
-            return true
-        }
-        return false
     }
 }
-
