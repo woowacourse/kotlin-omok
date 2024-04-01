@@ -10,6 +10,10 @@ data class Turn(private var turn: Color = Color.BLACK) {
             }
     }
 
+    fun reset() {
+        turn = Color.WHITE
+    }
+
     fun color(): Color = turn
 
     fun isBlack(): Boolean = turn.isBLACK()
