@@ -1,6 +1,6 @@
 package woowacourse.omok.model
 
-class Board(val stones: Map<Position, OmokStone>) {
+class Board(val stones: Map<Position, OmokStone>, private val maxSize: Int = 15) {
     val lastStone: OmokStone?
         get() = stones.entries.lastOrNull()?.value
 
@@ -10,13 +10,13 @@ class Board(val stones: Map<Position, OmokStone>) {
     }
 
     private fun validate(position: Position) {
-        require(position.x in RANGE) { "x는 $MIN ~ $MAX 사이여야 한다" }
-        require(position.y in RANGE) { "y는 $MIN ~ $MAX 사이여야 한다" }
+        require(position.x in MIN..maxSize) { "x는 $MIN ~ $maxSize 사이여야 한다" }
+        require(position.y in MIN..maxSize) { "y는 $MIN ~ $maxSize 사이여야 한다" }
     }
 
     fun isInRange(stone: OmokStone): Boolean {
         val position = stone.position
-        return (position.x in RANGE) && (position.y in RANGE)
+        return (position.x in MIN..maxSize) && (position.y in MIN..maxSize)
     }
 
     operator fun get(position: Position): OmokStone? = stones[position]
@@ -75,8 +75,6 @@ class Board(val stones: Map<Position, OmokStone>) {
 
     companion object {
         private const val MIN = 1
-        private const val MAX = 15
-        private val RANGE = 1..15
         private const val INITIAL_COUNT = 0
         private const val OMOK_THRESHOLD = 4
         private val OMOK_CANDIDATE_RANGE = 0..3
