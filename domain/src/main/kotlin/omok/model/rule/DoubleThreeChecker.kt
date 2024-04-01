@@ -1,5 +1,6 @@
 package omok.model.rule
 
+import omok.PutResult
 import omok.model.board.Board
 import omok.model.position.Direction
 import omok.model.position.Position
@@ -11,11 +12,16 @@ object DoubleThreeChecker : RenjuRule(Board.board) {
     private const val MIN_BLINKS_OPEN_THREE = 2
     private const val MAX_STEPS_COUNT_WALL = 5
 
-    override fun check(position: Position): Boolean =
-        Direction.types.sumOf {
-                direction ->
-            checkOpenThree(position, Direction(direction.row, direction.column))
-        } >= INVALID_OPEN_THREE_COUNT
+    override fun check(position: Position): PutResult {
+        val isOpenThree =
+            Direction.types.sumOf {
+                    direction ->
+                checkOpenThree(position, Direction(direction.row, direction.column))
+            } >= INVALID_OPEN_THREE_COUNT
+
+        if (isOpenThree) return PutResult.DoubleThree
+        return PutResult.Running
+    }
 
     private fun checkOpenThree(
         position: Position,

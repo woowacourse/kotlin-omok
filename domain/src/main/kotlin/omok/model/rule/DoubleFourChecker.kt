@@ -1,5 +1,6 @@
 package omok.model.rule
 
+import omok.PutResult
 import omok.model.board.Board
 import omok.model.position.Direction
 import omok.model.position.Position
@@ -13,8 +14,11 @@ object DoubleFourChecker : RenjuRule(Board.board) {
     private const val STONES_FOR_WIN = 4
     private const val MAX_STONES_OPEN_FOUR = 5
 
-    override fun check(position: Position): Boolean =
-        Direction.types.sumOf { direction -> checkOpenFour(position, Direction(direction.row, direction.column)) } >= 2
+    override fun check(position: Position): PutResult {
+        val isDoubleFour = Direction.types.sumOf { direction -> checkOpenFour(position, Direction(direction.row, direction.column)) } >= 2
+        if (isDoubleFour) return PutResult.DoubleFour
+        return PutResult.Running
+    }
 
     private fun checkOpenFour(
         position: Position,
