@@ -19,16 +19,12 @@ class Board(
     }
 
     private fun determineStoneState(stone: Stone): StoneState {
-        if (!rule.checkPlaceable(stone)) {
-            return StoneState.FailedPlaced(ERROR_FORBIDDEN_MESSAGE)
+        return when {
+            !rule.checkPlaceable(stone) -> StoneState.FailedPlaced(ERROR_FORBIDDEN_MESSAGE)
+            validateStoneCoordinate(stone.coordinate) -> StoneState.FailedPlaced(ERROR_OUT_OF_RANGE_BOARD_MESSAGE)
+            validateOccupiedCoordinate(stone.coordinate) -> StoneState.FailedPlaced(ERROR_OCCUPIED_MESSAGE)
+            else -> StoneState.SuccessfulPlaced
         }
-        if (validateStoneCoordinate(stone.coordinate)) {
-            return StoneState.FailedPlaced(ERROR_OUT_OF_RANGE_BOARD_MESSAGE)
-        }
-        if (validateOccupiedCoordinate(stone.coordinate)) {
-            return StoneState.FailedPlaced(ERROR_OCCUPIED_MESSAGE)
-        }
-        return StoneState.SuccessfulPlaced
     }
 
     private fun validateStoneCoordinate(coordinate: Coordinate): Boolean {
