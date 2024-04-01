@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import woowacourse.omok.db.OmokDao
-import woowacourse.omok.db.StoneEntity
+import woowacourse.omok.db.OmokEntity
 import woowacourse.omok.domain.model.BlackTurn
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.FinishedTurn
@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         displayMessage(generateTurnMessage(nextTurn, beforePoint))
         if (turn != nextTurn) {
             view.setImageResource(getStoneImage(turn.stoneType))
-            omokDao.insertStone(StoneEntity(point.x, point.y))
+            omokDao.insertStone(OmokEntity(point.x, point.y))
             turn = nextTurn
         } else {
             displayMessage(MESSAGE_INVALID_POINT_INPUT)
@@ -160,6 +160,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val BOARD_SIZE = 15
+        const val BOARD_SIZE = 15
     }
 }

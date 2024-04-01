@@ -9,12 +9,12 @@ import woowacourse.omok.db.OmokContract.TABLE_NAME
 class OmokDao(context: Context) {
     private val omokDbHelper = OmokDbHelper(context)
 
-    fun insertStone(stoneEntity: StoneEntity) {
+    fun insertStone(omokEntity: OmokEntity) {
         val db = omokDbHelper.writableDatabase
         val values =
             ContentValues().apply {
-                put(POINT_X, stoneEntity.pointX)
-                put(POINT_Y, stoneEntity.pointY)
+                put(POINT_X, omokEntity.pointX)
+                put(POINT_Y, omokEntity.pointY)
             }
         db.insert(TABLE_NAME, null, values)
     }
@@ -25,8 +25,8 @@ class OmokDao(context: Context) {
         db.close()
     }
 
-    fun findAllStones(): List<StoneEntity> {
-        val stones = mutableListOf<StoneEntity>()
+    fun findAllStones(): List<OmokEntity> {
+        val stones = mutableListOf<OmokEntity>()
         val db = omokDbHelper.readableDatabase
         val sql = "SELECT * FROM $TABLE_NAME"
         val cursor = db.rawQuery(sql, null)
@@ -34,7 +34,7 @@ class OmokDao(context: Context) {
             val pointX = cursor.getInt(cursor.getColumnIndexOrThrow(POINT_X))
             val ponitY = cursor.getInt(cursor.getColumnIndexOrThrow(POINT_Y))
 
-            stones.add(StoneEntity(pointX, ponitY))
+            stones.add(OmokEntity(pointX, ponitY))
         }
         cursor.close()
         db.close()

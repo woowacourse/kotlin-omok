@@ -24,12 +24,12 @@ class OmokDaoTest {
 
     @Test
     fun insertStone() {
-        val stoneEntity = StoneEntity(0, 0)
+        val omokEntity = OmokEntity(0, 0)
 
-        omokDao.insertStone(stoneEntity)
+        omokDao.insertStone(omokEntity)
         val actual = omokDao.findAllStones()
 
-        Assertions.assertThat(actual.contains(stoneEntity)).isTrue()
+        Assertions.assertThat(actual.contains(omokEntity)).isTrue()
     }
 
     @Test
@@ -41,24 +41,24 @@ class OmokDaoTest {
 
     @Test
     fun findAllStones() {
-        val stoneEntity1 = StoneEntity(0, 0)
-        val stoneEntity2 = StoneEntity(1, 1)
+        val omokEntity1 = OmokEntity(0, 0)
+        val omokEntity2 = OmokEntity(1, 1)
 
-        omokDao.insertStone(stoneEntity1)
-        omokDao.insertStone(stoneEntity2)
+        omokDao.insertStone(omokEntity1)
+        omokDao.insertStone(omokEntity2)
 
         val actual = omokDao.findAllStones()
 
-        Assertions.assertThat(actual.containsAll(listOf(stoneEntity1, stoneEntity2))).isTrue()
+        Assertions.assertThat(actual.containsAll(listOf(omokEntity1, omokEntity2))).isTrue()
     }
 
     @Test
     fun deleteAllStones() {
-        val stoneEntity1 = StoneEntity(0, 0)
-        val stoneEntity2 = StoneEntity(1, 1)
+        val omokEntity1 = OmokEntity(0, 0)
+        val omokEntity2 = OmokEntity(1, 1)
 
-        omokDao.insertStone(stoneEntity1)
-        omokDao.insertStone(stoneEntity2)
+        omokDao.insertStone(omokEntity1)
+        omokDao.insertStone(omokEntity2)
 
         omokDao.deleteAllStones()
         val actual = omokDao.findAllStones()
