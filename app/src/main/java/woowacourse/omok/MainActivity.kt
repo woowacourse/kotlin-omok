@@ -25,9 +25,6 @@ import woowacourse.omok.model.Stones
 class MainActivity : AppCompatActivity() {
     private val textView: TextView by lazy { findViewById(R.id.playerTurn_textView) }
     private val boardView: TableLayout by lazy { findViewById(R.id.board) }
-    private val players = listOf(Player(Color.BLACK), Player(Color.WHITE))
-    private var currentPlayerIndex = 0
-    private lateinit var currentPlayer: Player
     private lateinit var omokGame: OmokGame
     private val omokDao = OmokDao(this@MainActivity)
 
@@ -67,12 +64,11 @@ class MainActivity : AppCompatActivity() {
             setStoneImage(coordinate.x - 1, coordinate.y - 1, resourceId)
         }
 
-        currentPlayerIndex = stonesList.size
-        currentPlayer = players[(currentPlayerIndex) % players.size]
         val board = Board(Stones(stonesList), RenjuRule(Stones(stonesList)))
         omokGame = OmokGame(board)
+        val player = omokGame.getCurrentPlayer()
 
-        updateText("${currentPlayer.color.name} 플레이어부터 시작합니다.")
+        updateText("${player.color.name} 플레이어부터 시작합니다.")
     }
 
     private fun setStoneImage(
@@ -98,8 +94,9 @@ class MainActivity : AppCompatActivity() {
                                     rowIndex + 1,
                                     columnIndex + 1,
                                 )
-                            progressGameTurn(currentPlayer, coordinate) {
-                                when (currentPlayer.color) {
+                            val player = omokGame.getCurrentPlayer()
+                            progressGameTurn(player, coordinate) {
+                                when (player.color) {
                                     Color.BLACK -> view.setImageResource(R.drawable.black_stone)
                                     Color.WHITE -> view.setImageResource(R.drawable.white_stone)
                                 }
@@ -124,17 +121,17 @@ class MainActivity : AppCompatActivity() {
             is StoneState.SuccessfulPlaced -> {
                 omokDao.insertOmok(
                     OmokEntity(
-                        currentPlayer.color.name,
+                        player.color.name,
                         coordinate.x,
                         coordinate.y,
                     ),
                 )
                 if (!omokGame.isRunning()) {
-                    showToast(this, "${currentPlayer.color}플레이어 승리!!!")
+                    showToast(this, "${player.color}플레이어 승리!!!")
                     removeClickListeners()
                     return
                 }
-                changePlayerTurn(coordinate)
+                updateText("${player.color}플레이어가 착수 했습니다.\n 마지막 돌의 위치: (${coordinate.x},${coordinate.y})")
             }
 
             is StoneState.FailedPlaced -> showToast(this, stoneState.message)
@@ -148,12 +145,6 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEach { it.setOnClickListener(null) }
-    }
-
-    private fun changePlayerTurn(coordinate: Coordinate) {
-        updateText("${currentPlayer.color}플레이어가 착수 했습니다.\n 마지막 돌의 위치: (${coordinate.x},${coordinate.y})")
-        currentPlayer = players[(currentPlayerIndex + 1) % players.size]
-        currentPlayerIndex++
     }
 
     private fun setupResetButton() {
