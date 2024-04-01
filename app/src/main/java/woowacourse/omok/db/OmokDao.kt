@@ -23,22 +23,24 @@ class OmokDao(context: Context) {
         omokDb.delete(OmokContract.TABLE_NAME, null, null)
     }
 
-    fun getStonesFromDatabase(): List<Stone> {
-        val projection =
-            arrayOf(OmokContract.STONE_TYPE, OmokContract.POINT_X, OmokContract.POINT_Y)
-        val cursor =
-            omokDb.query(OmokContract.TABLE_NAME, projection, null, null, null, null, null)
+    fun getStonesFromDatabase(): Result<List<Stone>> {
+        return runCatching {
+            val projection =
+                arrayOf(OmokContract.STONE_TYPE, OmokContract.POINT_X, OmokContract.POINT_Y)
+            val cursor =
+                omokDb.query(OmokContract.TABLE_NAME, projection, null, null, null, null, null)
 
-        val result = mutableListOf<Stone>()
-        with(cursor) {
-            while (moveToNext()) {
-                val stoneTypeValue = getInt(cursor.getColumnIndexOrThrow(OmokContract.STONE_TYPE))
-                val pointX = getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_X))
-                val pointY = getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_Y))
-                result.add(Stone(StoneType.fromValue(stoneTypeValue), Point(pointX, pointY)))
+            val result = mutableListOf<Stone>()
+            with(cursor) {
+                while (moveToNext()) {
+                    val stoneTypeValue = getInt(cursor.getColumnIndexOrThrow(OmokContract.STONE_TYPE))
+                    val pointX = getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_X))
+                    val pointY = getInt(cursor.getColumnIndexOrThrow(OmokContract.POINT_Y))
+                    result.add(Stone(StoneType.fromValue(stoneTypeValue), Point(pointX, pointY)))
+                }
             }
+            cursor.close()
+            result
         }
-        cursor.close()
-        return result
     }
 }

@@ -39,20 +39,20 @@ class OmokDaoTest {
         omokDao.saveStone(Stone(StoneType.WHITE, Point(1, 1)))
         omokDao.saveStone(Stone(StoneType.BLACK, Point(3, 1)))
         omokDao.resetGame()
-        val actual = omokDao.getStonesFromDatabase()
+        val actual = omokDao.getStonesFromDatabase().getOrNull()
         assertThat(actual).isEmpty()
     }
 
     @Test
     fun `저장된_오목돌_조회_테스트__비어_있는_경우`() {
-        val actual = omokDao.getStonesFromDatabase()
+        val actual = omokDao.getStonesFromDatabase().getOrNull()
         assertThat(actual).isEmpty()
     }
 
     @Test
     fun `저장된_오목돌_조회_테스트__저장된_데이터가_있는_경우`() {
         omokDao.saveStone(Stone(StoneType.BLACK, Point(0, 1)))
-        val actual = omokDao.getStonesFromDatabase()
-        assertThat(actual[0]).isEqualTo(Stone(StoneType.BLACK, Point(0, 1)))
+        val actual = omokDao.getStonesFromDatabase().getOrNull()
+        assertThat(actual?.get(0)).isEqualTo(Stone(StoneType.BLACK, Point(0, 1)))
     }
 }
