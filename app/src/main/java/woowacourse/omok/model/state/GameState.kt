@@ -13,7 +13,7 @@ sealed class GameState(val board: Board) {
         override val isFinished: Boolean = true
 
         override fun put(position: Position): GameState {
-            error("게임이 이미 종료됐습니다.")
+            return this
         }
     }
 }

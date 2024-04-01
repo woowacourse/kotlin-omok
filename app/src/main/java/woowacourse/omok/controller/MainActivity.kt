@@ -14,7 +14,6 @@ import woowacourse.omok.model.AndroidOmokGame
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.OmokStone
 import woowacourse.omok.model.Position
-import woowacourse.omok.util.showToast
 import woowacourse.omok.view.OmokBoardView
 import woowacourse.omok.view.OmokOutputView
 import woowacourse.omok.view.OmokTextView
@@ -74,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             .toList()
 
     private fun placeOmokStone(position: Position) {
-        game.placeOmokStone(position) { showToast(this, "게임이 이미 종료되었습니다.") }
+        game.placeOmokStone(position)
     }
 
     private fun initializeTextView(): TextView = findViewById(R.id.tv_turn_information)
