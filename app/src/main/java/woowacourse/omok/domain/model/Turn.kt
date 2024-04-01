@@ -4,12 +4,12 @@ sealed class Turn {
     abstract val stoneType: StoneType
 
     fun nextTurn(
-        stone: Stone,
+        point: Point,
         ruleAdapter: RuleAdapter,
     ): Turn {
-        if (ruleAdapter.checkForbidden(stone)) return this
-        if (ruleAdapter.checkWin(stone)) return FinishedTurn(stoneType)
-        return when (stone.type) {
+        if (ruleAdapter.checkForbidden(point, stoneType)) return this
+        if (ruleAdapter.checkWin(point, stoneType)) return FinishedTurn(stoneType)
+        return when (stoneType) {
             StoneType.BLACK -> WhiteTurn()
             StoneType.WHITE -> BlackTurn()
             StoneType.EMPTY -> FinishedTurn(stoneType)

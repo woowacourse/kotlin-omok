@@ -3,21 +3,27 @@ package woowacourse.omok.domain.model
 import woowacourse.omok.domain.library.RenjuRule
 
 class RuleAdapter(val board: Board) {
-    fun checkForbidden(stone: Stone): Boolean {
+    fun checkForbidden(
+        point: Point,
+        stoneType: StoneType,
+    ): Boolean {
         val renjuRule = RenjuRule(convertBoard())
         return renjuRule.isForbidden(
-            stone.point.x,
-            stone.point.y,
-            convertStoneType(stone.type),
-        ) || stone.point in board
+            point.x,
+            point.y,
+            convertStoneType(stoneType),
+        ) || point in board
     }
 
-    fun checkWin(stone: Stone): Boolean {
+    fun checkWin(
+        point: Point,
+        stoneType: StoneType,
+    ): Boolean {
         val renjuRule = RenjuRule(convertBoard())
         return renjuRule.isWinCondition(
-            stone.point.x,
-            stone.point.y,
-            convertStoneType(stone.type),
+            point.x,
+            point.y,
+            convertStoneType(stoneType),
         )
     }
 

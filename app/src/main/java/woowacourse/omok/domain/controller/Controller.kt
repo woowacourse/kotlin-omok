@@ -5,7 +5,6 @@ import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.Point
 import woowacourse.omok.domain.model.RuleAdapter
-import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.Turn
 import woowacourse.omok.domain.view.InputView
 import woowacourse.omok.domain.view.OutputView
@@ -21,11 +20,11 @@ class Controller {
         val ruleAdapter = RuleAdapter(board)
         var turn: Turn = BlackTurn()
         while (turn !is FinishedTurn) {
-            OutputView.printTurn(turn, board.beforeStone)
-            turn = board.putStone(Stone(turn.stoneType, inputPoint(board, turn)), turn, ruleAdapter)
+            OutputView.printTurn(turn, board.beforePoint)
+            turn = board.putStone(inputPoint(board, turn), turn, ruleAdapter)
             OutputView.printBoard(board)
         }
-        OutputView.printWinner(board)
+        OutputView.printWinner(turn)
     }
 
     private fun inputPoint(
@@ -36,7 +35,7 @@ class Controller {
             return InputView.readPoint(board)
         }.onFailure {
             OutputView.printInvalidPointInputMessage()
-            OutputView.printTurn(turn, board.beforeStone)
+            OutputView.printTurn(turn, board.beforePoint)
         }
         return inputPoint(board, turn)
     }

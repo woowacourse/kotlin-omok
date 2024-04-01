@@ -16,7 +16,7 @@ class BoardTest {
 
     @Test
     fun `보드에 돌 착수 확인`() {
-        board.putStone(Stone(StoneType.BLACK, Point(3, 8)), BlackTurn(), ruleAdapter)
+        board.putStone(Point(3, 8), BlackTurn(), ruleAdapter)
 
         assertThat(board.getBoardPoint(Point(3, 8)) == StoneType.BLACK).isTrue
     }
@@ -24,13 +24,13 @@ class BoardTest {
     @Test
     fun `보드는 이전 차례에서 둔 돌의 위치를 알고있다`() {
         board.putStone(
-            Stone(StoneType.BLACK, Point(0, 0)),
+            Point(0, 0),
             BlackTurn(),
-            ruleAdapter
+            ruleAdapter,
         )
 
-        val actual = board.beforeStone
+        val actual = board.beforePoint
 
-        assertThat(actual).isEqualTo(Stone(StoneType.BLACK, Point(0, 0)))
+        assertThat(actual).isEqualTo(Point(0, 0))
     }
 }
