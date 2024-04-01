@@ -1,6 +1,6 @@
 package woowacourse.omok.model
 
-enum class Direction(val x: Int, val y: Int) {
+enum class Direction(val dx: Int, val dy: Int) {
     TOP(1, 0),
     TOP_RIGHT(1, 1),
     RIGHT(0, 1),
@@ -11,16 +11,15 @@ enum class Direction(val x: Int, val y: Int) {
     LEFT_TOP(1, -1),
     ;
 
-    companion object {
-        fun biDirection(): List<BiDirection> {
-            return listOf(
-                BiDirection(TOP, BOTTOM),
-                BiDirection(TOP_RIGHT, BOTTOM_LEFT),
-                BiDirection(RIGHT, LEFT),
-                BiDirection(RIGHT_BOTTOM, LEFT_TOP),
-            )
+    val opposite: Direction
+        get() = when (this) {
+            TOP -> BOTTOM
+            RIGHT -> LEFT
+            BOTTOM -> TOP
+            LEFT -> RIGHT
+            TOP_RIGHT -> BOTTOM_LEFT
+            RIGHT_BOTTOM -> LEFT_TOP
+            BOTTOM_LEFT -> TOP_RIGHT
+            LEFT_TOP -> RIGHT_BOTTOM
         }
-    }
 }
-
-data class BiDirection(val direction1: Direction, val direction2: Direction)

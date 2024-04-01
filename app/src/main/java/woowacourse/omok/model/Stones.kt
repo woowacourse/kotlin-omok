@@ -14,7 +14,7 @@ class Stones(initialStones: List<Stone> = emptyList()) {
     }
 
     fun findOmok(stone: Stone): Boolean {
-        for (direction in Direction.biDirection()) {
+        for (direction in Direction.entries) {
             val count = countSameColorStoneInDirection(stone, direction)
             if (count >= OMOK_COUNT) return true
         }
@@ -23,11 +23,11 @@ class Stones(initialStones: List<Stone> = emptyList()) {
 
     fun countSameColorStoneInDirection(
         startStone: Stone,
-        direction: BiDirection,
+        direction: Direction,
     ): Int {
         var count = 1
-        count += countSameColorStonesInOneDirection(startStone, direction.direction1)
-        count += countSameColorStonesInOneDirection(startStone, direction.direction2)
+        count += countSameColorStonesInOneDirection(startStone, direction)
+        count += countSameColorStonesInOneDirection(startStone, direction.opposite)
         return count
     }
 
@@ -36,8 +36,8 @@ class Stones(initialStones: List<Stone> = emptyList()) {
         direction: Direction,
     ): Int {
         var count = 0
-        var row = startStone.coordinate.x + direction.x
-        var col = startStone.coordinate.y + direction.y
+        var row = startStone.coordinate.x + direction.dx
+        var col = startStone.coordinate.y + direction.dy
         val color = startStone.color
         while (
             _stones
@@ -45,8 +45,8 @@ class Stones(initialStones: List<Stone> = emptyList()) {
                 .any { it.coordinate.x == row && it.coordinate.y == col }
         ) {
             count++
-            row += direction.x
-            col += direction.y
+            row += direction.dx
+            col += direction.dy
         }
         return count
     }
