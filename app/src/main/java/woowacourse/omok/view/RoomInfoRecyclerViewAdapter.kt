@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.R
 import woowacourse.omok.model.database.Room
 
-class RoomInfoRVAdapter(
+class RoomInfoRecyclerViewAdapter(
     private val rooms: List<Room>,
     private val onEnterClick: (Long, String) -> Unit,
-) : RecyclerView.Adapter<RoomInfoRVAdapter.RoomInfoViewHolder>() {
+) : RecyclerView.Adapter<RoomInfoRecyclerViewAdapter.RoomInfoViewHolder>() {
     inner class RoomInfoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val title = view.findViewById<TextView>(R.id.tv_game_title)
         private val button = view.findViewById<Button>(R.id.btn_enter)

@@ -25,7 +25,7 @@ class RoomListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val adapter =
-            RoomInfoRVAdapter(
+            RoomInfoRecyclerViewAdapter(
                 rooms = gameRoomDao.findAll(),
                 onEnterClick = { id, title ->
                     Intent(this, OmokGameActivity::class.java).also {
