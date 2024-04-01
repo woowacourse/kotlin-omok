@@ -1,6 +1,8 @@
 package woowacourse.omok.domain.model
 
-import woowacourse.omok.domain.rule.RenjuRule
+import woowacourse.omok.domain.rule.FourFourRule
+import woowacourse.omok.domain.rule.MoreThanFiveRule
+import woowacourse.omok.domain.rule.ThreeThreeRule
 
 class Board(stones: List<Stone>? = null) {
     val board: List<List<StoneType>>
@@ -9,7 +11,14 @@ class Board(stones: List<Stone>? = null) {
         MutableList(BOARD_SIZE) {
             MutableList(BOARD_SIZE) { StoneType.EMPTY }
         }
-    private val ruleAdaptor = RenjuRuleAdaptor(listOf(RenjuRule(boardSize = BOARD_SIZE)))
+    private val ruleAdaptor =
+        RenjuRuleAdaptor(
+            listOf(
+                ThreeThreeRule(BOARD_SIZE),
+                FourFourRule(BOARD_SIZE),
+                MoreThanFiveRule(BOARD_SIZE),
+            ),
+        )
     var latestStone: Stone? = null
         private set
 
@@ -17,7 +26,7 @@ class Board(stones: List<Stone>? = null) {
         stones?.forEach { stone -> putStone(stone) }
     }
 
-    fun isForbidden(stone: Stone): Boolean {
+    fun isForbidden(stone: Stone): Result {
         return ruleAdaptor.isForbidden(this, stone)
     }
 

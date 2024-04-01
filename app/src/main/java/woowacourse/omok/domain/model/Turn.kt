@@ -1,7 +1,10 @@
 package woowacourse.omok.domain.model
 
-sealed interface Turn {
-    fun putStone(
+sealed class Turn {
+    var forbiddenResult: Result = Result.Success
+        protected set
+
+    abstract fun putStone(
         point: Point,
         board: Board,
     ): Turn
@@ -21,33 +24,44 @@ sealed interface Turn {
     }
 }
 
-class BlackTurn : Turn {
+class BlackTurn : Turn() {
     override fun putStone(
         point: Point,
         board: Board,
     ): Turn {
         val stone = Stone(StoneType.BLACK, point)
-        if (board.isForbidden(stone) || point in board) return this
+        val forbiddenMoveCheckResult = board.isForbidden(stone)
+        if (forbiddenMoveCheckResult != Result.Success) {
+            forbiddenResult = forbiddenMoveCheckResult
+            return this
+        }
+        if (point in board) {
+            forbiddenResult = Result.DuplicatePoint
+            return this
+        }
         board.putStone(stone)
         if (board.isWinCondition(stone)) return FinishedTurn(stone)
         return WhiteTurn()
     }
 }
 
-class WhiteTurn : Turn {
+class WhiteTurn : Turn() {
     override fun putStone(
         point: Point,
         board: Board,
     ): Turn {
         val stone = Stone(StoneType.WHITE, point)
-        if (point in board) return this
+        if (point in board) {
+            forbiddenResult = Result.DuplicatePoint
+            return this
+        }
         board.putStone(stone)
         if (board.isWinCondition(stone)) return FinishedTurn(stone)
         return BlackTurn()
     }
 }
 
-class FinishedTurn(val beforeStone: Stone) : Turn {
+class FinishedTurn(val beforeStone: Stone) : Turn() {
     override fun putStone(
         point: Point,
         board: Board,

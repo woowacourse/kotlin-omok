@@ -14,7 +14,7 @@ import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Board.Companion.BOARD_SIZE
 import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Point
-import woowacourse.omok.domain.model.Point.Companion.MESSAGE_INVALID_POINT_INPUT
+import woowacourse.omok.domain.model.Result
 import woowacourse.omok.domain.model.StoneType
 import woowacourse.omok.domain.model.Turn
 import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_END
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         x: Int,
         y: Int,
     ) {
-        val isSuccess =
+        val gameResult =
             omokGame.tryPlayTurn(
                 updateBoard = { view.setImageResource(getStoneImage(it.latestStone?.type)) },
                 updateTurn = { turn, stone ->
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                 },
                 getPoint = { Point(x, y) },
             )
-        if (!isSuccess) displayMessage(MESSAGE_INVALID_POINT_INPUT)
+        if (gameResult != Result.Success) displayMessage(gameResult.message)
     }
 
     private fun getStoneImage(stoneType: StoneType?): Int =
