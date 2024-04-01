@@ -69,33 +69,6 @@ class MainActivity : AppCompatActivity() {
         updateUI()
     }
 
-    private fun requestPlayerMove(
-        currentStone: Stone,
-        rowCoords: CoordsNumber,
-        columnCoords: CoordsNumber,
-        forbiddenPositions: List<Position>,
-    ): Boolean {
-        if (omok.board.isMoveForbidden(
-                rowCoords,
-                columnCoords,
-                forbiddenPositions,
-            )
-        ) {
-            Toast.makeText(this, "이 위치에는 둘 수 없습니다!", Toast.LENGTH_SHORT).show()
-            return false
-        } else if (!omok.board.isNotEmpty(rowCoords, columnCoords)) {
-            omok.placeStone(Position(rowCoords, columnCoords), currentStone)
-            outputView.printBoard(
-                omok.board.gameBoard,
-                forbiddenPositions
-            )
-            return true
-        } else {
-            outputView.printForbiddenMoveMessage()
-            return false
-        }
-    }
-
     private fun updateUI() {
         val board = findViewById<TableLayout>(R.id.board)
         val forbiddenPositions =

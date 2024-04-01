@@ -19,6 +19,7 @@ enum class ColumnNumber(val coordsNumber: CoordsNumber) {
     ;
 
     companion object {
-        fun fromLetter(letter: Char): CoordsNumber? = entries.firstOrNull { it.name == letter.toString() }?.coordsNumber
+        fun fromLetter(letter: Char): CoordsNumber? =
+            entries.firstOrNull { it.name == letter.toString() }?.coordsNumber
     }
 }
