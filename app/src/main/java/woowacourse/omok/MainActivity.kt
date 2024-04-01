@@ -1,7 +1,6 @@
 package woowacourse.omok
 
 import android.os.Bundle
-import android.util.Log
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
@@ -129,7 +128,6 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         val row = tableRow?.let { tblRow -> boardLayout.indexOfChild(tblRow) }
 
         if (col != null && row != null) {
-            Log.d("MainActivity", "x: ${col}, y: $row")
             tryPlaceStone(row + INDEX_ADJUSTMENT, col + INDEX_ADJUSTMENT, clickedView)
         }
     }
