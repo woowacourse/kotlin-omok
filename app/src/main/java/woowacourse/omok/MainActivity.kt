@@ -164,6 +164,7 @@ class MainActivity : AppCompatActivity() {
             resetBoard()
             omokDao.resetAll()
             setupOmokGame()
+            playOmokGame()
         }
     }
 
