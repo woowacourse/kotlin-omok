@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
     private val stoneDao by lazy { StoneDao(applicationContext) }
     lateinit var omokGameState: OmokGameState
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
