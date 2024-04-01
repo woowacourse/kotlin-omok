@@ -53,29 +53,37 @@ class OmokGameActivity : AppCompatActivity() {
                 .flatMap { it.children }
                 .filterIsInstance<ImageView>()
 
-        placedIndexItems.forEach {
-            setGameState(index = it)
-            setStoneImage(boardItems.toList()[it])
-        }
-
-        boardItems.forEachIndexed { index, view ->
+        initializeBoardPlacementView(placedIndexItems, boardItems)
+        boardItems.forEachIndexed { flattenedIndex, view ->
             view.setOnClickListener {
-                markPosition(index, view, gameId)
+                markPosition(flattenedIndex, view, gameId)
             }
         }
     }
 
+    private fun initializeBoardPlacementView(
+        placedIndexItems: List<Int>,
+        boardItems: Sequence<ImageView>,
+    ) {
+        placedIndexItems.forEach {
+            val position = getInputPosition(it)
+            setGameState(position)
+            setStoneImage(boardItems.toList()[it])
+        }
+    }
+
     private fun markPosition(
-        index: Int,
+        flattenedIndex: Int,
         view: ImageView,
         gameId: Long,
     ) {
         if (!::gameState.isInitialized || gameState !is GameState.GameOver) {
-            setGameState(index)
+            val position = getInputPosition(flattenedIndex)
+            setGameState(position)
             if (gameState !is GameState.Error) {
                 val currentColor = placementData.lastPlacement?.color ?: Color.BLACK
                 setStoneImage(view)
-                savePlacementInfo(gameId, index, currentColor)
+                savePlacementInfo(gameId, flattenedIndex, currentColor)
                 setCurrentTurnText()
             }
         }
@@ -83,14 +91,14 @@ class OmokGameActivity : AppCompatActivity() {
 
     private fun savePlacementInfo(
         gameId: Long,
-        index: Int,
+        flattenedIndex: Int,
         color: Color,
     ) {
         placementDao.save(
             Placement(
                 gameId = gameId,
                 color = color.name,
-                index = index,
+                index = flattenedIndex,
             ),
         )
     }
@@ -101,8 +109,7 @@ class OmokGameActivity : AppCompatActivity() {
         currentTurnTextView.text = getString(R.string.message_turn).format(currentColor)
     }
 
-    private fun setGameState(index: Int) {
-        val position = getInputPosition(index)
+    private fun setGameState(position: Position) {
         gameState = playEachTurn(position)
         showGameStateMessage(gameState)
         if (gameState is GameState.GameOver) {
@@ -140,13 +147,13 @@ class OmokGameActivity : AppCompatActivity() {
             else -> getString(R.string.message_winner).format(gameState.gameResult.label)
         }
 
-    private fun playEachTurn(position: Pair<Int, Int>): GameState = placementData.place(Position(position.first, position.second))
+    private fun playEachTurn(position: Position): GameState = placementData.place(position)
 
-    private fun getInputPosition(index: Int): Pair<Int, Int> {
-        val row = BOARD_DISPLAY_SIZE - index / BOARD_DISPLAY_SIZE
-        val column = index % BOARD_DISPLAY_SIZE + 1
-        return Pair(row, column)
-    }
+    private fun getInputPosition(flattenedIndex: Int): Position =
+        Position(
+            horizontalCoordinate = BOARD_DISPLAY_SIZE - flattenedIndex / BOARD_DISPLAY_SIZE,
+            verticalCoordinate = flattenedIndex % BOARD_DISPLAY_SIZE + 1,
+        )
 
     private fun showToastMessage(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
