@@ -7,8 +7,10 @@ import omok.model.entity.Point
 import omok.model.entity.Stone
 import omok.model.entity.StoneColor
 
-class StoneDao(context: Context) {
+class StoneDao(
+    context: Context,
     private val dbHelper: OmokDbHelper = OmokDbHelper(context)
+) {
 
     fun save(stone: Stone) {
         val db = dbHelper.writableDatabase

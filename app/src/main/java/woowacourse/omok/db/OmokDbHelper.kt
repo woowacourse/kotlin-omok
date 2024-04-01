@@ -5,7 +5,10 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 
-class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, DBNAME, null, 1) {
+class OmokDbHelper(
+    context: Context,
+    dbName: String = DBNAME
+) : SQLiteOpenHelper(context, dbName, null, 1) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(SQL_CREATE_STONES)
     }
@@ -34,7 +37,8 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, DBNAME, null, 1
                 ${StoneContract.StoneEntry.COLUMN_NAME_Y} integer,
                 ${StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR} integer)
             """
-        private const val SQL_DROP_STONES = "drop table if exists ${StoneContract.StoneEntry.TABLE_NAME}"
+        private const val SQL_DROP_STONES =
+            "drop table if exists ${StoneContract.StoneEntry.TABLE_NAME}"
         private const val DBNAME = "Omok"
     }
 }

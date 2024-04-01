@@ -6,8 +6,10 @@ import omok.model.entity.Point
 import omok.model.entity.Stone
 import omok.model.entity.StoneColor
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import woowacourse.omok.db.OmokDbHelper
 import woowacourse.omok.db.StoneDao
 
 class DBTest {
@@ -16,7 +18,11 @@ class DBTest {
     @Before
     fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        stoneDao = StoneDao(context)
+        stoneDao = StoneDao(context, dbHelper = OmokDbHelper(context, "TEST"))
+    }
+
+    @After
+    fun tearDown() {
         stoneDao.drop()
     }
 
