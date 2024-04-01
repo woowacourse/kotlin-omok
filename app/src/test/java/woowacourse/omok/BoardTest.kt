@@ -1,4 +1,4 @@
-package omok
+package woowacourse.omok
 
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue

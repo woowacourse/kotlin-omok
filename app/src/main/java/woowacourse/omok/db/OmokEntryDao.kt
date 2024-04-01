@@ -3,6 +3,7 @@ package woowacourse.omok.db
 import android.content.Context
 import android.provider.BaseColumns
 import androidx.core.content.contentValuesOf
+import woowacourse.omok.db.OmokContract.TABLE_NAME
 
 class OmokEntryDao(context: Context) {
     private val dbHelper = OmokDbHelper(context)
@@ -11,7 +12,7 @@ class OmokEntryDao(context: Context) {
         val db = dbHelper.writableDatabase
         val id =
             db.insert(
-                OmokContract.TABLE_NAME,
+                TABLE_NAME,
                 null,
                 contentValuesOf(
                     OmokContract.X to entry.x,
@@ -26,7 +27,7 @@ class OmokEntryDao(context: Context) {
         val db = dbHelper.readableDatabase
         val cursor =
             db.query(
-                OmokContract.TABLE_NAME,
+                TABLE_NAME,
                 arrayOf(
                     BaseColumns._ID,
                     OmokContract.X,
@@ -53,6 +54,6 @@ class OmokEntryDao(context: Context) {
 
     fun drop() {
         val db = dbHelper.writableDatabase
-        db.delete(OmokContract.TABLE_NAME, null, null)
+        db.delete(TABLE_NAME, null, null)
     }
 }
