@@ -2,7 +2,7 @@ package omok.fixtures
 
 import woowacourse.omok.model.Position
 
-fun createPoint(
+fun createPosition(
     x: Int,
     y: Int,
-) = Position.of(x, y)
+) = Position(x, y)

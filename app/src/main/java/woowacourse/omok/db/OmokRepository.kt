@@ -21,7 +21,7 @@ class OmokRepository(context: Context) {
         return Board(
             omokEntries.map { item ->
                 OmokStone(
-                    position = Position.of(item.x, item.y),
+                    position = Position(item.x, item.y),
                     color = mapStringToStoneColor(item.color),
                 )
             }.associateBy(OmokStone::position),

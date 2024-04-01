@@ -20,7 +20,7 @@ class OmokEntryDaoTest {
 
     @After
     fun tearDown() {
-        omokEntryDao.drop()
+        omokEntryDao.delete()
     }
 
     @Test
@@ -38,7 +38,7 @@ class OmokEntryDaoTest {
     @Test
     @Ignore
     fun findAll() {
-        val actual = omokEntryDao.findAll()
+        val actual = omokEntryDao.findAllDatabase()
         assertThat(actual).isEmpty()
     }
 
@@ -48,7 +48,7 @@ class OmokEntryDaoTest {
         val entry = OmokEntry(x = 1, y = 6, color = "흑")
         omokEntryDao.save(entry)
 
-        val actual = omokEntryDao.findAll()
+        val actual = omokEntryDao.findAllDatabase()
         assertThat(actual[0].x).isEqualTo(1)
         assertThat(actual[0].y).isEqualTo(6)
         assertThat(actual[0].x).isEqualTo("흑")

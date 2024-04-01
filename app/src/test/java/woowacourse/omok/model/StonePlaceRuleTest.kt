@@ -1,7 +1,7 @@
 package woowacourse.omok.model
 
 import io.kotest.matchers.booleans.shouldBeFalse
-import omok.fixtures.createPoint
+import omok.fixtures.createPosition
 import omok.fixtures.createWhiteBoard
 import omok.fixtures.createWhiteStone
 import org.junit.jupiter.api.Test
@@ -14,7 +14,7 @@ class StonePlaceRuleTest {
     fun `이미 알이 있으면 금수`() {
         val whiteBoard =
             createWhiteBoard(
-                createPoint(1, 2),
+                createPosition(1, 2),
             )
         val whiteStone = createWhiteStone(1, 2)
         // when

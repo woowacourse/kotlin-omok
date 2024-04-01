@@ -6,7 +6,7 @@ import io.kotest.matchers.shouldBe
 import omok.fixtures.createBlackBoard
 import omok.fixtures.createBoard
 import omok.fixtures.createOmokStone
-import omok.fixtures.createPoint
+import omok.fixtures.createPosition
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -19,8 +19,8 @@ class BoardTest {
         // given
         val board =
             createBoard(
-                createPoint(1, 1),
-                createPoint(2, 2),
+                createPosition(1, 1),
+                createPosition(2, 2),
             )
         val expected = createOmokStone(x = 2, y = 2, color = StoneColor.WHITE)
         // when
@@ -33,7 +33,7 @@ class BoardTest {
     fun `오목판 범위 내 좌표에 돌을 추가할 수 있다`() {
         // given
         val board = createBoard()
-        val point = createPoint(1, 1)
+        val point = createPosition(1, 1)
         val color = StoneColor.BLACK
         val expect = createOmokStone(1, 1, color)
         // when
@@ -51,7 +51,7 @@ class BoardTest {
     ) {
         // given
         val board = createBoard()
-        val newStone = OmokStone(createPoint(x, y), StoneColor.BLACK)
+        val newStone = OmokStone(createPosition(x, y), StoneColor.BLACK)
         val expect = false
         // when
         val actual = board.isInRange(newStone)
@@ -68,14 +68,14 @@ class BoardTest {
         // given
         val board =
             createBlackBoard(
-                createPoint(1, 1),
-                createPoint(2, 2),
-                createPoint(3, 3),
-                createPoint(4, 4),
-                createPoint(5, 5),
+                createPosition(1, 1),
+                createPosition(2, 2),
+                createPosition(3, 3),
+                createPosition(4, 4),
+                createPosition(5, 5),
             )
         // when
-        val actual = board.isInOmok(createPoint(x, y))
+        val actual = board.isInOmok(createPosition(x, y))
         // then
         actual.shouldBeTrue()
     }
@@ -89,14 +89,14 @@ class BoardTest {
         // given
         val board =
             createBlackBoard(
-                createPoint(1, 1),
-                createPoint(2, 1),
-                createPoint(3, 1),
-                createPoint(4, 1),
-                createPoint(5, 1),
+                createPosition(1, 1),
+                createPosition(2, 1),
+                createPosition(3, 1),
+                createPosition(4, 1),
+                createPosition(5, 1),
             )
         // when
-        val actual = board.isInOmok(createPoint(x, y))
+        val actual = board.isInOmok(createPosition(x, y))
         // then
         actual.shouldBeTrue()
     }
@@ -110,14 +110,14 @@ class BoardTest {
         // given
         val board =
             createBlackBoard(
-                createPoint(1, 1),
-                createPoint(1, 2),
-                createPoint(1, 3),
-                createPoint(1, 4),
-                createPoint(1, 5),
+                createPosition(1, 1),
+                createPosition(1, 2),
+                createPosition(1, 3),
+                createPosition(1, 4),
+                createPosition(1, 5),
             )
         // when
-        val actual = board.isInOmok(createPoint(x, y))
+        val actual = board.isInOmok(createPosition(x, y))
         // then
         actual.shouldBeTrue()
     }
@@ -131,14 +131,14 @@ class BoardTest {
         // given
         val board =
             createBlackBoard(
-                createPoint(1, 1),
-                createPoint(2, 2),
-                createPoint(3, 3),
-                createPoint(5, 5),
-                createPoint(6, 6),
+                createPosition(1, 1),
+                createPosition(2, 2),
+                createPosition(3, 3),
+                createPosition(5, 5),
+                createPosition(6, 6),
             )
         // when
-        val actual = board.isInOmok(createPoint(x, y))
+        val actual = board.isInOmok(createPosition(x, y))
         // then
         actual.shouldBeFalse()
     }
@@ -152,14 +152,14 @@ class BoardTest {
         // given
         val board =
             createBoard(
-                createPoint(1, 1),
-                createPoint(2, 1),
-                createPoint(3, 1),
-                createPoint(4, 1),
-                createPoint(5, 1),
+                createPosition(1, 1),
+                createPosition(2, 1),
+                createPosition(3, 1),
+                createPosition(4, 1),
+                createPosition(5, 1),
             )
         // when
-        val actual = board.isInOmok(createPoint(x, y))
+        val actual = board.isInOmok(createPosition(x, y))
         // then
         actual.shouldBeFalse()
     }

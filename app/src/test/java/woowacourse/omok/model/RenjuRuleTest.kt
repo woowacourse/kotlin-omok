@@ -3,7 +3,7 @@ package omok.model
 import io.kotest.matchers.booleans.shouldBeFalse
 import omok.fixtures.createBlackBoard
 import omok.fixtures.createBlackStone
-import omok.fixtures.createPoint
+import omok.fixtures.createPosition
 import omok.fixtures.createWhiteBoard
 import omok.fixtures.createWhiteStone
 import org.junit.jupiter.api.Test
@@ -15,11 +15,11 @@ class RenjuRuleTest {
         // given
         val blackBoard =
             createBlackBoard(
-                createPoint(1, 1),
-                createPoint(1, 2),
-                createPoint(1, 3),
-                createPoint(1, 4),
-                createPoint(1, 5),
+                createPosition(1, 1),
+                createPosition(1, 2),
+                createPosition(1, 3),
+                createPosition(1, 4),
+                createPosition(1, 5),
             )
         val blackStone = createBlackStone(1, 6)
         // when
@@ -33,10 +33,10 @@ class RenjuRuleTest {
         // given
         val blackBoard =
             createBlackBoard(
-                createPoint(4, 5),
-                createPoint(4, 6),
-                createPoint(5, 4),
-                createPoint(6, 4),
+                createPosition(4, 5),
+                createPosition(4, 6),
+                createPosition(5, 4),
+                createPosition(6, 4),
             )
         val blackStone = createBlackStone(4, 4)
         // when
@@ -49,12 +49,12 @@ class RenjuRuleTest {
     fun `4-4이면 금수다`() {
         val blackBoard =
             createBlackBoard(
-                createPoint(1, 2),
-                createPoint(1, 3),
-                createPoint(1, 4),
-                createPoint(2, 1),
-                createPoint(3, 1),
-                createPoint(4, 1),
+                createPosition(1, 2),
+                createPosition(1, 3),
+                createPosition(1, 4),
+                createPosition(2, 1),
+                createPosition(3, 1),
+                createPosition(4, 1),
             )
         val blackStone = createBlackStone(1, 1)
         // when
@@ -67,7 +67,7 @@ class RenjuRuleTest {
     fun `이미 알이 있으면 금수`() {
         val whiteBoard =
             createWhiteBoard(
-                createPoint(1, 2),
+                createPosition(1, 2),
             )
         val whiteStone = createWhiteStone(1, 2)
         // when
