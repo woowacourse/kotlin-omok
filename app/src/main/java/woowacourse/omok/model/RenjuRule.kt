@@ -59,26 +59,28 @@ class RenjuRule(private val stones: Stones) : Rule {
             }
         stones.stones.forEach {
             if (it.color == Color.BLACK) {
-                libraryBoard[it.coordinate.x - 1][it.coordinate.y - 1] = 1
+                libraryBoard[it.coordinate.x - 1][it.coordinate.y - 1] = BLACK_STONE_VALUE
             } else {
-                libraryBoard[it.coordinate.x - 1][it.coordinate.y - 1] = 2
+                libraryBoard[it.coordinate.x - 1][it.coordinate.y - 1] = WHITE_STONE_VALUE
             }
         }
         return libraryBoard
     }
 
     private fun colorToInt(color: Color): Int {
-        if (color == Color.BLACK) return 1
-        return 2
+        if (color == Color.BLACK) return BLACK_STONE_VALUE
+        return WHITE_STONE_VALUE
     }
 
     private fun getOtherColorToInt(color: Color): Int {
-        if (color == Color.BLACK) return 2
-        return 1
+        if (color == Color.BLACK) return WHITE_STONE_VALUE
+        return BLACK_STONE_VALUE
     }
 
     companion object {
         const val BOARD_SIZE: Int = 15
         const val INDEX_ADJUSTMENT: Int = 1
+        const val BLACK_STONE_VALUE: Int = 1
+        const val WHITE_STONE_VALUE: Int = 2
     }
 }
