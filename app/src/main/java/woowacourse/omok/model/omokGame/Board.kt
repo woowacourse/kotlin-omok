@@ -5,12 +5,15 @@ import woowacourse.omok.model.board.CoordsNumber
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
 
-class Board(var gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Stone.EMPTY } }) {
+class Board(private var _gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { Stone.EMPTY } }) {
     private var renjuGameRule: GameRuleAdapter = GameRuleAdapter()
 
     init {
         renjuGameRule.setupBoard(this)
     }
+
+    val gameBoard: Array<Array<Stone>>
+        get() = _gameBoard.copyOf()
 
     var omokGameState = OmokGameState.RUNNING
 
@@ -22,8 +25,9 @@ class Board(var gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
         y: CoordsNumber,
         stone: Stone,
     ) {
-        gameBoard[y.number][x.number] = stone
+        _gameBoard[y.number][x.number] = stone
     }
+
 
     fun isNotEmpty(
         row: CoordsNumber,
@@ -47,6 +51,14 @@ class Board(var gameBoard: Array<Array<Stone>> = Array(BOARD_SIZE) { Array(BOARD
 
     fun gameOver() {
         omokGameState = OmokGameState.STOP
+    }
+
+    fun updateGameBoard(newGameBoard: Array<Array<Stone>>) {
+        for (i in newGameBoard.indices) {
+            for (j in newGameBoard[i].indices) {
+                gameBoard[i][j] = newGameBoard[i][j]
+            }
+        }
     }
 
     companion object {

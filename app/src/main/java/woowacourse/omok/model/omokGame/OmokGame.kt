@@ -17,7 +17,7 @@ class OmokGame(private val listener: GameEventListener) {
 
     fun loadGame(gameDao: GameDao) {
         val loadedGameBoard = gameDao.loadGame()
-        this.board.gameBoard = loadedGameBoard
+        board.updateGameBoard(loadedGameBoard)
         val loadedStoneType = gameDao.loadCurrentStone()
         if (loadedStoneType != -1) {
             this.currentStone = Stone.entries.toTypedArray()[loadedStoneType]
