@@ -3,6 +3,7 @@ package woowacourse.omok.controller
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.GameEventListener
+import woowacourse.omok.model.Stone
 import woowacourse.omok.model.StoneState
 import woowacourse.omok.model.Stones
 import woowacourse.omok.view.OutputView
@@ -15,8 +16,14 @@ class OmokController(
     var gameEnded: Boolean = false
         private set
 
-    fun start() {
-        OutputView.printStart()
+    fun setStonesOnBoard(stones: List<Stone>) {
+        board.setStones(stones)
+    }
+
+    fun printStart() {
+        OutputView.printStart(board.stones)
+        OutputView.printTurnName(board.getNextTurn())
+        OutputView.printLastStone(board.stones.getLastStoneCoordinate())
     }
 
     fun getNextTurn(): Color {
