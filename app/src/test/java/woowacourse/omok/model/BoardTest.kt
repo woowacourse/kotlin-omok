@@ -6,12 +6,20 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import woowacourse.omok.model.Board
+import woowacourse.omok.model.COORDINATE_F8
 import woowacourse.omok.model.Column
 import woowacourse.omok.model.Coordinate
 import woowacourse.omok.model.Row
 import woowacourse.omok.model.Stone
 import woowacourse.omok.model.StoneState
 import woowacourse.omok.model.Stones
+import woowacourse.omok.model.black
+import woowacourse.omok.model.fourFourBlackStones
+import woowacourse.omok.model.moreThanFiveBlackStones
+import woowacourse.omok.model.openFourFourBlackStones
+import woowacourse.omok.model.samSamBlackStones
+import woowacourse.omok.model.samSamWhiteStones
+import woowacourse.omok.model.white
 
 class BoardTest {
     private lateinit var board: Board

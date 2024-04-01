@@ -63,14 +63,15 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         clearDb()
     }
 
-    private fun loadStonesFromDb() = CoroutineScope(Dispatchers.IO).launch {
-        val stoneEntities = stonesDao.getAllStones()
-        val stones = stoneEntities.map { StoneMapper.toStone(it) }
-        omokController.setStonesOnBoard(stones)
-        withContext(Dispatchers.Main) {
-            updateUI(stoneEntities)
+    private fun loadStonesFromDb() =
+        CoroutineScope(Dispatchers.IO).launch {
+            val stoneEntities = stonesDao.getAllStones()
+            val stones = stoneEntities.map { StoneMapper.toStone(it) }
+            omokController.setStonesOnBoard(stones)
+            withContext(Dispatchers.Main) {
+                updateUI(stoneEntities)
+            }
         }
-    }
 
     private fun setOnBoardTouch() {
         boardLayout

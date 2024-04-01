@@ -7,12 +7,13 @@ class RuleAdapter(private val boardSize: Int) : Rule {
         stones: Stones,
         stone: Stone,
     ): Boolean {
-        val renjuRule = RenjuRule(
-            generateCustomBoard(boardSize, stones),
-            colorToInt(getCurrentTurn(stones)),
-            getOtherColorToInt(getCurrentTurn(stones)),
-            boardSize,
-        )
+        val renjuRule =
+            RenjuRule(
+                generateCustomBoard(boardSize, stones),
+                colorToInt(getCurrentTurn(stones)),
+                getOtherColorToInt(getCurrentTurn(stones)),
+                boardSize,
+            )
         return !checkUnable(stone, renjuRule)
     }
 
@@ -20,11 +21,13 @@ class RuleAdapter(private val boardSize: Int) : Rule {
         stone: Stone,
         renjuRule: RenjuRule,
     ): Boolean {
-        if (stone.color == Color.BLACK)
-            return checkThreeThree(stone, renjuRule) || checkFourFour(
-                stone,
-                renjuRule
-            ) || checkMoreThanFive(stone, renjuRule)
+        if (stone.color == Color.BLACK) {
+            return (
+                checkThreeThree(stone, renjuRule) ||
+                    checkFourFour(stone, renjuRule) ||
+                    checkMoreThanFive(stone, renjuRule)
+            )
+        }
         return false
     }
 
