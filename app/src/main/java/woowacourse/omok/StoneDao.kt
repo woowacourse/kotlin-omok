@@ -5,8 +5,8 @@ import androidx.core.content.contentValuesOf
 import omok.model.Color
 import omok.model.Stone
 
-class StoneDao(private val context: Context) {
-    private val dbHelper = OmokDbHelper(context)
+class StoneDao(context: Context) {
+    private val dbHelper = StoneDbHelper(context)
 
     fun insert(stone: Stone) {
         val wb = dbHelper.writableDatabase
