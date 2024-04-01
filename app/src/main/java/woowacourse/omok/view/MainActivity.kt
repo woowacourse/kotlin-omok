@@ -6,7 +6,6 @@ import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import omock.model.Failure
@@ -20,6 +19,7 @@ import omock.model.Position
 import omock.model.board.Block
 import omock.model.board.OmokBoard
 import woowacourse.omok.R
+import woowacourse.omok.common_ui.showToast
 import woowacourse.omok.data.OmokRepository
 import woowacourse.omok.db.GameRecordDao
 import woowacourse.omok.db.OmokSQLiteHelper
@@ -138,10 +138,6 @@ class MainActivity : AppCompatActivity(), OmokGameView, PlaceErrorHandler {
             BlockStateUiModel.WHITE -> R.drawable.white_stone
             BlockStateUiModel.EMPTY -> INITIAL_RESOURCE
         }
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     companion object {
