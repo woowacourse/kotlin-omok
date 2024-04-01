@@ -110,8 +110,9 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     if (currentTurn is Finished) {
-                        dao.deleteAll()
                         outputView.printWinner(currentTurn.board)
+                        dao.deleteAll()
+                        currentTurn = BlackTurn(Board())
                     }
                 }
             }
