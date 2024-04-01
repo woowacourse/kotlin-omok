@@ -61,7 +61,20 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     saveStone(previousTurn, dao, point, view)
-                    removeAllGameStatus(currentTurn, outputView, board, dao)
+
+                    if (currentTurn is Finished) {
+                        outputView.printWinner(currentTurn.board)
+
+                        board.children
+                            .filterIsInstance<TableRow>()
+                            .flatMap { it.children }
+                            .filterIsInstance<ImageView>()
+                            .forEach {
+                                it.setImageResource(0)
+                            }
+                        dao.deleteAll()
+                        currentTurn = BlackTurn(Board())
+                    }
                 }
             }
     }
@@ -103,19 +116,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             dao.insert(point.x, point.y, StoneColor.WHITE.name)
             view.setImageResource(R.drawable.white_stone)
-        }
-    }
-
-    private fun removeAllGameStatus(
-        currentTurn: Turn,
-        outputView: OutputView,
-        board: TableLayout,
-        dao: OmokDAO,
-    ) {
-        if (currentTurn is Finished) {
-            outputView.printWinner(currentTurn.board)
-            board.removeAllViews()
-            dao.deleteAll()
         }
     }
 }
