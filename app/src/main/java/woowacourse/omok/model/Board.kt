@@ -21,9 +21,9 @@ class Board(
         get() = if (isEven(placementCount)) Black(placementInfo.status) else White(placementInfo.status)
 
     fun place(position: Position): GameState {
-        if (position.horizontalCoordinate.index !in MIN_INDEX..MAX_INDEX) return GameState.Error(message = MESSAGE_WRONG_ROW_RANGE)
-        if (position.verticalCoordinate.index !in MIN_INDEX..MAX_INDEX) return GameState.Error(message = MESSAGE_WRONG_COL_RANGE)
-        if (status[COMPUTATION_BOARD_SIZE - position.horizontalCoordinate.index][position.verticalCoordinate.index] != null) {
+        if (position.horizontalCoordinate !in MIN_INDEX..MAX_INDEX) return GameState.Error(message = MESSAGE_WRONG_ROW_RANGE)
+        if (position.verticalCoordinate !in MIN_INDEX..MAX_INDEX) return GameState.Error(message = MESSAGE_WRONG_COL_RANGE)
+        if (status[COMPUTATION_BOARD_SIZE - position.horizontalCoordinate][position.verticalCoordinate] != null) {
             return GameState.Error(
                 message = MESSAGE_DUPLICATED_POSITION,
             )

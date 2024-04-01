@@ -26,10 +26,10 @@ class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStat
         markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,
     ) {
         val arkBoard = blackStatus.toArkOmokBoard()
-        val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate.index
-        val arkPoint = Position(horizontalCoordinate, position.verticalCoordinate.index).toArkOmokPoint()
+        val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate
+        val arkPoint = Position(horizontalCoordinate, position.verticalCoordinate).toArkOmokPoint()
         if (placementAvailable(arkBoard, arkPoint)) {
-            val verticalCoordinate = position.verticalCoordinate.index
+            val verticalCoordinate = position.verticalCoordinate
             markSinglePlace(horizontalCoordinate, verticalCoordinate, Color.BLACK)
         } else {
             throw IllegalArgumentException(EXCEPTION_FORBIDDEN_PLACEMENT)

@@ -21,9 +21,9 @@ abstract class TurnState(
         color: Color,
         markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,
     ): Boolean {
-        val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate.index
+        val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate
         addStone(color, position, markSinglePlace)
-        return calculateSearchResult(horizontalCoordinate, position.verticalCoordinate.index, color)
+        return calculateSearchResult(horizontalCoordinate, position.verticalCoordinate, color)
     }
 
     protected abstract fun addStone(

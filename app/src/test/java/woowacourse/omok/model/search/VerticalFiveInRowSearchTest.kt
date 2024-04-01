@@ -6,9 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.Color.BLACK
-import woowacourse.omok.model.HorizontalCoordinate
 import woowacourse.omok.model.Position
-import woowacourse.omok.model.VerticalCoordinate
 import woowacourse.omok.model.fixture.createPlayingBoard
 
 class VerticalFiveInRowSearchTest {
@@ -27,25 +25,25 @@ class VerticalFiveInRowSearchTest {
         val verticalDfs =
             VerticalFiveInRowSearch(
                 createPlayingBoard(
-                    Position(HorizontalCoordinate.ONE, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.NINE, VerticalCoordinate.E),
-                    Position(HorizontalCoordinate.TWO, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.TEN, VerticalCoordinate.A),
-                    Position(HorizontalCoordinate.THREE, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.TEN, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.THREE, VerticalCoordinate.D),
-                    Position(HorizontalCoordinate.TWELVE, VerticalCoordinate.A),
-                    Position(HorizontalCoordinate.THREE, VerticalCoordinate.E),
-                    Position(HorizontalCoordinate.TWELVE, VerticalCoordinate.B),
-                    Position(HorizontalCoordinate.THREE, VerticalCoordinate.F),
-                    Position(HorizontalCoordinate.ELEVEN, VerticalCoordinate.B),
-                    Position(HorizontalCoordinate.FOUR, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.ELEVEN, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.FOUR, VerticalCoordinate.D),
-                    Position(HorizontalCoordinate.ELEVEN, VerticalCoordinate.O),
-                    Position(HorizontalCoordinate.FIVE, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.ELEVEN, VerticalCoordinate.N),
-                    Position(HorizontalCoordinate.FIVE, VerticalCoordinate.E),
+                    Position(1, 3),
+                    Position(9, 5),
+                    Position(2, 3),
+                    Position(10, 1),
+                    Position(3, 3),
+                    Position(10, 3),
+                    Position(3, 4),
+                    Position(12, 1),
+                    Position(3, 5),
+                    Position(12, 2),
+                    Position(3, 6),
+                    Position(11, 2),
+                    Position(4, 3),
+                    Position(11, 3),
+                    Position(4, 4),
+                    Position(11, 15),
+                    Position(5, 3),
+                    Position(11, 14),
+                    Position(5, 5),
                 ),
             )
         // when

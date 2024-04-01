@@ -11,30 +11,30 @@ class BoardTest {
         val placementInfo =
             PlacementInfo(
                 createPlayingBoard(
-                    Position(HorizontalCoordinate.ONE, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.NINE, VerticalCoordinate.E),
-                    Position(HorizontalCoordinate.TWO, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.TEN, VerticalCoordinate.A),
-                    Position(HorizontalCoordinate.THREE, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.TEN, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.THREE, VerticalCoordinate.D),
-                    Position(HorizontalCoordinate.TWELVE, VerticalCoordinate.A),
-                    Position(HorizontalCoordinate.THREE, VerticalCoordinate.E),
-                    Position(HorizontalCoordinate.TWELVE, VerticalCoordinate.B),
-                    Position(HorizontalCoordinate.THREE, VerticalCoordinate.F),
-                    Position(HorizontalCoordinate.ELEVEN, VerticalCoordinate.B),
-                    Position(HorizontalCoordinate.FOUR, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.ELEVEN, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.FOUR, VerticalCoordinate.D),
-                    Position(HorizontalCoordinate.ELEVEN, VerticalCoordinate.O),
-                    Position(HorizontalCoordinate.FIVE, VerticalCoordinate.C),
-                    Position(HorizontalCoordinate.ELEVEN, VerticalCoordinate.N),
-                    Position(HorizontalCoordinate.FIVE, VerticalCoordinate.E),
+                    Position(1, 3),
+                    Position(9, 5),
+                    Position(2, 3),
+                    Position(10, 1),
+                    Position(3, 3),
+                    Position(10, 3),
+                    Position(3, 4),
+                    Position(12, 1),
+                    Position(3, 5),
+                    Position(12, 2),
+                    Position(3, 6),
+                    Position(11, 2),
+                    Position(4, 3),
+                    Position(11, 3),
+                    Position(4, 4),
+                    Position(11, 15),
+                    Position(5, 3),
+                    Position(11, 14),
+                    Position(5, 5),
                 ),
             )
         val board = Board(placementInfo)
         // when
-        val actualResult = board.place(Position(HorizontalCoordinate.ONE, VerticalCoordinate.C))
+        val actualResult = board.place(Position(1, 3))
         // then
         assertThat(actualResult.message).isEqualTo("중복된 곳에 착수할 수 없습니다.")
     }
@@ -44,8 +44,8 @@ class BoardTest {
         // given
         val board = Board()
         // when
-        board.place(Position(HorizontalCoordinate.TEN, VerticalCoordinate.B))
-        board.place(Position(HorizontalCoordinate.ONE, VerticalCoordinate.A))
+        board.place(Position(10, 2))
+        board.place(Position(1, 1))
         // then
         assertThat(board.lastPlacement?.color).isEqualTo(Color.WHITE)
     }

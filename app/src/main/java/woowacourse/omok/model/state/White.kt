@@ -20,8 +20,8 @@ class White(whiteStatus: Array<Array<Color?>>) : TurnState(whiteStatus) {
         position: Position,
         markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,
     ) {
-        val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate.index
-        val verticalCoordinate = position.verticalCoordinate.index
+        val horizontalCoordinate = COMPUTATION_BOARD_SIZE - position.horizontalCoordinate
+        val verticalCoordinate = position.verticalCoordinate
         markSinglePlace(horizontalCoordinate, verticalCoordinate, Color.WHITE)
     }
 }

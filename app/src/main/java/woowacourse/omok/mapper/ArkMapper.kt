@@ -26,5 +26,5 @@ private fun Color?.toSignatureNumber() =
     }
 
 fun Position.toArkOmokPoint(): Pair<Int, Int> {
-    return Pair(this.verticalCoordinate.index - 1, this.horizontalCoordinate.index - 1)
+    return Pair(this.verticalCoordinate - 1, this.horizontalCoordinate - 1)
 }

@@ -61,7 +61,7 @@ class ConsoleOutputView {
         }
 
     private fun showLastPosition(position: Position) {
-        println(MESSAGE_LAST_PLACE.format(position.verticalCoordinate.name, position.horizontalCoordinate.index))
+        println(MESSAGE_LAST_PLACE.format(position.verticalCoordinate, position.horizontalCoordinate))
     }
 
     companion object {
