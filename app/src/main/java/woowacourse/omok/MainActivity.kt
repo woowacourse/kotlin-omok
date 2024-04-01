@@ -20,13 +20,10 @@ import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.game.OmokGame
 import woowacourse.omok.model.game.OmokPlayers
 import woowacourse.omok.model.game.PlaceType
-import woowacourse.omok.model.rule.finish.AllForbiddenPositionFinishCondition
-import woowacourse.omok.model.rule.finish.FiveStonesFinishCondition
-import woowacourse.omok.model.rule.finish.FullBoardFinishCondition
 import woowacourse.omok.ui.message
 import woowacourse.omok.ui.stoneImage
 
-class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
+class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), FinishAction {
     private val boardView by lazy { findViewById<TableLayout>(R.id.board) }
     private val resultTextView by lazy { findViewById<TextView>(R.id.result_text) }
     private val restartButton by lazy { findViewById<Button>(R.id.restart_button) }
@@ -42,7 +39,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
     private fun initializeUI(omokDao: OmokDao) {
         val omokEntities = omokDao.findAll()
         val board = OmokEntityAdapter.Board(boardSize, omokEntities)
-        val omokGame = OmokGame(board, OmokPlayers(), finishAction(), omokDao)
+        val omokGame = OmokGame(board, OmokPlayers(), this, omokDao)
         setProgressText(omokGame.nowOrderStone(), omokGame.recentPosition())
 
         stoneImageView { index, view ->
@@ -55,22 +52,6 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
 
         restartButton.setOnClickListener {
             restartGame(omokGame)
-        }
-    }
-
-    private fun finishAction(): FinishAction {
-        return object : FinishAction {
-            override val conditions =
-                listOf(
-                    FiveStonesFinishCondition(),
-                    FullBoardFinishCondition(),
-                    AllForbiddenPositionFinishCondition(),
-                )
-
-            override fun onFinish(finishType: FinishType) {
-                isFinish = true
-                setResultText(finishType)
-            }
         }
     }
 
@@ -153,5 +134,10 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity() {
 
     companion object {
         private val TAG = MainActivity::class.simpleName
+    }
+
+    override fun onFinish(finishType: FinishType) {
+        isFinish = true
+        setResultText(finishType)
     }
 }
