@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.R
 import woowacourse.omok.model.database.GameRoomDao
-import woowacourse.omok.model.state.GameState
 
 class RoomListActivity : AppCompatActivity() {
     private val gameRoomDao: GameRoomDao by lazy { GameRoomDao(this) }
@@ -39,14 +38,6 @@ class RoomListActivity : AppCompatActivity() {
         val items = findViewById<RecyclerView>(R.id.rv_rooms)
         items.adapter = adapter
         items.layoutManager = LinearLayoutManager(this)
-    }
-
-    private fun getGameStatusText(status: String?): String {
-        return when (status) {
-            GameState.OnProgress::class.simpleName -> getString(R.string.button_continue)
-            GameState.GameOver::class.simpleName -> getString(R.string.button_game_over)
-            else -> getString(R.string.button_error)
-        }
     }
 
     companion object {

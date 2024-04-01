@@ -73,8 +73,9 @@ class OmokGameActivity : AppCompatActivity() {
         if (!::gameState.isInitialized || gameState !is GameState.GameOver) {
             setGameState(index)
             if (gameState !is GameState.Error) {
+                val currentColor = placementData.lastPlacement?.color ?: Color.BLACK
                 setStoneImage(view)
-                savePlacementInfo(gameId, index)
+                savePlacementInfo(gameId, index, currentColor)
                 setCurrentTurnText()
             }
         }
@@ -83,11 +84,12 @@ class OmokGameActivity : AppCompatActivity() {
     private fun savePlacementInfo(
         gameId: Long,
         index: Int,
+        color: Color,
     ) {
         placementDao.save(
             Placement(
                 gameId = gameId,
-                color = placementData.lastPlacement?.color?.name,
+                color = color.name,
                 index = index,
             ),
         )
