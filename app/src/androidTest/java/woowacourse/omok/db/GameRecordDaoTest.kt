@@ -57,7 +57,7 @@ class GameRecordDaoTest {
                 gameTurnOf(x = 1, y = 2, id = 2),
             )
         // when
-        val actualIds = dao.saveGameRecord(gameTurns)
+        val actualIds = dao.saveGame(gameTurns)
         val actualTurns = dao.selectAll()
         // then
         assertAll(
@@ -75,7 +75,7 @@ class GameRecordDaoTest {
                 gameTurnOf(x = 1, y = 1),
                 gameTurnOf(x = 1, y = 2),
             )
-        dao.saveGameRecord(gameTurns)
+        dao.saveGame(gameTurns)
         val expectedDeleteCount = 2
         // when
         val id = dao.resetTable()

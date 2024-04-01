@@ -48,11 +48,6 @@ class MainActivity : AppCompatActivity(), OmokGameAndroidView, PlaceErrorHandler
         initResetButton()
     }
 
-    override fun onStop() {
-        super.onStop()
-        presenter.saveGame()
-    }
-
     override fun showGameStart(initialBoard: OmokBoard) {
         initBoardClickListener()
         initialBoard.blockRecords

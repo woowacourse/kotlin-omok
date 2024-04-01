@@ -7,8 +7,9 @@ import android.provider.BaseColumns
 
 class GameRecordDao(private val omokSQLiteHelper: SQLiteOpenHelper) {
     fun createTable() {
-        val db = omokSQLiteHelper.writableDatabase
-        db.execSQL(OmokContract.GameRecordEntry.SQL_CREATE_TABLE)
+        omokSQLiteHelper.writableDatabase.use {
+            it.execSQL(OmokContract.GameRecordEntry.SQL_CREATE_TABLE)
+        }
     }
 
     @SuppressLint("Range")
@@ -28,10 +29,11 @@ class GameRecordDao(private val omokSQLiteHelper: SQLiteOpenHelper) {
                     turns.add(GameTurnEntity(id, x, y, color))
                 }
             }
+        db.close()
         return turns
     }
 
-    fun saveGameRecord(turns: List<GameTurnEntity>): List<Long> {
+    fun saveGame(turns: List<GameTurnEntity>): List<Long> {
         return turns.map(::saveTurn)
     }
 
@@ -44,17 +46,21 @@ class GameRecordDao(private val omokSQLiteHelper: SQLiteOpenHelper) {
             put(OmokContract.GameRecordEntry.COLUMN_COLOR, color)
         }.let {
             db.insertOrThrow(OmokContract.GameRecordEntry.TABLE_NAME, null, it)
+        }.also {
+            omokSQLiteHelper.close()
         }
     }
 
     fun resetTable(): Int {
-        val db = omokSQLiteHelper.writableDatabase
-        return db.delete(OmokContract.GameRecordEntry.TABLE_NAME, null, null)
+        omokSQLiteHelper.writableDatabase.use {
+            return it.delete(OmokContract.GameRecordEntry.TABLE_NAME, null, null)
+        }
     }
 
     fun dropTable() {
-        val db = omokSQLiteHelper.writableDatabase
-        db.execSQL(OmokContract.GameRecordEntry.SQL_DELETE_TABLE)
+        omokSQLiteHelper.writableDatabase.use {
+            it.execSQL(OmokContract.GameRecordEntry.SQL_DELETE_TABLE)
+        }
     }
 
     private fun contentValues(action: ContentValues.() -> Unit): ContentValues {

@@ -1,13 +1,12 @@
 package woowacourse.omok.presenter
 
-import android.util.Log
 import omock.model.Position
 import omock.model.game.OmokGame
 import omock.model.onFailure
 import omock.model.onSuccess
 import woowacourse.omok.data.OmokRepository
-import woowacourse.omok.view.OmokGameConsoleView
 import woowacourse.omok.view.OmokGameAndroidView
+import woowacourse.omok.view.OmokGameConsoleView
 import woowacourse.omok.view.PlaceErrorHandler
 
 class OmokGamePresenter(
@@ -33,7 +32,7 @@ class OmokGamePresenter(
         game.placeStone(position)
             .onSuccess {
                 val (board, lastBlock) = game.lastGameResult()
-                println(game.lastGameResult())
+                repository.saveGameTurn(lastBlock)
                 view.showCurrentGameState(board, lastBlock.toAndroid())
                 consoleView.showCurrentGameState(board.toConsole(), lastBlock.toConsole())
                 if (game.isEnd()) {

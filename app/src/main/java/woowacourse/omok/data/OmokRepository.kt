@@ -7,9 +7,9 @@ import omock.model.rule.RenjuRule
 import woowacourse.omok.db.GameRecordDao
 
 class OmokRepository(private val dao: GameRecordDao) {
-    fun saveGame(block: Block) {
-        val gameTurns = listOf(block.toGameTurnEntity())
-        dao.saveGameRecord(gameTurns)
+    fun saveGameTurn(block: Block) {
+        val turn = block.toGameTurnEntity()
+        dao.saveTurn(turn)
     }
 
     fun fetchGame(): OmokGame {
