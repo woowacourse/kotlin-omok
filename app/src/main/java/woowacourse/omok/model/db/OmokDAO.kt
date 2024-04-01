@@ -3,6 +3,9 @@ package woowacourse.omok.model.db
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import woowacourse.omok.model.db.OmokContract.OmokEntry
+import woowacourse.omok.model.entity.Point
+import woowacourse.omok.model.entity.Stone
+import woowacourse.omok.model.entity.StoneColor
 
 class OmokDAO(private val db: SQLiteDatabase) {
     fun insert(
@@ -22,6 +25,36 @@ class OmokDAO(private val db: SQLiteDatabase) {
         db.execSQL("DELETE FROM ${OmokEntry.TABLE_NAME}")
     }
 
-    fun selectAll() {
+    fun selectAll(): Set<Stone> {
+        val stones = mutableSetOf<Stone>()
+        val cursor =
+            db.query(
+                OmokEntry.TABLE_NAME,
+                arrayOf(
+                    OmokEntry.POINT_X,
+                    OmokEntry.POINT_Y,
+                    OmokEntry.TURN,
+                ),
+                null,
+                null,
+                null,
+                null,
+                null,
+            )
+
+        while (cursor.moveToNext()) {
+            val x = cursor.getString(cursor.getColumnIndexOrThrow(OmokEntry.POINT_X))
+            val y = cursor.getString(cursor.getColumnIndexOrThrow(OmokEntry.POINT_Y))
+            val turn = cursor.getString(cursor.getColumnIndexOrThrow(OmokEntry.TURN))
+
+            stones.add(
+                Stone(
+                    Point(x.toInt(), y.toInt()),
+                    if (turn == "BLACK") StoneColor.BLACK else StoneColor.WHITE,
+                ),
+            )
+        }
+
+        return stones.toSet()
     }
 }
