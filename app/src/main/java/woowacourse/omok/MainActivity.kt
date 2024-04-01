@@ -40,12 +40,12 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     override fun onForbiddenStone() {
-        viewToastMessage(FORBIDDEN_STONE_MESSAGE)
+        viewToastMessage(FORBIDDEN_STONE_MESSAGE, SHORT_DURATION)
     }
 
     override fun onGameEnd(winner: Color) {
         runOnUiThread {
-            Toast.makeText(this, "게임 종료! 승자: ${winner?.name}", Toast.LENGTH_LONG).show()
+            viewToastMessage(WINNER_MESSAGE.format(getPlayerColor(winner)), LONG_DURATION)
         }
     }
 
@@ -81,12 +81,24 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         }
     }
 
-    private fun viewToastMessage(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    private fun viewToastMessage(message: String?, duration: Int) {
+        Toast.makeText(this, message, duration).show()
+    }
+
+    private fun getPlayerColor(color: Color): String {
+        return when (color) {
+            Color.BLACK -> PLAYER_COLOR_BLACK
+            Color.WHITE -> PLAYER_COLOR_WHITE
+        }
     }
 
     companion object {
         const val INDEX_ADJUSTMENT = 1
         const val FORBIDDEN_STONE_MESSAGE = "이 위치는 금수입니다!"
+        const val WINNER_MESSAGE = "게임 종료! 우승자는 %s 입니다!"
+        const val PLAYER_COLOR_BLACK = "흑"
+        const val PLAYER_COLOR_WHITE = "백"
+        const val SHORT_DURATION = 3
+        const val LONG_DURATION = 8
     }
 }
