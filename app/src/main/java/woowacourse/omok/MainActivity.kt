@@ -10,6 +10,7 @@ import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.db.OmokDAO
 import woowacourse.omok.model.db.OmokDbHelper
 import woowacourse.omok.model.entity.Point
+import woowacourse.omok.model.entity.Stone
 import woowacourse.omok.model.entity.StoneColor
 import woowacourse.omok.model.turn.BlackTurn
 import woowacourse.omok.model.turn.Finished
@@ -45,13 +46,7 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { index, view ->
                 val point = findPoint(index)
 
-                stones.find { it.point == point }.let {
-                    if (it?.stoneColor == StoneColor.BLACK) {
-                        view.setImageResource(R.drawable.black_stone)
-                    } else if (it?.stoneColor == StoneColor.WHITE) {
-                        view.setImageResource(R.drawable.white_stone)
-                    }
-                }
+                initOmokBoard(stones, point, view)
 
                 view.setOnClickListener {
                     val previousTurn: Turn = currentTurn
@@ -73,11 +68,7 @@ class MainActivity : AppCompatActivity() {
                         view.setImageResource(R.drawable.white_stone)
                     }
 
-                    if (currentTurn is Finished) {
-                        outputView.printWinner(currentTurn.board)
-                        board.removeAllViews()
-                        dao.deleteAll()
-                    }
+                    removeAllGameStatus(currentTurn, outputView, board, dao)
                 }
             }
     }
@@ -91,5 +82,32 @@ class MainActivity : AppCompatActivity() {
         val y = 15 - (index / 15)
 
         return Point(x, y)
+    }
+
+    private fun initOmokBoard(
+        stones: Set<Stone>,
+        point: Point,
+        view: ImageView,
+    ) {
+        stones.find { it.point == point }.let {
+            if (it?.stoneColor == StoneColor.BLACK) {
+                view.setImageResource(R.drawable.black_stone)
+            } else if (it?.stoneColor == StoneColor.WHITE) {
+                view.setImageResource(R.drawable.white_stone)
+            }
+        }
+    }
+
+    private fun removeAllGameStatus(
+        currentTurn: Turn,
+        outputView: OutputView,
+        board: TableLayout,
+        dao: OmokDAO,
+    ) {
+        if (currentTurn is Finished) {
+            outputView.printWinner(currentTurn.board)
+            board.removeAllViews()
+            dao.deleteAll()
+        }
     }
 }
