@@ -1,24 +1,21 @@
 package woowacourse.omok.model.database
 
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
-import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
 class GameRoomDaoTest {
     private lateinit var dao: GameRoomDao
 
-    @Before
+    @BeforeEach
     fun setUp() {
         dao = GameRoomDao(ApplicationProvider.getApplicationContext())
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         dao.drop()
     }
@@ -27,13 +24,13 @@ class GameRoomDaoTest {
     fun saveTest() {
         val room = Room(title = "room1")
         val actual = dao.save(room)
-        assertEquals(actual.title, "room1")
+        assertThat(actual.title).isEqualTo("room1")
     }
 
     @Test
     fun findAllTest() {
         val actual = dao.findAll()
-        assertEquals(actual, emptyList<Room>())
+        assertThat(actual).isEmpty()
     }
 
     @Test
@@ -44,8 +41,8 @@ class GameRoomDaoTest {
         dao.save(room2)
         val actual = dao.findAll()
         assertAll(
-            { assertEquals(actual[0].title, "room1") },
-            { assertEquals(actual[1].title, "room2") },
+            { assertThat(actual[0].title).isEqualTo("room1") },
+            { assertThat(actual[1].title).isEqualTo("room2") },
         )
     }
 }
