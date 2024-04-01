@@ -7,7 +7,10 @@ import woowacourse.omok.model.entity.Point
 import woowacourse.omok.model.entity.Stone
 import woowacourse.omok.model.entity.StoneColor
 
-class OmokDAO(private val db: SQLiteDatabase) {
+class OmokDAO(
+    private val db: SQLiteDatabase,
+    private val tableName: String = OmokEntry.TABLE_NAME,
+) {
     fun insert(
         x: Int,
         y: Int,
@@ -18,11 +21,11 @@ class OmokDAO(private val db: SQLiteDatabase) {
         values.put(OmokEntry.POINT_Y, y)
         values.put(OmokEntry.TURN, turn)
 
-        return db.insert(OmokEntry.TABLE_NAME, null, values)
+        return db.insert(tableName, null, values)
     }
 
     fun deleteAll() {
-        db.execSQL("DELETE FROM ${OmokEntry.TABLE_NAME}")
+        db.execSQL("DELETE FROM $tableName")
     }
 
     fun selectAll(): Set<Stone> {
