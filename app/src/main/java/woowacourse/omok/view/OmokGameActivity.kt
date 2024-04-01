@@ -23,7 +23,6 @@ class OmokGameActivity : AppCompatActivity() {
     private val placementData: Board by lazy { Board() }
     private val placementDao: PlacementDao by lazy { PlacementDao(this) }
     private val currentTurnTextView: TextView by lazy { findViewById(R.id.tv_current_turn) }
-    private val consoleOutputView by lazy { ConsoleOutputView() }
     private lateinit var gameState: GameState
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,15 +36,6 @@ class OmokGameActivity : AppCompatActivity() {
         initializeGameTitle(gameTitle)
         initializeBoard(placedIndexItems, gameId)
         setCurrentTurnText()
-        consoleOutputView.showGameStartMessage()
-        showConsoleState()
-    }
-
-    private fun showConsoleState() {
-        consoleOutputView.showCurrentBoard(placementData.status)
-        if (::gameState.isInitialized && gameState !is GameState.GameOver) {
-            consoleOutputView.showCurrentTurn(placementData.lastPlacement)
-        }
     }
 
     private fun initializeGameTitle(gameTitle: String?) {
@@ -71,7 +61,6 @@ class OmokGameActivity : AppCompatActivity() {
         boardItems.forEachIndexed { index, view ->
             view.setOnClickListener {
                 markPosition(index, view, gameId)
-                showConsoleState()
             }
         }
     }
@@ -132,9 +121,7 @@ class OmokGameActivity : AppCompatActivity() {
             is GameState.GameOver -> {
                 val resultMessage = generateResultMessage(gameState)
                 showToastMessage(resultMessage)
-                consoleOutputView.showGameResult(gameState.gameResult)
             }
-
             is GameState.OnProgress -> return
             is GameState.Error -> {
                 gameState.message.also {
