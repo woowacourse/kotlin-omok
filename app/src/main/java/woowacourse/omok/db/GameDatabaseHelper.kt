@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import woowacourse.omok.model.OmokGameState
 
 class GameDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
@@ -16,9 +17,9 @@ class GameDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
         onCreate(db)
     }
 
-    fun saveGameState(state: String): Boolean {
+    fun saveGameState(omokGameState: OmokGameState): Boolean {
         val values = ContentValues().apply {
-            put(COLUMN_STATE, state)
+            put(COLUMN_STATE, omokGameState.serialize())
         }
         val result = writableDatabase.insert(TABLE_GAME_STATE, null, values)
 

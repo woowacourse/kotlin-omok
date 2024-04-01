@@ -49,8 +49,7 @@ class MainActivity : AppCompatActivity() {
             dbHelper.clearGameState()
         }
         findViewById<Button>(R.id.btnSaveAndExit).setOnClickListener {
-            val currentState = omokGame.saveTo()
-            if (dbHelper.saveGameState(currentState)) finish()
+            if (dbHelper.saveGameState(omokGame.getState())) finish()
         }
     }
 

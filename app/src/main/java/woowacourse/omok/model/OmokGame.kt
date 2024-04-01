@@ -14,26 +14,11 @@ class OmokGame(
 ) {
     private var gameBoard: Array<Array<OmokStone>> =
         Array(BOARD_SIZE) { Array(BOARD_SIZE) { Empty() } }
+    private val omokGameState = OmokGameState(gameBoard)
     private val omokStones = mutableListOf<OmokStone>()
     private var forbiddenPositions = emptyList<BoardPosition>()
-
-
+    fun getState() = omokGameState
     fun getStoneTypeAtPosition(row: Int, col: Int) = gameBoard[row][col].getOmokStoneType()
-
-    fun saveTo(): String {
-        val stringBuilder = StringBuilder()
-        for (row in gameBoard.indices) {
-            for (col in gameBoard[row].indices) {
-                val stone = gameBoard[row][col]
-                if (stone !is Empty) {
-                    val stoneType = if (stone is Black) "B" else "W"
-                    stringBuilder.append("$row,$col,$stoneType;")
-                }
-            }
-        }
-        return stringBuilder.toString()
-    }
-
     fun restoreFrom(savedState: String): Boolean {
         val stoneInfos = savedState.split(DELIMITER_INFO).filter { it.isNotEmpty() }
         for (info in stoneInfos) {
@@ -45,24 +30,6 @@ class OmokGame(
         updateForbiddenPositions()
         return true
     }
-
-    private fun parseStoneInfo(info: String): OmokStone? {
-        val parts = info.split(DELIMITER_PARTS)
-        if (parts.size != 3) return null
-
-        val row = parts[0].toIntOrNull() ?: return null
-        val col = parts[1].toIntOrNull() ?: return null
-        val type = parts[2]
-
-        val position = BoardPosition(BoardCoordinate(row), BoardCoordinate(col))
-        return when (type) {
-            STONE_TYPE_BLACK -> Black(position)
-            STONE_TYPE_WHITE -> White(position)
-            else -> null
-        }
-    }
-
-
 
     fun getBoard() = gameBoard
 
@@ -109,6 +76,22 @@ class OmokGame(
         if (stone.boardPosition in omokStones.map { omokStone -> omokStone.boardPosition }) return false
         if (stone.boardPosition in forbiddenPositions) return false
         return true
+    }
+
+    private fun parseStoneInfo(info: String): OmokStone? {
+        val parts = info.split(DELIMITER_PARTS)
+        if (parts.size != 3) return null
+
+        val row = parts[0].toIntOrNull() ?: return null
+        val col = parts[1].toIntOrNull() ?: return null
+        val type = parts[2]
+
+        val position = BoardPosition(BoardCoordinate(row), BoardCoordinate(col))
+        return when (type) {
+            STONE_TYPE_BLACK -> Black(position)
+            STONE_TYPE_WHITE -> White(position)
+            else -> null
+        }
     }
 
     companion object {
