@@ -4,10 +4,10 @@ import woowacourse.omok.model.Board
 import woowacourse.omok.model.OmokStone
 import woowacourse.omok.model.Position
 import woowacourse.omok.model.StoneColor
-import woowacourse.omok.model.rule.GeneralStonePlaceRule
 import woowacourse.omok.model.rule.StonePlaceRule
 
-class BlackTurn(stonePlaceRule: StonePlaceRule, board: Board) : Running(stonePlaceRule, board) {
+class BlackTurn(stonePlaceRule: StonePlaceRule, board: Board) :
+    Running(stonePlaceRule, board) {
     override val isFinished: Boolean = false
 
     override fun put(position: Position): GameState {
@@ -15,7 +15,7 @@ class BlackTurn(stonePlaceRule: StonePlaceRule, board: Board) : Running(stonePla
         if (canPut(newStone)) {
             val newBoard = board + newStone
             if (newBoard.isInOmok(position)) return Finish(newBoard)
-            return WhiteTurn(GeneralStonePlaceRule, newBoard)
+            return WhiteTurn(StonePlaceRule(), newBoard)
         }
         return this
     }

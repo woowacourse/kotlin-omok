@@ -1,13 +1,15 @@
-package omok.model
+package woowacourse.omok.model
 
 import io.kotest.matchers.booleans.shouldBeFalse
 import omok.fixtures.createPoint
 import omok.fixtures.createWhiteBoard
 import omok.fixtures.createWhiteStone
 import org.junit.jupiter.api.Test
-import woowacourse.omok.model.rule.GeneralStonePlaceRule
+import woowacourse.omok.model.rule.StonePlaceRule
 
-class GeneralStonePlaceRuleTest {
+class StonePlaceRuleTest {
+    private val stonePlaceRule = StonePlaceRule()
+
     @Test
     fun `이미 알이 있으면 금수`() {
         val whiteBoard =
@@ -16,7 +18,7 @@ class GeneralStonePlaceRuleTest {
             )
         val whiteStone = createWhiteStone(1, 2)
         // when
-        val canPut = GeneralStonePlaceRule.canPlace(whiteStone, whiteBoard)
+        val canPut = stonePlaceRule.canPlace(whiteStone, whiteBoard)
         // then
         canPut.shouldBeFalse()
     }
@@ -26,7 +28,7 @@ class GeneralStonePlaceRuleTest {
         val whiteBoard = createWhiteBoard()
         val whiteStone = createWhiteStone(0, 0)
         // when
-        val canPut = GeneralStonePlaceRule.canPlace(whiteStone, whiteBoard)
+        val canPut = stonePlaceRule.canPlace(whiteStone, whiteBoard)
         // then
         canPut.shouldBeFalse()
     }

@@ -3,7 +3,7 @@ package woowacourse.omok.model.rule
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.OmokStone
 
-abstract class StonePlaceRule {
+open class StonePlaceRule {
     open fun canPlace(
         stone: OmokStone,
         board: Board,

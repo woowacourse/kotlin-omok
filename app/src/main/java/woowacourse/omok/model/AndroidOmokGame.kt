@@ -1,7 +1,7 @@
 package woowacourse.omok.model
 
-import woowacourse.omok.model.rule.GeneralStonePlaceRule
 import woowacourse.omok.model.rule.RenjuRule
+import woowacourse.omok.model.rule.StonePlaceRule
 import woowacourse.omok.model.state.BlackTurn
 import woowacourse.omok.model.state.GameState
 import woowacourse.omok.model.state.WhiteTurn
@@ -49,7 +49,7 @@ class AndroidOmokGame(
         board: Board,
     ): GameState {
         return when (color) {
-            StoneColor.BLACK -> WhiteTurn(GeneralStonePlaceRule, board)
+            StoneColor.BLACK -> WhiteTurn(StonePlaceRule(), board)
             StoneColor.WHITE -> BlackTurn(RenjuRule, board)
         }
     }

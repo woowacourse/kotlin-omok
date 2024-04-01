@@ -7,7 +7,8 @@ import woowacourse.omok.model.StoneColor
 import woowacourse.omok.model.rule.RenjuRule
 import woowacourse.omok.model.rule.StonePlaceRule
 
-class WhiteTurn(stonePlaceRule: StonePlaceRule, board: Board) : Running(stonePlaceRule, board) {
+class WhiteTurn(stonePlaceRule: StonePlaceRule, board: Board) :
+    Running(stonePlaceRule, board) {
     override val isFinished: Boolean = false
 
     override fun put(position: Position): GameState {

@@ -7,7 +7,6 @@ import omok.fixtures.createPoint
 import omok.fixtures.createWhiteBoard
 import omok.fixtures.createWhiteStone
 import org.junit.jupiter.api.Test
-import woowacourse.omok.model.rule.GeneralStonePlaceRule
 import woowacourse.omok.model.rule.RenjuRule
 
 class RenjuRuleTest {
@@ -72,7 +71,7 @@ class RenjuRuleTest {
             )
         val whiteStone = createWhiteStone(1, 2)
         // when
-        val canPut = GeneralStonePlaceRule.canPlace(whiteStone, whiteBoard)
+        val canPut = RenjuRule.canPlace(whiteStone, whiteBoard)
         // then
         canPut.shouldBeFalse()
     }
@@ -82,7 +81,7 @@ class RenjuRuleTest {
         val whiteBoard = createWhiteBoard()
         val whiteStone = createWhiteStone(0, 0)
         // when
-        val canPut = GeneralStonePlaceRule.canPlace(whiteStone, whiteBoard)
+        val canPut = RenjuRule.canPlace(whiteStone, whiteBoard)
         // then
         canPut.shouldBeFalse()
     }
