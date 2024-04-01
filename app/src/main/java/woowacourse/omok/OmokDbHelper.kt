@@ -3,9 +3,9 @@ package woowacourse.omok
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import woowacourse.omok.FeedReaderContract.SQL_CREATE_ENTRIES
+import woowacourse.omok.OmokDbContract.SQL_CREATE_ENTRIES
 
-class FeedReaderDbHelper(
+class OmokDbHelper(
     context: Context,
 ) : SQLiteOpenHelper(context, "alsong.db", null, 1) {
     override fun onCreate(db: SQLiteDatabase?) {
