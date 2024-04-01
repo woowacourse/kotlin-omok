@@ -1,6 +1,6 @@
 package woowacourse.omok.model
 
-import RuleAdaptor
+import RenjuRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -44,7 +44,7 @@ class PlayerTest {
     fun `플레이어 차례가 되면 돌을 보드에 착수 한다`() {
         // given
         val stones = Stones()
-        val rule = RuleAdaptor(stones)
+        val rule = RenjuRule(stones)
         val board = Board(stones, rule)
         val player = Player(Color.BLACK)
 
@@ -59,7 +59,7 @@ class PlayerTest {
     fun `플레이어의 차례에 오목이 만들어지면 승리한다`() {
         // given
         val stones = Stones()
-        val rule = RuleAdaptor(stones)
+        val rule = RenjuRule(stones)
         val board = Board(stones, rule)
         val player = Player(Color.BLACK)
         createCustomBoard(board, blackStones)

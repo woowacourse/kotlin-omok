@@ -1,13 +1,13 @@
-import library.RenjuRule
+import library.OmokRule
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.Rule
 import woowacourse.omok.model.Stone
 import woowacourse.omok.model.Stones
 
-class RuleAdaptor(private val stones: Stones) : Rule {
-    private val renjuRule: RenjuRule
+class RenjuRule(private val stones: Stones) : Rule {
+    private val omokRule: OmokRule
         get() =
-            RenjuRule(
+            OmokRule(
                 generateCustomBoard(stones),
                 colorToInt(getCurrentTurn(stones)),
                 getOtherColorToInt(getCurrentTurn(stones)),
@@ -18,27 +18,27 @@ class RuleAdaptor(private val stones: Stones) : Rule {
         return !checkInvalid(stone)
     }
 
-    fun checkInvalid(stone: Stone): Boolean {
+    private fun checkInvalid(stone: Stone): Boolean {
         if (stone.color == Color.WHITE) return false
         return checkThreeThree(stone) || checkFourFour(stone) || checkMoreThanFive(stone)
     }
 
     private fun checkThreeThree(stone: Stone): Boolean {
-        return renjuRule.checkThreeThree(
+        return omokRule.checkThreeThree(
             stone.coordinate.y - INDEX_ADJUSTMENT,
             stone.coordinate.x - INDEX_ADJUSTMENT,
         )
     }
 
     private fun checkFourFour(stone: Stone): Boolean {
-        return renjuRule.countFourFour(
+        return omokRule.countFourFour(
             stone.coordinate.y - INDEX_ADJUSTMENT,
             stone.coordinate.x - INDEX_ADJUSTMENT,
         )
     }
 
     private fun checkMoreThanFive(stone: Stone): Boolean {
-        return renjuRule.checkMoreThanFive(
+        return omokRule.checkMoreThanFive(
             stone.coordinate.y - INDEX_ADJUSTMENT,
             stone.coordinate.x - INDEX_ADJUSTMENT,
         )

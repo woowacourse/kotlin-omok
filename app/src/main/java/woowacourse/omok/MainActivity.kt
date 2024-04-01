@@ -1,6 +1,6 @@
 package woowacourse.omok
 
-import RuleAdaptor
+import RenjuRule
 import android.content.Context
 import android.os.Bundle
 import android.widget.Button
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
         currentPlayerIndex = stonesList.size
         currentPlayer = players[(currentPlayerIndex) % players.size]
-        val board = Board(Stones(stonesList), RuleAdaptor(Stones(stonesList)))
+        val board = Board(Stones(stonesList), RenjuRule(Stones(stonesList)))
         omokGame = OmokGame(board)
 
         updateText("${currentPlayer.color.name} 플레이어부터 시작합니다.")

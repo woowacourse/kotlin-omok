@@ -1,6 +1,6 @@
 package woowacourse.omok.controller
 
-import RuleAdaptor
+import RenjuRule
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.OmokGame
@@ -18,7 +18,7 @@ class OmokConsoleController {
         val board =
             Board(
                 stones,
-                rule = RuleAdaptor(stones),
+                rule = RenjuRule(stones),
             )
         startGame(players, board)
         displayWinner(players)

@@ -1,6 +1,6 @@
 package woowacourse.omok.model
 
-import RuleAdaptor
+import RenjuRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -18,7 +18,7 @@ class BoardTest {
     fun `오목판을 생성하면 기본적으로 15 x 15 사이즈를 갖는다`() {
         // given,when
         val stones = Stones()
-        val rule = RuleAdaptor(stones)
+        val rule = RenjuRule(stones)
         val board = Board(stones, rule)
 
         // then
@@ -30,7 +30,7 @@ class BoardTest {
     fun `오목판의 사이즈를 정해서 생성할 수 있다`() {
         // given,when
         val stones = Stones()
-        val rule = RuleAdaptor(stones)
+        val rule = RenjuRule(stones)
         val newBoard = Board(stones, rule, 30, 30)
 
         // then
@@ -42,7 +42,7 @@ class BoardTest {
     fun `오목판은 착수된 돌을 가지고 있다`() {
         // given
         val stones = Stones()
-        val rule = RuleAdaptor(stones)
+        val rule = RenjuRule(stones)
         val board = Board(stones, rule)
         val stone = Stone(Color.BLACK, COORDINATE_F8)
 
@@ -65,7 +65,7 @@ class BoardTest {
     fun `흑 플레이어가 3-3을 만드는 경우, 착수할 수 없다`() {
         // given
         val stones = Stones()
-        val rule = RuleAdaptor(stones)
+        val rule = RenjuRule(stones)
         val board = Board(stones, rule)
         createBoard(board, samSamBlackStones)
 
@@ -88,7 +88,7 @@ class BoardTest {
     fun `흑 플레이어가 4-4을 만드는 경우, 착수할 수 없다`() {
         // given
         val stones = Stones()
-        val rule = RuleAdaptor(stones)
+        val rule = RenjuRule(stones)
         val board = Board(stones, rule)
         createBoard(board, fourFourBlackStones)
 
@@ -111,7 +111,7 @@ class BoardTest {
     fun `흑 플레이어가 장목을 만드는 경우, 착수할 수 없다`() {
         // given
         val stones = Stones()
-        val rule = RuleAdaptor(stones)
+        val rule = RenjuRule(stones)
         val board = Board(stones, rule)
         createBoard(board, moreThanFiveBlackStones)
 
@@ -136,7 +136,7 @@ class BoardTest {
     fun `흑 플레이어가 열린 4-4을 만드는 경우, 착수할 수 없다`() {
         // given
         val stones = Stones()
-        val rule = RuleAdaptor(stones)
+        val rule = RenjuRule(stones)
         val board = Board(stones, rule)
         createBoard(board, openFourFourBlackStones)
 
@@ -151,7 +151,7 @@ class BoardTest {
     fun `백 플레이어는 렌주룰을 적용받지 않는다`() {
         // given
         val stones = Stones()
-        val rule = RuleAdaptor(stones)
+        val rule = RenjuRule(stones)
         val board = Board(stones, rule)
         createBoard(board, samSamWhiteStones)
 
