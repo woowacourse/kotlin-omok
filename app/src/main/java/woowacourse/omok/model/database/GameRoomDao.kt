@@ -9,7 +9,7 @@ import androidx.core.content.contentValuesOf
 class GameRoomDao(
     context: Context,
 ) : DatabaseDao<Room> {
-    override val dbHelper: SQLiteOpenHelper = GameRoomDbHelper(context)
+    override val dbHelper: SQLiteOpenHelper = OmokDbHelper(context)
     private val writableDb: SQLiteDatabase by lazy { dbHelper.writableDatabase }
 
     override fun save(item: Room): Room {

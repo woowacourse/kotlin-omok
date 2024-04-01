@@ -8,7 +8,7 @@ import androidx.core.content.contentValuesOf
 class PlacementDao(
     context: Context,
 ) : DatabaseDao<Placement> {
-    override val dbHelper: SQLiteOpenHelper = PlacementDbHelper(context)
+    override val dbHelper: SQLiteOpenHelper = OmokDbHelper(context)
 
     override fun save(item: Placement): Placement {
         val db = dbHelper.writableDatabase
