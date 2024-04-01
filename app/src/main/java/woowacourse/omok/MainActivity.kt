@@ -81,10 +81,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun resetOmokUI(
-        boardImageViewMap: Map<Point, ImageView>,
-    ) {
-        boardImageViewMap.forEach{
+    private fun resetOmokUI(boardImageViewMap: Map<Point, ImageView>) {
+        boardImageViewMap.forEach {
             it.value.setImageResource(0)
         }
     }
