@@ -9,7 +9,7 @@ import woowacourse.omok.view.OmokGameAndroidView
 import woowacourse.omok.view.OmokGameConsoleView
 
 class OmokGamePresenter(
-    private val view: OmokGameAndroidView,
+    private val androidView: OmokGameAndroidView,
     private val consoleView: OmokGameConsoleView,
     private val repository: OmokRepository,
 ) {
@@ -22,7 +22,7 @@ class OmokGamePresenter(
     private fun startGame() {
         game = repository.fetchGame()
         val board = game.currentBoard()
-        view.showGameStart(board)
+        androidView.showGameStart(board)
         consoleView.showGameStart(board.toConsole())
     }
 
@@ -31,21 +31,21 @@ class OmokGamePresenter(
             .onSuccess {
                 val (board, lastBlock) = game.lastGameResult()
                 repository.saveGameTurn(lastBlock)
-                view.showCurrentGameState(board, lastBlock.toAndroid())
+                androidView.showCurrentGameState(board, lastBlock.toAndroid())
                 consoleView.showCurrentGameState(board.toConsole(), lastBlock.toConsole())
                 if (game.isEnd()) {
-                    view.showGameResult(board, lastBlock.toAndroid())
+                    androidView.showGameResult(board, lastBlock.toAndroid())
                     consoleView.showGameResult(board.toConsole(), lastBlock.toConsole())
                 }
             }.onFailure {
-                view.showPlaceError(it.toAndroidErrorMessage())
+                androidView.showPlaceError(it.toAndroidErrorMessage())
                 consoleView.showPlaceError(it.toConsoleErrorMessage())
             }
     }
 
     fun resetGame() {
         repository.resetGame()
-        view.resetView()
+        androidView.resetView()
         startGame()
     }
 }

@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), OmokGameAndroidView {
         initBoardView()
         presenter =
             OmokGamePresenter(
-                view = this,
+                androidView = this,
                 consoleView = OmokGameConsoleView(),
                 repository = OmokRepository(GameRecordDao(helper)),
             )
