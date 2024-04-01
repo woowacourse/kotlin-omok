@@ -20,8 +20,8 @@ class PlaceDaoTest {
     @Test
     fun `착수가_이뤄지면_기보에_기록되어야_한다`() {
         val place = Place("흑", 1, 2)
-        val actual = dao.save(place)
-        assertThat(actual.id).isGreaterThan(0)
+        val id = dao.save(place).id
+        val actual = dao.findById(id)
         assertThat(actual.color).isEqualTo("흑")
         assertThat(actual.rowCoordinate).isEqualTo(1)
         assertThat(actual.colCoordinate).isEqualTo(2)

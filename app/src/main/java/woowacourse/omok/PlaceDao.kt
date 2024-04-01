@@ -60,6 +60,11 @@ class PlaceDao(context: Context) {
         )
     }
 
+    fun findById(id: Long): Place {
+        val places = findAll()
+        return places.first { it.id == id }
+    }
+
     private fun addToNotation(
         cursor: Cursor,
         places: MutableList<Place>,
