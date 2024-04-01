@@ -1,13 +1,8 @@
-package omok.model
+package woowacourse.omok.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import woowacourse.omok.model.Color
-import woowacourse.omok.model.Column
-import woowacourse.omok.model.Coordinate
-import woowacourse.omok.model.Row
-import woowacourse.omok.model.Stone
 
 class StoneTest {
     @ParameterizedTest

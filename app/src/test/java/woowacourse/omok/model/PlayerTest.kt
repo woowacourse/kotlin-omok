@@ -1,22 +1,8 @@
-package omok.model
+package woowacourse.omok.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import woowacourse.omok.model.Board
-import woowacourse.omok.model.COORDINATE_A1
-import woowacourse.omok.model.COORDINATE_F10
-import woowacourse.omok.model.COORDINATE_F5
-import woowacourse.omok.model.COORDINATE_F6
-import woowacourse.omok.model.COORDINATE_F7
-import woowacourse.omok.model.COORDINATE_F8
-import woowacourse.omok.model.COORDINATE_F9
-import woowacourse.omok.model.Color
-import woowacourse.omok.model.Coordinate
-import woowacourse.omok.model.Player
-import woowacourse.omok.model.Stone
-import woowacourse.omok.model.Stones
-import woowacourse.omok.model.black
 
 class PlayerTest {
     private lateinit var board: Board
