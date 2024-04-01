@@ -66,8 +66,7 @@ class OmokGameActivity : AppCompatActivity() {
         boardItems: Sequence<ImageView>,
     ) {
         placedIndexItems.forEach {
-            val position = getInputPosition(it)
-            setGameState(position)
+            setGameState(Position(it))
             setStoneImage(boardItems.toList()[it])
         }
     }
@@ -78,8 +77,7 @@ class OmokGameActivity : AppCompatActivity() {
         gameId: Long,
     ) {
         if (!::gameState.isInitialized || gameState !is GameState.GameOver) {
-            val position = getInputPosition(flattenedIndex)
-            setGameState(position)
+            setGameState(Position(flattenedIndex))
             if (gameState !is GameState.Error) {
                 val currentColor = placementData.lastPlacement?.color ?: Color.BLACK
                 setStoneImage(view)
@@ -135,7 +133,6 @@ class OmokGameActivity : AppCompatActivity() {
             is GameState.Error -> {
                 gameState.message.also {
                     showToastMessage(it)
-                    println(it)
                 }
             }
         }
@@ -149,16 +146,9 @@ class OmokGameActivity : AppCompatActivity() {
 
     private fun playEachTurn(position: Position): GameState = placementData.place(position)
 
-    private fun getInputPosition(flattenedIndex: Int): Position =
-        Position(
-            horizontalCoordinate = BOARD_DISPLAY_SIZE - flattenedIndex / BOARD_DISPLAY_SIZE,
-            verticalCoordinate = flattenedIndex % BOARD_DISPLAY_SIZE + 1,
-        )
-
     private fun showToastMessage(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
     companion object {
-        private const val BOARD_DISPLAY_SIZE = 15
         private const val GAME_ID = "game_id"
         private const val GAME_TITLE = "game_title"
     }
