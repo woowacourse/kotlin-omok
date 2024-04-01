@@ -14,7 +14,6 @@ class StoneDaoImpl(context: Context) : StoneDao {
         val values = contentValuesOf(
             OmokContract.COORDINATE_X to stoneEntity.x,
             OmokContract.COORDINATE_Y to stoneEntity.y,
-            OmokContract.POSITION_TYPE to stoneEntity.positionType.name,
         )
         val id = db.insert(OmokContract.TABLE_NAME, null, values)
         return stoneEntity.copy(id = id)
@@ -28,7 +27,6 @@ class StoneDaoImpl(context: Context) : StoneDao {
                 OmokContract.COLUMN_ID,
                 OmokContract.COORDINATE_X,
                 OmokContract.COORDINATE_Y,
-                OmokContract.POSITION_TYPE
             )
         ).use { cursor ->
             generateSequence { if (cursor.moveToNext()) cursor else null }
@@ -36,9 +34,7 @@ class StoneDaoImpl(context: Context) : StoneDao {
                     val id = it.getLong(it.getColumnIndexOrThrow(OmokContract.COLUMN_ID))
                     val x = it.getInt(it.getColumnIndexOrThrow(OmokContract.COORDINATE_X))
                     val y = it.getInt(it.getColumnIndexOrThrow(OmokContract.COORDINATE_Y))
-                    val positionType =
-                        it.getString(it.getColumnIndexOrThrow(OmokContract.POSITION_TYPE))
-                    StoneEntity.create(id, x, y, positionType)
+                    StoneEntity(id, x, y)
                 }.toList()
         }
     }

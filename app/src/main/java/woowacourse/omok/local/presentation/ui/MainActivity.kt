@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var allImageViews: List<ImageView>
     private val board = Board()
     private var gameState: AppGameState = AppGameState.Running.BlackTurn(board)
-    private val dao = StoneDaoImpl(this)
+    private val stoneDao = StoneDaoImpl(this)
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,16 +42,16 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun loadGameFromDatabase() {
-        val stones = dao.findAll()
+        val stones = stoneDao.findAll()
         stones.forEach { stone ->
-            board.placeStone(Coordinate(stone.x, stone.y), stone.positionType)
+            playTurn { Coordinate(stone.x, stone.y) }
         }
         printBoard(board)
     }
     
     private fun setImageViewsClickListener() {
         binding.restartButton.setOnClickListener {
-            dao.drop()
+            stoneDao.drop()
             board.clear()
             gameState = AppGameState.Running.BlackTurn(board)
             printBoard(board)
@@ -69,44 +69,36 @@ class MainActivity : AppCompatActivity() {
             playTurn { coordinate }
         }
         if (gameState is AppGameState.Finish) {
-            showSnackbar("게임이 종료되었습니다.")
+            showSnackbar(getString(R.string.finish_turn))
             return
         }
     }
     
-    private fun currentType(gameState: AppGameState): PositionType {
-        return when (gameState) {
-            is AppGameState.Running -> gameState.currentType()
-            else -> PositionType.EMPTY
-        }
-    }
-    
     private fun playTurn(onCoordinate: () -> Coordinate) {
-        val currentPositionType = currentType(gameState)
         if (isRunning()) {
             runCatching {
                 val lastCoordinate = onCoordinate()
                 gameState = gameState.updateState { lastCoordinate }
                 
                 if (gameState is AppGameState.Finish || gameState is AppGameState.Running) {
-                    saveStoneToDatabase(lastCoordinate, currentPositionType)
+                    saveStoneToDatabase(lastCoordinate)
                 }
                 
                 printBoard(board)
                 printRunningInfo(gameState)
             }.onFailure { throwable ->
-                showSnackbar(ERROR_MESSAGE.format(throwable.message))
+                showSnackbar(getString(R.string.error_message, throwable.message))
             }
         }
     }
     
-    
-    private fun saveStoneToDatabase(coordinate: Coordinate, positionType: PositionType) {
-        val stoneEntity = StoneEntity(0L, coordinate.x, coordinate.y, positionType)
-        dao.save(stoneEntity)
-    }
-    
     private fun isRunning() = gameState is AppGameState.Running
+    
+    private fun saveStoneToDatabase(coordinate: Coordinate) {
+        val stoneEntity = StoneEntity(0L, coordinate.x, coordinate.y)
+        stoneDao.save(stoneEntity)
+    }
+
     
     private fun showSnackbar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
@@ -116,9 +108,9 @@ class MainActivity : AppCompatActivity() {
     
     private fun printRunningInfo(gameState: AppGameState) {
         when (gameState) {
-            is AppGameState.Running.BlackTurn -> showSnackbar(BLACK_TURN)
-            is AppGameState.Running.WhiteTurn -> showSnackbar(WHITE_TURN)
-            is AppGameState.Finish -> showSnackbar(FINISH_TURN)
+            is AppGameState.Running.BlackTurn -> showSnackbar(getString(R.string.black_turn))
+            is AppGameState.Running.WhiteTurn -> showSnackbar(getString(R.string.white_turn))
+            is AppGameState.Finish -> showSnackbar(getString(R.string.finish_turn))
         }
     }
     
@@ -136,10 +128,6 @@ class MainActivity : AppCompatActivity() {
     }
     
     companion object {
-        private const val ERROR_MESSAGE = "에러 발생 : %s \n다시 시도해주세요."
         private const val BOARD_SIZE = 15
-        private const val BLACK_TURN = "흑돌 차례입니다."
-        private const val WHITE_TURN = "백돌 차례입니다."
-        private const val FINISH_TURN = "오목이 완성되어 게임이 종료되었습니다."
     }
 }

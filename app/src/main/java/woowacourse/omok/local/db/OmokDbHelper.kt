@@ -13,9 +13,8 @@ class OmokDbHelper(context: Context) :
             "CREATE TABLE IF NOT EXISTS ${OmokContract.TABLE_NAME} (\n" +
                     " ${OmokContract.COLUMN_ID} INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                     " ${OmokContract.COORDINATE_X} INTEGER,\n" +
-                    " ${OmokContract.COORDINATE_Y} INTEGER,\n" +
-                    " ${OmokContract.POSITION_TYPE} VARCHAR(10)\n" +
-                    ")",
+                    " ${OmokContract.COORDINATE_Y} INTEGER\n" +
+                    ")"
         )
     }
     
