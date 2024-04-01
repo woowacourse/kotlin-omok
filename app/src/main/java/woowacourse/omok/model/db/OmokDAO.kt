@@ -21,4 +21,7 @@ class OmokDAO(private val db: SQLiteDatabase) {
     fun deleteAll() {
         db.execSQL("DELETE FROM ${OmokEntry.TABLE_NAME}")
     }
+
+    fun selectAll() {
+    }
 }
