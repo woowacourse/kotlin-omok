@@ -65,7 +65,13 @@ class BoardTest {
         x: Int,
         y: Int,
     ) {
-        // given
+        /* given
+                       ●
+                    ●
+                 ●
+              ●
+           ●
+         */
         val board =
             createBlackBoard(
                 createPosition(1, 1),
@@ -86,7 +92,11 @@ class BoardTest {
         x: Int,
         y: Int,
     ) {
-        // given
+        /* given
+
+           ● ● ● ● ●
+
+         */
         val board =
             createBlackBoard(
                 createPosition(1, 1),
@@ -107,7 +117,15 @@ class BoardTest {
         x: Int,
         y: Int,
     ) {
-        // given
+        /* given
+
+           ●
+           ●
+           ●
+           ●
+           ●
+
+         */
         val board =
             createBlackBoard(
                 createPosition(1, 1),
@@ -128,7 +146,14 @@ class BoardTest {
         x: Int,
         y: Int,
     ) {
-        // given
+        /* given
+                          ●
+                       ●
+
+                 ●
+              ●
+           ●
+         */
         val board =
             createBlackBoard(
                 createPosition(1, 1),
@@ -149,7 +174,11 @@ class BoardTest {
         x: Int,
         y: Int,
     ) {
-        // given
+        /* given
+
+           ● ○ ● ○ ●
+
+         */
         val board =
             createBoard(
                 createPosition(1, 1),
