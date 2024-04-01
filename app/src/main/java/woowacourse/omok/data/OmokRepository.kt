@@ -1,13 +1,10 @@
 package woowacourse.omok.data
 
-import omock.model.Position
 import omock.model.board.Block
-import omock.model.board.BlockState
 import omock.model.board.buildOmokBoard
 import omock.model.game.OmokGame
 import omock.model.rule.RenjuRule
 import woowacourse.omok.db.GameRecordDao
-import woowacourse.omok.db.GameTurnEntity
 
 class OmokRepository(private val dao: GameRecordDao) {
     fun saveGame(block: Block) {
@@ -30,19 +27,7 @@ class OmokRepository(private val dao: GameRecordDao) {
         dao.resetTable()
     }
 
-    private fun GameTurnEntity.toOmokStone(): Block {
-        val (id, x, y, color) = this
-        return Block(Position(x, y), BlockState.valueOf(color))
-    }
-
-    private fun Block.toGameTurnEntity(): GameTurnEntity {
-        val (position, color) = this
-        val (x, y) = position
-        return GameTurnEntity(NO_ID, x, y, color.name)
-    }
-
     companion object {
-        private const val NO_ID = -1L
         private const val DEFAULT_BOARD_SIZE = 15
         private val DEFAULT_RULE = RenjuRule
     }
