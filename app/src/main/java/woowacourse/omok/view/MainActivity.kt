@@ -8,13 +8,6 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import omock.model.Failure
-import omock.model.InvalidDuplicatedPlaced
-import omock.model.InvalidFourFourRule
-import omock.model.InvalidGameOver
-import omock.model.InvalidOutOfBound
-import omock.model.InvalidOverLineRule
-import omock.model.InvalidThreeThreeRule
 import omock.model.Position
 import omock.model.board.Block
 import omock.model.board.OmokBoard
@@ -24,12 +17,10 @@ import woowacourse.omok.data.OmokRepository
 import woowacourse.omok.db.GameRecordDao
 import woowacourse.omok.db.OmokSQLiteHelper
 import woowacourse.omok.model.android.BlockAndroidModel
-import woowacourse.omok.model.console.BlockStateConsoleModel
 import woowacourse.omok.presenter.OmokGamePresenter
 import woowacourse.omok.presenter.toAndroid
-import woowacourse.omok.presenter.toConsole
 
-class MainActivity : AppCompatActivity(), OmokGameAndroidView, PlaceErrorHandler {
+class MainActivity : AppCompatActivity(), OmokGameAndroidView {
     private lateinit var boardView: List<List<ImageView>>
     private val helper: OmokSQLiteHelper = OmokSQLiteHelper(this)
     private lateinit var presenter: OmokGamePresenter
@@ -43,7 +34,6 @@ class MainActivity : AppCompatActivity(), OmokGameAndroidView, PlaceErrorHandler
                 view = this,
                 consoleView = OmokGameConsoleView(),
                 repository = OmokRepository(GameRecordDao(helper)),
-                errorHandler = this,
             )
         initResetButton()
     }
@@ -82,16 +72,6 @@ class MainActivity : AppCompatActivity(), OmokGameAndroidView, PlaceErrorHandler
     }
 
     override fun showPlaceError(errorMessage: String) = showToast(errorMessage)
-
-    override fun onError(placeFail: Failure): String =
-        when (placeFail) {
-            InvalidGameOver -> "게임이 이미 종료되었습니다."
-            InvalidOverLineRule -> "장목 규칙을 위반하였습니다."
-            InvalidDuplicatedPlaced -> "이미 돌이 놓여진 자리입니다."
-            InvalidThreeThreeRule -> "33 규칙을 위반하였습니다."
-            InvalidFourFourRule -> "44 규칙을 위반하였습니다."
-            InvalidOutOfBound -> "바둑판을 벗어난 자리입니다."
-        }
 
     private fun initBoardView() {
         boardView =

@@ -7,13 +7,11 @@ import omock.model.onSuccess
 import woowacourse.omok.data.OmokRepository
 import woowacourse.omok.view.OmokGameAndroidView
 import woowacourse.omok.view.OmokGameConsoleView
-import woowacourse.omok.view.PlaceErrorHandler
 
 class OmokGamePresenter(
     private val view: OmokGameAndroidView,
     private val consoleView: OmokGameConsoleView,
     private val repository: OmokRepository,
-    private val errorHandler: PlaceErrorHandler,
 ) {
     private lateinit var game: OmokGame
 
@@ -40,9 +38,8 @@ class OmokGamePresenter(
                     consoleView.showGameResult(board.toConsole(), lastBlock.toConsole())
                 }
             }.onFailure {
-                val errorMessage = errorHandler.onError(it)
-                view.showPlaceError(errorMessage)
-                consoleView.showPlaceError(errorMessage)
+                view.showPlaceError(it.toAndroidErrorMessage())
+                consoleView.showPlaceError(it.toConsoleErrorMessage())
             }
     }
 

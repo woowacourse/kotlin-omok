@@ -7,25 +7,8 @@ import omock.model.InvalidGameOver
 import omock.model.InvalidOutOfBound
 import omock.model.InvalidOverLineRule
 import omock.model.InvalidThreeThreeRule
-import omock.model.board.Block
-import omock.model.board.BlockState
-import woowacourse.omok.model.android.BlockAndroidModel
-import woowacourse.omok.model.android.BlockStateAndroidModel
 
-fun BlockState.toAndroid(): BlockStateAndroidModel {
-    return when (this) {
-        BlockState.BLACK_STONE -> BlockStateAndroidModel.BLACK_STONE
-        BlockState.WHITE_STONE -> BlockStateAndroidModel.WHITE_STONE
-        BlockState.EMPTY -> BlockStateAndroidModel.EMPTY
-    }
-}
-
-fun Block.toAndroid(): BlockAndroidModel {
-    val (position, blockState) = this
-    return BlockAndroidModel(position.x - 1, position.y - 1, blockState.toAndroid())
-}
-
-fun Failure.toAndroidErrorMessage(): String = when (this) {
+fun Failure.errorMessage(): String = when (this) {
     InvalidGameOver -> "게임이 이미 종료되었습니다."
     InvalidOverLineRule -> "장목 규칙을 위반하였습니다."
     InvalidDuplicatedPlaced -> "이미 돌이 놓여진 자리입니다."
