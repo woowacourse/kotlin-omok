@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         val board = findViewById<TableLayout>(R.id.board)
         val dbStones = stoneDao.stones()
+        restoreData(dbStones)
 
         board
             .children
@@ -39,12 +40,18 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
-                restoreStones(view, index, dbStones)
+                restoreImage(view, index, dbStones)
                 view.setOnClickListener { putStone(view, index) }
             }
     }
 
-    private fun restoreStones(
+    private fun restoreData(dbStones: List<Stone>) {
+        dbStones.forEach {
+            stones.add(it)
+        }
+    }
+
+    private fun restoreImage(
         view: ImageView,
         index: Int,
         dbStones: List<Stone>,
