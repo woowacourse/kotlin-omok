@@ -60,14 +60,7 @@ class MainActivity : AppCompatActivity() {
                         return@setOnClickListener
                     }
 
-                    if (previousTurn.color() == StoneColor.BLACK) {
-                        dao.insert(point.x, point.y, StoneColor.BLACK.name)
-                        view.setImageResource(R.drawable.black_stone)
-                    } else {
-                        dao.insert(point.x, point.y, StoneColor.WHITE.name)
-                        view.setImageResource(R.drawable.white_stone)
-                    }
-
+                    saveStone(previousTurn, dao, point, view)
                     removeAllGameStatus(currentTurn, outputView, board, dao)
                 }
             }
@@ -95,6 +88,21 @@ class MainActivity : AppCompatActivity() {
             } else if (it?.stoneColor == StoneColor.WHITE) {
                 view.setImageResource(R.drawable.white_stone)
             }
+        }
+    }
+
+    private fun saveStone(
+        previousTurn: Turn,
+        dao: OmokDAO,
+        point: Point,
+        view: ImageView,
+    ) {
+        if (previousTurn.color() == StoneColor.BLACK) {
+            dao.insert(point.x, point.y, StoneColor.BLACK.name)
+            view.setImageResource(R.drawable.black_stone)
+        } else {
+            dao.insert(point.x, point.y, StoneColor.WHITE.name)
+            view.setImageResource(R.drawable.white_stone)
         }
     }
 
