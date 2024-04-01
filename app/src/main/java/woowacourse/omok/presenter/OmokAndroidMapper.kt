@@ -9,6 +9,7 @@ import omock.model.InvalidOverLineRule
 import omock.model.InvalidThreeThreeRule
 import omock.model.board.Block
 import omock.model.board.BlockState
+import omock.model.board.OmokBoard
 import woowacourse.omok.model.android.BlockAndroidModel
 import woowacourse.omok.model.android.BlockStateAndroidModel
 
@@ -23,6 +24,10 @@ fun BlockState.toAndroid(): BlockStateAndroidModel {
 fun Block.toAndroid(): BlockAndroidModel {
     val (position, blockState) = this
     return BlockAndroidModel(position.x - 1, position.y - 1, blockState.toAndroid())
+}
+
+fun OmokBoard.toAndroid(): List<BlockAndroidModel> {
+    return blockRecords.blocks.map(Block::toAndroid)
 }
 
 fun Failure.toAndroidErrorMessage(): String = when (this) {

@@ -4,12 +4,9 @@ import omock.model.board.OmokBoard
 import woowacourse.omok.model.android.BlockAndroidModel
 
 interface OmokGameAndroidView {
-    fun showGameStart(initialBoard: OmokBoard)
+    fun showGameStart(blocks: List<BlockAndroidModel>)
 
-    fun showCurrentGameState(
-        board: OmokBoard,
-        block: BlockAndroidModel,
-    )
+    fun showCurrentGameState(block: BlockAndroidModel)
 
     fun showGameResult(
         board: OmokBoard,

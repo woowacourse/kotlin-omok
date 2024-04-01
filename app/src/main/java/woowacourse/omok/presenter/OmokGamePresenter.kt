@@ -22,16 +22,16 @@ class OmokGamePresenter(
     private fun startGame() {
         game = repository.fetchGame()
         val board = game.currentBoard()
-        androidView.showGameStart(board)
+        androidView.showGameStart(board.toAndroid())
         consoleView.showGameStart(board.toConsole())
     }
 
-    fun placeStone(position: Position) {
-        game.placeStone(position)
+    fun placeStone(x: Int, y: Int) {
+        game.placeStone(Position(x, y))
             .onSuccess {
                 val (board, lastBlock) = game.lastGameResult()
                 repository.saveGameTurn(lastBlock)
-                androidView.showCurrentGameState(board, lastBlock.toAndroid())
+                androidView.showCurrentGameState(lastBlock.toAndroid())
                 consoleView.showCurrentGameState(board.toConsole(), lastBlock.toConsole())
                 if (game.isEnd()) {
                     androidView.showGameResult(board, lastBlock.toAndroid())
