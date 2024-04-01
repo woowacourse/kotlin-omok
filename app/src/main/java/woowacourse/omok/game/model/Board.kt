@@ -1,7 +1,7 @@
 package omok.model
 
 class Board(val size: Int, private val rule: Rule) {
-    private val stones: Stones = Stones()
+    private var stones: Stones = Stones()
     private var _customBoard = Array(size) { Array(size) { 0 } }
 
     val customBoard: Array<Array<Int>>
@@ -13,11 +13,24 @@ class Board(val size: Int, private val rule: Rule) {
         updateCustomBoard(stone)
     }
 
+    fun resetCustomBoard() {
+        _customBoard = Array(size) { Array(size) { 0 } }
+        stones = Stones()
+    }
+
     private fun duplicatedPoint(stone: Stone): Boolean = stones.match(stone)
 
     fun pointEmpty(point: Point): Boolean = !stones.occupied(point)
 
     fun lastStone(): Stone? = stones.lastStone()
+
+    fun lastColor(): Color {
+        return if (lastStone() != null) {
+            lastStone()!!.color
+        } else {
+            Color.WHITE
+        }
+    }
 
     private fun updateCustomBoard(stone: Stone) {
         _customBoard[stone.point.row][stone.point.col] =
@@ -32,6 +45,14 @@ class Board(val size: Int, private val rule: Rule) {
             !rule.isInvalid(stones, Stone(point, turn.color()), customBoard)
         } else {
             true
+        }
+    }
+
+    fun checkEndCondition(): Boolean {
+        return if (lastStone() != null) {
+            checkContinuity(lastStone()!!)
+        } else {
+            false
         }
     }
 
@@ -69,7 +90,7 @@ class Board(val size: Int, private val rule: Rule) {
 
         private const val MIN_BOARD_RANGE = 0
 
-        fun getSize(): Int = getSize()
+        fun getSize(): Int = 15
 
         private val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
     }
