@@ -3,9 +3,9 @@ package omok.model.stone
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.result.PutResult
+import omok.model.result.PutResultUtils.isOccupiedOrForbidden
+import omok.model.result.PutResultUtils.isRunning
 import omok.model.rule.OmokChecker
-import omok.utils.PutResultUtils.isOccupiedOrForbidden
-import omok.utils.PutResultUtils.isRunning
 
 abstract class GoStone {
     abstract val stoneType: StoneType
@@ -25,4 +25,8 @@ abstract class GoStone {
     }
 
     fun findOmok(position: Position): Boolean = OmokChecker.findOmok(position, stoneType)
+
+    companion object {
+        fun GoStone.change() = if (this.stoneType == StoneType.BLACK_STONE) WhiteStone() else BlackStone()
+    }
 }

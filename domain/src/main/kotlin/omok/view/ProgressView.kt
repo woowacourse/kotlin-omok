@@ -18,6 +18,11 @@ class ProgressView {
         printRowValue()
     }
 
+    fun printHintMessage(message: String) {
+        println(message)
+        lineBreak()
+    }
+
     private fun printBoard(
         board: Board,
         row: Int,
@@ -92,6 +97,8 @@ class ProgressView {
             StoneType.WHITE_STONE -> "○"
             StoneType.NONE -> ""
         }
+
+    private fun lineBreak() = println()
 
     companion object {
         private const val UPPER_LENGTH = 14

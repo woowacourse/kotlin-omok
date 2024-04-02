@@ -7,22 +7,19 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
-import omok.model.OmokGame
 import omok.model.board.Board
 import omok.model.position.Position
-import omok.model.result.PutResult
+import omok.model.result.PutResultUtils.handleHintMessage
+import omok.model.result.PutResultUtils.isRunning
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
-import omok.model.stone.StoneType
-import omok.model.stone.WhiteStone
+import omok.model.stone.GoStone.Companion.change
 import woowacourse.omok.adapter.OmokBoardAdapter
 import woowacourse.omok.db.OmokEntry
 import woowacourse.omok.db.OmokEntryDao
-import woowacourse.omok.utils.HandlingPutResultUtils
 
 class MainActivity : AppCompatActivity() {
-    private var stone: GoStone = BlackStone()
-    private val omokGame = OmokGame(BlackStone(), WhiteStone())
+    private lateinit var stone: GoStone
     private val dao = OmokEntryDao(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,11 +29,8 @@ class MainActivity : AppCompatActivity() {
         val board = findViewById<TableLayout>(R.id.board)
         val positions = getPositions(board)
 
-        val lastStoneType = GameResume.restoreProgressGameData(positions, dao)
-        if (lastStoneType != StoneType.NONE) {
-            stone = omokGame.changeStone(lastStoneType)
-        }
-
+        val lastStone = GameResume.restoreProgressGameData(positions, dao)
+        stone = lastStone.change()
         positions.forEachIndexed { index, view ->
             clickToPlaceStone(view, index, positions)
         }
@@ -57,56 +51,19 @@ class MainActivity : AppCompatActivity() {
     ) {
         view.setOnClickListener {
             val position = getPosition(index)
-            if (checkForOccupiedOrForbidden(view, position)) return@setOnClickListener
-
-            val stoneType = stone.putStone(position)
+            val putResult = stone.putStone(position)
+            if (isRunning(putResult).not()) {
+                makeHintSnackBar(view, handleHintMessage(putResult))
+                return@setOnClickListener
+            }
             saveData(position)
             showStone(view)
             if (stone.findOmok(position)) {
                 endGame(positions, view)
             }
-            stone = omokGame.changeStone(stoneType)
+            stone = stone.change()
         }
     }
-
-    private fun checkForOccupiedOrForbidden(
-        view: ImageView,
-        position: Position,
-    ): Boolean {
-        if (validatePosition(
-                view,
-                { position.validatePosition() },
-                ::isFailure,
-            )
-        ) {
-            return true
-        }
-        if (validatePosition(
-                view,
-                { position.checkForbidden() },
-                ::isNotRunning,
-            )
-        ) {
-            return true
-        }
-        return false
-    }
-
-    private fun validatePosition(
-        view: ImageView,
-        putResult: () -> PutResult,
-        result: (PutResult) -> Boolean,
-    ): Boolean {
-        if (result(putResult())) {
-            HandlingPutResultUtils.displayPutStatus(view, putResult(), this)
-            return true
-        }
-        return false
-    }
-
-    private fun isFailure(putResult: PutResult) = putResult == PutResult.Failure
-
-    private fun isNotRunning(putResult: PutResult) = putResult != PutResult.Running
 
     private fun getPosition(index: Int) = OmokBoardAdapter.convertIndexToPosition(index)
 
@@ -159,5 +116,12 @@ class MainActivity : AppCompatActivity() {
         }
         stone = BlackStone()
         setBoardClickable(positions, isClickable = true)
+    }
+
+    private fun makeHintSnackBar(
+        view: ImageView,
+        message: String,
+    ) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
     }
 }

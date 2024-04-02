@@ -4,7 +4,7 @@ import android.widget.ImageView
 import omok.model.position.Column
 import omok.model.position.Position
 import omok.model.position.Row
-import omok.model.stone.BlackStone
+import omok.model.stone.GoStone
 import omok.model.stone.StoneType
 import omok.model.stone.WhiteStone
 import woowacourse.omok.adapter.OmokBoardAdapter
@@ -15,9 +15,9 @@ object GameResume {
     fun restoreProgressGameData(
         positions: List<ImageView>,
         dao: OmokEntryDao,
-    ): StoneType {
+    ): GoStone {
         val entries = dao.findAll()
-        if (entries.isEmpty()) return StoneType.NONE
+        if (entries.isEmpty()) return WhiteStone()
 
         val omokGameData =
             entries.associateBy {
@@ -37,10 +37,8 @@ object GameResume {
     private fun restoreBoard(omokEntries: List<OmokEntry>) {
         omokEntries.forEach {
             val position = Position(Row(it.row), Column(it.column))
-            when (it.stoneType) {
-                StoneType.BLACK_STONE.type -> BlackStone().putStone(position)
-                StoneType.WHITE_STONE.type -> WhiteStone().putStone(position)
-            }
+            val stone = StoneType.from(it.stoneType)
+            stone.putStone(position)
         }
     }
 

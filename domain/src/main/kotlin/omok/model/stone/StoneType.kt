@@ -7,12 +7,11 @@ enum class StoneType(val type: String) {
     ;
 
     companion object {
-        fun from(type: String): StoneType {
+        fun from(type: String): GoStone {
             return when (type) {
-                "흑" -> BLACK_STONE
-                "백" -> WHITE_STONE
-                "없음" -> NONE
-                else -> NONE
+                BLACK_STONE.type -> BlackStone()
+                WHITE_STONE.type -> WhiteStone()
+                else -> BlackStone()
             }
         }
     }
