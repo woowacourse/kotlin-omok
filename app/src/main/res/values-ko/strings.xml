@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Omok</string>
+    <string name="block_position">금수의 위치입니다.</string>
+    <string name="already_placed">이미 돌이 놓인 자리입니다.</string>
+    <string name="game_over">게임이 종료되었습니다.</string>
+    <string name="restart">게임 재시작</string>
+</resources>
