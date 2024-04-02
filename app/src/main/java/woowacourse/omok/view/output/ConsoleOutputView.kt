@@ -8,25 +8,17 @@ class ConsoleOutputView : OutputView {
     override fun printTurn(board: Board) {
         val omokBoard = buildOmokBoard(board)
         println(omokBoard)
-        printTurnGuide(board.previousStone()?.stoneColor)
+        printTurnGuide(board.lastStoneColor())
         printPreviousPoint(board.previousStone())
     }
 
-    private fun printTurnGuide(color: StoneColor?) {
-        val colorString = getColorString(color)
-        print("${colorString}의 차례입니다.  ")
-    }
+    private fun printTurnGuide(stoneColor: String?) = print("${getColorString(stoneColor)}의 차례입니다.")
 
-    override fun printWinner(board: Board) {
-        val strMap = buildOmokBoard(board)
-        println(strMap)
-        val colorString = getColorString(board.previousStone()?.stoneColor)
-        print("${colorString}이 승리했습니다")
-    }
+    override fun printWinner(stoneColor: String?) = print("${getColorString(stoneColor)}이 승리했습니다")
 
     override fun printAlert(message: String) = println(message)
 
-    private fun getColorString(color: StoneColor?): String = if (color == StoneColor.BLACK) "흑" else "백"
+    private fun getColorString(color: String?): String = if (color == "BLACK") "흑" else "백"
 
     private fun printPreviousPoint(nullableStone: Stone?) {
         val stone = nullableStone ?: return println("")

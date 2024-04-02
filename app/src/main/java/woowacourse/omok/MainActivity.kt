@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                     saveStone(previousTurn, dao, point, view)
 
                     if (currentTurn is Finished) {
-                        outputView.printWinner(currentTurn.board)
+                        outputView.printWinner(currentTurn.board.lastStoneColor())
 
                         board.children
                             .filterIsInstance<TableRow>()

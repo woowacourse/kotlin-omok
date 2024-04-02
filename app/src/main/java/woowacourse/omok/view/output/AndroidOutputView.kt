@@ -14,11 +14,10 @@ class AndroidOutputView(private val view: View) : OutputView {
         ).show()
     }
 
-    override fun printWinner(board: Board) {
-        val previousStone = board.previousStone()
+    override fun printWinner(stoneColor: String?) {
         Snackbar.make(
             view,
-            "${previousStone?.stoneColor}이 승리했습니다",
+            "${stoneColor}이 승리했습니다",
             Snackbar.LENGTH_SHORT,
         ).show()
     }

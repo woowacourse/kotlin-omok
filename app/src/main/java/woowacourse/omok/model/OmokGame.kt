@@ -12,14 +12,14 @@ class OmokGame(
     fun run(
         inputPoint: () -> Pair<Int, Int>,
         beforeTurn: (Board) -> Unit,
-        afterGame: (Board) -> Unit,
+        afterGame: (String?) -> Unit,
         onInappropriate: (String) -> Unit,
     ) {
         while (turn !is Finished) {
             beforeTurn(turn.board)
             proceedTurn(inputPoint, onInappropriate)
         }
-        afterGame(turn.board)
+        afterGame(turn.board.lastStoneColor())
     }
 
     private fun proceedTurn(

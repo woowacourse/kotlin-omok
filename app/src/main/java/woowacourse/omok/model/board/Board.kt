@@ -19,6 +19,8 @@ class Board(private val _stones: Set<Stone> = setOf()) {
 
     fun previousStone(): Stone? = stones.lastOrNull()
 
+    fun lastStoneColor(): String? = stones.lastOrNull()?.stoneColor?.name
+
     companion object {
         private const val MIN_SIZE = 1
         private const val MAX_SIZE = 15
