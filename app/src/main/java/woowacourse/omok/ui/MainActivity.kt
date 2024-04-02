@@ -14,6 +14,7 @@ import woowacourse.omok.model.Board
 import woowacourse.omok.model.Coordinate
 import woowacourse.omok.model.state.CoordinateState
 import woowacourse.omok.model.state.GameState
+import woowacourse.omok.model.state.Turn
 import woowacourse.omok.utils.createVectorDrawable
 
 class MainActivity : AppCompatActivity(), GamePlayHandler {
@@ -60,6 +61,7 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
         showGameState(gameState)
         drawDiff(gameState.board)
     }
+
     private fun showGameState(gameState: GameState) {
         when (gameState) {
             is GameState.Playing.Start -> {
@@ -80,6 +82,17 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
             }
         }
     }
+//    private fun showGameSnackBar(message: String, action: ((String) -> Unit)? = null) {
+//        val snackBar = Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT)
+//        action?.let {
+//            snackBar.setAction(actionMessage) {
+//                resetViewTags()
+//                gameManager.replay()
+//            }
+//        }
+//        action()
+//        snackBar.show()
+//    }
 
     private fun drawDiff(board: Board) {
         board.boardLayout.flatten().forEachIndexed { index, positionType ->
@@ -87,18 +100,17 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
                 allCoordinateViews[index].apply {
                     setImageDrawable(
                         when (positionType) {
-                            CoordinateState.BlackStone -> {
+                            is CoordinateState.Placed -> {
                                 tag = PLACED
-                                blackStoneDrawable
+                                when (positionType.turn) {
+                                    is Turn.Black -> blackStoneDrawable
+                                    is Turn.White -> whiteStoneDrawable
+                                }
                             }
-                            CoordinateState.WhiteStone -> {
-                                tag = PLACED
-                                whiteStoneDrawable
-                            }
-                            CoordinateState.Forbidden -> {
+                            is CoordinateState.Forbidden -> {
                                 blockDrawable
                             }
-                            CoordinateState.Empty -> {
+                            is CoordinateState.Empty -> {
                                 null
                             }
                         },

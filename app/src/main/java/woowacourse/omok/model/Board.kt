@@ -22,10 +22,7 @@ class Board(
     private var omokRule: OmokRule = OmokRuleMapper.map(currentTurn, boardLayout, boardSize)
 
     private fun getStoneFromTurn(): CoordinateState {
-        return when (currentTurn) {
-            is Turn.Black -> CoordinateState.BlackStone
-            is Turn.White -> CoordinateState.WhiteStone
-        }
+        return CoordinateState.Placed(turn = currentTurn)
     }
 
     fun setRule(currentTurn: Turn) {

@@ -60,8 +60,8 @@ val G4 = "G4".toCoordinate()
 val J6 = "J6".toCoordinate()
 val J8 = "J8".toCoordinate()
 
-val BLACK_STONE = CoordinateState.BlackStone
-val WHITE_STONE = CoordinateState.WhiteStone
+val BLACK_STONE = CoordinateState.Placed(turn = Turn.Black)
+val WHITE_STONE = CoordinateState.Placed(turn = Turn.White)
 
 val OMOK_FINISH = listOf(A1, B1, A2, B2, A3, B3, A4, B4, A5)
 

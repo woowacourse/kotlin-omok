@@ -37,10 +37,13 @@ class OmokRuleMapper {
             return board.map { row ->
                 row.map { state ->
                     when (state) {
-                        CoordinateState.BlackStone -> 1
-                        CoordinateState.WhiteStone -> 2
-                        CoordinateState.Empty -> 3
-                        CoordinateState.Forbidden -> 4
+                        is CoordinateState.Placed ->
+                            when (state.turn) {
+                                is Turn.Black -> 1
+                                is Turn.White -> 2
+                            }
+                        is CoordinateState.Empty -> 3
+                        is CoordinateState.Forbidden -> 4
                     }
                 }
             }
