@@ -21,24 +21,14 @@ class CurrentPlayerColorDaoTest {
 
     @After
     fun tearDown() {
-        currentPlayerColorDao.deleteAll()
+        currentPlayerColorDao.delete()
     }
 
     @Test
     fun insertColor() {
-        currentPlayerColorDao.insertColor(Color.BLACK)
+        currentPlayerColorDao.save(Color.BLACK)
         val color = currentPlayerColorDao.currentPlayerColor()
         assertThat(color).isEqualTo(Color.BLACK)
-    }
-
-    @Test
-    fun `현재_저장된_Player의_수가_2명_이상이면_예외를_발생시킨다`() {
-        currentPlayerColorDao.insertColor(Color.BLACK)
-        currentPlayerColorDao.insertColor(Color.WHITE)
-
-        assertThrows<IllegalStateException> {
-            currentPlayerColorDao.currentPlayerColor()
-        }
     }
 
     @Test
