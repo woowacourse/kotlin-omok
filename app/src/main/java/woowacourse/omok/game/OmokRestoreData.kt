@@ -8,6 +8,7 @@ import omok.model.position.Position
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
 import omok.model.stone.WhiteStone
+import omok.model.stone.WhiteStone.changeStone
 import woowacourse.omok.omokdb.OmokDao
 
 object OmokRestoreData {
@@ -17,7 +18,8 @@ object OmokRestoreData {
         dao: OmokDao,
         board: TableLayout,
         imageView: (GoStone) -> Int,
-    ) {
+    ): GoStone {
+        var color = ""
         dao.findAll().forEach { omokEntry ->
             recoverBoard(
                 board,
@@ -25,7 +27,9 @@ object OmokRestoreData {
                 omokEntry.color,
                 imageView,
             )
+            color = omokEntry.color
         }
+        return color.stone().changeStone()
     }
 
     private fun recoverBoard(

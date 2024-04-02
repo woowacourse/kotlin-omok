@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         val board = findViewById<TableLayout>(R.id.board)
 
-        restoreGameData(dao, board) { imageView(it) }
+        stone = restoreGameData(dao, board) { imageView(it) }
         startOmokGame(board)
     }
 
@@ -74,17 +74,15 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
         putResult: PutResult,
     ) {
-        dao.insert(OmokEntry(position.getRowValue().toString(), position.getColumnValue(), stone.value()))
+        dao.insert(
+            OmokEntry(
+                position.getRowValue().toString(),
+                position.getColumnValue(),
+                stone.value(),
+            ),
+        )
         view.setImageResource(imageView(stone))
         checkOmok(putResult, view, board)
-    }
-
-    private fun handleUnavailableResult(
-        view: ImageView,
-        putResult: PutResult,
-    ) {
-        val message = ResultHandler.handleResult(putResult, stone)
-        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun checkOmok(
@@ -96,12 +94,21 @@ class MainActivity : AppCompatActivity() {
             when {
                 isOmok(putResult) -> {
                     val message = ResultHandler.handleResult(putResult, stone)
+                    dao.reset()
                     showWinnerMessage(view, board, message)
                     BlackStone
                 }
 
                 else -> stone.changeStone()
             }
+    }
+
+    private fun handleUnavailableResult(
+        view: ImageView,
+        putResult: PutResult,
+    ) {
+        val message = ResultHandler.handleResult(putResult, stone)
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun imageView(stone: GoStone) =
@@ -118,7 +125,6 @@ class MainActivity : AppCompatActivity() {
         val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction(CONFIRM_BUTTON_MESSAGE) {
             resetGameData(dao, board)
-            dao.reset()
         }
         snackBar.show()
     }
