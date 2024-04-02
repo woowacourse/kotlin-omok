@@ -3,6 +3,8 @@ package woowacourse.omok.domain.model.rule
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.model.rule.library.NoneForbiddenRule
+import woowacourse.omok.domain.model.rule.library.OmokRule
 import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
 
 class RuleAdapter(
@@ -28,6 +30,12 @@ class RuleAdapter(
         if (forbiddenRules.hasNoRule()) return true
         return forbiddenRules.rules.all { it.abide(board.convert(), position.convert()) }
     }
+
+    fun violatedRule(
+        board: Board,
+        position: Position,
+    ): OmokRule = forbiddenRules.rules.find { !it.abide(board.convert(), position.convert()) }
+        ?: NoneForbiddenRule
 
     fun isWin(
         board: Board,
