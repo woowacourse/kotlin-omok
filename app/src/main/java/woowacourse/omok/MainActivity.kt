@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                     currentTurn =
                         currentTurn.placeStone(point, outputView::printAlert,)
 
-                    if (previousTurn.board == currentTurn.board) {
+                    if (previousTurn == currentTurn) {
                         return@setOnClickListener
                     }
 

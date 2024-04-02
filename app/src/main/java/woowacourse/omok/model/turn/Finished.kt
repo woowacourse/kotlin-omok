@@ -4,7 +4,7 @@ import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.entity.Point
 import woowacourse.omok.model.entity.StoneColor
 
-class Finished(override val board: Board = Board(), private val color: StoneColor) : Turn {
+data class Finished(override val board: Board = Board(), private val color: StoneColor) : Turn {
     override fun placeStone(
         point: Point,
         onInappropriate: (String) -> Unit,

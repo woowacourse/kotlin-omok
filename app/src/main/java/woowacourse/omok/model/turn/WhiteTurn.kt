@@ -11,7 +11,7 @@ import woowacourse.omok.model.entity.Stone
 import woowacourse.omok.model.entity.StoneColor
 import woowacourse.omok.model.rule.FiveInRowRule
 
-class WhiteTurn(override val board: Board) : Turn {
+data class WhiteTurn(override val board: Board) : Turn {
     override fun placeStone(
         point: Point,
         onInappropriate: (String) -> Unit,

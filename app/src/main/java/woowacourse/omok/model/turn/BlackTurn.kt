@@ -15,7 +15,7 @@ import woowacourse.omok.model.rule.OverSixInRowRule
 import woowacourse.omok.model.rule.Rule
 import woowacourse.omok.model.rule.ThreeByThreeRule
 
-class BlackTurn(override val board: Board) : Turn {
+data class BlackTurn(override val board: Board) : Turn {
     private val prohibitedRules: List<Rule> =
         listOf(ThreeByThreeRule, FourByFourRule, OverSixInRowRule)
 
