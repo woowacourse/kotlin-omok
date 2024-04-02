@@ -1,0 +1,34 @@
+package woowacourse.omok.domain.controller
+
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.OmokGame2
+import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.view.InputView
+import woowacourse.omok.domain.view.OutputView
+
+class OmokController2(
+    private val inputView: InputView,
+    private val outputView: OutputView,
+) {
+    fun startGame2() {
+        val board = initializedBoard()
+        val omokGame2 = OmokGame2(board)
+
+        val result = omokGame2.runGame(
+            { inputView.readFirstStonePosition(Stone.BLACK) },
+            { gameState ->
+                inputView.readStonePosition(
+                    gameState.latestStonePosition().stone.nextOrFirst(),
+                    gameState.latestStonePosition().position,
+                )
+            },
+            { inValidStonePosition, message -> outputView.printInvalidPosition(inValidStonePosition, message) },
+            { outputView.printBoard(board) },
+        )
+        outputView.printWinner(result.latestStonePosition().stone)
+    }
+
+    private fun initializedBoard(): Board {
+        return Board().apply { outputView.printInitialGuide(this) }
+    }
+}
