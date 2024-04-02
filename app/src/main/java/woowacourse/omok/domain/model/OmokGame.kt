@@ -42,10 +42,21 @@ class OmokGame {
         beforePoint = _beforePoint
     }
 
+    fun judgeGameState() {
+        if (beforePoint != null) {
+            updateGameState(
+                !ruleAdapter.checkWin(
+                    beforePoint!!,
+                    turn.stoneType,
+                ),
+            )
+        }
+    }
+
     private fun judgeTurn(omokEntity: OmokEntity): Turn {
         return when (omokEntity.stoneType) {
-            BlackTurn().stoneType.name -> WhiteTurn()
-            WhiteTurn().stoneType.name -> BlackTurn()
+            BlackTurn().stoneType.name -> BlackTurn()
+            WhiteTurn().stoneType.name -> WhiteTurn()
             else -> FinishedTurn(turn.stoneType)
         }
     }

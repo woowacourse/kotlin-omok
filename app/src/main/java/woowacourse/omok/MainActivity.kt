@@ -94,14 +94,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpGameState() {
-        if (omokGame.beforePoint != null) {
-            omokGame.updateGameState(
-                !omokGame.ruleAdapter.checkWin(
-                    omokGame.beforePoint!!,
-                    omokGame.turn.stoneType,
-                ),
-            )
-        }
+        omokGame.judgeGameState()
         if (omokGame.gameState) {
             displayMessage(generateTurnMessage(omokGame.turn, omokGame.beforePoint))
         } else {
