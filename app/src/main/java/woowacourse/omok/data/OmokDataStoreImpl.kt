@@ -20,6 +20,7 @@ class OmokDataStoreImpl(
 
     override fun reset() {
         omoks.clear()
+        omokDao.deleteAll()
     }
 
     override fun save(isFinish: Boolean) {
