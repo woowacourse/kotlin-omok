@@ -7,7 +7,8 @@ import omok.model.Color
 class CurrentPlayerColorDao(context: Context) {
     private val dbHelper = OmokDbHelper(context, TABLE_NAME, sql)
 
-    fun insertColor(color: Color) {
+    fun save(color: Color) {
+        delete()
         val wb = dbHelper.writableDatabase
         val content =
             contentValuesOf(
@@ -59,7 +60,7 @@ class CurrentPlayerColorDao(context: Context) {
         return currentPlayers.isEmpty()
     }
 
-    fun deleteAll() {
+    fun delete() {
         val wb = dbHelper.writableDatabase
         wb.delete(TABLE_NAME, null, null)
         wb.close()
