@@ -13,20 +13,6 @@ class RoomInfoRecyclerViewAdapter(
     private val rooms: List<Room>,
     private val onEnterClick: (Long, String) -> Unit,
 ) : RecyclerView.Adapter<RoomInfoRecyclerViewAdapter.RoomInfoViewHolder>() {
-    inner class RoomInfoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val title = view.findViewById<TextView>(R.id.tv_game_title)
-        private val button = view.findViewById<Button>(R.id.btn_enter)
-
-        fun bind(room: Room) {
-            title.text = room.title
-            button.setOnClickListener {
-                val roomId = rooms[adapterPosition].id
-                val title = rooms[adapterPosition].title
-                onEnterClick(roomId, title)
-            }
-        }
-    }
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
@@ -42,5 +28,19 @@ class RoomInfoRecyclerViewAdapter(
         position: Int,
     ) {
         holder.bind(rooms[position])
+    }
+
+    inner class RoomInfoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val title = view.findViewById<TextView>(R.id.tv_game_title)
+        private val button = view.findViewById<Button>(R.id.btn_enter)
+
+        fun bind(room: Room) {
+            title.text = room.title
+            button.setOnClickListener {
+                val roomId = rooms[adapterPosition].id
+                val title = rooms[adapterPosition].title
+                onEnterClick(roomId, title)
+            }
+        }
     }
 }
