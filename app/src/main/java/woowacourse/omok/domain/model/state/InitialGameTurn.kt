@@ -20,4 +20,6 @@ class InitialGameTurn : GameState {
     override fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState {
         throw IllegalStateException("게임이 시작되지 않았습니다.")
     }
+
+    override fun isFinished(): Boolean = false
 }

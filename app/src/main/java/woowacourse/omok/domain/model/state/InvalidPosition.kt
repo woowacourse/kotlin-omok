@@ -21,6 +21,8 @@ sealed class InvalidPosition(
         handling(latestStonePosition, exceptionMessage)
         return latestState
     }
+
+    override fun isFinished(): Boolean = false
 }
 
 class AlreadyHaveStone(latestStonePosition: StonePosition, latestState: GameState) :

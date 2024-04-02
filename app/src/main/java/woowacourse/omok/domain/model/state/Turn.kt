@@ -7,7 +7,7 @@ import woowacourse.omok.domain.model.StonePosition
 import woowacourse.omok.domain.model.rule.RuleAdapter
 import woowacourse.omok.domain.model.rule.library.NoneForbiddenRule
 
-sealed class Turn(private val latestStonePosition: StonePosition) : GameState {
+abstract class Turn(private val latestStonePosition: StonePosition) : GameState {
     abstract val stone: Stone
     abstract val rule: RuleAdapter
 
@@ -35,6 +35,8 @@ sealed class Turn(private val latestStonePosition: StonePosition) : GameState {
     override fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState {
         throw IllegalStateException("유효한 위치였습니다.")
     }
+
+    override fun isFinished(): Boolean = false
 
     private fun violateForbiddenPosition(
         board: Board,

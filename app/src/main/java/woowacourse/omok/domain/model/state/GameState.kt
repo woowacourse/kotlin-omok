@@ -11,4 +11,6 @@ sealed interface GameState {
     ): GameState
 
     fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState
+
+    fun isFinished(): Boolean
 }
