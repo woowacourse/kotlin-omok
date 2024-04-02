@@ -19,11 +19,4 @@ class Player(val color: Color) {
     fun resetWinState() {
         isWin = false
     }
-
-    fun checkOmok(
-        stones: Stones,
-        stone: Stone,
-    ) {
-        isWin = stones.findOmok(stone)
-    }
 }

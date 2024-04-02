@@ -41,7 +41,9 @@ class PlayerTest {
         player = Player(Color.BLACK)
         val stone = player.getStone(COORDINATE_F8.row.value, COORDINATE_F8.col.value)
         board.putStone(stone)
-        player.checkOmok(stones, stone)
+        if (stones.findOmok(stone)) {
+            player.win()
+        }
 
         assertThat(player.isWin).isTrue()
     }
@@ -49,9 +51,10 @@ class PlayerTest {
     @Test
     fun `플레이어의 차례에 장목이 만들어지면 승리하지 못한다`() {
         player = Player(Color.BLACK)
-
         board.putStone(Stone(black, COORDINATE_F8))
-        player.checkOmok(stones, Stone(black, COORDINATE_F10))
+        if (stones.findOmok(Stone(black, COORDINATE_F10))) {
+            player.win()
+        }
 
         assertThat(player.isWin).isFalse()
     }
