@@ -39,10 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         printStartGuide(outputView)
 
-        board.children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
+        loadCoordinates(board)
             .forEachIndexed { index, view ->
                 val point = Point.findPoint(index)
                 loadStone(stones, point, view)
@@ -65,10 +62,7 @@ class MainActivity : AppCompatActivity() {
                     if (currentTurn is Finished) {
                         outputView.printWinner(currentTurn.board.lastStoneColor())
 
-                        board.children
-                            .filterIsInstance<TableRow>()
-                            .flatMap { it.children }
-                            .filterIsInstance<ImageView>()
+                        loadCoordinates(board)
                             .forEach {
                                 it.setImageResource(0)
                             }
@@ -78,6 +72,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
     }
+
+    private fun loadCoordinates(board: TableLayout) = board.children
+        .filterIsInstance<TableRow>()
+        .flatMap { it.children }
+        .filterIsInstance<ImageView>()
 
     private fun printStartGuide(outputView: OutputView) {
         outputView.printAlert("오목 게임을 시작합니다")
