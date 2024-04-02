@@ -13,6 +13,7 @@ import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
+import omok.model.stone.StoneType
 import omok.model.stone.WhiteStone
 import woowacourse.omok.adapter.OmokBoardAdapter
 import woowacourse.omok.db.OmokEntry
@@ -31,7 +32,11 @@ class MainActivity : AppCompatActivity() {
         val board = findViewById<TableLayout>(R.id.board)
         val positions = getPositions(board)
 
-        GameResume.restoreProgressGameData(positions, dao)
+        val lastStoneType = GameResume.restoreProgressGameData(positions, dao)
+        if (lastStoneType != StoneType.NONE) {
+            stone = omokGame.changeStone(lastStoneType)
+        }
+
         positions.forEachIndexed { index, view ->
             clickToPlaceStone(view, index, positions)
         }

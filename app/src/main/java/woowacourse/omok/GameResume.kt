@@ -13,9 +13,12 @@ object GameResume {
     fun restoreProgressGameData(
         positions: List<ImageView>,
         dao: OmokEntryDao,
-    ) {
+    ): StoneType {
+        val entries = dao.findAll()
+        if (entries.isEmpty()) return StoneType.NONE
+
         val omokGameData =
-            dao.findAll().associateBy {
+            entries.associateBy {
                 OmokBoardAdapter.convertPositionToIndex(
                     Position(Row(it.row), Column(it.column)),
                 )
@@ -25,6 +28,7 @@ object GameResume {
             val stoneDrawable = getCurrentStoneDrawable(omokGameData, index)
             placeCurrentStone(stoneDrawable, view)
         }
+        return StoneType.from(entries.last().stoneType)
     }
 
     private fun getCurrentStoneDrawable(
