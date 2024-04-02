@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Omok</string>
+    <string name="btn_reset_title">다시 하기</string>
+
+    <!-- message -->
+    <string name="success_omock">오목입니다!</string>
+
+    <!-- error message -->
+    <string name="omok_placement_invalid">그 곳에는 오목을 놓을 수 없습니다.</string>
+    <string name="insert_omok_exceptions_message">오목을 저장하다가 에러가 발생했습니다.</string>
+    <string name="select_omok_exceptions_message">오목을 불러오다가 에러가 발생했습니다.</string>
+    <string name="delete_omok_exceptions_message">오목을 삭제하다가 에러가 발생했습니다.</string>
+    <string name="delete_all_omok_exceptions_message">오목을 전부 삭제하다가 에러가 발생했습니다.</string>
+    <string name="base_exceptions_message">예기치 못한 에러가 발생했습니다</string>
+
+</resources>
