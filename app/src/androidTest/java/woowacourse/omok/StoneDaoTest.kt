@@ -7,6 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import woowacourse.omok.local.db.FakeStoneDao
 import woowacourse.omok.local.db.OmokContract
 import woowacourse.omok.local.db.OmokDbHelper
 import woowacourse.omok.local.db.StoneDao
@@ -19,11 +20,9 @@ class StoneDaoTest {
 
     @Before
     fun setUp() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        val dbHelper = OmokDbHelper(context)
-        dbHelper.writableDatabase.delete(OmokContract.TABLE_NAME, null, null)
-        stoneDao = StoneDaoImpl(context)
+        stoneDao = FakeStoneDao()
     }
+
 
     @Test
     fun `돌을_저장하면_저장된_돌이_반환된다`() {
