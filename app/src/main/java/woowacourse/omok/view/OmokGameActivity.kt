@@ -79,7 +79,7 @@ class OmokGameActivity : AppCompatActivity() {
         if (!::gameState.isInitialized || gameState !is GameState.GameOver) {
             setGameState(Position(flattenedIndex))
             if (gameState !is GameState.Error) {
-                val currentColor = placementData.lastPlacement?.color ?: Color.BLACK
+                val currentColor = placementData.lastTurnColor ?: Color.BLACK
                 setStoneImage(view)
                 savePlacementInfo(gameId, flattenedIndex, currentColor)
                 setCurrentTurnText()
@@ -103,7 +103,7 @@ class OmokGameActivity : AppCompatActivity() {
 
     private fun setCurrentTurnText() {
         val currentColor =
-            placementData.lastPlacement?.color?.let { Color.getReversedColor(it) } ?: Color.BLACK
+            placementData.lastTurnColor?.let { Color.getReversedColor(it) } ?: Color.BLACK
         currentTurnTextView.text = getString(R.string.message_turn).format(currentColor)
     }
 

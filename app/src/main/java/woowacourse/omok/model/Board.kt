@@ -20,6 +20,9 @@ class Board(
     private val turnState: TurnState
         get() = if (isEven(placementCount)) Black(placementInfo.status) else White(placementInfo.status)
 
+    val lastTurnColor: Color?
+        get() = lastPlacement?.color
+
     fun place(position: Position): GameState {
         if (position.horizontalCoordinate !in MIN_INDEX..MAX_INDEX) return GameState.Error(message = MESSAGE_WRONG_ROW_RANGE)
         if (position.verticalCoordinate !in MIN_INDEX..MAX_INDEX) return GameState.Error(message = MESSAGE_WRONG_COL_RANGE)
