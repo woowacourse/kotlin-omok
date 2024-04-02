@@ -1,17 +1,24 @@
 package lib.renjurule
 
+import omok.model.result.PutResult
+
 object ExceedFiveChecker : OmokRule() {
     private const val NO_SPACE = 0
     private const val EXCEED_STANDARD = 4
 
-    fun checkMoreThanFive(
+    override fun check(
         board: Array<Array<Int>>,
         x: Int,
         y: Int,
-    ): Boolean =
-        directions.map { direction ->
-            checkMoreThanFive(board, x, y, direction[0], direction[1])
-        }.contains(true)
+    ): PutResult =
+        if (directions.map { direction ->
+                checkMoreThanFive(board, x, y, direction[0], direction[1])
+            }.contains(true)
+        ) {
+            PutResult.ExceedFive
+        } else {
+            PutResult.Running
+        }
 
     private fun checkMoreThanFive(
         board: Array<Array<Int>>,

@@ -1,7 +1,8 @@
 package omok.model.board
 
 import omok.model.position.Position
-import omok.model.rule.RenjuRuleAdapter
+import omok.model.result.PutResult
+import omok.model.rule.LenjuRuleChecker
 import omok.model.stone.StoneType
 
 object Board {
@@ -14,16 +15,27 @@ object Board {
         row: Int,
         column: Int,
         stoneType: StoneType,
-    ) {
-        board[row][column] = stoneType
+    ): PutResult {
+        if (isAlreadyPlacedPosition(row, column)) return PutResult.Failure
+
+        val lenjuRuleResult = LenjuRuleChecker.check(board, row, column)
+        if (lenjuRuleResult == PutResult.Running) {
+            board[row][column] = stoneType
+        }
+        return lenjuRuleResult
     }
+
+    private fun isAlreadyPlacedPosition(
+        row: Int,
+        column: Int,
+    ) = getStoneType(row, column) != StoneType.NONE
 
     fun checkRenjuRule(
         row: Int,
         column: Int,
-    ): Boolean = RenjuRuleAdapter.checkRenjuRule(board, row, column)
+    ): PutResult = LenjuRuleChecker.check(board, row, column)
 
-    fun changeLstStonePosition(position: Position) {
+    fun changeLastStonePosition(position: Position) {
         lastPosition = position
     }
 
@@ -49,12 +61,12 @@ object Board {
     fun getStoneType(
         row: Int,
         column: Int,
-    ) = board[row][column]
+    ) = board[column][row]
 
     fun resetBoard() {
         repeat(BOARD_SIZE) { row ->
             repeat(BOARD_SIZE) { col ->
-                putStone(row, col, StoneType.NONE)
+                board[row][col] = StoneType.NONE
             }
         }
     }

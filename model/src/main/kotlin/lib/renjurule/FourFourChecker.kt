@@ -1,5 +1,7 @@
 package lib.renjurule
 
+import omok.model.result.PutResult
+
 object FourFourChecker : OmokRule() {
     private const val NOT_FOUR = 0
     private const val FIND_FOUR = 1
@@ -10,11 +12,19 @@ object FourFourChecker : OmokRule() {
     private const val FOUR_STONE_COUNT = 4
     private const val FIVE_STONE_COUNT = 5
 
-    fun checkFourFour(
+    override fun check(
         board: Array<Array<Int>>,
         x: Int,
         y: Int,
-    ): Boolean = directions.sumOf { direction -> checkOpenFour(board, x, y, direction[0], direction[1]) } >= 2
+    ): PutResult =
+        if (directions.sumOf { direction ->
+                checkOpenFour(board, x, y, direction[0], direction[1])
+            } >= 2
+        ) {
+            PutResult.DoubleFour
+        } else {
+            PutResult.Running
+        }
 
     private fun checkOpenFour(
         board: Array<Array<Int>>,
@@ -43,15 +53,39 @@ object FourFourChecker : OmokRule() {
 
         val leftDownValid =
             when {
-                dx != DIRECTION_STANDARD && x - dx * leftDown in listOf(MIN_X, BOARD_SIZE - 1) -> NOT_FOUR
-                dy != DIRECTION_STANDARD && y - dy * leftDown in listOf(MIN_Y, BOARD_SIZE - 1) -> NOT_FOUR
+                dx != DIRECTION_STANDARD && x - dx * leftDown in
+                    listOf(
+                        MIN_X,
+                        BOARD_SIZE - 1,
+                    )
+                -> NOT_FOUR
+
+                dy != DIRECTION_STANDARD && y - dy * leftDown in
+                    listOf(
+                        MIN_Y,
+                        BOARD_SIZE - 1,
+                    )
+                -> NOT_FOUR
+
                 board[y - down][x - left] == OTHER_STONETYPE -> NOT_FOUR
                 else -> FIND_FOUR
             }
         val rightUpValid =
             when {
-                dx != DIRECTION_STANDARD && x + (dx * rightUp) in listOf(MIN_X, BOARD_SIZE - 1) -> NOT_FOUR
-                dy != DIRECTION_STANDARD && y + (dy * rightUp) in listOf(MIN_Y, BOARD_SIZE - 1) -> NOT_FOUR
+                dx != DIRECTION_STANDARD && x + (dx * rightUp) in
+                    listOf(
+                        MIN_X,
+                        BOARD_SIZE - 1,
+                    )
+                -> NOT_FOUR
+
+                dy != DIRECTION_STANDARD && y + (dy * rightUp) in
+                    listOf(
+                        MIN_Y,
+                        BOARD_SIZE - 1,
+                    )
+                -> NOT_FOUR
+
                 board[y + up][x + right] == OTHER_STONETYPE -> NOT_FOUR
                 else -> FIND_FOUR
             }

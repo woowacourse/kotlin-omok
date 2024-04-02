@@ -1,7 +1,15 @@
 package lib.renjurule
 
+import omok.model.result.PutResult
+
 abstract class OmokRule {
     val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
+
+    abstract fun check(
+        board: Array<Array<Int>>,
+        x: Int,
+        y: Int,
+    ): PutResult
 
     fun search(
         board: Array<Array<Int>>,

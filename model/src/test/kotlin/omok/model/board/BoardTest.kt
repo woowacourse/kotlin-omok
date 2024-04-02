@@ -45,7 +45,7 @@ class BoardTest {
     fun `마지막 돌의 위치를 변경한다`() {
         val stone = BlackStone
         stone.putStone(Position(1, 5))
-        Board.changeLstStonePosition(Position(2, 5))
+        Board.changeLastStonePosition(Position(2, 5))
         val actual = Board.getLastStonePosition()
         val expected = Position(2, 5)
         assertThat(actual).isEqualTo(expected)
@@ -87,7 +87,7 @@ class BoardTest {
     fun `특정 위치의 돌의 색을 가져온다`() {
         val stone = BlackStone
         stone.putStone(Position(1, 5))
-        val actual = Board.getStoneType(5, 1)
+        val actual = Board.getStoneType(1, 5)
         val expected = StoneType.BLACK_STONE
         assertThat(actual).isEqualTo(expected)
     }
@@ -97,7 +97,7 @@ class BoardTest {
         val stone = BlackStone
         stone.putStone(Position(1, 5))
         Board.resetBoard()
-        val actual = Board.getStoneType(5, 1)
+        val actual = Board.getStoneType(1, 5)
         val expected = StoneType.NONE
         assertThat(actual).isEqualTo(expected)
     }

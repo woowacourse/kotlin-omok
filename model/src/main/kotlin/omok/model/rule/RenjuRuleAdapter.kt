@@ -1,23 +1,20 @@
 package omok.model.rule
 
-import lib.renjurule.ExceedFiveChecker
-import lib.renjurule.FourFourChecker
-import lib.renjurule.ThreeThreeChecker
 import omok.model.stone.StoneType
 
 object RenjuRuleAdapter {
-    fun checkRenjuRule(
-        board: Array<Array<StoneType>>,
-        row: Int,
-        col: Int,
-    ): Boolean {
-        val libBoard = changeBoardToLibBoard(board)
-        return ThreeThreeChecker.checkThreeThree(libBoard, row, col) ||
-            FourFourChecker.checkFourFour(libBoard, row, col) ||
-            ExceedFiveChecker.checkMoreThanFive(libBoard, row, col)
-    }
+//    fun checkRenjuRule(
+//        board: Array<Array<StoneType>>,
+//        row: Int,
+//        col: Int,
+//    ): PutResult {
+//        val libBoard = changeBoardToLibBoard(board)
+//        return ThreeThreeChecker.check(libBoard, row, col) ||
+//                FourFourChecker.check(libBoard, row, col) ||
+//                ExceedFiveChecker.check(libBoard, row, col)
+//    }
 
-    private fun changeBoardToLibBoard(board: Array<Array<StoneType>>): Array<Array<Int>> {
+    fun changeBoardToLibBoard(board: Array<Array<StoneType>>): Array<Array<Int>> {
         val libBoard = Array(board.size) { Array(board.size) { 0 } }
         for (i in board.indices) {
             changeStoneValue(board, libBoard, i)

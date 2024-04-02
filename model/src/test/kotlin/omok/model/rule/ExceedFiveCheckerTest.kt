@@ -3,6 +3,7 @@ package omok.model.rule
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.resetBoard
+import omok.model.result.PutResult
 import omok.model.stone.BlackStone
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -24,6 +25,6 @@ class ExceedFiveCheckerTest {
         blackStone.putStone(Position.of('C', 15))
 
         val actual = Board.checkRenjuRule(2, 12)
-        Assertions.assertThat(actual).isEqualTo(true)
+        Assertions.assertThat(actual).isEqualTo(PutResult.ExceedFive)
     }
 }

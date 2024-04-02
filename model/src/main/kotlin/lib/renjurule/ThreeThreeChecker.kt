@@ -1,5 +1,7 @@
 package lib.renjurule
 
+import omok.model.result.PutResult
+
 object ThreeThreeChecker : OmokRule() {
     private const val NOT_THREE = 0
     private const val FIND_THREE = 1
@@ -7,14 +9,19 @@ object ThreeThreeChecker : OmokRule() {
     private const val THREE_THREE_STANDARD_COUNT = 2
     private const val COUNT_TO_WALL_ALLOWANCE = 5
 
-    fun checkThreeThree(
+    override fun check(
         board: Array<Array<Int>>,
         x: Int,
         y: Int,
-    ): Boolean =
-        directions.sumOf { direction ->
-            checkOpenThree(board, x, y, direction[0], direction[1])
-        } >= THREE_THREE_STANDARD_COUNT
+    ): PutResult =
+        if (directions.sumOf { direction ->
+                checkOpenThree(board, x, y, direction[0], direction[1])
+            } >= THREE_THREE_STANDARD_COUNT
+        ) {
+            PutResult.DoubleThree
+        } else {
+            PutResult.Running
+        }
 
     private fun checkOpenThree(
         board: Array<Array<Int>>,

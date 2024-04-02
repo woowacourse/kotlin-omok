@@ -3,6 +3,7 @@ package omok.model.rule
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.resetBoard
+import omok.model.result.PutResult
 import omok.model.stone.BlackStone
 import omok.model.stone.WhiteStone
 import org.assertj.core.api.Assertions.assertThat
@@ -45,18 +46,18 @@ class FourFourCheckerTest {
         whiteStone.putStone(Position.of('H', 9))
 
         val actual1 = Board.checkRenjuRule(2, 7)
-        assertThat(actual1).isEqualTo(true)
+        assertThat(actual1).isEqualTo(PutResult.DoubleFour)
 
         val actual2 = Board.checkRenjuRule(5, 11)
-        assertThat(actual2).isEqualTo(true)
+        assertThat(actual2).isEqualTo(PutResult.DoubleFour)
 
         val actual3 = Board.checkRenjuRule(7, 4)
-        assertThat(actual3).isEqualTo(true)
+        assertThat(actual3).isEqualTo(PutResult.DoubleFour)
 
         val actual4 = Board.checkRenjuRule(8, 7)
-        assertThat(actual4).isEqualTo(true)
+        assertThat(actual4).isEqualTo(PutResult.DoubleFour)
 
         val actual5 = Board.checkRenjuRule(9, 9)
-        assertThat(actual5).isEqualTo(true)
+        assertThat(actual5).isEqualTo(PutResult.DoubleFour)
     }
 }
