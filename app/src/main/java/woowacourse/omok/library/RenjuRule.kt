@@ -1,4 +1,4 @@
-package omok.library
+package woowacourse.omok.library
 
 class RenjuRule(
     private val board: List<List<Int>>,

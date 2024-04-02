@@ -1,6 +1,6 @@
 package woowacourse.omok.model
 
-import omok.library.RenjuRule
+import woowacourse.omok.library.RenjuRule
 
 class RuleAdapter(private val boardSize: Int) : Rule {
     override fun checkPlaceable(
