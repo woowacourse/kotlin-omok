@@ -119,4 +119,8 @@ object OutputView {
     private fun generateBeforeMessage(stone: Stone): String {
         return MESSAGE_BEFORE_STONE.format(stone.point.x + 65, stone.point.y + 1)
     }
+
+    fun printFailureMessage(message: String) {
+        println(message)
+    }
 }

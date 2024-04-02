@@ -15,14 +15,14 @@ class RenjuRuleAdaptor(private val omokRules: List<OmokRule>) {
         omokRules.forEach { omokRule ->
             if (!omokRule.isValidPosition(boardConverted, point.x, point.y)) return generateRuleResult(omokRule)
         }
-        return GameResult.Success
+        return Success
     }
 
     private fun generateRuleResult(rule: OmokRule): GameResult =
         when (rule) {
-            is ThreeThreeRule -> GameResult.ThreeThree
-            is FourFourRule -> GameResult.FourFour
-            is MoreThanFiveRule -> GameResult.MoreThanFive
+            is ThreeThreeRule -> Failure.ThreeThree
+            is FourFourRule -> Failure.FourFour
+            is MoreThanFiveRule -> Failure.MoreThanFive
         }
 
     private fun Board.convert(): List<List<Int>> {

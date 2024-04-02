@@ -1,7 +1,7 @@
 package woowacourse.omok.domain.model
 
 sealed class Turn {
-    var forbiddenResult: GameResult = GameResult.Success
+    var forbiddenResult: GameResult = Success
         protected set
 
     abstract fun putStone(
@@ -31,12 +31,12 @@ class BlackTurn : Turn() {
     ): Turn {
         val stone = Stone(StoneType.BLACK, point)
         val forbiddenMoveCheckResult = board.isForbidden(stone)
-        if (forbiddenMoveCheckResult != GameResult.Success) {
+        if (forbiddenMoveCheckResult != Success) {
             forbiddenResult = forbiddenMoveCheckResult
             return this
         }
         if (point in board) {
-            forbiddenResult = GameResult.DuplicatePoint
+            forbiddenResult = Failure.DuplicatePoint
             return this
         }
         board.putStone(stone)
@@ -52,7 +52,7 @@ class WhiteTurn : Turn() {
     ): Turn {
         val stone = Stone(StoneType.WHITE, point)
         if (point in board) {
-            forbiddenResult = GameResult.DuplicatePoint
+            forbiddenResult = Failure.DuplicatePoint
             return this
         }
         board.putStone(stone)

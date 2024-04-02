@@ -12,7 +12,6 @@ import woowacourse.omok.db.OmokDao
 import woowacourse.omok.domain.model.BlackTurn
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Board.Companion.BOARD_SIZE
-import woowacourse.omok.domain.model.GameResult
 import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Point
 import woowacourse.omok.domain.model.StoneType
@@ -85,16 +84,15 @@ class MainActivity : AppCompatActivity() {
         x: Int,
         y: Int,
     ) {
-        val gameResult =
-            omokGame.tryPlayTurn(
-                updateBoard = { view.setImageResource(getStoneImage(it.latestStone?.type)) },
-                updateTurn = { turn, stone ->
-                    displayMessage(generateTurnMessage(turn))
-                    stone?.let { omokDb.saveStone(it) }
-                },
-                getPoint = { Point(x, y) },
-            )
-        if (gameResult != GameResult.Success) displayMessage(gameResult.message)
+        omokGame.tryPlayTurn(
+            updateBoard = { view.setImageResource(getStoneImage(it.latestStone?.type)) },
+            updateTurn = { turn, stone ->
+                displayMessage(generateTurnMessage(turn))
+                stone?.let { omokDb.saveStone(it) }
+            },
+            getPoint = { Point(x, y) },
+            displayMessage = ::displayMessage,
+        )
     }
 
     private fun getStoneImage(stoneType: StoneType?): Int =

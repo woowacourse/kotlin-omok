@@ -16,7 +16,7 @@ class Controller {
         OutputView.printBoard(board)
         OutputView.printTurn(turn, null)
         do {
-            omokGame.tryPlayTurn(OutputView::printBoard, OutputView::printTurn, ::getPoint)
+            omokGame.tryPlayTurn(OutputView::printBoard, OutputView::printTurn, ::getPoint, OutputView::printFailureMessage)
         } while (!omokGame.isGameFinished())
     }
 

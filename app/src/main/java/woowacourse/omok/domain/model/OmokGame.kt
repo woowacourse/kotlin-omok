@@ -8,16 +8,17 @@ class OmokGame(
         updateBoard: (Board) -> Unit,
         updateTurn: (Turn, Stone?) -> Unit,
         getPoint: () -> Point,
-    ): GameResult {
+        displayMessage: (String) -> Unit,
+    ) {
         val point = getPoint()
-        val nextTurn = turn.putStone(point, board)
-        if (turn != nextTurn) {
-            updateBoard(board)
-            turn = nextTurn
-            updateTurn(turn, board.latestStone)
-            return GameResult.Success
+        turn = turn.putStone(point, board)
+        when (val gameResult = turn.forbiddenResult) {
+            Success -> {
+                updateBoard(board)
+                updateTurn(turn, board.latestStone)
+            }
+            is Failure -> displayMessage(gameResult.message)
         }
-        return turn.forbiddenResult
     }
 
     fun isGameFinished(): Boolean = turn is FinishedTurn
