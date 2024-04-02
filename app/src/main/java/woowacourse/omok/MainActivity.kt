@@ -7,17 +7,17 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
+import omok.PutResult
 import omok.model.OmokGame
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
-import omok.model.stone.StoneType
 import omok.model.stone.WhiteStone
 import woowacourse.omok.adapter.OmokBoardAdapter
 import woowacourse.omok.db.OmokEntry
 import woowacourse.omok.db.OmokEntryDao
-import woowacourse.omok.utils.HandlingExceptionUtils
+import woowacourse.omok.utils.HandlingPutResultUtils
 
 class MainActivity : AppCompatActivity() {
     private var stone: GoStone = BlackStone()
@@ -52,28 +52,58 @@ class MainActivity : AppCompatActivity() {
     ) {
         view.setOnClickListener {
             val position = getPosition(index)
-            val stoneType = getStoneType(position, view)
+            if (checkForOccupiedOrForbidden(view, position)) return@setOnClickListener
 
-            stoneType?.let {
-                saveData(index)
-                showStone(view)
-                if (stone.findOmok(position)) {
-                    endGame(positions, view)
-                }
-                stone = omokGame.changeStone(it)
+            val stoneType = stone.putStone(position)
+            saveData(index)
+            showStone(view)
+            if (stone.findOmok(position)) {
+                endGame(positions, view)
             }
+            stone = omokGame.changeStone(stoneType)
         }
     }
 
-    private fun getPosition(index: Int) = OmokBoardAdapter.convertIndexToPosition(index)
-
-    private fun getStoneType(
-        position: Position,
+    private fun checkForOccupiedOrForbidden(
         view: ImageView,
-    ): StoneType? =
-        HandlingExceptionUtils.retryUntilSuccess(view) {
-            stone.putStone(position)
+        position: Position,
+    ): Boolean {
+        if (validatePosition(
+                view,
+                { position.validatePosition() },
+                ::isFailure,
+            )
+        ) {
+            return true
         }
+        if (validatePosition(
+                view,
+                { position.checkForbidden() },
+                ::isNotRunning,
+            )
+        ) {
+            return true
+        }
+        return false
+    }
+
+    private fun validatePosition(
+        view: ImageView,
+        putResult: () -> PutResult,
+        result: (PutResult) -> Boolean,
+    ): Boolean {
+        if (result(putResult())) {
+            HandlingPutResultUtils.displayPutStatus(view, putResult(), this)
+            return true
+        }
+        return false
+    }
+
+    private fun isFailure(putResult: PutResult) = putResult == PutResult.Failure
+
+    private fun isNotRunning(putResult: PutResult) = putResult != PutResult.Running
+
+    private fun getPosition(index: Int) = OmokBoardAdapter.convertIndexToPosition(index)
 
     private fun saveData(index: Int) {
         val entry = OmokEntry(stone.stoneType.type, index)

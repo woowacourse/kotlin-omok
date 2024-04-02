@@ -2,4 +2,8 @@
     <string name="app_name">Omok</string>
     <string name="winnier_message">%s의 승리입니다 🏆</string>
     <string name="game_restart">다시 시작</string>
+    <string name="double_three_message">3-3 금수입니다.</string>
+    <string name="double_four_message">4-4 금수입니다.</string>
+    <string name="exceed_five_message">장목 금수입니다.</string>
+    <string name="placed_stone_position">이미 놓여진 자리입니다.</string>
 </resources>
