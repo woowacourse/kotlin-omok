@@ -21,14 +21,14 @@ object OmokEntityAdapter {
         size: Int,
         omokEntities: List<OmokEntity>,
     ): Board {
-        val stonePositions = omokEntities.map { it.stonePosition() }
+        val stonePositions = omokEntities.map { stonePosition(it) }
         return Board(size, stonePositions)
     }
 
-    private fun OmokEntity.stonePosition(): StonePosition {
+    fun stonePosition(omokEntity: OmokEntity): StonePosition {
         return StonePosition(
-            Position(row, col),
-            stone(this),
+            Position(omokEntity.row, omokEntity.col),
+            stone(omokEntity),
         )
     }
 

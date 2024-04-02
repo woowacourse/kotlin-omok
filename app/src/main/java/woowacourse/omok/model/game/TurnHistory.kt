@@ -1,14 +1,13 @@
 package woowacourse.omok.model.game
 
-import woowacourse.omok.data.OmokEntity
-import woowacourse.omok.data.adapter.OmokEntityAdapter
+import woowacourse.omok.data.adapter.StonePosition
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.player.Player
 
 class TurnHistory(
     private val omokPlayers: OmokPlayers,
-    lastOmokEntity: OmokEntity? = null,
+    lastStonePosition: StonePosition? = null,
 ) {
     var recentPlayer: Player = omokPlayers.firstOrderPlayer()
         private set
@@ -17,9 +16,9 @@ class TurnHistory(
         private set
 
     init {
-        lastOmokEntity?.run {
-            recentPlayer = if (OmokEntityAdapter.stone(this) == Stone.BLACK) omokPlayers.whiteStonePlayer else omokPlayers.blackStonePlayer
-            recentPosition = Position(row, col)
+        lastStonePosition?.run {
+            recentPlayer = if (stone == Stone.BLACK) omokPlayers.whiteStonePlayer else omokPlayers.blackStonePlayer
+            recentPosition = position
         }
     }
 

@@ -7,9 +7,9 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import woowacourse.omok.data.OmokDaoImpl
-import woowacourse.omok.data.OmokEntities
+import woowacourse.omok.data.OmokDataStoreImpl
 import woowacourse.omok.data.adapter.OmokEntityAdapter
+import woowacourse.omok.data.`interface`.OmokDataStore
 import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.game.FinishAction
@@ -23,8 +23,7 @@ import woowacourse.omok.ui.stoneImage
 
 class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), FinishAction {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val omokDao by lazy { OmokDaoImpl(this) }
-    private val omokEntities by lazy { OmokEntities(this) }
+    private val omokDataStore: OmokDataStore by lazy { OmokDataStoreImpl(this) }
     private lateinit var omokGame: OmokGame
     private var isFinish = false
 
@@ -35,9 +34,9 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
     }
 
     private fun initializeUI() {
-        val omokEntities = omokDao.findAll()
+        val omokEntities = omokDataStore.omokEntities()
         val board = OmokEntityAdapter.Board(boardSize, omokEntities)
-        omokGame = OmokGame(board, this, TurnHistory(OmokPlayers(), omokDao.findLast()))
+        omokGame = OmokGame(board, this, TurnHistory(OmokPlayers(), omokDataStore.lastStonePosition()))
         setResultText()
 
         stoneImageView { index, view ->
@@ -93,7 +92,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
             showToast(resources.getString(R.string.cannot_place_position))
             return
         }
-        omokEntities.add(position, placeType.stone)
+        omokDataStore.add(position, placeType.stone)
         stoneImageView.setImageResource(placeType.stone.stoneImage())
         setResultText()
     }
@@ -105,7 +104,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
     private fun restartGame() {
         isFinish = false
         omokGame.restart()
-        omokEntities.reset()
+        omokDataStore.reset()
         stoneImageView { _, view -> view.setImageResource(0) }
         setResultText()
     }
@@ -123,7 +122,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
 
     override fun onDestroy() {
         super.onDestroy()
-        omokEntities.save(isFinish)
+        omokDataStore.save(isFinish)
     }
 
     override fun onFinish(finishType: FinishType) {
