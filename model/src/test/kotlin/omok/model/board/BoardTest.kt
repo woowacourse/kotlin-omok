@@ -1,7 +1,6 @@
 package omok.model.board
 
 import omok.model.position.Position
-import omok.model.resetBoard
 import omok.model.resetPosition
 import omok.model.stone.BlackStone
 import omok.model.stone.StoneType
@@ -12,7 +11,7 @@ import org.junit.jupiter.api.Test
 class BoardTest {
     @BeforeEach
     fun setUp() {
-        resetBoard()
+        Board.resetBoard()
         resetPosition(Board, "lastPosition")
     }
 
@@ -69,7 +68,7 @@ class BoardTest {
     fun `특정 위치의 돌의 색이 같은 경우 true를 반환한다`() {
         val stone = BlackStone
         stone.putStone(Position(1, 5))
-        val actual = Board.isSameStone(1, 5, StoneType.BLACK_STONE)
+        val actual = Board.isSameStone(5, 1, StoneType.BLACK_STONE)
         val expected = true
         assertThat(actual).isEqualTo(expected)
     }
@@ -78,7 +77,7 @@ class BoardTest {
     fun `특정 위치의 돌의 색이 다른 경우 false를 반환한다`() {
         val stone = BlackStone
         stone.putStone(Position(1, 5))
-        val actual = Board.isSameStone(1, 5, StoneType.WHITE_STONE)
+        val actual = Board.isSameStone(5, 1, StoneType.WHITE_STONE)
         val expected = false
         assertThat(actual).isEqualTo(expected)
     }

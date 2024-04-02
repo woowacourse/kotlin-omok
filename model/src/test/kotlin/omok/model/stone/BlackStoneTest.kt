@@ -1,7 +1,7 @@
 package omok.model.stone
 
+import omok.model.board.Board
 import omok.model.position.Position
-import omok.model.resetBoard
 import omok.model.result.PutResult
 import omok.model.stone.WhiteStone.changeStone
 import omok.model.stone.WhiteStone.value
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 class BlackStoneTest {
     @BeforeEach
     fun setUp() {
-        resetBoard()
+        Board.resetBoard()
     }
 
     @Test
@@ -79,6 +79,7 @@ class BlackStoneTest {
     fun `이미 돌이 놓인 자리에 돌을 놓을 경우 그에 따른 결과 상태를 반환한다`() {
         val stone = BlackStone
         val position = Position(0, 0)
+        stone.putStone(position)
 
         val actual = stone.putStone(position)
         val expected = PutResult.Failure

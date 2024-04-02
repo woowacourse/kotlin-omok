@@ -53,8 +53,8 @@ object Board {
     ) = row in 0 until BOARD_SIZE && col in 0 until BOARD_SIZE
 
     fun isSameStone(
-        row: Int,
         column: Int,
+        row: Int,
         stoneType: StoneType,
     ) = board[column][row] == stoneType
 

@@ -15,7 +15,7 @@ sealed class GoStone {
 
     fun findOmok(position: Position): Boolean =
         if (
-            Board.getStoneType(position.row, position.column) != stoneType
+            Board.getStoneType(position.column, position.row) != stoneType
         ) {
             false
         } else {

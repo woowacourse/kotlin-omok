@@ -2,7 +2,6 @@ package omok.model.rule
 
 import omok.model.board.Board
 import omok.model.position.Position
-import omok.model.resetBoard
 import omok.model.result.PutResult
 import omok.model.stone.BlackStone
 import omok.model.stone.WhiteStone
@@ -13,7 +12,7 @@ import org.junit.jupiter.api.Test
 class FourFourCheckerTest {
     @BeforeEach
     fun setUp() {
-        resetBoard()
+        Board.resetBoard()
     }
 
     @Test
