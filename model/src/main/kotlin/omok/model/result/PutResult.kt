@@ -5,6 +5,8 @@ sealed interface PutResult {
 
     data object Failure : PutResult
 
+    data object OMOK : PutResult
+
     data object DoubleThree : PutResult
 
     data object DoubleFour : PutResult
