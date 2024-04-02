@@ -105,9 +105,27 @@ class RuleAdapterTest {
         assertThat(actual).isFalse
     }
 
+    @Test
+    fun `유효한 위치인지 판단한다(3-3 규칙 D 위반)2`() {
+        // given
+        board =
+            initBoard(
+                StonePosition(Position(5, 5), Stone.BLACK),
+                StonePosition(Position(8, 5), Stone.BLACK),
+                StonePosition(Position(7, 7), Stone.BLACK),
+                StonePosition(Position(7, 8), Stone.BLACK),
+            )
+
+        // when
+        val actual = renjuRule.violated(board, Position(7, 5))
+
+        // then
+        assertThat(actual).isTrue()
+    }
+
     /*
-    4-4 규칙 테스트: docs/4-4 금수 테스트 케이스.png 참조
-     */
+        4-4 규칙 테스트: docs/4-4 금수 테스트 케이스.png 참조
+         */
     @Test
     fun `유효한 위치인지 판단한다(4-4 규칙 A 위반)`() {
         // given

@@ -37,6 +37,9 @@ class RuleAdapter(
     ): OmokRule = forbiddenRules.rules.find { !it.abide(board.convert(), position.convert()) }
         ?: NoneForbiddenRule
 
+    fun violated(board: Board, position: Position): Boolean =
+        forbiddenRules.rules.any{!it.abide(board.convert(), position.convert())}
+
     fun isWin(
         board: Board,
         position: Position,
