@@ -23,9 +23,9 @@ class StoneDaoTest {
 
     @Test
     fun insert() {
-        stoneDao.insert(Stone(1, 1, Color.BLACK))
+        stoneDao.insert(exampleStone)
         val stones = stoneDao.stones()
-        assertThat(stones).contains(Stone(1, 1, Color.BLACK))
+        assertThat(stones).isEqualTo(exampleStone)
     }
 
     @Test
@@ -46,6 +46,7 @@ class StoneDaoTest {
     }
 
     companion object {
+        private val exampleStone = Stone(1, 1, Color.BLACK)
         private val exampleStones =
             listOf(Stone(1, 2, Color.BLACK), Stone(1, 13, Color.BLACK), Stone(4, 5, Color.WHITE))
     }
