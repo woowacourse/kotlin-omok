@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { index, view ->
                 val point = findPoint(index)
 
-                initOmokBoard(stones, point, view)
+                loadOmokBoard(stones, point, view)
 
                 view.setOnClickListener {
                     val previousTurn: Turn = currentTurn
@@ -90,15 +90,15 @@ class MainActivity : AppCompatActivity() {
         return Point(x, y)
     }
 
-    private fun initOmokBoard(
+    private fun loadOmokBoard(
         stones: Set<Stone>,
         point: Point,
         view: ImageView,
     ) {
-        stones.find { it.point == point }.let {
-            if (it?.stoneColor == StoneColor.BLACK) {
+        stones.find { it.point == point }?.let {
+            if (it.stoneColor == StoneColor.BLACK) {
                 view.setImageResource(R.drawable.black_stone)
-            } else if (it?.stoneColor == StoneColor.WHITE) {
+            } else if (it.stoneColor == StoneColor.WHITE) {
                 view.setImageResource(R.drawable.white_stone)
             }
         }
