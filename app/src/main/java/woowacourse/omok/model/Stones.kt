@@ -21,7 +21,7 @@ class Stones {
         return false
     }
 
-    fun countSameColorStoneInDirection(
+    private fun countSameColorStoneInDirection(
         startStone: Stone,
         direction: List<Int>,
     ): Int {
