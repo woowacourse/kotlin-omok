@@ -3,8 +3,8 @@ package woowacourse.omok.data.`interface`
 interface Dao<T> {
     fun save(entity: T): T
 
-    fun saveAll(entities: List<T>) {
-        entities.forEach { save(it) }
+    fun saveAll(entities: List<T>): List<T> {
+        return entities.map { save(it) }
     }
 
     fun findAll(): List<T>

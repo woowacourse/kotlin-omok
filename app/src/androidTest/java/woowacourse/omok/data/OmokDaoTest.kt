@@ -31,10 +31,26 @@ class OmokDaoTest {
         val actual = omokDao.save(omokEntity)
 
         // then
-        assertThat(actual.id).isGreaterThan(-1)
-        assertThat(actual.row).isEqualTo(10)
-        assertThat(actual.col).isEqualTo(10)
-        assertThat(actual.stone).isEqualTo(STONE_BLACK)
+        assertOmokEntity(actual, OmokEntity(10, 10, STONE_BLACK))
+    }
+
+    @Test
+    fun `여러_데이터를_저장한다`() {
+        // given
+        val omokEntities = listOf(
+            OmokEntity(10, 10, STONE_BLACK),
+            OmokEntity(5, 5, STONE_BLACK),
+            OmokEntity(3, 7, STONE_WHITE),
+        )
+
+        // when
+        val actual = omokDao.saveAll(omokEntities)
+
+        // then
+        assertThat(actual.size).isEqualTo(3)
+        assertOmokEntity(actual[0], OmokEntity(10, 10, STONE_BLACK))
+        assertOmokEntity(actual[1], OmokEntity(5, 5, STONE_BLACK))
+        assertOmokEntity(actual[2], OmokEntity(3, 7, STONE_WHITE))
     }
 
     @Test
@@ -47,10 +63,7 @@ class OmokDaoTest {
         val actual = omokDao.findAll()
 
         // then
-        assertThat(actual[0].id).isGreaterThan(-1)
-        assertThat(actual[0].row).isEqualTo(5)
-        assertThat(actual[0].col).isEqualTo(5)
-        assertThat(actual[0].stone).isEqualTo(STONE_WHITE)
+        assertOmokEntity(actual[0], OmokEntity(5, 5, STONE_WHITE))
     }
 
     @Test
@@ -66,10 +79,7 @@ class OmokDaoTest {
 
         // then
         assertThat(actual).isNotNull
-        assertThat(actual?.id).isGreaterThan(-1)
-        assertThat(actual?.row).isEqualTo(10)
-        assertThat(actual?.col).isEqualTo(10)
-        assertThat(actual?.stone).isEqualTo(STONE_BLACK)
+        assertOmokEntity(actual!!, OmokEntity(10, 10, STONE_BLACK))
     }
 
     @Test
@@ -85,6 +95,13 @@ class OmokDaoTest {
 
         // then
         assertThat(actual).isEmpty()
+    }
+
+    private fun assertOmokEntity(actual: OmokEntity, expected: OmokEntity) {
+        assertThat(actual.id).isGreaterThan(-1)
+        assertThat(actual.row).isEqualTo(expected.row)
+        assertThat(actual.col).isEqualTo(expected.col)
+        assertThat(actual.stone).isEqualTo(expected.stone)
     }
 
     companion object {
