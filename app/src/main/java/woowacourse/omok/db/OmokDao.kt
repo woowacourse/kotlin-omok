@@ -23,7 +23,7 @@ class OmokDao(context: Context) {
         omokDb.delete(OmokContract.TABLE_NAME, null, null)
     }
 
-    fun getStonesFromDatabase(): Result<List<Stone>> {
+    fun getStonesFromDatabase(): List<Stone> {
         return runCatching {
             val projection =
                 arrayOf(OmokContract.STONE_TYPE, OmokContract.POINT_X, OmokContract.POINT_Y)
@@ -41,6 +41,6 @@ class OmokDao(context: Context) {
             }
             cursor.close()
             result
-        }
+        }.getOrDefault(emptyList())
     }
 }

@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeBoardSetting() {
-        val stones = omokDb.getStonesFromDatabase().getOrDefault(emptyList())
+        val stones = omokDb.getStonesFromDatabase()
         stones.forEach { (stoneType, point) ->
             val coordinate = point.y * BOARD_SIZE + point.x
             boardUi[coordinate].setImageResource(getStoneImage(stoneType))
