@@ -111,10 +111,10 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
     ) {
         if (previousTurn.color() == StoneColor.BLACK) {
-            dao.insert(point.x, point.y, StoneColor.BLACK.name)
+            dao.insertStone(point.x, point.y, StoneColor.BLACK.name)
             view.setImageResource(R.drawable.black_stone)
         } else {
-            dao.insert(point.x, point.y, StoneColor.WHITE.name)
+            dao.insertStone(point.x, point.y, StoneColor.WHITE.name)
             view.setImageResource(R.drawable.white_stone)
         }
     }

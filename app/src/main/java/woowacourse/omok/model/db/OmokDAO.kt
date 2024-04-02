@@ -11,7 +11,7 @@ class OmokDAO(
     private val db: SQLiteDatabase,
     private val tableName: String = OmokEntry.TABLE_NAME,
 ) {
-    fun insert(
+    fun insertStone(
         x: Int,
         y: Int,
         turn: String,

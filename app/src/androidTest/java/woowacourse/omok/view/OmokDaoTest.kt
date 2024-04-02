@@ -25,7 +25,7 @@ class OmokDaoTest {
 
     @Test
     fun insertStone() {
-        val actual = omokDao.insert(1, 1, "BLACK")
+        val actual = omokDao.insertStone(1, 1, "BLACK")
 
         assertThat(actual).isGreaterThan(0)
     }
