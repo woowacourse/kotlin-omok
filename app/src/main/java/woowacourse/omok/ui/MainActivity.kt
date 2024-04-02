@@ -81,12 +81,15 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
         }
     }
 
-    private fun showGameSnackBar(msgResId: Int, actionMsgResId: Int? = null, action: (() -> Unit)? = null) {
+    private fun showGameSnackBar(
+        msgResId: Int,
+        actionMsgResId: Int? = null,
+        action: (() -> Unit)? = null,
+    ) {
         Snackbar.make(binding.root, msgResId, Snackbar.LENGTH_SHORT).apply {
             actionMsgResId?.let { setAction(it) { action?.invoke() } }
         }.show()
     }
-
 
     private fun drawDiff(board: Board) {
         board.boardLayout.flatten().forEachIndexed { index, coordinateState ->
