@@ -27,7 +27,7 @@ class OmokDbHelper(context: Context) :
                 "${BaseColumns._ID} INTEGER PRIMARY KEY," +
                 "${OmokEntry.POINT_X} INTEGER," +
                 "${OmokEntry.POINT_Y} INTEGER," +
-                "${OmokEntry.TURN} TEXT)"
+                "${OmokEntry.COLOR} TEXT)"
         private const val DELETE_OMOK_GAME =
             "DROP TABLE IF EXISTS ${OmokEntry.TABLE_NAME}"
         const val DATABASE_VERSION = 1

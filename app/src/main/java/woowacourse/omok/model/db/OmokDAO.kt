@@ -14,12 +14,12 @@ class OmokDAO(
     fun insertStone(
         x: Int,
         y: Int,
-        turn: String,
+        color: String,
     ): Long {
         val values = ContentValues()
         values.put(OmokEntry.POINT_X, x)
         values.put(OmokEntry.POINT_Y, y)
-        values.put(OmokEntry.TURN, turn)
+        values.put(OmokEntry.COLOR, color)
 
         return db.insert(tableName, null, values)
     }
@@ -36,7 +36,7 @@ class OmokDAO(
                 arrayOf(
                     OmokEntry.POINT_X,
                     OmokEntry.POINT_Y,
-                    OmokEntry.TURN,
+                    OmokEntry.COLOR,
                 ),
                 null,
                 null,
@@ -48,7 +48,7 @@ class OmokDAO(
         while (cursor.moveToNext()) {
             val x = cursor.getString(cursor.getColumnIndexOrThrow(OmokEntry.POINT_X))
             val y = cursor.getString(cursor.getColumnIndexOrThrow(OmokEntry.POINT_Y))
-            val turn = cursor.getString(cursor.getColumnIndexOrThrow(OmokEntry.TURN))
+            val turn = cursor.getString(cursor.getColumnIndexOrThrow(OmokEntry.COLOR))
 
             stones.add(
                 Stone(

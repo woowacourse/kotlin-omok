@@ -7,6 +7,6 @@ object OmokContract {
         const val TABLE_NAME = "omok"
         const val POINT_X = "x"
         const val POINT_Y = "y"
-        const val TURN = "turn"
+        const val COLOR = "color"
     }
 }
