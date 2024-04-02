@@ -168,10 +168,8 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     private fun resetBoardView() {
-        for (r in MIN_INDEX until boardLayout.childCount) {
-            val row = boardLayout.getChildAt(r) as TableRow
-            for (c in MIN_INDEX until row.childCount) {
-                val cell = row.getChildAt(c) as ImageView
+        boardLayout.children.filterIsInstance<TableRow>().forEach { row ->
+            row.children.filterIsInstance<ImageView>().forEach { cell ->
                 cell.setImageDrawable(null)
             }
         }
@@ -193,7 +191,6 @@ class MainActivity : AppCompatActivity(), GameEventListener {
 
     companion object {
         const val INDEX_ADJUSTMENT = 1
-        const val MIN_INDEX = 0
         const val FORBIDDEN_STONE_MESSAGE = "이 위치는 금수입니다!"
         const val WINNER_MESSAGE = "게임 종료! 우승자는 %s 입니다!"
         const val PLAYER_COLOR_BLACK = "흑"
