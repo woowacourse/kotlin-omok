@@ -2,6 +2,7 @@ package omok.model.rule
 
 import omok.model.board.Board
 import omok.model.position.Position
+import omok.model.result.PutResult
 import omok.model.stone.BlackStone
 import omok.model.stone.StoneType
 import omok.model.stone.WhiteStone
@@ -30,7 +31,7 @@ class OmokCheckerTest {
         val lastPosition = Position(4, 4)
         // when
         val actual = OmokChecker.findOmok(lastPosition, StoneType.BLACK_STONE)
-        val expected = true
+        val expected = PutResult.OMOK
 
         // then
         Assertions.assertThat(actual).isEqualTo(expected)
@@ -51,7 +52,7 @@ class OmokCheckerTest {
         val lastPosition = Position(11, 11)
         // when
         val actual = OmokChecker.findOmok(lastPosition, StoneType.BLACK_STONE)
-        val expected = false
+        val expected = PutResult.Running
 
         // then
         Assertions.assertThat(actual).isEqualTo(expected)
