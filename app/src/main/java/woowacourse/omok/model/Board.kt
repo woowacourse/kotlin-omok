@@ -45,12 +45,11 @@ class Board(val stones: Stones = Stones()) {
     }
 
     fun putStone(stone: Stone): StoneState {
-        if (checkCoordinateIsNotOnBoard(stone.coordinate)) {
-            return OUTSIDE_THE_BOARD
-        } else if (stones.checkOccupiedCoordinate(stone.coordinate)) {
-            return OCCUPIED
+        return when {
+            checkCoordinateIsNotOnBoard(stone.coordinate) -> OUTSIDE_THE_BOARD
+            stones.checkOccupiedCoordinate(stone.coordinate) -> OCCUPIED
+            else -> tryPlaceByRule(stone)
         }
-        return tryPlaceByRule(stone)
     }
 
     private fun checkCoordinateIsNotOnBoard(coordinate: Coordinate): Boolean {
@@ -58,11 +57,12 @@ class Board(val stones: Stones = Stones()) {
     }
 
     private fun tryPlaceByRule(stone: Stone): StoneState {
-        return if (rule.checkPlaceable(stones, stone)) {
-            stones.putStone(stone)
-            PLACED
-        } else {
-            return FORBIDDEN
+        return when {
+            !rule.checkPlaceable(stones, stone) -> FORBIDDEN
+            else -> {
+                stones.putStone(stone)
+                PLACED
+            }
         }
     }
 
