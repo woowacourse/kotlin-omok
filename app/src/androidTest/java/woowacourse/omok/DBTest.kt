@@ -36,6 +36,17 @@ class DBTest {
     }
 
     @Test
+    fun updateDuplicatedStone() {
+        val point = Point(1, 1)
+        val expected = Stone(point, StoneColor.BLACK)
+        stoneDao.save(Stone(point, StoneColor.WHITE))
+        // stoneDao.update(expected)
+        stoneDao.save(expected)
+        val actual = stoneDao.findAt(point)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
     fun findAllStone() {
         val points = listOf(Point(2, 2), Point(3, 3), Point(4, 4))
         val expected = points.map { Stone(it, StoneColor.BLACK) }.toSet()

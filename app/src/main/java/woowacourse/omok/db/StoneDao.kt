@@ -1,6 +1,7 @@
 package woowacourse.omok.db
 
 import android.content.Context
+import android.database.sqlite.SQLiteConstraintException
 import androidx.core.content.contentValuesOf
 import omok.model.entity.Point
 import omok.model.entity.Stone
@@ -12,14 +13,35 @@ class StoneDao(
 ) {
     fun save(stone: Stone) {
         val db = dbHelper.writableDatabase
-        db.insert(
+        try {
+            db.insertOrThrow(
+                StoneContract.StoneEntry.TABLE_NAME,
+                null,
+                contentValuesOf(
+                    StoneContract.StoneEntry.COLUMN_NAME_X to stone.point.x,
+                    StoneContract.StoneEntry.COLUMN_NAME_Y to stone.point.y,
+                    StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR to stone.stoneColor.toDbString(),
+                ),
+            )
+        } catch (e: SQLiteConstraintException) {
+            update(stone)
+        }
+    }
+
+    fun update(stone: Stone): Int {
+        val db = dbHelper.writableDatabase
+        val point = stone.point
+        val selection =
+            "${StoneContract.StoneEntry.COLUMN_NAME_X} = ${point.x} AND ${StoneContract.StoneEntry.COLUMN_NAME_Y} = ${point.y}"
+        return db.update(
             StoneContract.StoneEntry.TABLE_NAME,
-            null,
             contentValuesOf(
                 StoneContract.StoneEntry.COLUMN_NAME_X to stone.point.x,
                 StoneContract.StoneEntry.COLUMN_NAME_Y to stone.point.y,
                 StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR to stone.stoneColor.toDbString(),
             ),
+            selection,
+            null,
         )
     }
 
