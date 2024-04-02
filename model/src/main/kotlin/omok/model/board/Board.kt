@@ -53,15 +53,15 @@ object Board {
     ) = row in 0 until BOARD_SIZE && col in 0 until BOARD_SIZE
 
     fun isSameStone(
-        column: Int,
         row: Int,
+        column: Int,
         stoneType: StoneType,
     ) = board[column][row] == stoneType
 
     fun getStoneType(
         row: Int,
         column: Int,
-    ) = board[column][row]
+    ) = board[row][column]
 
     fun resetBoard() {
         repeat(BOARD_SIZE) { row ->

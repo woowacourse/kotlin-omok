@@ -40,7 +40,7 @@ object OmokChecker {
         var row = lastPosition.row + relativeDirection.relativeRowDirection
         var column = lastPosition.column + relativeDirection.relativeColumnDirection
 
-        while (Board.isPositionInRange(row, column) && Board.isSameStone(column, row, stoneType)) {
+        while (Board.isPositionInRange(row, column) && Board.isSameStone(row, column, stoneType)) {
             sameStoneCount++
             row += relativeDirection.relativeRowDirection
             column += relativeDirection.relativeColumnDirection
