@@ -4,6 +4,7 @@ import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Player
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.model.StonePosition
 
 class OutputView {
     fun printInitialGuide(board: Board) {
@@ -82,6 +83,14 @@ class OutputView {
         message: String,
     ) {
         println("${player.stone}이 둔 위치 ${position.output()}: $message")
+        println()
+    }
+
+    fun printInvalidPosition(
+        stonePosition: StonePosition,
+        message: String,
+    ) {
+        println("${stonePosition.stone.output()}이 두려던 위치 ${stonePosition.position.output()}: $message")
         println()
     }
 
