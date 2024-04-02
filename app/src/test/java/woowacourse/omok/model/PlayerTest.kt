@@ -13,14 +13,6 @@ class PlayerTest {
     5 [ ] [●] [ ] [ ] [ ]
      E   F
  */
-    private val blackStones =
-        listOf(
-            Stone(Color.BLACK, COORDINATE_F5),
-            Stone(Color.BLACK, COORDINATE_F6),
-            Stone(Color.BLACK, COORDINATE_F7),
-            Stone(Color.BLACK, COORDINATE_F9),
-        )
-
     private fun createCustomBoard(
         board: Board,
         stones: List<Stone>,
@@ -62,6 +54,13 @@ class PlayerTest {
         val rule = RenjuRule(stones)
         val board = Board(stones, rule)
         val player = Player(Color.BLACK)
+        val blackStones =
+            listOf(
+                Stone(Color.BLACK, COORDINATE_F5),
+                Stone(Color.BLACK, COORDINATE_F6),
+                Stone(Color.BLACK, COORDINATE_F7),
+                Stone(Color.BLACK, COORDINATE_F9),
+            )
         createCustomBoard(board, blackStones)
 
         // when
