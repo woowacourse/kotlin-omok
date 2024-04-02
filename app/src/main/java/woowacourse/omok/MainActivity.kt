@@ -62,17 +62,27 @@ class MainActivity : AppCompatActivity() {
         val putResult = stone.putStone(position)
 
         if (isAvailableResult(putResult)) {
-            dao.insert(
-                OmokEntry(
-                    position.getRowValue().toString(),
-                    position.getColumnValue(),
-                    stone.value(),
-                ),
-            )
-            view.setImageResource(imageView(stone))
-            checkOmok(putResult, view, board)
-            return
+            handleAvailableResult(board, position, view, putResult)
+        } else {
+            handleUnavailableResult(view, putResult)
         }
+    }
+
+    private fun handleAvailableResult(
+        board: TableLayout,
+        position: Position,
+        view: ImageView,
+        putResult: PutResult,
+    ) {
+        dao.insert(OmokEntry(position.getRowValue().toString(), position.getColumnValue(), stone.value()))
+        view.setImageResource(imageView(stone))
+        checkOmok(putResult, view, board)
+    }
+
+    private fun handleUnavailableResult(
+        view: ImageView,
+        putResult: PutResult,
+    ) {
         val message = ResultHandler.handleResult(putResult, stone)
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
     }
@@ -108,6 +118,7 @@ class MainActivity : AppCompatActivity() {
         val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction(CONFIRM_BUTTON_MESSAGE) {
             resetGameData(dao, board)
+            dao.reset()
         }
         snackBar.show()
     }

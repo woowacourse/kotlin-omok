@@ -16,7 +16,6 @@ object OmokDataInitializer {
     ) {
         resetBoardImage(board)
         Board.resetBoard()
-        dao.reset()
     }
 
     private fun resetBoardImage(board: TableLayout) {
