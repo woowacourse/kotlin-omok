@@ -1,4 +1,4 @@
-package omok
+package omok.model.result
 
 sealed interface PutResult {
     data object Running : PutResult

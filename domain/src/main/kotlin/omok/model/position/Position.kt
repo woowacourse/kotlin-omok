@@ -1,7 +1,7 @@
 package omok.model.position
 
-import omok.PutResult
 import omok.model.board.Board
+import omok.model.result.PutResult
 import omok.model.rule.ForbiddenChecker
 import omok.model.stone.StoneType
 

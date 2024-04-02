@@ -1,6 +1,6 @@
 package omok.utils
 
-import omok.PutResult
+import omok.model.result.PutResult
 
 object HandlingPutResultUtils {
     private const val DOUBLE_THREE = "3-3"

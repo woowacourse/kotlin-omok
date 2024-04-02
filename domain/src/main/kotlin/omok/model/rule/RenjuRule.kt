@@ -1,9 +1,9 @@
 package omok.model.rule
 
-import omok.PutResult
 import omok.model.board.Board
 import omok.model.position.Direction
 import omok.model.position.Position
+import omok.model.result.PutResult
 import omok.model.stone.StoneType
 
 abstract class RenjuRule(private val board: Array<Array<StoneType>>) {

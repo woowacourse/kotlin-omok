@@ -1,8 +1,8 @@
 package omok.model
 
-import omok.PutResult
 import omok.model.board.Board
 import omok.model.position.Position
+import omok.model.result.PutResult
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
 import omok.model.stone.StoneType

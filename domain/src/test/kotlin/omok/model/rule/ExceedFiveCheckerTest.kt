@@ -1,8 +1,8 @@
 package omok.model.rule
 
-import omok.PutResult
 import omok.model.board.Board
 import omok.model.position.Position
+import omok.model.result.PutResult
 import omok.model.rule.ForbiddenChecker.EXCEED_FIVE_PRECONDITION
 import omok.model.stone.BlackStone
 import org.assertj.core.api.Assertions.assertThat

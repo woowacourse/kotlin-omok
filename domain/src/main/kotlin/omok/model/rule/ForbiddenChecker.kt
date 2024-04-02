@@ -1,7 +1,7 @@
 package omok.model.rule
 
-import omok.PutResult
 import omok.model.position.Position
+import omok.model.result.PutResult
 
 object ForbiddenChecker {
     const val EXCEED_FIVE_PRECONDITION = 5

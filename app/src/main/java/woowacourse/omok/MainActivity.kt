@@ -7,10 +7,10 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
-import omok.PutResult
 import omok.model.OmokGame
 import omok.model.board.Board
 import omok.model.position.Position
+import omok.model.result.PutResult
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
 import omok.model.stone.StoneType

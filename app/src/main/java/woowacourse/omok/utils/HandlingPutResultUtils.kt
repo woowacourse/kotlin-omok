@@ -3,7 +3,7 @@ package woowacourse.omok.utils
 import android.content.Context
 import android.widget.ImageView
 import com.google.android.material.snackbar.Snackbar
-import omok.PutResult
+import omok.model.result.PutResult
 import woowacourse.omok.R
 
 object HandlingPutResultUtils {

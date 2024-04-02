@@ -1,9 +1,9 @@
 package omok.model.rule
 
-import omok.PutResult
 import omok.model.board.Board
 import omok.model.position.Direction
 import omok.model.position.Position
+import omok.model.result.PutResult
 
 object DoubleFourChecker : RenjuRule(Board.board) {
     private const val OPEN_FOUR_NOT_FOUND = 0

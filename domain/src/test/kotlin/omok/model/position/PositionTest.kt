@@ -1,6 +1,6 @@
 package omok.model.position
 
-import omok.PutResult
+import omok.model.result.PutResult
 import omok.model.rule.X_A
 import omok.model.rule.Y_1
 import omok.model.rule.Y_2
