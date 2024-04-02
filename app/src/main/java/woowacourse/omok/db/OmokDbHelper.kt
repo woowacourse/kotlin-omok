@@ -33,7 +33,7 @@ class OmokDbHelper(
                 create table ${StoneContract.StoneEntry.TABLE_NAME}(
                 ${StoneContract.StoneEntry.COLUMN_NAME_X} integer, 
                 ${StoneContract.StoneEntry.COLUMN_NAME_Y} integer,
-                ${StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR} integer,
+                ${StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR} string,
                 primary key (${StoneContract.StoneEntry.COLUMN_NAME_X}, ${StoneContract.StoneEntry.COLUMN_NAME_Y})
                 )
             """

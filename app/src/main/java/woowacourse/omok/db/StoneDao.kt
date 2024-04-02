@@ -18,7 +18,7 @@ class StoneDao(
             contentValuesOf(
                 StoneContract.StoneEntry.COLUMN_NAME_X to stone.point.x,
                 StoneContract.StoneEntry.COLUMN_NAME_Y to stone.point.y,
-                StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR to stone.stoneColor.ordinal,
+                StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR to stone.stoneColor.toDbString(),
             ),
         )
     }
@@ -31,7 +31,8 @@ class StoneDao(
                 StoneContract.StoneEntry.COLUMN_NAME_Y,
                 StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR,
             )
-        val selection = "${StoneContract.StoneEntry.COLUMN_NAME_X} = ${point.x} AND ${StoneContract.StoneEntry.COLUMN_NAME_Y} = ${point.y}"
+        val selection =
+            "${StoneContract.StoneEntry.COLUMN_NAME_X} = ${point.x} AND ${StoneContract.StoneEntry.COLUMN_NAME_Y} = ${point.y}"
         val cursor =
             db.query(
                 StoneContract.StoneEntry.TABLE_NAME,
@@ -43,9 +44,10 @@ class StoneDao(
                 null,
             )
         while (cursor.moveToNext()) {
-            val colorOrdinal = cursor.getInt(cursor.getColumnIndexOrThrow(StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR))
+            val colorString =
+                cursor.getString(cursor.getColumnIndexOrThrow(StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR))
             cursor.close()
-            val color = ordinalToStoneColor(colorOrdinal)
+            val color = dbStringToStoneColor(colorString)
             return Stone(point, color)
         }
         cursor.close()
@@ -66,10 +68,13 @@ class StoneDao(
             )
         val stones = mutableSetOf<Stone>()
         while (cursor.moveToNext()) {
-            val x = cursor.getInt(cursor.getColumnIndexOrThrow(StoneContract.StoneEntry.COLUMN_NAME_X))
-            val y = cursor.getInt(cursor.getColumnIndexOrThrow(StoneContract.StoneEntry.COLUMN_NAME_Y))
-            val colorOrdinal = cursor.getInt(cursor.getColumnIndexOrThrow(StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR))
-            val color = ordinalToStoneColor(colorOrdinal)
+            val x =
+                cursor.getInt(cursor.getColumnIndexOrThrow(StoneContract.StoneEntry.COLUMN_NAME_X))
+            val y =
+                cursor.getInt(cursor.getColumnIndexOrThrow(StoneContract.StoneEntry.COLUMN_NAME_Y))
+            val colorString =
+                cursor.getString(cursor.getColumnIndexOrThrow(StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR))
+            val color = dbStringToStoneColor(colorString)
             val stone = Stone(Point(x, y), color)
             stones.add(stone)
         }
@@ -82,9 +87,21 @@ class StoneDao(
         db.delete(StoneContract.StoneEntry.TABLE_NAME, null, null)
     }
 
-    private fun ordinalToStoneColor(ordinal: Int) =
-        when (ordinal) {
-            StoneColor.WHITE.ordinal -> StoneColor.WHITE
+    private fun dbStringToStoneColor(string: String) =
+        when (string) {
+            STONE_COLOR_WHITE_STRING -> StoneColor.WHITE
             else -> StoneColor.BLACK
         }
+
+    private fun StoneColor.toDbString(): String {
+        return when (this) {
+            StoneColor.WHITE -> STONE_COLOR_WHITE_STRING
+            StoneColor.BLACK -> STONE_COLOR_BLACK_STRING
+        }
+    }
+
+    companion object {
+        private const val STONE_COLOR_WHITE_STRING = "WHITE"
+        private const val STONE_COLOR_BLACK_STRING = "BLACK"
+    }
 }
