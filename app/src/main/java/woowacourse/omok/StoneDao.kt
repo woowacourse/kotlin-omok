@@ -6,21 +6,19 @@ import omok.model.Color
 import omok.model.Stone
 
 class StoneDao(context: Context) {
-    private val dbHelper = StoneDbHelper(context)
+    private val dbHelper = OmokDbHelper(context, TABLE_NAME, sql)
 
     fun insert(stone: Stone) {
         val wb = dbHelper.writableDatabase
         val content =
-            with(dbHelper) {
-                contentValuesOf(
-                    pointRow to stone.point.row,
-                    pointCol to stone.point.col,
-                    color to if (stone.color == Color.BLACK) BLACK else WHITE,
-                )
-            }
+            contentValuesOf(
+                POINT_ROW to stone.point.row,
+                POINT_COL to stone.point.col,
+                COLOR to if (stone.color == Color.BLACK) BLACK else WHITE,
+            )
 
         wb.insert(
-            dbHelper.tableName,
+            TABLE_NAME,
             null,
             content,
         )
@@ -31,14 +29,14 @@ class StoneDao(context: Context) {
     fun stones(): List<Stone> {
         val stones = mutableListOf<StoneEntity>()
         val rd = dbHelper.readableDatabase
-        val sql = "select * from ${dbHelper.tableName}"
+        val sql = "select * from $TABLE_NAME"
         val cursor = rd.rawQuery(sql, null)
 
         while (cursor.moveToNext()) {
-            val row = cursor.getInt(cursor.getColumnIndexOrThrow(dbHelper.pointRow))
+            val row = cursor.getInt(cursor.getColumnIndexOrThrow(POINT_ROW))
             val col =
-                cursor.getInt(cursor.getColumnIndexOrThrow(dbHelper.pointCol))
-            val color = cursor.getInt(cursor.getColumnIndexOrThrow(dbHelper.color))
+                cursor.getInt(cursor.getColumnIndexOrThrow(POINT_COL))
+            val color = cursor.getInt(cursor.getColumnIndexOrThrow(COLOR))
             stones.add(StoneEntity(row, col, color))
         }
 
@@ -49,12 +47,24 @@ class StoneDao(context: Context) {
 
     fun deleteAll() {
         val wb = dbHelper.writableDatabase
-        wb.delete(dbHelper.tableName, null, null)
+        wb.delete(TABLE_NAME, null, null)
         wb.close()
     }
 
     companion object {
         private const val BLACK = 1
         private const val WHITE = 0
+
+        private const val TABLE_NAME = "OMOK"
+        private const val POINT_ROW = "point_row"
+        private const val POINT_COL = "point_col"
+        private const val COLOR = "color"
+
+        private val sql =
+            "CREATE TABLE IF NOT EXISTS $TABLE_NAME (\n" +
+                "$POINT_ROW int not null,\n" +
+                "$POINT_COL int not null,\n" +
+                "$COLOR int not null\n" +
+                ")"
     }
 }
