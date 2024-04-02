@@ -7,13 +7,11 @@ import woowacourse.omok.domain.model.StonePosition
 import woowacourse.omok.domain.model.rule.RuleAdapter
 import woowacourse.omok.domain.model.rule.library.NoneForbiddenRule
 
-sealed class Turn(private val latestStonePosition: StonePosition, private val rule: RuleAdapter) : GameState {
+sealed class Turn(private val latestStonePosition: StonePosition) : GameState {
     abstract val stone: Stone
+    abstract val rule: RuleAdapter
 
-    abstract fun nextTurn(
-        position: Position,
-        rule: RuleAdapter,
-    ): GameState
+    abstract fun nextTurn(position: Position): GameState
 
     override fun place(
         board: Board,
@@ -31,7 +29,7 @@ sealed class Turn(private val latestStonePosition: StonePosition, private val ru
         if (isWin(board, position)) {
             return Finished(stonePosition)
         }
-        return nextTurn(position, rule)
+        return nextTurn(position)
     }
 
     override fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState {

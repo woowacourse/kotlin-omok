@@ -10,8 +10,6 @@ import woowacourse.omok.domain.model.state.AlreadyHaveStone
 import woowacourse.omok.domain.model.state.BlackTurn
 import woowacourse.omok.domain.model.state.WhiteTurn
 import woowacourse.omok.model.initBoard
-import woowacourse.omok.model.state.StateTestFixture.blackStoneRenjuRule
-import woowacourse.omok.model.state.StateTestFixture.whiteStoneRenjuRule
 
 class WhiteTurnTest {
     private lateinit var board: Board
@@ -19,8 +17,8 @@ class WhiteTurnTest {
     // TODO: 여기서 과연 isEqualTo 를 사용하여 테스트하는 게 맞나? 그러려면 Turn 클래스에서 equals 메서드를 오버라이드해야 할 것 같다.
     @Test
     fun `다음 순서는 흑돌의 순서이다`() {
-        val whiteTurn = WhiteTurn(StonePosition(Position(1, 1), Stone.WHITE), whiteStoneRenjuRule)
-        val actual = whiteTurn.nextTurn(Position(1, 2), blackStoneRenjuRule)
+        val whiteTurn = WhiteTurn(StonePosition(Position(1, 1), Stone.WHITE))
+        val actual = whiteTurn.nextTurn(Position(1, 2))
         Assertions.assertThat(actual).isInstanceOf(BlackTurn::class.java)
     }
 
@@ -30,7 +28,7 @@ class WhiteTurnTest {
             initBoard(
                 StonePosition(Position(1, 1), Stone.BLACK),
             )
-        val whiteTurn = WhiteTurn(StonePosition(Position(1, 3), Stone.WHITE), whiteStoneRenjuRule)
+        val whiteTurn = WhiteTurn(StonePosition(Position(1, 3), Stone.WHITE))
         val actual = whiteTurn.place(board, Position(1, 1))
 
         Assertions.assertThat(actual).isInstanceOf(AlreadyHaveStone::class.java)
