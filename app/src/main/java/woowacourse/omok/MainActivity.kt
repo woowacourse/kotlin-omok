@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetOmokGameState() {
-        stoneDao.drop()
+        stoneDao.deleteAll()
         omokGameState = OmokGameState()
     }
 

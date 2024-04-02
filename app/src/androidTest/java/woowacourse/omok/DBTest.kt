@@ -23,7 +23,7 @@ class DBTest {
 
     @After
     fun tearDown() {
-        stoneDao.drop()
+        stoneDao.deleteAll()
     }
 
     @Test

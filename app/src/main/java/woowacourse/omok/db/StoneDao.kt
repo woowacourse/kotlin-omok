@@ -1,7 +1,6 @@
 package woowacourse.omok.db
 
 import android.content.Context
-import android.provider.BaseColumns
 import androidx.core.content.contentValuesOf
 import omok.model.entity.Point
 import omok.model.entity.Stone
@@ -28,7 +27,6 @@ class StoneDao(
         val db = dbHelper.writableDatabase
         val projection =
             arrayOf(
-                BaseColumns._ID,
                 StoneContract.StoneEntry.COLUMN_NAME_X,
                 StoneContract.StoneEntry.COLUMN_NAME_Y,
                 StoneContract.StoneEntry.COLUMN_NAME_STONECOLOR,
@@ -79,7 +77,7 @@ class StoneDao(
         return stones
     }
 
-    fun drop() {
+    fun deleteAll() {
         val db = dbHelper.writableDatabase
         db.delete(StoneContract.StoneEntry.TABLE_NAME, null, null)
     }
