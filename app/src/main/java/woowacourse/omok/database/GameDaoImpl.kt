@@ -38,6 +38,14 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
         }
     }
 
+    override fun saveCurrentStone(currentStone: Int) {
+        val db = resetCurrentStone()
+        val values = ContentValues().apply {
+            put(GameBoardContract.GameStatusEntry.COLUMN_CURRENT_STONE, currentStone)
+        }
+        db.insert(GameBoardContract.GameStatusEntry.TABLE_NAME, null, values)
+    }
+
 
     override fun loadGame(): Array<Array<Stone>> {
         val db = dbHelper.readableDatabase
@@ -70,19 +78,6 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
         return board
     }
 
-    override fun resetGame() {
-        val db = dbHelper.writableDatabase
-        db.execSQL("DELETE FROM GameBoard")
-    }
-
-    override fun saveCurrentStone(currentStone: Int) {
-        val db = resetCurrentStone()
-        val values = ContentValues().apply {
-            put(GameBoardContract.GameStatusEntry.COLUMN_CURRENT_STONE, currentStone)
-        }
-        db.insert(GameBoardContract.GameStatusEntry.TABLE_NAME, null, values)
-    }
-
     override fun loadCurrentStone(): Int {
         val db = dbHelper.readableDatabase
         val cursor = db.query(
@@ -91,14 +86,23 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
             null, null, null, null, null
         )
         var stoneType = -1
-        val columnIndex =
-            cursor.getColumnIndex(GameBoardContract.GameStatusEntry.COLUMN_CURRENT_STONE)
-        if (columnIndex != -1 && cursor.moveToFirst()) {
-            stoneType = cursor.getInt(columnIndex)
+
+        if (cursor.moveToFirst()) {
+            val columnIndex =
+                cursor.getColumnIndex(GameBoardContract.GameStatusEntry.COLUMN_CURRENT_STONE)
+            if (columnIndex != -1) {
+                stoneType = cursor.getInt(columnIndex)
+            }
         }
         cursor.close()
         return stoneType
     }
+
+    override fun resetGame() {
+        val db = dbHelper.writableDatabase
+        db.execSQL("DELETE FROM GameBoard")
+    }
+
 
     private fun resetCurrentStone(): SQLiteDatabase {
         val db = dbHelper.writableDatabase

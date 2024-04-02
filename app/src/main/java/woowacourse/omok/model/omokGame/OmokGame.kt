@@ -23,15 +23,16 @@ class OmokGame(private val listener: GameEventListener) {
 
     fun saveGame(gameDao: GameDao) {
         gameDao.saveGame(board.gameBoard)
-        gameDao.saveCurrentStone(currentStone.ordinal)
+        gameDao.saveCurrentStone(currentStone.value)
     }
 
     fun loadGame(gameDao: GameDao) {
-        val loadedGameBoard = gameDao.loadGame()
-        board.updateGameBoard(loadedGameBoard)
+        board.updateGameBoard(gameDao.loadGame())
         val loadedStoneType = gameDao.loadCurrentStone()
         StoneTypeMapper.toDomainModel(loadedStoneType).let {
-            this.currentStone = it
+            if (it != null) {
+                currentStone = it
+            }
         }
     }
 

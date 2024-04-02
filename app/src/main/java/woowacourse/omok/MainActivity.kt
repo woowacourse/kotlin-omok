@@ -11,7 +11,6 @@ import androidx.core.view.children
 import woowacourse.omok.database.DatabaseHelper
 import woowacourse.omok.database.GameDao
 import woowacourse.omok.database.GameDaoImpl
-import woowacourse.omok.mapper.StoneTypeMapper
 import woowacourse.omok.model.board.CoordsNumber
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
@@ -26,8 +25,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val board = findViewById<TableLayout>(R.id.board)
-
-        gameInitialSettings()
+        gameDao = GameDaoImpl(DatabaseHelper(this))
+        omok.loadGame(gameDao)
+        updateUI()
+        generateResetBoardButton()
 
         board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rows ->
             rows.children.filterIsInstance<ImageView>().forEachIndexed { columIndex, view ->
@@ -38,13 +39,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun gameInitialSettings() {
-        loadGameBoard()
-        loadStoneType()
-        updateUI()
-        generateResetBoardButton()
-    }
-
     private fun generateResetBoardButton() {
         val button = findViewById<Button>(R.id.resetButton)
         button.setOnClickListener {
@@ -52,16 +46,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadGameBoard() {
-        omok.loadGame(GameDaoImpl(DatabaseHelper(this)))
-    }
-
-    private fun loadStoneType() {
-        val loadedStoneType = gameDao.loadCurrentStone()
-        StoneTypeMapper.toDomainModel(loadedStoneType).let {
-            omok.currentStone = it
-        }
-    }
 
     private fun processPlayerMove(rowIndex: Int, columnIndex: Int) {
         if (omok.processPlayerMove(rowIndex, columnIndex)) {
