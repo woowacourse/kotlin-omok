@@ -6,7 +6,7 @@ import woowacourse.omok.model.Coordinate
 sealed class GameState(val board: Board, val turn: Turn) {
     abstract fun placeStone(coordinate: Coordinate): GameState
 
-    abstract fun getNextTurn(placeResult: PlaceResult): GameState
+    protected abstract fun getNextTurn(placeResult: PlaceResult): GameState
 
     sealed class Playing private constructor(board: Board, turn: Turn = Turn.Black) : GameState(board, turn) {
         init {
