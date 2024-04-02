@@ -51,15 +51,11 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     override fun onForbiddenStone() {
-        runOnUiThread {
-            viewToastMessage(FORBIDDEN_STONE_MESSAGE, SHORT_DURATION)
-        }
+        viewToastMessage(FORBIDDEN_STONE_MESSAGE, SHORT_DURATION)
     }
 
     override fun onGameEnd(winner: Color) {
-        runOnUiThread {
-            viewToastMessage(WINNER_MESSAGE.format(getPlayerColor(winner)), LONG_DURATION)
-        }
+        viewToastMessage(WINNER_MESSAGE.format(getPlayerColor(winner)), LONG_DURATION)
         clearDb()
     }
 
@@ -179,7 +175,9 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         message: String?,
         duration: Int,
     ) {
-        Toast.makeText(this, message, duration).show()
+        runOnUiThread {
+            Toast.makeText(this, message, duration).show()
+        }
     }
 
     private fun getPlayerColor(color: Color): String {
