@@ -5,7 +5,7 @@ object ResultHandler {
     private const val DOUBLE_THREE = "(33)"
     private const val DOUBLE_FOUR = "(44)"
     private const val EXCEED_FIVE = "(장목)"
-    private const val FORBIDDEN_MOVE_MESSAGE = "금수입니다.\n"
+    private const val FORBIDDEN_MOVE_MESSAGE = "금수입니다."
 
     fun handleResult(putResult: PutResult) =
         when (putResult) {

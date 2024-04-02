@@ -18,7 +18,7 @@ object Board {
     ): PutResult {
         if (isAlreadyPlacedPosition(row, column)) return PutResult.Failure
 
-        val lenjuRuleResult = LenjuRuleChecker.check(board, row, column)
+        val lenjuRuleResult = checkRenjuRule(column, row)
         if (lenjuRuleResult == PutResult.Running) {
             board[row][column] = stoneType
         }

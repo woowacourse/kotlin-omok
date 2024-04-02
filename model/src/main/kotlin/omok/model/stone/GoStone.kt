@@ -9,8 +9,11 @@ sealed class GoStone {
     abstract val stoneType: StoneType
 
     fun putStone(position: Position): PutResult {
-        Board.changeLastStonePosition(position)
-        return Board.putStone(position.column, position.row, stoneType)
+        val putResult = Board.putStone(position.column, position.row, stoneType)
+        if (putResult == PutResult.Running) {
+            Board.changeLastStonePosition(position)
+        }
+        return putResult
     }
 
     fun findOmok(position: Position): Boolean =
