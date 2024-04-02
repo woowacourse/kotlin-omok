@@ -4,7 +4,6 @@ import omok.library.OmokRule
 import woowacourse.omok.model.state.CoordinateState
 import woowacourse.omok.model.state.PlaceResult
 import woowacourse.omok.model.state.Turn
-import woowacourse.omok.utils.OmokRuleMapper
 
 class Board(
     private val boardSize: Int = BOARD_SIZE,

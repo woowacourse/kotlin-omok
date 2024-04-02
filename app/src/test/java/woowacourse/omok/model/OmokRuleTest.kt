@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import woowacourse.omok.model.state.CoordinateState
 import woowacourse.omok.model.state.Turn
-import woowacourse.omok.utils.OmokRuleMapper
 
 class OmokRuleTest {
     private lateinit var boardLayout: MutableList<MutableList<CoordinateState>>

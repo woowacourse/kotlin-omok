@@ -1,4 +1,4 @@
-package woowacourse.omok.utils
+package woowacourse.omok.model
 
 import omok.library.OmokRule
 import woowacourse.omok.model.state.CoordinateState
