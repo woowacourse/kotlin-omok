@@ -67,21 +67,26 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
             is GameState.Playing.Start -> {
             }
             is GameState.Playing.Block -> {
-                Snackbar.make(binding.root, R.string.block_position, Snackbar.LENGTH_SHORT).show()
+                showGameSnackBar(R.string.block_position)
             }
             is GameState.Playing.Duplicate -> {
-                Snackbar.make(binding.root, R.string.already_placed, Snackbar.LENGTH_SHORT).show()
+                showGameSnackBar(R.string.already_placed)
             }
             is GameState.Finish -> {
-                Snackbar.make(binding.root, R.string.game_over, Snackbar.LENGTH_SHORT)
-                    .setAction(R.string.restart) {
-                        resetViewTags()
-                        gameManager.replay()
-                    }
-                    .show()
+                showGameSnackBar(R.string.game_over, R.string.restart) {
+                    resetViewTags()
+                    gameManager.replay()
+                }
             }
         }
     }
+
+    private fun showGameSnackBar(msgResId: Int, actionMsgResId: Int? = null, action: (() -> Unit)? = null) {
+        Snackbar.make(binding.root, msgResId, Snackbar.LENGTH_SHORT).apply {
+            actionMsgResId?.let { setAction(it) { action?.invoke() } }
+        }.show()
+    }
+
 
     private fun drawDiff(board: Board) {
         board.boardLayout.flatten().forEachIndexed { index, coordinateState ->
