@@ -9,9 +9,8 @@ import woowacourse.omok.model.Stones
 import woowacourse.omok.view.OutputView
 import woowacourse.omok.view.OutputView.printForbiddenStone
 
-class OmokController(gameEventListener: GameEventListener) {
+class OmokController(private val gameEventListener: GameEventListener) {
     private val board: Board = Board(Stones())
-    private val gameEventListener: GameEventListener? = gameEventListener
     var gameEnded: Boolean = false
         private set
 
@@ -45,14 +44,14 @@ class OmokController(gameEventListener: GameEventListener) {
     private fun checkForbiddenMove(state: StoneState) {
         printForbiddenStone(state)
         if (state == StoneState.FORBIDDEN) {
-            gameEventListener?.onForbiddenStone()
+            gameEventListener.onForbiddenStone()
         }
     }
 
     private fun checkGameFinished(): Boolean {
         return if (!board.isPlaying()) {
             gameEnded = true
-            gameEventListener?.onGameEnd(board.getWinner())
+            gameEventListener.onGameEnd(board.getWinner())
             displayWinner()
             true
         } else {
