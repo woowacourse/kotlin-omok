@@ -32,7 +32,7 @@ class OmokGame private constructor(var turn: Turn) {
     }
 
     companion object {
-        fun of(stoneColor: StoneColor?, stones: Set<Stone>): OmokGame {
+        fun of(stoneColor: StoneColor?, stones: Set<Stone> = setOf()): OmokGame {
             return when (stoneColor) {
                 StoneColor.BLACK -> OmokGame(WhiteTurn(Board(stones)))
                 StoneColor.WHITE -> OmokGame(BlackTurn(Board(stones)))
