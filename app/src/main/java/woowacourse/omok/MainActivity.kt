@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
                 restoreImage(view, index, dbStones)
-                view.setOnClickListener { playGame(view, index) }
+                view.setOnClickListener { reflectGameProcess(view, index) }
             }
     }
 
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     private fun restoreCurrentTurn() =
         if (currentPlayerColorDao.currentPlayerColor() == Color.BLACK) blackStonePlayer else whiteStonePlayer
 
-    private fun playGame(
+    private fun reflectGameProcess(
         view: ImageView,
         index: Int,
     ) {
@@ -95,13 +95,13 @@ class MainActivity : AppCompatActivity() {
     ) = runCatching {
         currentPlayer.add(point)
     }.onSuccess {
-        playGame(view, point)
+        reflectGameProcess(view, point)
         showGameResult()
     }.onFailure {
         Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
     }
 
-    private fun playGame(
+    private fun reflectGameProcess(
         view: ImageView,
         point: Point,
     ) {
