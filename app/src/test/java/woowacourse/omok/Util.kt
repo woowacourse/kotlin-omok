@@ -12,20 +12,13 @@ fun Board.makeStones(
     vararg coordinates: String,
 ) {
     coordinates.forEach { coordinate ->
+        val stoneResult = Stone.from(
+            Row(coordinate.substring(0, coordinate.length - 1)),
+            Column(coordinate.substring(coordinate.length - 1)),
+        ) as GameState.LoadStone.Success
         this.setStoneState(
             player = player,
-            stone =
-                (
-                    Stone
-                        .from(
-                            Row(
-                                coordinate.substring(0, coordinate.length - 1),
-                            ),
-                            Column(
-                                coordinate.substring(coordinate.length - 1),
-                            ),
-                        ) as GameState.LoadStone.Success
-                ).stone,
+            stone = stoneResult.stone,
         )
     }
 }
