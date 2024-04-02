@@ -31,7 +31,10 @@ class OmokGameActivity : AppCompatActivity() {
 
         val gameId = intent.getLongExtra(GAME_ID, 0)
         val gameTitle = intent.getStringExtra(GAME_TITLE)
-        val placedIndexItems = placementDao.findAll(gameId).map { it.index }
+        val placedIndexItems =
+            placementDao.findAll(gameId).map {
+                Position(it.horizontalCoordinate, it.verticalCoordinate)
+            }
 
         initializeGameTitle(gameTitle)
         initializeBoard(placedIndexItems, gameId)
@@ -43,45 +46,56 @@ class OmokGameActivity : AppCompatActivity() {
     }
 
     private fun initializeBoard(
-        placedIndexItems: List<Int>,
+        placedIndexItems: List<Position>,
         gameId: Long,
     ) {
-        val boardItems =
-            findViewById<TableLayout>(R.id.board)
+        val board = findViewById<TableLayout>(R.id.board)
+        val imageViews =
+            board
                 .children
                 .filterIsInstance<TableRow>()
                 .flatMap { it.children }
                 .filterIsInstance<ImageView>()
 
-        initializeBoardPlacementView(placedIndexItems, boardItems)
-        boardItems.forEachIndexed { flattenedIndex, view ->
-            view.setOnClickListener {
-                markPosition(flattenedIndex, view, gameId)
-            }
-        }
-    }
-
-    private fun initializeBoardPlacementView(
-        placedIndexItems: List<Int>,
-        boardItems: Sequence<ImageView>,
-    ) {
         placedIndexItems.forEach {
-            setGameState(Position(it))
-            setStoneImage(boardItems.toList()[it])
+            setGameState(it)
+            setStoneImage(
+                imageViews.toList()[(BOARD_DISPLAY_SIZE - it.horizontalCoordinate) * BOARD_DISPLAY_SIZE + it.verticalCoordinate - 1],
+            )
         }
+
+        board
+            .children
+            .filterIsInstance<TableRow>()
+            .forEachIndexed { rowIndex, tableRow ->
+                val boardItems = tableRow.children.filterIsInstance<ImageView>()
+                boardItems.forEachIndexed { colIndex, imageView ->
+                    imageView.setOnClickListener {
+                        markPosition(
+                            position =
+                                Position(
+                                    horizontalCoordinate = BOARD_DISPLAY_SIZE - rowIndex,
+                                    verticalCoordinate = colIndex + 1,
+                                ),
+                            view = imageView,
+                            gameId = gameId,
+                        )
+                    }
+                }
+            }
     }
 
     private fun markPosition(
-        flattenedIndex: Int,
+        position: Position,
         view: ImageView,
         gameId: Long,
     ) {
         if (!::gameState.isInitialized || gameState !is GameState.GameOver) {
-            setGameState(Position(flattenedIndex))
+            setGameState(position)
             if (gameState !is GameState.Error) {
                 val currentColor = placementData.lastTurnColor ?: Color.BLACK
                 setStoneImage(view)
-                savePlacementInfo(gameId, flattenedIndex, currentColor)
+                savePlacementInfo(gameId, position, currentColor)
                 setCurrentTurnText()
             }
         }
@@ -89,14 +103,15 @@ class OmokGameActivity : AppCompatActivity() {
 
     private fun savePlacementInfo(
         gameId: Long,
-        flattenedIndex: Int,
+        position: Position,
         color: Color,
     ) {
         placementDao.save(
             Placement(
                 gameId = gameId,
                 color = color.name,
-                index = flattenedIndex,
+                horizontalCoordinate = position.horizontalCoordinate,
+                verticalCoordinate = position.verticalCoordinate,
             ),
         )
     }
@@ -129,6 +144,7 @@ class OmokGameActivity : AppCompatActivity() {
                 val resultMessage = generateResultMessage(gameState)
                 showToastMessage(resultMessage)
             }
+
             is GameState.OnProgress -> return
             is GameState.Error -> {
                 gameState.message.also {
@@ -151,5 +167,6 @@ class OmokGameActivity : AppCompatActivity() {
     companion object {
         private const val GAME_ID = "game_id"
         private const val GAME_TITLE = "game_title"
+        private const val BOARD_DISPLAY_SIZE = 15
     }
 }

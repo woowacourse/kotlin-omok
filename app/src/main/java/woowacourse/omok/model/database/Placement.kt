@@ -4,5 +4,6 @@ data class Placement(
     val placementId: Long = 0L,
     val gameId: Long,
     val color: String?,
-    val index: Int,
+    val horizontalCoordinate: Int,
+    val verticalCoordinate: Int,
 )

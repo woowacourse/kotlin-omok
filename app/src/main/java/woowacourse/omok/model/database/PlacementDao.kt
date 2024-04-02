@@ -19,7 +19,8 @@ class PlacementDao(
                 contentValuesOf(
                     PlacementContract.COLUMN_ROOM_ID to item.gameId,
                     PlacementContract.COLUMN_COLOR to item.color,
-                    PlacementContract.COLUMN_PLACEMENT_INDEX to item.index,
+                    PlacementContract.COLUMN_PLACEMENT_HORIZONTAL_COORDINATE to item.horizontalCoordinate,
+                    PlacementContract.COLUMN_PLACEMENT_VERTICAL_COORDINATE to item.verticalCoordinate,
                 ),
             )
 
@@ -35,7 +36,8 @@ class PlacementDao(
                     BaseColumns._ID,
                     PlacementContract.COLUMN_ROOM_ID,
                     PlacementContract.COLUMN_COLOR,
-                    PlacementContract.COLUMN_PLACEMENT_INDEX,
+                    PlacementContract.COLUMN_PLACEMENT_HORIZONTAL_COORDINATE,
+                    PlacementContract.COLUMN_PLACEMENT_VERTICAL_COORDINATE,
                 ),
                 "${PlacementContract.COLUMN_ROOM_ID} = ?",
                 arrayOf(gameId.toString()),
@@ -51,9 +53,11 @@ class PlacementDao(
                 cursor.getLong(cursor.getColumnIndexOrThrow(PlacementContract.COLUMN_ROOM_ID))
             val color =
                 cursor.getString(cursor.getColumnIndexOrThrow(PlacementContract.COLUMN_COLOR))
-            val placementIndex =
-                cursor.getInt(cursor.getColumnIndexOrThrow(PlacementContract.COLUMN_PLACEMENT_INDEX))
-            entries.add(Placement(placementId, roomId, color, placementIndex))
+            val placementHorizontalCoordinate =
+                cursor.getInt(cursor.getColumnIndexOrThrow(PlacementContract.COLUMN_PLACEMENT_HORIZONTAL_COORDINATE))
+            val placementVerticalCoordinate =
+                cursor.getInt(cursor.getColumnIndexOrThrow(PlacementContract.COLUMN_PLACEMENT_VERTICAL_COORDINATE))
+            entries.add(Placement(placementId, roomId, color, placementHorizontalCoordinate, placementVerticalCoordinate))
         }
 
         cursor.close()

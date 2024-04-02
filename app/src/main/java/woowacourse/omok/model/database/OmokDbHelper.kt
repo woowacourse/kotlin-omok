@@ -7,7 +7,7 @@ import android.provider.BaseColumns
 
 class OmokDbHelper(
     context: Context,
-) : SQLiteOpenHelper(context, DB_NAME, null, 1) {
+) : SQLiteOpenHelper(context, DB_NAME, null, 2) {
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(CREATE_GAME_ROOM_TABLE)
         db?.execSQL(CREATE_PLACEMENT_TABLE)
@@ -36,13 +36,13 @@ class OmokDbHelper(
                 )
             """
 
-        private const val CREATE_PLACEMENT_TABLE =
-            """
+        private const val CREATE_PLACEMENT_TABLE = """
                 CREATE TABLE ${PlacementContract.TABLE_NAME} (
                   ${BaseColumns._ID} INTEGER PRIMARY KEY AUTOINCREMENT not null,
                   ${PlacementContract.COLUMN_ROOM_ID} INTEGER not null,
                   ${PlacementContract.COLUMN_COLOR} varchar(5) not null,
-                  ${PlacementContract.COLUMN_PLACEMENT_INDEX} int
+                  ${PlacementContract.COLUMN_PLACEMENT_HORIZONTAL_COORDINATE} int,
+                  ${PlacementContract.COLUMN_PLACEMENT_VERTICAL_COORDINATE} int
                 )
             """
     }

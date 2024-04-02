@@ -26,13 +26,15 @@ class PlacementDaoTest {
             Placement(
                 gameId = 1,
                 color = "BLACK",
-                index = 0,
+                horizontalCoordinate = 1,
+                verticalCoordinate = 1,
             )
         val actual = dao.save(placement)
         assertAll(
             { assertThat(actual.gameId).isEqualTo(1) },
             { assertThat(actual.color).isEqualTo("BLACK") },
-            { assertThat(actual.index).isEqualTo(0) },
+            { assertThat(actual.horizontalCoordinate).isEqualTo(1) },
+            { assertThat(actual.verticalCoordinate).isEqualTo(1) },
         )
     }
 
@@ -46,8 +48,8 @@ class PlacementDaoTest {
     fun saveAndFindAllTest() {
         val placements =
             listOf(
-                Placement(gameId = 1, color = "BLACK", index = 0),
-                Placement(gameId = 1, color = "WHITE", index = 196),
+                Placement(gameId = 1, color = "BLACK", horizontalCoordinate = 1, verticalCoordinate = 1),
+                Placement(gameId = 1, color = "WHITE", horizontalCoordinate = 14, verticalCoordinate = 14),
             )
         placements.forEach { dao.save(it) }
         val actual = dao.findAll(1)
@@ -58,7 +60,8 @@ class PlacementDaoTest {
                         placementId = 1,
                         gameId = 1,
                         color = "BLACK",
-                        index = 0,
+                        horizontalCoordinate = 1,
+                        verticalCoordinate = 1,
                     ),
                 )
             },
@@ -68,7 +71,8 @@ class PlacementDaoTest {
                         placementId = 2,
                         gameId = 1,
                         color = "WHITE",
-                        index = 196,
+                        horizontalCoordinate = 14,
+                        verticalCoordinate = 14,
                     ),
                 )
             },
