@@ -1,18 +1,13 @@
 package woowacourse.omok
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import woowacourse.omok.local.db.FakeStoneDao
-import woowacourse.omok.local.db.OmokContract
-import woowacourse.omok.local.db.OmokDbHelper
 import woowacourse.omok.local.db.StoneDao
-import woowacourse.omok.local.db.StoneDaoImpl
-import woowacourse.omok.local.presentation.model.StoneEntity
+import woowacourse.omok.local.model.StoneEntity
 
 @RunWith(AndroidJUnit4::class)
 class StoneDaoTest {

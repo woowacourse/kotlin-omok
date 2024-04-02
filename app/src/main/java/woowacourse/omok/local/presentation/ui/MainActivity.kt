@@ -11,7 +11,7 @@ import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.local.db.StoneDaoImpl
 import woowacourse.omok.local.presentation.base.BaseActivity
 import woowacourse.omok.local.presentation.model.AppGameState
-import woowacourse.omok.local.presentation.model.StoneEntity
+import woowacourse.omok.local.model.StoneEntity
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var allImageViews: List<ImageView>

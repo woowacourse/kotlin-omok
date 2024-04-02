@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import androidx.core.content.contentValuesOf
-import woowacourse.omok.local.presentation.model.StoneEntity
+import woowacourse.omok.local.model.StoneEntity
 
 class StoneDaoImpl(context: Context) : StoneDao {
     private val omokDbHelper = OmokDbHelper(context)

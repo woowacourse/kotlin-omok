@@ -1,6 +1,6 @@
 package woowacourse.omok.local.db
 
-import woowacourse.omok.local.presentation.model.StoneEntity
+import woowacourse.omok.local.model.StoneEntity
 
 class FakeStoneDao : StoneDao {
     private var newId: Long = 0L

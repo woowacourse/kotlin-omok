@@ -1,4 +1,4 @@
-package woowacourse.omok.local.presentation.model
+package woowacourse.omok.local.model
 
 data class StoneEntity(
     val id: Long,
