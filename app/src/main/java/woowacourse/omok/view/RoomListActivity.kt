@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.R
 import woowacourse.omok.model.database.GameRoomDao
@@ -60,7 +59,6 @@ class RoomListActivity : AppCompatActivity() {
 
         val items = findViewById<RecyclerView>(R.id.rv_rooms)
         items.adapter = adapter
-        items.layoutManager = LinearLayoutManager(this)
     }
 
     companion object {
