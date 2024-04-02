@@ -1,13 +1,16 @@
 package woowacourse.omok
 
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import omok.model.Color
 import omok.model.Stone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4::class)
 class StoneDaoTest {
     private lateinit var stoneDao: StoneDao
 
@@ -25,7 +28,7 @@ class StoneDaoTest {
     fun insert() {
         stoneDao.insert(exampleStone)
         val stones = stoneDao.stones()
-        assertThat(stones).isEqualTo(exampleStone)
+        assertThat(stones).isEqualTo(listOf(exampleStone))
     }
 
     @Test
