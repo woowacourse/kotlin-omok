@@ -1,8 +1,9 @@
 package omok.model
 
 import omok.model.position.Position
-import omok.model.result.PutResult
 import omok.model.result.ResultHandler
+import omok.model.result.ResultHandler.isOmok
+import omok.model.result.ResultHandler.isRunningResult
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
 import omok.model.stone.WhiteStone.changeStone
@@ -23,10 +24,6 @@ class OmokGame {
             stone = stone.changeStone()
         }
     }
-
-    private fun isRunningResult(resultState: PutResult) = resultState == PutResult.Running
-
-    private fun isOmok(resultState: PutResult) = resultState == PutResult.OMOK
 
     private fun <T> retryUntilSuccess(action: () -> T): T =
         runCatching {

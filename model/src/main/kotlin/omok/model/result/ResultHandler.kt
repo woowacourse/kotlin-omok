@@ -23,4 +23,10 @@ object ResultHandler {
         PutResult.ExceedFive -> println("$FORBIDDEN_MOVE_MESSAGE$EXCEED_FIVE")
         PutResult.OMOK -> println("$OMOK_MESSAGE ${stone.value()} $WINNING_MESSAGE")
     }
+
+    fun isRunningResult(resultState: PutResult) = resultState == PutResult.Running
+
+    fun isOmok(resultState: PutResult) = resultState == PutResult.OMOK
+
+    fun isAvailableResult(resultState: PutResult) = isRunningResult(resultState) || isOmok(resultState)
 }
