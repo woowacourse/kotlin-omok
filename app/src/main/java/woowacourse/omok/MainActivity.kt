@@ -27,6 +27,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        playOmokGame()
+    }
+
+    private fun playOmokGame() {
         setContentView(R.layout.activity_main)
 
         initGameSetting()
@@ -42,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
                 restoreImage(view, index, dbStones)
-                view.setOnClickListener { reflectGameProcess(view, index) }
+                view.setOnClickListener { playGame(view, index.toPoint()) }
             }
     }
 
@@ -80,26 +84,21 @@ class MainActivity : AppCompatActivity() {
     private fun restoreCurrentTurn() =
         if (currentPlayerColorDao.currentPlayerColor() == Color.BLACK) blackStonePlayer else whiteStonePlayer
 
-    private fun reflectGameProcess(
+    private fun playGame(
         view: ImageView,
-        index: Int,
-    ) {
-        playerTurn(index.toPoint(), view)
-        currentPlayer = currentPlayer.next()
-        currentPlayerColorDao.save(currentPlayer.color)
-    }
+        point: Point
+    ) =
+        runCatching {
+            currentPlayer.add(point)
+        }.onSuccess {
+            reflectGameProcess(view, point)
+            showGameResult()
+            currentPlayer = currentPlayer.next()
+            currentPlayerColorDao.save(currentPlayer.color)
+        }.onFailure {
+            Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
+        }
 
-    private fun playerTurn(
-        point: Point,
-        view: ImageView,
-    ) = runCatching {
-        currentPlayer.add(point)
-    }.onSuccess {
-        reflectGameProcess(view, point)
-        showGameResult()
-    }.onFailure {
-        Toast.makeText(this, "${it.message}", Toast.LENGTH_SHORT).show()
-    }
 
     private fun reflectGameProcess(
         view: ImageView,
@@ -116,19 +115,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun showGameResult() {
         if (currentPlayer.isWin()) {
-            setContentView(R.layout.activity_main)
-            stones.clear()
-            stoneDao.deleteAll()
-            currentPlayerColorDao.delete()
+            val message = "${if (currentPlayer.color == Color.WHITE) "백" else "흑"}의 승리입니다. 축하합니다."
             Snackbar.make(
                 findViewById(R.id.board),
-                "${if (currentPlayer.color == Color.WHITE) "백" else "흑"}의 승리입니다. 축하합니다.",
-                Snackbar.LENGTH_SHORT,
+                message,
+                Snackbar.LENGTH_INDEFINITE
             ).apply {
+                setAction("확인") {
+                    stones.clear()
+                    stoneDao.deleteAll()
+                    currentPlayerColorDao.delete()
+                    setContentView(R.layout.activity_main)
+                    playOmokGame()
+                }
                 anchorView = findViewById(R.id.iv_table_center)
-            }.show()
+                show()
+            }
         }
     }
+
 
     private fun Player.next(): Player {
         if (this.color == Color.BLACK) return whiteStonePlayer
