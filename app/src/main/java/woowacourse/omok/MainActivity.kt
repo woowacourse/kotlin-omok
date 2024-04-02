@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             if (checkForOccupiedOrForbidden(view, position)) return@setOnClickListener
 
             val stoneType = stone.putStone(position)
-            saveData(index)
+            saveData(position)
             showStone(view)
             if (stone.findOmok(position)) {
                 endGame(positions, view)
@@ -105,8 +105,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun getPosition(index: Int) = OmokBoardAdapter.convertIndexToPosition(index)
 
-    private fun saveData(index: Int) {
-        val entry = OmokEntry(stone.stoneType.type, index)
+    private fun saveData(position: Position) {
+        val entry = OmokEntry(stone.stoneType.type, position.row.value, position.column.value)
         dao.save(entry)
     }
 

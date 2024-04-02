@@ -1,6 +1,9 @@
 package woowacourse.omok
 
 import android.widget.ImageView
+import omok.model.position.Column
+import omok.model.position.Position
+import omok.model.position.Row
 import omok.model.stone.StoneType
 import woowacourse.omok.adapter.OmokBoardAdapter
 import woowacourse.omok.db.OmokEntry
@@ -11,7 +14,12 @@ object GameResume {
         positions: List<ImageView>,
         dao: OmokEntryDao,
     ) {
-        val omokGameData = dao.findAll().associateBy { it.position }
+        val omokGameData =
+            dao.findAll().associateBy {
+                OmokBoardAdapter.convertPositionToIndex(
+                    Position(Row(it.row), Column(it.column)),
+                )
+            }
 
         positions.forEachIndexed { index, view ->
             val stoneDrawable = getCurrentStoneDrawable(omokGameData, index)

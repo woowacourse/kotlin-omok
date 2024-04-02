@@ -15,7 +15,8 @@ class OmokEntryDao(context: Context) {
                 null,
                 contentValuesOf(
                     OmokContract.STONE_TYPE to entry.stoneType,
-                    OmokContract.POSITION to entry.position,
+                    OmokContract.ROW to entry.row,
+                    OmokContract.COLUMN to entry.column,
                 ),
             )
         return entry.copy(id = id)
@@ -27,7 +28,7 @@ class OmokEntryDao(context: Context) {
         val cursor =
             db.query(
                 OmokContract.TABLE_NAME,
-                arrayOf(BaseColumns._ID, OmokContract.STONE_TYPE, OmokContract.POSITION),
+                arrayOf(BaseColumns._ID, OmokContract.STONE_TYPE, OmokContract.ROW, OmokContract.COLUMN),
                 null,
                 null,
                 null,
@@ -38,8 +39,9 @@ class OmokEntryDao(context: Context) {
         while (cursor.moveToNext()) {
             val id = cursor.getLong(cursor.getColumnIndexOrThrow(BaseColumns._ID))
             val stoneType = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.STONE_TYPE))
-            val position = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.POSITION))
-            entries.add(OmokEntry(stoneType, position, id))
+            val row = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.ROW))
+            val column = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN))
+            entries.add(OmokEntry(stoneType, row, column, id))
         }
         cursor.close()
         return entries

@@ -22,4 +22,6 @@ object OmokBoardAdapter {
             StoneType.NONE -> 0
         }
     }
+
+    fun convertPositionToIndex(position: Position): Int = position.row.value * BOARD_SIZE + position.column.value
 }
