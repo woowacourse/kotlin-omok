@@ -14,14 +14,14 @@ class OmokGame {
     ) {
         var stone: GoStone = BlackStone
 
-        do {
+        while (true) {
             val resultState = retryUntilSuccess { stone.putStone(readPosition(stone)) }
             drawBoard()
             ResultHandler.handleResult(resultState, stone)
             if (isOmok(resultState)) break
             if (!isRunningResult(resultState)) continue
             stone = stone.changeStone()
-        } while (true)
+        }
     }
 
     private fun isRunningResult(resultState: PutResult) = resultState == PutResult.Running
