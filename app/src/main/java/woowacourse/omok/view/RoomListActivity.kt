@@ -11,7 +11,7 @@ import woowacourse.omok.model.database.Room
 
 class RoomListActivity : AppCompatActivity() {
     private val gameRoomDao: GameRoomDao by lazy { GameRoomDao(this) }
-    private val rooms: MutableList<Room> by lazy { mutableListOf() }
+    private val rooms: MutableList<Room> = mutableListOf()
     private lateinit var adapter: RoomInfoRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
