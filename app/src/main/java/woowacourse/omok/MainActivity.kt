@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var currentPlayer: Player
 
     private lateinit var stoneDao: StoneDao
+    private lateinit var currentPlayerColorDao: CurrentPlayerColorDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,9 +67,18 @@ class MainActivity : AppCompatActivity() {
         stones = Stones()
         blackStonePlayer = BlackStonePlayer(stones)
         whiteStonePlayer = WhiteStonePlayer(stones)
-        currentPlayer = blackStonePlayer
         stoneDao = StoneDao(this)
+        currentPlayerColorDao = CurrentPlayerColorDao(this)
+
+        if (currentPlayerColorDao.isEmpty()) {
+            currentPlayer = blackStonePlayer
+        } else {
+            currentPlayer = restoreCurrentTurn()
+        }
     }
+
+    private fun restoreCurrentTurn() =
+        if (currentPlayerColorDao.currentPlayerColor() == Color.BLACK) blackStonePlayer else whiteStonePlayer
 
     private fun putStone(
         view: ImageView,
@@ -76,6 +86,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         playerTurn(index.toPoint(), view)
         currentPlayer = currentPlayer.next()
+        currentPlayerColorDao.save(currentPlayer.color)
     }
 
     private fun playerTurn(
@@ -108,6 +119,7 @@ class MainActivity : AppCompatActivity() {
             setContentView(R.layout.activity_main)
             stones.clear()
             stoneDao.deleteAll()
+            currentPlayerColorDao.delete()
             Snackbar.make(
                 findViewById(R.id.board),
                 "${if (currentPlayer.color == Color.WHITE) "백" else "흑"}의 승리입니다. 축하합니다.",
