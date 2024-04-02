@@ -9,7 +9,7 @@ object OmokEntityAdapter {
     private const val BLACK_STONE = "black"
     private const val WHITE_STONE = "white"
 
-    fun OmokEntity(
+    fun omokEntity(
         position: Position,
         stone: Stone,
     ): OmokEntity {

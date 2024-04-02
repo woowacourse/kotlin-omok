@@ -7,8 +7,8 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import woowacourse.omok.data.OmokDao
 import woowacourse.omok.data.OmokDaoImpl
+import woowacourse.omok.data.OmokEntities
 import woowacourse.omok.data.adapter.OmokEntityAdapter
 import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.model.board.Position
@@ -22,8 +22,9 @@ import woowacourse.omok.ui.message
 import woowacourse.omok.ui.stoneImage
 
 class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), FinishAction {
-    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val omokDao: OmokDao by lazy { OmokDaoImpl(this) }
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private val omokDao by lazy { OmokDaoImpl(this) }
+    private val omokEntities by lazy { OmokEntities(this) }
     private lateinit var omokGame: OmokGame
     private var isFinish = false
 
@@ -92,7 +93,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
             showToast(resources.getString(R.string.cannot_place_position))
             return
         }
-        omokDao.save(OmokEntityAdapter.OmokEntity(position, placeType.stone))
+        omokEntities.add(position, placeType.stone)
         stoneImageView.setImageResource(placeType.stone.stoneImage())
         setResultText()
     }
@@ -104,7 +105,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
     private fun restartGame() {
         isFinish = false
         omokGame.restart()
-        omokDao.drop()
+        omokEntities.reset()
         stoneImageView { _, view -> view.setImageResource(0) }
         setResultText()
     }
@@ -122,7 +123,7 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
 
     override fun onDestroy() {
         super.onDestroy()
-        if (isFinish) OmokDaoImpl(this).drop()
+        omokEntities.save(isFinish)
     }
 
     override fun onFinish(finishType: FinishType) {
