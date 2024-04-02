@@ -45,8 +45,7 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
                 val point = Point.findPoint(index)
-
-                loadOmokBoard(stones, point, view)
+                loadStone(stones, point, view)
 
                 view.setOnClickListener {
                     val previousTurn: Turn = currentTurn
@@ -84,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         outputView.printAlert("오목 게임을 시작합니다")
     }
 
-    private fun loadOmokBoard(
+    private fun loadStone(
         stones: Set<Stone>,
         point: Point,
         view: ImageView,
