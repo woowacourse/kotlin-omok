@@ -60,7 +60,8 @@ class MainActivity : AppCompatActivity() {
                         return@setOnClickListener
                     }
 
-                    saveStone(previousTurn, dao, point, view)
+                    placeStone(previousTurn.color(), view)
+                    saveStone(previousTurn, dao, point)
 
                     if (currentTurn is Finished) {
                         outputView.printWinner(currentTurn.board.lastStoneColor())
@@ -96,11 +97,7 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
     ) {
         stones.find { it.point == point }?.let {
-            if (it.stoneColor == StoneColor.BLACK) {
-                view.setImageResource(R.drawable.black_stone)
-            } else if (it.stoneColor == StoneColor.WHITE) {
-                view.setImageResource(R.drawable.white_stone)
-            }
+            placeStone(it.stoneColor, view)
         }
     }
 
@@ -108,13 +105,21 @@ class MainActivity : AppCompatActivity() {
         previousTurn: Turn,
         dao: OmokDAO,
         point: Point,
-        view: ImageView,
     ) {
         if (previousTurn.color() == StoneColor.BLACK) {
             dao.insertStone(point.x, point.y, StoneColor.BLACK.name)
-            view.setImageResource(R.drawable.black_stone)
         } else {
             dao.insertStone(point.x, point.y, StoneColor.WHITE.name)
+        }
+    }
+
+    private fun placeStone(
+        stoneColor: StoneColor,
+        view: ImageView,
+    ) {
+        if (stoneColor == StoneColor.BLACK) {
+            view.setImageResource(R.drawable.black_stone)
+        } else if (stoneColor == StoneColor.WHITE) {
             view.setImageResource(R.drawable.white_stone)
         }
     }
