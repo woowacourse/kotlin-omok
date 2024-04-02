@@ -97,7 +97,7 @@ class Board(val stones: Stones = Stones()) {
     }
 
     companion object {
-        const val MIN_POSITION = 1
+        private const val MIN_POSITION = 1
         const val BOARD_SIZE = 15
         val BOARD_RANGE = MIN_POSITION..BOARD_SIZE
     }
