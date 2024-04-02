@@ -1,13 +1,12 @@
 package woowacourse.omok.model
 
 class Stones(initialStones: List<Stone> = emptyList()) {
-    private val _stones: MutableList<Stone> = mutableListOf()
+    private val _stones: MutableList<Stone> =
+        mutableListOf<Stone>().apply {
+            addAll(initialStones)
+        }
     val stones: List<Stone>
         get() = _stones
-
-    init {
-        _stones.addAll(initialStones)
-    }
 
     fun putStone(stone: Stone) {
         _stones.add(stone)
