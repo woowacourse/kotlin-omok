@@ -1,6 +1,6 @@
 package woowacourse.omok.domain.model.rule.library
 
-abstract class OmokRule(
+sealed class OmokRule(
     private val currentStone: Int = BLACK_STONE,
     private val opponentStone: Int = WHITE_STONE,
 ) {
