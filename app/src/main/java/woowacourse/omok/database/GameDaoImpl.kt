@@ -83,13 +83,6 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
         db.insert(GameBoardContract.GameStatusEntry.TABLE_NAME, null, values)
     }
 
-
-    private fun resetCurrentStone(): SQLiteDatabase {
-        val db = dbHelper.writableDatabase
-        db.execSQL("DELETE FROM GameStatus")
-        return db
-    }
-
     override fun loadCurrentStone(): Int {
         val db = dbHelper.readableDatabase
         val cursor = db.query(
@@ -107,6 +100,11 @@ class GameDaoImpl(private val dbHelper: DatabaseHelper) : GameDao {
         return stoneType
     }
 
+    private fun resetCurrentStone(): SQLiteDatabase {
+        val db = dbHelper.writableDatabase
+        db.execSQL("DELETE FROM GameStatus")
+        return db
+    }
 
     private fun Cursor.getIntSafe(columnName: String): Int? {
         val columnIndex = getColumnIndex(columnName)

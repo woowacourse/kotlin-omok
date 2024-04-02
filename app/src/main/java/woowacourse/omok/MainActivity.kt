@@ -18,34 +18,48 @@ import woowacourse.omok.model.omokGame.OmokGame
 import woowacourse.omok.view.OutputView
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var dbHelper: DatabaseHelper
     private lateinit var gameDao: GameDao
-    private val outputView = OutputView()
-    val omok = OmokGame(this.outputView)
+    val omok = OmokGame(OutputView())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val board = findViewById<TableLayout>(R.id.board)
-        dbHelper = DatabaseHelper(this)
-        gameDao = GameDaoImpl(dbHelper)
-        omok.loadGame(gameDao)
-        val loadedStoneType = gameDao.loadCurrentStone()
-        if (loadedStoneType != -1) {
-            omok.currentStone = Stone.entries.toTypedArray()[loadedStoneType]
-        }
-        updateUI()
 
-        val button = findViewById<Button>(R.id.resetButton)
-        button.setOnClickListener {
-            resetBoard()
-        }
+        gameInitialSettings()
+
         board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rows ->
             rows.children.filterIsInstance<ImageView>().forEachIndexed { columIndex, view ->
                 view.setOnClickListener {
                     processPlayerMove(rowIndex, columIndex)
                 }
             }
+        }
+    }
+
+    private fun gameInitialSettings() {
+        loadGameBoard()
+        loadStoneType()
+        updateUI()
+        generateResetBoardButton()
+    }
+
+    private fun generateResetBoardButton() {
+        val button = findViewById<Button>(R.id.resetButton)
+        button.setOnClickListener {
+            resetBoard()
+        }
+    }
+
+    private fun loadGameBoard() {
+        gameDao = GameDaoImpl(DatabaseHelper(this))
+        omok.loadGame(gameDao)
+    }
+
+    private fun loadStoneType() {
+        val loadedStoneType = gameDao.loadCurrentStone()
+        if (loadedStoneType != -1) {
+            omok.currentStone = Stone.entries.toTypedArray()[loadedStoneType]
         }
     }
 
@@ -63,7 +77,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun resetBoard() {
+    private fun resetBoard() {
         omok.resetGame()
         gameDao.resetGame()
         updateUI()

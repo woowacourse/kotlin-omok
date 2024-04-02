@@ -2,6 +2,7 @@ package woowacourse.omok.model.omokGame
 
 import GameRuleAdapter
 import woowacourse.omok.database.GameDao
+import woowacourse.omok.mapper.StoneTypeMapper
 import woowacourse.omok.model.board.CoordsNumber
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
@@ -19,8 +20,8 @@ class OmokGame(private val listener: GameEventListener) {
         val loadedGameBoard = gameDao.loadGame()
         board.updateGameBoard(loadedGameBoard)
         val loadedStoneType = gameDao.loadCurrentStone()
-        if (loadedStoneType != -1) {
-            this.currentStone = Stone.entries.toTypedArray()[loadedStoneType]
+        StoneTypeMapper.toDomainModel(loadedStoneType).let {
+            this.currentStone = it
         }
     }
 
