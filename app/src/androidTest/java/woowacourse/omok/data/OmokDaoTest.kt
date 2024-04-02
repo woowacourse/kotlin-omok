@@ -19,7 +19,7 @@ class OmokDaoTest {
 
     @After
     fun tearDown() {
-        omokDao.drop()
+        omokDao.deleteAll()
     }
 
     @Test
@@ -80,7 +80,7 @@ class OmokDaoTest {
         omokDao.save(omokEntity)
 
         // when
-        omokDao.drop()
+        omokDao.deleteAll()
         val actual = omokDao.findAll()
 
         // then

@@ -11,5 +11,5 @@ interface Dao<T> {
 
     fun findLastOrNull(): T?
 
-    fun drop()
+    fun deleteAll()
 }

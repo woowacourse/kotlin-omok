@@ -56,7 +56,7 @@ class OmokDao(context: Context) : Dao<OmokEntity> {
         return findAll().maxByOrNull { it.id }
     }
 
-    override fun drop() {
+    override fun deleteAll() {
         val db = omokDbHelper.writableDatabase
         db.delete(OmokContract.TABLE_NAME, null, null)
     }

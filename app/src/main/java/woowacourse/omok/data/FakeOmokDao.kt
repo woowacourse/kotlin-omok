@@ -19,7 +19,7 @@ class FakeOmokDao : Dao<OmokEntity> {
         return findAll().maxByOrNull { it.id }
     }
 
-    override fun drop() {
+    override fun deleteAll() {
         values.clear()
     }
 }
