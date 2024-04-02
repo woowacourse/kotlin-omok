@@ -13,6 +13,6 @@ class StonePositionTest {
     fun stonePositionToOmokTurn() {
         val stonePosition = StonePosition(Position(1, 1), Stone.BLACK)
         val actual = stonePosition.toOmokTurn()
-        assertThat(actual).isEqualTo(OmokTurn(1, 1, "BLACK"))
+        assertThat(actual).isEqualTo(OmokTurn(1, 1, "black"))
     }
 }
