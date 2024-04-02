@@ -17,6 +17,10 @@ class InitialGameTurn : GameState {
         return WhiteTurn(latestStonePosition = stonePosition)
     }
 
+    override fun latestStonePosition(): StonePosition {
+        throw IllegalStateException("게임이 시작되지 않았습니다.")
+    }
+
     override fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState {
         throw IllegalStateException("게임이 시작되지 않았습니다.")
     }

@@ -12,6 +12,8 @@ data class Finished(val latestStonePosition: StonePosition) : GameState {
         throw IllegalStateException("게임이 종료되었습니다.")
     }
 
+    override fun latestStonePosition(): StonePosition = latestStonePosition
+
     override fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState {
         throw IllegalStateException("게임이 종료되었습니다.")
     }

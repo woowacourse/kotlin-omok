@@ -17,6 +17,8 @@ sealed class InvalidPosition(
         throw IllegalStateException(exceptionMessage)
     }
 
+    override fun latestStonePosition(): StonePosition = latestStonePosition
+
     override fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState {
         handling(latestStonePosition, exceptionMessage)
         return latestState

@@ -125,7 +125,7 @@ class RuleAdapterTest {
 
     /*
         4-4 규칙 테스트: docs/4-4 금수 테스트 케이스.png 참조
-         */
+     */
     @Test
     fun `유효한 위치인지 판단한다(4-4 규칙 A 위반)`() {
         // given
