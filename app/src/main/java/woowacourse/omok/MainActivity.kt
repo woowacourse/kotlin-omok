@@ -11,6 +11,7 @@ import androidx.core.view.children
 import woowacourse.omok.database.DatabaseHelper
 import woowacourse.omok.database.GameDao
 import woowacourse.omok.database.GameDaoImpl
+import woowacourse.omok.mapper.StoneTypeMapper
 import woowacourse.omok.model.board.CoordsNumber
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
@@ -52,28 +53,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadGameBoard() {
-        gameDao = GameDaoImpl(DatabaseHelper(this))
-        omok.loadGame(gameDao)
+        omok.loadGame(GameDaoImpl(DatabaseHelper(this)))
     }
 
     private fun loadStoneType() {
         val loadedStoneType = gameDao.loadCurrentStone()
-        if (loadedStoneType != -1) {
-            omok.currentStone = Stone.entries.toTypedArray()[loadedStoneType]
+        StoneTypeMapper.toDomainModel(loadedStoneType).let {
+            omok.currentStone = it
         }
     }
 
     private fun processPlayerMove(rowIndex: Int, columnIndex: Int) {
         if (omok.processPlayerMove(rowIndex, columnIndex)) {
             updateUI()
-            if (omok.board.isStop()) {
+            if (omok.isGameOver()) {
                 Toast.makeText(this, "Winner: ${omok.currentStone}", Toast.LENGTH_SHORT).show()
             }
         } else {
             Toast.makeText(this, "Invalid move.", Toast.LENGTH_SHORT).show()
         }
-        gameDao.saveGame(omok.board.gameBoard)
-        gameDao.saveCurrentStone(omok.currentStone.ordinal)
+        omok.saveGame(gameDao)
     }
 
 
@@ -85,8 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateUI() {
         val board = findViewById<TableLayout>(R.id.board)
-        val forbiddenPositions =
-            omok.renjuGameRule.findForbiddenPositions(omok.currentStone)
+        val forbiddenPositions = omok.findForbiddenPositions()
         board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rows ->
             rows.children.filterIsInstance<ImageView>().forEachIndexed { columnIndex, view ->
                 updateCellView(columnIndex, rowIndex, forbiddenPositions, view)
@@ -100,11 +98,7 @@ class MainActivity : AppCompatActivity() {
         forbiddenPositions: List<Position>,
         view: ImageView,
     ) {
-        if (Position(
-                CoordsNumber(columnIndex),
-                CoordsNumber(rowIndex)
-            ) in forbiddenPositions
-        ) {
+        if (Position(CoordsNumber(columnIndex), CoordsNumber(rowIndex)) in forbiddenPositions) {
             view.setImageResource(R.drawable.x_mark)
         } else {
             val stone = omok.getStoneAt(rowIndex, columnIndex)

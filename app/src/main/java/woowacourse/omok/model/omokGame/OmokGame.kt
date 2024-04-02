@@ -1,8 +1,8 @@
 package woowacourse.omok.model.omokGame
 
-import GameRuleAdapter
 import woowacourse.omok.database.GameDao
 import woowacourse.omok.mapper.StoneTypeMapper
+import woowacourse.omok.model.GameRuleAdapter
 import woowacourse.omok.model.board.CoordsNumber
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
@@ -11,10 +11,20 @@ import woowacourse.omok.model.omokGame.Board.Companion.BOARD_SIZE
 class OmokGame(private val listener: GameEventListener) {
     val board = Board()
     var currentStone = Stone.BLACK
-    val renjuGameRule =
+    private val renjuGameRule =
         GameRuleAdapter().apply {
             setupBoard(board)
         }
+
+    fun isGameOver(): Boolean = board.isStop()
+
+    fun findForbiddenPositions(): List<Position> =
+        renjuGameRule.findForbiddenPositions(currentStone)
+
+    fun saveGame(gameDao: GameDao) {
+        gameDao.saveGame(board.gameBoard)
+        gameDao.saveCurrentStone(currentStone.ordinal)
+    }
 
     fun loadGame(gameDao: GameDao) {
         val loadedGameBoard = gameDao.loadGame()
