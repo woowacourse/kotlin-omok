@@ -16,12 +16,12 @@ object ResultHandler {
         putResult: PutResult,
         stone: GoStone,
     ) = when (putResult) {
-        PutResult.Running -> {}
-        PutResult.Failure -> println(ALREADY_PLACE_POSITION_MESSAGE)
-        PutResult.DoubleThree -> println("$FORBIDDEN_MOVE_MESSAGE$DOUBLE_THREE")
-        PutResult.DoubleFour -> println("$FORBIDDEN_MOVE_MESSAGE$DOUBLE_FOUR")
-        PutResult.ExceedFive -> println("$FORBIDDEN_MOVE_MESSAGE$EXCEED_FIVE")
-        PutResult.OMOK -> println("$OMOK_MESSAGE ${stone.value()} $WINNING_MESSAGE")
+        PutResult.Running -> ""
+        PutResult.Failure -> ALREADY_PLACE_POSITION_MESSAGE
+        PutResult.DoubleThree -> "$FORBIDDEN_MOVE_MESSAGE$DOUBLE_THREE"
+        PutResult.DoubleFour -> "$FORBIDDEN_MOVE_MESSAGE$DOUBLE_FOUR"
+        PutResult.ExceedFive -> "$FORBIDDEN_MOVE_MESSAGE$EXCEED_FIVE"
+        PutResult.OMOK -> "$OMOK_MESSAGE ${stone.value()} $WINNING_MESSAGE"
     }
 
     fun isRunningResult(resultState: PutResult) = resultState == PutResult.Running

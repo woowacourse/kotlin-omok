@@ -18,7 +18,7 @@ class OmokGame {
         while (true) {
             val resultState = retryUntilSuccess { stone.putStone(readPosition(stone)) }
             drawBoard()
-            ResultHandler.handleResult(resultState, stone)
+            println(ResultHandler.handleResult(resultState, stone))
             if (isOmok(resultState)) break
             if (!isRunningResult(resultState)) continue
             stone = stone.changeStone()

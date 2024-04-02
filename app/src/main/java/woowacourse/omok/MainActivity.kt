@@ -1,7 +1,6 @@
 package woowacourse.omok
 
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -9,6 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import omok.model.position.Position
+import omok.model.result.PutResult
+import omok.model.result.ResultHandler
+import omok.model.result.ResultHandler.isAvailableResult
+import omok.model.result.ResultHandler.isOmok
 import omok.model.stone.BlackStone
 import omok.model.stone.BlackStone.value
 import omok.model.stone.GoStone
@@ -56,8 +59,9 @@ class MainActivity : AppCompatActivity() {
         position: Position,
         view: ImageView,
     ) {
-        val currentStone = detectRenjuRule(view) { stone.putStone(position) }
-        currentStone?.let {
+        val putResult = stone.putStone(position)
+
+        if (isAvailableResult(putResult)) {
             dao.insert(
                 OmokEntry(
                     position.getRowValue().toString(),
@@ -66,21 +70,28 @@ class MainActivity : AppCompatActivity() {
                 ),
             )
             view.setImageResource(imageView(stone))
-            if (checkOmok(board, position, view)) return
-            stone = stone.changeStone()
+            checkOmok(putResult, view, board)
+            return
         }
+        val message = ResultHandler.handleResult(putResult, stone)
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
     }
 
-    private fun <T> detectRenjuRule(
-        view: View,
-        action: () -> T,
-    ): T? =
-        runCatching {
-            action()
-        }.getOrElse {
-            Snackbar.make(view, it.localizedMessage, Snackbar.LENGTH_SHORT).show()
-            return null
+    private fun checkOmok(
+        putResult: PutResult,
+        view: ImageView,
+        board: TableLayout,
+    ) {
+        when {
+            isOmok(putResult) -> {
+                val message = ResultHandler.handleResult(putResult, stone)
+                showWinnerMessage(view, board, message)
+                stone = BlackStone
+            }
+
+            else -> stone = stone.changeStone()
         }
+    }
 
     private fun imageView(stone: GoStone) =
         when (stone) {
@@ -88,24 +99,12 @@ class MainActivity : AppCompatActivity() {
             WhiteStone -> R.drawable.white_stone
         }
 
-    private fun checkOmok(
-        board: TableLayout,
-        stonePosition: Position,
-        view: ImageView,
-    ): Boolean {
-        if (stone.findOmok(stonePosition)) {
-            showWinnerMessage(view, board)
-            stone = BlackStone
-            return true
-        }
-        return false
-    }
-
     private fun showWinnerMessage(
         view: ImageView,
         board: TableLayout,
+        message: String,
     ) {
-        val snackBar = Snackbar.make(view, "${stone.value()} 승리", Snackbar.LENGTH_INDEFINITE)
+        val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction(CONFIRM_BUTTON_MESSAGE) {
             resetGameData(dao, board)
         }
