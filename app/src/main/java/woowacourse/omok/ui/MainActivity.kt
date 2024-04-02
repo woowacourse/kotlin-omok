@@ -98,16 +98,20 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
                     when (coordinateState) {
                         is CoordinateState.Placed -> {
                             tag = PLACED
-                            when (coordinateState.turn) {
-                                is Turn.Black -> blackStoneDrawable
-                                is Turn.White -> whiteStoneDrawable
-                            }
+                            getStoneDrawableFromTurn(coordinateState.turn)
                         }
                         is CoordinateState.Forbidden -> blockDrawable
                         is CoordinateState.Empty -> null
                     },
                 )
             }
+        }
+    }
+
+    private fun getStoneDrawableFromTurn(turn: Turn): Drawable? {
+        return when (turn) {
+            is Turn.Black -> blackStoneDrawable
+            is Turn.White -> whiteStoneDrawable
         }
     }
 
