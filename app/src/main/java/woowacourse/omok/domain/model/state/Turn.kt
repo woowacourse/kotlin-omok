@@ -5,7 +5,6 @@ import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
 import woowacourse.omok.domain.model.rule.RuleAdapter
-import woowacourse.omok.domain.model.rule.library.NoneForbiddenRule
 
 abstract class Turn(private val latestStonePosition: StonePosition) : GameState {
     abstract val stone: Stone
@@ -17,11 +16,12 @@ abstract class Turn(private val latestStonePosition: StonePosition) : GameState 
         board: Board,
         position: Position,
     ): GameState {
-        if (violateForbiddenPosition(board, position)) {
-            return ForbiddenPosition(latestStonePosition, this)
-        }
         if (alreadyStoneExist(board, position)) {
             return AlreadyHaveStone(latestStonePosition, this)
+        }
+
+        if (rule.violated(board, position)) {
+            return ForbiddenPosition(latestStonePosition, this)
         }
 
         val stonePosition = StonePosition(position, stone)
@@ -38,10 +38,6 @@ abstract class Turn(private val latestStonePosition: StonePosition) : GameState 
 
     override fun isFinished(): Boolean = false
 
-    private fun violateForbiddenPosition(
-        board: Board,
-        position: Position,
-    ): Boolean = rule.violatedRule(board, position) != NoneForbiddenRule
 
     private fun alreadyStoneExist(
         board: Board,
