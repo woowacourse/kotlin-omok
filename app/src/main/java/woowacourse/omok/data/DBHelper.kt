@@ -14,10 +14,10 @@ class DBHelper(context: Context) :
     override fun onCreate(db: SQLiteDatabase?) {
         val createTableQuery =
             "CREATE TABLE omok_coordinates (" +
-                    "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "${OmockDBConstant.X_COORDINATE} INTEGER," +
-                    "${OmockDBConstant.Y_COORDINATE} INTEGER" +
-                    ");"
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "${OmockDBConstant.X_COORDINATE} INTEGER," +
+                "${OmockDBConstant.Y_COORDINATE} INTEGER" +
+                ");"
         db?.execSQL(createTableQuery)
     }
 

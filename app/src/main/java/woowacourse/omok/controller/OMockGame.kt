@@ -20,12 +20,12 @@ abstract class OMockGame(
     private val oMockRule: OMockRule =
         OMockRule(
             ruleTypes =
-            listOf(
-                ThreeToThreeCount,
-                FourToFourCount,
-                IsClearFourToFourCount,
-                IsReverseTwoAndThree,
-            ),
+                listOf(
+                    ThreeToThreeCount,
+                    FourToFourCount,
+                    IsClearFourToFourCount,
+                    IsReverseTwoAndThree,
+                ),
         ),
 ) {
     protected var board: Board = Board.from()
@@ -57,7 +57,7 @@ abstract class OMockGame(
         loadMap = LoadMap(board.stoneStates)
     }
 
-    fun playerPutStone(
+    private fun playerPutStone(
         player: Player,
         playerStone: Stone,
     ): GameState.LoadStoneState {
@@ -77,7 +77,7 @@ abstract class OMockGame(
         }
     }
 
-    fun applyPlayerSelected(
+    private fun applyPlayerSelected(
         player: Player,
         playerStone: Stone,
     ): GameState {

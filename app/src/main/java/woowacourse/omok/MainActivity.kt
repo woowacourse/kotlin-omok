@@ -73,20 +73,23 @@ class MainActivity : AppCompatActivity() {
         println(boardResultState)
         when (boardResultState) {
             is GameState.Finish -> oMockViewController.finishedGameFlow(context = context)
-            is GameState.LoadStone.Failure -> oMockViewController.showToastMessage(
-                context,
-                boardResultState.throwable
-            )
+            is GameState.LoadStone.Failure ->
+                oMockViewController.showToastMessage(
+                    context,
+                    boardResultState.throwable,
+                )
 
-            is GameState.LoadStoneState.Failure -> oMockViewController.showToastMessage(
-                context,
-                boardResultState.throwable
-            )
+            is GameState.LoadStoneState.Failure ->
+                oMockViewController.showToastMessage(
+                    context,
+                    boardResultState.throwable,
+                )
 
-            is GameState.CheckRuleTypeState.Failure -> oMockViewController.showToastMessage(
-                context,
-                boardResultState.throwable
-            )
+            is GameState.CheckRuleTypeState.Failure ->
+                oMockViewController.showToastMessage(
+                    context,
+                    boardResultState.throwable,
+                )
             else -> {}
         }
     }

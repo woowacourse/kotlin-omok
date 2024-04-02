@@ -41,9 +41,9 @@ class OMockViewController : OMockGame() {
 
     private fun processUserPick(playerPick: Pair<String, String>): GameState {
         return when (board.getTurn()) {
-            GameTurn.BLACK_TURN -> userPickStateFlow(blackPlayer,userTurnFlow(blackPlayer, playerPick))
+            GameTurn.BLACK_TURN -> userPickStateFlow(blackPlayer, userTurnFlow(blackPlayer, playerPick))
 
-            GameTurn.WHITE_TURN -> userPickStateFlow(whitePlayer,userTurnFlow(whitePlayer, playerPick))
+            GameTurn.WHITE_TURN -> userPickStateFlow(whitePlayer, userTurnFlow(whitePlayer, playerPick))
 
             GameTurn.FINISHED -> GameState.Finish
         }
@@ -56,7 +56,7 @@ class OMockViewController : OMockGame() {
         return when (gameState) {
             is GameState.LoadStone.Success -> {
                 println("GameState.LoadStone.Success")
-                return start(player,gameState.stone)
+                return start(player, gameState.stone)
             }
 
             is GameState.LoadStone.Failure -> {

@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
 import woowacourse.omok.data.OmokDAO
 
 @RunWith(AndroidJUnit4::class)
-class OmokDAOTest {
+class OmokDaoTest {
     private val context: Context = ApplicationProvider.getApplicationContext()
     private val omokDAO: OmokDAO = OmokDAO(context)
 

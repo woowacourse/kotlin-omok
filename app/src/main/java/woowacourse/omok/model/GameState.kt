@@ -22,5 +22,5 @@ sealed interface GameState {
         data class Failure(val throwable: Throwable) : CheckRuleTypeState
     }
 
-    data object Finish: GameState
+    data object Finish : GameState
 }
