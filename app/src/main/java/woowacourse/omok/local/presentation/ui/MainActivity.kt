@@ -11,22 +11,22 @@ import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.local.db.StoneDaoImpl
 import woowacourse.omok.local.presentation.base.BaseActivity
 import woowacourse.omok.local.presentation.model.AppGameState
-import woowacourse.omok.local.model.StoneEntity
 import woowacourse.omok.local.presentation.model.AppGameManager
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var allImageViews: List<ImageView>
-    private val gameManager = AppGameManager()
     private val stoneDao = StoneDaoImpl(this)
-
+    private lateinit var gameManager: AppGameManager
+    
     override fun initializeViewBinding() = ActivityMainBinding.inflate(layoutInflater)
-
+    
     override fun onCreateSetup() {
+        gameManager = AppGameManager(stoneDao)
         initializeGameBoard()
-        loadGameFromDatabase()
+        initializeStonesFromDataBase()
         setImageViewsClickListener()
     }
-
+    
     private fun initializeGameBoard() {
         allImageViews =
             binding.board
@@ -36,18 +36,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 .filterIsInstance<ImageView>()
                 .toList()
     }
-
-    private fun loadGameFromDatabase() {
+    
+    private fun initializeStonesFromDataBase() {
         val stones = stoneDao.findAll()
         stones.forEach { stone ->
             playTurn { Coordinate(stone.x, stone.y) }
         }
         printBoard(gameManager.board)
     }
-
+    
     private fun setImageViewsClickListener() {
         binding.restartButton.setOnClickListener {
-            stoneDao.drop()
             gameManager.restartGame()
             printBoard(gameManager.board)
         }
@@ -57,13 +56,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
     }
-
+    
     private fun handleUserInput(index: Int) {
         if (gameManager.isRunning()) {
             val coordinate = index.toCoordinate()
             playTurn { coordinate }
         }
-        if (gameManager.isFinish()){
+        if (gameManager.isFinish()) {
             showSnackbar(getString(R.string.finish_turn))
             return
         }
@@ -73,11 +72,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         if (gameManager.isRunning()) {
             runCatching {
                 gameManager.playTurn(onCoordinate)
-                
-                if (gameManager.isFinish() || gameManager.isRunning()) {
-                    saveStoneToDatabase(onCoordinate())
-                }
-                
                 printBoard(gameManager.board)
                 printRunningInfo(gameManager.gameState)
             }.onFailure { throwable ->
@@ -85,14 +79,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
     }
-
-    private fun saveStoneToDatabase(coordinate: Coordinate) {
-        val stoneEntity = StoneEntity(0L, coordinate.x, coordinate.y)
-        stoneDao.save(stoneEntity)
-    }
-
+    
     private fun Int.toCoordinate(): Coordinate = Coordinate(this / BOARD_SIZE, this % BOARD_SIZE)
-
+    
     private fun printRunningInfo(gameState: AppGameState) {
         when (gameState) {
             is AppGameState.Running.BlackTurn -> showSnackbar(getString(R.string.black_turn))
@@ -100,7 +89,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             is AppGameState.Finish -> showSnackbar(getString(R.string.finish_turn))
         }
     }
-
+    
     private fun printBoard(board: Board) {
         allImageViews.forEachIndexed { index, imageView ->
             val x = index / BOARD_SIZE
@@ -113,7 +102,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
     }
-
+    
     companion object {
         private const val BOARD_SIZE = 15
     }

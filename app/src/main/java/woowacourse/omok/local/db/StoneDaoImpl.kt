@@ -8,7 +8,7 @@ import woowacourse.omok.local.model.StoneEntity
 
 class StoneDaoImpl(context: Context) : StoneDao {
     private val omokDbHelper = OmokDbHelper(context)
-
+    
     override fun save(stoneEntity: StoneEntity): StoneEntity {
         val db = omokDbHelper.writableDatabase
         val values =
@@ -19,7 +19,7 @@ class StoneDaoImpl(context: Context) : StoneDao {
         val id = db.insert(OmokContract.TABLE_NAME, null, values)
         return stoneEntity.copy(id = id)
     }
-
+    
     override fun findAll(): List<StoneEntity> {
         val db = omokDbHelper.readableDatabase
         return db.query(
@@ -39,12 +39,12 @@ class StoneDaoImpl(context: Context) : StoneDao {
                 }.toList()
         }
     }
-
+    
     override fun drop() {
         val db = omokDbHelper.writableDatabase
         db.delete(OmokContract.TABLE_NAME, null, null)
     }
-
+    
     private fun SQLiteDatabase.query(
         table: String,
         columns: Array<String>,
