@@ -39,6 +39,33 @@ class OmokController(
         outputView.printWinner(winner.stone)
     }
 
+    fun startGame2() {
+        val board = initializedBoard()
+        val omokGame =
+            OmokGame(
+                board,
+                players,
+                listOf(
+                    EmptyPosition { player, position, message -> outputView.printInvalidPosition(player, position, message) },
+                    AbideForbiddenRules { player, position, message -> outputView.printInvalidPosition(player, position, message) },
+                ),
+            )
+
+        val result =
+            omokGame.runGame(
+                { inputView.readFirstStonePosition(Stone.BLACK) },
+                { gameState ->
+                    inputView.readStonePosition(
+                        gameState.latestStonePosition().stone.nextOrFirst(),
+                        gameState.latestStonePosition().position,
+                    )
+                },
+                { inValidStonePosition, message -> outputView.printInvalidPosition(inValidStonePosition, message) },
+                { outputView.printBoard(board) },
+            )
+        outputView.printWinner(result.latestStonePosition().stone)
+    }
+
     private fun initializedBoard(): Board {
         return Board().apply { outputView.printInitialGuide(this) }
     }

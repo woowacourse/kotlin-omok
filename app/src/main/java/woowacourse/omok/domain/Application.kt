@@ -32,5 +32,5 @@ fun main() {
                 ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.CAN_OVERLINE),
                 ForbiddenRules(),
             ),
-    ).startGame()
+    ).startGame2()
 }
