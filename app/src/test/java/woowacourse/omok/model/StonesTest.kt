@@ -3,7 +3,6 @@ package woowacourse.omok.model
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import woowacourse.omok.model.Stones.Companion.TOP
 
 class StonesTest {
     private lateinit var stones: Stones
@@ -28,21 +27,6 @@ class StonesTest {
     fun `검은 돌을 착수하면 해당 돌을 가지고있어야 한다`() {
         stones.putStone(Stone(black, COORDINATE_F5))
         assertThat(stones.stones).contains(Stone(black, COORDINATE_F5))
-    }
-
-    @Test
-    fun `한 방향으로 연속된 같은 색상의 돌 개수를 반환한다`() {
-        stones.putStone(Stone(Color.BLACK, COORDINATE_F5))
-        stones.putStone(Stone(Color.BLACK, COORDINATE_F6))
-        stones.putStone(Stone(Color.WHITE, COORDINATE_F7))
-        stones.putStone(Stone(Color.BLACK, COORDINATE_F9))
-
-        val actual =
-            stones.countSameColorStoneInDirection(
-                Stone(Color.BLACK, COORDINATE_F8),
-                TOP,
-            )
-        assertThat(actual).isEqualTo(2)
     }
 
     @Test
