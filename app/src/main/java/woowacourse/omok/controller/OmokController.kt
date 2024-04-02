@@ -10,7 +10,7 @@ class OmokController(
     private val omokGame: OmokGame,
 ) {
     fun startOmok() {
-        outputView.printStartGuide()
-        omokGame.run(inputView::getStonePoint, outputView::printTurn, outputView::printWinner, outputView::printInAppropriatePlace)
+        outputView.printAlert("오목 게임을 시작합니다")
+        omokGame.run(inputView::getStonePoint, outputView::printTurn, outputView::printWinner, outputView::printAlert)
     }
 }

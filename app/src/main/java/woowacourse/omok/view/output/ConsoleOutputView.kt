@@ -5,8 +5,6 @@ import woowacourse.omok.model.entity.Stone
 import woowacourse.omok.model.entity.StoneColor
 
 class ConsoleOutputView : OutputView {
-    override fun printStartGuide() = println("오목 게임을 시작합니다")
-
     override fun printTurn(board: Board) {
         val omokBoard = buildOmokBoard(board)
         println(omokBoard)
@@ -18,6 +16,15 @@ class ConsoleOutputView : OutputView {
         val colorString = getColorString(color)
         print("${colorString}의 차례입니다.  ")
     }
+
+    override fun printWinner(board: Board) {
+        val strMap = buildOmokBoard(board)
+        println(strMap)
+        val colorString = getColorString(board.previousStone()?.stoneColor)
+        print("${colorString}이 승리했습니다")
+    }
+
+    override fun printAlert(message: String) = println(message)
 
     private fun getColorString(color: StoneColor?): String = if (color == StoneColor.BLACK) "흑" else "백"
 
@@ -62,15 +69,6 @@ class ConsoleOutputView : OutputView {
         }
         return boardMap.toString()
     }
-
-    override fun printWinner(board: Board) {
-        val strMap = buildOmokBoard(board)
-        println(strMap)
-        val colorString = getColorString(board.previousStone()?.stoneColor)
-        print("${colorString}이 승리했습니다")
-    }
-
-    override fun printInAppropriatePlace(message: String) = println(message)
 
     companion object {
         private const val BOARD_INTERVAL = 3

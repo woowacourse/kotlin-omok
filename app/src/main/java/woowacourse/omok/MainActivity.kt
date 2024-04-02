@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                     currentTurn =
                         currentTurn.placeStone(
                             point,
-                            outputView::printInAppropriatePlace,
+                            outputView::printAlert,
                         )
 
                     if (previousTurn.board == currentTurn.board) {
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun printStartGuide(outputView: OutputView) {
-        outputView.printStartGuide()
+        outputView.printAlert("오목 게임을 시작합니다")
     }
 
     private fun findPoint(index: Int): Point {
