@@ -1,6 +1,7 @@
 package woowacourse.omok.model.board
 
 import woowacourse.omok.model.entity.Stone
+import woowacourse.omok.model.entity.StoneColor
 
 class Board(private val _stones: Set<Stone> = setOf()) {
     val stones: Set<Stone>
@@ -19,7 +20,7 @@ class Board(private val _stones: Set<Stone> = setOf()) {
 
     fun previousStone(): Stone? = stones.lastOrNull()
 
-    fun lastStoneColor(): String? = stones.lastOrNull()?.stoneColor?.name
+    fun lastStoneColor(): StoneColor? = stones.lastOrNull()?.stoneColor
 
     companion object {
         private const val MIN_SIZE = 1

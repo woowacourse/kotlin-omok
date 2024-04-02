@@ -50,11 +50,11 @@ class MainActivity : AppCompatActivity() {
                         return@setOnClickListener
                     }
 
-                    placeStone(currentTurn.board.previousStone()?.stoneColor!!, view)
-                    saveStone(currentTurn.board.previousStone()?.stoneColor!!, dao, point)
+                    placeStone(currentTurn.board.lastStoneColor(), view)
+                    saveStone(currentTurn.board.lastStoneColor(), dao, point)
 
                     if (currentTurn is Finished) {
-                        outputView.printWinner(currentTurn.board.lastStoneColor())
+                        outputView.printWinner(currentTurn.board.lastStoneColor()?.name)
 
                         loadCoordinates(board).forEach { it.setImageResource(0) }
                         dao.deleteAll()
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveStone(
-        stoneColor: StoneColor,
+        stoneColor: StoneColor?,
         dao: OmokDAO,
         point: Point,
     ) {
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun placeStone(
-        stoneColor: StoneColor,
+        stoneColor: StoneColor?,
         view: ImageView,
     ) {
         if (stoneColor == StoneColor.BLACK) {

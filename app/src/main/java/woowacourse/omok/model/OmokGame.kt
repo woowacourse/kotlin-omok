@@ -17,10 +17,10 @@ class OmokGame private constructor(var turn: Turn) {
         onInappropriate: (String) -> Unit,
     ) {
         while (turn !is Finished) {
-            beforeTurn(turn.board.lastStoneColor(), turn.board.previousStone()?.let { it.point.x to it.point.y })
+            beforeTurn(turn.board.lastStoneColor()?.name, turn.board.previousStone()?.let { it.point.x to it.point.y })
             proceedTurn(inputPoint, onInappropriate)
         }
-        afterGame(turn.board.lastStoneColor())
+        afterGame(turn.board.lastStoneColor()?.name)
     }
 
     private fun proceedTurn(
