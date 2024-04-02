@@ -31,7 +31,7 @@ class GameManager(
     fun replay() {
         gameState = GameState.Playing.Start(Board())
         gamePlayHandler.onUpdate(gameState)
-        deleteAllCordinates()
+        deleteAllCoordinates()
     }
 
     private fun saveCoordinate(coordinate: Coordinate) =
@@ -41,7 +41,7 @@ class GameManager(
             gamePlayHandler.onError(it)
         }
 
-    private fun deleteAllCordinates() =
+    private fun deleteAllCoordinates() =
         runCatching {
             repository.drop()
         }.onFailure {
