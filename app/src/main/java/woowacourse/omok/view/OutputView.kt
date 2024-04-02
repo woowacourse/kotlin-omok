@@ -1,6 +1,6 @@
 package woowacourse.omok.view
 
-import Controller.omok
+import woowacourse.omok.controller.Controller.omok
 import woowacourse.omok.model.board.CoordsNumber
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone

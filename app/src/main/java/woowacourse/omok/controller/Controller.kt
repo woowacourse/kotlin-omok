@@ -1,3 +1,5 @@
+package woowacourse.omok.controller
+
 import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.omokGame.OmokGame
 import woowacourse.omok.view.OutputView

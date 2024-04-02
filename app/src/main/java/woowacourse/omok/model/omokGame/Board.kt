@@ -1,6 +1,6 @@
 package woowacourse.omok.model.omokGame
 
-import GameRuleAdapter
+import woowacourse.omok.model.GameRuleAdapter
 import woowacourse.omok.model.board.CoordsNumber
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone

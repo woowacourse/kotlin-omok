@@ -1,3 +1,5 @@
+package woowacourse.omok.model
+
 import woowacourse.omok.lib.RenjuGameRule
 import woowacourse.omok.model.board.CoordsNumber
 import woowacourse.omok.model.board.Position

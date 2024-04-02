@@ -1,5 +1,6 @@
 package woowacourse.omok.lib
 
+@Suppress("NAME_SHADOWING")
 class RenjuGameRule : GameRule {
     private lateinit var board: Array<Array<Int>>
 
