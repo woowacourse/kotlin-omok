@@ -9,17 +9,17 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class OmokDaoImplTest {
-    private lateinit var omokDaoImpl: OmokDaoImpl
+class OmokDaoTest {
+    private lateinit var omokDao: OmokDao
 
     @Before
     fun setUp() {
-        omokDaoImpl = OmokDaoImpl(ApplicationProvider.getApplicationContext())
+        omokDao = OmokDao(ApplicationProvider.getApplicationContext())
     }
 
     @After
     fun tearDown() {
-        omokDaoImpl.drop()
+        omokDao.drop()
     }
 
     @Test
@@ -28,7 +28,7 @@ class OmokDaoImplTest {
         val omokEntity = OmokEntity(10, 10, STONE_BLACK)
 
         // when
-        val actual = omokDaoImpl.save(omokEntity)
+        val actual = omokDao.save(omokEntity)
 
         // then
         assertThat(actual.id).isGreaterThan(-1)
@@ -41,10 +41,10 @@ class OmokDaoImplTest {
     fun `모든_데이터를_조회한다`() {
         // given
         val omokEntity = OmokEntity(5, 5, STONE_WHITE)
-        omokDaoImpl.save(omokEntity)
+        omokDao.save(omokEntity)
 
         // when
-        val actual = omokDaoImpl.findAll()
+        val actual = omokDao.findAll()
 
         // then
         assertThat(actual[0].id).isGreaterThan(-1)
@@ -57,12 +57,12 @@ class OmokDaoImplTest {
     fun `가장_최근에_저장된_데이터를_조회한다`() {
         // given
         val omokEntity = OmokEntity(5, 5, STONE_WHITE)
-        omokDaoImpl.save(omokEntity)
-        omokDaoImpl.save(omokEntity)
-        omokDaoImpl.save(OmokEntity(10, 10, STONE_BLACK))
+        omokDao.save(omokEntity)
+        omokDao.save(omokEntity)
+        omokDao.save(OmokEntity(10, 10, STONE_BLACK))
 
         // when
-        val actual = omokDaoImpl.findLast()
+        val actual = omokDao.findLastOrNull()
 
         // then
         assertThat(actual).isNotNull
@@ -76,12 +76,12 @@ class OmokDaoImplTest {
     fun `모든_데이터를_삭제한다`() {
         // given
         val omokEntity = OmokEntity(7, 7, STONE_BLACK)
-        omokDaoImpl.save(omokEntity)
-        omokDaoImpl.save(omokEntity)
+        omokDao.save(omokEntity)
+        omokDao.save(omokEntity)
 
         // when
-        omokDaoImpl.drop()
-        val actual = omokDaoImpl.findAll()
+        omokDao.drop()
+        val actual = omokDao.findAll()
 
         // then
         assertThat(actual).isEmpty()

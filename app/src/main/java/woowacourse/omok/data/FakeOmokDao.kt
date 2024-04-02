@@ -1,19 +1,21 @@
 package woowacourse.omok.data
 
-class FakeOmokDao : OmokDao {
+import woowacourse.omok.data.`interface`.Dao
+
+class FakeOmokDao : Dao<OmokEntity> {
     private var id = 0L
     private val values = mutableMapOf<Long, OmokEntity>()
 
-    override fun save(omokEntity: OmokEntity): OmokEntity {
-        values[id++] = omokEntity
-        return omokEntity
+    override fun save(entity: OmokEntity): OmokEntity {
+        values[id++] = entity
+        return entity
     }
 
     override fun findAll(): List<OmokEntity> {
         return values.map { it.value }
     }
 
-    override fun findLast(): OmokEntity? {
+    override fun findLastOrNull(): OmokEntity? {
         return findAll().maxByOrNull { it.id }
     }
 
