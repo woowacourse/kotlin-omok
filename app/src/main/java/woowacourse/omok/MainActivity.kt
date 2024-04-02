@@ -82,15 +82,16 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
         board: TableLayout,
     ) {
-        when {
-            isOmok(putResult) -> {
-                val message = ResultHandler.handleResult(putResult, stone)
-                showWinnerMessage(view, board, message)
-                stone = BlackStone
-            }
+        stone =
+            when {
+                isOmok(putResult) -> {
+                    val message = ResultHandler.handleResult(putResult, stone)
+                    showWinnerMessage(view, board, message)
+                    BlackStone
+                }
 
-            else -> stone = stone.changeStone()
-        }
+                else -> stone.changeStone()
+            }
     }
 
     private fun imageView(stone: GoStone) =
