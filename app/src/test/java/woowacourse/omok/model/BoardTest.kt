@@ -3,6 +3,7 @@ package woowacourse.omok.model
 import RenjuRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 
 class BoardTest {
     private fun createBoard(
@@ -22,8 +23,11 @@ class BoardTest {
         val board = Board(stones, rule)
 
         // then
-        assertThat(board.width).isEqualTo(15)
-        assertThat(board.height).isEqualTo(15)
+        assertAll(
+            "오목판의 크기 확인",
+            { assertThat(board.width).isEqualTo(15) },
+            { assertThat(board.height).isEqualTo(15) },
+        )
     }
 
     @Test
@@ -34,8 +38,11 @@ class BoardTest {
         val newBoard = Board(stones, rule, 30, 30)
 
         // then
-        assertThat(newBoard.width).isEqualTo(30)
-        assertThat(newBoard.height).isEqualTo(30)
+        assertAll(
+            "오목판의 크기 확인",
+            { assertThat(newBoard.width).isEqualTo(30) },
+            { assertThat(newBoard.height).isEqualTo(30) },
+        )
     }
 
     @Test
