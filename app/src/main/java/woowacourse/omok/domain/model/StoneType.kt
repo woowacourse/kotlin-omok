@@ -6,8 +6,14 @@ enum class StoneType {
     EMPTY, ;
 
     companion object {
-        fun getStoneTypeByIndex(index: Int): StoneType {
-            return if (index % 2 == 0) BLACK else WHITE
+        fun getStoneTypeByName(name: String): StoneType {
+            return if (name == BLACK.name) {
+                BLACK
+            } else if (name == WHITE.name) {
+                WHITE
+            } else {
+                EMPTY
+            }
         }
     }
 }

@@ -7,6 +7,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import woowacourse.omok.domain.model.BlackTurn
+import woowacourse.omok.domain.model.WhiteTurn
 
 @RunWith(AndroidJUnit4::class)
 class OmokDaoTest {
@@ -24,7 +26,7 @@ class OmokDaoTest {
 
     @Test
     fun insertStone() {
-        val omokEntity = OmokEntity(0, 0)
+        val omokEntity = OmokEntity(BlackTurn().stoneType.name, 0, 0)
 
         omokDao.insertStone(omokEntity)
         val actual = omokDao.findAllStones()
@@ -41,8 +43,8 @@ class OmokDaoTest {
 
     @Test
     fun findAllStones() {
-        val omokEntity1 = OmokEntity(0, 0)
-        val omokEntity2 = OmokEntity(1, 1)
+        val omokEntity1 = OmokEntity(BlackTurn().stoneType.name, 0, 0)
+        val omokEntity2 = OmokEntity(WhiteTurn().stoneType.name, 1, 1)
 
         omokDao.insertStone(omokEntity1)
         omokDao.insertStone(omokEntity2)
@@ -54,8 +56,8 @@ class OmokDaoTest {
 
     @Test
     fun deleteAllStones() {
-        val omokEntity1 = OmokEntity(0, 0)
-        val omokEntity2 = OmokEntity(1, 1)
+        val omokEntity1 = OmokEntity(BlackTurn().stoneType.name, 0, 0)
+        val omokEntity2 = OmokEntity(WhiteTurn().stoneType.name, 1, 1)
 
         omokDao.insertStone(omokEntity1)
         omokDao.insertStone(omokEntity2)

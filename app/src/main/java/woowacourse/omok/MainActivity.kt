@@ -14,7 +14,7 @@ import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Point
 import woowacourse.omok.domain.model.StoneType
-import woowacourse.omok.domain.model.StoneType.Companion.getStoneTypeByIndex
+import woowacourse.omok.domain.model.StoneType.Companion.getStoneTypeByName
 import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_END
 import woowacourse.omok.domain.view.OutputView.MESSAGE_GAME_START
 import woowacourse.omok.domain.view.OutputView.MESSAGE_INVALID_POINT_INPUT
@@ -83,12 +83,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpBoardUi() {
         val stones = omokDao.findAllStones()
-        stones.withIndex().forEach { (index, stone) ->
+        stones.forEach { stone ->
             val point = Point(stone.pointX, stone.pointY)
             omokGame.updateTurn(omokGame.board.putStone(point, omokGame.turn, omokGame.ruleAdapter))
             omokGame.updateBeforePoint(point)
             val coordinate = (BOARD_SIZE - stone.pointY - 1) * BOARD_SIZE + stone.pointX
-            tableLayoutBoard[coordinate].setImageResource(getStoneImage(getStoneTypeByIndex(index)))
+            tableLayoutBoard[coordinate].setImageResource(getStoneImage(getStoneTypeByName(stone.stoneType)))
         }
     }
 
@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         displayMessage(generateTurnMessage(nextTurn, omokGame.beforePoint))
         if (omokGame.turn != nextTurn) {
             view.setImageResource(getStoneImage(omokGame.turn.stoneType))
-            omokDao.insertStone(OmokEntity(point.x, point.y))
+            omokDao.insertStone(OmokEntity(nextTurn.stoneType.name, point.x, point.y))
             omokGame.updateTurn(nextTurn)
         } else {
             displayMessage(MESSAGE_INVALID_POINT_INPUT)

@@ -5,6 +5,7 @@ object OmokContract {
     const val DATABASE_NAME = "Omok.db"
 
     const val TABLE_NAME = "omok"
+    const val STONE_TYPE = "stoneType"
     const val POINT_X = "pointX"
     const val POINT_Y = "pointY"
 }
