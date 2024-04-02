@@ -15,7 +15,7 @@ class OmokGame {
         var stone: GoStone = BlackStone
 
         do {
-            val resultState = stone.putStone(readPosition(stone))
+            val resultState = retryUntilSuccess { stone.putStone(readPosition(stone)) }
             drawBoard()
             ResultHandler.handleResult(resultState, stone)
             if (isOmok(resultState)) break
@@ -27,4 +27,12 @@ class OmokGame {
     private fun isRunningResult(resultState: PutResult) = resultState == PutResult.Running
 
     private fun isOmok(resultState: PutResult) = resultState == PutResult.OMOK
+
+    private fun <T> retryUntilSuccess(action: () -> T): T =
+        runCatching {
+            action()
+        }.getOrElse {
+            println(it.localizedMessage)
+            retryUntilSuccess(action)
+        }
 }
