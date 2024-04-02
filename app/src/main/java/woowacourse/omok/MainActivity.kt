@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeGameSetting(initialBoard: Board) {
-        val initialTurn = runCatching { Turn.determineTurn(initialBoard) }.getOrDefault(BlackTurn())
+        val initialTurn = Turn.determineTurn(initialBoard) ?: BlackTurn()
         omokGame = OmokGame(turn = initialTurn, board = initialBoard)
         displayMessage(generateTurnMessage(initialTurn))
     }

@@ -10,14 +10,14 @@ sealed class Turn {
     ): Turn
 
     companion object {
-        fun determineTurn(board: Board): Turn {
+        fun determineTurn(board: Board): Turn? {
             val isGameEnd = board.latestStone?.let { board.isWinCondition(it) } ?: false
             if (isGameEnd) return FinishedTurn(board.latestStone!!)
 
             return when (board.latestStone?.type) {
                 StoneType.BLACK -> WhiteTurn()
                 StoneType.WHITE -> BlackTurn()
-                StoneType.EMPTY -> throw IllegalStateException()
+                StoneType.EMPTY -> null
                 null -> BlackTurn()
             }
         }
