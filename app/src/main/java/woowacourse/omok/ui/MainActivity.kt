@@ -82,40 +82,23 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
             }
         }
     }
-//    private fun showGameSnackBar(message: String, action: ((String) -> Unit)? = null) {
-//        val snackBar = Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT)
-//        action?.let {
-//            snackBar.setAction(actionMessage) {
-//                resetViewTags()
-//                gameManager.replay()
-//            }
-//        }
-//        action()
-//        snackBar.show()
-//    }
 
     private fun drawDiff(board: Board) {
-        board.boardLayout.flatten().forEachIndexed { index, positionType ->
-            if (allCoordinateViews[index].tag == NOT_PLACED) {
-                allCoordinateViews[index].apply {
-                    setImageDrawable(
-                        when (positionType) {
-                            is CoordinateState.Placed -> {
-                                tag = PLACED
-                                when (positionType.turn) {
-                                    is Turn.Black -> blackStoneDrawable
-                                    is Turn.White -> whiteStoneDrawable
-                                }
+        board.boardLayout.flatten().forEachIndexed { index, coordinateState ->
+            allCoordinateViews[index].apply {
+                setImageDrawable(
+                    when (coordinateState) {
+                        is CoordinateState.Placed -> {
+                            tag = PLACED
+                            when (coordinateState.turn) {
+                                is Turn.Black -> blackStoneDrawable
+                                is Turn.White -> whiteStoneDrawable
                             }
-                            is CoordinateState.Forbidden -> {
-                                blockDrawable
-                            }
-                            is CoordinateState.Empty -> {
-                                null
-                            }
-                        },
-                    )
-                }
+                        }
+                        is CoordinateState.Forbidden -> blockDrawable
+                        is CoordinateState.Empty -> null
+                    },
+                )
             }
         }
     }
