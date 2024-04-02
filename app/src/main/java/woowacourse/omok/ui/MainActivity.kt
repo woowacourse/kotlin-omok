@@ -22,13 +22,13 @@ class MainActivity : AppCompatActivity(), GamePlayHandler {
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var allCoordinateViews: List<ImageView>
     private val blackStoneDrawable: Drawable? by lazy {
-        createVectorDrawable(applicationContext, R.drawable.black_stone)
+        createVectorDrawable(this, R.drawable.black_stone)
     }
     private val whiteStoneDrawable: Drawable? by lazy {
-        createVectorDrawable(applicationContext, R.drawable.white_stone)
+        createVectorDrawable(this, R.drawable.white_stone)
     }
     private val blockDrawable: Drawable? by lazy {
-        createVectorDrawable(applicationContext, R.drawable.block)
+        createVectorDrawable(this, R.drawable.block)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
