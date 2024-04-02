@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEachIndexed { index, view ->
-                val point = findPoint(index)
+                val point = Point.findPoint(index)
 
                 loadOmokBoard(stones, point, view)
 
@@ -82,13 +82,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun printStartGuide(outputView: OutputView) {
         outputView.printAlert("오목 게임을 시작합니다")
-    }
-
-    private fun findPoint(index: Int): Point {
-        val x = index % 15 + 1
-        val y = 15 - (index / 15)
-
-        return Point(x, y)
     }
 
     private fun loadOmokBoard(
