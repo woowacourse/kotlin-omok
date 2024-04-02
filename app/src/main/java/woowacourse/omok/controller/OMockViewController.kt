@@ -16,15 +16,10 @@ import woowacourse.omok.model.position.Row
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.view.OutputView
 
-class OMockViewController(private val context: Context) : OMockGame() {
+class OMockViewController : OMockGame() {
     private var lastPickImage: ImageView? = null
     private val blackPlayer = BlackPlayer()
     private val whitePlayer = WhitePlayer()
-
-    override fun executePlayerPickFailStep(throwable: Throwable) {
-        OutputView.outputFailureMessage(throwable)
-        Toast.makeText(context, throwable.message, Toast.LENGTH_LONG).show()
-    }
 
     override fun executePlayerSuccessStep(
         playerStone: Stone,
@@ -36,19 +31,38 @@ class OMockViewController(private val context: Context) : OMockGame() {
     fun setBoard(
         view: ImageView,
         coordinate: Pair<Int, Int>,
-    ) {
+    ): GameState {
         val playerPick =
             Column.transformIndex(coordinate.first) to Row.transformIndex(coordinate.second)
         setLastPickImage(view)
         OutputView.outputBoardForm()
-        processUserPick(playerPick)
+        return processUserPick(playerPick)
     }
 
-    private fun processUserPick(playerPick: Pair<String, String>) {
-        when (board.getTurn()) {
-            GameTurn.BLACK_TURN -> userTurnFlow(blackPlayer, playerPick)
-            GameTurn.WHITE_TURN -> userTurnFlow(whitePlayer, playerPick)
-            GameTurn.FINISHED -> finishedGameFlow()
+    private fun processUserPick(playerPick: Pair<String, String>): GameState {
+        return when (board.getTurn()) {
+            GameTurn.BLACK_TURN -> userPickStateFlow(blackPlayer,userTurnFlow(blackPlayer, playerPick))
+
+            GameTurn.WHITE_TURN -> userPickStateFlow(whitePlayer,userTurnFlow(whitePlayer, playerPick))
+
+            GameTurn.FINISHED -> GameState.Finish
+        }
+    }
+
+    private fun userPickStateFlow(
+        player: Player,
+        gameState: GameState.LoadStone,
+    ): GameState {
+        return when (gameState) {
+            is GameState.LoadStone.Success -> {
+                println("GameState.LoadStone.Success")
+                return start(player,gameState.stone)
+            }
+
+            is GameState.LoadStone.Failure -> {
+                println("GameState.LoadStone.Failure")
+                gameState
+            }
         }
     }
 
@@ -69,20 +83,15 @@ class OMockViewController(private val context: Context) : OMockGame() {
     private fun userTurnFlow(
         player: Player,
         playerPick: Pair<String, String>,
-    ) {
+    ): GameState.LoadStone {
         OutputView.outputUserTurn(player)
         OutputView.outputLastStone(player.stoneHistory.lastOrNull())
-        val playerStone =
-            player.turn {
-                playerPick
-            }
-        when (playerStone) {
-            is GameState.LoadStone.Success -> start(player = player, playerStone.stone)
-            is GameState.LoadStone.Failure -> executePlayerPickFailStep(playerStone.throwable)
+        return player.turn {
+            playerPick
         }
     }
 
-    private fun finishedGameFlow() {
+    fun finishedGameFlow(context: Context) {
         OutputView.outputSuccessOMock()
         Toast.makeText(context, OutputView.OUTPUT_SUCCESS_MESSAGE, Toast.LENGTH_LONG).show()
     }

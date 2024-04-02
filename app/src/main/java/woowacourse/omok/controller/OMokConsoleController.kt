@@ -9,7 +9,6 @@ import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.view.InputView
 import woowacourse.omok.view.LocalBoard
 import woowacourse.omok.view.OutputView.outputBoardForm
-import woowacourse.omok.view.OutputView.outputFailureMessage
 import woowacourse.omok.view.OutputView.outputGameStart
 import woowacourse.omok.view.OutputView.outputLastStone
 import woowacourse.omok.view.OutputView.outputSuccessOMock
@@ -26,10 +25,6 @@ class OMokConsoleController : OMockGame() {
     ) {
         LocalBoard.setBoardIcon(playerStone, player)
         player.stoneHistory.add(playerStone)
-    }
-
-    override fun executePlayerPickFailStep(throwable: Throwable) {
-        outputFailureMessage(throwable)
     }
 
     fun run() {

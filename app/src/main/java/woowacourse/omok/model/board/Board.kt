@@ -52,13 +52,13 @@ class Board(val stoneStates: List<ColumnStates>) {
         fun from(): Board {
             return Board(
                 stoneStates =
-                    Stone.stones.chunked(MAX_ROW).map { stones ->
-                        ColumnStates(
-                            stones.map {
-                                Clear(it)
-                            }.toMutableList(),
-                        )
-                    },
+                Stone.stones.chunked(MAX_ROW).map { stones ->
+                    ColumnStates(
+                        stones.map {
+                            Clear(it)
+                        }.toMutableList(),
+                    )
+                },
             )
         }
     }
