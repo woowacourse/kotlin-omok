@@ -25,14 +25,12 @@ class NewRoomActivity : AppCompatActivity() {
     }
 
     private fun initializeGameNameInput() {
-        gameNameInput =
-            findViewById<EditText>(R.id.et_new_game).apply {
-                addTextChangedListener(
-                    onTextChanged = { currentText, _, _, _ ->
-                        startButton.isClickable = currentText?.length in RANGE_ROOM_NAME_LENGTH
-                    },
-                )
-            }
+        gameNameInput = findViewById(R.id.et_new_game)
+        gameNameInput.addTextChangedListener(
+            onTextChanged = { currentText, _, _, _ ->
+                startButton.isClickable = currentText?.length in RANGE_ROOM_NAME_LENGTH
+            },
+        )
     }
 
     private fun initializeStartButton() {
@@ -47,7 +45,7 @@ class NewRoomActivity : AppCompatActivity() {
     }
 
     private fun generateGameStartIntent(generationResult: Room): Intent {
-        return Intent(this, OmokGameActivity::class.java).apply {
+        return Intent(this, OmokGameActivity::class.java).run {
             putExtra(GAME_TITLE, generationResult.title)
             putExtra(GAME_ID, generationResult.id)
         }
