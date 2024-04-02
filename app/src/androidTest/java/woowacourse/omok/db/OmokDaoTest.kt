@@ -6,7 +6,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
-import woowacourse.omok.model.Color
 
 @RunWith(AndroidJUnit4::class)
 class OmokDaoTest {
@@ -26,7 +25,7 @@ class OmokDaoTest {
         val actual = omokDao.insertOmok(entity)
 
         // then
-        assertThat(actual.stoneColor).isEqualTo(Color.BLACK.name)
+        assertThat(actual.stoneColor).isEqualTo("BLACK")
         assertThat(actual.positionX).isEqualTo(10)
         assertThat(actual.positionY).isEqualTo(4)
     }
@@ -44,8 +43,8 @@ class OmokDaoTest {
 
         // then
         assertThat(actual.size).isEqualTo(2)
-        assertThat(actual[0].stoneColor).isEqualTo(Color.BLACK.name)
-        assertThat(actual[1].stoneColor).isEqualTo(Color.WHITE.name)
+        assertThat(actual[0].stoneColor).isEqualTo("BLACK")
+        assertThat(actual[1].stoneColor).isEqualTo("WHITE")
         assertThat(actual[0].positionX).isEqualTo(10)
         assertThat(actual[1].positionX).isEqualTo(5)
         assertThat(actual[0].positionY).isEqualTo(4)
