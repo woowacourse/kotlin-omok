@@ -22,6 +22,10 @@ class Board(private val _board: MutableMap<Position, Stone> = initBoard()) {
         _board[position] = player.stone
     }
 
+    fun place(stonePosition: StonePosition) {
+        _board[stonePosition.position] = stonePosition.stone
+    }
+
     companion object {
         private fun initBoard() =
             INDEX_RANGE.flatMap { row ->

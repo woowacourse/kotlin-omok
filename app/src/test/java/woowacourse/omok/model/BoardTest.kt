@@ -8,6 +8,7 @@ import woowacourse.omok.domain.model.ContinualStonesCondition
 import woowacourse.omok.domain.model.Player
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
+import woowacourse.omok.domain.model.StonePosition
 import woowacourse.omok.domain.model.rule.ContinualStonesStandard
 import woowacourse.omok.domain.model.rule.ForbiddenRules
 import woowacourse.omok.domain.model.rule.RuleAdapter
@@ -34,6 +35,14 @@ class BoardTest {
     @Test
     fun `오목판에 돌을 놓는다`() {
         emptyBoard.place(Position(3, 3), player)
+
+        val actual = emptyBoard.find(Position(3, 3))
+        assertThat(actual).isEqualTo(playerStone)
+    }
+
+    @Test
+    fun `오목판에 돌을 놓는다2`() {
+        emptyBoard.place(StonePosition(Position(3, 3), playerStone))
 
         val actual = emptyBoard.find(Position(3, 3))
         assertThat(actual).isEqualTo(playerStone)
