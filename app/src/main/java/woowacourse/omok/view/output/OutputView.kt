@@ -1,9 +1,10 @@
 package woowacourse.omok.view.output
 
-import woowacourse.omok.model.board.Board
-
 interface OutputView {
-    fun printTurn(board: Board)
+    fun printTurn(
+        stoneColor: String?,
+        point: Pair<Int, Int>?,
+    )
 
     fun printWinner(stoneColor: String?)
 

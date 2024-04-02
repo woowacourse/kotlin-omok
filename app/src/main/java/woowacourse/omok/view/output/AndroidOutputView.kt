@@ -2,14 +2,18 @@ package woowacourse.omok.view.output
 
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
-import woowacourse.omok.model.board.Board
 
 class AndroidOutputView(private val view: View) : OutputView {
-    override fun printTurn(board: Board) {
-        val previousStone = board.previousStone()
+    override fun printTurn(
+        stoneColor: String?,
+        point: Pair<Int, Int>?,
+    ) {
+        val (x, y) = point ?: return println("")
+        val xAlphabet = intToAlphabet(x - 1)
+
         Snackbar.make(
             view,
-            "${previousStone?.stoneColor}의 차례입니다.",
+            "${stoneColor}의 차례입니다. (마지막 돌의 위치: ${xAlphabet}$y)",
             Snackbar.LENGTH_SHORT,
         ).show()
     }
@@ -25,4 +29,6 @@ class AndroidOutputView(private val view: View) : OutputView {
     override fun printAlert(message: String) {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
     }
+
+    private fun intToAlphabet(num: Int): Char = (num + 'A'.code).toChar()
 }

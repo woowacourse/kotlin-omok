@@ -1,15 +1,14 @@
 package woowacourse.omok.view.output
 
 import woowacourse.omok.model.board.Board
-import woowacourse.omok.model.entity.Stone
-import woowacourse.omok.model.entity.StoneColor
 
 class ConsoleOutputView : OutputView {
-    override fun printTurn(board: Board) {
-        val omokBoard = buildOmokBoard(board)
-        println(omokBoard)
-        printTurnGuide(board.lastStoneColor())
-        printPreviousPoint(board.previousStone())
+    override fun printTurn(
+        stoneColor: String?,
+        point: Pair<Int, Int>?,
+    ) {
+        printTurnGuide(stoneColor)
+        printPreviousPoint(point)
     }
 
     private fun printTurnGuide(stoneColor: String?) = print("${getColorString(stoneColor)}의 차례입니다.")
@@ -18,18 +17,7 @@ class ConsoleOutputView : OutputView {
 
     override fun printAlert(message: String) = println(message)
 
-    private fun getColorString(color: String?): String = if (color == "BLACK") "흑" else "백"
-
-    private fun printPreviousPoint(nullableStone: Stone?) {
-        val stone = nullableStone ?: return println("")
-        val (x, y) = stone.point
-        val xAlphabet = intToAlphabet(x - 1)
-        println("(마지막 돌의 위치: ${xAlphabet}$y)")
-    }
-
-    private fun intToAlphabet(num: Int): Char = (num + 'A'.code).toChar()
-
-    private fun buildOmokBoard(board: Board): String {
+    fun printOmokBoard(board: Board) {
         println()
         val boardMap =
             StringBuilder(
@@ -53,14 +41,24 @@ class ConsoleOutputView : OutputView {
                 """.trimIndent(),
             )
         board.stones.forEach {
-            val stone = if (it.stoneColor == StoneColor.WHITE) '○' else '●'
+            val stone = if (it.stoneColor.name == "WHITE") '○' else '●'
             val pointX = (it.point.x) * BOARD_INTERVAL
             val pointY = BOARD_LENGTH - it.point.y
             val idx = (BOARD_LENGTH * BOARD_INTERVAL + BOARD_EMPTY_INTERVAL) * pointY + pointX
             boardMap.setCharAt(idx, stone)
         }
-        return boardMap.toString()
+        println(boardMap.toString())
     }
+
+    private fun getColorString(color: String?): String = if (color == "BLACK") "흑" else "백"
+
+    private fun printPreviousPoint(point: Pair<Int, Int>?) {
+        val (x, y) = point ?: return println("")
+        val xAlphabet = intToAlphabet(x - 1)
+        println("(마지막 돌의 위치: ${xAlphabet}$y)")
+    }
+
+    private fun intToAlphabet(num: Int): Char = (num + 'A'.code).toChar()
 
     companion object {
         private const val BOARD_INTERVAL = 3
