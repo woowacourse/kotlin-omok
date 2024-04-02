@@ -15,10 +15,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         binding = initializeViewBinding()
         setContentView(binding.root)
 
-        setup()
+        onCreateSetup()
     }
 
-    abstract fun setup()
+    abstract fun onCreateSetup()
 
     protected fun showSnackbar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()

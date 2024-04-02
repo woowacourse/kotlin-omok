@@ -21,7 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun initializeViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
-    override fun setup() {
+    override fun onCreateSetup() {
         initializeGameBoard()
         loadGameFromDatabase()
         setImageViewsClickListener()
