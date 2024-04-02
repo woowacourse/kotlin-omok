@@ -22,10 +22,9 @@ class BlackStoneTest {
         stone.putStone(Position.of('A', 2))
         stone.putStone(Position.of('A', 3))
         stone.putStone(Position.of('A', 4))
-        stone.putStone(Position.of('A', 5))
 
-        val actual = stone.findOmok(Position.of('A', 5))
-        val expected = true
+        val actual = stone.putStone(Position.of('A', 5))
+        val expected = PutResult.OMOK
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -37,10 +36,9 @@ class BlackStoneTest {
         stone.putStone(Position.of('A', 2))
         stone.putStone(Position.of('A', 3))
         stone.putStone(Position.of('A', 4))
-        stone.putStone(Position.of('A', 6))
 
-        val actual = stone.findOmok(Position.of('A', 6))
-        val expected = false
+        val actual = stone.putStone(Position.of('A', 6))
+        val expected = PutResult.Running
 
         assertThat(actual).isEqualTo(expected)
     }

@@ -3,6 +3,7 @@ package omok.model.board
 import omok.model.position.Position
 import omok.model.result.PutResult
 import omok.model.rule.LenjuRuleChecker
+import omok.model.rule.OmokChecker
 import omok.model.stone.StoneType
 
 object Board {
@@ -12,18 +13,28 @@ object Board {
     private lateinit var lastPosition: Position
 
     fun putStone(
-        row: Int,
-        column: Int,
+        position: Position,
         stoneType: StoneType,
     ): PutResult {
-        if (isAlreadyPlacedPosition(row, column)) return PutResult.Failure
+        if (isAlreadyPlacedPosition(position.column, position.row)) return PutResult.Failure
 
-        val lenjuRuleResult = checkRenjuRule(column, row)
+        val lenjuRuleResult = checkRenjuRule(position.row, position.column)
         if (lenjuRuleResult == PutResult.Running) {
-            board[row][column] = stoneType
+            board[position.column][position.row] = stoneType
+            return findOmok(stoneType, position)
         }
         return lenjuRuleResult
     }
+
+    private fun findOmok(
+        stoneType: StoneType,
+        position: Position,
+    ): PutResult =
+        if (getStoneType(position.column, position.row) != stoneType) {
+            PutResult.Running
+        } else {
+            OmokChecker.findOmok(position, stoneType)
+        }
 
     private fun isAlreadyPlacedPosition(
         row: Int,

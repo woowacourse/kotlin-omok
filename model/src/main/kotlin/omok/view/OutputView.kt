@@ -1,7 +1,6 @@
 package omok.view
 
 import omok.model.board.Board
-import omok.model.stone.GoStone
 import omok.model.stone.StoneType
 
 class OutputView {
@@ -17,15 +16,6 @@ class OutputView {
             printBoard(row)
         }
         printRowValue()
-    }
-
-    fun printWinner(stone: GoStone) {
-        lineBreak()
-        if (stone.stoneType == StoneType.BLACK_STONE) {
-            println(BLACK_STONE_WIN_MESSAGE)
-        } else {
-            println(WHITE_STONE_WIN_MESSAGE)
-        }
     }
 
     private fun printBoard(row: Int) {

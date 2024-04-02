@@ -3,6 +3,7 @@ package omok.model.rule
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.position.RelativeDirection
+import omok.model.result.PutResult
 import omok.model.stone.StoneType
 
 object OmokChecker {
@@ -13,12 +14,19 @@ object OmokChecker {
     fun findOmok(
         lastPosition: Position,
         stoneType: StoneType,
-    ): Boolean {
+    ): PutResult {
         val directionType = RelativeDirection.getRelativeDirections()
-        return directionType.any { direction ->
-            checkWinningPosition(lastPosition, direction, stoneType)
+        if (findOmokAllDirection(directionType, lastPosition, stoneType)) {
+            return PutResult.OMOK
         }
+        return PutResult.Running
     }
+
+    private fun findOmokAllDirection(
+        directionType: List<RelativeDirection>,
+        lastPosition: Position,
+        stoneType: StoneType,
+    ) = directionType.any { direction -> checkWinningPosition(lastPosition, direction, stoneType) }
 
     private fun checkWinningPosition(
         lastPosition: Position,

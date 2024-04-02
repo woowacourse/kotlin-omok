@@ -11,32 +11,20 @@ class OmokGame {
     fun start(
         readPosition: (GoStone) -> Position,
         drawBoard: () -> Unit,
-        printWinner: (GoStone) -> Unit,
     ) {
         var stone: GoStone = BlackStone
 
         do {
-            var isOmok = false
-            val position = readPosition(stone)
-            val resultState = stone.putStone(position)
-            ResultHandler.handleResult(resultState)
-            if (resultState != PutResult.Running) {
-                continue
-            }
-            isOmok = stone.findOmok(position)
-            showWinner(isOmok, stone, printWinner)
-            stone = stone.changeStone()
+            val resultState = stone.putStone(readPosition(stone))
             drawBoard()
-        } while (!isOmok)
+            ResultHandler.handleResult(resultState, stone)
+            if (isOmok(resultState)) break
+            if (!isRunningResult(resultState)) continue
+            stone = stone.changeStone()
+        } while (true)
     }
 
-    private fun showWinner(
-        isOmok: Boolean,
-        stone: GoStone,
-        printWinner: (GoStone) -> Unit,
-    ) {
-        if (isOmok) {
-            printWinner(stone)
-        }
-    }
+    private fun isRunningResult(resultState: PutResult) = resultState == PutResult.Running
+
+    private fun isOmok(resultState: PutResult) = resultState == PutResult.OMOK
 }
