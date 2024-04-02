@@ -1,7 +1,9 @@
 package woowacourse.omok.domain.model
 
-class OmokGame(private val boardSize: Int) {
-    var board: Board = Board(boardSize)
+import woowacourse.omok.db.OmokEntity
+
+class OmokGame {
+    var board: Board = Board()
         private set
     var ruleAdapter: RuleAdapter = RuleAdapter(board)
         private set
@@ -12,8 +14,16 @@ class OmokGame(private val boardSize: Int) {
     var beforePoint: Point? = null
         private set
 
+    fun initBoard(omokEntities: List<OmokEntity>) {
+        val lastEntity = omokEntities.last()
+        val point = Point(lastEntity.pointX, lastEntity.pointY)
+        board.initializeTable(omokEntities.dropLast(1))
+        updateTurn(board.putStone(point, judgeTurn(lastEntity), ruleAdapter))
+        updateBeforePoint(point)
+    }
+
     fun gameReSet() {
-        board = Board(boardSize)
+        board = Board()
         ruleAdapter = RuleAdapter(board)
         turn = BlackTurn()
         gameState = true
@@ -30,5 +40,17 @@ class OmokGame(private val boardSize: Int) {
 
     fun updateBeforePoint(_beforePoint: Point) {
         beforePoint = _beforePoint
+    }
+
+    private fun judgeTurn(omokEntity: OmokEntity): Turn {
+        return when (omokEntity.stoneType) {
+            BlackTurn().stoneType.name -> WhiteTurn()
+            WhiteTurn().stoneType.name -> BlackTurn()
+            else -> FinishedTurn(turn.stoneType)
+        }
+    }
+
+    companion object {
+        const val BOARD_SIZE = 15
     }
 }

@@ -84,10 +84,10 @@ object OutputView {
     }
 
     fun printBoard(board: Board) {
-        boardTable = generateBoardTable(board.size)
-        boardForm = generateBoardForm(board.size)
+        boardTable = generateBoardTable(board.table.size)
+        boardForm = generateBoardForm(board.table.size)
 
-        repeat(board.size) {
+        repeat(board.table.size) {
             println(
                 boardForm[it].format(
                     *generatePrintedLine(

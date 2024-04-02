@@ -1,10 +1,23 @@
 package woowacourse.omok.domain.model
 
-class Board(val size: Int) {
-    private val table: List<MutableList<StoneType>> =
-        List(size) {
-            MutableList(size) { StoneType.EMPTY }
+import woowacourse.omok.db.OmokEntity
+import woowacourse.omok.domain.model.OmokGame.Companion.BOARD_SIZE
+import woowacourse.omok.domain.model.StoneType.Companion.getStoneTypeByName
+
+class Board {
+    val table: List<MutableList<StoneType>> =
+        List(BOARD_SIZE) {
+            MutableList(BOARD_SIZE) {
+                StoneType.EMPTY
+            }
         }
+
+    fun initializeTable(omokEntities: List<OmokEntity>) {
+        omokEntities.forEach { omokEntity ->
+            table[omokEntity.pointY][omokEntity.pointX] =
+                getStoneTypeByName(omokEntity.stoneType)
+        }
+    }
 
     fun putStone(
         point: Point,
@@ -18,7 +31,7 @@ class Board(val size: Int) {
         return nextTurn
     }
 
-    fun getBoardLine(index: Int): List<StoneType> = table[size - index]
+    fun getBoardLine(index: Int): List<StoneType> = table[BOARD_SIZE - index]
 
     fun getBoardPoint(point: Point): StoneType = table[point.y][point.x]
 

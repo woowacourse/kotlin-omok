@@ -12,7 +12,7 @@ object InputView {
         val x: Int = (input[0].uppercaseChar()) - 'A'
         val y: Int = input.substring(1).toIntOrNull()?.let { it - 1 } ?: -1
         val point = Point(x, y)
-        require(point.x in MIN_POINT until board.size && point.y in MIN_POINT until board.size)
+        require(point.x in MIN_POINT until board.table.size && point.y in MIN_POINT until board.table.size)
         return point
     }
 }

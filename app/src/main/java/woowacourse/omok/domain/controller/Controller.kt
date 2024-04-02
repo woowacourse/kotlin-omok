@@ -9,7 +9,7 @@ import woowacourse.omok.domain.view.InputView
 import woowacourse.omok.domain.view.OutputView
 
 class Controller {
-    private val omokGame: OmokGame = OmokGame(BOARD_SIZE)
+    private val omokGame: OmokGame = OmokGame()
 
     fun play() {
         gameStart()
@@ -38,9 +38,5 @@ class Controller {
             OutputView.printInvalidPointInputMessage()
         }
         return inputPoint(board, turn)
-    }
-
-    companion object {
-        private const val BOARD_SIZE = 15
     }
 }

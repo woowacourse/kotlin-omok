@@ -14,7 +14,7 @@ class RenjuRuleTest {
 
     @BeforeEach
     fun setUp() {
-        board = Board(15)
+        board = Board(15, omokEntities)
         ruleAdapter = RuleAdapter(board)
     }
 

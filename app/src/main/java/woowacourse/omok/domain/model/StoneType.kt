@@ -7,12 +7,10 @@ enum class StoneType {
 
     companion object {
         fun getStoneTypeByName(name: String): StoneType {
-            return if (name == BLACK.name) {
-                BLACK
-            } else if (name == WHITE.name) {
-                WHITE
-            } else {
-                EMPTY
+            return when (name) {
+                BLACK.name -> BLACK
+                WHITE.name -> WHITE
+                else -> EMPTY
             }
         }
     }

@@ -12,6 +12,7 @@ import woowacourse.omok.db.OmokDao
 import woowacourse.omok.db.OmokEntity
 import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.OmokGame
+import woowacourse.omok.domain.model.OmokGame.Companion.BOARD_SIZE
 import woowacourse.omok.domain.model.Point
 import woowacourse.omok.domain.model.StoneType
 import woowacourse.omok.domain.model.StoneType.Companion.getStoneTypeByName
@@ -25,7 +26,8 @@ import woowacourse.omok.domain.view.OutputView.generateStoneTypeMessage
 import woowacourse.omok.domain.view.OutputView.generateTurnMessage
 
 class MainActivity : AppCompatActivity() {
-    private val omokGame: OmokGame = OmokGame(BOARD_SIZE)
+    private val omokGame: OmokGame = OmokGame()
+    private var toast: Toast? = null
     private val omokDao: OmokDao by lazy { OmokDao(this) }
     private val tableLayoutBoard: List<ImageView> by lazy {
         findViewById<TableLayout>(R.id.board)
@@ -36,7 +38,6 @@ class MainActivity : AppCompatActivity() {
             }
             .toList()
     }
-    private var toast: Toast? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
     private fun gameSetting() {
         setUpTableLayoutBoard()
         setUpRestartButton()
-        setUpBoardUi()
+        setUpBoard()
         setUpGameState()
     }
 
@@ -81,14 +82,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpBoardUi() {
-        val stones = omokDao.findAllStones()
-        stones.forEach { stone ->
-            val point = Point(stone.pointX, stone.pointY)
-            omokGame.updateTurn(omokGame.board.putStone(point, omokGame.turn, omokGame.ruleAdapter))
-            omokGame.updateBeforePoint(point)
-            val coordinate = (BOARD_SIZE - stone.pointY - 1) * BOARD_SIZE + stone.pointX
-            tableLayoutBoard[coordinate].setImageResource(getStoneImage(getStoneTypeByName(stone.stoneType)))
+    private fun setUpBoard() {
+        val omokEntities = omokDao.findAllStones()
+        if (omokEntities.isNotEmpty()) {
+            omokGame.initBoard(omokEntities)
+            omokEntities.forEach { omokEntity ->
+                val index = (BOARD_SIZE - omokEntity.pointY - 1) * BOARD_SIZE + omokEntity.pointX
+                tableLayoutBoard[index].setImageResource(getStoneImage(getStoneTypeByName(omokEntity.stoneType)))
+            }
         }
     }
 
@@ -124,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         displayMessage(generateTurnMessage(nextTurn, omokGame.beforePoint))
         if (omokGame.turn != nextTurn) {
             view.setImageResource(getStoneImage(omokGame.turn.stoneType))
-            omokDao.insertStone(OmokEntity(nextTurn.stoneType.name, point.x, point.y))
+            omokDao.insertStone(OmokEntity(omokGame.turn.stoneType.name, point.x, point.y))
             omokGame.updateTurn(nextTurn)
         } else {
             displayMessage(MESSAGE_INVALID_POINT_INPUT)
@@ -151,9 +152,5 @@ class MainActivity : AppCompatActivity() {
         toast?.cancel()
         toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
         toast?.show()
-    }
-
-    companion object {
-        private const val BOARD_SIZE = 15
     }
 }
