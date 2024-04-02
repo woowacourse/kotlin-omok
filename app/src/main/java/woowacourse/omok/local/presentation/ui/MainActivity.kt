@@ -52,12 +52,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
         allImageViews.forEachIndexed { index, view ->
             view.setOnClickListener {
-                handleUserInput(index)
+                placeStoneAtTouchedCoordinate(index)
             }
         }
     }
     
-    private fun handleUserInput(index: Int) {
+    private fun placeStoneAtTouchedCoordinate(index: Int) {
         if (gameManager.isRunning()) {
             val coordinate = index.toCoordinate()
             playTurn { coordinate }
