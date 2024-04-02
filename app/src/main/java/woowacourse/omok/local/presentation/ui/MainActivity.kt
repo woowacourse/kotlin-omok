@@ -12,11 +12,11 @@ import woowacourse.omok.local.db.StoneDaoImpl
 import woowacourse.omok.local.presentation.base.BaseActivity
 import woowacourse.omok.local.presentation.model.AppGameState
 import woowacourse.omok.local.model.StoneEntity
+import woowacourse.omok.local.presentation.model.AppGameManager
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var allImageViews: List<ImageView>
-    private val board = Board()
-    private var gameState: AppGameState = AppGameState.Running.BlackTurn(board)
+    private val gameManager = AppGameManager()
     private val stoneDao = StoneDaoImpl(this)
 
     override fun initializeViewBinding() = ActivityMainBinding.inflate(layoutInflater)
@@ -42,15 +42,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         stones.forEach { stone ->
             playTurn { Coordinate(stone.x, stone.y) }
         }
-        printBoard(board)
+        printBoard(gameManager.board)
     }
 
     private fun setImageViewsClickListener() {
         binding.restartButton.setOnClickListener {
             stoneDao.drop()
-            board.clear()
-            gameState = AppGameState.Running.BlackTurn(board)
-            printBoard(board)
+            gameManager.restartGame()
+            printBoard(gameManager.board)
         }
         allImageViews.forEachIndexed { index, view ->
             view.setOnClickListener {
@@ -60,35 +59,32 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun handleUserInput(index: Int) {
-        if (isRunning()) {
+        if (gameManager.isRunning()) {
             val coordinate = index.toCoordinate()
             playTurn { coordinate }
         }
-        if (gameState is AppGameState.Finish) {
+        if (gameManager.isFinish()){
             showSnackbar(getString(R.string.finish_turn))
             return
         }
     }
-
+    
     private fun playTurn(onCoordinate: () -> Coordinate) {
-        if (isRunning()) {
+        if (gameManager.isRunning()) {
             runCatching {
-                val lastCoordinate = onCoordinate()
-                gameState = gameState.updateState { lastCoordinate }
-
-                if (gameState is AppGameState.Finish || gameState is AppGameState.Running) {
-                    saveStoneToDatabase(lastCoordinate)
+                gameManager.playTurn(onCoordinate)
+                
+                if (gameManager.isFinish() || gameManager.isRunning()) {
+                    saveStoneToDatabase(onCoordinate())
                 }
-
-                printBoard(board)
-                printRunningInfo(gameState)
+                
+                printBoard(gameManager.board)
+                printRunningInfo(gameManager.gameState)
             }.onFailure { throwable ->
                 showSnackbar(getString(R.string.error_message, throwable.message))
             }
         }
     }
-
-    private fun isRunning() = gameState is AppGameState.Running
 
     private fun saveStoneToDatabase(coordinate: Coordinate) {
         val stoneEntity = StoneEntity(0L, coordinate.x, coordinate.y)
