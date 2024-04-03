@@ -1,11 +1,8 @@
 package woowacourse.omok
 
-import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TableRow
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import woowacourse.omok.data.OmokDataStoreImpl
 import woowacourse.omok.data.adapter.OmokEntityAdapter
@@ -18,20 +15,20 @@ import woowacourse.omok.model.game.OmokGame
 import woowacourse.omok.model.game.OmokPlayers
 import woowacourse.omok.model.game.PlaceType
 import woowacourse.omok.model.game.TurnHistory
+import woowacourse.omok.ui.BaseActivity
 import woowacourse.omok.ui.message
 import woowacourse.omok.ui.stoneImage
 
-class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), FinishAction {
-    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+class MainActivity(private val boardSize: Int = 15) : BaseActivity<ActivityMainBinding>(), FinishAction {
     private val omokDataStore: OmokDataStore by lazy { OmokDataStoreImpl(this) }
     private lateinit var omokGame: OmokGame
     private var isFinish = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+    override fun onInit() {
         initializeUI()
     }
+
+    override fun viewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     private fun initializeUI() {
         val omokEntities = omokDataStore.omokEntities()
@@ -95,10 +92,6 @@ class MainActivity(private val boardSize: Int = 15) : AppCompatActivity(), Finis
         omokDataStore.add(position, placeType.stone)
         stoneImageView.setImageResource(placeType.stone.stoneImage())
         setResultText()
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun restartGame() {
