@@ -26,9 +26,7 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(
     companion object {
         const val CREATE_QUERY =
             "CREATE TABLE IF NOT EXISTS ${OmokContract.TABLE_NAME} (" +
-                "${OmokContract.ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "${OmokContract.ROW} INTEGER NOT NULL," +
-                "${OmokContract.COL} INTEGER NOT NULL," +
+                "${OmokContract.INDEX} INTEGER PRIMARY KEY NOT NULL," +
                 "${OmokContract.COLOR} TEXT NOT NULL)"
 
         const val DROP_QUERY = "DROP TABLE IF EXISTS ${OmokContract.TABLE_NAME}"

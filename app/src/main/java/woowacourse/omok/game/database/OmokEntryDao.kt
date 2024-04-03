@@ -10,17 +10,15 @@ class OmokEntryDao(private val context: Context) {
 
     fun save(entry: OmokEntry): OmokEntry {
         val db = dbHelper.writableDatabase
-        val id =
-            db.insert(
-                OmokContract.TABLE_NAME,
-                null,
-                contentValuesOf(
-                    OmokContract.ROW to entry.row,
-                    OmokContract.COL to entry.col,
-                    OmokContract.COLOR to entry.color,
-                ),
-            )
-        return entry.copy(id = id)
+        db.insert(
+            OmokContract.TABLE_NAME,
+            null,
+            contentValuesOf(
+                OmokContract.INDEX to entry.index,
+                OmokContract.COLOR to entry.color,
+            ),
+        )
+        return entry.copy()
     }
 
     fun findAll(): List<OmokEntry> {
@@ -28,17 +26,15 @@ class OmokEntryDao(private val context: Context) {
         val cursor =
             db.query(
                 OmokContract.TABLE_NAME,
-                arrayOf(OmokContract.ID, OmokContract.ROW, OmokContract.COL, OmokContract.COLOR),
+                arrayOf(OmokContract.INDEX, OmokContract.COLOR),
             )
 
         val entries = mutableListOf<OmokEntry>()
 
         while (cursor.moveToNext()) {
-            val id = cursor.getLong(cursor.getColumnIndexOrThrow(OmokContract.ID))
-            val row = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.ROW))
-            val col = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COL))
+            val index = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.INDEX))
             val color = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLOR))
-            entries.add(OmokEntry(id, row, col, color))
+            entries.add(OmokEntry(index, color))
         }
 
         cursor.close()
