@@ -20,8 +20,4 @@ data class Turn(private var turn: Color? = Color.WHITE) {
     }
 
     fun color(): Color = turn!!
-
-    fun isBlack(): Boolean = turn!!.isBlack()
-
-    fun isWhite(): Boolean = turn!!.isWhite()
 }
