@@ -91,7 +91,7 @@ class MainActivity(private val boardSize: Int = 15) : BaseActivity<ActivityMainB
         }
         omokDataStore.add(position, placeType.stone)
         stoneImageView.setImageResource(placeType.stone.stoneImage())
-        setResultText()
+        if (!isFinish) setResultText()
     }
 
     private fun restartGame() {

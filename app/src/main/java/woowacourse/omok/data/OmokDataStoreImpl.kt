@@ -11,7 +11,7 @@ import woowacourse.omok.model.board.Stone
 class OmokDataStoreImpl(
     context: Context,
     private val omokDao: Dao<OmokEntity> = OmokDao(context)
-): OmokDataStore {
+) : OmokDataStore {
     private val omoks = mutableListOf<OmokEntity>()
 
     override fun add(position: Position, stone: Stone) {
@@ -24,7 +24,10 @@ class OmokDataStoreImpl(
     }
 
     override fun save(isFinish: Boolean) {
-        if (isFinish) return
+        if (isFinish) {
+            omokDao.deleteAll()
+            return
+        }
         omokDao.saveAll(omoks)
     }
 
