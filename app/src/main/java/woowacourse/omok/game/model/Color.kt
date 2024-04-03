@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.game.model
 
 enum class Color {
     BLACK,
@@ -7,4 +7,4 @@ enum class Color {
 
 fun Color.isWhite(): Boolean = this == Color.WHITE
 
-fun Color.isBLACK(): Boolean = this == Color.BLACK
+fun Color.isBlack(): Boolean = this == Color.BLACK
