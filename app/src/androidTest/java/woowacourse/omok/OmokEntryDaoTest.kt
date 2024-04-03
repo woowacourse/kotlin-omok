@@ -34,8 +34,12 @@ class OmokEntryDaoTest {
     @DisplayName("앱 실행 시 모든 게임 데이터를 데이터베이스로부터 가지고 온다.")
     @Test
     fun findAll() {
-        dao.save(OmokEntry("흑", 4, 6))
-        dao.save(OmokEntry("백", 5, 10))
+        val omokEntries =
+            listOf(
+                OmokEntry("흑", 4, 6),
+                OmokEntry("백", 5, 10),
+            )
+        saveEntries(omokEntries)
 
         val actual = dao.findAll()
         assertThat(actual.size).isEqualTo(2)
@@ -44,15 +48,24 @@ class OmokEntryDaoTest {
     @DisplayName("오목일 때 사용자가 다시 시작 버튼을 누르면 데이터베이스의 모든 게임 데이터를 삭제한다.")
     @Test
     fun drop() {
-        dao.save(OmokEntry("흑", 4, 5))
-        dao.save(OmokEntry("백", 5, 8))
-        dao.save(OmokEntry("흑", 10, 13))
-        dao.save(OmokEntry("백", 12, 6))
-        dao.save(OmokEntry("흑", 2, 4))
-        dao.save(OmokEntry("백", 7, 9))
-
+        val omokEntries =
+            listOf(
+                OmokEntry("흑", 4, 5),
+                OmokEntry("백", 5, 8),
+                OmokEntry("흑", 10, 13),
+                OmokEntry("백", 12, 6),
+                OmokEntry("흑", 2, 4),
+                OmokEntry("백", 7, 9),
+            )
+        saveEntries(omokEntries)
         dao.drop()
         val actual = dao.findAll()
         assertThat(actual).isEmpty()
+    }
+
+    private fun saveEntries(omokEntries: List<OmokEntry>) {
+        omokEntries.forEach {
+            dao.save(it)
+        }
     }
 }
