@@ -53,18 +53,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initializeOmokView()
-        initializeGameResetButton()
-        restoreModelAndView()
+        initializeOmokViewComponents()
+        reloadGameFromStorage()
     }
 
-    private fun initializeOmokView() {
-        omokBoardView = OmokBoardView(initializeImageViews())
-        omokBoardView.setupClickListener(::placeOmokStone)
-        omokTextView = OmokTextView(initializeTextView())
+    private fun initializeOmokViewComponents() {
+        omokBoardView = OmokBoardView(setupBoardImageViews())
+        omokBoardView.setupClickListener(game::placeOmokStone)
+        omokTextView = OmokTextView(setupTextView())
+        setupResetButtonClickListener()
     }
 
-    private fun initializeImageViews(): List<ImageView> =
+    private fun setupBoardImageViews(): List<ImageView> =
         findViewById<TableLayout>(R.id.board)
             .children
             .filterIsInstance<TableRow>()
@@ -72,29 +72,25 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<ImageView>()
             .toList()
 
-    private fun placeOmokStone(position: Position) {
-        game.placeOmokStone(position)
-    }
+    private fun setupTextView(): TextView = findViewById(R.id.tv_turn_information)
 
-    private fun initializeTextView(): TextView = findViewById(R.id.tv_turn_information)
-
-    private fun restoreModelAndView() {
-        omokRepository.findSavedBoard().run {
-            lastStone?.let { lastStone ->
-                game.restoreGame(lastStone.color, this)
-                omokBoardView.updateBoard(this)
-                omokTextView.showProgress(lastStone)
-            }
-        }
-    }
-
-    private fun initializeGameResetButton() {
+    private fun setupResetButtonClickListener() {
         val resetButton = findViewById<Button>(R.id.btn_game_reset)
         resetButton.setOnClickListener {
             omokBoardView.resetView()
             omokTextView.resetView()
             omokRepository.delete()
             game.resetGame()
+        }
+    }
+
+    private fun reloadGameFromStorage() {
+        omokRepository.findSavedBoard().run {
+            lastStone?.let { lastStone ->
+                game.restoreGame(lastStone.color, this)
+                omokBoardView.updateBoard(this)
+                omokTextView.showProgress(lastStone)
+            }
         }
     }
 }
