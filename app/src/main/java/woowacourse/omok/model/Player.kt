@@ -4,11 +4,7 @@ class Player(val color: Color) {
     var isWin: Boolean = false
         private set
 
-    fun getStone(
-        row: Int,
-        col: Int,
-    ): Stone {
-        val coordinate = Coordinate(Row(row), Column(col))
+    fun getStone(coordinate: Coordinate): Stone {
         return Stone(color, coordinate)
     }
 

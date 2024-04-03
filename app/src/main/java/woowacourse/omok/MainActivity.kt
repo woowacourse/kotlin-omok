@@ -1,7 +1,6 @@
 package woowacourse.omok
 
 import android.os.Bundle
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -13,17 +12,19 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import woowacourse.omok.controller.OmokController
 import woowacourse.omok.db.StoneEntity
 import woowacourse.omok.db.StoneMapper
 import woowacourse.omok.db.StonesDao
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.GameEventListener
+import woowacourse.omok.model.OmokGame
+import woowacourse.omok.model.StoneState
+import woowacourse.omok.view.OutputView
 
 class MainActivity : AppCompatActivity(), GameEventListener {
     private lateinit var stonesDao: StonesDao
     private lateinit var boardLayout: TableLayout
-    private lateinit var omokController: OmokController
+    private lateinit var omokGame: OmokGame
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,15 +32,15 @@ class MainActivity : AppCompatActivity(), GameEventListener {
 
         stonesDao = StonesDao(this)
         boardLayout = findViewById(R.id.board)
-        omokController = OmokController(this)
+        omokGame = OmokGame(this)
         loadStonesFromDb()
 
         setOnBoardTouch()
-        omokController.printStart()
+        printStartOnConsole()
 
         val restartButton: Button = findViewById(R.id.restartButton)
         restartButton.setOnClickListener {
-            omokController.restartGame()
+            omokGame.restartGame()
             resetBoardView()
             clearDb()
         }
@@ -50,12 +51,14 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         }
     }
 
-    override fun onForbiddenStone() {
+    override fun onForbiddenStone(state: StoneState) {
         viewToastMessage(FORBIDDEN_STONE_MESSAGE, SHORT_DURATION)
+        OutputView.printForbiddenStone(state)
     }
 
     override fun onGameEnd(winner: Color) {
         viewToastMessage(WINNER_MESSAGE.format(getPlayerColor(winner)), LONG_DURATION)
+        displayWinnerOnConsole()
         clearDb()
     }
 
@@ -63,24 +66,21 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         CoroutineScope(Dispatchers.IO).launch {
             val stoneEntities = stonesDao.getAllStones()
             val stones = stoneEntities.map { StoneMapper.toStone(it) }
-            omokController.setStonesOnBoard(stones)
+            omokGame.setStonesOnBoard(stones)
             withContext(Dispatchers.Main) {
                 updateUI(stoneEntities)
             }
         }
 
     private fun setOnBoardTouch() {
-        boardLayout
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { view ->
-                view.setOnClickListener {
-                    if (!omokController.gameEnded) {
-                        handleStonePlacement(view)
+        boardLayout.children.filterIsInstance<TableRow>()
+            .forEachIndexed { rowIndex, row ->
+                row.children.filterIsInstance<ImageView>()
+                    .forEachIndexed { colIndex, cell ->
+                        cell.setOnClickListener {
+                            handleStonePlacement(rowIndex, colIndex, cell)
+                        }
                     }
-                }
             }
     }
 
@@ -119,12 +119,12 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         }
     }
 
-    private fun handleStonePlacement(clickedView: ImageView) {
-        val tableRow = clickedView.parent as? ViewGroup
-        val col = tableRow?.indexOfChild(clickedView)
-        val row = tableRow?.let { tblRow -> boardLayout.indexOfChild(tblRow) }
-
-        if (col != null && row != null) {
+    private fun handleStonePlacement(
+        row: Int,
+        col: Int,
+        clickedView: ImageView,
+    ) {
+        if (!omokGame.gameEnded) {
             tryPlaceStone(row + INDEX_ADJUSTMENT, col + INDEX_ADJUSTMENT, clickedView)
         }
     }
@@ -134,8 +134,8 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         col: Int,
         clickedView: ImageView,
     ) {
-        val color = omokController.getNextTurn()
-        if (omokController.placeStoneAtPosition(row, col)) {
+        val color = omokGame.getNextTurn()
+        if (omokGame.placeStoneAtPosition(row, col)) {
             placeStone(color, row, col, clickedView)
         }
     }
@@ -146,8 +146,8 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         col: Int,
         clickedView: ImageView,
     ) {
-        val order = omokController.getStoneOrder()
-        if (!omokController.gameEnded) {
+        val order = omokGame.getStoneOrder()
+        if (!omokGame.gameEnded) {
             insertStoneToDb(color, row, col, order)
         }
         viewStone(color, clickedView)
@@ -161,6 +161,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
             Color.BLACK -> view.setImageResource(R.drawable.black_stone)
             Color.WHITE -> view.setImageResource(R.drawable.white_stone)
         }
+        showPresentBoardStatusOnConsole()
     }
 
     private fun resetBoardView() {
@@ -184,6 +185,28 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         return when (color) {
             Color.BLACK -> PLAYER_COLOR_BLACK
             Color.WHITE -> PLAYER_COLOR_WHITE
+        }
+    }
+
+    private fun printStartOnConsole() {
+        OutputView.printStart(omokGame.board.stones)
+        OutputView.printTurnName(omokGame.getNextTurn())
+        OutputView.printLastStone(omokGame.getLastMove())
+    }
+
+    private fun showPresentBoardStatusOnConsole() {
+        OutputView.printBoard(omokGame.board.stones)
+        if (!omokGame.gameEnded) {
+            OutputView.printTurnName(omokGame.getNextTurn())
+            OutputView.printLastStone(omokGame.getLastMove())
+        }
+    }
+
+    private fun displayWinnerOnConsole() {
+        runCatching {
+            OutputView.printWinner(omokGame.getWinner())
+        }.onFailure { error ->
+            OutputView.printErrorMessage(error.message!!)
         }
     }
 

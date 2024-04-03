@@ -25,11 +25,10 @@ class Board(val stones: Stones = Stones()) {
 
     fun takeTurn(
         turn: Color,
-        row: Int,
-        col: Int,
+        coordinate: Coordinate,
     ): StoneState {
         val player = getPlayerFromTurn(turn)
-        val stone = player.getStone(row, col)
+        val stone = player.getStone(coordinate)
         val state = putStone(stone)
         if (stones.findOmok(stone)) {
             player.win()
@@ -68,6 +67,10 @@ class Board(val stones: Stones = Stones()) {
 
     fun getLastStoneOrder(): Int {
         return stones.stones.size
+    }
+
+    fun getLastStoneCoordinate(): Coordinate? {
+        return stones.getLastStoneCoordinate()
     }
 
     fun isPlaying(): Boolean {
