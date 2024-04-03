@@ -1,6 +1,6 @@
-package omok.model
+package woowacourse.omok.game.model
 
-data class Turn(private var turn: Color = Color.BLACK) {
+data class Turn(private var turn: Color? = Color.WHITE) {
     fun next() {
         turn =
             if (turn == Color.BLACK) {
@@ -10,13 +10,18 @@ data class Turn(private var turn: Color = Color.BLACK) {
             }
     }
 
-    fun reset() {
-        turn = Color.WHITE
+    fun currentTurn(): Turn {
+        this.next()
+        return this
     }
 
-    fun color(): Color = turn
+    fun reset() {
+        turn = Color.BLACK
+    }
 
-    fun isBlack(): Boolean = turn.isBLACK()
+    fun color(): Color = turn!!
 
-    fun isWhite(): Boolean = turn.isWhite()
+    fun isBlack(): Boolean = turn!!.isBlack()
+
+    fun isWhite(): Boolean = turn!!.isWhite()
 }
