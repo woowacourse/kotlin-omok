@@ -1,18 +1,16 @@
 package woowacourse.omok.domain.model
 
-import woowacourse.omok.domain.controller.ValidPosition
 import woowacourse.omok.domain.model.state.Finished
 import woowacourse.omok.domain.model.state.GameState
 import woowacourse.omok.domain.model.state.InitialGameTurn
 import woowacourse.omok.domain.model.state.InvalidPosition
-import woowacourse.omok.domain.model.state.Turn
+import woowacourse.omok.domain.model.state.RunningTurn
 
 class OmokGame(
     private val board: Board,
-    private val players: Players,
-    private val validPosition: List<ValidPosition>,
 ) {
     private val initialTurn: GameState = InitialGameTurn()
+    private var currentGameTurn: GameState = InitialGameTurn()
 
     fun runGame(
         firstPosition: () -> Position,
@@ -20,52 +18,72 @@ class OmokGame(
         handling: (StonePosition, String) -> Unit,
         nextStonePositionResult: () -> Unit,
     ): GameState {
-        var gameTurn: GameState = runFirstTurn(firstPosition)
-        nextStonePositionResult()
-        while (!gameTurn.isFinished()) {
-            gameTurn =
-                when (gameTurn) {
-                    is InitialGameTurn -> gameTurn.place(board, nextPosition(gameTurn))
-                    is Turn -> gameTurn.place(board, nextPosition(gameTurn))
-                    is InvalidPosition -> gameTurn.handleInvalidPosition(handling)
-                    is Finished -> throw IllegalStateException("게임이 종료되었습니다.")
-                }
-            nextStonePositionResult()
+        var gameTurn: GameState = runFirstTurn(firstPosition, nextStonePositionResult)
+        while (!gameTurn.finished()) {
+            gameTurn = gameTurn(gameTurn, nextPosition, handling, nextStonePositionResult)
         }
         return gameTurn
     }
 
-    private fun runFirstTurn(firstPosition: () -> Position): GameState = initialTurn.place(board, firstPosition())
 
-    fun gameWinner(
-        nextStonePosition: (Player, Position?) -> Position,
-        nextStonePositionResult: () -> Unit,
-    ): Player {
-        var recentPlayer = players.firstOrderedPlayer()
-        var recentPosition: Position? = null
-
-        while (true) {
-            val nextPosition = nextPosition(recentPosition, recentPlayer, nextStonePosition, nextStonePositionResult)
-            if (nextPosition == null || nextPosition == recentPosition) continue
-            recentPosition = nextPosition
-            if (recentPlayer.isWin(board, recentPosition)) break
-            recentPlayer = players.nextOrder(recentPlayer)
+    fun gameTurn2(
+        nextPosition: (GameState) -> Position,
+        handling: (StonePosition, String) -> Unit,
+        nextStonePositionCallback: (GameState) -> Unit,
+        finishedResultCallback: (GameState) -> Unit,
+    ): GameState {
+        if (currentGameTurn.running()) {
+            currentGameTurn = currentGameTurn.place(board, nextPosition(currentGameTurn))
+            if (checkInvalidPosition(handling)) return currentGameTurn
+            nextStonePositionCallback(currentGameTurn)
+            if (checkFinish(finishedResultCallback)) return currentGameTurn
+            return currentGameTurn
         }
-        return recentPlayer
+        if (checkInvalidPosition(handling)) return currentGameTurn
+        if (checkFinish(finishedResultCallback)) return currentGameTurn
+
+        return currentGameTurn
     }
 
-    fun nextPosition(
-        currentPosition: Position?,
-        recentPlayer: Player,
-        nextStonePosition: (Player, Position?) -> Position,
-        nextStonePositionResult: () -> Unit,
-    ): Position? {
-        val nextPosition = nextStonePosition(recentPlayer, currentPosition)
-        if (validPosition.any { !it.valid(board, nextPosition, recentPlayer) }) {
-            return currentPosition
+    private fun checkFinish(finishedResult: (GameState) -> Unit): Boolean {
+        if (currentGameTurn.finished()) {
+            finishedResult(currentGameTurn)
+            return true
         }
-        board.place(nextPosition, recentPlayer)
+        return false
+    }
+
+    private fun checkInvalidPosition(handling: (StonePosition, String) -> Unit): Boolean {
+        if (currentGameTurn.invalidPosition()) {
+            currentGameTurn = currentGameTurn.handleInvalidPosition(handling)
+            return true
+        }
+        return false
+    }
+
+    fun gameTurn(
+        gameState: GameState,
+        nextPosition: (GameState) -> Position,
+        handling: (StonePosition, String) -> Unit,
+        nextStonePositionResult: () -> Unit,
+    ): GameState {
+        var nextGameState = gameState
+        nextGameState =
+            when (nextGameState) {
+                is RunningTurn -> nextGameState.place(board, nextPosition(nextGameState))
+                is InvalidPosition -> nextGameState.handleInvalidPosition(handling)
+                is Finished -> throw IllegalStateException("게임이 종료되었습니다.")
+            }
         nextStonePositionResult()
-        return nextPosition
+        return nextGameState
+    }
+
+    private fun runFirstTurn(
+        firstPosition: () -> Position,
+        nextStonePositionResult: () -> Unit,
+    ): GameState {
+        val gameState = initialTurn.place(board, firstPosition())
+        nextStonePositionResult()
+        return gameState
     }
 }

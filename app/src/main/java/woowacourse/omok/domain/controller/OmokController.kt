@@ -1,7 +1,7 @@
 package woowacourse.omok.domain.controller
 
 import woowacourse.omok.domain.model.Board
-import woowacourse.omok.domain.model.OmokGame2
+import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.view.InputView
 import woowacourse.omok.domain.view.OutputView
@@ -12,9 +12,9 @@ class OmokController(
 ) {
     fun startGame() {
         val board = initializedBoard()
-        val omokGame2 = OmokGame2(board)
+        val omokGame = OmokGame(board)
 
-        val result = omokGame2.runGame(
+        val result = omokGame.runGame(
             { inputView.readFirstStonePosition(Stone.BLACK) },
             { gameState ->
                 inputView.readStonePosition(
