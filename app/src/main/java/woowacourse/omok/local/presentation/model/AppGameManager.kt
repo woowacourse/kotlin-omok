@@ -15,10 +15,8 @@ class AppGameManager(private val stoneDao: StoneDao) {
     fun isFinish(): Boolean = gameState is AppGameState.Finish
     
     fun playTurn(onCoordinate: () -> Coordinate) {
-        if (isRunning()) {
-            gameState = gameState.updateState(onCoordinate)
-            saveCurrentStone()
-        }
+        gameState = gameState.updateState(onCoordinate)
+        saveCurrentStone()
     }
     
     private fun saveCurrentStone() {

@@ -40,7 +40,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private fun initializeStonesFromDataBase() {
         val stones = stoneDao.findAll()
         stones.forEach { stone ->
-            playTurn { Coordinate(stone.x, stone.y) }
+            gameManager.playTurn { Coordinate(stone.x, stone.y)}
         }
         printBoard(gameManager.board)
     }
@@ -60,27 +60,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private fun placeStoneAtTouchedCoordinate(index: Int) {
         if (gameManager.isRunning()) {
             val coordinate = index.toCoordinate()
-            playTurn { coordinate }
-        }
-        if (gameManager.isFinish()) {
-            showSnackbar(getString(R.string.finish_turn))
-            return
-        }
-    }
-    
-    private fun playTurn(onCoordinate: () -> Coordinate) {
-        if (gameManager.isRunning()) {
             runCatching {
-                gameManager.playTurn(onCoordinate)
+                gameManager.playTurn { coordinate }
                 printBoard(gameManager.board)
                 printRunningInfo(gameManager.gameState)
             }.onFailure { throwable ->
                 showSnackbar(getString(R.string.error_message, throwable.message))
             }
         }
+        if (gameManager.isFinish()) {
+            printRunningInfo(gameManager.gameState)
+            return
+        }
     }
     
-    private fun Int.toCoordinate(): Coordinate = Coordinate(this / BOARD_SIZE, this % BOARD_SIZE)
+    private fun Int.toCoordinate(): Coordinate =
+        Coordinate(this / BOARD_SIZE, this % BOARD_SIZE)
     
     private fun printRunningInfo(gameState: AppGameState) {
         when (gameState) {
