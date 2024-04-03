@@ -3,13 +3,13 @@ package woowacourse.omok
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
-import omok.fixtures.createBlackBoard
-import omok.fixtures.createBoard
 import omok.fixtures.createOmokStone
 import omok.fixtures.createPosition
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import woowacourse.omok.fixtures.createBlackBoard
+import woowacourse.omok.fixtures.createBoard
 import woowacourse.omok.model.OmokStone
 import woowacourse.omok.model.StoneColor
 
@@ -51,10 +51,10 @@ class BoardTest {
     ) {
         // given
         val board = createBoard()
-        val newStone = OmokStone(createPosition(x, y), StoneColor.BLACK)
+        val position = createPosition(x, y)
         val expect = false
         // when
-        val actual = board.isInRange(newStone)
+        val actual = board.isInRange(position)
         // then
         actual shouldBe expect
     }

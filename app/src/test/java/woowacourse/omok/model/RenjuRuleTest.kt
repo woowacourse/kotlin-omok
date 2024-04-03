@@ -1,12 +1,12 @@
 package omok.model
 
 import io.kotest.matchers.booleans.shouldBeFalse
-import omok.fixtures.createBlackBoard
 import omok.fixtures.createBlackStone
 import omok.fixtures.createPosition
-import omok.fixtures.createWhiteBoard
 import omok.fixtures.createWhiteStone
 import org.junit.jupiter.api.Test
+import woowacourse.omok.fixtures.createBlackBoard
+import woowacourse.omok.fixtures.createWhiteBoard
 import woowacourse.omok.model.rule.RenjuRule
 
 class RenjuRuleTest {

@@ -2,9 +2,9 @@ package woowacourse.omok.model
 
 import io.kotest.matchers.booleans.shouldBeFalse
 import omok.fixtures.createPosition
-import omok.fixtures.createWhiteBoard
 import omok.fixtures.createWhiteStone
 import org.junit.jupiter.api.Test
+import woowacourse.omok.fixtures.createWhiteBoard
 import woowacourse.omok.model.rule.StonePlaceRule
 
 class StonePlaceRuleTest {
