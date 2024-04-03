@@ -26,13 +26,20 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setUpBase()
+        setUpUiListener()
+        printStartOnConsole()
+    }
+
+    private fun setUpBase() {
         stonesDao = StonesDao(this)
         boardLayout = findViewById(R.id.board)
         omokGame = OmokGame(this)
         loadStonesFromDb()
+    }
 
+    private fun setUpUiListener() {
         setOnBoardTouch()
-        printStartOnConsole()
 
         val restartButton: Button = findViewById(R.id.restartButton)
         restartButton.setOnClickListener {
@@ -47,8 +54,16 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         }
     }
 
-    override fun onForbiddenStone(state: StoneState) {
-        viewToastMessage(FORBIDDEN_STONE_MESSAGE, SHORT_DURATION)
+    private fun printStartOnConsole() {
+        OutputView.printStart(omokGame.board.stones)
+        OutputView.printTurnName(omokGame.getNextTurn())
+        OutputView.printLastStone(omokGame.getLastMove())
+    }
+
+    override fun onFailToPlaceStone(state: StoneState) {
+        if (state == StoneState.FORBIDDEN) {
+            viewToastMessage(FORBIDDEN_STONE_MESSAGE, SHORT_DURATION)
+        }
         OutputView.printForbiddenStone(state)
     }
 
@@ -179,12 +194,6 @@ class MainActivity : AppCompatActivity(), GameEventListener {
             Color.BLACK -> PLAYER_COLOR_BLACK
             Color.WHITE -> PLAYER_COLOR_WHITE
         }
-    }
-
-    private fun printStartOnConsole() {
-        OutputView.printStart(omokGame.board.stones)
-        OutputView.printTurnName(omokGame.getNextTurn())
-        OutputView.printLastStone(omokGame.getLastMove())
     }
 
     private fun showPresentBoardStatusOnConsole() {

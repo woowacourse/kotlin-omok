@@ -23,14 +23,18 @@ class OmokGame(private val gameEventListener: GameEventListener) {
         val thisTurn = board.getNextTurn()
         val coordinate = Coordinate(Row(row), Column(col))
         val state = board.takeTurn(thisTurn, coordinate)
-        checkForbiddenMove(state)
+        checkNotPlaced(state)
         checkGameFinished()
         return state.checkPlacementSuccess()
     }
 
-    private fun checkForbiddenMove(state: StoneState) {
-        if (state == StoneState.FORBIDDEN) {
-            gameEventListener.onForbiddenStone(state)
+    private fun checkNotPlaced(state: StoneState) {
+        when (state) {
+            StoneState.FORBIDDEN -> gameEventListener.onFailToPlaceStone(state)
+            StoneState.OCCUPIED -> gameEventListener.onFailToPlaceStone(state)
+            StoneState.OUTSIDE_THE_BOARD -> gameEventListener.onFailToPlaceStone(state)
+            StoneState.PLACED -> return
+            StoneState.BEFORE_PLACED -> return
         }
     }
 
