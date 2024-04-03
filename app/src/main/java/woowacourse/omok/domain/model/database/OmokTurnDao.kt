@@ -68,6 +68,11 @@ class OmokTurnDao(private val sqLiteOpenHelper: SQLiteOpenHelper) {
         val db = sqLiteOpenHelper.writableDatabase
         db.execSQL(OmokTurnContract.DROP_OMOK_TURN_TABLE)
     }
+
+    fun clearAll() {
+        val db = sqLiteOpenHelper.writableDatabase
+        db.delete(OmokTurnContract.TABLE_NAME, null, null)
+    }
 }
 
 private fun SQLiteDatabase.querySelectAll(
