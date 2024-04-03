@@ -5,14 +5,15 @@ import woowacourse.omok.model.StoneState.OCCUPIED
 import woowacourse.omok.model.StoneState.OUTSIDE_THE_BOARD
 import woowacourse.omok.model.StoneState.PLACED
 
-class Board(val stones: Stones = Stones()) {
+class Board {
+    private var _stones: Stones = Stones()
+    val stones: Stones
+        get() = _stones
     private val rule = RuleAdapter(BOARD_SIZE)
     private val players = Player(Color.BLACK) to Player(Color.WHITE)
 
     fun setStones(stones: List<Stone>) {
-        stones.forEach { stone ->
-            this.stones.putStone(stone)
-        }
+        _stones = Stones(stones)
     }
 
     fun getNextTurn(): Color {

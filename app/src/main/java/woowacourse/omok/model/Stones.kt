@@ -1,7 +1,7 @@
 package woowacourse.omok.model
 
-class Stones {
-    private val _stones: MutableList<Stone> = mutableListOf()
+class Stones(stones: List<Stone> = listOf()) {
+    private val _stones: MutableList<Stone> = stones.toMutableList()
     val stones: List<Stone>
         get() = _stones
 
