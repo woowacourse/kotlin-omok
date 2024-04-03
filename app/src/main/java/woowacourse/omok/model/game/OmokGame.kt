@@ -2,7 +2,6 @@ package woowacourse.omok.model.game
 
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
-import woowacourse.omok.model.board.Stone
 import woowacourse.omok.model.player.Player
 
 class OmokGame(
@@ -29,16 +28,14 @@ class OmokGame(
         position: Position,
         turnPlayer: Player,
     ): PlaceType {
-        runCatching { board.place(position, turnPlayer) }
-            .onFailure { return PlaceType.CANNOT_PLACE }
-        return if (turnPlayer.stone == Stone.WHITE) PlaceType.WHITE_PLACE else PlaceType.BLACK_PLACE
+        return board.place(position, turnPlayer)
     }
 
     private fun updateTurnHistory(
         placeType: PlaceType,
         position: Position,
     ) {
-        if (placeType == PlaceType.CANNOT_PLACE) return
+        if (!placeType.canPlace()) return
         turnHistory.update(position)
     }
 

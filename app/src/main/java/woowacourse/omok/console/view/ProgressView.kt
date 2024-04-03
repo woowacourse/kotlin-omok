@@ -3,7 +3,13 @@ package woowacourse.omok.console.view
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.game.BlackStonePlace
+import woowacourse.omok.model.game.DoubleFourPlace
+import woowacourse.omok.model.game.DoubleOpenThreePlace
+import woowacourse.omok.model.game.DuplicationPlace
+import woowacourse.omok.model.game.OverlinePlace
 import woowacourse.omok.model.game.PlaceType
+import woowacourse.omok.model.game.WhiteStonePlace
 
 class ProgressView {
     fun printBoard(board: Board) {
@@ -76,13 +82,28 @@ class ProgressView {
     }
 
     fun printPlaceResult(placeType: PlaceType) {
-        if (placeType != PlaceType.CANNOT_PLACE) return
-        println(CANNOT_PLACE_POSITION_MESSAGE)
+        if (placeType.canPlace()) return
+        println(placeType.message())
+    }
+
+    private fun PlaceType.message(): String {
+        return when (this) {
+            DoubleOpenThreePlace -> DOUBLE_OPEN_THREE_PLACE_MESSAGE
+            DoubleFourPlace -> DOUBLE_FOUR_PLACE_MESSAGE
+            OverlinePlace -> OVERLINE_PLACE_MESSAGE
+            DuplicationPlace -> DUPLICATION_PLACE_MESSAGE
+            BlackStonePlace,
+            WhiteStonePlace,
+            -> ""
+        }
     }
 
     companion object {
         private const val BLACK_STONE = "●"
         private const val WHITE_STONE = "○"
-        private const val CANNOT_PLACE_POSITION_MESSAGE = "놓을 수 없는 위치입니다."
+        private const val DOUBLE_OPEN_THREE_PLACE_MESSAGE = "3–3 규칙을 위반하는 곳에는 놓을 수 없습니다."
+        private const val DOUBLE_FOUR_PLACE_MESSAGE = "4–4 규칙을 위반하는 곳에는 놓을 수 없습니다."
+        private const val OVERLINE_PLACE_MESSAGE = "장목 규칙을 위반하는 곳에는 놓을 수 없습니다."
+        private const val DUPLICATION_PLACE_MESSAGE = "이미 돌이 놓여진 곳에는 놓을 수 없습니다."
     }
 }

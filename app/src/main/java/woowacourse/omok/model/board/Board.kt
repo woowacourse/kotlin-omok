@@ -1,6 +1,8 @@
 package woowacourse.omok.model.board
 
 import woowacourse.omok.data.adapter.StonePosition
+import woowacourse.omok.model.game.DuplicationPlace
+import woowacourse.omok.model.game.PlaceType
 import woowacourse.omok.model.player.Player
 
 class Board(
@@ -23,10 +25,11 @@ class Board(
     fun place(
         position: Position,
         player: Player,
-    ) {
-        require(find(position) == Stone.NONE) { DUPLICATION_POSITION_MESSAGE }
-        require(player.canPlace(this, position)) { FORBIDDEN_POSITION_MESSAGE }
-        _board[position] = player.stone
+    ): PlaceType {
+        if (find(position) != Stone.NONE) return DuplicationPlace
+        return player.placeType(this, position).apply {
+            if (canPlace()) _board[position] = player.stone
+        }
     }
 
     fun find(position: Position): Stone {
@@ -49,8 +52,6 @@ class Board(
 
     companion object {
         private const val INVALID_POSITION_MESSAGE = "올바르지 않은 위치입니다."
-        private const val DUPLICATION_POSITION_MESSAGE = "이미 바둑돌이 있는 위치입니다."
-        private const val FORBIDDEN_POSITION_MESSAGE = "바둑돌을 놓을 수 없는 위치입니다."
 
         private fun initBoard(size: Int) =
             (0 until size).flatMap { row ->

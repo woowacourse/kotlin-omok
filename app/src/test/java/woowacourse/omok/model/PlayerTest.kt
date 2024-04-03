@@ -4,6 +4,10 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.game.DoubleFourPlace
+import woowacourse.omok.model.game.DoubleOpenThreePlace
+import woowacourse.omok.model.game.OverlinePlace
+import woowacourse.omok.model.game.WhiteStonePlace
 import woowacourse.omok.model.player.Player
 import woowacourse.omok.model.rule.ban.DoubleFourForbiddenPlace
 import woowacourse.omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
@@ -31,7 +35,8 @@ class PlayerTest {
                 StonePosition(Position(7, 8), Stone.BLACK),
             )
 
-        assertThat(blackStonePlayer.canPlace(board, (Position(7, 5)))).isFalse
+        assertThat(blackStonePlayer.placeType(board, (Position(7, 5))))
+            .isInstanceOf(DoubleOpenThreePlace::class.java)
     }
 
     @Test
@@ -44,7 +49,8 @@ class PlayerTest {
                 StonePosition(Position(9, 9), Stone.BLACK),
             )
 
-        assertThat(blackStonePlayer.canPlace(board, (Position(5, 9)))).isFalse
+        assertThat(blackStonePlayer.placeType(board, (Position(5, 9))))
+            .isInstanceOf(DoubleFourPlace::class.java)
     }
 
     @Test
@@ -60,7 +66,8 @@ class PlayerTest {
                 StonePosition(Position(0, 6), Stone.BLACK),
             )
 
-        assertThat(blackStonePlayer.canPlace(board, (Position(0, 3)))).isFalse
+        assertThat(blackStonePlayer.placeType(board, (Position(0, 3))))
+            .isInstanceOf(OverlinePlace::class.java)
     }
 
     @Test
@@ -73,7 +80,8 @@ class PlayerTest {
                 StonePosition(Position(9, 9), Stone.WHITE),
             )
 
-        assertThat(whiteStonePlayer.canPlace(board, (Position(5, 9)))).isTrue
+        assertThat(whiteStonePlayer.placeType(board, (Position(5, 9))))
+            .isInstanceOf(WhiteStonePlace::class.java)
     }
 
     @Test
@@ -86,6 +94,7 @@ class PlayerTest {
                 StonePosition(Position(0, 5), Stone.WHITE),
                 StonePosition(Position(0, 6), Stone.WHITE),
             )
-        assertThat(whiteStonePlayer.canPlace(board, (Position(0, 3)))).isTrue
+        assertThat(whiteStonePlayer.placeType(board, (Position(0, 3))))
+            .isInstanceOf(WhiteStonePlace::class.java)
     }
 }

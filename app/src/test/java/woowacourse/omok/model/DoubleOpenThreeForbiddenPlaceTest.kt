@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.game.DoubleOpenThreePlace
 import woowacourse.omok.model.rule.ban.DoubleOpenThreeForbiddenPlace
 
 /**
@@ -22,8 +23,8 @@ class DoubleOpenThreeForbiddenPlaceTest {
                 StonePosition(Position(3, 4), Stone.BLACK),
             )
 
-        val actual = forbiddenPlace.availablePosition(board, Position(3, 3))
-        assertThat(actual).isFalse
+        val actual = forbiddenPlace.availablePosition(board, Position(3, 3), Stone.BLACK)
+        assertThat(actual).isInstanceOf(DoubleOpenThreePlace::class.java)
     }
 
     @Test
@@ -36,8 +37,8 @@ class DoubleOpenThreeForbiddenPlaceTest {
                 StonePosition(Position(10, 4), Stone.BLACK),
             )
 
-        val actual = forbiddenPlace.availablePosition(board, Position(12, 4))
-        assertThat(actual).isFalse
+        val actual = forbiddenPlace.availablePosition(board, Position(12, 4), Stone.BLACK)
+        assertThat(actual).isInstanceOf(DoubleOpenThreePlace::class.java)
     }
 
     @Test
@@ -50,8 +51,8 @@ class DoubleOpenThreeForbiddenPlaceTest {
                 StonePosition(Position(6, 13), Stone.BLACK),
             )
 
-        val actual = forbiddenPlace.availablePosition(board, Position(4, 11))
-        assertThat(actual).isFalse
+        val actual = forbiddenPlace.availablePosition(board, Position(4, 11), Stone.BLACK)
+        assertThat(actual).isInstanceOf(DoubleOpenThreePlace::class.java)
     }
 
     @Test
@@ -64,7 +65,7 @@ class DoubleOpenThreeForbiddenPlaceTest {
                 StonePosition(Position(7, 8), Stone.BLACK),
             )
 
-        val actual = forbiddenPlace.availablePosition(board, Position(7, 5))
-        assertThat(actual).isFalse
+        val actual = forbiddenPlace.availablePosition(board, Position(7, 5), Stone.BLACK)
+        assertThat(actual).isInstanceOf(DoubleOpenThreePlace::class.java)
     }
 }

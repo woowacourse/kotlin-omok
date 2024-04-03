@@ -4,6 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.game.BlackStonePlace
+import woowacourse.omok.model.game.OverlinePlace
 import woowacourse.omok.model.rule.ban.OverlineForbiddenPlace
 
 class OverlineForbiddenPlaceTest {
@@ -22,8 +24,8 @@ class OverlineForbiddenPlaceTest {
                 StonePosition(Position(0, 6), Stone.BLACK),
             )
 
-        val actual = forbiddenPlace.availablePosition(board, Position(0, 3))
-        assertThat(actual).isFalse
+        val actual = forbiddenPlace.availablePosition(board, Position(0, 3), Stone.BLACK)
+        assertThat(actual).isInstanceOf(OverlinePlace::class.java)
     }
 
     @Test
@@ -36,7 +38,7 @@ class OverlineForbiddenPlaceTest {
                 StonePosition(Position(0, 5), Stone.BLACK),
             )
 
-        val actual = forbiddenPlace.availablePosition(board, Position(0, 3))
-        assertThat(actual).isTrue
+        val actual = forbiddenPlace.availablePosition(board, Position(0, 3), Stone.BLACK)
+        assertThat(actual).isInstanceOf(BlackStonePlace::class.java)
     }
 }

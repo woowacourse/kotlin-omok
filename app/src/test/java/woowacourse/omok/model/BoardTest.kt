@@ -7,6 +7,7 @@ import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.game.DuplicationPlace
 import woowacourse.omok.model.player.Player
 
 class BoardTest {
@@ -29,9 +30,15 @@ class BoardTest {
     }
 
     @Test
-    fun `오목판에 이미 돌이 있는 곳에 놓으면 예외가 발생한다`() {
+    fun `이미 돌이 있는 곳는 돌을 놓을 수 없다`() {
+        // given
         val board = initBoard(StonePosition(Position(3, 3), playerStone))
-        assertThrows<IllegalArgumentException> { board.place(Position(3, 3), player) }
+
+        // when
+        val actual = board.place(Position(3, 3), player)
+
+        // then
+        assertThat(actual).isInstanceOf(DuplicationPlace::class.java)
     }
 
     @Test

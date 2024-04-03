@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
+import woowacourse.omok.model.game.DoubleFourPlace
 import woowacourse.omok.model.rule.ban.DoubleFourForbiddenPlace
 
 /**
@@ -23,8 +24,8 @@ class DoubleFourForbiddenPlaceTest {
                 StonePosition(Position(3, 9), Stone.BLACK),
             )
 
-        val actual = forbiddenPlace.availablePosition(board, Position(3, 5))
-        assertThat(actual).isFalse
+        val actual = forbiddenPlace.availablePosition(board, Position(3, 5), Stone.BLACK)
+        assertThat(actual).isInstanceOf(DoubleFourPlace::class.java)
     }
 
     @Test
@@ -37,8 +38,8 @@ class DoubleFourForbiddenPlaceTest {
                 StonePosition(Position(9, 9), Stone.BLACK),
             )
 
-        val actual = forbiddenPlace.availablePosition(board, Position(5, 9))
-        assertThat(actual).isFalse
+        val actual = forbiddenPlace.availablePosition(board, Position(5, 9), Stone.BLACK)
+        assertThat(actual).isInstanceOf(DoubleFourPlace::class.java)
     }
 
     @Test
@@ -55,8 +56,8 @@ class DoubleFourForbiddenPlaceTest {
                 StonePosition(Position(11, 6), Stone.BLACK),
             )
 
-        val actual = forbiddenPlace.availablePosition(board, Position(7, 2))
-        assertThat(actual).isFalse
+        val actual = forbiddenPlace.availablePosition(board, Position(7, 2), Stone.BLACK)
+        assertThat(actual).isInstanceOf(DoubleFourPlace::class.java)
     }
 
     @Test
@@ -71,8 +72,8 @@ class DoubleFourForbiddenPlaceTest {
                 StonePosition(Position(9, 5), Stone.BLACK),
             )
 
-        val actual = forbiddenPlace.availablePosition(board, Position(6, 8))
-        assertThat(actual).isFalse
+        val actual = forbiddenPlace.availablePosition(board, Position(6, 8), Stone.BLACK)
+        assertThat(actual).isInstanceOf(DoubleFourPlace::class.java)
     }
 
     @Test
@@ -89,7 +90,7 @@ class DoubleFourForbiddenPlaceTest {
                 StonePosition(Position(10, 3), Stone.WHITE),
             )
 
-        val actual = forbiddenPlace.availablePosition(board, Position(10, 7))
-        assertThat(actual).isFalse
+        val actual = forbiddenPlace.availablePosition(board, Position(10, 7), Stone.WHITE)
+        assertThat(actual).isInstanceOf(DoubleFourPlace::class.java)
     }
 }

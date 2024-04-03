@@ -11,7 +11,7 @@ class AllForbiddenPositionFinishCondition : FinishCondition {
         position: Position,
         player: Player,
     ): FinishType {
-        if (board.emptyPosition { !player.canPlace(board, it) }) return FinishType.DRAW
+        if (board.emptyPosition { !player.placeType(board, it).canPlace() }) return FinishType.DRAW
         return FinishType.NOT_FINISH
     }
 }

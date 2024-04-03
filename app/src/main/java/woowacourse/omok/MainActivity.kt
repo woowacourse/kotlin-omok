@@ -13,13 +13,13 @@ import woowacourse.omok.model.game.FinishAction
 import woowacourse.omok.model.game.FinishType
 import woowacourse.omok.model.game.OmokGame
 import woowacourse.omok.model.game.OmokPlayers
-import woowacourse.omok.model.game.PlaceType
 import woowacourse.omok.model.game.TurnHistory
 import woowacourse.omok.ui.BaseActivity
 import woowacourse.omok.ui.message
 import woowacourse.omok.ui.stoneImage
 
-class MainActivity(private val boardSize: Int = 15) : BaseActivity<ActivityMainBinding>(),
+class MainActivity(private val boardSize: Int = 15) :
+    BaseActivity<ActivityMainBinding>(),
     FinishAction {
     private val omokDataStore: OmokDataStore by lazy { OmokDataStoreImpl(this) }
     private lateinit var omokGame: OmokGame
@@ -90,8 +90,8 @@ class MainActivity(private val boardSize: Int = 15) : BaseActivity<ActivityMainB
 
         val position = Position(index / boardSize, index % boardSize)
         val placeType = turn(position)
-        if (placeType == PlaceType.CANNOT_PLACE) {
-            showToast(resources.getString(R.string.cannot_place_position))
+        if (!placeType.canPlace()) {
+            showToast(resources.getString(placeType.message()))
             return
         }
         omokDataStore.add(position, placeType.stone)
