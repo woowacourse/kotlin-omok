@@ -1184,7 +1184,7 @@
 
     </TableLayout>
 
-    <!--<androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/viewLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -1213,6 +1213,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textView" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
