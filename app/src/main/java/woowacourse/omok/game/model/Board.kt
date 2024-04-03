@@ -3,10 +3,13 @@ package woowacourse.omok.game.model
 class Board(private val size: Int, private val rule: Rule) {
     private var stones: Stones = Stones()
     private var bannedPoints: MutableList<Point> = mutableListOf()
+    var isFinished: Boolean = false
+        private set
 
     fun add(stone: Stone) {
         require(!duplicatedPoint(stone)) { ERROR_DUPLICATED_POINT }
         stones.add(stone)
+        isFinished = checkContinuity(stone)
     }
 
     fun resetStones(stones: Stones) {
@@ -41,14 +44,6 @@ class Board(private val size: Int, private val rule: Rule) {
     }
 
     fun isValid(stone: Stone): Boolean = !rule.isInvalid(size, stones, stone)
-
-    fun checkEndCondition(): Boolean {
-        return if (lastStone() != null) {
-            checkContinuity(lastStone()!!)
-        } else {
-            false
-        }
-    }
 
     private fun checkContinuity(stone: Stone): Boolean {
         directions.forEach { direction ->

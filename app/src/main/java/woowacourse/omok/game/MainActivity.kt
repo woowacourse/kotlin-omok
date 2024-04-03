@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkEndState() {
-        if (logicBoard.checkEndCondition()) {
+        if (logicBoard.isFinished) {
             showSnackBarAndReset()
         }
     }
