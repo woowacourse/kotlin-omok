@@ -9,6 +9,10 @@ class Board(private val size: Int, private val rule: Rule) {
         stones.add(stone)
     }
 
+    fun resetStones(stones: Stones) {
+        this.stones = stones
+    }
+
     fun addBannedPoint(point: Point) {
         bannedPoints.add(point)
     }

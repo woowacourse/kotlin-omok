@@ -52,13 +52,13 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
     ) {
         view.setOnClickListener {
-            putIfPlaceable(currentStone(index), view)
+            putStoneIfPlaceable(currentStone(index), view)
         }
     }
 
     private fun currentStone(index: Int): Stone = Stone(Point.from(index), turn.color())
 
-    private fun putIfPlaceable(
+    private fun putStoneIfPlaceable(
         stone: Stone,
         view: ImageView,
     ) {
@@ -158,8 +158,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun imageResource(turn: Turn): Int = colorToImageResource(turn.color())
-
     private fun imageResource(stone: Stone): Int = colorToImageResource(stone.color)
 
     private fun colorToImageResource(color: Color): Int = if (color.isBlack()) R.drawable.black_stone else R.drawable.white_stone
@@ -173,29 +171,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchSavedData() {
-        val data = dao.findAll()
-        setUpLogicBoard(data)
-    }
+        val savedStones = dao.fetchStones()
+        logicBoard.resetStones(savedStones)
 
-    private fun setUpLogicBoard(omokData: List<OmokEntry>) {
-        omokData.forEach { it ->
-            val color = stringToColor(it.color)
-            logicBoard.add(Stone(Point.from(it.index), color))
-
-            val currentIndex = it.index
+        savedStones.stones.forEach { stone ->
             board.children
                 .filterIsInstance<TableRow>()
                 .flatMap { it.children }
-                .filterIsInstance<ImageView>()
-                .forEachIndexed { index, imageView ->
-                    if (index == currentIndex) {
-                        imageView.setImageResource(imageResource(Turn(color)))
-                    }
+                .filterIndexed { index, _ ->
+                    index == stone.point.index()
+                }.filterIsInstance<ImageView>()
+                .forEach { view ->
+                    view.setImageResource(colorToImageResource(stone.color))
                 }
         }
     }
-
-    private fun stringToColor(color: String): Color = if (color == "흑") Color.BLACK else Color.WHITE
 
     private fun deleteDbData() {
         dao.drop()

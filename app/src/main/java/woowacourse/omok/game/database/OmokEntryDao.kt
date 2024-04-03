@@ -4,6 +4,10 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import androidx.core.content.contentValuesOf
+import woowacourse.omok.game.model.Color
+import woowacourse.omok.game.model.Point
+import woowacourse.omok.game.model.Stone
+import woowacourse.omok.game.model.Stones
 
 class OmokEntryDao(private val context: Context) {
     private val dbHelper = OmokDbHelper(context)
@@ -41,6 +45,18 @@ class OmokEntryDao(private val context: Context) {
 
         return entries
     }
+
+    fun fetchStones(): Stones {
+        val entries = findAll()
+        val stones = Stones()
+
+        entries.forEach { entry ->
+            stones.add(Stone(Point.from(entry.index), stringToColor(entry.color)))
+        }
+        return stones
+    }
+
+    private fun stringToColor(color: String): Color = if (color == "흑") Color.BLACK else Color.WHITE
 
     private fun SQLiteDatabase.query(
         table: String,
