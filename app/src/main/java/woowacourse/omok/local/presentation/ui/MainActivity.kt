@@ -1,5 +1,7 @@
 package woowacourse.omok.local.presentation.ui
 
+import android.graphics.Color
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TableRow
 import androidx.core.view.children
@@ -39,8 +41,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     
     private fun initializeStonesFromDataBase() {
         val stones = stoneDao.findAll()
+        stoneDao.drop()
         stones.forEach { stone ->
-            gameManager.playTurn { Coordinate(stone.x, stone.y)}
+            runCatching {
+                gameManager.playTurn { Coordinate(stone.x, stone.y) }
+            }.onFailure { e ->
+                Log.d("MainActivity", "Stone DB 오류: ${stone.x}, ${stone.y}", e)
+            }
         }
         printBoard(gameManager.board)
     }
@@ -76,8 +83,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     
     private fun printRunningInfo(gameState: AppGameState) {
         when (gameState) {
-            is AppGameState.Running.BlackTurn -> showSnackbar(getString(R.string.black_turn))
-            is AppGameState.Running.WhiteTurn -> showSnackbar(getString(R.string.white_turn))
+            is AppGameState.Running.BlackTurn -> {
+                binding.turnInformation.text = getString(R.string.black_turn)
+                binding.turnInformation.setTextColor(Color.BLACK)
+            }
+            is AppGameState.Running.WhiteTurn -> {
+                binding.turnInformation.text = getString(R.string.white_turn)
+                binding.turnInformation.setTextColor(Color.WHITE)
+            }
             is AppGameState.Finish -> showSnackbar(getString(R.string.finish_turn))
         }
     }
