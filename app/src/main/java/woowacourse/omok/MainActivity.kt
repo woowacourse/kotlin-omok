@@ -8,7 +8,8 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import woowacourse.omok.db.StoneConverterFromDB
+import woowacourse.omok.db.StoneConverter
+import woowacourse.omok.db.StonesDao
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.GameEventListener
 import woowacourse.omok.model.OmokGame
@@ -17,7 +18,7 @@ import woowacourse.omok.model.StoneState
 import woowacourse.omok.view.OutputView
 
 class MainActivity : AppCompatActivity(), GameEventListener {
-    private lateinit var stoneConverterFromDB: StoneConverterFromDB
+    private lateinit var stonesDao: StonesDao
     private lateinit var boardLayout: TableLayout
     private lateinit var omokGame: OmokGame
 
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     private fun setUpBase() {
-        stoneConverterFromDB = StoneConverterFromDB(this)
+        stonesDao = StonesDao(this)
         boardLayout = findViewById(R.id.board)
         omokGame = OmokGame(this)
         setStonesFromDb()
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         restartButton.setOnClickListener {
             omokGame.restartGame()
             resetBoardView()
-            stoneConverterFromDB.clearAllStonesInDB()
+            stonesDao.deleteAllStones()
         }
 
         val exitButton: Button = findViewById(R.id.exitButton)
@@ -69,11 +70,11 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     override fun onGameEnd(winner: Color) {
         viewToastMessage(WINNER_MESSAGE.format(getPlayerColor(winner)), LONG_DURATION)
         displayWinnerOnConsole()
-        stoneConverterFromDB.clearAllStonesInDB()
+        stonesDao.deleteAllStones()
     }
 
     private fun setStonesFromDb() {
-        val stones = stoneConverterFromDB.loadStonesFromDb()
+        val stones = StoneConverter.loadStonesFromDb(stonesDao)
         omokGame.setStonesOnBoard(stones)
         updateUI(stones)
     }
@@ -133,7 +134,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     ) {
         val order = omokGame.getStoneOrder()
         if (!omokGame.gameEnded) {
-            stoneConverterFromDB.insertStoneToDb(color, row, col, order)
+            StoneConverter.insertStoneToDb(color, row, col, order, stonesDao)
         }
         selectAndShowStoneOnColor(color, clickedView)
         showPresentBoardStatusOnConsole()

@@ -1,13 +1,10 @@
 package woowacourse.omok.db
 
-import android.content.Context
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.Stone
 
-class StoneConverterFromDB(context: Context) {
-    private val stonesDao = StonesDao(context)
-
-    fun loadStonesFromDb(): List<Stone> {
+object StoneConverter {
+    fun loadStonesFromDb(stonesDao: StonesDao): List<Stone> {
         val stoneEntities = stonesDao.getAllStones()
         return stoneEntities.map { StoneMapper.toStone(it) }
     }
@@ -17,6 +14,7 @@ class StoneConverterFromDB(context: Context) {
         row: Int,
         col: Int,
         order: Int,
+        stonesDao: StonesDao,
     ) {
         val stoneEntity =
             StoneEntity(
@@ -26,9 +24,5 @@ class StoneConverterFromDB(context: Context) {
                 order = order,
             )
         stonesDao.insertStone(stoneEntity)
-    }
-
-    fun clearAllStonesInDB() {
-        stonesDao.deleteAllStones()
     }
 }
