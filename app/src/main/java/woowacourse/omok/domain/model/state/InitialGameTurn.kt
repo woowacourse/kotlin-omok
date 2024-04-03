@@ -5,7 +5,7 @@ import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
 
-class InitialGameTurn : GameState {
+class InitialGameTurn : RunningTurn() {
     private val initialStone = Stone.BLACK
 
     override fun place(
@@ -17,6 +17,8 @@ class InitialGameTurn : GameState {
         return WhiteTurn(latestStonePosition = stonePosition)
     }
 
+    override fun finished(): Boolean = false
+
     override fun latestStonePosition(): StonePosition {
         throw IllegalStateException("게임이 시작되지 않았습니다.")
     }
@@ -24,6 +26,4 @@ class InitialGameTurn : GameState {
     override fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState {
         throw IllegalStateException("게임이 시작되지 않았습니다.")
     }
-
-    override fun isFinished(): Boolean = false
 }

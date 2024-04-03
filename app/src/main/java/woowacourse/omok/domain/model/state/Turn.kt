@@ -6,7 +6,7 @@ import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
 import woowacourse.omok.domain.model.rule.RuleAdapter
 
-abstract class Turn(private val latestStonePosition: StonePosition) : GameState {
+abstract class Turn(private val latestStonePosition: StonePosition) : RunningTurn() {
     abstract val stone: Stone
     abstract val rule: RuleAdapter
 
@@ -38,7 +38,7 @@ abstract class Turn(private val latestStonePosition: StonePosition) : GameState 
         throw IllegalStateException("유효한 위치였습니다.")
     }
 
-    override fun isFinished(): Boolean = false
+    override fun finished(): Boolean = false
 
     private fun alreadyStoneExist(
         board: Board,

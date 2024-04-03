@@ -12,7 +12,11 @@ sealed interface GameState {
 
     fun latestStonePosition(): StonePosition
 
-    fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState
+    fun running(): Boolean
 
-    fun isFinished(): Boolean
+    fun invalidPosition(): Boolean
+
+    fun finished(): Boolean
+
+    fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState
 }

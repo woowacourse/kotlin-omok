@@ -17,14 +17,18 @@ sealed class InvalidPosition(
         throw IllegalStateException(exceptionMessage)
     }
 
+    override fun running(): Boolean = false
+
+    override fun invalidPosition(): Boolean = true
+
+    override fun finished(): Boolean = false
+
     override fun latestStonePosition(): StonePosition = latestStonePosition
 
     override fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState {
         handling(latestStonePosition, exceptionMessage)
         return latestState
     }
-
-    override fun isFinished(): Boolean = false
 }
 
 class AlreadyHaveStone(latestStonePosition: StonePosition, latestState: GameState) :
