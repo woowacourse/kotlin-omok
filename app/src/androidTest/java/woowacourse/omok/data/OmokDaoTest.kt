@@ -37,11 +37,12 @@ class OmokDaoTest {
     @Test
     fun `여러_데이터를_저장한다`() {
         // given
-        val omokEntities = listOf(
-            OmokEntity(10, 10, STONE_BLACK),
-            OmokEntity(5, 5, STONE_BLACK),
-            OmokEntity(3, 7, STONE_WHITE),
-        )
+        val omokEntities =
+            listOf(
+                OmokEntity(10, 10, STONE_BLACK),
+                OmokEntity(5, 5, STONE_BLACK),
+                OmokEntity(3, 7, STONE_WHITE),
+            )
 
         // when
         val actual = omokDao.saveAll(omokEntities)
@@ -97,7 +98,10 @@ class OmokDaoTest {
         assertThat(actual).isEmpty()
     }
 
-    private fun assertOmokEntity(actual: OmokEntity, expected: OmokEntity) {
+    private fun assertOmokEntity(
+        actual: OmokEntity,
+        expected: OmokEntity,
+    ) {
         assertThat(actual.id).isGreaterThan(-1)
         assertThat(actual.row).isEqualTo(expected.row)
         assertThat(actual.col).isEqualTo(expected.col)

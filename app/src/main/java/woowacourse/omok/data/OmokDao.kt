@@ -4,7 +4,6 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import androidx.core.content.contentValuesOf
-import woowacourse.omok.data.`interface`.Dao
 
 class OmokDao(context: Context) : Dao<OmokEntity> {
     private val omokDbHelper = OmokDbHelper(context)

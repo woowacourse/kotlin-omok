@@ -4,9 +4,9 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TableRow
 import androidx.core.view.children
+import woowacourse.omok.data.OmokDataStore
 import woowacourse.omok.data.OmokDataStoreImpl
 import woowacourse.omok.data.adapter.OmokEntityAdapter
-import woowacourse.omok.data.`interface`.OmokDataStore
 import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.game.FinishAction

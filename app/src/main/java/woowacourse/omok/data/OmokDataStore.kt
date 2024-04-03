@@ -1,12 +1,14 @@
-package woowacourse.omok.data.`interface`
+package woowacourse.omok.data
 
-import woowacourse.omok.data.OmokEntity
 import woowacourse.omok.data.adapter.StonePosition
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
 
 interface OmokDataStore {
-    fun add(position: Position, stone: Stone)
+    fun add(
+        position: Position,
+        stone: Stone,
+    )
 
     fun reset()
 

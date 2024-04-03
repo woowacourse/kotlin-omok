@@ -1,4 +1,4 @@
-package woowacourse.omok.data.`interface`
+package woowacourse.omok.data
 
 interface Dao<T> {
     fun save(entity: T): T

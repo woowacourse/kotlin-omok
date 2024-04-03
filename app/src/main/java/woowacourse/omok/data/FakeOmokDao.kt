@@ -1,7 +1,5 @@
 package woowacourse.omok.data
 
-import woowacourse.omok.data.`interface`.Dao
-
 class FakeOmokDao : Dao<OmokEntity> {
     private var id = 0L
     private val values = mutableMapOf<Long, OmokEntity>()
