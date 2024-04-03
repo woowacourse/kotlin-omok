@@ -27,7 +27,7 @@ class OmokEntryDaoTest {
         val actual =
             omokEntryDao.save(OmokEntry(x = 6, y = 1, color = "흑"))
 
-        actual.id > 0
+        assertThat(actual.id > 0).isTrue()
         assertThat(actual.x).isEqualTo(6)
         assertThat(actual.y).isEqualTo(1)
         assertThat(actual.color).isEqualTo("흑")
