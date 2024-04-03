@@ -5,7 +5,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -24,7 +23,6 @@ class OmokEntryDaoTest {
     }
 
     @Test
-    @Ignore
     fun save() {
         val actual =
             omokEntryDao.save(OmokEntry(x = 6, y = 1, color = "흑"))
@@ -36,21 +34,19 @@ class OmokEntryDaoTest {
     }
 
     @Test
-    @Ignore
-    fun findAll() {
+    fun findAllDatabase() {
         val actual = omokEntryDao.findAllDatabase()
         assertThat(actual).isEmpty()
     }
 
     @Test
-    @Ignore
-    fun saveAndFindAll() {
+    fun saveAndFindAllDatabase() {
         val entry = OmokEntry(x = 1, y = 6, color = "흑")
         omokEntryDao.save(entry)
 
         val actual = omokEntryDao.findAllDatabase()
         assertThat(actual[0].x).isEqualTo(1)
         assertThat(actual[0].y).isEqualTo(6)
-        assertThat(actual[0].x).isEqualTo("흑")
+        assertThat(actual[0].color).isEqualTo("흑")
     }
 }
