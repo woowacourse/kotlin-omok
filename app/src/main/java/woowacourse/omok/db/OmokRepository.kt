@@ -17,12 +17,9 @@ class OmokRepository(context: Context) {
 
     private fun mapEntriesToBoard(omokEntries: List<OmokEntry>): Board {
         return Board(
-            omokEntries.map { item ->
-                OmokStone(
-                    position = Position(item.x, item.y),
-                    color = mapStringToStoneColor(item.color),
-                )
-            }.associateBy(OmokStone::position),
+            omokEntries.associate { item ->
+                Position(item.x, item.y) to mapStringToStoneColor(item.color)
+            },
         )
     }
 

@@ -1,12 +1,25 @@
 package woowacourse.omok.model
 
-class Board(val stones: Map<Position, OmokStone>, private val maxSize: Int = 15) {
+class Board(val stones: Map<Position, StoneColor>, private val maxSize: Int = 15) {
     val lastStone: OmokStone?
-        get() = stones.entries.lastOrNull()?.value
+        get() = getLastStoneOrNull()
+
+    private fun getLastStoneOrNull(): OmokStone? {
+        return takeIf { stones.isNotEmpty() }?.let {
+            val (position, stoneColor) = stones.entries.last()
+            OmokStone(position, stoneColor)
+        }
+    }
 
     operator fun plus(stone: OmokStone): Board {
         validate(stone.position)
-        return Board(stones + (stone.position to stone))
+        val newStones = stones.toMutableMap()
+        newStones[stone.position] = stone.color
+        return Board(newStones, maxSize)
+    }
+
+    operator fun get(position: Position): OmokStone? {
+        return stones[position]?.let { OmokStone(position, it) }
     }
 
     private fun validate(position: Position) {
@@ -19,12 +32,10 @@ class Board(val stones: Map<Position, OmokStone>, private val maxSize: Int = 15)
         return (position.x in MIN..maxSize) && (position.y in MIN..maxSize)
     }
 
-    operator fun get(position: Position): OmokStone? = stones[position]
-
     fun isInOmok(position: Position): Boolean {
-        val stone = stones[position] ?: return false
+        val color = stones[position] ?: return false
         return Vector.entries.any { vector ->
-            isInOmok(stone, vector)
+            isInOmok(OmokStone(position, color), vector)
         }
     }
 
@@ -46,7 +57,7 @@ class Board(val stones: Map<Position, OmokStone>, private val maxSize: Int = 15)
         var count = INITIAL_COUNT
         for (i in OMOK_CANDIDATE_RANGE) {
             now += vector
-            if (stones[now]?.color == color) {
+            if (stones[now] == color) {
                 count++
             } else {
                 break
@@ -64,7 +75,7 @@ class Board(val stones: Map<Position, OmokStone>, private val maxSize: Int = 15)
         var count = INITIAL_COUNT
         for (i in OMOK_CANDIDATE_RANGE) {
             now -= vector
-            if (stones[now]?.color == color) {
+            if (stones[now] == color) {
                 count++
             } else {
                 break
