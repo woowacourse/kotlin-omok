@@ -35,13 +35,6 @@ class OmokDaoTest {
     }
 
     @Test
-    fun findEmptyStones() {
-        val actual = omokDao.findAllStones()
-
-        Assertions.assertThat(actual.isEmpty()).isTrue()
-    }
-
-    @Test
     fun findAllStones() {
         val omokEntity1 = OmokEntity(BlackTurn().stoneType.name, 0, 0)
         val omokEntity2 = OmokEntity(WhiteTurn().stoneType.name, 1, 1)

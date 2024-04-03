@@ -5,61 +5,33 @@ import woowacourse.omok.db.OmokEntity
 class OmokGame {
     var board: Board = Board()
         private set
-    var ruleAdapter: RuleAdapter = RuleAdapter(board)
-        private set
     var turn: Turn = BlackTurn()
         private set
-    var gameState: Boolean = true
-        private set
-    var beforePoint: Point? = null
-        private set
+
+    private var ruleAdapter: RuleAdapter = RuleAdapter(board)
 
     fun initBoard(omokEntities: List<OmokEntity>) {
         val lastEntity = omokEntities.last()
         val point = Point(lastEntity.pointX, lastEntity.pointY)
         board.initializeTable(omokEntities.dropLast(1))
-        updateTurn(board.putStone(point, judgeTurn(lastEntity), ruleAdapter))
-        updateBeforePoint(point)
+        putStone(point)
     }
 
     fun gameReSet() {
         board = Board()
-        ruleAdapter = RuleAdapter(board)
         turn = BlackTurn()
-        gameState = true
-        beforePoint = null
+        ruleAdapter = RuleAdapter(board)
     }
 
-    fun updateGameState(_gameState: Boolean) {
-        gameState = _gameState
+    fun putStone(point: Point): Boolean {
+        if (ruleAdapter.checkForbidden(point, turn.stoneType)) return false
+        val stoneType = turn.stoneType
+        turn = turn.nextTurn(ruleAdapter.checkWin(point, turn.stoneType))
+        board.putStoneOnTable(point, stoneType)
+        return true
     }
 
-    fun updateTurn(_turn: Turn) {
-        turn = _turn
-    }
-
-    fun updateBeforePoint(_beforePoint: Point) {
-        beforePoint = _beforePoint
-    }
-
-    fun judgeGameState() {
-        if (beforePoint != null) {
-            updateGameState(
-                !ruleAdapter.checkWin(
-                    beforePoint!!,
-                    turn.stoneType,
-                ),
-            )
-        }
-    }
-
-    private fun judgeTurn(omokEntity: OmokEntity): Turn {
-        return when (omokEntity.stoneType) {
-            BlackTurn().stoneType.name -> BlackTurn()
-            WhiteTurn().stoneType.name -> WhiteTurn()
-            else -> FinishedTurn(turn.stoneType)
-        }
-    }
+    fun onGame(): Boolean = turn !is FinishedTurn
 
     companion object {
         const val BOARD_SIZE = 15

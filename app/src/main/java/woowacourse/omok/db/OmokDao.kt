@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import woowacourse.omok.db.OmokContract.POINT_X
 import woowacourse.omok.db.OmokContract.POINT_Y
-import woowacourse.omok.db.OmokContract.STONE_TYPE
+import woowacourse.omok.db.OmokContract.STONE_TYPE_NAME
 import woowacourse.omok.db.OmokContract.TABLE_NAME
 
 class OmokDao(context: Context) {
@@ -14,7 +14,7 @@ class OmokDao(context: Context) {
         val db = omokDbHelper.writableDatabase
         val values =
             ContentValues().apply {
-                put(STONE_TYPE, omokEntity.stoneType)
+                put(STONE_TYPE_NAME, omokEntity.stoneTypeName)
                 put(POINT_X, omokEntity.pointX)
                 put(POINT_Y, omokEntity.pointY)
             }
@@ -33,7 +33,7 @@ class OmokDao(context: Context) {
         val sql = "SELECT * FROM $TABLE_NAME"
         val cursor = db.rawQuery(sql, null)
         while (cursor.moveToNext()) {
-            val stoneType = cursor.getString(cursor.getColumnIndexOrThrow(STONE_TYPE))
+            val stoneType = cursor.getString(cursor.getColumnIndexOrThrow(STONE_TYPE_NAME))
             val pointX = cursor.getInt(cursor.getColumnIndexOrThrow(POINT_X))
             val ponitY = cursor.getInt(cursor.getColumnIndexOrThrow(POINT_Y))
 

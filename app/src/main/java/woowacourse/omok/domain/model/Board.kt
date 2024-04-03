@@ -12,28 +12,35 @@ class Board {
             }
         }
 
+    var beforePoint: Point? = null
+        private set
+
     fun initializeTable(omokEntities: List<OmokEntity>) {
         omokEntities.forEach { omokEntity ->
             table[omokEntity.pointY][omokEntity.pointX] =
-                getStoneTypeByName(omokEntity.stoneType)
+                getStoneTypeByName(omokEntity.stoneTypeName)
         }
     }
 
-    fun putStone(
+    fun putStoneOnTable(
         point: Point,
-        turn: Turn,
-        ruleAdapter: RuleAdapter,
-    ): Turn {
-        val nextTurn = turn.nextTurn(point, ruleAdapter)
-        if (turn != nextTurn) {
-            table[point.y][point.x] = turn.stoneType
-        }
-        return nextTurn
+        stoneType: StoneType,
+    ) {
+        table[point.y][point.x] = stoneType
+        beforePoint = point
     }
 
     fun getBoardLine(index: Int): List<StoneType> = table[BOARD_SIZE - index]
 
     fun getBoardPoint(point: Point): StoneType = table[point.y][point.x]
+
+    fun getLastStoneType(): StoneType {
+        return if (beforePoint != null) {
+            table[beforePoint!!.y][beforePoint!!.x]
+        } else {
+            StoneType.EMPTY
+        }
+    }
 
     operator fun contains(point: Point): Boolean {
         return table[point.y][point.x] != StoneType.EMPTY

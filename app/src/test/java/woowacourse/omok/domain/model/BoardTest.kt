@@ -16,7 +16,7 @@ class BoardTest {
 
     @Test
     fun `보드에 돌 착수 확인`() {
-        board.putStone(Point(3, 8), BlackTurn(), ruleAdapter)
+        board.putStoneOnTable(Point(3, 8), StoneType.BLACK)
 
         assertThat(board.getBoardPoint(Point(3, 8)) == StoneType.BLACK).isTrue
     }

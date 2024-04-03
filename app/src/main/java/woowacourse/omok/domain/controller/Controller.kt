@@ -1,7 +1,6 @@
 package woowacourse.omok.domain.controller
 
 import woowacourse.omok.domain.model.Board
-import woowacourse.omok.domain.model.FinishedTurn
 import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Point
 import woowacourse.omok.domain.model.Turn
@@ -18,12 +17,14 @@ class Controller {
     private fun gameStart() {
         OutputView.printGameStart()
         OutputView.printBoard(omokGame.board)
-        while (omokGame.turn !is FinishedTurn) {
-            OutputView.printTurn(omokGame.turn, omokGame.beforePoint)
+        while (omokGame.onGame()) {
+            OutputView.printTurn(omokGame.turn, omokGame.board.beforePoint)
             val point = inputPoint(omokGame.board, omokGame.turn)
-            omokGame.updateTurn(omokGame.board.putStone(point, omokGame.turn, omokGame.ruleAdapter))
-            omokGame.updateBeforePoint(point)
-            OutputView.printBoard(omokGame.board)
+            if (omokGame.putStone(point)) {
+                OutputView.printBoard(omokGame.board)
+            } else {
+                OutputView.printInvalidPointInputMessage()
+            }
         }
         OutputView.printWinner(omokGame.turn)
     }
