@@ -1,4 +1,6 @@
-package woowacourse.omok.data
+package woowacourse.omok.data.dao
+
+import woowacourse.omok.data.OmokEntity
 
 class FakeOmokDao : Dao<OmokEntity> {
     private var id = 0L

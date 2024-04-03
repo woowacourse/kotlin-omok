@@ -1,9 +1,12 @@
-package woowacourse.omok.data
+package woowacourse.omok.data.dao
 
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import androidx.core.content.contentValuesOf
+import woowacourse.omok.data.OmokContract
+import woowacourse.omok.data.OmokDbHelper
+import woowacourse.omok.data.OmokEntity
 
 class OmokDao(context: Context) : Dao<OmokEntity> {
     private val omokDbHelper = OmokDbHelper(context)

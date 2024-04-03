@@ -3,6 +3,8 @@ package woowacourse.omok.data
 import android.content.Context
 import woowacourse.omok.data.adapter.OmokEntityAdapter
 import woowacourse.omok.data.adapter.StonePosition
+import woowacourse.omok.data.dao.Dao
+import woowacourse.omok.data.dao.OmokDao
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.Stone
 
