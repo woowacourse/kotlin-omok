@@ -7,16 +7,11 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import woowacourse.omok.model.OmokGame
-import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.db.OmokDAO
 import woowacourse.omok.model.db.OmokDbHelper
 import woowacourse.omok.model.entity.Point
 import woowacourse.omok.model.entity.Stone
 import woowacourse.omok.model.entity.StoneColor
-import woowacourse.omok.model.turn.BlackTurn
-import woowacourse.omok.model.turn.Finished
-import woowacourse.omok.model.turn.Turn
-import woowacourse.omok.model.turn.WhiteTurn
 import woowacourse.omok.view.output.AndroidOutputView
 import woowacourse.omok.view.output.OutputView
 
@@ -31,8 +26,7 @@ class MainActivity : AppCompatActivity() {
         val board = findViewById<TableLayout>(R.id.board)
         val outputView: OutputView = AndroidOutputView(board)
         val stones = dao.selectAll()
-        val omokGame = OmokGame.of(stones.lastOrNull()?.stoneColor, stones)
-        var currentTurn = omokGame.turn
+        var omokGame = OmokGame.of(stones.lastOrNull()?.stoneColor, stones)
 
         printStartGuide(outputView)
 
@@ -42,23 +36,23 @@ class MainActivity : AppCompatActivity() {
                 loadStone(stones, point, view)
 
                 view.setOnClickListener {
-                    val previousTurn: Turn = currentTurn
-                    currentTurn =
-                        currentTurn.placeStone(point, outputView::printAlert,)
+                    omokGame.proceedTurn(
+                        { point.x to point.y },
+                        outputView::printAlert,
+                    )
 
-                    if (previousTurn == currentTurn) {
+                    if (omokGame.isSameTurn()) {
                         return@setOnClickListener
                     }
 
-                    placeStone(currentTurn.board.lastStoneColor(), view)
-                    saveStone(currentTurn.board.lastStoneColor(), dao, point)
+                    placeStone(omokGame.placeStoneColor, view)
+                    saveStone(omokGame.placeStoneColor, dao, point)
 
-                    if (currentTurn is Finished) {
-                        outputView.printWinner(currentTurn.board.lastStoneColor()?.name)
-
+                    if (omokGame.isFinished()) {
+                        outputView.printWinner(omokGame.placeStoneColor?.name)
                         loadCoordinates(board).forEach { it.setImageResource(0) }
                         dao.deleteAll()
-                        currentTurn = BlackTurn(Board())
+                        omokGame = OmokGame.of(StoneColor.BLACK)
                     }
                 }
             }
