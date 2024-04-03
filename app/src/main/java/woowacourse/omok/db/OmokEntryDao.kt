@@ -1,6 +1,8 @@
 package woowacourse.omok.db
 
 import android.content.Context
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import androidx.core.content.contentValuesOf
 
@@ -29,11 +31,6 @@ class OmokEntryDao(context: Context) {
             db.query(
                 OmokContract.TABLE_NAME,
                 arrayOf(BaseColumns._ID, OmokContract.STONE_TYPE, OmokContract.ROW, OmokContract.COLUMN),
-                null,
-                null,
-                null,
-                null,
-                null,
             )
 
         while (cursor.moveToNext()) {
@@ -50,5 +47,20 @@ class OmokEntryDao(context: Context) {
     fun drop() {
         val db = dbHelper.writableDatabase
         db.delete(OmokContract.TABLE_NAME, null, null)
+    }
+
+    private fun SQLiteDatabase.query(
+        table: String,
+        columns: Array<String>,
+    ): Cursor {
+        return query(
+            table,
+            columns,
+            null,
+            null,
+            null,
+            null,
+            null,
+        )
     }
 }
