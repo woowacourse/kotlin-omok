@@ -158,21 +158,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun imageResource(turn: Turn): Int {
-        return if (turn.isBlack()) {
-            R.drawable.black_stone
-        } else {
-            R.drawable.white_stone
-        }
-    }
+    private fun imageResource(turn: Turn): Int = colorToImageResource(turn.color())
 
-    private fun imageResource(stone: Stone): Int {
-        return if (stone.color.isBlack()) {
-            R.drawable.black_stone
-        } else {
-            R.drawable.white_stone
-        }
-    }
+    private fun imageResource(stone: Stone): Int = colorToImageResource(stone.color)
+
+    private fun colorToImageResource(color: Color): Int = if (color.isBlack()) R.drawable.black_stone else R.drawable.white_stone
 
     private fun turnToString(turn: Turn): String = colorToString(turn.color())
 
