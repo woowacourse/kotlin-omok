@@ -32,44 +32,44 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val boardSize = setupOmokGame()
+        val boardSize = initOmokGame()
         playOmokGame(boardSize)
         setupResetButton()
     }
 
-    private fun setupOmokGame(): Int {
+    private fun initOmokGame(): Int {
+        val stones = createStones()
+        drawStonesOnBoard(stones)
+        val rule = createRule(stones)
+        val boardSize = createBoard(stones, rule)
+        return boardSize
+    }
+
+    private fun createStones(): Stones {
         val dbStones = omokDao.findAllOmok()
-        val stonesList = mutableListOf<Stone>()
+        val initialStones = mutableListOf<Stone>()
+        dbStones.forEach { initialStones.add(getStoneFromDb(it)) }
+        return Stones(initialStones)
+    }
 
-        dbStones.forEach {
-            val color =
-                when (it.stoneColor) {
-                    Color.BLACK.name -> Color.BLACK
-                    else -> Color.WHITE
-                }
-            val coordinate = Coordinate(it.positionX, it.positionY)
-            stonesList.add(
-                Stone(
-                    color,
-                    coordinate,
-                ),
+    private fun getStoneFromDb(entity: OmokEntity): Stone {
+        val color =
+            when (entity.stoneColor) {
+                Color.BLACK.name -> Color.BLACK
+                else -> Color.WHITE
+            }
+        val coordinate = Coordinate(entity.positionX, entity.positionY)
+        return Stone(color, coordinate)
+    }
+
+    private fun drawStonesOnBoard(stones: Stones) {
+        stones.stones.forEach {
+            setStoneImage(
+                it.coordinate.x - 1,
+                it.coordinate.y - 1,
+                getStoneImageResource(it.color),
             )
-
-            val resourceId =
-                when (it.stoneColor) {
-                    Color.BLACK.name -> R.drawable.black_stone
-                    Color.WHITE.name -> R.drawable.white_stone
-                    else -> 0
-                }
-            setStoneImage(coordinate.x - 1, coordinate.y - 1, resourceId)
         }
-
-        val board = Board(Stones(stonesList), RenjuRule(Stones(stonesList)))
-        omokGame = OmokGame(board)
-        val player = omokGame.getCurrentPlayer()
-
-        updateText("${player.color.name} 플레이어부터 시작합니다.")
-        return board.width
     }
 
     private fun setStoneImage(
@@ -80,6 +80,29 @@ class MainActivity : AppCompatActivity() {
         val row = boardView.getChildAt(x) as TableRow
         val imageView = row.getChildAt(y) as ImageView
         imageView.setImageResource(resourceId)
+    }
+
+    private fun getStoneImageResource(color: Color): Int {
+        return when (color) {
+            Color.BLACK -> R.drawable.black_stone
+            Color.WHITE -> R.drawable.white_stone
+        }
+    }
+
+    private fun createRule(stones: Stones): RenjuRule {
+        return RenjuRule(stones)
+    }
+
+    private fun createBoard(
+        stones: Stones,
+        rule: RenjuRule,
+    ): Int {
+        val board = Board(stones, rule)
+        omokGame = OmokGame(board)
+        val player = omokGame.getCurrentPlayer()
+
+        updateText("${player.color.name} 플레이어부터 시작합니다.")
+        return board.width
     }
 
     private fun playOmokGame(boardSize: Int) {
@@ -133,23 +156,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun removeClickListeners() =
-        getBoardImageViews().forEach { it.setOnClickListener(null) }
-
+    private fun removeClickListeners() = getBoardImageViews().forEach { it.setOnClickListener(null) }
 
     private fun setupResetButton() {
         val resetButton = findViewById<Button>(R.id.reset_button)
         resetButton.setOnClickListener {
             resetBoard()
             omokDao.resetAll()
-            val boardSize = setupOmokGame()
+            val boardSize = initOmokGame()
             playOmokGame(boardSize)
         }
     }
 
-    private fun resetBoard() =
-        getBoardImageViews().forEach { it.setImageResource(0) }
-
+    private fun resetBoard() = getBoardImageViews().forEach { it.setImageResource(0) }
 
     private fun getBoardImageViews(): Sequence<ImageView> {
         return boardView
