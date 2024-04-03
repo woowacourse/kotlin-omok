@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initializeOmokView()
         initializeGameResetButton()
-        omokRepository.restoreSavedGame(::restoreModelAndView)
+        restoreModelAndView()
     }
 
     private fun initializeOmokView() {
@@ -78,11 +78,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeTextView(): TextView = findViewById(R.id.tv_turn_information)
 
-    private fun restoreModelAndView(board: Board) {
-        board.lastStone?.let { lastStone ->
-            game.restoreGame(lastStone.color, board)
-            omokBoardView.updateBoard(board)
-            omokTextView.showProgress(lastStone)
+    private fun restoreModelAndView() {
+        omokRepository.findSavedBoard().run {
+            lastStone?.let { lastStone ->
+                game.restoreGame(lastStone.color, this)
+                omokBoardView.updateBoard(this)
+                omokTextView.showProgress(lastStone)
+            }
         }
     }
 

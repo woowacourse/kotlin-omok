@@ -10,11 +10,9 @@ import woowacourse.omok.util.mapStoneColorToString
 class OmokRepository(context: Context) {
     private val dbDao = OmokEntryDao(context)
 
-    fun restoreSavedGame(restoreModelAndView: (Board) -> Unit) {
-        dbDao.findAllDatabase().takeIf { it.isNotEmpty() }?.let { omokEntries ->
-            val savedBoard = mapEntriesToBoard(omokEntries)
-            restoreModelAndView(savedBoard)
-        }
+    fun findSavedBoard(): Board {
+        val omokEntries = dbDao.findAllDatabase()
+        return mapEntriesToBoard(omokEntries)
     }
 
     private fun mapEntriesToBoard(omokEntries: List<OmokEntry>): Board {
