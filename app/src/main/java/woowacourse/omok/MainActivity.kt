@@ -8,10 +8,6 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import woowacourse.omok.db.StoneEntity
 import woowacourse.omok.db.StoneMapper
 import woowacourse.omok.db.StonesDao
@@ -62,15 +58,12 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         clearDb()
     }
 
-    private fun loadStonesFromDb() =
-        CoroutineScope(Dispatchers.IO).launch {
-            val stoneEntities = stonesDao.getAllStones()
-            val stones = stoneEntities.map { StoneMapper.toStone(it) }
-            omokGame.setStonesOnBoard(stones)
-            withContext(Dispatchers.Main) {
-                updateUI(stoneEntities)
-            }
-        }
+    private fun loadStonesFromDb() {
+        val stoneEntities = stonesDao.getAllStones()
+        val stones = stoneEntities.map { StoneMapper.toStone(it) }
+        omokGame.setStonesOnBoard(stones)
+        updateUI(stoneEntities)
+    }
 
     private fun setOnBoardTouch() {
         boardLayout.children.filterIsInstance<TableRow>()
