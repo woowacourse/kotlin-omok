@@ -18,7 +18,6 @@ class StoneDaoTest {
         stoneDao = FakeStoneDao()
     }
 
-
     @Test
     fun `돌을_저장하면_저장된_돌이_반환된다`() {
         // given

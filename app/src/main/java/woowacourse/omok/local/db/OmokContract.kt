@@ -7,5 +7,4 @@ object OmokContract {
     const val COLUMN_ID = "id"
     const val COORDINATE_X = "x"
     const val COORDINATE_Y = "y"
-    const val POSITION_TYPE = "position_type"
 }

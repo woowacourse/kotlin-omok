@@ -12,23 +12,23 @@ import woowacourse.omok.R
 import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.local.db.StoneDaoImpl
 import woowacourse.omok.local.presentation.base.BaseActivity
-import woowacourse.omok.local.presentation.model.AppGameState
 import woowacourse.omok.local.presentation.model.AppGameManager
+import woowacourse.omok.local.presentation.model.AppGameState
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var allImageViews: List<ImageView>
     private val stoneDao = StoneDaoImpl(this)
     private lateinit var gameManager: AppGameManager
-    
+
     override fun initializeViewBinding() = ActivityMainBinding.inflate(layoutInflater)
-    
+
     override fun onCreateSetup() {
         gameManager = AppGameManager(stoneDao)
         initializeGameBoard()
         initializeStonesFromDataBase()
         setImageViewsClickListener()
     }
-    
+
     private fun initializeGameBoard() {
         allImageViews =
             binding.board
@@ -38,7 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 .filterIsInstance<ImageView>()
                 .toList()
     }
-    
+
     private fun initializeStonesFromDataBase() {
         val stones = stoneDao.findAll()
         stoneDao.drop()
@@ -51,7 +51,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
         printBoard(gameManager.board)
     }
-    
+
     private fun setImageViewsClickListener() {
         binding.restartButton.setOnClickListener {
             gameManager.restartGame()
@@ -63,7 +63,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
     }
-    
+
     private fun placeStoneAtTouchedCoordinate(index: Int) {
         if (gameManager.isRunning()) {
             val coordinate = gameManager.coordinateFromIndex(index)
@@ -80,7 +80,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             return
         }
     }
-    
+
     private fun printRunningInfo(gameState: AppGameState) {
         when (gameState) {
             is AppGameState.Running.BlackTurn -> {
@@ -94,7 +94,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             is AppGameState.Finish -> showSnackbar(getString(R.string.finish_turn))
         }
     }
-    
+
     private fun printBoard(board: Board) {
         allImageViews.forEachIndexed { index, imageView ->
             val coordinate = gameManager.coordinateFromIndex(index)
