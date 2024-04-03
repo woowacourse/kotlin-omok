@@ -59,7 +59,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     
     private fun placeStoneAtTouchedCoordinate(index: Int) {
         if (gameManager.isRunning()) {
-            val coordinate = index.toCoordinate()
+            val coordinate = gameManager.coordinateFromIndex(index)
             runCatching {
                 gameManager.playTurn { coordinate }
                 printBoard(gameManager.board)
@@ -74,9 +74,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
     
-    private fun Int.toCoordinate(): Coordinate =
-        Coordinate(this / BOARD_SIZE, this % BOARD_SIZE)
-    
     private fun printRunningInfo(gameState: AppGameState) {
         when (gameState) {
             is AppGameState.Running.BlackTurn -> showSnackbar(getString(R.string.black_turn))
@@ -87,8 +84,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     
     private fun printBoard(board: Board) {
         allImageViews.forEachIndexed { index, imageView ->
-            val x = index / BOARD_SIZE
-            val y = index % BOARD_SIZE
+            val coordinate = gameManager.coordinateFromIndex(index)
+            val x = coordinate.x
+            val y = coordinate.y
             when (board.getBoardLayout()[x][y]) {
                 PositionType.BLACK_STONE -> imageView.setImageResource(R.drawable.black_stone)
                 PositionType.WHITE_STONE -> imageView.setImageResource(R.drawable.white_stone)
@@ -96,9 +94,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 else -> imageView.setImageDrawable(null)
             }
         }
-    }
-    
-    companion object {
-        private const val BOARD_SIZE = 15
     }
 }

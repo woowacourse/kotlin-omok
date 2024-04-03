@@ -33,4 +33,14 @@ class AppGameManager(private val stoneDao: StoneDao) {
         board.clear()
         stoneDao.drop()
     }
+    
+    fun coordinateFromIndex(index: Int): Coordinate {
+        val x = index / BOARD_SIZE
+        val y = index % BOARD_SIZE
+        return Coordinate(x, y)
+    }
+    
+    companion object {
+        const val BOARD_SIZE = 15
+    }
 }
