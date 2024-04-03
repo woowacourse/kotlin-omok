@@ -52,13 +52,13 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
     ) {
         view.setOnClickListener {
-            validatePlaceable(currentStone(index), view)
+            putIfPlaceable(currentStone(index), view)
         }
     }
 
     private fun currentStone(index: Int): Stone = Stone(Point.from(index), turn.color())
 
-    private fun validatePlaceable(
+    private fun putIfPlaceable(
         stone: Stone,
         view: ImageView,
     ) {
