@@ -3,13 +3,14 @@ package woowacourse.omok.model.state
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.GameResult
 import woowacourse.omok.model.Position
+import woowacourse.omok.model.Rows
 import woowacourse.omok.model.search.AscendingFiveInRowSearch
 import woowacourse.omok.model.search.DescendingFiveInRowSearch
 import woowacourse.omok.model.search.HorizontalFiveInRowSearch
 import woowacourse.omok.model.search.VerticalFiveInRowSearch
 
 abstract class TurnState(
-    private val status: Array<Array<Color?>>,
+    private val status: Rows,
 ) {
     abstract fun getWinningResult(
         position: Position,

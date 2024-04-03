@@ -1,9 +1,10 @@
 package woowacourse.omok.model.search
 
 import woowacourse.omok.model.Color
+import woowacourse.omok.model.Rows
 
 abstract class FiveInRowSearch(
-    private val status: Array<Array<Color?>>,
+    private val status: Rows,
 ) {
     private val visited = Array(COMPUTATION_BOARD_SIZE) { Array(COMPUTATION_BOARD_SIZE) { false } }
     var count: Int = 0
@@ -32,7 +33,7 @@ abstract class FiveInRowSearch(
     ): Boolean =
         horizontalCoordinate in VISIT_INDEX_RANGE &&
             verticalCoordinate in VISIT_INDEX_RANGE &&
-            status[horizontalCoordinate][verticalCoordinate] == color &&
+            status.values[horizontalCoordinate].placementData[verticalCoordinate] == color &&
             !visited[horizontalCoordinate][verticalCoordinate]
 
     private fun visit(

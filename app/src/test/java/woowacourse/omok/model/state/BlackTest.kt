@@ -3,11 +3,12 @@ package woowacourse.omok.model.state
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import woowacourse.omok.model.Color
 import woowacourse.omok.model.Color.BLACK
 import woowacourse.omok.model.Color.WHITE
 import woowacourse.omok.model.GameResult
 import woowacourse.omok.model.Position
+import woowacourse.omok.model.Row
+import woowacourse.omok.model.Rows
 import woowacourse.omok.model.fixture.createPlayingBoard
 
 class BlackTest {
@@ -43,7 +44,7 @@ class BlackTest {
             blackBoard.getWinningResult(
                 position = position,
                 markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
-                    board[horizontalCoordinate][verticalCoordinate] = color
+                    board.values[horizontalCoordinate].placementData[verticalCoordinate] = color
                 },
             )
 
@@ -60,7 +61,7 @@ class BlackTest {
             blackBoard.getWinningResult(
                 position = position,
                 markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
-                    board[horizontalCoordinate][verticalCoordinate] = color
+                    board.values[horizontalCoordinate].placementData[verticalCoordinate] = color
                 },
             )
         }
@@ -76,7 +77,7 @@ class BlackTest {
             blackBoard.getWinningResult(
                 position = position,
                 markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
-                    board[horizontalCoordinate][verticalCoordinate] = color
+                    board.values[horizontalCoordinate].placementData[verticalCoordinate] = color
                 },
             )
         }
@@ -92,70 +93,76 @@ class BlackTest {
             blackBoard.getWinningResult(
                 position = position,
                 markSinglePlace = { horizontalCoordinate, verticalCoordinate, color ->
-                    board[horizontalCoordinate][verticalCoordinate] = color
+                    board.values[horizontalCoordinate].placementData[verticalCoordinate] = color
                 },
             )
         }
     }
 
     private fun createThreeThreeBoard() =
-        arrayOf(
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, WHITE, WHITE, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, WHITE, WHITE, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, WHITE, null, WHITE, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, WHITE, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, BLACK, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, BLACK, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, BLACK, BLACK, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        Rows(
+            listOf(
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, WHITE, WHITE, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, WHITE, WHITE, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, WHITE, null, WHITE, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, WHITE, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, BLACK, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, BLACK, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, BLACK, BLACK, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+            ),
         )
 
     private fun createFourFourBoard() =
-        arrayOf(
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, WHITE, WHITE, WHITE, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, WHITE, WHITE, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, WHITE, null, WHITE, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, WHITE, null, WHITE, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, BLACK, null, BLACK, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, BLACK, null, null, BLACK, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, BLACK, null, null, null, BLACK, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        Rows(
+            listOf(
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, WHITE, WHITE, WHITE, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, WHITE, WHITE, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, WHITE, null, WHITE, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, WHITE, null, WHITE, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, BLACK, null, BLACK, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, BLACK, null, null, BLACK, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, BLACK, null, null, null, BLACK, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+            ),
         )
 
     private fun createOverLineBoard() =
-        arrayOf(
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, WHITE, WHITE, WHITE, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, WHITE, WHITE, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, WHITE, null, WHITE, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, WHITE, null, WHITE, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, BLACK, null, BLACK, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, BLACK, null, null, BLACK, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, BLACK, BLACK, BLACK, null, BLACK, BLACK, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+        Rows(
+            listOf(
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, WHITE, WHITE, WHITE, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, WHITE, WHITE, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, WHITE, null, WHITE, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, WHITE, null, WHITE, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, BLACK, null, BLACK, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, BLACK, null, null, BLACK, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, BLACK, BLACK, BLACK, null, BLACK, BLACK, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+            ),
         )
 
     companion object {

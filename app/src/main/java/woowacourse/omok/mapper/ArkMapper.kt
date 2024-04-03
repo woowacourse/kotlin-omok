@@ -2,17 +2,18 @@ package woowacourse.omok.mapper
 
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.Position
+import woowacourse.omok.model.Rows
 
 private const val BOARD_SIZE = 15
 private const val BLANK_SIGNATURE_NUMBER = 0
 private const val BLACK_SIGNATURE_NUMBER = 1
 private const val WHITE_SIGNATURE_NUMBER = 2
 
-fun Array<Array<Color?>>.toArkOmokBoard(): List<List<Int>> {
+fun Rows.toArkOmokBoard(): List<List<Int>> {
     val arkBoard = MutableList(BOARD_SIZE) { MutableList(BOARD_SIZE) { BLANK_SIGNATURE_NUMBER } }
-    for (i in 1..<this.size) {
-        for (j in 1..<this[i].size) {
-            arkBoard[i - 1][j - 1] = this[i][j].toSignatureNumber()
+    for (i in 1..<values.size) {
+        for (j in 1..<values[i].placementData.size) {
+            arkBoard[i - 1][j - 1] = values[i].placementData[j].toSignatureNumber()
         }
     }
     return arkBoard

@@ -8,8 +8,9 @@ import woowacourse.omok.mapper.toArkOmokPoint
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.GameResult
 import woowacourse.omok.model.Position
+import woowacourse.omok.model.Rows
 
-class Black(private val blackStatus: Array<Array<Color?>>) : TurnState(blackStatus) {
+class Black(private val blackStatus: Rows) : TurnState(blackStatus) {
     override fun getWinningResult(
         position: Position,
         markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,

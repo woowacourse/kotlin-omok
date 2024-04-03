@@ -1,14 +1,14 @@
 package woowacourse.omok.model
 
 class PlacementInfo(
-    val status: Array<Array<Color?>> = Array(COMPUTATION_BOARD_SIZE) { Array(COMPUTATION_BOARD_SIZE) { null } },
+    val status: Rows = Rows(List(COMPUTATION_BOARD_SIZE) { Row(MutableList(COMPUTATION_BOARD_SIZE) { null }) }),
 ) {
     fun markSinglePlace(
         horizontalCoordinate: Int,
         verticalCoordinate: Int,
         color: Color,
     ) {
-        status[horizontalCoordinate][verticalCoordinate] = color
+        status.values[horizontalCoordinate].placementData[verticalCoordinate] = color
     }
 
     companion object {

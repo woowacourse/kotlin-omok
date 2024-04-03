@@ -7,6 +7,8 @@ import org.junit.jupiter.params.provider.CsvSource
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.Color.BLACK
 import woowacourse.omok.model.Position
+import woowacourse.omok.model.Row
+import woowacourse.omok.model.Rows
 import woowacourse.omok.model.fixture.createPlayingBoard
 
 class HorizontalFiveInRowSearchTest {
@@ -56,23 +58,27 @@ class HorizontalFiveInRowSearchTest {
     fun `가장자리 수평 dfs 테스트`() {
         val horizontalDfs =
             HorizontalFiveInRowSearch(
-                arrayOf(
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-                    arrayOf(null, BLACK, BLACK, BLACK, BLACK, BLACK, null, null, null, null, null, null, null, null, null, null),
+                Rows(
+                    listOf(
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                        Row(
+                            mutableListOf(null, BLACK, BLACK, BLACK, BLACK, BLACK, null, null, null, null, null, null, null, null, null, null),
+                        ),
+                    ),
                 ),
             )
         horizontalDfs.search(BLACK, 15, 2)

@@ -1,9 +1,10 @@
 package woowacourse.omok.model.search
 
 import woowacourse.omok.model.Color
+import woowacourse.omok.model.Rows
 
 class HorizontalFiveInRowSearch(
-    status: Array<Array<Color?>>,
+    status: Rows,
 ) : FiveInRowSearch(status) {
     override fun search(
         color: Color,

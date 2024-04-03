@@ -8,11 +8,11 @@ import woowacourse.omok.model.state.White
 class Board(
     private val placementInfo: PlacementInfo = PlacementInfo(),
 ) {
-    val boardPlacement: List<Row>
-        get() = placementInfo.status.map { Row(it.toList()) }.toList()
+    val boardPlacement: Rows
+        get() = Rows(placementInfo.status.values.map { Row(it.placementData) }.toList())
 
     private val placementCount: Int
-        get() = boardPlacement.flatMap { it.placementData }.count { it != null }
+        get() = boardPlacement.values.flatMap { it.placementData }.count { it != null }
 
     var lastPlacement: Stone? = null
         private set
@@ -26,12 +26,19 @@ class Board(
     fun place(position: Position): GameState {
         if (position.horizontalCoordinate !in MIN_INDEX..MAX_INDEX) return GameState.Error(message = MESSAGE_WRONG_ROW_RANGE)
         if (position.verticalCoordinate !in MIN_INDEX..MAX_INDEX) return GameState.Error(message = MESSAGE_WRONG_COL_RANGE)
-        if (boardPlacement[COMPUTATION_BOARD_SIZE - position.horizontalCoordinate].placementData[position.verticalCoordinate] != null) {
+        if (boardPlacement
+                .values[COMPUTATION_BOARD_SIZE - position.horizontalCoordinate]
+                .placementData[position.verticalCoordinate] != null
+        ) {
             return GameState.Error(
                 message = MESSAGE_DUPLICATED_POSITION,
             )
         }
-        if (placementCount >= DISPLAY_BOARD_SIZE * DISPLAY_BOARD_SIZE) return GameState.GameOver(gameResult = GameResult.DRAW)
+        if (placementCount >= DISPLAY_BOARD_SIZE * DISPLAY_BOARD_SIZE) {
+            return GameState.GameOver(
+                gameResult = GameResult.DRAW,
+            )
+        }
 
         lastPlacement = getLastPlacementInfo(position)
         val turnResult = turnState.getWinningResult(position, placementInfo::markSinglePlace)

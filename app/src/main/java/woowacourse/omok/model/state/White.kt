@@ -3,8 +3,9 @@ package woowacourse.omok.model.state
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.GameResult
 import woowacourse.omok.model.Position
+import woowacourse.omok.model.Rows
 
-class White(whiteStatus: Array<Array<Color?>>) : TurnState(whiteStatus) {
+class White(whiteStatus: Rows) : TurnState(whiteStatus) {
     override fun getWinningResult(
         position: Position,
         markSinglePlace: (horizontalCoordinate: Int, verticalCoordinate: Int, color: Color) -> Unit,

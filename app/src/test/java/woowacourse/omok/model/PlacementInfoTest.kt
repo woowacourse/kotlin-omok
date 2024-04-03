@@ -15,34 +15,40 @@ class PlacementInfoTest {
             }
 
         val expectedResult = createEdgePlacedBoard()
-        assertThat(placementInfo.status).isEqualTo(expectedResult)
+        assertThat(placementInfo.status.values).isEqualTo(expectedResult.values)
     }
 
     private fun createEdgePlacedBoard() =
-        arrayOf(
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(
-                null,
-                Color.BLACK, null, null, null, null, null, null, null, null, null, null, null, null, null,
-                Color.WHITE,
-            ),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-            arrayOf<Color?>(
-                null,
-                Color.BLACK, null, null, null, null, null, null, null, null, null, null, null, null, null,
-                Color.WHITE,
+        Rows(
+            listOf(
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(
+                    mutableListOf(
+                        null, Color.BLACK, null, null, null, null, null, null, null, null, null, null, null, null, null, Color.WHITE,
+                    ),
+                ),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(mutableListOf(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)),
+                Row(
+                    mutableListOf(
+                        null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                    ),
+                ),
+                Row(
+                    mutableListOf(
+                        null, Color.BLACK, null, null, null, null, null, null, null, null, null, null, null, null, null, Color.WHITE,
+                    ),
+                ),
             ),
         )
 }
