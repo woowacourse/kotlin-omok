@@ -58,10 +58,11 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun loadCoordinates(board: TableLayout) = board.children
-        .filterIsInstance<TableRow>()
-        .flatMap { it.children }
-        .filterIsInstance<ImageView>()
+    private fun loadCoordinates(board: TableLayout) =
+        board.children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
 
     private fun printStartGuide(outputView: OutputView) {
         outputView.printAlert("오목 게임을 시작합니다")
