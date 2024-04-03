@@ -1,10 +1,11 @@
 package woowacourse.omok.game.controller
 
 import android.os.Bundle
-import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
@@ -22,14 +23,18 @@ import woowacourse.omok.game.database.OmokEntryDao
 class MainActivity : AppCompatActivity() {
     private val board2 = Board(15, RenjuRuleAdapter())
     private val dao by lazy { OmokEntryDao(this) }
-
     private val bannedPoints = mutableListOf<Point>()
+    private lateinit var textView: TextView
+    private lateinit var button: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val board = findViewById<TableLayout>(R.id.board)
+        textView = findViewById(R.id.textView)
+        button = findViewById(R.id.putBtn)
+
         fetchSavedData(board)
         val turn = Turn(board2.lastColor())
         turn.next()
@@ -53,7 +58,6 @@ class MainActivity : AppCompatActivity() {
         board: TableLayout,
     ) {
         view.setOnClickListener {
-            Log.d("point", "x=${point.row}, y=${point.col}")
             if (board2.pointEmpty(point) && board2.isValidPoint(turn, point)) {
                 view.setImageResource(turnToStone(turn))
                 board2.add(Stone(point, turn.color()))
@@ -64,16 +68,24 @@ class MainActivity : AppCompatActivity() {
                 }
                 turn.next()
             } else {
-                if (!board2.isValidPoint(turn, point)) {
-                    // 렌주룰 위반
-                    // Activity 가 룰 위반인 것을 알고 있어도 되는가? -> 모델의 역할 아닌가?
-                    view.setImageResource(R.drawable.unavailable_point)
-                    Toast.makeText(this, "둘 수 없는 자리입니다.", Toast.LENGTH_SHORT).show()
-                    bannedPoints.add(point)
-                } else {
-                    Toast.makeText(this, "둘 수 없는 자리입니다.", Toast.LENGTH_SHORT).show()
-                }
+                handleInvalidPoint(turn, point, view)
             }
+        }
+    }
+
+    private fun handleInvalidPoint(
+        turn: Turn,
+        point: Point,
+        view: ImageView
+    ) {
+        if (!board2.isValidPoint(turn, point)) {
+            // 렌주룰 위반
+            // Activity 가 룰 위반인 것을 알고 있어도 되는가? -> 모델의 역할 아닌가?
+            view.setImageResource(R.drawable.unavailable_point)
+            Toast.makeText(this, "둘 수 없는 자리입니다.", Toast.LENGTH_SHORT).show()
+            bannedPoints.add(point)
+        } else {
+            Toast.makeText(this, "둘 수 없는 자리입니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -100,13 +112,14 @@ class MainActivity : AppCompatActivity() {
         resetBoardView(board)
         board2.resetCustomBoard()
         deleteAllData()
-        popUpSnackBar(view, turn)
+        popUpSnackBar(view, turn, board)
         turn.reset()
     }
 
     private fun popUpSnackBar(
         view: ImageView,
         turn: Turn,
+        board: TableLayout
     ) {
         val snackBar =
             Snackbar.make(
@@ -114,7 +127,9 @@ class MainActivity : AppCompatActivity() {
                 "게임 종료!  ${turnToString(turn)}의 승리입니다!",
                 Snackbar.LENGTH_INDEFINITE,
             )
+        board.setOnClickListener(null)
         snackBar.setAction("확인") {
+            //resetBoardView(board)
             snackBar.dismiss()
         }
         snackBar.show()
