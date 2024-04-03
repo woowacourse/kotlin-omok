@@ -32,12 +32,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupOmokGame()
-        playOmokGame()
+        val boardSize = setupOmokGame()
+        playOmokGame(boardSize)
         setupResetButton()
     }
 
-    private fun setupOmokGame() {
+    private fun setupOmokGame(): Int {
         val dbStones = omokDao.findAllOmok()
         val stonesList = mutableListOf<Stone>()
 
@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         val player = omokGame.getCurrentPlayer()
 
         updateText("${player.color.name} 플레이어부터 시작합니다.")
+        return board.width
     }
 
     private fun setStoneImage(
@@ -81,29 +82,23 @@ class MainActivity : AppCompatActivity() {
         imageView.setImageResource(resourceId)
     }
 
-    private fun playOmokGame() {
-        boardView
-            .children
-            .filterIsInstance<TableRow>()
-            .forEachIndexed { rowIndex, rows ->
-                rows.children.filterIsInstance<ImageView>()
-                    .forEachIndexed { columnIndex, view ->
-                        view.setOnClickListener {
-                            val coordinate =
-                                Coordinate(
-                                    rowIndex + 1,
-                                    columnIndex + 1,
-                                )
-                            val player = omokGame.getCurrentPlayer()
-                            progressGameTurn(player, coordinate) {
-                                when (player.color) {
-                                    Color.BLACK -> view.setImageResource(R.drawable.black_stone)
-                                    Color.WHITE -> view.setImageResource(R.drawable.white_stone)
-                                }
-                            }
-                        }
+    private fun playOmokGame(boardSize: Int) {
+        val board = getBoardImageViews()
+        board.forEachIndexed { index, view ->
+            val rowIndex = index / boardSize
+            val columnIndex = index % boardSize
+
+            view.setOnClickListener {
+                val coordinate = Coordinate(rowIndex + 1, columnIndex + 1)
+                val player = omokGame.getCurrentPlayer()
+                progressGameTurn(player, coordinate) {
+                    when (player.color) {
+                        Color.BLACK -> view.setImageResource(R.drawable.black_stone)
+                        Color.WHITE -> view.setImageResource(R.drawable.white_stone)
                     }
+                }
             }
+        }
     }
 
     private fun progressGameTurn(
@@ -138,32 +133,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun removeClickListeners() {
-        boardView
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { it.setOnClickListener(null) }
-    }
+    private fun removeClickListeners() =
+        getBoardImageViews().forEach { it.setOnClickListener(null) }
+
 
     private fun setupResetButton() {
         val resetButton = findViewById<Button>(R.id.reset_button)
         resetButton.setOnClickListener {
             resetBoard()
             omokDao.resetAll()
-            setupOmokGame()
-            playOmokGame()
+            val boardSize = setupOmokGame()
+            playOmokGame(boardSize)
         }
     }
 
-    private fun resetBoard() {
-        boardView
+    private fun resetBoard() =
+        getBoardImageViews().forEach { it.setImageResource(0) }
+
+
+    private fun getBoardImageViews(): Sequence<ImageView> {
+        return boardView
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEach { it.setImageResource(0) }
     }
 
     private fun updateText(newText: String) {
