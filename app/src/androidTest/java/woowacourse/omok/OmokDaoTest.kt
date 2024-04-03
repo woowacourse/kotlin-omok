@@ -26,11 +26,9 @@ class OmokDaoTest {
 
     @Test
     fun save() {
-        val actual = dao.save(OmokEntry(null, 3, 3, "흑"))
+        val actual = dao.save(OmokEntry(1, "흑"))
 
-        assertThat(actual.id).isGreaterThan(0)
-        assertThat(actual.row).isEqualTo(3)
-        assertThat(actual.col).isEqualTo(3)
+        assertThat(actual.index).isEqualTo(1)
         assertThat(actual.color).isEqualTo("흑")
     }
 
@@ -42,12 +40,11 @@ class OmokDaoTest {
 
     @Test
     fun saveAndFindAll() {
-        val entry = OmokEntry(row = 4, col = 1, color = "흑")
+        val entry = OmokEntry(index = 1, color = "흑")
         dao.save(entry)
 
         val actual = dao.findAll()
-        assertThat(actual[0].row).isEqualTo(4)
-        assertThat(actual[0].col).isEqualTo(1)
+        assertThat(actual[0].index).isEqualTo(1)
         assertThat(actual[0].color).isEqualTo("흑")
     }
 }
