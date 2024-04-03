@@ -1,7 +1,5 @@
 package woowacourse.omok.model.omok
 
-import woowacourse.omok.model.Vector
-
 class Board(val stones: OmokStones = OmokStones(), private val maxSize: Int = 15) {
     val lastStone: OmokStone?
         get() = stones.getLastStoneOrNull()
