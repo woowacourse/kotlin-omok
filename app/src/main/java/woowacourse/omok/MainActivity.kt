@@ -8,17 +8,16 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import woowacourse.omok.db.StoneEntity
-import woowacourse.omok.db.StoneMapper
-import woowacourse.omok.db.StonesDao
+import woowacourse.omok.db.StoneConverterFromDB
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.GameEventListener
 import woowacourse.omok.model.OmokGame
+import woowacourse.omok.model.Stone
 import woowacourse.omok.model.StoneState
 import woowacourse.omok.view.OutputView
 
 class MainActivity : AppCompatActivity(), GameEventListener {
-    private lateinit var stonesDao: StonesDao
+    private lateinit var stoneConverterFromDB: StoneConverterFromDB
     private lateinit var boardLayout: TableLayout
     private lateinit var omokGame: OmokGame
 
@@ -32,10 +31,10 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     private fun setUpBase() {
-        stonesDao = StonesDao(this)
+        stoneConverterFromDB = StoneConverterFromDB(this)
         boardLayout = findViewById(R.id.board)
         omokGame = OmokGame(this)
-        loadStonesFromDb()
+        setStonesFromDb()
     }
 
     private fun setUpUiListener() {
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         restartButton.setOnClickListener {
             omokGame.restartGame()
             resetBoardView()
-            clearDb()
+            stoneConverterFromDB.clearAllStonesInDB()
         }
 
         val exitButton: Button = findViewById(R.id.exitButton)
@@ -70,14 +69,13 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     override fun onGameEnd(winner: Color) {
         viewToastMessage(WINNER_MESSAGE.format(getPlayerColor(winner)), LONG_DURATION)
         displayWinnerOnConsole()
-        clearDb()
+        stoneConverterFromDB.clearAllStonesInDB()
     }
 
-    private fun loadStonesFromDb() {
-        val stoneEntities = stonesDao.getAllStones()
-        val stones = stoneEntities.map { StoneMapper.toStone(it) }
+    private fun setStonesFromDb() {
+        val stones = stoneConverterFromDB.loadStonesFromDb()
         omokGame.setStonesOnBoard(stones)
-        updateUI(stoneEntities)
+        updateUI(stones)
     }
 
     private fun setOnBoardTouch() {
@@ -92,37 +90,16 @@ class MainActivity : AppCompatActivity(), GameEventListener {
             }
     }
 
-    private fun insertStoneToDb(
-        color: Color,
-        row: Int,
-        col: Int,
-        order: Int,
-    ) {
-        val stoneEntity =
-            StoneEntity(
-                color = color.name.lowercase(),
-                row = row,
-                column = col,
-                order = order,
-            )
-        stonesDao.insertStone(stoneEntity)
-    }
-
-    private fun clearDb() {
-        stonesDao.deleteAllStones()
-    }
-
-    private fun updateUI(stoneEntities: List<StoneEntity>) {
-        stoneEntities.forEach { stoneEntity ->
-            val rowIndex = stoneEntity.row - INDEX_ADJUSTMENT
-            val columnIndex = stoneEntity.column - INDEX_ADJUSTMENT
+    private fun updateUI(stones: List<Stone>) {
+        stones.forEach { stone ->
+            val rowIndex = stone.coordinate.row.value - INDEX_ADJUSTMENT
+            val columnIndex = stone.coordinate.col.value - INDEX_ADJUSTMENT
 
             val row = boardLayout.getChildAt(rowIndex) as? TableRow
             val cell = row?.getChildAt(columnIndex) as? ImageView
 
             cell?.let {
-                val color = Color.valueOf(stoneEntity.color.uppercase())
-                selectAndShowStoneOnColor(color, it)
+                selectAndShowStoneOnColor(stone.color, it)
             }
         }
     }
@@ -156,7 +133,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     ) {
         val order = omokGame.getStoneOrder()
         if (!omokGame.gameEnded) {
-            insertStoneToDb(color, row, col, order)
+            stoneConverterFromDB.insertStoneToDb(color, row, col, order)
         }
         selectAndShowStoneOnColor(color, clickedView)
         showPresentBoardStatusOnConsole()
