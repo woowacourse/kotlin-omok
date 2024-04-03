@@ -10,10 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import woowacourse.omok.R
 import woowacourse.omok.db.OmokRepository
-import woowacourse.omok.model.AndroidOmokGame
-import woowacourse.omok.model.Board
-import woowacourse.omok.model.OmokStone
-import woowacourse.omok.model.Position
+import woowacourse.omok.model.game.AndroidOmokGame
+import woowacourse.omok.model.omok.Board
+import woowacourse.omok.model.omok.OmokStone
+import woowacourse.omok.model.omok.Position
 import woowacourse.omok.view.OmokBoardView
 import woowacourse.omok.view.OmokOutputView
 import woowacourse.omok.view.OmokTextView

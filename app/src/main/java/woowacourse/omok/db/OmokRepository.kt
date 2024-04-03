@@ -1,11 +1,11 @@
 package woowacourse.omok.db
 
 import android.content.Context
-import woowacourse.omok.model.Board
-import woowacourse.omok.model.OmokStone
-import woowacourse.omok.model.OmokStones
-import woowacourse.omok.model.Position
-import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.omok.Board
+import woowacourse.omok.model.omok.OmokStone
+import woowacourse.omok.model.omok.OmokStones
+import woowacourse.omok.model.omok.Position
+import woowacourse.omok.model.omok.StoneColor
 import woowacourse.omok.util.mapStoneColorToString
 
 class OmokRepository(context: Context) {

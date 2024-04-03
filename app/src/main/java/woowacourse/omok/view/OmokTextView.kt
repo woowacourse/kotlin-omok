@@ -1,8 +1,8 @@
 package woowacourse.omok.view
 
 import android.widget.TextView
-import woowacourse.omok.model.Board
-import woowacourse.omok.model.OmokStone
+import woowacourse.omok.model.omok.Board
+import woowacourse.omok.model.omok.OmokStone
 import woowacourse.omok.util.getNextTurnColor
 import woowacourse.omok.util.mapStoneColorToString
 

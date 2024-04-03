@@ -1,4 +1,4 @@
-package woowacourse.omok.model
+package woowacourse.omok.model.omok
 
 class OmokStones(private val stones: Map<Position, StoneColor> = emptyMap()) {
     val keys: Set<Position>

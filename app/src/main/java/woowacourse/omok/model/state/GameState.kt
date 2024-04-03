@@ -1,7 +1,7 @@
 package woowacourse.omok.model.state
 
-import woowacourse.omok.model.Board
-import woowacourse.omok.model.Position
+import woowacourse.omok.model.omok.Board
+import woowacourse.omok.model.omok.Position
 
 sealed class GameState(val board: Board) {
     abstract val isFinished: Boolean

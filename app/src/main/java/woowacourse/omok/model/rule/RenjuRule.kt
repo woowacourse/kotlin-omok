@@ -3,8 +3,8 @@ package woowacourse.omok.model.rule
 import woowacourse.lib.ark.ark.ArkFourFourRule
 import woowacourse.lib.ark.ark.ArkOverLineRule
 import woowacourse.lib.ark.ark.ArkThreeThreeRule
-import woowacourse.omok.model.Board
-import woowacourse.omok.model.OmokStone
+import woowacourse.omok.model.omok.Board
+import woowacourse.omok.model.omok.OmokStone
 import woowacourse.omok.util.toArkOmokBoard
 import woowacourse.omok.util.toArkOmokPoint
 

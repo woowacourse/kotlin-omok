@@ -1,7 +1,7 @@
 package woowacourse.omok.model.rule
 
-import woowacourse.omok.model.Board
-import woowacourse.omok.model.OmokStone
+import woowacourse.omok.model.omok.Board
+import woowacourse.omok.model.omok.OmokStone
 
 open class StonePlaceRule {
     open fun canPlace(

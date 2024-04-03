@@ -1,6 +1,6 @@
 package omok.fixtures
 
-import woowacourse.omok.model.Position
+import woowacourse.omok.model.omok.Position
 
 fun createPosition(
     x: Int,

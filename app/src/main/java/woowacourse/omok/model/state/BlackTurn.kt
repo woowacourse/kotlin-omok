@@ -1,9 +1,9 @@
 package woowacourse.omok.model.state
 
-import woowacourse.omok.model.Board
-import woowacourse.omok.model.OmokStone
-import woowacourse.omok.model.Position
-import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.omok.Board
+import woowacourse.omok.model.omok.OmokStone
+import woowacourse.omok.model.omok.Position
+import woowacourse.omok.model.omok.StoneColor
 import woowacourse.omok.model.rule.StonePlaceRule
 
 class BlackTurn(stonePlaceRule: StonePlaceRule, board: Board) :

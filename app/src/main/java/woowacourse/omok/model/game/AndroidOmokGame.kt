@@ -1,5 +1,9 @@
-package woowacourse.omok.model
+package woowacourse.omok.model.game
 
+import woowacourse.omok.model.omok.Board
+import woowacourse.omok.model.omok.OmokStone
+import woowacourse.omok.model.omok.Position
+import woowacourse.omok.model.omok.StoneColor
 import woowacourse.omok.model.rule.RenjuRule
 import woowacourse.omok.model.rule.StonePlaceRule
 import woowacourse.omok.model.state.BlackTurn

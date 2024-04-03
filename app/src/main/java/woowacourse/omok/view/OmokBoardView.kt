@@ -2,10 +2,10 @@ package woowacourse.omok.view
 
 import android.widget.ImageView
 import woowacourse.omok.R
-import woowacourse.omok.model.Board
-import woowacourse.omok.model.OmokStone
-import woowacourse.omok.model.Position
-import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.omok.Board
+import woowacourse.omok.model.omok.OmokStone
+import woowacourse.omok.model.omok.Position
+import woowacourse.omok.model.omok.StoneColor
 
 class OmokBoardView(private val spaceViews: List<ImageView>) : OmokView {
     fun setupClickListener(onPlace: (Position) -> Unit) {

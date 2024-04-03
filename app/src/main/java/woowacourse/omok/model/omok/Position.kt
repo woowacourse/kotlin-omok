@@ -1,4 +1,6 @@
-package woowacourse.omok.model
+package woowacourse.omok.model.omok
+
+import woowacourse.omok.model.Vector
 
 data class Position(val x: Int, val y: Int) {
     operator fun plus(other: Vector): Position = Position(x + other.x, y + other.y)

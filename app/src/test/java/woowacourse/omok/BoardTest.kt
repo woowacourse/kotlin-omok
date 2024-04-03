@@ -10,8 +10,8 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import woowacourse.omok.fixtures.createBlackBoard
 import woowacourse.omok.fixtures.createBoard
-import woowacourse.omok.model.OmokStone
-import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.omok.OmokStone
+import woowacourse.omok.model.omok.StoneColor
 
 class BoardTest {
     @Test

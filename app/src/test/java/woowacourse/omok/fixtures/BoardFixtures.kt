@@ -1,9 +1,9 @@
 package woowacourse.omok.fixtures
 
-import woowacourse.omok.model.Board
-import woowacourse.omok.model.OmokStones
-import woowacourse.omok.model.Position
-import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.omok.Board
+import woowacourse.omok.model.omok.OmokStones
+import woowacourse.omok.model.omok.Position
+import woowacourse.omok.model.omok.StoneColor
 
 fun createBoard(vararg positions: Position = arrayOf()): Board {
     if (positions.isEmpty()) return Board(OmokStones())
