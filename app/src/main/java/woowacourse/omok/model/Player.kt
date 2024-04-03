@@ -11,8 +11,4 @@ class Player(val color: Color) {
     fun win() {
         isWin = true
     }
-
-    fun resetWinState() {
-        isWin = false
-    }
 }

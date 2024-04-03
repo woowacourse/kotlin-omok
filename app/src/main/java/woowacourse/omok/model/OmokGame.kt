@@ -58,7 +58,7 @@ class OmokGame(private val gameEventListener: GameEventListener) {
     }
 
     fun restartGame() {
-        board.resetBoard()
+        _board = Board()
         gameEnded = false
     }
 }

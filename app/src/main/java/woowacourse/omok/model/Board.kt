@@ -93,12 +93,6 @@ class Board(val stones: Stones = Stones()) {
         }
     }
 
-    fun resetBoard() {
-        stones.clearStones()
-        players.first.resetWinState()
-        players.second.resetWinState()
-    }
-
     companion object {
         private const val MIN_POSITION = 1
         const val BOARD_SIZE = 15

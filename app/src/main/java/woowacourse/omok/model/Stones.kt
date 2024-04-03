@@ -60,10 +60,6 @@ class Stones {
         return _stones.lastOrNull()?.color
     }
 
-    fun clearStones() {
-        _stones.clear()
-    }
-
     companion object {
         val OMOK_COUNT: Int = 5
         val TOP = listOf(1, 0)
