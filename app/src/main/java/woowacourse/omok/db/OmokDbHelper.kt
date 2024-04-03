@@ -21,6 +21,7 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, "omok.db", null
         oldVersion: Int,
         newVersion: Int,
     ) {
-        TODO()
+        db?.execSQL("DROP TABLE IF EXISTS ${OmokContract.TABLE_NAME}")
+        onCreate(db)
     }
 }
