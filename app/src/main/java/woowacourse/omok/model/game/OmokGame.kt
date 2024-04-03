@@ -10,6 +10,8 @@ class OmokGame(
     private val finishAction: FinishAction,
     private val turnHistory: TurnHistory,
 ) {
+    private var recentFinishType = FinishType.NOT_FINISH
+
     fun turn(position: Position): PlaceType {
         return placeType(position, turnHistory.recentPlayer).also {
             checkFinish(position)
@@ -18,9 +20,9 @@ class OmokGame(
     }
 
     private fun checkFinish(position: Position) {
-        val finishType = finishType(board, position, turnHistory.recentPlayer)
-        if (!finishType.isFinish()) return
-        finishAction.onFinish(finishType)
+        recentFinishType = finishType(board, position, turnHistory.recentPlayer)
+        if (!recentFinishType.isFinish()) return
+        finishAction.onFinish(recentFinishType)
     }
 
     private fun placeType(
@@ -45,6 +47,7 @@ class OmokGame(
     fun recentPosition() = turnHistory.recentPosition
 
     fun restart() {
+        recentFinishType = FinishType.NOT_FINISH
         turnHistory.clear()
         board.clear()
     }
@@ -58,4 +61,6 @@ class OmokGame(
             .map { it.finishType(board, recentPosition, player) }
             .minBy { it.ordinal }
     }
+
+    fun isFinish() = recentFinishType.isFinish()
 }

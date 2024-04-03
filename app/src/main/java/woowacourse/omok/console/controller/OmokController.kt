@@ -20,12 +20,10 @@ class OmokController(
     private val resultView: ResultView,
     private val boardSize: Int,
 ) : FinishAction {
-    private var isFinish = false
-
     fun startGame() {
         val board = initializedBoard()
         val omokGame = OmokGame(board, this, TurnHistory(OmokPlayers()))
-        while (!isFinish) {
+        while (!omokGame.isFinish()) {
             progressView.printBoard(board)
             val position = nextStonePosition(omokGame)
             val placeType = omokGame.turn(position)
@@ -48,7 +46,6 @@ class OmokController(
     }
 
     override fun onFinish(finishType: FinishType) {
-        isFinish = true
         resultView.print(finishType)
     }
 }
