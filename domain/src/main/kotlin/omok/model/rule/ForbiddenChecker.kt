@@ -15,6 +15,7 @@ object ForbiddenChecker {
                 PutResult.ExceedFive -> result
                 PutResult.Running -> PutResult.Running
                 PutResult.Failure -> PutResult.Failure
+                PutResult.Omok -> PutResult.Omok
             }
         }
         return PutResult.Running

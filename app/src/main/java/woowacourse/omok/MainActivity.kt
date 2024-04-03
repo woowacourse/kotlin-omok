@@ -9,7 +9,9 @@ import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import omok.model.board.Board
 import omok.model.position.Position
+import omok.model.result.PutResult
 import omok.model.result.PutResultUtils.handleHintMessage
+import omok.model.result.PutResultUtils.isOmok
 import omok.model.result.PutResultUtils.isRunning
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
@@ -51,15 +53,16 @@ class MainActivity : AppCompatActivity() {
     ) {
         view.setOnClickListener {
             val position = getPosition(index)
-            val putResult = stone.putStone(position)
+            var putResult = stone.putStone(position)
             if (isRunning(putResult).not()) {
                 makeHintSnackBar(view, handleHintMessage(putResult))
                 return@setOnClickListener
             }
             saveData(position)
             showStone(view)
-            if (stone.findOmok(position)) {
-                endGame(positions, view)
+            putResult = stone.findOmok(position)
+            if (isOmok(putResult)) {
+                endGame(positions, view, putResult)
             }
             stone = stone.change()
         }
@@ -77,9 +80,10 @@ class MainActivity : AppCompatActivity() {
     private fun endGame(
         positions: List<ImageView>,
         view: ImageView,
+        putResult: PutResult,
     ) {
         setBoardClickable(positions, isClickable = false)
-        showWinner(view, positions)
+        showWinner(view, positions, putResult)
     }
 
     private fun setBoardClickable(
@@ -94,11 +98,12 @@ class MainActivity : AppCompatActivity() {
     private fun showWinner(
         view: ImageView,
         positions: List<ImageView>,
+        putResult: PutResult,
     ) {
         val snackBar =
             Snackbar.make(
                 view,
-                this.getString(R.string.winnier_message).format(stone.stoneType.type),
+                handleHintMessage(putResult).format(stone.stoneType.type),
                 Snackbar.LENGTH_INDEFINITE,
             )
         snackBar.setAction(R.string.game_restart) {

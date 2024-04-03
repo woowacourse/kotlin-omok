@@ -3,6 +3,7 @@ package omok.model
 import omok.model.board.Board
 import omok.model.position.Position
 import omok.model.result.PutResultUtils.handleHintMessage
+import omok.model.result.PutResultUtils.isOmok
 import omok.model.result.PutResultUtils.isRunning
 import omok.model.stone.BlackStone
 import omok.model.stone.GoStone
@@ -12,23 +13,24 @@ class OmokGame(private val blackStone: BlackStone) {
     fun start(
         readPosition: (GoStone) -> Position,
         drawBoard: (Board) -> Unit,
-        printWinner: (GoStone) -> Unit,
         printHintMessage: (String) -> Unit,
     ) {
         var stone: GoStone = blackStone
-        var isOmok = false
 
-        do {
+        while (true) {
             val position = readPosition(stone)
-            val putResult = stone.putStone(position)
+            var putResult = stone.putStone(position)
             if (isRunning(putResult).not()) {
                 printHintMessage(handleHintMessage(putResult))
                 continue
             }
-            isOmok = stone.findOmok(position)
-            if (isOmok) printWinner(stone)
-            stone = stone.change()
+            putResult = stone.findOmok(position)
             drawBoard(Board)
-        } while (!isOmok)
+            if (isOmok(putResult)) {
+                printHintMessage(handleHintMessage(putResult).format(stone.stoneType.type))
+                break
+            }
+            stone = stone.change()
+        }
     }
 }

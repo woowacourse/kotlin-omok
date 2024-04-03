@@ -24,7 +24,11 @@ abstract class GoStone {
         return putResult
     }
 
-    fun findOmok(position: Position): Boolean = OmokChecker.findOmok(position, stoneType)
+    fun findOmok(position: Position): PutResult {
+        val isOmok = OmokChecker.findOmok(position, stoneType)
+        if (isOmok) return PutResult.Omok
+        return PutResult.Running
+    }
 
     companion object {
         fun GoStone.change() = if (this.stoneType == StoneType.BLACK_STONE) WhiteStone() else BlackStone()

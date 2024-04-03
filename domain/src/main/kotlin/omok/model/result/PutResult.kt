@@ -10,4 +10,6 @@ sealed interface PutResult {
     data object DoubleFour : PutResult
 
     data object ExceedFive : PutResult
+
+    data object Omok : PutResult
 }
