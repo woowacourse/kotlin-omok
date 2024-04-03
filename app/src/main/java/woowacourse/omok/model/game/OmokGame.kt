@@ -1,6 +1,8 @@
-package woowacourse.omok.model
+package woowacourse.omok.model.game
 
 import woowacourse.omok.model.event.OnPlaceListener
+import woowacourse.omok.model.omok.Board
+import woowacourse.omok.model.omok.OmokStone
 import woowacourse.omok.model.state.GameState
 
 class OmokGame(

@@ -1,6 +1,6 @@
 package woowacourse.omok.view
 
-import woowacourse.omok.model.Position
+import woowacourse.omok.model.omok.Position
 
 object ConsoleOmokInputView : OmokInputView {
     override fun readPosition(): Position {
@@ -9,7 +9,7 @@ object ConsoleOmokInputView : OmokInputView {
         val inputX = input.firstOrNull()?.formatToPositionX() ?: return readPosition()
         val inputY = input.substring(1).toIntOrNull() ?: return readPosition()
         val (x, y) = inputX to inputY
-        return Position.of(x, y)
+        return Position(x, y)
     }
 
     private fun Char.formatToPositionX(): Int = uppercase().first() - 'A' + 1

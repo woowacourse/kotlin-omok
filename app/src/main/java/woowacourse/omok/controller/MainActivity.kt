@@ -58,13 +58,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeOmokViewComponents() {
-        omokBoardView = OmokBoardView(setupBoardImageViews())
+        omokBoardView = OmokBoardView(createBoardImageViews())
         omokBoardView.setupClickListener(game::placeOmokStone)
-        omokTextView = OmokTextView(setupTextView())
+        omokTextView = OmokTextView(createTurnInfoTextView())
         setupResetButtonClickListener()
     }
 
-    private fun setupBoardImageViews(): List<ImageView> =
+    private fun createBoardImageViews(): List<ImageView> =
         findViewById<TableLayout>(R.id.board)
             .children
             .filterIsInstance<TableRow>()
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<ImageView>()
             .toList()
 
-    private fun setupTextView(): TextView = findViewById(R.id.tv_turn_information)
+    private fun createTurnInfoTextView(): TextView = findViewById(R.id.tv_turn_information)
 
     private fun setupResetButtonClickListener() {
         val resetButton = findViewById<Button>(R.id.btn_game_reset)

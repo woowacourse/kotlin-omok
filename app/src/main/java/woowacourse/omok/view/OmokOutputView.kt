@@ -8,6 +8,11 @@ interface OmokOutputView {
 
     fun showProgress(stone: OmokStone?)
 
+    fun showProgressWithBoard(
+        board: Board,
+        stone: OmokStone?,
+    )
+
     fun showGameResult(
         board: Board,
         stone: OmokStone,

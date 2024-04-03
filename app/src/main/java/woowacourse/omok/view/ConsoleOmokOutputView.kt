@@ -1,15 +1,19 @@
 package woowacourse.omok.view
 
-import woowacourse.omok.model.Board
-import woowacourse.omok.model.OmokStone
-import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.omok.Board
+import woowacourse.omok.model.omok.OmokStone
+import woowacourse.omok.model.omok.StoneColor
 
 object ConsoleOmokOutputView : OmokOutputView {
     override fun showStartMessage() {
         println("오목 게임을 시작합니다.")
     }
 
-    override fun showProgress(
+    override fun showProgress(stone: OmokStone?) {
+        printWhoIsNext(stone)
+    }
+
+    override fun showProgressWithBoard(
         board: Board,
         stone: OmokStone?,
     ) {
@@ -23,6 +27,10 @@ object ConsoleOmokOutputView : OmokOutputView {
     ) {
         showOmokBoard(board)
         showWinner(stone)
+    }
+
+    override fun resetView() {
+        TODO("Not yet implemented")
     }
 
     private fun printWhoIsNext(stone: OmokStone?) {
@@ -86,10 +94,10 @@ object ConsoleOmokOutputView : OmokOutputView {
                A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
             """.trimIndent()
         val sb = StringBuilder(strMap)
-        board.stones.values.forEach {
-            val stoneChar = if (it.color == StoneColor.WHITE) '○' else '●'
-            val x = (it.position.x) * 3
-            val y = 15 - it.position.y
+        board.stones.entries.forEach { (position, value) ->
+            val stoneChar = if (value == StoneColor.WHITE) '○' else '●'
+            val x = (position.x) * 3
+            val y = 15 - position.y
             val idx = 47 * y + x
             sb.setCharAt(idx, stoneChar)
         }

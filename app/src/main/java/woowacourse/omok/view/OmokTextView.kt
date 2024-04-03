@@ -18,6 +18,12 @@ class OmokTextView(private val textView: TextView) : OmokOutputView {
         textView.text = resultString
     }
 
+    override fun showProgressWithBoard(
+        board: Board,
+        stone: OmokStone?,
+    ) {
+    }
+
     private fun getWhoIsNext(stone: OmokStone?): String {
         return if (stone != null) {
             getNextTurnColor(stone)
