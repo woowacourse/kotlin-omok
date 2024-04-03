@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
 
             cell?.let {
                 val color = Color.valueOf(stoneEntity.color.uppercase())
-                viewStone(color, it)
+                selectAndShowStoneOnColor(color, it)
             }
         }
     }
@@ -143,11 +143,11 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         if (!omokGame.gameEnded) {
             insertStoneToDb(color, row, col, order)
         }
-        viewStone(color, clickedView)
+        selectAndShowStoneOnColor(color, clickedView)
         showPresentBoardStatusOnConsole()
     }
 
-    private fun viewStone(
+    private fun selectAndShowStoneOnColor(
         color: Color,
         view: ImageView,
     ) {
