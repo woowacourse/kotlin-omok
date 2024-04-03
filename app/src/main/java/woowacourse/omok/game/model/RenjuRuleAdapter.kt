@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.game.model
 
 import omok.library.FourFourRule
 import omok.library.MoreThanFiveRule
@@ -9,14 +9,20 @@ class RenjuRuleAdapter : Rule {
     private val threeThreeRule = ThreeThreeRule(Board.getSize())
     private val moreThanFiveRule = MoreThanFiveRule(Board.getSize())
 
+    private var customBoard: Array<Array<Int>> = Array(Board.getSize()) { Array(Board.getSize()) { 0 } }
+
     override fun isInvalid(
+        size: Int,
         stones: Stones,
         lastPlacedStone: Stone,
-        customBoard: Array<Array<Int>>,
     ): Boolean {
-        return isFourFour(customBoard, lastPlacedStone) or
-            isThreeThree(customBoard, lastPlacedStone) or
-            isMoreThanFive(customBoard, lastPlacedStone)
+        updateCustomBoard(lastPlacedStone)
+        if (lastPlacedStone.color.isBlack()) {
+            return isFourFour(customBoard, lastPlacedStone) or
+                isThreeThree(customBoard, lastPlacedStone) or
+                isMoreThanFive(customBoard, lastPlacedStone)
+        }
+        return false
     }
 
     private fun isFourFour(
@@ -47,5 +53,14 @@ class RenjuRuleAdapter : Rule {
             board,
             Pair(stone.point.row, stone.point.col),
         )
+    }
+
+    private fun updateCustomBoard(stone: Stone) {
+        customBoard[stone.point.row][stone.point.col] =
+            (if (stone.color.isWhite()) 2 else 1)
+    }
+
+    override fun resetCustomBoard() {
+        customBoard = Array(Board.getSize()) { Array(Board.getSize()) { 0 } }
     }
 }

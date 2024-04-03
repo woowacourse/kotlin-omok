@@ -1,9 +1,11 @@
-package omok.model
+package woowacourse.omok.game.model
 
 interface Rule {
     fun isInvalid(
+        size: Int,
         stones: Stones,
         lastPlacedStone: Stone,
-        customBoard: Array<Array<Int>>,
     ): Boolean
+
+    fun resetCustomBoard()
 }
