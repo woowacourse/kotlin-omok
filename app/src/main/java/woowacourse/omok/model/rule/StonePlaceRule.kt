@@ -8,8 +8,8 @@ open class StonePlaceRule {
         stone: OmokStone,
         board: Board,
     ): Boolean {
-        val isEmptyPosition = board.isEmptyPosition(stone)
-        val isInRange = board.isInRange(stone)
+        val isEmptyPosition = board.isEmptyPosition(stone.position)
+        val isInRange = board.isInRange(stone.position)
         return isEmptyPosition && isInRange
     }
 }

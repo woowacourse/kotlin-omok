@@ -7,7 +7,7 @@ import woowacourse.omok.model.state.GameState
 import woowacourse.omok.model.state.WhiteTurn
 
 class AndroidOmokGame(
-    private var state: GameState = BlackTurn(RenjuRule, Board(emptyMap())),
+    private var state: GameState = BlackTurn(RenjuRule, Board()),
     private val onStateChanged: (position: Position) -> Unit,
     private val onFinishGame: (Board, OmokStone) -> Unit,
 ) {
@@ -48,7 +48,7 @@ class AndroidOmokGame(
     }
 
     fun resetGame() {
-        state = BlackTurn(RenjuRule, Board(emptyMap()))
+        state = BlackTurn(RenjuRule, Board())
     }
 
     fun getStoneByPosition(position: Position): OmokStone? {

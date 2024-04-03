@@ -18,7 +18,7 @@ class OmokBoardView(private val spaceViews: List<ImageView>) : OmokView {
     }
 
     override fun updateBoard(board: Board) {
-        board.stones.forEach { (position, color) ->
+        board.stones.entries.forEach { (position, color) ->
             updateSingleSpace(OmokStone(position, color))
         }
     }

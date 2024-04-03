@@ -3,6 +3,7 @@ package woowacourse.omok.db
 import android.content.Context
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.OmokStone
+import woowacourse.omok.model.OmokStones
 import woowacourse.omok.model.Position
 import woowacourse.omok.model.StoneColor
 import woowacourse.omok.util.mapStoneColorToString
@@ -16,11 +17,13 @@ class OmokRepository(context: Context) {
     }
 
     private fun mapEntriesToBoard(omokEntries: List<OmokEntry>): Board {
-        return Board(
-            omokEntries.associate { item ->
-                Position(item.x, item.y) to mapStringToStoneColor(item.color)
-            },
-        )
+        val omokStones =
+            OmokStones(
+                omokEntries.associate { item ->
+                    Position(item.x, item.y) to mapStringToStoneColor(item.color)
+                },
+            )
+        return Board(omokStones)
     }
 
     private fun mapStringToStoneColor(colorString: String): StoneColor {

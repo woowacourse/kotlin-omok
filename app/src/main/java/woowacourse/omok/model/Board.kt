@@ -1,25 +1,16 @@
 package woowacourse.omok.model
 
-class Board(val stones: Map<Position, StoneColor>, private val maxSize: Int = 15) {
+class Board(val stones: OmokStones = OmokStones(), private val maxSize: Int = 15) {
     val lastStone: OmokStone?
-        get() = getLastStoneOrNull()
+        get() = stones.getLastStoneOrNull()
 
-    private fun getLastStoneOrNull(): OmokStone? {
-        return takeIf { stones.isNotEmpty() }?.let {
-            val (position, stoneColor) = stones.entries.last()
-            OmokStone(position, stoneColor)
-        }
+    operator fun get(position: Position): OmokStone? {
+        return stones[position]?.let { OmokStone(position, it) }
     }
 
     operator fun plus(stone: OmokStone): Board {
         validate(stone.position)
-        val newStones = stones.toMutableMap()
-        newStones[stone.position] = stone.color
-        return Board(newStones, maxSize)
-    }
-
-    operator fun get(position: Position): OmokStone? {
-        return stones[position]?.let { OmokStone(position, it) }
+        return Board(stones + stone, maxSize)
     }
 
     private fun validate(position: Position) {
@@ -27,10 +18,11 @@ class Board(val stones: Map<Position, StoneColor>, private val maxSize: Int = 15
         require(position.y in MIN..maxSize) { "y는 $MIN ~ $maxSize 사이여야 한다" }
     }
 
-    fun isInRange(stone: OmokStone): Boolean {
-        val position = stone.position
+    fun isInRange(position: Position): Boolean {
         return (position.x in MIN..maxSize) && (position.y in MIN..maxSize)
     }
+
+    fun isEmptyPosition(position: Position): Boolean = stones.isEmptyPosition(position)
 
     fun isInOmok(position: Position): Boolean {
         val color = stones[position] ?: return false
@@ -38,8 +30,6 @@ class Board(val stones: Map<Position, StoneColor>, private val maxSize: Int = 15
             isInOmok(OmokStone(position, color), vector)
         }
     }
-
-    fun isEmptyPosition(stone: OmokStone): Boolean = stones.contains(stone.position).not()
 
     private fun isInOmok(
         stone: OmokStone,
