@@ -1,7 +1,5 @@
 package woowacourse.omok.domain.library
 
-import woowacourse.omok.domain.model.RuleAdapter
-
 class RenjuRule(
     private val board: List<List<Int>>,
 ) {
@@ -43,7 +41,7 @@ class RenjuRule(
     }
 
     private fun checkCount(count: Int): Boolean {
-        return count >= RuleAdapter.WINNING_COUNT
+        return count >= WINNING_COUNT
     }
 
     private fun isOverLine(
@@ -286,5 +284,6 @@ class RenjuRule(
         private const val STONE_TYPE_BLACK = 1
         private const val STONE_TYPE_WHITE = 2
         private const val DEFAULT_COUNT = 1
+        private const val WINNING_COUNT = 5
     }
 }

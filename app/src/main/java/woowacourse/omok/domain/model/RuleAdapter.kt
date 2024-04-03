@@ -49,7 +49,6 @@ class RuleAdapter(val board: Board) {
     }
 
     companion object {
-        const val WINNING_COUNT = 5
         private const val STONE_TYPE_EMPTY = 0
         private const val STONE_TYPE_BLACK = 1
         private const val STONE_TYPE_WHITE = 2
