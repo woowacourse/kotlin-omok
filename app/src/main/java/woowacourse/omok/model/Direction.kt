@@ -1,25 +1,60 @@
 package woowacourse.omok.model
 
-enum class Direction(val dx: Int, val dy: Int) {
-    TOP(1, 0),
-    TOP_RIGHT(1, 1),
-    RIGHT(0, 1),
-    RIGHT_BOTTOM(-1, 1),
-    BOTTOM(-1, 0),
-    BOTTOM_LEFT(-1, -1),
-    LEFT(0, -1),
-    LEFT_TOP(1, -1),
-    ;
+enum class Direction(
+    val direction1: DirectionVector,
+    val direction2: DirectionVector,
+) {
+    HORIZONTAL(Horizontal.LEFT, Horizontal.RIGHT),
+    VERTICAL(Vertical.TOP, Vertical.BOTTOM),
+    LEFT_DIAGONAL(LeftDiagonal.LEFT_TOP, LeftDiagonal.RIGHT_BOTTOM),
+    RIGHT_DIAGONAL(RightDiagonal.TOP_RIGHT, RightDiagonal.BOTTOM_LEFT),
+}
 
-    val opposite: Direction
-        get() = when (this) {
-            TOP -> BOTTOM
-            RIGHT -> LEFT
-            BOTTOM -> TOP
-            LEFT -> RIGHT
-            TOP_RIGHT -> BOTTOM_LEFT
-            RIGHT_BOTTOM -> LEFT_TOP
-            BOTTOM_LEFT -> TOP_RIGHT
-            LEFT_TOP -> RIGHT_BOTTOM
-        }
+interface DirectionVector {
+    val dx: Int
+    val dy: Int
+}
+
+enum class Horizontal : DirectionVector {
+    LEFT {
+        override val dx: Int = 0
+        override val dy: Int = -1
+    },
+    RIGHT {
+        override val dx: Int = 0
+        override val dy: Int = 1
+    },
+}
+
+enum class Vertical : DirectionVector {
+    TOP {
+        override val dx: Int = 1
+        override val dy: Int = 0
+    },
+    BOTTOM {
+        override val dx: Int = -1
+        override val dy: Int = 0
+    },
+}
+
+enum class LeftDiagonal : DirectionVector {
+    LEFT_TOP {
+        override val dx: Int = 1
+        override val dy: Int = -1
+    },
+    RIGHT_BOTTOM {
+        override val dx: Int = -1
+        override val dy: Int = 1
+    },
+}
+
+enum class RightDiagonal : DirectionVector {
+    TOP_RIGHT {
+        override val dx: Int = 1
+        override val dy: Int = 1
+    },
+    BOTTOM_LEFT {
+        override val dx: Int = -1
+        override val dy: Int = -1
+    },
 }

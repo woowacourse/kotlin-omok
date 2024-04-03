@@ -25,14 +25,15 @@ class Stones(initialStones: List<Stone> = emptyList()) {
         direction: Direction,
     ): Int {
         var count = 1
-        count += countSameColorStonesInOneDirection(startStone, direction)
-        count += countSameColorStonesInOneDirection(startStone, direction.opposite)
+        count += countSameColorStonesInOneDirection(startStone, direction.direction1)
+        count += countSameColorStonesInOneDirection(startStone, direction.direction2)
+        println(count)
         return count
     }
 
     private fun countSameColorStonesInOneDirection(
         startStone: Stone,
-        direction: Direction,
+        direction: DirectionVector,
     ): Int {
         var count = 0
         var row = startStone.coordinate.x + direction.dx

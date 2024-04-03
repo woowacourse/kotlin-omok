@@ -63,7 +63,7 @@ class StonesTest {
         val actual =
             stones.countSameColorStoneInDirection(
                 Stone(Color.BLACK, COORDINATE_F8),
-                Direction.TOP,
+                Direction.VERTICAL,
             )
 
         // then
