@@ -49,40 +49,54 @@ class OmokGameActivity : AppCompatActivity() {
         placedIndexItems: List<Position>,
         gameId: Long,
     ) {
-        val board = findViewById<TableLayout>(R.id.board)
-        val imageViews =
-            board
+        val board =
+            findViewById<TableLayout>(R.id.board)
                 .children
                 .filterIsInstance<TableRow>()
+
+        val imageViews =
+            board
                 .flatMap { it.children }
                 .filterIsInstance<ImageView>()
 
+        initializeBoardView(placedIndexItems, imageViews)
+
+        board.forEachIndexed { rowIndex, tableRow ->
+            val boardItems = tableRow.children.filterIsInstance<ImageView>()
+            setRowItems(boardItems, rowIndex, gameId)
+        }
+    }
+
+    private fun initializeBoardView(
+        placedIndexItems: List<Position>,
+        imageViews: Sequence<ImageView>,
+    ) {
         placedIndexItems.forEach {
             setGameState(it)
             setStoneImage(
                 imageViews.toList()[(BOARD_DISPLAY_SIZE - it.horizontalCoordinate) * BOARD_DISPLAY_SIZE + it.verticalCoordinate - 1],
             )
         }
+    }
 
-        board
-            .children
-            .filterIsInstance<TableRow>()
-            .forEachIndexed { rowIndex, tableRow ->
-                val boardItems = tableRow.children.filterIsInstance<ImageView>()
-                boardItems.forEachIndexed { colIndex, imageView ->
-                    imageView.setOnClickListener {
-                        markPosition(
-                            position =
-                                Position(
-                                    horizontalCoordinate = BOARD_DISPLAY_SIZE - rowIndex,
-                                    verticalCoordinate = colIndex + 1,
-                                ),
-                            view = imageView,
-                            gameId = gameId,
-                        )
-                    }
-                }
+    private fun setRowItems(
+        boardItems: Sequence<ImageView>,
+        rowIndex: Int,
+        gameId: Long,
+    ) {
+        boardItems.forEachIndexed { colIndex, imageView ->
+            imageView.setOnClickListener {
+                markPosition(
+                    position =
+                        Position(
+                            horizontalCoordinate = BOARD_DISPLAY_SIZE - rowIndex,
+                            verticalCoordinate = colIndex + 1,
+                        ),
+                    view = imageView,
+                    gameId = gameId,
+                )
             }
+        }
     }
 
     private fun markPosition(
