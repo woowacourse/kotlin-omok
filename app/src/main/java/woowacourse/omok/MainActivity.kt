@@ -151,6 +151,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
             insertStoneToDb(color, row, col, order)
         }
         viewStone(color, clickedView)
+        showPresentBoardStatusOnConsole()
     }
 
     private fun viewStone(
@@ -161,7 +162,6 @@ class MainActivity : AppCompatActivity(), GameEventListener {
             Color.BLACK -> view.setImageResource(R.drawable.black_stone)
             Color.WHITE -> view.setImageResource(R.drawable.white_stone)
         }
-        showPresentBoardStatusOnConsole()
     }
 
     private fun resetBoardView() {
