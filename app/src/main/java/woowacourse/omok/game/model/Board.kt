@@ -1,52 +1,42 @@
-package omok.model
+package woowacourse.omok.game.model
 
-class Board(val size: Int, private val rule: Rule) {
+class Board(private val size: Int, private val rule: Rule) {
     private var stones: Stones = Stones()
-    private var _customBoard = Array(size) { Array(size) { 0 } }
-
-    val customBoard: Array<Array<Int>>
-        get() = _customBoard.clone()
+    private var bannedPoints: MutableList<Point> = mutableListOf()
 
     fun add(stone: Stone) {
         require(!duplicatedPoint(stone)) { ERROR_DUPLICATED_POINT }
         stones.add(stone)
-        updateCustomBoard(stone)
     }
 
-    fun resetCustomBoard() {
-        _customBoard = Array(size) { Array(size) { 0 } }
-        stones = Stones()
+    fun addBannedPoint(point: Point) {
+        bannedPoints.add(point)
     }
+
+    fun bannedPointCount(): Int = bannedPoints.size
+
+    fun fetchBannedPoint(): Point = bannedPoints.removeAt(0)
 
     private fun duplicatedPoint(stone: Stone): Boolean = stones.match(stone)
 
     fun pointEmpty(point: Point): Boolean = !stones.occupied(point)
 
-    fun lastStone(): Stone? = stones.lastStone()
+    private fun lastStone(): Stone? = stones.lastStone()
 
-    fun lastColor(): Color {
+    fun lastColor(): Color? {
         return if (lastStone() != null) {
             lastStone()!!.color
         } else {
-            Color.WHITE
+            null
         }
     }
 
-    private fun updateCustomBoard(stone: Stone) {
-        _customBoard[stone.point.row][stone.point.col] =
-            (if (stone.color.isWhite()) 2 else 1)
+    fun reset() {
+        stones = Stones()
+        rule.resetCustomBoard()
     }
 
-    fun isValidPoint(
-        turn: Turn,
-        point: Point,
-    ): Boolean {
-        return if (turn.isBlack()) {
-            !rule.isInvalid(stones, Stone(point, turn.color()), customBoard)
-        } else {
-            true
-        }
-    }
+    fun isValid(stone: Stone): Boolean = !rule.isInvalid(size, stones, stone)
 
     fun checkEndCondition(): Boolean {
         return if (lastStone() != null) {
@@ -56,7 +46,7 @@ class Board(val size: Int, private val rule: Rule) {
         }
     }
 
-    fun checkContinuity(stone: Stone): Boolean {
+    private fun checkContinuity(stone: Stone): Boolean {
         directions.forEach { direction ->
             var count = 1
 
@@ -76,10 +66,17 @@ class Board(val size: Int, private val rule: Rule) {
         var count = 0
 
         while (currentPoint.first in MIN_BOARD_RANGE until size && currentPoint.second in MIN_BOARD_RANGE until size &&
-            stones.stones.any { it == Stone(Point(currentPoint.first, currentPoint.second), stone.color) }
+            stones.stones.any {
+                it ==
+                    Stone(
+                        Point(currentPoint.first, currentPoint.second),
+                        stone.color,
+                    )
+            }
         ) {
             count++
-            currentPoint = Pair(currentPoint.first + direction[0], currentPoint.second + direction[1])
+            currentPoint =
+                Pair(currentPoint.first + direction[0], currentPoint.second + direction[1])
         }
 
         return count
