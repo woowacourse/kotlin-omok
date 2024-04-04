@@ -15,6 +15,8 @@ import woowacourse.omok.domain.model.StonePosition
 import woowacourse.omok.domain.model.database.OmokTurnDao
 import woowacourse.omok.domain.model.database.OmokTurnDbHelper
 import woowacourse.omok.domain.model.database.toStonePosition
+import woowacourse.omok.domain.model.state.AlreadyHaveStone
+import woowacourse.omok.domain.model.state.ForbiddenPosition
 import woowacourse.omok.domain.model.toOmokTurn
 import woowacourse.omok.domain.view.output
 
@@ -66,12 +68,11 @@ class MainActivity : AppCompatActivity() {
         view.setOnClickListener {
             omokGame.gameTurn(
                 nextPosition = { currentPosition },
-                handling = { stonePosition ->
-                    Toast.makeText(
-                        this,
-                        "${stonePosition.stone.output()}이 두려는 위치는 위치${stonePosition.position.output()}는 ",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                handling = { inValidStonePosition, invalidPosition ->
+                    when (invalidPosition) {
+                        is ForbiddenPosition -> showToastInvalidPosition(inValidStonePosition, "금수 규칙에 따라 둘 수 없습니다.")
+                        is AlreadyHaveStone -> showToastInvalidPosition(inValidStonePosition, "이미 돌이 있는 위치이므로 둘 수 없습니다.")
+                    }
                 },
                 nextStonePositionCallback = { gameState ->
                     val latestStone = gameState.latestStone()
@@ -80,12 +81,24 @@ class MainActivity : AppCompatActivity() {
                 },
                 finishedResultCallback = { gameState ->
                     val latestStone = gameState.latestStone()
-                    Toast.makeText(this, "${latestStone.output()}이 승리했습니다.", Toast.LENGTH_SHORT).show()
+                    showStoneToast(latestStone, "이 승리했습니다.")
                     omokTurnDao.clearAll()
                 },
             )
             return@setOnClickListener
         }
+    }
+
+    private fun showToastInvalidPosition(inValidStonePosition: StonePosition, message: String ="") {
+        Toast.makeText(
+            this,
+            "${inValidStonePosition.stone.output()}이 두려는 위치는 위치${inValidStonePosition.position.output()}는 $message",
+            Toast.LENGTH_SHORT,
+        ).show()
+    }
+
+    private fun showStoneToast(stone: Stone, message: String) {
+        Toast.makeText(this, "${stone.output()} ${message}.", Toast.LENGTH_SHORT).show()
     }
 
     private fun changeStoneUI(

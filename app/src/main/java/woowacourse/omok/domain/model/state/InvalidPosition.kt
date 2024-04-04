@@ -24,8 +24,8 @@ sealed class InvalidPosition(
 
     override fun latestPosition(): Position = latestStonePosition.position
 
-    override fun handleInvalidPosition(handling: (StonePosition) -> Unit): GameState {
-        handling(latestStonePosition)
+    override fun handleInvalidPosition(handling: (StonePosition, InvalidPosition) -> Unit): GameState {
+        handling(latestStonePosition, this)
         return latestState
     }
 }

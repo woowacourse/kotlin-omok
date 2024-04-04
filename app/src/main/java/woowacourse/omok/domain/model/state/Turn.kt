@@ -37,12 +37,6 @@ abstract class Turn(private val latestStonePosition: StonePosition) : RunningTur
 
     override fun latestPosition(): Position = latestStonePosition.position
 
-    override fun handleInvalidPosition(handling: (StonePosition) -> Unit): GameState {
-        throw IllegalStateException("유효한 위치였습니다.")
-    }
-
-    override fun finished(): Boolean = false
-
     private fun alreadyStoneExist(
         board: Board,
         position: Position,

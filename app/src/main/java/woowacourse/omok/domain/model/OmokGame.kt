@@ -13,7 +13,7 @@ class OmokGame(
 
     fun gameTurn(
         nextPosition: (GameState) -> Position,
-        handling: (StonePosition) -> Unit,
+        handling: (StonePosition, InvalidPosition) -> Unit,
         nextStonePositionCallback: (GameState) -> Unit,
         finishedResultCallback: (GameState) -> Unit,
     ): GameState {
@@ -34,11 +34,11 @@ class OmokGame(
             }
 
             is Finished -> return finish(finishedResultCallback)
-            is InvalidPosition -> return  handleInvalidPosition(handling)
+            is InvalidPosition -> return handleInvalidPosition(handling)
         }
     }
 
-    private fun handleInvalidPosition(handling: (StonePosition) -> Unit): GameState {
+    private fun handleInvalidPosition(handling: (StonePosition, InvalidPosition) -> Unit): GameState {
         currentGameTurn = currentGameTurn.handleInvalidPosition(handling)
         return currentGameTurn
     }

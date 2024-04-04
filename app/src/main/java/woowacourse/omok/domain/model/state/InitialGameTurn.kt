@@ -20,10 +20,4 @@ class InitialGameTurn : RunningTurn() {
     override fun latestStone(): Stone = Stone.NONE
 
     override fun latestPosition(): Position? = null
-
-    override fun finished(): Boolean = false
-
-    override fun handleInvalidPosition(handling: (StonePosition) -> Unit): GameState {
-        throw IllegalStateException("게임이 시작되지 않았습니다.")
-    }
 }
