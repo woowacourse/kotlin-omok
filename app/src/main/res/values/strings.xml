@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Omok</string>
+    <string name="restart">다시하기</string>
+    <string name="black_turn">흑돌 차례입니다.</string>
+    <string name="white_turn">백돌 차례입니다.</string>
+    <string name="finish_turn">오목이 완성되어 게임이 종료되었습니다.</string>
+    <string name="error_message">에러 발생 : %s \n다시 시도해주세요.</string>
+</resources>
