@@ -1,10 +1,12 @@
 package woowacourse.omok.domain.model.rule
 
+import android.util.Log
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.rule.library.NoneForbiddenRule
 import woowacourse.omok.domain.model.rule.library.OmokRule
+import woowacourse.omok.domain.model.rule.library.OverlineRule2
 import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
 
 class RuleAdapter(
@@ -34,16 +36,59 @@ class RuleAdapter(
     fun violatedRule(
         board: Board,
         position: Position,
-    ): OmokRule = forbiddenRules.rules.find { !it.abide(board.convert(), position.convert()) }
-        ?: NoneForbiddenRule
+    ): OmokRule =
+        forbiddenRules.rules.find { !it.abide(board.convert(), position.convert()) }
+            ?: NoneForbiddenRule
 
-    fun violated(board: Board, position: Position): Boolean =
-        forbiddenRules.rules.any{!it.abide(board.convert(), position.convert())}
+    fun violated(
+        board: Board,
+        position: Position,
+    ): Boolean = forbiddenRules.rules.any { !it.abide(board.convert(), position.convert()) }
 
     fun isWin(
         board: Board,
         position: Position,
     ): Boolean = continualStonesWinningCondition.isWin(board, position)
+
+    private fun Board.convert(): List<List<Int>> {
+        val array = Array(15) { IntArray(15) }
+        board.forEach { (position, stone) ->
+            array[position.col][position.row] =
+                stone.convert()
+        }
+        return array.map { it.toList() }.toList()
+    }
+
+    private fun Stone.convert(): Int =
+        when (this) {
+            Stone.BLACK -> 1
+            Stone.WHITE -> 2
+            Stone.NONE -> 0
+        }
+
+    private fun Position.convert(): Pair<Int, Int> = row to col
+}
+
+class RuleAdapter2(
+    private val baseOverLineRule: OverlineRule2,
+    private val forbiddenRules: ForbiddenRules,
+) {
+    fun violated(
+        board: Board,
+        position: Position,
+    ): Boolean {
+        Log.d("RuleAdapter2", "${!baseOverLineRule.abide(board.convert(), position.convert())}")
+        if (!baseOverLineRule.abide(board.convert(), position.convert())) {
+            return true
+        }
+
+        return forbiddenRules.rules.any { !it.abide(board.convert(), position.convert()) }
+    }
+
+    fun isWin(
+        board: Board,
+        position: Position,
+    ): Boolean = baseOverLineRule.isWin(board.convert(), position.convert())
 
     private fun Board.convert(): List<List<Int>> {
         val array = Array(15) { IntArray(15) }
