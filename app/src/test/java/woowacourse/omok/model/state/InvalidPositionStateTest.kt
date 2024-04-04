@@ -10,7 +10,7 @@ import woowacourse.omok.domain.model.state.BlackTurn
 import woowacourse.omok.domain.model.state.ForbiddenPosition
 import woowacourse.omok.model.initBoard
 
-class InvalidPositionTest {
+class InvalidPositionStateTest {
     private val board = initBoard()
     private val testState = BlackTurn(StonePosition(Position(1, 1), Stone.WHITE))
 

@@ -17,5 +17,5 @@ sealed interface GameState {
 
     fun finished(): Boolean
 
-    fun handleInvalidPosition(handling: (StonePosition, InvalidPosition) -> Unit): GameState
+    fun handleInvalidPosition(handling: (StonePosition, InvalidPositionState) -> Unit): GameState
 }

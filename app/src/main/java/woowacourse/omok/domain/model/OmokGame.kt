@@ -3,7 +3,7 @@ package woowacourse.omok.domain.model
 import woowacourse.omok.domain.model.state.Finished
 import woowacourse.omok.domain.model.state.GameState
 import woowacourse.omok.domain.model.state.InitialGameTurn
-import woowacourse.omok.domain.model.state.InvalidPosition
+import woowacourse.omok.domain.model.state.InvalidPositionState
 import woowacourse.omok.domain.model.state.Running
 
 class OmokGame(
@@ -13,7 +13,7 @@ class OmokGame(
 
     fun gameTurn(
         nextPosition: (GameState) -> Position,
-        handling: (StonePosition, InvalidPosition) -> Unit,
+        handling: (StonePosition, InvalidPositionState) -> Unit,
         nextStonePositionCallback: (GameState) -> Unit,
         finishedResultCallback: (GameState) -> Unit,
     ): GameState {
@@ -23,7 +23,7 @@ class OmokGame(
             is Running -> {
                 currentGameTurn = currentGameTurn.place(board, position)
 
-                if(currentGameTurn is InvalidPosition) return handleInvalidPosition(handling)
+                if(currentGameTurn is InvalidPositionState) return handleInvalidPosition(handling)
 
                 nextStonePositionCallback(currentGameTurn)
 
@@ -33,11 +33,11 @@ class OmokGame(
             }
 
             is Finished -> return finish(finishedResultCallback)
-            is InvalidPosition -> return handleInvalidPosition(handling)
+            is InvalidPositionState -> return handleInvalidPosition(handling)
         }
     }
 
-    private fun handleInvalidPosition(handling: (StonePosition, InvalidPosition) -> Unit): GameState {
+    private fun handleInvalidPosition(handling: (StonePosition, InvalidPositionState) -> Unit): GameState {
         currentGameTurn = currentGameTurn.handleInvalidPosition(handling)
         return currentGameTurn
     }

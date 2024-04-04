@@ -23,8 +23,8 @@ class OmokController(
                         gameState.latestPosition(),
                     )
                 },
-                handling = { inValidStonePosition, invalidPosition ->
-                    when (invalidPosition) {
+                handling = { inValidStonePosition, invalidPositionState ->
+                    when (invalidPositionState) {
                         is ForbiddenPosition -> outputView.printInvalidPosition(inValidStonePosition, "는 금수 규칙에 따라 둘 수 없습니다")
                         is AlreadyHaveStone -> outputView.printInvalidPosition(inValidStonePosition, "는 이미 돌이 있는 위치이므로 둘 수 없습니다.")
                     }

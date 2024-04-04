@@ -6,7 +6,7 @@ import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
 
 // TODO: 여기서 토스트 메시지나 콘솔 출력문을 표시하는데 도메인에 있어야 하나?
-sealed class InvalidPosition(
+sealed class InvalidPositionState(
     private val latestStonePosition: StonePosition,
     private val latestState: GameState,
 ) : GameState {
@@ -24,14 +24,14 @@ sealed class InvalidPosition(
 
     override fun latestPosition(): Position = latestStonePosition.position
 
-    override fun handleInvalidPosition(handling: (StonePosition, InvalidPosition) -> Unit): GameState {
+    override fun handleInvalidPosition(handling: (StonePosition, InvalidPositionState) -> Unit): GameState {
         handling(latestStonePosition, this)
         return latestState
     }
 }
 
 class AlreadyHaveStone(latestStonePosition: StonePosition, latestState: GameState) :
-    InvalidPosition(latestStonePosition, latestState)
+    InvalidPositionState(latestStonePosition, latestState)
 
 class ForbiddenPosition(latestStonePosition: StonePosition, latestState: GameState) :
-    InvalidPosition(latestStonePosition, latestState)
+    InvalidPositionState(latestStonePosition, latestState)
