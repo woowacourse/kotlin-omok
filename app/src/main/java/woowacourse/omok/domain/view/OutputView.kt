@@ -1,7 +1,6 @@
 package woowacourse.omok.domain.view
 
 import woowacourse.omok.domain.model.Board
-import woowacourse.omok.domain.model.Player
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
@@ -75,15 +74,6 @@ class OutputView {
 
     fun printWinner(stone: Stone) {
         println("우승은 🎉${stone.output()}🎉 입니다")
-    }
-
-    fun printInvalidPosition(
-        player: Player,
-        position: Position,
-        message: String,
-    ) {
-        println("${player.stone}이 둔 위치 ${position.output()}: $message")
-        println()
     }
 
     fun printInvalidPosition(

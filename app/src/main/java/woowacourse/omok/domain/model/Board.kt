@@ -8,19 +8,7 @@ class Board(private val _board: MutableMap<Position, Stone> = initBoard()) {
 
     fun emptyPosition(position: Position): Boolean = find(position) == Stone.NONE
 
-    fun validPosition(
-        position: Position,
-        player: Player,
-    ): Boolean = player.canPlace(this, position)
-
     fun find(position: Position): Stone = board[position] ?: Stone.NONE
-
-    fun place(
-        position: Position,
-        player: Player,
-    ) {
-        _board[position] = player.stone
-    }
 
     fun place(stonePosition: StonePosition) {
         _board[stonePosition.position] = stonePosition.stone
