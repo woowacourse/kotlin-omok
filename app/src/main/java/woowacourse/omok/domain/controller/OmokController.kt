@@ -28,11 +28,6 @@ class OmokController(
                         is ForbiddenPosition -> outputView.printInvalidPosition(inValidStonePosition, "는 금수 규칙에 따라 둘 수 없습니다")
                         is AlreadyHaveStone -> outputView.printInvalidPosition(inValidStonePosition, "는 이미 돌이 있는 위치이므로 둘 수 없습니다.")
                     }
-
-                    outputView.printInvalidPosition(
-                        inValidStonePosition,
-                        "have to remove"
-                    )
                 },
                 nextStonePositionCallback = { outputView.printBoard(board) },
                 finishedResultCallback = { gameState -> outputView.printWinner(gameState.latestStone()) }

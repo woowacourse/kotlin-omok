@@ -5,7 +5,7 @@ import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
 
-class InitialGameTurn : RunningTurn() {
+class InitialGameTurn : Running() {
     private val initialStone = Stone.BLACK
 
     override fun place(

@@ -12,7 +12,7 @@ import woowacourse.omok.domain.model.rule.library.OverlineRule
 import woowacourse.omok.domain.model.rule.library.ThreeThreeRule
 import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
 
-data class BlackTurn(private val latestStonePosition: StonePosition) : Turn(latestStonePosition) {
+data class BlackTurn(private val latestStonePosition: StonePosition) : PlayerTurn(latestStonePosition) {
     override val stone: Stone
         get() = Stone.BLACK
     override val rule: RuleAdapter = blackRenjuRule

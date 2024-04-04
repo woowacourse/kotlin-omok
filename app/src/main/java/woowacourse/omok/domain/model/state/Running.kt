@@ -2,7 +2,7 @@ package woowacourse.omok.domain.model.state
 
 import woowacourse.omok.domain.model.StonePosition
 
-abstract class RunningTurn : GameState {
+abstract class Running : GameState {
     override fun finished(): Boolean = false
 
     override fun handleInvalidPosition(handling: (StonePosition, InvalidPosition) -> Unit): GameState {

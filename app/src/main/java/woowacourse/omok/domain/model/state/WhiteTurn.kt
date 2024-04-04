@@ -10,7 +10,7 @@ import woowacourse.omok.domain.model.rule.RuleAdapter
 import woowacourse.omok.domain.model.rule.library.NoneForbiddenRule
 import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
 
-data class WhiteTurn(private val latestStonePosition: StonePosition) : Turn(latestStonePosition) {
+data class WhiteTurn(private val latestStonePosition: StonePosition) : PlayerTurn(latestStonePosition) {
     override val stone: Stone
         get() = Stone.WHITE
     override val rule: RuleAdapter = whiteRenjuRule

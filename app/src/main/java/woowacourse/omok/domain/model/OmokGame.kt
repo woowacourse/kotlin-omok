@@ -4,7 +4,7 @@ import woowacourse.omok.domain.model.state.Finished
 import woowacourse.omok.domain.model.state.GameState
 import woowacourse.omok.domain.model.state.InitialGameTurn
 import woowacourse.omok.domain.model.state.InvalidPosition
-import woowacourse.omok.domain.model.state.RunningTurn
+import woowacourse.omok.domain.model.state.Running
 
 class OmokGame(
     private val board: Board,
@@ -20,14 +20,13 @@ class OmokGame(
         val position = nextPosition(currentGameTurn)
 
         when (currentGameTurn) {
-            is RunningTurn -> {
+            is Running -> {
                 currentGameTurn = currentGameTurn.place(board, position)
 
                 if(currentGameTurn is InvalidPosition) return handleInvalidPosition(handling)
 
                 nextStonePositionCallback(currentGameTurn)
 
-                if(currentGameTurn is RunningTurn) return currentGameTurn
                 if(currentGameTurn is Finished) return finish(finishedResultCallback)
 
                 return currentGameTurn
