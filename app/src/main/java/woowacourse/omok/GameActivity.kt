@@ -25,7 +25,7 @@ import woowacourse.omok.domain.model.state.GameState
 import woowacourse.omok.domain.model.toOmokTurn
 import woowacourse.omok.domain.view.output
 
-class MainActivity : AppCompatActivity() {
+class GameActivity : AppCompatActivity() {
     private lateinit var omokTurnDao: OmokTurnDao
     private lateinit var omokBoard: Board
     private lateinit var omokGame: OmokGame
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_game)
         omokBoard = Board()
         omokGame = OmokGame(omokBoard)
 

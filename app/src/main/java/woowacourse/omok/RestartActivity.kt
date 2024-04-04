@@ -26,7 +26,7 @@ class RestartActivity : AppCompatActivity() {
             "백" -> winnerStoneImage.setImageResource(R.drawable.white_stone)
         }
         restartButton.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, GameActivity::class.java))
         }
     }
 }
