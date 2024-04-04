@@ -28,7 +28,7 @@ class StoneDao(
         }
     }
 
-    fun update(stone: Stone): Int {
+    private fun update(stone: Stone): Int {
         val db = dbHelper.writableDatabase
         val point = stone.point
         val selection =

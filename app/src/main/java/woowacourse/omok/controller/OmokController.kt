@@ -16,15 +16,15 @@ class OmokController(
 
     private tailrec fun runOmok(
         omokGameState: OmokGameState,
-        inputPoint: () -> Point,
+        getPoint: () -> Point,
     ) {
         if (omokGameState.isFinished()) {
             afterOmok(omokGameState)
             return
         }
         outputView.printTurn(omokGameState.turn.board, omokGameState.turn.color())
-        val newGameState = omokGameState.run(inputPoint())
-        return runOmok(newGameState, inputPoint)
+        val newGameState = omokGameState.run(getPoint())
+        return runOmok(newGameState, getPoint)
     }
 
     private fun afterOmok(omokGameState: OmokGameState) {
