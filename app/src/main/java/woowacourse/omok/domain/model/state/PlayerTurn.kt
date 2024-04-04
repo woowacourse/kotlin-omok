@@ -4,11 +4,11 @@ import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
-import woowacourse.omok.domain.model.rule.RuleAdapter2
+import woowacourse.omok.domain.model.rule.RuleAdapter
 
 abstract class PlayerTurn(private val latestStonePosition: StonePosition) : Running() {
     abstract val stone: Stone
-    abstract val rule: RuleAdapter2
+    abstract val rule: RuleAdapter
 
     abstract fun nextTurn(position: Position): GameState
 

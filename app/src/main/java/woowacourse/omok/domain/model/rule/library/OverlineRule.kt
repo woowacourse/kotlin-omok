@@ -3,33 +3,8 @@ package woowacourse.omok.domain.model.rule.library
 import woowacourse.omok.domain.model.rule.ContinualStonesStandard
 import woowacourse.omok.domain.model.rule.ContinualStonesStandard.Companion.MIN_CONTINUAL_STONES_COUNT
 import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
-import kotlin.properties.Delegates
 
-class OverlineRule : OmokRule() {
-    var count by Delegates.notNull<Int>()
-
-    override fun abide(
-        board: List<List<Int>>,
-        position: Pair<Int, Int>,
-    ): Boolean = directions.all { direction -> !checkOverline(board, position, direction) }
-
-    private fun checkOverline(
-        board: List<List<Int>>,
-        position: Pair<Int, Int>,
-        direction: Pair<Int, Int>,
-    ): Boolean {
-        val oppositeDirection = direction.let { (dx, dy) -> Pair(-dx, -dy) }
-        val (stone1, blink1) = search(board, position, oppositeDirection)
-        val (stone2, blink2) = search(board, position, direction)
-
-        return when {
-            blink1 + blink2 == 0 && stone1 + stone2 >= count -> true
-            else -> false
-        }
-    }
-}
-
-class OverlineRule2(
+class OverlineRule(
     currentStone: Int,
     opponentStone: Int,
     private val continualStonesWinningCondition: ContinualStonesWinningCondition,
@@ -91,10 +66,10 @@ class OverlineRule2(
     )
 
     companion object {
-        fun forBlack(continualStonesWinningCondition: ContinualStonesWinningCondition): OverlineRule2 =
-            OverlineRule2(BLACK_STONE, WHITE_STONE, continualStonesWinningCondition)
+        fun forBlack(continualStonesWinningCondition: ContinualStonesWinningCondition): OverlineRule =
+            OverlineRule(BLACK_STONE, WHITE_STONE, continualStonesWinningCondition)
 
-        fun forWhite(continualStonesWinningCondition: ContinualStonesWinningCondition): OverlineRule2 =
-            OverlineRule2(WHITE_STONE, BLACK_STONE, continualStonesWinningCondition)
+        fun forWhite(continualStonesWinningCondition: ContinualStonesWinningCondition): OverlineRule =
+            OverlineRule(WHITE_STONE, BLACK_STONE, continualStonesWinningCondition)
     }
 }
