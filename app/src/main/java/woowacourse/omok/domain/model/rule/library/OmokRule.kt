@@ -42,6 +42,31 @@ sealed class OmokRule(
         return Pair(stone, blink)
     }
 
+    protected fun searchOnlyStone(
+        board: List<List<Int>>,
+        position: Pair<Int, Int>,
+        direction: Pair<Int, Int>,
+    ): Int {
+        var (x, y) = position
+        val (dx, dy) = direction
+        var stone = 0
+        while (willExceedBounds(x, y, dx, dy).not()) {
+            x += dx
+            y += dy
+            when (board[y][x]) {
+                currentStone -> {
+                    stone++
+                }
+
+                opponentStone -> break
+                EMPTY_STONE -> break
+
+                else -> throw IllegalArgumentException("스톤 케이스를 에러")
+            }
+        }
+        return stone
+    }
+
     protected fun countToWall(
         board: List<List<Int>>,
         position: Pair<Int, Int>,

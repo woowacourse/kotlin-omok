@@ -8,7 +8,7 @@ import woowacourse.omok.domain.model.rule.ContinualStonesStandard.Companion.MIN_
 
 class ContinualStonesWinningCondition(
     val continualStonesStandard: ContinualStonesStandard,
-    private val continualStonesCondition: ContinualStonesCondition,
+    val continualStonesCondition: ContinualStonesCondition,
 ) : WinningCondition {
     fun canHaveDoubleRule(): Boolean = continualStonesStandard > ContinualStonesStandard(MIN_CONTINUAL_STONES_COUNT)
 
@@ -17,5 +17,5 @@ class ContinualStonesWinningCondition(
     override fun isWin(
         board: Board,
         position: Position,
-    ): Boolean = continualStonesCondition.map(ContinualStones.count(board, position), continualStonesStandard)
+    ): Boolean = continualStonesCondition.win(ContinualStones.count(board, position), continualStonesStandard)
 }

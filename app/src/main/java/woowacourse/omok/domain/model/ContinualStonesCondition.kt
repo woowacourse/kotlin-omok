@@ -7,7 +7,17 @@ enum class ContinualStonesCondition {
     CAN_OVERLINE,
     ;
 
-    fun map(
+    fun overline(
+        actualContinualCount: Int,
+        standardContinualCount: ContinualStonesStandard,
+    ): Boolean {
+        return when (this) {
+            EXACT -> (actualContinualCount > standardContinualCount.count)
+            CAN_OVERLINE -> false
+        }
+    }
+
+    fun win(
         actualContinualCount: Int,
         standardContinualCount: ContinualStonesStandard,
     ): Boolean {

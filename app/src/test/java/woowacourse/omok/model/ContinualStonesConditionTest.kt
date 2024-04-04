@@ -13,7 +13,7 @@ class ContinualStonesConditionTest {
         val exact = ContinualStonesCondition.EXACT
         val standardContinualCount = 5
         val actualContinualCount = 5
-        assertThat(exact.map(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isTrue
+        assertThat(exact.win(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isTrue
     }
 
     @Test
@@ -21,7 +21,7 @@ class ContinualStonesConditionTest {
         val exact = ContinualStonesCondition.EXACT
         val standardContinualCount = 5
         val actualContinualCount = 4
-        assertThat(exact.map(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isFalse
+        assertThat(exact.win(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isFalse
     }
 
     @ParameterizedTest
@@ -29,7 +29,7 @@ class ContinualStonesConditionTest {
     fun `CAN_OVERLINE 일 때, 연속 돌의 숫자가 기준보다 크거나 같으면 참이다`(actualContinualCount: Int) {
         val canOverline = ContinualStonesCondition.CAN_OVERLINE
         val standardContinualCount = 5
-        assertThat(canOverline.map(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isTrue
+        assertThat(canOverline.win(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isTrue
     }
 
     @Test
@@ -37,6 +37,6 @@ class ContinualStonesConditionTest {
         val canOverline = ContinualStonesCondition.CAN_OVERLINE
         val standardContinualCount = 5
         val actualContinualCount = 4
-        assertThat(canOverline.map(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isFalse
+        assertThat(canOverline.win(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isFalse
     }
 }
