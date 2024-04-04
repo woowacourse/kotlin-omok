@@ -13,10 +13,4 @@ class InputView {
         print("위치를 입력하세요: ")
         return readln().toPosition()
     }
-
-    fun readFirstStonePosition(stone: Stone): Position {
-        print("${stone.output()}의 차례입니다. ")
-        print("위치를 입력하세요: ")
-        return readln().toPosition()
-    }
 }

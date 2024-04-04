@@ -10,7 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class OmokTurnDaoTest {
+class OmokTurnEntityDaoTest {
     private lateinit var omokTurnDao: OmokTurnDao
 
     @Before
@@ -26,7 +26,7 @@ class OmokTurnDaoTest {
 
     @Test
     fun saveTest() {
-        val turn = OmokTurn(1, 1, "black")
+        val turn = OmokTurnEntity(1, 1, "black")
         val actual = omokTurnDao.save(turn)
         Log.d("actual", actual.toString())
         assertThat(actual.row).isEqualTo(1)
@@ -37,9 +37,9 @@ class OmokTurnDaoTest {
 
     @Test
     fun findAllTest() {
-        val turn1 = OmokTurn(1, 1, "black")
-        val turn2 = OmokTurn(2, 2, "white")
-        val turn3 = OmokTurn(5, 5, "black")
+        val turn1 = OmokTurnEntity(1, 1, "black")
+        val turn2 = OmokTurnEntity(2, 2, "white")
+        val turn3 = OmokTurnEntity(5, 5, "black")
 
         omokTurnDao.save(turn1)
         omokTurnDao.save(turn2)
@@ -69,9 +69,9 @@ class OmokTurnDaoTest {
 
     @Test
     fun findLatestStoneColor() {
-        val turn1 = OmokTurn(1, 1, "black")
-        val turn2 = OmokTurn(2, 2, "white")
-        val turn3 = OmokTurn(5, 5, "black")
+        val turn1 = OmokTurnEntity(1, 1, "black")
+        val turn2 = OmokTurnEntity(2, 2, "white")
+        val turn3 = OmokTurnEntity(5, 5, "black")
 
         omokTurnDao.save(turn1)
         omokTurnDao.save(turn2)

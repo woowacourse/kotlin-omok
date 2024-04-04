@@ -5,11 +5,6 @@ data class Position(val row: Int, val col: Int) {
         require(isOnBoard(row, col)) { "올바르지 않은 위치입니다." }
     }
 
-    fun move(direction: Direction): Position? {
-        if (!isOnBoard(row + direction.row, col + direction.col)) return null
-        return Position(row + direction.row, col + direction.col)
-    }
-
     private fun isOnBoard(
         row: Int,
         col: Int,

@@ -84,11 +84,6 @@ class OutputView {
         println()
     }
 
-    fun printException(e: Exception) {
-        println(e.message)
-        println()
-    }
-
     companion object {
         private const val BLACK_STONE = "●"
         private const val WHITE_STONE = "○"

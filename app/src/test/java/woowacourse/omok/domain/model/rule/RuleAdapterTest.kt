@@ -2,6 +2,7 @@ package woowacourse.omok.domain.model.rule
 
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.ContinualStonesCondition
 import woowacourse.omok.domain.model.Position
@@ -18,7 +19,12 @@ class RuleAdapterTest {
 
     private val renjuRule =
         RuleAdapter(
-            OverlineRule.forBlack(ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.STRICT)),
+            OverlineRule.forBlack(
+                ContinualStonesWinningCondition(
+                    ContinualStonesStandard(5),
+                    ContinualStonesCondition.STRICT,
+                ),
+            ),
             ForbiddenRules(
                 ThreeThreeRule.forBlack(),
                 FourFourRule.forBlack(),
@@ -207,7 +213,12 @@ class RuleAdapterTest {
         // given
         val ruleAdapter =
             RuleAdapter(
-                OverlineRule.forBlack(ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.STRICT)),
+                OverlineRule.forBlack(
+                    ContinualStonesWinningCondition(
+                        ContinualStonesStandard(5),
+                        ContinualStonesCondition.STRICT,
+                    ),
+                ),
                 ForbiddenRules(),
             )
 
@@ -228,50 +239,46 @@ class RuleAdapterTest {
 
     @Test
     fun `승리 조건이 정확히 사목일 때, 돌을 두려는 위치로 오목 이상이 되면 놓을 수 없다`() {
-//        // given
-//        val ruleAdapter =
-//            RuleAdapter(
-//                ContinualStonesWinningCondition(ContinualStonesStandard(4), ContinualStonesCondition.STRICT),
-//                ForbiddenRules(OverlineRule()),
-//            )
-//
-//        val board =
-//            initBoard(
-//                StonePosition(Position(0, 1), Stone.BLACK),
-//                StonePosition(Position(0, 2), Stone.BLACK),
-//                StonePosition(Position(0, 4), Stone.BLACK),
-//                StonePosition(Position(0, 5), Stone.BLACK),
-//            )
-//
-//        // when
-//        val actual = ruleAdapter.violated(board, Position(0, 3))
-//
-//        // then
-//        Assertions.assertThat(actual).isTrue()
+        // given
+        val rules =
+            RuleAdapter(
+                OverlineRule.forBlack(
+                    ContinualStonesWinningCondition(
+                        ContinualStonesStandard(4),
+                        ContinualStonesCondition.STRICT,
+                    ),
+                ),
+                ForbiddenRules(),
+            )
+
+        val board =
+            initBoard(
+                StonePosition(Position(0, 1), Stone.BLACK),
+                StonePosition(Position(0, 2), Stone.BLACK),
+                StonePosition(Position(0, 4), Stone.BLACK),
+                StonePosition(Position(0, 5), Stone.BLACK),
+            )
+        // when
+        val actual = rules.violated(board, Position(0, 3))
+
+        // then
+        Assertions.assertThat(actual).isTrue()
     }
 
     @Test
     fun `사목으로 지정할 경우 더블 규칙을 가질 수 없다`() {
-//        assertThrows<IllegalArgumentException> {
-//            RuleAdapter(
-//                ContinualStonesWinningCondition(ContinualStonesStandard(4), ContinualStonesCondition.EXACT),
-//                ForbiddenRules(
-//                    ThreeThreeRule.forWhite(),
-//                    FourFourRule.forWhite(),
-//                ),
-//            )
-//        }
-    }
-
-    @Test
-    fun `우승 조건이 정확히 N 목이 아닌, N 목 이상일 경우 장목 규칙을 가질 수 없다`() {
-//        assertThrows<IllegalArgumentException> {
-//            RuleAdapter(
-//                ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.CAN_OVERLINE),
-//                ForbiddenRules(
-//                    OverlineRule(),
-//                ),
-//            )
-//        }
+        assertThrows<IllegalArgumentException> {
+            RuleAdapter(
+                OverlineRule.forBlack(
+                    ContinualStonesWinningCondition(
+                        ContinualStonesStandard(4),
+                        ContinualStonesCondition.STRICT,
+                    ),
+                ),
+                ForbiddenRules(
+                    FourFourRule.forBlack(),
+                ),
+            )
+        }
     }
 }

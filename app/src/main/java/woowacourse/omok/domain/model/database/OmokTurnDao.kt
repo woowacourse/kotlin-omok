@@ -11,35 +11,35 @@ class OmokTurnDao(private val sqLiteOpenHelper: SQLiteOpenHelper) {
         db.execSQL(OmokTurnContract.CREATE_OMOK_TURN_TABLE)
     }
 
-    fun save(omokTurn: OmokTurn): OmokTurn {
+    fun save(omokTurnEntity: OmokTurnEntity): OmokTurnEntity {
         val db = sqLiteOpenHelper.writableDatabase
         val id =
             db.insert(
                 OmokTurnContract.TABLE_NAME,
                 null,
                 contentValuesOf(
-                    OmokTurnContract.COLUMN_POSITION_ROW to omokTurn.row,
-                    OmokTurnContract.COLUMN_POSITION_COLUMN to omokTurn.column,
-                    OmokTurnContract.COLUMN_STONE_COLOR to omokTurn.stoneColor,
+                    OmokTurnContract.COLUMN_POSITION_ROW to omokTurnEntity.row,
+                    OmokTurnContract.COLUMN_POSITION_COLUMN to omokTurnEntity.column,
+                    OmokTurnContract.COLUMN_STONE_COLOR to omokTurnEntity.stoneColor,
                 ),
             )
-        return omokTurn.copy(id = id)
+        return omokTurnEntity.copy(id = id)
     }
 
-    fun findAll(): List<OmokTurn> {
+    fun findAll(): List<OmokTurnEntity> {
         val db = sqLiteOpenHelper.readableDatabase
         return db.querySelectAll(
             OmokTurnContract.TABLE_NAME,
             OmokTurnContract.ALL_COLUMNS,
         ).use { cursor ->
-            mutableListOf<OmokTurn>().apply {
+            mutableListOf<OmokTurnEntity>().apply {
                 while (cursor.moveToNext()) {
                     val id = cursor.getLong(cursor.getColumnIndexOrThrow(OmokTurnContract.COLUMN_ID))
                     val row = cursor.getInt(cursor.getColumnIndexOrThrow(OmokTurnContract.COLUMN_POSITION_ROW))
                     val column = cursor.getInt(cursor.getColumnIndexOrThrow(OmokTurnContract.COLUMN_POSITION_COLUMN))
                     val stoneColor = cursor.getString(cursor.getColumnIndexOrThrow(OmokTurnContract.COLUMN_STONE_COLOR))
 
-                    add(OmokTurn(row, column, stoneColor, id))
+                    add(OmokTurnEntity(row, column, stoneColor, id))
                 }
             }
         }

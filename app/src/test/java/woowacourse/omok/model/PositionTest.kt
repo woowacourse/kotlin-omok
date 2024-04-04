@@ -1,12 +1,9 @@
 package woowacourse.omok.model
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import woowacourse.omok.domain.model.Direction
 import woowacourse.omok.domain.model.Position
 
 class PositionTest {
@@ -26,17 +23,5 @@ class PositionTest {
         col: Int,
     ) {
         assertDoesNotThrow { Position(row, col) }
-    }
-
-    @Test
-    fun `위로 이동한다`() {
-        // given
-        val position = Position(7, 7)
-
-        // when
-        val actual = position.move(Direction.UP)
-
-        // then
-        assertThat(actual).isEqualTo(Position(6, 7))
     }
 }

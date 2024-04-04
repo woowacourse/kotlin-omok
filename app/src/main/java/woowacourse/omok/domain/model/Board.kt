@@ -6,8 +6,6 @@ class Board(private val _board: MutableMap<Position, Stone> = initBoard()) {
     val board: Map<Position, Stone>
         get() = _board.toMap()
 
-    fun emptyPosition(position: Position): Boolean = find(position) == Stone.NONE
-
     fun find(position: Position): Stone = board[position] ?: Stone.NONE
 
     fun place(stonePosition: StonePosition) {

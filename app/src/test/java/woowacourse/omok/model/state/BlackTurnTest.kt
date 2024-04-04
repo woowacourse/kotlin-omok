@@ -15,7 +15,6 @@ import woowacourse.omok.model.initBoard
 class BlackTurnTest {
     private lateinit var board: Board
 
-    // TODO: 여기서 과연 isEqualTo 를 사용하여 테스트하는 게 맞나? 그러려면 Turn 클래스에서 equals 메서드를 오버라이드해야 할 것 같다.
     @Test
     fun `다음 순서는 백돌의 순서이다`() {
         val blackTurn = BlackTurn(StonePosition(Position(1, 1), Stone.WHITE))
