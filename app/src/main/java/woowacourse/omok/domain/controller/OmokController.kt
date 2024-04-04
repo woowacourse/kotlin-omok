@@ -12,15 +12,25 @@ class OmokController(
     fun startGame() {
         val board = initializedBoard()
         val omokGame = OmokGame(board)
-
-        while (!omokGame.currentGameTurn.finished()) {
-            omokGame.gameTurn(
-                nextPosition = { gameState -> inputView.readStonePosition(gameState.latestStone().nextOrFirst(), gameState.latestPosition(),) },
-                handling = { inValidStonePosition -> outputView.printInvalidPosition(inValidStonePosition, "have to remove") },
+        
+        do {
+            val gameState = omokGame.gameTurn(
+                nextPosition = { gameState ->
+                    inputView.readStonePosition(
+                        gameState.latestStone().nextOrFirst(),
+                        gameState.latestPosition(),
+                    )
+                },
+                handling = { inValidStonePosition ->
+                    outputView.printInvalidPosition(
+                        inValidStonePosition,
+                        "have to remove"
+                    )
+                },
                 nextStonePositionCallback = { outputView.printBoard(board) },
-                finishedResultCallback = {gameState -> outputView.printWinner(gameState.latestStone())}
+                finishedResultCallback = { gameState -> outputView.printWinner(gameState.latestStone()) }
             )
-        }
+        }while (!gameState.finished())
     }
 
     private fun initializedBoard(): Board {

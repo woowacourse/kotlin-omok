@@ -9,8 +9,7 @@ import woowacourse.omok.domain.model.state.RunningTurn
 class OmokGame(
     private val board: Board,
 ) {
-    var currentGameTurn: GameState = InitialGameTurn()
-        private set
+    private var currentGameTurn: GameState = InitialGameTurn()
 
     fun gameTurn(
         nextPosition: (GameState) -> Position,
