@@ -16,9 +16,9 @@ import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
-import woowacourse.omok.domain.model.database.OmokTurnDao
-import woowacourse.omok.domain.model.database.OmokTurnDbHelper
-import woowacourse.omok.domain.model.database.toStonePosition
+import woowacourse.omok.database.OmokTurnDao
+import woowacourse.omok.database.OmokTurnDbHelper
+import woowacourse.omok.database.toStonePosition
 import woowacourse.omok.domain.model.state.AlreadyHaveStone
 import woowacourse.omok.domain.model.state.ForbiddenPosition
 import woowacourse.omok.domain.model.state.GameState

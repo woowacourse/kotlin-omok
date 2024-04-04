@@ -1,10 +1,10 @@
-package woowacourse.omok.domain.model.database
+package woowacourse.omok.database
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import woowacourse.omok.domain.model.database.OmokTurnContract.OMOK_TURN_DATABASE_NAME
-import woowacourse.omok.domain.model.database.OmokTurnContract.OMOK_TURN_DATABASE_VERSION
+import woowacourse.omok.database.OmokTurnContract.OMOK_TURN_DATABASE_NAME
+import woowacourse.omok.database.OmokTurnContract.OMOK_TURN_DATABASE_VERSION
 
 class OmokTurnDbHelper(context: Context) :
     SQLiteOpenHelper(context, OMOK_TURN_DATABASE_NAME, null, OMOK_TURN_DATABASE_VERSION) {

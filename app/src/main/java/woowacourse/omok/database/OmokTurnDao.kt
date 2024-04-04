@@ -1,4 +1,4 @@
-package woowacourse.omok.domain.model.database
+package woowacourse.omok.database
 
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase

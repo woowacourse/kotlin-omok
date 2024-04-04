@@ -8,6 +8,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import woowacourse.omok.database.OmokTurnDao
+import woowacourse.omok.database.OmokTurnDbHelper
+import woowacourse.omok.database.OmokTurnEntity
 
 @RunWith(AndroidJUnit4::class)
 class OmokTurnEntityDaoTest {

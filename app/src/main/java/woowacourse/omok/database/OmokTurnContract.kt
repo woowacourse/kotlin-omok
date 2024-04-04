@@ -1,4 +1,4 @@
-package woowacourse.omok.domain.model.database
+package woowacourse.omok.database
 
 object OmokTurnContract {
     const val OMOK_TURN_DATABASE_NAME = "omok_turn.db"

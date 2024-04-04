@@ -3,8 +3,8 @@ package woowacourse.omok.model
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import woowacourse.omok.domain.model.Stone
-import woowacourse.omok.domain.model.database.OmokTurnEntity
-import woowacourse.omok.domain.model.database.toStonePosition
+import woowacourse.omok.database.OmokTurnEntity
+import woowacourse.omok.database.toStonePosition
 
 class OmokTurnEntityTest {
     @Test
