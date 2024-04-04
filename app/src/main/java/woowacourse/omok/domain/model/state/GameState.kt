@@ -1,9 +1,9 @@
 package woowacourse.omok.domain.model.state
 
+import woowacourse.omok.domain.controller.InvalidPositionHandler
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
-import woowacourse.omok.domain.model.StonePosition
 
 sealed interface GameState {
     fun place(
@@ -17,5 +17,5 @@ sealed interface GameState {
 
     fun finished(): Boolean
 
-    fun handleInvalidPosition(handling: (StonePosition, InvalidPositionState) -> Unit): GameState
+    fun handleInvalidPosition(handler: InvalidPositionHandler): GameState
 }

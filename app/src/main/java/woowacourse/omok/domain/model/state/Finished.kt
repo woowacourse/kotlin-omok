@@ -1,5 +1,6 @@
 package woowacourse.omok.domain.model.state
 
+import woowacourse.omok.domain.controller.InvalidPositionHandler
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
@@ -19,7 +20,7 @@ data class Finished(val latestStonePosition: StonePosition) : GameState {
 
     override fun finished(): Boolean = true
 
-    override fun handleInvalidPosition(handling: (StonePosition, InvalidPositionState) -> Unit): GameState {
+    override fun handleInvalidPosition(handler: InvalidPositionHandler): GameState {
         throw IllegalStateException("게임이 종료되었습니다.")
     }
 }

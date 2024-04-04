@@ -1,11 +1,11 @@
 package woowacourse.omok.domain.model.state
 
+import woowacourse.omok.domain.controller.InvalidPositionHandler
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
 
-// TODO: 여기서 토스트 메시지나 콘솔 출력문을 표시하는데 도메인에 있어야 하나?
 sealed class InvalidPositionState(
     private val latestStonePosition: StonePosition,
     private val latestState: GameState,
@@ -24,8 +24,8 @@ sealed class InvalidPositionState(
 
     override fun latestPosition(): Position = latestStonePosition.position
 
-    override fun handleInvalidPosition(handling: (StonePosition, InvalidPositionState) -> Unit): GameState {
-        handling(latestStonePosition, this)
+    override fun handleInvalidPosition(handler: InvalidPositionHandler): GameState {
+        handler.handle(latestStonePosition, this)
         return latestState
     }
 }

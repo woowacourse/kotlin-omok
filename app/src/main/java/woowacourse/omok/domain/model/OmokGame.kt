@@ -1,5 +1,8 @@
 package woowacourse.omok.domain.model
 
+import woowacourse.omok.domain.controller.FinishedObserver
+import woowacourse.omok.domain.controller.InvalidPositionHandler
+import woowacourse.omok.domain.controller.NextPositionListener
 import woowacourse.omok.domain.model.state.Finished
 import woowacourse.omok.domain.model.state.GameState
 import woowacourse.omok.domain.model.state.InitialGameTurn
@@ -12,38 +15,35 @@ class OmokGame(
     private var currentGameTurn: GameState = InitialGameTurn()
 
     fun gameTurn(
-        nextPosition: (GameState) -> Position,
-        handling: (StonePosition, InvalidPositionState) -> Unit,
-        nextStonePositionCallback: (GameState) -> Unit,
-        finishedResultCallback: (GameState) -> Unit,
+        nextPositionListener: NextPositionListener,
+        invalidPositionHandler: InvalidPositionHandler,
+        finishedObserver: FinishedObserver
     ): GameState {
-        val position = nextPosition(currentGameTurn)
+        val position = nextPositionListener.nextPosition(currentGameTurn)
 
         when (currentGameTurn) {
             is Running -> {
                 currentGameTurn = currentGameTurn.place(board, position)
 
-                if(currentGameTurn is InvalidPositionState) return handleInvalidPosition(handling)
+                if (currentGameTurn is InvalidPositionState) return handleInvalidPosition(invalidPositionHandler)
 
-                nextStonePositionCallback(currentGameTurn)
-
-                if(currentGameTurn is Finished) return finish(finishedResultCallback)
-
+                nextPositionListener.nextStonePositionCallback(currentGameTurn)
+                if (currentGameTurn is Finished) return finish(finishedObserver)
                 return currentGameTurn
             }
 
-            is Finished -> return finish(finishedResultCallback)
-            is InvalidPositionState -> return handleInvalidPosition(handling)
+            is Finished -> return finish(finishedObserver)
+            is InvalidPositionState -> return handleInvalidPosition(invalidPositionHandler)
         }
     }
 
-    private fun handleInvalidPosition(handling: (StonePosition, InvalidPositionState) -> Unit): GameState {
-        currentGameTurn = currentGameTurn.handleInvalidPosition(handling)
-        return currentGameTurn
-    }
+    private fun handleInvalidPosition(handler: InvalidPositionHandler): GameState =
+        currentGameTurn.let {
+            currentGameTurn = currentGameTurn.handleInvalidPosition(handler)
+            currentGameTurn
+        }
 
-    private fun finish(finishedResultCallback: (GameState) -> Unit): GameState {
-        finishedResultCallback(currentGameTurn)
-        return currentGameTurn
+    private fun finish(finishedObserver: FinishedObserver): GameState = currentGameTurn.apply {
+        finishedObserver.finishedCallback(this)
     }
 }
