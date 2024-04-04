@@ -15,11 +15,7 @@ sealed interface GameState {
 
     fun latestPosition(): Position?
 
-    fun running(): Boolean
-
-    fun invalidPosition(): Boolean
-
     fun finished(): Boolean
 
-    fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState
+    fun handleInvalidPosition(handling: (StonePosition) -> Unit): GameState
 }

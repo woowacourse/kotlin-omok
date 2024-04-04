@@ -64,22 +64,22 @@ class MainActivity : AppCompatActivity() {
         currentPosition: Position,
     ) {
         view.setOnClickListener {
-            omokGame.gameTurn2(
+            omokGame.gameTurn(
                 nextPosition = { currentPosition },
-                handling = { stonePosition, message ->
+                handling = { stonePosition ->
                     Toast.makeText(
                         this,
-                        "${stonePosition.stone.output()}이 두려는 위치는 위치${stonePosition.position.output()}는 $message",
+                        "${stonePosition.stone.output()}이 두려는 위치는 위치${stonePosition.position.output()}는 ",
                         Toast.LENGTH_SHORT,
                     ).show()
                 },
                 nextStonePositionCallback = { gameState ->
-                    val latestStone = gameState.latestStonePosition().stone
+                    val latestStone = gameState.latestStone()
                     changeStoneUI(view, latestStone)
                     omokTurnDao.save(StonePosition(currentPosition, latestStone).toOmokTurn())
                 },
                 finishedResultCallback = { gameState ->
-                    val latestStone = gameState.latestStonePosition().stone
+                    val latestStone = gameState.latestStone()
                     Toast.makeText(this, "${latestStone.output()}이 승리했습니다.", Toast.LENGTH_SHORT).show()
                     omokTurnDao.clearAll()
                 },

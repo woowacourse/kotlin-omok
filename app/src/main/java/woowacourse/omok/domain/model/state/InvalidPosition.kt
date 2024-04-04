@@ -5,22 +5,18 @@ import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
 
+// TODO: 여기서 토스트 메시지나 콘솔 출력문을 표시하는데 도메인에 있어야 하나?
 sealed class InvalidPosition(
     private val latestStonePosition: StonePosition,
     private val latestState: GameState,
 ) : GameState {
-    abstract val exceptionMessage: String
 
     override fun place(
         board: Board,
         position: Position,
     ): GameState {
-        throw IllegalStateException(exceptionMessage)
+        throw IllegalStateException()
     }
-
-    override fun running(): Boolean = false
-
-    override fun invalidPosition(): Boolean = true
 
     override fun finished(): Boolean = false
 
@@ -28,20 +24,14 @@ sealed class InvalidPosition(
 
     override fun latestPosition(): Position = latestStonePosition.position
 
-    override fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState {
-        handling(latestStonePosition, exceptionMessage)
+    override fun handleInvalidPosition(handling: (StonePosition) -> Unit): GameState {
+        handling(latestStonePosition)
         return latestState
     }
 }
 
 class AlreadyHaveStone(latestStonePosition: StonePosition, latestState: GameState) :
-    InvalidPosition(latestStonePosition, latestState) {
-    override val exceptionMessage: String
-        get() = "이미 돌이 있는 위치입니다."
-}
+    InvalidPosition(latestStonePosition, latestState)
 
 class ForbiddenPosition(latestStonePosition: StonePosition, latestState: GameState) :
-    InvalidPosition(latestStonePosition, latestState) {
-    override val exceptionMessage: String
-        get() = "금수 규칙에 따라 돌을 둘 수 없는 위치입니다."
-}
+    InvalidPosition(latestStonePosition, latestState)

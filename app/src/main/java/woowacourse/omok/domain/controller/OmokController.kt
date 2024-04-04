@@ -2,7 +2,6 @@ package woowacourse.omok.domain.controller
 
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.OmokGame
-import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.view.InputView
 import woowacourse.omok.domain.view.OutputView
 
@@ -14,18 +13,14 @@ class OmokController(
         val board = initializedBoard()
         val omokGame = OmokGame(board)
 
-        val result = omokGame.runGame(
-            { inputView.readFirstStonePosition(Stone.BLACK) },
-            { gameState ->
-                inputView.readStonePosition(
-                    gameState.latestStonePosition().stone.nextOrFirst(),
-                    gameState.latestStonePosition().position,
-                )
-            },
-            { inValidStonePosition, message -> outputView.printInvalidPosition(inValidStonePosition, message) },
-            { outputView.printBoard(board) },
-        )
-        outputView.printWinner(result.latestStonePosition().stone)
+        while (!omokGame.currentGameTurn.finished()) {
+            omokGame.gameTurn(
+                nextPosition = { gameState -> inputView.readStonePosition(gameState.latestStone().nextOrFirst(), gameState.latestPosition(),) },
+                handling = { inValidStonePosition -> outputView.printInvalidPosition(inValidStonePosition, "have to remove") },
+                nextStonePositionCallback = { outputView.printBoard(board) },
+                finishedResultCallback = {gameState -> outputView.printWinner(gameState.latestStone())}
+            )
+        }
     }
 
     private fun initializedBoard(): Board {

@@ -24,7 +24,7 @@ class FinishedTest {
     fun `종료 상태에서는 유효하지 않은 위치에 대해 다룰 수 없다`() {
         val finished = Finished(StonePosition(Position(1, 1), Stone.BLACK))
         assertThrows<IllegalStateException> {
-            finished.handleInvalidPosition { _, _ -> }
+            finished.handleInvalidPosition { _,  -> }
         }
     }
 }
