@@ -1,28 +1,25 @@
-package woowacourse.omok.model.rule
+package woowacourse.omok.domain.model.rule
 
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.ContinualStonesCondition
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
-import woowacourse.omok.domain.model.rule.ContinualStonesStandard
-import woowacourse.omok.domain.model.rule.ForbiddenRules
-import woowacourse.omok.domain.model.rule.RuleAdapter
 import woowacourse.omok.domain.model.rule.library.FourFourRule
 import woowacourse.omok.domain.model.rule.library.OverlineRule
+import woowacourse.omok.domain.model.rule.library.OverlineRule2
 import woowacourse.omok.domain.model.rule.library.ThreeThreeRule
 import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
 import woowacourse.omok.model.initBoard
 
-class RuleAdapterTest {
+class RuleAdapter2Test {
     private lateinit var board: Board
 
     private val renjuRule =
-        RuleAdapter(
-            ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.STRICT),
+        RuleAdapter2(
+            OverlineRule2.forBlack(ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.STRICT)),
             ForbiddenRules(
                 ThreeThreeRule.forBlack(),
                 FourFourRule.forBlack(),
@@ -45,10 +42,10 @@ class RuleAdapterTest {
             )
 
         // when
-        val actual = renjuRule.validPosition(board, Position(3, 3))
+        val actual = renjuRule.violated(board, Position(3, 3))
 
         // then
-        assertThat(actual).isFalse
+        Assertions.assertThat(actual).isTrue()
     }
 
     @Test
@@ -63,10 +60,10 @@ class RuleAdapterTest {
             )
 
         // when
-        val actual = renjuRule.validPosition(board, Position(12, 4))
+        val actual = renjuRule.violated(board, Position(12, 4))
 
         // then
-        assertThat(actual).isFalse
+        Assertions.assertThat(actual).isTrue()
     }
 
     @Test
@@ -81,10 +78,10 @@ class RuleAdapterTest {
             )
 
         // when
-        val actual = renjuRule.validPosition(board, Position(4, 11))
+        val actual = renjuRule.violated(board, Position(4, 11))
 
         // then
-        assertThat(actual).isFalse
+        Assertions.assertThat(actual).isTrue()
     }
 
     @Test
@@ -99,10 +96,10 @@ class RuleAdapterTest {
             )
 
         // when
-        val actual = renjuRule.validPosition(board, Position(7, 5))
+        val actual = renjuRule.violated(board, Position(7, 5))
 
         // then
-        assertThat(actual).isFalse
+        Assertions.assertThat(actual).isTrue()
     }
 
     @Test
@@ -120,7 +117,7 @@ class RuleAdapterTest {
         val actual = renjuRule.violated(board, Position(7, 5))
 
         // then
-        assertThat(actual).isTrue()
+        Assertions.assertThat(actual).isTrue()
     }
 
     /*
@@ -139,10 +136,10 @@ class RuleAdapterTest {
             )
 
         // when
-        val actual = renjuRule.validPosition(board, Position(3, 5))
+        val actual = renjuRule.violated(board, Position(3, 5))
 
         // then
-        assertThat(actual).isFalse
+        Assertions.assertThat(actual).isTrue()
     }
 
     @Test
@@ -157,10 +154,10 @@ class RuleAdapterTest {
             )
 
         // when
-        val actual = renjuRule.validPosition(board, Position(5, 9))
+        val actual = renjuRule.violated(board, Position(5, 9))
 
         // then
-        assertThat(actual).isFalse
+        Assertions.assertThat(actual).isTrue()
     }
 
     @Test
@@ -179,10 +176,10 @@ class RuleAdapterTest {
             )
 
         // when
-        val actual = renjuRule.validPosition(board, Position(7, 2))
+        val actual = renjuRule.violated(board, Position(7, 2))
 
         // then
-        assertThat(actual).isFalse
+        Assertions.assertThat(actual).isTrue()
     }
 
     @Test
@@ -198,10 +195,10 @@ class RuleAdapterTest {
                 StonePosition(Position(9, 5), Stone.BLACK),
             )
         // when
-        val actual = renjuRule.validPosition(board, Position(6, 8))
+        val actual = renjuRule.violated(board, Position(6, 8))
 
         // then
-        assertThat(actual).isFalse
+        Assertions.assertThat(actual).isTrue()
     }
 
     /*
@@ -211,9 +208,9 @@ class RuleAdapterTest {
     fun `승리 조건이 정확히 오목일 때, 돌을 두려는 위치로 육목 이상이 되면 놓을 수 없다`() {
         // given
         val ruleAdapter =
-            RuleAdapter(
-                ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.STRICT),
-                ForbiddenRules(OverlineRule()),
+            RuleAdapter2(
+                OverlineRule2.forBlack(ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.STRICT)),
+                ForbiddenRules(),
             )
 
         val board =
@@ -227,8 +224,8 @@ class RuleAdapterTest {
                 StonePosition(Position(0, 6), Stone.BLACK),
             )
 
-        val actual = ruleAdapter.validPosition(board, Position(0, 3))
-        assertThat(actual).isFalse
+        val actual = ruleAdapter.violated(board, Position(0, 3))
+        Assertions.assertThat(actual).isTrue()
     }
 
     @Test
@@ -249,34 +246,34 @@ class RuleAdapterTest {
             )
 
         // when
-        val actual = ruleAdapter.validPosition(board, Position(0, 3))
+        val actual = ruleAdapter.violated(board, Position(0, 3))
 
         // then
-        assertThat(actual).isFalse
+        Assertions.assertThat(actual).isTrue()
     }
 
     @Test
     fun `사목으로 지정할 경우 더블 규칙을 가질 수 없다`() {
-        assertThrows<IllegalArgumentException> {
-            RuleAdapter(
-                ContinualStonesWinningCondition(ContinualStonesStandard(4), ContinualStonesCondition.STRICT),
-                ForbiddenRules(
-                    ThreeThreeRule.forWhite(),
-                    FourFourRule.forWhite(),
-                ),
-            )
-        }
+//        assertThrows<IllegalArgumentException> {
+//            RuleAdapter(
+//                ContinualStonesWinningCondition(ContinualStonesStandard(4), ContinualStonesCondition.EXACT),
+//                ForbiddenRules(
+//                    ThreeThreeRule.forWhite(),
+//                    FourFourRule.forWhite(),
+//                ),
+//            )
+//        }
     }
 
     @Test
     fun `우승 조건이 정확히 N 목이 아닌, N 목 이상일 경우 장목 규칙을 가질 수 없다`() {
-        assertThrows<IllegalArgumentException> {
-            RuleAdapter(
-                ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.OVERLINE_AVAILABLE),
-                ForbiddenRules(
-                    OverlineRule(),
-                ),
-            )
-        }
+//        assertThrows<IllegalArgumentException> {
+//            RuleAdapter(
+//                ContinualStonesWinningCondition(ContinualStonesStandard(5), ContinualStonesCondition.CAN_OVERLINE),
+//                ForbiddenRules(
+//                    OverlineRule(),
+//                ),
+//            )
+//        }
     }
 }

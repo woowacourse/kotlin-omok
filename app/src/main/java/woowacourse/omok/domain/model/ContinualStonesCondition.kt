@@ -3,8 +3,9 @@ package woowacourse.omok.domain.model
 import woowacourse.omok.domain.model.rule.ContinualStonesStandard
 
 enum class ContinualStonesCondition {
-    EXACT,
-    CAN_OVERLINE,
+    STRICT, // 정확히 N 목일 때 우승, 장목은 금수임
+    NAIVE_OVERLINE_AVAILABLE, // 정확히 N 목일 때 우승, 장목은 금수가 아님
+    OVERLINE_AVAILABLE, // N 목 이상일 때 우승, 장목은 금수가 아님
     ;
 
     fun overline(
@@ -12,8 +13,9 @@ enum class ContinualStonesCondition {
         standardContinualCount: ContinualStonesStandard,
     ): Boolean {
         return when (this) {
-            EXACT -> (actualContinualCount > standardContinualCount.count)
-            CAN_OVERLINE -> false
+            STRICT -> (actualContinualCount > standardContinualCount.count)
+            NAIVE_OVERLINE_AVAILABLE -> false
+            OVERLINE_AVAILABLE -> false
         }
     }
 
@@ -22,8 +24,9 @@ enum class ContinualStonesCondition {
         standardContinualCount: ContinualStonesStandard,
     ): Boolean {
         return when (this) {
-            EXACT -> (actualContinualCount == standardContinualCount.count)
-            CAN_OVERLINE -> (actualContinualCount >= standardContinualCount.count)
+            STRICT -> (actualContinualCount == standardContinualCount.count)
+            NAIVE_OVERLINE_AVAILABLE -> (actualContinualCount == standardContinualCount.count)
+            OVERLINE_AVAILABLE -> (actualContinualCount >= standardContinualCount.count)
         }
     }
 }

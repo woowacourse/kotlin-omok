@@ -10,31 +10,31 @@ import woowacourse.omok.domain.model.rule.ContinualStonesStandard
 class ContinualStonesConditionTest {
     @Test
     fun `EXACT 일 때, 오직 연속 돌의 숫자가 기준과 같으면 참이다`() {
-        val exact = ContinualStonesCondition.EXACT
+        val strict = ContinualStonesCondition.STRICT
         val standardContinualCount = 5
         val actualContinualCount = 5
-        assertThat(exact.win(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isTrue
+        assertThat(strict.win(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isTrue
     }
 
     @Test
     fun `EXACT 일 때, 오직 연속 돌의 숫자가 기준과 다르면 거짓이다`() {
-        val exact = ContinualStonesCondition.EXACT
+        val strict = ContinualStonesCondition.STRICT
         val standardContinualCount = 5
         val actualContinualCount = 4
-        assertThat(exact.win(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isFalse
+        assertThat(strict.win(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isFalse
     }
 
     @ParameterizedTest
     @ValueSource(ints = [5, 6])
     fun `CAN_OVERLINE 일 때, 연속 돌의 숫자가 기준보다 크거나 같으면 참이다`(actualContinualCount: Int) {
-        val canOverline = ContinualStonesCondition.CAN_OVERLINE
+        val canOverline = ContinualStonesCondition.OVERLINE_AVAILABLE
         val standardContinualCount = 5
         assertThat(canOverline.win(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isTrue
     }
 
     @Test
     fun `CAN_OVERLINE 일 때, 연속 돌의 숫자가 기준보다 작으면 거짓이다`() {
-        val canOverline = ContinualStonesCondition.CAN_OVERLINE
+        val canOverline = ContinualStonesCondition.OVERLINE_AVAILABLE
         val standardContinualCount = 5
         val actualContinualCount = 4
         assertThat(canOverline.win(actualContinualCount, ContinualStonesStandard(standardContinualCount))).isFalse

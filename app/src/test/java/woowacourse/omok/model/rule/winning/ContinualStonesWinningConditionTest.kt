@@ -18,7 +18,7 @@ class ContinualStonesWinningConditionTest {
         val continualStonesWinningCondition =
             ContinualStonesWinningCondition(
                 ContinualStonesStandard(4),
-                ContinualStonesCondition.EXACT,
+                ContinualStonesCondition.STRICT,
             )
         assertThat(continualStonesWinningCondition.canHaveDoubleRule()).isFalse
     }
@@ -28,7 +28,7 @@ class ContinualStonesWinningConditionTest {
         val continualStonesWinningCondition =
             ContinualStonesWinningCondition(
                 ContinualStonesStandard(5),
-                ContinualStonesCondition.CAN_OVERLINE,
+                ContinualStonesCondition.OVERLINE_AVAILABLE,
             )
         assertThat(continualStonesWinningCondition.canHaveOverlineRule()).isFalse
     }
@@ -41,7 +41,7 @@ class ContinualStonesWinningConditionTest {
         val winningCondition =
             ContinualStonesWinningCondition(
                 continualStonesStandard = ContinualStonesStandard(5),
-                continualStonesCondition = ContinualStonesCondition.EXACT,
+                continualStonesCondition = ContinualStonesCondition.STRICT,
             )
 
         val board =
@@ -68,7 +68,7 @@ class ContinualStonesWinningConditionTest {
         val winningCondition =
             ContinualStonesWinningCondition(
                 continualStonesStandard = ContinualStonesStandard(5),
-                continualStonesCondition = ContinualStonesCondition.EXACT,
+                continualStonesCondition = ContinualStonesCondition.STRICT,
             )
 
         val board =

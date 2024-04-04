@@ -24,7 +24,7 @@ data class WhiteTurn(private val latestStonePosition: StonePosition) : PlayerTur
                     (
                         ContinualStonesWinningCondition(
                             ContinualStonesStandard(5),
-                            ContinualStonesCondition.EXACT,
+                            ContinualStonesCondition.STRICT,
                         )
                     ),
                 ),

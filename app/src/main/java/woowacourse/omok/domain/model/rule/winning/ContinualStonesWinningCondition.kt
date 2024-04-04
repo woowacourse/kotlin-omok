@@ -12,7 +12,7 @@ class ContinualStonesWinningCondition(
 ) : WinningCondition {
     fun canHaveDoubleRule(): Boolean = continualStonesStandard > ContinualStonesStandard(MIN_CONTINUAL_STONES_COUNT)
 
-    fun canHaveOverlineRule(): Boolean = continualStonesCondition == ContinualStonesCondition.EXACT
+    fun canHaveOverlineRule(): Boolean = continualStonesCondition == ContinualStonesCondition.STRICT
 
     override fun isWin(
         board: Board,

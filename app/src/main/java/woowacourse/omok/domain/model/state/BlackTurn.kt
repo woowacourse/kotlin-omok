@@ -25,7 +25,7 @@ data class BlackTurn(private val latestStonePosition: StonePosition) : PlayerTur
                 OverlineRule2.forBlack(
                     ContinualStonesWinningCondition(
                         ContinualStonesStandard(5),
-                        ContinualStonesCondition.EXACT,
+                        ContinualStonesCondition.STRICT,
                     ),
                 ),
                 ForbiddenRules(

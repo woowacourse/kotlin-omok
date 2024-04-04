@@ -1,6 +1,5 @@
 package woowacourse.omok.domain.model.rule
 
-import android.util.Log
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
@@ -73,11 +72,16 @@ class RuleAdapter2(
     private val baseOverLineRule: OverlineRule2,
     private val forbiddenRules: ForbiddenRules,
 ) {
+    init {
+        if (!baseOverLineRule.canHaveDoubleRule()) {
+            require(!forbiddenRules.hasDoubleRule()) { "승리 조건이 오목 미만일 경우에는 더블 규칙(3-3, 4-4)을 가질 수 없습니다." }
+        }
+    }
+
     fun violated(
         board: Board,
         position: Position,
     ): Boolean {
-        Log.d("RuleAdapter2", "${!baseOverLineRule.abide(board.convert(), position.convert())}")
         if (!baseOverLineRule.abide(board.convert(), position.convert())) {
             return true
         }
