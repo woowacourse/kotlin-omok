@@ -1,5 +1,6 @@
 package woowacourse.omok
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -26,6 +27,7 @@ import woowacourse.omok.domain.view.output
 
 class MainActivity : AppCompatActivity() {
     private lateinit var omokTurnDao: OmokTurnDao
+    private lateinit var omokBoard: Board
     private lateinit var omokGame: OmokGame
 
     private val invalidPositionHandler = initInvalidPositionHandler()
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val omokBoard = Board()
+        omokBoard = Board()
         omokGame = OmokGame(omokBoard)
 
         omokTurnDao = OmokTurnDao(OmokTurnDbHelper(this))
@@ -73,15 +75,15 @@ class MainActivity : AppCompatActivity() {
         view.setOnClickListener {
             omokGame.gameTurn(
                 nextPositionListener =
-                    object : NextPositionListener {
-                        override fun nextPosition(gameState: GameState): Position = currentPosition
+                object : NextPositionListener {
+                    override fun nextPosition(gameState: GameState): Position = currentPosition
 
-                        override fun nextStonePositionCallback(gameState: GameState) {
-                            val latestStone = gameState.latestStone()
-                            changeStoneUI(view, latestStone)
-                            omokTurnDao.save(StonePosition(currentPosition, latestStone).toOmokTurn())
-                        }
-                    },
+                    override fun nextStonePositionCallback(gameState: GameState) {
+                        val latestStone = gameState.latestStone()
+                        changeStoneUI(view, latestStone)
+                        omokTurnDao.save(StonePosition(currentPosition, latestStone).toOmokTurn())
+                    }
+                },
                 invalidPositionHandler = invalidPositionHandler,
                 finishedObserver = finishedObserver,
             )
@@ -101,7 +103,14 @@ class MainActivity : AppCompatActivity() {
         FinishedObserver { gameState ->
             val latestStone = gameState.latestStone()
             showStoneToast(latestStone, "이 승리했습니다.")
+            omokBoard = Board()
             omokTurnDao.clearAll()
+            startActivity(
+                Intent(this, RestartActivity::class.java).apply {
+                    putExtra("winner", gameState.latestStone().output())
+                })
+
+            this.finish()
         }
 
     private fun showToastInvalidPosition(
