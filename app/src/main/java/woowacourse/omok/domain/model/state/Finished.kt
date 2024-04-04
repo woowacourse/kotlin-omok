@@ -2,6 +2,7 @@ package woowacourse.omok.domain.model.state
 
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Position
+import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
 
 data class Finished(val latestStonePosition: StonePosition) : GameState {
@@ -12,9 +13,11 @@ data class Finished(val latestStonePosition: StonePosition) : GameState {
         throw IllegalStateException("게임이 종료되었습니다.")
     }
 
-    override fun latestStonePosition(): StonePosition = latestStonePosition
-
     override fun running(): Boolean = false
+
+    override fun latestStone(): Stone = latestStonePosition.stone
+
+    override fun latestPosition(): Position = latestStonePosition.position
 
     override fun invalidPosition(): Boolean = false
 

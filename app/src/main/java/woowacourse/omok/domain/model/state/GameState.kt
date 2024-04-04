@@ -2,6 +2,7 @@ package woowacourse.omok.domain.model.state
 
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Position
+import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
 
 sealed interface GameState {
@@ -10,7 +11,9 @@ sealed interface GameState {
         position: Position,
     ): GameState
 
-    fun latestStonePosition(): StonePosition
+    fun latestStone(): Stone
+
+    fun latestPosition(): Position?
 
     fun running(): Boolean
 

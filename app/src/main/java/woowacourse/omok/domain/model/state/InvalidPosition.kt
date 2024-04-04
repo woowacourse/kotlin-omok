@@ -2,6 +2,7 @@ package woowacourse.omok.domain.model.state
 
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.Position
+import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
 
 sealed class InvalidPosition(
@@ -23,7 +24,9 @@ sealed class InvalidPosition(
 
     override fun finished(): Boolean = false
 
-    override fun latestStonePosition(): StonePosition = latestStonePosition
+    override fun latestStone(): Stone = latestStonePosition.stone
+
+    override fun latestPosition(): Position = latestStonePosition.position
 
     override fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState {
         handling(latestStonePosition, exceptionMessage)

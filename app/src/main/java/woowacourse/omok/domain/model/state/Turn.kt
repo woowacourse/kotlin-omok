@@ -16,34 +16,26 @@ abstract class Turn(private val latestStonePosition: StonePosition) : RunningTur
         board: Board,
         position: Position,
     ): GameState {
-        if (alreadyStoneExist(board, position)) {
-            return AlreadyHaveStone(StonePosition(position, stone), this)
-        }
-
-        if (rule.violated(board, position)) {
-            return ForbiddenPosition(StonePosition(position, stone), this)
-        }
-
         val stonePosition = StonePosition(position, stone)
+
+        if(!(rule.validPosition(board, position) && board.emptyPosition(position))) return this
         board.place(stonePosition)
+
         if (isWin(board, position)) {
             return Finished(stonePosition)
         }
         return nextTurn(position)
     }
 
-    override fun latestStonePosition(): StonePosition = latestStonePosition
+    override fun latestStone(): Stone = latestStonePosition.stone
+
+    override fun latestPosition(): Position = latestStonePosition.position
 
     override fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState {
         throw IllegalStateException("유효한 위치였습니다.")
     }
 
     override fun finished(): Boolean = false
-
-    private fun alreadyStoneExist(
-        board: Board,
-        position: Position,
-    ): Boolean = board.find(position) != Stone.NONE
 
     private fun isWin(
         board: Board,

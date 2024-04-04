@@ -10,12 +10,13 @@ import woowacourse.omok.domain.model.rule.RuleAdapter
 import woowacourse.omok.domain.model.rule.library.NoneForbiddenRule
 import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
 
-class WhiteTurn(latestStonePosition: StonePosition) : Turn(latestStonePosition) {
+data class WhiteTurn(private val latestStonePosition: StonePosition) : Turn(latestStonePosition) {
     override val stone: Stone
         get() = Stone.WHITE
     override val rule: RuleAdapter = whiteRenjuRule
 
-    override fun nextTurn(position: Position): GameState = BlackTurn(latestStonePosition = StonePosition(position, stone))
+    override fun nextTurn(position: Position): GameState =
+        BlackTurn(latestStonePosition = StonePosition(position, stone))
 
     companion object {
         private val whiteRenjuRule =

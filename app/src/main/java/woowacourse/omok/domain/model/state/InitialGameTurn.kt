@@ -17,11 +17,11 @@ class InitialGameTurn : RunningTurn() {
         return WhiteTurn(latestStonePosition = stonePosition)
     }
 
-    override fun finished(): Boolean = false
+    override fun latestStone(): Stone = Stone.NONE
 
-    override fun latestStonePosition(): StonePosition {
-        throw IllegalStateException("게임이 시작되지 않았습니다.")
-    }
+    override fun latestPosition(): Position? = null
+
+    override fun finished(): Boolean = false
 
     override fun handleInvalidPosition(handling: (StonePosition, String) -> Unit): GameState {
         throw IllegalStateException("게임이 시작되지 않았습니다.")
