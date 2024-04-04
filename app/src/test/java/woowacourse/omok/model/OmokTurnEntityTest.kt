@@ -2,9 +2,9 @@ package woowacourse.omok.model
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import woowacourse.omok.database.omokturn.OmokTurnEntity
+import woowacourse.omok.database.omokturn.toStonePosition
 import woowacourse.omok.domain.model.Stone
-import woowacourse.omok.database.OmokTurnEntity
-import woowacourse.omok.database.toStonePosition
 
 class OmokTurnEntityTest {
     @Test

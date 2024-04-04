@@ -1,4 +1,4 @@
-package woowacourse.omok.domain.model.database
+package woowacourse.omok.database.omokturn
 
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
@@ -7,10 +7,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.assertAll
 import org.junit.runner.RunWith
-import woowacourse.omok.database.OmokTurnDao
-import woowacourse.omok.database.OmokTurnDbHelper
-import woowacourse.omok.database.OmokTurnEntity
 
 @RunWith(AndroidJUnit4::class)
 class OmokTurnEntityDaoTest {
@@ -32,10 +30,12 @@ class OmokTurnEntityDaoTest {
         val turn = OmokTurnEntity(1, 1, "black")
         val actual = omokTurnDao.save(turn)
         Log.d("actual", actual.toString())
-        assertThat(actual.row).isEqualTo(1)
-        assertThat(actual.column).isEqualTo(1)
-        assertThat(actual.stoneColor).isEqualTo("black")
-        assertThat(actual.id).isEqualTo(1)
+        assertAll(
+            { assertThat(actual.row).isEqualTo(1) },
+            { assertThat(actual.column).isEqualTo(1) },
+            { assertThat(actual.stoneColor).isEqualTo("black") },
+            { assertThat(actual.id).isEqualTo(1) },
+        )
     }
 
     @Test
@@ -51,22 +51,28 @@ class OmokTurnEntityDaoTest {
         val omokTurns = omokTurnDao.findAll()
         Log.d("omokTurns", omokTurns.toString())
         omokTurns[0].let {
-            assertThat(it.row).isEqualTo(1)
-            assertThat(it.column).isEqualTo(1)
-            assertThat(it.stoneColor).isEqualTo("black")
-            assertThat(it.id).isEqualTo(1)
+            assertAll(
+                { assertThat(it.row).isEqualTo(1) },
+                { assertThat(it.column).isEqualTo(1) },
+                { assertThat(it.stoneColor).isEqualTo("black") },
+                { assertThat(it.id).isEqualTo(1) },
+            )
         }
         omokTurns[1].let {
-            assertThat(it.row).isEqualTo(2)
-            assertThat(it.column).isEqualTo(2)
-            assertThat(it.stoneColor).isEqualTo("white")
-            assertThat(it.id).isEqualTo(2)
+            assertAll(
+                { assertThat(it.row).isEqualTo(2) },
+                { assertThat(it.column).isEqualTo(2) },
+                { assertThat(it.stoneColor).isEqualTo("white") },
+                { assertThat(it.id).isEqualTo(2) },
+            )
         }
         omokTurns[2].let {
-            assertThat(it.row).isEqualTo(5)
-            assertThat(it.column).isEqualTo(5)
-            assertThat(it.stoneColor).isEqualTo("black")
-            assertThat(it.id).isEqualTo(3)
+            assertAll(
+                { assertThat(it.row).isEqualTo(5) },
+                { assertThat(it.column).isEqualTo(5) },
+                { assertThat(it.stoneColor).isEqualTo("black") },
+                { assertThat(it.id).isEqualTo(3) },
+            )
         }
     }
 

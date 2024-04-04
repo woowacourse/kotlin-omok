@@ -1,6 +1,6 @@
 package woowacourse.omok.domain.model
 
-import woowacourse.omok.database.OmokTurnEntity
+import woowacourse.omok.database.omokturn.OmokTurnEntity
 
 data class StonePosition(val position: Position, val stone: Stone)
 

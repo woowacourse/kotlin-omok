@@ -1,4 +1,4 @@
-package woowacourse.omok.database
+package woowacourse.omok.database.omokturn
 
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone

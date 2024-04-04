@@ -8,6 +8,9 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import woowacourse.omok.database.omokturn.OmokTurnDao
+import woowacourse.omok.database.omokturn.OmokTurnDbHelper
+import woowacourse.omok.database.omokturn.toStonePosition
 import woowacourse.omok.domain.controller.FinishedObserver
 import woowacourse.omok.domain.controller.InvalidPositionHandler
 import woowacourse.omok.domain.controller.NextPositionListener
@@ -16,9 +19,6 @@ import woowacourse.omok.domain.model.OmokGame
 import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.Stone
 import woowacourse.omok.domain.model.StonePosition
-import woowacourse.omok.database.OmokTurnDao
-import woowacourse.omok.database.OmokTurnDbHelper
-import woowacourse.omok.database.toStonePosition
 import woowacourse.omok.domain.model.state.AlreadyHaveStone
 import woowacourse.omok.domain.model.state.ForbiddenPosition
 import woowacourse.omok.domain.model.state.GameState
@@ -75,15 +75,15 @@ class GameActivity : AppCompatActivity() {
         view.setOnClickListener {
             omokGame.gameTurn(
                 nextPositionListener =
-                object : NextPositionListener {
-                    override fun nextPosition(gameState: GameState): Position = currentPosition
+                    object : NextPositionListener {
+                        override fun nextPosition(gameState: GameState): Position = currentPosition
 
-                    override fun nextStonePositionCallback(gameState: GameState) {
-                        val latestStone = gameState.latestStone()
-                        changeStoneUI(view, latestStone)
-                        omokTurnDao.save(StonePosition(currentPosition, latestStone).toOmokTurn())
-                    }
-                },
+                        override fun nextStonePositionCallback(gameState: GameState) {
+                            val latestStone = gameState.latestStone()
+                            changeStoneUI(view, latestStone)
+                            omokTurnDao.save(StonePosition(currentPosition, latestStone).toOmokTurn())
+                        }
+                    },
                 invalidPositionHandler = invalidPositionHandler,
                 finishedObserver = finishedObserver,
             )
@@ -108,7 +108,8 @@ class GameActivity : AppCompatActivity() {
             startActivity(
                 Intent(this, RestartActivity::class.java).apply {
                     putExtra("winner", gameState.latestStone().output())
-                })
+                },
+            )
 
             this.finish()
         }

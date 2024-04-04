@@ -1,4 +1,4 @@
-package woowacourse.omok.database
+package woowacourse.omok.database.omokturn
 
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
@@ -75,7 +75,7 @@ class OmokTurnDao(private val sqLiteOpenHelper: SQLiteOpenHelper) {
     }
 }
 
-private fun SQLiteDatabase.querySelectAll(
+fun SQLiteDatabase.querySelectAll(
     tableName: String,
     columns: Array<String>,
 ): Cursor =
