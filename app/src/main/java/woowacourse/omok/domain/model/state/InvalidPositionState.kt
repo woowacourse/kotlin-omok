@@ -10,7 +10,6 @@ sealed class InvalidPositionState(
     private val latestStonePosition: StonePosition,
     private val latestState: GameState,
 ) : GameState {
-
     override fun place(
         board: Board,
         position: Position,

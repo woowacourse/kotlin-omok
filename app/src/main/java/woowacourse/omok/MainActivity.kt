@@ -72,17 +72,18 @@ class MainActivity : AppCompatActivity() {
     ) {
         view.setOnClickListener {
             omokGame.gameTurn(
-                nextPositionListener = object : NextPositionListener {
-                    override fun nextPosition(gameState: GameState): Position = currentPosition
+                nextPositionListener =
+                    object : NextPositionListener {
+                        override fun nextPosition(gameState: GameState): Position = currentPosition
 
-                    override fun nextStonePositionCallback(gameState: GameState) {
-                        val latestStone = gameState.latestStone()
-                        changeStoneUI(view, latestStone)
-                        omokTurnDao.save(StonePosition(currentPosition, latestStone).toOmokTurn())
-                    }
-                },
-                invalidPositionHandler =invalidPositionHandler,
-                finishedObserver = finishedObserver
+                        override fun nextStonePositionCallback(gameState: GameState) {
+                            val latestStone = gameState.latestStone()
+                            changeStoneUI(view, latestStone)
+                            omokTurnDao.save(StonePosition(currentPosition, latestStone).toOmokTurn())
+                        }
+                    },
+                invalidPositionHandler = invalidPositionHandler,
+                finishedObserver = finishedObserver,
             )
             return@setOnClickListener
         }
@@ -96,13 +97,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    private fun initFinishedObserver() = FinishedObserver { gameState ->
-        val latestStone = gameState.latestStone()
-        showStoneToast(latestStone, "이 승리했습니다.")
-        omokTurnDao.clearAll()
-    }
+    private fun initFinishedObserver() =
+        FinishedObserver { gameState ->
+            val latestStone = gameState.latestStone()
+            showStoneToast(latestStone, "이 승리했습니다.")
+            omokTurnDao.clearAll()
+        }
 
-    private fun showToastInvalidPosition(inValidStonePosition: StonePosition, message: String = "") {
+    private fun showToastInvalidPosition(
+        inValidStonePosition: StonePosition,
+        message: String = "",
+    ) {
         Toast.makeText(
             this,
             "${inValidStonePosition.stone.output()}이 두려는 위치는 위치${inValidStonePosition.position.output()}는 $message",
@@ -110,8 +115,11 @@ class MainActivity : AppCompatActivity() {
         ).show()
     }
 
-    private fun showStoneToast(stone: Stone, message: String) {
-        Toast.makeText(this, "${stone.output()} ${message}.", Toast.LENGTH_SHORT).show()
+    private fun showStoneToast(
+        stone: Stone,
+        message: String,
+    ) {
+        Toast.makeText(this, "${stone.output()} $message.", Toast.LENGTH_SHORT).show()
     }
 
     private fun changeStoneUI(

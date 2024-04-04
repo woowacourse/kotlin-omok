@@ -17,7 +17,7 @@ class OmokGame(
     fun gameTurn(
         nextPositionListener: NextPositionListener,
         invalidPositionHandler: InvalidPositionHandler,
-        finishedObserver: FinishedObserver
+        finishedObserver: FinishedObserver,
     ): GameState {
         val position = nextPositionListener.nextPosition(currentGameTurn)
 
@@ -43,7 +43,8 @@ class OmokGame(
             currentGameTurn
         }
 
-    private fun finish(finishedObserver: FinishedObserver): GameState = currentGameTurn.apply {
-        finishedObserver.finishedCallback(this)
-    }
+    private fun finish(finishedObserver: FinishedObserver): GameState =
+        currentGameTurn.apply {
+            finishedObserver.finishedCallback(this)
+        }
 }

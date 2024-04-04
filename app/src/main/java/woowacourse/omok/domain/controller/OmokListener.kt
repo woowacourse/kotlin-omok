@@ -7,11 +7,15 @@ import woowacourse.omok.domain.model.state.InvalidPositionState
 
 interface NextPositionListener {
     fun nextPosition(gameState: GameState): Position
+
     fun nextStonePositionCallback(gameState: GameState)
 }
 
 fun interface InvalidPositionHandler {
-    fun handle(inValidStonePosition: StonePosition, invalidPositionState: InvalidPositionState)
+    fun handle(
+        inValidStonePosition: StonePosition,
+        invalidPositionState: InvalidPositionState,
+    )
 }
 
 fun interface FinishedObserver {
