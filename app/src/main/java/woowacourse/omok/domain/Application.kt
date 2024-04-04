@@ -7,6 +7,6 @@ import woowacourse.omok.domain.view.OutputView
 fun main() {
     OmokController(
         InputView(),
-        OutputView()
+        OutputView(),
     ).startGame()
 }

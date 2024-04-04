@@ -1,21 +1,26 @@
 package woowacourse.omok.domain.model.rule.winning
 
-import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.ContinualStonesCondition
-import woowacourse.omok.domain.model.Position
 import woowacourse.omok.domain.model.rule.ContinualStonesStandard
 import woowacourse.omok.domain.model.rule.ContinualStonesStandard.Companion.MIN_CONTINUAL_STONES_COUNT
 
 class ContinualStonesWinningCondition(
-    val continualStonesStandard: ContinualStonesStandard,
-    val continualStonesCondition: ContinualStonesCondition,
-) : WinningCondition {
+    private val continualStonesStandard: ContinualStonesStandard,
+    private val continualStonesCondition: ContinualStonesCondition,
+) {
     fun canHaveDoubleRule(): Boolean = continualStonesStandard > ContinualStonesStandard(MIN_CONTINUAL_STONES_COUNT)
 
-    fun canHaveOverlineRule(): Boolean = continualStonesCondition == ContinualStonesCondition.STRICT
+    fun overline(actualContinualCount: Int): Boolean =
+        when (continualStonesCondition) {
+            ContinualStonesCondition.STRICT -> actualContinualCount > continualStonesStandard.count
+            ContinualStonesCondition.NAIVE_OVERLINE_AVAILABLE -> false
+            ContinualStonesCondition.OVERLINE_AVAILABLE -> false
+        }
 
-    override fun isWin(
-        board: Board,
-        position: Position,
-    ): Boolean = continualStonesCondition.win(ContinualStones.count(board, position), continualStonesStandard)
+    fun win(actualContinualCount: Int): Boolean =
+        when (continualStonesCondition) {
+            ContinualStonesCondition.STRICT -> actualContinualCount == continualStonesStandard.count
+            ContinualStonesCondition.NAIVE_OVERLINE_AVAILABLE -> actualContinualCount == continualStonesStandard.count
+            ContinualStonesCondition.OVERLINE_AVAILABLE -> actualContinualCount >= continualStonesStandard.count
+        }
 }

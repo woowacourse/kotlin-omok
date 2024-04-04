@@ -1,7 +1,5 @@
 package woowacourse.omok.domain.model.rule.library
 
-import woowacourse.omok.domain.model.rule.ContinualStonesStandard
-import woowacourse.omok.domain.model.rule.ContinualStonesStandard.Companion.MIN_CONTINUAL_STONES_COUNT
 import woowacourse.omok.domain.model.rule.winning.ContinualStonesWinningCondition
 
 class OverlineRule(
@@ -25,11 +23,7 @@ class OverlineRule(
         val (stone1, blink1) = search(board, position, oppositeDirection)
         val (stone2, blink2) = search(board, position, direction)
 
-        return blink1 + blink2 == 0 &&
-                continualStonesWinningCondition.continualStonesCondition.overline(
-                    (stone1 + stone2 + 1),
-                    continualStonesWinningCondition.continualStonesStandard,
-                )
+        return blink1 + blink2 == 0 && continualStonesWinningCondition.overline((stone1 + stone2 + 1))
     }
 
     fun isWin(
@@ -54,16 +48,12 @@ class OverlineRule(
         return (blink1 + blink2 == 0 && checkWin(stone1, stone2)) || checkWin(stone1Only) || checkWin(stone2Only)
     }
 
-    fun canHaveDoubleRule(): Boolean =
-        continualStonesWinningCondition.continualStonesStandard > ContinualStonesStandard(MIN_CONTINUAL_STONES_COUNT)
+    fun canHaveDoubleRule(): Boolean = continualStonesWinningCondition.canHaveDoubleRule()
 
     private fun checkWin(
         stone1: Int,
         stone2: Int = 0,
-    ) = continualStonesWinningCondition.continualStonesCondition.win(
-        (stone1 + stone2 + 1),
-        continualStonesWinningCondition.continualStonesStandard,
-    )
+    ) = continualStonesWinningCondition.win((stone1 + stone2 + 1))
 
     companion object {
         fun forBlack(continualStonesWinningCondition: ContinualStonesWinningCondition): OverlineRule =
