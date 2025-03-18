@@ -7,4 +7,6 @@ class Stones(
     val stones = _stones.toList()
 
     operator fun plus(stone: Stone): Stones = Stones(_stones + stone)
+
+    fun lastStonePoint(): Point = _stones.last().point
 }
