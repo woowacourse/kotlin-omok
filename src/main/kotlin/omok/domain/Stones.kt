@@ -9,6 +9,8 @@ class Stones(
 
     operator fun plus(point: Point): Stones = Stones(_points + point, color)
 
+    fun contains(point: Point): Boolean = point in _points
+
     fun lastStonePoint(): Point = _points.last()
 
     fun isOmok(): Boolean {

@@ -8,6 +8,10 @@ class BlackTurn(
     override val whiteStones: Stones,
 ) : State {
     override fun place(point: Point): State {
+        if (blackStones.contains(point) || whiteStones.contains(point)) {
+            // TODO
+        }
+
         val newStones = blackStones + point
         if (newStones.isOmok()) {
             return Finished(newStones, whiteStones)
