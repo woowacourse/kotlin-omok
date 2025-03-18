@@ -39,4 +39,16 @@ class PositionTest {
             { assertFalse(position.isIncreasingDiagonal(otherPosition)) },
         )
     }
+
+    @Test
+    fun `감소하는 대각선인지 알 수 있다`() {
+        val position = Position(Row.from(2), Col.from('B'))
+        val decreasePosition = Position(Row.from(1), Col.from('C'))
+        val otherPosition = Position(Row.from(2), Col.from('A'))
+
+        assertAll(
+            { assertTrue(position.isDecreasingDiagonal(decreasePosition)) },
+            { assertFalse(position.isDecreasingDiagonal(otherPosition)) },
+        )
+    }
 }
