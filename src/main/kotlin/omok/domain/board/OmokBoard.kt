@@ -1,5 +1,7 @@
 package omok.domain.board
 
+import omok.domain.Direction
+
 class OmokBoard {
     private var _board: List<Point> =
         OmokRow.entries.flatMap { row ->
@@ -9,7 +11,7 @@ class OmokBoard {
         }
     val board get() = _board.toList()
 
-    fun isOccupied(point: Point): Boolean {
+    private fun isOccupied(point: Point): Boolean {
         return _board.first { it.x == point.x && it.y == point.y }.stoneStatus == StoneStatus.EMPTY
     }
 
@@ -26,6 +28,15 @@ class OmokBoard {
         column: OmokColumn,
     ): Point {
         return _board.find { it.x == column && it.y == row } ?: throw IllegalStateException()
+    }
+
+    fun goto(
+        currentPosition: Point,
+        direction: Direction,
+    ): Point {
+        val newX = currentPosition.x.value + direction.x
+        val newY = currentPosition.y.value + direction.y
+        return getPointAt(OmokRow.find(newY), OmokColumn.find(newX))
     }
 
     companion object {
