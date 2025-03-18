@@ -1,5 +1,8 @@
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 
@@ -18,5 +21,17 @@ class ColTest {
     fun `A를 1로 계산한다`() {
         val col = Col.from('A')
         assertEquals(col.value, 1)
+    }
+
+    @Test
+    fun `같은 열인지 판단한다`() {
+        val col = Col.from('A')
+        val sameCol = Col.from('A')
+        val otherCol = Col.from('B')
+
+        assertAll(
+            { assertTrue(col.isSame(sameCol)) },
+            { assertFalse(col.isSame(otherCol)) },
+        )
     }
 }
