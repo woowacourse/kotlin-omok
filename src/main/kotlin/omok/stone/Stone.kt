@@ -1,8 +1,6 @@
 package omok.stone
 
-class Stone(
+data class Stone(
     val color: StoneColor,
     val position: Position,
-) {
-
-}
+)

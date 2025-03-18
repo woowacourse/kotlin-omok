@@ -3,7 +3,6 @@ package omok.stone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-
 class StoneTest {
     @Test
     fun `돌은 흑 색을 가진다`() {
