@@ -1,14 +1,15 @@
 package omok.domain
 
 class Stones(
-    stones: List<Stone> = emptyList(),
+    points: Set<Point> = emptySet(),
+    private val color: StoneColor,
 ) {
-    private val _stones = stones.toMutableList()
-    val stones = _stones.toList()
+    private val _points = points.toMutableSet()
+    val points = _points.toSet()
 
-    operator fun plus(stone: Stone): Stones = Stones(_stones + stone)
+    operator fun plus(point: Point): Stones = Stones(_points + point, color)
 
-    fun lastStonePoint(): Point = _stones.last().point
+    fun lastStonePoint(): Point = _points.last()
 
     fun isOmok(): Boolean {
         val lastPoint = lastStonePoint()
@@ -32,11 +33,10 @@ class Stones(
         dy: Int,
     ): Int {
         val boardRange = 0..14
-        val pointSet = _stones.map { it.point }.toSet()
 
         var count = 0
         var (x, y) = point.x + dx to point.y + dy
-        while (x in boardRange && y in boardRange && Point(x, y) in pointSet) {
+        while (x in boardRange && y in boardRange && Point(x, y) in _points) {
             count++
             x += dx
             y += dy
