@@ -1,13 +1,13 @@
 package omok.board
 
-import omok.stone.Stone
+import omok.stone.Position
+import omok.stone.StoneColor
 
-class Board(points: Set<Stone> = setOf()) {
-    private val _points = points.toMutableSet()
-    val points: Set<Stone>
-        get() = _points.toSet()
-
-    fun addStone(stone: Stone) {
-        _points.add(stone)
+class Board(val points: Points = Points.create()) {
+    fun placeStone(
+        position: Position,
+        color: StoneColor,
+    ) {
+        points.placeStone(position, color)
     }
 }
