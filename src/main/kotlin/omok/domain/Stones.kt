@@ -15,6 +15,11 @@ class Stones(
         return countConnected(lastPoint, -1, 0) + countConnected(lastPoint, +1, 0) >= 4
     }
 
+    fun checkWin2(): Boolean {
+        val lastPoint = lastStonePoint()
+        return countConnected(lastPoint, 0, -1) + countConnected(lastPoint, 0, +1) >= 4
+    }
+
     private fun countConnected(
         point: Point,
         dx: Int,
