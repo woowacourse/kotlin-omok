@@ -12,4 +12,13 @@ class PositionTest {
 
         assertThat(actual).isEqualTo(expected)
     }
+
+    @Test
+    fun `위치는 열을 가진다`() {
+        val actual = Position(1, 2).column
+
+        val expected = 2
+
+        assertThat(actual).isEqualTo(expected)
+    }
 }
