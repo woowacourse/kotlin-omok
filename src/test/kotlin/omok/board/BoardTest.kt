@@ -14,4 +14,14 @@ class BoardTest {
 
         assertThat(board.points.size).isEqualTo(1)
     }
+
+    @Test
+    fun `보드에 돌을 둘 수 있다`() {
+        val stone = Stone(StoneColor.WHITE, Position(1, 1))
+        val board = Board()
+
+        board.addStone(stone)
+
+        assertThat(board.points.size).isEqualTo(1)
+    }
 }
