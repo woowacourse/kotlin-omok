@@ -27,4 +27,16 @@ class PositionTest {
             { assertFalse(position.isSameCol(otherColPosition)) },
         )
     }
+
+    @Test
+    fun `증가하는 대각선인지 알 수 있다`() {
+        val position = Position(Row.from(1), Col.from('A'))
+        val sameIncreasePosition = Position(Row.from(2), Col.from('B'))
+        val otherPosition = Position(Row.from(2), Col.from('A'))
+
+        assertAll(
+            { assertTrue(position.isIncreasingDiagonal(sameIncreasePosition)) },
+            { assertFalse(position.isIncreasingDiagonal(otherPosition)) },
+        )
+    }
 }

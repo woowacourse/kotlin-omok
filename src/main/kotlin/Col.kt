@@ -5,9 +5,15 @@ class Col private constructor(
         require(value in MIN_VALUE..MAX_VALUE) { ERROR_OUT_OF_BOUND }
     }
 
-    fun isSame(other: Col): Boolean {
-        return value == other.value
-    }
+    fun isSame(other: Col): Boolean = value == other.value
+
+    operator fun plus(step: Int): Col = Col(this.value + step)
+
+    operator fun minus(step: Int): Col = Col(this.value - step)
+
+    fun isMax(): Boolean = value == MAX_VALUE
+
+    fun isMin(): Boolean = value == MIN_VALUE
 
     companion object {
         private const val MIN_VALUE = 1
