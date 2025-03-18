@@ -16,4 +16,34 @@ class GoBoardTest {
 
         assertThat(actual).isEqualTo(expected)
     }
+
+    @Test
+    fun `가로로 완성된 오목을 확인할 수 있다`() {
+        val board = Board().apply {
+            place(Intersection(Position.of(1, 1), IntersectionState.WHITE))
+            place(Intersection(Position.of(1, 2), IntersectionState.WHITE))
+            place(Intersection(Position.of(1, 3), IntersectionState.WHITE))
+            place(Intersection(Position.of(1, 4), IntersectionState.WHITE))
+            place(Intersection(Position.of(1, 5), IntersectionState.WHITE))
+        }
+        val actual: BoardState = board.check(Intersection(Position.of(1, 5), IntersectionState.WHITE))
+        val expected: BoardState = BoardState.WHITE_OMOK
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `대각선으로 완성된 오목을 확인할 수 있다`() {
+        val board = Board().apply {
+            place(Intersection(Position.of(13, 5), IntersectionState.WHITE))
+            place(Intersection(Position.of(11, 7), IntersectionState.WHITE))
+            place(Intersection(Position.of(10, 8), IntersectionState.WHITE))
+            place(Intersection(Position.of(9, 9), IntersectionState.WHITE))
+            place(Intersection(Position.of(12, 6), IntersectionState.WHITE))
+        }
+        val actual: BoardState = board.check(Intersection(Position.of(12, 6), IntersectionState.WHITE))
+        val expected: BoardState = BoardState.WHITE_OMOK
+
+        assertThat(actual).isEqualTo(expected)
+    }
 }
