@@ -1,10 +1,11 @@
 package omok.domain.state
 
 import omok.domain.Point
-import omok.domain.Stone
+import omok.domain.Stones
 
 interface State {
-    val stones: List<Stone>
+    val whiteStones: Stones
+    val blackStones: Stones
 
     fun place(point: Point): State
 }

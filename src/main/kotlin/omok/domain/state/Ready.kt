@@ -3,12 +3,14 @@ package omok.domain.state
 import omok.domain.Point
 import omok.domain.Stone
 import omok.domain.StoneColor
+import omok.domain.Stones
 
 class Ready(
-    override val stones: List<Stone> = emptyList(),
+    override val blackStones: Stones = Stones(),
+    override val whiteStones: Stones = Stones(),
 ) : State {
     override fun place(point: Point): WhiteTurn {
-        val newStones = stones + Stone(point, StoneColor.BLACK)
-        return WhiteTurn(newStones)
+        val newStones = blackStones + Stone(point, StoneColor.BLACK)
+        return WhiteTurn(newStones, whiteStones)
     }
 }

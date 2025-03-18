@@ -1,6 +1,7 @@
 package omok.domain.state
 
 import omok.domain.Point
+import omok.domain.Stones
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -15,7 +16,7 @@ class StateTest {
 
     @Test
     fun `흑의 차례가 끝나면 백의 차례이다`() {
-        val state = BlackTurn(emptyList())
+        val state = BlackTurn(Stones(), Stones())
         val point = Point(0, 0)
         val nextState = state.place(point)
         assertThat(nextState).isInstanceOf(WhiteTurn::class.java)
@@ -23,7 +24,7 @@ class StateTest {
 
     @Test
     fun `백의 차례가 끝나면 흑의 차례이다`() {
-        val state = WhiteTurn(emptyList())
+        val state = WhiteTurn(Stones(), Stones())
         val point = Point(0, 0)
         val nextState = state.place(point)
         assertThat(nextState).isInstanceOf(BlackTurn::class.java)
