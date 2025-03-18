@@ -11,7 +11,7 @@ class OutputView {
 
     fun printBoard(board: Board) {
         printBoardHeader(board)
-        for (row in 2..14) {
+        for (row in 14 downTo 2) {
             printBoardLine(row, board)
         }
         printBoardFooter(board)
@@ -21,6 +21,7 @@ class OutputView {
         row: Int,
         board: Board,
     ) {
+        print("%3d ".format(row))
         if (board.board[row][1] == IntersectionState.EMPTY) {
             print("├──")
         }
@@ -39,6 +40,7 @@ class OutputView {
     }
 
     private fun printBoardHeader(board: Board) {
+        print("%3d ".format(15))
         if (board.board[1][1] == IntersectionState.EMPTY) {
             print("┌──")
         }
@@ -57,6 +59,7 @@ class OutputView {
     }
 
     private fun printBoardFooter(board: Board) {
+        print("%3d ".format(1))
         if (board.board[1][1] == IntersectionState.EMPTY) {
             print("└──")
         }
@@ -69,9 +72,11 @@ class OutputView {
             }
         }
 
-        if (board.board[1][1] == IntersectionState.EMPTY) {
+        if (board.board[1][15] == IntersectionState.EMPTY) {
             println("┘")
         }
+
+        println("    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O")
     }
 
     companion object {
