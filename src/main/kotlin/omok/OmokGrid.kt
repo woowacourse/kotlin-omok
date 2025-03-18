@@ -22,7 +22,7 @@ class OmokGrid {
     }
 
     companion object {
-        private const val DEFAULT_SIZE: Int = 15
+        const val DEFAULT_SIZE: Int = 15
         private const val ERROR_STONE_ALREADY_PUT = "이미 돌이 있습니다."
     }
 }

@@ -1,9 +1,77 @@
 package omok.view
 
+import omok.OmokGrid.Companion.DEFAULT_SIZE
+import omok.StoneState
+
 class OutputView {
     fun printStartMessage() = println(MESSAGE_GAME_START)
 
+    fun printBoardState(board: List<List<StoneState>>) {
+        for (row in MIN_BOUND .. MAX_BOUND) {
+            printRow(board[row], row)
+        }
+        println(COORDINATE_Y)
+    }
+    
+    private fun printRow(boardRow: List<StoneState>, row: Int) {
+        print(COORDINATE_X.format(DEFAULT_SIZE - row))
+        for (col in MIN_BOUND .. MAX_BOUND) {
+            print(boardUI(boardRow[col], row, col))
+            if (col != MAX_BOUND) repeat(REPEAT_COUNT) { print(DASH) }
+        }
+        println()
+    }
+    
+    private fun boardUI(state: StoneState, row: Int, col: Int): String {
+        return when {
+            state != StoneState.BLANK -> state.toUI()
+            row == MIN_BOUND && col == MIN_BOUND -> LEFT_UP
+            row == MIN_BOUND && col == MAX_BOUND -> RIGHT_UP
+            row == MAX_BOUND && col == MIN_BOUND -> LEFT_DOWN
+            row == MAX_BOUND && col == MAX_BOUND -> RIGHT_DOWN
+            col == MIN_BOUND -> LEFT
+            row == MIN_BOUND -> UP
+            col == MAX_BOUND -> RIGHT
+            row == MAX_BOUND -> DOWN
+            else -> MIDDLE
+        }
+    }
+
+    private fun StoneState.toUI(): String {
+        return when(this) {
+            StoneState.BLACK -> "●"
+            StoneState.WHITE -> "○"
+            else -> throw IllegalStateException()
+        }
+    }
+
     companion object {
         private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
+
+        private const val MIN_BOUND = 0
+        private const val MAX_BOUND = 14
+        private const val REPEAT_COUNT = 2
+
+        private const val LEFT_DOWN = "└"
+        private const val LEFT = "├"
+        private const val LEFT_UP = "┌"
+        private const val UP = "┬"
+        private const val RIGHT_UP = "┐"
+        private const val RIGHT = "┤"
+        private const val RIGHT_DOWN = "┘"
+        private const val DOWN = "┴"
+        private const val MIDDLE = "┼"
+        private const val DASH = "─"
+
+        private const val COORDINATE_X = "%2d "
+        private const val COORDINATE_Y = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
     }
+}
+
+fun main() {
+    OutputView().printBoardState(List(15) { row ->
+        MutableList(15) { col ->
+            StoneState.BLANK
+        }
+    })
 }
