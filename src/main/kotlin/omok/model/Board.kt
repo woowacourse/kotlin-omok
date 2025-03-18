@@ -1,40 +1,19 @@
 package omok.model
 
 class Board private constructor(
-    private val stones: List<List<StoneState>> = emptyList(),
+    private val stonesMap: Map<Position, StoneState> = emptyMap(),
     private val lastStoneState: StoneState = StoneState.NONE,
 ) {
     fun placeStone(stone: Stone): Board {
-        if (stonePlaced(stone.position)) {
-            throw IllegalStateException()
-        }
-        check(stone.stoneState != lastStoneState) { "같은 색의 돌을 연속하여 착수할 수 없습니다" }
-        val (newStoneX, newStoneY) = stone.position
+        require(!stonesMap.containsKey(stone.position)) { "해당하는 위치에 돌이 존재합니다" }
+        require(stone.stoneState != lastStoneState) { "같은 색의 돌을 연속하여 착수할 수 없습니다" }
 
-        val newStones: List<List<StoneState>> =
-            stones.mapIndexed { y, row ->
-                if (y == newStoneY.value) {
-                    row.mapIndexed { x, state ->
-                        if (x == newStoneX.value) stone.stoneState else state
-                    }
-                } else {
-                    row
-                }
-            }
-        return Board(newStones, stone.stoneState)
+        val newBoard = stonesMap + (stone.position to stone.stoneState)
+
+        return Board(newBoard, stone.stoneState)
     }
 
-    private fun stonePlaced(position: Position): Boolean {
-        val (x, y) = position.row to position.col
-
-        return (stones[x.value][y.value] != StoneState.NONE)
-    }
-
-    private fun stonePlacedState(position: Position): StoneState {
-        val (x, y) = position.row to position.col
-
-        return stones[x.value][y.value]
-    }
+    private fun stonePlacedState(position: Position): StoneState = stonesMap[position] ?: StoneState.NONE
 
     private fun countConnected(
         position: Position,
@@ -46,7 +25,8 @@ class Board private constructor(
         var y = position.col.value + direction.dy
 
         while (x in 0 until BOARD_SIZE && y in 0 until BOARD_SIZE) {
-            if (stonePlacedState(Position(Row(x), Col(y))) == stoneState) {
+            val nextPos = Position(Row(x), Col(y))
+            if (stonesMap[nextPos] == stoneState) {
                 count++
                 x += direction.dx
                 y += direction.dy
@@ -80,27 +60,24 @@ class Board private constructor(
         private const val BOARD_SIZE = 15
 
         fun initBoard(): Board {
-            val initStones: List<List<StoneState>> =
-                List(BOARD_SIZE) {
-                    List(BOARD_SIZE) { StoneState.NONE }
-                }
-            return Board(initStones)
+            val initStonesMap: Map<Position, StoneState> = emptyMap()
+            return Board(initStonesMap)
         }
 
         fun customBoard(stones: Collection<Stone>): Board {
-            val emptyBoard = MutableList(BOARD_SIZE) { MutableList(BOARD_SIZE) { StoneState.NONE } }
+            val board = mutableMapOf<Position, StoneState>()
 
             stones.forEach { stone ->
                 val row = stone.position.row.value
                 val col = stone.position.col.value
 
                 if (row in 0 until BOARD_SIZE && col in 0 until BOARD_SIZE) {
-                    emptyBoard[row][col] = stone.stoneState
+                    board[stone.position] = stone.stoneState
                 }
             }
 
             val lastStoneState = stones.lastOrNull()?.stoneState ?: StoneState.NONE
-            return Board(emptyBoard.map { it.toList() }, lastStoneState)
+            return Board(board, lastStoneState)
         }
     }
 }
