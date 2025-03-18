@@ -2,20 +2,23 @@ package omok.board
 
 import omok.stone.Position
 import omok.stone.StoneColor
-import java.lang.IllegalArgumentException
 
 class Points private constructor(val points: List<Point>) {
     fun placeStone(
         position: Position,
         color: StoneColor,
-    ) {
+    ): PlaceStoneResult {
         val point = points.find { it.position == position }
-        if (point?.state == PointState.OPEN) {
-            point.changeColor(color)
-            return
-        }
+        val state = point?.state ?: return PlaceStoneResult.InvalidPosition
 
-        throw IllegalArgumentException("둘 수 없는 칸입니다")
+        return when (state) {
+            PointState.OPEN -> {
+                point.changeColor(color)
+                PlaceStoneResult.Success(point)
+            }
+            PointState.CLOSED -> PlaceStoneResult.Closed
+            else -> PlaceStoneResult.AlreadyPlaced
+        }
     }
 
     companion object {
