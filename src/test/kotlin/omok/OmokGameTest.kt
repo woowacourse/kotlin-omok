@@ -1,8 +1,8 @@
 package omok
 
-import org.junit.jupiter.api.Test
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class OmokGameTest {
     private lateinit var omokGame: OmokGame
