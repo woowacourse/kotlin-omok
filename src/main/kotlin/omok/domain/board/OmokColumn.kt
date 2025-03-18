@@ -1,0 +1,19 @@
+package omok.domain.board
+
+enum class OmokColumn(val value: String) {
+    A("A"),
+    B("B"),
+    C("C"),
+    D("D"),
+    E("E"),
+    F("F"),
+    G("G"),
+    H("H"),
+    I("I"),
+    J("J"),
+    K("K"),
+    L("L"),
+    N("N"),
+    M("M"),
+    O("O"),
+}

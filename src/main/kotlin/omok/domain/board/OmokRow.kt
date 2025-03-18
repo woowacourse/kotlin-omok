@@ -1,0 +1,19 @@
+package omok.domain.board
+
+enum class OmokRow(val value: String) {
+    FIFTEEN("15"),
+    FOURTEEN("14"),
+    THIRTEEN("13"),
+    TWELVE("12"),
+    ELEVEN("11"),
+    TEN("10"),
+    NINE("9"),
+    EIGHT("8"),
+    SEVEN("7"),
+    SIX("6"),
+    FIVE("5"),
+    FOUR("4"),
+    THREE("3"),
+    TWO("2"),
+    ONE("1"),
+}
