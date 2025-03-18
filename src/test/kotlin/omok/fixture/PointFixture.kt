@@ -21,4 +21,10 @@ val H8 = Point(7, 7)
 val I9 = Point(8, 8)
 val J10 = Point(9, 9)
 
+val E10 = Point(4, 9)
+val F9 = Point(5, 8)
+val G8 = Point(6, 7)
+val H7 = Point(7, 6)
+val I6 = Point(8, 5)
+
 val O15 = Point(14, 14)

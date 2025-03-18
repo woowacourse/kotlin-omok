@@ -10,15 +10,21 @@ class Stones(
 
     fun lastStonePoint(): Point = _stones.last().point
 
-    fun checkWin(): Boolean {
+    fun isOmok(): Boolean {
         val lastPoint = lastStonePoint()
-        return countConnected(lastPoint, -1, 0) + countConnected(lastPoint, +1, 0) >= 4
+        return isHorizontalOmok(lastPoint) ||
+            isVerticalOmok(lastPoint) ||
+            isDiagonalUpOmok(lastPoint) ||
+            isDiagonalDownOmok(lastPoint)
     }
 
-    fun checkWin2(): Boolean {
-        val lastPoint = lastStonePoint()
-        return countConnected(lastPoint, 0, -1) + countConnected(lastPoint, 0, +1) >= 4
-    }
+    private fun isHorizontalOmok(lastPoint: Point): Boolean = countConnected(lastPoint, -1, 0) + countConnected(lastPoint, +1, 0) >= 4
+
+    private fun isVerticalOmok(lastPoint: Point): Boolean = countConnected(lastPoint, 0, -1) + countConnected(lastPoint, 0, +1) >= 4
+
+    private fun isDiagonalUpOmok(lastPoint: Point): Boolean = countConnected(lastPoint, -1, -1) + countConnected(lastPoint, +1, +1) >= 4
+
+    private fun isDiagonalDownOmok(lastPoint: Point): Boolean = countConnected(lastPoint, -1, +1) + countConnected(lastPoint, +1, -1) >= 4
 
     private fun countConnected(
         point: Point,
