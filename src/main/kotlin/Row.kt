@@ -5,6 +5,10 @@ class Row private constructor(
         require(value in MIN_VALUE..MAX_VALUE) { ERROR_OUT_OF_BOUND }
     }
 
+    fun isSame(other: Row): Boolean {
+        return this.value == other.value
+    }
+
     companion object {
         private const val MIN_VALUE = 1
         private const val MAX_VALUE = 15
