@@ -1,6 +1,6 @@
 package omok.view
 
-import omok.StoneState
+import omok.domain.StoneState
 
 class InputView {
     fun getPosition(

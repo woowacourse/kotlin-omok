@@ -1,7 +1,7 @@
 package omok.view
 
-import omok.OmokGrid.Companion.DEFAULT_SIZE
-import omok.StoneState
+import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
+import omok.domain.StoneState
 
 class OutputView {
     fun printStartMessage() = println(MESSAGE_GAME_START)

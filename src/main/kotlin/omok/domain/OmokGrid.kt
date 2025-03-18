@@ -1,4 +1,4 @@
-package omok
+package omok.domain
 
 class OmokGrid {
     val board: List<MutableList<StoneState>>

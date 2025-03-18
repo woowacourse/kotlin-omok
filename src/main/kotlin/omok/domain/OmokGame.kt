@@ -1,4 +1,4 @@
-package omok
+package omok.domain
 
 class OmokGame {
     val grid: OmokGrid = OmokGrid()
