@@ -1,5 +1,5 @@
 enum class PointState {
-    BLACK,
-    WHITE,
+    OCCUPIED_BLACK,
+    OCCUPIED_WHITE,
     EMPTY,
 }
