@@ -3,7 +3,7 @@ package omok.model
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class GoBoardTest {
+class BoardTest {
     @Test
     fun `바둑판에 돌을 두면 칸의 상태가 바뀐다`() {
         val board = Board()
