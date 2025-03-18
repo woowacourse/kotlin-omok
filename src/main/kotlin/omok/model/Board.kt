@@ -2,9 +2,16 @@ package omok.model
 
 class Board {
     val board: List<MutableList<IntersectionState>> = List(16) { MutableList(16) { IntersectionState.EMPTY } }
+    private var _lastStone: Intersection = Intersection(Position.of(1, 1), IntersectionState.EMPTY)
+    val lastStone: Intersection get() = _lastStone.copy()
 
     fun place(intersection: Intersection) {
         board[intersection.position.row.value][intersection.position.column.value] = intersection.state
+        setLastStone(intersection)
+    }
+
+    private fun setLastStone(intersection: Intersection) {
+        _lastStone = intersection
     }
 
     fun check(intersection: Intersection): BoardState {
