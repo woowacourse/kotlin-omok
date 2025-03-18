@@ -5,12 +5,12 @@ import omok.model.IntersectionState
 import omok.model.Position
 
 class InputView {
-    fun readInitialTurn() {
+    fun readInitialTurn(): Position {
         println(MESSAGE_INITIAL_TURN_INDICATOR)
-        readPosition()
+        return readPosition()
     }
 
-    fun readTurn(intersection: Intersection) {
+    fun readTurn(intersection: Intersection): Position {
         val lastStone: IntersectionState = intersection.state
         println(
             MESSAGE_TURN_INDICATOR.format(
@@ -22,7 +22,7 @@ class InputView {
             ),
         )
         println(MESSAGE_LAST_STONE_POSITION.format(intersection.position.stringRepresentation()))
-        readPosition()
+        return readPosition()
     }
 
     private fun readPosition(): Position {
