@@ -1,3 +1,3 @@
 package omok
 
-class Position(val row: Int, val column: Int)
+class Position(val row: Line, val column: Line)

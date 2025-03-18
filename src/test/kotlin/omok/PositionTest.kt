@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 class PositionTest {
     @Test
     fun `위치는 행을 가진다`() {
-        val actual = Position(1, 2).row
+        val actual = Position(Line(1), Line(2)).row
 
         val expected = 1
 
@@ -15,7 +15,7 @@ class PositionTest {
 
     @Test
     fun `위치는 열을 가진다`() {
-        val actual = Position(1, 2).column
+        val actual = Position(Line(1), Line(2)).row
 
         val expected = 2
 
