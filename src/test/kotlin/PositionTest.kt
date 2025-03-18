@@ -15,4 +15,16 @@ class PositionTest {
             { assertFalse(position.isSameRow(otherRowPosition)) },
         )
     }
+
+    @Test
+    fun `같은 열인지 위치끼리 판단할 수 있다`() {
+        val position = Position(Row.from(1), Col.from('A'))
+        val sameColPosition = Position(Row.from(2), Col.from('A'))
+        val otherColPosition = Position(Row.from(2), Col.from('B'))
+
+        assertAll(
+            { assertTrue(position.isSameCol(sameColPosition)) },
+            { assertFalse(position.isSameCol(otherColPosition)) },
+        )
+    }
 }
