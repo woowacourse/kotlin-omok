@@ -1,44 +1,50 @@
 package omok.view
 
-import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
 import omok.domain.StoneState
 
 class OutputView {
     fun printStartMessage() = println(MESSAGE_GAME_START)
 
     fun printBoardState(board: List<List<StoneState>>) {
-        for (row in MIN_BOUND .. MAX_BOUND) {
+        for (row in MAX_BOUND downTo MIN_BOUND) {
             printRow(board[row], row)
         }
         println(COORDINATE_Y)
     }
-    
-    private fun printRow(boardRow: List<StoneState>, row: Int) {
-        print(COORDINATE_X.format(DEFAULT_SIZE - row))
-        for (col in MIN_BOUND .. MAX_BOUND) {
+
+    private fun printRow(
+        boardRow: List<StoneState>,
+        row: Int,
+    ) {
+        print(COORDINATE_X.format(row + 1))
+        for (col in MIN_BOUND..MAX_BOUND) {
             print(boardUI(boardRow[col], row, col))
             if (col != MAX_BOUND) repeat(REPEAT_COUNT) { print(DASH) }
         }
         println()
     }
-    
-    private fun boardUI(state: StoneState, row: Int, col: Int): String {
+
+    private fun boardUI(
+        state: StoneState,
+        row: Int,
+        col: Int,
+    ): String {
         return when {
             state != StoneState.BLANK -> state.toUI()
-            row == MIN_BOUND && col == MIN_BOUND -> LEFT_UP
-            row == MIN_BOUND && col == MAX_BOUND -> RIGHT_UP
-            row == MAX_BOUND && col == MIN_BOUND -> LEFT_DOWN
-            row == MAX_BOUND && col == MAX_BOUND -> RIGHT_DOWN
+            row == MAX_BOUND && col == MIN_BOUND -> LEFT_UP
+            row == MAX_BOUND && col == MAX_BOUND -> RIGHT_UP
+            row == MIN_BOUND && col == MIN_BOUND -> LEFT_DOWN
+            row == MIN_BOUND && col == MAX_BOUND -> RIGHT_DOWN
             col == MIN_BOUND -> LEFT
-            row == MIN_BOUND -> UP
+            row == MAX_BOUND -> UP
             col == MAX_BOUND -> RIGHT
-            row == MAX_BOUND -> DOWN
+            row == MIN_BOUND -> DOWN
             else -> MIDDLE
         }
     }
 
     private fun StoneState.toUI(): String {
-        return when(this) {
+        return when (this) {
             StoneState.BLACK -> "●"
             StoneState.WHITE -> "○"
             else -> throw IllegalStateException()
