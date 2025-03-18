@@ -13,12 +13,11 @@ class OmokGrid {
     }
 
     fun putStone(
-        row: Int,
-        col: Int,
+        position: Position,
         state: StoneState,
     ) {
-        if (board[row][col] != StoneState.BLANK) throw IllegalStateException(ERROR_STONE_ALREADY_PUT)
-        board[row][col] = state
+        if (board[position.row][position.col] != StoneState.BLANK) throw IllegalStateException(ERROR_STONE_ALREADY_PUT)
+        board[position.row][position.col] = state
     }
 
     companion object {

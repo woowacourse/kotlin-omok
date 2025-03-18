@@ -67,11 +67,3 @@ class OutputView {
         private const val COORDINATE_Y = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
     }
 }
-
-fun main() {
-    OutputView().printBoardState(List(15) { row ->
-        MutableList(15) { col ->
-            StoneState.BLANK
-        }
-    })
-}
