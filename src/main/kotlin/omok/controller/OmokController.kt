@@ -9,5 +9,7 @@ class OmokController(
 ) {
     fun run() {
         outputView.printStartOmok()
+        outputView.printFirstTurn()
+        val point = inputView.getPoint()
     }
 }
