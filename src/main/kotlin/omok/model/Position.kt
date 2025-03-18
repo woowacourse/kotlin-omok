@@ -1,4 +1,4 @@
-package omok
+package omok.model
 
 data class Position private constructor(val row: Line, val column: Line) {
     companion object {

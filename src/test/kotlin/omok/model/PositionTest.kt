@@ -1,4 +1,4 @@
-package omok
+package omok.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

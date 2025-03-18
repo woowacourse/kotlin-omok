@@ -1,4 +1,4 @@
-package omok
+package omok.model
 
 class Intersection(
     val position: Position,

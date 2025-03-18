@@ -1,4 +1,4 @@
-package omok
+package omok.model
 
 @JvmInline
 value class Line(val value: Int) {
