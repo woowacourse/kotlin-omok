@@ -1,12 +1,13 @@
 package omok.view
 
+import omok.domain.Position
 import omok.domain.StoneState
 
 class InputView {
     fun getPosition(
         turn: StoneState,
         latestPosition: String,
-    ): String {
+    ): Position {
         val message = MESSAGE_TURN.format(turn.getDisplayColor())
         if (latestPosition.isNotEmpty()) {
             println(message + MESSAGE_LATEST_POSITION.format(latestPosition))
@@ -15,7 +16,19 @@ class InputView {
         }
 
         print(MESSAGE_POSITION_GUIDE)
-        return readln().trim()
+        val rawInput = readln().trim()
+
+        return validateInput(rawInput) ?: getPosition(turn, latestPosition)
+    }
+
+    private fun validateInput(rawInput: String): Position? {
+        val match: MatchResult = Regex("^([A-O])([1-9]|1[0-5])$").matchEntire(rawInput) ?: return null
+        val (letter, number) = match.destructured
+        return Position(number.toInt(), convertLetter(letter))
+    }
+
+    private fun convertLetter(letter: String): Int {
+        return letter[0] - 'A' + 1
     }
 
     private fun StoneState.getDisplayColor(): String {
