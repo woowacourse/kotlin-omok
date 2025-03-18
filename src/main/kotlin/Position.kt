@@ -2,6 +2,8 @@ class Position(
     val row: Row,
     val col: Col,
 ) {
+    fun isSamePosition(position: Position): Boolean = row.isSame(position.row) && col.isSame(position.col)
+
     fun isSameRow(other: Position): Boolean = row.isSame(other.row)
 
     fun isSameCol(other: Position): Boolean = col.isSame(other.col)
