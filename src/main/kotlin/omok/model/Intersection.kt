@@ -1,6 +1,6 @@
 package omok.model
 
-class Intersection(
+data class Intersection(
     val position: Position,
     val state: IntersectionState,
 )
