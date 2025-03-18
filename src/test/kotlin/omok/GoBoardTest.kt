@@ -7,7 +7,7 @@ class GoBoardTest {
     @Test
     fun `바둑판에 돌을 두면 칸의 상태가 바뀐다`() {
         val board = Board()
-        val intersection = Intersection(Position(Line(1), Line(2)), IntersectionState.WHITE)
+        val intersection = Intersection(Position.of(1, 2), IntersectionState.WHITE)
         board.place(intersection)
 
         val actual: IntersectionState = board.board[1][2]
