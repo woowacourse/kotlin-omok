@@ -23,7 +23,7 @@ class BoardTest {
         val position55 = Position(Row(5), Col(5))
         val nextBoard = initialBoard.placeStone(Stone(position55, StoneState.BLACK))
 
-        assertThrows<IllegalStateException> { nextBoard.placeStone(Stone(position55, StoneState.WHITE)) }
+        assertThrows<IllegalArgumentException> { nextBoard.placeStone(Stone(position55, StoneState.WHITE)) }
     }
 
     @Test
@@ -33,7 +33,7 @@ class BoardTest {
         val position66 = Position(Row(6), Col(6))
         val nextBoard = initialBoard.placeStone(Stone(position55, StoneState.BLACK))
 
-        assertThrows<IllegalStateException> { nextBoard.placeStone(Stone(position66, StoneState.BLACK)) }
+        assertThrows<IllegalArgumentException> { nextBoard.placeStone(Stone(position66, StoneState.BLACK)) }
     }
 
     @Test
