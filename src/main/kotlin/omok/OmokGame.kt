@@ -26,10 +26,10 @@ class OmokGame {
         row: Int,
         col: Int,
     ): Int {
-        val state = grid.board[row][col].state
+        val state = grid.board[row][col]
         var count = DEFAULT_COUNT
 
-        while (grid.board[row + direction.rowDelta * count][col + direction.colDelta * count].state == state) {
+        while (grid.board[row + direction.rowDelta * count][col + direction.colDelta * count] == state) {
             count++
         }
 

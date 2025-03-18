@@ -25,7 +25,7 @@ class OmokGridTest {
         val col = 2
         omokGrid.putStone(row, col, StoneState.BLACK)
 
-        assertThat(omokGrid.board[row][col].state).isEqualTo(StoneState.BLACK)
+        assertThat(omokGrid.board[row][col]).isEqualTo(StoneState.BLACK)
     }
 
     @Test

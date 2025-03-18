@@ -1,13 +1,13 @@
 package omok
 
 class OmokGrid {
-    val board: List<List<Point>>
+    val board: List<MutableList<StoneState>>
 
     init {
         board =
             List(DEFAULT_SIZE) { row ->
-                List(DEFAULT_SIZE) { col ->
-                    Point(row + 1, col + 1, StoneState.BLANK)
+                MutableList(DEFAULT_SIZE) { col ->
+                    StoneState.BLANK
                 }
             }
     }
@@ -17,8 +17,8 @@ class OmokGrid {
         col: Int,
         state: StoneState,
     ) {
-        if (board[row][col].state != StoneState.BLANK) throw IllegalStateException(ERROR_STONE_ALREADY_PUT)
-        board[row][col].state = state
+        if (board[row][col] != StoneState.BLANK) throw IllegalStateException(ERROR_STONE_ALREADY_PUT)
+        board[row][col] = state
     }
 
     companion object {
