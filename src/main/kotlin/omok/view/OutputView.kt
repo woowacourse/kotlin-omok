@@ -13,6 +13,16 @@ class OutputView {
         println(MESSAGE_TURN.format(StoneColor.BLACK.toKorean()))
     }
 
+    fun printOmokBoard(
+        blackPoints: Set<Point>,
+        whitePoints: Set<Point>,
+    ) {
+        val board = StringBuilder(DEFAULT_OMOK_BOARD)
+        blackPoints.forEach { board.setCharAt(calculatePosition(it), BLACK_STONE) }
+        whitePoints.forEach { board.setCharAt(calculatePosition(it), WHITE_STONE) }
+        println(board)
+    }
+
     fun printTurn(
         color: StoneColor,
         lastPoint: Point,
@@ -25,12 +35,16 @@ class OutputView {
         println(MESSAGE_WINNER.format(color.toKorean()))
     }
 
+    private fun calculatePosition(point: Point): Int = (point.x + 1) * 3 + 47 * (14 - point.y)
+
     companion object {
         private const val MESSAGE_START_OMOK = "오목 게임을 시작합니다."
         private const val MESSAGE_TURN = "%s의 차례입니다."
         private const val MESSAGE_LAST_POINT = " (마지막 돌의 위치: %s)"
         private const val MESSAGE_WINNER = "%s이 승리했습니다."
 
+        private const val BLACK_STONE = '●'
+        private const val WHITE_STONE = '○'
         private val DEFAULT_OMOK_BOARD =
             """
             15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
