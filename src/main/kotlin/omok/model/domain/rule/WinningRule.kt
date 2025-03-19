@@ -27,7 +27,7 @@ class WinningRule : OmokRule {
             }
         }
 
-        return PlaceResult.Success.Progress
+        return PlaceResult.Success.Progress(playerStone)
     }
 
     private fun countStonesInDirection(

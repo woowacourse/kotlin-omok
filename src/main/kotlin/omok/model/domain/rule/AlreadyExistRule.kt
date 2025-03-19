@@ -10,7 +10,7 @@ class AlreadyExistRule : OmokRule {
         playerStone: PlayerStone,
     ): PlaceResult =
         if (omokBoard.find(playerStone.position)?.state == PointState.EMPTY) {
-            PlaceResult.Success.Progress
+            PlaceResult.Success.Progress(playerStone)
         } else {
             PlaceResult.Failure.AlreadyExist
         }

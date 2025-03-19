@@ -12,6 +12,6 @@ class DrawRule : OmokRule {
         if (omokBoard.value.values.all { it.state != PointState.EMPTY }) {
             PlaceResult.Success.Finish(GameResult.DRAW)
         } else {
-            PlaceResult.Success.Progress
+            PlaceResult.Success.Progress(playerStone)
         }
 }

@@ -9,7 +9,7 @@ class InvalidPositionRule : OmokRule {
         playerStone: PlayerStone,
     ): PlaceResult =
         if (omokBoard.find(playerStone.position) != null) {
-            PlaceResult.Success.Progress
+            PlaceResult.Success.Progress(playerStone)
         } else {
             PlaceResult.Failure.InvalidPosition
         }
