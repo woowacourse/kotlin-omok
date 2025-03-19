@@ -40,4 +40,16 @@ class RuleTest {
             { assertFalse(rule.isIncreasingDiagonalWin(stone, nothingStones)) },
         )
     }
+
+    @Test
+    fun `감소하는 대각선 같은 색 돌이 5개 이상인지 판단할 수 있다`() {
+        val rule = Rule()
+        val stone = STONE_3C_BLACK
+        val winningStones = listOf(STONE_1E_BLACK, STONE_2D_BLACK, STONE_4B_BLACK, STONE_5A_BLACK)
+        val nothingStones = listOf(STONE_1E_BLACK, STONE_2B_WHITE, STONE_4B_BLACK, STONE_5A_BLACK)
+        assertAll(
+            { assertTrue(rule.isDecreasingDiagonalWin(stone, winningStones)) },
+            { assertFalse(rule.isDecreasingDiagonalWin(stone, nothingStones)) },
+        )
+    }
 }

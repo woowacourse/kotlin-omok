@@ -32,6 +32,17 @@ class Rule {
                 stones,
             ) - DUPLICATED_SELF >= 5
 
+    fun isDecreasingDiagonalWin(
+        stone: Stone,
+        stones: List<Stone>,
+    ): Boolean =
+        directedSearch(Direction.DOWN_RIGHT, stone, stones) +
+            directedSearch(
+                Direction.UP_LEFT,
+                stone,
+                stones,
+            ) - DUPLICATED_SELF >= 5
+
     private fun directedSearch(
         direction: Direction,
         stone: Stone,

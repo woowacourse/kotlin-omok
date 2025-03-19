@@ -14,3 +14,5 @@ val STONE_3C_BLACK = Stone(Position(Row.from(3), Col.from('C')), StoneColor.BLAC
 val STONE_4D_BLACK = Stone(Position(Row.from(4), Col.from('D')), StoneColor.BLACK)
 val STONE_5E_BLACK = Stone(Position(Row.from(5), Col.from('E')), StoneColor.BLACK)
 val STONE_2B_WHITE = Stone(Position(Row.from(2), Col.from('B')), StoneColor.WHITE)
+val STONE_2D_BLACK = Stone(Position(Row.from(2), Col.from('D')), StoneColor.BLACK)
+val STONE_4B_BLACK = Stone(Position(Row.from(4), Col.from('B')), StoneColor.BLACK)
