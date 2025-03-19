@@ -2,7 +2,7 @@ package omok.controller
 
 import omok.domain.OmokGame
 import omok.domain.OmokResult
-import omok.domain.StoneState
+import omok.util.retryInput
 import omok.view.InputView
 import omok.view.OutputView
 import rule.wrapper.point.Point
@@ -58,14 +58,6 @@ class OmokController(
     ) {
         outputView.printBoardState(omokGame.grid.board)
         outputView.printWinner(omokResult)
-    }
-
-    private fun <T> retryInput(inputFunction: () -> T): T {
-        return runCatching { inputFunction() }
-            .getOrElse { e ->
-                println(e.message)
-                retryInput(inputFunction)
-            }
     }
 }
 
