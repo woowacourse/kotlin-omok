@@ -19,7 +19,7 @@ class BlackPlayerState(
         stoneState: StoneState,
     ): PlayerState {
         omokBoard.placeStone(position, stoneState)
-        if (count >= 5 && omokBoard.isOmok(position)) return Win()
+        if (count >= 5 && omokBoard.isOmok(position, stoneState, omokBoard)) return Win()
         return WhitePlayerState(count + 1)
     }
 
