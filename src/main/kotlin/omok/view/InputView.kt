@@ -1,19 +1,21 @@
 package omok.view
 
-import omok.domain.StoneState
+import omok.domain.BlackPlayer
+import omok.domain.Player
+import omok.domain.WhitePlayer
 import rule.wrapper.point.Point
 
 class InputView {
     fun getPoint(
-        turn: StoneState,
+        player: Player,
         latestPoint: Point?,
     ): Point {
-        print(MESSAGE_TURN.format(turn.getDisplayColor()))
+        print(MESSAGE_TURN.format(player.getDisplayColor()))
         if (latestPoint != null) print(MESSAGE_LATEST_POSITION.format(convertToString(latestPoint)))
         print(MESSAGE_POSITION_GUIDE)
         val rawInput = readln().trim()
 
-        return validateInput(rawInput) ?: getPoint(turn, latestPoint)
+        return validateInput(rawInput) ?: getPoint(player, latestPoint)
     }
 
     private fun convertToString(point: Point): String {
@@ -31,10 +33,10 @@ class InputView {
         return letter[0] - 'A' + 1
     }
 
-    private fun StoneState.getDisplayColor(): String {
+    private fun Player.getDisplayColor(): String {
         return when (this) {
-            StoneState.BLACK -> "흑"
-            StoneState.WHITE -> "백"
+            is BlackPlayer -> "흑"
+            is WhitePlayer -> "백"
             else -> throw IllegalArgumentException()
         }
     }

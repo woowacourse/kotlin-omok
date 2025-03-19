@@ -7,11 +7,11 @@ enum class OmokResult {
     ;
 
     companion object {
-        fun returnWinner(state: StoneState): OmokResult {
-            return when (state) {
-                StoneState.BLACK -> BLACKWIN
-                StoneState.WHITE -> WHITEWIN
-                StoneState.BLANK -> throw IllegalStateException()
+        fun returnWinner(player: Player): OmokResult {
+            return when (player) {
+                is BlackPlayer -> BLACKWIN
+                is WhitePlayer -> WHITEWIN
+                else -> throw IllegalStateException()
             }
         }
     }

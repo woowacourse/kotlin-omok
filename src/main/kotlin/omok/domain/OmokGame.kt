@@ -2,57 +2,50 @@ package omok.domain
 
 import omok.controller.minus
 import omok.util.retryInput
-import rule.BlackRenjuRule
-import rule.OmokRule
-import rule.WhiteRenjuRule
 import rule.wrapper.point.Point
 
 class OmokGame {
     val grid: OmokGrid = OmokGrid()
+    val blackPlayer: BlackPlayer = BlackPlayer()
+    val whitePlayer: WhitePlayer = WhitePlayer()
 
     fun playGame(
         onTurnStarted: (List<MutableList<StoneState>>) -> Unit,
-        onSelectPosition: (StoneState, Point?) -> Point,
+        onSelectPosition: (Player, Point?) -> Point,
     ): OmokResult {
         var latestPoint: Point? = null
-        var nowTurn: StoneState = StoneState.BLACK
+        var nowPlayer: Player = blackPlayer
         while (true) {
-            latestPoint = turn(nowTurn, latestPoint, onTurnStarted, onSelectPosition)
-            if (checkOmok(latestPoint)) return OmokResult.returnWinner(nowTurn)
+            latestPoint = turn(nowPlayer, latestPoint, onTurnStarted, onSelectPosition)
+            if (checkOmok(latestPoint)) return OmokResult.returnWinner(nowPlayer)
             if (grid.isFull()) break
-            nowTurn = StoneState.changeTurn(nowTurn)
+            nowPlayer = getOtherPlayer(nowPlayer)
         }
         return OmokResult.DRAW
     }
 
     private fun turn(
-        state: StoneState,
+        player: Player,
         latestPoint: Point?,
         onTurnStarted: (List<MutableList<StoneState>>) -> Unit,
-        onSelectPosition: (StoneState, Point?) -> Point,
+        onSelectPosition: (Player, Point?) -> Point,
     ): Point {
         return retryInput {
             onTurnStarted(grid.board)
-            val point = onSelectPosition(state, latestPoint).minus(1)
-            validatePosition(state, point)
-            grid.putStone(point, state)
+            val point = onSelectPosition(player, latestPoint).minus(1)
+            validatePosition(player, point)
+            grid.putStone(point, getStoneState(player))
+            player.addStone(point)
             point
         }
     }
 
     private fun validatePosition(
-        state: StoneState,
+        nowPlayer: Player,
         point: Point,
     ) {
-        if (grid.isViolation(getRule(state), point)) throw IllegalStateException(ERROR_WRONG_POSITION)
-    }
-
-    private fun getRule(state: StoneState): OmokRule {
-        return if (state == StoneState.BLACK) {
-            BlackRenjuRule()
-        } else {
-            WhiteRenjuRule()
-        }
+        val otherPlayer = getOtherPlayer(nowPlayer)
+        if (nowPlayer.isViolation(otherPlayer.stones, point)) throw IllegalStateException(ERROR_WRONG_POSITION)
     }
 
     fun checkOmok(point: Point): Boolean {
@@ -93,6 +86,22 @@ class OmokGame {
         coordinateY: Int,
     ): Boolean {
         return coordinateX in (MIN_BOUND..MAX_BOUND) && coordinateY in (MIN_BOUND..MAX_BOUND)
+    }
+
+    private fun getOtherPlayer(player: Player): Player {
+        return if (player is BlackPlayer) {
+            whitePlayer
+        } else {
+            blackPlayer
+        }
+    }
+
+    private fun getStoneState(player: Player): StoneState {
+        return if (player is BlackPlayer) {
+            StoneState.BLACK
+        } else {
+            StoneState.WHITE
+        }
     }
 
     companion object {
