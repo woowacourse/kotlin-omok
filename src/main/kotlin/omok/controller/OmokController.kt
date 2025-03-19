@@ -19,7 +19,7 @@ class OmokController(
         val position: Position = inputView.readInitialTurn()
         board.place(Intersection(position, IntersectionState.BLACK))
         outputView.printBoard(board)
-        processTurn(board)
+        retryOnError { processTurn(board) }
     }
 
     private tailrec fun processTurn(board: Board) {
@@ -27,10 +27,18 @@ class OmokController(
         val stone: IntersectionState = board.lastStone.state.reverse()
         val intersection = Intersection(position, stone)
         board.place(intersection)
+
         outputView.printBoard(board)
         val boardState: BoardState = board.check(intersection)
         if (boardState == BoardState.PLAYING) {
             processTurn(board)
+        }
+    }
+
+    private fun <T> retryOnError(function: () -> T): T {
+        return runCatching { function() }.getOrElse { error ->
+            println(error.message)
+            retryOnError(function)
         }
     }
 }

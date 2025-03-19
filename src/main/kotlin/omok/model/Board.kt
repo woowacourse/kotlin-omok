@@ -6,6 +6,9 @@ class Board {
     val lastStone: Intersection get() = _lastStone.copy()
 
     fun place(intersection: Intersection) {
+        val boardState: IntersectionState = board[intersection.position.row.value][intersection.position.column.value]
+        require(boardState == IntersectionState.EMPTY) { ERROR_MESSAGE_INTERSECTION_NOT_EMPTY }
+
         board[intersection.position.row.value][intersection.position.column.value] = intersection.state
         setLastStone(intersection)
     }
@@ -71,5 +74,9 @@ class Board {
             curY = nextY
         }
         return count
+    }
+
+    companion object {
+        private const val ERROR_MESSAGE_INTERSECTION_NOT_EMPTY = "돌은 빈 칸에만 둘 수 있습니다."
     }
 }
