@@ -21,16 +21,28 @@ class OmokControl(
     private fun turn(board: Board) {
         outputView.printBoard(board.stonesMap)
         outputView.printNextTurn(board)
-        val input = inputView.inputStone()
-        val parsedPosition: Position? = parseUserInput(input)
 
-        val newBoard = board.placeStone(parsedPosition!!)
+        val newBoard = retryInput(board)
         if (newBoard.isLastStoneOmok()) {
             outputView.printBoard(newBoard.stonesMap)
             outputView.printOmok(newBoard.lastStone)
         } else {
             turn(newBoard)
         }
+    }
+
+    private fun retryInput(board: Board): Board {
+        val result =
+            runCatching {
+                val input = inputView.inputStone()
+                val parsedPosition = parseUserInput(input)
+                board.placeStone(parsedPosition!!)
+            }.getOrElse { exception ->
+                println("$exception")
+                return retryInput(board)
+            }
+
+        return result
     }
 
     private fun parseUserInput(input: String): Position? {
