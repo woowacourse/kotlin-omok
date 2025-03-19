@@ -18,13 +18,13 @@ class OmokColumnTest {
         assertThrows<IllegalArgumentException>(
             message = "잘못된 좌표 알파벳입니다. 다시 입력해주세요",
         ) {
-            OmokColumn.of("Z")
+            OmokColumn.of('Z')
         }
     }
 
     @Test
     fun `올바른 열의 알파벳을 입력하면 해당하는 오목 열을 반환한다`() {
-        val result = OmokColumn.of("A")
+        val result = OmokColumn.of('A')
         assertEquals(result, OmokColumn.A)
     }
 }

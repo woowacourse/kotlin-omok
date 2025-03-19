@@ -26,8 +26,8 @@ enum class OmokColumn(val value: Int) {
             OmokColumn.entries.find { it.value == value }
                 ?: WALL
 
-        fun of(value: String): OmokColumn {
-            return OmokColumn.entries.find { it.name == value }
+        fun of(value: Char): OmokColumn {
+            return OmokColumn.entries.find { it.name == value.toString() }
                 ?: throw IllegalArgumentException(INVALID_COLUMN)
         }
 
