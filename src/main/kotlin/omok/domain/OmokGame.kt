@@ -3,10 +3,7 @@ package omok.domain
 class OmokGame {
     val grid: OmokGrid = OmokGrid()
 
-    fun checkOmok(
-        row: Int,
-        col: Int,
-    ): Boolean {
+    fun checkOmok(position: Position): Boolean {
         val directions: List<Direction> =
             listOf(
                 Direction(0, 1),
@@ -16,28 +13,40 @@ class OmokGame {
             )
 
         return directions.any { dir ->
-            val count = search(dir, row, col) + search(-dir, row, col)
+            val count = search(dir, position) + search(-dir, position) - 1
             count >= OMOK_STANDARD
         }
     }
 
     private fun search(
         direction: Direction,
-        row: Int,
-        col: Int,
+        position: Position,
     ): Int {
-        val state = grid.board[row][col]
+        val coordinateX = position.row
+        val coordinateY = position.col
+        val state = grid.board[coordinateX][coordinateY]
         var count = DEFAULT_COUNT
 
-        while (grid.board[row + direction.rowDelta * count][col + direction.colDelta * count] == state) {
+        while (checkRange(coordinateX + direction.rowDelta * count, coordinateY + direction.colDelta * count) &&
+            grid.board[coordinateX + direction.rowDelta * count][coordinateY + direction.colDelta * count] == state
+        ) {
             count++
         }
 
         return count
     }
 
+    private fun checkRange(
+        coordinateX: Int,
+        coordinateY: Int,
+    ): Boolean {
+        return coordinateX in (MIN_BOUND..MAX_BOUND) && coordinateY in (MIN_BOUND..MAX_BOUND)
+    }
+
     companion object {
-        private const val DEFAULT_COUNT: Int = 1
+        private const val DEFAULT_COUNT: Int = 0
         private const val OMOK_STANDARD: Int = 5
+        const val MIN_BOUND = 0
+        const val MAX_BOUND = 14
     }
 }

@@ -20,7 +20,7 @@ class OmokGameTest {
         omokGame.grid.putStone(Position(1, 4), StoneState.BLACK)
         omokGame.grid.putStone(Position(1, 5), StoneState.BLACK)
 
-        assertThat(omokGame.checkOmok(1, 5)).isTrue()
+        assertThat(omokGame.checkOmok(Position(1, 5))).isTrue()
     }
 
     @Test
@@ -31,7 +31,7 @@ class OmokGameTest {
         omokGame.grid.putStone(Position(4, 1), StoneState.BLACK)
         omokGame.grid.putStone(Position(5, 1), StoneState.BLACK)
 
-        assertThat(omokGame.checkOmok(5, 1)).isTrue()
+        assertThat(omokGame.checkOmok(Position(5, 1))).isTrue()
     }
 
     @Test
@@ -42,7 +42,7 @@ class OmokGameTest {
         omokGame.grid.putStone(Position(4, 4), StoneState.BLACK)
         omokGame.grid.putStone(Position(5, 5), StoneState.BLACK)
 
-        assertThat(omokGame.checkOmok(5, 5)).isTrue()
+        assertThat(omokGame.checkOmok(Position(5, 5))).isTrue()
     }
 
     @Test
@@ -53,6 +53,6 @@ class OmokGameTest {
         omokGame.grid.putStone(Position(2, 4), StoneState.BLACK)
         omokGame.grid.putStone(Position(1, 5), StoneState.BLACK)
 
-        assertThat(omokGame.checkOmok(1, 5)).isTrue()
+        assertThat(omokGame.checkOmok(Position(1, 5))).isTrue()
     }
 }
