@@ -1,5 +1,10 @@
 package omok.model
 
+import omok.model.board.Position
+import omok.model.board.X
+import omok.model.board.Y
+import omok.model.stone.StoneColor
+import omok.model.stone.WhiteStone
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 

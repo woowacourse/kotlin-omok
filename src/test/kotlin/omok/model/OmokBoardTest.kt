@@ -1,5 +1,10 @@
 package omok.model
 
+import omok.model.board.OmokBoard
+import omok.model.board.Position
+import omok.model.board.X
+import omok.model.board.Y
+import omok.model.stone.StoneState
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
