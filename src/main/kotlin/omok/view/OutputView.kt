@@ -8,6 +8,10 @@ import omok.domain.board.Point
 import omok.domain.board.StoneStatus
 
 class OutputView {
+    fun printErrorMessage(msg: String?) {
+        println(msg)
+    }
+
     fun printStartMessage() {
         println(MESSAGE_START_GAME)
     }

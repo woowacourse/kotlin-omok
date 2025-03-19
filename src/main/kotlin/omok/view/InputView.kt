@@ -9,7 +9,7 @@ class InputView {
     ): String {
         while (true) {
             print(MESSAGE_PLAYER_TURN.format(turn.toKorean()))
-            println(MESSAGE_INPUT_POSITION)
+            print(MESSAGE_INPUT_POSITION)
             lastPosition?.let {
                 println(MESSAGE_LAST_POSITION.format(lastPosition))
             }
