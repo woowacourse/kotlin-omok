@@ -1,5 +1,6 @@
 interface OmokRule {
-    fun canPlace(): PlaceResult
-
-    fun isEnd(): GameResult
+    fun canPlace(
+        omokBoard: List<Point>,
+        playerStone: PlayerStone,
+    ): PlaceResult
 }
