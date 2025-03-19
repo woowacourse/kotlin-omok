@@ -7,16 +7,19 @@ value class OmokBoard private constructor(
     fun find(position: Position): Point? = value[position]
 
     companion object {
-        fun create(): OmokBoard =
+        fun create(
+            width: Int = OMOK_BOARD_SIZE,
+            height: Int = OMOK_BOARD_SIZE,
+        ): OmokBoard =
             OmokBoard(
-                OMOK_BOARD_RANGE
+                (1..width)
                     .flatMap { row ->
-                        OMOK_BOARD_RANGE.map { column ->
+                        (1..height).map { column ->
                             Position(RowPosition(row), ColumnPosition(column)) to Point()
                         }
                     }.toMap(),
             )
 
-        private val OMOK_BOARD_RANGE = (1..15)
+        private const val OMOK_BOARD_SIZE = 15
     }
 }
