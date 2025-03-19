@@ -29,5 +29,14 @@ enum class OmokRow(val value: Int) {
         fun find(value: Int): OmokRow =
             OmokRow.entries.find { it.value == value }
                 ?: WALL
+
+        fun of(value: String): OmokRow  {
+            val pos = value.toIntOrNull() ?: throw IllegalArgumentException(INVALID_NUMERIC)
+            return OmokRow.entries.find { it.value == pos }
+                ?: throw IllegalArgumentException(INVALID_ROW)
+        }
+
+        private const val INVALID_NUMERIC = "좌표 번호는 숫자로 입력해주세요"
+        private const val INVALID_ROW = "잘못된 행 번호입니다. 다시 입력해주세요"
     }
 }
