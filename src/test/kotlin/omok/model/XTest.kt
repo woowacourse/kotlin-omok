@@ -21,7 +21,7 @@ class XTest {
         alphaBet: String,
         number: Int,
     ) {
-        val x = X(alphaBet).pointToNumber()
+        val x = X(alphaBet).toNumber()
         assertThat(x).isEqualTo(number)
     }
 }
