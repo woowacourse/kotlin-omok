@@ -9,7 +9,7 @@ class OmokResultTest {
         val nowPlayer = BlackPlayer()
 
         val actual = OmokResult.returnWinner(nowPlayer)
-        val expected = OmokResult.BLACKWIN
+        val expected = OmokResult.BLACK_WIN
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -19,7 +19,7 @@ class OmokResultTest {
         val nowPlayer = WhitePlayer()
 
         val actual = OmokResult.returnWinner(nowPlayer)
-        val expected = OmokResult.WHITEWIN
+        val expected = OmokResult.WHITE_WIN
 
         assertThat(actual).isEqualTo(expected)
     }

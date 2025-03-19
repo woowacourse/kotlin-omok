@@ -1,16 +1,16 @@
 package omok.domain
 
 enum class OmokResult {
-    BLACKWIN,
-    WHITEWIN,
+    BLACK_WIN,
+    WHITE_WIN,
     DRAW,
     ;
 
     companion object {
         fun returnWinner(player: Player): OmokResult {
             return when (player) {
-                is BlackPlayer -> BLACKWIN
-                is WhitePlayer -> WHITEWIN
+                is BlackPlayer -> BLACK_WIN
+                is WhitePlayer -> WHITE_WIN
                 else -> throw IllegalStateException()
             }
         }
