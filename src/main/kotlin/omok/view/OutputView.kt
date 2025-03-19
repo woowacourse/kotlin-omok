@@ -4,6 +4,7 @@ import omok.model.Board
 import omok.model.Col
 import omok.model.Position
 import omok.model.Row
+import omok.model.Stone
 import omok.model.StoneState
 
 class OutputView {
@@ -64,6 +65,11 @@ class OutputView {
             StoneState.WHITE -> "○"
             else -> nonString
         }
+
+    fun printOmok(lastStone: Stone?) {
+        val lastStoneState = stoneStateText(lastStone?.stoneState ?: StoneState.NONE)
+        println("${lastStoneState}이 우승했습니다.")
+    }
 
     companion object {
         private const val OMOK_SEPARATOR = "──"
