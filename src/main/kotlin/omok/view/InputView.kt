@@ -1,6 +1,8 @@
 package omok.view
 
+import omok.model.domain.omokboard.ColumnPosition
 import omok.model.domain.omokboard.Position
+import omok.model.domain.omokboard.RowPosition
 import omok.model.domain.player.StoneColor
 
 class InputView {
@@ -24,5 +26,25 @@ class InputView {
                 input.isBlank() -> null
                 else -> input.toPosition()
             }
+
+        private fun String.toPosition(): Position {
+            val columnPosition = this[0].toColumnPosition()
+            val rowPosition = RowPosition(this.substring(1).toInt())
+
+            return Position(rowPosition, columnPosition)
+        }
+
+        private fun Position.toText(): String = "${this.column.toEnglish()} + ${this.row}"
+
+        private fun StoneColor.toKorean(): String =
+            when (this) {
+                StoneColor.BLACK -> "흑"
+                StoneColor.WHITE -> "백"
+            }
+
+        private fun Char.toColumnPosition(): ColumnPosition {
+            val alphabets = ('A'..'Z').toList()
+            return ColumnPosition(alphabets.indexOf(this) + 1)
+        }
     }
 }
