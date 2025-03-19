@@ -4,6 +4,9 @@ package omok.model.domain.omokboard
 value class OmokBoard private constructor(
     val value: Map<Position, Point>,
 ) {
+    val width get() = value.keys.maxOf { it.column.value }
+    val height get() = value.keys.maxOf { it.row.value }
+
     fun find(position: Position): Point? = value[position]
 
     companion object {

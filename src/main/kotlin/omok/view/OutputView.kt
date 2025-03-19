@@ -14,16 +14,13 @@ class OutputView {
     }
 
     fun displayOmokBoard(omokBoard: OmokBoard) {
-        val width = omokBoard.value.keys.maxOf { it.column.value }
-        val height = omokBoard.value.keys.maxOf { it.row.value }
-
-        (1..height)
+        (1..omokBoard.height)
             .reversed()
             .forEach { rowNumber ->
                 displayRow(omokBoard, RowPosition(rowNumber))
             }
 
-        displayColumnLabels(width)
+        displayColumnLabels(omokBoard.width)
     }
 
     private fun displayRow(
@@ -36,22 +33,19 @@ class OutputView {
     }
 
     private fun Position.draw(omokBoard: OmokBoard): String {
-        val width = omokBoard.value.keys.maxOf { it.column.value }
-        val height = omokBoard.value.keys.maxOf { it.row.value }
-
         val stoneColor = omokBoard.value[this]?.state ?: PointState.EMPTY
 
         return when {
             stoneColor == PointState.OCCUPIED_BLACK -> "●"
             stoneColor == PointState.OCCUPIED_WHITE -> "○"
-            this.row.value == height && this.column.value == 1 -> "┌"
-            this.row.value == height && this.column.value == width -> "┐"
+            this.row.value == omokBoard.height && this.column.value == 1 -> "┌"
+            this.row.value == omokBoard.height && this.column.value == omokBoard.width -> "┐"
             this.row.value == 1 && this.column.value == 1 -> "└"
-            this.row.value == 1 && this.column.value == width -> "┘"
+            this.row.value == 1 && this.column.value == omokBoard.width -> "┘"
             this.column.value == 1 -> "├"
-            this.column.value == width -> "┤"
+            this.column.value == omokBoard.width -> "┤"
             this.row.value == 1 -> "┴"
-            this.row.value == height -> "┬"
+            this.row.value == omokBoard.height -> "┬"
             else -> "┼"
         }
     }
@@ -72,6 +66,9 @@ class OutputView {
             when (placeResult) {
                 PlaceResult.Failure.AlreadyExist -> ALREADY_EXIST_MESSAGE
                 PlaceResult.Failure.InvalidPosition -> INVALID_POSITION_MESSAGE
+                PlaceResult.Failure.DoubleThreeViolation -> FORBIDDEN_DOUBLE_THREE
+                PlaceResult.Failure.DoubleFourViolation -> FORBIDDEN_DOUBLE_FOUR
+                PlaceResult.Failure.OverlineViolation -> FORBIDDEN_OVERLINE
                 else -> return
             },
         )
@@ -98,6 +95,9 @@ class OutputView {
         private const val START_OMOK_GAME_TITLE: String = "오목 게임을 시작합니다."
         private const val ALREADY_EXIST_MESSAGE: String = "이미 돌이 있는 자리에 둘 수 없습니다."
         private const val INVALID_POSITION_MESSAGE: String = "잘못된 위치 입니다."
+        private const val FORBIDDEN_DOUBLE_THREE: String = "3 x 3은 금지입니다."
+        private const val FORBIDDEN_DOUBLE_FOUR: String = "4 x 4는 금지입니다."
+        private const val FORBIDDEN_OVERLINE: String = "6목은 금지입니다."
         private const val DRAW_RESULT_MESSAGE: String = "무승부 입니다."
         private const val WIN_RESULT_MESSAGE: String = "%s의 우승을 축하드립니다!"
         private const val BLACK_COLOR_LABEL: String = "흑"

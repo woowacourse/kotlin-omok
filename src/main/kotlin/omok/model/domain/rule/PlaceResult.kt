@@ -17,5 +17,11 @@ sealed class PlaceResult {
         data object AlreadyExist : Failure()
 
         data object InvalidPosition : Failure()
+
+        data object DoubleThreeViolation : Failure()
+
+        data object DoubleFourViolation : Failure()
+
+        data object OverlineViolation : Failure()
     }
 }

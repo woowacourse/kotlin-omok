@@ -3,15 +3,24 @@ package omok.model.domain.omokboard
 import omok.model.domain.player.PlayerStone
 import omok.model.domain.rule.AlreadyExistRule
 import omok.model.domain.rule.DrawRule
+import omok.model.domain.rule.ExternalRule
 import omok.model.domain.rule.InvalidPositionRule
 import omok.model.domain.rule.OmokRule
 import omok.model.domain.rule.PlaceResult
 import omok.model.domain.rule.WinningRule
+import rule.BlackRenjuRule
 
 class PlayingBoard(
     val board: OmokBoard = OmokBoard.create(),
 ) {
-    private val rules: List<OmokRule> = listOf(InvalidPositionRule(), AlreadyExistRule(), DrawRule(), WinningRule())
+    private val rules: List<OmokRule> =
+        listOf(
+            InvalidPositionRule(),
+            AlreadyExistRule(),
+            ExternalRule(BlackRenjuRule(board.width, board.height)),
+            DrawRule(),
+            WinningRule(),
+        )
 
     fun placeStone(playerStone: PlayerStone): PlaceResult = placeResult(playerStone)
 
@@ -26,6 +35,7 @@ class PlayingBoard(
                 .find(playerStone.position)
                 ?.updateState(playerStone.color)
         }
+        println(result)
         return result
     }
 }
