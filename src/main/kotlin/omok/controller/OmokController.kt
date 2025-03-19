@@ -6,18 +6,23 @@ import omok.model.Intersection
 import omok.model.IntersectionState
 import omok.view.InputView
 import omok.view.OutputView
+import rule.BlackRenjuRule
+import rule.WhiteRenjuRule
 import rule.wrapper.point.Point
 
 class OmokController(
-    val inputView: InputView,
-    val outputView: OutputView,
+    private val inputView: InputView,
+    private val outputView: OutputView,
 ) {
+    private val blackRenjuRule = BlackRenjuRule(15, 15)
+    private val whiteRenjuRule = WhiteRenjuRule(15, 15)
+
     fun run() {
         outputView.printOmokStart()
         val board = Board()
         outputView.printBoard(board)
         val point: Point = inputView.readInitialTurn()
-        board.place(Intersection(point, IntersectionState.BLACK))
+        board.place(Intersection(point, IntersectionState.BLACK), blackRenjuRule)
         outputView.printBoard(board)
         retryOnError { processTurn(board) }
     }
@@ -26,10 +31,14 @@ class OmokController(
         val point: Point = inputView.readTurn(board.lastStone)
         val stone: IntersectionState = board.lastStone.state.reverse()
         val intersection = Intersection(point, stone)
-        board.place(intersection)
+        val boardState =
+            if (stone == IntersectionState.BLACK) {
+                board.place(intersection, blackRenjuRule)
+            } else {
+                board.place(intersection, whiteRenjuRule)
+            }
 
         outputView.printBoard(board)
-        val boardState: BoardState = board.check(intersection)
         if (boardState == BoardState.PLAYING) {
             processTurn(board)
         }

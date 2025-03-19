@@ -1,87 +1,56 @@
 package omok.model
 
+import rule.OmokRule
+import rule.type.Violation
 import rule.wrapper.point.Point
+import java.lang.IllegalStateException
 
 class Board {
     val board: List<MutableList<IntersectionState>> = List(16) { MutableList(16) { IntersectionState.EMPTY } }
     private var _lastStone: Intersection = Intersection(Point(1, 1), IntersectionState.EMPTY)
     val lastStone: Intersection get() = _lastStone.copy()
 
-    val blackStones: MutableList<Point> = mutableListOf()
-    val whiteStones: MutableList<Point> = mutableListOf()
+    val blackPoints: MutableList<Point> = mutableListOf()
+    val whitePoints: MutableList<Point> = mutableListOf()
 
-    fun place(intersection: Intersection) {
-        val boardState: IntersectionState = board[intersection.point.row][intersection.point.col]
-        require(boardState == IntersectionState.EMPTY) { ERROR_MESSAGE_INTERSECTION_NOT_EMPTY }
+    fun place(
+        newIntersection: Intersection,
+        rule: OmokRule,
+    ): BoardState {
+        val violation: Violation = rule.checkAnyFoulCondition(blackPoints, whitePoints, newIntersection.point)
+        require(violation == Violation.NONE) {
+            when (violation) {
+                Violation.DOUBLE_THREE -> ERROR_MESSAGE_DOUBLE_THREE_VIOLATION
+                Violation.DOUBLE_FOUR -> ERROR_MESSAGE_DOUBLE_FOUR_VIOLATION
+                Violation.OVERLINE -> ERROR_MESSAGE_OVERLINE_VIOLATION
+                Violation.NONE -> throw IllegalStateException()
+            }
+        }
 
-        board[intersection.point.row][intersection.point.col] = intersection.state
-        setLastStone(intersection)
+        val newPoint: Point = newIntersection.point
+        val player: IntersectionState = newIntersection.state
+
+        if (player == IntersectionState.BLACK) {
+            blackPoints.add(newIntersection.point)
+            board[newIntersection.point.row][newIntersection.point.col] = newIntersection.state
+            if (rule.checkSerialSameStonesBiDirection(blackPoints, newPoint, 5)) return BoardState.BLACK_OMOK
+        } else {
+            whitePoints.add(newIntersection.point)
+            board[newIntersection.point.row][newIntersection.point.col] = newIntersection.state
+            if (rule.checkSerialSameStonesBiDirection(whitePoints, newPoint, 5)) return BoardState.WHITE_OMOK
+        }
+        setLastStone(newIntersection)
+        return BoardState.PLAYING
     }
 
     private fun setLastStone(intersection: Intersection) {
         _lastStone = intersection
     }
 
-    fun check(intersection: Intersection): BoardState {
-        val verticalCheck: Boolean = checkLine(intersection, 0)
-        val horizontalCheck = checkLine(intersection, 2)
-        val diagonalDown = checkLine(intersection, 4)
-        val diagonalUp = checkLine(intersection, 6)
-
-        if (verticalCheck || horizontalCheck || diagonalDown || diagonalUp) {
-            if (intersection.state == IntersectionState.BLACK) {
-                return BoardState.BLACK_OMOK
-            }
-            if (intersection.state == IntersectionState.WHITE) {
-                return BoardState.WHITE_OMOK
-            }
-        }
-        return BoardState.PLAYING
-    }
-
-    private fun checkLine(
-        intersection: Intersection,
-        startDir: Int,
-    ): Boolean {
-        return 1 + checkDirection(intersection, startDir) + checkDirection(intersection, startDir + 1) >= 5
-    }
-
-    private fun checkDirection(
-        intersection: Intersection,
-        dir: Int,
-    ): Int {
-        var curX = intersection.point.row
-        var curY = intersection.point.col
-        val curColor = intersection.state
-
-        val direction = listOf(-1 to 0, 1 to 0, 0 to -1, 0 to 1, -1 to 1, 1 to -1, -1 to -1, 1 to 1)
-
-        var count = 0
-        while (true) {
-            if (count >= 5) {
-                return 5
-            }
-
-            val nextX = curX + direction[dir].first
-            val nextY = curY + direction[dir].second
-
-            if (nextX <= 0 || nextX >= 16 || nextY <= 0 || nextY >= 16) {
-                break
-            }
-
-            if (board[nextX][nextY] == curColor) {
-                count++
-            } else {
-                break
-            }
-
-            curX = nextX
-            curY = nextY
-        }
-        return count
-    }
-
     companion object {
         private const val ERROR_MESSAGE_INTERSECTION_NOT_EMPTY = "돌은 빈 칸에만 둘 수 있습니다."
+        private const val ERROR_MESSAGE_DOUBLE_THREE_VIOLATION = "삼삼은 금수입니다."
+        private const val ERROR_MESSAGE_DOUBLE_FOUR_VIOLATION = "사사는 금수입니다."
+        private const val ERROR_MESSAGE_OVERLINE_VIOLATION = "장목은 금수입니다."
     }
 }
