@@ -34,7 +34,7 @@ class Board private constructor(
         stoneState: StoneState,
         direction: Direction,
     ): Int {
-        var count = 1
+        var count = 0
         var x = position.row.value + direction.dx
         var y = position.col.value + direction.dy
 
@@ -51,21 +51,25 @@ class Board private constructor(
         return count
     }
 
-    fun isOmok(position: Position): Boolean {
-        if (stonePlacedState(position) == StoneState.NONE) {
+    fun isLastStoneOmok(): Boolean {
+        lastStone?.let {
+            val position = lastStone.position
+            if (stonePlacedState(position) == StoneState.NONE) {
+                return false
+            }
+
+            val stoneState = stonePlacedState(position)
+
+            for (i in Direction.entries.indices step 2) { // (1,2)계산, (3,4)계산
+                val dir1 = Direction.entries[i] // 정방향 1, 3
+                val dir2 = Direction.entries[i + 1] // 반대방향 2, 4
+
+                val count1 = countConnected(position, stoneState, dir1)
+                val count2 = countConnected(position, stoneState, dir2)
+                val totalCount = count1 + count2 + 1
+                if (totalCount >= 5) return true
+            }
             return false
-        }
-
-        val stoneState = stonePlacedState(position)
-
-        for (i in Direction.entries.indices step 2) { // (1,2)계산, (3,4)계산
-            val dir1 = Direction.entries[i] // 정방향 1, 3
-            val dir2 = Direction.entries[i + 1] // 반대방향 2, 4
-
-            val count1 = countConnected(position, stoneState, dir1)
-            val count2 = countConnected(position, stoneState, dir2)
-            val totalCount = count1 + count2 + 1
-            if (totalCount >= 5) return true
         }
         return false
     }
