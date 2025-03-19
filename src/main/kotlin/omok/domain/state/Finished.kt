@@ -4,10 +4,12 @@ import omok.domain.Point
 import omok.domain.StoneColor
 import omok.domain.Stones
 
-class Finished(
+abstract class Finished(
     override val blackStones: Stones,
     override val whiteStones: Stones,
 ) : State {
+    abstract val winnerColor: StoneColor
+
     override fun place(point: Point): State = throw IllegalStateException()
 
     override fun lastStonePoint(): Point = throw IllegalStateException()

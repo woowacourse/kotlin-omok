@@ -15,7 +15,7 @@ class BlackTurn(
 
         val newStones = blackStones + point
         if (newStones.isOmok()) {
-            return Finished(newStones, whiteStones)
+            return BlackWin(newStones, whiteStones)
         }
         return WhiteTurn(newStones, whiteStones)
     }
