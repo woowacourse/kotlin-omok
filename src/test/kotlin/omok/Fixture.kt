@@ -21,4 +21,9 @@ val POSITION_THREE_THREE = Position(RowPosition(3), ColumnPosition(3))
 val POSITION_FOUR_FOUR = Position(RowPosition(4), ColumnPosition(4))
 val POSITION_FIVE_FIVE = Position(RowPosition(5), ColumnPosition(5))
 
+val POSITION_SEVEN_ONE = Position(RowPosition(7), ColumnPosition(1))
+val POSITION_SEVEN_TWO = Position(RowPosition(7), ColumnPosition(2))
+val POSITION_SEVEN_THREE = Position(RowPosition(7), ColumnPosition(3))
+val POSITION_SEVEN_FOUR = Position(RowPosition(7), ColumnPosition(4))
+
 val POSITION_ZERO_ZERO = Position(RowPosition(0), ColumnPosition(0))

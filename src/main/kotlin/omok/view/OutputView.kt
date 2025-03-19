@@ -5,6 +5,8 @@ import omok.model.domain.omokboard.OmokBoard
 import omok.model.domain.omokboard.PointState
 import omok.model.domain.omokboard.Position
 import omok.model.domain.omokboard.RowPosition
+import omok.model.domain.rule.GameResult
+import omok.model.domain.rule.PlaceResult
 
 class OutputView {
     fun displayOmokGameStart() {
@@ -30,7 +32,7 @@ class OutputView {
     ) {
         val rowPoints = omokBoard.value.filter { it.key.row == rowPosition }
         print(" ${String.format("%02d", rowPosition.value)} ")
-        println(rowPoints.keys.map { it.draw(omokBoard) }.joinToString { "──" })
+        println(rowPoints.keys.joinToString("──") { it.draw(omokBoard) })
     }
 
     private fun Position.draw(omokBoard: OmokBoard): String {
@@ -42,30 +44,63 @@ class OutputView {
         return when {
             stoneColor == PointState.OCCUPIED_BLACK -> "●"
             stoneColor == PointState.OCCUPIED_WHITE -> "○"
-            this.row.value == width && this.column.value == 1 -> "┌"
-            this.row.value == 1 && this.column.value == height -> "┐"
-            this.row.value == width && this.column.value == 1 -> "└"
-            this.row.value == 1 && this.column.value == height -> "┘"
+            this.row.value == height && this.column.value == 1 -> "┌"
+            this.row.value == height && this.column.value == width -> "┐"
+            this.row.value == 1 && this.column.value == 1 -> "└"
+            this.row.value == 1 && this.column.value == width -> "┘"
             this.column.value == 1 -> "├"
             this.column.value == width -> "┤"
-            this.row.value == 1 -> "┬"
-            this.row.value == height -> "┴"
+            this.row.value == 1 -> "┴"
+            this.row.value == height -> "┬"
             else -> "┼"
         }
     }
 
     private fun displayColumnLabels(boardWidth: Int) {
         println(
-            "  ${
-                (1..boardWidth).map { columnNumber ->
+            (1..boardWidth)
+                .map { columnNumber ->
                     ColumnPosition(columnNumber)
-                        .toEnglish()
-                }.joinToString { "  " }
-            }  ",
+                        .toLabel()
+                }.joinToString(separator = "  ", prefix = "    "),
         )
     }
 
+    fun displayErrorMessage(placeResult: PlaceResult) {
+        println()
+        println(
+            when (placeResult) {
+                PlaceResult.Failure.AlreadyExist -> ALREADY_EXIST_MESSAGE
+                PlaceResult.Failure.InvalidPosition -> INVALID_POSITION_MESSAGE
+                else -> return
+            },
+        )
+    }
+
+    fun displayWinningMessage(gameResult: GameResult) {
+        println()
+        println(
+            when (gameResult) {
+                GameResult.DRAW -> DRAW_RESULT_MESSAGE
+                else -> WIN_RESULT_MESSAGE.format(gameResult.toLabel())
+            },
+        )
+    }
+
+    private fun GameResult.toLabel(): String =
+        when (this) {
+            GameResult.WIN_BLACK -> BLACK_COLOR_LABEL
+            GameResult.WIN_WHITE -> WHITE_COLOR_LABEL
+            else -> ""
+        }
+
     companion object {
         private const val START_OMOK_GAME_TITLE: String = "오목 게임을 시작합니다."
+        private const val ALREADY_EXIST_MESSAGE: String = "이미 돌이 있는 자리에 둘 수 없습니다."
+        private const val INVALID_POSITION_MESSAGE: String = "잘못된 위치 입니다."
+        private const val DRAW_RESULT_MESSAGE: String = "무승부 입니다."
+        private const val WIN_RESULT_MESSAGE: String = "%s의 우승을 축하드립니다!"
+        private const val BLACK_COLOR_LABEL: String = "흑"
+        private const val WHITE_COLOR_LABEL: String = "백"
     }
 }
