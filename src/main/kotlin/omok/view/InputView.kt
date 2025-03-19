@@ -2,15 +2,15 @@ package omok.view
 
 import omok.model.Intersection
 import omok.model.IntersectionState
-import omok.model.Position
+import rule.wrapper.point.Point
 
 class InputView {
-    fun readInitialTurn(): Position {
+    fun readInitialTurn(): Point {
         println(MESSAGE_INITIAL_TURN_INDICATOR)
-        return readPosition()
+        return readPoint()
     }
 
-    fun readTurn(intersection: Intersection): Position {
+    fun readTurn(intersection: Intersection): Point {
         val lastStone: IntersectionState = intersection.state
         print(
             MESSAGE_TURN_INDICATOR.format(
@@ -21,19 +21,19 @@ class InputView {
                 },
             ),
         )
-        println(MESSAGE_LAST_STONE_POSITION.format(intersection.position.stringRepresentation()))
-        return readPosition()
+        println(MESSAGE_LAST_STONE_POINT.format(intersection.point.stringRepresentation()))
+        return readPoint()
     }
 
-    private fun readPosition(): Position {
+    private fun readPoint(): Point {
         return runCatching {
-            print(MESSAGE_ENTER_POSITION)
+            print(MESSAGE_ENTER_POINT)
             val input: String = readln()
-            val column: Int = input[0].integerRepresentation()
+            val col: Int = input[0].integerRepresentation()
             val row: Int = input.substring(1).toInt()
-            Position.of(row, column)
+            Point(row, col)
         }.getOrElse {
-            readPosition()
+            readPoint()
         }
     }
 
@@ -41,14 +41,14 @@ class InputView {
         return this.uppercase()[0].code - 64
     }
 
-    private fun Position.stringRepresentation(): String {
-        return "${(this.column.value + 64).toChar()}${this.row.value}"
+    private fun Point.stringRepresentation(): String {
+        return "${(this.col + 64).toChar()}${this.row}"
     }
 
     companion object {
         const val MESSAGE_TURN_INDICATOR = "%s의 차례입니다. "
         const val MESSAGE_INITIAL_TURN_INDICATOR = "흑의 차례입니다."
-        const val MESSAGE_LAST_STONE_POSITION = "(마지막 돌의 위치: %s)"
-        const val MESSAGE_ENTER_POSITION = "위치를 입력하세요: "
+        const val MESSAGE_LAST_STONE_POINT = "(마지막 돌의 위치: %s)"
+        const val MESSAGE_ENTER_POINT = "위치를 입력하세요: "
     }
 }

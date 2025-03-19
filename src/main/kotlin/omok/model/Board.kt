@@ -1,15 +1,20 @@
 package omok.model
 
+import rule.wrapper.point.Point
+
 class Board {
     val board: List<MutableList<IntersectionState>> = List(16) { MutableList(16) { IntersectionState.EMPTY } }
-    private var _lastStone: Intersection = Intersection(Position.of(1, 1), IntersectionState.EMPTY)
+    private var _lastStone: Intersection = Intersection(Point(1, 1), IntersectionState.EMPTY)
     val lastStone: Intersection get() = _lastStone.copy()
 
+    val blackStones: MutableList<Point> = mutableListOf()
+    val whiteStones: MutableList<Point> = mutableListOf()
+
     fun place(intersection: Intersection) {
-        val boardState: IntersectionState = board[intersection.position.row.value][intersection.position.column.value]
+        val boardState: IntersectionState = board[intersection.point.row][intersection.point.col]
         require(boardState == IntersectionState.EMPTY) { ERROR_MESSAGE_INTERSECTION_NOT_EMPTY }
 
-        board[intersection.position.row.value][intersection.position.column.value] = intersection.state
+        board[intersection.point.row][intersection.point.col] = intersection.state
         setLastStone(intersection)
     }
 
@@ -45,8 +50,8 @@ class Board {
         intersection: Intersection,
         dir: Int,
     ): Int {
-        var curX = intersection.position.row.value
-        var curY = intersection.position.column.value
+        var curX = intersection.point.row
+        var curY = intersection.point.col
         val curColor = intersection.state
 
         val direction = listOf(-1 to 0, 1 to 0, 0 to -1, 0 to 1, -1 to 1, 1 to -1, -1 to -1, 1 to 1)

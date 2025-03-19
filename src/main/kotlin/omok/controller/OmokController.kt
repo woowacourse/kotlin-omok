@@ -4,9 +4,9 @@ import omok.model.Board
 import omok.model.BoardState
 import omok.model.Intersection
 import omok.model.IntersectionState
-import omok.model.Position
 import omok.view.InputView
 import omok.view.OutputView
+import rule.wrapper.point.Point
 
 class OmokController(
     val inputView: InputView,
@@ -16,16 +16,16 @@ class OmokController(
         outputView.printOmokStart()
         val board = Board()
         outputView.printBoard(board)
-        val position: Position = inputView.readInitialTurn()
-        board.place(Intersection(position, IntersectionState.BLACK))
+        val point: Point = inputView.readInitialTurn()
+        board.place(Intersection(point, IntersectionState.BLACK))
         outputView.printBoard(board)
         retryOnError { processTurn(board) }
     }
 
     private tailrec fun processTurn(board: Board) {
-        val position: Position = inputView.readTurn(board.lastStone)
+        val point: Point = inputView.readTurn(board.lastStone)
         val stone: IntersectionState = board.lastStone.state.reverse()
-        val intersection = Intersection(position, stone)
+        val intersection = Intersection(point, stone)
         board.place(intersection)
 
         outputView.printBoard(board)
