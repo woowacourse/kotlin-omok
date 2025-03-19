@@ -1,6 +1,5 @@
 package omok.domain.state
 
-import omok.domain.Point
 import omok.domain.StoneColor
 import omok.domain.Stones
 import omok.fixture.A1
@@ -17,24 +16,21 @@ class StateTest {
     @Test
     fun `흑부터 돌을 놓는다`() {
         val state = Ready()
-        val point = Point(0, 0)
-        val nextState = state.place(point)
+        val nextState = state.place(A1)
         assertThat(nextState).isInstanceOf(WhiteTurn::class.java)
     }
 
     @Test
     fun `흑의 차례가 끝나면 백의 차례이다`() {
         val state = BlackTurn(Stones(color = StoneColor.BLACK), Stones(color = StoneColor.WHITE))
-        val point = Point(0, 0)
-        val nextState = state.place(point)
+        val nextState = state.place(A1)
         assertThat(nextState).isInstanceOf(WhiteTurn::class.java)
     }
 
     @Test
     fun `백의 차례가 끝나면 흑의 차례이다`() {
         val state = WhiteTurn(Stones(color = StoneColor.BLACK), Stones(color = StoneColor.WHITE))
-        val point = Point(0, 0)
-        val nextState = state.place(point)
+        val nextState = state.place(A1)
         assertThat(nextState).isInstanceOf(BlackTurn::class.java)
     }
 

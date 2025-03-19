@@ -3,6 +3,7 @@ package omok.domain
 import omok.domain.state.Finished
 import omok.domain.state.Ready
 import omok.domain.state.State
+import rule.wrapper.point.Point
 
 class Board(
     state: State = Ready(),

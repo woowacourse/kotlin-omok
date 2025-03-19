@@ -1,6 +1,6 @@
 package omok.view
 
-import omok.domain.Point
+import rule.wrapper.point.Point
 
 class InputView {
     fun getPoint(boardSize: Int): Point =
@@ -24,16 +24,18 @@ class InputView {
         input: String,
         boardSize: Int,
     ): Point {
-        val x = input[0] - FIRST_X
-        val y = input.substring(1).toInt() - FIRST_Y
-        return Point.create(x, y, boardSize)
+        val row = input[0] - FIRST_X + 1
+        val col = input.substring(1).toInt()
+        val point = Point(row, col)
+        require(point.inRange(boardSize, boardSize)) { ERROR_INVALID_POSITION.format(boardSize, boardSize) }
+        return point
     }
 
     companion object {
         private const val MESSAGE_INPUT_POINT = "위치를 입력하세요: "
         private const val ERROR_INVALID_INPUT = "[ERROR] 잘못된 입력입니다. 다시 시도하세요."
+        private const val ERROR_INVALID_POSITION = "[ERROR] 바둑판의 크기는 %dx%d입니다."
         private val VALID_X_RANGE = 'A'..'Z'
         private const val FIRST_X = 'A'
-        private const val FIRST_Y = 1
     }
 }

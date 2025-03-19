@@ -1,8 +1,9 @@
 package omok.domain.state
 
-import omok.domain.Point
 import omok.domain.StoneColor
 import omok.domain.Stones
+import rule.WhiteRenjuRule
+import rule.wrapper.point.Point
 
 class WhiteTurn(
     override val blackStones: Stones,
@@ -15,9 +16,13 @@ class WhiteTurn(
         require(!(blackStones.contains(point) || whiteStones.contains(point))) { ERROR_INVALID_POINT }
 
         val newStones = whiteStones + point
-        if (newStones.isOmok()) {
+
+        val rule = WhiteRenjuRule(boardSize)
+        val isOmok = rule.checkWin(whiteStones.points.toList(), blackStones.points.toList(), point)
+        if (isOmok) {
             return WhiteWin(blackStones, newStones)
         }
+
         if (blackStones.points.size + newStones.points.size >= boardSize * boardSize) {
             return Draw(blackStones, newStones)
         }
