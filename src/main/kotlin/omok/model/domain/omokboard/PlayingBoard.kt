@@ -26,16 +26,18 @@ class PlayingBoard(
 
     private fun placeResult(playerStone: PlayerStone): PlaceResult {
         var result: PlaceResult = PlaceResult.Success.Progress(playerStone)
+
         rules.forEach { rule ->
             result = rule.canPlace(board, playerStone)
             if (result is PlaceResult.Failure) return result
         }
+
         if (result is PlaceResult.Success) {
             board
                 .find(playerStone.position)
                 ?.updateState(playerStone.color)
         }
-        println(result)
+
         return result
     }
 }
