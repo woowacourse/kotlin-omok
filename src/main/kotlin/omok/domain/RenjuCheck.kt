@@ -15,23 +15,33 @@ class RenjuCheck(private val board: OmokBoard) {
     //문제는 양 방향 다 막혀있어야 한다는 것이 문제임..
     //근데 직접 막히는 것은 한 방향이라도 막혀있으면 되는데, 한 칸 띄고 막히는 것은 양 방향 다 막혀야 한다
     //반환 타입을 Pair->Triple로 바꾸고 직접 막혀있는지, 한 칸 띄고 막혀있는지 반환하면 되지 않을까?
-    private fun seek(direction: Direction, point: Point, target: StoneStatus, depth: Int = 0): Pair<Int, Boolean> {
+    private fun seek(direction: Direction, point: Point, target: StoneStatus, depth: Int = 0): Triple<Int, Boolean, Boolean> {
         val next = board.goto(point, direction)
+        val previous = board.goto(point,direction.reverse())
         if (point.stoneStatus == target || (point.stoneStatus == StoneStatus.EMPTY && depth <= 3)) {
             return if (point.stoneStatus == target || depth == 0) {
-                seek(direction, next, target, depth + 1).let { Pair(it.first + 1, it.second) }
+                seek(direction, next, target, depth + 1).let { Triple(it.first + 1, it.second, it.third) }
             } else {
                 seek(direction, next, target, depth + 1)
             }
         }
+
         //열려있는지 확인
         return if (point.stoneStatus == StoneStatus.EMPTY
             && point.x != OmokColumn.WALL
             && point.y != OmokRow.WALL
             ) {
-            Pair(0, true)
+
+            //6목 금수의 경우 간접적으로 닫혀있음, 아니면 열려있음
+            if (previous.stoneStatus == StoneStatus.EMPTY && next.stoneStatus == StoneStatus.BLACK) {
+                Triple(0, true, true)
+            } else {
+                Triple(0, true, false)
+            }
+        } else if(point.stoneStatus == StoneStatus.WHITE && previous.stoneStatus == StoneStatus.EMPTY) {
+            Triple(0, true, true)
         } else {
-            Pair(0, false)
+            Triple(0, false, false)
         }
     }
 
@@ -39,11 +49,12 @@ class RenjuCheck(private val board: OmokBoard) {
         return Direction.getDirectionPair().count { (d1, d2) ->
             val count1 = seek(d1, current, target).first
             val count2 = seek(d2, current, target).first
+            val isIndirectlyClosed = seek(d1, current, target).third && seek(d2, current, target).third
             val totalCount = count1 + count2 - 1
 
             when (checkType) {
                 CheckType.FOUR_X_FOUR -> totalCount == 4
-                CheckType.THREE_X_THREE -> totalCount == 3 && seek(d1, current, target).second && seek(d2, current, target).second
+                CheckType.THREE_X_THREE -> totalCount == 3 && seek(d1, current, target).second && seek(d2, current, target).second && !isIndirectlyClosed
                 CheckType.SIX_MOK -> totalCount > 5
             }
         }

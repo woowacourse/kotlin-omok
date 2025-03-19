@@ -86,17 +86,31 @@ class RenjuCheckTest {
         assertThat(result).isFalse()
     }
 
-//    @Test
-//    fun `3x3테스트8`() {
-//        val board = OmokBoard()
-//        board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.WHITE))
-//        board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.BLACK))
-//        board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
-//        board.addStone(Point(OmokColumn.D, OmokRow.NINE, StoneStatus.BLACK))
-//        board.addStone(Point(OmokColumn.B, OmokRow.ELEVEN, StoneStatus.BLACK))
-//        val result = RenjuCheck(board).is3x3(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.EMPTY))
-//        assertThat(result).isFalse()
-//    }
+    @Test
+    fun `거짓금수 3x3테스트1`() {
+        val board = OmokBoard()
+        board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.WHITE))
+        board.addStone(Point(OmokColumn.H, OmokRow.EIGHT, StoneStatus.WHITE))
+        board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.D, OmokRow.NINE, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.B, OmokRow.ELEVEN, StoneStatus.BLACK))
+        val result = RenjuCheck(board).is3x3(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.EMPTY))
+        assertThat(result).isFalse()
+    }
+
+    @Test
+    fun `거짓금수 3x3테스트2`() {
+        val board = OmokBoard()
+        board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.G, OmokRow.NINE, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.G, OmokRow.TEN, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.I, OmokRow.EIGHT, StoneStatus.WHITE))
+        val result = RenjuCheck(board).is3x3(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY))
+        assertThat(result).isFalse()
+    }
 
     @Test
     fun `4x4테스트1`() {
