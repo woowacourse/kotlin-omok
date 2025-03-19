@@ -21,9 +21,15 @@ class WinningRule : OmokRule {
                 Pair(1, -1),
             )
 
+        val currentColor =
+            when (playerStone.color) {
+                StoneColor.BLACK -> GameResult.WIN_BLACK
+                StoneColor.WHITE -> GameResult.WIN_WHITE
+            }
+
         for ((dx, dy) in directions) {
             if (countStonesInDirection(omokBoard, playerStone, dx, dy) >= 5) {
-                return PlaceResult.Success.Finish(GameResult.WIN_BLACK)
+                return PlaceResult.Success.Finish(currentColor)
             }
         }
 
