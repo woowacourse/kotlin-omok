@@ -12,8 +12,8 @@ class PlayingBoard(
     private fun placeResult(playerStone: PlayerStone): PlaceResult {
         when (val result = AlreadyExistRule().canPlace(board, playerStone)) {
             PlaceResult.Success.Progress -> {
-                board.value
-                    .find { it.position == playerStone.position }
+                board
+                    .find(playerStone.position)
                     ?.updateState(playerStone.color)
                 return result
             }

@@ -12,7 +12,7 @@ class OmokBoardTest {
         // when & then
         (1..15).forEach { row ->
             (1..15).forEach { column ->
-                assertThat(actual).contains(Point(Position(RowPosition(row), ColumnPosition(column))))
+                assertThat(actual).containsKey(Position(RowPosition(row), ColumnPosition(column)))
             }
         }
         assertThat(actual.size).isEqualTo(15 * 15)

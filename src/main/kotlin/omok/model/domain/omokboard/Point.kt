@@ -6,7 +6,6 @@ import omok.model.domain.omokboard.PointState.OCCUPIED_WHITE
 import omok.model.domain.player.StoneColor
 
 data class Point(
-    val position: Position,
     private var _state: PointState = EMPTY,
 ) {
     val state: PointState get() = _state
