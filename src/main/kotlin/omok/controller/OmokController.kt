@@ -23,7 +23,7 @@ class OmokController(
     }
 
     private tailrec fun processTurn(board: Board) {
-        val position: Position = inputView.readInitialTurn()
+        val position: Position = inputView.readTurn(board.lastStone)
         val stone: IntersectionState = board.lastStone.state.reverse()
         val intersection = Intersection(position, stone)
         board.place(intersection)
