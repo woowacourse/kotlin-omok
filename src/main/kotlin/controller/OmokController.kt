@@ -15,11 +15,14 @@ class OmokController(
     fun run() {
         outputView.printGameStartMessage()
         val gameBoard = GameBoard()
-
+        outputView.printGameBoard(gameBoard.stones.toMutableList())
         while (true) {
             addValidStone(gameBoard)
+            outputView.printGameBoard(gameBoard.stones.toMutableList())
+            if (gameBoard.isWin()) break
             turnColor = turnColor.switch()
         }
+        outputView.printWinner(turnColor)
     }
 
     private tailrec fun addValidStone(gameBoard: GameBoard) {

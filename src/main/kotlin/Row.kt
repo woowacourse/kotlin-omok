@@ -16,8 +16,8 @@ class Row private constructor(
     fun isMin(): Boolean = value == MIN_VALUE
 
     companion object {
-        private const val MIN_VALUE = 1
-        private const val MAX_VALUE = 15
+        const val MIN_VALUE = 1
+        const val MAX_VALUE = 15
         private const val ERROR_OUT_OF_BOUND = "입력한 행이 범위를 벗어났습니다."
 
         fun from(value: Int): Row = Row(value)
