@@ -1,13 +1,13 @@
-package omok.model.player
+package omok.model.player.state
 
 import omok.model.board.OmokBoard
 import omok.model.board.Position
 import omok.model.stone.StoneState
 
-class BlackPlayerState(
+class WhitePlayerState(
     private val count: Int = 0,
 ) : PlayerState {
-    private val state: StoneState = StoneState.BLACK
+    private val state: StoneState = StoneState.WHITE
 
     override fun putCount(): Int = count
 
@@ -20,7 +20,7 @@ class BlackPlayerState(
     ): PlayerState {
         omokBoard.placeStone(position, stoneState)
         if (count >= 5 && omokBoard.isOmok(position, stoneState, omokBoard)) return Win()
-        return WhitePlayerState(count + 1)
+        return BlackPlayerState(count + 1)
     }
 
     override fun stop(): Lose = Lose()

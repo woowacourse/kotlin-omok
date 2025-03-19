@@ -1,4 +1,4 @@
-package omok.model.player
+package omok.model.player.state
 
 class Win : Finish() {
     override fun isWinner(): Finish {

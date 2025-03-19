@@ -1,4 +1,4 @@
-package omok.model.player
+package omok.model.player.state
 
 import omok.model.board.OmokBoard
 import omok.model.board.Position
