@@ -1,9 +1,21 @@
 package omok.domain
 
+import rule.OmokRule
+import rule.type.Violation
 import rule.wrapper.point.Point
 
 class OmokGame {
     val grid: OmokGrid = OmokGrid()
+
+    fun isViolation(omokRule: OmokRule, startPoint: Point): Boolean {
+        val violation = omokRule.checkAnyFoulCondition(
+            grid.findStones(StoneState.BLACK),
+            grid.findStones(StoneState.WHITE),
+            startPoint
+        )
+
+        return violation != Violation.NONE
+    }
 
     fun checkOmok(point: Point): Boolean {
         val directions: List<Direction> =
