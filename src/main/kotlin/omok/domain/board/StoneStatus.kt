@@ -4,6 +4,7 @@ enum class StoneStatus {
     BLACK,
     WHITE,
     EMPTY,
+    PROTECTED,
     ;
 
     companion object {
