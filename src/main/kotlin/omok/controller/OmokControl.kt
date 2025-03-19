@@ -28,7 +28,7 @@ class OmokControl(
         turn(newBoard)
     }
 
-    fun parseUserInput(input: String): Position? {
+    private fun parseUserInput(input: String): Position? {
         val columnChar = input[0].uppercaseChar()
         val rowNumber = input.substring(1).toIntOrNull()
 
