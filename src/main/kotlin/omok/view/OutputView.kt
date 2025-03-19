@@ -18,7 +18,7 @@ class OutputView {
 
         matrix.forEachIndexed { row, rowValue ->
             rowValue.forEachIndexed { column, _ ->
-                val stone = matrix[ROW_MAX_LENGTH - row][column].toChar()
+                val stone = matrix[ROW_MAX_LENGTH - row - 1][column].toChar()
 
                 when (row) {
                     0 -> printTopRow(column, stone)
@@ -46,14 +46,16 @@ class OutputView {
     ) {
         when (column) {
             0 -> {
-                0.printFormattedRow()
+                1.printFormattedRow()
                 printStoneOrDefault(stone, BOTTOM_LEFT_CORNER)
                 print(VERTICAL_SEPARATOR)
             }
+
             rowSize - 1 -> {
                 print(VERTICAL_SEPARATOR)
                 printStoneOrDefault(stone, BOTTOM_RIGHT_CORNER)
             }
+
             else -> {
                 print(VERTICAL_SEPARATOR)
                 printStoneOrDefault(stone, BOTTOM_HORIZONTAL_SEPARATOR)
@@ -74,10 +76,12 @@ class OutputView {
                 printStoneOrDefault(stone, LEFT_VERTICAL_SEPARATOR)
                 print(VERTICAL_SEPARATOR)
             }
+
             rowSize - 1 -> {
                 print(VERTICAL_SEPARATOR)
                 printStoneOrDefault(stone, RIGHT_VERTICAL_SEPARATOR)
             }
+
             else -> {
                 print(VERTICAL_SEPARATOR)
                 printStoneOrDefault(stone, HORIZONTAL_SEPARATOR)
@@ -96,10 +100,12 @@ class OutputView {
                 printStoneOrDefault(stone, TOP_LEFT_CORNER)
                 print(VERTICAL_SEPARATOR)
             }
-            ROW_MAX_LENGTH -> {
+
+            ROW_MAX_LENGTH - 1 -> {
                 print(VERTICAL_SEPARATOR)
                 printStoneOrDefault(stone, TOP_RIGHT_CORNER)
             }
+
             else -> {
                 print(VERTICAL_SEPARATOR)
                 printStoneOrDefault(stone, TOP_HORIZONTAL_SEPARATOR)
@@ -150,6 +156,6 @@ class OutputView {
         private const val LEFT_VERTICAL_SEPARATOR = '├'
         private const val RIGHT_VERTICAL_SEPARATOR = '┤'
         private const val SPACE = " "
-        private const val ROW_MAX_LENGTH = 14
+        private const val ROW_MAX_LENGTH = 15
     }
 }
