@@ -5,7 +5,7 @@ import rule.type.Violation
 import rule.wrapper.point.Point
 
 abstract class Player {
-    abstract val points: List<Point>
+    abstract val points: MutableList<Point>
     abstract val rule: OmokRule
 
     fun isOccupied(
@@ -15,8 +15,16 @@ abstract class Player {
         return newPoint in points || newPoint in otherPoints
     }
 
+    fun place(
+        newPoint: Point,
+        otherPoints: List<Point>,
+    ) {
+        require(!isOccupied(newPoint, otherPoints)) { ERROR_MESSAGE_IS_ALREADY_OCCUPIED }
+        checkViolation(newPoint, otherPoints)
+        points += newPoint
+    }
 
-    fun checkViolation(
+    private fun checkViolation(
         newPoint: Point,
         otherPoints: List<Point>,
     ) {
@@ -31,12 +39,8 @@ abstract class Player {
         }
     }
 
-    abstract fun place(
-        newPoint: Point,
-        otherPoints: List<Point>,
-    )
-
     companion object {
+        private const val ERROR_MESSAGE_IS_ALREADY_OCCUPIED = "이미 돌이 있는 자리입니다."
         private const val ERROR_MESSAGE_DOUBLE_THREE_VIOLATION = "삼삼 금수입니다."
         private const val ERROR_MESSAGE_DOUBLE_FOUR_VIOLATION = "사사 금수입니다."
         private const val ERROR_MESSAGE_OVERLINE_VIOLATION = "장목 금수입니다."
