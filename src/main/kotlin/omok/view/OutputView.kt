@@ -8,6 +8,7 @@ class OutputView {
     fun printStartMessage() = println(MESSAGE_GAME_START)
 
     fun printBoardState(board: List<List<StoneState>>) {
+        println()
         for (row in MAX_BOUND downTo MIN_BOUND) {
             printRow(board[row], row)
         }
