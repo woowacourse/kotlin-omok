@@ -1,9 +1,38 @@
 package omok.model
 
+import rule.BlackRenjuRule
+import rule.OmokRule
+import rule.WhiteRenjuRule
+import rule.type.Violation
+
 class Board private constructor(
     val stonesMap: Map<Position, StoneState> = emptyMap(),
     val lastStone: Stone? = null,
 ) {
+    private val blackRenjuRule = BlackRenjuRule(15, 15)
+    private val whiteRenjuRule = WhiteRenjuRule
+    private val omokRule = OmokRule
+
+    val blackPoints: List<rule.wrapper.point.Point>
+        get() {
+            return stonesMap
+                .filter { (_, stoneState) ->
+                    stoneState == StoneState.BLACK
+                }.map { (position, _) ->
+                    position.toPoint()
+                }
+        }
+
+    val whitePoints: List<rule.wrapper.point.Point>
+        get() {
+            return stonesMap
+                .filter { (_, stoneState) ->
+                    stoneState == StoneState.WHITE
+                }.map { (position, _) ->
+                    position.toPoint()
+                }
+        }
+
     val nextStoneState: StoneState
         get() {
             lastStone?.let {
@@ -23,6 +52,14 @@ class Board private constructor(
         require(lastStone == null || (nextStone.stoneState != (lastStone.stoneState))) { "같은 색의 돌을 연속하여 착수할 수 없습니다" }
 
         val newBoardStones = stonesMap + (nextStone.position to nextStone.stoneState)
+
+        val violationType = blackRenjuRule.checkAnyFoulCondition(blackPoints, whitePoints, nextPosition.toPoint())
+        when (violationType) {
+            Violation.DOUBLE_THREE -> throw Exception("3-3 반칙이 발생했습니다.")
+            Violation.DOUBLE_FOUR -> throw Exception("4-4 입니다")
+            Violation.OVERLINE -> throw Exception("장목입니다")
+            Violation.NONE -> blackRenjuRule.checkWin(blackPoints, whitePoints, nextPosition.toPoint())
+        }
 
         return Board(newBoardStones, nextStone)
     }
