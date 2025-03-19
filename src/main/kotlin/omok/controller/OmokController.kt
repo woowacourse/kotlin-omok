@@ -11,16 +11,22 @@ class OmokController(
 ) {
     fun run() {
         outputView.printStartOmok()
-
         val omokBoard = Board()
-        omokBoard.playOmok(
+        playOmok(omokBoard)
+        displayWinner(omokBoard)
+    }
+
+    private fun playOmok(board: Board) {
+        board.playOmok(
             onTurn = outputView::printTurn,
             onPointInput = inputView::getPoint,
             onBoardUpdated = outputView::printOmokBoard,
         )
+    }
 
-        if (omokBoard.state is Finished) {
-            outputView.printWinner((omokBoard.state as Finished).winnerColor)
+    private fun displayWinner(board: Board) {
+        if (board.state is Finished) {
+            outputView.printWinner((board.state as Finished).winnerColor)
         }
     }
 }
