@@ -4,7 +4,6 @@ import omok.domain.OmokGame
 import omok.domain.OmokResult
 import omok.view.InputView
 import omok.view.OutputView
-import rule.wrapper.point.Point
 
 class OmokController(
     private val inputView: InputView,
@@ -32,8 +31,4 @@ class OmokController(
         outputView.printBoardState(omokGame.grid.board)
         outputView.printWinner(omokResult)
     }
-}
-
-fun Point.minus(value: Int): Point {
-    return Point(this.row - value, this.col - value)
 }

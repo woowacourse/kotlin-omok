@@ -1,6 +1,5 @@
 package omok.domain
 
-import omok.controller.minus
 import omok.util.retryInput
 import rule.wrapper.point.Point
 
@@ -32,7 +31,7 @@ class OmokGame {
     ): Point {
         return retryInput {
             onTurnStarted(grid.board)
-            val point = onSelectPosition(player, latestPoint).minus(1)
+            val point = onSelectPosition(player, latestPoint)
             validatePosition(player, point)
             grid.putStone(point, getStoneState(player))
             player.addStone(point)

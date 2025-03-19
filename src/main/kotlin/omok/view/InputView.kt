@@ -19,8 +19,8 @@ class InputView {
     }
 
     private fun convertToString(point: Point): String {
-        val letter = 'A' + point.col
-        return letter + (point.row + 1).toString()
+        val letter = 'A' + point.col - 1
+        return letter + (point.row).toString()
     }
 
     private fun validateInput(rawInput: String): Point? {

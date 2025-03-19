@@ -24,7 +24,7 @@ class OutputView {
         boardRow: List<StoneState>,
         row: Int,
     ) {
-        print(COORDINATE_X.format(row + 1))
+        print(COORDINATE_X.format(row))
         for (col in MIN_BOUND..MAX_BOUND) {
             print(boardUI(boardRow[col], row, col))
             if (col != MAX_BOUND) repeat(REPEAT_COUNT) { print(DASH) }
@@ -79,8 +79,8 @@ class OutputView {
         private const val DASH = "─"
         private const val COORDINATE_X = "%2d "
         private const val BLANK = "   "
-        private const val MIN_BOUND = 0
-        private const val MAX_BOUND = DEFAULT_SIZE - 1
+        private const val MIN_BOUND = 1
+        private const val MAX_BOUND = DEFAULT_SIZE
 
         private const val MESSAGE_WINNER = "%s !!"
     }
