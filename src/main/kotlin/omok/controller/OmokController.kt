@@ -17,11 +17,16 @@ class OmokController(
     }
 
     private fun playOmok(board: Board) {
-        board.playOmok(
-            onTurn = outputView::printTurn,
-            onPointInput = inputView::getPoint,
-            onBoardUpdated = outputView::printOmokBoard,
-        )
+        runCatching {
+            board.playOmok(
+                onTurn = outputView::printTurn,
+                onPointInput = inputView::getPoint,
+                onBoardUpdated = outputView::printOmokBoard,
+            )
+        }.getOrElse {
+            println(it.message)
+            playOmok(board)
+        }
     }
 
     private fun displayWinner(board: Board) {

@@ -37,7 +37,7 @@ class OutputView {
 
     companion object {
         private const val MESSAGE_START_OMOK = "오목 게임을 시작합니다."
-        private const val MESSAGE_TURN = "%s의 차례입니다."
+        private const val MESSAGE_TURN = "\n%s의 차례입니다."
         private const val MESSAGE_LAST_POINT = " (마지막 돌의 위치: %s)"
         private const val MESSAGE_WINNER = "%s이 승리했습니다."
 
