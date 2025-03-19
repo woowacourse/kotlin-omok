@@ -2,25 +2,29 @@ package omok.model
 
 class Board private constructor(
     val stonesMap: Map<Position, StoneState> = emptyMap(),
-    val lastStoneState: StoneState = StoneState.WHITE,
+    val lastStone: Stone? = null,
 ) {
-    private val nextStoneState: StoneState
+    val nextStoneState: StoneState
         get() {
-            return when (lastStoneState) {
-                StoneState.BLACK -> StoneState.WHITE
-                StoneState.WHITE -> StoneState.BLACK
-                else -> StoneState.BLACK
+            lastStone?.let {
+                return when (lastStone.stoneState) {
+                    StoneState.BLACK -> StoneState.WHITE
+                    StoneState.WHITE -> StoneState.BLACK
+                    StoneState.NONE -> StoneState.NONE
+                }
+            } ?: run {
+                return StoneState.BLACK
             }
         }
 
-    fun placeStone(position: Position): Board {
-        val stone = Stone(position, nextStoneState)
-        require(!stonesMap.containsKey(stone.position)) { "해당하는 위치에 돌이 존재합니다" }
-        require(stone.stoneState != lastStoneState) { "같은 색의 돌을 연속하여 착수할 수 없습니다" }
+    fun placeStone(nextPosition: Position): Board {
+        val nextStone = Stone(nextPosition, nextStoneState)
+        require(!stonesMap.containsKey(nextStone.position)) { "해당하는 위치에 돌이 존재합니다" }
+        require(lastStone == null || (nextStone.stoneState != (lastStone.stoneState))) { "같은 색의 돌을 연속하여 착수할 수 없습니다" }
 
-        val newBoard = stonesMap + (stone.position to stone.stoneState)
+        val newBoardStones = stonesMap + (nextStone.position to nextStone.stoneState)
 
-        return Board(newBoard, nextStoneState)
+        return Board(newBoardStones, nextStone)
     }
 
     private fun stonePlacedState(position: Position): StoneState = stonesMap[position] ?: StoneState.NONE
@@ -76,7 +80,7 @@ class Board private constructor(
 
         fun customBoard(stones: Collection<Stone>): Board {
             val board = mutableMapOf<Position, StoneState>()
-
+            val lastStone = stones.last()
             stones.forEach { stone ->
                 val row = stone.position.row.value
                 val col = stone.position.col.value
@@ -86,8 +90,7 @@ class Board private constructor(
                 }
             }
 
-            val lastStoneState = stones.lastOrNull()?.stoneState ?: StoneState.NONE
-            return Board(board, lastStoneState)
+            return Board(board, lastStone)
         }
     }
 }
