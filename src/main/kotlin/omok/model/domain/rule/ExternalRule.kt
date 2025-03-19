@@ -16,11 +16,13 @@ class ExternalRule(
         playerStone: PlayerStone,
     ): PlaceResult {
         val startPoint = playerStone.position.toExternalPoint()
+
         val blackPoints =
             omokBoard.value
                 .filter { it.value.state == PointState.OCCUPIED_BLACK }
                 .keys
                 .map { it.toExternalPoint() }
+
         val whitePoints =
             omokBoard.value
                 .filter { it.value.state == PointState.OCCUPIED_WHITE }
