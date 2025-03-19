@@ -14,8 +14,8 @@ class OmokController(
         val omokGame = initGame()
         val result =
             omokGame.playGame(
-                printBoardState = { outputView.printBoardState(it) },
-                getPoint = { state, latestPoint -> inputView.getPoint(state, latestPoint) },
+                onTurnStarted = { outputView.printBoardState(it) },
+                onSelectPosition = { state, latestPoint -> inputView.getPoint(state, latestPoint) },
             )
         printWinner(result, omokGame)
     }
