@@ -1,7 +1,5 @@
 package omok.domain.board
 
-import omok.domain.board.OmokRow.WALL
-
 enum class OmokColumn(val value: Int) {
     A(1),
     B(2),
@@ -27,5 +25,12 @@ enum class OmokColumn(val value: Int) {
         fun find(value: Int): OmokColumn =
             OmokColumn.entries.find { it.value == value }
                 ?: WALL
+
+        fun of(value: String): OmokColumn {
+            return OmokColumn.entries.find { it.name == value }
+                ?: throw IllegalArgumentException(INVALID_COLUMN)
+        }
+
+        private const val INVALID_COLUMN = "잘못된 좌표 알파벳입니다. 다시 입력해주세요"
     }
 }
