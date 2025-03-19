@@ -3,30 +3,36 @@ package omok.board
 import omok.stone.Position
 import omok.stone.StoneColor
 
-class Board(val points: Points = Points.create()) {
-    private var previousPoint: Point? = null
+class Board {
+    val points: List<Point> =
+        (BOARD_MIN_SIZE..BOARD_MAX_SIZE).flatMap { row ->
+            (BOARD_MIN_SIZE..BOARD_MAX_SIZE).map { col ->
+                Point(Position(row, col))
+            }
+        }
+
+    fun findPoint(position: Position): Point? {
+        return points.find { it.position == position }
+    }
 
     fun placeStone(
         position: Position,
         color: StoneColor,
-    ) {
-        when (val result = points.placeStone(position, color)) {
-            is PlaceStoneResult.Success -> {
-                previousPoint = result.point
+    ): PlaceStoneResult {
+        val point = findPoint(position)
+        val state = point?.state
+        return when (state) {
+            PointState.OPEN -> {
+                point.changeColor(color)
+                PlaceStoneResult.Success(point)
             }
-            is PlaceStoneResult.Closed -> {}
-            is PlaceStoneResult.AlreadyPlaced -> {}
-            is PlaceStoneResult.InvalidPosition -> {}
+            PointState.CLOSED -> PlaceStoneResult.Closed
+            else -> PlaceStoneResult.AlreadyPlaced
         }
     }
-}
 
-sealed class PlaceStoneResult {
-    data class Success(val point: Point) : PlaceStoneResult()
-
-    data object Closed : PlaceStoneResult()
-
-    data object AlreadyPlaced : PlaceStoneResult()
-
-    data object InvalidPosition : PlaceStoneResult()
+    companion object {
+        private const val BOARD_MIN_SIZE = 1
+        private const val BOARD_MAX_SIZE = 15
+    }
 }
