@@ -17,7 +17,7 @@ class OmokGame {
         var nowPlayer: Player = blackPlayer
         while (true) {
             latestPoint = turn(nowPlayer, latestPoint, onTurnStarted, onSelectPosition)
-            if (nowPlayer.checkWin(latestPoint) ) return OmokResult.returnWinner(nowPlayer)
+            if (nowPlayer.checkWin(latestPoint)) return OmokResult.returnWinner(nowPlayer)
             if (grid.isFull()) break
             nowPlayer = getOtherPlayer(nowPlayer)
         }
@@ -65,9 +65,6 @@ class OmokGame {
     }
 
     companion object {
-        const val MIN_BOUND = 0
-        const val MAX_BOUND = 14
-
         private const val ERROR_WRONG_POSITION = "해당 위치에 놓을 수 없습니다"
     }
 }

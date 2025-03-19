@@ -7,7 +7,7 @@ import rule.wrapper.point.Point
 
 class BlackPlayer : Player() {
     override val stonesBacking: MutableList<Point> = mutableListOf()
-    override val rule: OmokRule = BlackRenjuRule()
+    override val rule: OmokRule = BlackRenjuRule(OmokGrid.DEFAULT_SIZE, OmokGrid.DEFAULT_SIZE)
 
     override fun isViolation(
         otherStones: List<Point>,

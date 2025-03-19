@@ -1,7 +1,6 @@
 package omok.view
 
-import omok.domain.OmokGame.Companion.MAX_BOUND
-import omok.domain.OmokGame.Companion.MIN_BOUND
+import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
 import omok.domain.OmokResult
 import omok.domain.StoneState
 
@@ -12,7 +11,8 @@ class OutputView {
         for (row in MAX_BOUND downTo MIN_BOUND) {
             printRow(board[row], row)
         }
-        println(COORDINATE_Y)
+        print(BLANK)
+        printCoordinateY()
     }
 
     fun printWinner(omokResult: OmokResult) {
@@ -58,6 +58,10 @@ class OutputView {
         }
     }
 
+    private fun printCoordinateY() {
+        println(('A' until 'A' + DEFAULT_SIZE).joinToString("  "))
+    }
+
     companion object {
         private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
         private const val REPEAT_COUNT = 2
@@ -72,9 +76,10 @@ class OutputView {
         private const val DOWN = "┴"
         private const val MIDDLE = "┼"
         private const val DASH = "─"
-
         private const val COORDINATE_X = "%2d "
-        private const val COORDINATE_Y = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
+        private const val BLANK = "   "
+        private const val MIN_BOUND = 0
+        private const val MAX_BOUND = DEFAULT_SIZE - 1
 
         private const val MESSAGE_WINNER = "%s !!"
     }
