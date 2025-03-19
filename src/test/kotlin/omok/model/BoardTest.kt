@@ -31,7 +31,7 @@ class BoardTest {
 
         val board = customBoard(stones)
 
-        assertThat(board.isOmok(Position(Row(4), Col(4)))).isTrue()
+        assertThat(board.isLastStoneOmok()).isTrue()
     }
 
     @Test
@@ -39,7 +39,9 @@ class BoardTest {
         val stones = List(5) { Stone(Position(Row(3), Col(it)), StoneState.WHITE) }
 
         val board = customBoard(stones)
-        assertThat(board.isOmok(Position(Row(3), Col(4)))).isTrue()
+        board.placeStone(Position(Row(7), Col(1)))
+        board.placeStone(Position(Row(3), Col(6)))
+        assertThat(board.isLastStoneOmok()).isTrue()
     }
 
     @Test
@@ -48,7 +50,7 @@ class BoardTest {
 
         val board = customBoard(stones)
 
-        assertThat(board.isOmok(Position(Row(3), Col(4)))).isTrue()
+        assertThat(board.isLastStoneOmok()).isTrue()
     }
 
     @Test
@@ -57,6 +59,6 @@ class BoardTest {
 
         val board = customBoard(stones)
 
-        assertThat(board.isOmok(Position(Row(3), Col(5)))).isTrue()
+        assertThat(board.isLastStoneOmok()).isTrue()
     }
 }
