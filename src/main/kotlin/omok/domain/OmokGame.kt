@@ -44,7 +44,7 @@ class OmokGame {
         state: StoneState,
         point: Point,
     ) {
-        if (grid.isViolation(getRule(state), point)) throw IllegalStateException("잘못된 위치입니다")
+        if (grid.isViolation(getRule(state), point)) throw IllegalStateException(ERROR_WRONG_POSITION)
     }
 
     private fun getRule(state: StoneState): OmokRule {
@@ -100,5 +100,7 @@ class OmokGame {
         private const val OMOK_STANDARD: Int = 5
         const val MIN_BOUND = 0
         const val MAX_BOUND = 14
+
+        private const val ERROR_WRONG_POSITION = "해당 위치에 놓을 수 없습니다"
     }
 }
