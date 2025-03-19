@@ -1,16 +1,26 @@
 package omok.model
 
 class Board private constructor(
-    private val stonesMap: Map<Position, StoneState> = emptyMap(),
-    private val lastStoneState: StoneState = StoneState.NONE,
+    val stonesMap: Map<Position, StoneState> = emptyMap(),
+    val lastStoneState: StoneState = StoneState.WHITE,
 ) {
-    fun placeStone(stone: Stone): Board {
+    private val nextStoneState: StoneState
+        get() {
+            return when (lastStoneState) {
+                StoneState.BLACK -> StoneState.WHITE
+                StoneState.WHITE -> StoneState.BLACK
+                else -> StoneState.BLACK
+            }
+        }
+
+    fun placeStone(position: Position): Board {
+        val stone = Stone(position, nextStoneState)
         require(!stonesMap.containsKey(stone.position)) { "해당하는 위치에 돌이 존재합니다" }
         require(stone.stoneState != lastStoneState) { "같은 색의 돌을 연속하여 착수할 수 없습니다" }
 
         val newBoard = stonesMap + (stone.position to stone.stoneState)
 
-        return Board(newBoard, stone.stoneState)
+        return Board(newBoard, nextStoneState)
     }
 
     private fun stonePlacedState(position: Position): StoneState = stonesMap[position] ?: StoneState.NONE
