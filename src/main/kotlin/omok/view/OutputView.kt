@@ -8,6 +8,10 @@ import omok.domain.board.Point
 import omok.domain.board.StoneStatus
 
 class OutputView {
+    fun printStartMessage() {
+        println(MESSAGE_START_GAME)
+    }
+
     fun printBoard(board: OmokBoard) {
         val matrix = board.toMatrix()
 
@@ -24,6 +28,7 @@ class OutputView {
             println()
         }
         printFormattedColumn()
+        println()
     }
 
     private fun printTopRow(
@@ -126,11 +131,13 @@ class OutputView {
         return when (this) {
             StoneStatus.BLACK -> '●'
             StoneStatus.WHITE -> '○'
-            StoneStatus.EMPTY -> null
+            StoneStatus.PROTECTED -> 'x'
+            else -> null
         }
     }
 
     companion object {
+        private const val MESSAGE_START_GAME = "오목 게임을 시작합니다."
         private const val VERTICAL_SEPARATOR = '-'
         private const val HORIZONTAL_SEPARATOR = '┼'
         private const val TOP_LEFT_CORNER = '┌'
