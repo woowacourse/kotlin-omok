@@ -11,6 +11,8 @@ class OmokBoard {
         }
     val board get() = _board.toList()
 
+    fun isNotFull() = _board.any { it.stoneStatus != StoneStatus.EMPTY }
+
     private fun isOccupied(point: Point): Boolean {
         return _board.first { it.x == point.x && it.y == point.y }.stoneStatus == StoneStatus.EMPTY
     }

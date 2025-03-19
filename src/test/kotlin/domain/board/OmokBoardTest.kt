@@ -64,8 +64,13 @@ class OmokBoardTest {
 
     @Test
     fun `보드가 가지고 있는 좌표들을 2차원 리스트의 형태로 반환할 수 있다`() {
-        omokBoard.addStone(Point(OmokColumn.A, OmokRow.ONE, StoneStatus.BLACK))
-        val formattedList = omokBoard.toList()
-        assertThat(formattedList[0][0]).isEqualTo(StoneStatus.BLACK)
+        omokBoard.addStone(Point(OmokColumn.A, OmokRow.EIGHT, StoneStatus.BLACK))
+        val formattedList = omokBoard.toMatrix()
+        assertThat(formattedList[7][0]).isEqualTo(StoneStatus.BLACK)
+    }
+
+    @Test
+    fun `보드가 비어 있지 않으면 거짓을 반환한다`() {
+        assertEquals(omokBoard.isNotFull(), false)
     }
 }
