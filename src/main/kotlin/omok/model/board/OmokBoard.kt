@@ -1,4 +1,6 @@
-package omok.model
+package omok.model.board
+
+import omok.model.stone.StoneState
 
 class OmokBoard {
     private val board = mutableMapOf<Position, StoneState>()
@@ -22,4 +24,8 @@ class OmokBoard {
     }
 
     fun boardState(position: Position): StoneState = board[position] ?: throw IllegalArgumentException("잘못된 좌표입니다.")
+
+    fun isOmok(position: Position): Boolean {
+        TODO("오목인지 아닌지 판단")
+    }
 }

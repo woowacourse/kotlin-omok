@@ -1,4 +1,6 @@
-package omok.model
+package omok.model.board
+
+import omok.model.stone.Stone
 
 class Stones(
     private val stones: List<Stone>,

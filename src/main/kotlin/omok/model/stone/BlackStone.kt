@@ -1,9 +1,11 @@
-package omok.model
+package omok.model.stone
 
-class WhiteStone(
+import omok.model.board.Position
+
+data class BlackStone(
     private val position: Position,
 ) : Stone {
-    private val color: StoneColor = StoneColor.WHITE
+    private val color: StoneColor = StoneColor.BLACK
 
     override fun position(): Position = position
 
