@@ -1,8 +1,13 @@
 class Rule {
-    fun isHorizontal(
+    fun isHorizontalWin(
         stone: Stone,
         stones: List<Stone>,
-    ): Boolean = (directedSearch(Direction.LEFT, stone, stones) + directedSearch(Direction.RIGHT, stone, stones)) - DUPLICATED_SELF >= 5
+    ): Boolean = directedSearch(Direction.LEFT, stone, stones) + directedSearch(Direction.RIGHT, stone, stones) - DUPLICATED_SELF >= 5
+
+    fun isVerticalWin(
+        stone: Stone,
+        stones: List<Stone>,
+    ): Boolean = directedSearch(Direction.UP, stone, stones) + directedSearch(Direction.DOWN, stone, stones) - DUPLICATED_SELF >= 5
 
     private fun directedSearch(
         direction: Direction,

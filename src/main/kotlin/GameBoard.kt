@@ -1,5 +1,4 @@
 class GameBoard {
-
     private val _stones = mutableListOf<Stone>()
     val stones get() = _stones.toList()
 
