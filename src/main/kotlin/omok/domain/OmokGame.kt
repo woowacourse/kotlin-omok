@@ -5,7 +5,6 @@ import omok.util.retryInput
 import rule.BlackRenjuRule
 import rule.OmokRule
 import rule.WhiteRenjuRule
-import rule.type.Violation
 import rule.wrapper.point.Point
 
 class OmokGame {
@@ -46,7 +45,7 @@ class OmokGame {
         state: StoneState,
         point: Point,
     ) {
-        if (isViolation(getRule(state), point)) throw IllegalStateException("잘못된 위치입니다")
+        if (grid.isViolation(getRule(state), point)) throw IllegalStateException("잘못된 위치입니다")
     }
 
     private fun getRule(state: StoneState): OmokRule {
@@ -59,16 +58,6 @@ class OmokGame {
 
     fun convertLetter(number: Int): String {
         return ('A' + number).toString()
-    }
-
-    fun isViolation(omokRule: OmokRule, startPoint: Point): Boolean {
-        val violation = omokRule.checkAnyFoulCondition(
-            grid.findStones(StoneState.BLACK),
-            grid.findStones(StoneState.WHITE),
-            startPoint
-        )
-
-        return violation != Violation.NONE
     }
 
     fun checkOmok(point: Point): Boolean {
