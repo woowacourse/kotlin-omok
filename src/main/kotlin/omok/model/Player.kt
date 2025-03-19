@@ -4,9 +4,8 @@ import rule.OmokRule
 import rule.type.Violation
 import rule.wrapper.point.Point
 
-abstract class Player(
-    val points: List<Point>,
-) {
+abstract class Player {
+    abstract val points: List<Point>
     abstract val rule: OmokRule
 
     fun isOccupied(

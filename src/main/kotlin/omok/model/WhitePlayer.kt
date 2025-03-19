@@ -5,16 +5,17 @@ import rule.WhiteRenjuRule
 import rule.type.Violation
 import rule.wrapper.point.Point
 
-class WhitePlayer(
-    points: List<Point> = emptyList(),
-) : Player(points) {
+class WhitePlayer : Player() {
+    override val points = mutableListOf<Point>()
+
     override val rule: OmokRule = WhiteRenjuRule()
 
     override fun place(
         newPoint: Point,
         otherPoints: List<Point>,
     ) {
-        TODO("Not yet implemented")
+        require(!isOccupied(newPoint, otherPoints)) { ERROR_MESSAGE_IS_ALREADY_OCCUPIED }
+        points += newPoint
     }
 
     override fun checkViolation(
@@ -22,5 +23,9 @@ class WhitePlayer(
         otherPoints: List<Point>,
     ): Violation {
         TODO("Not yet implemented")
+    }
+
+    companion object {
+        private const val ERROR_MESSAGE_IS_ALREADY_OCCUPIED = "이미 돌이 있는 자리입니다."
     }
 }
