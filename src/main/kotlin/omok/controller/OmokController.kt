@@ -1,5 +1,6 @@
 package omok.controller
 
+import omok.domain.Board
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -9,7 +10,12 @@ class OmokController(
 ) {
     fun run() {
         outputView.printStartOmok()
-        outputView.printFirstTurn()
-        val point = inputView.getPoint()
+
+        val omokBoard = Board()
+        omokBoard.playOmok(
+            onTurn = outputView::printTurn,
+            onPointInput = inputView::getPoint,
+            onBoardUpdated = outputView::printOmokBoard,
+        )
     }
 }

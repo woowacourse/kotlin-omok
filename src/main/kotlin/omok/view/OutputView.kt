@@ -9,8 +9,14 @@ class OutputView {
         println(DEFAULT_OMOK_BOARD)
     }
 
-    fun printFirstTurn() {
-        println(MESSAGE_TURN.format(StoneColor.BLACK.toKorean()))
+    fun printTurn(
+        color: StoneColor,
+        lastPoint: Point?,
+    ) {
+        print(MESSAGE_TURN.format(color.toKorean()))
+        if (lastPoint != null) {
+            println(MESSAGE_LAST_POINT.format(lastPoint.toText()))
+        }
     }
 
     fun printOmokBoard(
@@ -21,14 +27,6 @@ class OutputView {
         blackPoints.forEach { board.setCharAt(calculatePosition(it), BLACK_STONE) }
         whitePoints.forEach { board.setCharAt(calculatePosition(it), WHITE_STONE) }
         println(board)
-    }
-
-    fun printTurn(
-        color: StoneColor,
-        lastPoint: Point,
-    ) {
-        print(MESSAGE_TURN.format(color.toKorean()))
-        println(MESSAGE_LAST_POINT.format(lastPoint.toText()))
     }
 
     fun printWinner(color: StoneColor) {
