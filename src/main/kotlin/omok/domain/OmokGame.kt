@@ -12,29 +12,28 @@ class OmokGame {
 
     fun playGame(
         printBoardState: (List<MutableList<StoneState>>) -> Unit,
-        getPoint: (StoneState, String) -> Point,
+        getPoint: (StoneState, Point?) -> Point,
     ): OmokResult {
-        var latestPosition = ""
+        var latestPoint: Point? = null
         var nowTurn: StoneState = StoneState.BLACK
         while (true) {
-            val position = turn(nowTurn, latestPosition, printBoardState, getPoint)
-            if (checkOmok(position)) return OmokResult.returnWinner(nowTurn)
+            latestPoint = turn(nowTurn, latestPoint, printBoardState, getPoint)
+            if (checkOmok(latestPoint)) return OmokResult.returnWinner(nowTurn)
             if (grid.isFull()) break
             nowTurn = StoneState.changeTurn(nowTurn)
-            latestPosition = convertLetter(position.col) + (position.row + 1).toString()
         }
         return OmokResult.DRAW
     }
 
     private fun turn(
         state: StoneState,
-        latestPosition: String,
+        latestPoint: Point?,
         printBoardState: (List<MutableList<StoneState>>) -> Unit,
-        getPoint: (StoneState, String) -> Point,
+        getPoint: (StoneState, Point?) -> Point,
     ): Point {
         return retryInput {
             printBoardState(grid.board)
-            val point = getPoint(state, latestPosition).minus(1)
+            val point = getPoint(state, latestPoint).minus(1)
             validatePosition(state, point)
             grid.putStone(point, state)
             point
@@ -54,10 +53,6 @@ class OmokGame {
         } else {
             WhiteRenjuRule()
         }
-    }
-
-    fun convertLetter(number: Int): String {
-        return ('A' + number).toString()
     }
 
     fun checkOmok(point: Point): Boolean {

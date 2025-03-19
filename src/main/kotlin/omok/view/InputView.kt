@@ -6,14 +6,19 @@ import rule.wrapper.point.Point
 class InputView {
     fun getPoint(
         turn: StoneState,
-        latestPosition: String,
+        latestPoint: Point?,
     ): Point {
         print(MESSAGE_TURN.format(turn.getDisplayColor()))
-        if (latestPosition.isNotEmpty()) print(MESSAGE_LATEST_POSITION.format(latestPosition))
+        if (latestPoint != null) print(MESSAGE_LATEST_POSITION.format(convertToString(latestPoint)))
         print(MESSAGE_POSITION_GUIDE)
         val rawInput = readln().trim()
 
-        return validateInput(rawInput) ?: getPoint(turn, latestPosition)
+        return validateInput(rawInput) ?: getPoint(turn, latestPoint)
+    }
+
+    private fun convertToString(point: Point): String {
+        val letter = 'A' + point.col
+        return letter + (point.row + 1).toString()
     }
 
     private fun validateInput(rawInput: String): Point? {
