@@ -8,6 +8,10 @@ class GameBoard {
         return true
     }
 
+    fun lastStone(): Stone? {
+        return stones.lastOrNull()
+    }
+
     private fun isExistPosition(stone: Stone): Boolean {
         return stones.any { existedStone -> existedStone.isSamePosition(stone) }
     }
