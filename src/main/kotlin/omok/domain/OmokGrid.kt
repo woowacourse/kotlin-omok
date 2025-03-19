@@ -11,6 +11,10 @@ class OmokGrid {
         board[position.row][position.col] = state
     }
 
+    fun isFull(): Boolean {
+        return _board.all { row -> row.all { it != StoneState.BLANK } }
+    }
+
     companion object {
         const val DEFAULT_SIZE: Int = 15
         private const val ERROR_STONE_ALREADY_PUT = "이미 돌이 있습니다."

@@ -38,4 +38,10 @@ class OmokGridTest {
             omokGrid.putStone(Position(row, col), StoneState.BLACK)
         }
     }
+
+    @Test
+    fun `칸이 모두 채워지면 true를 반환한다`() {
+        val omokGrid = OmokGrid(List(15) { MutableList(15) { StoneState.WHITE } })
+        assertThat(omokGrid.isFull()).isTrue()
+    }
 }
