@@ -1,16 +1,7 @@
 package omok.domain
 
 class OmokGrid {
-    val board: List<MutableList<StoneState>>
-
-    init {
-        board =
-            List(DEFAULT_SIZE) { row ->
-                MutableList(DEFAULT_SIZE) { col ->
-                    StoneState.BLANK
-                }
-            }
-    }
+    val board: List<MutableList<StoneState>> = List(DEFAULT_SIZE) { MutableList(DEFAULT_SIZE) { StoneState.BLANK } }
 
     fun putStone(
         position: Position,
