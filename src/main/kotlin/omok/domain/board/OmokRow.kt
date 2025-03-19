@@ -18,11 +18,12 @@ enum class OmokRow(val value: Int) {
     THREE(3),
     TWO(2),
     ONE(1),
+    WALL(-1)
     ;
 
     companion object {
         fun find(value: Int): OmokRow =
             OmokRow.entries.find { it.value == value }
-                ?: throw IllegalStateException("올바르지 않은 좌표값 입니다")
+                ?:WALL
     }
 }

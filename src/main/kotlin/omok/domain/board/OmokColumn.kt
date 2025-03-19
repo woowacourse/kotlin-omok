@@ -18,11 +18,12 @@ enum class OmokColumn(val value: Int) {
     M(13),
     N(14),
     O(15),
+    WALL(-1)
     ;
 
     companion object {
         fun find(value: Int): OmokColumn =
             OmokColumn.entries.find { it.value == value }
-                ?: throw IllegalStateException("올바르지 않은 좌표값 입니다")
+                ?: WALL
     }
 }
