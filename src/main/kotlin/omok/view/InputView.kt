@@ -8,13 +8,8 @@ class InputView {
         turn: StoneState,
         latestPosition: String,
     ): Position {
-        val message = MESSAGE_TURN.format(turn.getDisplayColor())
-        if (latestPosition.isNotEmpty()) {
-            println(message + MESSAGE_LATEST_POSITION.format(latestPosition))
-        } else {
-            println(message)
-        }
-
+        print(MESSAGE_TURN.format(turn.getDisplayColor()))
+        if (latestPosition.isNotEmpty()) print(MESSAGE_LATEST_POSITION.format(latestPosition))
         print(MESSAGE_POSITION_GUIDE)
         val rawInput = readln().trim()
 
@@ -22,7 +17,7 @@ class InputView {
     }
 
     private fun validateInput(rawInput: String): Position? {
-        val match: MatchResult = Regex("^([A-O])([1-9]|1[0-5])$").matchEntire(rawInput) ?: return null
+        val match: MatchResult = REGEX_PATTERN.matchEntire(rawInput) ?: return null
         val (letter, number) = match.destructured
         return Position(number.toInt(), convertLetter(letter))
     }
@@ -42,6 +37,7 @@ class InputView {
     companion object {
         private const val MESSAGE_TURN: String = "%s의 차례입니다."
         private const val MESSAGE_LATEST_POSITION: String = "(마지막 돌의 위치: %s)"
-        private const val MESSAGE_POSITION_GUIDE: String = "위치를 입력하세요: "
+        private const val MESSAGE_POSITION_GUIDE: String = "\n위치를 입력하세요: "
+        private val REGEX_PATTERN = Regex("^([A-O])([1-9]|1[0-5])$")
     }
 }
