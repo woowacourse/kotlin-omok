@@ -53,4 +53,22 @@ class StateTest {
         val nextState = state.place(A5)
         assertThat(nextState).isInstanceOf(Finished::class.java)
     }
+
+    @Test
+    fun `마지막 돌의 위치를 구한다`() {
+        val blackStones = Stones(setOf(A1, A2), StoneColor.BLACK)
+        val whiteStones = Stones(setOf(A3, A4), StoneColor.WHITE)
+        val state = BlackTurn(blackStones, whiteStones)
+        val expected = A4
+        assertThat(state.lastStonePoint()).isEqualTo(expected)
+    }
+
+    @Test
+    fun `흑돌을 놓은 다음에는 백돌을 놓는다`() {
+        val blackStones = Stones(emptySet(), StoneColor.BLACK)
+        val whiteStones = Stones(emptySet(), StoneColor.WHITE)
+        val state = WhiteTurn(blackStones, whiteStones)
+        val expected = StoneColor.WHITE
+        assertThat(state.nextStoneColor()).isEqualTo(expected)
+    }
 }

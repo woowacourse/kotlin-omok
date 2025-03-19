@@ -1,6 +1,7 @@
 package omok.domain.state
 
 import omok.domain.Point
+import omok.domain.StoneColor
 import omok.domain.Stones
 
 class WhiteTurn(
@@ -14,4 +15,8 @@ class WhiteTurn(
         }
         return BlackTurn(blackStones, newStones)
     }
+
+    override fun lastStonePoint(): Point = blackStones.lastStonePoint()
+
+    override fun nextStoneColor(): StoneColor = StoneColor.WHITE
 }

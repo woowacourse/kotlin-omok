@@ -12,4 +12,8 @@ class Ready(
         val newStones = blackStones + point
         return WhiteTurn(newStones, whiteStones)
     }
+
+    override fun lastStonePoint(): Point? = null
+
+    override fun nextStoneColor(): StoneColor = StoneColor.BLACK
 }
