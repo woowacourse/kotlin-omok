@@ -37,14 +37,29 @@ class BoardTest {
     fun `대각선으로 완성된 오목을 확인할 수 있다`() {
         val board =
             Board().apply {
-                place(Intersection(Position.of(13, 5), IntersectionState.WHITE))
-                place(Intersection(Position.of(11, 7), IntersectionState.WHITE))
-                place(Intersection(Position.of(10, 8), IntersectionState.WHITE))
-                place(Intersection(Position.of(9, 9), IntersectionState.WHITE))
-                place(Intersection(Position.of(12, 6), IntersectionState.WHITE))
+                place(Intersection(Position.of(13, 5), IntersectionState.BLACK))
+                place(Intersection(Position.of(11, 7), IntersectionState.BLACK))
+                place(Intersection(Position.of(10, 8), IntersectionState.BLACK))
+                place(Intersection(Position.of(9, 9), IntersectionState.BLACK))
+                place(Intersection(Position.of(12, 6), IntersectionState.BLACK))
             }
-        val actual: BoardState = board.check(Intersection(Position.of(12, 6), IntersectionState.WHITE))
-        val expected: BoardState = BoardState.WHITE_OMOK
+        val actual: BoardState = board.check(Intersection(Position.of(12, 6), IntersectionState.BLACK))
+        val expected: BoardState = BoardState.BLACK_OMOK
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `오목이 완성되지 않았으면 진행 중인 상태이다`() {
+        val board =
+            Board().apply {
+                place(Intersection(Position.of(8, 8), IntersectionState.BLACK))
+                place(Intersection(Position.of(8, 9), IntersectionState.WHITE))
+                place(Intersection(Position.of(9, 8), IntersectionState.BLACK))
+                place(Intersection(Position.of(9, 9), IntersectionState.WHITE))
+            }
+        val actual: BoardState = board.check(Intersection(Position.of(9, 9), IntersectionState.WHITE))
+        val expected: BoardState = BoardState.PLAYING
 
         assertThat(actual).isEqualTo(expected)
     }
