@@ -11,7 +11,15 @@ class OmokBoard {
         }
     val board get() = _board.toList()
 
+    private var latestStone: Point = Point(OmokColumn.WALL, OmokRow.WALL, StoneStatus.EMPTY)
+
     fun isNotFull() = _board.any { it.stoneStatus != StoneStatus.EMPTY }
+
+    fun getLatestStone(): String {
+        val dx = OmokColumn.find(latestStone.x.value).name
+        val dy = latestStone.y.value
+        return dx + dy
+    }
 
     private fun isOccupied(point: Point): Boolean {
         return _board.first { it.x == point.x && it.y == point.y }.stoneStatus == StoneStatus.EMPTY
