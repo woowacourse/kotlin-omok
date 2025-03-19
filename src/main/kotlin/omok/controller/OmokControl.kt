@@ -25,7 +25,12 @@ class OmokControl(
         val parsedPosition: Position? = parseUserInput(input)
 
         val newBoard = board.placeStone(parsedPosition!!)
-        turn(newBoard)
+        if (newBoard.isLastStoneOmok()) {
+            outputView.printBoard(newBoard.stonesMap)
+            outputView.printOmok(newBoard.lastStone)
+        } else {
+            turn(newBoard)
+        }
     }
 
     private fun parseUserInput(input: String): Position? {
