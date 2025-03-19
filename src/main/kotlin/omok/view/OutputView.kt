@@ -64,7 +64,7 @@ class OutputView {
         println()
         println(
             when (placeResult) {
-                PlaceResult.Failure.AlreadyExist -> ALREADY_EXIST_MESSAGE
+                PlaceResult.Failure.AlreadyExistStone -> ALREADY_EXIST_MESSAGE
                 PlaceResult.Failure.InvalidPosition -> INVALID_POSITION_MESSAGE
                 PlaceResult.Failure.DoubleThreeViolation -> FORBIDDEN_DOUBLE_THREE
                 PlaceResult.Failure.DoubleFourViolation -> FORBIDDEN_DOUBLE_FOUR

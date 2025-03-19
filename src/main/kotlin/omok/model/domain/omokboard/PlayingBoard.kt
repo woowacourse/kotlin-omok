@@ -1,7 +1,7 @@
 package omok.model.domain.omokboard
 
 import omok.model.domain.player.PlayerStone
-import omok.model.domain.rule.AlreadyExistRule
+import omok.model.domain.rule.AlreadyExistStoneRule
 import omok.model.domain.rule.DrawRule
 import omok.model.domain.rule.ExternalRule
 import omok.model.domain.rule.InvalidPositionRule
@@ -16,7 +16,7 @@ class PlayingBoard(
     private val rules: List<OmokRule> =
         listOf(
             InvalidPositionRule(),
-            AlreadyExistRule(),
+            AlreadyExistStoneRule(),
             ExternalRule(BlackRenjuRule(board.width, board.height)),
             DrawRule(),
             WinningRule(),

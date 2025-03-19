@@ -14,7 +14,7 @@ sealed class PlaceResult {
     }
 
     sealed class Failure : PlaceResult() {
-        data object AlreadyExist : Failure()
+        data object AlreadyExistStone : Failure()
 
         data object InvalidPosition : Failure()
 

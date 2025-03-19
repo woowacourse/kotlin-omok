@@ -4,7 +4,7 @@ import omok.model.domain.omokboard.OmokBoard
 import omok.model.domain.omokboard.PointState
 import omok.model.domain.player.PlayerStone
 
-class AlreadyExistRule : OmokRule {
+class AlreadyExistStoneRule : OmokRule {
     override fun canPlace(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
@@ -12,6 +12,6 @@ class AlreadyExistRule : OmokRule {
         if (omokBoard.find(playerStone.position)?.state == PointState.EMPTY) {
             PlaceResult.Success.Progress(playerStone)
         } else {
-            PlaceResult.Failure.AlreadyExist
+            PlaceResult.Failure.AlreadyExistStone
         }
 }
