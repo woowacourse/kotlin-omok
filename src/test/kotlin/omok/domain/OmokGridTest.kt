@@ -45,4 +45,18 @@ class OmokGridTest {
         val omokGrid = OmokGrid(List(15) { MutableList(15) { StoneState.WHITE } })
         assertThat(omokGrid.isFull()).isTrue()
     }
+
+    @Test
+    fun `해당 색깔의 돌 위치 리스트를 반환한다`() {
+        val omokGrid = OmokGrid()
+        omokGrid.putStone(Point(1, 1), StoneState.BLACK)
+        omokGrid.putStone(Point(2, 2), StoneState.BLACK)
+        omokGrid.putStone(Point(3, 3), StoneState.BLACK)
+        omokGrid.putStone(Point(4, 4), StoneState.BLACK)
+
+        val actual = omokGrid.findStones(StoneState.BLACK)
+        val expected = listOf(Point(1, 1), Point(2, 2), Point(3, 3), Point(4, 4))
+
+        assertThat(actual).isEqualTo(expected)
+    }
 }

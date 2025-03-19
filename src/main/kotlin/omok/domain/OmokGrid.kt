@@ -19,6 +19,14 @@ class OmokGrid(board: List<MutableList<StoneState>> = List(DEFAULT_SIZE) { Mutab
         return _board.all { row -> row.all { it != StoneState.BLANK } }
     }
 
+    fun findStones(state: StoneState): List<Point> {
+        return _board.flatMapIndexed { rowIndex, stateList ->
+            stateList.withIndex()
+                .filter { it.value == state }
+                .map { Point(rowIndex, it.index) }
+        }
+    }
+
     companion object {
         const val DEFAULT_SIZE: Int = 15
         private const val ERROR_STONE_ALREADY_PUT = "이미 돌이 있습니다."
