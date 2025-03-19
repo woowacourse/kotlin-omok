@@ -6,8 +6,12 @@ import omok.domain.state.State
 
 class Board(
     state: State = Ready(),
-    private val size: Int = DEFAULT_BOARD_SIZE,
+    val size: Int = DEFAULT_BOARD_SIZE,
 ) {
+    init {
+        require(size >= MINIMUM_BOARD_SIZE) { ERROR_INVALID_BOARD_SIZE }
+    }
+
     var state = state
         private set
 
@@ -28,6 +32,8 @@ class Board(
     }
 
     companion object {
-        private const val DEFAULT_BOARD_SIZE = 15
+        const val DEFAULT_BOARD_SIZE = 15
+        private const val MINIMUM_BOARD_SIZE = 5
+        private const val ERROR_INVALID_BOARD_SIZE = "[ERROR] 오목판의 사이즈는 최소 5x5이어야 합니다."
     }
 }

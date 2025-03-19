@@ -8,7 +8,10 @@ class Ready(
     override val blackStones: Stones = Stones(color = StoneColor.BLACK),
     override val whiteStones: Stones = Stones(color = StoneColor.WHITE),
 ) : State {
-    override fun place(point: Point): WhiteTurn {
+    override fun place(
+        point: Point,
+        boardSize: Int,
+    ): WhiteTurn {
         val newStones = blackStones + point
         return WhiteTurn(newStones, whiteStones)
     }

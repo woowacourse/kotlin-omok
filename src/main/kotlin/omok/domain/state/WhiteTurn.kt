@@ -15,11 +15,11 @@ class WhiteTurn(
         require(!(blackStones.contains(point) || whiteStones.contains(point))) { ERROR_INVALID_POINT }
 
         val newStones = whiteStones + point
-        if (blackStones.points.size + newStones.points.size >= boardSize * boardSize) {
-            return Draw(blackStones, newStones)
-        }
         if (newStones.isOmok()) {
             return WhiteWin(blackStones, newStones)
+        }
+        if (blackStones.points.size + newStones.points.size >= boardSize * boardSize) {
+            return Draw(blackStones, newStones)
         }
         return BlackTurn(blackStones, newStones)
     }

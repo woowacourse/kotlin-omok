@@ -4,14 +4,22 @@ data class Point(
     val x: Int,
     val y: Int,
 ) {
-    init {
-        require(x in MIN_POSITION..MAX_POSITION) { ERROR_INVALID_POSITION }
-        require(y in MIN_POSITION..MAX_POSITION) { ERROR_INVALID_POSITION }
-    }
-
     companion object {
         private const val MIN_POSITION = 0
-        private const val MAX_POSITION = 14
-        private const val ERROR_INVALID_POSITION = "[ERROR] 바둑판의 크기는 15x15입니다."
+        private const val ERROR_INVALID_POSITION = "[ERROR] 바둑판의 크기는 %dx%d입니다."
+
+        fun create(
+            x: Int,
+            y: Int,
+            boardSize: Int,
+        ): Point {
+            require(x in MIN_POSITION..<boardSize) {
+                ERROR_INVALID_POSITION.format(boardSize, boardSize)
+            }
+            require(y in MIN_POSITION..<boardSize) {
+                ERROR_INVALID_POSITION.format(boardSize, boardSize)
+            }
+            return Point(x, y)
+        }
     }
 }

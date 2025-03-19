@@ -4,9 +4,9 @@ import omok.domain.Point
 import omok.domain.StoneColor
 
 class OutputView {
-    fun printStartOmok() {
+    fun printStartOmok(boardSize: Int) {
         println(MESSAGE_START_OMOK)
-        println(DEFAULT_OMOK_BOARD)
+        println(createOmokBoard(boardSize))
     }
 
     fun printTurn(
@@ -22,10 +22,11 @@ class OutputView {
     fun printOmokBoard(
         blackPoints: Set<Point>,
         whitePoints: Set<Point>,
+        boardSize: Int,
     ) {
-        val board = StringBuilder(DEFAULT_OMOK_BOARD)
-        blackPoints.forEach { board.setCharAt(calculatePosition(it), BLACK_STONE) }
-        whitePoints.forEach { board.setCharAt(calculatePosition(it), WHITE_STONE) }
+        val board = StringBuilder(createOmokBoard(boardSize))
+        blackPoints.forEach { board.setCharAt(calculatePosition(it, boardSize), BLACK_STONE) }
+        whitePoints.forEach { board.setCharAt(calculatePosition(it, boardSize), WHITE_STONE) }
         println(board)
     }
 
@@ -37,7 +38,35 @@ class OutputView {
         }
     }
 
-    private fun calculatePosition(point: Point): Int = (point.x + 1) * 3 + 47 * (14 - point.y)
+    private fun calculatePosition(
+        point: Point,
+        boardSize: Int,
+    ): Int = (point.x + 1) * 3 + ((boardSize * 3 + 2) * (boardSize - 1 - point.y))
+
+    private fun createOmokBoard(boardSize: Int): String {
+        buildString {
+            append(String.format("%2d", boardSize))
+            append(" ┌")
+            append("──┬".repeat(boardSize - 2)).append("──┐\n")
+
+            for (y in boardSize - 2 downTo 1) {
+                append(String.format("%2d", y + 1))
+                append(" ├")
+                append("──┼".repeat(boardSize - 2)).append("──┤\n")
+            }
+
+            append(" 1")
+            append(" └")
+            append("──┴".repeat(boardSize - 2)).append("──┘\n")
+
+            append("   ")
+            for (c in 0..<boardSize - 1) {
+                append(('A' + c)).append("  ")
+            }
+            append('A' + boardSize - 1)
+            return toString()
+        }
+    }
 
     companion object {
         private const val MESSAGE_START_OMOK = "오목 게임을 시작합니다."
@@ -48,25 +77,6 @@ class OutputView {
 
         private const val BLACK_STONE = '●'
         private const val WHITE_STONE = '○'
-        private val DEFAULT_OMOK_BOARD =
-            """
-            15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
-            14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-            10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-             9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-             8 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-             7 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-             6 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-             5 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-             4 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-             3 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-             2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-             1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
-               A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-            """.trimIndent()
 
         private fun StoneColor.toKorean(): String =
             when (this) {

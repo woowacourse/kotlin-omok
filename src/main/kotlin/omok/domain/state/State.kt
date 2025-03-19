@@ -1,5 +1,6 @@
 package omok.domain.state
 
+import omok.domain.Board
 import omok.domain.Point
 import omok.domain.StoneColor
 import omok.domain.Stones
@@ -10,7 +11,7 @@ interface State {
 
     fun place(
         point: Point,
-        boardSize: Int,
+        boardSize: Int = Board.DEFAULT_BOARD_SIZE,
     ): State
 
     fun lastStonePoint(): Point?

@@ -10,22 +10,25 @@ class OmokController(
     private val outputView: OutputView,
 ) {
     fun run() {
-        outputView.printStartOmok()
         val omokBoard = Board()
-        playOmok(omokBoard)
+        outputView.printStartOmok(omokBoard.size)
+        playOmok(omokBoard, omokBoard.size)
         displayWinner(omokBoard)
     }
 
-    private fun playOmok(board: Board) {
+    private fun playOmok(
+        board: Board,
+        boardSize: Int,
+    ) {
         runCatching {
             board.playOmok(
                 onTurn = outputView::printTurn,
-                onPointInput = inputView::getPoint,
-                onBoardUpdated = outputView::printOmokBoard,
+                onPointInput = { inputView.getPoint(boardSize) },
+                onBoardUpdated = { black, white -> outputView.printOmokBoard(black, white, boardSize) },
             )
         }.getOrElse {
             println(it.message)
-            playOmok(board)
+            playOmok(board, boardSize)
         }
     }
 

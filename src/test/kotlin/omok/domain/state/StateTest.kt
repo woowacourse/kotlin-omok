@@ -8,6 +8,8 @@ import omok.fixture.A2
 import omok.fixture.A3
 import omok.fixture.A4
 import omok.fixture.A5
+import omok.fixture.B1
+import omok.fixture.B2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -70,5 +72,23 @@ class StateTest {
         val state = WhiteTurn(blackStones, whiteStones)
         val expected = StoneColor.WHITE
         assertThat(state.nextStoneColor()).isEqualTo(expected)
+    }
+
+    @Test
+    fun `더 이상 돌을 놓을 수 없고 승자가 없으면 무승부이다`() {
+        val blackStones = Stones(setOf(A1, A2), StoneColor.BLACK)
+        val whiteStones = Stones(setOf(B1), StoneColor.WHITE)
+        val state = WhiteTurn(blackStones, whiteStones)
+        val nextState = state.place(B2, 2)
+        assertThat(nextState).isInstanceOf(Draw::class.java)
+    }
+
+    @Test
+    fun `흑돌을 놓았을 때 오목이 되면 흑이 승리한다`() {
+        val blackStones = Stones(setOf(A1, A2, A3, A4), StoneColor.BLACK)
+        val whiteStones = Stones(setOf(B1), StoneColor.WHITE)
+        val state = BlackTurn(blackStones, whiteStones)
+        val nextState = state.place(A5)
+        assertThat(nextState).isInstanceOf(BlackWin::class.java)
     }
 }

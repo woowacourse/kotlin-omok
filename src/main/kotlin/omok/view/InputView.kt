@@ -3,15 +3,15 @@ package omok.view
 import omok.domain.Point
 
 class InputView {
-    fun getPoint(): Point =
+    fun getPoint(boardSize: Int): Point =
         runCatching {
             print(MESSAGE_INPUT_POINT)
             val input = readln().trim()
             validateInput(input)
-            parseInput(input)
+            parseInput(input, boardSize)
         }.getOrElse {
             println(it.message)
-            getPoint()
+            getPoint(boardSize)
         }
 
     private fun validateInput(input: String) {
@@ -20,10 +20,13 @@ class InputView {
         require(input.substring(1).toIntOrNull() != null) { ERROR_INVALID_INPUT }
     }
 
-    private fun parseInput(input: String): Point {
+    private fun parseInput(
+        input: String,
+        boardSize: Int,
+    ): Point {
         val x = input[0] - FIRST_X
         val y = input.substring(1).toInt() - FIRST_Y
-        return Point(x, y)
+        return Point.create(x, y, boardSize)
     }
 
     companion object {

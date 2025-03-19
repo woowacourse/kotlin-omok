@@ -8,6 +8,8 @@ val A3 = Point(0, 2)
 val A4 = Point(0, 3)
 val A5 = Point(0, 4)
 
+val B2 = Point(1, 1)
+
 val B1 = Point(1, 0)
 val C1 = Point(2, 0)
 val D1 = Point(3, 0)
