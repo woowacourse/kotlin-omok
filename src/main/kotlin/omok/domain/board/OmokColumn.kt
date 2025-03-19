@@ -1,5 +1,7 @@
 package omok.domain.board
 
+import omok.domain.board.OmokRow.WALL
+
 enum class OmokColumn(val value: Int) {
     A(1),
     B(2),
@@ -20,6 +22,8 @@ enum class OmokColumn(val value: Int) {
     ;
 
     companion object {
+        fun entriesWithoutWall(): List<OmokColumn> = OmokColumn.entries.filter { it != WALL }.toList()
+
         fun find(value: Int): OmokColumn =
             OmokColumn.entries.find { it.value == value }
                 ?: WALL

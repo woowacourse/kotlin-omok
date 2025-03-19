@@ -39,7 +39,28 @@ class OmokBoard {
         return getPointAt(OmokRow.find(newY), OmokColumn.find(newX))
     }
 
+    fun toList(): List<List<StoneStatus>> {
+        val temp =
+            MutableList(OmokRow.entriesWithoutWall().size) {
+                MutableList(OmokColumn.entriesWithoutWall().size) {
+                    StoneStatus.EMPTY
+                }
+            }
+
+        for (status in _board) {
+            temp[status.y.value - 1][status.x.value - 1] = status.stoneStatus
+        }
+
+        return temp.toList()
+    }
+
     companion object {
+        fun entries() = OmokRow.entries.filter { it.value != -1 }
+
         const val ERROR_OCCUPIED_POSITION = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요."
     }
+}
+
+fun main() {
+    OmokBoard()
 }

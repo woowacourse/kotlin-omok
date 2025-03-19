@@ -19,7 +19,13 @@ enum class OmokRow(val value: Int) {
     WALL(-1),
     ;
 
+    override fun toString(): String {
+        return if (value < 10) " ${this.value}" else "${this.value}"
+    }
+
     companion object {
+        fun entriesWithoutWall(): List<OmokRow> = OmokRow.entries.filter { it != WALL }.toList()
+
         fun find(value: Int): OmokRow =
             OmokRow.entries.find { it.value == value }
                 ?: WALL

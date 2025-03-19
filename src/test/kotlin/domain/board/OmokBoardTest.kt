@@ -61,4 +61,11 @@ class OmokBoardTest {
         val nextPoint = omokBoard.goto(currentPoint, Direction.TOP_LEFT)
         assertThat(nextPoint).isEqualTo(omokBoard.getPointAt(OmokRow.ELEVEN, OmokColumn.G))
     }
+
+    @Test
+    fun `보드가 가지고 있는 좌표들을 2차원 리스트의 형태로 반환할 수 있다`() {
+        omokBoard.addStone(Point(OmokColumn.A, OmokRow.ONE, StoneStatus.BLACK))
+        val formattedList = omokBoard.toList()
+        assertThat(formattedList[0][0]).isEqualTo(StoneStatus.BLACK)
+    }
 }
