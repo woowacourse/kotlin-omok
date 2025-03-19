@@ -1,0 +1,46 @@
+package omok.domain
+
+import omok.beforeDoubleFour
+import omok.beforeDoubleThree
+import omok.beforeOverLine
+import omok.toViolation
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+
+class PlayerTest {
+    @Test
+    fun `삼삼일 때 렌주룰을 위반한다`() {
+        val blackPlayer = BlackPlayer()
+        val beforeDoubleThree = beforeDoubleThree()
+
+        beforeDoubleThree.forEach { blackPlayer.addStone(it) }
+
+        val actual = blackPlayer.isViolation(WhitePlayer().stones, toViolation())
+
+        assertThat(actual).isTrue()
+    }
+
+    @Test
+    fun `사사일 때 렌주룰을 위반한다`() {
+        val blackPlayer = BlackPlayer()
+        val beforeDoubleFour = beforeDoubleFour()
+
+        beforeDoubleFour.forEach { blackPlayer.addStone(it) }
+
+        val actual = blackPlayer.isViolation(WhitePlayer().stones, toViolation())
+
+        assertThat(actual).isTrue()
+    }
+
+    @Test
+    fun `장목일 때 렌주룰을 위반한다`() {
+        val blackPlayer = BlackPlayer()
+        val beforeOverLine = beforeOverLine()
+
+        beforeOverLine.forEach { blackPlayer.addStone(it) }
+
+        val actual = blackPlayer.isViolation(WhitePlayer().stones, toViolation())
+
+        assertThat(actual).isTrue()
+    }
+}
