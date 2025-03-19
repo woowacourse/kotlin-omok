@@ -8,10 +8,16 @@ class WhiteTurn(
     override val blackStones: Stones,
     override val whiteStones: Stones,
 ) : State {
-    override fun place(point: Point): State {
+    override fun place(
+        point: Point,
+        boardSize: Int,
+    ): State {
         require(!(blackStones.contains(point) || whiteStones.contains(point))) { ERROR_INVALID_POINT }
 
         val newStones = whiteStones + point
+        if (blackStones.points.size + newStones.points.size >= boardSize * boardSize) {
+            return Draw(blackStones, newStones)
+        }
         if (newStones.isOmok()) {
             return WhiteWin(blackStones, newStones)
         }

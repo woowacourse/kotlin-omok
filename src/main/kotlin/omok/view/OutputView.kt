@@ -29,8 +29,12 @@ class OutputView {
         println(board)
     }
 
-    fun printWinner(color: StoneColor) {
-        println(MESSAGE_WINNER.format(color.toKorean()))
+    fun printWinner(color: StoneColor?) {
+        if (color != null) {
+            println(MESSAGE_WINNER.format(color.toKorean()))
+        } else {
+            println(MESSAGE_DRAW)
+        }
     }
 
     private fun calculatePosition(point: Point): Int = (point.x + 1) * 3 + 47 * (14 - point.y)
@@ -40,6 +44,7 @@ class OutputView {
         private const val MESSAGE_TURN = "\n%s의 차례입니다."
         private const val MESSAGE_LAST_POINT = " (마지막 돌의 위치: %s)"
         private const val MESSAGE_WINNER = "%s이 승리했습니다."
+        private const val MESSAGE_DRAW = "더 이상 돌을 놓을 곳이 없습니다. 게임을 종료합니다."
 
         private const val BLACK_STONE = '●'
         private const val WHITE_STONE = '○'

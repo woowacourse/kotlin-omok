@@ -6,6 +6,7 @@ import omok.domain.state.State
 
 class Board(
     state: State = Ready(),
+    private val size: Int = DEFAULT_BOARD_SIZE,
 ) {
     var state = state
         private set
@@ -23,6 +24,10 @@ class Board(
     }
 
     private fun place(point: Point) {
-        state = state.place(point)
+        state = state.place(point, size)
+    }
+
+    companion object {
+        private const val DEFAULT_BOARD_SIZE = 15
     }
 }

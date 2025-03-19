@@ -8,7 +8,10 @@ interface State {
     val whiteStones: Stones
     val blackStones: Stones
 
-    fun place(point: Point): State
+    fun place(
+        point: Point,
+        boardSize: Int,
+    ): State
 
     fun lastStonePoint(): Point?
 

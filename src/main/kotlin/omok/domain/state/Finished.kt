@@ -8,9 +8,12 @@ abstract class Finished(
     override val blackStones: Stones,
     override val whiteStones: Stones,
 ) : State {
-    abstract val winnerColor: StoneColor
+    abstract val winnerColor: StoneColor?
 
-    override fun place(point: Point): State = throw IllegalStateException()
+    override fun place(
+        point: Point,
+        boardSize: Int,
+    ): State = throw IllegalStateException()
 
     override fun lastStonePoint(): Point = throw IllegalStateException()
 
