@@ -12,7 +12,7 @@ class InputView {
 
     fun readTurn(intersection: Intersection): Position {
         val lastStone: IntersectionState = intersection.state
-        println(
+        print(
             MESSAGE_TURN_INDICATOR.format(
                 when (lastStone) {
                     IntersectionState.WHITE -> "흑"
@@ -27,10 +27,9 @@ class InputView {
 
     private fun readPosition(): Position {
         return runCatching {
-            println(MESSAGE_ENTER_POSITION)
+            print(MESSAGE_ENTER_POSITION)
             val input: String = readln()
-            println()
-            val column: Int = input[0].code - 64
+            val column: Int = input[0].integerRepresentation()
             val row: Int = input.substring(1).toInt()
             Position.of(row, column)
         }.getOrElse {
@@ -39,7 +38,7 @@ class InputView {
     }
 
     private fun Char.integerRepresentation(): Int {
-        return this.code - 64
+        return this.uppercase()[0].code - 64
     }
 
     private fun Position.stringRepresentation(): String {
@@ -47,7 +46,7 @@ class InputView {
     }
 
     companion object {
-        const val MESSAGE_TURN_INDICATOR = "%s의 차례입니다."
+        const val MESSAGE_TURN_INDICATOR = "%s의 차례입니다. "
         const val MESSAGE_INITIAL_TURN_INDICATOR = "흑의 차례입니다."
         const val MESSAGE_LAST_STONE_POSITION = "(마지막 돌의 위치: %s)"
         const val MESSAGE_ENTER_POSITION = "위치를 입력하세요: "
