@@ -2,7 +2,6 @@ package omok.controller
 
 import omok.domain.OmokGame
 import omok.domain.OmokResult
-import omok.util.retryInput
 import omok.view.InputView
 import omok.view.OutputView
 import rule.wrapper.point.Point
@@ -13,43 +12,17 @@ class OmokController(
 ) {
     fun play() {
         val omokGame = initGame()
-        val result = playGame(omokGame)
+        val result =
+            omokGame.playGame(
+                printBoardState = { outputView.printBoardState(it) },
+                getPoint = { state, latestPosition -> inputView.getPoint(state, latestPosition) },
+            )
         printWinner(result, omokGame)
     }
 
     private fun initGame(): OmokGame {
         outputView.printStartMessage()
         return OmokGame()
-    }
-
-    private fun playGame(omokGame: OmokGame): OmokResult {
-        var latestPosition = ""
-        var nowTurn: StoneState = StoneState.BLACK
-        while (true) {
-            val position = turn(nowTurn, omokGame, latestPosition)
-            if (omokGame.checkOmok(position)) return OmokResult.returnWinner(nowTurn)
-            if (omokGame.grid.isFull()) break
-            nowTurn = StoneState.changeTurn(nowTurn)
-            latestPosition = convertLetter(position.col) + (position.row + 1).toString()
-        }
-        return OmokResult.DRAW
-    }
-
-    private fun turn(
-        state: StoneState,
-        omokGame: OmokGame,
-        latestPosition: String,
-    ): Point {
-        return retryInput {
-            outputView.printBoardState(omokGame.grid.board)
-            val point = inputView.getPoint(state, latestPosition).minus(1)
-            omokGame.grid.putStone(point, state)
-            point
-        }
-    }
-
-    private fun convertLetter(number: Int): String {
-        return ('A' + number).toString()
     }
 
     private fun printWinner(

@@ -1,11 +1,65 @@
 package omok.domain
 
+import omok.controller.minus
+import omok.util.retryInput
+import rule.BlackRenjuRule
 import rule.OmokRule
+import rule.WhiteRenjuRule
 import rule.type.Violation
 import rule.wrapper.point.Point
 
 class OmokGame {
     val grid: OmokGrid = OmokGrid()
+
+    fun playGame(
+        printBoardState: (List<MutableList<StoneState>>) -> Unit,
+        getPoint: (StoneState, String) -> Point,
+    ): OmokResult {
+        var latestPosition = ""
+        var nowTurn: StoneState = StoneState.BLACK
+        while (true) {
+            val position = turn(nowTurn, latestPosition, printBoardState, getPoint)
+            if (checkOmok(position)) return OmokResult.returnWinner(nowTurn)
+            if (grid.isFull()) break
+            nowTurn = StoneState.changeTurn(nowTurn)
+            latestPosition = convertLetter(position.col) + (position.row + 1).toString()
+        }
+        return OmokResult.DRAW
+    }
+
+    private fun turn(
+        state: StoneState,
+        latestPosition: String,
+        printBoardState: (List<MutableList<StoneState>>) -> Unit,
+        getPoint: (StoneState, String) -> Point,
+    ): Point {
+        return retryInput {
+            printBoardState(grid.board)
+            val point = getPoint(state, latestPosition).minus(1)
+            validatePosition(state, point)
+            grid.putStone(point, state)
+            point
+        }
+    }
+
+    private fun validatePosition(
+        state: StoneState,
+        point: Point,
+    ) {
+        if (isViolation(getRule(state), point)) throw IllegalStateException("잘못된 위치입니다")
+    }
+
+    private fun getRule(state: StoneState): OmokRule {
+        return if (state == StoneState.BLACK) {
+            BlackRenjuRule()
+        } else {
+            WhiteRenjuRule()
+        }
+    }
+
+    fun convertLetter(number: Int): String {
+        return ('A' + number).toString()
+    }
 
     fun isViolation(omokRule: OmokRule, startPoint: Point): Boolean {
         val violation = omokRule.checkAnyFoulCondition(
