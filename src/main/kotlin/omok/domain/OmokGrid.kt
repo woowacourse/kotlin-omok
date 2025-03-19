@@ -1,14 +1,16 @@
 package omok.domain
 
-class OmokGrid {
-    val board: List<MutableList<StoneState>> = List(DEFAULT_SIZE) { MutableList(DEFAULT_SIZE) { StoneState.BLANK } }
+class OmokGrid(board: List<MutableList<StoneState>> = List(DEFAULT_SIZE) { MutableList(DEFAULT_SIZE) { StoneState.BLANK } }) {
+    private val _board: List<MutableList<StoneState>> = board.deepCopy()
+    val board: List<MutableList<StoneState>>
+        get() = _board.deepCopy()
 
     fun putStone(
         position: Position,
         state: StoneState,
     ) {
-        if (board[position.row][position.col] != StoneState.BLANK) throw IllegalStateException(ERROR_STONE_ALREADY_PUT)
-        board[position.row][position.col] = state
+        if (_board[position.row][position.col] != StoneState.BLANK) throw IllegalStateException(ERROR_STONE_ALREADY_PUT)
+        _board[position.row][position.col] = state
     }
 
     fun isFull(): Boolean {
@@ -20,3 +22,5 @@ class OmokGrid {
         private const val ERROR_STONE_ALREADY_PUT = "이미 돌이 있습니다."
     }
 }
+
+fun List<MutableList<StoneState>>.deepCopy(): List<MutableList<StoneState>> = map { it.toMutableList() }.toList()
