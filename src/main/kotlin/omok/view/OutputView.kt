@@ -8,13 +8,26 @@ import omok.model.StoneState
 
 class OutputView {
     fun printNextTurn(board: Board) {
-        val stoneColor =
-            when (board.lastStoneState) {
-                StoneState.BLACK -> "백"
-                StoneState.WHITE -> "흑"
-                else -> ""
-            }
-        println("${stoneColor}의 차례 입니다.")
+        board.lastStone?.let {
+            val lastStoneCoordinateText = stoneCoordinateText(board.lastStone.position)
+            println("${stoneStateText(board.nextStoneState)}의 차례 입니다. (마지막 돌의 위치: $lastStoneCoordinateText)")
+        } ?: run {
+            println("${stoneStateText(board.nextStoneState)}의 차례 입니다")
+        }
+    }
+
+    fun stoneStateText(stoneState: StoneState): String =
+        when (stoneState) {
+            StoneState.BLACK -> "흑"
+            StoneState.WHITE -> "백"
+            StoneState.NONE -> ""
+        }
+
+    fun stoneCoordinateText(position: Position): String {
+        val lastCol = ('A'..'O').toList()[position.col.value].toString()
+        val lastRow = (position.row.value + 1).toString()
+
+        return lastCol + lastRow
     }
 
     private fun pointByRowIndex(index: Int): List<String> =
