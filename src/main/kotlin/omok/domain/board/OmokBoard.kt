@@ -4,8 +4,8 @@ import omok.domain.rule.Direction
 
 class OmokBoard {
     private var _board: List<Point> =
-        OmokRow.entries.flatMap { row ->
-            OmokColumn.entries.map { column ->
+        OmokRow.entriesWithoutWall().flatMap { row ->
+            OmokColumn.entriesWithoutWall().map { column ->
                 Point(column, row, StoneStatus.EMPTY)
             }
         }
@@ -30,6 +30,7 @@ class OmokBoard {
         val position = _board.indexOf(Point(point.x, point.y, StoneStatus.EMPTY))
         val newList = _board.toMutableList()
         newList[position] = point
+        latestStone = point
         _board = newList
     }
 
@@ -37,7 +38,7 @@ class OmokBoard {
         row: OmokRow,
         column: OmokColumn,
     ): Point {
-        return _board.find { it.x == column && it.y == row } ?: throw IllegalStateException()
+        return _board.find { it.x == column && it.y == row } ?: Point(OmokColumn.WALL, OmokRow.WALL, StoneStatus.EMPTY)
     }
 
     fun goto(
@@ -49,7 +50,7 @@ class OmokBoard {
         return getPointAt(OmokRow.find(newY), OmokColumn.find(newX))
     }
 
-    fun toList(): List<List<StoneStatus>> {
+    fun toMatrix(): List<List<StoneStatus>> {
         val temp =
             MutableList(OmokRow.entriesWithoutWall().size) {
                 MutableList(OmokColumn.entriesWithoutWall().size) {
@@ -65,9 +66,7 @@ class OmokBoard {
     }
 
     companion object {
-        fun entries() = OmokRow.entries.filter { it.value != -1 }
-
-        const val ERROR_OCCUPIED_POSITION = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요."
+        private const val ERROR_OCCUPIED_POSITION = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요."
     }
 }
 
