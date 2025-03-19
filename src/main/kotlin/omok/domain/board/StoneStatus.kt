@@ -5,11 +5,4 @@ enum class StoneStatus {
     WHITE,
     EMPTY,
     PROTECTED,
-    ;
-
-    companion object {
-        fun getAllStoneStatus(): List<StoneStatus> {
-            return listOf(BLACK, WHITE)
-        }
-    }
 }

@@ -1,10 +1,7 @@
 package omok.view
 
 import omok.domain.board.OmokBoard
-import omok.domain.board.OmokColumn
 import omok.domain.board.OmokColumn.Companion.entriesWithoutWall
-import omok.domain.board.OmokRow
-import omok.domain.board.Point
 import omok.domain.board.StoneStatus
 
 class OutputView {
@@ -155,12 +152,4 @@ class OutputView {
         private const val SPACE = " "
         private const val ROW_MAX_LENGTH = 14
     }
-}
-
-fun main() {
-    val board = OmokBoard()
-    board.addStone(Point(OmokColumn.O, OmokRow.TEN, StoneStatus.BLACK))
-    board.addStone(Point(OmokColumn.H, OmokRow.TEN, StoneStatus.WHITE))
-
-    OutputView().printBoard(board)
 }
