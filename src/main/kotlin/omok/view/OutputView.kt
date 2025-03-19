@@ -1,5 +1,8 @@
 package omok.view
 
+import omok.domain.OmokGame.Companion.MAX_BOUND
+import omok.domain.OmokGame.Companion.MIN_BOUND
+import omok.domain.OmokResult
 import omok.domain.StoneState
 
 class OutputView {
@@ -10,6 +13,10 @@ class OutputView {
             printRow(board[row], row)
         }
         println(COORDINATE_Y)
+    }
+
+    fun printWinner(omokResult: OmokResult) {
+        println(MESSAGE_WINNER.format(omokResult.toString()))
     }
 
     private fun printRow(
@@ -53,9 +60,6 @@ class OutputView {
 
     companion object {
         private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
-
-        private const val MIN_BOUND = 0
-        private const val MAX_BOUND = 14
         private const val REPEAT_COUNT = 2
 
         private const val LEFT_DOWN = "└"
@@ -71,5 +75,7 @@ class OutputView {
 
         private const val COORDINATE_X = "%2d "
         private const val COORDINATE_Y = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
+
+        private const val MESSAGE_WINNER = "%s !!"
     }
 }
