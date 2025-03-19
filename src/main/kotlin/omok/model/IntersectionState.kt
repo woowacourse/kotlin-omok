@@ -1,14 +1,16 @@
 package omok.model
 
-enum class PlayerColor {
+enum class IntersectionState {
+    EMPTY,
     BLACK,
     WHITE,
     ;
 
-    fun reverse(): PlayerColor {
+    fun reverse(): IntersectionState {
         return when (this) {
             BLACK -> WHITE
             WHITE -> BLACK
+            EMPTY -> EMPTY
         }
     }
 }
