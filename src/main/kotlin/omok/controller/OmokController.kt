@@ -2,10 +2,10 @@ package omok.controller
 
 import omok.domain.OmokGame
 import omok.domain.OmokResult
-import omok.domain.Position
 import omok.domain.StoneState
 import omok.view.InputView
 import omok.view.OutputView
+import rule.wrapper.point.Point
 
 class OmokController(
     private val inputView: InputView,
@@ -39,12 +39,12 @@ class OmokController(
         state: StoneState,
         omokGame: OmokGame,
         latestPosition: String,
-    ): Position {
+    ): Point {
         return retryInput {
             outputView.printBoardState(omokGame.grid.board)
-            val position = inputView.getPosition(state, latestPosition) - 1
-            omokGame.grid.putStone(position, state)
-            position
+            val point = inputView.getPoint(state, latestPosition).minus(1)
+            omokGame.grid.putStone(point, state)
+            point
         }
     }
 
@@ -67,4 +67,8 @@ class OmokController(
                 retryInput(inputFunction)
             }
     }
+}
+
+fun Point.minus(value: Int): Point {
+    return Point(this.row - value, this.col - value)
 }

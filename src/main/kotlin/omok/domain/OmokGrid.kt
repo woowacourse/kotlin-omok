@@ -1,16 +1,18 @@
 package omok.domain
 
+import rule.wrapper.point.Point
+
 class OmokGrid(board: List<MutableList<StoneState>> = List(DEFAULT_SIZE) { MutableList(DEFAULT_SIZE) { StoneState.BLANK } }) {
     private val _board: List<MutableList<StoneState>> = board.deepCopy()
     val board: List<MutableList<StoneState>>
         get() = _board.deepCopy()
 
     fun putStone(
-        position: Position,
+        point: Point,
         state: StoneState,
     ) {
-        if (_board[position.row][position.col] != StoneState.BLANK) throw IllegalStateException(ERROR_STONE_ALREADY_PUT)
-        _board[position.row][position.col] = state
+        if (_board[point.row][point.col] != StoneState.BLANK) throw IllegalStateException(ERROR_STONE_ALREADY_PUT)
+        _board[point.row][point.col] = state
     }
 
     fun isFull(): Boolean {

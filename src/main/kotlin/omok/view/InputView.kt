@@ -1,25 +1,25 @@
 package omok.view
 
-import omok.domain.Position
 import omok.domain.StoneState
+import rule.wrapper.point.Point
 
 class InputView {
-    fun getPosition(
+    fun getPoint(
         turn: StoneState,
         latestPosition: String,
-    ): Position {
+    ): Point {
         print(MESSAGE_TURN.format(turn.getDisplayColor()))
         if (latestPosition.isNotEmpty()) print(MESSAGE_LATEST_POSITION.format(latestPosition))
         print(MESSAGE_POSITION_GUIDE)
         val rawInput = readln().trim()
 
-        return validateInput(rawInput) ?: getPosition(turn, latestPosition)
+        return validateInput(rawInput) ?: getPoint(turn, latestPosition)
     }
 
-    private fun validateInput(rawInput: String): Position? {
+    private fun validateInput(rawInput: String): Point? {
         val match: MatchResult = REGEX_PATTERN.matchEntire(rawInput) ?: return null
         val (letter, number) = match.destructured
-        return Position(number.toInt(), convertLetter(letter))
+        return Point(number.toInt(), convertLetter(letter))
     }
 
     private fun convertLetter(letter: String): Int {

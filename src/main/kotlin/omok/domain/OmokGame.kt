@@ -1,9 +1,11 @@
 package omok.domain
 
+import rule.wrapper.point.Point
+
 class OmokGame {
     val grid: OmokGrid = OmokGrid()
 
-    fun checkOmok(position: Position): Boolean {
+    fun checkOmok(point: Point): Boolean {
         val directions: List<Direction> =
             listOf(
                 Direction(0, 1),
@@ -13,17 +15,17 @@ class OmokGame {
             )
 
         return directions.any { dir ->
-            val count = search(dir, position) + search(-dir, position) - 1
+            val count = search(dir, point) + search(-dir, point) - 1
             count >= OMOK_STANDARD
         }
     }
 
     private fun search(
         direction: Direction,
-        position: Position,
+        point: Point,
     ): Int {
-        val coordinateX = position.row
-        val coordinateY = position.col
+        val coordinateX = point.row
+        val coordinateY = point.col
         val state = grid.board[coordinateX][coordinateY]
         var count = DEFAULT_COUNT
 
