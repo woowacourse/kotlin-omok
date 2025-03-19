@@ -4,7 +4,7 @@ class PlayingBoard(
     fun placeStone(playerStone: PlayerStone): PlaceResult = placeResult(playerStone)
 
     private fun placeResult(playerStone: PlayerStone): PlaceResult {
-        when (val result = AlreadyExistRule().canPlace(board.value, playerStone)) {
+        when (val result = AlreadyExistRule().canPlace(board, playerStone)) {
             PlaceResult.Success.Progress -> {
                 board.value
                     .find { it.position == playerStone.position }

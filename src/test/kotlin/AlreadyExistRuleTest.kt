@@ -8,7 +8,7 @@ class AlreadyExistRuleTest {
         val playingBoard: PlayingBoard = PlayingBoard()
         val playerStone1: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_A_ZERO)
 
-        AlreadyExistRule().canPlace(playingBoard.board.value, playerStone1)
+        AlreadyExistRule().canPlace(playingBoard.board, playerStone1)
 
         playingBoard.placeStone(playerStone1)
         val actual = playingBoard.placeStone(playerStone1)

@@ -12,7 +12,7 @@ class InvalidPositionRuleTest {
                 Position(RowPosition(0), ColumnPosition(0)),
             )
 
-        val actual = InvalidPositionRule().canPlace(playingBoard.board.value, playerStone1)
+        val actual = InvalidPositionRule().canPlace(playingBoard.board, playerStone1)
         val expected = PlaceResult.Failure.InvalidPosition
 
         assertThat(actual).isEqualTo(expected)

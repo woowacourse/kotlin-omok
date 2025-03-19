@@ -1,9 +1,9 @@
 class InvalidPositionRule : OmokRule {
     override fun canPlace(
-        omokBoard: List<Point>,
+        omokBoard: OmokBoard,
         playerStone: PlayerStone,
     ): PlaceResult =
-        if (omokBoard.find { it.position == playerStone.position } != null) {
+        if (omokBoard.value.find { it.position == playerStone.position } != null) {
             PlaceResult.Success.Progress
         } else {
             PlaceResult.Failure.InvalidPosition
