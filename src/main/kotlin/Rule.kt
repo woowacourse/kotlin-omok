@@ -1,0 +1,28 @@
+class Rule {
+    fun isHorizontal(
+        stone: Stone,
+        stones: List<Stone>,
+    ): Boolean = (directedSearch(Direction.LEFT, stone, stones) + directedSearch(Direction.RIGHT, stone, stones)) - DUPLICATED_SELF >= 5
+
+    private fun directedSearch(
+        direction: Direction,
+        stone: Stone,
+        stones: List<Stone>,
+    ): Int {
+        if (stone.position.isEdgePosition(direction)) return 1
+        val expectedNextStone = Stone(direction.nextPosition(stone.position), stone.color)
+        val nextStone =
+            stones.find { existedStone ->
+                existedStone.isSamePosition(
+                    expectedNextStone,
+                ) &&
+                    existedStone.isSameColor(expectedNextStone)
+            }
+        if (nextStone != null) return directedSearch(direction, nextStone, stones) + 1
+        return 1
+    }
+
+    companion object {
+        const val DUPLICATED_SELF = 1
+    }
+}

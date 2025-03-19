@@ -9,28 +9,37 @@ class Position(
     fun isSameCol(other: Position): Boolean = col.isSame(other.col)
 
     fun isIncreasingDiagonal(other: Position): Boolean {
-        if (!(isMaxPosition(other)) && isUpIncreasingDiagonal(other)) {
+        if (!(other.isMaxPosition()) && isUpIncreasingDiagonal(other)) {
             return true
         }
-        if (!(isMinPosition(other)) && isDownIncreasingDiagonal(other)) {
+        if (!(other.isMinPosition()) && isDownIncreasingDiagonal(other)) {
             return true
         }
         return false
     }
 
     fun isDecreasingDiagonal(other: Position): Boolean {
-        if (!(isMaxPosition(other)) && isUpDecreasingDiagonal(other)) {
+        if (!other.isMaxPosition() && isUpDecreasingDiagonal(other)) {
             return true
         }
-        if (!(isMinPosition(other)) && isDownDecreasingDiagonal(other)) {
+        if (!other.isMinPosition() && isDownDecreasingDiagonal(other)) {
             return true
         }
         return false
     }
 
-    private fun isMaxPosition(other: Position): Boolean = (other.col.isMax() || other.row.isMax())
+    fun isEdgePosition(direction: Direction): Boolean =
+        when {
+            direction.isGoLeft() && this.col.isMin() -> true
+            direction.isGoRight() && this.col.isMax() -> true
+            direction.isGoUp() && this.row.isMax() -> true
+            direction.isGoDown() && this.row.isMin() -> true
+            else -> false
+        }
 
-    private fun isMinPosition(other: Position): Boolean = (other.col.isMin() || other.row.isMin())
+    private fun isMaxPosition(): Boolean = (this.col.isMax() || this.row.isMax())
+
+    private fun isMinPosition(): Boolean = (this.col.isMin() || this.row.isMin())
 
     private fun isUpIncreasingDiagonal(other: Position): Boolean = row.isSame(other.row + 1) && col.isSame(other.col + 1)
 
