@@ -1,4 +1,4 @@
-package omok.domain
+package omok.domain.rule
 
 enum class Direction(val y: Int, val x: Int) {
     TOP(1, 0) {
@@ -24,16 +24,17 @@ enum class Direction(val y: Int, val x: Int) {
     },
     BOTTOM_RIGHT(-1, 1) {
         override fun reverse(): Direction = TOP_LEFT
-    };
+    }, ;
 
-    abstract fun reverse():Direction
+    abstract fun reverse(): Direction
+
     companion object {
-        fun getDirectionPair():List<Pair<Direction, Direction>> {
+        fun getDirectionPair(): List<Pair<Direction, Direction>> {
             return listOf(
                 TOP to BOTTOM,
                 LEFT to RIGHT,
                 TOP_RIGHT to BOTTOM_LEFT,
-                TOP_LEFT to BOTTOM_RIGHT
+                TOP_LEFT to BOTTOM_RIGHT,
             )
         }
     }

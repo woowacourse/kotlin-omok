@@ -1,12 +1,15 @@
-package omok.domain
+package omok.domain.rule
 
 import omok.domain.board.OmokBoard
 import omok.domain.board.Point
 import omok.domain.board.StoneStatus
 
 class OmokCheck(private val board: OmokBoard) {
-
-    private fun seek(direction: Direction, point: Point, target: StoneStatus): Int {
+    private fun seek(
+        direction: Direction,
+        point: Point,
+        target: StoneStatus,
+    ): Int {
         if (point.stoneStatus == target) {
             val next = board.goto(point, direction)
             return seek(direction, next, target) + 1

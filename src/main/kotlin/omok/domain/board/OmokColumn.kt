@@ -1,7 +1,5 @@
 package omok.domain.board
 
-import java.lang.IllegalStateException
-
 enum class OmokColumn(val value: Int) {
     A(1),
     B(2),
@@ -18,7 +16,7 @@ enum class OmokColumn(val value: Int) {
     M(13),
     N(14),
     O(15),
-    WALL(-1)
+    WALL(-1),
     ;
 
     companion object {

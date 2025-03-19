@@ -1,7 +1,5 @@
 package omok.domain.board
 
-import java.lang.IllegalStateException
-
 enum class OmokRow(val value: Int) {
     FIFTEEN(15),
     FOURTEEN(14),
@@ -18,12 +16,12 @@ enum class OmokRow(val value: Int) {
     THREE(3),
     TWO(2),
     ONE(1),
-    WALL(-1)
+    WALL(-1),
     ;
 
     companion object {
         fun find(value: Int): OmokRow =
             OmokRow.entries.find { it.value == value }
-                ?:WALL
+                ?: WALL
     }
 }

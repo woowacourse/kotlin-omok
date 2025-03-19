@@ -1,11 +1,11 @@
 package domain.board
 
-import omok.domain.Direction
 import omok.domain.board.OmokBoard
 import omok.domain.board.OmokColumn
 import omok.domain.board.OmokRow
 import omok.domain.board.Point
 import omok.domain.board.StoneStatus
+import omok.domain.rule.Direction
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach

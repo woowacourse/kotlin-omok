@@ -1,6 +1,6 @@
 package omok.domain.board
 
-import omok.domain.Direction
+import omok.domain.rule.Direction
 
 class OmokBoard {
     private var _board: List<Point> =
