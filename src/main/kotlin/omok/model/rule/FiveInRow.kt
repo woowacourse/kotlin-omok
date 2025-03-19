@@ -18,7 +18,7 @@ class FiveInRow : Rule {
         point: Point,
         direction: Pair<Int, Int>,
     ): Boolean {
-        val total = countDirection(board, point, direction, STEP) + countDirection(board, point, direction, -STEP)
+        val total = countDirection(board, point, direction, STEP) + countDirection(board, point, direction, -STEP) + STEP
         return total >= OMOK_COUNT
     }
 
@@ -31,7 +31,7 @@ class FiveInRow : Rule {
         var (x, y) = point.position.run { x + dir.first * step to y + dir.second * step }
 
         var count = INITIAL_COUNT
-        val targetColor = point.state.toStoneColor() ?: return count
+        val targetColor = point.state.toStoneColor() ?: return INITIAL_COUNT
 
         while (isInRange(x, y) && board.findPoint(Position(x, y))?.state?.toStoneColor() == targetColor) {
             count++
@@ -52,6 +52,6 @@ class FiveInRow : Rule {
         private val DIRECTIONS = listOf(1 to 0, 0 to 1, 1 to 1, -1 to 1)
         private const val OMOK_COUNT = 5
         private const val STEP = 1
-        private const val INITIAL_COUNT = 1
+        private const val INITIAL_COUNT = 0
     }
 }
