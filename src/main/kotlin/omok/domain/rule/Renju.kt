@@ -1,6 +1,6 @@
 package omok.domain.rule
 
-import omok.domain.board.Point
+import omok.domain.point.Point
 
 interface Renju {
     fun is4x4(current: Point): Boolean

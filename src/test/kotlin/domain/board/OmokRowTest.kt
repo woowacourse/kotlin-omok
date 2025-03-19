@@ -14,7 +14,7 @@ class OmokRowTest {
     }
 
     @Test
-    fun `존재하지 않는 행의 라인 번호를 입력하면 에러를 반환한다`()  {
+    fun `존재하지 않는 행의 라인 번호를 입력하면 에러를 반환한다`() {
         assertThrows<IllegalArgumentException>(
             message = "잘못된 행 번호입니다. 다시 입력해주세요",
         ) {
@@ -23,7 +23,7 @@ class OmokRowTest {
     }
 
     @Test
-    fun `올바른 행의 라인 번호를 입력하면 오목 행을 반환한다`()  {
+    fun `올바른 행의 라인 번호를 입력하면 오목 행을 반환한다`() {
         val result = OmokRow.of("15")
 
         assertEquals(result, OmokRow.FIFTEEN)

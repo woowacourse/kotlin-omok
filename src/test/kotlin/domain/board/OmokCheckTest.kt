@@ -1,15 +1,24 @@
 package domain.board
 
+import domain.fixture.omokBoardFixture
 import omok.domain.board.OmokBoard
 import omok.domain.board.OmokColumn
 import omok.domain.board.OmokRow
-import omok.domain.board.Point
 import omok.domain.board.StoneStatus
+import omok.domain.point.Point
 import omok.domain.rule.OmokCheck
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class OmokCheckTest {
+    private lateinit var board: OmokBoard
+
+    @BeforeEach
+    fun setUp() {
+        board = omokBoardFixture()
+    }
+
     /**
      *  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
      *  14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
@@ -30,7 +39,6 @@ class OmokCheckTest {
      * */
     @Test
     fun `오목 테스트1`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.A, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.C, OmokRow.EIGHT, StoneStatus.BLACK))
@@ -59,7 +67,6 @@ class OmokCheckTest {
      * */
     @Test
     fun `오목 테스트2`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.A, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.B, OmokRow.SEVEN, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.D, OmokRow.FIVE, StoneStatus.BLACK))
@@ -88,7 +95,6 @@ class OmokCheckTest {
      * */
     @Test
     fun `오목 테스트3`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.A, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.C, OmokRow.TEN, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.D, OmokRow.ELEVEN, StoneStatus.BLACK))
@@ -117,7 +123,6 @@ class OmokCheckTest {
      * */
     @Test
     fun `오목 테스트4`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.A, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.B, OmokRow.SEVEN, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.C, OmokRow.SIX, StoneStatus.BLACK))

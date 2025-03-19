@@ -1,10 +1,11 @@
 package domain.board
 
+import domain.fixture.omokBoardFixture
 import omok.domain.board.OmokBoard
 import omok.domain.board.OmokColumn
 import omok.domain.board.OmokRow
-import omok.domain.board.Point
 import omok.domain.board.StoneStatus
+import omok.domain.point.Point
 import omok.domain.rule.Direction
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -17,7 +18,7 @@ class OmokBoardTest {
 
     @BeforeEach
     fun setUp() {
-        omokBoard = OmokBoard()
+        omokBoard = omokBoardFixture()
     }
 
     @Test
@@ -70,8 +71,8 @@ class OmokBoardTest {
     }
 
     @Test
-    fun `보드가 비어 있지 않으면 거짓을 반환한다`() {
-        assertEquals(omokBoard.isNotFull(), false)
+    fun `보드가 비어 있지 않으면 참을 반환한다`() {
+        assertEquals(omokBoard.isNotFull(), true)
     }
 
     @Test

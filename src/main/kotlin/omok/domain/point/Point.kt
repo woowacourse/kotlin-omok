@@ -1,4 +1,8 @@
-package omok.domain.board
+package omok.domain.point
+
+import omok.domain.board.OmokColumn
+import omok.domain.board.OmokRow
+import omok.domain.board.StoneStatus
 
 data class Point(
     val x: OmokColumn,

@@ -1,15 +1,24 @@
 package domain.board
 
+import domain.fixture.omokBoardFixture
 import omok.domain.board.OmokBoard
 import omok.domain.board.OmokColumn
 import omok.domain.board.OmokRow
-import omok.domain.board.Point
 import omok.domain.board.StoneStatus
+import omok.domain.point.Point
 import omok.domain.rule.RenjuCheck
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class RenjuCheckTest {
+    private lateinit var board: OmokBoard
+
+    @BeforeEach
+    fun setUp() {
+        board = omokBoardFixture()
+    }
+
     /**
      *  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
      *  14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
@@ -30,7 +39,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `3x3테스트1`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.SEVEN, StoneStatus.BLACK))
@@ -59,7 +67,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `3x3테스트3`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
@@ -89,7 +96,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `3x3테스트4`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.F, OmokRow.SEVEN, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.E, OmokRow.FIVE, StoneStatus.BLACK))
@@ -118,7 +124,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `3x3테스트5`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.A, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.D, OmokRow.SEVEN, StoneStatus.BLACK))
@@ -147,7 +152,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `3x3테스트6`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.D, OmokRow.NINE, StoneStatus.BLACK))
@@ -176,7 +180,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `3x3테스트7`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.D, OmokRow.NINE, StoneStatus.WHITE))
@@ -205,7 +208,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `거짓금수 3x3테스트1`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.H, OmokRow.EIGHT, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.BLACK))
@@ -236,7 +238,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `거짓금수 3x3테스트2`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
@@ -267,7 +268,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `4x4테스트1`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
@@ -298,7 +298,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `4x4테스트2`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.C, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
@@ -329,7 +328,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `4x4테스트3`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.C, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
@@ -360,7 +358,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `4x4테스트4`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.C, OmokRow.EIGHT, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.WHITE))
@@ -391,7 +388,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `4x3테스트1`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.C, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
@@ -423,7 +419,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `6목테스트1`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.C, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.BLACK))
@@ -453,7 +448,6 @@ class RenjuCheckTest {
      * */
     @Test
     fun `6목테스트2`() {
-        val board = OmokBoard()
         board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.C, OmokRow.EIGHT, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.WHITE))

@@ -3,8 +3,8 @@ package omok.domain.rule
 import omok.domain.board.OmokBoard
 import omok.domain.board.OmokColumn
 import omok.domain.board.OmokRow
-import omok.domain.board.Point
 import omok.domain.board.StoneStatus
+import omok.domain.point.Point
 import omok.domain.rule.Renju.CheckType
 
 class RenjuCheck(private val board: OmokBoard) : Renju {

@@ -1,19 +1,17 @@
 package omok.domain.board
 
+import omok.domain.point.OmokPoints
+import omok.domain.point.Point
 import omok.domain.rule.Direction
 
-class OmokBoard {
-    private var _board: List<Point> =
-        OmokRow.entriesWithoutWall().flatMap { row ->
-            OmokColumn.entriesWithoutWall().map { column ->
-                Point(column, row, StoneStatus.EMPTY)
-            }
-        }
-    val board get() = _board.toList()
-
+class OmokBoard(
+    private val omokPoints: OmokPoints,
+) {
     private var latestStone: Point = Point(OmokColumn.WALL, OmokRow.WALL, StoneStatus.EMPTY)
 
-    fun isNotFull() = _board.any { it.stoneStatus != StoneStatus.EMPTY }
+    val board get() = omokPoints.toList()
+
+    fun isNotFull() = omokPoints.isNotFull()
 
     fun getLatestStone(): String {
         val dx = OmokColumn.find(latestStone.x.value).name
@@ -21,24 +19,16 @@ class OmokBoard {
         return dx + dy
     }
 
-    private fun isOccupied(point: Point): Boolean {
-        return _board.first { it.x == point.x && it.y == point.y }.stoneStatus == StoneStatus.EMPTY
-    }
-
     fun addStone(point: Point) {
-        require(isOccupied(point)) { ERROR_OCCUPIED_POSITION }
-        val position = _board.indexOf(Point(point.x, point.y, StoneStatus.EMPTY))
-        val newList = _board.toMutableList()
-        newList[position] = point
+        omokPoints.addStone(point)
         latestStone = point
-        _board = newList
     }
 
     fun getPointAt(
         row: OmokRow,
         column: OmokColumn,
     ): Point {
-        return _board.find { it.x == column && it.y == row } ?: Point(OmokColumn.WALL, OmokRow.WALL, StoneStatus.EMPTY)
+        return omokPoints.getPointAt(row, column)
     }
 
     fun goto(
@@ -51,25 +41,6 @@ class OmokBoard {
     }
 
     fun toMatrix(): List<List<StoneStatus>> {
-        val temp =
-            MutableList(OmokRow.entriesWithoutWall().size) {
-                MutableList(OmokColumn.entriesWithoutWall().size) {
-                    StoneStatus.EMPTY
-                }
-            }
-
-        for (status in _board) {
-            temp[status.y.value - 1][status.x.value - 1] = status.stoneStatus
-        }
-
-        return temp.toList()
+        return omokPoints.toMatrix()
     }
-
-    companion object {
-        private const val ERROR_OCCUPIED_POSITION = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요."
-    }
-}
-
-fun main() {
-    OmokBoard()
 }
