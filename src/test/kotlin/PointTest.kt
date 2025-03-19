@@ -19,7 +19,7 @@ class PointTest {
         // given
         val point = Point(POSITION_A_ZERO)
         // when
-        point.placeStone(Stone.BLACK)
+        point.updateState(StoneColor.BLACK)
         val actual = point.state
         val expected = OCCUPIED_BLACK
         // then
@@ -31,7 +31,7 @@ class PointTest {
         // given
         val point = Point(POSITION_A_ZERO)
         // when
-        point.placeStone(Stone.WHITE)
+        point.updateState(StoneColor.WHITE)
         val actual = point.state
         val expected = OCCUPIED_WHITE
         // then

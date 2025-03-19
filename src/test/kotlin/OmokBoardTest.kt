@@ -5,7 +5,7 @@ class OmokBoardTest {
     @Test
     fun `오목판은 15 x 15 사이즈이다`() {
         // given
-        val actual = OmokBoard().board
+        val actual = PlayingBoard().board.value
 
         // when & then
         (1..15).forEach { row ->

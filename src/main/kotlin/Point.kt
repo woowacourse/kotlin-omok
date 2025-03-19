@@ -8,11 +8,11 @@ data class Point(
 ) {
     val state: PointState get() = _state
 
-    fun placeStone(stone: Stone) {
+    fun updateState(stoneColor: StoneColor) {
         _state =
-            when (stone) {
-                Stone.BLACK -> OCCUPIED_BLACK
-                Stone.WHITE -> OCCUPIED_WHITE
+            when (stoneColor) {
+                StoneColor.BLACK -> OCCUPIED_BLACK
+                StoneColor.WHITE -> OCCUPIED_WHITE
             }
     }
 }
