@@ -1,9 +1,9 @@
-package omok.rule
+package omok.model.rule
 
-import omok.board.Board
-import omok.board.Point
-import omok.rule.Rule.Companion.toStoneColor
-import omok.stone.Position
+import omok.model.board.Board
+import omok.model.board.Point
+import omok.model.rule.Rule.Companion.toStoneColor
+import omok.model.stone.Position
 
 class FiveInRow : Rule {
     override fun calculate(

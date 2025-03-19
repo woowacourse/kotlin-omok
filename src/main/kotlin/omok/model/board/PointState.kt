@@ -1,4 +1,4 @@
-package omok.board
+package omok.model.board
 
 enum class PointState {
     BLACK,

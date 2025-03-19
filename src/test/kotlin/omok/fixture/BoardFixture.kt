@@ -1,8 +1,8 @@
 package omok.fixture
 
-import omok.board.Board
-import omok.stone.Position
-import omok.stone.StoneColor
+import omok.model.board.Board
+import omok.model.stone.Position
+import omok.model.stone.StoneColor
 
 val verticalFiveInRowBoard: Board =
     Board().apply {

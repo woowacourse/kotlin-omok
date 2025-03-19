@@ -1,4 +1,4 @@
-package omok.board
+package omok.model.board
 
 sealed class PlaceStoneResult {
     data class Success(val point: Point) : PlaceStoneResult()

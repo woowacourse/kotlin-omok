@@ -1,7 +1,7 @@
-package omok.board
+package omok.model.board
 
-import omok.stone.Position
-import omok.stone.StoneColor
+import omok.model.stone.Position
+import omok.model.stone.StoneColor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

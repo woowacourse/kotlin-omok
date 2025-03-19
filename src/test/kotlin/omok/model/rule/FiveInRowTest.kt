@@ -1,12 +1,12 @@
-package omok.rule
+package omok.model.rule
 
-import omok.board.Point
-import omok.board.PointState
 import omok.fixture.antiDiagonalFiveInRowBoard
 import omok.fixture.diagonalFiveInRowBoard
 import omok.fixture.horizontalFiveInRowBoard
 import omok.fixture.verticalFiveInRowBoard
-import omok.stone.Position
+import omok.model.board.Point
+import omok.model.board.PointState
+import omok.model.stone.Position
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach

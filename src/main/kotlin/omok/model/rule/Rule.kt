@@ -1,9 +1,9 @@
-package omok.rule
+package omok.model.rule
 
-import omok.board.Board
-import omok.board.Point
-import omok.board.PointState
-import omok.stone.StoneColor
+import omok.model.board.Board
+import omok.model.board.Point
+import omok.model.board.PointState
+import omok.model.stone.StoneColor
 
 interface Rule {
     fun calculate(
