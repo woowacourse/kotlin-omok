@@ -1,0 +1,70 @@
+package omok.controller
+
+import omok.domain.OmokGame
+import omok.domain.OmokResult
+import omok.domain.Position
+import omok.domain.StoneState
+import omok.view.InputView
+import omok.view.OutputView
+
+class OmokController(
+    private val inputView: InputView,
+    private val outputView: OutputView,
+) {
+    fun play() {
+        val omokGame = initGame()
+        val result = playGame(omokGame)
+        printWinner(result, omokGame)
+    }
+
+    private fun initGame(): OmokGame {
+        outputView.printStartMessage()
+        return OmokGame()
+    }
+
+    private fun playGame(omokGame: OmokGame): OmokResult {
+        var latestPosition = ""
+        var nowTurn: StoneState = StoneState.BLACK
+        while (true) {
+            val position = turn(nowTurn, omokGame, latestPosition)
+            if (omokGame.checkOmok(position)) return OmokResult.returnWinner(nowTurn)
+            if (omokGame.grid.isFull()) break
+            nowTurn = StoneState.changeTurn(nowTurn)
+            latestPosition = convertLetter(position.col) + (position.row + 1).toString()
+        }
+        return OmokResult.DRAW
+    }
+
+    private fun turn(
+        state: StoneState,
+        omokGame: OmokGame,
+        latestPosition: String,
+    ): Position {
+        return retryInput {
+            outputView.printBoardState(omokGame.grid.board)
+            val position = inputView.getPosition(state, latestPosition) - 1
+            omokGame.grid.putStone(position, state)
+            position
+        }
+    }
+
+    private fun convertLetter(number: Int): String {
+        return ('A' + number).toString()
+    }
+
+    private fun printWinner(
+        omokResult: OmokResult,
+        omokGame: OmokGame,
+    ) {
+        outputView.printBoardState(omokGame.grid.board)
+        outputView.printWinner(omokResult)
+    }
+
+    private fun <T> retryInput(inputFunction: () -> T): T {
+        return runCatching { inputFunction() }
+            .getOrElse { e ->
+                println(e.message)
+                retryInput(inputFunction)
+            }
+    }
+}
