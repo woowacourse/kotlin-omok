@@ -45,20 +45,20 @@ class InputView {
         }
 
         private fun validateRow(
-            number: String,
+            rawRow: String,
             height: Int,
         ): Int? {
-            if (number.toIntOrNull() == null) return null
-            if (number.toInt() !in 1..height) return null
-            return number.toInt()
+            if (rawRow.toIntOrNull() == null) return null
+            if (rawRow.toInt() !in 1..height) return null
+            return rawRow.toInt()
         }
 
         private fun validateCol(
-            col: String,
+            rawCol: String,
             width: Int,
         ): Int? {
-            val convertedCol = convertLetter(col)
-            if (convertedCol !in 1 until width) return null
+            val convertedCol = convertLetter(rawCol)
+            if (convertedCol !in 1 .. width) return null
             return convertedCol
         }
 
