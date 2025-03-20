@@ -8,7 +8,7 @@ class OutputView {
         println(MESSAGE_START)
     }
 
-    fun showBoard(customBoard: Array<Array<StoneType>>) {
+    fun printBoard(customBoard: Array<Array<StoneType>>) {
         val board = generateBoardArray(customBoard)
 
         for (row in board.size - 1 downTo 0) {
@@ -30,6 +30,10 @@ class OutputView {
         position: String,
     ) {
         println(MESSAGE_TURN.format(if (turnColor == StoneType.BLACK) "백" else "흑", position))
+    }
+
+    fun showGameResult(turn: Turn) {
+        println(MESSAGE_WINNER_RESULT.format(if (turn.isWhite()) "백" else "흑"))
     }
 
     private fun generateBoardArray(changedBoard: Array<Array<StoneType>>): Array<Array<String>> {
@@ -65,10 +69,6 @@ class OutputView {
         }
 
         return board
-    }
-
-    fun showGameResult(turn: Turn) {
-        println(MESSAGE_WINNER_RESULT.format(if (turn.isWhite()) "백" else "흑"))
     }
 
     companion object {

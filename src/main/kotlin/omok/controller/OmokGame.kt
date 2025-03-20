@@ -17,7 +17,7 @@ class OmokGame(
         outputView.printStartMessage()
         var position = ""
         while (true) {
-            outputView.showBoard(board.grid)
+            outputView.printBoard(board.grid)
             val lastStone: Stone? = board.stones.lastStone()
             messageTurn(lastStone, position)
             val inputPosition = inputView.readPosition()
