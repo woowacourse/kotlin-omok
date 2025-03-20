@@ -20,11 +20,6 @@ class OmokBoard(
 
     fun pointValidation(point: Point) = omokPoints.checkPointValid(point)
 
-    fun getPointAt(
-        row: OmokRow,
-        column: OmokColumn,
-    ): Point = omokPoints.getPointAt(row, column)
-
     fun addStone(point: Point) {
         omokPoints.addStone(point)
         latestStone = point
@@ -56,6 +51,6 @@ class OmokBoard(
     ): Point {
         val newX = currentPosition.x.value + direction.x
         val newY = currentPosition.y.value + direction.y
-        return getPointAt(OmokRow.find(newY), OmokColumn.find(newX))
+        return omokPoints.getPointAt(OmokRow.find(newY), OmokColumn.find(newX))
     }
 }
