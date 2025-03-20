@@ -17,14 +17,14 @@ class OmokGame(
         var position: Position? = null
 
         while (true) {
-            position = getPosition(stoneColor, position)
-            val playerStone = PlayerStone(stoneColor, position)
+            val playerStone = PlayerStone(stoneColor, getPosition(stoneColor, position))
             val placeResult = playingBoard.placeStone(playerStone)
             onStonePlaced(placeResult)
 
             when (placeResult) {
                 is PlaceResult.Success.Progress -> {
                     stoneColor = stoneColor.reversed()
+                    position = playerStone.position
                     continue
                 }
 
