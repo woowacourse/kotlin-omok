@@ -10,9 +10,9 @@ class InputView {
         currentTurnColor: StoneColor,
         position: Position?,
     ): Position {
-        print(SHOW_PLAYER_TURN.format(currentTurnColor.toKorean()))
+        print(SHOW_PLAYER_TURN.format(currentTurnColor.toLabel()))
         position?.let { print(LAST_STONE_POSITION.format(position.toText())) }
-        print(INPUT_POSITION_MESSAGE.format(currentTurnColor.toKorean()))
+        print(INPUT_POSITION_MESSAGE.format(currentTurnColor.toLabel()))
         return validatePositionInput(readln()) ?: askForPosition(currentTurnColor, position)
     }
 
@@ -20,6 +20,19 @@ class InputView {
         private const val SHOW_PLAYER_TURN: String = "\n%s의 차례입니다."
         private const val LAST_STONE_POSITION: String = "(마지막 돌의 위치: %s)"
         private const val INPUT_POSITION_MESSAGE: String = "\n위치를 입력하세요: "
+
+        private fun StoneColor.toLabel(): String =
+            when (this) {
+                StoneColor.BLACK -> "흑"
+                StoneColor.WHITE -> "백"
+            }
+
+        private fun Position.toText(): String = "${this.column.toLabel()}${this.row}"
+
+        private fun ColumnPosition.toLabel(): Char {
+            val alphabets = ('A'..'Z').toList()
+            return alphabets[this.value - 1]
+        }
 
         private fun validatePositionInput(input: String): Position? =
             when {
@@ -33,14 +46,6 @@ class InputView {
 
             return Position(rowPosition, columnPosition)
         }
-
-        private fun Position.toText(): String = "${this.column.toLabel()}${this.row}"
-
-        private fun StoneColor.toKorean(): String =
-            when (this) {
-                StoneColor.BLACK -> "흑"
-                StoneColor.WHITE -> "백"
-            }
 
         private fun Char.toColumnPosition(): ColumnPosition {
             val alphabets = ('A'..'Z').toList()
