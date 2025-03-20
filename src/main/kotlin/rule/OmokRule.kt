@@ -6,16 +6,8 @@ import rule.type.Violation
 import rule.wrapper.direction.Direction
 import rule.wrapper.position.Position
 
-// typealias Row = Int
-// typealias Col = Int
-// typealias MoveWeight = Int
-
-// typealias Direction<R, C> = Pair<R, C>
-
 abstract class OmokRule(
-    // TODO : Col 객체로 변경 필요
     protected val boardWidth: Int,
-    // TODO : Row 객체로 변경 필요
     protected val boardHeight: Int,
 ) {
     /**
@@ -149,7 +141,6 @@ abstract class OmokRule(
         return BlackRenjuRule(boardWidth, boardHeight)
     }
 
-    // TODO : 라이브러리에서는 원시값이여서 contains로 비교했으나 제네릭 타입이 객체가 되면서 리스트 순회하면서 동일한 지 체크하도록  변경
     protected infix fun List<Stone>.isPlaced(position: Position): Boolean =
         this.any { existedStone -> existedStone.position.isSame(position) }
 

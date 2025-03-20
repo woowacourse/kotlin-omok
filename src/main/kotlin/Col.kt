@@ -2,7 +2,6 @@ class Col private constructor(
     val value: Int,
 ) {
     init {
-//        require(value in MIN_VALUE..MAX_VALUE) { ERROR_OUT_OF_BOUND }
         require(value in 0..16) { ERROR_OUT_OF_BOUND }
     }
 
@@ -11,10 +10,6 @@ class Col private constructor(
     operator fun plus(step: Int): Col = Col(this.value + step)
 
     operator fun minus(step: Int): Col = Col(this.value - step)
-
-    fun isMax(): Boolean = value == MAX_VALUE
-
-    fun isMin(): Boolean = value == MIN_VALUE
 
     companion object {
         const val MIN_VALUE = 1

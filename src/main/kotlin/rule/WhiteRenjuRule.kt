@@ -3,7 +3,6 @@ package rule
 import Stone
 import rule.type.Foul
 import rule.type.Violation
-import rule.type.Violation.Companion.OVERLINE_SIZE
 import rule.wrapper.position.Position
 
 class WhiteRenjuRule(
@@ -20,10 +19,7 @@ class WhiteRenjuRule(
     override fun checkOverline(
         stonesPositions: List<Stone>,
         startPosition: Position,
-    ): Violation {
-        if (checkSerialSameStonesBiDirection(stonesPositions, startPosition, OVERLINE_SIZE)) return Violation.OVERLINE
-        return Violation.NONE
-    }
+    ): Violation = Violation.NONE
 
     companion object {
         private const val DEFAULT_BOARD_WIDTH = 15

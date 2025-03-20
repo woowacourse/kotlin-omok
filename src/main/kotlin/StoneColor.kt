@@ -3,12 +3,9 @@ enum class StoneColor {
     BLACK,
     ;
 
-    fun isSameColor(color: StoneColor): Boolean = this == color
-
-    fun switch(): StoneColor {
-        return when (this) {
+    fun switch(): StoneColor =
+        when (this) {
             WHITE -> BLACK
             BLACK -> WHITE
         }
-    }
 }
