@@ -11,5 +11,16 @@ enum class Direction(
     LEFT_DOWN(-1, 1),
     RIGHT_UP(1, -1), // 좌하 , 우상 대각선
     RIGHT_DOWN(1, 1),
-    LEFT_UP(-1, -1), // 우하 , 좌상 대각선
+    LEFT_UP(-1, -1), // 우하 , 좌상
+    ;
+
+    companion object {
+        fun lineDirections(): List<Pair<Direction, Direction>> =
+            listOf(
+                LEFT to RIGHT,
+                UP to DOWN,
+                LEFT_DOWN to RIGHT_UP,
+                RIGHT_DOWN to LEFT_UP,
+            )
+    }
 }
