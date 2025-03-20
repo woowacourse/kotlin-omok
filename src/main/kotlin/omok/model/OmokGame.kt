@@ -36,20 +36,24 @@ class OmokGame(
     private fun placeStone(board: Board) =
         retryOnException {
             val pos = getNextPoint()
-
             when (val result = board.placeStone(pos, currentStoneColor)) {
                 is PlaceStoneResult.Success -> {
-                    previousPoint = result.point
-                    currentStoneColor = currentStoneColor.next()
-                    outputView.printBoardStatus(board)
+                    handlePlaceSuccess(result, board)
                     return@retryOnException
                 }
-
                 is PlaceStoneResult.AlreadyPlaced -> throw IllegalArgumentException(ALREADY_PLACED_ERROR_MESSAGE)
-
                 is PlaceStoneResult.Closed -> throw IllegalArgumentException(CLOSED_ERROR_MESSAGE)
             }
         }
+
+    private fun handlePlaceSuccess(
+        result: PlaceStoneResult.Success,
+        board: Board,
+    ) {
+        previousPoint = result.point
+        currentStoneColor = currentStoneColor.next()
+        outputView.printBoardStatus(board)
+    }
 
     private fun judgeRule(
         omokCountRule: OmokCountRule,

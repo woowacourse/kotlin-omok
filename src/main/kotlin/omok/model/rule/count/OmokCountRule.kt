@@ -20,6 +20,14 @@ abstract class OmokCountRule {
         dir: Pair<Int, Int>,
     ): Boolean
 
+    fun checkDirection(
+        board: Board,
+        point: Point,
+        direction: Pair<Int, Int>,
+    ): Int {
+        return countDirection(board, point, direction, STEP) + countDirection(board, point, direction, -STEP) + STEP
+    }
+
     private fun countDirection(
         board: Board,
         point: Point,
@@ -40,14 +48,6 @@ abstract class OmokCountRule {
         return count
     }
 
-    fun checkDirection(
-        board: Board,
-        point: Point,
-        direction: Pair<Int, Int>,
-    ): Int {
-        return countDirection(board, point, direction, STEP) + countDirection(board, point, direction, -STEP) + STEP
-    }
-
     private fun isInRange(
         x: Int,
         y: Int,
@@ -55,17 +55,20 @@ abstract class OmokCountRule {
         return listOf(x, y).all { it in (Board.BOARD_MIN_SIZE..Board.BOARD_MAX_SIZE) }
     }
 
+    private fun PointState.toStoneColor(): StoneColor? =
+        when (this) {
+            PointState.BLACK -> StoneColor.BLACK
+            PointState.WHITE -> StoneColor.WHITE
+            else -> null
+        }
+
     companion object {
-        val DIRECTIONS = listOf(1 to 0, 0 to 1, 1 to 1, -1 to 1)
-        const val OMOK_COUNT = 5
+        private val DIRECTIONS = listOf(1 to 0, 0 to 1, 1 to 1, -1 to 1)
+
+        @JvmStatic
+        protected val OMOK_COUNT = 5
+
         private const val INITIAL_COUNT = 0
         private const val STEP = 1
-
-        fun PointState.toStoneColor(): StoneColor? =
-            when (this) {
-                PointState.BLACK -> StoneColor.BLACK
-                PointState.WHITE -> StoneColor.WHITE
-                else -> null
-            }
     }
 }
