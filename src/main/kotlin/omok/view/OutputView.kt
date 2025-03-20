@@ -4,6 +4,14 @@ import omok.domain.OmokGrid
 import omok.domain.OmokResult
 import omok.domain.StoneState
 
+private fun StoneState.toUI(): String? {
+    return when (this) {
+        StoneState.BLACK -> "●"
+        StoneState.WHITE -> "○"
+        StoneState.BLANK -> null
+    }
+}
+
 class OutputView {
     fun printStartMessage() = println(MESSAGE_GAME_START)
 
@@ -76,14 +84,6 @@ class OutputView {
                 col == grid.width -> RIGHT
                 row == MIN_BOUND -> DOWN
                 else -> MIDDLE
-            }
-        }
-
-        private fun StoneState.toUI(): String? {
-            return when (this) {
-                StoneState.BLACK -> "●"
-                StoneState.WHITE -> "○"
-                StoneState.BLANK -> null
             }
         }
 

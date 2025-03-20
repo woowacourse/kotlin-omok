@@ -6,6 +6,14 @@ import omok.domain.player.Player
 import omok.domain.player.WhitePlayer
 import rule.wrapper.point.Point
 
+private fun Player.getDisplayColor(): String {
+    return when (this) {
+        is BlackPlayer -> "흑"
+        is WhitePlayer -> "백"
+        else -> throw IllegalArgumentException()
+    }
+}
+
 class InputView {
     fun getPoint(
         player: Player,
@@ -64,14 +72,6 @@ class InputView {
 
         private fun convertLetter(letter: String): Int {
             return letter[0] - 'A' + 1
-        }
-
-        private fun Player.getDisplayColor(): String {
-            return when (this) {
-                is BlackPlayer -> "흑"
-                is WhitePlayer -> "백"
-                else -> throw IllegalArgumentException()
-            }
         }
     }
 }
