@@ -9,7 +9,7 @@ class DrawRule : OmokRule {
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
     ): PlaceResult =
-        if (omokBoard.value.values.all { it.state != PointState.EMPTY }) {
+        if (omokBoard.value.values.count { it.state == PointState.EMPTY } == 1) {
             PlaceResult.Success.Finish(GameResult.DRAW)
         } else {
             PlaceResult.Success.Progress(playerStone)

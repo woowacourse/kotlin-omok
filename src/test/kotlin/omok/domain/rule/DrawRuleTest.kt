@@ -22,10 +22,11 @@ class DrawRuleTest {
     fun `모든 칸이 채워지면 무승부를 반환한다`() {
         // given
         for (row in 1..15) {
-            for (col in 1..15) {
-                val stoneColor = if ((row + col) % 2 == 0) StoneColor.BLACK else StoneColor.WHITE
-                val playerStone = PlayerStone(stoneColor, Position(RowPosition(row), ColumnPosition(col)))
-                playingBoard.placeStone(playerStone)
+            for (column in 1..15) {
+                if (row == 15 && column == 15) break
+
+                val stoneColor = if ((row + column) % 2 == 0) StoneColor.BLACK else StoneColor.WHITE
+                playingBoard.board.find(Position(RowPosition(row), ColumnPosition(column)))?.updateState(stoneColor)
             }
         }
 
