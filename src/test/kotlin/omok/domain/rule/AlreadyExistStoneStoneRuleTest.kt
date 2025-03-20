@@ -14,10 +14,12 @@ class AlreadyExistStoneStoneRuleTest {
         val playingBoard: PlayingBoard = PlayingBoard()
         val playerStone1: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_ONE_ONE)
 
+        // when
         playingBoard.placeStone(playerStone1)
         val actual = AlreadyExistStoneRule().canPlace(playingBoard.board, playerStone1)
         val expected = PlaceResult.Failure.AlreadyExistStone
 
+        // then
         assertThat(actual).isEqualTo(expected)
     }
 }

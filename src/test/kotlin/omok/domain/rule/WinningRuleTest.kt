@@ -37,6 +37,7 @@ class WinningRuleTest {
         val playerStone4: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_ONE_FOUR)
         val playerStone5: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_ONE_FIVE)
 
+        // when
         playingBoard.placeStone(playerStone1)
         playingBoard.placeStone(playerStone2)
         playingBoard.placeStone(playerStone3)
@@ -46,11 +47,12 @@ class WinningRuleTest {
         val actual = WinningRule().canPlace(playingBoard.board, playerStone5)
         val expected = PlaceResult.Success.Finish(GameResult.WIN_BLACK)
 
+        // then
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
-    fun `같은 색의 돌이 세로로 5개 있으면 검정색이 우승한다`() {
+    fun `검은돌이 세로로 5개 있으면 검정색이 우승한다`() {
         // given
         val playerStone1: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_ONE_ONE)
         val playerStone2: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_TWO_ONE)
@@ -58,6 +60,7 @@ class WinningRuleTest {
         val playerStone4: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_FOUR_ONE)
         val playerStone5: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_FIVE_ONE)
 
+        // when
         playingBoard.placeStone(playerStone1)
         playingBoard.placeStone(playerStone2)
         playingBoard.placeStone(playerStone3)
@@ -67,11 +70,12 @@ class WinningRuleTest {
         val actual = WinningRule().canPlace(playingBoard.board, playerStone5)
         val expected = PlaceResult.Success.Finish(GameResult.WIN_BLACK)
 
+        // then
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
-    fun `검정색의 돌이 대각선으로 5개 있으면 검정색이 우승한다`() {
+    fun `검은돌이 대각선으로 5개 있으면 검정색이 우승한다`() {
         // given
         val playerStone1: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_ONE_ONE)
         val playerStone2: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_TWO_TWO)
@@ -79,6 +83,7 @@ class WinningRuleTest {
         val playerStone4: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_FOUR_FOUR)
         val playerStone5: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_FIVE_FIVE)
 
+        // when
         playingBoard.placeStone(playerStone1)
         playingBoard.placeStone(playerStone2)
         playingBoard.placeStone(playerStone3)
@@ -88,11 +93,12 @@ class WinningRuleTest {
         val actual = WinningRule().canPlace(playingBoard.board, playerStone5)
         val expected = PlaceResult.Success.Finish(GameResult.WIN_BLACK)
 
+        // then
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
-    fun `나란히 있는 검정색의 돌 4개 사이에 한 칸을 띄우고, 빈 공간에 돌을 두면 검정색이 우승한다`() {
+    fun `나란히 있는 검은돌 4개 사이에 한 칸을 띄우고, 빈 공간에 돌을 두면 검정색이 우승한다`() {
         // given
         val playerStone1: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_ONE_ONE)
         val playerStone2: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_ONE_TWO)
@@ -100,6 +106,7 @@ class WinningRuleTest {
         val playerStone4: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_ONE_FOUR)
         val playerStone5: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_ONE_FIVE)
 
+        // when
         playingBoard.placeStone(playerStone1)
         playingBoard.placeStone(playerStone2)
 
@@ -109,11 +116,12 @@ class WinningRuleTest {
         val actual = WinningRule().canPlace(playingBoard.board, playerStone3)
         val expected = PlaceResult.Success.Finish(GameResult.WIN_BLACK)
 
+        // then
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
-    fun `흰색의 돌이 가로로 5개 있으면 흰색이 우승한다`() {
+    fun `흰돌이 가로로 5개 있으면 흰색이 우승한다`() {
         // given
         val playerStone1: PlayerStone = PlayerStone(StoneColor.WHITE, POSITION_ONE_ONE)
         val playerStone2: PlayerStone = PlayerStone(StoneColor.WHITE, POSITION_ONE_TWO)
@@ -121,6 +129,7 @@ class WinningRuleTest {
         val playerStone4: PlayerStone = PlayerStone(StoneColor.WHITE, POSITION_ONE_FOUR)
         val playerStone5: PlayerStone = PlayerStone(StoneColor.WHITE, POSITION_ONE_FIVE)
 
+        // when
         playingBoard.placeStone(playerStone1)
         playingBoard.placeStone(playerStone2)
         playingBoard.placeStone(playerStone3)
@@ -130,6 +139,7 @@ class WinningRuleTest {
         val actual = WinningRule().canPlace(playingBoard.board, playerStone5)
         val expected = PlaceResult.Success.Finish(GameResult.WIN_WHITE)
 
+        // then
         assertThat(actual).isEqualTo(expected)
     }
 }

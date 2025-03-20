@@ -13,10 +13,12 @@ class PlayingBoardTest {
         // given
         val playingBoard = PlayingBoard()
         val board = playingBoard.board.value
+
         // when
         playingBoard.placeStone(PlayerStone(StoneColor.BLACK, POSITION_ONE_ONE))
         val actual = board.values.first().state
         val expected = OCCUPIED_BLACK
+
         // then
         assertThat(actual).isEqualTo(expected)
     }

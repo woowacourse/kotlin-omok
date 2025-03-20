@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class OmokBoardTest {
     @Test
-    fun `오목판은 15 x 15 사이즈이다`() {
+    fun `크기를 설정하지 않은 오목판은 15 x 15 사이즈이다`() {
         // given
         val actual = PlayingBoard().board.value
 

@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test
 
 class OmokGameTest {
     @Test
-    fun `플레이어는 한 번씩 번갈아가며 돌을 둘 수 있다`() {
+    fun `플레이어는 게임을 마칠 때까지 한 번씩 번갈아가며 돌을 둘 수 있다`() {
         // given
         val blackTurns =
             mutableListOf(

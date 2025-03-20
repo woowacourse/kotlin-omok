@@ -15,9 +15,11 @@ class InvalidPositionRuleTest {
         val playerStone1: PlayerStone =
             PlayerStone(StoneColor.BLACK, POSITION_ZERO_ZERO)
 
+        // when
         val actual = InvalidPositionRule().canPlace(playingBoard.board, playerStone1)
         val expected = PlaceResult.Failure.InvalidPosition
 
+        // then
         assertThat(actual).isEqualTo(expected)
     }
 }
