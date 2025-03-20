@@ -3,8 +3,6 @@ package omok.domain.state
 import omok.domain.StoneColor
 import omok.domain.stones.BlackStones
 import omok.domain.stones.WhiteStones
-import rule.BlackRenjuRule
-import rule.type.Violation
 import rule.wrapper.point.Point
 
 class BlackTurn(
@@ -18,29 +16,13 @@ class BlackTurn(
         require(!(blackStones.contains(point) || whiteStones.contains(point))) { ERROR_INVALID_POINT }
 
         val newStones = blackStones + point
-
-        val rule = BlackRenjuRule(boardSize)
-        val violateType =
-            rule.checkAnyFoulCondition(
-                blackStones.points.toList(),
-                whiteStones.points.toList(),
-                point,
-            )
-        when (violateType) {
-            Violation.DOUBLE_THREE, Violation.DOUBLE_FOUR, Violation.OVERLINE -> {
-                println(ERROR_RENJU_RULE)
-                return BlackTurn(blackStones, whiteStones)
-            }
-
-            Violation.NONE -> {
-                val isOmok =
-                    rule.checkWin(blackStones.points.toList(), whiteStones.points.toList(), point)
-                if (isOmok) {
-                    return BlackWin(newStones, whiteStones)
-                }
-            }
+        if (blackStones.isFoul(whiteStones, point)) {
+            println(ERROR_RENJU_RULE)
+            return BlackTurn(blackStones, whiteStones)
         }
-
+        if (blackStones.isOmok(whiteStones, point)) {
+            return BlackWin(newStones, whiteStones)
+        }
         if (newStones.points.size + whiteStones.points.size >= boardSize * boardSize) {
             return Draw(newStones, whiteStones)
         }
