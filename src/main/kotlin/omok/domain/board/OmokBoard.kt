@@ -39,7 +39,7 @@ class OmokBoard(
         return Direction.getDirectionPair().any { (d1, d2) ->
             val count1 = seek(d1, current, current.stoneStatus)
             val count2 = seek(d2, current, current.stoneStatus)
-            count1 + count2 - 1 == 5
+            count1 + count2 - 1 == OMOK_MATCH_COUNT
         }
     }
 
@@ -70,5 +70,6 @@ class OmokBoard(
     companion object {
         private const val ERROR_OCCUPIED_POSITION = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요."
         private const val ERROR_PROTECTED_POSITION = "해당 위치는 금수 자리입니다. 다른 위치를 선택하세요."
+        private const val OMOK_MATCH_COUNT = 5
     }
 }
