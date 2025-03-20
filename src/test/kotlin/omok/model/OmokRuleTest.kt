@@ -1,5 +1,11 @@
 package omok.model
 
+import omok.model.rule.OmokRule
+import omok.model.stone.Stone
+import omok.model.stone.StoneState
+import omok.model.stone.position.Col
+import omok.model.stone.position.Position
+import omok.model.stone.position.Row
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

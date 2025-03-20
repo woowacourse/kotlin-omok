@@ -1,5 +1,9 @@
-package omok.model
+package omok.model.board
 
+import omok.model.rule.OmokRule
+import omok.model.stone.Stone
+import omok.model.stone.StoneState
+import omok.model.stone.position.Position
 import rule.BlackRenjuRule
 import rule.type.Violation
 

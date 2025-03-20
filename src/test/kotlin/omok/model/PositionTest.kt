@@ -1,5 +1,8 @@
 package omok.model
 
+import omok.model.stone.position.Col
+import omok.model.stone.position.Position
+import omok.model.stone.position.Row
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest

@@ -1,4 +1,4 @@
-package omok.model
+package omok.model.rule
 
 enum class Direction(
     val dx: Int,

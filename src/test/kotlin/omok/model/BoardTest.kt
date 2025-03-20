@@ -1,6 +1,9 @@
 package omok.model
 
-import omok.model.Board.Companion.initBoard
+import omok.model.board.Board.Companion.initBoard
+import omok.model.stone.position.Col
+import omok.model.stone.position.Position
+import omok.model.stone.position.Row
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows

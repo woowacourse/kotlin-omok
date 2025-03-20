@@ -1,11 +1,11 @@
 package omok.view
 
-import omok.model.Board
-import omok.model.Col
-import omok.model.Position
-import omok.model.Row
-import omok.model.Stone
-import omok.model.StoneState
+import omok.model.board.Board
+import omok.model.stone.Stone
+import omok.model.stone.StoneState
+import omok.model.stone.position.Col
+import omok.model.stone.position.Position
+import omok.model.stone.position.Row
 
 class OutputView {
     fun printNextTurn(board: Board) {

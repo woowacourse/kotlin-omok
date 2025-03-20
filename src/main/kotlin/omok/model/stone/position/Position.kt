@@ -1,4 +1,4 @@
-package omok.model
+package omok.model.stone.position
 
 import rule.wrapper.point.Point
 

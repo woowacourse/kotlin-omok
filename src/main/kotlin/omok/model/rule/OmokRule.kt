@@ -1,4 +1,10 @@
-package omok.model
+package omok.model.rule
+
+import omok.model.stone.Stone
+import omok.model.stone.StoneState
+import omok.model.stone.position.Col
+import omok.model.stone.position.Position
+import omok.model.stone.position.Row
 
 class OmokRule(
     private val boardSize: Int,

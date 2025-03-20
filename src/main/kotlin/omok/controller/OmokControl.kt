@@ -1,8 +1,8 @@
 package omok.controller
 
-import omok.model.Board
-import omok.model.Board.Companion.initBoard
-import omok.model.Position
+import omok.model.board.Board
+import omok.model.board.Board.Companion.initBoard
+import omok.model.stone.position.Position
 import omok.view.InputView
 import omok.view.OutputView
 
