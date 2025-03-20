@@ -22,7 +22,7 @@ class OmokController(
 
     private fun initGame(): OmokGame {
         outputView.printStartMessage()
-        return OmokGame(OmokGrid(20, 20))
+        return OmokGame(OmokGrid())
     }
 
     private fun printWinner(

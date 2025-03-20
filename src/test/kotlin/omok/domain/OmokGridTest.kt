@@ -34,7 +34,7 @@ class OmokGridTest {
         omokGrid.putStone(Point(row, col), StoneState.BLACK)
         // then
         assertThrows<IllegalStateException> {
-            omokGrid.putStone(Point(row, col), StoneState.BLACK)
+            omokGrid.canPlace(Point(row, col))
         }
     }
 }

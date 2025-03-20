@@ -16,8 +16,9 @@ class OmokGame(val grid: OmokGrid) {
     ): OmokResult {
         var latestPoint: Point? = null
         var nowPlayer: Player = blackPlayer
+
         while (true) {
-            latestPoint = turn(nowPlayer, latestPoint, onTurnStarted, onSelectPosition)
+            latestPoint = playMove(nowPlayer, latestPoint, onTurnStarted, onSelectPosition)
             if (nowPlayer.checkWin(latestPoint)) return OmokResult.returnWinner(nowPlayer)
             if (grid.isFull()) break
             nowPlayer = getOtherPlayer(nowPlayer)
@@ -25,18 +26,28 @@ class OmokGame(val grid: OmokGrid) {
         return OmokResult.DRAW
     }
 
-    private fun turn(
+    private fun playMove(
         player: Player,
         latestPoint: Point?,
         onTurnStarted: (List<MutableList<StoneState>>) -> Unit,
         onSelectPosition: (Player, Point?, OmokGrid) -> Point,
     ): Point {
+        onTurnStarted(grid.board)
+        val point = getPointToPlace(player, latestPoint, onSelectPosition)
+        grid.putStone(point, getStoneState(player))
+        player.addStone(point)
+        return point
+    }
+
+    private fun getPointToPlace(
+        player: Player,
+        latestPoint: Point?,
+        onSelectPosition: (Player, Point?, OmokGrid) -> Point,
+    ): Point {
         return retryInput {
-            onTurnStarted(grid.board)
             val point = onSelectPosition(player, latestPoint, grid)
             validatePosition(player, point)
-            grid.putStone(point, getStoneState(player))
-            player.addStone(point)
+            grid.canPlace(point)
             point
         }
     }

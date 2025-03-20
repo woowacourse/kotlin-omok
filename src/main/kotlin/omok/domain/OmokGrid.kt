@@ -7,11 +7,14 @@ class OmokGrid(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
     val board: List<MutableList<StoneState>>
         get() = _board.deepCopy()
 
+    fun canPlace(point: Point) {
+        if (_board[point.row][point.col] != StoneState.BLANK) throw IllegalStateException(ERROR_STONE_ALREADY_PUT)
+    }
+
     fun putStone(
         point: Point,
         state: StoneState,
     ) {
-        if (_board[point.row][point.col] != StoneState.BLANK) throw IllegalStateException(ERROR_STONE_ALREADY_PUT)
         _board[point.row][point.col] = state
     }
 
