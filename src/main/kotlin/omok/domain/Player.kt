@@ -23,7 +23,6 @@ abstract class Player {
     ): Boolean
 
     companion object {
-        @JvmStatic
-        protected val WIN_STANDARD = 5
+        private const val WIN_STANDARD = 5
     }
 }
