@@ -24,6 +24,7 @@ class InputView {
         private const val INPUT_POSITION_MESSAGE: String = "\n위치를 입력하세요: "
         private const val BLACK_COLOR_LABEL: String = "흑"
         private const val WHITE_COLOR_LABEL: String = "백"
+        private val ALPHABETS: CharRange = ('A'..'Z')
 
         private fun StoneColor.toLabel(): String =
             when (this) {
@@ -34,7 +35,7 @@ class InputView {
         private fun Position.toLabel(): String = "${this.column.toLabel()}${this.row}"
 
         private fun ColumnPosition.toLabel(): Char {
-            val alphabets = ('A'..'Z').toList()
+            val alphabets = ALPHABETS.toList()
             return alphabets[this.value - 1]
         }
 
@@ -45,14 +46,14 @@ class InputView {
             }
 
         private fun String.toPosition(): Position {
-            val columnPosition = this[0].toColumnPosition()
+            val columnPosition = this.first().toColumnPosition()
             val rowPosition = RowPosition(this.substring(1).toInt())
 
             return Position(rowPosition, columnPosition)
         }
 
         private fun Char.toColumnPosition(): ColumnPosition {
-            val alphabets = ('A'..'Z').toList()
+            val alphabets = ALPHABETS.toList()
             return ColumnPosition(alphabets.indexOf(this) + 1)
         }
     }
