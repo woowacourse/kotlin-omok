@@ -11,29 +11,6 @@ abstract class OmokRule(
     protected val boardHeight: Int,
 ) {
     /**
-     * The function will determine if the win condition is satisfied.
-     * If it is a black stone, it will determine whether there is a foul.
-     * On the other hand, whiteStone only checks that the victory condition is satisfied regardless of whether there is a foul play or not.
-     *
-     * @param blackPositions List of pairs for row and column of black stones.
-     * @param whitePositions List of pairs for row and column of white stones.
-     * @param startPosition The row and column of the stone that is being placed.
-     *
-     * @return Returns true if no fouls are played and the win conditions are met.
-     * */
-    fun checkWin(
-        blackPositions: List<Stone>,
-        whitePositions: List<Stone>,
-        startPosition: Position,
-    ): Boolean {
-        val satisfyWin = checkSerialSameStonesBiDirection(blackPositions, startPosition, WIN_STANDARD)
-        val koState = checkAnyFoulCondition(blackPositions, whitePositions, startPosition)
-
-        if (satisfyWin && koState != Violation.OVERLINE) return true
-        return false
-    }
-
-    /**
      * When a stone is placed at a specific location, it checks if the same number of stones are in a row.
      * It can also be used to determine if you have won.
      *
@@ -103,6 +80,23 @@ abstract class OmokRule(
             checkDoubleFoul(blackPositions, whitePositions, startPosition, Foul.DOUBLE_FOUR),
             checkOverline(blackPositions, startPosition),
         ).lastOrNull { it.state } ?: Violation.NONE
+
+    /**
+     * The function will determine if the win condition is satisfied.
+     * If it is a black stone, it will determine whether there is a foul.
+     * On the other hand, whiteStone only checks that the victory condition is satisfied regardless of whether there is a foul play or not.
+     *
+     * @param blackPositions List of pairs for row and column of black stones.
+     * @param whitePositions List of pairs for row and column of white stones.
+     * @param startPosition The row and column of the stone that is being placed.
+     *
+     * @return Returns true if no fouls are played and the win conditions are met.
+     * */
+    abstract fun checkWin(
+        blackPositions: List<Stone>,
+        whitePositions: List<Stone>,
+        startPosition: Position,
+    ): Boolean
 
     /**
      * check 'three-three' Position or 'four-four' Position according to the given 'foul type'

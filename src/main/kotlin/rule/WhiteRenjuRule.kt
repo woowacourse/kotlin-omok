@@ -9,6 +9,17 @@ class WhiteRenjuRule(
     boardWidth: Int = DEFAULT_BOARD_WIDTH,
     boardHeight: Int = DEFAULT_BOARD_HEIGHT,
 ) : OmokRule(boardWidth, boardHeight) {
+    override fun checkWin(
+        blackPositions: List<Stone>,
+        whitePositions: List<Stone>,
+        startPosition: Position,
+    ): Boolean {
+        val satisfyWin = checkSerialSameStonesBiDirection(whitePositions, startPosition, WIN_STANDARD)
+        val koState = checkAnyFoulCondition(blackPositions, whitePositions, startPosition)
+
+        return satisfyWin && koState != Violation.OVERLINE
+    }
+
     override fun checkDoubleFoul(
         blackPositions: List<Stone>,
         whitePositions: List<Stone>,
