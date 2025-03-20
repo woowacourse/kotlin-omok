@@ -15,7 +15,7 @@ class OutputView {
     ) {
         print(MESSAGE_TURN.format(color.toKorean()))
         if (lastPoint != null) {
-            println(MESSAGE_LAST_POINT.format(lastPoint.toText()))
+            print(MESSAGE_LAST_POINT.format(lastPoint.toText()))
         }
     }
 
@@ -41,7 +41,7 @@ class OutputView {
     private fun calculatePosition(
         point: Point,
         boardSize: Int,
-    ): Int = (point.row) * 3 + ((boardSize * 3 + 2) * (boardSize - point.col))
+    ): Int = (point.row + 1) * 3 + ((boardSize * 3 + 2) * (boardSize - point.col - 1))
 
     private fun createOmokBoard(boardSize: Int): String {
         buildString {
@@ -84,6 +84,6 @@ class OutputView {
                 StoneColor.WHITE -> "백"
             }
 
-        private fun Point.toText(): String = ('A' + row - 1).toString() + (col)
+        private fun Point.toText(): String = ('A' + row).toString() + (col + 1)
     }
 }

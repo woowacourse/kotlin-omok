@@ -17,7 +17,7 @@ class WhiteTurn(
 
         val newStones = whiteStones + point
         return when {
-            whiteStones.isOmok(blackStones, point) -> WhiteWin(blackStones, newStones)
+            whiteStones.isOmok(point, boardSize) -> WhiteWin(blackStones, newStones)
             blackStones.points.size + newStones.points.size >= boardSize * boardSize ->
                 Draw(blackStones, newStones)
             else -> BlackTurn(blackStones, newStones)
