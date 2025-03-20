@@ -1,6 +1,6 @@
 package omok.model.rule.lib
 
-abstract class OmokForbiddenRule(
+abstract class ForbiddenMoveRule(
     private val currentStone: Int = BLACK_STONE,
     val opponentStone: Int = WHITE_STONE,
 ) {
