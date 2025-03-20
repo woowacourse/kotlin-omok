@@ -1,14 +1,15 @@
 package omok.domain.state
 
 import omok.domain.StoneColor
-import omok.domain.Stones
+import omok.domain.stones.BlackStones
+import omok.domain.stones.WhiteStones
 import rule.BlackRenjuRule
 import rule.type.Violation
 import rule.wrapper.point.Point
 
 class BlackTurn(
-    override val blackStones: Stones,
-    override val whiteStones: Stones,
+    override val blackStones: BlackStones,
+    override val whiteStones: WhiteStones,
 ) : State {
     override fun place(
         point: Point,
@@ -19,14 +20,21 @@ class BlackTurn(
         val newStones = blackStones + point
 
         val rule = BlackRenjuRule(boardSize)
-        val violateType = rule.checkAnyFoulCondition(blackStones.points.toList(), whiteStones.points.toList(), point)
+        val violateType =
+            rule.checkAnyFoulCondition(
+                blackStones.points.toList(),
+                whiteStones.points.toList(),
+                point,
+            )
         when (violateType) {
             Violation.DOUBLE_THREE, Violation.DOUBLE_FOUR, Violation.OVERLINE -> {
                 println(ERROR_RENJU_RULE)
                 return BlackTurn(blackStones, whiteStones)
             }
+
             Violation.NONE -> {
-                val isOmok = rule.checkWin(blackStones.points.toList(), whiteStones.points.toList(), point)
+                val isOmok =
+                    rule.checkWin(blackStones.points.toList(), whiteStones.points.toList(), point)
                 if (isOmok) {
                     return BlackWin(newStones, whiteStones)
                 }

@@ -1,12 +1,13 @@
 package omok.domain.state
 
 import omok.domain.StoneColor
-import omok.domain.Stones
+import omok.domain.stones.BlackStones
+import omok.domain.stones.WhiteStones
 import rule.wrapper.point.Point
 
 class Ready(
-    override val blackStones: Stones = Stones(color = StoneColor.BLACK),
-    override val whiteStones: Stones = Stones(color = StoneColor.WHITE),
+    override val blackStones: BlackStones = BlackStones(),
+    override val whiteStones: WhiteStones = WhiteStones(),
 ) : State {
     override fun place(
         point: Point,

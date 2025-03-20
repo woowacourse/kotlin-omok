@@ -1,12 +1,13 @@
 package omok.domain.state
 
 import omok.domain.StoneColor
-import omok.domain.Stones
+import omok.domain.stones.BlackStones
+import omok.domain.stones.WhiteStones
 import rule.wrapper.point.Point
 
 abstract class Finished(
-    override val blackStones: Stones,
-    override val whiteStones: Stones,
+    override val blackStones: BlackStones,
+    override val whiteStones: WhiteStones,
 ) : State {
     abstract val winnerColor: StoneColor?
 

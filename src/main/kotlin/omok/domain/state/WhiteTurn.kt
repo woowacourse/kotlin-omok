@@ -1,13 +1,14 @@
 package omok.domain.state
 
 import omok.domain.StoneColor
-import omok.domain.Stones
+import omok.domain.stones.BlackStones
+import omok.domain.stones.WhiteStones
 import rule.WhiteRenjuRule
 import rule.wrapper.point.Point
 
 class WhiteTurn(
-    override val blackStones: Stones,
-    override val whiteStones: Stones,
+    override val blackStones: BlackStones,
+    override val whiteStones: WhiteStones,
 ) : State {
     override fun place(
         point: Point,
