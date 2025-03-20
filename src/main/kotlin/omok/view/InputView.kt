@@ -1,16 +1,18 @@
 package omok.view
 
+import omok.domain.LatestStone
 import omok.domain.board.StoneStatus
-import omok.domain.point.Point
-import omok.view.ext.position
 import omok.view.ext.toLabel
 
 class InputView {
-    fun readStoneWithLastPosition(lastPosition: Point): String {
+    fun readStoneWithLatestStone(
+        stoneColor: StoneStatus,
+        lastStone: LatestStone,
+    ): String {
         while (true) {
-            print(MESSAGE_PLAYER_TURN.format(lastPosition.stoneStatus.toggle().toLabel()))
-            if (lastPosition.stoneStatus != StoneStatus.EMPTY) {
-                println(MESSAGE_LAST_POSITION.format(lastPosition.position()))
+            print(MESSAGE_PLAYER_TURN.format(stoneColor.toLabel()))
+            if (lastStone.value.isNotBlank()) {
+                println(MESSAGE_LAST_POSITION.format(lastStone.value))
             }
             print(MESSAGE_INPUT_POSITION)
             val input = readlnOrNull()?.trim()

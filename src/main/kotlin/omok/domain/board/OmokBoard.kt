@@ -1,5 +1,7 @@
 package omok.domain.board
 
+import omok.domain.LatestStone
+import omok.domain.ext.toCoordination
 import omok.domain.point.OmokPoints
 import omok.domain.point.Point
 import omok.domain.rule.Direction
@@ -8,7 +10,7 @@ import omok.domain.rule.RenjuCheck
 class OmokBoard(
     private val omokPoints: OmokPoints,
 ) {
-    var latestStone: Point = Point(OmokColumn.WALL, OmokRow.WALL, StoneStatus.EMPTY)
+    var latestStone: LatestStone = LatestStone("")
         private set
 
     fun toMatrix(): List<List<StoneStatus>> = omokPoints.toMatrix()
@@ -22,8 +24,12 @@ class OmokBoard(
 
     fun addStone(point: Point) {
         omokPoints.altStone(point)
-        latestStone = point
+        saveLatestStone(point)
         updateProtectedPlace()
+    }
+
+    private fun saveLatestStone(point: Point)  {
+        latestStone = LatestStone(point.toCoordination())
     }
 
     fun goto(

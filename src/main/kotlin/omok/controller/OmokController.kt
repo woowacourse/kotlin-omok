@@ -16,7 +16,6 @@ class OmokController(
         var stone = StoneStatus.BLACK
         while (omokBoard.isNotFull()) {
             val point = readValidPoint(stone)
-
             omokBoard.addStone(point)
             if (omokBoard.isOmok(point)) {
                 outputView.printPrintWinner(stone)
@@ -26,10 +25,10 @@ class OmokController(
         }
     }
 
-    private fun readValidPoint(stone: StoneStatus): Point {
+    private fun readValidPoint(stoneColor: StoneStatus): Point {
         return retryWhenException(
             action = {
-                val point = Point.of(getInputPoint(), stone)
+                val point = Point.of(getInputPoint(stoneColor), stoneColor)
                 omokBoard.pointValidation(point)
                 point
             },
@@ -37,8 +36,8 @@ class OmokController(
         )
     }
 
-    private fun getInputPoint(): String {
+    private fun getInputPoint(stoneColor: StoneStatus): String {
         outputView.printBoard(omokBoard)
-        return inputView.readStoneWithLastPosition(omokBoard.latestStone)
+        return inputView.readStoneWithLatestStone(stoneColor, omokBoard.latestStone)
     }
 }
