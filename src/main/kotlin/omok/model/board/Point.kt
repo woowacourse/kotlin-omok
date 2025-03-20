@@ -1,7 +1,6 @@
 package omok.model.board
 
-import omok.model.stone.Position
-import omok.model.stone.StoneColor
+import omok.model.StoneColor
 
 class Point(val position: Position) {
     var state: PointState = PointState.OPEN

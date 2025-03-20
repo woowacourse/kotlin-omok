@@ -1,10 +1,10 @@
 package omok.model.rule.count
 
+import omok.model.StoneColor
 import omok.model.board.Board
 import omok.model.board.Point
 import omok.model.board.PointState
-import omok.model.stone.Position
-import omok.model.stone.StoneColor
+import omok.model.board.Position
 
 abstract class OmokCountRule {
     fun calculate(

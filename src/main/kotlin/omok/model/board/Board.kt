@@ -1,8 +1,7 @@
 package omok.model.board
 
+import omok.model.StoneColor
 import omok.model.rule.OmokJudge
-import omok.model.stone.Position
-import omok.model.stone.StoneColor
 
 class Board {
     private val judge: OmokJudge = OmokJudge()

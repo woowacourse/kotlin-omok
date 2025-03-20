@@ -1,6 +1,6 @@
-package omok.model.stone
+package omok.model
 
-import omok.model.stone.StoneColor.Companion.next
+import omok.model.StoneColor.Companion.next
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

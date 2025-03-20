@@ -1,13 +1,12 @@
 package omok.model
 
+import omok.model.StoneColor.Companion.next
 import omok.model.board.Board
 import omok.model.board.PlaceStoneResult
 import omok.model.board.Point
+import omok.model.board.Position
 import omok.model.rule.count.FiveInRowRule
 import omok.model.rule.count.OmokCountRule
-import omok.model.stone.Position
-import omok.model.stone.StoneColor
-import omok.model.stone.StoneColor.Companion.next
 import omok.view.OmokInputView
 import omok.view.OmokOutputView
 

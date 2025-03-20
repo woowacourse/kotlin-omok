@@ -6,8 +6,8 @@ import omok.fixture.horizontalFiveInRowBoard
 import omok.fixture.verticalFiveInRowBoard
 import omok.model.board.Point
 import omok.model.board.PointState
+import omok.model.board.Position
 import omok.model.rule.count.FiveInRowRule
-import omok.model.stone.Position
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

@@ -3,7 +3,7 @@ package omok.view
 import omok.model.board.Board
 import omok.model.board.Point
 import omok.model.board.PointState
-import omok.model.stone.Position
+import omok.model.board.Position
 
 fun String.toPosition(): Pair<Int, Int> {
     return this[0].alphabetToInt() to this.substring(1).toInt()

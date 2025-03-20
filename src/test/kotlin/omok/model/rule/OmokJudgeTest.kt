@@ -6,7 +6,7 @@ import omok.fixture.falseDoubleThreeBoard
 import omok.fixture.fourThreeBoard
 import omok.fixture.overlineForbiddenBoard
 import omok.model.board.Point
-import omok.model.stone.Position
+import omok.model.board.Position
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

@@ -1,4 +1,4 @@
-package omok.model.stone
+package omok.model
 
 enum class StoneColor {
     WHITE,

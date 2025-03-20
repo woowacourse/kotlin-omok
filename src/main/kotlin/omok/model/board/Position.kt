@@ -1,4 +1,4 @@
-package omok.model.stone
+package omok.model.board
 
 data class Position(val x: Int, val y: Int) {
     init {

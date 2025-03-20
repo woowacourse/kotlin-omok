@@ -1,4 +1,4 @@
-package omok.model.stone
+package omok.model.board
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
