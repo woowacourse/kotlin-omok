@@ -19,7 +19,7 @@ class OmokGame(val grid: OmokGrid) {
 
         while (true) {
             latestPoint = playMove(nowPlayer, latestPoint, onTurnStarted, onSelectPosition)
-            if (nowPlayer.checkWin(latestPoint)) return OmokResult.returnWinner(nowPlayer)
+            if (nowPlayer.checkWin(latestPoint)) return OmokResult.getWinner(nowPlayer)
             if (grid.isFull()) break
             nowPlayer = getOtherPlayer(nowPlayer)
         }
@@ -34,7 +34,7 @@ class OmokGame(val grid: OmokGrid) {
     ): Point {
         onTurnStarted(grid.board)
         val point = getPointToPlace(player, latestPoint, onSelectPosition)
-        grid.putStone(point, getStoneState(player))
+        grid.putStone(point, StoneState.getColor(player))
         player.addStone(point)
         return point
     }
@@ -65,14 +65,6 @@ class OmokGame(val grid: OmokGrid) {
             whitePlayer
         } else {
             blackPlayer
-        }
-    }
-
-    private fun getStoneState(player: Player): StoneState {
-        return if (player is BlackPlayer) {
-            StoneState.BLACK
-        } else {
-            StoneState.WHITE
         }
     }
 }
