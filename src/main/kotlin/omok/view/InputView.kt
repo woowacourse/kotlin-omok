@@ -15,8 +15,8 @@ class InputView {
         print(
             MESSAGE_TURN_INDICATOR.format(
                 when (currentColor) {
-                    StoneColor.WHITE -> "흑"
-                    StoneColor.BLACK -> "백"
+                    StoneColor.WHITE -> "백"
+                    StoneColor.BLACK -> "흑"
                 },
             ),
         )

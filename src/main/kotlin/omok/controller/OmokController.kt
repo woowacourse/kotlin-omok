@@ -23,7 +23,7 @@ class OmokController(
     }
 
     private tailrec fun processTurn(game: Game) {
-        val point: Point = inputView.readPoint()
+        val point: Point = inputView.readTurn(game.lastStone)
         val gameState: GameState = game.play(point)
         outputView.printBoard(game)
         if (gameState == GameState.PLAYING) {
