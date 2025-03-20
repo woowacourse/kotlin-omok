@@ -27,7 +27,7 @@ class OmokController(
         outputView.displayOmokBoard(omokBoard)
         when (placeResult) {
             is PlaceResult.Success.Progress -> return
-            is PlaceResult.Success.Finish -> outputView.displayWinningMessage(placeResult.result)
+            is PlaceResult.Success.Finish -> outputView.displayWinningMessage(placeResult.winning)
             else -> outputView.displayErrorMessage(placeResult)
         }
     }
