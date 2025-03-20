@@ -4,6 +4,7 @@ import omok.domain.model.Board
 import omok.domain.model.position.Column
 import omok.domain.model.position.Position
 import omok.domain.model.position.Row
+import omok.domain.model.stone.OmokStone
 import omok.domain.model.stone.StoneType
 
 class OutputView {
@@ -11,8 +12,16 @@ class OutputView {
         println("오목 게임을 시작합니다.")
     }
 
-    fun printTurn(omokStoneUiModel: OmokStoneUiModel) {
-        println("${omokStoneUiModel.stone}의 차례입니다. (마지막 돌의 위치: ${omokStoneUiModel.position}")
+    fun printTurn(
+        stoneType: StoneType,
+        omokStone: OmokStone?,
+    ) {
+        print("${stoneType.toKorean()}의 차례입니다.")
+        if (omokStone != null) {
+            println("(마지막 돌의 위치: ${omokStone.position.toCoordinateString()})")
+            return
+        }
+        println()
     }
 
     fun printBoardState(board: Board) {
@@ -36,8 +45,21 @@ class OutputView {
         println()
     }
 
-    fun printResult(omokStoneUiModel: OmokStoneUiModel) {
-        println("${omokStoneUiModel.stone}의 승리입니다.")
+    fun printResult(omokStone: OmokStone) {
+        println("${omokStone.stoneType.toKorean()}의 승리입니다.")
+    }
+
+    private fun Position.toCoordinateString(): String {
+        val column = Column.COLUMNS[this.column.value - 1]
+        val row = this.row.value
+        return "${column}$row"
+    }
+
+    private fun StoneType.toKorean(): String {
+        return when (this) {
+            StoneType.BLACK -> "흑"
+            StoneType.WHITE -> "백"
+        }
     }
 
     companion object {
