@@ -2,8 +2,8 @@ package omok.domain
 
 import rule.wrapper.point.Point
 
-class OmokGrid(board: List<MutableList<StoneState>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { StoneState.BLANK } }) {
-    private val _board: List<MutableList<StoneState>> = board.deepCopy()
+class OmokGrid(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
+    private val _board: List<MutableList<StoneState>> = List(width + 1) { MutableList(height + 1) { StoneState.BLANK } }
     val board: List<MutableList<StoneState>>
         get() = _board.deepCopy()
 

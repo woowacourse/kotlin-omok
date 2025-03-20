@@ -1,6 +1,6 @@
 package omok.view
 
-import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
+import omok.domain.OmokGrid
 import omok.domain.player.BlackPlayer
 import omok.domain.player.Player
 import omok.domain.player.WhitePlayer
@@ -10,13 +10,14 @@ class InputView {
     fun getPoint(
         player: Player,
         latestPoint: Point?,
+        grid: OmokGrid,
     ): Point {
         print(MESSAGE_TURN.format(player.getDisplayColor()))
         if (latestPoint != null) print(MESSAGE_LATEST_POSITION.format(convertToString(latestPoint)))
         print(MESSAGE_POSITION_GUIDE)
         val rawInput = readln().trim()
 
-        return parsingInput(rawInput) ?: getPoint(player, latestPoint)
+        return parsingInput(rawInput, grid) ?: getPoint(player, latestPoint, grid)
     }
 
     private fun convertToString(point: Point): String {
@@ -24,25 +25,34 @@ class InputView {
         return letter + (point.row).toString()
     }
 
-    private fun parsingInput(rawInput: String): Point? {
+    private fun parsingInput(
+        rawInput: String,
+        grid: OmokGrid,
+    ): Point? {
         if (rawInput.isEmpty()) return null
 
         val rawRow = rawInput.substring(1)
         val rawCol = rawInput.substring(0, 1)
 
-        val row = validateRow(rawRow) ?: return null
-        val col = validateCol(rawCol) ?: return null
+        val row = validateRow(rawRow, grid.height) ?: return null
+        val col = validateCol(rawCol, grid.width) ?: return null
         return Point(row, col)
     }
 
-    private fun validateRow(number: String): Int? {
+    private fun validateRow(
+        number: String,
+        height: Int,
+    ): Int? {
         if (number.toIntOrNull() == null) return null
-        if (number.toInt() !in 1..DEFAULT_SIZE) return null
+        if (number.toInt() !in 1..height) return null
         return number.toInt()
     }
 
-    private fun validateCol(col: String): Int? {
-        if (col[0] - 'A' !in 0 until DEFAULT_SIZE) return null
+    private fun validateCol(
+        col: String,
+        width: Int,
+    ): Int? {
+        if (col[0] - 'A' !in 0 until width) return null
         return convertLetter(col)
     }
 

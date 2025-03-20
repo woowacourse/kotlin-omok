@@ -1,5 +1,6 @@
 package omok.view
 
+import omok.domain.OmokGrid
 import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
 import omok.domain.OmokResult
 import omok.domain.StoneState
@@ -7,13 +8,13 @@ import omok.domain.StoneState
 class OutputView {
     fun printStartMessage() = println(MESSAGE_GAME_START)
 
-    fun printBoardState(board: List<List<StoneState>>) {
+    fun printBoardState(grid: OmokGrid) {
         println()
-        for (row in MAX_BOUND downTo MIN_BOUND) {
-            printRow(board[row], row)
+        for (row in grid.height downTo MIN_BOUND) {
+            printRow(grid, row)
         }
         print(BLANK)
-        printCoordinateY()
+        printCoordinateY(grid.width)
     }
 
     fun printWinner(omokResult: OmokResult) {
@@ -21,31 +22,32 @@ class OutputView {
     }
 
     private fun printRow(
-        boardRow: List<StoneState>,
+        grid: OmokGrid,
         row: Int,
     ) {
         print(COORDINATE_X.format(row))
-        for (col in MIN_BOUND..MAX_BOUND) {
-            print(boardUI(boardRow[col], row, col))
-            if (col != MAX_BOUND) repeat(REPEAT_COUNT) { print(DASH) }
+        for (col in MIN_BOUND..grid.width) {
+            print(boardUI(grid, row, col))
+            if (col != grid.width) repeat(REPEAT_COUNT) { print(DASH) }
         }
         println()
     }
 
     private fun boardUI(
-        state: StoneState,
+        grid: OmokGrid,
         row: Int,
         col: Int,
     ): String {
+        val state = grid.board[row][col]
         return when {
             state != StoneState.BLANK -> state.toUI()
-            row == MAX_BOUND && col == MIN_BOUND -> LEFT_UP
-            row == MAX_BOUND && col == MAX_BOUND -> RIGHT_UP
+            row == grid.height && col == MIN_BOUND -> LEFT_UP
+            row == grid.height && col == grid.width -> RIGHT_UP
             row == MIN_BOUND && col == MIN_BOUND -> LEFT_DOWN
-            row == MIN_BOUND && col == MAX_BOUND -> RIGHT_DOWN
+            row == MIN_BOUND && col == grid.width -> RIGHT_DOWN
             col == MIN_BOUND -> LEFT
-            row == MAX_BOUND -> UP
-            col == MAX_BOUND -> RIGHT
+            row == grid.height -> UP
+            col == grid.width -> RIGHT
             row == MIN_BOUND -> DOWN
             else -> MIDDLE
         }
@@ -59,8 +61,8 @@ class OutputView {
         }
     }
 
-    private fun printCoordinateY() {
-        println(('A' until 'A' + DEFAULT_SIZE).joinToString("  "))
+    private fun printCoordinateY(width: Int) {
+        println(('A' until 'A' + width).joinToString("  "))
     }
 
     companion object {

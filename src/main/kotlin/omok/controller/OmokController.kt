@@ -14,22 +14,22 @@ class OmokController(
         val omokGame = initGame()
         val result =
             omokGame.playGame(
-                onTurnStarted = { outputView.printBoardState(it) },
-                onSelectPosition = { player, latestPoint -> inputView.getPoint(player, latestPoint) },
+                onTurnStarted = { outputView.printBoardState(omokGame.grid) },
+                onSelectPosition = { player, latestPoint, grid -> inputView.getPoint(player, latestPoint, grid) },
             )
         printWinner(result, omokGame)
     }
 
     private fun initGame(): OmokGame {
         outputView.printStartMessage()
-        return OmokGame(OmokGrid())
+        return OmokGame(OmokGrid(20, 20))
     }
 
     private fun printWinner(
         omokResult: OmokResult,
         omokGame: OmokGame,
     ) {
-        outputView.printBoardState(omokGame.grid.board)
+        outputView.printBoardState(omokGame.grid)
         outputView.printWinner(omokResult)
     }
 }

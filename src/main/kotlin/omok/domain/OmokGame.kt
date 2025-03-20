@@ -7,12 +7,12 @@ import omok.util.retryInput
 import rule.wrapper.point.Point
 
 class OmokGame(val grid: OmokGrid) {
-    private val blackPlayer: BlackPlayer = BlackPlayer()
-    private val whitePlayer: WhitePlayer = WhitePlayer()
+    private val blackPlayer: BlackPlayer = BlackPlayer(grid.width, grid.height)
+    private val whitePlayer: WhitePlayer = WhitePlayer(grid.width, grid.height)
 
     fun playGame(
         onTurnStarted: (List<MutableList<StoneState>>) -> Unit,
-        onSelectPosition: (Player, Point?) -> Point,
+        onSelectPosition: (Player, Point?, OmokGrid) -> Point,
     ): OmokResult {
         var latestPoint: Point? = null
         var nowPlayer: Player = blackPlayer
@@ -29,11 +29,11 @@ class OmokGame(val grid: OmokGrid) {
         player: Player,
         latestPoint: Point?,
         onTurnStarted: (List<MutableList<StoneState>>) -> Unit,
-        onSelectPosition: (Player, Point?) -> Point,
+        onSelectPosition: (Player, Point?, OmokGrid) -> Point,
     ): Point {
         return retryInput {
             onTurnStarted(grid.board)
-            val point = onSelectPosition(player, latestPoint)
+            val point = onSelectPosition(player, latestPoint, grid)
             validatePosition(player, point)
             grid.putStone(point, getStoneState(player))
             player.addStone(point)
