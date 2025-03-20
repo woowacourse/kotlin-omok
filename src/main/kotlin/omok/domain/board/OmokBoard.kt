@@ -22,7 +22,8 @@ class OmokBoard(
         column: OmokColumn,
     ): Point = omokPoints.getPointAt(row, column)
 
-    fun getLatestStone(): String {
+    fun getLatestStone(): String? {
+        if (latestStone.stoneStatus == StoneStatus.EMPTY) return null
         val dx = OmokColumn.find(latestStone.x.value).name
         val dy = latestStone.y.value
         return dx + dy

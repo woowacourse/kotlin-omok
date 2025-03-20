@@ -17,13 +17,13 @@ class OmokController(
     }
 
     private fun startGame(omokBoard: OmokBoard) {
-        var isFirst = true
+        outputView.printStartMessage()
         var stone = StoneStatus.BLACK
         while (omokBoard.isNotFull()) {
             val point =
                 retryWhenException(
                     action = {
-                        val point = readPoint(isFirst, stone)
+                        val point = readPoint(stone)
                         omokBoard.addStone(point)
                         point
                     },
@@ -35,37 +35,32 @@ class OmokController(
                 break
             }
 
-            isFirst = false
             stone = stone.toggle()
         }
     }
 
-    private fun readPoint(
-        isFirst: Boolean,
-        stone: StoneStatus,
-    ): Point {
+    private fun readPoint(stone: StoneStatus): Point {
         return retryWhenException(
             action = {
-                val pos = getInputPoint(isFirst, stone)
-                val col = pos[0].uppercaseChar()
-                val row = pos.substring(1)
-                Point.of(row, col, stone)
+                val pos = getInputPoint(stone)
+                parsePoint(pos, stone)
             },
             onError = outputView::printErrorMessage,
         )
     }
 
-    private fun getInputPoint(
-        isFirst: Boolean,
+    private fun parsePoint(
+        pos: String,
         stone: StoneStatus,
-    ): String {
-        return if (isFirst) {
-            outputView.printStartMessage()
-            outputView.printBoard(omokBoard)
-            inputView.readStoneWithLastPosition(stone, null)
-        } else {
-            outputView.printBoard(omokBoard)
-            inputView.readStoneWithLastPosition(stone, omokBoard.getLatestStone())
-        }
+    ): Point {
+        val col = pos[0].uppercaseChar()
+        val row = pos.substring(1)
+        return Point.of(row, col, stone)
+    }
+
+    private fun getInputPoint(stone: StoneStatus): String {
+        outputView.printBoard(omokBoard)
+        val latestStone = omokBoard.getLatestStone()
+        return inputView.readStoneWithLastPosition(stone, latestStone)
     }
 }
