@@ -19,11 +19,7 @@ class OmokGame(
         while (true) {
             outputView.showBoard(board.grid)
             val lastStone: Stone? = board.stones.lastStone()
-            if (lastStone == null) {
-                outputView.printFirstTurn()
-            } else {
-                outputView.printNormalTurn(lastStone.color, position)
-            }
+            messageTurn(lastStone, position)
             val inputPosition = inputView.readPosition()
             position = inputPosition
             val stone = getPosition(turn, inputPosition)
@@ -39,5 +35,13 @@ class OmokGame(
         inputPosition: String,
     ): Stone {
         return turn.stone(inputPosition)
+    }
+
+    private fun messageTurn(lastStone: Stone?, position: String) {
+        if (lastStone == null) {
+            outputView.printFirstTurn()
+        } else {
+            outputView.printNormalTurn(lastStone.color, position)
+        }
     }
 }
