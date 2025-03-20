@@ -1,6 +1,7 @@
 package omok.view
 
 import omok.model.Game
+import omok.model.GameState
 import omok.model.StoneColor
 import rule.wrapper.point.Point
 
@@ -14,7 +15,15 @@ class OutputView {
         println(modifyBoard(game.blackPlayer.points, game.whitePlayer.points))
     }
 
-    fun modifyBoard(
+    fun printWinner(gameState: GameState) {
+        when (gameState) {
+            GameState.WHITE_OMOK -> println(MESSAGE_OMOK_WINNER.format(WHITE_PLAYER))
+            GameState.BLACK_OMOK -> println(MESSAGE_OMOK_WINNER.format(BLACK_PLAYER))
+            GameState.PLAYING -> throw IllegalStateException()
+        }
+    }
+
+    private fun modifyBoard(
         blackPoints: List<Point>,
         whitePoints: List<Point>,
     ): String {
@@ -86,6 +95,10 @@ class OutputView {
 
     companion object {
         private const val MESSAGE_OMOK_START = "오목 게임을 시작합니다."
+        private const val MESSAGE_OMOK_WINNER = "%s이 승리했습니다!"
+        private const val BLACK_PLAYER = "흑"
+        private const val WHITE_PLAYER = "백"
+        
         private const val BOARD_SIZE = 15
         private const val ROW_NUMBER_OFFSET_SIZE = 4
         private const val COLUMN_NUMBER_OFFSET_SIZE = 2

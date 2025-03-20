@@ -26,8 +26,11 @@ class OmokController(
         val point: Point = inputView.readTurn(game.lastStone)
         val gameState: GameState = game.play(point)
         outputView.printBoard(game)
-        if (gameState == GameState.PLAYING) {
-            processTurn(game)
+
+        when (gameState) {
+            GameState.PLAYING -> processTurn(game)
+            GameState.BLACK_OMOK -> outputView.printWinner(gameState)
+            GameState.WHITE_OMOK -> outputView.printWinner(gameState)
         }
     }
 
