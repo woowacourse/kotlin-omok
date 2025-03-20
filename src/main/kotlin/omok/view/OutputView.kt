@@ -9,6 +9,45 @@ class OutputView {
         println()
     }
 
+    private fun makeInitialBoard(
+        rows: Int,
+        cols: Int,
+    ): String {
+        val board = StringBuilder()
+
+        board.append("%3d ".format(rows))
+        board.append("┌──")
+        for (col in 2..<cols) {
+            board.append("┬──")
+        }
+        board.append("┐\n")
+
+        for (row in rows - 1 downTo 2) {
+            board.append("%3d ".format(row))
+            board.append("├──")
+            for (col in 2..<cols) {
+                board.append("┼──")
+            }
+            board.append("┤\n")
+        }
+
+        board.append("%3d ".format(1))
+        board.append("└──")
+        for (col in 2..<cols) {
+            board.append("┴──")
+        }
+        board.append("┘\n")
+
+        val bottomLine = StringBuilder("  ")
+        bottomLine.append(" ".repeat(rows.toString().length))
+        for (alphabet in 1..cols) {
+            bottomLine.append("${(alphabet + 64).toChar()}  ")
+        }
+        board.append(bottomLine)
+
+        return board.toString()
+    }
+
     fun printBoard(board: Board) {
         printBoardHeader(board)
         for (row in 14 downTo 2) {
