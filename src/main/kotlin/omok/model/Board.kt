@@ -51,16 +51,16 @@ class Board private constructor(
 
     fun placeStone(nextPosition: Position): Board {
         val nextStone = Stone(nextPosition, nextStoneState)
-        require(!stonesMap.containsKey(nextStone.position)) { "해당하는 위치에 돌이 존재합니다" }
-        require(lastStone == null || (nextStone.stoneState != (lastStone.stoneState))) { "같은 색의 돌을 연속하여 착수할 수 없습니다" }
+        require(!stonesMap.containsKey(nextStone.position)) { ERROR_STONE_ALREADY_EXITS }
+        require(lastStone == null || (nextStone.stoneState != (lastStone.stoneState))) { ERROR_SUCCESSION_SAME_STATE_STONE }
 
         val newBoardStones = stonesMap + (nextStone.position to nextStone.stoneState)
 
         val violationType = blackRenjuRule.checkAnyFoulCondition(blackPoints, whitePoints, nextPosition.toPoint())
         when (violationType) {
-            Violation.DOUBLE_THREE -> throw Exception("3-3 반칙이 발생했습니다.")
-            Violation.DOUBLE_FOUR -> throw Exception("4-4 입니다")
-            Violation.OVERLINE -> throw Exception("장목입니다")
+            Violation.DOUBLE_THREE -> throw Exception(ERROR_DOUBLE_THREE)
+            Violation.DOUBLE_FOUR -> throw Exception(ERROR_DOUBLE_FOUR)
+            Violation.OVERLINE -> throw Exception(ERROR_OVERLINE)
             Violation.NONE -> {}
         }
 
@@ -69,6 +69,12 @@ class Board private constructor(
 
     companion object {
         private const val BOARD_SIZE = 15
+
+        private const val ERROR_STONE_ALREADY_EXITS = "해당하는 위치에 돌이 존재합니다"
+        private const val ERROR_SUCCESSION_SAME_STATE_STONE = "같은 색의 돌을 연속하여 착수할 수 없습니다"
+        private const val ERROR_DOUBLE_THREE = "3-3 반칙이 발생했습니다"
+        private const val ERROR_DOUBLE_FOUR = "4-4 반칙이 발생했습니다"
+        private const val ERROR_OVERLINE = "장목 반칙이 발생했습니다"
 
         fun initBoard(): Board {
             val initStonesMap: Map<Position, StoneState> = emptyMap()

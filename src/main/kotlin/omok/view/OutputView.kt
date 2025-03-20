@@ -49,7 +49,7 @@ class OutputView {
                             board[Position(Row(row), Col(it))] ?: StoneState.NONE,
                             point[it],
                         )
-                    }.joinToString(OMOK_SEPARATOR)
+                    }.joinToString("──")
             println(str)
         }
         val columnLabels = ('A'..'O').joinToString("  ")
@@ -79,16 +79,6 @@ class OutputView {
     }
 
     companion object {
-        private const val OMOK_SEPARATOR = "──"
-        private const val TOP_START = "┌"
-        private const val TOP_END = "┐"
-        private const val TOP_MIDDLE_STRING = "┬"
-        private const val MIDDLE_START = "├"
-        private const val MIDDLE_END = "┤"
-        private const val MIDDLE_MIDDLE_STRING = "┼"
-        private const val BOTTOM_START = "└"
-        private const val BOTTOM_END = "┘"
-        private const val BOTTOM_MIDDLE_STRING = "┴"
         private const val BOARD_SIZE = 15
     }
 }
