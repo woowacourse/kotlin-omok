@@ -1,9 +1,9 @@
 package omok.view
 
-import omok.controller.ext.toKorean
 import omok.domain.board.OmokBoard
 import omok.domain.board.OmokColumn.Companion.entriesWithoutWall
 import omok.domain.board.StoneStatus
+import omok.view.ext.toLabel
 
 class OutputView {
     fun printErrorMessage(msg: String?) {
@@ -15,7 +15,7 @@ class OutputView {
     }
 
     fun printPrintWinner(stone: StoneStatus) {
-        println(MESSAGE_WINNER.format(stone.toKorean()))
+        println(MESSAGE_WINNER.format(stone.toLabel()))
     }
 
     fun printBoard(board: OmokBoard) {

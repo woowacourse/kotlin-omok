@@ -5,4 +5,7 @@ enum class StoneStatus {
     WHITE,
     EMPTY,
     PROTECTED,
+    ;
+
+    fun toggle(): StoneStatus = if (this == BLACK) WHITE else BLACK
 }

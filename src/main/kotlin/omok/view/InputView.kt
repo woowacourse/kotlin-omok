@@ -1,7 +1,7 @@
 package omok.view
 
-import omok.controller.ext.toKorean
 import omok.domain.board.StoneStatus
+import omok.view.ext.toLabel
 
 class InputView {
     fun readStoneWithLastPosition(
@@ -9,7 +9,7 @@ class InputView {
         lastPosition: String?,
     ): String {
         while (true) {
-            print(MESSAGE_PLAYER_TURN.format(turn.toKorean()))
+            print(MESSAGE_PLAYER_TURN.format(turn.toLabel()))
             lastPosition?.let {
                 println(MESSAGE_LAST_POSITION.format(lastPosition))
             }

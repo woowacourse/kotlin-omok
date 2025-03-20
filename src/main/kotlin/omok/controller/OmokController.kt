@@ -1,6 +1,5 @@
 package omok.controller
 
-import omok.controller.ext.toggle
 import omok.domain.board.OmokBoard
 import omok.domain.board.StoneStatus
 import omok.domain.point.Point
