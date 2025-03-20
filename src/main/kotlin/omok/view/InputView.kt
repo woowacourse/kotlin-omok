@@ -1,5 +1,6 @@
 package omok.view
 
+import omok.model.PointFactory
 import omok.model.Stone
 import omok.model.StoneColor
 import rule.wrapper.point.Point
@@ -24,24 +25,25 @@ class InputView {
         return readPoint()
     }
 
-    fun readPoint(): Point {
+    private fun readPoint(): Point {
         return runCatching {
             print(MESSAGE_ENTER_POINT)
             val input: String = readln()
             val col: Int = input[0].integerRepresentation()
-            val row: Int = input.substring(1).toInt()
-            Point(row, col)
+            val row: Int? = input.substring(1).toIntOrNull()
+            PointFactory.create(row, col)
         }.getOrElse {
+            println(it.message)
             readPoint()
         }
     }
 
     private fun Char.integerRepresentation(): Int {
-        return this.uppercase()[0].code - 64
+        return this.uppercase()[0].code - ASCII_OFFSET
     }
 
     private fun Point.stringRepresentation(): String {
-        return "${(this.col + 64).toChar()}${this.row}"
+        return "${(this.col + ASCII_OFFSET).toChar()}${this.row}"
     }
 
     companion object {
@@ -49,5 +51,6 @@ class InputView {
         const val MESSAGE_INITIAL_TURN_INDICATOR = "흑의 차례입니다."
         const val MESSAGE_LAST_STONE_POINT = "(마지막 돌의 위치: %s)"
         const val MESSAGE_ENTER_POINT = "위치를 입력하세요: "
+        private const val ASCII_OFFSET = 'A'.code - 1
     }
 }
