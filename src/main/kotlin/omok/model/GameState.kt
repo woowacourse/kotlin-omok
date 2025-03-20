@@ -1,6 +1,6 @@
 package omok.model
 
-enum class BoardState {
+enum class GameState {
     WHITE_OMOK,
     BLACK_OMOK,
     PLAYING,

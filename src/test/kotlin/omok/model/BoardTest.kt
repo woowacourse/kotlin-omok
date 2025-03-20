@@ -30,8 +30,8 @@ class BoardTest {
                 place(Intersection(Point(1, 3), IntersectionState.WHITE), whiteRule)
                 place(Intersection(Point(1, 4), IntersectionState.WHITE), whiteRule)
             }
-        val actual: BoardState = board.place(Intersection(Point(1, 5), IntersectionState.WHITE), whiteRule)
-        val expected: BoardState = BoardState.WHITE_OMOK
+        val actual: GameState = board.place(Intersection(Point(1, 5), IntersectionState.WHITE), whiteRule)
+        val expected: GameState = GameState.WHITE_OMOK
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -46,8 +46,8 @@ class BoardTest {
                 place(Intersection(Point(10, 8), IntersectionState.BLACK), blackRule)
                 place(Intersection(Point(9, 9), IntersectionState.BLACK), blackRule)
             }
-        val actual: BoardState = board.place(Intersection(Point(12, 6), IntersectionState.BLACK), blackRule)
-        val expected: BoardState = BoardState.BLACK_OMOK
+        val actual: GameState = board.place(Intersection(Point(12, 6), IntersectionState.BLACK), blackRule)
+        val expected: GameState = GameState.BLACK_OMOK
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -62,8 +62,8 @@ class BoardTest {
                 place(Intersection(Point(8, 9), IntersectionState.WHITE), whiteRule)
                 place(Intersection(Point(9, 8), IntersectionState.BLACK), blackRule)
             }
-        val actual: BoardState = board.place(Intersection(Point(9, 9), IntersectionState.WHITE), whiteRule)
-        val expected: BoardState = BoardState.PLAYING
+        val actual: GameState = board.place(Intersection(Point(9, 9), IntersectionState.WHITE), whiteRule)
+        val expected: GameState = GameState.PLAYING
 
         assertThat(actual).isEqualTo(expected)
     }

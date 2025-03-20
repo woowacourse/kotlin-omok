@@ -18,11 +18,14 @@ abstract class Player {
     fun place(
         newPoint: Point,
         otherPoints: List<Point>,
-    ) {
+    ): GameState {
         require(!isOccupied(newPoint, otherPoints)) { ERROR_MESSAGE_IS_ALREADY_OCCUPIED }
         checkViolation(newPoint, otherPoints)
         points += newPoint
+        return checkGameState(newPoint)
     }
+
+    abstract fun checkGameState(newPoint: Point): GameState
 
     private fun checkViolation(
         newPoint: Point,
