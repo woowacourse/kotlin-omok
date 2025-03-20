@@ -28,32 +28,29 @@ class OmokGame(
 
     private fun playTurn(board: Board) {
         while (judgeRule(FiveInRowRule, board)) {
-            val pos = getNextPoint()
-            placeStone(board, pos)
+            placeStone(board)
         }
 
         showWinColor()
     }
 
-    private fun placeStone(
-        board: Board,
-        pos: Position,
-    ) {
-        when (val result = board.placeStone(pos, currentStoneColor)) {
-            is PlaceStoneResult.Success -> {
-                previousPoint = result.point
-                currentStoneColor = currentStoneColor.next()
-                outputView.printBoardStatus(board)
-            }
+    private fun placeStone(board: Board) =
+        retryOnException {
+            val pos = getNextPoint()
 
-            is PlaceStoneResult.AlreadyPlaced -> {
-                outputView.printErrorMessage(ALREADY_PLACED_ERROR_MESSAGE)
-            }
-            is PlaceStoneResult.Closed -> {
-                outputView.printErrorMessage(CLOSED_ERROR_MESSAGE)
+            when (val result = board.placeStone(pos, currentStoneColor)) {
+                is PlaceStoneResult.Success -> {
+                    previousPoint = result.point
+                    currentStoneColor = currentStoneColor.next()
+                    outputView.printBoardStatus(board)
+                    return@retryOnException
+                }
+
+                is PlaceStoneResult.AlreadyPlaced -> throw IllegalArgumentException(ALREADY_PLACED_ERROR_MESSAGE)
+
+                is PlaceStoneResult.Closed -> throw IllegalArgumentException(CLOSED_ERROR_MESSAGE)
             }
         }
-    }
 
     private fun judgeRule(
         omokCountRule: OmokCountRule,
@@ -67,11 +64,19 @@ class OmokGame(
         outputView.printWinColor(previousPoint!!)
     }
 
-    private fun getNextPoint(): Position {
-        outputView.printCurrentTurn(previousPoint)
-        val nextPosition = inputView.readPosition()
-        return Position(nextPosition.first, nextPosition.second)
-    }
+    private fun getNextPoint(): Position =
+        retryOnException {
+            outputView.printCurrentTurn(previousPoint)
+            val nextPosition = inputView.readPosition()
+
+            Position(nextPosition.first, nextPosition.second)
+        }
+
+    private fun <T> retryOnException(action: () -> T) =
+        omok.utils.retryOnException(
+            action = action,
+            onFailure = { outputView.printErrorMessage(it.message.toString()) },
+        )
 
     companion object {
         private const val ALREADY_PLACED_ERROR_MESSAGE = "중복되는 칸에 돌을 둘 수 없습니다."
