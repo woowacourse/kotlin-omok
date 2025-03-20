@@ -34,16 +34,14 @@ class OmokBoard(
 
     private fun updateProtectedPlace() {
         val checker = RenjuCheck(this)
-        for (point in omokPoints.toList()) {
-            if (point.stoneStatus == StoneStatus.EMPTY) {
-                val is3x3 = checker.is3x3(point)
-                val is4x4 = checker.is4x4(point)
-                val is6mok = checker.is6mok(point)
-                if (is3x3 || is4x4 || is6mok) {
+        omokPoints.toList()
+            .filter { it.stoneStatus == StoneStatus.EMPTY }
+            .forEach { point ->
+                val isProtected = checker.is3x3(point) || checker.is4x4(point) || checker.is6mok(point)
+                if (isProtected) {
                     omokPoints.altStone(point.copy(stoneStatus = StoneStatus.PROTECTED))
                 }
             }
-        }
     }
 
     fun goto(
