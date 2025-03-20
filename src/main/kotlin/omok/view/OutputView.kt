@@ -15,13 +15,13 @@ class OutputView {
         whitePoints: List<Point>,
         blackPoints: List<Point>,
     ): String {
-        val board: String = makeInitialBoard(15, 15)
+        val board: String = makeInitialBoard(BOARD_SIZE, BOARD_SIZE)
         val lines = board.lines().toMutableList()
         whitePoints.forEach { (row, col) ->
-            lines[15 - row] = modifyLine(col, lines[15 - row], StoneColor.WHITE)
+            lines[BOARD_SIZE - row] = modifyLine(col, lines[BOARD_SIZE - row], StoneColor.WHITE)
         }
         blackPoints.forEach { (row, col) ->
-            lines[15 - row] = modifyLine(col, lines[15 - row], StoneColor.BLACK)
+            lines[BOARD_SIZE - row] = modifyLine(col, lines[BOARD_SIZE - row], StoneColor.BLACK)
         }
 
         return lines.joinToString("\n")
@@ -34,10 +34,10 @@ class OutputView {
     ): String {
         val x = col - 1
         val sb = StringBuilder(line)
-        sb[x + 4 + x * 2] =
+        sb[x + ROW_NUMBER_OFFSET_SIZE + x * COLUMN_NUMBER_OFFSET_SIZE] =
             when (color) {
-                StoneColor.BLACK -> '●'
-                StoneColor.WHITE -> '○'
+                StoneColor.BLACK -> BLACK_STONE
+                StoneColor.WHITE -> WHITE_STONE
             }
         return sb.toString()
     }
@@ -48,7 +48,7 @@ class OutputView {
     ): String {
         val board = StringBuilder()
 
-        board.append("%3d ".format(rows))
+        board.append(FORMAT_ROW_NUMBER.format(rows))
         board.append("┌─")
         for (col in 2..<cols) {
             board.append("─┬─")
@@ -56,7 +56,7 @@ class OutputView {
         board.append("┐\n")
 
         for (row in rows - 1 downTo 2) {
-            board.append("%3d ".format(row))
+            board.append(FORMAT_ROW_NUMBER.format(row))
             board.append("─├─")
             for (col in 2..<cols) {
                 board.append("─┼─")
@@ -64,7 +64,7 @@ class OutputView {
             board.append("┤\n")
         }
 
-        board.append("%3d ".format(1))
+        board.append(FORMAT_ROW_NUMBER.format(1))
         board.append("└─")
         for (col in 2..<cols) {
             board.append("─┴─")
@@ -93,7 +93,7 @@ class OutputView {
         row: Int,
         board: Board,
     ) {
-        print("%3d ".format(row))
+        print(FORMAT_ROW_NUMBER.format(row))
         when (board.board[row][1]) {
             IntersectionState.EMPTY -> print("├──")
             IntersectionState.BLACK -> print("●──")
@@ -108,7 +108,7 @@ class OutputView {
             }
         }
 
-        when (board.board[row][15]) {
+        when (board.board[row][BOARD_SIZE]) {
             IntersectionState.EMPTY -> println("┤")
             IntersectionState.BLACK -> println("●")
             IntersectionState.WHITE -> println("○")
@@ -116,22 +116,22 @@ class OutputView {
     }
 
     private fun printBoardHeader(board: Board) {
-        print("%3d ".format(15))
-        when (board.board[15][1]) {
+        print(FORMAT_ROW_NUMBER.format(BOARD_SIZE))
+        when (board.board[BOARD_SIZE][1]) {
             IntersectionState.EMPTY -> print("┌──")
             IntersectionState.BLACK -> print("●──")
             IntersectionState.WHITE -> print("○──")
         }
 
         for (column in 2..14) {
-            when (board.board[15][column]) {
+            when (board.board[BOARD_SIZE][column]) {
                 IntersectionState.EMPTY -> print("┬──")
                 IntersectionState.BLACK -> print("●──")
                 IntersectionState.WHITE -> print("○──")
             }
         }
 
-        when (board.board[15][15]) {
+        when (board.board[BOARD_SIZE][BOARD_SIZE]) {
             IntersectionState.EMPTY -> println("┐")
             IntersectionState.BLACK -> println("●")
             IntersectionState.WHITE -> println("○")
@@ -139,7 +139,7 @@ class OutputView {
     }
 
     private fun printBoardFooter(board: Board) {
-        print("%3d ".format(1))
+        print(FORMAT_ROW_NUMBER.format(1))
         when (board.board[1][1]) {
             IntersectionState.EMPTY -> print("└──")
             IntersectionState.BLACK -> print("●──")
@@ -154,7 +154,7 @@ class OutputView {
             }
         }
 
-        when (board.board[1][15]) {
+        when (board.board[1][BOARD_SIZE]) {
             IntersectionState.EMPTY -> println("┘")
             IntersectionState.BLACK -> println("●")
             IntersectionState.WHITE -> println("○")
@@ -165,5 +165,11 @@ class OutputView {
 
     companion object {
         private const val MESSAGE_OMOK_START = "오목 게임을 시작합니다."
+        private const val BOARD_SIZE = 15
+        private const val ROW_NUMBER_OFFSET_SIZE = 4
+        private const val COLUMN_NUMBER_OFFSET_SIZE = 2
+        private const val FORMAT_ROW_NUMBER = "%3d "
+        private const val BLACK_STONE = '●'
+        private const val WHITE_STONE = '○'
     }
 }
