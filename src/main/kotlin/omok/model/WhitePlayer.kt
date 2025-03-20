@@ -9,9 +9,13 @@ class WhitePlayer : Player() {
     override val rule: OmokRule = WhiteRenjuRule()
 
     override fun checkGameState(newPoint: Point): GameState {
-        return when (rule.checkSerialSameStonesBiDirection(points.points, newPoint, 5)) {
+        return when (rule.checkSerialSameStonesBiDirection(points.points, newPoint, OMOK_CONDITION)) {
             true -> GameState.WHITE_OMOK
             false -> GameState.PLAYING
         }
+    }
+
+    companion object {
+        private const val OMOK_CONDITION = 5
     }
 }
