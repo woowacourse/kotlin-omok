@@ -66,4 +66,116 @@ class OmokBoardTest {
     fun `보드가 비어 있지 않으면 참을 반환한다`() {
         assertEquals(omokBoard.isNotFull(), true)
     }
+
+    /**
+     *  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
+     *  14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   8 ●──●──●──●──X──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   7 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   6 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   5 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   4 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   3 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
+     *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+     * */
+    @Test
+    fun `오목 테스트1`() {
+        omokBoard.addStone(Point(OmokColumn.A, OmokRow.EIGHT, StoneStatus.BLACK))
+        omokBoard.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.BLACK))
+        omokBoard.addStone(Point(OmokColumn.C, OmokRow.EIGHT, StoneStatus.BLACK))
+        omokBoard.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.BLACK))
+        val result = omokBoard.isOmok(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
+        assertThat(result).isTrue()
+    }
+
+    /**
+     *  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
+     *  14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   8 ●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   7 ├──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   6 ├──┼──X──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   5 ├──┼──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   4 ├──┼──┼──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   3 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
+     *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+     * */
+    @Test
+    fun `오목 테스트2`() {
+        omokBoard.addStone(Point(OmokColumn.A, OmokRow.EIGHT, StoneStatus.BLACK))
+        omokBoard.addStone(Point(OmokColumn.B, OmokRow.SEVEN, StoneStatus.BLACK))
+        omokBoard.addStone(Point(OmokColumn.D, OmokRow.FIVE, StoneStatus.BLACK))
+        omokBoard.addStone(Point(OmokColumn.E, OmokRow.FOUR, StoneStatus.BLACK))
+        val result = omokBoard.isOmok(Point(OmokColumn.C, OmokRow.SIX, StoneStatus.BLACK))
+        assertThat(result).isTrue()
+    }
+
+    /**
+     *  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
+     *  14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  12 ├──┼──┼──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  11 ├──┼──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  10 ├──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   9 ├──X──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   8 ●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   7 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   6 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   5 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   4 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   3 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
+     *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+     * */
+    @Test
+    fun `오목 테스트3`() {
+        omokBoard.addStone(Point(OmokColumn.A, OmokRow.EIGHT, StoneStatus.BLACK))
+        omokBoard.addStone(Point(OmokColumn.C, OmokRow.TEN, StoneStatus.BLACK))
+        omokBoard.addStone(Point(OmokColumn.D, OmokRow.ELEVEN, StoneStatus.BLACK))
+        omokBoard.addStone(Point(OmokColumn.E, OmokRow.TWELVE, StoneStatus.BLACK))
+        val result = omokBoard.isOmok(Point(OmokColumn.B, OmokRow.NINE, StoneStatus.BLACK))
+        assertThat(result).isTrue()
+    }
+
+    /**
+     *  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
+     *  14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   8 ●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   7 ├──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   6 ├──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   5 ├──┼──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   4 ├──┼──┼──┼──X──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   3 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
+     *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+     * */
+    @Test
+    fun `오목 테스트4`() {
+        omokBoard.addStone(Point(OmokColumn.A, OmokRow.EIGHT, StoneStatus.BLACK))
+        omokBoard.addStone(Point(OmokColumn.B, OmokRow.SEVEN, StoneStatus.WHITE))
+        omokBoard.addStone(Point(OmokColumn.C, OmokRow.SIX, StoneStatus.BLACK))
+        omokBoard.addStone(Point(OmokColumn.D, OmokRow.FIVE, StoneStatus.BLACK))
+        val result = omokBoard.isOmok(Point(OmokColumn.E, OmokRow.FOUR, StoneStatus.BLACK))
+        assertThat(result).isFalse()
+    }
 }

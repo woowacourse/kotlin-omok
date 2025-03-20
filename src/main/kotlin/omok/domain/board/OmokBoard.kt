@@ -3,7 +3,6 @@ package omok.domain.board
 import omok.domain.point.OmokPoints
 import omok.domain.point.Point
 import omok.domain.rule.Direction
-import omok.domain.rule.OmokCheck
 import omok.domain.rule.RenjuCheck
 
 class OmokBoard(
@@ -27,9 +26,21 @@ class OmokBoard(
         updateProtectedPlace()
     }
 
-    fun determineOmok(point: Point): Boolean {
-        val checker = OmokCheck(this)
-        return checker.isOmok(point)
+    fun goto(
+        currentPosition: Point,
+        direction: Direction,
+    ): Point {
+        val newX = currentPosition.x.value + direction.x
+        val newY = currentPosition.y.value + direction.y
+        return omokPoints.getPointAt(OmokRow.find(newY), OmokColumn.find(newX))
+    }
+
+    fun isOmok(current: Point): Boolean {
+        return Direction.getDirectionPair().any { (d1, d2) ->
+            val count1 = seek(d1, current, current.stoneStatus)
+            val count2 = seek(d2, current, current.stoneStatus)
+            count1 + count2 - 1 == 5
+        }
     }
 
     private fun updateProtectedPlace() {
@@ -44,13 +55,16 @@ class OmokBoard(
             }
     }
 
-    fun goto(
-        currentPosition: Point,
+    private fun seek(
         direction: Direction,
-    ): Point {
-        val newX = currentPosition.x.value + direction.x
-        val newY = currentPosition.y.value + direction.y
-        return omokPoints.getPointAt(OmokRow.find(newY), OmokColumn.find(newX))
+        point: Point,
+        target: StoneStatus,
+    ): Int {
+        if (point.stoneStatus == target) {
+            val next = goto(point, direction)
+            return seek(direction, next, target) + 1
+        }
+        return 0
     }
 
     companion object {

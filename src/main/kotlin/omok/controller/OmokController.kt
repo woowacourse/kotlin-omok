@@ -18,7 +18,7 @@ class OmokController(
             val point = readValidPoint(stone)
 
             omokBoard.addStone(point)
-            if (omokBoard.determineOmok(point)) {
+            if (omokBoard.isOmok(point)) {
                 outputView.printPrintWinner(stone)
                 break
             }
