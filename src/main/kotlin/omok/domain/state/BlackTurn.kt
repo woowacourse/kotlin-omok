@@ -44,7 +44,7 @@ class BlackTurn(
     override fun nextStoneColor(): StoneColor = StoneColor.BLACK
 
     companion object {
-        private const val ERROR_INVALID_POINT = "이미 돌이 놓여져 있습니다."
-        private const val ERROR_RENJU_RULE = "돌을 놓을 수 없습니다."
+        private const val ERROR_INVALID_POINT = "[ERROR] 이미 돌이 놓여져 있습니다."
+        private const val ERROR_RENJU_RULE = "[ERROR] 돌을 놓을 수 없습니다."
     }
 }

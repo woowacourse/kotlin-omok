@@ -13,9 +13,13 @@ abstract class Finished(
     override fun place(
         point: Point,
         boardSize: Int,
-    ): State = throw IllegalStateException()
+    ): State = throw IllegalStateException(ERROR_GAME_FINISHED)
 
-    override fun lastStonePoint(): Point = throw IllegalStateException()
+    override fun lastStonePoint(): Point = throw IllegalStateException(ERROR_GAME_FINISHED)
 
-    override fun nextStoneColor(): StoneColor = throw IllegalStateException()
+    override fun nextStoneColor(): StoneColor = throw IllegalStateException(ERROR_GAME_FINISHED)
+
+    companion object {
+        private const val ERROR_GAME_FINISHED = "[ERROR] 게임이 종료되었습니다."
+    }
 }
