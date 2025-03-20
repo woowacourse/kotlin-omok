@@ -6,7 +6,7 @@ import omok.model.rule.count.OverlineRowRule
 import omok.model.rule.lib.DoubleFourRule
 import omok.model.rule.lib.DoubleThreeRule
 
-class OmokJudge {
+object ForbiddenMoveJudge {
     fun validate(
         board: Board,
         previousPoint: Point,

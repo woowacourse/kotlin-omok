@@ -1,10 +1,9 @@
 package omok.model.board
 
 import omok.model.StoneColor
-import omok.model.rule.OmokJudge
+import omok.model.rule.ForbiddenMoveJudge
 
 class Board {
-    private val judge: OmokJudge = OmokJudge()
     val points: List<Point> =
         (BOARD_MIN_SIZE..BOARD_MAX_SIZE).flatMap { row ->
             (BOARD_MIN_SIZE..BOARD_MAX_SIZE).map { col ->
@@ -32,7 +31,7 @@ class Board {
         color: StoneColor,
         point: Point,
     ): PlaceStoneResult {
-        if (color == StoneColor.BLACK && !judge.validate(this, point)) {
+        if (color == StoneColor.BLACK && !ForbiddenMoveJudge.validate(this, point)) {
             return PlaceStoneResult.Closed
         }
 

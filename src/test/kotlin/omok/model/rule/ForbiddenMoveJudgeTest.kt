@@ -8,19 +8,11 @@ import omok.fixture.overlineForbiddenBoard
 import omok.model.board.Point
 import omok.model.board.Position
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
-class OmokJudgeTest {
-    private lateinit var judge: OmokJudge
-
-    @BeforeEach
-    fun setUp() {
-        judge = OmokJudge()
-    }
-
+class ForbiddenMoveJudgeTest {
     @ParameterizedTest
     @CsvSource(
         "4,12",
@@ -32,7 +24,7 @@ class OmokJudgeTest {
         x: Int,
         y: Int,
     ) {
-        val actual = judge.validate(doubleThreeForbiddenBoard, Point(Position(x, y)))
+        val actual = ForbiddenMoveJudge.validate(doubleThreeForbiddenBoard, Point(Position(x, y)))
         val expected = false
 
         assertEquals(expected, actual)
@@ -47,7 +39,7 @@ class OmokJudgeTest {
         x: Int,
         y: Int,
     ) {
-        val actual = judge.validate(doubleFourForbiddenBoard, Point(Position(x, y)))
+        val actual = ForbiddenMoveJudge.validate(doubleFourForbiddenBoard, Point(Position(x, y)))
         val expected = false
 
         assertEquals(expected, actual)
@@ -55,7 +47,7 @@ class OmokJudgeTest {
 
     @Test
     fun `장목인 경우 흑돌을 둘 수 없다`() {
-        val actual = judge.validate(overlineForbiddenBoard, Point(Position(5, 1)))
+        val actual = ForbiddenMoveJudge.validate(overlineForbiddenBoard, Point(Position(5, 1)))
         val expected = false
 
         assertEquals(expected, actual)
@@ -63,7 +55,7 @@ class OmokJudgeTest {
 
     @Test
     fun `4-3인 경우 흑돌을 둘 수 있다`() {
-        val actual = judge.validate(fourThreeBoard, Point(Position(8, 5)))
+        val actual = ForbiddenMoveJudge.validate(fourThreeBoard, Point(Position(8, 5)))
         val expected = true
 
         assertEquals(expected, actual)
@@ -71,7 +63,7 @@ class OmokJudgeTest {
 
     @Test
     fun `3-3 거짓 금수인 경우 흑돌을 둘 수 있다`() {
-        val actual = judge.validate(falseDoubleThreeBoard, Point(Position(4, 3)))
+        val actual = ForbiddenMoveJudge.validate(falseDoubleThreeBoard, Point(Position(4, 3)))
         val expected = true
 
         assertEquals(expected, actual)
