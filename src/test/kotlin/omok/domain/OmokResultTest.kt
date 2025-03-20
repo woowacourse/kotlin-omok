@@ -1,5 +1,7 @@
 package omok.domain
 
+import omok.domain.player.BlackPlayer
+import omok.domain.player.WhitePlayer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

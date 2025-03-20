@@ -1,5 +1,6 @@
-package omok.domain
+package omok.domain.player
 
+import omok.domain.OmokGrid
 import rule.OmokRule
 import rule.WhiteRenjuRule
 import rule.wrapper.point.Point

@@ -1,4 +1,4 @@
-package omok.domain
+package omok.domain.player
 
 import rule.OmokRule
 import rule.wrapper.point.Point

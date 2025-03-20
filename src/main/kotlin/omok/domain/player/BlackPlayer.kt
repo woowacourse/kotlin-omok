@@ -1,5 +1,6 @@
-package omok.domain
+package omok.domain.player
 
+import omok.domain.OmokGrid
 import rule.BlackRenjuRule
 import rule.OmokRule
 import rule.type.Violation

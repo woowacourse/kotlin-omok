@@ -1,9 +1,9 @@
 package omok.view
 
-import omok.domain.BlackPlayer
 import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
-import omok.domain.Player
-import omok.domain.WhitePlayer
+import omok.domain.player.BlackPlayer
+import omok.domain.player.Player
+import omok.domain.player.WhitePlayer
 import rule.wrapper.point.Point
 
 class InputView {

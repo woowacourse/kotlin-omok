@@ -3,6 +3,8 @@ package omok.domain
 import omok.beforeDoubleFour
 import omok.beforeDoubleThree
 import omok.beforeOverLine
+import omok.domain.player.BlackPlayer
+import omok.domain.player.WhitePlayer
 import omok.toViolation
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
