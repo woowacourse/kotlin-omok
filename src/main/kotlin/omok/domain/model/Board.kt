@@ -27,6 +27,11 @@ class Board(
         return OmokStone(lastKey, lastValue)
     }
 
+    fun getStones(stoneType: StoneType): List<OmokStone> {
+        return stones.filterValues { it == stoneType }
+            .map { OmokStone(it.key, stoneType) }
+    }
+
     fun checkWin(): Boolean {
         val directions =
             listOf(
