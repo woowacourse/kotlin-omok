@@ -1,15 +1,20 @@
+package rule.wrapper.direction
+
+import rule.other.Iterator
+import rule.wrapper.position.Position
+
 enum class Direction(
-    private val rowStep: Int,
-    private val colStep: Int,
+    val rowStep: Int,
+    val colStep: Int,
 ) {
     UP(1, 0),
     DOWN(-1, 0),
     LEFT(0, -1),
     RIGHT(0, 1),
     UP_RIGHT(1, 1),
-    DOWN_RIGHT(-1, 1),
-    UP_LEFT(1, -1),
     DOWN_LEFT(-1, -1),
+    UP_LEFT(1, -1),
+    DOWN_RIGHT(-1, 1),
     ;
 
     fun nextPosition(position: Position): Position = Position(position.row + rowStep, position.col + colStep)
@@ -21,4 +26,12 @@ enum class Direction(
     fun isGoUp(): Boolean = rowStep == 1
 
     fun isGoDown(): Boolean = rowStep == -1
+
+    companion object {
+        fun iterator(): Iterator<Direction> = DirectionIterator(all())
+
+        private fun all(): List<Direction> {
+            return entries.toList()
+        }
+    }
 }

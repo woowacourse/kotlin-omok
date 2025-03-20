@@ -2,7 +2,8 @@ class Col private constructor(
     val value: Int,
 ) {
     init {
-        require(value in MIN_VALUE..MAX_VALUE) { ERROR_OUT_OF_BOUND }
+//        require(value in MIN_VALUE..MAX_VALUE) { ERROR_OUT_OF_BOUND }
+        require(value in 0..16) { ERROR_OUT_OF_BOUND }
     }
 
     fun isSame(other: Col): Boolean = value == other.value

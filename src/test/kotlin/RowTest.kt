@@ -8,7 +8,7 @@ import org.junit.jupiter.api.assertThrows
 class RowTest {
     @Test
     fun `유효한 행이 아니라면 예외가 발생한다`() {
-        assertThrows<IllegalArgumentException> { Row.from(0) }
+        assertThrows<IllegalArgumentException> { Row.from(-1) }
     }
 
     @Test

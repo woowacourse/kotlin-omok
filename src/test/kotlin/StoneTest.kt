@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import rule.wrapper.position.Position
 
 class StoneTest {
     @Test

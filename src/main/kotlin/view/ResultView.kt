@@ -10,9 +10,11 @@ class ResultView {
         println(GAME_START_MESSAGE)
     }
 
-    fun printGameBoard(stones: MutableList<Stone>) {
+    fun printGameBoard(stones: List<Stone>) {
+        val elements = stones.toMutableList()
+
         for (row in Row.MAX_VALUE.downTo(Row.MIN_VALUE)) {
-            makeBoardLine(row, stones)
+            makeBoardLine(row, elements)
         }
         makeBoardColName()
     }
@@ -54,6 +56,17 @@ class ResultView {
         val stone =
             stones.firstOrNull { it.position.row.isSame(Row.from(row)) && it.position.col.isSame(Col.fromInt(col)) }
         if (stone != null) return stone.toEmoji()
+        return toBoardDisplay(row, col)
+    }
+
+    fun printErrorMessage(error: Throwable) {
+        println(ERROR_MESSAGE_FORMAT.format(error.message ?: ""))
+    }
+
+    private fun toBoardDisplay(
+        row: Int,
+        col: Int,
+    ): String {
         return when {
             row == Row.MIN_VALUE && col == Col.MIN_VALUE -> GAME_BOARD_DOWN_LEFT_CORNER
             row == Row.MIN_VALUE && col == Col.MAX_VALUE -> GAME_BOARD_DOWN_RIGHT_CORNER
@@ -98,5 +111,6 @@ class ResultView {
         private const val GAME_BOARD_UP_RIGHT_CORNER = "─┐ "
         private const val GAME_BOARD_DOWN_RIGHT_CORNER = "─┘ "
         private const val GAME_BOARD_BASE = "─┼─"
+        private const val ERROR_MESSAGE_FORMAT = "[ERROR] %s"
     }
 }
