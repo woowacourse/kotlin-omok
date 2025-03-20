@@ -13,7 +13,7 @@ class OmokController(
     fun run() {
         omokView.printStartMessage()
         val omokBoard = OmokBoard(Omok())
-        var currentPlayer: Player = BlackPlayer(BlackPlayerState()) // 시작은 흑돌 플레이어
+        val currentPlayer: Player = BlackPlayer(BlackPlayerState()) // 시작은 흑돌 플레이어
         playGame(currentPlayer, omokBoard)
         omokView.result(currentPlayer)
     }
@@ -23,15 +23,35 @@ class OmokController(
         omokBoard: OmokBoard,
     ) {
         var currentPlayer = player
-        while (!currentPlayer.isFinish()) {
-            val position = omokView.inputPosition(currentPlayer)
-            currentPlayer.put(position, omokBoard)
-            if (currentPlayer.isFinish()) {
-                omokView.printOmokBoard(omokBoard.board())
-                break
-            }
+        while (true) {
+            playerTurn(currentPlayer, omokBoard)
+            if (finishGame(currentPlayer, omokBoard)) break
             omokView.printOmokBoard(omokBoard.board())
             currentPlayer = currentPlayer.nextTurn()
         }
+    }
+
+    private fun playerTurn(
+        currentPlayer: Player,
+        omokBoard: OmokBoard,
+    ) {
+        runCatching {
+            val position = omokView.inputPosition(currentPlayer)
+            currentPlayer.put(position, omokBoard)
+        }.getOrElse { error ->
+            println(error.message)
+            playerTurn(currentPlayer, omokBoard)
+        }
+    }
+
+    private fun finishGame(
+        currentPlayer: Player,
+        omokBoard: OmokBoard,
+    ): Boolean {
+        if (currentPlayer.isFinish()) {
+            omokView.printOmokBoard(omokBoard.board())
+            return true
+        }
+        return false
     }
 }
