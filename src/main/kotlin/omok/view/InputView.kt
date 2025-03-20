@@ -15,8 +15,8 @@ class InputView : OmokInputView {
     }
 
     private fun String.validatePosition() {
-        require(this.toCharArray().all { it.isLetter() }) { INVALID_INPUT_MESSAGE }
-        requireNotNull(this.substring(1).toIntOrNull()) { INVALID_INPUT_MESSAGE }
+        require(this[0].isLetter()) { INVALID_INPUT_MESSAGE }
+        require(substring(1).all { it.isDigit() }) { INVALID_INPUT_MESSAGE }
     }
 
     companion object {
