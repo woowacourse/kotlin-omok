@@ -26,6 +26,7 @@ class OmokPoints {
 
     fun addStone(point: Point) {
         require(!isOccupied(point)) { ERROR_OCCUPIED_POSITION }
+        require(!isProtected(point)) { ERROR_PROTECTED_POSITION }
         val position = points.indexOfFirst { it.x == point.x && it.y == point.y }
         val newList = points.toMutableList()
         newList[position] = point
@@ -49,7 +50,13 @@ class OmokPoints {
         return points.first { it.x == point.x && it.y == point.y }.stoneStatus != StoneStatus.EMPTY
     }
 
+    private fun isProtected(point: Point): Boolean {
+        if (point.stoneStatus == StoneStatus.WHITE) return false
+        return points.first { it.x == point.x && it.y == point.y }.stoneStatus == StoneStatus.PROTECTED
+    }
+
     companion object {
         private const val ERROR_OCCUPIED_POSITION = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요."
+        private const val ERROR_PROTECTED_POSITION = "해당 위치는 금수 자리입니다. 다른 위치를 선택하세요."
     }
 }
