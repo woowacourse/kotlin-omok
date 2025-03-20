@@ -10,14 +10,14 @@ class OmokGame(
     private val playingBoard: PlayingBoard,
 ) {
     fun start(
-        getPosition: (StoneColor, Position?) -> Position,
+        getNewPosition: (StoneColor, Position?) -> Position,
         onStonePlaced: (PlaceResult) -> Unit,
     ) {
         var stoneColor = StoneColor.BLACK
         var position: Position? = null
 
         while (true) {
-            val playerStone = PlayerStone(stoneColor, getPosition(stoneColor, position))
+            val playerStone = PlayerStone(stoneColor, getNewPosition(stoneColor, position))
             val placeResult = playingBoard.placeStone(playerStone)
             onStonePlaced(placeResult)
 
