@@ -7,6 +7,11 @@ import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
 import omok.domain.rule.GameResult
 import omok.domain.rule.PlaceResult
+import omok.domain.rule.PlaceResult.Failure.AlreadyExistStone
+import omok.domain.rule.PlaceResult.Failure.DoubleFourViolation
+import omok.domain.rule.PlaceResult.Failure.DoubleThreeViolation
+import omok.domain.rule.PlaceResult.Failure.InvalidPosition
+import omok.domain.rule.PlaceResult.Failure.OverlineViolation
 
 class OutputView {
     fun displayOmokGameStart() {
@@ -33,26 +38,26 @@ class OutputView {
         println(rowPoints.keys.joinToString("──") { it.drawBoard(omokBoard) })
     }
 
-    fun displayErrorMessage(placeResult: PlaceResult) {
+    fun displayErrorMessage(error: PlaceResult) {
         println()
         println(
-            when (placeResult) {
-                PlaceResult.Failure.AlreadyExistStone -> ALREADY_EXIST_MESSAGE
-                PlaceResult.Failure.InvalidPosition -> INVALID_POSITION_MESSAGE
-                PlaceResult.Failure.DoubleThreeViolation -> FORBIDDEN_DOUBLE_THREE
-                PlaceResult.Failure.DoubleFourViolation -> FORBIDDEN_DOUBLE_FOUR
-                PlaceResult.Failure.OverlineViolation -> FORBIDDEN_OVERLINE
+            when (error) {
+                AlreadyExistStone -> ALREADY_EXIST_MESSAGE
+                InvalidPosition -> INVALID_POSITION_MESSAGE
+                DoubleThreeViolation -> FORBIDDEN_DOUBLE_THREE
+                DoubleFourViolation -> FORBIDDEN_DOUBLE_FOUR
+                OverlineViolation -> FORBIDDEN_OVERLINE
                 else -> return
             },
         )
     }
 
-    fun displayWinningMessage(gameResult: GameResult) {
+    fun displayGameResultMessage(result: GameResult) {
         println()
         println(
-            when (gameResult) {
+            when (result) {
                 GameResult.DRAW -> DRAW_RESULT_MESSAGE
-                else -> WIN_RESULT_MESSAGE.format(gameResult.toLabel())
+                else -> WIN_RESULT_MESSAGE.format(result.toLabel())
             },
         )
     }
@@ -70,11 +75,11 @@ class OutputView {
         private const val WHITE_COLOR_LABEL: String = "백"
 
         private fun Position.drawBoard(omokBoard: OmokBoard): String {
-            val stoneColor = omokBoard.value[this]?.state ?: omok.domain.omokboard.PointState.EMPTY
+            val stoneColor = omokBoard.value[this]?.state ?: PointState.EMPTY
 
             return when {
-                stoneColor == omok.domain.omokboard.PointState.OCCUPIED_BLACK -> "●"
-                stoneColor == omok.domain.omokboard.PointState.OCCUPIED_WHITE -> "○"
+                stoneColor == PointState.OCCUPIED_BLACK -> "●"
+                stoneColor == PointState.OCCUPIED_WHITE -> "○"
                 this.row.value == omokBoard.height && this.column.value == 1 -> "┌"
                 this.row.value == omokBoard.height && this.column.value == omokBoard.width -> "┐"
                 this.row.value == 1 && this.column.value == 1 -> "└"

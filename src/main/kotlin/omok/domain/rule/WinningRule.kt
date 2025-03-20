@@ -71,7 +71,7 @@ class WinningRule : OmokRule {
 
     private fun StoneColor.toPointState(): PointState =
         when (this) {
-            StoneColor.BLACK -> omok.domain.omokboard.PointState.OCCUPIED_BLACK
-            StoneColor.WHITE -> omok.domain.omokboard.PointState.OCCUPIED_WHITE
+            StoneColor.BLACK -> PointState.OCCUPIED_BLACK
+            StoneColor.WHITE -> PointState.OCCUPIED_WHITE
         }
 }

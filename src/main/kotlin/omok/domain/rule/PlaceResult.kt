@@ -9,7 +9,7 @@ sealed class PlaceResult {
         ) : Success()
 
         data class Finish(
-            val winning: GameResult,
+            val gameResult: GameResult,
         ) : Success()
     }
 
