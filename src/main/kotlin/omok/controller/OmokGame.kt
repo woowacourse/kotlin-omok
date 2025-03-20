@@ -2,34 +2,39 @@ package omok.controller
 
 import omok.domain.Board
 import omok.domain.Stone
-import omok.domain.StoneType
 import omok.view.InputView
 import omok.view.OutputView
 import omok.domain.Turn
+import omok.model.RenjuRuleAdapter
 
 class OmokGame(
     private val inputView: InputView,
     private val outputView: OutputView,
 ) {
     fun start() {
-        val board = Board()
+        val board = Board(RenjuRuleAdapter())
         val turn = Turn()
         outputView.printStartMessage()
+        var inputPositison1 = ""
         while (true) {
             outputView.showBoard(board.grid)
-            val stone = play(turn)
+            val lastStone: Stone? = board.stones.lastStone()
+            if (lastStone == null ) {
+                outputView.printFirstTurn()
+            } else {
+                outputView.printNormalTurn(lastStone.color, inputPositison1)
+            }
+            val inputPosition = inputView.readPosition()
+            inputPositison1 = inputPosition
+            val stone = getPosition(turn, inputPosition)
             board.put(stone)
+            if (board.isOmok(stone)) break
+            turn.next()
         }
+        outputView.showGameResult(turn)
     }
 
-    private fun play(turn: Turn): Stone {
-        if (turn.isBlack()) {
-            turn.color = StoneType.BLACK
-        }
-        if (turn.isWhite()) {
-            turn.color = StoneType.WHITE
-        }
-        val inputPosition = inputView.readPosition()
+    private fun getPosition(turn: Turn, inputPosition: String): Stone {
         return turn.stone(inputPosition)
     }
 }

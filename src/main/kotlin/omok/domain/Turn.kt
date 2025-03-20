@@ -1,9 +1,6 @@
 package omok.domain
 
 data class Turn(private var turn: StoneType = StoneType.BLACK) {
-    var color: StoneType = StoneType.BLACK
-        private set
-
     fun next() {
         turn =
             if (turn == StoneType.BLACK) {
@@ -13,8 +10,6 @@ data class Turn(private var turn: StoneType = StoneType.BLACK) {
             }
     }
 
-    fun isBlack(): Boolean = if(turn == StoneType.BLACK) true else false
-
     fun isWhite(): Boolean = if (turn == StoneType.WHITE) true else false
 
     fun stone(position: String): Stone {
@@ -23,7 +18,7 @@ data class Turn(private var turn: StoneType = StoneType.BLACK) {
         val (rowString, column) = matchResult.destructured
         val row =
             RowType.entries.find { it.name == rowString }?.value ?: throw IllegalArgumentException(ERROR_NOT_FIND)
-        val stone = Stone(Position(row, (column.toInt() - 1)), color)
+        val stone = Stone(Position(row, (column.toInt() - 1)), turn)
         return stone
     }
 

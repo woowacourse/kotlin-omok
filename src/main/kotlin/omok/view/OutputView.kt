@@ -26,7 +26,7 @@ class OutputView {
     }
 
     fun printNormalTurn(turnColor: StoneType, position: String) {
-        println(MESSAGE_TURN.format(turnColor, position))
+        println(MESSAGE_TURN.format(if(turnColor == StoneType.BLACK) "백" else "흑", position))
     }
 
     private fun generateBoardArray(changedBoard: Array<Array<StoneType>>): Array<Array<String>> {
