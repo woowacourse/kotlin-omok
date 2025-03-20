@@ -83,7 +83,6 @@ private fun Point.toUiString(): String? {
     return when (this.state) {
         PointState.BLACK -> "●"
         PointState.WHITE -> "○"
-        PointState.CLOSED -> "x"
         PointState.OPEN -> null
     }
 }
