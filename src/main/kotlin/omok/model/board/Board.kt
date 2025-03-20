@@ -60,12 +60,14 @@ class Board private constructor(
 
         val newBoardStones = stonesMap + (nextStone.position to nextStone.stoneState)
 
-        val violationType = blackRenjuRule.checkAnyFoulCondition(blackPoints, whitePoints, nextPosition.toPoint())
-        when (violationType) {
-            Violation.DOUBLE_THREE -> throw Exception(ERROR_DOUBLE_THREE)
-            Violation.DOUBLE_FOUR -> throw Exception(ERROR_DOUBLE_FOUR)
-            Violation.OVERLINE -> throw Exception(ERROR_OVERLINE)
-            Violation.NONE -> {}
+        if (nextStoneState == StoneState.BLACK) {
+            val violationType = blackRenjuRule.checkAnyFoulCondition(blackPoints, whitePoints, nextPosition.toPoint())
+            when (violationType) {
+                Violation.DOUBLE_THREE -> throw Exception(ERROR_DOUBLE_THREE)
+                Violation.DOUBLE_FOUR -> throw Exception(ERROR_DOUBLE_FOUR)
+                Violation.OVERLINE -> throw Exception(ERROR_OVERLINE)
+                Violation.NONE -> {}
+            }
         }
 
         return Board(newBoardStones, nextStone)
