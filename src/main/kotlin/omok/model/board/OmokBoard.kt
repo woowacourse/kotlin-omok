@@ -26,6 +26,14 @@ class OmokBoard(
 
     private fun canPlaceStone(position: Position): Boolean = board[position] == StoneState.NONE
 
+    fun isDoubleFour(position: Position) {
+        board[position] = StoneState.DOUBLE_FOUR
+    }
+
+    fun isDoubleThree(position: Position) {
+        board[position] = StoneState.DOUBLE_THREE
+    }
+
     fun placeStone(
         position: Position,
         stoneState: StoneState,
