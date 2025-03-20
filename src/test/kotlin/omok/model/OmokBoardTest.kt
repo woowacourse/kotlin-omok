@@ -25,7 +25,7 @@ class OmokBoardTest {
         }
     }
 
-    @CsvSource(value = ["Black", "White"])
+    @CsvSource(value = ["BLACK", "WHITE"])
     @ParameterizedTest
     fun `초기 오목판은 모든 위치에 착수 가능하다`(stoneStateString: String) {
         val stoneState = StoneState.valueOf(stoneStateString)
