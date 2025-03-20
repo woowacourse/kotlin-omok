@@ -76,7 +76,7 @@ class OutputView {
             return when (this) {
                 StoneState.BLACK -> "●"
                 StoneState.WHITE -> "○"
-                else -> throw IllegalStateException()
+                StoneState.BLANK -> throw IllegalStateException()
             }
         }
 
