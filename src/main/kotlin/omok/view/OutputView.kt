@@ -36,6 +36,10 @@ class OutputView {
         println()
     }
 
+    fun printResult(omokStoneUiModel: OmokStoneUiModel) {
+        println("${omokStoneUiModel.stone}의 승리입니다.")
+    }
+
     companion object {
         private const val REPEAT_COUNT = 2
         private const val LEFT_DOWN = "└"
