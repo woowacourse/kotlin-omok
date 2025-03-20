@@ -36,14 +36,12 @@ class BoardTest {
     }
 
     @Test
-    fun `Point가 Close 상태일 때, 돌을 둘 수 없다`() {
+    fun `보드에서 원하는 좌표의 point를 찾을 수 있다`() {
         val board = Board()
         val position = Position(1, 1)
-        board.findPoint(position)?.changeState(PointState.CLOSED)
 
-        val actual = board.placeStone(position, StoneColor.BLACK)
-        val expected = PlaceStoneResult.Closed
+        val actual = board.findPoint(position)
 
-        assertThat(actual).isEqualTo(expected)
+        assertThat(actual?.position).isEqualTo(position)
     }
 }

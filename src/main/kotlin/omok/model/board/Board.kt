@@ -1,9 +1,11 @@
 package omok.model.board
 
+import omok.model.rule.OmokJudge
 import omok.model.stone.Position
 import omok.model.stone.StoneColor
 
 class Board {
+    private val judge: OmokJudge = OmokJudge()
     val points: List<Point> =
         (BOARD_MIN_SIZE..BOARD_MAX_SIZE).flatMap { row ->
             (BOARD_MIN_SIZE..BOARD_MAX_SIZE).map { col ->
@@ -22,13 +24,21 @@ class Board {
         val point = findPoint(position)
         val state = point?.state
         return when (state) {
-            PointState.OPEN -> {
-                point.changeColor(color)
-                PlaceStoneResult.Success(point)
-            }
-            PointState.CLOSED -> PlaceStoneResult.Closed
+            PointState.OPEN -> handlePlaceSuccess(color, point)
             else -> PlaceStoneResult.AlreadyPlaced
         }
+    }
+
+    private fun handlePlaceSuccess(
+        color: StoneColor,
+        point: Point,
+    ): PlaceStoneResult {
+        if (color == StoneColor.BLACK && !judge.validate(this, point)) {
+            return PlaceStoneResult.Closed
+        }
+
+        point.changeColor(color)
+        return PlaceStoneResult.Success(point)
     }
 
     companion object {
