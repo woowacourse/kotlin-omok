@@ -19,30 +19,24 @@ class OmokController(
         outputView.printStartMessage()
         var stone = StoneStatus.BLACK
         while (omokBoard.isNotFull()) {
-            val point =
-                retryWhenException(
-                    action = {
-                        val point = readPoint(stone)
-                        omokBoard.addStone(point)
-                        point
-                    },
-                    onError = outputView::printErrorMessage,
-                )
+            val point = readValidPoint(stone)
 
+            omokBoard.addStone(point)
             if (omokBoard.determineOmok(point)) {
                 outputView.printPrintWinner(stone)
                 break
             }
-
             stone = stone.toggle()
         }
     }
 
-    private fun readPoint(stone: StoneStatus): Point {
+    private fun readValidPoint(stone: StoneStatus): Point {
         return retryWhenException(
             action = {
                 val pos = getInputPoint(stone)
-                Point.of(pos, stone)
+                val point = Point.of(pos, stone)
+                omokBoard.pointValidation(point)
+                point
             },
             onError = outputView::printErrorMessage,
         )

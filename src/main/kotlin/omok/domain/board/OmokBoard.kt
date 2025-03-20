@@ -17,6 +17,8 @@ class OmokBoard(
 
     fun isNotFull() = omokPoints.isNotFull()
 
+    fun pointValidation(point: Point) = omokPoints.checkPointValid(point)
+
     fun getPointAt(
         row: OmokRow,
         column: OmokColumn,

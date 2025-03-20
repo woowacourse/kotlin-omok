@@ -32,13 +32,13 @@ class OmokBoardTest {
 
     @Test
     fun `이미 돌이 착수된 위치면 에러를 반환한다`() {
-        val duplicatedPosition = Point(x = OmokColumn.O, y = OmokRow.ONE, stoneStatus = StoneStatus.WHITE)
-        omokBoard.addStone(duplicatedPosition)
+        omokBoard.addStone(Point(x = OmokColumn.O, y = OmokRow.ONE, stoneStatus = StoneStatus.WHITE))
+        val duplicatedPosition = Point(x = OmokColumn.O, y = OmokRow.ONE, stoneStatus = StoneStatus.BLACK)
 
         assertThrows<IllegalArgumentException>(
             message = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요.",
         ) {
-            omokBoard.addStone(duplicatedPosition)
+            omokBoard.pointValidation(duplicatedPosition)
         }
     }
 

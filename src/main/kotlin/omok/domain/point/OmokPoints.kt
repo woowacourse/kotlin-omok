@@ -25,8 +25,6 @@ class OmokPoints {
     }
 
     fun addStone(point: Point) {
-        require(!isOccupied(point)) { ERROR_OCCUPIED_POSITION }
-        require(!isProtected(point)) { ERROR_PROTECTED_POSITION }
         val position = points.indexOfFirst { it.x == point.x && it.y == point.y }
         val newList = points.toMutableList()
         newList[position] = point
@@ -44,6 +42,11 @@ class OmokPoints {
         }
 
         return temp.toList()
+    }
+
+    fun checkPointValid(point: Point) {
+        require(!isOccupied(point)) { ERROR_OCCUPIED_POSITION }
+        require(!isProtected(point)) { ERROR_PROTECTED_POSITION }
     }
 
     private fun isOccupied(point: Point): Boolean {
