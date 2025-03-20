@@ -7,6 +7,8 @@ import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
+import omok.domain.player.StoneColor.BLACK
+import omok.domain.player.StoneColor.WHITE
 
 class WinningRule : OmokRule {
     override fun canPlace(
@@ -21,15 +23,15 @@ class WinningRule : OmokRule {
                 Pair(1, -1),
             )
 
-        val currentColor =
+        val gameResult =
             when (playerStone.color) {
-                StoneColor.BLACK -> GameResult.WIN_BLACK
-                StoneColor.WHITE -> GameResult.WIN_WHITE
+                BLACK -> GameResult.WIN_BLACK
+                WHITE -> GameResult.WIN_WHITE
             }
 
         for ((dx, dy) in directions) {
             if (countStonesInDirection(omokBoard, playerStone, dx, dy) >= 5) {
-                return PlaceResult.Success.Finish(currentColor)
+                return PlaceResult.Success.Finish(gameResult)
             }
         }
 
@@ -71,7 +73,7 @@ class WinningRule : OmokRule {
 
     private fun StoneColor.toPointState(): PointState =
         when (this) {
-            StoneColor.BLACK -> PointState.OCCUPIED_BLACK
-            StoneColor.WHITE -> PointState.OCCUPIED_WHITE
+            BLACK -> PointState.OCCUPIED_BLACK
+            WHITE -> PointState.OCCUPIED_WHITE
         }
 }
