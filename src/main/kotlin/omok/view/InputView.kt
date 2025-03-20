@@ -1,7 +1,7 @@
 package omok.view
 
-import omok.model.Intersection
-import omok.model.IntersectionState
+import omok.model.Stone
+import omok.model.StoneColor
 import rule.wrapper.point.Point
 
 class InputView {
@@ -10,22 +10,21 @@ class InputView {
         return readPoint()
     }
 
-    fun readTurn(intersection: Intersection): Point {
-        val lastStone: IntersectionState = intersection.state
+    fun readTurn(lastStone: Stone): Point {
+        val currentColor: StoneColor = lastStone.color.reverse()
         print(
             MESSAGE_TURN_INDICATOR.format(
-                when (lastStone) {
-                    IntersectionState.WHITE -> "흑"
-                    IntersectionState.BLACK -> "백"
-                    IntersectionState.EMPTY -> ""
+                when (currentColor) {
+                    StoneColor.WHITE -> "흑"
+                    StoneColor.BLACK -> "백"
                 },
             ),
         )
-        println(MESSAGE_LAST_STONE_POINT.format(intersection.point.stringRepresentation()))
+        println(MESSAGE_LAST_STONE_POINT.format(lastStone.point.stringRepresentation()))
         return readPoint()
     }
 
-    private fun readPoint(): Point {
+    fun readPoint(): Point {
         return runCatching {
             print(MESSAGE_ENTER_POINT)
             val input: String = readln()
