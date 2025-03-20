@@ -6,6 +6,9 @@ import omok.domain.omokboard.PointState
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
 import omok.domain.rule.GameResult
+import omok.domain.rule.GameResult.DRAW
+import omok.domain.rule.GameResult.WIN_BLACK
+import omok.domain.rule.GameResult.WIN_WHITE
 import omok.domain.rule.PlaceResult
 import omok.domain.rule.PlaceResult.Failure.AlreadyExistStone
 import omok.domain.rule.PlaceResult.Failure.DoubleFourViolation
@@ -56,7 +59,7 @@ class OutputView {
         println()
         println(
             when (result) {
-                GameResult.DRAW -> DRAW_RESULT_MESSAGE
+                DRAW -> DRAW_RESULT_MESSAGE
                 else -> WIN_RESULT_MESSAGE.format(result.toLabel())
             },
         )
@@ -109,8 +112,8 @@ class OutputView {
 
         private fun GameResult.toLabel(): String =
             when (this) {
-                GameResult.WIN_BLACK -> BLACK_COLOR_LABEL
-                GameResult.WIN_WHITE -> WHITE_COLOR_LABEL
+                WIN_BLACK -> BLACK_COLOR_LABEL
+                WIN_WHITE -> WHITE_COLOR_LABEL
                 else -> ""
             }
     }
