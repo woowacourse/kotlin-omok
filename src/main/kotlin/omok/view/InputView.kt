@@ -20,57 +20,58 @@ class InputView {
         return parsingInput(rawInput, grid) ?: getPoint(player, latestPoint, grid)
     }
 
-    private fun convertToString(point: Point): String {
-        val letter = 'A' + point.col - 1
-        return letter + (point.row).toString()
-    }
-
-    private fun parsingInput(
-        rawInput: String,
-        grid: OmokGrid,
-    ): Point? {
-        if (rawInput.isEmpty()) return null
-
-        val rawRow = rawInput.substring(1)
-        val rawCol = rawInput.substring(0, 1)
-
-        val row = validateRow(rawRow, grid.height) ?: return null
-        val col = validateCol(rawCol, grid.width) ?: return null
-        return Point(row, col)
-    }
-
-    private fun validateRow(
-        number: String,
-        height: Int,
-    ): Int? {
-        if (number.toIntOrNull() == null) return null
-        if (number.toInt() !in 1..height) return null
-        return number.toInt()
-    }
-
-    private fun validateCol(
-        col: String,
-        width: Int,
-    ): Int? {
-        if (col[0] - 'A' !in 0 until width) return null
-        return convertLetter(col)
-    }
-
-    private fun convertLetter(letter: String): Int {
-        return letter[0] - 'A' + 1
-    }
-
-    private fun Player.getDisplayColor(): String {
-        return when (this) {
-            is BlackPlayer -> "흑"
-            is WhitePlayer -> "백"
-            else -> throw IllegalArgumentException()
-        }
-    }
-
     companion object {
         private const val MESSAGE_TURN: String = "\n%s의 차례입니다."
         private const val MESSAGE_LATEST_POSITION: String = "(마지막 돌의 위치: %s)"
         private const val MESSAGE_POSITION_GUIDE: String = "\n위치를 입력하세요: "
+
+        private fun convertToString(point: Point): String {
+            val letter = 'A' + point.col - 1
+            return letter + (point.row).toString()
+        }
+
+        private fun parsingInput(
+            rawInput: String,
+            grid: OmokGrid,
+        ): Point? {
+            if (rawInput.isEmpty()) return null
+
+            val rawRow = rawInput.substring(1)
+            val rawCol = rawInput.substring(0, 1)
+
+            val row = validateRow(rawRow, grid.height) ?: return null
+            val col = validateCol(rawCol, grid.width) ?: return null
+            return Point(row, col)
+        }
+
+        private fun validateRow(
+            number: String,
+            height: Int,
+        ): Int? {
+            if (number.toIntOrNull() == null) return null
+            if (number.toInt() !in 1..height) return null
+            return number.toInt()
+        }
+
+        private fun validateCol(
+            col: String,
+            width: Int,
+        ): Int? {
+            val convertedCol = convertLetter(col)
+            if (convertedCol !in 1 until width) return null
+            return convertedCol
+        }
+
+        private fun convertLetter(letter: String): Int {
+            return letter[0] - 'A' + 1
+        }
+
+        private fun Player.getDisplayColor(): String {
+            return when (this) {
+                is BlackPlayer -> "흑"
+                is WhitePlayer -> "백"
+                else -> throw IllegalArgumentException()
+            }
+        }
     }
 }

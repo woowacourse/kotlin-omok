@@ -32,38 +32,6 @@ class OutputView {
         println()
     }
 
-    private fun boardUI(
-        grid: OmokGrid,
-        row: Int,
-        col: Int,
-    ): String {
-        val state = grid.board[row][col]
-        return when {
-            state != StoneState.BLANK -> state.toUI()
-            row == grid.height && col == MIN_BOUND -> LEFT_UP
-            row == grid.height && col == grid.width -> RIGHT_UP
-            row == MIN_BOUND && col == MIN_BOUND -> LEFT_DOWN
-            row == MIN_BOUND && col == grid.width -> RIGHT_DOWN
-            col == MIN_BOUND -> LEFT
-            row == grid.height -> UP
-            col == grid.width -> RIGHT
-            row == MIN_BOUND -> DOWN
-            else -> MIDDLE
-        }
-    }
-
-    private fun StoneState.toUI(): String {
-        return when (this) {
-            StoneState.BLACK -> "●"
-            StoneState.WHITE -> "○"
-            else -> throw IllegalStateException()
-        }
-    }
-
-    private fun printCoordinateY(width: Int) {
-        println(('A' until 'A' + width).joinToString("  "))
-    }
-
     companion object {
         private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
         private const val REPEAT_COUNT = 2
@@ -83,5 +51,37 @@ class OutputView {
         private const val MIN_BOUND = 1
 
         private const val MESSAGE_WINNER = "%s !!"
+
+        private fun boardUI(
+            grid: OmokGrid,
+            row: Int,
+            col: Int,
+        ): String {
+            val state = grid.board[row][col]
+            return when {
+                state != StoneState.BLANK -> state.toUI()
+                row == grid.height && col == MIN_BOUND -> LEFT_UP
+                row == grid.height && col == grid.width -> RIGHT_UP
+                row == MIN_BOUND && col == MIN_BOUND -> LEFT_DOWN
+                row == MIN_BOUND && col == grid.width -> RIGHT_DOWN
+                col == MIN_BOUND -> LEFT
+                row == grid.height -> UP
+                col == grid.width -> RIGHT
+                row == MIN_BOUND -> DOWN
+                else -> MIDDLE
+            }
+        }
+
+        private fun StoneState.toUI(): String {
+            return when (this) {
+                StoneState.BLACK -> "●"
+                StoneState.WHITE -> "○"
+                else -> throw IllegalStateException()
+            }
+        }
+
+        private fun printCoordinateY(width: Int) {
+            println(('A' until 'A' + width).joinToString("  "))
+        }
     }
 }
