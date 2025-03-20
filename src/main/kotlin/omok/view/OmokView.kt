@@ -157,7 +157,7 @@ class OmokView {
     }
 
     fun result(player: Player) {
-        println("${changeName(player)}가 승리했습니다.")
+        println("${changeName(player)}이 승리했습니다.")
     }
 
     private fun changeName(player: Player): String =
