@@ -42,19 +42,10 @@ class OmokController(
         return retryWhenException(
             action = {
                 val pos = getInputPoint(stone)
-                parsePoint(pos, stone)
+                Point.of(pos, stone)
             },
             onError = outputView::printErrorMessage,
         )
-    }
-
-    private fun parsePoint(
-        pos: String,
-        stone: StoneStatus,
-    ): Point {
-        val col = pos[0].uppercaseChar()
-        val row = pos.substring(1)
-        return Point.of(row, col, stone)
     }
 
     private fun getInputPoint(stone: StoneStatus): String {

@@ -11,11 +11,13 @@ data class Point(
 ) {
     companion object {
         fun of(
-            row: String,
-            column: Char,
+            value: String,
             stoneStatus: StoneStatus,
         ): Point {
-            val x = OmokColumn.of(column)
+            val col = value[0].uppercaseChar()
+            val row = value.substring(1)
+
+            val x = OmokColumn.of(col)
             val y = OmokRow.of(row)
             return Point(x, y, stoneStatus)
         }
