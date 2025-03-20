@@ -7,6 +7,10 @@ import omok.domain.model.position.Row
 import omok.domain.model.stone.StoneType
 
 class OutputView {
+    fun printStart() {
+        println("오목 게임을 시작합니다.")
+    }
+
     fun printTurn(omokStoneUiModel: OmokStoneUiModel) {
         println("${omokStoneUiModel.stone}의 차례입니다. (마지막 돌의 위치: ${omokStoneUiModel.position}")
     }
