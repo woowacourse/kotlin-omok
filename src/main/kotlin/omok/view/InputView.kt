@@ -11,7 +11,7 @@ class InputView {
         position: Position?,
     ): Position {
         print(SHOW_PLAYER_TURN.format(currentTurnColor.toLabel()))
-        position?.let { print(LAST_STONE_POSITION.format(position.toText())) }
+        position?.let { print(LAST_STONE_POSITION.format(position.toLabel())) }
         print(INPUT_POSITION_MESSAGE.format(currentTurnColor.toLabel()))
         return validatePositionInput(readln()) ?: askForPosition(currentTurnColor, position)
     }
@@ -27,7 +27,7 @@ class InputView {
                 StoneColor.WHITE -> "백"
             }
 
-        private fun Position.toText(): String = "${this.column.toLabel()}${this.row}"
+        private fun Position.toLabel(): String = "${this.column.toLabel()}${this.row}"
 
         private fun ColumnPosition.toLabel(): Char {
             val alphabets = ('A'..'Z').toList()
