@@ -3,8 +3,8 @@ package omok.model
 import omok.model.board.Board
 import omok.model.board.PlaceStoneResult
 import omok.model.board.Point
-import omok.model.rule.FiveInRow
-import omok.model.rule.Rule
+import omok.model.rule.count.FiveInRowRule
+import omok.model.rule.count.OmokCountRule
 import omok.model.stone.Position
 import omok.model.stone.StoneColor
 import omok.model.stone.StoneColor.Companion.next
@@ -27,9 +27,7 @@ class OmokGame(
     }
 
     private fun playTurn(board: Board) {
-        val rule: Rule = FiveInRow()
-
-        while (judgeRule(rule, board)) {
+        while (judgeRule(FiveInRowRule, board)) {
             val pos = getNextPoint()
             placeStone(board, pos)
         }
@@ -58,11 +56,11 @@ class OmokGame(
     }
 
     private fun judgeRule(
-        rule: Rule,
+        omokCountRule: OmokCountRule,
         board: Board,
     ): Boolean {
         if (previousPoint == null) return true
-        return !rule.calculate(board, previousPoint!!)
+        return !omokCountRule.calculate(board, previousPoint!!)
     }
 
     private fun showWinColor() {
