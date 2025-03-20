@@ -47,7 +47,7 @@ class OmokGame {
         point: Point,
     ) {
         val otherPlayer = getOtherPlayer(nowPlayer)
-        if (nowPlayer.isViolation(otherPlayer.stones, point)) throw IllegalStateException(ERROR_WRONG_POSITION)
+        nowPlayer.isViolation(otherPlayer.stones, point)
     }
 
     private fun getOtherPlayer(player: Player): Player {
@@ -64,9 +64,5 @@ class OmokGame {
         } else {
             StoneState.WHITE
         }
-    }
-
-    companion object {
-        private const val ERROR_WRONG_POSITION = "해당 위치에 놓을 수 없습니다"
     }
 }

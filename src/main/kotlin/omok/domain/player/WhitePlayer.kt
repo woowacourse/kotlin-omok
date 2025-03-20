@@ -3,6 +3,7 @@ package omok.domain.player
 import omok.domain.OmokGrid
 import rule.OmokRule
 import rule.WhiteRenjuRule
+import rule.type.Violation
 import rule.wrapper.point.Point
 
 class WhitePlayer : Player() {
@@ -12,7 +13,7 @@ class WhitePlayer : Player() {
     override fun isViolation(
         otherStones: List<Point>,
         startPoint: Point,
-    ): Boolean {
-        return false
+    ) {
+        dealViolation(Violation.NONE)
     }
 }
