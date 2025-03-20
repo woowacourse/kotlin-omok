@@ -1,4 +1,4 @@
-package omok.domain.stones
+package omok.domain.stone
 
 import rule.OmokRule
 import rule.wrapper.point.Point

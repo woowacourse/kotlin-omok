@@ -1,9 +1,9 @@
 package omok.domain.state
 
 import omok.domain.Board
-import omok.domain.StoneColor
-import omok.domain.stones.BlackStones
-import omok.domain.stones.WhiteStones
+import omok.domain.stone.BlackStones
+import omok.domain.stone.StoneColor
+import omok.domain.stone.WhiteStones
 import rule.wrapper.point.Point
 
 interface State {

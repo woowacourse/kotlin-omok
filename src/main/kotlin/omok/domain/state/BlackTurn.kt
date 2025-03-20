@@ -1,8 +1,8 @@
 package omok.domain.state
 
-import omok.domain.StoneColor
-import omok.domain.stones.BlackStones
-import omok.domain.stones.WhiteStones
+import omok.domain.stone.BlackStones
+import omok.domain.stone.StoneColor
+import omok.domain.stone.WhiteStones
 import rule.wrapper.point.Point
 
 class BlackTurn(
@@ -14,19 +14,15 @@ class BlackTurn(
         boardSize: Int,
     ): State {
         require(!(blackStones.contains(point) || whiteStones.contains(point))) { ERROR_INVALID_POINT }
+        require(!blackStones.isFoul(whiteStones, point)) { ERROR_RENJU_RULE }
 
         val newStones = blackStones + point
-        if (blackStones.isFoul(whiteStones, point)) {
-            println(ERROR_RENJU_RULE)
-            return BlackTurn(blackStones, whiteStones)
+        return when {
+            blackStones.isOmok(whiteStones, point) -> BlackWin(newStones, whiteStones)
+            newStones.points.size + whiteStones.points.size >= boardSize * boardSize ->
+                Draw(newStones, whiteStones)
+            else -> WhiteTurn(newStones, whiteStones)
         }
-        if (blackStones.isOmok(whiteStones, point)) {
-            return BlackWin(newStones, whiteStones)
-        }
-        if (newStones.points.size + whiteStones.points.size >= boardSize * boardSize) {
-            return Draw(newStones, whiteStones)
-        }
-        return WhiteTurn(newStones, whiteStones)
     }
 
     override fun lastStonePoint(): Point = whiteStones.lastStonePoint()

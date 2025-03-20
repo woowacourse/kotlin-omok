@@ -1,8 +1,8 @@
 package omok.domain.state
 
-import omok.domain.StoneColor
-import omok.domain.stones.BlackStones
-import omok.domain.stones.WhiteStones
+import omok.domain.stone.BlackStones
+import omok.domain.stone.StoneColor
+import omok.domain.stone.WhiteStones
 import omok.fixture.A1
 import omok.fixture.A2
 import omok.fixture.A3

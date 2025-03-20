@@ -1,4 +1,4 @@
-package omok.domain
+package omok.domain.stone
 
 enum class StoneColor {
     BLACK,

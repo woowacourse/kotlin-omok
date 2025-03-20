@@ -1,6 +1,6 @@
 package omok.view
 
-import omok.domain.StoneColor
+import omok.domain.stone.StoneColor
 import rule.wrapper.point.Point
 
 class OutputView {

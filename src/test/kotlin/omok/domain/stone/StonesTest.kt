@@ -1,6 +1,5 @@
-package omok.domain
+package omok.domain.stone
 
-import omok.domain.stones.BlackStones
 import omok.fixture.A1
 import omok.fixture.A2
 import org.assertj.core.api.Assertions.assertThat

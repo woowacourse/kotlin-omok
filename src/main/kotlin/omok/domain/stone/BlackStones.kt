@@ -1,4 +1,4 @@
-package omok.domain.stones
+package omok.domain.stone
 
 import rule.BlackRenjuRule
 import rule.OmokRule
