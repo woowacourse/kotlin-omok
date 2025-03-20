@@ -1,5 +1,6 @@
 package omok.view
 
+import omok.controller.ext.toKorean
 import omok.domain.board.StoneStatus
 
 class InputView {
@@ -9,24 +10,16 @@ class InputView {
     ): String {
         while (true) {
             print(MESSAGE_PLAYER_TURN.format(turn.toKorean()))
-            print(MESSAGE_INPUT_POSITION)
             lastPosition?.let {
                 println(MESSAGE_LAST_POSITION.format(lastPosition))
             }
+            print(MESSAGE_INPUT_POSITION)
             val input = readlnOrNull()?.trim()
 
             if (!input.isNullOrEmpty()) {
                 return input
             }
             println(MESSAGE_EMPTY_INPUT)
-        }
-    }
-
-    private fun StoneStatus.toKorean(): String {
-        return when (this) {
-            StoneStatus.BLACK -> "흑"
-            StoneStatus.WHITE -> "백"
-            else -> throw IllegalStateException()
         }
     }
 
