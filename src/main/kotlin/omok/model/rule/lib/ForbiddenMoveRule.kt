@@ -75,7 +75,7 @@ abstract class ForbiddenMoveRule(
         }
 
     companion object {
-        protected const val EMPTY_STONE = 0
+        const val EMPTY_STONE = 0
         const val BLACK_STONE = 1
         const val WHITE_STONE = 2
         const val MIN_X = 0
