@@ -12,7 +12,7 @@ class OutputView {
     }
 
     fun printBoard(game: Game) {
-        println(modifyBoard(game.blackPlayer.points, game.whitePlayer.points))
+        println(modifyBoard(game.blackPlayer.points.points, game.whitePlayer.points.points))
     }
 
     fun printWinner(gameState: GameState) {
@@ -98,7 +98,7 @@ class OutputView {
         private const val MESSAGE_OMOK_WINNER = "%s이 승리했습니다!"
         private const val BLACK_PLAYER = "흑"
         private const val WHITE_PLAYER = "백"
-        
+
         private const val BOARD_SIZE = 15
         private const val ROW_NUMBER_OFFSET_SIZE = 4
         private const val COLUMN_NUMBER_OFFSET_SIZE = 2
