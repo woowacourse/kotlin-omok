@@ -13,7 +13,7 @@ class OmokController(
     fun run() {
         omokView.printStartMessage()
         val omokBoard = OmokBoard(Omok())
-        val currentPlayer: Player = BlackPlayer(BlackPlayerState()) // 시작은 흑돌 플레이어
+        val currentPlayer: Player = BlackPlayer(BlackPlayerState())
         playGame(currentPlayer, omokBoard)
         omokView.result(currentPlayer)
     }

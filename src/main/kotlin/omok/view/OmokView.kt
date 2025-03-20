@@ -6,7 +6,6 @@ import omok.model.board.Y
 import omok.model.player.BlackPlayer
 import omok.model.player.Player
 import omok.model.player.WhitePlayer
-import omok.model.stone.Stone
 import omok.model.stone.StoneState
 
 class OmokView {
@@ -15,54 +14,9 @@ class OmokView {
         printOmokBoard()
     }
 
-//    private fun printOmokBoard() {
-//        val row = List(13) { "──┼" }
-//        val column = ('A'..'O').toList()
-//        println("1  ┌${"──┬".repeat(13)}──┐")
-//        for (i in 2..9) {
-//            println("$i  ├${row.joinToString("")}──┤")
-//        }
-//        for (i in 10..14) {
-//            println("$i ├${row.joinToString("")}──┤")
-//        }
-//        println("15 └${"──┴".repeat(13)}──┘")
-//        println("   ${column.joinToString("  ")}")
-//    }
-
-//    fun printOmokBoard(
-//        positions: Map<Position, StoneState>,
-// //        stoneColors: List<StoneColor>,
-//    ) {
-//        val boardSize = 15
-//        val column = ('A'..'O').toList()
-//        val board = MutableList(boardSize) { MutableList(boardSize) { if (it + 1 == 15) "┼" else "┼──" } }
-//        positions.entries.forEach { (key, value) ->
-//            val stone = if (value.name == StoneColor.WHITE.name) "●" else "○"
-//            if (value.name != StoneState.NONE.name) board[key.y.point - 1][key.x.point - 1] = "$stone──"
-//        }
-//
-//        for (y in 1..boardSize) {
-//            val space = if (y > 9) " " else "  "
-//            print("$y$space")
-//            for (x in 1..boardSize) {
-//                print(board[y - 1][x - 1])
-//            }
-//            println()
-//        }
-//        println("   ${column.joinToString("  ")}")
-//    }
-
     private fun String.toNumber(): Int {
         val alphaBets = ('A'..'O').toList()
         return alphaBets.indexOfFirst { it.toString() == this } + 1
-    }
-
-    fun inputPosition(stone: Stone): Position {
-        println("${stone.color()}의 차례입니다.")
-        print("위치를 입력하세요: ")
-        val input = readln().trim()
-        val (alphaBet, number) = input.partition { it.isLetter() }
-        return Position(X(alphaBet.uppercase().toNumber()), Y(number.toInt()))
     }
 
     fun inputPosition(player: Player): Position {
@@ -73,15 +27,7 @@ class OmokView {
         return Position(X(alphaBet.uppercase().toNumber()), Y(number.toInt()))
     }
 
-    fun inputWhitePosition(): Position {
-        println("백의 차례입니다.")
-        print("위치를 입력하세요: ")
-        val input = readln().trim()
-        val (alphaBet, number) = input.partition { it.isLetter() }
-        return Position(X(alphaBet.uppercase().toNumber()), Y(number.toInt()))
-    }
-
-    fun printOmokBoard() {
+    private fun printOmokBoard() {
         val row = List(BOARD_SIZE - 2) { "──┼" }
         val column = ('A'..'O').toList()
         println("15 ┌${"──┬".repeat(BOARD_SIZE - 2)}──┐")
@@ -128,6 +74,7 @@ class OmokView {
                 when (stoneState) {
                     StoneState.WHITE -> "●"
                     StoneState.BLACK -> "○"
+                    StoneState.DOUBLE_THREE, StoneState.DOUBLE_FOUR -> "X"
                     else -> return@forEach
                 }
             board[pos.y.point - 1][pos.x.point - 1] = if (pos.x.point != BOARD_SIZE) "$stone──" else stone
