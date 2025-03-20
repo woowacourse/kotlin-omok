@@ -12,5 +12,5 @@ fun main() {
     val points = OmokPoints()
     val omokBoard = OmokBoard(points)
     val controller = OmokController(outputView, inputView, omokBoard)
-    controller.run()
+    controller.startGame()
 }

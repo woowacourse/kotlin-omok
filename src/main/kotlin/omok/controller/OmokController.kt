@@ -11,11 +11,7 @@ class OmokController(
     private val inputView: InputView,
     private val omokBoard: OmokBoard,
 ) {
-    fun run() {
-        startGame(omokBoard)
-    }
-
-    private fun startGame(omokBoard: OmokBoard) {
+    fun startGame() {
         outputView.printStartMessage()
         var stone = StoneStatus.BLACK
         while (omokBoard.isNotFull()) {
