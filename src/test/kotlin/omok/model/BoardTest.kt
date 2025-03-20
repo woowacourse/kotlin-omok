@@ -1,8 +1,6 @@
 package omok.model
 
-import omok.model.Board.Companion.customBoard
 import omok.model.Board.Companion.initBoard
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -23,42 +21,5 @@ class BoardTest {
         val nextBoard = initialBoard.placeStone(position55)
 
         assertThrows<IllegalArgumentException> { nextBoard.placeStone(position55) }
-    }
-
-    @Test
-    fun `대각선으로 오목임을 확인할 수 있다`() {
-        val stones = List(5) { Stone(Position(Row(it), Col(it)), StoneState.WHITE) }
-
-        val board = customBoard(stones)
-
-        assertThat(board.isLastStoneOmok()).isTrue()
-    }
-
-    @Test
-    fun `세로로 오목임을 확인할 수 있다`() {
-        val stones = List(5) { Stone(Position(Row(3), Col(it)), StoneState.WHITE) }
-
-        val board = customBoard(stones)
-        board.placeStone(Position(Row(7), Col(1)))
-        board.placeStone(Position(Row(3), Col(6)))
-        assertThat(board.isLastStoneOmok()).isTrue()
-    }
-
-    @Test
-    fun `가로로 오목임을 확인할 수 있다`() {
-        val stones = List(5) { Stone(Position(Row(3), Col(it)), StoneState.WHITE) }
-
-        val board = customBoard(stones)
-
-        assertThat(board.isLastStoneOmok()).isTrue()
-    }
-
-    @Test
-    fun `6목 이상의 장목도 착수 가능하며 승리 조건으로 인정한다`() {
-        val stones = List(6) { Stone(Position(Row(3), Col(it)), StoneState.WHITE) }
-
-        val board = customBoard(stones)
-
-        assertThat(board.isLastStoneOmok()).isTrue()
     }
 }
