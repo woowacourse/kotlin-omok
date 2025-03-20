@@ -34,7 +34,7 @@ class OmokControl(
                 val input = inputView.inputStone()
                 board.placeStone(Position(input))
             }.getOrElse { exception ->
-                println("$exception")
+                outputView.printException(exception.message)
                 return stoneAddedBoard(board)
             }
 
