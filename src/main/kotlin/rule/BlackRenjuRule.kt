@@ -80,6 +80,18 @@ class BlackRenjuRule(
         return Violation.NONE
     }
 
+    override fun checkWin(
+        blackPositions: List<Stone>,
+        whitePositions: List<Stone>,
+        startPosition: Position,
+    ): Boolean {
+        val satisfyWin = checkSerialSameStonesBiDirection(blackPositions, startPosition, WIN_STANDARD)
+        val koState = checkAnyFoulCondition(blackPositions, whitePositions, startPosition)
+
+        if (satisfyWin && koState != Violation.OVERLINE) return true
+        return false
+    }
+
     private fun findStraight(
         blackPositions: List<Stone>,
         whitePositions: List<Stone>,

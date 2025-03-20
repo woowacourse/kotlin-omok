@@ -21,17 +21,11 @@ abstract class OmokRule(
      *
      * @return Returns true if no fouls are played and the win conditions are met.
      * */
-    fun checkWin(
+    abstract fun checkWin(
         blackPositions: List<Stone>,
         whitePositions: List<Stone>,
         startPosition: Position,
-    ): Boolean {
-        val satisfyWin = checkSerialSameStonesBiDirection(blackPositions, startPosition, WIN_STANDARD)
-        val koState = checkAnyFoulCondition(blackPositions, whitePositions, startPosition)
-
-        if (satisfyWin && koState != Violation.OVERLINE) return true
-        return false
-    }
+    ): Boolean
 
     /**
      * When a stone is placed at a specific location, it checks if the same number of stones are in a row.
