@@ -20,8 +20,11 @@ class WhitePlayerState(
     ): PlayerState {
         omokBoard.placeStone(position, stoneState)
         if (count >= 5 && omokBoard.isOmok(position, stoneState, omokBoard)) return Win()
+
         return BlackPlayerState(count + 1)
     }
 
     override fun stop(): Lose = Lose()
+
+    override fun nextTurn(): PlayerState = BlackPlayerState()
 }

@@ -12,4 +12,6 @@ interface PlayerState {
     fun isPlaceTurn(omokBoard: OmokBoard, position: Position, stoneState: StoneState): PlayerState // 내턴인지
 
     fun stop(): PlayerState
+
+    fun nextTurn(): PlayerState
 }

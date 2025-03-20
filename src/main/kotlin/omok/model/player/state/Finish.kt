@@ -18,4 +18,6 @@ abstract class Finish : PlayerState {
     abstract fun isWinner(): Finish
 
     override fun stop() = throw IllegalStateException()
+
+    override fun nextTurn(): PlayerState = throw IllegalStateException()
 }
