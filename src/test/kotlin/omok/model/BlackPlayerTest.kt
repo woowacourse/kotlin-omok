@@ -3,15 +3,8 @@ package omok.model
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import rule.BlackRenjuRule
-import rule.OmokRule
 import rule.wrapper.point.Point
 import java.lang.IllegalArgumentException
-
-class BlackPlayer : Player() {
-    override val points = mutableListOf<Point>()
-    override val rule: OmokRule = BlackRenjuRule()
-}
 
 class BlackPlayerTest {
     @Test
