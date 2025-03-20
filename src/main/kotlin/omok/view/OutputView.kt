@@ -2,11 +2,44 @@ package omok.view
 
 import omok.model.Board
 import omok.model.IntersectionState
+import omok.model.StoneColor
+import rule.wrapper.point.Point
 
 class OutputView {
     fun printOmokStart() {
         println(MESSAGE_OMOK_START)
         println()
+    }
+
+    fun modifyBoard(
+        whitePoints: List<Point>,
+        blackPoints: List<Point>,
+    ): String {
+        val board: String = makeInitialBoard(15, 15)
+        val lines = board.lines().toMutableList()
+        whitePoints.forEach { (row, col) ->
+            lines[15 - row] = modifyLine(col, lines[15 - row], StoneColor.WHITE)
+        }
+        blackPoints.forEach { (row, col) ->
+            lines[15 - row] = modifyLine(col, lines[15 - row], StoneColor.BLACK)
+        }
+
+        return lines.joinToString("\n")
+    }
+
+    private fun modifyLine(
+        col: Int,
+        line: String,
+        color: StoneColor,
+    ): String {
+        val x = col - 1
+        val sb = StringBuilder(line)
+        sb[x + 4 + x * 2] =
+            when (color) {
+                StoneColor.BLACK -> '●'
+                StoneColor.WHITE -> '○'
+            }
+        return sb.toString()
     }
 
     private fun makeInitialBoard(
@@ -16,25 +49,25 @@ class OutputView {
         val board = StringBuilder()
 
         board.append("%3d ".format(rows))
-        board.append("┌──")
+        board.append("┌─")
         for (col in 2..<cols) {
-            board.append("┬──")
+            board.append("─┬─")
         }
         board.append("┐\n")
 
         for (row in rows - 1 downTo 2) {
             board.append("%3d ".format(row))
-            board.append("├──")
+            board.append("─├─")
             for (col in 2..<cols) {
-                board.append("┼──")
+                board.append("─┼─")
             }
             board.append("┤\n")
         }
 
         board.append("%3d ".format(1))
-        board.append("└──")
+        board.append("└─")
         for (col in 2..<cols) {
-            board.append("┴──")
+            board.append("─┴─")
         }
         board.append("┘\n")
 
