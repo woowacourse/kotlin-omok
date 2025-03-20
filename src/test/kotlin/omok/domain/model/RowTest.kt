@@ -1,4 +1,6 @@
-import domain.model.Row
+package omok.domain.model
+
+import omok.domain.model.position.Row
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
