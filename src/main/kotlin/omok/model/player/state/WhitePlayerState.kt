@@ -7,12 +7,6 @@ import omok.model.stone.StoneState
 class WhitePlayerState(
     private val count: Int = 0,
 ) : PlayerState {
-    private val state: StoneState = StoneState.WHITE
-
-    override fun putCount(): Int = count
-
-    override fun stoneState(): StoneState = state
-
     override fun isPlaceTurn(
         omokBoard: OmokBoard,
         position: Position,
@@ -23,8 +17,6 @@ class WhitePlayerState(
 
         return BlackPlayerState(count + 1)
     }
-
-    override fun stop(): Lose = Lose()
 
     override fun nextTurn(): PlayerState = BlackPlayerState()
 }

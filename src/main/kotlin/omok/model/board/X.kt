@@ -7,10 +7,6 @@ data class X(
         require(point in 1..15) { "좌표의 범위는 1부터 15까지 입니다." }
     }
 
-    val isLeftMost: Boolean = point == X_MIN_RANGE
-    val isRightMost: Boolean = point == X_MAX_RANGE
-    val isInEdge: Boolean = isLeftMost || isRightMost
-
     operator fun plus(other: Int) = X(X_MIN_RANGE + (this.point - X_MIN_RANGE) + other)
 
     operator fun minus(other: Int) = X(X_MIN_RANGE + (this.point - X_MIN_RANGE) - other)

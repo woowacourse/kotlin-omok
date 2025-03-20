@@ -7,9 +7,8 @@ data class Y(
         require(point in 1..15) { "Y좌표는 1에서 15까지이다." }
     }
 
-    val isLeftMost: Boolean = point == Y_MIN_RANGE
-    val isRightMost: Boolean = point == Y_MAX_RANGE
-    val isInEdge: Boolean = isLeftMost || isRightMost
+    private val isLeftMost: Boolean = point == Y_MIN_RANGE
+    private val isRightMost: Boolean = point == Y_MAX_RANGE
 
     operator fun plus(other: Int) = Y(Y_MIN_RANGE + (this.point - Y_MIN_RANGE) + other)
 
