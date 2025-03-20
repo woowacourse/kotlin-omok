@@ -40,10 +40,20 @@ class OmokController(
     }
 
     private fun getPosition(): Position {
-        val input = inputView.getPosition()
-        val columnInput = input[0]
-        val rowInput = input.substring(1).toIntOrNull() ?: throw IllegalArgumentException("잘못된 위치입니다.")
+        return retryEvent {
+            val input = inputView.getPosition()
+            val columnInput = input[0]
+            val rowInput = input.substring(1).toIntOrNull() ?: throw IllegalArgumentException("잘못된 위치입니다.")
 
-        return Position(Column.from(columnInput), Row(rowInput))
+            Position(Column.from(columnInput), Row(rowInput))
+        }
+    }
+
+    private fun <T> retryEvent(event: () -> T): T {
+        while (true) {
+            runCatching { event() }
+                .onSuccess { return it }
+                .onFailure { outputView.printErrorMessage(it.message ?: it.stackTraceToString()) }
+        }
     }
 }

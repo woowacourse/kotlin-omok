@@ -49,6 +49,10 @@ class OutputView {
         println("${omokStone.stoneType.toKorean()}의 승리입니다.")
     }
 
+    fun printErrorMessage(message: String) {
+        println(message)
+    }
+
     private fun Position.toCoordinateString(): String {
         val column = Column.COLUMNS[this.column.value - 1]
         val row = this.row.value
