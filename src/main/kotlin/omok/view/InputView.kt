@@ -45,12 +45,12 @@ class InputView {
         }
 
         private fun validateRow(
-            number: String,
+            row: String,
             height: Int,
         ): Int? {
-            if (number.toIntOrNull() == null) return null
-            if (number.toInt() !in 1..height) return null
-            return number.toInt()
+            if (row.toIntOrNull() == null) return null
+            if (row.toInt() !in 1..height) return null
+            return row.toInt()
         }
 
         private fun validateCol(
@@ -58,7 +58,7 @@ class InputView {
             width: Int,
         ): Int? {
             val convertedCol = convertLetter(col)
-            if (convertedCol !in 1 until width) return null
+            if (convertedCol !in 1 .. width) return null
             return convertedCol
         }
 
