@@ -135,7 +135,8 @@ class BlackRenjuRule(
         val totalMoveCount = oneDirMoveCount + otherDirMoveCount
         return WhiteBlocked.from(
             totalMoveCount <= WhiteBlocked.INNER_DISTANCE &&
-                oneDirFound && otherDirFound,
+                oneDirFound &&
+                otherDirFound,
         )
     }
 
