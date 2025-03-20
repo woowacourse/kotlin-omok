@@ -1,7 +1,6 @@
 package omok.view
 
-import omok.model.Board
-import omok.model.IntersectionState
+import omok.model.Game
 import omok.model.StoneColor
 import rule.wrapper.point.Point
 
@@ -11,9 +10,13 @@ class OutputView {
         println()
     }
 
+    fun printBoard(game: Game) {
+        println(modifyBoard(game.blackPlayer.points, game.whitePlayer.points))
+    }
+
     fun modifyBoard(
-        whitePoints: List<Point>,
         blackPoints: List<Point>,
+        whitePoints: List<Point>,
     ): String {
         val board: String = makeInitialBoard(BOARD_SIZE, BOARD_SIZE)
         val lines = board.lines().toMutableList()
@@ -49,25 +52,25 @@ class OutputView {
         val board = StringBuilder()
 
         board.append(FORMAT_ROW_NUMBER.format(rows))
-        board.append("┌─")
+        board.append("┌──")
         for (col in 2..<cols) {
-            board.append("─┬─")
+            board.append("┬──")
         }
         board.append("┐\n")
 
         for (row in rows - 1 downTo 2) {
             board.append(FORMAT_ROW_NUMBER.format(row))
-            board.append("─├─")
+            board.append("├──")
             for (col in 2..<cols) {
-                board.append("─┼─")
+                board.append("┼──")
             }
             board.append("┤\n")
         }
 
         board.append(FORMAT_ROW_NUMBER.format(1))
-        board.append("└─")
+        board.append("└──")
         for (col in 2..<cols) {
-            board.append("─┴─")
+            board.append("┴──")
         }
         board.append("┘\n")
 
@@ -79,88 +82,6 @@ class OutputView {
         board.append(bottomLine)
 
         return board.toString()
-    }
-
-    fun printBoard(board: Board) {
-        printBoardHeader(board)
-        for (row in 14 downTo 2) {
-            printBoardLine(row, board)
-        }
-        printBoardFooter(board)
-    }
-
-    private fun printBoardLine(
-        row: Int,
-        board: Board,
-    ) {
-        print(FORMAT_ROW_NUMBER.format(row))
-        when (board.board[row][1]) {
-            IntersectionState.EMPTY -> print("├──")
-            IntersectionState.BLACK -> print("●──")
-            IntersectionState.WHITE -> print("○──")
-        }
-
-        for (column in 2..14) {
-            when (board.board[row][column]) {
-                IntersectionState.EMPTY -> print("┼──")
-                IntersectionState.BLACK -> print("●──")
-                IntersectionState.WHITE -> print("○──")
-            }
-        }
-
-        when (board.board[row][BOARD_SIZE]) {
-            IntersectionState.EMPTY -> println("┤")
-            IntersectionState.BLACK -> println("●")
-            IntersectionState.WHITE -> println("○")
-        }
-    }
-
-    private fun printBoardHeader(board: Board) {
-        print(FORMAT_ROW_NUMBER.format(BOARD_SIZE))
-        when (board.board[BOARD_SIZE][1]) {
-            IntersectionState.EMPTY -> print("┌──")
-            IntersectionState.BLACK -> print("●──")
-            IntersectionState.WHITE -> print("○──")
-        }
-
-        for (column in 2..14) {
-            when (board.board[BOARD_SIZE][column]) {
-                IntersectionState.EMPTY -> print("┬──")
-                IntersectionState.BLACK -> print("●──")
-                IntersectionState.WHITE -> print("○──")
-            }
-        }
-
-        when (board.board[BOARD_SIZE][BOARD_SIZE]) {
-            IntersectionState.EMPTY -> println("┐")
-            IntersectionState.BLACK -> println("●")
-            IntersectionState.WHITE -> println("○")
-        }
-    }
-
-    private fun printBoardFooter(board: Board) {
-        print(FORMAT_ROW_NUMBER.format(1))
-        when (board.board[1][1]) {
-            IntersectionState.EMPTY -> print("└──")
-            IntersectionState.BLACK -> print("●──")
-            IntersectionState.WHITE -> print("○──")
-        }
-
-        for (column in 2..14) {
-            when (board.board[1][column]) {
-                IntersectionState.EMPTY -> print("┴──")
-                IntersectionState.BLACK -> print("●──")
-                IntersectionState.WHITE -> print("○──")
-            }
-        }
-
-        when (board.board[1][BOARD_SIZE]) {
-            IntersectionState.EMPTY -> println("┘")
-            IntersectionState.BLACK -> println("●")
-            IntersectionState.WHITE -> println("○")
-        }
-
-        println("    A  B  C  D  E  F  G  H  I  J  K  L  M  N  O")
     }
 
     companion object {
