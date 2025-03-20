@@ -23,15 +23,14 @@ class OmokGame(
             onStonePlaced(placeResult)
 
             when (placeResult) {
-                is PlaceResult.Success.Finish -> break
                 is PlaceResult.Success.Progress -> {
                     stoneColor = stoneColor.reversed()
                     continue
                 }
 
-                else -> {
-                    continue
-                }
+                is PlaceResult.Success.Finish -> break
+
+                is PlaceResult.Failure -> continue
             }
         }
     }
