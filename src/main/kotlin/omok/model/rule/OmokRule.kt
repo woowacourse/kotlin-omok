@@ -19,7 +19,11 @@ class OmokRule(
                 return false
             }
 
-            return calculateTotalCount(stonesMap, lastStone)
+            val totalCount = calculateTotalCount(stonesMap, lastStone)
+            if (totalCount >= 5) {
+                return true
+            }
+            return false
         }
     }
 
@@ -54,14 +58,11 @@ class OmokRule(
     private fun calculateTotalCount(
         stonesMap: Map<Position, StoneState>,
         lastStone: Stone,
-    ): Boolean {
-        Direction.lineDirections().forEach { (directionA, directionB) ->
+    ): Int =
+        Direction.lineDirections().maxOf { (directionA, directionB) ->
             val countA = countConnected(stonesMap, lastStone, directionA)
             val countB = countConnected(stonesMap, lastStone, directionB)
 
-            val totalCount = countA + countB + 1
-            if (totalCount >= 5) return true
+            countA + countB + 1
         }
-        return false
-    }
 }
