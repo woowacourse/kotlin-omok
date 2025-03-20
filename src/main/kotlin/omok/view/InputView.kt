@@ -15,7 +15,7 @@ class InputView {
         print(SHOW_PLAYER_TURN.format(currentTurnColor.toLabel()))
         position?.let { print(LAST_STONE_POSITION.format(position.toLabel())) }
         print(INPUT_POSITION_MESSAGE.format(currentTurnColor.toLabel()))
-        return validatePositionInput(readln()) ?: askForPosition(currentTurnColor, position)
+        return readln().toValidPosition() ?: askForPosition(currentTurnColor, position)
     }
 
     companion object {
@@ -39,17 +39,13 @@ class InputView {
             return alphabets[this.value - 1]
         }
 
-        private fun validatePositionInput(input: String): Position? =
-            when {
-                input.isBlank() -> null
-                else -> input.toPosition()
-            }
+        private fun String.toValidPosition(): Position? {
+            if (this.isBlank()) return null
 
-        private fun String.toPosition(): Position {
             val columnPosition = this.first().toColumnPosition()
-            val rowPosition = RowPosition(this.substring(1).toInt())
+            val rowPosition = this.substring(1).toIntOrNull()
 
-            return Position(rowPosition, columnPosition)
+            return rowPosition?.let { Position(RowPosition(it), columnPosition) }
         }
 
         private fun Char.toColumnPosition(): ColumnPosition {
