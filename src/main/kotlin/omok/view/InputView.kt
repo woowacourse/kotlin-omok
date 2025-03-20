@@ -1,9 +1,9 @@
 package omok.view
 
-import omok.model.domain.omokboard.ColumnPosition
-import omok.model.domain.omokboard.Position
-import omok.model.domain.omokboard.RowPosition
-import omok.model.domain.player.StoneColor
+import omok.domain.omokboard.ColumnPosition
+import omok.domain.omokboard.Position
+import omok.domain.omokboard.RowPosition
+import omok.domain.player.StoneColor
 
 class InputView {
     fun askForPosition(

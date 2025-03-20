@@ -1,9 +1,9 @@
 package omok.controller
 
-import omok.model.domain.omokboard.OmokBoard
-import omok.model.domain.omokboard.PlayingBoard
-import omok.model.domain.rule.PlaceResult
-import omok.model.service.OmokGame
+import omok.domain.omokboard.OmokBoard
+import omok.domain.omokboard.PlayingBoard
+import omok.domain.rule.PlaceResult
+import omok.domain.service.OmokGame
 import omok.view.InputView
 import omok.view.OutputView
 

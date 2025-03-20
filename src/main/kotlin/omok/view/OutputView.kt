@@ -1,12 +1,12 @@
 package omok.view
 
-import omok.model.domain.omokboard.ColumnPosition
-import omok.model.domain.omokboard.OmokBoard
-import omok.model.domain.omokboard.PointState
-import omok.model.domain.omokboard.Position
-import omok.model.domain.omokboard.RowPosition
-import omok.model.domain.rule.GameResult
-import omok.model.domain.rule.PlaceResult
+import omok.domain.omokboard.ColumnPosition
+import omok.domain.omokboard.OmokBoard
+import omok.domain.omokboard.PointState
+import omok.domain.omokboard.Position
+import omok.domain.omokboard.RowPosition
+import omok.domain.rule.GameResult
+import omok.domain.rule.PlaceResult
 
 class OutputView {
     fun displayOmokGameStart() {
@@ -70,11 +70,11 @@ class OutputView {
         private const val WHITE_COLOR_LABEL: String = "백"
 
         private fun Position.drawBoard(omokBoard: OmokBoard): String {
-            val stoneColor = omokBoard.value[this]?.state ?: PointState.EMPTY
+            val stoneColor = omokBoard.value[this]?.state ?: omok.domain.omokboard.PointState.EMPTY
 
             return when {
-                stoneColor == PointState.OCCUPIED_BLACK -> "●"
-                stoneColor == PointState.OCCUPIED_WHITE -> "○"
+                stoneColor == omok.domain.omokboard.PointState.OCCUPIED_BLACK -> "●"
+                stoneColor == omok.domain.omokboard.PointState.OCCUPIED_WHITE -> "○"
                 this.row.value == omokBoard.height && this.column.value == 1 -> "┌"
                 this.row.value == omokBoard.height && this.column.value == omokBoard.width -> "┐"
                 this.row.value == 1 && this.column.value == 1 -> "└"
