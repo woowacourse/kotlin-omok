@@ -71,6 +71,13 @@ class OutputView {
         println("${lastStoneState}이 우승했습니다.")
     }
 
+    fun printException(message: String?) {
+        if (message == null) {
+            println("알 수 없는 예외가 발생했습니다.")
+        }
+        println(message)
+    }
+
     companion object {
         private const val OMOK_SEPARATOR = "──"
         private const val TOP_START = "┌"
