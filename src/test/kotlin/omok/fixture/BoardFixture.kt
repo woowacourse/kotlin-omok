@@ -123,3 +123,12 @@ val falseDoubleThreeBoard: Board =
 
         placeStone(Position(6, 3), StoneColor.WHITE)
     }
+
+val whitePassForbiddenMoveBoard: Board =
+    Board().apply {
+        // A position (4, 12) and surrounding stones
+        placeStone(Position(3, 12), StoneColor.WHITE) // (C, 12)
+        placeStone(Position(5, 12), StoneColor.WHITE) // (E, 12)
+        placeStone(Position(4, 14), StoneColor.WHITE) // (D, 14)
+        placeStone(Position(4, 13), StoneColor.WHITE) // (D, 13)
+    }

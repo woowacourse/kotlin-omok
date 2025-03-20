@@ -11,8 +11,8 @@ class Board {
             }
         }
 
-    fun findPoint(position: Position): Point? {
-        return points.find { it.position == position }
+    fun findPoint(position: Position): Point {
+        return requireNotNull(points.find { it.position == position }) { NOT_FOUND_POINT_ERROR_MESSAGE }
     }
 
     fun placeStone(
@@ -20,7 +20,7 @@ class Board {
         color: StoneColor,
     ): PlaceStoneResult {
         val point = findPoint(position)
-        val state = point?.state
+        val state = point.state
         return when (state) {
             PointState.OPEN -> handlePlaceSuccess(color, point)
             else -> PlaceStoneResult.AlreadyPlaced
@@ -42,5 +42,7 @@ class Board {
     companion object {
         const val BOARD_MIN_SIZE = 1
         const val BOARD_MAX_SIZE = 15
+
+        private const val NOT_FOUND_POINT_ERROR_MESSAGE = "Point를 찾을 수 없습니다."
     }
 }

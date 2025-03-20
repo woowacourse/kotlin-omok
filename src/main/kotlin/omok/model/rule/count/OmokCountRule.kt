@@ -39,7 +39,7 @@ abstract class OmokCountRule {
         var count = INITIAL_COUNT
         val targetColor = point.state.toStoneColor() ?: StoneColor.BLACK
 
-        while (isInRange(x, y) && board.findPoint(Position(x, y))?.state?.toStoneColor() == targetColor) {
+        while (isInRange(x, y) && board.findPoint(Position(x, y)).state.toStoneColor() == targetColor) {
             count++
             x += dir.first * step
             y += dir.second * step

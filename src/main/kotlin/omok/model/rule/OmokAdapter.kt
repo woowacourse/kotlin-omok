@@ -11,7 +11,7 @@ object OmokAdapter {
 
         board.points.forEach { point ->
             adapted[point.position.y - 1][point.position.x - 1] =
-                when (board.findPoint(point.position)?.state) {
+                when (board.findPoint(point.position).state) {
                     PointState.BLACK -> ForbiddenMoveRule.BLACK_STONE
                     PointState.WHITE -> ForbiddenMoveRule.WHITE_STONE
                     else -> ForbiddenMoveRule.EMPTY_STONE
