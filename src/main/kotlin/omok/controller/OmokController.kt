@@ -1,46 +1,33 @@
 package omok.controller
 
-import omok.model.Board
-import omok.model.BoardState
-import omok.model.Intersection
-import omok.model.IntersectionState
+import omok.model.BlackPlayer
+import omok.model.Game
+import omok.model.GameState
+import omok.model.WhitePlayer
 import omok.view.InputView
 import omok.view.OutputView
-import rule.BlackRenjuRule
-import rule.WhiteRenjuRule
 import rule.wrapper.point.Point
 
 class OmokController(
     private val inputView: InputView,
     private val outputView: OutputView,
 ) {
-    private val blackRenjuRule = BlackRenjuRule(15, 15)
-    private val whiteRenjuRule = WhiteRenjuRule(15, 15)
-
     fun run() {
         outputView.printOmokStart()
-        val board = Board()
-        outputView.printBoard(board)
+        val game = Game(BlackPlayer(), WhitePlayer())
+        outputView.printBoard(game)
         val point: Point = inputView.readInitialTurn()
-        board.place(Intersection(point, IntersectionState.BLACK), blackRenjuRule)
-        outputView.printBoard(board)
-        retryOnError { processTurn(board) }
+        game.play(point)
+        outputView.printBoard(game)
+        retryOnError { processTurn(game) }
     }
 
-    private tailrec fun processTurn(board: Board) {
-        val point: Point = inputView.readTurn(board.lastStone)
-        val stone: IntersectionState = board.lastStone.state.reverse()
-        val intersection = Intersection(point, stone)
-        val boardState =
-            if (stone == IntersectionState.BLACK) {
-                board.place(intersection, blackRenjuRule)
-            } else {
-                board.place(intersection, whiteRenjuRule)
-            }
-
-        outputView.printBoard(board)
-        if (boardState == BoardState.PLAYING) {
-            processTurn(board)
+    private tailrec fun processTurn(game: Game) {
+        val point: Point = inputView.readPoint()
+        val gameState: GameState = game.play(point)
+        outputView.printBoard(game)
+        if (gameState == GameState.PLAYING) {
+            processTurn(game)
         }
     }
 
