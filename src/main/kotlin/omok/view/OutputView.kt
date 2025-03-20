@@ -25,8 +25,11 @@ class OutputView {
         println(MESSAGE_FIRST_TURN)
     }
 
-    fun printNormalTurn(turnColor: StoneType, position: String) {
-        println(MESSAGE_TURN.format(if(turnColor == StoneType.BLACK) "백" else "흑", position))
+    fun printNormalTurn(
+        turnColor: StoneType,
+        position: String,
+    ) {
+        println(MESSAGE_TURN.format(if (turnColor == StoneType.BLACK) "백" else "흑", position))
     }
 
     private fun generateBoardArray(changedBoard: Array<Array<StoneType>>): Array<Array<String>> {
@@ -76,4 +79,3 @@ class OutputView {
         private const val ROW_INDEX = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
     }
 }
-

@@ -19,8 +19,8 @@ class RenjuRuleAdapter : Rule {
         playingBoard: Array<Array<StoneType>>,
     ): Boolean {
         return isFourFour(playingBoard, lastPlacedStone) or
-                isThreeThree(playingBoard, lastPlacedStone) or
-                isMoreThanFive(playingBoard, lastPlacedStone)
+            isThreeThree(playingBoard, lastPlacedStone) or
+            isMoreThanFive(playingBoard, lastPlacedStone)
     }
 
     private fun isFourFour(

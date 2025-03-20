@@ -6,7 +6,6 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
-
 class BoardTest {
     @Test
     fun `오목판은 15개의 행을 가진다`() {
@@ -35,7 +34,7 @@ class BoardTest {
         assertThat(board.grid[8][9]).isEqualTo(expected)
     }
 
-    @ValueSource(ints =  [-1, 15])
+    @ValueSource(ints = [-1, 15])
     @ParameterizedTest
     fun `오목판의 크기를 넘어가면 오목돌을 놓을 수 없다`(int: Int) {
         val board = Board()

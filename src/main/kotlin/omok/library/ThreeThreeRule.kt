@@ -39,11 +39,11 @@ class ThreeThreeRule(boardSize: Int) : OmokRule(boardSize) {
             board[y - down][x - left] == StoneType.WHITE -> 0
             board[y + up][x + right] == StoneType.WHITE -> 0
             countToWall(board, position, oppositeDirection) +
-                    countToWall(
-                        board,
-                        position,
-                        direction,
-                    ) <= 5 -> 0
+                countToWall(
+                    board,
+                    position,
+                    direction,
+                ) <= 5 -> 0
             else -> 1
         }
     }

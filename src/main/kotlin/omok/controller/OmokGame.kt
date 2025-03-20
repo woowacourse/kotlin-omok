@@ -2,10 +2,10 @@ package omok.controller
 
 import omok.domain.Board
 import omok.domain.Stone
-import omok.view.InputView
-import omok.view.OutputView
 import omok.domain.Turn
 import omok.model.RenjuRuleAdapter
+import omok.view.InputView
+import omok.view.OutputView
 
 class OmokGame(
     private val inputView: InputView,
@@ -19,7 +19,7 @@ class OmokGame(
         while (true) {
             outputView.showBoard(board.grid)
             val lastStone: Stone? = board.stones.lastStone()
-            if (lastStone == null ) {
+            if (lastStone == null) {
                 outputView.printFirstTurn()
             } else {
                 outputView.printNormalTurn(lastStone.color, inputPositison1)
@@ -34,7 +34,10 @@ class OmokGame(
         outputView.showGameResult(turn)
     }
 
-    private fun getPosition(turn: Turn, inputPosition: String): Stone {
+    private fun getPosition(
+        turn: Turn,
+        inputPosition: String,
+    ): Stone {
         return turn.stone(inputPosition)
     }
 }

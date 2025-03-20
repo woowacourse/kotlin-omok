@@ -2,7 +2,7 @@ package omok.domain
 
 class Board(private val rule: Rule) {
     val stones: Stones = Stones()
-    val grid: Array<Array<StoneType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE, {StoneType.EMPTY})}
+    val grid: Array<Array<StoneType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE, { StoneType.EMPTY }) }
 
     fun put(stone: Stone) {
         val row = stone.position.row
@@ -18,8 +18,10 @@ class Board(private val rule: Rule) {
 
     fun isValidPosition(stone: Stone): Boolean {
         return if (stone.color == StoneType.BLACK) {
-             !rule.isInvalid(stones, stone, grid)
-        } else true
+            !rule.isInvalid(stones, stone, grid)
+        } else {
+            true
+        }
     }
 
     fun isOmok(stone: Stone): Boolean {
@@ -55,7 +57,6 @@ class Board(private val rule: Rule) {
         }
         return count
     }
-
 
     companion object {
         private const val BOARD_SIZE = 15

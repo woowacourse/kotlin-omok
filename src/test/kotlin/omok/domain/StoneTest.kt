@@ -1,12 +1,12 @@
 package omok.domain
 
-import org.junit.jupiter.api.Test
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
 class StoneTest {
     @Test
     fun `오목돌은 row 위치를 가진다`() {
-        val stone = Stone(Position(0,0), StoneType.BLACK)
+        val stone = Stone(Position(0, 0), StoneType.BLACK)
         assertThat(stone.position.row).isEqualTo(0)
     }
 
@@ -19,6 +19,5 @@ class StoneTest {
     @Test
     fun `오목돌은 색상을 가진다`() {
         val stone = Stone(Position(0, 0), StoneType.WHITE)
-
     }
 }
