@@ -1,6 +1,7 @@
 package omok.controller
 
 import omok.domain.OmokGame
+import omok.domain.OmokGrid
 import omok.domain.OmokResult
 import omok.view.InputView
 import omok.view.OutputView
@@ -21,7 +22,7 @@ class OmokController(
 
     private fun initGame(): OmokGame {
         outputView.printStartMessage()
-        return OmokGame()
+        return OmokGame(OmokGrid())
     }
 
     private fun printWinner(

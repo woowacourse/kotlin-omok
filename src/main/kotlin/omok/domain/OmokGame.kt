@@ -6,8 +6,7 @@ import omok.domain.player.WhitePlayer
 import omok.util.retryInput
 import rule.wrapper.point.Point
 
-class OmokGame {
-    val grid: OmokGrid = OmokGrid()
+class OmokGame(val grid: OmokGrid) {
     private val blackPlayer: BlackPlayer = BlackPlayer()
     private val whitePlayer: WhitePlayer = WhitePlayer()
 
