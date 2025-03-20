@@ -11,7 +11,7 @@ enum class OmokResult {
     ;
 
     companion object {
-        fun returnWinner(player: Player): OmokResult {
+        fun getWinner(player: Player): OmokResult {
             return when (player) {
                 is BlackPlayer -> BLACK_WIN
                 is WhitePlayer -> WHITE_WIN
