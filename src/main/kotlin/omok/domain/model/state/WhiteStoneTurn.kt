@@ -8,6 +8,8 @@ import omok.domain.model.stone.StoneType
 class WhiteStoneTurn(
     board: Board,
 ) : Running(board, WHITE_STONE_RULE) {
+    override val stoneType: StoneType = StoneType.WHITE
+
     override fun placeStone(onPlace: () -> Position): OmokState {
         return super.placeStone(StoneType.WHITE, onPlace, ::BlackStoneTurn)
     }

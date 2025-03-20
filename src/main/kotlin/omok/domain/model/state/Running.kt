@@ -19,7 +19,7 @@ sealed class Running(
         val omokStone = OmokStone(position, stoneType)
         if (rule.canPlace(omokStone, board)) {
             val newBoard = board.placeStone(position, stoneType)
-            if (newBoard.checkWin()) return Finish(newBoard)
+            if (newBoard.checkWin()) return Finish(newBoard, stoneType)
             return onTurn(newBoard)
         }
         return placeStone(stoneType, onPlace, onTurn)
