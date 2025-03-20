@@ -33,8 +33,7 @@ class OmokController(
     private fun readValidPoint(stone: StoneStatus): Point {
         return retryWhenException(
             action = {
-                val pos = getInputPoint(stone)
-                val point = Point.of(pos, stone)
+                val point = Point.of(getInputPoint(), stone)
                 omokBoard.pointValidation(point)
                 point
             },
@@ -42,9 +41,8 @@ class OmokController(
         )
     }
 
-    private fun getInputPoint(stone: StoneStatus): String {
+    private fun getInputPoint(): String {
         outputView.printBoard(omokBoard)
-        val latestStone = omokBoard.getLatestStone()
-        return inputView.readStoneWithLastPosition(stone, latestStone)
+        return inputView.readStoneWithLastPosition(omokBoard.latestStone)
     }
 }

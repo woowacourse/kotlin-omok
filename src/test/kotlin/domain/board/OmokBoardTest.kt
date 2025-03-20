@@ -74,12 +74,4 @@ class OmokBoardTest {
     fun `보드가 비어 있지 않으면 참을 반환한다`() {
         assertEquals(omokBoard.isNotFull(), true)
     }
-
-    @Test
-    fun `오목판에 착수된 마지막 돌의 위치를 반환한다`() {
-        omokBoard.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.BLACK))
-        omokBoard.addStone(Point(OmokColumn.A, OmokRow.EIGHT, StoneStatus.BLACK))
-        omokBoard.addStone(Point(OmokColumn.C, OmokRow.NINE, StoneStatus.BLACK))
-        assertEquals(omokBoard.getLatestStone(), "C9")
-    }
 }

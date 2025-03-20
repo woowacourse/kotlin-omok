@@ -9,7 +9,8 @@ import omok.domain.rule.RenjuCheck
 class OmokBoard(
     private val omokPoints: OmokPoints,
 ) {
-    private var latestStone: Point = Point(OmokColumn.WALL, OmokRow.WALL, StoneStatus.EMPTY)
+    var latestStone: Point = Point(OmokColumn.WALL, OmokRow.WALL, StoneStatus.EMPTY)
+        private set
 
     val board get() = omokPoints.toList()
 
@@ -23,13 +24,6 @@ class OmokBoard(
         row: OmokRow,
         column: OmokColumn,
     ): Point = omokPoints.getPointAt(row, column)
-
-    fun getLatestStone(): String? {
-        if (latestStone.stoneStatus == StoneStatus.EMPTY) return null
-        val dx = OmokColumn.find(latestStone.x.value).name
-        val dy = latestStone.y.value
-        return dx + dy
-    }
 
     fun addStone(point: Point) {
         omokPoints.addStone(point)
