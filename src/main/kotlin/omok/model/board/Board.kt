@@ -20,26 +20,6 @@ class Board private constructor(
             return false
         }
 
-    val blackPoints: List<rule.wrapper.point.Point>
-        get() {
-            return stonesMap
-                .filter { (_, stoneState) ->
-                    stoneState == StoneState.BLACK
-                }.map { (position, _) ->
-                    position.toPoint()
-                }
-        }
-
-    val whitePoints: List<rule.wrapper.point.Point>
-        get() {
-            return stonesMap
-                .filter { (_, stoneState) ->
-                    stoneState == StoneState.WHITE
-                }.map { (position, _) ->
-                    position.toPoint()
-                }
-        }
-
     val nextStoneState: StoneState
         get() {
             lastStone?.let {
@@ -51,6 +31,26 @@ class Board private constructor(
             } ?: run {
                 return StoneState.BLACK
             }
+        }
+
+    private val blackPoints: List<rule.wrapper.point.Point>
+        get() {
+            return stonesMap
+                .filter { (_, stoneState) ->
+                    stoneState == StoneState.BLACK
+                }.map { (position, _) ->
+                    position.toPoint()
+                }
+        }
+
+    private val whitePoints: List<rule.wrapper.point.Point>
+        get() {
+            return stonesMap
+                .filter { (_, stoneState) ->
+                    stoneState == StoneState.WHITE
+                }.map { (position, _) ->
+                    position.toPoint()
+                }
         }
 
     fun placeStone(nextPosition: Position): Board {
