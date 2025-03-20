@@ -58,8 +58,15 @@ class OutputView {
             col: Int,
         ): String {
             val state = grid.board[row][col]
+            return state.toUI() ?: boardDefault(grid, row, col)
+        }
+
+        private fun boardDefault(
+            grid: OmokGrid,
+            row: Int,
+            col: Int,
+        ): String {
             return when {
-                state != StoneState.BLANK -> state.toUI()
                 row == grid.height && col == MIN_BOUND -> LEFT_UP
                 row == grid.height && col == grid.width -> RIGHT_UP
                 row == MIN_BOUND && col == MIN_BOUND -> LEFT_DOWN
@@ -72,11 +79,11 @@ class OutputView {
             }
         }
 
-        private fun StoneState.toUI(): String {
+        private fun StoneState.toUI(): String? {
             return when (this) {
                 StoneState.BLACK -> "●"
                 StoneState.WHITE -> "○"
-                StoneState.BLANK -> throw IllegalStateException()
+                StoneState.BLANK -> null
             }
         }
 
