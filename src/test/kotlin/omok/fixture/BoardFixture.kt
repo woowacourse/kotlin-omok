@@ -73,14 +73,22 @@ val doubleThreeForbiddenBoard: Board =
 // 사사 금수 테스트
 val doubleFourForbiddenBoard: Board =
     Board().apply {
-        // A position (3, 13), B position (3, 8)
-        placeStone(Position(3, 15), StoneColor.BLACK) // (C,15)
-        placeStone(Position(3, 14), StoneColor.BLACK) // (C, 14)
-        placeStone(Position(3, 12), StoneColor.BLACK) // (C, 12)
-        placeStone(Position(3, 11), StoneColor.BLACK) // (C, 11)
-        placeStone(Position(3, 10), StoneColor.BLACK) // (C, 10)
-        placeStone(Position(4, 12), StoneColor.BLACK) // (D, 12)
-        placeStone(Position(7, 12), StoneColor.BLACK) // (G, 12)
+
+        // A position (7, 7)
+        placeStone(Position(5, 5), StoneColor.BLACK)
+        placeStone(Position(6, 6), StoneColor.BLACK)
+        placeStone(Position(8, 8), StoneColor.BLACK)
+        placeStone(Position(8, 6), StoneColor.BLACK)
+        placeStone(Position(9, 5), StoneColor.BLACK)
+        placeStone(Position(6, 8), StoneColor.BLACK)
+        placeStone(Position(8, 12), StoneColor.BLACK)
+
+        // A position (6, 12)
+        placeStone(Position(5, 12), StoneColor.BLACK)
+        placeStone(Position(7, 12), StoneColor.BLACK)
+        placeStone(Position(6, 11), StoneColor.BLACK)
+        placeStone(Position(6, 13), StoneColor.BLACK)
+        placeStone(Position(6, 14), StoneColor.BLACK)
     }
 
 // 장목 금수 테스트
@@ -92,4 +100,26 @@ val overlineForbiddenBoard: Board =
         placeStone(Position(3, 1), StoneColor.BLACK)
         placeStone(Position(4, 1), StoneColor.BLACK)
         placeStone(Position(6, 1), StoneColor.BLACK)
+    }
+
+// 4-3 테스트
+val fourThreeBoard: Board =
+    Board().apply {
+        // A position (8, 5)
+        placeStone(Position(5, 5), StoneColor.BLACK)
+        placeStone(Position(6, 5), StoneColor.BLACK)
+        placeStone(Position(7, 5), StoneColor.BLACK)
+        placeStone(Position(8, 6), StoneColor.BLACK)
+        placeStone(Position(8, 7), StoneColor.BLACK)
+    }
+
+val falseDoubleThreeBoard: Board =
+    Board().apply {
+        placeStone(Position(3, 3), StoneColor.BLACK)
+        placeStone(Position(5, 3), StoneColor.BLACK)
+
+        placeStone(Position(4, 2), StoneColor.BLACK)
+        placeStone(Position(4, 4), StoneColor.BLACK)
+
+        placeStone(Position(6, 3), StoneColor.WHITE)
     }
