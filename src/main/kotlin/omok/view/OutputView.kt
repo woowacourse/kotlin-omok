@@ -1,7 +1,6 @@
 package omok.view
 
 import omok.domain.OmokGrid
-import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
 import omok.domain.OmokResult
 import omok.domain.StoneState
 
@@ -82,7 +81,6 @@ class OutputView {
         private const val COORDINATE_X = "%2d "
         private const val BLANK = "   "
         private const val MIN_BOUND = 1
-        private const val MAX_BOUND = DEFAULT_SIZE
 
         private const val MESSAGE_WINNER = "%s !!"
     }
