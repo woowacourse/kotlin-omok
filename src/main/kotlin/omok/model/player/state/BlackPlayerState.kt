@@ -22,12 +22,12 @@ class BlackPlayerState(
         return when {
             BlackWinRule.validate(adaptedBoard, adaptedPoint) -> Win()
             FourFourRule.validate(adaptedBoard, adaptedPoint) -> {
-                omokBoard.isDoubleFour(position)
+                omokBoard.doubleFour(position)
                 this
             }
 
             ThreeThreeRule.validate(adaptedBoard, adaptedPoint) -> {
-                omokBoard.isDoubleThree(position)
+                omokBoard.doubleThree(position)
                 this
             }
 
