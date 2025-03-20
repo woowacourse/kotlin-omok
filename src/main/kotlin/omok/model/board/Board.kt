@@ -16,7 +16,7 @@ class Board private constructor(
 
     val isLastStoneOmok: Boolean
         get() {
-            lastStone?.let { omokRule.isLastStoneOmok(stonesMap, lastStone) }
+            lastStone?.let { return omokRule.isLastStoneOmok(stonesMap, lastStone) }
             return false
         }
 
