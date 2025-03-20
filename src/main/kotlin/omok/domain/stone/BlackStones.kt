@@ -2,7 +2,6 @@ package omok.domain.stone
 
 import rule.BlackRenjuRule
 import rule.OmokRule
-import rule.type.Violation
 import rule.wrapper.point.Point
 
 class BlackStones(
@@ -18,9 +17,6 @@ class BlackStones(
     ): Boolean {
         val violateType =
             rule.checkAnyFoulCondition(this.points.toList(), other.points.toList(), point)
-        return when (violateType) {
-            Violation.DOUBLE_THREE, Violation.DOUBLE_FOUR, Violation.OVERLINE -> true
-            Violation.NONE -> false
-        }
+        return violateType.state
     }
 }
