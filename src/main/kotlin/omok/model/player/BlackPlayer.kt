@@ -5,7 +5,7 @@ import omok.model.player.state.PlayerState
 import omok.model.stone.StoneState
 
 class BlackPlayer(
-    private val playerState: PlayerState = BlackPlayerState(),
+    playerState: PlayerState = BlackPlayerState(),
 ) : Player(playerState) {
     override val stoneState: StoneState = StoneState.BLACK
 }
