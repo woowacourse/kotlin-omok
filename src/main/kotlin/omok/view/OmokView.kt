@@ -10,7 +10,7 @@ import omok.model.stone.StoneState
 
 class OmokView {
     fun printStartMessage() {
-        println("오목 게임을 시작합니다.")
+        println(START_MESSAGE)
         printOmokBoard()
     }
 
@@ -72,9 +72,9 @@ class OmokView {
         positions.forEach { (pos, stoneState) ->
             val stone =
                 when (stoneState) {
-                    StoneState.WHITE -> "●"
-                    StoneState.BLACK -> "○"
-                    StoneState.DOUBLE_THREE, StoneState.DOUBLE_FOUR -> "X"
+                    StoneState.WHITE -> WHITE_STONE
+                    StoneState.BLACK -> BLACK_STONE
+                    StoneState.DOUBLE_THREE, StoneState.DOUBLE_FOUR -> ILLEGAL_POINT
                     else -> return@forEach
                 }
             board[pos.y.point - 1][pos.x.point - 1] = if (pos.x.point != BOARD_SIZE) "$stone──" else stone
@@ -116,5 +116,9 @@ class OmokView {
 
     companion object {
         private const val BOARD_SIZE = 15
+        private const val BLACK_STONE = "○"
+        private const val WHITE_STONE = "●"
+        private const val ILLEGAL_POINT = "X"
+        private const val START_MESSAGE = "오목 게임을 시작합니다."
     }
 }

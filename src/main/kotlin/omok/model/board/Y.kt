@@ -4,7 +4,7 @@ data class Y(
     val point: Int,
 ) {
     init {
-        require(point in 1..15) { "Y좌표는 1에서 15까지이다." }
+        require(point in Y_MIN_RANGE..Y_MAX_RANGE) { "Y좌표는 1에서 15까지이다." }
     }
 
     private val isLeftMost: Boolean = point == Y_MIN_RANGE

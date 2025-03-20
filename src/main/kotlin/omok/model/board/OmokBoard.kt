@@ -14,8 +14,8 @@ class OmokBoard(
     val xSize = X_MAX_RANGE - X_MIN_RANGE + 1
 
     init {
-        for (x in 1..15) {
-            for (y in 1..15) {
+        for (x in X_MIN_RANGE..X_MAX_RANGE) {
+            for (y in Y_MIN_RANGE..Y_MAX_RANGE) {
                 val position = Position(X(x), Y(y))
                 board[position] = StoneState.NONE
             }
