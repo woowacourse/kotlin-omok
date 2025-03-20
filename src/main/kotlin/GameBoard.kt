@@ -1,5 +1,6 @@
 import rule.OmokRule
 import rule.type.Violation
+import rule.wrapper.position.Position
 
 class GameBoard {
     private var lastStone: Stone? = null
@@ -12,9 +13,10 @@ class GameBoard {
     fun putStone(
         stoneColor: StoneColor,
         rule: OmokRule,
-        onPositionReceived: (Stone?) -> String,
+        onPositionReceived: (Stone?) -> Pair<Char, Int>,
     ): Boolean {
-        val position = onPositionReceived(lastStone)
+        val (col, row) = onPositionReceived(lastStone)
+        val position = Position(Row.from(row), Col.from(col))
         val stone = Stone.of(position, stoneColor)
 
         if (isExistPosition(stone)) {
@@ -49,11 +51,10 @@ class GameBoard {
                 existedStone.isSamePosition(stone)
             }
 
-    fun judge(rule: OmokRule): Boolean {
-        return rule.checkWin(
+    fun judge(rule: OmokRule): Boolean =
+        rule.checkWin(
             blackStones,
             whiteStones,
             lastStone!!.position,
         )
-    }
 }

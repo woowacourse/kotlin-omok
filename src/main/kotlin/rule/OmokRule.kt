@@ -149,7 +149,7 @@ abstract class OmokRule(
         return BlackRenjuRule(boardWidth, boardHeight)
     }
 
-    // TODO : 라이브러리에서는 원시값이여서 contains로 비교했으나 제네릭 타입이 객체가 되면서 리스트 순회하면서 동일한 지 체크하도록 변경
+    // TODO : 라이브러리에서는 원시값이여서 contains로 비교했으나 제네릭 타입이 객체가 되면서 리스트 순회하면서 동일한 지 체크하도록  변경
     protected infix fun List<Stone>.isPlaced(position: Position): Boolean =
         this.any { existedStone -> existedStone.position.isSame(position) }
 
