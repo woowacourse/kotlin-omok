@@ -11,8 +11,8 @@ value class OmokBoard private constructor(
 
     companion object {
         fun create(
-            width: Int = OMOK_BOARD_SIZE,
-            height: Int = OMOK_BOARD_SIZE,
+            width: Int = DEFAULT_OMOK_BOARD_SIZE,
+            height: Int = DEFAULT_OMOK_BOARD_SIZE,
         ): OmokBoard =
             OmokBoard(
                 (1..width)
@@ -23,6 +23,6 @@ value class OmokBoard private constructor(
                     }.toMap(),
             )
 
-        private const val OMOK_BOARD_SIZE = 15
+        private const val DEFAULT_OMOK_BOARD_SIZE = 15
     }
 }
