@@ -4,8 +4,8 @@ class Board {
     val grid: Array<Array<StoneType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE, {StoneType.EMPTY})}
 
     fun put(stone: Stone) {
-        val row = stone.row
-        val column = stone.column
+        val row = stone.position.row
+        val column = stone.position.column
         validateStoneRange(stone)
         if (grid[row][column] != StoneType.EMPTY) {
             throw IllegalArgumentException(ERROR_STONE_ALREADY_PLACED)
@@ -14,7 +14,7 @@ class Board {
     }
 
     private fun validateStoneRange(stone: Stone) {
-        if (stone.row !in 0 until BOARD_SIZE || stone.column !in 0 until BOARD_SIZE) {
+        if (stone.position.row !in 0 until BOARD_SIZE || stone.position.column !in 0 until BOARD_SIZE) {
             throw IllegalArgumentException(ERROR_INVALID_PLACED.format(BOARD_SIZE))
         }
     }

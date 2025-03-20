@@ -1,3 +1,3 @@
 package omok.domain
 
-data class Stone(val row: Int, val column: Int, val color: StoneType)
+data class Stone(val position: Position, val color: StoneType)
