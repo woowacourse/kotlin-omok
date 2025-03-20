@@ -14,6 +14,7 @@ class OutputView {
     }
 
     fun displayOmokBoard(omokBoard: OmokBoard) {
+        println()
         (1..omokBoard.height)
             .reversed()
             .forEach { rowNumber ->
