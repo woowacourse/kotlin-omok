@@ -14,8 +14,8 @@ val POINT_G8 = Point(7, 6)
 
 fun beforeDoubleThree(): List<Point> = listOf(POINT_H7, POINT_G8, POINT_H6, POINT_F8)
 
-fun toViolation(): Point = POINT_H8
-
 fun beforeDoubleFour(): List<Point> = listOf(POINT_H7, POINT_G8, POINT_H6, POINT_F8, POINT_E8, POINT_H5)
 
 fun beforeOverLine(): List<Point> = listOf(POINT_H5, POINT_H6, POINT_H7, POINT_H9, POINT_H10)
+
+fun toViolation(): Point = POINT_H8
