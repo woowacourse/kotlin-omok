@@ -13,7 +13,14 @@ class OmokBoard(
 
     val board get() = omokPoints.toList()
 
+    fun toMatrix(): List<List<StoneStatus>> = omokPoints.toMatrix()
+
     fun isNotFull() = omokPoints.isNotFull()
+
+    fun getPointAt(
+        row: OmokRow,
+        column: OmokColumn,
+    ): Point = omokPoints.getPointAt(row, column)
 
     fun getLatestStone(): String {
         val dx = OmokColumn.find(latestStone.x.value).name

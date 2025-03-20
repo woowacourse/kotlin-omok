@@ -1,5 +1,6 @@
 package omok.view
 
+import omok.controller.ext.toKorean
 import omok.domain.board.OmokBoard
 import omok.domain.board.OmokColumn.Companion.entriesWithoutWall
 import omok.domain.board.StoneStatus
@@ -11,6 +12,10 @@ class OutputView {
 
     fun printStartMessage() {
         println(MESSAGE_START_GAME)
+    }
+
+    fun printPrintWinner(stone: StoneStatus) {
+        println(MESSAGE_WINNER.format(stone.toKorean()))
     }
 
     fun printBoard(board: OmokBoard) {
@@ -145,6 +150,7 @@ class OutputView {
 
     companion object {
         private const val MESSAGE_START_GAME = "오목 게임을 시작합니다."
+        private const val MESSAGE_WINNER = "%s이 승리하였습니다."
         private const val VERTICAL_SEPARATOR = '-'
         private const val HORIZONTAL_SEPARATOR = '┼'
         private const val TOP_LEFT_CORNER = '┌'
