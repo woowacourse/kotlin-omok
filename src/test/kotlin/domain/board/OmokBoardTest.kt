@@ -4,8 +4,14 @@ import domain.fixture.blackAByEight
 import domain.fixture.blackBByEight
 import domain.fixture.blackCByEight
 import domain.fixture.blackDByEight
+import domain.fixture.blackEByEight
+import domain.fixture.blackFByEight
+import domain.fixture.blackGByEight
+import domain.fixture.blackGBySeven
+import domain.fixture.blackGBySix
 import domain.fixture.blackStone
 import domain.fixture.omokBoardFixture
+import domain.fixture.whiteGByEight
 import domain.fixture.whiteOByOne
 import domain.fixture.whiteStone
 import omok.domain.board.BoardStatus
@@ -15,6 +21,7 @@ import omok.domain.board.OmokRow
 import omok.domain.point.Point
 import omok.domain.rule.Direction
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -184,5 +191,29 @@ class OmokBoardTest {
         omokBoard.addStone(Point(OmokColumn.D, OmokRow.FIVE, blackStone))
         val result = omokBoard.isOmok(Point(OmokColumn.E, OmokRow.FOUR, blackStone))
         assertThat(result).isFalse()
+    }
+
+    @Test
+    fun `검은돌은 금수 자리에 바둑돌을 놓으면 에러가 발생한다`() {
+        omokBoard.addStone(blackEByEight)
+        omokBoard.addStone(blackFByEight)
+        omokBoard.addStone(blackGBySeven)
+        omokBoard.addStone(blackGBySix)
+
+        assertThrows<IllegalArgumentException>(
+            message = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요.",
+        ) {
+            omokBoard.pointValidation(blackGByEight)
+        }
+    }
+
+    @Test
+    fun `흰돌은 금수 자리에 착수해도 에러가 발생하지 않는다`() {
+        omokBoard.addStone(blackEByEight)
+        omokBoard.addStone(blackFByEight)
+        omokBoard.addStone(blackGBySeven)
+        omokBoard.addStone(blackGBySix)
+
+        assertDoesNotThrow { omokBoard.pointValidation(whiteGByEight) }
     }
 }

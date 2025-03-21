@@ -14,12 +14,9 @@ class OmokBoard(
 
     fun toMatrix(): List<List<BoardStatus>> = omokPoints.toMatrix()
 
-    fun isNotFull() = omokPoints.toList().any { it.status is BoardStatus.Empty }
+    fun pointValidation(point: Point) = omokPoints.pointValidation(point)
 
-    fun pointValidation(point: Point) {
-        require(!omokPoints.isOccupied(point)) { ERROR_OCCUPIED_POSITION }
-        require(!omokPoints.isProtected(point)) { ERROR_PROTECTED_POSITION }
-    }
+    fun isNotFull() = omokPoints.toList().any { it.status is BoardStatus.Empty }
 
     fun addStone(point: Point) {
         omokPoints.moveStone(point)
@@ -69,8 +66,6 @@ class OmokBoard(
     }
 
     companion object {
-        private const val ERROR_OCCUPIED_POSITION = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요."
-        private const val ERROR_PROTECTED_POSITION = "해당 위치는 금수 자리입니다. 다른 위치를 선택하세요."
         private const val OMOK_MATCH_COUNT = 5
     }
 }

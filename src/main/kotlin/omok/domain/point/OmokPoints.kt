@@ -13,6 +13,11 @@ class OmokPoints {
             }
         }
 
+    fun pointValidation(point: Point) {
+        require(!blocked(point)) { ERROR_PROTECTED_POSITION }
+        require(!occupied(point)) { ERROR_OCCUPIED_POSITION }
+    }
+
     fun toList(): List<Point> = points.toList()
 
     fun getPointAt(
@@ -38,12 +43,19 @@ class OmokPoints {
         }
     }
 
-    fun isOccupied(point: Point): Boolean {
-        return points.first { it.x == point.x && it.y == point.y }.status != BoardStatus.Empty
+    private fun occupied(point: Point): Boolean {
+        val target = points.first { it.x == point.x && it.y == point.y }.status
+        if (point.status == BoardStatus.Moved(StoneColor.WHITE) && target == BoardStatus.Blocked) return false
+        return target != BoardStatus.Empty
     }
 
-    fun isProtected(point: Point): Boolean {
+    private fun blocked(point: Point): Boolean {
         if (point.status == BoardStatus.Moved(StoneColor.WHITE)) return false
         return points.first { it.x == point.x && it.y == point.y }.status == BoardStatus.Blocked
+    }
+
+    companion object {
+        private const val ERROR_OCCUPIED_POSITION = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요."
+        private const val ERROR_PROTECTED_POSITION = "해당 위치는 금수 자리입니다. 다른 위치를 선택하세요."
     }
 }
