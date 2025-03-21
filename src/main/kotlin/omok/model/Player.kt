@@ -1,12 +1,11 @@
 package omok.model
 
-import rule.OmokRule
+import omok.model.adapter.OmokRuleAdapter
 import rule.type.Violation
-import rule.wrapper.point.Point
 
 abstract class Player {
     abstract val points: Points
-    abstract val rule: OmokRule
+    abstract val omokRuleAdapter: OmokRuleAdapter
 
     fun isOccupied(
         newPoint: Point,
@@ -31,7 +30,7 @@ abstract class Player {
         newPoint: Point,
         otherPoints: Points,
     ) {
-        val violation: Violation = rule.checkAnyFoulCondition(points.points, otherPoints.points, newPoint)
+        val violation: Violation = omokRuleAdapter.checkAnyFoulCondition(points.points, otherPoints.points, newPoint)
         require(violation == Violation.NONE) {
             when (violation) {
                 Violation.DOUBLE_THREE -> ERROR_MESSAGE_DOUBLE_THREE_VIOLATION

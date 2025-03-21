@@ -1,15 +1,15 @@
 package omok.model
 
-import rule.OmokRule
-import rule.WhiteRenjuRule
-import rule.wrapper.point.Point
+import omok.model.adapter.OmokRuleAdapter
+import omok.model.adapter.WhiteRuleAdapter
+
 
 class WhitePlayer : Player() {
     override val points = Points()
-    override val rule: OmokRule = WhiteRenjuRule()
+    override val omokRuleAdapter: OmokRuleAdapter = WhiteRuleAdapter()
 
     override fun checkGameState(newPoint: Point): GameState {
-        return when (rule.checkSerialSameStonesBiDirection(points.points, newPoint, OMOK_CONDITION)) {
+        return when (omokRuleAdapter.checkSerialSameStonesBiDirection(points.points, newPoint, OMOK_CONDITION)) {
             true -> GameState.WHITE_OMOK
             false -> GameState.PLAYING
         }
