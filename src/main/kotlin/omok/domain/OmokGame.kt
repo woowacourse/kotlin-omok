@@ -1,16 +1,16 @@
 package omok.domain
 
-import omok.domain.player.BlackPlayer
-import omok.domain.player.Player
-import omok.domain.player.WhitePlayer
-import rule.wrapper.point.Point
+import omok.domain.point.OmokPoint
+import omok.domain.rule.BlackRuleAdapterImpl
+import omok.domain.rule.OmokRuleAdapter
+import omok.domain.rule.Referee
+import omok.domain.rule.WhiteRuleAdapterImpl
 
 class OmokGame(val grid: OmokGrid) {
-    private val blackPlayer: BlackPlayer = BlackPlayer()
-    private val whitePlayer: WhitePlayer = WhitePlayer()
+    val referee = Referee()
 
-    fun getStartingPlayer(): Player {
-        return blackPlayer
+    fun getStartingPlayer(): StoneState {
+        return StoneState.BLACK
     }
 
     fun isBoardFull(): Boolean {
@@ -18,27 +18,33 @@ class OmokGame(val grid: OmokGrid) {
     }
 
     fun playMove(
-        player: Player,
-        point: Point,
+        stoneColor: StoneState,
+        point: OmokPoint,
     ) {
-        grid.putStone(point, StoneState.getColor(player))
-        player.addStone(point)
+        grid.putStone(point, stoneColor)
     }
 
-    fun getOtherPlayer(player: Player): Player {
-        return if (player is BlackPlayer) {
-            whitePlayer
+    fun getOtherPlayer(turn: StoneState): StoneState {
+        return if (turn == StoneState.BLACK) {
+            StoneState.WHITE
         } else {
-            blackPlayer
+            StoneState.BLACK
         }
     }
 
     fun validatePoint(
-        nowPlayer: Player,
-        point: Point,
+        stoneColor: StoneState,
+        point: OmokPoint,
     ) {
-        val otherPlayer = getOtherPlayer(nowPlayer)
-        nowPlayer.validateRenjuRule(otherPlayer.stones, point)
+        referee.checkViolation(getRule(stoneColor), grid, point)
         grid.validateEmptyPoint(point)
+    }
+
+    fun getRule(stoneColor: StoneState): OmokRuleAdapter {
+        return when (stoneColor) {
+            StoneState.WHITE -> WhiteRuleAdapterImpl
+            StoneState.BLACK -> BlackRuleAdapterImpl
+            else -> throw IllegalStateException()
+        }
     }
 }

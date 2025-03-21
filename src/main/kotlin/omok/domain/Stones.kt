@@ -1,14 +1,14 @@
 package omok.domain
 
-import rule.wrapper.point.Point
+import omok.domain.point.OmokPoint
 
 class Stones() {
-    private val _stones: MutableSet<Point> = mutableSetOf()
-    val stones: Set<Point> get() = _stones.deepCopy()
+    private val _stones: MutableSet<OmokPoint> = mutableSetOf()
+    val stones: Set<OmokPoint> get() = _stones.deepCopy()
 
-    operator fun plus(point: Point) {
+    operator fun plus(point: OmokPoint) {
         _stones.add(point)
     }
 }
 
-fun MutableSet<Point>.deepCopy(): Set<Point> = map { it.copy() }.toSet()
+fun MutableSet<OmokPoint>.deepCopy(): Set<OmokPoint> = map { it.copy() }.toSet()

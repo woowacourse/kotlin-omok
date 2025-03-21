@@ -1,23 +1,21 @@
 package omok.view
 
-import omok.domain.OmokGrid
-import omok.domain.player.BlackPlayer
-import omok.domain.player.Player
-import omok.domain.player.WhitePlayer
-import rule.wrapper.point.Point
+import omok.domain.StoneState
+import omok.domain.point.Column
+import omok.domain.point.OmokPoint
+import omok.domain.point.Row
 
 class InputView {
     fun getPoint(
-        player: Player,
-        latestPoint: Point?,
-        grid: OmokGrid,
-    ): Point {
-        print(MESSAGE_TURN.format(player.getDisplayColor()))
+        stoneColor: StoneState,
+        latestPoint: OmokPoint?,
+    ): OmokPoint {
+        print(MESSAGE_TURN.format(stoneColor.getDisplayColor()))
         if (latestPoint != null) print(MESSAGE_LATEST_POSITION.format(convertToString(latestPoint)))
         print(MESSAGE_POSITION_GUIDE)
         val rawInput = readln().trim()
 
-        return parsingInput(rawInput, grid) ?: getPoint(player, latestPoint, grid)
+        return parsingInput(rawInput) ?: getPoint(stoneColor, latestPoint)
     }
 
     companion object {
@@ -25,15 +23,12 @@ class InputView {
         private const val MESSAGE_LATEST_POSITION: String = "(마지막 돌의 위치: %s)"
         private const val MESSAGE_POSITION_GUIDE: String = "\n위치를 입력하세요: "
 
-        private fun convertToString(point: Point): String {
-            val letter = 'A' + point.col - 1
+        private fun convertToString(point: OmokPoint): String {
+            val letter = 'A' + point.col.value - 1
             return letter + (point.row).toString()
         }
 
-        private fun parsingInput(
-            rawInput: String,
-            grid: OmokGrid,
-        ): Point? {
+        private fun parsingInput(rawInput: String): OmokPoint? {
             if (rawInput.isEmpty()) return null
 
             val rawRow = rawInput.substring(1)
@@ -41,7 +36,7 @@ class InputView {
 
             val row = validateRow(rawRow, 15) ?: return null
             val col = validateCol(rawCol, 15) ?: return null
-            return Point(row, col)
+            return OmokPoint(Row(row), Column(col))
         }
 
         private fun validateRow(
@@ -66,10 +61,10 @@ class InputView {
             return letter[0] - 'A' + 1
         }
 
-        private fun Player.getDisplayColor(): String {
+        private fun StoneState.getDisplayColor(): String {
             return when (this) {
-                is BlackPlayer -> "흑"
-                is WhitePlayer -> "백"
+                StoneState.BLACK -> "흑"
+                StoneState.WHITE -> "백"
                 else -> throw IllegalArgumentException()
             }
         }

@@ -1,9 +1,5 @@
 package omok.domain
 
-import omok.domain.player.BlackPlayer
-import omok.domain.player.Player
-import omok.domain.player.WhitePlayer
-
 enum class OmokResult {
     BLACK_WIN,
     WHITE_WIN,
@@ -11,10 +7,10 @@ enum class OmokResult {
     ;
 
     companion object {
-        fun getWinner(player: Player): OmokResult {
-            return when (player) {
-                is BlackPlayer -> BLACK_WIN
-                is WhitePlayer -> WHITE_WIN
+        fun getWinner(stoneColor: StoneState): OmokResult {
+            return when (stoneColor) {
+                StoneState.BLACK -> BLACK_WIN
+                StoneState.WHITE -> WHITE_WIN
                 else -> throw IllegalStateException()
             }
         }

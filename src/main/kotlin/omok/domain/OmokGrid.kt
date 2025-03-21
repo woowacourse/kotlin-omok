@@ -1,18 +1,18 @@
 package omok.domain
 
-import rule.wrapper.point.Point
+import omok.domain.point.OmokPoint
 
 class OmokGrid() {
     val whiteStones: Stones = Stones()
     val blackStones: Stones = Stones()
 
-    fun validateEmptyPoint(point: Point) {
+    fun validateEmptyPoint(point: OmokPoint) {
         val searchedPoint = (whiteStones.stones + blackStones.stones).find { it == point }
         check(searchedPoint == null) { ERROR_STONE_ALREADY_PUT }
     }
 
     fun putStone(
-        point: Point,
+        point: OmokPoint,
         state: StoneState,
     ) {
         when (state) {

@@ -18,11 +18,11 @@ class OutputView {
         val board: List<MutableList<StoneState>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { StoneState.BLANK } }
 
         grid.blackStones.stones.forEach { (row, col) ->
-            board[row][col] = StoneState.BLACK
+            board[row.value][col.value] = StoneState.BLACK
         }
 
         grid.whiteStones.stones.forEach { (row, col) ->
-            board[row][col] = StoneState.WHITE
+            board[row.value][col.value] = StoneState.WHITE
         }
         return board
     }
