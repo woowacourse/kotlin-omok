@@ -6,6 +6,7 @@ import omok.domain.board.OmokColumn
 import omok.domain.board.OmokRow
 import omok.domain.board.StoneStatus
 import omok.domain.point.Point
+import omok.domain.rule.finder.DfsRenjuFinder
 import omok.domain.rule.renjuRule.RenjuRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -43,7 +44,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.SEVEN, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.SIX, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isTrue()
     }
 
@@ -72,7 +73,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.SEVEN, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.SIX, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isFalse()
     }
 
@@ -100,7 +101,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.F, OmokRow.SEVEN, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.E, OmokRow.FIVE, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.F, OmokRow.FIVE, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.H, OmokRow.FIVE, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.H, OmokRow.FIVE, StoneStatus.EMPTY), board)
         assertThat(result).isTrue()
     }
 
@@ -128,7 +129,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.D, OmokRow.SEVEN, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.D, OmokRow.SIX, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isFalse()
     }
 
@@ -156,7 +157,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.D, OmokRow.NINE, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.B, OmokRow.ELEVEN, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isTrue()
     }
 
@@ -184,7 +185,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.D, OmokRow.NINE, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.B, OmokRow.ELEVEN, StoneStatus.WHITE))
-        val result = RenjuRule.isProtected(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isFalse()
     }
 
@@ -212,7 +213,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.D, OmokRow.SEVEN, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.F, OmokRow.FIVE, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.FIVE, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.D, OmokRow.FIVE, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.D, OmokRow.FIVE, StoneStatus.EMPTY), board)
         assertThat(result).isTrue()
     }
 
@@ -240,7 +241,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.E, OmokRow.FOUR, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.D, OmokRow.FIVE, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.D, OmokRow.SIX, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.D, OmokRow.FOUR, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.D, OmokRow.FOUR, StoneStatus.EMPTY), board)
         assertThat(result).isTrue()
     }
 
@@ -268,7 +269,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.I, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.M, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.J, OmokRow.FIVE, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.K, OmokRow.SIX, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.K, OmokRow.SIX, StoneStatus.EMPTY), board)
         assertThat(result).isTrue()
     }
 
@@ -298,7 +299,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.D, OmokRow.NINE, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.B, OmokRow.ELEVEN, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isFalse()
     }
 
@@ -328,7 +329,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.G, OmokRow.NINE, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.TEN, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.I, OmokRow.EIGHT, StoneStatus.WHITE))
-        val result = RenjuRule.isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isFalse()
     }
 
@@ -338,7 +339,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.C, OmokRow.NINE, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.B, OmokRow.TEN, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isFalse()
     }
 
@@ -368,7 +369,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.G, OmokRow.SEVEN, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.SIX, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.FIVE, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isTrue()
     }
 
@@ -398,7 +399,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.G, OmokRow.SIX, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.FIVE, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.FOUR, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isTrue()
     }
 
@@ -428,7 +429,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.G, OmokRow.SEVEN, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.SIX, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.FOUR, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isTrue()
     }
 
@@ -458,7 +459,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.G, OmokRow.SEVEN, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.G, OmokRow.SIX, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.G, OmokRow.FOUR, StoneStatus.WHITE))
-        val result = RenjuRule.isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isFalse()
     }
 
@@ -487,8 +488,8 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.SEVEN, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.SIX, StoneStatus.BLACK))
-        val result1 = RenjuRule.isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
-        val result2 = RenjuRule.isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result1 = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result2 = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result1).isFalse()
         assertThat(result2).isFalse()
     }
@@ -518,7 +519,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.BLACK))
-        val result = RenjuRule.isProtected(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isTrue()
     }
 
@@ -547,7 +548,7 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.WHITE))
-        val result = RenjuRule.isProtected(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result).isFalse()
     }
 }

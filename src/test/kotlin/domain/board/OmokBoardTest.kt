@@ -7,7 +7,7 @@ import omok.domain.board.OmokColumn
 import omok.domain.board.OmokRow
 import omok.domain.board.StoneStatus
 import omok.domain.point.Point
-import omok.domain.rule.renjuRule.Direction
+import omok.domain.rule.finder.Direction
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach

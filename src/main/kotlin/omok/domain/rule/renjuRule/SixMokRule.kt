@@ -1,18 +1,23 @@
 package omok.domain.rule.renjuRule
 
 import omok.domain.board.OmokBoard
-import omok.domain.board.StoneStatus
 import omok.domain.point.Point
 import omok.domain.rule.OmokRule
+import omok.domain.rule.finder.Finder
+import omok.domain.rule.finder.SearchResult
 
-object SixMokRule : OmokRule {
-    private val condition = { r1: SearchResult, r2: SearchResult -> r1.stoneCount + r2.stoneCount - 1 > 5 }
+class SixMokRule(val finder: Finder) : OmokRule {
+    private val condition = { r1: SearchResult, r2: SearchResult -> r1.stoneCount + r2.stoneCount - 1 > RULE_STONE_COUNT }
 
     override fun isProtected(
         point: Point,
         board: OmokBoard,
     ): Boolean {
-        return point.stoneStatus == StoneStatus.EMPTY &&
-            RenjuRule.searchAllDirection(point, board, condition) > 0
+        return finder.count(point, board, condition) > LIMIT_COUNT_OF_CONDITION
+    }
+
+    companion object {
+        private const val RULE_STONE_COUNT = 5
+        private const val LIMIT_COUNT_OF_CONDITION = 0
     }
 }

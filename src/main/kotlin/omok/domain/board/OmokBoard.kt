@@ -3,7 +3,7 @@ package omok.domain.board
 import omok.domain.point.OmokPoints
 import omok.domain.point.Point
 import omok.domain.rule.OmokRule
-import omok.domain.rule.renjuRule.Direction
+import omok.domain.rule.finder.Direction
 
 class OmokBoard(
     private val omokPoints: OmokPoints,
