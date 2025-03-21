@@ -1,9 +1,7 @@
 package omok.model
 
-import rule.wrapper.point.Point
-
 class Points(
-    points: List<Point> = listOf(),
+    points: Set<Point> = setOf(),
 ) {
     private var _points = points
     val points get() = _points.map { it.copy() }
