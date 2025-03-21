@@ -1,6 +1,5 @@
 package omok.domain.board
 
-import omok.domain.ext.toCoordination
 import omok.domain.point.OmokPoints
 import omok.domain.point.Point
 import omok.domain.rule.Direction
@@ -24,12 +23,8 @@ class OmokBoard(
 
     fun addStone(point: Point) {
         omokPoints.moveStone(point)
-        saveLatestStone(point)
+        latestStone = latestStone.saveLatestStone(point)
         updateProtectedPlace()
-    }
-
-    private fun saveLatestStone(point: Point) {
-        latestStone = LatestStone(point.toCoordination())
     }
 
     fun goto(
