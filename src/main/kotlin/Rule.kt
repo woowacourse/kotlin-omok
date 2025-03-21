@@ -177,7 +177,6 @@ class Rule {
                 if (segmentStart == null || segmentEnd == null) continue
                 if (checkFourFoul(stone, stones, segmentStart, segmentEnd, direction)) {
                     fourCount++
-                    break
                 }
             }
         }
@@ -195,7 +194,7 @@ class Rule {
         var stoneCount = 0
         var blankCount = 0
         var index = 0
-        var firstIsBlank = false
+        var firstStone = stones.find { it.position.isSamePosition(pos) }
 
         while (true) {
             val currentStone = stones.find { it.position.isSamePosition(pos) }
@@ -203,18 +202,19 @@ class Rule {
                 stoneCount++
             } else if (currentStone == null) {
                 blankCount++
-                if (index == 0) firstIsBlank = true
             }
             if (pos.isSamePosition(lastPosition)) break
             pos = direction.nextPosition(pos)
             index++
         }
 
-        val lastIsBlank = stones.find { it.position == lastPosition } == null
+        val lastStone = stones.find { it.position == lastPosition }
 
         if (stoneCount != 4) return false
 
-        if (firstIsBlank || lastIsBlank) return true
+        if (firstStone?.color != stone.color && lastStone?.color != stone.color) {
+            return !(firstStone != null && lastStone != null)
+        }
 
         return false
     }

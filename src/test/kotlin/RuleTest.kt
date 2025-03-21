@@ -84,7 +84,7 @@ class RuleTest {
     }
 
     @ParameterizedTest
-    @CsvSource("8, 3", "12, 6", "8, 9", "5, 8")
+    @CsvSource("8, 3", "12, 6", "8, 9", "5, 8", "10,10")
     fun `흑돌일 때 사사를 판단할 수 있다`(
         newStoneRow: Int,
         newStoneCol: Int,
