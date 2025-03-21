@@ -1,8 +1,6 @@
 package omok.view
 
 import omok.model.board.Position
-import omok.model.board.X
-import omok.model.board.Y
 import omok.model.player.BlackPlayer
 import omok.model.player.Player
 import omok.model.player.WhitePlayer
@@ -24,7 +22,7 @@ class OmokView {
         print("위치를 입력하세요: ")
         val input = readln().trim()
         val (alphaBet, number) = input.partition { it.isLetter() }
-        return Position(X(alphaBet.uppercase().toNumber()), Y(number.toInt()))
+        return Position.from(alphaBet.uppercase().toNumber(), number.toInt())
     }
 
     private fun printOmokBoard() {

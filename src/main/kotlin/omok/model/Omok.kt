@@ -2,8 +2,6 @@ package omok.model
 
 import omok.model.board.OmokBoard
 import omok.model.board.Position
-import omok.model.board.X
-import omok.model.board.Y
 import omok.model.stone.StoneState
 
 class Omok : Rule {
@@ -20,7 +18,10 @@ class Omok : Rule {
         var countX = 0
         repeat(8) {
             if (newX in 1..15) {
-                if (board.boardState(Position(X(newX), y)) == stone) {
+                if (board.boardState(
+                        Position.from(newX, y.value),
+                    ) == stone
+                ) {
                     countX++
                     if (countX == 5) return true
                 } else {
@@ -35,7 +36,7 @@ class Omok : Rule {
         var countY = 0
         repeat(8) {
             if (newY in 1..15) {
-                if (board.boardState(Position(x, Y(newY))) == stone) {
+                if (board.boardState(Position.from(x.value, newY)) == stone) {
                     countY++
                     if (countY == 5) return true
                 } else {
@@ -51,7 +52,7 @@ class Omok : Rule {
         var countDiag1 = 0
         repeat(8) {
             if (newX1 in 1..15 && newY1 in 1..15) {
-                if (board.boardState(Position(X(newX1), Y(newY1))) == stone) {
+                if (board.boardState(Position.from(newX1, newY1)) == stone) {
                     countDiag1++
                     if (countDiag1 == 5) return true
                 } else {
@@ -68,7 +69,7 @@ class Omok : Rule {
         var countDiag2 = 0
         repeat(8) {
             if (newX2 in 1..15 && newY2 in 1..15) {
-                if (board.boardState(Position(X(newX2), Y(newY2))) == stone) {
+                if (board.boardState(Position.from(newX2, newY2)) == stone) {
                     countDiag2++
                     if (countDiag2 == 5) return true
                 } else {
