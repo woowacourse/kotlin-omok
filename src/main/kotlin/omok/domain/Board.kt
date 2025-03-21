@@ -6,15 +6,15 @@ import omok.domain.state.State
 import omok.domain.stone.StoneColor
 
 class Board(
-    state: State = Ready(),
     val size: Int = DEFAULT_BOARD_SIZE,
+    state: State = Ready(),
 ) {
+    var state = state
+        private set
+
     init {
         require(size >= MINIMUM_BOARD_SIZE) { ERROR_INVALID_BOARD_SIZE }
     }
-
-    var state = state
-        private set
 
     fun playOmok(
         onTurn: (StoneColor, Point?) -> Unit,

@@ -2,11 +2,12 @@ package omok.domain.rule
 
 import omok.domain.Point
 import rule.OmokRule
+import rule.wrapper.point.Point as ExternalPoint
 
 abstract class OmokGameRule(
     private val boardSize: Int,
 ) {
-    abstract val renjuRule: OmokRule
+    protected abstract val renjuRule: OmokRule
 
     fun isFoul(
         blackPoints: Set<Point>,
@@ -26,25 +27,29 @@ abstract class OmokGameRule(
         points: Set<Point>,
         lastPoint: Point,
     ): Boolean =
-        listOf(HORIZONTAL, VERTICAL, DIAGONAL_UP, DIAGONAL_DOWN).any {
+        Direction.getDirectionPair().any {
             isSerialOmok(points, lastPoint, it)
         }
 
     private fun isSerialOmok(
         points: Set<Point>,
         lastPoint: Point,
-        directions: List<Pair<Int, Int>>,
-    ): Boolean = directions.sumOf { countConnected(points, lastPoint, it) } >= OMOK_STONE_COUNT - 1
+        directions: Pair<Direction, Direction>,
+    ): Boolean {
+        val forwardCount = countConnected(points, lastPoint, directions.first)
+        val backwardCount = countConnected(points, lastPoint, directions.second)
+        return forwardCount + backwardCount >= OMOK_STONE_COUNT - 1
+    }
 
     private fun countConnected(
         points: Set<Point>,
         point: Point,
-        direction: Pair<Int, Int>,
+        direction: Direction,
     ): Int {
-        val boardRange = 0..<boardSize
+        val boardRange = 0 until boardSize
         var count = 0
 
-        val (dx, dy) = direction
+        val (dx, dy) = direction.x to direction.y
         var (x, y) = point.row + dx to point.col + dy
         while (x in boardRange && y in boardRange && Point(x, y) in points) {
             count++
@@ -54,14 +59,9 @@ abstract class OmokGameRule(
         return count
     }
 
-    private fun Point.toExternalPoint() = rule.wrapper.point.Point(this.row, this.col)
+    private fun Point.toExternalPoint() = ExternalPoint(this.row, this.col)
 
     companion object {
         private const val OMOK_STONE_COUNT = 5
-
-        private val HORIZONTAL = listOf(Pair(-1, 0), Pair(1, 0))
-        private val VERTICAL = listOf(Pair(0, 1), Pair(0, -1))
-        private val DIAGONAL_UP = listOf(Pair(-1, -1), Pair(1, 1))
-        private val DIAGONAL_DOWN = listOf(Pair(-1, 1), Pair(1, -1))
     }
 }
