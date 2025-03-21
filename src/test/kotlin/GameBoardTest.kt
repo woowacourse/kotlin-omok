@@ -1,5 +1,4 @@
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 
@@ -11,8 +10,8 @@ class GameBoardTest {
         val existedPositionStone = Stone(Position(Row.from(1), Col.from('A')), StoneColor.BLACK)
 
         assertAll(
-            { assertTrue(gameBoard.addStone(stone)) },
-            { assertFalse(gameBoard.addStone(existedPositionStone)) },
+            { assertThat(gameBoard.addStone(stone)).isEqualTo(AddStoneStatus.IsAble) },
+            { assertThat(gameBoard.addStone(existedPositionStone)).isEqualTo(AddStoneStatus.IsExist) },
         )
     }
 }

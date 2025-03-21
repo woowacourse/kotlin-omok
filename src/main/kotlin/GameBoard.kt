@@ -1,12 +1,26 @@
+sealed class AddStoneStatus {
+    data object IsExist : AddStoneStatus()
+
+    data object IsThreeThree : AddStoneStatus()
+
+    data object IsFourFour : AddStoneStatus()
+
+    data object IsAble : AddStoneStatus()
+}
+
 class GameBoard {
     private val _stones = mutableListOf<Stone>()
     val stones get() = _stones.toList()
     val rule = Rule()
 
-    fun addStone(stone: Stone): Boolean {
-        if (isExistPosition(stone)) return false
+    fun addStone(stone: Stone): AddStoneStatus {
+        when {
+            isExistPosition(stone) -> return AddStoneStatus.IsExist
+            rule.checkThreeThreeFoulByAllDirections(stone, stones) -> return AddStoneStatus.IsThreeThree
+            rule.checkFourFoulByAllDirections(stone, stones) -> return AddStoneStatus.IsFourFour
+        }
         _stones.add(stone)
-        return true
+        return AddStoneStatus.IsAble
     }
 
     fun lastStone(): Stone? = stones.lastOrNull()

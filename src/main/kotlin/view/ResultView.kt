@@ -86,6 +86,11 @@ class ResultView {
             StoneColor.WHITE -> "백"
         }
 
+    fun printError(message: String) {
+        print(ERROR_FORMAT)
+        println(message)
+    }
+
     companion object {
         private const val GAME_START_MESSAGE = "오목 게임을 시작합니다."
         private const val GAME_RESULT_MESSAGE_FORMAT = "승자는 %s 입니다"
@@ -98,5 +103,9 @@ class ResultView {
         private const val GAME_BOARD_UP_RIGHT_CORNER = "─┐ "
         private const val GAME_BOARD_DOWN_RIGHT_CORNER = "─┘ "
         private const val GAME_BOARD_BASE = "─┼─"
+        const val ERROR_FORMAT = "[ERROR]"
+        const val EXIST_STONE = "이미 돌이 존재하는 칸입니다. 다시 입력하세요"
+        const val THREE_THREE = "삼삼입니다. 다시 입력하세요"
+        const val FOUR_FOUR = "사사입니다. 다시 입력하세요"
     }
 }

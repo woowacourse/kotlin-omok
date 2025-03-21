@@ -1,5 +1,6 @@
 package controller
 
+import AddStoneStatus
 import GameBoard
 import Stone
 import StoneColor
@@ -25,8 +26,26 @@ class OmokController(
         outputView.printWinner(turnColor)
     }
 
-    private tailrec fun addValidStone(gameBoard: GameBoard) {
+    private fun addValidStone(gameBoard: GameBoard) {
         val position = inputView.readInputPosition(turnColor, gameBoard.lastStone())
-        if (!gameBoard.addStone(Stone.of(position, turnColor))) addValidStone(gameBoard)
+        val addStoneStatus = gameBoard.addStone(Stone.of(position, turnColor))
+        when (addStoneStatus) {
+            AddStoneStatus.IsAble -> return
+            AddStoneStatus.IsExist ->
+                run {
+                    outputView.printError(ResultView.EXIST_STONE)
+                    return addValidStone(gameBoard)
+                }
+            AddStoneStatus.IsThreeThree ->
+                run {
+                    outputView.printError(ResultView.THREE_THREE)
+                    return addValidStone(gameBoard)
+                }
+            AddStoneStatus.IsFourFour ->
+                run {
+                    outputView.printError(ResultView.FOUR_FOUR)
+                    return addValidStone(gameBoard)
+                }
+        }
     }
 }

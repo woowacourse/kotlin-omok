@@ -48,4 +48,15 @@ class Position(
     private fun isUpDecreasingDiagonal(other: Position): Boolean = row.isSame(other.row + 1) && col.isSame(other.col - 1)
 
     private fun isDownDecreasingDiagonal(other: Position): Boolean = row.isSame(other.row - 1) && col.isSame(other.col + 1)
+
+    fun moveOrNull(
+        direction: Direction,
+        offset: Int,
+    ): Position? {
+        var position = Position(row, col)
+        runCatching {
+            position = Position(row + direction.rowStep * (offset), col + direction.colStep * (offset))
+        }.onFailure { return null }
+        return position
+    }
 }
