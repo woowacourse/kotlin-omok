@@ -1,6 +1,6 @@
 package omok.view
 
-import omok.domain.OmokGrid
+import omok.domain.OmokBoard
 import omok.domain.Position
 import omok.domain.player.Player
 
@@ -8,14 +8,14 @@ class InputView {
     fun getPoint(
         player: Player,
         latestPoint: Position?,
-        grid: OmokGrid,
+        board: OmokBoard,
     ): Position {
 //        print(MESSAGE_TURN.format(player.getDisplayColor()))
         if (latestPoint != null) print(MESSAGE_LATEST_POSITION.format(convertToString(latestPoint)))
         print(MESSAGE_POSITION_GUIDE)
         val rawInput = readln().trim()
 
-        return parsingInput(rawInput, grid) ?: getPoint(player, latestPoint, grid)
+        return parsingInput(rawInput, board) ?: getPoint(player, latestPoint, board)
     }
 
     companion object {
@@ -30,15 +30,15 @@ class InputView {
 
         private fun parsingInput(
             rawInput: String,
-            grid: OmokGrid,
+            board: OmokBoard,
         ): Position? {
             if (rawInput.isEmpty()) return null
 
             val rawRow = rawInput.substring(1)
             val rawCol = rawInput.substring(0, 1)
 
-            val row = validateRow(rawRow, grid.height) ?: return null
-            val col = validateCol(rawCol, grid.width) ?: return null
+            val row = validateRow(rawRow, board.height) ?: return null
+            val col = validateCol(rawCol, board.width) ?: return null
             return Position(row, col)
         }
 

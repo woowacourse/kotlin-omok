@@ -1,25 +1,25 @@
 package omok.domain.player
 
-import rule.OmokRule
-import rule.wrapper.point.Point
+import omok.domain.Position
+import omok.domain.lib.OmokRule
 
 abstract class Player {
-    protected abstract val stonesBacking: MutableList<Point>
-    val stones: List<Point> get() = stonesBacking.toList()
+    protected abstract val stonesBacking: MutableList<Position>
+    val stones: List<Position> get() = stonesBacking.toList()
 
     protected abstract val rule: OmokRule
 
-    fun addStone(point: Point) {
+    fun addStone(point: Position) {
         stonesBacking.add(point)
     }
 
-    fun checkWin(startPoint: Point): Boolean {
-        return rule.checkSerialSameStonesBiDirection(stonesBacking, startPoint, WIN_STANDARD)
-    }
+//    fun checkWin(startPoint: Position): Boolean {
+//        return rule.checkSerialSameStonesBiDirection(stonesBacking, startPoint, WIN_STANDARD)
+//    }
 
     abstract fun isViolation(
-        otherStones: List<Point>,
-        startPoint: Point,
+        otherStones: List<Position>,
+        startPoint: Position,
     )
 
 //    companion object {

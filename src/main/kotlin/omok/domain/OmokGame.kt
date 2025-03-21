@@ -3,10 +3,10 @@ package omok.domain
 import omok.domain.player.Player
 import omok.util.retryInput
 
-class OmokGame(val grid: OmokGrid) {
+class OmokGame(val board: OmokBoard) {
     fun playGame(
         onTurnStarted: (List<MutableList<StoneState>>) -> Unit,
-        onSelectPosition: (Player, Position?, OmokGrid) -> Position,
+        onSelectPosition: (Player, Position?, OmokBoard) -> Position,
     ): OmokResult {
         var latestPoint: Position? = null
 
@@ -22,9 +22,9 @@ class OmokGame(val grid: OmokGrid) {
         player: Player,
         latestPoint: Position?,
         onTurnStarted: (List<MutableList<StoneState>>) -> Unit,
-        onSelectPosition: (Player, Position?, OmokGrid) -> Position,
+        onSelectPosition: (Player, Position?, OmokBoard) -> Position,
     ): Position {
-        onTurnStarted(grid.board)
+//        onTurnStarted(board.positions)
         val point = getPointToPlace(player, latestPoint, onSelectPosition)
         playMove(point, StoneState.BLANK)
         return point
@@ -34,18 +34,18 @@ class OmokGame(val grid: OmokGrid) {
         point: Position,
         state: StoneState,
     ) {
-        grid.putStone(point, state)
+        board.putStone(point, state)
     }
 
     private fun getPointToPlace(
         player: Player,
         latestPoint: Position?,
-        onSelectPosition: (Player, Position?, OmokGrid) -> Position,
+        onSelectPosition: (Player, Position?, OmokBoard) -> Position,
     ): Position {
         return retryInput {
-            val point = onSelectPosition(player, latestPoint, grid)
+            val point = onSelectPosition(player, latestPoint, board)
 //            validatePosition(point)
-            grid.canPlace(point)
+            board.canPlace(point)
             point
         }
     }
