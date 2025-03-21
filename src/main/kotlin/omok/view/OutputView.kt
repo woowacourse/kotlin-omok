@@ -5,6 +5,14 @@ import omok.domain.OmokResult
 import omok.domain.StoneState
 
 class OutputView {
+    fun printErrorMessage(message: String?) {
+        if (message == null) {
+            println(ERROR_NOT_FOUND)
+        } else {
+            println(ERROR_MESSAGE.format(message))
+        }
+    }
+
     fun printStartMessage() = println(MESSAGE_GAME_START)
 
     fun printBoardState(grid: OmokGrid) {
@@ -34,6 +42,8 @@ class OutputView {
 
     companion object {
         private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
+        private const val ERROR_NOT_FOUND = "[ERROR] 유효하지 않은 접근입니다"
+        private const val ERROR_MESSAGE = "!!ERROR %s!!"
         private const val REPEAT_COUNT = 2
 
         private const val LEFT_DOWN = "└"

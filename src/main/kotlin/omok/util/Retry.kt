@@ -1,9 +1,12 @@
 package omok.util
 
-fun <T> retryInput(inputFunction: () -> T): T {
+fun <T> retryInput(
+    inputFunction: () -> T,
+    printErrorMessage: (String?) -> Unit,
+): T {
     return runCatching { inputFunction() }
         .getOrElse { e ->
-            println(e.message)
-            retryInput(inputFunction)
+            printErrorMessage(e.message)
+            retryInput(inputFunction, printErrorMessage)
         }
 }
