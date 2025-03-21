@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("de.mannodermaus.android-junit5") version "1.12.0.0"
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.junit5)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -44,20 +44,20 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.15.0")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.activity:activity-ktx:1.10.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.12.0")
-    testImplementation("org.assertj:assertj-core:3.27.3")
-    testImplementation("io.kotest:kotest-runner-junit5:5.9.1")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    androidTestImplementation("androidx.test:runner:1.6.2")
-    androidTestImplementation("org.junit.jupiter:junit-jupiter:5.12.0")
-    androidTestImplementation("org.assertj:assertj-core:3.27.3")
-    androidTestImplementation("io.kotest:kotest-runner-junit5:5.9.1")
-    androidTestImplementation("de.mannodermaus.junit5:android-test-core:1.7.0")
-    androidTestRuntimeOnly("de.mannodermaus.junit5:android-test-runner:1.7.0")
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.google.material)
+    testImplementation(libs.assertj.core)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.kotest.runner.junit5)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.assertj.core)
+    androidTestImplementation(libs.junit.jupiter)
+    androidTestImplementation(libs.kotest.runner.junit5)
+    androidTestImplementation(libs.mannodermaus.junit5.core)
+    androidTestRuntimeOnly(libs.mannodermaus.junit5.runner)
 }
