@@ -2,6 +2,7 @@ package omok.model.adapter
 
 import omok.model.Point
 import rule.OmokRule
+import rule.type.Violation
 
 abstract class OmokRuleAdapter {
     protected abstract val omokRule: OmokRule
@@ -10,8 +11,8 @@ abstract class OmokRuleAdapter {
         blackPoints: Set<Point>,
         whitePoints: Set<Point>,
         startPoint: Point,
-    ) {
-        omokRule.checkAnyFoulCondition(
+    ): Violation {
+        return omokRule.checkAnyFoulCondition(
             blackPoints.toExternalPointList(),
             whitePoints.toExternalPointList(),
             startPoint.toExternalPoint()
@@ -22,8 +23,8 @@ abstract class OmokRuleAdapter {
         stonePoints: Set<Point>,
         startPoint: Point,
         sameStoneToCheck: Int
-    ) {
-        omokRule.checkSerialSameStonesBiDirection(
+    ): Boolean {
+        return omokRule.checkSerialSameStonesBiDirection(
             stonePoints.toExternalPointList(),
             startPoint.toExternalPoint(),
             sameStoneToCheck
