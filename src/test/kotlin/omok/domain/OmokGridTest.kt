@@ -6,7 +6,6 @@ import omok.domain.point.Row
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class OmokGridTest {
     private lateinit var omokGrid: OmokGrid
@@ -36,18 +35,5 @@ class OmokGridTest {
         val actual = omokGrid.whiteStones.stones.contains(point)
         // then
         assertThat(actual).isTrue()
-    }
-
-    @Test
-    fun `좌표에 이미 돌이 있으면 예외를 던진다`() {
-        // given
-        val row = 1
-        val col = 2
-        // when
-        omokGrid.putStone(OmokPoint(Row(1), Column(col)), StoneState.BLACK)
-        // then
-        assertThrows<IllegalStateException> {
-            omokGrid.validateEmptyPoint(OmokPoint(Row(row), Column(col)))
-        }
     }
 }

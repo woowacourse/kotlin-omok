@@ -14,8 +14,8 @@ class OutputView {
         }
     }
 
-    private fun makeBoard(grid: OmokGrid): List<List<StoneState>> {
-        val board: List<MutableList<StoneState>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { StoneState.BLANK } }
+    private fun makeBoard(grid: OmokGrid): List<List<StoneState?>> {
+        val board: List<MutableList<StoneState?>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { null } }
 
         grid.blackStones.stones.forEach { (row, col) ->
             board[row.value][col.value] = StoneState.BLACK
@@ -44,7 +44,7 @@ class OutputView {
     }
 
     private fun printRow(
-        grid: List<List<StoneState>>,
+        grid: List<List<StoneState?>>,
         row: Int,
     ) {
         print(COORDINATE_X.format(row))
@@ -79,13 +79,13 @@ class OutputView {
         private const val MESSAGE_WINNER = "%s !!"
 
         private fun boardUI(
-            grid: List<List<StoneState>>,
+            grid: List<List<StoneState?>>,
             row: Int,
             col: Int,
         ): String {
             val state = grid[row][col]
             return when {
-                state != StoneState.BLANK -> state.toUI()
+                state != null -> state.toUI()
                 row == MIN_BOUND && col == MIN_BOUND -> LEFT_DOWN
                 row == MIN_BOUND && col == MAX_BOUND -> RIGHT_DOWN
                 row == MAX_BOUND && col == MIN_BOUND -> LEFT_UP
@@ -102,7 +102,6 @@ class OutputView {
             return when (this) {
                 StoneState.BLACK -> "●"
                 StoneState.WHITE -> "○"
-                else -> throw IllegalStateException()
             }
         }
 

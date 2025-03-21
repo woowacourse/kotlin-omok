@@ -11,7 +11,6 @@ enum class OmokResult {
             return when (stoneColor) {
                 StoneState.BLACK -> BLACK_WIN
                 StoneState.WHITE -> WHITE_WIN
-                else -> throw IllegalStateException()
             }
         }
     }

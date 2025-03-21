@@ -1,8 +1,8 @@
 package omok.domain.rule
 
+import omok.domain.OmokViolation
 import omok.domain.point.OmokPoint
 import rule.OmokRule
-import rule.type.Violation
 
 abstract class OmokRuleAdapter {
     protected val dataConverter = DataConverter()
@@ -12,7 +12,7 @@ abstract class OmokRuleAdapter {
         blackStones: Set<OmokPoint>,
         whiteStones: Set<OmokPoint>,
         latestPoint: OmokPoint,
-    ): Violation
+    ): OmokViolation
 
     fun isWin(
         stones: Set<OmokPoint>,

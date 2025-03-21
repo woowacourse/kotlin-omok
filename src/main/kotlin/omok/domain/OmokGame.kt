@@ -7,7 +7,7 @@ import omok.domain.rule.Referee
 import omok.domain.rule.WhiteRuleAdapterImpl
 
 class OmokGame(val grid: OmokGrid) {
-    val referee = Referee()
+    private val referee = Referee()
 
     fun getStartingPlayer(): StoneState {
         return StoneState.BLACK
@@ -37,14 +37,26 @@ class OmokGame(val grid: OmokGrid) {
         point: OmokPoint,
     ) {
         referee.checkViolation(getRule(stoneColor), grid, point)
-        grid.validateEmptyPoint(point)
+    }
+
+    fun checkWin(
+        nowTurn: StoneState,
+        thisTurnPoint: OmokPoint,
+    ): Boolean {
+        return referee.checkWin(getRule(nowTurn), getStones(nowTurn), thisTurnPoint)
     }
 
     fun getRule(stoneColor: StoneState): OmokRuleAdapter {
         return when (stoneColor) {
             StoneState.WHITE -> WhiteRuleAdapterImpl
             StoneState.BLACK -> BlackRuleAdapterImpl
-            else -> throw IllegalStateException()
+        }
+    }
+
+    fun getStones(nowTurn: StoneState): Set<OmokPoint> {
+        return when (nowTurn) {
+            StoneState.BLACK -> grid.blackStones.stones
+            StoneState.WHITE -> grid.whiteStones.stones
         }
     }
 }

@@ -1,9 +1,9 @@
 package omok.domain.rule
 
+import omok.domain.OmokViolation
 import omok.domain.point.OmokPoint
 import rule.OmokRule
 import rule.WhiteRenjuRule
-import rule.type.Violation
 
 object WhiteRuleAdapterImpl : OmokRuleAdapter() {
     override val rule: OmokRule = WhiteRenjuRule()
@@ -12,7 +12,7 @@ object WhiteRuleAdapterImpl : OmokRuleAdapter() {
         blackStones: Set<OmokPoint>,
         whiteStones: Set<OmokPoint>,
         latestPoint: OmokPoint,
-    ): Violation {
-        return Violation.NONE
+    ): OmokViolation {
+        return OmokViolation.NONE
     }
 }

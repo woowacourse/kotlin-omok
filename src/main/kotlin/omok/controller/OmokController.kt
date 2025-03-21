@@ -4,7 +4,6 @@ import omok.domain.OmokGame
 import omok.domain.OmokResult
 import omok.domain.StoneState
 import omok.domain.point.OmokPoint
-import omok.domain.rule.Referee
 import omok.util.retryInput
 import omok.view.InputView
 import omok.view.OutputView
@@ -14,8 +13,6 @@ class OmokController(
     private val outputView: OutputView,
     private val omokGame: OmokGame,
 ) {
-    private val referee = Referee()
-
     fun play() {
         initGame()
         val result = playGame(null, omokGame.getStartingPlayer())
@@ -32,14 +29,7 @@ class OmokController(
         nowTurn: StoneState,
     ): OmokResult {
         val thisTurnPoint = playTurn(nowTurn, latestPoint)
-        if (referee.checkWin(
-                omokGame.getRule(nowTurn),
-                omokGame.grid.blackStones.stones,
-                thisTurnPoint,
-            )
-        ) {
-            return OmokResult.getWinner(nowTurn)
-        }
+        if (omokGame.checkWin(nowTurn, thisTurnPoint)) return OmokResult.getWinner(nowTurn)
         if (omokGame.isBoardFull()) return OmokResult.DRAW
         return playGame(thisTurnPoint, omokGame.getOtherPlayer(nowTurn))
     }
