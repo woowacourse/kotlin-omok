@@ -3,7 +3,7 @@ package omok.domain.player
 import omok.beforeDoubleFour
 import omok.beforeDoubleThree
 import omok.beforeOverLine
-import omok.toViolation
+import omok.getFoulPoint
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 
@@ -17,7 +17,7 @@ class WhitePlayerTest {
         beforeDoubleThree.forEach { whitePlayer.addStone(it) }
         // then
         assertDoesNotThrow {
-            whitePlayer.validateRenjuRule(BlackPlayer().stones, toViolation())
+            whitePlayer.validateRenjuRule(BlackPlayer().stones, getFoulPoint())
         }
     }
 
@@ -30,7 +30,7 @@ class WhitePlayerTest {
         beforeDoubleFour.forEach { whitePlayer.addStone(it) }
         // then
         assertDoesNotThrow {
-            whitePlayer.validateRenjuRule(BlackPlayer().stones, toViolation())
+            whitePlayer.validateRenjuRule(BlackPlayer().stones, getFoulPoint())
         }
     }
 
@@ -43,7 +43,7 @@ class WhitePlayerTest {
         beforeOverLine.forEach { whitePlayer.addStone(it) }
         // then
         assertDoesNotThrow {
-            whitePlayer.validateRenjuRule(BlackPlayer().stones, toViolation())
+            whitePlayer.validateRenjuRule(BlackPlayer().stones, getFoulPoint())
         }
     }
 }

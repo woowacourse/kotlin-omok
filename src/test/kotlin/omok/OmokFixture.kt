@@ -18,4 +18,4 @@ fun beforeDoubleFour(): List<Point> = listOf(POINT_H7, POINT_G8, POINT_H6, POINT
 
 fun beforeOverLine(): List<Point> = listOf(POINT_H5, POINT_H6, POINT_H7, POINT_H9, POINT_H10)
 
-fun toViolation(): Point = POINT_H8
+fun getFoulPoint(): Point = POINT_H8
