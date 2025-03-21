@@ -2,7 +2,7 @@ package omok.model.board
 
 import omok.model.stone.StoneState
 
-data class Position(
+data class Position private constructor(
     val x: X,
     val y: Y,
     val stoneState: StoneState = StoneState.NONE,

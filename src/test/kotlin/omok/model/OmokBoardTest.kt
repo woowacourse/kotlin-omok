@@ -2,8 +2,6 @@ package omok.model
 
 import omok.model.board.OmokBoard
 import omok.model.board.Position
-import omok.model.board.X
-import omok.model.board.Y
 import omok.model.stone.StoneState
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -19,7 +17,7 @@ class OmokBoardTest {
 
         for (x in 1..15) {
             for (y in 1..15) {
-                val positionState = board.board()[Position(X(x), Y(y))]
+                val positionState = board.board()[Position.from(x, y)]
                 Assertions.assertThat(positionState).isEqualTo(StoneState.NONE)
             }
         }
@@ -32,7 +30,7 @@ class OmokBoardTest {
         val rule = Omok()
         val omokBoard = OmokBoard(rule)
 
-        val position = Position(X(1), Y(1))
+        val position = Position.from(1, 1)
         omokBoard.placeStone(position, stoneState)
         val state = omokBoard.boardState(position)
         assertEquals(stoneState, state)
