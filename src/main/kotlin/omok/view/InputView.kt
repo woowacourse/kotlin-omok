@@ -58,7 +58,7 @@ class InputView {
             width: Int,
         ): Int? {
             val convertedCol = convertLetter(col)
-            if (convertedCol !in 1 .. width) return null
+            if (convertedCol !in 1..width) return null
             return convertedCol
         }
 
