@@ -116,8 +116,8 @@ class OmokView {
 
     companion object {
         private const val BOARD_SIZE = 15
-        private const val BLACK_STONE = "○"
-        private const val WHITE_STONE = "●"
+        private const val BLACK_STONE = "●"
+        private const val WHITE_STONE = "○"
         private const val ILLEGAL_POINT = "X"
         private const val START_MESSAGE = "오목 게임을 시작합니다."
     }
