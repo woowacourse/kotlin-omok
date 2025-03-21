@@ -10,6 +10,4 @@ interface PlayerState {
         position: Position,
         stoneState: StoneState,
     ): PlayerState
-
-    fun nextTurn(): PlayerState
 }

@@ -10,6 +10,4 @@ abstract class Finish : PlayerState {
         position: Position,
         stoneState: StoneState,
     ): PlayerState = throw IllegalStateException()
-
-    override fun nextTurn(): PlayerState = throw IllegalStateException()
 }

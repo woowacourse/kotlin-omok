@@ -34,6 +34,4 @@ class BlackPlayerState(
             else -> BlackPlayerState(count + 1)
         }
     }
-
-    override fun nextTurn(): PlayerState = WhitePlayerState()
 }
