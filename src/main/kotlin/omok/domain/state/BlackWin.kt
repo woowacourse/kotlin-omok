@@ -1,12 +1,11 @@
 package omok.domain.state
 
-import omok.domain.stone.BlackStones
 import omok.domain.stone.StoneColor
-import omok.domain.stone.WhiteStones
+import omok.domain.stone.Stones
 
 class BlackWin(
-    override val blackStones: BlackStones,
-    override val whiteStones: WhiteStones,
+    override val blackStones: Stones,
+    override val whiteStones: Stones,
 ) : Finished {
     override val winnerColor: StoneColor = StoneColor.BLACK
 }

@@ -1,9 +1,8 @@
 package omok.domain.state
 
-import omok.domain.stone.BlackStones
-import omok.domain.stone.WhiteStones
+import omok.domain.stone.Stones
 
 interface State {
-    val blackStones: BlackStones
-    val whiteStones: WhiteStones
+    val blackStones: Stones
+    val whiteStones: Stones
 }

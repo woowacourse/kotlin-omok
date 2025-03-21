@@ -1,13 +1,14 @@
 package omok.domain.state
 
 import omok.domain.Point
-import omok.domain.stone.BlackStones
+import omok.domain.rule.BlackStoneRule
+import omok.domain.rule.WhiteStoneRule
 import omok.domain.stone.StoneColor
-import omok.domain.stone.WhiteStones
+import omok.domain.stone.Stones
 
 class Ready(
-    override val blackStones: BlackStones = BlackStones(),
-    override val whiteStones: WhiteStones = WhiteStones(),
+    override val blackStones: Stones = Stones(rule = BlackStoneRule()),
+    override val whiteStones: Stones = Stones(rule = WhiteStoneRule()),
 ) : Playing {
     override fun place(
         point: Point,

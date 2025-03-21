@@ -8,9 +8,9 @@ abstract class OmokGameRule(
 ) {
     abstract val renjuRule: OmokRule
 
-    fun checkAnyFoulCondition(
-        blackPoints: List<Point>,
-        whitePoints: List<Point>,
+    fun isFoul(
+        blackPoints: Set<Point>,
+        whitePoints: Set<Point>,
         startPoint: Point,
     ): Boolean {
         val violateType =
