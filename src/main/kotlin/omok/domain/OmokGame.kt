@@ -6,8 +6,8 @@ import omok.domain.player.WhitePlayer
 import rule.wrapper.point.Point
 
 class OmokGame(val grid: OmokGrid) {
-    private val blackPlayer: BlackPlayer = BlackPlayer(grid.width, grid.height)
-    private val whitePlayer: WhitePlayer = WhitePlayer(grid.width, grid.height)
+    private val blackPlayer: BlackPlayer = BlackPlayer()
+    private val whitePlayer: WhitePlayer = WhitePlayer()
 
     fun getStartingPlayer(): Player {
         return blackPlayer

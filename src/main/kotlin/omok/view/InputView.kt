@@ -39,8 +39,8 @@ class InputView {
             val rawRow = rawInput.substring(1)
             val rawCol = rawInput.substring(0, 1)
 
-            val row = validateRow(rawRow, grid.height) ?: return null
-            val col = validateCol(rawCol, grid.width) ?: return null
+            val row = validateRow(rawRow, 15) ?: return null
+            val col = validateCol(rawCol, 15) ?: return null
             return Point(row, col)
         }
 

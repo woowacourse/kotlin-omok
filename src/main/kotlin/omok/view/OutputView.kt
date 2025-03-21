@@ -1,6 +1,7 @@
 package omok.view
 
 import omok.domain.OmokGrid
+import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
 import omok.domain.OmokResult
 import omok.domain.StoneState
 
@@ -13,15 +14,29 @@ class OutputView {
         }
     }
 
+    private fun makeBoard(grid: OmokGrid): List<List<StoneState>> {
+        val board: List<MutableList<StoneState>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { StoneState.BLANK } }
+
+        grid.blackStones.forEach { (row, col) ->
+            board[row][col] = StoneState.BLACK
+        }
+
+        grid.whiteStones.forEach { (row, col) ->
+            board[row][col] = StoneState.WHITE
+        }
+        return board
+    }
+
     fun printStartMessage() = println(MESSAGE_GAME_START)
 
     fun printBoardState(grid: OmokGrid) {
+        val board = makeBoard(grid)
         println()
-        for (row in grid.height downTo MIN_BOUND) {
-            printRow(grid, row)
+        for (row in DEFAULT_SIZE downTo MIN_BOUND) {
+            printRow(board, row)
         }
         print(BLANK)
-        printCoordinateY(grid.width)
+        printCoordinateY()
     }
 
     fun printWinner(omokResult: OmokResult) {
@@ -29,13 +44,13 @@ class OutputView {
     }
 
     private fun printRow(
-        grid: OmokGrid,
+        grid: List<List<StoneState>>,
         row: Int,
     ) {
         print(COORDINATE_X.format(row))
-        for (col in MIN_BOUND..grid.width) {
+        for (col in MIN_BOUND..DEFAULT_SIZE) {
             print(boardUI(grid, row, col))
-            if (col != grid.width) repeat(REPEAT_COUNT) { print(DASH) }
+            if (col != DEFAULT_SIZE) repeat(REPEAT_COUNT) { print(DASH) }
         }
         println()
     }
@@ -59,24 +74,25 @@ class OutputView {
         private const val COORDINATE_X = "%2d "
         private const val BLANK = "   "
         private const val MIN_BOUND = 1
+        private const val MAX_BOUND = 15
 
         private const val MESSAGE_WINNER = "%s !!"
 
         private fun boardUI(
-            grid: OmokGrid,
+            grid: List<List<StoneState>>,
             row: Int,
             col: Int,
         ): String {
-            val state = grid.board[row][col]
+            val state = grid[row][col]
             return when {
                 state != StoneState.BLANK -> state.toUI()
-                row == grid.height && col == MIN_BOUND -> LEFT_UP
-                row == grid.height && col == grid.width -> RIGHT_UP
                 row == MIN_BOUND && col == MIN_BOUND -> LEFT_DOWN
-                row == MIN_BOUND && col == grid.width -> RIGHT_DOWN
+                row == MIN_BOUND && col == MAX_BOUND -> RIGHT_DOWN
+                row == MAX_BOUND && col == MIN_BOUND -> LEFT_UP
+                row == MAX_BOUND && col == MAX_BOUND -> RIGHT_UP
                 col == MIN_BOUND -> LEFT
-                row == grid.height -> UP
-                col == grid.width -> RIGHT
+                row == MAX_BOUND -> UP
+                col == MAX_BOUND -> RIGHT
                 row == MIN_BOUND -> DOWN
                 else -> MIDDLE
             }
@@ -90,8 +106,8 @@ class OutputView {
             }
         }
 
-        private fun printCoordinateY(width: Int) {
-            println(('A' until 'A' + width).joinToString("  "))
+        private fun printCoordinateY() {
+            println(('A' until 'A' + DEFAULT_SIZE).joinToString("  "))
         }
     }
 }

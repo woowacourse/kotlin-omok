@@ -2,30 +2,40 @@ package omok.domain
 
 import rule.wrapper.point.Point
 
-class OmokGrid(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
-    private val _board: List<MutableList<StoneState>> = List(width + 1) { MutableList(height + 1) { StoneState.BLANK } }
-    val board: List<MutableList<StoneState>>
-        get() = _board.deepCopy()
+class OmokGrid() {
+    private val _whiteStones: MutableSet<Point> = mutableSetOf()
+    val whiteStones: Set<Point>
+        get() = _whiteStones.deepCopy()
+
+    private val _blackStones: MutableSet<Point> = mutableSetOf()
+    val blackStones: Set<Point>
+        get() = _blackStones.deepCopy()
 
     fun validateEmptyPoint(point: Point) {
-        if (_board[point.row][point.col] != StoneState.BLANK) throw IllegalStateException(ERROR_STONE_ALREADY_PUT)
+        val searchedPoint = (_whiteStones + _blackStones).find { it == point }
+        check(searchedPoint == null) { ERROR_STONE_ALREADY_PUT }
     }
 
     fun putStone(
         point: Point,
         state: StoneState,
     ) {
-        _board[point.row][point.col] = state
+        when (state) {
+            StoneState.WHITE -> _whiteStones.add(point)
+            StoneState.BLACK -> _blackStones.add(point)
+            StoneState.BLANK -> throw IllegalStateException()
+        }
     }
 
     fun isFull(): Boolean {
-        return _board.all { row -> row.all { it != StoneState.BLANK } }
+        return (_whiteStones + _blackStones).size == TOTAL_POINT_COUNT
     }
 
     companion object {
         const val DEFAULT_SIZE: Int = 15
+        const val TOTAL_POINT_COUNT: Int = 225
         private const val ERROR_STONE_ALREADY_PUT = "이미 돌이 있습니다."
     }
 }
 
-fun List<MutableList<StoneState>>.deepCopy(): List<MutableList<StoneState>> = map { it.toMutableList() }.toList()
+fun MutableSet<Point>.deepCopy(): Set<Point> = map { it.copy() }.toSet()

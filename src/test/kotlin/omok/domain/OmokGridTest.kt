@@ -15,14 +15,25 @@ class OmokGridTest {
     }
 
     @Test
-    fun `좌표와 돌 상태를 받으면 해당 위치에 돌을 놓는다`() {
+    fun `좌표와 검정 돌을 받으면 검정 돌 리스트에 추가한다`() {
         // given
-        val row = 1
-        val col = 2
+        val point = Point(1, 2)
+        omokGrid.putStone(point, StoneState.BLACK)
         // when
-        omokGrid.putStone(Point(row, col), StoneState.BLACK)
+        val actual = omokGrid.blackStones.contains(point)
         // then
-        assertThat(omokGrid.board[row][col]).isEqualTo(StoneState.BLACK)
+        assertThat(actual).isTrue()
+    }
+
+    @Test
+    fun `좌표와 흰 돌을 받으면 흰 돌 리스트에 추가한다`() {
+        // given
+        val point = Point(1, 2)
+        omokGrid.putStone(point, StoneState.WHITE)
+        // when
+        val actual = omokGrid.whiteStones.contains(point)
+        // then
+        assertThat(actual).isTrue()
     }
 
     @Test
