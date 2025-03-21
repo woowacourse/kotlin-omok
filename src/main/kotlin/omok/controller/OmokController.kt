@@ -3,6 +3,7 @@ package omok.controller
 import omok.domain.board.OmokBoard
 import omok.domain.board.StoneStatus
 import omok.domain.point.Point
+import omok.domain.rule.OmokRule
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -10,6 +11,7 @@ class OmokController(
     private val outputView: OutputView,
     private val inputView: InputView,
     private val omokBoard: OmokBoard,
+    private val omokRule: OmokRule
 ) {
     fun startGame() {
         outputView.printStartMessage()
@@ -18,7 +20,7 @@ class OmokController(
             val point = readValidPoint(stone)
 
             omokBoard.addStone(point)
-            if (omokBoard.isOmok(point)) {
+            if (omokRule.isOmok(point, omokBoard)) {
                 outputView.printPrintWinner(stone)
                 break
             }

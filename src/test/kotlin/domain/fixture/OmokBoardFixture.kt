@@ -2,8 +2,9 @@ package domain.fixture
 
 import omok.domain.board.OmokBoard
 import omok.domain.point.OmokPoints
+import omok.domain.rule.renjuRule.RenjuRule
 
 fun omokBoardFixture(): OmokBoard {
     val omokPoints = OmokPoints()
-    return OmokBoard(omokPoints)
+    return OmokBoard(omokPoints, RenjuRule)
 }

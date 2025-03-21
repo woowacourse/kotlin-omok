@@ -1,4 +1,4 @@
-package omok.domain.rule
+package omok.domain.rule.renjuRule
 
 enum class Direction(val y: Int, val x: Int) {
     TOP(1, 0) {

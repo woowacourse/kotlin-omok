@@ -1,12 +1,13 @@
 package domain.board
 
+import domain.fixture.FakeOmokRule
 import domain.fixture.omokBoardFixture
 import omok.domain.board.OmokBoard
 import omok.domain.board.OmokColumn
 import omok.domain.board.OmokRow
 import omok.domain.board.StoneStatus
 import omok.domain.point.Point
-import omok.domain.rule.Direction
+import omok.domain.rule.renjuRule.Direction
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -91,7 +92,7 @@ class OmokBoardTest {
         omokBoard.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.BLACK))
         omokBoard.addStone(Point(OmokColumn.C, OmokRow.EIGHT, StoneStatus.BLACK))
         omokBoard.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.BLACK))
-        val result = omokBoard.isOmok(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
+        val result = FakeOmokRule.isOmok(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK), omokBoard)
         assertThat(result).isTrue()
     }
 
@@ -119,7 +120,7 @@ class OmokBoardTest {
         omokBoard.addStone(Point(OmokColumn.B, OmokRow.SEVEN, StoneStatus.BLACK))
         omokBoard.addStone(Point(OmokColumn.D, OmokRow.FIVE, StoneStatus.BLACK))
         omokBoard.addStone(Point(OmokColumn.E, OmokRow.FOUR, StoneStatus.BLACK))
-        val result = omokBoard.isOmok(Point(OmokColumn.C, OmokRow.SIX, StoneStatus.BLACK))
+        val result = FakeOmokRule.isOmok(Point(OmokColumn.C, OmokRow.SIX, StoneStatus.BLACK), omokBoard)
         assertThat(result).isTrue()
     }
 
@@ -147,7 +148,7 @@ class OmokBoardTest {
         omokBoard.addStone(Point(OmokColumn.C, OmokRow.TEN, StoneStatus.BLACK))
         omokBoard.addStone(Point(OmokColumn.D, OmokRow.ELEVEN, StoneStatus.BLACK))
         omokBoard.addStone(Point(OmokColumn.E, OmokRow.TWELVE, StoneStatus.BLACK))
-        val result = omokBoard.isOmok(Point(OmokColumn.B, OmokRow.NINE, StoneStatus.BLACK))
+        val result = FakeOmokRule.isOmok(Point(OmokColumn.B, OmokRow.NINE, StoneStatus.BLACK), omokBoard)
         assertThat(result).isTrue()
     }
 
@@ -175,7 +176,7 @@ class OmokBoardTest {
         omokBoard.addStone(Point(OmokColumn.B, OmokRow.SEVEN, StoneStatus.WHITE))
         omokBoard.addStone(Point(OmokColumn.C, OmokRow.SIX, StoneStatus.BLACK))
         omokBoard.addStone(Point(OmokColumn.D, OmokRow.FIVE, StoneStatus.BLACK))
-        val result = omokBoard.isOmok(Point(OmokColumn.E, OmokRow.FOUR, StoneStatus.BLACK))
+        val result = FakeOmokRule.isOmok(Point(OmokColumn.E, OmokRow.FOUR, StoneStatus.BLACK), omokBoard)
         assertThat(result).isFalse()
     }
 }
