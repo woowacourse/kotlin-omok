@@ -26,15 +26,15 @@ class OmokGame(val grid: OmokGrid) {
     ): Position {
         onTurnStarted(grid.board)
         val point = getPointToPlace(player, latestPoint, onSelectPosition)
-        playMove(point,StoneState.BLANK)
+        playMove(point, StoneState.BLANK)
         return point
     }
 
     private fun playMove(
         point: Position,
-        state: StoneState
+        state: StoneState,
     ) {
-        grid.putStone(point,state)
+        grid.putStone(point, state)
     }
 
     private fun getPointToPlace(

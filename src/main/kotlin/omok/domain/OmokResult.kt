@@ -4,5 +4,4 @@ enum class OmokResult {
     BLACK_WIN,
     WHITE_WIN,
     DRAW,
-    ;
 }

@@ -4,5 +4,4 @@ enum class StoneState {
     BLACK,
     WHITE,
     BLANK,
-    ;
 }
