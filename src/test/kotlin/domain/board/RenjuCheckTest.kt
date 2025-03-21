@@ -188,6 +188,26 @@ class RenjuCheckTest {
         assertThat(result).isFalse()
     }
 
+    @Test
+    fun `3x3테스트8`() {
+        board.addStone(Point(OmokColumn.D, OmokRow.FOUR, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.D, OmokRow.SEVEN, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.F, OmokRow.FIVE, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.G, OmokRow.FIVE, StoneStatus.BLACK))
+        val result = RenjuCheck(board).is3x3(Point(OmokColumn.D, OmokRow.FIVE, StoneStatus.EMPTY))
+        assertThat(result).isTrue()
+    }
+
+    @Test
+    fun `3x3테스트9`() {
+        board.addStone(Point(OmokColumn.C, OmokRow.FOUR, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.E, OmokRow.FOUR, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.D, OmokRow.FIVE, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.D, OmokRow.SIX, StoneStatus.BLACK))
+        val result = RenjuCheck(board).is3x3(Point(OmokColumn.D, OmokRow.FOUR, StoneStatus.EMPTY))
+        assertThat(result).isTrue()
+    }
+
     /**
      *  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
      *  14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤

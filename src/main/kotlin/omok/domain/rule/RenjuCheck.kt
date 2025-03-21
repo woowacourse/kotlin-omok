@@ -32,6 +32,7 @@ class RenjuCheck(private val board: OmokBoard) : Renju {
             return if (point.stoneStatus == target || depth == 0) {
                 seek(direction, next, target, depth + 1).let { Triple(it.first + 1, it.second, it.third) }
             } else {
+                if (next.x == OmokColumn.WALL || next.y == OmokRow.WALL) return Triple(0, true, false)
                 seek(direction, next, target, depth + 1)
             }
         }
