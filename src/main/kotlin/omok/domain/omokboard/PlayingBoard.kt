@@ -8,7 +8,6 @@ import omok.domain.rule.InvalidPositionRule
 import omok.domain.rule.OmokRule
 import omok.domain.rule.PlaceResult
 import omok.domain.rule.WinningRule
-import rule.BlackRenjuRule
 
 class PlayingBoard(
     val board: OmokBoard = OmokBoard.create(),
@@ -17,7 +16,7 @@ class PlayingBoard(
         listOf(
             InvalidPositionRule(),
             AlreadyExistStoneRule(),
-            ExternalRule(BlackRenjuRule(board.width, board.height)),
+            ExternalRule(),
             DrawRule(),
             WinningRule(),
         )
