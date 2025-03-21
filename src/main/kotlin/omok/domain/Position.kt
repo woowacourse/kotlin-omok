@@ -5,8 +5,8 @@ data class Position(val x: Int, val y: Int) {
         private set
 
     init {
-        require(x in 1..OmokGrid.DEFAULT_SIZE) {}
-        require(y in 1..OmokGrid.DEFAULT_SIZE) {}
+        require(x in 1..OmokBoard.DEFAULT_SIZE) {}
+        require(y in 1..OmokBoard.DEFAULT_SIZE) {}
     }
 
     fun changeState(state: StoneState): Boolean {
