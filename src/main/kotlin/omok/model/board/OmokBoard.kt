@@ -9,8 +9,8 @@ class OmokBoard(
     private val board = mutableMapOf<Position, StoneState>()
 
     val keys get() = board.keys
-    val ySize = Y_MAX_RANGE - Y_MIN_RANGE + 1
-    val xSize = X_MAX_RANGE - X_MIN_RANGE + 1
+    val ySize = Y_SIZE
+    val xSize = X_SIZE
 
     init {
         for (x in X_MIN_RANGE..X_MAX_RANGE) {
@@ -53,9 +53,11 @@ class OmokBoard(
     ): Boolean = rule.findOmok(position, stone, board)
 
     companion object {
-        const val Y_MAX_RANGE = 15
-        const val Y_MIN_RANGE = 1
-        const val X_MAX_RANGE = 15
-        const val X_MIN_RANGE = 1
+        private const val Y_MAX_RANGE = 15
+        private const val Y_MIN_RANGE = 1
+        private const val X_MAX_RANGE = 15
+        private const val X_MIN_RANGE = 1
+        private const val Y_SIZE = Y_MAX_RANGE - Y_MIN_RANGE + 1
+        private const val X_SIZE = X_MAX_RANGE - X_MIN_RANGE + 1
     }
 }
