@@ -7,7 +7,7 @@ import omok.model.stone.StoneState
 class WhitePlayerState(
     private val count: Int = 0,
 ) : PlayerState {
-    override fun isPlaceTurn(
+    override fun placeTurn(
         omokBoard: OmokBoard,
         position: Position,
         stoneState: StoneState,

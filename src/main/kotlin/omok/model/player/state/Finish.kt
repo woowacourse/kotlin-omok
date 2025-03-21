@@ -5,7 +5,7 @@ import omok.model.board.Position
 import omok.model.stone.StoneState
 
 abstract class Finish : PlayerState {
-    override fun isPlaceTurn(
+    override fun placeTurn(
         omokBoard: OmokBoard,
         position: Position,
         stoneState: StoneState,

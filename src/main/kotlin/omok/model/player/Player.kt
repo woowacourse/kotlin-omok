@@ -17,7 +17,7 @@ abstract class Player(
         position: Position,
         omokBoard: OmokBoard,
     ) {
-        playerState = playerState.isPlaceTurn(omokBoard, position, stoneState)
+        playerState = playerState.placeTurn(omokBoard, position, stoneState)
     }
 
     fun nextTurn(): Player =

@@ -5,7 +5,7 @@ import omok.model.board.Position
 import omok.model.stone.StoneState
 
 interface PlayerState {
-    fun isPlaceTurn(
+    fun placeTurn(
         omokBoard: OmokBoard,
         position: Position,
         stoneState: StoneState,
