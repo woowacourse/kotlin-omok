@@ -4,7 +4,7 @@ import omok.model.stone.position.Position
 
 class Stone(
     val position: Position,
-    val stoneState: StoneState,
+    val stoneColor: StoneColor,
 ) {
-    constructor(lastStone: Pair<Position, StoneState>) : this(lastStone.first, lastStone.second)
+    constructor(lastStone: Pair<Position, StoneColor>) : this(lastStone.first, lastStone.second)
 }

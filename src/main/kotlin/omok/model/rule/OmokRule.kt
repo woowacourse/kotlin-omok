@@ -1,7 +1,7 @@
 package omok.model.rule
 
 import omok.model.stone.Stone
-import omok.model.stone.StoneState
+import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
@@ -10,27 +10,22 @@ class OmokRule(
     private val boardSize: Int,
 ) {
     fun isLastStoneOmok(
-        stonesMap: Map<Position, StoneState>,
+        stonesMap: Map<Position, StoneColor>,
         lastStone: Stone,
     ): Boolean {
         lastStone.let {
             val lastStonePosition = lastStone.position
-            if (stonePlacedState(stonesMap, lastStonePosition) == StoneState.NONE) {
-                return false
-            }
+
+            val stoneColor = stonesMap[lastStonePosition] ?: return false
+            if (stoneColor != lastStone.stoneColor) return false
 
             val totalCount = calculateTotalCount(stonesMap, lastStone)
             return totalCount >= 5
         }
     }
 
-    private fun stonePlacedState(
-        stonesMap: Map<Position, StoneState>,
-        position: Position,
-    ): StoneState = stonesMap[position] ?: StoneState.NONE
-
     private fun calculateTotalCount(
-        stonesMap: Map<Position, StoneState>,
+        stonesMap: Map<Position, StoneColor>,
         lastStone: Stone,
     ): Int =
         Direction.lineDirections().maxOf { (directionA, directionB) ->
@@ -41,7 +36,7 @@ class OmokRule(
         }
 
     private fun countConnected(
-        stonesMap: Map<Position, StoneState>,
+        stonesMap: Map<Position, StoneColor>,
         stone: Stone,
         direction: Direction,
     ): Int {
@@ -52,7 +47,7 @@ class OmokRule(
 
         while (x in 0 until boardSize && y in 0 until boardSize) {
             val nextPos = Position(Row(x), Col(y))
-            if (stonesMap[nextPos] == stone.stoneState) {
+            if (stonesMap[nextPos] == stone.stoneColor) {
                 count++
                 x += direction.dx
                 y += direction.dy
