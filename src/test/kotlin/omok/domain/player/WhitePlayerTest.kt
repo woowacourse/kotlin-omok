@@ -17,7 +17,7 @@ class WhitePlayerTest {
         beforeDoubleThree.forEach { whitePlayer.addStone(it) }
         // then
         assertDoesNotThrow {
-            whitePlayer.isViolation(BlackPlayer().stones, toViolation())
+            whitePlayer.validateRenjuRule(BlackPlayer().stones, toViolation())
         }
     }
 
@@ -30,7 +30,7 @@ class WhitePlayerTest {
         beforeDoubleFour.forEach { whitePlayer.addStone(it) }
         // then
         assertDoesNotThrow {
-            whitePlayer.isViolation(BlackPlayer().stones, toViolation())
+            whitePlayer.validateRenjuRule(BlackPlayer().stones, toViolation())
         }
     }
 
@@ -43,7 +43,7 @@ class WhitePlayerTest {
         beforeOverLine.forEach { whitePlayer.addStone(it) }
         // then
         assertDoesNotThrow {
-            whitePlayer.isViolation(BlackPlayer().stones, toViolation())
+            whitePlayer.validateRenjuRule(BlackPlayer().stones, toViolation())
         }
     }
 }

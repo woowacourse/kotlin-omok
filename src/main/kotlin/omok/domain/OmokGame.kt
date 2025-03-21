@@ -38,7 +38,7 @@ class OmokGame(val grid: OmokGrid) {
         point: Point,
     ) {
         val otherPlayer = getOtherPlayer(nowPlayer)
-        nowPlayer.isViolation(otherPlayer.stones, point)
-        grid.canPlace(point)
+        nowPlayer.validateRenjuRule(otherPlayer.stones, point)
+        grid.validateEmptyPoint(point)
     }
 }

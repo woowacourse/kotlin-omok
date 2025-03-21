@@ -18,7 +18,7 @@ abstract class Player {
         return rule.checkSerialSameStonesBiDirection(stonesBacking, startPoint, WIN_STANDARD)
     }
 
-    abstract fun isViolation(
+    abstract fun validateRenjuRule(
         otherStones: List<Point>,
         startPoint: Point,
     )

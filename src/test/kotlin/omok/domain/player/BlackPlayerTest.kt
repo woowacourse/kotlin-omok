@@ -17,7 +17,7 @@ class BlackPlayerTest {
         beforeDoubleThree.forEach { blackPlayer.addStone(it) }
         // then
         assertThatThrownBy {
-            blackPlayer.isViolation(WhitePlayer().stones, toViolation())
+            blackPlayer.validateRenjuRule(WhitePlayer().stones, toViolation())
         }.isInstanceOf(IllegalStateException::class.java)
             .hasMessage("3x3 위치에 놓을 수 없습니다")
     }
@@ -31,7 +31,7 @@ class BlackPlayerTest {
         beforeDoubleFour.forEach { blackPlayer.addStone(it) }
         // then
         assertThatThrownBy {
-            blackPlayer.isViolation(WhitePlayer().stones, toViolation())
+            blackPlayer.validateRenjuRule(WhitePlayer().stones, toViolation())
         }.isInstanceOf(IllegalStateException::class.java)
             .hasMessage("4x4 위치에 놓을 수 없습니다")
     }
@@ -45,7 +45,7 @@ class BlackPlayerTest {
         beforeOverLine.forEach { blackPlayer.addStone(it) }
         // then
         assertThatThrownBy {
-            blackPlayer.isViolation(WhitePlayer().stones, toViolation())
+            blackPlayer.validateRenjuRule(WhitePlayer().stones, toViolation())
         }.isInstanceOf(IllegalStateException::class.java)
             .hasMessage("장목 위치에 놓을 수 없습니다")
     }

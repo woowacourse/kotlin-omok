@@ -9,7 +9,7 @@ class BlackPlayer(width: Int = DEFAULT_SIZE, height: Int = DEFAULT_SIZE) : Playe
     override val stonesBacking: MutableList<Point> = mutableListOf()
     override val rule: OmokRule = BlackRenjuRule(width, height)
 
-    override fun isViolation(
+    override fun validateRenjuRule(
         otherStones: List<Point>,
         startPoint: Point,
     ) {
