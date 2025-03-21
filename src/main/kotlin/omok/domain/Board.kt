@@ -1,6 +1,6 @@
 package omok.domain
 
-import omok.domain.state.Finished
+import omok.domain.state.Playing
 import omok.domain.state.Ready
 import omok.domain.state.State
 import omok.domain.stone.StoneColor
@@ -22,15 +22,12 @@ class Board(
         onPointInput: () -> Point,
         onBoardUpdated: (Set<Point>, Set<Point>) -> Unit,
     ) {
-        while (state !is Finished) {
+        while (state is Playing) {
+            val state = state as Playing
             onTurn(state.nextStoneColor(), state.lastStonePoint())
-            place(onPointInput())
+            state.place(onPointInput())
             onBoardUpdated(state.blackStones.points, state.whiteStones.points)
         }
-    }
-
-    private fun place(point: Point) {
-        state = state.place(point, size)
     }
 
     companion object {

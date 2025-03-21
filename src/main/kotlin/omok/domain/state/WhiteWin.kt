@@ -5,8 +5,8 @@ import omok.domain.stone.StoneColor
 import omok.domain.stone.WhiteStones
 
 class WhiteWin(
-    blackStones: BlackStones,
-    whiteStones: WhiteStones,
-) : Finished(blackStones, whiteStones) {
+    override val blackStones: BlackStones,
+    override val whiteStones: WhiteStones
+) : Finished {
     override val winnerColor: StoneColor = StoneColor.WHITE
 }

@@ -8,7 +8,7 @@ import rule.wrapper.point.Point
 class Ready(
     override val blackStones: BlackStones = BlackStones(),
     override val whiteStones: WhiteStones = WhiteStones(),
-) : State {
+) : Playing {
     override fun place(
         point: Point,
         boardSize: Int,
