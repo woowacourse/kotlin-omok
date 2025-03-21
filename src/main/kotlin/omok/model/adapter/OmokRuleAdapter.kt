@@ -4,9 +4,9 @@ import omok.model.Point
 import rule.OmokRule
 import rule.type.Violation
 
-abstract class OmokRuleAdapter {
-    protected abstract val omokRule: OmokRule
-
+abstract class OmokRuleAdapter(
+    private val omokRule: OmokRule
+) {
     fun checkAnyFoulCondition(
         blackPoints: Set<Point>,
         whitePoints: Set<Point>,
