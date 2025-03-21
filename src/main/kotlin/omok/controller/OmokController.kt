@@ -11,7 +11,7 @@ class OmokController(
     private val outputView: OutputView,
     private val inputView: InputView,
     private val omokBoard: OmokBoard,
-    private val omokRule: OmokRule
+    private val omokRule: OmokRule,
 ) {
     fun startGame() {
         outputView.printStartMessage()

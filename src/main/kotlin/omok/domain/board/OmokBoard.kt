@@ -7,10 +7,11 @@ import omok.domain.rule.renjuRule.Direction
 
 class OmokBoard(
     private val omokPoints: OmokPoints,
-    private val ruleChecker:OmokRule
+    private val ruleChecker: OmokRule,
 ) {
     var latestStone: Point = Point(OmokColumn.WALL, OmokRow.WALL, StoneStatus.EMPTY)
         private set
+
     fun toMatrix(): List<List<StoneStatus>> = omokPoints.toMatrix()
 
     fun isNotFull() = omokPoints.toList().any { it.stoneStatus == StoneStatus.EMPTY }
@@ -44,7 +45,6 @@ class OmokBoard(
                 }
             }
     }
-
 
     companion object {
         private const val ERROR_OCCUPIED_POSITION = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요."
