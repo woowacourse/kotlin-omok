@@ -27,7 +27,7 @@ class OmokController(
             playerTurn(currentPlayer, omokBoard)
             if (finishGame(currentPlayer, omokBoard)) break
             omokView.printOmokBoard(omokBoard.board)
-            currentPlayer = currentPlayer.nextTurn()
+            currentPlayer = currentPlayer.nextPlayer()
         }
     }
 

@@ -20,7 +20,7 @@ abstract class Player(
         playerState = playerState.placeTurn(omokBoard, position, stoneState)
     }
 
-    fun nextTurn(): Player =
+    fun nextPlayer(): Player =
         when (this) {
             is BlackPlayer -> WhitePlayer(playerState)
             is WhitePlayer -> BlackPlayer(playerState)
