@@ -6,8 +6,7 @@ import omok.model.stone.StoneState
 class OmokBoard(
     private val rule: Rule,
 ) {
-    private val board = mutableMapOf<Position, StoneState>()
-
+    val board = mutableMapOf<Position, StoneState>()
     val keys get() = board.keys
     val ySize = Y_SIZE
     val xSize = X_SIZE
@@ -20,8 +19,6 @@ class OmokBoard(
             }
         }
     }
-
-    fun board(): Map<Position, StoneState> = board.toMap()
 
     private fun canPlaceStone(position: Position): Boolean = board[position] == StoneState.NONE
 

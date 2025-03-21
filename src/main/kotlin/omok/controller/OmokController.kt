@@ -26,7 +26,7 @@ class OmokController(
         while (true) {
             playerTurn(currentPlayer, omokBoard)
             if (finishGame(currentPlayer, omokBoard)) break
-            omokView.printOmokBoard(omokBoard.board())
+            omokView.printOmokBoard(omokBoard.board)
             currentPlayer = currentPlayer.nextTurn()
         }
     }
@@ -49,7 +49,7 @@ class OmokController(
         omokBoard: OmokBoard,
     ): Boolean {
         if (currentPlayer.isFinish()) {
-            omokView.printOmokBoard(omokBoard.board())
+            omokView.printOmokBoard(omokBoard.board)
             return true
         }
         return false
