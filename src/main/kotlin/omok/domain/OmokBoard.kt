@@ -1,22 +1,28 @@
 package omok.domain
 
 class OmokBoard(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
-    private val _board: List<MutableList<StoneState>> = List(width + 1) { MutableList(height + 1) { StoneState.BLANK } }
+    val positions: List<Position> = (1..15).flatMap { x -> (1..15).map { y -> Position(x, y) } }
 
+    fun canPlace(position: Position) {
+        if (findPoint(position.x, position.y)?.stoneState != StoneState.BLANK) {
+            throw IllegalArgumentException(
+                ERROR_STONE_ALREADY_PUT,
+            )
+        }
+    }
 
-    fun canPlace(point: Position) {
-        if (_board[point.y][point.x] != StoneState.BLANK) throw IllegalStateException(ERROR_STONE_ALREADY_PUT)
+    fun findPoint(
+        x: Int,
+        y: Int,
+    ): Position? {
+        return positions.find { it.x == x && it.y == y }
     }
 
     fun putStone(
-        point: Position,
+        position: Position,
         state: StoneState,
     ) {
-        _board[point.y][point.x] = state
-    }
-
-    fun isFull(): Boolean {
-        return _board.all { row -> row.all { it != StoneState.BLANK } }
+        findPoint(position.x, position.y)?.changeState(state)
     }
 
     companion object {
