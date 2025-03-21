@@ -21,7 +21,7 @@ class OutputView {
                 }
             println(str)
         }
-        val columnLabels = ('A'..'O').joinToString("  ")
+        val columnLabels = (MIN_COL_CHAR until (MIN_COL_CHAR + BOARD_SIZE)).joinToString("  ")
         println("   $columnLabels")
     }
 
@@ -71,13 +71,14 @@ class OutputView {
         }
 
     private fun stoneCoordinateText(position: Position): String {
-        val lastCol = ('A'..'O').toList()[position.col.value].toString()
+        val lastCol = (MIN_COL_CHAR..<MIN_COL_CHAR + BOARD_SIZE).toList()[position.col.value].toString()
         val lastRow = (position.row.value + 1).toString()
 
         return lastCol + lastRow
     }
 
     companion object {
-        private const val BOARD_SIZE = 15
+        const val BOARD_SIZE = 15
+        private const val MIN_COL_CHAR = 'A'
     }
 }
