@@ -107,5 +107,6 @@ class ResultView {
         const val EXIST_STONE = "이미 돌이 존재하는 칸입니다. 다시 입력하세요"
         const val THREE_THREE = "삼삼입니다. 다시 입력하세요"
         const val FOUR_FOUR = "사사입니다. 다시 입력하세요"
+        const val OVER_FIVE = "장목입니다. 다시 입력하세요"
     }
 }

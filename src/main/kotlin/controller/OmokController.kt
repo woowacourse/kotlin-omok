@@ -33,23 +33,14 @@ class OmokController(
             AddStoneStatus.IsAble,
             -> return addStoneStatus
 
-            AddStoneStatus.IsExist ->
-                run {
-                    outputView.printError(ResultView.EXIST_STONE)
-                    return addValidStone(gameBoard)
-                }
+            AddStoneStatus.IsExist -> outputView.printError(ResultView.EXIST_STONE)
 
-            AddStoneStatus.IsThreeThree ->
-                run {
-                    outputView.printError(ResultView.THREE_THREE)
-                    return addValidStone(gameBoard)
-                }
+            AddStoneStatus.IsThreeThree -> outputView.printError(ResultView.THREE_THREE)
 
-            AddStoneStatus.IsFourFour ->
-                run {
-                    outputView.printError(ResultView.FOUR_FOUR)
-                    return addValidStone(gameBoard)
-                }
+            AddStoneStatus.IsFourFour -> outputView.printError(ResultView.FOUR_FOUR)
+
+            AddStoneStatus.IsOverFive -> outputView.printError(ResultView.OVER_FIVE)
         }
+        return addValidStone(gameBoard)
     }
 }

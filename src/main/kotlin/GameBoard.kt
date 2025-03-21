@@ -8,6 +8,8 @@ sealed class AddStoneStatus {
     data object IsWin : AddStoneStatus()
 
     data object IsAble : AddStoneStatus()
+
+    data object IsOverFive : AddStoneStatus()
 }
 
 class GameBoard {
@@ -17,29 +19,13 @@ class GameBoard {
 
     fun addStone(stone: Stone): AddStoneStatus {
         if (isExistPosition(stone)) return AddStoneStatus.IsExist
-        _stones.add(stone)
-        if (isWin()) return AddStoneStatus.IsWin
-        _stones.remove(stone)
-        when {
-            rule.checkThreeThreeFoulByAllDirections(stone, stones) -> return AddStoneStatus.IsThreeThree
-            rule.checkFourFoulByAllDirections(stone, stones) -> return AddStoneStatus.IsFourFour
-        }
+        val checkAddingStone = rule.checkAddingStone(stone, stones)
+        if (checkAddingStone != AddStoneStatus.IsAble) return checkAddingStone
         _stones.add(stone)
         return AddStoneStatus.IsAble
     }
 
     fun lastStone(): Stone? = stones.lastOrNull()
-
-    fun isWin(): Boolean {
-        val lastStone = _stones.last()
-        when {
-            rule.isHorizontalWin(lastStone, stones) -> return true
-            rule.isVerticalWin(lastStone, stones) -> return true
-            rule.isIncreasingDiagonalWin(lastStone, stones) -> return true
-            rule.isDecreasingDiagonalWin(lastStone, stones) -> return true
-        }
-        return false
-    }
 
     private fun isExistPosition(stone: Stone): Boolean = stones.any { existedStone -> existedStone.isSamePosition(stone) }
 }

@@ -1,47 +1,81 @@
 class Rule {
-    fun isHorizontalWin(
+    fun checkAddingStone(
         stone: Stone,
         stones: List<Stone>,
-    ): Boolean =
+    ): AddStoneStatus {
+        val countStoneDirections =
+            listOf(
+                countHorizontalStone(stone, stones),
+                countVerticalStone(stone, stones),
+                countDecreasingDiagonalStone(stone, stones),
+                countIncreasingDiagonalStone(stone, stones),
+            )
+        if (countStoneDirections.any { it == 5 }) return AddStoneStatus.IsWin
+        if (countStoneDirections.any { it > 5 } && stone.color == StoneColor.BLACK) return AddStoneStatus.IsOverFive
+
+        return checkFoul(stones, stone)
+    }
+
+    private fun checkFoul(
+        stones: List<Stone>,
+        addedStone: Stone,
+    ): AddStoneStatus {
+        val addedStones = stones + addedStone
+        var isFourFourFlag = false
+        var isThreeThreeFlag = false
+        addedStones.forEach { stone ->
+            if (checkFourFoulByAllDirections(stone, addedStones)) isFourFourFlag = true
+            if (checkThreeThreeFoulByAllDirections(stone, addedStones)) isThreeThreeFlag = true
+        }
+
+        if (isFourFourFlag) return AddStoneStatus.IsFourFour
+        if (isThreeThreeFlag) return AddStoneStatus.IsThreeThree
+        return AddStoneStatus.IsAble
+    }
+
+    private fun countHorizontalStone(
+        stone: Stone,
+        stones: List<Stone>,
+    ): Int =
         directedSearch(Direction.LEFT, stone, stones) +
             directedSearch(
                 Direction.RIGHT,
                 stone,
                 stones,
-            ) - DUPLICATED_SELF >= 5
+            ) - DUPLICATED_SELF
 
-    fun isVerticalWin(
+    private fun countVerticalStone(
         stone: Stone,
         stones: List<Stone>,
-    ): Boolean =
+    ): Int =
         directedSearch(Direction.UP, stone, stones) +
             directedSearch(
                 Direction.DOWN,
                 stone,
                 stones,
-            ) - DUPLICATED_SELF >= 5
+            ) - DUPLICATED_SELF
 
-    fun isIncreasingDiagonalWin(
+    private fun countIncreasingDiagonalStone(
         stone: Stone,
         stones: List<Stone>,
-    ): Boolean =
+    ): Int =
         directedSearch(Direction.UP_RIGHT, stone, stones) +
             directedSearch(
                 Direction.DOWN_LEFT,
                 stone,
                 stones,
-            ) - DUPLICATED_SELF >= 5
+            ) - DUPLICATED_SELF
 
-    fun isDecreasingDiagonalWin(
+    private fun countDecreasingDiagonalStone(
         stone: Stone,
         stones: List<Stone>,
-    ): Boolean =
+    ): Int =
         directedSearch(Direction.DOWN_RIGHT, stone, stones) +
             directedSearch(
                 Direction.UP_LEFT,
                 stone,
                 stones,
-            ) - DUPLICATED_SELF >= 5
+            ) - DUPLICATED_SELF
 
     private fun directedSearch(
         direction: Direction,
@@ -61,18 +95,17 @@ class Rule {
         return 1
     }
 
-    fun checkThreeThreeFoulByAllDirections(
+    private fun checkThreeThreeFoulByAllDirections(
         stone: Stone,
         stones: List<Stone>,
     ): Boolean {
-        val stoneAddedStones = stones + stone
         if (stone.color == StoneColor.WHITE) return false
         val directions =
             listOf(
                 Direction.UP,
                 Direction.RIGHT,
                 Direction.UP_LEFT,
-                Direction.DOWN_RIGHT,
+                Direction.DOWN_LEFT,
             )
         var openThreeCount = 0
 
@@ -83,7 +116,7 @@ class Rule {
 
                 if (segmentStart == null || segmentEnd == null) continue
 
-                if (checkThreeThreeFoul(stone, stoneAddedStones, segmentStart, segmentEnd, direction)) {
+                if (checkThreeThreeFoul(stone, stones, segmentStart, segmentEnd, direction)) {
                     openThreeCount++
                     break
                 }
@@ -115,23 +148,21 @@ class Rule {
             if (pos.isSamePosition(lastPosition)) break
             pos = direction.nextPosition(pos)
         }
-        println("$stoneCount $blankCount ${direction.name}")
         return (stoneCount == 3 && blankCount >= 2)
     }
 
-    fun checkFourFoulByAllDirections(
+    private fun checkFourFoulByAllDirections(
         stone: Stone,
         stones: List<Stone>,
     ): Boolean {
         if (stone.color == StoneColor.WHITE) return false
-        val stoneAddedStones = stones + stone
 
         val directions =
             listOf(
                 Direction.UP,
                 Direction.RIGHT,
                 Direction.UP_LEFT,
-                Direction.DOWN_RIGHT,
+                Direction.DOWN_LEFT,
             )
         var fourCount = 0
 
@@ -140,9 +171,9 @@ class Rule {
                 val segmentStart = stone.position.moveOrNull(direction, offset)
                 val segmentEnd = segmentStart?.moveOrNull(direction, 5)
                 if (segmentStart == null || segmentEnd == null) continue
-
-                if (checkFourFoul(stone, stoneAddedStones, segmentStart, segmentEnd, direction)) {
+                if (checkFourFoul(stone, stones, segmentStart, segmentEnd, direction)) {
                     fourCount++
+                    break
                 }
             }
         }
@@ -169,13 +200,12 @@ class Rule {
             } else if (currentStone == null) {
                 blankCount++
                 if (index == 0) firstIsBlank = true
-            } else {
-                return false
             }
             if (pos.isSamePosition(lastPosition)) break
             pos = direction.nextPosition(pos)
             index++
         }
+
         val lastIsBlank = stones.find { it.position == lastPosition } == null
 
         if (stoneCount != 4) return false

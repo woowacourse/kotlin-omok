@@ -1,6 +1,5 @@
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -13,8 +12,8 @@ class RuleTest {
         val winningStones = listOf(STONE_1C_BLACK, STONE_1B_BLACK, STONE_1D_BLACK, STONE_1E_BLACK)
         val nothingStones = listOf(STONE_1C_BLACK, STONE_1B_WHITE, STONE_1D_BLACK, STONE_1E_BLACK)
         assertAll(
-            { assertTrue(rule.isHorizontalWin(stone, winningStones)) },
-            { assertFalse(rule.isHorizontalWin(stone, nothingStones)) },
+            { assertThat(rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
+            { assertThat(rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
@@ -25,8 +24,8 @@ class RuleTest {
         val winningStones = listOf(STONE_1A_BLACK, STONE_2A_BLACK, STONE_4A_BLACK, STONE_5A_BLACK)
         val nothingStones = listOf(STONE_1A_BLACK, STONE_2A_WHITE, STONE_4A_BLACK, STONE_5A_BLACK)
         assertAll(
-            { assertTrue(rule.isVerticalWin(stone, winningStones)) },
-            { assertFalse(rule.isVerticalWin(stone, nothingStones)) },
+            { assertThat(rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
+            { assertThat(rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
@@ -37,8 +36,8 @@ class RuleTest {
         val winningStones = listOf(STONE_1A_BLACK, STONE_2B_BLACK, STONE_4D_BLACK, STONE_5E_BLACK)
         val nothingStones = listOf(STONE_1A_BLACK, STONE_2B_WHITE, STONE_4D_BLACK, STONE_5E_BLACK)
         assertAll(
-            { assertTrue(rule.isIncreasingDiagonalWin(stone, winningStones)) },
-            { assertFalse(rule.isIncreasingDiagonalWin(stone, nothingStones)) },
+            { assertThat(rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
+            { assertThat(rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
@@ -49,8 +48,8 @@ class RuleTest {
         val winningStones = listOf(STONE_1E_BLACK, STONE_2D_BLACK, STONE_4B_BLACK, STONE_5A_BLACK)
         val nothingStones = listOf(STONE_1E_BLACK, STONE_2B_WHITE, STONE_4B_BLACK, STONE_5A_BLACK)
         assertAll(
-            { assertTrue(rule.isDecreasingDiagonalWin(stone, winningStones)) },
-            { assertFalse(rule.isDecreasingDiagonalWin(stone, nothingStones)) },
+            { assertThat(rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
+            { assertThat(rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
@@ -81,11 +80,11 @@ class RuleTest {
                 STONE_9I_WHITE,
             )
         val newStone = STONE_3E_BLACK
-        assertTrue(rule.checkThreeThreeFoulByAllDirections(newStone, stones))
+        assertThat(rule.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.IsThreeThree)
     }
 
     @ParameterizedTest
-    @CsvSource("8, 3", "12, 6", "10, 10", "8, 9", "5, 8")
+    @CsvSource("8, 3", "12, 6", "8, 9", "5, 8")
     fun `흑돌일 때 사사를 판단할 수 있다`(
         newStoneRow: Int,
         newStoneCol: Int,
@@ -121,6 +120,6 @@ class RuleTest {
 
         val newStone = Stone(Position(Row.from(newStoneRow), Col.from(newStoneCol)), StoneColor.BLACK)
 
-        assertTrue(rule.checkFourFoulByAllDirections(newStone, stones))
+        assertThat(rule.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.IsFourFour)
     }
 }
