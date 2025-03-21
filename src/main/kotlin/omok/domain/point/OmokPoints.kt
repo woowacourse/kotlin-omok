@@ -31,18 +31,11 @@ class OmokPoints {
     }
 
     fun toMatrix(): List<List<BoardStatus>> {
-        val temp =
-            MutableList(OmokRow.entriesWithoutWall().size) {
-                MutableList<BoardStatus>(OmokColumn.entriesWithoutWall().size) { BoardStatus.Empty }
-            }
-        points.forEach {
-            temp[it.y.value - 1][it.x.value - 1] = it.status
+        return List(OmokRow.entriesWithoutWall().size) {
+            MutableList<BoardStatus>(OmokColumn.entriesWithoutWall().size) { BoardStatus.Empty }
+        }.apply {
+            points.forEach { this[it.y.value - 1][it.x.value - 1] = it.status }
         }
-        for (point in points) {
-            temp[point.y.value - 1][point.x.value - 1] = point.status
-        }
-
-        return temp.toList()
     }
 
     fun isOccupied(point: Point): Boolean {
