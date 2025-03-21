@@ -12,7 +12,7 @@ class BlackStoneTest {
     @Test
     fun `흑돌은 흑색이다`() {
         val position = Position(X(1), Y(1))
-        val actual = BlackStone(position).color()
+        val actual = BlackStone(position).color
 
         Assertions.assertThat(actual).isEqualTo(StoneColor.BLACK)
     }
@@ -20,7 +20,7 @@ class BlackStoneTest {
     @Test
     fun `흑돌은 좌표를 가진다`() {
         val position = Position(X(1), Y(1))
-        val actual = BlackStone(position).position()
+        val actual = BlackStone(position).position
 
         Assertions.assertThat(actual).isEqualTo(position)
     }

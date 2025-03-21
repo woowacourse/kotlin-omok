@@ -19,7 +19,7 @@ class OmokBoardTest {
 
         for (x in 1..15) {
             for (y in 1..15) {
-                val positionState = board.board()[Position(X(x), Y(y))]
+                val positionState = board.board[Position(X(x), Y(y))]
                 Assertions.assertThat(positionState).isEqualTo(StoneState.NONE)
             }
         }

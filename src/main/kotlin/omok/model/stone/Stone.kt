@@ -3,7 +3,7 @@ package omok.model.stone
 import omok.model.board.Position
 
 interface Stone {
-    fun position(): Position
+    val position: Position
 
-    fun color(): StoneColor
+    val color: StoneColor
 }
