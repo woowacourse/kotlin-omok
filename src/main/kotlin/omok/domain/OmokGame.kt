@@ -1,77 +1,52 @@
 package omok.domain
 
-import omok.domain.player.BlackPlayer
 import omok.domain.player.Player
-import omok.domain.player.WhitePlayer
 import omok.util.retryInput
-import rule.wrapper.point.Point
 
 class OmokGame(val grid: OmokGrid) {
-    private val blackPlayer: BlackPlayer = BlackPlayer(grid.width, grid.height)
-    private val whitePlayer: WhitePlayer = WhitePlayer(grid.width, grid.height)
-
     fun playGame(
         onTurnStarted: (List<MutableList<StoneState>>) -> Unit,
-        onSelectPosition: (Player, Point?, OmokGrid) -> Point,
+        onSelectPosition: (Player, Position?, OmokGrid) -> Position,
     ): OmokResult {
-        var latestPoint: Point? = null
-        var nowPlayer: Player = blackPlayer
+        var latestPoint: Position? = null
 
         while (true) {
-            latestPoint = playTurn(nowPlayer, latestPoint, onTurnStarted, onSelectPosition)
-            if (nowPlayer.checkWin(latestPoint)) return OmokResult.getWinner(nowPlayer)
-            if (grid.isFull()) break
-            nowPlayer = getOtherPlayer(nowPlayer)
+//            latestPoint = playTurn(nowPlayer, latestPoint, onTurnStarted, onSelectPosition)
+//            if (nowPlayer.checkWin(latestPoint)) return OmokResult.getWinner(nowPlayer)
+//            if (grid.isFull()) break
         }
         return OmokResult.DRAW
     }
 
     private fun playTurn(
         player: Player,
-        latestPoint: Point?,
+        latestPoint: Position?,
         onTurnStarted: (List<MutableList<StoneState>>) -> Unit,
-        onSelectPosition: (Player, Point?, OmokGrid) -> Point,
-    ): Point {
+        onSelectPosition: (Player, Position?, OmokGrid) -> Position,
+    ): Position {
         onTurnStarted(grid.board)
         val point = getPointToPlace(player, latestPoint, onSelectPosition)
-        playMove(player, point)
+        playMove(point,StoneState.BLANK)
         return point
     }
 
     private fun playMove(
-        player: Player,
-        point: Point,
+        point: Position,
+        state: StoneState
     ) {
-        grid.putStone(point, StoneState.getColor(player))
-        player.addStone(point)
+        grid.putStone(point,state)
     }
 
     private fun getPointToPlace(
         player: Player,
-        latestPoint: Point?,
-        onSelectPosition: (Player, Point?, OmokGrid) -> Point,
-    ): Point {
+        latestPoint: Position?,
+        onSelectPosition: (Player, Position?, OmokGrid) -> Position,
+    ): Position {
         return retryInput {
             val point = onSelectPosition(player, latestPoint, grid)
-            validatePosition(player, point)
+//            validatePosition(point)
             grid.canPlace(point)
             point
-        }
-    }
-
-    private fun validatePosition(
-        nowPlayer: Player,
-        point: Point,
-    ) {
-        val otherPlayer = getOtherPlayer(nowPlayer)
-        nowPlayer.isViolation(otherPlayer.stones, point)
-    }
-
-    private fun getOtherPlayer(player: Player): Player {
-        return if (player is BlackPlayer) {
-            whitePlayer
-        } else {
-            blackPlayer
         }
     }
 }
