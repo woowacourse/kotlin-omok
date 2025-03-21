@@ -3,10 +3,10 @@ package omok.controller
 import omok.model.BlackPlayer
 import omok.model.Game
 import omok.model.GameState
+import omok.model.Point
 import omok.model.WhitePlayer
 import omok.view.InputView
 import omok.view.OutputView
-import rule.wrapper.point.Point
 
 class OmokController(
     private val inputView: InputView,

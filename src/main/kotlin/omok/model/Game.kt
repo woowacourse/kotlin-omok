@@ -1,7 +1,5 @@
 package omok.model
 
-import rule.wrapper.point.Point
-
 class Game(
     val blackPlayer: BlackPlayer,
     val whitePlayer: WhitePlayer,
