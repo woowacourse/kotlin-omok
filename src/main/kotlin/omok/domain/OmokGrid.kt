@@ -3,16 +3,11 @@ package omok.domain
 import rule.wrapper.point.Point
 
 class OmokGrid() {
-    private val _whiteStones: MutableSet<Point> = mutableSetOf()
-    val whiteStones: Set<Point>
-        get() = _whiteStones.deepCopy()
-
-    private val _blackStones: MutableSet<Point> = mutableSetOf()
-    val blackStones: Set<Point>
-        get() = _blackStones.deepCopy()
+    val whiteStones: Stones = Stones()
+    val blackStones: Stones = Stones()
 
     fun validateEmptyPoint(point: Point) {
-        val searchedPoint = (_whiteStones + _blackStones).find { it == point }
+        val searchedPoint = (whiteStones.stones + blackStones.stones).find { it == point }
         check(searchedPoint == null) { ERROR_STONE_ALREADY_PUT }
     }
 
@@ -21,14 +16,14 @@ class OmokGrid() {
         state: StoneState,
     ) {
         when (state) {
-            StoneState.WHITE -> _whiteStones.add(point)
-            StoneState.BLACK -> _blackStones.add(point)
+            StoneState.WHITE -> whiteStones + point
+            StoneState.BLACK -> blackStones + point
             StoneState.BLANK -> throw IllegalStateException()
         }
     }
 
     fun isFull(): Boolean {
-        return (_whiteStones + _blackStones).size == TOTAL_POINT_COUNT
+        return (whiteStones.stones + blackStones.stones).size == TOTAL_POINT_COUNT
     }
 
     companion object {
@@ -37,5 +32,3 @@ class OmokGrid() {
         private const val ERROR_STONE_ALREADY_PUT = "이미 돌이 있습니다."
     }
 }
-
-fun MutableSet<Point>.deepCopy(): Set<Point> = map { it.copy() }.toSet()

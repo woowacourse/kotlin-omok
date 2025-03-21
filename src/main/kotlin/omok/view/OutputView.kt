@@ -17,11 +17,11 @@ class OutputView {
     private fun makeBoard(grid: OmokGrid): List<List<StoneState>> {
         val board: List<MutableList<StoneState>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { StoneState.BLANK } }
 
-        grid.blackStones.forEach { (row, col) ->
+        grid.blackStones.stones.forEach { (row, col) ->
             board[row][col] = StoneState.BLACK
         }
 
-        grid.whiteStones.forEach { (row, col) ->
+        grid.whiteStones.stones.forEach { (row, col) ->
             board[row][col] = StoneState.WHITE
         }
         return board
