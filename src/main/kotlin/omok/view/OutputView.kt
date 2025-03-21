@@ -1,48 +1,28 @@
 package omok.view
 
-import omok.domain.OmokGrid
+import omok.domain.OmokBoard
 import omok.domain.OmokResult
 import omok.domain.StoneState
-
-private fun StoneState.toUI(): String? {
-    return when (this) {
-        StoneState.BLACK -> "●"
-        StoneState.WHITE -> "○"
-        StoneState.BLANK -> null
-    }
-}
 
 class OutputView {
     fun printStartMessage() = println(MESSAGE_GAME_START)
 
-    fun printBoardState(grid: OmokGrid) {
+    fun printBoardState(board: OmokBoard) {
         println()
-        for (row in grid.height downTo MIN_BOUND) {
-            printRow(grid, row)
+        for (y in board.height downTo MIN_BOUND) {
+            print(COORDINATE_X.format(y))
+            println((MIN_BOUND..board.width).joinToString(DASH) { x -> board.toUI(x, y) })
         }
         print(BLANK)
-        printCoordinateY(grid.width)
+        printCoordinateY(board.width)
     }
 
     fun printWinner(omokResult: OmokResult) {
         println(MESSAGE_WINNER.format(omokResult.toString()))
     }
 
-    private fun printRow(
-        grid: OmokGrid,
-        row: Int,
-    ) {
-        print(COORDINATE_X.format(row))
-        for (col in MIN_BOUND..grid.width) {
-            print(boardUI(grid, row, col))
-            if (col != grid.width) repeat(REPEAT_COUNT) { print(DASH) }
-        }
-        println()
-    }
-
     companion object {
         private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
-        private const val REPEAT_COUNT = 2
 
         private const val LEFT_DOWN = "└"
         private const val LEFT = "├"
@@ -53,36 +33,34 @@ class OutputView {
         private const val RIGHT_DOWN = "┘"
         private const val DOWN = "┴"
         private const val MIDDLE = "┼"
-        private const val DASH = "─"
+        private const val DASH = "──"
         private const val COORDINATE_X = "%2d "
         private const val BLANK = "   "
         private const val MIN_BOUND = 1
 
         private const val MESSAGE_WINNER = "%s !!"
 
-        private fun boardUI(
-            grid: OmokGrid,
-            row: Int,
-            col: Int,
-        ): String {
-            val state = grid.board[row][col]
-            return state.toUI() ?: boardDefault(grid, row, col)
+        private fun StoneState.toUI(): String? {
+            return when (this) {
+                StoneState.BLACK -> "●"
+                StoneState.WHITE -> "○"
+                StoneState.BLANK -> null
+            }
         }
 
-        private fun boardDefault(
-            grid: OmokGrid,
-            row: Int,
-            col: Int,
+        private fun OmokBoard.toUI(
+            x: Int,
+            y: Int,
         ): String {
             return when {
-                row == grid.height && col == MIN_BOUND -> LEFT_UP
-                row == grid.height && col == grid.width -> RIGHT_UP
-                row == MIN_BOUND && col == MIN_BOUND -> LEFT_DOWN
-                row == MIN_BOUND && col == grid.width -> RIGHT_DOWN
-                col == MIN_BOUND -> LEFT
-                row == grid.height -> UP
-                col == grid.width -> RIGHT
-                row == MIN_BOUND -> DOWN
+                y == height && x == MIN_BOUND -> LEFT_UP
+                y == height && x == width -> RIGHT_UP
+                y == MIN_BOUND && x == MIN_BOUND -> LEFT_DOWN
+                y == MIN_BOUND && x == width -> RIGHT_DOWN
+                x == MIN_BOUND -> LEFT
+                y == height -> UP
+                x == width -> RIGHT
+                y == MIN_BOUND -> DOWN
                 else -> MIDDLE
             }
         }
