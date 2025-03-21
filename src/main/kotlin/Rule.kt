@@ -185,9 +185,6 @@ class Rule {
         return false
     }
 
-    private operator fun Pair<Int, Int>.plus(other: Pair<Int, Int>): Pair<Int, Int> =
-        Pair(this.first + other.first, this.second + other.second)
-
     companion object {
         const val DUPLICATED_SELF = 1
     }
