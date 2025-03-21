@@ -23,7 +23,7 @@ class Col private constructor(
 
         fun from(char: Char): Col = Col(char.toGridCol())
 
-        fun fromInt(int: Int): Col = Col(int)
+        fun from(int: Int): Col = Col(int)
 
         private fun Char.toGridCol(): Int = this.code - ASCII_A_OFFSET
     }

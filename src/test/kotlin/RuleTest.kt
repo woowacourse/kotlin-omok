@@ -119,7 +119,7 @@ class RuleTest {
                 STONE_9H_WHITE,
             )
 
-        val newStone = Stone(Position(Row.from(newStoneRow), Col.fromInt(newStoneCol)), StoneColor.BLACK)
+        val newStone = Stone(Position(Row.from(newStoneRow), Col.from(newStoneCol)), StoneColor.BLACK)
 
         assertTrue(rule.checkFourFoulByAllDirections(newStone, stones))
     }

@@ -52,7 +52,7 @@ class ResultView {
         stones: MutableList<Stone>,
     ): String {
         val stone =
-            stones.firstOrNull { it.position.row.isSame(Row.from(row)) && it.position.col.isSame(Col.fromInt(col)) }
+            stones.firstOrNull { it.position.row.isSame(Row.from(row)) && it.position.col.isSame(Col.from(col)) }
         if (stone != null) return stone.toEmoji()
         return when {
             row == Row.MIN_VALUE && col == Col.MIN_VALUE -> GAME_BOARD_DOWN_LEFT_CORNER
