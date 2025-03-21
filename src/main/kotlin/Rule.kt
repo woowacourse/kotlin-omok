@@ -110,11 +110,16 @@ class Rule {
         var openThreeCount = 0
 
         for (direction in directions) {
-            for (offset in -4..0) {
+            for (offset in -5..-1) {
                 val segmentStart = stone.position.moveOrNull(direction, offset)
-                val segmentEnd = segmentStart?.moveOrNull(direction, 4)
-
+                val segmentEnd = segmentStart?.moveOrNull(direction, 6)
                 if (segmentStart == null || segmentEnd == null) continue
+                if (stones.find { it.position.isSamePosition(segmentStart) }?.color?.isSameColor(stone.color) == false) {
+                    continue
+                }
+                if (stones.find { it.position.isSamePosition(segmentEnd) }?.color?.isSameColor(stone.color) == false) {
+                    continue
+                }
 
                 if (checkThreeThreeFoul(stone, stones, segmentStart, segmentEnd, direction)) {
                     openThreeCount++
@@ -132,10 +137,9 @@ class Rule {
         lastPosition: Position,
         direction: Direction,
     ): Boolean {
-        var pos = startPosition
+        var pos = direction.nextPosition(startPosition)
         var stoneCount = 0
         var blankCount = 0
-
         while (true) {
             val currentStone = stones.find { it.position.isSamePosition(pos) }
             if (currentStone?.color == stone.color) {
@@ -145,10 +149,10 @@ class Rule {
             } else {
                 return false
             }
-            if (pos.isSamePosition(lastPosition)) break
             pos = direction.nextPosition(pos)
+            if (pos.isSamePosition(lastPosition)) break
         }
-        return (stoneCount == 3 && blankCount >= 2)
+        return (stoneCount == 3 && blankCount == 2)
     }
 
     private fun checkFourFoulByAllDirections(
