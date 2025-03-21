@@ -16,7 +16,7 @@ class Omok : Rule {
         val y = position.y
 
         // 가로
-        var newX = x.point - 4
+        var newX = x.value - 4
         var countX = 0
         repeat(8) {
             if (newX in 1..15) {
@@ -31,7 +31,7 @@ class Omok : Rule {
         }
 
         // 세로
-        var newY = y.point - 4
+        var newY = y.value - 4
         var countY = 0
         repeat(8) {
             if (newY in 1..15) {
@@ -46,8 +46,8 @@ class Omok : Rule {
         }
 
         // 대각선
-        var newX1 = x.point - 4
-        var newY1 = y.point - 4
+        var newX1 = x.value - 4
+        var newY1 = y.value - 4
         var countDiag1 = 0
         repeat(8) {
             if (newX1 in 1..15 && newY1 in 1..15) {
@@ -63,8 +63,8 @@ class Omok : Rule {
         }
 
         // 대각선
-        var newX2 = x.point - 4
-        var newY2 = y.point + 4
+        var newX2 = x.value - 4
+        var newY2 = y.value + 4
         var countDiag2 = 0
         repeat(8) {
             if (newX2 in 1..15 && newY2 in 1..15) {

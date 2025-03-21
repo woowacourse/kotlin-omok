@@ -77,7 +77,7 @@ class OmokView {
                     StoneState.DOUBLE_THREE, StoneState.DOUBLE_FOUR -> ILLEGAL_POINT
                     else -> return@forEach
                 }
-            board[pos.y.point - 1][pos.x.point - 1] = if (pos.x.point != BOARD_SIZE) "$stone──" else stone
+            board[pos.y.value - 1][pos.x.value - 1] = if (pos.x.value != BOARD_SIZE) "$stone──" else stone
         }
     }
 
