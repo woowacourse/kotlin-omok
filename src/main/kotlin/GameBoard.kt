@@ -5,6 +5,8 @@ sealed class AddStoneStatus {
 
     data object IsFourFour : AddStoneStatus()
 
+    data object IsWin : AddStoneStatus()
+
     data object IsAble : AddStoneStatus()
 }
 
@@ -14,8 +16,11 @@ class GameBoard {
     val rule = Rule()
 
     fun addStone(stone: Stone): AddStoneStatus {
+        if (isExistPosition(stone)) return AddStoneStatus.IsExist
+        _stones.add(stone)
+        if (isWin()) return AddStoneStatus.IsWin
+        _stones.remove(stone)
         when {
-            isExistPosition(stone) -> return AddStoneStatus.IsExist
             rule.checkThreeThreeFoulByAllDirections(stone, stones) -> return AddStoneStatus.IsThreeThree
             rule.checkFourFoulByAllDirections(stone, stones) -> return AddStoneStatus.IsFourFour
         }

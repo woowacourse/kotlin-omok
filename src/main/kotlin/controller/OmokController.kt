@@ -18,29 +18,33 @@ class OmokController(
         val gameBoard = GameBoard()
         outputView.printGameBoard(gameBoard.stones.toMutableList())
         while (true) {
-            addValidStone(gameBoard)
+            val addStoneStatus = addValidStone(gameBoard)
             outputView.printGameBoard(gameBoard.stones.toMutableList())
-            if (gameBoard.isWin()) break
+            if (addStoneStatus == AddStoneStatus.IsWin) break
             turnColor = turnColor.switch()
         }
         outputView.printWinner(turnColor)
     }
 
-    private fun addValidStone(gameBoard: GameBoard) {
+    private fun addValidStone(gameBoard: GameBoard): AddStoneStatus {
         val position = inputView.readInputPosition(turnColor, gameBoard.lastStone())
-        val addStoneStatus = gameBoard.addStone(Stone.of(position, turnColor))
-        when (addStoneStatus) {
-            AddStoneStatus.IsAble -> return
+        when (val addStoneStatus = gameBoard.addStone(Stone.of(position, turnColor))) {
+            AddStoneStatus.IsWin,
+            AddStoneStatus.IsAble,
+            -> return addStoneStatus
+
             AddStoneStatus.IsExist ->
                 run {
                     outputView.printError(ResultView.EXIST_STONE)
                     return addValidStone(gameBoard)
                 }
+
             AddStoneStatus.IsThreeThree ->
                 run {
                     outputView.printError(ResultView.THREE_THREE)
                     return addValidStone(gameBoard)
                 }
+
             AddStoneStatus.IsFourFour ->
                 run {
                     outputView.printError(ResultView.FOUR_FOUR)
