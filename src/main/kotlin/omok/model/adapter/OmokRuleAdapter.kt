@@ -1,5 +1,6 @@
-package omok.model
+package omok.model.adapter
 
+import omok.model.Point
 import rule.OmokRule
 
 abstract class OmokRuleAdapter {
