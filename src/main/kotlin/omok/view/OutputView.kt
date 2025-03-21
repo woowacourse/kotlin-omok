@@ -1,7 +1,7 @@
 package omok.view
 
+import omok.domain.Point
 import omok.domain.stone.StoneColor
-import rule.wrapper.point.Point
 
 class OutputView {
     fun printStartOmok(boardSize: Int) {

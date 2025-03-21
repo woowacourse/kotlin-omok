@@ -1,13 +1,12 @@
 package omok.domain.stone
 
-import rule.OmokRule
-import rule.WhiteRenjuRule
-import rule.wrapper.point.Point
+import omok.domain.Point
+import omok.domain.rule.WhiteStoneRule
 
 class WhiteStones(
     points: Set<Point> = emptySet(),
 ) : Stones(points) {
-    override val rule: OmokRule = WhiteRenjuRule()
+    override val rule = WhiteStoneRule()
 
     override fun plus(point: Point): WhiteStones = WhiteStones(points + point)
 }

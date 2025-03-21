@@ -23,7 +23,7 @@ class OmokController(
         runCatching {
             board.playOmok(
                 onTurn = outputView::printTurn,
-                onPointInput = { inputView.getPoint(boardSize) },
+                onPointInput = { inputView.getPoint() },
                 onBoardUpdated = { black, white -> outputView.printOmokBoard(black, white, boardSize) },
             )
         }.getOrElse {

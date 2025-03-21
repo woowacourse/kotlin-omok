@@ -1,9 +1,9 @@
 package omok.domain.state
 
+import omok.domain.Point
 import omok.domain.stone.BlackStones
 import omok.domain.stone.StoneColor
 import omok.domain.stone.WhiteStones
-import rule.wrapper.point.Point
 
 class BlackTurn(
     override val blackStones: BlackStones,
@@ -18,9 +18,10 @@ class BlackTurn(
 
         val newStones = blackStones + point
         return when {
-            blackStones.isOmok(point, boardSize) -> BlackWin(newStones, whiteStones)
+            blackStones.isOmok(point) -> BlackWin(newStones, whiteStones)
             newStones.points.size + whiteStones.points.size >= boardSize * boardSize ->
                 Draw(newStones, whiteStones)
+
             else -> WhiteTurn(newStones, whiteStones)
         }
     }
