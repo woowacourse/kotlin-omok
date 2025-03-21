@@ -1,8 +1,9 @@
 package omok.view
 
+import omok.domain.board.BoardStatus
 import omok.domain.board.OmokBoard
 import omok.domain.board.OmokColumn.Companion.entriesWithoutWall
-import omok.domain.board.StoneStatus
+import omok.domain.stone.StoneColor
 import omok.view.ext.toLabel
 
 class OutputView {
@@ -14,7 +15,7 @@ class OutputView {
         println(MESSAGE_START_GAME)
     }
 
-    fun printPrintWinner(stone: StoneStatus) {
+    fun printPrintWinner(stone: StoneColor) {
         println(MESSAGE_WINNER.format(stone.toLabel()))
     }
 
@@ -139,12 +140,16 @@ class OutputView {
         print(stone ?: default)
     }
 
-    private fun StoneStatus.toChar(): Char? {
+    private fun BoardStatus.toChar(): Char? {
         return when (this) {
-            StoneStatus.BLACK -> '●'
-            StoneStatus.WHITE -> '○'
-            StoneStatus.PROTECTED -> 'x'
-            else -> null
+            is BoardStatus.Moved -> {
+                when (this.color) {
+                    StoneColor.BLACK -> '●'
+                    StoneColor.WHITE -> '○'
+                }
+            }
+            BoardStatus.Blocked -> 'x'
+            BoardStatus.Empty -> null
         }
     }
 

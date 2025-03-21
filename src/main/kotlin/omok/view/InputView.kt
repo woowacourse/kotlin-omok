@@ -1,12 +1,12 @@
 package omok.view
 
-import omok.domain.LatestStone
-import omok.domain.board.StoneStatus
+import omok.domain.stone.LatestStone
+import omok.domain.stone.StoneColor
 import omok.view.ext.toLabel
 
 class InputView {
     fun readStoneWithLatestStone(
-        stoneColor: StoneStatus,
+        stoneColor: StoneColor,
         lastStone: LatestStone,
     ): String {
         while (true) {

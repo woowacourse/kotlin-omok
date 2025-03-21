@@ -1,11 +1,11 @@
 package omok.domain.board
 
-import omok.domain.LatestStone
 import omok.domain.ext.toCoordination
 import omok.domain.point.OmokPoints
 import omok.domain.point.Point
 import omok.domain.rule.Direction
 import omok.domain.rule.RenjuCheck
+import omok.domain.stone.LatestStone
 
 class OmokBoard(
     private val omokPoints: OmokPoints,
@@ -13,9 +13,9 @@ class OmokBoard(
     var latestStone: LatestStone = LatestStone("")
         private set
 
-    fun toMatrix(): List<List<StoneStatus>> = omokPoints.toMatrix()
+    fun toMatrix(): List<List<BoardStatus>> = omokPoints.toMatrix()
 
-    fun isNotFull() = omokPoints.toList().any { it.stoneStatus == StoneStatus.EMPTY }
+    fun isNotFull() = omokPoints.toList().any { it.status is BoardStatus.Empty }
 
     fun pointValidation(point: Point) {
         require(!omokPoints.isOccupied(point)) { ERROR_OCCUPIED_POSITION }
@@ -23,12 +23,12 @@ class OmokBoard(
     }
 
     fun addStone(point: Point) {
-        omokPoints.altStone(point)
+        omokPoints.moveStone(point)
         saveLatestStone(point)
         updateProtectedPlace()
     }
 
-    private fun saveLatestStone(point: Point)  {
+    private fun saveLatestStone(point: Point) {
         latestStone = LatestStone(point.toCoordination())
     }
 
@@ -41,10 +41,10 @@ class OmokBoard(
         return omokPoints.getPointAt(OmokRow.find(newY), OmokColumn.find(newX))
     }
 
-    fun isOmok(current: Point): Boolean {
+    fun isOmok(point: Point): Boolean {
         return Direction.getDirectionPair().any { (d1, d2) ->
-            val count1 = seek(d1, current, current.stoneStatus)
-            val count2 = seek(d2, current, current.stoneStatus)
+            val count1 = seek(d1, point, point.status)
+            val count2 = seek(d2, point, point.status)
             count1 + count2 - 1 == OMOK_MATCH_COUNT
         }
     }
@@ -52,11 +52,11 @@ class OmokBoard(
     private fun updateProtectedPlace() {
         val checker = RenjuCheck(this)
         omokPoints.toList()
-            .filter { it.stoneStatus == StoneStatus.EMPTY }
+            .filter { it.status is BoardStatus.Empty }
             .forEach { point ->
-                val isProtected = checker.is3x3(point) || checker.is4x4(point) || checker.is6mok(point)
-                if (isProtected) {
-                    omokPoints.altStone(point.copy(stoneStatus = StoneStatus.PROTECTED))
+                val isBlocked = checker.is3x3(point) || checker.is4x4(point) || checker.is6mok(point)
+                if (isBlocked) {
+                    omokPoints.moveStone(point.copy(status = BoardStatus.Blocked))
                 }
             }
     }
@@ -64,9 +64,9 @@ class OmokBoard(
     private fun seek(
         direction: Direction,
         point: Point,
-        target: StoneStatus,
+        target: BoardStatus,
     ): Int {
-        if (point.stoneStatus == target) {
+        if (point.status == target) {
             val next = goto(point, direction)
             return seek(direction, next, target) + 1
         }

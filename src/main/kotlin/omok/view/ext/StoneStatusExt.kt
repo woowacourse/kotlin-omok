@@ -1,11 +1,10 @@
 package omok.view.ext
 
-import omok.domain.board.StoneStatus
+import omok.domain.stone.StoneColor
 
-fun StoneStatus.toLabel(): String {
+fun StoneColor.toLabel(): String {
     return when (this) {
-        StoneStatus.BLACK -> "흑"
-        StoneStatus.WHITE -> "백"
-        else -> throw IllegalStateException()
+        StoneColor.BLACK -> "흑"
+        StoneColor.WHITE -> "백"
     }
 }

@@ -1,35 +1,36 @@
 package omok.domain.rule
 
+import omok.domain.board.BoardStatus
 import omok.domain.board.OmokBoard
 import omok.domain.board.OmokColumn
 import omok.domain.board.OmokRow
-import omok.domain.board.StoneStatus
 import omok.domain.point.Point
 import omok.domain.rule.Renju.CheckType
+import omok.domain.stone.StoneColor
 
 class RenjuCheck(private val board: OmokBoard) : Renju {
     override fun is4x4(current: Point): Boolean =
-        current.stoneStatus == StoneStatus.EMPTY &&
-            checkDirectionPairs(current, StoneStatus.BLACK, CheckType.FOUR_X_FOUR) > 1
+        current.status == BoardStatus.Empty &&
+            checkDirectionPairs(current, BoardStatus.Moved(StoneColor.BLACK), CheckType.FOUR_X_FOUR) > 1
 
     override fun is3x3(current: Point): Boolean =
-        current.stoneStatus == StoneStatus.EMPTY &&
-            checkDirectionPairs(current, StoneStatus.BLACK, CheckType.THREE_X_THREE) > 1
+        current.status == BoardStatus.Empty &&
+            checkDirectionPairs(current, BoardStatus.Moved(StoneColor.BLACK), CheckType.THREE_X_THREE) > 1
 
     override fun is6mok(current: Point): Boolean =
-        current.stoneStatus == StoneStatus.EMPTY &&
-            checkDirectionPairs(current, StoneStatus.BLACK, CheckType.SIX_MOK) > 0
+        current.status == BoardStatus.Empty &&
+            checkDirectionPairs(current, BoardStatus.Moved(StoneColor.BLACK), CheckType.SIX_MOK) > 0
 
     private fun seek(
         direction: Direction,
         point: Point,
-        target: StoneStatus,
+        target: BoardStatus,
         depth: Int = 0,
     ): Triple<Int, Boolean, Boolean> {
         val next = board.goto(point, direction)
         val previous = board.goto(point, direction.reverse())
-        if (point.stoneStatus == target || (point.stoneStatus == StoneStatus.EMPTY && depth <= 3)) {
-            return if (point.stoneStatus == target || depth == 0) {
+        if (point.status == target || (point.status == BoardStatus.Empty && depth <= 3)) {
+            return if (point.status == target || depth == 0) {
                 seek(direction, next, target, depth + 1).let { Triple(it.first + 1, it.second, it.third) }
             } else {
                 if (next.x == OmokColumn.WALL || next.y == OmokRow.WALL) return Triple(0, true, false)
@@ -37,16 +38,16 @@ class RenjuCheck(private val board: OmokBoard) : Renju {
             }
         }
 
-        return if (point.stoneStatus == StoneStatus.EMPTY &&
+        return if (point.status == BoardStatus.Empty &&
             point.x != OmokColumn.WALL &&
             point.y != OmokRow.WALL
         ) {
-            if (previous.stoneStatus == StoneStatus.EMPTY && next.stoneStatus == StoneStatus.BLACK) {
+            if (previous.status == BoardStatus.Empty && next.status == BoardStatus.Moved(StoneColor.BLACK)) {
                 Triple(0, true, true)
             } else {
                 Triple(0, true, false)
             }
-        } else if (point.stoneStatus == StoneStatus.WHITE && previous.stoneStatus == StoneStatus.EMPTY) {
+        } else if (point.status == BoardStatus.Moved(StoneColor.WHITE) && previous.status == BoardStatus.Empty) {
             Triple(0, true, true)
         } else {
             Triple(0, false, false)
@@ -55,7 +56,7 @@ class RenjuCheck(private val board: OmokBoard) : Renju {
 
     private fun checkDirectionPairs(
         current: Point,
-        target: StoneStatus,
+        target: BoardStatus,
         checkType: CheckType,
     ): Int {
         return Direction.getDirectionPair().count { (d1, d2) ->

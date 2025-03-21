@@ -1,25 +1,28 @@
 package omok.domain.point
 
+import omok.domain.board.BoardStatus
 import omok.domain.board.OmokColumn
 import omok.domain.board.OmokRow
-import omok.domain.board.StoneStatus
+import omok.domain.stone.StoneColor
 
 data class Point(
     val x: OmokColumn,
     val y: OmokRow,
-    val stoneStatus: StoneStatus,
+    val status: BoardStatus,
 ) {
     companion object {
         fun of(
             value: String,
-            stoneStatus: StoneStatus,
+            color: StoneColor,
         ): Point {
             val col = value[0].uppercaseChar()
             val row = value.substring(1)
 
-            val x = OmokColumn.of(col)
-            val y = OmokRow.of(row)
-            return Point(x, y, stoneStatus)
+            return Point(
+                x = OmokColumn.of(col),
+                y = OmokRow.of(row),
+                status = BoardStatus.Moved(color),
+            )
         }
     }
 }

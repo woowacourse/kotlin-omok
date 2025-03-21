@@ -1,8 +1,8 @@
 package omok.controller
 
 import omok.domain.board.OmokBoard
-import omok.domain.board.StoneStatus
 import omok.domain.point.Point
+import omok.domain.stone.StoneColor
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -13,7 +13,7 @@ class OmokController(
 ) {
     fun startGame() {
         outputView.printStartMessage()
-        var stone = StoneStatus.BLACK
+        var stone = StoneColor.BLACK
         while (omokBoard.isNotFull()) {
             val point = readValidPoint(stone)
             omokBoard.addStone(point)
@@ -25,10 +25,10 @@ class OmokController(
         }
     }
 
-    private fun readValidPoint(stoneColor: StoneStatus): Point {
+    private fun readValidPoint(stone: StoneColor): Point {
         return retryWhenException(
             action = {
-                val point = Point.of(getInputPoint(stoneColor), stoneColor)
+                val point = Point.of(getInputPoint(stone), stone)
                 omokBoard.pointValidation(point)
                 point
             },
@@ -36,8 +36,8 @@ class OmokController(
         )
     }
 
-    private fun getInputPoint(stoneColor: StoneStatus): String {
+    private fun getInputPoint(stone: StoneColor): String {
         outputView.printBoard(omokBoard)
-        return inputView.readStoneWithLatestStone(stoneColor, omokBoard.latestStone)
+        return inputView.readStoneWithLatestStone(stone, omokBoard.latestStone)
     }
 }
