@@ -1,8 +1,8 @@
 package omok.view
 
+import omok.model.Color
 import omok.model.Game
 import omok.model.GameState
-import omok.model.StoneColor
 import rule.wrapper.point.Point
 
 class OutputView {
@@ -30,10 +30,10 @@ class OutputView {
         val board: String = makeInitialBoard(BOARD_SIZE, BOARD_SIZE)
         val lines = board.lines().toMutableList()
         whitePoints.forEach { (row, col) ->
-            lines[BOARD_SIZE - row] = modifyLine(col, lines[BOARD_SIZE - row], StoneColor.WHITE)
+            lines[BOARD_SIZE - row] = modifyLine(col, lines[BOARD_SIZE - row], Color.WHITE)
         }
         blackPoints.forEach { (row, col) ->
-            lines[BOARD_SIZE - row] = modifyLine(col, lines[BOARD_SIZE - row], StoneColor.BLACK)
+            lines[BOARD_SIZE - row] = modifyLine(col, lines[BOARD_SIZE - row], Color.BLACK)
         }
 
         return lines.joinToString("\n")
@@ -42,14 +42,14 @@ class OutputView {
     private fun modifyLine(
         col: Int,
         line: String,
-        color: StoneColor,
+        color: Color,
     ): String {
         val x = col - 1
         val sb = StringBuilder(line)
         sb[x + ROW_NUMBER_OFFSET_SIZE + x * COLUMN_NUMBER_OFFSET_SIZE] =
             when (color) {
-                StoneColor.BLACK -> BLACK_STONE
-                StoneColor.WHITE -> WHITE_STONE
+                Color.BLACK -> BLACK_STONE
+                Color.WHITE -> WHITE_STONE
             }
         return sb.toString()
     }

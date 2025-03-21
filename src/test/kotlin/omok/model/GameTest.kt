@@ -12,7 +12,7 @@ class GameTest {
 
         val actual: Stone = game.lastStone
 
-        val expected = Stone(Point(8, 8), StoneColor.BLACK)
+        val expected = Stone(Point(8, 8), Color.BLACK)
 
         assertThat(actual).isEqualTo(expected)
     }

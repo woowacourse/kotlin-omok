@@ -1,8 +1,8 @@
 package omok.view
 
+import omok.model.Color
 import omok.model.PointFactory
 import omok.model.Stone
-import omok.model.StoneColor
 import rule.wrapper.point.Point
 
 class InputView {
@@ -12,12 +12,12 @@ class InputView {
     }
 
     fun readTurn(lastStone: Stone): Point {
-        val currentColor: StoneColor = lastStone.color.reverse()
+        val currentColor: Color = lastStone.color.reverse()
         print(
             MESSAGE_TURN_INDICATOR.format(
                 when (currentColor) {
-                    StoneColor.WHITE -> "백"
-                    StoneColor.BLACK -> "흑"
+                    Color.WHITE -> "백"
+                    Color.BLACK -> "흑"
                 },
             ),
         )

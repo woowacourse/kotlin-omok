@@ -4,5 +4,5 @@ import rule.wrapper.point.Point
 
 data class Stone(
     val point: Point,
-    val color: StoneColor,
+    val color: Color,
 )
