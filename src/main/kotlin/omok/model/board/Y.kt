@@ -4,7 +4,7 @@ data class Y(
     val point: Int,
 ) {
     init {
-        require(point in Y_MIN_RANGE..Y_MAX_RANGE) { "Y좌표는 1에서 15까지이다." }
+        require(point in Y_MIN_RANGE..Y_MAX_RANGE) { "좌표의 범위는 1부터 15까지 입니다." }
     }
 
     operator fun plus(other: Int) = Y(Y_MIN_RANGE + (this.point - Y_MIN_RANGE) + other)
