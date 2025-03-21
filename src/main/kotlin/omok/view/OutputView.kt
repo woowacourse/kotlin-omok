@@ -2,22 +2,20 @@ package omok.view
 
 import omok.model.board.Board
 import omok.model.stone.Stone
-import omok.model.stone.StoneState
+import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
 
 class OutputView {
-    fun printBoard(board: Map<Position, StoneState>) {
+    fun printBoard(board: Map<Position, StoneColor>) {
         for (row in BOARD_SIZE - 1 downTo 0) {
             print(String.format("%2d ", row + 1))
             val point = pointByRowIndex(row)
             val str =
-                (0..<BOARD_SIZE).joinToString("──") {
-                    printStone(
-                        board[Position(Row(row), Col(it))] ?: StoneState.NONE,
-                        point[it],
-                    )
+                (0 until BOARD_SIZE).joinToString("──") { col ->
+                    val color: StoneColor? = board[Position(Row(row), Col(col))]
+                    printStone(color, point[col])
                 }
             println(str)
         }
@@ -28,15 +26,15 @@ class OutputView {
     fun printNextTurn(board: Board) {
         board.lastStone?.let {
             val lastStoneCoordinateText = stoneCoordinateText(board.lastStone.position)
-            println("${stoneStateText(board.nextStoneState)}의 차례 입니다. (마지막 돌의 위치: $lastStoneCoordinateText)")
+            println("${stoneStateText(board.nextStoneColor)}의 차례 입니다. (마지막 돌의 위치: $lastStoneCoordinateText)")
         } ?: run {
-            println("${stoneStateText(board.nextStoneState)}의 차례 입니다")
+            println("${stoneStateText(board.nextStoneColor)}의 차례 입니다")
         }
     }
 
     fun printOmok(lastStone: Stone?) {
-        val lastStoneState = stoneStateText(lastStone?.stoneState ?: StoneState.NONE)
-        println("${lastStoneState}이 우승했습니다.")
+        val winner = lastStone?.stoneColor ?: return
+        println("${stoneStateText(winner)}이 우승했습니다.")
     }
 
     fun printException(message: String?) {
@@ -54,20 +52,19 @@ class OutputView {
         }
 
     private fun printStone(
-        stoneState: StoneState,
+        stoneColor: StoneColor?,
         nonString: String,
     ): String =
-        when (stoneState) {
-            StoneState.BLACK -> "●"
-            StoneState.WHITE -> "○"
-            else -> nonString
+        when (stoneColor) {
+            StoneColor.BLACK -> "●"
+            StoneColor.WHITE -> "○"
+            null -> nonString
         }
 
-    private fun stoneStateText(stoneState: StoneState): String =
-        when (stoneState) {
-            StoneState.BLACK -> "흑"
-            StoneState.WHITE -> "백"
-            StoneState.NONE -> ""
+    private fun stoneStateText(stoneColor: StoneColor): String =
+        when (stoneColor) {
+            StoneColor.BLACK -> "흑"
+            StoneColor.WHITE -> "백"
         }
 
     private fun stoneCoordinateText(position: Position): String {
