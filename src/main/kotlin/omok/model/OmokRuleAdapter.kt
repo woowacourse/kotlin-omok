@@ -2,9 +2,9 @@ package omok.model
 
 import rule.OmokRule
 
-class OmokRuleAdapter(
-    val omokRule: OmokRule
-) {
+abstract class OmokRuleAdapter {
+    protected abstract val omokRule: OmokRule
+
     fun checkAnyFoulCondition(
         blackPoints: Set<Point>,
         whitePoints: Set<Point>,
