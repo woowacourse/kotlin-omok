@@ -10,7 +10,7 @@ class BlackTurn : Turn {
         board: OmokBoard,
     ): Turn {
         val stone = StoneState.BLACK
-        if (board.checkPlace(position)) return this
+        if (board.canPlace(position)) return this
         board.putStone(position, stone)
         if (board.checkOmok(position)) return Finished()
         return WhiteTurn()

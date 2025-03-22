@@ -14,11 +14,11 @@ class OmokBoard(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
         position: Position,
         state: StoneState,
     ) {
-        checkPlace(position)
+        require(canPlace(position)) { ERROR_STONE_ALREADY_PUT }
         findPoint(position.x, position.y)?.changeState(state)
     }
 
-    fun checkPlace(position: Position): Boolean = (findPoint(position.x, position.y)?.stoneState != StoneState.BLANK)
+    fun canPlace(position: Position): Boolean = (findPoint(position.x, position.y)?.stoneState == StoneState.BLANK)
 
     fun checkOmok(position: Position): Boolean {
         val directions: List<Direction> =
