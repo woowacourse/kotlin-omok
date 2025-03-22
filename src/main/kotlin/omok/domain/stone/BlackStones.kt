@@ -5,7 +5,7 @@ import omok.domain.rule.RenjuRule
 
 class BlackStones(
     points: Set<Point> = emptySet(),
-    private val renjuRule: RenjuRule = RenjuRule()
+    private val renjuRule: RenjuRule = RenjuRule(),
 ) : Stones(points) {
     override fun plus(point: Point): BlackStones = BlackStones(points + point)
 

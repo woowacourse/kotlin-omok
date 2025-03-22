@@ -5,7 +5,7 @@ import omok.domain.rule.OmokRule
 
 abstract class Stones(
     points: Set<Point> = emptySet(),
-    private val omokRule: OmokRule = OmokRule()
+    private val omokRule: OmokRule = OmokRule(),
 ) {
     private val _points = points.toMutableSet()
     val points = _points.toSet()
@@ -16,9 +16,7 @@ abstract class Stones(
 
     fun lastStonePoint(): Point = _points.last()
 
-    fun isOmok(
-        lastPoint: Point,
-    ): Boolean {
+    fun isOmok(lastPoint: Point): Boolean {
         return omokRule.isOmok(lastPoint, this.points)
     }
 }

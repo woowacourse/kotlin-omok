@@ -6,7 +6,7 @@ import omok.domain.Point
 class OmokRule(private val size: Int = DEFAULT_BOARD_SIZE) {
     fun isOmok(
         lastPoint: Point,
-        points: Set<Point>
+        points: Set<Point>,
     ): Boolean =
         DIRECTIONS.any {
             isSerialOmok(lastPoint, it, points)
@@ -15,13 +15,13 @@ class OmokRule(private val size: Int = DEFAULT_BOARD_SIZE) {
     private fun isSerialOmok(
         lastPoint: Point,
         directions: List<Pair<Int, Int>>,
-        points: Set<Point>
+        points: Set<Point>,
     ): Boolean = directions.sumOf { countConnected(lastPoint, it, points) } >= OMOK_STONE_COUNT - 1
 
     private fun countConnected(
         point: Point,
         direction: Pair<Int, Int>,
-        points: Set<Point>
+        points: Set<Point>,
     ): Int {
         val boardRange = 0..<size
         var count = 0

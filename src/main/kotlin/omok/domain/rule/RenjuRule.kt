@@ -11,7 +11,7 @@ class RenjuRule(boardSize: Int = DEFAULT_BOARD_SIZE) {
     fun isFoul(
         other: Stones,
         point: Point,
-        points: Set<Point>
+        points: Set<Point>,
     ): Boolean {
         val selfPoints = points.map { it.toPair() }
         val otherPoints = other.points.map { it.toPair() }
@@ -20,7 +20,7 @@ class RenjuRule(boardSize: Int = DEFAULT_BOARD_SIZE) {
         return listOf(
             omokRule.checkDoubleFourFoul(selfPoints, otherPoints, targetPoint),
             omokRule.checkDoubleThreeFoul(selfPoints, otherPoints, targetPoint),
-            omokRule.checkOverline(selfPoints, targetPoint)
+            omokRule.checkOverline(selfPoints, targetPoint),
         ).any { it }
     }
 

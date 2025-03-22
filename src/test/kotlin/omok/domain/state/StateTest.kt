@@ -77,7 +77,7 @@ class StateTest {
         val whiteStones = WhiteStones(setOf(B1))
         val state = WhiteTurn(blackStones, whiteStones)
         val nextState = state.place(B2, 2)
-        assertThat(nextState).isInstanceOf(Draw::class.java)
+        assertThat(nextState).isInstanceOf(Finished.Draw::class.java)
     }
 
     @Test
@@ -86,6 +86,6 @@ class StateTest {
         val whiteStones = WhiteStones(setOf(B1))
         val state = BlackTurn(blackStones, whiteStones)
         val nextState = state.place(A5)
-        assertThat(nextState).isInstanceOf(BlackWin::class.java)
+        assertThat(nextState).isInstanceOf(Finished.BlackWin::class.java)
     }
 }
