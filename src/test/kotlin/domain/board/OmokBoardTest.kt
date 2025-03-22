@@ -20,12 +20,12 @@ import omok.domain.board.OmokColumn
 import omok.domain.board.OmokRow
 import omok.domain.point.Point
 import omok.domain.rule.Direction
+import omok.exception.ResultState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class OmokBoardTest {
     private lateinit var omokBoard: OmokBoard
@@ -42,13 +42,10 @@ class OmokBoardTest {
 
         // when
         val duplicatedPosition = Point(x = OmokColumn.O, y = OmokRow.ONE, status = blackStone)
+        val result = omokBoard.addStone(duplicatedPosition)
 
         // result
-        assertThrows<IllegalArgumentException>(
-            message = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요.",
-        ) {
-            omokBoard.addStone(duplicatedPosition)
-        }
+        assertEquals(result, ResultState.Error("해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요."))
     }
 
     @Test
@@ -244,13 +241,11 @@ class OmokBoardTest {
         omokBoard.addStone(blackGBySeven)
         omokBoard.addStone(blackGBySix)
 
+        // when
+        val result = omokBoard.addStone(blackGByEight)
+
         // result
-        assertThrows<IllegalArgumentException>(
-            message = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요.",
-        ) {
-            // when
-            omokBoard.addStone(blackGByEight)
-        }
+        assertEquals(result, ResultState.Error("해당 위치는 금수 자리입니다. 다른 위치를 선택하세요."))
     }
 
     @Test
