@@ -11,11 +11,11 @@ object ForbiddenMoveJudge {
         board: Board,
         previousPoint: Point,
     ): Boolean {
-        val adaptedBoard = OmokAdapter.adaptOmokBoard(board)
-        val adaptedPoint = OmokAdapter.adaptOmokPoint(previousPoint)
+        val convertedBoard = OmokConverter.converteOmokBoard(board)
+        val convertedPoint = OmokConverter.converteOmokPoint(previousPoint)
 
-        if (DoubleThreeMoveRule.validate(adaptedBoard, adaptedPoint)) return false
-        if (DoubleFourMoveRule.validate(adaptedBoard, adaptedPoint)) return false
+        if (DoubleThreeMoveRule.validate(convertedBoard, convertedPoint)) return false
+        if (DoubleFourMoveRule.validate(convertedBoard, convertedPoint)) return false
         if (OverlineRule.calculate(board, previousPoint)) return false
         return true
     }

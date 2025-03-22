@@ -5,8 +5,8 @@ import omok.model.board.Point
 import omok.model.board.PointState
 import omok.model.rule.lib.ForbiddenMoveRule
 
-object OmokAdapter {
-    fun adaptOmokBoard(board: Board): List<List<Int>> {
+object OmokConverter {
+    fun converteOmokBoard(board: Board): List<List<Int>> {
         val adapted = MutableList(board.size) { MutableList(board.size) { ForbiddenMoveRule.EMPTY_STONE } }
 
         board.points.forEach { point ->
@@ -20,7 +20,7 @@ object OmokAdapter {
         return adapted
     }
 
-    fun adaptOmokPoint(point: Point): Pair<Int, Int> {
+    fun converteOmokPoint(point: Point): Pair<Int, Int> {
         return Pair(point.x - 1, point.y - 1)
     }
 }
