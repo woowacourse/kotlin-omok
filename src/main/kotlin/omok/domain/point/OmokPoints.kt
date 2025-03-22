@@ -24,8 +24,7 @@ class OmokPoints {
         row: OmokRow,
         column: OmokColumn,
     ): Point {
-        return points.find { it.x == column && it.y == row }
-            ?: Point(OmokColumn.WALL, OmokRow.WALL, BoardStatus.Empty)
+        return points.find { it.x == column && it.y == row } ?: Point(OmokColumn.WALL, OmokRow.WALL, BoardStatus.Empty)
     }
 
     fun moveStone(point: Point) {

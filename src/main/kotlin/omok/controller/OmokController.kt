@@ -4,6 +4,7 @@ import omok.domain.board.BoardStatus
 import omok.domain.point.Point
 import omok.domain.service.OmokGame
 import omok.domain.stone.StoneColor
+import omok.exception.ResultState
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -17,25 +18,26 @@ class OmokController(
         startGame()
     }
 
-    private fun startGame() =
-        retryWhenException(
-            action = {
-                omokGame.startGame(
-                    onCompleteInputPoint = { stone, board -> readValidPoint(stone, board) },
-                    onFinishedGame = { outputView.printPrintWinner(it) },
-                )
-            },
-            onError = outputView::printErrorMessage,
+    private fun startGame() {
+        omokGame.startGame(
+            onCompleteInputPoint = { stone, board -> readValidPoint(stone, board) },
+            onFinishedGame = { outputView.printPrintWinner(it) },
+            onFailToAddStone = { outputView.printErrorMessage(it) },
         )
+    }
 
     private fun readValidPoint(
         stone: StoneColor,
         board: List<List<BoardStatus>>,
-    ): Point =
-        retryWhenException(
-            action = { Point.of(getInputPoint(stone, board), stone) },
-            onError = outputView::printErrorMessage,
-        )
+    ): Point {
+        return when (val result = Point.of(getInputPoint(stone, board), stone)) {
+            is ResultState.Success -> result.data
+            is ResultState.Error -> {
+                outputView.printErrorMessage(result.message)
+                readValidPoint(stone, board)
+            }
+        }
+    }
 
     private fun getInputPoint(
         stone: StoneColor,

@@ -6,6 +6,7 @@ import omok.domain.rule.Direction
 import omok.domain.rule.renju.FourByFour
 import omok.domain.rule.renju.SixMok
 import omok.domain.rule.renju.ThreeByThree
+import omok.exception.execute
 
 class OmokBoard(
     private val omokPoints: OmokPoints,
@@ -14,11 +15,12 @@ class OmokBoard(
 
     fun isNotFull() = omokPoints.toList().any { it.status is BoardStatus.Empty }
 
-    fun addStone(point: Point) {
-        omokPoints.pointValidation(point)
-        omokPoints.moveStone(point)
-        updateProtectedPlace()
-    }
+    fun addStone(point: Point) =
+        execute {
+            omokPoints.pointValidation(point)
+            omokPoints.moveStone(point)
+            updateProtectedPlace()
+        }
 
     fun goto(
         currentPosition: Point,

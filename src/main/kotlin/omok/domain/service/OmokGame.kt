@@ -5,6 +5,7 @@ import omok.domain.board.OmokBoard
 import omok.domain.point.Point
 import omok.domain.stone.LatestStone
 import omok.domain.stone.StoneColor
+import omok.exception.ResultState
 
 class OmokGame(val omokBoard: OmokBoard) {
     var latestStone: LatestStone = LatestStone("")
@@ -13,11 +14,12 @@ class OmokGame(val omokBoard: OmokBoard) {
     fun startGame(
         onCompleteInputPoint: (StoneColor, List<List<BoardStatus>>) -> Point,
         onFinishedGame: (StoneColor) -> Unit,
+        onFailToAddStone: (String?) -> Unit,
     ) {
         var stone = StoneColor.BLACK
         while (omokBoard.isNotFull()) {
             val point = onCompleteInputPoint(stone, omokBoard.toMatrix())
-            updateTurnResult(point)
+            updateTurnResult(point, onFailToAddStone)
             if (omokBoard.isOmok(point)) {
                 onFinishedGame(stone)
                 break
@@ -26,8 +28,16 @@ class OmokGame(val omokBoard: OmokBoard) {
         }
     }
 
-    private fun updateTurnResult(point: Point) {
-        omokBoard.addStone(point)
+    private fun updateTurnResult(
+        point: Point,
+        onFailToAddStone: (String?) -> Unit,
+    ) {
+        when (val result = omokBoard.addStone(point)) {
+            is ResultState.Success -> return
+            is ResultState.Error -> {
+                onFailToAddStone(result.message)
+            }
+        }
         latestStone = latestStone.saveLatestStone(point)
     }
 }
