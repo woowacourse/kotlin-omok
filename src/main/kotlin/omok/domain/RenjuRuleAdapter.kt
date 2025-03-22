@@ -5,9 +5,9 @@ import omok.library.MoreThanFiveRule
 import omok.library.ThreeThreeRule
 
 class RenjuRuleAdapter : Rule {
-    private val fourFourRule = FourFourRule(15)
-    private val threeThreeRule = ThreeThreeRule(15)
-    private val moreThanFiveRule = MoreThanFiveRule(15)
+    private val fourFourRule = FourFourRule(Board.BOARD_SIZE)
+    private val threeThreeRule = ThreeThreeRule(Board.BOARD_SIZE)
+    private val moreThanFiveRule = MoreThanFiveRule(Board.BOARD_SIZE)
 
     override fun isInvalid(
         stones: Stones,
