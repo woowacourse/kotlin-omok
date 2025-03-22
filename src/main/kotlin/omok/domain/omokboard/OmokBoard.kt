@@ -9,20 +9,21 @@ value class OmokBoard private constructor(
 
     val isOneEmptyLeft get() = _value.values.count { it.state == State.EMPTY } == 1
 
-    val blackStonePoints get() = _value
-                            .filter { it.value.state == State.OCCUPIED_BLACK }
-                            .keys
+    val blackStonePoints get() =
+        _value
+            .filter { it.value.state == State.OCCUPIED_BLACK }
+            .keys
 
-    val whiteStonePoints get() = _value
-                            .filter { it.value.state == State.OCCUPIED_WHITE }
-                            .keys
+    val whiteStonePoints get() =
+        _value
+            .filter { it.value.state == State.OCCUPIED_WHITE }
+            .keys
 
     val value get() = _value.deepCopy()
 
     fun find(position: Position): PointSate? = _value[position]
 
-    private fun Map<Position, PointSate>.deepCopy(): Map<Position, PointSate> =
-        map { it.key.copy() to it.value.copy() }.toMap()
+    private fun Map<Position, PointSate>.deepCopy(): Map<Position, PointSate> = map { it.key.copy() to it.value.copy() }.toMap()
 
     companion object {
         fun create(

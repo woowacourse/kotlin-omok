@@ -5,23 +5,21 @@ import omok.domain.player.PlayerStone
 import rule.BlackRenjuRule
 
 interface OmokRule {
-
     fun canPlace(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
     ): PlaceResult
 
     companion object {
-
         val rules: List<OmokRule> get() {
-                val board = OmokBoard.create()
-                return listOf(
-                    InvalidPositionRule(),
-                    AlreadyExistStoneRule(),
-                    ExternalRule(BlackRenjuRule(board.width, board.height)),
-                    DrawRule(),
-                    WinningRule(),
-                )
-            }
+            val board = OmokBoard.create()
+            return listOf(
+                InvalidPositionRule(),
+                AlreadyExistStoneRule(),
+                ExternalRule(BlackRenjuRule(board.width, board.height)),
+                DrawRule(),
+                WinningRule(),
+            )
+        }
     }
 }

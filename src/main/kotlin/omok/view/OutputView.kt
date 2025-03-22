@@ -2,9 +2,9 @@ package omok.view
 
 import omok.domain.omokboard.ColumnPosition
 import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.State
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
+import omok.domain.omokboard.State
 import omok.domain.rule.GameResult
 import omok.domain.rule.GameResult.DRAW
 import omok.domain.rule.GameResult.WIN_BLACK

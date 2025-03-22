@@ -8,7 +8,6 @@ class PlayingBoard(
     val board: OmokBoard = OmokBoard.create(),
     private val rules: List<OmokRule>,
 ) {
-
     fun placeStone(playerStone: PlayerStone): PlaceResult = placeResult(playerStone)
 
     private fun placeResult(playerStone: PlayerStone): PlaceResult {

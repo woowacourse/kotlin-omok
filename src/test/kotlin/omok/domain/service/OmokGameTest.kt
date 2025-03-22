@@ -37,7 +37,7 @@ class OmokGameTest {
             )
 
         // when & then
-        val omokGame = OmokGame(PlayingBoard(OmokBoard.create(),OmokRule.rules))
+        val omokGame = OmokGame(PlayingBoard(OmokBoard.create(), OmokRule.rules))
         var expected = StoneColor.WHITE
 
         omokGame.start({ stoneColor, _ ->

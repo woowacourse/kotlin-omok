@@ -13,7 +13,7 @@ class OmokController(
     private val outputView: OutputView,
 ) {
     fun run() {
-        val playingBoard = PlayingBoard(OmokBoard.create(),OmokRule.rules)
+        val playingBoard = PlayingBoard(OmokBoard.create(), OmokRule.rules)
         outputView.displayOmokGameStart()
         outputView.displayOmokBoard(playingBoard.board)
         OmokGame(playingBoard).start(inputView::askForPosition) { placeResult ->

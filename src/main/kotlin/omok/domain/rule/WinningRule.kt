@@ -2,9 +2,9 @@ package omok.domain.rule
 
 import omok.domain.omokboard.ColumnPosition
 import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.State
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
+import omok.domain.omokboard.State
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
 import omok.domain.player.StoneColor.BLACK
