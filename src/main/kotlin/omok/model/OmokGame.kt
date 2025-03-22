@@ -1,25 +1,23 @@
 package omok.model
 
+import omok.controller.OmokGameListener
 import omok.model.board.Board
 import omok.model.board.PlaceStoneResult
 import omok.model.board.Point
 import omok.model.board.PointState
 import omok.model.rule.count.FiveInRowRule
 import omok.model.rule.count.OmokCountRule
-import omok.view.OmokInputView
-import omok.view.OmokOutputView
 
 class OmokGame(
-    private val inputView: OmokInputView,
-    private val outputView: OmokOutputView,
+    private val omokGameView: OmokGameListener,
 ) {
     private var previousPoint: Point? = null
     private var currentStoneColor: PointState = PointState.BLACK
 
     fun play() {
         val board = Board()
-        outputView.printStartMessage()
-        outputView.printBoardStatus(board)
+        omokGameView.onStartGame()
+        omokGameView.onBoardUpdated(board)
 
         playTurn(board)
     }
@@ -52,7 +50,7 @@ class OmokGame(
     ) {
         previousPoint = result.point
         currentStoneColor = currentStoneColor.reverseStoneColor() ?: throw IllegalArgumentException(INVALID_CURRENT_STONE_COLOR)
-        outputView.printBoardStatus(board)
+        omokGameView.onBoardUpdated(board)
     }
 
     private fun judgeRule(
@@ -65,23 +63,19 @@ class OmokGame(
 
     private fun showWinColor(board: Board) {
         val color = board.findPoint(previousPoint!!)?.second
-        outputView.printWinColor(color)
+        omokGameView.onGameWon(color)
     }
 
     private fun getNextPoint(): Point =
         retryOnException {
-            outputView.printCurrentTurn(previousPoint to currentStoneColor)
-            val nextPosition = inputView.readPosition()
-
-            Point(nextPosition.first, nextPosition.second)
+            omokGameView.onRequestPosition(previousPoint to currentStoneColor)
         }
 
     private fun <T> retryOnException(action: () -> T) =
         omok.utils.retryOnException(
             action = action,
             onFailure = {
-                it.printStackTrace()
-                outputView.printErrorMessage(it.message.toString())
+                omokGameView.onError(it.message.toString())
             },
         )
 

@@ -9,6 +9,7 @@ class OmokController(
     private val outputView: OmokOutputView,
 ) {
     fun play() {
-        OmokGame(inputView, outputView).play()
+        val omokGameListenerImpl = OmokGameListenerImpl(inputView, outputView)
+        OmokGame(omokGameListenerImpl).play()
     }
 }
