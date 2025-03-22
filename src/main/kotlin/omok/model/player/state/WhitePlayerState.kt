@@ -2,19 +2,21 @@ package omok.model.player.state
 
 import omok.model.board.OmokBoard
 import omok.model.board.Position
+import omok.model.rule.OmokAdapter
+import omok.model.rule.WinRule
 import omok.model.stone.StoneState
 
-class WhitePlayerState(
-    private val count: Int = 0,
-) : PlayerState {
+class WhitePlayerState : PlayerState {
     override fun placeTurn(
         omokBoard: OmokBoard,
         position: Position,
         stoneState: StoneState,
     ): PlayerState {
         omokBoard.placeStone(position, stoneState)
-        if (count >= 5 && omokBoard.isOmok(position, stoneState, omokBoard)) return Win()
+        val adaptedBoard = OmokAdapter.adaptOmokBoard(omokBoard)
+        val adaptedPoint = OmokAdapter.adaptOmokPoint(position)
+        if (WinRule.validate(adaptedBoard, adaptedPoint)) return Win()
 
-        return BlackPlayerState(count + 1)
+        return this
     }
 }

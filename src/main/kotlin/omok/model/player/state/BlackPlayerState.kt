@@ -2,15 +2,13 @@ package omok.model.player.state
 
 import omok.model.board.OmokBoard
 import omok.model.board.Position
-import omok.model.rule.BlackWinRule
 import omok.model.rule.FourFourRule
 import omok.model.rule.OmokAdapter
 import omok.model.rule.ThreeThreeRule
+import omok.model.rule.WinRule
 import omok.model.stone.StoneState
 
-class BlackPlayerState(
-    private val count: Int = 0,
-) : PlayerState {
+class BlackPlayerState : PlayerState {
     override fun placeTurn(
         omokBoard: OmokBoard,
         position: Position,
@@ -20,7 +18,7 @@ class BlackPlayerState(
         val adaptedBoard = OmokAdapter.adaptOmokBoard(omokBoard)
         val adaptedPoint = OmokAdapter.adaptOmokPoint(position)
         return when {
-            BlackWinRule.validate(adaptedBoard, adaptedPoint) -> Win()
+            WinRule.validate(adaptedBoard, adaptedPoint) -> Win()
             FourFourRule.validate(adaptedBoard, adaptedPoint) -> {
                 omokBoard.doubleFour(position)
                 this
@@ -31,7 +29,7 @@ class BlackPlayerState(
                 this
             }
 
-            else -> BlackPlayerState(count + 1)
+            else -> this
         }
     }
 }
