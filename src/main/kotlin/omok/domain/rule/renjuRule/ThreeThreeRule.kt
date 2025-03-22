@@ -10,7 +10,7 @@ class ThreeThreeRule(val finder: Finder) : OmokRule {
     private val condition = { r1: SearchResult, r2: SearchResult ->
         r1.stoneCount + r2.stoneCount - 1 == RULE_STONE_COUNT &&
             !r1.isClosed &&
-            !r2.isClosed && ((r1.isIndirectlyClosed && !r2.isIndirectlyClosed) || (!r1.isIndirectlyClosed && !r2.isIndirectlyClosed))
+            !r2.isClosed && !(r1.isIndirectlyClosed && r2.isIndirectlyClosed)
     }
 
     override fun isProtected(
