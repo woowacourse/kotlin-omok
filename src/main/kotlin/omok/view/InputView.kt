@@ -16,9 +16,9 @@ class InputView {
         private const val MESSAGE_LATEST_POSITION: String = "(마지막 돌의 위치: %s)"
         private const val MESSAGE_POSITION_GUIDE: String = "\n위치를 입력하세요: "
 
-        private fun convertToString(point: Position): String {
-            val letter = 'A' + point.x - 1
-            return letter + (point.y).toString()
+        private fun convertToString(position: Position): String {
+            val letter = 'A' + position.y - 1
+            return letter + (position.x).toString()
         }
 
         private fun parsingInput(rawInput: String): Position? {
