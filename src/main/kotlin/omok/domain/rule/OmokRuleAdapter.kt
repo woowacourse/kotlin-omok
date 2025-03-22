@@ -1,12 +1,15 @@
 package omok.domain.rule
 
+import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
 import omok.domain.OmokViolation
+import omok.domain.point.Column
 import omok.domain.point.OmokPoint
-import rule.OmokRule
+import omok.domain.point.Row
+import rule.facade.BlackRenjuRule
 
 abstract class OmokRuleAdapter {
     protected val dataConverter = DataConverter()
-    abstract val rule: OmokRule
+    protected val rule: BlackRenjuRule = BlackRenjuRule(DEFAULT_SIZE, DEFAULT_SIZE)
 
     abstract fun checkViolation(
         blackStones: Set<OmokPoint>,
@@ -18,13 +21,53 @@ abstract class OmokRuleAdapter {
         stones: Set<OmokPoint>,
         latestPoint: OmokPoint,
     ): Boolean {
-        val points = dataConverter.convertSetToList(stones)
-        val startPoint = dataConverter.convertOmokPointToPoint(latestPoint)
+        val directions: List<Direction> =
+            listOf(
+                Direction(0, 1),
+                Direction(1, 0),
+                Direction(1, 1),
+                Direction(1, -1),
+            )
 
-        return rule.checkSerialSameStonesBiDirection(points, startPoint, WIN_STANDARD)
+        return directions.any { dir ->
+            val count = search(dir, stones, latestPoint) + search(-dir, stones, latestPoint) - 1
+            count >= WIN_STANDARD
+        }
+    }
+
+    private fun search(
+        direction: Direction,
+        stones: Set<OmokPoint>,
+        latestPoint: OmokPoint,
+    ): Int {
+        val coordinateX = latestPoint.row.value
+        val coordinateY = latestPoint.col.value
+        var count = 1
+        var point = OmokPoint(Row(coordinateX + direction.rowDelta * count), Column(coordinateY + direction.colDelta * count))
+
+        while (checkRange(point.row.value, point.col.value) &&
+            stones.find { it == point } != null
+        ) {
+            count++
+            point = OmokPoint(Row(coordinateX + direction.rowDelta * count), Column(coordinateY + direction.colDelta * count))
+        }
+
+        return count
+    }
+
+    private fun checkRange(
+        coordinateX: Int,
+        coordinateY: Int,
+    ): Boolean {
+        return coordinateX in (MIN_BOUND..MAX_BOUND) && coordinateY in (MIN_BOUND..MAX_BOUND)
     }
 
     companion object {
-        private const val WIN_STANDARD: Int = 5
+        protected const val WIN_STANDARD: Int = 5
+
+        private const val MIN_BOUND = 1
+        private const val MAX_BOUND = DEFAULT_SIZE
     }
 }
+
+operator fun Direction.unaryMinus() = Direction(-rowDelta, -colDelta)

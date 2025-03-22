@@ -2,11 +2,8 @@ package omok.domain.rule
 
 import omok.domain.OmokViolation
 import omok.domain.point.OmokPoint
-import rule.BlackRenjuRule
 
 object BlackRuleAdapterImpl : OmokRuleAdapter() {
-    override val rule = BlackRenjuRule()
-
     override fun checkViolation(
         blackStones: Set<OmokPoint>,
         whiteStones: Set<OmokPoint>,
@@ -16,7 +13,11 @@ object BlackRuleAdapterImpl : OmokRuleAdapter() {
         val whitePoints = dataConverter.convertSetToList(whiteStones)
         val startPoint = dataConverter.convertOmokPointToPoint(latestPoint)
 
-        val result = rule.checkAnyFoulCondition(blackPoints, whitePoints, startPoint)
-        return dataConverter.convertViolation(result)
+        return when {
+            rule.checkOverline(blackPoints, startPoint) -> OmokViolation.OVER_LINE
+            rule.checkDoubleThreeFoul(blackPoints, whitePoints, startPoint) -> OmokViolation.DOUBLE_THREE
+            rule.checkDoubleFourFoul(blackPoints, whitePoints, startPoint) -> OmokViolation.DOUBLE_FOUR
+            else -> OmokViolation.NONE
+        }
     }
 }
