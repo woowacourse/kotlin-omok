@@ -6,5 +6,5 @@ import omok.view.OutputView
 
 fun main() {
     val omokController = OmokController(InputView(), OutputView())
-    omokController.play()
+    omokController.start()
 }
