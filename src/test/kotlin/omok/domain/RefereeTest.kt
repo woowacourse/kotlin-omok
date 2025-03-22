@@ -32,6 +32,7 @@ class RefereeTest {
         beforeDoubleThree.forEach {
             grid.blackStones + it
         }
+
         // when & then
         assertThrows<IllegalStateException> {
             referee.checkViolation(StoneColor.BLACK, grid, getFoulPoint())
@@ -45,6 +46,7 @@ class RefereeTest {
         beforeDoubleThree.forEach {
             grid.whiteStones + it
         }
+
         // when & then
         assertDoesNotThrow {
             referee.checkViolation(StoneColor.WHITE, grid, getFoulPoint())
@@ -58,6 +60,7 @@ class RefereeTest {
         beforeDoubleFour.forEach {
             grid.blackStones + it
         }
+
         // when & then
         assertThrows<IllegalStateException> {
             referee.checkViolation(StoneColor.BLACK, grid, getFoulPoint())
@@ -71,6 +74,7 @@ class RefereeTest {
         beforeDoubleFour.forEach {
             grid.whiteStones + it
         }
+
         // when & then
         assertDoesNotThrow {
             referee.checkViolation(StoneColor.WHITE, grid, getFoulPoint())
@@ -84,6 +88,7 @@ class RefereeTest {
         beforeOverLine.forEach {
             grid.blackStones + it
         }
+
         // when & then
         assertThrows<IllegalStateException> {
             referee.checkViolation(StoneColor.BLACK, grid, getFoulPoint())
@@ -97,6 +102,7 @@ class RefereeTest {
         beforeOverLine.forEach {
             grid.whiteStones + it
         }
+
         // when & then
         assertDoesNotThrow {
             referee.checkViolation(StoneColor.WHITE, grid, getFoulPoint())
@@ -107,6 +113,7 @@ class RefereeTest {
     fun `이미 돌이 있는 위치에 돌을 놓을 수 없다`() {
         // given
         grid.blackStones + OmokPoint(Row(1), Column(2))
+
         // when & then
         assertThrows<IllegalStateException> {
             referee.checkViolation(StoneColor.BLACK, grid, OmokPoint(Row(1), Column(2)))
@@ -123,8 +130,10 @@ class RefereeTest {
         omokStones.forEach {
             grid.blackStones + it
         }
+
         // when
         val actual = referee.checkWin(StoneColor.BLACK, grid.blackStones.stones, POINT_H6)
+
         // then
         assertThat(actual).isTrue()
     }

@@ -20,8 +20,10 @@ class OmokGridTest {
         // given
         val point = OmokPoint(Row(1), Column(2))
         omokGrid.putStone(point, StoneColor.BLACK)
+
         // when
         val actual = omokGrid.blackStones.stones.contains(point)
+
         // then
         assertThat(actual).isTrue()
     }
@@ -31,8 +33,10 @@ class OmokGridTest {
         // given
         val point = OmokPoint(Row(1), Column(2))
         omokGrid.putStone(point, StoneColor.WHITE)
+
         // when
         val actual = omokGrid.whiteStones.stones.contains(point)
+
         // then
         assertThat(actual).isTrue()
     }
