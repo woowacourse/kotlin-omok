@@ -2,8 +2,8 @@ package omok.model.player
 
 import omok.model.board.OmokBoard
 import omok.model.board.Position
-import omok.model.player.state.Finish
 import omok.model.player.state.PlayerState
+import omok.model.player.state.Win
 import omok.model.stone.StoneState
 
 abstract class Player(
@@ -11,7 +11,7 @@ abstract class Player(
 ) {
     abstract val stoneState: StoneState
 
-    fun isFinish(): Boolean = playerState is Finish
+    fun win(): Boolean = playerState is Win
 
     fun put(
         position: Position,
