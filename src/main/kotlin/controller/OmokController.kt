@@ -17,7 +17,7 @@ class OmokController(
     fun run() {
         outputView.printGameStartMessage()
         val gameBoard = GameBoard()
-        outputView.printGameBoard(emptyList())
+        outputView.printGameBoard()
         while (true) {
             putStoneProcess(
                 gameBoard = gameBoard,

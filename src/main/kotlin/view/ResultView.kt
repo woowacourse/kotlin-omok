@@ -1,6 +1,7 @@
 package view
 
 import Col
+import Position
 import Row
 import Stone
 import StoneColor
@@ -10,16 +11,17 @@ class ResultView {
         println(GAME_START_MESSAGE)
     }
 
-    fun printGameBoard(stones: List<Stone>) {
+    fun printGameBoard(stones: List<Stone> = emptyList()) {
         val elements = stones.toMutableList()
 
         for (row in Row.MAX_VALUE downTo Row.MIN_VALUE) {
-            makeBoardLine(row, elements)
+            printBoardRowStatus(row, elements)
         }
-        makeBoardColName()
+
+        printBoardColName()
     }
 
-    private fun makeBoardColName() {
+    private fun printBoardColName() {
         println(
             buildString {
                 append("  ")
@@ -34,30 +36,27 @@ class ResultView {
         print(GAME_RESULT_MESSAGE_FORMAT.format(stoneColor.toDisplay()))
     }
 
-    private fun makeBoardLine(
+    private fun printBoardRowStatus(
         row: Int,
         stones: MutableList<Stone>,
     ) {
-        val board =
+        println(
             buildString {
                 append(row.toDisplayRow())
                 for (col in Col.MIN_VALUE..Col.MAX_VALUE) {
                     append(makeBoardSquare(row, col, stones))
                 }
-            }
-        println(board)
+            },
+        )
     }
 
     private fun makeBoardSquare(
         row: Int,
         col: Int,
         stones: MutableList<Stone>,
-    ): String {
-        val stone =
-            stones.firstOrNull { it.position.row.isSame(Row.from(row)) && it.position.col.isSame(Col.fromInt(col)) }
-        if (stone != null) return stone.toEmoji()
-        return toBoardDisplay(row, col)
-    }
+    ): String =
+        stones.firstOrNull { stone -> stone.position.isSame(Position(Row.from(row), Col.from(col))) }?.toEmoji()
+            ?: toBoardDisplay(row, col)
 
     fun printErrorMessage(error: Throwable) {
         println(ERROR_MESSAGE_FORMAT.format(error.message ?: ""))
