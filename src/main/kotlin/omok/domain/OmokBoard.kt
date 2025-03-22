@@ -5,7 +5,7 @@ import omok.domain.state.Playing
 import omok.domain.state.State
 import omok.domain.stone.StoneColor
 
-class Board(
+class OmokBoard(
     val size: Int = DEFAULT_BOARD_SIZE,
     state: State = BlackTurn(),
 ) {
@@ -16,15 +16,15 @@ class Board(
         require(size >= MINIMUM_BOARD_SIZE) { ERROR_INVALID_BOARD_SIZE }
     }
 
-    fun playOmok(
+    fun play(
         onTurn: (StoneColor, Point?) -> Unit,
-        onPointInput: () -> Point,
+        onPointSelected: () -> Point,
         onBoardUpdated: (Set<Point>, Set<Point>) -> Unit,
     ) {
         while (state is Playing) {
             val playingState = state as Playing
             onTurn(playingState.nextStoneColor(), playingState.lastStonePoint())
-            state = playingState.place(onPointInput(), size)
+            state = playingState.place(onPointSelected(), size)
             onBoardUpdated(state.blackStones.points, state.whiteStones.points)
         }
     }
