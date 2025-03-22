@@ -1,11 +1,8 @@
 package omok.model.board
 
-import omok.model.Rule
 import omok.model.stone.StoneState
 
-class OmokBoard(
-    private val rule: Rule,
-) {
+class OmokBoard {
     val board = mutableMapOf<Position, StoneState>()
     val keys get() = board.keys
     val ySize = Y_SIZE
@@ -42,12 +39,6 @@ class OmokBoard(
     }
 
     fun boardState(position: Position): StoneState = board[position] ?: throw IllegalArgumentException("잘못된 좌표입니다.")
-
-    fun isOmok(
-        position: Position,
-        stone: StoneState,
-        board: OmokBoard,
-    ): Boolean = rule.findOmok(position, stone, board)
 
     companion object {
         private const val Y_MAX_RANGE = 15

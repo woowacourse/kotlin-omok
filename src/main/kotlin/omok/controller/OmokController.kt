@@ -1,6 +1,5 @@
 package omok.controller
 
-import omok.model.Omok
 import omok.model.board.OmokBoard
 import omok.model.player.BlackPlayer
 import omok.model.player.Player
@@ -12,7 +11,7 @@ class OmokController(
 ) {
     fun run() {
         omokView.printStartMessage()
-        val omokBoard = OmokBoard(Omok())
+        val omokBoard = OmokBoard()
         val currentPlayer: Player = BlackPlayer(BlackPlayerState())
         playGame(currentPlayer, omokBoard)
         omokView.result(currentPlayer)
@@ -48,7 +47,7 @@ class OmokController(
         currentPlayer: Player,
         omokBoard: OmokBoard,
     ): Boolean {
-        if (currentPlayer.isFinish()) {
+        if (currentPlayer.win()) {
             omokView.printOmokBoard(omokBoard.board)
             return true
         }
