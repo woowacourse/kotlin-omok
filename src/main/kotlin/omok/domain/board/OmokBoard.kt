@@ -3,7 +3,9 @@ package omok.domain.board
 import omok.domain.point.OmokPoints
 import omok.domain.point.Point
 import omok.domain.rule.Direction
-import omok.domain.rule.RenjuCheck
+import omok.domain.rule.renju.FourByFour
+import omok.domain.rule.renju.SixMok
+import omok.domain.rule.renju.ThreeByThree
 import omok.domain.stone.LatestStone
 
 class OmokBoard(
@@ -42,11 +44,14 @@ class OmokBoard(
     }
 
     private fun updateProtectedPlace() {
-        val checker = RenjuCheck(this)
         omokPoints.toList()
             .filter { it.status is BoardStatus.Empty }
             .forEach { point ->
-                val isBlocked = checker.is3x3(point) || checker.is4x4(point) || checker.is6mok(point)
+                val isFourByFour = FourByFour(this).match(point)
+                val isThreeByThree = ThreeByThree(this).match(point)
+                val sixMok = SixMok(this).match(point)
+
+                val isBlocked = isFourByFour || isThreeByThree || sixMok
                 if (isBlocked) {
                     omokPoints.moveStone(point.copy(status = BoardStatus.Blocked))
                 }
