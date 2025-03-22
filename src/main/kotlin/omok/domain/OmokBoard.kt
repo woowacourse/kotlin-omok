@@ -2,6 +2,7 @@ package omok.domain
 
 class OmokBoard(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
     val positions: List<Position> = (1..15).flatMap { x -> (1..15).map { y -> Position(x, y) } }
+    private val ruleAdaptor = OmokAdapter()
 
     fun findPoint(
         x: Int,
@@ -14,11 +15,10 @@ class OmokBoard(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
         position: Position,
         state: StoneState,
     ) {
-        require(canPlace(position)) { ERROR_STONE_ALREADY_PUT }
         findPoint(position.x, position.y)?.changeState(state)
     }
 
-    fun canPlace(position: Position): Boolean = (findPoint(position.x, position.y)?.stoneState == StoneState.BLANK)
+    fun validatePosition(position: Position): Boolean = ruleAdaptor.validatePosition(this, position)
 
     fun checkOmok(position: Position): Boolean {
         val directions: List<Direction> =
