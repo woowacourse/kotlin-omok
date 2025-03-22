@@ -1,10 +1,52 @@
 package omok.domain.rule
 
 import omok.domain.Board
-import rule.BlackRenjuRule
+import omok.domain.Point
+import omok.domain.Point.Companion.toPair
+import rule.facade.BlackRenjuRule
 
 class BlackStoneRule(
     boardSize: Int = Board.DEFAULT_BOARD_SIZE,
-) : OmokGameRule(boardSize) {
-    override val renjuRule = BlackRenjuRule(boardSize)
+) : OmokRule(boardSize) {
+    private val renjuRule = BlackRenjuRule(boardSize, boardSize)
+
+    override fun isFoul(
+        blackPoints: Set<Point>,
+        whitePoints: Set<Point>,
+        startPoint: Point,
+    ): Boolean =
+        isDoubleThreeFoul(blackPoints, whitePoints, startPoint) ||
+            isDoubleFourFoul(blackPoints, whitePoints, startPoint) ||
+            isOverlineFoul(blackPoints, startPoint)
+
+    private fun isDoubleThreeFoul(
+        blackPoints: Set<Point>,
+        whitePoints: Set<Point>,
+        startPoint: Point,
+    ): Boolean =
+        renjuRule.checkDoubleThreeFoul(
+            blackPoints.map { it.toPair() },
+            whitePoints.map { it.toPair() },
+            startPoint.toPair(),
+        )
+
+    private fun isDoubleFourFoul(
+        blackPoints: Set<Point>,
+        whitePoints: Set<Point>,
+        startPoint: Point,
+    ): Boolean =
+        renjuRule.checkDoubleFourFoul(
+            blackPoints.map { it.toPair() },
+            whitePoints.map { it.toPair() },
+            startPoint.toPair(),
+        )
+
+    private fun isOverlineFoul(
+        blackPoints: Set<Point>,
+        startPoint: Point,
+    ): Boolean =
+        renjuRule.checkOverline(
+            blackPoints.map { it.toPair() },
+            startPoint.toPair(),
+        )
 }

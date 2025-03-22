@@ -19,7 +19,7 @@ dependencies {
     testImplementation("org.junit.jupiter", "junit-jupiter", "5.11.4")
     testImplementation("org.assertj", "assertj-core", "3.27.3")
     testImplementation("io.kotest", "kotest-runner-junit5", "5.9.1")
-    implementation("com.github.tmdgh1592:budool-omok-rule:v1.0.3-alpha")
+    implementation("com.github.tmdgh1592:budool-omok-rule:v2.0.0-alpha")
 }
 
 tasks {

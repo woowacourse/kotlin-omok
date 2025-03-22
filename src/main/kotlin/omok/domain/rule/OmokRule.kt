@@ -1,27 +1,15 @@
 package omok.domain.rule
 
 import omok.domain.Point
-import rule.OmokRule
-import rule.wrapper.point.Point as ExternalPoint
 
-abstract class OmokGameRule(
+abstract class OmokRule(
     private val boardSize: Int,
 ) {
-    protected abstract val renjuRule: OmokRule
-
-    fun isFoul(
+    abstract fun isFoul(
         blackPoints: Set<Point>,
         whitePoints: Set<Point>,
         startPoint: Point,
-    ): Boolean {
-        val violateType =
-            renjuRule.checkAnyFoulCondition(
-                blackPoints.map { it.toExternalPoint() },
-                whitePoints.map { it.toExternalPoint() },
-                startPoint.toExternalPoint(),
-            )
-        return violateType.state
-    }
+    ): Boolean
 
     fun isOmok(
         points: Set<Point>,
@@ -58,8 +46,6 @@ abstract class OmokGameRule(
         }
         return count
     }
-
-    private fun Point.toExternalPoint() = ExternalPoint(this.row, this.col)
 
     companion object {
         private const val OMOK_STONE_COUNT = 5

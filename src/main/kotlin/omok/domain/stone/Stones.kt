@@ -1,10 +1,10 @@
 package omok.domain.stone
 
 import omok.domain.Point
-import omok.domain.rule.OmokGameRule
+import omok.domain.rule.OmokRule
 
 class Stones(
-    val rule: OmokGameRule,
+    private val rule: OmokRule,
     points: Set<Point> = emptySet(),
 ) {
     private val _points = points.toMutableSet()

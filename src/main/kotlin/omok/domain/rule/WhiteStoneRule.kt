@@ -1,10 +1,14 @@
 package omok.domain.rule
 
 import omok.domain.Board
-import rule.WhiteRenjuRule
+import omok.domain.Point
 
 class WhiteStoneRule(
     boardSize: Int = Board.DEFAULT_BOARD_SIZE,
-) : OmokGameRule(boardSize) {
-    override val renjuRule = WhiteRenjuRule(boardSize)
+) : OmokRule(boardSize) {
+    override fun isFoul(
+        blackPoints: Set<Point>,
+        whitePoints: Set<Point>,
+        startPoint: Point,
+    ): Boolean = false
 }
