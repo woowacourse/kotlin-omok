@@ -4,7 +4,7 @@ import omok.domain.board.BoardStatus
 import omok.domain.point.Point
 import omok.domain.service.OmokGame
 import omok.domain.stone.StoneColor
-import omok.exception.ResultState
+import omok.exception.recover
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -30,13 +30,11 @@ class OmokController(
         stone: StoneColor,
         board: List<List<BoardStatus>>,
     ): Point {
-        return when (val result = Point.of(getInputPoint(stone, board), stone)) {
-            is ResultState.Success -> result.data
-            is ResultState.Error -> {
-                outputView.printErrorMessage(result.message)
+        return Point.of(getInputPoint(stone, board), stone)
+            .recover {
+                outputView.printErrorMessage(it)
                 readValidPoint(stone, board)
             }
-        }
     }
 
     private fun getInputPoint(

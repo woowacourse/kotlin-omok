@@ -5,7 +5,7 @@ import omok.domain.board.OmokBoard
 import omok.domain.point.Point
 import omok.domain.stone.LatestStone
 import omok.domain.stone.StoneColor
-import omok.exception.ResultState
+import omok.exception.recover
 
 class OmokGame(val omokBoard: OmokBoard) {
     var latestStone: LatestStone = LatestStone("")
@@ -32,12 +32,7 @@ class OmokGame(val omokBoard: OmokBoard) {
         point: Point,
         onFailToAddStone: (String?) -> Unit,
     ) {
-        when (val result = omokBoard.addStone(point)) {
-            is ResultState.Success -> return
-            is ResultState.Error -> {
-                onFailToAddStone(result.message)
-            }
-        }
+        omokBoard.addStone(point).recover { onFailToAddStone(it) }
         latestStone = latestStone.saveLatestStone(point)
     }
 }
