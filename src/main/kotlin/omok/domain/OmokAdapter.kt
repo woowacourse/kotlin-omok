@@ -22,13 +22,13 @@ class OmokAdapter(private val rule: RenjuRule = RenjuRule(boardSize = 15)) {
                     StoneState.WHITE -> 2
                     else -> 0
                 }
-            convertedBoard[position.x][position.y] = state
+            convertedBoard[position.x - 1][position.y - 1] = state
         }
 
         return convertedBoard
     }
 
     private fun convertPosition(position: Position): Pair<Int, Int> {
-        return position.x to position.y
+        return (position.x - 1) to (position.y - 1)
     }
 }
