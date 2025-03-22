@@ -1,17 +1,19 @@
 package omok.domain
 
+import omok.domain.Board.Companion.DEFAULT_BOARD_SIZE
+
 data class Point(
     val x: Int,
     val y: Int,
+    val boardSize: Int = DEFAULT_BOARD_SIZE
 ) {
     init {
-        require(x in MIN_POSITION..MAX_POSITION) { ERROR_INVALID_POSITION }
-        require(y in MIN_POSITION..MAX_POSITION) { ERROR_INVALID_POSITION }
+        require(x in 0 ..<boardSize && y in 0 ..<boardSize) {
+            ERROR_INVALID_POSITION.format(boardSize, boardSize)
+        }
     }
 
     companion object {
-        private const val MIN_POSITION = 0
-        private const val MAX_POSITION = 14
-        private const val ERROR_INVALID_POSITION = "[ERROR] 바둑판의 크기는 15x15입니다."
+        private const val ERROR_INVALID_POSITION = "[ERROR] 바둑판의 크기는 %dx%d입니다."
     }
 }

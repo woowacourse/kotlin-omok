@@ -26,17 +26,13 @@ class InputView {
     ): Point {
         val row = input[0] - FIRST_X
         val col = input.substring(1).toInt() - 1
-        val point = Point(row, col)
-        require(point.x in 0..<boardSize && point.y in 0..<boardSize) {
-            ERROR_INVALID_POSITION.format(boardSize, boardSize)
-        }
+        val point = Point(row, col, boardSize)
         return point
     }
 
     companion object {
         private const val MESSAGE_INPUT_POINT = "\n위치를 입력하세요: "
         private const val ERROR_INVALID_INPUT = "[ERROR] 잘못된 입력입니다. 다시 시도하세요."
-        private const val ERROR_INVALID_POSITION = "[ERROR] 바둑판의 크기는 %dx%d입니다."
         private val VALID_X_RANGE = 'A'..'Z'
         private const val FIRST_X = 'A'
     }
