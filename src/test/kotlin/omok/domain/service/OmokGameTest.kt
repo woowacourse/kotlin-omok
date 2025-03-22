@@ -12,6 +12,7 @@ import omok.POSITION_SEVEN_TWO
 import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.PlayingBoard
 import omok.domain.player.StoneColor
+import omok.domain.rule.OmokRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -36,7 +37,7 @@ class OmokGameTest {
             )
 
         // when & then
-        val omokGame = OmokGame(PlayingBoard(OmokBoard.create()))
+        val omokGame = OmokGame(PlayingBoard(OmokBoard.create(),OmokRule.rules))
         var expected = StoneColor.WHITE
 
         omokGame.start({ stoneColor, _ ->

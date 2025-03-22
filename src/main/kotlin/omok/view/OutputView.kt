@@ -2,7 +2,7 @@ package omok.view
 
 import omok.domain.omokboard.ColumnPosition
 import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.PointState
+import omok.domain.omokboard.State
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
 import omok.domain.rule.GameResult
@@ -79,11 +79,11 @@ class OutputView {
         private val ALPHABETS: CharRange = ('A'..'Z')
 
         private fun Position.drawBoard(omokBoard: OmokBoard): String {
-            val stoneColor = omokBoard.value[this]?.state ?: PointState.EMPTY
+            val stoneColor = omokBoard.value[this]?.state ?: State.EMPTY
 
             return when {
-                stoneColor == PointState.OCCUPIED_BLACK -> "●"
-                stoneColor == PointState.OCCUPIED_WHITE -> "○"
+                stoneColor == State.OCCUPIED_BLACK -> "●"
+                stoneColor == State.OCCUPIED_WHITE -> "○"
                 this.row.value == omokBoard.height && this.column.value == 1 -> "┌"
                 this.row.value == omokBoard.height && this.column.value == omokBoard.width -> "┐"
                 this.row.value == 1 && this.column.value == 1 -> "└"

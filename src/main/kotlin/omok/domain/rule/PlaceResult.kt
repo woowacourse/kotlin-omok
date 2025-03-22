@@ -24,4 +24,8 @@ sealed class PlaceResult {
 
         data object OverlineViolation : Failure()
     }
+
+    sealed class Forbid : PlaceResult() {
+
+    }
 }

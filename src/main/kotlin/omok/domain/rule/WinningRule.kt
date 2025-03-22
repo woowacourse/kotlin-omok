@@ -2,7 +2,7 @@ package omok.domain.rule
 
 import omok.domain.omokboard.ColumnPosition
 import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.PointState
+import omok.domain.omokboard.State
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
 import omok.domain.player.PlayerStone
@@ -71,9 +71,9 @@ class WinningRule : OmokRule {
         return 1 + count(dx, dy) + count(-dx, -dy)
     }
 
-    private fun StoneColor.toPointState(): PointState =
+    private fun StoneColor.toPointState(): State =
         when (this) {
-            BLACK -> PointState.OCCUPIED_BLACK
-            WHITE -> PointState.OCCUPIED_WHITE
+            BLACK -> State.OCCUPIED_BLACK
+            WHITE -> State.OCCUPIED_WHITE
         }
 }

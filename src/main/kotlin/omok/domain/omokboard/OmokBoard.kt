@@ -2,26 +2,26 @@ package omok.domain.omokboard
 
 @JvmInline
 value class OmokBoard private constructor(
-    private val _value: Map<Position, Point>,
+    private val _value: Map<Position, PointSate>,
 ) {
     val width get() = _value.keys.maxOf { it.column.value }
     val height get() = _value.keys.maxOf { it.row.value }
 
-    val isOneEmptyLeft get() = _value.values.count { it.state == PointState.EMPTY } == 1
+    val isOneEmptyLeft get() = _value.values.count { it.state == State.EMPTY } == 1
 
     val blackStonePoints get() = _value
-                            .filter { it.value.state == PointState.OCCUPIED_BLACK }
+                            .filter { it.value.state == State.OCCUPIED_BLACK }
                             .keys
 
     val whiteStonePoints get() = _value
-                            .filter { it.value.state == PointState.OCCUPIED_WHITE }
+                            .filter { it.value.state == State.OCCUPIED_WHITE }
                             .keys
 
     val value get() = _value.deepCopy()
 
-    fun find(position: Position): Point? = _value[position]
+    fun find(position: Position): PointSate? = _value[position]
 
-    private fun Map<Position, Point>.deepCopy(): Map<Position, Point> =
+    private fun Map<Position, PointSate>.deepCopy(): Map<Position, PointSate> =
         map { it.key.copy() to it.value.copy() }.toMap()
 
     companion object {
@@ -33,7 +33,7 @@ value class OmokBoard private constructor(
                 (1..width)
                     .flatMap { row ->
                         (1..height).map { column ->
-                            Position(RowPosition(row), ColumnPosition(column)) to Point()
+                            Position(RowPosition(row), ColumnPosition(column)) to PointSate()
                         }
                     }.toMap(),
             )

@@ -11,7 +11,7 @@ class InvalidPositionRuleTest {
     @Test
     fun `돌을 둔 자리가 오목판의 범위를 넘어서면 실패한다`() {
         // given
-        val playingBoard: PlayingBoard = PlayingBoard()
+        val playingBoard: PlayingBoard = PlayingBoard(rules = OmokRule.rules)
         val playerStone1: PlayerStone =
             PlayerStone(StoneColor.BLACK, POSITION_ZERO_ZERO)
 

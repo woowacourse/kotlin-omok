@@ -15,7 +15,7 @@ class DrawRuleTest {
 
     @BeforeEach
     fun setup() {
-        playingBoard = PlayingBoard()
+        playingBoard = PlayingBoard(rules = OmokRule.rules)
     }
 
     @Test
