@@ -2,12 +2,27 @@ package omok.domain.omokboard
 
 @JvmInline
 value class OmokBoard private constructor(
-    val value: Map<Position, Point>,
+    private val _value: Map<Position, Point>,
 ) {
-    val width get() = value.keys.maxOf { it.column.value }
-    val height get() = value.keys.maxOf { it.row.value }
+    val width get() = _value.keys.maxOf { it.column.value }
+    val height get() = _value.keys.maxOf { it.row.value }
 
-    fun find(position: Position): Point? = value[position]
+    val isOneEmptyLeft get() = _value.values.count { it.state == PointState.EMPTY } == 1
+
+    val blackStonePoints get() = _value
+                            .filter { it.value.state == PointState.OCCUPIED_BLACK }
+                            .keys
+
+    val whiteStonePoints get() = _value
+                            .filter { it.value.state == PointState.OCCUPIED_WHITE }
+                            .keys
+
+    val value get() = _value.deepCopy()
+
+    fun find(position: Position): Point? = _value[position]
+
+    private fun Map<Position, Point>.deepCopy(): Map<Position, Point> =
+        map { it.key.copy() to it.value.copy() }.toMap()
 
     companion object {
         fun create(

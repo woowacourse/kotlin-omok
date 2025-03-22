@@ -45,7 +45,7 @@
 ```
 # TODO
 
-- [ ] OmokBoard | value를 private으로 변경
+- [x] OmokBoard | value를 private으로 변경
 - [ ] PlayingBoard | rules를 인수로 받도록 변경
 - [ ] Position, Point | 클래스 네이밍 변경
 - [ ] ExternalRule | ExternalRenjuRule로 네이밍 변경

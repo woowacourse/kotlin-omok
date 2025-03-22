@@ -1,7 +1,6 @@
 package omok.domain.rule
 
 import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.PointState
 import omok.domain.omokboard.Position
 import omok.domain.player.PlayerStone
 import rule.BlackRenjuRule
@@ -20,17 +19,9 @@ class ExternalRule(
     ): PlaceResult {
         val startPoint = playerStone.position.toExternalPoint()
 
-        val blackPoints =
-            omokBoard.value
-                .filter { it.value.state == PointState.OCCUPIED_BLACK }
-                .keys
-                .map { it.toExternalPoint() }
+        val blackPoints = omokBoard.blackStonePoints.map { it.toExternalPoint() }
 
-        val whitePoints =
-            omokBoard.value
-                .filter { it.value.state == PointState.OCCUPIED_WHITE }
-                .keys
-                .map { it.toExternalPoint() }
+        val whitePoints = omokBoard.whiteStonePoints.map { it.toExternalPoint() }
 
         val violateType = renjuRule.checkAnyFoulCondition(blackPoints, whitePoints, startPoint)
 
