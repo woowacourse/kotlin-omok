@@ -17,7 +17,7 @@ class OutputView {
             print(COORDINATE_X.format(x))
             println(
                 (MIN_BOUND..board.width).joinToString(DASH) { y ->
-                    board.findPoint(x, y)!!.stoneState.getDisplay ?: board.toUI(x, y)
+                    board.findPoint(x, y)!!.stoneState.UI ?: board.toUI(x, y)
                 },
             )
         }
@@ -55,7 +55,7 @@ class OutputView {
 
         private const val MESSAGE_WINNER = "%s 승리!!"
 
-        private val StoneState.getDisplay: String?
+        private val StoneState.UI: String?
             get() =
                 when (this) {
                     StoneState.BLACK -> "●"
