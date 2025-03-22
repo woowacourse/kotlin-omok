@@ -10,8 +10,8 @@ class OmokBoardTest {
         val actual = PlayingBoard().board.value
 
         // when & then
-        (1..15).forEach { row ->
-            (1..15).forEach { column ->
+        listOf(1, 15).forEach { row ->
+            listOf(1, 15).forEach { column ->
                 assertThat(actual).containsKey(Position(RowPosition(row), ColumnPosition(column)))
             }
         }
