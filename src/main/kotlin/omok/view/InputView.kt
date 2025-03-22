@@ -26,8 +26,8 @@ class InputView {
     ): Point {
         val row = input[0] - FIRST_X
         val col = input.substring(1).toInt() - 1
-        val point = Point(row, col, boardSize)
-        return point
+        Point.validate(row, col, boardSize)
+        return Point(row, col)
     }
 
     companion object {
