@@ -5,12 +5,13 @@ import omok.domain.Point
 import omok.domain.stone.Stones
 import rule.facade.BlackRenjuRule
 
-class RenjuRule(private val points: Set<Point>, boardSize: Int = DEFAULT_BOARD_SIZE) {
+class RenjuRule(boardSize: Int = DEFAULT_BOARD_SIZE) {
     private val omokRule = BlackRenjuRule(boardSize, boardSize)
 
     fun isFoul(
         other: Stones,
         point: Point,
+        points: Set<Point>
     ): Boolean {
         val selfPoints = points.map { it.toPair() }
         val otherPoints = other.points.map { it.toPair() }
