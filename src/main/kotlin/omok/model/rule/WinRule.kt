@@ -1,12 +1,12 @@
 package omok.model.rule
 
-object BlackWinRule : OmokRule() {
+object WinRule : OmokRule() {
     override fun validate(
         board: List<List<Int>>,
         position: Pair<Int, Int>,
-    ): Boolean = directions.map { direction -> checkWhiteWin(board, position, direction) }.contains(true)
+    ): Boolean = directions.map { direction -> checkOppositeWin(board, position, direction) }.contains(true)
 
-    private fun checkWhiteWin(
+    private fun checkOppositeWin(
         board: List<List<Int>>,
         position: Pair<Int, Int>,
         direction: Pair<Int, Int>,
