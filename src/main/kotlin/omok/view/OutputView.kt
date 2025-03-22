@@ -71,11 +71,16 @@ class OutputView {
         return board
     }
 
+    fun showGameDrawResult() {
+        println(MESSAGE_DRAW_RESULT)
+    }
+
     companion object {
         private const val MESSAGE_START = "오목 게임을 시작합니다."
         private const val MESSAGE_FIRST_TURN = "흑의 차례입니다."
         private const val MESSAGE_TURN = "%s의 차례입니다. (마지막 돌의 위치: %s)"
         private const val MESSAGE_WINNER_RESULT = "%s의 승리입니다. 축하합니다."
+        private const val MESSAGE_DRAW_RESULT = "더 이상 오목판에 돌을 놓을 수 없어 무승부입니다."
         private const val ROW_INDEX = "   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O"
     }
 }

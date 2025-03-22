@@ -1,5 +1,7 @@
 package omok.domain
 
+import omok.A1
+import omok.Full
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -43,5 +45,16 @@ class BoardTest {
     fun `오목판의 크기를 넘어가면 오목돌을 놓을 수 없다`(int: Int) {
         val stone = Stone(Position(int, int), StoneType.BLACK)
         assertThrows<IllegalArgumentException> { board.put(stone) }
+    }
+
+    @Test
+    fun `오목판이 다 채워지면 더 이상 놓을 수 없다1`() {
+        Full.forEach { board.put(it) }
+        assertThat(board.isFull()).isTrue()
+    }
+    @Test
+    fun `오목판이 다 채워지면 더 이상 놓을 수 없다2`() {
+        Full.forEach { board.put(it) }
+        assertThrows<IllegalArgumentException> { board.put(Stone(A1, StoneType.BLACK)) }
     }
 }

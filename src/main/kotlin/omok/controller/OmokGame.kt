@@ -16,6 +16,7 @@ class OmokGame(
         val turn = Turn()
         outputView.printStartMessage()
         var prevPosition = ""
+        var checkBoardFull = false
         while (true) {
             outputView.printBoard(board.grid)
             val lastStone: Stone? = board.stones.lastStone()
@@ -26,8 +27,16 @@ class OmokGame(
             board.put(stone)
             if (board.isOmok(stone)) break
             turn.next()
+            if (board.isFull()) {
+                checkBoardFull = true
+                break
+            }
         }
-        outputView.showGameResult(turn)
+        if (checkBoardFull) {
+            outputView.showGameDrawResult()
+        } else {
+            outputView.showGameResult(turn)
+        }
     }
 
     private fun prepareStone(

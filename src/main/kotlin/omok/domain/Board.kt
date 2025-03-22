@@ -28,6 +28,8 @@ class Board(private val rule: Rule) {
         return false
     }
 
+    fun isFull(): Boolean = grid.all { row -> row.all { column -> column != StoneType.EMPTY } }
+
     private fun isValidPosition(stone: Stone) {
         if (stone.color == StoneType.BLACK && rule.isInvalid(stones, stone, grid)) {
             throw IllegalArgumentException(ERROR_INVALID_BLACK_STONE)
