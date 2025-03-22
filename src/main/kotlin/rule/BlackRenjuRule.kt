@@ -1,5 +1,6 @@
 package rule
 
+import Position
 import Stone
 import rule.type.Foul
 import rule.type.Violation
@@ -8,41 +9,37 @@ import rule.type.Violation.Companion.MAX_EMPTY_SIZE
 import rule.type.Violation.Companion.OVERLINE_SIZE
 import rule.type.WhiteBlocked
 import rule.wrapper.direction.Direction
-import rule.wrapper.position.Position
 
-class BlackRenjuRule(
-    boardWidth: Int = DEFAULT_BOARD_WIDTH,
-    boardHeight: Int = DEFAULT_BOARD_HEIGHT,
-) : OmokRule(boardWidth, boardHeight) {
+class BlackRenjuRule : OmokRule() {
     override fun checkWin(
-        blackPositions: List<Stone>,
-        whitePositions: List<Stone>,
+        blackStones: List<Stone>,
+        whiteStones: List<Stone>,
         startPosition: Position,
     ): Boolean {
-        val satisfyWin = checkSerialSameStonesBiDirection(blackPositions, startPosition, WIN_STANDARD)
-        val koState = checkAnyFoulCondition(blackPositions, whitePositions, startPosition)
+        val satisfyWin = checkSerialSameStonesBiDirection(blackStones, startPosition, WIN_STANDARD)
+        val koState = checkAnyFoulCondition(blackStones, whiteStones, startPosition)
 
         return satisfyWin && koState != Violation.OVERLINE
     }
 
     override fun checkDoubleFoul(
-        blackPositions: List<Stone>,
-        whitePositions: List<Stone>,
+        blackStones: List<Stone>,
+        whiteStones: List<Stone>,
         startPosition: Position,
         foul: Foul,
-    ): Violation = checkFoulByAllDirections(blackPositions, whitePositions, startPosition, foul)
+    ): Violation = checkFoulByAllDirections(blackStones, whiteStones, startPosition, foul)
 
     override fun checkOverline(
-        stonesPositions: List<Stone>,
+        stones: List<Stone>,
         startPosition: Position,
     ): Violation {
-        if (checkSerialSameStonesBiDirection(stonesPositions, startPosition, OVERLINE_SIZE)) return Violation.OVERLINE
+        if (checkSerialSameStonesBiDirection(stones, startPosition, OVERLINE_SIZE)) return Violation.OVERLINE
         return Violation.NONE
     }
 
     private fun checkFoulByAllDirections(
-        blackPositions: List<Stone>,
-        whitePositions: List<Stone>,
+        blackStones: List<Stone>,
+        whiteStones: List<Stone>,
         startPosition: Position,
         foul: Foul,
     ): Violation {
@@ -55,27 +52,20 @@ class BlackRenjuRule(
 
             val (forwardCount, forwardEmptyCount) =
                 findStraight(
-                    blackPositions,
-                    whitePositions,
+                    blackStones,
+                    whiteStones,
                     startPosition,
                     forwardDir,
                     foul,
                 )
-            val (backCount, backEmptyCount) =
-                findStraight(
-                    blackPositions,
-                    whitePositions,
-                    startPosition,
-                    backDir,
-                    foul,
-                )
+            val (backCount, backEmptyCount) = findStraight(blackStones, whiteStones, startPosition, backDir, foul)
             val totalStoneCount = forwardCount + backCount - 1
             val totalEmptyCount = forwardEmptyCount + backEmptyCount
 
             when (foul) {
                 Foul.DOUBLE_THREE -> {
                     if (totalStoneCount == foul.size && totalEmptyCount <= MAX_EMPTY_SIZE) {
-                        val blockedStatus = isBlockedByWhiteStoneInSix(whitePositions, startPosition, forwardDir)
+                        val blockedStatus = isBlockedByWhiteStoneInSix(whiteStones, startPosition, forwardDir)
                         if (blockedStatus == WhiteBlocked.NON_BLOCK) continuousStones++
                         if (continuousStones == FOUL_CONDITION_SIZE) return Violation.DOUBLE_THREE
                     }
@@ -92,8 +82,8 @@ class BlackRenjuRule(
     }
 
     private fun findStraight(
-        blackPositions: List<Stone>,
-        whitePositions: List<Stone>,
+        blackStones: List<Stone>,
+        whiteStones: List<Stone>,
         startPosition: Position,
         direction: Direction,
         foul: Foul,
@@ -102,52 +92,43 @@ class BlackRenjuRule(
         var emptyCount = DEFAULT_EMPTY_COUNT
         val rowStep = direction.rowStep
         val colStep = direction.colStep
-        var curPosition = startPosition.move(rowStep, colStep)
+        var curPosition = startPosition
 
-        while (curPosition.inRange(boardWidth, boardHeight) &&
-            !whitePositions.isPlaced(curPosition) &&
-            emptyCount <= MAX_EMPTY_SIZE &&
-            sameStoneCount < foul.size
-        ) {
-            val hasBlackStone = blackPositions isPlaced curPosition
-            val hasWhiteStone = whitePositions isPlaced curPosition
+        while (Position.isMovable(curPosition, rowStep, colStep)) {
+            if (isInvalidPosition(whiteStones, curPosition, emptyCount, sameStoneCount, foul)) break
+            curPosition = curPosition.move(rowStep, colStep)
+            val hasBlackStone = curPosition in blackStones
+            val hasWhiteStone = curPosition in whiteStones
             val isEmpty = !hasBlackStone && !hasWhiteStone
             if (hasBlackStone) ++sameStoneCount
             if (isEmpty) ++emptyCount
-            curPosition = curPosition.move(rowStep, colStep)
         }
-        curPosition = curPosition.move(-rowStep, -colStep)
-        while (curPosition.inRange(boardWidth, boardHeight) && startPosition != curPosition && !(blackPositions isPlaced curPosition)) {
-            emptyCount -= 1
+
+        while (!curPosition.isSame(startPosition) && curPosition !in blackStones) {
+            emptyCount--
             curPosition = curPosition.move(-rowStep, -colStep)
         }
         return Pair(sameStoneCount, emptyCount)
     }
 
+    private fun isInvalidPosition(
+        whiteStones: List<Stone>,
+        curPosition: Position,
+        emptyCount: Int,
+        sameStoneCount: Int,
+        foul: Foul,
+    ): Boolean = curPosition in whiteStones || emptyCount > MAX_EMPTY_SIZE || sameStoneCount >= foul.size
+
     private fun isBlockedByWhiteStoneInSix(
-        whitePositions: List<Stone>,
+        whiteStones: List<Stone>,
         position: Position,
         direction: Direction,
     ): WhiteBlocked {
-        val (oneDirMoveCount, oneDirFound) =
-            checkWhite(
-                whitePositions,
-                position,
-                direction,
-                FORWARD_WEIGHT,
-            )
-        val (otherDirMoveCount, otherDirFound) =
-            checkWhite(
-                whitePositions,
-                position,
-                direction,
-                BACK_WEIGHT,
-            )
+        val (oneDirMoveCount, oneDirFound) = checkWhite(whiteStones, position, direction, FORWARD_WEIGHT)
+        val (otherDirMoveCount, otherDirFound) = checkWhite(whiteStones, position, direction, BACK_WEIGHT)
         val totalMoveCount = oneDirMoveCount + otherDirMoveCount
         return WhiteBlocked.from(
-            totalMoveCount <= WhiteBlocked.INNER_DISTANCE &&
-                oneDirFound &&
-                otherDirFound,
+            totalMoveCount <= WhiteBlocked.INNER_DISTANCE && oneDirFound && otherDirFound,
         )
     }
 
@@ -159,12 +140,12 @@ class BlackRenjuRule(
     ): Pair<Int, Boolean> {
         val rowStep = direction.rowStep * weight
         val colStep = direction.colStep * weight
-        var curPosition = position.move(rowStep, colStep)
         var moveCount = 0
-        while (curPosition.inRange(boardWidth, boardHeight) && moveCount <= WhiteBlocked.INNER_DISTANCE) {
-            moveCount++
-            if (whiteStones isPlaced curPosition) return Pair(moveCount, true)
+        var curPosition = position
+        while (Position.isMovable(curPosition, rowStep, colStep) && moveCount <= WhiteBlocked.INNER_DISTANCE) {
             curPosition = curPosition.move(rowStep, colStep)
+            moveCount++
+            if (curPosition in whiteStones) return Pair(moveCount, true)
         }
         return Pair(moveCount, false)
     }
@@ -172,9 +153,6 @@ class BlackRenjuRule(
     companion object {
         private const val FORWARD_WEIGHT = 1
         private const val BACK_WEIGHT = -1
-
-        private const val DEFAULT_BOARD_WIDTH = 15
-        private const val DEFAULT_BOARD_HEIGHT = 15
 
         private const val DEFAULT_SAME_STONE_COUNT = 1
         private const val DEFAULT_EMPTY_COUNT = 0

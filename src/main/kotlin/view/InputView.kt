@@ -1,10 +1,10 @@
 package view
 
 import Col
+import Position
 import Row
 import Stone
 import StoneColor
-import rule.wrapper.position.Position
 
 class InputView {
     fun readInputPosition(

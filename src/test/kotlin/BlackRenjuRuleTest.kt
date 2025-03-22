@@ -7,14 +7,13 @@ import rule.BlackRenjuRule
 import rule.OmokRule
 import rule.type.Foul
 import rule.type.Violation
-import rule.wrapper.position.Position
 
 class BlackRenjuRuleTest {
     private lateinit var renjuRule: OmokRule
 
     @BeforeEach
     fun setUp() {
-        renjuRule = BlackRenjuRule(15, 15)
+        renjuRule = BlackRenjuRule()
     }
 
     @Test

@@ -13,7 +13,7 @@ class ResultView {
     fun printGameBoard(stones: List<Stone>) {
         val elements = stones.toMutableList()
 
-        for (row in Row.MAX_VALUE.downTo(Row.MIN_VALUE)) {
+        for (row in Row.MAX_VALUE downTo Row.MIN_VALUE) {
             makeBoardLine(row, elements)
         }
         makeBoardColName()
@@ -66,8 +66,8 @@ class ResultView {
     private fun toBoardDisplay(
         row: Int,
         col: Int,
-    ): String {
-        return when {
+    ): String =
+        when {
             row == Row.MIN_VALUE && col == Col.MIN_VALUE -> GAME_BOARD_DOWN_LEFT_CORNER
             row == Row.MIN_VALUE && col == Col.MAX_VALUE -> GAME_BOARD_DOWN_RIGHT_CORNER
             row == Row.MAX_VALUE && col == Col.MIN_VALUE -> GAME_BOARD_UP_LEFT_CORNER
@@ -78,7 +78,6 @@ class ResultView {
             col == Col.MAX_VALUE -> GAME_BOARD_RIGHT_CORNER
             else -> GAME_BOARD_BASE
         }
-    }
 
     private fun Stone.toEmoji(): String =
         when (this.color) {

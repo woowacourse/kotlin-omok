@@ -2,13 +2,19 @@ package rule.wrapper.direction
 
 import rule.other.Iterator
 
-internal class DirectionIterator(items: List<Direction>) : Iterator<Direction> {
+class DirectionIterator(
+    items: List<Direction>,
+) : Iterator<Direction> {
     private val items: MutableList<Direction> = items.toMutableList()
 
     override fun hasNext(): Boolean = items.isNotEmpty()
 
     override fun next(): Direction {
         if (hasNext()) return items.removeFirst()
-        throw IllegalStateException("The next direction does not exist.")
+        throw IllegalStateException(ERROR_NO_REMAIN_DIRECTION)
+    }
+
+    companion object {
+        private const val ERROR_NO_REMAIN_DIRECTION = "방향이 존재하지 않습니다."
     }
 }

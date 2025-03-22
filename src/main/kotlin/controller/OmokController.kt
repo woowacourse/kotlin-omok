@@ -1,8 +1,6 @@
 package controller
 
-import Col
 import GameBoard
-import Row
 import StoneColor
 import rule.BlackRenjuRule
 import rule.OmokRule
@@ -14,7 +12,7 @@ class OmokController(
     private val outputView: ResultView,
 ) {
     private var turnColor: StoneColor = StoneColor.BLACK
-    private var rule: OmokRule = BlackRenjuRule(Col.MAX_VALUE, Row.MAX_VALUE)
+    private var rule: OmokRule = BlackRenjuRule()
 
     fun run() {
         outputView.printGameStartMessage()
@@ -55,6 +53,6 @@ class OmokController(
 
     private fun switchTurn() {
         turnColor = turnColor.switch()
-        rule = rule.switch(Col.MAX_VALUE, Row.MAX_VALUE)
+        rule = rule.switch()
     }
 }

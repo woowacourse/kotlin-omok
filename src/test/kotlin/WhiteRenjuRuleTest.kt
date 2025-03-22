@@ -7,14 +7,13 @@ import rule.OmokRule
 import rule.WhiteRenjuRule
 import rule.type.Foul
 import rule.type.Violation
-import rule.wrapper.position.Position
 
 class WhiteRenjuRuleTest {
     private lateinit var renjuRule: OmokRule
 
     @BeforeEach
     fun setUp() {
-        renjuRule = WhiteRenjuRule(15, 15)
+        renjuRule = WhiteRenjuRule()
     }
 
     @ParameterizedTest
@@ -23,12 +22,24 @@ class WhiteRenjuRuleTest {
         val blackStones = listOf(STONE_9I_BLACK)
         val whiteStones =
             listOf(
-                STONE_3C_WHITE, STONE_3D_WHITE, STONE_4D_WHITE,
-                STONE_5C_WHITE, STONE_12C_WHITE, STONE_12E_WHITE,
-                STONE_13D_WHITE, STONE_14D_WHITE, STONE_6B_WHITE,
-                STONE_5E_WHITE, STONE_6E_WHITE, STONE_3K_WHITE,
-                STONE_6K_WHITE, STONE_4M_WHITE, STONE_4N_WHITE,
-                STONE_9N_WHITE, STONE_10M_WHITE, STONE_12M_WHITE,
+                STONE_3C_WHITE,
+                STONE_3D_WHITE,
+                STONE_4D_WHITE,
+                STONE_5C_WHITE,
+                STONE_12C_WHITE,
+                STONE_12E_WHITE,
+                STONE_13D_WHITE,
+                STONE_14D_WHITE,
+                STONE_6B_WHITE,
+                STONE_5E_WHITE,
+                STONE_6E_WHITE,
+                STONE_3K_WHITE,
+                STONE_6K_WHITE,
+                STONE_4M_WHITE,
+                STONE_4N_WHITE,
+                STONE_9N_WHITE,
+                STONE_10M_WHITE,
+                STONE_12M_WHITE,
                 STONE_9J_WHITE,
             )
         val newStone = STONE_3E_WHITE
@@ -51,13 +62,27 @@ class WhiteRenjuRuleTest {
             )
         val whiteStones =
             listOf(
-                STONE_15C_WHITE, STONE_14C_WHITE, STONE_12C_WHITE,
-                STONE_11C_WHITE, STONE_10C_WHITE, STONE_12D_WHITE,
-                STONE_12G_WHITE, STONE_12I_WHITE, STONE_12J_WHITE,
-                STONE_9J_WHITE, STONE_8J_WHITE, STONE_6J_WHITE,
-                STONE_8K_WHITE, STONE_8H_WHITE, STONE_7H_WHITE,
-                STONE_6H_WHITE, STONE_6E_WHITE, STONE_5E_WHITE,
-                STONE_5F_WHITE, STONE_5G_WHITE, STONE_4G_WHITE,
+                STONE_15C_WHITE,
+                STONE_14C_WHITE,
+                STONE_12C_WHITE,
+                STONE_11C_WHITE,
+                STONE_10C_WHITE,
+                STONE_12D_WHITE,
+                STONE_12G_WHITE,
+                STONE_12I_WHITE,
+                STONE_12J_WHITE,
+                STONE_9J_WHITE,
+                STONE_8J_WHITE,
+                STONE_6J_WHITE,
+                STONE_8K_WHITE,
+                STONE_8H_WHITE,
+                STONE_7H_WHITE,
+                STONE_6H_WHITE,
+                STONE_6E_WHITE,
+                STONE_5E_WHITE,
+                STONE_5F_WHITE,
+                STONE_5G_WHITE,
+                STONE_4G_WHITE,
             )
         val newStone = Position(Row.from(newStoneRow), Col.fromInt(newStoneCol))
 

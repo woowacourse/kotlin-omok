@@ -1,9 +1,10 @@
 package rule.type
 
-internal enum class WhiteBlocked(val state: Boolean) {
+enum class WhiteBlocked(
+    val state: Boolean,
+) {
     BLOCKED(true),
-    NON_BLOCK(false),
-    ;
+    NON_BLOCK(false), ;
 
     companion object {
         const val INNER_DISTANCE = 6

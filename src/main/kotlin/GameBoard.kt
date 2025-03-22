@@ -1,6 +1,5 @@
 import rule.OmokRule
 import rule.type.Violation
-import rule.wrapper.position.Position
 
 class GameBoard {
     private var lastStone: Stone? = null

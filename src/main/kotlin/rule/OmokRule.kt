@@ -1,142 +1,83 @@
 package rule
 
+import Position
 import Stone
 import rule.type.Foul
 import rule.type.Violation
 import rule.wrapper.direction.Direction
-import rule.wrapper.position.Position
 
-abstract class OmokRule(
-    protected val boardWidth: Int,
-    protected val boardHeight: Int,
-) {
-    /**
-     * When a stone is placed at a specific location, it checks if the same number of stones are in a row.
-     * It can also be used to determine if you have won.
-     *
-     * @param stonesPositions List of stone Positions for the given row and column to check for continuous.
-     * @param startPosition The row and column of the stone that is being placed.
-     *
-     * @return Return if there are as many stones in a row as you are looking for.
-     * */
+abstract class OmokRule {
     fun checkSerialSameStonesBiDirection(
-        stonesPositions: List<Stone>,
+        stones: List<Stone>,
         startPosition: Position,
         sameStoneToCheck: Int,
     ): Boolean {
         val dirIterator = Direction.iterator()
-
         while (dirIterator.hasNext()) {
-            val forwardCount = countSerialStonesOneDirection(stonesPositions, startPosition, dirIterator.next())
-            val backCount = countSerialStonesOneDirection(stonesPositions, startPosition, dirIterator.next())
+            val forwardCount = countSerialStonesOneDirection(stones, startPosition, dirIterator.next())
+            val backCount = countSerialStonesOneDirection(stones, startPosition, dirIterator.next())
             val totalMoveCount = forwardCount + backCount - 1
             if (totalMoveCount >= sameStoneToCheck) return true
         }
         return false
     }
 
-    /**
-     * Returns the number of identical stones in a row in one direction.
-     *
-     * @param stonesPositions List of stone Positions for the given row and column to check for continuous.
-     * @param startPosition The row and column of the stone that is being placed.
-     * @param direction Direction you want to explore.
-     *
-     * @return The number of identical stones placed in a given direction.
-     * */
     private fun countSerialStonesOneDirection(
-        stonesPositions: List<Stone>,
+        stones: List<Stone>,
         startPosition: Position,
         direction: Direction,
     ): Int {
         var sameStoneCount = DEFAULT_SAME_STONE_COUNT
         val rowStep = direction.rowStep
         val colStep = direction.colStep
-        var curPosition = startPosition.move(rowStep, colStep)
+        var curPosition = startPosition
+        if (!Position.isMovable(curPosition, rowStep, colStep)) return sameStoneCount
 
-        while (curPosition.inRange(boardWidth, boardHeight) && stonesPositions isPlaced curPosition) {
-            sameStoneCount++
+        while (Position.isMovable(curPosition, rowStep, rowStep)) {
             curPosition = curPosition.move(rowStep, colStep)
+            if (curPosition !in stones) break
+            curPosition in stones
+            ++sameStoneCount
         }
+
         return sameStoneCount
     }
 
-    /**
-     * The function will return True if any of the three forbidden moves '3-3', '4-4', and 'overline' is detected.
-     *
-     * @param blackPositions List of pairs for row and column of black stones.
-     * @param whitePositions List of pairs for row and column of white stones.
-     * @param startPosition The row and column of the stone that is being placed.
-     *
-     * @return The result of checking all numbers.
-     * */
     fun checkAnyFoulCondition(
-        blackPositions: List<Stone>,
-        whitePositions: List<Stone>,
+        blackStones: List<Stone>,
+        whiteStones: List<Stone>,
         startPosition: Position,
     ): Violation =
         listOf(
-            checkDoubleFoul(blackPositions, whitePositions, startPosition, Foul.DOUBLE_THREE),
-            checkDoubleFoul(blackPositions, whitePositions, startPosition, Foul.DOUBLE_FOUR),
-            checkOverline(blackPositions, startPosition),
+            checkDoubleFoul(blackStones, whiteStones, startPosition, Foul.DOUBLE_THREE),
+            checkDoubleFoul(blackStones, whiteStones, startPosition, Foul.DOUBLE_FOUR),
+            checkOverline(blackStones, startPosition),
         ).lastOrNull { it.state } ?: Violation.NONE
 
-    /**
-     * The function will determine if the win condition is satisfied.
-     * If it is a black stone, it will determine whether there is a foul.
-     * On the other hand, whiteStone only checks that the victory condition is satisfied regardless of whether there is a foul play or not.
-     *
-     * @param blackPositions List of pairs for row and column of black stones.
-     * @param whitePositions List of pairs for row and column of white stones.
-     * @param startPosition The row and column of the stone that is being placed.
-     *
-     * @return Returns true if no fouls are played and the win conditions are met.
-     * */
     abstract fun checkWin(
-        blackPositions: List<Stone>,
-        whitePositions: List<Stone>,
+        blackStones: List<Stone>,
+        whiteStones: List<Stone>,
         startPosition: Position,
     ): Boolean
 
-    /**
-     * check 'three-three' Position or 'four-four' Position according to the given 'foul type'
-     *
-     * @param blackPositions List of pairs for row and column of black stones.
-     * @param whitePositions List of pairs for row and column of white stones.
-     * @param startPosition The row and column of the stone that is being placed.
-     *
-     * @return Whether the given row and column correspond to 3-3 or 4-4 according to the given 'foul type'.
-     * */
     abstract fun checkDoubleFoul(
-        blackPositions: List<Stone>,
-        whitePositions: List<Stone>,
+        blackStones: List<Stone>,
+        whiteStones: List<Stone>,
         startPosition: Position,
         foul: Foul,
     ): Violation
 
-    /**
-     * Check 'overline' pattern.
-     *
-     * @param stonesPositions List of stone Positions for the given row and column to check for overline.
-     * @param startPosition The row and column of the stone that is being placed.
-     *
-     * @return Boolean value indicating whether it is overline.
-     * */
     abstract fun checkOverline(
-        stonesPositions: List<Stone>,
+        stones: List<Stone>,
         startPosition: Position,
     ): Violation
 
-    internal fun switch(
-        boardWidth: Int,
-        boardHeight: Int,
-    ): OmokRule {
-        if (this is BlackRenjuRule) return WhiteRenjuRule(boardWidth, boardHeight)
-        return BlackRenjuRule(boardWidth, boardHeight)
+    fun switch(): OmokRule {
+        if (this is BlackRenjuRule) return WhiteRenjuRule()
+        return BlackRenjuRule()
     }
 
-    protected infix fun List<Stone>.isPlaced(position: Position): Boolean =
-        this.any { existedStone -> existedStone.position.isSame(position) }
+    operator fun List<Stone>.contains(position: Position): Boolean = this.any { stone -> stone.position.isSame(position) }
 
     companion object {
         @JvmStatic

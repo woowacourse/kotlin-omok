@@ -1,5 +1,3 @@
-import rule.wrapper.position.Position
-
 class Stone(
     val position: Position,
     val color: StoneColor,
