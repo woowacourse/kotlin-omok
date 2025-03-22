@@ -22,7 +22,7 @@ class OmokGame(
             messageTurn(lastStone, position)
             val inputPosition = inputView.readPosition()
             position = inputPosition
-            val stone = getPosition(turn, inputPosition)
+            val stone = prepareStone(turn, inputPosition)
             board.put(stone)
             if (board.isOmok(stone)) break
             turn.next()
@@ -30,7 +30,7 @@ class OmokGame(
         outputView.showGameResult(turn)
     }
 
-    private fun getPosition(
+    private fun prepareStone(
         turn: Turn,
         inputPosition: String,
     ): Stone {
