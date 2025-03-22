@@ -17,11 +17,14 @@ abstract class OmokRuleAdapter {
     fun isWin(
         stones: Set<OmokPoint>,
         latestPoint: OmokPoint,
-        winStandard: Int,
     ): Boolean {
         val points = dataConverter.convertSetToList(stones)
         val startPoint = dataConverter.convertOmokPointToPoint(latestPoint)
 
-        return rule.checkSerialSameStonesBiDirection(points, startPoint, winStandard)
+        return rule.checkSerialSameStonesBiDirection(points, startPoint, WIN_STANDARD)
+    }
+
+    companion object {
+        private const val WIN_STANDARD: Int = 5
     }
 }

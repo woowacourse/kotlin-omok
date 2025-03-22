@@ -26,7 +26,7 @@ class Referee {
         latestPoint: OmokPoint,
     ): Boolean {
         val ruleAdapter = getRule(stoneColor)
-        return ruleAdapter.isWin(stones, latestPoint, 5)
+        return ruleAdapter.isWin(stones, latestPoint)
     }
 
     private fun checkDuplicateMove(
