@@ -6,23 +6,17 @@ import omok.domain.rule.Direction
 import omok.domain.rule.renju.FourByFour
 import omok.domain.rule.renju.SixMok
 import omok.domain.rule.renju.ThreeByThree
-import omok.domain.stone.LatestStone
 
 class OmokBoard(
     private val omokPoints: OmokPoints,
 ) {
-    var latestStone: LatestStone = LatestStone("")
-        private set
-
     fun toMatrix(): List<List<BoardStatus>> = omokPoints.toMatrix()
-
-    fun pointValidation(point: Point) = omokPoints.pointValidation(point)
 
     fun isNotFull() = omokPoints.toList().any { it.status is BoardStatus.Empty }
 
     fun addStone(point: Point) {
+        omokPoints.pointValidation(point)
         omokPoints.moveStone(point)
-        latestStone = latestStone.saveLatestStone(point)
         updateProtectedPlace()
     }
 

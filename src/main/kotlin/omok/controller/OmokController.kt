@@ -1,7 +1,8 @@
 package omok.controller
 
-import omok.domain.board.OmokBoard
+import omok.domain.board.BoardStatus
 import omok.domain.point.Point
+import omok.domain.service.OmokGame
 import omok.domain.stone.StoneColor
 import omok.view.InputView
 import omok.view.OutputView
@@ -9,35 +10,38 @@ import omok.view.OutputView
 class OmokController(
     private val outputView: OutputView,
     private val inputView: InputView,
-    private val omokBoard: OmokBoard,
+    private val omokGame: OmokGame,
 ) {
-    fun startGame() {
+    fun run() {
         outputView.printStartMessage()
-        var stone = StoneColor.BLACK
-        while (omokBoard.isNotFull()) {
-            val point = readValidPoint(stone)
-            omokBoard.addStone(point)
-            if (omokBoard.isOmok(point)) {
-                outputView.printPrintWinner(stone)
-                break
-            }
-            stone = stone.toggle()
-        }
+        startGame()
     }
 
-    private fun readValidPoint(stone: StoneColor): Point {
-        return retryWhenException(
+    private fun startGame() =
+        retryWhenException(
             action = {
-                val point = Point.of(getInputPoint(stone), stone)
-                omokBoard.pointValidation(point)
-                point
+                omokGame.startGame(
+                    onCompleteInputPoint = { stone, board -> readValidPoint(stone, board) },
+                    onFinishedGame = { outputView.printPrintWinner(it) },
+                )
             },
             onError = outputView::printErrorMessage,
         )
-    }
 
-    private fun getInputPoint(stone: StoneColor): String {
-        outputView.printBoard(omokBoard, stone)
-        return inputView.readStoneWithLatestStone(stone, omokBoard.latestStone)
+    private fun readValidPoint(
+        stone: StoneColor,
+        board: List<List<BoardStatus>>,
+    ): Point =
+        retryWhenException(
+            action = { Point.of(getInputPoint(stone, board), stone) },
+            onError = outputView::printErrorMessage,
+        )
+
+    private fun getInputPoint(
+        stone: StoneColor,
+        board: List<List<BoardStatus>>,
+    ): String {
+        outputView.printBoard(board, stone)
+        return inputView.readStoneWithLatestStone(stone, omokGame.latestStone)
     }
 }

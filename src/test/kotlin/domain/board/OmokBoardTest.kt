@@ -43,7 +43,7 @@ class OmokBoardTest {
         assertThrows<IllegalArgumentException>(
             message = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요.",
         ) {
-            omokBoard.pointValidation(duplicatedPosition)
+            omokBoard.addStone(duplicatedPosition)
         }
     }
 
@@ -203,7 +203,7 @@ class OmokBoardTest {
         assertThrows<IllegalArgumentException>(
             message = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요.",
         ) {
-            omokBoard.pointValidation(blackGByEight)
+            omokBoard.addStone(blackGByEight)
         }
     }
 
@@ -214,6 +214,6 @@ class OmokBoardTest {
         omokBoard.addStone(blackGBySeven)
         omokBoard.addStone(blackGBySix)
 
-        assertDoesNotThrow { omokBoard.pointValidation(whiteGByEight) }
+        assertDoesNotThrow { omokBoard.addStone(whiteGByEight) }
     }
 }

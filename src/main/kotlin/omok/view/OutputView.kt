@@ -1,7 +1,6 @@
 package omok.view
 
 import omok.domain.board.BoardStatus
-import omok.domain.board.OmokBoard
 import omok.domain.board.OmokColumn.Companion.entriesWithoutWall
 import omok.domain.stone.StoneColor
 import omok.view.ext.toLabel
@@ -20,18 +19,16 @@ class OutputView {
     }
 
     fun printBoard(
-        board: OmokBoard,
+        board: List<List<BoardStatus>>,
         color: StoneColor,
     ) {
-        val matrix = board.toMatrix()
-
-        matrix.forEachIndexed { row, rowValue ->
+        board.forEachIndexed { row, rowValue ->
             rowValue.forEachIndexed { column, _ ->
-                val stone = matrix[ROW_MAX_LENGTH - row - 1][column].toChar(color)
+                val stone = board[ROW_MAX_LENGTH - row - 1][column].toChar(color)
 
                 when (row) {
                     0 -> printTopRow(column, stone)
-                    matrix.size - 1 -> printBottomRow(column, rowValue.size, stone)
+                    board.size - 1 -> printBottomRow(column, rowValue.size, stone)
                     else -> printMiddleRow(column, rowValue.size, row, stone)
                 }
             }
