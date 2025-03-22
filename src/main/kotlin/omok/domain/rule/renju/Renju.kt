@@ -17,7 +17,7 @@ abstract class Renju(private val board: OmokBoard) {
         target: BoardStatus,
     ): Int
 
-    fun seek(
+    protected fun seek(
         direction: Direction,
         point: Point,
         target: BoardStatus,
