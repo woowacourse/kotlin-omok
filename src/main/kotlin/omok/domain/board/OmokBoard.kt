@@ -38,7 +38,14 @@ class OmokBoard(
 
     private fun updateProtectedPlace() {
         omokPoints.toList()
-            .filter { it.stoneStatus == StoneStatus.EMPTY }
+            .filter { it.stoneStatus == StoneStatus.PROTECTED }
+            .forEach { point ->
+                if (!ruleChecker.isProtected(point, this)) {
+                    omokPoints.altStone(point.copy(stoneStatus = StoneStatus.EMPTY))
+                }
+            }
+        omokPoints.toList()
+            .filter { it.stoneStatus == StoneStatus.EMPTY || it.stoneStatus == StoneStatus.PROTECTED }
             .forEach { point ->
                 if (ruleChecker.isProtected(point, this)) {
                     omokPoints.altStone(point.copy(stoneStatus = StoneStatus.PROTECTED))

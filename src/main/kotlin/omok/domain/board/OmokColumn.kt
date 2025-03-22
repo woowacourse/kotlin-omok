@@ -16,7 +16,7 @@ enum class OmokColumn(val value: Int) {
     M(13),
     N(14),
     O(15),
-    WALL(-1),
+    WALL(-100),
     ;
 
     companion object {

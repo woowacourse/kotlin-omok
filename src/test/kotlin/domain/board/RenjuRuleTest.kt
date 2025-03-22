@@ -488,10 +488,9 @@ class RenjuRuleTest {
         board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.SEVEN, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.G, OmokRow.SIX, StoneStatus.BLACK))
-        val result1 = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
-        val result2 = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        val result1 =
+            RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.EMPTY), board)
         assertThat(result1).isFalse()
-        assertThat(result2).isFalse()
     }
 
     /**
@@ -500,10 +499,10 @@ class RenjuRuleTest {
      *  13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
      *  12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
      *  11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *  10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   8 ├──●──●──●──●──X──●──┼──┼──┼──┼──┼──┼──┼──┤
-     *   7 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *  10 ├──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   9 ├──┼──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   8 ├──┼──●──●──x──●──┼──┼──┼──┼──┼──┼──┼──┼──┤
+     *   7 ├──┼──┼──┼──┼──○──┼──┼──┼──┼──┼──┼──┼──┼──┤
      *   6 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
      *   5 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
      *   4 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
@@ -513,42 +512,75 @@ class RenjuRuleTest {
      *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
      * */
     @Test
-    fun `6목테스트1`() {
-        board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.BLACK))
+    fun `4x3테스트2`() {
+        board.addStone(Point(OmokColumn.F, OmokRow.SEVEN, StoneStatus.WHITE))
         board.addStone(Point(OmokColumn.C, OmokRow.EIGHT, StoneStatus.BLACK))
         board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.BLACK))
-        board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
-        board.addStone(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.EMPTY), board)
-        assertThat(result).isTrue()
-    }
+        board.addStone(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.D, OmokRow.NINE, StoneStatus.BLACK))
+        board.addStone(Point(OmokColumn.C, OmokRow.TEN, StoneStatus.BLACK))
+        val result1 =
+            RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+        assertThat(result1).isFalse()
 
-    /**
-     *  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
-     *  14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *  13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *  12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *  11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *  10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   8 ├──○──○──○──○──X──○──┼──┼──┼──┼──┼──┼──┼──┤
-     *   7 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   6 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   5 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   4 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   3 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
-     *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-     * */
-    @Test
-    fun `6목테스트2`() {
-        board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.WHITE))
-        board.addStone(Point(OmokColumn.C, OmokRow.EIGHT, StoneStatus.WHITE))
-        board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.WHITE))
-        board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.WHITE))
-        board.addStone(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.WHITE))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.EMPTY), board)
-        assertThat(result).isFalse()
+        /**
+         *  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
+         *  14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *  13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *  12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *  11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *  10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   8 ├──●──●──●──●──X──●──┼──┼──┼──┼──┼──┼──┼──┤
+         *   7 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   6 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   5 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   4 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   3 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
+         *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+         * */
+        @Test
+        fun `6목테스트1`() {
+            board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.BLACK))
+            board.addStone(Point(OmokColumn.C, OmokRow.EIGHT, StoneStatus.BLACK))
+            board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.BLACK))
+            board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.BLACK))
+            board.addStone(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.BLACK))
+            val result =
+                RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+            assertThat(result).isTrue()
+        }
+
+        /**
+         *  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
+         *  14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *  13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *  12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *  11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *  10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   8 ├──○──○──○──○──X──○──┼──┼──┼──┼──┼──┼──┼──┤
+         *   7 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   6 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   5 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   4 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   3 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+         *   1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
+         *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+         * */
+        @Test
+        fun `6목테스트2`() {
+            board.addStone(Point(OmokColumn.B, OmokRow.EIGHT, StoneStatus.WHITE))
+            board.addStone(Point(OmokColumn.C, OmokRow.EIGHT, StoneStatus.WHITE))
+            board.addStone(Point(OmokColumn.D, OmokRow.EIGHT, StoneStatus.WHITE))
+            board.addStone(Point(OmokColumn.E, OmokRow.EIGHT, StoneStatus.WHITE))
+            board.addStone(Point(OmokColumn.G, OmokRow.EIGHT, StoneStatus.WHITE))
+            val result =
+                RenjuRule(DfsRenjuFinder).isProtected(Point(OmokColumn.F, OmokRow.EIGHT, StoneStatus.EMPTY), board)
+            assertThat(result).isFalse()
+        }
     }
 }

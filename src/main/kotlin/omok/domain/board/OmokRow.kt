@@ -16,7 +16,7 @@ enum class OmokRow(val value: Int) {
     THREE(3),
     TWO(2),
     ONE(1),
-    WALL(-1),
+    WALL(-100),
     ;
 
     companion object {
