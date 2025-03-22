@@ -13,7 +13,9 @@ object DfsRenjuFinder : Finder {
     ): SearchResult {
         val next = board.goto(point, direction)
         if (next.stoneStatus != StoneStatus.BLACK && next.stoneStatus != StoneStatus.EMPTY) {
-            if (point.stoneStatus == StoneStatus.EMPTY) return SearchResult(0, false, true)
+            if (point.stoneStatus == StoneStatus.EMPTY) {
+                return SearchResult(0, false, isIndirectlyClosed = true)
+            }
             return SearchResult(0, true)
         }
 
@@ -21,7 +23,13 @@ object DfsRenjuFinder : Finder {
             return if (point.stoneStatus == StoneStatus.BLACK || depth == 0) {
                 dfs(direction, next, board, depth + 1).let { it.copy(stoneCount = it.stoneCount + 1) }
             } else {
-                if (next.stoneStatus == StoneStatus.EMPTY) return SearchResult(0, false)
+                if (next.stoneStatus == StoneStatus.EMPTY) {
+                    // 6목 거짓금수
+                    if (board.goto(next, direction).stoneStatus == StoneStatus.BLACK) {
+                        return SearchResult(0, false, isIndirectlyClosed = true)
+                    }
+                    return SearchResult(0, false)
+                }
                 dfs(direction, next, board, depth + 1)
             }
         }
