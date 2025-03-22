@@ -9,7 +9,7 @@ import omok.domain.rule.GameResult
 import omok.domain.rule.GameResult.DRAW
 import omok.domain.rule.GameResult.WIN_BLACK
 import omok.domain.rule.GameResult.WIN_WHITE
-import omok.domain.rule.PlaceResult
+import omok.domain.rule.PlaceResult.Failure
 import omok.domain.rule.PlaceResult.Failure.AlreadyExistStone
 import omok.domain.rule.PlaceResult.Failure.DoubleFourViolation
 import omok.domain.rule.PlaceResult.Failure.DoubleThreeViolation
@@ -41,7 +41,7 @@ class OutputView {
         println(rowPoints.keys.joinToString("──") { it.drawBoard(omokBoard) })
     }
 
-    fun displayErrorMessage(error: PlaceResult) {
+    fun displayErrorMessage(error: Failure) {
         println()
         println(
             when (error) {
@@ -50,7 +50,6 @@ class OutputView {
                 DoubleThreeViolation -> FORBIDDEN_DOUBLE_THREE
                 DoubleFourViolation -> FORBIDDEN_DOUBLE_FOUR
                 OverlineViolation -> FORBIDDEN_OVERLINE
-                else -> return
             },
         )
     }
