@@ -1,5 +1,6 @@
 package omok.model.board
 
+import omok.external.mapper.toPoint
 import omok.model.rule.OmokRule
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
@@ -33,24 +34,16 @@ class Board private constructor(
         }
 
     private val blackPoints: List<rule.wrapper.point.Point>
-        get() {
-            return stonesMap
-                .filter { (_, stoneState) ->
-                    stoneState == StoneColor.BLACK
-                }.map { (position, _) ->
-                    position.toPoint()
-                }
-        }
+        get() =
+            stonesMap
+                .filter { it.value == StoneColor.BLACK }
+                .map { it.key.toPoint() }
 
     private val whitePoints: List<rule.wrapper.point.Point>
-        get() {
-            return stonesMap
-                .filter { (_, stoneState) ->
-                    stoneState == StoneColor.WHITE
-                }.map { (position, _) ->
-                    position.toPoint()
-                }
-        }
+        get() =
+            stonesMap
+                .filter { it.value == StoneColor.WHITE }
+                .map { it.key.toPoint() }
 
     fun placeStone(nextPosition: Position): Board {
         // 비어있는 상태면 place 할 수 있음

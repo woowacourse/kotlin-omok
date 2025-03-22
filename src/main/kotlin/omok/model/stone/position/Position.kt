@@ -1,7 +1,6 @@
 package omok.model.stone.position
 
 import omok.view.OutputView.Companion.BOARD_SIZE
-import rule.wrapper.point.Point
 
 data class Position(
     val row: Row,
@@ -11,8 +10,6 @@ data class Position(
         require(row.value in MIN_RANGE until MIN_RANGE + BOARD_SIZE) { ERROR_ROW_RANGE }
         require(col.value in MIN_RANGE until MIN_RANGE + BOARD_SIZE) { ERROR_COL_RANGE }
     }
-
-    fun toPoint(): Point = Point(row.value, col.value)
 
     companion object {
         private const val ERROR_ROW_RANGE = "가로 좌표는 오목판의 범위를 벗어날 수 없습니다"
