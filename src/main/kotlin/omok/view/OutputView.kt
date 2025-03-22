@@ -41,6 +41,39 @@ class OutputView {
         println(rowPoints.keys.joinToString("──") { it.drawBoard(omokBoard) })
     }
 
+    private fun Position.drawBoard(omokBoard: OmokBoard): String {
+        val stoneColor = omokBoard.value[this]?.state ?: IntersectionState.EMPTY
+
+        return when {
+            stoneColor == IntersectionState.OCCUPIED_BLACK -> "●"
+            stoneColor == IntersectionState.OCCUPIED_WHITE -> "○"
+            this.row.value == omokBoard.height && this.column.value == 1 -> "┌"
+            this.row.value == omokBoard.height && this.column.value == omokBoard.width -> "┐"
+            this.row.value == 1 && this.column.value == 1 -> "└"
+            this.row.value == 1 && this.column.value == omokBoard.width -> "┘"
+            this.column.value == 1 -> "├"
+            this.column.value == omokBoard.width -> "┤"
+            this.row.value == 1 -> "┴"
+            this.row.value == omokBoard.height -> "┬"
+            else -> "┼"
+        }
+    }
+
+    private fun displayColumnLabels(boardWidth: Int) {
+        println(
+            (1..boardWidth)
+                .map { columnNumber ->
+                    ColumnPosition(columnNumber)
+                        .toLabel()
+                }.joinToString(separator = "  ", prefix = "    "),
+        )
+    }
+
+    private fun ColumnPosition.toLabel(): Char {
+        val alphabets = ALPHABETS.toList()
+        return alphabets[this.value - 1]
+    }
+
     fun displayErrorMessage(error: Failure) {
         println()
         println(
@@ -58,8 +91,9 @@ class OutputView {
         println()
         println(
             when (result) {
+                WIN_BLACK -> BLACK_WIN_RESULT_MESSAGE
+                WIN_WHITE -> WHITE_WIN_RESULT_MESSAGE
                 DRAW -> DRAW_RESULT_MESSAGE
-                else -> WIN_RESULT_MESSAGE.format(result.toLabel())
             },
         )
     }
@@ -72,49 +106,8 @@ class OutputView {
         private const val FORBIDDEN_DOUBLE_FOUR: String = "4 x 4는 금지입니다."
         private const val FORBIDDEN_OVERLINE: String = "6목은 금지입니다."
         private const val DRAW_RESULT_MESSAGE: String = "무승부 입니다."
-        private const val WIN_RESULT_MESSAGE: String = "%s의 우승을 축하드립니다!"
-        private const val BLACK_COLOR_LABEL: String = "흑"
-        private const val WHITE_COLOR_LABEL: String = "백"
+        private const val BLACK_WIN_RESULT_MESSAGE: String = "흑의 우승을 축하드립니다!"
+        private const val WHITE_WIN_RESULT_MESSAGE: String = "백의 우승을 축하드립니다!"
         private val ALPHABETS: CharRange = ('A'..'Z')
-
-        private fun Position.drawBoard(omokBoard: OmokBoard): String {
-            val stoneColor = omokBoard.value[this]?.state ?: IntersectionState.EMPTY
-
-            return when {
-                stoneColor == IntersectionState.OCCUPIED_BLACK -> "●"
-                stoneColor == IntersectionState.OCCUPIED_WHITE -> "○"
-                this.row.value == omokBoard.height && this.column.value == 1 -> "┌"
-                this.row.value == omokBoard.height && this.column.value == omokBoard.width -> "┐"
-                this.row.value == 1 && this.column.value == 1 -> "└"
-                this.row.value == 1 && this.column.value == omokBoard.width -> "┘"
-                this.column.value == 1 -> "├"
-                this.column.value == omokBoard.width -> "┤"
-                this.row.value == 1 -> "┴"
-                this.row.value == omokBoard.height -> "┬"
-                else -> "┼"
-            }
-        }
-
-        private fun displayColumnLabels(boardWidth: Int) {
-            println(
-                (1..boardWidth)
-                    .map { columnNumber ->
-                        ColumnPosition(columnNumber)
-                            .toLabel()
-                    }.joinToString(separator = "  ", prefix = "    "),
-            )
-        }
-
-        private fun ColumnPosition.toLabel(): Char {
-            val alphabets = ALPHABETS.toList()
-            return alphabets[this.value - 1]
-        }
-
-        private fun GameResult.toLabel(): String =
-            when (this) {
-                WIN_BLACK -> BLACK_COLOR_LABEL
-                WIN_WHITE -> WHITE_COLOR_LABEL
-                else -> ""
-            }
     }
 }
