@@ -52,6 +52,7 @@ class BoardTest {
         Full.forEach { board.put(it) }
         assertThat(board.isFull()).isTrue()
     }
+
     @Test
     fun `오목판이 다 채워지면 더 이상 놓을 수 없다2`() {
         Full.forEach { board.put(it) }
