@@ -1,6 +1,6 @@
 package omok.domain
 
-enum class StoneState {
+enum class StoneColor {
     BLACK,
     WHITE,
 }

@@ -1,16 +1,13 @@
 package omok.domain
 
 import omok.domain.point.OmokPoint
-import omok.domain.rule.BlackRuleAdapterImpl
-import omok.domain.rule.OmokRuleAdapter
 import omok.domain.rule.Referee
-import omok.domain.rule.WhiteRuleAdapterImpl
 
 class OmokGame(val grid: OmokGrid) {
     private val referee = Referee()
 
-    fun getStartingPlayer(): StoneState {
-        return StoneState.BLACK
+    fun getStartingPlayer(): StoneColor {
+        return StoneColor.BLACK
     }
 
     fun isBoardFull(): Boolean {
@@ -18,45 +15,31 @@ class OmokGame(val grid: OmokGrid) {
     }
 
     fun playMove(
-        stoneColor: StoneState,
+        stoneColor: StoneColor,
         point: OmokPoint,
     ) {
         grid.putStone(point, stoneColor)
     }
 
-    fun getOtherPlayer(turn: StoneState): StoneState {
-        return if (turn == StoneState.BLACK) {
-            StoneState.WHITE
+    fun changeTurn(nowTurn: StoneColor): StoneColor {
+        return if (nowTurn == StoneColor.BLACK) {
+            StoneColor.WHITE
         } else {
-            StoneState.BLACK
+            StoneColor.BLACK
         }
     }
 
     fun validatePoint(
-        stoneColor: StoneState,
-        point: OmokPoint,
+        nowTurn: StoneColor,
+        startPoint: OmokPoint,
     ) {
-        referee.checkViolation(getRule(stoneColor), grid, point)
+        referee.checkViolation(nowTurn, grid, startPoint)
     }
 
     fun checkWin(
-        nowTurn: StoneState,
-        thisTurnPoint: OmokPoint,
+        nowTurn: StoneColor,
+        startPoint: OmokPoint,
     ): Boolean {
-        return referee.checkWin(getRule(nowTurn), getStones(nowTurn), thisTurnPoint)
-    }
-
-    fun getRule(stoneColor: StoneState): OmokRuleAdapter {
-        return when (stoneColor) {
-            StoneState.WHITE -> WhiteRuleAdapterImpl
-            StoneState.BLACK -> BlackRuleAdapterImpl
-        }
-    }
-
-    fun getStones(nowTurn: StoneState): Set<OmokPoint> {
-        return when (nowTurn) {
-            StoneState.BLACK -> grid.blackStones.stones
-            StoneState.WHITE -> grid.whiteStones.stones
-        }
+        return referee.checkWin(nowTurn, grid.getStones(nowTurn), startPoint)
     }
 }

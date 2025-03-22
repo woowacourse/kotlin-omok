@@ -1,14 +1,14 @@
 package omok.view
 
 import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
-import omok.domain.StoneState
+import omok.domain.StoneColor
 import omok.domain.point.Column
 import omok.domain.point.OmokPoint
 import omok.domain.point.Row
 
 class InputView {
     fun getPoint(
-        stoneColor: StoneState,
+        stoneColor: StoneColor,
         latestPoint: OmokPoint?,
     ): OmokPoint {
         print(MESSAGE_TURN.format(stoneColor.getDisplayColor()))
@@ -51,10 +51,10 @@ class InputView {
         return letter[0] - 'A' + 1
     }
 
-    private fun StoneState.getDisplayColor(): String {
+    private fun StoneColor.getDisplayColor(): String {
         return when (this) {
-            StoneState.BLACK -> "흑"
-            StoneState.WHITE -> "백"
+            StoneColor.BLACK -> "흑"
+            StoneColor.WHITE -> "백"
         }
     }
 

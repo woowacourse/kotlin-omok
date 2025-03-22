@@ -2,14 +2,16 @@ package omok.domain.rule
 
 import omok.domain.OmokGrid
 import omok.domain.OmokViolation
+import omok.domain.StoneColor
 import omok.domain.point.OmokPoint
 
 class Referee {
     fun checkViolation(
-        ruleAdapter: OmokRuleAdapter,
+        stoneColor: StoneColor,
         grid: OmokGrid,
         latestPoint: OmokPoint,
     ) {
+        val ruleAdapter = getRule(stoneColor)
         val violation =
             listOf(
                 ruleAdapter.checkViolation(grid.blackStones.stones, grid.whiteStones.stones, latestPoint),
@@ -19,10 +21,11 @@ class Referee {
     }
 
     fun checkWin(
-        ruleAdapter: OmokRuleAdapter,
+        stoneColor: StoneColor,
         stones: Set<OmokPoint>,
         latestPoint: OmokPoint,
     ): Boolean {
+        val ruleAdapter = getRule(stoneColor)
         return ruleAdapter.isWin(stones, latestPoint, 5)
     }
 
@@ -41,6 +44,13 @@ class Referee {
             OmokViolation.OVER_LINE -> throw IllegalStateException(ERROR_OVER_LINE)
             OmokViolation.OCCUPIED -> throw IllegalStateException(ERROR_DUPLICATE_MOVE)
             OmokViolation.NONE -> {}
+        }
+    }
+
+    private fun getRule(stoneColor: StoneColor): OmokRuleAdapter {
+        return when (stoneColor) {
+            StoneColor.WHITE -> WhiteRuleAdapterImpl
+            StoneColor.BLACK -> BlackRuleAdapterImpl
         }
     }
 

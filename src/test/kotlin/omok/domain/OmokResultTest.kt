@@ -7,7 +7,7 @@ class OmokResultTest {
     @Test
     fun `마지막 플레이어가 black이면 black가 승리한다`() {
         // given
-        val nowTurn = StoneState.BLACK
+        val nowTurn = StoneColor.BLACK
         // when
         val actual = OmokResult.getWinner(nowTurn)
         val expected = OmokResult.BLACK_WIN
@@ -18,7 +18,7 @@ class OmokResultTest {
     @Test
     fun `마지막 플레이어가 white면 white가 승리한다`() {
         // given
-        val nowTurn = StoneState.WHITE
+        val nowTurn = StoneColor.WHITE
         // when
         val actual = OmokResult.getWinner(nowTurn)
         val expected = OmokResult.WHITE_WIN

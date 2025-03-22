@@ -3,7 +3,7 @@ package omok.view
 import omok.domain.OmokGrid
 import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
 import omok.domain.OmokResult
-import omok.domain.StoneState
+import omok.domain.StoneColor
 
 class OutputView {
     fun printErrorMessage(message: String?) {
@@ -31,7 +31,7 @@ class OutputView {
     }
 
     private fun printRow(
-        grid: List<List<StoneState?>>,
+        grid: List<List<StoneColor?>>,
         row: Int,
     ) {
         print(COORDINATE_X.format(row))
@@ -42,21 +42,21 @@ class OutputView {
         println()
     }
 
-    private fun makeBoard(grid: OmokGrid): List<List<StoneState?>> {
-        val board: List<MutableList<StoneState?>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { null } }
+    private fun makeBoard(grid: OmokGrid): List<List<StoneColor?>> {
+        val board: List<MutableList<StoneColor?>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { null } }
 
         grid.blackStones.stones.forEach { (row, col) ->
-            board[row.value][col.value] = StoneState.BLACK
+            board[row.value][col.value] = StoneColor.BLACK
         }
 
         grid.whiteStones.stones.forEach { (row, col) ->
-            board[row.value][col.value] = StoneState.WHITE
+            board[row.value][col.value] = StoneColor.WHITE
         }
         return board
     }
 
     private fun boardUI(
-        grid: List<List<StoneState?>>,
+        grid: List<List<StoneColor?>>,
         row: Int,
         col: Int,
     ): String {
@@ -75,10 +75,10 @@ class OutputView {
         }
     }
 
-    private fun StoneState.toUI(): String {
+    private fun StoneColor.toUI(): String {
         return when (this) {
-            StoneState.BLACK -> "●"
-            StoneState.WHITE -> "○"
+            StoneColor.BLACK -> "●"
+            StoneColor.WHITE -> "○"
         }
     }
 

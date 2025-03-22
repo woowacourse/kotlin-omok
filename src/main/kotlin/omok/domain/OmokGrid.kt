@@ -8,11 +8,11 @@ class OmokGrid() {
 
     fun putStone(
         point: OmokPoint,
-        state: StoneState,
+        state: StoneColor,
     ) {
         when (state) {
-            StoneState.WHITE -> whiteStones + point
-            StoneState.BLACK -> blackStones + point
+            StoneColor.WHITE -> whiteStones + point
+            StoneColor.BLACK -> blackStones + point
         }
     }
 
@@ -22,6 +22,13 @@ class OmokGrid() {
 
     fun isFull(): Boolean {
         return getTotalStones().size == TOTAL_POINT_COUNT
+    }
+
+    fun getStones(nowTurn: StoneColor): Set<OmokPoint> {
+        return when (nowTurn) {
+            StoneColor.BLACK -> blackStones.stones
+            StoneColor.WHITE -> whiteStones.stones
+        }
     }
 
     companion object {

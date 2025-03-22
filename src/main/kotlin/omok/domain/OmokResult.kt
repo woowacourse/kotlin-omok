@@ -7,10 +7,10 @@ enum class OmokResult {
     ;
 
     companion object {
-        fun getWinner(stoneColor: StoneState): OmokResult {
+        fun getWinner(stoneColor: StoneColor): OmokResult {
             return when (stoneColor) {
-                StoneState.BLACK -> BLACK_WIN
-                StoneState.WHITE -> WHITE_WIN
+                StoneColor.BLACK -> BLACK_WIN
+                StoneColor.WHITE -> WHITE_WIN
             }
         }
     }

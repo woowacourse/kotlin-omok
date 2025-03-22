@@ -19,7 +19,7 @@ class OmokGridTest {
     fun `좌표와 검정 돌을 받으면 검정 돌 리스트에 추가한다`() {
         // given
         val point = OmokPoint(Row(1), Column(2))
-        omokGrid.putStone(point, StoneState.BLACK)
+        omokGrid.putStone(point, StoneColor.BLACK)
         // when
         val actual = omokGrid.blackStones.stones.contains(point)
         // then
@@ -30,7 +30,7 @@ class OmokGridTest {
     fun `좌표와 흰 돌을 받으면 흰 돌 리스트에 추가한다`() {
         // given
         val point = OmokPoint(Row(1), Column(2))
-        omokGrid.putStone(point, StoneState.WHITE)
+        omokGrid.putStone(point, StoneColor.WHITE)
         // when
         val actual = omokGrid.whiteStones.stones.contains(point)
         // then

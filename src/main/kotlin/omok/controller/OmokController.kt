@@ -2,7 +2,7 @@ package omok.controller
 
 import omok.domain.OmokGame
 import omok.domain.OmokResult
-import omok.domain.StoneState
+import omok.domain.StoneColor
 import omok.domain.point.OmokPoint
 import omok.util.retryInput
 import omok.view.InputView
@@ -26,38 +26,37 @@ class OmokController(
     // 게임을 진행한다
     private tailrec fun playGame(
         latestPoint: OmokPoint?,
-        nowTurn: StoneState,
+        nowTurn: StoneColor,
     ): OmokResult {
         val thisTurnPoint = playTurn(nowTurn, latestPoint)
         if (omokGame.checkWin(nowTurn, thisTurnPoint)) return OmokResult.getWinner(nowTurn)
         if (omokGame.isBoardFull()) return OmokResult.DRAW
-        return playGame(thisTurnPoint, omokGame.getOtherPlayer(nowTurn))
+        return playGame(thisTurnPoint, omokGame.changeTurn(nowTurn))
     }
 
     // 플레이어의 한 턴을 처리한다
     private fun playTurn(
-        turn: StoneState,
+        nowTurn: StoneColor,
         latestPoint: OmokPoint?,
     ): OmokPoint {
         outputView.printBoardState(omokGame.grid)
-        val point = getPointToPlace(turn, latestPoint)
-        omokGame.playMove(turn, point)
+        val point = getPointToPlace(nowTurn, latestPoint)
+        omokGame.playMove(nowTurn, point)
         return point
     }
 
     // 착수할 위치를 입력 받는다
     private fun getPointToPlace(
-        turn: StoneState,
+        nowTurn: StoneColor,
         latestPoint: OmokPoint?,
     ): OmokPoint {
         return retryInput(
             inputFunction = {
-                val point = inputView.getPoint(turn, latestPoint)
-                omokGame.validatePoint(turn, point)
+                val point = inputView.getPoint(nowTurn, latestPoint)
+                omokGame.validatePoint(nowTurn, point)
                 point
             },
-            printErrorMessage = {
-                    message ->
+            printErrorMessage = { message ->
                 outputView.printErrorMessage(message)
             },
         )
