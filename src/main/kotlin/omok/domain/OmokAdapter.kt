@@ -3,7 +3,7 @@ package omok.domain
 import omok.domain.lib.RenjuRule
 
 class OmokAdapter(private val rule: RenjuRule = RenjuRule(boardSize = 15)) {
-    fun isForbidden(
+    fun validatePosition(
         board: OmokBoard,
         position: Position,
     ): Boolean {
