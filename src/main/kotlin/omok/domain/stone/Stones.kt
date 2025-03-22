@@ -5,8 +5,8 @@ import omok.domain.rule.OmokRule
 
 abstract class Stones(
     points: Set<Point> = emptySet(),
+    private val omokRule: OmokRule = OmokRule(points)
 ) {
-    private val omokRule = OmokRule(points)
     private val _points = points.toMutableSet()
     val points = _points.toSet()
 
