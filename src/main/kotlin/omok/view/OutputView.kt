@@ -14,19 +14,6 @@ class OutputView {
         }
     }
 
-    private fun makeBoard(grid: OmokGrid): List<List<StoneState?>> {
-        val board: List<MutableList<StoneState?>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { null } }
-
-        grid.blackStones.stones.forEach { (row, col) ->
-            board[row.value][col.value] = StoneState.BLACK
-        }
-
-        grid.whiteStones.stones.forEach { (row, col) ->
-            board[row.value][col.value] = StoneState.WHITE
-        }
-        return board
-    }
-
     fun printStartMessage() = println(MESSAGE_GAME_START)
 
     fun printBoardState(grid: OmokGrid) {
@@ -55,6 +42,50 @@ class OutputView {
         println()
     }
 
+    private fun makeBoard(grid: OmokGrid): List<List<StoneState?>> {
+        val board: List<MutableList<StoneState?>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { null } }
+
+        grid.blackStones.stones.forEach { (row, col) ->
+            board[row.value][col.value] = StoneState.BLACK
+        }
+
+        grid.whiteStones.stones.forEach { (row, col) ->
+            board[row.value][col.value] = StoneState.WHITE
+        }
+        return board
+    }
+
+    private fun boardUI(
+        grid: List<List<StoneState?>>,
+        row: Int,
+        col: Int,
+    ): String {
+        val state = grid[row][col]
+        return when {
+            state != null -> state.toUI()
+            row == MIN_BOUND && col == MIN_BOUND -> LEFT_DOWN
+            row == MIN_BOUND && col == MAX_BOUND -> RIGHT_DOWN
+            row == MAX_BOUND && col == MIN_BOUND -> LEFT_UP
+            row == MAX_BOUND && col == MAX_BOUND -> RIGHT_UP
+            col == MIN_BOUND -> LEFT
+            row == MAX_BOUND -> UP
+            col == MAX_BOUND -> RIGHT
+            row == MIN_BOUND -> DOWN
+            else -> MIDDLE
+        }
+    }
+
+    private fun StoneState.toUI(): String {
+        return when (this) {
+            StoneState.BLACK -> "●"
+            StoneState.WHITE -> "○"
+        }
+    }
+
+    private fun printCoordinateY() {
+        println(('A' until 'A' + DEFAULT_SIZE).joinToString("  "))
+    }
+
     companion object {
         private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
         private const val ERROR_NOT_FOUND = "[ERROR] 유효하지 않은 접근입니다"
@@ -77,36 +108,5 @@ class OutputView {
         private const val MAX_BOUND = 15
 
         private const val MESSAGE_WINNER = "%s !!"
-
-        private fun boardUI(
-            grid: List<List<StoneState?>>,
-            row: Int,
-            col: Int,
-        ): String {
-            val state = grid[row][col]
-            return when {
-                state != null -> state.toUI()
-                row == MIN_BOUND && col == MIN_BOUND -> LEFT_DOWN
-                row == MIN_BOUND && col == MAX_BOUND -> RIGHT_DOWN
-                row == MAX_BOUND && col == MIN_BOUND -> LEFT_UP
-                row == MAX_BOUND && col == MAX_BOUND -> RIGHT_UP
-                col == MIN_BOUND -> LEFT
-                row == MAX_BOUND -> UP
-                col == MAX_BOUND -> RIGHT
-                row == MIN_BOUND -> DOWN
-                else -> MIDDLE
-            }
-        }
-
-        private fun StoneState.toUI(): String {
-            return when (this) {
-                StoneState.BLACK -> "●"
-                StoneState.WHITE -> "○"
-            }
-        }
-
-        private fun printCoordinateY() {
-            println(('A' until 'A' + DEFAULT_SIZE).joinToString("  "))
-        }
     }
 }
