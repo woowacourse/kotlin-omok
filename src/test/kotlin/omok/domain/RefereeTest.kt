@@ -30,12 +30,12 @@ class RefereeTest {
         // given
         val beforeDoubleThree = beforeDoubleThree()
         beforeDoubleThree.forEach {
-            grid.blackStones + it
+            grid.putStone(it, StoneColor.BLACK)
         }
 
         // when & then
         assertThrows<IllegalStateException> {
-            referee.checkViolation(StoneColor.BLACK, grid, getFoulPoint())
+            referee.checkViolation(StoneColor.BLACK, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -44,12 +44,12 @@ class RefereeTest {
         // given
         val beforeDoubleThree = beforeDoubleThree()
         beforeDoubleThree.forEach {
-            grid.whiteStones + it
+            grid.putStone(it, StoneColor.WHITE)
         }
 
         // when & then
         assertDoesNotThrow {
-            referee.checkViolation(StoneColor.WHITE, grid, getFoulPoint())
+            referee.checkViolation(StoneColor.WHITE, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -58,12 +58,12 @@ class RefereeTest {
         // given
         val beforeDoubleFour = beforeDoubleFour()
         beforeDoubleFour.forEach {
-            grid.blackStones + it
+            grid.putStone(it, StoneColor.BLACK)
         }
 
         // when & then
         assertThrows<IllegalStateException> {
-            referee.checkViolation(StoneColor.BLACK, grid, getFoulPoint())
+            referee.checkViolation(StoneColor.BLACK, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -72,12 +72,12 @@ class RefereeTest {
         // given
         val beforeDoubleFour = beforeDoubleFour()
         beforeDoubleFour.forEach {
-            grid.whiteStones + it
+            grid.putStone(it, StoneColor.WHITE)
         }
 
         // when & then
         assertDoesNotThrow {
-            referee.checkViolation(StoneColor.WHITE, grid, getFoulPoint())
+            referee.checkViolation(StoneColor.WHITE, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -86,12 +86,12 @@ class RefereeTest {
         // given
         val beforeOverLine = beforeOverLine()
         beforeOverLine.forEach {
-            grid.blackStones + it
+            grid.putStone(it, StoneColor.BLACK)
         }
 
         // when & then
         assertThrows<IllegalStateException> {
-            referee.checkViolation(StoneColor.BLACK, grid, getFoulPoint())
+            referee.checkViolation(StoneColor.BLACK, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -100,26 +100,36 @@ class RefereeTest {
         // given
         val beforeOverLine = beforeOverLine()
         beforeOverLine.forEach {
-            grid.whiteStones + it
+            grid.putStone(it, StoneColor.WHITE)
         }
 
         // when & then
         assertDoesNotThrow {
-            referee.checkViolation(StoneColor.WHITE, grid, getFoulPoint())
+            referee.checkViolation(StoneColor.WHITE, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
     @Test
     fun `이미 돌이 있는 위치에 돌을 놓을 수 없다`() {
         // given
-        grid.blackStones + OmokPoint(Row(1), Column(2))
+        grid.putStone(OmokPoint(Row(1), Column(2)), StoneColor.BLACK)
 
         // when & then
         assertThrows<IllegalStateException> {
-            referee.checkViolation(StoneColor.BLACK, grid, OmokPoint(Row(1), Column(2)))
+            referee.checkViolation(
+                StoneColor.BLACK,
+                grid.getStones(StoneColor.BLACK),
+                grid.getStones(StoneColor.WHITE),
+                OmokPoint(Row(1), Column(2)),
+            )
         }
         assertThrows<IllegalStateException> {
-            referee.checkViolation(StoneColor.WHITE, grid, OmokPoint(Row(1), Column(2)))
+            referee.checkViolation(
+                StoneColor.WHITE,
+                grid.getStones(StoneColor.BLACK),
+                grid.getStones(StoneColor.WHITE),
+                OmokPoint(Row(1), Column(2)),
+            )
         }
     }
 
@@ -128,11 +138,11 @@ class RefereeTest {
         // given
         val omokStones = omokPoints()
         omokStones.forEach {
-            grid.blackStones + it
+            grid.putStone(it, StoneColor.BLACK)
         }
 
         // when
-        val actual = referee.checkWin(StoneColor.BLACK, grid.blackStones.stones, POINT_H6)
+        val actual = referee.checkWin(StoneColor.BLACK, grid.getStones(StoneColor.BLACK), POINT_H6)
 
         // then
         assertThat(actual).isTrue()

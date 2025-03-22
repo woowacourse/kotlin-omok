@@ -1,9 +1,9 @@
 package omok.view
 
-import omok.domain.OmokGrid
 import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
 import omok.domain.OmokResult
 import omok.domain.StoneColor
+import omok.domain.point.OmokPoint
 
 class OutputView {
     fun printErrorMessage(message: String?) {
@@ -16,8 +16,11 @@ class OutputView {
 
     fun printStartMessage() = println(MESSAGE_GAME_START)
 
-    fun printBoardState(grid: OmokGrid) {
-        val board = makeBoard(grid)
+    fun printBoardState(
+        blackStones: Set<OmokPoint>,
+        whiteStones: Set<OmokPoint>,
+    ) {
+        val board = makeBoard(blackStones, whiteStones)
         println()
         for (row in DEFAULT_SIZE downTo MIN_BOUND) {
             printRow(board, row)
@@ -42,14 +45,17 @@ class OutputView {
         println()
     }
 
-    private fun makeBoard(grid: OmokGrid): List<List<StoneColor?>> {
+    private fun makeBoard(
+        blackStones: Set<OmokPoint>,
+        whiteStones: Set<OmokPoint>,
+    ): List<List<StoneColor?>> {
         val board: List<MutableList<StoneColor?>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { null } }
 
-        grid.blackStones.stones.forEach { (row, col) ->
+        blackStones.forEach { (row, col) ->
             board[row.value][col.value] = StoneColor.BLACK
         }
 
-        grid.whiteStones.stones.forEach { (row, col) ->
+        whiteStones.forEach { (row, col) ->
             board[row.value][col.value] = StoneColor.WHITE
         }
         return board

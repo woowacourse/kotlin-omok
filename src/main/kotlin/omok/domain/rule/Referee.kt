@@ -1,6 +1,5 @@
 package omok.domain.rule
 
-import omok.domain.OmokGrid
 import omok.domain.OmokViolation
 import omok.domain.StoneColor
 import omok.domain.point.OmokPoint
@@ -8,14 +7,15 @@ import omok.domain.point.OmokPoint
 class Referee {
     fun checkViolation(
         stoneColor: StoneColor,
-        grid: OmokGrid,
+        blackStones: Set<OmokPoint>,
+        whiteStones: Set<OmokPoint>,
         latestPoint: OmokPoint,
     ) {
         val ruleAdapter = getRule(stoneColor)
         val violation =
             listOf(
-                ruleAdapter.checkViolation(grid.blackStones.stones, grid.whiteStones.stones, latestPoint),
-                checkDuplicateMove(grid.getTotalStones(), latestPoint),
+                ruleAdapter.checkViolation(blackStones, whiteStones, latestPoint),
+                checkDuplicateMove(blackStones + whiteStones, latestPoint),
             ).lastOrNull { it.isError } ?: OmokViolation.NONE
         dealViolation(violation)
     }

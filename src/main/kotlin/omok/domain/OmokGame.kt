@@ -33,7 +33,7 @@ class OmokGame(val grid: OmokGrid) {
         nowTurn: StoneColor,
         startPoint: OmokPoint,
     ) {
-        referee.checkViolation(nowTurn, grid, startPoint)
+        referee.checkViolation(nowTurn, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), startPoint)
     }
 
     fun checkWin(

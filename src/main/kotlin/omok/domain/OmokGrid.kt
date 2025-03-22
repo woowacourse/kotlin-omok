@@ -3,8 +3,8 @@ package omok.domain
 import omok.domain.point.OmokPoint
 
 class OmokGrid() {
-    val whiteStones: Stones = Stones()
-    val blackStones: Stones = Stones()
+    private val whiteStones: Stones = Stones()
+    private val blackStones: Stones = Stones()
 
     fun putStone(
         point: OmokPoint,
@@ -16,12 +16,8 @@ class OmokGrid() {
         }
     }
 
-    fun getTotalStones(): Set<OmokPoint> {
-        return whiteStones.stones + blackStones.stones
-    }
-
     fun isFull(): Boolean {
-        return getTotalStones().size == TOTAL_POINT_COUNT
+        return (whiteStones.stones + blackStones.stones).size == TOTAL_POINT_COUNT
     }
 
     fun getStones(nowTurn: StoneColor): Set<OmokPoint> {
