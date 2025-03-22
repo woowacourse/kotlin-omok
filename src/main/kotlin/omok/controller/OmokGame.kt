@@ -1,9 +1,9 @@
 package omok.controller
 
 import omok.domain.Board
+import omok.domain.RenjuRuleAdapter
 import omok.domain.Stone
 import omok.domain.Turn
-import omok.domain.RenjuRuleAdapter
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -37,7 +37,10 @@ class OmokGame(
         return turn.stone(inputPosition)
     }
 
-    private fun messageTurn(lastStone: Stone?, position: String) {
+    private fun messageTurn(
+        lastStone: Stone?,
+        position: String,
+    ) {
         if (lastStone == null) {
             outputView.printFirstTurn()
         } else {
