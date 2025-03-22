@@ -1,21 +1,14 @@
 package omok.view
 
-import omok.domain.OmokBoard
 import omok.domain.Position
-import omok.domain.player.Player
 
 class InputView {
-    fun getPoint(
-        player: Player,
-        latestPoint: Position?,
-        board: OmokBoard,
-    ): Position {
-//        print(MESSAGE_TURN.format(player.getDisplayColor()))
-        if (latestPoint != null) print(MESSAGE_LATEST_POSITION.format(convertToString(latestPoint)))
+    fun getPosition(latestPosition: Position?): Position {
+        if (latestPosition != null) print(MESSAGE_LATEST_POSITION.format(convertToString(latestPosition)))
         print(MESSAGE_POSITION_GUIDE)
         val rawInput = readln().trim()
 
-        return parsingInput(rawInput, board) ?: getPoint(player, latestPoint, board)
+        return parsingInput(rawInput) ?: getPosition(latestPosition)
     }
 
     companion object {
@@ -28,35 +21,26 @@ class InputView {
             return letter + (point.y).toString()
         }
 
-        private fun parsingInput(
-            rawInput: String,
-            board: OmokBoard,
-        ): Position? {
+        private fun parsingInput(rawInput: String): Position? {
             if (rawInput.isEmpty()) return null
 
             val rawRow = rawInput.substring(1)
             val rawCol = rawInput.substring(0, 1)
 
-            val row = validateRow(rawRow, board.height) ?: return null
-            val col = validateCol(rawCol, board.width) ?: return null
+            val row = validateRow(rawRow) ?: return null
+            val col = validateCol(rawCol) ?: return null
             return Position(row, col)
         }
 
-        private fun validateRow(
-            rawRow: String,
-            height: Int,
-        ): Int? {
+        private fun validateRow(rawRow: String): Int? {
             if (rawRow.toIntOrNull() == null) return null
-            if (rawRow.toInt() !in 1..height) return null
+            if (rawRow.toInt() !in 1..15) return null
             return rawRow.toInt()
         }
 
-        private fun validateCol(
-            rawCol: String,
-            width: Int,
-        ): Int? {
+        private fun validateCol(rawCol: String): Int? {
             val convertedCol = convertLetter(rawCol)
-            if (convertedCol !in 1..width) return null
+            if (convertedCol !in 1..15) return null
             return convertedCol
         }
 

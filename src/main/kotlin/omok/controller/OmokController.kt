@@ -24,7 +24,7 @@ class OmokController(
         var nowTurn: StoneState = StoneState.BLACK
         while (true) {
             outputView.printBoardState(board)
-            latestPosition = inputView.getPoint(latestPosition)
+            latestPosition = inputView.getPosition(latestPosition)
             playTurn(latestPosition, nowTurn)
             nowTurn = if (nowTurn == StoneState.BLACK) StoneState.WHITE else StoneState.BLACK
         }
