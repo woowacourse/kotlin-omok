@@ -5,7 +5,7 @@ import omok.domain.omokboard.State
 import omok.domain.player.PlayerStone
 
 class AlreadyExistStoneRule : OmokRule {
-    override fun canPlace(
+    override fun place(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
     ): PlaceResult =

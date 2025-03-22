@@ -32,7 +32,7 @@ class DrawRuleTest {
 
         // when
         val playerStone = PlayerStone(StoneColor.BLACK, Position(RowPosition(15), ColumnPosition(15)))
-        val actual = DrawRule().canPlace(playingBoard.board, playerStone)
+        val actual = DrawRule().place(playingBoard.board, playerStone)
         val expected = PlaceResult.Success.Finish(GameResult.DRAW)
 
         // then

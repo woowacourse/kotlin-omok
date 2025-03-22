@@ -5,7 +5,7 @@ import omok.domain.player.PlayerStone
 import rule.BlackRenjuRule
 
 interface OmokRule {
-    fun canPlace(
+    fun place(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
     ): PlaceResult

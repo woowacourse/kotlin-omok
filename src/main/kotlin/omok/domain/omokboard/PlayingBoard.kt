@@ -14,7 +14,7 @@ class PlayingBoard(
         var result: PlaceResult = PlaceResult.Success.Progress(playerStone)
 
         rules.forEach { rule ->
-            result = rule.canPlace(board, playerStone)
+            result = rule.place(board, playerStone)
             if (result is PlaceResult.Failure) return result
         }
 

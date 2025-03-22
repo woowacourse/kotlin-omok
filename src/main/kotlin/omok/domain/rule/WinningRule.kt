@@ -11,7 +11,7 @@ import omok.domain.player.StoneColor.BLACK
 import omok.domain.player.StoneColor.WHITE
 
 class WinningRule : OmokRule {
-    override fun canPlace(
+    override fun place(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
     ): PlaceResult {
