@@ -7,7 +7,7 @@ class OmokRule(private val points: Set<Point>) {
         lastPoint: Point,
         size: Int,
     ): Boolean =
-        listOf(HORIZONTAL, VERTICAL, DIAGONAL_UP, DIAGONAL_DOWN).any {
+        DIRECTIONS.any {
             isSerialOmok(lastPoint, it, size)
         }
 
@@ -42,5 +42,6 @@ class OmokRule(private val points: Set<Point>) {
         private val VERTICAL = listOf(Pair(0, 1), Pair(0, -1))
         private val DIAGONAL_UP = listOf(Pair(-1, -1), Pair(1, 1))
         private val DIAGONAL_DOWN = listOf(Pair(-1, 1), Pair(1, -1))
+        private val DIRECTIONS = listOf(HORIZONTAL, VERTICAL, DIAGONAL_UP, DIAGONAL_DOWN)
     }
 }
