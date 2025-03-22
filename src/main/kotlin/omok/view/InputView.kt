@@ -18,6 +18,33 @@ class InputView {
         return readln().toValidPosition() ?: askForPosition(currentTurnColor, position)
     }
 
+    private fun String.toValidPosition(): Position? {
+        if (this.isBlank()) return null
+
+        val columnPosition = this.first().toColumnPosition()
+        val rowPosition = this.substring(1).toIntOrNull()
+
+        return rowPosition?.let { Position(RowPosition(it), columnPosition) }
+    }
+
+    private fun Char.toColumnPosition(): ColumnPosition {
+        val alphabets = ALPHABETS.toList()
+        return ColumnPosition(alphabets.indexOf(this) + 1)
+    }
+
+    private fun StoneColor.toLabel(): String =
+        when (this) {
+            BLACK -> BLACK_COLOR_LABEL
+            WHITE -> WHITE_COLOR_LABEL
+        }
+
+    private fun Position.toLabel(): String = "${this.column.toLabel()}${this.row}"
+
+    private fun ColumnPosition.toLabel(): Char {
+        val alphabets = ALPHABETS.toList()
+        return alphabets[this.value - 1]
+    }
+
     companion object {
         private const val SHOW_PLAYER_TURN: String = "\n%s의 차례입니다."
         private const val LAST_STONE_POSITION: String = "(마지막 돌의 위치: %s)"
@@ -25,32 +52,5 @@ class InputView {
         private const val BLACK_COLOR_LABEL: String = "흑"
         private const val WHITE_COLOR_LABEL: String = "백"
         private val ALPHABETS: CharRange = ('A'..'Z')
-
-        private fun StoneColor.toLabel(): String =
-            when (this) {
-                BLACK -> BLACK_COLOR_LABEL
-                WHITE -> WHITE_COLOR_LABEL
-            }
-
-        private fun Position.toLabel(): String = "${this.column.toLabel()}${this.row}"
-
-        private fun ColumnPosition.toLabel(): Char {
-            val alphabets = ALPHABETS.toList()
-            return alphabets[this.value - 1]
-        }
-
-        private fun String.toValidPosition(): Position? {
-            if (this.isBlank()) return null
-
-            val columnPosition = this.first().toColumnPosition()
-            val rowPosition = this.substring(1).toIntOrNull()
-
-            return rowPosition?.let { Position(RowPosition(it), columnPosition) }
-        }
-
-        private fun Char.toColumnPosition(): ColumnPosition {
-            val alphabets = ALPHABETS.toList()
-            return ColumnPosition(alphabets.indexOf(this) + 1)
-        }
     }
 }
