@@ -14,10 +14,7 @@ abstract class OmokRule(
     fun isOmok(
         points: Set<Point>,
         lastPoint: Point,
-    ): Boolean =
-        Direction.getDirectionPair().any {
-            isSerialOmok(points, lastPoint, it)
-        }
+    ): Boolean = Direction.directionPairs.any { isSerialOmok(points, lastPoint, it) }
 
     private fun isSerialOmok(
         points: Set<Point>,

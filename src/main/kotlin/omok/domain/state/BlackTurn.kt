@@ -1,5 +1,6 @@
 package omok.domain.state
 
+import omok.domain.OmokBoard
 import omok.domain.Point
 import omok.domain.rule.BlackStoneRule
 import omok.domain.rule.WhiteStoneRule
@@ -7,13 +8,11 @@ import omok.domain.stone.StoneColor
 import omok.domain.stone.Stones
 
 class BlackTurn(
-    override val blackStones: Stones = Stones(BlackStoneRule()),
-    override val whiteStones: Stones = Stones(WhiteStoneRule()),
+    private val boardSize: Int = OmokBoard.DEFAULT_BOARD_SIZE,
+    override val blackStones: Stones = Stones(BlackStoneRule(boardSize)),
+    override val whiteStones: Stones = Stones(WhiteStoneRule(boardSize)),
 ) : Playing {
-    override fun place(
-        point: Point,
-        boardSize: Int,
-    ): State {
+    override fun place(point: Point): State {
         require(!(blackStones.contains(point) || whiteStones.contains(point))) { ERROR_INVALID_POINT }
         require(!blackStones.isFoul(whiteStones, point)) { ERROR_RENJU_RULE }
 
@@ -23,7 +22,7 @@ class BlackTurn(
             newStones.points.size + whiteStones.points.size >= boardSize * boardSize ->
                 Finished(newStones, whiteStones, null)
 
-            else -> WhiteTurn(newStones, whiteStones)
+            else -> WhiteTurn(boardSize, newStones, whiteStones)
         }
     }
 

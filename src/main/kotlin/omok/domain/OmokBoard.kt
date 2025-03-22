@@ -7,7 +7,7 @@ import omok.domain.stone.StoneColor
 
 class OmokBoard(
     val size: Int = DEFAULT_BOARD_SIZE,
-    state: State = BlackTurn(),
+    state: State = BlackTurn(size),
 ) {
     var state = state
         private set
@@ -24,7 +24,7 @@ class OmokBoard(
         while (state is Playing) {
             val playingState = state as Playing
             onTurn(playingState.nextStoneColor(), playingState.lastStonePoint())
-            state = playingState.place(onPointSelected(), size)
+            state = playingState.place(onPointSelected())
             onBoardUpdated(state.blackStones.points, state.whiteStones.points)
         }
     }

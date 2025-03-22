@@ -32,11 +32,10 @@ enum class Direction(
     abstract fun reverse(): Direction
 
     companion object {
-        fun getDirectionPair(): List<Pair<Direction, Direction>> = listOf(VERTICAL, HORIZONTAL, DIAGONAL_UP, DIAGONAL_DOWN)
-
         private val VERTICAL = UP to DOWN
         private val HORIZONTAL = LEFT to RIGHT
         private val DIAGONAL_UP = LEFT_DOWN to RIGHT_UP
         private val DIAGONAL_DOWN = LEFT_UP to RIGHT_DOWN
+        val directionPairs = listOf(VERTICAL, HORIZONTAL, DIAGONAL_UP, DIAGONAL_DOWN)
     }
 }

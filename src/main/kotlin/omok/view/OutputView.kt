@@ -13,7 +13,7 @@ class OutputView {
         color: StoneColor,
         lastPoint: Point?,
     ) {
-        print(MESSAGE_TURN.format(color.toKorean()))
+        print(MESSAGE_TURN.format(color.toText()))
         if (lastPoint != null) {
             print(MESSAGE_LAST_POINT.format(lastPoint.toText()))
         }
@@ -32,7 +32,7 @@ class OutputView {
 
     fun printWinner(color: StoneColor?) {
         if (color != null) {
-            println(MESSAGE_WINNER.format(color.toKorean()))
+            println(MESSAGE_WINNER.format(color.toText()))
         } else {
             println(MESSAGE_DRAW)
         }
@@ -78,7 +78,7 @@ class OutputView {
         private const val BLACK_STONE = '●'
         private const val WHITE_STONE = '○'
 
-        private fun StoneColor.toKorean(): String =
+        private fun StoneColor.toText(): String =
             when (this) {
                 StoneColor.BLACK -> "흑"
                 StoneColor.WHITE -> "백"
