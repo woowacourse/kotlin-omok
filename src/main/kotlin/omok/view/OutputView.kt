@@ -1,7 +1,6 @@
 package omok.view
 
 import omok.domain.OmokBoard
-import omok.domain.OmokResult
 import omok.domain.StoneState
 import omok.domain.turn.BlackTurn
 import omok.domain.turn.Finished
@@ -39,10 +38,6 @@ class OutputView {
                 println(MESSAGE_WINNER.format(winner))
             }
         }
-    }
-
-    fun printWinner(omokResult: OmokResult) {
-        println(MESSAGE_WINNER.format(omokResult.toString()))
     }
 
     companion object {

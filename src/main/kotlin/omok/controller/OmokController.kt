@@ -1,8 +1,6 @@
 package omok.controller
 
 import omok.domain.OmokBoard
-import omok.domain.OmokGame
-import omok.domain.OmokResult
 import omok.domain.Position
 import omok.domain.turn.BlackTurn
 import omok.domain.turn.Finished
@@ -33,11 +31,11 @@ class OmokController(
         outputView.printTurn(nowTurn)
     }
 
-    private fun printWinner(
-        omokResult: OmokResult,
-        omokGame: OmokGame,
-    ) {
-        outputView.printBoardState(omokGame.board)
-        outputView.printWinner(omokResult)
-    }
+//    private fun printWinner(
+//        omokResult: OmokResult,
+//        omokGame: OmokGame,
+//    ) {
+//        outputView.printBoardState(omokGame.board)
+//        outputView.printWinner(omokResult)
+//    }
 }
