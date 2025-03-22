@@ -19,13 +19,6 @@ class StateTest {
     private val whiteStoneRule = WhiteStoneRule()
 
     @Test
-    fun `흑부터 돌을 놓는다`() {
-        val state = Ready()
-        val nextState = state.place(A1)
-        assertThat(nextState).isInstanceOf(WhiteTurn::class.java)
-    }
-
-    @Test
     fun `흑의 차례가 끝나면 백의 차례이다`() {
         val state = BlackTurn(Stones(blackStoneRule), Stones(whiteStoneRule))
         val nextState = state.place(A1)

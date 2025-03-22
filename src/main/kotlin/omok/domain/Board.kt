@@ -1,13 +1,13 @@
 package omok.domain
 
+import omok.domain.state.BlackTurn
 import omok.domain.state.Playing
-import omok.domain.state.Ready
 import omok.domain.state.State
 import omok.domain.stone.StoneColor
 
 class Board(
     val size: Int = DEFAULT_BOARD_SIZE,
-    state: State = Ready(),
+    state: State = BlackTurn(),
 ) {
     var state = state
         private set

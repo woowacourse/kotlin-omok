@@ -10,7 +10,7 @@ class OmokController(
     private val outputView: OutputView,
 ) {
     fun run() {
-        val omokBoard = Board(5)
+        val omokBoard = Board()
         outputView.printStartOmok(omokBoard.size)
         playOmok(omokBoard, omokBoard.size)
         displayWinner(omokBoard)

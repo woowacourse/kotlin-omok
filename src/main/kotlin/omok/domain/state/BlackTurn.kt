@@ -1,12 +1,14 @@
 package omok.domain.state
 
 import omok.domain.Point
+import omok.domain.rule.BlackStoneRule
+import omok.domain.rule.WhiteStoneRule
 import omok.domain.stone.StoneColor
 import omok.domain.stone.Stones
 
 class BlackTurn(
-    override val blackStones: Stones,
-    override val whiteStones: Stones,
+    override val blackStones: Stones = Stones(BlackStoneRule()),
+    override val whiteStones: Stones = Stones(WhiteStoneRule()),
 ) : Playing {
     override fun place(
         point: Point,
@@ -25,7 +27,7 @@ class BlackTurn(
         }
     }
 
-    override fun lastStonePoint(): Point = whiteStones.lastStonePoint()
+    override fun lastStonePoint(): Point? = whiteStones.lastStonePoint()
 
     override fun nextStoneColor(): StoneColor = StoneColor.BLACK
 
