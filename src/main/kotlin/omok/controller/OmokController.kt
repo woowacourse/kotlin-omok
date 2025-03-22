@@ -2,6 +2,7 @@ package omok.controller
 
 import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.PlayingBoard
+import omok.domain.rule.OmokRule
 import omok.domain.rule.PlaceResult
 import omok.domain.service.OmokGame
 import omok.view.InputView
@@ -12,7 +13,7 @@ class OmokController(
     private val outputView: OutputView,
 ) {
     fun run() {
-        val playingBoard = PlayingBoard(OmokBoard.create())
+        val playingBoard = PlayingBoard(OmokBoard.create(),OmokRule.rules)
         outputView.displayOmokGameStart()
         outputView.displayOmokBoard(playingBoard.board)
         OmokGame(playingBoard).start(inputView::askForPosition) { placeResult ->
