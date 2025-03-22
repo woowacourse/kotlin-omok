@@ -26,14 +26,19 @@ class RenjuCheck(private val board: OmokBoard) : Renju {
         point: Point,
         target: BoardStatus,
         depth: Int = 0,
-    ): Triple<Int, Boolean, Boolean> {
+    ): SeekResult {
         val next = board.goto(point, direction)
         val previous = board.goto(point, direction.reverse())
-        if (point.status == target || (point.status == BoardStatus.Empty && depth <= 3)) {
+
+        if (point.status == target || (point.status == BoardStatus.Empty && depth <= MAX_SEARCH_DEPTH)) {
             return if (point.status == target || depth == 0) {
-                seek(direction, next, target, depth + 1).let { Triple(it.first + 1, it.second, it.third) }
+                seek(direction, next, target, depth + 1).let {
+                    SeekResult(it.count + 1, it.isBlocked, it.isIndirectlyClosed)
+                }
             } else {
-                if (next.x == OmokColumn.WALL || next.y == OmokRow.WALL) return Triple(0, true, false)
+                if (next.x == OmokColumn.WALL || next.y == OmokRow.WALL) {
+                    return SeekResult(count = 0, isBlocked = true, isIndirectlyClosed = false)
+                }
                 seek(direction, next, target, depth + 1)
             }
         }
@@ -43,14 +48,14 @@ class RenjuCheck(private val board: OmokBoard) : Renju {
             point.y != OmokRow.WALL
         ) {
             if (previous.status == BoardStatus.Empty && next.status == BoardStatus.Moved(StoneColor.BLACK)) {
-                Triple(0, true, true)
+                SeekResult(count = 0, isBlocked = true, isIndirectlyClosed = true)
             } else {
-                Triple(0, true, false)
+                SeekResult(count = 0, isBlocked = true, isIndirectlyClosed = false)
             }
         } else if (point.status == BoardStatus.Moved(StoneColor.WHITE) && previous.status == BoardStatus.Empty) {
-            Triple(0, true, true)
+            SeekResult(count = 0, isBlocked = true, isIndirectlyClosed = true)
         } else {
-            Triple(0, false, false)
+            SeekResult(count = 0, isBlocked = false, isIndirectlyClosed = false)
         }
     }
 
@@ -60,23 +65,29 @@ class RenjuCheck(private val board: OmokBoard) : Renju {
         checkType: CheckType,
     ): Int {
         return Direction.getDirectionPair().count { (d1, d2) ->
-            val count1 = seek(d1, current, target).first
-            val count2 = seek(d2, current, target).first
-            val isIndirectlyClosed = seek(d1, current, target).third && seek(d2, current, target).third
-            val totalCount = count1 + count2 - 1
+            val forwardCount = seek(d1, current, target).count
+            val previousCount = seek(d2, current, target).count
+
+            val isIndirectlyClosed =
+                seek(d1, current, target).isIndirectlyClosed && seek(d2, current, target).isIndirectlyClosed
+            val totalCount = forwardCount + previousCount - EMPTY_ADJUSTMENT
 
             when (checkType) {
-                CheckType.FOUR_X_FOUR -> totalCount == 4
+                CheckType.FOUR_X_FOUR -> totalCount == REQUIRED_FOUR_STONES
                 CheckType.THREE_X_THREE ->
-                    totalCount == 3 && seek(d1, current, target).second &&
-                        seek(
-                            d2,
-                            current,
-                            target,
-                        ).second && !isIndirectlyClosed
+                    totalCount == REQUIRED_THREE_STONES && seek(d1, current, target).isBlocked &&
+                        seek(d2, current, target).isBlocked && !isIndirectlyClosed
 
-                CheckType.SIX_MOK -> totalCount > 5
+                CheckType.SIX_MOK -> totalCount > LIMIT_EXCEEDS_FIVE
             }
         }
+    }
+
+    companion object {
+        private const val REQUIRED_FOUR_STONES = 4
+        private const val REQUIRED_THREE_STONES = 3
+        private const val LIMIT_EXCEEDS_FIVE = 5
+        private const val MAX_SEARCH_DEPTH = 3
+        private const val EMPTY_ADJUSTMENT = 1
     }
 }
