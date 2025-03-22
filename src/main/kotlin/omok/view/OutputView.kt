@@ -9,9 +9,13 @@ class OutputView {
 
     fun printBoardState(board: OmokBoard) {
         println()
-        for (y in board.height downTo MIN_BOUND) {
-            print(COORDINATE_X.format(y))
-            println((MIN_BOUND..board.width).joinToString(DASH) { x -> board.toUI(x, y) })
+        for (x in board.height downTo MIN_BOUND) {
+            print(COORDINATE_X.format(x))
+            println(
+                (MIN_BOUND..board.width).joinToString(DASH) { y ->
+                    board.findPoint(x, y)!!.stoneState.getDisplay ?: board.toUI(x, y)
+                },
+            )
         }
         print(BLANK)
         printCoordinateY(board.width)
@@ -23,16 +27,6 @@ class OutputView {
 
     companion object {
         private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
-
-        private const val LEFT_DOWN = "└"
-        private const val LEFT = "├"
-        private const val LEFT_UP = "┌"
-        private const val UP = "┬"
-        private const val RIGHT_UP = "┐"
-        private const val RIGHT = "┤"
-        private const val RIGHT_DOWN = "┘"
-        private const val DOWN = "┴"
-        private const val MIDDLE = "┼"
         private const val DASH = "──"
         private const val COORDINATE_X = "%2d "
         private const val BLANK = "   "
@@ -40,28 +34,28 @@ class OutputView {
 
         private const val MESSAGE_WINNER = "%s !!"
 
-        private fun StoneState.toUI(): String? {
-            return when (this) {
-                StoneState.BLACK -> "●"
-                StoneState.WHITE -> "○"
-                StoneState.BLANK -> null
-            }
-        }
+        private val StoneState.getDisplay: String?
+            get() =
+                when (this) {
+                    StoneState.BLACK -> "●"
+                    StoneState.WHITE -> "○"
+                    StoneState.BLANK -> null
+                }
 
         private fun OmokBoard.toUI(
             x: Int,
             y: Int,
         ): String {
             return when {
-                y == height && x == MIN_BOUND -> LEFT_UP
-                y == height && x == width -> RIGHT_UP
-                y == MIN_BOUND && x == MIN_BOUND -> LEFT_DOWN
-                y == MIN_BOUND && x == width -> RIGHT_DOWN
-                x == MIN_BOUND -> LEFT
-                y == height -> UP
-                x == width -> RIGHT
-                y == MIN_BOUND -> DOWN
-                else -> MIDDLE
+                x == height && y == MIN_BOUND -> "┌"
+                x == height && y == width -> "┐"
+                x == MIN_BOUND && y == MIN_BOUND -> "└"
+                x == MIN_BOUND && y == width -> "┘"
+                y == MIN_BOUND -> "├"
+                x == height -> "┬"
+                y == width -> "┤"
+                x == MIN_BOUND -> "┴"
+                else -> "┼"
             }
         }
 
