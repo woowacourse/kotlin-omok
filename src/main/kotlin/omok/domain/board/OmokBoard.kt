@@ -9,7 +9,7 @@ class OmokBoard(
     private val omokPoints: OmokPoints,
     private val ruleChecker: OmokRule,
 ) {
-    var latestStone: Point = Point(OmokColumn.WALL, OmokRow.WALL, StoneStatus.EMPTY)
+    var latestStone: Point = Point(-100, -100, StoneStatus.EMPTY)
         private set
 
     fun toMatrix(): List<List<StoneStatus>> = omokPoints.toMatrix()
@@ -31,9 +31,9 @@ class OmokBoard(
         currentPosition: Point,
         direction: Direction,
     ): Point {
-        val newX = currentPosition.x.value + direction.x
-        val newY = currentPosition.y.value + direction.y
-        return omokPoints.getPointAt(OmokRow.find(newY), OmokColumn.find(newX))
+        val newX = currentPosition.x + direction.x
+        val newY = currentPosition.y + direction.y
+        return omokPoints.getPointAt(newY, newX)
     }
 
     private fun updateProtectedPlace() {

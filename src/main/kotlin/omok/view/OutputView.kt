@@ -1,8 +1,9 @@
 package omok.view
 
 import omok.domain.board.OmokBoard
-import omok.domain.board.OmokColumn.Companion.entriesWithoutWall
 import omok.domain.board.StoneStatus
+import omok.domain.point.Point.Companion.COLUMN_POOL
+import omok.domain.point.Point.Companion.MAX_COLUMN_SIZE
 import omok.view.ext.toLabel
 
 class OutputView {
@@ -125,9 +126,9 @@ class OutputView {
 
     private fun printFormattedColumn() {
         print(SPACE.repeat(2))
-        entriesWithoutWall().forEach {
+        COLUMN_POOL.subList(0, MAX_COLUMN_SIZE).forEach {
             print(SPACE)
-            print(it.name)
+            print(it)
             print(SPACE)
         }
     }

@@ -20,8 +20,6 @@ enum class OmokRow(val value: Int) {
     ;
 
     companion object {
-        fun entriesWithoutWall(): List<OmokRow> = OmokRow.entries.filter { it != WALL }.toList()
-
         fun find(value: Int): OmokRow =
             OmokRow.entries.find { it.value == value }
                 ?: WALL
@@ -34,5 +32,6 @@ enum class OmokRow(val value: Int) {
 
         private const val INVALID_NUMERIC = "좌표 번호는 숫자로 입력해주세요"
         private const val INVALID_ROW = "잘못된 행 번호입니다. 다시 입력해주세요"
+        const val MAX_ROW_SIZE = 15
     }
 }

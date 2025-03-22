@@ -1,13 +1,11 @@
 package omok.domain.point
 
-import omok.domain.board.OmokColumn
-import omok.domain.board.OmokRow
 import omok.domain.board.StoneStatus
 
 class OmokPoints {
     private var points: List<Point> =
-        OmokRow.entriesWithoutWall().flatMap { row ->
-            OmokColumn.entriesWithoutWall().map { column ->
+        (1..Point.MAX_ROW_SIZE).flatMap { row ->
+            (1..Point.MAX_COLUMN_SIZE).map { column ->
                 Point(column, row, StoneStatus.EMPTY)
             }
         }
@@ -15,11 +13,11 @@ class OmokPoints {
     fun toList(): List<Point> = points.toList()
 
     fun getPointAt(
-        row: OmokRow,
-        column: OmokColumn,
+        row: Int,
+        column: Int,
     ): Point {
         return points.find { it.x == column && it.y == row }
-            ?: Point(OmokColumn.WALL, OmokRow.WALL, StoneStatus.PROTECTED)
+            ?: Point(-100, -100, StoneStatus.PROTECTED)
     }
 
     fun altStone(point: Point) {
@@ -31,12 +29,12 @@ class OmokPoints {
 
     fun toMatrix(): List<List<StoneStatus>> {
         val temp =
-            MutableList(OmokRow.entriesWithoutWall().size) {
-                MutableList(OmokColumn.entriesWithoutWall().size) { StoneStatus.EMPTY }
+            MutableList(Point.MAX_ROW_SIZE) {
+                MutableList(Point.MAX_COLUMN_SIZE) { StoneStatus.EMPTY }
             }
 
         for (status in points) {
-            temp[status.y.value - 1][status.x.value - 1] = status.stoneStatus
+            temp[status.y - 1][status.x - 1] = status.stoneStatus
         }
 
         return temp.toList()
