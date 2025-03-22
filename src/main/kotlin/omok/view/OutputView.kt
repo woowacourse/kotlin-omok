@@ -3,6 +3,10 @@ package omok.view
 import omok.domain.OmokBoard
 import omok.domain.OmokResult
 import omok.domain.StoneState
+import omok.domain.turn.BlackTurn
+import omok.domain.turn.Finished
+import omok.domain.turn.Turn
+import omok.domain.turn.WhiteTurn
 
 class OutputView {
     fun printStartMessage() = println(MESSAGE_GAME_START)
@@ -21,24 +25,49 @@ class OutputView {
         printCoordinateY(board.width)
     }
 
+    fun printTurn(turn: Turn) {
+        when (turn) {
+            is BlackTurn -> println(MESSAGE_TURN.format(StoneState.BLACK.turn))
+            is WhiteTurn -> println(MESSAGE_TURN.format(StoneState.WHITE.turn))
+            is Finished -> {
+                val winner =
+                    when (turn.beforeTurn) {
+                        StoneState.BLACK -> StoneState.BLACK.turn
+                        StoneState.WHITE -> StoneState.WHITE.turn
+                        StoneState.BLANK -> null
+                    }
+                println(MESSAGE_WINNER.format(winner))
+            }
+        }
+    }
+
     fun printWinner(omokResult: OmokResult) {
         println(MESSAGE_WINNER.format(omokResult.toString()))
     }
 
     companion object {
         private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
+        private const val MESSAGE_TURN: String = "\n%s의 차례입니다."
         private const val DASH = "──"
         private const val COORDINATE_X = "%2d "
         private const val BLANK = "   "
         private const val MIN_BOUND = 1
 
-        private const val MESSAGE_WINNER = "%s !!"
+        private const val MESSAGE_WINNER = "%s 승리!!"
 
         private val StoneState.getDisplay: String?
             get() =
                 when (this) {
                     StoneState.BLACK -> "●"
                     StoneState.WHITE -> "○"
+                    StoneState.BLANK -> null
+                }
+
+        private val StoneState.turn: String?
+            get() =
+                when (this) {
+                    StoneState.BLACK -> "흑"
+                    StoneState.WHITE -> "백"
                     StoneState.BLANK -> null
                 }
 

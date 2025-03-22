@@ -4,7 +4,9 @@ import omok.domain.OmokBoard
 import omok.domain.OmokGame
 import omok.domain.OmokResult
 import omok.domain.Position
-import omok.domain.StoneState
+import omok.domain.turn.BlackTurn
+import omok.domain.turn.Finished
+import omok.domain.turn.Turn
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -21,20 +23,14 @@ class OmokController(
 
     private fun playGame() {
         var latestPosition: Position? = null
-        var nowTurn: StoneState = StoneState.BLACK
-        while (true) {
+        var nowTurn: Turn = BlackTurn()
+        while (nowTurn !is Finished) {
             outputView.printBoardState(board)
+            outputView.printTurn(nowTurn)
             latestPosition = inputView.getPosition(latestPosition)
-            playTurn(latestPosition, nowTurn)
-            nowTurn = if (nowTurn == StoneState.BLACK) StoneState.WHITE else StoneState.BLACK
+            nowTurn = nowTurn.putStone(latestPosition, board)
         }
-    }
-
-    private fun playTurn(
-        position: Position,
-        nowTurn: StoneState,
-    ) {
-        board.putStone(position, nowTurn)
+        outputView.printTurn(nowTurn)
     }
 
     private fun printWinner(
