@@ -10,7 +10,7 @@ data class Turn(private var turn: StoneType = StoneType.BLACK) {
             }
     }
 
-    fun isWhite(): Boolean = if (turn == StoneType.WHITE) true else false
+    fun isWhite(): Boolean = turn == StoneType.WHITE
 
     fun stone(position: String): Stone {
         val regex = """([A-Z]+)(\d+)""".toRegex()
