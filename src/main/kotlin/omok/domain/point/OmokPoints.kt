@@ -19,7 +19,7 @@ class OmokPoints {
         column: OmokColumn,
     ): Point {
         return points.find { it.x == column && it.y == row }
-            ?: Point(OmokColumn.WALL, OmokRow.WALL, StoneStatus.EMPTY)
+            ?: Point(OmokColumn.WALL, OmokRow.WALL, StoneStatus.PROTECTED)
     }
 
     fun altStone(point: Point) {
