@@ -1,10 +1,9 @@
 package omok.domain.rule
 
-import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
-import omok.domain.OmokViolation
-import omok.domain.point.Column
-import omok.domain.point.OmokPoint
-import omok.domain.point.Row
+import omok.domain.grid.Column
+import omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
+import omok.domain.grid.OmokPoint
+import omok.domain.grid.Row
 import rule.facade.BlackRenjuRule
 
 abstract class OmokRuleAdapter {

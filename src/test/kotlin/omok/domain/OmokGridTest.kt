@@ -1,8 +1,9 @@
 package omok.domain
 
-import omok.domain.point.Column
-import omok.domain.point.OmokPoint
-import omok.domain.point.Row
+import omok.domain.grid.Column
+import omok.domain.grid.OmokGrid
+import omok.domain.grid.OmokPoint
+import omok.domain.grid.Row
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

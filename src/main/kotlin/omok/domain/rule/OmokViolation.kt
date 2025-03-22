@@ -1,4 +1,4 @@
-package omok.domain
+package omok.domain.rule
 
 enum class OmokViolation(val isError: Boolean) {
     DOUBLE_THREE(true),

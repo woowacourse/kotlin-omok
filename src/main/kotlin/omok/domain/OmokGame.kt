@@ -1,7 +1,7 @@
 package omok.domain
 
-import omok.domain.point.OmokPoint
-import omok.domain.rule.Referee
+import omok.domain.grid.OmokGrid
+import omok.domain.grid.OmokPoint
 
 class OmokGame(val grid: OmokGrid) {
     private val referee = Referee()

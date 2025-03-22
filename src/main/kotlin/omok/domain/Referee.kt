@@ -1,8 +1,10 @@
-package omok.domain.rule
+package omok.domain
 
-import omok.domain.OmokViolation
-import omok.domain.StoneColor
-import omok.domain.point.OmokPoint
+import omok.domain.grid.OmokPoint
+import omok.domain.rule.BlackRuleAdapterImpl
+import omok.domain.rule.OmokRuleAdapter
+import omok.domain.rule.OmokViolation
+import omok.domain.rule.WhiteRuleAdapterImpl
 
 class Referee {
     fun checkViolation(

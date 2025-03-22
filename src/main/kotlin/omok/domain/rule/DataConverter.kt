@@ -1,6 +1,6 @@
 package omok.domain.rule
 
-import omok.domain.point.OmokPoint
+import omok.domain.grid.OmokPoint
 
 class DataConverter {
     fun convertOmokPointToPoint(omokPoint: OmokPoint): Pair<Int, Int> {

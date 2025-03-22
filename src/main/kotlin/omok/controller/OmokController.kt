@@ -3,7 +3,7 @@ package omok.controller
 import omok.domain.OmokGame
 import omok.domain.OmokResult
 import omok.domain.StoneColor
-import omok.domain.point.OmokPoint
+import omok.domain.grid.OmokPoint
 import omok.util.retryInput
 import omok.view.InputView
 import omok.view.OutputView

@@ -1,6 +1,4 @@
-package omok.domain
-
-import omok.domain.point.OmokPoint
+package omok.domain.grid
 
 class Stones() {
     private val _stones: MutableSet<OmokPoint> = mutableSetOf()

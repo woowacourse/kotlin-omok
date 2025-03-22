@@ -2,7 +2,7 @@ package omok
 
 import omok.controller.OmokController
 import omok.domain.OmokGame
-import omok.domain.OmokGrid
+import omok.domain.grid.OmokGrid
 import omok.view.InputView
 import omok.view.OutputView
 

@@ -1,9 +1,9 @@
 package omok.view
 
-import omok.domain.OmokGrid.Companion.DEFAULT_SIZE
 import omok.domain.OmokResult
 import omok.domain.StoneColor
-import omok.domain.point.OmokPoint
+import omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
+import omok.domain.grid.OmokPoint
 
 class OutputView {
     fun printErrorMessage(message: String?) {

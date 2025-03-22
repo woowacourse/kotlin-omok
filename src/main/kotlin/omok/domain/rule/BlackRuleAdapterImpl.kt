@@ -1,7 +1,6 @@
 package omok.domain.rule
 
-import omok.domain.OmokViolation
-import omok.domain.point.OmokPoint
+import omok.domain.grid.OmokPoint
 
 object BlackRuleAdapterImpl : OmokRuleAdapter() {
     override fun checkViolation(

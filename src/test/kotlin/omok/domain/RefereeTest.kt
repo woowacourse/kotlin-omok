@@ -4,10 +4,10 @@ import omok.POINT_H6
 import omok.beforeDoubleFour
 import omok.beforeDoubleThree
 import omok.beforeOverLine
-import omok.domain.point.Column
-import omok.domain.point.OmokPoint
-import omok.domain.point.Row
-import omok.domain.rule.Referee
+import omok.domain.grid.Column
+import omok.domain.grid.OmokGrid
+import omok.domain.grid.OmokPoint
+import omok.domain.grid.Row
 import omok.getFoulPoint
 import omok.omokPoints
 import org.assertj.core.api.Assertions.assertThat

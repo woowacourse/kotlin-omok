@@ -1,8 +1,8 @@
 package omok
 
-import omok.domain.point.Column
-import omok.domain.point.OmokPoint
-import omok.domain.point.Row
+import omok.domain.grid.Column
+import omok.domain.grid.OmokPoint
+import omok.domain.grid.Row
 
 val POINT_H5 = OmokPoint(Row(4), Column(7))
 val POINT_H6 = OmokPoint(Row(5), Column(7))
