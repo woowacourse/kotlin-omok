@@ -289,6 +289,7 @@ class ThreeByThreeTest {
      * */
     @Test
     fun `거짓금수 3x3테스트2`() {
+        // given
         board.addStone(blackBByEight)
         board.addStone(blackEByEight)
         board.addStone(blackFByEight)
@@ -296,7 +297,10 @@ class ThreeByThreeTest {
         board.addStone(blackGByTen)
         board.addStone(blackIByEight)
 
+        // when
         val result = ThreeByThree(board).match(emptyGByEight)
+
+        // reuslt
         assertThat(result).isFalse()
     }
 }

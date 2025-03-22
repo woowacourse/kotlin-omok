@@ -32,6 +32,7 @@ class FourByFourTest {
 
     @Test
     fun `4x4테스트1`() {
+        // given
         board.addStone(blackDByEight)
         board.addStone(blackEByEight)
         board.addStone(blackFByEight)
@@ -39,7 +40,10 @@ class FourByFourTest {
         board.addStone(blackGBySix)
         board.addStone(blackGByFive)
 
+        // when
         val result = FourByFour(board).match(emptyGByEight)
+
+        // result
         assertThat(result).isTrue()
     }
 
@@ -63,6 +67,7 @@ class FourByFourTest {
      * */
     @Test
     fun `4x4테스트2`() {
+        // given
         board.addStone(blackCByEight)
         board.addStone(blackDByEight)
         board.addStone(blackEByEight)
@@ -70,7 +75,10 @@ class FourByFourTest {
         board.addStone(blackGByFive)
         board.addStone(blackGByFour)
 
+        // when
         val result = FourByFour(board).match(emptyGByEight)
+
+        // result
         assertThat(result).isTrue()
     }
 
@@ -94,6 +102,7 @@ class FourByFourTest {
      * */
     @Test
     fun `4x4테스트3`() {
+        // given
         board.addStone(blackCByEight)
         board.addStone(blackEByEight)
         board.addStone(blackFByEight)
@@ -101,7 +110,10 @@ class FourByFourTest {
         board.addStone(blackGBySix)
         board.addStone(blackGByFour)
 
+        // when
         val result = FourByFour(board).match(emptyGByEight)
+
+        // result
         assertThat(result).isTrue()
     }
 
@@ -125,6 +137,7 @@ class FourByFourTest {
      * */
     @Test
     fun `4x4테스트4`() {
+        // given
         board.addStone(whiteCByEight)
         board.addStone(whiteEByEight)
         board.addStone(whiteFByEight)
@@ -132,7 +145,10 @@ class FourByFourTest {
         board.addStone(whiteGBySix)
         board.addStone(whiteGByFour)
 
+        // when
         val result = FourByFour(board).match(emptyGByEight)
+
+        // result
         assertThat(result).isFalse()
     }
 }

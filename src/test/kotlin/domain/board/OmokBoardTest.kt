@@ -37,9 +37,13 @@ class OmokBoardTest {
 
     @Test
     fun `이미 돌이 착수된 위치면 에러를 반환한다`() {
+        // given
         omokBoard.addStone(whiteOByOne)
+
+        // when
         val duplicatedPosition = Point(x = OmokColumn.O, y = OmokRow.ONE, status = blackStone)
 
+        // result
         assertThrows<IllegalArgumentException>(
             message = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요.",
         ) {
@@ -49,30 +53,49 @@ class OmokBoardTest {
 
     @Test
     fun `전진 방향과 현재 좌표를 입력하면 전진하려는 방향의 다음 좌표를 반환한다`() {
+        // given
         val currentPoint = Point(x = OmokColumn.H, y = OmokRow.TEN, status = whiteStone)
+
+        // when
         val nextPoint = omokBoard.goto(currentPoint, Direction.BOTTOM)
+
+        // result
         assertThat(nextPoint).isEqualTo(Point(x = OmokColumn.H, y = OmokRow.NINE, status = BoardStatus.Empty))
     }
 
     @Test
     fun `전진 방향과 현재 좌표를 입력하면 전진하려는 방향의 다음 좌표를 반환한다2`() {
+        // given
         val currentPoint = Point(x = OmokColumn.H, y = OmokRow.TEN, status = whiteStone)
+
+        // when
         val nextPoint = omokBoard.goto(currentPoint, Direction.LEFT)
+
+        // result
         assertThat(nextPoint).isEqualTo(Point(x = OmokColumn.G, y = OmokRow.TEN, status = BoardStatus.Empty))
     }
 
     @Test
     fun `전진 방향과 현재 좌표를 입력하면 전진하려는 방향의 다음 좌표를 반환한다3`() {
+        // given
         val currentPoint = Point(x = OmokColumn.H, y = OmokRow.TEN, status = whiteStone)
+
+        // when
         val nextPoint = omokBoard.goto(currentPoint, Direction.TOP_LEFT)
 
+        // reuslt
         assertThat(nextPoint).isEqualTo(Point(x = OmokColumn.G, y = OmokRow.ELEVEN, status = BoardStatus.Empty))
     }
 
     @Test
     fun `보드가 가지고 있는 좌표들을 2차원 리스트의 형태로 반환할 수 있다`() {
+        // given
         omokBoard.addStone(blackAByEight)
+
+        // when
         val formattedList = omokBoard.toMatrix()
+
+        // result
         assertThat(formattedList[7][0]).isEqualTo(blackStone)
     }
 
@@ -100,12 +123,17 @@ class OmokBoardTest {
      *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
      * */
     @Test
-    fun `오목 테스트1`() {
+    fun `오목 테스트`() {
+        // given
         omokBoard.addStone(blackAByEight)
         omokBoard.addStone(blackBByEight)
         omokBoard.addStone(blackCByEight)
         omokBoard.addStone(blackDByEight)
+
+        // when
         val result = omokBoard.isOmok(Point(OmokColumn.E, OmokRow.EIGHT, blackStone))
+
+        // result
         assertThat(result).isTrue()
     }
 
@@ -129,11 +157,16 @@ class OmokBoardTest {
      * */
     @Test
     fun `오목 테스트2`() {
+        // given
         omokBoard.addStone(Point(OmokColumn.A, OmokRow.EIGHT, blackStone))
         omokBoard.addStone(Point(OmokColumn.B, OmokRow.SEVEN, blackStone))
         omokBoard.addStone(Point(OmokColumn.D, OmokRow.FIVE, blackStone))
         omokBoard.addStone(Point(OmokColumn.E, OmokRow.FOUR, blackStone))
+
+        // when
         val result = omokBoard.isOmok(Point(OmokColumn.C, OmokRow.SIX, blackStone))
+
+        // result
         assertThat(result).isTrue()
     }
 
@@ -157,11 +190,16 @@ class OmokBoardTest {
      * */
     @Test
     fun `오목 테스트3`() {
+        // given
         omokBoard.addStone(Point(OmokColumn.A, OmokRow.EIGHT, blackStone))
         omokBoard.addStone(Point(OmokColumn.C, OmokRow.TEN, blackStone))
         omokBoard.addStone(Point(OmokColumn.D, OmokRow.ELEVEN, blackStone))
         omokBoard.addStone(Point(OmokColumn.E, OmokRow.TWELVE, blackStone))
+
+        // when
         val result = omokBoard.isOmok(Point(OmokColumn.B, OmokRow.NINE, blackStone))
+
+        // result
         assertThat(result).isTrue()
     }
 
@@ -185,35 +223,45 @@ class OmokBoardTest {
      * */
     @Test
     fun `오목 테스트4`() {
+        // given
         omokBoard.addStone(Point(OmokColumn.A, OmokRow.EIGHT, blackStone))
         omokBoard.addStone(Point(OmokColumn.B, OmokRow.SEVEN, whiteStone))
         omokBoard.addStone(Point(OmokColumn.C, OmokRow.SIX, blackStone))
         omokBoard.addStone(Point(OmokColumn.D, OmokRow.FIVE, blackStone))
+
+        // when
         val result = omokBoard.isOmok(Point(OmokColumn.E, OmokRow.FOUR, blackStone))
+
+        // reuslt
         assertThat(result).isFalse()
     }
 
     @Test
     fun `검은돌은 금수 자리에 바둑돌을 놓으면 에러가 발생한다`() {
+        // given
         omokBoard.addStone(blackEByEight)
         omokBoard.addStone(blackFByEight)
         omokBoard.addStone(blackGBySeven)
         omokBoard.addStone(blackGBySix)
 
+        // result
         assertThrows<IllegalArgumentException>(
             message = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요.",
         ) {
+            // when
             omokBoard.addStone(blackGByEight)
         }
     }
 
     @Test
     fun `흰돌은 금수 자리에 착수해도 에러가 발생하지 않는다`() {
+        // given
         omokBoard.addStone(blackEByEight)
         omokBoard.addStone(blackFByEight)
         omokBoard.addStone(blackGBySeven)
         omokBoard.addStone(blackGBySix)
 
+        // result
         assertDoesNotThrow { omokBoard.addStone(whiteGByEight) }
     }
 }

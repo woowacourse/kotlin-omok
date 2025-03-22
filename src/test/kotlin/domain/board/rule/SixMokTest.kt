@@ -46,13 +46,17 @@ class SixMokTest {
      * */
     @Test
     fun `흑이 6목 이상의 장목이면 참을 반환한다`() {
+        // given
         board.addStone(blackBByEight)
         board.addStone(blackCByEight)
         board.addStone(blackDByEight)
         board.addStone(blackEByEight)
         board.addStone(blackGByEight)
 
+        // when
         val result = SixMok(board).match(emptyFByEight)
+
+        // result
         assertThat(result).isTrue()
     }
 
@@ -76,13 +80,17 @@ class SixMokTest {
      * */
     @Test
     fun `백이 6이상의 장목이면 거짓을 반환한다`() {
+        // given
         board.addStone(whiteBByEight)
         board.addStone(whiteCByEight)
         board.addStone(whiteDByEight)
         board.addStone(whiteEByEight)
         board.addStone(whiteGByEight)
 
+        // when
         val result = SixMok(board).match(emptyFByEight)
+
+        // result
         assertThat(result).isFalse()
     }
 }
