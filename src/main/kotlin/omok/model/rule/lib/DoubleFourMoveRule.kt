@@ -38,17 +38,19 @@ object DoubleFourMoveRule : ForbiddenMoveRule() {
             blink1 + blink2 == 2 -> return 0
         }
 
+        val edge = listOf(0, board.size - 1)
+
         val leftDownValid =
             when {
-                dx != 0 && x - dx * leftDown in X_Edge -> 0
-                dy != 0 && y - dy * leftDown in Y_Edge -> 0
+                dx != 0 && x - dx * leftDown in edge -> 0
+                dy != 0 && y - dy * leftDown in edge -> 0
                 board[y - down][x - left] == opponentStone -> 0
                 else -> 1
             }
         val rightUpValid =
             when {
-                dx != 0 && x + (dx * rightUp) in X_Edge -> 0
-                dy != 0 && y + (dy * rightUp) in Y_Edge -> 0
+                dx != 0 && x + (dx * rightUp) in edge -> 0
+                dy != 0 && y + (dy * rightUp) in edge -> 0
                 board[y + up][x + right] == opponentStone -> 0
                 else -> 1
             }

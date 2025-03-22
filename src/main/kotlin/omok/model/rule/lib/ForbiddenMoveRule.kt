@@ -21,7 +21,7 @@ abstract class ForbiddenMoveRule(
         var stone = 0
         var blink = 0
         var blinkCount = 0
-        while (willExceedBounds(x, y, dx, dy).not()) {
+        while (willExceedBounds(board.size, x, y, dx, dy).not()) {
             x += dx
             y += dy
             when (board[y][x]) {
@@ -29,11 +29,13 @@ abstract class ForbiddenMoveRule(
                     stone++
                     blink = blinkCount
                 }
+
                 opponentStone -> break
                 EMPTY_STONE -> {
                     if (blink == 1) break
                     if (blinkCount++ == 1) break
                 }
+
                 else -> throw IllegalArgumentException("스톤 케이스를 에러")
             }
         }
@@ -48,7 +50,7 @@ abstract class ForbiddenMoveRule(
         var (x, y) = position
         val (dx, dy) = direction
         var distance = 0
-        while (willExceedBounds(x, y, dx, dy).not()) {
+        while (willExceedBounds(board.size, x, y, dx, dy).not()) {
             x += dx
             y += dy
             when (board[y][x]) {
@@ -61,16 +63,17 @@ abstract class ForbiddenMoveRule(
     }
 
     private fun willExceedBounds(
+        boardSize: Int,
         x: Int,
         y: Int,
         dx: Int,
         dy: Int,
     ): Boolean =
         when {
-            dx > 0 && x == MAX_X -> true
-            dx < 0 && x == MIN_X -> true
-            dy > 0 && y == MAX_Y -> true
-            dy < 0 && y == MIN_Y -> true
+            dx > 0 && x == boardSize - 1 -> true
+            dx < 0 && x == 0 -> true
+            dy > 0 && y == boardSize - 1 -> true
+            dy < 0 && y == 0 -> true
             else -> false
         }
 
@@ -78,15 +81,8 @@ abstract class ForbiddenMoveRule(
         const val EMPTY_STONE = 0
         const val BLACK_STONE = 1
         const val WHITE_STONE = 2
-        const val MIN_X = 0
-        const val MAX_X = 15 - 1
-        const val MIN_Y = 0
-        const val MAX_Y = 15 - 1
 
-        @JvmStatic
-        protected val X_Edge = listOf(MIN_X, MAX_X)
-
-        @JvmStatic
-        protected val Y_Edge = listOf(MIN_Y, MAX_Y)
+        private const val MIN_X = 0
+        private const val MIN_Y = 0
     }
 }

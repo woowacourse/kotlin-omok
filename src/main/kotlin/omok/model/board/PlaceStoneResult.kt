@@ -6,4 +6,6 @@ sealed class PlaceStoneResult {
     data object Closed : PlaceStoneResult()
 
     data object AlreadyPlaced : PlaceStoneResult()
+
+    data object InvalidPoint : PlaceStoneResult()
 }

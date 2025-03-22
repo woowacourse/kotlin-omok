@@ -30,13 +30,15 @@ object DoubleThreeMoveRule : ForbiddenMoveRule() {
         val right = dx * (rightUp + 1)
         val up = dy * (rightUp + 1)
 
+        val edge = listOf(0, board.size - 1)
+
         return when {
             stone1 + stone2 != 2 -> 0
             blink1 + blink2 == 2 -> 0
-            dx != 0 && x - dx * leftDown in X_Edge -> 0
-            dy != 0 && y - dy * leftDown in Y_Edge -> 0
-            dx != 0 && x + dx * rightUp in X_Edge -> 0
-            dy != 0 && y + dy * rightUp in Y_Edge -> 0
+            dx != 0 && x - dx * leftDown in edge -> 0
+            dy != 0 && y - dy * leftDown in edge -> 0
+            dx != 0 && x + dx * rightUp in edge -> 0
+            dy != 0 && y + dy * rightUp in edge -> 0
             board[y - down ][x - left] == WHITE_STONE -> 0
             board[y + up][x + right] == WHITE_STONE -> 0
             countToWall(board, position, oppositeDirection) + countToWall(board, position, direction) <= 5 -> 0

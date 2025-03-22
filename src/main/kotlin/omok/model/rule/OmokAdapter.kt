@@ -7,11 +7,11 @@ import omok.model.rule.lib.ForbiddenMoveRule
 
 object OmokAdapter {
     fun adaptOmokBoard(board: Board): List<List<Int>> {
-        val adapted = MutableList(Board.BOARD_MAX_SIZE) { MutableList(Board.BOARD_MAX_SIZE) { ForbiddenMoveRule.EMPTY_STONE } }
+        val adapted = MutableList(board.size) { MutableList(board.size) { ForbiddenMoveRule.EMPTY_STONE } }
 
         board.points.forEach { point ->
-            adapted[point.position.y - 1][point.position.x - 1] =
-                when (board.findPoint(point.position).state) {
+            adapted[point.key.y - 1][point.key.x - 1] =
+                when (point.value) {
                     PointState.BLACK -> ForbiddenMoveRule.BLACK_STONE
                     PointState.WHITE -> ForbiddenMoveRule.WHITE_STONE
                     else -> ForbiddenMoveRule.EMPTY_STONE
@@ -21,6 +21,6 @@ object OmokAdapter {
     }
 
     fun adaptOmokPoint(point: Point): Pair<Int, Int> {
-        return Pair(point.position.x - 1, point.position.y - 1)
+        return Pair(point.x - 1, point.y - 1)
     }
 }

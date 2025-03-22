@@ -1,10 +1,9 @@
 package omok.model
 
-import omok.model.StoneColor.Companion.next
 import omok.model.board.Board
 import omok.model.board.PlaceStoneResult
 import omok.model.board.Point
-import omok.model.board.Position
+import omok.model.board.PointState
 import omok.model.rule.count.FiveInRowRule
 import omok.model.rule.count.OmokCountRule
 import omok.view.OmokInputView
@@ -15,7 +14,7 @@ class OmokGame(
     private val outputView: OmokOutputView,
 ) {
     private var previousPoint: Point? = null
-    private var currentStoneColor: StoneColor = StoneColor.BLACK
+    private var currentStoneColor: PointState = PointState.BLACK
 
     fun play() {
         val board = Board()
@@ -30,19 +29,20 @@ class OmokGame(
             placeStone(board)
         }
 
-        showWinColor()
+        showWinColor(board)
     }
 
     private fun placeStone(board: Board) =
         retryOnException {
-            val pos = getNextPoint()
-            when (val result = board.placeStone(pos, currentStoneColor)) {
+            val point = getNextPoint()
+            when (val result = board.placeStone(point, currentStoneColor)) {
                 is PlaceStoneResult.Success -> {
                     handlePlaceSuccess(result, board)
                     return@retryOnException
                 }
                 is PlaceStoneResult.AlreadyPlaced -> throw IllegalArgumentException(ALREADY_PLACED_ERROR_MESSAGE)
                 is PlaceStoneResult.Closed -> throw IllegalArgumentException(CLOSED_ERROR_MESSAGE)
+                is PlaceStoneResult.InvalidPoint -> throw IllegalArgumentException(INVALID_POINT_ERROR_MESSAGE)
             }
         }
 
@@ -51,7 +51,7 @@ class OmokGame(
         board: Board,
     ) {
         previousPoint = result.point
-        currentStoneColor = currentStoneColor.next()
+        currentStoneColor = currentStoneColor.reverseStoneColor() ?: throw IllegalArgumentException(INVALID_CURRENT_STONE_COLOR)
         outputView.printBoardStatus(board)
     }
 
@@ -63,26 +63,32 @@ class OmokGame(
         return !omokCountRule.calculate(board, previousPoint!!)
     }
 
-    private fun showWinColor() {
-        outputView.printWinColor(previousPoint!!)
+    private fun showWinColor(board: Board) {
+        val color = board.findPoint(previousPoint!!)?.second
+        outputView.printWinColor(color)
     }
 
-    private fun getNextPoint(): Position =
+    private fun getNextPoint(): Point =
         retryOnException {
-            outputView.printCurrentTurn(previousPoint)
+            outputView.printCurrentTurn(previousPoint to currentStoneColor)
             val nextPosition = inputView.readPosition()
 
-            Position(nextPosition.first, nextPosition.second)
+            Point(nextPosition.first, nextPosition.second)
         }
 
     private fun <T> retryOnException(action: () -> T) =
         omok.utils.retryOnException(
             action = action,
-            onFailure = { outputView.printErrorMessage(it.message.toString()) },
+            onFailure = {
+                it.printStackTrace()
+                outputView.printErrorMessage(it.message.toString())
+            },
         )
 
     companion object {
         private const val ALREADY_PLACED_ERROR_MESSAGE = "중복되는 칸에 돌을 둘 수 없습니다."
         private const val CLOSED_ERROR_MESSAGE = "둘 수 없는 자리입니다."
+        private const val INVALID_POINT_ERROR_MESSAGE = "바둑판 크기를 벗어난 위치입니다."
+        private const val INVALID_CURRENT_STONE_COLOR = "현재 턴의 돌 색상을 찾을 수 없습니다."
     }
 }

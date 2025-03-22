@@ -10,6 +10,7 @@ object FiveInRowRule : OmokCountRule() {
         dir: Pair<Int, Int>,
     ): Boolean {
         val total = checkDirection(board, previousPoint, dir)
+        println(total)
         return total == OMOK_COUNT
     }
 }

@@ -1,7 +1,14 @@
 package omok.model.board
 
 enum class PointState {
-    BLACK,
     WHITE,
+    BLACK,
     OPEN,
+    ;
+
+    fun reverseStoneColor(): PointState? {
+        if (this == OPEN) return null
+
+        return if (this == WHITE) BLACK else WHITE
+    }
 }
