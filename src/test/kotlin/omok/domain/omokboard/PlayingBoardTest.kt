@@ -1,7 +1,7 @@
 package omok.domain.omokboard
 
 import omok.POSITION_ONE_ONE
-import omok.domain.omokboard.PointState.OCCUPIED_BLACK
+import omok.domain.omokboard.IntersectionState.OCCUPIED_BLACK
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
 import org.assertj.core.api.Assertions.assertThat

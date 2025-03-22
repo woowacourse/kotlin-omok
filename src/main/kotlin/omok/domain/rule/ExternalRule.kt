@@ -1,7 +1,7 @@
 package omok.domain.rule
 
+import omok.domain.omokboard.IntersectionState
 import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.PointState
 import omok.domain.omokboard.Position
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
@@ -32,13 +32,13 @@ class ExternalRule : OmokRule {
 
         val blackPoints =
             omokBoard.value
-                .filter { it.value.state == PointState.OCCUPIED_BLACK }
+                .filter { it.value.state == IntersectionState.OCCUPIED_BLACK }
                 .keys
                 .map { it.toExternalPoint() }
 
         val whitePoints =
             omokBoard.value
-                .filter { it.value.state == PointState.OCCUPIED_WHITE }
+                .filter { it.value.state == IntersectionState.OCCUPIED_WHITE }
                 .keys
                 .map { it.toExternalPoint() }
 

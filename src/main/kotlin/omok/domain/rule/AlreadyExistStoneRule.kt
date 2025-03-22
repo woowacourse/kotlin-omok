@@ -1,7 +1,7 @@
 package omok.domain.rule
 
+import omok.domain.omokboard.IntersectionState
 import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.PointState
 import omok.domain.player.PlayerStone
 
 class AlreadyExistStoneRule : OmokRule {
@@ -9,7 +9,7 @@ class AlreadyExistStoneRule : OmokRule {
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
     ): PlaceResult =
-        if (omokBoard.find(playerStone.position)?.state == PointState.EMPTY) {
+        if (omokBoard.find(playerStone.position)?.state == IntersectionState.EMPTY) {
             PlaceResult.Success.Progress(playerStone)
         } else {
             PlaceResult.Failure.AlreadyExistStone

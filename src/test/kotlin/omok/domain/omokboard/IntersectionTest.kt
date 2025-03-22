@@ -1,8 +1,8 @@
 package omok.domain.omokboard
 
-import omok.domain.omokboard.PointState.EMPTY
-import omok.domain.omokboard.PointState.OCCUPIED_BLACK
-import omok.domain.omokboard.PointState.OCCUPIED_WHITE
+import omok.domain.omokboard.IntersectionState.EMPTY
+import omok.domain.omokboard.IntersectionState.OCCUPIED_BLACK
+import omok.domain.omokboard.IntersectionState.OCCUPIED_WHITE
 import omok.domain.player.StoneColor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

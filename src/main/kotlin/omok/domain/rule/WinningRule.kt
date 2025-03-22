@@ -1,8 +1,8 @@
 package omok.domain.rule
 
 import omok.domain.omokboard.ColumnPosition
+import omok.domain.omokboard.IntersectionState
 import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.PointState
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
 import omok.domain.player.PlayerStone
@@ -45,7 +45,7 @@ class WinningRule : OmokRule {
         dy: Int,
     ): Int {
         val startPosition = playerStone.position
-        val stoneColor = playerStone.color.toPointState()
+        val stoneColor = playerStone.color.toIntersectionState()
 
         fun count(
             dx: Int,
@@ -71,9 +71,9 @@ class WinningRule : OmokRule {
         return 1 + count(dx, dy) + count(-dx, -dy)
     }
 
-    private fun StoneColor.toPointState(): PointState =
+    private fun StoneColor.toIntersectionState(): IntersectionState =
         when (this) {
-            BLACK -> PointState.OCCUPIED_BLACK
-            WHITE -> PointState.OCCUPIED_WHITE
+            BLACK -> IntersectionState.OCCUPIED_BLACK
+            WHITE -> IntersectionState.OCCUPIED_WHITE
         }
 }
