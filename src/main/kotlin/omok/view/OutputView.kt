@@ -19,12 +19,15 @@ class OutputView {
         println(MESSAGE_WINNER.format(stone.toLabel()))
     }
 
-    fun printBoard(board: OmokBoard) {
+    fun printBoard(
+        board: OmokBoard,
+        color: StoneColor,
+    ) {
         val matrix = board.toMatrix()
 
         matrix.forEachIndexed { row, rowValue ->
             rowValue.forEachIndexed { column, _ ->
-                val stone = matrix[ROW_MAX_LENGTH - row - 1][column].toChar()
+                val stone = matrix[ROW_MAX_LENGTH - row - 1][column].toChar(color)
 
                 when (row) {
                     0 -> printTopRow(column, stone)
@@ -140,7 +143,7 @@ class OutputView {
         print(stone ?: default)
     }
 
-    private fun BoardStatus.toChar(): Char? {
+    private fun BoardStatus.toChar(color: StoneColor): Char? {
         return when (this) {
             is BoardStatus.Moved -> {
                 when (this.color) {
@@ -148,7 +151,12 @@ class OutputView {
                     StoneColor.WHITE -> '○'
                 }
             }
-            BoardStatus.Blocked -> 'x'
+            BoardStatus.Blocked -> {
+                when (color) {
+                    StoneColor.WHITE -> null
+                    StoneColor.BLACK -> 'x'
+                }
+            }
             BoardStatus.Empty -> null
         }
     }

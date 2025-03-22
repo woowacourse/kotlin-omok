@@ -37,7 +37,7 @@ class OmokController(
     }
 
     private fun getInputPoint(stone: StoneColor): String {
-        outputView.printBoard(omokBoard)
+        outputView.printBoard(omokBoard, stone)
         return inputView.readStoneWithLatestStone(stone, omokBoard.latestStone)
     }
 }
