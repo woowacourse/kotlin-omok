@@ -16,7 +16,7 @@ interface OmokRule {
             return listOf(
                 InvalidPositionRule(),
                 AlreadyExistStoneRule(),
-                ExternalRule(BlackRenjuRule(board.width, board.height)),
+                ExternalRenjuRule(BlackRenjuRule(board.width, board.height)),
                 DrawRule(),
                 WinningRule(),
             )

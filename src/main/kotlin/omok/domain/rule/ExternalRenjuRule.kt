@@ -10,7 +10,7 @@ import rule.type.Violation.NONE
 import rule.type.Violation.OVERLINE
 import rule.wrapper.point.Point
 
-class ExternalRule(
+class ExternalRenjuRule(
     private val renjuRule: BlackRenjuRule,
 ) : OmokRule {
     override fun canPlace(
