@@ -1,6 +1,6 @@
 package omok.view
 
-import rule.wrapper.point.Point
+import omok.domain.Point
 
 class InputView {
     fun getPoint(boardSize: Int): Point =
@@ -27,7 +27,7 @@ class InputView {
         val row = input[0] - FIRST_X
         val col = input.substring(1).toInt() - 1
         val point = Point(row, col)
-        require(point.row in 0..<boardSize && point.col in 0..<boardSize) {
+        require(point.x in 0..<boardSize && point.y in 0..<boardSize) {
             ERROR_INVALID_POSITION.format(boardSize, boardSize)
         }
         return point

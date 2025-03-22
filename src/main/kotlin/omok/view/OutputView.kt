@@ -1,7 +1,7 @@
 package omok.view
 
+import omok.domain.Point
 import omok.domain.stone.StoneColor
-import rule.wrapper.point.Point
 
 class OutputView {
     fun printStartOmok(boardSize: Int) {
@@ -41,7 +41,7 @@ class OutputView {
     private fun calculatePosition(
         point: Point,
         boardSize: Int,
-    ): Int = (point.row + 1) * 3 + ((boardSize * 3 + 2) * (boardSize - point.col - 1))
+    ): Int = (point.x + 1) * 3 + ((boardSize * 3 + 2) * (boardSize - point.y - 1))
 
     private fun createOmokBoard(boardSize: Int): String {
         buildString {
@@ -84,6 +84,6 @@ class OutputView {
                 StoneColor.WHITE -> "백"
             }
 
-        private fun Point.toText(): String = ('A' + row).toString() + (col + 1)
+        private fun Point.toText(): String = ('A' + x).toString() + (y + 1)
     }
 }

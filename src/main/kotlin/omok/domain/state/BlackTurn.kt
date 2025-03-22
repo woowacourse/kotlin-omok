@@ -1,9 +1,9 @@
 package omok.domain.state
 
+import omok.domain.Point
 import omok.domain.stone.BlackStones
 import omok.domain.stone.StoneColor
 import omok.domain.stone.WhiteStones
-import rule.wrapper.point.Point
 
 class BlackTurn(
     override val blackStones: BlackStones,

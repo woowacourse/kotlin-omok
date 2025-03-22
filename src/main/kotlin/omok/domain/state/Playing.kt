@@ -1,8 +1,8 @@
 package omok.domain.state
 
 import omok.domain.Board
+import omok.domain.Point
 import omok.domain.stone.StoneColor
-import rule.wrapper.point.Point
 
 interface Playing : State {
     fun place(

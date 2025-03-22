@@ -1,6 +1,6 @@
 package omok.fixture
 
-import rule.wrapper.point.Point
+import omok.domain.Point
 
 val A1 = Point(0, 0)
 val A2 = Point(0, 1)

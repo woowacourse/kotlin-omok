@@ -1,5 +1,7 @@
 package omok.fixture
 
+import omok.domain.Point
+
 /* 3-3
  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
  14 ├──┼──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
@@ -19,10 +21,10 @@ package omok.fixture
     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
  */
 
-val DOUBLE_THREE_A = setOf(C12, D13, D14, E12) to D12
-val DOUBLE_THREE_B = setOf(B6, C5, E5, E6) to E3
-val DOUBLE_THREE_C = setOf(M12, M10, N9, J9) to L11
-val DOUBLE_THREE_D = setOf(K3, K6, M4, N4) to K4
+val DOUBLE_THREE_A: Pair<Set<Point>, Point> = setOf(C12, D13, D14, E12) to D12
+val DOUBLE_THREE_B: Pair<Set<Point>, Point> = setOf(B6, C5, E5, E6) to E3
+val DOUBLE_THREE_C: Pair<Set<Point>, Point> = setOf(M12, M10, N9, J9) to L11
+val DOUBLE_THREE_D: Pair<Set<Point>, Point> = setOf(K3, K6, M4, N4) to K4
 
 /* 4-4
 15 ┌──┬──●──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
