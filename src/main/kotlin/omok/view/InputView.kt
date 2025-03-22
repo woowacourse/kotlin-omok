@@ -9,18 +9,28 @@ class InputView {
         stoneColor: StoneColor,
         lastStone: LatestStone,
     ): String {
-        while (true) {
-            print(MESSAGE_PLAYER_TURN.format(stoneColor.toLabel()))
-            if (lastStone.value.isNotBlank()) {
-                println(MESSAGE_LAST_POSITION.format(lastStone.value))
-            }
-            print(MESSAGE_INPUT_POSITION)
-            val input = readlnOrNull()?.trim()
+        printTurnMessage(stoneColor, lastStone)
+        val input = readlnOrNull()?.trim()
+        return validateInput(input) ?: readStoneWithLatestStone(stoneColor, lastStone)
+    }
 
-            if (!input.isNullOrEmpty()) {
-                return input
-            }
+    private fun printTurnMessage(
+        stoneColor: StoneColor,
+        lastStone: LatestStone,
+    ) {
+        print(MESSAGE_PLAYER_TURN.format(stoneColor.toLabel()))
+        if (lastStone.value.isNotBlank()) {
+            println(MESSAGE_LAST_POSITION.format(lastStone.value))
+        }
+        print(MESSAGE_INPUT_POSITION)
+    }
+
+    private fun validateInput(input: String?): String? {
+        return if (!input.isNullOrEmpty()) {
+            input
+        } else {
             println(MESSAGE_EMPTY_INPUT)
+            null
         }
     }
 
