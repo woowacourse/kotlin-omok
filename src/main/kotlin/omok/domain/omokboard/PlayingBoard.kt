@@ -19,9 +19,7 @@ class PlayingBoard(
         }
 
         if (result is PlaceResult.Success) {
-            board
-                .find(playerStone.position)
-                ?.updateState(playerStone.color)
+            board.updateBoard(playerStone)
         }
 
         return result

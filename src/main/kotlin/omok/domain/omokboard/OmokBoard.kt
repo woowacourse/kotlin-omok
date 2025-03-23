@@ -1,8 +1,10 @@
 package omok.domain.omokboard
 
+import omok.domain.player.PlayerStone
+
 @JvmInline
 value class OmokBoard private constructor(
-    private val _value: Map<Position, PointSate>,
+    private val _value: Map<Position, PointState>,
 ) {
     val width get() = _value.keys.maxOf { it.column.value }
     val height get() = _value.keys.maxOf { it.row.value }
@@ -21,9 +23,14 @@ value class OmokBoard private constructor(
 
     val value get() = _value.deepCopy()
 
-    fun find(position: Position): PointSate? = _value[position]
+    fun find(position: Position): PointState? = _value[position]
 
-    private fun Map<Position, PointSate>.deepCopy(): Map<Position, PointSate> = map { it.key.copy() to it.value.copy() }.toMap()
+    fun updateBoard(playerStone: PlayerStone) {
+            this.find(playerStone.position)
+            ?.updateState(playerStone.color)
+    }
+
+    private fun Map<Position, PointState>.deepCopy(): Map<Position, PointState> = map { it.key.copy() to it.value }.toMap()
 
     companion object {
         fun create(
@@ -34,7 +41,7 @@ value class OmokBoard private constructor(
                 (1..width)
                     .flatMap { row ->
                         (1..height).map { column ->
-                            Position(RowPosition(row), ColumnPosition(column)) to PointSate()
+                            Position(RowPosition(row), ColumnPosition(column)) to PointState()
                         }
                     }.toMap(),
             )
