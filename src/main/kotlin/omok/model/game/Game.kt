@@ -1,17 +1,43 @@
 package omok.model.game
 
+import omok.model.Board
 import omok.model.stone.Point
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 
-class Game {
+class Game(
+    private val board: Board,
+) {
     private var _lastStone = Stone(Point(1, 1), StoneColor.WHITE)
     val lastStone get() = _lastStone.copy()
 
-    fun play(stone: Stone): GameState {
-        val currentColor: StoneColor = _lastStone.color.reverse()
-        val gameState: GameState = GameState.PLAYING // TODO 게임 상태 설정
-        _lastStone = Stone(stone.point, currentColor)
-        return gameState
+    fun play(
+        newStone: Stone,
+        onPlacingFailure: (String) -> Unit,
+    ) {
+        playOneMove(newStone, onPlacingFailure)
+        _lastStone = Stone(newStone.point, _lastStone.color.reverse())
+    }
+
+    fun gameState(newStone: Stone): GameState {
+        if (!board.hasOmok(newStone)) {
+            return GameState.PLAYING
+        }
+        return when (newStone.color) {
+            StoneColor.BLACK -> GameState.BLACK_OMOK
+            StoneColor.WHITE -> GameState.WHITE_OMOK
+        }
+    }
+
+    private fun playOneMove(
+        newStone: Stone,
+        onPlacingFailure: (String) -> Unit,
+    ) {
+        runCatching {
+            board.place(newStone)
+        }.getOrElse { it ->
+            onPlacingFailure(it.message ?: "")
+            playOneMove(newStone, onPlacingFailure)
+        }
     }
 }
