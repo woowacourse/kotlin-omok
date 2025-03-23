@@ -21,3 +21,14 @@
 
 ## stpe2 기능 요구사항
 - [x] 렌주룰 라이브러리 적용하기
+
+## step2 리팩터링 요구사항
+- [ ] 보드의 stonesMap을 LinkedHashMap으로 변경
+  - [ ] 보드의 lastStone을 stonesMap의 마지막 요소 반환으로 수정
+- [ ] 보드의 isLastStoneOmok을 보드에서 분리
+- [ ] OmokRule에 어댑터 패턴 적용
+- [ ] 보드의 사이즈를 가지는 클래스 도입
+- [ ] 보드의 placeStone 기능 분할
+  - [ ] 분할된 기능의 테스트 코드 작성
+- [ ] Position의 부생성자 추가
+- [ ] OmokControl의 재귀를 꼬리재귀로 최적화
