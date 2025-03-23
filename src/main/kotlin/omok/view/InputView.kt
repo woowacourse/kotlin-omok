@@ -9,6 +9,7 @@ class InputView {
     fun readTurn(game: Game): Pair<Int, Int> {
         promptInput(game)
         val input: String = readln()
+        require(input.isNotBlank()) { ERROR_MESSAGE_INCORRECT_POSITION_FORMAT }
         val col: Int = readCol(input)
         val row: Int = readRow(input)
         return col to row
