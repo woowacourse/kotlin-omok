@@ -1,6 +1,6 @@
 package omok.domain.state
 
-import omok.domain.OmokBoard
+import omok.domain.OmokGame
 import omok.domain.Point
 import omok.domain.rule.BlackStoneRule
 import omok.domain.rule.WhiteStoneRule
@@ -8,7 +8,7 @@ import omok.domain.stone.StoneColor
 import omok.domain.stone.Stones
 
 class WhiteTurn(
-    private val boardSize: Int = OmokBoard.DEFAULT_BOARD_SIZE,
+    private val boardSize: Int = OmokGame.DEFAULT_BOARD_SIZE,
     override val blackStones: Stones = Stones(BlackStoneRule(boardSize)),
     override val whiteStones: Stones = Stones(WhiteStoneRule(boardSize)),
 ) : Playing {

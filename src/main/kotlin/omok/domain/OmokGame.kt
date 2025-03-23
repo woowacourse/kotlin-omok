@@ -5,15 +5,15 @@ import omok.domain.state.Playing
 import omok.domain.state.State
 import omok.domain.stone.StoneColor
 
-class OmokBoard(
-    val size: Int = DEFAULT_BOARD_SIZE,
-    state: State = BlackTurn(size),
+class OmokGame(
+    val boardSize: Int = DEFAULT_BOARD_SIZE,
+    state: State = BlackTurn(boardSize),
 ) {
     var state = state
         private set
 
     init {
-        require(size >= MINIMUM_BOARD_SIZE) { ERROR_INVALID_BOARD_SIZE }
+        require(boardSize >= MINIMUM_BOARD_SIZE) { ERROR_INVALID_BOARD_SIZE }
     }
 
     fun play(

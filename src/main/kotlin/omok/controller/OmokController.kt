@@ -1,6 +1,6 @@
 package omok.controller
 
-import omok.domain.OmokBoard
+import omok.domain.OmokGame
 import omok.domain.state.Finished
 import omok.view.InputView
 import omok.view.OutputView
@@ -10,31 +10,30 @@ class OmokController(
     private val outputView: OutputView,
 ) {
     fun run() {
-        val board = OmokBoard()
-        outputView.printStartOmok(board.size)
-        playOmok(board, board.size)
-        displayWinner(board)
+        val game = OmokGame()
+        outputView.printStartOmok(game.boardSize)
+        playOmok(game)
+        displayWinner(game)
     }
 
-    private fun playOmok(
-        board: OmokBoard,
-        boardSize: Int,
-    ) {
+    private fun playOmok(game: OmokGame) {
         runCatching {
-            board.play(
+            game.play(
                 onTurn = outputView::printTurn,
                 onPointSelected = inputView::getPoint,
-                onBoardUpdated = { black, white -> outputView.printOmokBoard(black, white, boardSize) },
+                onBoardUpdated = { black, white ->
+                    outputView.printOmokBoard(black, white, game.boardSize)
+                },
             )
         }.getOrElse {
             println(it.message)
-            playOmok(board, boardSize)
+            playOmok(game)
         }
     }
 
-    private fun displayWinner(board: OmokBoard) {
-        if (board.state is Finished) {
-            outputView.printWinner((board.state as Finished).winnerColor)
+    private fun displayWinner(game: OmokGame) {
+        if (game.state is Finished) {
+            outputView.printWinner((game.state as Finished).winnerColor)
         }
     }
 }
