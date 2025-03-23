@@ -6,9 +6,7 @@ enum class PointState {
     OPEN,
     ;
 
-    fun reverseStoneColor(): PointState? {
-        if (this == OPEN) return null
-
+    fun reverseStoneColor(): PointState {
         return if (this == WHITE) BLACK else WHITE
     }
 }
