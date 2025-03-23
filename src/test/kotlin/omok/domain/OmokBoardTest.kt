@@ -36,6 +36,6 @@ class OmokBoardTest {
         omokBoard.putStone(stone)
         // then
         val result = BlackTurn().putStone(Position(x, y), omokBoard)
-        assertThat(result).isEqualTo(PutStoneResult.Failure("이미 돌이 있습니다."))
+        assertThat(result).isEqualTo(PutStoneResult.Failure("이미 돌이 있습니다. 다시 입력해주세요."))
     }
 }

@@ -13,7 +13,7 @@ interface Turn {
     ): PutStoneResult
 
     companion object {
-        const val ERROR_INVALID_POSITION = "잘못된 위치입니다."
-        const val ERROR_STONE_ALREADY_PUT = "이미 돌이 있습니다."
+        const val ERROR_INVALID_POSITION = "잘못된 위치입니다. 다시 입력해주세요."
+        const val ERROR_STONE_ALREADY_PUT = "이미 돌이 있습니다. 다시 입력해주세요."
     }
 }
