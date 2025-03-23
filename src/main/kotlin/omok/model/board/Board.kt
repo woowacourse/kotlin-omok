@@ -8,22 +8,29 @@ import rule.BlackRenjuRule
 import rule.type.Violation
 
 class Board private constructor(
-    val stonesMap: Map<Position, StoneState> = emptyMap(),
-    val lastStone: Stone? = null,
+    stonesMap: LinkedHashMap<Position, StoneState>,
 ) {
+    private val _stonesMap: LinkedHashMap<Position, StoneState> = LinkedHashMap(stonesMap)
     private val blackRenjuRule = BlackRenjuRule(BOARD_SIZE, BOARD_SIZE)
     private val omokRule = OmokRule(BOARD_SIZE)
 
+    val stonesMap: LinkedHashMap<Position, StoneState>
+        get() = LinkedHashMap(_stonesMap)
+
+    val lastStone: Stone?
+        get() = _stonesMap.lastEntry()?.let { Stone(it.key, it.value) }
+
     val isLastStoneOmok: Boolean
         get() {
-            lastStone?.let { return omokRule.isLastStoneOmok(stonesMap, lastStone) }
-            return false
+            return isPositionOmok(_stonesMap.lastEntry().key)
         }
+
+    fun isPositionOmok(position: Position): Boolean = omokRule.isPositionOmok(stonesMap, position)
 
     val nextStoneState: StoneState
         get() {
-            lastStone?.let {
-                return when (lastStone.stoneState) {
+            lastStone?.let { stone ->
+                return when (stone.stoneState) {
                     StoneState.BLACK -> StoneState.WHITE
                     StoneState.WHITE -> StoneState.BLACK
                     StoneState.NONE -> StoneState.NONE
@@ -56,9 +63,9 @@ class Board private constructor(
     fun placeStone(nextPosition: Position): Board {
         val nextStone = Stone(nextPosition, nextStoneState)
         require(!stonesMap.containsKey(nextStone.position)) { ERROR_STONE_ALREADY_EXITS }
-        require(lastStone == null || (nextStone.stoneState != (lastStone.stoneState))) { ERROR_SUCCESSION_SAME_STATE_STONE }
-
-        val newBoardStones = stonesMap + (nextStone.position to nextStone.stoneState)
+        require(lastStone?.stoneState != nextStone.stoneState) {
+            ERROR_SUCCESSION_SAME_STATE_STONE
+        }
 
         if (nextStoneState == StoneState.BLACK) {
             val violationType = blackRenjuRule.checkAnyFoulCondition(blackPoints, whitePoints, nextPosition.toPoint())
@@ -70,7 +77,8 @@ class Board private constructor(
             }
         }
 
-        return Board(newBoardStones, nextStone)
+        _stonesMap[nextStone.position] = nextStone.stoneState
+        return Board(_stonesMap)
     }
 
     companion object {
@@ -82,9 +90,6 @@ class Board private constructor(
         private const val ERROR_DOUBLE_FOUR = "4-4 반칙이 발생했습니다"
         private const val ERROR_OVERLINE = "장목 반칙이 발생했습니다"
 
-        fun initBoard(): Board {
-            val initStonesMap: Map<Position, StoneState> = emptyMap()
-            return Board(initStonesMap)
-        }
+        fun initBoard(): Board = Board(LinkedHashMap())
     }
 }

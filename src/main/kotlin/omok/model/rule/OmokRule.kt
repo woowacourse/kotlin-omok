@@ -24,6 +24,18 @@ class OmokRule(
         }
     }
 
+    fun isPositionOmok(
+        stonesMap: Map<Position, StoneState>,
+        position: Position,
+    ): Boolean {
+        if (stonePlacedState(stonesMap, position) == StoneState.NONE) {
+            return false
+        }
+
+        val totalCount = calculateTotalCount(stonesMap, position)
+        return totalCount >= 5
+    }
+
     private fun stonePlacedState(
         stonesMap: Map<Position, StoneState>,
         position: Position,
@@ -36,6 +48,17 @@ class OmokRule(
         Direction.lineDirections().maxOf { (directionA, directionB) ->
             val countA = countConnected(stonesMap, lastStone, directionA)
             val countB = countConnected(stonesMap, lastStone, directionB)
+
+            countA + countB + 1
+        }
+
+    private fun calculateTotalCount(
+        stonesMap: Map<Position, StoneState>,
+        position: Position,
+    ): Int =
+        Direction.lineDirections().maxOf { (directionA, directionB) ->
+            val countA = countConnected(stonesMap, position, directionA)
+            val countB = countConnected(stonesMap, position, directionB)
 
             countA + countB + 1
         }
@@ -53,6 +76,28 @@ class OmokRule(
         while (x in 0 until boardSize && y in 0 until boardSize) {
             val nextPos = Position(Row(x), Col(y))
             if (stonesMap[nextPos] == stone.stoneState) {
+                count++
+                x += direction.dx
+                y += direction.dy
+            } else {
+                break
+            }
+        }
+        return count
+    }
+
+    private fun countConnected(
+        stonesMap: Map<Position, StoneState>,
+        position: Position,
+        direction: Direction,
+    ): Int {
+        var count = 0
+        var x = position.row.value + direction.dx
+        var y = position.col.value + direction.dy
+
+        while (x in 0 until boardSize && y in 0 until boardSize) {
+            val nextPos = Position(Row(x), Col(y))
+            if (stonesMap[nextPos] == stonesMap[position]) {
                 count++
                 x += direction.dx
                 y += direction.dy

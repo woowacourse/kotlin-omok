@@ -26,8 +26,8 @@ class OutputView {
     }
 
     fun printNextTurn(board: Board) {
-        board.lastStone?.let {
-            val lastStoneCoordinateText = stoneCoordinateText(board.lastStone.position)
+        board.lastStone?.let { stone ->
+            val lastStoneCoordinateText = stoneCoordinateText(stone.position)
             println("${stoneStateText(board.nextStoneState)}의 차례 입니다. (마지막 돌의 위치: $lastStoneCoordinateText)")
         } ?: run {
             println("${stoneStateText(board.nextStoneState)}의 차례 입니다")
