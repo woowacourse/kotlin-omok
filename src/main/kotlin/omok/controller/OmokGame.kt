@@ -12,7 +12,7 @@ class OmokGame(
     private val inputView: InputView,
     private val outputView: OutputView,
 ) {
-    var prevPosition = ""
+    private var prevPosition = ""
 
     fun start() {
         val board = Board(RenjuRuleAdapter())
