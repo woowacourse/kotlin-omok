@@ -60,18 +60,10 @@ class Game(val board: Board) {
         val violation: Violation =
             when (color) {
                 Color.BLACK ->
-                    BlackRenjuRule(board.col, board.row).checkAnyFoulCondition(
-                        blackPoints,
-                        whitePoints,
-                        newPoint,
-                    )
+                    BlackRenjuRule(board.col, board.row).checkAnyFoulCondition(blackPoints, whitePoints, newPoint)
 
                 Color.WHITE ->
-                    WhiteRenjuRule(board.col, board.row).checkAnyFoulCondition(
-                        whitePoints,
-                        blackPoints,
-                        newPoint,
-                    )
+                    WhiteRenjuRule(board.col, board.row).checkAnyFoulCondition(whitePoints, blackPoints, newPoint)
             }
 
         return when (violation) {
@@ -84,8 +76,5 @@ class Game(val board: Board) {
 
     companion object {
         private const val OMOK_CONDITION = 5
-        private const val ERROR_MESSAGE_DOUBLE_THREE_VIOLATION = "삼삼 금수입니다."
-        private const val ERROR_MESSAGE_DOUBLE_FOUR_VIOLATION = "사사 금수입니다."
-        private const val ERROR_MESSAGE_OVERLINE_VIOLATION = "장목 금수입니다."
     }
 }
