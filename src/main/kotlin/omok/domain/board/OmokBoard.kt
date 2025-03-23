@@ -19,7 +19,7 @@ class OmokBoard(
         execute {
             omokPoints.pointValidation(point)
             omokPoints.moveStone(point)
-            updateProtectedPlace()
+            updateBlockedPlace()
         }
 
     fun goto(
@@ -39,7 +39,7 @@ class OmokBoard(
         }
     }
 
-    private fun updateProtectedPlace() {
+    private fun updateBlockedPlace() {
         omokPoints.toList()
             .filter { it.status is BoardStatus.Empty }
             .forEach { point ->
