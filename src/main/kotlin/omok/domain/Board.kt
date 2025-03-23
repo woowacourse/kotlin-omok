@@ -4,15 +4,15 @@ class Board(private val rule: Rule) {
     val stones: Stones = Stones()
     val grid: Array<Array<StoneType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { StoneType.EMPTY } }
 
-    fun put(stone: Stone) {
-        val row = stone.position.row
-        val column = stone.position.column
+    fun put(position: Position, color: StoneType): Stone {
+        val stone = Stone(position, color)
         isValidPosition(stone)
-        if (grid[row][column] != StoneType.EMPTY) {
+        if (grid[position.row][position.column] != StoneType.EMPTY) {
             throw IllegalArgumentException(ERROR_STONE_ALREADY_PLACED)
         }
         stones.add(stone)
-        grid[row][column] = stone.color
+        grid[position.row][position.column] = stone.color
+        return stone
     }
 
     fun isOmok(stone: Stone): Boolean {

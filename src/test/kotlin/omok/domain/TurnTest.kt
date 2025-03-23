@@ -5,9 +5,14 @@ import org.junit.jupiter.api.Test
 
 class TurnTest {
     @Test
-    fun `턴은 돌을 생성한다`() {
+    fun `턴은 흑을 색으로 가진다`() {
         val turn = Turn()
-        val blackStone = turn.stone("H10")
-        assertThat(blackStone).isEqualTo(Stone(Position.from(7, 9), StoneType.BLACK))
+        assertThat(turn.color()).isEqualTo(StoneType.BLACK)
+    }
+
+    @Test
+    fun `턴은 자신의 색상을 백으로 변경할 수 있다`() {
+        val turn = Turn()
+        assertThat(turn.color()).isEqualTo(StoneType.WHITE)
     }
 }

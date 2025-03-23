@@ -1,20 +1,16 @@
 package omok.domain
 
-data class Turn(private var turn: StoneType = StoneType.BLACK) {
+data class Turn(private var color: StoneType = StoneType.BLACK) {
     fun next() {
-        turn =
-            if (turn == StoneType.BLACK) {
+        color =
+            if (color == StoneType.BLACK) {
                 StoneType.WHITE
             } else {
                 StoneType.BLACK
             }
     }
 
-    fun isWhite(): Boolean = turn == StoneType.WHITE
+    fun color(): StoneType = color
 
-    fun stone(inputPosition: String): Stone {
-        val position = Position.from(inputPosition) ?: throw IllegalArgumentException("유효하지 않은 위치입니다. 다시 입력해주세요.")
-        val stone = Stone(position, turn)
-        return stone
-    }
+    fun isWhite(): Boolean = color == StoneType.WHITE
 }

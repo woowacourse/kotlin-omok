@@ -6,8 +6,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
 
 class BoardTest {
     private lateinit var board: Board
@@ -34,21 +32,20 @@ class BoardTest {
 
     @Test
     fun `오목판은 오목돌을 원하는 위치에 놓는다`() {
-        val stone = Stone(Position.from(8, 9), StoneType.BLACK)
-        board.put(stone)
+        board.put(Position.from(8, 9), StoneType.BLACK)
         val expected = StoneType.BLACK
         assertThat(board.grid[8][9]).isEqualTo(expected)
     }
 
     @Test
     fun `오목판이 다 채워지면 더 이상 놓을 수 없다1`() {
-        Full.forEach { board.put(it) }
+        Full.forEach { board.put(it.position, it.color) }
         assertThat(board.isFull()).isTrue()
     }
 
     @Test
     fun `오목판이 다 채워지면 더 이상 놓을 수 없다2`() {
-        Full.forEach { board.put(it) }
-        assertThrows<IllegalArgumentException> { board.put(Stone(A1, StoneType.BLACK)) }
+        Full.forEach { board.put(it.position, it.color) }
+        assertThrows<IllegalArgumentException> { board.put(A1, StoneType.BLACK) }
     }
 }
