@@ -16,7 +16,7 @@ class OmokGame(private val omokBoard: OmokBoard) {
 
         while (omokBoard.isNotFull()) {
             val point = event.onCompleteInputPoint(stone, omokBoard.toMatrix())
-            updateTurnResult(point, event::onFailToAddStone)
+            updateTurnResult(point, event, stone)
             if (omokBoard.isOmok(point)) {
                 event.onFinishedGame(stone)
                 break
@@ -27,9 +27,14 @@ class OmokGame(private val omokBoard: OmokBoard) {
 
     private fun updateTurnResult(
         point: Point,
-        onFailToAddStone: (String?) -> Unit,
+        event: GameEventListener,
+        stone: StoneColor,
     ) {
-        omokBoard.addStone(point).recover { onFailToAddStone(it) }
+        omokBoard.addStone(point).recover {
+            event.onFailToAddStone(it)
+            val newPoint = event.onCompleteInputPoint(stone, omokBoard.toMatrix())
+            updateTurnResult(newPoint, event, stone)
+        }
         latestStone = latestStone.saveLatestStone(point)
     }
 }
