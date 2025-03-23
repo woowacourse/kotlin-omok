@@ -28,16 +28,10 @@ class Game2(val board: Board) {
         position: Position,
         color: Color,
     ) {
-        val blackPoints: List<Point> =
-            board.stones
-                .filter { stone -> stone.color == Color.BLACK }
-                .map { stone -> Point(stone.position.x, stone.position.y) }
-        val whitePoints: List<Point> =
-            board.stones
-                .filter { stone -> stone.color == Color.WHITE }
-                .map { stone -> Point(stone.position.x, stone.position.y) }
-
         val newPoint = Point(position.x, position.y)
+        val blackPoints: List<Point> = board.filterStones(Color.BLACK).map { stone -> Point(stone.position.x, stone.position.y) }
+        val whitePoints: List<Point> = board.filterStones(Color.WHITE).map { stone -> Point(stone.position.x, stone.position.y) }
+
         val violation: Violation =
             when (color) {
                 Color.BLACK -> BlackRenjuRule().checkAnyFoulCondition(blackPoints, whitePoints, newPoint)
