@@ -1,6 +1,9 @@
 package omok.model
 
-class Board {
+class Board(
+    val row: Int = DEFAULT_BOARD_SIZE,
+    val col: Int = DEFAULT_BOARD_SIZE,
+) {
     val stones: MutableSet<Stone2> = mutableSetOf()
 
     fun add(newStone: Stone2) {
@@ -11,6 +14,7 @@ class Board {
     fun filterStones(color: Color): List<Stone2> = stones.filter { stone -> stone.color == color }
 
     companion object {
+        private const val DEFAULT_BOARD_SIZE = 15
         private const val ERROR_MESSAGE_POSITION_ALREADY_OCCUPIED = "이미 돌이 있는 자리입니다."
     }
 }
