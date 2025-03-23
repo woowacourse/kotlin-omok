@@ -14,12 +14,18 @@ data class Position private constructor(val row: Int, val column: Int) {
             return from(row, column)
         }
 
-        fun from(row: Int, column: Int): Position {
+        fun from(
+            row: Int,
+            column: Int,
+        ): Position {
             validateStoneRange(row, column)
             return Position(row, column)
         }
 
-        private fun validateStoneRange(row: Int, column: Int) {
+        private fun validateStoneRange(
+            row: Int,
+            column: Int,
+        ) {
             if (row !in 0 until BOARD_SIZE || column !in 0 until BOARD_SIZE) {
                 throw IllegalArgumentException(ERROR_INVALID_PLACED.format(BOARD_SIZE))
             }

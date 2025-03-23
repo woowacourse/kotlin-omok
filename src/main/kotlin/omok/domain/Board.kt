@@ -4,7 +4,10 @@ class Board(private val rule: Rule) {
     val stones: Stones = Stones()
     val grid: Array<Array<StoneType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { StoneType.EMPTY } }
 
-    fun put(position: Position, color: StoneType): Stone {
+    fun put(
+        position: Position,
+        color: StoneType,
+    ): Stone {
         val stone = Stone(position, color)
         isValidPosition(stone)
         if (grid[position.row][position.column] != StoneType.EMPTY) {
