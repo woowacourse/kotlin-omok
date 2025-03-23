@@ -1,16 +1,27 @@
 package omok.model
 
+import omok.mapper.BlackRuleChecker
+import omok.mapper.PointMapper
 import omok.model.game.Game
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
+import omok.view.OutputView.Companion.BOARD_SIZE
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import rule.BlackRenjuRule
 
 class GameTest {
-    private val game = Game()
+    private val game =
+        Game(
+            blackRuleChecker =
+                BlackRuleChecker(
+                    BlackRenjuRule(BOARD_SIZE),
+                    mapper = { pos -> PointMapper().from(pos) },
+                ),
+        )
 
     @Test
     fun `처음으로 착수하는 돌의 색을 확인할 수 있다`() {
@@ -66,7 +77,7 @@ class GameTest {
                 position7,
                 position8,
                 position9,
-            ) // Black
+            )
         for (i in positions) {
             game.place(i)
         }
