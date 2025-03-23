@@ -1,7 +1,6 @@
 package omok.view
 
 import omok.model.Point
-import omok.model.PointFactory
 import omok.model.Stone
 import omok.model.StoneColor
 
@@ -30,8 +29,8 @@ class InputView {
             print(MESSAGE_ENTER_POINT)
             val input: String = readln()
             val col: Int = input[0].integerRepresentation()
-            val row: Int? = input.substring(1).toIntOrNull()
-            PointFactory.create(row, col)
+            val row: Int = input.substring(1).toInt()
+            Point(row, col)
         }.getOrElse {
             println(it.message)
             readPoint()
