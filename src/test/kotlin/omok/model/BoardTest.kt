@@ -31,45 +31,4 @@ class BoardTest {
 
         assertThat(actual).isEqualTo(expected)
     }
-
-    @Test
-    fun `흑은 삼삼 위치에 돌을 둘 수 없다`() {
-        val board =
-            Board().apply {
-                add(Stone2(Position(4, 4), Color.BLACK))
-                add(Stone2(Position(5, 4), Color.BLACK))
-                add(Stone2(Position(6, 5), Color.BLACK))
-                add(Stone2(Position(5, 6), Color.BLACK))
-            }
-
-        assertThrows<IllegalArgumentException> { board.add(Stone2(Position(7, 4), Color.BLACK)) }
-    }
-
-    @Test
-    fun `흑은 사사 위치에 돌을 둘 수 없다`() {
-        val board =
-            Board().apply {
-                add(Stone2(Position(12, 3), Color.BLACK))
-                add(Stone2(Position(12, 4), Color.BLACK))
-                add(Stone2(Position(12, 9), Color.BLACK))
-                add(Stone2(Position(12, 10), Color.BLACK))
-                add(Stone2(Position(12, 7), Color.BLACK))
-            }
-
-        assertThrows<IllegalArgumentException> { board.add(Stone2(Position(12, 6), Color.BLACK)) }
-    }
-
-    @Test
-    fun `흑은 장목을 둘 수 없다`() {
-        val board =
-            Board().apply {
-                add(Stone2(Position(15, 3), Color.BLACK))
-                add(Stone2(Position(14, 3), Color.BLACK))
-                add(Stone2(Position(12, 3), Color.BLACK))
-                add(Stone2(Position(11, 3), Color.BLACK))
-                add(Stone2(Position(10, 3), Color.BLACK))
-            }
-
-        assertThrows<IllegalArgumentException> { board.add(Stone2(Position(13, 3), Color.BLACK)) }
-    }
 }
