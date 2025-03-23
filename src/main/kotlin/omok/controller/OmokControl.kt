@@ -20,7 +20,7 @@ class OmokControl(
         turn(board)
     }
 
-    private fun turn(board: Board) {
+    private tailrec fun turn(board: Board) {
         outputView.printBoard(board.stonesMap)
         outputView.printNextTurn(board)
 
@@ -28,12 +28,13 @@ class OmokControl(
         if (omokReferee.isLastStoneOmok(nextBoard)) {
             outputView.printBoard(nextBoard.stonesMap)
             outputView.printOmok(nextBoard.lastStone)
+            return
         } else {
             turn(nextBoard)
         }
     }
 
-    private fun stoneAddedBoard(board: Board): Board {
+    private tailrec fun stoneAddedBoard(board: Board): Board {
         runCatching {
             val inputCoordinateText = inputView.inputStone()
             val newBoard = board.nextStonePlacedBoard(Position(inputCoordinateText))
