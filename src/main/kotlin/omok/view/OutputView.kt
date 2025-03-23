@@ -3,6 +3,7 @@ package omok.view
 import omok.model.Game
 import omok.model.GameState
 import omok.model.Point
+import omok.model.Stone
 import omok.model.StoneColor
 
 class OutputView {
@@ -12,7 +13,8 @@ class OutputView {
     }
 
     fun printBoard(game: Game) {
-        println(modifyBoard(game.blackPlayer.points.points, game.whitePlayer.points.points))
+        // println(modifyBoard(game.blackPlayer.stones.points, game.whitePlayer.stones.points))
+        // TODO 출력 수정
     }
 
     fun printWinner(gameState: GameState) {
@@ -24,15 +26,15 @@ class OutputView {
     }
 
     private fun modifyBoard(
-        blackPoints: List<Point>,
-        whitePoints: List<Point>,
+        blackStones: Set<Point>,
+        whiteStones: Set<Point>,
     ): String {
         val board: String = makeInitialBoard(BOARD_SIZE, BOARD_SIZE)
         val lines = board.lines().toMutableList()
-        whitePoints.forEach { (row, col) ->
+        whiteStones.forEach { (row, col) ->
             lines[BOARD_SIZE - row] = modifyLine(col, lines[BOARD_SIZE - row], StoneColor.WHITE)
         }
-        blackPoints.forEach { (row, col) ->
+        blackStones.forEach { (row, col) ->
             lines[BOARD_SIZE - row] = modifyLine(col, lines[BOARD_SIZE - row], StoneColor.BLACK)
         }
 

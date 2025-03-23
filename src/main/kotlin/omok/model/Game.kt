@@ -1,20 +1,13 @@
 package omok.model
 
-class Game(
-    val blackPlayer: BlackPlayer,
-    val whitePlayer: WhitePlayer,
-) {
+class Game {
     private var _lastStone = Stone(Point(1, 1), StoneColor.WHITE)
     val lastStone get() = _lastStone.copy()
 
-    fun play(point: Point): GameState {
+    fun play(stone: Stone): GameState {
         val currentColor: StoneColor = _lastStone.color.reverse()
-        val gameState: GameState =
-            when (currentColor) {
-                StoneColor.BLACK -> blackPlayer.place(point, whitePlayer.points)
-                StoneColor.WHITE -> whitePlayer.place(point, blackPlayer.points)
-            }
-        _lastStone = Stone(point, currentColor)
+        val gameState: GameState = GameState.PLAYING // TODO 게임 상태 설정
+        _lastStone = Stone(stone.point, currentColor)
         return gameState
     }
 }

@@ -1,65 +1,65 @@
 package omok.model.adapter
 
-import omok.model.Point
+import omok.model.Stone
 import rule.facade.BlackRenjuRule
 
 class BlackRenjuRuleAdapter(
     private val blackRenjuRule: BlackRenjuRule
 ) {
     fun checkDoubleThreeFoul(
-        blackPoints: Set<Point>,
-        whitePoints: Set<Point>,
-        startPoint: Point,
+        blackStones: Set<Stone>,
+        whiteStones: Set<Stone>,
+        startStone: Stone,
     ): Boolean {
         return blackRenjuRule.checkDoubleThreeFoul(
-            blackPoints.toPairList(),
-            whitePoints.toPairList(),
-            startPoint.toPair()
+            blackStones.toPairList(),
+            whiteStones.toPairList(),
+            startStone.toPair()
         )
     }
 
     fun checkDoubleFourFoul(
-        blackPoints: Set<Point>,
-        whitePoints: Set<Point>,
-        startPoint: Point,
+        blackStones: Set<Stone>,
+        whiteStones: Set<Stone>,
+        startStone: Stone,
     ): Boolean {
         return blackRenjuRule.checkDoubleFourFoul(
-            blackPoints.toPairList(),
-            whitePoints.toPairList(),
-            startPoint.toPair()
+            blackStones.toPairList(),
+            whiteStones.toPairList(),
+            startStone.toPair()
         )
     }
 
     fun checkOverline(
-        blackPoints: Set<Point>,
-        whitePoints: Set<Point>,
-        startPoint: Point,
+        blackStones: Set<Stone>,
+        whiteStones: Set<Stone>,
+        startStone: Stone,
     ): Boolean {
         return blackRenjuRule.checkOverline(
-            blackPoints.toPairList(),
-            startPoint.toPair()
+            blackStones.toPairList(),
+            startStone.toPair()
         )
     }
 
     fun checkWin(
-        blackPoints: Set<Point>,
-        whitePoints: Set<Point>,
-        startPoint: Point,
+        blackStones: Set<Stone>,
+        whiteStones: Set<Stone>,
+        startStone: Stone,
         sameStoneToCheck: Int
     ): Boolean {
         return blackRenjuRule.checkWin(
-            blackPoints.toPairList(),
-            whitePoints.toPairList(),
-            startPoint.toPair(),
+            blackStones.toPairList(),
+            whiteStones.toPairList(),
+            startStone.toPair(),
             sameStoneToCheck
         )
     }
 
-    private fun Point.toPair(): Pair<Int, Int> {
-        return row to col
+    private fun Stone.toPair(): Pair<Int, Int> {
+        return point.row to point.col
     }
 
-    private fun Set<Point>.toPairList(): List<Pair<Int, Int>> {
+    private fun Set<Stone>.toPairList(): List<Pair<Int, Int>> {
         return map { it.toPair() }
     }
 }
