@@ -29,7 +29,7 @@ class OmokController(
         when (placeResult) {
             is PlaceResult.Success.Progress -> return
             is PlaceResult.Success.Finish -> outputView.displayGameResultMessage(placeResult.gameResult)
-            is PlaceResult.Failure -> outputView.displayErrorMessage(placeResult)
+            is PlaceResult.Failure, is PlaceResult.Prohibition -> outputView.displayErrorMessage(placeResult)
         }
     }
 }

@@ -15,7 +15,7 @@ class PlayingBoard(
 
         rules.forEach { rule ->
             result = rule.place(board, playerStone)
-            if (result is PlaceResult.Failure) return result
+            if (result is PlaceResult.Failure || result is PlaceResult.Prohibition) return result
         }
 
         if (result is PlaceResult.Success) {

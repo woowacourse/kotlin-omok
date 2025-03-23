@@ -26,9 +26,9 @@ class ExternalRenjuRule(
         val violateType = renjuRule.checkAnyFoulCondition(blackPoints, whitePoints, startPoint)
 
         return when (violateType) {
-            DOUBLE_THREE -> PlaceResult.Failure.DoubleThreeViolation
-            DOUBLE_FOUR -> PlaceResult.Failure.DoubleFourViolation
-            OVERLINE -> PlaceResult.Failure.OverlineViolation
+            DOUBLE_THREE -> PlaceResult.Prohibition.DoubleThreeViolation
+            DOUBLE_FOUR -> PlaceResult.Prohibition.DoubleFourViolation
+            OVERLINE -> PlaceResult.Prohibition.OverlineViolation
             NONE -> PlaceResult.Success.Progress(playerStone)
         }
     }

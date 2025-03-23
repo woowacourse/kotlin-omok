@@ -11,10 +11,10 @@ import omok.domain.rule.GameResult.WIN_BLACK
 import omok.domain.rule.GameResult.WIN_WHITE
 import omok.domain.rule.PlaceResult
 import omok.domain.rule.PlaceResult.Failure.AlreadyExistStone
-import omok.domain.rule.PlaceResult.Failure.DoubleFourViolation
-import omok.domain.rule.PlaceResult.Failure.DoubleThreeViolation
 import omok.domain.rule.PlaceResult.Failure.InvalidPosition
-import omok.domain.rule.PlaceResult.Failure.OverlineViolation
+import omok.domain.rule.PlaceResult.Prohibition.DoubleFourViolation
+import omok.domain.rule.PlaceResult.Prohibition.DoubleThreeViolation
+import omok.domain.rule.PlaceResult.Prohibition.OverlineViolation
 
 class OutputView {
     fun displayOmokGameStart() {

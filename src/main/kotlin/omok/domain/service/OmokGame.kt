@@ -30,7 +30,7 @@ class OmokGame(
 
                 is PlaceResult.Success.Finish -> break
 
-                is PlaceResult.Failure -> continue
+                is PlaceResult.Failure, is PlaceResult.Prohibition -> continue
             }
         }
     }

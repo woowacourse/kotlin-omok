@@ -50,5 +50,5 @@
 - [x] Position, Point | 클래스 네이밍 변경
 - [x] ExternalRule | ExternalRenjuRule로 네이밍 변경
 - [x] OmokRule | canPlace 메서드명 변경
-- [ ] PlaceResult | 금수에 대한 케이스 추가
+- [x] PlaceResult | 금수에 대한 케이스 추가
 - [ ] InputView, OutPutView | Mapper의 위치 동반객체에서 클래스의 바디로 이동

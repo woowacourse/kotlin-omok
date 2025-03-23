@@ -17,13 +17,13 @@ sealed class PlaceResult {
         data object AlreadyExistStone : Failure()
 
         data object InvalidPosition : Failure()
-
-        data object DoubleThreeViolation : Failure()
-
-        data object DoubleFourViolation : Failure()
-
-        data object OverlineViolation : Failure()
     }
 
-    sealed class Forbid : PlaceResult()
+    sealed class Prohibition : PlaceResult() {
+        data object DoubleThreeViolation : Prohibition()
+
+        data object DoubleFourViolation : Prohibition()
+
+        data object OverlineViolation : Prohibition()
+    }
 }
