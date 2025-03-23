@@ -12,10 +12,35 @@ class Game2(val board: Board) {
     fun processTurn(
         position: Position,
         color: Color,
-    ) {
+    ): GameState2 {
         checkViolation(position, color)
         board.add(Stone2(position, color))
         lastStone = Stone2(position, color)
+        val isOmok: Boolean =
+            when (color) {
+                Color.BLACK ->
+                    BlackRenjuRule().checkSerialSameStonesBiDirection(
+                        board.filterStones(color).map {
+                                stone ->
+                            Point(stone.position.x, stone.position.y)
+                        },
+                        Point(position.x, position.y),
+                        OMOK_CONDITION,
+                    )
+                Color.WHITE ->
+                    WhiteRenjuRule().checkSerialSameStonesBiDirection(
+                        board.filterStones(color).map {
+                                stone ->
+                            Point(stone.position.x, stone.position.y)
+                        },
+                        Point(position.x, position.y),
+                        OMOK_CONDITION,
+                    )
+            }
+        return when (isOmok) {
+            true -> GameState2.FINISHED
+            false -> GameState2.PLAYING
+        }
     }
 
     fun chooseTurn(): Color {
@@ -50,6 +75,7 @@ class Game2(val board: Board) {
     }
 
     companion object {
+        private const val OMOK_CONDITION = 5
         private const val ERROR_MESSAGE_DOUBLE_THREE_VIOLATION = "삼삼 금수입니다."
         private const val ERROR_MESSAGE_DOUBLE_FOUR_VIOLATION = "사사 금수입니다."
         private const val ERROR_MESSAGE_OVERLINE_VIOLATION = "장목 금수입니다."
