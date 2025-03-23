@@ -7,7 +7,6 @@ class Board(private val rule: Rule) {
     fun put(stone: Stone) {
         val row = stone.position.row
         val column = stone.position.column
-        validateStoneRange(stone)
         isValidPosition(stone)
         if (grid[row][column] != StoneType.EMPTY) {
             throw IllegalArgumentException(ERROR_STONE_ALREADY_PLACED)
@@ -36,12 +35,6 @@ class Board(private val rule: Rule) {
         }
     }
 
-    private fun validateStoneRange(stone: Stone) {
-        if (stone.position.row !in 0 until BOARD_SIZE || stone.position.column !in 0 until BOARD_SIZE) {
-            throw IllegalArgumentException(ERROR_INVALID_PLACED.format(BOARD_SIZE))
-        }
-    }
-
     private fun stonesCount(
         stone: Stone,
         direction: List<Int>,
@@ -50,7 +43,7 @@ class Board(private val rule: Rule) {
         var count = 0
 
         while (currentPosition.first in 0 until BOARD_SIZE && currentPosition.second in 0 until BOARD_SIZE &&
-            stones.stones.any { it == Stone(Position(currentPosition.first, currentPosition.second), stone.color) }
+            stones.stones.any { it == Stone(Position.from(currentPosition.first, currentPosition.second), stone.color) }
         ) {
             count++
             currentPosition = Pair(currentPosition.first + direction[0], currentPosition.second + direction[1])
@@ -62,7 +55,6 @@ class Board(private val rule: Rule) {
         const val BOARD_SIZE = 15
         private const val ERROR_STONE_ALREADY_PLACED = "이미 돌이 놓여진 위치입니다. 다시 입력해주세요."
         private const val ERROR_INVALID_BLACK_STONE = "흑돌이 놓을 수 없는 금수 위치입니다. 다시 입력해주세요."
-        private const val ERROR_INVALID_PLACED = "유효하지 않은 돌의 위치입니다. 오목판은 0 이상 %d 미만이어야 합니다."
         private val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
         private const val OMOK_WINNING_CONDITION = 5
     }

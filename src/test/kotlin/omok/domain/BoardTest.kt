@@ -34,17 +34,10 @@ class BoardTest {
 
     @Test
     fun `오목판은 오목돌을 원하는 위치에 놓는다`() {
-        val stone = Stone(Position(8, 9), StoneType.BLACK)
+        val stone = Stone(Position.from(8, 9), StoneType.BLACK)
         board.put(stone)
         val expected = StoneType.BLACK
         assertThat(board.grid[8][9]).isEqualTo(expected)
-    }
-
-    @ValueSource(ints = [-1, 15])
-    @ParameterizedTest
-    fun `오목판의 크기를 넘어가면 오목돌을 놓을 수 없다`(int: Int) {
-        val stone = Stone(Position(int, int), StoneType.BLACK)
-        assertThrows<IllegalArgumentException> { board.put(stone) }
     }
 
     @Test

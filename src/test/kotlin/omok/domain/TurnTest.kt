@@ -8,6 +8,6 @@ class TurnTest {
     fun `턴은 돌을 생성한다`() {
         val turn = Turn()
         val blackStone = turn.stone("H10")
-        assertThat(blackStone).isEqualTo(Stone(Position(7, 9), StoneType.BLACK))
+        assertThat(blackStone).isEqualTo(Stone(Position.from(7, 9), StoneType.BLACK))
     }
 }
