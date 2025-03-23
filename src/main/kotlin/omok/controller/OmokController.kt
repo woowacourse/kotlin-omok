@@ -30,12 +30,4 @@ class OmokController(
         }
         outputView.printTurn(nowTurn)
     }
-
-//    private fun printWinner(
-//        omokResult: OmokResult,
-//        omokGame: OmokGame,
-//    ) {
-//        outputView.printBoardState(omokGame.board)
-//        outputView.printWinner(omokResult)
-//    }
 }
