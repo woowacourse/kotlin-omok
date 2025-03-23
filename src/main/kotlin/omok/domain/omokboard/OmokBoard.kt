@@ -26,7 +26,7 @@ value class OmokBoard private constructor(
     fun find(position: Position): PointState? = _value[position]
 
     fun updateBoard(playerStone: PlayerStone) {
-            this.find(playerStone.position)
+        this.find(playerStone.position)
             ?.updateState(playerStone.color)
     }
 

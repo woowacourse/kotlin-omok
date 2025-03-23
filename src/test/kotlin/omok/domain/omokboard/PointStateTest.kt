@@ -7,11 +7,11 @@ import omok.domain.player.StoneColor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class PointSateTest {
+class PointStateTest {
     @Test
     fun `초기 state는 EMPTY다`() {
         // given & when
-        val actual = PointSate().state
+        val actual = PointState().state
         val expected = EMPTY
 
         // then
@@ -21,7 +21,7 @@ class PointSateTest {
     @Test
     fun `검은돌을 두면 state가 검정색으로 바뀐다`() {
         // given
-        val point = PointSate()
+        val point = PointState()
 
         // when
         point.updateState(StoneColor.BLACK)
@@ -35,7 +35,7 @@ class PointSateTest {
     @Test
     fun `흰돌을 두면 state가 흰색으로 바뀐다`() {
         // given
-        val point = PointSate()
+        val point = PointState()
 
         // when
         point.updateState(StoneColor.WHITE)
