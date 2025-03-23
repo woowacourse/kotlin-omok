@@ -87,7 +87,7 @@ class WhiteRenjuRuleTest {
                 STONE_5G_WHITE,
                 STONE_4G_WHITE,
             )
-        val newStone = Position(Row.from(newStoneRow), Col.fromInt(newStoneCol))
+        val newStone = Position(Row.from(newStoneRow), Col.from(newStoneCol))
 
         val expected = renjuRule.checkAnyFoulCondition(blackStones, whiteStones, newStone)
 

@@ -91,7 +91,7 @@ class BlackRenjuRuleTest {
                 STONE_9H_WHITE,
             )
 
-        val newStonePosition = Position(Row.from(newStoneRow), Col.fromInt(newStoneCol))
+        val newStonePosition = Position(Row.from(newStoneRow), Col.from(newStoneCol))
 
         // when
         val expected = renjuRule.checkDoubleFoul(blackStones, whiteStones, newStonePosition, Foul.DOUBLE_FOUR)
