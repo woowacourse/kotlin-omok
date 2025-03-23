@@ -34,10 +34,4 @@ class BlackOmokRule(
 
         return (blackPoints to whitePoints)
     }
-
-    companion object {
-        private const val ERROR_DOUBLE_THREE = "3-3 반칙이 발생했습니다"
-        private const val ERROR_DOUBLE_FOUR = "4-4 반칙이 발생했습니다"
-        private const val ERROR_OVERLINE = "장목 반칙이 발생했습니다"
-    }
 }
