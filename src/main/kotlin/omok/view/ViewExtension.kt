@@ -1,6 +1,7 @@
 package omok.view
 
 import omok.model.board.Board
+import omok.model.board.BoardSize
 import omok.model.board.Point
 import omok.model.board.PointState
 
@@ -31,16 +32,16 @@ fun PointState?.toColorString(): String {
 fun Board.toUiString(): String {
     val sb = StringBuilder()
 
-    for (y in this.size downTo 1) {
+    for (y in this.points.size.value downTo 1) {
         sb.append(y.toString().padStart(2, ' ') + " ")
-        for (x in Board.BOARD_MIN_SIZE..this.size) {
+        for (x in BoardSize.MIN_SIZE..this.points.size.value) {
             sb.append(getBoardCharacter(this, x, y))
-            if (x != this.size) sb.append("──")
+            if (x != this.points.size.value) sb.append("──")
         }
         sb.append("\n")
     }
     sb.append("   ")
-    ('A'..'Z').take(this.size).forEach { sb.append("$it  ") }
+    ('A'..'Z').take(this.points.size.value).forEach { sb.append("$it  ") }
     sb.append("\n")
 
     return sb.toString()
@@ -51,22 +52,22 @@ private fun getBoardCharacter(
     x: Int,
     y: Int,
 ): String {
-    val point = board.findPoint(Point(x, y))
+    val point = board.findPointState(Point(x, y))
 
-    return point?.second?.toUiString() ?: when {
+    return point?.toUiString() ?: when {
         // 네 모서리 처리
-        x == Board.BOARD_MIN_SIZE && y == board.size -> "┌"
-        x == board.size && y == board.size -> "┐"
-        x == Board.BOARD_MIN_SIZE && y == Board.BOARD_MIN_SIZE -> "└"
-        x == board.size && y == Board.BOARD_MIN_SIZE -> "┘"
+        x == BoardSize.MIN_SIZE && y == board.points.size.value -> "┌"
+        x == board.points.size.value && y == board.points.size.value -> "┐"
+        x == BoardSize.MIN_SIZE && y == BoardSize.MIN_SIZE -> "└"
+        x == board.points.size.value && y == BoardSize.MIN_SIZE -> "┘"
 
         // 상단, 하단 테두리 처리
-        y == board.size -> "┬"
-        y == Board.BOARD_MIN_SIZE -> "┴"
+        y == board.points.size.value -> "┬"
+        y == BoardSize.MIN_SIZE -> "┴"
 
         // 좌측, 우측 테두리 처리
-        x == Board.BOARD_MIN_SIZE -> "├"
-        x == board.size -> "┤"
+        x == BoardSize.MIN_SIZE -> "├"
+        x == board.points.size.value -> "┤"
 
         // 기본 교차점 처리
         else -> "┼"

@@ -1,6 +1,7 @@
 package omok.model.rule.count
 
 import omok.model.board.Board
+import omok.model.board.BoardSize
 import omok.model.board.Point
 import omok.model.board.PointState
 import omok.model.rule.OmokRule
@@ -36,10 +37,10 @@ abstract class OmokCountRule : OmokRule {
         var (x, y) = point.run { x + dir.first * step to y + dir.second * step }
 
         var count = INITIAL_COUNT
-        val targetState = board.findPoint(point)?.second
+        val targetState = board.findPointState(point)
         val targetColor = if (targetState == PointState.OPEN) PointState.BLACK else targetState
 
-        while (isInRange(board, x, y) && board.findPoint(Point(x, y))?.second == targetColor) {
+        while (isInRange(board, x, y) && board.findPointState(Point(x, y)) == targetColor) {
             count++
             x += dir.first * step
             y += dir.second * step
@@ -53,7 +54,7 @@ abstract class OmokCountRule : OmokRule {
         x: Int,
         y: Int,
     ): Boolean {
-        return listOf(x, y).all { it in (Board.BOARD_MIN_SIZE..board.size) }
+        return listOf(x, y).all { it in (BoardSize.MIN_SIZE..board.points.size.value) }
     }
 
     companion object {

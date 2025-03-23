@@ -3,72 +3,22 @@ package omok.model.board
 import omok.model.rule.OmokRuleJudge
 
 class Board(
-    points: Map<Point, PointState> = mutableMapOf(),
-    private val judge: OmokRuleJudge = OmokRuleJudge(),
-    val size: Int = DEFAULT_BOARD_SIZE,
+    val points: BoardPoints,
+    private val judge: OmokRuleJudge,
 ) {
-    var points: MutableMap<Point, PointState> = points.toMutableMap()
-        private set
-
-    init {
-        require(size in DEFAULT_BOARD_SIZE..BOARD_MAX_SIZE) { INVALID_BOARD_SIZE }
-
-        this.points =
-            (BOARD_MIN_SIZE..size).flatMap { row ->
-                (BOARD_MIN_SIZE..size).map { col ->
-                    Point(row, col)
-                }
-            }.associateWith { point ->
-                points[point] ?: PointState.OPEN
-            }.toMutableMap()
-    }
-
-    fun findPoint(point: Point): Pair<Point, PointState>? {
-        return points.entries.find { it.key == point }?.toPair()
-    }
+    fun findPointState(point: Point): PointState? = points.getState(point)
 
     fun placeStone(
         point: Point,
         pointState: PointState,
     ): PlaceStoneResult {
-        return when (val state = findPoint(point)?.second) {
-            PointState.OPEN -> handlePlaceSuccess(point, pointState)
-            else -> handlePlaceFailure(state)
-        }
-    }
+        val state = findPointState(point) ?: return PlaceStoneResult.Failure.InvalidPoint
+        if (state != PointState.OPEN) return PlaceStoneResult.Failure.AlreadyPlaced
 
-    private fun handlePlaceSuccess(
-        point: Point,
-        pointState: PointState,
-    ): PlaceStoneResult {
-        if (!judge.validate(this, point, pointState)) {
-            return PlaceStoneResult.Failure.Closed
-        }
-        changePointState(point, pointState)
+        if (!judge.validate(this, point, pointState)) return PlaceStoneResult.Failure.Closed
+        points.update(point, pointState)
 
-        if (judge.isWin(this, point, pointState)) {
-            return PlaceStoneResult.Success.Placed(point)
-        }
+        if (judge.isWin(this, point, pointState)) return PlaceStoneResult.Success.Placed(point)
         return PlaceStoneResult.Success.Finished(point)
-    }
-
-    private fun handlePlaceFailure(state: PointState?): PlaceStoneResult {
-        if (state == null) return PlaceStoneResult.Failure.InvalidPoint
-
-        return PlaceStoneResult.Failure.AlreadyPlaced
-    }
-
-    private fun changePointState(
-        point: Point,
-        newState: PointState,
-    ) {
-        points[point] = newState
-    }
-
-    companion object {
-        const val BOARD_MIN_SIZE = 1
-        private const val BOARD_MAX_SIZE = 25
-        private const val DEFAULT_BOARD_SIZE = 15
-        private const val INVALID_BOARD_SIZE = "유효하지 않은 바둑판 사이즈 입니다. ($DEFAULT_BOARD_SIZE ~ $BOARD_MAX_SIZE)"
     }
 }

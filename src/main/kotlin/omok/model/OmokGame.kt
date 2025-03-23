@@ -2,6 +2,8 @@ package omok.model
 
 import omok.controller.OmokGameListener
 import omok.model.board.Board
+import omok.model.board.BoardPoints
+import omok.model.board.BoardSize
 import omok.model.board.PlaceStoneResult
 import omok.model.board.Point
 import omok.model.board.PointState
@@ -13,8 +15,11 @@ class OmokGame(
     private var previousPoint: Point? = null
     private var currentStoneColor: PointState = PointState.BLACK
 
-    fun play(judge: OmokRuleJudge) {
-        val board = Board(judge = judge)
+    fun play(
+        boardSize: BoardSize,
+        judge: OmokRuleJudge,
+    ) {
+        val board = Board(BoardPoints(boardSize), judge)
         omokGameView.onStartGame()
         omokGameView.onBoardUpdated(board)
 
@@ -74,8 +79,10 @@ class OmokGame(
     }
 
     private fun showWinColor(board: Board) {
-        val color = board.findPoint(previousPoint!!)?.second
-        omokGameView.onGameWon(color)
+        previousPoint?.let { point ->
+            val color = board.findPointState(point)
+            omokGameView.onGameWon(color)
+        }
     }
 
     private fun getNextPoint(): Point =
