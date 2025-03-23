@@ -23,18 +23,11 @@ class OmokGame(
         omokGameView.onStartGame()
         omokGameView.onBoardUpdated(board)
 
-        playTurn(board)
-    }
-
-    private fun playTurn(board: Board) {
-        while (true) {
-            if (!placeStone(board)) break
-        }
-
+        playTurns(board)
         showWinColor(board)
     }
 
-    private fun placeStone(board: Board): Boolean =
+    private fun playTurns(board: Board): Boolean =
         retryOnException(
             action = {
                 val point = getNextPoint()
@@ -42,6 +35,11 @@ class OmokGame(
                 handlePlaceResult(placeResult, board)
             },
             shouldRetry = { it },
+        )
+
+    private fun getNextPoint(): Point =
+        retryOnException(
+            action = { omokGameView.onRequestPosition(previousPoint to currentStoneColor) },
         )
 
     private fun handlePlaceResult(
@@ -54,19 +52,6 @@ class OmokGame(
         }
     }
 
-    private fun handlePlaceFailure(result: PlaceStoneResult.Failure): Boolean {
-        val message =
-            when (result) {
-                is PlaceStoneResult.Failure.AlreadyPlaced -> ALREADY_PLACED_ERROR_MESSAGE
-                is PlaceStoneResult.Failure.Closed -> CLOSED_ERROR_MESSAGE
-                is PlaceStoneResult.Failure.InvalidPoint -> INVALID_POINT_ERROR_MESSAGE
-                else -> ""
-            }
-
-        message.let { omokGameView.onError(it) }
-        return true
-    }
-
     private fun handlePlaceSuccess(
         result: PlaceStoneResult.Success,
         board: Board,
@@ -75,7 +60,19 @@ class OmokGame(
         currentStoneColor = currentStoneColor.reverseStoneColor()
         omokGameView.onBoardUpdated(board)
 
-        return if (result is PlaceStoneResult.Success.Finished) false else true
+        return result !is PlaceStoneResult.Success.Finished
+    }
+
+    private fun handlePlaceFailure(result: PlaceStoneResult.Failure): Boolean {
+        val message =
+            when (result) {
+                is PlaceStoneResult.Failure.AlreadyPlaced -> ALREADY_PLACED_ERROR_MESSAGE
+                is PlaceStoneResult.Failure.Closed -> CLOSED_ERROR_MESSAGE
+                is PlaceStoneResult.Failure.InvalidPoint -> INVALID_POINT_ERROR_MESSAGE
+            }
+
+        omokGameView.onError(message)
+        return true
     }
 
     private fun showWinColor(board: Board) {
@@ -85,20 +82,13 @@ class OmokGame(
         }
     }
 
-    private fun getNextPoint(): Point =
-        retryOnException(
-            action = { omokGameView.onRequestPosition(previousPoint to currentStoneColor) },
-        )
-
     private fun <T> retryOnException(
         action: () -> T,
         shouldRetry: (T) -> Boolean = { false },
     ) = omok.utils.retry(
         action = action,
         shouldRetry = shouldRetry,
-        onFailure = {
-            omokGameView.onError(it.message.toString())
-        },
+        onFailure = { omokGameView.onError(it.message.toString()) },
     )
 
     companion object {
