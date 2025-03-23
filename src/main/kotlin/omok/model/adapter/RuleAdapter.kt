@@ -16,4 +16,8 @@ interface RuleAdapter {
         startStone: Stone,
         sameStoneToCheck: Int,
     ): Boolean
+
+    fun Stone.toPair(): Pair<Int, Int> = point.row to point.col
+
+    fun Set<Stone>.toPairList(): List<Pair<Int, Int>> = map { it.toPair() }
 }
