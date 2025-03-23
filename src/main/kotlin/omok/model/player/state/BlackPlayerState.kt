@@ -19,17 +19,21 @@ class BlackPlayerState : PlayerState {
         val adaptedPoint = OmokAdapter.adaptOmokPoint(position)
         return when {
             WinRule.validate(adaptedBoard, adaptedPoint) -> Win()
-            FourFourRule.validate(adaptedBoard, adaptedPoint) -> {
-                omokBoard.doubleFour(position)
-                this
-            }
-
-            ThreeThreeRule.validate(adaptedBoard, adaptedPoint) -> {
-                omokBoard.doubleThree(position)
+            isForbidden(position, omokBoard) -> {
+                omokBoard.forbidden(position)
                 this
             }
 
             else -> this
         }
+    }
+
+    private fun isForbidden(
+        position: Position,
+        omokBoard: OmokBoard,
+    ): Boolean {
+        val adaptedBoard = OmokAdapter.adaptOmokBoard(omokBoard)
+        val adaptedPoint = OmokAdapter.adaptOmokPoint(position)
+        return FourFourRule.validate(adaptedBoard, adaptedPoint) || ThreeThreeRule.validate(adaptedBoard, adaptedPoint)
     }
 }

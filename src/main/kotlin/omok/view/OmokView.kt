@@ -74,7 +74,7 @@ class OmokView {
                 when (stoneState) {
                     StoneState.WHITE -> WHITE_STONE
                     StoneState.BLACK -> BLACK_STONE
-                    StoneState.DOUBLE_THREE, StoneState.DOUBLE_FOUR -> ILLEGAL_POINT
+                    StoneState.FORBIDDEN -> ILLEGAL_POINT
                     else -> return@forEach
                 }
             board[pos.y.point - 1][pos.x.point - 1] = if (pos.x.point != BOARD_SIZE) "$stone──" else stone
