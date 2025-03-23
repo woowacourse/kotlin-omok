@@ -3,7 +3,6 @@ package omok.view
 import omok.model.Game
 import omok.model.GameState
 import omok.model.Point
-import omok.model.Stone
 import omok.model.StoneColor
 
 class OutputView {
