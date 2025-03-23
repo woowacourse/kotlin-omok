@@ -4,9 +4,10 @@ import omok.domain.point.OmokPoints
 import omok.domain.point.Point
 import omok.domain.rule.OmokRule
 import omok.domain.rule.finder.Direction
+import omok.view.BoardView
 
 class OmokBoard(
-    private val omokPoints: OmokPoints,
+    val omokPoints: OmokPoints,
     private val ruleChecker: OmokRule,
 ) {
     var latestStone: Point = Point(-100, -100, StoneStatus.EMPTY)
@@ -15,6 +16,8 @@ class OmokBoard(
     fun toMatrix(): List<List<StoneStatus>> = omokPoints.toMatrix()
 
     fun isNotFull() = omokPoints.toList().any { it.stoneStatus == StoneStatus.EMPTY }
+
+    fun view(): BoardView = BoardView(this)
 
     fun pointValidation(point: Point) {
         require(!omokPoints.isOccupied(point)) { ERROR_OCCUPIED_POSITION }
