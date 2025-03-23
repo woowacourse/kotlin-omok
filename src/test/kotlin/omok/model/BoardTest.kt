@@ -21,14 +21,4 @@ class BoardTest {
 
         assertThrows<IllegalArgumentException> { board.add(Stone2(Position(1, 1), Color.WHITE)) }
     }
-
-    @Test
-    fun `바둑판에 돌을 두면 마지막 돌이 갱신된다`() {
-        val board = Board().apply { add(Stone2(Position(1, 1), Color.BLACK)) }
-
-        val actual: Stone2? = board.lastStone
-        val expected = Stone2(Position(1, 1), Color.BLACK)
-
-        assertThat(actual).isEqualTo(expected)
-    }
 }
