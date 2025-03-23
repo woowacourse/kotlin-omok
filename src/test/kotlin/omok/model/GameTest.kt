@@ -2,7 +2,6 @@ package omok.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class GameTest {
     @Test
@@ -45,8 +44,8 @@ class GameTest {
                 processTurn(Position(1, 4), Color.WHITE)
             }
 
-        val actual: GameState = game.processTurn(Position(1, 5), Color.WHITE)
-        val expected: GameState = GameState.WHITE_WIN
+        val actual: MoveResult = game.processTurn(Position(1, 5), Color.WHITE)
+        val expected: MoveResult = MoveResult.Success.WhiteWin
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -61,8 +60,8 @@ class GameTest {
                 processTurn(Position(10, 8), Color.BLACK)
             }
 
-        val actual: GameState = game.processTurn(Position(9, 9), Color.BLACK)
-        val expected: GameState = GameState.BLACK_WIN
+        val actual: MoveResult = game.processTurn(Position(9, 9), Color.BLACK)
+        val expected: MoveResult = MoveResult.Success.BlackWin
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -76,8 +75,8 @@ class GameTest {
                 processTurn(Position(9, 8), Color.WHITE)
             }
 
-        val actual: GameState = game.processTurn(Position(9, 9), Color.WHITE)
-        val expected: GameState = GameState.PLAYING
+        val actual: MoveResult = game.processTurn(Position(9, 9), Color.WHITE)
+        val expected: MoveResult = MoveResult.Success.Playing
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -92,7 +91,10 @@ class GameTest {
                 processTurn(Position(5, 6), Color.BLACK)
             }
 
-        assertThrows<IllegalArgumentException> { game.processTurn(Position(7, 4), Color.BLACK) }
+        val actual: MoveResult = game.processTurn(Position(7, 4), Color.BLACK)
+        val expected: MoveResult = MoveResult.Fail.DoubleThreeViolation
+
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -106,7 +108,10 @@ class GameTest {
                 processTurn(Position(12, 10), Color.BLACK)
             }
 
-        assertThrows<IllegalArgumentException> { game.processTurn(Position(12, 6), Color.BLACK) }
+        val actual: MoveResult = game.processTurn(Position(12, 6), Color.BLACK)
+        val expected: MoveResult = MoveResult.Fail.DoubleFourViolation
+
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -120,6 +125,9 @@ class GameTest {
                 processTurn(Position(10, 3), Color.BLACK)
             }
 
-        assertThrows<IllegalArgumentException> { game.processTurn(Position(13, 3), Color.BLACK) }
+        val actual: MoveResult = game.processTurn(Position(13, 3), Color.BLACK)
+        val expected: MoveResult = MoveResult.Fail.OverlineViolation
+
+        assertThat(actual).isEqualTo(expected)
     }
 }

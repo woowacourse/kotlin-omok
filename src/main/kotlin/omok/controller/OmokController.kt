@@ -2,7 +2,7 @@ package omok.controller
 
 import omok.model.Board
 import omok.model.Game
-import omok.model.GameState
+import omok.model.MoveResult
 import omok.model.Position
 import omok.view.InputView
 import omok.view.OutputView
@@ -15,18 +15,29 @@ class OmokController(
         outputView.printOmokStart()
         val game = Game(Board())
         outputView.printBoard(game.board)
-        retryOnError { processTurn(game) }
+        processTurn(game)
     }
 
     private tailrec fun processTurn(game: Game) {
-        val (x: Int, y: Int) = inputView.readTurn(game)
+        val (x: Int, y: Int) = retryOnError { inputView.readTurn(game) }
         val position = Position(x, y)
-        val gameState: GameState = game.processTurn(position, game.chooseTurn())
+        val moveResult: MoveResult = game.processTurn(position, game.chooseTurn())
         outputView.printBoard(game.board)
 
-        when (gameState) {
-            GameState.PLAYING -> processTurn(game)
-            else -> outputView.printGameState(gameState)
+        when (moveResult) {
+            is MoveResult.Success.Playing -> processTurn(game)
+            is MoveResult.Success.WhiteWin -> {
+                outputView.printMoveResult(moveResult)
+                return
+            }
+            is MoveResult.Success.BlackWin -> {
+                outputView.printMoveResult(moveResult)
+                return
+            }
+            is MoveResult.Fail -> {
+                outputView.printMoveResult(moveResult)
+                processTurn(game)
+            }
         }
     }
 

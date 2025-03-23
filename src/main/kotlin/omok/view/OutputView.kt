@@ -2,7 +2,7 @@ package omok.view
 
 import omok.model.Board
 import omok.model.Color
-import omok.model.GameState
+import omok.model.MoveResult
 
 class OutputView {
     fun printOmokStart() {
@@ -10,11 +10,15 @@ class OutputView {
         println()
     }
 
-    fun printGameState(gameState: GameState) {
-        when (gameState) {
-            GameState.BLACK_WIN -> println(MESSAGE_OMOK_WINNER.format(BLACK_PLAYER))
-            GameState.WHITE_WIN -> println(MESSAGE_OMOK_WINNER.format(WHITE_PLAYER))
-            GameState.PLAYING -> println(MESSAGE_OMOK_IN_PROGRESS)
+    fun printMoveResult(moveResult: MoveResult) {
+        when (moveResult) {
+            is MoveResult.Success.Playing -> MESSAGE_OMOK_IN_PROGRESS
+            is MoveResult.Success.BlackWin -> println(MESSAGE_OMOK_WINNER.format(BLACK_PLAYER))
+            is MoveResult.Success.WhiteWin -> println(MESSAGE_OMOK_WINNER.format(WHITE_PLAYER))
+            is MoveResult.Fail.StoneAlreadyPlaced -> println(FAILURE_POSITION_ALREADY_OCCUPIED)
+            is MoveResult.Fail.DoubleThreeViolation -> println(FAILURE_DOUBLE_THREE_VIOLATION)
+            is MoveResult.Fail.DoubleFourViolation -> println(FAILURE_DOUBLE_FOUR_VIOLATION)
+            is MoveResult.Fail.OverlineViolation -> println(FAILURE_OVERLINE_VIOLATION)
         }
     }
 
@@ -108,6 +112,11 @@ class OutputView {
         private const val MESSAGE_OMOK_START = "오목 게임을 시작합니다."
         private const val MESSAGE_OMOK_WINNER = "%s이 승리했습니다!"
         private const val MESSAGE_OMOK_IN_PROGRESS = "게임이 아직 종료되지 않았습니다."
+
+        private const val FAILURE_POSITION_ALREADY_OCCUPIED = "이미 돌이 있는 자리입니다."
+        private const val FAILURE_DOUBLE_THREE_VIOLATION = "삼삼 금수입니다."
+        private const val FAILURE_DOUBLE_FOUR_VIOLATION = "사사 금수입니다."
+        private const val FAILURE_OVERLINE_VIOLATION = "장목 금수입니다."
 
         private const val BLACK_PLAYER = "흑"
         private const val WHITE_PLAYER = "백"

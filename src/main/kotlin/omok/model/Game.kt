@@ -20,9 +20,11 @@ class Game(val board: Board) {
     fun processTurn(
         position: Position,
         color: Color,
-    ): GameState {
-        checkViolation(position, color)
-        board.add(Stone(position, color))
+    ): MoveResult {
+        val violationCheckResult: MoveResult = checkViolation(position, color)
+        if (violationCheckResult is MoveResult.Fail) return violationCheckResult
+        val placeStoneResult: MoveResult = board.add(Stone(position, color))
+        if (placeStoneResult is MoveResult.Fail) return placeStoneResult
         lastStone = Stone(position, color)
         return checkOmok(position, color)
     }
@@ -30,7 +32,7 @@ class Game(val board: Board) {
     private fun checkOmok(
         position: Position,
         color: Color,
-    ): GameState {
+    ): MoveResult {
         val rule: OmokRule =
             when (color) {
                 Color.BLACK -> BlackRenjuRule(board.col, board.row)
@@ -39,33 +41,44 @@ class Game(val board: Board) {
         val points: List<Point> = board.filterStones(color).map { stone -> Point(stone.position.x, stone.position.y) }
         val newPoint = Point(position.x, position.y)
         val isOmok: Boolean = rule.checkSerialSameStonesBiDirection(points, newPoint, OMOK_CONDITION)
-        if (!isOmok) return GameState.PLAYING
+        if (!isOmok) return MoveResult.Success.Playing
         return when (color) {
-            Color.BLACK -> GameState.BLACK_WIN
-            Color.WHITE -> GameState.WHITE_WIN
+            Color.BLACK -> MoveResult.Success.BlackWin
+            Color.WHITE -> MoveResult.Success.WhiteWin
         }
     }
 
     private fun checkViolation(
         position: Position,
         color: Color,
-    ) {
+    ): MoveResult {
         val newPoint = Point(position.x, position.y)
-        val blackPoints: List<Point> = board.filterStones(Color.BLACK).map { stone -> Point(stone.position.x, stone.position.y) }
-        val whitePoints: List<Point> = board.filterStones(Color.WHITE).map { stone -> Point(stone.position.x, stone.position.y) }
+        val blackPoints: List<Point> =
+            board.filterStones(Color.BLACK).map { stone -> Point(stone.position.x, stone.position.y) }
+        val whitePoints: List<Point> =
+            board.filterStones(Color.WHITE).map { stone -> Point(stone.position.x, stone.position.y) }
         val violation: Violation =
             when (color) {
-                Color.BLACK -> BlackRenjuRule(board.col, board.row).checkAnyFoulCondition(blackPoints, whitePoints, newPoint)
-                Color.WHITE -> WhiteRenjuRule(board.col, board.row).checkAnyFoulCondition(whitePoints, blackPoints, newPoint)
+                Color.BLACK ->
+                    BlackRenjuRule(board.col, board.row).checkAnyFoulCondition(
+                        blackPoints,
+                        whitePoints,
+                        newPoint,
+                    )
+
+                Color.WHITE ->
+                    WhiteRenjuRule(board.col, board.row).checkAnyFoulCondition(
+                        whitePoints,
+                        blackPoints,
+                        newPoint,
+                    )
             }
 
-        require(violation == Violation.NONE) {
-            when (violation) {
-                Violation.DOUBLE_THREE -> ERROR_MESSAGE_DOUBLE_THREE_VIOLATION
-                Violation.DOUBLE_FOUR -> ERROR_MESSAGE_DOUBLE_FOUR_VIOLATION
-                Violation.OVERLINE -> ERROR_MESSAGE_OVERLINE_VIOLATION
-                Violation.NONE -> throw IllegalStateException()
-            }
+        return when (violation) {
+            Violation.DOUBLE_THREE -> MoveResult.Fail.DoubleThreeViolation
+            Violation.DOUBLE_FOUR -> MoveResult.Fail.DoubleFourViolation
+            Violation.OVERLINE -> MoveResult.Fail.OverlineViolation
+            Violation.NONE -> MoveResult.Success.Playing
         }
     }
 
