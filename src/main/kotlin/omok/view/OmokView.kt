@@ -6,7 +6,7 @@ import omok.model.board.Y
 import omok.model.player.BlackPlayer
 import omok.model.player.Player
 import omok.model.player.WhitePlayer
-import omok.model.stone.StoneState
+import omok.model.stone.PositionState
 
 class OmokView {
     fun printStartMessage() {
@@ -41,7 +41,7 @@ class OmokView {
         println("   ${column.joinToString("  ")}")
     }
 
-    fun printOmokBoard(positions: Map<Position, StoneState>) {
+    fun printOmokBoard(positions: Map<Position, PositionState>) {
         val column = ('A'..'O').toList()
         val board = displayBoard()
         displayCorner(board)
@@ -66,15 +66,15 @@ class OmokView {
     }
 
     private fun renderStone(
-        positions: Map<Position, StoneState>,
+        positions: Map<Position, PositionState>,
         board: MutableList<MutableList<String>>,
     ) {
         positions.forEach { (pos, stoneState) ->
             val stone =
                 when (stoneState) {
-                    StoneState.WHITE -> WHITE_STONE
-                    StoneState.BLACK -> BLACK_STONE
-                    StoneState.FORBIDDEN -> ILLEGAL_POINT
+                    PositionState.WHITE_POSITION -> WHITE_STONE
+                    PositionState.BLACK_POSITION -> BLACK_STONE
+                    PositionState.FORBIDDEN -> ILLEGAL_POINT
                     else -> return@forEach
                 }
             board[pos.y.point - 1][pos.x.point - 1] = if (pos.x.point != BOARD_SIZE) "$stone──" else stone

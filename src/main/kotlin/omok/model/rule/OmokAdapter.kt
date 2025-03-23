@@ -2,7 +2,7 @@ package omok.model.rule
 
 import omok.model.board.OmokBoard
 import omok.model.board.Position
-import omok.model.stone.StoneState
+import omok.model.stone.PositionState
 
 object OmokAdapter {
     fun adaptOmokBoard(omokBoard: OmokBoard): List<List<Int>> {
@@ -10,8 +10,8 @@ object OmokAdapter {
         omokBoard.keys.forEach {
             adapted[it.y.point - 1][it.x.point - 1] =
                 when (omokBoard.boardState(it)) {
-                    StoneState.BLACK -> 1
-                    StoneState.WHITE -> 2
+                    PositionState.BLACK_POSITION -> 1
+                    PositionState.WHITE_POSITION -> 2
                     else -> 0
                 }
         }
