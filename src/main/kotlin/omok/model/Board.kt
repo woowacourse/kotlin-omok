@@ -1,9 +1,8 @@
 package omok.model
 
-class Board(
-    val row: Int = DEFAULT_BOARD_SIZE,
-    val col: Int = DEFAULT_BOARD_SIZE,
-) {
+class Board {
+    val row: Int = DEFAULT_BOARD_SIZE
+    val col: Int = DEFAULT_BOARD_SIZE
     private val _stones: MutableSet<Stone> = mutableSetOf()
     val stones: Set<Stone> get() = _stones.toSet()
 
