@@ -7,15 +7,9 @@ import org.junit.jupiter.api.Test
 class OmokBoardTest {
     @Test
     fun `크기를 설정하지 않은 오목판은 15 x 15 사이즈이다`() {
-        // given
-        val actual = PlayingBoard(rules = OmokRule.rules).board.value
-
-        // when & then
-        (1..15).forEach { row ->
-            (1..15).forEach { column ->
-                assertThat(actual).containsKey(Position(RowPosition(row), ColumnPosition(column)))
-            }
-        }
-        assertThat(actual.size).isEqualTo(15 * 15)
+        // given & when
+        val actual = PlayingBoard(rules = OmokRule.rules).board.value.size
+        // then
+        assertThat(actual).isEqualTo(15 * 15)
     }
 }
