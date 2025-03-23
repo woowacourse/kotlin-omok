@@ -19,19 +19,19 @@ class OutputView {
     }
 
     fun printBoard(board: Board) {
-        println(updateBoardString(board))
+        println(updateBoard(board))
     }
 
-    private fun updateBoardString(board: Board): String {
-        val boardString: String = buildBoardString(board.row, board.col)
+    private fun updateBoard(board: Board): String {
+        val boardString: String = buildBoard(board.row, board.col)
         val lines = boardString.lines().toMutableList()
         board.stones.forEach { stone ->
-            lines[board.row - stone.position.y] = updateLineString(stone.position.x, lines[board.row - stone.position.y], stone.color)
+            lines[board.row - stone.position.y] = updateRow(stone.position.x, lines[board.row - stone.position.y], stone.color)
         }
         return lines.joinToString("\n")
     }
 
-    private fun updateLineString(
+    private fun updateRow(
         col: Int,
         line: String,
         color: Color,
@@ -46,7 +46,7 @@ class OutputView {
         return sb.toString()
     }
 
-    private fun buildBoardString(
+    private fun buildBoard(
         height: Int,
         width: Int,
     ): String {
