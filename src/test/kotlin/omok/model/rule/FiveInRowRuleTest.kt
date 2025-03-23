@@ -1,5 +1,6 @@
 package omok.model.rule
 
+import omok.fixture.generateTestBoardFixture
 import omok.model.board.Board
 import omok.model.board.Point
 import omok.model.board.PointState
@@ -10,40 +11,52 @@ import org.junit.jupiter.api.Test
 
 class FiveInRowRuleTest {
     private val verticalFiveInRowBoard: Board =
-        Board().apply {
-            placeStone(Point(1, 1), PointState.WHITE)
-            placeStone(Point(2, 1), PointState.WHITE)
-            placeStone(Point(3, 1), PointState.WHITE)
-            placeStone(Point(4, 1), PointState.WHITE)
-            placeStone(Point(5, 1), PointState.WHITE)
-        }
+        generateTestBoardFixture(
+            listOf(
+                Point(1, 1),
+                Point(2, 1),
+                Point(3, 1),
+                Point(4, 1),
+                Point(5, 1),
+            ),
+            PointState.BLACK,
+        )
 
     private val horizontalFiveInRowBoard: Board =
-        Board().apply {
-            placeStone(Point(1, 1), PointState.WHITE)
-            placeStone(Point(1, 2), PointState.WHITE)
-            placeStone(Point(1, 3), PointState.WHITE)
-            placeStone(Point(1, 4), PointState.WHITE)
-            placeStone(Point(1, 5), PointState.WHITE)
-        }
+        generateTestBoardFixture(
+            listOf(
+                Point(1, 1),
+                Point(1, 2),
+                Point(1, 3),
+                Point(1, 4),
+                Point(1, 5),
+            ),
+            PointState.BLACK,
+        )
 
     private val diagonalFiveInRowBoard: Board =
-        Board().apply {
-            placeStone(Point(1, 1), PointState.WHITE)
-            placeStone(Point(2, 2), PointState.WHITE)
-            placeStone(Point(3, 3), PointState.WHITE)
-            placeStone(Point(4, 4), PointState.WHITE)
-            placeStone(Point(5, 5), PointState.WHITE)
-        }
+        generateTestBoardFixture(
+            listOf(
+                Point(1, 1),
+                Point(2, 2),
+                Point(3, 3),
+                Point(4, 4),
+                Point(5, 5),
+            ),
+            PointState.BLACK,
+        )
 
     private val antiDiagonalFiveInRowBoard: Board =
-        Board().apply {
-            placeStone(Point(1, 5), PointState.WHITE)
-            placeStone(Point(2, 4), PointState.WHITE)
-            placeStone(Point(3, 3), PointState.WHITE)
-            placeStone(Point(4, 2), PointState.WHITE)
-            placeStone(Point(5, 1), PointState.WHITE)
-        }
+        generateTestBoardFixture(
+            listOf(
+                Point(1, 5),
+                Point(2, 4),
+                Point(3, 3),
+                Point(4, 2),
+                Point(5, 1),
+            ),
+            PointState.BLACK,
+        )
 
     @Test
     fun `세로로 오목인 경우 true를 반환한다`() {
