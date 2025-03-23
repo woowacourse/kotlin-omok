@@ -61,27 +61,27 @@ class OutputView {
         val board = StringBuilder()
 
         board.append(FORMAT_ROW_NUMBER.format(rows))
-        board.append("┌──")
+        board.append(BOARD_TOP_LEFT)
         for (col in 2..<cols) {
-            board.append("┬──")
+            board.append(BOARD_TOP_MIDDLE)
         }
-        board.append("┐\n")
+        board.append(BOARD_TOP_RIGHT)
 
         for (row in rows - 1 downTo 2) {
             board.append(FORMAT_ROW_NUMBER.format(row))
-            board.append("├──")
+            board.append(BOARD_CENTER_LEFT)
             for (col in 2..<cols) {
-                board.append("┼──")
+                board.append(BOARD_CENTER_MIDDLE)
             }
-            board.append("┤\n")
+            board.append(BOARD_CENTER_RIGHT)
         }
 
         board.append(FORMAT_ROW_NUMBER.format(1))
-        board.append("└──")
+        board.append(BOARD_BOTTOM_LEFT)
         for (col in 2..<cols) {
-            board.append("┴──")
+            board.append(BOARD_BOTTOM_MIDDLE)
         }
-        board.append("┘\n")
+        board.append(BOARD_BOTTOM_RIGHT)
 
         val bottomLine = StringBuilder("  ")
         bottomLine.append(" ".repeat(rows.toString().length))
@@ -103,7 +103,20 @@ class OutputView {
         private const val ROW_NUMBER_OFFSET_SIZE = 4
         private const val COLUMN_NUMBER_OFFSET_SIZE = 2
         private const val FORMAT_ROW_NUMBER = "%3d "
+
         private const val BLACK_STONE = '●'
         private const val WHITE_STONE = '○'
+
+        private const val BOARD_TOP_LEFT = "┌─"
+        private const val BOARD_TOP_MIDDLE = "─┬─"
+        private const val BOARD_TOP_RIGHT = "─┐\n"
+
+        private const val BOARD_CENTER_LEFT = "├─"
+        private const val BOARD_CENTER_MIDDLE = "─┼─"
+        private const val BOARD_CENTER_RIGHT = "─┤\n"
+
+        private const val BOARD_BOTTOM_LEFT = "└─"
+        private const val BOARD_BOTTOM_MIDDLE = "─┴─"
+        private const val BOARD_BOTTOM_RIGHT = "─┘\n"
     }
 }
