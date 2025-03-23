@@ -1,34 +1,41 @@
 package omok.domain
 
+import omok.domain.turn.BlackTurn
+import omok.domain.turn.PutStoneResult
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+
 class OmokBoardTest {
-//    private lateinit var omokGrid: OmokGrid
-//
-//    @BeforeEach
-//    fun setUp() {
-//        omokGrid = OmokGrid()
-//    }
-//
-//    @Test
-//    fun `좌표와 돌 상태를 받으면 해당 위치에 돌을 놓는다`() {
-//        // given
-//        val row = 1
-//        val col = 2
-//        // when
-//        omokGrid.putStone(Point(row, col), StoneState.BLACK)
-//        // then
-//        assertThat(omokGrid.board[row][col]).isEqualTo(StoneState.BLACK)
-//    }
-//
-//    @Test
-//    fun `좌표에 이미 돌이 있으면 예외를 던진다`() {
-//        // given
-//        val row = 1
-//        val col = 2
-//        // when
-//        omokGrid.putStone(Point(row, col), StoneState.BLACK)
-//        // then
-//        assertThrows<IllegalStateException> {
-//            omokGrid.canPlace(Point(row, col))
-//        }
-//    }
+    private lateinit var omokBoard: OmokBoard
+
+    @BeforeEach
+    fun setUp() {
+        omokBoard = OmokBoard()
+    }
+
+    @Test
+    fun `좌표와 돌 상태를 받으면 해당 위치에 돌을 놓는다`() {
+        // given
+        val x = 1
+        val y = 2
+        val stone = Stone(Position(x, y), StoneState.BLACK)
+        // when
+        omokBoard.putStone(stone)
+        // then
+        assertThat(omokBoard.board[y][x]).isEqualTo(StoneState.BLACK)
+    }
+
+    @Test
+    fun `좌표에 이미 돌이 있으면 예외를 던진다`() {
+        // given
+        val x = 1
+        val y = 2
+        val stone = Stone(Position(x, y), StoneState.BLACK)
+        // when
+        omokBoard.putStone(stone)
+        // then
+        val result = BlackTurn().putStone(Position(x, y), omokBoard)
+        assertThat(result).isEqualTo(PutStoneResult.Failure("이미 돌이 있습니다."))
+    }
 }

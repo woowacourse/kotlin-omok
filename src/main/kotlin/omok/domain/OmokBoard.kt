@@ -12,7 +12,7 @@ class OmokBoard(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
         _board[stone.position.y][stone.position.x] = stone.state
     }
 
-    fun isStonePlaced(position: Position): Boolean  {
+    fun isStonePlaced(position: Position): Boolean {
         return _board[position.y][position.x] != StoneState.BLANK
     }
 

@@ -1,21 +1,21 @@
 package omok
 
-import rule.wrapper.point.Point
+import omok.domain.Position
 
-val POINT_H5 = Point(4, 7)
-val POINT_H6 = Point(5, 7)
-val POINT_H7 = Point(6, 7)
-val POINT_H8 = Point(7, 7)
-val POINT_H9 = Point(8, 7)
-val POINT_H10 = Point(9, 7)
-val POINT_E8 = Point(7, 4)
-val POINT_F8 = Point(7, 5)
-val POINT_G8 = Point(7, 6)
+val POSITION_H5 = Position(4, 7)
+val POSITION_H6 = Position(5, 7)
+val POSITION_H7 = Position(6, 7)
+val POSITION_H8 = Position(7, 7)
+val POSITION_H9 = Position(8, 7)
+val POSITION_H10 = Position(9, 7)
+val POSITION_E8 = Position(7, 4)
+val POSITION_F8 = Position(7, 5)
+val POSITION_G8 = Position(7, 6)
 
-fun beforeDoubleThree(): List<Point> = listOf(POINT_H7, POINT_G8, POINT_H6, POINT_F8)
+fun beforeDoubleThree(): List<Position> = listOf(POSITION_H7, POSITION_G8, POSITION_H6, POSITION_F8)
 
-fun beforeDoubleFour(): List<Point> = listOf(POINT_H7, POINT_G8, POINT_H6, POINT_F8, POINT_E8, POINT_H5)
+fun beforeDoubleFour(): List<Position> = listOf(POSITION_H7, POSITION_G8, POSITION_H6, POSITION_F8, POSITION_E8, POSITION_H5)
 
-fun beforeOverLine(): List<Point> = listOf(POINT_H5, POINT_H6, POINT_H7, POINT_H9, POINT_H10)
+fun beforeOverLine(): List<Position> = listOf(POSITION_H5, POSITION_H6, POSITION_H7, POSITION_H9, POSITION_H10)
 
-fun toViolation(): Point = POINT_H8
+fun toViolation(): Position = POSITION_H8
