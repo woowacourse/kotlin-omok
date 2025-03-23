@@ -2,7 +2,6 @@ package omok.domain.rule
 
 import omok.domain.OmokGame
 import omok.domain.Point
-import omok.domain.Point.Companion.toPair
 import rule.facade.BlackRenjuRule
 
 class BlackStoneRule(
@@ -49,4 +48,6 @@ class BlackStoneRule(
             blackPoints.map { it.toPair() },
             startPoint.toPair(),
         )
+
+    private fun Point.toPair(): Pair<Int, Int> = row to col
 }
