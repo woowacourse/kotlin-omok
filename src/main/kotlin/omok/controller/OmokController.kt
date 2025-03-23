@@ -32,6 +32,7 @@ class OmokController(
                 is PutStoneResult.Failure -> outputView.printError(result.message)
             }
         }
+        outputView.printBoardState(board)
         outputView.printTurn(nowTurn)
     }
 }
