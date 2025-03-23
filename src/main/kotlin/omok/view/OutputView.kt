@@ -1,6 +1,5 @@
 package omok.view
 
-import omok.model.board.Board
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
@@ -23,12 +22,15 @@ class OutputView {
         println("   $columnLabels")
     }
 
-    fun printNextTurn(board: Board) {
-        board.lastStone?.let {
-            val lastStoneCoordinateText = stoneCoordinateText(board.lastStone.position)
-            println("${stoneStateText(board.nextStoneColor)}의 차례 입니다. (마지막 돌의 위치: $lastStoneCoordinateText)")
+    fun printNextTurn(
+        turn: StoneColor,
+        lastStone: Stone?,
+    ) {
+        lastStone?.let {
+            val coordinatePosition = stoneCoordinateText(it.position)
+            println("${stoneStateText(turn)}의 차례입니다. (마지막 돌의 위치: $coordinatePosition)")
         } ?: run {
-            println("${stoneStateText(board.nextStoneColor)}의 차례 입니다")
+            println("${stoneStateText(turn)}의 차례입니다")
         }
     }
 

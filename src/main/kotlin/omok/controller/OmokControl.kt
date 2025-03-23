@@ -1,7 +1,6 @@
 package omok.controller
 
-import omok.model.board.Board
-import omok.model.board.Board.Companion.initBoard
+import omok.model.game.Game
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
@@ -12,34 +11,30 @@ class OmokControl(
     private val inputView: InputView,
     private val outputView: OutputView,
 ) {
+    private val game = Game()
+
     fun run() {
-        val board = initBoard()
-        turn(board)
+        turn()
     }
 
-    private fun turn(board: Board) {
+    private fun turn() {
+        val board = game.getBoard()
         outputView.printBoard(board.stonesMap)
-        outputView.printNextTurn(board)
+        outputView.printNextTurn(game.getTurn(), game.getLastStone())
 
-        val nextBoard = stoneAddedBoard(board)
-        if (nextBoard.isLastStoneOmok) {
-            outputView.printBoard(nextBoard.stonesMap)
-            outputView.printOmok(nextBoard.lastStone)
-        } else {
-            turn(nextBoard)
-        }
-    }
+        runCatching {
+            val input = inputView.inputStone()
+            game.place(Position(Row(input.first), Col(input.second)))
 
-    private fun stoneAddedBoard(board: Board): Board {
-        val result =
-            runCatching {
-                val input = inputView.inputStone()
-                board.placeStone(Position(Row(input.first), Col(input.second)))
-            }.getOrElse { exception ->
-                outputView.printException(exception.message)
-                return stoneAddedBoard(board)
+            if (game.isOmok()) {
+                outputView.printBoard(game.getBoard().stonesMap)
+                outputView.printOmok(game.getLastStone())
+            } else {
+                turn()
             }
-
-        return result
+        }.getOrElse { exception ->
+            outputView.printException(exception.message)
+            turn()
+        }
     }
 }
