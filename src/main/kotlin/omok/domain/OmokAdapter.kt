@@ -2,8 +2,8 @@ package omok.domain
 
 import omok.domain.lib.RenjuRule
 
-class OmokAdapter(private val rule: RenjuRule = RenjuRule(boardSize = 15)) {
-    fun validatePosition(
+class OmokAdapter(private val rule: RenjuRule = RenjuRule(15)) {
+    fun isViolate(
         board: OmokBoard,
         stone: Stone,
     ): Boolean {
@@ -12,22 +12,14 @@ class OmokAdapter(private val rule: RenjuRule = RenjuRule(boardSize = 15)) {
     }
 
     private fun convertBoard(board: OmokBoard): List<List<Int>> {
-        val convertedBoard = MutableList(15) { MutableList(15) { 0 } }
-
-        board.positions.forEach { position ->
-            val state =
-                when (position.stoneState) {
+        return board.board.map { row ->
+            row.map { stoneState ->
+                when (stoneState) {
                     StoneState.BLACK -> 1
                     StoneState.WHITE -> 2
-                    else -> 0
+                    StoneState.BLANK -> 0
                 }
-            convertedBoard[position.x - 1][position.y - 1] = state
+            }
         }
-
-        return convertedBoard
-    }
-
-    private fun convertPosition(position: Position): Pair<Int, Int> {
-        return (position.x - 1) to (position.y - 1)
     }
 }
