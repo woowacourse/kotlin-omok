@@ -1,27 +1,24 @@
 package omok.domain.service
 
-import omok.domain.board.BoardStatus
+import omok.controller.event.GameEventListener
 import omok.domain.board.OmokBoard
 import omok.domain.point.Point
 import omok.domain.stone.LatestStone
 import omok.domain.stone.StoneColor
 import omok.exception.recover
 
-class OmokGame(val omokBoard: OmokBoard) {
+class OmokGame(private val omokBoard: OmokBoard) {
     var latestStone: LatestStone = LatestStone("")
         private set
 
-    fun startGame(
-        onCompleteInputPoint: (StoneColor, List<List<BoardStatus>>) -> Point,
-        onFinishedGame: (StoneColor) -> Unit,
-        onFailToAddStone: (String?) -> Unit,
-    ) {
+    fun startGame(event: GameEventListener) {
         var stone = StoneColor.BLACK
+
         while (omokBoard.isNotFull()) {
-            val point = onCompleteInputPoint(stone, omokBoard.toMatrix())
-            updateTurnResult(point, onFailToAddStone)
+            val point = event.onCompleteInputPoint(stone, omokBoard.toMatrix())
+            updateTurnResult(point, event::onFailToAddStone)
             if (omokBoard.isOmok(point)) {
-                onFinishedGame(stone)
+                event.onFinishedGame(stone)
                 break
             }
             stone = stone.toggle()
