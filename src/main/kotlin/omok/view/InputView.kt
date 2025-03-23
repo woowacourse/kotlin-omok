@@ -28,7 +28,7 @@ class InputView {
 
     fun readTurn2(game: Game2): Pair<Int, Int> {
         val playerName: String =
-            when (game.lastColor) {
+            when (game.lastStone?.color) {
                 Color.BLACK -> "백"
                 Color.WHITE, null -> "흑"
             }

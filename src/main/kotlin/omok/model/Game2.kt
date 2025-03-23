@@ -6,7 +6,7 @@ import rule.type.Violation
 import rule.wrapper.point.Point
 
 class Game2(val board: Board) {
-    var lastColor: Color? = null
+    var lastStone: Stone2? = null
         private set
 
     fun processTurn(
@@ -15,11 +15,11 @@ class Game2(val board: Board) {
     ) {
         checkViolation(position, color)
         board.add(Stone2(position, color))
-        lastColor = color
+        lastStone = Stone2(position, color)
     }
 
     fun chooseTurn(): Color {
-        return when (lastColor) {
+        return when (lastStone?.color) {
             Color.BLACK -> Color.WHITE
             Color.WHITE, null -> Color.BLACK
         }
