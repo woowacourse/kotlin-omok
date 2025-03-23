@@ -12,13 +12,13 @@ class OutputView {
 
     fun printBoardState(board: OmokBoard) {
         println()
-        for (x in board.height downTo MIN_BOUND) {
-            print(COORDINATE_X.format(x))
-            println(
-                (MIN_BOUND..board.width).joinToString(DASH) { y ->
-                    board.findPoint(x, y)!!.stoneState.UI ?: board.toUI(x, y)
-                },
-            )
+        for (y in board.height - 1 downTo 0) {
+            print(COORDINATE_X.format(y + 1))
+            val row = (0 until board.width).map { x ->
+                if (board.board[y][x] == StoneState.BLANK) board.toUI(x, y)
+                else board.board[y][x].UI
+            }.joinToString(DASH)
+            println(row)
         }
         print(BLANK)
         printCoordinateY(board.width)
@@ -26,8 +26,8 @@ class OutputView {
 
     fun printTurn(turn: Turn) {
         when (turn) {
-            is BlackTurn -> println(MESSAGE_TURN.format(StoneState.BLACK.turn))
-            is WhiteTurn -> println(MESSAGE_TURN.format(StoneState.WHITE.turn))
+            is BlackTurn -> print(MESSAGE_TURN.format(StoneState.BLACK.turn))
+            is WhiteTurn -> print(MESSAGE_TURN.format(StoneState.WHITE.turn))
             is Finished -> {
                 val winner =
                     when (turn.beforeTurn) {
@@ -46,7 +46,8 @@ class OutputView {
         private const val DASH = "──"
         private const val COORDINATE_X = "%2d "
         private const val BLANK = "   "
-        private const val MIN_BOUND = 1
+        private const val MIN_BOUND = 0
+        private const val MAX_BOUND = 14
 
         private const val MESSAGE_WINNER = "%s 승리!!"
 
@@ -71,14 +72,14 @@ class OutputView {
             y: Int,
         ): String {
             return when {
-                x == height && y == MIN_BOUND -> "┌"
-                x == height && y == width -> "┐"
+                x == MIN_BOUND && y == MAX_BOUND -> "┌"
+                x == MAX_BOUND && y == MAX_BOUND -> "┐"
                 x == MIN_BOUND && y == MIN_BOUND -> "└"
-                x == MIN_BOUND && y == width -> "┘"
-                y == MIN_BOUND -> "├"
-                x == height -> "┬"
-                y == width -> "┤"
-                x == MIN_BOUND -> "┴"
+                x == MAX_BOUND && y == MIN_BOUND -> "┘"
+                x == MIN_BOUND -> "├"
+                y == MAX_BOUND -> "┬"
+                x == MAX_BOUND -> "┤"
+                y == MIN_BOUND -> "┴"
                 else -> "┼"
             }
         }
