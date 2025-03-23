@@ -19,8 +19,8 @@ class InputView {
         print(
             MESSAGE_TURN_INDICATOR.format(
                 when (currentColor) {
-                    Color.WHITE -> "백"
-                    Color.BLACK -> "흑"
+                    Color.WHITE -> WHITE_PLAYER
+                    Color.BLACK -> BLACK_PLAYER
                 },
             ),
         )
@@ -91,6 +91,8 @@ class InputView {
         const val MESSAGE_LAST_STONE_POSITION = "(마지막 돌의 위치: %s)"
         const val MESSAGE_ENTER_POINT = "위치를 입력하세요: "
 
+        private const val BLACK_PLAYER = "흑"
+        private const val WHITE_PLAYER = "백"
         private const val ERROR_MESSAGE_INCORRECT_POSITION_FORMAT = "올바르지 않은 위치 입력 형식입니다."
         private const val ASCII_OFFSET = 'A'.code - 1
     }
