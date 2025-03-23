@@ -1,6 +1,8 @@
 package omok.controller
 
 import omok.model.OmokGame
+import omok.model.rule.OmokRuleJudge
+import omok.model.rule.count.FiveInRowRule
 import omok.view.OmokInputView
 import omok.view.OmokOutputView
 
@@ -10,6 +12,12 @@ class OmokController(
 ) {
     fun play() {
         val omokGameListenerImpl = OmokGameListenerImpl(inputView, outputView)
-        OmokGame(omokGameListenerImpl).play()
+        val judge =
+            OmokRuleJudge().apply {
+                applyWinningRule(FiveInRowRule())
+                applyRenjuRule()
+            }
+
+        OmokGame(omokGameListenerImpl).play(judge)
     }
 }

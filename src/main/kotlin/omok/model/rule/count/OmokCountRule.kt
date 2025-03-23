@@ -3,8 +3,9 @@ package omok.model.rule.count
 import omok.model.board.Board
 import omok.model.board.Point
 import omok.model.board.PointState
+import omok.model.rule.OmokRule
 
-abstract class OmokCountRule {
+abstract class OmokCountRule : OmokRule {
     fun calculate(
         board: Board,
         previousPoint: Point,

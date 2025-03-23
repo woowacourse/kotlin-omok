@@ -1,11 +1,17 @@
 package omok.model.board
 
 sealed class PlaceStoneResult {
-    data class Success(val point: Point) : PlaceStoneResult()
+    open class Success(val point: Point) : PlaceStoneResult() {
+        class Placed(point: Point) : Success(point)
 
-    data object Closed : PlaceStoneResult()
+        class Finished(point: Point) : Success(point)
+    }
 
-    data object AlreadyPlaced : PlaceStoneResult()
+    open class Failure : PlaceStoneResult() {
+        data object Closed : Failure()
 
-    data object InvalidPoint : PlaceStoneResult()
+        data object AlreadyPlaced : Failure()
+
+        data object InvalidPoint : Failure()
+    }
 }

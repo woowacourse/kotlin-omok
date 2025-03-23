@@ -2,8 +2,11 @@ package omok.model.board
 
 import omok.fixture.generateTestBoardFixture
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 class BoardTest {
     @Test
@@ -14,9 +17,10 @@ class BoardTest {
         assertThat(board.points.size).isEqualTo(size * size)
     }
 
-    @Test
-    fun `바둑판의 크기가 15~25사이가 아니라면 예외가 발생한다`() {
-        assertThrows<IllegalArgumentException> { Board(size = 26) }
+    @ValueSource(ints = [14, 26])
+    @ParameterizedTest
+    fun `바둑판의 크기가 15~25사이가 아니라면 예외가 발생한다`(size: Int) {
+        assertThrows<IllegalArgumentException> { Board(size = size) }
     }
 
     @Test
@@ -37,7 +41,7 @@ class BoardTest {
         board.placeStone(position, PointState.WHITE)
 
         val actual = board.placeStone(position, PointState.BLACK)
-        val expected = PlaceStoneResult.AlreadyPlaced
+        val expected = PlaceStoneResult.Failure.AlreadyPlaced
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -59,26 +63,44 @@ class BoardTest {
                 listOf(Point(3, 12), Point(5, 12), Point(4, 14), Point(4, 13)),
                 PointState.WHITE,
             )
-        val point = Point(4, 12)
+        val result = board.placeStone(Point(4, 12), PointState.WHITE)
+        val actual = result is PlaceStoneResult.Success.Placed
 
-        val actual = board.placeStone(point, PointState.WHITE)
-        val expected = PlaceStoneResult.Success(point)
-
-        assertThat(actual).isEqualTo(expected)
+        assertTrue(actual)
     }
 
     @Test
-    fun `금수로 판단되면 Close를 반환한다`() {
+    fun `금수로 판단되면 Closed를 반환한다`() {
         val board =
             generateTestBoardFixture(
                 listOf(Point(1, 1), Point(2, 1), Point(3, 1), Point(4, 1), Point(6, 1)),
                 PointState.BLACK,
             )
-        val point = Point(5, 1)
+        val result = board.placeStone(Point(5, 1), PointState.BLACK)
+        val actual = result is PlaceStoneResult.Failure.Closed
 
-        val actual = board.placeStone(point, PointState.BLACK)
-        val expected = PlaceStoneResult.Closed
+        assertTrue(actual)
+    }
 
-        assertThat(actual).isEqualTo(expected)
+    @Test
+    fun `오목이면 Finished를 반환한다`() {
+        val board =
+            generateTestBoardFixture(
+                listOf(Point(1, 1), Point(2, 1), Point(3, 1), Point(4, 1)),
+                PointState.BLACK,
+            )
+        val result = board.placeStone(Point(5, 1), PointState.BLACK)
+        val actual = result is PlaceStoneResult.Success.Finished
+
+        assertTrue(actual)
+    }
+
+    @Test
+    fun `바둑판 크기를 벗어난 위치에 두려고 하면 InvalidPoint를 반환한다`() {
+        val board = Board()
+        val result = board.placeStone(Point(30, 1), PointState.BLACK)
+        val actual = result is PlaceStoneResult.Failure.InvalidPoint
+
+        assertTrue(actual)
     }
 }

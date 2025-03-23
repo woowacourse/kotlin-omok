@@ -1,8 +1,12 @@
 package omok.model.board
 
-import omok.model.rule.ForbiddenMoveJudge
+import omok.model.rule.OmokRuleJudge
 
-class Board(points: Map<Point, PointState> = mutableMapOf(), val size: Int = DEFAULT_BOARD_SIZE) {
+class Board(
+    points: Map<Point, PointState> = mutableMapOf(),
+    private val judge: OmokRuleJudge = OmokRuleJudge(),
+    val size: Int = DEFAULT_BOARD_SIZE,
+) {
     var points: MutableMap<Point, PointState> = points.toMutableMap()
         private set
 
@@ -37,18 +41,21 @@ class Board(points: Map<Point, PointState> = mutableMapOf(), val size: Int = DEF
         point: Point,
         pointState: PointState,
     ): PlaceStoneResult {
-        if (pointState == PointState.BLACK && !ForbiddenMoveJudge.validate(this, point)) {
-            return PlaceStoneResult.Closed
+        if (!judge.validate(this, point, pointState)) {
+            return PlaceStoneResult.Failure.Closed
         }
-
         changePointState(point, pointState)
-        return PlaceStoneResult.Success(point)
+
+        if (judge.isWin(this, point, pointState)) {
+            return PlaceStoneResult.Success.Placed(point)
+        }
+        return PlaceStoneResult.Success.Finished(point)
     }
 
     private fun handlePlaceFailure(state: PointState?): PlaceStoneResult {
-        if (state == null) return PlaceStoneResult.InvalidPoint
+        if (state == null) return PlaceStoneResult.Failure.InvalidPoint
 
-        return PlaceStoneResult.AlreadyPlaced
+        return PlaceStoneResult.Failure.AlreadyPlaced
     }
 
     private fun changePointState(

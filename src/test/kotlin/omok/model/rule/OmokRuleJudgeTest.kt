@@ -6,11 +6,22 @@ import omok.model.board.Point
 import omok.model.board.PointState
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
-class ForbiddenMoveJudgeTest {
+class OmokRuleJudgeTest {
+    private lateinit var judge: OmokRuleJudge
+
+    @BeforeEach
+    fun setUp() {
+        judge =
+            OmokRuleJudge().apply {
+                applyRenjuRule()
+            }
+    }
+
     @ParameterizedTest
     @CsvSource(
         "4,12",
@@ -32,7 +43,7 @@ class ForbiddenMoveJudgeTest {
                 ),
                 PointState.BLACK,
             )
-        val actual = ForbiddenMoveJudge.validate(doubleThreeForbiddenBoard, Point(x, y))
+        val actual = judge.validate(doubleThreeForbiddenBoard, Point(x, y), PointState.BLACK)
         assertFalse(actual)
     }
 
@@ -54,7 +65,7 @@ class ForbiddenMoveJudgeTest {
                 ),
                 PointState.BLACK,
             )
-        val actual = ForbiddenMoveJudge.validate(doubleFourForbiddenBoard, Point(x, y))
+        val actual = judge.validate(doubleFourForbiddenBoard, Point(x, y), PointState.BLACK)
         assertFalse(actual)
     }
 
@@ -65,7 +76,7 @@ class ForbiddenMoveJudgeTest {
                 listOf(Point(1, 1), Point(2, 1), Point(3, 1), Point(4, 1), Point(6, 1)),
                 PointState.BLACK,
             )
-        val actual = ForbiddenMoveJudge.validate(overlineForbiddenBoard, Point(5, 1))
+        val actual = judge.validate(overlineForbiddenBoard, Point(5, 1), PointState.BLACK)
         assertFalse(actual)
     }
 
@@ -76,7 +87,7 @@ class ForbiddenMoveJudgeTest {
                 listOf(Point(5, 5), Point(6, 5), Point(7, 5), Point(8, 6), Point(8, 7)),
                 PointState.BLACK,
             )
-        val actual = ForbiddenMoveJudge.validate(fourThreeBoard, Point(8, 5))
+        val actual = judge.validate(fourThreeBoard, Point(8, 5), PointState.BLACK)
         assertTrue(actual)
     }
 
@@ -85,9 +96,10 @@ class ForbiddenMoveJudgeTest {
         val falseDoubleThreeBoard: Board =
             generateTestBoardFixture(
                 listOf(Point(3, 3), Point(5, 3), Point(4, 2), Point(4, 4)),
-                PointState.WHITE,
+                PointState.BLACK,
             )
-        val actual = ForbiddenMoveJudge.validate(falseDoubleThreeBoard, Point(4, 3))
+        falseDoubleThreeBoard.placeStone(Point(4, 5), PointState.WHITE)
+        val actual = judge.validate(falseDoubleThreeBoard, Point(4, 3), PointState.BLACK)
         assertTrue(actual)
     }
 }
