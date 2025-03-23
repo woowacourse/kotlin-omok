@@ -28,27 +28,6 @@ class OutputView(
         println("   $columnLabels")
     }
 
-    fun printNextTurn(board: Board) {
-        board.lastStone?.let { stone ->
-            val lastStoneCoordinateText = stoneCoordinateText(stone.position)
-            println("${stoneColorText(board.nextStoneColor)}의 차례 입니다. (마지막 돌의 위치: $lastStoneCoordinateText)")
-        } ?: run {
-            println("${stoneColorText(board.nextStoneColor)}의 차례 입니다")
-        }
-    }
-
-    fun printOmok(lastStone: Stone?) {
-        val lastStoneColor = stoneColorText(lastStone?.stoneColor)
-        println("${lastStoneColor}이 우승했습니다.")
-    }
-
-    fun printException(message: String?) {
-        if (message == null) {
-            println("알 수 없는 예외가 발생했습니다.")
-        }
-        println(message)
-    }
-
     private fun pointByRowIndex(index: Int): List<String> =
         when (index) {
             boardSize.value - 1 -> listOf("┌") + List(boardSize.value - 2) { "┬" } + listOf("┐")
@@ -66,6 +45,22 @@ class OutputView(
             else -> noneText
         }
 
+    fun printNextTurn(board: Board) {
+        board.lastStone?.let { stone ->
+            val lastStoneCoordinateText = stoneCoordinateText(stone.position)
+            println("${stoneColorText(board.nextStoneColor)}의 차례 입니다. (마지막 돌의 위치: $lastStoneCoordinateText)")
+        } ?: run {
+            println("${stoneColorText(board.nextStoneColor)}의 차례 입니다")
+        }
+    }
+
+    private fun stoneCoordinateText(position: Position): String {
+        val lastCol = alphabets[position.col.value].toString()
+        val lastRow = (position.row.value + 1).toString()
+
+        return lastCol + lastRow
+    }
+
     private fun stoneColorText(stoneColor: StoneColor?): String =
         when (stoneColor) {
             StoneColor.BLACK -> "흑"
@@ -73,10 +68,15 @@ class OutputView(
             else -> ""
         }
 
-    private fun stoneCoordinateText(position: Position): String {
-        val lastCol = alphabets[position.col.value].toString()
-        val lastRow = (position.row.value + 1).toString()
+    fun printOmok(lastStone: Stone?) {
+        val lastStoneColor = stoneColorText(lastStone?.stoneColor)
+        println("${lastStoneColor}이 우승했습니다.")
+    }
 
-        return lastCol + lastRow
+    fun printException(message: String?) {
+        if (message == null) {
+            println("알 수 없는 예외가 발생했습니다.")
+        }
+        println(message)
     }
 }
