@@ -17,6 +17,6 @@ class WhiteTurn(override val beforeTurn: StoneState) : Turn {
         if (board.checkOmok(position)) {
             return PutStoneResult.Success(Finished(StoneState.WHITE))
         }
-        return PutStoneResult.Success(WhiteTurn(StoneState.WHITE))
+        return PutStoneResult.Success(BlackTurn(StoneState.WHITE))
     }
 }
