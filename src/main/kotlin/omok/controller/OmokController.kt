@@ -1,6 +1,7 @@
 package omok.controller
 
 import omok.domain.OmokGame
+import omok.domain.Point
 import omok.domain.state.Finished
 import omok.view.InputView
 import omok.view.OutputView
@@ -16,18 +17,26 @@ class OmokController(
         displayWinner(game)
     }
 
-    private fun playOmok(game: OmokGame) {
+    private fun playOmok(
+        game: OmokGame,
+        lastPoint: Point? = null,
+    ) {
+        var currentPoint = lastPoint
         runCatching {
             game.play(
-                onTurn = outputView::printTurn,
-                onPointSelected = inputView::getPoint,
+                onTurn = { stoneColor -> outputView.printTurn(stoneColor, currentPoint) },
+                onPointSelected = {
+                    val point = inputView.getPoint()
+                    currentPoint = point
+                    point
+                },
                 onBoardUpdated = { black, white ->
                     outputView.printOmokBoard(black, white, game.boardSize)
                 },
             )
         }.getOrElse {
             println(it.message)
-            playOmok(game)
+            playOmok(game, currentPoint)
         }
     }
 

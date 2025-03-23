@@ -51,15 +51,6 @@ class StateTest {
     }
 
     @Test
-    fun `마지막 돌의 위치를 구한다`() {
-        val blackStones = Stones(blackStoneRule, setOf(A1, A2))
-        val whiteStones = Stones(whiteStoneRule, setOf(A3, A4))
-        val state = BlackTurn(blackStones = blackStones, whiteStones = whiteStones)
-        val expected = A4
-        assertThat(state.lastStonePoint()).isEqualTo(expected)
-    }
-
-    @Test
     fun `흑돌을 놓은 다음에는 백돌을 놓는다`() {
         val blackStones = Stones(blackStoneRule, emptySet())
         val whiteStones = Stones(whiteStoneRule, emptySet())

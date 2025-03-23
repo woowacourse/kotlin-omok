@@ -17,13 +17,13 @@ class OmokGame(
     }
 
     fun play(
-        onTurn: (StoneColor, Point?) -> Unit,
+        onTurn: (StoneColor) -> Unit,
         onPointSelected: () -> Point,
         onBoardUpdated: (Set<Point>, Set<Point>) -> Unit,
     ) {
         while (state is Playing) {
             val playingState = state as Playing
-            onTurn(playingState.nextStoneColor(), playingState.lastStonePoint())
+            onTurn(playingState.nextStoneColor())
             state = playingState.place(onPointSelected())
             onBoardUpdated(state.blackStones.points, state.whiteStones.points)
         }
