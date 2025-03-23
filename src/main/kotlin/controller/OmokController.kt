@@ -35,20 +35,18 @@ class OmokController(
         rule: OmokRule,
         showGameBoardStatus: () -> Unit,
     ) {
-        val flag =
-            runCatching {
-                val added =
-                    gameBoard.putStone(
-                        stoneColor = turnColor,
-                        rule = rule,
-                        onPositionReceived = { lastStone -> inputView.readInputPosition(turnColor, lastStone) },
-                    )
-                showGameBoardStatus()
-                added
-            }.onFailure { error ->
-                outputView.printErrorMessage(error)
-            }.getOrNull() ?: false
-        if (!flag) putStoneProcess(gameBoard, rule, showGameBoardStatus)
+        val gameState =
+            gameBoard.putStone(
+                stoneColor = turnColor,
+                rule = rule,
+                onPositionReceived = { lastStone -> inputView.readInputPosition(turnColor, lastStone) },
+            )
+        if (gameState.isFail()) {
+            outputView.printGameStateMessage(gameState)
+            putStoneProcess(gameBoard, rule, showGameBoardStatus)
+        } else {
+            showGameBoardStatus()
+        }
     }
 
     private fun switchTurn() {

@@ -1,9 +1,8 @@
+import result.GameState
 import rule.OmokRule
-import rule.type.Violation
 
 class GameBoard {
     private var lastStone: Stone? = null
-
     private val _blackStones = mutableListOf<Stone>()
     val blackStones get() = _blackStones.toList()
     private val _whiteStones = mutableListOf<Stone>()
@@ -13,42 +12,24 @@ class GameBoard {
         stoneColor: StoneColor,
         rule: OmokRule,
         onPositionReceived: (Stone?) -> Pair<Char, Int>,
-    ): Boolean {
+    ): GameState {
         val (col, row) = onPositionReceived(lastStone)
         val position = Position(Row.from(row), Col.from(col))
         val stone = Stone.of(position, stoneColor)
 
-        if (isExistPosition(stone)) {
-            println("중복 위치 알려주는 기능 추가 필요")
-            return false
-        }
-
         val violateType = rule.checkAnyFoulCondition(blackStones, whiteStones, stone.position)
-        val canPut =
-            when (violateType) {
-                Violation.DOUBLE_THREE -> false // 3 - 3
-                Violation.DOUBLE_FOUR -> false // 4 - 4
-                Violation.OVERLINE -> false // 선 밖
-                Violation.NONE -> true // 가능한 위치
-            }
 
-        // 놓을 수 있는 위치라면
-        if (canPut) {
+        if (violateType.isNone()) {
             when (stoneColor) {
                 StoneColor.BLACK -> _blackStones.add(stone)
                 StoneColor.WHITE -> _whiteStones.add(stone)
             }
             lastStone = stone
+            return GameState.Success
         }
 
-        return true
+        return GameState.Fail(violateType)
     }
-
-    private fun isExistPosition(stone: Stone): Boolean =
-        blackStones.any { existedStone -> existedStone.isSamePosition(stone) } ||
-            whiteStones.any { existedStone ->
-                existedStone.isSamePosition(stone)
-            }
 
     fun judge(rule: OmokRule): Boolean =
         rule.checkWin(
