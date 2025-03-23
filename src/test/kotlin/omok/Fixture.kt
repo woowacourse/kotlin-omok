@@ -247,561 +247,80 @@ val O13 = Position.from(14, 2)
 val O14 = Position.from(14, 1)
 val O15 = Position.from(14, 0)
 
+val FourFour =
+    listOf(
+        Stone(C15, Black), Stone(C14, Black), Stone(C12, Black), Stone(C11, Black), Stone(C10, Black),
+        Stone(D12, Black), Stone(G12, Black), Stone(I12, Black), Stone(J12, Black),
+        Stone(J9, Black), Stone(H8, Black), Stone(J8, Black), Stone(K8, Black),
+        Stone(H7, Black), Stone(H6, Black), Stone(E6, Black), Stone(J6, Black),
+        Stone(E5, Black), Stone(F5, Black), Stone(G5, Black), Stone(G4, Black),
+    )
+
+val ThreeThree =
+    listOf(
+        Stone(D14, Black), Stone(D13, Black), Stone(C12, Black), Stone(E12, Black),
+        Stone(B6, Black), Stone(C5, Black), Stone(E6, Black), Stone(E5, Black),
+        Stone(J9, Black), Stone(M12, Black), Stone(M10, Black), Stone(N9, Black),
+        Stone(K6, Black), Stone(K3, Black), Stone(M4, Black), Stone(N4, Black),
+    )
+
 val Full =
     listOf(
-        Stone(
-            A15,
-            Black,
-        ),
-        Stone(
-            B15,
-            Black,
-        ),
-        Stone(
-            C15,
-            White,
-        ),
-        Stone(
-            D15,
-            White,
-        ),
-        Stone(
-            E15,
-            Black,
-        ),
-        Stone(
-            F15,
-            Black,
-        ),
-        Stone(
-            G15,
-            White,
-        ),
-        Stone(
-            H15,
-            White,
-        ),
-        Stone(
-            I15,
-            Black,
-        ),
-        Stone(J15, Black), Stone(K15, White), Stone(L15, White), Stone(M15, Black), Stone(N15, Black), Stone(O15, White),
-        Stone(
-            A14,
-            White,
-        ),
-        Stone(
-            B14,
-            White,
-        ),
-        Stone(
-            C14,
-            Black,
-        ),
-        Stone(
-            D14,
-            Black,
-        ),
-        Stone(
-            E14,
-            White,
-        ),
-        Stone(
-            F14,
-            White,
-        ),
-        Stone(
-            G14,
-            Black,
-        ),
-        Stone(
-            H14,
-            Black,
-        ),
-        Stone(
-            I14,
-            White,
-        ),
-        Stone(J14, White), Stone(K14, Black), Stone(L14, Black), Stone(M14, White), Stone(N14, White), Stone(O14, Black),
-        Stone(
-            A13,
-            Black,
-        ),
-        Stone(
-            B13,
-            Black,
-        ),
-        Stone(
-            C13,
-            White,
-        ),
-        Stone(
-            D13,
-            White,
-        ),
-        Stone(
-            E13,
-            Black,
-        ),
-        Stone(
-            F13,
-            Black,
-        ),
-        Stone(
-            G13,
-            White,
-        ),
-        Stone(
-            H13,
-            White,
-        ),
-        Stone(
-            I13,
-            Black,
-        ),
-        Stone(J13, Black), Stone(K13, White), Stone(L13, White), Stone(M13, Black), Stone(N13, Black), Stone(O13, White),
-        Stone(
-            A12,
-            White,
-        ),
-        Stone(
-            B12,
-            White,
-        ),
-        Stone(
-            C12,
-            Black,
-        ),
-        Stone(
-            D12,
-            Black,
-        ),
-        Stone(
-            E12,
-            White,
-        ),
-        Stone(
-            F12,
-            White,
-        ),
-        Stone(
-            G12,
-            Black,
-        ),
-        Stone(
-            H12,
-            Black,
-        ),
-        Stone(
-            I12,
-            White,
-        ),
-        Stone(J12, White), Stone(K12, Black), Stone(L12, Black), Stone(M12, White), Stone(N12, White), Stone(O12, Black),
-        Stone(
-            A11,
-            Black,
-        ),
-        Stone(
-            B11,
-            Black,
-        ),
-        Stone(
-            C11,
-            White,
-        ),
-        Stone(
-            D11,
-            White,
-        ),
-        Stone(
-            E11,
-            Black,
-        ),
-        Stone(
-            F11,
-            Black,
-        ),
-        Stone(
-            G11,
-            White,
-        ),
-        Stone(
-            H11,
-            White,
-        ),
-        Stone(
-            I11,
-            Black,
-        ),
-        Stone(J11, Black), Stone(K11, White), Stone(L11, White), Stone(M11, Black), Stone(N11, Black), Stone(O11, White),
-        Stone(
-            A10,
-            White,
-        ),
-        Stone(
-            B10,
-            White,
-        ),
-        Stone(
-            C10,
-            Black,
-        ),
-        Stone(
-            D10,
-            Black,
-        ),
-        Stone(
-            E10,
-            White,
-        ),
-        Stone(
-            F10,
-            White,
-        ),
-        Stone(
-            G10,
-            Black,
-        ),
-        Stone(
-            H10,
-            Black,
-        ),
-        Stone(
-            I10,
-            White,
-        ),
-        Stone(J10, White), Stone(K10, Black), Stone(L10, Black), Stone(M10, White), Stone(N10, White), Stone(O10, Black),
-        Stone(
-            A9,
-            Black,
-        ),
-        Stone(
-            B9,
-            Black,
-        ),
-        Stone(
-            C9,
-            White,
-        ),
-        Stone(
-            D9,
-            White,
-        ),
-        Stone(
-            E9,
-            Black,
-        ),
-        Stone(
-            F9,
-            Black,
-        ),
-        Stone(
-            G9,
-            White,
-        ),
-        Stone(
-            H9,
-            White,
-        ),
-        Stone(
-            I9,
-            Black,
-        ),
-        Stone(J9, Black), Stone(K9, White), Stone(L9, White), Stone(M9, Black), Stone(N9, Black), Stone(O9, White),
-        Stone(
-            A8,
-            White,
-        ),
-        Stone(
-            B8,
-            White,
-        ),
-        Stone(
-            C8,
-            Black,
-        ),
-        Stone(
-            D8,
-            Black,
-        ),
-        Stone(
-            E8,
-            White,
-        ),
-        Stone(
-            F8,
-            White,
-        ),
-        Stone(
-            G8,
-            Black,
-        ),
-        Stone(
-            H8,
-            Black,
-        ),
-        Stone(
-            I8,
-            White,
-        ),
-        Stone(J8, White), Stone(K8, Black), Stone(L8, Black), Stone(M8, White), Stone(N8, White), Stone(O8, Black),
-        Stone(
-            A7,
-            Black,
-        ),
-        Stone(
-            B7,
-            Black,
-        ),
-        Stone(
-            C7,
-            White,
-        ),
-        Stone(
-            D7,
-            White,
-        ),
-        Stone(
-            E7,
-            Black,
-        ),
-        Stone(
-            F7,
-            Black,
-        ),
-        Stone(
-            G7,
-            White,
-        ),
-        Stone(
-            H7,
-            White,
-        ),
-        Stone(
-            I7,
-            Black,
-        ),
-        Stone(J7, Black), Stone(K7, White), Stone(L7, White), Stone(M7, Black), Stone(N7, Black), Stone(O7, White),
-        Stone(
-            A6,
-            White,
-        ),
-        Stone(
-            B6,
-            White,
-        ),
-        Stone(
-            C6,
-            Black,
-        ),
-        Stone(
-            D6,
-            Black,
-        ),
-        Stone(
-            E6,
-            White,
-        ),
-        Stone(
-            F6,
-            White,
-        ),
-        Stone(
-            G6,
-            Black,
-        ),
-        Stone(
-            H6,
-            Black,
-        ),
-        Stone(
-            I6,
-            White,
-        ),
-        Stone(J6, White), Stone(K6, Black), Stone(L6, Black), Stone(M6, White), Stone(N6, White), Stone(O6, Black),
-        Stone(
-            A5,
-            Black,
-        ),
-        Stone(
-            B5,
-            Black,
-        ),
-        Stone(
-            C5,
-            White,
-        ),
-        Stone(
-            D5,
-            White,
-        ),
-        Stone(
-            E5,
-            Black,
-        ),
-        Stone(
-            F5,
-            Black,
-        ),
-        Stone(
-            G5,
-            White,
-        ),
-        Stone(
-            H5,
-            White,
-        ),
-        Stone(
-            I5,
-            Black,
-        ),
-        Stone(J5, Black), Stone(K5, White), Stone(L5, White), Stone(M5, Black), Stone(N5, Black), Stone(O5, White),
-        Stone(
-            A4,
-            White,
-        ),
-        Stone(
-            B4,
-            White,
-        ),
-        Stone(
-            C4,
-            Black,
-        ),
-        Stone(
-            D4,
-            Black,
-        ),
-        Stone(
-            E4,
-            White,
-        ),
-        Stone(
-            F4,
-            White,
-        ),
-        Stone(
-            G4,
-            Black,
-        ),
-        Stone(
-            H4,
-            Black,
-        ),
-        Stone(
-            I4,
-            White,
-        ),
-        Stone(J4, White), Stone(K4, Black), Stone(L4, Black), Stone(M4, White), Stone(N4, White), Stone(O4, Black),
-        Stone(
-            A3,
-            Black,
-        ),
-        Stone(
-            B3,
-            Black,
-        ),
-        Stone(
-            C3,
-            White,
-        ),
-        Stone(
-            D3,
-            White,
-        ),
-        Stone(
-            E3,
-            Black,
-        ),
-        Stone(
-            F3,
-            Black,
-        ),
-        Stone(
-            G3,
-            White,
-        ),
-        Stone(
-            H3,
-            White,
-        ),
-        Stone(
-            I3,
-            Black,
-        ),
-        Stone(J3, Black), Stone(K3, White), Stone(L3, White), Stone(M3, Black), Stone(N3, Black), Stone(O3, White),
-        Stone(
-            A2,
-            White,
-        ),
-        Stone(
-            B2,
-            White,
-        ),
-        Stone(
-            C2,
-            Black,
-        ),
-        Stone(
-            D2,
-            Black,
-        ),
-        Stone(
-            E2,
-            White,
-        ),
-        Stone(
-            F2,
-            White,
-        ),
-        Stone(
-            G2,
-            Black,
-        ),
-        Stone(
-            H2,
-            Black,
-        ),
-        Stone(
-            I2,
-            White,
-        ),
-        Stone(J2, White), Stone(K2, Black), Stone(L2, Black), Stone(M2, White), Stone(N2, White), Stone(O2, Black),
-        Stone(
-            A1,
-            Black,
-        ),
-        Stone(
-            B1,
-            Black,
-        ),
-        Stone(
-            C1,
-            White,
-        ),
-        Stone(
-            D1,
-            White,
-        ),
-        Stone(
-            E1,
-            Black,
-        ),
-        Stone(
-            F1,
-            Black,
-        ),
-        Stone(
-            G1,
-            White,
-        ),
-        Stone(
-            H1,
-            White,
-        ),
-        Stone(
-            I1,
-            Black,
-        ),
-        Stone(J1, Black), Stone(K1, White), Stone(L1, White), Stone(M1, Black), Stone(N1, Black), Stone(O1, White),
+        Stone(A15, Black), Stone(B15, Black), Stone(C15, White), Stone(D15, White),
+        Stone(E15, Black), Stone(F15, Black), Stone(G15, White), Stone(H15, White),
+        Stone(I15, Black), Stone(J15, Black), Stone(K15, White), Stone(L15, White),
+        Stone(M15, Black), Stone(N15, Black), Stone(O15, White), Stone(A14, White),
+        Stone(B14, White), Stone(C14, Black), Stone(D14, Black), Stone(E14, White),
+        Stone(F14, White), Stone(G14, Black), Stone(H14, Black), Stone(I14, White),
+        Stone(J14, White), Stone(K14, Black), Stone(L14, Black), Stone(M14, White),
+        Stone(N14, White), Stone(O14, Black), Stone(A13, Black), Stone(B13, Black),
+        Stone(C13, White), Stone(D13, White), Stone(E13, Black), Stone(F13, Black),
+        Stone(G13, White), Stone(H13, White), Stone(I13, Black), Stone(J13, Black),
+        Stone(K13, White), Stone(L13, White), Stone(M13, Black), Stone(N13, Black),
+        Stone(O13, White), Stone(A12, White), Stone(B12, White), Stone(C12, Black),
+        Stone(D12, Black), Stone(E12, White), Stone(F12, White), Stone(G12, Black),
+        Stone(H12, Black), Stone(I12, White), Stone(J12, White), Stone(K12, Black),
+        Stone(L12, Black), Stone(M12, White), Stone(N12, White), Stone(O12, Black),
+        Stone(A11, Black), Stone(B11, Black), Stone(C11, White), Stone(D11, White),
+        Stone(E11, Black), Stone(F11, Black), Stone(G11, White), Stone(H11, White),
+        Stone(I11, Black), Stone(J11, Black), Stone(K11, White), Stone(L11, White),
+        Stone(M11, Black), Stone(N11, Black), Stone(O11, White), Stone(A10, White),
+        Stone(B10, White), Stone(C10, Black), Stone(D10, Black), Stone(E10, White),
+        Stone(F10, White), Stone(G10, Black), Stone(H10, Black), Stone(I10, White),
+        Stone(J10, White), Stone(K10, Black), Stone(L10, Black), Stone(M10, White),
+        Stone(N10, White), Stone(O10, Black), Stone(A9, Black), Stone(B9, Black),
+        Stone(C9, White), Stone(D9, White), Stone(E9, Black), Stone(F9, Black),
+        Stone(G9, White), Stone(H9, White), Stone(I9, Black), Stone(J9, Black),
+        Stone(K9, White), Stone(L9, White), Stone(M9, Black), Stone(N9, Black),
+        Stone(O9, White), Stone(A8, White), Stone(B8, White), Stone(C8, Black),
+        Stone(D8, Black), Stone(E8, White), Stone(F8, White), Stone(G8, Black),
+        Stone(H8, Black), Stone(I8, White), Stone(J8, White), Stone(K8, Black),
+        Stone(L8, Black), Stone(M8, White), Stone(N8, White), Stone(O8, Black),
+        Stone(A7, Black), Stone(B7, Black), Stone(C7, White), Stone(D7, White),
+        Stone(E7, Black), Stone(F7, Black), Stone(G7, White), Stone(H7, White),
+        Stone(I7, Black), Stone(J7, Black), Stone(K7, White), Stone(L7, White),
+        Stone(M7, Black), Stone(N7, Black), Stone(O7, White), Stone(A6, White),
+        Stone(B6, White), Stone(C6, Black), Stone(D6, Black), Stone(E6, White),
+        Stone(F6, White), Stone(G6, Black), Stone(H6, Black), Stone(I6, White),
+        Stone(J6, White), Stone(K6, Black), Stone(L6, Black), Stone(M6, White),
+        Stone(N6, White), Stone(O6, Black), Stone(A5, Black), Stone(B5, Black),
+        Stone(C5, White), Stone(D5, White), Stone(E5, Black), Stone(F5, Black),
+        Stone(G5, White), Stone(H5, White), Stone(I5, Black), Stone(J5, Black),
+        Stone(K5, White), Stone(L5, White), Stone(M5, Black), Stone(N5, Black),
+        Stone(O5, White), Stone(A4, White), Stone(B4, White), Stone(C4, Black),
+        Stone(D4, Black), Stone(E4, White), Stone(F4, White), Stone(G4, Black),
+        Stone(H4, Black), Stone(I4, White), Stone(J4, White), Stone(K4, Black),
+        Stone(L4, Black), Stone(M4, White), Stone(N4, White), Stone(O4, Black),
+        Stone(A3, Black), Stone(B3, Black), Stone(C3, White), Stone(D3, White),
+        Stone(E3, Black), Stone(F3, Black), Stone(G3, White), Stone(H3, White),
+        Stone(I3, Black), Stone(J3, Black), Stone(K3, White), Stone(L3, White),
+        Stone(M3, Black), Stone(N3, Black), Stone(O3, White), Stone(A2, White),
+        Stone(B2, White), Stone(C2, Black), Stone(D2, Black), Stone(E2, White),
+        Stone(F2, White), Stone(G2, Black), Stone(H2, Black), Stone(I2, White),
+        Stone(J2, White), Stone(K2, Black), Stone(L2, Black), Stone(M2, White),
+        Stone(N2, White), Stone(O2, Black), Stone(A1, Black), Stone(B1, Black),
+        Stone(C1, White), Stone(D1, White), Stone(E1, Black), Stone(F1, Black),
+        Stone(G1, White), Stone(H1, White), Stone(I1, Black), Stone(J1, Black),
+        Stone(K1, White), Stone(L1, White), Stone(M1, Black), Stone(N1, Black),
+        Stone(O1, White),
     )

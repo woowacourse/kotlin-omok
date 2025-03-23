@@ -1,7 +1,19 @@
 package omok.domain
 
 import omok.A1
+import omok.C13
+import omok.C8
+import omok.D12
+import omok.E3
+import omok.F12
+import omok.FourFour
 import omok.Full
+import omok.H5
+import omok.I8
+import omok.J10
+import omok.K4
+import omok.L11
+import omok.ThreeThree
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -48,4 +60,64 @@ class BoardTest {
         Full.forEach { board.put(it.position, it.color) }
         assertThrows<IllegalArgumentException> { board.put(A1, StoneType.BLACK) }
     }
+
+    @Test
+    fun `오목판은 흑돌 33 금수를 막는다1`() {
+        ThreeThree.forEach { board.put(it.position, it.color) }
+        assertThrows<IllegalArgumentException> { board.put(D12, StoneType.BLACK) }
+    }
+
+    @Test
+    fun `오목판은 흑돌 33 금수를 막는다2`() {
+        ThreeThree.forEach { board.put(it.position, it.color) }
+        assertThrows<IllegalArgumentException> { board.put(E3, StoneType.BLACK) }
+    }
+
+    @Test
+    fun `오목판은 흑돌 33 금수를 막는다3`() {
+        ThreeThree.forEach { board.put(it.position, it.color) }
+        assertThrows<IllegalArgumentException> { board.put(L11, StoneType.BLACK) }
+    }
+
+    @Test
+    fun `오목판은 흑돌 33 금수를 막는다4`() {
+        ThreeThree.forEach { board.put(it.position, it.color) }
+        assertThrows<IllegalArgumentException> { board.put(K4, StoneType.BLACK) }
+    }
+
+//    @Test
+//    fun `오목판은 흑돌 44 금수를 막는다1`() {
+//        FourFour.forEach { board.put(it.position, it.color) }
+//        assertThrows<IllegalArgumentException> { board.put(C13, StoneType.BLACK) }
+//    }
+//
+//    @Test
+//    fun `오목판은 흑돌 44 금수를 막는다2`() {
+//        FourFour.forEach { board.put(it.position, it.color) }
+//        assertThrows<IllegalArgumentException> { board.put(C8, StoneType.BLACK) }
+//    }
+//
+//    @Test
+//    fun `오목판은 흑돌 44 금수를 막는다3`() {
+//        FourFour.forEach { board.put(it.position, it.color) }
+//        assertThrows<IllegalArgumentException> { board.put(F12, StoneType.BLACK) }
+//    }
+//
+//    @Test
+//    fun `오목판은 흑돌 44 금수를 막는다4`() {
+//        FourFour.forEach { board.put(it.position, it.color) }
+//        assertThrows<IllegalArgumentException> { board.put(J10, StoneType.BLACK) }
+//    }
+//
+//    @Test
+//    fun `오목판은 흑돌 44 금수를 막는다5`() {
+//        FourFour.forEach { board.put(it.position, it.color) }
+//        assertThrows<IllegalArgumentException> { board.put(I8, StoneType.BLACK) }
+//    }
+//
+//    @Test
+//    fun `오목판은 흑돌 44 금수를 막는다6`() {
+//        FourFour.forEach { board.put(it.position, it.color) }
+//        assertThrows<IllegalArgumentException> { board.put(H5, StoneType.BLACK) }
+//    }
 }
