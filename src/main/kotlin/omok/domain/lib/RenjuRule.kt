@@ -1,10 +1,8 @@
 package omok.domain.lib
 
-class RenjuRule(
-    private val currentStone: Int = BLACK_STONE,
-    private val otherStone: Int = WHITE_STONE,
-    private val boardSize: Int,
-) {
+class RenjuRule(private val boardSize: Int) {
+    private val currentStone: Int = BLACK_STONE
+    private val otherStone: Int = WHITE_STONE
     private val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
 
     fun validPosition(

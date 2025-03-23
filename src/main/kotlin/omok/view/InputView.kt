@@ -34,13 +34,13 @@ class InputView {
 
         private fun validateX(rawX: String): Int? {
             val convertedCol = convertLetter(rawX)
-            if (convertedCol !in 0 .. 15) return null
+            if (convertedCol !in 0..15) return null
             return convertedCol
         }
 
         private fun validateY(rawRow: String): Int? {
             if (rawRow.toIntOrNull() == null) return null
-            if (rawRow.toInt() !in 0 .. 15) return null
+            if (rawRow.toInt() !in 0..15) return null
             return rawRow.toInt() - 1
         }
 

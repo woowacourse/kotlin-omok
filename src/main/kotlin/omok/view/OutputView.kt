@@ -14,10 +14,14 @@ class OutputView {
         println()
         for (y in board.height - 1 downTo 0) {
             print(COORDINATE_X.format(y + 1))
-            val row = (0 until board.width).map { x ->
-                if (board.board[y][x] == StoneState.BLANK) board.toUI(x, y)
-                else board.board[y][x].UI
-            }.joinToString(DASH)
+            val row =
+                (0 until board.width).map { x ->
+                    if (board.board[y][x] == StoneState.BLANK) {
+                        board.toUI(x, y)
+                    } else {
+                        board.board[y][x].UI
+                    }
+                }.joinToString(DASH)
             println(row)
         }
         print(BLANK)
