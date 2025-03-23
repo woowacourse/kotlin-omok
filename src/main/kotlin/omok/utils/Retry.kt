@@ -1,12 +1,16 @@
 package omok.utils
 
-fun <T> retryOnException(
+fun <T> retry(
     action: () -> T,
+    shouldRetry: (T) -> Boolean,
     onFailure: (Throwable) -> Unit,
 ): T {
     while (true) {
         runCatching {
-            return action()
+            val result = action()
+            if (!shouldRetry(result)) {
+                return result
+            }
         }.onFailure { e ->
             onFailure(e)
         }
