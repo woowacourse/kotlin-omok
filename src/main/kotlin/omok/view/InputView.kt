@@ -1,8 +1,8 @@
 package omok.view
 
-import omok.model.Point
-import omok.model.Stone
-import omok.model.StoneColor
+import omok.model.stone.Point
+import omok.model.stone.Stone
+import omok.model.stone.StoneColor
 
 class InputView {
     fun readInitialTurn(): Point {

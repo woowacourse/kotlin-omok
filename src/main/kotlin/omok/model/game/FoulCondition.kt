@@ -1,4 +1,4 @@
-package omok.model.adapter
+package omok.model.game
 
 enum class FoulCondition {
     DOUBLE_THREE,

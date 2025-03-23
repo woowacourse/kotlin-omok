@@ -1,6 +1,7 @@
 package omok.model.adapter
 
-import omok.model.Stone
+import omok.model.game.FoulCondition
+import omok.model.stone.Stone
 import rule.facade.BlackRenjuRule
 
 class BlackRenjuRuleAdapter(

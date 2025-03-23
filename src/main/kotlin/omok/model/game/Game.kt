@@ -1,4 +1,8 @@
-package omok.model
+package omok.model.game
+
+import omok.model.stone.Point
+import omok.model.stone.Stone
+import omok.model.stone.StoneColor
 
 class Game {
     private var _lastStone = Stone(Point(1, 1), StoneColor.WHITE)

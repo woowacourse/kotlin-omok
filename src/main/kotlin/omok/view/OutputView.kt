@@ -1,9 +1,9 @@
 package omok.view
 
-import omok.model.Game
-import omok.model.GameState
-import omok.model.Point
-import omok.model.StoneColor
+import omok.model.game.Game
+import omok.model.game.GameState
+import omok.model.stone.Point
+import omok.model.stone.StoneColor
 
 class OutputView {
     fun printOmokStart() {

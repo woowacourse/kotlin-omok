@@ -1,4 +1,4 @@
-package omok.model
+package omok.model.game
 
 enum class GameState {
     WHITE_OMOK,

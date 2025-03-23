@@ -1,5 +1,9 @@
 package omok.model
 
+import omok.model.game.Game
+import omok.model.stone.Point
+import omok.model.stone.Stone
+import omok.model.stone.StoneColor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

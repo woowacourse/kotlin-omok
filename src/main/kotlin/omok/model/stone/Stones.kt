@@ -1,6 +1,6 @@
-package omok.model
+package omok.model.stone
 
-import omok.model.adapter.FoulCondition
+import omok.model.game.FoulCondition
 import omok.model.adapter.RuleAdapter
 
 class Stones(
