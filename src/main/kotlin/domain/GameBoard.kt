@@ -41,9 +41,11 @@ class GameBoard {
     }
 
     fun judge(rule: OmokRule): Boolean =
-        rule.checkWin(
-            blackStones,
-            whiteStones,
-            lastStone!!.position,
-        )
+        lastStone?.let {
+            rule.checkWin(
+                blackStones,
+                whiteStones,
+                lastStone!!.position,
+            )
+        } ?: false
 }
