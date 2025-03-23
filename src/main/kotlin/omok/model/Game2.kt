@@ -6,7 +6,8 @@ import rule.type.Violation
 import rule.wrapper.point.Point
 
 class Game2(val board: Board) {
-    private var lastColor: Color? = null
+    var lastColor: Color? = null
+        private set
 
     fun processTurn(
         position: Position,
