@@ -1,25 +1,30 @@
 package omok.view
 
 import omok.model.board.Board
+import omok.model.board.BoardSize
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
 
-class OutputView {
+class OutputView(
+    private val boardSize: BoardSize,
+) {
+    private val alphabets = ('A'..'Z').toList()
+
     fun printBoard(board: Map<Position, StoneColor>) {
-        for (row in BOARD_SIZE - 1 downTo 0) {
+        for (row in boardSize.value - 1 downTo 0) {
             print(String.format("%2d ", row + 1))
             val point = pointByRowIndex(row)
             val str =
-                (0..<BOARD_SIZE).joinToString("──") {
+                (0..<boardSize.value).joinToString("──") {
                     val stoneColor = board[Position(Row(row), Col(it))]
                     getStoneText(stoneColor, point[it])
                 }
             println(str)
         }
-        val columnLabels = ('A'..'O').joinToString("  ")
+        val columnLabels = alphabets.subList(0, boardSize.value).joinToString("  ")
         println("   $columnLabels")
     }
 
@@ -46,9 +51,9 @@ class OutputView {
 
     private fun pointByRowIndex(index: Int): List<String> =
         when (index) {
-            14 -> listOf("┌") + List(BOARD_SIZE - 2) { "┬" } + listOf("┐")
-            0 -> listOf("└") + List(BOARD_SIZE - 2) { "┴" } + listOf("┘")
-            else -> listOf("├") + List(BOARD_SIZE - 2) { "┼" } + listOf("┤")
+            boardSize.value - 1 -> listOf("┌") + List(boardSize.value - 2) { "┬" } + listOf("┐")
+            0 -> listOf("└") + List(boardSize.value - 2) { "┴" } + listOf("┘")
+            else -> listOf("├") + List(boardSize.value - 2) { "┼" } + listOf("┤")
         }
 
     private fun getStoneText(
@@ -69,13 +74,9 @@ class OutputView {
         }
 
     private fun stoneCoordinateText(position: Position): String {
-        val lastCol = ('A'..'O').toList()[position.col.value].toString()
+        val lastCol = alphabets[position.col.value].toString()
         val lastRow = (position.row.value + 1).toString()
 
         return lastCol + lastRow
-    }
-
-    companion object {
-        private const val BOARD_SIZE = 15
     }
 }

@@ -6,9 +6,9 @@ import omok.view.InputView
 import omok.view.OutputView
 
 fun main() {
-    val inputView = InputView()
-    val outputView = OutputView()
     val boardSize = BoardSize(15)
+    val inputView = InputView()
+    val outputView = OutputView(boardSize)
 
     OmokControl(inputView, outputView, boardSize).run()
 }
