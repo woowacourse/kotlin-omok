@@ -1,10 +1,10 @@
 package omok.controller
 
-import omok.model.BlackPlayer
-import omok.model.Game
-import omok.model.GameState
-import omok.model.Point
-import omok.model.WhitePlayer
+import omok.model.Board
+import omok.model.game.Game
+import omok.model.game.GameState
+import omok.model.stone.Point
+import omok.model.stone.Stone
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -13,31 +13,43 @@ class OmokController(
     private val outputView: OutputView,
 ) {
     fun run() {
+        val board = Board()
+        val game = Game(board)
         outputView.printOmokStart()
-        val game = Game(BlackPlayer(), WhitePlayer())
-        outputView.printBoard(game)
-        val point: Point = inputView.readInitialTurn()
-        game.play(point)
-        outputView.printBoard(game)
-        retryOnError { processTurn(game) }
+        outputView.printBoard(board)
+        playInitialTurn(board, game)
+        retryOnError { processTurn(board, game) }
     }
 
-    private tailrec fun processTurn(game: Game) {
-        val point: Point = inputView.readTurn(game.lastStone)
-        val gameState: GameState = game.play(point)
-        outputView.printBoard(game)
+    private fun playInitialTurn(
+        board: Board,
+        game: Game,
+    ) {
+        val inputPoint: Point = inputView.readInitialTurn()
+        val stone = Stone(inputPoint, game.lastStone.color.reverse())
+        game.play(stone, outputView::printError)
+        outputView.printBoard(board)
+    }
 
-        when (gameState) {
-            GameState.PLAYING -> processTurn(game)
+    private tailrec fun processTurn(
+        board: Board,
+        game: Game,
+    ) {
+        val inputPoint: Point = inputView.readTurn(game.lastStone)
+        val stone = Stone(inputPoint, game.lastStone.color.reverse())
+        game.play(stone, outputView::printError)
+        outputView.printBoard(board)
+
+        when (val gameState = game.gameState(stone)) {
+            GameState.PLAYING -> processTurn(board, game)
             GameState.BLACK_OMOK -> outputView.printWinner(gameState)
             GameState.WHITE_OMOK -> outputView.printWinner(gameState)
         }
     }
 
-    private fun <T> retryOnError(function: () -> T): T {
-        return runCatching { function() }.getOrElse { error ->
+    private fun <T> retryOnError(function: () -> T): T =
+        runCatching { function() }.getOrElse { error ->
             println(error.message)
             retryOnError(function)
         }
-    }
 }
