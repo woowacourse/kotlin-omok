@@ -1,7 +1,7 @@
 package omok.model.board
 
 import omok.model.stone.Stone
-import omok.model.stone.StoneState
+import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
@@ -16,7 +16,7 @@ class BoardTest {
         val position = Position(Row(5), Col(5))
         val nextBoard = initialBoard.nextStonePlacedBoard(position)
 
-        assertThat(nextBoard.lastStone).isEqualTo(Stone(position, StoneState.BLACK))
+        assertThat(nextBoard.lastStone).isEqualTo(Stone(position, StoneColor.BLACK))
     }
 
     @Test

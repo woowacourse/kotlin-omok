@@ -1,6 +1,6 @@
 package omok.model.rule
 
-import omok.model.stone.StoneState
+import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
@@ -9,26 +9,17 @@ class NormalOmokRule(
     private val boardSize: Int,
 ) {
     fun isPositionOmok(
-        stonesMap: Map<Position, StoneState>,
+        stonesMap: Map<Position, StoneColor>,
         position: Position,
         checkExactlyFiveStone: Boolean = false,
     ): Boolean {
-        if (stonePlacedState(stonesMap, position) == StoneState.NONE) {
-            return false
-        }
-
         val totalCount = calculateTotalCount(stonesMap, position)
         if (checkExactlyFiveStone) return 5 in totalCount
         return totalCount.max() >= 5
     }
 
-    private fun stonePlacedState(
-        stonesMap: Map<Position, StoneState>,
-        position: Position,
-    ): StoneState = stonesMap[position] ?: StoneState.NONE
-
     private fun calculateTotalCount(
-        stonesMap: Map<Position, StoneState>,
+        stonesMap: Map<Position, StoneColor>,
         position: Position,
     ): List<Int> =
         Direction.lineDirections().map { (directionA, directionB) ->
@@ -39,7 +30,7 @@ class NormalOmokRule(
         }
 
     private fun countConnected(
-        stonesMap: Map<Position, StoneState>,
+        stonesMap: Map<Position, StoneColor>,
         position: Position,
         direction: Direction,
     ): Int {

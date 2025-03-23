@@ -1,39 +1,38 @@
 package omok.model.board
 
 import omok.model.stone.Stone
-import omok.model.stone.StoneState
+import omok.model.stone.StoneColor
 import omok.model.stone.position.Position
 
 class Board(
     val boardSize: BoardSize = BoardSize(15),
-    stonesMap: LinkedHashMap<Position, StoneState> = LinkedHashMap(),
+    stonesMap: LinkedHashMap<Position, StoneColor> = LinkedHashMap(),
 ) {
-    private val _stonesMap: LinkedHashMap<Position, StoneState> = LinkedHashMap(stonesMap)
+    private val _stonesMap: LinkedHashMap<Position, StoneColor> = LinkedHashMap(stonesMap)
 
-    val stonesMap: LinkedHashMap<Position, StoneState>
+    val stonesMap: LinkedHashMap<Position, StoneColor>
         get() = LinkedHashMap(_stonesMap)
 
     val lastStone: Stone?
         get() = _stonesMap.lastEntry()?.let { Stone(it.key, it.value) }
 
-    val nextStoneState: StoneState
+    val nextStoneColor: StoneColor
         get() {
             lastStone?.let { stone ->
-                return when (stone.stoneState) {
-                    StoneState.BLACK -> StoneState.WHITE
-                    StoneState.WHITE -> StoneState.BLACK
-                    StoneState.NONE -> StoneState.NONE
+                return when (stone.stoneColor) {
+                    StoneColor.BLACK -> StoneColor.WHITE
+                    StoneColor.WHITE -> StoneColor.BLACK
                 }
             } ?: run {
-                return StoneState.BLACK
+                return StoneColor.BLACK
             }
         }
 
     fun nextStonePlacedBoard(nextPosition: Position): Board {
         validPositionCheck(nextPosition)
         val newStonesMap = stonesMap
-        val nextStone = Stone(nextPosition, nextStoneState)
-        newStonesMap[nextStone.position] = nextStone.stoneState
+        val nextStone = Stone(nextPosition, nextStoneColor)
+        newStonesMap[nextStone.position] = nextStone.stoneColor
         return Board(boardSize, newStonesMap)
     }
 

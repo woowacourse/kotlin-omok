@@ -2,7 +2,7 @@ package omok.model.rule
 
 import omok.model.board.Board
 import omok.model.board.BoardSize
-import omok.model.stone.StoneState
+import omok.model.stone.StoneColor
 import omok.model.stone.position.Position
 import rule.facade.BlackRenjuRule
 
@@ -14,8 +14,8 @@ class BudoolRenjuRuleAdapter(
 
     override fun checkLastBlackStoneFoul(board: Board): RenjuFoul {
         val stonesMap = board.stonesMap
-        val blackCoordinatePairs = getTargetStoneCoordinatePairs(stonesMap, StoneState.BLACK)
-        val whiteCoordinatePairs = getTargetStoneCoordinatePairs(stonesMap, StoneState.WHITE)
+        val blackCoordinatePairs = getTargetStoneCoordinatePairs(stonesMap, StoneColor.BLACK)
+        val whiteCoordinatePairs = getTargetStoneCoordinatePairs(stonesMap, StoneColor.WHITE)
         val lastStone = board.lastStone ?: return RenjuFoul.SAFE
         val lastPoint = positionToCoordinatePair(lastStone.position)
         when {
@@ -43,12 +43,12 @@ class BudoolRenjuRuleAdapter(
     }
 
     private fun getTargetStoneCoordinatePairs(
-        stonesMap: Map<Position, StoneState>,
-        targetState: StoneState,
+        stonesMap: Map<Position, StoneColor>,
+        targetColor: StoneColor,
     ): List<Pair<Int, Int>> =
         stonesMap
             .filter {
-                it.value == targetState
+                it.value == targetColor
             }.map {
                 positionToCoordinatePair(it.key)
             }
