@@ -1,5 +1,8 @@
 package omok.model.board
 
+import omok.model.player.state.BlackPlayerState
+import omok.model.player.state.PlayerState
+import omok.model.player.state.WhitePlayerState
 import omok.model.stone.PositionState
 
 class OmokBoard {
@@ -26,10 +29,13 @@ class OmokBoard {
 
     fun placeStone(
         position: Position,
-        positionState: PositionState,
+        playerState: PlayerState,
     ) {
         if (canPlaceStone(position)) {
-            board[position] = positionState
+            when (playerState) {
+                is BlackPlayerState -> board[position] = PositionState.BLACK_POSITION
+                is WhitePlayerState -> board[position] = PositionState.WHITE_POSITION
+            }
         } else {
             throw IllegalArgumentException("해당위치에 돌이 존재합니다.")
         }
