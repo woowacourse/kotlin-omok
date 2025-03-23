@@ -2,7 +2,7 @@ package omok.view
 
 import omok.model.Board
 import omok.model.Color
-import omok.model.Game
+import omok.model.GameState
 
 class OutputView {
     fun printOmokStart() {
@@ -10,11 +10,11 @@ class OutputView {
         println()
     }
 
-    fun printWinner(game: Game) {
-        when (game.lastStone?.color) {
-            Color.BLACK -> println(MESSAGE_OMOK_WINNER.format(BLACK_PLAYER))
-            Color.WHITE -> println(MESSAGE_OMOK_WINNER.format(WHITE_PLAYER))
-            null -> throw IllegalStateException()
+    fun printGameState(gameState: GameState) {
+        when (gameState) {
+            GameState.BLACK_WIN -> println(MESSAGE_OMOK_WINNER.format(BLACK_PLAYER))
+            GameState.WHITE_WIN -> println(MESSAGE_OMOK_WINNER.format(WHITE_PLAYER))
+            GameState.PLAYING -> println(MESSAGE_OMOK_IN_PROGRESS)
         }
     }
 
@@ -22,7 +22,7 @@ class OutputView {
         println(updateBoardString(board))
     }
 
-    fun updateBoardString(board: Board): String {
+    private fun updateBoardString(board: Board): String {
         val boardString: String = buildBoardString(board.row, board.col)
         val lines = boardString.lines().toMutableList()
         board.stones.forEach { stone ->
@@ -31,7 +31,7 @@ class OutputView {
         return lines.joinToString("\n")
     }
 
-    fun updateLineString(
+    private fun updateLineString(
         col: Int,
         line: String,
         color: Color,
@@ -46,7 +46,7 @@ class OutputView {
         return sb.toString()
     }
 
-    fun buildBoardString(
+    private fun buildBoardString(
         height: Int,
         width: Int,
     ): String {
@@ -54,7 +54,7 @@ class OutputView {
         val center: String = buildRow(width, BOARD_CENTER_LEFT2, BOARD_CENTER_MIDDLE2, BOARD_CENTER_RIGHT2)
         val bottom: String = buildRow(width, BOARD_BOTTOM_LEFT2, BOARD_BOTTOM_MIDDLE2, BOARD_BOTTOM_RIGHT2)
 
-        val rows: List<String> = appendRows(height, top, center, bottom) + buildLastRow(height, width)
+        val rows: List<String> = appendRows(height, top, center, bottom) + buildRowLabel(height, width)
         return rows.joinToString("\n")
     }
 
@@ -71,7 +71,7 @@ class OutputView {
         }.toString()
     }
 
-    private fun buildLastRow(
+    private fun buildRowLabel(
         height: Int,
         width: Int,
     ): String {
@@ -102,14 +102,15 @@ class OutputView {
     }
 
     companion object {
-        private const val MESSAGE_OMOK_START = "오목 게임을 시작합니다."
-        private const val MESSAGE_OMOK_WINNER = "%s이 승리했습니다!"
-        private const val BLACK_PLAYER = "흑"
-        private const val WHITE_PLAYER = "백"
-
         private const val ROW_NUMBER_OFFSET_SIZE = 4
         private const val COLUMN_NUMBER_OFFSET_SIZE = 2
 
+        private const val MESSAGE_OMOK_START = "오목 게임을 시작합니다."
+        private const val MESSAGE_OMOK_WINNER = "%s이 승리했습니다!"
+        private const val MESSAGE_OMOK_IN_PROGRESS = "게임이 아직 종료되지 않았습니다."
+
+        private const val BLACK_PLAYER = "흑"
+        private const val WHITE_PLAYER = "백"
         private const val BLACK_STONE = '●'
         private const val WHITE_STONE = '○'
 

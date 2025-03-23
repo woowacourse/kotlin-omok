@@ -46,7 +46,7 @@ class GameTest {
             }
 
         val actual: GameState = game.processTurn(Position(1, 5), Color.WHITE)
-        val expected: GameState = GameState.FINISHED
+        val expected: GameState = GameState.WHITE_WIN
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -55,14 +55,14 @@ class GameTest {
     fun `오목이 완성되면 게임이 종료된다 2`() {
         val game =
             Game(Board()).apply {
-                processTurn(Position(13, 5), Color.WHITE)
-                processTurn(Position(12, 6), Color.WHITE)
-                processTurn(Position(11, 7), Color.WHITE)
-                processTurn(Position(10, 8), Color.WHITE)
+                processTurn(Position(13, 5), Color.BLACK)
+                processTurn(Position(12, 6), Color.BLACK)
+                processTurn(Position(11, 7), Color.BLACK)
+                processTurn(Position(10, 8), Color.BLACK)
             }
 
-        val actual: GameState = game.processTurn(Position(9, 9), Color.WHITE)
-        val expected: GameState = GameState.FINISHED
+        val actual: GameState = game.processTurn(Position(9, 9), Color.BLACK)
+        val expected: GameState = GameState.BLACK_WIN
 
         assertThat(actual).isEqualTo(expected)
     }

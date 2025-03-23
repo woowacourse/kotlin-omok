@@ -2,5 +2,6 @@ package omok.model
 
 enum class GameState {
     PLAYING,
-    FINISHED,
+    BLACK_WIN,
+    WHITE_WIN,
 }

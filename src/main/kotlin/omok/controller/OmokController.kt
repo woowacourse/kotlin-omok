@@ -26,7 +26,7 @@ class OmokController(
 
         when (gameState) {
             GameState.PLAYING -> processTurn(game)
-            GameState.FINISHED -> outputView.printWinner(game)
+            else -> outputView.printGameState(gameState)
         }
     }
 
