@@ -30,16 +30,20 @@ class OmokController(
         }
     }
 
+    private inline fun handleTurnException(inputStone: () -> Unit) {
+        runCatching { inputStone() }
+            .onFailure { error ->
+                println(error.message)
+            }
+    }
+
     private fun playerTurn(
         currentPlayer: Player,
         omokBoard: OmokBoard,
     ) {
-        runCatching {
+        handleTurnException {
             val position = omokView.inputPosition(currentPlayer)
             currentPlayer.put(position, omokBoard)
-        }.getOrElse { error ->
-            println(error.message)
-            playerTurn(currentPlayer, omokBoard)
         }
     }
 
