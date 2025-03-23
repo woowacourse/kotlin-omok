@@ -22,17 +22,22 @@ class GameBoard {
         val stone = Stone.of(position, stoneColor)
 
         val violateType = rule.checkAnyFoulCondition(blackStones, whiteStones, stone.position)
-
         if (violateType.isNone()) {
-            when (stoneColor) {
-                StoneColor.BLACK -> _blackStones.add(stone)
-                StoneColor.WHITE -> _whiteStones.add(stone)
-            }
-            lastStone = stone
+            successStateProcess(stoneColor, stone)
             return GameState.Success
         }
-
         return GameState.Fail(violateType)
+    }
+
+    private fun successStateProcess(
+        stoneColor: StoneColor,
+        stone: Stone,
+    ) {
+        when (stoneColor) {
+            StoneColor.BLACK -> _blackStones.add(stone)
+            StoneColor.WHITE -> _whiteStones.add(stone)
+        }
+        lastStone = stone
     }
 
     fun judge(rule: OmokRule): Boolean =
