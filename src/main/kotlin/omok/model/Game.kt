@@ -36,8 +36,8 @@ class Game(val board: Board) {
     ): Boolean {
         val rule: OmokRule =
             when (color) {
-                Color.BLACK -> BlackRenjuRule()
-                Color.WHITE -> WhiteRenjuRule()
+                Color.BLACK -> BlackRenjuRule(board.col, board.row)
+                Color.WHITE -> WhiteRenjuRule(board.col, board.row)
             }
         val points: List<Point> = board.filterStones(color).map { stone -> Point(stone.position.x, stone.position.y) }
         val newPoint = Point(position.x, position.y)
@@ -53,8 +53,8 @@ class Game(val board: Board) {
         val whitePoints: List<Point> = board.filterStones(Color.WHITE).map { stone -> Point(stone.position.x, stone.position.y) }
         val violation: Violation =
             when (color) {
-                Color.BLACK -> BlackRenjuRule().checkAnyFoulCondition(blackPoints, whitePoints, newPoint)
-                Color.WHITE -> WhiteRenjuRule().checkAnyFoulCondition(whitePoints, blackPoints, newPoint)
+                Color.BLACK -> BlackRenjuRule(board.col, board.row).checkAnyFoulCondition(blackPoints, whitePoints, newPoint)
+                Color.WHITE -> WhiteRenjuRule(board.col, board.row).checkAnyFoulCondition(whitePoints, blackPoints, newPoint)
             }
 
         require(violation == Violation.NONE) {
