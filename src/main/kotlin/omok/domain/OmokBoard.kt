@@ -1,21 +1,19 @@
 package omok.domain
 
 class OmokBoard(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
-    val positions: List<Position> = (1..15).flatMap { x -> (1..15).map { y -> Position(x, y) } }
+    val board: List<List<StoneState>>
+        get() = _board.toList()
+    private val _board: MutableList<MutableList<StoneState>> =
+        MutableList(15) {
+            MutableList(15) { StoneState.BLANK }
+        }
+
     private val ruleAdaptor = OmokAdapter()
 
-    fun findPoint(
-        x: Int,
-        y: Int,
-    ): Position? {
-        return positions.find { it.x == x && it.y == y }
-    }
-
     fun putStone(
-        position: Position,
-        state: StoneState,
+        stone: Stone,
     ) {
-        findPoint(position.x, position.y)?.changeState(state)
+        _board[stone.position.y][stone.position.x] = stone.state
     }
 
     fun invalidPlace(stone: Stone): Boolean = ruleAdaptor.isViolate(this, stone)
@@ -39,17 +37,16 @@ class OmokBoard(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
         direction: Direction,
         position: Position,
     ): Int {
-        val coordinateX = position.x
-        val coordinateY = position.y
-        val state = positions.find { it.x == coordinateX && it.y == coordinateY }?.stoneState
+        val x = position.x
+        val y = position.y
+        val state = _board[y][x]
         var count = DEFAULT_COUNT
 
-        while (checkRange(coordinateX + direction.rowDelta * count, coordinateY + direction.colDelta * count) &&
-            positions.find { it.x == coordinateX + direction.rowDelta * count && it.y == coordinateY + direction.colDelta * count }?.stoneState == state
+        while (checkRange(y + direction.colDelta * count, x + direction.rowDelta * count) &&
+            _board[y + direction.colDelta * count][x + direction.rowDelta * count] == state
         ) {
             count++
         }
-
         return count
     }
 
