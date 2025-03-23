@@ -33,10 +33,9 @@ abstract class OmokRule {
         var curPosition = startPosition
         if (!Position.isMovable(curPosition, rowStep, colStep)) return sameStoneCount
 
-        while (Position.isMovable(curPosition, rowStep, rowStep)) {
+        while (Position.isMovable(curPosition, rowStep, colStep)) {
             curPosition = curPosition.move(rowStep, colStep)
             if (curPosition !in stones) break
-            curPosition in stones
             ++sameStoneCount
         }
 
