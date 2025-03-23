@@ -1,6 +1,6 @@
 package omok.model.rule.lib
 
-object DoubleThreeMoveRule : ForbiddenMoveRule() {
+class DoubleThreeMoveRule : ForbiddenMoveRule() {
     override fun validate(
         board: List<List<Int>>,
         position: Pair<Int, Int>,

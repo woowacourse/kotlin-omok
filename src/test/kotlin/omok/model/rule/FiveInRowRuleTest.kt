@@ -48,30 +48,30 @@ class FiveInRowRuleTest {
     @Test
     fun `세로로 오목인 경우 true를 반환한다`() {
         val point = Point(5, 1)
-        assertTrue(FiveInRowRule.calculate(verticalFiveInRowBoard, point))
+        assertTrue(FiveInRowRule().calculate(verticalFiveInRowBoard, point))
     }
 
     @Test
     fun `가로로 오목인 경우 true를 반환한다`() {
         val point = Point(1, 5)
-        assertTrue(FiveInRowRule.calculate(horizontalFiveInRowBoard, point))
+        assertTrue(FiveInRowRule().calculate(horizontalFiveInRowBoard, point))
     }
 
     @Test
     fun `대각선으로 오목인 경우 true를 반환한다`() {
         val point = Point(5, 5)
-        assertTrue(FiveInRowRule.calculate(diagonalFiveInRowBoard, point))
+        assertTrue(FiveInRowRule().calculate(diagonalFiveInRowBoard, point))
     }
 
     @Test
     fun `반대 대각선으로 오목인 경우 true를 반환한다`() {
         val point = Point(5, 1)
-        assertTrue(FiveInRowRule.calculate(antiDiagonalFiveInRowBoard, point))
+        assertTrue(FiveInRowRule().calculate(antiDiagonalFiveInRowBoard, point))
     }
 
     @Test
     fun `오목이 없는 경우 false를 반환한다`() {
         val point = Point(14, 1)
-        assertFalse(FiveInRowRule.calculate(horizontalFiveInRowBoard, point))
+        assertFalse(FiveInRowRule().calculate(horizontalFiveInRowBoard, point))
     }
 }
