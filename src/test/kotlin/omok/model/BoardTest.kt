@@ -1,28 +1,30 @@
 package omok.model
 
 import omok.model.board.Board.Companion.initBoard
+import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 
 class BoardTest {
     @Test
-    fun `돌을 원하는 위치에 착수할 수 있다`() {
-        val initialBoard = initBoard()
-        val position = Position(Row(5), Col(5))
+    fun `빈 위치에 돌을 두면 새로운 보드에 포함된다`() {
+        val board = initBoard()
+        val position = Position(Row(0), Col(0))
 
-        assertDoesNotThrow { initialBoard.placeStone(position) }
+        val newBoard = board.positionAt(position, StoneColor.BLACK)
+
+        assertThat(newBoard.stonesMap[position]).isEqualTo(StoneColor.BLACK)
     }
 
     @Test
-    fun `돌이 놓여있는 위치에 착수할 수 없다`() {
-        val initialBoard = initBoard()
-        val position55 = Position(Row(5), Col(5))
-        val nextBoard = initialBoard.placeStone(position55)
+    fun `이미 돌이 있는 위치에 돌을 놓을 수 없다`() {
+        val position = Position(Row(0), Col(0))
+        val board = initBoard().positionAt(position, StoneColor.BLACK)
 
-        assertThrows<IllegalArgumentException> { nextBoard.placeStone(position55) }
+        assertThrows<IllegalArgumentException> { board.positionAt(position, StoneColor.WHITE) }
     }
 }
