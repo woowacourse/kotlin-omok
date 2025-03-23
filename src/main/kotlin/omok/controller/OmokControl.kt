@@ -35,8 +35,8 @@ class OmokControl(
 
     private fun stoneAddedBoard(board: Board): Board {
         runCatching {
-            val input = inputView.inputStone()
-            val newBoard = board.placeStone(Position(input))
+            val inputCoordinateText = inputView.inputStone()
+            val newBoard = board.nextStonePlacedBoard(Position(inputCoordinateText))
             omokReferee.lastStoneFoulCheck(newBoard)
             return newBoard
         }.getOrElse { exception ->

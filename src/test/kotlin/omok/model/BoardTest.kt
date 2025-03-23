@@ -14,15 +14,15 @@ class BoardTest {
         val initialBoard = Board()
         val position = Position(Row(5), Col(5))
 
-        assertDoesNotThrow { initialBoard.placeStone(position) }
+        assertDoesNotThrow { initialBoard.nextStonePlacedBoard(position) }
     }
 
     @Test
     fun `돌이 놓여있는 위치에 착수할 수 없다`() {
         val initialBoard = Board()
         val position55 = Position(Row(5), Col(5))
-        val nextBoard = initialBoard.placeStone(position55)
+        val nextBoard = initialBoard.nextStonePlacedBoard(position55)
 
-        assertThrows<IllegalArgumentException> { nextBoard.placeStone(position55) }
+        assertThrows<IllegalArgumentException> { nextBoard.nextStonePlacedBoard(position55) }
     }
 }

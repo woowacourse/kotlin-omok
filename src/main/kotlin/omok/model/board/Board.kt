@@ -29,20 +29,23 @@ class Board(
             }
         }
 
-    fun placeStone(nextPosition: Position): Board {
-        val nextStone = Stone(nextPosition, nextStoneState)
-        require(!stonesMap.containsKey(nextStone.position)) { ERROR_STONE_ALREADY_EXITS }
-        require(lastStone?.stoneState != nextStone.stoneState) {
-            ERROR_SUCCESSION_SAME_STATE_STONE
-        }
-
+    fun nextStonePlacedBoard(nextPosition: Position): Board {
+        validPositionCheck(nextPosition)
         val newStonesMap = stonesMap
+        val nextStone = Stone(nextPosition, nextStoneState)
         newStonesMap[nextStone.position] = nextStone.stoneState
         return Board(boardSize, newStonesMap)
     }
 
+    private fun validPositionCheck(position: Position) {
+        require(!stonesMap.containsKey(position)) { ERROR_STONE_ALREADY_EXITS }
+        require(position.col.value < boardSize.value && position.row.value < boardSize.value) {
+            ERROR_OUT_OF_RANGE_STONE
+        }
+    }
+
     companion object {
         private const val ERROR_STONE_ALREADY_EXITS = "해당하는 위치에 돌이 존재합니다"
-        private const val ERROR_SUCCESSION_SAME_STATE_STONE = "같은 색의 돌을 연속하여 착수할 수 없습니다"
+        private const val ERROR_OUT_OF_RANGE_STONE = "돌이 보드의 범위를 벗어났습니다"
     }
 }
