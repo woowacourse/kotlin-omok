@@ -1,21 +1,19 @@
 package omok.model
 
+import omok.model.adapter.BlackRenjuRuleAdapter
+import omok.model.adapter.WhiteRenjuRuleAdapter
 import omok.model.game.FoulCondition
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.Stones
 
 class Board(
-    private val blackStones: Stones,
-    private val whiteStones: Stones
+    private val blackStones: Stones = Stones(ruleAdapter = BlackRenjuRuleAdapter()),
+    private val whiteStones: Stones = Stones(ruleAdapter = WhiteRenjuRuleAdapter()),
 ) {
     val stones: Set<Stone> get() = blackStones.stones + whiteStones.stones
 
-    operator fun contains(
-        newStone: Stone,
-    ): Boolean {
-        return newStone in stones
-    }
+    operator fun contains(newStone: Stone): Boolean = newStone in stones
 
     fun place(newStone: Stone) {
         when (blackStones.checkAnyFoulCondition(whiteStones, newStone)) {
@@ -26,15 +24,14 @@ class Board(
         }
     }
 
-    fun hasOmok(newStone: Stone): Boolean {
-        return when(newStone.color) {
+    fun hasOmok(newStone: Stone): Boolean =
+        when (newStone.color) {
             StoneColor.WHITE -> whiteStones.checkWin(whiteStones, newStone)
             StoneColor.BLACK -> blackStones.checkWin(blackStones, newStone)
         }
-    }
 
     private fun placeByColor(newStone: Stone) {
-        when(newStone.color) {
+        when (newStone.color) {
             StoneColor.WHITE -> whiteStones.add(newStone)
             StoneColor.BLACK -> blackStones.add(newStone)
         }
