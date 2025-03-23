@@ -52,7 +52,21 @@ abstract class OmokRule {
             checkDoubleFoul(blackStones, whiteStones, startPosition, Foul.DOUBLE_THREE),
             checkDoubleFoul(blackStones, whiteStones, startPosition, Foul.DOUBLE_FOUR),
             checkOverline(blackStones, startPosition),
+            checkDuplicatePosition(blackStones, whiteStones, startPosition),
         ).lastOrNull { it.state } ?: Violation.NONE
+
+    private fun checkDuplicatePosition(
+        blackStones: List<Stone>,
+        whiteStones: List<Stone>,
+        curPosition: Position,
+    ): Violation {
+        if (blackStones.any { stone -> stone.position.isSame(curPosition) } ||
+            whiteStones.any { stone -> stone.position.isSame(curPosition) }
+        ) {
+            return Violation.DUPLICATE_POSITION
+        }
+        return Violation.NONE
+    }
 
     abstract fun checkWin(
         blackStones: List<Stone>,
