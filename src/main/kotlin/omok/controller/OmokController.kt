@@ -4,6 +4,7 @@ import omok.domain.OmokBoard
 import omok.domain.Position
 import omok.domain.turn.BlackTurn
 import omok.domain.turn.Finished
+import omok.domain.turn.PutStoneResult
 import omok.domain.turn.Turn
 import omok.view.InputView
 import omok.view.OutputView
@@ -26,7 +27,10 @@ class OmokController(
             outputView.printBoardState(board)
             outputView.printTurn(nowTurn)
             latestPosition = inputView.getPosition(latestPosition)
-            nowTurn = nowTurn.putStone(latestPosition, board)
+            when (val result = nowTurn.putStone(latestPosition, board)) {
+                is PutStoneResult.Success -> nowTurn = result.turn
+                is PutStoneResult.Failure -> outputView.printError(result.message)
+            }
         }
         outputView.printTurn(nowTurn)
     }

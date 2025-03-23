@@ -9,11 +9,20 @@ class BlackTurn(override val beforeTurn: StoneState? = null) : Turn {
     override fun putStone(
         position: Position,
         board: OmokBoard,
-    ): Turn {
+    ): PutStoneResult {
         val stone = Stone(position, StoneState.BLACK)
-        if (board.invalidPlace(stone) || board.isStonePlaced(position)) return this
+
+        if (board.invalidPlace(stone)) {
+            return PutStoneResult.Failure(Turn.ERROR_INVALID_POSITION)
+        }
+        if (board.isStonePlaced(position)) {
+            return PutStoneResult.Failure(Turn.ERROR_STONE_ALREADY_PUT)
+        }
+
         board.putStone(stone)
-        if (board.checkOmok(position)) return Finished(StoneState.BLACK)
-        return WhiteTurn(StoneState.BLACK)
+        if (board.checkOmok(position)) {
+            return PutStoneResult.Success(Finished(StoneState.BLACK))
+        }
+        return PutStoneResult.Success(WhiteTurn(StoneState.BLACK))
     }
 }

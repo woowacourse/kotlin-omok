@@ -8,7 +8,7 @@ class Finished(override val beforeTurn: StoneState) : Turn {
     override fun putStone(
         position: Position,
         board: OmokBoard,
-    ): Turn {
+    ): PutStoneResult {
         throw IllegalStateException()
     }
 }

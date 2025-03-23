@@ -10,5 +10,10 @@ interface Turn {
     fun putStone(
         position: Position,
         board: OmokBoard,
-    ): Turn
+    ): PutStoneResult
+
+    companion object {
+        const val ERROR_INVALID_POSITION = "잘못된 위치입니다."
+        const val ERROR_STONE_ALREADY_PUT = "이미 돌이 있습니다."
+    }
 }

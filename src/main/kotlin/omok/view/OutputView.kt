@@ -44,6 +44,8 @@ class OutputView {
         }
     }
 
+    fun printError(message: String) = println(message)
+
     companion object {
         private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
         private const val MESSAGE_TURN: String = "\n%s의 차례입니다."
