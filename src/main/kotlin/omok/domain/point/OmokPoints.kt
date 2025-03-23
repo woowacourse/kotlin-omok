@@ -1,11 +1,12 @@
 package omok.domain.point
 
+import omok.domain.board.OmokBoard
 import omok.domain.board.StoneStatus
 
 class OmokPoints {
     private var points: List<Point> =
-        (1..Point.MAX_ROW_SIZE).flatMap { row ->
-            (1..Point.MAX_COLUMN_SIZE).map { column ->
+        (1..OmokBoard.MAX_ROW_SIZE).flatMap { row ->
+            (1..OmokBoard.MAX_COLUMN_SIZE).map { column ->
                 Point(column, row, StoneStatus.EMPTY)
             }
         }
@@ -29,8 +30,8 @@ class OmokPoints {
 
     fun toMatrix(): List<List<StoneStatus>> {
         val temp =
-            MutableList(Point.MAX_ROW_SIZE) {
-                MutableList(Point.MAX_COLUMN_SIZE) { StoneStatus.EMPTY }
+            MutableList(OmokBoard.MAX_ROW_SIZE) {
+                MutableList(OmokBoard.MAX_COLUMN_SIZE) { StoneStatus.EMPTY }
             }
 
         for (status in points) {

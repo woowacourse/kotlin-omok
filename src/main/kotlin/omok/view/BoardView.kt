@@ -3,9 +3,6 @@ package omok.view
 import omok.domain.board.OmokBoard
 import omok.domain.board.StoneStatus
 import omok.domain.point.Point
-import omok.domain.point.Point.Companion.COLUMN_POOL
-import omok.domain.point.Point.Companion.MAX_COLUMN_SIZE
-import omok.domain.point.Point.Companion.MAX_ROW_SIZE
 import omok.view.ext.format
 import java.lang.StringBuilder
 
@@ -21,7 +18,7 @@ class BoardView(private val omokBoard: OmokBoard) {
     private fun setStone(point: Point) {
         val magicNumber =
             COLUMN_MAGIC_NUMBER + ((point.x - 1) * COLUMN_MAGIC_NUMBER) +
-                (MAX_COLUMN_SIZE * COLUMN_MAGIC_NUMBER + SPACE_MAGIC_NUMBER) * (MAX_ROW_SIZE - point.y)
+                (OmokBoard.MAX_COLUMN_SIZE * COLUMN_MAGIC_NUMBER + SPACE_MAGIC_NUMBER) * (OmokBoard.MAX_ROW_SIZE - point.y)
         boardInfo.setCharAt(magicNumber, point.stoneStatus.format())
     }
 
@@ -29,13 +26,13 @@ class BoardView(private val omokBoard: OmokBoard) {
         omokBoard.toMatrix().forEachIndexed { row, _ ->
             when (row) {
                 0 -> {
-                    addRow(MAX_ROW_SIZE, TOP_LEFT_CORNER, TOP_HORIZONTAL_SEPARATOR, TOP_RIGHT_CORNER)
+                    addRow(OmokBoard.MAX_ROW_SIZE, TOP_LEFT_CORNER, TOP_HORIZONTAL_SEPARATOR, TOP_RIGHT_CORNER)
                 }
-                MAX_ROW_SIZE - 1 -> {
+                OmokBoard.MAX_ROW_SIZE - 1 -> {
                     addRow(1, BOTTOM_LEFT_CORNER, BOTTOM_HORIZONTAL_SEPARATOR, BOTTOM_RIGHT_CORNER)
                 }
                 else -> {
-                    addRow(MAX_ROW_SIZE - row, LEFT_VERTICAL_SEPARATOR, HORIZONTAL_SEPARATOR, RIGHT_VERTICAL_SEPARATOR)
+                    addRow(OmokBoard.MAX_ROW_SIZE - row, LEFT_VERTICAL_SEPARATOR, HORIZONTAL_SEPARATOR, RIGHT_VERTICAL_SEPARATOR)
                 }
             }
         }
@@ -49,14 +46,14 @@ class BoardView(private val omokBoard: OmokBoard) {
     ) {
         boardInfo.append(rowSize.formattedRow())
         boardInfo.append(left)
-        repeat(MAX_COLUMN_SIZE - 2) { boardInfo.append(middle) }
+        repeat(OmokBoard.MAX_COLUMN_SIZE - 2) { boardInfo.append(middle) }
         boardInfo.append(right)
         boardInfo.append("\n")
     }
 
     private fun formattedColumn() {
         formattedColumn.append(SPACE.repeat(2))
-        COLUMN_POOL.subList(0, MAX_COLUMN_SIZE).forEach {
+        OmokBoard.COLUMN_POOL.subList(0, OmokBoard.MAX_COLUMN_SIZE).forEach {
             formattedColumn.append(SPACE + it + SPACE)
         }
     }
