@@ -11,10 +11,9 @@ class GameBoard {
     fun putStone(
         stoneColor: StoneColor,
         rule: OmokRule,
-        onPositionReceived: (Stone?) -> Pair<Char, Int>,
+        onPositionReceived: (Stone?) -> Position,
     ): GameState {
-        val (col, row) = onPositionReceived(lastStone)
-        val position = Position(Row.from(row), Col.from(col))
+        val position = onPositionReceived(lastStone)
         val stone = Stone.of(position, stoneColor)
 
         val violateType = rule.checkAnyFoulCondition(blackStones, whiteStones, stone.position)

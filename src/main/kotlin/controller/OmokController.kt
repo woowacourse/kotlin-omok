@@ -1,6 +1,8 @@
 package controller
 
 import GameBoard
+import Position
+import Stone
 import StoneColor
 import rule.BlackRenjuRule
 import rule.OmokRule
@@ -42,15 +44,25 @@ class OmokController(
             gameBoard.putStone(
                 stoneColor = turnColor,
                 rule = rule,
-                onPositionReceived = { lastStone -> inputView.readInputPosition(turnColor, lastStone) },
+                onPositionReceived = { lastStone -> readPositionUntilReceived(lastStone) },
             )
+
         if (gameState.isSuccess()) {
             showGameBoardStatus()
             return
         }
+
         outputView.printGameStateMessage(gameState)
         putStoneProcess(gameBoard, rule, showGameBoardStatus)
     }
+
+    private fun readPositionUntilReceived(lastStone: Stone?): Position =
+        runCatching {
+            inputView.readPosition(turnColor, lastStone)
+        }.getOrElse { error ->
+            outputView.printErrorMessage(error)
+            readPositionUntilReceived(lastStone)
+        }
 
     private fun switchTurn() {
         turnColor = turnColor.switch()

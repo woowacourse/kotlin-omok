@@ -7,16 +7,14 @@ import Stone
 import StoneColor
 
 class InputView {
-    fun readInputPosition(
+    fun readPosition(
         color: StoneColor,
         lastStone: Stone?,
-    ): Pair<Char, Int> {
+    ): Position {
         print(TURN_MESSAGE_FORMAT.format(color.toDisplay()))
-        lastStone?.let {
-            println(LAST_STONE_POSITION_MESSAGE.format(lastStone.position.toDisplay()))
-        }
+        lastStone?.let { println(LAST_STONE_POSITION_MESSAGE.format(lastStone.position.toDisplay())) }
         print(INPUT_MESSAGE_GUIDE)
-        return splitInput(readln())
+        return readln().toPosition() ?: readPosition(color, lastStone)
     }
 
     private fun StoneColor.toDisplay(): String =
@@ -25,13 +23,19 @@ class InputView {
             StoneColor.WHITE -> "백"
         }
 
-    private fun splitInput(input: String): Pair<Char, Int> {
-        val col = input[0]
-        val row =
-            input.substring(1).toIntOrNull() ?: run {
-                print(ERROR_MESSAGE_FORMAT.format(ERROR_COL_INPUT))
-                return splitInput(readln())
+    private fun String.toPosition(): Position? {
+        if (this.length < 2) return null
+        val (col, row) =
+            splitToPositionElements(this) ?: run {
+                println(ERROR_INVALID_POSITION_MESSAGE)
+                return null
             }
+        return Position(Row.from(row), Col.from(col))
+    }
+
+    private fun splitToPositionElements(input: String): Pair<Char, Int>? {
+        val col = input[0]
+        val row = input.substring(1).toIntOrNull() ?: return null
         return col to row
     }
 
@@ -45,7 +49,6 @@ class InputView {
         private const val TURN_MESSAGE_FORMAT = "\n%s의 차례입니다."
         private const val LAST_STONE_POSITION_MESSAGE = " (마지막 돌의 위치: %s)"
         private const val INPUT_MESSAGE_GUIDE = "\n위치를 입력하세요: "
-        private const val ERROR_MESSAGE_FORMAT = "[ERROR] %s"
-        private const val ERROR_COL_INPUT = "숫자가 아닌 행이 입력되었습니다."
+        private const val ERROR_INVALID_POSITION_MESSAGE = "올바른 좌표를 다시 입력해주세요."
     }
 }
