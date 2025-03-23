@@ -5,8 +5,11 @@ import omok.model.stone.Stone
 import rule.facade.BlackRenjuRule
 
 class BlackRenjuRuleAdapter(
-    private val blackRenjuRule: BlackRenjuRule,
+    boardWidth: Int = 15,
+    boardHeight: Int = 15,
 ) : RuleAdapter {
+    private val blackRenjuRule: BlackRenjuRule = BlackRenjuRule(boardWidth, boardHeight)
+
     override fun checkAnyFoulCondition(
         blackStones: Set<Stone>,
         whiteStones: Set<Stone>,
