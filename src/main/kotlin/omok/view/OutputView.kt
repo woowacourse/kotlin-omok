@@ -50,9 +50,9 @@ class OutputView {
         height: Int,
         width: Int,
     ): String {
-        val top: String = buildRow(width, BOARD_TOP_LEFT2, BOARD_TOP_MIDDLE2, BOARD_TOP_RIGHT2)
-        val center: String = buildRow(width, BOARD_CENTER_LEFT2, BOARD_CENTER_MIDDLE2, BOARD_CENTER_RIGHT2)
-        val bottom: String = buildRow(width, BOARD_BOTTOM_LEFT2, BOARD_BOTTOM_MIDDLE2, BOARD_BOTTOM_RIGHT2)
+        val top: String = buildRow(width, BOARD_TOP_LEFT, BOARD_TOP_MIDDLE, BOARD_TOP_RIGHT)
+        val center: String = buildRow(width, BOARD_CENTER_LEFT, BOARD_CENTER_MIDDLE, BOARD_CENTER_RIGHT)
+        val bottom: String = buildRow(width, BOARD_BOTTOM_LEFT, BOARD_BOTTOM_MIDDLE, BOARD_BOTTOM_RIGHT)
 
         val rows: List<String> = appendRows(height, top, center, bottom) + buildRowLabel(height, width)
         return rows.joinToString("\n")
@@ -114,16 +114,16 @@ class OutputView {
         private const val BLACK_STONE = '●'
         private const val WHITE_STONE = '○'
 
-        private const val BOARD_TOP_LEFT2 = "┌─"
-        private const val BOARD_TOP_MIDDLE2 = "─┬─"
-        private const val BOARD_TOP_RIGHT2 = "─┐"
+        private const val BOARD_TOP_LEFT = "┌─"
+        private const val BOARD_TOP_MIDDLE = "─┬─"
+        private const val BOARD_TOP_RIGHT = "─┐"
 
-        private const val BOARD_CENTER_LEFT2 = "├─"
-        private const val BOARD_CENTER_MIDDLE2 = "─┼─"
-        private const val BOARD_CENTER_RIGHT2 = "─┤"
+        private const val BOARD_CENTER_LEFT = "├─"
+        private const val BOARD_CENTER_MIDDLE = "─┼─"
+        private const val BOARD_CENTER_RIGHT = "─┤"
 
-        private const val BOARD_BOTTOM_LEFT2 = "└─"
-        private const val BOARD_BOTTOM_MIDDLE2 = "─┴─"
-        private const val BOARD_BOTTOM_RIGHT2 = "─┘"
+        private const val BOARD_BOTTOM_LEFT = "└─"
+        private const val BOARD_BOTTOM_MIDDLE = "─┴─"
+        private const val BOARD_BOTTOM_RIGHT = "─┘"
     }
 }
