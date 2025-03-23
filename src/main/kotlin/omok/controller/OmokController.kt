@@ -15,11 +15,11 @@ class OmokController(
         outputView.printOmokStart()
         val game = Game(Board())
         outputView.printBoard(game.board)
-        processTurn(game)
+        retryOnError { processTurn(game) }
     }
 
     private tailrec fun processTurn(game: Game) {
-        val (x: Int, y: Int) = retryOnError { inputView.readTurn(game) }
+        val (x: Int, y: Int) = inputView.readTurn(game)
         val position = Position(x, y)
         val moveResult: MoveResult = game.processTurn(position, game.chooseTurn())
         outputView.printBoard(game.board)
