@@ -3,7 +3,6 @@ package omok.model.board
 import omok.model.player.state.BlackPlayerState
 import omok.model.player.state.PlayerState
 import omok.model.player.state.WhitePlayerState
-import omok.model.stone.PositionState
 
 class OmokBoard {
     val board = mutableMapOf<Position, PositionState>()

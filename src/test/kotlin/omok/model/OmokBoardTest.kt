@@ -2,9 +2,9 @@ package omok.model
 
 import omok.model.board.OmokBoard
 import omok.model.board.Position
+import omok.model.board.PositionState
 import omok.model.board.X
 import omok.model.board.Y
-import omok.model.stone.PositionState
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

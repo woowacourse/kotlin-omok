@@ -2,7 +2,7 @@ package omok.model.rule
 
 import omok.model.board.OmokBoard
 import omok.model.board.Position
-import omok.model.stone.PositionState
+import omok.model.board.PositionState
 
 object OmokAdapter {
     fun adaptOmokBoard(omokBoard: OmokBoard): List<List<Int>> {

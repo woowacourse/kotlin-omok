@@ -1,4 +1,4 @@
-package omok.model.stone
+package omok.model.board
 
 enum class PositionState {
     BLACK_POSITION,

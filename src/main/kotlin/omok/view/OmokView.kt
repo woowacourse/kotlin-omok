@@ -1,12 +1,12 @@
 package omok.view
 
 import omok.model.board.Position
+import omok.model.board.PositionState
 import omok.model.board.X
 import omok.model.board.Y
 import omok.model.player.BlackPlayer
 import omok.model.player.Player
 import omok.model.player.WhitePlayer
-import omok.model.stone.PositionState
 
 class OmokView {
     fun printStartMessage() {
