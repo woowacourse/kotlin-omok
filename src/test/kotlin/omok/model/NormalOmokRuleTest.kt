@@ -1,6 +1,6 @@
 package omok.model
 
-import omok.model.rule.OmokRule
+import omok.model.rule.NormalOmokRule
 import omok.model.stone.Stone
 import omok.model.stone.StoneState
 import omok.model.stone.position.Col
@@ -9,15 +9,15 @@ import omok.model.stone.position.Row
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class OmokRuleTest {
+class NormalOmokRuleTest {
     @Test
     fun `대각선으로 오목임을 확인할 수 있다`() {
         val stonesList = List(5) { Position(Row(it), Col(it)) to StoneState.WHITE }
 
         val lastStone = Stone(stonesList[stonesList.size - 1])
 
-        val omokRule = OmokRule(15)
-        val whiteStoneResult = omokRule.isLastStoneOmok(stonesList.toMap(), lastStone)
+        val normalOmokRule = NormalOmokRule(15)
+        val whiteStoneResult = normalOmokRule.isLastStoneOmok(stonesList.toMap(), lastStone)
         assertThat(whiteStoneResult).isTrue()
     }
 
@@ -27,8 +27,8 @@ class OmokRuleTest {
 
         val lastStone = Stone(stonesList[stonesList.size - 1])
 
-        val omokRule = OmokRule(15)
-        val whiteStoneResult = omokRule.isLastStoneOmok(stonesList.toMap(), lastStone)
+        val normalOmokRule = NormalOmokRule(15)
+        val whiteStoneResult = normalOmokRule.isLastStoneOmok(stonesList.toMap(), lastStone)
         assertThat(whiteStoneResult).isTrue()
     }
 
@@ -38,8 +38,8 @@ class OmokRuleTest {
 
         val lastStone = Stone(stonesList[stonesList.size - 1])
 
-        val omokRule = OmokRule(15)
-        val whiteStoneResult = omokRule.isLastStoneOmok(stonesList.toMap(), lastStone)
+        val normalOmokRule = NormalOmokRule(15)
+        val whiteStoneResult = normalOmokRule.isLastStoneOmok(stonesList.toMap(), lastStone)
         assertThat(whiteStoneResult).isTrue()
     }
 
@@ -49,8 +49,8 @@ class OmokRuleTest {
 
         val lastStone = Stone(stonesList[stonesList.size - 3])
 
-        val omokRule = OmokRule(15)
-        val whiteStoneResult = omokRule.isLastStoneOmok(stonesList.toMap(), lastStone)
+        val normalOmokRule = NormalOmokRule(15)
+        val whiteStoneResult = normalOmokRule.isLastStoneOmok(stonesList.toMap(), lastStone)
 
         assertThat(whiteStoneResult).isTrue()
     }

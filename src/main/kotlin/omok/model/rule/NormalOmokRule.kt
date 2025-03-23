@@ -6,7 +6,7 @@ import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
 
-class OmokRule(
+class NormalOmokRule(
     private val boardSize: Int,
 ) {
     fun isLastStoneOmok(
