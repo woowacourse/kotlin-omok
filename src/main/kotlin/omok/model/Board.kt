@@ -13,9 +13,8 @@ class Board(
 ) {
     val stones: Set<Stone> get() = blackStones.stones + whiteStones.stones
 
-    operator fun contains(newStone: Stone): Boolean = newStone in stones
-
     fun place(newStone: Stone) {
+        require(!stones.isOccupied(newStone)) { ERROR_MESSAGE_IS_ALREADY_OCCUPIED }
         when (blackStones.checkAnyFoulCondition(whiteStones, newStone)) {
             FoulCondition.DOUBLE_THREE -> throw IllegalArgumentException(ERROR_MESSAGE_DOUBLE_THREE_VIOLATION)
             FoulCondition.DOUBLE_FOUR -> throw IllegalArgumentException(ERROR_MESSAGE_DOUBLE_FOUR_VIOLATION)
@@ -36,6 +35,8 @@ class Board(
             StoneColor.BLACK -> blackStones.add(newStone)
         }
     }
+
+    private fun Set<Stone>.isOccupied(newStone: Stone) = newStone.point in map { it.point }
 
     companion object {
         private const val ERROR_MESSAGE_IS_ALREADY_OCCUPIED = "이미 돌이 있는 자리입니다."

@@ -11,11 +11,8 @@ class Game(
     private var _lastStone = Stone(Point(1, 1), StoneColor.WHITE)
     val lastStone get() = _lastStone.copy()
 
-    fun play(
-        newStone: Stone,
-        onPlacingFailure: (String) -> Unit,
-    ) {
-        playOneMove(newStone, onPlacingFailure)
+    fun play(newStone: Stone) {
+        board.place(newStone)
         _lastStone = Stone(newStone.point, _lastStone.color.reverse())
     }
 
@@ -26,18 +23,6 @@ class Game(
         return when (newStone.color) {
             StoneColor.BLACK -> GameState.BLACK_OMOK
             StoneColor.WHITE -> GameState.WHITE_OMOK
-        }
-    }
-
-    private fun playOneMove(
-        newStone: Stone,
-        onPlacingFailure: (String) -> Unit,
-    ) {
-        runCatching {
-            board.place(newStone)
-        }.getOrElse { it ->
-            onPlacingFailure(it.message ?: "")
-            playOneMove(newStone, onPlacingFailure)
         }
     }
 }

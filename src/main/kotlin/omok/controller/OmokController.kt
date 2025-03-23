@@ -17,7 +17,7 @@ class OmokController(
         val game = Game(board)
         outputView.printOmokStart()
         outputView.printBoard(board)
-        playInitialTurn(board, game)
+        retryOnError { playInitialTurn(board, game) }
         retryOnError { processTurn(board, game) }
     }
 
@@ -27,17 +27,17 @@ class OmokController(
     ) {
         val inputPoint: Point = inputView.readInitialTurn()
         val stone = Stone(inputPoint, game.lastStone.color.reverse())
-        game.play(stone, outputView::printError)
+        game.play(stone)
         outputView.printBoard(board)
     }
 
-    private tailrec fun processTurn(
+    private fun processTurn(
         board: Board,
         game: Game,
     ) {
         val inputPoint: Point = inputView.readTurn(game.lastStone)
         val stone = Stone(inputPoint, game.lastStone.color.reverse())
-        game.play(stone, outputView::printError)
+        game.play(stone)
         outputView.printBoard(board)
 
         when (val gameState = game.gameState(stone)) {
