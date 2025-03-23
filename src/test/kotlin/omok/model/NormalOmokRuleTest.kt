@@ -17,7 +17,7 @@ class NormalOmokRuleTest {
         val lastStone = Stone(stonesList[stonesList.size - 1])
 
         val normalOmokRule = NormalOmokRule(15)
-        val whiteStoneResult = normalOmokRule.isLastStoneOmok(stonesList.toMap(), lastStone)
+        val whiteStoneResult = normalOmokRule.isPositionOmok(stonesList.toMap(), lastStone.position)
         assertThat(whiteStoneResult).isTrue()
     }
 
@@ -28,7 +28,7 @@ class NormalOmokRuleTest {
         val lastStone = Stone(stonesList[stonesList.size - 1])
 
         val normalOmokRule = NormalOmokRule(15)
-        val whiteStoneResult = normalOmokRule.isLastStoneOmok(stonesList.toMap(), lastStone)
+        val whiteStoneResult = normalOmokRule.isPositionOmok(stonesList.toMap(), lastStone.position)
         assertThat(whiteStoneResult).isTrue()
     }
 
@@ -39,7 +39,7 @@ class NormalOmokRuleTest {
         val lastStone = Stone(stonesList[stonesList.size - 1])
 
         val normalOmokRule = NormalOmokRule(15)
-        val whiteStoneResult = normalOmokRule.isLastStoneOmok(stonesList.toMap(), lastStone)
+        val whiteStoneResult = normalOmokRule.isPositionOmok(stonesList.toMap(), lastStone.position)
         assertThat(whiteStoneResult).isTrue()
     }
 
@@ -50,7 +50,7 @@ class NormalOmokRuleTest {
         val lastStone = Stone(stonesList[stonesList.size - 3])
 
         val normalOmokRule = NormalOmokRule(15)
-        val whiteStoneResult = normalOmokRule.isLastStoneOmok(stonesList.toMap(), lastStone)
+        val whiteStoneResult = normalOmokRule.isPositionOmok(stonesList.toMap(), lastStone.position)
 
         assertThat(whiteStoneResult).isTrue()
     }
