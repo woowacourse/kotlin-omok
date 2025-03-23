@@ -18,19 +18,22 @@ class OmokController(
         outputView.printGameStartMessage()
         val gameBoard = GameBoard()
         outputView.printGameBoard()
-        while (true) {
-            putStoneProcess(
-                gameBoard = gameBoard,
-                rule = rule,
-                showGameBoardStatus = { outputView.printGameBoard(gameBoard.blackStones + gameBoard.whiteStones) },
-            )
-            if (gameBoard.judge(rule)) break
-            switchTurn()
-        }
+        putStoneUntilFindWinner(gameBoard)
         outputView.printWinner(turnColor)
     }
 
-    private fun putStoneProcess(
+    private tailrec fun putStoneUntilFindWinner(gameBoard: GameBoard) {
+        putStoneProcess(
+            gameBoard = gameBoard,
+            rule = rule,
+            showGameBoardStatus = { outputView.printGameBoard(gameBoard.blackStones + gameBoard.whiteStones) },
+        )
+        if (gameBoard.judge(rule)) return
+        switchTurn()
+        putStoneUntilFindWinner(gameBoard)
+    }
+
+    private tailrec fun putStoneProcess(
         gameBoard: GameBoard,
         rule: OmokRule,
         showGameBoardStatus: () -> Unit,
@@ -41,12 +44,12 @@ class OmokController(
                 rule = rule,
                 onPositionReceived = { lastStone -> inputView.readInputPosition(turnColor, lastStone) },
             )
-        if (gameState.isFail()) {
-            outputView.printGameStateMessage(gameState)
-            putStoneProcess(gameBoard, rule, showGameBoardStatus)
-        } else {
+        if (gameState.isSuccess()) {
             showGameBoardStatus()
+            return
         }
+        outputView.printGameStateMessage(gameState)
+        putStoneProcess(gameBoard, rule, showGameBoardStatus)
     }
 
     private fun switchTurn() {

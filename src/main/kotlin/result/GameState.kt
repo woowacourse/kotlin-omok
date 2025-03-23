@@ -9,5 +9,5 @@ sealed class GameState {
         val violation: Violation,
     ) : GameState()
 
-    fun isFail(): Boolean = this is Fail
+    fun isSuccess(): Boolean = this == Success
 }
