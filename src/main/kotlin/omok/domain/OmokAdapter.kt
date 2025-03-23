@@ -2,7 +2,7 @@ package omok.domain
 
 import omok.domain.lib.RenjuRule
 
-class OmokAdapter(private val rule: RenjuRule = RenjuRule(15)) {
+class OmokAdapter(private val rule: RenjuRule = RenjuRule(OmokBoard.DEFAULT_SIZE)) {
     fun isViolate(
         board: OmokBoard,
         stone: Stone,

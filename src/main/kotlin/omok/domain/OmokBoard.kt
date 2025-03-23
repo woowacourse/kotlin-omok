@@ -4,7 +4,7 @@ class OmokBoard(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
     val board: List<List<StoneState>>
         get() = _board.toList()
     private val _board: MutableList<MutableList<StoneState>> =
-        MutableList(15) { MutableList(15) { StoneState.BLANK } }
+        MutableList(DEFAULT_SIZE) { MutableList(DEFAULT_SIZE) { StoneState.BLANK } }
 
     private val ruleAdaptor = OmokAdapter()
 
