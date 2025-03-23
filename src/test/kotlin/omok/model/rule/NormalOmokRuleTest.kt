@@ -1,6 +1,5 @@
-package omok.model
+package omok.model.rule
 
-import omok.model.rule.NormalOmokRule
 import omok.model.stone.Stone
 import omok.model.stone.StoneState
 import omok.model.stone.position.Col
@@ -53,5 +52,17 @@ class NormalOmokRuleTest {
         val whiteStoneResult = normalOmokRule.isPositionOmok(stonesList.toMap(), lastStone.position)
 
         assertThat(whiteStoneResult).isTrue()
+    }
+
+    @Test
+    fun `6목이상이 아닌 정확한 오목임을 확인할 수 있다`() {
+        val stonesList = List(6) { Position(Row(3), Col(it)) to StoneState.WHITE }
+
+        val lastStone = Stone(stonesList[stonesList.size - 3])
+
+        val normalOmokRule = NormalOmokRule(15)
+        val whiteStoneResult = normalOmokRule.isPositionOmok(stonesList.toMap(), lastStone.position, true)
+
+        assertThat(whiteStoneResult).isFalse()
     }
 }
