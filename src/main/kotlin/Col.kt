@@ -14,7 +14,7 @@ class Col private constructor(
     companion object {
         const val MIN_VALUE = 1
         const val MAX_VALUE = 15
-        private const val ERROR_OUT_OF_BOUND = "입력한 열이 올바른 값이 아닙니다."
+        private const val ERROR_OUT_OF_BOUND = "유효하지 않은 열을 입력했습니다."
         private const val ASCII_A_OFFSET = 64
 
         fun from(char: Char): Col = Col(char.toGridCol())

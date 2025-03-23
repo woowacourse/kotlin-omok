@@ -14,7 +14,7 @@ class Row private constructor(
     companion object {
         const val MIN_VALUE = 1
         const val MAX_VALUE = 15
-        private const val ERROR_OUT_OF_BOUND = "입력한 행이 범위를 벗어났습니다."
+        private const val ERROR_OUT_OF_BOUND = "유효하지 않은 행을 입력했습니다."
 
         fun from(value: Int): Row = Row(value)
     }
