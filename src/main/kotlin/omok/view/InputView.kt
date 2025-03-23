@@ -29,7 +29,7 @@ class InputView {
                 else -> MESSAGE_LAST_STONE_POSITION.format(lastStone.position.stringRepresentation())
             },
         )
-        println(MESSAGE_ENTER_POSITION)
+        print(MESSAGE_ENTER_POSITION)
     }
 
     private fun readCol(input: String): Int {
