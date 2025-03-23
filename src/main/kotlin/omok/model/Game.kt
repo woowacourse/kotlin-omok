@@ -1,6 +1,7 @@
 package omok.model
 
 import rule.BlackRenjuRule
+import rule.OmokRule
 import rule.WhiteRenjuRule
 import rule.type.Violation
 import rule.wrapper.point.Point
@@ -9,6 +10,13 @@ class Game(val board: Board) {
     var lastStone: Stone? = null
         private set
 
+    fun chooseTurn(): Color {
+        return when (lastStone?.color) {
+            Color.BLACK -> Color.WHITE
+            Color.WHITE, null -> Color.BLACK
+        }
+    }
+
     fun processTurn(
         position: Position,
         color: Color,
@@ -16,38 +24,24 @@ class Game(val board: Board) {
         checkViolation(position, color)
         board.add(Stone(position, color))
         lastStone = Stone(position, color)
-        val isOmok: Boolean =
-            when (color) {
-                Color.BLACK ->
-                    BlackRenjuRule().checkSerialSameStonesBiDirection(
-                        board.filterStones(color).map {
-                                stone ->
-                            Point(stone.position.x, stone.position.y)
-                        },
-                        Point(position.x, position.y),
-                        OMOK_CONDITION,
-                    )
-                Color.WHITE ->
-                    WhiteRenjuRule().checkSerialSameStonesBiDirection(
-                        board.filterStones(color).map {
-                                stone ->
-                            Point(stone.position.x, stone.position.y)
-                        },
-                        Point(position.x, position.y),
-                        OMOK_CONDITION,
-                    )
-            }
-        return when (isOmok) {
+        return when (checkOmok(position, color)) {
             true -> GameState.FINISHED
             false -> GameState.PLAYING
         }
     }
 
-    fun chooseTurn(): Color {
-        return when (lastStone?.color) {
-            Color.BLACK -> Color.WHITE
-            Color.WHITE, null -> Color.BLACK
-        }
+    private fun checkOmok(
+        position: Position,
+        color: Color,
+    ): Boolean {
+        val rule: OmokRule =
+            when (color) {
+                Color.BLACK -> BlackRenjuRule()
+                Color.WHITE -> WhiteRenjuRule()
+            }
+        val points: List<Point> = board.filterStones(color).map { stone -> Point(stone.position.x, stone.position.y) }
+        val newPoint = Point(position.x, position.y)
+        return rule.checkSerialSameStonesBiDirection(points, newPoint, OMOK_CONDITION)
     }
 
     private fun checkViolation(
@@ -57,7 +51,6 @@ class Game(val board: Board) {
         val newPoint = Point(position.x, position.y)
         val blackPoints: List<Point> = board.filterStones(Color.BLACK).map { stone -> Point(stone.position.x, stone.position.y) }
         val whitePoints: List<Point> = board.filterStones(Color.WHITE).map { stone -> Point(stone.position.x, stone.position.y) }
-
         val violation: Violation =
             when (color) {
                 Color.BLACK -> BlackRenjuRule().checkAnyFoulCondition(blackPoints, whitePoints, newPoint)
