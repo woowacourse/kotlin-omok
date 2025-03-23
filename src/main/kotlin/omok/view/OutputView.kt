@@ -3,6 +3,7 @@ package omok.view
 import omok.model.Board
 import omok.model.Color
 import omok.model.Game
+import omok.model.Game2
 import omok.model.GameState
 import rule.wrapper.point.Point
 
@@ -21,6 +22,14 @@ class OutputView {
             GameState.WHITE_OMOK -> println(MESSAGE_OMOK_WINNER.format(WHITE_PLAYER))
             GameState.BLACK_OMOK -> println(MESSAGE_OMOK_WINNER.format(BLACK_PLAYER))
             GameState.PLAYING -> throw IllegalStateException()
+        }
+    }
+
+    fun printWinner2(game: Game2) {
+        when (game.lastStone?.color) {
+            Color.BLACK -> println(MESSAGE_OMOK_WINNER.format(BLACK_PLAYER))
+            Color.WHITE -> println(MESSAGE_OMOK_WINNER.format(WHITE_PLAYER))
+            null -> throw IllegalStateException()
         }
     }
 
@@ -53,6 +62,10 @@ class OutputView {
                 Color.WHITE -> WHITE_STONE
             }
         return sb.toString()
+    }
+
+    fun printBoard2(board: Board) {
+        println(updateBoardString(board))
     }
 
     fun updateBoardString(board: Board): String {
