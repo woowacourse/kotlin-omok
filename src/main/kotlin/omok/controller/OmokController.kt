@@ -1,12 +1,11 @@
 package omok.controller
 
-import omok.model.BlackPlayer
+import omok.model.Board
 import omok.model.Game
 import omok.model.GameState
-import omok.model.WhitePlayer
+import omok.model.Position
 import omok.view.InputView
 import omok.view.OutputView
-import rule.wrapper.point.Point
 
 class OmokController(
     private val inputView: InputView,
@@ -14,23 +13,20 @@ class OmokController(
 ) {
     fun run() {
         outputView.printOmokStart()
-        val game = Game(BlackPlayer(), WhitePlayer())
-        outputView.printBoard(game)
-        val point: Point = inputView.readInitialTurn()
-        game.play(point)
-        outputView.printBoard(game)
+        val game = Game(Board())
+        outputView.printBoard(game.board)
         retryOnError { processTurn(game) }
     }
 
     private tailrec fun processTurn(game: Game) {
-        val point: Point = inputView.readTurn(game.lastStone)
-        val gameState: GameState = game.play(point)
-        outputView.printBoard(game)
+        val (x: Int, y: Int) = inputView.readTurn(game)
+        val position = Position(x, y)
+        val gameState: GameState = game.processTurn(position, game.chooseTurn())
+        outputView.printBoard(game.board)
 
         when (gameState) {
             GameState.PLAYING -> processTurn(game)
-            GameState.BLACK_OMOK -> outputView.printWinner(gameState)
-            GameState.WHITE_OMOK -> outputView.printWinner(gameState)
+            GameState.FINISHED -> outputView.printWinner(game)
         }
     }
 

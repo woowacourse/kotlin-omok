@@ -4,14 +4,14 @@ class Board(
     val row: Int = DEFAULT_BOARD_SIZE,
     val col: Int = DEFAULT_BOARD_SIZE,
 ) {
-    val stones: MutableSet<Stone2> = mutableSetOf()
+    val stones: MutableSet<Stone> = mutableSetOf()
 
-    fun add(newStone: Stone2) {
+    fun add(newStone: Stone) {
         require(!stones.map { stone -> stone.position }.contains(newStone.position)) { ERROR_MESSAGE_POSITION_ALREADY_OCCUPIED }
         stones.add(newStone)
     }
 
-    fun filterStones(color: Color): List<Stone2> = stones.filter { stone -> stone.color == color }
+    fun filterStones(color: Color): List<Stone> = stones.filter { stone -> stone.color == color }
 
     companion object {
         private const val DEFAULT_BOARD_SIZE = 15
