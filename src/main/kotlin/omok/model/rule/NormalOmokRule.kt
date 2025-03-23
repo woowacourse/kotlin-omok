@@ -11,13 +11,15 @@ class NormalOmokRule(
     fun isPositionOmok(
         stonesMap: Map<Position, StoneState>,
         position: Position,
+        checkExactlyFiveStone: Boolean = false,
     ): Boolean {
         if (stonePlacedState(stonesMap, position) == StoneState.NONE) {
             return false
         }
 
         val totalCount = calculateTotalCount(stonesMap, position)
-        return totalCount >= 5
+        if (checkExactlyFiveStone) return 5 in totalCount
+        return totalCount.max() >= 5
     }
 
     private fun stonePlacedState(
@@ -28,8 +30,8 @@ class NormalOmokRule(
     private fun calculateTotalCount(
         stonesMap: Map<Position, StoneState>,
         position: Position,
-    ): Int =
-        Direction.lineDirections().maxOf { (directionA, directionB) ->
+    ): List<Int> =
+        Direction.lineDirections().map { (directionA, directionB) ->
             val countA = countConnected(stonesMap, position, directionA)
             val countB = countConnected(stonesMap, position, directionB)
 

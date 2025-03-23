@@ -19,6 +19,8 @@ class BudoolRenjuRuleAdapter(
         val lastStone = board.lastStone ?: return RenjuFoul.SAFE
         val lastPoint = positionToCoordinatePair(lastStone.position)
         when {
+            normalOmokRule.isPositionOmok(stonesMap, lastStone.position, true) -> return RenjuFoul.SAFE
+
             blackRenjuRule.checkDoubleThreeFoul(
                 blackCoordinatePairs,
                 whiteCoordinatePairs,
