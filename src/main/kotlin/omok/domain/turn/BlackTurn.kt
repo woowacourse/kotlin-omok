@@ -2,6 +2,7 @@ package omok.domain.turn
 
 import omok.domain.OmokBoard
 import omok.domain.Position
+import omok.domain.Stone
 import omok.domain.StoneState
 
 class BlackTurn(override val beforeTurn: StoneState? = null) : Turn {
@@ -9,10 +10,10 @@ class BlackTurn(override val beforeTurn: StoneState? = null) : Turn {
         position: Position,
         board: OmokBoard,
     ): Turn {
-        val stone = StoneState.BLACK
-        if (board.validatePosition(position)) return this
-        board.putStone(position, stone)
-        if (board.checkOmok(position)) return Finished(stone)
-        return WhiteTurn(stone)
+        val stone = Stone(position, StoneState.BLACK)
+        if (board.invalidPlace(stone)) return this
+        board.putStone(stone)
+        if (board.checkOmok(position)) return Finished(StoneState.BLACK)
+        return WhiteTurn(StoneState.BLACK)
     }
 }

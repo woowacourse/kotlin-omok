@@ -5,11 +5,10 @@ import omok.domain.lib.RenjuRule
 class OmokAdapter(private val rule: RenjuRule = RenjuRule(boardSize = 15)) {
     fun validatePosition(
         board: OmokBoard,
-        position: Position,
+        stone: Stone,
     ): Boolean {
         val convertedBoard = convertBoard(board)
-        val convertedPosition = convertPosition(position)
-        return rule.validPosition(convertedBoard, convertedPosition.first, convertedPosition.second)
+        return rule.isViolate(convertedBoard, stone.position.x, stone.position.y)
     }
 
     private fun convertBoard(board: OmokBoard): List<List<Int>> {

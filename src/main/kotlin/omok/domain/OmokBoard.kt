@@ -18,7 +18,7 @@ class OmokBoard(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
         findPoint(position.x, position.y)?.changeState(state)
     }
 
-    fun validatePosition(position: Position): Boolean = ruleAdaptor.validatePosition(this, position)
+    fun invalidPlace(stone: Stone): Boolean = ruleAdaptor.isViolate(this, stone)
 
     fun checkOmok(position: Position): Boolean {
         val directions: List<Direction> =
