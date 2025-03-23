@@ -1,3 +1,7 @@
+package domain.stone
+
+import domain.position.Position
+
 class Stone(
     val position: Position,
     val color: StoneColor,

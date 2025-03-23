@@ -1,3 +1,6 @@
+import domain.position.Col
+import domain.position.Position
+import domain.position.Row
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

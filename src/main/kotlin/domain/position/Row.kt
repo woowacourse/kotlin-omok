@@ -1,3 +1,5 @@
+package domain.position
+
 class Row private constructor(
     val value: Int,
 ) {

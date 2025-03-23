@@ -1,9 +1,9 @@
 package controller
 
-import GameBoard
-import Position
-import Stone
-import StoneColor
+import domain.GameBoard
+import domain.position.Position
+import domain.stone.Stone
+import domain.stone.StoneColor
 import rule.BlackRenjuRule
 import rule.OmokRule
 import view.InputView

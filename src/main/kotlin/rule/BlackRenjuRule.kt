@@ -1,7 +1,7 @@
 package rule
 
-import Position
-import Stone
+import domain.position.Position
+import domain.stone.Stone
 import rule.type.Foul
 import rule.type.Violation
 import rule.type.Violation.Companion.FOUL_CONDITION_SIZE

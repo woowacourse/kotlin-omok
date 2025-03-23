@@ -1,10 +1,10 @@
 package view
 
-import Col
-import Position
-import Row
-import Stone
-import StoneColor
+import domain.position.Col
+import domain.position.Position
+import domain.position.Row
+import domain.stone.Stone
+import domain.stone.StoneColor
 import result.GameState
 import rule.type.Violation
 
@@ -100,8 +100,8 @@ class ResultView {
 
     private fun Stone.toEmoji(): String =
         when (this.color) {
-            StoneColor.BLACK -> " ● "
-            StoneColor.WHITE -> " ○ "
+            domain.stone.StoneColor.BLACK -> " ● "
+            domain.stone.StoneColor.WHITE -> " ○ "
         }
 
     private fun Int.toDisplayRow(): String {

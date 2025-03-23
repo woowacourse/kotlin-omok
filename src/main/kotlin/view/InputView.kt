@@ -1,10 +1,10 @@
 package view
 
-import Col
-import Position
-import Row
-import Stone
-import StoneColor
+import domain.position.Col
+import domain.position.Position
+import domain.position.Row
+import domain.stone.Stone
+import domain.stone.StoneColor
 
 class InputView {
     fun readPosition(

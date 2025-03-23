@@ -1,3 +1,5 @@
+package domain.position
+
 class Col private constructor(
     val value: Int,
 ) {

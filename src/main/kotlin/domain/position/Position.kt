@@ -1,3 +1,5 @@
+package domain.position
+
 class Position(
     val row: Row,
     val col: Col,
