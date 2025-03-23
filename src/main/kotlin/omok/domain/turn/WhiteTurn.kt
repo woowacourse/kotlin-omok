@@ -11,7 +11,7 @@ class WhiteTurn(override val beforeTurn: StoneState) : Turn {
         board: OmokBoard,
     ): Turn {
         val stone = Stone(position, StoneState.WHITE)
-        if (board.board[position.y][position.x] != StoneState.BLANK) return this
+        if (board.isStonePlaced(position)) return this
         board.putStone(stone)
         if (board.checkOmok(position)) return Finished(StoneState.WHITE)
         return BlackTurn(StoneState.WHITE)

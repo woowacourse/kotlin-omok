@@ -12,6 +12,10 @@ class OmokBoard(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
         _board[stone.position.y][stone.position.x] = stone.state
     }
 
+    fun isStonePlaced(position: Position): Boolean{
+        return _board[position.y][position.x] != StoneState.BLANK
+    }
+
     fun invalidPlace(stone: Stone): Boolean = ruleAdaptor.isViolate(this, stone)
 
     fun checkOmok(position: Position): Boolean {
