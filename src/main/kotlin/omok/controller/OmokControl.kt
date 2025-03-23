@@ -18,7 +18,7 @@ class OmokControl(
     private val blackRuleChecker =
         BlackRuleChecker(
             rule = BlackRenjuRule(BOARD_SIZE),
-            mapper = { pos -> PointMapper().from(pos) },
+            mapper = { position -> PointMapper().from(position) },
         )
     private val game = Game(blackRuleChecker)
 
@@ -26,12 +26,10 @@ class OmokControl(
         turn()
     }
 
-    private fun turn() {
-        val board = game.getBoard()
-        outputView.printBoard(board.stonesMap)
-        outputView.printNextTurn(game.getTurn(), game.getLastStone())
+    private fun turn(showBoard: Boolean = true) {
+        if (showBoard) printCurrentState()
 
-        runCatching {
+        try {
             val input = inputView.inputStone()
             game.place(Position(Row(input.first), Col(input.second)))
 
@@ -41,9 +39,18 @@ class OmokControl(
             } else {
                 turn()
             }
-        }.getOrElse { exception ->
-            outputView.printException(exception.message)
-            turn()
+        } catch (e: Exception) {
+            handleException(e)
         }
+    }
+
+    private fun printCurrentState() {
+        outputView.printBoard(game.getBoard().stonesMap)
+        outputView.printNextTurn(game.getTurn(), game.getLastStone())
+    }
+
+    private fun handleException(e: Exception) {
+        outputView.printException(e.message)
+        turn(showBoard = false)
     }
 }
