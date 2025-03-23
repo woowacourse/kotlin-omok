@@ -5,6 +5,8 @@ import Position
 import Row
 import Stone
 import StoneColor
+import result.GameState
+import rule.type.Violation
 
 class ResultView {
     fun printGameStartMessage() {
@@ -12,14 +14,34 @@ class ResultView {
     }
 
     fun printGameBoard(stones: List<Stone> = emptyList()) {
-        val elements = stones.toMutableList()
-
         for (row in Row.MAX_VALUE downTo Row.MIN_VALUE) {
-            printBoardRowStatus(row, elements)
+            printBoardRowStatus(row, stones)
         }
 
         printBoardColName()
     }
+
+    private fun printBoardRowStatus(
+        row: Int,
+        stones: List<Stone>,
+    ) {
+        println(
+            buildString {
+                append(row.toDisplayRow())
+                for (col in Col.MIN_VALUE..Col.MAX_VALUE) {
+                    append(makeBoardSquare(row, col, stones))
+                }
+            },
+        )
+    }
+
+    private fun makeBoardSquare(
+        row: Int,
+        col: Int,
+        stones: List<Stone>,
+    ): String =
+        stones.firstOrNull { stone -> stone.position.isSame(Position(Row.from(row), Col.from(col))) }?.toEmoji()
+            ?: toBoardDisplay(row, col)
 
     private fun printBoardColName() {
         println(
@@ -36,30 +58,28 @@ class ResultView {
         print(GAME_RESULT_MESSAGE_FORMAT.format(stoneColor.toDisplay()))
     }
 
-    private fun printBoardRowStatus(
-        row: Int,
-        stones: MutableList<Stone>,
-    ) {
-        println(
-            buildString {
-                append(row.toDisplayRow())
-                for (col in Col.MIN_VALUE..Col.MAX_VALUE) {
-                    append(makeBoardSquare(row, col, stones))
-                }
-            },
-        )
-    }
-
-    private fun makeBoardSquare(
-        row: Int,
-        col: Int,
-        stones: MutableList<Stone>,
-    ): String =
-        stones.firstOrNull { stone -> stone.position.isSame(Position(Row.from(row), Col.from(col))) }?.toEmoji()
-            ?: toBoardDisplay(row, col)
-
     fun printErrorMessage(error: Throwable) {
         println(ERROR_MESSAGE_FORMAT.format(error.message ?: ""))
+    }
+
+    fun printGameStateMessage(gameState: GameState) {
+        when (gameState) {
+            is GameState.Success -> {}
+            is GameState.Fail -> printGameStateFailMessage(gameState.violation)
+        }
+    }
+
+    private fun printGameStateFailMessage(violation: Violation) {
+        val message =
+            when (violation) {
+                Violation.DOUBLE_THREE -> "현재 위치는 3-3 금수 위치입니다."
+                Violation.DOUBLE_FOUR -> "현재 위치는 4-4 금수 위치입니다."
+                Violation.OVERLINE -> "현재 위치는 6목 금수 위치입니다."
+                Violation.DUPLICATE_POSITION -> "현재 위치에는 돌이 존재합니다."
+                Violation.NONE -> "위반 사항 없습니다."
+            }
+
+        println(message)
     }
 
     private fun toBoardDisplay(
