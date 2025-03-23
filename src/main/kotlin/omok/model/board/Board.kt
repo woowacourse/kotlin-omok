@@ -33,17 +33,15 @@ class Board private constructor(
             }
         }
 
-    private val blackPoints: List<rule.wrapper.point.Point>
-        get() =
-            stonesMap
-                .filter { it.value == StoneColor.BLACK }
-                .map { it.key.toPoint() }
+    private fun blackPositions(): List<Position> =
+        stonesMap
+            .filter { it.value == StoneColor.BLACK }
+            .map { it.key }
 
-    private val whitePoints: List<rule.wrapper.point.Point>
-        get() =
-            stonesMap
-                .filter { it.value == StoneColor.WHITE }
-                .map { it.key.toPoint() }
+    private fun whitePositions(): List<Position> =
+        stonesMap
+            .filter { it.value == StoneColor.WHITE }
+            .map { it.key }
 
     fun placeStone(nextPosition: Position): Board {
         // 비어있는 상태면 place 할 수 있음
@@ -58,8 +56,8 @@ class Board private constructor(
         if (nextStoneColor == StoneColor.BLACK) {
             val violation =
                 blackRenjuRule.checkAnyFoulCondition(
-                    blackPoints,
-                    whitePoints,
+                    blackPositions().map { it.toPoint() },
+                    whitePositions().map { it.toPoint() },
                     nextStone.position.toPoint(),
                 )
             when (violation) {
