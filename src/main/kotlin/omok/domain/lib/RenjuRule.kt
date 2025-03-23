@@ -5,7 +5,7 @@ class RenjuRule(private val boardSize: Int) {
     private val otherStone: Int = WHITE_STONE
     private val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
 
-    fun validPosition(
+    fun isViolate(
         board: List<List<Int>>,
         x: Int,
         y: Int,
