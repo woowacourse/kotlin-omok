@@ -65,6 +65,46 @@ class OutputView {
         )
     }
 
+    private fun Position.drawBoard(omokBoard: OmokBoard): String {
+        val stoneColor = omokBoard.value[this]?.state ?: State.EMPTY
+
+        return when {
+            stoneColor == State.OCCUPIED_BLACK -> "●"
+            stoneColor == State.OCCUPIED_WHITE -> "○"
+            this.row.value == omokBoard.height && this.column.value == 1 -> "┌"
+            this.row.value == omokBoard.height && this.column.value == omokBoard.width -> "┐"
+            this.row.value == 1 && this.column.value == 1 -> "└"
+            this.row.value == 1 && this.column.value == omokBoard.width -> "┘"
+            this.column.value == 1 -> "├"
+            this.column.value == omokBoard.width -> "┤"
+            this.row.value == 1 -> "┴"
+            this.row.value == omokBoard.height -> "┬"
+            else -> "┼"
+        }
+    }
+
+    private fun displayColumnLabels(boardWidth: Int) {
+        println(
+            (1..boardWidth)
+                .map { columnNumber ->
+                    ColumnPosition(columnNumber)
+                        .toLabel()
+                }.joinToString(separator = "  ", prefix = "    "),
+        )
+    }
+
+    private fun ColumnPosition.toLabel(): Char {
+        val alphabets = ALPHABETS.toList()
+        return alphabets[this.value - 1]
+    }
+
+    private fun GameResult.toLabel(): String =
+        when (this) {
+            WIN_BLACK -> BLACK_COLOR_LABEL
+            WIN_WHITE -> WHITE_COLOR_LABEL
+            else -> ""
+        }
+
     companion object {
         private const val START_OMOK_GAME_TITLE: String = "오목 게임을 시작합니다."
         private const val ALREADY_EXIST_MESSAGE: String = "이미 돌이 있는 자리에 둘 수 없습니다."
@@ -77,45 +117,5 @@ class OutputView {
         private const val BLACK_COLOR_LABEL: String = "흑"
         private const val WHITE_COLOR_LABEL: String = "백"
         private val ALPHABETS: CharRange = ('A'..'Z')
-
-        private fun Position.drawBoard(omokBoard: OmokBoard): String {
-            val stoneColor = omokBoard.value[this]?.state ?: State.EMPTY
-
-            return when {
-                stoneColor == State.OCCUPIED_BLACK -> "●"
-                stoneColor == State.OCCUPIED_WHITE -> "○"
-                this.row.value == omokBoard.height && this.column.value == 1 -> "┌"
-                this.row.value == omokBoard.height && this.column.value == omokBoard.width -> "┐"
-                this.row.value == 1 && this.column.value == 1 -> "└"
-                this.row.value == 1 && this.column.value == omokBoard.width -> "┘"
-                this.column.value == 1 -> "├"
-                this.column.value == omokBoard.width -> "┤"
-                this.row.value == 1 -> "┴"
-                this.row.value == omokBoard.height -> "┬"
-                else -> "┼"
-            }
-        }
-
-        private fun displayColumnLabels(boardWidth: Int) {
-            println(
-                (1..boardWidth)
-                    .map { columnNumber ->
-                        ColumnPosition(columnNumber)
-                            .toLabel()
-                    }.joinToString(separator = "  ", prefix = "    "),
-            )
-        }
-
-        private fun ColumnPosition.toLabel(): Char {
-            val alphabets = ALPHABETS.toList()
-            return alphabets[this.value - 1]
-        }
-
-        private fun GameResult.toLabel(): String =
-            when (this) {
-                WIN_BLACK -> BLACK_COLOR_LABEL
-                WIN_WHITE -> WHITE_COLOR_LABEL
-                else -> ""
-            }
     }
 }
