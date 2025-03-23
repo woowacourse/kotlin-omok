@@ -3,7 +3,9 @@ package omok.view
 import omok.model.Color
 import omok.model.Game2
 import omok.model.PointFactory
+import omok.model.Position
 import omok.model.Stone
+import omok.model.Stone2
 import rule.wrapper.point.Point
 
 class InputView {
@@ -22,22 +24,32 @@ class InputView {
                 },
             ),
         )
-        println(MESSAGE_LAST_STONE_POINT.format(lastStone.point.stringRepresentation()))
+        println(MESSAGE_LAST_STONE_POSITION.format(lastStone.point.stringRepresentation()))
         return readPoint()
     }
 
     fun readTurn2(game: Game2): Pair<Int, Int> {
+        promptInput(game)
+        val input: String = readln()
+        val col: Int = readCol(input)
+        val row: Int = readRow(input)
+        return row to col
+    }
+
+    private fun promptInput(game: Game2) {
+        val lastStone: Stone2? = game.lastStone
         val playerName: String =
             when (game.lastStone?.color) {
                 Color.BLACK -> "백"
                 Color.WHITE, null -> "흑"
             }
-        println(MESSAGE_TURN_INDICATOR.format(playerName))
-
-        val input: String = readln().trim()
-        val col: Int = readCol(input)
-        val row: Int = readRow(input)
-        return row to col
+        print(MESSAGE_TURN_INDICATOR.format(playerName))
+        println(
+            when (lastStone) {
+                null -> ""
+                else -> MESSAGE_LAST_STONE_POSITION.format(lastStone.position.stringRepresentation())
+            },
+        )
     }
 
     private fun readCol(input: String): Int {
@@ -69,10 +81,14 @@ class InputView {
         return "${(this.col + ASCII_OFFSET).toChar()}${this.row}"
     }
 
+    private fun Position.stringRepresentation(): String {
+        return "${(this.x + ASCII_OFFSET).toChar()}${this.y}"
+    }
+
     companion object {
         const val MESSAGE_TURN_INDICATOR = "%s의 차례입니다. "
         const val MESSAGE_INITIAL_TURN_INDICATOR = "흑의 차례입니다."
-        const val MESSAGE_LAST_STONE_POINT = "(마지막 돌의 위치: %s)"
+        const val MESSAGE_LAST_STONE_POSITION = "(마지막 돌의 위치: %s)"
         const val MESSAGE_ENTER_POINT = "위치를 입력하세요: "
 
         private const val ERROR_MESSAGE_INCORRECT_POSITION_FORMAT = "올바르지 않은 위치 입력 형식입니다."
