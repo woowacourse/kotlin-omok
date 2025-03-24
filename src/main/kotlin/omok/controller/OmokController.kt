@@ -28,8 +28,7 @@ class OmokController(
         var latestPosition: Position? = null
         var nowTurn: StoneState = StoneState.BLACK
         while (true) {
-            outputView.printBoardState(omokGame.board)
-            outputView.printTurn(nowTurn)
+            printGameStatus(nowTurn)
             latestPosition = inputView.getPosition(latestPosition)
             when (val putResult = omokGame.putStone(latestPosition)) {
                 is NextTurn -> {
