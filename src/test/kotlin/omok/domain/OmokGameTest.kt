@@ -25,6 +25,17 @@ class OmokGameTest {
     }
 
     @Test
+    fun `좌표에 이미 돌이 있으면 예외를 던진다`() {
+        // given
+        val position = Position(1, 2)
+        omokGame.putStone(position)
+        // when
+        val result = omokGame.putStone(position)
+        // then
+        assertThat(result).isEqualTo(PutStoneResult.Failure("이미 돌이 있습니다. 다시 입력해주세요."))
+    }
+
+    @Test
     fun `검은 돌이 삼삼 자리에 돌을 두면 예외를 던진다`() {
         // given
         beforeDoubleThree().forEach { position -> omokGame.putStone(position) }
