@@ -21,10 +21,8 @@ class Game(val board: Board) {
         position: Position,
         color: Color,
     ): MoveResult {
-        val violationCheckResult: MoveResult = checkViolation(position, color)
-        if (violationCheckResult is MoveResult.Fail) return violationCheckResult
-        val placeStoneResult: MoveResult = board.add(Stone(position, color))
-        if (placeStoneResult is MoveResult.Fail) return placeStoneResult
+        (checkViolation(position, color) as? MoveResult.Fail)?.let { moveResult -> return moveResult }
+        (board.add(Stone(position, color)) as? MoveResult.Fail)?.let { moveResult -> return moveResult }
         lastStone = Stone(position, color)
         return checkOmok(position, color)
     }
