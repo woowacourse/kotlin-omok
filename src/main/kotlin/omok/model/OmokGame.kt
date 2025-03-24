@@ -2,9 +2,9 @@ package omok.model
 
 import omok.model.StoneColor.Companion.next
 import omok.model.board.Board
+import omok.model.board.BoardSize
 import omok.model.board.PlaceStoneResult
 import omok.model.board.Point
-import omok.model.board.Position
 import omok.model.rule.count.FiveInRowRule
 import omok.model.rule.count.OmokCountRule
 import omok.view.OmokInputView
@@ -17,8 +17,8 @@ class OmokGame(
     private var previousPoint: Point? = null
     private var currentStoneColor: StoneColor = StoneColor.BLACK
 
-    fun play() {
-        val board = Board()
+    fun play(boardSize: BoardSize) {
+        val board = Board(boardSize)
         outputView.printStartMessage()
         outputView.printBoardStatus(board)
 
@@ -41,6 +41,7 @@ class OmokGame(
                     handlePlaceSuccess(result, board)
                     return@retryOnException
                 }
+
                 is PlaceStoneResult.AlreadyPlaced -> throw IllegalArgumentException(ALREADY_PLACED_ERROR_MESSAGE)
                 is PlaceStoneResult.Closed -> throw IllegalArgumentException(CLOSED_ERROR_MESSAGE)
             }
@@ -67,12 +68,12 @@ class OmokGame(
         outputView.printWinColor(previousPoint!!)
     }
 
-    private fun getNextPoint(): Position =
+    private fun getNextPoint(): Point =
         retryOnException {
             outputView.printCurrentTurn(previousPoint)
-            val nextPosition = inputView.readPosition()
+            val nextPoint = inputView.readPosition()
 
-            Position(nextPosition.first, nextPosition.second)
+            Point(nextPoint.first, nextPoint.second)
         }
 
     private fun <T> retryOnException(action: () -> T) =

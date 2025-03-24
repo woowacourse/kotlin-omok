@@ -2,7 +2,7 @@ package omok.model.board
 
 import omok.model.StoneColor
 
-data class Point(val position: Position) {
+data class Point(val x: Int, val y: Int) {
     var state: PointState = PointState.OPEN
         private set
 

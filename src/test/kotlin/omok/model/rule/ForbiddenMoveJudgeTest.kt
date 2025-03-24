@@ -6,7 +6,6 @@ import omok.fixture.falseDoubleThreeBoard
 import omok.fixture.fourThreeBoard
 import omok.fixture.overlineForbiddenBoard
 import omok.model.board.Point
-import omok.model.board.Position
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -24,7 +23,7 @@ class ForbiddenMoveJudgeTest {
         x: Int,
         y: Int,
     ) {
-        val actual = ForbiddenMoveJudge.validate(doubleThreeForbiddenBoard, Point(Position(x, y)))
+        val actual = ForbiddenMoveJudge.validate(doubleThreeForbiddenBoard, Point(x, y))
         val expected = false
 
         assertEquals(expected, actual)
@@ -39,7 +38,7 @@ class ForbiddenMoveJudgeTest {
         x: Int,
         y: Int,
     ) {
-        val actual = ForbiddenMoveJudge.validate(doubleFourForbiddenBoard, Point(Position(x, y)))
+        val actual = ForbiddenMoveJudge.validate(doubleFourForbiddenBoard, Point(x, y))
         val expected = false
 
         assertEquals(expected, actual)
@@ -47,7 +46,7 @@ class ForbiddenMoveJudgeTest {
 
     @Test
     fun `장목인 경우 흑돌을 둘 수 없다`() {
-        val actual = ForbiddenMoveJudge.validate(overlineForbiddenBoard, Point(Position(5, 1)))
+        val actual = ForbiddenMoveJudge.validate(overlineForbiddenBoard, Point(5, 1))
         val expected = false
 
         assertEquals(expected, actual)
@@ -55,7 +54,7 @@ class ForbiddenMoveJudgeTest {
 
     @Test
     fun `4-3인 경우 흑돌을 둘 수 있다`() {
-        val actual = ForbiddenMoveJudge.validate(fourThreeBoard, Point(Position(8, 5)))
+        val actual = ForbiddenMoveJudge.validate(fourThreeBoard, Point(8, 5))
         val expected = true
 
         assertEquals(expected, actual)
@@ -63,7 +62,7 @@ class ForbiddenMoveJudgeTest {
 
     @Test
     fun `3-3 거짓 금수인 경우 흑돌을 둘 수 있다`() {
-        val actual = ForbiddenMoveJudge.validate(falseDoubleThreeBoard, Point(Position(4, 3)))
+        val actual = ForbiddenMoveJudge.validate(falseDoubleThreeBoard, Point(4, 3))
         val expected = true
 
         assertEquals(expected, actual)

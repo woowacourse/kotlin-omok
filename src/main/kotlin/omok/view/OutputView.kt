@@ -9,7 +9,7 @@ class OutputView : OmokOutputView {
     }
 
     override fun printCurrentTurn(previousPoint: Point?) {
-        val lastPoint = previousPoint?.let { PREVIOUS_POSITION_MESSAGE.format(it.position.toUiString()) } ?: ""
+        val lastPoint = previousPoint?.let { PREVIOUS_POSITION_MESSAGE.format(it.toUiString()) } ?: ""
         println(CURRENT_TURN_MESSAGE.format(previousPoint.toNextTurnColor(), lastPoint))
     }
 

@@ -10,7 +10,7 @@ class PointTest() {
 
     @BeforeEach
     fun setUp() {
-        point = Point(Position(1, 1))
+        point = Point(1, 1)
     }
 
     @Test

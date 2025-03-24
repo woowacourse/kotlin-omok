@@ -4,7 +4,6 @@ import omok.model.StoneColor
 import omok.model.board.Board
 import omok.model.board.Point
 import omok.model.board.PointState
-import omok.model.board.Position
 
 abstract class OmokCountRule {
     fun calculate(
@@ -34,12 +33,12 @@ abstract class OmokCountRule {
         dir: Pair<Int, Int>,
         step: Int,
     ): Int {
-        var (x, y) = point.position.run { x + dir.first * step to y + dir.second * step }
+        var (x, y) = point.run { x + dir.first * step to y + dir.second * step }
 
         var count = INITIAL_COUNT
         val targetColor = point.state.toStoneColor() ?: StoneColor.BLACK
 
-        while (isInRange(x, y) && board.findPoint(Position(x, y)).state.toStoneColor() == targetColor) {
+        while (isInRange(board, x, y) && board.findPoint(Point(x, y)).state.toStoneColor() == targetColor) {
             count++
             x += dir.first * step
             y += dir.second * step
@@ -49,10 +48,11 @@ abstract class OmokCountRule {
     }
 
     private fun isInRange(
+        board: Board,
         x: Int,
         y: Int,
     ): Boolean {
-        return listOf(x, y).all { it in (Board.BOARD_MIN_SIZE..Board.BOARD_MAX_SIZE) }
+        return listOf(x, y).all { it in (Board.BOARD_MIN_SIZE..board.size) }
     }
 
     private fun PointState.toStoneColor(): StoneColor? =
