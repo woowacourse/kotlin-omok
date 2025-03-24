@@ -1,9 +1,9 @@
 package controller
 
-import AddStoneStatus
-import GameBoard
-import Stone
-import StoneColor
+import model.AddStoneStatus
+import model.GameBoard
+import model.Stone
+import model.StoneColor
 import view.InputView
 import view.ResultView
 

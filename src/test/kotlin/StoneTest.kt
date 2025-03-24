@@ -1,3 +1,5 @@
+import model.Stone
+import model.StoneColor
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 

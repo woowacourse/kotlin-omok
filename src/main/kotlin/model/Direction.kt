@@ -1,3 +1,5 @@
+package model
+
 enum class Direction(
     val rowStep: Int,
     val colStep: Int,

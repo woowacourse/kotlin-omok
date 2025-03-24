@@ -1,3 +1,10 @@
+import model.AddStoneStatus
+import model.Col
+import model.Position
+import model.Row
+import model.Rule
+import model.Stone
+import model.StoneColor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Test
@@ -8,75 +15,70 @@ class RuleTest {
     @Test
     fun `같은 색 가로 돌이 5개 이상인지 판단할 수 있다`() {
         // given
-        val rule = Rule()
         val stone = STONE_1A_BLACK
         // when
         val winningStones = listOf(STONE_1C_BLACK, STONE_1B_BLACK, STONE_1D_BLACK, STONE_1E_BLACK)
         val nothingStones = listOf(STONE_1C_BLACK, STONE_1B_WHITE, STONE_1D_BLACK, STONE_1E_BLACK)
         // result
         assertAll(
-            { assertThat(rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
-            { assertThat(rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
+            { assertThat(Rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
+            { assertThat(Rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
     @Test
     fun `같은 색 세로 돌이 5개 이상인지 판단할 수 있다`() {
         // given
-        val rule = Rule()
         val stone = STONE_3A_BLACK
         // when
         val winningStones = listOf(STONE_1A_BLACK, STONE_2A_BLACK, STONE_4A_BLACK, STONE_5A_BLACK)
         val nothingStones = listOf(STONE_1A_BLACK, STONE_2A_WHITE, STONE_4A_BLACK, STONE_5A_BLACK)
         // result
         assertAll(
-            { assertThat(rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
-            { assertThat(rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
+            { assertThat(Rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
+            { assertThat(Rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
     @Test
     fun `증가하는 대각선 같은 색 돌이 5개 이상인지 판단할 수 있다`() {
         // given
-        val rule = Rule()
         val stone = STONE_3C_BLACK
         // when
         val winningStones = listOf(STONE_1A_BLACK, STONE_2B_BLACK, STONE_4D_BLACK, STONE_5E_BLACK)
         val nothingStones = listOf(STONE_1A_BLACK, STONE_2B_WHITE, STONE_4D_BLACK, STONE_5E_BLACK)
         // result
         assertAll(
-            { assertThat(rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
-            { assertThat(rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
+            { assertThat(Rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
+            { assertThat(Rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
     @Test
     fun `감소하는 대각선 같은 색 돌이 5개 이상인지 판단할 수 있다`() {
         // given
-        val rule = Rule()
         val stone = STONE_3C_BLACK
         // when
         val winningStones = listOf(STONE_1E_BLACK, STONE_2D_BLACK, STONE_4B_BLACK, STONE_5A_BLACK)
         val nothingStones = listOf(STONE_1E_BLACK, STONE_2B_WHITE, STONE_4B_BLACK, STONE_5A_BLACK)
         // result
         assertAll(
-            { assertThat(rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
-            { assertThat(rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
+            { assertThat(Rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
+            { assertThat(Rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
     @Test
     fun `흑돌 일 때 같은 색 돌이 6개 이상인지 (장목인지) 판단할 수 있다`() {
         // given
-        val rule = Rule()
         val stone = STONE_3D_BLACK
         // when
         val overStones = listOf(STONE_1F_BLACK, STONE_2E_BLACK, STONE_4C_BLACK, STONE_5B_BLACK, STONE_6A_BLACK)
         val nothingStones = listOf(STONE_1F_BLACK, STONE_2E_WHITE, STONE_4C_BLACK, STONE_5B_BLACK, STONE_6A_BLACK)
         // result
         assertAll(
-            { assertThat(rule.checkAddingStone(stone, overStones)).isEqualTo(AddStoneStatus.IsOverFive) },
-            { assertThat(rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
+            { assertThat(Rule.checkAddingStone(stone, overStones)).isEqualTo(AddStoneStatus.IsOverFive) },
+            { assertThat(Rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
@@ -87,7 +89,6 @@ class RuleTest {
         newStoneCol: Int,
     ) {
         // given
-        val rule = Rule()
         val stones =
             listOf(
                 STONE_3C_BLACK,
@@ -113,7 +114,7 @@ class RuleTest {
             )
         // when
         val newStone = Stone(Position(Row.from(newStoneRow), Col.from(newStoneCol)), StoneColor.BLACK)
-        assertThat(rule.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.IsThreeThree)
+        assertThat(Rule.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.IsThreeThree)
     }
 
     @ParameterizedTest
@@ -123,7 +124,6 @@ class RuleTest {
         newStoneCol: Int,
     ) {
         // given
-        val rule = Rule()
         val stones =
             listOf(
                 STONE_15C_BLACK,
@@ -153,6 +153,6 @@ class RuleTest {
         // when
         val newStone = Stone(Position(Row.from(newStoneRow), Col.from(newStoneCol)), StoneColor.BLACK)
         // result
-        assertThat(rule.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.IsFourFour)
+        assertThat(Rule.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.IsFourFour)
     }
 }

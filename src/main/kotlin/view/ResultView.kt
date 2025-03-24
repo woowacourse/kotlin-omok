@@ -1,9 +1,9 @@
 package view
 
-import Col
-import Row
-import Stone
-import StoneColor
+import model.Col
+import model.Row
+import model.Stone
+import model.StoneColor
 
 class ResultView {
     fun printGameStartMessage() {

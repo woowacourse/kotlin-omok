@@ -1,3 +1,9 @@
+import model.Col
+import model.Position
+import model.Row
+import model.Stone
+import model.StoneColor
+
 val STONE_1A_BLACK = Stone(Position(Row.from(1), Col.from('A')), StoneColor.BLACK)
 val STONE_2A_BLACK = Stone(Position(Row.from(2), Col.from('A')), StoneColor.BLACK)
 val STONE_3A_BLACK = Stone(Position(Row.from(3), Col.from('A')), StoneColor.BLACK)

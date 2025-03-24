@@ -1,3 +1,5 @@
+package model
+
 sealed class AddStoneStatus {
     data object IsExist : AddStoneStatus()
 
@@ -15,11 +17,10 @@ sealed class AddStoneStatus {
 class GameBoard {
     private val _stones = mutableListOf<Stone>()
     val stones get() = _stones.toList()
-    val rule = Rule()
 
     fun addStone(stone: Stone): AddStoneStatus {
         if (isExistPosition(stone)) return AddStoneStatus.IsExist
-        val checkAddingStone = rule.checkAddingStone(stone, stones)
+        val checkAddingStone = Rule.checkAddingStone(stone, stones)
         if (checkAddingStone != AddStoneStatus.IsAble) return checkAddingStone
         _stones.add(stone)
         return AddStoneStatus.IsAble

@@ -1,3 +1,5 @@
+package model
+
 class Row private constructor(
     val value: Int,
 ) {

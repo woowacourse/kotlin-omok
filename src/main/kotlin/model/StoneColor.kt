@@ -1,3 +1,5 @@
+package model
+
 enum class StoneColor {
     WHITE,
     BLACK,
@@ -5,10 +7,9 @@ enum class StoneColor {
 
     fun isSameColor(color: StoneColor): Boolean = this == color
 
-    fun switch(): StoneColor {
-        return when (this) {
+    fun switch(): StoneColor =
+        when (this) {
             WHITE -> BLACK
             BLACK -> WHITE
         }
-    }
 }

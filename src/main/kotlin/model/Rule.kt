@@ -1,4 +1,6 @@
-class Rule {
+package model
+
+object Rule {
     fun checkAddingStone(
         stone: Stone,
         stones: List<Stone>,
@@ -219,7 +221,5 @@ class Rule {
         return null
     }
 
-    companion object {
-        const val DUPLICATED_SELF = 1
-    }
+    const val DUPLICATED_SELF = 1
 }

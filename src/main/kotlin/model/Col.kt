@@ -1,3 +1,5 @@
+package model
+
 class Col private constructor(
     val value: Int,
 ) {

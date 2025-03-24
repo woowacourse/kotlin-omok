@@ -1,3 +1,5 @@
+package model
+
 class Position(
     val row: Row,
     val col: Col,
