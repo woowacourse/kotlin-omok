@@ -20,13 +20,13 @@ class PointTest() {
 
     @Test
     fun `흑돌을 둔 경우에는 point의 상태가 BLACK이 된다`() {
-        point.changeColor(StoneColor.BLACK)
+        point.changeState(StoneColor.BLACK)
         assertThat(point.state).isEqualTo(PointState.BLACK)
     }
 
     @Test
     fun `백돌을 둔 경우에는 point의 상태가 WHITE가 된다`() {
-        point.changeColor(StoneColor.WHITE)
+        point.changeState(StoneColor.WHITE)
         assertThat(point.state).isEqualTo(PointState.WHITE)
     }
 }

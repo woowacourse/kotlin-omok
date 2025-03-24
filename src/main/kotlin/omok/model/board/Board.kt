@@ -45,7 +45,7 @@ class Board(private val boardSize: BoardSize) {
             return PlaceStoneResult.Closed
         }
 
-        point.changeColor(color)
+        point.changeState(color)
         return PlaceStoneResult.Success(point)
     }
 
