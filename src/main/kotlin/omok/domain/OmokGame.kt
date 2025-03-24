@@ -15,16 +15,22 @@ class OmokGame(
 
         when (nowTurn) {
             StoneState.BLACK -> {
-                if (board.isStonePlaced(position)) return PutStoneResult.Failure(ERROR_STONE_ALREADY_PUT)
-                if (board.invalidPlace(stone)) return PutStoneResult.Failure(ERROR_INVALID_POSITION)
+                if (board.isStonePlaced(stone.position)) {
+                    PutStoneResult.Failure(ERROR_STONE_ALREADY_PUT)
+                } else if (board.invalidPlace(stone)) {
+                    PutStoneResult.Failure(ERROR_INVALID_POSITION)
+                } else {
+                    PutStoneResult.NextTurn(stone.state)
+                }
             }
 
-            StoneState.WHITE ->
-                if (board.isStonePlaced(position)) {
-                    return PutStoneResult.Failure(
-                        ERROR_STONE_ALREADY_PUT,
-                    )
+            StoneState.WHITE -> {
+                if (board.isStonePlaced(stone.position)) {
+                    PutStoneResult.Failure(ERROR_STONE_ALREADY_PUT)
+                } else {
+                    PutStoneResult.NextTurn(stone.state)
                 }
+            }
 
             StoneState.BLANK -> throw IllegalStateException()
         }
