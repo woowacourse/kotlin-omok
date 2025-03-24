@@ -15,17 +15,17 @@ class OmokGame(
         val board = Board(RenjuRuleAdapter())
         val turn = Turn()
         outputView.printStartMessage()
-        var positison = ""
+        var position = ""
         while (true) {
             outputView.showBoard(board.grid)
             val lastStone: Stone? = board.stones.lastStone()
             if (lastStone == null) {
                 outputView.printFirstTurn()
             } else {
-                outputView.printNormalTurn(lastStone.color, positison)
+                outputView.printNormalTurn(lastStone.color, position)
             }
             val inputPosition = inputView.readPosition()
-            positison = inputPosition
+            position = inputPosition
             val stone = getPosition(turn, inputPosition)
             board.put(stone)
             if (board.isOmok(stone)) break
