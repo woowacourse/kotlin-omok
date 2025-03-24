@@ -41,6 +41,6 @@ class OmokController(
             AddStoneStatus.IsFourFour -> outputView.printError(Message.FOUR_FOUR)
             AddStoneStatus.IsOverFive -> outputView.printError(Message.OVER_FIVE)
         }
-        return addValidStone(gameBoard)
+        return addValidStone(gameBoard, inputView.errorReInput())
     }
 }

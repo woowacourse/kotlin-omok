@@ -92,7 +92,7 @@ class ResultView {
 
     fun printError(message: String) {
         print(ERROR_FORMAT)
-        println(message)
+        print(message)
     }
 
     companion object {
