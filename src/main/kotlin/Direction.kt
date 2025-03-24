@@ -14,11 +14,10 @@ enum class Direction(
 
     fun nextPosition(position: Position): Position = Position(position.row + rowStep, position.col + colStep)
 
-    fun isGoLeft(): Boolean = colStep == -1
-
-    fun isGoRight(): Boolean = colStep == 1
-
-    fun isGoUp(): Boolean = rowStep == 1
-
-    fun isGoDown(): Boolean = rowStep == -1
+    fun isGoing(direction: Direction): Boolean =
+        when {
+            direction.colStep * this.colStep == 1 -> true
+            direction.rowStep * this.rowStep == 1 -> true
+            else -> false
+        }
 }

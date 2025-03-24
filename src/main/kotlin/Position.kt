@@ -30,10 +30,10 @@ class Position(
 
     fun isEdgePosition(direction: Direction): Boolean =
         when {
-            direction.isGoLeft() && this.col.isMin() -> true
-            direction.isGoRight() && this.col.isMax() -> true
-            direction.isGoUp() && this.row.isMax() -> true
-            direction.isGoDown() && this.row.isMin() -> true
+            direction.isGoing(Direction.LEFT) && this.col.isMin() -> true
+            direction.isGoing(Direction.RIGHT) && this.col.isMax() -> true
+            direction.isGoing(Direction.UP) && this.row.isMax() -> true
+            direction.isGoing(Direction.DOWN) && this.row.isMin() -> true
             else -> false
         }
 
