@@ -21,8 +21,8 @@
     - [x] 보드의 상태를 출력한다.
 
 ## TODO
-- [ ] **OmokGrid** | getStone() 파라미터명 수정
-- [ ] **OmokGrid** | 내부에서만 사용하는 값 가시성 변경자 변경
+- [x] **OmokGrid** | getStone() 파라미터명 수정
+- [x] **OmokGrid** | 내부에서만 사용하는 값 가시성 변경자 변경
 - [ ] 비어있는 생성자 제거
 - [ ] **InputView** | 매직넘버 상수화
 - [ ] **OutputView** | 가독성 개선 (함수 순서)

@@ -20,8 +20,8 @@ class OmokGrid() {
         return (whiteStones.stones + blackStones.stones).size == TOTAL_POINT_COUNT
     }
 
-    fun getStones(nowTurn: StoneColor): Set<OmokPoint> {
-        return when (nowTurn) {
+    fun getStones(stoneColor: StoneColor): Set<OmokPoint> {
+        return when (stoneColor) {
             StoneColor.BLACK -> blackStones.stones
             StoneColor.WHITE -> whiteStones.stones
         }
@@ -29,6 +29,6 @@ class OmokGrid() {
 
     companion object {
         const val DEFAULT_SIZE: Int = 15
-        const val TOTAL_POINT_COUNT: Int = 225
+        private const val TOTAL_POINT_COUNT: Int = 225
     }
 }
