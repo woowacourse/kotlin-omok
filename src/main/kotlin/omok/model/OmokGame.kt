@@ -26,11 +26,19 @@ class OmokGame(
     }
 
     private fun playTurn(board: Board) {
-        while (judgeRule(FiveInRowRule, board)) {
-            placeStone(board)
-        }
+        placeStone(board)
 
-        showWinColor()
+        if (checkOmok(FiveInRowRule, board)) {
+            showWinColor()
+        }
+    }
+
+    private fun checkOmok(
+        omokCountRule: OmokCountRule,
+        board: Board,
+    ): Boolean {
+        val point = previousPoint ?: return false
+        return board.isOmok(point, omokCountRule)
     }
 
     private fun placeStone(board: Board) =
@@ -54,14 +62,6 @@ class OmokGame(
         previousPoint = result.point
         currentStoneColor = currentStoneColor.next()
         outputView.printBoardStatus(board)
-    }
-
-    private fun judgeRule(
-        omokCountRule: OmokCountRule,
-        board: Board,
-    ): Boolean {
-        if (previousPoint == null) return true
-        return !omokCountRule.calculate(board, previousPoint!!)
     }
 
     private fun showWinColor() {
