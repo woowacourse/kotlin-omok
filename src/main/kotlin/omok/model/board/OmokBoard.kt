@@ -1,8 +1,6 @@
 package omok.model.board
 
-import omok.model.player.state.BlackPlayerState
-import omok.model.player.state.PlayerState
-import omok.model.player.state.WhitePlayerState
+import omok.model.stone.StoneColor
 
 class OmokBoard {
     val board = mutableMapOf<Position, PositionState>()
@@ -28,12 +26,12 @@ class OmokBoard {
 
     fun placeStone(
         position: Position,
-        playerState: PlayerState,
+        stoneColor: StoneColor,
     ) {
         if (canPlaceStone(position)) {
-            when (playerState) {
-                is BlackPlayerState -> board[position] = PositionState.BLACK_POSITION
-                is WhitePlayerState -> board[position] = PositionState.WHITE_POSITION
+            when (stoneColor) {
+                StoneColor.BLACK -> board[position] = PositionState.BLACK_POSITION
+                StoneColor.WHITE -> board[position] = PositionState.WHITE_POSITION
             }
         } else {
             throw IllegalArgumentException("해당위치에 돌이 존재합니다.")
