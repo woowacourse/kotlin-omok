@@ -9,11 +9,9 @@ import omok.view.InputView
 import omok.view.OutputView
 
 fun main() {
-    val inputView = InputView()
-    val outputView = OutputView()
     val points = OmokPoints()
     val rule = RenjuRule(DfsRenjuFinder)
     val omokBoard = OmokBoard(points, rule)
-    val controller = OmokController(outputView, inputView, omokBoard, rule)
+    val controller = OmokController(OutputView, InputView, omokBoard, rule)
     controller.startGame()
 }

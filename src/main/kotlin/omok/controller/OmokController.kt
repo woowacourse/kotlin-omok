@@ -4,6 +4,8 @@ import omok.domain.board.OmokBoard
 import omok.domain.point.Black
 import omok.domain.point.Point
 import omok.domain.rule.OmokRule
+import omok.global.retryWhenException
+import omok.global.retryWhenNull
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -15,28 +17,27 @@ class OmokController(
 ) {
     fun startGame() {
         outputView.printStartMessage()
-        var stone: Point = Black(readValidPoint())
+        var stone: Point = retryWhenException { Black(readValidPoint()) }
         while (omokBoard.isNotFull()) {
             omokBoard.addStone(stone)
             if (omokRule.isOmok(stone, omokBoard)) {
                 outputView.printPrintWinner(stone)
                 break
             }
-            stone = stone.toggle(readValidPoint())
+            stone = retryWhenException { stone.toggle(readValidPoint()) }
         }
     }
 
     private fun readValidPoint(): String {
-        return retryWhenException(
-            action = {
-                getInputPoint()
-            },
-            onError = outputView::printErrorMessage,
-        )
+        return retryWhenException {
+            getInputPoint()
+        }
     }
 
     private fun getInputPoint(): String {
         outputView.printBoard(omokBoard)
-        return inputView.readStoneWithLastPosition(omokBoard.latestStone)
+        return retryWhenNull {
+            inputView.readStoneWithLastPosition(omokBoard.latestStone)
+        }
     }
 }

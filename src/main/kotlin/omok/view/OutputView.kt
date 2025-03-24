@@ -4,7 +4,7 @@ import omok.domain.board.OmokBoard
 import omok.domain.point.Point
 import omok.view.ext.toLabel
 
-class OutputView {
+object OutputView {
     fun printErrorMessage(msg: String?) {
         println(msg)
     }
@@ -21,8 +21,6 @@ class OutputView {
         print(board.view())
     }
 
-    companion object {
-        private const val MESSAGE_START_GAME = "오목 게임을 시작합니다."
-        private const val MESSAGE_WINNER = "%s이 승리하였습니다."
-    }
+    private const val MESSAGE_START_GAME = "오목 게임을 시작합니다."
+    private const val MESSAGE_WINNER = "%s이 승리하였습니다."
 }
