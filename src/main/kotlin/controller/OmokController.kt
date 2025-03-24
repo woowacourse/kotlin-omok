@@ -31,16 +31,11 @@ class OmokController(
         gameBoard: GameBoard,
         position: String = inputView.readInputPosition(turnColor, gameBoard.lastStone()),
     ): AddStoneStatus {
-        val stone = Stone.ofOrNull(position, turnColor)
-        if (stone == null) {
-            outputView.printError(Message.ERROR_POSITION)
-            return addValidStone(gameBoard, inputView.errorReInput())
-        }
-        when (val addStoneStatus = gameBoard.addStone(stone)) {
+        when (val addStoneStatus = gameBoard.addStone(Stone.ofOrNull(position, turnColor))) {
             AddStoneStatus.IsWin,
             AddStoneStatus.IsAble,
             -> return addStoneStatus
-
+            AddStoneStatus.IsUnAblePosition -> outputView.printError(Message.ERROR_POSITION)
             AddStoneStatus.IsExist -> outputView.printError(Message.EXIST_STONE)
             AddStoneStatus.IsThreeThree -> outputView.printError(Message.THREE_THREE)
             AddStoneStatus.IsFourFour -> outputView.printError(Message.FOUR_FOUR)

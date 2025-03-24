@@ -12,13 +12,16 @@ sealed class AddStoneStatus {
     data object IsAble : AddStoneStatus()
 
     data object IsOverFive : AddStoneStatus()
+
+    data object IsUnAblePosition : AddStoneStatus()
 }
 
 class GameBoard {
     private val _stones = mutableListOf<Stone>()
     val stones get() = _stones.toList()
 
-    fun addStone(stone: Stone): AddStoneStatus {
+    fun addStone(stone: Stone?): AddStoneStatus {
+        if (stone == null) return AddStoneStatus.IsUnAblePosition
         if (isExistPosition(stone)) return AddStoneStatus.IsExist
         val checkAddingStone = Rule.checkAddingStone(stone, stones)
         if (checkAddingStone != AddStoneStatus.IsAble) return checkAddingStone
