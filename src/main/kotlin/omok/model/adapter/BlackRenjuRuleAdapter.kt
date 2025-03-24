@@ -16,8 +16,8 @@ class BlackRenjuRuleAdapter(
         startStone: Stone,
     ): FoulCondition =
         when {
-            checkDoubleThreeFoul(blackStones, whiteStones, startStone) -> FoulCondition.DOUBLE_THREE
             checkDoubleFourFoul(blackStones, whiteStones, startStone) -> FoulCondition.DOUBLE_FOUR
+            checkDoubleThreeFoul(blackStones, whiteStones, startStone) -> FoulCondition.DOUBLE_THREE
             checkOverline(blackStones, startStone) -> FoulCondition.OVERLINE
             else -> FoulCondition.NONE
         }
