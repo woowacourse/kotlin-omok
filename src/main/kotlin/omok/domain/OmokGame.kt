@@ -5,8 +5,10 @@ import omok.domain.turn.TurnManager
 
 class OmokGame(
     val board: OmokBoard,
-    private val turnManager: TurnManager,
+    private val turnManager: TurnManager = TurnManager(),
 ) {
+    fun getNowTurn(): StoneState = turnManager.nowTurn
+
     fun putStone(position: Position): PutStoneResult {
         val nowTurn = turnManager.nowTurn
         val stone = Stone(position, nowTurn)

@@ -8,7 +8,6 @@ import omok.domain.StoneState
 import omok.domain.turn.PutStoneResult
 import omok.domain.turn.PutStoneResult.Failure
 import omok.domain.turn.PutStoneResult.NextTurn
-import omok.domain.turn.TurnManager
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -17,7 +16,7 @@ class OmokController(
     private val outputView: OutputView,
 ) {
     private val board = OmokBoard(rule = OmokAdapter())
-    private val omokGame = OmokGame(board, TurnManager())
+    private val omokGame = OmokGame(board)
 
     fun start() {
         outputView.printStartMessage()
@@ -26,15 +25,12 @@ class OmokController(
 
     private fun playGame() {
         var latestPosition: Position? = null
-        var nowTurn: StoneState = StoneState.BLACK
         while (true) {
+            val nowTurn = omokGame.getNowTurn()
             printGameStatus(nowTurn)
             latestPosition = inputView.getPosition(latestPosition)
             when (val putResult = omokGame.putStone(latestPosition)) {
-                is NextTurn -> {
-                    nowTurn = putResult.turn
-                    continue
-                }
+                is NextTurn -> continue
 
                 is PutStoneResult.Finished -> {
                     outputView.printBoardState(omokGame.board)
@@ -50,5 +46,10 @@ class OmokController(
     private fun printGameStatus(nowTurn: StoneState) {
         outputView.printBoardState(omokGame.board)
         outputView.printTurn(nowTurn)
+    }
+
+    private fun printGameResult(board: OmokBoard, turn: StoneState) {
+        outputView.printBoardState(board)
+        outputView.printWinner(turn)
     }
 }

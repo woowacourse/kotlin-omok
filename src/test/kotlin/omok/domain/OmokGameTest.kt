@@ -5,7 +5,6 @@ import omok.beforeDoubleThree
 import omok.beforeFinished
 import omok.beforeOverLine
 import omok.domain.turn.PutStoneResult
-import omok.domain.turn.TurnManager
 import omok.toFinishedPosition
 import omok.toViolationPosition
 import org.assertj.core.api.Assertions.assertThat
@@ -14,14 +13,12 @@ import org.junit.jupiter.api.Test
 
 class OmokGameTest {
     private lateinit var omokBoard: OmokBoard
-    private lateinit var turnManager: TurnManager
     private lateinit var omokGame: OmokGame
 
     @BeforeEach
     fun setUp() {
         omokBoard = OmokBoard(rule = OmokAdapter())
-        turnManager = TurnManager()
-        omokGame = OmokGame(omokBoard, turnManager)
+        omokGame = OmokGame(omokBoard)
     }
 
     @Test
