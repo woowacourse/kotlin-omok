@@ -1,9 +1,5 @@
-package omok.model
+package omok.domain
 
-import omok.domain.Rule
-import omok.domain.Stone
-import omok.domain.StoneType
-import omok.domain.Stones
 import omok.library.FourFourRule
 import omok.library.MoreThanFiveRule
 import omok.library.ThreeThreeRule

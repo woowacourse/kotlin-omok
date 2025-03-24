@@ -1,9 +1,9 @@
 package omok.controller
 
 import omok.domain.Board
+import omok.domain.RenjuRule
 import omok.domain.Stone
 import omok.domain.Turn
-import omok.model.RenjuRule
 import omok.view.InputView
 import omok.view.OutputView
 
