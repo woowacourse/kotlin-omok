@@ -3,7 +3,7 @@ package domain
 import domain.position.Position
 import domain.stone.Stone
 import domain.stone.StoneColor
-import result.GameState
+import exception.RuleViolationException
 import rule.OmokRule
 
 class GameBoard {
@@ -17,16 +17,17 @@ class GameBoard {
         stoneColor: StoneColor,
         rule: OmokRule,
         onPositionReceived: (Stone?) -> Position,
-    ): GameState {
+    ): Result<Unit> {
         val position = onPositionReceived(lastStone)
         val stone = Stone.of(position, stoneColor)
 
         val violateType = rule.checkAnyFoulCondition(blackStones, whiteStones, stone.position)
         if (violateType.isNone()) {
             successStateProcess(stoneColor, stone)
-            return GameState.Success
+            return Result.success(Unit)
         }
-        return GameState.Fail(violateType)
+
+        return Result.failure(RuleViolationException(violateType))
     }
 
     private fun successStateProcess(

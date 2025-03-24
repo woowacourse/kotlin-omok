@@ -35,25 +35,22 @@ class OmokController(
         putStoneUntilFindWinner(gameBoard)
     }
 
-    private tailrec fun putStoneProcess(
+    private fun putStoneProcess(
         gameBoard: GameBoard,
         rule: OmokRule,
         showGameBoardStatus: () -> Unit,
     ) {
-        val gameState =
-            gameBoard.putStone(
+        gameBoard
+            .putStone(
                 stoneColor = turnColor,
                 rule = rule,
                 onPositionReceived = { lastStone -> readPositionUntilReceived(lastStone) },
-            )
-
-        if (gameState.isSuccess()) {
-            showGameBoardStatus()
-            return
-        }
-
-        outputView.printGameStateMessage(gameState)
-        putStoneProcess(gameBoard, rule, showGameBoardStatus)
+            ).onSuccess {
+                showGameBoardStatus()
+            }.onFailure { error ->
+                outputView.printErrorMessage(error)
+                putStoneProcess(gameBoard, rule, showGameBoardStatus)
+            }
     }
 
     private fun readPositionUntilReceived(lastStone: Stone?): Position =

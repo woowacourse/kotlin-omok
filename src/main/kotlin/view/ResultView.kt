@@ -5,8 +5,6 @@ import domain.position.Position
 import domain.position.Row
 import domain.stone.Stone
 import domain.stone.StoneColor
-import result.GameState
-import rule.type.Violation
 
 class ResultView {
     fun printGameStartMessage() {
@@ -62,26 +60,6 @@ class ResultView {
         println(ERROR_MESSAGE_FORMAT.format(error.message ?: ""))
     }
 
-    fun printGameStateMessage(gameState: GameState) {
-        when (gameState) {
-            is GameState.Success -> {}
-            is GameState.Fail -> printGameStateFailMessage(gameState.violation)
-        }
-    }
-
-    private fun printGameStateFailMessage(violation: Violation) {
-        val message =
-            when (violation) {
-                Violation.DOUBLE_THREE -> "현재 위치는 3-3 금수 위치입니다."
-                Violation.DOUBLE_FOUR -> "현재 위치는 4-4 금수 위치입니다."
-                Violation.OVERLINE -> "현재 위치는 6목 금수 위치입니다."
-                Violation.DUPLICATE_POSITION -> "현재 위치에는 돌이 존재합니다."
-                Violation.NONE -> "위반 사항 없습니다."
-            }
-
-        println(message)
-    }
-
     private fun toBoardDisplay(
         row: Int,
         col: Int,
@@ -100,8 +78,8 @@ class ResultView {
 
     private fun Stone.toEmoji(): String =
         when (this.color) {
-            domain.stone.StoneColor.BLACK -> " ● "
-            domain.stone.StoneColor.WHITE -> " ○ "
+            StoneColor.BLACK -> " ● "
+            StoneColor.WHITE -> " ○ "
         }
 
     private fun Int.toDisplayRow(): String {

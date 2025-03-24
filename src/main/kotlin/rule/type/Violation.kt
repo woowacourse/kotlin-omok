@@ -2,12 +2,13 @@ package rule.type
 
 enum class Violation(
     val state: Boolean,
+    val message: String,
 ) {
-    DOUBLE_THREE(true),
-    DOUBLE_FOUR(true),
-    OVERLINE(true),
-    DUPLICATE_POSITION(true),
-    NONE(false),
+    DOUBLE_THREE(true, "현재 위치는 3-3 금수 위치입니다."),
+    DOUBLE_FOUR(true, "현재 위치는 4-4 금수 위치입니다."),
+    OVERLINE(true, "현재 위치는 6목 금수 위치입니다."),
+    DUPLICATE_POSITION(true, "현재 위치에는 돌이 존재합니다."),
+    NONE(false, "위반 사항 없습니다."),
     ;
 
     fun isNone(): Boolean = this == NONE
