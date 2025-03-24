@@ -42,29 +42,21 @@ class OutputView {
         column: Int,
         stone: Char?,
     ) {
-        printRow(column, stone)
-    }
-
-    private fun printBottomRow(
-        column: Int,
-        rowSize: Int,
-        stone: Char?,
-    ) {
         when (column) {
             0 -> {
-                1.printFormattedRow()
-                printStoneOrDefault(stone, BOTTOM_LEFT_CORNER)
+                ROW_MAX_LENGTH.printFormattedRow()
+                print(stone ?: TOP_LEFT_CORNER)
                 print(VERTICAL_SEPARATOR)
             }
 
-            rowSize - 1 -> {
+            ROW_MAX_LENGTH - 1 -> {
                 print(VERTICAL_SEPARATOR)
-                printStoneOrDefault(stone, BOTTOM_RIGHT_CORNER)
+                print(stone ?: TOP_RIGHT_CORNER)
             }
 
             else -> {
                 print(VERTICAL_SEPARATOR)
-                printStoneOrDefault(stone, BOTTOM_HORIZONTAL_SEPARATOR)
+                print(stone ?: TOP_HORIZONTAL_SEPARATOR)
                 print(VERTICAL_SEPARATOR)
             }
         }
@@ -79,42 +71,43 @@ class OutputView {
         when (column) {
             0 -> {
                 (ROW_MAX_LENGTH - row).printFormattedRow()
-                printStoneOrDefault(stone, LEFT_VERTICAL_SEPARATOR)
+                print(stone ?: LEFT_VERTICAL_SEPARATOR)
                 print(VERTICAL_SEPARATOR)
             }
 
             rowSize - 1 -> {
                 print(VERTICAL_SEPARATOR)
-                printStoneOrDefault(stone, RIGHT_VERTICAL_SEPARATOR)
+                print(stone ?: RIGHT_VERTICAL_SEPARATOR)
             }
 
             else -> {
                 print(VERTICAL_SEPARATOR)
-                printStoneOrDefault(stone, HORIZONTAL_SEPARATOR)
+                print(stone ?: HORIZONTAL_SEPARATOR)
                 print(VERTICAL_SEPARATOR)
             }
         }
     }
 
-    private fun printRow(
+    private fun printBottomRow(
         column: Int,
+        rowSize: Int,
         stone: Char?,
     ) {
         when (column) {
             0 -> {
-                ROW_MAX_LENGTH.printFormattedRow()
-                printStoneOrDefault(stone, TOP_LEFT_CORNER)
+                1.printFormattedRow()
+                print(stone ?: BOTTOM_LEFT_CORNER)
                 print(VERTICAL_SEPARATOR)
             }
 
-            ROW_MAX_LENGTH - 1 -> {
+            rowSize - 1 -> {
                 print(VERTICAL_SEPARATOR)
-                printStoneOrDefault(stone, TOP_RIGHT_CORNER)
+                print(stone ?: BOTTOM_RIGHT_CORNER)
             }
 
             else -> {
                 print(VERTICAL_SEPARATOR)
-                printStoneOrDefault(stone, TOP_HORIZONTAL_SEPARATOR)
+                print(stone ?: BOTTOM_HORIZONTAL_SEPARATOR)
                 print(VERTICAL_SEPARATOR)
             }
         }
@@ -133,13 +126,6 @@ class OutputView {
         }
     }
 
-    private fun printStoneOrDefault(
-        stone: Char?,
-        default: Char,
-    ) {
-        print(stone ?: default)
-    }
-
     private fun BoardStatus.toChar(color: StoneColor): Char? {
         return when (this) {
             is BoardStatus.Moved -> {
@@ -148,12 +134,14 @@ class OutputView {
                     StoneColor.WHITE -> '○'
                 }
             }
+
             BoardStatus.Blocked -> {
                 when (color) {
                     StoneColor.WHITE -> null
                     StoneColor.BLACK -> 'x'
                 }
             }
+
             BoardStatus.Empty -> null
         }
     }
