@@ -9,6 +9,7 @@ class InputView {
     fun readTurn(game: Game): Pair<Int, Int> {
         promptInput(game)
         val input: String = readln()
+        println()
         require(input.isNotBlank()) { ERROR_MESSAGE_INCORRECT_POSITION_FORMAT }
         val col: Int = readCol(input)
         val row: Int = readRow(input)
@@ -41,13 +42,13 @@ class InputView {
     }
 
     companion object {
+        private const val ASCII_OFFSET = 'A'.code - 1
+
         private const val BLACK_PLAYER = "흑"
         private const val WHITE_PLAYER = "백"
         private const val MESSAGE_TURN_INDICATOR = "%s의 차례입니다. "
         private const val MESSAGE_LAST_STONE_POSITION = "(마지막 돌의 위치: %s)"
         private const val MESSAGE_ENTER_POSITION = "위치를 입력하세요: "
         private const val ERROR_MESSAGE_INCORRECT_POSITION_FORMAT = "올바르지 않은 위치 입력 형식입니다."
-
-        private const val ASCII_OFFSET = 'A'.code - 1
     }
 }
