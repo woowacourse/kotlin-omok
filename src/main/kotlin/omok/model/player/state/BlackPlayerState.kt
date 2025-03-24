@@ -2,10 +2,10 @@ package omok.model.player.state
 
 import omok.model.board.OmokBoard
 import omok.model.board.Position
+import omok.model.rule.BlackWinRule
 import omok.model.rule.FourFourRule
 import omok.model.rule.OmokAdapter
 import omok.model.rule.ThreeThreeRule
-import omok.model.rule.WinRule
 
 class BlackPlayerState : PlayerState {
     override fun placeTurn(
@@ -16,7 +16,7 @@ class BlackPlayerState : PlayerState {
         val adaptedBoard = OmokAdapter.adaptOmokBoard(omokBoard)
         val adaptedPoint = OmokAdapter.adaptOmokPoint(position)
         return when {
-            WinRule.validate(adaptedBoard, adaptedPoint) -> Win()
+            BlackWinRule.validate(adaptedBoard, adaptedPoint) -> Win()
             isForbidden(adaptedPoint, adaptedBoard) -> {
                 omokBoard.forbidden(position)
                 this
