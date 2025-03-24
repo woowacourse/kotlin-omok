@@ -1,7 +1,7 @@
 package omok.model.player
 
-import omok.model.OmokGame
 import omok.model.board.Position
+import omok.model.omokGame.OmokGame
 import omok.model.stone.StoneState
 
 class Finish(

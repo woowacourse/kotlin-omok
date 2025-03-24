@@ -1,7 +1,7 @@
 package omok.model.player
 
-import omok.model.OmokGame
 import omok.model.board.Position
+import omok.model.omokGame.OmokGame
 
 interface PlayerState {
     val omokGame: OmokGame
