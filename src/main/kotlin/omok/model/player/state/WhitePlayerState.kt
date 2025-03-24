@@ -6,7 +6,9 @@ import omok.model.rule.OmokAdapter
 import omok.model.rule.WhiteWinRule
 import omok.model.stone.StoneColor
 
-class WhitePlayerState : PlayerState {
+class WhitePlayerState :
+    GameState(),
+    PlayerState {
     override fun placeTurn(
         omokBoard: OmokBoard,
         position: Position,
@@ -14,8 +16,8 @@ class WhitePlayerState : PlayerState {
         omokBoard.placeStone(position, StoneColor.WHITE)
         val adaptedBoard = OmokAdapter.adaptOmokBoard(omokBoard)
         val adaptedPoint = OmokAdapter.adaptOmokPoint(position)
-        if (WhiteWinRule.validate(adaptedBoard, adaptedPoint)) return GameState.Win
+        if (WhiteWinRule.validate(adaptedBoard, adaptedPoint)) return Win
 
-        return GameState.Playing
+        return Playing
     }
 }

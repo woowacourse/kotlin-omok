@@ -8,7 +8,9 @@ import omok.model.rule.OmokAdapter
 import omok.model.rule.ThreeThreeRule
 import omok.model.stone.StoneColor
 
-class BlackPlayerState : PlayerState {
+class BlackPlayerState :
+    GameState(),
+    PlayerState {
     override fun placeTurn(
         omokBoard: OmokBoard,
         position: Position,
@@ -17,13 +19,13 @@ class BlackPlayerState : PlayerState {
         val adaptedBoard = OmokAdapter.adaptOmokBoard(omokBoard)
         val adaptedPoint = OmokAdapter.adaptOmokPoint(position)
         return when {
-            BlackWinRule.validate(adaptedBoard, adaptedPoint) -> GameState.Win
+            BlackWinRule.validate(adaptedBoard, adaptedPoint) -> Win
             isForbidden(adaptedPoint, adaptedBoard) -> {
                 omokBoard.forbidden(position)
-                GameState.ForbiddenMove
+                ForbiddenMove
             }
 
-            else -> GameState.Playing
+            else -> Playing
         }
     }
 
