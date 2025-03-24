@@ -1,8 +1,8 @@
 package omok.domain.omokboard
 
-import omok.domain.placeresult.Failure
+import omok.domain.placeresult.GameNotProgress
+import omok.domain.placeresult.GameProgress
 import omok.domain.placeresult.PlaceResult
-import omok.domain.placeresult.Success
 import omok.domain.player.PlayerStone
 import omok.domain.rule.OmokRule
 
@@ -13,14 +13,14 @@ class PlayingBoard(
     fun placeStone(playerStone: PlayerStone): PlaceResult = placeResult(playerStone)
 
     private fun placeResult(playerStone: PlayerStone): PlaceResult {
-        var result: PlaceResult = Success.Progress(playerStone)
+        var result: PlaceResult = GameProgress()
 
         rules.forEach { rule ->
             result = rule.place(board, playerStone)
-            if (result is Failure) return result
+            if (result is GameNotProgress) return result
         }
 
-        if (result is Success) {
+        if (result is GameProgress) {
             board.updateBoard(playerStone)
         }
 

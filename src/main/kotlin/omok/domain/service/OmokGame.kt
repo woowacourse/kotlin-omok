@@ -2,9 +2,10 @@ package omok.domain.service
 
 import omok.domain.omokboard.PlayingBoard
 import omok.domain.omokboard.Position
-import omok.domain.placeresult.Failure
+import omok.domain.placeresult.GameFinish
+import omok.domain.placeresult.GameNotProgress
+import omok.domain.placeresult.GameProgress
 import omok.domain.placeresult.PlaceResult
-import omok.domain.placeresult.Success
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
 
@@ -24,15 +25,15 @@ class OmokGame(
             onStonePlaced(placeResult)
 
             when (placeResult) {
-                is Success.Progress -> {
+                is GameProgress -> {
                     stoneColor = stoneColor.reversed()
                     position = playerStone.position
                     continue
                 }
 
-                is Success.Finish -> break
+                is GameFinish -> break
 
-                is Failure -> continue
+                is GameNotProgress -> continue
             }
         }
     }

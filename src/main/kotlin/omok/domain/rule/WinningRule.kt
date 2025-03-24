@@ -5,8 +5,9 @@ import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
 import omok.domain.omokboard.State
+import omok.domain.placeresult.GameFinish
+import omok.domain.placeresult.GameProgress
 import omok.domain.placeresult.PlaceResult
-import omok.domain.placeresult.Success
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
 import omok.domain.player.StoneColor.BLACK
@@ -33,11 +34,11 @@ class WinningRule : OmokRule {
 
         for ((dx, dy) in directions) {
             if (countStonesInDirection(omokBoard, playerStone, dx, dy) >= 5) {
-                return Success.Finish(gameResult)
+                return GameFinish(gameResult)
             }
         }
 
-        return Success.Progress(playerStone)
+        return GameProgress()
     }
 
     private fun countStonesInDirection(

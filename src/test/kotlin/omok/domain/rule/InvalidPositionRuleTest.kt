@@ -2,7 +2,7 @@ package omok.domain.rule
 
 import omok.domain.omokboard.PlayingBoard
 import omok.domain.omokboard.Position
-import omok.domain.placeresult.Failure
+import omok.domain.placeresult.GameProgress
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
 import org.assertj.core.api.Assertions.assertThat
@@ -18,7 +18,7 @@ class InvalidPositionRuleTest {
 
         // when
         val actual = InvalidPositionRule().place(playingBoard.board, playerStone1)
-        val expected = Failure.InvalidPosition
+        val expected = GameProgress.InvalidPosition
 
         // then
         assertThat(actual).isEqualTo(expected)
