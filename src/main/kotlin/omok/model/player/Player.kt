@@ -2,27 +2,37 @@ package omok.model.player
 
 import omok.model.board.OmokBoard
 import omok.model.board.Position
+import omok.model.player.state.BlackPlayerState
+import omok.model.player.state.GameState
 import omok.model.player.state.PlayerState
-import omok.model.player.state.Win
+import omok.model.player.state.WhitePlayerState
 
-abstract class Player(
-    private var playerState: PlayerState,
-) {
-    fun win(): Boolean = playerState is Win
+class Player {
+    var playerState: PlayerState = BlackPlayerState()
+        private set
+
+    private var gameState: GameState = GameState.Playing
+
+    fun win(): Boolean = gameState is GameState.Win
+
+    fun playing(): Boolean = gameState is GameState.Playing
 
     fun put(
         position: Position,
         omokBoard: OmokBoard,
     ) {
-        playerState = playerState.placeTurn(omokBoard, position)
+        gameState = playerState.placeTurn(omokBoard, position)
     }
 
-    fun nextPlayer(): Player {
-//        if (playerState is BlackPlayerState) return this
-        return when (this) {
-            is BlackPlayer -> WhitePlayer(playerState)
-            is WhitePlayer -> BlackPlayer(playerState)
-            else -> throw IllegalStateException("존재하지 않는 플레이어입니다.")
+    fun nextPlayer() {
+        if (gameState == GameState.ForbiddenMove) return
+        if (gameState == GameState.Playing) {
+            playerState =
+                when (playerState) {
+                    is BlackPlayerState -> WhitePlayerState()
+                    is WhitePlayerState -> BlackPlayerState()
+                    else -> throw IllegalStateException("존재하지 않는 플레이어입니다.")
+                }
         }
     }
 }
