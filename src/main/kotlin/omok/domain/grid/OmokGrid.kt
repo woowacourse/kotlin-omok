@@ -28,6 +28,7 @@ class OmokGrid {
     }
 
     companion object {
+        const val MIN_BOUND: Int = 1
         const val DEFAULT_SIZE: Int = 15
         private const val TOTAL_POINT_COUNT: Int = 225
     }

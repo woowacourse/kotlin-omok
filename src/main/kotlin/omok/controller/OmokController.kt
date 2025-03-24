@@ -53,6 +53,7 @@ class OmokController(
         return retryInput(
             inputFunction = {
                 val point = inputView.getPoint(nowTurn, latestPoint)
+
                 omokGame.validatePoint(nowTurn, point)
                 point
             },

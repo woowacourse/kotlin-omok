@@ -2,7 +2,6 @@ package omok.view
 
 import omok.domain.StoneColor
 import omok.domain.grid.Column
-import omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
 import omok.domain.grid.OmokPoint
 import omok.domain.grid.Row
 
@@ -31,20 +30,13 @@ class InputView {
         val rawCol = rawInput.substring(START_INDEX, CUTTING_STANDARD)
 
         val row = validateRow(rawRow) ?: return null
-        val col = validateCol(rawCol) ?: return null
+        val col = convertLetter(rawCol)
         return OmokPoint(Row(row), Column(col))
     }
 
     private fun validateRow(row: String): Int? {
         if (row.toIntOrNull() == null) return null
-        if (row.toInt() !in MIN_BOUND..DEFAULT_SIZE) return null
         return row.toInt()
-    }
-
-    private fun validateCol(col: String): Int? {
-        val convertedCol = convertLetter(col)
-        if (convertedCol !in MIN_BOUND..DEFAULT_SIZE) return null
-        return convertedCol
     }
 
     private fun convertLetter(letter: String): Int {

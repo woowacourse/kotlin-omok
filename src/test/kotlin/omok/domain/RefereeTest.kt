@@ -110,6 +110,17 @@ class RefereeTest {
     }
 
     @Test
+    fun `오목판 밖에 돌을 둘 수 없다`() {
+        // given
+        val outBoundPoint = OmokPoint(Row(16), Column(16))
+
+        // when & then
+        assertThrows<IllegalStateException> {
+            referee.checkViolation(StoneColor.WHITE, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), outBoundPoint)
+        }
+    }
+
+    @Test
     fun `이미 돌이 있는 위치에 돌을 놓을 수 없다`() {
         // given
         grid.putStone(OmokPoint(Row(1), Column(2)), StoneColor.BLACK)

@@ -26,5 +26,6 @@
 - [x] 비어있는 생성자 제거
 - [x] **InputView** | 매직넘버 상수화
 - [x] **OutputView** | 가독성 개선 (함수 순서)
+- [x] InputView | 입력 위치 판단 로직 이동
 - [ ] **OmokRuleAdapter** & **Referee** | 렌주룰 의존성 제거 고민
 - [ ] **Referee** | 금수 처리 고민
