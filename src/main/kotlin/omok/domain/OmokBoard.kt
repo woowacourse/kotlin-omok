@@ -65,6 +65,5 @@ class OmokBoard(
         const val DEFAULT_SIZE: Int = 15
         private const val DEFAULT_COUNT: Int = 0
         private const val OMOK_STANDARD: Int = 5
-        private const val ERROR_STONE_ALREADY_PUT = "이미 돌이 있습니다."
     }
 }

@@ -1,5 +1,0 @@
-package omok.domain.turn
-
-import omok.domain.StoneState
-
-class Finished(val turn: StoneState)

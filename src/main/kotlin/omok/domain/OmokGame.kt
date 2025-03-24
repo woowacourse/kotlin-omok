@@ -1,8 +1,8 @@
 package omok.domain
 
-import omok.domain.turn.Finished
-import omok.domain.turn.NextTurn
 import omok.domain.turn.PutStoneResult
+import omok.domain.turn.PutStoneResult.Success.Finished
+import omok.domain.turn.PutStoneResult.Success.NextTurn
 import omok.domain.turn.TurnManager
 
 class OmokGame(
