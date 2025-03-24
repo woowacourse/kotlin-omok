@@ -2,11 +2,13 @@ package omok.controller
 
 import omok.domain.OmokAdapter
 import omok.domain.OmokBoard
+import omok.domain.OmokGame
 import omok.domain.Position
-import omok.domain.turn.BlackTurn
+import omok.domain.StoneState
 import omok.domain.turn.Finished
+import omok.domain.turn.NextTurn
 import omok.domain.turn.PutStoneResult
-import omok.domain.turn.Turn
+import omok.domain.turn.TurnManager
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -15,6 +17,7 @@ class OmokController(
     private val outputView: OutputView,
 ) {
     private val board = OmokBoard(rule = OmokAdapter())
+    private val omokGame = OmokGame(board, TurnManager())
 
     fun start() {
         outputView.printStartMessage()
@@ -23,17 +26,29 @@ class OmokController(
 
     private fun playGame() {
         var latestPosition: Position? = null
-        var nowTurn: Turn = BlackTurn()
-        while (nowTurn !is Finished) {
-            outputView.printBoardState(board)
+        var nowTurn: StoneState = StoneState.BLACK
+        while (true) {
+            outputView.printBoardState(omokGame.board)
             outputView.printTurn(nowTurn)
             latestPosition = inputView.getPosition(latestPosition)
-            when (val result = nowTurn.putStone(latestPosition, board)) {
-                is PutStoneResult.Success -> nowTurn = result.turn
-                is PutStoneResult.Failure -> outputView.printError(result.message)
+            when (val putResult = omokGame.putStone(latestPosition)) {
+                is PutStoneResult.Success<*> -> {
+                    when (val result = putResult.result) {
+                        is NextTurn -> {
+                            nowTurn = result.turn
+                            continue
+                        }
+
+                        is Finished -> {
+                            outputView.printBoardState(omokGame.board)
+                            outputView.printWinner(result.turn)
+                            return
+                        }
+                    }
+                }
+
+                is PutStoneResult.Failure -> outputView.printError(putResult.message)
             }
         }
-        outputView.printBoardState(board)
-        outputView.printTurn(nowTurn)
     }
 }
