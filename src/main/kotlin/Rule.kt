@@ -168,19 +168,19 @@ class Rule {
                 Direction.UP_LEFT,
                 Direction.DOWN_LEFT,
             )
-        var fourCount = 0
+        val uniqueSegments = mutableSetOf<List<Stone>>()
 
         for (direction in directions) {
             for (offset in -4..0) {
-                val segmentStart = stone.position.moveOrNull(direction, offset)
-                val segmentEnd = segmentStart?.moveOrNull(direction, 5)
-                if (segmentStart == null || segmentEnd == null) continue
-                if (checkFourFoul(stone, stones, segmentStart, segmentEnd, direction)) {
-                    fourCount++
+                val segmentStart = stone.position.moveOrNull(direction, offset) ?: continue
+                val segmentEnd = segmentStart.moveOrNull(direction, 5) ?: continue
+                val fourStones = checkFourFoul(stone, stones, segmentStart, segmentEnd, direction)
+                if (fourStones != null) {
+                    uniqueSegments.add(fourStones)
                 }
             }
         }
-        return fourCount >= 2
+        return uniqueSegments.size >= 2
     }
 
     private fun checkFourFoul(
@@ -189,17 +189,17 @@ class Rule {
         startPosition: Position,
         lastPosition: Position,
         direction: Direction,
-    ): Boolean {
+    ): List<Stone>? {
         var pos = startPosition
-        var stoneCount = 0
         var blankCount = 0
         var index = 0
-        var firstStone = stones.find { it.position.isSamePosition(pos) }
+        val firstStone = stones.find { it.position.isSamePosition(pos) }
+        val sameStones = mutableListOf<Stone>()
 
         while (true) {
             val currentStone = stones.find { it.position.isSamePosition(pos) }
             if (currentStone?.color == stone.color) {
-                stoneCount++
+                sameStones.add(currentStone)
             } else if (currentStone == null) {
                 blankCount++
             }
@@ -209,14 +209,14 @@ class Rule {
         }
 
         val lastStone = stones.find { it.position == lastPosition }
-
-        if (stoneCount != 4) return false
+        if (sameStones.size != 4) return null
 
         if (firstStone?.color != stone.color && lastStone?.color != stone.color) {
-            return !(firstStone != null && lastStone != null)
+            if (!(firstStone != null && lastStone != null)) return sameStones
+            return null
         }
 
-        return false
+        return null
     }
 
     companion object {
