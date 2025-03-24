@@ -16,7 +16,7 @@ class OmokBoard(
         require(MAX_ROW_SIZE <= COLUMN_POOL.size) { ERROR_OUT_OF_COLUMN_POOL }
     }
 
-    var latestStone: Point = Empty(-100, -100)
+    var latestStone: Point = Empty.dummy()
         private set
 
     fun toMatrix(): List<List<Point>> = omokPoints.toMatrix()

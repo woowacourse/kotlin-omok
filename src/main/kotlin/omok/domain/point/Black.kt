@@ -16,4 +16,8 @@ data class Black(val x1: Int, val y1: Int) : Point(x1, y1) {
     override fun toggle(position: String): Point {
         return White(position)
     }
+
+    override fun opponent(): Point {
+        return White(DUMMY_POSITION, DUMMY_POSITION)
+    }
 }

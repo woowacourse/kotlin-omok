@@ -7,7 +7,7 @@ import omok.view.ext.toLabel
 
 object InputView {
     fun readStoneWithLastPosition(lastPosition: Point): String? {
-        print(MESSAGE_PLAYER_TURN.format(lastPosition.toggle("H1").toLabel()))
+        print(MESSAGE_PLAYER_TURN.format(lastPosition.opponent().toLabel()))
         if (lastPosition !is Empty) {
             println(MESSAGE_LAST_POSITION.format(lastPosition.position()))
         }

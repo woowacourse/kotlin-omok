@@ -30,7 +30,7 @@ class OmokPoints {
     fun toMatrix(): List<List<Point>> {
         val temp: MutableList<MutableList<Point>> =
             MutableList(OmokBoard.MAX_ROW_SIZE) {
-                MutableList(OmokBoard.MAX_COLUMN_SIZE) { Empty(-100, -100) }
+                MutableList(OmokBoard.MAX_COLUMN_SIZE) { Empty.dummy() }
             }
 
         for (status in points) {

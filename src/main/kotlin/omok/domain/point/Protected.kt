@@ -16,4 +16,8 @@ data class Protected(val x1: Int, val y1: Int) : Point(x1, y1) {
     override fun toggle(position: String): Point {
         return this
     }
+
+    override fun opponent(): Point {
+        return this
+    }
 }

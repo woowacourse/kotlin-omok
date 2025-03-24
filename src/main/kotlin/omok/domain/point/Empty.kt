@@ -16,4 +16,12 @@ data class Empty(val x1: Int, val y1: Int) : Point(x1, y1) {
     override fun toggle(position: String): Point {
         return Black(position)
     }
+
+    override fun opponent(): Point {
+        return Black(DUMMY_POSITION, DUMMY_POSITION)
+    }
+
+    companion object {
+        fun dummy(): Empty = Empty(DUMMY_POSITION, DUMMY_POSITION)
+    }
 }
