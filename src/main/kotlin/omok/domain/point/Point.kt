@@ -16,5 +16,6 @@ sealed class Point(val x: Int, val y: Int) {
         const val DUMMY_POSITION = -100
         const val ERR_OUT_OF_COLUMN = "최대 열을 벗어납니다"
         const val ERR_OUT_OF_ROW = "최대 행을 벗어납니다"
+        const val ERR_INVALID_VALUE = "잘못된 값을 입력하셨습니다"
     }
 }

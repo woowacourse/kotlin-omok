@@ -63,7 +63,7 @@ class BoardView(private val omokBoard: OmokBoard) {
     }
 
     override fun toString(): String {
-        omokBoard.omokPoints.toList()
+        omokBoard.omokPoints.points
             .filter { it !is Empty }
             .forEach { setStone(it) }
         return boardInfo.append(formattedColumn).append("\n").toString()

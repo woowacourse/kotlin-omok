@@ -3,14 +3,14 @@ package omok.domain.point
 import omok.domain.board.OmokBoard
 
 class OmokPoints {
-    private var points: List<Point> =
+    var points: List<Point> =
         (1..OmokBoard.MAX_ROW_SIZE).flatMap { row ->
             (1..OmokBoard.MAX_COLUMN_SIZE).map { column ->
                 Empty(column, row)
             }
         }
-
-    fun toList(): List<Point> = points.toList()
+        get() = field.toList()
+        private set
 
     fun getPointAt(
         row: Int,
