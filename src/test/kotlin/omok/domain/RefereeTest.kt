@@ -8,6 +8,8 @@ import omok.domain.grid.Column
 import omok.domain.grid.OmokGrid
 import omok.domain.grid.OmokPoint
 import omok.domain.grid.Row
+import omok.domain.rule.BlackRuleAdapterImpl
+import omok.domain.rule.WhiteRuleAdapterImpl
 import omok.getFoulPoint
 import omok.omokPoints
 import org.assertj.core.api.Assertions.assertThat
@@ -35,7 +37,7 @@ class RefereeTest {
 
         // when & then
         assertThrows<IllegalStateException> {
-            referee.checkViolation(StoneColor.BLACK, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(BlackRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -49,7 +51,7 @@ class RefereeTest {
 
         // when & then
         assertDoesNotThrow {
-            referee.checkViolation(StoneColor.WHITE, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(WhiteRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -63,7 +65,7 @@ class RefereeTest {
 
         // when & then
         assertThrows<IllegalStateException> {
-            referee.checkViolation(StoneColor.BLACK, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(BlackRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -77,7 +79,7 @@ class RefereeTest {
 
         // when & then
         assertDoesNotThrow {
-            referee.checkViolation(StoneColor.WHITE, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(WhiteRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -91,7 +93,7 @@ class RefereeTest {
 
         // when & then
         assertThrows<IllegalStateException> {
-            referee.checkViolation(StoneColor.BLACK, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(BlackRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -105,7 +107,7 @@ class RefereeTest {
 
         // when & then
         assertDoesNotThrow {
-            referee.checkViolation(StoneColor.WHITE, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(WhiteRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -117,7 +119,7 @@ class RefereeTest {
         // when & then
         assertThrows<IllegalStateException> {
             referee.checkViolation(
-                StoneColor.BLACK,
+                BlackRuleAdapterImpl,
                 grid.getStones(StoneColor.BLACK),
                 grid.getStones(StoneColor.WHITE),
                 OmokPoint(Row(1), Column(2)),
@@ -125,7 +127,7 @@ class RefereeTest {
         }
         assertThrows<IllegalStateException> {
             referee.checkViolation(
-                StoneColor.WHITE,
+                WhiteRuleAdapterImpl,
                 grid.getStones(StoneColor.BLACK),
                 grid.getStones(StoneColor.WHITE),
                 OmokPoint(Row(1), Column(2)),
@@ -142,7 +144,7 @@ class RefereeTest {
         }
 
         // when
-        val actual = referee.checkWin(StoneColor.BLACK, grid.getStones(StoneColor.BLACK), POINT_H6)
+        val actual = referee.checkWin(BlackRuleAdapterImpl, grid.getStones(StoneColor.BLACK), POINT_H6)
 
         // then
         assertThat(actual).isTrue()
