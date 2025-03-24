@@ -19,6 +19,18 @@ class RenjuRule : Rule {
             isMoreThanFive(playingBoard, lastPlacedStone)
     }
 
+    override fun isValidPosition(
+        stone: Stone,
+        stones: Stones,
+        playingBoard: Array<Array<StoneType>>,
+    ): Boolean {
+        return if (stone.color == StoneType.BLACK) {
+            !isInvalid(stones, stone, playingBoard)
+        } else {
+            true
+        }
+    }
+
     private fun isFourFour(
         board: Array<Array<StoneType>>,
         stone: Stone,

@@ -8,20 +8,16 @@ class Board(private val rule: Rule) {
         val row = stone.position.row
         val column = stone.position.column
         validateStoneRange(stone)
-        isValidPosition(stone)
+
+        if (!rule.isValidPosition(stone, stones, grid)) {
+            throw IllegalArgumentException(INVALID_PLACED)
+        }
+
         if (grid[row][column] != StoneType.EMPTY) {
             throw IllegalArgumentException(ERROR_STONE_ALREADY_PLACED)
         }
         stones.add(stone)
         grid[row][column] = stone.color
-    }
-
-    fun isValidPosition(stone: Stone): Boolean {
-        return if (stone.color == StoneType.BLACK) {
-            !rule.isInvalid(stones, stone, grid)
-        } else {
-            true
-        }
     }
 
     fun isOmok(stone: Stone): Boolean {
@@ -62,6 +58,7 @@ class Board(private val rule: Rule) {
         private const val BOARD_SIZE = 15
         private const val ERROR_STONE_ALREADY_PLACED = "이미 돌이 놓여진 위치입니다. 다시 입력해주세요."
         private const val ERROR_INVALID_PLACED = "유효하지 않은 돌의 위치입니다. 오목판은 0 이상 %d 미만이어야 합니다."
+        private const val INVALID_PLACED = "놓을 수 없는 위치 입니다."
         private val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
     }
 }
