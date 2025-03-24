@@ -8,7 +8,7 @@ import omok.model.position.Position
 
 class OmokView {
     fun start(board: Board) {
-        println("오목 게임을 시작합니다.\n")
+        println(MESSAGE_START_OMOK)
         show(board)
     }
 
@@ -18,10 +18,10 @@ class OmokView {
         lastPosition: Position? = null,
         forbiddenPosition: Position? = null,
     ): Position {
-        if (forbiddenPosition != null) println("해당 위치는 금수입니다.")
-        print("${stone.toUIModel()}의 차례입니다. ")
-        if (lastPosition != null) print("(마지막 돌의 위치: ${lastPosition.toUIModel(boundary)})")
-        print("\n위치를 입력하세요: ")
+        if (forbiddenPosition != null) println(MESSAGE_FORBIDDEN_POSITION)
+        print(MESSAGE_TURN.format(stone.toUIModel()))
+        if (lastPosition != null) print(MESSAGE_POSITION_LAST_STONE_PLACED.format(lastPosition.toUIModel(boundary)))
+        print(MESSAGE_REQUEST_POSITION)
         return readln().trim().uppercase().toPosition(boundary)
     }
 
@@ -86,7 +86,7 @@ class OmokView {
     }
 
     fun show(winner: Stone) {
-        println("${winner.toUIModel()}돌이 이겼습니다.")
+        println(MESSAGE_WINNER.format(winner.toUIModel()))
     }
 
     private fun Stone.toUIModel(): String =
@@ -101,5 +101,14 @@ class OmokView {
         val row: Int = this.first { !it.isDigit() } - 'A'
         val column: Int = boundary - this.filter { it.isDigit() }.toInt()
         return DefaultPosition(row, column)
+    }
+
+    companion object {
+        private const val MESSAGE_START_OMOK = "오목 게임을 시작합니다.\n"
+        private const val MESSAGE_FORBIDDEN_POSITION = "해당 위치는 금수입니다."
+        private const val MESSAGE_TURN = "%s의 차례입니다. "
+        private const val MESSAGE_POSITION_LAST_STONE_PLACED = "(마지막 돌의 위치: %s)"
+        private const val MESSAGE_REQUEST_POSITION = "\n위치를 입력하세요: "
+        private const val MESSAGE_WINNER = "%s돌이 이겼습니다."
     }
 }
