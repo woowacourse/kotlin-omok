@@ -4,6 +4,7 @@ import omok.domain.omokboard.ColumnPosition
 import omok.domain.omokboard.PlayingBoard
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
+import omok.domain.placeresult.Success
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
 import org.assertj.core.api.Assertions.assertThat
@@ -33,7 +34,7 @@ class DrawRuleTest {
         // when
         val playerStone = PlayerStone(StoneColor.BLACK, Position(RowPosition(15), ColumnPosition(15)))
         val actual = DrawRule().place(playingBoard.board, playerStone)
-        val expected = PlaceResult.Success.Finish(GameResult.DRAW)
+        val expected = Success.Finish(GameResult.DRAW)
 
         // then
         assertThat(actual).isEqualTo(expected)

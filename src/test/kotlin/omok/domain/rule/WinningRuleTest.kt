@@ -2,6 +2,7 @@ package omok.domain.rule
 
 import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.Position
+import omok.domain.placeresult.Success
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
 import org.assertj.core.api.Assertions.assertThat
@@ -41,7 +42,7 @@ class WinningRuleTest {
          */
 
         val actual = WinningRule().place(omokBoardBlackWinByHorizontal, playerStone)
-        val expected = PlaceResult.Success.Finish(GameResult.WIN_BLACK)
+        val expected = Success.Finish(GameResult.WIN_BLACK)
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -62,7 +63,7 @@ class WinningRuleTest {
             )
 
         val actual = WinningRule().place(omokBoardBlackWinByVertical, playerStone)
-        val expected = PlaceResult.Success.Finish(GameResult.WIN_BLACK)
+        val expected = Success.Finish(GameResult.WIN_BLACK)
         /*
         15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
         14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
@@ -101,7 +102,7 @@ class WinningRuleTest {
             )
 
         val actual = WinningRule().place(omokBoardBlackWinByDiagonal, playerStone)
-        val expected = PlaceResult.Success.Finish(GameResult.WIN_BLACK)
+        val expected = Success.Finish(GameResult.WIN_BLACK)
 
         /*
         15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
@@ -141,7 +142,7 @@ class WinningRuleTest {
             )
 
         val actual = WinningRule().place(omokBoardBlackWinByBetween, playerStone)
-        val expected = PlaceResult.Success.Finish(GameResult.WIN_BLACK)
+        val expected = Success.Finish(GameResult.WIN_BLACK)
 
         /*
         15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
@@ -180,7 +181,7 @@ class WinningRuleTest {
             )
 
         val actual = WinningRule().place(omokBoardWhiteWinByHorizontal, playerStone)
-        val expected = PlaceResult.Success.Finish(GameResult.WIN_WHITE)
+        val expected = Success.Finish(GameResult.WIN_WHITE)
 
         /*
         15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐

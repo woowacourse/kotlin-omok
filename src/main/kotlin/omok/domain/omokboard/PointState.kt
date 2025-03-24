@@ -7,6 +7,11 @@ import omok.domain.player.StoneColor
 import omok.domain.player.StoneColor.BLACK
 import omok.domain.player.StoneColor.WHITE
 
+// sealed class PointState(){
+//    data object Empty : PointState()
+//    data class OCCUPIED(val color: Color) : PointState()
+// }
+
 class PointState(private var _state: State = EMPTY) {
     val state: State get() = _state
 

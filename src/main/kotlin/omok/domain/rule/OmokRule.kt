@@ -1,6 +1,7 @@
 package omok.domain.rule
 
 import omok.domain.omokboard.OmokBoard
+import omok.domain.placeresult.PlaceResult
 import omok.domain.player.PlayerStone
 import rule.BlackRenjuRule
 

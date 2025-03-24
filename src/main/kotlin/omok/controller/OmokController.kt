@@ -2,8 +2,11 @@ package omok.controller
 
 import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.PlayingBoard
+import omok.domain.placeresult.Failure
+import omok.domain.placeresult.PlaceResult
+import omok.domain.placeresult.Prohibition
+import omok.domain.placeresult.Success
 import omok.domain.rule.OmokRule
-import omok.domain.rule.PlaceResult
 import omok.domain.service.OmokGame
 import omok.view.InputView
 import omok.view.OutputView
@@ -27,9 +30,9 @@ class OmokController(
     ) {
         outputView.displayOmokBoard(omokBoard)
         when (placeResult) {
-            is PlaceResult.Success.Progress -> return
-            is PlaceResult.Success.Finish -> outputView.displayGameResultMessage(placeResult.gameResult)
-            is PlaceResult.Failure, is PlaceResult.Prohibition -> outputView.displayErrorMessage(placeResult)
+            is Success.Progress -> return
+            is Success.Finish -> outputView.displayGameResultMessage(placeResult.gameResult)
+            is Failure, is Prohibition -> outputView.displayErrorMessage(placeResult)
         }
     }
 }

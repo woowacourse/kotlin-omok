@@ -5,16 +5,16 @@ import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
 import omok.domain.omokboard.State
+import omok.domain.placeresult.Failure.AlreadyExistStone
+import omok.domain.placeresult.Failure.InvalidPosition
+import omok.domain.placeresult.PlaceResult
+import omok.domain.placeresult.Prohibition.DoubleFourViolation
+import omok.domain.placeresult.Prohibition.DoubleThreeViolation
+import omok.domain.placeresult.Prohibition.OverlineViolation
 import omok.domain.rule.GameResult
 import omok.domain.rule.GameResult.DRAW
 import omok.domain.rule.GameResult.WIN_BLACK
 import omok.domain.rule.GameResult.WIN_WHITE
-import omok.domain.rule.PlaceResult
-import omok.domain.rule.PlaceResult.Failure.AlreadyExistStone
-import omok.domain.rule.PlaceResult.Failure.InvalidPosition
-import omok.domain.rule.PlaceResult.Prohibition.DoubleFourViolation
-import omok.domain.rule.PlaceResult.Prohibition.DoubleThreeViolation
-import omok.domain.rule.PlaceResult.Prohibition.OverlineViolation
 
 class OutputView {
     fun displayOmokGameStart() {
