@@ -23,10 +23,6 @@ class OutputView {
         }
     }
 
-    fun printError(errorMessage: String) {
-        println(errorMessage)
-    }
-
     private fun modifyBoard(stones: Set<Stone>): String {
         val board: String = makeInitialBoard(BOARD_SIZE, BOARD_SIZE)
         val lines = board.lines().toMutableList()
