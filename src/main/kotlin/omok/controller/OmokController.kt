@@ -14,7 +14,6 @@ class OmokController(
         val omokBoard = OmokBoard()
         val currentPlayer: Player = BlackPlayer(BlackPlayerState())
         playGame(currentPlayer, omokBoard)
-        omokView.result(currentPlayer)
     }
 
     private fun playGame(
@@ -34,6 +33,7 @@ class OmokController(
         runCatching { inputStone() }
             .onFailure { error ->
                 println(error.message)
+                inputStone()
             }
     }
 
@@ -53,6 +53,7 @@ class OmokController(
     ): Boolean {
         if (currentPlayer.win()) {
             omokView.printOmokBoard(omokBoard.board)
+            omokView.result(currentPlayer)
             return true
         }
         return false
