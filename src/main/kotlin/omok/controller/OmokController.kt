@@ -1,15 +1,16 @@
 package omok.controller
 
+import omok.adapter.RenjuRuleAdapter
 import omok.domain.Game
 import omok.domain.model.Board
 import omok.domain.model.position.Column
-import omok.domain.model.position.OmokStone
 import omok.domain.model.position.Position
 import omok.domain.model.position.Row
-import omok.domain.model.state.BlackStoneTurn
+import omok.domain.model.rule.OmokRule
 import omok.domain.model.stone.StoneType
 import omok.view.InputView
 import omok.view.OutputView
+import rule.BlackRenjuRule
 
 class OmokController(
     private val inputView: InputView = InputView(),
@@ -17,14 +18,15 @@ class OmokController(
 ) {
     fun run() {
         val board = Board()
-        val game = Game(BlackStoneTurn(board))
-
+        val renjuRule = RenjuRuleAdapter(BlackRenjuRule(board.size, board.size))
+        val omokGame = Game(board, OmokRule(renjuRule))
         outputView.printStart()
 
         val winner =
-            game.play(
-                onBeforePlace = ::showBoardStatus,
-                onPlace = ::getPosition,
+            omokGame.play(
+                onBoardState = ::showBoardStatus,
+                onPlace = ::position,
+                stoneType = StoneType.BLACK,
             )
 
         outputView.printResult(winner)
@@ -33,16 +35,16 @@ class OmokController(
     private fun showBoardStatus(
         board: Board,
         stoneType: StoneType,
-        omokStone: OmokStone?,
+        position: Position?,
     ) {
         outputView.printBoardState(board)
-        outputView.printTurn(stoneType, omokStone)
+        outputView.printTurn(stoneType, position)
     }
 
-    private fun getPosition(): Position {
+    private fun position(board: Board): Position {
         return retryEvent {
             val (column, row) = inputView.position()
-            Position(Column(column), Row(row))
+            Position(Column.from(column, board.inRange(column)), Row.from(row, board.inRange(row)))
         }
     }
 

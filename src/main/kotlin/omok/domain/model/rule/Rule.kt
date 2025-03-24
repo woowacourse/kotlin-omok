@@ -3,7 +3,7 @@ package omok.domain.model.rule
 import omok.domain.model.position.Stone
 import omok.domain.model.stone.Stones
 
-interface RenjuRule {
+interface Rule {
     fun checkWin(
         stones: Stones,
         stone: Stone,

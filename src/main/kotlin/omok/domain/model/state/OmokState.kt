@@ -4,8 +4,9 @@ import omok.domain.model.Board
 import omok.domain.model.position.Position
 import omok.domain.model.stone.StoneType
 
-sealed class OmokState(val board: Board) {
-    abstract val stoneType: StoneType
+interface OmokState {
+    val stoneType: StoneType
+    val board: Board
 
-    abstract fun placeStone(onPlace: () -> Position): OmokState
+    fun placeStone(position: Position): OmokState
 }

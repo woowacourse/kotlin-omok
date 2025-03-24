@@ -6,9 +6,12 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
 class RowTest {
+    private val board = Board(size = 20)
+
     @ParameterizedTest
-    @ValueSource(ints = [0, -15, 16])
-    fun `위치가 1~15가 아닐 경우 예외 발생`(value: Int) {
-        assertThatThrownBy { Row(value) }.isInstanceOf(IllegalArgumentException::class.java).hasMessage("잘못된 위치입니다.")
+    @ValueSource(ints = [0, -1, 21])
+    fun `보드 사이즈에 포함되지 않을 경우 예외 발생`(value: Int) {
+        assertThatThrownBy { Row.from(value, board.inRange(value)) }.isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage("잘못된 위치입니다.")
     }
 }

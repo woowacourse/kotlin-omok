@@ -2,7 +2,6 @@ package omok.view
 
 import omok.domain.model.Board
 import omok.domain.model.position.Column
-import omok.domain.model.position.OmokStone
 import omok.domain.model.position.Position
 import omok.domain.model.position.Row
 import omok.domain.model.stone.StoneType
@@ -14,11 +13,11 @@ class OutputView {
 
     fun printTurn(
         stoneType: StoneType,
-        omokStone: OmokStone?,
+        position: Position?,
     ) {
         print("${stoneType.toKorean()}의 차례입니다.")
-        if (omokStone != null) {
-            println("(마지막 돌의 위치: ${omokStone.position.toCoordinateString()})")
+        if (position != null) {
+            println("(마지막 돌의 위치: ${position.toCoordinateString()})")
             return
         }
         println()
@@ -45,8 +44,8 @@ class OutputView {
         println()
     }
 
-    fun printResult(omokStone: OmokStone) {
-        println("${omokStone.stoneType.toKorean()}의 승리입니다.")
+    fun printResult(stoneType: StoneType) {
+        println("${stoneType.toKorean()}의 승리입니다.")
     }
 
     fun printErrorMessage(message: String) {
@@ -54,7 +53,7 @@ class OutputView {
     }
 
     private fun Position.toCoordinateString(): String {
-        val column = 'A' + this.column.value
+        val column = 'A' + this.column.value - 1
         val row = this.row.value
         return "${column}$row"
     }
@@ -87,7 +86,8 @@ class OutputView {
             row: Int,
             col: Int,
         ): String {
-            val stone = board.stones.find { it.position == Position(Column(col), Row(row)) }
+            val stone =
+                board.stones.find(Position(Column.from(col, board.inRange(col)), Row.from(row, board.inRange(row))))
             return when {
                 stone != null -> stone.stoneType.toUi()
                 row == board.size && col == MIN_BOUND -> LEFT_UP

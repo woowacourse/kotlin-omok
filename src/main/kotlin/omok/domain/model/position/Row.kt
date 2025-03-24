@@ -1,12 +1,14 @@
 package omok.domain.model.position
 
 @JvmInline
-value class Row(val value: Int) {
-    init {
-        require(value in RANGE) { "잘못된 위치입니다." }
-    }
-
+value class Row private constructor(val value: Int) {
     companion object {
-        private val RANGE = 1..15
+        fun from(
+            value: Int,
+            isBoardRange: Boolean,
+        ): Row {
+            require(isBoardRange) { "잘못된 위치입니다." }
+            return Row(value)
+        }
     }
 }
