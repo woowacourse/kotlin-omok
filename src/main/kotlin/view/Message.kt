@@ -12,5 +12,5 @@ object Message {
     const val GAME_RESULT_MESSAGE_FORMAT = "승자는 %s 입니다"
     const val TURN_MESSAGE_FORMAT = "\n%s의 차례입니다."
     const val LAST_STONE_POSITION_MESSAGE = " (마지막 돌의 위치: %s)"
-    const val INPUT_MESSAGE_GUIDE = "위치를 입력하세요: "
+    const val INPUT_MESSAGE_GUIDE = "\n위치를 입력하세요: "
 }
