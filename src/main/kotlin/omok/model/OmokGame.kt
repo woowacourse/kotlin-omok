@@ -60,7 +60,7 @@ class OmokGame(
         board: Board,
     ): Boolean {
         val point = previousPoint ?: return true
-        return !omokCountRule.calculate(board, point)
+        return !board.isOmok(point, omokCountRule)
     }
 
     private fun showWinColor() {
