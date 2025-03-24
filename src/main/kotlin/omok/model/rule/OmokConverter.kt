@@ -7,9 +7,9 @@ import omok.model.rule.lib.ForbiddenMoveRule
 
 object OmokConverter {
     fun converteOmokBoard(board: Board): List<List<Int>> {
-        val adapted = MutableList(board.points.size.value) { MutableList(board.points.size.value) { ForbiddenMoveRule.EMPTY_STONE } }
+        val adapted = MutableList(board.size) { MutableList(board.size) { ForbiddenMoveRule.EMPTY_STONE } }
 
-        board.points.points.forEach { point ->
+        board.points.forEach { point ->
             adapted[point.key.y - 1][point.key.x - 1] =
                 when (point.value) {
                     StoneColor.BLACK -> ForbiddenMoveRule.BLACK_STONE

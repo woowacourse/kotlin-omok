@@ -54,7 +54,7 @@ abstract class OmokCountRule : OmokRule {
         x: Int,
         y: Int,
     ): Boolean {
-        return listOf(x, y).all { it in (BoardSize.MIN_SIZE..board.points.size.value) }
+        return listOf(x, y).all { it in (BoardSize.MIN_SIZE..board.size) }
     }
 
     companion object {

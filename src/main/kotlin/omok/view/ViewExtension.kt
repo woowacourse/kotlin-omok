@@ -32,16 +32,16 @@ fun StoneColor?.toColorString(): String {
 fun Board.toUiString(): String {
     val sb = StringBuilder()
 
-    for (y in this.points.size.value downTo 1) {
+    for (y in this.size downTo 1) {
         sb.append(y.toString().padStart(2, ' ') + " ")
-        for (x in BoardSize.MIN_SIZE..this.points.size.value) {
+        for (x in BoardSize.MIN_SIZE..this.size) {
             sb.append(getBoardCharacter(this, x, y))
-            if (x != this.points.size.value) sb.append("──")
+            if (x != this.size) sb.append("──")
         }
         sb.append("\n")
     }
     sb.append("   ")
-    ('A'..'Z').take(this.points.size.value).forEach { sb.append("$it  ") }
+    ('A'..'Z').take(this.size).forEach { sb.append("$it  ") }
     sb.append("\n")
 
     return sb.toString()
@@ -56,18 +56,18 @@ private fun getBoardCharacter(
 
     return stoneColor?.toUiString() ?: when {
         // 네 모서리 처리
-        x == BoardSize.MIN_SIZE && y == board.points.size.value -> "┌"
-        x == board.points.size.value && y == board.points.size.value -> "┐"
+        x == BoardSize.MIN_SIZE && y == board.size -> "┌"
+        x == board.size && y == board.size -> "┐"
         x == BoardSize.MIN_SIZE && y == BoardSize.MIN_SIZE -> "└"
-        x == board.points.size.value && y == BoardSize.MIN_SIZE -> "┘"
+        x == board.size && y == BoardSize.MIN_SIZE -> "┘"
 
         // 상단, 하단 테두리 처리
-        y == board.points.size.value -> "┬"
+        y == board.size -> "┬"
         y == BoardSize.MIN_SIZE -> "┴"
 
         // 좌측, 우측 테두리 처리
         x == BoardSize.MIN_SIZE -> "├"
-        x == board.points.size.value -> "┤"
+        x == board.size -> "┤"
 
         // 기본 교차점 처리
         else -> "┼"

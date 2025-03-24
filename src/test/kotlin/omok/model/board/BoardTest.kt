@@ -1,17 +1,59 @@
 package omok.model.board
 
 import omok.fixture.generateTestBoardFixture
+import omok.model.rule.OmokRuleJudge
+import omok.model.rule.count.FiveInRowRule
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 class BoardTest {
     private lateinit var board: Board
 
     @BeforeEach
     fun setUp() {
-        board = generateTestBoardFixture(emptyList(), StoneColor.BLACK)
+        val judge =
+            OmokRuleJudge().apply {
+                applyRenjuRule()
+                applyWinningRule(FiveInRowRule())
+            }
+        board = Board(BoardSize(15), judge = judge)
+    }
+
+    @Test
+    fun `원하는 크기의 바둑판을 생성할 수 있다`() {
+        val size = BoardSize(15)
+        val board = Board(size, judge = OmokRuleJudge())
+
+        assertThat(board.size).isEqualTo(15)
+    }
+
+    @ValueSource(ints = [14, 26])
+    @ParameterizedTest
+    fun `바둑판의 크기가 15~25사이가 아니라면 예외가 발생한다`(size: Int) {
+        assertThrows<IllegalArgumentException> { BoardSize(size) }
+    }
+
+    @Test
+    fun `초기 보드는 모든 점이 null이다`() {
+        board.points.forEach { (_, state) ->
+            assertEquals(null, state)
+        }
+    }
+
+    @Test
+    fun `초기화 시 지정된 상태를 가진 보드가 정상적으로 설정되어야 한다`() {
+        val initialPoints = mapOf(Point(1, 1) to StoneColor.BLACK, Point(2, 2) to StoneColor.WHITE)
+        val customBoard = Board(BoardSize(15), initialPoints, judge = OmokRuleJudge())
+
+        assertEquals(StoneColor.BLACK, customBoard.findStoneColor(Point(1, 1)))
+        assertEquals(StoneColor.WHITE, customBoard.findStoneColor(Point(2, 2)))
+        assertEquals(null, customBoard.findStoneColor(Point(3, 3)))
     }
 
     @Test

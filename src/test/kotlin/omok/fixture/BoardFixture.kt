@@ -1,7 +1,6 @@
 package omok.fixture
 
 import omok.model.board.Board
-import omok.model.board.BoardPoints
 import omok.model.board.BoardSize
 import omok.model.board.Point
 import omok.model.board.StoneColor
@@ -17,6 +16,5 @@ fun generateTestBoardFixture(
             applyRenjuRule()
             applyWinningRule(FiveInRowRule())
         }
-    val boardPoints = BoardPoints(BoardSize.DEFAULT, points.associateWith { state })
-    return Board(boardPoints, judge)
+    return Board(BoardSize(15), points.associateWith { state }, judge)
 }

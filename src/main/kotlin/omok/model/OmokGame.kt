@@ -2,7 +2,6 @@ package omok.model
 
 import omok.controller.OmokGameListener
 import omok.model.board.Board
-import omok.model.board.BoardPoints
 import omok.model.board.BoardSize
 import omok.model.board.PlaceStoneResult
 import omok.model.board.Point
@@ -19,7 +18,7 @@ class OmokGame(
         boardSize: BoardSize,
         judge: OmokRuleJudge,
     ) {
-        val board = Board(BoardPoints(boardSize), judge)
+        val board = Board(size = boardSize, judge = judge)
         omokGameView.onStartGame()
         omokGameView.onBoardUpdated(board)
 
