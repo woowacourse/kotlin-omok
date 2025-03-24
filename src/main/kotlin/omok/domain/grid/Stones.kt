@@ -7,6 +7,6 @@ class Stones {
     operator fun plus(point: OmokPoint) {
         _stones.add(point)
     }
-}
 
-fun MutableSet<OmokPoint>.deepCopy(): Set<OmokPoint> = map { it.copy() }.toSet()
+    private fun MutableSet<OmokPoint>.deepCopy(): Set<OmokPoint> = map { it.copy() }.toSet()
+}

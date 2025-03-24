@@ -64,6 +64,8 @@ abstract class OmokRuleAdapter {
         return coordinateX in (MIN_BOUND..MAX_BOUND) && coordinateY in (MIN_BOUND..MAX_BOUND)
     }
 
+    operator fun Direction.unaryMinus() = Direction(-rowDelta, -colDelta)
+
     companion object {
         protected const val WIN_STANDARD: Int = 5
 
@@ -71,5 +73,3 @@ abstract class OmokRuleAdapter {
         private const val MAX_BOUND = DEFAULT_SIZE
     }
 }
-
-operator fun Direction.unaryMinus() = Direction(-rowDelta, -colDelta)
