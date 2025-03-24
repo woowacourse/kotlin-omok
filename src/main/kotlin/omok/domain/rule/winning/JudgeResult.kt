@@ -3,14 +3,14 @@ package omok.domain.rule.winning
 import omok.domain.player.StoneColor
 import omok.domain.rule.OmokResult
 
-sealed interface JudgeResult : OmokResult {
-    sealed interface Finished : JudgeResult {
+sealed class JudgeResult : OmokResult {
+    sealed class Finished : JudgeResult() {
         data class Win(
             val stone: StoneColor,
-        ) : Finished
+        ) : Finished()
 
-        data object Draw : Finished
+        data object Draw : Finished()
     }
 
-    data object NotFinished : JudgeResult
+    data object NotFinished : JudgeResult()
 }
