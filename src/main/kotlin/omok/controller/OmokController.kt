@@ -33,8 +33,7 @@ class OmokController(
                 is NextTurn -> continue
 
                 is PutStoneResult.Finished -> {
-                    outputView.printBoardState(omokGame.board)
-                    outputView.printWinner(putResult.turn)
+                    printGameResult(omokGame.board, putResult.turn)
                     return
                 }
 
