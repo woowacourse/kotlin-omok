@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 
 class PlayingBoardTest {
     @Test
-    fun `오목판 내에서 원하는 (1,1) 위치에 검은돌을 놓는다`() {
+    fun `오목판 내에서 (1,1) 위치에 검은돌을 놓는다`() {
         // given
         val playingBoard = PlayingBoard()
         val board = playingBoard.board.value
