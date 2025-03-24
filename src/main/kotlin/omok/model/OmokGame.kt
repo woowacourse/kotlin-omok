@@ -9,6 +9,7 @@ import omok.model.board.result.Finished
 import omok.model.board.result.OnGoing
 import omok.model.board.result.PlaceStoneResult
 import omok.model.rule.RuleValidator
+import omok.utils.retryOnException
 
 class OmokGame(
     private val omokGameHandler: OmokGameHandler,
@@ -27,22 +28,18 @@ class OmokGame(
         playTurns(board)
     }
 
-    private fun playTurns(board: Board) =
-        retryOnException(
-            action = {
-                val point = getNextPoint()
-                val placeResult = board.placeStone(point, currentStoneColor)
-                handlePlaceResult(placeResult, board)
-                placeResult
-            },
-            isFinish = { placeResult ->
-                placeResult is Finished
-            },
-        )
+    private fun playTurns(board: Board) {
+        do {
+            val point = getNextPoint()
+            val placeResult = board.placeStone(point, currentStoneColor)
+            handlePlaceResult(placeResult, board)
+        } while (placeResult is OnGoing)
+    }
 
     private fun getNextPoint(): Point =
         retryOnException(
             action = { omokGameHandler.onRequestPosition(previousPoint to currentStoneColor) },
+            onFailure = { omokGameHandler.onError(it.message.toString()) },
         )
 
     private fun handlePlaceResult(
@@ -50,7 +47,7 @@ class OmokGame(
         board: Board,
     ) {
         if (result is OnGoing) handleOnGoingResult(result, board)
-        handleFinishedResult(result as Finished, board)
+        if (result is Finished) handleFinishedResult(result, board)
     }
 
     private fun handleFinishedResult(
@@ -97,16 +94,6 @@ class OmokGame(
             omokGameHandler.onGameWon(color)
         }
     }
-
-    private fun <T> retryOnException(
-        action: () -> T,
-        isFinish: (T) -> Boolean = { false },
-    ): T =
-        omok.utils.retry(
-            action = action,
-            isFinish = { isFinish(it) },
-            onFailure = { omokGameHandler.onError(it.message.toString()) },
-        )
 
     companion object {
         private const val ALREADY_PLACED_ERROR_MESSAGE = "중복되는 칸에 돌을 둘 수 없습니다."
