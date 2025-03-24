@@ -38,7 +38,7 @@ class PointTest {
 
     @ParameterizedTest
     @ValueSource(
-        ints = [-1, 0, 16],
+        ints = [1, 5, 15],
     )
     fun `위치의 열은 1과 15 사이여야 한다`(col: Int) {
         assertDoesNotThrow {
