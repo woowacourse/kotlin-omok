@@ -13,7 +13,7 @@ class OmokController(
 ) {
     fun play() {
         val omokGameListenerImpl = OmokGameListenerImpl(inputView, outputView)
-        val boardSize = BoardSize.DEFAULT
+        val boardSize = BoardSize()
         val judge =
             OmokRuleJudge().apply {
                 applyWinningRule(FiveInRowRule())
