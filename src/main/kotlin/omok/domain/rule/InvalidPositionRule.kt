@@ -1,6 +1,7 @@
 package omok.domain.rule
 
 import omok.domain.omokboard.OmokBoard
+import omok.domain.omokboard.State
 import omok.domain.placeresult.GameOnGoing
 import omok.domain.placeresult.InvalidMove
 import omok.domain.placeresult.PlaceResult
@@ -11,9 +12,10 @@ class InvalidPositionRule : OmokRule {
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
     ): PlaceResult =
-        if (omokBoard.find(playerStone.position) == null) {
-            InvalidMove.InvalidPosition
-        } else {
-            GameOnGoing
+
+        when (omokBoard.find(playerStone.position)?.state) {
+            null -> InvalidMove.InvalidPosition
+            State.EMPTY -> GameOnGoing
+            else -> InvalidMove.AlreadyExistStone
         }
 }

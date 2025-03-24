@@ -61,3 +61,4 @@
 - [x] winningRuleTest | 테스트를 더 알아보기 쉽게 변경
 - [x] Failure | Prohibition 삭제
 - [x] PlaceResult | GameProgress, GameNotProgress, GameFinish 3가지로 구분
+- [x] AlreadyExistStoneRule | 규칙을 하나로 병합하여 검증 로직을 단순화

@@ -16,7 +16,6 @@ interface OmokRule {
             val board = OmokBoard.create()
             return listOf(
                 InvalidPositionRule(),
-                AlreadyExistStoneRule(),
                 ExternalRenjuRule(BlackRenjuRule(board.width, board.height)),
                 DrawRule(),
                 WinningRule(),
