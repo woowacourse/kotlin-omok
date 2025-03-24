@@ -4,10 +4,6 @@ import omok.domain.OmokBoard
 import omok.domain.OmokBoard.Companion.DEFAULT_SIZE
 import omok.domain.Position
 import omok.domain.StoneState
-import omok.domain.turn.BlackTurn
-import omok.domain.turn.Finished
-import omok.domain.turn.Turn
-import omok.domain.turn.WhiteTurn
 
 class OutputView {
     fun printStartMessage() = println(MESSAGE_GAME_START)
@@ -30,21 +26,15 @@ class OutputView {
         printCoordinateY(board.width)
     }
 
-    fun printTurn(turn: Turn) {
+    fun printTurn(turn: StoneState) {
         when (turn) {
-            is BlackTurn -> print(MESSAGE_TURN.format(StoneState.BLACK.turn))
-            is WhiteTurn -> print(MESSAGE_TURN.format(StoneState.WHITE.turn))
-            is Finished -> {
-                val winner =
-                    when (turn.beforeTurn) {
-                        StoneState.BLACK -> StoneState.BLACK.turn
-                        StoneState.WHITE -> StoneState.WHITE.turn
-                        StoneState.BLANK -> null
-                    }
-                println(MESSAGE_WINNER.format(winner))
-            }
+            StoneState.BLACK -> print(MESSAGE_TURN.format(StoneState.BLACK.turn))
+            StoneState.WHITE -> print(MESSAGE_TURN.format(StoneState.WHITE.turn))
+            StoneState.BLANK -> throw IllegalStateException()
         }
     }
+
+    fun printWinner(winner: StoneState) = println(MESSAGE_WINNER.format(winner.turn))
 
     fun printError(message: String) = println(message)
 
