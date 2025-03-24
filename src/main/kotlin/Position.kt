@@ -19,10 +19,10 @@ class Position(
     }
 
     fun isDecreasingDiagonal(other: Position): Boolean {
-        if (!other.isMaxPosition() && isUpDecreasingDiagonal(other)) {
+        if (!other.row.isMax() && !other.col.isMin() && isUpDecreasingDiagonal(other)) {
             return true
         }
-        if (!other.isMinPosition() && isDownDecreasingDiagonal(other)) {
+        if (!other.row.isMin() && !other.col.isMax() && isDownDecreasingDiagonal(other)) {
             return true
         }
         return false

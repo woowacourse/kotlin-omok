@@ -19,16 +19,20 @@ class ColTest {
 
     @Test
     fun `A를 1로 계산한다`() {
+        // given+when
         val col = Col.from('A')
+        // result
         assertEquals(col.value, 1)
     }
 
     @Test
     fun `같은 열인지 판단한다`() {
+        // given
         val col = Col.from('A')
+        // when
         val sameCol = Col.from('A')
         val otherCol = Col.from('B')
-
+        // result
         assertAll(
             { assertTrue(col.isSame(sameCol)) },
             { assertFalse(col.isSame(otherCol)) },

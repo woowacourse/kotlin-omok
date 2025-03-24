@@ -30,24 +30,28 @@ class PositionTest {
 
     @Test
     fun `증가하는 대각선인지 알 수 있다`() {
-        val position = Position(Row.from(1), Col.from('A'))
-        val sameIncreasePosition = Position(Row.from(2), Col.from('B'))
+        val position = Position(Row.from(2), Col.from('B'))
+        val sameIncreasePositionRight = Position(Row.from(3), Col.from('C'))
+        val sameIncreasePositionLeft = Position(Row.from(1), Col.from('A'))
         val otherPosition = Position(Row.from(2), Col.from('A'))
 
         assertAll(
-            { assertTrue(position.isIncreasingDiagonal(sameIncreasePosition)) },
+            { assertTrue(position.isIncreasingDiagonal(sameIncreasePositionRight)) },
+            { assertTrue(position.isIncreasingDiagonal(sameIncreasePositionLeft)) },
             { assertFalse(position.isIncreasingDiagonal(otherPosition)) },
         )
     }
 
     @Test
     fun `감소하는 대각선인지 알 수 있다`() {
-        val position = Position(Row.from(2), Col.from('B'))
-        val decreasePosition = Position(Row.from(1), Col.from('C'))
+        val position = Position(Row.from(3), Col.from('C'))
+        val decreasePositionRight = Position(Row.from(2), Col.from('D'))
+        val decreasePositionLeft = Position(Row.from(4), Col.from('B'))
         val otherPosition = Position(Row.from(2), Col.from('A'))
 
         assertAll(
-            { assertTrue(position.isDecreasingDiagonal(decreasePosition)) },
+            { assertTrue(position.isDecreasingDiagonal(decreasePositionRight)) },
+            { assertTrue(position.isDecreasingDiagonal(decreasePositionLeft)) },
             { assertFalse(position.isDecreasingDiagonal(otherPosition)) },
         )
     }
