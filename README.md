@@ -58,3 +58,4 @@
 
 - [x] Position | 부생성자 생성
 - [x] OmokBoard | 부생성자 생성 및 private constructor 삭제
+- [x] winningRuleTest | 테스트를 더 알아보기 쉽게 변경
