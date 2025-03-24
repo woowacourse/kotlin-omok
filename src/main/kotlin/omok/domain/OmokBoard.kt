@@ -1,7 +1,11 @@
 package omok.domain
 
-class OmokBoard(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
-    private val _board: MutableList<MutableList<StoneState>> =
+class OmokBoard(
+    val width: Int = DEFAULT_SIZE,
+    val height: Int = DEFAULT_SIZE,
+    private val rule: Rule,
+) {
+    private val board: MutableList<MutableList<StoneState>> =
         MutableList(DEFAULT_SIZE) { MutableList(DEFAULT_SIZE) { StoneState.BLANK } }
 
     fun putStone(stone: Stone) {
@@ -14,7 +18,7 @@ class OmokBoard(val width: Int = DEFAULT_SIZE, val height: Int = DEFAULT_SIZE) {
         return getStoneState(position) != StoneState.BLANK
     }
 
-    fun invalidPlace(stone: Stone): Boolean = ruleAdaptor.isViolate(this, stone)
+    fun invalidPlace(stone: Stone): Boolean = rule.isViolate(this, stone)
 
     fun checkOmok(position: Position): Boolean {
         val directions: List<Direction> =

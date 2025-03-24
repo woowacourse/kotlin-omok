@@ -1,5 +1,6 @@
 package omok.controller
 
+import omok.domain.OmokAdapter
 import omok.domain.OmokBoard
 import omok.domain.Position
 import omok.domain.turn.BlackTurn
@@ -13,7 +14,7 @@ class OmokController(
     private val inputView: InputView,
     private val outputView: OutputView,
 ) {
-    private val board = OmokBoard()
+    private val board = OmokBoard(rule = OmokAdapter())
 
     fun start() {
         outputView.printStartMessage()

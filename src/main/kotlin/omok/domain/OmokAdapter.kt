@@ -2,8 +2,8 @@ package omok.domain
 
 import omok.domain.lib.RenjuRule
 
-class OmokAdapter(private val rule: RenjuRule = RenjuRule(OmokBoard.DEFAULT_SIZE)) {
-    fun isViolate(
+class OmokAdapter(private val rule: RenjuRule = RenjuRule(OmokBoard.DEFAULT_SIZE)) : Rule {
+    override fun isViolate(
         board: OmokBoard,
         stone: Stone,
     ): Boolean {
@@ -16,11 +16,12 @@ class OmokAdapter(private val rule: RenjuRule = RenjuRule(OmokBoard.DEFAULT_SIZE
         repeat(board.height) { x ->
             repeat(board.width) { y ->
                 val state = board.getStoneState(Position(x, y))
-                val convertedState = when (state) {
-                    StoneState.BLACK -> 1
-                    StoneState.WHITE -> 2
-                    StoneState.BLANK -> 0
-                }
+                val convertedState =
+                    when (state) {
+                        StoneState.BLACK -> 1
+                        StoneState.WHITE -> 2
+                        StoneState.BLANK -> 0
+                    }
                 convertedBoard[y][x] = convertedState
             }
         }

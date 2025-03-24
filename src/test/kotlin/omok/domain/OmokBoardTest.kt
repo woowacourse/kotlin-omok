@@ -11,7 +11,7 @@ class OmokBoardTest {
 
     @BeforeEach
     fun setUp() {
-        omokBoard = OmokBoard()
+        omokBoard = OmokBoard(rule = OmokAdapter())
     }
 
     @Test
