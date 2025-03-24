@@ -1,6 +1,7 @@
 package omok.domain
 
 import omok.domain.state.BlackTurn
+import omok.domain.state.Finished
 import omok.domain.state.Playing
 import omok.domain.state.Ready
 import omok.domain.state.State
@@ -32,15 +33,10 @@ class Board(
                     is BlackTurn -> onTurn(currentState.nextStoneColor(), currentState.whiteStones.lastStonePoint)
                     else -> onTurn(currentState.nextStoneColor(), null)
                 }
-                state = currentState.place(onPointInput(), size)
+                state = currentState.place(onPointInput(), size, onBoardUpdated)
             }
 
-            val updatedState = state
-            if (updatedState is Playing) {
-                onBoardUpdated(updatedState.blackStones.points, updatedState.whiteStones.points)
-            } else {
-                break
-            }
+            if (state is Finished) break
         }
     }
 

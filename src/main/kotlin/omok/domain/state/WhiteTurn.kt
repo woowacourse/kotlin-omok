@@ -12,15 +12,17 @@ class WhiteTurn(
     override fun place(
         point: Point,
         boardSize: Int,
+        onBoardUpdated: (Set<Point>, Set<Point>) -> Unit,
     ): State {
         require(!(blackStones.contains(point) || whiteStones.contains(point))) { ERROR_INVALID_POINT }
 
         val newStones = whiteStones + point
         return when {
             whiteStones.isOmok(point) -> Finished.Win(StoneColor.WHITE)
-            blackStones.points.size + newStones.points.size >= boardSize * boardSize ->
-                Finished.Draw
+            blackStones.points.size + newStones.points.size >= boardSize * boardSize -> Finished.Draw
             else -> BlackTurn(blackStones, newStones)
+        }.also {
+            onBoardUpdated(blackStones.points, newStones.points)
         }
     }
 
