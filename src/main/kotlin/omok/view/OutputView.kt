@@ -87,15 +87,9 @@ class OutputView {
         println(
             (1..boardWidth)
                 .map { columnNumber ->
-                    ColumnPosition(columnNumber)
-                        .toLabel()
+                    ColumnPosition.toLabel(ColumnPosition(columnNumber))
                 }.joinToString(separator = "  ", prefix = "    "),
         )
-    }
-
-    private fun ColumnPosition.toLabel(): Char {
-        val alphabets = ALPHABETS.toList()
-        return alphabets[this.value - 1]
     }
 
     private fun GameResult.toLabel(): String =
@@ -116,6 +110,5 @@ class OutputView {
         private const val WIN_RESULT_MESSAGE: String = "%s의 우승을 축하드립니다!"
         private const val BLACK_COLOR_LABEL: String = "흑"
         private const val WHITE_COLOR_LABEL: String = "백"
-        private val ALPHABETS: CharRange = ('A'..'Z')
     }
 }

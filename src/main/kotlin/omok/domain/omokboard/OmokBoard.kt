@@ -5,7 +5,7 @@ import omok.domain.player.PlayerStone
 data class OmokBoard(
     private val _value: Map<Position, PointState>,
 ) {
-    constructor(vararg stonePlace: Pair<String, String>) : this(stonePlace.associate { it.first.toPosition() to it.second.toPointState() })
+    constructor(vararg stonePlace: Pair<String, String>) : this(stonePlace.associate { Position(it.first) to it.second.toPointState() })
 
     val width get() = _value.keys.maxOf { it.column.value }
     val height get() = _value.keys.maxOf { it.row.value }
@@ -53,13 +53,6 @@ data class OmokBoard(
                 "White" -> PointState(State.OCCUPIED_WHITE)
                 else -> throw IllegalArgumentException("Unknown state $this")
             }
-        }
-
-        private fun String.toPosition(): Position {
-            val columnPosition = ColumnPosition.fromChar(this.first())
-            val rowPosition = this.substring(1).toInt()
-
-            return Position(RowPosition(rowPosition), columnPosition)
         }
 
         private const val DEFAULT_OMOK_BOARD_SIZE = 15
