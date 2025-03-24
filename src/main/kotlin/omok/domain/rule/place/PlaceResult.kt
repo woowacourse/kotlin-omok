@@ -1,18 +1,12 @@
 package omok.domain.rule.place
 
 import omok.domain.player.PlayerStone
-import omok.domain.rule.winning.GameResult
+import omok.domain.rule.OmokResult
 
-sealed class PlaceResult {
-    sealed class Success : PlaceResult() {
-        data class Progress(
-            val lastStone: PlayerStone,
-        ) : Success()
-
-        data class Finish(
-            val gameResult: GameResult,
-        ) : Success()
-    }
+sealed class PlaceResult : OmokResult {
+    data class Success(
+        val lastStone: PlayerStone,
+    ) : PlaceResult()
 
     sealed class Failure : PlaceResult() {
         data object AlreadyExistStone : Failure()

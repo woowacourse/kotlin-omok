@@ -1,18 +1,18 @@
-package omok.domain.rule.place
+package omok.domain.rule.winning
 
 import omok.domain.omokboard.IntersectionState
 import omok.domain.omokboard.OmokBoard
 import omok.domain.player.PlayerStone
-import omok.domain.rule.winning.GameResult
+import omok.domain.rule.OmokResult
 
-class DrawRule : PlaceRule {
-    override fun canPlace(
+class DrawRule : JudgeRule {
+    override fun perform(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
-    ): PlaceResult =
+    ): OmokResult =
         if (omokBoard.value.values.count { it.state == IntersectionState.EMPTY } == 1) {
-            PlaceResult.Success.Finish(GameResult.DRAW)
+            JudgeResult.Finished.Draw
         } else {
-            PlaceResult.Success.Progress(playerStone)
+            JudgeResult.NotFinished
         }
 }

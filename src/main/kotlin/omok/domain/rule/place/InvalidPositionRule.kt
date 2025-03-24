@@ -4,13 +4,13 @@ import omok.domain.omokboard.OmokBoard
 import omok.domain.player.PlayerStone
 
 class InvalidPositionRule : PlaceRule {
-    override fun canPlace(
+    override fun perform(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
     ): PlaceResult =
         if (omokBoard.find(playerStone.position) == null) {
             PlaceResult.Failure.InvalidPosition
         } else {
-            PlaceResult.Success.Progress(playerStone)
+            PlaceResult.Success(playerStone)
         }
 }

@@ -1,4 +1,4 @@
-package omok.domain.rule.place
+package omok.domain.rule.winning
 
 import omok.domain.omokboard.ColumnPosition
 import omok.domain.omokboard.PlayingBoard
@@ -6,7 +6,6 @@ import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
-import omok.domain.rule.winning.GameResult
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -33,8 +32,8 @@ class DrawRuleTest {
 
         // when
         val playerStone = PlayerStone(StoneColor.BLACK, Position(RowPosition(15), ColumnPosition(15)))
-        val actual = DrawRule().canPlace(playingBoard.board, playerStone)
-        val expected = PlaceResult.Success.Finish(GameResult.DRAW)
+        val actual = DrawRule().perform(playingBoard.board, playerStone)
+        val expected = JudgeResult.Finished.Draw
 
         // then
         assertThat(actual).isEqualTo(expected)

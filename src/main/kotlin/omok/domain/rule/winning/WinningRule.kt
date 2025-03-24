@@ -9,14 +9,12 @@ import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
 import omok.domain.player.StoneColor.BLACK
 import omok.domain.player.StoneColor.WHITE
-import omok.domain.rule.place.PlaceResult
-import omok.domain.rule.place.PlaceRule
 
-class WinningRule : PlaceRule {
-    override fun canPlace(
+class WinningRule : JudgeRule {
+    override fun perform(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
-    ): PlaceResult {
+    ): JudgeResult {
         val directions =
             listOf(
                 Pair(1, 0),
@@ -25,19 +23,19 @@ class WinningRule : PlaceRule {
                 Pair(1, -1),
             )
 
-        val gameResult =
+        val judgeResult =
             when (playerStone.color) {
-                BLACK -> GameResult.WIN_BLACK
-                WHITE -> GameResult.WIN_WHITE
+                BLACK -> JudgeResult.Finished.Win(playerStone.color)
+                WHITE -> JudgeResult.Finished.Win(playerStone.color)
             }
 
         for ((dx, dy) in directions) {
             if (countStonesInDirection(omokBoard, playerStone, dx, dy) >= 5) {
-                return PlaceResult.Success.Finish(gameResult)
+                return judgeResult
             }
         }
 
-        return PlaceResult.Success.Progress(playerStone)
+        return JudgeResult.NotFinished
     }
 
     private fun countStonesInDirection(

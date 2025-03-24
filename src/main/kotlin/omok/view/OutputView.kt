@@ -5,16 +5,14 @@ import omok.domain.omokboard.IntersectionState
 import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
+import omok.domain.player.StoneColor
 import omok.domain.rule.place.PlaceResult.Failure
 import omok.domain.rule.place.PlaceResult.Failure.AlreadyExistStone
 import omok.domain.rule.place.PlaceResult.Failure.DoubleFourViolation
 import omok.domain.rule.place.PlaceResult.Failure.DoubleThreeViolation
 import omok.domain.rule.place.PlaceResult.Failure.InvalidPosition
 import omok.domain.rule.place.PlaceResult.Failure.OverlineViolation
-import omok.domain.rule.winning.GameResult
-import omok.domain.rule.winning.GameResult.DRAW
-import omok.domain.rule.winning.GameResult.WIN_BLACK
-import omok.domain.rule.winning.GameResult.WIN_WHITE
+import omok.domain.rule.winning.JudgeResult.Finished
 
 class OutputView {
     fun displayOmokGameStart() {
@@ -87,13 +85,17 @@ class OutputView {
         )
     }
 
-    fun displayGameResultMessage(result: GameResult) {
+    fun displayGameResultMessage(result: Finished) {
         println()
         println(
             when (result) {
-                WIN_BLACK -> BLACK_WIN_RESULT_MESSAGE
-                WIN_WHITE -> WHITE_WIN_RESULT_MESSAGE
-                DRAW -> DRAW_RESULT_MESSAGE
+                is Finished.Win ->
+                    when (result.stone) {
+                        StoneColor.BLACK -> BLACK_WIN_RESULT_MESSAGE
+                        StoneColor.WHITE -> WHITE_WIN_RESULT_MESSAGE
+                    }
+
+                is Finished.Draw -> DRAW_RESULT_MESSAGE
             },
         )
     }

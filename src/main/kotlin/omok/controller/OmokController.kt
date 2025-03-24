@@ -15,9 +15,11 @@ class OmokController(
         val playingBoard = PlayingBoard(OmokBoard.create())
         outputView.displayOmokGameStart()
         outputView.displayOmokBoard(playingBoard.board)
-        OmokGame(playingBoard).start(inputView::askForPosition) { placeResult ->
-            handlePlaceResult(playingBoard.board, placeResult)
-        }
+        val gameResult =
+            OmokGame(playingBoard).start(inputView::askForPosition) { placeResult ->
+                handlePlaceResult(playingBoard.board, placeResult)
+            }
+        outputView.displayGameResultMessage(gameResult)
     }
 
     private fun handlePlaceResult(
@@ -26,8 +28,7 @@ class OmokController(
     ) {
         outputView.displayOmokBoard(omokBoard)
         when (placeResult) {
-            is PlaceResult.Success.Progress -> return
-            is PlaceResult.Success.Finish -> outputView.displayGameResultMessage(placeResult.gameResult)
+            is PlaceResult.Success -> return
             is PlaceResult.Failure -> outputView.displayErrorMessage(placeResult)
         }
     }

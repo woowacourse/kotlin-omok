@@ -46,7 +46,7 @@ class WinningRuleTest {
         playingBoard.placeStone(playerStone5)
 
         val actual = WinningRule().canPlace(playingBoard.board, playerStone5)
-        val expected = PlaceResult.Success.Finish(GameResult.WIN_BLACK)
+        val expected = PlaceResult.Success.Finish(JudgeResult.WIN_BLACK)
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -69,7 +69,7 @@ class WinningRuleTest {
         playingBoard.placeStone(playerStone5)
 
         val actual = WinningRule().canPlace(playingBoard.board, playerStone5)
-        val expected = PlaceResult.Success.Finish(GameResult.WIN_BLACK)
+        val expected = PlaceResult.Success.Finish(JudgeResult.WIN_BLACK)
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -92,7 +92,7 @@ class WinningRuleTest {
         playingBoard.placeStone(playerStone5)
 
         val actual = WinningRule().canPlace(playingBoard.board, playerStone5)
-        val expected = PlaceResult.Success.Finish(GameResult.WIN_BLACK)
+        val expected = PlaceResult.Success.Finish(JudgeResult.WIN_BLACK)
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -115,7 +115,7 @@ class WinningRuleTest {
         playingBoard.placeStone(playerStone5)
 
         val actual = WinningRule().canPlace(playingBoard.board, playerStone3)
-        val expected = PlaceResult.Success.Finish(GameResult.WIN_BLACK)
+        val expected = PlaceResult.Success.Finish(JudgeResult.WIN_BLACK)
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -138,7 +138,7 @@ class WinningRuleTest {
         playingBoard.placeStone(playerStone5)
 
         val actual = WinningRule().canPlace(playingBoard.board, playerStone5)
-        val expected = PlaceResult.Success.Finish(GameResult.WIN_WHITE)
+        val expected = PlaceResult.Success.Finish(JudgeResult.WIN_WHITE)
 
         // then
         assertThat(actual).isEqualTo(expected)

@@ -18,7 +18,7 @@ class ExternalRule : PlaceRule {
     private val blackRenjuRule = BlackRenjuRule()
     private val whiteRenjuRule = WhiteRenjuRule()
 
-    override fun canPlace(
+    override fun perform(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
     ): PlaceResult {
@@ -48,7 +48,7 @@ class ExternalRule : PlaceRule {
             DOUBLE_THREE -> PlaceResult.Failure.DoubleThreeViolation
             DOUBLE_FOUR -> PlaceResult.Failure.DoubleFourViolation
             OVERLINE -> PlaceResult.Failure.OverlineViolation
-            NONE -> PlaceResult.Success.Progress(playerStone)
+            NONE -> PlaceResult.Success(playerStone)
         }
     }
 

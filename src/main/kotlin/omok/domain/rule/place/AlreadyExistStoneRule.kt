@@ -5,12 +5,12 @@ import omok.domain.omokboard.OmokBoard
 import omok.domain.player.PlayerStone
 
 class AlreadyExistStoneRule : PlaceRule {
-    override fun canPlace(
+    override fun perform(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
     ): PlaceResult =
         if (omokBoard.find(playerStone.position)?.state == IntersectionState.EMPTY) {
-            PlaceResult.Success.Progress(playerStone)
+            PlaceResult.Success(playerStone)
         } else {
             PlaceResult.Failure.AlreadyExistStone
         }
