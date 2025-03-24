@@ -4,7 +4,6 @@ import omok.domain.omokboard.PlayingBoard
 import omok.domain.omokboard.Position
 import omok.domain.placeresult.Failure
 import omok.domain.placeresult.PlaceResult
-import omok.domain.placeresult.Prohibition
 import omok.domain.placeresult.Success
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
@@ -33,7 +32,7 @@ class OmokGame(
 
                 is Success.Finish -> break
 
-                is Failure, is Prohibition -> continue
+                is Failure -> continue
             }
         }
     }

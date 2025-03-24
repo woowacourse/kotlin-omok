@@ -2,8 +2,8 @@ package omok.domain.rule
 
 import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.Position
+import omok.domain.placeresult.Failure
 import omok.domain.placeresult.PlaceResult
-import omok.domain.placeresult.Prohibition
 import omok.domain.placeresult.Success
 import omok.domain.player.PlayerStone
 import rule.BlackRenjuRule
@@ -29,9 +29,7 @@ class ExternalRenjuRule(
         val violateType = renjuRule.checkAnyFoulCondition(blackPoints, whitePoints, startPoint)
 
         return when (violateType) {
-            DOUBLE_THREE -> Prohibition.DoubleThreeViolation
-            DOUBLE_FOUR -> Prohibition.DoubleFourViolation
-            OVERLINE -> Prohibition.OverlineViolation
+            DOUBLE_THREE, DOUBLE_FOUR, OVERLINE -> Failure.ExternalRenjuRule(violateType)
             NONE -> Success.Progress(playerStone)
         }
     }

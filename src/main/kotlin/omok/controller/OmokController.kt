@@ -4,7 +4,6 @@ import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.PlayingBoard
 import omok.domain.placeresult.Failure
 import omok.domain.placeresult.PlaceResult
-import omok.domain.placeresult.Prohibition
 import omok.domain.placeresult.Success
 import omok.domain.rule.OmokRule
 import omok.domain.service.OmokGame
@@ -32,7 +31,8 @@ class OmokController(
         when (placeResult) {
             is Success.Progress -> return
             is Success.Finish -> outputView.displayGameResultMessage(placeResult.gameResult)
-            is Failure, is Prohibition -> outputView.displayErrorMessage(placeResult)
+            is Failure.AlreadyExistStone, is Failure.InvalidPosition -> outputView.displayMisPlaceMessage(placeResult)
+            is Failure.ExternalRenjuRule -> outputView.displayForbiddenMessage(placeResult.rule)
         }
     }
 }

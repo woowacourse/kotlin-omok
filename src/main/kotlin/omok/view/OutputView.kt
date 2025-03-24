@@ -8,13 +8,11 @@ import omok.domain.omokboard.State
 import omok.domain.placeresult.Failure.AlreadyExistStone
 import omok.domain.placeresult.Failure.InvalidPosition
 import omok.domain.placeresult.PlaceResult
-import omok.domain.placeresult.Prohibition.DoubleFourViolation
-import omok.domain.placeresult.Prohibition.DoubleThreeViolation
-import omok.domain.placeresult.Prohibition.OverlineViolation
 import omok.domain.rule.GameResult
 import omok.domain.rule.GameResult.DRAW
 import omok.domain.rule.GameResult.WIN_BLACK
 import omok.domain.rule.GameResult.WIN_WHITE
+import rule.type.Violation
 
 class OutputView {
     fun displayOmokGameStart() {
@@ -41,15 +39,24 @@ class OutputView {
         println(rowPoints.keys.joinToString("──") { it.drawBoard(omokBoard) })
     }
 
-    fun displayErrorMessage(error: PlaceResult) {
+    fun displayMisPlaceMessage(error: PlaceResult) {
         println()
         println(
             when (error) {
                 AlreadyExistStone -> ALREADY_EXIST_MESSAGE
                 InvalidPosition -> INVALID_POSITION_MESSAGE
-                DoubleThreeViolation -> FORBIDDEN_DOUBLE_THREE
-                DoubleFourViolation -> FORBIDDEN_DOUBLE_FOUR
-                OverlineViolation -> FORBIDDEN_OVERLINE
+                else -> return
+            },
+        )
+    }
+
+    fun displayForbiddenMessage(violation: Violation) {
+        println()
+        println(
+            when (violation) {
+                Violation.DOUBLE_THREE -> FORBIDDEN_DOUBLE_THREE
+                Violation.DOUBLE_FOUR -> FORBIDDEN_DOUBLE_FOUR
+                Violation.OVERLINE -> FORBIDDEN_OVERLINE
                 else -> return
             },
         )

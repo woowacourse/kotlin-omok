@@ -2,7 +2,6 @@ package omok.domain.omokboard
 
 import omok.domain.placeresult.Failure
 import omok.domain.placeresult.PlaceResult
-import omok.domain.placeresult.Prohibition
 import omok.domain.placeresult.Success
 import omok.domain.player.PlayerStone
 import omok.domain.rule.OmokRule
@@ -18,7 +17,7 @@ class PlayingBoard(
 
         rules.forEach { rule ->
             result = rule.place(board, playerStone)
-            if (result is Failure || result is Prohibition) return result
+            if (result is Failure) return result
         }
 
         if (result is Success) {
