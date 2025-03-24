@@ -1,6 +1,7 @@
 package omok.view
 
 import omok.domain.OmokBoard
+import omok.domain.OmokBoard.Companion.DEFAULT_SIZE
 import omok.domain.Position
 import omok.domain.StoneState
 import omok.domain.turn.BlackTurn
@@ -54,7 +55,7 @@ class OutputView {
         private const val COORDINATE_X = "%2d "
         private const val BLANK = "   "
         private const val MIN_BOUND = 0
-        private const val MAX_BOUND = 14
+        private const val MAX_BOUND = DEFAULT_SIZE - 1
 
         private const val MESSAGE_WINNER = "%s 승리!!"
 
