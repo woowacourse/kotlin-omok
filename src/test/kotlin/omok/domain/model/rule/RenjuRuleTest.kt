@@ -3,9 +3,9 @@ package omok.domain.model.rule
 import io.kotest.matchers.shouldBe
 import omok.domain.model.Board
 import omok.domain.model.position.Column
+import omok.domain.model.position.OmokStone
 import omok.domain.model.position.Position
 import omok.domain.model.position.Row
-import omok.domain.model.stone.OmokStone
 import omok.domain.model.stone.StoneType
 import omok.doubleFourFixture
 import omok.doubleThreeFixture

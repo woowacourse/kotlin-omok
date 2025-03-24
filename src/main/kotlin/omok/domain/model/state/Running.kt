@@ -1,9 +1,9 @@
 package omok.domain.model.state
 
 import omok.domain.model.Board
+import omok.domain.model.position.OmokStone
 import omok.domain.model.position.Position
 import omok.domain.model.rule.OmokRule
-import omok.domain.model.stone.OmokStone
 import omok.domain.model.stone.StoneType
 
 sealed class Running(
@@ -18,7 +18,7 @@ sealed class Running(
         val position = onPlace()
         val omokStone = OmokStone(position, stoneType)
         if (rule.canPlace(omokStone, board)) {
-            val newBoard = board.placeStone(position, stoneType)
+            val newBoard = board.placeStone(omokStone)
             if (newBoard.checkWin()) return Finish(newBoard, stoneType)
             return onTurn(newBoard)
         }

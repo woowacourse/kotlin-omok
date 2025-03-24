@@ -2,9 +2,9 @@ package omok.view
 
 import omok.domain.model.Board
 import omok.domain.model.position.Column
+import omok.domain.model.position.OmokStone
 import omok.domain.model.position.Position
 import omok.domain.model.position.Row
-import omok.domain.model.stone.OmokStone
 import omok.domain.model.stone.StoneType
 
 class OutputView {
@@ -54,7 +54,7 @@ class OutputView {
     }
 
     private fun Position.toCoordinateString(): String {
-        val column = Column.COLUMNS[this.column.value - 1]
+        val column = 'A' + this.column.value
         val row = this.row.value
         return "${column}$row"
     }
@@ -87,9 +87,9 @@ class OutputView {
             row: Int,
             col: Int,
         ): String {
-            val stone = board.stones[Position(Column.from(col.toAlphabet()), Row(row))]
+            val stone = board.stones.find { it.position == Position(Column(col), Row(row)) }
             return when {
-                stone != null -> stone.toUi()
+                stone != null -> stone.stoneType.toUi()
                 row == board.size && col == MIN_BOUND -> LEFT_UP
                 row == board.size && col == board.size -> RIGHT_UP
                 row == MIN_BOUND && col == MIN_BOUND -> LEFT_DOWN
@@ -111,7 +111,5 @@ class OutputView {
         private fun printCoordinateY(width: Int) {
             println(('A' until 'A' + width).joinToString("  "))
         }
-
-        private fun Int.toAlphabet(): Char = ('A'..'O').toList()[this - 1]
     }
 }

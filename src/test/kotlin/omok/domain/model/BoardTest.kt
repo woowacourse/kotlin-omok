@@ -3,9 +3,9 @@ package omok.domain.model
 import io.kotest.matchers.shouldBe
 import omok.diagonalDownWinStones
 import omok.domain.model.position.Column
+import omok.domain.model.position.OmokStone
 import omok.domain.model.position.Position
 import omok.domain.model.position.Row
-import omok.domain.model.stone.OmokStone
 import omok.domain.model.stone.StoneType
 import omok.horizontalWinStones
 import omok.verticalWinStones

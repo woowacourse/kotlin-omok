@@ -1,7 +1,7 @@
 package omok.domain.model.rule
 
 import omok.domain.model.Board
-import omok.domain.model.stone.OmokStone
+import omok.domain.model.position.OmokStone
 import omok.domain.model.stone.StoneType
 import rule.wrapper.point.Point
 

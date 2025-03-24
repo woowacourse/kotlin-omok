@@ -2,34 +2,25 @@ package omok.domain.model
 
 import omok.domain.model.position.Column
 import omok.domain.model.position.Direction
+import omok.domain.model.position.OmokStone
 import omok.domain.model.position.Position
 import omok.domain.model.position.Row
-import omok.domain.model.stone.OmokStone
 import omok.domain.model.stone.StoneType
 
 class Board(
-    val stones: Map<Position, StoneType> = mapOf(),
+    val stones: List<OmokStone> = listOf(),
     val size: Int = DEFAULT_BOARD_SIZE,
 ) {
-    fun placeStone(
-        position: Position,
-        stoneType: StoneType,
-    ): Board {
-        require(canPlace(position)) { "바둑돌이 있는 곳에는 둘 수 없습니다." }
-        return Board(stones + mapOf(position to stoneType))
+    fun placeStone(omokStone: OmokStone): Board {
+        require(canPlace(omokStone.position)) { "바둑돌이 있는 곳에는 둘 수 없습니다." }
+        return Board(stones + omokStone)
     }
 
-    fun canPlace(position: Position): Boolean = stones[position] == null
-
-    fun lastStoneOrNull(): OmokStone? {
-        val lastKey = stones.keys.lastOrNull() ?: return null
-        val lastValue = stones[lastKey] ?: return null
-        return OmokStone(lastKey, lastValue)
-    }
+    fun canPlace(position: Position): Boolean = stones.find { it.position == position } == null
 
     fun getStones(stoneType: StoneType): List<OmokStone> {
-        return stones.filterValues { it == stoneType }
-            .map { OmokStone(it.key, stoneType) }
+        return stones.filter { it.stoneType == stoneType }
+            .map { it.copy() }
     }
 
     fun checkWin(): Boolean {
@@ -41,7 +32,7 @@ class Board(
                 Direction(1, -1),
             )
 
-        return stones.entries.any { (position, stone) ->
+        return stones.any { (position, stone) ->
             directions.any { direction ->
                 direction.countConsecutive(position, stone) >= 5
             }
@@ -65,7 +56,7 @@ class Board(
 
         while (true) {
             val nextPos = currentPos.next(direction) ?: break
-            if (stones[nextPos] == stoneType) {
+            if (stones.find { nextPos == it.position && it.stoneType == stoneType } != null) {
                 count++
                 currentPos = nextPos
             } else {
@@ -82,7 +73,7 @@ class Board(
 
         if (nextRowValue !in 1..15 || nextColIndex !in 0..14) return null
 
-        val nextColumn = Column.from(('A' + nextColIndex))
+        val nextColumn = Column(nextColIndex)
         val nextRow = Row(nextRowValue)
         return Position(nextColumn, nextRow)
     }
