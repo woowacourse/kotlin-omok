@@ -33,8 +33,12 @@ class OmokController(
     }
 
     private fun displayWinner(board: Board) {
-        if (board.state is Finished) {
-            outputView.printWinner((board.state as Finished).winnerColor)
+        val currentState = board.state
+
+        if (currentState is Finished.Win) {
+            outputView.printWinner(currentState.winnerColor)
+        } else {
+            outputView.printWinner(null)
         }
     }
 }

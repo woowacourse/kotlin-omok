@@ -23,17 +23,24 @@ class Board(
         onPointInput: () -> Point,
         onBoardUpdated: (Set<Point>, Set<Point>) -> Unit,
     ) {
-        while (state is Playing) {
-            val playingState = state as Playing
+        while (true) {
+            val currentState = state
 
-            when (playingState) {
-                is WhiteTurn -> onTurn(playingState.nextStoneColor(), playingState.blackStones.lastStonePoint)
-                is BlackTurn -> onTurn(playingState.nextStoneColor(), playingState.whiteStones.lastStonePoint)
-                else -> onTurn(playingState.nextStoneColor(), null)
+            if (currentState is Playing) {
+                when (currentState) {
+                    is WhiteTurn -> onTurn(currentState.nextStoneColor(), currentState.blackStones.lastStonePoint)
+                    is BlackTurn -> onTurn(currentState.nextStoneColor(), currentState.whiteStones.lastStonePoint)
+                    else -> onTurn(currentState.nextStoneColor(), null)
+                }
+                state = currentState.place(onPointInput(), size)
             }
 
-            state = playingState.place(onPointInput(), size)
-            onBoardUpdated(state.blackStones.points, state.whiteStones.points)
+            val updatedState = state
+            if (updatedState is Playing) {
+                onBoardUpdated(updatedState.blackStones.points, updatedState.whiteStones.points)
+            } else {
+                break
+            }
         }
     }
 
