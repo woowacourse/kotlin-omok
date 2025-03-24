@@ -29,22 +29,6 @@ class OutputView {
         printCoordinateY()
     }
 
-    fun printWinner(omokResult: OmokResult) {
-        println(MESSAGE_WINNER.format(omokResult.toString()))
-    }
-
-    private fun printRow(
-        grid: List<List<StoneColor?>>,
-        row: Int,
-    ) {
-        print(COORDINATE_X.format(row))
-        for (col in MIN_BOUND..DEFAULT_SIZE) {
-            print(boardUI(grid, row, col))
-            if (col != DEFAULT_SIZE) repeat(REPEAT_COUNT) { print(DASH) }
-        }
-        println()
-    }
-
     private fun makeBoard(
         blackStones: Set<OmokPoint>,
         whiteStones: Set<OmokPoint>,
@@ -59,6 +43,18 @@ class OutputView {
             board[row.value][col.value] = StoneColor.WHITE
         }
         return board
+    }
+
+    private fun printRow(
+        grid: List<List<StoneColor?>>,
+        row: Int,
+    ) {
+        print(COORDINATE_X.format(row))
+        for (col in MIN_BOUND..DEFAULT_SIZE) {
+            print(boardUI(grid, row, col))
+            if (col != DEFAULT_SIZE) repeat(REPEAT_COUNT) { print(DASH) }
+        }
+        println()
     }
 
     private fun boardUI(
@@ -90,6 +86,10 @@ class OutputView {
 
     private fun printCoordinateY() {
         println(('A' until 'A' + DEFAULT_SIZE).joinToString("  "))
+    }
+
+    fun printWinner(omokResult: OmokResult) {
+        println(MESSAGE_WINNER.format(omokResult.toString()))
     }
 
     companion object {
