@@ -1,6 +1,7 @@
 package omok.domain.rule.winning
 
 import omok.domain.omokboard.ColumnPosition
+import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.PlayingBoard
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
@@ -15,15 +16,15 @@ class DrawRuleTest {
 
     @BeforeEach
     fun setup() {
-        playingBoard = PlayingBoard()
+        playingBoard = PlayingBoard(OmokBoard.create(5, 5))
     }
 
     @Test
     fun `모든 칸이 채워지면 무승부를 반환한다`() {
         // given
-        for (row in 1..15) {
-            for (column in 1..15) {
-                if (row == 15 && column == 15) break
+        for (row in 1..5) {
+            for (column in 1..5) {
+                if (row == 5 && column == 5) break
 
                 val stoneColor = if ((row + column) % 2 == 0) StoneColor.BLACK else StoneColor.WHITE
                 playingBoard.board.find(Position(RowPosition(row), ColumnPosition(column)))?.updateState(stoneColor)
