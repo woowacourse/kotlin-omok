@@ -26,9 +26,9 @@ class Rule {
             }
 
         return when (violation) {
-            Violation.DOUBLE_THREE -> MoveResult.Fail.DoubleThreeViolation
-            Violation.DOUBLE_FOUR -> MoveResult.Fail.DoubleFourViolation
-            Violation.OVERLINE -> MoveResult.Fail.OverlineViolation
+            Violation.DOUBLE_THREE -> MoveResult.Failure.DoubleThreeViolation
+            Violation.DOUBLE_FOUR -> MoveResult.Failure.DoubleFourViolation
+            Violation.OVERLINE -> MoveResult.Failure.OverlineViolation
             Violation.NONE -> MoveResult.Success.Playing
         }
     }

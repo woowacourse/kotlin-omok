@@ -35,7 +35,7 @@ class OmokController(
                 outputView.printMoveResult(moveResult)
                 return
             }
-            is MoveResult.Fail -> {
+            is MoveResult.Failure -> {
                 outputView.printMoveResult(moveResult)
                 processTurn(game)
             }

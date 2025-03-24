@@ -15,7 +15,7 @@ class RuleTest {
             }
 
         val actual: MoveResult = Rule().checkViolation(board, Position(7, 4), Color.BLACK)
-        val expected: MoveResult = MoveResult.Fail.DoubleThreeViolation
+        val expected: MoveResult = MoveResult.Failure.DoubleThreeViolation
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -32,7 +32,7 @@ class RuleTest {
             }
 
         val actual: MoveResult = Rule().checkViolation(board, Position(12, 6), Color.BLACK)
-        val expected: MoveResult = MoveResult.Fail.DoubleFourViolation
+        val expected: MoveResult = MoveResult.Failure.DoubleFourViolation
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -49,7 +49,7 @@ class RuleTest {
             }
 
         val actual: MoveResult = Rule().checkViolation(board, Position(13, 3), Color.BLACK)
-        val expected: MoveResult = MoveResult.Fail.OverlineViolation
+        val expected: MoveResult = MoveResult.Failure.OverlineViolation
 
         assertThat(actual).isEqualTo(expected)
     }

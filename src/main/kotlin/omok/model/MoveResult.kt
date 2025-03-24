@@ -9,13 +9,13 @@ sealed class MoveResult {
         data object WhiteWin : Success()
     }
 
-    sealed class Fail : MoveResult() {
-        data object StoneAlreadyPlaced : Fail()
+    sealed class Failure : MoveResult() {
+        data object PositionAlreadyOccupied : Failure()
 
-        data object DoubleThreeViolation : Fail()
+        data object DoubleThreeViolation : Failure()
 
-        data object DoubleFourViolation : Fail()
+        data object DoubleFourViolation : Failure()
 
-        data object OverlineViolation : Fail()
+        data object OverlineViolation : Failure()
     }
 }

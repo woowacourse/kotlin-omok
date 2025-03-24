@@ -15,10 +15,10 @@ class OutputView {
             is MoveResult.Success.Playing -> MESSAGE_OMOK_IN_PROGRESS
             is MoveResult.Success.BlackWin -> println(MESSAGE_OMOK_WINNER.format(BLACK_PLAYER))
             is MoveResult.Success.WhiteWin -> println(MESSAGE_OMOK_WINNER.format(WHITE_PLAYER))
-            is MoveResult.Fail.StoneAlreadyPlaced -> println(FAILURE_POSITION_ALREADY_OCCUPIED)
-            is MoveResult.Fail.DoubleThreeViolation -> println(FAILURE_DOUBLE_THREE_VIOLATION)
-            is MoveResult.Fail.DoubleFourViolation -> println(FAILURE_DOUBLE_FOUR_VIOLATION)
-            is MoveResult.Fail.OverlineViolation -> println(FAILURE_OVERLINE_VIOLATION)
+            is MoveResult.Failure.PositionAlreadyOccupied -> println(FAILURE_POSITION_ALREADY_OCCUPIED)
+            is MoveResult.Failure.DoubleThreeViolation -> println(FAILURE_DOUBLE_THREE_VIOLATION)
+            is MoveResult.Failure.DoubleFourViolation -> println(FAILURE_DOUBLE_FOUR_VIOLATION)
+            is MoveResult.Failure.OverlineViolation -> println(FAILURE_OVERLINE_VIOLATION)
         }
     }
 

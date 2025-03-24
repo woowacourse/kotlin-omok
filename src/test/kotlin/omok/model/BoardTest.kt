@@ -19,7 +19,7 @@ class BoardTest {
         val board = Board().apply { add(Stone(Position(1, 1), Color.BLACK)) }
 
         val actual: MoveResult = board.add(Stone(Position(1, 1), Color.BLACK))
-        val expected = MoveResult.Fail.StoneAlreadyPlaced
+        val expected = MoveResult.Failure.PositionAlreadyOccupied
 
         assertThat(actual).isEqualTo(expected)
     }

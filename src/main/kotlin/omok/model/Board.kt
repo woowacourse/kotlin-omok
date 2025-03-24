@@ -8,7 +8,7 @@ class Board {
 
     fun add(newStone: Stone): MoveResult {
         if (_stones.map { stone -> stone.position }.contains(newStone.position)) {
-            return MoveResult.Fail.StoneAlreadyPlaced
+            return MoveResult.Failure.PositionAlreadyOccupied
         }
         _stones.add(newStone)
         return MoveResult.Success.Playing
