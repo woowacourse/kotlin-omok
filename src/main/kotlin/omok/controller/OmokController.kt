@@ -24,21 +24,13 @@ class OmokController(
 
         val winner =
             omokGame.play(
-                onBoardState = ::showBoardStatus,
+                onBoardState = outputView::printBoardState,
+                onBoardTurn = outputView::printTurn,
                 onPlace = ::position,
                 stoneType = StoneType.BLACK,
             )
 
         outputView.printResult(winner)
-    }
-
-    private fun showBoardStatus(
-        board: Board,
-        stoneType: StoneType,
-        position: Position?,
-    ) {
-        outputView.printBoardState(board)
-        outputView.printTurn(stoneType, position)
     }
 
     private fun position(board: Board): Position {

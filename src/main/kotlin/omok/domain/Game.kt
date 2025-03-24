@@ -7,30 +7,34 @@ import omok.domain.model.state.Finish
 import omok.domain.model.state.OmokState
 import omok.domain.model.state.Turn
 import omok.domain.model.stone.StoneType
+import omok.domain.model.stone.Stones
 
 class Game(private val board: Board, private val rule: OmokRule) {
     private var currentPosition: Position? = null
 
     fun play(
-        onBoardState: (Board, StoneType, Position?) -> Unit,
+        onBoardState: (Board, Stones) -> Unit,
+        onBoardTurn: (StoneType, Position?) -> Unit,
         onPlace: (Board) -> Position,
         stoneType: StoneType,
     ): StoneType {
-        val state = Turn(board, rule, stoneType)
-        return progress(onBoardState, onPlace, stoneType, state).stoneType
+        val state = Turn(Stones(listOf()), rule, stoneType)
+        return progress(onBoardState, onBoardTurn, onPlace, stoneType, state).stoneType
     }
 
     private tailrec fun progress(
-        onBoardState: (Board, StoneType, Position?) -> Unit,
+        onBoardState: (Board, Stones) -> Unit,
+        onBoardTurn: (StoneType, Position?) -> Unit,
         onPlace: (Board) -> Position,
         stoneType: StoneType,
         state: OmokState,
     ): OmokState {
-        onBoardState(state.board, stoneType, currentPosition)
+        onBoardState(board, state.stones)
+        onBoardTurn(stoneType, currentPosition)
         val position = onPlace(board)
         val next = state.placeStone(position)
         currentPosition = position
         if (next is Finish) return next
-        return progress(onBoardState, onPlace, stoneType, next)
+        return progress(onBoardState, onBoardTurn, onPlace, stoneType, next)
     }
 }

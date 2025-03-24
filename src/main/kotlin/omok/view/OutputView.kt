@@ -5,6 +5,7 @@ import omok.domain.model.position.Column
 import omok.domain.model.position.Position
 import omok.domain.model.position.Row
 import omok.domain.model.stone.StoneType
+import omok.domain.model.stone.Stones
 
 class OutputView {
     fun printStart() {
@@ -23,10 +24,13 @@ class OutputView {
         println()
     }
 
-    fun printBoardState(board: Board) {
+    fun printBoardState(
+        board: Board,
+        stones: Stones,
+    ) {
         println()
         for (row in board.size downTo MIN_BOUND) {
-            printRow(board, row)
+            printRow(board, stones, row)
         }
         print(BLANK)
         printCoordinateY(board.size)
@@ -34,11 +38,12 @@ class OutputView {
 
     private fun printRow(
         board: Board,
+        stones: Stones,
         row: Int,
     ) {
         print(COORDINATE_X.format(row))
         for (col in MIN_BOUND..board.size) {
-            print(boardUI(board, row, col))
+            print(boardUI(board, stones, row, col))
             if (col != board.size) repeat(REPEAT_COUNT) { print(DASH) }
         }
         println()
@@ -83,11 +88,11 @@ class OutputView {
 
         private fun boardUI(
             board: Board,
+            stones: Stones,
             row: Int,
             col: Int,
         ): String {
-            val stone =
-                board.stones.find(Position(Column.from(col, board.inRange(col)), Row.from(row, board.inRange(row))))
+            val stone = stones.find(Position(Column.from(col, board.inRange(col)), Row.from(row, board.inRange(row))))
             return when {
                 stone != null -> stone.stoneType.toUi()
                 row == board.size && col == MIN_BOUND -> LEFT_UP
