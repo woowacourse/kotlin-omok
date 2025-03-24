@@ -42,13 +42,16 @@ abstract class OmokRuleAdapter {
         val coordinateX = latestPoint.row.value
         val coordinateY = latestPoint.col.value
         var count = MIN_BOUND
-        var point = OmokPoint(Row(coordinateX + direction.rowDelta * count), Column(coordinateY + direction.colDelta * count))
 
-        while (checkRange(point.row.value, point.col.value) &&
-            stones.find { it == point } != null
-        ) {
+        while (true) {
+            val nextX = coordinateX + direction.rowDelta * count
+            val nextY = coordinateY + direction.colDelta * count
+            if (!checkRange(nextX, nextY)) break
+
+            val point = OmokPoint(Row(nextX), Column(nextY))
+            if (point !in stones) break
+
             count++
-            point = OmokPoint(Row(coordinateX + direction.rowDelta * count), Column(coordinateY + direction.colDelta * count))
         }
 
         return count

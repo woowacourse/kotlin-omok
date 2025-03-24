@@ -1,7 +1,5 @@
 package omok.domain
 
-import omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
-import omok.domain.grid.OmokGrid.Companion.MIN_BOUND
 import omok.domain.grid.OmokPoint
 import omok.domain.rule.BlackRuleAdapterImpl
 import omok.domain.rule.OmokRuleAdapter
@@ -20,7 +18,6 @@ class Referee {
             listOf(
                 ruleAdapter.checkViolation(blackStones, whiteStones, latestPoint),
                 checkDuplicateMove(blackStones + whiteStones, latestPoint),
-                isInBoard(latestPoint),
             ).lastOrNull { it.isError } ?: OmokViolation.NONE
         dealViolation(violation)
     }
@@ -31,15 +28,6 @@ class Referee {
     ): OmokViolation {
         if (totalStones.contains(latestPoint)) return OmokViolation.OCCUPIED
         return OmokViolation.NONE
-    }
-
-    private fun isInBoard(point: OmokPoint): OmokViolation {
-        val inBoard = point.col.value in (MIN_BOUND..DEFAULT_SIZE) && point.row.value in (MIN_BOUND..DEFAULT_SIZE)
-        return if (!inBoard) {
-            OmokViolation.OUT_OF_BOUNDS
-        } else {
-            OmokViolation.NONE
-        }
     }
 
     fun checkWin(
@@ -57,7 +45,6 @@ class Referee {
             OmokViolation.DOUBLE_FOUR -> throw IllegalStateException(ERROR_DOUBLE_FOUR)
             OmokViolation.OVER_LINE -> throw IllegalStateException(ERROR_OVER_LINE)
             OmokViolation.OCCUPIED -> throw IllegalStateException(ERROR_DUPLICATE_MOVE)
-            OmokViolation.OUT_OF_BOUNDS -> throw IllegalStateException(ERROR_OUT_OF_BOUNDS)
             OmokViolation.NONE -> {}
         }
     }
@@ -74,6 +61,5 @@ class Referee {
         private const val ERROR_DOUBLE_FOUR = "4x4 위치에 놓을 수 없습니다"
         private const val ERROR_OVER_LINE = "장목 위치에 놓을 수 없습니다"
         private const val ERROR_DUPLICATE_MOVE = "이미 돌이 있습니다"
-        private const val ERROR_OUT_OF_BOUNDS = "오목판 밖에 돌을 둘 수 없습니다"
     }
 }

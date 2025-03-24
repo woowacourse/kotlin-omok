@@ -30,13 +30,18 @@ class InputView {
         val rawCol = rawInput.substring(START_INDEX, CUTTING_STANDARD)
 
         val row = validateRow(rawRow) ?: return null
-        val col = convertLetter(rawCol)
+        val col = validateCol(rawCol) ?: return null
         return OmokPoint(Row(row), Column(col))
     }
 
     private fun validateRow(row: String): Int? {
         if (row.toIntOrNull() == null) return null
         return row.toInt()
+    }
+
+    private fun validateCol(col: String): Int? {
+        if (col[0] !in 'A'..'Z') return null
+        return convertLetter(col)
     }
 
     private fun convertLetter(letter: String): Int {
