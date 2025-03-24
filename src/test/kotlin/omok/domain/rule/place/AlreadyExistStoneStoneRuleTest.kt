@@ -16,7 +16,7 @@ class AlreadyExistStoneStoneRuleTest {
 
         // when
         playingBoard.placeStone(playerStone1)
-        val actual = AlreadyExistStoneRule().canPlace(playingBoard.board, playerStone1)
+        val actual = AlreadyExistStoneRule().perform(playingBoard.board, playerStone1)
         val expected = PlaceResult.Failure.AlreadyExistStone
 
         // then

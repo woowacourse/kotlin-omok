@@ -1,15 +1,16 @@
 package omok.domain.omokboard
 
 import omok.domain.player.PlayerStone
-import omok.domain.rule.OmokRule
 import omok.domain.rule.place.PlaceResult
+import omok.domain.rule.place.PlaceRule
 import omok.domain.rule.winning.JudgeResult
+import omok.domain.rule.winning.JudgeRule
 
 class PlayingBoard(
     val board: OmokBoard = OmokBoard.create(),
 ) {
     fun placeStone(
-        rules: List<OmokRule>,
+        rules: List<PlaceRule>,
         playerStone: PlayerStone,
     ): PlaceResult {
         var result: PlaceResult = PlaceResult.Success(playerStone)
@@ -29,7 +30,7 @@ class PlayingBoard(
     }
 
     fun judge(
-        rules: List<OmokRule>,
+        rules: List<JudgeRule>,
         playerStone: PlayerStone,
     ): JudgeResult {
         var result: JudgeResult = JudgeResult.NotFinished

@@ -16,20 +16,9 @@ import omok.domain.rule.winning.WinningRule
 
 class OmokGame(
     private val playingBoard: PlayingBoard,
+    private val placeRules: List<PlaceRule> = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule()),
+    private val judgeRules: List<JudgeRule> = listOf(WinningRule(), DrawRule()),
 ) {
-    private val placeRules: List<PlaceRule> =
-        listOf(
-            InvalidPositionRule(),
-            AlreadyExistStoneRule(),
-            ExternalRule(),
-        )
-
-    private val judgeRules: List<JudgeRule> =
-        listOf(
-            WinningRule(),
-            DrawRule(),
-        )
-
     fun start(
         getNewPosition: (StoneColor, Position?) -> Position,
         onPlaceTried: (PlaceResult) -> Unit,
@@ -38,22 +27,19 @@ class OmokGame(
         var position: Position? = null
 
         while (true) {
-            val playerStone = PlayerStone(stoneColor, getNewPosition(stoneColor, position))
-            val placeResult = playingBoard.placeStone(placeRules, playerStone)
+            val newPosition: Position = getNewPosition(stoneColor, position)
+            val playerStone: PlayerStone = PlayerStone(stoneColor, newPosition)
+            val placeResult: PlaceResult = playingBoard.placeStone(placeRules, playerStone)
+
             onPlaceTried(placeResult)
+            if (placeResult is PlaceResult.Failure) continue
 
-            when (placeResult) {
-                is PlaceResult.Success -> {
-                    stoneColor = stoneColor.reversed()
-                    position = playerStone.position
-                    return when (val gameResult = playingBoard.judge(judgeRules, playerStone)) {
-                        is JudgeResult.Finished.Win -> gameResult
-                        is JudgeResult.Finished.Draw -> gameResult
-                        JudgeResult.NotFinished -> continue
-                    }
-                }
-
-                else -> continue
+            stoneColor = stoneColor.reversed()
+            position = playerStone.position
+            return when (val gameResult = playingBoard.judge(judgeRules, playerStone)) {
+                is JudgeResult.Finished.Win -> gameResult
+                is JudgeResult.Finished.Draw -> gameResult
+                JudgeResult.NotFinished -> continue
             }
         }
     }
