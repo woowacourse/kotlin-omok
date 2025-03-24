@@ -41,7 +41,7 @@ class OmokGame(
 
     private fun preparePosition(): Position {
         val inputPosition = inputView.readPosition()
-        val position = Position.from(inputPosition) ?: return preparePosition()
+        val position = Position(inputPosition)
         prevPosition = inputPosition
         return position
     }

@@ -8,6 +8,6 @@ class PositionTest {
     @ValueSource(ints = [-1, 15])
     @ParameterizedTest
     fun `위치는 0보다 작거나 오목판의 크기보다 큰 위치를 가질 수 없다`(int: Int) {
-        assertThrows<IllegalArgumentException> { Position.from(int, int) }
+        assertThrows<IllegalArgumentException> { Position(int, int) }
     }
 }

@@ -44,7 +44,7 @@ class BoardTest {
 
     @Test
     fun `오목판은 오목돌을 원하는 위치에 놓는다`() {
-        board.put(Position.from(8, 9), StoneType.BLACK)
+        board.put(Position(8, 9), StoneType.BLACK)
         val expected = StoneType.BLACK
         assertThat(board.grid[8][9]).isEqualTo(expected)
     }

@@ -46,7 +46,7 @@ class Board(private val rule: Rule) {
         var count = 0
 
         while (currentPosition.first in 0 until BOARD_SIZE && currentPosition.second in 0 until BOARD_SIZE &&
-            stones.stones.any { it == Stone(Position.from(currentPosition.first, currentPosition.second), stone.color) }
+            stones.stones.any { it == Stone(Position(currentPosition.first, currentPosition.second), stone.color) }
         ) {
             count++
             currentPosition = Pair(currentPosition.first + direction[0], currentPosition.second + direction[1])
