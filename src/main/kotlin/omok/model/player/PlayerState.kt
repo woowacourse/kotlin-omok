@@ -6,5 +6,5 @@ import omok.model.board.Position
 interface PlayerState {
     val omokGame: OmokGame
 
-    fun nextTurn(position: Position): PlayerState
+    fun state(position: Position): PlayerState
 }

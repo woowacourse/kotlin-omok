@@ -10,7 +10,7 @@ class WhitePlayerState(
 ) : PlayerState {
     private val stoneState: StoneState = StoneState.WHITE
 
-    override fun nextTurn(position: Position): PlayerState {
+    override fun state(position: Position): PlayerState {
         omokGame.placeStone(position, stoneState)
         val result = omokGame.getResult(position, stoneState)
         return when (result) {
