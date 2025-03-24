@@ -1,8 +1,10 @@
 package omok.domain
 
+import omok.domain.state.BlackTurn
 import omok.domain.state.Playing
 import omok.domain.state.Ready
 import omok.domain.state.State
+import omok.domain.state.WhiteTurn
 import omok.domain.stone.StoneColor
 
 class Board(
@@ -23,7 +25,13 @@ class Board(
     ) {
         while (state is Playing) {
             val playingState = state as Playing
-            onTurn(playingState.nextStoneColor(), playingState.lastStonePoint())
+
+            when (playingState) {
+                is WhiteTurn -> onTurn(playingState.nextStoneColor(), playingState.blackStones.lastStonePoint)
+                is BlackTurn -> onTurn(playingState.nextStoneColor(), playingState.whiteStones.lastStonePoint)
+                else -> onTurn(playingState.nextStoneColor(), null)
+            }
+
             state = playingState.place(onPointInput(), size)
             onBoardUpdated(state.blackStones.points, state.whiteStones.points)
         }

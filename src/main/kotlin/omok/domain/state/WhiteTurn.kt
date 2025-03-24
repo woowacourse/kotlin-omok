@@ -24,8 +24,6 @@ class WhiteTurn(
         }
     }
 
-    override fun lastStonePoint(): Point = blackStones.lastStonePoint()
-
     override fun nextStoneColor(): StoneColor = StoneColor.WHITE
 
     companion object {

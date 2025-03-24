@@ -9,12 +9,11 @@ abstract class Stones(
 ) {
     private val _points = points.toMutableSet()
     val points = _points.toSet()
+    val lastStonePoint get(): Point = _points.last()
 
     abstract operator fun plus(point: Point): Stones
 
     fun contains(point: Point): Boolean = point in _points
-
-    fun lastStonePoint(): Point = _points.last()
 
     fun isOmok(lastPoint: Point): Boolean {
         return omokRule.isOmok(lastPoint, this.points)

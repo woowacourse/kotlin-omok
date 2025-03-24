@@ -10,7 +10,5 @@ interface Playing : State {
         boardSize: Int = Board.DEFAULT_BOARD_SIZE,
     ): State
 
-    fun lastStonePoint(): Point?
-
     fun nextStoneColor(): StoneColor
 }
