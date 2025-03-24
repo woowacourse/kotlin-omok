@@ -4,6 +4,7 @@ import omok.model.Board
 import omok.model.Game
 import omok.model.MoveResult
 import omok.model.Position
+import omok.model.Rule
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -13,7 +14,7 @@ class OmokController(
 ) {
     fun run() {
         outputView.printOmokStart()
-        val game = Game(Board())
+        val game = Game(Board(), Rule())
         outputView.printBoard(game.board)
         retryOnError { processTurn(game) }
     }
