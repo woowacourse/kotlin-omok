@@ -2,7 +2,7 @@ package omok.domain
 
 class Board(private val rule: Rule) {
     val stones: Stones = Stones()
-    val grid: Array<Array<StoneType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE, { StoneType.EMPTY }) }
+    val grid: Array<Array<StoneType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { StoneType.EMPTY } }
 
     fun put(stone: Stone) {
         val row = stone.position.row
