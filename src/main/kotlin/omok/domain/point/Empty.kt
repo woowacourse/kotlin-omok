@@ -14,6 +14,6 @@ fun Empty(position: String): Empty {
 
 data class Empty(val x1: Int, val y1: Int) : Point(x1, y1) {
     override fun toggle(position: String): Point {
-        return this
+        return Black(position)
     }
 }

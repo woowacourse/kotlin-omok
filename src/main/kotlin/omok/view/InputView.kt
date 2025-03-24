@@ -1,6 +1,5 @@
 package omok.view
 
-import omok.domain.point.Black
 import omok.domain.point.Empty
 import omok.domain.point.Point
 import omok.view.ext.position
@@ -8,19 +7,12 @@ import omok.view.ext.toLabel
 
 object InputView {
     fun readStoneWithLastPosition(lastPosition: Point): String? {
-        while (true) {
-            if (lastPosition is Empty) {
-                print(MESSAGE_PLAYER_TURN.format(Black(0, 0).toLabel()))
-            } else {
-                print(MESSAGE_PLAYER_TURN.format(lastPosition.toggle("H1").toLabel()))
-            }
-
-            if (lastPosition !is Empty) {
-                println(MESSAGE_LAST_POSITION.format(lastPosition.position()))
-            }
-            print(MESSAGE_INPUT_POSITION)
-            return readlnOrNull()?.trim()
+        print(MESSAGE_PLAYER_TURN.format(lastPosition.toggle("H1").toLabel()))
+        if (lastPosition !is Empty) {
+            println(MESSAGE_LAST_POSITION.format(lastPosition.position()))
         }
+        print(MESSAGE_INPUT_POSITION)
+        return readlnOrNull()?.trim()
     }
 
     fun printOnNull() {
