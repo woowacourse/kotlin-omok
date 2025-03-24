@@ -1,6 +1,11 @@
 package omok.domain.rule
 
 import omok.domain.Board.Companion.DEFAULT_BOARD_SIZE
+import omok.domain.Direction
+import omok.domain.Direction.DIAGONAL_DOWN
+import omok.domain.Direction.DIAGONAL_UP
+import omok.domain.Direction.HORIZONTAL
+import omok.domain.Direction.VERTICAL
 import omok.domain.Point
 
 class OmokRule(private val size: Int = DEFAULT_BOARD_SIZE) {
@@ -14,9 +19,9 @@ class OmokRule(private val size: Int = DEFAULT_BOARD_SIZE) {
 
     private fun isSerialOmok(
         lastPoint: Point,
-        directions: List<Pair<Int, Int>>,
+        directions: Direction,
         points: Set<Point>,
-    ): Boolean = directions.sumOf { countConnected(lastPoint, it, points) } >= OMOK_STONE_COUNT - 1
+    ): Boolean = directions.direction.sumOf { countConnected(lastPoint, it, points) } >= OMOK_STONE_COUNT - 1
 
     private fun countConnected(
         point: Point,
@@ -38,11 +43,6 @@ class OmokRule(private val size: Int = DEFAULT_BOARD_SIZE) {
 
     companion object {
         private const val OMOK_STONE_COUNT = 5
-
-        private val HORIZONTAL = listOf(Pair(-1, 0), Pair(1, 0))
-        private val VERTICAL = listOf(Pair(0, 1), Pair(0, -1))
-        private val DIAGONAL_UP = listOf(Pair(-1, -1), Pair(1, 1))
-        private val DIAGONAL_DOWN = listOf(Pair(-1, 1), Pair(1, -1))
         private val DIRECTIONS = listOf(HORIZONTAL, VERTICAL, DIAGONAL_UP, DIAGONAL_DOWN)
     }
 }
