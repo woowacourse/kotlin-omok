@@ -13,7 +13,7 @@ class Game(
 
     fun play(newStone: Stone) {
         board.place(newStone)
-        _lastStone = Stone(newStone.point, _lastStone.color.reverse())
+        _lastStone = Stone(newStone.point, _lastStone.color)
     }
 
     fun gameState(newStone: Stone): GameState {
