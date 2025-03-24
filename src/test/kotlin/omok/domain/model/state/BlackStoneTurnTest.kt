@@ -19,7 +19,7 @@ class BlackStoneTurnTest {
         val newState = state.placeStone { Position(Column.from('A'), Row(1)) }
 
         // Then
-        newState.shouldBeTypeOf<WhiteStoneTurnTest>()
+        newState.shouldBeTypeOf<WhiteStoneTurn>()
     }
 
     @Test
