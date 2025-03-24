@@ -26,7 +26,8 @@ class OmokController(
             omokGame.play(
                 onBoardState = outputView::printBoardState,
                 onBoardTurn = outputView::printTurn,
-                onPlace = ::position,
+                onPlace = outputView::printErrorMessage,
+                onPosition = ::position,
                 stoneType = StoneType.BLACK,
             )
 

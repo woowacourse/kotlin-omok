@@ -23,7 +23,7 @@
 ## 1차 피드백 사항
 
 - [x] View, Controller, Model 값 생성 위치 분류
-- [ ] placeStone, canPlace 예외 처리 및 역할 수정
+- [x] placeStone, canPlace 예외 처리 및 역할 수정
 - [x] Board와 Rule의 책임 분리 및 역할 분리
 - [x] Column은 도메인에서 처리할 값으로 받아야하니 입력 처리를 View또는 중간 계층으로 처리해서 이전
 - [x] 매직 넘버 포장

@@ -16,5 +16,5 @@ class OmokRule(private val renjuRule: RenjuRule) : Rule {
     override fun canPlace(
         stones: Stones,
         stone: Stone,
-    ): Boolean = renjuRule.canPlace(stones, stone)
+    ): PlaceResult = renjuRule.canPlace(stones, stone)
 }

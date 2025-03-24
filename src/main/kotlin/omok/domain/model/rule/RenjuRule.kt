@@ -12,5 +12,5 @@ interface RenjuRule {
     fun canPlace(
         stones: Stones,
         stone: Stone,
-    ): Boolean
+    ): PlaceResult
 }

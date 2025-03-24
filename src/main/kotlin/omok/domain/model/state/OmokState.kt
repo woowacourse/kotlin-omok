@@ -8,5 +8,8 @@ interface OmokState {
     val stoneType: StoneType
     val stones: Stones
 
-    fun placeStone(position: Position): OmokState
+    fun placeStone(
+        position: Position,
+        onPlaceMessage: (String) -> Unit,
+    ): OmokState
 }

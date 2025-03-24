@@ -12,5 +12,5 @@ interface Rule {
     fun canPlace(
         stones: Stones,
         stone: Stone,
-    ): Boolean
+    ): PlaceResult
 }

@@ -15,26 +15,28 @@ class Game(private val board: Board, private val rule: OmokRule) {
     fun play(
         onBoardState: (Board, Stones) -> Unit,
         onBoardTurn: (StoneType, Position?) -> Unit,
-        onPlace: (Board) -> Position,
+        onPlace: (String) -> Unit,
+        onPosition: (Board) -> Position,
         stoneType: StoneType,
     ): StoneType {
         val state = Turn(Stones(listOf()), rule, stoneType)
-        return progress(onBoardState, onBoardTurn, onPlace, stoneType, state).stoneType
+        return progress(onBoardState, onBoardTurn, onPlace, onPosition, stoneType, state).stoneType
     }
 
     private tailrec fun progress(
         onBoardState: (Board, Stones) -> Unit,
         onBoardTurn: (StoneType, Position?) -> Unit,
-        onPlace: (Board) -> Position,
+        onPlace: (String) -> Unit,
+        onPosition: (Board) -> Position,
         stoneType: StoneType,
         state: OmokState,
     ): OmokState {
         onBoardState(board, state.stones)
         onBoardTurn(stoneType, currentPosition)
-        val position = onPlace(board)
-        val next = state.placeStone(position)
+        val position = onPosition(board)
+        val next = state.placeStone(position, onPlace)
         currentPosition = position
         if (next is Finish) return next
-        return progress(onBoardState, onBoardTurn, onPlace, stoneType, next)
+        return progress(onBoardState, onBoardTurn, onPlace, onPosition, stoneType.reverse(), next)
     }
 }
