@@ -5,35 +5,26 @@ import omok.model.board.BoardSize
 import omok.model.board.Point
 import omok.model.board.StoneColor
 
-fun String.toPosition(): Pair<Int, Int> {
-    return this[0].alphabetToInt() to this.substring(1).toInt()
-}
+fun String.toPosition(): Pair<Int, Int> = this[0].alphabetToInt() to this.substring(1).toInt()
 
-fun Char.alphabetToInt(): Int {
-    return if (this.uppercaseChar() in 'A'..'Z') this.uppercaseChar() - 'A' + 1 else -1
-}
+fun Char.alphabetToInt(): Int = this.uppercaseChar().let { if (it in 'A'..'Z') it - 'A' + 1 else -1 }
 
-fun Point.toAlphabet(): String {
-    return this.x.toAlphabet() + this.y.toString()
-}
+fun Point.toAlphabet(): String = "${x.toAlphabet()}$y"
 
-fun Int.toAlphabet(): Char {
-    return if (this in 1..15) 'A' + (this - 1) else ' '
-}
+fun Int.toAlphabet(): Char = if (this in 1..15) 'A' + (this - 1) else ' '
 
-fun StoneColor?.toColorString(): String {
-    return when (this) {
+fun StoneColor?.toColorString(): String =
+    when (this) {
         StoneColor.BLACK -> "흑"
         StoneColor.WHITE -> "백"
         else -> "흑"
     }
-}
 
 fun Board.toUiString(): String {
     val sb = StringBuilder()
 
     for (y in this.size downTo 1) {
-        sb.append(y.toString().padStart(2, ' ') + " ")
+        sb.append(y.toString().padStart(2, ' ')).append(" ")
         for (x in BoardSize.MIN_SIZE..this.size) {
             sb.append(getBoardCharacter(this, x, y))
             if (x != this.size) sb.append("──")
@@ -52,31 +43,32 @@ private fun getBoardCharacter(
     x: Int,
     y: Int,
 ): String {
-    val stoneColor = board.findStoneColor(Point(x, y))
+    return when (val stoneColor = board.findStoneColor(Point(x, y))) {
+        null -> getBorderCharacter(x, y, board.size)
+        else -> stoneColor.toUiString() ?: "┼"
+    }
+}
 
-    return stoneColor?.toUiString() ?: when {
-        // 네 모서리 처리
-        x == BoardSize.MIN_SIZE && y == board.size -> "┌"
-        x == board.size && y == board.size -> "┐"
+private fun getBorderCharacter(
+    x: Int,
+    y: Int,
+    boardSize: Int,
+): String {
+    return when {
+        x == BoardSize.MIN_SIZE && y == boardSize -> "┌"
+        x == boardSize && y == boardSize -> "┐"
         x == BoardSize.MIN_SIZE && y == BoardSize.MIN_SIZE -> "└"
-        x == board.size && y == BoardSize.MIN_SIZE -> "┘"
-
-        // 상단, 하단 테두리 처리
-        y == board.size -> "┬"
+        x == boardSize && y == BoardSize.MIN_SIZE -> "┘"
+        y == boardSize -> "┬"
         y == BoardSize.MIN_SIZE -> "┴"
-
-        // 좌측, 우측 테두리 처리
         x == BoardSize.MIN_SIZE -> "├"
-        x == board.size -> "┤"
-
-        // 기본 교차점 처리
+        x == boardSize -> "┤"
         else -> "┼"
     }
 }
 
-private fun StoneColor.toUiString(): String? {
-    return when (this) {
+private fun StoneColor.toUiString(): String =
+    when (this) {
         StoneColor.BLACK -> "●"
         StoneColor.WHITE -> "○"
     }
-}
