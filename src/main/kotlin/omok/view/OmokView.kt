@@ -26,43 +26,71 @@ class OmokView {
     }
 
     fun show(board: Board) {
-        val boardToList: List<List<BoardPositionState>> =
-            List(board.sideLength.value) { column ->
-                List(board.sideLength.value) { row ->
-                    board.stateAt(row, column)
-                }
-            }
-
+        val boardToList: List<List<BoardPositionState>> = board.matrix
         val lastIndex = board.sideLength.value - 1
         val boundary = board.sideLength.value
+        showBoard(boardToList, boundary, lastIndex)
+    }
+
+    private fun showBoard(
+        boardToList: List<List<BoardPositionState>>,
+        boundary: Int,
+        lastIndex: Int,
+    ) {
         boardToList.forEachIndexed { columnIndex: Int, row: List<BoardPositionState> ->
             row.forEachIndexed { rowIndex: Int, state: BoardPositionState ->
                 val wantToShow: String =
                     columnIndex(rowIndex, columnIndex, boundary) +
-                        when (state) {
-                            BoardPositionState.Empty -> {
-                                when {
-                                    rowIndex == 0 && columnIndex == 0 -> "┌"
-                                    rowIndex == 0 && columnIndex == lastIndex -> "└"
-                                    rowIndex == lastIndex && columnIndex == lastIndex -> "┘"
-                                    rowIndex == lastIndex && columnIndex == 0 -> "┐"
-                                    columnIndex == 0 -> "┬"
-                                    columnIndex == lastIndex -> "┴"
-                                    rowIndex == 0 -> "├"
-                                    rowIndex == lastIndex -> "┤"
-                                    else -> "┼"
-                                }
-                            }
-
-                            BoardPositionState.Exist.Black -> "●"
-                            BoardPositionState.Exist.White -> "○"
-                        } + if (rowIndex == lastIndex) "" else "──"
+                        position(state, rowIndex, columnIndex, lastIndex) +
+                        separator(rowIndex, lastIndex)
                 print(wantToShow)
             }
             println()
         }
         println(rowIndex(lastIndex))
     }
+
+    private fun separator(
+        rowIndex: Int,
+        lastIndex: Int,
+    ): String = if (rowIndex == lastIndex) "" else "──"
+
+    private fun position(
+        state: BoardPositionState,
+        rowIndex: Int,
+        columnIndex: Int,
+        lastIndex: Int,
+    ): String =
+        when (state) {
+            BoardPositionState.Empty -> emptyPosition(rowIndex, columnIndex, lastIndex)
+            BoardPositionState.Exist.Black -> "●"
+            BoardPositionState.Exist.White -> "○"
+        }
+
+    private val Board.matrix: List<List<BoardPositionState>>
+        get() =
+            List(sideLength.value) { column ->
+                List(sideLength.value) { row ->
+                    stateAt(row, column)
+                }
+            }
+
+    private fun emptyPosition(
+        rowIndex: Int,
+        columnIndex: Int,
+        lastIndex: Int,
+    ): String =
+        when {
+            rowIndex == 0 && columnIndex == 0 -> "┌"
+            rowIndex == 0 && columnIndex == lastIndex -> "└"
+            rowIndex == lastIndex && columnIndex == lastIndex -> "┘"
+            rowIndex == lastIndex && columnIndex == 0 -> "┐"
+            columnIndex == 0 -> "┬"
+            columnIndex == lastIndex -> "┴"
+            rowIndex == 0 -> "├"
+            rowIndex == lastIndex -> "┤"
+            else -> "┼"
+        }
 
     private fun columnIndex(
         rowIndex: Int,
