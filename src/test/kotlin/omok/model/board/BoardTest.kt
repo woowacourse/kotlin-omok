@@ -6,7 +6,6 @@ import omok.model.fixture.RenjuRuleJudge
 import omok.model.rule.RuleValidator
 import omok.model.utils.generatePoints
 import omok.model.utils.toPoint
-import omok.view.OutputView
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -96,7 +95,6 @@ class BoardTest {
         val board = createBoard(listOf("C3", "D4", "F4", "G3"))
         val result = board.placeStone("E5".toPoint(), StoneColor.BLACK)
         val actual = result is OnGoing.RuleViolation
-        OutputView().printBoardStatus(board)
         assertTrue(actual)
     }
 

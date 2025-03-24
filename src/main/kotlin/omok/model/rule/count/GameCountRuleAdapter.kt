@@ -2,11 +2,11 @@ package omok.model.rule.count
 
 import omok.model.board.Board
 import omok.model.board.Point
-import omok.model.rule.OmokRule
+import omok.model.rule.GameRule
 
-class OmokCountRuleAdapter(
+class GameCountRuleAdapter(
     val omokCountRule: OmokCountRule,
-) : OmokRule {
+) : GameRule {
     override fun validateMove(
         board: Board,
         previousPoint: Point,

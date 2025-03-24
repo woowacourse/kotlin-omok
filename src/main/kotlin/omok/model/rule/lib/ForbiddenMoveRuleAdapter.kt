@@ -3,11 +3,11 @@ package omok.model.rule.lib
 import omok.model.board.Board
 import omok.model.board.Point
 import omok.model.board.StoneColor
-import omok.model.rule.OmokRule
+import omok.model.rule.GameRule
 
 class ForbiddenMoveRuleAdapter(
     private val forbiddenMoveRule: ForbiddenMoveRule,
-) : OmokRule {
+) : GameRule {
     override fun validateMove(
         board: Board,
         previousPoint: Point,

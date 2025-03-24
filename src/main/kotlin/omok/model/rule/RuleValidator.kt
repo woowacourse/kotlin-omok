@@ -5,18 +5,18 @@ import omok.model.board.Point
 import omok.model.board.StoneColor
 
 class RuleValidator {
-    private val violationRules: MutableMap<OmokRule, List<StoneColor>> = mutableMapOf()
-    private val winningRules: MutableMap<OmokRule, List<StoneColor>> = mutableMapOf()
+    private val violationRules: MutableMap<GameRule, List<StoneColor>> = mutableMapOf()
+    private val winningRules: MutableMap<GameRule, List<StoneColor>> = mutableMapOf()
 
     fun addWinningRule(
-        rule: OmokRule,
+        rule: GameRule,
         targetColors: List<StoneColor>,
     ) {
         winningRules[rule] = targetColors
     }
 
     fun addViolationRule(
-        rule: OmokRule,
+        rule: GameRule,
         targetColors: List<StoneColor>,
     ) {
         violationRules[rule] = targetColors
@@ -39,7 +39,7 @@ class RuleValidator {
     }
 
     private fun evaluateRules(
-        rules: Map<OmokRule, List<StoneColor>>,
+        rules: Map<GameRule, List<StoneColor>>,
         board: Board,
         point: Point,
         currentColor: StoneColor,
