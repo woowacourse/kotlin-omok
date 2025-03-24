@@ -1,6 +1,9 @@
 package omok.domain
 
-data class Turn(private var color: StoneType = StoneType.BLACK) {
+class Turn {
+    var color: StoneType = StoneType.BLACK
+        private set
+
     fun next() {
         color =
             if (color == StoneType.BLACK) {
@@ -9,8 +12,6 @@ data class Turn(private var color: StoneType = StoneType.BLACK) {
                 StoneType.BLACK
             }
     }
-
-    fun color(): StoneType = color
 
     fun isWhite(): Boolean = color == StoneType.WHITE
 }

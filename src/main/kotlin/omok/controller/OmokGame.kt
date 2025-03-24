@@ -24,7 +24,7 @@ class OmokGame(
             val lastStone: Stone? = board.stones.lastStone()
             messageTurn(lastStone, prevPosition)
             val position = preparePosition()
-            val stone = board.put(position, turn.color())
+            val stone = board.put(position, turn.color)
             if (board.isOmok(stone)) break
             turn.next()
             if (board.isFull()) {
