@@ -1,6 +1,8 @@
 package omok.model.board
 
 import omok.fixture.generateTestBoardFixture
+import omok.model.board.result.Finished
+import omok.model.board.result.OnGoing
 import omok.model.rule.OmokRuleJudge
 import omok.model.rule.count.FiveInRowRule
 import org.assertj.core.api.Assertions.assertThat
@@ -11,6 +13,16 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+
+private val FullPlacedBoard =
+    Board(
+        size = BoardSize(15),
+        points =
+            (1..15).flatMap { x -> (1..15).map { y -> Point(x, y) to StoneColor.BLACK } }
+                .filter { it.first != Point(15, 15) }
+                .toMap(),
+        judge = OmokRuleJudge(),
+    )
 
 class BoardTest {
     private lateinit var board: Board
@@ -72,7 +84,7 @@ class BoardTest {
         board.placeStone(position, StoneColor.WHITE)
 
         val actual = board.placeStone(position, StoneColor.BLACK)
-        val expected = PlaceStoneResult.Failure.AlreadyPlaced
+        val expected = OnGoing.AlreadyPlaced
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -95,41 +107,50 @@ class BoardTest {
                 StoneColor.WHITE,
             )
         val result = board.placeStone(Point(4, 12), StoneColor.WHITE)
-        val actual = result is PlaceStoneResult.Success.Placed
+        val actual = result is OnGoing.StonePlaced
 
         assertTrue(actual)
     }
 
     @Test
-    fun `금수로 판단되면 Closed를 반환한다`() {
+    fun `금수로 판단되면 RuleViolation를 반환한다`() {
         val board =
             generateTestBoardFixture(
                 listOf(Point(1, 1), Point(2, 1), Point(3, 1), Point(4, 1), Point(6, 1)),
                 StoneColor.BLACK,
             )
         val result = board.placeStone(Point(5, 1), StoneColor.BLACK)
-        val actual = result is PlaceStoneResult.Failure.Closed
+        val actual = result is OnGoing.RuleViolation
 
         assertTrue(actual)
     }
 
     @Test
-    fun `오목이면 Finished를 반환한다`() {
+    fun `오목이면 GameFinished를 반환한다`() {
         val board =
             generateTestBoardFixture(
                 listOf(Point(1, 1), Point(2, 1), Point(3, 1), Point(4, 1)),
                 StoneColor.BLACK,
             )
         val result = board.placeStone(Point(5, 1), StoneColor.BLACK)
-        val actual = result is PlaceStoneResult.Success.Finished
+        val actual = result is Finished.GameFinished
 
         assertTrue(actual)
     }
 
     @Test
-    fun `바둑판 크기를 벗어난 위치에 두려고 하면 InvalidPoint를 반환한다`() {
+    fun `바둑판 크기를 벗어난 위치에 두려고 하면 InvalidMove를 반환한다`() {
         val result = board.placeStone(Point(30, 1), StoneColor.BLACK)
-        val actual = result is PlaceStoneResult.Failure.InvalidPoint
+        val actual = result is OnGoing.InvalidMove
+
+        assertTrue(actual)
+    }
+
+    @Test
+    fun `바둑판에 더 이상 둘 공간이 없다면 BoardFull를 반환한다`() {
+        val result = FullPlacedBoard.placeStone(Point(15, 15), StoneColor.BLACK)
+        println(result)
+        val actual = result is Finished.BoardFull
 
         assertTrue(actual)
     }

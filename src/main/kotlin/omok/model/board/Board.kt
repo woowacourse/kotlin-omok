@@ -1,5 +1,8 @@
 package omok.model.board
 
+import omok.model.board.result.Finished
+import omok.model.board.result.OnGoing
+import omok.model.board.result.PlaceStoneResult
 import omok.model.rule.OmokRuleJudge
 
 class Board(
@@ -27,14 +30,17 @@ class Board(
         point: Point,
         color: StoneColor,
     ): PlaceStoneResult {
-        if (checkOutOfBounds(point)) return PlaceStoneResult.Failure.InvalidPoint
-        if (checkAlreadyPlaced(point)) return PlaceStoneResult.Failure.AlreadyPlaced
+        if (checkOutOfBounds(point)) return OnGoing.InvalidMove
+        if (checkAlreadyPlaced(point)) return OnGoing.AlreadyPlaced
 
-        if (!judge.validate(this, point, color)) return PlaceStoneResult.Failure.Closed
+        if (!judge.validate(this, point, color)) return OnGoing.RuleViolation
         updatePoint(point, color)
 
-        if (judge.isWin(this, point, color)) return PlaceStoneResult.Success.Placed(point)
-        return PlaceStoneResult.Success.Finished(point)
+        if (judge.isWin(this, point, color)) {
+            if (points.count { it.value == null } == 0) return Finished.BoardFull(point)
+            return OnGoing.StonePlaced(point)
+        }
+        return Finished.GameFinished(point)
     }
 
     private fun updatePoint(
