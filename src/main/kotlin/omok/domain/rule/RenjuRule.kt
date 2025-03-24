@@ -10,12 +10,12 @@ class RenjuRule(boardSize: Int = DEFAULT_BOARD_SIZE) {
 
     fun isFoul(
         other: Stones,
-        point: Point,
-        points: Set<Point>,
+        newPoint: Point,
+        existingPoints: Set<Point>,
     ): Boolean {
-        val selfPoints = points.map { it.toPair() }
+        val selfPoints = existingPoints.map { it.toPair() }
         val otherPoints = other.points.map { it.toPair() }
-        val targetPoint = point.toPair()
+        val targetPoint = newPoint.toPair()
 
         return listOf(
             omokRule.checkDoubleFourFoul(selfPoints, otherPoints, targetPoint),
