@@ -18,17 +18,13 @@ class InputView {
     private fun promptInput(game: Game) {
         val lastStone: Stone? = game.lastStone
         val playerName: String =
-            when (game.lastStone?.color) {
+            when (lastStone?.color) {
                 Color.BLACK -> WHITE_PLAYER
                 Color.WHITE, null -> BLACK_PLAYER
             }
         print(MESSAGE_TURN_INDICATOR.format(playerName))
-        println(
-            when (lastStone) {
-                null -> ""
-                else -> MESSAGE_LAST_STONE_POSITION.format(lastStone.position.stringRepresentation())
-            },
-        )
+        if (lastStone != null) print(MESSAGE_LAST_STONE_POSITION.format(lastStone.position.stringRepresentation()))
+        println()
         print(MESSAGE_ENTER_POSITION)
     }
 
@@ -45,13 +41,13 @@ class InputView {
     }
 
     companion object {
-        const val MESSAGE_TURN_INDICATOR = "%s의 차례입니다. "
-        const val MESSAGE_LAST_STONE_POSITION = "(마지막 돌의 위치: %s)"
-        const val MESSAGE_ENTER_POSITION = "위치를 입력하세요: "
-
         private const val BLACK_PLAYER = "흑"
         private const val WHITE_PLAYER = "백"
+        private const val MESSAGE_TURN_INDICATOR = "%s의 차례입니다. "
+        private const val MESSAGE_LAST_STONE_POSITION = "(마지막 돌의 위치: %s)"
+        private const val MESSAGE_ENTER_POSITION = "위치를 입력하세요: "
         private const val ERROR_MESSAGE_INCORRECT_POSITION_FORMAT = "올바르지 않은 위치 입력 형식입니다."
+
         private const val ASCII_OFFSET = 'A'.code - 1
     }
 }
