@@ -3,7 +3,7 @@ package omok.controller
 import omok.domain.Board
 import omok.domain.Stone
 import omok.domain.Turn
-import omok.model.RenjuRuleAdapter
+import omok.model.RenjuRule
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -12,7 +12,7 @@ class OmokGame(
     private val outputView: OutputView,
 ) {
     fun start() {
-        val board = Board(RenjuRuleAdapter())
+        val board = Board(RenjuRule())
         val turn = Turn()
         outputView.printStartMessage()
         var position = ""

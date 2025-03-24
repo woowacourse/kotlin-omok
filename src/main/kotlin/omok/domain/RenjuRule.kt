@@ -8,7 +8,7 @@ import omok.library.FourFourRule
 import omok.library.MoreThanFiveRule
 import omok.library.ThreeThreeRule
 
-class RenjuRuleAdapter : Rule {
+class RenjuRule : Rule {
     private val fourFourRule = FourFourRule(15)
     private val threeThreeRule = ThreeThreeRule(15)
     private val moreThanFiveRule = MoreThanFiveRule(15)
