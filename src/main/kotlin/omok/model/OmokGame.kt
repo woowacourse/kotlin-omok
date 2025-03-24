@@ -27,29 +27,30 @@ class OmokGame(
         playTurns(board)
     }
 
-    private fun playTurns(board: Board): Boolean =
-        retryOnException {
-            val point = getNextPoint()
-            val placeResult = board.placeStone(point, currentStoneColor)
-            handlePlaceResult(placeResult, board)
-        }
+    private fun playTurns(board: Board) =
+        retryOnException(
+            action = {
+                val point = getNextPoint()
+                val placeResult = board.placeStone(point, currentStoneColor)
+                handlePlaceResult(placeResult, board)
+                placeResult
+            },
+            isFinish = { placeResult ->
+                placeResult is Finished
+            },
+        )
 
     private fun getNextPoint(): Point =
-        retryOnException {
-            omokGameHandler.onRequestPosition(previousPoint to currentStoneColor)
-        }
+        retryOnException(
+            action = { omokGameHandler.onRequestPosition(previousPoint to currentStoneColor) },
+        )
 
     private fun handlePlaceResult(
         result: PlaceStoneResult,
         board: Board,
-    ): Boolean {
-        if (result is OnGoing) {
-            handleOnGoingResult(result, board)
-            return true
-        }
-
+    ) {
+        if (result is OnGoing) handleOnGoingResult(result, board)
         handleFinishedResult(result as Finished, board)
-        return false
     }
 
     private fun handleFinishedResult(
@@ -97,10 +98,13 @@ class OmokGame(
         }
     }
 
-    private fun <T> retryOnException(action: () -> T): T =
+    private fun <T> retryOnException(
+        action: () -> T,
+        isFinish: (T) -> Boolean = { false },
+    ): T =
         omok.utils.retry(
             action = action,
-            shouldRetry = { false },
+            isFinish = { isFinish(it) },
             onFailure = { omokGameHandler.onError(it.message.toString()) },
         )
 
