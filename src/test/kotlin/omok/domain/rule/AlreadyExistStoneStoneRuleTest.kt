@@ -2,7 +2,7 @@ package omok.domain.rule
 
 import omok.domain.omokboard.PlayingBoard
 import omok.domain.omokboard.Position
-import omok.domain.placeresult.GameProgress
+import omok.domain.placeresult.InvalidMove
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
 import org.assertj.core.api.Assertions.assertThat
@@ -18,7 +18,7 @@ class AlreadyExistStoneStoneRuleTest {
         // when
         playingBoard.placeStone(playerStone1)
         val actual = AlreadyExistStoneRule().place(playingBoard.board, playerStone1)
-        val expected = GameProgress.AlreadyExistStone
+        val expected = InvalidMove.AlreadyExistStone
 
         // then
         assertThat(actual).isEqualTo(expected)

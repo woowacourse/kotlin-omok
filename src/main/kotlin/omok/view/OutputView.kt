@@ -5,8 +5,8 @@ import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
 import omok.domain.omokboard.State
-import omok.domain.placeresult.GameNotProgress.AlreadyExistStone
-import omok.domain.placeresult.GameNotProgress.InvalidPosition
+import omok.domain.placeresult.InvalidMove.AlreadyExistStone
+import omok.domain.placeresult.InvalidMove.InvalidPosition
 import omok.domain.placeresult.PlaceResult
 import omok.domain.rule.GameResult
 import omok.domain.rule.GameResult.DRAW

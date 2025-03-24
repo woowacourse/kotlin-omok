@@ -6,7 +6,7 @@ import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
 import omok.domain.omokboard.State
 import omok.domain.placeresult.GameFinish
-import omok.domain.placeresult.GameProgress
+import omok.domain.placeresult.GameOnGoing
 import omok.domain.placeresult.PlaceResult
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
@@ -38,7 +38,7 @@ class WinningRule : OmokRule {
             }
         }
 
-        return GameProgress()
+        return GameOnGoing
     }
 
     private fun countStonesInDirection(

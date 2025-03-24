@@ -42,7 +42,7 @@ class WinningRuleTest {
          */
 
         val actual = WinningRule().place(omokBoardBlackWinByHorizontal, playerStone)
-        val expected = GameFinish.GameWin(GameResult.WIN_BLACK)
+        val expected = GameFinish(GameResult.WIN_BLACK)
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -63,7 +63,7 @@ class WinningRuleTest {
             )
 
         val actual = WinningRule().place(omokBoardBlackWinByVertical, playerStone)
-        val expected = GameFinish.GameWin(GameResult.WIN_BLACK)
+        val expected = GameFinish(GameResult.WIN_BLACK)
         /*
         15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
         14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
@@ -102,7 +102,7 @@ class WinningRuleTest {
             )
 
         val actual = WinningRule().place(omokBoardBlackWinByDiagonal, playerStone)
-        val expected = GameFinish.GameWin(GameResult.WIN_BLACK)
+        val expected = GameFinish(GameResult.WIN_BLACK)
 
         /*
         15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
@@ -142,7 +142,7 @@ class WinningRuleTest {
             )
 
         val actual = WinningRule().place(omokBoardBlackWinByBetween, playerStone)
-        val expected = GameFinish.GameWin(GameResult.WIN_BLACK)
+        val expected = GameFinish(GameResult.WIN_BLACK)
 
         /*
         15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
@@ -181,7 +181,7 @@ class WinningRuleTest {
             )
 
         val actual = WinningRule().place(omokBoardWhiteWinByHorizontal, playerStone)
-        val expected = GameFinish.GameWin(GameResult.WIN_WHITE)
+        val expected = GameFinish(GameResult.WIN_WHITE)
 
         /*
         15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐

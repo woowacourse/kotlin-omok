@@ -1,3 +1,3 @@
 package omok.domain.placeresult
 
-class GameProgress : PlaceResult
+object GameOnGoing : PlaceResult

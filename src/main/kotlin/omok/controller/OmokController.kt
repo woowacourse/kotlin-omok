@@ -3,8 +3,8 @@ package omok.controller
 import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.PlayingBoard
 import omok.domain.placeresult.GameFinish
-import omok.domain.placeresult.GameNotProgress
-import omok.domain.placeresult.GameProgress
+import omok.domain.placeresult.GameOnGoing
+import omok.domain.placeresult.InvalidMove
 import omok.domain.placeresult.PlaceResult
 import omok.domain.rule.OmokRule
 import omok.domain.service.OmokGame
@@ -30,10 +30,10 @@ class OmokController(
     ) {
         outputView.displayOmokBoard(omokBoard)
         when (placeResult) {
-            is GameProgress -> return
+            is GameOnGoing -> return
             is GameFinish -> outputView.displayGameResultMessage(placeResult.gameResult)
-            is GameNotProgress.InvalidPosition, is GameNotProgress.AlreadyExistStone -> outputView.displayMisPlaceMessage(placeResult)
-            is GameNotProgress.ExternalRenjuRule -> outputView.displayForbiddenMessage(placeResult.rule)
+            is InvalidMove.InvalidPosition, is InvalidMove.AlreadyExistStone -> outputView.displayMisPlaceMessage(placeResult)
+            is InvalidMove.ExternalRenjuRule -> outputView.displayForbiddenMessage(placeResult.rule)
         }
     }
 }

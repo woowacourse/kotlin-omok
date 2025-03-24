@@ -34,7 +34,7 @@ class DrawRuleTest {
         // when
         val playerStone = PlayerStone(StoneColor.BLACK, Position(RowPosition(15), ColumnPosition(15)))
         val actual = DrawRule().place(playingBoard.board, playerStone)
-        val expected = GameFinish.GameWin(GameResult.DRAW)
+        val expected = GameFinish(GameResult.DRAW)
 
         // then
         assertThat(actual).isEqualTo(expected)
