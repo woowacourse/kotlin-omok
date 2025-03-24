@@ -22,4 +22,16 @@ enum class Direction(
             direction.rowStep * this.rowStep == 1 -> true
             else -> false
         }
+
+    fun opposite(): Direction =
+        when (this) {
+            UP -> DOWN
+            DOWN -> UP
+            LEFT -> RIGHT
+            RIGHT -> LEFT
+            UP_LEFT -> DOWN_RIGHT
+            DOWN_RIGHT -> UP_LEFT
+            UP_RIGHT -> DOWN_LEFT
+            DOWN_LEFT -> UP_RIGHT
+        }
 }
