@@ -7,11 +7,11 @@ data class Point(val x: Int, val y: Int) {
         private set
 
     fun changeColor(color: StoneColor) {
-        if (color == StoneColor.WHITE) {
-            changeState(PointState.WHITE)
-            return
-        }
-        changeState(PointState.BLACK)
+        state =
+            when (color) {
+                StoneColor.WHITE -> PointState.WHITE
+                StoneColor.BLACK -> PointState.BLACK
+            }
     }
 
     fun changeState(newState: PointState) {
