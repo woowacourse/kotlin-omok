@@ -1,6 +1,6 @@
 package omok.domain.grid
 
-class Stones() {
+class Stones {
     private val _stones: MutableSet<OmokPoint> = mutableSetOf()
     val stones: Set<OmokPoint> get() = _stones.deepCopy()
 

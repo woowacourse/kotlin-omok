@@ -2,7 +2,7 @@ package omok.domain.grid
 
 import omok.domain.StoneColor
 
-class OmokGrid() {
+class OmokGrid {
     private val whiteStones: Stones = Stones()
     private val blackStones: Stones = Stones()
 
