@@ -15,7 +15,7 @@ class PlayingBoardTest {
         val board = playingBoard.board.value
 
         // when
-        playingBoard.placeStone(PlayerStone(StoneColor.BLACK, POSITION_ONE_ONE))
+        playingBoard.placeStone(emptyList(), PlayerStone(StoneColor.BLACK, POSITION_ONE_ONE))
         val actual = board.values.first().state
         val expected = OCCUPIED_BLACK
 

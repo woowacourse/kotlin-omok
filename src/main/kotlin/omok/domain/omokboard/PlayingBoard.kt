@@ -28,7 +28,7 @@ class PlayingBoard(
         return result
     }
 
-    fun end(
+    fun judge(
         rules: List<OmokRule>,
         playerStone: PlayerStone,
     ): JudgeResult {

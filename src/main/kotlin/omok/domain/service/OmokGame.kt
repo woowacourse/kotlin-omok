@@ -46,7 +46,7 @@ class OmokGame(
                 is PlaceResult.Success -> {
                     stoneColor = stoneColor.reversed()
                     position = playerStone.position
-                    return when (val gameResult = playingBoard.end(judgeRules, playerStone)) {
+                    return when (val gameResult = playingBoard.judge(judgeRules, playerStone)) {
                         is JudgeResult.Finished.Win -> gameResult
                         is JudgeResult.Finished.Draw -> gameResult
                         JudgeResult.NotFinished -> continue
