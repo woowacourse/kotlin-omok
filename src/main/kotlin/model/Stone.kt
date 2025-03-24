@@ -9,13 +9,15 @@ class Stone(
     fun isSameColor(stone: Stone): Boolean = color.isSameColor(stone.color)
 
     companion object {
-        fun of(
+        fun ofOrNull(
             position: String,
             color: StoneColor,
-        ): Stone {
+        ): Stone? {
             val r = position.substring(1)
             val c = position[0]
-            return Stone(Position(Row.from(r.toInt()), Col.from(c)), color)
+            return runCatching {
+                Stone(Position(Row.from(r.toInt()), Col.from(c)), color)
+            }.getOrNull()
         }
     }
 }

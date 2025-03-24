@@ -1,5 +1,3 @@
-package model
-
 import controller.OmokController
 import view.InputView
 import view.ResultView

@@ -7,7 +7,7 @@ class StoneTest {
     @Test
     fun `오목돌을 생성한다`() {
         assertDoesNotThrow {
-            Stone.of("A1", StoneColor.BLACK)
+            Stone.ofOrNull("A1", StoneColor.BLACK)
         }
     }
 }

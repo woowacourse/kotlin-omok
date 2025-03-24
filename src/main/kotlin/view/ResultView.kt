@@ -4,6 +4,9 @@ import model.Col
 import model.Row
 import model.Stone
 import model.StoneColor
+import view.Message.ERROR_FORMAT
+import view.Message.GAME_RESULT_MESSAGE_FORMAT
+import view.Message.GAME_START_MESSAGE
 
 class ResultView {
     fun printGameStartMessage() {
@@ -92,8 +95,6 @@ class ResultView {
     }
 
     companion object {
-        private const val GAME_START_MESSAGE = "오목 게임을 시작합니다."
-        private const val GAME_RESULT_MESSAGE_FORMAT = "승자는 %s 입니다"
         private const val GAME_BOARD_LEFT_CORNER = " ├─"
         private const val GAME_BOARD_RIGHT_CORNER = "─┤ "
         private const val GAME_BOARD_UP_CORNER = "─┬─"
@@ -102,11 +103,6 @@ class ResultView {
         private const val GAME_BOARD_DOWN_LEFT_CORNER = " └─"
         private const val GAME_BOARD_UP_RIGHT_CORNER = "─┐ "
         private const val GAME_BOARD_DOWN_RIGHT_CORNER = "─┘ "
-        private const val GAME_BOARD_BASE = "─┼─"
-        const val ERROR_FORMAT = "[ERROR]"
-        const val EXIST_STONE = "이미 돌이 존재하는 칸입니다. 다시 입력하세요"
-        const val THREE_THREE = "삼삼입니다. 다시 입력하세요"
-        const val FOUR_FOUR = "사사입니다. 다시 입력하세요"
-        const val OVER_FIVE = "장목입니다. 다시 입력하세요"
+        const val GAME_BOARD_BASE = "─┼─"
     }
 }

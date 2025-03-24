@@ -5,6 +5,10 @@ import model.Position
 import model.Row
 import model.Stone
 import model.StoneColor
+import view.Message.ERROR_FORMAT
+import view.Message.INPUT_MESSAGE_GUIDE
+import view.Message.LAST_STONE_POSITION_MESSAGE
+import view.Message.TURN_MESSAGE_FORMAT
 
 class InputView {
     fun readInputPosition(
@@ -16,7 +20,27 @@ class InputView {
             println(LAST_STONE_POSITION_MESSAGE.format(lastStone.position.toDisplay()))
         }
         print(INPUT_MESSAGE_GUIDE)
-        return readln()
+        return validReadln()
+    }
+
+    private fun validReadln(): String {
+        val input = readln()
+        when {
+            input.length < 2 -> printError(Message.ERROR_INPUT)
+            input.substring(1).toIntOrNull() == null -> printError(Message.ERROR_INPUT)
+            else -> return input
+        }
+        return errorReInput()
+    }
+
+    fun errorReInput(): String {
+        print(INPUT_MESSAGE_GUIDE)
+        return validReadln()
+    }
+
+    fun printError(message: String) {
+        print(ERROR_FORMAT)
+        println(message)
     }
 
     private fun StoneColor.toDisplay(): String =
@@ -32,8 +56,5 @@ class InputView {
     private fun Col.toDisplay(): Char = (this.value + 64).toChar()
 
     companion object {
-        private const val TURN_MESSAGE_FORMAT = "\n%s의 차례입니다."
-        private const val LAST_STONE_POSITION_MESSAGE = " (마지막 돌의 위치: %s)"
-        private const val INPUT_MESSAGE_GUIDE = "\n위치를 입력하세요: "
     }
 }
