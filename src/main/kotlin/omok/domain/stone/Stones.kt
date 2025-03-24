@@ -2,6 +2,7 @@ package omok.domain.stone
 
 import omok.domain.Point
 import omok.domain.rule.OmokRule
+import omok.domain.rule.Violation
 
 class Stones(
     private val rule: OmokRule,
@@ -18,8 +19,8 @@ class Stones(
 
     fun isOmok(lastPoint: Point): Boolean = rule.isOmok(_points, lastPoint)
 
-    fun isFoul(
+    fun checkViolation(
         other: Stones,
         point: Point,
-    ): Boolean = rule.isFoul(this.points, other.points, point)
+    ): Violation = rule.checkViolation(this.points, other.points, point)
 }

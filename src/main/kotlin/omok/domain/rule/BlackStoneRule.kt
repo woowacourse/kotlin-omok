@@ -9,14 +9,17 @@ class BlackStoneRule(
 ) : OmokRule(boardSize) {
     private val renjuRule = BlackRenjuRule(boardSize, boardSize)
 
-    override fun isFoul(
-        blackPoints: Set<Point>,
-        whitePoints: Set<Point>,
+    override fun checkViolation(
+        thisPoints: Set<Point>,
+        otherPoints: Set<Point>,
         startPoint: Point,
-    ): Boolean =
-        isDoubleThreeFoul(blackPoints, whitePoints, startPoint) ||
-            isDoubleFourFoul(blackPoints, whitePoints, startPoint) ||
-            isOverlineFoul(blackPoints, startPoint)
+    ): Violation =
+        when {
+            isDoubleFourFoul(thisPoints, otherPoints, startPoint) -> Violation.DOUBLE_FOUR
+            isDoubleThreeFoul(thisPoints, otherPoints, startPoint) -> Violation.DOUBLE_THREE
+            isOverlineFoul(thisPoints, startPoint) -> Violation.OVERLINE
+            else -> Violation.NONE
+        }
 
     private fun isDoubleThreeFoul(
         blackPoints: Set<Point>,

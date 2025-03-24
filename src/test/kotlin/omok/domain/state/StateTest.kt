@@ -1,5 +1,7 @@
 package omok.domain.state
 
+import omok.domain.OmokBoard
+import omok.domain.OmokGame
 import omok.domain.rule.BlackStoneRule
 import omok.domain.rule.WhiteStoneRule
 import omok.domain.stone.StoneColor
@@ -20,14 +22,16 @@ class StateTest {
 
     @Test
     fun `흑의 차례가 끝나면 백의 차례이다`() {
-        val state = BlackTurn()
+        val omokBoard = OmokBoard(OmokGame.DEFAULT_BOARD_SIZE)
+        val state = BlackTurn(omokBoard)
         val nextState = state.place(A1)
         assertThat(nextState).isInstanceOf(WhiteTurn::class.java)
     }
 
     @Test
     fun `백의 차례가 끝나면 흑의 차례이다`() {
-        val state = WhiteTurn()
+        val omokBoard = OmokBoard(OmokGame.DEFAULT_BOARD_SIZE)
+        val state = WhiteTurn(omokBoard)
         val nextState = state.place(A1)
         assertThat(nextState).isInstanceOf(BlackTurn::class.java)
     }
@@ -36,7 +40,8 @@ class StateTest {
     fun `흑돌을 놓았을 때 오목이 되면 게임을 종료한다`() {
         val blackStones = Stones(blackStoneRule, setOf(A1, A2, A3, A4))
         val whiteStones = Stones(whiteStoneRule, emptySet())
-        val state = BlackTurn(blackStones = blackStones, whiteStones = whiteStones)
+        val omokBoard = OmokBoard(OmokGame.DEFAULT_BOARD_SIZE, blackStones, whiteStones)
+        val state = BlackTurn(omokBoard)
         val nextState = state.place(A5)
         assertThat(nextState).isInstanceOf(Finished::class.java)
     }
@@ -45,7 +50,8 @@ class StateTest {
     fun `백돌을 놓았을 때 오목이 되면 게임을 종료한다`() {
         val blackStones = Stones(blackStoneRule, emptySet())
         val whiteStones = Stones(whiteStoneRule, setOf(A1, A2, A3, A4))
-        val state = WhiteTurn(blackStones = blackStones, whiteStones = whiteStones)
+        val omokBoard = OmokBoard(OmokGame.DEFAULT_BOARD_SIZE, blackStones, whiteStones)
+        val state = WhiteTurn(omokBoard)
         val nextState = state.place(A5)
         assertThat(nextState).isInstanceOf(Finished::class.java)
     }
@@ -54,7 +60,8 @@ class StateTest {
     fun `흑돌을 놓은 다음에는 백돌을 놓는다`() {
         val blackStones = Stones(blackStoneRule, emptySet())
         val whiteStones = Stones(whiteStoneRule, emptySet())
-        val state = WhiteTurn(blackStones = blackStones, whiteStones = whiteStones)
+        val omokBoard = OmokBoard(OmokGame.DEFAULT_BOARD_SIZE, blackStones, whiteStones)
+        val state = WhiteTurn(omokBoard)
         val expected = StoneColor.WHITE
         assertThat(state.nextStoneColor()).isEqualTo(expected)
     }
@@ -63,7 +70,8 @@ class StateTest {
     fun `더 이상 돌을 놓을 수 없고 승자가 없으면 무승부이다`() {
         val blackStones = Stones(blackStoneRule, setOf(A1, A2))
         val whiteStones = Stones(whiteStoneRule, setOf(B1))
-        val state = WhiteTurn(2, blackStones = blackStones, whiteStones = whiteStones)
+        val omokBoard = OmokBoard(2, blackStones, whiteStones)
+        val state = WhiteTurn(omokBoard)
         val nextState = state.place(B2)
         assertThat(nextState).isInstanceOf(Finished::class.java)
         assertThat((nextState as Finished).winnerColor).isEqualTo(null)
@@ -73,7 +81,8 @@ class StateTest {
     fun `흑돌을 놓았을 때 오목이 되면 흑이 승리한다`() {
         val blackStones = Stones(blackStoneRule, setOf(A1, A2, A3, A4))
         val whiteStones = Stones(whiteStoneRule, setOf(B1))
-        val state = BlackTurn(blackStones = blackStones, whiteStones = whiteStones)
+        val omokBoard = OmokBoard(OmokGame.DEFAULT_BOARD_SIZE, blackStones, whiteStones)
+        val state = BlackTurn(omokBoard)
         val nextState = state.place(A5)
         assertThat(nextState).isInstanceOf(Finished::class.java)
         assertThat((nextState as Finished).winnerColor).isEqualTo(StoneColor.BLACK)

@@ -1,35 +1,39 @@
 package omok.domain.state
 
-import omok.domain.OmokGame
+import omok.domain.OmokBoard
 import omok.domain.Point
-import omok.domain.rule.BlackStoneRule
-import omok.domain.rule.WhiteStoneRule
+import omok.domain.rule.Violation
 import omok.domain.stone.StoneColor
-import omok.domain.stone.Stones
 
 class BlackTurn(
-    private val boardSize: Int = OmokGame.DEFAULT_BOARD_SIZE,
-    override val blackStones: Stones = Stones(BlackStoneRule(boardSize)),
-    override val whiteStones: Stones = Stones(WhiteStoneRule(boardSize)),
+    override val omokBoard: OmokBoard,
 ) : Playing {
     override fun place(point: Point): State {
-        require(!(blackStones.contains(point) || whiteStones.contains(point))) { ERROR_INVALID_POINT }
-        require(!blackStones.isFoul(whiteStones, point)) { ERROR_RENJU_RULE }
+        val violation = omokBoard.checkViolation(StoneColor.BLACK, point)
+        return when (violation) {
+            Violation.OUT_OF_BOARD,
+            Violation.OCCUPIED,
+            Violation.DOUBLE_THREE,
+            Violation.DOUBLE_FOUR,
+            Violation.OVERLINE,
+            -> throw IllegalArgumentException(ERROR_CANNOT_PLACE)
 
-        val newStones = blackStones + point
+            Violation.NONE -> getStateResult(point)
+        }
+    }
+
+    private fun getStateResult(point: Point): State {
+        val newStones = omokBoard.put(StoneColor.BLACK, point)
         return when {
-            blackStones.isOmok(point) -> Finished(newStones, whiteStones, StoneColor.BLACK)
-            newStones.points.size + whiteStones.points.size >= boardSize * boardSize ->
-                Finished(newStones, whiteStones, null)
-
-            else -> WhiteTurn(boardSize, newStones, whiteStones)
+            newStones.isOmok(StoneColor.BLACK, point) -> Finished(newStones, StoneColor.BLACK)
+            newStones.isFull() -> Finished(newStones, null)
+            else -> WhiteTurn(newStones)
         }
     }
 
     override fun nextStoneColor(): StoneColor = StoneColor.BLACK
 
     companion object {
-        private const val ERROR_INVALID_POINT = "[ERROR] 이미 돌이 놓여져 있습니다."
-        private const val ERROR_RENJU_RULE = "[ERROR] 돌을 놓을 수 없습니다."
+        private const val ERROR_CANNOT_PLACE = "[ERROR] 돌을 놓을 수 없습니다."
     }
 }

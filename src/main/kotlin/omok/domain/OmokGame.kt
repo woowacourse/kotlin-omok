@@ -7,13 +7,13 @@ import omok.domain.stone.StoneColor
 
 class OmokGame(
     val boardSize: Int = DEFAULT_BOARD_SIZE,
-    state: State = BlackTurn(boardSize),
 ) {
-    var state = state
+    var state: State
         private set
 
     init {
         require(boardSize >= MINIMUM_BOARD_SIZE) { ERROR_INVALID_BOARD_SIZE }
+        state = BlackTurn(OmokBoard(boardSize))
     }
 
     fun play(
@@ -25,7 +25,7 @@ class OmokGame(
             val playingState = state as Playing
             onTurn(playingState.nextStoneColor())
             state = playingState.place(onPointSelected())
-            onBoardUpdated(state.blackStones.points, state.whiteStones.points)
+            onBoardUpdated(state.omokBoard.blackStones.points, state.omokBoard.whiteStones.points)
         }
     }
 

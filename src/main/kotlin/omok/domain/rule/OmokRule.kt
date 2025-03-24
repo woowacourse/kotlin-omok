@@ -5,11 +5,11 @@ import omok.domain.Point
 abstract class OmokRule(
     private val boardSize: Int,
 ) {
-    abstract fun isFoul(
-        blackPoints: Set<Point>,
-        whitePoints: Set<Point>,
+    abstract fun checkViolation(
+        thisPoints: Set<Point>,
+        otherPoints: Set<Point>,
         startPoint: Point,
-    ): Boolean
+    ): Violation
 
     fun isOmok(
         points: Set<Point>,

@@ -1,33 +1,39 @@
 package omok.domain.state
 
-import omok.domain.OmokGame
+import omok.domain.OmokBoard
 import omok.domain.Point
-import omok.domain.rule.BlackStoneRule
-import omok.domain.rule.WhiteStoneRule
+import omok.domain.rule.Violation
 import omok.domain.stone.StoneColor
-import omok.domain.stone.Stones
 
 class WhiteTurn(
-    private val boardSize: Int = OmokGame.DEFAULT_BOARD_SIZE,
-    override val blackStones: Stones = Stones(BlackStoneRule(boardSize)),
-    override val whiteStones: Stones = Stones(WhiteStoneRule(boardSize)),
+    override val omokBoard: OmokBoard,
 ) : Playing {
     override fun place(point: Point): State {
-        require(!(blackStones.contains(point) || whiteStones.contains(point))) { ERROR_INVALID_POINT }
+        val violation = omokBoard.checkViolation(StoneColor.WHITE, point)
+        return when (violation) {
+            Violation.OUT_OF_BOARD,
+            Violation.OCCUPIED,
+            Violation.DOUBLE_THREE,
+            Violation.DOUBLE_FOUR,
+            Violation.OVERLINE,
+            -> throw IllegalArgumentException(ERROR_CANNOT_PLACE)
 
-        val newStones = whiteStones + point
+            Violation.NONE -> getStateResult(point)
+        }
+    }
+
+    private fun getStateResult(point: Point): State {
+        val newStones = omokBoard.put(StoneColor.WHITE, point)
         return when {
-            whiteStones.isOmok(point) -> Finished(blackStones, newStones, StoneColor.WHITE)
-            blackStones.points.size + newStones.points.size >= boardSize * boardSize ->
-                Finished(blackStones, newStones, null)
-
-            else -> BlackTurn(boardSize, blackStones, newStones)
+            newStones.isOmok(StoneColor.WHITE, point) -> Finished(newStones, StoneColor.WHITE)
+            newStones.isFull() -> Finished(newStones, null)
+            else -> BlackTurn(newStones)
         }
     }
 
     override fun nextStoneColor(): StoneColor = StoneColor.WHITE
 
     companion object {
-        private const val ERROR_INVALID_POINT = "[ERROR] 이미 돌이 놓여져 있습니다."
+        private const val ERROR_CANNOT_PLACE = "[ERROR] 돌을 놓을 수 없습니다."
     }
 }

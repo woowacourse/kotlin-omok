@@ -1,8 +1,7 @@
 package omok.domain.state
 
-import omok.domain.stone.Stones
+import omok.domain.OmokBoard
 
 interface State {
-    val blackStones: Stones
-    val whiteStones: Stones
+    val omokBoard: OmokBoard
 }
