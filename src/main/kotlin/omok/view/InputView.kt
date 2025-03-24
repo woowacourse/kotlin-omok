@@ -20,15 +20,15 @@ class InputView {
     }
 
     private fun convertToString(point: OmokPoint): String {
-        val letter = 'A' + point.col.value - 1
+        val letter = 'A' + point.col.value - INDEX_OFFSET
         return letter + (point.row.value).toString()
     }
 
     private fun parsingInput(rawInput: String): OmokPoint? {
         if (rawInput.isEmpty()) return null
 
-        val rawRow = rawInput.substring(1)
-        val rawCol = rawInput.substring(0, 1)
+        val rawRow = rawInput.substring(CUTTING_STANDARD)
+        val rawCol = rawInput.substring(START_INDEX, CUTTING_STANDARD)
 
         val row = validateRow(rawRow) ?: return null
         val col = validateCol(rawCol) ?: return null
@@ -48,7 +48,7 @@ class InputView {
     }
 
     private fun convertLetter(letter: String): Int {
-        return letter[0] - 'A' + 1
+        return letter[0] - 'A' + INDEX_OFFSET
     }
 
     private fun StoneColor.getDisplayColor(): String {
@@ -63,5 +63,8 @@ class InputView {
         private const val MESSAGE_LATEST_POSITION: String = "(마지막 돌의 위치: %s)"
         private const val MESSAGE_POSITION_GUIDE: String = "\n위치를 입력하세요: "
         private const val MIN_BOUND: Int = 1
+        private const val START_INDEX: Int = 0
+        private const val CUTTING_STANDARD: Int = 1
+        private const val INDEX_OFFSET: Int = 1
     }
 }

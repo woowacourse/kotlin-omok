@@ -41,7 +41,7 @@ abstract class OmokRuleAdapter {
     ): Int {
         val coordinateX = latestPoint.row.value
         val coordinateY = latestPoint.col.value
-        var count = 1
+        var count = MIN_BOUND
         var point = OmokPoint(Row(coordinateX + direction.rowDelta * count), Column(coordinateY + direction.colDelta * count))
 
         while (checkRange(point.row.value, point.col.value) &&
