@@ -1,16 +1,20 @@
 package omok.domain.rule
 
+import omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
 import omok.domain.grid.OmokPoint
+import rule.facade.BlackRenjuRule
 
 object BlackRuleAdapterImpl : OmokRuleAdapter() {
+    private val rule = BlackRenjuRule(DEFAULT_SIZE, DEFAULT_SIZE)
+
     override fun checkViolation(
         blackStones: Set<OmokPoint>,
         whiteStones: Set<OmokPoint>,
         latestPoint: OmokPoint,
     ): OmokViolation {
-        val blackPoints = dataConverter.convertSetToList(blackStones)
-        val whitePoints = dataConverter.convertSetToList(whiteStones)
-        val startPoint = dataConverter.convertOmokPointToPoint(latestPoint)
+        val blackPoints = convertSetToList(blackStones)
+        val whitePoints = convertSetToList(whiteStones)
+        val startPoint = convertOmokPointToPoint(latestPoint)
 
         return when {
             rule.checkOverline(blackPoints, startPoint) -> OmokViolation.OVER_LINE
@@ -18,5 +22,13 @@ object BlackRuleAdapterImpl : OmokRuleAdapter() {
             rule.checkDoubleFourFoul(blackPoints, whitePoints, startPoint) -> OmokViolation.DOUBLE_FOUR
             else -> OmokViolation.NONE
         }
+    }
+
+    private fun convertOmokPointToPoint(omokPoint: OmokPoint): Pair<Int, Int> {
+        return Pair(omokPoint.row.value, omokPoint.col.value)
+    }
+
+    private fun convertSetToList(stones: Set<OmokPoint>): List<Pair<Int, Int>> {
+        return stones.toList().map { convertOmokPointToPoint(it) }
     }
 }

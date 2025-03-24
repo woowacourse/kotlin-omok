@@ -4,12 +4,8 @@ import omok.domain.grid.Column
 import omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
 import omok.domain.grid.OmokPoint
 import omok.domain.grid.Row
-import rule.facade.BlackRenjuRule
 
 abstract class OmokRuleAdapter {
-    protected val dataConverter = DataConverter()
-    protected val rule: BlackRenjuRule = BlackRenjuRule(DEFAULT_SIZE, DEFAULT_SIZE)
-
     abstract fun checkViolation(
         blackStones: Set<OmokPoint>,
         whiteStones: Set<OmokPoint>,
