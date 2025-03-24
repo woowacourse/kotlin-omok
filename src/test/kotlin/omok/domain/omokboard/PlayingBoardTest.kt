@@ -1,6 +1,5 @@
 package omok.domain.omokboard
 
-import omok.domain.omokboard.State.OCCUPIED_BLACK
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
 import omok.domain.rule.OmokRule
@@ -16,8 +15,8 @@ class PlayingBoardTest {
         // when
         playingBoard.placeStone(PlayerStone(StoneColor.BLACK, Position(1, 'A')))
 
-        val actual = playingBoard.board.value.values.first().state
-        val expected = OCCUPIED_BLACK
+        val actual = playingBoard.board.value.values.first()
+        val expected = PointState.OCCUPIED(StoneColor.BLACK)
 
         // then
         assertThat(actual).isEqualTo(expected)

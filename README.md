@@ -62,3 +62,4 @@
 - [x] Failure | Prohibition 삭제
 - [x] PlaceResult | GameProgress, GameNotProgress, GameFinish 3가지로 구분
 - [x] AlreadyExistStoneRule | 규칙을 하나로 병합하여 검증 로직을 단순화
+- [x] PointState | sealed class로 변경하여 상태 표현 방식 변경

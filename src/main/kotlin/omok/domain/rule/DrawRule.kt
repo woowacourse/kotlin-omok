@@ -1,6 +1,7 @@
 package omok.domain.rule
 
 import omok.domain.omokboard.OmokBoard
+import omok.domain.omokboard.PointState
 import omok.domain.placeresult.GameFinish
 import omok.domain.placeresult.GameOnGoing
 import omok.domain.placeresult.PlaceResult
@@ -11,7 +12,7 @@ class DrawRule : OmokRule {
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
     ): PlaceResult =
-        if (omokBoard.isOneEmptyLeft) {
+        if (omokBoard.value.values.count { it is PointState.Empty } == 1) {
             GameFinish(GameResult.DRAW)
         } else {
             GameOnGoing

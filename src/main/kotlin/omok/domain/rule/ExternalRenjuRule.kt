@@ -1,11 +1,13 @@
 package omok.domain.rule
 
 import omok.domain.omokboard.OmokBoard
+import omok.domain.omokboard.PointState
 import omok.domain.omokboard.Position
 import omok.domain.placeresult.GameOnGoing
 import omok.domain.placeresult.InvalidMove
 import omok.domain.placeresult.PlaceResult
 import omok.domain.player.PlayerStone
+import omok.domain.player.StoneColor
 import rule.BlackRenjuRule
 import rule.type.Violation.DOUBLE_FOUR
 import rule.type.Violation.DOUBLE_THREE
@@ -22,16 +24,22 @@ class ExternalRenjuRule(
     ): PlaceResult {
         val startPoint = playerStone.position.toExternalPoint()
 
-        val blackPoints = omokBoard.blackStonePoints.map { it.toExternalPoint() }
+        val blackPoints = extractPoints(omokBoard, StoneColor.BLACK)
+        val whitePoints = extractPoints(omokBoard, StoneColor.WHITE)
 
-        val whitePoints = omokBoard.whiteStonePoints.map { it.toExternalPoint() }
-
-        val violateType = renjuRule.checkAnyFoulCondition(blackPoints, whitePoints, startPoint)
-
-        return when (violateType) {
+        return when (val violateType = renjuRule.checkAnyFoulCondition(blackPoints, whitePoints, startPoint)) {
             DOUBLE_THREE, DOUBLE_FOUR, OVERLINE -> InvalidMove.ExternalRenjuRule(violateType)
             NONE -> GameOnGoing
         }
+    }
+
+    private fun extractPoints(
+        omokBoard: OmokBoard,
+        stoneColor: StoneColor,
+    ): List<Point> {
+        return omokBoard.value
+            .filter { it.value is PointState.OCCUPIED && (it.value as PointState.OCCUPIED).color == stoneColor }
+            .keys.map { it.toExternalPoint() }
     }
 
     private fun Position.toExternalPoint(): Point = Point(row = this.row.value - 1, col = this.column.value - 1)

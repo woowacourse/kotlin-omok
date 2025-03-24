@@ -1,6 +1,7 @@
 package omok.domain.omokboard
 
 import omok.domain.player.PlayerStone
+import omok.domain.player.StoneColor
 
 data class OmokBoard(
     private val _value: Map<Position, PointState>,
@@ -10,28 +11,15 @@ data class OmokBoard(
     val width get() = _value.keys.maxOf { it.column.value }
     val height get() = _value.keys.maxOf { it.row.value }
 
-    val isOneEmptyLeft get() = _value.values.count { it.state == State.EMPTY } == 1
-
-    val blackStonePoints get() =
-        _value
-            .filter { it.value.state == State.OCCUPIED_BLACK }
-            .keys
-
-    val whiteStonePoints get() =
-        _value
-            .filter { it.value.state == State.OCCUPIED_WHITE }
-            .keys
-
-    val value get() = _value.deepCopy()
+    val value get() = _value
 
     fun find(position: Position): PointState? = _value[position]
 
-    fun updateBoard(playerStone: PlayerStone) {
-        this.find(playerStone.position)
-            ?.updateState(playerStone.color)
+    fun updateBoard(playerStone: PlayerStone): OmokBoard {
+        val updatedBoard = _value.toMutableMap()
+        updatedBoard[playerStone.position] = PointState.OCCUPIED(playerStone.color)
+        return OmokBoard(updatedBoard)
     }
-
-    private fun Map<Position, PointState>.deepCopy(): Map<Position, PointState> = map { it.key.copy() to it.value }.toMap()
 
     companion object {
         fun create(
@@ -42,15 +30,15 @@ data class OmokBoard(
                 (1..width)
                     .flatMap { row ->
                         (1..height).map { column ->
-                            Position(RowPosition(row), ColumnPosition(column)) to PointState()
+                            Position(RowPosition(row), ColumnPosition(column)) to PointState.Empty
                         }
                     }.toMap(),
             )
 
         private fun String.toPointState(): PointState {
             return when (this) {
-                "Black" -> PointState(State.OCCUPIED_BLACK)
-                "White" -> PointState(State.OCCUPIED_WHITE)
+                "Black" -> PointState.OCCUPIED(StoneColor.BLACK)
+                "White" -> PointState.OCCUPIED(StoneColor.WHITE)
                 else -> throw IllegalArgumentException("Unknown state $this")
             }
         }

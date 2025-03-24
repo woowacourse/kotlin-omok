@@ -7,7 +7,7 @@ import omok.domain.player.PlayerStone
 import omok.domain.rule.OmokRule
 
 class PlayingBoard(
-    val board: OmokBoard = OmokBoard.create(),
+    var board: OmokBoard = OmokBoard.create(),
     private val rules: List<OmokRule>,
 ) {
     fun placeStone(playerStone: PlayerStone): PlaceResult = placeResult(playerStone)
@@ -21,7 +21,7 @@ class PlayingBoard(
         }
 
         if (result is GameOnGoing) {
-            board.updateBoard(playerStone)
+            board = board.updateBoard(playerStone)
         }
 
         return result

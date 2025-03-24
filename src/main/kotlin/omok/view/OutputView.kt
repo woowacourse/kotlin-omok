@@ -2,12 +2,13 @@ package omok.view
 
 import omok.domain.omokboard.ColumnPosition
 import omok.domain.omokboard.OmokBoard
+import omok.domain.omokboard.PointState
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
-import omok.domain.omokboard.State
 import omok.domain.placeresult.InvalidMove.AlreadyExistStone
 import omok.domain.placeresult.InvalidMove.InvalidPosition
 import omok.domain.placeresult.PlaceResult
+import omok.domain.player.StoneColor
 import omok.domain.rule.GameResult
 import omok.domain.rule.GameResult.DRAW
 import omok.domain.rule.GameResult.WIN_BLACK
@@ -73,20 +74,26 @@ class OutputView {
     }
 
     private fun Position.drawBoard(omokBoard: OmokBoard): String {
-        val stoneColor = omokBoard.value[this]?.state ?: State.EMPTY
+        val pointState = omokBoard.value[this] ?: PointState.Empty
 
-        return when {
-            stoneColor == State.OCCUPIED_BLACK -> "●"
-            stoneColor == State.OCCUPIED_WHITE -> "○"
-            this.row.value == omokBoard.height && this.column.value == 1 -> "┌"
-            this.row.value == omokBoard.height && this.column.value == omokBoard.width -> "┐"
-            this.row.value == 1 && this.column.value == 1 -> "└"
-            this.row.value == 1 && this.column.value == omokBoard.width -> "┘"
-            this.column.value == 1 -> "├"
-            this.column.value == omokBoard.width -> "┤"
-            this.row.value == 1 -> "┴"
-            this.row.value == omokBoard.height -> "┬"
-            else -> "┼"
+        return when (pointState) {
+            is PointState.OCCUPIED ->
+                when (pointState.color) {
+                    StoneColor.BLACK -> "●"
+                    StoneColor.WHITE -> "○"
+                }
+            PointState.Empty ->
+                when {
+                    this.row.value == omokBoard.height && this.column.value == 1 -> "┌"
+                    this.row.value == omokBoard.height && this.column.value == omokBoard.width -> "┐"
+                    this.row.value == 1 && this.column.value == 1 -> "└"
+                    this.row.value == 1 && this.column.value == omokBoard.width -> "┘"
+                    this.column.value == 1 -> "├"
+                    this.column.value == omokBoard.width -> "┤"
+                    this.row.value == 1 -> "┴"
+                    this.row.value == omokBoard.height -> "┬"
+                    else -> "┼"
+                }
         }
     }
 
