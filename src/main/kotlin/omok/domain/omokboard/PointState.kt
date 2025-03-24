@@ -7,9 +7,7 @@ import omok.domain.player.StoneColor
 import omok.domain.player.StoneColor.BLACK
 import omok.domain.player.StoneColor.WHITE
 
-class PointState {
-    private var _state: State = EMPTY
-
+class PointState(private var _state: State = EMPTY) {
     val state: State get() = _state
 
     fun updateState(stoneColor: StoneColor) {

@@ -57,3 +57,4 @@
 # TODO
 
 - [x] Position | 부생성자 생성
+- [x] OmokBoard | 부생성자 생성 및 private constructor 삭제
