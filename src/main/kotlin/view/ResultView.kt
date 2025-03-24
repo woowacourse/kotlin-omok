@@ -1,6 +1,7 @@
 package view
 
 import model.Col
+import model.GameBoard
 import model.Row
 import model.Stone
 import model.StoneColor
@@ -14,7 +15,7 @@ class ResultView {
     }
 
     fun printGameBoard(stones: MutableList<Stone>) {
-        for (row in Row.MAX_VALUE.downTo(Row.MIN_VALUE)) {
+        for (row in GameBoard.ROW_RANGE.reversed()) {
             makeBoardLine(row, stones)
         }
         makeBoardColName()
@@ -24,7 +25,7 @@ class ResultView {
         println(
             buildString {
                 append("  ")
-                for (col in Col.MIN_VALUE..Col.MAX_VALUE) {
+                for (col in GameBoard.COL_RANGE) {
                     append(col.toDisplayCol())
                 }
             },
@@ -42,7 +43,7 @@ class ResultView {
         val board =
             buildString {
                 append(row.toDisplayRow())
-                for (col in Col.MIN_VALUE..Col.MAX_VALUE) {
+                for (col in GameBoard.COL_RANGE) {
                     append(makeBoardSquare(row, col, stones))
                 }
             }
@@ -58,14 +59,14 @@ class ResultView {
             stones.firstOrNull { it.position.row.isSame(Row.from(row)) && it.position.col.isSame(Col.from(col)) }
         if (stone != null) return stone.toEmoji()
         return when {
-            row == Row.MIN_VALUE && col == Col.MIN_VALUE -> GAME_BOARD_DOWN_LEFT_CORNER
-            row == Row.MIN_VALUE && col == Col.MAX_VALUE -> GAME_BOARD_DOWN_RIGHT_CORNER
-            row == Row.MAX_VALUE && col == Col.MIN_VALUE -> GAME_BOARD_UP_LEFT_CORNER
-            row == Row.MAX_VALUE && col == Col.MAX_VALUE -> GAME_BOARD_UP_RIGHT_CORNER
-            row == Row.MAX_VALUE -> GAME_BOARD_UP_CORNER
-            row == Row.MIN_VALUE -> GAME_BOARD_DOWN_CORNER
-            col == Col.MIN_VALUE -> GAME_BOARD_LEFT_CORNER
-            col == Col.MAX_VALUE -> GAME_BOARD_RIGHT_CORNER
+            row == GameBoard.ROW_RANGE.first && col == GameBoard.COL_RANGE.first -> GAME_BOARD_DOWN_LEFT_CORNER
+            row == GameBoard.ROW_RANGE.first && col == GameBoard.COL_RANGE.last -> GAME_BOARD_DOWN_RIGHT_CORNER
+            row == GameBoard.ROW_RANGE.last && col == GameBoard.COL_RANGE.first -> GAME_BOARD_UP_LEFT_CORNER
+            row == GameBoard.ROW_RANGE.last && col == GameBoard.COL_RANGE.last -> GAME_BOARD_UP_RIGHT_CORNER
+            row == GameBoard.ROW_RANGE.last -> GAME_BOARD_UP_CORNER
+            row == GameBoard.ROW_RANGE.first -> GAME_BOARD_DOWN_CORNER
+            col == GameBoard.COL_RANGE.first -> GAME_BOARD_LEFT_CORNER
+            col == GameBoard.COL_RANGE.last -> GAME_BOARD_RIGHT_CORNER
             else -> GAME_BOARD_BASE
         }
     }

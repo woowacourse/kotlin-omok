@@ -32,4 +32,9 @@ class GameBoard {
     fun lastStone(): Stone? = stones.lastOrNull()
 
     private fun isExistPosition(stone: Stone): Boolean = stones.any { existedStone -> existedStone.isSamePosition(stone) }
+
+    companion object {
+        val COL_RANGE = 1..15
+        val ROW_RANGE = 1..15
+    }
 }

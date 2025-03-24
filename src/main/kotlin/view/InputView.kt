@@ -17,7 +17,7 @@ class InputView {
     ): String {
         print(TURN_MESSAGE_FORMAT.format(color.toDisplay()))
         lastStone?.let {
-            println(LAST_STONE_POSITION_MESSAGE.format(lastStone.position.toDisplay()))
+            print(LAST_STONE_POSITION_MESSAGE.format(lastStone.position.toDisplay()))
         }
         print(INPUT_MESSAGE_GUIDE)
         return validReadln()
@@ -40,7 +40,7 @@ class InputView {
 
     fun printError(message: String) {
         print(ERROR_FORMAT)
-        println(message)
+        print(message)
     }
 
     private fun StoneColor.toDisplay(): String =
