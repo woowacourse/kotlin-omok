@@ -15,38 +15,45 @@ class Board(private val boardSize: BoardSize) {
     val size = boardSize.value
 
     fun findPoint(point: Point): Point {
-        return requireNotNull(points.find { it == point }) { NOT_FOUND_POINT_ERROR_MESSAGE }
+        return points.find { it == point } ?: throw IllegalArgumentException(NOT_FOUND_POINT_ERROR_MESSAGE)
     }
 
     fun placeStone(
         point: Point,
         color: StoneColor,
+        rule: OmokCountRule,
     ): PlaceStoneResult {
-        val point = findPoint(point)
-        val state = point.state
-        return when (state) {
-            PointState.OPEN -> handlePlaceSuccess(color, point)
+        val targetPoint = findPoint(point)
+
+        return when (targetPoint.state) {
+            PointState.OPEN -> handlePlaceSuccess(color, targetPoint, rule)
             else -> PlaceStoneResult.AlreadyPlaced
         }
-    }
-
-    fun isOmok(
-        point: Point,
-        rule: OmokCountRule,
-    ): Boolean {
-        return rule.calculate(this, point)
     }
 
     private fun handlePlaceSuccess(
         color: StoneColor,
         point: Point,
+        rule: OmokCountRule,
     ): PlaceStoneResult {
         if (color == StoneColor.BLACK && !ForbiddenMoveJudge.validate(this, point)) {
-            return PlaceStoneResult.Closed
+            return PlaceStoneResult.ForbiddenMove
         }
 
         point.changeState(color)
-        return PlaceStoneResult.Success(point)
+
+        return if (isOmok(point, rule)) {
+            PlaceStoneResult.Omok(point)
+        } else {
+            PlaceStoneResult.Success(point)
+        }
+    }
+
+    private fun isOmok(
+        point: Point,
+        rule: OmokCountRule,
+    ): Boolean {
+        return rule.calculate(this, point)
     }
 
     companion object {

@@ -26,23 +26,29 @@ class OmokGame(
     }
 
     private fun playTurn(board: Board) {
-        while (checkOmok(FiveInRowRule, board)) {
-            placeStone(board)
+        while (true) {
+            val result = placeStone(board, FiveInRowRule)
+
+            if (result is PlaceStoneResult.Omok) {
+                outputView.printBoardStatus(board)
+                break
+            }
         }
-        showWinColor()
     }
 
-    private fun placeStone(board: Board) =
+    private fun placeStone(
+        board: Board,
+        rule: OmokCountRule,
+    ): PlaceStoneResult =
         retryOnException {
             val pos = getNextPoint()
-            when (val result = board.placeStone(pos, currentStoneColor)) {
-                is PlaceStoneResult.Success -> {
-                    handlePlaceStoneSuccess(result, board)
-                    return@retryOnException
+            board.placeStone(pos, currentStoneColor, rule).also { result ->
+                when (result) {
+                    is PlaceStoneResult.Success -> handlePlaceStoneSuccess(result, board)
+                    is PlaceStoneResult.Omok -> handleGameWin(result)
+                    is PlaceStoneResult.AlreadyPlaced -> throw IllegalArgumentException(ALREADY_PLACED_ERROR_MESSAGE)
+                    is PlaceStoneResult.ForbiddenMove -> throw IllegalArgumentException(CLOSED_ERROR_MESSAGE)
                 }
-
-                is PlaceStoneResult.AlreadyPlaced -> throw IllegalArgumentException(ALREADY_PLACED_ERROR_MESSAGE)
-                is PlaceStoneResult.Closed -> throw IllegalArgumentException(CLOSED_ERROR_MESSAGE)
             }
         }
 
@@ -52,20 +58,12 @@ class OmokGame(
     ) {
         previousPoint = result.point
         currentStoneColor = currentStoneColor.next()
+
         outputView.printBoardStatus(board)
     }
 
-    private fun checkOmok(
-        omokCountRule: OmokCountRule,
-        board: Board,
-    ): Boolean {
-        val point = previousPoint ?: return true
-        return !board.isOmok(point, omokCountRule)
-    }
-
-    private fun showWinColor() {
-        val point = previousPoint ?: return
-        outputView.printWinColor(point)
+    private fun handleGameWin(result: PlaceStoneResult.Omok) {
+        outputView.printWinColor(result.point)
     }
 
     private fun getNextPoint(): Point =
