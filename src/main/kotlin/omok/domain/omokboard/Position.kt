@@ -9,6 +9,5 @@ data class Position(
     }
 
     constructor(row: Int, column: Char) : this(RowPosition(row), ColumnPosition.fromChar(column))
-    constructor(row: Int, column: ColumnPosition) : this(RowPosition(row), column)
     constructor(columnRow: String) : this(RowPosition(columnRow.substring(1).toInt()), ColumnPosition.fromChar(columnRow.first()))
 }

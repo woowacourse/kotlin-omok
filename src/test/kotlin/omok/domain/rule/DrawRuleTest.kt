@@ -22,18 +22,19 @@ class DrawRuleTest {
     @Test
     fun `모든 칸이 채워지면 무승부를 반환한다`() {
         // given
+        var board = playingBoard.board
         for (row in 1..15) {
             for (column in 1..15) {
                 if (row == 15 && column == 15) break
 
                 val stoneColor = if ((row + column) % 2 == 0) StoneColor.BLACK else StoneColor.WHITE
-                playingBoard.board = playingBoard.board.updateBoard(PlayerStone(stoneColor, Position(row, ColumnPosition(column))))
+                board = board.updateBoard(PlayerStone(stoneColor, Position(RowPosition(row), ColumnPosition(column))))
             }
         }
 
         // when
         val playerStone = PlayerStone(StoneColor.BLACK, Position(RowPosition(15), ColumnPosition(15)))
-        val actual = DrawRule().place(playingBoard.board, playerStone)
+        val actual = DrawRule().place(board, playerStone)
         val expected = GameFinish(GameResult.DRAW)
 
         // then
