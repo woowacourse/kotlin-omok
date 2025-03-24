@@ -17,21 +17,21 @@ class StateTest {
     @Test
     fun `흑부터 돌을 놓는다`() {
         val state = Ready()
-        val nextState = state.place(A1)
+        val nextState = state.place(A1) { _, _ -> }
         assertThat(nextState).isInstanceOf(WhiteTurn::class.java)
     }
 
     @Test
     fun `흑의 차례가 끝나면 백의 차례이다`() {
         val state = BlackTurn(BlackStones(), WhiteStones())
-        val nextState = state.place(A1)
+        val nextState = state.place(A1) { _, _ -> }
         assertThat(nextState).isInstanceOf(WhiteTurn::class.java)
     }
 
     @Test
     fun `백의 차례가 끝나면 흑의 차례이다`() {
         val state = WhiteTurn(BlackStones(), WhiteStones())
-        val nextState = state.place(A1)
+        val nextState = state.place(A1) { _, _ -> }
         assertThat(nextState).isInstanceOf(BlackTurn::class.java)
     }
 
@@ -40,7 +40,7 @@ class StateTest {
         val blackStones = BlackStones(setOf(A1, A2, A3, A4))
         val whiteStones = WhiteStones(emptySet())
         val state = BlackTurn(blackStones, whiteStones)
-        val nextState = state.place(A5)
+        val nextState = state.place(A5) { _, _ -> }
         assertThat(nextState).isInstanceOf(Finished::class.java)
     }
 
@@ -49,7 +49,7 @@ class StateTest {
         val blackStones = BlackStones(emptySet())
         val whiteStones = WhiteStones(setOf(A1, A2, A3, A4))
         val state = WhiteTurn(blackStones, whiteStones)
-        val nextState = state.place(A5)
+        val nextState = state.place(A5) { _, _ -> }
         assertThat(nextState).isInstanceOf(Finished::class.java)
     }
 
@@ -59,7 +59,7 @@ class StateTest {
         val whiteStones = WhiteStones(setOf(A3, A4))
         val state = BlackTurn(blackStones, whiteStones)
         val expected = A4
-        assertThat(state.lastStonePoint()).isEqualTo(expected)
+        assertThat(state.whiteStones.lastStonePoint).isEqualTo(expected)
     }
 
     @Test
@@ -76,7 +76,7 @@ class StateTest {
         val blackStones = BlackStones(setOf(A1, A2))
         val whiteStones = WhiteStones(setOf(B1))
         val state = WhiteTurn(blackStones, whiteStones)
-        val nextState = state.place(B2, 2)
+        val nextState = state.place(B2, 2) { _, _ -> }
         assertThat(nextState).isInstanceOf(Finished.Draw::class.java)
     }
 
@@ -85,7 +85,7 @@ class StateTest {
         val blackStones = BlackStones(setOf(A1, A2, A3, A4))
         val whiteStones = WhiteStones(setOf(B1))
         val state = BlackTurn(blackStones, whiteStones)
-        val nextState = state.place(A5)
-        assertThat(nextState).isInstanceOf(Finished.BlackWin::class.java)
+        val nextState = state.place(A5) { _, _ -> }
+        assertThat(nextState).isInstanceOf(Finished.Win::class.java)
     }
 }
