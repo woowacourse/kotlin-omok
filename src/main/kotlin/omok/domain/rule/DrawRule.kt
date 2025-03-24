@@ -7,7 +7,7 @@ import omok.domain.placeresult.GameOnGoing
 import omok.domain.placeresult.PlaceResult
 import omok.domain.player.PlayerStone
 
-class DrawRule : OmokRule {
+class DrawRule : OmokGameFinishRule {
     override fun place(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,

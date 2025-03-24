@@ -7,7 +7,7 @@ import omok.domain.placeresult.InvalidMove
 import omok.domain.placeresult.PlaceResult
 import omok.domain.player.PlayerStone
 
-class InvalidPositionRule : OmokRule {
+class InvalidPositionRule : OmokInvalidMoveRule {
     override fun place(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,

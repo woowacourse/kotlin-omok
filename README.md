@@ -63,3 +63,4 @@
 - [x] PlaceResult | GameProgress, GameNotProgress, GameFinish 3가지로 구분
 - [x] AlreadyExistStoneRule | 규칙을 하나로 병합하여 검증 로직을 단순화
 - [x] PointState | sealed class로 변경하여 상태 표현 방식 변경
+- [x] OmokRule | OmokRule을 게임 종료 룰과 잘못된 수 검증 룰로 분리

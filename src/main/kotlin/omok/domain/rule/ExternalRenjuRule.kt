@@ -17,7 +17,7 @@ import rule.wrapper.point.Point
 
 class ExternalRenjuRule(
     private val renjuRule: BlackRenjuRule,
-) : OmokRule {
+) : OmokGameFinishRule {
     override fun place(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
