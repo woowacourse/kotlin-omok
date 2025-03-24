@@ -3,11 +3,11 @@ package omok.model.board
 import omok.model.stone.StoneState
 
 data class Position private constructor(
-    val x: X,
-    val y: Y,
-    val stoneState: StoneState = StoneState.NONE,
+    private val x: X,
+    private val y: Y,
+    private val stoneState: StoneState,
 ) {
-    constructor(x: Int, y: Int) : this(X(x), Y(y))
+    constructor(x: Int, y: Int) : this(X(x), Y(y), StoneState.NONE)
 
     fun canPlace(): Boolean = stoneState == StoneState.NONE
 
@@ -15,6 +15,8 @@ data class Position private constructor(
         if (canPlace()) return Position(this.x, this.y, stoneState)
         throw IllegalArgumentException("이 자리에는 이미 돌이 위치해 있습니다. 이 자리에는 돌을 놓지 못합니다.")
     }
+
+    fun stoneState(): StoneState = stoneState
 
     companion object {
         fun from(
