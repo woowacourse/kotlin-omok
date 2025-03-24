@@ -2,7 +2,7 @@ package omok.controller
 
 import omok.domain.board.OmokBoard
 import omok.domain.point.Black
-import omok.domain.point.Point2
+import omok.domain.point.Point
 import omok.domain.rule.OmokRule
 import omok.view.InputView
 import omok.view.OutputView
@@ -15,7 +15,7 @@ class OmokController(
 ) {
     fun startGame() {
         outputView.printStartMessage()
-        var stone: Point2 = Black(readValidPoint())
+        var stone: Point = Black(readValidPoint())
         while (omokBoard.isNotFull()) {
             omokBoard.addStone(stone)
             if (omokRule.isOmok(stone, omokBoard)) {

@@ -2,7 +2,7 @@ package omok.view
 
 import omok.domain.board.OmokBoard
 import omok.domain.point.Empty
-import omok.domain.point.Point2
+import omok.domain.point.Point
 import omok.view.ext.format
 import java.lang.StringBuilder
 
@@ -15,7 +15,7 @@ class BoardView(private val omokBoard: OmokBoard) {
         formattedColumn()
     }
 
-    private fun setStone(point: Point2) {
+    private fun setStone(point: Point) {
         val magicNumber =
             COLUMN_MAGIC_NUMBER + ((point.x - 1) * COLUMN_MAGIC_NUMBER) +
                 (OmokBoard.MAX_COLUMN_SIZE * COLUMN_MAGIC_NUMBER + SPACE_MAGIC_NUMBER) * (OmokBoard.MAX_ROW_SIZE - point.y)

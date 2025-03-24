@@ -2,7 +2,7 @@ package omok.domain.board
 
 import omok.domain.point.Empty
 import omok.domain.point.OmokPoints
-import omok.domain.point.Point2
+import omok.domain.point.Point
 import omok.domain.point.Protected
 import omok.domain.rule.OmokRule
 import omok.domain.rule.finder.Direction
@@ -16,30 +16,30 @@ class OmokBoard(
         require(MAX_ROW_SIZE <= COLUMN_POOL.size) { ERROR_OUT_OF_COLUMN_POOL }
     }
 
-    var latestStone: Point2 = Empty(-100, -100)
+    var latestStone: Point = Empty(-100, -100)
         private set
 
-    fun toMatrix(): List<List<Point2>> = omokPoints.toMatrix()
+    fun toMatrix(): List<List<Point>> = omokPoints.toMatrix()
 
     fun isNotFull() = omokPoints.toList().any { it is Empty }
 
     fun view(): BoardView = BoardView(this)
 
-    fun pointValidation(point: Point2) {
+    fun pointValidation(point: Point) {
         require(!omokPoints.isOccupied(point)) { ERROR_OCCUPIED_POSITION }
         require(!omokPoints.isProtected(point)) { ERROR_PROTECTED_POSITION }
     }
 
-    fun addStone(point: Point2) {
+    fun addStone(point: Point) {
         omokPoints.altStone(point)
         latestStone = point
         updateProtectedPlace()
     }
 
     fun goto(
-        currentPosition: Point2,
+        currentPosition: Point,
         direction: Direction,
-    ): Point2 {
+    ): Point {
         val newX = currentPosition.x + direction.x
         val newY = currentPosition.y + direction.y
         return omokPoints.getPointAt(newY, newX)

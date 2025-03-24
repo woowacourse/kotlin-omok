@@ -2,11 +2,11 @@ package omok.view.ext
 
 import omok.domain.point.Black
 import omok.domain.point.Empty
-import omok.domain.point.Point2
+import omok.domain.point.Point
 import omok.domain.point.Protected
 import omok.domain.point.White
 
-fun Point2.toLabel(): String {
+fun Point.toLabel(): String {
     return when (this) {
         is Black -> "흑"
         is White -> "백"
@@ -14,7 +14,7 @@ fun Point2.toLabel(): String {
     }
 }
 
-fun Point2.format(): Char {
+fun Point.format(): Char {
     return when (this) {
         is Black -> '●'
         is White -> '○'

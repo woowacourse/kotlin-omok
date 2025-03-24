@@ -3,12 +3,12 @@ package omok.domain.rule.finder
 import omok.domain.board.OmokBoard
 import omok.domain.point.Black
 import omok.domain.point.Empty
-import omok.domain.point.Point2
+import omok.domain.point.Point
 
 object DfsRenjuFinder : Finder {
     private fun dfs(
         direction: Direction,
-        point: Point2,
+        point: Point,
         board: OmokBoard,
         depth: Int = 0,
     ): SearchResult {
@@ -39,7 +39,7 @@ object DfsRenjuFinder : Finder {
     }
 
     override fun search(
-        current: Point2,
+        current: Point,
         board: OmokBoard,
         direction: Direction,
     ): SearchResult {

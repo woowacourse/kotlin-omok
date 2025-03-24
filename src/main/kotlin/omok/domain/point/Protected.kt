@@ -9,18 +9,8 @@ fun Protected(position: String): Protected {
     return Protected(x, y)
 }
 
-data class Protected(override val x: Int, override val y: Int) : Point2() {
-    override fun toggle(position: String): Point2 {
+data class Protected(val x1: Int, val y1: Int) : Point(x1, y1) {
+    override fun toggle(position: String): Point {
         return this
-    }
-
-    init {
-        require(x <= OmokBoard.MAX_COLUMN_SIZE) { ERR_OUT_OF_COLUMN }
-        require(y <= OmokBoard.MAX_ROW_SIZE) { ERR_OUT_OF_ROW }
-    }
-
-    companion object {
-        const val ERR_OUT_OF_COLUMN = "최대 열을 벗어납니다"
-        const val ERR_OUT_OF_ROW = "최대 행을 벗어납니다"
     }
 }

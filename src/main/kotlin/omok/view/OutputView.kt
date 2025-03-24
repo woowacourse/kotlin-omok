@@ -1,7 +1,7 @@
 package omok.view
 
 import omok.domain.board.OmokBoard
-import omok.domain.point.Point2
+import omok.domain.point.Point
 import omok.view.ext.toLabel
 
 class OutputView {
@@ -13,7 +13,7 @@ class OutputView {
         println(MESSAGE_START_GAME)
     }
 
-    fun printPrintWinner(stone: Point2) {
+    fun printPrintWinner(stone: Point) {
         println(MESSAGE_WINNER.format(stone.toLabel()))
     }
 

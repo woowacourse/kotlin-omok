@@ -2,12 +2,12 @@ package omok.view
 
 import omok.domain.point.Black
 import omok.domain.point.Empty
-import omok.domain.point.Point2
+import omok.domain.point.Point
 import omok.view.ext.position
 import omok.view.ext.toLabel
 
 class InputView {
-    fun readStoneWithLastPosition(lastPosition: Point2): String {
+    fun readStoneWithLastPosition(lastPosition: Point): String {
         while (true) {
             if (lastPosition is Empty) {
                 print(MESSAGE_PLAYER_TURN.format(Black(0, 0).toLabel()))
