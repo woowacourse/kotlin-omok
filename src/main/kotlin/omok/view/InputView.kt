@@ -34,15 +34,10 @@ class InputView {
     private fun String.toValidPosition(): Position? {
         if (this.isBlank()) return null
 
-        val columnPosition = this.first().toColumnPosition()
+        val columnPosition = ColumnPosition.fromChar(this.first())
         val rowPosition = this.substring(1).toIntOrNull()
 
         return rowPosition?.let { Position(RowPosition(it), columnPosition) }
-    }
-
-    private fun Char.toColumnPosition(): ColumnPosition {
-        val alphabets = ALPHABETS.toList()
-        return ColumnPosition(alphabets.indexOf(this) + 1)
     }
 
     companion object {
@@ -51,6 +46,6 @@ class InputView {
         private const val INPUT_POSITION_MESSAGE: String = "\n위치를 입력하세요: "
         private const val BLACK_COLOR_LABEL: String = "흑"
         private const val WHITE_COLOR_LABEL: String = "백"
-        private val ALPHABETS: CharRange = ('A'..'Z')
+        val ALPHABETS: CharRange = ('A'..'Z')
     }
 }

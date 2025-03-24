@@ -1,16 +1,8 @@
 package omok.domain.service
 
-import omok.POSITION_ONE_FIVE
-import omok.POSITION_ONE_FOUR
-import omok.POSITION_ONE_ONE
-import omok.POSITION_ONE_THREE
-import omok.POSITION_ONE_TWO
-import omok.POSITION_SEVEN_FOUR
-import omok.POSITION_SEVEN_ONE
-import omok.POSITION_SEVEN_THREE
-import omok.POSITION_SEVEN_TWO
 import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.PlayingBoard
+import omok.domain.omokboard.Position
 import omok.domain.player.StoneColor
 import omok.domain.rule.OmokRule
 import org.assertj.core.api.Assertions.assertThat
@@ -22,18 +14,18 @@ class OmokGameTest {
         // given
         val blackTurns =
             mutableListOf(
-                POSITION_ONE_ONE,
-                POSITION_ONE_TWO,
-                POSITION_ONE_THREE,
-                POSITION_ONE_FOUR,
-                POSITION_ONE_FIVE,
+                Position(1, 'A'),
+                Position(1, 'B'),
+                Position(1, 'C'),
+                Position(1, 'D'),
+                Position(1, 'E'),
             )
         val whiteTurns =
             mutableListOf(
-                POSITION_SEVEN_ONE,
-                POSITION_SEVEN_TWO,
-                POSITION_SEVEN_THREE,
-                POSITION_SEVEN_FOUR,
+                Position(7, 'A'),
+                Position(7, 'B'),
+                Position(7, 'C'),
+                Position(7, 'D'),
             )
 
         // when & then

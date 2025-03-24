@@ -53,3 +53,7 @@
 - [x] PlaceResult | 금수에 대한 케이스 추가
 - [x] InputView, OutPutView | Mapper의 위치 동반객체에서 클래스의 바디로 이동
 - [x] PlayingBoard | Board의 변경 책임을 OmokBoard로 위임
+
+# TODO
+
+- [x] Position | 부생성자 생성
