@@ -15,7 +15,7 @@ class Referee {
             listOf(
                 ruleAdapter.checkViolation(blackStones, whiteStones, latestPoint),
                 checkDuplicateMove(blackStones + whiteStones, latestPoint),
-            ).lastOrNull { it.isError } ?: OmokViolation.NONE
+            ).lastOrNull { it != OmokViolation.NONE } ?: OmokViolation.NONE
         dealViolation(violation)
     }
 
