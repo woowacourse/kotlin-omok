@@ -3,7 +3,7 @@ package omok.model.rule
 import omok.fixture.generateTestBoardFixture
 import omok.model.board.Board
 import omok.model.board.Point
-import omok.model.board.PointState
+import omok.model.board.StoneColor
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -41,9 +41,9 @@ class OmokRuleJudgeTest {
                     Point(10, 9), Point(13, 12), Point(13, 10), Point(14, 9),
                     Point(11, 6), Point(11, 3), Point(13, 4), Point(14, 4),
                 ),
-                PointState.BLACK,
+                StoneColor.BLACK,
             )
-        val actual = judge.validate(doubleThreeForbiddenBoard, Point(x, y), PointState.BLACK)
+        val actual = judge.validate(doubleThreeForbiddenBoard, Point(x, y), StoneColor.BLACK)
         assertFalse(actual)
     }
 
@@ -63,9 +63,9 @@ class OmokRuleJudgeTest {
                     Point(6, 8), Point(8, 12), Point(7, 7), Point(5, 12), Point(7, 12),
                     Point(6, 11), Point(6, 13), Point(6, 14),
                 ),
-                PointState.BLACK,
+                StoneColor.BLACK,
             )
-        val actual = judge.validate(doubleFourForbiddenBoard, Point(x, y), PointState.BLACK)
+        val actual = judge.validate(doubleFourForbiddenBoard, Point(x, y), StoneColor.BLACK)
         assertFalse(actual)
     }
 
@@ -74,9 +74,9 @@ class OmokRuleJudgeTest {
         val overlineForbiddenBoard: Board =
             generateTestBoardFixture(
                 listOf(Point(1, 1), Point(2, 1), Point(3, 1), Point(4, 1), Point(6, 1)),
-                PointState.BLACK,
+                StoneColor.BLACK,
             )
-        val actual = judge.validate(overlineForbiddenBoard, Point(5, 1), PointState.BLACK)
+        val actual = judge.validate(overlineForbiddenBoard, Point(5, 1), StoneColor.BLACK)
         assertFalse(actual)
     }
 
@@ -85,9 +85,9 @@ class OmokRuleJudgeTest {
         val fourThreeBoard: Board =
             generateTestBoardFixture(
                 listOf(Point(5, 5), Point(6, 5), Point(7, 5), Point(8, 6), Point(8, 7)),
-                PointState.BLACK,
+                StoneColor.BLACK,
             )
-        val actual = judge.validate(fourThreeBoard, Point(8, 5), PointState.BLACK)
+        val actual = judge.validate(fourThreeBoard, Point(8, 5), StoneColor.BLACK)
         assertTrue(actual)
     }
 
@@ -96,10 +96,10 @@ class OmokRuleJudgeTest {
         val falseDoubleThreeBoard: Board =
             generateTestBoardFixture(
                 listOf(Point(3, 3), Point(5, 3), Point(4, 2), Point(4, 4)),
-                PointState.BLACK,
+                StoneColor.BLACK,
             )
-        falseDoubleThreeBoard.placeStone(Point(4, 5), PointState.WHITE)
-        val actual = judge.validate(falseDoubleThreeBoard, Point(4, 3), PointState.BLACK)
+        falseDoubleThreeBoard.placeStone(Point(4, 5), StoneColor.WHITE)
+        val actual = judge.validate(falseDoubleThreeBoard, Point(4, 3), StoneColor.BLACK)
         assertTrue(actual)
     }
 }

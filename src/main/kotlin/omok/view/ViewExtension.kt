@@ -3,7 +3,7 @@ package omok.view
 import omok.model.board.Board
 import omok.model.board.BoardSize
 import omok.model.board.Point
-import omok.model.board.PointState
+import omok.model.board.StoneColor
 
 fun String.toPosition(): Pair<Int, Int> {
     return this[0].alphabetToInt() to this.substring(1).toInt()
@@ -21,10 +21,10 @@ fun Int.toAlphabet(): Char {
     return if (this in 1..15) 'A' + (this - 1) else ' '
 }
 
-fun PointState?.toColorString(): String {
+fun StoneColor?.toColorString(): String {
     return when (this) {
-        PointState.BLACK -> "흑"
-        PointState.WHITE -> "백"
+        StoneColor.BLACK -> "흑"
+        StoneColor.WHITE -> "백"
         else -> "흑"
     }
 }
@@ -52,9 +52,9 @@ private fun getBoardCharacter(
     x: Int,
     y: Int,
 ): String {
-    val point = board.findPointState(Point(x, y))
+    val stoneColor = board.findStoneColor(Point(x, y))
 
-    return point?.toUiString() ?: when {
+    return stoneColor?.toUiString() ?: when {
         // 네 모서리 처리
         x == BoardSize.MIN_SIZE && y == board.points.size.value -> "┌"
         x == board.points.size.value && y == board.points.size.value -> "┐"
@@ -74,10 +74,9 @@ private fun getBoardCharacter(
     }
 }
 
-private fun PointState.toUiString(): String? {
+private fun StoneColor.toUiString(): String? {
     return when (this) {
-        PointState.BLACK -> "●"
-        PointState.WHITE -> "○"
-        PointState.OPEN -> null
+        StoneColor.BLACK -> "●"
+        StoneColor.WHITE -> "○"
     }
 }

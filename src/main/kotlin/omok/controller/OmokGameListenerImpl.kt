@@ -2,7 +2,7 @@ package omok.controller
 
 import omok.model.board.Board
 import omok.model.board.Point
-import omok.model.board.PointState
+import omok.model.board.StoneColor
 import omok.view.OmokInputView
 import omok.view.OmokOutputView
 
@@ -14,7 +14,7 @@ class OmokGameListenerImpl(
         outputView.printStartMessage()
     }
 
-    override fun onRequestPosition(previousPoint: Pair<Point?, PointState>): Point {
+    override fun onRequestPosition(previousPoint: Pair<Point?, StoneColor>): Point {
         outputView.printCurrentTurn(previousPoint)
         val nextPosition = inputView.readPosition()
         return Point(nextPosition.first, nextPosition.second)
@@ -24,7 +24,7 @@ class OmokGameListenerImpl(
         outputView.printBoardStatus(board)
     }
 
-    override fun onGameWon(winnerState: PointState?) {
+    override fun onGameWon(winnerState: StoneColor?) {
         outputView.printWinColor(winnerState)
     }
 

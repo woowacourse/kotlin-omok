@@ -2,21 +2,21 @@ package omok.view
 
 import omok.model.board.Board
 import omok.model.board.Point
-import omok.model.board.PointState
+import omok.model.board.StoneColor
 
 class OutputView : OmokOutputView {
     override fun printStartMessage() {
         println(OMOK_STARTING_MESSAGE)
     }
 
-    override fun printCurrentTurn(previousPoint: Pair<Point?, PointState>) {
+    override fun printCurrentTurn(previousPoint: Pair<Point?, StoneColor>) {
         previousPoint.let {
             val lastPoint = PREVIOUS_POSITION_MESSAGE.format(it.first?.toAlphabet())
             println(CURRENT_TURN_MESSAGE.format(it.second.toColorString(), if (it.first != null) lastPoint else ""))
         }
     }
 
-    override fun printWinColor(winnerState: PointState?) {
+    override fun printWinColor(winnerState: StoneColor?) {
         println(WINNING_MESSAGE.format(winnerState.toColorString()))
     }
 

@@ -11,25 +11,25 @@ class BoardTest {
 
     @BeforeEach
     fun setUp() {
-        board = generateTestBoardFixture(emptyList(), PointState.BLACK)
+        board = generateTestBoardFixture(emptyList(), StoneColor.BLACK)
     }
 
     @Test
     fun `Point가 Open 상태일 때, 돌을 둘 수 있다`() {
         val position = Point(1, 1)
-        board.placeStone(position, PointState.WHITE)
+        board.placeStone(position, StoneColor.WHITE)
 
-        val actual = board.findPointState(position)
+        val actual = board.findStoneColor(position)
 
-        assertThat(actual).isEqualTo(PointState.WHITE)
+        assertThat(actual).isEqualTo(StoneColor.WHITE)
     }
 
     @Test
     fun `Point에 이미 돌이 있다면 돌을 둘 수 없다`() {
         val position = Point(1, 1)
-        board.placeStone(position, PointState.WHITE)
+        board.placeStone(position, StoneColor.WHITE)
 
-        val actual = board.placeStone(position, PointState.BLACK)
+        val actual = board.placeStone(position, StoneColor.BLACK)
         val expected = PlaceStoneResult.Failure.AlreadyPlaced
 
         assertThat(actual).isEqualTo(expected)
@@ -39,8 +39,8 @@ class BoardTest {
     fun `보드에서 원하는 좌표의 상태를 찾을 수 있다`() {
         val position = Point(1, 1)
 
-        val actual = board.findPointState(position)
-        val expected = PointState.OPEN
+        val actual = board.findStoneColor(position)
+        val expected = null
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -50,9 +50,9 @@ class BoardTest {
         val board =
             generateTestBoardFixture(
                 listOf(Point(3, 12), Point(5, 12), Point(4, 14), Point(4, 13)),
-                PointState.WHITE,
+                StoneColor.WHITE,
             )
-        val result = board.placeStone(Point(4, 12), PointState.WHITE)
+        val result = board.placeStone(Point(4, 12), StoneColor.WHITE)
         val actual = result is PlaceStoneResult.Success.Placed
 
         assertTrue(actual)
@@ -63,9 +63,9 @@ class BoardTest {
         val board =
             generateTestBoardFixture(
                 listOf(Point(1, 1), Point(2, 1), Point(3, 1), Point(4, 1), Point(6, 1)),
-                PointState.BLACK,
+                StoneColor.BLACK,
             )
-        val result = board.placeStone(Point(5, 1), PointState.BLACK)
+        val result = board.placeStone(Point(5, 1), StoneColor.BLACK)
         val actual = result is PlaceStoneResult.Failure.Closed
 
         assertTrue(actual)
@@ -76,9 +76,9 @@ class BoardTest {
         val board =
             generateTestBoardFixture(
                 listOf(Point(1, 1), Point(2, 1), Point(3, 1), Point(4, 1)),
-                PointState.BLACK,
+                StoneColor.BLACK,
             )
-        val result = board.placeStone(Point(5, 1), PointState.BLACK)
+        val result = board.placeStone(Point(5, 1), StoneColor.BLACK)
         val actual = result is PlaceStoneResult.Success.Finished
 
         assertTrue(actual)
@@ -86,7 +86,7 @@ class BoardTest {
 
     @Test
     fun `바둑판 크기를 벗어난 위치에 두려고 하면 InvalidPoint를 반환한다`() {
-        val result = board.placeStone(Point(30, 1), PointState.BLACK)
+        val result = board.placeStone(Point(30, 1), StoneColor.BLACK)
         val actual = result is PlaceStoneResult.Failure.InvalidPoint
 
         assertTrue(actual)

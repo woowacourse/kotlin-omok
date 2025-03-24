@@ -31,26 +31,26 @@ class BoardPointsTest {
     }
 
     @Test
-    fun `초기 보드는 모든 점이 OPEN 상태여야 한다`() {
+    fun `초기 보드는 모든 점이 null이다`() {
         boardPoints.points.forEach { (_, state) ->
-            assertEquals(PointState.OPEN, state)
+            assertEquals(null, state)
         }
     }
 
     @Test
     fun `특정 위치의 상태를 변경하면 해당 위치의 상태가 변경되어야 한다`() {
         val point = Point(2, 3)
-        boardPoints.update(point, PointState.BLACK)
-        assertEquals(PointState.BLACK, boardPoints.getState(point))
+        boardPoints.update(point, StoneColor.BLACK)
+        assertEquals(StoneColor.BLACK, boardPoints.getState(point))
     }
 
     @Test
     fun `초기화 시 지정된 상태를 가진 보드가 정상적으로 설정되어야 한다`() {
-        val initialPoints = mapOf(Point(1, 1) to PointState.BLACK, Point(2, 2) to PointState.WHITE)
+        val initialPoints = mapOf(Point(1, 1) to StoneColor.BLACK, Point(2, 2) to StoneColor.WHITE)
         val customBoard = BoardPoints(BoardSize(15), initialPoints)
 
-        assertEquals(PointState.BLACK, customBoard.getState(Point(1, 1)))
-        assertEquals(PointState.WHITE, customBoard.getState(Point(2, 2)))
-        assertEquals(PointState.OPEN, customBoard.getState(Point(3, 3)))
+        assertEquals(StoneColor.BLACK, customBoard.getState(Point(1, 1)))
+        assertEquals(StoneColor.WHITE, customBoard.getState(Point(2, 2)))
+        assertEquals(null, customBoard.getState(Point(3, 3)))
     }
 }

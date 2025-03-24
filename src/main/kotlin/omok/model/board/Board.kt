@@ -6,19 +6,28 @@ class Board(
     val points: BoardPoints,
     private val judge: OmokRuleJudge,
 ) {
-    fun findPointState(point: Point): PointState? = points.getState(point)
+    fun findStoneColor(point: Point): StoneColor? = points.getState(point)
 
     fun placeStone(
         point: Point,
-        pointState: PointState,
+        color: StoneColor,
     ): PlaceStoneResult {
-        val state = findPointState(point) ?: return PlaceStoneResult.Failure.InvalidPoint
-        if (state != PointState.OPEN) return PlaceStoneResult.Failure.AlreadyPlaced
+        if (!checkOutOfBounds(point)) return PlaceStoneResult.Failure.InvalidPoint
+        if (checkAlreadyPlaced(point)) return PlaceStoneResult.Failure.AlreadyPlaced
 
-        if (!judge.validate(this, point, pointState)) return PlaceStoneResult.Failure.Closed
-        points.update(point, pointState)
+        if (!judge.validate(this, point, color)) return PlaceStoneResult.Failure.Closed
+        points.update(point, color)
 
-        if (judge.isWin(this, point, pointState)) return PlaceStoneResult.Success.Placed(point)
+        if (judge.isWin(this, point, color)) return PlaceStoneResult.Success.Placed(point)
         return PlaceStoneResult.Success.Finished(point)
+    }
+
+    private fun checkOutOfBounds(point: Point): Boolean {
+        return listOf(point.x, point.y).all { it in BoardSize.MIN_SIZE..points.size.value }
+    }
+
+    private fun checkAlreadyPlaced(point: Point): Boolean {
+        val color = findStoneColor(point)
+        return color != null
     }
 }

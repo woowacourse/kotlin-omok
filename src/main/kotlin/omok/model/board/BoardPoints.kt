@@ -1,23 +1,23 @@
 package omok.model.board
 
-class BoardPoints(val size: BoardSize, points: Map<Point, PointState> = emptyMap()) {
-    private val _points: MutableMap<Point, PointState> = points.toMutableMap()
-    val points: Map<Point, PointState> get() = _points.toMap()
+class BoardPoints(val size: BoardSize, points: Map<Point, StoneColor?> = emptyMap()) {
+    private val _points: MutableMap<Point, StoneColor?> = points.toMutableMap()
+    val points: Map<Point, StoneColor?> get() = _points.toMap()
 
     init {
         for (row in BoardSize.MIN_SIZE..size.value) {
             for (col in BoardSize.MIN_SIZE..size.value) {
                 val key = Point(row, col)
-                _points[key] = _points.getOrDefault(key, PointState.OPEN)
+                _points[key] = _points.getOrDefault(key, null)
             }
         }
     }
 
-    fun getState(point: Point): PointState? = _points[point]
+    fun getState(point: Point): StoneColor? = _points[point]
 
     fun update(
         point: Point,
-        newState: PointState,
+        newState: StoneColor,
     ) {
         _points[point] = newState
     }

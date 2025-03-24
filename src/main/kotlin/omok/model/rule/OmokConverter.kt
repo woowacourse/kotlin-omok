@@ -2,7 +2,7 @@ package omok.model.rule
 
 import omok.model.board.Board
 import omok.model.board.Point
-import omok.model.board.PointState
+import omok.model.board.StoneColor
 import omok.model.rule.lib.ForbiddenMoveRule
 
 object OmokConverter {
@@ -12,8 +12,8 @@ object OmokConverter {
         board.points.points.forEach { point ->
             adapted[point.key.y - 1][point.key.x - 1] =
                 when (point.value) {
-                    PointState.BLACK -> ForbiddenMoveRule.BLACK_STONE
-                    PointState.WHITE -> ForbiddenMoveRule.WHITE_STONE
+                    StoneColor.BLACK -> ForbiddenMoveRule.BLACK_STONE
+                    StoneColor.WHITE -> ForbiddenMoveRule.WHITE_STONE
                     else -> ForbiddenMoveRule.EMPTY_STONE
                 }
         }
