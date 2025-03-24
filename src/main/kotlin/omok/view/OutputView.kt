@@ -5,16 +5,16 @@ import omok.domain.omokboard.IntersectionState
 import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
-import omok.domain.rule.GameResult
-import omok.domain.rule.GameResult.DRAW
-import omok.domain.rule.GameResult.WIN_BLACK
-import omok.domain.rule.GameResult.WIN_WHITE
-import omok.domain.rule.PlaceResult.Failure
-import omok.domain.rule.PlaceResult.Failure.AlreadyExistStone
-import omok.domain.rule.PlaceResult.Failure.DoubleFourViolation
-import omok.domain.rule.PlaceResult.Failure.DoubleThreeViolation
-import omok.domain.rule.PlaceResult.Failure.InvalidPosition
-import omok.domain.rule.PlaceResult.Failure.OverlineViolation
+import omok.domain.rule.place.PlaceResult.Failure
+import omok.domain.rule.place.PlaceResult.Failure.AlreadyExistStone
+import omok.domain.rule.place.PlaceResult.Failure.DoubleFourViolation
+import omok.domain.rule.place.PlaceResult.Failure.DoubleThreeViolation
+import omok.domain.rule.place.PlaceResult.Failure.InvalidPosition
+import omok.domain.rule.place.PlaceResult.Failure.OverlineViolation
+import omok.domain.rule.winning.GameResult
+import omok.domain.rule.winning.GameResult.DRAW
+import omok.domain.rule.winning.GameResult.WIN_BLACK
+import omok.domain.rule.winning.GameResult.WIN_WHITE
 
 class OutputView {
     fun displayOmokGameStart() {

@@ -1,4 +1,4 @@
-package omok.domain.rule
+package omok.domain.rule.winning
 
 import omok.domain.omokboard.ColumnPosition
 import omok.domain.omokboard.IntersectionState
@@ -9,8 +9,10 @@ import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
 import omok.domain.player.StoneColor.BLACK
 import omok.domain.player.StoneColor.WHITE
+import omok.domain.rule.place.PlaceResult
+import omok.domain.rule.place.PlaceRule
 
-class WinningRule : OmokRule {
+class WinningRule : PlaceRule {
     override fun canPlace(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,

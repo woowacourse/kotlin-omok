@@ -4,7 +4,7 @@ import omok.domain.omokboard.PlayingBoard
 import omok.domain.omokboard.Position
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
-import omok.domain.rule.PlaceResult
+import omok.domain.rule.place.PlaceResult
 
 class OmokGame(
     private val playingBoard: PlayingBoard,

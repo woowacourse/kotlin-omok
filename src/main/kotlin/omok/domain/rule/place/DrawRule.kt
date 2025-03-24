@@ -1,10 +1,11 @@
-package omok.domain.rule
+package omok.domain.rule.place
 
 import omok.domain.omokboard.IntersectionState
 import omok.domain.omokboard.OmokBoard
 import omok.domain.player.PlayerStone
+import omok.domain.rule.winning.GameResult
 
-class DrawRule : OmokRule {
+class DrawRule : PlaceRule {
     override fun canPlace(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,

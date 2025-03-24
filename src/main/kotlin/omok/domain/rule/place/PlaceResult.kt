@@ -1,6 +1,7 @@
-package omok.domain.rule
+package omok.domain.rule.place
 
 import omok.domain.player.PlayerStone
+import omok.domain.rule.winning.GameResult
 
 sealed class PlaceResult {
     sealed class Success : PlaceResult() {

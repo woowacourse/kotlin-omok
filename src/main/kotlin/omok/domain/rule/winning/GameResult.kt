@@ -1,4 +1,4 @@
-package omok.domain.rule
+package omok.domain.rule.winning
 
 enum class GameResult {
     WIN_BLACK,

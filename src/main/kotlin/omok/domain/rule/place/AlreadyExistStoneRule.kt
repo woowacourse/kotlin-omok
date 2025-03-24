@@ -1,10 +1,10 @@
-package omok.domain.rule
+package omok.domain.rule.place
 
 import omok.domain.omokboard.IntersectionState
 import omok.domain.omokboard.OmokBoard
 import omok.domain.player.PlayerStone
 
-class AlreadyExistStoneRule : OmokRule {
+class AlreadyExistStoneRule : PlaceRule {
     override fun canPlace(
         omokBoard: OmokBoard,
         playerStone: PlayerStone,

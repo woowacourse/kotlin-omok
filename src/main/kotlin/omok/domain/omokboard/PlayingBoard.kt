@@ -1,18 +1,18 @@
 package omok.domain.omokboard
 
 import omok.domain.player.PlayerStone
-import omok.domain.rule.AlreadyExistStoneRule
-import omok.domain.rule.DrawRule
-import omok.domain.rule.ExternalRule
-import omok.domain.rule.InvalidPositionRule
-import omok.domain.rule.OmokRule
-import omok.domain.rule.PlaceResult
-import omok.domain.rule.WinningRule
+import omok.domain.rule.place.AlreadyExistStoneRule
+import omok.domain.rule.place.DrawRule
+import omok.domain.rule.place.ExternalRule
+import omok.domain.rule.place.InvalidPositionRule
+import omok.domain.rule.place.PlaceResult
+import omok.domain.rule.place.PlaceRule
+import omok.domain.rule.winning.WinningRule
 
 class PlayingBoard(
     val board: OmokBoard = OmokBoard.create(),
 ) {
-    private val rules: List<OmokRule> =
+    private val rules: List<PlaceRule> =
         listOf(
             InvalidPositionRule(),
             AlreadyExistStoneRule(),

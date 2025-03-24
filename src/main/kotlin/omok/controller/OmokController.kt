@@ -2,7 +2,7 @@ package omok.controller
 
 import omok.domain.omokboard.OmokBoard
 import omok.domain.omokboard.PlayingBoard
-import omok.domain.rule.PlaceResult
+import omok.domain.rule.place.PlaceResult
 import omok.domain.service.OmokGame
 import omok.view.InputView
 import omok.view.OutputView

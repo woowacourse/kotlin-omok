@@ -1,4 +1,4 @@
-package omok.domain.rule
+package omok.domain.rule.place
 
 import omok.domain.omokboard.IntersectionState
 import omok.domain.omokboard.OmokBoard
@@ -13,7 +13,7 @@ import rule.type.Violation.NONE
 import rule.type.Violation.OVERLINE
 import rule.wrapper.point.Point
 
-class ExternalRule : OmokRule {
+class ExternalRule : PlaceRule {
     private lateinit var renjuRule: rule.OmokRule
     private val blackRenjuRule = BlackRenjuRule()
     private val whiteRenjuRule = WhiteRenjuRule()

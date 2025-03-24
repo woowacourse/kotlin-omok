@@ -1,4 +1,4 @@
-package omok.domain.rule
+package omok.domain.rule.place
 
 import omok.domain.omokboard.ColumnPosition
 import omok.domain.omokboard.PlayingBoard
@@ -6,6 +6,7 @@ import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
+import omok.domain.rule.winning.GameResult
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

@@ -1,4 +1,4 @@
-package omok.domain.rule
+package omok.domain.rule.place
 
 import omok.POSITION_ZERO_ZERO
 import omok.domain.omokboard.PlayingBoard
