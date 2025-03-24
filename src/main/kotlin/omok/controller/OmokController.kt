@@ -1,9 +1,7 @@
 package omok.controller
 
 import omok.model.board.OmokBoard
-import omok.model.player.BlackPlayer
 import omok.model.player.Player
-import omok.model.player.state.BlackPlayerState
 import omok.view.OmokView
 
 class OmokController(
@@ -12,20 +10,19 @@ class OmokController(
     fun run() {
         omokView.printStartMessage()
         val omokBoard = OmokBoard()
-        val currentPlayer: Player = BlackPlayer(BlackPlayerState())
-        playGame(currentPlayer, omokBoard)
+        val player = Player()
+        playGame(player, omokBoard)
     }
 
     private fun playGame(
         player: Player,
         omokBoard: OmokBoard,
     ) {
-        var currentPlayer = player
-        while (true) {
-            playerTurn(currentPlayer, omokBoard)
-            if (finishGame(currentPlayer, omokBoard)) break
+        while (player.playing()) {
+            playerTurn(player, omokBoard)
+            if (finishGame(player, omokBoard)) break
             omokView.printOmokBoard(omokBoard.board)
-            currentPlayer = currentPlayer.nextPlayer()
+            player.nextPlayer()
         }
     }
 
@@ -42,7 +39,7 @@ class OmokController(
         omokBoard: OmokBoard,
     ) {
         handleTurnException {
-            val position = omokView.inputPosition(currentPlayer)
+            val position = omokView.inputPosition(currentPlayer.playerState)
             currentPlayer.put(position, omokBoard)
         }
     }
@@ -53,7 +50,7 @@ class OmokController(
     ): Boolean {
         if (currentPlayer.win()) {
             omokView.printOmokBoard(omokBoard.board)
-            omokView.result(currentPlayer)
+            omokView.result(currentPlayer.playerState)
             return true
         }
         return false
