@@ -8,8 +8,10 @@ import omok.domain.stone.StoneColor
 
 class ThreeByThree(board: OmokBoard) : Renju(board) {
     override fun match(p: Point): Boolean {
-        return p.status == BoardStatus.Empty &&
-            checkDirectionPairs(p, BoardStatus.Moved(StoneColor.BLACK)) > 1
+        val isBoardEmpty = p.status == BoardStatus.Empty
+        val hasMoreThanOneThreeByThree = checkDirectionPairs(p, BoardStatus.Moved(StoneColor.BLACK)) > 1
+
+        return isBoardEmpty && hasMoreThanOneThreeByThree
     }
 
     override fun checkDirectionPairs(

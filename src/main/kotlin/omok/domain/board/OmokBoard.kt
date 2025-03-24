@@ -3,14 +3,15 @@ package omok.domain.board
 import omok.domain.point.OmokPoints
 import omok.domain.point.Point
 import omok.domain.rule.Direction
-import omok.domain.rule.renju.FourByFour
-import omok.domain.rule.renju.SixMok
-import omok.domain.rule.renju.ThreeByThree
+import omok.domain.rule.OmokRule
+import omok.domain.rule.OmokRulesFacade
 import omok.exception.execute
 
 class OmokBoard(
     private val omokPoints: OmokPoints,
 ) {
+    private val facade: OmokRule = OmokRulesFacade(this)
+
     fun toMatrix(): List<List<BoardStatus>> = omokPoints.toMatrix()
 
     fun isNotFull() = omokPoints.toList().any { it.status is BoardStatus.Empty }
@@ -40,18 +41,16 @@ class OmokBoard(
     }
 
     private fun updateBlockedPlace() {
-        omokPoints.toList()
+        omokPoints
+            .toList()
             .filter { it.status is BoardStatus.Empty }
-            .forEach { point ->
-                val isFourByFour = FourByFour(this).match(point)
-                val isThreeByThree = ThreeByThree(this).match(point)
-                val sixMok = SixMok(this).match(point)
+            .forEach { point -> addBlockStone(point) }
+    }
 
-                val isBlocked = isFourByFour || isThreeByThree || sixMok
-                if (isBlocked) {
-                    omokPoints.moveStone(point.copy(status = BoardStatus.Blocked))
-                }
-            }
+    private fun addBlockStone(point: Point) {
+        if (facade.renjuRulesValidation(point)) {
+            omokPoints.moveStone(point.copy(status = BoardStatus.Blocked))
+        }
     }
 
     private fun seek(

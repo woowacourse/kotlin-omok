@@ -8,7 +8,9 @@ import omok.domain.stone.StoneColor
 
 class SixMok(board: OmokBoard) : Renju(board) {
     override fun match(p: Point): Boolean {
-        return p.status == BoardStatus.Empty && checkDirectionPairs(p, BoardStatus.Moved(StoneColor.BLACK)) > 0
+        val isBoardEmpty = p.status == BoardStatus.Empty
+        val hasSixOrMoreStones = checkDirectionPairs(p, BoardStatus.Moved(StoneColor.BLACK)) > 0
+        return isBoardEmpty && hasSixOrMoreStones
     }
 
     override fun checkDirectionPairs(
