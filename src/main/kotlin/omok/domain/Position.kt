@@ -6,7 +6,9 @@ data class Position(val row: Int, val column: Int) {
     constructor(inputPosition: String) : this(parseToRow(inputPosition), parseToColumn(inputPosition))
 
     init {
-        require(row in 0 until BOARD_SIZE && column in 0 until BOARD_SIZE) { throw IllegalArgumentException(ERROR_INVALID_PLACED.format(BOARD_SIZE)) }
+        require(row in 0 until BOARD_SIZE && column in 0 until BOARD_SIZE) {
+            throw IllegalArgumentException(ERROR_INVALID_PLACED.format(BOARD_SIZE))
+        }
     }
 
     companion object {
@@ -29,5 +31,4 @@ data class Position(val row: Int, val column: Int) {
 
         private const val ERROR_INVALID_PLACED = "유효하지 않은 돌의 위치입니다. 위치는 A에서 O까지, 0 이상 %d 미만이어야 합니다."
     }
-
 }

@@ -1,16 +1,9 @@
 package omok.domain
 
 import omok.A1
-import omok.C13
-import omok.C8
 import omok.D12
 import omok.E3
-import omok.F12
-import omok.FourFour
 import omok.Full
-import omok.H5
-import omok.I8
-import omok.J10
 import omok.K4
 import omok.L11
 import omok.ThreeThree
