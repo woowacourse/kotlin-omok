@@ -6,10 +6,10 @@ import omok.model.board.StoneColor
 import omok.view.OmokInputView
 import omok.view.OmokOutputView
 
-class OmokGameListenerImpl(
+class OmokGameHandlerImpl(
     private val inputView: OmokInputView,
     private val outputView: OmokOutputView,
-) : OmokGameListener {
+) : OmokGameHandler {
     override fun onStartGame() {
         outputView.printStartMessage()
     }

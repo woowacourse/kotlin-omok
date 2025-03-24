@@ -4,7 +4,7 @@ import omok.model.board.Board
 import omok.model.board.Point
 import omok.model.board.StoneColor
 
-interface OmokGameListener {
+interface OmokGameHandler {
     fun onStartGame()
 
     fun onRequestPosition(previousPoint: Pair<Point?, StoneColor>): Point

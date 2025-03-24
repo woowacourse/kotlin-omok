@@ -18,7 +18,7 @@ class OmokController(
     private val outputView: OmokOutputView,
 ) {
     fun play() {
-        val omokGameListener = OmokGameListenerImpl(inputView, outputView)
+        val omokGameListener = OmokGameHandlerImpl(inputView, outputView)
         val boardSize = BoardSize()
         val rules = prepareRules()
 
