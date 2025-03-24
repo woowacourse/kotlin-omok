@@ -26,7 +26,6 @@ class OutputView {
             .forEach { rowNumber ->
                 displayRow(omokBoard, RowPosition(rowNumber))
             }
-
         displayColumnLabels(omokBoard.width)
     }
 

@@ -2,12 +2,13 @@ package omok.domain.omokboard
 
 @JvmInline
 value class OmokBoard private constructor(
-    val value: Map<Position, Intersection>,
+    private val _value: Map<Position, Intersection>,
 ) {
-    val width get() = value.keys.maxOf { it.column.value }
-    val height get() = value.keys.maxOf { it.row.value }
+    val value: Map<Position, Intersection> get() = _value.toMap()
+    val width: Int get() = value.keys.maxOf { it.column.value }
+    val height: Int get() = value.keys.maxOf { it.row.value }
 
-    fun find(position: Position): Intersection? = value[position]
+    fun find(position: Position): Intersection? = _value[position]
 
     companion object {
         fun create(

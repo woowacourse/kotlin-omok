@@ -16,17 +16,24 @@ import omok.POSITION_TWO_TWO
 import omok.domain.omokboard.PlayingBoard
 import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
-import omok.domain.rule.place.PlaceResult
+import omok.domain.rule.place.AlreadyExistStoneRule
+import omok.domain.rule.place.ExternalRule
+import omok.domain.rule.place.InvalidPositionRule
+import omok.domain.rule.place.PlaceRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class WinningRuleTest {
     private lateinit var playingBoard: PlayingBoard
+    private lateinit var placeRules: List<PlaceRule>
+    private lateinit var judgeRules: List<JudgeRule>
 
     @BeforeEach
     fun setup() {
         playingBoard = PlayingBoard()
+        placeRules = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())
+        judgeRules = listOf(WinningRule(), DrawRule())
     }
 
     @Test
@@ -39,14 +46,14 @@ class WinningRuleTest {
         val playerStone5: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_ONE_FIVE)
 
         // when
-        playingBoard.placeStone(playerStone1)
-        playingBoard.placeStone(playerStone2)
-        playingBoard.placeStone(playerStone3)
-        playingBoard.placeStone(playerStone4)
-        playingBoard.placeStone(playerStone5)
+        playingBoard.placeStone(placeRules, playerStone1)
+        playingBoard.placeStone(placeRules, playerStone2)
+        playingBoard.placeStone(placeRules, playerStone3)
+        playingBoard.placeStone(placeRules, playerStone4)
+        playingBoard.placeStone(placeRules, playerStone5)
 
-        val actual = WinningRule().canPlace(playingBoard.board, playerStone5)
-        val expected = PlaceResult.Success.Finish(JudgeResult.WIN_BLACK)
+        val actual = WinningRule().perform(playingBoard.board, playerStone5)
+        val expected = JudgeResult.Finished.Win(StoneColor.BLACK)
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -62,14 +69,14 @@ class WinningRuleTest {
         val playerStone5: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_FIVE_ONE)
 
         // when
-        playingBoard.placeStone(playerStone1)
-        playingBoard.placeStone(playerStone2)
-        playingBoard.placeStone(playerStone3)
-        playingBoard.placeStone(playerStone4)
-        playingBoard.placeStone(playerStone5)
+        playingBoard.placeStone(placeRules, playerStone1)
+        playingBoard.placeStone(placeRules, playerStone2)
+        playingBoard.placeStone(placeRules, playerStone3)
+        playingBoard.placeStone(placeRules, playerStone4)
+        playingBoard.placeStone(placeRules, playerStone5)
 
-        val actual = WinningRule().canPlace(playingBoard.board, playerStone5)
-        val expected = PlaceResult.Success.Finish(JudgeResult.WIN_BLACK)
+        val actual = WinningRule().perform(playingBoard.board, playerStone5)
+        val expected = JudgeResult.Finished.Win(StoneColor.BLACK)
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -85,14 +92,14 @@ class WinningRuleTest {
         val playerStone5: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_FIVE_FIVE)
 
         // when
-        playingBoard.placeStone(playerStone1)
-        playingBoard.placeStone(playerStone2)
-        playingBoard.placeStone(playerStone3)
-        playingBoard.placeStone(playerStone4)
-        playingBoard.placeStone(playerStone5)
+        playingBoard.placeStone(placeRules, playerStone1)
+        playingBoard.placeStone(placeRules, playerStone2)
+        playingBoard.placeStone(placeRules, playerStone3)
+        playingBoard.placeStone(placeRules, playerStone4)
+        playingBoard.placeStone(placeRules, playerStone5)
 
-        val actual = WinningRule().canPlace(playingBoard.board, playerStone5)
-        val expected = PlaceResult.Success.Finish(JudgeResult.WIN_BLACK)
+        val actual = WinningRule().perform(playingBoard.board, playerStone5)
+        val expected = JudgeResult.Finished.Win(StoneColor.BLACK)
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -108,14 +115,14 @@ class WinningRuleTest {
         val playerStone5: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_ONE_FIVE)
 
         // when
-        playingBoard.placeStone(playerStone1)
-        playingBoard.placeStone(playerStone2)
+        playingBoard.placeStone(placeRules, playerStone1)
+        playingBoard.placeStone(placeRules, playerStone2)
 
-        playingBoard.placeStone(playerStone4)
-        playingBoard.placeStone(playerStone5)
+        playingBoard.placeStone(placeRules, playerStone4)
+        playingBoard.placeStone(placeRules, playerStone5)
 
-        val actual = WinningRule().canPlace(playingBoard.board, playerStone3)
-        val expected = PlaceResult.Success.Finish(JudgeResult.WIN_BLACK)
+        val actual = WinningRule().perform(playingBoard.board, playerStone3)
+        val expected = JudgeResult.Finished.Win(StoneColor.BLACK)
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -131,14 +138,14 @@ class WinningRuleTest {
         val playerStone5: PlayerStone = PlayerStone(StoneColor.WHITE, POSITION_ONE_FIVE)
 
         // when
-        playingBoard.placeStone(playerStone1)
-        playingBoard.placeStone(playerStone2)
-        playingBoard.placeStone(playerStone3)
-        playingBoard.placeStone(playerStone4)
-        playingBoard.placeStone(playerStone5)
+        playingBoard.placeStone(placeRules, playerStone1)
+        playingBoard.placeStone(placeRules, playerStone2)
+        playingBoard.placeStone(placeRules, playerStone3)
+        playingBoard.placeStone(placeRules, playerStone4)
+        playingBoard.placeStone(placeRules, playerStone5)
 
-        val actual = WinningRule().canPlace(playingBoard.board, playerStone5)
-        val expected = PlaceResult.Success.Finish(JudgeResult.WIN_WHITE)
+        val actual = WinningRule().perform(playingBoard.board, playerStone5)
+        val expected = JudgeResult.Finished.Win(StoneColor.WHITE)
 
         // then
         assertThat(actual).isEqualTo(expected)
