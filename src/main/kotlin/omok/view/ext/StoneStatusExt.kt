@@ -1,21 +1,25 @@
 package omok.view.ext
 
-import omok.domain.board.StoneStatus
+import omok.domain.point.Black
+import omok.domain.point.Empty
+import omok.domain.point.Point2
+import omok.domain.point.Protected
+import omok.domain.point.White
 
-fun StoneStatus.toLabel(): String {
+fun Point2.toLabel(): String {
     return when (this) {
-        StoneStatus.BLACK -> "흑"
-        StoneStatus.WHITE -> "백"
+        is Black -> "흑"
+        is White -> "백"
         else -> throw IllegalStateException()
     }
 }
 
-fun StoneStatus.format(): Char {
+fun Point2.format(): Char {
     return when (this) {
-        StoneStatus.BLACK -> '●'
-        StoneStatus.WHITE -> '○'
-        StoneStatus.PROTECTED -> 'x'
-        StoneStatus.EMPTY -> throw java.lang.IllegalStateException(ERR_CANNOT_REACHABLE)
+        is Black -> '●'
+        is White -> '○'
+        is Protected -> 'x'
+        is Empty -> throw java.lang.IllegalStateException(ERR_CANNOT_REACHABLE)
     }
 }
 

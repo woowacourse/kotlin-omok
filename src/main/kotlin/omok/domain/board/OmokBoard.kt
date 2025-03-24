@@ -1,7 +1,9 @@
 package omok.domain.board
 
+import omok.domain.point.Empty
 import omok.domain.point.OmokPoints
-import omok.domain.point.Point
+import omok.domain.point.Point2
+import omok.domain.point.Protected
 import omok.domain.rule.OmokRule
 import omok.domain.rule.finder.Direction
 import omok.view.BoardView
@@ -14,30 +16,30 @@ class OmokBoard(
         require(MAX_ROW_SIZE <= COLUMN_POOL.size) { ERROR_OUT_OF_COLUMN_POOL }
     }
 
-    var latestStone: Point = Point(-100, -100, StoneStatus.EMPTY)
+    var latestStone: Point2 = Empty(-100, -100)
         private set
 
-    fun toMatrix(): List<List<StoneStatus>> = omokPoints.toMatrix()
+    fun toMatrix(): List<List<Point2>> = omokPoints.toMatrix()
 
-    fun isNotFull() = omokPoints.toList().any { it.stoneStatus == StoneStatus.EMPTY }
+    fun isNotFull() = omokPoints.toList().any { it is Empty }
 
     fun view(): BoardView = BoardView(this)
 
-    fun pointValidation(point: Point) {
+    fun pointValidation(point: Point2) {
         require(!omokPoints.isOccupied(point)) { ERROR_OCCUPIED_POSITION }
         require(!omokPoints.isProtected(point)) { ERROR_PROTECTED_POSITION }
     }
 
-    fun addStone(point: Point) {
+    fun addStone(point: Point2) {
         omokPoints.altStone(point)
         latestStone = point
         updateProtectedPlace()
     }
 
     fun goto(
-        currentPosition: Point,
+        currentPosition: Point2,
         direction: Direction,
-    ): Point {
+    ): Point2 {
         val newX = currentPosition.x + direction.x
         val newY = currentPosition.y + direction.y
         return omokPoints.getPointAt(newY, newX)
@@ -45,17 +47,17 @@ class OmokBoard(
 
     private fun updateProtectedPlace() {
         omokPoints.toList()
-            .filter { it.stoneStatus == StoneStatus.PROTECTED }
+            .filterIsInstance<Protected>()
             .forEach { point ->
                 if (!ruleChecker.isProtected(point, this)) {
-                    omokPoints.altStone(point.copy(stoneStatus = StoneStatus.EMPTY))
+                    omokPoints.altStone(Empty(point.x, point.y))
                 }
             }
         omokPoints.toList()
-            .filter { it.stoneStatus == StoneStatus.EMPTY || it.stoneStatus == StoneStatus.PROTECTED }
+            .filter { it is Empty || it is Protected }
             .forEach { point ->
                 if (ruleChecker.isProtected(point, this)) {
-                    omokPoints.altStone(point.copy(stoneStatus = StoneStatus.PROTECTED))
+                    omokPoints.altStone(Protected(point.x, point.y))
                 }
             }
     }

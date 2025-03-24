@@ -2,8 +2,9 @@ package domain.board
 
 import domain.fixture.omokBoardFixture
 import omok.domain.board.OmokBoard
-import omok.domain.board.StoneStatus
-import omok.domain.point.Point
+import omok.domain.point.Black
+import omok.domain.point.Empty
+import omok.domain.point.White
 import omok.domain.rule.finder.DfsRenjuFinder
 import omok.domain.rule.renjuRule.RenjuRule
 import org.assertj.core.api.Assertions.assertThat
@@ -38,11 +39,11 @@ class RenjuRuleTest {
      * */
     @Test
     fun `3x3테스트1`() {
-        board.addStone(Point.of("E8", StoneStatus.BLACK))
-        board.addStone(Point.of("F8", StoneStatus.BLACK))
-        board.addStone(Point.of("G7", StoneStatus.BLACK))
-        board.addStone(Point.of("G6", StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("G8", StoneStatus.EMPTY), board)
+        board.addStone(Black("E8"))
+        board.addStone(Black("F8"))
+        board.addStone(Black("G7"))
+        board.addStone(Black("G6"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("G8"), board)
         assertThat(result).isTrue()
     }
 
@@ -66,12 +67,12 @@ class RenjuRuleTest {
      * */
     @Test
     fun `3x3테스트3`() {
-        board.addStone(Point.of("D8", StoneStatus.WHITE))
-        board.addStone(Point.of("E8", StoneStatus.BLACK))
-        board.addStone(Point.of("F8", StoneStatus.BLACK))
-        board.addStone(Point.of("G7", StoneStatus.BLACK))
-        board.addStone(Point.of("G6", StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("G8", StoneStatus.EMPTY), board)
+        board.addStone(White("D8"))
+        board.addStone(Black("E8"))
+        board.addStone(Black("F8"))
+        board.addStone(Black("G7"))
+        board.addStone(Black("G6"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("G8"), board)
         assertThat(result).isFalse()
     }
 
@@ -95,11 +96,11 @@ class RenjuRuleTest {
      * */
     @Test
     fun `3x3테스트4`() {
-        board.addStone(Point.of("E8", StoneStatus.BLACK))
-        board.addStone(Point.of("F7", StoneStatus.BLACK))
-        board.addStone(Point.of("E5", StoneStatus.BLACK))
-        board.addStone(Point.of("F5", StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("H5", StoneStatus.EMPTY), board)
+        board.addStone(Black("E8"))
+        board.addStone(Black("F7"))
+        board.addStone(Black("E5"))
+        board.addStone(Black("F5"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("H5"), board)
         assertThat(result).isTrue()
     }
 
@@ -123,11 +124,11 @@ class RenjuRuleTest {
      * */
     @Test
     fun `3x3테스트5`() {
-        board.addStone(Point.of("A8", StoneStatus.BLACK))
-        board.addStone(Point.of("B8", StoneStatus.BLACK))
-        board.addStone(Point.of("D7", StoneStatus.BLACK))
-        board.addStone(Point.of("D6", StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("D8", StoneStatus.EMPTY), board)
+        board.addStone(Black("A8"))
+        board.addStone(Black("B8"))
+        board.addStone(Black("D7"))
+        board.addStone(Black("D6"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("D8"), board)
         assertThat(result).isFalse()
     }
 
@@ -151,11 +152,11 @@ class RenjuRuleTest {
      * */
     @Test
     fun `3x3테스트6`() {
-        board.addStone(Point.of("D8", StoneStatus.BLACK))
-        board.addStone(Point.of("F8", StoneStatus.BLACK))
-        board.addStone(Point.of("D9", StoneStatus.BLACK))
-        board.addStone(Point.of("B11", StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("E8", StoneStatus.EMPTY), board)
+        board.addStone(Black("D8"))
+        board.addStone(Black("F8"))
+        board.addStone(Black("D9"))
+        board.addStone(Black("B11"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("E8"), board)
         assertThat(result).isTrue()
     }
 
@@ -179,11 +180,11 @@ class RenjuRuleTest {
      * */
     @Test
     fun `3x3테스트7`() {
-        board.addStone(Point.of("D8", StoneStatus.WHITE))
-        board.addStone(Point.of("F8", StoneStatus.WHITE))
-        board.addStone(Point.of("D9", StoneStatus.WHITE))
-        board.addStone(Point.of("B11", StoneStatus.WHITE))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("E8", StoneStatus.EMPTY), board)
+        board.addStone(White("D8"))
+        board.addStone(White("F8"))
+        board.addStone(White("D9"))
+        board.addStone(White("B11"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("E8"), board)
         assertThat(result).isFalse()
     }
 
@@ -207,11 +208,11 @@ class RenjuRuleTest {
      * */
     @Test
     fun `3x3테스트8`() {
-        board.addStone(Point.of("D4", StoneStatus.BLACK))
-        board.addStone(Point.of("D7", StoneStatus.BLACK))
-        board.addStone(Point.of("F5", StoneStatus.BLACK))
-        board.addStone(Point.of("G5", StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("D5", StoneStatus.EMPTY), board)
+        board.addStone(Black("D4"))
+        board.addStone(Black("D7"))
+        board.addStone(Black("F5"))
+        board.addStone(Black("G5"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("D5"), board)
         assertThat(result).isTrue()
     }
 
@@ -235,11 +236,11 @@ class RenjuRuleTest {
      * */
     @Test
     fun `3x3테스트9`() {
-        board.addStone(Point.of("C4", StoneStatus.BLACK))
-        board.addStone(Point.of("E4", StoneStatus.BLACK))
-        board.addStone(Point.of("D5", StoneStatus.BLACK))
-        board.addStone(Point.of("D6", StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("D4", StoneStatus.EMPTY), board)
+        board.addStone(Black("C4"))
+        board.addStone(Black("E4"))
+        board.addStone(Black("D5"))
+        board.addStone(Black("D6"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("D4"), board)
         assertThat(result).isTrue()
     }
 
@@ -263,11 +264,11 @@ class RenjuRuleTest {
      * */
     @Test
     fun `3x3테스트10`() {
-        board.addStone(Point.of("L5", StoneStatus.BLACK))
-        board.addStone(Point.of("I8", StoneStatus.BLACK))
-        board.addStone(Point.of("M8", StoneStatus.BLACK))
-        board.addStone(Point.of("J5", StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("K6", StoneStatus.EMPTY), board)
+        board.addStone(Black("L5"))
+        board.addStone(Black("I8"))
+        board.addStone(Black("M8"))
+        board.addStone(Black("J5"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("K6"), board)
         assertThat(result).isTrue()
     }
 
@@ -291,13 +292,13 @@ class RenjuRuleTest {
      * */
     @Test
     fun `거짓금수 3x3테스트1`() {
-        board.addStone(Point.of("B8", StoneStatus.WHITE))
-        board.addStone(Point.of("H8", StoneStatus.WHITE))
-        board.addStone(Point.of("D8", StoneStatus.BLACK))
-        board.addStone(Point.of("F8", StoneStatus.BLACK))
-        board.addStone(Point.of("D9", StoneStatus.BLACK))
-        board.addStone(Point.of("B11", StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("E8", StoneStatus.EMPTY), board)
+        board.addStone(White("B8"))
+        board.addStone(White("H8"))
+        board.addStone(Black("D8"))
+        board.addStone(Black("F8"))
+        board.addStone(Black("D9"))
+        board.addStone(Black("B11"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("E8"), board)
         assertThat(result).isFalse()
     }
 
@@ -321,23 +322,23 @@ class RenjuRuleTest {
      * */
     @Test
     fun `거짓금수 3x3테스트2`() {
-        board.addStone(Point.of("B8", StoneStatus.BLACK))
-        board.addStone(Point.of("E8", StoneStatus.BLACK))
-        board.addStone(Point.of("F8", StoneStatus.BLACK))
-        board.addStone(Point.of("G9", StoneStatus.BLACK))
-        board.addStone(Point.of("G10", StoneStatus.BLACK))
-        board.addStone(Point.of("I8", StoneStatus.WHITE))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("G8", StoneStatus.EMPTY), board)
+        board.addStone(Black("B8"))
+        board.addStone(Black("E8"))
+        board.addStone(Black("F8"))
+        board.addStone(Black("G9"))
+        board.addStone(Black("G10"))
+        board.addStone(White("I8"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("G8"), board)
         assertThat(result).isFalse()
     }
 
     @Test
     fun `거짓금수 3x3테스트3`() {
-        board.addStone(Point.of("C8", StoneStatus.BLACK))
-        board.addStone(Point.of("E8", StoneStatus.BLACK))
-        board.addStone(Point.of("C9", StoneStatus.BLACK))
-        board.addStone(Point.of("B10", StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("E8", StoneStatus.EMPTY), board)
+        board.addStone(Black("C8"))
+        board.addStone(Black("E8"))
+        board.addStone(Black("C9"))
+        board.addStone(Black("B10"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("E8"), board)
         assertThat(result).isFalse()
     }
 
@@ -361,13 +362,13 @@ class RenjuRuleTest {
      * */
     @Test
     fun `4x4테스트1`() {
-        board.addStone(Point.of("D8", StoneStatus.BLACK))
-        board.addStone(Point.of("E8", StoneStatus.BLACK))
-        board.addStone(Point.of("F8", StoneStatus.BLACK))
-        board.addStone(Point.of("G7", StoneStatus.BLACK))
-        board.addStone(Point.of("G6", StoneStatus.BLACK))
-        board.addStone(Point.of("G5", StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("G8", StoneStatus.EMPTY), board)
+        board.addStone(Black("D8"))
+        board.addStone(Black("E8"))
+        board.addStone(Black("F8"))
+        board.addStone(Black("G7"))
+        board.addStone(Black("G6"))
+        board.addStone(Black("G5"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("G8"), board)
         assertThat(result).isTrue()
     }
 
@@ -391,13 +392,13 @@ class RenjuRuleTest {
      * */
     @Test
     fun `4x4테스트2`() {
-        board.addStone(Point.of("C8", StoneStatus.BLACK))
-        board.addStone(Point.of("D8", StoneStatus.BLACK))
-        board.addStone(Point.of("E8", StoneStatus.BLACK))
-        board.addStone(Point.of("G6", StoneStatus.BLACK))
-        board.addStone(Point.of("G5", StoneStatus.BLACK))
-        board.addStone(Point.of("G4", StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("G8", StoneStatus.EMPTY), board)
+        board.addStone(Black("C8"))
+        board.addStone(Black("D8"))
+        board.addStone(Black("E8"))
+        board.addStone(Black("G6"))
+        board.addStone(Black("G5"))
+        board.addStone(Black("G4"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("G8"), board)
         assertThat(result).isTrue()
     }
 
@@ -421,13 +422,13 @@ class RenjuRuleTest {
      * */
     @Test
     fun `4x4테스트3`() {
-        board.addStone(Point.of("C8", StoneStatus.BLACK))
-        board.addStone(Point.of("E8", StoneStatus.BLACK))
-        board.addStone(Point.of("F8", StoneStatus.BLACK))
-        board.addStone(Point.of("G7", StoneStatus.BLACK))
-        board.addStone(Point.of("G6", StoneStatus.BLACK))
-        board.addStone(Point.of("G4", StoneStatus.BLACK))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("G8", StoneStatus.EMPTY), board)
+        board.addStone(Black("C8"))
+        board.addStone(Black("E8"))
+        board.addStone(Black("F8"))
+        board.addStone(Black("G7"))
+        board.addStone(Black("G6"))
+        board.addStone(Black("G4"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("G8"), board)
         assertThat(result).isTrue()
     }
 
@@ -451,13 +452,13 @@ class RenjuRuleTest {
      * */
     @Test
     fun `4x4테스트4`() {
-        board.addStone(Point.of("C8", StoneStatus.WHITE))
-        board.addStone(Point.of("E8", StoneStatus.WHITE))
-        board.addStone(Point.of("F8", StoneStatus.WHITE))
-        board.addStone(Point.of("G7", StoneStatus.WHITE))
-        board.addStone(Point.of("G6", StoneStatus.WHITE))
-        board.addStone(Point.of("G4", StoneStatus.WHITE))
-        val result = RenjuRule(DfsRenjuFinder).isProtected(Point.of("G8", StoneStatus.EMPTY), board)
+        board.addStone(White("C8"))
+        board.addStone(White("E8"))
+        board.addStone(White("F8"))
+        board.addStone(White("G7"))
+        board.addStone(White("G6"))
+        board.addStone(White("G4"))
+        val result = RenjuRule(DfsRenjuFinder).isProtected(Empty("G8"), board)
         assertThat(result).isFalse()
     }
 
@@ -481,13 +482,13 @@ class RenjuRuleTest {
      * */
     @Test
     fun `4x3테스트1`() {
-        board.addStone(Point.of("C8", StoneStatus.BLACK))
-        board.addStone(Point.of("E8", StoneStatus.BLACK))
-        board.addStone(Point.of("F8", StoneStatus.BLACK))
-        board.addStone(Point.of("G7", StoneStatus.BLACK))
-        board.addStone(Point.of("G6", StoneStatus.BLACK))
+        board.addStone(Black("C8"))
+        board.addStone(Black("E8"))
+        board.addStone(Black("F8"))
+        board.addStone(Black("G7"))
+        board.addStone(Black("G6"))
         val result1 =
-            RenjuRule(DfsRenjuFinder).isProtected(Point.of("G8", StoneStatus.EMPTY), board)
+            RenjuRule(DfsRenjuFinder).isProtected(Empty("G8"), board)
         assertThat(result1).isFalse()
     }
 
@@ -511,14 +512,14 @@ class RenjuRuleTest {
      * */
     @Test
     fun `4x3테스트2`() {
-        board.addStone(Point.of("F7", StoneStatus.WHITE))
-        board.addStone(Point.of("C8", StoneStatus.BLACK))
-        board.addStone(Point.of("D8", StoneStatus.BLACK))
-        board.addStone(Point.of("F8", StoneStatus.BLACK))
-        board.addStone(Point.of("D9", StoneStatus.BLACK))
-        board.addStone(Point.of("C10", StoneStatus.BLACK))
+        board.addStone(White("F7"))
+        board.addStone(Black("C8"))
+        board.addStone(Black("D8"))
+        board.addStone(Black("F8"))
+        board.addStone(Black("D9"))
+        board.addStone(Black("C10"))
         val result1 =
-            RenjuRule(DfsRenjuFinder).isProtected(Point.of("E8", StoneStatus.EMPTY), board)
+            RenjuRule(DfsRenjuFinder).isProtected(Empty("E8"), board)
         assertThat(result1).isFalse()
     }
 
@@ -542,13 +543,13 @@ class RenjuRuleTest {
      * */
     @Test
     fun `6목테스트1`() {
-        board.addStone(Point.of("B8", StoneStatus.BLACK))
-        board.addStone(Point.of("C8", StoneStatus.BLACK))
-        board.addStone(Point.of("D8", StoneStatus.BLACK))
-        board.addStone(Point.of("E8", StoneStatus.BLACK))
-        board.addStone(Point.of("G8", StoneStatus.BLACK))
+        board.addStone(Black("B8"))
+        board.addStone(Black("C8"))
+        board.addStone(Black("D8"))
+        board.addStone(Black("E8"))
+        board.addStone(Black("G8"))
         val result =
-            RenjuRule(DfsRenjuFinder).isProtected(Point.of("F8", StoneStatus.EMPTY), board)
+            RenjuRule(DfsRenjuFinder).isProtected(Empty("F8"), board)
         assertThat(result).isTrue()
     }
 
@@ -572,13 +573,13 @@ class RenjuRuleTest {
      * */
     @Test
     fun `6목테스트2`() {
-        board.addStone(Point.of("B8", StoneStatus.WHITE))
-        board.addStone(Point.of("C8", StoneStatus.WHITE))
-        board.addStone(Point.of("D8", StoneStatus.WHITE))
-        board.addStone(Point.of("E8", StoneStatus.WHITE))
-        board.addStone(Point.of("G8", StoneStatus.WHITE))
+        board.addStone(White("B8"))
+        board.addStone(White("C8"))
+        board.addStone(White("D8"))
+        board.addStone(White("E8"))
+        board.addStone(White("G8"))
         val result =
-            RenjuRule(DfsRenjuFinder).isProtected(Point.of("F8", StoneStatus.EMPTY), board)
+            RenjuRule(DfsRenjuFinder).isProtected(Empty("F8"), board)
         assertThat(result).isFalse()
     }
 }

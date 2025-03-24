@@ -1,17 +1,17 @@
 package omok.domain.rule.finder
 
 import omok.domain.board.OmokBoard
-import omok.domain.point.Point
+import omok.domain.point.Point2
 
 interface Finder {
     fun search(
-        current: Point,
+        current: Point2,
         board: OmokBoard,
         direction: Direction,
     ): SearchResult
 
     fun count(
-        point: Point,
+        point: Point2,
         board: OmokBoard,
         match: (SearchResult, SearchResult) -> Boolean,
     ): Int {
