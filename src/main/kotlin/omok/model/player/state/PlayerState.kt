@@ -7,5 +7,5 @@ interface PlayerState {
     fun placeTurn(
         omokBoard: OmokBoard,
         position: Position,
-    ): PlayerState
+    ): GameState
 }
