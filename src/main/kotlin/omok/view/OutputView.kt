@@ -1,6 +1,7 @@
 package omok.view
 
 import omok.domain.OmokBoard
+import omok.domain.Position
 import omok.domain.StoneState
 import omok.domain.turn.BlackTurn
 import omok.domain.turn.Finished
@@ -16,10 +17,10 @@ class OutputView {
             print(COORDINATE_X.format(y + 1))
             val row =
                 (0 until board.width).map { x ->
-                    if (board.board[y][x] == StoneState.BLANK) {
+                    if (board.getStoneState(Position(x, y)) == StoneState.BLANK) {
                         board.toUI(x, y)
                     } else {
-                        board.board[y][x].UI
+                        board.getStoneState(Position(x, y)).UI
                     }
                 }.joinToString(DASH)
             println(row)

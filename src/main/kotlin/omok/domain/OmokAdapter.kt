@@ -12,14 +12,18 @@ class OmokAdapter(private val rule: RenjuRule = RenjuRule(OmokBoard.DEFAULT_SIZE
     }
 
     private fun convertBoard(board: OmokBoard): List<List<Int>> {
-        return board.board.map { row ->
-            row.map { stoneState ->
-                when (stoneState) {
+        val convertedBoard = MutableList(board.height) { MutableList(board.width) { 0 } }
+        repeat(board.height) { x ->
+            repeat(board.width) { y ->
+                val state = board.getStoneState(Position(x, y))
+                val convertedState = when (state) {
                     StoneState.BLACK -> 1
                     StoneState.WHITE -> 2
                     StoneState.BLANK -> 0
                 }
+                convertedBoard[y][x] = convertedState
             }
         }
+        return convertedBoard
     }
 }

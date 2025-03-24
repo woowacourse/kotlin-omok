@@ -17,25 +17,23 @@ class OmokBoardTest {
     @Test
     fun `좌표와 돌 상태를 받으면 해당 위치에 돌을 놓는다`() {
         // given
-        val x = 1
-        val y = 2
-        val stone = Stone(Position(x, y), StoneState.BLACK)
+        val position = Position(1, 2)
+        val stone = Stone(position, StoneState.BLACK)
         // when
         omokBoard.putStone(stone)
         // then
-        assertThat(omokBoard.board[y][x]).isEqualTo(StoneState.BLACK)
+        assertThat(omokBoard.getStoneState(position)).isEqualTo(StoneState.BLACK)
     }
 
     @Test
     fun `좌표에 이미 돌이 있으면 예외를 던진다`() {
         // given
-        val x = 1
-        val y = 2
-        val stone = Stone(Position(x, y), StoneState.BLACK)
+        val position = Position(1, 2)
+        val stone = Stone(position, StoneState.BLACK)
         // when
         omokBoard.putStone(stone)
         // then
-        val result = BlackTurn().putStone(Position(x, y), omokBoard)
+        val result = BlackTurn().putStone(position, omokBoard)
         assertThat(result).isEqualTo(PutStoneResult.Failure("이미 돌이 있습니다. 다시 입력해주세요."))
     }
 }
