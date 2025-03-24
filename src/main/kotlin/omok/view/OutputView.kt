@@ -2,7 +2,7 @@ package omok.view
 
 import omok.domain.omokboard.ColumnPosition
 import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.PointState
+import omok.domain.omokboard.OmokBoardPointState
 import omok.domain.omokboard.Position
 import omok.domain.omokboard.RowPosition
 import omok.domain.placeresult.InvalidMove.AlreadyExistStone
@@ -74,15 +74,15 @@ class OutputView {
     }
 
     private fun Position.drawBoard(omokBoard: OmokBoard): String {
-        val pointState = omokBoard.value[this] ?: PointState.Empty
+        val pointState = omokBoard.value[this] ?: OmokBoardPointState.Empty
 
         return when (pointState) {
-            is PointState.OCCUPIED ->
+            is OmokBoardPointState.OCCUPIED ->
                 when (pointState.color) {
                     StoneColor.BLACK -> "●"
                     StoneColor.WHITE -> "○"
                 }
-            PointState.Empty ->
+            OmokBoardPointState.Empty ->
                 when {
                     this.row.value == omokBoard.height && this.column.value == 1 -> "┌"
                     this.row.value == omokBoard.height && this.column.value == omokBoard.width -> "┐"

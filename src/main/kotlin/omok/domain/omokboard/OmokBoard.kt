@@ -4,7 +4,7 @@ import omok.domain.player.PlayerStone
 import omok.domain.player.StoneColor
 
 data class OmokBoard(
-    private val _value: Map<Position, PointState>,
+    private val _value: Map<Position, OmokBoardPointState>,
 ) {
     constructor(vararg stonePlace: Pair<String, String>) : this(stonePlace.associate { Position(it.first) to it.second.toPointState() })
 
@@ -13,11 +13,11 @@ data class OmokBoard(
 
     val value get() = _value
 
-    fun find(position: Position): PointState? = _value[position]
+    fun find(position: Position): OmokBoardPointState? = _value[position]
 
     fun updateBoard(playerStone: PlayerStone): OmokBoard {
         val updatedBoard = _value.toMutableMap()
-        updatedBoard[playerStone.position] = PointState.OCCUPIED(playerStone.color)
+        updatedBoard[playerStone.position] = OmokBoardPointState.OCCUPIED(playerStone.color)
         return OmokBoard(updatedBoard)
     }
 
@@ -30,15 +30,15 @@ data class OmokBoard(
                 (1..width)
                     .flatMap { row ->
                         (1..height).map { column ->
-                            Position(RowPosition(row), ColumnPosition(column)) to PointState.Empty
+                            Position(RowPosition(row), ColumnPosition(column)) to OmokBoardPointState.Empty
                         }
                     }.toMap(),
             )
 
-        private fun String.toPointState(): PointState {
+        private fun String.toPointState(): OmokBoardPointState {
             return when (this) {
-                "Black" -> PointState.OCCUPIED(StoneColor.BLACK)
-                "White" -> PointState.OCCUPIED(StoneColor.WHITE)
+                "Black" -> OmokBoardPointState.OCCUPIED(StoneColor.BLACK)
+                "White" -> OmokBoardPointState.OCCUPIED(StoneColor.WHITE)
                 else -> throw IllegalArgumentException("Unknown state $this")
             }
         }

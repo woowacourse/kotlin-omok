@@ -1,7 +1,7 @@
 package omok.domain.rule
 
 import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.PointState
+import omok.domain.omokboard.OmokBoardPointState
 import omok.domain.omokboard.Position
 import omok.domain.placeresult.GameOnGoing
 import omok.domain.placeresult.InvalidMove
@@ -38,7 +38,7 @@ class ExternalRenjuRule(
         stoneColor: StoneColor,
     ): List<Point> {
         return omokBoard.value
-            .filter { it.value is PointState.OCCUPIED && (it.value as PointState.OCCUPIED).color == stoneColor }
+            .filter { it.value is OmokBoardPointState.OCCUPIED && (it.value as OmokBoardPointState.OCCUPIED).color == stoneColor }
             .keys.map { it.toExternalPoint() }
     }
 
