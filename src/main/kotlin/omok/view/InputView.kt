@@ -1,5 +1,6 @@
 package omok.view
 
+import omok.domain.OmokBoard.Companion.DEFAULT_SIZE
 import omok.domain.Position
 
 class InputView {
@@ -33,18 +34,18 @@ class InputView {
 
         private fun validateX(rawX: String): Int? {
             val convertedCol = convertLetter(rawX)
-            if (convertedCol !in 0..15) return null
-            return convertedCol
+            if (convertedCol !in 1..DEFAULT_SIZE) return null
+            return convertedCol - 1
         }
 
-        private fun validateY(rawRow: String): Int? {
-            if (rawRow.toIntOrNull() == null) return null
-            if (rawRow.toInt() !in 0..15) return null
-            return rawRow.toInt() - 1
+        private fun validateY(rawY: String): Int? {
+            if (rawY.toIntOrNull() == null) return null
+            if (rawY.toInt() !in 1..DEFAULT_SIZE) return null
+            return rawY.toInt() - 1
         }
 
         private fun convertLetter(letter: String): Int {
-            return letter[0] - 'A'
+            return letter[0] - 'A' + 1
         }
     }
 }
