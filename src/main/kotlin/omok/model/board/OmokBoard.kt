@@ -34,7 +34,7 @@ class OmokBoard {
                 StoneColor.WHITE -> board[position] = PositionState.WHITE_POSITION
             }
         } else {
-            throw IllegalArgumentException("해당위치에 돌이 존재합니다.")
+            throw IllegalArgumentException("해당 위치에 착수할 수 없습니다.")
         }
     }
 
