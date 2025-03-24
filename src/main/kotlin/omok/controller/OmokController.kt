@@ -41,11 +41,8 @@ class OmokController(
 
     private fun getPosition(): Position {
         return retryEvent {
-            val input = inputView.getPosition()
-            val columnInput = input[0]
-            val rowInput = input.substring(1).toIntOrNull() ?: throw IllegalArgumentException("잘못된 위치입니다.")
-
-            Position(Column.from(columnInput), Row(rowInput))
+            val (column, row) = inputView.position()
+            Position(Column(column), Row(row))
         }
     }
 
