@@ -8,7 +8,7 @@ import omok.model.board.StoneColor
 import omok.model.board.result.Finished
 import omok.model.board.result.OnGoing
 import omok.model.board.result.PlaceStoneResult
-import omok.model.rule.OmokRuleJudge
+import omok.model.rule.RuleValidator
 
 class OmokGame(
     private val omokGameView: OmokGameListener,
@@ -18,9 +18,9 @@ class OmokGame(
 
     fun play(
         boardSize: BoardSize,
-        judge: OmokRuleJudge,
+        judge: RuleValidator,
     ) {
-        val board = Board(size = boardSize, judge = judge)
+        val board = Board(boardSize, judge)
         omokGameView.onStartGame()
         omokGameView.onBoardUpdated(board)
 

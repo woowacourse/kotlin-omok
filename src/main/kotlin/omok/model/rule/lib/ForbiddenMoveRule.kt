@@ -1,11 +1,9 @@
 package omok.model.rule.lib
 
-import omok.model.rule.OmokRule
-
 abstract class ForbiddenMoveRule(
     private val currentStone: Int = BLACK_STONE,
     val opponentStone: Int = WHITE_STONE,
-) : OmokRule {
+) {
     abstract fun validate(
         board: List<List<Int>>,
         position: Pair<Int, Int>,

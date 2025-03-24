@@ -3,17 +3,19 @@ package omok.model.board
 import omok.model.board.result.Finished
 import omok.model.board.result.OnGoing
 import omok.model.board.result.PlaceStoneResult
-import omok.model.rule.OmokRuleJudge
+import omok.model.rule.RuleValidator
 
 class Board(
     size: BoardSize,
     points: Map<Point, StoneColor?> = emptyMap(),
-    private val judge: OmokRuleJudge,
+    private val validator: RuleValidator,
 ) {
     private val _points: MutableMap<Point, StoneColor?> = points.toMutableMap()
     val points: Map<Point, StoneColor?> get() = _points.toMap()
 
     val size: Int = size.value
+
+    constructor(size: BoardSize, judge: RuleValidator) : this(size, emptyMap(), judge)
 
     init {
         for (row in BoardSize.MIN_SIZE..size.value) {
@@ -32,15 +34,24 @@ class Board(
     ): PlaceStoneResult {
         if (checkOutOfBounds(point)) return OnGoing.InvalidMove
         if (checkAlreadyPlaced(point)) return OnGoing.AlreadyPlaced
+        if (validator.checkViolation(this, point, color)) return OnGoing.RuleViolation
 
-        if (!judge.validate(this, point, color)) return OnGoing.RuleViolation
+        return handleStonePlacement(point, color)
+    }
+
+    private fun handleStonePlacement(
+        point: Point,
+        color: StoneColor,
+    ): PlaceStoneResult {
         updatePoint(point, color)
 
-        if (judge.isWin(this, point, color)) {
-            if (points.count { it.value == null } == 0) return Finished.BoardFull(point)
-            return OnGoing.StonePlaced(point)
-        }
-        return Finished.GameFinished(point)
+        if (validator.checkWinCondition(this, point, color)) return Finished.GameFinished(point)
+        return checkBoardStatus(point)
+    }
+
+    private fun checkBoardStatus(point: Point): PlaceStoneResult {
+        if (points.count { it.value == null } == 0) return Finished.BoardFull(point)
+        return OnGoing.StonePlaced(point)
     }
 
     private fun updatePoint(
@@ -55,7 +66,6 @@ class Board(
     }
 
     private fun checkAlreadyPlaced(point: Point): Boolean {
-        val color = findStoneColor(point)
-        return color != null
+        return findStoneColor(point) != null
     }
 }

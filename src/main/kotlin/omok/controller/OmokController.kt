@@ -2,8 +2,14 @@ package omok.controller
 
 import omok.model.OmokGame
 import omok.model.board.BoardSize
-import omok.model.rule.OmokRuleJudge
+import omok.model.board.StoneColor
+import omok.model.rule.RuleValidator
 import omok.model.rule.count.FiveInRowRule
+import omok.model.rule.count.OmokCountRuleAdapter
+import omok.model.rule.count.OverlineRule
+import omok.model.rule.lib.DoubleFourMoveRule
+import omok.model.rule.lib.DoubleThreeMoveRule
+import omok.model.rule.lib.ForbiddenMoveRuleAdapter
 import omok.view.OmokInputView
 import omok.view.OmokOutputView
 
@@ -12,14 +18,28 @@ class OmokController(
     private val outputView: OmokOutputView,
 ) {
     fun play() {
-        val omokGameListenerImpl = OmokGameListenerImpl(inputView, outputView)
+        val omokGameListener = OmokGameListenerImpl(inputView, outputView)
         val boardSize = BoardSize()
-        val judge =
-            OmokRuleJudge().apply {
-                applyWinningRule(FiveInRowRule())
-                applyRenjuRule()
-            }
+        val rules = prepareRules()
 
-        OmokGame(omokGameListenerImpl).play(boardSize, judge)
+        OmokGame(omokGameListener).play(boardSize, rules)
+    }
+
+    private fun prepareRules(): RuleValidator {
+        return RuleValidator().apply {
+            applyWinningRules()
+            applyViolationRules()
+        }
+    }
+
+    private fun RuleValidator.applyWinningRules() {
+        addWinningRule(OmokCountRuleAdapter(FiveInRowRule()), listOf(StoneColor.BLACK, StoneColor.WHITE))
+    }
+
+    private fun RuleValidator.applyViolationRules() {
+        addViolationRule(OmokCountRuleAdapter(OverlineRule()), listOf(StoneColor.BLACK))
+        listOf(DoubleThreeMoveRule(), DoubleFourMoveRule())
+            .map { ForbiddenMoveRuleAdapter(it) }
+            .forEach { addViolationRule(it, listOf(StoneColor.BLACK)) }
     }
 }
