@@ -71,9 +71,7 @@ class OutputView(
         board.lastStone?.let { stone ->
             val lastStoneCoordinateText = stoneCoordinateText(stone.position)
             println(NEXT_TURN_WITH_LAST_STONE_MESSAGE.format(stoneColorText(board.nextStoneColor), lastStoneCoordinateText))
-        } ?: run {
-            println(NEXT_TURN_MESSAGE.format(stoneColorText(board.nextStoneColor)))
-        }
+        } ?: println(NEXT_TURN_MESSAGE.format(stoneColorText(board.nextStoneColor)))
     }
 
     private fun stoneCoordinateText(position: Position): String {
