@@ -2,6 +2,11 @@ package omok.view
 
 import omok.model.board.Board
 import omok.model.board.BoardSize
+import omok.model.rule.RenjuFoul
+import omok.model.rule.RenjuFoul.FOUR_BY_FOUR_FOUL
+import omok.model.rule.RenjuFoul.OVER_FIVE_FOUL
+import omok.model.rule.RenjuFoul.SAFE
+import omok.model.rule.RenjuFoul.THREE_BY_THREE_FOUL
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
@@ -73,10 +78,18 @@ class OutputView(
         println("${lastStoneColor}이 우승했습니다.")
     }
 
-    fun printException(message: String?) {
-        if (message == null) {
-            println("알 수 없는 예외가 발생했습니다.")
+    fun printFoul(foul: RenjuFoul) {
+        when (foul) {
+            THREE_BY_THREE_FOUL -> println(ERROR_THREE_BY_THREE_FOUL)
+            FOUR_BY_FOUR_FOUL -> println(ERROR_FOUR_BY_FOUR_FOUL)
+            OVER_FIVE_FOUL -> println(ERROR_OVER_FIVE_FOUL)
+            SAFE -> {}
         }
-        println(message)
+    }
+
+    companion object {
+        private const val ERROR_THREE_BY_THREE_FOUL = "3-3 반칙이 발생했습니다"
+        private const val ERROR_FOUR_BY_FOUR_FOUL = "4-4 반칙이 발생했습니다"
+        private const val ERROR_OVER_FIVE_FOUL = "장목 반칙이 발생했습니다"
     }
 }

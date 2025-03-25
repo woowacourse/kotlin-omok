@@ -4,6 +4,7 @@ import omok.model.board.Board
 import omok.model.board.BoardSize
 import omok.model.rule.BudoolRenjuRuleAdapter
 import omok.model.rule.OmokReferee
+import omok.model.rule.RenjuFoul
 import omok.model.stone.position.Position
 import omok.view.InputView
 import omok.view.OutputView
@@ -35,14 +36,14 @@ class OmokControl(
     }
 
     private tailrec fun stoneAddedBoard(board: Board): Board {
-        runCatching {
-            val inputCoordinateText = inputView.inputStone()
-            val newBoard = board.nextStonePlacedBoard(Position(inputCoordinateText))
-            omokReferee.lastStoneFoulCheck(newBoard)
+        val inputCoordinateText = inputView.inputStone()
+        val newBoard = board.nextStonePlacedBoard(Position(inputCoordinateText))
+        val foul = omokReferee.lastStoneFoul(newBoard)
+
+        if (foul == RenjuFoul.SAFE) {
             return newBoard
-        }.getOrElse { exception ->
-            outputView.printException(exception.message)
-            return stoneAddedBoard(board)
         }
+        outputView.printFoul(foul)
+        return stoneAddedBoard(board)
     }
 }
