@@ -2,7 +2,10 @@ package omok.model
 
 import omok.model.adapter.RenjuRuleAdapter
 import omok.model.game.FoulCondition
+import omok.model.game.FoulConditionResult
 import omok.model.game.GameState
+import omok.model.game.InvalidMoveResult
+import omok.model.stone.Point
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.Stones
@@ -12,15 +15,8 @@ class Board(
     private val renjuRuleAdapter: RenjuRuleAdapter,
 ) {
     fun place(newStone: Stone) {
-        when (foulCondition(stones, newStone)) {
-            FoulCondition.DOUBLE_THREE -> TODO()
-            FoulCondition.DOUBLE_FOUR -> TODO()
-            FoulCondition.OVERLINE -> TODO()
-            FoulCondition.NONE -> {
-                stones.add(newStone)
-                stones.setLastStone(newStone)
-            }
-        }
+        stones.add(newStone)
+        stones.setLastStone(newStone)
     }
 
     fun gameState(newStone: Stone): GameState {
@@ -33,13 +29,27 @@ class Board(
         }
     }
 
-    fun foulCondition(
-        stones: Stones,
-        newStone: Stone,
-    ): FoulCondition = renjuRuleAdapter.checkAnyFoulCondition(stones.stones, newStone)
+    fun checkFoulCondition(newStone: Stone): FoulConditionResult? =
+        when (renjuRuleAdapter.checkAnyFoulCondition(stones.stones, newStone)) {
+            FoulCondition.DOUBLE_THREE -> FoulConditionResult.DoubleThree()
+            FoulCondition.DOUBLE_FOUR -> FoulConditionResult.DoubleFour()
+            FoulCondition.OVERLINE -> FoulConditionResult.Overline()
+            FoulCondition.NONE -> null
+        }
+
+    fun checkInvalidMove(newStone: Stone): InvalidMoveResult? =
+        when {
+            stones.stones.size == MAX_STONES_SIZE -> InvalidMoveResult.FullBoard()
+            stones.isOccupied(newStone) -> InvalidMoveResult.OccupiedPoint()
+            !isValidPoint(newStone.point) -> InvalidMoveResult.OutOfBoard()
+            else -> null
+        }
+
+    private fun isValidPoint(point: Point): Boolean = point.row in 1..MAX_BOARD_HEIGHT && point.col in 1..MAX_BOARD_WIDTH
 
     companion object {
         const val MAX_BOARD_HEIGHT = 15
         const val MAX_BOARD_WIDTH = 15
+        const val MAX_STONES_SIZE = MAX_BOARD_WIDTH * MAX_BOARD_HEIGHT
     }
 }
