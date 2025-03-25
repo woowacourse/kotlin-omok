@@ -9,6 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import woowacourse.omok.domain.grid.Column
+import woowacourse.omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
+import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.grid.Row
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +31,15 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone) } }
+            .toList()
+            .forEachIndexed { index, view ->
+                val row = index / DEFAULT_SIZE
+                val col = index % DEFAULT_SIZE
+                view.tag = OmokPoint(Row(row + 1), Column(col + 1))
+
+                view.setOnClickListener {
+                    view.setImageResource(R.drawable.black_stone)
+                }
+            }
     }
 }
