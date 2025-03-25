@@ -8,6 +8,8 @@ class Board(
     val lastMove: Position?
         get() = stones.keys.lastOrNull()
 
+    fun getStoneAt(pos: Position): StoneType = stones[pos] ?: StoneType.EMPTY
+
     fun placeStone(
         position: Position,
         color: StoneType,
