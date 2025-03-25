@@ -18,13 +18,8 @@ class Stones(
         _lastStone = stone
     }
 
-//    fun checkWin(
-//        otherStones: Stones,
-//        lastStone: Stone,
-//    ): Boolean = ruleAdapter.checkWin(stones, otherStones.stones, lastStone, 5)
-//
-//    fun checkAnyFoulCondition(
-//        otherStones: Stones,
-//        lastStone: Stone,
-//    ): FoulCondition = ruleAdapter.checkAnyFoulCondition(stones, otherStones.stones, lastStone)
+    fun isOccupied(stone: Stone): Boolean {
+        val colorReversed = stone.copy(color = stone.color.reverse())
+        return stone in stones || colorReversed in stones
+    }
 }
