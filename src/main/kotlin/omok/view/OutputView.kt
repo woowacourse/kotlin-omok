@@ -2,6 +2,10 @@ package omok.view
 
 import omok.model.board.Board
 import omok.model.board.BoardSize
+import omok.model.board.PositionStatus
+import omok.model.board.PositionStatus.EMPTY
+import omok.model.board.PositionStatus.OUT_OF_RANGE
+import omok.model.board.PositionStatus.STONE_ALREADY_EXITS
 import omok.model.rule.RenjuFoul
 import omok.model.rule.RenjuFoul.FOUR_BY_FOUR_FOUL
 import omok.model.rule.RenjuFoul.OVER_FIVE_FOUL
@@ -87,9 +91,20 @@ class OutputView(
         }
     }
 
+    fun printPositionStatus(positionState: PositionStatus) {
+        when (positionState) {
+            STONE_ALREADY_EXITS -> println(ERROR_STONE_ALREADY_EXITS)
+            OUT_OF_RANGE -> println(ERROR_OUT_OF_RANGE)
+            EMPTY -> {}
+        }
+    }
+
     companion object {
         private const val ERROR_THREE_BY_THREE_FOUL = "3-3 반칙이 발생했습니다"
         private const val ERROR_FOUR_BY_FOUR_FOUL = "4-4 반칙이 발생했습니다"
         private const val ERROR_OVER_FIVE_FOUL = "장목 반칙이 발생했습니다"
+
+        private const val ERROR_STONE_ALREADY_EXITS = "해당하는 위치에 돌이 존재합니다"
+        private const val ERROR_OUT_OF_RANGE = "돌이 보드의 범위를 벗어났습니다"
     }
 }

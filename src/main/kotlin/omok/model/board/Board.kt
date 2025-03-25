@@ -26,23 +26,22 @@ class Board(
             } ?: return StoneColor.BLACK
         }
 
+    fun positionStatus(investigatedPosition: Position): PositionStatus =
+        when {
+            stonesMap.containsKey(investigatedPosition) -> PositionStatus.STONE_ALREADY_EXITS
+            investigatedPosition.col.value !in MINIMUM_BOARD_INDEX until boardSize.value -> PositionStatus.OUT_OF_RANGE
+            investigatedPosition.row.value !in MINIMUM_BOARD_INDEX until boardSize.value -> PositionStatus.OUT_OF_RANGE
+            else -> PositionStatus.EMPTY
+        }
+
     fun nextStonePlacedBoard(nextPosition: Position): Board {
-        validPositionCheck(nextPosition)
         val newStonesMap = stonesMap
         val nextStone = Stone(nextPosition, nextStoneColor)
         newStonesMap[nextStone.position] = nextStone.stoneColor
         return Board(boardSize, newStonesMap)
     }
 
-    private fun validPositionCheck(position: Position) {
-        require(!stonesMap.containsKey(position)) { ERROR_STONE_ALREADY_EXITS }
-        require(position.col.value < boardSize.value && position.row.value < boardSize.value) {
-            ERROR_OUT_OF_RANGE_STONE
-        }
-    }
-
     companion object {
-        private const val ERROR_STONE_ALREADY_EXITS = "해당하는 위치에 돌이 존재합니다"
-        private const val ERROR_OUT_OF_RANGE_STONE = "돌이 보드의 범위를 벗어났습니다"
+        private const val MINIMUM_BOARD_INDEX = 0
     }
 }
