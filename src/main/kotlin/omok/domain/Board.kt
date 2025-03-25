@@ -1,64 +1,32 @@
 package omok.domain
 
-class Board(private val rule: Rule) {
-    val stones: Stones = Stones()
-    val grid: Array<Array<StoneType>> = Array(BOARD_SIZE) { Array(BOARD_SIZE) { StoneType.EMPTY } }
+class Board(
+    private val stones: Map<Position, StoneType> = emptyMap(),
+    private val rule: Rule,
+    private val size: Int = DEFAULT_SIZE,
+) {
+    val lastMove: Position?
+        get() = stones.keys.lastOrNull()
 
-    fun put(stone: Stone) {
-        val row = stone.position.row
-        val column = stone.position.column
-        validateStoneRange(stone)
+    fun placeStone(
+        position: Position,
+        color: StoneType,
+    ): Board {
+        require(isPositionValid(position)) { INVALID_POSITION }
+        require(isEmpty(position)) { ALREADY_PLACED }
+        require(rule.isValidMove(this, position, color)) { INVALID_PLACED }
 
-        if (!rule.isValidPosition(stone, stones, grid)) {
-            throw IllegalArgumentException(INVALID_PLACED)
-        }
-
-        if (grid[row][column] != StoneType.EMPTY) {
-            throw IllegalArgumentException(ERROR_STONE_ALREADY_PLACED)
-        }
-        stones.add(stone)
-        grid[row][column] = stone.color
+        return Board(stones + (position to color), rule, size)
     }
 
-    fun isOmok(stone: Stone): Boolean {
-        directions.forEach { direction ->
-            var count = 1
+    private fun isPositionValid(position: Position) = position.row in 0 until size && position.column in 0 until size
 
-            count += stonesCount(stone, direction)
-            count += stonesCount(stone, listOf(-direction[0], -direction[1]))
-
-            if (count >= 5) return true
-        }
-        return false
-    }
-
-    private fun validateStoneRange(stone: Stone) {
-        if (stone.position.row !in 0 until BOARD_SIZE || stone.position.column !in 0 until BOARD_SIZE) {
-            throw IllegalArgumentException(ERROR_INVALID_PLACED.format(BOARD_SIZE))
-        }
-    }
-
-    private fun stonesCount(
-        stone: Stone,
-        direction: List<Int>,
-    ): Int {
-        var currentPosition = Pair(stone.position.row + direction[0], stone.position.column + direction[1])
-        var count = 0
-
-        while (currentPosition.first in 0 until BOARD_SIZE && currentPosition.second in 0 until BOARD_SIZE &&
-            stones.stones.any { it == Stone(Position(currentPosition.first, currentPosition.second), stone.color) }
-        ) {
-            count++
-            currentPosition = Pair(currentPosition.first + direction[0], currentPosition.second + direction[1])
-        }
-        return count
-    }
+    private fun isEmpty(position: Position) = !stones.containsKey(position)
 
     companion object {
-        private const val BOARD_SIZE = 15
-        private const val ERROR_STONE_ALREADY_PLACED = "이미 돌이 놓여진 위치입니다. 다시 입력해주세요."
-        private const val ERROR_INVALID_PLACED = "유효하지 않은 돌의 위치입니다. 오목판은 0 이상 %d 미만이어야 합니다."
+        const val DEFAULT_SIZE = 15
+        private const val INVALID_POSITION = "위치가 보드 범위를 벗어났습니다. 유효하지 않은 위치 입니다."
         private const val INVALID_PLACED = "놓을 수 없는 위치 입니다."
-        private val directions = listOf(listOf(1, 0), listOf(1, 1), listOf(0, 1), listOf(1, -1))
+        private const val ALREADY_PLACED = "이미 돌이 놓여있는 위치입니다."
     }
 }
