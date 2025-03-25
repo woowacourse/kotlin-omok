@@ -58,9 +58,12 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         is Finished -> {
-                            view.setImageResource(R.drawable.black_stone)
-                            if (omokGame.getNowTurn() == StoneState.BLACK) {
-                                view.setImageResource(R.drawable.white_stone)
+                            board.children
+                                .filterIsInstance<TableRow>()
+                                .flatMap { it.children }
+                                .filterIsInstance<ImageView>()
+                                .forEach { it.setOnClickListener(null) }
+
                             val winner = omokGame.getNowTurn()
                             if (winner == StoneState.BLACK) {
                                 view.setImageResource(R.drawable.black_stone)
