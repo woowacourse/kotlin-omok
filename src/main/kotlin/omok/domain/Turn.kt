@@ -8,7 +8,7 @@ class Turn(private var current: StoneType = StoneType.BLACK) {
             when (current) {
                 StoneType.BLACK -> StoneType.WHITE
                 StoneType.WHITE -> StoneType.BLACK
-                else -> throw IllegalStateException("Invalid turn state")
+                else -> throw IllegalStateException("유효하지 않은 턴 입니다.")
             }
     }
 
