@@ -14,10 +14,10 @@ import woowacourse.omok.domain.OmokAdapter
 import woowacourse.omok.domain.OmokBoard
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.Position
+import woowacourse.omok.domain.PutStoneResult
+import woowacourse.omok.domain.PutStoneResult.Finished
+import woowacourse.omok.domain.PutStoneResult.NextTurn
 import woowacourse.omok.domain.StoneState
-import woowacourse.omok.domain.turn.PutStoneResult
-import woowacourse.omok.domain.turn.PutStoneResult.Finished
-import woowacourse.omok.domain.turn.PutStoneResult.NextTurn
 
 class MainActivity : AppCompatActivity() {
     private lateinit var omokGame: OmokGame

@@ -7,7 +7,6 @@ import woowacourse.omok.beforeDoubleFour
 import woowacourse.omok.beforeDoubleThree
 import woowacourse.omok.beforeFinished
 import woowacourse.omok.beforeOverLine
-import woowacourse.omok.domain.turn.PutStoneResult
 import woowacourse.omok.toFinishedPosition
 import woowacourse.omok.toViolationPosition
 

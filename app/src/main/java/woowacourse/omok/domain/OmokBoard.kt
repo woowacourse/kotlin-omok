@@ -1,7 +1,5 @@
 package woowacourse.omok.domain
 
-import woowacourse.omok.domain.turn.PutStoneResult
-
 class OmokBoard(
     val width: Int = DEFAULT_SIZE,
     val height: Int = DEFAULT_SIZE,
