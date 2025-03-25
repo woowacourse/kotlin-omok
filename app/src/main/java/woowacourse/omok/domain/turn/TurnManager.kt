@@ -1,6 +1,6 @@
-package omok.domain.turn
+package woowacourse.omok.domain.turn
 
-import omok.domain.StoneState
+import woowacourse.omok.domain.StoneState
 
 class TurnManager {
     var nowTurn: StoneState = StoneState.BLACK

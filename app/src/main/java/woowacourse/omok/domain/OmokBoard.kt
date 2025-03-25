@@ -1,4 +1,4 @@
-package omok.domain
+package woowacourse.omok.domain
 
 class OmokBoard(
     val width: Int = DEFAULT_SIZE,
@@ -14,9 +14,7 @@ class OmokBoard(
 
     fun getStoneState(position: Position): StoneState = board[position.y][position.x]
 
-    fun isStonePlaced(position: Position): Boolean {
-        return getStoneState(position) != StoneState.BLANK
-    }
+    fun isStonePlaced(position: Position): Boolean = getStoneState(position) != StoneState.BLANK
 
     fun invalidPlace(stone: Stone): Boolean = rule.isViolate(this, stone)
 
@@ -55,9 +53,7 @@ class OmokBoard(
     private fun checkRange(
         coordinateX: Int,
         coordinateY: Int,
-    ): Boolean {
-        return coordinateX in (MIN_BOUND..MAX_BOUND) && coordinateY in (MIN_BOUND..MAX_BOUND)
-    }
+    ): Boolean = coordinateX in (MIN_BOUND..MAX_BOUND) && coordinateY in (MIN_BOUND..MAX_BOUND)
 
     companion object {
         const val MIN_BOUND = 0

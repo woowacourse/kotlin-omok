@@ -1,8 +1,10 @@
-package omok.domain
+package woowacourse.omok.domain
 
-import omok.domain.lib.RenjuRule
+import woowacourse.omok.domain.lib.RenjuRule
 
-class OmokAdapter(private val rule: RenjuRule = RenjuRule(OmokBoard.DEFAULT_SIZE)) : Rule {
+class OmokAdapter(
+    private val rule: RenjuRule = RenjuRule(OmokBoard.DEFAULT_SIZE),
+) : Rule {
     override fun isViolate(
         board: OmokBoard,
         stone: Stone,

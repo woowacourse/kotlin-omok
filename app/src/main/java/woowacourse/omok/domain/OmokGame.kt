@@ -1,7 +1,7 @@
-package omok.domain
+package woowacourse.omok.domain
 
-import omok.domain.turn.PutStoneResult
-import omok.domain.turn.TurnManager
+import woowacourse.omok.domain.turn.PutStoneResult
+import woowacourse.omok.domain.turn.TurnManager
 
 class OmokGame(
     val board: OmokBoard,
@@ -23,8 +23,8 @@ class OmokGame(
         return PutStoneResult.NextTurn(turnManager.nowTurn)
     }
 
-    private fun getPutStoneResult(stone: Stone): PutStoneResult {
-        return when (stone.state) {
+    private fun getPutStoneResult(stone: Stone): PutStoneResult =
+        when (stone.state) {
             StoneState.BLACK -> {
                 if (board.isStonePlaced(stone.position)) {
                     PutStoneResult.Failure(ERROR_STONE_ALREADY_PUT)
@@ -45,7 +45,6 @@ class OmokGame(
 
             StoneState.BLANK -> throw IllegalStateException()
         }
-    }
 
     companion object {
         const val ERROR_INVALID_POSITION = "잘못된 위치입니다. 다시 입력해주세요."
