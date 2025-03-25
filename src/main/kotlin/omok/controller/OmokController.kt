@@ -18,7 +18,7 @@ class OmokController(
     fun startGame() {
         outputView.printStartMessage()
         var stone: Stone = retryWhenFailedToAddStone()
-        while (omokBoard.isNotFull() || isFinished(stone)) {
+        while (omokBoard.isNotFull() && !isFinished(stone)) {
             stone =
                 retryWhenFailedToAddStone {
                     stone.toggle(getInputPoint())
@@ -28,6 +28,7 @@ class OmokController(
 
     private fun isFinished(stone: Stone): Boolean {
         if (omokRule.isOmok(stone, omokBoard)) {
+            outputView.printBoard(omokBoard)
             outputView.printPrintWinner(stone)
             return true
         }
