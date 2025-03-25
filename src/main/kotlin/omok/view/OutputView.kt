@@ -45,11 +45,7 @@ class OutputView {
     ): String {
         val x: Int = col.value - 1
         val rowBuilder = StringBuilder(rowContent)
-        rowBuilder[x + ROW_NUMBER_OFFSET + x * COLUMN_NUMBER_OFFSET] =
-            when (color) {
-                Color.BLACK -> BLACK_STONE
-                Color.WHITE -> WHITE_STONE
-            }
+        rowBuilder[x + ROW_NUMBER_OFFSET + x * COLUMN_NUMBER_OFFSET] = color.toStoneChar()
         return rowBuilder.toString()
     }
 
@@ -100,6 +96,20 @@ class OutputView {
             }
         }
         return rows.map { row -> row.toString() }
+    }
+
+    private fun Color.toPlayerName(): String {
+        return when (this) {
+            Color.BLACK -> BLACK_PLAYER
+            Color.WHITE -> WHITE_PLAYER
+        }
+    }
+
+    private fun Color.toStoneChar(): Char {
+        return when (this) {
+            Color.BLACK -> BLACK_STONE
+            Color.WHITE -> WHITE_STONE
+        }
     }
 
     companion object {
