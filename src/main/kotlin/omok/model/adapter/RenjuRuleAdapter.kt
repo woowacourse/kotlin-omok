@@ -30,7 +30,6 @@ class RenjuRuleAdapter {
     fun checkWin(
         stones: Set<Stone>,
         startStone: Stone,
-        sameStoneToCheck: Int = OMOK_SIZE,
     ): Boolean {
         val blackStones: List<Pair<Int, Int>> = stones.filter { it.color == StoneColor.BLACK }.toPairList()
         val whiteStones: List<Pair<Int, Int>> = stones.filter { it.color == StoneColor.WHITE }.toPairList()
@@ -92,9 +91,9 @@ class RenjuRuleAdapter {
         return count
     }
 
-    fun Stone.toPair(): Pair<Int, Int> = point.row to point.col
+    private fun Stone.toPair(): Pair<Int, Int> = point.row to point.col
 
-    fun List<Stone>.toPairList(): List<Pair<Int, Int>> = map { it.toPair() }
+    private fun List<Stone>.toPairList(): List<Pair<Int, Int>> = map { it.toPair() }
 
     companion object {
         private const val OMOK_SIZE = 5
