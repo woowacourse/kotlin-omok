@@ -13,7 +13,7 @@ class Board(
     fun add(newStone: Stone): MoveResult {
         require(newStone.position.x.value in 1..col.value) { ERROR_MESSAGE_INVALID_COL.format(col.value) }
         require(newStone.position.y.value in 1..row.value) { ERROR_MESSAGE_INVALID_ROW.format(row.value) }
-        if (_stones.map { stone -> stone.position }.contains(newStone.position)) {
+        if (_stones.map(Stone::position).contains(newStone.position)) {
             return MoveResult.Failure.PositionAlreadyOccupied
         }
         _stones.add(newStone)

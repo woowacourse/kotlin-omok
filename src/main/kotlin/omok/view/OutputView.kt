@@ -3,6 +3,7 @@ package omok.view
 import omok.model.Board
 import omok.model.Color
 import omok.model.MoveResult
+import omok.model.position.Col
 
 class OutputView {
     fun printOmokStart() {
@@ -32,18 +33,18 @@ class OutputView {
         val rows = boardString.lines().toMutableList()
         board.stones.forEach { stone ->
             val y: Int = board.row.value - stone.position.y.value
-            rows[y] = updateRow(rows[y], stone.position.x.value, stone.color)
+            rows[y] = updateRow(rows[y], stone.position.x, stone.color)
         }
         return rows.joinToString("\n")
     }
 
     private fun updateRow(
-        row: String,
-        col: Int,
+        rowContent: String,
+        col: Col,
         color: Color,
     ): String {
-        val x: Int = col - 1
-        val rowBuilder = StringBuilder(row)
+        val x: Int = col.value - 1
+        val rowBuilder = StringBuilder(rowContent)
         rowBuilder[x + ROW_NUMBER_OFFSET + x * COLUMN_NUMBER_OFFSET] =
             when (color) {
                 Color.BLACK -> BLACK_STONE
