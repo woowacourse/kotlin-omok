@@ -1,30 +1,26 @@
 package omok.model.rule
 
-abstract class OmokRule(
+abstract class RenjuRule(
     private val currentStone: Int = BLACK_STONE,
     val opponentStone: Int = WHITE_STONE,
-) {
-    abstract fun validate(
+) : Rule {
+    abstract override fun validate(
         board: List<List<Int>>,
-        position: Pair<Int, Int>,
+        position: RulePosition,
     ): Boolean
-
-    protected val directions = listOf(Pair(1, 0), Pair(1, 1), Pair(0, 1), Pair(1, -1))
 
     protected fun search(
         board: List<List<Int>>,
-        position: Pair<Int, Int>,
-        direction: Pair<Int, Int>,
+        position: RulePosition,
+        direction: RuleDirection,
     ): Pair<Int, Int> {
-        var (x, y) = position
-        val (dx, dy) = direction
+        var curPosition = position
         var stone = 0
         var blink = 0
         var blinkCount = 0
-        while (willExceedBounds(x, y, dx, dy).not()) {
-            x += dx
-            y += dy
-            when (board[y][x]) {
+        while (willExceedBounds(curPosition, direction).not()) {
+            curPosition += direction
+            when (board[curPosition.y][curPosition.x]) {
                 currentStone -> {
                     stone++
                     blink = blinkCount
@@ -44,16 +40,14 @@ abstract class OmokRule(
 
     protected fun countToWall(
         board: List<List<Int>>,
-        position: Pair<Int, Int>,
-        direction: Pair<Int, Int>,
+        position: RulePosition,
+        direction: RuleDirection,
     ): Int {
-        var (x, y) = position
-        val (dx, dy) = direction
+        var curPosition = position
         var distance = 0
-        while (willExceedBounds(x, y, dx, dy).not()) {
-            x += dx
-            y += dy
-            when (board[y][x]) {
+        while (willExceedBounds(curPosition, direction).not()) {
+            curPosition += direction
+            when (board[curPosition.y][curPosition.x]) {
                 in listOf(currentStone, EMPTY_STONE) -> distance++
                 opponentStone -> break
                 else -> throw IllegalArgumentException()
@@ -62,26 +56,43 @@ abstract class OmokRule(
         return distance
     }
 
+    protected fun countLine(
+        board: List<List<Int>>,
+        position: RulePosition,
+        direction: RuleDirection,
+    ): Int {
+        var curPosition = position
+        var distance = 0
+        while (willExceedBounds(curPosition, direction).not()) {
+            curPosition += direction
+            when (board[curPosition.y][curPosition.x]) {
+                currentStone -> distance++
+                opponentStone -> break
+                EMPTY_STONE -> break
+                else -> throw IllegalArgumentException()
+            }
+        }
+        return distance
+    }
+
     private fun willExceedBounds(
-        x: Int,
-        y: Int,
-        dx: Int,
-        dy: Int,
+        position: RulePosition,
+        direction: RuleDirection,
     ): Boolean =
         when {
-            dx > 0 && x == MAX_X -> true
-            dx < 0 && x == MIN_X -> true
-            dy > 0 && y == MAX_Y -> true
-            dy < 0 && y == MIN_Y -> true
+            direction.x > 0 && position.x == MAX_X -> true
+            direction.x < 0 && position.x == MIN_X -> true
+            direction.y > 0 && position.y == MAX_Y -> true
+            direction.y < 0 && position.y == MIN_Y -> true
             else -> false
         }
 
     companion object {
         protected const val EMPTY_STONE = 0
-        private const val Y_MAX_RANGE = 15
-        private const val Y_MIN_RANGE = 1
         private const val X_MAX_RANGE = 15
         private const val X_MIN_RANGE = 1
+        private const val Y_MAX_RANGE = 15
+        private const val Y_MIN_RANGE = 1
         const val BLACK_STONE = 1
         const val WHITE_STONE = 2
         const val MIN_X = 0

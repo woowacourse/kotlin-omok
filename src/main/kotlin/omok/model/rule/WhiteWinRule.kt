@@ -1,12 +1,12 @@
 package omok.model.rule
 
-class BlackWinRule : RenjuRule() {
+class WhiteWinRule : RenjuRule(WHITE_STONE, BLACK_STONE) {
     override fun validate(
         board: List<List<Int>>,
         position: RulePosition,
-    ): Boolean = RuleDirection.DIRECTIONS.map { direction -> checkWhiteWin(board, position, direction) }.contains(true)
+    ): Boolean = RuleDirection.DIRECTIONS.map { direction -> checkBlackWin(board, position, direction) }.contains(true)
 
-    private fun checkWhiteWin(
+    private fun checkBlackWin(
         board: List<List<Int>>,
         position: RulePosition,
         direction: RuleDirection,
