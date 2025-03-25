@@ -1,7 +1,7 @@
 package omok.controller
 
 import omok.model.Board
-import omok.model.game.Game
+import omok.model.adapter.RenjuRuleAdapter
 import omok.model.game.GameState
 import omok.model.stone.Point
 import omok.model.stone.Stone
@@ -14,24 +14,21 @@ class OmokController(
     private val outputView: OutputView,
 ) {
     fun run() {
-        val board = Board()
-        val game = Game(board)
+        val board = Board(renjuRuleAdapter = RenjuRuleAdapter())
         outputView.printOmokStart()
         outputView.printBoard(board)
-        retryOnError { processTurn(board, game) }
+        retryOnError { processTurn(board) }
     }
 
-    private fun processTurn(
-        board: Board,
-        game: Game,
-    ) {
-        val inputPoint: Point = inputView.readTurn(game.lastStone)
-        val stone = Stone(inputPoint, game.lastStone?.color ?: StoneColor.BLACK)
-        game.play(stone)
+    private fun processTurn(board: Board) {
+        val lastStone = board.stones.lastStone
+        val inputPoint: Point = inputView.readTurn(lastStone)
+        val stone = Stone(inputPoint, lastStone?.color ?: StoneColor.BLACK)
+        board.place(stone)
         outputView.printBoard(board)
 
-        when (val gameState = game.gameState(stone)) {
-            GameState.PLAYING -> processTurn(board, game)
+        when (val gameState = board.gameState(stone)) {
+            GameState.PLAYING -> processTurn(board)
             GameState.BLACK_OMOK -> outputView.printWinner(gameState)
             GameState.WHITE_OMOK -> outputView.printWinner(gameState)
         }

@@ -12,7 +12,7 @@ class OutputView {
     }
 
     fun printBoard(board: Board) {
-        println(modifyBoard(board.stones))
+        println(modifyBoard(board.stones.stones))
     }
 
     fun printWinner(gameState: GameState) {
