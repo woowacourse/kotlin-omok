@@ -5,10 +5,9 @@ enum class StoneColor {
     WHITE,
     ;
 
-    fun reverse(): StoneColor {
-        return when (this) {
+    fun reverse(): StoneColor =
+        when (this) {
             BLACK -> WHITE
             WHITE -> BLACK
         }
-    }
 }
