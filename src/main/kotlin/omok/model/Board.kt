@@ -7,6 +7,8 @@ import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.Stones
 
+sealed class FoulConditionResult
+
 class Board(
     private val blackStones: Stones = Stones(ruleAdapter = BlackRenjuRuleAdapter(MAX_BOARD_WIDTH, MAX_BOARD_HEIGHT)),
     private val whiteStones: Stones = Stones(ruleAdapter = WhiteRenjuRuleAdapter(MAX_BOARD_WIDTH, MAX_BOARD_HEIGHT)),
@@ -14,6 +16,9 @@ class Board(
     val stones: Set<Stone> get() = blackStones.stones + whiteStones.stones
 
     fun place(newStone: Stone) {
+        require(newStone.point.row in MIN_BOARD_HEIGHT..MAX_BOARD_HEIGHT && newStone.point.col in MIN_BOARD_WIDTH..MAX_BOARD_WIDTH) {
+            ERROR_MESSAGE_OUT_OF_BOARD
+        }
         require(!stones.isOccupied(newStone)) { ERROR_MESSAGE_IS_ALREADY_OCCUPIED }
         when (blackStones.checkAnyFoulCondition(whiteStones, newStone)) {
             FoulCondition.DOUBLE_THREE -> throw IllegalArgumentException(ERROR_MESSAGE_DOUBLE_THREE_VIOLATION)
@@ -44,6 +49,7 @@ class Board(
         const val MAX_BOARD_WIDTH = 15
         const val MAX_BOARD_HEIGHT = 15
 
+        private const val ERROR_MESSAGE_OUT_OF_BOARD = "오목판 범위를 벗어났습니다."
         private const val ERROR_MESSAGE_IS_ALREADY_OCCUPIED = "이미 돌이 있는 자리입니다."
         private const val ERROR_MESSAGE_DOUBLE_THREE_VIOLATION = "삼삼 금수입니다."
         private const val ERROR_MESSAGE_DOUBLE_FOUR_VIOLATION = "사사 금수입니다."
