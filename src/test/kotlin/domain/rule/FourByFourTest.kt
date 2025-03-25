@@ -1,4 +1,4 @@
-package domain.board.rule
+package domain.rule
 
 import domain.fixture.blackCByEight
 import domain.fixture.blackDByEight
@@ -31,7 +31,7 @@ class FourByFourTest {
     }
 
     @Test
-    fun `4x4테스트1`() {
+    fun `4x4 금수 자리에 착수하면 참을 반환한다`() {
         // given
         board.addStone(blackDByEight)
         board.addStone(blackEByEight)
@@ -66,7 +66,7 @@ class FourByFourTest {
      *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
      * */
     @Test
-    fun `4x4테스트2`() {
+    fun `4x4 매칭 테스트 - C, D, E 열과 G 열의 6, 5, 4 행에 흑돌을 배치하면 44룰에 위배된다`() {
         // given
         board.addStone(blackCByEight)
         board.addStone(blackDByEight)
@@ -101,7 +101,7 @@ class FourByFourTest {
      *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
      * */
     @Test
-    fun `4x4테스트3`() {
+    fun `4x4 매칭 테스트 - C, E, F 열과 G 열의 7, 6, 4 행에 흑돌 배치시 44룰에 위배된다`() {
         // given
         board.addStone(blackCByEight)
         board.addStone(blackEByEight)
@@ -136,7 +136,7 @@ class FourByFourTest {
      *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
      * */
     @Test
-    fun `4x4테스트4`() {
+    fun `4x4 매칭 테스트 - C, D, E 열과 G 열의 7, 6, 5 행에 흑돌 배치시 백돌은 44룰을 위반하지 않는다`() {
         // given
         board.addStone(whiteCByEight)
         board.addStone(whiteEByEight)

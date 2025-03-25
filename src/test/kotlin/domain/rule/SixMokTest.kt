@@ -1,4 +1,4 @@
-package domain.board.rule
+package domain.rule
 
 import domain.fixture.blackBByEight
 import domain.fixture.blackCByEight

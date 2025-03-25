@@ -1,4 +1,4 @@
-package domain.board.rule
+package domain.rule
 
 import domain.fixture.blackAByEight
 import domain.fixture.blackBByEight
@@ -69,7 +69,7 @@ class ThreeByThreeTest {
      //     *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
      //     * */
     @Test
-    fun `3x3테스트1`() {
+    fun `3x3 검사`() {
         board.addStone(blackEByEight)
         board.addStone(blackFByEight)
         board.addStone(blackGBySeven)
@@ -94,7 +94,7 @@ class ThreeByThreeTest {
      *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
      * */
     @Test
-    fun `3x3테스트3`() {
+    fun `3x3 검사시 거짓을 반환한다`() {
         board.addStone(whiteDByEight)
         board.addStone(blackEByEight)
         board.addStone(blackFByEight)
@@ -257,7 +257,7 @@ class ThreeByThreeTest {
      *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
      * */
     @Test
-    fun `거짓금수 3x3테스트1`() {
+    fun `거짓금수 3x3테스트시 E8은 거짓 금수 자리에 해당하지 않는다 `() {
         board.addStone(whiteBByEight)
         board.addStone(whiteHByEight)
         board.addStone(blackDByEight)
@@ -265,7 +265,7 @@ class ThreeByThreeTest {
         board.addStone(blackDByNine)
         board.addStone(whiteBByEleven)
 
-        val result = ThreeByThree(board).match(emptyEByEight) // E8 비어 있음
+        val result = ThreeByThree(board).match(emptyEByEight)
         assertThat(result).isFalse()
     }
 
@@ -288,7 +288,7 @@ class ThreeByThreeTest {
      *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
      * */
     @Test
-    fun `거짓금수 3x3테스트2`() {
+    fun `거짓금수 3x3 판별시 G8은 거짓금수 자리에 해당하지 않는다`() {
         // given
         board.addStone(blackBByEight)
         board.addStone(blackEByEight)
