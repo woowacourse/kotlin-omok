@@ -6,16 +6,19 @@ import omok.model.rule.BlackWinRule
 import omok.model.rule.FourFourRule
 import omok.model.rule.OmokAdapter
 import omok.model.rule.ThreeThreeRule
+import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 
 class BlackPlayerState :
     GameState(),
     PlayerState {
+    override val stone = Stone(StoneColor.BLACK)
+
     override fun placeTurn(
         omokBoard: OmokBoard,
         position: Position,
     ): GameState {
-        omokBoard.placeStone(position, StoneColor.BLACK)
+        omokBoard.placeStone(position, stone)
         val adaptedBoard = OmokAdapter.adaptOmokBoard(omokBoard)
         val adaptedPoint = OmokAdapter.adaptOmokPoint(position)
         return when {
