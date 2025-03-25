@@ -12,7 +12,7 @@ import omok.model.stone.Stones
 
 class Board(
     val stones: Stones = Stones(),
-    private val renjuRuleAdapter: RenjuRuleAdapter,
+    private val renjuRuleAdapter: RenjuRuleAdapter = RenjuRuleAdapter(),
 ) {
     fun place(newStone: Stone) {
         stones.add(newStone)
@@ -45,9 +45,12 @@ class Board(
             else -> null
         }
 
-    private fun isValidPoint(point: Point): Boolean = point.row in 1..MAX_BOARD_HEIGHT && point.col in 1..MAX_BOARD_WIDTH
+    private fun isValidPoint(point: Point): Boolean =
+        point.row in MIN_BOARD_HEIGHT..MAX_BOARD_HEIGHT && point.col in MIN_BOARD_WIDTH..MAX_BOARD_WIDTH
 
     companion object {
+        const val MIN_BOARD_HEIGHT = 1
+        const val MIN_BOARD_WIDTH = 1
         const val MAX_BOARD_HEIGHT = 15
         const val MAX_BOARD_WIDTH = 15
         const val MAX_STONES_SIZE = MAX_BOARD_WIDTH * MAX_BOARD_HEIGHT
