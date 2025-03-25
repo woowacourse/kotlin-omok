@@ -1,5 +1,6 @@
 package omok.model.board
 
+import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 
 class OmokBoard {
@@ -26,10 +27,10 @@ class OmokBoard {
 
     fun placeStone(
         position: Position,
-        stoneColor: StoneColor,
+        stone: Stone,
     ) {
         if (canPlaceStone(position)) {
-            when (stoneColor) {
+            when (stone.color) {
                 StoneColor.BLACK -> board[position] = PositionState.BLACK_POSITION
                 StoneColor.WHITE -> board[position] = PositionState.WHITE_POSITION
             }
