@@ -11,7 +11,7 @@ class OmokBoard {
     init {
         for (x in X_MIN_RANGE..X_MAX_RANGE) {
             for (y in Y_MIN_RANGE..Y_MAX_RANGE) {
-                val position = Position(X(x), Y(y))
+                val position = Position(x, y)
                 board[position] = PositionState.NONE
             }
         }
