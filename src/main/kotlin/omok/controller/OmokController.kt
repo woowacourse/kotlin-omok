@@ -26,12 +26,13 @@ class OmokController(
         }
     }
 
-    private inline fun handleTurnException(inputStone: () -> Unit) {
-        runCatching { inputStone() }
-            .onFailure { error ->
-                println(error.message)
-                inputStone()
-            }
+    private fun handleTurnException(inputStone: () -> Unit) {
+        runCatching {
+            inputStone()
+        }.onFailure { error ->
+            println(error.message)
+            handleTurnException(inputStone)
+        }
     }
 
     private fun playerTurn(
