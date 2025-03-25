@@ -1,6 +1,7 @@
 package omok.controller
 
 import omok.domain.Board
+import omok.domain.FiveRule
 import omok.domain.Position
 import omok.domain.RenjuRuleAdapter
 import omok.domain.Stone
@@ -17,6 +18,7 @@ class OmokGame(
     fun start() {
         val board = Board(RenjuRuleAdapter())
         val turn = Turn()
+        val fiveRule = FiveRule()
         outputView.printStartMessage()
         var checkBoardFull = false
         while (true) {
@@ -25,7 +27,7 @@ class OmokGame(
             messageTurn(lastStone, prevPosition)
             val position = preparePosition()
             val stone = board.put(position, turn.color)
-            if (board.isOmok(stone)) break
+            if (fiveRule.isOmok(stone, board.stones)) break
             turn.next()
             if (board.isFull()) {
                 checkBoardFull = true
