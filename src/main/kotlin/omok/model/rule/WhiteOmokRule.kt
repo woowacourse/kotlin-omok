@@ -1,5 +1,6 @@
 package omok.model.rule
 
+import omok.model.board.Board
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
@@ -7,15 +8,16 @@ import omok.model.stone.position.Position
 import omok.model.stone.position.Row
 
 class WhiteOmokRule(
-    private val boardSize: Int,
+    private val width: Int,
+    private val height: Int,
 ) : Rule {
     override fun isWin(
-        stones: Map<Position, StoneColor>,
+        board: Board,
         lastStone: Stone,
-    ): Boolean = calculateTotalCount(stones, lastStone) >= 5
+    ): Boolean = calculateTotalCount(board.stonesMap, lastStone) >= 5
 
     override fun validate(
-        stones: Map<Position, StoneColor>,
+        board: Board,
         nextPosition: Position,
         color: StoneColor,
     ) = Unit
@@ -41,7 +43,7 @@ class WhiteOmokRule(
         var x = stonePosition.row.value + direction.dx
         var y = stonePosition.col.value + direction.dy
 
-        while (x in 0 until boardSize && y in 0 until boardSize) {
+        while (x in 0 until width && y in 0 until height) {
             val nextPos = Position(Row(x), Col(y))
             if (stonesMap[nextPos] == stone.stoneColor) {
                 count++

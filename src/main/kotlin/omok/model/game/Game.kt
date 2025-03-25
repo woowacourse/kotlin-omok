@@ -3,6 +3,7 @@ package omok.model.game
 import omok.mapper.BlackRuleChecker
 import omok.model.board.Board
 import omok.model.board.Board.Companion.initBoard
+import omok.model.board.BoardDimensions
 import omok.model.rule.BlackOmokRule
 import omok.model.rule.Rule
 import omok.model.rule.WhiteOmokRule
@@ -13,11 +14,11 @@ import omok.model.stone.position.Position
 class Game(
     blackRuleChecker: BlackRuleChecker,
 ) {
-    private var board: Board = initBoard()
+    private var board: Board = initBoard(BoardDimensions(15, 15))
     private var turn: StoneColor = StoneColor.BLACK
     private var lastStone: Stone? = null
 
-    private val whiteOmokRule = WhiteOmokRule(BOARD_SIZE)
+    private val whiteOmokRule = WhiteOmokRule(board.getWidth(), board.getHeight())
     private val blackOmokRule = BlackOmokRule(blackRuleChecker)
 
     fun getBoard(): Board = board
@@ -33,7 +34,7 @@ class Game(
     }
 
     private fun validateMove(position: Position) {
-        currentRule().validate(board.stonesMap, position, turn)
+        currentRule(turn).validate(board, position, turn)
     }
 
     private fun applyMove(position: Position) {
@@ -42,15 +43,14 @@ class Game(
         turn = turn.next()
     }
 
-    fun isOmok(): Boolean = lastStone?.let { currentRule().isWin(board.stonesMap, it) } ?: false
-
-    private fun currentRule(): Rule =
-        when (turn) {
+    private fun currentRule(color: StoneColor): Rule =
+        when (color) {
             StoneColor.BLACK -> blackOmokRule
             StoneColor.WHITE -> whiteOmokRule
         }
 
-    companion object {
-        private const val BOARD_SIZE = 15
-    }
+    fun isOmok(): Boolean =
+        lastStone?.let {
+            currentRule(it.stoneColor).isWin(board, it)
+        } ?: false
 }

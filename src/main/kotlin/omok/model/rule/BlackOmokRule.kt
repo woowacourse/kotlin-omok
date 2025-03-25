@@ -1,6 +1,7 @@
 package omok.model.rule
 
 import omok.mapper.BlackRuleChecker
+import omok.model.board.Board
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Position
@@ -9,29 +10,26 @@ class BlackOmokRule(
     private val blackRuleChecker: BlackRuleChecker,
 ) : Rule {
     override fun isWin(
-        stones: Map<Position, StoneColor>,
+        board: Board,
         lastStone: Stone,
     ): Boolean {
-        val positions = positions(stones)
+        if (lastStone.stoneColor != StoneColor.BLACK) return false
+        val blackStones = board.getBlackStones()
+        val whiteStones = board.getWhiteStones()
 
-        return blackRuleChecker.checkWin(positions.first, positions.second, lastStone.position)
+        return blackRuleChecker.checkWin(blackStones, whiteStones, lastStone.position)
     }
 
     override fun validate(
-        stones: Map<Position, StoneColor>,
+        board: Board,
         nextPosition: Position,
         color: StoneColor,
     ) {
         if (color != StoneColor.BLACK) return
 
-        val positions = positions(stones)
-        blackRuleChecker.checkFoul(positions.first, positions.second, nextPosition)
-    }
+        val blackStones = board.getBlackStones()
+        val whiteStones = board.getWhiteStones()
 
-    private fun positions(stones: Map<Position, StoneColor>): Pair<List<Position>, List<Position>> {
-        val blackPoints = stones.filter { it.value == StoneColor.BLACK }.map { it.key }
-        val whitePoints = stones.filter { it.value == StoneColor.WHITE }.map { it.key }
-
-        return (blackPoints to whitePoints)
+        blackRuleChecker.checkFoul(blackStones, whiteStones, nextPosition)
     }
 }

@@ -8,7 +8,6 @@ import omok.model.stone.position.Position
 import omok.model.stone.position.Row
 import omok.view.InputView
 import omok.view.OutputView
-import omok.view.OutputView.Companion.BOARD_SIZE
 import rule.BlackRenjuRule
 
 class OmokControl(
@@ -17,7 +16,7 @@ class OmokControl(
 ) {
     private val blackRuleChecker =
         BlackRuleChecker(
-            rule = BlackRenjuRule(BOARD_SIZE),
+            rule = BlackRenjuRule(),
             mapper = { position -> PointMapper().from(position) },
         )
     private val game = Game(blackRuleChecker)
@@ -30,11 +29,11 @@ class OmokControl(
         if (showBoard) printCurrentState()
 
         try {
-            val input = inputView.inputStone()
+            val input = inputView.inputStone(game.getBoard())
             game.place(Position(Row(input.first), Col(input.second)))
 
             if (game.isOmok()) {
-                outputView.printBoard(game.getBoard().stonesMap)
+                outputView.printBoard(game.getBoard())
                 outputView.printOmok(game.getLastStone())
             } else {
                 turn()
@@ -45,7 +44,7 @@ class OmokControl(
     }
 
     private fun printCurrentState() {
-        outputView.printBoard(game.getBoard().stonesMap)
+        outputView.printBoard(game.getBoard())
         outputView.printNextTurn(game.getTurn(), game.getLastStone())
     }
 
