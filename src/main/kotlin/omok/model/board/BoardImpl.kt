@@ -3,21 +3,22 @@ package omok.model.board
 import omok.model.stone.StoneState
 
 class BoardImpl private constructor(
-    override val board: Map<Position, StoneState>,
+    override val board: MutableMap<Position, StoneState>,
 ) : Board {
+    override val keys get() = board.keys
+    override val values get() = board.values
+    override val ySize = Y_MAX_RANGE - Y_MIN_RANGE + 1
+    override val xSize = X_MAX_RANGE - X_MIN_RANGE + 1
+
     fun board(): Map<Position, StoneState> = board.toMap()
 
-    override fun canPlaceStone(position: Position): Boolean = position.canPlace()
+    override fun canPlaceStone(position: Position): Boolean = board[position] == StoneState.NONE
 
     override fun placeStone(
         position: Position,
         stoneState: StoneState,
-    ): BoardImpl {
-        val newBoard = board.toMutableMap()
-
-        newBoard[position] = stoneState
-
-        return BoardImpl(newBoard.toMap())
+    ) {
+        if (canPlaceStone(position)) board[position] = stoneState else throw IllegalArgumentException("이미 돌이 놓아져 있습니다.")
     }
 
     override fun stoneState(position: Position): StoneState = position.stoneState()
@@ -30,14 +31,14 @@ class BoardImpl private constructor(
         private const val X_MAX_RANGE = 15
         private const val X_MIN_RANGE = 1
 
-        fun createEmpty(): BoardImpl {
+        fun createEmpty(): Board {
             val initialBoard = mutableMapOf<Position, StoneState>()
             for (x in X_MIN_RANGE..X_MAX_RANGE) {
                 for (y in Y_MIN_RANGE..Y_MAX_RANGE) {
                     initialBoard[Position.from(x, y)] = StoneState.NONE
                 }
             }
-            return BoardImpl(initialBoard.toMap())
+            return BoardImpl(initialBoard)
         }
     }
 }
