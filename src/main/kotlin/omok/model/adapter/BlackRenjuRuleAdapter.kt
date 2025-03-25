@@ -27,7 +27,13 @@ class BlackRenjuRuleAdapter(
         whiteStones: Set<Stone>,
         startStone: Stone,
         sameStoneToCheck: Int,
-    ): Boolean = checkOmok(blackStones, whiteStones, startStone, sameStoneToCheck)
+    ): Boolean =
+        blackRenjuRule.checkWin(
+            blackStones.toPairList(),
+            whiteStones.toPairList(),
+            startStone.toPair(),
+            sameStoneToCheck,
+        )
 
     private fun checkDoubleThreeFoul(
         blackStones: Set<Stone>,
@@ -58,18 +64,5 @@ class BlackRenjuRuleAdapter(
         blackRenjuRule.checkOverline(
             blackStones.toPairList(),
             startStone.toPair(),
-        )
-
-    private fun checkOmok(
-        blackStones: Set<Stone>,
-        whiteStones: Set<Stone>,
-        startStone: Stone,
-        sameStoneToCheck: Int,
-    ): Boolean =
-        blackRenjuRule.checkWin(
-            blackStones.toPairList(),
-            whiteStones.toPairList(),
-            startStone.toPair(),
-            sameStoneToCheck,
         )
 }
