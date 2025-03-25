@@ -13,41 +13,18 @@ class OmokGame(
         val nowTurn = turnManager.nowTurn
         val stone = Stone(position, nowTurn)
 
-        val putStoneResult = getPutStoneResult(stone)
-        if (putStoneResult is PutStoneResult.Failure) return putStoneResult
+        val putStoneResult = board.putStone(stone)
+        when (putStoneResult) {
+            is PutStoneResult.Finished -> return PutStoneResult.Finished(nowTurn)
 
-        board.putStone(stone)
-        if (board.checkOmok(position)) return PutStoneResult.Finished(nowTurn)
+            is PutStoneResult.InvalidPosition -> return PutStoneResult.InvalidPosition
+            is PutStoneResult.AlreadyPlaced -> return PutStoneResult.AlreadyPlaced
+            is PutStoneResult.Violation -> return PutStoneResult.Violation
 
-        turnManager.changeTurn()
-        return PutStoneResult.NextTurn(turnManager.nowTurn)
-    }
-
-    private fun getPutStoneResult(stone: Stone): PutStoneResult =
-        when (stone.state) {
-            StoneState.BLACK -> {
-                if (board.isStonePlaced(stone.position)) {
-                    PutStoneResult.Failure(ERROR_STONE_ALREADY_PUT)
-                } else if (board.invalidPlace(stone)) {
-                    PutStoneResult.Failure(ERROR_INVALID_POSITION)
-                } else {
-                    PutStoneResult.NextTurn(stone.state)
-                }
+            is PutStoneResult.NextTurn -> {
+                turnManager.changeTurn()
+                return PutStoneResult.NextTurn(turnManager.nowTurn)
             }
-
-            StoneState.WHITE -> {
-                if (board.isStonePlaced(stone.position)) {
-                    PutStoneResult.Failure(ERROR_STONE_ALREADY_PUT)
-                } else {
-                    PutStoneResult.NextTurn(stone.state)
-                }
-            }
-
-            StoneState.BLANK -> throw IllegalStateException()
         }
-
-    companion object {
-        const val ERROR_INVALID_POSITION = "잘못된 위치입니다. 다시 입력해주세요."
-        const val ERROR_STONE_ALREADY_PUT = "이미 돌이 있습니다. 다시 입력해주세요."
     }
 }

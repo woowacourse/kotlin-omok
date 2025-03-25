@@ -11,7 +11,9 @@ sealed class PutStoneResult {
         val turn: StoneState,
     ) : PutStoneResult()
 
-    data class Failure(
-        val message: String,
-    ) : PutStoneResult()
+    data object InvalidPosition : PutStoneResult()
+
+    data object AlreadyPlaced : PutStoneResult()
+
+    data object Violation : PutStoneResult()
 }

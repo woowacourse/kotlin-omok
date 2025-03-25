@@ -1,5 +1,7 @@
 package woowacourse.omok.domain
 
+import woowacourse.omok.domain.turn.PutStoneResult
+
 class OmokBoard(
     val width: Int = DEFAULT_SIZE,
     val height: Int = DEFAULT_SIZE,
@@ -8,17 +10,24 @@ class OmokBoard(
     private val board: MutableList<MutableList<StoneState>> =
         MutableList(height) { MutableList(width) { StoneState.BLANK } }
 
-    fun putStone(stone: Stone) {
-        board[stone.position.y][stone.position.x] = stone.state
+    fun putStone(stone: Stone): PutStoneResult {
+        val position = Position(stone.position.x, stone.position.y)
+        if (!checkRange(position.x, position.y)) return PutStoneResult.InvalidPosition
+        if (isStonePlaced(stone)) return PutStoneResult.AlreadyPlaced
+        if (isViolateRule(stone)) return PutStoneResult.Violation
+
+        board[position.y][position.x] = stone.state
+        if (checkOmok(stone.position)) return PutStoneResult.Finished(stone.state)
+        return PutStoneResult.NextTurn(stone.state)
     }
 
     fun getStoneState(position: Position): StoneState = board[position.y][position.x]
 
-    fun isStonePlaced(position: Position): Boolean = getStoneState(position) != StoneState.BLANK
+    private fun isStonePlaced(stone: Stone): Boolean = getStoneState(stone.position) != StoneState.BLANK
 
-    fun invalidPlace(stone: Stone): Boolean = rule.isViolate(this, stone)
+    private fun isViolateRule(stone: Stone): Boolean = rule.isViolate(this, stone)
 
-    fun checkOmok(position: Position): Boolean {
+    private fun checkOmok(position: Position): Boolean {
         val directions: List<Direction> =
             listOf(
                 Direction(0, 1),
