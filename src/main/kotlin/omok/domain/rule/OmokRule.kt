@@ -1,23 +1,33 @@
 package omok.domain.rule
 
+import omok.domain.OmokBoard
 import omok.domain.Point
+import omok.domain.stone.Stone
 
-abstract class OmokRule(
-    private val boardSize: Int,
+class OmokRule(
+    private val boardSize: Int = OmokBoard.DEFAULT_BOARD_SIZE,
 ) {
-    abstract fun checkViolation(
-        thisPoints: Set<Point>,
-        otherPoints: Set<Point>,
-        startPoint: Point,
-    ): Violation
+    private val renjuRule = RenjuRule(boardSize)
+
+    fun checkViolation(
+        stones: Set<Stone>,
+        lastStone: Stone,
+    ): Violation = renjuRule.checkViolation(stones, lastStone)
 
     fun isOmok(
-        points: Set<Point>,
-        lastPoint: Point,
-    ): Boolean = Direction.directionPairs.any { isSerialOmok(points, lastPoint, it) }
+        stones: Set<Stone>,
+        lastStone: Stone,
+    ): Boolean =
+        Direction.directionPairs.any { directions ->
+            isSerialOmok(
+                stones.filter { it.color == lastStone.color }.map { it.point },
+                lastStone.point,
+                directions,
+            )
+        }
 
     private fun isSerialOmok(
-        points: Set<Point>,
+        points: List<Point>,
         lastPoint: Point,
         directions: Pair<Direction, Direction>,
     ): Boolean {
@@ -27,7 +37,7 @@ abstract class OmokRule(
     }
 
     private fun countConnected(
-        points: Set<Point>,
+        points: List<Point>,
         point: Point,
         direction: Direction,
     ): Int {

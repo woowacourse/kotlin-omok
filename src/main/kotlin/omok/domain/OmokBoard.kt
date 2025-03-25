@@ -1,61 +1,33 @@
 package omok.domain
 
-import omok.domain.rule.BlackStoneRule
-import omok.domain.rule.WhiteStoneRule
-import omok.domain.stone.StoneColor
-import omok.domain.stone.Stones
+import omok.domain.rule.OmokRule
+import omok.domain.stone.OmokStones
+import omok.domain.stone.Stone
 
 class OmokBoard(
     val size: Int = DEFAULT_BOARD_SIZE,
-    val blackStones: Stones = Stones(BlackStoneRule(size)),
-    val whiteStones: Stones = Stones(WhiteStoneRule(size)),
+    val stones: OmokStones = OmokStones(OmokRule(size)),
 ) {
     init {
         require(size >= MINIMUM_BOARD_SIZE) { ERROR_INVALID_BOARD_SIZE }
     }
 
-    fun put(
-        stoneColor: StoneColor,
-        point: Point,
-    ): OmokBoard {
-        checkViolation(stoneColor, point)
-        return when (stoneColor) {
-            StoneColor.BLACK -> OmokBoard(size, blackStones + point, whiteStones)
-            StoneColor.WHITE -> OmokBoard(size, blackStones, whiteStones + point)
-        }
+    fun place(stone: Stone): OmokBoard {
+        checkViolation(stone)
+        return OmokBoard(size, stones + stone)
     }
 
-    fun isOmok(
-        stoneColor: StoneColor,
-        point: Point,
-    ): Boolean = getStones(stoneColor).isOmok(point)
+    fun isOmok(stone: Stone): Boolean = stones.isOmok(stone)
 
-    fun isFull(): Boolean = blackStones.points.size + whiteStones.points.size >= size * size
+    fun isFull(): Boolean = stones.stones.size >= size * size
 
-    private fun checkViolation(
-        stoneColor: StoneColor,
-        point: Point,
-    ) {
-        if (!point.isInBounds(size)) throw IllegalArgumentException(ERROR_OUT_OF_BOARD)
-        if (contains(point)) throw IllegalArgumentException(ERROR_ALREADY_OCCUPIED)
-        if (getStones(stoneColor).isFoul(getOtherStones(stoneColor), point)) {
+    private fun checkViolation(stone: Stone) {
+        if (!stone.point.isInBounds(size)) throw IllegalArgumentException(ERROR_OUT_OF_BOARD)
+        if (stones.contains(stone.point)) throw IllegalArgumentException(ERROR_ALREADY_OCCUPIED)
+        if (stones.isFoul(stone)) {
             throw IllegalArgumentException(ERROR_RENJU_RULE)
         }
     }
-
-    private fun contains(point: Point): Boolean = blackStones.contains(point) || whiteStones.contains(point)
-
-    private fun getStones(color: StoneColor): Stones =
-        when (color) {
-            StoneColor.BLACK -> blackStones
-            StoneColor.WHITE -> whiteStones
-        }
-
-    private fun getOtherStones(color: StoneColor): Stones =
-        when (color) {
-            StoneColor.BLACK -> whiteStones
-            StoneColor.WHITE -> blackStones
-        }
 
     companion object {
         const val DEFAULT_BOARD_SIZE = 15

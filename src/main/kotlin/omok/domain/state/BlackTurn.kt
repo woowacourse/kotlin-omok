@@ -2,6 +2,7 @@ package omok.domain.state
 
 import omok.domain.OmokBoard
 import omok.domain.Point
+import omok.domain.stone.Stone
 import omok.domain.stone.StoneColor
 
 class BlackTurn(
@@ -10,9 +11,10 @@ class BlackTurn(
     override val stoneColor: StoneColor = StoneColor.BLACK
 
     override fun place(point: Point): State {
-        val newBoard = omokBoard.put(stoneColor, point)
+        val newStone = Stone(stoneColor, point)
+        val newBoard = omokBoard.place(newStone)
         return when {
-            newBoard.isOmok(stoneColor, point) -> Finished(newBoard, stoneColor)
+            newBoard.isOmok(newStone) -> Finished(newBoard, stoneColor)
             newBoard.isFull() -> Finished(newBoard, null)
             else -> WhiteTurn(newBoard)
         }

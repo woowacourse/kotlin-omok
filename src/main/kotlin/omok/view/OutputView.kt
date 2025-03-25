@@ -1,6 +1,7 @@
 package omok.view
 
 import omok.domain.Point
+import omok.domain.stone.Stone
 import omok.domain.stone.StoneColor
 
 class OutputView {
@@ -20,13 +21,16 @@ class OutputView {
     }
 
     fun printOmokBoard(
-        blackPoints: Set<Point>,
-        whitePoints: Set<Point>,
+        stones: Set<Stone>,
         boardSize: Int,
     ) {
         val board = StringBuilder(createOmokBoard(boardSize))
-        blackPoints.forEach { board.setCharAt(calculatePosition(it, boardSize), BLACK_STONE) }
-        whitePoints.forEach { board.setCharAt(calculatePosition(it, boardSize), WHITE_STONE) }
+        stones.forEach { stone ->
+            when (stone.color) {
+                StoneColor.BLACK -> board.setCharAt(calculatePosition(stone.point, boardSize), BLACK_STONE)
+                StoneColor.WHITE -> board.setCharAt(calculatePosition(stone.point, boardSize), WHITE_STONE)
+            }
+        }
         println(board)
     }
 

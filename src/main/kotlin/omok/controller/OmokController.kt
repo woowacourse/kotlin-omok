@@ -24,8 +24,7 @@ class OmokController(
                 onPointSelected = { inputView.getPoint() },
                 onBoardUpdated = { board ->
                     outputView.printOmokBoard(
-                        board.blackStones.points,
-                        board.whiteStones.points,
+                        board.stones.stones,
                         board.size,
                     )
                 },

@@ -1,7 +1,7 @@
 package omok.domain.stone
 
-import omok.domain.rule.BlackStoneRule
-import omok.domain.rule.WhiteStoneRule
+import omok.domain.Point
+import omok.domain.rule.OmokRule
 import omok.fixture.DOUBLE_FOUR
 import omok.fixture.DOUBLE_THREE_A
 import omok.fixture.DOUBLE_THREE_B
@@ -13,9 +13,8 @@ import omok.fixture.OVERLINE
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class StonesTest {
-    private val blackStoneRule = BlackStoneRule()
-    private val whiteStoneRule = WhiteStoneRule()
+class OmokStonesTest {
+    private val omokRule = OmokRule()
 
     @Test
     fun `흑돌이 3-3이면 돌을 놓을 수 없다`() {
@@ -28,25 +27,26 @@ class StonesTest {
                 DOUBLE_THREE_D,
             )
 
-        val whiteStones = Stones(whiteStoneRule, setOf())
         doubleThreeCases.forEach { (blackPoints, point) ->
-            val blackStones = Stones(blackStoneRule, blackPoints)
+            val stones = OmokStones(omokRule, blackPoints.toBlackStones())
             // then
-            assertThat(blackStones.isFoul(whiteStones, point)).isTrue()
+            assertThat(stones.isFoul(Stone(StoneColor.BLACK, point))).isTrue()
         }
     }
 
     @Test
     fun `흑돌이 4-4이면 돌을 놓을 수 없다`() {
-        val blackStones = Stones(blackStoneRule, DOUBLE_FOUR)
-        val whiteStones = Stones(whiteStoneRule, setOf())
-        assertThat(blackStones.isFoul(whiteStones, F12)).isTrue()
+        val stones = OmokStones(omokRule, DOUBLE_FOUR.toBlackStones())
+        assertThat(stones.isFoul(F12.toBlackStone())).isTrue()
     }
 
     @Test
     fun `흑돌이 장목이면 돌을 놓을 수 없다`() {
-        val blackStones = Stones(blackStoneRule, OVERLINE)
-        val whiteStones = Stones(whiteStoneRule, setOf())
-        assertThat(blackStones.isFoul(whiteStones, H8)).isTrue()
+        val stones = OmokStones(omokRule, OVERLINE.toBlackStones())
+        assertThat(stones.isFoul(H8.toBlackStone())).isTrue()
     }
+
+    private fun Set<Point>.toBlackStones(): Set<Stone> = this.map { Stone(StoneColor.BLACK, it) }.toSet()
+
+    private fun Point.toBlackStone(): Stone = Stone(StoneColor.BLACK, this)
 }
