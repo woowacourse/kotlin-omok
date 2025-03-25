@@ -48,10 +48,7 @@ class Rule {
         val isOmok: Boolean = rule.checkSerialSameStonesBiDirection(points, newPoint, OMOK_CONDITION)
 
         if (!isOmok) return MoveResult.Success.Playing
-        return when (color) {
-            Color.BLACK -> MoveResult.Success.BlackWin
-            Color.WHITE -> MoveResult.Success.WhiteWin
-        }
+        return MoveResult.Success.Finished(color)
     }
 
     private fun Position.toPoint(): Point {

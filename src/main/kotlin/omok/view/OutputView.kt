@@ -14,8 +14,7 @@ class OutputView {
     fun printMoveResult(moveResult: MoveResult) {
         when (moveResult) {
             is MoveResult.Success.Playing -> println(MESSAGE_OMOK_IN_PROGRESS)
-            is MoveResult.Success.BlackWin -> println(MESSAGE_OMOK_WINNER.format(BLACK_PLAYER))
-            is MoveResult.Success.WhiteWin -> println(MESSAGE_OMOK_WINNER.format(WHITE_PLAYER))
+            is MoveResult.Success.Finished -> println(MESSAGE_OMOK_WINNER.format(moveResult.winner.toPlayerName()))
 
             is MoveResult.Failure.PositionAlreadyOccupied -> println(MESSAGE_FAILURE_POSITION_ALREADY_OCCUPIED)
             is MoveResult.Failure.DoubleThreeViolation -> println(MESSAGE_FAILURE_DOUBLE_THREE_VIOLATION)

@@ -48,9 +48,12 @@ class GameTest {
             }
 
         val actual: MoveResult = game.processTurn(Position(Col(1), Row(5)), Color.WHITE)
-        val expected: MoveResult = MoveResult.Success.WhiteWin
+        val expectedClass = MoveResult.Success.Finished::class.java
+        val expectedColor: Color = Color.WHITE
 
-        assertThat(actual).isEqualTo(expected)
+        assertThat(actual).isInstanceOfSatisfying(expectedClass) { moveResult ->
+            assertThat(moveResult.winner).isEqualTo(expectedColor)
+        }
     }
 
     @Test
@@ -64,9 +67,12 @@ class GameTest {
             }
 
         val actual: MoveResult = game.processTurn(Position(Col(9), Row(9)), Color.BLACK)
-        val expected: MoveResult = MoveResult.Success.BlackWin
+        val expectedClass = MoveResult.Success.Finished::class.java
+        val expectedColor: Color = Color.BLACK
 
-        assertThat(actual).isEqualTo(expected)
+        assertThat(actual).isInstanceOfSatisfying(expectedClass) { finished ->
+            assertThat(finished.winner).isEqualTo(expectedColor)
+        }
     }
 
     @Test

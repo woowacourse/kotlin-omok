@@ -26,11 +26,7 @@ class OmokController(
 
         when (moveResult) {
             is MoveResult.Success.Playing -> processTurn(game)
-            is MoveResult.Success.WhiteWin -> {
-                outputView.printMoveResult(moveResult)
-                return
-            }
-            is MoveResult.Success.BlackWin -> {
+            is MoveResult.Success.Finished -> {
                 outputView.printMoveResult(moveResult)
                 return
             }

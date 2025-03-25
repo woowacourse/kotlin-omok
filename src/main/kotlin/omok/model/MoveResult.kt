@@ -4,9 +4,7 @@ sealed class MoveResult {
     sealed class Success : MoveResult() {
         data object Playing : Success()
 
-        data object BlackWin : Success()
-
-        data object WhiteWin : Success()
+        data class Finished(val winner: Color) : Success()
     }
 
     sealed class Failure : MoveResult() {
