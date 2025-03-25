@@ -26,7 +26,6 @@ class OmokGameImpl(
     ): TurnResult {
         val adaptedBoard = adaptedBoard(board)
         val adaptedPosition = adaptedPosition(position)
-        println(BlackWinRule().validate(adaptedBoard, adaptedPosition))
         return when {
             BlackWinRule().validate(adaptedBoard, adaptedPosition) -> TurnResult.WIN
             FourFourRule().validate(adaptedBoard, adaptedPosition) -> throw IllegalStateException(ERROR_FOUR_FOUR)
