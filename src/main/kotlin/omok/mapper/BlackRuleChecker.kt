@@ -13,14 +13,13 @@ class BlackRuleChecker(
         blacks: List<Position>,
         whites: List<Position>,
         next: Position,
-    ) {
+    ): ViolationType =
         when (rule.checkAnyFoulCondition(blacks.map(mapper), whites.map(mapper), mapper(next))) {
-            Violation.DOUBLE_THREE -> throw DoubleThreeViolation
-            Violation.DOUBLE_FOUR -> throw DoubleFourViolation
-            Violation.OVERLINE -> throw OverlineViolation
-            Violation.NONE -> return
+            Violation.DOUBLE_THREE -> DoubleThreeViolation
+            Violation.DOUBLE_FOUR -> DoubleFourViolation
+            Violation.OVERLINE -> OverlineViolation
+            Violation.NONE -> NoViolation
         }
-    }
 
     fun checkWin(
         blacks: List<Position>,

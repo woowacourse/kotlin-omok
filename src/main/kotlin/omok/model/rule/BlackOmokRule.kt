@@ -1,6 +1,7 @@
 package omok.model.rule
 
 import omok.mapper.BlackRuleChecker
+import omok.mapper.ViolationType
 import omok.model.board.Board
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
@@ -24,12 +25,10 @@ class BlackOmokRule(
         board: Board,
         nextPosition: Position,
         color: StoneColor,
-    ) {
-        if (color != StoneColor.BLACK) return
-
+    ): ViolationType {
         val blackStones = board.getBlackStones()
         val whiteStones = board.getWhiteStones()
 
-        blackRuleChecker.checkFoul(blackStones, whiteStones, nextPosition)
+        return blackRuleChecker.checkFoul(blackStones, whiteStones, nextPosition)
     }
 }
