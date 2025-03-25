@@ -29,6 +29,7 @@ object ThreeThreeCheck : StonePositionCheck {
                 val threeStones = checkFoul(stone, stones, segmentStart, segmentEnd, direction)
                 if (threeStones != null) {
                     uniqueSegments.add(threeStones)
+                    break
                 }
             }
         }
@@ -57,10 +58,7 @@ object ThreeThreeCheck : StonePositionCheck {
             pos = direction.nextPosition(pos)
             if (pos.isSamePosition(lastPosition)) break
         }
-        return if (sameColorStones.size == 3 && blankCount == 2) {
-            sameColorStones
-        } else {
-            null
-        }
+        if (!(sameColorStones.size == 3 && blankCount == 2)) return null
+        return sameColorStones
     }
 }
