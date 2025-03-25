@@ -43,12 +43,10 @@ class OmokBoard(
             .filterIsInstance<Protected>()
             .forEach { point ->
                 if (!ruleChecker.isProtected(point, this)) {
-                    omokStones.add(Empty(point.x, point.y))
+                    omokStones.remove(point)
                 }
             }
-        omokStones.stones
-            .map { omokStones.getPointAt(it.y, it.x) }
-            .filterIsInstance<Empty>()
+        omokStones.getEmptyStones()
             .forEach { point ->
                 if (ruleChecker.isProtected(point, this)) {
                     omokStones.add(Protected(point.x, point.y))
@@ -62,7 +60,5 @@ class OmokBoard(
         const val MAX_COLUMN_SIZE = 15
         const val MAX_ROW_SIZE = 15
         private const val ERROR_OUT_OF_COLUMN_POOL = "문자열 풀의 사이즈보다 열의 크기가 큽니다"
-        private const val ERROR_OCCUPIED_POSITION = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요."
-        private const val ERROR_PROTECTED_POSITION = "해당 위치는 금수 자리입니다. 다른 위치를 선택하세요."
     }
 }
