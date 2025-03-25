@@ -10,7 +10,7 @@ import omok.view.BoardView
 
 class OmokBoard(
     val omokStones: OmokStones,
-    private val ruleChecker: OmokRules,
+    val omokRules: OmokRules,
 ) {
     init {
         require(MAX_ROW_SIZE <= COLUMN_POOL.size) { ERROR_OUT_OF_COLUMN_POOL }
@@ -42,13 +42,13 @@ class OmokBoard(
         omokStones.stones
             .filterIsInstance<Protected>()
             .forEach { point ->
-                if (!ruleChecker.isProtected(point, this)) {
+                if (!omokRules.isProtected(point, this)) {
                     omokStones.remove(point)
                 }
             }
         omokStones.getEmptyStones()
             .forEach { point ->
-                if (ruleChecker.isProtected(point, this)) {
+                if (omokRules.isProtected(point, this)) {
                     omokStones.add(Protected(point.x, point.y))
                 }
             }
