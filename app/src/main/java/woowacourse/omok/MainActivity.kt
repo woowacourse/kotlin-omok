@@ -70,19 +70,19 @@ class MainActivity : AppCompatActivity() {
                             } else {
                                 view.setImageResource(R.drawable.white_stone)
                             }
-                            Toast.makeText(this, winner.name + " 승리!!", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, getString(R.string.text_win_message, winner.name), Toast.LENGTH_LONG).show()
                         }
 
                         is PutStoneResult.AlreadyPlaced -> {
-                            Toast.makeText(this, "이미 돌이 있습니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, R.string.text_already_placed, Toast.LENGTH_SHORT).show()
                         }
 
                         is PutStoneResult.Violation -> {
-                            Toast.makeText(this, "금수 위치입니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, R.string.text_violate_rule, Toast.LENGTH_SHORT).show()
                         }
 
                         is PutStoneResult.InvalidPosition -> {
-                            Toast.makeText(this, "잘못된 위치입니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, R.string.text_invalid_position, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
