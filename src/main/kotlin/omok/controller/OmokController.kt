@@ -1,7 +1,7 @@
 package omok.controller
 
 import omok.domain.board.OmokBoard
-import omok.domain.rule.OmokRule
+import omok.domain.rule.OmokRules
 import omok.domain.stone.Black
 import omok.domain.stone.Stone
 import omok.global.retryWhenException
@@ -13,7 +13,7 @@ class OmokController(
     private val outputView: OutputView,
     private val inputView: InputView,
     private val omokBoard: OmokBoard,
-    private val omokRule: OmokRule,
+    private val omokRules: OmokRules,
 ) {
     fun startGame() {
         outputView.printStartMessage()
@@ -27,7 +27,7 @@ class OmokController(
     }
 
     private fun isFinished(stone: Stone): Boolean {
-        if (omokRule.isOmok(stone, omokBoard)) {
+        if (omokRules.isOmok(stone, omokBoard)) {
             outputView.printBoard(omokBoard)
             outputView.printPrintWinner(stone)
             return true

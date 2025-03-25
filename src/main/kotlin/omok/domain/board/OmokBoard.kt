@@ -1,6 +1,6 @@
 package omok.domain.board
 
-import omok.domain.rule.OmokRule
+import omok.domain.rule.OmokRules
 import omok.domain.rule.finder.Direction
 import omok.domain.stone.Empty
 import omok.domain.stone.OmokStones
@@ -10,7 +10,7 @@ import omok.view.BoardView
 
 class OmokBoard(
     val omokStones: OmokStones,
-    private val ruleChecker: OmokRule,
+    private val ruleChecker: OmokRules,
 ) {
     init {
         require(MAX_ROW_SIZE <= COLUMN_POOL.size) { ERROR_OUT_OF_COLUMN_POOL }
