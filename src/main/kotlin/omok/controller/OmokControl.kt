@@ -30,7 +30,7 @@ class OmokControl(
 
         try {
             val input = inputView.inputStone(game.getBoard())
-            game.place(Position(Row(input.first), Col(input.second)))
+            game.placeStone(Position(Row(input.first), Col(input.second)))
 
             if (game.isOmok()) {
                 outputView.printBoard(game.getBoard())

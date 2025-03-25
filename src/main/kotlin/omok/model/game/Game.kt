@@ -27,17 +27,17 @@ class Game(
 
     fun getLastStone(): Stone? = lastStone
 
-    fun place(position: Position): Board {
-        validateMove(position)
-        applyMove(position)
+    fun placeStone(position: Position): Board {
+        validatePosition(position)
+        applyPlacement(position)
         return board
     }
 
-    private fun validateMove(position: Position) {
+    private fun validatePosition(position: Position) {
         currentRule(turn).validate(board, position, turn)
     }
 
-    private fun applyMove(position: Position) {
+    private fun applyPlacement(position: Position) {
         board = board.positionAt(position, turn)
         lastStone = Stone(position, turn)
         turn = turn.next()
