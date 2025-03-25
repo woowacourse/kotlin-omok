@@ -1,6 +1,6 @@
 package model
 
-object FourFourCheck : StonePositionCheck {
+object FourFourCheck : Rule {
     override fun checkFoulByAllDirections(
         stone: Stone,
         stones: List<Stone>,

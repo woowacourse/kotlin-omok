@@ -23,7 +23,7 @@ class GameBoard {
     fun addStone(stone: Stone?): AddStoneStatus {
         if (stone == null) return AddStoneStatus.IsUnAblePosition
         if (isExistPosition(stone)) return AddStoneStatus.IsExist
-        val checkAddingStone = Rule.checkAddingStone(stone, stones)
+        val checkAddingStone = OmokJudge.checkAddingStone(stone, stones)
         if (checkAddingStone != AddStoneStatus.IsAble) return checkAddingStone
         _stones.add(stone)
         return AddStoneStatus.IsAble

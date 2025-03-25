@@ -1,6 +1,6 @@
 package model
 
-object ThreeThreeCheck : StonePositionCheck {
+object ThreeThreeCheck : Rule {
     override fun checkFoulByAllDirections(
         stone: Stone,
         stones: List<Stone>,

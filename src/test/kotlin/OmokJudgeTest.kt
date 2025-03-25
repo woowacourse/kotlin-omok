@@ -1,8 +1,8 @@
 import model.AddStoneStatus
 import model.Col
+import model.OmokJudge
 import model.Position
 import model.Row
-import model.Rule
 import model.Stone
 import model.StoneColor
 import org.assertj.core.api.Assertions.assertThat
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
-class RuleTest {
+class OmokJudgeTest {
     @Test
     fun `같은 색 가로 돌이 5개 이상인지 판단할 수 있다`() {
         // given
@@ -21,8 +21,8 @@ class RuleTest {
         val nothingStones = listOf(STONE_1C_BLACK, STONE_1B_WHITE, STONE_1D_BLACK, STONE_1E_BLACK)
         // result
         assertAll(
-            { assertThat(Rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
-            { assertThat(Rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
+            { assertThat(OmokJudge.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
+            { assertThat(OmokJudge.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
@@ -35,8 +35,8 @@ class RuleTest {
         val nothingStones = listOf(STONE_1A_BLACK, STONE_2A_WHITE, STONE_4A_BLACK, STONE_5A_BLACK)
         // result
         assertAll(
-            { assertThat(Rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
-            { assertThat(Rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
+            { assertThat(OmokJudge.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
+            { assertThat(OmokJudge.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
@@ -49,8 +49,8 @@ class RuleTest {
         val nothingStones = listOf(STONE_1A_BLACK, STONE_2B_WHITE, STONE_4D_BLACK, STONE_5E_BLACK)
         // result
         assertAll(
-            { assertThat(Rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
-            { assertThat(Rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
+            { assertThat(OmokJudge.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
+            { assertThat(OmokJudge.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
@@ -63,8 +63,8 @@ class RuleTest {
         val nothingStones = listOf(STONE_1E_BLACK, STONE_2B_WHITE, STONE_4B_BLACK, STONE_5A_BLACK)
         // result
         assertAll(
-            { assertThat(Rule.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
-            { assertThat(Rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
+            { assertThat(OmokJudge.checkAddingStone(stone, winningStones)).isEqualTo(AddStoneStatus.IsWin) },
+            { assertThat(OmokJudge.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
@@ -77,8 +77,8 @@ class RuleTest {
         val nothingStones = listOf(STONE_1F_BLACK, STONE_2E_WHITE, STONE_4C_BLACK, STONE_5B_BLACK, STONE_6A_BLACK)
         // result
         assertAll(
-            { assertThat(Rule.checkAddingStone(stone, overStones)).isEqualTo(AddStoneStatus.IsOverFive) },
-            { assertThat(Rule.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
+            { assertThat(OmokJudge.checkAddingStone(stone, overStones)).isEqualTo(AddStoneStatus.IsOverFive) },
+            { assertThat(OmokJudge.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
 
@@ -114,7 +114,7 @@ class RuleTest {
             )
         // when
         val newStone = Stone(Position(Row.from(newStoneRow), Col.from(newStoneCol)), StoneColor.BLACK)
-        assertThat(Rule.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.IsThreeThree)
+        assertThat(OmokJudge.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.IsThreeThree)
     }
 
     @ParameterizedTest
@@ -153,6 +153,6 @@ class RuleTest {
         // when
         val newStone = Stone(Position(Row.from(newStoneRow), Col.from(newStoneCol)), StoneColor.BLACK)
         // result
-        assertThat(Rule.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.IsFourFour)
+        assertThat(OmokJudge.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.IsFourFour)
     }
 }

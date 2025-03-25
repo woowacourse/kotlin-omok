@@ -1,60 +1,16 @@
 package model
 
-object Rule {
-    fun checkAddingStone(
+interface Rule {
+    fun checkFoulByAllDirections(
         stone: Stone,
         stones: List<Stone>,
-    ): AddStoneStatus {
-        val directions = listOf(Direction.UP, Direction.LEFT, Direction.DOWN_LEFT, Direction.UP_LEFT)
+    ): Boolean
 
-        val countStoneDirections = directions.map { direction -> countStone(stone, stones, direction) }
-
-        if (countStoneDirections.any { it == 5 }) return AddStoneStatus.IsWin
-        if (countStoneDirections.any { it > 5 } && stone.color == StoneColor.BLACK) return AddStoneStatus.IsOverFive
-
-        return checkFoul(stones, stone)
-    }
-
-    private fun checkFoul(
-        stones: List<Stone>,
-        addedStone: Stone,
-    ): AddStoneStatus {
-        val addedStones = stones + addedStone
-        var isFourFourFlag = false
-        var isThreeThreeFlag = false
-        addedStones.forEach { stone ->
-            if (ThreeThreeCheck.checkFoulByAllDirections(stone, addedStones)) isThreeThreeFlag = true
-            if (FourFourCheck.checkFoulByAllDirections(stone, addedStones)) isFourFourFlag = true
-        }
-
-        if (isFourFourFlag) return AddStoneStatus.IsFourFour
-        if (isThreeThreeFlag) return AddStoneStatus.IsThreeThree
-        return AddStoneStatus.IsAble
-    }
-
-    private fun countStone(
+    fun checkFoul(
         stone: Stone,
         stones: List<Stone>,
+        startPosition: Position,
+        lastPosition: Position,
         direction: Direction,
-    ): Int = directedSearch(direction, stone, stones) + directedSearch(direction.opposite(), stone, stones) - DUPLICATED_SELF
-
-    private fun directedSearch(
-        direction: Direction,
-        stone: Stone,
-        stones: List<Stone>,
-    ): Int {
-        if (stone.position.isEdgePosition(direction)) return 1
-        val expectedNextStone = Stone(direction.nextPosition(stone.position), stone.color)
-        val nextStone =
-            stones.find { existedStone ->
-                existedStone.isSamePosition(
-                    expectedNextStone,
-                ) &&
-                    existedStone.isSameColor(expectedNextStone)
-            }
-        if (nextStone != null) return directedSearch(direction, nextStone, stones) + 1
-        return 1
-    }
-
-    const val DUPLICATED_SELF = 1
+    ): List<Stone>?
 }
