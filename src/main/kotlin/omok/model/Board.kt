@@ -8,8 +8,8 @@ class Board(
     val stones: Set<Stone> get() = _stones.toSet()
 
     fun add(newStone: Stone): MoveResult {
-        require(newStone.position.x in 1..col) { ERROR_MESSAGE_INVALID_COL }
-        require(newStone.position.y in 1..row) { ERROR_MESSAGE_INVALID_ROW }
+        require(newStone.position.x in 1..col) { ERROR_MESSAGE_INVALID_COL.format(col) }
+        require(newStone.position.y in 1..row) { ERROR_MESSAGE_INVALID_ROW.format(row) }
         if (_stones.map { stone -> stone.position }.contains(newStone.position)) {
             return MoveResult.Failure.PositionAlreadyOccupied
         }
