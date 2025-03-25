@@ -5,7 +5,7 @@ import omok.model.board.Board
 import omok.model.board.Board.Companion.initBoard
 import omok.model.board.BoardDimensions
 import omok.model.rule.BlackOmokRule
-import omok.model.rule.Rule
+import omok.model.rule.OmokRule
 import omok.model.rule.WhiteOmokRule
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
@@ -43,7 +43,7 @@ class Game(
         turn = turn.next()
     }
 
-    private fun currentRule(color: StoneColor): Rule =
+    private fun currentRule(color: StoneColor): OmokRule =
         when (color) {
             StoneColor.BLACK -> blackOmokRule
             StoneColor.WHITE -> whiteOmokRule

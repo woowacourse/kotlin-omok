@@ -8,7 +8,7 @@ import omok.model.stone.position.Position
 
 class BlackOmokRule(
     private val blackRuleChecker: BlackRuleChecker,
-) : Rule {
+) : OmokRule {
     override fun isWin(
         board: Board,
         lastStone: Stone,

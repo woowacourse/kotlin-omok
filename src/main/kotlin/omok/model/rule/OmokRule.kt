@@ -5,7 +5,7 @@ import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Position
 
-interface Rule {
+interface OmokRule {
     fun isWin(
         board: Board,
         lastStone: Stone,

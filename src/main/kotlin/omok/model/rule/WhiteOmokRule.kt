@@ -10,7 +10,7 @@ import omok.model.stone.position.Row
 class WhiteOmokRule(
     private val width: Int,
     private val height: Int,
-) : Rule {
+) : OmokRule {
     override fun isWin(
         board: Board,
         lastStone: Stone,
