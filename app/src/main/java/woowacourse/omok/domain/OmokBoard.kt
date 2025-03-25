@@ -37,15 +37,16 @@ class OmokBoard(
         direction: Direction,
         position: Position,
     ): Int {
-        val x = position.x
-        val y = position.y
-        val state = board[y][x]
+        var currentX = position.x
+        var currentY = position.y
+        val state = getStoneState(position)
         var count = DEFAULT_COUNT
 
-        while (checkRange(y + direction.colDelta * count, x + direction.rowDelta * count) &&
-            board[y + direction.colDelta * count][x + direction.rowDelta * count] == state
+        while (checkRange(currentX, currentY) && getStoneState(Position(currentX, currentY)) == state
         ) {
             count++
+            currentX += direction.rowDelta
+            currentY += direction.colDelta
         }
         return count
     }
