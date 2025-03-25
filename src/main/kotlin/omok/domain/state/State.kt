@@ -2,6 +2,6 @@ package omok.domain.state
 
 import omok.domain.OmokBoard
 
-interface State {
+sealed interface State {
     val omokBoard: OmokBoard
 }

@@ -21,20 +21,30 @@ class OmokGame(
         onPointSelected: () -> Point,
         onBoardUpdated: (OmokBoard) -> Unit,
     ) {
-        while (state is Playing) {
-            val playingState = state as Playing
-            onTurn(playingState.stoneColor, lastPoint)
-            val newPoint = onPointSelected()
-            state = playingState.place(newPoint)
-            lastPoint = newPoint
-            onBoardUpdated(state.omokBoard)
+        while (true) {
+            when (val currentState = state) {
+                is Playing -> processTurn(currentState, onTurn, onPointSelected, onBoardUpdated)
+                is Finished -> break
+            }
         }
     }
 
     fun winner(): StoneColor? =
-        if (state is Finished) {
-            (state as Finished).winnerColor
-        } else {
-            null
+        when (val currentState = state) {
+            is Finished -> currentState.winnerColor
+            else -> null
         }
+
+    private fun processTurn(
+        playingState: Playing,
+        onTurn: (StoneColor, Point?) -> Unit,
+        onPointSelected: () -> Point,
+        onBoardUpdated: (OmokBoard) -> Unit,
+    ) {
+        onTurn(playingState.stoneColor, lastPoint)
+        val newPoint = onPointSelected()
+        state = playingState.place(newPoint)
+        lastPoint = newPoint
+        onBoardUpdated(state.omokBoard)
+    }
 }

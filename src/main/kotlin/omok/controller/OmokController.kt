@@ -12,7 +12,7 @@ class OmokController(
     fun run() {
         val board = OmokBoard()
         val game = OmokGame(board)
-        outputView.printStartOmok(board.boardSize)
+        outputView.printStartOmok(board.size)
         playOmok(game)
         outputView.printWinner(game.winner())
     }
@@ -26,7 +26,7 @@ class OmokController(
                     outputView.printOmokBoard(
                         board.blackStones.points,
                         board.whiteStones.points,
-                        board.boardSize,
+                        board.size,
                     )
                 },
             )

@@ -2,8 +2,6 @@ package omok.domain.stone
 
 import omok.domain.rule.BlackStoneRule
 import omok.domain.rule.WhiteStoneRule
-import omok.fixture.A1
-import omok.fixture.A2
 import omok.fixture.DOUBLE_FOUR
 import omok.fixture.DOUBLE_THREE_A
 import omok.fixture.DOUBLE_THREE_B
@@ -18,13 +16,6 @@ import org.junit.jupiter.api.Test
 class StonesTest {
     private val blackStoneRule = BlackStoneRule()
     private val whiteStoneRule = WhiteStoneRule()
-
-    @Test
-    fun `마지막 돌의 위치를 구한다`() {
-        val stones = Stones(blackStoneRule, setOf(A1, A2))
-        val expected = A2
-        assertThat(stones.lastStonePoint()).isEqualTo(expected)
-    }
 
     @Test
     fun `흑돌이 3-3이면 돌을 놓을 수 없다`() {

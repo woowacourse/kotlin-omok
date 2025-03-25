@@ -15,8 +15,6 @@ class Stones(
 
     fun contains(point: Point): Boolean = point in _points
 
-    fun lastStonePoint(): Point? = _points.lastOrNull()
-
     fun isOmok(lastPoint: Point): Boolean = rule.isOmok(_points, lastPoint)
 
     fun isFoul(
