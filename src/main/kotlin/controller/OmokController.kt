@@ -5,7 +5,6 @@ import model.GameBoard
 import model.Stone
 import model.StoneColor
 import view.InputView
-import view.Message
 import view.ResultView
 
 class OmokController(
@@ -35,11 +34,7 @@ class OmokController(
             AddStoneStatus.IsWin,
             AddStoneStatus.IsAble,
             -> return addStoneStatus
-            AddStoneStatus.IsUnAblePosition -> outputView.printError(Message.ERROR_POSITION)
-            AddStoneStatus.IsExist -> outputView.printError(Message.EXIST_STONE)
-            AddStoneStatus.IsThreeThree -> outputView.printError(Message.THREE_THREE)
-            AddStoneStatus.IsFourFour -> outputView.printError(Message.FOUR_FOUR)
-            AddStoneStatus.IsOverFive -> outputView.printError(Message.OVER_FIVE)
+            else -> outputView.printError(addStoneStatus)
         }
         return addValidStone(gameBoard, inputView.errorReInput())
     }

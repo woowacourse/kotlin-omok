@@ -1,5 +1,6 @@
 package view
 
+import model.AddStoneStatus
 import model.Col
 import model.GameBoard
 import model.Row
@@ -90,9 +91,15 @@ class ResultView {
             StoneColor.WHITE -> "백"
         }
 
-    fun printError(message: String) {
+    fun printError(status: AddStoneStatus) {
         print(ERROR_FORMAT)
-        print(message)
+        when {
+            status == AddStoneStatus.IsExist -> print(Message.EXIST_STONE)
+            status == AddStoneStatus.IsOverFive -> print(Message.OVER_FIVE)
+            status == AddStoneStatus.IsThreeThree -> print(Message.THREE_THREE)
+            status == AddStoneStatus.IsFourFour -> print(Message.FOUR_FOUR)
+            status == AddStoneStatus.IsUnAblePosition -> print(Message.ERROR_POSITION)
+        }
     }
 
     companion object {
