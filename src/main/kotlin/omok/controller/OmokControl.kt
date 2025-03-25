@@ -26,7 +26,7 @@ class OmokControl(
         outputView.printNextTurn(board)
 
         val nextBoard = stoneAddedBoard(board)
-        if (omokReferee.isLastStoneOmok(nextBoard)) {
+        if (omokReferee.isOmok(nextBoard)) {
             outputView.printBoard(nextBoard.stonesMap)
             outputView.printOmok(nextBoard.lastStone)
             return

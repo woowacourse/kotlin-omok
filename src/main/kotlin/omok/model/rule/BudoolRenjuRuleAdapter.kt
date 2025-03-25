@@ -55,7 +55,7 @@ class BudoolRenjuRuleAdapter(
 
     private fun positionToCoordinatePair(position: Position): Pair<Int, Int> = position.row.value + 1 to position.col.value + 1
 
-    override fun isLastStoneOmok(board: Board): Boolean {
+    override fun isOmok(board: Board): Boolean {
         val stonesMap = board.stonesMap
         val lastStone = board.lastStone ?: return false
         return normalOmokRule.isPositionOmok(stonesMap, lastStone.position)

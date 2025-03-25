@@ -30,7 +30,7 @@ class BudoolRenjuRuleAdapterTest {
         }
         val board = Board(stonesMap = stones)
 
-        val actualOmok = BudoolRenjuRuleAdapter(board.boardSize).isLastStoneOmok(board)
+        val actualOmok = BudoolRenjuRuleAdapter(board.boardSize).isOmok(board)
         assertThat(actualOmok).isTrue()
     }
 }
