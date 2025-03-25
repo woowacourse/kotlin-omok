@@ -3,8 +3,8 @@ package omok.model.board
 import omok.model.stone.StoneState
 
 data class Position private constructor(
-    private val x: X,
-    private val y: Y,
+    val x: X,
+    val y: Y,
     private val stoneState: StoneState,
 ) {
     constructor(x: Int, y: Int) : this(X(x), Y(y), StoneState.NONE)
