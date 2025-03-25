@@ -1,26 +1,30 @@
 package omok.model.stone
 
-import omok.model.adapter.RuleAdapter
-import omok.model.game.FoulCondition
-
 class Stones(
     stones: Set<Stone> = setOf(),
-    private val ruleAdapter: RuleAdapter,
+    lastStone: Stone? = null,
 ) {
     private var _stones = stones
     val stones get() = _stones.toSet()
+
+    private var _lastStone: Stone? = lastStone
+    val lastStone get() = _lastStone?.copy()
 
     fun add(stone: Stone) {
         _stones += stone
     }
 
-    fun checkWin(
-        otherStones: Stones,
-        lastStone: Stone,
-    ): Boolean = ruleAdapter.checkWin(stones, otherStones.stones, lastStone, 5)
+    fun setLastStone(stone: Stone) {
+        _lastStone = stone
+    }
 
-    fun checkAnyFoulCondition(
-        otherStones: Stones,
-        lastStone: Stone,
-    ): FoulCondition = ruleAdapter.checkAnyFoulCondition(stones, otherStones.stones, lastStone)
+//    fun checkWin(
+//        otherStones: Stones,
+//        lastStone: Stone,
+//    ): Boolean = ruleAdapter.checkWin(stones, otherStones.stones, lastStone, 5)
+//
+//    fun checkAnyFoulCondition(
+//        otherStones: Stones,
+//        lastStone: Stone,
+//    ): FoulCondition = ruleAdapter.checkAnyFoulCondition(stones, otherStones.stones, lastStone)
 }
