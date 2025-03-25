@@ -1,14 +1,14 @@
 package woowacourse.omok.domain.rule.judge
 
-import omok.domain.omokboard.ColumnPosition
-import omok.domain.omokboard.IntersectionState
-import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.Position
-import omok.domain.omokboard.RowPosition
-import omok.domain.player.PlayerStone
-import omok.domain.player.StoneColor
-import omok.domain.player.StoneColor.BLACK
-import omok.domain.player.StoneColor.WHITE
+import woowacourse.omok.domain.omokboard.ColumnPosition
+import woowacourse.omok.domain.omokboard.IntersectionState
+import woowacourse.omok.domain.omokboard.OmokBoard
+import woowacourse.omok.domain.omokboard.Position
+import woowacourse.omok.domain.omokboard.RowPosition
+import woowacourse.omok.domain.player.PlayerStone
+import woowacourse.omok.domain.player.StoneColor
+import woowacourse.omok.domain.player.StoneColor.BLACK
+import woowacourse.omok.domain.player.StoneColor.WHITE
 
 class WinningRule : JudgeRule {
     override fun perform(

@@ -1,10 +1,5 @@
-package omok.domain.rule.place
+package woowacourse.omok.domain.rule.place
 
-import omok.domain.omokboard.IntersectionState
-import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.Position
-import omok.domain.player.PlayerStone
-import omok.domain.player.StoneColor
 import rule.BlackRenjuRule
 import rule.WhiteRenjuRule
 import rule.type.Violation.DOUBLE_FOUR
@@ -12,6 +7,11 @@ import rule.type.Violation.DOUBLE_THREE
 import rule.type.Violation.NONE
 import rule.type.Violation.OVERLINE
 import rule.wrapper.point.Point
+import woowacourse.omok.domain.omokboard.IntersectionState
+import woowacourse.omok.domain.omokboard.OmokBoard
+import woowacourse.omok.domain.omokboard.Position
+import woowacourse.omok.domain.player.PlayerStone
+import woowacourse.omok.domain.player.StoneColor
 
 class ExternalRule : PlaceRule {
     private lateinit var renjuRule: rule.OmokRule

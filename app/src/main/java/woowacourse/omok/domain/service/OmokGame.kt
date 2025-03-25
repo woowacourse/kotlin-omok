@@ -1,18 +1,18 @@
-package omok.domain.service
+package woowacourse.omok.domain.service
 
-import omok.domain.omokboard.PlayingBoard
-import omok.domain.omokboard.Position
-import omok.domain.player.PlayerStone
-import omok.domain.player.StoneColor
-import omok.domain.rule.place.AlreadyExistStoneRule
-import omok.domain.rule.place.ExternalRule
-import omok.domain.rule.place.InvalidPositionRule
-import omok.domain.rule.place.PlaceResult
-import omok.domain.rule.place.PlaceRule
+import woowacourse.omok.domain.omokboard.PlayingBoard
+import woowacourse.omok.domain.omokboard.Position
+import woowacourse.omok.domain.player.PlayerStone
+import woowacourse.omok.domain.player.StoneColor
 import woowacourse.omok.domain.rule.judge.DrawRule
 import woowacourse.omok.domain.rule.judge.JudgeResult
 import woowacourse.omok.domain.rule.judge.JudgeRule
 import woowacourse.omok.domain.rule.judge.WinningRule
+import woowacourse.omok.domain.rule.place.AlreadyExistStoneRule
+import woowacourse.omok.domain.rule.place.ExternalRule
+import woowacourse.omok.domain.rule.place.InvalidPositionRule
+import woowacourse.omok.domain.rule.place.PlaceResult
+import woowacourse.omok.domain.rule.place.PlaceRule
 
 class OmokGame(
     private val playingBoard: PlayingBoard,

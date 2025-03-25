@@ -1,4 +1,4 @@
-package omok.domain.omokboard
+package woowacourse.omok.domain.omokboard
 
 enum class IntersectionState {
     OCCUPIED_BLACK,

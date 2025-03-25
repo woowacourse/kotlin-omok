@@ -1,4 +1,4 @@
-package omok.domain.omokboard
+package woowacourse.omok.domain.omokboard
 
 data class Position(
     val row: RowPosition,

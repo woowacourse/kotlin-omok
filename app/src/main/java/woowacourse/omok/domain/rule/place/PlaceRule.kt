@@ -1,5 +1,5 @@
-package omok.domain.rule.place
+package woowacourse.omok.domain.rule.place
 
-import omok.domain.rule.OmokRule
+import woowacourse.omok.domain.rule.OmokRule
 
 interface PlaceRule : OmokRule

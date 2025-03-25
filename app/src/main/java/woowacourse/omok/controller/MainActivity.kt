@@ -11,23 +11,23 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
-import omok.domain.omokboard.ColumnPosition
-import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.PlayingBoard
-import omok.domain.omokboard.Position
-import omok.domain.omokboard.RowPosition
-import omok.domain.player.PlayerStone
-import omok.domain.player.StoneColor
-import omok.domain.rule.place.AlreadyExistStoneRule
-import omok.domain.rule.place.ExternalRule
-import omok.domain.rule.place.InvalidPositionRule
-import omok.domain.rule.place.PlaceResult
-import omok.domain.rule.place.PlaceRule
 import woowacourse.omok.R
+import woowacourse.omok.domain.omokboard.ColumnPosition
+import woowacourse.omok.domain.omokboard.OmokBoard
+import woowacourse.omok.domain.omokboard.PlayingBoard
+import woowacourse.omok.domain.omokboard.Position
+import woowacourse.omok.domain.omokboard.RowPosition
+import woowacourse.omok.domain.player.PlayerStone
+import woowacourse.omok.domain.player.StoneColor
 import woowacourse.omok.domain.rule.judge.DrawRule
 import woowacourse.omok.domain.rule.judge.JudgeResult
 import woowacourse.omok.domain.rule.judge.JudgeRule
 import woowacourse.omok.domain.rule.judge.WinningRule
+import woowacourse.omok.domain.rule.place.AlreadyExistStoneRule
+import woowacourse.omok.domain.rule.place.ExternalRule
+import woowacourse.omok.domain.rule.place.InvalidPositionRule
+import woowacourse.omok.domain.rule.place.PlaceResult
+import woowacourse.omok.domain.rule.place.PlaceRule
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

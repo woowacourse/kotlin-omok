@@ -1,11 +1,11 @@
-package omok.domain.omokboard
+package woowacourse.omok.domain.omokboard
 
-import omok.domain.omokboard.IntersectionState.EMPTY
-import omok.domain.omokboard.IntersectionState.OCCUPIED_BLACK
-import omok.domain.omokboard.IntersectionState.OCCUPIED_WHITE
-import omok.domain.player.StoneColor
-import omok.domain.player.StoneColor.BLACK
-import omok.domain.player.StoneColor.WHITE
+import woowacourse.omok.domain.omokboard.IntersectionState.EMPTY
+import woowacourse.omok.domain.omokboard.IntersectionState.OCCUPIED_BLACK
+import woowacourse.omok.domain.omokboard.IntersectionState.OCCUPIED_WHITE
+import woowacourse.omok.domain.player.StoneColor
+import woowacourse.omok.domain.player.StoneColor.BLACK
+import woowacourse.omok.domain.player.StoneColor.WHITE
 
 data class Intersection(
     private var _state: IntersectionState = EMPTY,

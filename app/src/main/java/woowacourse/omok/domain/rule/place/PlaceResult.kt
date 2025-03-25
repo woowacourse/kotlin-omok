@@ -1,7 +1,7 @@
-package omok.domain.rule.place
+package woowacourse.omok.domain.rule.place
 
-import omok.domain.player.PlayerStone
-import omok.domain.rule.OmokResult
+import woowacourse.omok.domain.player.PlayerStone
+import woowacourse.omok.domain.rule.OmokResult
 
 sealed class PlaceResult : OmokResult {
     data class Success(

@@ -1,10 +1,10 @@
-package omok.domain.omokboard
+package woowacourse.omok.domain.omokboard
 
-import omok.domain.player.PlayerStone
-import omok.domain.rule.place.PlaceResult
-import omok.domain.rule.place.PlaceRule
+import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.rule.judge.JudgeResult
 import woowacourse.omok.domain.rule.judge.JudgeRule
+import woowacourse.omok.domain.rule.place.PlaceResult
+import woowacourse.omok.domain.rule.place.PlaceRule
 
 class PlayingBoard(
     val board: OmokBoard = OmokBoard.create(),

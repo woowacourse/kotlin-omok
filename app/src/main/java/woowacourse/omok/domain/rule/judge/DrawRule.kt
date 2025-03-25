@@ -1,9 +1,9 @@
 package woowacourse.omok.domain.rule.judge
 
-import omok.domain.omokboard.IntersectionState
-import omok.domain.omokboard.OmokBoard
-import omok.domain.player.PlayerStone
-import omok.domain.rule.OmokResult
+import woowacourse.omok.domain.omokboard.IntersectionState
+import woowacourse.omok.domain.omokboard.OmokBoard
+import woowacourse.omok.domain.player.PlayerStone
+import woowacourse.omok.domain.rule.OmokResult
 
 class DrawRule : JudgeRule {
     override fun perform(

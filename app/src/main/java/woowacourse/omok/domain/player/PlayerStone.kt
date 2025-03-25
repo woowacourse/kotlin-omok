@@ -1,6 +1,6 @@
-package omok.domain.player
+package woowacourse.omok.domain.player
 
-import omok.domain.omokboard.Position
+import woowacourse.omok.domain.omokboard.Position
 
 data class PlayerStone(
     val color: StoneColor,

@@ -1,4 +1,4 @@
-package omok.domain.omokboard
+package woowacourse.omok.domain.omokboard
 
 @JvmInline
 value class RowPosition(

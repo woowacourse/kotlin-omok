@@ -1,7 +1,7 @@
 package woowacourse.omok.domain.rule.judge
 
-import omok.domain.player.StoneColor
-import omok.domain.rule.OmokResult
+import woowacourse.omok.domain.player.StoneColor
+import woowacourse.omok.domain.rule.OmokResult
 
 sealed class JudgeResult : OmokResult {
     sealed class Finished : JudgeResult() {
