@@ -3,6 +3,7 @@ package omok.model
 import omok.model.board.OmokBoard
 import omok.model.board.Position
 import omok.model.board.PositionState
+import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -35,7 +36,7 @@ class OmokBoardTest {
         val omokBoard = OmokBoard()
 
         val position = Position(1, 1)
-        omokBoard.placeStone(position, stoneColor)
+        omokBoard.placeStone(position, Stone(stoneColor))
         val state = omokBoard.boardState(position)
         assertEquals(positionState, state)
     }
@@ -46,7 +47,7 @@ class OmokBoardTest {
         val position = Position(1, 1)
         omokBoard.board[position] = PositionState.FORBIDDEN
         assertThrows<IllegalArgumentException> {
-            omokBoard.placeStone(position, StoneColor.BLACK)
+            omokBoard.placeStone(position, Stone(StoneColor.BLACK))
         }
     }
 }
