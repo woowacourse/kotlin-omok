@@ -1,7 +1,7 @@
 package omok.controller
 
 import omok.model.board.OmokBoard
-import omok.model.player.state.Turn
+import omok.model.player.Turn
 import omok.view.OmokView
 
 class OmokController(
