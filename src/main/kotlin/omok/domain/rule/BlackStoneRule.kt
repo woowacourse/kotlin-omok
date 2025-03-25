@@ -1,11 +1,11 @@
 package omok.domain.rule
 
-import omok.domain.OmokGame
+import omok.domain.OmokBoard
 import omok.domain.Point
 import rule.facade.BlackRenjuRule
 
 class BlackStoneRule(
-    boardSize: Int = OmokGame.DEFAULT_BOARD_SIZE,
+    boardSize: Int = OmokBoard.DEFAULT_BOARD_SIZE,
 ) : OmokRule(boardSize) {
     private val renjuRule = BlackRenjuRule(boardSize, boardSize)
 

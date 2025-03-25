@@ -7,10 +7,14 @@ import omok.domain.stone.StoneColor
 import omok.domain.stone.Stones
 
 class OmokBoard(
-    private val boardSize: Int,
+    val boardSize: Int = DEFAULT_BOARD_SIZE,
     val blackStones: Stones = Stones(BlackStoneRule(boardSize)),
     val whiteStones: Stones = Stones(WhiteStoneRule(boardSize)),
 ) {
+    init {
+        require(boardSize >= MINIMUM_BOARD_SIZE) { ERROR_INVALID_BOARD_SIZE }
+    }
+
     fun put(
         stoneColor: StoneColor,
         point: Point,
@@ -49,4 +53,10 @@ class OmokBoard(
             StoneColor.BLACK -> whiteStones
             StoneColor.WHITE -> blackStones
         }
+
+    companion object {
+        const val DEFAULT_BOARD_SIZE = 15
+        private const val MINIMUM_BOARD_SIZE = 5
+        private const val ERROR_INVALID_BOARD_SIZE = "오목판의 사이즈는 최소 5x5이어야 합니다."
+    }
 }
