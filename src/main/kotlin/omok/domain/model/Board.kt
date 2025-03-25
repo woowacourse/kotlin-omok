@@ -33,7 +33,7 @@ class Board(
     }
 
     companion object {
-        private const val DEFAULT_BOARD_SIZE = 15
+        const val DEFAULT_BOARD_SIZE = 15
         private const val DUPLICATE_MESSAGE = "이미 바둑돌이 존재하는 곳에는 둘 수 없습니다."
     }
 }

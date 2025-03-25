@@ -1,9 +1,7 @@
 package omok.view
 
 import omok.domain.model.Board
-import omok.domain.model.position.Column
 import omok.domain.model.position.Position
-import omok.domain.model.position.Row
 import omok.domain.model.stone.OmokStone
 import omok.domain.model.stone.StoneType
 
@@ -12,16 +10,12 @@ class OutputView {
         println("오목 게임을 시작합니다.")
     }
 
-    fun printTurn(
-        stoneType: StoneType,
-        omokStone: OmokStone?,
-    ) {
-        print("${stoneType.toKorean()}의 차례입니다.")
-        if (omokStone != null) {
-            println("(마지막 돌의 위치: ${omokStone.position.toCoordinateString()})")
-            return
-        }
-        println()
+    fun printTurn(stoneType: StoneType) {
+        println("${stoneType.toKorean()}의 차례입니다.")
+    }
+
+    fun printLastStone(omokStone: OmokStone) {
+        println("(마지막 돌의 위치: ${omokStone.position.toCoordinateString()})")
     }
 
     fun printBoardState(board: Board) {
@@ -49,12 +43,16 @@ class OutputView {
         println("${omokStone.stoneType.toKorean()}의 승리입니다.")
     }
 
+    fun printDraw() {
+        println("오목판이 가득 차 무승부가 되었습니다.")
+    }
+
     fun printErrorMessage(message: String) {
         println(message)
     }
 
     private fun Position.toCoordinateString(): String {
-        val column = Column.COLUMNS[this.column.value - 1]
+        val column = 'A' + this.column.value - 1
         val row = this.row.value
         return "${column}$row"
     }
@@ -63,6 +61,7 @@ class OutputView {
         return when (this) {
             StoneType.BLACK -> "흑"
             StoneType.WHITE -> "백"
+            StoneType.NONE -> ""
         }
     }
 
@@ -87,9 +86,9 @@ class OutputView {
             row: Int,
             col: Int,
         ): String {
-            val stone = board.stones[Position(Column.from(col.toAlphabet()), Row(row))]
+            val stone = findStoneAt(board, row, col)
             return when {
-                stone != null -> stone.toUi()
+                stone != null -> stone.stoneType.toUi()
                 row == board.size && col == MIN_BOUND -> LEFT_UP
                 row == board.size && col == board.size -> RIGHT_UP
                 row == MIN_BOUND && col == MIN_BOUND -> LEFT_DOWN
@@ -102,16 +101,24 @@ class OutputView {
             }
         }
 
+        private fun findStoneAt(
+            board: Board,
+            row: Int,
+            col: Int,
+        ): OmokStone? {
+            val targetPosition = Position.of(col, row, board.size)
+            return board.stones.find { it.position == targetPosition }
+        }
+
         private fun StoneType.toUi() =
             when (this) {
                 StoneType.BLACK -> "●"
                 StoneType.WHITE -> "○"
+                StoneType.NONE -> ""
             }
 
         private fun printCoordinateY(width: Int) {
             println(('A' until 'A' + width).joinToString("  "))
         }
-
-        private fun Int.toAlphabet(): Char = ('A'..'O').toList()[this - 1]
     }
 }

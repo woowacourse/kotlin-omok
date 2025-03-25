@@ -1,10 +1,10 @@
 package omok.domain.model
 
-import omok.domain.model.position.Column
+import io.kotest.matchers.shouldBe
 import omok.domain.model.position.Position
-import omok.domain.model.position.Row
 import omok.domain.model.stone.OmokStone
 import omok.domain.model.stone.StoneType
+import omok.horizontalWinStones
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
@@ -21,7 +21,7 @@ class BoardTest {
     @Test
     fun `바둑돌을 둔다`() {
         // Given
-        val position = Position(Column.from('A'), Row(1))
+        val position = Position.of(1, 1, board.size)
         val omokStone = OmokStone(position, StoneType.BLACK)
 
         // When
@@ -34,13 +34,33 @@ class BoardTest {
     @Test
     fun `바둑돌이 이미 존재하는 위치는 둘 수 없다`() {
         // Given
-        val position = Position(Column.from('A'), Row(1))
+        val position = Position.of(1, 1, board.size)
         val omokStone = OmokStone(position, StoneType.BLACK)
         board = board.placeStone(omokStone)
 
         // Then
         assertThatThrownBy { board.placeStone(omokStone) }
             .isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessage("바둑돌이 있는 곳에는 둘 수 없습니다.")
+            .hasMessage("이미 바둑돌이 존재하는 곳에는 둘 수 없습니다.")
+    }
+
+    @Test
+    fun `마지막에 추가된 돌을 반환한다`() {
+        // Given
+        val position = Position.of(1, 1, board.size)
+        val omokStone = OmokStone(position, StoneType.BLACK)
+        board = board.placeStone(omokStone)
+
+        // Then
+        board.getLastStone() shouldBe omokStone
+    }
+
+    @Test
+    fun `오목판이 가득 찼음을 알 수 있다`() {
+        // Given
+        val miniBoard = Board(size = 2, stones = horizontalWinStones)
+
+        // Then
+        miniBoard.isFull() shouldBe true
     }
 }

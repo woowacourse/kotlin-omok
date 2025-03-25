@@ -5,9 +5,7 @@ import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import omok.domain.model.Board
-import omok.domain.model.position.Column
 import omok.domain.model.position.Position
-import omok.domain.model.position.Row
 import omok.domain.model.rule.OmokRuleAdapter
 import omok.domain.model.stone.StoneType
 import omok.doubleThreeFixture
@@ -23,7 +21,7 @@ class OmokStateMachineTest {
         val omokStateMachine = OmokStateMachine(rule = omokRuleAdapter)
 
         // When
-        val result = omokStateMachine.placeStone { Position(Column.from('A'), Row(1)) }
+        val result = omokStateMachine.placeStone { Position.of(1, 1, omokStateMachine.board.size) }
 
         // Then
         result.state.shouldBeTypeOf<WhiteStoneTurn>()
@@ -35,7 +33,7 @@ class OmokStateMachineTest {
         val omokStateMachine = OmokStateMachine(state = WhiteStoneTurn, rule = omokRuleAdapter)
 
         // When
-        val result = omokStateMachine.placeStone { Position(Column.from('A'), Row(1)) }
+        val result = omokStateMachine.placeStone { Position.of(1, 1, omokStateMachine.board.size) }
 
         // Then
         result.state.shouldBeTypeOf<BlackStoneTurn>()
@@ -48,7 +46,7 @@ class OmokStateMachineTest {
         val omokStateMachine = OmokStateMachine(board = board, rule = omokRuleAdapter)
 
         // When
-        val result = omokStateMachine.placeStone { Position(Column.from('E'), Row(1)) }
+        val result = omokStateMachine.placeStone { Position.of(5, 1, board.size) }
 
         // Then
         assertSoftly(result.state) {
@@ -65,7 +63,7 @@ class OmokStateMachineTest {
 
         // Then
         shouldThrowExactly<IllegalArgumentException> {
-            omokStateMachine.placeStone { Position(Column.from('E'), Row(3)) }
+            omokStateMachine.placeStone { Position.of(5, 3, board.size) }
         }.message shouldBe "해당 위치에는 돌을 놓을 수 없습니다."
     }
 }

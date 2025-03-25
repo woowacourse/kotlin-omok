@@ -2,18 +2,16 @@ package omok.study
 
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
-import omok.domain.model.position.Column
 import omok.domain.model.position.Position
-import omok.domain.model.position.Row
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class MapTest {
     @Test
     fun `데이터 클래스 key로 value 탐색`() {
-        val position = Position(Column.from('A'), Row(1))
+        val position = Position.of(1, 1, 15)
         val map = mapOf(position to 3)
-        assertThat(map[Position(Column.from('A'), Row(1))]).isEqualTo(3)
+        assertThat(map[Position.of(1, 1, 15)]).isEqualTo(3)
     }
 
     @Test
