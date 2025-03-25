@@ -47,4 +47,4 @@
 - [x] 불필요한 run{ } 삭제
 - [x] InputView의 문자열로 초기화하는 Position의 부 생성자 삭제
 - [ ] 퍼블릭 커스텀 get() 프로퍼티 테스트 추가
-- [ ] 렌주룰 어댑터가 보드가 아닌 SontesMap, LastStone을 받도록 수정
+- [x] 렌주룰 어댑터가 보드가 아닌 StonesMap, LastStone을 받도록 수정
