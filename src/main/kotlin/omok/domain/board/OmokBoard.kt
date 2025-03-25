@@ -23,11 +23,6 @@ class OmokBoard(
 
     fun view(): BoardView = BoardView(this)
 
-    fun pointValidation(stone: Stone) {
-        require(!omokStones.isOccupied(stone)) { ERROR_OCCUPIED_POSITION }
-        require(!omokStones.isProtected(stone)) { ERROR_PROTECTED_POSITION }
-    }
-
     fun addStone(stone: Stone) {
         omokStones.add(stone)
         latestStone = stone
@@ -52,7 +47,8 @@ class OmokBoard(
                 }
             }
         omokStones.stones
-            .filter { it is Empty || it is Protected }
+            .map { omokStones.getPointAt(it.y, it.x) }
+            .filterIsInstance<Empty>()
             .forEach { point ->
                 if (ruleChecker.isProtected(point, this)) {
                     omokStones.add(Protected(point.x, point.y))

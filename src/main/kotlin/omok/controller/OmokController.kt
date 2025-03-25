@@ -17,14 +17,28 @@ class OmokController(
 ) {
     fun startGame() {
         outputView.printStartMessage()
-        var stone: Stone = retryWhenException { Black(getInputPoint()) }
-        while (omokBoard.isNotFull()) {
+        var stone: Stone = retryWhenFailedToAddStone()
+        while (omokBoard.isNotFull() || isFinished(stone)) {
+            stone =
+                retryWhenFailedToAddStone {
+                    stone.toggle(getInputPoint())
+                }
+        }
+    }
+
+    private fun isFinished(stone: Stone): Boolean {
+        if (omokRule.isOmok(stone, omokBoard)) {
+            outputView.printPrintWinner(stone)
+            return true
+        }
+        return false
+    }
+
+    private fun retryWhenFailedToAddStone(action: () -> Stone = { Black(getInputPoint()) }): Stone {
+        return retryWhenException {
+            val stone = action()
             omokBoard.addStone(stone)
-            if (omokRule.isOmok(stone, omokBoard)) {
-                outputView.printPrintWinner(stone)
-                break
-            }
-            stone = retryWhenException { stone.toggle(getInputPoint()) }
+            stone
         }
     }
 

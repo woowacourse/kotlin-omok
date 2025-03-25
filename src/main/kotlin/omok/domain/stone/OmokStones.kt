@@ -18,15 +18,23 @@ class OmokStones {
     }
 
     fun add(stone: Stone) {
+        require(!isOccupied(stone)) { ERROR_OCCUPIED_POSITION }
+        require(!isProtected(stone)) { ERROR_PROTECTED_POSITION }
+        stones.find { it.x == stone.x && it.y == stone.y }?.let { stones -= it }
         stones += stone
     }
 
-    fun isOccupied(stone: Stone): Boolean {
+    private fun isOccupied(stone: Stone): Boolean {
         return getPointAt(stone.y, stone.x) !is Empty
     }
 
-    fun isProtected(stone: Stone): Boolean {
+    private fun isProtected(stone: Stone): Boolean {
         if (stone is White) return false
         return getPointAt(stone.y, stone.x) is Protected
+    }
+
+    companion object {
+        private const val ERROR_OCCUPIED_POSITION = "해당 위치에는 이미 돌이 놓여 있습니다. 다른 위치를 선택하세요."
+        private const val ERROR_PROTECTED_POSITION = "해당 위치는 금수 자리입니다. 다른 위치를 선택하세요."
     }
 }
