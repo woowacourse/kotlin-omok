@@ -23,9 +23,7 @@ class Board(
                     StoneColor.BLACK -> StoneColor.WHITE
                     StoneColor.WHITE -> StoneColor.BLACK
                 }
-            } ?: run {
-                return StoneColor.BLACK
-            }
+            } ?: return StoneColor.BLACK
         }
 
     fun nextStonePlacedBoard(nextPosition: Position): Board {
