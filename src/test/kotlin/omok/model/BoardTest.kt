@@ -2,6 +2,7 @@ package omok.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class BoardTest {
     @Test
@@ -12,6 +13,26 @@ class BoardTest {
         val expected: Set<Stone> = setOf(Stone(Position(1, 1), Color.BLACK))
 
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `1 미만의 행에 돌을 둘 수 없다`() {
+        assertThrows<IllegalArgumentException> { Board().add(Stone(Position(0, 1), Color.BLACK)) }
+    }
+
+    @Test
+    fun `1 미만의 열에 돌을 둘 수 없다`() {
+        assertThrows<IllegalArgumentException> { Board().add(Stone(Position(1, 0), Color.BLACK)) }
+    }
+
+    @Test
+    fun `15 초과의 행에 돌을 둘 수 없다`() {
+        assertThrows<IllegalArgumentException> { Board().add(Stone(Position(1, 16), Color.BLACK)) }
+    }
+
+    @Test
+    fun `15 초과의 열에 돌을 둘 수 없다`() {
+        assertThrows<IllegalArgumentException> { Board().add(Stone(Position(16, 1), Color.BLACK)) }
     }
 
     @Test
