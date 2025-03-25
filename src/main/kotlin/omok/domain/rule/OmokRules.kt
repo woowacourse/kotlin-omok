@@ -1,21 +1,21 @@
 package omok.domain.rule
 
 import omok.domain.board.OmokBoard
+import omok.domain.place.Place
 import omok.domain.rule.finder.Direction
-import omok.domain.stone.Stone
 
 interface OmokRules {
     val rules: List<OmokRule>
 
     fun isProtected(
-        stone: Stone,
+        place: Place,
         board: OmokBoard,
     ): Boolean {
-        return rules.any { it.isProtected(stone, board) }
+        return rules.any { it.isProtected(place, board) }
     }
 
     fun isOmok(
-        current: Stone,
+        current: Place,
         board: OmokBoard,
     ): Boolean {
         return Direction.getDirectionPair().any { (d1, d2) ->
@@ -27,12 +27,12 @@ interface OmokRules {
 
     private fun search(
         direction: Direction,
-        stone: Stone,
+        place: Place,
         board: OmokBoard,
-        target: Stone,
+        target: Place,
     ): Int {
-        if (stone::class == target::class) {
-            val next = board.goto(stone, direction)
+        if (place::class == target::class) {
+            val next = board.goto(place, direction)
             return search(direction, next, board, target) + 1
         }
         return 0

@@ -1,11 +1,11 @@
 package domain.fixture
 
 import omok.domain.board.OmokBoard
+import omok.domain.place.OmokStones
 import omok.domain.rule.OmokRule
 import omok.domain.rule.OmokRules
 import omok.domain.rule.finder.DfsRenjuFinder
 import omok.domain.rule.renjuRule.SixMokRule
-import omok.domain.stone.OmokStones
 
 fun omokBoardFixture(): OmokBoard {
     val omokStones = OmokStones()

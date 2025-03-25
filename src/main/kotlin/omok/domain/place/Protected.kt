@@ -1,29 +1,29 @@
-package omok.domain.stone
+package omok.domain.place
 
 import omok.domain.board.OmokBoard
-import omok.domain.stone.Stone.Companion.ERR_INVALID_VALUE
+import omok.domain.place.Place.Companion.ERR_INVALID_VALUE
 import java.lang.IllegalArgumentException
 
 @Suppress("functionName")
-fun Empty(position: String): Empty {
+fun Protected(position: String): Protected {
     return runCatching {
         val x = OmokBoard.COLUMN_POOL.indexOf(position[0].uppercaseChar()) + 1
         require(x != 0) { ERR_INVALID_VALUE }
         val y = position.substring(1).toInt()
-        Empty(x, y)
+        Protected(x, y)
     }.getOrElse { throw IllegalArgumentException("잘못된 값을 입력하셨습니다") }
 }
 
-data class Empty(val x1: Int, val y1: Int) : Stone(x1, y1) {
-    override fun toggle(position: String): Stone {
-        return Black(position)
+data class Protected(val x1: Int, val y1: Int) : Place(x1, y1) {
+    override fun toggle(position: String): Place {
+        return this
     }
 
-    override fun opponent(): Stone {
-        return Black(DUMMY_POSITION, DUMMY_POSITION)
+    override fun opponent(): Place {
+        return this
     }
 
     companion object {
-        fun dummy(): Empty = Empty(DUMMY_POSITION, DUMMY_POSITION)
+        fun dummy(): Protected = Protected(DUMMY_POSITION, DUMMY_POSITION)
     }
 }

@@ -1,13 +1,13 @@
 package omok.event
 
 import omok.domain.board.OmokBoard
-import omok.domain.stone.Stone
+import omok.domain.place.Place
 import omok.global.retryWhenNull
 import omok.view.InputView
 import omok.view.OutputView
 
 class OmokEventListener(private val outputView: OutputView, private val inputView: InputView) : GameEventListner {
-    override fun onFinished(winner: Stone) {
+    override fun onFinished(winner: Place) {
         outputView.printPrintWinner(winner)
     }
 
@@ -15,9 +15,9 @@ class OmokEventListener(private val outputView: OutputView, private val inputVie
         outputView.printStartMessage()
     }
 
-    override fun onInputRequest(stone: Stone): String {
+    override fun onInputRequest(place: Place): String {
         return retryWhenNull {
-            inputView.readStoneWithLastPosition(stone)
+            inputView.readStoneWithLastPosition(place)
         }
     }
 

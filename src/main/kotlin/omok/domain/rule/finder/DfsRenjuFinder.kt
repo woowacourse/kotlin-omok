@@ -1,27 +1,27 @@
 package omok.domain.rule.finder
 
 import omok.domain.board.OmokBoard
-import omok.domain.stone.Black
-import omok.domain.stone.Empty
-import omok.domain.stone.Stone
+import omok.domain.place.Black
+import omok.domain.place.Empty
+import omok.domain.place.Place
 
 object DfsRenjuFinder : Finder {
     private fun dfs(
         direction: Direction,
-        stone: Stone,
+        place: Place,
         board: OmokBoard,
         depth: Int = 0,
     ): SearchResult {
-        val next = board.goto(stone, direction)
+        val next = board.goto(place, direction)
         if (next !is Black && next !is Empty) {
-            if (stone is Empty) {
+            if (place is Empty) {
                 return SearchResult(0, false, isIndirectlyClosed = true)
             }
             return SearchResult(0, true)
         }
 
-        if (stone is Black || (stone is Empty && depth <= 3)) {
-            return if (stone is Black || depth == 0) {
+        if (place is Black || (place is Empty && depth <= 3)) {
+            return if (place is Black || depth == 0) {
                 dfs(direction, next, board, depth + 1).let { it.copy(stoneCount = it.stoneCount + 1) }
             } else {
                 if (next is Empty) {
@@ -39,7 +39,7 @@ object DfsRenjuFinder : Finder {
     }
 
     override fun search(
-        current: Stone,
+        current: Place,
         board: OmokBoard,
         direction: Direction,
     ): SearchResult {

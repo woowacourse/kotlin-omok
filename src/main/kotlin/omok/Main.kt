@@ -3,10 +3,10 @@ package omok
 import omok.controller.OmokController
 import omok.domain.board.OmokBoard
 import omok.domain.game.OmokGame
+import omok.domain.place.OmokStones
 import omok.domain.rule.OmokRules
 import omok.domain.rule.finder.DfsRenjuFinder
 import omok.domain.rule.renjuRule.RenjuRule
-import omok.domain.stone.OmokStones
 import omok.event.OmokEventListener
 import omok.view.InputView
 import omok.view.OutputView

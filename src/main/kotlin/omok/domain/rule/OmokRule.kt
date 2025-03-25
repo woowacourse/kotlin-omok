@@ -1,11 +1,11 @@
 package omok.domain.rule
 
 import omok.domain.board.OmokBoard
-import omok.domain.stone.Stone
+import omok.domain.place.Place
 
 interface OmokRule {
     fun isProtected(
-        stone: Stone,
+        place: Place,
         board: OmokBoard,
     ): Boolean
 }

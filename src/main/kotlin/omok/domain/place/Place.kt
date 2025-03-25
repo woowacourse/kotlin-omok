@@ -1,16 +1,16 @@
-package omok.domain.stone
+package omok.domain.place
 
 import omok.domain.board.OmokBoard
 
-sealed class Stone(val x: Int, val y: Int) {
+sealed class Place(val x: Int, val y: Int) {
     init {
         require(x <= OmokBoard.MAX_COLUMN_SIZE) { ERR_OUT_OF_COLUMN }
         require(y <= OmokBoard.MAX_ROW_SIZE) { ERR_OUT_OF_ROW }
     }
 
-    abstract fun toggle(position: String): Stone
+    abstract fun toggle(position: String): Place
 
-    abstract fun opponent(): Stone
+    abstract fun opponent(): Place
 
     companion object {
         const val DUMMY_POSITION = -100

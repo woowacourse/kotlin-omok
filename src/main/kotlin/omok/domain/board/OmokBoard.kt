@@ -1,11 +1,11 @@
 package omok.domain.board
 
+import omok.domain.place.Empty
+import omok.domain.place.OmokStones
+import omok.domain.place.Place
+import omok.domain.place.Protected
 import omok.domain.rule.OmokRules
 import omok.domain.rule.finder.Direction
-import omok.domain.stone.Empty
-import omok.domain.stone.OmokStones
-import omok.domain.stone.Protected
-import omok.domain.stone.Stone
 import omok.view.BoardView
 
 class OmokBoard(
@@ -16,30 +16,30 @@ class OmokBoard(
         require(MAX_ROW_SIZE <= COLUMN_POOL.size) { ERROR_OUT_OF_COLUMN_POOL }
     }
 
-    var latestStone: Stone = Empty.dummy()
+    var latestPlace: Place = Empty.dummy()
         private set
 
-    fun isNotFull() = omokStones.stones.size != MAX_COLUMN_SIZE * MAX_ROW_SIZE
+    fun isNotFull() = omokStones.places.size != MAX_COLUMN_SIZE * MAX_ROW_SIZE
 
     fun view(): BoardView = BoardView(this)
 
-    fun addStone(stone: Stone) {
-        omokStones.add(stone)
-        latestStone = stone
+    fun addStone(place: Place) {
+        omokStones.add(place)
+        latestPlace = place
         updateProtectedPlace()
     }
 
     fun goto(
-        currentPosition: Stone,
+        currentPosition: Place,
         direction: Direction,
-    ): Stone {
+    ): Place {
         val newX = currentPosition.x + direction.x
         val newY = currentPosition.y + direction.y
         return omokStones.getPointAt(newY, newX)
     }
 
     private fun updateProtectedPlace() {
-        omokStones.stones
+        omokStones.places
             .filterIsInstance<Protected>()
             .forEach { point ->
                 if (!omokRules.isProtected(point, this)) {
