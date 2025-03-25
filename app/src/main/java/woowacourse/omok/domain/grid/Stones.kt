@@ -1,4 +1,4 @@
-package omok.domain.grid
+package woowacourse.omok.domain.grid
 
 class Stones {
     private val _stones: MutableSet<OmokPoint> = mutableSetOf()

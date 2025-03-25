@@ -1,6 +1,6 @@
-package omok.domain.grid
+package woowacourse.omok.domain.grid
 
-import omok.domain.StoneColor
+import woowacourse.omok.domain.StoneColor
 
 class OmokGrid {
     private val whiteStones: Stones = Stones()

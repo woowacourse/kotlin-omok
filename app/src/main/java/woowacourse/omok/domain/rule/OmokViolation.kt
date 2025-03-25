@@ -1,4 +1,4 @@
-package omok.domain.rule
+package woowacourse.omok.domain.rule
 
 enum class OmokViolation {
     DOUBLE_THREE,

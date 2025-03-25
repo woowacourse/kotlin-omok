@@ -1,10 +1,10 @@
-package omok.domain
+package woowacourse.omok.domain
 
-import omok.domain.grid.OmokGrid
-import omok.domain.grid.OmokPoint
-import omok.domain.rule.BlackRuleAdapterImpl
-import omok.domain.rule.OmokRuleAdapter
-import omok.domain.rule.WhiteRuleAdapterImpl
+import woowacourse.omok.domain.grid.OmokGrid
+import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.rule.BlackRuleAdapterImpl
+import woowacourse.omok.domain.rule.OmokRuleAdapter
+import woowacourse.omok.domain.rule.WhiteRuleAdapterImpl
 
 class OmokGame(val grid: OmokGrid) {
     private val referee = Referee()

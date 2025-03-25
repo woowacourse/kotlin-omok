@@ -1,6 +1,6 @@
-package omok.domain.rule
+package woowacourse.omok.domain.rule
 
-import omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.grid.OmokPoint
 
 object WhiteRuleAdapterImpl : OmokRuleAdapter() {
     override fun checkViolation(

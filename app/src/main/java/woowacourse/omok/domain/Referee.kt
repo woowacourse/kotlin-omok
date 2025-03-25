@@ -1,8 +1,8 @@
-package omok.domain
+package woowacourse.omok.domain
 
-import omok.domain.grid.OmokPoint
-import omok.domain.rule.OmokRuleAdapter
-import omok.domain.rule.OmokViolation
+import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.rule.OmokRuleAdapter
+import woowacourse.omok.domain.rule.OmokViolation
 
 class Referee {
     fun checkViolation(

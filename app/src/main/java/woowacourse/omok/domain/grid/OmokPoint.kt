@@ -1,7 +1,7 @@
-package omok.domain.grid
+package woowacourse.omok.domain.grid
 
-import omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
-import omok.domain.grid.OmokGrid.Companion.MIN_BOUND
+import woowacourse.omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
+import woowacourse.omok.domain.grid.OmokGrid.Companion.MIN_BOUND
 
 data class OmokPoint(val row: Row, val col: Column) {
     init {

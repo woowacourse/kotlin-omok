@@ -1,8 +1,8 @@
-package omok.domain.rule
+package woowacourse.omok.domain.rule
 
-import omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
-import omok.domain.grid.OmokPoint
 import rule.facade.BlackRenjuRule
+import woowacourse.omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
+import woowacourse.omok.domain.grid.OmokPoint
 
 object BlackRuleAdapterImpl : OmokRuleAdapter() {
     private val rule = BlackRenjuRule(DEFAULT_SIZE, DEFAULT_SIZE)

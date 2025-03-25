@@ -1,9 +1,9 @@
-package omok.domain.rule
+package woowacourse.omok.domain.rule
 
-import omok.domain.grid.Column
-import omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
-import omok.domain.grid.OmokPoint
-import omok.domain.grid.Row
+import woowacourse.omok.domain.grid.Column
+import woowacourse.omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
+import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.grid.Row
 
 abstract class OmokRuleAdapter {
     abstract fun checkViolation(

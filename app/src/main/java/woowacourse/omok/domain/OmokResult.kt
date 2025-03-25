@@ -1,4 +1,4 @@
-package omok.domain
+package woowacourse.omok.domain
 
 enum class OmokResult {
     BLACK_WIN,
