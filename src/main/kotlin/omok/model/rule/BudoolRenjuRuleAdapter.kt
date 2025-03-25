@@ -23,17 +23,17 @@ class BudoolRenjuRuleAdapter(
         when {
             normalOmokRule.isPositionOmok(stonesMap, lastStone.position, true) -> return RenjuFoul.SAFE
 
-            blackRenjuRule.checkDoubleThreeFoul(
-                blackCoordinatePairs,
-                whiteCoordinatePairs,
-                lastPoint,
-            ) -> return RenjuFoul.THREE_BY_THREE_FOUL
-
             blackRenjuRule.checkDoubleFourFoul(
                 blackCoordinatePairs,
                 whiteCoordinatePairs,
                 lastPoint,
             ) -> return RenjuFoul.FOUR_BY_FOUR_FOUL
+
+            blackRenjuRule.checkDoubleThreeFoul(
+                blackCoordinatePairs,
+                whiteCoordinatePairs,
+                lastPoint,
+            ) -> return RenjuFoul.THREE_BY_THREE_FOUL
 
             blackRenjuRule.checkOverline(
                 blackCoordinatePairs,
