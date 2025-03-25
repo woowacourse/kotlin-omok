@@ -1,4 +1,9 @@
-package model
+package model.judge
+
+import model.AddStoneStatus
+import model.Direction
+import model.Stone
+import model.StoneColor
 
 object OmokJudge {
     fun checkAddingStone(

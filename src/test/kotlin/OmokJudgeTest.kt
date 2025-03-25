@@ -1,10 +1,10 @@
 import model.AddStoneStatus
 import model.Col
-import model.OmokJudge
 import model.Position
 import model.Row
 import model.Stone
 import model.StoneColor
+import model.judge.OmokJudge
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Test

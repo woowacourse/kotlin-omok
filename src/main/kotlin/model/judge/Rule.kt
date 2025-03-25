@@ -1,4 +1,8 @@
-package model
+package model.judge
+
+import model.Direction
+import model.Position
+import model.Stone
 
 interface Rule {
     fun checkFoulByAllDirections(

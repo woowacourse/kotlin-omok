@@ -1,4 +1,9 @@
-package model
+package model.judge
+
+import model.Direction
+import model.Position
+import model.Stone
+import model.StoneColor
 
 object FourFourCheck : Rule {
     override fun checkFoulByAllDirections(

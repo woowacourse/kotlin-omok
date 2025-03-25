@@ -1,5 +1,7 @@
 package model
 
+import model.judge.OmokJudge
+
 sealed class AddStoneStatus {
     data object IsExist : AddStoneStatus()
 
