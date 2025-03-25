@@ -8,7 +8,7 @@ class Stones(
     private val ruleAdapter: RuleAdapter,
 ) {
     private var _stones = stones
-    val stones get() = _stones.map { it.copy() }.toSet()
+    val stones get() = _stones.toSet()
 
     fun add(stone: Stone) {
         _stones += stone
