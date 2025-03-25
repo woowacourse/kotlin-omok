@@ -1,9 +1,5 @@
 package omok.model.stone
 
-import omok.model.board.Position
-
-interface Stone {
-    val position: Position
-
-    val color: StoneColor
-}
+data class Stone(
+    val color: StoneColor,
+)
