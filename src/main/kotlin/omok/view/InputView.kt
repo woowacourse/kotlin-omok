@@ -6,14 +6,14 @@ import omok.model.Position
 import omok.model.Stone
 
 class InputView {
-    fun readTurn(game: Game): Pair<Int, Int> {
+    fun readTurn(game: Game): Position {
         promptInput(game)
         val input: String = readln()
         println()
         require(input.isNotBlank()) { ERROR_MESSAGE_INCORRECT_POSITION_FORMAT }
         val col: Int = readCol(input)
         val row: Int = readRow(input)
-        return col to row
+        return Position(row, col)
     }
 
     private fun promptInput(game: Game) {

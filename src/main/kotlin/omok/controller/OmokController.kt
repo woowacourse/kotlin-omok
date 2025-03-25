@@ -20,8 +20,7 @@ class OmokController(
     }
 
     private tailrec fun processTurn(game: Game) {
-        val (x: Int, y: Int) = inputView.readTurn(game)
-        val position = Position(x, y)
+        val position: Position = inputView.readTurn(game)
         val moveResult: MoveResult = game.processTurn(position, game.chooseTurn())
         outputView.printBoard(game.board)
 
