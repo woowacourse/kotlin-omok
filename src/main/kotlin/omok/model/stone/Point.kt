@@ -1,5 +1,10 @@
 package omok.model.stone
 
+import omok.model.Board.Companion.MAX_BOARD_HEIGHT
+import omok.model.Board.Companion.MAX_BOARD_WIDTH
+import omok.model.Board.Companion.MIN_BOARD_HEIGHT
+import omok.model.Board.Companion.MIN_BOARD_WIDTH
+
 data class Point(
     val row: Int,
     val col: Int,
@@ -9,10 +14,6 @@ data class Point(
     }
 
     companion object {
-        private const val MIN_BOARD_WIDTH = 1
-        private const val MIN_BOARD_HEIGHT = 1
-        private const val MAX_BOARD_WIDTH = 15
-        private const val MAX_BOARD_HEIGHT = 15
         private const val ERROR_MESSAGE_OUT_OF_BOARD = "오목판 범위를 벗어났습니다."
     }
 }
