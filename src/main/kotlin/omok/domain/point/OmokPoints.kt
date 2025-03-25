@@ -3,12 +3,7 @@ package omok.domain.point
 import omok.domain.board.OmokBoard
 
 class OmokPoints {
-    var points: List<Point> =
-        (1..OmokBoard.MAX_ROW_SIZE).flatMap { row ->
-            (1..OmokBoard.MAX_COLUMN_SIZE).map { column ->
-                Empty(column, row)
-            }
-        }
+    var points: List<Point> = listOf()
         get() = field.toList()
         private set
 
@@ -16,15 +11,14 @@ class OmokPoints {
         row: Int,
         column: Int,
     ): Point {
+        val isValidRow = row in 1..OmokBoard.MAX_ROW_SIZE
+        val isValidColumn = column in 1..OmokBoard.MAX_COLUMN_SIZE
         return points.find { it.x == column && it.y == row }
-            ?: Protected(-100, -100)
+            ?: if (isValidRow && isValidColumn) Empty(column, row) else Protected.dummy()
     }
 
-    fun altStone(point: Point) {
-        val position = points.indexOfFirst { it.x == point.x && it.y == point.y }
-        val newList = points.toMutableList()
-        newList[position] = point
-        points = newList
+    fun add(point: Point) {
+        points += point
     }
 
     fun toMatrix(): List<List<Point>> {
@@ -41,11 +35,11 @@ class OmokPoints {
     }
 
     fun isOccupied(point: Point): Boolean {
-        return points.first { it.x == point.x && it.y == point.y } !is Empty
+        return getPointAt(point.y, point.x) !is Empty
     }
 
     fun isProtected(point: Point): Boolean {
         if (point is White) return false
-        return points.first { it.x == point.x && it.y == point.y } is Protected
+        return getPointAt(point.y, point.x) is Protected
     }
 }

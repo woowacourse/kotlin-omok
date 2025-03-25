@@ -22,4 +22,8 @@ data class Protected(val x1: Int, val y1: Int) : Point(x1, y1) {
     override fun opponent(): Point {
         return this
     }
+
+    companion object {
+        fun dummy(): Protected = Protected(DUMMY_POSITION, DUMMY_POSITION)
+    }
 }

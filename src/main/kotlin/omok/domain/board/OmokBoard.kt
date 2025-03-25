@@ -21,7 +21,7 @@ class OmokBoard(
 
     fun toMatrix(): List<List<Point>> = omokPoints.toMatrix()
 
-    fun isNotFull() = omokPoints.points.any { it is Empty }
+    fun isNotFull() = omokPoints.points.size != MAX_COLUMN_SIZE * MAX_ROW_SIZE
 
     fun view(): BoardView = BoardView(this)
 
@@ -31,7 +31,7 @@ class OmokBoard(
     }
 
     fun addStone(point: Point) {
-        omokPoints.altStone(point)
+        omokPoints.add(point)
         latestStone = point
         updateProtectedPlace()
     }
@@ -50,14 +50,14 @@ class OmokBoard(
             .filterIsInstance<Protected>()
             .forEach { point ->
                 if (!ruleChecker.isProtected(point, this)) {
-                    omokPoints.altStone(Empty(point.x, point.y))
+                    omokPoints.add(Empty(point.x, point.y))
                 }
             }
         omokPoints.points
             .filter { it is Empty || it is Protected }
             .forEach { point ->
                 if (ruleChecker.isProtected(point, this)) {
-                    omokPoints.altStone(Protected(point.x, point.y))
+                    omokPoints.add(Protected(point.x, point.y))
                 }
             }
     }
