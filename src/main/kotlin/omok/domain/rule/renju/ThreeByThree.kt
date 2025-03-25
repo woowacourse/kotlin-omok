@@ -1,0 +1,33 @@
+package omok.domain.rule.renju
+
+import omok.domain.board.BoardStatus
+import omok.domain.board.OmokBoard
+import omok.domain.point.Point
+import omok.domain.rule.Direction
+import omok.domain.stone.StoneColor
+
+class ThreeByThree(board: OmokBoard) : Renju(board) {
+    override fun match(p: Point): Boolean {
+        val isBoardEmpty = p.status == BoardStatus.Empty
+        val hasMoreThanOneThreeByThree = checkDirectionPairs(p, BoardStatus.Moved(StoneColor.BLACK)) > 1
+
+        return isBoardEmpty && hasMoreThanOneThreeByThree
+    }
+
+    override fun checkDirectionPairs(
+        current: Point,
+        target: BoardStatus,
+    ): Int {
+        return Direction.getDirectionPair().count { (d1, d2) ->
+            val forwardCount = seek(d1, current, target).count
+            val previousCount = seek(d2, current, target).count
+
+            val isIndirectlyClosed =
+                seek(d1, current, target).isIndirectlyClosed && seek(d2, current, target).isIndirectlyClosed
+            val totalCount = forwardCount + previousCount - EMPTY_ADJUSTMENT
+
+            totalCount == REQUIRED_THREE_STONES && seek(d1, current, target).isBlocked &&
+                seek(d2, current, target).isBlocked && !isIndirectlyClosed
+        }
+    }
+}

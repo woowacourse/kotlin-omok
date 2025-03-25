@@ -1,0 +1,165 @@
+package omok.view
+
+import omok.domain.board.BoardStatus
+import omok.domain.board.OmokColumn.Companion.entriesWithoutWall
+import omok.domain.stone.StoneColor
+import omok.view.ext.toLabel
+
+class OutputView {
+    fun printErrorMessage(msg: String?) {
+        println(msg)
+    }
+
+    fun printStartMessage() {
+        println(MESSAGE_START_GAME)
+    }
+
+    fun printPrintWinner(stone: StoneColor) {
+        println(MESSAGE_WINNER.format(stone.toLabel()))
+    }
+
+    fun printBoard(
+        board: List<List<BoardStatus>>,
+        color: StoneColor,
+    ) {
+        board.forEachIndexed { row, rowValue ->
+            rowValue.forEachIndexed { column, _ ->
+                val stone = board[ROW_MAX_LENGTH - row - 1][column].toChar(color)
+
+                when (row) {
+                    0 -> printTopRow(column, stone)
+                    board.size - 1 -> printBottomRow(column, rowValue.size, stone)
+                    else -> printMiddleRow(column, rowValue.size, row, stone)
+                }
+            }
+            println()
+        }
+        printFormattedColumn()
+        println()
+    }
+
+    private fun printTopRow(
+        column: Int,
+        stone: Char?,
+    ) {
+        when (column) {
+            0 -> {
+                ROW_MAX_LENGTH.printFormattedRow()
+                print(stone ?: TOP_LEFT_CORNER)
+                print(VERTICAL_SEPARATOR)
+            }
+
+            ROW_MAX_LENGTH - 1 -> {
+                print(VERTICAL_SEPARATOR)
+                print(stone ?: TOP_RIGHT_CORNER)
+            }
+
+            else -> {
+                print(VERTICAL_SEPARATOR)
+                print(stone ?: TOP_HORIZONTAL_SEPARATOR)
+                print(VERTICAL_SEPARATOR)
+            }
+        }
+    }
+
+    private fun printMiddleRow(
+        column: Int,
+        rowSize: Int,
+        row: Int,
+        stone: Char?,
+    ) {
+        when (column) {
+            0 -> {
+                (ROW_MAX_LENGTH - row).printFormattedRow()
+                print(stone ?: LEFT_VERTICAL_SEPARATOR)
+                print(VERTICAL_SEPARATOR)
+            }
+
+            rowSize - 1 -> {
+                print(VERTICAL_SEPARATOR)
+                print(stone ?: RIGHT_VERTICAL_SEPARATOR)
+            }
+
+            else -> {
+                print(VERTICAL_SEPARATOR)
+                print(stone ?: HORIZONTAL_SEPARATOR)
+                print(VERTICAL_SEPARATOR)
+            }
+        }
+    }
+
+    private fun printBottomRow(
+        column: Int,
+        rowSize: Int,
+        stone: Char?,
+    ) {
+        when (column) {
+            0 -> {
+                1.printFormattedRow()
+                print(stone ?: BOTTOM_LEFT_CORNER)
+                print(VERTICAL_SEPARATOR)
+            }
+
+            rowSize - 1 -> {
+                print(VERTICAL_SEPARATOR)
+                print(stone ?: BOTTOM_RIGHT_CORNER)
+            }
+
+            else -> {
+                print(VERTICAL_SEPARATOR)
+                print(stone ?: BOTTOM_HORIZONTAL_SEPARATOR)
+                print(VERTICAL_SEPARATOR)
+            }
+        }
+    }
+
+    private fun Int.printFormattedRow() {
+        if (this >= 10) print("$this ") else print("$this  ")
+    }
+
+    private fun printFormattedColumn() {
+        print(SPACE.repeat(2))
+        entriesWithoutWall().forEach {
+            print(SPACE)
+            print(it.name)
+            print(SPACE)
+        }
+    }
+
+    private fun BoardStatus.toChar(color: StoneColor): Char? {
+        return when (this) {
+            is BoardStatus.Moved -> {
+                when (this.color) {
+                    StoneColor.BLACK -> '●'
+                    StoneColor.WHITE -> '○'
+                }
+            }
+
+            BoardStatus.Blocked -> {
+                when (color) {
+                    StoneColor.WHITE -> null
+                    StoneColor.BLACK -> 'x'
+                }
+            }
+
+            BoardStatus.Empty -> null
+        }
+    }
+
+    companion object {
+        private const val MESSAGE_START_GAME = "오목 게임을 시작합니다."
+        private const val MESSAGE_WINNER = "%s이 승리하였습니다."
+        private const val VERTICAL_SEPARATOR = '-'
+        private const val HORIZONTAL_SEPARATOR = '┼'
+        private const val TOP_LEFT_CORNER = '┌'
+        private const val TOP_RIGHT_CORNER = '┐'
+        private const val BOTTOM_LEFT_CORNER = '└'
+        private const val BOTTOM_RIGHT_CORNER = '┘'
+        private const val TOP_HORIZONTAL_SEPARATOR = '┬'
+        private const val BOTTOM_HORIZONTAL_SEPARATOR = '┴'
+        private const val LEFT_VERTICAL_SEPARATOR = '├'
+        private const val RIGHT_VERTICAL_SEPARATOR = '┤'
+        private const val SPACE = " "
+        private const val ROW_MAX_LENGTH = 15
+    }
+}
