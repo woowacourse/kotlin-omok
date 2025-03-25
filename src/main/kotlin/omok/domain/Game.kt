@@ -3,30 +3,39 @@ package omok.domain
 import omok.domain.model.Board
 import omok.domain.model.position.Position
 import omok.domain.model.state.Finish
-import omok.domain.model.state.OmokState
-import omok.domain.model.state.Running
+import omok.domain.model.state.OmokStateMachine
 import omok.domain.model.stone.OmokStone
 import omok.domain.model.stone.StoneType
 
-class Game(private val state: OmokState) {
+class Game(private val omokStateMachine: OmokStateMachine) {
     fun play(
         onBeforePlace: (Board, StoneType, OmokStone?) -> Unit,
         onPlace: () -> Position,
-    ): OmokStone {
-        return play(state, onBeforePlace, onPlace).let {
-            it.lastStoneOrNull() ?: error("게임이 종료되지 않았습니다.")
-        }
+        onFailure: (String) -> Unit,
+    ): Board {
+        return playRecursive(omokStateMachine, onBeforePlace, onPlace, onFailure)
     }
 
-    private tailrec fun play(
-        state: OmokState,
+    private tailrec fun playRecursive(
+        stateMachine: OmokStateMachine,
         onBeforePlace: (Board, StoneType, OmokStone?) -> Unit,
         onPlace: () -> Position,
+        onFailure: (String) -> Unit,
     ): Board {
-        onBeforePlace(state.board, state.stoneType, state.board.lastStoneOrNull())
-        return when (val newState = state.placeStone(onPlace)) {
-            is Running -> play(newState, onBeforePlace, onPlace)
-            is Finish -> newState.board
+        onBeforePlace(stateMachine.board, stateMachine.state.stoneType, stateMachine.board.getLastStone())
+
+        val newStateMachine =
+            runCatching {
+                stateMachine.placeStone(onPlace)
+            }.onFailure {
+                onFailure(it.message ?: it.stackTraceToString())
+            }.getOrElse {
+                return playRecursive(stateMachine, onBeforePlace, onPlace, onFailure)
+            }
+
+        return when (newStateMachine.state) {
+            is Finish -> newStateMachine.board
+            else -> playRecursive(newStateMachine, onBeforePlace, onPlace, onFailure)
         }
     }
 }
