@@ -4,9 +4,12 @@ import omok.model.stone.StoneColor
 import omok.model.stone.position.Position
 
 class Board private constructor(
-    val stonesMap: Map<Position, StoneColor> = emptyMap(),
     private val dimensions: BoardDimensions,
 ) {
+    private val _stonesMap: MutableMap<Position, StoneColor> = mutableMapOf()
+    val stonesMap: Map<Position, StoneColor>
+        get() = _stonesMap.toMap()
+
     fun getWidth() = dimensions.width
 
     fun getHeight() = dimensions.height
@@ -20,7 +23,10 @@ class Board private constructor(
         stoneColor: StoneColor,
     ): Board {
         require(!stonesMap.containsKey(position)) { ERROR_STONE_ALREADY_EXITS }
-        return Board(stonesMap + (position to stoneColor), dimensions)
+        val newBoard = Board(dimensions)
+        newBoard._stonesMap.putAll(this._stonesMap)
+        newBoard._stonesMap[position] = stoneColor
+        return newBoard
     }
 
     companion object {
@@ -28,7 +34,7 @@ class Board private constructor(
 
         fun initBoard(dimensions: BoardDimensions): Board {
             val initStonesMap: Map<Position, StoneColor> = emptyMap()
-            return Board(initStonesMap, dimensions)
+            return Board(dimensions)
         }
     }
 }
