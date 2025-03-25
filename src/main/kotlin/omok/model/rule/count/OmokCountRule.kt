@@ -4,9 +4,10 @@ import omok.model.StoneColor
 import omok.model.board.Board
 import omok.model.board.Point
 import omok.model.board.PointState
+import omok.model.rule.OmokRule
 
-abstract class OmokCountRule {
-    fun calculate(
+abstract class OmokCountRule : OmokRule {
+    override fun calculate(
         board: Board,
         previousPoint: Point,
     ): Boolean {

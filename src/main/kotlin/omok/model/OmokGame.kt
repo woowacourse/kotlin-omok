@@ -5,8 +5,7 @@ import omok.model.board.Board
 import omok.model.board.BoardSize
 import omok.model.board.PlaceStoneResult
 import omok.model.board.Point
-import omok.model.rule.count.FiveInRowRule
-import omok.model.rule.count.OmokCountRule
+import omok.model.rule.OmokRuleManager
 import omok.view.OmokInputView
 import omok.view.OmokOutputView
 
@@ -17,8 +16,12 @@ class OmokGame(
     private var previousPoint: Point? = null
     private var currentStoneColor: StoneColor = StoneColor.BLACK
 
-    fun play(boardSize: BoardSize) {
-        val board = Board(boardSize)
+    fun play(
+        boardSize: BoardSize,
+        rules: OmokRuleManager,
+    ) {
+        val board = Board(boardSize, rules)
+
         outputView.printStartMessage()
         outputView.printBoardStatus(board)
 
@@ -27,7 +30,7 @@ class OmokGame(
 
     private fun playTurn(board: Board) {
         while (true) {
-            val result = placeStone(board, FiveInRowRule)
+            val result = placeStone(board)
 
             if (result is PlaceStoneResult.Omok) {
                 outputView.printBoardStatus(board)
@@ -36,13 +39,10 @@ class OmokGame(
         }
     }
 
-    private fun placeStone(
-        board: Board,
-        rule: OmokCountRule,
-    ): PlaceStoneResult =
+    private fun placeStone(board: Board): PlaceStoneResult =
         retryOnException {
             val pos = getNextPoint()
-            board.placeStone(pos, currentStoneColor, rule).also { result ->
+            board.placeStone(pos, currentStoneColor).also { result ->
                 when (result) {
                     is PlaceStoneResult.Success -> handlePlaceStoneSuccess(result, board)
                     is PlaceStoneResult.Omok -> handleGameWin(result)

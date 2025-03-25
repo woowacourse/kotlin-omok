@@ -1,9 +1,23 @@
 package omok.model.rule.lib
 
+import omok.model.board.Board
+import omok.model.board.Point
+import omok.model.rule.OmokAdapter
+import omok.model.rule.OmokRule
+
 abstract class ForbiddenMoveRule(
     private val currentStone: Int = BLACK_STONE,
     val opponentStone: Int = WHITE_STONE,
-) {
+) : OmokRule {
+    override fun calculate(
+        board: Board,
+        previousPoint: Point,
+    ): Boolean {
+        val adaptedBoard = OmokAdapter.adaptOmokBoard(board)
+        val adaptedPoint = OmokAdapter.adaptOmokPoint(previousPoint)
+        return validate(adaptedBoard, adaptedPoint)
+    }
+
     abstract fun validate(
         board: List<List<Int>>,
         position: Pair<Int, Int>,

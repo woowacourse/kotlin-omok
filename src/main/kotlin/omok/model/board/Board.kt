@@ -1,10 +1,10 @@
 package omok.model.board
 
 import omok.model.StoneColor
-import omok.model.rule.ForbiddenMoveJudge
-import omok.model.rule.count.OmokCountRule
+import omok.model.rule.OmokRule
+import omok.model.rule.OmokRuleManager
 
-class Board(private val boardSize: BoardSize) {
+class Board(private val boardSize: BoardSize, private val rules: OmokRuleManager) {
     val points: List<Point> =
         (BOARD_MIN_SIZE..boardSize.value).flatMap { row ->
             (BOARD_MIN_SIZE..boardSize.value).map { col ->
@@ -21,12 +21,11 @@ class Board(private val boardSize: BoardSize) {
     fun placeStone(
         point: Point,
         color: StoneColor,
-        rule: OmokCountRule,
     ): PlaceStoneResult {
         val targetPoint = findPoint(point)
 
         return when (targetPoint.state) {
-            PointState.OPEN -> handlePlaceSuccess(color, targetPoint, rule)
+            PointState.OPEN -> handlePlaceSuccess(color, targetPoint)
             else -> PlaceStoneResult.AlreadyPlaced
         }
     }
@@ -34,24 +33,30 @@ class Board(private val boardSize: BoardSize) {
     private fun handlePlaceSuccess(
         color: StoneColor,
         point: Point,
-        rule: OmokCountRule,
     ): PlaceStoneResult {
-        if (color == StoneColor.BLACK && !ForbiddenMoveJudge.validate(this, point)) {
+        if (color == StoneColor.BLACK && !isForbiddenMove(point, rules.forbiddenMoveRule)) {
             return PlaceStoneResult.ForbiddenMove
         }
 
         point.changeState(color)
 
-        return if (isOmok(point, rule)) {
+        return if (isOmok(point, rules.winningRule)) {
             PlaceStoneResult.Omok(point)
         } else {
             PlaceStoneResult.Success(point)
         }
     }
 
+    private fun isForbiddenMove(
+        point: Point,
+        rules: List<OmokRule>,
+    ): Boolean {
+        return rules.none { it.calculate(this, point) }
+    }
+
     private fun isOmok(
         point: Point,
-        rule: OmokCountRule,
+        rule: OmokRule,
     ): Boolean {
         return rule.calculate(this, point)
     }

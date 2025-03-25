@@ -12,33 +12,36 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class FiveInRowRuleTest {
+    val rule = FiveInRowRule()
+
     @Test
     fun `세로로 오목인 경우 true를 반환한다`() {
         val point = Point(5, 1).apply { changeState(StoneColor.WHITE) }
-        assertTrue(FiveInRowRule.calculate(verticalFiveInRowBoard, point))
+
+        assertTrue(rule.calculate(verticalFiveInRowBoard, point))
     }
 
     @Test
     fun `가로로 오목인 경우 true를 반환한다`() {
         val point = Point(1, 5).apply { changeState(StoneColor.WHITE) }
-        assertTrue(FiveInRowRule.calculate(horizontalFiveInRowBoard, point))
+        assertTrue(rule.calculate(horizontalFiveInRowBoard, point))
     }
 
     @Test
     fun `대각선으로 오목인 경우 true를 반환한다`() {
         val point = Point(5, 5).apply { changeState(StoneColor.BLACK) }
-        assertTrue(FiveInRowRule.calculate(diagonalFiveInRowBoard, point))
+        assertTrue(rule.calculate(diagonalFiveInRowBoard, point))
     }
 
     @Test
     fun `반대 대각선으로 오목인 경우 true를 반환한다`() {
         val point = Point(5, 1).apply { changeState(StoneColor.BLACK) }
-        assertTrue(FiveInRowRule.calculate(antiDiagonalFiveInRowBoard, point))
+        assertTrue(rule.calculate(antiDiagonalFiveInRowBoard, point))
     }
 
     @Test
     fun `오목이 없는 경우 false를 반환한다`() {
         val point = Point(14, 1).apply { changeState(StoneColor.WHITE) }
-        assertFalse(FiveInRowRule.calculate(horizontalFiveInRowBoard, point))
+        assertFalse(rule.calculate(horizontalFiveInRowBoard, point))
     }
 }

@@ -3,7 +3,7 @@ package omok.model.rule.count
 import omok.model.board.Board
 import omok.model.board.Point
 
-object FiveInRowRule : OmokCountRule() {
+class FiveInRowRule : OmokCountRule() {
     override fun isCheckCondition(
         board: Board,
         previousPoint: Point,
