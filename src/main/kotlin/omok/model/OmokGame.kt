@@ -6,11 +6,11 @@ import omok.model.board.BoardSize
 import omok.model.board.PlaceStoneResult
 import omok.model.board.Point
 import omok.model.rule.OmokRuleManager
-import omok.view.OmokInputView
+import omok.view.NextPointListener
 import omok.view.OmokOutputView
 
 class OmokGame(
-    private val inputView: OmokInputView,
+    private val nextPointListener: NextPointListener,
     private val outputView: OmokOutputView,
 ) {
     private var previousPoint: Point? = null
@@ -69,7 +69,7 @@ class OmokGame(
     private fun getNextPoint(): Point =
         retryOnException {
             outputView.printCurrentTurn(previousPoint)
-            val nextPoint = inputView.readPosition()
+            val nextPoint = nextPointListener.onNextPoint()
 
             Point(nextPoint.first, nextPoint.second)
         }
