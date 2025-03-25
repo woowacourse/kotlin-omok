@@ -32,7 +32,7 @@ class PositionTest {
     fun `점에 돌이 없으면, 흑돌을 점에 놓을 수 있다`() {
         val position = Position.from(1, 2)
 
-        val actual = position.placeStone(StoneState.BLACK).stoneState
+        val actual = position.placeStone(StoneState.BLACK).stoneState()
 
         val expected = StoneState.BLACK
 
@@ -43,7 +43,7 @@ class PositionTest {
     fun `점에 돌이 없으면, 백돌을 점에 놓을 수 있다`() {
         val position = Position.from(1, 2)
 
-        val actual = position.placeStone(StoneState.WHITE).stoneState
+        val actual = position.placeStone(StoneState.WHITE).stoneState()
 
         val expected = StoneState.WHITE
 
