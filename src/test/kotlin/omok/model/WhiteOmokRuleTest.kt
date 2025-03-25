@@ -36,7 +36,6 @@ import omok.mapper.BlackRuleChecker
 import omok.mapper.PointMapper
 import omok.model.game.Game
 import omok.model.rule.WhiteOmokRule
-import omok.view.OutputView.Companion.BOARD_SIZE
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import rule.BlackRenjuRule
@@ -46,17 +45,15 @@ class WhiteOmokRuleTest {
         Game(
             blackRuleChecker =
                 BlackRuleChecker(
-                    BlackRenjuRule(BOARD_SIZE),
+                    BlackRenjuRule(),
                     mapper = { pos -> PointMapper().from(pos) },
                 ),
         )
 
-    private val whiteOmokRule = WhiteOmokRule(BOARD_SIZE)
+    private val whiteOmokRule = WhiteOmokRule(game.getBoard().getWidth(), game.getBoard().getHeight())
 
     @Test
     fun `흰돌이 대각선으로 오목임을 확인할 수 있다`() {
-        val whiteOmokRule = WhiteOmokRule(BOARD_SIZE)
-
         val positions =
             listOf(
                 M1,
@@ -75,7 +72,7 @@ class WhiteOmokRuleTest {
             game.place(i)
         }
 
-        assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard().stonesMap, it) }).isTrue()
+        assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard(), it) }).isTrue()
     }
 
     @Test
@@ -98,7 +95,7 @@ class WhiteOmokRuleTest {
             game.place(i)
         }
 
-        assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard().stonesMap, it) }).isTrue()
+        assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard(), it) }).isTrue()
     }
 
     @Test
@@ -120,7 +117,7 @@ class WhiteOmokRuleTest {
         for (i in positions) {
             game.place(i)
         }
-        assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard().stonesMap, it) }).isTrue()
+        assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard(), it) }).isTrue()
     }
 
     @Test
@@ -145,6 +142,6 @@ class WhiteOmokRuleTest {
             game.place(i)
         }
 
-        assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard().stonesMap, it) }).isTrue()
+        assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard(), it) }).isTrue()
     }
 }

@@ -46,7 +46,6 @@ import omok.mapper.PointMapper
 import omok.model.game.Game
 import omok.model.rule.BlackOmokRule
 import omok.model.stone.StoneColor
-import omok.view.OutputView.Companion.BOARD_SIZE
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import rule.BlackRenjuRule
@@ -54,7 +53,7 @@ import rule.BlackRenjuRule
 class BlackOmokRuleTest {
     private val blackRuleChecker =
         BlackRuleChecker(
-            rule = BlackRenjuRule(BOARD_SIZE),
+            rule = BlackRenjuRule(),
             mapper = { pos -> PointMapper().from(pos) },
         )
     private val game = Game(blackRuleChecker)
@@ -82,7 +81,7 @@ class BlackOmokRuleTest {
 
         assertThrows<DoubleThreeViolation> {
             blackOmokRule.validate(
-                game.getBoard().stonesMap,
+                game.getBoard(),
                 nextPosition,
                 StoneColor.BLACK,
             )
@@ -113,7 +112,7 @@ class BlackOmokRuleTest {
         }
 
         assertThrows<DoubleFourViolation> {
-            blackOmokRule.validate(game.getBoard().stonesMap, nextPosition, StoneColor.BLACK)
+            blackOmokRule.validate(game.getBoard(), nextPosition, StoneColor.BLACK)
         }
     }
 
@@ -142,7 +141,7 @@ class BlackOmokRuleTest {
         }
 
         assertThrows<DoubleFourViolation> {
-            blackOmokRule.validate(game.getBoard().stonesMap, nextPosition, StoneColor.BLACK)
+            blackOmokRule.validate(game.getBoard(), nextPosition, StoneColor.BLACK)
         }
     }
 
@@ -170,7 +169,7 @@ class BlackOmokRuleTest {
         }
 
         assertThrows<OverlineViolation> {
-            blackOmokRule.validate(game.getBoard().stonesMap, nextPosition, StoneColor.BLACK)
+            blackOmokRule.validate(game.getBoard(), nextPosition, StoneColor.BLACK)
         }
     }
 }
