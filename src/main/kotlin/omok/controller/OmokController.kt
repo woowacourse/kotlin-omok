@@ -1,10 +1,10 @@
 package omok.controller
 
-import omok.model.Omok
-import omok.model.board.OmokBoard
-import omok.model.player.BlackPlayer
-import omok.model.player.Player
-import omok.model.player.state.BlackPlayerState
+import omok.model.board.BoardImpl
+import omok.model.omokGame.OmokGameImpl
+import omok.model.player.BlackPlayerState
+import omok.model.player.Finish
+import omok.model.player.PlayerState
 import omok.view.OmokView
 
 class OmokController(
@@ -12,46 +12,17 @@ class OmokController(
 ) {
     fun run() {
         omokView.printStartMessage()
-        val omokBoard = OmokBoard(Omok())
-        val currentPlayer: Player = BlackPlayer(BlackPlayerState())
-        playGame(currentPlayer, omokBoard)
-        omokView.result(currentPlayer)
-    }
+        val board = BoardImpl.createEmpty()
+        val game = OmokGameImpl(board)
+        var playerState: PlayerState = BlackPlayerState(game)
 
-    private fun playGame(
-        player: Player,
-        omokBoard: OmokBoard,
-    ) {
-        var currentPlayer = player
         while (true) {
-            playerTurn(currentPlayer, omokBoard)
-            if (finishGame(currentPlayer, omokBoard)) break
-            omokView.printOmokBoard(omokBoard.board())
-            currentPlayer = currentPlayer.nextTurn()
+            val position = omokView.inputPosition(playerState)
+            playerState = playerState.state(position)
+            omokView.printBoard(board.board)
+            if (playerState is Finish) break
         }
-    }
-
-    private fun playerTurn(
-        currentPlayer: Player,
-        omokBoard: OmokBoard,
-    ) {
-        runCatching {
-            val position = omokView.inputPosition(currentPlayer)
-            currentPlayer.put(position, omokBoard)
-        }.getOrElse { error ->
-            println(error.message)
-            playerTurn(currentPlayer, omokBoard)
-        }
-    }
-
-    private fun finishGame(
-        currentPlayer: Player,
-        omokBoard: OmokBoard,
-    ): Boolean {
-        if (currentPlayer.isFinish()) {
-            omokView.printOmokBoard(omokBoard.board())
-            return true
-        }
-        return false
+        val winner = (playerState as Finish).winner()
+        omokView.result(winner)
     }
 }
