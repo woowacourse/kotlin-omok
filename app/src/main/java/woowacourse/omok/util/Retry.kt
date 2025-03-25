@@ -1,4 +1,4 @@
-package omok.util
+package woowacourse.omok.util
 
 fun <T> retryInput(
     inputFunction: () -> T,

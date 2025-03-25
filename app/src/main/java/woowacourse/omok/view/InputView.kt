@@ -1,9 +1,9 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.domain.StoneColor
-import omok.domain.grid.Column
-import omok.domain.grid.OmokPoint
-import omok.domain.grid.Row
+import woowacourse.omok.domain.StoneColor
+import woowacourse.omok.domain.grid.Column
+import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.grid.Row
 
 class InputView {
     fun getPoint(

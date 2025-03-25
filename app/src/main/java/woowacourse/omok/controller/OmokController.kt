@@ -1,12 +1,12 @@
-package omok.controller
+package woowacourse.omok.controller
 
-import omok.domain.OmokGame
-import omok.domain.OmokResult
-import omok.domain.StoneColor
-import omok.domain.grid.OmokPoint
-import omok.util.retryInput
-import omok.view.InputView
-import omok.view.OutputView
+import woowacourse.omok.domain.OmokGame
+import woowacourse.omok.domain.OmokResult
+import woowacourse.omok.domain.StoneColor
+import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.util.retryInput
+import woowacourse.omok.view.InputView
+import woowacourse.omok.view.OutputView
 
 class OmokController(
     private val inputView: InputView,

@@ -1,9 +1,9 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.domain.OmokResult
-import omok.domain.StoneColor
-import omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
-import omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.OmokResult
+import woowacourse.omok.domain.StoneColor
+import woowacourse.omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
+import woowacourse.omok.domain.grid.OmokPoint
 
 class OutputView {
     fun printErrorMessage(message: String?) {
