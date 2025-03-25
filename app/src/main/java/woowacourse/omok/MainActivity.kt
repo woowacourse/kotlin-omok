@@ -15,7 +15,7 @@ import woowacourse.omok.domain.OmokBoard
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.Position
 import woowacourse.omok.domain.StoneState
-import woowacourse.omok.domain.turn.PutStoneResult.Failure
+import woowacourse.omok.domain.turn.PutStoneResult
 import woowacourse.omok.domain.turn.PutStoneResult.Finished
 import woowacourse.omok.domain.turn.PutStoneResult.NextTurn
 
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 view.tag = "$x$y"
 
                 view.setOnClickListener {
-                    when (val putStoneResult = omokGame.putStone(Position(x - 'A', y - 1))) {
+                    when (omokGame.putStone(Position(x - 'A', y - 1))) {
                         is NextTurn -> {
                             if (omokGame.getNowTurn() == StoneState.BLACK) {
                                 view.setImageResource(R.drawable.white_stone)
@@ -61,13 +61,25 @@ class MainActivity : AppCompatActivity() {
                             view.setImageResource(R.drawable.black_stone)
                             if (omokGame.getNowTurn() == StoneState.BLACK) {
                                 view.setImageResource(R.drawable.white_stone)
-                            } else {
+                            val winner = omokGame.getNowTurn()
+                            if (winner == StoneState.BLACK) {
                                 view.setImageResource(R.drawable.black_stone)
+                            } else {
+                                view.setImageResource(R.drawable.white_stone)
                             }
+                            Toast.makeText(this, winner.name + " 승리!!", Toast.LENGTH_LONG).show()
                         }
 
-                        is Failure -> {
-                            Toast.makeText(this, putStoneResult.message, Toast.LENGTH_LONG).show()
+                        is PutStoneResult.AlreadyPlaced -> {
+                            Toast.makeText(this, "이미 돌이 있습니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show()
+                        }
+
+                        is PutStoneResult.Violation -> {
+                            Toast.makeText(this, "금수 위치입니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show()
+                        }
+
+                        is PutStoneResult.InvalidPosition -> {
+                            Toast.makeText(this, "잘못된 위치입니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
