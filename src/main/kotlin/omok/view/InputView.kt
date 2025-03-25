@@ -5,27 +5,26 @@ import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 
 class InputView {
-    fun readInitialTurn(): Point {
-        println(MESSAGE_INITIAL_TURN_INDICATOR)
+    fun readTurn(lastStone: Stone?): Point {
+        if (lastStone == null) {
+            println(MESSAGE_INITIAL_TURN_INDICATOR)
+        } else {
+            val currentColor: StoneColor = lastStone.color.reverse()
+            print(
+                MESSAGE_TURN_INDICATOR.format(
+                    when (currentColor) {
+                        StoneColor.WHITE -> "백"
+                        StoneColor.BLACK -> "흑"
+                    },
+                ),
+            )
+            println(MESSAGE_LAST_STONE_POINT.format(lastStone.point.stringRepresentation()))
+        }
         return readPoint()
     }
 
-    fun readTurn(lastStone: Stone): Point {
-        val currentColor: StoneColor = lastStone.color.reverse()
-        print(
-            MESSAGE_TURN_INDICATOR.format(
-                when (currentColor) {
-                    StoneColor.WHITE -> "백"
-                    StoneColor.BLACK -> "흑"
-                },
-            ),
-        )
-        println(MESSAGE_LAST_STONE_POINT.format(lastStone.point.stringRepresentation()))
-        return readPoint()
-    }
-
-    private fun readPoint(): Point {
-        return runCatching {
+    private fun readPoint(): Point =
+        runCatching {
             print(MESSAGE_ENTER_POINT)
             val input: String = readln()
             val col: Int = input[0].integerRepresentation()
@@ -35,15 +34,10 @@ class InputView {
             println(it.message)
             readPoint()
         }
-    }
 
-    private fun Char.integerRepresentation(): Int {
-        return this.uppercase()[0].code - ASCII_OFFSET
-    }
+    private fun Char.integerRepresentation(): Int = this.uppercase()[0].code - ASCII_OFFSET
 
-    private fun Point.stringRepresentation(): String {
-        return "${(this.col + ASCII_OFFSET).toChar()}${this.row}"
-    }
+    private fun Point.stringRepresentation(): String = "${(this.col + ASCII_OFFSET).toChar()}${this.row}"
 
     companion object {
         const val MESSAGE_TURN_INDICATOR = "%s의 차례입니다. "

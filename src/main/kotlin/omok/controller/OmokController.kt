@@ -5,6 +5,7 @@ import omok.model.game.Game
 import omok.model.game.GameState
 import omok.model.stone.Point
 import omok.model.stone.Stone
+import omok.model.stone.StoneColor
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -17,18 +18,7 @@ class OmokController(
         val game = Game(board)
         outputView.printOmokStart()
         outputView.printBoard(board)
-        retryOnError { playInitialTurn(board, game) }
         retryOnError { processTurn(board, game) }
-    }
-
-    private fun playInitialTurn(
-        board: Board,
-        game: Game,
-    ) {
-        val inputPoint: Point = inputView.readInitialTurn()
-        val stone = Stone(inputPoint, game.lastStone.color.reverse())
-        game.play(stone)
-        outputView.printBoard(board)
     }
 
     private fun processTurn(
@@ -36,7 +26,7 @@ class OmokController(
         game: Game,
     ) {
         val inputPoint: Point = inputView.readTurn(game.lastStone)
-        val stone = Stone(inputPoint, game.lastStone.color.reverse())
+        val stone = Stone(inputPoint, game.lastStone?.color ?: StoneColor.BLACK)
         game.play(stone)
         outputView.printBoard(board)
 
