@@ -9,10 +9,10 @@ import omok.domain.rule.place.ExternalRule
 import omok.domain.rule.place.InvalidPositionRule
 import omok.domain.rule.place.PlaceResult
 import omok.domain.rule.place.PlaceRule
-import omok.domain.rule.winning.DrawRule
-import omok.domain.rule.winning.JudgeResult
-import omok.domain.rule.winning.JudgeRule
-import omok.domain.rule.winning.WinningRule
+import woowacourse.omok.domain.rule.judge.DrawRule
+import woowacourse.omok.domain.rule.judge.JudgeResult
+import woowacourse.omok.domain.rule.judge.JudgeRule
+import woowacourse.omok.domain.rule.judge.WinningRule
 
 class OmokGame(
     private val playingBoard: PlayingBoard,

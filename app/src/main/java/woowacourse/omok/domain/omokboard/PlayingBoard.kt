@@ -3,8 +3,8 @@ package omok.domain.omokboard
 import omok.domain.player.PlayerStone
 import omok.domain.rule.place.PlaceResult
 import omok.domain.rule.place.PlaceRule
-import omok.domain.rule.winning.JudgeResult
-import omok.domain.rule.winning.JudgeRule
+import woowacourse.omok.domain.rule.judge.JudgeResult
+import woowacourse.omok.domain.rule.judge.JudgeRule
 
 class PlayingBoard(
     val board: OmokBoard = OmokBoard.create(),

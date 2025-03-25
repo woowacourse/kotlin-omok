@@ -1,4 +1,4 @@
-package omok.domain.rule.winning
+package woowacourse.omok.domain.rule.judge
 
 import omok.domain.player.StoneColor
 import omok.domain.rule.OmokResult
