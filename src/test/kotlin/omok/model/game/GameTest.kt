@@ -17,7 +17,7 @@ class GameTest {
         val game = Game(Board())
         game.play(Stone(Point(8, 8), WHITE))
 
-        val actual: Stone = game.lastStone
+        val actual: Stone? = game.lastStone
 
         val expected = Stone(Point(8, 8), WHITE)
 
@@ -32,16 +32,16 @@ class GameTest {
                     blackStones =
                         Stones(
                             setOf(
-                                Stone.of(8, 8, BLACK),
-                                Stone.of(8, 9, BLACK),
-                                Stone.of(8, 10, BLACK),
-                                Stone.of(8, 11, BLACK),
+                                Stone(8, 8, BLACK),
+                                Stone(8, 9, BLACK),
+                                Stone(8, 10, BLACK),
+                                Stone(8, 11, BLACK),
                             ),
                             BlackRenjuRuleAdapter(),
                         ),
                 ),
             )
-        val newStone = Stone.of(8, 12, BLACK)
+        val newStone = Stone(8, 12, BLACK)
 
         val actual = game.gameState(newStone)
 
@@ -57,16 +57,16 @@ class GameTest {
                     whiteStones =
                         Stones(
                             setOf(
-                                Stone.of(8, 8, WHITE),
-                                Stone.of(8, 9, WHITE),
-                                Stone.of(8, 10, WHITE),
-                                Stone.of(8, 11, WHITE),
+                                Stone(8, 8, WHITE),
+                                Stone(8, 9, WHITE),
+                                Stone(8, 10, WHITE),
+                                Stone(8, 11, WHITE),
                             ),
                             WhiteRenjuRuleAdapter(),
                         ),
                 ),
             )
-        val newStone = Stone.of(8, 12, WHITE)
+        val newStone = Stone(8, 12, WHITE)
 
         val actual = game.gameState(newStone)
 
@@ -82,14 +82,14 @@ class GameTest {
                     blackStones =
                         Stones(
                             setOf(
-                                Stone.of(8, 8, BLACK),
-                                Stone.of(8, 10, BLACK),
+                                Stone(8, 8, BLACK),
+                                Stone(8, 10, BLACK),
                             ),
                             BlackRenjuRuleAdapter(),
                         ),
                 ),
             )
-        val newStone = Stone.of(8, 12, BLACK)
+        val newStone = Stone(8, 12, BLACK)
 
         val actual = game.gameState(newStone)
 

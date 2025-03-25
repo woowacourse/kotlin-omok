@@ -4,11 +4,5 @@ data class Stone(
     val point: Point,
     val color: StoneColor,
 ) {
-    companion object {
-        fun of(
-            row: Int,
-            col: Int,
-            color: StoneColor,
-        ) = Stone(Point(row, col), color)
-    }
+    constructor(row: Int, col: Int, color: StoneColor) : this(Point(row, col), color)
 }

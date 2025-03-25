@@ -13,7 +13,7 @@ class BoardTest {
     @Test
     fun `보드에 돌을 착수할 수 있다`() {
         val board = Board()
-        val stone = Stone.of(8, 8, StoneColor.BLACK)
+        val stone = Stone(8, 8, StoneColor.BLACK)
         board.place(stone)
 
         val actual = stone in board.stones
@@ -29,17 +29,17 @@ class BoardTest {
                 blackStones =
                     Stones(
                         setOf(
-                            Stone.of(8, 8, BLACK),
-                            Stone.of(9, 8, BLACK),
-                            Stone.of(10, 6, BLACK),
-                            Stone.of(10, 7, BLACK),
+                            Stone(8, 8, BLACK),
+                            Stone(9, 8, BLACK),
+                            Stone(10, 6, BLACK),
+                            Stone(10, 7, BLACK),
                         ),
                         ruleAdapter = BlackRenjuRuleAdapter(),
                     ),
             )
 
         assertThrows<IllegalArgumentException> {
-            board.place(Stone.of(10, 8, BLACK))
+            board.place(Stone(10, 8, BLACK))
         }
     }
 
@@ -50,19 +50,19 @@ class BoardTest {
                 blackStones =
                     Stones(
                         setOf(
-                            Stone.of(8, 8, BLACK),
-                            Stone.of(9, 8, BLACK),
-                            Stone.of(10, 8, BLACK),
-                            Stone.of(11, 7, BLACK),
-                            Stone.of(11, 6, BLACK),
-                            Stone.of(11, 5, BLACK),
+                            Stone(8, 8, BLACK),
+                            Stone(9, 8, BLACK),
+                            Stone(10, 8, BLACK),
+                            Stone(11, 7, BLACK),
+                            Stone(11, 6, BLACK),
+                            Stone(11, 5, BLACK),
                         ),
                         ruleAdapter = BlackRenjuRuleAdapter(),
                     ),
             )
 
         assertThrows<IllegalArgumentException> {
-            board.place(Stone.of(11, 8, BLACK))
+            board.place(Stone(11, 8, BLACK))
         }
     }
 
@@ -73,18 +73,18 @@ class BoardTest {
                 blackStones =
                     Stones(
                         setOf(
-                            Stone.of(8, 8, BLACK),
-                            Stone.of(9, 8, BLACK),
-                            Stone.of(10, 8, BLACK),
-                            Stone.of(11, 8, BLACK),
-                            Stone.of(13, 8, BLACK),
+                            Stone(8, 8, BLACK),
+                            Stone(9, 8, BLACK),
+                            Stone(10, 8, BLACK),
+                            Stone(11, 8, BLACK),
+                            Stone(13, 8, BLACK),
                         ),
                         ruleAdapter = BlackRenjuRuleAdapter(),
                     ),
             )
 
         assertThrows<IllegalArgumentException> {
-            board.place(Stone.of(12, 8, BLACK))
+            board.place(Stone(12, 8, BLACK))
         }
     }
 
@@ -95,16 +95,16 @@ class BoardTest {
                 blackStones =
                     Stones(
                         setOf(
-                            Stone.of(8, 8, BLACK),
-                            Stone.of(9, 8, BLACK),
-                            Stone.of(10, 8, BLACK),
-                            Stone.of(11, 8, BLACK),
+                            Stone(8, 8, BLACK),
+                            Stone(9, 8, BLACK),
+                            Stone(10, 8, BLACK),
+                            Stone(11, 8, BLACK),
                         ),
                         ruleAdapter = BlackRenjuRuleAdapter(),
                     ),
             )
 
-        val actual = board.hasOmok(Stone.of(12, 8, BLACK))
+        val actual = board.hasOmok(Stone(12, 8, BLACK))
 
         val expected = true
         assertThat(actual).isEqualTo(expected)

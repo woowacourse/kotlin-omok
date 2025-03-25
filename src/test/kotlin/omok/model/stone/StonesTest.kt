@@ -11,7 +11,7 @@ class StonesTest {
     @Test
     fun `돌을 추가할 수 있다`() {
         val stones = Stones(ruleAdapter = BlackRenjuRuleAdapter())
-        stones.add(Stone.of(1, 1, BLACK))
+        stones.add(Stone(1, 1, BLACK))
 
         val actual = stones.stones.size
 
@@ -25,16 +25,16 @@ class StonesTest {
         val stones =
             Stones(
                 setOf(
-                    Stone.of(8, 8, BLACK),
-                    Stone.of(8, 9, BLACK),
-                    Stone.of(8, 10, BLACK),
-                    Stone.of(8, 11, BLACK),
-                    Stone.of(8, 12, BLACK),
+                    Stone(8, 8, BLACK),
+                    Stone(8, 9, BLACK),
+                    Stone(8, 10, BLACK),
+                    Stone(8, 11, BLACK),
+                    Stone(8, 12, BLACK),
                 ),
                 BlackRenjuRuleAdapter(),
             )
 
-        val actual = stones.checkWin(Stones(ruleAdapter = WhiteRenjuRuleAdapter()), Stone.of(8, 12, BLACK))
+        val actual = stones.checkWin(Stones(ruleAdapter = WhiteRenjuRuleAdapter()), Stone(8, 12, BLACK))
 
         val expected = true
 
@@ -46,15 +46,15 @@ class StonesTest {
         val stones =
             Stones(
                 setOf(
-                    Stone.of(8, 8, BLACK),
-                    Stone.of(9, 8, BLACK),
-                    Stone.of(10, 6, BLACK),
-                    Stone.of(10, 7, BLACK),
+                    Stone(8, 8, BLACK),
+                    Stone(9, 8, BLACK),
+                    Stone(10, 6, BLACK),
+                    Stone(10, 7, BLACK),
                 ),
                 BlackRenjuRuleAdapter(),
             )
 
-        val actual = stones.checkAnyFoulCondition(Stones(ruleAdapter = BlackRenjuRuleAdapter()), Stone.of(10, 8, BLACK))
+        val actual = stones.checkAnyFoulCondition(Stones(ruleAdapter = BlackRenjuRuleAdapter()), Stone(10, 8, BLACK))
 
         val expected = FoulCondition.DOUBLE_THREE
 
@@ -66,18 +66,18 @@ class StonesTest {
         val stones =
             Stones(
                 setOf(
-                    Stone.of(8, 8, BLACK),
-                    Stone.of(9, 8, BLACK),
-                    Stone.of(10, 8, BLACK),
-                    Stone.of(11, 7, BLACK),
-                    Stone.of(11, 6, BLACK),
-                    Stone.of(11, 5, BLACK),
-                    Stone.of(11, 8, BLACK),
+                    Stone(8, 8, BLACK),
+                    Stone(9, 8, BLACK),
+                    Stone(10, 8, BLACK),
+                    Stone(11, 7, BLACK),
+                    Stone(11, 6, BLACK),
+                    Stone(11, 5, BLACK),
+                    Stone(11, 8, BLACK),
                 ),
                 BlackRenjuRuleAdapter(),
             )
 
-        val actual = stones.checkAnyFoulCondition(Stones(ruleAdapter = BlackRenjuRuleAdapter()), Stone.of(11, 8, BLACK))
+        val actual = stones.checkAnyFoulCondition(Stones(ruleAdapter = BlackRenjuRuleAdapter()), Stone(11, 8, BLACK))
 
         val expected = FoulCondition.DOUBLE_FOUR
 
@@ -89,16 +89,16 @@ class StonesTest {
         val stones =
             Stones(
                 setOf(
-                    Stone.of(8, 8, BLACK),
-                    Stone.of(9, 8, BLACK),
-                    Stone.of(10, 8, BLACK),
-                    Stone.of(11, 8, BLACK),
-                    Stone.of(13, 8, BLACK),
+                    Stone(8, 8, BLACK),
+                    Stone(9, 8, BLACK),
+                    Stone(10, 8, BLACK),
+                    Stone(11, 8, BLACK),
+                    Stone(13, 8, BLACK),
                 ),
                 BlackRenjuRuleAdapter(),
             )
 
-        val actual = stones.checkAnyFoulCondition(Stones(ruleAdapter = BlackRenjuRuleAdapter()), Stone.of(12, 8, BLACK))
+        val actual = stones.checkAnyFoulCondition(Stones(ruleAdapter = BlackRenjuRuleAdapter()), Stone(12, 8, BLACK))
 
         val expected = FoulCondition.OVERLINE
 
@@ -110,15 +110,15 @@ class StonesTest {
         val stones =
             Stones(
                 setOf(
-                    Stone.of(8, 8, BLACK),
-                    Stone.of(9, 8, BLACK),
-                    Stone.of(10, 8, BLACK),
-                    Stone.of(11, 8, BLACK),
+                    Stone(8, 8, BLACK),
+                    Stone(9, 8, BLACK),
+                    Stone(10, 8, BLACK),
+                    Stone(11, 8, BLACK),
                 ),
                 BlackRenjuRuleAdapter(),
             )
 
-        val actual = stones.checkAnyFoulCondition(Stones(ruleAdapter = BlackRenjuRuleAdapter()), Stone.of(11, 8, BLACK))
+        val actual = stones.checkAnyFoulCondition(Stones(ruleAdapter = BlackRenjuRuleAdapter()), Stone(11, 8, BLACK))
 
         val expected = FoulCondition.NONE
 
