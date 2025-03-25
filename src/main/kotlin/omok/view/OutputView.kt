@@ -1,5 +1,6 @@
 package omok.view
 
+import omok.model.board.Board
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
@@ -7,18 +8,21 @@ import omok.model.stone.position.Position
 import omok.model.stone.position.Row
 
 class OutputView {
-    fun printBoard(board: Map<Position, StoneColor>) {
-        for (row in BOARD_SIZE - 1 downTo 0) {
+    fun printBoard(board: Board) {
+        val boardWidth = board.getWidth()
+        val boardHeight = board.getHeight()
+
+        for (row in boardHeight - 1 downTo 0) {
             print(String.format("%2d ", row + 1))
-            val point = pointByRowIndex(row)
+            val point = pointByRowIndex(row, boardHeight, boardWidth)
             val str =
-                (0 until BOARD_SIZE).joinToString("──") { col ->
-                    val color: StoneColor? = board[Position(Row(row), Col(col))]
+                (0 until boardWidth).joinToString("──") { col ->
+                    val color: StoneColor? = board.stonesMap[Position(Row(row), Col(col))]
                     printStone(color, point[col])
                 }
             println(str)
         }
-        val columnLabels = (MIN_COL_CHAR until (MIN_COL_CHAR + BOARD_SIZE)).joinToString("  ")
+        val columnLabels = (MIN_COL_CHAR until (MIN_COL_CHAR + boardWidth)).joinToString("  ")
         println("   $columnLabels")
     }
 
@@ -46,11 +50,15 @@ class OutputView {
         println(message)
     }
 
-    private fun pointByRowIndex(index: Int): List<String> =
+    private fun pointByRowIndex(
+        index: Int,
+        boardHeight: Int,
+        boardWidth: Int,
+    ): List<String> =
         when (index) {
-            14 -> listOf("┌") + List(BOARD_SIZE - 2) { "┬" } + listOf("┐")
-            0 -> listOf("└") + List(BOARD_SIZE - 2) { "┴" } + listOf("┘")
-            else -> listOf("├") + List(BOARD_SIZE - 2) { "┼" } + listOf("┤")
+            boardHeight - 1 -> listOf("┌") + List(boardWidth - 2) { "┬" } + listOf("┐")
+            0 -> listOf("└") + List(boardWidth - 2) { "┴" } + listOf("┘")
+            else -> listOf("├") + List(boardWidth - 2) { "┼" } + listOf("┤")
         }
 
     private fun printStone(
@@ -70,14 +78,13 @@ class OutputView {
         }
 
     private fun stoneCoordinateText(position: Position): String {
-        val lastCol = (MIN_COL_CHAR..<MIN_COL_CHAR + BOARD_SIZE).toList()[position.col.value].toString()
+        val lastCol = (MIN_COL_CHAR + position.col.value)
         val lastRow = (position.row.value + 1).toString()
 
         return lastCol + lastRow
     }
 
     companion object {
-        const val BOARD_SIZE = 15
         private const val MIN_COL_CHAR = 'A'
     }
 }
