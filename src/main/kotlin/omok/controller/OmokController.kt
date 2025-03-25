@@ -1,9 +1,9 @@
 package omok.controller
 
 import omok.domain.board.OmokBoard
-import omok.domain.point.Black
-import omok.domain.point.Point
 import omok.domain.rule.OmokRule
+import omok.domain.stone.Black
+import omok.domain.stone.Stone
 import omok.global.retryWhenException
 import omok.global.retryWhenNull
 import omok.view.InputView
@@ -17,7 +17,7 @@ class OmokController(
 ) {
     fun startGame() {
         outputView.printStartMessage()
-        var stone: Point = retryWhenException { Black(getInputPoint()) }
+        var stone: Stone = retryWhenException { Black(getInputPoint()) }
         while (omokBoard.isNotFull()) {
             omokBoard.addStone(stone)
             if (omokRule.isOmok(stone, omokBoard)) {

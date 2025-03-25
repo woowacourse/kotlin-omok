@@ -1,10 +1,10 @@
 package omok.domain.rule.renjuRule
 
 import omok.domain.board.OmokBoard
-import omok.domain.point.Point
 import omok.domain.rule.OmokRule
 import omok.domain.rule.finder.Finder
 import omok.domain.rule.finder.SearchResult
+import omok.domain.stone.Stone
 
 class ThreeThreeRule(val finder: Finder) : OmokRule {
     private val condition = { r1: SearchResult, r2: SearchResult ->
@@ -14,10 +14,10 @@ class ThreeThreeRule(val finder: Finder) : OmokRule {
     }
 
     override fun isProtected(
-        point: Point,
+        stone: Stone,
         board: OmokBoard,
     ): Boolean {
-        return finder.count(point, board, condition) > LIMIT_COUNT_OF_CONDITION
+        return finder.count(stone, board, condition) > LIMIT_COUNT_OF_CONDITION
     }
 
     companion object {

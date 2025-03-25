@@ -2,11 +2,11 @@ package domain.board
 
 import domain.fixture.omokBoardFixture
 import omok.domain.board.OmokBoard
-import omok.domain.point.Black
-import omok.domain.point.Empty
-import omok.domain.point.White
 import omok.domain.rule.finder.DfsRenjuFinder
 import omok.domain.rule.renjuRule.RenjuRule
+import omok.domain.stone.Black
+import omok.domain.stone.Empty
+import omok.domain.stone.White
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

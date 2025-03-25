@@ -1,61 +1,61 @@
 package omok.domain.board
 
-import omok.domain.point.Empty
-import omok.domain.point.OmokPoints
-import omok.domain.point.Point
-import omok.domain.point.Protected
 import omok.domain.rule.OmokRule
 import omok.domain.rule.finder.Direction
+import omok.domain.stone.Empty
+import omok.domain.stone.OmokStones
+import omok.domain.stone.Protected
+import omok.domain.stone.Stone
 import omok.view.BoardView
 
 class OmokBoard(
-    val omokPoints: OmokPoints,
+    val omokStones: OmokStones,
     private val ruleChecker: OmokRule,
 ) {
     init {
         require(MAX_ROW_SIZE <= COLUMN_POOL.size) { ERROR_OUT_OF_COLUMN_POOL }
     }
 
-    var latestStone: Point = Empty.dummy()
+    var latestStone: Stone = Empty.dummy()
         private set
 
-    fun isNotFull() = omokPoints.points.size != MAX_COLUMN_SIZE * MAX_ROW_SIZE
+    fun isNotFull() = omokStones.stones.size != MAX_COLUMN_SIZE * MAX_ROW_SIZE
 
     fun view(): BoardView = BoardView(this)
 
-    fun pointValidation(point: Point) {
-        require(!omokPoints.isOccupied(point)) { ERROR_OCCUPIED_POSITION }
-        require(!omokPoints.isProtected(point)) { ERROR_PROTECTED_POSITION }
+    fun pointValidation(stone: Stone) {
+        require(!omokStones.isOccupied(stone)) { ERROR_OCCUPIED_POSITION }
+        require(!omokStones.isProtected(stone)) { ERROR_PROTECTED_POSITION }
     }
 
-    fun addStone(point: Point) {
-        omokPoints.add(point)
-        latestStone = point
+    fun addStone(stone: Stone) {
+        omokStones.add(stone)
+        latestStone = stone
         updateProtectedPlace()
     }
 
     fun goto(
-        currentPosition: Point,
+        currentPosition: Stone,
         direction: Direction,
-    ): Point {
+    ): Stone {
         val newX = currentPosition.x + direction.x
         val newY = currentPosition.y + direction.y
-        return omokPoints.getPointAt(newY, newX)
+        return omokStones.getPointAt(newY, newX)
     }
 
     private fun updateProtectedPlace() {
-        omokPoints.points
+        omokStones.stones
             .filterIsInstance<Protected>()
             .forEach { point ->
                 if (!ruleChecker.isProtected(point, this)) {
-                    omokPoints.add(Empty(point.x, point.y))
+                    omokStones.add(Empty(point.x, point.y))
                 }
             }
-        omokPoints.points
+        omokStones.stones
             .filter { it is Empty || it is Protected }
             .forEach { point ->
                 if (ruleChecker.isProtected(point, this)) {
-                    omokPoints.add(Protected(point.x, point.y))
+                    omokStones.add(Protected(point.x, point.y))
                 }
             }
     }

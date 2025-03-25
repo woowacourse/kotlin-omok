@@ -1,8 +1,8 @@
 package omok.view
 
 import omok.domain.board.OmokBoard
-import omok.domain.point.Empty
-import omok.domain.point.Point
+import omok.domain.stone.Empty
+import omok.domain.stone.Stone
 import omok.view.ext.format
 import java.lang.StringBuilder
 
@@ -15,11 +15,11 @@ class BoardView(private val omokBoard: OmokBoard) {
         formattedColumn()
     }
 
-    private fun setStone(point: Point) {
+    private fun setStone(stone: Stone) {
         val magicNumber =
-            COLUMN_MAGIC_NUMBER + ((point.x - 1) * COLUMN_MAGIC_NUMBER) +
-                (OmokBoard.MAX_COLUMN_SIZE * COLUMN_MAGIC_NUMBER + SPACE_MAGIC_NUMBER) * (OmokBoard.MAX_ROW_SIZE - point.y)
-        boardInfo.setCharAt(magicNumber, point.format())
+            COLUMN_MAGIC_NUMBER + ((stone.x - 1) * COLUMN_MAGIC_NUMBER) +
+                (OmokBoard.MAX_COLUMN_SIZE * COLUMN_MAGIC_NUMBER + SPACE_MAGIC_NUMBER) * (OmokBoard.MAX_ROW_SIZE - stone.y)
+        boardInfo.setCharAt(magicNumber, stone.format())
     }
 
     private fun initialize() {
@@ -63,7 +63,7 @@ class BoardView(private val omokBoard: OmokBoard) {
     }
 
     override fun toString(): String {
-        omokBoard.omokPoints.points
+        omokBoard.omokStones.stones
             .filter { it !is Empty }
             .forEach { setStone(it) }
         return boardInfo.append(formattedColumn).append("\n").toString()

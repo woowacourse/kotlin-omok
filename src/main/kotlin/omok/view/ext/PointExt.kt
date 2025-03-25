@@ -1,19 +1,19 @@
 package omok.view.ext
 
 import omok.domain.board.OmokBoard
-import omok.domain.point.Black
-import omok.domain.point.Empty
-import omok.domain.point.Point
-import omok.domain.point.Protected
-import omok.domain.point.White
+import omok.domain.stone.Black
+import omok.domain.stone.Empty
+import omok.domain.stone.Protected
+import omok.domain.stone.Stone
+import omok.domain.stone.White
 
-fun Point.position(): String {
+fun Stone.position(): String {
     val dx = OmokBoard.COLUMN_POOL[this.x - 1].toString()
     val dy = this.y
     return dx + dy
 }
 
-fun Point.toLabel(): String {
+fun Stone.toLabel(): String {
     return when (this) {
         is Black -> "흑"
         is White -> "백"
@@ -21,7 +21,7 @@ fun Point.toLabel(): String {
     }
 }
 
-fun Point.format(): Char {
+fun Stone.format(): Char {
     return when (this) {
         is Black -> '●'
         is White -> '○'

@@ -1,7 +1,7 @@
-package omok.domain.point
+package omok.domain.stone
 
 import omok.domain.board.OmokBoard
-import omok.domain.point.Point.Companion.ERR_INVALID_VALUE
+import omok.domain.stone.Stone.Companion.ERR_INVALID_VALUE
 import java.lang.IllegalArgumentException
 
 @Suppress("functionName")
@@ -14,12 +14,12 @@ fun Black(position: String): Black {
     }.getOrElse { throw IllegalArgumentException(ERR_INVALID_VALUE) }
 }
 
-data class Black(val x1: Int, val y1: Int) : Point(x1, y1) {
-    override fun toggle(position: String): Point {
+data class Black(val x1: Int, val y1: Int) : Stone(x1, y1) {
+    override fun toggle(position: String): Stone {
         return White(position)
     }
 
-    override fun opponent(): Point {
+    override fun opponent(): Stone {
         return White(DUMMY_POSITION, DUMMY_POSITION)
     }
 }

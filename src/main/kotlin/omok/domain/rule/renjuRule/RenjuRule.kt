@@ -1,17 +1,17 @@
 package omok.domain.rule.renjuRule
 
 import omok.domain.board.OmokBoard
-import omok.domain.point.Point
 import omok.domain.rule.OmokRule
 import omok.domain.rule.finder.Finder
+import omok.domain.stone.Stone
 
 class RenjuRule(val finder: Finder) : OmokRule {
     override fun isProtected(
-        point: Point,
+        stone: Stone,
         board: OmokBoard,
     ): Boolean {
-        return ThreeThreeRule(finder).isProtected(point, board) ||
-            FourFourRule(finder).isProtected(point, board) ||
-            SixMokRule(finder).isProtected(point, board)
+        return ThreeThreeRule(finder).isProtected(stone, board) ||
+            FourFourRule(finder).isProtected(stone, board) ||
+            SixMokRule(finder).isProtected(stone, board)
     }
 }
