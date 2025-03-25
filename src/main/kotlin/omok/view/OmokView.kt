@@ -1,15 +1,15 @@
 package omok.view
 
 import omok.model.board.Position
-import omok.model.player.BlackPlayer
-import omok.model.player.Player
-import omok.model.player.WhitePlayer
+import omok.model.player.BlackPlayerState
+import omok.model.player.PlayerState
+import omok.model.player.WhitePlayerState
 import omok.model.stone.StoneState
 
 class OmokView {
     fun printStartMessage() {
         println(START_MESSAGE)
-        printOmokBoard()
+        printBoard()
     }
 
     private fun String.toNumber(): Int {
@@ -17,15 +17,15 @@ class OmokView {
         return alphaBets.indexOfFirst { it.toString() == this } + 1
     }
 
-    fun inputPosition(player: Player): Position {
-        println("${changeName(player)}의 차례입니다.")
+    fun inputPosition(playerState: PlayerState): Position {
+        println("${changeName(playerState)}의 차례입니다.")
         print("위치를 입력하세요: ")
         val input = readln().trim()
         val (alphaBet, number) = input.partition { it.isLetter() }
         return Position.from(alphaBet.uppercase().toNumber(), number.toInt())
     }
 
-    private fun printOmokBoard() {
+    private fun printBoard() {
         val row = List(BOARD_SIZE - 2) { "──┼" }
         val column = ('A'..'O').toList()
         println("15 ┌${"──┬".repeat(BOARD_SIZE - 2)}──┐")
@@ -39,16 +39,16 @@ class OmokView {
         println("   ${column.joinToString("  ")}")
     }
 
-    fun printOmokBoard(positions: Map<Position, StoneState>) {
+    fun printBoard(positions: Map<Position, StoneState>) {
         val column = ('A'..'O').toList()
         val board = displayBoard()
         displayCorner(board)
         displayBorder(board)
         renderStone(positions, board)
-        disPlayOmokBoard(board, column)
+        disPlayBoard(board, column)
     }
 
-    private fun disPlayOmokBoard(
+    private fun disPlayBoard(
         board: MutableList<MutableList<String>>,
         column: List<Char>,
     ) {
@@ -72,7 +72,6 @@ class OmokView {
                 when (stoneState) {
                     StoneState.WHITE -> WHITE_STONE
                     StoneState.BLACK -> BLACK_STONE
-                    StoneState.DOUBLE_THREE, StoneState.DOUBLE_FOUR -> ILLEGAL_POINT
                     else -> return@forEach
                 }
             board[pos.y.value - 1][pos.x.value - 1] = if (pos.x.value != BOARD_SIZE) "$stone──" else stone
@@ -101,14 +100,22 @@ class OmokView {
         board[BOARD_SIZE - 1][BOARD_SIZE - 1] = "┐"
     }
 
-    fun result(player: Player) {
-        println("${changeName(player)}이 승리했습니다.")
+    fun result(stoneState: StoneState) {
+        println("${changeWinner(stoneState)}이 승리했습니다.")
     }
 
-    private fun changeName(player: Player): String =
-        when (player) {
-            is BlackPlayer -> "흑"
-            is WhitePlayer -> "백"
+    private fun changeName(playerState: PlayerState): String =
+        when (playerState) {
+            is BlackPlayerState -> "흑"
+            is WhitePlayerState -> "백"
+            else -> throw IllegalArgumentException("잘 못된 값이 들어왔습니다.")
+        }
+
+    private fun changeWinner(stoneState: StoneState): String =
+        when (stoneState) {
+            StoneState.BLACK -> "흑"
+            StoneState.WHITE -> "백"
+            StoneState.NONE -> "무"
             else -> throw IllegalArgumentException("잘 못된 값이 들어왔습니다.")
         }
 
@@ -116,7 +123,6 @@ class OmokView {
         private const val BOARD_SIZE = 15
         private const val BLACK_STONE = "○"
         private const val WHITE_STONE = "●"
-        private const val ILLEGAL_POINT = "X"
         private const val START_MESSAGE = "오목 게임을 시작합니다."
     }
 }
