@@ -1,24 +1,34 @@
 package omok.model
 
-import omok.model.adapter.BlackRenjuRuleAdapter
+import omok.model.game.FoulConditionResult
+import omok.model.game.GameState
+import omok.model.game.InvalidMoveResult
 import omok.model.stone.Stone
-import omok.model.stone.StoneColor
 import omok.model.stone.StoneColor.BLACK
+import omok.model.stone.StoneColor.WHITE
 import omok.model.stone.Stones
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class BoardTest {
     @Test
-    fun `보드에 돌을 착수할 수 있다`() {
-        val board = Board()
-        val stone = Stone(8, 8, StoneColor.BLACK)
-        board.place(stone)
+    fun `보드에 오목이 있는지 알 수 있다`() {
+        val board =
+            Board(
+                Stones(
+                    setOf(
+                        Stone(8, 8, BLACK),
+                        Stone(9, 8, BLACK),
+                        Stone(10, 8, BLACK),
+                        Stone(11, 8, BLACK),
+                    ),
+                ),
+            )
 
-        val actual = stone in board.stones
+        val actual = board.gameState(Stone(12, 8, BLACK))
 
-        val expected = true
+        val expected = GameState.BLACK_OMOK
+
         assertThat(actual).isEqualTo(expected)
     }
 
@@ -26,87 +36,115 @@ class BoardTest {
     fun `보드에 쌍삼 금수를 착수할 수 없다`() {
         val board =
             Board(
-                blackStones =
-                    Stones(
-                        setOf(
-                            Stone(8, 8, BLACK),
-                            Stone(9, 8, BLACK),
-                            Stone(10, 6, BLACK),
-                            Stone(10, 7, BLACK),
-                        ),
-                        ruleAdapter = BlackRenjuRuleAdapter(),
+                Stones(
+                    setOf(
+                        Stone(8, 8, BLACK),
+                        Stone(9, 8, BLACK),
+                        Stone(10, 6, BLACK),
+                        Stone(10, 7, BLACK),
                     ),
+                ),
             )
 
-        assertThrows<IllegalArgumentException> {
-            board.place(Stone(10, 8, BLACK))
-        }
+        val actual = board.checkFoulCondition(Stone(10, 8, BLACK))
+
+        val expected = FoulConditionResult.DoubleThree()
+
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `보드에 쌍사 금수를 착수할 수 없다`() {
         val board =
             Board(
-                blackStones =
-                    Stones(
-                        setOf(
-                            Stone(8, 8, BLACK),
-                            Stone(9, 8, BLACK),
-                            Stone(10, 8, BLACK),
-                            Stone(11, 7, BLACK),
-                            Stone(11, 6, BLACK),
-                            Stone(11, 5, BLACK),
-                        ),
-                        ruleAdapter = BlackRenjuRuleAdapter(),
+                Stones(
+                    setOf(
+                        Stone(8, 8, BLACK),
+                        Stone(9, 8, BLACK),
+                        Stone(10, 8, BLACK),
+                        Stone(11, 7, BLACK),
+                        Stone(11, 6, BLACK),
+                        Stone(11, 5, BLACK),
                     ),
+                ),
             )
 
-        assertThrows<IllegalArgumentException> {
-            board.place(Stone(11, 8, BLACK))
-        }
+        val actual = board.checkFoulCondition(Stone(11, 8, BLACK))
+
+        val expected = FoulConditionResult.DoubleFour()
+
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `보드에 장목 금수를 착수할 수 없다`() {
         val board =
             Board(
-                blackStones =
-                    Stones(
-                        setOf(
-                            Stone(8, 8, BLACK),
-                            Stone(9, 8, BLACK),
-                            Stone(10, 8, BLACK),
-                            Stone(11, 8, BLACK),
-                            Stone(13, 8, BLACK),
-                        ),
-                        ruleAdapter = BlackRenjuRuleAdapter(),
+                Stones(
+                    setOf(
+                        Stone(8, 8, BLACK),
+                        Stone(9, 8, BLACK),
+                        Stone(10, 8, BLACK),
+                        Stone(11, 8, BLACK),
+                        Stone(13, 8, BLACK),
                     ),
+                ),
             )
 
-        assertThrows<IllegalArgumentException> {
-            board.place(Stone(12, 8, BLACK))
-        }
+        val actual = board.checkFoulCondition(Stone(12, 8, BLACK))
+
+        val expected = FoulConditionResult.Overline()
+
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
-    fun `보드에 오목이 있는지 알 수 있다`() {
+    fun `보드가 가득 찬 상태인지 확인할 수 있다`() {
         val board =
             Board(
-                blackStones =
-                    Stones(
-                        setOf(
-                            Stone(8, 8, BLACK),
-                            Stone(9, 8, BLACK),
-                            Stone(10, 8, BLACK),
-                            Stone(11, 8, BLACK),
-                        ),
-                        ruleAdapter = BlackRenjuRuleAdapter(),
-                    ),
+                Stones(
+                    (1..15)
+                        .flatMap { row ->
+                            (1..15).flatMap { col ->
+                                listOf(Stone(row, col, BLACK))
+                            }
+                        }.toSet(),
+                ),
             )
 
-        val actual = board.hasOmok(Stone(12, 8, BLACK))
+        val actual = board.checkInvalidMove(Stone(8, 8, BLACK))
 
-        val expected = true
+        val expected = InvalidMoveResult.FullBoard()
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `보드의 특정 위치에 이미 돌이 있는 상태인지 확인할 수 있다`() {
+        val board =
+            Board(
+                Stones(
+                    setOf(
+                        Stone(8, 8, BLACK),
+                    ),
+                ),
+            )
+
+        val actual = board.checkInvalidMove(Stone(8, 8, WHITE))
+
+        val expected = InvalidMoveResult.OccupiedPoint()
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `보드의 바깥에 돌을 두려는 상태인지 확인할 수 있다`() {
+        val board = Board()
+
+        val actual = board.checkInvalidMove(Stone(16, 16, WHITE))
+
+        val expected = InvalidMoveResult.OutOfBoard()
+
         assertThat(actual).isEqualTo(expected)
     }
 }
