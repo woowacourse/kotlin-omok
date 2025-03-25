@@ -21,12 +21,19 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        val columns = ('A'..'O').toList()
+        val rows = (15 downTo 1).toList()
+
         val board = findViewById<TableLayout>(R.id.board)
         board
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone) } }
+            .forEachIndexed { index, view ->
+                val x = columns[index % 15]
+                val y = rows[index / 15]
+                view.tag = "$x$y"
+            }
     }
 }
