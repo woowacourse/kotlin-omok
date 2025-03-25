@@ -1,30 +1,25 @@
 package woowacourse.omok.domain
 
-import woowacourse.omok.domain.turn.PutStoneResult
-import woowacourse.omok.domain.turn.TurnManager
-
 class OmokGame(
-    val board: OmokBoard,
-    private val turnManager: TurnManager = TurnManager(),
+    private val board: OmokBoard,
 ) {
-    fun getNowTurn(): StoneState = turnManager.nowTurn
+    private var nowTurn: StoneState = StoneState.BLACK
+
+    fun getNowTurn(): StoneState = nowTurn
 
     fun putStone(position: Position): PutStoneResult {
-        val nowTurn = turnManager.nowTurn
         val stone = Stone(position, nowTurn)
-
-        val putStoneResult = board.putStone(stone)
-        when (putStoneResult) {
-            is PutStoneResult.Finished -> return PutStoneResult.Finished(nowTurn)
-
-            is PutStoneResult.InvalidPosition -> return PutStoneResult.InvalidPosition
-            is PutStoneResult.AlreadyPlaced -> return PutStoneResult.AlreadyPlaced
-            is PutStoneResult.Violation -> return PutStoneResult.Violation
-
+        return when (val putStoneResult = board.putStone(stone)) {
             is PutStoneResult.NextTurn -> {
-                turnManager.changeTurn()
-                return PutStoneResult.NextTurn(turnManager.nowTurn)
+                changeTurn()
+                PutStoneResult.NextTurn(nowTurn)
             }
+
+            else -> putStoneResult
         }
+    }
+
+    private fun changeTurn() {
+        nowTurn = if (nowTurn == StoneState.BLACK) StoneState.WHITE else StoneState.BLACK
     }
 }

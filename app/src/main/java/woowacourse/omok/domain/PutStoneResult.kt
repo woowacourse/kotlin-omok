@@ -1,6 +1,4 @@
-package woowacourse.omok.domain.turn
-
-import woowacourse.omok.domain.StoneState
+package woowacourse.omok.domain
 
 sealed class PutStoneResult {
     data class NextTurn(
