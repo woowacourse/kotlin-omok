@@ -12,7 +12,7 @@ class OmokReferee(
     fun lastStoneFoul(board: Board): RenjuFoul {
         val lastStone: Stone = board.lastStone ?: return RenjuFoul.SAFE
         if (lastStone.stoneColor == StoneColor.BLACK) {
-            return renjuRule.checkLastBlackStoneFoul(board)
+            return renjuRule.checkLastBlackStoneFoul(board.stonesMap, lastStone)
         }
         return RenjuFoul.SAFE
     }
