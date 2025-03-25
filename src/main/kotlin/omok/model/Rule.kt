@@ -14,16 +14,16 @@ class Rule {
         color: Color,
     ): MoveResult {
         val newPoint: Point = position.toPoint()
-        val blackPoints: List<Point> = board.filterStones(Color.BLACK).map { stone -> stone.position.toPoint() }
-        val whitePoints: List<Point> = board.filterStones(Color.WHITE).map { stone -> stone.position.toPoint() }
-        val violation: Violation =
+        val thisPoints: List<Point> = board.filterStones(color).extractPoints()
+        val otherPoints: List<Point> = board.filterStones(color.reverse()).extractPoints()
+
+        val rule: OmokRule =
             when (color) {
-                Color.BLACK ->
-                    BlackRenjuRule(board.col.value, board.row.value).checkAnyFoulCondition(blackPoints, whitePoints, newPoint)
-                Color.WHITE ->
-                    WhiteRenjuRule(board.col.value, board.row.value).checkAnyFoulCondition(whitePoints, blackPoints, newPoint)
+                Color.BLACK -> BlackRenjuRule(board.col.value, board.row.value)
+                Color.WHITE -> WhiteRenjuRule(board.col.value, board.row.value)
             }
 
+        val violation: Violation = rule.checkAnyFoulCondition(thisPoints, otherPoints, newPoint)
         return when (violation) {
             Violation.DOUBLE_THREE -> MoveResult.Failure.DoubleThreeViolation
             Violation.DOUBLE_FOUR -> MoveResult.Failure.DoubleFourViolation
@@ -42,9 +42,11 @@ class Rule {
                 Color.BLACK -> BlackRenjuRule(board.col.value, board.row.value)
                 Color.WHITE -> WhiteRenjuRule(board.col.value, board.row.value)
             }
-        val points: List<Point> = board.filterStones(color).map { stone -> stone.position.toPoint() }
+
+        val points: List<Point> = board.filterStones(color).extractPoints()
         val newPoint: Point = position.toPoint()
         val isOmok: Boolean = rule.checkSerialSameStonesBiDirection(points, newPoint, OMOK_CONDITION)
+
         if (!isOmok) return MoveResult.Success.Playing
         return when (color) {
             Color.BLACK -> MoveResult.Success.BlackWin
@@ -54,6 +56,10 @@ class Rule {
 
     private fun Position.toPoint(): Point {
         return Point(x.value, y.value)
+    }
+
+    private fun List<Stone>.extractPoints(): List<Point> {
+        return map { stone -> stone.position.toPoint() }
     }
 
     companion object {
