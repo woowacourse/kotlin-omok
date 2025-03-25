@@ -7,6 +7,7 @@ import omok.model.rule.FourFourRule
 import omok.model.rule.OmokAdapter
 import omok.model.rule.RulePosition
 import omok.model.rule.ThreeThreeRule
+import omok.model.rule.WhiteWinRule
 import omok.model.stone.StoneState
 
 class OmokGameImpl(
