@@ -1,12 +1,41 @@
 package omok.model
 
+import omok.fixture.A1
+import omok.fixture.A11
+import omok.fixture.A2
+import omok.fixture.A3
+import omok.fixture.A4
+import omok.fixture.A5
+import omok.fixture.B1
+import omok.fixture.B2
+import omok.fixture.C1
+import omok.fixture.C3
+import omok.fixture.D1
+import omok.fixture.D3
+import omok.fixture.D4
+import omok.fixture.E1
+import omok.fixture.E3
+import omok.fixture.E5
+import omok.fixture.F3
+import omok.fixture.G11
+import omok.fixture.G3
+import omok.fixture.H1
+import omok.fixture.H10
+import omok.fixture.H3
+import omok.fixture.J1
+import omok.fixture.K1
+import omok.fixture.K10
+import omok.fixture.K11
+import omok.fixture.K15
+import omok.fixture.L15
+import omok.fixture.M1
+import omok.fixture.M11
+import omok.fixture.N11
+import omok.fixture.O1
 import omok.mapper.BlackRuleChecker
 import omok.mapper.PointMapper
 import omok.model.game.Game
 import omok.model.rule.WhiteOmokRule
-import omok.model.stone.position.Col
-import omok.model.stone.position.Position
-import omok.model.stone.position.Row
 import omok.view.OutputView.Companion.BOARD_SIZE
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -25,32 +54,21 @@ class WhiteOmokRuleTest {
     private val whiteOmokRule = WhiteOmokRule(BOARD_SIZE)
 
     @Test
-    fun `대각선으로 오목임을 확인할 수 있다`() {
+    fun `흰돌이 대각선으로 오목임을 확인할 수 있다`() {
         val whiteOmokRule = WhiteOmokRule(BOARD_SIZE)
 
-        val position1 = Position(Row(2), Col(1)) // Black
-        val position2 = Position(Row(1), Col(1)) // White
-        val position3 = Position(Row(1), Col(10)) // Black
-        val position4 = Position(Row(2), Col(2)) // White
-        val position5 = Position(Row(7), Col(7)) // Black
-        val position6 = Position(Row(3), Col(3)) // White
-        val position7 = Position(Row(5), Col(8)) // Black
-        val position8 = Position(Row(4), Col(4)) // White
-        val position9 = Position(Row(1), Col(7)) // Black
-        val position10 = Position(Row(5), Col(5)) // White
-
         val positions =
             listOf(
-                position1,
-                position2,
-                position3,
-                position4,
-                position5,
-                position6,
-                position7,
-                position8,
-                position9,
-                position10,
+                M1,
+                A1,
+                K1,
+                B2,
+                M11,
+                C3,
+                O1,
+                D4,
+                J1,
+                E5,
             )
 
         for (i in positions) {
@@ -61,30 +79,19 @@ class WhiteOmokRuleTest {
     }
 
     @Test
-    fun `세로로 오목임을 확인할 수 있다`() {
-        val position1 = Position(Row(2), Col(1)) // Black
-        val position2 = Position(Row(1), Col(1)) // White
-        val position3 = Position(Row(1), Col(10)) // Black
-        val position4 = Position(Row(1), Col(2)) // White
-        val position5 = Position(Row(7), Col(7)) // Black
-        val position6 = Position(Row(1), Col(3)) // White
-        val position7 = Position(Row(5), Col(8)) // Black
-        val position8 = Position(Row(1), Col(4)) // White
-        val position9 = Position(Row(1), Col(7)) // Black
-        val position10 = Position(Row(1), Col(5)) // White
-
+    fun `흰돌이 세로로 오목임을 확인할 수 있다`() {
         val positions =
             listOf(
-                position1,
-                position2,
-                position3,
-                position4,
-                position5,
-                position6,
-                position7,
-                position8,
-                position9,
-                position10,
+                K1,
+                A1,
+                M1,
+                A2,
+                K11,
+                A3,
+                O1,
+                A4,
+                J1,
+                A5,
             )
 
         for (i in positions) {
@@ -95,30 +102,19 @@ class WhiteOmokRuleTest {
     }
 
     @Test
-    fun `가로로 오목임을 확인할 수 있다`() {
-        val position1 = Position(Row(10), Col(1)) // Black
-        val position2 = Position(Row(1), Col(1)) // White
-        val position3 = Position(Row(1), Col(10)) // Black
-        val position4 = Position(Row(2), Col(1)) // White
-        val position5 = Position(Row(7), Col(7)) // Black
-        val position6 = Position(Row(3), Col(1)) // White
-        val position7 = Position(Row(5), Col(8)) // Black
-        val position8 = Position(Row(4), Col(1)) // White
-        val position9 = Position(Row(1), Col(7)) // Black
-        val position10 = Position(Row(5), Col(1)) // White
-
+    fun `흰돌이 가로로 오목임을 확인할 수 있다`() {
         val positions =
             listOf(
-                position1,
-                position2,
-                position3,
-                position4,
-                position5,
-                position6,
-                position7,
-                position8,
-                position9,
-                position10,
+                K10,
+                A1,
+                M1,
+                B1,
+                H10,
+                C1,
+                G11,
+                D1,
+                O1,
+                E1,
             )
 
         for (i in positions) {
@@ -129,33 +125,20 @@ class WhiteOmokRuleTest {
 
     @Test
     fun `6목 이상의 장목도 착수 가능하며 승리 조건으로 인정한다`() {
-        val position1 = Position(Row(2), Col(1)) // Black
-        val position2 = Position(Row(1), Col(1)) // White
-        val position3 = Position(Row(1), Col(10)) // Black
-        val position4 = Position(Row(1), Col(2)) // White
-        val position5 = Position(Row(7), Col(7)) // Black
-        val position6 = Position(Row(1), Col(6)) // White
-        val position7 = Position(Row(5), Col(8)) // Black
-        val position8 = Position(Row(1), Col(4)) // White
-        val position9 = Position(Row(1), Col(7)) // Black
-        val position10 = Position(Row(1), Col(5)) // White
-        val position11 = Position(Row(10), Col(7)) // Black
-        val position12 = Position(Row(1), Col(3)) // White
-
         val positions =
             listOf(
-                position1,
-                position2,
-                position3,
-                position4,
-                position5,
-                position6,
-                position7,
-                position8,
-                position9,
-                position10,
-                position11,
-                position12,
+                A1,
+                C3,
+                K15,
+                D3,
+                H1,
+                E3,
+                N11,
+                F3,
+                A11,
+                H3,
+                L15,
+                G3,
             )
 
         for (i in positions) {

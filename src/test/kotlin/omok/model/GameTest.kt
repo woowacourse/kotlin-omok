@@ -1,5 +1,14 @@
 package omok.model
 
+import omok.fixture.A1
+import omok.fixture.A2
+import omok.fixture.A3
+import omok.fixture.A4
+import omok.fixture.A5
+import omok.fixture.K1
+import omok.fixture.K10
+import omok.fixture.M1
+import omok.fixture.M11
 import omok.mapper.BlackRuleChecker
 import omok.mapper.PointMapper
 import omok.model.game.Game
@@ -56,31 +65,23 @@ class GameTest {
 
     @Test
     fun `착수한 후에 오목인지 아닌지 확인할 수 있다`() {
-        val position1 = Position(Row(1), Col(1)) // Black
-        val position2 = Position(Row(2), Col(2)) // White
-        val position3 = Position(Row(1), Col(2)) // Black
-        val position4 = Position(Row(9), Col(3)) // White
-        val position5 = Position(Row(1), Col(3)) // Black
-        val position6 = Position(Row(4), Col(2)) // White
-        val position7 = Position(Row(1), Col(4)) // Black
-        val position8 = Position(Row(7), Col(2)) // White
-        val position9 = Position(Row(1), Col(5)) // Black
-
         val positions =
             listOf(
-                position1,
-                position2,
-                position3,
-                position4,
-                position5,
-                position6,
-                position7,
-                position8,
-                position9,
+                A1,
+                K1,
+                A2,
+                K10,
+                A3,
+                M1,
+                A4,
+                M11,
+                A5,
             )
+
         for (i in positions) {
             game.place(i)
         }
+
         assertThat(game.isOmok()).isTrue()
     }
 }
