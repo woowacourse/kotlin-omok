@@ -4,9 +4,9 @@ class WhiteWinRule : RenjuRule(WHITE_STONE, BLACK_STONE) {
     override fun validate(
         board: List<List<Int>>,
         position: RulePosition,
-    ): Boolean = RuleDirection.DIRECTIONS.map { direction -> checkBlackWin(board, position, direction) }.contains(true)
+    ): Boolean = RuleDirection.DIRECTIONS.map { direction -> checkWhiteWin(board, position, direction) }.contains(true)
 
-    private fun checkBlackWin(
+    private fun checkWhiteWin(
         board: List<List<Int>>,
         position: RulePosition,
         direction: RuleDirection,
