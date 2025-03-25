@@ -4,9 +4,8 @@ import omok.model.board.Position
 import omok.model.board.PositionState
 import omok.model.board.X
 import omok.model.board.Y
-import omok.model.player.state.BlackPlayerState
-import omok.model.player.state.PlayerState
-import omok.model.player.state.WhitePlayerState
+import omok.model.stone.Stone
+import omok.model.stone.StoneColor
 
 class OmokView {
     fun printStartMessage() {
@@ -19,8 +18,8 @@ class OmokView {
         return alphaBets.indexOfFirst { it.toString() == this } + 1
     }
 
-    fun inputPosition(playerState: PlayerState): Position {
-        println("${changeName(playerState)}의 차례입니다.")
+    fun inputPosition(stone: Stone): Position {
+        println("${changeName(stone)}의 차례입니다.")
         print("위치를 입력하세요: ")
         val input = readln().trim()
         val (alphaBet, number) = input.partition { it.isLetter() }
@@ -103,15 +102,14 @@ class OmokView {
         board[BOARD_SIZE - 1][BOARD_SIZE - 1] = "┐"
     }
 
-    fun result(playerState: PlayerState) {
-        println("${changeName(playerState)}이 승리했습니다.")
+    fun result(stone: Stone) {
+        println("${changeName(stone)}이 승리했습니다.")
     }
 
-    private fun changeName(playerState: PlayerState): String =
-        when (playerState) {
-            is BlackPlayerState -> "흑"
-            is WhitePlayerState -> "백"
-            else -> throw IllegalArgumentException("잘 못된 값이 들어왔습니다.")
+    private fun changeName(stone: Stone): String =
+        when (stone.color) {
+            StoneColor.BLACK -> "흑"
+            StoneColor.WHITE -> "백"
         }
 
     companion object {

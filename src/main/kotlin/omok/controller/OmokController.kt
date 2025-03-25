@@ -1,7 +1,7 @@
 package omok.controller
 
 import omok.model.board.OmokBoard
-import omok.model.player.Player
+import omok.model.player.state.Turn
 import omok.view.OmokView
 
 class OmokController(
@@ -10,19 +10,16 @@ class OmokController(
     fun run() {
         omokView.printStartMessage()
         val omokBoard = OmokBoard()
-        val player = Player()
-        playGame(player, omokBoard)
+        playGame(omokBoard)
     }
 
-    private fun playGame(
-        player: Player,
-        omokBoard: OmokBoard,
-    ) {
-        while (player.playing()) {
-            playerTurn(player, omokBoard)
-            if (finishGame(player, omokBoard)) break
+    private fun playGame(omokBoard: OmokBoard) {
+        val turn = Turn()
+        while (turn.playing()) {
+            playerTurn(turn, omokBoard)
+            if (finishGame(turn, omokBoard)) break
             omokView.printOmokBoard(omokBoard.board)
-            player.nextPlayer()
+            turn.next()
         }
     }
 
@@ -36,22 +33,22 @@ class OmokController(
     }
 
     private fun playerTurn(
-        currentPlayer: Player,
+        turn: Turn,
         omokBoard: OmokBoard,
     ) {
         handleTurnException {
-            val position = omokView.inputPosition(currentPlayer.playerState)
-            currentPlayer.put(position, omokBoard)
+            val position = omokView.inputPosition(turn.stone)
+            turn.place(position, omokBoard)
         }
     }
 
     private fun finishGame(
-        currentPlayer: Player,
+        turn: Turn,
         omokBoard: OmokBoard,
     ): Boolean {
-        if (currentPlayer.win()) {
+        if (turn.win()) {
             omokView.printOmokBoard(omokBoard.board)
-            omokView.result(currentPlayer.playerState)
+            omokView.result(turn.stone)
             return true
         }
         return false
