@@ -1,6 +1,8 @@
 package omok.model.game
 
 import omok.mapper.BlackRuleChecker
+import omok.mapper.NoViolation
+import omok.mapper.ViolationType
 import omok.model.board.Board
 import omok.model.board.Board.Companion.initBoard
 import omok.model.board.BoardDimensions
@@ -27,15 +29,16 @@ class Game(
 
     fun getLastStone(): Stone? = lastStone
 
-    fun placeStone(position: Position): Board {
-        validatePosition(position)
+    fun placeStone(position: Position): ViolationType {
+        val violation = validatePosition(position)
+        if (violation != NoViolation) {
+            return violation
+        }
         applyPlacement(position)
-        return board
+        return NoViolation
     }
 
-    private fun validatePosition(position: Position) {
-        currentRule(turn).validate(board, position, turn)
-    }
+    private fun validatePosition(position: Position): ViolationType = currentRule(turn).validate(board, position, turn)
 
     private fun applyPlacement(position: Position) {
         board = board.positionAt(position, turn)

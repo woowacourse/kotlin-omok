@@ -1,7 +1,9 @@
 package omok.controller
 
 import omok.mapper.BlackRuleChecker
+import omok.mapper.NoViolation
 import omok.mapper.PointMapper
+import omok.mapper.ViolationType
 import omok.model.game.Game
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
@@ -28,18 +30,22 @@ class OmokControl(
     private fun turn(showBoard: Boolean = true) {
         if (showBoard) printCurrentState()
 
-        try {
-            val input = inputView.inputStone(game.getBoard())
-            game.placeStone(Position(Row(input.first), Col(input.second)))
+        val input = inputView.inputStone(game.getBoard())
+        val rowValue = input.first
+        val colValue = input.second
 
-            if (game.isOmok()) {
-                outputView.printBoard(game.getBoard())
-                outputView.printOmok(game.getLastStone())
-            } else {
-                turn()
-            }
-        } catch (e: Exception) {
-            handleException(e)
+        val violation = game.placeStone(Position(Row(rowValue), Col(colValue)))
+
+        if (violation != NoViolation) {
+            handleViolation(violation)
+            return
+        }
+
+        if (game.isOmok()) {
+            outputView.printBoard(game.getBoard())
+            outputView.printOmok(game.getLastStone())
+        } else {
+            turn()
         }
     }
 
@@ -48,8 +54,8 @@ class OmokControl(
         outputView.printNextTurn(game.getTurn(), game.getLastStone())
     }
 
-    private fun handleException(e: Exception) {
-        outputView.printException(e.message)
+    private fun handleViolation(violation: ViolationType) {
+        outputView.printException(violation.message)
         turn(showBoard = false)
     }
 }
