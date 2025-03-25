@@ -1,11 +1,11 @@
 package controller
 
 import domain.GameBoard
+import domain.player.Player
 import domain.position.Position
 import domain.stone.Stone
 import domain.stone.StoneColor
-import rule.BlackRenjuRule
-import rule.OmokRule
+import rule.adapter.RuleAdapter
 import view.InputView
 import view.ResultView
 
@@ -13,56 +13,64 @@ class OmokController(
     private val inputView: InputView,
     private val outputView: ResultView,
 ) {
-    private var turnColor: StoneColor = StoneColor.BLACK
-    private var rule: OmokRule = BlackRenjuRule()
-
     fun run() {
         outputView.printGameStartMessage()
-        val gameBoard = GameBoard()
+        val gameBoard = GameBoard(players())
         outputView.printGameBoard()
         putStoneUntilFindWinner(gameBoard)
-        outputView.printWinner(turnColor)
+        outputView.printWinner(gameBoard.winner())
+    }
+
+    private fun players(): ArrayDeque<Player> {
+        val players = ArrayDeque<Player>()
+        players.addAll(
+            listOf(
+                Player(
+                    stoneColor = StoneColor.BLACK,
+                    rules = listOf(RuleAdapter()),
+                ),
+                Player(
+                    stoneColor = StoneColor.WHITE,
+                    rules = listOf(RuleAdapter()),
+                ),
+            ),
+        )
+        return players
     }
 
     private tailrec fun putStoneUntilFindWinner(gameBoard: GameBoard) {
         putStoneProcess(
             gameBoard = gameBoard,
-            rule = rule,
-            showGameBoardStatus = { outputView.printGameBoard(gameBoard.blackStones + gameBoard.whiteStones) },
+            showGameBoardStatus = { outputView.printGameBoard(gameBoard.placedAllStones()) },
         )
-        if (gameBoard.judge(rule)) return
-        switchTurn()
+        if (gameBoard.gameOver()) return
+        gameBoard.nextTurn()
         putStoneUntilFindWinner(gameBoard)
     }
 
     private fun putStoneProcess(
         gameBoard: GameBoard,
-        rule: OmokRule,
         showGameBoardStatus: () -> Unit,
     ) {
         gameBoard
             .putStone(
-                stoneColor = turnColor,
-                rule = rule,
-                onPositionReceived = { lastStone -> readPositionUntilReceived(lastStone) },
+                onPositionReceived = { stoneColor, lastStone -> readPositionUntilReceived(stoneColor, lastStone) },
             ).onSuccess {
                 showGameBoardStatus()
             }.onFailure { error ->
                 outputView.printErrorMessage(error)
-                putStoneProcess(gameBoard, rule, showGameBoardStatus)
+                putStoneProcess(gameBoard, showGameBoardStatus)
             }
     }
 
-    private fun readPositionUntilReceived(lastStone: Stone?): Position =
+    private fun readPositionUntilReceived(
+        stoneColor: StoneColor,
+        lastStone: Stone?,
+    ): Position =
         runCatching {
-            inputView.readPosition(turnColor, lastStone)
+            inputView.readPosition(stoneColor, lastStone)
         }.getOrElse { error ->
             outputView.printErrorMessage(error)
-            readPositionUntilReceived(lastStone)
+            readPositionUntilReceived(stoneColor, lastStone)
         }
-
-    private fun switchTurn() {
-        turnColor = turnColor.switch()
-        rule = rule.switch()
-    }
 }

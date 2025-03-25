@@ -1,52 +1,58 @@
 package domain
 
+import domain.player.Player
 import domain.position.Position
 import domain.stone.Stone
 import domain.stone.StoneColor
+import domain.stone.Stones
 import exception.RuleViolationException
-import rule.OmokRule
+import rule.type.Violation
 
-class GameBoard {
-    private var lastStone: Stone? = null
-    private val _blackStones = mutableListOf<Stone>()
-    val blackStones get() = _blackStones.toList()
-    private val _whiteStones = mutableListOf<Stone>()
-    val whiteStones get() = _whiteStones.toList()
+class GameBoard(
+    private val players: ArrayDeque<Player>,
+) {
+    private val stones = Stones()
 
-    fun putStone(
-        stoneColor: StoneColor,
-        rule: OmokRule,
-        onPositionReceived: (Stone?) -> Position,
-    ): Result<Unit> {
-        val position = onPositionReceived(lastStone)
-        val stone = Stone.of(position, stoneColor)
+    fun putStone(onPositionReceived: (StoneColor, Stone?) -> Position): Result<Unit> {
+        val position = onPositionReceived(players.currentPlayer().stoneColor, stones.lastStone())
+        val stone = Stone.of(position, players.currentPlayer().stoneColor)
 
-        val violateType = rule.checkAnyFoulCondition(blackStones, whiteStones, stone.position)
-        if (violateType.isNone()) {
-            successStateProcess(stoneColor, stone)
+        val violationType = violation(stone)
+        if (violationType.isNone()) {
+            stones.add(stone)
             return Result.success(Unit)
         }
 
-        return Result.failure(RuleViolationException(violateType))
+        return Result.failure(RuleViolationException(violationType))
     }
 
-    private fun successStateProcess(
-        stoneColor: StoneColor,
-        stone: Stone,
-    ) {
-        when (stoneColor) {
-            StoneColor.BLACK -> _blackStones.add(stone)
-            StoneColor.WHITE -> _whiteStones.add(stone)
-        }
-        lastStone = stone
+    fun placedAllStones(): List<Stone> = stones.value
+
+    fun winner(): StoneColor = players.currentPlayer().stoneColor
+
+    fun nextTurn() {
+        val turnOveredPlayer = players.removeFirst()
+        players.addLast(turnOveredPlayer)
     }
 
-    fun judge(rule: OmokRule): Boolean =
-        lastStone?.let {
-            rule.checkWin(
-                blackStones,
-                whiteStones,
-                lastStone!!.position,
+    fun gameOver(): Boolean {
+        with(players.currentPlayer()) {
+            return isWin(
+                playerStones = stones.playerStones(stoneColor),
+                otherStones = stones.otherStones(stoneColor),
+                placedStone = stones.lastStone() ?: return false,
             )
-        } ?: false
+        }
+    }
+
+    private fun violation(stone: Stone): Violation =
+        with(players.currentPlayer()) {
+            violation(
+                playerStones = stones.playerStones(stoneColor),
+                otherStones = stones.otherStones(stoneColor),
+                stone,
+            )
+        }
+
+    private fun ArrayDeque<Player>.currentPlayer(): Player = this.first()
 }
