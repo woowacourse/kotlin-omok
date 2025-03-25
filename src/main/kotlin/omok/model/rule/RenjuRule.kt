@@ -1,5 +1,9 @@
-package omok.model
+package omok.model.rule
 
+import omok.model.Board
+import omok.model.Color
+import omok.model.MoveResult
+import omok.model.Stone
 import omok.model.position.Position
 import rule.BlackRenjuRule
 import rule.OmokRule
@@ -7,8 +11,8 @@ import rule.WhiteRenjuRule
 import rule.type.Violation
 import rule.wrapper.point.Point
 
-class Rule {
-    fun checkViolation(
+class RenjuRule : Rule {
+    override fun checkViolation(
         board: Board,
         position: Position,
         color: Color,
@@ -32,7 +36,7 @@ class Rule {
         }
     }
 
-    fun checkOmok(
+    override fun checkOmok(
         board: Board,
         position: Position,
         color: Color,

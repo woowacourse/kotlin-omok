@@ -3,10 +3,11 @@ package omok.model
 import omok.model.position.Col
 import omok.model.position.Position
 import omok.model.position.Row
+import omok.model.rule.RenjuRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class RuleTest {
+class RenjuRuleTest {
     @Test
     fun `흑은 삼삼 위치에 돌을 둘 수 없다`() {
         val board =
@@ -17,7 +18,7 @@ class RuleTest {
                 add(Stone(Position(Col(5), Row(6)), Color.BLACK))
             }
 
-        val actual: MoveResult = Rule().checkViolation(board, Position(Col(7), Row(4)), Color.BLACK)
+        val actual: MoveResult = RenjuRule().checkViolation(board, Position(Col(7), Row(4)), Color.BLACK)
         val expected: MoveResult = MoveResult.Failure.DoubleThreeViolation
 
         assertThat(actual).isEqualTo(expected)
@@ -34,7 +35,7 @@ class RuleTest {
                 add(Stone(Position(Col(12), Row(10)), Color.BLACK))
             }
 
-        val actual: MoveResult = Rule().checkViolation(board, Position(Col(12), Row(6)), Color.BLACK)
+        val actual: MoveResult = RenjuRule().checkViolation(board, Position(Col(12), Row(6)), Color.BLACK)
         val expected: MoveResult = MoveResult.Failure.DoubleFourViolation
 
         assertThat(actual).isEqualTo(expected)
@@ -51,7 +52,7 @@ class RuleTest {
                 add(Stone(Position(Col(10), Row(3)), Color.BLACK))
             }
 
-        val actual: MoveResult = Rule().checkViolation(board, Position(Col(13), Row(3)), Color.BLACK)
+        val actual: MoveResult = RenjuRule().checkViolation(board, Position(Col(13), Row(3)), Color.BLACK)
         val expected: MoveResult = MoveResult.Failure.OverlineViolation
 
         assertThat(actual).isEqualTo(expected)
