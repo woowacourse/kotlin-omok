@@ -7,6 +7,7 @@ import omok.fixture.A4
 import omok.fixture.A5
 import omok.fixture.K1
 import omok.fixture.K10
+import omok.fixture.K11
 import omok.fixture.M1
 import omok.fixture.M11
 import omok.mapper.BlackRuleChecker
@@ -16,7 +17,6 @@ import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
-import omok.view.OutputView.Companion.BOARD_SIZE
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -27,7 +27,7 @@ class GameTest {
         Game(
             blackRuleChecker =
                 BlackRuleChecker(
-                    BlackRenjuRule(BOARD_SIZE),
+                    BlackRenjuRule(),
                     mapper = { pos -> PointMapper().from(pos) },
                 ),
         )
@@ -64,7 +64,7 @@ class GameTest {
     }
 
     @Test
-    fun `착수한 후에 오목인지 아닌지 확인할 수 있다`() {
+    fun `착수한 후에 흑돌이 오목인지 아닌지 확인할 수 있다`() {
         val positions =
             listOf(
                 A1,
@@ -75,6 +75,29 @@ class GameTest {
                 M1,
                 A4,
                 M11,
+                A5,
+            )
+
+        for (i in positions) {
+            game.place(i)
+        }
+
+        assertThat(game.isOmok()).isTrue()
+    }
+
+    @Test
+    fun `착수한 후에 백돌이 오목인지 아닌지 확인할 수 있다`() {
+        val positions =
+            listOf(
+                K1,
+                A1,
+                K10,
+                A2,
+                M1,
+                A3,
+                M11,
+                A4,
+                K11,
                 A5,
             )
 
