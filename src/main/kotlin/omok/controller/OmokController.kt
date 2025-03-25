@@ -2,10 +2,10 @@ package omok.controller
 
 import omok.domain.Game
 import omok.domain.model.Board
-import omok.domain.model.position.Column
+import omok.domain.model.Board.Companion.DEFAULT_BOARD_SIZE
 import omok.domain.model.position.Position
-import omok.domain.model.position.Row
-import omok.domain.model.state.BlackStoneTurn
+import omok.domain.model.rule.OmokRuleAdapter
+import omok.domain.model.state.OmokStateMachine
 import omok.domain.model.stone.OmokStone
 import omok.domain.model.stone.StoneType
 import omok.view.InputView
@@ -16,18 +16,15 @@ class OmokController(
     private val outputView: OutputView = OutputView(),
 ) {
     fun run() {
-        val board = Board()
-        val game = Game(BlackStoneTurn(board))
-
+        val game = Game(OmokStateMachine(rule = OmokRuleAdapter()))
         outputView.printStart()
-
-        val winner =
+        val resultBoard =
             game.play(
                 onBeforePlace = ::showBoardStatus,
                 onPlace = ::getPosition,
+                onFailure = { outputView.printErrorMessage(it) },
             )
-
-        outputView.printResult(winner)
+        showResult(resultBoard)
     }
 
     private fun showBoardStatus(
@@ -36,17 +33,28 @@ class OmokController(
         omokStone: OmokStone?,
     ) {
         outputView.printBoardState(board)
-        outputView.printTurn(stoneType, omokStone)
+        outputView.printTurn(stoneType)
+        if (omokStone != null) {
+            outputView.printLastStone(omokStone)
+            return
+        }
     }
 
     private fun getPosition(): Position {
         return retryEvent {
-            val input = inputView.getPosition()
-            val columnInput = input[0]
-            val rowInput = input.substring(1).toIntOrNull() ?: throw IllegalArgumentException("잘못된 위치입니다.")
-
-            Position(Column.from(columnInput), Row(rowInput))
+            val (column, row) = inputView.getPosition()
+            Position.of(column, row, DEFAULT_BOARD_SIZE)
         }
+    }
+
+    private fun showResult(board: Board) {
+        outputView.printBoardState(board)
+        if (board.isFull()) {
+            outputView.printDraw()
+            return
+        }
+        val lastStone = board.getLastStone() ?: error("게임이 비정상적으로 종료되었습니다.")
+        outputView.printResult(lastStone)
     }
 
     private fun <T> retryEvent(event: () -> T): T {
