@@ -2,10 +2,10 @@ package omok.model.player
 
 import omok.model.board.OmokBoard
 import omok.model.board.Position
-import omok.model.rule.BlackWinRule
-import omok.model.rule.FourFourRule
-import omok.model.rule.ThreeThreeRule
-import omok.model.rule.WhiteWinRule
+import omok.model.rule.OmokRule.Companion.BLACK_STONE
+import omok.model.rule.OmokRule.Companion.WHITE_STONE
+import omok.model.rule.RenjuRule
+import omok.model.rule.WinRule
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 
@@ -35,13 +35,16 @@ class Turn : GameState() {
     private fun isWin(
         position: Position,
         omokBoard: OmokBoard,
-    ) = BlackWinRule(position, omokBoard).validate() ||
-        WhiteWinRule(position, omokBoard).validate()
+    ): Boolean {
+        val blackWin = WinRule(BLACK_STONE, position, omokBoard).validate()
+        val whiteWin = WinRule(WHITE_STONE, position, omokBoard).validate()
+        return blackWin || whiteWin
+    }
 
     private fun isForbidden(
         position: Position,
         omokBoard: OmokBoard,
-    ): Boolean = FourFourRule(position, omokBoard).validate() || ThreeThreeRule(position, omokBoard).validate()
+    ): Boolean = RenjuRule(position, omokBoard).validate()
 
     fun next() {
         if (gameState == ForbiddenMove) return
