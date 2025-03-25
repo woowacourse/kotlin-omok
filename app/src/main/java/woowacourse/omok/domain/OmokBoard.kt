@@ -6,7 +6,7 @@ class OmokBoard(
     private val rule: Rule,
 ) {
     private val board: MutableList<MutableList<StoneState>> =
-        MutableList(DEFAULT_SIZE) { MutableList(DEFAULT_SIZE) { StoneState.BLANK } }
+        MutableList(height) { MutableList(width) { StoneState.BLANK } }
 
     fun putStone(stone: Stone) {
         board[stone.position.y][stone.position.x] = stone.state
