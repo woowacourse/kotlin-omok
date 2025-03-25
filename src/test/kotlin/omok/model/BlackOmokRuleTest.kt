@@ -76,7 +76,7 @@ class BlackOmokRuleTest {
         val nextPosition = D12
 
         for (i in positions) {
-            game.place(i)
+            game.placeStone(i)
         }
 
         assertThrows<DoubleThreeViolation> {
@@ -108,7 +108,7 @@ class BlackOmokRuleTest {
         val nextPosition = K6
 
         for (i in positions) {
-            game.place(i)
+            game.placeStone(i)
         }
 
         assertThrows<DoubleFourViolation> {
@@ -137,7 +137,7 @@ class BlackOmokRuleTest {
         val nextPosition = H5
 
         for (i in positions) {
-            game.place(i)
+            game.placeStone(i)
         }
 
         assertThrows<DoubleFourViolation> {
@@ -165,7 +165,7 @@ class BlackOmokRuleTest {
         val nextPosition = C13
 
         for (i in positions) {
-            game.place(i)
+            game.placeStone(i)
         }
 
         assertThrows<OverlineViolation> {

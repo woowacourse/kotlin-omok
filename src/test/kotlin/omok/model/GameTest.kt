@@ -40,7 +40,7 @@ class GameTest {
     @Test
     fun `다음 턴으로 착수하는 돌의 색을 확인할 수 있다`() {
         val position = Position(Row(1), Col(2))
-        game.place(position)
+        game.placeStone(position)
         assertThat(game.getTurn()).isEqualTo(StoneColor.WHITE)
     }
 
@@ -48,14 +48,14 @@ class GameTest {
     fun `돌을 원하는 위치에 착수할 수 있다`() {
         val position = Position(Row(5), Col(5))
 
-        assertDoesNotThrow { game.place(position) }
+        assertDoesNotThrow { game.placeStone(position) }
     }
 
     @Test
     fun `마지막으로 착수한 돌을 확인할 수 있다`() {
         val position = Position(Row(5), Col(5))
         val stoneColor = game.getTurn()
-        game.place(position)
+        game.placeStone(position)
 
         val lastStone = game.getLastStone()
 
@@ -79,7 +79,7 @@ class GameTest {
             )
 
         for (i in positions) {
-            game.place(i)
+            game.placeStone(i)
         }
 
         assertThat(game.isOmok()).isTrue()
@@ -102,7 +102,7 @@ class GameTest {
             )
 
         for (i in positions) {
-            game.place(i)
+            game.placeStone(i)
         }
 
         assertThat(game.isOmok()).isTrue()

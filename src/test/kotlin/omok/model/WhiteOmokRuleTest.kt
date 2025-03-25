@@ -69,7 +69,7 @@ class WhiteOmokRuleTest {
             )
 
         for (i in positions) {
-            game.place(i)
+            game.placeStone(i)
         }
 
         assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard(), it) }).isTrue()
@@ -92,7 +92,7 @@ class WhiteOmokRuleTest {
             )
 
         for (i in positions) {
-            game.place(i)
+            game.placeStone(i)
         }
 
         assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard(), it) }).isTrue()
@@ -115,7 +115,7 @@ class WhiteOmokRuleTest {
             )
 
         for (i in positions) {
-            game.place(i)
+            game.placeStone(i)
         }
         assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard(), it) }).isTrue()
     }
@@ -139,7 +139,7 @@ class WhiteOmokRuleTest {
             )
 
         for (i in positions) {
-            game.place(i)
+            game.placeStone(i)
         }
 
         assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard(), it) }).isTrue()
