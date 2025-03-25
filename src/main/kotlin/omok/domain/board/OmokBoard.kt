@@ -19,8 +19,6 @@ class OmokBoard(
     var latestStone: Point = Empty.dummy()
         private set
 
-    fun toMatrix(): List<List<Point>> = omokPoints.toMatrix()
-
     fun isNotFull() = omokPoints.points.size != MAX_COLUMN_SIZE * MAX_ROW_SIZE
 
     fun view(): BoardView = BoardView(this)

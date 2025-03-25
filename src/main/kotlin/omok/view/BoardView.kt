@@ -23,7 +23,7 @@ class BoardView(private val omokBoard: OmokBoard) {
     }
 
     private fun initialize() {
-        omokBoard.toMatrix().forEachIndexed { row, _ ->
+        (0 until OmokBoard.MAX_ROW_SIZE).forEachIndexed { row, _ ->
             when (row) {
                 0 -> {
                     addRow(OmokBoard.MAX_ROW_SIZE, TOP_LEFT_CORNER, TOP_HORIZONTAL_SEPARATOR, TOP_RIGHT_CORNER)
