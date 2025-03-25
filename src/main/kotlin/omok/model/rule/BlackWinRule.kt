@@ -1,19 +1,18 @@
 package omok.model.rule
 
-object BlackWinRule : OmokRule() {
-    override fun validate(
-        board: List<List<Int>>,
-        position: Pair<Int, Int>,
-    ): Boolean = directions.map { direction -> checkWhiteWin(board, position, direction) }.contains(true)
+import omok.model.board.OmokBoard
+import omok.model.board.Position
 
-    private fun checkWhiteWin(
-        board: List<List<Int>>,
-        position: Pair<Int, Int>,
-        direction: Pair<Int, Int>,
-    ): Boolean {
+class BlackWinRule(
+    position: Position,
+    omokBoard: OmokBoard,
+) : OmokRule(position = position, omokBoard = omokBoard) {
+    override fun validate(): Boolean = directions.map { direction -> checkWhiteWin(direction) }.contains(true)
+
+    private fun checkWhiteWin(direction: Pair<Int, Int>): Boolean {
         val oppositeDirection = direction.let { (dx, dy) -> Pair(-dx, -dy) }
-        val (stone1, blink1) = search(board, position, oppositeDirection)
-        val (stone2, blink2) = search(board, position, direction)
+        val (stone1, blink1) = search(oppositeDirection)
+        val (stone2, blink2) = search(direction)
 
         return when {
             blink1 + blink2 == 0 && stone1 + stone2 == 4 -> true

@@ -1,27 +1,23 @@
 package omok.model.rule
 
-object FourFourRule : OmokRule() {
-    override fun validate(
-        board: List<List<Int>>,
-        position: Pair<Int, Int>,
-    ): Boolean = countOpenThrees(board, position) >= 2
+import omok.model.board.OmokBoard
+import omok.model.board.Position
 
-    private fun countOpenThrees(
-        board: List<List<Int>>,
-        position: Pair<Int, Int>,
-    ): Int = directions.sumOf { direction -> checkOpenFour(board, position, direction) }
+class FourFourRule(
+    position: Position,
+    omokBoard: OmokBoard,
+) : OmokRule(position = position, omokBoard = omokBoard) {
+    override fun validate(): Boolean = countOpenThrees() >= 2
 
-    private fun checkOpenFour(
-        board: List<List<Int>>,
-        position: Pair<Int, Int>,
-        direction: Pair<Int, Int>,
-    ): Int {
-        val (x, y) = position
+    private fun countOpenThrees(): Int = directions.sumOf { direction -> checkOpenFour(direction) }
+
+    private fun checkOpenFour(direction: Pair<Int, Int>): Int {
+        val (x, y) = adaptedPoint
         val (dx, dy) = direction
         val oppositeDirection = direction.let { (dx, dy) -> Pair(-dx, -dy) }
 
-        val (stone1, blink1) = search(board, position, oppositeDirection)
-        val (stone2, blink2) = search(board, position, direction)
+        val (stone1, blink1) = search(oppositeDirection)
+        val (stone2, blink2) = search(direction)
 
         val leftDown = stone1 + blink1
         val left = dx * (leftDown + 1)
@@ -42,14 +38,14 @@ object FourFourRule : OmokRule() {
             when {
                 dx != 0 && x - dx * leftDown in X_Edge -> 0
                 dy != 0 && y - dy * leftDown in Y_Edge -> 0
-                board[y - down][x - left] == opponentStone -> 0
+                adaptedBoard[y - down][x - left] == opponentStone -> 0
                 else -> 1
             }
         val rightUpValid =
             when {
                 dx != 0 && x + (dx * rightUp) in X_Edge -> 0
                 dy != 0 && y + (dy * rightUp) in Y_Edge -> 0
-                board[y + up][x + right] == opponentStone -> 0
+                adaptedBoard[y + up][x + right] == opponentStone -> 0
                 else -> 1
             }
 

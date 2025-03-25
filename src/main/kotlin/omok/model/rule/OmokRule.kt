@@ -1,22 +1,22 @@
 package omok.model.rule
 
+import omok.model.board.OmokBoard
+import omok.model.board.Position
+
 abstract class OmokRule(
     private val currentStone: Int = BLACK_STONE,
-    val opponentStone: Int = WHITE_STONE,
+    protected val opponentStone: Int = WHITE_STONE,
+    position: Position,
+    omokBoard: OmokBoard,
 ) {
-    abstract fun validate(
-        board: List<List<Int>>,
-        position: Pair<Int, Int>,
-    ): Boolean
-
+    protected val adaptedBoard = OmokAdapter.adaptOmokBoard(omokBoard)
+    protected val adaptedPoint = OmokAdapter.adaptOmokPoint(position)
     protected val directions = listOf(Pair(1, 0), Pair(1, 1), Pair(0, 1), Pair(1, -1))
 
-    protected fun search(
-        board: List<List<Int>>,
-        position: Pair<Int, Int>,
-        direction: Pair<Int, Int>,
-    ): Pair<Int, Int> {
-        var (x, y) = position
+    abstract fun validate(): Boolean
+
+    protected fun search(direction: Pair<Int, Int>): Pair<Int, Int> {
+        var (x, y) = adaptedPoint
         val (dx, dy) = direction
         var stone = 0
         var blink = 0
@@ -24,7 +24,7 @@ abstract class OmokRule(
         while (willExceedBounds(x, y, dx, dy).not()) {
             x += dx
             y += dy
-            when (board[y][x]) {
+            when (adaptedBoard[y][x]) {
                 currentStone -> {
                     stone++
                     blink = blinkCount
@@ -42,18 +42,14 @@ abstract class OmokRule(
         return Pair(stone, blink)
     }
 
-    protected fun countToWall(
-        board: List<List<Int>>,
-        position: Pair<Int, Int>,
-        direction: Pair<Int, Int>,
-    ): Int {
-        var (x, y) = position
+    protected fun countToWall(direction: Pair<Int, Int>): Int {
+        var (x, y) = adaptedPoint
         val (dx, dy) = direction
         var distance = 0
         while (willExceedBounds(x, y, dx, dy).not()) {
             x += dx
             y += dy
-            when (board[y][x]) {
+            when (adaptedBoard[y][x]) {
                 in listOf(currentStone, EMPTY_STONE) -> distance++
                 opponentStone -> break
                 else -> throw IllegalArgumentException()
