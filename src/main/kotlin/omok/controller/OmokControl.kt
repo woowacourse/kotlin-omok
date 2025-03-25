@@ -71,7 +71,7 @@ class OmokControl(
         val isRowValid = isCanRowNumberParse(rowNumberText)
         when {
             !isColValid || !isRowValid -> inputView.inputExceptionAlert(ERROR_COORDINATE_STRING)
-            else -> return Row(rowNumberText.toInt() - 1) to Col(colAlphabet - MIN_COL_CHAR)
+            else -> return Row(rowNumberText.toInt() - ROW_OFFSET) to Col(colAlphabet - MIN_COL_CHAR)
         }
         return readRowCol()
     }
@@ -84,5 +84,7 @@ class OmokControl(
         private const val MIN_COL_CHAR = 'A'
         private const val MAX_COL_CHAR = 'Z'
         private const val ERROR_COORDINATE_STRING = "유효하지 않은 좌표값 입력입니다"
+
+        private const val ROW_OFFSET = 1
     }
 }

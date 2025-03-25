@@ -20,66 +20,79 @@ import omok.model.stone.position.Row
 class OutputView(
     private val boardSize: BoardSize,
 ) {
-    private val alphabets = ('A'..'Z').toList()
+    private val alphabets = (START_ALPHABET..END_ALPHABET).toList()
 
     fun printBoard(board: Map<Position, StoneColor>) {
-        for (row in boardSize.value - 1 downTo 0) {
-            print(String.format("%2d ", row + 1))
-            val point = pointByRowIndex(row)
-            val str =
-                (0..<boardSize.value).joinToString("──") {
-                    val stoneColor = board[Position(Row(row), Col(it))]
-                    getStoneText(stoneColor, point[it])
-                }
-            println(str)
+        for (row in boardSize.value - INDEX_ADJUSTMENT downTo 0) {
+            println(rowGraphicText(row, board))
         }
-        val columnLabels = alphabets.subList(0, boardSize.value).joinToString("  ")
-        println("   $columnLabels")
+        val columnLabelsGraphicText = "   " + alphabets.subList(0, boardSize.value).joinToString("  ")
+        println(columnLabelsGraphicText)
     }
 
-    private fun pointByRowIndex(index: Int): List<String> =
-        when (index) {
-            boardSize.value - 1 -> listOf("┌") + List(boardSize.value - 2) { "┬" } + listOf("┐")
-            0 -> listOf("└") + List(boardSize.value - 2) { "┴" } + listOf("┘")
-            else -> listOf("├") + List(boardSize.value - 2) { "┼" } + listOf("┤")
-        }
+    private fun rowGraphicText(
+        rowIndex: Int,
+        board: Map<Position, StoneColor>,
+    ): String =
+        String.format(ROW_NUMBER_FORMAT, rowIndex + INDEX_ADJUSTMENT) +
+            (0..<boardSize.value).joinToString("──") { colIndex ->
+                val stoneColor = board[Position(Row(rowIndex), Col(colIndex))]
+                getStoneText(stoneColor, emptyBoardPositionGraphic(rowIndex, colIndex))
+            }
+
+    private fun emptyBoardPositionGraphic(
+        rowIndex: Int,
+        colIndex: Int,
+    ): String {
+        val topRowIndex = boardSize.value - INDEX_ADJUSTMENT
+        val bottomRowIndex = 0
+        val innerColumnCount = boardSize.value - 2
+
+        val rowPositionGraphics =
+            when (rowIndex) {
+                topRowIndex -> listOf("┌") + List(innerColumnCount) { "┬" } + listOf("┐")
+                bottomRowIndex -> listOf("└") + List(innerColumnCount) { "┴" } + listOf("┘")
+                else -> listOf("├") + List(innerColumnCount) { "┼" } + listOf("┤")
+            }
+        return rowPositionGraphics[colIndex]
+    }
 
     private fun getStoneText(
         stoneColor: StoneColor?,
         noneText: String,
     ): String =
         when (stoneColor) {
-            StoneColor.BLACK -> "●"
-            StoneColor.WHITE -> "○"
+            StoneColor.BLACK -> BLACK_STONE_GRAPHIC_TEXT
+            StoneColor.WHITE -> WHITE_STONE_GRAPHIC_TEXT
             else -> noneText
         }
 
     fun printNextTurn(board: Board) {
         board.lastStone?.let { stone ->
             val lastStoneCoordinateText = stoneCoordinateText(stone.position)
-            println("${stoneColorText(board.nextStoneColor)}의 차례 입니다. (마지막 돌의 위치: $lastStoneCoordinateText)")
+            println(NEXT_TURN_WITH_LAST_STONE_MESSAGE.format(stoneColorText(board.nextStoneColor), lastStoneCoordinateText))
         } ?: run {
-            println("${stoneColorText(board.nextStoneColor)}의 차례 입니다")
+            println(NEXT_TURN_MESSAGE.format(stoneColorText(board.nextStoneColor)))
         }
     }
 
     private fun stoneCoordinateText(position: Position): String {
         val lastCol = alphabets[position.col.value].toString()
-        val lastRow = (position.row.value + 1).toString()
+        val lastRow = (position.row.value + INDEX_ADJUSTMENT).toString()
 
         return lastCol + lastRow
     }
 
     private fun stoneColorText(stoneColor: StoneColor?): String =
         when (stoneColor) {
-            StoneColor.BLACK -> "흑"
-            StoneColor.WHITE -> "백"
+            StoneColor.BLACK -> BLACK_STONE_KOREAN_TEXT
+            StoneColor.WHITE -> WHITE_STONE_KOREAN_TEXT
             else -> ""
         }
 
     fun printOmok(lastStone: Stone?) {
         val lastStoneColor = stoneColorText(lastStone?.stoneColor)
-        println("${lastStoneColor}이 우승했습니다.")
+        println(WIN_MESSAGE.format(lastStoneColor))
     }
 
     fun printFoul(foul: RenjuFoul) {
@@ -100,11 +113,24 @@ class OutputView(
     }
 
     companion object {
+        private const val NEXT_TURN_MESSAGE = "%s의 차례 입니다."
+        private const val NEXT_TURN_WITH_LAST_STONE_MESSAGE = "%s의 차례 입니다. (마지막 돌의 위치: %s)"
+        private const val WIN_MESSAGE = "%s이 우승했습니다."
+
         private const val ERROR_THREE_BY_THREE_FOUL = "3-3 반칙이 발생했습니다"
         private const val ERROR_FOUR_BY_FOUR_FOUL = "4-4 반칙이 발생했습니다"
         private const val ERROR_OVER_FIVE_FOUL = "장목 반칙이 발생했습니다"
 
         private const val ERROR_STONE_ALREADY_EXITS = "해당하는 위치에 돌이 존재합니다"
         private const val ERROR_OUT_OF_RANGE = "돌이 보드의 범위를 벗어났습니다"
+
+        private const val BLACK_STONE_GRAPHIC_TEXT = "●"
+        private const val WHITE_STONE_GRAPHIC_TEXT = "○"
+        private const val BLACK_STONE_KOREAN_TEXT = "흑"
+        private const val WHITE_STONE_KOREAN_TEXT = "백"
+        private const val START_ALPHABET = 'A'
+        private const val END_ALPHABET = 'Z'
+        private const val ROW_NUMBER_FORMAT = "%2d "
+        private const val INDEX_ADJUSTMENT = 1
     }
 }

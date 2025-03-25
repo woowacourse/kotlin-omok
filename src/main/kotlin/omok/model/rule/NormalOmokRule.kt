@@ -14,8 +14,8 @@ class NormalOmokRule(
         checkExactlyFiveStone: Boolean = false,
     ): Boolean {
         val totalCount = calculateTotalCount(stonesMap, position)
-        if (checkExactlyFiveStone) return 5 in totalCount
-        return totalCount.max() >= 5
+        if (checkExactlyFiveStone) return OMOK_WIN_NUMBER in totalCount
+        return totalCount.max() >= OMOK_WIN_NUMBER
     }
 
     private fun calculateTotalCount(
@@ -23,10 +23,10 @@ class NormalOmokRule(
         position: Position,
     ): List<Int> =
         Direction.lineDirections().map { (directionA, directionB) ->
-            val countA = countConnected(stonesMap, position, directionA)
-            val countB = countConnected(stonesMap, position, directionB)
+            val countDirectionAStones = countConnected(stonesMap, position, directionA)
+            val countDirectionBStones = countConnected(stonesMap, position, directionB)
 
-            countA + countB + 1
+            countDirectionAStones + countDirectionBStones + COUNT_CURRENT_STONE
         }
 
     private fun countConnected(
@@ -49,5 +49,10 @@ class NormalOmokRule(
             }
         }
         return count
+    }
+
+    companion object {
+        private const val OMOK_WIN_NUMBER = 5
+        private const val COUNT_CURRENT_STONE = 1
     }
 }

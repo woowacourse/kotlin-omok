@@ -55,11 +55,16 @@ class BudoolRenjuRuleAdapter(
                 positionToCoordinatePair(it.key)
             }
 
-    private fun positionToCoordinatePair(position: Position): Pair<Int, Int> = position.row.value + 1 to position.col.value + 1
+    private fun positionToCoordinatePair(position: Position): Pair<Int, Int> =
+        position.row.value + BUDOOL_LIBRARY_INDEX_OFFSET to position.col.value + BUDOOL_LIBRARY_INDEX_OFFSET
 
     override fun isOmok(board: Board): Boolean {
         val stonesMap = board.stonesMap
         val lastStone = board.lastStone ?: return false
         return normalOmokRule.isPositionOmok(stonesMap, lastStone.position)
+    }
+
+    companion object {
+        private const val BUDOOL_LIBRARY_INDEX_OFFSET = 1
     }
 }

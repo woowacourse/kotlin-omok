@@ -5,7 +5,7 @@ import omok.model.stone.StoneColor
 import omok.model.stone.position.Position
 
 class Board(
-    val boardSize: BoardSize = BoardSize(15),
+    val boardSize: BoardSize = BoardSize(),
     stonesMap: LinkedHashMap<Position, StoneColor> = LinkedHashMap(),
 ) {
     private val _stonesMap: LinkedHashMap<Position, StoneColor> = LinkedHashMap(stonesMap)
