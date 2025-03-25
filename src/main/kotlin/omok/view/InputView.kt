@@ -2,8 +2,10 @@ package omok.view
 
 import omok.model.Color
 import omok.model.Game
-import omok.model.Position
 import omok.model.Stone
+import omok.model.position.Col
+import omok.model.position.Position
+import omok.model.position.Row
 
 class InputView {
     fun readTurn(game: Game): Position {
@@ -11,9 +13,9 @@ class InputView {
         val input: String = readln()
         println()
         require(input.isNotBlank()) { ERROR_MESSAGE_INCORRECT_POSITION_FORMAT }
-        val col: Int = readCol(input)
-        val row: Int = readRow(input)
-        return Position(row, col)
+        val col: Col = readCol(input)
+        val row: Row = readRow(input)
+        return Position(col, row)
     }
 
     private fun promptInput(game: Game) {
@@ -29,16 +31,16 @@ class InputView {
         print(MESSAGE_ENTER_POSITION)
     }
 
-    private fun readCol(input: String): Int {
-        return input.uppercase()[0].code - ASCII_OFFSET
+    private fun readCol(input: String): Col {
+        return Col(input.uppercase()[0].code - ASCII_OFFSET)
     }
 
-    private fun readRow(input: String): Int {
-        return input.substring(1).toIntOrNull() ?: throw IllegalArgumentException(ERROR_MESSAGE_INCORRECT_POSITION_FORMAT)
+    private fun readRow(input: String): Row {
+        return Row(input.substring(1).toIntOrNull() ?: throw IllegalArgumentException(ERROR_MESSAGE_INCORRECT_POSITION_FORMAT))
     }
 
     private fun Position.stringRepresentation(): String {
-        return "${(this.x + ASCII_OFFSET).toChar()}${this.y}"
+        return "${(this.x.value + ASCII_OFFSET).toChar()}${this.y.value}"
     }
 
     companion object {

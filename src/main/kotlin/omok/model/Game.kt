@@ -1,5 +1,7 @@
 package omok.model
 
+import omok.model.position.Position
+
 class Game(val board: Board, private val rule: Rule) {
     var lastStone: Stone? = null
         private set

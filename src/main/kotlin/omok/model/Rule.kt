@@ -1,5 +1,6 @@
 package omok.model
 
+import omok.model.position.Position
 import rule.BlackRenjuRule
 import rule.OmokRule
 import rule.WhiteRenjuRule
@@ -13,16 +14,14 @@ class Rule {
         color: Color,
     ): MoveResult {
         val newPoint: Point = position.toPoint()
-        val blackPoints: List<Point> =
-            board.filterStones(Color.BLACK).map { stone -> stone.position.toPoint() }
-        val whitePoints: List<Point> =
-            board.filterStones(Color.WHITE).map { stone -> stone.position.toPoint() }
+        val blackPoints: List<Point> = board.filterStones(Color.BLACK).map { stone -> stone.position.toPoint() }
+        val whitePoints: List<Point> = board.filterStones(Color.WHITE).map { stone -> stone.position.toPoint() }
         val violation: Violation =
             when (color) {
                 Color.BLACK ->
-                    BlackRenjuRule(board.col, board.row).checkAnyFoulCondition(blackPoints, whitePoints, newPoint)
+                    BlackRenjuRule(board.col.value, board.row.value).checkAnyFoulCondition(blackPoints, whitePoints, newPoint)
                 Color.WHITE ->
-                    WhiteRenjuRule(board.col, board.row).checkAnyFoulCondition(whitePoints, blackPoints, newPoint)
+                    WhiteRenjuRule(board.col.value, board.row.value).checkAnyFoulCondition(whitePoints, blackPoints, newPoint)
             }
 
         return when (violation) {
@@ -40,8 +39,8 @@ class Rule {
     ): MoveResult {
         val rule: OmokRule =
             when (color) {
-                Color.BLACK -> BlackRenjuRule(board.col, board.row)
-                Color.WHITE -> WhiteRenjuRule(board.col, board.row)
+                Color.BLACK -> BlackRenjuRule(board.col.value, board.row.value)
+                Color.WHITE -> WhiteRenjuRule(board.col.value, board.row.value)
             }
         val points: List<Point> = board.filterStones(color).map { stone -> stone.position.toPoint() }
         val newPoint: Point = position.toPoint()
@@ -54,7 +53,7 @@ class Rule {
     }
 
     private fun Position.toPoint(): Point {
-        return Point(x, y)
+        return Point(x.value, y.value)
     }
 
     companion object {

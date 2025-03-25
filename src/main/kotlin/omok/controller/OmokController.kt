@@ -3,8 +3,8 @@ package omok.controller
 import omok.model.Board
 import omok.model.Game
 import omok.model.MoveResult
-import omok.model.Position
 import omok.model.Rule
+import omok.model.position.Position
 import omok.view.InputView
 import omok.view.OutputView
 

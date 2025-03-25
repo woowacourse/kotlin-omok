@@ -31,8 +31,8 @@ class OutputView {
         val boardString: String = buildBoard(board)
         val rows = boardString.lines().toMutableList()
         board.stones.forEach { stone ->
-            val y: Int = board.row - stone.position.y
-            rows[y] = updateRow(rows[y], stone.position.x, stone.color)
+            val y: Int = board.row.value - stone.position.y.value
+            rows[y] = updateRow(rows[y], stone.position.x.value, stone.color)
         }
         return rows.joinToString("\n")
     }
@@ -69,15 +69,15 @@ class OutputView {
     ): String {
         return StringBuilder().apply {
             append(left)
-            repeat(board.col - 2) { append(middle) }
+            repeat(board.col.value - 2) { append(middle) }
             append(right)
         }.toString()
     }
 
     private fun buildRowLabel(board: Board): String {
         return StringBuilder().apply {
-            append(" ".repeat(board.row.toString().length))
-            for (i in 1..board.col) {
+            append(" ".repeat(board.row.value.toString().length))
+            for (i in 1..board.col.value) {
                 append("  ${(i + ASCII_OFFSET).toChar()}")
             }
         }.toString()
@@ -89,12 +89,12 @@ class OutputView {
         center: String,
         bottom: String,
     ): List<String> {
-        val rows: MutableList<StringBuilder> = MutableList(board.row) { StringBuilder() }
+        val rows: MutableList<StringBuilder> = MutableList(board.row.value) { StringBuilder() }
         rows.forEachIndexed { i, row ->
-            row.append(" %${board.row.toString().length}d ".format(board.row - i))
+            row.append(" %${board.row.value.toString().length}d ".format(board.row.value - i))
             when (i) {
                 0 -> row.append(top)
-                board.row - 1 -> row.append(bottom)
+                board.row.value - 1 -> row.append(bottom)
                 else -> row.append(center)
             }
         }
