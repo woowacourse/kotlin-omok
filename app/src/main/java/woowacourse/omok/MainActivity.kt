@@ -20,6 +20,9 @@ import woowacourse.omok.domain.turn.PutStoneResult.Finished
 import woowacourse.omok.domain.turn.PutStoneResult.NextTurn
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var omokGame: OmokGame
+    private lateinit var board: TableLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -30,9 +33,12 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val omokBoard = OmokBoard(rule = OmokAdapter())
-        val omokGame = OmokGame(omokBoard)
+        omokGame = OmokGame(OmokBoard(rule = OmokAdapter()))
+        board = findViewById(R.id.board)
+        setBoard()
+    }
 
+    private fun setBoard() {
         val columns = ('A'..'O').toList()
         val rows = (15 downTo 1).toList()
 
@@ -48,44 +54,56 @@ class MainActivity : AppCompatActivity() {
                 view.tag = "$x$y"
 
                 view.setOnClickListener {
-                    when (omokGame.putStone(Position(x - 'A', y - 1))) {
-                        is NextTurn -> {
-                            if (omokGame.getNowTurn() == StoneState.BLACK) {
-                                view.setImageResource(R.drawable.white_stone)
-                            } else {
-                                view.setImageResource(R.drawable.black_stone)
-                            }
-                        }
-
-                        is Finished -> {
-                            board.children
-                                .filterIsInstance<TableRow>()
-                                .flatMap { it.children }
-                                .filterIsInstance<ImageView>()
-                                .forEach { it.setOnClickListener(null) }
-
-                            val winner = omokGame.getNowTurn()
-                            if (winner == StoneState.BLACK) {
-                                view.setImageResource(R.drawable.black_stone)
-                            } else {
-                                view.setImageResource(R.drawable.white_stone)
-                            }
-                            Toast.makeText(this, getString(R.string.text_win_message, winner.name), Toast.LENGTH_LONG).show()
-                        }
-
-                        is PutStoneResult.AlreadyPlaced -> {
-                            Toast.makeText(this, R.string.text_already_placed, Toast.LENGTH_SHORT).show()
-                        }
-
-                        is PutStoneResult.Violation -> {
-                            Toast.makeText(this, R.string.text_violate_rule, Toast.LENGTH_SHORT).show()
-                        }
-
-                        is PutStoneResult.InvalidPosition -> {
-                            Toast.makeText(this, R.string.text_invalid_position, Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                    handlePutStoneResult(view, Position(x - 'A', y - 1))
                 }
             }
+    }
+
+    private fun handlePutStoneResult(
+        view: ImageView,
+        position: Position,
+    ) {
+        when (omokGame.putStone(position)) {
+            is NextTurn -> {
+                if (omokGame.getNowTurn() == StoneState.BLACK) {
+                    view.setImageResource(R.drawable.white_stone)
+                } else {
+                    view.setImageResource(R.drawable.black_stone)
+                }
+            }
+
+            is Finished -> {
+                board.children
+                    .filterIsInstance<TableRow>()
+                    .flatMap { it.children }
+                    .filterIsInstance<ImageView>()
+                    .forEach { it.setOnClickListener(null) }
+
+                val winner = omokGame.getNowTurn()
+                if (winner == StoneState.BLACK) {
+                    view.setImageResource(R.drawable.black_stone)
+                } else {
+                    view.setImageResource(R.drawable.white_stone)
+                }
+                Toast
+                    .makeText(
+                        this,
+                        getString(R.string.text_win_message, winner.name),
+                        Toast.LENGTH_LONG,
+                    ).show()
+            }
+
+            is PutStoneResult.AlreadyPlaced -> {
+                Toast.makeText(this, R.string.text_already_placed, Toast.LENGTH_SHORT).show()
+            }
+
+            is PutStoneResult.Violation -> {
+                Toast.makeText(this, R.string.text_violate_rule, Toast.LENGTH_SHORT).show()
+            }
+
+            is PutStoneResult.InvalidPosition -> {
+                Toast.makeText(this, R.string.text_invalid_position, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
