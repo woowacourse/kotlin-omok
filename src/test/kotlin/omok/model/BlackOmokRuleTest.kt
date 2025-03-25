@@ -46,8 +46,8 @@ import omok.mapper.PointMapper
 import omok.model.game.Game
 import omok.model.rule.BlackOmokRule
 import omok.model.stone.StoneColor
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import rule.BlackRenjuRule
 
 class BlackOmokRuleTest {
@@ -79,13 +79,13 @@ class BlackOmokRuleTest {
             game.placeStone(i)
         }
 
-        assertThrows<DoubleThreeViolation> {
+        assertThat(
             blackOmokRule.validate(
                 game.getBoard(),
                 nextPosition,
                 StoneColor.BLACK,
-            )
-        }
+            ),
+        ).isEqualTo(DoubleThreeViolation)
     }
 
     @Test
@@ -111,9 +111,7 @@ class BlackOmokRuleTest {
             game.placeStone(i)
         }
 
-        assertThrows<DoubleFourViolation> {
-            blackOmokRule.validate(game.getBoard(), nextPosition, StoneColor.BLACK)
-        }
+        assertThat(blackOmokRule.validate(game.getBoard(), nextPosition, StoneColor.BLACK)).isEqualTo(DoubleFourViolation)
     }
 
     @Test
@@ -140,9 +138,7 @@ class BlackOmokRuleTest {
             game.placeStone(i)
         }
 
-        assertThrows<DoubleFourViolation> {
-            blackOmokRule.validate(game.getBoard(), nextPosition, StoneColor.BLACK)
-        }
+        assertThat(blackOmokRule.validate(game.getBoard(), nextPosition, StoneColor.BLACK)).isEqualTo(DoubleFourViolation)
     }
 
     @Test
@@ -168,8 +164,6 @@ class BlackOmokRuleTest {
             game.placeStone(i)
         }
 
-        assertThrows<OverlineViolation> {
-            blackOmokRule.validate(game.getBoard(), nextPosition, StoneColor.BLACK)
-        }
+        assertThat(blackOmokRule.validate(game.getBoard(), nextPosition, StoneColor.BLACK)).isEqualTo(OverlineViolation)
     }
 }
