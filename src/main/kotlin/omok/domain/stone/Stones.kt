@@ -19,8 +19,14 @@ class Stones(
 
     fun isOmok(lastPoint: Point): Boolean = rule.isOmok(_points, lastPoint)
 
-    fun checkViolation(
+    fun isFoul(
         other: Stones,
         point: Point,
-    ): Violation = rule.checkViolation(this.points, other.points, point)
+    ): Boolean {
+        val violation = rule.checkViolation(this.points, other.points, point)
+        return when (violation) {
+            Violation.DOUBLE_THREE, Violation.DOUBLE_FOUR, Violation.OVERLINE -> true
+            Violation.NONE -> false
+        }
+    }
 }

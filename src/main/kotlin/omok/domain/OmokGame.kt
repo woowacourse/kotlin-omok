@@ -1,16 +1,15 @@
 package omok.domain
 
 import omok.domain.state.BlackTurn
+import omok.domain.state.Finished
 import omok.domain.state.Playing
 import omok.domain.state.State
 import omok.domain.stone.StoneColor
-import omok.domain.stone.Stones
 
 class OmokGame(
     board: OmokBoard,
 ) {
-    var state: State
-        private set
+    private var state: State
     private var lastPoint: Point? = null
 
     init {
@@ -20,7 +19,7 @@ class OmokGame(
     fun play(
         onTurn: (StoneColor, Point?) -> Unit,
         onPointSelected: () -> Point,
-        onBoardUpdated: (Stones, Stones) -> Unit,
+        onBoardUpdated: (OmokBoard) -> Unit,
     ) {
         while (state is Playing) {
             val playingState = state as Playing
@@ -28,7 +27,14 @@ class OmokGame(
             val newPoint = onPointSelected()
             state = playingState.place(newPoint)
             lastPoint = newPoint
-            onBoardUpdated(state.omokBoard.blackStones, state.omokBoard.whiteStones)
+            onBoardUpdated(state.omokBoard)
         }
     }
+
+    fun winner(): StoneColor? =
+        if (state is Finished) {
+            (state as Finished).winnerColor
+        } else {
+            null
+        }
 }

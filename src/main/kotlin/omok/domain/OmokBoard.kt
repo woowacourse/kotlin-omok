@@ -1,7 +1,6 @@
 package omok.domain
 
 import omok.domain.rule.BlackStoneRule
-import omok.domain.rule.Violation
 import omok.domain.rule.WhiteStoneRule
 import omok.domain.stone.StoneColor
 import omok.domain.stone.Stones
@@ -18,19 +17,12 @@ class OmokBoard(
     fun put(
         stoneColor: StoneColor,
         point: Point,
-    ): OmokBoard =
-        when (stoneColor) {
+    ): OmokBoard {
+        checkViolation(stoneColor, point)
+        return when (stoneColor) {
             StoneColor.BLACK -> OmokBoard(boardSize, blackStones + point, whiteStones)
             StoneColor.WHITE -> OmokBoard(boardSize, blackStones, whiteStones + point)
         }
-
-    fun checkViolation(
-        stoneColor: StoneColor,
-        point: Point,
-    ): Violation {
-        if (!point.isInBounds(boardSize)) return Violation.OUT_OF_BOARD
-        if (contains(point)) return Violation.OCCUPIED
-        return getStones(stoneColor).checkViolation(getOtherStones(stoneColor), point)
     }
 
     fun isOmok(
@@ -39,6 +31,17 @@ class OmokBoard(
     ): Boolean = getStones(stoneColor).isOmok(point)
 
     fun isFull(): Boolean = blackStones.points.size + whiteStones.points.size >= boardSize * boardSize
+
+    private fun checkViolation(
+        stoneColor: StoneColor,
+        point: Point,
+    ) {
+        if (!point.isInBounds(boardSize)) throw IllegalArgumentException(ERROR_OUT_OF_BOARD)
+        if (contains(point)) throw IllegalArgumentException(ERROR_ALREADY_OCCUPIED)
+        if (getStones(stoneColor).isFoul(getOtherStones(stoneColor), point)) {
+            throw IllegalArgumentException(ERROR_RENJU_RULE)
+        }
+    }
 
     private fun contains(point: Point): Boolean = blackStones.contains(point) || whiteStones.contains(point)
 
@@ -58,5 +61,8 @@ class OmokBoard(
         const val DEFAULT_BOARD_SIZE = 15
         private const val MINIMUM_BOARD_SIZE = 5
         private const val ERROR_INVALID_BOARD_SIZE = "오목판의 사이즈는 최소 5x5이어야 합니다."
+        private const val ERROR_OUT_OF_BOARD = "오목판의 범위를 넘어간 좌표입니다."
+        private const val ERROR_ALREADY_OCCUPIED = "이미 돌이 놓여져 있습니다."
+        private const val ERROR_RENJU_RULE = "돌을 놓을 수 없습니다. 금수입니다."
     }
 }
