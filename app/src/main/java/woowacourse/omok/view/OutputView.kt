@@ -1,9 +1,9 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.Board
-import omok.model.Color
-import omok.model.MoveResult
-import omok.model.position.Col
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.MoveResult
+import woowacourse.omok.model.position.Col
 
 class OutputView {
     fun printOmokStart() {
@@ -16,9 +16,18 @@ class OutputView {
             is MoveResult.Success.Playing -> println(MESSAGE_OMOK_IN_PROGRESS)
             is MoveResult.Success.Finished -> println(MESSAGE_OMOK_WINNER.format(moveResult.winner.toPlayerName()))
 
-            is MoveResult.Failure.PositionAlreadyOccupied -> println(MESSAGE_FAILURE_POSITION_ALREADY_OCCUPIED)
-            is MoveResult.Failure.DoubleThreeViolation -> println(MESSAGE_FAILURE_DOUBLE_THREE_VIOLATION)
-            is MoveResult.Failure.DoubleFourViolation -> println(MESSAGE_FAILURE_DOUBLE_FOUR_VIOLATION)
+            is MoveResult.Failure.PositionAlreadyOccupied ->
+                println(
+                    MESSAGE_FAILURE_POSITION_ALREADY_OCCUPIED,
+                )
+            is MoveResult.Failure.DoubleThreeViolation ->
+                println(
+                    MESSAGE_FAILURE_DOUBLE_THREE_VIOLATION,
+                )
+            is MoveResult.Failure.DoubleFourViolation ->
+                println(
+                    MESSAGE_FAILURE_DOUBLE_FOUR_VIOLATION,
+                )
             is MoveResult.Failure.OverlineViolation -> println(MESSAGE_FAILURE_OVERLINE_VIOLATION)
         }
     }
@@ -99,15 +108,15 @@ class OutputView {
 
     private fun Color.toPlayerName(): String {
         return when (this) {
-            Color.BLACK -> BLACK_PLAYER
-            Color.WHITE -> WHITE_PLAYER
+            Color.BLACK -> woowacourse.omok.view.OutputView.BLACK_PLAYER
+            Color.WHITE -> woowacourse.omok.view.OutputView.WHITE_PLAYER
         }
     }
 
     private fun Color.toStoneChar(): Char {
         return when (this) {
-            Color.BLACK -> BLACK_STONE
-            Color.WHITE -> WHITE_STONE
+            Color.BLACK -> woowacourse.omok.view.OutputView.BLACK_STONE
+            Color.WHITE -> woowacourse.omok.view.OutputView.WHITE_STONE
         }
     }
 

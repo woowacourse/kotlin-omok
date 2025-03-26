@@ -1,11 +1,11 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.model.position.Col
-import omok.model.position.Position
-import omok.model.position.Row
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import woowacourse.omok.model.position.Col
+import woowacourse.omok.model.position.Position
+import woowacourse.omok.model.position.Row
 
 class BoardTest {
     @Test

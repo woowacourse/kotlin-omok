@@ -1,11 +1,11 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.Color
-import omok.model.Game
-import omok.model.Stone
-import omok.model.position.Col
-import omok.model.position.Position
-import omok.model.position.Row
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.Game
+import woowacourse.omok.model.Stone
+import woowacourse.omok.model.position.Col
+import woowacourse.omok.model.position.Position
+import woowacourse.omok.model.position.Row
 
 class InputView {
     fun readTurn(game: Game): Position {
@@ -40,7 +40,7 @@ class InputView {
     }
 
     private fun Position.stringRepresentation(): String {
-        return "${(this.x.value + ASCII_OFFSET).toChar()}${this.y.value}"
+        return "${(this.x.value + woowacourse.omok.view.InputView.ASCII_OFFSET).toChar()}${this.y.value}"
     }
 
     companion object {

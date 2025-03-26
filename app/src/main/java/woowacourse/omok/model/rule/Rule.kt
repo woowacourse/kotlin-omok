@@ -1,9 +1,9 @@
-package omok.model.rule
+package woowacourse.omok.model.rule
 
-import omok.model.Board
-import omok.model.Color
-import omok.model.MoveResult
-import omok.model.position.Position
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.MoveResult
+import woowacourse.omok.model.position.Position
 
 interface Rule {
     fun checkViolation(

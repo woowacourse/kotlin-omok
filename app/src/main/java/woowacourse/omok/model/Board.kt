@@ -1,7 +1,7 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.model.position.Col
-import omok.model.position.Row
+import woowacourse.omok.model.position.Col
+import woowacourse.omok.model.position.Row
 
 class Board(
     val col: Col = Col(DEFAULT_COL_SIZE),

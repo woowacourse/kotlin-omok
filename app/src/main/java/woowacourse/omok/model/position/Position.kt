@@ -1,4 +1,4 @@
-package omok.model.position
+package woowacourse.omok.model.position
 
 data class Position(
     val x: Col,

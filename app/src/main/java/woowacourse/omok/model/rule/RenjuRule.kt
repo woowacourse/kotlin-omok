@@ -1,15 +1,15 @@
-package omok.model.rule
+package woowacourse.omok.model.rule
 
-import omok.model.Board
-import omok.model.Color
-import omok.model.MoveResult
-import omok.model.Stone
-import omok.model.position.Position
 import rule.BlackRenjuRule
 import rule.OmokRule
 import rule.WhiteRenjuRule
 import rule.type.Violation
 import rule.wrapper.point.Point
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.MoveResult
+import woowacourse.omok.model.Stone
+import woowacourse.omok.model.position.Position
 
 class RenjuRule : Rule {
     override fun checkViolation(

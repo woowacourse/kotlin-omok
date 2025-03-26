@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 sealed class MoveResult {
     sealed class Success : MoveResult() {

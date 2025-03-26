@@ -1,7 +1,7 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.model.position.Position
-import omok.model.rule.Rule
+import woowacourse.omok.model.position.Position
+import woowacourse.omok.model.rule.Rule
 
 class Game(val board: Board, private val rule: Rule) {
     var lastStone: Stone? = null
