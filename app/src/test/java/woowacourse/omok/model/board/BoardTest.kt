@@ -1,7 +1,6 @@
 package woowacourse.omok.model.board
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -26,9 +25,9 @@ class BoardTest {
     }
 
     @Test
-    fun `초기 보드는 모든 점이 null이다`() {
+    fun `초기 보드는 모든 점이 NONE이다`() {
         createBoard().points.forEach { (_, state) ->
-            assertEquals(null, state)
+            assertThat(state).isEqualTo(StoneColor.NONE)
         }
     }
 
@@ -37,9 +36,9 @@ class BoardTest {
         val initialPoints = mapOf(Point(1, 1) to StoneColor.BLACK, Point(2, 2) to StoneColor.WHITE)
         val customBoard = Board(BoardSize(15), initialPoints, validator = RuleValidator())
 
-        assertEquals(StoneColor.BLACK, customBoard.findStoneColor(Point(1, 1)))
-        assertEquals(StoneColor.WHITE, customBoard.findStoneColor(Point(2, 2)))
-        assertEquals(null, customBoard.findStoneColor(Point(3, 3)))
+        assertThat(customBoard.findStoneColor(Point(1, 1))).isEqualTo(StoneColor.BLACK)
+        assertThat(customBoard.findStoneColor(Point(2, 2))).isEqualTo(StoneColor.WHITE)
+        assertThat(customBoard.findStoneColor(Point(3, 3))).isEqualTo(StoneColor.NONE)
     }
 
     @Test
@@ -71,7 +70,7 @@ class BoardTest {
         val board = createBoard()
 
         val actual = board.findStoneColor(position)
-        val expected = null
+        val expected = StoneColor.NONE
 
         assertThat(actual).isEqualTo(expected)
     }

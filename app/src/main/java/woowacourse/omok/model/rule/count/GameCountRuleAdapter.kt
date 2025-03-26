@@ -9,6 +9,6 @@ class GameCountRuleAdapter(
 ) : GameRule {
     override fun validateMove(
         board: Board,
-        previousPoint: Point,
-    ): Boolean = omokCountRule.calculate(board, previousPoint)
+        validationPoint: Point,
+    ): Boolean = omokCountRule.calculate(board, validationPoint)
 }

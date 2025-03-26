@@ -1,6 +1,6 @@
 package woowacourse.omok.model.board
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class StoneColorTest {
@@ -11,7 +11,7 @@ class StoneColorTest {
         val actual = state.reverseStoneColor()
         val expected = StoneColor.BLACK
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -21,6 +21,6 @@ class StoneColorTest {
         val actual = state.reverseStoneColor()
         val expected = StoneColor.WHITE
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

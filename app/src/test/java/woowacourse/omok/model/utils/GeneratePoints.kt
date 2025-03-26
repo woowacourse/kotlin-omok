@@ -5,9 +5,9 @@ import woowacourse.omok.model.board.Point
 import woowacourse.omok.model.board.StoneColor
 
 fun generatePoints(
-    points: Map<String, StoneColor?>,
+    points: Map<String, StoneColor>,
     size: Int = 15,
-): Map<Point, StoneColor?> {
+): Map<Point, StoneColor> {
     val newPoints =
         points
             .map { (rawPoint, color) ->
@@ -19,7 +19,7 @@ fun generatePoints(
     for (row in BoardSize.MIN_SIZE..size) {
         for (col in BoardSize.MIN_SIZE..size) {
             val key = Point(row, col)
-            newPoints[key] = newPoints.getOrDefault(key, null)
+            newPoints[key] = newPoints.getOrDefault(key, StoneColor.NONE)
         }
     }
 

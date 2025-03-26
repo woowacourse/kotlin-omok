@@ -10,9 +10,9 @@ class ForbiddenMoveRuleAdapter(
 ) : GameRule {
     override fun validateMove(
         board: Board,
-        previousPoint: Point,
+        validationPoint: Point,
     ): Boolean {
-        val position = converteOmokPoint(previousPoint)
+        val position = converteOmokPoint(validationPoint)
         return forbiddenMoveRule.validate(board.toList(), position)
     }
 
@@ -25,12 +25,12 @@ class ForbiddenMoveRuleAdapter(
         return adapted
     }
 
-    private fun StoneColor?.toInt(): Int =
+    private fun StoneColor.toInt(): Int =
         when (this) {
             StoneColor.BLACK -> ForbiddenMoveRule.BLACK_STONE
             StoneColor.WHITE -> ForbiddenMoveRule.WHITE_STONE
             else -> ForbiddenMoveRule.EMPTY_STONE
         }
 
-    fun converteOmokPoint(point: Point): Pair<Int, Int> = Pair(point.x - 1, point.y - 1)
+    private fun converteOmokPoint(point: Point): Pair<Int, Int> = Pair(point.x - 1, point.y - 1)
 }

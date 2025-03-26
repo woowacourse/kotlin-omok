@@ -7,11 +7,11 @@ import woowacourse.omok.model.rule.RuleValidator
 
 class Board(
     size: BoardSize,
-    points: Map<Point, StoneColor?> = emptyMap(),
+    points: Map<Point, StoneColor> = emptyMap(),
     private val validator: RuleValidator,
 ) {
-    private val _points: MutableMap<Point, StoneColor?> = points.toMutableMap()
-    val points: Map<Point, StoneColor?> get() = _points.toMap()
+    private val _points: MutableMap<Point, StoneColor> = points.toMutableMap()
+    val points: Map<Point, StoneColor> get() = _points.toMap()
 
     val size: Int = size.value
 
@@ -21,7 +21,7 @@ class Board(
         for (row in BoardSize.MIN_SIZE..size.value) {
             for (col in BoardSize.MIN_SIZE..size.value) {
                 val key = Point(row, col)
-                _points[key] = _points.getOrDefault(key, null)
+                _points[key] = _points.getOrDefault(key, StoneColor.NONE)
             }
         }
     }
@@ -50,7 +50,7 @@ class Board(
     }
 
     private fun checkBoardStatus(point: Point): PlaceStoneResult {
-        if (points.count { it.value == null } == 0) return Finished.BoardFull(point)
+        if (points.count { it.value == StoneColor.NONE } == 0) return Finished.BoardFull(point)
         return OnGoing.StonePlaced(point)
     }
 
@@ -63,5 +63,5 @@ class Board(
 
     private fun checkOutOfBounds(point: Point): Boolean = !(listOf(point.x, point.y).all { it in BoardSize.MIN_SIZE..size })
 
-    private fun checkAlreadyPlaced(point: Point): Boolean = findStoneColor(point) != null
+    private fun checkAlreadyPlaced(point: Point): Boolean = findStoneColor(point) != StoneColor.NONE
 }
