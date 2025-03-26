@@ -10,7 +10,21 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
-import woowacourse.omok.R
+import woowacourse.omok.R.drawable.black_stone
+import woowacourse.omok.R.drawable.white_stone
+import woowacourse.omok.R.string.omok_already_exist_stone_error
+import woowacourse.omok.R.string.omok_black_label
+import woowacourse.omok.R.string.omok_double_four_error
+import woowacourse.omok.R.string.omok_double_three_error
+import woowacourse.omok.R.string.omok_draw
+import woowacourse.omok.R.string.omok_exit_alert
+import woowacourse.omok.R.string.omok_exit_game
+import woowacourse.omok.R.string.omok_game_end
+import woowacourse.omok.R.string.omok_invalid_position_error
+import woowacourse.omok.R.string.omok_overline_error
+import woowacourse.omok.R.string.omok_turn
+import woowacourse.omok.R.string.omok_white_label
+import woowacourse.omok.R.string.omok_winning
 import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.domain.omokboard.ColumnPosition
 import woowacourse.omok.domain.omokboard.OmokBoard
@@ -37,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         setupView()
 
         val playingBoard = PlayingBoard(OmokBoard.create())
+
         val placeRules = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())
         val judgeRules = listOf(WinningRule(), DrawRule())
 
@@ -91,14 +106,21 @@ class MainActivity : AppCompatActivity() {
     ) {
         button.setImageResource(
             when (playingBoard.stoneColor) {
-                StoneColor.BLACK -> R.drawable.black_stone
-                StoneColor.WHITE -> R.drawable.white_stone
+                StoneColor.BLACK -> black_stone
+                StoneColor.WHITE -> white_stone
             },
         )
 
         handleJudge(playingBoard, playerStone, judgeRules)
         playingBoard.reverseTurn()
+        showSnackBar(getString(omok_turn, playingBoard.stoneColor.toText()))
     }
+
+    private fun StoneColor.toText(): String =
+        when (this) {
+            StoneColor.BLACK -> getString(omok_black_label)
+            StoneColor.WHITE -> getString(omok_white_label)
+        }
 
     private fun handleJudge(
         playingBoard: PlayingBoard,
@@ -125,26 +147,18 @@ class MainActivity : AppCompatActivity() {
     private fun showResultDialog(message: String) {
         AlertDialog
             .Builder(this)
-            .setTitle("게임 종료")
+            .setTitle(getString(omok_game_end))
             .setMessage(message)
             .setCancelable(false)
-            .setPositiveButton("나가기") { dialog, _ -> dialog.dismiss() }
-            .setNegativeButton("알림 닫기") { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton(getString(omok_exit_game)) { dialog, _ -> dialog.dismiss() }
+            .setNegativeButton(getString(omok_exit_alert)) { dialog, _ -> dialog.dismiss() }
             .show()
     }
 
     private fun getJudgeMessage(result: JudgeResult.Finished): String =
         when (result) {
-            is JudgeResult.Finished.Win -> {
-                val color =
-                    when (result.stone) {
-                        StoneColor.BLACK -> "흑"
-                        StoneColor.WHITE -> "백"
-                    }
-                "${color}의 우승을 축하드립니다!"
-            }
-
-            is JudgeResult.Finished.Draw -> "무승부!"
+            is JudgeResult.Finished.Win -> getString(omok_winning, result.stone.toText())
+            is JudgeResult.Finished.Draw -> getString(omok_draw)
         }
 
     private fun showSnackBar(message: String) {
@@ -153,10 +167,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun getFailureMessage(result: PlaceResult.Failure): String =
         when (result) {
-            PlaceResult.Failure.AlreadyExistStone -> "이미 돌이 있는 자리에 둘 수 없습니다."
-            PlaceResult.Failure.DoubleFourViolation -> "4 x 4은 금지입니다."
-            PlaceResult.Failure.DoubleThreeViolation -> "3 x 3은 금지입니다."
-            PlaceResult.Failure.InvalidPosition -> "잘못된 위치 입니다."
-            PlaceResult.Failure.OverlineViolation -> "6목은 금지입니다."
+            PlaceResult.Failure.AlreadyExistStone -> getString(omok_already_exist_stone_error)
+            PlaceResult.Failure.DoubleFourViolation -> getString(omok_double_four_error)
+            PlaceResult.Failure.DoubleThreeViolation -> getString(omok_double_three_error)
+            PlaceResult.Failure.InvalidPosition -> getString(omok_invalid_position_error)
+            PlaceResult.Failure.OverlineViolation -> getString(omok_overline_error)
         }
 }
