@@ -4,6 +4,11 @@ import omok.model.stone.position.Position
 import rule.BlackRenjuRule
 import rule.type.Violation
 import rule.wrapper.point.Point
+import woowacourse.omok.model.rule.PlacementError
+import woowacourse.omok.model.rule.PlacementError.DoubleFourViolation
+import woowacourse.omok.model.rule.PlacementError.NoViolation
+import woowacourse.omok.model.rule.PlacementError.DoubleThreeViolation
+import woowacourse.omok.model.rule.PlacementError.OverlineViolation
 
 class BlackRuleChecker(
     private val rule: BlackRenjuRule,
@@ -13,7 +18,7 @@ class BlackRuleChecker(
         blacks: List<Position>,
         whites: List<Position>,
         next: Position,
-    ): ViolationType =
+    ): PlacementError =
         when (rule.checkAnyFoulCondition(blacks.map(mapper), whites.map(mapper), mapper(next))) {
             Violation.DOUBLE_THREE -> DoubleThreeViolation
             Violation.DOUBLE_FOUR -> DoubleFourViolation

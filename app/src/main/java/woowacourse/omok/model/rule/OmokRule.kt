@@ -1,10 +1,10 @@
 package omok.model.rule
 
-import omok.mapper.ViolationType
 import omok.model.board.Board
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Position
+import woowacourse.omok.model.rule.PlacementError
 
 interface OmokRule {
     fun isWin(
@@ -16,5 +16,5 @@ interface OmokRule {
         board: Board,
         nextPosition: Position,
         color: StoneColor,
-    ): ViolationType
+    ): PlacementError
 }

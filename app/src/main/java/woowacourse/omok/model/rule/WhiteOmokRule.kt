@@ -1,13 +1,13 @@
 package omok.model.rule
 
-import omok.mapper.NoViolation
-import omok.mapper.ViolationType
 import omok.model.board.Board
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
+import woowacourse.omok.model.rule.PlacementError
+import woowacourse.omok.model.rule.PlacementError.NoViolation
 
 class WhiteOmokRule(
     private val width: Int,
@@ -22,7 +22,7 @@ class WhiteOmokRule(
         board: Board,
         nextPosition: Position,
         color: StoneColor,
-    ): ViolationType = NoViolation
+    ): PlacementError = NoViolation
 
     private fun calculateTotalCount(
         stonesMap: Map<Position, StoneColor>,

@@ -1,11 +1,11 @@
 package omok.model.rule
 
 import omok.mapper.BlackRuleChecker
-import omok.mapper.ViolationType
 import omok.model.board.Board
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Position
+import woowacourse.omok.model.rule.PlacementError
 
 class BlackOmokRule(
     private val blackRuleChecker: BlackRuleChecker,
@@ -25,7 +25,7 @@ class BlackOmokRule(
         board: Board,
         nextPosition: Position,
         color: StoneColor,
-    ): ViolationType {
+    ): PlacementError {
         val blackStones = board.getBlackStones()
         val whiteStones = board.getWhiteStones()
 
