@@ -46,21 +46,16 @@ class MainActivity : AppCompatActivity() {
         board = findViewById(R.id.board)
         setBoard(board)
 
-        val resetGame = findViewById<Button>(R.id.btn_resetGame)
-        resetGame.setOnClickListener {
+        val storedStone = getStoredStone()
+        if (storedStone.isNotEmpty()) {
+            loadGame(storedStone)
+        } else {
             omokGame = OmokGame(OmokBoard(rule = OmokAdapter()))
-
-            dbHelper.writableDatabase.use { db ->
-                db.execSQL(SQL_DELETE_ENTRIES)
-                dbHelper.onCreate(db)
-            }
-
-            board.children
-                .filterIsInstance<TableRow>()
-                .flatMap { it.children }
-                .filterIsInstance<ImageView>()
-                .forEach { it.setImageResource(0) }
         }
+
+        setBoard(board)
+        val btnResetGame = findViewById<Button>(R.id.btn_resetGame)
+        btnResetGame.setOnClickListener { resetGame() }
     }
 
     private fun setBoard(board: TableLayout) {
@@ -84,6 +79,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handlePutStoneResult(
+    private fun loadGame(storedStone: List<Stone>) {
+        val lastTurn = storedStone.last().state
+        val omokBoard = OmokBoard(stones = storedStone, rule = OmokAdapter())
+        storedStone.forEach { stone ->
+            val row = board.getChildAt(14 - stone.position.y) as? TableRow
+            val imageView = row?.getChildAt(stone.position.x) as? ImageView
+            imageView?.let { view -> drawStone(view, stone.state) }
+        }
+
+        val turn = if (lastTurn == StoneState.BLACK) StoneState.WHITE else StoneState.BLACK
+        updateTurnView(turn)
+        omokGame = OmokGame(omokBoard, turn)
+    }
+
         view: ImageView,
         position: Position,
     ) {
