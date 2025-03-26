@@ -16,18 +16,15 @@ import omok.model.stone.position.Position
 class Game(
     blackRuleChecker: BlackRuleChecker,
 ) {
-    private var board: Board = initBoard(BoardDimensions(15, 15))
-    private var turn: StoneColor = StoneColor.BLACK
-    private var lastStone: Stone? = null
+    var board: Board = initBoard(BoardDimensions(15, 15))
+        private set
+    var turn: StoneColor = StoneColor.BLACK
+        private set
+    var lastStone: Stone? = null
+        private set
 
     private val whiteOmokRule = WhiteOmokRule(board.getWidth(), board.getHeight())
     private val blackOmokRule = BlackOmokRule(blackRuleChecker)
-
-    fun getBoard(): Board = board
-
-    fun getTurn(): StoneColor = turn
-
-    fun getLastStone(): Stone? = lastStone
 
     fun placeStone(position: Position): ViolationType {
         val violation = validatePosition(position)
