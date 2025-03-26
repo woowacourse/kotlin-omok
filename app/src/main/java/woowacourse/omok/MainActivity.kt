@@ -46,8 +46,8 @@ class MainActivity : AppCompatActivity() {
                             Color.WHITE -> R.drawable.white_stone
                         }
 
-                    val x = Col(index % game.board.col.value)
-                    val y = Row(index / game.board.row.value)
+                    val x = Col(index % game.board.col.value + 1)
+                    val y = Row(index / game.board.row.value + 1)
                     when (game.processTurn(Position(x, y), color)) {
                         is MoveResult.Success.Playing -> view.setImageResource(stoneImage)
                         is MoveResult.Success.Finished -> {
