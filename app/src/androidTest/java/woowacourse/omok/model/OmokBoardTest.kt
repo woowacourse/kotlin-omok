@@ -1,16 +1,16 @@
 package omok.model
 
-import omok.model.board.OmokBoard
-import omok.model.board.Position
-import omok.model.board.PositionState
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.PositionState
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
 
 class OmokBoardTest {
     @Test

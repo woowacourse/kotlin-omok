@@ -1,8 +1,8 @@
-package omok.model.rule
+package woowacourse.omok.model.rule
 
-import omok.model.board.OmokBoard
-import omok.model.board.Position
-import omok.model.board.PositionState
+import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.PositionState
 
 object OmokAdapter {
     fun adaptOmokBoard(omokBoard: OmokBoard): List<List<Int>> {

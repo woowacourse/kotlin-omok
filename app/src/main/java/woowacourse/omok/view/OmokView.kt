@@ -1,11 +1,11 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.board.Position
-import omok.model.board.PositionState
-import omok.model.board.X
-import omok.model.board.Y
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.PositionState
+import woowacourse.omok.model.board.X
+import woowacourse.omok.model.board.Y
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
 
 class OmokView {
     fun printStartMessage() {
@@ -76,7 +76,8 @@ class OmokView {
                     PositionState.FORBIDDEN -> ILLEGAL_POINT
                     else -> return@forEach
                 }
-            board[pos.y.point - 1][pos.x.point - 1] = if (pos.x.point != BOARD_SIZE) "$stone──" else stone
+            board[pos.y.point - 1][pos.x.point - 1] =
+                if (pos.x.point != BOARD_SIZE) "$stone──" else stone
         }
     }
 

@@ -1,4 +1,4 @@
-package omok.model.player
+package woowacourse.omok.model.player
 
 sealed class GameState {
     data object Playing : GameState()

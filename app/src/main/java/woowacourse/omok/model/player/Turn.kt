@@ -1,13 +1,13 @@
-package omok.model.player
+package woowacourse.omok.model.player
 
-import omok.model.board.OmokBoard
-import omok.model.board.Position
-import omok.model.rule.OmokRule.Companion.BLACK_STONE
-import omok.model.rule.OmokRule.Companion.WHITE_STONE
-import omok.model.rule.RenjuRule
-import omok.model.rule.WinRule
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor
+import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.rule.OmokRule.Companion.BLACK_STONE
+import woowacourse.omok.model.rule.OmokRule.Companion.WHITE_STONE
+import woowacourse.omok.model.rule.RenjuRule
+import woowacourse.omok.model.rule.WinRule
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
 
 class Turn : GameState() {
     var stone: Stone = Stone(StoneColor.BLACK)

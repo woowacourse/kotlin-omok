@@ -1,13 +1,18 @@
-package omok.model.rule
+package woowacourse.omok.model.rule
 
-import omok.model.board.OmokBoard
-import omok.model.board.Position
+import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.board.Position
 
 class WinRule(
     currentStone: Int,
     position: Position,
     omokBoard: OmokBoard,
-) : OmokRule(currentStone, getOpponentStone(currentStone), position = position, omokBoard = omokBoard) {
+) : OmokRule(
+        currentStone,
+        getOpponentStone(currentStone),
+        position = position,
+        omokBoard = omokBoard,
+    ) {
     override fun validate(): Boolean = directions.map { direction -> checkWhiteWin(direction) }.contains(true)
 
     private fun checkWhiteWin(direction: Pair<Int, Int>): Boolean {

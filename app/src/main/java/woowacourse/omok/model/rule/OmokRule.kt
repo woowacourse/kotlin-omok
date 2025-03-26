@@ -1,7 +1,7 @@
-package omok.model.rule
+package woowacourse.omok.model.rule
 
-import omok.model.board.OmokBoard
-import omok.model.board.Position
+import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.board.Position
 
 abstract class OmokRule(
     private val currentStone: Int = BLACK_STONE,

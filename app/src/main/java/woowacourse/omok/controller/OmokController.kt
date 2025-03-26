@@ -1,8 +1,8 @@
-package omok.controller
+package woowacourse.omok.controller
 
-import omok.model.board.OmokBoard
-import omok.model.player.Turn
-import omok.view.OmokView
+import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.player.Turn
+import woowacourse.omok.view.OmokView
 
 class OmokController(
     private val omokView: OmokView,

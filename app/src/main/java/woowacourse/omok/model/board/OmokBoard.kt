@@ -1,7 +1,7 @@
-package omok.model.board
+package woowacourse.omok.model.board
 
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
 
 class OmokBoard(
     val xSize: Int = X_MAX_RANGE,
