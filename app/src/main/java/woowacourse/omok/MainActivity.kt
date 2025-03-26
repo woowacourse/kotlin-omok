@@ -80,17 +80,8 @@ class MainActivity : AppCompatActivity() {
     ): Boolean {
         val result = omokGame.validatePoint(stoneColor, point)
         if (result is ValidationResult.Success) return false
-        dealViolation(result as ValidationResult.Failure)
+        printViolation((result as ValidationResult.Failure).message)
         return true
-    }
-
-    private fun dealViolation(failure: ValidationResult.Failure) {
-        when (failure) {
-            ValidationResult.Failure.DoubleFour -> printViolation(ERROR_DOUBLE_FOUR)
-            ValidationResult.Failure.DoubleThree -> printViolation(ERROR_DOUBLE_THREE)
-            ValidationResult.Failure.Occupied -> printViolation(ERROR_DUPLICATE_MOVE)
-            ValidationResult.Failure.OverLine -> printViolation(ERROR_OVER_LINE)
-        }
     }
 
     // 착수한다
@@ -147,9 +138,5 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val INDEX_OFFSET: Int = 1
-        private const val ERROR_DOUBLE_THREE = "3x3 위치에 놓을 수 없습니다"
-        private const val ERROR_DOUBLE_FOUR = "4x4 위치에 놓을 수 없습니다"
-        private const val ERROR_OVER_LINE = "장목 위치에 놓을 수 없습니다"
-        private const val ERROR_DUPLICATE_MOVE = "이미 돌이 있습니다"
     }
 }
