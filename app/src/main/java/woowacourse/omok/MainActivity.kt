@@ -44,26 +44,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         dbHelper = DbHelper(this)
+        initView()
+        initGame()
+    }
+
+    private fun initView() {
         board = findViewById(R.id.board)
+        findViewById<Button>(R.id.btn_resetGame).setOnClickListener { resetGame() }
+    }
 
+    private fun initGame() {
         val storedStone = getStoredStone()
-        if (storedStone.isNotEmpty()) {
-            loadGame(storedStone)
-        } else {
-            omokGame = OmokGame(OmokBoard(rule = OmokAdapter()))
-        }
-
-        setBoard(board)
-        val btnResetGame = findViewById<Button>(R.id.btn_resetGame)
-        btnResetGame.setOnClickListener { resetGame() }
-    }
-
-    private fun setBoard(board: TableLayout) {
+        omokGame =
+            if (storedStone.isNotEmpty()) loadGame(storedStone) else OmokGame(OmokBoard(rule = OmokAdapter()))
         updateTurnView(omokGame.turn)
-        initBoard(board)
+        initBoard()
     }
 
-    private fun initBoard(board: TableLayout) {
+    private fun initBoard() {
         val columns = ('A'..'O').toList()
         val rows = (15 downTo 1).toList()
 
@@ -86,7 +84,7 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun loadGame(storedStone: List<Stone>) {
+    private fun loadGame(storedStone: List<Stone>): OmokGame {
         val lastTurn = storedStone.last().state
         val omokBoard = OmokBoard(stones = storedStone, rule = OmokAdapter())
         storedStone.forEach { stone ->
@@ -97,7 +95,7 @@ class MainActivity : AppCompatActivity() {
 
         val turn = if (lastTurn == StoneState.BLACK) StoneState.WHITE else StoneState.BLACK
         updateTurnView(turn)
-        omokGame = OmokGame(omokBoard, turn)
+        return OmokGame(omokBoard, turn)
     }
 
     private fun drawStone(
@@ -223,7 +221,9 @@ class MainActivity : AppCompatActivity() {
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
             .forEach { view -> view.setImageResource(0) }
-        setBoard(board)
+
+        updateTurnView(omokGame.turn)
+        initBoard()
     }
 
     private fun resetBoard() {
