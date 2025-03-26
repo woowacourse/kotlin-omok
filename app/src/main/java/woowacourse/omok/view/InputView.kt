@@ -3,13 +3,14 @@ package woowacourse.omok.view
 import woowacourse.omok.domain.StoneColor
 import woowacourse.omok.domain.grid.Column
 import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
 
 class InputView {
     fun getPoint(
         stoneColor: StoneColor,
         latestPoint: OmokPoint?,
-    ): OmokPoint {
+    ): Point {
         print(MESSAGE_TURN.format(stoneColor.getDisplayColor()))
         if (latestPoint != null) print(MESSAGE_LATEST_POSITION.format(convertToString(latestPoint)))
         print(MESSAGE_POSITION_GUIDE)
@@ -18,12 +19,12 @@ class InputView {
         return parsingInput(rawInput) ?: getPoint(stoneColor, latestPoint)
     }
 
-    private fun convertToString(point: OmokPoint): String {
-        val letter = 'A' + point.col.value - INDEX_OFFSET
-        return letter + (point.row.value).toString()
+    private fun convertToString(omokPoint: OmokPoint): String {
+        val letter = 'A' + omokPoint.point.col.value - INDEX_OFFSET
+        return letter + (omokPoint.point.row.value).toString()
     }
 
-    private fun parsingInput(rawInput: String): OmokPoint? {
+    private fun parsingInput(rawInput: String): Point? {
         if (rawInput.isEmpty()) return null
 
         val rawRow = rawInput.substring(CUTTING_STANDARD)
@@ -31,7 +32,7 @@ class InputView {
 
         val row = validateRow(rawRow) ?: return null
         val col = validateCol(rawCol) ?: return null
-        return OmokPoint(Row(row), Column(col))
+        return Point(Row(row), Column(col))
     }
 
     private fun validateRow(row: String): Int? {

@@ -17,6 +17,7 @@ import woowacourse.omok.domain.grid.Column
 import woowacourse.omok.domain.grid.OmokGrid
 import woowacourse.omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
 import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
 
 class MainActivity : AppCompatActivity() {
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { index, view ->
                 val row = index / DEFAULT_SIZE
                 val col = index % DEFAULT_SIZE
-                view.tag = OmokPoint(Row(row + INDEX_OFFSET), Column(col + INDEX_OFFSET))
+                view.tag = OmokPoint(Point(Row(row + INDEX_OFFSET), Column(col + INDEX_OFFSET)), nowTurn)
 
                 view.setOnClickListener {
                     if (isGameOver) return@setOnClickListener
@@ -83,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
     ) {
         view.setImageResource(getStoneImage(stoneColor))
-        omokGame.playMove(stoneColor, view.tag as OmokPoint)
+        omokGame.playMove(view.tag as OmokPoint)
     }
 
     private fun getStoneImage(stoneColor: StoneColor): Int {

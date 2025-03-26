@@ -35,12 +35,12 @@ class OutputView {
     ): List<List<StoneColor?>> {
         val board: List<MutableList<StoneColor?>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { null } }
 
-        blackStones.forEach { (row, col) ->
-            board[row.value][col.value] = StoneColor.BLACK
+        blackStones.forEach { (point, _) ->
+            board[point.row.value][point.col.value] = StoneColor.BLACK
         }
 
-        whiteStones.forEach { (row, col) ->
-            board[row.value][col.value] = StoneColor.WHITE
+        whiteStones.forEach { (point, _) ->
+            board[point.row.value][point.col.value] = StoneColor.WHITE
         }
         return board
     }

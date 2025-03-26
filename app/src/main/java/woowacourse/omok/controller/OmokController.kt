@@ -41,7 +41,7 @@ class OmokController(
     ): OmokPoint {
         outputView.printBoardState(omokGame.grid.getStones(StoneColor.BLACK), omokGame.grid.getStones(StoneColor.WHITE))
         val point = getPointToPlace(nowTurn, latestPoint)
-        omokGame.playMove(nowTurn, point)
+        omokGame.playMove(point)
         return point
     }
 
@@ -53,8 +53,9 @@ class OmokController(
         return retryInput(
             inputFunction = {
                 val point = inputView.getPoint(nowTurn, latestPoint)
-                omokGame.validatePoint(nowTurn, point)
-                point
+                val omokPoint = OmokPoint(point, nowTurn)
+                omokGame.validatePoint(nowTurn, omokPoint)
+                omokPoint
             },
             printErrorMessage = { message ->
                 outputView.printErrorMessage(message)

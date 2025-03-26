@@ -7,14 +7,14 @@ import woowacourse.omok.domain.rule.OmokViolation
 class Referee {
     fun checkViolation(
         ruleAdapter: OmokRuleAdapter,
-        blackStones: Set<OmokPoint>,
-        whiteStones: Set<OmokPoint>,
+        thisStones: Set<OmokPoint>,
+        otherStones: Set<OmokPoint>,
         latestPoint: OmokPoint,
     ) {
         val violation =
             listOf(
-                ruleAdapter.checkViolation(blackStones, whiteStones, latestPoint),
-                checkDuplicateMove(blackStones + whiteStones, latestPoint),
+                ruleAdapter.checkViolation(thisStones, otherStones, latestPoint),
+                checkDuplicateMove(thisStones + otherStones, latestPoint),
             ).lastOrNull { it != OmokViolation.NONE } ?: OmokViolation.NONE
         dealViolation(violation)
     }

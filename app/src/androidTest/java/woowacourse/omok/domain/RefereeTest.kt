@@ -14,8 +14,7 @@ import woowacourse.omok.domain.grid.Column
 import woowacourse.omok.domain.grid.OmokGrid
 import woowacourse.omok.domain.grid.OmokPoint
 import woowacourse.omok.domain.grid.Row
-import woowacourse.omok.domain.rule.BlackRuleAdapterImpl
-import woowacourse.omok.domain.rule.WhiteRuleAdapterImpl
+import woowacourse.omok.domain.rule.RenjuRuleAdapterImpl
 import woowacourse.omok.getFoulPoint
 import woowacourse.omok.omokPoints
 
@@ -39,7 +38,7 @@ class RefereeTest {
 
         // when & then
         assertThrows<IllegalStateException> {
-            referee.checkViolation(BlackRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(RenjuRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -69,7 +68,7 @@ class RefereeTest {
 
         // when & then
         assertThrows<IllegalStateException> {
-            referee.checkViolation(BlackRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(RenjuRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -99,7 +98,7 @@ class RefereeTest {
 
         // when & then
         assertThrows<IllegalStateException> {
-            referee.checkViolation(BlackRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(RenjuRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
         }
     }
 
@@ -127,7 +126,7 @@ class RefereeTest {
         // when & then
         assertThrows<IllegalStateException> {
             referee.checkViolation(
-                BlackRuleAdapterImpl,
+                RenjuRuleAdapterImpl,
                 grid.getStones(StoneColor.BLACK),
                 grid.getStones(StoneColor.WHITE),
                 OmokPoint(Row(1), Column(2)),
@@ -153,7 +152,7 @@ class RefereeTest {
         }
 
         // when
-        val actual = referee.checkWin(BlackRuleAdapterImpl, grid.getStones(StoneColor.BLACK), POINT_H6)
+        val actual = referee.checkWin(RenjuRuleAdapterImpl, grid.getStones(StoneColor.BLACK), POINT_H6)
 
         // then
         assertThat(actual).isTrue()

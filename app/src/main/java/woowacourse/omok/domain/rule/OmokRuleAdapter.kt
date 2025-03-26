@@ -3,12 +3,13 @@ package woowacourse.omok.domain.rule
 import woowacourse.omok.domain.grid.Column
 import woowacourse.omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
 import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
 
 abstract class OmokRuleAdapter {
     abstract fun checkViolation(
-        blackStones: Set<OmokPoint>,
-        whiteStones: Set<OmokPoint>,
+        thisStones: Set<OmokPoint>,
+        otherStones: Set<OmokPoint>,
         latestPoint: OmokPoint,
     ): OmokViolation
 
@@ -35,8 +36,8 @@ abstract class OmokRuleAdapter {
         stones: Set<OmokPoint>,
         latestPoint: OmokPoint,
     ): Int {
-        val coordinateX = latestPoint.row.value
-        val coordinateY = latestPoint.col.value
+        val coordinateX = latestPoint.point.row.value
+        val coordinateY = latestPoint.point.col.value
         var count = MIN_BOUND
 
         while (true) {
@@ -44,7 +45,7 @@ abstract class OmokRuleAdapter {
             val nextY = coordinateY + direction.colDelta * count
             if (!checkRange(nextX, nextY)) break
 
-            val point = OmokPoint(Row(nextX), Column(nextY))
+            val point = OmokPoint(Point(Row(nextX), Column(nextY)), latestPoint.stoneColor)
             if (point !in stones) break
 
             count++
