@@ -22,16 +22,16 @@ object FourFourCheck : Rule {
         val uniqueSegments = mutableSetOf<List<Stone>>()
 
         for (direction in directions) {
-            for (offset in -4..0) {
+            for (offset in FOUR_OFFSET_RANGE) {
                 val segmentStart = stone.position.moveOrNull(direction, offset) ?: continue
-                val segmentEnd = segmentStart.moveOrNull(direction, 5) ?: continue
+                val segmentEnd = segmentStart.moveOrNull(direction, SEGMENT_LENGTH) ?: continue
                 val fourStones = checkFoul(stone, stones, segmentStart, segmentEnd, direction)
                 if (fourStones != null) {
                     uniqueSegments.add(fourStones)
                 }
             }
         }
-        return uniqueSegments.size >= 2
+        return uniqueSegments.size > FOUR_STONES_COUNT_LIMIT
     }
 
     override fun checkFoul(
@@ -60,7 +60,7 @@ object FourFourCheck : Rule {
         }
 
         val lastStone = stones.find { it.position == lastPosition }
-        if (sameColorStones.size != 4) return null
+        if (sameColorStones.size != REQUIRED_FOUR_STONES) return null
 
         if ((firstStone == null || firstStone.color == stone.color) && (lastStone == null || lastStone.color == stone.color)) {
             if (!(firstStone != null && lastStone != null)) return sameColorStones
@@ -69,4 +69,9 @@ object FourFourCheck : Rule {
 
         return null
     }
+
+    private const val FOUR_STONES_COUNT_LIMIT = 1
+    private const val REQUIRED_FOUR_STONES = 4
+    private const val SEGMENT_LENGTH = 5
+    private val FOUR_OFFSET_RANGE = -REQUIRED_FOUR_STONES..0
 }

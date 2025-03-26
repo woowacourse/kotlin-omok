@@ -21,9 +21,9 @@ object ThreeThreeCheck : Rule {
         val uniqueSegments = mutableSetOf<List<Stone>>()
 
         for (direction in directions) {
-            for (offset in -5..-1) {
+            for (offset in FOUR_OFFSET_RANGE) {
                 val segmentStart = stone.position.moveOrNull(direction, offset)
-                val segmentEnd = segmentStart?.moveOrNull(direction, 6)
+                val segmentEnd = segmentStart?.moveOrNull(direction, SEGMENT_LENGTH)
                 if (segmentStart == null || segmentEnd == null) continue
                 if (stones.find { it.position == segmentStart }?.color != stone.color &&
                     stones.find { it.position == segmentStart }?.color != null
@@ -42,7 +42,7 @@ object ThreeThreeCheck : Rule {
                 }
             }
         }
-        return uniqueSegments.size >= 2
+        return uniqueSegments.size > THREE_STONES_COUNT_LIMIT
     }
 
     override fun checkFoul(
@@ -67,7 +67,15 @@ object ThreeThreeCheck : Rule {
             pos = direction.nextPosition(pos)
             if (pos == lastPosition) break
         }
-        if (!(sameColorStones.size == 3 && blankCount == 2)) return null
+        if (!(sameColorStones.size == REQUIRED_STONES && blankCount == REQUIRED_BLANKS)) return null
         return sameColorStones
     }
+
+    private const val THREE_STONES_COUNT_LIMIT = 1
+    private const val REQUIRED_STONES = 3
+    private const val REQUIRED_BLANKS = 2
+    private const val SEGMENT_LENGTH = 6
+    private const val BEFORE_START_STONE = -1
+    private const val FIVE_STONES_START_STONE_IS_LAST = -5
+    private val FOUR_OFFSET_RANGE = FIVE_STONES_START_STONE_IS_LAST..BEFORE_START_STONE
 }
