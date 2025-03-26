@@ -13,6 +13,7 @@ import woowacourse.omok.beforeOverLine
 import woowacourse.omok.domain.grid.Column
 import woowacourse.omok.domain.grid.OmokGrid
 import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
 import woowacourse.omok.domain.rule.RenjuRuleAdapterImpl
 import woowacourse.omok.getFoulPoint
@@ -33,7 +34,7 @@ class RefereeTest {
         // given
         val beforeDoubleThree = beforeDoubleThree()
         beforeDoubleThree.forEach {
-            grid.putStone(it, StoneColor.BLACK)
+            grid.putStone(OmokPoint(it, StoneColor.BLACK))
         }
 
         // when & then
@@ -42,7 +43,7 @@ class RefereeTest {
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                getFoulPoint(),
+                OmokPoint(getFoulPoint(), StoneColor.BLACK),
             )
         }
     }
@@ -53,16 +54,16 @@ class RefereeTest {
         // given
         val beforeDoubleThree = beforeDoubleThree()
         beforeDoubleThree.forEach {
-            grid.putStone(it, StoneColor.WHITE)
+            grid.putStone(OmokPoint(it, StoneColor.WHITE))
         }
 
         // when & then
         assertDoesNotThrow {
             referee.checkViolation(
-                WhiteRuleAdapterImpl,
+                RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                getFoulPoint(),
+                OmokPoint(getFoulPoint(), StoneColor.WHITE),
             )
         }
     }
@@ -73,7 +74,7 @@ class RefereeTest {
         // given
         val beforeDoubleFour = beforeDoubleFour()
         beforeDoubleFour.forEach {
-            grid.putStone(it, StoneColor.BLACK)
+            grid.putStone(OmokPoint(it, StoneColor.BLACK))
         }
 
         // when & then
@@ -82,7 +83,7 @@ class RefereeTest {
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                getFoulPoint(),
+                OmokPoint(getFoulPoint(), StoneColor.BLACK),
             )
         }
     }
@@ -93,16 +94,16 @@ class RefereeTest {
         // given
         val beforeDoubleFour = beforeDoubleFour()
         beforeDoubleFour.forEach {
-            grid.putStone(it, StoneColor.WHITE)
+            grid.putStone(OmokPoint(it, StoneColor.WHITE))
         }
 
         // when & then
         assertDoesNotThrow {
             referee.checkViolation(
-                WhiteRuleAdapterImpl,
+                RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                getFoulPoint(),
+                OmokPoint(getFoulPoint(), StoneColor.WHITE),
             )
         }
     }
@@ -113,7 +114,7 @@ class RefereeTest {
         // given
         val beforeOverLine = beforeOverLine()
         beforeOverLine.forEach {
-            grid.putStone(it, StoneColor.BLACK)
+            grid.putStone(OmokPoint(it, StoneColor.BLACK))
         }
 
         // when & then
@@ -122,7 +123,7 @@ class RefereeTest {
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                getFoulPoint(),
+                OmokPoint(getFoulPoint(), StoneColor.BLACK),
             )
         }
     }
@@ -133,16 +134,16 @@ class RefereeTest {
         // given
         val beforeOverLine = beforeOverLine()
         beforeOverLine.forEach {
-            grid.putStone(it, StoneColor.WHITE)
+            grid.putStone(OmokPoint(it, StoneColor.WHITE))
         }
 
         // when & then
         assertDoesNotThrow {
             referee.checkViolation(
-                WhiteRuleAdapterImpl,
+                RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                getFoulPoint(),
+                OmokPoint(getFoulPoint(), StoneColor.WHITE),
             )
         }
     }
@@ -151,7 +152,7 @@ class RefereeTest {
     @DisplayName("이미 돌이 있는 위치에 돌을 놓을 수 없다")
     fun validateOccupied() {
         // given
-        grid.putStone(OmokPoint(Row(1), Column(2)), StoneColor.BLACK)
+        grid.putStone(OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK))
 
         // when & then
         assertThrows<IllegalStateException> {
@@ -159,15 +160,15 @@ class RefereeTest {
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                OmokPoint(Row(1), Column(2)),
+                OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK),
             )
         }
         assertThrows<IllegalStateException> {
             referee.checkViolation(
-                WhiteRuleAdapterImpl,
+                RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                OmokPoint(Row(1), Column(2)),
+                OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK),
             )
         }
     }
@@ -178,11 +179,11 @@ class RefereeTest {
         // given
         val omokStones = omokPoints()
         omokStones.forEach {
-            grid.putStone(it, StoneColor.BLACK)
+            grid.putStone(OmokPoint(it, StoneColor.BLACK))
         }
 
         // when
-        val actual = referee.checkWin(RenjuRuleAdapterImpl, grid.getStonesByColor(StoneColor.BLACK), POINT_H6)
+        val actual = referee.checkWin(RenjuRuleAdapterImpl, grid.getStonesByColor(StoneColor.BLACK), OmokPoint(POINT_H6, StoneColor.BLACK))
 
         // then
         assertThat(actual).isTrue()
