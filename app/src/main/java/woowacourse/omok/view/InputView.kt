@@ -1,9 +1,11 @@
 package omok.view
 
 import omok.model.board.Board
+import woowacourse.omok.model.rule.CoordinateError
+import woowacourse.omok.model.rule.CoordinateResult
 
 class InputView {
-    fun inputStone(board: Board): Pair<Int, Int> {
+    fun inputStone(board: Board): CoordinateResult {
         print(INPUT_STONE_POSITION)
         val input = readlnOrNull()?.trim().toString()
         return parse(input, board)
@@ -12,21 +14,30 @@ class InputView {
     private fun parse(
         input: String,
         board: Board,
-    ): Pair<Int, Int> {
-        if (input.length < MIN_USER_INPUT) throw IllegalArgumentException(ERROR_INVALID_COORDINATE_FORMAT)
+    ): CoordinateResult {
+        if (input.length < MIN_USER_INPUT) {
+            return CoordinateResult.Failure(CoordinateError.InvalidCoordinateFormat)
+        }
 
         val colChar = input[COL_CHAR_INDEX].uppercaseChar()
-        require(colChar in MIN_COL_CHAR..<MIN_COL_CHAR + board.getWidth()) { ERROR_COL_STRING }
+        if (colChar !in MIN_COL_CHAR until (MIN_COL_CHAR + board.getWidth())) {
+            return CoordinateResult.Failure(CoordinateError.InvalidColString)
+        }
         val col = colChar - MIN_COL_CHAR
 
         val rowPart = input.substring(ROW_NUM_START_INDEX)
-        val row = rowPart.toIntOrNull() ?: throw IllegalArgumentException(ERROR_ROW_NUM)
-        require(row in MIN_ROW_NUM..board.getWidth()) { ERROR_ROW_NUM }
+        val row = rowPart.toIntOrNull()
+            ?: return CoordinateResult.Failure(CoordinateError.InvalidRowNumber)
+        if (row !in MIN_ROW_NUM + 1..board.getHeight()) {
+            return CoordinateResult.Failure(CoordinateError.InvalidRowNumber)
+        }
 
-        val rowIndex = row - ROW_NUM_START_INDEX
+        val rowIndex = row - 1
 
-        return rowIndex to col
+        return CoordinateResult.Success(rowIndex, col)
     }
+
+
 
     companion object {
         private const val INPUT_STONE_POSITION = "위치를 입력하세요: "

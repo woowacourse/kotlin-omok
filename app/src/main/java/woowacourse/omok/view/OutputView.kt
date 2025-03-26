@@ -6,6 +6,8 @@ import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
+import woowacourse.omok.model.rule.CoordinateError
+import woowacourse.omok.model.rule.PlacementError
 
 class OutputView {
     fun printBoard(board: Board) {
@@ -43,11 +45,26 @@ class OutputView {
         println("${stoneStateText(winner)}이 우승했습니다.")
     }
 
-    fun printException(message: String?) {
-        if (message == null) {
-            println("알 수 없는 예외가 발생했습니다.")
-        }
-        println(message)
+    fun printException(error: PlacementError) {
+        val result =
+            when (error) {
+                PlacementError.AlreadyOccupiedViolation -> "현재 위치에 돌이 있습니다"
+                PlacementError.DoubleThreeViolation -> "3-3 반칙이 발생했습니다"
+                PlacementError.DoubleFourViolation -> "4-4 반칙이 발생했습니다"
+                PlacementError.OverlineViolation -> "장목 반칙이 발생했습니다"
+                PlacementError.NoViolation -> "반칙이 발생하지 않았습니다"
+            }
+        println(result)
+    }
+
+    fun printCoordinateException(error: CoordinateError){
+        val result =
+            when (error) {
+                CoordinateError.InvalidCoordinateFormat -> "좌표 형식이 올바르지 않습니다"
+                CoordinateError.InvalidColString -> "열 문자가 유효하지 않습니다"
+                CoordinateError.InvalidRowNumber -> "행 번호가 유효하지 않습니다"
+            }
+        println(result)
     }
 
     private fun pointByRowIndex(
