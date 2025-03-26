@@ -20,6 +20,7 @@ import woowacourse.omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
 import woowacourse.omok.domain.grid.OmokPoint
 import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
+import woowacourse.omok.domain.rule.MoveResult
 
 class MainActivity : AppCompatActivity() {
     private val omokGame = OmokGame(OmokGrid())
@@ -87,13 +88,19 @@ class MainActivity : AppCompatActivity() {
         stoneColor: StoneColor,
         point: OmokPoint,
     ): Boolean {
-        kotlin.runCatching {
-            omokGame.validatePoint(stoneColor, point)
-        }.onFailure { e ->
-            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
-            return true
+        val result = omokGame.validatePoint(stoneColor, point)
+        if (result is MoveResult.Success) return false
+        dealViolation(result as MoveResult.Failure)
+        return true
+    }
+
+    private fun dealViolation(failure: MoveResult.Failure) {
+        when (failure) {
+            MoveResult.Failure.DoubleFour -> printViolation(ERROR_DOUBLE_FOUR)
+            MoveResult.Failure.DoubleThree -> printViolation(ERROR_DOUBLE_THREE)
+            MoveResult.Failure.Occupied -> printViolation(ERROR_DUPLICATE_MOVE)
+            MoveResult.Failure.OverLine -> printViolation(ERROR_OVER_LINE)
         }
-        return false
     }
 
     // 착수한다
@@ -141,6 +148,10 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "$result !!", Toast.LENGTH_SHORT).show()
     }
 
+    private fun printViolation(violation: String) {
+        Toast.makeText(this, violation, Toast.LENGTH_SHORT).show()
+    }
+
     override fun onDestroy() {
         dbProvider.closeDB()
         super.onDestroy()
@@ -148,5 +159,9 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val INDEX_OFFSET: Int = 1
+        private const val ERROR_DOUBLE_THREE = "3x3 위치에 놓을 수 없습니다"
+        private const val ERROR_DOUBLE_FOUR = "4x4 위치에 놓을 수 없습니다"
+        private const val ERROR_OVER_LINE = "장목 위치에 놓을 수 없습니다"
+        private const val ERROR_DUPLICATE_MOVE = "이미 돌이 있습니다"
     }
 }

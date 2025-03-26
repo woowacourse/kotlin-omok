@@ -12,18 +12,18 @@ object RenjuRuleAdapterImpl : OmokRuleAdapter() {
         thisStones: Set<OmokPoint>,
         otherStones: Set<OmokPoint>,
         latestPoint: OmokPoint,
-    ): OmokViolation {
-        if (latestPoint.stoneColor == StoneColor.WHITE) return OmokViolation.NONE
+    ): MoveResult {
+        if (latestPoint.stoneColor == StoneColor.WHITE) return MoveResult.Success
 
         val thisPoints = convertSetToList(thisStones)
         val otherPoints = convertSetToList(otherStones)
         val startPoint = convertOmokPointToPoint(latestPoint)
 
         return when {
-            rule.checkOverline(thisPoints, startPoint) -> OmokViolation.OVER_LINE
-            rule.checkDoubleThreeFoul(thisPoints, otherPoints, startPoint) -> OmokViolation.DOUBLE_THREE
-            rule.checkDoubleFourFoul(thisPoints, otherPoints, startPoint) -> OmokViolation.DOUBLE_FOUR
-            else -> OmokViolation.NONE
+            rule.checkOverline(thisPoints, startPoint) -> MoveResult.Failure.OverLine
+            rule.checkDoubleThreeFoul(thisPoints, otherPoints, startPoint) -> MoveResult.Failure.DoubleThree
+            rule.checkDoubleFourFoul(thisPoints, otherPoints, startPoint) -> MoveResult.Failure.DoubleFour
+            else -> MoveResult.Success
         }
     }
 
