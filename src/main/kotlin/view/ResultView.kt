@@ -1,12 +1,10 @@
 package view
 
-import model.AddStoneStatus
 import model.Col
 import model.GameBoard
 import model.Row
 import model.Stone
 import model.StoneColor
-import view.Message.ERROR_FORMAT
 import view.Message.GAME_RESULT_MESSAGE_FORMAT
 import view.Message.GAME_START_MESSAGE
 
@@ -57,7 +55,7 @@ class ResultView {
         stones: MutableList<Stone>,
     ): String {
         val stone =
-            stones.firstOrNull { it.position.row.isSame(Row.from(row)) && it.position.col.isSame(Col.from(col)) }
+            stones.firstOrNull { it.position.row == Row.from(row) && it.position.col == Col.from(col) }
         if (stone != null) return stone.toEmoji()
         return when {
             row == GameBoard.rowRange.first && col == GameBoard.colRange.first -> GAME_BOARD_DOWN_LEFT_CORNER
@@ -90,17 +88,6 @@ class ResultView {
             StoneColor.BLACK -> "흑"
             StoneColor.WHITE -> "백"
         }
-
-    fun printError(status: AddStoneStatus) {
-        print(ERROR_FORMAT)
-        when {
-            status == AddStoneStatus.IsExist -> print(Message.EXIST_STONE)
-            status == AddStoneStatus.IsOverFive -> print(Message.OVER_FIVE)
-            status == AddStoneStatus.IsThreeThree -> print(Message.THREE_THREE)
-            status == AddStoneStatus.IsFourFour -> print(Message.FOUR_FOUR)
-            status == AddStoneStatus.IsUnAblePosition -> print(Message.ERROR_POSITION)
-        }
-    }
 
     companion object {
         private const val GAME_BOARD_LEFT_CORNER = " ├─"
