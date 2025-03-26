@@ -81,7 +81,7 @@ class BlackOmokRuleTest {
 
         assertThat(
             blackOmokRule.validate(
-                game.getBoard(),
+                game.board,
                 nextPosition,
                 StoneColor.BLACK,
             ),
@@ -111,7 +111,7 @@ class BlackOmokRuleTest {
             game.placeStone(i)
         }
 
-        assertThat(blackOmokRule.validate(game.getBoard(), nextPosition, StoneColor.BLACK)).isEqualTo(DoubleFourViolation)
+        assertThat(blackOmokRule.validate(game.board, nextPosition, StoneColor.BLACK)).isEqualTo(DoubleFourViolation)
     }
 
     @Test
@@ -138,7 +138,7 @@ class BlackOmokRuleTest {
             game.placeStone(i)
         }
 
-        assertThat(blackOmokRule.validate(game.getBoard(), nextPosition, StoneColor.BLACK)).isEqualTo(DoubleFourViolation)
+        assertThat(blackOmokRule.validate(game.board, nextPosition, StoneColor.BLACK)).isEqualTo(DoubleFourViolation)
     }
 
     @Test
@@ -164,6 +164,6 @@ class BlackOmokRuleTest {
             game.placeStone(i)
         }
 
-        assertThat(blackOmokRule.validate(game.getBoard(), nextPosition, StoneColor.BLACK)).isEqualTo(OverlineViolation)
+        assertThat(blackOmokRule.validate(game.board, nextPosition, StoneColor.BLACK)).isEqualTo(OverlineViolation)
     }
 }

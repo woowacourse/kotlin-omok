@@ -50,7 +50,7 @@ class WhiteOmokRuleTest {
                 ),
         )
 
-    private val whiteOmokRule = WhiteOmokRule(game.getBoard().getWidth(), game.getBoard().getHeight())
+    private val whiteOmokRule = WhiteOmokRule(game.board.getWidth(), game.board.getHeight())
 
     @Test
     fun `흰돌이 대각선으로 오목임을 확인할 수 있다`() {
@@ -72,7 +72,7 @@ class WhiteOmokRuleTest {
             game.placeStone(i)
         }
 
-        assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard(), it) }).isTrue()
+        assertThat(game.lastStone?.let { whiteOmokRule.isWin(game.board, it) }).isTrue()
     }
 
     @Test
@@ -95,7 +95,7 @@ class WhiteOmokRuleTest {
             game.placeStone(i)
         }
 
-        assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard(), it) }).isTrue()
+        assertThat(game.lastStone?.let { whiteOmokRule.isWin(game.board, it) }).isTrue()
     }
 
     @Test
@@ -117,7 +117,7 @@ class WhiteOmokRuleTest {
         for (i in positions) {
             game.placeStone(i)
         }
-        assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard(), it) }).isTrue()
+        assertThat(game.lastStone?.let { whiteOmokRule.isWin(game.board, it) }).isTrue()
     }
 
     @Test
@@ -142,6 +142,6 @@ class WhiteOmokRuleTest {
             game.placeStone(i)
         }
 
-        assertThat(game.getLastStone()?.let { whiteOmokRule.isWin(game.getBoard(), it) }).isTrue()
+        assertThat(game.lastStone?.let { whiteOmokRule.isWin(game.board, it) }).isTrue()
     }
 }
