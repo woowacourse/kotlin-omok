@@ -6,6 +6,6 @@ import woowacourse.omok.model.board.Point
 interface GameRule {
     fun validateMove(
         board: Board,
-        previousPoint: Point,
+        validationPoint: Point,
     ): Boolean
 }
