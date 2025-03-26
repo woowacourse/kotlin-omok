@@ -32,9 +32,6 @@ class Board private constructor(
     companion object {
         private const val ERROR_STONE_ALREADY_EXITS = "해당하는 위치에 돌이 존재합니다"
 
-        fun initBoard(dimensions: BoardDimensions): Board {
-            val initStonesMap: Map<Position, StoneColor> = emptyMap()
-            return Board(dimensions)
-        }
+        fun initBoard(dimensions: BoardDimensions): Board = Board(dimensions)
     }
 }
