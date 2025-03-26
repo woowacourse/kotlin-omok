@@ -14,8 +14,8 @@ object OmokJudge {
 
         val countStoneDirections = directions.map { direction -> countStone(stone, stones, direction) }
 
-        if (countStoneDirections.any { it == 5 }) return AddStoneStatus.IsWin
-        if (countStoneDirections.any { it > 5 } && stone.color == StoneColor.BLACK) return AddStoneStatus.IsOverFive
+        if (countStoneDirections.any { it == REQUIRE_WIN_STONE_COUNT }) return AddStoneStatus.IsWin
+        if (countStoneDirections.any { it > REQUIRE_WIN_STONE_COUNT } && stone.color == StoneColor.BLACK) return AddStoneStatus.IsOverFive
 
         return checkFoul(stones, stone)
     }
@@ -60,5 +60,6 @@ object OmokJudge {
         return 1
     }
 
-    const val DUPLICATED_SELF = 1
+    private const val DUPLICATED_SELF = 1
+    private const val REQUIRE_WIN_STONE_COUNT = 5
 }
