@@ -12,24 +12,31 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import woowacourse.omok.R
-import woowacourse.omok.model.OmokGame
-import woowacourse.omok.model.board.Board
-import woowacourse.omok.model.board.BoardSize
-import woowacourse.omok.model.board.Point
-import woowacourse.omok.model.board.StoneColor
-import woowacourse.omok.model.rule.RuleValidator
+import woowacourse.omok.data.DbHelper
+import woowacourse.omok.domain.OmokGame
+import woowacourse.omok.domain.board.Board
+import woowacourse.omok.domain.board.BoardSize
+import woowacourse.omok.domain.board.Point
+import woowacourse.omok.domain.board.StoneColor
+import woowacourse.omok.domain.rule.RuleValidator
 
 class MainActivity : AppCompatActivity() {
     private lateinit var board: Board
     private lateinit var game: OmokGame
+    private lateinit var dbHelper: DbHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setWindowInsets()
 
+        initializeDbHelper()
         initializeGame()
         initializeBoard()
+    }
+
+    private fun initializeDbHelper() {
+        dbHelper = DbHelper(this)
     }
 
     private fun initializeGame() {

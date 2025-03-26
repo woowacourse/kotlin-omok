@@ -1,7 +1,7 @@
 package woowacourse.omok.view
 
-import woowacourse.omok.model.board.Point
-import woowacourse.omok.model.board.StoneColor
+import woowacourse.omok.domain.board.Point
+import woowacourse.omok.domain.board.StoneColor
 
 interface OmokGameListener {
     fun onStartGame()
