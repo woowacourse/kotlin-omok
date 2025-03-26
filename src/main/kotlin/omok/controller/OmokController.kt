@@ -5,6 +5,7 @@ import omok.model.omokGame.OmokGameImpl
 import omok.model.player.BlackPlayerState
 import omok.model.player.Finish
 import omok.model.player.PlayerState
+import omok.model.rule.OmokRuleAdapter
 import omok.view.OmokView
 
 class OmokController(
@@ -13,12 +14,15 @@ class OmokController(
     fun run() {
         omokView.printStartMessage()
         val board = BoardImpl.createEmpty()
-        val game = OmokGameImpl(board)
+        val rule = OmokRuleAdapter()
+        val game = OmokGameImpl(board, rule)
         var playerState: PlayerState = BlackPlayerState(game)
 
         while (true) {
             val position = omokView.inputPosition(playerState)
+            println(position)
             playerState = playerState.state(position)
+
             omokView.printBoard(board.board)
             if (playerState is Finish) break
         }
