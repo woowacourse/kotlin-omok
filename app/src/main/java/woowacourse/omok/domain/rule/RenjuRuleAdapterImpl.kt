@@ -21,8 +21,8 @@ object RenjuRuleAdapterImpl : OmokRuleAdapter() {
 
         return when {
             rule.checkOverline(thisPoints, startPoint) -> ValidationResult.Failure.OverLine
-            rule.checkDoubleThreeFoul(thisPoints, otherPoints, startPoint) -> ValidationResult.Failure.DoubleThree
             rule.checkDoubleFourFoul(thisPoints, otherPoints, startPoint) -> ValidationResult.Failure.DoubleFour
+            rule.checkDoubleThreeFoul(thisPoints, otherPoints, startPoint) -> ValidationResult.Failure.DoubleThree
             else -> ValidationResult.Success
         }
     }

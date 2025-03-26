@@ -4,8 +4,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertDoesNotThrow
-import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.POINT_H6
 import woowacourse.omok.beforeDoubleFour
 import woowacourse.omok.beforeDoubleThree
@@ -16,6 +14,7 @@ import woowacourse.omok.domain.grid.OmokPoint
 import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
 import woowacourse.omok.domain.rule.RenjuRuleAdapterImpl
+import woowacourse.omok.domain.rule.ValidationResult
 import woowacourse.omok.getFoulPoint
 import woowacourse.omok.omokPoints
 
@@ -37,15 +36,18 @@ class RefereeTest {
             grid.putStone(OmokPoint(it, StoneColor.BLACK))
         }
 
-        // when & then
-        assertThrows<IllegalStateException> {
+        // when
+        val actual =
             referee.checkViolation(
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(getFoulPoint(), StoneColor.BLACK),
             )
-        }
+        val expected = ValidationResult.Failure.DoubleThree
+
+        // then
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -57,15 +59,18 @@ class RefereeTest {
             grid.putStone(OmokPoint(it, StoneColor.WHITE))
         }
 
-        // when & then
-        assertDoesNotThrow {
+        // when
+        val actual =
             referee.checkViolation(
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(getFoulPoint(), StoneColor.WHITE),
             )
-        }
+        val expected = ValidationResult.Success
+
+        // then
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -77,15 +82,18 @@ class RefereeTest {
             grid.putStone(OmokPoint(it, StoneColor.BLACK))
         }
 
-        // when & then
-        assertThrows<IllegalStateException> {
+        // when
+        val actual =
             referee.checkViolation(
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(getFoulPoint(), StoneColor.BLACK),
             )
-        }
+        val expected = ValidationResult.Failure.DoubleFour
+
+        // then
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -97,15 +105,18 @@ class RefereeTest {
             grid.putStone(OmokPoint(it, StoneColor.WHITE))
         }
 
-        // when & then
-        assertDoesNotThrow {
+        // when
+        val acttual =
             referee.checkViolation(
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(getFoulPoint(), StoneColor.WHITE),
             )
-        }
+        val expected = ValidationResult.Success
+
+        // then
+        assertThat(acttual).isEqualTo(expected)
     }
 
     @Test
@@ -117,15 +128,18 @@ class RefereeTest {
             grid.putStone(OmokPoint(it, StoneColor.BLACK))
         }
 
-        // when & then
-        assertThrows<IllegalStateException> {
+        // when
+        val actual =
             referee.checkViolation(
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(getFoulPoint(), StoneColor.BLACK),
             )
-        }
+        val expected = ValidationResult.Failure.OverLine
+
+        // then
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -137,15 +151,18 @@ class RefereeTest {
             grid.putStone(OmokPoint(it, StoneColor.WHITE))
         }
 
-        // when & then
-        assertDoesNotThrow {
+        // when
+        val actual =
             referee.checkViolation(
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(getFoulPoint(), StoneColor.WHITE),
             )
-        }
+        val expected = ValidationResult.Success
+
+        // then
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -154,23 +171,26 @@ class RefereeTest {
         // given
         grid.putStone(OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK))
 
-        // when & then
-        assertThrows<IllegalStateException> {
+        // when
+        val actual =
             referee.checkViolation(
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK),
             )
-        }
-        assertThrows<IllegalStateException> {
+        val actual2 =
             referee.checkViolation(
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK),
             )
-        }
+        val expected = ValidationResult.Failure.Occupied
+
+        // then
+        assertThat(actual).isEqualTo(expected)
+        assertThat(actual2).isEqualTo(expected)
     }
 
     @Test
