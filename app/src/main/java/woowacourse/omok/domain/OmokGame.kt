@@ -5,8 +5,8 @@ import woowacourse.omok.data.db.DbProvider
 import woowacourse.omok.domain.StoneColor.Companion.opposite
 import woowacourse.omok.domain.grid.OmokGrid
 import woowacourse.omok.domain.grid.OmokPoint
-import woowacourse.omok.domain.rule.MoveResult
 import woowacourse.omok.domain.rule.RenjuRuleAdapterImpl
+import woowacourse.omok.domain.rule.ValidationResult
 
 class OmokGame(
     val grid: OmokGrid,
@@ -45,7 +45,7 @@ class OmokGame(
     fun validatePoint(
         nowTurn: StoneColor,
         startPoint: OmokPoint,
-    ): MoveResult {
+    ): ValidationResult {
         val thisStones = grid.getStonesByColor(nowTurn)
         val opponentStones = grid.getStonesByColor(opposite(nowTurn))
 

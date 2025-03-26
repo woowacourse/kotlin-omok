@@ -20,7 +20,7 @@ import woowacourse.omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
 import woowacourse.omok.domain.grid.OmokPoint
 import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
-import woowacourse.omok.domain.rule.MoveResult
+import woowacourse.omok.domain.rule.ValidationResult
 
 class MainActivity : AppCompatActivity() {
     private val omokGame = OmokGame(OmokGrid(), DbProvider())
@@ -79,17 +79,17 @@ class MainActivity : AppCompatActivity() {
         point: OmokPoint,
     ): Boolean {
         val result = omokGame.validatePoint(stoneColor, point)
-        if (result is MoveResult.Success) return false
-        dealViolation(result as MoveResult.Failure)
+        if (result is ValidationResult.Success) return false
+        dealViolation(result as ValidationResult.Failure)
         return true
     }
 
-    private fun dealViolation(failure: MoveResult.Failure) {
+    private fun dealViolation(failure: ValidationResult.Failure) {
         when (failure) {
-            MoveResult.Failure.DoubleFour -> printViolation(ERROR_DOUBLE_FOUR)
-            MoveResult.Failure.DoubleThree -> printViolation(ERROR_DOUBLE_THREE)
-            MoveResult.Failure.Occupied -> printViolation(ERROR_DUPLICATE_MOVE)
-            MoveResult.Failure.OverLine -> printViolation(ERROR_OVER_LINE)
+            ValidationResult.Failure.DoubleFour -> printViolation(ERROR_DOUBLE_FOUR)
+            ValidationResult.Failure.DoubleThree -> printViolation(ERROR_DOUBLE_THREE)
+            ValidationResult.Failure.Occupied -> printViolation(ERROR_DUPLICATE_MOVE)
+            ValidationResult.Failure.OverLine -> printViolation(ERROR_OVER_LINE)
         }
     }
 

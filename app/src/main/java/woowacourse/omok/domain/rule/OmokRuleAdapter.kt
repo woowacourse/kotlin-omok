@@ -11,7 +11,7 @@ abstract class OmokRuleAdapter {
         thisStones: Set<OmokPoint>,
         otherStones: Set<OmokPoint>,
         latestPoint: OmokPoint,
-    ): MoveResult
+    ): ValidationResult
 
     fun isWin(
         stones: Set<OmokPoint>,

@@ -1,9 +1,9 @@
 package woowacourse.omok.domain.rule
 
-sealed class MoveResult {
-    data object Success : MoveResult()
+sealed class ValidationResult {
+    data object Success : ValidationResult()
 
-    sealed class Failure : MoveResult() {
+    sealed class Failure : ValidationResult() {
         data object DoubleThree : Failure()
 
         data object DoubleFour : Failure()
