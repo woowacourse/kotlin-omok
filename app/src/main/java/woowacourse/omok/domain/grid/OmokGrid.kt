@@ -17,6 +17,10 @@ class OmokGrid {
         return stones.stones.filter { it.stoneColor == stoneColor }.toSet()
     }
 
+    fun getStoneByPoint(point: Point): OmokPoint? {
+        return stones.stones.find { it.point == point }
+    }
+
     companion object {
         const val MIN_BOUND: Int = 1
         const val DEFAULT_SIZE: Int = 15

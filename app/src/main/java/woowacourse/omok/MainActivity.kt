@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         var nowTurn = omokGame.getStartingPlayer()
-        dbProvider.initGame(this)
+        initGame()
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -49,7 +49,11 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { index, view ->
                 val row = index / DEFAULT_SIZE
                 val col = index % DEFAULT_SIZE
-                view.tag = Point(Row(row + INDEX_OFFSET), Column(col + INDEX_OFFSET))
+                val point = Point(Row(row + INDEX_OFFSET), Column(col + INDEX_OFFSET))
+                view.tag = point
+
+                val omokPoint = omokGame.grid.getStoneByPoint(point)
+                if (omokPoint != null) view.setImageResource(getStoneImage(omokPoint.stoneColor))
 
                 view.setOnClickListener {
                     if (isGameOver) return@setOnClickListener
@@ -58,6 +62,15 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
+    // 디비에 저장된 돌 상태들을 들고 온다
+    private fun initGame() {
+        val stoneState = dbProvider.initGame(this)
+        stoneState.forEach { stone ->
+            omokGame.grid.putStone(stone)
+        }
+    }
+
+    // 턴을 진행한다
     private fun proceedTurn(
         view: ImageView,
         stoneColor: StoneColor,
@@ -69,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         return omokGame.changeTurn(stoneColor)
     }
 
+    // 둘 수 있는 위치인지 확인한다
     private fun isViolation(
         stoneColor: StoneColor,
         point: OmokPoint,
@@ -82,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
+    // 착수한다
     private fun playMove(
         stoneColor: StoneColor,
         view: ImageView,
@@ -91,6 +106,7 @@ class MainActivity : AppCompatActivity() {
         dbProvider.insertStone(OmokPoint(view.tag as Point, stoneColor))
     }
 
+    // 돌 색깔별로 이미지를 받아온다
     private fun getStoneImage(stoneColor: StoneColor): Int {
         return when (stoneColor) {
             StoneColor.BLACK -> R.drawable.black_stone
@@ -98,6 +114,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // 게임이 끝났는지 확인한다
     private fun checkGameOver(
         stoneColor: StoneColor,
         point: OmokPoint,
@@ -119,6 +136,7 @@ class MainActivity : AppCompatActivity() {
         dbProvider.dropTable()
     }
 
+    // 우승자를 출력한다
     private fun printWinner(result: OmokResult) {
         Toast.makeText(this, "$result !!", Toast.LENGTH_SHORT).show()
     }
