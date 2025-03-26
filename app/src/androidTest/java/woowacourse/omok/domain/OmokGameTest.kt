@@ -1,9 +1,10 @@
-package omok.domain
+package woowacourse.omok.domain
 
-import omok.domain.grid.OmokGrid
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.grid.OmokGrid
 
 class OmokGameTest {
     private lateinit var omokGame: OmokGame
@@ -14,7 +15,8 @@ class OmokGameTest {
     }
 
     @Test
-    fun `흑돌부터 게임을 시작한다`() {
+    @DisplayName("흑돌부터 게임을 시작한다")
+    fun startGameWithBlackStone() {
         // when
         val actual = omokGame.getStartingPlayer()
         val expected = StoneColor.BLACK
@@ -24,7 +26,8 @@ class OmokGameTest {
     }
 
     @Test
-    fun `흑돌 다음엔 백돌 차례이다`() {
+    @DisplayName("흑돌 다음엔 백돌 차례이다")
+    fun changeTurnWithBlackStone() {
         // when
         val actual = omokGame.changeTurn(StoneColor.BLACK)
         val expected = StoneColor.WHITE
@@ -34,7 +37,8 @@ class OmokGameTest {
     }
 
     @Test
-    fun `백돌 다음엔 흑돌 차례이다`() {
+    @DisplayName("백돌 다음엔 흑돌 차례이다")
+    fun changeTurnWithWhiteStone() {
         // when
         val actual = omokGame.changeTurn(StoneColor.WHITE)
         val expected = StoneColor.BLACK

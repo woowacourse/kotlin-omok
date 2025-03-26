@@ -1,8 +1,8 @@
-package omok
+package woowacourse.omok
 
-import omok.domain.grid.Column
-import omok.domain.grid.OmokPoint
-import omok.domain.grid.Row
+import woowacourse.omok.domain.grid.Column
+import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.grid.Row
 
 val POINT_H5 = OmokPoint(Row(4), Column(7))
 val POINT_H6 = OmokPoint(Row(5), Column(7))
