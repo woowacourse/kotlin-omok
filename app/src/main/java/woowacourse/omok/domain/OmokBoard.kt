@@ -1,8 +1,7 @@
 package woowacourse.omok.domain
 
 class OmokBoard(
-    val width: Int = DEFAULT_SIZE,
-    val height: Int = DEFAULT_SIZE,
+    val size: Int = DEFAULT_SIZE,
     private val rule: Rule,
 ) {
     private val board: MutableList<MutableList<StoneState>> =

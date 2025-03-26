@@ -14,9 +14,9 @@ class OmokAdapter(
     }
 
     private fun convertBoard(board: OmokBoard): List<List<Int>> {
-        val convertedBoard = MutableList(board.height) { MutableList(board.width) { 0 } }
-        repeat(board.height) { x ->
-            repeat(board.width) { y ->
+        val convertedBoard = MutableList(board.size) { MutableList(board.size) { 0 } }
+        repeat(board.size) { x ->
+            repeat(board.size) { y ->
                 val state = board.getStoneState(Position(x, y))
                 val convertedState =
                     when (state) {
