@@ -1,6 +1,9 @@
 package woowacourse.omok
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -10,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import woowacourse.omok.data.db.BoardContract
+import woowacourse.omok.data.db.BoardContract.SQL_DELETE_ENTRIES
+import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.domain.OmokAdapter
 import woowacourse.omok.domain.OmokBoard
 import woowacourse.omok.domain.OmokGame
@@ -22,6 +28,7 @@ import woowacourse.omok.domain.StoneState
 class MainActivity : AppCompatActivity() {
     private lateinit var omokGame: OmokGame
     private lateinit var board: TableLayout
+    private lateinit var dbHelper: DbHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,16 +40,27 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        dbHelper = DbHelper(this)
+
         omokGame = OmokGame(OmokBoard(rule = OmokAdapter()))
         board = findViewById(R.id.board)
         setBoard()
     }
+        setBoard(board)
 
-    private fun setBoard() {
+
+            board.children
+                .filterIsInstance<TableRow>()
+                .flatMap { it.children }
+                .filterIsInstance<ImageView>()
+                .forEach { it.setImageResource(0) }
+        }
+    }
+
+    private fun setBoard(board: TableLayout) {
         val columns = ('A'..'O').toList()
         val rows = (15 downTo 1).toList()
 
-        val board = findViewById<TableLayout>(R.id.board)
         board
             .children
             .filterIsInstance<TableRow>()
@@ -108,5 +126,33 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.text_invalid_position, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun insertStone(
+        position: Position,
+        turn: StoneState,
+    ) {
+        val db = dbHelper.writableDatabase
+
+        val values =
+            ContentValues().apply {
+                put(BoardContract.COLUMN_NAME_X, position.x)
+                put(BoardContract.COLUMN_NAME_Y, position.y)
+                put(BoardContract.COLUMN_NAME_STATE, turn.name)
+            }
+
+        val newRowId = db.insert(BoardContract.TABLE_NAME, null, values)
+        if (newRowId == -1L) {
+            Log.e("MainActivity", "insert failed")
+        } else {
+            Log.d("MainActivity", "insert success: ${turn.name}")
+        }
+        db.close()
+    }
+
+    override fun onDestroy() {
+        dbHelper.close()
+
+        super.onDestroy()
     }
 }
