@@ -138,20 +138,21 @@ class MainActivity : AppCompatActivity() {
         position: Position,
         turn: StoneState,
     ) {
+    private fun insertStone(stone: Stone) {
         val db = dbHelper.writableDatabase
 
         val values =
             ContentValues().apply {
-                put(BoardContract.COLUMN_NAME_X, position.x)
-                put(BoardContract.COLUMN_NAME_Y, position.y)
-                put(BoardContract.COLUMN_NAME_STATE, turn.name)
+                put(BoardContract.COLUMN_NAME_X, stone.position.x)
+                put(BoardContract.COLUMN_NAME_Y, stone.position.y)
+                put(BoardContract.COLUMN_NAME_STATE, stone.state.name)
             }
 
         val newRowId = db.insert(BoardContract.TABLE_NAME, null, values)
         if (newRowId == -1L) {
             Log.e("MainActivity", "insert failed")
         } else {
-            Log.d("MainActivity", "insert success: ${turn.name}")
+            Log.d("MainActivity", "insert success: ${stone.state.name}")
         }
         db.close()
     }
