@@ -5,7 +5,6 @@ import omok.domain.model.Board
 import omok.domain.model.Board.Companion.DEFAULT_BOARD_SIZE
 import omok.domain.model.position.Position
 import omok.domain.model.rule.OmokRuleAdapter
-import omok.domain.model.state.OmokStateMachine
 import omok.domain.model.stone.OmokStone
 import omok.domain.model.stone.StoneType
 import omok.view.InputView
@@ -16,15 +15,15 @@ class OmokController(
     private val outputView: OutputView = OutputView(),
 ) {
     fun run() {
-        val game = Game(OmokStateMachine(rule = OmokRuleAdapter()))
+        val game = Game(rule = OmokRuleAdapter())
         outputView.printStart()
-        val resultBoard =
-            game.play(
-                onBeforePlace = ::showBoardStatus,
-                onPlace = ::getPosition,
-                onFailure = { outputView.printErrorMessage(it) },
-            )
-        showResult(resultBoard)
+
+        game.play(
+            onBeforePlace = ::showBoardStatus,
+            onPlace = ::getPosition,
+            onFailure = outputView::printErrorMessage,
+        )
+        showResult(game)
     }
 
     private fun showBoardStatus(
@@ -47,7 +46,8 @@ class OmokController(
         }
     }
 
-    private fun showResult(board: Board) {
+    private fun showResult(game: Game) {
+        val board = game.board
         outputView.printBoardState(board)
         if (board.isFull()) {
             outputView.printDraw()

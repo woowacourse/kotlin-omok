@@ -15,7 +15,7 @@ class InputView {
     }
 
     companion object {
-        val ALPHABETS = ('A'..'Z')
+        private val ALPHABETS = ('A'..'Z')
         private const val INPUT_ERROR_MESSAGE = "[ERROR] 입력이 존재하지 않습니다."
         private const val COLUMN_ERROR_MESSAGE = "[ERROR] 열 좌표는 알파벳 대문자여야 합니다."
         private const val ROW_ERROR_MESSAGE = "[ERROR] 행 좌표는 숫자여야 합니다."
