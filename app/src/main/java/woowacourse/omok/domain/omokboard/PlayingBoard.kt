@@ -10,7 +10,7 @@ import woowacourse.omok.domain.rule.place.PlaceRule
 class PlayingBoard(
     private val board: OmokBoard = OmokBoard.create(),
 ) {
-    var stoneColor = StoneColor.BLACK
+    var currentTurn = StoneColor.BLACK
         private set
 
     fun placeStone(
@@ -18,17 +18,15 @@ class PlayingBoard(
         position: Position,
     ): PlaceResult {
         var result: PlaceResult = PlaceResult.Success
+        val playerStone = PlayerStone(currentTurn, position)
 
         rules.forEach { rule ->
-            val playerStone = PlayerStone(stoneColor, position)
             result = rule.perform(board, playerStone) as PlaceResult
             if (result is PlaceResult.Failure) return result
         }
 
         if (result is PlaceResult.Success) {
-            board
-                .find(position)
-                ?.updateState(stoneColor)
+            board.update(playerStone)
         }
 
         return result
@@ -49,6 +47,6 @@ class PlayingBoard(
     }
 
     fun reverseTurn() {
-        stoneColor = stoneColor.reversed()
+        currentTurn = currentTurn.reversed()
     }
 }

@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         children.filterIsInstance<TableRow>().flatMap { it.children }.filterIsInstance<ImageView>().forEach { button ->
             button.setOnClickListener {
                 val position = button.tag as Position
-                val playerStone = PlayerStone(playingBoard.stoneColor, position)
+                val playerStone = PlayerStone(playingBoard.currentTurn, position)
 
                 when (val result = playingBoard.placeStone(placeRules, position)) {
                     is PlaceResult.Success -> handlePlaceSuccess(button, playerStone, playingBoard, judgeRules)
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         judgeRules: List<JudgeRule>,
     ) {
         button.setImageResource(
-            when (playingBoard.stoneColor) {
+            when (playingBoard.currentTurn) {
                 StoneColor.BLACK -> black_stone
                 StoneColor.WHITE -> white_stone
             },
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
 
         handleJudge(playingBoard, playerStone, judgeRules)
         playingBoard.reverseTurn()
-        showSnackBar(getString(omok_turn, playingBoard.stoneColor.toText()))
+        showSnackBar(getString(omok_turn, playingBoard.currentTurn.toText()))
     }
 
     private fun StoneColor.toText(): String =

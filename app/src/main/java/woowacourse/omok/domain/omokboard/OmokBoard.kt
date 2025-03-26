@@ -1,5 +1,7 @@
 package woowacourse.omok.domain.omokboard
 
+import woowacourse.omok.domain.player.PlayerStone
+
 @JvmInline
 value class OmokBoard private constructor(
     private val _value: Map<Position, Intersection>,
@@ -9,6 +11,10 @@ value class OmokBoard private constructor(
     val height: Int get() = value.keys.maxOf { it.row.value }
 
     fun find(position: Position): Intersection? = _value[position]
+
+    fun update(playerStone: PlayerStone) {
+        _value[playerStone.position]?.updateState(playerStone.color)
+    }
 
     companion object {
         fun create(
