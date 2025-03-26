@@ -42,12 +42,12 @@ android {
             excludes += "win32-x86*/**"
         }
     }
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
+    val currentVersion = "v1.0.3-alpha"
+    implementation(libs.budool.omok.rule)
+
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
