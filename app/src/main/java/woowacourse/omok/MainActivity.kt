@@ -23,13 +23,11 @@ import woowacourse.omok.domain.grid.Row
 import woowacourse.omok.domain.rule.MoveResult
 
 class MainActivity : AppCompatActivity() {
-    private val omokGame = OmokGame(OmokGrid())
+    private val omokGame = OmokGame(OmokGrid(), DbProvider())
     private var isGameOver = false
-    private val dbProvider = DbProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        initGame()
-        var nowTurn = omokGame.getStartingPlayer()
+        var nowTurn = omokGame.initGame(this)
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -61,14 +59,6 @@ class MainActivity : AppCompatActivity() {
                     nowTurn = proceedTurn(view, nowTurn)
                 }
             }
-    }
-
-    // 디비에 저장된 돌 상태들을 들고 온다
-    private fun initGame() {
-        val stoneState = dbProvider.initGame(this)
-        stoneState.forEach { stone ->
-            omokGame.grid.putStone(stone)
-        }
     }
 
     // 턴을 진행한다
@@ -110,7 +100,6 @@ class MainActivity : AppCompatActivity() {
     ) {
         view.setImageResource(getStoneImage(stoneColor))
         omokGame.playMove(OmokPoint(view.tag as Point, stoneColor))
-        dbProvider.insertStone(OmokPoint(view.tag as Point, stoneColor))
     }
 
     // 돌 색깔별로 이미지를 받아온다
@@ -131,16 +120,15 @@ class MainActivity : AppCompatActivity() {
         when {
             omokGame.checkWin(stoneColor, point) -> {
                 printWinner(OmokResult.getWinner(stoneColor))
-                isGameOver = true
             }
 
             omokGame.isBoardFull() -> {
                 printWinner(OmokResult.DRAW)
-                isGameOver = true
             }
         }
+        isGameOver = true
 
-        dbProvider.dropTable()
+        omokGame.onGameFinished()
     }
 
     // 우승자를 출력한다
@@ -153,7 +141,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        dbProvider.closeDB()
+        omokGame.onProgramFinished()
         super.onDestroy()
     }
 

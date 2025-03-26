@@ -48,7 +48,7 @@ class DbProvider {
     }
 
     private fun parsingStoneColor(color: String): StoneColor {
-        return if (color == "BLACK") {
+        return if (color == StoneColor.BLACK.toString()) {
             StoneColor.BLACK
         } else {
             StoneColor.WHITE
