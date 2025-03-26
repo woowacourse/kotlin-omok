@@ -12,7 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import woowacourse.omok.R
-import woowacourse.omok.data.DbHelper
+import woowacourse.omok.data.OmokDatabaseHelper
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.board.Board
 import woowacourse.omok.domain.board.BoardSize
@@ -22,8 +22,9 @@ import woowacourse.omok.domain.rule.RuleValidator
 
 class MainActivity : AppCompatActivity() {
     private lateinit var board: Board
+    private lateinit var boardView: TableLayout
     private lateinit var game: OmokGame
-    private lateinit var dbHelper: DbHelper
+    private lateinit var dbHelper: OmokDatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,59 +32,85 @@ class MainActivity : AppCompatActivity() {
         setWindowInsets()
 
         initializeDbHelper()
+        initializeBoardView()
         initializeGame()
-        initializeBoard()
     }
 
     private fun initializeDbHelper() {
-        dbHelper = DbHelper(this)
+        dbHelper = OmokDatabaseHelper(this)
+        val ids = dbHelper.getGameIds()
+        println(ids)
+        if (ids.isEmpty()) dbHelper.addGame(GAME_ROOM_ID)
     }
 
-    private fun initializeGame() {
-        val boardView = findViewById<TableLayout>(R.id.board)
-        initializeBoardView(boardView)
-        game = OmokGame(GameListener(boardView))
-    }
-
-    private fun initializeBoard() {
-        board = Board(BoardSize(), RuleValidator())
-        game.start()
-    }
-
-    private fun initializeBoardView(boardView: TableLayout) {
+    private fun initializeBoardView() {
+        boardView = findViewById(R.id.board)
         boardView.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rowView ->
             rowView.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, view ->
-                view.tag = Point(rowIndex + 1, colIndex + 1)
+                val point = Point(rowIndex + 1, colIndex + 1)
+                view.tag = point
                 view.setOnClickListener {
-                    game.placeStone(board, view.tag as Point)
+                    game.placeStone(board, point)
                 }
             }
         }
     }
 
+    private fun initializeGame() {
+        game = OmokGame(GameListener())
+        loadBoardStatus()
+    }
+
+    private fun loadBoardStatus() {
+        val loadedMoves = dbHelper.getMoves(GAME_ROOM_ID).toMap()
+        board = Board(BoardSize(), loadedMoves, RuleValidator())
+        updateBoardUIWithLoadedMoves(loadedMoves)
+        game.start(loadedMoves.entries.lastOrNull()?.toPair())
+    }
+
+    private fun updateBoardUIWithLoadedMoves(loadedMoves: Map<Point, StoneColor>) {
+        loadedMoves.forEach { (point, stoneColor) ->
+            updateBoardUI(point, stoneColor)
+        }
+    }
+
+    private fun updateBoardUI(
+        point: Point,
+        color: StoneColor,
+    ) {
+        val pointView = boardView.findViewWithTag<ImageView>(point)
+        val stoneImage = getStoneImage(color)
+        pointView.setImageResource(stoneImage)
+    }
+
+    private fun getStoneImage(color: StoneColor): Int =
+        when (color) {
+            StoneColor.BLACK -> R.drawable.black_stone
+            StoneColor.WHITE -> R.drawable.white_stone
+            else -> 0
+        }
+
     private fun resetGame() {
-        val boardView = findViewById<TableLayout>(R.id.board)
+        clearBoardImages()
+        dbHelper.deleteGame(GAME_ROOM_ID)
+        loadBoardStatus()
+    }
+
+    private fun clearBoardImages() {
         boardView.children.filterIsInstance<TableRow>().forEach { rowView ->
             rowView.children.filterIsInstance<ImageView>().forEach { view ->
                 view.setImageResource(0)
             }
         }
-
-        initializeBoard()
     }
 
-    private inner class GameListener(
-        private val boardView: TableLayout,
-    ) : OmokGameListener {
-        override fun onStartGame() {
-            initializeGame()
-        }
-
+    private inner class GameListener : OmokGameListener {
         override fun onBoardUpdated(
             point: Point,
             color: StoneColor,
         ) {
-            updateBoardUI(boardView, point, color)
+            updateBoardUI(point, color)
+            dbHelper.saveMove(GAME_ROOM_ID, point to color)
         }
 
         override fun onGameWon(winnerState: StoneColor?) {
@@ -95,22 +122,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateBoardUI(
-        boardView: TableLayout,
-        point: Point,
-        color: StoneColor,
-    ) {
-        val stoneImage =
-            when (color) {
-                StoneColor.BLACK -> R.drawable.black_stone
-                StoneColor.WHITE -> R.drawable.white_stone
-                StoneColor.NONE -> null
-            }
-
-        val pointView = boardView.findViewWithTag<ImageView>(point)
-        pointView.setImageResource(stoneImage ?: 0)
-    }
-
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
@@ -118,9 +129,9 @@ class MainActivity : AppCompatActivity() {
     private fun showGameOverDialog(winnerState: StoneColor?) {
         AlertDialog
             .Builder(this)
-            .setTitle("게임 종료")
+            .setTitle(DIALOG_TITLE_GAME_OVER)
             .setMessage("${winnerState?.toUiString()}돌 승리!")
-            .setPositiveButton("확인") { dialog, _ ->
+            .setPositiveButton(DIALOG_BUTTON_POSITIVE) { dialog, _ ->
                 dialog.dismiss()
                 resetGame()
             }.setCancelable(false)
@@ -140,6 +151,18 @@ class MainActivity : AppCompatActivity() {
         when (this) {
             StoneColor.BLACK -> "흑"
             StoneColor.WHITE -> "백"
-            StoneColor.NONE -> ""
+            else -> ""
         }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        dbHelper.close()
+    }
+
+    companion object {
+        const val GAME_ROOM_ID = 1
+        const val DIALOG_TITLE_GAME_OVER = "게임 종료"
+        const val DIALOG_BUTTON_POSITIVE = "확인"
+    }
 }

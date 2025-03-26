@@ -4,8 +4,6 @@ import woowacourse.omok.domain.board.Point
 import woowacourse.omok.domain.board.StoneColor
 
 interface OmokGameListener {
-    fun onStartGame()
-
     fun onBoardUpdated(
         point: Point,
         color: StoneColor,

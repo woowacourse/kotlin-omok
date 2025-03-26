@@ -89,7 +89,6 @@ class RuleValidatorTest {
     fun `흑돌을 착수할 때 거짓 3-3 금수인 경우 False 반환`() {
         val board = createBoard(listOf("C3", "E3", "D2", "D4"))
         board.placeStone(Point(4, 5), StoneColor.WHITE)
-        println(board.placeStone(Point(4, 3), StoneColor.BLACK))
         assertFalse(RenjuRuleJudge.checkViolation(board, Point(4, 3), StoneColor.BLACK))
     }
 

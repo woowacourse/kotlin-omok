@@ -14,19 +14,17 @@ class OmokGame(
     private var previousPoint: Point? = null
     private var currentStoneColor: StoneColor = StoneColor.BLACK
 
-    fun start() {
-        omokGameListener.onStartGame()
-        previousPoint = null
-        currentStoneColor = StoneColor.BLACK
+    fun start(lastMove: Pair<Point, StoneColor>?) {
+        previousPoint = lastMove?.first
+        currentStoneColor = lastMove?.second?.reverseStoneColor() ?: StoneColor.BLACK
     }
 
     fun placeStone(
         board: Board,
         point: Point,
-    ): PlaceStoneResult {
+    ) {
         val placeResult = board.placeStone(point, currentStoneColor)
         handlePlaceResult(placeResult, board)
-        return placeResult
     }
 
     private fun handlePlaceResult(
