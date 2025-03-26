@@ -13,7 +13,7 @@ class OmokStones(
 
     operator fun plus(stone: Stone): OmokStones = OmokStones(rule, _stones + stone)
 
-    fun contains(point: Point): Boolean = point in _stones.map { it.point }.toSet()
+    fun contains(point: Point): Boolean = _stones.any { it.point == point }
 
     fun isOmok(lastStone: Stone): Boolean = rule.isOmok(_stones, lastStone)
 

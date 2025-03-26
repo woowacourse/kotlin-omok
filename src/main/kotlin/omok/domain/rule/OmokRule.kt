@@ -6,13 +6,12 @@ import omok.domain.stone.Stone
 
 class OmokRule(
     private val boardSize: Int = OmokBoard.DEFAULT_BOARD_SIZE,
+    private val forbiddenMoveRule: ForbiddenMoveRule = RenjuRule(boardSize),
 ) {
-    private val renjuRule = RenjuRule(boardSize)
-
     fun checkViolation(
         stones: Set<Stone>,
         lastStone: Stone,
-    ): Violation = renjuRule.checkViolation(stones, lastStone)
+    ): Violation = forbiddenMoveRule.checkViolation(stones, lastStone)
 
     fun isOmok(
         stones: Set<Stone>,

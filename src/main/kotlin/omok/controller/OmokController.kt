@@ -23,10 +23,7 @@ class OmokController(
                 onTurn = { stoneColor, lastPoint -> outputView.printTurn(stoneColor, lastPoint) },
                 onPointSelected = { inputView.getPoint() },
                 onBoardUpdated = { board ->
-                    outputView.printOmokBoard(
-                        board.stones.stones,
-                        board.size,
-                    )
+                    outputView.printOmokBoard(board.stones.stones, board.size)
                 },
             )
         }.getOrElse {

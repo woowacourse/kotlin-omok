@@ -7,19 +7,20 @@ import rule.facade.BlackRenjuRule
 
 class RenjuRule(
     boardSize: Int,
-) {
+) : ForbiddenMoveRule {
     private val blackRenjuRule = BlackRenjuRule(boardSize, boardSize)
 
-    fun checkViolation(
+    override fun checkViolation(
         stones: Set<Stone>,
         startStone: Stone,
     ): Violation =
         when (startStone.color) {
             StoneColor.BLACK -> {
-                val blackPoints = stones.filter { it.color == StoneColor.BLACK }.map { it.point }
-                val whitePoints = stones.filter { it.color == StoneColor.WHITE }.map { it.point }
+                val blackPoints = stones.filter(StoneColor.BLACK)
+                val whitePoints = stones.filter(StoneColor.WHITE)
                 checkBlackViolation(blackPoints, whitePoints, startStone.point)
             }
+
             StoneColor.WHITE -> Violation.NONE
         }
 
@@ -65,6 +66,8 @@ class RenjuRule(
             blackPoints.map { it.toPair() },
             startPoint.toPair(),
         )
+
+    private fun Set<Stone>.filter(stoneColor: StoneColor): List<Point> = this.filter { it.color == stoneColor }.map { it.point }
 
     private fun Point.toPair(): Pair<Int, Int> = row to col
 }
