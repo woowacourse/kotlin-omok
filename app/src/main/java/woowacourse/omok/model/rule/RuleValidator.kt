@@ -3,10 +3,23 @@ package woowacourse.omok.model.rule
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Point
 import woowacourse.omok.model.board.StoneColor
+import woowacourse.omok.model.rule.count.FiveInRowRule
+import woowacourse.omok.model.rule.count.GameCountRuleAdapter
+import woowacourse.omok.model.rule.count.OverlineRule
+import woowacourse.omok.model.rule.lib.DoubleFourMoveRule
+import woowacourse.omok.model.rule.lib.DoubleThreeMoveRule
+import woowacourse.omok.model.rule.lib.ForbiddenMoveRuleAdapter
 
 class RuleValidator {
     private val violationRules: MutableMap<GameRule, List<StoneColor>> = mutableMapOf()
     private val winningRules: MutableMap<GameRule, List<StoneColor>> = mutableMapOf()
+
+    init {
+        winningRules[GameCountRuleAdapter(FiveInRowRule())] = listOf(StoneColor.BLACK, StoneColor.WHITE)
+        violationRules[ForbiddenMoveRuleAdapter(DoubleThreeMoveRule())] = listOf(StoneColor.BLACK)
+        violationRules[ForbiddenMoveRuleAdapter(DoubleFourMoveRule())] = listOf(StoneColor.BLACK)
+        violationRules[GameCountRuleAdapter(OverlineRule())] = listOf(StoneColor.BLACK)
+    }
 
     fun addWinningRule(
         rule: GameRule,
