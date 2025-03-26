@@ -4,11 +4,21 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import omok.mapper.BlackRuleChecker
+import omok.mapper.NoViolation
+import omok.mapper.PointMapper
+import omok.model.game.Game
+import omok.model.stone.StoneColor
+import omok.model.stone.position.Col
+import omok.model.stone.position.Row
+import omok.model.stone.position.Position
+import rule.BlackRenjuRule
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,12 +31,49 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        val blackRuleChecker =
+            BlackRuleChecker(
+                rule = BlackRenjuRule(),
+                mapper = { position -> PointMapper().from(position) },
+            )
+
+        val game = Game(blackRuleChecker)
+
         val board = findViewById<TableLayout>(R.id.board)
-        board
-            .children
+        val rows = board.children
             .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone) } }
+            .toList()
+            .reversed()
+
+        rows.forEachIndexed { rowIndex, row ->
+            row.children
+                .filterIsInstance<ImageView>()
+                .forEachIndexed { colIndex, cell ->
+                    cell.setOnClickListener {
+                        val position = Position(Row(rowIndex), Col(colIndex))
+
+                        val stoneRes =
+                            if (game.turn == StoneColor.BLACK) R.drawable.black_stone else R.drawable.white_stone
+
+                        val violation = game.placeStone(position)
+
+                        if (violation != NoViolation) {
+                            Toast.makeText(this, violation.message, Toast.LENGTH_SHORT).show()
+                            return@setOnClickListener
+                        }
+
+                        cell.setImageResource(stoneRes)
+                        cell.isClickable = false
+
+                        if (game.isOmok()) {
+                            Toast.makeText(
+                                this,
+                                "${game.lastStone?.stoneColor}이 우승했습니다!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
+        }
     }
 }
