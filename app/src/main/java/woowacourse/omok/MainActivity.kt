@@ -9,8 +9,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.Color
+import woowacourse.omok.model.Game
+import woowacourse.omok.model.MoveResult
+import woowacourse.omok.model.position.Col
+import woowacourse.omok.model.position.Position
+import woowacourse.omok.model.position.Row
+import woowacourse.omok.model.rule.RenjuRule
 
 class MainActivity : AppCompatActivity() {
+    val game = Game(Board(), RenjuRule())
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,6 +37,26 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone) } }
+            .forEachIndexed { index, view ->
+                view.setOnClickListener {
+                    val color: Color = game.chooseTurn()
+                    val stoneImage =
+                        when (color) {
+                            Color.BLACK -> R.drawable.black_stone
+                            Color.WHITE -> R.drawable.white_stone
+                        }
+
+                    val x = Col(index % game.board.col.value)
+                    val y = Row(index / game.board.row.value)
+                    when (game.processTurn(Position(x, y), color)) {
+                        is MoveResult.Success.Playing -> view.setImageResource(stoneImage)
+                        is MoveResult.Success.Finished -> {
+                            view.setImageResource(stoneImage)
+                        }
+                        is MoveResult.Failure -> {
+                        }
+                    }
+                }
+            }
     }
 }
