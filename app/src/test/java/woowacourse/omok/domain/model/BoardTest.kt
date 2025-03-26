@@ -1,26 +1,21 @@
-package omok.domain.model
+package woowacourse.omok.domain.model
 
-import omok.positionOneAndOne
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import woowacourse.omok.domain.model.Board
-import woowacourse.omok.domain.model.position.Stone
-import woowacourse.omok.domain.model.stone.StoneType
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 class BoardTest {
     private lateinit var board: Board
 
     @BeforeEach
     fun setUp() {
-        board = Board()
+        board = Board(15)
     }
 
-    @Test
-    fun `바둑돌을 둔다`() {
-        val position = positionOneAndOne
-        val stone = Stone(position, StoneType.BLACK)
-        board = board.addedBoard(stone)
-        assertThat(board.stones.hasStone(Stone(position, StoneType.BLACK))).isTrue()
+    @ParameterizedTest
+    @ValueSource(ints = [0, 16, -1])
+    fun `바둑판 범위안에 숫자인지 검증한다`(value: Int) {
+        assertThat(board.inRange(value)).isFalse()
     }
 }
