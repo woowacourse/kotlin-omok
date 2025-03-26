@@ -1,14 +1,15 @@
-package omok.model
+package woowacourse.omok
 
-import omok.model.game.FoulConditionResult
-import omok.model.game.GameState
-import omok.model.game.InvalidMoveResult
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor.BLACK
-import omok.model.stone.StoneColor.WHITE
-import omok.model.stone.Stones
+import woowacourse.omok.model.game.FoulConditionResult
+import woowacourse.omok.model.game.GameState
+import woowacourse.omok.model.game.InvalidMoveResult
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor.BLACK
+import woowacourse.omok.model.stone.StoneColor.WHITE
+import woowacourse.omok.model.stone.Stones
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.Board
 
 class BoardTest {
     /*

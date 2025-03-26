@@ -1,9 +1,9 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.Board
-import omok.model.game.GameState
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.game.GameState
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
 
 class OutputView {
     fun printOmokStart() {

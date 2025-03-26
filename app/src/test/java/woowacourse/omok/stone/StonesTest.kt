@@ -1,9 +1,11 @@
-package omok.model.stone
+package woowacourse.omok.stone
 
-import omok.model.stone.StoneColor.BLACK
-import omok.model.stone.StoneColor.WHITE
+import woowacourse.omok.model.stone.StoneColor.BLACK
+import woowacourse.omok.model.stone.StoneColor.WHITE
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.Stones
 
 class StonesTest {
     @Test

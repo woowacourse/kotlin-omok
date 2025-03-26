@@ -1,12 +1,12 @@
-package omok.model.adapter
+package woowacourse.omok.model.adapter
 
-import omok.model.Board.Companion.MAX_BOARD_HEIGHT
-import omok.model.Board.Companion.MAX_BOARD_WIDTH
-import omok.model.Direction
-import omok.model.game.FoulCondition
-import omok.model.stone.Point
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor
+import woowacourse.omok.model.Board.Companion.MAX_BOARD_HEIGHT
+import woowacourse.omok.model.Board.Companion.MAX_BOARD_WIDTH
+import woowacourse.omok.model.Direction
+import woowacourse.omok.model.game.FoulCondition
+import woowacourse.omok.model.stone.Point
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
 import rule.facade.BlackRenjuRule
 
 class RenjuRuleAdapter {

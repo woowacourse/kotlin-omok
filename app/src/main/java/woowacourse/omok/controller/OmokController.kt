@@ -1,15 +1,15 @@
-package omok.controller
+package woowacourse.omok.controller
 
-import omok.model.Board
-import omok.model.adapter.RenjuRuleAdapter
-import omok.model.game.FoulConditionResult
-import omok.model.game.GameState
-import omok.model.game.InvalidMoveResult
-import omok.model.stone.Point
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor
-import omok.view.InputView
-import omok.view.OutputView
+import woowacourse.omok.model.Board
+import woowacourse.omok.model.adapter.RenjuRuleAdapter
+import woowacourse.omok.model.game.FoulConditionResult
+import woowacourse.omok.model.game.GameState
+import woowacourse.omok.model.game.InvalidMoveResult
+import woowacourse.omok.model.stone.Point
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
+import woowacourse.omok.view.InputView
+import woowacourse.omok.view.OutputView
 
 class OmokController(
     private val inputView: InputView,

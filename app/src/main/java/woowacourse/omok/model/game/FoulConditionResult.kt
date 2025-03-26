@@ -1,4 +1,4 @@
-package omok.model.game
+package woowacourse.omok.model.game
 
 sealed class FoulConditionResult(
     open val message: String,

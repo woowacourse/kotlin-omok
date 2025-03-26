@@ -1,4 +1,4 @@
-package omok.model
+package woowacourse.omok.model
 
 enum class Direction(
     val x: Int,

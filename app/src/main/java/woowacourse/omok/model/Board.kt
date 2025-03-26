@@ -1,14 +1,14 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.model.adapter.RenjuRuleAdapter
-import omok.model.game.FoulCondition
-import omok.model.game.FoulConditionResult
-import omok.model.game.GameState
-import omok.model.game.InvalidMoveResult
-import omok.model.stone.Point
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor
-import omok.model.stone.Stones
+import woowacourse.omok.model.adapter.RenjuRuleAdapter
+import woowacourse.omok.model.game.FoulCondition
+import woowacourse.omok.model.game.FoulConditionResult
+import woowacourse.omok.model.game.GameState
+import woowacourse.omok.model.game.InvalidMoveResult
+import woowacourse.omok.model.stone.Point
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
+import woowacourse.omok.model.stone.Stones
 
 class Board(
     val stones: Stones = Stones(),

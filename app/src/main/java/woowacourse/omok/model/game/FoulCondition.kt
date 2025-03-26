@@ -1,4 +1,4 @@
-package omok.model.game
+package woowacourse.omok.model.game
 
 enum class FoulCondition {
     DOUBLE_THREE,

@@ -1,8 +1,8 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.stone.Point
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor
+import woowacourse.omok.model.stone.Point
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
 
 class InputView {
     fun readTurn(lastStone: Stone?): Point {
@@ -37,7 +37,7 @@ class InputView {
 
     private fun Char.integerRepresentation(): Int = this.uppercase()[0].code - ASCII_OFFSET
 
-    private fun Point.stringRepresentation(): String = "${(this.col + ASCII_OFFSET).toChar()}${this.row}"
+    private fun Point.stringRepresentation(): String = "${(this.col + woowacourse.omok.view.InputView.ASCII_OFFSET).toChar()}${this.row}"
 
     companion object {
         const val MESSAGE_TURN_INDICATOR = "%s의 차례입니다. "
