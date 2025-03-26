@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity() {
     private val dbProvider = DbProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        var nowTurn = omokGame.getStartingPlayer()
         initGame()
+        var nowTurn = omokGame.getStartingPlayer()
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

@@ -9,7 +9,10 @@ class OmokGame(val grid: OmokGrid) {
     private val referee = Referee()
 
     fun getStartingPlayer(): StoneColor {
-        return StoneColor.BLACK
+        val blackStoneCount = grid.getStonesByColor(StoneColor.BLACK).size
+        val whiteStoneCount = grid.getStonesByColor(StoneColor.WHITE).size
+        if (blackStoneCount == whiteStoneCount) return StoneColor.BLACK
+        return StoneColor.WHITE
     }
 
     fun isBoardFull(): Boolean {
