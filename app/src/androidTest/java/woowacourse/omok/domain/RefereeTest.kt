@@ -38,7 +38,12 @@ class RefereeTest {
 
         // when & then
         assertThrows<IllegalStateException> {
-            referee.checkViolation(RenjuRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(
+                RenjuRuleAdapterImpl,
+                grid.getStonesByColor(StoneColor.BLACK),
+                grid.getStonesByColor(StoneColor.WHITE),
+                getFoulPoint(),
+            )
         }
     }
 
@@ -53,7 +58,12 @@ class RefereeTest {
 
         // when & then
         assertDoesNotThrow {
-            referee.checkViolation(WhiteRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(
+                WhiteRuleAdapterImpl,
+                grid.getStonesByColor(StoneColor.BLACK),
+                grid.getStonesByColor(StoneColor.WHITE),
+                getFoulPoint(),
+            )
         }
     }
 
@@ -68,7 +78,12 @@ class RefereeTest {
 
         // when & then
         assertThrows<IllegalStateException> {
-            referee.checkViolation(RenjuRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(
+                RenjuRuleAdapterImpl,
+                grid.getStonesByColor(StoneColor.BLACK),
+                grid.getStonesByColor(StoneColor.WHITE),
+                getFoulPoint(),
+            )
         }
     }
 
@@ -83,7 +98,12 @@ class RefereeTest {
 
         // when & then
         assertDoesNotThrow {
-            referee.checkViolation(WhiteRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(
+                WhiteRuleAdapterImpl,
+                grid.getStonesByColor(StoneColor.BLACK),
+                grid.getStonesByColor(StoneColor.WHITE),
+                getFoulPoint(),
+            )
         }
     }
 
@@ -98,7 +118,12 @@ class RefereeTest {
 
         // when & then
         assertThrows<IllegalStateException> {
-            referee.checkViolation(RenjuRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(
+                RenjuRuleAdapterImpl,
+                grid.getStonesByColor(StoneColor.BLACK),
+                grid.getStonesByColor(StoneColor.WHITE),
+                getFoulPoint(),
+            )
         }
     }
 
@@ -113,7 +138,12 @@ class RefereeTest {
 
         // when & then
         assertDoesNotThrow {
-            referee.checkViolation(WhiteRuleAdapterImpl, grid.getStones(StoneColor.BLACK), grid.getStones(StoneColor.WHITE), getFoulPoint())
+            referee.checkViolation(
+                WhiteRuleAdapterImpl,
+                grid.getStonesByColor(StoneColor.BLACK),
+                grid.getStonesByColor(StoneColor.WHITE),
+                getFoulPoint(),
+            )
         }
     }
 
@@ -127,16 +157,16 @@ class RefereeTest {
         assertThrows<IllegalStateException> {
             referee.checkViolation(
                 RenjuRuleAdapterImpl,
-                grid.getStones(StoneColor.BLACK),
-                grid.getStones(StoneColor.WHITE),
+                grid.getStonesByColor(StoneColor.BLACK),
+                grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(Row(1), Column(2)),
             )
         }
         assertThrows<IllegalStateException> {
             referee.checkViolation(
                 WhiteRuleAdapterImpl,
-                grid.getStones(StoneColor.BLACK),
-                grid.getStones(StoneColor.WHITE),
+                grid.getStonesByColor(StoneColor.BLACK),
+                grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(Row(1), Column(2)),
             )
         }
@@ -152,7 +182,7 @@ class RefereeTest {
         }
 
         // when
-        val actual = referee.checkWin(RenjuRuleAdapterImpl, grid.getStones(StoneColor.BLACK), POINT_H6)
+        val actual = referee.checkWin(RenjuRuleAdapterImpl, grid.getStonesByColor(StoneColor.BLACK), POINT_H6)
 
         // then
         assertThat(actual).isTrue()

@@ -13,7 +13,7 @@ class OmokGrid {
         return (stones.stones).size == TOTAL_POINT_COUNT
     }
 
-    fun getStones(stoneColor: StoneColor): Set<OmokPoint> {
+    fun getStonesByColor(stoneColor: StoneColor): Set<OmokPoint> {
         return stones.stones.filter { it.stoneColor == stoneColor }.toSet()
     }
 

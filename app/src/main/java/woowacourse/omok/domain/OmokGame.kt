@@ -1,5 +1,6 @@
 package woowacourse.omok.domain
 
+import woowacourse.omok.domain.StoneColor.Companion.opposite
 import woowacourse.omok.domain.grid.OmokGrid
 import woowacourse.omok.domain.grid.OmokPoint
 import woowacourse.omok.domain.rule.RenjuRuleAdapterImpl
@@ -31,27 +32,21 @@ class OmokGame(val grid: OmokGrid) {
         nowTurn: StoneColor,
         startPoint: OmokPoint,
     ) {
-        if (nowTurn == StoneColor.BLACK) {
-            referee.checkViolation(
-                RenjuRuleAdapterImpl,
-                grid.getStones(StoneColor.BLACK),
-                grid.getStones(StoneColor.WHITE),
-                startPoint,
-            )
-        } else {
-            referee.checkViolation(
-                RenjuRuleAdapterImpl,
-                grid.getStones(StoneColor.WHITE),
-                grid.getStones(StoneColor.BLACK),
-                startPoint,
-            )
-        }
+        val thisStones = grid.getStonesByColor(nowTurn)
+        val opponentStones = grid.getStonesByColor(opposite(nowTurn))
+
+        referee.checkViolation(
+            RenjuRuleAdapterImpl,
+            thisStones,
+            opponentStones,
+            startPoint,
+        )
     }
 
     fun checkWin(
         nowTurn: StoneColor,
         startPoint: OmokPoint,
     ): Boolean {
-        return referee.checkWin(RenjuRuleAdapterImpl, grid.getStones(nowTurn), startPoint)
+        return referee.checkWin(RenjuRuleAdapterImpl, grid.getStonesByColor(nowTurn), startPoint)
     }
 }

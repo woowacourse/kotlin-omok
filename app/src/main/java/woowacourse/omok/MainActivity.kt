@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { index, view ->
                 val row = index / DEFAULT_SIZE
                 val col = index % DEFAULT_SIZE
-                view.tag = OmokPoint(Point(Row(row + INDEX_OFFSET), Column(col + INDEX_OFFSET)), nowTurn)
+                view.tag = Point(Row(row + INDEX_OFFSET), Column(col + INDEX_OFFSET))
 
                 view.setOnClickListener {
                     if (isGameOver) return@setOnClickListener
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
         stoneColor: StoneColor,
     ): StoneColor {
-        val point = view.tag as OmokPoint
+        val point = OmokPoint(view.tag as Point, stoneColor)
         if (isViolation(stoneColor, point)) return stoneColor
         playMove(stoneColor, view)
         checkGameOver(stoneColor, point)
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
     ) {
         view.setImageResource(getStoneImage(stoneColor))
-        omokGame.playMove(view.tag as OmokPoint)
+        omokGame.playMove(OmokPoint(view.tag as Point, stoneColor))
     }
 
     private fun getStoneImage(stoneColor: StoneColor): Int {

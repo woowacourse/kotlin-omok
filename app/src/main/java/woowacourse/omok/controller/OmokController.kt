@@ -39,7 +39,7 @@ class OmokController(
         nowTurn: StoneColor,
         latestPoint: OmokPoint?,
     ): OmokPoint {
-        outputView.printBoardState(omokGame.grid.getStones(StoneColor.BLACK), omokGame.grid.getStones(StoneColor.WHITE))
+        outputView.printBoardState(omokGame.grid.getStonesByColor(StoneColor.BLACK), omokGame.grid.getStonesByColor(StoneColor.WHITE))
         val point = getPointToPlace(nowTurn, latestPoint)
         omokGame.playMove(point)
         return point
@@ -64,7 +64,7 @@ class OmokController(
     }
 
     private fun endGame(omokResult: OmokResult) {
-        outputView.printBoardState(omokGame.grid.getStones(StoneColor.BLACK), omokGame.grid.getStones(StoneColor.WHITE))
+        outputView.printBoardState(omokGame.grid.getStonesByColor(StoneColor.BLACK), omokGame.grid.getStonesByColor(StoneColor.WHITE))
         outputView.printWinner(omokResult)
     }
 }

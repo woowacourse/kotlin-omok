@@ -23,7 +23,7 @@ class OmokGridTest {
         // given
         val point = OmokPoint(Row(1), Column(2))
         omokGrid.putStone(point, StoneColor.BLACK)
-        val blackStones = omokGrid.getStones(StoneColor.BLACK)
+        val blackStones = omokGrid.getStonesByColor(StoneColor.BLACK)
 
         // when
         val actual = blackStones.contains(point)
@@ -38,7 +38,7 @@ class OmokGridTest {
         // given
         val point = OmokPoint(Row(1), Column(2))
         omokGrid.putStone(point, StoneColor.WHITE)
-        val whiteStones = omokGrid.getStones(StoneColor.WHITE)
+        val whiteStones = omokGrid.getStonesByColor(StoneColor.WHITE)
 
         // when
         val actual = whiteStones.contains(point)
