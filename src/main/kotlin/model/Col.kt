@@ -4,7 +4,7 @@ class Col private constructor(
     val value: Int,
 ) {
     init {
-        require(value in GameBoard.COL_RANGE) { ERROR_OUT_OF_BOUND }
+        require(value in GameBoard.colRange) { ERROR_OUT_OF_BOUND }
     }
 
     fun isSame(other: Col): Boolean = value == other.value
@@ -13,13 +13,13 @@ class Col private constructor(
 
     operator fun minus(step: Int): Col = Col(this.value - step)
 
-    fun isMax(): Boolean = value == GameBoard.COL_RANGE.last
+    fun isMax(): Boolean = value == GameBoard.colRange.last
 
-    fun isMin(): Boolean = value == GameBoard.COL_RANGE.first
+    fun isMin(): Boolean = value == GameBoard.colRange.first
 
     companion object {
         private const val ERROR_OUT_OF_BOUND = "입력한 열이 범위를 벗어났습니다."
-        private const val ASCII_A_OFFSET = 64
+        const val ASCII_A_OFFSET = 64
 
         fun from(char: Char): Col = Col(char.toGridCol())
 

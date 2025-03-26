@@ -17,10 +17,26 @@ class GameBoard {
 
     fun lastStone(): Stone? = stones.lastOrNull()
 
+    fun changeRowRangeSize(
+        start: Int,
+        end: Int,
+    ) {
+        rowRange = start..end
+    }
+
+    fun changeColRangeSize(
+        start: Char,
+        end: Char,
+    ) {
+        colRange = start.code - Col.ASCII_A_OFFSET..end.code - Col.ASCII_A_OFFSET
+    }
+
     private fun isExistPosition(stone: Stone): Boolean = stones.any { existedStone -> existedStone.isSamePosition(stone) }
 
     companion object {
-        val COL_RANGE = 1..15
-        val ROW_RANGE = 1..15
+        var colRange = 1..15
+            private set
+        var rowRange = 1..15
+            private set
     }
 }

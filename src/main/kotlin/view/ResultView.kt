@@ -16,7 +16,7 @@ class ResultView {
     }
 
     fun printGameBoard(stones: MutableList<Stone>) {
-        for (row in GameBoard.ROW_RANGE.reversed()) {
+        for (row in GameBoard.rowRange.reversed()) {
             makeBoardLine(row, stones)
         }
         makeBoardColName()
@@ -26,7 +26,7 @@ class ResultView {
         println(
             buildString {
                 append("  ")
-                for (col in GameBoard.COL_RANGE) {
+                for (col in GameBoard.colRange) {
                     append(col.toDisplayCol())
                 }
             },
@@ -44,7 +44,7 @@ class ResultView {
         val board =
             buildString {
                 append(row.toDisplayRow())
-                for (col in GameBoard.COL_RANGE) {
+                for (col in GameBoard.colRange) {
                     append(makeBoardSquare(row, col, stones))
                 }
             }
@@ -60,14 +60,14 @@ class ResultView {
             stones.firstOrNull { it.position.row.isSame(Row.from(row)) && it.position.col.isSame(Col.from(col)) }
         if (stone != null) return stone.toEmoji()
         return when {
-            row == GameBoard.ROW_RANGE.first && col == GameBoard.COL_RANGE.first -> GAME_BOARD_DOWN_LEFT_CORNER
-            row == GameBoard.ROW_RANGE.first && col == GameBoard.COL_RANGE.last -> GAME_BOARD_DOWN_RIGHT_CORNER
-            row == GameBoard.ROW_RANGE.last && col == GameBoard.COL_RANGE.first -> GAME_BOARD_UP_LEFT_CORNER
-            row == GameBoard.ROW_RANGE.last && col == GameBoard.COL_RANGE.last -> GAME_BOARD_UP_RIGHT_CORNER
-            row == GameBoard.ROW_RANGE.last -> GAME_BOARD_UP_CORNER
-            row == GameBoard.ROW_RANGE.first -> GAME_BOARD_DOWN_CORNER
-            col == GameBoard.COL_RANGE.first -> GAME_BOARD_LEFT_CORNER
-            col == GameBoard.COL_RANGE.last -> GAME_BOARD_RIGHT_CORNER
+            row == GameBoard.rowRange.first && col == GameBoard.colRange.first -> GAME_BOARD_DOWN_LEFT_CORNER
+            row == GameBoard.rowRange.first && col == GameBoard.colRange.last -> GAME_BOARD_DOWN_RIGHT_CORNER
+            row == GameBoard.rowRange.last && col == GameBoard.colRange.first -> GAME_BOARD_UP_LEFT_CORNER
+            row == GameBoard.rowRange.last && col == GameBoard.colRange.last -> GAME_BOARD_UP_RIGHT_CORNER
+            row == GameBoard.rowRange.last -> GAME_BOARD_UP_CORNER
+            row == GameBoard.rowRange.first -> GAME_BOARD_DOWN_CORNER
+            col == GameBoard.colRange.first -> GAME_BOARD_LEFT_CORNER
+            col == GameBoard.colRange.last -> GAME_BOARD_RIGHT_CORNER
             else -> GAME_BOARD_BASE
         }
     }
