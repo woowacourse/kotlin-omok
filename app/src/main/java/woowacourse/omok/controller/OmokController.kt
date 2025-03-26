@@ -9,7 +9,6 @@ import omok.model.rule.lib.DoubleThreeMoveRule
 import omok.view.NextPointListener
 import omok.view.OmokInputView
 import omok.view.OmokOutputView
-import java.time.zone.ZoneRulesProvider.getRules
 
 class OmokController(
     private val inputView: OmokInputView,
