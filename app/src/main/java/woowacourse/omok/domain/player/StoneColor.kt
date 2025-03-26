@@ -1,4 +1,4 @@
-package omok.domain.player
+package woowacourse.omok.domain.player
 
 enum class StoneColor {
     BLACK,

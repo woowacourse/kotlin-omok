@@ -1,13 +1,13 @@
-package omok.domain.service
+package woowacourse.omok.domain.service
 
-import omok.domain.omokboard.PlayingBoard
-import omok.domain.omokboard.Position
-import omok.domain.placeresult.GameFinish
-import omok.domain.placeresult.GameOnGoing
-import omok.domain.placeresult.InvalidMove
-import omok.domain.placeresult.PlaceResult
-import omok.domain.player.PlayerStone
-import omok.domain.player.StoneColor
+import woowacourse.omok.domain.omokboard.PlayingBoard
+import woowacourse.omok.domain.omokboard.Position
+import woowacourse.omok.domain.placeresult.GameFinish
+import woowacourse.omok.domain.placeresult.GameOnGoing
+import woowacourse.omok.domain.placeresult.InvalidMove
+import woowacourse.omok.domain.placeresult.PlaceResult
+import woowacourse.omok.domain.player.PlayerStone
+import woowacourse.omok.domain.player.StoneColor
 
 class OmokGame(
     private val playingBoard: PlayingBoard,

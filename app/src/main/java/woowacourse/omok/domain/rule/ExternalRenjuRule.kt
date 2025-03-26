@@ -1,19 +1,19 @@
-package omok.domain.rule
+package woowacourse.omok.domain.rule
 
-import omok.domain.omokboard.OmokBoard
-import omok.domain.omokboard.OmokBoardPointState
-import omok.domain.omokboard.Position
-import omok.domain.placeresult.GameOnGoing
-import omok.domain.placeresult.InvalidMove
-import omok.domain.placeresult.PlaceResult
-import omok.domain.player.PlayerStone
-import omok.domain.player.StoneColor
 import rule.BlackRenjuRule
 import rule.type.Violation.DOUBLE_FOUR
 import rule.type.Violation.DOUBLE_THREE
 import rule.type.Violation.NONE
 import rule.type.Violation.OVERLINE
 import rule.wrapper.point.Point
+import woowacourse.omok.domain.omokboard.OmokBoard
+import woowacourse.omok.domain.omokboard.OmokBoardPointState
+import woowacourse.omok.domain.omokboard.Position
+import woowacourse.omok.domain.placeresult.GameOnGoing
+import woowacourse.omok.domain.placeresult.InvalidMove
+import woowacourse.omok.domain.placeresult.PlaceResult
+import woowacourse.omok.domain.player.PlayerStone
+import woowacourse.omok.domain.player.StoneColor
 
 class ExternalRenjuRule(
     private val renjuRule: BlackRenjuRule,

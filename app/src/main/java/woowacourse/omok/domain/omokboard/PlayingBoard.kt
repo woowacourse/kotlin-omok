@@ -1,10 +1,10 @@
-package omok.domain.omokboard
+package woowacourse.omok.domain.omokboard
 
-import omok.domain.placeresult.GameOnGoing
-import omok.domain.placeresult.InvalidMove
-import omok.domain.placeresult.PlaceResult
-import omok.domain.player.PlayerStone
-import omok.domain.rule.OmokRule
+import woowacourse.omok.domain.placeresult.GameOnGoing
+import woowacourse.omok.domain.placeresult.InvalidMove
+import woowacourse.omok.domain.placeresult.PlaceResult
+import woowacourse.omok.domain.player.PlayerStone
+import woowacourse.omok.domain.rule.OmokRule
 
 class PlayingBoard(
     var board: OmokBoard = OmokBoard.create(),

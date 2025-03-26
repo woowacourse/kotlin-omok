@@ -1,6 +1,6 @@
-package omok.domain.omokboard
+package woowacourse.omok.domain.omokboard
 
-import omok.domain.player.StoneColor
+import woowacourse.omok.domain.player.StoneColor
 
 sealed class OmokBoardPointState {
     data object Empty : OmokBoardPointState()

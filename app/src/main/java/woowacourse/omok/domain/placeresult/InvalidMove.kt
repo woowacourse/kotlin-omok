@@ -1,4 +1,4 @@
-package omok.domain.placeresult
+package woowacourse.omok.domain.placeresult
 
 import rule.type.Violation
 

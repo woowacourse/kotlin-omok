@@ -1,4 +1,4 @@
-package omok.domain.rule
+package woowacourse.omok.domain.rule
 
 enum class GameResult {
     WIN_BLACK,
