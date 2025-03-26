@@ -1,8 +1,6 @@
 package omok.model.game
 
 import omok.mapper.BlackRuleChecker
-import omok.mapper.NoViolation
-import omok.mapper.ViolationType
 import omok.model.board.Board
 import omok.model.board.Board.Companion.initBoard
 import omok.model.board.BoardDimensions
@@ -12,6 +10,8 @@ import omok.model.rule.WhiteOmokRule
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Position
+import woowacourse.omok.model.rule.PlacementError
+import woowacourse.omok.model.rule.PlacementError.NoViolation
 
 class Game(
     blackRuleChecker: BlackRuleChecker,
@@ -26,21 +26,17 @@ class Game(
     private val whiteOmokRule = WhiteOmokRule(board.getWidth(), board.getHeight())
     private val blackOmokRule = BlackOmokRule(blackRuleChecker)
 
-    fun placeStone(position: Position): ViolationType {
-        val violation = validatePosition(position)
-        if (violation != NoViolation) {
-            return violation
+    fun playTurn(position: Position): PlacementError {
+        if (board.hasStoneAt(position)) {
+            return PlacementError.AlreadyOccupiedViolation
         }
+
+        val violation = currentRule(turn).validate(board, position, turn)
+        if (violation != NoViolation) return violation
+
         applyPlacement(position)
+
         return NoViolation
-    }
-
-    private fun validatePosition(position: Position): ViolationType = currentRule(turn).validate(board, position, turn)
-
-    private fun applyPlacement(position: Position) {
-        board = board.positionAt(position, turn)
-        lastStone = Stone(position, turn)
-        turn = turn.next()
     }
 
     private fun currentRule(color: StoneColor): OmokRule =
@@ -48,6 +44,12 @@ class Game(
             StoneColor.BLACK -> blackOmokRule
             StoneColor.WHITE -> whiteOmokRule
         }
+
+    private fun applyPlacement(position: Position) {
+        board = board.placeStone(position, turn)
+        lastStone = Stone(position, turn)
+        turn = turn.next()
+    }
 
     fun isOmok(): Boolean =
         lastStone?.let {

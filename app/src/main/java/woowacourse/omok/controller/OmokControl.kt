@@ -1,9 +1,7 @@
 package omok.controller
 
 import omok.mapper.BlackRuleChecker
-import omok.mapper.NoViolation
 import omok.mapper.PointMapper
-import omok.mapper.ViolationType
 import omok.model.game.Game
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
@@ -11,42 +9,62 @@ import omok.model.stone.position.Row
 import omok.view.InputView
 import omok.view.OutputView
 import rule.BlackRenjuRule
+import woowacourse.omok.model.rule.CoordinateResult
+import woowacourse.omok.model.rule.PlacementError
 
 class OmokControl(
     private val inputView: InputView,
     private val outputView: OutputView,
 ) {
-    private val blackRuleChecker =
+    private val game = Game(
         BlackRuleChecker(
             rule = BlackRenjuRule(),
             mapper = { position -> PointMapper().from(position) },
         )
-    private val game = Game(blackRuleChecker)
+    )
 
     fun run() {
-        turn()
+        play()
     }
 
-    private fun turn(showBoard: Boolean = true) {
+    private fun play(showBoard: Boolean = true) {
         if (showBoard) printCurrentState()
 
-        val input = inputView.inputStone(game.board)
-        val rowValue = input.first
-        val colValue = input.second
+        val position = readPosition() ?: return play(showBoard = false)
+        val violation = processPlacement(position)
 
-        val violation = game.placeStone(Position(Row(rowValue), Col(colValue)))
-
-        if (violation != NoViolation) {
+        if (violation != PlacementError.NoViolation) {
             handleViolation(violation)
             return
         }
 
+        if (checkGameEnd()) return
+
+        play()
+    }
+
+    private fun readPosition(): Position? {
+        return when (val result = inputView.inputStone(game.board)) {
+            is CoordinateResult.Success -> {
+                Position(Row(result.row), Col(result.col))
+            }
+            is CoordinateResult.Failure -> {
+                outputView.printCoordinateException(result.reason)
+                null
+            }
+        }
+    }
+
+    private fun processPlacement(position: Position): PlacementError =
+        game.playTurn(position)
+
+    private fun checkGameEnd(): Boolean {
         if (game.isOmok()) {
             outputView.printBoard(game.board)
             outputView.printOmok(game.lastStone)
-        } else {
-            turn()
+            return true
         }
+        return false
     }
 
     private fun printCurrentState() {
@@ -54,8 +72,8 @@ class OmokControl(
         outputView.printNextTurn(game.turn, game.lastStone)
     }
 
-    private fun handleViolation(violation: ViolationType) {
-        outputView.printException(violation.message)
-        turn(showBoard = false)
+    private fun handleViolation(violation: PlacementError) {
+        outputView.printException(violation)
+        play(showBoard = false)
     }
 }

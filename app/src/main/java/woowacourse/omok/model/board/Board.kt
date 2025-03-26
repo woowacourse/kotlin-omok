@@ -18,11 +18,10 @@ class Board private constructor(
 
     fun getWhiteStones() = stonesMap.filter { it.value == StoneColor.WHITE }.map { it.key }
 
-    fun positionAt(
-        position: Position,
-        stoneColor: StoneColor,
-    ): Board {
-        require(!stonesMap.containsKey(position)) { ERROR_STONE_ALREADY_EXITS }
+    fun hasStoneAt(position: Position): Boolean =
+        _stonesMap.containsKey(position)
+
+    fun placeStone(position: Position, stoneColor: StoneColor): Board {
         val newBoard = Board(dimensions)
         newBoard._stonesMap.putAll(this._stonesMap)
         newBoard._stonesMap[position] = stoneColor
@@ -30,8 +29,6 @@ class Board private constructor(
     }
 
     companion object {
-        private const val ERROR_STONE_ALREADY_EXITS = "해당하는 위치에 돌이 존재합니다"
-
         fun initBoard(dimensions: BoardDimensions): Board = Board(dimensions)
     }
 }
