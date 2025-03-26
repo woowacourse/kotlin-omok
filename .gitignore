@@ -1,7 +1,6 @@
 # Gradle files
 .gradle/
 build/
-src/
 # Local configuration file (sdk path, etc)
 local.properties
 
@@ -37,3 +36,5 @@ google-services.json
 
 # Mac OS
 .DS_Store
+
+src/
