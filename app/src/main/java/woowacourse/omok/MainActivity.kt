@@ -1,7 +1,6 @@
 package woowacourse.omok
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -53,12 +52,19 @@ class MainActivity : AppCompatActivity() {
                     val x = Col(index % game.board.col.value + 1)
                     val y = Row(index / game.board.row.value + 1)
                     val moveResult: MoveResult = game.processTurn(Position(x, y), color)
-                    Log.i("Result", moveResult.toString())
+
                     when (moveResult) {
                         is MoveResult.Success.Playing -> view.setImageResource(stoneImage)
                         is MoveResult.Success.Finished -> {
                             view.setImageResource(stoneImage)
                             printMoveResult(moveResult, board)
+                            board
+                                .children
+                                .filterIsInstance<TableRow>()
+                                .flatMap { it.children }
+                                .filterIsInstance<ImageView>()
+                                .forEach { it.setOnClickListener(null) }
+                            return@setOnClickListener
                         }
                         is MoveResult.Failure -> {
                             printMoveResult(moveResult, board)
