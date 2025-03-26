@@ -52,6 +52,11 @@ class RuleAdapter : Rule {
                 )
             }
 
-            WHITE -> Violation.NONE
+            WHITE ->
+                whiteRenjuRule.checkDuplicatePosition(
+                    blackStones = otherStones.value,
+                    whiteStones = playerStones.value,
+                    curPosition = placedStone.position,
+                )
         }
 }
