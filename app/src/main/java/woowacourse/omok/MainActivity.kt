@@ -134,10 +134,39 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun insertStone(
-        position: Position,
-        turn: StoneState,
-    ) {
+    private fun getStoredStone(): List<Stone> {
+        val dbReader = dbHelper.readableDatabase
+        val result = mutableListOf<Stone>()
+
+        val cursor: Cursor =
+            dbReader.query(
+                BoardContract.TABLE_NAME,
+                arrayOf(
+                    BoardContract.COLUMN_NAME_X,
+                    BoardContract.COLUMN_NAME_Y,
+                    BoardContract.COLUMN_NAME_STATE,
+                ),
+                null,
+                null,
+                null,
+                null,
+                null,
+            )
+
+        with(cursor) {
+            while (moveToNext()) {
+                val x = getInt(getColumnIndexOrThrow(BoardContract.COLUMN_NAME_X))
+                val y = getInt(getColumnIndexOrThrow(BoardContract.COLUMN_NAME_Y))
+                val state = getString(getColumnIndexOrThrow(BoardContract.COLUMN_NAME_STATE))
+
+                val stone = Stone(Position(x, y), StoneState.valueOf(state))
+                result.add(stone)
+            }
+        }
+        cursor.close()
+        return result
+    }
+
     private fun insertStone(stone: Stone) {
         val db = dbHelper.writableDatabase
 
