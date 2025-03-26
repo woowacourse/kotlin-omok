@@ -1,15 +1,15 @@
 package woowacourse.omok.view
 
-import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Point
 import woowacourse.omok.model.board.StoneColor
 
-interface OmokGameHandler {
+interface OmokGameListener {
     fun onStartGame()
 
-    fun onRequestPosition(previousPoint: Pair<Point?, StoneColor>): Point
-
-    fun onBoardUpdated(board: Board)
+    fun onBoardUpdated(
+        point: Point,
+        color: StoneColor,
+    )
 
     fun onGameWon(winnerState: StoneColor?)
 

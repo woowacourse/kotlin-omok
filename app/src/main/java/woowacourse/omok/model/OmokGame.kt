@@ -1,52 +1,39 @@
 package woowacourse.omok.model
 
 import woowacourse.omok.model.board.Board
-import woowacourse.omok.model.board.BoardSize
 import woowacourse.omok.model.board.Point
 import woowacourse.omok.model.board.StoneColor
 import woowacourse.omok.model.board.result.Finished
 import woowacourse.omok.model.board.result.OnGoing
 import woowacourse.omok.model.board.result.PlaceStoneResult
-import woowacourse.omok.model.rule.RuleValidator
-import woowacourse.omok.utils.retryOnException
-import woowacourse.omok.view.OmokGameHandler
+import woowacourse.omok.view.OmokGameListener
 
 class OmokGame(
-    private val omokGameHandler: OmokGameHandler,
+    private val omokGameListener: OmokGameListener,
 ) {
     private var previousPoint: Point? = null
     private var currentStoneColor: StoneColor = StoneColor.BLACK
 
-    fun play(
-        boardSize: BoardSize,
-        judge: RuleValidator,
-    ) {
-        val board = Board(boardSize, judge)
-        omokGameHandler.onStartGame()
-        omokGameHandler.onBoardUpdated(board)
-
-        playTurns(board)
+    fun start() {
+        omokGameListener.onStartGame()
+        previousPoint = null
+        currentStoneColor = StoneColor.BLACK
     }
 
-    private fun playTurns(board: Board) {
-        do {
-            val point = getNextPoint()
-            val placeResult = board.placeStone(point, currentStoneColor)
-            handlePlaceResult(placeResult, board)
-        } while (placeResult is OnGoing)
+    fun placeStone(
+        board: Board,
+        point: Point,
+    ): PlaceStoneResult {
+        val placeResult = board.placeStone(point, currentStoneColor)
+        handlePlaceResult(placeResult, board)
+        return placeResult
     }
-
-    private fun getNextPoint(): Point =
-        retryOnException(
-            action = { omokGameHandler.onRequestPosition(previousPoint to currentStoneColor) },
-            onFailure = { omokGameHandler.onError(it.message.toString()) },
-        )
 
     private fun handlePlaceResult(
         result: PlaceStoneResult,
         board: Board,
     ) {
-        if (result is OnGoing) handleOnGoingResult(result, board)
+        if (result is OnGoing) handleOnGoingResult(result)
         if (result is Finished) handleFinishedResult(result, board)
     }
 
@@ -56,42 +43,36 @@ class OmokGame(
     ) {
         when (result) {
             is Finished.GameFinished -> {
-                updateGameState(result.point, board)
+                updateGameState(result.point)
                 showWinColor(board)
             }
 
             is Finished.BoardFull -> {
-                updateGameState(result.point, board)
-                omokGameHandler.onError(BOARD_FULL_ERROR_MESSAGE)
+                updateGameState(result.point)
+                omokGameListener.onError(BOARD_FULL_ERROR_MESSAGE)
             }
         }
     }
 
-    private fun handleOnGoingResult(
-        result: OnGoing,
-        board: Board,
-    ) {
+    private fun handleOnGoingResult(result: OnGoing) {
         when (result) {
-            is OnGoing.StonePlaced -> updateGameState(result.point, board)
-            is OnGoing.AlreadyPlaced -> omokGameHandler.onError(ALREADY_PLACED_ERROR_MESSAGE)
-            is OnGoing.RuleViolation -> omokGameHandler.onError(CLOSED_ERROR_MESSAGE)
-            is OnGoing.InvalidMove -> omokGameHandler.onError(INVALID_POINT_ERROR_MESSAGE)
+            is OnGoing.StonePlaced -> updateGameState(result.point)
+            is OnGoing.AlreadyPlaced -> omokGameListener.onError(ALREADY_PLACED_ERROR_MESSAGE)
+            is OnGoing.RuleViolation -> omokGameListener.onError(CLOSED_ERROR_MESSAGE)
+            is OnGoing.InvalidMove -> omokGameListener.onError(INVALID_POINT_ERROR_MESSAGE)
         }
     }
 
-    private fun updateGameState(
-        point: Point,
-        board: Board,
-    ) {
+    private fun updateGameState(point: Point) {
         previousPoint = point
+        omokGameListener.onBoardUpdated(point, currentStoneColor)
         currentStoneColor = currentStoneColor.reverseStoneColor()
-        omokGameHandler.onBoardUpdated(board)
     }
 
     private fun showWinColor(board: Board) {
         previousPoint?.let { point ->
             val color = board.findStoneColor(point)
-            omokGameHandler.onGameWon(color)
+            omokGameListener.onGameWon(color)
         }
     }
 
