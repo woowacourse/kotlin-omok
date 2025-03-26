@@ -5,11 +5,6 @@ import omok.model.stone.StoneState
 class BoardImpl private constructor(
     override val board: MutableMap<Position, StoneState>,
 ) : Board {
-    override val keys get() = board.keys
-    override val values get() = board.values
-    override val ySize = Y_MAX_RANGE - Y_MIN_RANGE + 1
-    override val xSize = X_MAX_RANGE - X_MIN_RANGE + 1
-
     fun board(): Map<Position, StoneState> = board.toMap()
 
     override fun canPlaceStone(position: Position): Boolean = board[position] == StoneState.NONE
@@ -23,7 +18,10 @@ class BoardImpl private constructor(
 
     override fun stoneState(position: Position): StoneState = position.stoneState()
 
-    override fun isFull(): Boolean = board.values.all { it != StoneState.NONE }
+    override fun stoneState(
+        x: Int,
+        y: Int,
+    ): StoneState = Position(x, y).stoneState()
 
     companion object {
         private const val Y_MAX_RANGE = 15
