@@ -1,10 +1,13 @@
-package omok.model.board
+package woowacourse.omok.model.board
 
-import omok.model.StoneColor
 import omok.model.rule.OmokRule
 import omok.model.rule.OmokRuleManager
+import woowacourse.omok.model.StoneColor
 
-class Board(private val boardSize: BoardSize, private val rules: OmokRuleManager) {
+class Board(
+    private val boardSize: BoardSize,
+    private val rules: OmokRuleManager,
+) {
     val points: List<Point> =
         (BOARD_MIN_SIZE..boardSize.value).flatMap { row ->
             (BOARD_MIN_SIZE..boardSize.value).map { col ->
@@ -14,9 +17,10 @@ class Board(private val boardSize: BoardSize, private val rules: OmokRuleManager
 
     val size = boardSize.value
 
-    fun findPoint(point: Point): Point {
-        return points.find { it == point } ?: throw IllegalArgumentException(NOT_FOUND_POINT_ERROR_MESSAGE)
-    }
+    fun findPoint(point: Point): Point =
+        points.find { it == point } ?: throw IllegalArgumentException(
+            NOT_FOUND_POINT_ERROR_MESSAGE,
+        )
 
     fun placeStone(
         point: Point,
@@ -50,16 +54,12 @@ class Board(private val boardSize: BoardSize, private val rules: OmokRuleManager
     private fun isForbiddenMove(
         point: Point,
         rules: List<OmokRule>,
-    ): Boolean {
-        return rules.none { it.calculate(this, point) }
-    }
+    ): Boolean = rules.none { it.calculate(this, point) }
 
     private fun isOmok(
         point: Point,
         rule: OmokRule,
-    ): Boolean {
-        return rule.calculate(this, point)
-    }
+    ): Boolean = rule.calculate(this, point)
 
     companion object {
         const val BOARD_MIN_SIZE = 1

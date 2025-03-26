@@ -1,7 +1,9 @@
-package omok.model.board
+package woowacourse.omok.model.board
 
 @JvmInline
-value class BoardSize(val value: Int) {
+value class BoardSize(
+    val value: Int,
+) {
     init {
         require(value in BOARD_MIN_SIZE..BOARD_MAX_SIZE) { " 규격 내의 보드판을 생성해주세요." }
     }

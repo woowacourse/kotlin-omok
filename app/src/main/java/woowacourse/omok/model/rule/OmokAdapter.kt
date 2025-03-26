@@ -1,9 +1,9 @@
 package omok.model.rule
 
-import omok.model.board.Board
-import omok.model.board.Point
-import omok.model.board.PointState
 import omok.model.rule.lib.ForbiddenMoveRule
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Point
+import woowacourse.omok.model.board.PointState
 
 object OmokAdapter {
     fun adaptOmokBoard(board: Board): List<List<Int>> {
@@ -20,7 +20,5 @@ object OmokAdapter {
         return adapted
     }
 
-    fun adaptOmokPoint(point: Point): Pair<Int, Int> {
-        return Pair(point.x - 1, point.y - 1)
-    }
+    fun adaptOmokPoint(point: Point): Pair<Int, Int> = Pair(point.x - 1, point.y - 1)
 }

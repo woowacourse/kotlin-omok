@@ -1,21 +1,20 @@
 package omok.fixture
 
-import omok.model.StoneColor
-import omok.model.board.Board
-import omok.model.board.BoardSize
-import omok.model.board.Point
 import omok.model.rule.OmokRuleManager
 import omok.model.rule.count.OverlineRule
 import omok.model.rule.lib.DoubleFourMoveRule
 import omok.model.rule.lib.DoubleThreeMoveRule
+import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.BoardSize
+import woowacourse.omok.model.board.Point
 
-private fun createRules(): OmokRuleManager {
-    return OmokRuleManager.apply {
+private fun createRules(): OmokRuleManager =
+    OmokRuleManager.apply {
         forbiddenMoveRule.add(OverlineRule())
         forbiddenMoveRule.add(DoubleThreeMoveRule())
         forbiddenMoveRule.add(DoubleFourMoveRule())
     }
-}
 
 val rules = createRules()
 

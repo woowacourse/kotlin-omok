@@ -1,18 +1,16 @@
 package omok.model.rule.count
 
-import omok.model.StoneColor
-import omok.model.board.Board
-import omok.model.board.Point
-import omok.model.board.PointState
 import omok.model.rule.OmokRule
+import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Point
+import woowacourse.omok.model.board.PointState
 
 abstract class OmokCountRule : OmokRule {
     override fun calculate(
         board: Board,
         previousPoint: Point,
-    ): Boolean {
-        return DIRECTIONS.any { isCheckCondition(board, previousPoint, it) }
-    }
+    ): Boolean = DIRECTIONS.any { isCheckCondition(board, previousPoint, it) }
 
     abstract fun isCheckCondition(
         board: Board,
@@ -24,9 +22,7 @@ abstract class OmokCountRule : OmokRule {
         board: Board,
         point: Point,
         direction: Pair<Int, Int>,
-    ): Int {
-        return countDirection(board, point, direction, STEP) + countDirection(board, point, direction, -STEP) + STEP
-    }
+    ): Int = countDirection(board, point, direction, STEP) + countDirection(board, point, direction, -STEP) + STEP
 
     private fun countDirection(
         board: Board,
@@ -52,9 +48,7 @@ abstract class OmokCountRule : OmokRule {
         board: Board,
         x: Int,
         y: Int,
-    ): Boolean {
-        return listOf(x, y).all { it in (Board.BOARD_MIN_SIZE..board.size) }
-    }
+    ): Boolean = listOf(x, y).all { it in (Board.BOARD_MIN_SIZE..board.size) }
 
     private fun PointState.toStoneColor(): StoneColor? =
         when (this) {

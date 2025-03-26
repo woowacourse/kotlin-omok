@@ -1,40 +1,30 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.board.Board
-import omok.model.board.Point
-import omok.model.board.PointState
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Point
+import woowacourse.omok.model.board.PointState
 
-fun String.toPosition(): Pair<Int, Int> {
-    return this[0].alphabetToInt() to this.substring(1).toInt()
-}
+fun String.toPosition(): Pair<Int, Int> = this[0].alphabetToInt() to this.substring(1).toInt()
 
-fun Char.alphabetToInt(): Int {
-    return if (this.uppercaseChar() in 'A'..'O') this.uppercaseChar() - 'A' + 1 else -1
-}
+fun Char.alphabetToInt(): Int = if (this.uppercaseChar() in 'A'..'O') this.uppercaseChar() - 'A' + 1 else -1
 
-fun Point.toUiString(): String {
-    return this.x.toAlphabet() + this.y.toString()
-}
+fun Point.toUiString(): String = this.x.toAlphabet() + this.y.toString()
 
-fun Int.toAlphabet(): Char {
-    return if (this in 1..15) 'A' + (this - 1) else ' '
-}
+fun Int.toAlphabet(): Char = if (this in 1..15) 'A' + (this - 1) else ' '
 
-fun Point?.toColorString(): String {
-    return when (this?.state) {
+fun Point?.toColorString(): String =
+    when (this?.state) {
         PointState.BLACK -> "흑"
         PointState.WHITE -> "백"
         else -> "흑"
     }
-}
 
-fun Point?.toNextTurnColor(): String {
-    return when (this?.state) {
+fun Point?.toNextTurnColor(): String =
+    when (this?.state) {
         PointState.BLACK -> "백"
         PointState.WHITE -> "흑"
         else -> "흑"
     }
-}
 
 fun Board.toUiString(): String {
     val sb = StringBuilder()
@@ -58,8 +48,8 @@ private fun getBoardCharacter(
     x: Int,
     y: Int,
     point: Point?,
-): String {
-    return point?.stateToUiString() ?: when {
+): String =
+    point?.stateToUiString() ?: when {
         // 네 모서리 처리
         x == Board.BOARD_MIN_SIZE && y == board.size -> "┌"
         x == board.size && y == board.size -> "┐"
@@ -77,12 +67,10 @@ private fun getBoardCharacter(
         // 기본 교차점 처리
         else -> "┼"
     }
-}
 
-private fun Point.stateToUiString(): String? {
-    return when (this.state) {
+private fun Point.stateToUiString(): String? =
+    when (this.state) {
         PointState.BLACK -> "●"
         PointState.WHITE -> "○"
         PointState.OPEN -> null
     }
-}

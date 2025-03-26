@@ -1,8 +1,9 @@
 package omok.model
 
-import omok.model.StoneColor.Companion.next
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.StoneColor.Companion.next
 
 class StoneColorTest {
     @Test

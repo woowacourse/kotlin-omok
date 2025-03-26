@@ -1,7 +1,7 @@
 package omok.model.rule.count
 
-import omok.model.board.Board
-import omok.model.board.Point
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Point
 
 class FiveInRowRule : OmokCountRule() {
     override fun isCheckCondition(

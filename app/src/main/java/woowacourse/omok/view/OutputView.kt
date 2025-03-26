@@ -1,7 +1,7 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.board.Board
-import omok.model.board.Point
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Point
 
 class OutputView : OmokOutputView {
     override fun printStartMessage() {

@@ -3,10 +3,15 @@ package omok.model.board
 import omok.fixture.overlineForbiddenBoard
 import omok.fixture.rules
 import omok.fixture.whitePassForbiddenMoveBoard
-import omok.model.StoneColor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.BoardSize
+import woowacourse.omok.model.board.PlaceStoneResult
+import woowacourse.omok.model.board.Point
+import woowacourse.omok.model.board.PointState
 
 class BoardTest {
     lateinit var board: Board

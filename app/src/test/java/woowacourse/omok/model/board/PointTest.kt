@@ -1,11 +1,13 @@
 package omok.model.board
 
-import omok.model.StoneColor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.board.Point
+import woowacourse.omok.model.board.PointState
 
-class PointTest() {
+class PointTest {
     private lateinit var point: Point
 
     @BeforeEach

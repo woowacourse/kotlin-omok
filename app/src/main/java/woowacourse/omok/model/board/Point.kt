@@ -1,8 +1,11 @@
-package omok.model.board
+package woowacourse.omok.model.board
 
-import omok.model.StoneColor
+import woowacourse.omok.model.StoneColor
 
-data class Point(val x: Int, val y: Int) {
+data class Point(
+    val x: Int,
+    val y: Int,
+) {
     var state: PointState = PointState.OPEN
         private set
 

@@ -1,13 +1,13 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.model.StoneColor.Companion.next
-import omok.model.board.Board
-import omok.model.board.BoardSize
-import omok.model.board.PlaceStoneResult
-import omok.model.board.Point
 import omok.model.rule.OmokRuleManager
-import omok.view.NextPointListener
-import omok.view.OmokOutputView
+import woowacourse.omok.model.StoneColor.Companion.next
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.BoardSize
+import woowacourse.omok.model.board.PlaceStoneResult
+import woowacourse.omok.model.board.Point
+import woowacourse.omok.view.NextPointListener
+import woowacourse.omok.view.OmokOutputView
 
 class OmokGame(
     private val nextPointListener: NextPointListener,
@@ -46,8 +46,13 @@ class OmokGame(
                 when (result) {
                     is PlaceStoneResult.Success -> handlePlaceStoneSuccess(result, board)
                     is PlaceStoneResult.Omok -> handleGameWin(result)
-                    is PlaceStoneResult.AlreadyPlaced -> throw IllegalArgumentException(ALREADY_PLACED_ERROR_MESSAGE)
-                    is PlaceStoneResult.ForbiddenMove -> throw IllegalArgumentException(CLOSED_ERROR_MESSAGE)
+                    is PlaceStoneResult.AlreadyPlaced -> throw IllegalArgumentException(
+                        ALREADY_PLACED_ERROR_MESSAGE,
+                    )
+
+                    is PlaceStoneResult.ForbiddenMove -> throw IllegalArgumentException(
+                        CLOSED_ERROR_MESSAGE,
+                    )
                 }
             }
         }
@@ -69,13 +74,13 @@ class OmokGame(
     private fun getNextPoint(): Point =
         retryOnException {
             outputView.printCurrentTurn(previousPoint)
-            val nextPoint = nextPointListener.onNextPoint()
+            val (x, y) = nextPointListener.onNextPoint()
 
-            Point(nextPoint.first, nextPoint.second)
+            Point(x, y)
         }
 
     private fun <T> retryOnException(action: () -> T) =
-        omok.utils.retryOnException(
+        woowacourse.omok.utils.retryOnException(
             action = action,
             onFailure = { outputView.printErrorMessage(it.message.toString()) },
         )

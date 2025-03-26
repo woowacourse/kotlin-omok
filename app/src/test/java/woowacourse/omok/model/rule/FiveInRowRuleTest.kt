@@ -4,12 +4,12 @@ import omok.fixture.antiDiagonalFiveInRowBoard
 import omok.fixture.diagonalFiveInRowBoard
 import omok.fixture.horizontalFiveInRowBoard
 import omok.fixture.verticalFiveInRowBoard
-import omok.model.StoneColor
-import omok.model.board.Point
 import omok.model.rule.count.FiveInRowRule
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.board.Point
 
 class FiveInRowRuleTest {
     val rule = FiveInRowRule()

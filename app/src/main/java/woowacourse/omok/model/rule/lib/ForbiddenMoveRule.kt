@@ -1,9 +1,9 @@
 package omok.model.rule.lib
 
-import omok.model.board.Board
-import omok.model.board.Point
 import omok.model.rule.OmokAdapter
 import omok.model.rule.OmokRule
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Point
 
 abstract class ForbiddenMoveRule(
     private val currentStone: Int = BLACK_STONE,
