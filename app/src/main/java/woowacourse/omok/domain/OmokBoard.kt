@@ -2,10 +2,16 @@ package woowacourse.omok.domain
 
 class OmokBoard(
     val size: Int = DEFAULT_SIZE,
+    private val stones: List<Stone> = emptyList(),
     private val rule: Rule,
 ) {
     private val board: MutableList<MutableList<StoneState>> =
-        MutableList(height) { MutableList(width) { StoneState.BLANK } }
+        MutableList(size) { x ->
+            MutableList(size) { y ->
+                val stone = stones.firstOrNull { stone -> stone.position == Position(y, x) }
+                stone?.state ?: StoneState.BLANK
+            }
+        }
 
     fun putStone(stone: Stone): PutStoneResult {
         val position = Position(stone.position.x, stone.position.y)
