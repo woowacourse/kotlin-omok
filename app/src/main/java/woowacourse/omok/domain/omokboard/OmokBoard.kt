@@ -7,8 +7,8 @@ value class OmokBoard private constructor(
     private val _value: Map<Position, Intersection>,
 ) {
     val value: Map<Position, Intersection> get() = _value.toMap()
-    val width: Int get() = value.keys.maxOf { it.column.value }
-    val height: Int get() = value.keys.maxOf { it.row.value }
+    val width: Int get() = value.keys.maxOf { it.column }
+    val height: Int get() = value.keys.maxOf { it.row }
 
     fun find(position: Position): Intersection? = _value[position]
 
@@ -25,7 +25,7 @@ value class OmokBoard private constructor(
                 (1..width)
                     .flatMap { row ->
                         (1..height).map { column ->
-                            Position(RowPosition(row), ColumnPosition(column)) to Intersection()
+                            Position(row, column) to Intersection()
                         }
                     }.toMap(),
             )

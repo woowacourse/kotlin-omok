@@ -52,5 +52,5 @@ class ExternalRule : PlaceRule {
         }
     }
 
-    private fun Position.toExternalPoint(): Point = Point(row = this.row.value - 1, col = this.column.value - 1)
+    private fun Position.toExternalPoint(): Point = Point(row = this.row - 1, col = this.column - 1)
 }

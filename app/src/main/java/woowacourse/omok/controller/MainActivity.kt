@@ -26,11 +26,9 @@ import woowacourse.omok.R.string.omok_turn
 import woowacourse.omok.R.string.omok_white_label
 import woowacourse.omok.R.string.omok_winning
 import woowacourse.omok.databinding.ActivityMainBinding
-import woowacourse.omok.domain.omokboard.ColumnPosition
 import woowacourse.omok.domain.omokboard.OmokBoard
 import woowacourse.omok.domain.omokboard.PlayingBoard
 import woowacourse.omok.domain.omokboard.Position
-import woowacourse.omok.domain.omokboard.RowPosition
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
 import woowacourse.omok.domain.rule.judge.DrawRule
@@ -75,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         with(binding.board) {
             children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
                 row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, button ->
-                    button.tag = Position(RowPosition(rowIndex + 1), ColumnPosition(colIndex + 1))
+                    button.tag = Position(rowIndex + 1, colIndex + 1)
                 }
             }
         }

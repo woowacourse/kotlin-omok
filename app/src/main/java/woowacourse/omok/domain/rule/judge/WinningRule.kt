@@ -1,10 +1,8 @@
 package woowacourse.omok.domain.rule.judge
 
-import woowacourse.omok.domain.omokboard.ColumnPosition
 import woowacourse.omok.domain.omokboard.IntersectionState
 import woowacourse.omok.domain.omokboard.OmokBoard
 import woowacourse.omok.domain.omokboard.Position
-import woowacourse.omok.domain.omokboard.RowPosition
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
 import woowacourse.omok.domain.player.StoneColor.BLACK
@@ -57,8 +55,8 @@ class WinningRule : JudgeRule {
             while (true) {
                 currentPosition =
                     Position(
-                        RowPosition(currentPosition.row.value + dx),
-                        ColumnPosition(currentPosition.column.value + dy),
+                        currentPosition.row + dx,
+                        currentPosition.column + dy,
                     )
 
                 val point = omokBoard.find(currentPosition) ?: break
