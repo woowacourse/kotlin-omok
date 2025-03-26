@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TableLayout
         android:id="@+id/board"
@@ -1181,4 +1182,10 @@
         </TableRow>
 
     </TableLayout>
+
+    <Button
+        android:id="@+id/btn_resetGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="게임, DB 초기화" />
 </LinearLayout>

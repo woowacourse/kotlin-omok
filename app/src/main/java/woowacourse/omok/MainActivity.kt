@@ -44,10 +44,16 @@ class MainActivity : AppCompatActivity() {
 
         omokGame = OmokGame(OmokBoard(rule = OmokAdapter()))
         board = findViewById(R.id.board)
-        setBoard()
-    }
         setBoard(board)
 
+        val resetGame = findViewById<Button>(R.id.btn_resetGame)
+        resetGame.setOnClickListener {
+            omokGame = OmokGame(OmokBoard(rule = OmokAdapter()))
+
+            dbHelper.writableDatabase.use { db ->
+                db.execSQL(SQL_DELETE_ENTRIES)
+                dbHelper.onCreate(db)
+            }
 
             board.children
                 .filterIsInstance<TableRow>()
