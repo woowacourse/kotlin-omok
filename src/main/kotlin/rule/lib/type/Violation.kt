@@ -1,4 +1,4 @@
-package rule.type
+package rule.lib.type
 
 enum class Violation(
     val state: Boolean,

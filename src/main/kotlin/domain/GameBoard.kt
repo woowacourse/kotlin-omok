@@ -6,7 +6,7 @@ import domain.stone.Stone
 import domain.stone.StoneColor
 import domain.stone.Stones
 import exception.RuleViolationException
-import rule.type.Violation
+import rule.lib.type.Violation
 
 class GameBoard(
     private val players: ArrayDeque<Player>,

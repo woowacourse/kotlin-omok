@@ -1,9 +1,9 @@
-package rule
+package rule.lib
 
 import domain.position.Position
 import domain.stone.Stone
-import rule.type.Foul
-import rule.type.Violation
+import rule.lib.type.Foul
+import rule.lib.type.Violation
 
 class WhiteRenjuRule : OmokRule() {
     override fun checkWin(

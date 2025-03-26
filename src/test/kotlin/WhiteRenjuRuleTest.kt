@@ -6,10 +6,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import rule.OmokRule
-import rule.WhiteRenjuRule
-import rule.type.Foul
-import rule.type.Violation
+import rule.lib.OmokRule
+import rule.lib.WhiteRenjuRule
+import rule.lib.type.Foul
+import rule.lib.type.Violation
 
 class WhiteRenjuRuleTest {
     private lateinit var renjuRule: OmokRule

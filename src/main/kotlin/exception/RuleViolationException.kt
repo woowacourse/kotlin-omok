@@ -1,6 +1,6 @@
 package exception
 
-import rule.type.Violation
+import rule.lib.type.Violation
 
 class RuleViolationException(
     violation: Violation,

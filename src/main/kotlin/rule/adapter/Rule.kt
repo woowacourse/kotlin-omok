@@ -3,7 +3,7 @@ package rule.adapter
 import domain.stone.Stone
 import domain.stone.StoneColor
 import domain.stone.Stones
-import rule.type.Violation
+import rule.lib.type.Violation
 
 interface Rule {
     fun isWinByStoneColor(

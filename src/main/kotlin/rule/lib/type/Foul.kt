@@ -1,4 +1,4 @@
-package rule.type
+package rule.lib.type
 
 enum class Foul(
     val size: Int,

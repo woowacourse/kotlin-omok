@@ -5,9 +5,9 @@ import domain.stone.StoneColor
 import domain.stone.StoneColor.BLACK
 import domain.stone.StoneColor.WHITE
 import domain.stone.Stones
-import rule.BlackRenjuRule
-import rule.WhiteRenjuRule
-import rule.type.Violation
+import rule.lib.BlackRenjuRule
+import rule.lib.WhiteRenjuRule
+import rule.lib.type.Violation
 
 class RuleAdapter : Rule {
     private val blackRenjuRule = BlackRenjuRule()

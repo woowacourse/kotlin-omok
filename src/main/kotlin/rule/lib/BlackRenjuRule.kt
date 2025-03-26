@@ -1,14 +1,14 @@
-package rule
+package rule.lib
 
 import domain.position.Position
 import domain.stone.Stone
-import rule.type.Foul
-import rule.type.Violation
-import rule.type.Violation.Companion.FOUL_CONDITION_SIZE
-import rule.type.Violation.Companion.MAX_EMPTY_SIZE
-import rule.type.Violation.Companion.OVERLINE_SIZE
-import rule.type.WhiteBlocked
-import rule.wrapper.direction.Direction
+import rule.lib.type.Foul
+import rule.lib.type.Violation
+import rule.lib.type.Violation.Companion.FOUL_CONDITION_SIZE
+import rule.lib.type.Violation.Companion.MAX_EMPTY_SIZE
+import rule.lib.type.Violation.Companion.OVERLINE_SIZE
+import rule.lib.type.WhiteBlocked
+import rule.lib.wrapper.direction.Direction
 
 class BlackRenjuRule : OmokRule() {
     override fun checkWin(

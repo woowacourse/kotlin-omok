@@ -1,6 +1,6 @@
-package rule.wrapper.direction
+package rule.lib.wrapper.direction
 
-import rule.other.Iterator
+import rule.lib.other.Iterator
 
 class DirectionIterator(
     items: List<Direction>,

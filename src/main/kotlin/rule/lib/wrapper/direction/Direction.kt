@@ -1,6 +1,6 @@
-package rule.wrapper.direction
+package rule.lib.wrapper.direction
 
-import rule.other.Iterator
+import rule.lib.other.Iterator
 
 enum class Direction(
     val rowStep: Int,
