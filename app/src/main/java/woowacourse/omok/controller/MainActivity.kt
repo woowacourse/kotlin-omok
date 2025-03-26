@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         val placeRules = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())
         val judgeRules = listOf(WinningRule(), DrawRule())
 
-        setupStoneTags()
         setupClickListeners(playingBoard, placeRules, judgeRules)
     }
 
@@ -70,28 +69,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupStoneTags() =
-        with(binding.board) {
-            children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
-                row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, button ->
-                    button.tag = Position(rowIndex + 1, colIndex + 1)
-                }
-            }
-        }
-
     private fun setupClickListeners(
         playingBoard: PlayingBoard,
         placeRules: List<PlaceRule>,
         judgeRules: List<JudgeRule>,
-    ) = with(binding.board) {
-        children.filterIsInstance<TableRow>().flatMap { it.children }.filterIsInstance<ImageView>().forEach { button ->
-            button.setOnClickListener {
-                val position = button.tag as Position
-                val playerStone = PlayerStone(playingBoard.currentTurn, position)
+    ) {
+        binding.board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
+            row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, button ->
+                button.setOnClickListener {
+                    val position = Position(rowIndex + 1, colIndex + 1)
+                    val playerStone = PlayerStone(playingBoard.currentTurn, position)
 
-                when (val result = playingBoard.placeStone(placeRules, position)) {
-                    is Success -> handlePlaceSuccess(button, playerStone, playingBoard, judgeRules)
-                    is Failure -> showSnackBar(getFailureMessage(result))
+                    when (val result = playingBoard.placeStone(placeRules, position)) {
+                        is Success -> handlePlaceSuccess(button, playerStone, playingBoard, judgeRules)
+                        is Failure -> showSnackBar(getFailureMessage(result))
+                    }
                 }
             }
         }
