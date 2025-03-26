@@ -3,7 +3,6 @@ package woowacourse.omok.controller
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import woowacourse.omok.R
+import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.domain.omokboard.ColumnPosition
 import woowacourse.omok.domain.omokboard.OmokBoard
 import woowacourse.omok.domain.omokboard.PlayingBoard
@@ -30,22 +30,17 @@ import woowacourse.omok.domain.rule.place.PlaceResult
 import woowacourse.omok.domain.rule.place.PlaceRule
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        setupView()
 
-        val playingBoard = PlayingBoard(board = OmokBoard.create())
+        val playingBoard = PlayingBoard(OmokBoard.create())
         val placeRules: List<PlaceRule> = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())
         val judgeRules: List<JudgeRule> = listOf(WinningRule(), DrawRule())
 
-        val board = findViewById<TableLayout>(R.id.board)
-        board
+        binding.board
             .children
             .filterIsInstance<TableRow>()
             .forEachIndexed { rowIndex, row ->
@@ -58,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         var stoneColor = StoneColor.BLACK
-        board
+        binding.board
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
@@ -77,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                             )
                             val judgeResult = playingBoard.judge(judgeRules, playerStone)
                             if (judgeResult is JudgeResult.Finished) {
-                                board
+                                binding.board
                                     .children
                                     .filterIsInstance<TableRow>()
                                     .flatMap { it.children }
@@ -86,15 +81,27 @@ class MainActivity : AppCompatActivity() {
                                         button.isEnabled = false
                                     }
                             }
-                            Snackbar.make(findViewById(R.id.main), judgeResult.toString(), Snackbar.LENGTH_SHORT).show()
+                            Snackbar.make(binding.root, judgeResult.toString(), Snackbar.LENGTH_SHORT).show()
                             stoneColor = stoneColor.reversed()
                         }
 
                         is PlaceResult.Failure -> {
-                            Snackbar.make(findViewById(R.id.main), placeResult.toString(), Snackbar.LENGTH_SHORT).show()
+                            Snackbar.make(binding.root, placeResult.toString(), Snackbar.LENGTH_SHORT).show()
                         }
                     }
                 }
             }
+    }
+
+    private fun setupView() {
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        enableEdgeToEdge()
+        setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
     }
 }
