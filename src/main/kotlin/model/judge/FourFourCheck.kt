@@ -44,17 +44,17 @@ object FourFourCheck : Rule {
         var pos = startPosition
         var blankCount = 0
         var index = 0
-        val firstStone = stones.find { it.position.isSamePosition(pos) }
+        val firstStone = stones.find { it.position == pos }
         val sameColorStones = mutableListOf<Stone>()
 
         while (true) {
-            val currentStone = stones.find { it.position.isSamePosition(pos) }
+            val currentStone = stones.find { it.position == pos }
             if (currentStone?.color == stone.color) {
                 sameColorStones.add(currentStone)
             } else if (currentStone == null) {
                 blankCount++
             }
-            if (pos.isSamePosition(lastPosition)) break
+            if (pos == lastPosition) break
             pos = direction.nextPosition(pos)
             index++
         }
@@ -62,7 +62,7 @@ object FourFourCheck : Rule {
         val lastStone = stones.find { it.position == lastPosition }
         if (sameColorStones.size != 4) return null
 
-        if (firstStone?.color != stone.color && lastStone?.color != stone.color) {
+        if ((firstStone == null || firstStone.color == stone.color) && (lastStone == null || lastStone.color == stone.color)) {
             if (!(firstStone != null && lastStone != null)) return sameColorStones
             return null
         }

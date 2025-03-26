@@ -1,13 +1,11 @@
 package model
 
-class Col private constructor(
+data class Col private constructor(
     val value: Int,
 ) {
     init {
         require(value in GameBoard.colRange) { ERROR_OUT_OF_BOUND }
     }
-
-    fun isSame(other: Col): Boolean = value == other.value
 
     operator fun plus(step: Int): Col = Col(this.value + step)
 

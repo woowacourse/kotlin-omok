@@ -16,8 +16,8 @@ class PositionTest {
         val otherRowPosition = PositionFixture.POSITION_2B
         // result
         assertAll(
-            { assertTrue(position.isSameRow(sameRowPosition)) },
-            { assertFalse(position.isSameRow(otherRowPosition)) },
+            { assertTrue(position.row == sameRowPosition.row) },
+            { assertFalse(position.row == otherRowPosition.row) },
         )
     }
 
@@ -30,8 +30,8 @@ class PositionTest {
         val otherColPosition = PositionFixture.POSITION_2B
         // result
         assertAll(
-            { assertTrue(position.isSameCol(sameColPosition)) },
-            { assertFalse(position.isSameCol(otherColPosition)) },
+            { assertTrue(position.col == sameColPosition.col) },
+            { assertFalse(position.col == otherColPosition.col) },
         )
     }
 

@@ -35,8 +35,8 @@ class ColTest {
         val otherCol = Col.from('B')
         // result
         assertAll(
-            { assertTrue(col.isSame(sameCol)) },
-            { assertFalse(col.isSame(otherCol)) },
+            { assertTrue(col == sameCol) },
+            { assertFalse(col == otherCol) },
         )
     }
 }

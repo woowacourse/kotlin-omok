@@ -4,12 +4,6 @@ class Position(
     val row: Row,
     val col: Col,
 ) {
-    fun isSamePosition(position: Position): Boolean = row.isSame(position.row) && col.isSame(position.col)
-
-    fun isSameRow(other: Position): Boolean = row.isSame(other.row)
-
-    fun isSameCol(other: Position): Boolean = col.isSame(other.col)
-
     fun isIncreasingDiagonal(other: Position): Boolean {
         if (!(other.isMaxPosition()) && isUpIncreasingDiagonal(other)) {
             return true
@@ -43,13 +37,20 @@ class Position(
 
     private fun isMinPosition(): Boolean = (this.col.isMin() || this.row.isMin())
 
-    private fun isUpIncreasingDiagonal(other: Position): Boolean = row.isSame(other.row + 1) && col.isSame(other.col + 1)
+    private fun isUpIncreasingDiagonal(other: Position): Boolean = row == (other.row + 1) && col == (other.col + 1)
 
-    private fun isDownIncreasingDiagonal(other: Position): Boolean = row.isSame(other.row - 1) && col.isSame(other.col - 1)
+    private fun isDownIncreasingDiagonal(other: Position): Boolean = row == (other.row - 1) && col == (other.col - 1)
 
-    private fun isUpDecreasingDiagonal(other: Position): Boolean = row.isSame(other.row + 1) && col.isSame(other.col - 1)
+    private fun isUpDecreasingDiagonal(other: Position): Boolean = row == (other.row + 1) && col == (other.col - 1)
 
-    private fun isDownDecreasingDiagonal(other: Position): Boolean = row.isSame(other.row - 1) && col.isSame(other.col + 1)
+    private fun isDownDecreasingDiagonal(other: Position): Boolean = row == (other.row - 1) && col == (other.col + 1)
+
+    override fun equals(other: Any?): Boolean {
+        other as Position
+        if (row != other.row) return false
+        if (col != other.col) return false
+        return true
+    }
 
     fun moveOrNull(
         direction: Direction,
@@ -61,4 +62,6 @@ class Position(
         }.onFailure { return null }
         return position
     }
+
+    override fun hashCode(): Int = javaClass.hashCode()
 }

@@ -24,8 +24,8 @@ class RowTest {
         val otherRow = Row.from(2)
 
         assertAll(
-            { assertTrue(row.isSame(sameRow)) },
-            { assertFalse(row.isSame(otherRow)) },
+            { assertTrue(row == sameRow) },
+            { assertFalse(row == otherRow) },
         )
     }
 }

@@ -31,7 +31,7 @@ class GameBoard {
         colRange = start.code - Col.ASCII_A_OFFSET..end.code - Col.ASCII_A_OFFSET
     }
 
-    private fun isExistPosition(stone: Stone): Boolean = stones.any { existedStone -> existedStone.isSamePosition(stone) }
+    private fun isExistPosition(stone: Stone): Boolean = stones.any { existedStone -> existedStone.position == stone.position }
 
     companion object {
         var colRange = 1..15

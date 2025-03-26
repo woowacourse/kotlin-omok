@@ -25,10 +25,14 @@ object ThreeThreeCheck : Rule {
                 val segmentStart = stone.position.moveOrNull(direction, offset)
                 val segmentEnd = segmentStart?.moveOrNull(direction, 6)
                 if (segmentStart == null || segmentEnd == null) continue
-                if (stones.find { it.position.isSamePosition(segmentStart) }?.color?.isSameColor(stone.color) == false) {
+                if (stones.find { it.position == segmentStart }?.color != stone.color &&
+                    stones.find { it.position == segmentStart }?.color != null
+                ) {
                     continue
                 }
-                if (stones.find { it.position.isSamePosition(segmentEnd) }?.color?.isSameColor(stone.color) == false) {
+                if (stones.find { it.position == segmentEnd }?.color != stone.color &&
+                    stones.find { it.position == segmentEnd }?.color != null
+                ) {
                     continue
                 }
                 val threeStones = checkFoul(stone, stones, segmentStart, segmentEnd, direction)
@@ -52,7 +56,7 @@ object ThreeThreeCheck : Rule {
         val sameColorStones = mutableListOf<Stone>()
         var blankCount = 0
         while (true) {
-            val currentStone = stones.find { it.position.isSamePosition(pos) }
+            val currentStone = stones.find { it.position == pos }
             if (currentStone?.color == stone.color) {
                 sameColorStones.add(currentStone)
             } else if (currentStone == null) {
@@ -61,7 +65,7 @@ object ThreeThreeCheck : Rule {
                 return null
             }
             pos = direction.nextPosition(pos)
-            if (pos.isSamePosition(lastPosition)) break
+            if (pos == lastPosition) break
         }
         if (!(sameColorStones.size == 3 && blankCount == 2)) return null
         return sameColorStones

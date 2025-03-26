@@ -52,10 +52,9 @@ object OmokJudge {
         val expectedNextStone = Stone(direction.nextPosition(stone.position), stone.color)
         val nextStone =
             stones.find { existedStone ->
-                existedStone.isSamePosition(
-                    expectedNextStone,
-                ) &&
-                    existedStone.isSameColor(expectedNextStone)
+                existedStone.position ==
+                    expectedNextStone.position &&
+                    existedStone.color == expectedNextStone.color
             }
         if (nextStone != null) return directedSearch(direction, nextStone, stones) + 1
         return 1
