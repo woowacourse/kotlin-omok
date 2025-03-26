@@ -1,12 +1,14 @@
 package woowacourse.omok
 
 import android.content.ContentValues
+import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +25,7 @@ import woowacourse.omok.domain.Position
 import woowacourse.omok.domain.PutStoneResult
 import woowacourse.omok.domain.PutStoneResult.Finished
 import woowacourse.omok.domain.PutStoneResult.NextTurn
+import woowacourse.omok.domain.Stone
 import woowacourse.omok.domain.StoneState
 
 class MainActivity : AppCompatActivity() {
@@ -41,10 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         dbHelper = DbHelper(this)
-
-        omokGame = OmokGame(OmokBoard(rule = OmokAdapter()))
         board = findViewById(R.id.board)
-        setBoard(board)
 
         val storedStone = getStoredStone()
         if (storedStone.isNotEmpty()) {
@@ -59,6 +59,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBoard(board: TableLayout) {
+        updateTurnView(omokGame.turn)
+        initBoard(board)
+    }
+
+    private fun initBoard(board: TableLayout) {
         val columns = ('A'..'O').toList()
         val rows = (15 downTo 1).toList()
 
@@ -73,12 +78,14 @@ class MainActivity : AppCompatActivity() {
                 view.tag = "$x$y"
 
                 view.setOnClickListener {
-                    handlePutStoneResult(view, Position(x - 'A', y - 1))
+                    handlePutStoneResult(
+                        view,
+                        Stone(Position(x - 'A', y - 1), omokGame.turn),
+                    )
                 }
             }
     }
 
-    private fun handlePutStoneResult(
     private fun loadGame(storedStone: List<Stone>) {
         val lastTurn = storedStone.last().state
         val omokBoard = OmokBoard(stones = storedStone, rule = OmokAdapter())
@@ -93,42 +100,49 @@ class MainActivity : AppCompatActivity() {
         omokGame = OmokGame(omokBoard, turn)
     }
 
+    private fun drawStone(
         view: ImageView,
-        position: Position,
+        state: StoneState,
     ) {
-        when (omokGame.putStone(position)) {
-            is NextTurn -> {
-                val turn = omokGame.getNowTurn()
-                insertStone(position, turn)
-                if (turn == StoneState.BLACK) {
-                    view.setImageResource(R.drawable.black_stone)
-                } else {
-                    view.setImageResource(R.drawable.white_stone)
-                }
+        if (state == StoneState.BLACK) {
+            view.setImageResource(R.drawable.black_stone)
+        } else {
+            view.setImageResource(R.drawable.white_stone)
+        }
+    }
+
     private fun updateTurnView(turn: StoneState) {
         findViewById<TextView>(R.id.tv_nowTurn).text =
             getString(R.string.text_now_turn, turn)
     }
+
+    private fun handlePutStoneResult(
+        view: ImageView,
+        stone: Stone,
+    ) {
+        when (omokGame.putStone(stone)) {
+            is NextTurn -> {
+                insertStone(stone)
+                drawStone(view, stone.state)
                 omokGame.changeTurn()
+                updateTurnView(omokGame.turn)
             }
 
             is Finished -> {
+                // board 터치 막기
                 board.children
                     .filterIsInstance<TableRow>()
                     .flatMap { it.children }
                     .filterIsInstance<ImageView>()
                     .forEach { it.setOnClickListener(null) }
 
-                val turn = omokGame.getNowTurn()
-                if (turn == StoneState.BLACK) {
-                    view.setImageResource(R.drawable.black_stone)
-                } else {
-                    view.setImageResource(R.drawable.white_stone)
-                }
+                resetDataBase()
+                drawStone(view, omokGame.turn)
+
                 Toast
                     .makeText(
                         this,
-                        getString(R.string.text_win_message, turn.name),
+                        getString(R.string.text_win_message, omokGame.turn.name),
                         Toast.LENGTH_LONG,
                     ).show()
             }
@@ -197,6 +211,30 @@ class MainActivity : AppCompatActivity() {
             Log.d("MainActivity", "insert success: ${stone.state.name}")
         }
         db.close()
+    }
+
+    private fun resetGame() {
+        resetBoard()
+        resetDataBase()
+
+        // board view 초기화
+        board.children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .forEach { view -> view.setImageResource(0) }
+        setBoard(board)
+    }
+
+    private fun resetBoard() {
+        omokGame = OmokGame(OmokBoard(rule = OmokAdapter()))
+    }
+
+    private fun resetDataBase() {
+        dbHelper.writableDatabase.use { db ->
+            db.execSQL(SQL_DELETE_ENTRIES)
+            dbHelper.onCreate(db)
+        }
     }
 
     override fun onDestroy() {
