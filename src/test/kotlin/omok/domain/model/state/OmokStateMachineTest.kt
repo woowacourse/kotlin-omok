@@ -1,69 +1,64 @@
 package omok.domain.model.state
 
 import io.kotest.assertions.assertSoftly
-import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
-import omok.domain.model.Board
-import omok.domain.model.position.Position
-import omok.domain.model.rule.OmokRuleAdapter
 import omok.domain.model.stone.StoneType
-import omok.doubleThreeFixture
-import omok.horizontalWinStones
 import org.junit.jupiter.api.Test
 
 class OmokStateMachineTest {
-    private val omokRuleAdapter = OmokRuleAdapter()
-
     @Test
     fun `흑돌 차례일 때 돌을 두면 백돌 차례가 된다`() {
         // Given
-        val omokStateMachine = OmokStateMachine(rule = omokRuleAdapter)
+        val omokStateMachine = OmokStateMachine()
 
         // When
-        val result = omokStateMachine.placeStone { Position.of(1, 1, omokStateMachine.board.size) }
+        omokStateMachine.transition(OmokEvent.TURN)
 
         // Then
-        result.state.shouldBeTypeOf<WhiteStoneTurn>()
+        omokStateMachine.state shouldBe WhiteStoneTurn
     }
 
     @Test
     fun `백돌 차례일 때 돌을 두면 흑돌 차례가 된다`() {
         // Given
-        val omokStateMachine = OmokStateMachine(state = WhiteStoneTurn, rule = omokRuleAdapter)
+        val omokStateMachine = OmokStateMachine()
 
         // When
-        val result = omokStateMachine.placeStone { Position.of(1, 1, omokStateMachine.board.size) }
+        omokStateMachine.transition(OmokEvent.TURN)
+        omokStateMachine.transition(OmokEvent.TURN)
 
         // Then
-        result.state.shouldBeTypeOf<BlackStoneTurn>()
+        omokStateMachine.state shouldBe BlackStoneTurn
     }
 
     @Test
-    fun `돌을 두었을 때 오목이 되면 우승자를 반환한다`() {
+    fun `승리하면 종료 상태가 된다`() {
         // Given
-        val board = Board(stones = horizontalWinStones)
-        val omokStateMachine = OmokStateMachine(board = board, rule = omokRuleAdapter)
+        val omokStateMachine = OmokStateMachine()
 
         // When
-        val result = omokStateMachine.placeStone { Position.of(5, 1, board.size) }
+        omokStateMachine.transition(OmokEvent.WIN)
 
         // Then
-        assertSoftly(result.state) {
+        assertSoftly(omokStateMachine.state) {
             shouldBeTypeOf<Finish>()
             winner shouldBe StoneType.BLACK
         }
     }
 
     @Test
-    fun `금수를 두면 예외가 발생한다`() {
+    fun `무승부면 종료 상태가 된다`() {
         // Given
-        val board = Board(stones = doubleThreeFixture)
-        val omokStateMachine = OmokStateMachine(board = board, rule = omokRuleAdapter)
+        val omokStateMachine = OmokStateMachine()
+
+        // When
+        omokStateMachine.transition(OmokEvent.DRAW)
 
         // Then
-        shouldThrowExactly<IllegalArgumentException> {
-            omokStateMachine.placeStone { Position.of(5, 3, board.size) }
-        }.message shouldBe "해당 위치에는 돌을 놓을 수 없습니다."
+        assertSoftly(omokStateMachine.state) {
+            shouldBeTypeOf<Finish>()
+            winner shouldBe StoneType.NONE
+        }
     }
 }
