@@ -1,12 +1,12 @@
-package omok.domain.rule
+package woowacourse.omok.domain.rule
 
-import omok.domain.omokboard.ColumnPosition
-import omok.domain.omokboard.PlayingBoard
-import omok.domain.omokboard.Position
-import omok.domain.omokboard.RowPosition
-import omok.domain.placeresult.GameFinish
-import omok.domain.player.PlayerStone
-import omok.domain.player.StoneColor
+import woowacourse.omok.domain.omokboard.ColumnPosition
+import woowacourse.omok.domain.omokboard.PlayingBoard
+import woowacourse.omok.domain.omokboard.Position
+import woowacourse.omok.domain.omokboard.RowPosition
+import woowacourse.omok.domain.placeresult.GameFinish
+import woowacourse.omok.domain.player.PlayerStone
+import woowacourse.omok.domain.player.StoneColor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

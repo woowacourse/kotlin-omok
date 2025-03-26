@@ -1,6 +1,6 @@
-package omok.domain.omokboard
+package woowacourse.omok.domain.omokboard
 
-import omok.domain.rule.OmokRule
+import woowacourse.omok.domain.rule.OmokRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
