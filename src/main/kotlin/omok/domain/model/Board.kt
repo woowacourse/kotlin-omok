@@ -5,17 +5,20 @@ import omok.domain.model.stone.StoneType
 
 class Board(
     val size: Int = DEFAULT_BOARD_SIZE,
-    val stones: List<OmokStone> = emptyList(),
+    private val _stones: MutableList<OmokStone> = mutableListOf(),
 ) {
+    val stones: List<OmokStone>
+        get() = _stones.toList()
+
     val blackStones: List<OmokStone>
         get() = getStones(StoneType.BLACK)
 
     val whiteStones: List<OmokStone>
         get() = getStones(StoneType.WHITE)
 
-    fun placeStone(omokStone: OmokStone): Board {
+    fun placeStone(omokStone: OmokStone) {
         validate(omokStone)
-        return Board(size, stones + listOf(omokStone))
+        _stones.add(omokStone)
     }
 
     fun getLastStone(): OmokStone? = stones.lastOrNull()

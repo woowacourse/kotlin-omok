@@ -19,7 +19,7 @@ class OmokRuleAdapterTest {
     @Test
     fun `흑돌은 장목이 되는 곳에 둘 수 없다`() {
         // Given
-        val board = Board(stones = stoneLongMoveFixture)
+        val board = Board(_stones = stoneLongMoveFixture)
 
         // When
         val result = omokRuleAdapter.checkAnyFoulCondition(OmokStone(Position.of(5, 5, board.size), StoneType.BLACK), board)
@@ -31,7 +31,7 @@ class OmokRuleAdapterTest {
     @Test
     fun `흑돌은 3-3이 되는 곳에 둘 수 없다`() {
         // Given
-        val board = Board(stones = doubleThreeFixture)
+        val board = Board(_stones = doubleThreeFixture)
 
         // When
         val result = omokRuleAdapter.checkAnyFoulCondition(OmokStone(Position.of(5, 3, board.size), StoneType.BLACK), board)
@@ -43,7 +43,7 @@ class OmokRuleAdapterTest {
     @Test
     fun `흑돌은 4-4가 되는 곳에 둘 수 없다`() {
         // Given
-        val board = Board(stones = doubleFourFixture)
+        val board = Board(_stones = doubleFourFixture)
 
         // When
         val result = omokRuleAdapter.checkAnyFoulCondition(OmokStone(Position.of(3, 13, board.size), StoneType.BLACK), board)
@@ -55,39 +55,39 @@ class OmokRuleAdapterTest {
     @Test
     fun `세로 다섯 개의 연속된 돌이 있을 경우 승리한다`() {
         // Given
-        val board = Board(stones = horizontalWinStones)
+        val board = Board(_stones = horizontalWinStones)
         val omokStone = OmokStone(Position.of(5, 1, board.size), StoneType.BLACK)
 
         // When
-        val newBoard = board.placeStone(omokStone)
+        board.placeStone(omokStone)
 
         // Then
-        omokRuleAdapter.checkWin(omokStone, newBoard) shouldBe true
+        omokRuleAdapter.checkWin(omokStone, board) shouldBe true
     }
 
     @Test
     fun `대각선 다섯 개의 연속된 돌이 있을 경우 승리한다`() {
         // Given
-        val board = Board(stones = verticalWinStones)
+        val board = Board(_stones = verticalWinStones)
         val omokStone = OmokStone(Position.of(1, 5, board.size), StoneType.BLACK)
 
         // When
-        val newBoard = board.placeStone(omokStone)
+        board.placeStone(omokStone)
 
         // Then
-        omokRuleAdapter.checkWin(omokStone, newBoard) shouldBe true
+        omokRuleAdapter.checkWin(omokStone, board) shouldBe true
     }
 
     @Test
     fun `가로 다섯 개의 연속된 돌이 있을 경우 승리한다`() {
         // Given
-        val board = Board(stones = diagonalDownWinStones)
+        val board = Board(_stones = diagonalDownWinStones)
         val omokStone = OmokStone(Position.of(5, 5, board.size), StoneType.BLACK)
 
         // When
-        val newBoard = board.placeStone(omokStone)
+        board.placeStone(omokStone)
 
         // Then
-        omokRuleAdapter.checkWin(omokStone, newBoard) shouldBe true
+        omokRuleAdapter.checkWin(omokStone, board) shouldBe true
     }
 }

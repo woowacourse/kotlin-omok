@@ -25,7 +25,7 @@ class BoardTest {
         val omokStone = OmokStone(position, StoneType.BLACK)
 
         // When
-        board = board.placeStone(omokStone)
+        board.placeStone(omokStone)
 
         // Then
         assertThat(board.stones.last()).isEqualTo(omokStone)
@@ -36,7 +36,7 @@ class BoardTest {
         // Given
         val position = Position.of(1, 1, board.size)
         val omokStone = OmokStone(position, StoneType.BLACK)
-        board = board.placeStone(omokStone)
+        board.placeStone(omokStone)
 
         // Then
         assertThatThrownBy { board.placeStone(omokStone) }
@@ -49,7 +49,7 @@ class BoardTest {
         // Given
         val position = Position.of(1, 1, board.size)
         val omokStone = OmokStone(position, StoneType.BLACK)
-        board = board.placeStone(omokStone)
+        board.placeStone(omokStone)
 
         // Then
         board.getLastStone() shouldBe omokStone
@@ -58,7 +58,7 @@ class BoardTest {
     @Test
     fun `오목판이 가득 찼음을 알 수 있다`() {
         // Given
-        val miniBoard = Board(size = 2, stones = horizontalWinStones)
+        val miniBoard = Board(size = 2, _stones = horizontalWinStones)
 
         // Then
         miniBoard.isFull() shouldBe true
