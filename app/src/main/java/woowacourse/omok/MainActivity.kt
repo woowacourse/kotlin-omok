@@ -25,6 +25,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initialize()
+        val board: TableLayout = findViewById(R.id.board)
+        outputView.printOmokStart(board)
+        setListeners(board)
+    }
+
+    private fun initialize() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -32,46 +39,43 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
 
-        val board = findViewById<TableLayout>(R.id.board)
-        outputView.printOmokStart(board)
-        board
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEachIndexed { index, view ->
-                view.setOnClickListener {
-                    val color: Color = game.chooseTurn()
-                    val stoneImage =
-                        when (color) {
-                            Color.BLACK -> R.drawable.black_stone
-                            Color.WHITE -> R.drawable.white_stone
-                        }
+    private fun setListeners(board: TableLayout) {
+        board.filterImageViews().forEachIndexed { index, view ->
+            view.setOnClickListener { onClick(index, view, board) }
+        }
+    }
 
-                    val x = Col(index % game.board.col.value + 1)
-                    val y = Row(index / game.board.row.value + 1)
-                    val moveResult: MoveResult = game.processTurn(Position(x, y), color)
-
-                    when (moveResult) {
-                        is MoveResult.Success.Playing -> view.setImageResource(stoneImage)
-                        is MoveResult.Success.Finished -> {
-                            view.setImageResource(stoneImage)
-                            outputView.printMoveResult(moveResult, this, board)
-                            board
-                                .children
-                                .filterIsInstance<TableRow>()
-                                .flatMap { it.children }
-                                .filterIsInstance<ImageView>()
-                                .forEach { it.setOnClickListener(null) }
-                            return@setOnClickListener
-                        }
-
-                        is MoveResult.Failure -> {
-                            outputView.printMoveResult(moveResult, this, board)
-                        }
-                    }
-                }
+    private fun onClick(
+        index: Int,
+        view: ImageView,
+        board: TableLayout,
+    ) {
+        val color: Color = game.chooseTurn()
+        val stoneImage =
+            when (color) {
+                Color.BLACK -> R.drawable.black_stone
+                Color.WHITE -> R.drawable.white_stone
             }
+
+        val x = Col(index % game.board.col.value + 1)
+        val y = Row(index / game.board.row.value + 1)
+        when (val moveResult: MoveResult = game.processTurn(Position(x, y), color)) {
+            is MoveResult.Success.Playing -> view.setImageResource(stoneImage)
+            is MoveResult.Success.Finished -> {
+                view.setImageResource(stoneImage)
+                outputView.printMoveResult(moveResult, this, board)
+                board.filterImageViews().forEach { it.setOnClickListener(null) }
+                return
+            }
+            is MoveResult.Failure -> {
+                outputView.printMoveResult(moveResult, this, board)
+            }
+        }
+    }
+
+    private fun TableLayout.filterImageViews(): Sequence<ImageView> {
+        return children.filterIsInstance<TableRow>().flatMap { it.children }.filterIsInstance<ImageView>()
     }
 }
