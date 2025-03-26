@@ -8,7 +8,7 @@ import woowacourse.omok.domain.rule.place.PlaceResult
 import woowacourse.omok.domain.rule.place.PlaceRule
 
 class PlayingBoard(
-    private val board: OmokBoard = OmokBoard.create(),
+    val board: OmokBoard = OmokBoard.create(),
 ) {
     var currentTurn = StoneColor.BLACK
         private set
