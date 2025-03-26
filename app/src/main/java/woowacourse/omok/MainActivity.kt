@@ -96,6 +96,10 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     view.setImageResource(R.drawable.white_stone)
                 }
+    private fun updateTurnView(turn: StoneState) {
+        findViewById<TextView>(R.id.tv_nowTurn).text =
+            getString(R.string.text_now_turn, turn)
+    }
                 omokGame.changeTurn()
             }
 
