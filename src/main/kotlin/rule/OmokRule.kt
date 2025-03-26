@@ -54,7 +54,7 @@ abstract class OmokRule {
             checkDuplicatePosition(blackStones, whiteStones, startPosition),
         ).lastOrNull { it.state } ?: Violation.NONE
 
-    private fun checkDuplicatePosition(
+    fun checkDuplicatePosition(
         blackStones: List<Stone>,
         whiteStones: List<Stone>,
         curPosition: Position,
@@ -84,11 +84,6 @@ abstract class OmokRule {
         stones: List<Stone>,
         startPosition: Position,
     ): Violation
-
-    fun switch(): OmokRule {
-        if (this is BlackRenjuRule) return WhiteRenjuRule()
-        return BlackRenjuRule()
-    }
 
     operator fun List<Stone>.contains(position: Position): Boolean = this.any { stone -> stone.position.isSame(position) }
 
