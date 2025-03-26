@@ -30,7 +30,7 @@ class OmokControl(
     private fun turn(showBoard: Boolean = true) {
         if (showBoard) printCurrentState()
 
-        val input = inputView.inputStone(game.getBoard())
+        val input = inputView.inputStone(game.board)
         val rowValue = input.first
         val colValue = input.second
 
@@ -42,16 +42,16 @@ class OmokControl(
         }
 
         if (game.isOmok()) {
-            outputView.printBoard(game.getBoard())
-            outputView.printOmok(game.getLastStone())
+            outputView.printBoard(game.board)
+            outputView.printOmok(game.lastStone)
         } else {
             turn()
         }
     }
 
     private fun printCurrentState() {
-        outputView.printBoard(game.getBoard())
-        outputView.printNextTurn(game.getTurn(), game.getLastStone())
+        outputView.printBoard(game.board)
+        outputView.printNextTurn(game.turn, game.lastStone)
     }
 
     private fun handleViolation(violation: ViolationType) {
