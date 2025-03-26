@@ -32,13 +32,14 @@ import woowacourse.omok.domain.omokboard.Position
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
 import woowacourse.omok.domain.rule.judge.DrawRule
-import woowacourse.omok.domain.rule.judge.JudgeResult
+import woowacourse.omok.domain.rule.judge.JudgeResult.Finished
 import woowacourse.omok.domain.rule.judge.JudgeRule
 import woowacourse.omok.domain.rule.judge.WinningRule
 import woowacourse.omok.domain.rule.place.AlreadyExistStoneRule
 import woowacourse.omok.domain.rule.place.ExternalRule
 import woowacourse.omok.domain.rule.place.InvalidPositionRule
-import woowacourse.omok.domain.rule.place.PlaceResult
+import woowacourse.omok.domain.rule.place.PlaceResult.Failure
+import woowacourse.omok.domain.rule.place.PlaceResult.Success
 import woowacourse.omok.domain.rule.place.PlaceRule
 
 class MainActivity : AppCompatActivity() {
@@ -89,8 +90,8 @@ class MainActivity : AppCompatActivity() {
                 val playerStone = PlayerStone(playingBoard.currentTurn, position)
 
                 when (val result = playingBoard.placeStone(placeRules, position)) {
-                    is PlaceResult.Success -> handlePlaceSuccess(button, playerStone, playingBoard, judgeRules)
-                    is PlaceResult.Failure -> showSnackBar(getFailureMessage(result))
+                    is Success -> handlePlaceSuccess(button, playerStone, playingBoard, judgeRules)
+                    is Failure -> showSnackBar(getFailureMessage(result))
                 }
             }
         }
@@ -127,7 +128,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         val judgeResult = playingBoard.judge(judgeRules, playerStone)
 
-        if (judgeResult is JudgeResult.Finished) {
+        if (judgeResult is Finished) {
             disableBoard()
             showResultDialog(getJudgeMessage(judgeResult))
         }
@@ -153,22 +154,22 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun getJudgeMessage(result: JudgeResult.Finished): String =
+    private fun getJudgeMessage(result: Finished): String =
         when (result) {
-            is JudgeResult.Finished.Win -> getString(omok_winning, result.stone.toText())
-            is JudgeResult.Finished.Draw -> getString(omok_draw)
+            is Finished.Win -> getString(omok_winning, result.stone.toText())
+            is Finished.Draw -> getString(omok_draw)
         }
 
     private fun showSnackBar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
 
-    private fun getFailureMessage(result: PlaceResult.Failure): String =
+    private fun getFailureMessage(result: Failure): String =
         when (result) {
-            PlaceResult.Failure.AlreadyExistStone -> getString(omok_already_exist_stone_error)
-            PlaceResult.Failure.DoubleFourViolation -> getString(omok_double_four_error)
-            PlaceResult.Failure.DoubleThreeViolation -> getString(omok_double_three_error)
-            PlaceResult.Failure.InvalidPosition -> getString(omok_invalid_position_error)
-            PlaceResult.Failure.OverlineViolation -> getString(omok_overline_error)
+            Failure.AlreadyExistStone -> getString(omok_already_exist_stone_error)
+            Failure.DoubleFourViolation -> getString(omok_double_four_error)
+            Failure.DoubleThreeViolation -> getString(omok_double_three_error)
+            Failure.InvalidPosition -> getString(omok_invalid_position_error)
+            Failure.OverlineViolation -> getString(omok_overline_error)
         }
 }
