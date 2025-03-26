@@ -16,7 +16,7 @@ class WhiteOmokRule(
     override fun isWin(
         board: Board,
         lastStone: Stone,
-    ): Boolean = calculateTotalCount(board.stonesMap, lastStone) >= 5
+    ): Boolean = calculateTotalCount(board.stonesMap, lastStone) >= OMOK_DEFAULT_VALUE
 
     override fun validate(
         board: Board,
@@ -56,5 +56,9 @@ class WhiteOmokRule(
             }
         }
         return count
+    }
+
+    companion object {
+        private const val OMOK_DEFAULT_VALUE = 5
     }
 }
