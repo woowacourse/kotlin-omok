@@ -65,11 +65,14 @@ class MainActivity : AppCompatActivity() {
     ) {
         when (omokGame.putStone(position)) {
             is NextTurn -> {
-                if (omokGame.getNowTurn() == StoneState.BLACK) {
-                    view.setImageResource(R.drawable.white_stone)
-                } else {
+                val turn = omokGame.getNowTurn()
+                insertStone(position, turn)
+                if (turn == StoneState.BLACK) {
                     view.setImageResource(R.drawable.black_stone)
+                } else {
+                    view.setImageResource(R.drawable.white_stone)
                 }
+                omokGame.changeTurn()
             }
 
             is Finished -> {
@@ -79,8 +82,8 @@ class MainActivity : AppCompatActivity() {
                     .filterIsInstance<ImageView>()
                     .forEach { it.setOnClickListener(null) }
 
-                val winner = omokGame.getNowTurn()
-                if (winner == StoneState.BLACK) {
+                val turn = omokGame.getNowTurn()
+                if (turn == StoneState.BLACK) {
                     view.setImageResource(R.drawable.black_stone)
                 } else {
                     view.setImageResource(R.drawable.white_stone)
@@ -88,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                 Toast
                     .makeText(
                         this,
-                        getString(R.string.text_win_message, winner.name),
+                        getString(R.string.text_win_message, turn.name),
                         Toast.LENGTH_LONG,
                     ).show()
             }

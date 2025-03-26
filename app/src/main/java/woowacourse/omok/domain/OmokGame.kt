@@ -11,7 +11,6 @@ class OmokGame(
         val stone = Stone(position, nowTurn)
         return when (val putStoneResult = board.putStone(stone)) {
             is PutStoneResult.NextTurn -> {
-                changeTurn()
                 PutStoneResult.NextTurn(nowTurn)
             }
 
@@ -19,7 +18,7 @@ class OmokGame(
         }
     }
 
-    private fun changeTurn() {
-        nowTurn = if (nowTurn == StoneState.BLACK) StoneState.WHITE else StoneState.BLACK
+    fun changeTurn() {
+        this.nowTurn = if (nowTurn == StoneState.BLACK) StoneState.WHITE else StoneState.BLACK
     }
 }
