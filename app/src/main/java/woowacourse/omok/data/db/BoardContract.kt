@@ -8,9 +8,9 @@ object BoardContract {
     const val COLUMN_NAME_STONE_COLOR = "stoneColor"
 
     const val SQL_CREATE_ENTRIES =
-        "CREATE TABLE $TABLE_NAME (" +
+        "CREATE TABLE IF NOT EXISTS $TABLE_NAME (" +
             "$COLUMN_NAME_ROW INTEGER," +
-            "$COLUMN_NAME_COL TEXT," +
+            "$COLUMN_NAME_COL INTEGER," +
             "$COLUMN_NAME_STONE_COLOR TEXT," +
             "primary key($COLUMN_NAME_ROW, $COLUMN_NAME_COL))"
 

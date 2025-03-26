@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import woowacourse.omok.data.db.DbProvider
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.OmokResult
 import woowacourse.omok.domain.StoneColor
@@ -23,9 +24,11 @@ import woowacourse.omok.domain.grid.Row
 class MainActivity : AppCompatActivity() {
     private val omokGame = OmokGame(OmokGrid())
     private var isGameOver = false
+    private val dbProvider = DbProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         var nowTurn = omokGame.getStartingPlayer()
+        dbProvider.initGame(this)
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -85,6 +88,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         view.setImageResource(getStoneImage(stoneColor))
         omokGame.playMove(OmokPoint(view.tag as Point, stoneColor))
+        dbProvider.insertStone(OmokPoint(view.tag as Point, stoneColor))
     }
 
     private fun getStoneImage(stoneColor: StoneColor): Int {
@@ -98,20 +102,30 @@ class MainActivity : AppCompatActivity() {
         stoneColor: StoneColor,
         point: OmokPoint,
     ) {
+        if (!omokGame.checkWin(stoneColor, point) && !omokGame.isBoardFull()) return
+
         when {
             omokGame.checkWin(stoneColor, point) -> {
                 printWinner(OmokResult.getWinner(stoneColor))
                 isGameOver = true
             }
+
             omokGame.isBoardFull() -> {
                 printWinner(OmokResult.DRAW)
                 isGameOver = true
             }
         }
+
+        dbProvider.dropTable()
     }
 
     private fun printWinner(result: OmokResult) {
         Toast.makeText(this, "$result !!", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        dbProvider.closeDB()
+        super.onDestroy()
     }
 
     companion object {
