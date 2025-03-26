@@ -1,29 +1,34 @@
 package woowacourse.omok.domain.omokboard
 
 import woowacourse.omok.domain.player.PlayerStone
+import woowacourse.omok.domain.player.StoneColor
 import woowacourse.omok.domain.rule.judge.JudgeResult
 import woowacourse.omok.domain.rule.judge.JudgeRule
 import woowacourse.omok.domain.rule.place.PlaceResult
 import woowacourse.omok.domain.rule.place.PlaceRule
 
 class PlayingBoard(
-    val board: OmokBoard = OmokBoard.create(),
+    private val board: OmokBoard = OmokBoard.create(),
 ) {
+    var stoneColor = StoneColor.BLACK
+        private set
+
     fun placeStone(
         rules: List<PlaceRule>,
-        playerStone: PlayerStone,
+        position: Position,
     ): PlaceResult {
-        var result: PlaceResult = PlaceResult.Success(playerStone)
+        var result: PlaceResult = PlaceResult.Success
 
         rules.forEach { rule ->
+            val playerStone = PlayerStone(stoneColor, position)
             result = rule.perform(board, playerStone) as PlaceResult
             if (result is PlaceResult.Failure) return result
         }
 
         if (result is PlaceResult.Success) {
             board
-                .find(playerStone.position)
-                ?.updateState(playerStone.color)
+                .find(position)
+                ?.updateState(stoneColor)
         }
 
         return result
@@ -41,5 +46,9 @@ class PlayingBoard(
         }
 
         return result
+    }
+
+    fun reverseTurn() {
+        stoneColor = stoneColor.reversed()
     }
 }

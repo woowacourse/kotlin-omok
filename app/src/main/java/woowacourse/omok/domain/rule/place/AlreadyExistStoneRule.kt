@@ -10,7 +10,7 @@ class AlreadyExistStoneRule : PlaceRule {
         playerStone: PlayerStone,
     ): PlaceResult =
         if (omokBoard.find(playerStone.position)?.state == IntersectionState.EMPTY) {
-            PlaceResult.Success(playerStone)
+            PlaceResult.Success
         } else {
             PlaceResult.Failure.AlreadyExistStone
         }

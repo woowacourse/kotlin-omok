@@ -11,6 +11,6 @@ class InvalidPositionRule : PlaceRule {
         if (omokBoard.find(playerStone.position) == null) {
             PlaceResult.Failure.InvalidPosition
         } else {
-            PlaceResult.Success(playerStone)
+            PlaceResult.Success
         }
 }

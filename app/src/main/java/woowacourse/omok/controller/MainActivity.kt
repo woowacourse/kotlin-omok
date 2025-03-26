@@ -1,10 +1,10 @@
 package woowacourse.omok.controller
 
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import android.widget.TableRow
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -37,60 +37,11 @@ class MainActivity : AppCompatActivity() {
         setupView()
 
         val playingBoard = PlayingBoard(OmokBoard.create())
-        val placeRules: List<PlaceRule> = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())
-        val judgeRules: List<JudgeRule> = listOf(WinningRule(), DrawRule())
+        val placeRules = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())
+        val judgeRules = listOf(WinningRule(), DrawRule())
 
-        binding.board
-            .children
-            .filterIsInstance<TableRow>()
-            .forEachIndexed { rowIndex, row ->
-                row.children
-                    .filterIsInstance<ImageView>()
-                    .forEachIndexed { colIndex, button ->
-                        button.id = View.generateViewId()
-                        button.tag = Position(RowPosition(rowIndex + 1), ColumnPosition(colIndex + 1))
-                    }
-            }
-
-        var stoneColor = StoneColor.BLACK
-        binding.board
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { button ->
-                button.setOnClickListener {
-                    val position = button.tag as Position
-                    val playerStone = PlayerStone(stoneColor, position)
-                    when (val placeResult = playingBoard.placeStone(placeRules, playerStone)) {
-                        is PlaceResult.Success -> {
-                            button.setImageResource(
-                                when (stoneColor) {
-                                    StoneColor.BLACK -> R.drawable.black_stone
-                                    StoneColor.WHITE -> R.drawable.white_stone
-                                },
-                            )
-                            val judgeResult = playingBoard.judge(judgeRules, playerStone)
-                            if (judgeResult is JudgeResult.Finished) {
-                                binding.board
-                                    .children
-                                    .filterIsInstance<TableRow>()
-                                    .flatMap { it.children }
-                                    .filterIsInstance<ImageView>()
-                                    .forEach { button ->
-                                        button.isEnabled = false
-                                    }
-                            }
-                            Snackbar.make(binding.root, judgeResult.toString(), Snackbar.LENGTH_SHORT).show()
-                            stoneColor = stoneColor.reversed()
-                        }
-
-                        is PlaceResult.Failure -> {
-                            Snackbar.make(binding.root, placeResult.toString(), Snackbar.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            }
+        setupStoneTags()
+        setupClickListeners(playingBoard, placeRules, judgeRules)
     }
 
     private fun setupView() {
@@ -104,4 +55,108 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
+
+    private fun setupStoneTags() =
+        with(binding.board) {
+            children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
+                row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, button ->
+                    button.tag = Position(RowPosition(rowIndex + 1), ColumnPosition(colIndex + 1))
+                }
+            }
+        }
+
+    private fun setupClickListeners(
+        playingBoard: PlayingBoard,
+        placeRules: List<PlaceRule>,
+        judgeRules: List<JudgeRule>,
+    ) = with(binding.board) {
+        children.filterIsInstance<TableRow>().flatMap { it.children }.filterIsInstance<ImageView>().forEach { button ->
+            button.setOnClickListener {
+                val position = button.tag as Position
+                val playerStone = PlayerStone(playingBoard.stoneColor, position)
+
+                when (val result = playingBoard.placeStone(placeRules, position)) {
+                    is PlaceResult.Success -> handlePlaceSuccess(button, playerStone, playingBoard, judgeRules)
+                    is PlaceResult.Failure -> showSnackBar(getFailureMessage(result))
+                }
+            }
+        }
+    }
+
+    private fun handlePlaceSuccess(
+        button: ImageView,
+        playerStone: PlayerStone,
+        playingBoard: PlayingBoard,
+        judgeRules: List<JudgeRule>,
+    ) {
+        button.setImageResource(
+            when (playingBoard.stoneColor) {
+                StoneColor.BLACK -> R.drawable.black_stone
+                StoneColor.WHITE -> R.drawable.white_stone
+            },
+        )
+
+        handleJudge(playingBoard, playerStone, judgeRules)
+        playingBoard.reverseTurn()
+    }
+
+    private fun handleJudge(
+        playingBoard: PlayingBoard,
+        playerStone: PlayerStone,
+        judgeRules: List<JudgeRule>,
+    ) {
+        val judgeResult = playingBoard.judge(judgeRules, playerStone)
+
+        if (judgeResult is JudgeResult.Finished) {
+            disableBoard()
+            showResultDialog(getJudgeMessage(judgeResult))
+        }
+    }
+
+    private fun disableBoard() =
+        with(binding.board) {
+            children
+                .filterIsInstance<TableRow>()
+                .flatMap { it.children }
+                .filterIsInstance<ImageView>()
+                .forEach { it.isEnabled = false }
+        }
+
+    private fun showResultDialog(message: String) {
+        AlertDialog
+            .Builder(this)
+            .setTitle("게임 종료")
+            .setMessage(message)
+            .setCancelable(false)
+            .setPositiveButton("나가기") { dialog, _ -> dialog.dismiss() }
+            .setNegativeButton("알림 닫기") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun getJudgeMessage(result: JudgeResult.Finished): String =
+        when (result) {
+            is JudgeResult.Finished.Win -> {
+                val color =
+                    when (result.stone) {
+                        StoneColor.BLACK -> "흑"
+                        StoneColor.WHITE -> "백"
+                    }
+                "${color}의 우승을 축하드립니다!"
+            }
+
+            is JudgeResult.Finished.Draw -> "무승부!"
+        }
+
+    private fun showSnackBar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun getFailureMessage(result: PlaceResult.Failure): String =
+        when (result) {
+            PlaceResult.Failure.AlreadyExistStone -> "이미 돌이 있는 자리에 둘 수 없습니다."
+            PlaceResult.Failure.DoubleFourViolation -> "4 x 4은 금지입니다."
+            PlaceResult.Failure.DoubleThreeViolation -> "3 x 3은 금지입니다."
+            PlaceResult.Failure.InvalidPosition -> "잘못된 위치 입니다."
+            PlaceResult.Failure.OverlineViolation -> "6목은 금지입니다."
+        }
 }

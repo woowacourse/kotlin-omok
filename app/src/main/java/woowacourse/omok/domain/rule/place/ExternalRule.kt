@@ -48,7 +48,7 @@ class ExternalRule : PlaceRule {
             DOUBLE_THREE -> PlaceResult.Failure.DoubleThreeViolation
             DOUBLE_FOUR -> PlaceResult.Failure.DoubleFourViolation
             OVERLINE -> PlaceResult.Failure.OverlineViolation
-            NONE -> PlaceResult.Success(playerStone)
+            NONE -> PlaceResult.Success
         }
     }
 
