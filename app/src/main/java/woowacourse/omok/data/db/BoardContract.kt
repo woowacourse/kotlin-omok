@@ -3,7 +3,7 @@ package woowacourse.omok.data.db
 import android.provider.BaseColumns
 
 object BoardContract {
-    const val TABLE_NAME = "stones"
+    const val TABLE_NAME = "board"
 
     const val COLUMN_NAME_X = "x"
     const val COLUMN_NAME_Y = "y"

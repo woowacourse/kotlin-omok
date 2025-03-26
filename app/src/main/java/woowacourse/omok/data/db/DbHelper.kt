@@ -10,10 +10,17 @@ class DbHelper(
     companion object {
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "Board.db"
+        const val DATABASE_NAME = "Omok.db"
+    }
+    fun createBoardTable(db: SQLiteDatabase) {
+        db.execSQL(BoardContract.SQL_CREATE_ENTRIES)
+    }
+    fun deleteBoardTable(db: SQLiteDatabase) {
+        db.execSQL(BoardContract.SQL_DELETE_ENTRIES)
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL(BoardContract.SQL_CREATE_ENTRIES)
+        createBoardTable(db)
     }
 
     override fun onUpgrade(
@@ -22,6 +29,7 @@ class DbHelper(
         newVersion: Int,
     ) {
         db.execSQL(BoardContract.SQL_DELETE_ENTRIES)
+        deleteBoardTable(db)
         onCreate(db)
     }
 
