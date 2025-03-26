@@ -88,6 +88,6 @@ class OmokGameTest {
         // when
         val result = omokGame.putStone(position)
         // then
-        assertThat(result).isEqualTo(PutStoneResult.NextTurn(StoneState.WHITE))
+        assertThat(result).isEqualTo(PutStoneResult.NextTurn(StoneState.BLACK))
     }
 }
