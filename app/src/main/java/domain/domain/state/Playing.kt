@@ -1,10 +1,10 @@
-package omok.domain.state
+package domain.domain.state
 
-import omok.domain.Board
-import omok.domain.Point
-import omok.domain.stone.BlackStones
-import omok.domain.stone.StoneColor
-import omok.domain.stone.WhiteStones
+import domain.domain.Board
+import domain.domain.Point
+import domain.domain.stone.BlackStones
+import domain.domain.stone.StoneColor
+import domain.domain.stone.WhiteStones
 
 interface Playing : State {
     val blackStones: BlackStones

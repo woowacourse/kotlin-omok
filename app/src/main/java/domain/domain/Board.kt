@@ -1,12 +1,12 @@
-package omok.domain
+package domain.domain
 
-import omok.domain.state.BlackTurn
-import omok.domain.state.Finished
-import omok.domain.state.Playing
-import omok.domain.state.Ready
-import omok.domain.state.State
-import omok.domain.state.WhiteTurn
-import omok.domain.stone.StoneColor
+import domain.domain.state.BlackTurn
+import domain.domain.state.Finished
+import domain.domain.state.Playing
+import domain.domain.state.Ready
+import domain.domain.state.State
+import domain.domain.state.WhiteTurn
+import domain.domain.stone.StoneColor
 
 class Board(
     state: State = Ready(),

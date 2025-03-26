@@ -1,7 +1,7 @@
-package omok.view
+package domain.view
 
-import omok.domain.Point
-import omok.domain.stone.StoneColor
+import domain.domain.Point
+import domain.domain.stone.StoneColor
 
 class OutputView {
     fun printStartOmok(boardSize: Int) {

@@ -1,4 +1,4 @@
-package omok.domain
+package domain.domain
 
 data class Point(
     val x: Int,

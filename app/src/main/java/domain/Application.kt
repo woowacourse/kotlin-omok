@@ -1,8 +1,8 @@
-package omok
+package domain
 
-import omok.controller.OmokController
-import omok.view.InputView
-import omok.view.OutputView
+import domain.controller.OmokController
+import domain.view.InputView
+import domain.view.OutputView
 
 fun main() {
     val inputView = InputView()

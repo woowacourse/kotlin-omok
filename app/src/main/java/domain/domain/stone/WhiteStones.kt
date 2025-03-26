@@ -1,6 +1,6 @@
-package omok.domain.stone
+package domain.domain.stone
 
-import omok.domain.Point
+import domain.domain.Point
 
 class WhiteStones(
     points: Set<Point> = emptySet(),

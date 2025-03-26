@@ -1,9 +1,9 @@
-package omok.controller
+package domain.controller
 
-import omok.domain.Board
-import omok.domain.state.Finished
-import omok.view.InputView
-import omok.view.OutputView
+import domain.domain.Board
+import domain.domain.state.Finished
+import domain.view.InputView
+import domain.view.OutputView
 
 class OmokController(
     private val inputView: InputView,

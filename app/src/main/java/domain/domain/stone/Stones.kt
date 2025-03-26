@@ -1,7 +1,7 @@
-package omok.domain.stone
+package domain.domain.stone
 
-import omok.domain.Point
-import omok.domain.rule.OmokRule
+import domain.domain.Point
+import domain.domain.rule.OmokRule
 
 abstract class Stones(
     points: Set<Point> = emptySet(),

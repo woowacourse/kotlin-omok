@@ -1,12 +1,12 @@
-package omok.domain.rule
+package domain.domain.rule
 
-import omok.domain.Board.Companion.DEFAULT_BOARD_SIZE
-import omok.domain.Direction
-import omok.domain.Direction.DIAGONAL_DOWN
-import omok.domain.Direction.DIAGONAL_UP
-import omok.domain.Direction.HORIZONTAL
-import omok.domain.Direction.VERTICAL
-import omok.domain.Point
+import domain.domain.Board.Companion.DEFAULT_BOARD_SIZE
+import domain.domain.Direction
+import domain.domain.Direction.DIAGONAL_DOWN
+import domain.domain.Direction.DIAGONAL_UP
+import domain.domain.Direction.HORIZONTAL
+import domain.domain.Direction.VERTICAL
+import domain.domain.Point
 
 class OmokRule(private val size: Int = DEFAULT_BOARD_SIZE) {
     fun isOmok(

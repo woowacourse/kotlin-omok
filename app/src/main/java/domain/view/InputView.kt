@@ -1,6 +1,6 @@
-package omok.view
+package domain.view
 
-import omok.domain.Point
+import domain.domain.Point
 
 class InputView {
     fun getPoint(boardSize: Int): Point =

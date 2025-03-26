@@ -60,4 +60,5 @@ dependencies {
     androidTestImplementation(libs.kotest.runner.junit5)
     androidTestImplementation(libs.mannodermaus.junit5.core)
     androidTestRuntimeOnly(libs.mannodermaus.junit5.runner)
+    implementation("com.github.tmdgh1592:budool-omok-rule:v2.0.0-alpha")
 }

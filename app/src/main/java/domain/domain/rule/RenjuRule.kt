@@ -1,8 +1,8 @@
-package omok.domain.rule
+package domain.domain.rule
 
-import omok.domain.Board.Companion.DEFAULT_BOARD_SIZE
-import omok.domain.Point
-import omok.domain.stone.Stones
+import domain.domain.Board.Companion.DEFAULT_BOARD_SIZE
+import domain.domain.Point
+import domain.domain.stone.Stones
 import rule.facade.BlackRenjuRule
 
 class RenjuRule(boardSize: Int = DEFAULT_BOARD_SIZE) {
