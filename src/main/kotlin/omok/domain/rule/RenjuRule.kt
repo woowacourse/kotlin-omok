@@ -1,6 +1,7 @@
 package omok.domain.rule
 
 import omok.domain.Point
+import omok.domain.stone.OmokStones
 import omok.domain.stone.Stone
 import omok.domain.stone.StoneColor
 import rule.facade.BlackRenjuRule
@@ -11,7 +12,7 @@ class RenjuRule(
     private val blackRenjuRule = BlackRenjuRule(boardSize, boardSize)
 
     override fun checkViolation(
-        stones: Set<Stone>,
+        stones: OmokStones,
         startStone: Stone,
     ): Violation =
         when (startStone.color) {
@@ -67,7 +68,7 @@ class RenjuRule(
             startPoint.toPair(),
         )
 
-    private fun Set<Stone>.filter(stoneColor: StoneColor): List<Point> = this.filter { it.color == stoneColor }.map { it.point }
+    private fun OmokStones.filter(stoneColor: StoneColor): List<Point> = this.stones.filter { it.color == stoneColor }.map { it.point }
 
     private fun Point.toPair(): Pair<Int, Int> = row to col
 }

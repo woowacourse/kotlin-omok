@@ -2,6 +2,7 @@ package omok.domain.rule
 
 import omok.domain.OmokBoard
 import omok.domain.Point
+import omok.domain.stone.OmokStones
 import omok.domain.stone.Stone
 
 class OmokRule(
@@ -9,17 +10,17 @@ class OmokRule(
     private val forbiddenMoveRule: ForbiddenMoveRule = RenjuRule(boardSize),
 ) {
     fun checkViolation(
-        stones: Set<Stone>,
+        stones: OmokStones,
         lastStone: Stone,
     ): Violation = forbiddenMoveRule.checkViolation(stones, lastStone)
 
     fun isOmok(
-        stones: Set<Stone>,
+        stones: OmokStones,
         lastStone: Stone,
     ): Boolean =
         Direction.directionPairs.any { directions ->
             isSerialOmok(
-                stones.filter { it.color == lastStone.color }.map { it.point },
+                stones.stones.filter { it.color == lastStone.color }.map { it.point },
                 lastStone.point,
                 directions,
             )

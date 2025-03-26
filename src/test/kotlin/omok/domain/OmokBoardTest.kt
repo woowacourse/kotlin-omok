@@ -1,7 +1,9 @@
-package omok.domain.stone
+package omok.domain
 
-import omok.domain.Point
 import omok.domain.rule.OmokRule
+import omok.domain.stone.OmokStones
+import omok.domain.stone.Stone
+import omok.domain.stone.StoneColor
 import omok.fixture.DOUBLE_FOUR
 import omok.fixture.DOUBLE_THREE_A
 import omok.fixture.DOUBLE_THREE_B
@@ -10,10 +12,10 @@ import omok.fixture.DOUBLE_THREE_D
 import omok.fixture.F12
 import omok.fixture.H8
 import omok.fixture.OVERLINE
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
-class OmokStonesTest {
+class OmokBoardTest {
     private val omokRule = OmokRule()
 
     @Test
@@ -28,22 +30,26 @@ class OmokStonesTest {
             )
 
         doubleThreeCases.forEach { (blackPoints, point) ->
-            val stones = OmokStones(omokRule, blackPoints.toBlackStones())
+            val stones = OmokStones(blackPoints.toBlackStones())
+            val board = OmokBoard(rule = omokRule, stones = stones)
             // then
-            assertThat(stones.isFoul(Stone(StoneColor.BLACK, point))).isTrue()
+            val stone = Stone(StoneColor.BLACK, point)
+            assertThrows<IllegalArgumentException> { board.checkViolation(stone) }
         }
     }
 
     @Test
     fun `흑돌이 4-4이면 돌을 놓을 수 없다`() {
-        val stones = OmokStones(omokRule, DOUBLE_FOUR.toBlackStones())
-        assertThat(stones.isFoul(F12.toBlackStone())).isTrue()
+        val stones = OmokStones(DOUBLE_FOUR.toBlackStones())
+        val board = OmokBoard(rule = omokRule, stones = stones)
+        assertThrows<IllegalArgumentException> { board.checkViolation(F12.toBlackStone()) }
     }
 
     @Test
     fun `흑돌이 장목이면 돌을 놓을 수 없다`() {
-        val stones = OmokStones(omokRule, OVERLINE.toBlackStones())
-        assertThat(stones.isFoul(H8.toBlackStone())).isTrue()
+        val stones = OmokStones(OVERLINE.toBlackStones())
+        val board = OmokBoard(rule = omokRule, stones = stones)
+        assertThrows<IllegalArgumentException> { board.checkViolation(H8.toBlackStone()) }
     }
 
     private fun Set<Point>.toBlackStones(): Set<Stone> = this.map { Stone(StoneColor.BLACK, it) }.toSet()

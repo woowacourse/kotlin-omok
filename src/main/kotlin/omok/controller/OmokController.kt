@@ -2,6 +2,7 @@ package omok.controller
 
 import omok.domain.OmokBoard
 import omok.domain.OmokGame
+import omok.domain.rule.OmokRule
 import omok.view.InputView
 import omok.view.OutputView
 
@@ -10,7 +11,8 @@ class OmokController(
     private val outputView: OutputView,
 ) {
     fun run() {
-        val board = OmokBoard()
+        val rule = OmokRule()
+        val board = OmokBoard(rule = rule)
         val game = OmokGame(board)
         outputView.printStartOmok(board.size)
         playOmok(game)
@@ -23,7 +25,7 @@ class OmokController(
                 onTurn = { stoneColor, lastPoint -> outputView.printTurn(stoneColor, lastPoint) },
                 onPointSelected = { inputView.getPoint() },
                 onBoardUpdated = { board ->
-                    outputView.printOmokBoard(board.stones.stones, board.size)
+                    outputView.printOmokBoard(board.stones, board.size)
                 },
             )
         }.getOrElse {
