@@ -1,24 +1,25 @@
-package omok.model.rule
+package omok.library
 
-class ThreeThreeRule : RenjuRule() {
+object ThreeThreeRule : OmokRule() {
     override fun validate(
         board: List<List<Int>>,
-        position: RulePosition,
+        position: Pair<Int, Int>,
     ): Boolean = countOpenThrees(board, position) >= 2
 
     private fun countOpenThrees(
         board: List<List<Int>>,
-        position: RulePosition,
-    ): Int = RuleDirection.DIRECTIONS.sumOf { direction -> checkOpenThree(board, position, direction) }
+        position: Pair<Int, Int>,
+    ): Int = directions.sumOf { direction -> checkOpenThree(board, position, direction) }
 
     private fun checkOpenThree(
         board: List<List<Int>>,
-        position: RulePosition,
-        direction: RuleDirection,
+        position: Pair<Int, Int>,
+        direction: Pair<Int, Int>,
     ): Int {
         val (x, y) = position
         val (dx, dy) = direction
-        val (stone1, blink1) = search(board, position, direction.opposite())
+        val oppositeDirection = direction.let { (dx, dy) -> Pair(-dx, -dy) }
+        val (stone1, blink1) = search(board, position, oppositeDirection)
         val (stone2, blink2) = search(board, position, direction)
 
         val leftDown = stone1 + blink1
@@ -38,7 +39,7 @@ class ThreeThreeRule : RenjuRule() {
             dy != 0 && y + dy * rightUp in Y_Edge -> 0
             board[y - down][x - left] == WHITE_STONE -> 0
             board[y + up][x + right] == WHITE_STONE -> 0
-            countToWall(board, position, direction.opposite()) + countToWall(board, position, direction) <= 5 -> 0
+            countToWall(board, position, oppositeDirection) + countToWall(board, position, direction) <= 5 -> 0
             else -> 1
         }
     }
