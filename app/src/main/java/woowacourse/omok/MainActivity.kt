@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         val point = OmokPoint(view.tag as Point, stoneColor)
         if (isViolation(stoneColor, point)) return stoneColor
         playMove(stoneColor, view)
-        checkGameOver(stoneColor, point)
+        if (checkGameOver(stoneColor, point)) completeGame(stoneColor, point)
         return omokGame.changeTurn(stoneColor)
     }
 
@@ -116,26 +116,34 @@ class MainActivity : AppCompatActivity() {
     private fun checkGameOver(
         stoneColor: StoneColor,
         point: OmokPoint,
+    ): Boolean {
+        return omokGame.checkWin(stoneColor, point) || omokGame.isBoardFull()
+    }
+
+    // 게임을 끝낸다
+    private fun completeGame(
+        stoneColor: StoneColor,
+        point: OmokPoint,
     ) {
-        if (!omokGame.checkWin(stoneColor, point) && !omokGame.isBoardFull()) return
-
-        when {
-            omokGame.checkWin(stoneColor, point) -> {
-                showGameResult(OmokResult.getWinner(stoneColor))
-            }
-
-            omokGame.isBoardFull() -> {
-                showGameResult(OmokResult.DRAW)
-            }
-        }
+        showGameResult(stoneColor, point)
         isGameOver = true
-
         dbProvider.dropTable()
     }
 
     // 게임 결과를 출력한다
-    private fun showGameResult(result: OmokResult) {
-        Toast.makeText(this, "$result !!", Toast.LENGTH_SHORT).show()
+    private fun showGameResult(
+        stoneColor: StoneColor,
+        point: OmokPoint,
+    ) {
+        when {
+            omokGame.checkWin(stoneColor, point) -> {
+                Toast.makeText(this, "${OmokResult.getWinner(stoneColor)} !!", Toast.LENGTH_SHORT).show()
+            }
+
+            omokGame.isBoardFull() -> {
+                Toast.makeText(this, "${OmokResult.DRAW} !!", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun showViolation(violation: String) {

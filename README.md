@@ -37,5 +37,5 @@
 - [ ] OmokGrid | 테스트를 더 꼼꼼히 작성하기
 - [ ] ValidationResult | 에러 문자열 관리 어디서 할지 고민
 - [x] MainActivity | printWinner 함수 네이밍 수정하기
-- [ ] MainActivity | checkGameOver 함수가 하나의 일만 하도록 수정
+- [x] MainActivity | checkGameOver 함수가 하나의 일만 하도록 수정
 - [ ] DbHelper | 가시성과 위치 수정하기
