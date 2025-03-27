@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         return errorUiText
     }
 
-    private fun getStoneUiText(color: StoneColor): String {
+    private fun resolveStoneColorText(color: StoneColor): String {
         val colorTextResource =
             when (color) {
                 StoneColor.WHITE -> R.string.text_white_stone
@@ -118,11 +118,11 @@ class MainActivity : AppCompatActivity(), GameEventListener {
             .filterIsInstance<ImageView>()
             .forEachIndexed { colIndex, view ->
                 val newTag =
-                    Point(Column(15 - rowIndex), Row(colIndex + 1), BoardStatus.Empty)
+                    Coordination(Column(15 - rowIndex), Row(colIndex + 1))
                 view.tag = newTag
                 view.setOnClickListener {
                     selectedImageView = view
-                    onClickPoint(newTag, game)
+                    game.play(Point(x = newTag.x, y = newTag.y, BoardStatus.Empty))
                 }
             }
     }
