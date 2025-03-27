@@ -30,3 +30,12 @@
 - [x] 확장 함수 위치 이동
 - [x] **OmokRuleAdapter** & **Referee** | 렌주룰 의존성 제거 고민
 - [ ] **Referee** | 금수 처리 고민
+
+- [x] 콘솔용 코드 복구
+- [ ] OmokGrid | Stones를 꺼내서 하지 말고 스스로 일하도록 바꿔 보기
+- [ ] OmokGrid | 테스트를 더 꼼꼼히 작성하기
+- [ ] ValidationResult | 에러 문자열 관리 어디서 할지 고민
+- [ ] OmokGame | 콘솔 위에서도 돌아가도록 수정
+- [ ] MainActivity | printWinner 함수 네이밍 수정하기
+- [ ] MainActivity | checkGameOver 함수가 하나의 일만 하도록 수정
+- [ ] DbHelper | 가시성과 위치 수정하기
