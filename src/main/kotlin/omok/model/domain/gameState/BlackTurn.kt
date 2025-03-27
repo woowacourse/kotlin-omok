@@ -47,4 +47,15 @@ class BlackTurn : Turn {
         gameState.board.put(position, stone)
         return gameState.copy(turn = WhiteTurn)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as BlackTurn
+
+        return stone == other.stone
+    }
+
+    override fun hashCode(): Int = stone.hashCode()
 }
