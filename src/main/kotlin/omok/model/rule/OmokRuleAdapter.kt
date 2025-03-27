@@ -48,9 +48,9 @@ class OmokRuleAdapter : Rule {
     }
 
     private fun Board.toMatrix(): List<List<Int>> =
-        List(BOARD_LENGTH) { column ->
-            List(BOARD_LENGTH) { row ->
-                val stoneState = stoneState(row + 1, column + 1)
+        List(BOARD_LENGTH) { y ->
+            List(BOARD_LENGTH) { x ->
+                val stoneState = stoneState(x + 1, y + 1)
                 when (stoneState) {
                     StoneState.NONE -> 0
                     StoneState.BLACK -> 1
@@ -59,7 +59,7 @@ class OmokRuleAdapter : Rule {
             }
         }
 
-    private fun Position.toCoordinates(): Pair<Int, Int> = Pair(x.value, y.value)
+    private fun Position.toCoordinates(): Pair<Int, Int> = Pair(x.value - 1, y.value - 1)
 
     companion object {
         private const val BOARD_LENGTH = 15

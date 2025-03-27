@@ -20,9 +20,7 @@ class OmokController(
 
         while (true) {
             val position = omokView.inputPosition(playerState)
-            println(position)
             playerState = playerState.state(position)
-
             omokView.printBoard(board.board)
             if (playerState is Finish) break
         }

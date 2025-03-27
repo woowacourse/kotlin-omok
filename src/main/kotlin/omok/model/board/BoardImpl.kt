@@ -21,7 +21,7 @@ class BoardImpl private constructor(
     override fun stoneState(
         x: Int,
         y: Int,
-    ): StoneState = Position(x, y).stoneState()
+    ): StoneState = board[Position(x, y)] ?: throw IllegalArgumentException("존재하지 않는 좌표입니다.")
 
     companion object {
         private const val Y_MAX_RANGE = 15
