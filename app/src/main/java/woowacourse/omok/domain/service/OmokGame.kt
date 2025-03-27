@@ -2,9 +2,7 @@ package woowacourse.omok.domain.service
 
 import woowacourse.omok.domain.omokboard.PlayingBoard
 import woowacourse.omok.domain.omokboard.Position
-import woowacourse.omok.domain.placeresult.GameFinish
 import woowacourse.omok.domain.placeresult.GameOnGoing
-import woowacourse.omok.domain.placeresult.InvalidMove
 import woowacourse.omok.domain.placeresult.PlaceResult
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
@@ -12,29 +10,18 @@ import woowacourse.omok.domain.player.StoneColor
 class OmokGame(
     private val playingBoard: PlayingBoard,
 ) {
+    private var stoneColor = StoneColor.BLACK
+
+    val currentStoneColor: StoneColor get() = stoneColor
+
     fun start(
-        getNewPosition: (StoneColor, Position?) -> Position,
+        position: Position,
         onStonePlaced: (PlaceResult) -> Unit,
     ) {
-        var stoneColor = StoneColor.BLACK
-        var position: Position? = null
+        val playerStone = PlayerStone(stoneColor, position)
+        val placeResult = playingBoard.placeStone(playerStone)
+        onStonePlaced(placeResult)
 
-        while (true) {
-            val playerStone = PlayerStone(stoneColor, getNewPosition(stoneColor, position))
-            val placeResult = playingBoard.placeStone(playerStone)
-            onStonePlaced(placeResult)
-
-            when (placeResult) {
-                is GameOnGoing -> {
-                    stoneColor = stoneColor.reversed()
-                    position = playerStone.position
-                    continue
-                }
-
-                is GameFinish -> break
-
-                is InvalidMove -> continue
-            }
-        }
+        if (placeResult is GameOnGoing) stoneColor = stoneColor.reversed()
     }
 }

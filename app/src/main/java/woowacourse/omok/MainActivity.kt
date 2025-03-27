@@ -20,19 +20,17 @@ import woowacourse.omok.domain.placeresult.GameFinish
 import woowacourse.omok.domain.placeresult.GameOnGoing
 import woowacourse.omok.domain.placeresult.InvalidMove
 import woowacourse.omok.domain.placeresult.PlaceResult
-import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
 import woowacourse.omok.domain.rule.GameResult
 import woowacourse.omok.domain.rule.OmokRule
+import woowacourse.omok.domain.service.OmokGame
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var board: TableLayout
     private lateinit var playingBoard: PlayingBoard
-    private lateinit var stoneColor: StoneColor
+    private lateinit var omokGame: OmokGame
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
@@ -43,37 +41,35 @@ class MainActivity : AppCompatActivity() {
         }
 
         board = findViewById(R.id.board)
-
         playingBoard = PlayingBoard(OmokBoard.create(), OmokRule.rules)
-        stoneColor = StoneColor.BLACK
-        setBoard()
-    }
+        omokGame = OmokGame(playingBoard)
 
-    private fun setBoard(){
         board
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEachIndexed{index, imageView ->
+            .forEachIndexed { index, imageView ->
                 val row = index / 15
                 val column = index % 15
                 imageView.setOnClickListener {
-                    placeStone(Position(RowPosition(row + 1), ColumnPosition(column + 1)),imageView)
+                    omokGame.start(Position(RowPosition(row + 1), ColumnPosition(column + 1))) { placeResult ->
+                        handlePlaceResult(placeResult, imageView)
+                    }
                 }
             }
     }
 
-    private fun placeStone(position: Position, imageView: ImageView) {
-        val playerStone = PlayerStone(stoneColor, position)
-        val placeResult = playingBoard.placeStone(playerStone)
-        handlePlaceResult(placeResult, imageView)
-    }
-
-    private fun handlePlaceResult(placeResult: PlaceResult, imageView: ImageView) {
+    private fun handlePlaceResult(
+        placeResult: PlaceResult,
+        imageView: ImageView,
+    ) {
         when (placeResult) {
             is GameOnGoing -> updateStone(imageView)
-            is GameFinish -> showToast(displayGameResultMessage(placeResult.gameResult))
+            is GameFinish -> {
+                updateStone(imageView)
+                showToast(displayGameResultMessage(placeResult.gameResult))
+            }
             is InvalidMove.AlreadyExistStone -> showToast(displayMisPlaceMessage(placeResult))
             is InvalidMove.ExternalRenjuRule -> showToast(displayForbiddenMessage(placeResult.rule))
         }
@@ -110,17 +106,16 @@ class MainActivity : AppCompatActivity() {
             else -> ""
         }
 
-    private fun showToast(message: String){
+    private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun updateStone(imageView: ImageView){
-        stoneColor.toUi(imageView)
-        stoneColor = stoneColor.reversed()
+    private fun updateStone(imageView: ImageView) {
+        omokGame.currentStoneColor.toUi(imageView)
     }
 
-    private fun StoneColor.toUi(imageView: ImageView){
-        when(this){
+    private fun StoneColor.toUi(imageView: ImageView) {
+        when (this) {
             StoneColor.BLACK -> imageView.setImageResource(R.drawable.black_stone)
             StoneColor.WHITE -> imageView.setImageResource(R.drawable.white_stone)
         }
