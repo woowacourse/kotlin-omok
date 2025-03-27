@@ -11,7 +11,8 @@ import woowacourse.omok.domain.stone.StoneColor
 class OmokGame(
     board: OmokBoard,
 ) {
-    private var state: State = BlackTurn(board)
+    var state: State = BlackTurn(board)
+        private set
     private var lastStone: Stone? = null
 
     fun play(
@@ -20,43 +21,42 @@ class OmokGame(
         onForbiddenMove: (String) -> Unit,
         onStonePlaced: (Stone) -> Unit,
     ) {
-        when (val currentState = state) {
-            is Playing -> processTurn(currentState, onTurn, onPointSelected, onForbiddenMove, onStonePlaced)
-            is Finished -> {}
+        if (state is Playing) {
+            processTurn((state as Playing), onTurn, onPointSelected, onForbiddenMove, onStonePlaced)
         }
     }
 
     fun finish(onFinished: (StoneColor?) -> Unit) {
-        when (state) {
-            is Playing -> {}
-            is Finished -> onFinished(winner())
+        if (state is Finished) {
+            onFinished((state as Finished).winnerColor)
         }
     }
 
     private fun processTurn(
-        state: Playing,
+        playingState: Playing,
         onTurn: (StoneColor, Point?) -> Unit,
         onPointSelected: () -> Point,
         onForbiddenMove: (String) -> Unit,
         onStonePlaced: (Stone) -> Unit,
     ) {
-        onTurn(state.stoneColor, lastStone?.point)
-        val newStone = Stone(state.stoneColor, onPointSelected())
-        when (val placeResult = state.place(newStone)) {
-            is PlaceResult.ForbiddenMove -> {
-                onForbiddenMove(placeResult.message)
-            }
+        onTurn(playingState.stoneColor, lastStone?.point)
+        val newStone = Stone(playingState.stoneColor, onPointSelected())
+        handlePlaceResult(playingState.place(newStone), newStone, onForbiddenMove, onStonePlaced)
+    }
+
+    private fun handlePlaceResult(
+        placeResult: PlaceResult,
+        newStone: Stone,
+        onForbiddenMove: (String) -> Unit,
+        onStonePlaced: (Stone) -> Unit,
+    ) {
+        when (placeResult) {
+            is PlaceResult.ForbiddenMove -> onForbiddenMove(placeResult.message)
             is PlaceResult.Placed -> {
-                this.state = placeResult.state
-                onStonePlaced(newStone)
+                state = placeResult.state
                 lastStone = newStone
+                onStonePlaced(newStone)
             }
         }
     }
-
-    private fun winner(): StoneColor? =
-        when (val currentState = state) {
-            is Finished -> currentState.winnerColor
-            else -> null
-        }
 }

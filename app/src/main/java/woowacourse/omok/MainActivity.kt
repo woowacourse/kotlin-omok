@@ -13,6 +13,8 @@ import androidx.core.view.children
 import woowacourse.omok.domain.OmokBoard
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.Point
+import woowacourse.omok.domain.state.Finished
+import woowacourse.omok.domain.state.Playing
 import woowacourse.omok.domain.stone.StoneColor
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +42,9 @@ class MainActivity : AppCompatActivity() {
                     .forEachIndexed { colIndex, view ->
                         view.tag = Point(rowIndex, colIndex)
                         view.setOnClickListener {
-                            playGame(view)
+                            if (omokGame.state is Playing) {
+                                playGame(view)
+                            }
                         }
                     }
             }
@@ -60,6 +64,8 @@ class MainActivity : AppCompatActivity() {
                 }
             },
         )
-        omokGame.finish { Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show() }
+        if (omokGame.state is Finished) {
+            omokGame.finish { Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show() }
+        }
     }
 }
