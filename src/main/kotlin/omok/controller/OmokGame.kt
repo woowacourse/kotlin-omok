@@ -12,21 +12,20 @@ class OmokGame(
     private val outputView: OutputView,
 ) {
     fun start() {
-        val board = Board(RenjuRule())
+        val board = Board(rule = RenjuRule())
         val turn = Turn()
         outputView.printStartMessage()
-        var position = ""
+        var position = Position(0, 0)
         while (true) {
             outputView.showBoard(board.grid)
-            val lastStone: Stone? = board.stones.lastStone()
+            val lastStone: Position? = board.lastMove
             if (lastStone == null) {
                 outputView.printFirstTurn()
             } else {
                 outputView.printNormalTurn(lastStone.color, position)
             }
-            val inputPosition = inputView.readPosition()
-            position = inputPosition
-            val stone = getPosition(turn, inputPosition)
+            position = inputView.readPosition(turn)
+            val stone = getPosition(turn, position)
             board.put(stone)
             if (board.isOmok(stone)) break
             turn.next()
@@ -36,7 +35,7 @@ class OmokGame(
 
     private fun getPosition(
         turn: Turn,
-        inputPosition: String,
+        inputPosition: Position,
     ): Stone {
         return turn.stone(inputPosition)
     }
