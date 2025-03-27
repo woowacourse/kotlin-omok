@@ -2,6 +2,7 @@ package woowacourse.omok.ui
 
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.Toast
@@ -55,12 +56,9 @@ class MainActivity : AppCompatActivity(), GameEventListener {
             .forEachIndexed { rowIndex, row ->
                 setRowListener(row, rowIndex, game)
             }
-    }
 
-    override fun onClickPoint(
-        point: Point,
-        game: OmokGame,
-    ) = game.play(point)
+        restoreSavedStones()
+    }
 
     override fun onPlacedStone(stoneColor: StoneColor) {
         val stoneDrawable =
@@ -73,7 +71,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     override fun onFinishedGame(color: StoneColor) {
-        val stoneUiText = getStoneUiText(color)
+        val stoneUiText = resolveStoneColorText(color)
         val uiText = getString(R.string.text_winner, stoneUiText)
         ConfirmDialog(
             winnerMessage = uiText,
@@ -85,17 +83,18 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     override fun onFailToAddStone(e: Exceptions) {
-        val errorUiText = getErrorMessageUiText(e)
+        val errorUiText = resolveErrorMessage(e)
         Toast.makeText(this, errorUiText, Toast.LENGTH_SHORT).show()
     }
 
-    private fun getErrorMessageUiText(e: Exceptions): String {
-        override fun onPause() {
-            super.onPause()
-            game.getMovedStone().forEach {
-                omokRepository.saveNewPoint(it)
-            }
+    override fun onPause() {
+        super.onPause()
+        game.getMovedStone().forEach {
+            omokRepository.saveNewPoint(it)
         }
+    }
+
+    private fun resolveErrorMessage(e: Exceptions): String {
         val errorTextResource =
             when (e) {
                 is OmokExceptions.OccupiedExceptions -> R.string.text_occupied
@@ -135,5 +134,47 @@ class MainActivity : AppCompatActivity(), GameEventListener {
                     game.play(Point(x = newTag.x, y = newTag.y, BoardStatus.Empty))
                 }
             }
+    }
+
+    private fun restoreSavedStones() {
+        val points = omokRepository.readAllPoint()
+        if (points.isNotEmpty()) {
+            drawSavedStone(points)
+            game.combine(points)
+        }
+    }
+
+    private fun drawSavedStone(points: List<Point>) {
+        val root = findViewById<LinearLayout>(R.id.board)
+        points.forEach { drawStone(it, root) }
+    }
+
+    private fun drawStone(
+        point: Point,
+        root: LinearLayout,
+    ) {
+        val view = findStoneImageView(point, root) ?: return
+        if (point.status is BoardStatus.Moved) {
+            setStoneImage(view, point.status.color)
+        }
+    }
+
+    private fun findStoneImageView(
+        point: Point,
+        root: LinearLayout,
+    ): ImageView? {
+        return root.findViewWithTag(Coordination(point.x, point.y))
+    }
+
+    private fun setStoneImage(
+        view: ImageView,
+        color: StoneColor,
+    ) {
+        val stoneImgResource =
+            when (color) {
+                StoneColor.WHITE -> R.drawable.white_stone
+                StoneColor.BLACK -> R.drawable.black_stone
+            }
+        view.setImageResource(stoneImgResource)
     }
 }

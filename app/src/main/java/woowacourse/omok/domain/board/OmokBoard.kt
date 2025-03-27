@@ -17,6 +17,8 @@ class OmokBoard(
 
     fun pointValidation(point: Point) = omokPoints.pointValidation(point)
 
+    fun combine(points: List<Point>) = omokPoints.combine(points)
+
     fun addStone(point: Point) {
         omokPoints.moveStone(point)
         updateBlockedPlace()
