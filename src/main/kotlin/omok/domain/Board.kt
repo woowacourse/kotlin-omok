@@ -2,9 +2,10 @@ package omok.domain
 
 class Board(
     private val stones: Map<Position, StoneType> = emptyMap(),
-    private val rule: Rule,
+    private val rule: Rule = RenjuRule(),
     private val size: Int = DEFAULT_SIZE,
 ) {
+    val grid: Array<Array<StoneType>> = emptyArray()
     val lastMove: Position?
         get() = stones.keys.lastOrNull()
 
@@ -21,9 +22,17 @@ class Board(
         return Board(stones + (position to color), rule, size)
     }
 
-    private fun isPositionValid(position: Position) = position.row in 0 until size && position.column in 0 until size
+    private fun isPositionValid(position: Position) = position.x in 0 until size && position.y in 0 until size
 
     private fun isEmpty(position: Position) = !stones.containsKey(position)
+
+    fun isOmok(stone: Stone): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    fun put(stone: Stone) {
+        TODO("Not yet implemented")
+    }
 
     companion object {
         const val DEFAULT_SIZE = 15
