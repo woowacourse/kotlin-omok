@@ -10,26 +10,38 @@ import rule.lib.type.Violation.Companion.OVERLINE_SIZE
 import rule.lib.type.WhiteBlocked
 import rule.lib.wrapper.direction.Direction
 
-class BlackRenjuRule : OmokRule() {
+class RenjuRule : OmokRule() {
     override fun checkWin(
-        blackStones: List<Stone>,
-        whiteStones: List<Stone>,
+        targetStone: List<Stone>,
+        otherStones: List<Stone>,
         startPosition: Position,
     ): Boolean {
-        val satisfyWin = checkSerialSameStonesBiDirection(blackStones, startPosition, WIN_STANDARD)
-        val koState = checkAnyFoulCondition(blackStones, whiteStones, startPosition)
+        val satisfyWin = super.checkSerialSameStonesBiDirection(targetStone, startPosition, WIN_STANDARD)
+        val koState = checkAnyFoulCondition(targetStone, otherStones, startPosition)
 
         return satisfyWin && koState != Violation.OVERLINE
     }
 
-    override fun checkDoubleFoul(
+    fun checkAnyFoulCondition(
+        blackStones: List<Stone>,
+        whiteStones: List<Stone>,
+        startPosition: Position,
+    ): Violation =
+        listOf(
+            checkDoubleFoul(blackStones, whiteStones, startPosition, Foul.DOUBLE_THREE),
+            checkDoubleFoul(blackStones, whiteStones, startPosition, Foul.DOUBLE_FOUR),
+            checkOverline(blackStones, startPosition),
+            super.checkDuplicatePosition(blackStones, whiteStones, startPosition),
+        ).lastOrNull { it.state } ?: Violation.NONE
+
+    private fun checkDoubleFoul(
         blackStones: List<Stone>,
         whiteStones: List<Stone>,
         startPosition: Position,
         foul: Foul,
     ): Violation = checkFoulByAllDirections(blackStones, whiteStones, startPosition, foul)
 
-    override fun checkOverline(
+    private fun checkOverline(
         stones: List<Stone>,
         startPosition: Position,
     ): Violation {

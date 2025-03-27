@@ -2,11 +2,33 @@ package rule.lib
 
 import domain.position.Position
 import domain.stone.Stone
-import rule.lib.type.Foul
 import rule.lib.type.Violation
 import rule.lib.wrapper.direction.Direction
 
-abstract class OmokRule {
+open class OmokRule {
+    fun checkDuplicatePosition(
+        blackStones: List<Stone>,
+        whiteStones: List<Stone>,
+        curPosition: Position,
+    ): Violation {
+        if (blackStones.any { stone -> stone.position.isSame(curPosition) } ||
+            whiteStones.any { stone -> stone.position.isSame(curPosition) }
+        ) {
+            return Violation.DUPLICATE_POSITION
+        }
+        return Violation.NONE
+    }
+
+    open fun checkWin(
+        targetStone: List<Stone>,
+        otherStones: List<Stone>,
+        startPosition: Position,
+    ): Boolean {
+        val satisfyWin = checkSerialSameStonesBiDirection(targetStone, startPosition, WIN_STANDARD)
+
+        return satisfyWin
+    }
+
     fun checkSerialSameStonesBiDirection(
         stones: List<Stone>,
         startPosition: Position,
@@ -41,49 +63,6 @@ abstract class OmokRule {
 
         return sameStoneCount
     }
-
-    fun checkAnyFoulCondition(
-        blackStones: List<Stone>,
-        whiteStones: List<Stone>,
-        startPosition: Position,
-    ): Violation =
-        listOf(
-            checkDoubleFoul(blackStones, whiteStones, startPosition, Foul.DOUBLE_THREE),
-            checkDoubleFoul(blackStones, whiteStones, startPosition, Foul.DOUBLE_FOUR),
-            checkOverline(blackStones, startPosition),
-            checkDuplicatePosition(blackStones, whiteStones, startPosition),
-        ).lastOrNull { it.state } ?: Violation.NONE
-
-    fun checkDuplicatePosition(
-        blackStones: List<Stone>,
-        whiteStones: List<Stone>,
-        curPosition: Position,
-    ): Violation {
-        if (blackStones.any { stone -> stone.position.isSame(curPosition) } ||
-            whiteStones.any { stone -> stone.position.isSame(curPosition) }
-        ) {
-            return Violation.DUPLICATE_POSITION
-        }
-        return Violation.NONE
-    }
-
-    abstract fun checkWin(
-        blackStones: List<Stone>,
-        whiteStones: List<Stone>,
-        startPosition: Position,
-    ): Boolean
-
-    abstract fun checkDoubleFoul(
-        blackStones: List<Stone>,
-        whiteStones: List<Stone>,
-        startPosition: Position,
-        foul: Foul,
-    ): Violation
-
-    abstract fun checkOverline(
-        stones: List<Stone>,
-        startPosition: Position,
-    ): Violation
 
     operator fun List<Stone>.contains(position: Position): Boolean = this.any { stone -> stone.position.isSame(position) }
 

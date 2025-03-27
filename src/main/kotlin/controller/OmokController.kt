@@ -6,6 +6,8 @@ import domain.position.Position
 import domain.stone.Stone
 import domain.stone.StoneColor
 import rule.adapter.RuleAdapter
+import rule.lib.OmokRule
+import rule.lib.RenjuRule
 import view.InputView
 import view.ResultView
 
@@ -27,11 +29,11 @@ class OmokController(
             listOf(
                 Player(
                     stoneColor = StoneColor.BLACK,
-                    rules = listOf(RuleAdapter()),
+                    rules = listOf(RuleAdapter(RenjuRule())),
                 ),
                 Player(
                     stoneColor = StoneColor.WHITE,
-                    rules = listOf(RuleAdapter()),
+                    rules = listOf(RuleAdapter(OmokRule())),
                 ),
             ),
         )

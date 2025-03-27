@@ -6,17 +6,15 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import rule.lib.BlackRenjuRule
-import rule.lib.OmokRule
-import rule.lib.type.Foul
+import rule.lib.RenjuRule
 import rule.lib.type.Violation
 
-class BlackRenjuRuleTest {
-    private lateinit var renjuRule: OmokRule
+class RenjuRuleTest {
+    private lateinit var renjuRule: RenjuRule
 
     @BeforeEach
     fun setUp() {
-        renjuRule = BlackRenjuRule()
+        renjuRule = RenjuRule()
     }
 
     @Test
@@ -45,10 +43,10 @@ class BlackRenjuRuleTest {
                 STONE_9J_BLACK,
             )
         val whiteStones = listOf(STONE_9I_WHITE)
-        val newStone = Position(Row.from(3), Col.from('E'))
+        val newStonePosition = Position(Row.from(3), Col.from('E'))
 
         // when
-        val expected = renjuRule.checkDoubleFoul(blackStones, whiteStones, newStone, Foul.DOUBLE_THREE)
+        val expected = renjuRule.checkAnyFoulCondition(blackStones, whiteStones, newStonePosition)
 
         // then
         assertThat(expected).isEqualTo(Violation.DOUBLE_THREE)
@@ -94,7 +92,7 @@ class BlackRenjuRuleTest {
         val newStonePosition = Position(Row.from(newStoneRow), Col.from(newStoneCol))
 
         // when
-        val expected = renjuRule.checkDoubleFoul(blackStones, whiteStones, newStonePosition, Foul.DOUBLE_FOUR)
+        val expected = renjuRule.checkAnyFoulCondition(blackStones, whiteStones, newStonePosition)
 
         assertThat(expected).isEqualTo(Violation.DOUBLE_FOUR)
     }
@@ -113,7 +111,7 @@ class BlackRenjuRuleTest {
         val newStone = STONE_8H_BLACK
 
         // when
-        val expected = renjuRule.checkOverline(blackStones, newStone.position)
+        val expected = renjuRule.checkAnyFoulCondition(blackStones, emptyList(), newStone.position)
 
         // then
         assertThat(expected).isEqualTo(Violation.OVERLINE)

@@ -17,15 +17,15 @@ class Player(
     ): Violation {
         val violatedRule =
             rules.firstOrNull { rule ->
-                rule.violation(stoneColor, playerStones, otherStones, placedStone) != Violation.NONE
+                rule.violation(playerStones, otherStones, placedStone) != Violation.NONE
             } ?: return Violation.NONE
 
-        return violatedRule.violation(stoneColor, playerStones, otherStones, placedStone)
+        return violatedRule.violation(playerStones, otherStones, placedStone)
     }
 
     fun isWin(
         playerStones: Stones,
         otherStones: Stones,
         placedStone: Stone,
-    ): Boolean = rules.any { rule -> rule.isWinByStoneColor(stoneColor, playerStones, otherStones, placedStone) }
+    ): Boolean = rules.any { rule -> rule.isWin(playerStones, otherStones, placedStone) }
 }
