@@ -1,5 +1,6 @@
 package woowacourse.omok.model.board
 
+import android.os.Build
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor
 import woowacourse.omok.model.stone.position.Position
@@ -14,7 +15,13 @@ class Board(
         get() = LinkedHashMap(_stonesMap)
 
     val lastStone: Stone?
-        get() = _stonesMap.lastEntry()?.let { Stone(it.key, it.value) }
+        get() {
+            return if (Build.VERSION.SDK_INT >= ANDROID_15_SDK_INT) {
+                _stonesMap.lastEntry()?.let { Stone(it.key, it.value) }
+            } else {
+                _stonesMap.entries.lastOrNull()?.let { Stone(it.key, it.value) }
+            }
+        }
 
     val nextStoneColor: StoneColor
         get() {
@@ -43,5 +50,7 @@ class Board(
 
     companion object {
         private const val MINIMUM_BOARD_INDEX = 0
+
+        private const val ANDROID_15_SDK_INT = 35
     }
 }
