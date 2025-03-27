@@ -1,7 +1,7 @@
-package omok.domain.model.rule
+package woowacourse.omok.domain.model.rule
 
-import omok.domain.model.Board
-import omok.domain.model.stone.OmokStone
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.stone.OmokStone
 
 interface OmokRule {
     fun checkWin(

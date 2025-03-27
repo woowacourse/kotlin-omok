@@ -1,4 +1,4 @@
-package omok.domain.model.state
+package woowacourse.omok.domain.model.state
 
 sealed interface OmokEvent {
     data object WIN : OmokEvent

@@ -1,13 +1,13 @@
-package omok.domain
+package woowacourse.omok.domain
 
-import omok.domain.model.Board
-import omok.domain.model.position.Position
-import omok.domain.model.rule.OmokRule
-import omok.domain.model.state.Finish
-import omok.domain.model.state.OmokEvent
-import omok.domain.model.state.OmokStateMachine
-import omok.domain.model.stone.OmokStone
-import omok.domain.model.stone.StoneType
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.position.Position
+import woowacourse.omok.domain.model.rule.OmokRule
+import woowacourse.omok.domain.model.state.Finish
+import woowacourse.omok.domain.model.state.OmokEvent
+import woowacourse.omok.domain.model.state.OmokStateMachine
+import woowacourse.omok.domain.model.stone.OmokStone
+import woowacourse.omok.domain.model.stone.StoneType
 
 class Game(
     val board: Board = Board(),

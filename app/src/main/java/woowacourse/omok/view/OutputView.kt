@@ -1,9 +1,9 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.domain.model.Board
-import omok.domain.model.position.Position
-import omok.domain.model.stone.OmokStone
-import omok.domain.model.stone.StoneType
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.position.Position
+import woowacourse.omok.domain.model.stone.OmokStone
+import woowacourse.omok.domain.model.stone.StoneType
 
 class OutputView {
     fun printStart() {

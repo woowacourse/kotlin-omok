@@ -1,11 +1,11 @@
-package omok.domain.model.rule
+package woowacourse.omok.domain.model.rule
 
-import omok.domain.model.Board
-import omok.domain.model.stone.OmokStone
-import omok.domain.model.stone.StoneType
 import rule.BlackRenjuRule
 import rule.WhiteRenjuRule
 import rule.wrapper.point.Point
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.stone.OmokStone
+import woowacourse.omok.domain.model.stone.StoneType
 
 class OmokRuleAdapter : OmokRule {
     override fun checkWin(

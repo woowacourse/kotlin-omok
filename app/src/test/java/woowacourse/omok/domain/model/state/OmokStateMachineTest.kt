@@ -3,8 +3,13 @@ package omok.domain.model.state
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
-import omok.domain.model.stone.StoneType
 import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.model.state.BlackStoneTurn
+import woowacourse.omok.domain.model.state.Finish
+import woowacourse.omok.domain.model.state.OmokEvent
+import woowacourse.omok.domain.model.state.OmokStateMachine
+import woowacourse.omok.domain.model.state.WhiteStoneTurn
+import woowacourse.omok.domain.model.stone.StoneType
 
 class OmokStateMachineTest {
     @Test

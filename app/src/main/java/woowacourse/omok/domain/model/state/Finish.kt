@@ -1,6 +1,6 @@
-package omok.domain.model.state
+package woowacourse.omok.domain.model.state
 
-import omok.domain.model.stone.StoneType
+import woowacourse.omok.domain.model.stone.StoneType
 
 data class Finish(val winner: StoneType) : OmokState {
     override val stoneType: StoneType = winner

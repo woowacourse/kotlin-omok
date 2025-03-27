@@ -1,4 +1,4 @@
-package omok.domain.model.position
+package woowacourse.omok.domain.model.position
 
 data class Position(val column: Column, val row: Row) {
     companion object {

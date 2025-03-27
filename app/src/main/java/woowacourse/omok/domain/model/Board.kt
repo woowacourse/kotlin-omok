@@ -1,7 +1,7 @@
-package omok.domain.model
+package woowacourse.omok.domain.model
 
-import omok.domain.model.stone.OmokStone
-import omok.domain.model.stone.StoneType
+import woowacourse.omok.domain.model.stone.OmokStone
+import woowacourse.omok.domain.model.stone.StoneType
 
 class Board(
     val size: Int = DEFAULT_BOARD_SIZE,

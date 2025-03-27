@@ -2,6 +2,7 @@ package omok.domain.model.position
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.model.position.Row
 
 class RowTest {
     @Test

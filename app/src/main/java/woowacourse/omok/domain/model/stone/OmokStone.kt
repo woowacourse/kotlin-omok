@@ -1,6 +1,6 @@
-package omok.domain.model.stone
+package woowacourse.omok.domain.model.stone
 
-import omok.domain.model.position.Position
+import woowacourse.omok.domain.model.position.Position
 
 data class OmokStone(
     val position: Position,

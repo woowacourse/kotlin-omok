@@ -1,4 +1,4 @@
-package omok.domain.model.stone
+package woowacourse.omok.domain.model.stone
 
 enum class StoneType {
     BLACK,

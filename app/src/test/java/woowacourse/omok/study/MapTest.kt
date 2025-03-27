@@ -2,9 +2,9 @@ package omok.study
 
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
-import omok.domain.model.position.Position
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.model.position.Position
 
 class MapTest {
     @Test

@@ -1,14 +1,14 @@
-package omok.controller
+package woowacourse.omok.controller
 
-import omok.domain.Game
-import omok.domain.model.Board
-import omok.domain.model.Board.Companion.DEFAULT_BOARD_SIZE
-import omok.domain.model.position.Position
-import omok.domain.model.rule.OmokRuleAdapter
-import omok.domain.model.stone.OmokStone
-import omok.domain.model.stone.StoneType
-import omok.view.InputView
-import omok.view.OutputView
+import woowacourse.omok.domain.Game
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.Board.Companion.DEFAULT_BOARD_SIZE
+import woowacourse.omok.domain.model.position.Position
+import woowacourse.omok.domain.model.rule.OmokRuleAdapter
+import woowacourse.omok.domain.model.stone.OmokStone
+import woowacourse.omok.domain.model.stone.StoneType
+import woowacourse.omok.view.InputView
+import woowacourse.omok.view.OutputView
 
 class OmokController(
     private val inputView: InputView = InputView(),

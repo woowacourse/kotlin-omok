@@ -1,4 +1,4 @@
-package omok.view
+package woowacourse.omok.view
 
 class InputView {
     fun getPosition(): Pair<Int, Int> {
