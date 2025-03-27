@@ -32,13 +32,13 @@ class ExternalRule : PlaceRule {
 
         val blackPoints =
             omokBoard.value
-                .filter { it.value.state == IntersectionState.OCCUPIED_BLACK }
+                .filter { it.value == IntersectionState.OCCUPIED_BLACK }
                 .keys
                 .map { it.toExternalPoint() }
 
         val whitePoints =
             omokBoard.value
-                .filter { it.value.state == IntersectionState.OCCUPIED_WHITE }
+                .filter { it.value == IntersectionState.OCCUPIED_WHITE }
                 .keys
                 .map { it.toExternalPoint() }
 

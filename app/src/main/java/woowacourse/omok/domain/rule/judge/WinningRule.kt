@@ -1,10 +1,8 @@
 package woowacourse.omok.domain.rule.judge
 
-import woowacourse.omok.domain.omokboard.IntersectionState
 import woowacourse.omok.domain.omokboard.OmokBoard
 import woowacourse.omok.domain.omokboard.Position
 import woowacourse.omok.domain.player.PlayerStone
-import woowacourse.omok.domain.player.StoneColor
 import woowacourse.omok.domain.player.StoneColor.BLACK
 import woowacourse.omok.domain.player.StoneColor.WHITE
 
@@ -61,17 +59,11 @@ class WinningRule : JudgeRule {
 
                 val point = omokBoard.find(currentPosition) ?: break
 
-                if (point.state == stoneColor) count++ else break
+                if (point == stoneColor) count++ else break
             }
             return count
         }
 
         return 1 + count(dx, dy) + count(-dx, -dy)
     }
-
-    private fun StoneColor.toIntersectionState(): IntersectionState =
-        when (this) {
-            BLACK -> IntersectionState.OCCUPIED_BLACK
-            WHITE -> IntersectionState.OCCUPIED_WHITE
-        }
 }

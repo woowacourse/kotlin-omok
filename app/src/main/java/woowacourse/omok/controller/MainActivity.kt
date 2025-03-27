@@ -13,7 +13,6 @@ import com.google.android.material.snackbar.Snackbar
 import woowacourse.omok.R.drawable
 import woowacourse.omok.R.string
 import woowacourse.omok.databinding.ActivityMainBinding
-import woowacourse.omok.domain.omokboard.OmokBoard
 import woowacourse.omok.domain.omokboard.PlayingBoard
 import woowacourse.omok.domain.omokboard.Position
 import woowacourse.omok.domain.player.PlayerStone
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupView()
 
-        val playingBoard = PlayingBoard(OmokBoard.create())
+        val playingBoard = PlayingBoard()
 
         val placeRules = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())
         val judgeRules = listOf(WinningRule(), DrawRule())

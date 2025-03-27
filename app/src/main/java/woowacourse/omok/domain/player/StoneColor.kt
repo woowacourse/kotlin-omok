@@ -1,5 +1,7 @@
 package woowacourse.omok.domain.player
 
+import woowacourse.omok.domain.omokboard.IntersectionState
+
 enum class StoneColor {
     BLACK,
     WHITE,
@@ -9,5 +11,11 @@ enum class StoneColor {
         when (this) {
             BLACK -> WHITE
             WHITE -> BLACK
+        }
+
+    fun toIntersectionState(): IntersectionState =
+        when (this) {
+            BLACK -> IntersectionState.OCCUPIED_BLACK
+            WHITE -> IntersectionState.OCCUPIED_WHITE
         }
 }

@@ -10,7 +10,7 @@ class DrawRule : JudgeRule {
         omokBoard: OmokBoard,
         playerStone: PlayerStone,
     ): OmokResult =
-        if (omokBoard.value.values.count { it.state == IntersectionState.EMPTY } == 1) {
+        if (omokBoard.value.values.count { it == IntersectionState.EMPTY } == 1) {
             JudgeResult.Finished.Draw
         } else {
             JudgeResult.NotFinished

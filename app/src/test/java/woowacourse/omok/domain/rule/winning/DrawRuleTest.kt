@@ -27,7 +27,7 @@ class DrawRuleTest {
                 if (row == 5 && column == 5) break
 
                 val stoneColor = if ((row + column) % 2 == 0) StoneColor.BLACK else StoneColor.WHITE
-                playingBoard.board.find(Position(row, column))?.updateState(stoneColor)
+                playingBoard.board.update(PlayerStone(stoneColor, Position(row, column)))
             }
         }
 
