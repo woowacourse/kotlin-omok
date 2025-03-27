@@ -6,7 +6,7 @@ import woowacourse.omok.domain.player.StoneColor
 data class OmokBoard(
     private val _value: Map<Position, OmokBoardPointState>,
 ) {
-    constructor(vararg stonePlace: Pair<String, String>) : this(stonePlace.associate { Position(it.first) to it.second.toPointState() })
+    constructor(vararg stonePlace: Pair<Position, String>) : this(stonePlace.associate { it.first to it.second.toPointState() })
 
     val width get() = _value.keys.maxOf { it.column.value }
     val height get() = _value.keys.maxOf { it.row.value }

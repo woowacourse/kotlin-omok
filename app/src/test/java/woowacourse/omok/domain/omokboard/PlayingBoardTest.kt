@@ -13,7 +13,7 @@ class PlayingBoardTest {
         val playingBoard = PlayingBoard(rules = OmokRule.rules)
 
         // when
-        playingBoard.placeStone(PlayerStone(StoneColor.BLACK, Position(1, 'A')))
+        playingBoard.placeStone(PlayerStone(StoneColor.BLACK, Position(1 to 1)))
 
         val actual = playingBoard.board.value.values.first()
         val expected = OmokBoardPointState.OCCUPIED(StoneColor.BLACK)

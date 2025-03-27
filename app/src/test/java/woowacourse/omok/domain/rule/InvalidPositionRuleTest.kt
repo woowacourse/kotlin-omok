@@ -14,7 +14,7 @@ class InvalidPositionRuleTest {
         // given
         val playingBoard: PlayingBoard = PlayingBoard(rules = OmokRule.rules)
         val playerStone1: PlayerStone =
-            PlayerStone(StoneColor.BLACK, Position(0, 'X'))
+            PlayerStone(StoneColor.BLACK, Position(0 to 20))
 
         // when
         val actual = InvalidPositionRule().place(playingBoard.board, playerStone1)
@@ -28,7 +28,7 @@ class InvalidPositionRuleTest {
     fun `돌이 이미 있는 위치에 돌을 두면 실패한다`() {
         // given
         val playingBoard: PlayingBoard = PlayingBoard(rules = OmokRule.rules)
-        val playerStone1: PlayerStone = PlayerStone(StoneColor.BLACK, Position(1, 'A'))
+        val playerStone1: PlayerStone = PlayerStone(StoneColor.BLACK, Position(1 to 1))
 
         // when
         playingBoard.placeStone(playerStone1)

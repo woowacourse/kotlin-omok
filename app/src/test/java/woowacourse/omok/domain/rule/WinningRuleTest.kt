@@ -12,14 +12,14 @@ class WinningRuleTest {
     @Test
     fun `검정색의 돌이 가로로 5개 있으면 검정색이 우승한다`() {
         // given
-        val playerStone: PlayerStone = PlayerStone(StoneColor.BLACK, Position(1, 'E'))
+        val playerStone: PlayerStone = PlayerStone(StoneColor.BLACK, Position(1 to 5))
         // when
         val omokBoardBlackWinByHorizontal =
             OmokBoard(
-                "A1" to "Black",
-                "B1" to "Black",
-                "C1" to "Black",
-                "D1" to "Black",
+                Position(1 to 1) to "Black",
+                Position(1 to 2) to "Black",
+                Position(1 to 3) to "Black",
+                Position(1 to 4) to "Black",
             )
 
         /*
@@ -51,15 +51,15 @@ class WinningRuleTest {
     @Test
     fun `검은돌이 세로로 5개 있으면 검정색이 우승한다`() {
         // given
-        val playerStone: PlayerStone = PlayerStone(StoneColor.BLACK, Position(5, 'A'))
+        val playerStone: PlayerStone = PlayerStone(StoneColor.BLACK, Position(5 to 1))
 
         // when
         val omokBoardBlackWinByVertical =
             OmokBoard(
-                "A1" to "Black",
-                "A2" to "Black",
-                "A3" to "Black",
-                "A4" to "Black",
+                Position(1 to 1) to "Black",
+                Position(2 to 1) to "Black",
+                Position(3 to 1) to "Black",
+                Position(4 to 1) to "Black",
             )
 
         val actual = WinningRule().place(omokBoardBlackWinByVertical, playerStone)
@@ -90,15 +90,15 @@ class WinningRuleTest {
     @Test
     fun `검은돌이 대각선으로 5개 있으면 검정색이 우승한다`() {
         // given
-        val playerStone: PlayerStone = PlayerStone(StoneColor.BLACK, Position(5, 'E'))
+        val playerStone: PlayerStone = PlayerStone(StoneColor.BLACK, Position(5 to 5))
 
         // when
         val omokBoardBlackWinByDiagonal =
             OmokBoard(
-                "A1" to "Black",
-                "B2" to "Black",
-                "C3" to "Black",
-                "D4" to "Black",
+                Position(1 to 1) to "Black",
+                Position(2 to 2) to "Black",
+                Position(3 to 3) to "Black",
+                Position(4 to 4) to "Black",
             )
 
         val actual = WinningRule().place(omokBoardBlackWinByDiagonal, playerStone)
@@ -130,15 +130,15 @@ class WinningRuleTest {
     @Test
     fun `나란히 있는 검은돌 4개 사이에 한 칸을 띄우고, 빈 공간에 돌을 두면 검정색이 우승한다`() {
         // given
-        val playerStone: PlayerStone = PlayerStone(StoneColor.BLACK, Position(1, 'C'))
+        val playerStone: PlayerStone = PlayerStone(StoneColor.BLACK, Position(1 to 3))
 
         // when
         val omokBoardBlackWinByBetween =
             OmokBoard(
-                "A1" to "Black",
-                "B1" to "Black",
-                "D1" to "Black",
-                "E1" to "Black",
+                Position(1 to 1) to "Black",
+                Position(1 to 2) to "Black",
+                Position(1 to 4) to "Black",
+                Position(1 to 5) to "Black",
             )
 
         val actual = WinningRule().place(omokBoardBlackWinByBetween, playerStone)
@@ -170,14 +170,14 @@ class WinningRuleTest {
     @Test
     fun `흰돌이 가로로 5개 있으면 흰색이 우승한다`() {
         // given
-        val playerStone: PlayerStone = PlayerStone(StoneColor.WHITE, Position(1, 'E'))
+        val playerStone: PlayerStone = PlayerStone(StoneColor.WHITE, Position(1 to 5))
         // when
         val omokBoardWhiteWinByHorizontal =
             OmokBoard(
-                "A1" to "White",
-                "B1" to "White",
-                "C1" to "White",
-                "D1" to "White",
+                Position(1 to 1) to "White",
+                Position(1 to 2) to "White",
+                Position(1 to 3) to "White",
+                Position(1 to 4) to "White",
             )
 
         val actual = WinningRule().place(omokBoardWhiteWinByHorizontal, playerStone)
