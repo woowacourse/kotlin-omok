@@ -13,6 +13,8 @@ class OmokBoard(
 
     fun isNotFull() = omokPoints.toList().any { it.status is BoardStatus.Empty }
 
+    fun getMovedPoints() = omokPoints.movedPoints
+
     fun pointValidation(point: Point) = omokPoints.pointValidation(point)
 
     fun addStone(point: Point) {

@@ -15,6 +15,8 @@ class OmokPoints {
             }
         }
 
+    val movedPoints get() = points.filterNot { it.status == BoardStatus.Empty }
+
     fun pointValidation(point: Point) {
         blocked(point)
         occupied(point)

@@ -30,6 +30,8 @@ class OmokGame(
         }
     }
 
+    fun getMovedStone() = omokBoard.getMovedPoints()
+
     private fun checkOmok(point: Point) {
         if (omokBoard.isOmok(point)) {
             event.onFinishedGame(stone)
