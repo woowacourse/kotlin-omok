@@ -1,4 +1,4 @@
-package woowacourse.omok
+package woowacourse.ui
 
 import android.os.Bundle
 import android.widget.ImageView
@@ -9,6 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import rule.BlackRenjuRule
+import woowacourse.omok.R
+import woowacourse.omok.adapter.RenjuRuleAdapter
+import woowacourse.omok.domain.Game
+import woowacourse.omok.domain.model.rule.OmokRule
+import woowacourse.omok.domain.model.state.Turn
+import woowacourse.omok.domain.model.stone.StoneType
+import woowacourse.omok.domain.model.stone.Stones
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,13 +28,22 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
 
-        val board = findViewById<TableLayout>(R.id.board)
-        board
+    fun init() {
+        val boardView = findViewById<TableLayout>(R.id.board)
+        val renjuRule = RenjuRuleAdapter(BlackRenjuRule())
+        val omokGame = Game(OmokRule(renjuRule), Stones(listOf()), Turn(StoneType.BLACK))
+        boardView
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone) } }
+            .forEach { view ->
+                view.setOnClickListener {
+                    view.tag
+                    view.setImageResource(R.drawable.black_stone)
+                }
+            }
     }
 }
