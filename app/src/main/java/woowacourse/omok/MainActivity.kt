@@ -10,6 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import woowacourse.omok.controller.OmokAppControl
+import woowacourse.omok.model.board.BoardSize
+import woowacourse.omok.view.OutputAppView
+import kotlin.concurrent.thread
 import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
@@ -23,7 +27,12 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        val boardSize = BoardSize(BOARD_SIZE)
+        val outputAppView = OutputAppView(this)
+        val omokAppControl = OmokAppControl(this, boardSize, outputAppView)
+
         val board = findViewById<TableLayout>(R.id.board)
+
         board
             .children
             .filterIsInstance<TableRow>()
@@ -35,6 +44,10 @@ class MainActivity : AppCompatActivity() {
                 positionView.tag = Pair(rowIndex, colIndex)
                 positionView.setOnClickListener {
                     Log.d("PositionView", "클릭 좌표 : ${positionView.tag}")
+                    thread {
+                        val coordinate = positionView.tag as Pair<Int, Int>
+                        omokAppControl.turn(positionView, coordinate)
+                    }
                 }
             }
     }
