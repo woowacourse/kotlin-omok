@@ -4,20 +4,21 @@ import omok.model.entity.Stone
 import omok.model.entity.board.Board
 import omok.model.entity.position.Position
 
-interface GameState {
+data class GameState(
+    val board: Board,
+    val playing: Boolean = true,
+    private val turn: Turn = BlackTurn(),
+) {
+    val stone: Stone = turn.stone
+
+    fun play(position: Position): GameState = turn.nextGameState(this, position)
+}
+
+interface Turn {
     val stone: Stone
 
-    interface Playing : GameState {
-        fun play(
-            board: Board,
-            position: Position,
-        ): GameState
-    }
-
-    enum class Finish(
-        override val stone: Stone,
-    ) : GameState {
-        BLACK_WIN(Stone.BLACK),
-        WHITE_WIN(Stone.WHITE),
-    }
+    fun nextGameState(
+        gameState: GameState,
+        position: Position,
+    ): GameState
 }

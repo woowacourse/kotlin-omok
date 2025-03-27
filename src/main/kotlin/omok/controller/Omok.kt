@@ -1,6 +1,5 @@
 package omok.controller
 
-import omok.model.domain.gameState.BlackTurn
 import omok.model.domain.gameState.GameState
 import omok.model.entity.board.Board
 import omok.model.entity.board.DefaultBoard
@@ -12,18 +11,17 @@ class Omok(
 ) {
     fun play() {
         val board = board()
-        var currentTurn: GameState = BlackTurn()
+        var gameState = GameState(board)
         var lastPosition: Position? = null
-        var position: Position = position(currentTurn, board)
-        while (currentTurn is GameState.Playing) {
-            val lastTurn: GameState.Playing = currentTurn
-            currentTurn = currentTurn.play(board, position)
-            lastPosition = lastPosition(currentTurn, lastTurn, lastPosition, position)
+        var position: Position = position(gameState)
+        while (gameState.playing) {
+            val lastGameState: GameState = gameState
+            gameState = gameState.play(position)
+            lastPosition = lastPosition(gameState, lastGameState, lastPosition, position)
             omokView.show(board)
-            if (currentTurn is GameState.Finish) break
-            position = position(currentTurn, board, lastPosition, lastTurn)
+            if (gameState.playing) position = position(gameState, lastPosition, lastGameState)
         }
-        omokView.show(currentTurn.stone)
+        omokView.show(gameState.stone)
     }
 
     private fun board(): Board {
@@ -33,24 +31,23 @@ class Omok(
     }
 
     private fun position(
-        currentTurn: GameState,
-        board: Board,
+        gameState: GameState,
         lastPosition: Position? = null,
-        lastTurn: GameState.Playing? = null,
+        lastGameState: GameState? = null,
     ): Position =
         omokView.position(
-            stone = currentTurn.stone,
-            boundary = board.sideLength.value,
+            stone = gameState.stone,
+            boundary = gameState.board.sideLength.value,
             lastPosition = lastPosition,
-            forbiddenPosition = if (currentTurn.forbidden(lastTurn)) lastPosition else null,
+            forbiddenPosition = if (gameState.forbidden(lastGameState)) lastPosition else null,
         )
 
     private fun lastPosition(
-        currentTurn: GameState,
-        lastTurn: GameState.Playing,
+        gameState: GameState,
+        lastGameState: GameState,
         lastPosition: Position?,
         position: Position,
-    ): Position? = if (currentTurn.forbidden(lastTurn)) lastPosition else position
+    ): Position? = if (gameState.forbidden(lastGameState)) lastPosition else position
 
-    private fun GameState.forbidden(lastTurn: GameState.Playing?): Boolean = this == lastTurn
+    private fun GameState.forbidden(lastTurn: GameState?): Boolean = this == lastTurn
 }
