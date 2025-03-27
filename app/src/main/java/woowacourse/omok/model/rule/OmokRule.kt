@@ -1,6 +1,13 @@
 package woowacourse.omok.model.rule
 
 import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.board.OmokBoardConfig.BLACK_STONE
+import woowacourse.omok.model.board.OmokBoardConfig.EMPTY_STONE
+import woowacourse.omok.model.board.OmokBoardConfig.MAX_X
+import woowacourse.omok.model.board.OmokBoardConfig.MAX_Y
+import woowacourse.omok.model.board.OmokBoardConfig.MIN_X
+import woowacourse.omok.model.board.OmokBoardConfig.MIN_Y
+import woowacourse.omok.model.board.OmokBoardConfig.WHITE_STONE
 import woowacourse.omok.model.board.Position
 
 abstract class OmokRule(
@@ -72,23 +79,25 @@ abstract class OmokRule(
             else -> false
         }
 
-    companion object {
-        protected const val EMPTY_STONE = 0
-        private const val Y_MAX_RANGE = 15
-        private const val Y_MIN_RANGE = 1
-        private const val X_MAX_RANGE = 15
-        private const val X_MIN_RANGE = 1
-        private const val MIN_X = 0
-        private const val MAX_X = X_MAX_RANGE - X_MIN_RANGE
-        private const val MIN_Y = 0
-        private const val MAX_Y = Y_MAX_RANGE - Y_MIN_RANGE
-        const val BLACK_STONE = 1
-        const val WHITE_STONE = 2
-
-        @JvmStatic
-        protected val X_Edge = listOf(MIN_X, MAX_X)
-
-        @JvmStatic
-        protected val Y_Edge = listOf(MIN_Y, MAX_Y)
-    }
+    //    companion object {
+//        protected const val EMPTY_STONE = 0
+//
+//        //        private const val Y_MAX_RANGE = 15
+//        private const val Y_MIN_RANGE = 1
+//
+//        //        private const val X_MAX_RANGE = 15
+//        private const val X_MIN_RANGE = 1
+//    private const val MIN_X = 0
+//    private const val MAX_X = X_MAX_RANGE - X_MIN_RANGE
+//    private const val MIN_Y = 0
+//    private const val MAX_Y = Y_MAX_RANGE - Y_MIN_RANGE
+//        const val BLACK_STONE = 1
+//        const val WHITE_STONE = 2
+//
+//        @JvmStatic
+//        protected val X_Edge = listOf(MIN_X, MAX_X)
+//
+//        @JvmStatic
+//        protected val Y_Edge = listOf(MIN_Y, MAX_Y)
+//    }
 }

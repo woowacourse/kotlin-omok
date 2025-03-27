@@ -1,5 +1,8 @@
 package woowacourse.omok.model.board
 
+import woowacourse.omok.model.board.OmokBoardConfig.X_MAX_RANGE
+import woowacourse.omok.model.board.OmokBoardConfig.X_MIN_RANGE
+
 data class X(
     val point: Int,
 ) {
@@ -11,8 +14,8 @@ data class X(
 
     operator fun minus(other: Int) = X(X_MIN_RANGE + (this.point - X_MIN_RANGE) - other)
 
-    companion object {
-        private const val X_MIN_RANGE = 1
-        private const val X_MAX_RANGE = 15
-    }
+//    companion object {
+//        private const val X_MIN_RANGE = 1
+//        private const val X_MAX_RANGE = 15
+//    }
 }

@@ -1,6 +1,8 @@
 package woowacourse.omok.model.rule
 
 import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.board.OmokBoardConfig.X_Edge
+import woowacourse.omok.model.board.OmokBoardConfig.Y_Edge
 import woowacourse.omok.model.board.Position
 
 class RenjuRule(

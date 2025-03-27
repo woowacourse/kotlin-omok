@@ -1,6 +1,8 @@
 package woowacourse.omok.model.rule
 
 import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.board.OmokBoardConfig.BLACK_STONE
+import woowacourse.omok.model.board.OmokBoardConfig.WHITE_STONE
 import woowacourse.omok.model.board.Position
 
 class WinRule(

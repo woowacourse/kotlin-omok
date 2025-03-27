@@ -1,5 +1,9 @@
 package woowacourse.omok.model.board
 
+import woowacourse.omok.model.board.OmokBoardConfig.X_MAX_RANGE
+import woowacourse.omok.model.board.OmokBoardConfig.X_MIN_RANGE
+import woowacourse.omok.model.board.OmokBoardConfig.Y_MAX_RANGE
+import woowacourse.omok.model.board.OmokBoardConfig.Y_MIN_RANGE
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor
 
@@ -42,10 +46,10 @@ class OmokBoard(
 
     fun boardState(position: Position): PositionState = board[position] ?: throw IllegalArgumentException("잘못된 좌표입니다.")
 
-    companion object {
-        private const val Y_MAX_RANGE = 15
-        private const val Y_MIN_RANGE = 1
-        private const val X_MAX_RANGE = 15
-        private const val X_MIN_RANGE = 1
-    }
+//    companion object {
+//        private const val Y_MAX_RANGE = 15
+//        private const val Y_MIN_RANGE = 1
+//        private const val X_MAX_RANGE = 15
+//        private const val X_MIN_RANGE = 1
+//    }
 }

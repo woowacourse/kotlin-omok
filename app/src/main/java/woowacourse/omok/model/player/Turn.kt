@@ -1,9 +1,9 @@
 package woowacourse.omok.model.player
 
 import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.board.OmokBoardConfig.BLACK_STONE
+import woowacourse.omok.model.board.OmokBoardConfig.WHITE_STONE
 import woowacourse.omok.model.board.Position
-import woowacourse.omok.model.rule.OmokRule.Companion.BLACK_STONE
-import woowacourse.omok.model.rule.OmokRule.Companion.WHITE_STONE
 import woowacourse.omok.model.rule.RenjuRule
 import woowacourse.omok.model.rule.WinRule
 import woowacourse.omok.model.stone.Stone
