@@ -4,14 +4,35 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import rule.type.Violation
+import woowacourse.omok.domain.omokboard.ColumnPosition
+import woowacourse.omok.domain.omokboard.OmokBoard
+import woowacourse.omok.domain.omokboard.PlayingBoard
+import woowacourse.omok.domain.omokboard.Position
+import woowacourse.omok.domain.omokboard.RowPosition
+import woowacourse.omok.domain.placeresult.GameFinish
+import woowacourse.omok.domain.placeresult.GameOnGoing
+import woowacourse.omok.domain.placeresult.InvalidMove
+import woowacourse.omok.domain.placeresult.PlaceResult
+import woowacourse.omok.domain.player.PlayerStone
+import woowacourse.omok.domain.player.StoneColor
+import woowacourse.omok.domain.rule.GameResult
+import woowacourse.omok.domain.rule.OmokRule
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var board: TableLayout
+    private lateinit var playingBoard: PlayingBoard
+    private lateinit var stoneColor: StoneColor
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
@@ -21,12 +42,87 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val board = findViewById<TableLayout>(R.id.board)
+        board = findViewById(R.id.board)
+
+        playingBoard = PlayingBoard(OmokBoard.create(), OmokRule.rules)
+        stoneColor = StoneColor.BLACK
+        setBoard()
+    }
+
+    private fun setBoard(){
         board
             .children
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone) } }
+            .forEachIndexed{index, imageView ->
+                val row = index / 15
+                val column = index % 15
+                imageView.setOnClickListener {
+                    placeStone(Position(RowPosition(row + 1), ColumnPosition(column + 1)),imageView)
+                }
+            }
+    }
+
+    private fun placeStone(position: Position, imageView: ImageView) {
+        val playerStone = PlayerStone(stoneColor, position)
+        val placeResult = playingBoard.placeStone(playerStone)
+        handlePlaceResult(placeResult, imageView)
+    }
+
+    private fun handlePlaceResult(placeResult: PlaceResult, imageView: ImageView) {
+        when (placeResult) {
+            is GameOnGoing -> updateStone(imageView)
+            is GameFinish -> showToast(displayGameResultMessage(placeResult.gameResult))
+            is InvalidMove.AlreadyExistStone -> showToast(displayMisPlaceMessage(placeResult))
+            is InvalidMove.ExternalRenjuRule -> showToast(displayForbiddenMessage(placeResult.rule))
+        }
+    }
+
+    private fun displayMisPlaceMessage(error: PlaceResult): String {
+        return when (error) {
+            InvalidMove.AlreadyExistStone -> getString(R.string.ALREADY_EXIST_MESSAGE)
+            InvalidMove.InvalidPosition -> getString(R.string.INVALID_POSITION_MESSAGE)
+            else -> ""
+        }
+    }
+
+    private fun displayForbiddenMessage(violation: Violation): String {
+        return when (violation) {
+            Violation.DOUBLE_THREE -> getString(R.string.FORBIDDEN_DOUBLE_THREE)
+            Violation.DOUBLE_FOUR -> getString(R.string.FORBIDDEN_DOUBLE_FOUR)
+            Violation.OVERLINE -> getString(R.string.FORBIDDEN_OVERLINE)
+            else -> ""
+        }
+    }
+
+    private fun displayGameResultMessage(result: GameResult): String {
+        return when (result) {
+            GameResult.DRAW -> getString(R.string.DRAW_RESULT_MESSAGE)
+            else -> getString(R.string.WIN_RESULT_MESSAGE).format(result.toLabel())
+        }
+    }
+
+    private fun GameResult.toLabel(): String =
+        when (this) {
+            GameResult.WIN_BLACK -> getString(R.string.BLACK_COLOR_LABEL)
+            GameResult.WIN_WHITE -> getString(R.string.WHITE_COLOR_LABEL)
+            else -> ""
+        }
+
+    private fun showToast(message: String){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun updateStone(imageView: ImageView){
+        stoneColor.toUi(imageView)
+        stoneColor = stoneColor.reversed()
+    }
+
+    private fun StoneColor.toUi(imageView: ImageView){
+        when(this){
+            StoneColor.BLACK -> imageView.setImageResource(R.drawable.black_stone)
+            StoneColor.WHITE -> imageView.setImageResource(R.drawable.white_stone)
+        }
     }
 }
