@@ -9,7 +9,7 @@ import rule.facade.BlackRenjuRule
 
 class BudoolRenjuRuleAdapter(
     boardSize: BoardSize,
-) : RenjuRule {
+) : OmokRule {
     private val normalOmokRule = NormalOmokRule(boardSize.value)
     private val blackRenjuRule = BlackRenjuRule(boardSize.value, boardSize.value)
 

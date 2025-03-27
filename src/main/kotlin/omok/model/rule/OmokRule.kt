@@ -5,7 +5,7 @@ import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Position
 
-interface RenjuRule {
+interface OmokRule {
     fun checkLastBlackStoneFoul(
         stonesMap: Map<Position, StoneColor>,
         lastStone: Stone,

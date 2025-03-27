@@ -5,14 +5,14 @@ import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 
 class OmokReferee(
-    private val renjuRule: RenjuRule,
+    private val omokRule: OmokRule,
 ) {
-    fun isOmok(board: Board): Boolean = renjuRule.isOmok(board)
+    fun isOmok(board: Board): Boolean = omokRule.isOmok(board)
 
     fun lastStoneFoul(board: Board): RenjuFoul {
         val lastStone: Stone = board.lastStone ?: return RenjuFoul.SAFE
         if (lastStone.stoneColor == StoneColor.BLACK) {
-            return renjuRule.checkLastBlackStoneFoul(board.stonesMap, lastStone)
+            return omokRule.checkLastBlackStoneFoul(board.stonesMap, lastStone)
         }
         return RenjuFoul.SAFE
     }
