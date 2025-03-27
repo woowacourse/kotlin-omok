@@ -156,9 +156,9 @@ class MainActivity : AppCompatActivity() {
                     ?.color
                     ?.reverse()
             ) {
-                StoneColor.BLACK -> "흑의 차례입니다."
-                StoneColor.WHITE -> "백의 차례입니다."
-                null -> "흑의 차례입니다."
+                StoneColor.BLACK -> getString(R.string.message_show_black_turn)
+                StoneColor.WHITE -> getString(R.string.message_show_white_turn)
+                null -> getString(R.string.message_show_black_turn)
             }
         turnTextView.text = text
     }
@@ -223,8 +223,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun GameState.toWinnerMessage(): String =
         when (this) {
-            GameState.WHITE_OMOK -> "백돌의 승리입니다!"
-            GameState.BLACK_OMOK -> "흑돌의 승리입니다!"
+            GameState.WHITE_OMOK -> getString(R.string.message_white_win)
+            GameState.BLACK_OMOK -> getString(R.string.message_black_win)
             GameState.PLAYING -> ""
         }
 }
