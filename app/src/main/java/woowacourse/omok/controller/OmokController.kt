@@ -1,8 +1,9 @@
 package woowacourse.omok.controller
 
-import woowacourse.omok.domain.omokboard.OmokBoard
-import woowacourse.omok.domain.omokboard.OmokGame
 import woowacourse.omok.domain.omokboard.PlayingBoard
+import woowacourse.omok.domain.omokboard.Position
+import woowacourse.omok.domain.player.PlayerStone
+import woowacourse.omok.domain.rule.judge.JudgeResult
 import woowacourse.omok.domain.rule.place.PlaceResult
 import woowacourse.omok.view.InputView
 import woowacourse.omok.view.OutputView
@@ -13,26 +14,30 @@ class OmokController(
 ) {
     fun run() {
         val playingBoard = PlayingBoard()
-
         outputView.displayOmokGameStart()
         outputView.displayOmokBoard(playingBoard.board)
 
-        val omokGame = OmokGame(playingBoard)
-        val gameResult =
-            omokGame.start(inputView::askForPosition) { placeResult ->
-                handlePlaceResult(playingBoard.board, placeResult)
-            }
-        outputView.displayGameResultMessage(gameResult)
-    }
+        var position: Position? = null
 
-    private fun handlePlaceResult(
-        omokBoard: OmokBoard,
-        placeResult: PlaceResult,
-    ) {
-        outputView.displayOmokBoard(omokBoard)
-        when (placeResult) {
-            is PlaceResult.Success -> return
-            is PlaceResult.Failure -> outputView.displayErrorMessage(placeResult)
+        while (true) {
+            val newPosition: Position = inputView.askForPosition(playingBoard.currentTurn, position)
+            val playerStone = PlayerStone(playingBoard.currentTurn, newPosition)
+            val placeResult = playingBoard.placeStone(position = newPosition)
+
+            outputView.displayOmokBoard(playingBoard.board)
+            if (placeResult is PlaceResult.Failure) {
+                outputView.displayErrorMessage(placeResult)
+                continue
+            }
+
+            val judgeResult = playingBoard.judge(playerStone = playerStone)
+            if (judgeResult is JudgeResult.Finished) {
+                outputView.displayGameResultMessage(judgeResult)
+                return
+            }
+
+            playingBoard.reverseTurn()
+            position = playerStone.position
         }
     }
 }

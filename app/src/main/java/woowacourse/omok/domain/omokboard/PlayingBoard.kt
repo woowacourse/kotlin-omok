@@ -2,8 +2,13 @@ package woowacourse.omok.domain.omokboard
 
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
+import woowacourse.omok.domain.rule.judge.DrawRule
 import woowacourse.omok.domain.rule.judge.JudgeResult
 import woowacourse.omok.domain.rule.judge.JudgeRule
+import woowacourse.omok.domain.rule.judge.WinningRule
+import woowacourse.omok.domain.rule.place.AlreadyExistStoneRule
+import woowacourse.omok.domain.rule.place.ExternalRule
+import woowacourse.omok.domain.rule.place.InvalidPositionRule
 import woowacourse.omok.domain.rule.place.PlaceResult
 import woowacourse.omok.domain.rule.place.PlaceRule
 
@@ -14,7 +19,12 @@ class PlayingBoard(
         private set
 
     fun placeStone(
-        rules: List<PlaceRule>,
+        rules: List<PlaceRule> =
+            listOf(
+                InvalidPositionRule(),
+                AlreadyExistStoneRule(),
+                ExternalRule(),
+            ),
         position: Position,
     ): PlaceResult {
         var result: PlaceResult = PlaceResult.Success
@@ -33,7 +43,7 @@ class PlayingBoard(
     }
 
     fun judge(
-        rules: List<JudgeRule>,
+        rules: List<JudgeRule> = listOf(WinningRule(), DrawRule()),
         playerStone: PlayerStone,
     ): JudgeResult {
         var result: JudgeResult = JudgeResult.NotFinished
