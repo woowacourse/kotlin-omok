@@ -63,20 +63,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-    private fun paintEntirePoints(
-        boardLayout: TableLayout,
-        stones: Stones,
+    private fun place(
+        point: Point,
+        view: ImageView,
     ) {
-        val omokStones: Set<Stone> = stones.stones
-        omokStones.forEach { stone ->
-            val imageView = boardLayout.findViewWithTag<ImageView>(stone.point)
-            val imageResourceId =
-                when (stone.color) {
-                    StoneColor.BLACK -> R.drawable.black_stone
-                    StoneColor.WHITE -> R.drawable.white_stone
-                }
-            imageView.setImageResource(imageResourceId)
+        val stone = omokAppController.stone(point)
+
+        if (isFoulToRetry(stone) || isInvalidMoveToRetry(stone)) {
+            return
         }
+        omokAppController.place(stone)
+        paintStone(stone, view)
+        insertStone(stone)
     }
 
     private fun placeWithEndCheck(
@@ -98,20 +96,6 @@ class MainActivity : AppCompatActivity() {
             return
         }
         place(point, view)
-    }
-
-    private fun place(
-        point: Point,
-        view: ImageView,
-    ) {
-        val stone = omokAppController.stone(point)
-
-        if (isFoulToRetry(stone) || isInvalidMoveToRetry(stone)) {
-            return
-        }
-        omokAppController.place(stone)
-        paintStone(stone, view)
-        insertStone(stone)
     }
 
     private fun isEnd(point: Point): Boolean {
@@ -137,8 +121,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showToastMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    private fun paintEntirePoints(
+        boardLayout: TableLayout,
+        stones: Stones,
+    ) {
+        val omokStones: Set<Stone> = stones.stones
+        omokStones.forEach { stone ->
+            val imageView = boardLayout.findViewWithTag<ImageView>(stone.point)
+            val imageResourceId =
+                when (stone.color) {
+                    StoneColor.BLACK -> R.drawable.black_stone
+                    StoneColor.WHITE -> R.drawable.white_stone
+                }
+            imageView.setImageResource(imageResourceId)
+        }
     }
 
     private fun isFoulToRetry(stone: Stone): Boolean {
@@ -193,6 +189,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun deleteStones() {
         dbHelper.writableDatabase.delete(OmokContract.OmokStone.TABLE_NAME, null, null)
+    }
+
+    private fun showToastMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun GameState.toWinnerMessage(): String =
