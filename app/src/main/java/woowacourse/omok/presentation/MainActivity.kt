@@ -8,19 +8,18 @@ import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import woowacourse.omok.MainActivity
 import woowacourse.omok.R
 import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.data.db.GameDao
 
-class InitActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var dbHelper: DbHelper
     private lateinit var gameDao: GameDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_init)
+        setContentView(R.layout.activity_main)
 
         dbHelper = DbHelper(this)
         gameDao = GameDao(dbHelper)
@@ -48,7 +47,7 @@ class InitActivity : AppCompatActivity() {
         builder.setPositiveButton(R.string.text_dialog_ok) { _, _ ->
             val roomName = input.text.toString()
             val gameId = gameDao.createGame(roomName)
-            val intent = Intent(this, MainActivity::class.java).putExtra("game_id", gameId)
+            val intent = Intent(this, GameActivity::class.java).putExtra("game_id", gameId)
             startActivity(intent)
         }
 

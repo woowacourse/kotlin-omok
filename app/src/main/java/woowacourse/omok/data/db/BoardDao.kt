@@ -24,7 +24,6 @@ class BoardDao(
             }
 
         db.insert(BoardContract.TABLE_NAME, null, values)
-        db.close()
     }
 
     fun queryStones(gameId: Long): List<Stone> {

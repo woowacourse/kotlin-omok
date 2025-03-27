@@ -8,7 +8,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import woowacourse.omok.MainActivity
 import woowacourse.omok.R
 import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.data.db.GameDao
@@ -34,7 +33,7 @@ class GameListActivity : AppCompatActivity() {
         val gameAdapter =
             GameRecyclerAdapter(games) { gameId ->
                 val intent =
-                    Intent(this, MainActivity::class.java).apply {
+                    Intent(this, GameActivity::class.java).apply {
                         putExtra("game_id", gameId.toLong())
                     }
                 startActivity(intent)

@@ -15,8 +15,6 @@ class GameDao(
             }
 
         val newRowId = db.insert(GameContract.TABLE_NAME, null, values)
-        db.close()
-
         return newRowId
     }
 
