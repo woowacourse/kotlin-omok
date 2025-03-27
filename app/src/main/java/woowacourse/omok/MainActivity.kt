@@ -1,6 +1,7 @@
 package woowacourse.omok
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +29,19 @@ class MainActivity : AppCompatActivity() {
             .filterIsInstance<TableRow>()
             .flatMap { it.children }
             .filterIsInstance<ImageView>()
-            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone) } }
+            .forEachIndexed { index, positionView ->
+                val rowIndex = abs(MAX_BOARD_INDEX - (index / BOARD_SIZE))
+                val colIndex = index % BOARD_SIZE
+                positionView.tag = Pair(rowIndex, colIndex)
+                positionView.setOnClickListener {
+                    Log.d("PositionView", "클릭 좌표 : ${positionView.tag}")
+                }
+            }
+    }
+
+    companion object {
+        private const val BOARD_SIZE = 15
+        private const val INDEX_OFFSET = 1
+        private const val MAX_BOARD_INDEX = BOARD_SIZE - INDEX_OFFSET
     }
 }
