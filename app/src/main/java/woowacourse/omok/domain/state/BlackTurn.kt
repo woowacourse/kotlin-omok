@@ -12,7 +12,6 @@ class BlackTurn(
 
     override fun place(point: Point): State {
         val newStone = Stone(stoneColor, point)
-        omokBoard.checkViolation(newStone)
         val newBoard = omokBoard.place(newStone)
         return when {
             newBoard.isOmok(newStone) -> Finished(newBoard, stoneColor)
