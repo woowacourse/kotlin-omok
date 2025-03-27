@@ -2,6 +2,7 @@ package woowacourse.omok.domain.state
 
 import woowacourse.omok.domain.OmokBoard
 import woowacourse.omok.domain.Point
+import woowacourse.omok.domain.rule.Violation
 import woowacourse.omok.domain.stone.Stone
 import woowacourse.omok.domain.stone.StoneColor
 
@@ -10,13 +11,30 @@ class WhiteTurn(
 ) : Playing(omokBoard) {
     override val stoneColor: StoneColor = StoneColor.WHITE
 
-    override fun place(point: Point): State {
+    override fun place(point: Point): PlaceResult {
         val newStone = Stone(stoneColor, point)
-        val newBoard = omokBoard.place(newStone)
-        return when {
-            newBoard.isOmok(newStone) -> Finished(newBoard, stoneColor)
-            newBoard.isFull() -> Finished(newBoard, null)
-            else -> BlackTurn(newBoard)
+
+        val violation = omokBoard.checkViolation(newStone)
+        return when (violation) {
+            Violation.OUT_OF_BOARD -> PlaceResult.ForbiddenMove.OutOfBoard()
+            Violation.OCCUPIED -> PlaceResult.ForbiddenMove.Occupied()
+            Violation.DOUBLE_THREE -> PlaceResult.ForbiddenMove.DoubleThree()
+            Violation.DOUBLE_FOUR -> PlaceResult.ForbiddenMove.DoubleFour()
+            Violation.OVERLINE -> PlaceResult.ForbiddenMove.Overline()
+            Violation.NONE -> {
+                val newBoard = omokBoard.place(newStone)
+                return PlaceResult.Placed(nextState(newBoard, newStone))
+            }
         }
     }
+
+    private fun nextState(
+        omokBoard: OmokBoard,
+        stone: Stone,
+    ): State =
+        when {
+            omokBoard.isOmok(stone) -> Finished(omokBoard, stoneColor)
+            omokBoard.isFull() -> Finished(omokBoard, null)
+            else -> BlackTurn(omokBoard)
+        }
 }

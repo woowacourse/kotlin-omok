@@ -9,5 +9,5 @@ abstract class Playing(
 ) : State {
     abstract val stoneColor: StoneColor
 
-    abstract fun place(point: Point): State
+    abstract fun place(point: Point): PlaceResult
 }

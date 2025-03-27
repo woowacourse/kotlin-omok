@@ -2,6 +2,7 @@ package woowacourse.omok.domain
 
 import woowacourse.omok.domain.state.BlackTurn
 import woowacourse.omok.domain.state.Finished
+import woowacourse.omok.domain.state.PlaceResult
 import woowacourse.omok.domain.state.Playing
 import woowacourse.omok.domain.state.State
 import woowacourse.omok.domain.stone.StoneColor
@@ -9,11 +10,12 @@ import woowacourse.omok.domain.stone.StoneColor
 class OmokGame(
     board: OmokBoard,
 ) {
-    private var state: State
+    private var _state: State
+    val state get() = _state
     private var lastPoint: Point? = null
 
     init {
-        state = BlackTurn(board)
+        _state = BlackTurn(board)
     }
 
     fun play(
@@ -21,16 +23,14 @@ class OmokGame(
         onPointSelected: () -> Point,
         onBoardUpdated: (OmokBoard) -> Unit,
     ) {
-        while (true) {
-            when (val currentState = state) {
-                is Playing -> processTurn(currentState, onTurn, onPointSelected, onBoardUpdated)
-                is Finished -> break
-            }
+        when (val currentState = _state) {
+            is Playing -> processTurn(currentState, onTurn, onPointSelected, onBoardUpdated)
+            is Finished -> {}
         }
     }
 
     fun winner(): StoneColor? =
-        when (val currentState = state) {
+        when (val currentState = _state) {
             is Finished -> currentState.winnerColor
             else -> null
         }
@@ -43,8 +43,11 @@ class OmokGame(
     ) {
         onTurn(playingState.stoneColor, lastPoint)
         val newPoint = onPointSelected()
-        state = playingState.place(newPoint)
+        when (val placeResult = playingState.place(newPoint)) {
+            is PlaceResult.ForbiddenMove -> {}
+            is PlaceResult.Placed -> _state = placeResult.state
+        }
         lastPoint = newPoint
-        onBoardUpdated(state.omokBoard)
+        onBoardUpdated(_state.omokBoard)
     }
 }
