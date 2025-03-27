@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import woowacourse.omok.R
 import woowacourse.omok.data.OmokDatabaseHelper
+import woowacourse.omok.data.dao.BoardDao
+import woowacourse.omok.data.dao.GameDao
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.board.Board
 import woowacourse.omok.domain.board.BoardSize
@@ -24,23 +26,29 @@ class MainActivity : AppCompatActivity() {
     private lateinit var board: Board
     private lateinit var boardView: TableLayout
     private lateinit var game: OmokGame
-    private lateinit var dbHelper: OmokDatabaseHelper
+
+    private lateinit var gameDao: GameDao
+    private lateinit var boardDao: BoardDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setWindowInsets()
 
-        initializeDbHelper()
+        initializeDb()
         initializeBoardView()
         initializeGame()
     }
 
-    private fun initializeDbHelper() {
-        dbHelper = OmokDatabaseHelper(this)
+    private fun initializeDb() {
+        val dbHelper = OmokDatabaseHelper(this)
+
+        gameDao = GameDao(dbHelper)
+        boardDao = BoardDao(dbHelper)
+
         // 추가 기능 미구현
-        val ids = dbHelper.getGameIds()
-        if (ids.isEmpty()) dbHelper.addGame(GAME_ROOM_ID)
+        val ids = gameDao.getGameIds()
+        if (ids.isEmpty()) gameDao.addGame(GAME_ROOM_ID)
     }
 
     private fun initializeBoardView() {
@@ -62,7 +70,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadBoardStatus() {
-        val loadedMoves = dbHelper.getMoves(GAME_ROOM_ID).toMap()
+        val loadedMoves = boardDao.getMoves(GAME_ROOM_ID).toMap()
         board = Board(BoardSize(), loadedMoves, RuleValidator())
         updateBoardUIWithLoadedMoves(loadedMoves)
         game.start(loadedMoves.entries.lastOrNull()?.toPair())
@@ -92,7 +100,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun resetGame() {
         clearBoardImages()
-        dbHelper.deleteGame(GAME_ROOM_ID)
+        gameDao.deleteGame(GAME_ROOM_ID)
         loadBoardStatus()
     }
 
@@ -110,7 +118,7 @@ class MainActivity : AppCompatActivity() {
             color: StoneColor,
         ) {
             updateBoardUI(point, color)
-            dbHelper.saveMove(GAME_ROOM_ID, point to color)
+            boardDao.saveMove(GAME_ROOM_ID, point to color)
         }
 
         override fun onGameWon(winnerState: StoneColor?) {
@@ -153,12 +161,6 @@ class MainActivity : AppCompatActivity() {
             StoneColor.WHITE -> getString(R.string.white_ui_string)
             else -> ""
         }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        dbHelper.close()
-    }
 
     companion object {
         private const val GAME_ROOM_ID = 1
