@@ -15,6 +15,7 @@ import woowacourse.omok.data.db.OmokDbHelper
 import woowacourse.omok.data.repository.OmokRepositoryImpl
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
+import woowacourse.omok.domain.board.Coordination
 import woowacourse.omok.domain.board.OmokBoard
 import woowacourse.omok.domain.board.Row
 import woowacourse.omok.domain.exception.Exceptions
@@ -28,6 +29,9 @@ import woowacourse.omok.domain.stone.StoneColor
 import woowacourse.omok.ui.event.GameEventListener
 
 class MainActivity : AppCompatActivity(), GameEventListener {
+    private lateinit var board: TableLayout
+    private lateinit var game: OmokGame
+    private lateinit var omokRepository: OmokRepository
     private var selectedImageView: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,9 +45,9 @@ class MainActivity : AppCompatActivity(), GameEventListener {
 
         val dbHelper = OmokDbHelper(this)
         val omokDataSource = OmokDataSource(dbHelper)
-        val omokRepository: OmokRepository = OmokRepositoryImpl(omokDataSource)
-        val game = OmokGame(OmokBoard(OmokPoints()), this, omokRepository)
-        val board: TableLayout = findViewById(R.id.board)
+        omokRepository = OmokRepositoryImpl(omokDataSource)
+        game = OmokGame(OmokBoard(OmokPoints()), this)
+        board = findViewById(R.id.board)
 
         board
             .children
@@ -86,6 +90,12 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     private fun getErrorMessageUiText(e: Exceptions): String {
+        override fun onPause() {
+            super.onPause()
+            game.getMovedStone().forEach {
+                omokRepository.saveNewPoint(it)
+            }
+        }
         val errorTextResource =
             when (e) {
                 is OmokExceptions.OccupiedExceptions -> R.string.text_occupied
