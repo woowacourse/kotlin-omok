@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Omok</string>
+
+    <string name="dialog_title_game_over">게임 종료</string>
+    <string name="dialog_description_winner">%s돌 승리!</string>
+    <string name="dialog_button_positive">확인</string>
+    <string name="black_ui_string">흑</string>
+    <string name="white_ui_string">백</string>
 </resources>

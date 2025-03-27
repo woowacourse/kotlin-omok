@@ -129,9 +129,9 @@ class MainActivity : AppCompatActivity() {
     private fun showGameOverDialog(winnerState: StoneColor?) {
         AlertDialog
             .Builder(this)
-            .setTitle(DIALOG_TITLE_GAME_OVER)
-            .setMessage("${winnerState?.toUiString()}돌 승리!")
-            .setPositiveButton(DIALOG_BUTTON_POSITIVE) { dialog, _ ->
+            .setTitle(getString(R.string.dialog_title_game_over))
+            .setMessage(getString(R.string.dialog_description_winner, winnerState?.toUiString()))
+            .setPositiveButton(getString(R.string.dialog_button_positive)) { dialog, _ ->
                 dialog.dismiss()
                 resetGame()
             }.setCancelable(false)
@@ -149,8 +149,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun StoneColor.toUiString(): String =
         when (this) {
-            StoneColor.BLACK -> "흑"
-            StoneColor.WHITE -> "백"
+            StoneColor.BLACK -> getString(R.string.black_ui_string)
+            StoneColor.WHITE -> getString(R.string.white_ui_string)
             else -> ""
         }
 
@@ -161,8 +161,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val GAME_ROOM_ID = 1
-        const val DIALOG_TITLE_GAME_OVER = "게임 종료"
-        const val DIALOG_BUTTON_POSITIVE = "확인"
+        private const val GAME_ROOM_ID = 1
     }
 }
