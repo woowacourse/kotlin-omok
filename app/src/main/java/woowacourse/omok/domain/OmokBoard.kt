@@ -14,17 +14,17 @@ class OmokBoard(
         require(size >= MINIMUM_BOARD_SIZE) { ERROR_INVALID_BOARD_SIZE }
     }
 
-    fun place(stone: Stone): OmokBoard = OmokBoard(size, rule, stones + stone)
-
-    fun isOmok(stone: Stone): Boolean = rule.isOmok(stones, stone)
-
-    fun isFull(): Boolean = stones.stones.size >= size * size
-
     fun checkViolation(stone: Stone): Violation {
         if (!stone.point.isInBounds(size)) return Violation.OUT_OF_BOARD
         if (stones.contains(stone.point)) return Violation.OCCUPIED
         return rule.checkViolation(stones, stone)
     }
+
+    fun place(stone: Stone): OmokBoard = OmokBoard(size, rule, stones + stone)
+
+    fun isOmok(stone: Stone): Boolean = rule.isOmok(stones, stone)
+
+    fun isFull(): Boolean = stones.stones.size >= size * size
 
     companion object {
         const val DEFAULT_BOARD_SIZE = 15

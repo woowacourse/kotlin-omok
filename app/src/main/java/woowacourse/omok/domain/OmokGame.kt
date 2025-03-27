@@ -10,13 +10,9 @@ import woowacourse.omok.domain.stone.StoneColor
 class OmokGame(
     board: OmokBoard,
 ) {
-    private var _state: State
+    private var _state: State = BlackTurn(board)
     val state get() = _state
     private var lastPoint: Point? = null
-
-    init {
-        _state = BlackTurn(board)
-    }
 
     fun play(
         onTurn: (StoneColor, Point?) -> Unit,
