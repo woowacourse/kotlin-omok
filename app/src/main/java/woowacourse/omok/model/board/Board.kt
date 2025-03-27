@@ -16,11 +16,19 @@ class Board(
 
     val lastStone: Stone?
         get() {
-            return if (Build.VERSION.SDK_INT >= ANDROID_15_SDK_INT) {
+            return if (isAndroidEnvironment() && Build.VERSION.SDK_INT >= ANDROID_15_SDK_INT) {
                 _stonesMap.lastEntry()?.let { Stone(it.key, it.value) }
             } else {
                 _stonesMap.entries.lastOrNull()?.let { Stone(it.key, it.value) }
             }
+        }
+
+    private fun isAndroidEnvironment(): Boolean =
+        try {
+            Class.forName("android.os.Build")
+            true
+        } catch (e: ClassNotFoundException) {
+            false
         }
 
     val nextStoneColor: StoneColor
