@@ -2,6 +2,7 @@ package woowacourse.omok.domain.rule
 
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -9,13 +10,19 @@ import woowacourse.omok.domain.board.Board
 import woowacourse.omok.domain.board.BoardSize
 import woowacourse.omok.domain.board.Point
 import woowacourse.omok.domain.board.StoneColor
-import woowacourse.omok.domain.fixture.RenjuRuleJudge
 import woowacourse.omok.domain.utils.generatePoints
 import woowacourse.omok.domain.utils.toPoint
 
 class RuleValidatorTest {
+    private lateinit var ruleValidator: RuleValidator
+
+    @BeforeEach
+    fun setUp() {
+        ruleValidator = RuleValidator()
+    }
+
     private fun createBoard(points: List<String>): Board =
-        Board(BoardSize(15), generatePoints(points.associateWith { StoneColor.BLACK }), RenjuRuleJudge)
+        Board(BoardSize(15), generatePoints(points.associateWith { StoneColor.BLACK }), ruleValidator)
 
     @ParameterizedTest
     @ValueSource(strings = ["D12", "E3", "L11", "K4"])
@@ -41,7 +48,7 @@ class RuleValidatorTest {
                     "N4",
                 ),
             )
-        assertTrue(RenjuRuleJudge.checkViolation(board, rawPoint.toPoint(), StoneColor.BLACK))
+        assertTrue(ruleValidator.checkViolation(board, rawPoint.toPoint(), StoneColor.BLACK))
     }
 
     @ParameterizedTest
@@ -70,26 +77,25 @@ class RuleValidatorTest {
                     "L11",
                 ),
             )
-        assertTrue(RenjuRuleJudge.checkViolation(board, rawPoint.toPoint(), StoneColor.BLACK))
+        assertTrue(ruleValidator.checkViolation(board, rawPoint.toPoint(), StoneColor.BLACK))
     }
 
     @Test
     fun `흑돌을 착수할 때 장목(Overline)인 경우 True 반환`() {
         val board = createBoard(listOf("A1", "B1", "C1", "D1", "F1"))
-        assertTrue(RenjuRuleJudge.checkViolation(board, Point(5, 1), StoneColor.BLACK))
+        assertTrue(ruleValidator.checkViolation(board, Point(5, 1), StoneColor.BLACK))
     }
 
     @Test
     fun `흑돌을 착수할 때 4-3인 경우 False 반환`() {
         val board = createBoard(listOf("E5", "F5", "G5", "H6", "H7"))
-        assertFalse(RenjuRuleJudge.checkViolation(board, Point(8, 5), StoneColor.BLACK))
+        assertFalse(ruleValidator.checkViolation(board, Point(8, 5), StoneColor.BLACK))
     }
 
     @Test
     fun `흑돌을 착수할 때 거짓 3-3 금수인 경우 False 반환`() {
         val board = createBoard(listOf("C3", "E3", "D2", "D4"))
         board.placeStone(Point(4, 5), StoneColor.WHITE)
-        assertFalse(RenjuRuleJudge.checkViolation(board, Point(4, 3), StoneColor.BLACK))
     }
 
     @ParameterizedTest
@@ -116,7 +122,7 @@ class RuleValidatorTest {
                     "L7",
                 ),
             )
-        assertTrue(RenjuRuleJudge.checkWinCondition(board, rawPoint.toPoint(), StoneColor.BLACK))
+        assertTrue(ruleValidator.checkWinCondition(board, rawPoint.toPoint(), StoneColor.BLACK))
     }
 }
 

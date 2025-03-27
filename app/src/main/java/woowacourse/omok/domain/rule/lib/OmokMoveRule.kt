@@ -1,9 +1,10 @@
 package woowacourse.omok.domain.rule.lib
 
-abstract class ForbiddenMoveRule(
-    private val currentStone: Int = BLACK_STONE,
-    val opponentStone: Int = WHITE_STONE,
+abstract class OmokMoveRule(
+    val currentStone: Int,
 ) {
+    val opponentStone: Int = if (currentStone == BLACK_STONE) WHITE_STONE else BLACK_STONE
+
     abstract fun validate(
         board: List<List<Int>>,
         position: Pair<Int, Int>,

@@ -7,14 +7,13 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import woowacourse.omok.domain.board.result.Finished
 import woowacourse.omok.domain.board.result.OnGoing
-import woowacourse.omok.domain.fixture.RenjuRuleJudge
 import woowacourse.omok.domain.rule.RuleValidator
 import woowacourse.omok.domain.utils.generatePoints
 import woowacourse.omok.domain.utils.toPoint
 
 class BoardTest {
     private fun createBoard(points: List<String> = emptyList()): Board =
-        Board(BoardSize(15), generatePoints(points.associateWith { StoneColor.BLACK }), RenjuRuleJudge)
+        Board(BoardSize(15), generatePoints(points.associateWith { StoneColor.BLACK }), RuleValidator())
 
     @Test
     fun `원하는 크기의 바둑판을 생성할 수 있다`() {
@@ -81,7 +80,7 @@ class BoardTest {
             generatePoints(
                 listOf("C3", "D4", "F4", "G3").associateWith { StoneColor.WHITE },
             )
-        val board = Board(BoardSize(15), points, RenjuRuleJudge)
+        val board = Board(BoardSize(15), points, RuleValidator())
         val result = board.placeStone("E5".toPoint(), StoneColor.WHITE)
         val actual = result is OnGoing.StonePlaced
 
@@ -121,7 +120,7 @@ class BoardTest {
     @Test
     fun `바둑판에 더 이상 둘 공간이 없다면 BoardFull를 반환한다`() {
         val points = (1..15).flatMap { x -> (1..15).map { y -> Point(x, y) to StoneColor.BLACK } }.toMap()
-        val board = Board(BoardSize(15), points.filter { it.key != Point(15, 15) }, RenjuRuleJudge)
+        val board = Board(BoardSize(15), points.filter { it.key != Point(15, 15) }, RuleValidator())
         val result = board.placeStone(Point(15, 15), StoneColor.WHITE)
         val actual = result is Finished.BoardFull
 

@@ -1,6 +1,8 @@
 package woowacourse.omok.domain.rule.lib
 
-class DoubleThreeMoveRule : ForbiddenMoveRule() {
+class DoubleThreeMoveRule(
+    currentStone: Int,
+) : OmokMoveRule(currentStone) {
     override fun validate(
         board: List<List<Int>>,
         position: Pair<Int, Int>,
