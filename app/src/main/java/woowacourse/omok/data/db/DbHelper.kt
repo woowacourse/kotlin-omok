@@ -7,19 +7,24 @@ import android.database.sqlite.SQLiteOpenHelper
 class DbHelper(
     context: Context,
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
-    companion object {
-        const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "Board.db"
-        const val DATABASE_NAME = "Omok.db"
+    private fun createGameTable(db: SQLiteDatabase) {
+        db.execSQL(GameContract.SQL_CREATE_ENTRIES)
     }
-    fun createBoardTable(db: SQLiteDatabase) {
+
+    private fun createBoardTable(db: SQLiteDatabase) {
         db.execSQL(BoardContract.SQL_CREATE_ENTRIES)
     }
-    fun deleteBoardTable(db: SQLiteDatabase) {
+
+    private fun deleteGameTable(db: SQLiteDatabase) {
+        db.execSQL(GameContract.SQL_DELETE_ENTRIES)
+    }
+
+    private fun deleteBoardTable(db: SQLiteDatabase) {
         db.execSQL(BoardContract.SQL_DELETE_ENTRIES)
     }
 
     override fun onCreate(db: SQLiteDatabase) {
+        createGameTable(db)
         createBoardTable(db)
     }
 
@@ -28,8 +33,8 @@ class DbHelper(
         oldVersion: Int,
         newVersion: Int,
     ) {
-        db.execSQL(BoardContract.SQL_DELETE_ENTRIES)
         deleteBoardTable(db)
+        deleteGameTable(db)
         onCreate(db)
     }
 
@@ -39,5 +44,10 @@ class DbHelper(
         newVersion: Int,
     ) {
         onUpgrade(db, oldVersion, newVersion)
+    }
+
+    companion object {
+        const val DATABASE_VERSION = 1
+        const val DATABASE_NAME = "Omok.db"
     }
 }
