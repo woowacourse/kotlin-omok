@@ -13,4 +13,16 @@ class Turn(private var current: StoneType = StoneType.BLACK) {
     }
 
     fun isBlackTurn(): Boolean = current == StoneType.BLACK
+
+    fun stone(inputPosition: Position): Stone {
+        TODO("Not yet implemented")
+    }
+
+    fun next() {
+        TODO("Not yet implemented")
+    }
+
+    fun isWhite(): Boolean {
+        TODO("Not yet implemented")
+    }
 }
