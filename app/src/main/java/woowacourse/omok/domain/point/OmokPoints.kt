@@ -4,6 +4,8 @@ import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.OmokBoard.Companion.OMOK_BOARD_SIZE
 import woowacourse.omok.domain.board.Row
+import woowacourse.omok.domain.exception.OmokExceptions
+import woowacourse.omok.domain.stone.StoneColor
 
 class OmokPoints {
     private var points: List<Point> =
@@ -12,6 +14,11 @@ class OmokPoints {
                 Point(Column(x), Row(y), BoardStatus.Empty)
             }
         }
+
+    fun pointValidation(point: Point) {
+        blocked(point)
+        occupied(point)
+    }
 
     fun getPointAt(
         row: Row,
@@ -27,5 +34,20 @@ class OmokPoints {
         val newList = points.toMutableList()
         newList[position] = point
         points = newList
+    }
+
+    private fun occupied(point: Point) {
+        val target = points.find { it.x == point.x && it.y == point.y }?.status
+        require(target == BoardStatus.Empty) {
+            throw OmokExceptions.OccupiedExceptions
+        }
+    }
+
+    private fun blocked(point: Point) {
+        if (point.status == BoardStatus.Moved(StoneColor.WHITE)) return
+        val target = points.first { it.x == point.x && it.y == point.y }.status
+        if (target is BoardStatus.Blocked) {
+            throw target.cause
+        }
     }
 }
