@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import androidx.core.view.children
 import controller.OmokController
 import model.AddStoneStatus
 import model.StoneColor
+import org.w3c.dom.Text
 import view.InputView
 import view.Message
 import view.ResultView
@@ -26,7 +28,6 @@ class MainActivity : AppCompatActivity(), InputView, ResultView {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity(), InputView, ResultView {
         }
         setupBoard()
         omokController = OmokController(this, this)
+        printTurn(omokController.turnColor)
     }
 
     private fun setupBoard() {
@@ -54,6 +56,11 @@ class MainActivity : AppCompatActivity(), InputView, ResultView {
                         }
                     }
             }
+    }
+
+    override fun printTurn(stoneColor: StoneColor){
+        val turnPrinter = findViewById<TextView>(R.id.TurnPrinter)
+        turnPrinter.text = "${stoneColor.toDisplay()}의 차례입니다."
     }
 
     override fun printStone(

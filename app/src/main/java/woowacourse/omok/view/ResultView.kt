@@ -31,6 +31,8 @@ interface ResultView {
         makeBoardColName()
     }
 
+    fun printTurn(stoneColor: StoneColor)
+
     private fun makeBoardColName() {
         println(
             buildString {

@@ -15,19 +15,22 @@ class OmokController(
     private val inputView: InputView,
     private val outputView: ResultView,
 ) {
-    private var turnColor: StoneColor = StoneColor.BLACK
+    var turnColor: StoneColor = StoneColor.BLACK
+    private set
     val gameBoard = GameBoard()
+
+
 
     fun addValidStone(
         position: String,
     ){
-        Log.wtf(null,position)
         when (val addStoneStatus = gameBoard.addStone(Stone.ofOrNull(position, turnColor))) {
             AddStoneStatus.IsWin,
             AddStoneStatus.IsAble,
             -> run{
                 outputView.printStone(addStoneStatus,turnColor,position)
                 turnColor = turnColor.switch()
+                outputView.printTurn(turnColor)
             }
             is AddStoneStatus.Failed -> outputView.printError(addStoneStatus)
         }

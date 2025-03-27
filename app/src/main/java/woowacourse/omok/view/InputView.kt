@@ -39,7 +39,7 @@ interface InputView {
         print(message)
     }
 
-    private fun StoneColor.toDisplay(): String =
+    fun StoneColor.toDisplay(): String =
         when (this) {
             StoneColor.BLACK -> "흑"
             StoneColor.WHITE -> "백"
