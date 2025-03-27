@@ -4,7 +4,7 @@ import woowacourse.omok.domain.exception.Exceptions
 import woowacourse.omok.domain.stone.StoneColor
 
 interface GameEventListener {
-    fun onPlacedStone(stoneColor: StoneColor)
+    fun onMovedStone(stoneColor: StoneColor)
 
     fun onFinishedGame(color: StoneColor)
 

@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         restoreSavedStones()
     }
 
-    override fun onPlacedStone(stoneColor: StoneColor) {
+    override fun onMovedStone(stoneColor: StoneColor) {
         val stoneDrawable =
             when (stoneColor) {
                 StoneColor.WHITE -> R.drawable.white_stone
@@ -67,10 +67,8 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         val uiText = getString(R.string.text_winner, stoneUiText)
         ConfirmDialog(
             winnerMessage = uiText,
-            onClickFinish = {
-            },
-            onClickRetry = {
-            },
+            onClickFinish = { clear() },
+            onClickRetry = { clear() },
         ).show(supportFragmentManager, "Main")
     }
 
@@ -89,7 +87,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     private fun resolveErrorMessage(e: Exceptions): String {
         val errorTextResource =
             when (e) {
-                is OmokExceptions.OccupiedExceptions -> R.string.text_occupied
+                OmokExceptions.OccupiedExceptions -> R.string.text_occupied
                 RendjuExceptions.DoubleFourExceptions -> R.string.text_double_four
                 RendjuExceptions.DoubleThreeExceptions -> R.string.text_double_three
                 RendjuExceptions.OverLineExceptions -> R.string.text_over_line
@@ -173,5 +171,19 @@ class MainActivity : AppCompatActivity(), GameEventListener {
                 StoneColor.BLACK -> R.drawable.black_stone
             }
         view.setImageResource(stoneImgResource)
+    }
+
+    private fun clear() {
+        omokRepository.drop()
+        game.clear()
+        board
+            .children
+            .filterIsInstance<TableRow>()
+            .forEach { row ->
+                row.children
+                    .filterIsInstance<ImageView>()
+                    .forEach { it.setImageResource(0) }
+            }
+        game.setTurn(StoneColor.BLACK)
     }
 }

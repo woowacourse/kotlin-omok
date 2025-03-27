@@ -27,7 +27,7 @@ class OmokGame(
 
             is ResultState.Success -> {
                 omokBoard.addStone(newStone)
-                event.onPlacedStone(currentTurn)
+                event.onMovedStone(currentTurn)
                 checkOmok(newStone)
             }
         }
@@ -36,6 +36,8 @@ class OmokGame(
     fun getMovedStone() = omokBoard.getMovedPoints()
 
     fun combine(point: List<Point>) = omokBoard.combine(point)
+
+    fun clear() = omokBoard.clear()
 
     private fun checkOmok(point: Point) {
         if (omokBoard.isOmok(point)) {

@@ -15,6 +15,8 @@ class OmokBoard(
 
     fun getMovedPoints() = omokPoints.movedPoints
 
+    fun clear() = omokPoints.clear()
+
     fun pointValidation(point: Point) = omokPoints.pointValidation(point)
 
     fun combine(points: List<Point>) = omokPoints.combine(points)

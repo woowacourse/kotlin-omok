@@ -1,6 +1,7 @@
 package woowacourse.omok.data.datasource
 
 import androidx.core.content.contentValuesOf
+import androidx.core.database.sqlite.transaction
 import woowacourse.omok.data.db.OmokDbHelper
 import woowacourse.omok.data.db.OmokEntity
 import woowacourse.omok.data.db.OmokSchema.OmokContract.COLUMN_NAME_BOARD_COLUMN
@@ -10,16 +11,16 @@ import woowacourse.omok.data.db.OmokSchema.OmokContract.TABLE_NAME
 
 class OmokDataSource(private val dbHelper: OmokDbHelper) {
     fun save(entity: OmokEntity) {
-        val writer = dbHelper.writableDatabase
+        dbHelper.writableDatabase.use { db ->
+            val values =
+                contentValuesOf(
+                    COLUMN_NAME_BOARD_COLUMN to entity.column,
+                    COLUMN_NAME_BOARD_ROW to entity.row,
+                    COLUMN_NAME_STONE to entity.stone,
+                )
 
-        val values =
-            contentValuesOf(
-                COLUMN_NAME_BOARD_COLUMN to entity.column,
-                COLUMN_NAME_BOARD_ROW to entity.row,
-                COLUMN_NAME_STONE to entity.stone,
-            )
-
-        writer.insert(TABLE_NAME, null, values)
+            db.insert(TABLE_NAME, null, values)
+        }
     }
 
     fun readAll(): List<OmokEntity> {
@@ -49,7 +50,10 @@ class OmokDataSource(private val dbHelper: OmokDbHelper) {
     }
 
     fun drop() {
-        val db = dbHelper.writableDatabase
-        db.delete(TABLE_NAME, null, null)
+        dbHelper.writableDatabase.use { db ->
+            db.transaction {
+                execSQL("DELETE FROM $TABLE_NAME")
+            }
+        }
     }
 }

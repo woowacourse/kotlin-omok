@@ -8,22 +8,25 @@ import woowacourse.omok.domain.exception.OmokExceptions
 import woowacourse.omok.domain.stone.StoneColor
 
 class OmokPoints {
-    private var points: List<Point> =
-        (1..OMOK_BOARD_SIZE).flatMap { y ->
-            (1..OMOK_BOARD_SIZE).map { x ->
-                Point(Column(x), Row(y), BoardStatus.Empty)
-            }
-        }
+    private var points: List<Point> = makePoints()
 
-    val movedPoints get() = points.filterNot { it.status == BoardStatus.Empty }
+    val movedPoints
+        get() =
+            points
+                .filterNot { it.status == BoardStatus.Empty }
 
     fun combine(newPoints: List<Point>) {
         val updatedPoints =
             points.map { existingPoint ->
-                newPoints.find { it.x == existingPoint.x && it.y == existingPoint.y } ?: existingPoint
+                newPoints.find { it.x == existingPoint.x && it.y == existingPoint.y }
+                    ?: existingPoint
             } + newPoints.filter { np -> points.none { it.x == np.x && it.y == np.y } }
 
         points = updatedPoints
+    }
+
+    fun clear()  {
+        points = makePoints()
     }
 
     fun pointValidation(point: Point) {
@@ -59,6 +62,14 @@ class OmokPoints {
         val target = points.first { it.x == point.x && it.y == point.y }.status
         if (target is BoardStatus.Blocked) {
             throw target.cause
+        }
+    }
+
+    private fun makePoints(): List<Point> {
+        return (1..OMOK_BOARD_SIZE).flatMap { y ->
+            (1..OMOK_BOARD_SIZE).map { x ->
+                Point(Column(x), Row(y), BoardStatus.Empty)
+            }
         }
     }
 }
