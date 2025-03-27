@@ -13,9 +13,4 @@ data class X(
     operator fun plus(other: Int) = X(X_MIN_RANGE + (this.point - X_MIN_RANGE) + other)
 
     operator fun minus(other: Int) = X(X_MIN_RANGE + (this.point - X_MIN_RANGE) - other)
-
-//    companion object {
-//        private const val X_MIN_RANGE = 1
-//        private const val X_MAX_RANGE = 15
-//    }
 }

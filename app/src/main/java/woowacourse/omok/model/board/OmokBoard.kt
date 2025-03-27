@@ -45,11 +45,4 @@ class OmokBoard(
     }
 
     fun boardState(position: Position): PositionState = board[position] ?: throw IllegalArgumentException("잘못된 좌표입니다.")
-
-//    companion object {
-//        private const val Y_MAX_RANGE = 15
-//        private const val Y_MIN_RANGE = 1
-//        private const val X_MAX_RANGE = 15
-//        private const val X_MIN_RANGE = 1
-//    }
 }
