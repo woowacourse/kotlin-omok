@@ -1,14 +1,25 @@
 package view
 
+import android.app.AlertDialog
+import android.widget.ImageView
+import android.widget.Toast
+import model.AddStoneStatus
 import model.Col
 import model.GameBoard
+import model.Position
 import model.Row
 import model.Stone
 import model.StoneColor
 import view.Message.GAME_RESULT_MESSAGE_FORMAT
 import view.Message.GAME_START_MESSAGE
 
-class ResultView {
+interface ResultView {
+    fun printStone(addStoneStatus: AddStoneStatus,stoneColor: StoneColor,position: String)
+
+    fun printError(status: AddStoneStatus.Failed)
+
+    fun printWinner(stoneColor: StoneColor)
+
     fun printGameStartMessage() {
         println(GAME_START_MESSAGE)
     }
@@ -31,9 +42,7 @@ class ResultView {
         )
     }
 
-    fun printWinner(stoneColor: StoneColor) {
-        print(GAME_RESULT_MESSAGE_FORMAT.format(stoneColor.toDisplay()))
-    }
+
 
     private fun makeBoardLine(
         row: Int,

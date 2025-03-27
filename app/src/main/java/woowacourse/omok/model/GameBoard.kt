@@ -7,8 +7,8 @@ class GameBoard {
     val stones get() = _stones.toList()
 
     fun addStone(stone: Stone?): AddStoneStatus {
-        if (stone == null) return AddStoneStatus.IsUnAblePosition
-        if (isExistPosition(stone)) return AddStoneStatus.IsExist
+        if (stone == null) return AddStoneStatus.Failed.IsUnAblePosition
+        if (isExistPosition(stone)) return AddStoneStatus.Failed.IsExist
         val checkAddingStone = OmokJudge.checkAddingStone(stone, stones)
         if (checkAddingStone != AddStoneStatus.IsAble) return checkAddingStone
         _stones.add(stone)

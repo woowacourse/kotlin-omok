@@ -15,7 +15,7 @@ object OmokJudge {
         val countStoneDirections = directions.map { direction -> countStone(stone, stones, direction) }
 
         if (countStoneDirections.any { it == REQUIRE_WIN_STONE_COUNT }) return AddStoneStatus.IsWin
-        if (countStoneDirections.any { it > REQUIRE_WIN_STONE_COUNT } && stone.color == StoneColor.BLACK) return AddStoneStatus.IsOverFive
+        if (countStoneDirections.any { it > REQUIRE_WIN_STONE_COUNT } && stone.color == StoneColor.BLACK) return AddStoneStatus.Failed.IsOverFive
 
         return checkFoul(stones, stone)
     }
@@ -32,8 +32,8 @@ object OmokJudge {
             if (FourFourCheck.checkFoulByAllDirections(stone, addedStones)) isFourFourFlag = true
         }
 
-        if (isFourFourFlag) return AddStoneStatus.IsFourFour
-        if (isThreeThreeFlag) return AddStoneStatus.IsThreeThree
+        if (isFourFourFlag) return AddStoneStatus.Failed.IsFourFour
+        if (isThreeThreeFlag) return AddStoneStatus.Failed.IsThreeThree
         return AddStoneStatus.IsAble
     }
 

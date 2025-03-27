@@ -1,5 +1,6 @@
 package view
 
+import android.util.Log
 import model.Col
 import model.Position
 import model.Row
@@ -10,17 +11,12 @@ import view.Message.INPUT_MESSAGE_GUIDE
 import view.Message.LAST_STONE_POSITION_MESSAGE
 import view.Message.TURN_MESSAGE_FORMAT
 
-class InputView {
-    fun readInputPosition(
-        color: StoneColor,
-        lastStone: Stone?,
-    ): String {
-        print(TURN_MESSAGE_FORMAT.format(color.toDisplay()))
-        lastStone?.let {
-            print(LAST_STONE_POSITION_MESSAGE.format(lastStone.position.toDisplay()))
-        }
-        print(INPUT_MESSAGE_GUIDE)
-        return validReadln()
+interface InputView {
+
+    var inputListener : ((position:String)->Unit)?
+
+    fun onCellClicked(position:String){
+        inputListener?.invoke(position)
     }
 
     private fun validReadln(): String {
