@@ -7,13 +7,13 @@ class StoneTest {
     @Test
     fun `오목돌은 row 위치를 가진다`() {
         val stone = Stone(Position(0, 0), StoneType.BLACK)
-        assertThat(stone.position.row).isEqualTo(0)
+        assertThat(stone.position.x).isEqualTo(0)
     }
 
     @Test
     fun `오목돌은 col 위치를 가진다`() {
         val stone = Stone(Position(0, 0), StoneType.BLACK)
-        assertThat(stone.position.column).isEqualTo(0)
+        assertThat(stone.position.y).isEqualTo(0)
     }
 
     @Test
