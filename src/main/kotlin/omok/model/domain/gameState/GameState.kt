@@ -11,7 +11,10 @@ data class GameState(
 ) {
     val stone: Stone = turn.stone
 
-    fun play(position: Position): GameState = turn.nextGameState(this, position)
+    fun play(position: Position): GameState {
+        if (!playing) throw IllegalStateException("Game is already finished. current state: $this")
+        return turn.nextGameState(this, position)
+    }
 }
 
 interface Turn {
