@@ -14,8 +14,8 @@ import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.data.db.GameDao
 
 class GameListActivity : AppCompatActivity() {
-    private lateinit var dbHelper: DbHelper
-    private lateinit var gameDao: GameDao
+    private val dbHelper: DbHelper by lazy { DbHelper(this) }
+    private val gameDao: GameDao by lazy { GameDao(dbHelper) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +26,6 @@ class GameListActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        dbHelper = DbHelper(this)
-        gameDao = GameDao(dbHelper)
 
         val games = gameDao.queryGames()
         val gameAdapter =

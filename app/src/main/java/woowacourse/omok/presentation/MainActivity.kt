@@ -13,16 +13,13 @@ import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.data.db.GameDao
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var dbHelper: DbHelper
-    private lateinit var gameDao: GameDao
+    private val dbHelper: DbHelper by lazy { DbHelper(this) }
+    private val gameDao: GameDao by lazy { GameDao(dbHelper) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-
-        dbHelper = DbHelper(this)
-        gameDao = GameDao(dbHelper)
 
         findViewById<Button>(R.id.btn_create_game).setOnClickListener {
             showDialog()

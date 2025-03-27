@@ -27,8 +27,8 @@ import woowacourse.omok.domain.StoneState
 class GameActivity : AppCompatActivity() {
     private lateinit var omokGame: OmokGame
     private lateinit var board: TableLayout
-    private lateinit var dbHelper: DbHelper
-    private lateinit var boardDao: BoardDao
+    private val dbHelper: DbHelper by lazy { DbHelper(this) }
+    private val boardDao: BoardDao by lazy { BoardDao(dbHelper) }
     private var gameId: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,9 +42,6 @@ class GameActivity : AppCompatActivity() {
         }
 
         gameId = intent.getLongExtra("game_id", -1)
-        dbHelper = DbHelper(this)
-        boardDao = BoardDao(dbHelper)
-
         initView()
         initGame()
     }
