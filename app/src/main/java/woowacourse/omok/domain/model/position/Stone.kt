@@ -6,8 +6,8 @@ data class Stone(
     val position: Position,
     val stoneType: StoneType,
 ) {
-    constructor(column: Int, inColumnRange: Boolean, row: Int, inRowRange: Boolean, stoneType: StoneType) : this(
-        Position(column, inColumnRange, row, inRowRange),
+    constructor(column: Int, row: Int, size: Int, stoneType: StoneType) : this(
+        Position(column, row, size),
         stoneType,
     )
 }
