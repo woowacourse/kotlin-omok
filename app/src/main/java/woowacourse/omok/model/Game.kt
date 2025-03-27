@@ -14,13 +14,18 @@ class Game(val board: Board, private val rule: Rule) {
         }
     }
 
-    fun processTurn(
+    fun play(
         position: Position,
         color: Color,
     ): MoveResult {
-        (rule.checkViolation(board, position, color) as? MoveResult.Failure)?.let { moveResult -> return moveResult }
-        (board.add(Stone(position, color)) as? MoveResult.Failure)?.let { moveResult -> return moveResult }
-        lastStone = Stone(position, color)
-        return rule.checkWinCondition(board, position, color)
+        val forbiddenMoveCheck: MoveResult = rule.checkForbiddenMove(board, position, color)
+        if (forbiddenMoveCheck is MoveResult.Failure) return forbiddenMoveCheck
+        when (val stoneAddResult: MoveResult = board.add(Stone(position, color))) {
+            is MoveResult.Failure -> return stoneAddResult
+            is MoveResult.Success -> {
+                lastStone = Stone(position, color)
+                return rule.checkWinCondition(board, position, color)
+            }
+        }
     }
 }

@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     private fun restoreGame(boardLayout: TableLayout) {
         val stones: List<Stone> = dbHelper.queryAll()
         stones.forEach { stone ->
-            game.processTurn(stone.position, stone.color)
+            game.play(stone.position, stone.color)
             val index = (stone.position.y.value - 1) * game.board.row.value + (stone.position.x.value - 1)
             boardLayout.filterImageViews().toList()[index].setImageResource(stone.color.toImage())
         }
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         val x = Col(index % game.board.col.value + 1)
         val y = Row(index / game.board.row.value + 1)
 
-        when (val moveResult: MoveResult = game.processTurn(Position(x, y), color)) {
+        when (val moveResult: MoveResult = game.play(Position(x, y), color)) {
             is MoveResult.Success.Playing -> {
                 view.setImageResource(stoneImage)
                 dbHelper.insertData(x, y, color)

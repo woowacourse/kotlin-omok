@@ -12,11 +12,33 @@ import woowacourse.omok.model.Stone
 import woowacourse.omok.model.position.Position
 
 class RenjuRule : Rule {
-    override fun checkViolation(
+    override fun checkForbiddenMove(
         board: Board,
         position: Position,
         color: Color,
     ): MoveResult {
+        if (isUnavailablePosition(board, position, color)) return MoveResult.Failure.PositionAlreadyOccupied
+        return when (checkViolation(board, position, color)) {
+            Violation.DOUBLE_THREE -> MoveResult.Failure.DoubleThreeViolation
+            Violation.DOUBLE_FOUR -> MoveResult.Failure.DoubleFourViolation
+            Violation.OVERLINE -> MoveResult.Failure.OverlineViolation
+            Violation.NONE -> MoveResult.Success.Playing
+        }
+    }
+
+    private fun isUnavailablePosition(
+        board: Board,
+        position: Position,
+        color: Color,
+    ): Boolean {
+        return board.stones.map(Stone::position).contains(position)
+    }
+
+    private fun checkViolation(
+        board: Board,
+        position: Position,
+        color: Color,
+    ): Violation {
         val newPoint: Point = position.toPoint()
         val thisPoints: List<Point> = board.filterStones(color).extractPoints()
         val otherPoints: List<Point> = board.filterStones(color.reverse()).extractPoints()
@@ -27,13 +49,7 @@ class RenjuRule : Rule {
                 Color.WHITE -> WhiteRenjuRule(board.col.value, board.row.value)
             }
 
-        val violation: Violation = rule.checkAnyFoulCondition(thisPoints, otherPoints, newPoint)
-        return when (violation) {
-            Violation.DOUBLE_THREE -> MoveResult.Failure.DoubleThreeViolation
-            Violation.DOUBLE_FOUR -> MoveResult.Failure.DoubleFourViolation
-            Violation.OVERLINE -> MoveResult.Failure.OverlineViolation
-            Violation.NONE -> MoveResult.Success.Playing
-        }
+        return rule.checkAnyFoulCondition(thisPoints, otherPoints, newPoint)
     }
 
     override fun checkWinCondition(
@@ -41,11 +57,7 @@ class RenjuRule : Rule {
         position: Position,
         color: Color,
     ): MoveResult {
-        return if (isOmok(board, position, color)) {
-            MoveResult.Success.Finished(color)
-        } else {
-            MoveResult.Success.Playing
-        }
+        return if (isOmok(board, position, color)) MoveResult.Success.Finished(color) else MoveResult.Success.Playing
     }
 
     private fun isOmok(

@@ -6,7 +6,7 @@ import woowacourse.omok.model.MoveResult
 import woowacourse.omok.model.position.Position
 
 interface Rule {
-    fun checkViolation(
+    fun checkForbiddenMove(
         board: Board,
         position: Position,
         color: Color,

@@ -18,7 +18,7 @@ class RenjuRuleTest {
                 add(Stone(Position(Col(5), Row(6)), Color.BLACK))
             }
 
-        val actual: MoveResult = RenjuRule().checkViolation(board, Position(Col(7), Row(4)), Color.BLACK)
+        val actual: MoveResult = RenjuRule().checkForbiddenMove(board, Position(Col(7), Row(4)), Color.BLACK)
         val expected: MoveResult = MoveResult.Failure.DoubleThreeViolation
 
         assertThat(actual).isEqualTo(expected)
@@ -35,7 +35,7 @@ class RenjuRuleTest {
                 add(Stone(Position(Col(12), Row(10)), Color.BLACK))
             }
 
-        val actual: MoveResult = RenjuRule().checkViolation(board, Position(Col(12), Row(6)), Color.BLACK)
+        val actual: MoveResult = RenjuRule().checkForbiddenMove(board, Position(Col(12), Row(6)), Color.BLACK)
         val expected: MoveResult = MoveResult.Failure.DoubleFourViolation
 
         assertThat(actual).isEqualTo(expected)
@@ -52,7 +52,7 @@ class RenjuRuleTest {
                 add(Stone(Position(Col(10), Row(3)), Color.BLACK))
             }
 
-        val actual: MoveResult = RenjuRule().checkViolation(board, Position(Col(13), Row(3)), Color.BLACK)
+        val actual: MoveResult = RenjuRule().checkForbiddenMove(board, Position(Col(13), Row(3)), Color.BLACK)
         val expected: MoveResult = MoveResult.Failure.OverlineViolation
 
         assertThat(actual).isEqualTo(expected)
