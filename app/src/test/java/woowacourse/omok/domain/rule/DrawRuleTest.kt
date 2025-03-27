@@ -1,5 +1,8 @@
 package woowacourse.omok.domain.rule
 
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import woowacourse.omok.domain.omokboard.ColumnPosition
 import woowacourse.omok.domain.omokboard.PlayingBoard
 import woowacourse.omok.domain.omokboard.Position
@@ -7,9 +10,6 @@ import woowacourse.omok.domain.omokboard.RowPosition
 import woowacourse.omok.domain.placeresult.GameFinish
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
 
 class DrawRuleTest {
     private lateinit var playingBoard: PlayingBoard

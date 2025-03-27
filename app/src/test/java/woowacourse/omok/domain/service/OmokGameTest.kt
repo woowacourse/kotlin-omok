@@ -1,12 +1,12 @@
 package woowacourse.omok.domain.service
 
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import woowacourse.omok.domain.omokboard.OmokBoard
 import woowacourse.omok.domain.omokboard.PlayingBoard
 import woowacourse.omok.domain.omokboard.Position
 import woowacourse.omok.domain.player.StoneColor
 import woowacourse.omok.domain.rule.OmokRule
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
 
 class OmokGameTest {
     @Test

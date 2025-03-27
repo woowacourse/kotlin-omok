@@ -1,8 +1,8 @@
 package woowacourse.omok.domain.omokboard
 
-import woowacourse.omok.domain.rule.OmokRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.rule.OmokRule
 
 class OmokBoardTest {
     @Test
