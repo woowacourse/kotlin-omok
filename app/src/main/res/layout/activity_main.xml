@@ -1183,13 +1183,6 @@
 
     </TableLayout>
 
-    <Button
-        android:layout_marginStart="8dp"
-        android:id="@+id/btn_resetGame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/text_game_reset" />
-
     <TextView
         android:id="@+id/tv_nowTurn"
         android:layout_width="wrap_content"
