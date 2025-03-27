@@ -4,7 +4,7 @@ import omok.model.entity.board.Board
 import omok.model.entity.board.BoardPositionState
 import omok.model.entity.position.Position
 
-object RuleAdapter {
+object RuleMapper {
     fun adapt(board: Board): List<List<Int>> {
         val adapted =
             List(board.sideLength.value) { column ->

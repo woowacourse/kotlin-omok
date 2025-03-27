@@ -1,6 +1,6 @@
 package omok.model.domain.gameState
 
-import omok.model.domain.rule.RuleAdapter
+import omok.model.domain.rule.RuleMapper
 import omok.model.domain.rule.WhiteWinRule
 import omok.model.entity.Stone
 import omok.model.entity.board.Board
@@ -13,8 +13,8 @@ object WhiteTurn : GameState.Playing {
         board: Board,
         position: Position,
     ): GameState {
-        val adaptedBoard = RuleAdapter.adapt(board)
-        val adaptedPosition = RuleAdapter.adapt(position)
+        val adaptedBoard = RuleMapper.adapt(board)
+        val adaptedPosition = RuleMapper.adapt(position)
         board.put(position, stone)
         if (WhiteWinRule.validated(adaptedBoard, adaptedPosition)) {
             return GameState.Finish.WHITE_WIN
