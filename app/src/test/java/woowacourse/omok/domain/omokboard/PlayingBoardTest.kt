@@ -12,7 +12,7 @@ class PlayingBoardTest {
 
         // when
         playingBoard.placeStone(emptyList(), POSITION_ONE_ONE)
-        val board = playingBoard.board.value
+        val board = playingBoard.board.snapshot
         val actual = board.values.first()
         val expected = IntersectionState.OCCUPIED_BLACK
 

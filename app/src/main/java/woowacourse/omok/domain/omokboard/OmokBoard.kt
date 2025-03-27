@@ -4,16 +4,16 @@ import woowacourse.omok.domain.player.PlayerStone
 
 @JvmInline
 value class OmokBoard private constructor(
-    private val _value: MutableMap<Position, IntersectionState>,
+    private val value: MutableMap<Position, IntersectionState>,
 ) {
-    val value: Map<Position, IntersectionState> get() = _value.toMap()
-    val width: Int get() = value.keys.maxOf { it.column }
-    val height: Int get() = value.keys.maxOf { it.row }
+    val snapshot: Map<Position, IntersectionState> get() = value.toMap()
+    val width: Int get() = snapshot.keys.maxOf { it.column }
+    val height: Int get() = snapshot.keys.maxOf { it.row }
 
-    fun find(position: Position): IntersectionState? = _value[position]
+    fun find(position: Position): IntersectionState? = value[position]
 
     fun update(playerStone: PlayerStone) {
-        _value[playerStone.position] = playerStone.color.toIntersectionState()
+        value[playerStone.position] = playerStone.color.toIntersectionState()
     }
 
     companion object {

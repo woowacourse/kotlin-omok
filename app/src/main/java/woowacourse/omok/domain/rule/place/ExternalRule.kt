@@ -31,13 +31,13 @@ class ExternalRule : PlaceRule {
         val startPoint = playerStone.position.toExternalPoint()
 
         val blackPoints =
-            omokBoard.value
+            omokBoard.snapshot
                 .filter { it.value == IntersectionState.OCCUPIED_BLACK }
                 .keys
                 .map { it.toExternalPoint() }
 
         val whitePoints =
-            omokBoard.value
+            omokBoard.snapshot
                 .filter { it.value == IntersectionState.OCCUPIED_WHITE }
                 .keys
                 .map { it.toExternalPoint() }
