@@ -2,6 +2,7 @@ package woowacourse.omok.view
 
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.Color
+import woowacourse.omok.model.Game
 import woowacourse.omok.model.MoveResult
 import woowacourse.omok.model.position.Col
 
@@ -11,25 +12,23 @@ class OutputView {
         println()
     }
 
-    fun printMoveResult(moveResult: MoveResult) {
-        when (moveResult) {
-            is MoveResult.Success.Playing -> println(MESSAGE_OMOK_IN_PROGRESS)
-            is MoveResult.Success.Finished -> println(MESSAGE_OMOK_WINNER.format(moveResult.winner.toPlayerName()))
+    fun printMoveResult(
+        game: Game,
+        moveResult: MoveResult,
+    ) {
+        println(
+            when (moveResult) {
+                is MoveResult.Success.Playing -> MESSAGE_OMOK_IN_PROGRESS
+                is MoveResult.Success.Finished -> MESSAGE_OMOK_WINNER.format(moveResult.winner.toPlayerName())
 
-            is MoveResult.Failure.PositionAlreadyOccupied ->
-                println(
-                    MESSAGE_FAILURE_POSITION_ALREADY_OCCUPIED,
-                )
-            is MoveResult.Failure.DoubleThreeViolation ->
-                println(
-                    MESSAGE_FAILURE_DOUBLE_THREE_VIOLATION,
-                )
-            is MoveResult.Failure.DoubleFourViolation ->
-                println(
-                    MESSAGE_FAILURE_DOUBLE_FOUR_VIOLATION,
-                )
-            is MoveResult.Failure.OverlineViolation -> println(MESSAGE_FAILURE_OVERLINE_VIOLATION)
-        }
+                is MoveResult.Failure.PositionAlreadyOccupied -> MESSAGE_FAILURE_POSITION_ALREADY_OCCUPIED
+                is MoveResult.Failure.DoubleThreeViolation -> MESSAGE_FAILURE_DOUBLE_THREE_VIOLATION
+                is MoveResult.Failure.DoubleFourViolation -> MESSAGE_FAILURE_DOUBLE_FOUR_VIOLATION
+                is MoveResult.Failure.OverlineViolation -> MESSAGE_FAILURE_OVERLINE_VIOLATION
+                is MoveResult.Failure.StoneNotWithinColumn -> MESSAGE_FAILURE_INVALID_COL.format(game.board.col.value)
+                is MoveResult.Failure.StoneNotWithinRow -> MESSAGE_FAILURE_INVALID_ROW.format(game.board.row.value)
+            },
+        )
     }
 
     fun printBoard(board: Board) {
@@ -59,8 +58,10 @@ class OutputView {
 
     private fun buildBoard(board: Board): String {
         val top: String = buildRow(board, BOARD_TOP_LEFT, BOARD_TOP_MIDDLE, BOARD_TOP_RIGHT)
-        val center: String = buildRow(board, BOARD_CENTER_LEFT, BOARD_CENTER_MIDDLE, BOARD_CENTER_RIGHT)
-        val bottom: String = buildRow(board, BOARD_BOTTOM_LEFT, BOARD_BOTTOM_MIDDLE, BOARD_BOTTOM_RIGHT)
+        val center: String =
+            buildRow(board, BOARD_CENTER_LEFT, BOARD_CENTER_MIDDLE, BOARD_CENTER_RIGHT)
+        val bottom: String =
+            buildRow(board, BOARD_BOTTOM_LEFT, BOARD_BOTTOM_MIDDLE, BOARD_BOTTOM_RIGHT)
 
         val rows: List<String> = appendRows(board, top, center, bottom) + buildRowLabel(board)
         return rows.joinToString("\n")
@@ -108,15 +109,15 @@ class OutputView {
 
     private fun Color.toPlayerName(): String {
         return when (this) {
-            Color.BLACK -> woowacourse.omok.view.OutputView.BLACK_PLAYER
-            Color.WHITE -> woowacourse.omok.view.OutputView.WHITE_PLAYER
+            Color.BLACK -> BLACK_PLAYER
+            Color.WHITE -> WHITE_PLAYER
         }
     }
 
     private fun Color.toStoneChar(): Char {
         return when (this) {
-            Color.BLACK -> woowacourse.omok.view.OutputView.BLACK_STONE
-            Color.WHITE -> woowacourse.omok.view.OutputView.WHITE_STONE
+            Color.BLACK -> BLACK_STONE
+            Color.WHITE -> WHITE_STONE
         }
     }
 
@@ -133,6 +134,8 @@ class OutputView {
         private const val MESSAGE_FAILURE_DOUBLE_THREE_VIOLATION = "삼삼 금수입니다."
         private const val MESSAGE_FAILURE_DOUBLE_FOUR_VIOLATION = "사사 금수입니다."
         private const val MESSAGE_FAILURE_OVERLINE_VIOLATION = "장목 금수입니다."
+        private const val MESSAGE_FAILURE_INVALID_COL = "바둑돌은 열 1과 %s 사이에만 둘 수 있습니다."
+        private const val MESSAGE_FAILURE_INVALID_ROW = "바둑돌은 행 1과 %s 사이에만 둘 수 있습니다."
 
         private const val BLACK_PLAYER = "흑"
         private const val WHITE_PLAYER = "백"

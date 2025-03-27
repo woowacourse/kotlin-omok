@@ -11,8 +11,8 @@ class Board(
     val stones: Set<Stone> get() = _stones.toSet()
 
     fun add(newStone: Stone): MoveResult {
-        require(newStone.position.x.value in 1..col.value) { ERROR_MESSAGE_INVALID_COL.format(col.value) }
-        require(newStone.position.y.value in 1..row.value) { ERROR_MESSAGE_INVALID_ROW.format(row.value) }
+        if (newStone.position.x.value !in 1..col.value) return MoveResult.Failure.StoneNotWithinColumn
+        if (newStone.position.y.value !in 1..row.value) return MoveResult.Failure.StoneNotWithinRow
         if (_stones.map(Stone::position).contains(newStone.position)) {
             return MoveResult.Failure.PositionAlreadyOccupied
         }
@@ -25,8 +25,5 @@ class Board(
     companion object {
         private const val DEFAULT_COL_SIZE = 15
         private const val DEFAULT_ROW_SIZE = 15
-
-        private const val ERROR_MESSAGE_INVALID_COL = "바둑돌은 열 1과 %s 사이에만 둘 수 있습니다."
-        private const val ERROR_MESSAGE_INVALID_ROW = "바둑돌은 행 1과 %s 사이에만 둘 수 있습니다."
     }
 }

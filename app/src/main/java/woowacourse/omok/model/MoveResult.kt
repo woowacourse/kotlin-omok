@@ -15,5 +15,9 @@ sealed class MoveResult {
         data object DoubleFourViolation : Failure()
 
         data object OverlineViolation : Failure()
+
+        data object StoneNotWithinColumn : Failure()
+
+        data object StoneNotWithinRow : Failure()
     }
 }

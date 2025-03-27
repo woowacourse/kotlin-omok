@@ -27,11 +27,11 @@ class OmokController(
         when (moveResult) {
             is MoveResult.Success.Playing -> processTurn(game)
             is MoveResult.Success.Finished -> {
-                outputView.printMoveResult(moveResult)
+                outputView.printMoveResult(game, moveResult)
                 return
             }
             is MoveResult.Failure -> {
-                outputView.printMoveResult(moveResult)
+                outputView.printMoveResult(game, moveResult)
                 processTurn(game)
             }
         }

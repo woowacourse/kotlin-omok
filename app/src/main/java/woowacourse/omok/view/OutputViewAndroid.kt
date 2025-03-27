@@ -46,6 +46,7 @@ class OutputViewAndroid {
                 is MoveResult.Failure.DoubleThreeViolation -> MESSAGE_FAILURE_DOUBLE_THREE_VIOLATION
                 is MoveResult.Failure.DoubleFourViolation -> MESSAGE_FAILURE_DOUBLE_FOUR_VIOLATION
                 is MoveResult.Failure.OverlineViolation -> MESSAGE_FAILURE_OVERLINE_VIOLATION
+                else -> return
             }
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
     }
