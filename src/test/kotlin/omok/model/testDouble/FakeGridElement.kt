@@ -1,6 +1,6 @@
 package omok.model.testDouble
 
-import omok.model.position.GridElement
+import omok.model.entity.position.GridElement
 
 class FakeGridElement : GridElement {
     override val value: Int = 5

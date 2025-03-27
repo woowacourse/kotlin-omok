@@ -1,10 +1,10 @@
-package omok.model.gameState
+package omok.model.domain.gameState
 
-import omok.model.Stone
-import omok.model.board.Board
-import omok.model.position.Position
-import omok.model.rule.RuleAdapter
-import omok.model.rule.WhiteWinRule
+import omok.model.domain.rule.RuleAdapter
+import omok.model.domain.rule.WhiteWinRule
+import omok.model.entity.Stone
+import omok.model.entity.board.Board
+import omok.model.entity.position.Position
 
 object WhiteTurn : GameState.Playing {
     override val stone: Stone = Stone.WHITE

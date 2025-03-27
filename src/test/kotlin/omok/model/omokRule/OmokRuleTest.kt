@@ -1,6 +1,6 @@
 package omok.domain.omokRule
 
-import omok.model.rule.Rule
+import omok.model.domain.rule.Rule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

@@ -1,10 +1,10 @@
-package omok.model.board
+package omok.model.entity.board
 
-import omok.model.Stone
-import omok.model.position.DefaultGridElement
-import omok.model.position.DefaultPosition
-import omok.model.position.GridElement
-import omok.model.position.Position
+import omok.model.entity.Stone
+import omok.model.entity.position.DefaultGridElement
+import omok.model.entity.position.DefaultPosition
+import omok.model.entity.position.GridElement
+import omok.model.entity.position.Position
 
 interface Board {
     val positions: Set<BoardPosition>

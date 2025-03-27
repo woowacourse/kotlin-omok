@@ -1,6 +1,6 @@
 package omok.model
 
-import omok.model.position.DefaultPosition
+import omok.model.entity.position.DefaultPosition
 import omok.model.testDouble.FakeGridElement
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

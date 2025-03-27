@@ -1,10 +1,10 @@
 package omok.controller
 
-import omok.model.board.Board
-import omok.model.board.DefaultBoard
-import omok.model.gameState.BlackTurn
-import omok.model.gameState.GameState
-import omok.model.position.Position
+import omok.model.domain.gameState.BlackTurn
+import omok.model.domain.gameState.GameState
+import omok.model.entity.board.Board
+import omok.model.entity.board.DefaultBoard
+import omok.model.entity.position.Position
 import omok.view.OmokView
 
 class Omok(

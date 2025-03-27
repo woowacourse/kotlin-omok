@@ -1,4 +1,4 @@
-package omok.model.rule
+package omok.model.domain.rule
 
 object FourFourRule : Rule() {
     override fun validated(

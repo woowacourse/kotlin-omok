@@ -1,8 +1,8 @@
 package omok.model.testDouble
 
-import omok.model.Stone
-import omok.model.board.DefaultBoard
-import omok.model.position.DefaultPosition
+import omok.model.entity.Stone
+import omok.model.entity.board.DefaultBoard
+import omok.model.entity.position.DefaultPosition
 
 val EMPTY_BOARD = DefaultBoard()
 

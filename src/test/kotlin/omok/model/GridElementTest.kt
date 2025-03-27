@@ -1,7 +1,7 @@
 package omok.model
 
 import io.kotest.matchers.throwable.shouldHaveMessage
-import omok.model.position.DefaultGridElement
+import omok.model.entity.position.DefaultGridElement
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 

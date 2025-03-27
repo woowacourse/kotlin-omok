@@ -1,4 +1,4 @@
-import omok.model.rule.FourFourRule
+import omok.model.domain.rule.FourFourRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

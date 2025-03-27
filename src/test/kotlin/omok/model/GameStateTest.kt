@@ -1,8 +1,8 @@
 package omok.model
 
-import omok.model.gameState.BlackTurn
-import omok.model.gameState.GameState
-import omok.model.gameState.WhiteTurn
+import omok.model.domain.gameState.BlackTurn
+import omok.model.domain.gameState.GameState
+import omok.model.domain.gameState.WhiteTurn
 import omok.model.testDouble.BLACK_FORBIDDEN_BOARD_IF_PUT_1_1
 import omok.model.testDouble.BLACK_WIN_BOARD_IF_PUT_1_5
 import omok.model.testDouble.EMPTY_BOARD

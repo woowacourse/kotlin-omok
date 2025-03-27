@@ -1,7 +1,7 @@
 package omok.model.testDouble
 
-import omok.model.position.GridElement
-import omok.model.position.Position
+import omok.model.entity.position.GridElement
+import omok.model.entity.position.Position
 
 class FakePosition : Position {
     override val row: GridElement = FakeGridElement()

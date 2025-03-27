@@ -1,4 +1,4 @@
-import omok.model.rule.ThreeThreeRule
+import omok.model.domain.rule.ThreeThreeRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

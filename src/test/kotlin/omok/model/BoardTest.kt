@@ -1,12 +1,13 @@
 package omok.model
 
-import omok.model.board.Board
-import omok.model.board.BoardPosition
-import omok.model.board.BoardPositionState
-import omok.model.board.DefaultBoard
-import omok.model.board.DefaultBoardPosition
-import omok.model.position.DefaultPosition
-import omok.model.position.Position
+import omok.model.entity.Stone
+import omok.model.entity.board.Board
+import omok.model.entity.board.BoardPosition
+import omok.model.entity.board.BoardPositionState
+import omok.model.entity.board.DefaultBoard
+import omok.model.entity.board.DefaultBoardPosition
+import omok.model.entity.position.DefaultPosition
+import omok.model.entity.position.Position
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

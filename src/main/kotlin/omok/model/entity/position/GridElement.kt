@@ -1,4 +1,4 @@
-package omok.model.position
+package omok.model.entity.position
 
 interface GridElement {
     val value: Int

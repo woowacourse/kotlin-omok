@@ -1,12 +1,12 @@
-package omok.model.gameState
+package omok.model.domain.gameState
 
-import omok.model.Stone
-import omok.model.board.Board
-import omok.model.position.Position
-import omok.model.rule.BlackWinRule
-import omok.model.rule.FourFourRule
-import omok.model.rule.RuleAdapter
-import omok.model.rule.ThreeThreeRule
+import omok.model.domain.rule.BlackWinRule
+import omok.model.domain.rule.FourFourRule
+import omok.model.domain.rule.RuleAdapter
+import omok.model.domain.rule.ThreeThreeRule
+import omok.model.entity.Stone
+import omok.model.entity.board.Board
+import omok.model.entity.position.Position
 
 object BlackTurn : GameState.Playing {
     override val stone: Stone = Stone.BLACK

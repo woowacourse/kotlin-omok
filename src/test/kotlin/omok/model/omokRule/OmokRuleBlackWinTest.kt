@@ -1,6 +1,6 @@
 package omok.domain.omokRule
 
-import omok.model.rule.BlackWinRule
+import omok.model.domain.rule.BlackWinRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
