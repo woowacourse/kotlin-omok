@@ -1,4 +1,4 @@
-package omok.domain.model.rule
+package woowacourse.omok.domain.model.rule
 
 import io.kotest.matchers.shouldBe
 import omok.diagonalDownWinStones
@@ -10,7 +10,6 @@ import omok.verticalWinStones
 import org.junit.jupiter.api.Test
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.position.Position
-import woowacourse.omok.domain.model.rule.OmokRuleAdapter
 import woowacourse.omok.domain.model.stone.OmokStone
 import woowacourse.omok.domain.model.stone.StoneType
 

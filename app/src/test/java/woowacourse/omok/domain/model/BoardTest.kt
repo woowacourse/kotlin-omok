@@ -1,4 +1,4 @@
-package omok.domain.model
+package woowacourse.omok.domain.model
 
 import io.kotest.matchers.shouldBe
 import omok.horizontalWinStones
@@ -6,7 +6,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.position.Position
 import woowacourse.omok.domain.model.stone.OmokStone
 import woowacourse.omok.domain.model.stone.StoneType

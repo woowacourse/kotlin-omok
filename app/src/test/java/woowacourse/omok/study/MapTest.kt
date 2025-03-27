@@ -1,4 +1,4 @@
-package omok.study
+package woowacourse.omok.study
 
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
