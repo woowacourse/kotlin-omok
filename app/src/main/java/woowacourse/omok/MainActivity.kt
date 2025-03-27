@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -39,9 +40,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         val boardLayout = findViewById<TableLayout>(R.id.board)
-        setBoardPoints(boardLayout)
         val initialStones = queryStones()
-        omokAppController = OmokAppController(Board(initialStones))
+        val board = Board(initialStones)
+        setBoardPoints(board, boardLayout)
+        setTurnTextView(board)
+        omokAppController = OmokAppController(board)
         paintEntirePoints(boardLayout, queryStones())
     }
 
@@ -50,18 +53,20 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun setBoardPoints(boardLayout: TableLayout) =
-        boardLayout
-            .children
-            .filterIsInstance<TableRow>()
-            .forEachIndexed { rowIndex, tableRow ->
-                tableRow.forEachIndexed { colIndex, imageView ->
-                    imageView.tag = Point(rowIndex + 1, colIndex + 1)
-                    imageView.setOnClickListener {
-                        placeWithEndCheck(it.tag as Point, it as ImageView, boardLayout)
-                    }
+    private fun setBoardPoints(
+        board: Board,
+        boardLayout: TableLayout,
+    ) = boardLayout
+        .children
+        .filterIsInstance<TableRow>()
+        .forEachIndexed { rowIndex, tableRow ->
+            tableRow.forEachIndexed { colIndex, imageView ->
+                imageView.tag = Point(rowIndex + 1, colIndex + 1)
+                imageView.setOnClickListener {
+                    placeWithEndCheck(it.tag as Point, it as ImageView, board, boardLayout)
                 }
             }
+        }
 
     private fun place(
         point: Point,
@@ -80,6 +85,7 @@ class MainActivity : AppCompatActivity() {
     private fun placeWithEndCheck(
         point: Point,
         view: ImageView,
+        board: Board,
         boardLayout: TableLayout,
     ) {
         if (isEnd(point)) {
@@ -96,6 +102,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
         place(point, view)
+        setTurnTextView(board)
     }
 
     private fun isEnd(point: Point): Boolean {
@@ -135,6 +142,21 @@ class MainActivity : AppCompatActivity() {
                 }
             imageView.setImageResource(imageResourceId)
         }
+    }
+
+    private fun setTurnTextView(board: Board) {
+        val turnTextView = findViewById<TextView>(R.id.turnTextView)
+        val text =
+            when (
+                board.stones.lastStone
+                    ?.color
+                    ?.reverse()
+            ) {
+                StoneColor.BLACK -> "흑의 차례입니다."
+                StoneColor.WHITE -> "백의 차례입니다."
+                null -> "흑의 차례입니다."
+            }
+        turnTextView.text = text
     }
 
     private fun isFoulToRetry(stone: Stone): Boolean {
