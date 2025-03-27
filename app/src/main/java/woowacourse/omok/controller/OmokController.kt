@@ -4,7 +4,7 @@ import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.OmokResult
 import woowacourse.omok.domain.StoneColor
 import woowacourse.omok.domain.grid.OmokPoint
-import woowacourse.omok.util.retryInput
+import woowacourse.omok.domain.rule.ValidationResult
 import woowacourse.omok.view.InputView
 import woowacourse.omok.view.OutputView
 
@@ -50,17 +50,13 @@ class OmokController(
         nowTurn: StoneColor,
         latestPoint: OmokPoint?,
     ): OmokPoint {
-        return retryInput(
-            inputFunction = {
-                val point = inputView.getPoint(nowTurn, latestPoint)
-                val omokPoint = OmokPoint(point, nowTurn)
-                omokGame.validatePoint(nowTurn, omokPoint)
-                omokPoint
-            },
-            printErrorMessage = { message ->
-                outputView.printErrorMessage(message)
-            },
-        )
+        while (true) {
+            val point = inputView.getPoint(nowTurn, latestPoint)
+            val omokPoint = OmokPoint(point, nowTurn)
+            val violation = omokGame.validatePoint(nowTurn, omokPoint)
+            if (violation == ValidationResult.Success) return omokPoint
+            outputView.printErrorMessage((violation as ValidationResult.Failure).message)
+        }
     }
 
     private fun endGame(omokResult: OmokResult) {
