@@ -7,7 +7,7 @@ import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.rule.OmokRule
 
 class PlayingBoard(
-    var board: OmokBoard = OmokBoard.create(),
+    var board: OmokBoard = OmokBoard(),
     private val rules: List<OmokRule>,
 ) {
     fun placeStone(playerStone: PlayerStone): PlaceResult = placeResult(playerStone)

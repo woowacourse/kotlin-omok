@@ -13,7 +13,7 @@ interface OmokRule {
 
     companion object {
         val rules: List<OmokRule> get() {
-            val board = OmokBoard.create()
+            val board = OmokBoard()
             return listOf(
                 InvalidPositionRule(),
                 ExternalRenjuRule(BlackRenjuRule(board.width, board.height)),

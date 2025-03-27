@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         board = findViewById(R.id.board)
-        playingBoard = PlayingBoard(OmokBoard.create(), OmokRule.rules)
+        playingBoard = PlayingBoard(OmokBoard(), OmokRule.rules)
         omokGame = OmokGame(playingBoard)
 
         board

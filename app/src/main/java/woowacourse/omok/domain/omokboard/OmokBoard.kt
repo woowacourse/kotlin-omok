@@ -7,6 +7,15 @@ data class OmokBoard(
     private val _value: Map<Position, OmokBoardPointState>,
 ) {
     constructor(vararg stonePlace: Pair<Position, String>) : this(stonePlace.associate { it.first to it.second.toPointState() })
+    constructor(width: Int = DEFAULT_OMOK_BOARD_SIZE, height: Int = DEFAULT_OMOK_BOARD_SIZE) :
+        this(
+            (1..width)
+                .flatMap { row ->
+                    (1..height).map { column ->
+                        Position(RowPosition(row), ColumnPosition(column)) to OmokBoardPointState.Empty
+                    }
+                }.toMap(),
+        )
 
     val width get() = _value.keys.maxOf { it.column.value }
     val height get() = _value.keys.maxOf { it.row.value }
@@ -22,19 +31,6 @@ data class OmokBoard(
     }
 
     companion object {
-        fun create(
-            width: Int = DEFAULT_OMOK_BOARD_SIZE,
-            height: Int = DEFAULT_OMOK_BOARD_SIZE,
-        ): OmokBoard =
-            OmokBoard(
-                (1..width)
-                    .flatMap { row ->
-                        (1..height).map { column ->
-                            Position(RowPosition(row), ColumnPosition(column)) to OmokBoardPointState.Empty
-                        }
-                    }.toMap(),
-            )
-
         private fun String.toPointState(): OmokBoardPointState {
             return when (this) {
                 "Black" -> OmokBoardPointState.OCCUPIED(StoneColor.BLACK)
