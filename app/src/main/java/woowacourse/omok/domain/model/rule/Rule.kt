@@ -1,5 +1,6 @@
 package woowacourse.omok.domain.model.rule
 
+import woowacourse.omok.adapter.RuleResult
 import woowacourse.omok.domain.model.position.Stone
 import woowacourse.omok.domain.model.stone.Stones
 
@@ -12,5 +13,5 @@ interface Rule {
     fun canPlace(
         stones: Stones,
         stone: Stone,
-    ): PlaceResult
+    ): RuleResult
 }

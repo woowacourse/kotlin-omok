@@ -87,7 +87,7 @@ val stoneOneAndOne = Stone(positionOneAndOne, StoneType.BLACK)
 
 val stoneSixAndSix = Stone(6, true, 6, true, StoneType.BLACK)
 
-val longMoveStone = Stone(1, true, 5, true, StoneType.BLACK)
+val longMoveStone = Stone(5, true, 5, true, StoneType.BLACK)
 
 val doubleThreeStone = Stone(5, true, 3, true, StoneType.BLACK)
 

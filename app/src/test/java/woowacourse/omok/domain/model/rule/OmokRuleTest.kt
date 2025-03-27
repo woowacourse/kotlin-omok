@@ -1,6 +1,7 @@
 package omok.domain.model.rule
 
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeSameInstanceAs
 import omok.diagonalDownFourStones
 import omok.diagonalDownWinStone
 import omok.doubleFourFixture
@@ -18,6 +19,7 @@ import omok.verticalWinStone
 import org.junit.jupiter.api.Test
 import rule.BlackRenjuRule
 import woowacourse.omok.adapter.RenjuRuleAdapter
+import woowacourse.omok.adapter.RuleResult
 import woowacourse.omok.domain.model.rule.OmokRule
 
 class OmokRuleTest {
@@ -25,34 +27,31 @@ class OmokRuleTest {
 
     @Test
     fun `흑돌 차례일 때 장목이면 둘 수 없다`() {
-        // Given
-        val result =
-            omokRule.canPlace(
-                stoneLongMoveFixture,
-                longMoveStone,
-            )
-
-        // Then
-        result shouldBe false
+        omokRule.canPlace(
+            stoneLongMoveFixture,
+            longMoveStone,
+        ) shouldBe RuleResult.RenJuRule
     }
 
     @Test
     fun `흑돌 차례일 때 3-3이면 둘 수 없다`() {
-        // Given
-        val result = omokRule.canPlace(doubleThreeFixture, doubleThreeStone)
-
-        // Then
-        result shouldBe false
+        omokRule.canPlace(doubleThreeFixture, doubleThreeStone) shouldBe RuleResult.RenJuRule
     }
 
     @Test
     fun `흑돌 차례일 때 4-4면 둘 수 없다`() {
-        omokRule.canPlace(doubleFourFixture, doubleFourStone) shouldBe false
+        omokRule.canPlace(
+            doubleFourFixture,
+            doubleFourStone,
+        ) shouldBeSameInstanceAs RuleResult.RenJuRule
     }
 
     @Test
     fun `바둑돌이 이미 존재하는 위치는 둘 수 없다`() {
-        omokRule.canPlace(horizontalFourStones, stoneOneAndOne) shouldBe false
+        omokRule.canPlace(
+            horizontalFourStones,
+            stoneOneAndOne,
+        ) shouldBe RuleResult.DuplicatePosition
     }
 
     @Test
@@ -72,6 +71,6 @@ class OmokRuleTest {
 
     @Test
     fun `바둑돌을 둘 위치가 빈 경우 바둑돌을 둘 수 있다`() {
-        omokRule.canPlace(horizontalFourStones, stoneSixAndSix) shouldBe true
+        omokRule.canPlace(horizontalFourStones, stoneSixAndSix) shouldBe RuleResult.OnRule
     }
 }

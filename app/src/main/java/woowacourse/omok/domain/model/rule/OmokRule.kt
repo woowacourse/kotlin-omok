@@ -1,5 +1,6 @@
 package woowacourse.omok.domain.model.rule
 
+import woowacourse.omok.adapter.RuleResult
 import woowacourse.omok.domain.model.position.Stone
 import woowacourse.omok.domain.model.stone.Stones
 
@@ -16,5 +17,5 @@ class OmokRule(private val renjuRule: RenjuRule) : Rule {
     override fun canPlace(
         stones: Stones,
         stone: Stone,
-    ): PlaceResult = renjuRule.canPlace(stones, stone)
+    ): RuleResult = renjuRule.canPlace(stones, stone)
 }

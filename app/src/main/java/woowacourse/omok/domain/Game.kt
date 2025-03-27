@@ -1,42 +1,31 @@
 package woowacourse.omok.domain
 
-import woowacourse.omok.domain.model.Board
+import woowacourse.omok.adapter.RuleResult
 import woowacourse.omok.domain.model.position.Position
+import woowacourse.omok.domain.model.position.Stone
 import woowacourse.omok.domain.model.rule.OmokRule
-import woowacourse.omok.domain.model.state.Finish
 import woowacourse.omok.domain.model.state.OmokState
 import woowacourse.omok.domain.model.state.Turn
 import woowacourse.omok.domain.model.stone.StoneType
 import woowacourse.omok.domain.model.stone.Stones
 
-class Game(private val board: Board, private val rule: OmokRule) {
-    private var currentPosition: Position? = null
-
-    fun play(
-        onBoardState: (Board, Stones) -> Unit,
-        onBoardTurn: (StoneType, Position?) -> Unit,
-        onPlace: (String) -> Unit,
-        onPosition: (Board) -> Position,
-        stoneType: StoneType,
-    ): StoneType {
-        val state = Turn(Stones(listOf()), rule, stoneType)
-        return progress(onBoardState, onBoardTurn, onPlace, onPosition, stoneType, state).stoneType
+class Game(
+    private val rule: OmokRule,
+    private var stones: Stones = Stones(listOf()),
+    private var state: OmokState = Turn(StoneType.BLACK),
+) {
+    fun canPlace(position: Position): RuleResult {
+        val stone = Stone(position, state.stoneType)
+        return rule.canPlace(stones, stone)
     }
 
-    private tailrec fun progress(
-        onBoardState: (Board, Stones) -> Unit,
-        onBoardTurn: (StoneType, Position?) -> Unit,
-        onPlace: (String) -> Unit,
-        onPosition: (Board) -> Position,
+    fun placeStone(
+        position: Position,
         stoneType: StoneType,
-        state: OmokState,
-    ): OmokState {
-        onBoardState(board, state.stones)
-        onBoardTurn(stoneType, currentPosition)
-        val position = onPosition(board)
-        val next = state.placeStone(position, onPlace)
-        currentPosition = position
-        if (next is Finish) return next
-        return progress(onBoardState, onBoardTurn, onPlace, onPosition, stoneType.reverse(), next)
+    ): Boolean {
+        val stone = Stone(position, stoneType)
+        stones += stone
+        state = if (rule.checkWin(stones, stone)) state.finish() else state.turn()
+        return state.isFinished()
     }
 }
