@@ -38,17 +38,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
             insets
         }
 
-        omokRepository = OmokRepository.create(this)
-        game = OmokGame.create(this)
-        board = findViewById(R.id.board)
-
-        board
-            .children
-            .filterIsInstance<TableRow>()
-            .forEachIndexed { rowIndex, row ->
-                setRowListener(row, rowIndex, game)
-            }
-
+        initializedSettings()
         restoreSavedStones()
     }
 
@@ -82,6 +72,19 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         game.getMovedStone().forEach {
             omokRepository.saveNewPoint(it)
         }
+    }
+
+    private fun initializedSettings()  {
+        omokRepository = OmokRepository.create(this)
+        game = OmokGame.create(this)
+        board = findViewById(R.id.board)
+
+        board
+            .children
+            .filterIsInstance<TableRow>()
+            .forEachIndexed { rowIndex, row ->
+                setRowListener(row, rowIndex, game)
+            }
     }
 
     private fun resolveErrorMessage(e: Exceptions): String {
