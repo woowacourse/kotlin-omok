@@ -21,6 +21,6 @@ class Game(val board: Board, private val rule: Rule) {
         (rule.checkViolation(board, position, color) as? MoveResult.Failure)?.let { moveResult -> return moveResult }
         (board.add(Stone(position, color)) as? MoveResult.Failure)?.let { moveResult -> return moveResult }
         lastStone = Stone(position, color)
-        return rule.checkOmok(board, position, color)
+        return rule.checkWinCondition(board, position, color)
     }
 }

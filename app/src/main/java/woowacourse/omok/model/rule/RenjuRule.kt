@@ -36,23 +36,31 @@ class RenjuRule : Rule {
         }
     }
 
-    override fun checkOmok(
+    override fun checkWinCondition(
         board: Board,
         position: Position,
         color: Color,
     ): MoveResult {
+        return if (isOmok(board, position, color)) {
+            MoveResult.Success.Finished(color)
+        } else {
+            MoveResult.Success.Playing
+        }
+    }
+
+    private fun isOmok(
+        board: Board,
+        position: Position,
+        color: Color,
+    ): Boolean {
         val rule: OmokRule =
             when (color) {
                 Color.BLACK -> BlackRenjuRule(board.col.value, board.row.value)
                 Color.WHITE -> WhiteRenjuRule(board.col.value, board.row.value)
             }
-
         val points: List<Point> = board.filterStones(color).extractPoints()
         val newPoint: Point = position.toPoint()
-        val isOmok: Boolean = rule.checkSerialSameStonesBiDirection(points, newPoint, OMOK_CONDITION)
-
-        if (!isOmok) return MoveResult.Success.Playing
-        return MoveResult.Success.Finished(color)
+        return rule.checkSerialSameStonesBiDirection(points, newPoint, OMOK_CONDITION)
     }
 
     private fun Position.toPoint(): Point {

@@ -12,7 +12,7 @@ interface Rule {
         color: Color,
     ): MoveResult
 
-    fun checkOmok(
+    fun checkWinCondition(
         board: Board,
         position: Position,
         color: Color,
