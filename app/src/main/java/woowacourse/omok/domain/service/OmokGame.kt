@@ -48,4 +48,11 @@ class OmokGame(
         execute {
             omokBoard.pointValidation(point)
         }
+
+    companion object {
+        fun create(event: GameEventListener): OmokGame {
+            val board = OmokBoard.create()
+            return OmokGame(board, event)
+        }
+    }
 }

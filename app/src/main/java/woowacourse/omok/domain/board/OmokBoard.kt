@@ -67,6 +67,11 @@ class OmokBoard(
     }
 
     companion object {
+        fun create(): OmokBoard {
+            val omokPoints = OmokPoints()
+            return OmokBoard(omokPoints)
+        }
+
         const val OMOK_BOARD_SIZE = 15
         private const val OMOK_MATCH_COUNT = 5
     }

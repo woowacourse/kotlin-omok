@@ -11,18 +11,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import woowacourse.omok.R
-import woowacourse.omok.data.datasource.OmokDataSource
-import woowacourse.omok.data.db.OmokDbHelper
-import woowacourse.omok.data.repository.OmokRepositoryImpl
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
-import woowacourse.omok.domain.board.Coordination
-import woowacourse.omok.domain.board.OmokBoard
 import woowacourse.omok.domain.board.Row
 import woowacourse.omok.domain.exception.Exceptions
 import woowacourse.omok.domain.exception.OmokExceptions
 import woowacourse.omok.domain.exception.RendjuExceptions
-import woowacourse.omok.domain.point.OmokPoints
 import woowacourse.omok.domain.point.Point
 import woowacourse.omok.domain.repository.OmokRepository
 import woowacourse.omok.domain.service.OmokGame
@@ -44,10 +38,8 @@ class MainActivity : AppCompatActivity(), GameEventListener {
             insets
         }
 
-        val dbHelper = OmokDbHelper(this)
-        val omokDataSource = OmokDataSource(dbHelper)
-        omokRepository = OmokRepositoryImpl(omokDataSource)
-        game = OmokGame(OmokBoard(OmokPoints()), this)
+        omokRepository = OmokRepository.create(this)
+        game = OmokGame.create(this)
         board = findViewById(R.id.board)
 
         board
