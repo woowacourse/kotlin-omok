@@ -10,7 +10,7 @@ sealed interface BoardPositionState {
         White,
     }
 
-    fun withStone(stone: Stone): Exist {
+    fun stateWithStone(stone: Stone): Exist {
         check(this is Empty) { "이미 돌이 있습니다." }
         return when (stone) {
             Stone.BLACK -> Exist.Black

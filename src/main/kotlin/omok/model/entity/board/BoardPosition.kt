@@ -14,5 +14,5 @@ data class DefaultBoardPosition(
     override val position: Position,
     override val state: BoardPositionState = BoardPositionState.Empty,
 ) : BoardPosition {
-    override fun withStone(stone: Stone): BoardPosition = copy(state = state.withStone(stone))
+    override fun withStone(stone: Stone): BoardPosition = copy(state = state.stateWithStone(stone))
 }
