@@ -1,5 +1,6 @@
 package woowacourse.omok.model.adapter
 
+import rule.facade.BlackRenjuRule
 import woowacourse.omok.model.Board.Companion.MAX_BOARD_HEIGHT
 import woowacourse.omok.model.Board.Companion.MAX_BOARD_WIDTH
 import woowacourse.omok.model.Direction
@@ -7,12 +8,11 @@ import woowacourse.omok.model.game.FoulCondition
 import woowacourse.omok.model.stone.Point
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor
-import rule.facade.BlackRenjuRule
 
-class RenjuRuleAdapter {
+class RenjuRuleAdapter : RuleAdapter {
     private val blackRenjuRule = BlackRenjuRule(MAX_BOARD_WIDTH, MAX_BOARD_HEIGHT)
 
-    fun checkAnyFoulCondition(
+    override fun checkAnyFoulCondition(
         stones: Set<Stone>,
         startStone: Stone,
     ): FoulCondition {
@@ -27,7 +27,7 @@ class RenjuRuleAdapter {
         }
     }
 
-    fun checkWin(
+    override fun checkWin(
         stones: Set<Stone>,
         startStone: Stone,
     ): Boolean {
@@ -90,10 +90,6 @@ class RenjuRuleAdapter {
         }
         return count
     }
-
-    private fun Stone.toPair(): Pair<Int, Int> = point.row to point.col
-
-    private fun List<Stone>.toPairList(): List<Pair<Int, Int>> = map { it.toPair() }
 
     companion object {
         private const val OMOK_SIZE = 5
