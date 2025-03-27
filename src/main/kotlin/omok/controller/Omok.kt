@@ -12,7 +12,7 @@ class Omok(
 ) {
     fun play() {
         val board = board()
-        var currentTurn: GameState = BlackTurn
+        var currentTurn: GameState = BlackTurn()
         var lastPosition: Position? = null
         var position: Position = position(currentTurn, board)
         while (currentTurn is GameState.Playing) {

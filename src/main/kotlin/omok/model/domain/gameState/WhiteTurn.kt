@@ -19,6 +19,6 @@ object WhiteTurn : GameState.Playing {
         if (WhiteWinRule.validated(adaptedBoard, adaptedPosition)) {
             return GameState.Finish.WHITE_WIN
         }
-        return BlackTurn
+        return BlackTurn()
     }
 }
