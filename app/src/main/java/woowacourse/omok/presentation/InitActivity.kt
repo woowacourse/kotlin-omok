@@ -1,6 +1,5 @@
 package woowacourse.omok.presentation
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -12,10 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import woowacourse.omok.MainActivity
 import woowacourse.omok.R
 import woowacourse.omok.data.db.DbHelper
-import woowacourse.omok.data.db.GameContract
+import woowacourse.omok.data.db.GameDao
 
 class InitActivity : AppCompatActivity() {
     private lateinit var dbHelper: DbHelper
+    private lateinit var gameDao: GameDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +23,7 @@ class InitActivity : AppCompatActivity() {
         setContentView(R.layout.activity_init)
 
         dbHelper = DbHelper(this)
+        gameDao = GameDao(dbHelper)
 
         findViewById<Button>(R.id.btn_create_game).setOnClickListener {
             showDialog()
@@ -46,7 +47,7 @@ class InitActivity : AppCompatActivity() {
 
         builder.setPositiveButton(R.string.text_dialog_ok) { _, _ ->
             val roomName = input.text.toString()
-            val gameId = createGame(roomName)
+            val gameId = gameDao.createGame(roomName)
             val intent = Intent(this, MainActivity::class.java).putExtra("game_id", gameId)
             startActivity(intent)
         }
@@ -56,19 +57,5 @@ class InitActivity : AppCompatActivity() {
         }
 
         builder.show()
-    }
-
-    private fun createGame(roomName: String): Long {
-        val db = dbHelper.writableDatabase
-
-        val values =
-            ContentValues().apply {
-                put(GameContract.COLUMN_NAME_GAME_NAME, roomName)
-            }
-
-        val newRowId = db.insert(GameContract.TABLE_NAME, null, values)
-        db.close()
-
-        return newRowId
     }
 }

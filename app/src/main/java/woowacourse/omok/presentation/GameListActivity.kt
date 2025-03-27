@@ -1,7 +1,6 @@
 package woowacourse.omok.presentation
 
 import android.content.Intent
-import android.database.Cursor
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.MainActivity
 import woowacourse.omok.R
 import woowacourse.omok.data.db.DbHelper
-import woowacourse.omok.data.db.GameContract
+import woowacourse.omok.data.db.GameDao
 
 class GameListActivity : AppCompatActivity() {
     private lateinit var dbHelper: DbHelper
+    private lateinit var gameDao: GameDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +28,9 @@ class GameListActivity : AppCompatActivity() {
         }
 
         dbHelper = DbHelper(this)
+        gameDao = GameDao(dbHelper)
 
-        val games = queryGames()
+        val games = gameDao.queryGames()
         val gameAdapter =
             GameRecyclerAdapter(games) { gameId ->
                 val intent =
@@ -43,34 +44,5 @@ class GameListActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@GameListActivity, RecyclerView.VERTICAL, false)
             adapter = gameAdapter
         }
-    }
-
-    private fun queryGames(): List<Pair<Int, String>> {
-        val dbReader = dbHelper.readableDatabase
-        val result = mutableListOf<Pair<Int, String>>()
-
-        val cursor: Cursor =
-            dbReader.query(
-                GameContract.TABLE_NAME,
-                arrayOf(
-                    GameContract.COLUMN_NAME_GAME_ID,
-                    GameContract.COLUMN_NAME_GAME_NAME,
-                ),
-                null,
-                null,
-                null,
-                null,
-                null,
-            )
-
-        with(cursor) {
-            while (moveToNext()) {
-                val gameId = getLong(getColumnIndexOrThrow(GameContract.COLUMN_NAME_GAME_ID))
-                val title = getString(getColumnIndexOrThrow(GameContract.COLUMN_NAME_GAME_NAME))
-                result.add(Pair(gameId.toInt(), title))
-            }
-        }
-        cursor.close()
-        return result
     }
 }

@@ -1,7 +1,5 @@
 package woowacourse.omok
 
-import android.content.ContentValues
-import android.database.Cursor
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -13,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
-import woowacourse.omok.data.db.BoardContract
+import woowacourse.omok.data.db.BoardDao
 import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.domain.OmokAdapter
 import woowacourse.omok.domain.OmokBoard
@@ -29,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var omokGame: OmokGame
     private lateinit var board: TableLayout
     private lateinit var dbHelper: DbHelper
+    private lateinit var boardDao: BoardDao
     private var gameId: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +42,8 @@ class MainActivity : AppCompatActivity() {
 
         gameId = intent.getLongExtra("game_id", -1)
         dbHelper = DbHelper(this)
+        boardDao = BoardDao(dbHelper)
+
         initView()
         initGame()
     }
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initGame() {
-        val storedStone = getStoredStone(gameId)
+        val storedStone = boardDao.queryStones(gameId)
         omokGame =
             if (storedStone.isNotEmpty()) {
                 loadGame(storedStone)
@@ -122,14 +123,14 @@ class MainActivity : AppCompatActivity() {
     ) {
         when (omokGame.putStone(stone)) {
             is NextTurn -> {
-                insertStone(stone, gameId)
+                boardDao.insert(stone, gameId)
                 drawStone(view, stone.state)
                 omokGame.changeTurn()
                 updateTurnView(omokGame.turn)
             }
 
             is Finished -> {
-                insertStone(stone, gameId)
+                boardDao.insert(stone, gameId)
                 drawStone(view, omokGame.turn)
 
                 // board 터치 막기
@@ -159,58 +160,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.text_invalid_position, Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun getStoredStone(gameId: Long): List<Stone> {
-        val dbReader = dbHelper.readableDatabase
-        val result = mutableListOf<Stone>()
-
-        val cursor: Cursor =
-            dbReader.query(
-                BoardContract.TABLE_NAME,
-                arrayOf(
-                    BoardContract.COLUMN_NAME_GAME_ID,
-                    BoardContract.COLUMN_NAME_X,
-                    BoardContract.COLUMN_NAME_Y,
-                    BoardContract.COLUMN_NAME_STATE,
-                ),
-                "${BoardContract.COLUMN_NAME_GAME_ID} = ?",
-                arrayOf(gameId.toString()),
-                null,
-                null,
-                null,
-            )
-
-        with(cursor) {
-            while (moveToNext()) {
-                val x = getInt(getColumnIndexOrThrow(BoardContract.COLUMN_NAME_X))
-                val y = getInt(getColumnIndexOrThrow(BoardContract.COLUMN_NAME_Y))
-                val state = getString(getColumnIndexOrThrow(BoardContract.COLUMN_NAME_STATE))
-
-                val stone = Stone(Position(x, y), StoneState.valueOf(state))
-                result.add(stone)
-            }
-        }
-        cursor.close()
-        return result
-    }
-
-    private fun insertStone(
-        stone: Stone,
-        gameId: Long,
-    ) {
-        val db = dbHelper.writableDatabase
-
-        val values =
-            ContentValues().apply {
-                put(BoardContract.COLUMN_NAME_GAME_ID, gameId)
-                put(BoardContract.COLUMN_NAME_X, stone.position.x)
-                put(BoardContract.COLUMN_NAME_Y, stone.position.y)
-                put(BoardContract.COLUMN_NAME_STATE, stone.state.name)
-            }
-
-        db.insert(BoardContract.TABLE_NAME, null, values)
-        db.close()
     }
 
     override fun onDestroy() {
