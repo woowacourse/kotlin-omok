@@ -16,7 +16,7 @@ object BoardContract {
             "$COLUMN_NAME_X INTEGER," +
             "$COLUMN_NAME_Y INTEGER," +
             "$COLUMN_NAME_STATE TEXT," +
-            "FOREIGN KEY($COLUMN_NAME_GAME_ID) REFERENCES ${GameContract.TABLE_NAME}(${GameContract.COLUMN_NAME_GAME_ID}))"
+            "FOREIGN KEY($COLUMN_NAME_GAME_ID) REFERENCES ${GameContract.TABLE_NAME}(${GameContract.COLUMN_NAME_GAME_ID}) ON DELETE CASCADE)"
 
     const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS $TABLE_NAME"
 }

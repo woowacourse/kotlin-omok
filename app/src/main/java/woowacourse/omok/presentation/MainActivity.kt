@@ -36,25 +36,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun showDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle(R.string.text_dialog_hint)
+        builder.apply {
+            setTitle(R.string.text_dialog_hint)
 
-        val input =
-            EditText(this).apply {
-                inputType = InputType.TYPE_CLASS_TEXT
+            val input =
+                EditText(this@MainActivity).apply {
+                    inputType = InputType.TYPE_CLASS_TEXT
+                }
+            setView(input)
+            setPositiveButton(R.string.text_dialog_ok) { _, _ ->
+                val roomName = input.text.toString()
+                val gameId = gameDao.createGame(roomName)
+                val intent =
+                    Intent(this@MainActivity, GameActivity::class.java).putExtra("game_id", gameId)
+                startActivity(intent)
             }
-        builder.setView(input)
 
-        builder.setPositiveButton(R.string.text_dialog_ok) { _, _ ->
-            val roomName = input.text.toString()
-            val gameId = gameDao.createGame(roomName)
-            val intent = Intent(this, GameActivity::class.java).putExtra("game_id", gameId)
-            startActivity(intent)
+            setNegativeButton(R.string.text_dialog_cancel) { dialog, _ ->
+                dialog.cancel()
+            }
+
+            show()
         }
-
-        builder.setNegativeButton(R.string.text_dialog_cancel) { dialog, _ ->
-            dialog.cancel()
-        }
-
-        builder.show()
     }
 }

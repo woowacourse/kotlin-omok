@@ -2,6 +2,7 @@ package woowacourse.omok.presentation
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -31,13 +32,16 @@ class GameListActivity : AppCompatActivity() {
 
         val games = gameDao.queryGames()
         val gameAdapter =
-            GameRecyclerAdapter(games) { gameId ->
+            GameRecyclerAdapter(games, onItemClick = { gameId ->
                 val intent =
                     Intent(this, GameActivity::class.java).apply {
                         putExtra("game_id", gameId.toLong())
                     }
                 startActivity(intent)
-            }
+            }, onDelete = { gameId ->
+                gameDao.deleteGame(gameId)
+                Toast.makeText(this, "방이 삭제되었습니다.", Toast.LENGTH_LONG).show()
+            })
 
         findViewById<RecyclerView>(R.id.rv_game_list).apply {
             layoutManager = LinearLayoutManager(this@GameListActivity, RecyclerView.VERTICAL, false)

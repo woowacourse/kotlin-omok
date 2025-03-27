@@ -46,4 +46,14 @@ class GameDao(
         cursor.close()
         return result
     }
+
+    fun deleteGame(gameId: Int) {
+        val db = dbHelper.writableDatabase
+
+        db.delete(
+            GameContract.TABLE_NAME,
+            "${GameContract.COLUMN_NAME_GAME_ID} = ?",
+            arrayOf(gameId.toString()),
+        )
+    }
 }
