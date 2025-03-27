@@ -49,3 +49,5 @@
 - [x] 퍼블릭 커스텀 get() 프로퍼티 테스트 추가
   - [x] 불필요 테스트 제거
 - [x] 렌주룰 어댑터가 보드가 아닌 StonesMap, LastStone을 받도록 수정
+- [ ] 누락된 OmokReferee, BoardSize 테스트 추가
+- [ ] PositionStatus의 값 이름 변경
