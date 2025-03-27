@@ -55,13 +55,8 @@ class MainActivity : AppCompatActivity() {
         val stones: List<Stone> = dbHelper.queryAll()
         stones.forEach { stone ->
             game.processTurn(stone.position, stone.color)
-            boardLayout.filterImageViews().forEachIndexed { index, view ->
-                if (index % game.board.col.value == stone.position.x.value - 1 &&
-                    index / game.board.row.value == stone.position.y.value - 1
-                ) {
-                    view.setImageResource(stone.color.toImage())
-                }
-            }
+            val index = (stone.position.y.value - 1) * game.board.row.value + (stone.position.x.value - 1)
+            boardLayout.filterImageViews().toList()[index].setImageResource(stone.color.toImage())
         }
     }
 
