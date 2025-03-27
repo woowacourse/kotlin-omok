@@ -8,4 +8,8 @@
     <string name="text_over_line">장목 자리에는 착수 할 수 없습니다.</string>
     <string name="text_occupied">이미 착수된 자리입니다.</string>
     <string name="text_unknown">잘못된 입력입니다. 다시 선택해주세요.</string>
+    <string name="text_retry_game">게임을 다시 시작하시겠습니까?</string>
+    <string name="text_finish">종료</string>
+    <string name="text_retry">다시하기</string>
+    <string name="text_game_finish">게임 종료</string>
 </resources>

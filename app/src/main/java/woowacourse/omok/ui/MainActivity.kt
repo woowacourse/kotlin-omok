@@ -61,7 +61,13 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     override fun onFinishedGame(color: StoneColor) {
         val stoneUiText = getStoneUiText(color)
         val uiText = getString(R.string.text_winner, stoneUiText)
-        Toast.makeText(this, uiText, Toast.LENGTH_SHORT).show()
+        ConfirmDialog(
+            winnerMessage = uiText,
+            onClickFinish = {
+            },
+            onClickRetry = {
+            },
+        ).show(supportFragmentManager, "Main")
     }
 
     override fun onFailToAddStone(e: Exceptions) {
