@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Omok</string>
+    <string name="text_black_stone">흑돌</string>
+    <string name="text_white_stone">백돌</string>
+    <string name="text_winner">승자는 %1$s입니다</string>
+    <string name="text_double_four">4x4 자리에는 착수 할 수 없습니다.</string>
+    <string name="text_double_three">3x3 자리에는 착수 할 수 없습니다.</string>
+    <string name="text_over_line">장목 자리에는 착수 할 수 없습니다.</string>
+    <string name="text_occupied">이미 착수된 자리입니다.</string>
+    <string name="text_unknown">잘못된 입력입니다. 다시 선택해주세요.</string>
 </resources>
