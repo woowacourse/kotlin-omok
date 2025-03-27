@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
     ): Boolean {
         val result = omokGame.validatePoint(stoneColor, point)
         if (result is ValidationResult.Success) return false
-        printViolation((result as ValidationResult.Failure).message)
+        showViolation((result as ValidationResult.Failure).message)
         return true
     }
 
@@ -121,11 +121,11 @@ class MainActivity : AppCompatActivity() {
 
         when {
             omokGame.checkWin(stoneColor, point) -> {
-                printWinner(OmokResult.getWinner(stoneColor))
+                showGameResult(OmokResult.getWinner(stoneColor))
             }
 
             omokGame.isBoardFull() -> {
-                printWinner(OmokResult.DRAW)
+                showGameResult(OmokResult.DRAW)
             }
         }
         isGameOver = true
@@ -133,12 +133,12 @@ class MainActivity : AppCompatActivity() {
         dbProvider.dropTable()
     }
 
-    // 우승자를 출력한다
-    private fun printWinner(result: OmokResult) {
+    // 게임 결과를 출력한다
+    private fun showGameResult(result: OmokResult) {
         Toast.makeText(this, "$result !!", Toast.LENGTH_SHORT).show()
     }
 
-    private fun printViolation(violation: String) {
+    private fun showViolation(violation: String) {
         Toast.makeText(this, violation, Toast.LENGTH_SHORT).show()
     }
 
