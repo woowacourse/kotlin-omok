@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import omok.domain.Board
+import omok.domain.FiveRule
 import omok.domain.Position
 import omok.domain.RenjuRuleAdapter
 import omok.domain.Turn
@@ -18,6 +19,8 @@ import omok.domain.Turn
 class MainActivity : AppCompatActivity() {
     private val omokBoard: Board = Board(RenjuRuleAdapter())
     private val turn = Turn()
+    private val fiveRule = FiveRule()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -39,9 +42,10 @@ class MainActivity : AppCompatActivity() {
                 val column = index % Board.BOARD_SIZE
                 view.setOnClickListener {
                     putStone(view, row, column)
-                    showTurnColorToast()
-                } }
-        showTurnColorToast()
+                    showTurnColorToast(checkOmok())
+                }
+            }
+        showTurnColorToast(checkOmok())
     }
 
     private fun putStone(view: ImageView, row: Int, column: Int) {
@@ -54,9 +58,22 @@ class MainActivity : AppCompatActivity() {
         turn.next()
     }
 
-    private fun showTurnColorToast() {
-        val nextTurnColor: String = if (turn.isWhite()) "백" else "흑"
-        val toastTurn = Toast.makeText(this, "${nextTurnColor}의 차례입니다.", Toast.LENGTH_SHORT)
-        toastTurn.show()
+    private fun showTurnColorToast(isOmok: Boolean) {
+        val turnColor: String
+        if (isOmok) {
+            turnColor = if (turn.isWhite()) "흑" else "백"
+            Toast.makeText(this, "${turnColor}의 승리입니다!", Toast.LENGTH_SHORT).show()
+        } else {
+            turnColor = if (turn.isWhite()) "백" else "흑"
+            Toast.makeText(this, "${turnColor}의 차례입니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun checkOmok(): Boolean {
+        val lastStone = omokBoard.stones.lastStone()
+        if (lastStone != null) {
+            return fiveRule.isOmok(lastStone, omokBoard.stones)
+        }
+        return false
     }
 }
