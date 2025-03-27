@@ -1187,7 +1187,7 @@
         android:id="@+id/game_info_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="게임 정보가 여기에 표시됩니다."
+        android:text="@string/default_game_Info_message"
         android:textSize="20sp"
         android:gravity="center"
         android:layout_marginTop="20dp"
@@ -1198,10 +1198,10 @@
         android:layout_width="150dp"
         android:layout_gravity="end"
         android:layout_height="wrap_content"
-        android:text="게임 종료"
+        android:text="@string/game_quit_button_text"
         android:textSize="18sp"
         android:layout_marginTop="40dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:padding="12dp" />
 
 </LinearLayout>

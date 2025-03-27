@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Omok</string>
+    <string name="app_name">오목</string>
+    <string name="default_game_Info_message">게임 정보가 여기에 표시됩니다.</string>
+    <string name="game_quit_button_text">게임 종료</string>
 </resources>

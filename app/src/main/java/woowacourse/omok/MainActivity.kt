@@ -1,7 +1,7 @@
 package woowacourse.omok
 
 import android.os.Bundle
-import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -29,10 +29,9 @@ class MainActivity : AppCompatActivity() {
 
         val boardSize = BoardSize(BOARD_SIZE)
         val outputAppView = OutputAppView(this)
-        val omokAppControl = OmokAppControl(this, boardSize, outputAppView)
+        val omokAppControl = OmokAppControl(boardSize, outputAppView)
 
         val board = findViewById<TableLayout>(R.id.board)
-
         board
             .children
             .filterIsInstance<TableRow>()
@@ -41,15 +40,18 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { index, positionView ->
                 val rowIndex = abs(MAX_BOARD_INDEX - (index / BOARD_SIZE))
                 val colIndex = index % BOARD_SIZE
-                positionView.tag = Pair(rowIndex, colIndex)
                 positionView.setOnClickListener {
-                    Log.d("PositionView", "클릭 좌표 : ${positionView.tag}")
                     thread {
-                        val coordinate = positionView.tag as Pair<Int, Int>
+                        val coordinate = Pair(rowIndex, colIndex)
                         omokAppControl.turn(positionView, coordinate)
                     }
                 }
             }
+
+        val gameEndButton = findViewById<Button>(R.id.end_game_button)
+        gameEndButton.setOnClickListener {
+            outputAppView.gameEndDialogAlert()
+        }
     }
 
     companion object {

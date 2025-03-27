@@ -1,7 +1,5 @@
 package woowacourse.omok.controller
 
-import android.app.Activity
-import android.util.Log
 import android.widget.ImageView
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.BoardSize
@@ -15,7 +13,6 @@ import woowacourse.omok.model.stone.position.Row
 import woowacourse.omok.view.OutputAppView
 
 class OmokAppControl(
-    private val mainActivity: Activity,
     private val boardSize: BoardSize,
     private val outputAppView: OutputAppView,
 ) {
@@ -23,7 +20,7 @@ class OmokAppControl(
     private var board = Board(boardSize)
 
     init {
-        outputAppView.updateTurnStoneColor(board.nextStoneColor)
+        outputAppView.turnInfoUiUpdate(board.nextStoneColor)
     }
 
     fun turn(
@@ -33,19 +30,19 @@ class OmokAppControl(
         val row = Row(coordinate.first)
         val col = Col(coordinate.second)
         val nextPosition = Position(row, col)
-        if (!isValidPosition(nextPosition)) return
+        if (!isPositionValid(nextPosition)) return
 
         stoneAdd(nextPosition, positionView)
-        outputAppView.updateTurnStoneColor(board.nextStoneColor)
+        outputAppView.turnInfoUiUpdate(board.nextStoneColor)
     }
 
-    private fun isValidPosition(position: Position): Boolean {
+    private fun isPositionValid(position: Position): Boolean {
         val positionState = board.positionStatus(position)
 
         if (positionState == EMPTY) {
             return true
         }
-        outputAppView.printPositionStatus(positionState)
+        outputAppView.positionStatusAlert(positionState)
         return false
     }
 
@@ -57,17 +54,19 @@ class OmokAppControl(
         val foul = omokReferee.lastStoneFoul(newBoard)
 
         if (foul == SAFE) {
-            outputAppView.showStone(board.nextStoneColor, positionView)
+            outputAppView.stoneUiDraw(board.nextStoneColor, positionView)
             board = newBoard
             if (omokReferee.isOmok(board)) {
-                board.lastStone?.let { outputAppView.omokAlert(it.stoneColor, ::restartGame) }
+                board.lastStone?.let { outputAppView.omokDialogAlert(it.stoneColor, ::gameRestart) }
             }
             return
         }
-        outputAppView.printFoul(foul)
+        outputAppView.foulAlert(foul)
     }
 
-    private fun restartGame() {
-        Log.d("재시작", "재시작호출됨")
+    private fun gameRestart() {
+        board = Board(boardSize)
+        outputAppView.turnInfoUiUpdate(board.nextStoneColor)
+        outputAppView.stoneUiClear()
     }
 }

@@ -2,10 +2,12 @@ package woowacourse.omok.view
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.view.View
 import android.widget.ImageView
+import android.widget.TableLayout
+import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.children
 import woowacourse.omok.R
 import woowacourse.omok.model.board.PositionStatus
 import woowacourse.omok.model.board.PositionStatus.EMPTY
@@ -21,37 +23,7 @@ import woowacourse.omok.model.stone.StoneColor
 class OutputAppView(
     private val mainActivity: Activity,
 ) {
-    fun updateTurnStoneColor(stoneColor: StoneColor) {
-        mainActivity.runOnUiThread {
-            val gameInfoView = mainActivity.findViewById<TextView>(R.id.game_info_text)
-            gameInfoView.text = NEXT_TURN_MESSAGE.format(stoneColorText(stoneColor))
-        }
-    }
-
-    fun resetMainView() {
-        mainActivity.runOnUiThread {
-            mainActivity.findViewById<View>(R.id.main).invalidate()
-        }
-    }
-
-    fun printFoul(foul: RenjuFoul) {
-        when (foul) {
-            THREE_BY_THREE_FOUL -> printToast(ERROR_THREE_BY_THREE_FOUL)
-            FOUR_BY_FOUR_FOUL -> printToast(ERROR_FOUR_BY_FOUR_FOUL)
-            OVER_FIVE_FOUL -> printToast(ERROR_OVER_FIVE_FOUL)
-            SAFE -> {}
-        }
-    }
-
-    fun printPositionStatus(positionState: PositionStatus) {
-        when (positionState) {
-            PLACED -> printToast(ERROR_STONE_ALREADY_EXITS)
-            OUT_OF_RANGE -> printToast(ERROR_OUT_OF_RANGE)
-            EMPTY -> {}
-        }
-    }
-
-    fun showStone(
+    fun stoneUiDraw(
         stoneColor: StoneColor,
         view: ImageView,
     ) {
@@ -63,7 +35,30 @@ class OutputAppView(
         }
     }
 
-    fun omokAlert(
+    fun positionStatusAlert(positionState: PositionStatus) {
+        when (positionState) {
+            PLACED -> toastShowUp(ERROR_STONE_ALREADY_EXITS)
+            OUT_OF_RANGE -> toastShowUp(ERROR_OUT_OF_RANGE)
+            EMPTY -> {}
+        }
+    }
+
+    fun foulAlert(foul: RenjuFoul) {
+        when (foul) {
+            THREE_BY_THREE_FOUL -> toastShowUp(ERROR_THREE_BY_THREE_FOUL)
+            FOUR_BY_FOUR_FOUL -> toastShowUp(ERROR_FOUR_BY_FOUR_FOUL)
+            OVER_FIVE_FOUL -> toastShowUp(ERROR_OVER_FIVE_FOUL)
+            SAFE -> {}
+        }
+    }
+
+    private fun toastShowUp(message: String) {
+        mainActivity.runOnUiThread {
+            Toast.makeText(mainActivity, message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun omokDialogAlert(
         stoneColor: StoneColor,
         restartGame: () -> Unit,
     ) {
@@ -72,18 +67,19 @@ class OutputAppView(
             AlertDialog
                 .Builder(mainActivity)
                 .setTitle(NORMAL_DIALOG_TITLE)
-                .setMessage(WIN_MESSAGE.format(stoneColorText))
-                .setPositiveButton("다시하기") { _, _ ->
+                .setMessage(WIN_DIALOG_MESSAGE.format(stoneColorText))
+                .setPositiveButton(RETRY_BUTTON_TEXT) { _, _ ->
                     restartGame()
-                }.setNegativeButton("종료하기") { _, _ ->
+                }.setNegativeButton(EXIT_BUTTON_TEXT) { _, _ ->
                     mainActivity.finish()
                 }.show()
         }
     }
 
-    private fun printToast(message: String) {
+    fun turnInfoUiUpdate(stoneColor: StoneColor) {
         mainActivity.runOnUiThread {
-            Toast.makeText(mainActivity, message, Toast.LENGTH_SHORT).show()
+            val gameInfoView = mainActivity.findViewById<TextView>(R.id.game_info_text)
+            gameInfoView.text = NEXT_TURN_MESSAGE.format(stoneColorText(stoneColor))
         }
     }
 
@@ -94,10 +90,35 @@ class OutputAppView(
             else -> ""
         }
 
+    fun stoneUiClear() {
+        mainActivity.runOnUiThread {
+            val board = mainActivity.findViewById<TableLayout>(R.id.board)
+            board
+                .children
+                .filterIsInstance<TableRow>()
+                .flatMap { it.children }
+                .filterIsInstance<ImageView>()
+                .forEach { positionView ->
+                    positionView.setImageResource(0)
+                }
+        }
+    }
+
+    fun gameEndDialogAlert() {
+        (mainActivity).runOnUiThread {
+            AlertDialog
+                .Builder(mainActivity)
+                .setTitle(NORMAL_DIALOG_TITLE)
+                .setMessage(EXIT_CONFIRMATION_DIALOG_MESSAGE)
+                .setPositiveButton(CANCEL_BUTTON_TEXT) { _, _ -> }
+                .setNegativeButton(EXIT_BUTTON_TEXT) { _, _ ->
+                    mainActivity.finish()
+                }.show()
+        }
+    }
+
     companion object {
-        private const val NEXT_TURN_MESSAGE = "%s의 차례 입니다."
-        private const val NEXT_TURN_WITH_LAST_STONE_MESSAGE = "%s의 차례 입니다. (마지막 돌의 위치: %s)"
-        private const val WIN_MESSAGE = "%s이 우승했습니다."
+        private const val NEXT_TURN_MESSAGE = "%s의 차례 입니다"
 
         private const val NORMAL_DIALOG_TITLE = "알림"
         private const val ERROR_THREE_BY_THREE_FOUL = "3-3 반칙이 발생했습니다"
@@ -108,5 +129,12 @@ class OutputAppView(
         private const val ERROR_OUT_OF_RANGE = "돌이 보드의 범위를 벗어났습니다"
         private const val BLACK_STONE_KOREAN_TEXT = "흑"
         private const val WHITE_STONE_KOREAN_TEXT = "백"
+
+        private const val WIN_DIALOG_MESSAGE = "%s이 우승했습니다"
+        private const val EXIT_CONFIRMATION_DIALOG_MESSAGE = "게임을 종료하시겠습니까?"
+
+        private const val RETRY_BUTTON_TEXT = "다시하기"
+        private const val CANCEL_BUTTON_TEXT = "취소"
+        private const val EXIT_BUTTON_TEXT = "종료하기"
     }
 }
