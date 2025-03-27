@@ -10,21 +10,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
-import woowacourse.omok.R.drawable.black_stone
-import woowacourse.omok.R.drawable.white_stone
-import woowacourse.omok.R.string.omok_already_exist_stone_error
-import woowacourse.omok.R.string.omok_black_label
-import woowacourse.omok.R.string.omok_double_four_error
-import woowacourse.omok.R.string.omok_double_three_error
-import woowacourse.omok.R.string.omok_draw
-import woowacourse.omok.R.string.omok_exit_alert
-import woowacourse.omok.R.string.omok_exit_game
-import woowacourse.omok.R.string.omok_game_end
-import woowacourse.omok.R.string.omok_invalid_position_error
-import woowacourse.omok.R.string.omok_overline_error
-import woowacourse.omok.R.string.omok_turn
-import woowacourse.omok.R.string.omok_white_label
-import woowacourse.omok.R.string.omok_winning
+import woowacourse.omok.R.drawable
+import woowacourse.omok.R.string
 import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.domain.omokboard.OmokBoard
 import woowacourse.omok.domain.omokboard.PlayingBoard
@@ -97,20 +84,20 @@ class MainActivity : AppCompatActivity() {
     ) {
         button.setImageResource(
             when (playingBoard.currentTurn) {
-                StoneColor.BLACK -> black_stone
-                StoneColor.WHITE -> white_stone
+                StoneColor.BLACK -> drawable.black_stone
+                StoneColor.WHITE -> drawable.white_stone
             },
         )
 
         handleJudge(playingBoard, playerStone, judgeRules)
         playingBoard.reverseTurn()
-        showSnackBar(getString(omok_turn, playingBoard.currentTurn.toText()))
+        showSnackBar(getString(string.omok_turn, playingBoard.currentTurn.toText()))
     }
 
     private fun StoneColor.toText(): String =
         when (this) {
-            StoneColor.BLACK -> getString(omok_black_label)
-            StoneColor.WHITE -> getString(omok_white_label)
+            StoneColor.BLACK -> getString(string.omok_black_label)
+            StoneColor.WHITE -> getString(string.omok_white_label)
         }
 
     private fun handleJudge(
@@ -138,18 +125,18 @@ class MainActivity : AppCompatActivity() {
     private fun showResultDialog(message: String) {
         AlertDialog
             .Builder(this)
-            .setTitle(getString(omok_game_end))
+            .setTitle(getString(string.omok_game_end))
             .setMessage(message)
             .setCancelable(false)
-            .setPositiveButton(getString(omok_exit_game)) { dialog, _ -> dialog.dismiss() }
-            .setNegativeButton(getString(omok_exit_alert)) { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton(getString(string.omok_exit_game)) { dialog, _ -> dialog.dismiss() }
+            .setNegativeButton(getString(string.omok_exit_alert)) { dialog, _ -> dialog.dismiss() }
             .show()
     }
 
     private fun getJudgeMessage(result: Finished): String =
         when (result) {
-            is Finished.Win -> getString(omok_winning, result.stone.toText())
-            is Finished.Draw -> getString(omok_draw)
+            is Finished.Win -> getString(string.omok_winning, result.stone.toText())
+            is Finished.Draw -> getString(string.omok_draw)
         }
 
     private fun showSnackBar(message: String) {
@@ -158,10 +145,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun getFailureMessage(result: Failure): String =
         when (result) {
-            Failure.AlreadyExistStone -> getString(omok_already_exist_stone_error)
-            Failure.DoubleFourViolation -> getString(omok_double_four_error)
-            Failure.DoubleThreeViolation -> getString(omok_double_three_error)
-            Failure.InvalidPosition -> getString(omok_invalid_position_error)
-            Failure.OverlineViolation -> getString(omok_overline_error)
+            Failure.AlreadyExistStone -> getString(string.omok_already_exist_stone_error)
+            Failure.DoubleFourViolation -> getString(string.omok_double_four_error)
+            Failure.DoubleThreeViolation -> getString(string.omok_double_three_error)
+            Failure.InvalidPosition -> getString(string.omok_invalid_position_error)
+            Failure.OverlineViolation -> getString(string.omok_overline_error)
         }
 }
