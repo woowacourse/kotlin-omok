@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
@@ -37,7 +36,7 @@ class InitActivity : AppCompatActivity() {
 
     private fun showDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("방 제목을 입력해주세요.")
+        builder.setTitle(R.string.text_dialog_hint)
 
         val input =
             EditText(this).apply {
@@ -45,14 +44,14 @@ class InitActivity : AppCompatActivity() {
             }
         builder.setView(input)
 
-        builder.setPositiveButton("방 만들기") { _, _ ->
+        builder.setPositiveButton(R.string.text_dialog_ok) { _, _ ->
             val roomName = input.text.toString()
             val gameId = createGame(roomName)
             val intent = Intent(this, MainActivity::class.java).putExtra("game_id", gameId)
             startActivity(intent)
         }
 
-        builder.setNegativeButton("취소") { dialog, _ ->
+        builder.setNegativeButton(R.string.text_dialog_cancel) { dialog, _ ->
             dialog.cancel()
         }
 
@@ -68,11 +67,6 @@ class InitActivity : AppCompatActivity() {
             }
 
         val newRowId = db.insert(GameContract.TABLE_NAME, null, values)
-        if (newRowId == -1L) {
-            Log.e("Init", "create failed")
-        } else {
-            Log.d("Init", "create success: $roomName $newRowId")
-        }
         db.close()
 
         return newRowId
