@@ -9,10 +9,21 @@ class BlackStones(
 ) : Stones(points) {
     override fun plus(point: Point): BlackStones = BlackStones(points + point)
 
-    fun isFoul(
+    fun isDoubleThreeFoul(
         other: Stones,
         point: Point,
     ): Boolean {
-        return renjuRule.isFoul(other, point, points)
+        return renjuRule.isDoubleThree(other, point, points)
+    }
+
+    fun isDoubleFourFoul(
+        other: Stones,
+        point: Point,
+    ): Boolean {
+        return renjuRule.isDoubleFour(other, point, points)
+    }
+
+    fun isOverLine(point: Point): Boolean {
+        return renjuRule.isOverLine(point, points)
     }
 }

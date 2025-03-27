@@ -14,13 +14,14 @@ class BlackTurn(
         boardSize: Int,
         onBoardUpdated: (Set<Point>, Set<Point>) -> Unit,
     ): State {
-        require(!(blackStones.contains(point) || whiteStones.contains(point))) { ERROR_INVALID_POINT }
-        require(!blackStones.isFoul(whiteStones, point)) { ERROR_RENJU_RULE }
-
         val newStones = blackStones + point
         return when {
             blackStones.isOmok(point) -> Finished.Win(StoneColor.BLACK)
             newStones.points.size + whiteStones.points.size >= boardSize * boardSize -> Finished.Draw
+            blackStones.isDoubleThreeFoul(whiteStones, point) -> Foul.DoubleThree
+            blackStones.isDoubleFourFoul(whiteStones, point) -> Foul.DoubleFour
+            blackStones.isOverLine(point) -> Foul.OverLine
+            blackStones.contains(point) || whiteStones.contains(point) -> Foul.Duplicated
             else -> WhiteTurn(newStones, whiteStones)
         }.also {
             onBoardUpdated(newStones.points, whiteStones.points)
@@ -28,9 +29,4 @@ class BlackTurn(
     }
 
     override fun nextStoneColor(): StoneColor = StoneColor.BLACK
-
-    companion object {
-        private const val ERROR_INVALID_POINT = "[ERROR] 이미 돌이 놓여져 있습니다."
-        private const val ERROR_RENJU_RULE = "[ERROR] 돌을 놓을 수 없습니다."
-    }
 }
