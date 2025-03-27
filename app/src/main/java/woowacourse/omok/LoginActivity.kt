@@ -12,7 +12,7 @@ class LoginActivity: AppCompatActivity() {
         setContentView(R.layout.login)
         findViewById<Button>(R.id.loginButton).setOnClickListener {
             val nickname = findViewById<EditText>(R.id.nicknameInput).text.toString()
-            startActivity(Intent(this,MainActivity::class.java).apply {
+            startActivity(Intent(this,RoomListActivity::class.java).apply {
                 putExtra("nickname",nickname)
             })
             finish()
