@@ -1,6 +1,6 @@
 package woowacourse.omok.controller
 
-import woowacourse.omok.domain.omokboard.PlayingBoard
+import woowacourse.omok.domain.omokboard.OmokGame
 import woowacourse.omok.domain.omokboard.Position
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.rule.judge.JudgeResult
@@ -13,30 +13,30 @@ class OmokController(
     private val outputView: OutputView,
 ) {
     fun run() {
-        val playingBoard = PlayingBoard()
+        val omokGame = OmokGame()
         outputView.displayOmokGameStart()
-        outputView.displayOmokBoard(playingBoard.board)
+        outputView.displayOmokBoard(omokGame.board)
 
         var position: Position? = null
 
         while (true) {
-            val newPosition: Position = inputView.askForPosition(playingBoard.currentTurn, position)
-            val playerStone = PlayerStone(playingBoard.currentTurn, newPosition)
-            val placeResult = playingBoard.placeStone(position = newPosition)
+            val newPosition: Position = inputView.askForPosition(omokGame.currentTurn, position)
+            val playerStone = PlayerStone(omokGame.currentTurn, newPosition)
+            val placeResult = omokGame.placeStone(position = newPosition)
 
-            outputView.displayOmokBoard(playingBoard.board)
+            outputView.displayOmokBoard(omokGame.board)
             if (placeResult is PlaceResult.Failure) {
                 outputView.displayErrorMessage(placeResult)
                 continue
             }
 
-            val judgeResult = playingBoard.judge(playerStone = playerStone)
+            val judgeResult = omokGame.judge(playerStone = playerStone)
             if (judgeResult is JudgeResult.Finished) {
                 outputView.displayGameResultMessage(judgeResult)
                 return
             }
 
-            playingBoard.reverseTurn()
+            omokGame.reverseTurn()
             position = playerStone.position
         }
     }

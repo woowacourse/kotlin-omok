@@ -12,7 +12,7 @@ import woowacourse.omok.domain.rule.place.InvalidPositionRule
 import woowacourse.omok.domain.rule.place.PlaceResult
 import woowacourse.omok.domain.rule.place.PlaceRule
 
-class PlayingBoard(
+class OmokGame(
     val board: OmokBoard = OmokBoard.create(),
 ) {
     var currentTurn = StoneColor.BLACK

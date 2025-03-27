@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import woowacourse.omok.R.drawable
 import woowacourse.omok.R.string
 import woowacourse.omok.databinding.ActivityMainBinding
-import woowacourse.omok.domain.omokboard.PlayingBoard
+import woowacourse.omok.domain.omokboard.OmokGame
 import woowacourse.omok.domain.omokboard.Position
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
@@ -35,12 +35,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupView()
 
-        val playingBoard = PlayingBoard()
+        val omokGame = OmokGame()
 
         val placeRules = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())
         val judgeRules = listOf(WinningRule(), DrawRule())
 
-        setupClickListeners(playingBoard, placeRules, judgeRules)
+        setupClickListeners(omokGame, placeRules, judgeRules)
     }
 
     private fun setupView() {
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners(
-        playingBoard: PlayingBoard,
+        omokGame: OmokGame,
         placeRules: List<PlaceRule>,
         judgeRules: List<JudgeRule>,
     ) {
@@ -64,10 +64,10 @@ class MainActivity : AppCompatActivity() {
             row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, button ->
                 button.setOnClickListener {
                     val position = Position(rowIndex + 1, colIndex + 1)
-                    val playerStone = PlayerStone(playingBoard.currentTurn, position)
+                    val playerStone = PlayerStone(omokGame.currentTurn, position)
 
-                    when (val result = playingBoard.placeStone(placeRules, position)) {
-                        is Success -> handlePlaceSuccess(button, playerStone, playingBoard, judgeRules)
+                    when (val result = omokGame.placeStone(placeRules, position)) {
+                        is Success -> handlePlaceSuccess(button, playerStone, omokGame, judgeRules)
                         is Failure -> showSnackBar(getFailureMessage(result))
                     }
                 }
@@ -78,19 +78,19 @@ class MainActivity : AppCompatActivity() {
     private fun handlePlaceSuccess(
         button: ImageView,
         playerStone: PlayerStone,
-        playingBoard: PlayingBoard,
+        omokGame: OmokGame,
         judgeRules: List<JudgeRule>,
     ) {
         button.setImageResource(
-            when (playingBoard.currentTurn) {
+            when (omokGame.currentTurn) {
                 StoneColor.BLACK -> drawable.black_stone
                 StoneColor.WHITE -> drawable.white_stone
             },
         )
 
-        handleJudge(playingBoard, playerStone, judgeRules)
-        playingBoard.reverseTurn()
-        showSnackBar(getString(string.omok_turn, playingBoard.currentTurn.toText()))
+        handleJudge(omokGame, playerStone, judgeRules)
+        omokGame.reverseTurn()
+        showSnackBar(getString(string.omok_turn, omokGame.currentTurn.toText()))
     }
 
     private fun StoneColor.toText(): String =
@@ -100,11 +100,11 @@ class MainActivity : AppCompatActivity() {
         }
 
     private fun handleJudge(
-        playingBoard: PlayingBoard,
+        omokGame: OmokGame,
         playerStone: PlayerStone,
         judgeRules: List<JudgeRule>,
     ) {
-        val judgeResult = playingBoard.judge(judgeRules, playerStone)
+        val judgeResult = omokGame.judge(judgeRules, playerStone)
 
         if (judgeResult is Finished) {
             disableBoard()

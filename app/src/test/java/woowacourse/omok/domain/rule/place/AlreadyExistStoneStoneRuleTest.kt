@@ -3,7 +3,7 @@ package woowacourse.omok.domain.rule.place
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import woowacourse.omok.POSITION_ONE_ONE
-import woowacourse.omok.domain.omokboard.PlayingBoard
+import woowacourse.omok.domain.omokboard.OmokGame
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
 
@@ -12,12 +12,12 @@ class AlreadyExistStoneStoneRuleTest {
     fun `돌이 이미 있는 위치에 돌을 두면 실패한다`() {
         // given
         val placeRules: List<PlaceRule> = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())
-        val playingBoard: PlayingBoard = PlayingBoard()
+        val omokGame: OmokGame = OmokGame()
         val playerStone1: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_ONE_ONE)
 
         // when
-        playingBoard.placeStone(placeRules, POSITION_ONE_ONE)
-        val actual = AlreadyExistStoneRule().perform(playingBoard.board, playerStone1)
+        omokGame.placeStone(placeRules, POSITION_ONE_ONE)
+        val actual = AlreadyExistStoneRule().perform(omokGame.board, playerStone1)
         val expected = PlaceResult.Failure.AlreadyExistStone
 
         // then
