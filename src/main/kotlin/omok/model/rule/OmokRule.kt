@@ -12,4 +12,13 @@ interface OmokRule {
     ): RenjuFoul
 
     fun isOmok(board: Board): Boolean
+
+    class Fake : OmokRule {
+        override fun checkLastBlackStoneFoul(
+            stonesMap: Map<Position, StoneColor>,
+            lastStone: Stone,
+        ): RenjuFoul = RenjuFoul.THREE_BY_THREE_FOUL
+
+        override fun isOmok(board: Board): Boolean = true
+    }
 }
