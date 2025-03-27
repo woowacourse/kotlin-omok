@@ -5,7 +5,7 @@ import omok.model.board.BoardSize
 import omok.model.board.PositionStatus
 import omok.model.board.PositionStatus.EMPTY
 import omok.model.board.PositionStatus.OUT_OF_RANGE
-import omok.model.board.PositionStatus.STONE_ALREADY_EXITS
+import omok.model.board.PositionStatus.PLACED
 import omok.model.rule.RenjuFoul
 import omok.model.rule.RenjuFoul.FOUR_BY_FOUR_FOUL
 import omok.model.rule.RenjuFoul.OVER_FIVE_FOUL
@@ -104,7 +104,7 @@ class OutputView(
 
     fun printPositionStatus(positionState: PositionStatus) {
         when (positionState) {
-            STONE_ALREADY_EXITS -> println(ERROR_STONE_ALREADY_EXITS)
+            PLACED -> println(ERROR_STONE_ALREADY_EXITS)
             OUT_OF_RANGE -> println(ERROR_OUT_OF_RANGE)
             EMPTY -> {}
         }

@@ -28,7 +28,7 @@ class Board(
 
     fun positionStatus(investigatedPosition: Position): PositionStatus =
         when {
-            stonesMap.containsKey(investigatedPosition) -> PositionStatus.STONE_ALREADY_EXITS
+            stonesMap.containsKey(investigatedPosition) -> PositionStatus.PLACED
             investigatedPosition.col.value !in MINIMUM_BOARD_INDEX until boardSize.value -> PositionStatus.OUT_OF_RANGE
             investigatedPosition.row.value !in MINIMUM_BOARD_INDEX until boardSize.value -> PositionStatus.OUT_OF_RANGE
             else -> PositionStatus.EMPTY

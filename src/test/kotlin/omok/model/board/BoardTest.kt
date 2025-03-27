@@ -17,7 +17,7 @@ class BoardTest {
         "0, 0, EMPTY",
         "15, 15, OUT_OF_RANGE",
         "-1, -1, OUT_OF_RANGE",
-        "5, 5, STONE_ALREADY_EXITS",
+        "5, 5, PLACED",
     )
     fun `보드의 특정 포지션의 상태를 조회할 수 있다`(
         row: Int,
