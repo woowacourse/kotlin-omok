@@ -38,8 +38,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeDbHelper() {
         dbHelper = OmokDatabaseHelper(this)
+        // 추가 기능 미구현
         val ids = dbHelper.getGameIds()
-        println(ids)
         if (ids.isEmpty()) dbHelper.addGame(GAME_ROOM_ID)
     }
 

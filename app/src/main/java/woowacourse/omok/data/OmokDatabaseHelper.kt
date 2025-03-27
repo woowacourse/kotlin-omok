@@ -10,10 +10,10 @@ import woowacourse.omok.domain.board.StoneColor
 
 class OmokDatabaseHelper(
     context: Context,
-) : SQLiteOpenHelper(context, OmokContract.DATABASE_NAME, null, OmokContract.DATABASE_VERSION) {
+) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL(OmokContract.CREATE_GAMES_TABLE)
-        db.execSQL(OmokContract.CREATE_BOARD_TABLE)
+        db.execSQL(GamesTableContract.CREATE_TABLE)
+        db.execSQL(BoardTableContract.CREATE_TABLE)
     }
 
     override fun onUpgrade(
@@ -21,8 +21,8 @@ class OmokDatabaseHelper(
         oldVersion: Int,
         newVersion: Int,
     ) {
-        db.execSQL("DROP TABLE IF EXISTS ${OmokContract.TABLE_NAME_GAMES}")
-        db.execSQL("DROP TABLE IF EXISTS ${OmokContract.TABLE_NAME_BOARD}")
+        db.execSQL("DROP TABLE IF EXISTS ${GamesTableContract.TABLE_NAME}")
+        db.execSQL("DROP TABLE IF EXISTS ${BoardTableContract.TABLE_NAME}")
         onCreate(db)
     }
 
@@ -30,22 +30,22 @@ class OmokDatabaseHelper(
         writableDatabase.use { db ->
             val values =
                 ContentValues().apply {
-                    put(OmokContract.COLUMN_NAME_ID, gameId)
+                    put(GamesTableContract.COLUMN_NAME_ID, gameId)
                 }
-            db.insert(OmokContract.TABLE_NAME_GAMES, null, values)
+            db.insert(GamesTableContract.TABLE_NAME, null, values)
         }
     }
 
     fun deleteGame(gameId: Int) {
         writableDatabase.use { db ->
             db.delete(
-                OmokContract.TABLE_NAME_BOARD,
-                "${OmokContract.COLUMN_NAME_GAME_ID_FK} = ?",
+                BoardTableContract.TABLE_NAME,
+                "${BoardTableContract.COLUMN_NAME_GAME_ID_FK} = ?",
                 arrayOf(gameId.toString()),
             )
             db.delete(
-                OmokContract.TABLE_NAME_GAMES,
-                "${OmokContract.COLUMN_NAME_ID} = ?",
+                GamesTableContract.TABLE_NAME,
+                "${GamesTableContract.COLUMN_NAME_ID} = ?",
                 arrayOf(gameId.toString()),
             )
         }
@@ -55,7 +55,7 @@ class OmokDatabaseHelper(
         getGameCursor(readableDatabase).use { cursor ->
             val gameIds = mutableListOf<Int>()
             while (cursor.moveToNext()) {
-                val index = cursor.getColumnIndex(OmokContract.COLUMN_NAME_ID)
+                val index = cursor.getColumnIndex(GamesTableContract.COLUMN_NAME_ID)
                 val id = cursor.getInt(index)
                 gameIds.add(id)
             }
@@ -70,7 +70,7 @@ class OmokDatabaseHelper(
     ) {
         writableDatabase.use { db ->
             val values = createBoardContentValues(gameId, move)
-            db.insert(OmokContract.TABLE_NAME_BOARD, null, values)
+            db.insert(BoardTableContract.TABLE_NAME, null, values)
         }
     }
 
@@ -88,8 +88,8 @@ class OmokDatabaseHelper(
 
     private fun getGameCursor(db: SQLiteDatabase): Cursor =
         db.query(
-            OmokContract.TABLE_NAME_GAMES,
-            arrayOf(OmokContract.COLUMN_NAME_ID),
+            GamesTableContract.TABLE_NAME,
+            arrayOf(GamesTableContract.COLUMN_NAME_ID),
             null,
             null,
             null,
@@ -102,13 +102,13 @@ class OmokDatabaseHelper(
         gameId: Int,
     ): Cursor =
         db.query(
-            OmokContract.TABLE_NAME_BOARD,
+            BoardTableContract.TABLE_NAME,
             arrayOf(
-                OmokContract.COLUMN_NAME_X,
-                OmokContract.COLUMN_NAME_Y,
-                OmokContract.COLUMN_NAME_COLOR,
+                BoardTableContract.COLUMN_NAME_X,
+                BoardTableContract.COLUMN_NAME_Y,
+                BoardTableContract.COLUMN_NAME_COLOR,
             ),
-            "${OmokContract.COLUMN_NAME_GAME_ID_FK} = ?",
+            "${BoardTableContract.COLUMN_NAME_GAME_ID_FK} = ?",
             arrayOf(gameId.toString()),
             null,
             null,
@@ -120,10 +120,10 @@ class OmokDatabaseHelper(
         move: Pair<Point, StoneColor>,
     ): ContentValues =
         ContentValues().apply {
-            put(OmokContract.COLUMN_NAME_GAME_ID_FK, gameId)
-            put(OmokContract.COLUMN_NAME_X, move.first.x)
-            put(OmokContract.COLUMN_NAME_Y, move.first.y)
-            put(OmokContract.COLUMN_NAME_COLOR, move.second.toString())
+            put(BoardTableContract.COLUMN_NAME_GAME_ID_FK, gameId)
+            put(BoardTableContract.COLUMN_NAME_X, move.first.x)
+            put(BoardTableContract.COLUMN_NAME_Y, move.first.y)
+            put(BoardTableContract.COLUMN_NAME_COLOR, move.second.toString())
         }
 
     private fun cursorToMove(cursor: Cursor): Pair<Point, StoneColor> {
@@ -133,5 +133,10 @@ class OmokDatabaseHelper(
 
         val stoneColor = StoneColor.entries.find { it.toString() == color } ?: StoneColor.NONE
         return Point(x, y) to stoneColor
+    }
+
+    companion object {
+        private const val DB_NAME = "OmokGame.db"
+        private const val DB_VERSION = 1
     }
 }
