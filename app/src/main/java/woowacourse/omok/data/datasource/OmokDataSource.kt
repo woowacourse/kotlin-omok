@@ -1,6 +1,5 @@
 package woowacourse.omok.data.datasource
 
-import android.provider.BaseColumns
 import androidx.core.content.contentValuesOf
 import woowacourse.omok.data.db.OmokDbHelper
 import woowacourse.omok.data.db.OmokEntity
@@ -39,12 +38,11 @@ class OmokDataSource(private val dbHelper: OmokDbHelper) {
 
         cursor.use {
             while (it.moveToNext()) {
-                val id = cursor.getLong(cursor.getColumnIndexOrThrow(BaseColumns._ID))
                 val column = it.getInt(it.getColumnIndexOrThrow(COLUMN_NAME_BOARD_COLUMN))
                 val row = it.getInt(it.getColumnIndexOrThrow(COLUMN_NAME_BOARD_ROW))
                 val stone = it.getString(it.getColumnIndexOrThrow(COLUMN_NAME_STONE))
 
-                entries.add(OmokEntity(id, column, row, stone))
+                entries.add(OmokEntity(row, column, stone))
             }
         }
         return entries
