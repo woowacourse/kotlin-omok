@@ -51,5 +51,5 @@
 - [x] 렌주룰 어댑터가 보드가 아닌 StonesMap, LastStone을 받도록 수정
 - [x] PositionStatus의 값 이름 변경
 - [x] RenjuRule 인터페이스 이름을 OmokRule로 변경
-- [ ] 누락된 OmokReferee, BoardSize 테스트 추가
-  - [ ] OmokRule 인터페이스의 fake 객체 추가
+- [x] 누락된 OmokReferee, BoardSize 테스트 추가
+  - [x] OmokRule 인터페이스의 fake 객체 추가
