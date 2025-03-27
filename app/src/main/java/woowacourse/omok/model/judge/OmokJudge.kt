@@ -27,11 +27,8 @@ object OmokJudge {
         val addedStones = stones + addedStone
         var isFourFourFlag = false
         var isThreeThreeFlag = false
-
         if (ThreeThreeCheck.checkFoulByAllDirections(addedStone, addedStones)) isThreeThreeFlag = true
         if (FourFourCheck.checkFoulByAllDirections(addedStone, addedStones)) isFourFourFlag = true
-
-
         if (isFourFourFlag) return AddStoneStatus.Failed.IsFourFour
         if (isThreeThreeFlag) return AddStoneStatus.Failed.IsThreeThree
         return AddStoneStatus.IsAble

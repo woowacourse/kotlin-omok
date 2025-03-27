@@ -15,7 +15,6 @@ import androidx.core.view.children
 import controller.OmokController
 import model.AddStoneStatus
 import model.StoneColor
-import org.w3c.dom.Text
 import view.InputView
 import view.Message
 import view.ResultView
