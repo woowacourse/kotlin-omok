@@ -47,8 +47,9 @@ class BudoolRenjuRuleAdapterTest {
             stones[Position(it.first, it.second)] = StoneColor.BLACK
         }
         val board = Board(stonesMap = stones)
+        val lastStone = Stone(Position(coordination.last().first, coordination.last().second), StoneColor.BLACK)
 
-        val actualOmok = BudoolRenjuRuleAdapter(board.boardSize).isOmok(board)
+        val actualOmok = BudoolRenjuRuleAdapter(board.boardSize).isOmok(board.stonesMap, lastStone)
         assertThat(actualOmok).isTrue()
     }
 }

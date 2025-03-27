@@ -7,7 +7,10 @@ import omok.model.stone.StoneColor
 class OmokReferee(
     private val omokRule: OmokRule,
 ) {
-    fun isOmok(board: Board): Boolean = omokRule.isOmok(board)
+    fun isOmok(board: Board): Boolean {
+        val lastStone: Stone = board.lastStone ?: return false
+        return omokRule.isOmok(board.stonesMap, lastStone)
+    }
 
     fun lastStoneFoul(board: Board): RenjuFoul {
         val lastStone: Stone = board.lastStone ?: return RenjuFoul.SAFE

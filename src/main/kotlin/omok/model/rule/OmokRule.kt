@@ -1,6 +1,5 @@
 package omok.model.rule
 
-import omok.model.board.Board
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Position
@@ -11,7 +10,10 @@ interface OmokRule {
         lastStone: Stone,
     ): RenjuFoul
 
-    fun isOmok(board: Board): Boolean
+    fun isOmok(
+        stonesMap: Map<Position, StoneColor>,
+        lastStone: Stone,
+    ): Boolean
 
     class Fake : OmokRule {
         override fun checkLastBlackStoneFoul(
@@ -19,6 +21,9 @@ interface OmokRule {
             lastStone: Stone,
         ): RenjuFoul = RenjuFoul.THREE_BY_THREE_FOUL
 
-        override fun isOmok(board: Board): Boolean = true
+        override fun isOmok(
+            stonesMap: Map<Position, StoneColor>,
+            lastStone: Stone,
+        ): Boolean = true
     }
 }

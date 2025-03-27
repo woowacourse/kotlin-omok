@@ -1,6 +1,5 @@
 package omok.model.rule
 
-import omok.model.board.Board
 import omok.model.board.BoardSize
 import omok.model.stone.Stone
 import omok.model.stone.StoneColor
@@ -58,11 +57,10 @@ class BudoolRenjuRuleAdapter(
     private fun positionToCoordinatePair(position: Position): Pair<Int, Int> =
         position.row.value + BUDOOL_LIBRARY_INDEX_OFFSET to position.col.value + BUDOOL_LIBRARY_INDEX_OFFSET
 
-    override fun isOmok(board: Board): Boolean {
-        val stonesMap = board.stonesMap
-        val lastStone = board.lastStone ?: return false
-        return normalOmokRule.isPositionOmok(stonesMap, lastStone.position)
-    }
+    override fun isOmok(
+        stonesMap: Map<Position, StoneColor>,
+        lastStone: Stone,
+    ): Boolean = normalOmokRule.isPositionOmok(stonesMap, lastStone.position)
 
     companion object {
         private const val BUDOOL_LIBRARY_INDEX_OFFSET = 1
