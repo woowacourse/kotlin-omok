@@ -6,4 +6,10 @@ enum class StoneColor {
     ;
 
     fun toggle(): StoneColor = if (this == BLACK) WHITE else BLACK
+
+    companion object {
+        fun fromString(value: String?): StoneColor {
+            return entries.find { it.name == value } ?: throw IllegalArgumentException()
+        }
+    }
 }
