@@ -8,9 +8,9 @@ import woowacourse.omok.model.stone.Point
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor
 
-class OmokAppController {
-    val board: Board = Board()
-
+class OmokAppController(
+    private val board: Board = Board(),
+) {
     fun place(stone: Stone) {
         board.place(stone)
     }
