@@ -3,8 +3,6 @@ package woowacourse.omok
 import android.content.ContentValues
 import android.database.Cursor
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -16,7 +14,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import woowacourse.omok.data.db.BoardContract
-import woowacourse.omok.data.db.BoardContract.SQL_DELETE_ENTRIES
 import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.domain.OmokAdapter
 import woowacourse.omok.domain.OmokBoard
@@ -32,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var omokGame: OmokGame
     private lateinit var board: TableLayout
     private lateinit var dbHelper: DbHelper
+    private var gameId: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        gameId = intent.getLongExtra("game_id", -1)
         dbHelper = DbHelper(this)
         initView()
         initGame()
@@ -50,13 +49,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         board = findViewById(R.id.board)
-        findViewById<Button>(R.id.btn_resetGame).setOnClickListener { resetGame() }
     }
 
     private fun initGame() {
-        val storedStone = getStoredStone()
+        val storedStone = getStoredStone(gameId)
         omokGame =
-            if (storedStone.isNotEmpty()) loadGame(storedStone) else OmokGame(OmokBoard(rule = OmokAdapter()))
+            if (storedStone.isNotEmpty()) {
+                loadGame(storedStone)
+            } else {
+                OmokGame(OmokBoard(rule = OmokAdapter()))
+            }
         updateTurnView(omokGame.turn)
         initBoard()
     }
@@ -120,22 +122,22 @@ class MainActivity : AppCompatActivity() {
     ) {
         when (omokGame.putStone(stone)) {
             is NextTurn -> {
-                insertStone(stone)
+                insertStone(stone, gameId)
                 drawStone(view, stone.state)
                 omokGame.changeTurn()
                 updateTurnView(omokGame.turn)
             }
 
             is Finished -> {
+                insertStone(stone, gameId)
+                drawStone(view, omokGame.turn)
+
                 // board 터치 막기
                 board.children
                     .filterIsInstance<TableRow>()
                     .flatMap { it.children }
                     .filterIsInstance<ImageView>()
                     .forEach { it.setOnClickListener(null) }
-
-                resetDataBase()
-                drawStone(view, omokGame.turn)
 
                 Toast
                     .makeText(
@@ -159,7 +161,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getStoredStone(): List<Stone> {
+    private fun getStoredStone(gameId: Long): List<Stone> {
         val dbReader = dbHelper.readableDatabase
         val result = mutableListOf<Stone>()
 
@@ -167,12 +169,13 @@ class MainActivity : AppCompatActivity() {
             dbReader.query(
                 BoardContract.TABLE_NAME,
                 arrayOf(
+                    BoardContract.COLUMN_NAME_GAME_ID,
                     BoardContract.COLUMN_NAME_X,
                     BoardContract.COLUMN_NAME_Y,
                     BoardContract.COLUMN_NAME_STATE,
                 ),
-                null,
-                null,
+                "${BoardContract.COLUMN_NAME_GAME_ID} = ?",
+                arrayOf(gameId.toString()),
                 null,
                 null,
                 null,
@@ -192,49 +195,22 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
-    private fun insertStone(stone: Stone) {
+    private fun insertStone(
+        stone: Stone,
+        gameId: Long,
+    ) {
         val db = dbHelper.writableDatabase
 
         val values =
             ContentValues().apply {
+                put(BoardContract.COLUMN_NAME_GAME_ID, gameId)
                 put(BoardContract.COLUMN_NAME_X, stone.position.x)
                 put(BoardContract.COLUMN_NAME_Y, stone.position.y)
                 put(BoardContract.COLUMN_NAME_STATE, stone.state.name)
             }
 
-        val newRowId = db.insert(BoardContract.TABLE_NAME, null, values)
-        if (newRowId == -1L) {
-            Log.e("MainActivity", "insert failed")
-        } else {
-            Log.d("MainActivity", "insert success: ${stone.state.name}")
-        }
+        db.insert(BoardContract.TABLE_NAME, null, values)
         db.close()
-    }
-
-    private fun resetGame() {
-        resetBoard()
-        resetDataBase()
-
-        // board view 초기화
-        board.children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { view -> view.setImageResource(0) }
-
-        updateTurnView(omokGame.turn)
-        initBoard()
-    }
-
-    private fun resetBoard() {
-        omokGame = OmokGame(OmokBoard(rule = OmokAdapter()))
-    }
-
-    private fun resetDataBase() {
-        dbHelper.writableDatabase.use { db ->
-            db.execSQL(SQL_DELETE_ENTRIES)
-            dbHelper.onCreate(db)
-        }
     }
 
     override fun onDestroy() {
