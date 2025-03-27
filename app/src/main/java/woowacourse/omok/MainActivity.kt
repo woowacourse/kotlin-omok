@@ -90,19 +90,23 @@ class MainActivity : AppCompatActivity() {
     ) {
         if (isEnd(point)) {
             place(point, view)
-            boardLayout
-                .children
-                .filterIsInstance<TableRow>()
-                .forEach { tableRow ->
-                    tableRow.forEach { imageView ->
-                        imageView.isClickable = false
-                    }
-                }
+            inactivateBoard(boardLayout)
             deleteStones()
             return
         }
         place(point, view)
         setTurnTextView(board)
+    }
+
+    private fun inactivateBoard(boardLayout: TableLayout) {
+        boardLayout
+            .children
+            .filterIsInstance<TableRow>()
+            .forEach { tableRow ->
+                tableRow.forEach { imageView ->
+                    imageView.isClickable = false
+                }
+            }
     }
 
     private fun isEnd(point: Point): Boolean {
