@@ -27,9 +27,10 @@ import woowacourse.omok.fixture.blackGBySeven
 import woowacourse.omok.fixture.blackGBySix
 import woowacourse.omok.fixture.emptyGByEleven
 import woowacourse.omok.fixture.emptyGByTen
+import woowacourse.omok.fixture.emptyHByNine
 import woowacourse.omok.fixture.omokBoardFixture
+import woowacourse.omok.fixture.whiteBByEleven
 import woowacourse.omok.fixture.whiteGByEight
-import woowacourse.omok.fixture.whiteHByNine
 import woowacourse.omok.fixture.whiteHByTen
 import woowacourse.omok.fixture.whiteOByOne
 
@@ -64,7 +65,7 @@ class OmokBoardTest {
         val nextPoint = omokBoard.goto(currentPoint, Direction.BOTTOM)
 
         // result
-        assertThat(nextPoint).isEqualTo(whiteHByNine)
+        assertThat(nextPoint).isEqualTo(emptyHByNine)
     }
 
     @Test
@@ -217,7 +218,7 @@ class OmokBoardTest {
     fun `백돌 좌상단 방향으로 오목을 판별할 때 흑돌이 있으면 거짓을 반환한다`() {
         // given
         omokBoard.addStone(blackAByEight)
-        omokBoard.addStone(blackBBySeven)
+        omokBoard.addStone(whiteBByEleven)
         omokBoard.addStone(blackCBySix)
         omokBoard.addStone(blackDByFive)
 
