@@ -14,18 +14,18 @@ class Game(
     private var stones: Stones = Stones(listOf()),
     private var state: OmokState = Turn(StoneType.BLACK),
 ) {
+    val currentStoneType get() = state.stoneType
+
     fun canPlace(position: Position): RuleResult {
         val stone = Stone(position, state.stoneType)
         return rule.canPlace(stones, stone)
     }
 
-    fun placeStone(
-        position: Position,
-        stoneType: StoneType,
-    ): Boolean {
-        val stone = Stone(position, stoneType)
+    fun placeStone(position: Position) {
+        val stone = Stone(position, state.stoneType)
         stones += stone
         state = if (rule.checkWin(stones, stone)) state.finish() else state.turn()
-        return state.isFinished()
     }
+
+    fun isFinished() = state.isFinished()
 }
