@@ -1,6 +1,5 @@
 package woowacourse.omok.model
 
-import woowacourse.omok.model.position.Position
 import woowacourse.omok.model.rule.Rule
 
 class Game(val board: Board, private val rule: Rule) {
@@ -14,17 +13,14 @@ class Game(val board: Board, private val rule: Rule) {
         }
     }
 
-    fun play(
-        position: Position,
-        color: Color,
-    ): MoveResult {
-        val forbiddenMoveCheck: MoveResult = rule.checkForbiddenMove(board, position, color)
+    fun play(newStone: Stone): MoveResult {
+        val forbiddenMoveCheck: MoveResult = rule.checkForbiddenMove(board, newStone)
         if (forbiddenMoveCheck is MoveResult.Failure) return forbiddenMoveCheck
-        when (val stoneAddResult: MoveResult = board.add(Stone(position, color))) {
+        when (val stoneAddResult: MoveResult = board.add(newStone)) {
             is MoveResult.Failure -> return stoneAddResult
             is MoveResult.Success -> {
-                lastStone = Stone(position, color)
-                return rule.checkWinCondition(board, position, color)
+                lastStone = newStone
+                return rule.checkWinCondition(board, newStone)
             }
         }
     }

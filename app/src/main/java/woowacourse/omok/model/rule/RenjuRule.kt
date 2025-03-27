@@ -14,11 +14,10 @@ import woowacourse.omok.model.position.Position
 class RenjuRule : Rule {
     override fun checkForbiddenMove(
         board: Board,
-        position: Position,
-        color: Color,
+        newStone: Stone,
     ): MoveResult {
-        if (isUnavailablePosition(board, position, color)) return MoveResult.Failure.PositionAlreadyOccupied
-        return when (checkViolation(board, position, color)) {
+        if (isUnavailablePosition(board, newStone)) return MoveResult.Failure.PositionAlreadyOccupied
+        return when (checkViolation(board, newStone)) {
             Violation.DOUBLE_THREE -> MoveResult.Failure.DoubleThreeViolation
             Violation.DOUBLE_FOUR -> MoveResult.Failure.DoubleFourViolation
             Violation.OVERLINE -> MoveResult.Failure.OverlineViolation
@@ -28,23 +27,21 @@ class RenjuRule : Rule {
 
     private fun isUnavailablePosition(
         board: Board,
-        position: Position,
-        color: Color,
+        newStone: Stone,
     ): Boolean {
-        return board.stones.map(Stone::position).contains(position)
+        return board.stones.map(Stone::position).contains(newStone.position)
     }
 
     private fun checkViolation(
         board: Board,
-        position: Position,
-        color: Color,
+        newStone: Stone,
     ): Violation {
-        val newPoint: Point = position.toPoint()
-        val thisPoints: List<Point> = board.filterStones(color).extractPoints()
-        val otherPoints: List<Point> = board.filterStones(color.reverse()).extractPoints()
+        val newPoint: Point = newStone.position.toPoint()
+        val thisPoints: List<Point> = board.filterStones(newStone.color).extractPoints()
+        val otherPoints: List<Point> = board.filterStones(newStone.color.reverse()).extractPoints()
 
         val rule: OmokRule =
-            when (color) {
+            when (newStone.color) {
                 Color.BLACK -> BlackRenjuRule(board.col.value, board.row.value)
                 Color.WHITE -> WhiteRenjuRule(board.col.value, board.row.value)
             }
@@ -54,24 +51,22 @@ class RenjuRule : Rule {
 
     override fun checkWinCondition(
         board: Board,
-        position: Position,
-        color: Color,
+        newStone: Stone,
     ): MoveResult {
-        return if (isOmok(board, position, color)) MoveResult.Success.Finished(color) else MoveResult.Success.Playing
+        return if (isOmok(board, newStone)) MoveResult.Success.Finished(newStone.color) else MoveResult.Success.Playing
     }
 
     private fun isOmok(
         board: Board,
-        position: Position,
-        color: Color,
+        newStone: Stone,
     ): Boolean {
         val rule: OmokRule =
-            when (color) {
+            when (newStone.color) {
                 Color.BLACK -> BlackRenjuRule(board.col.value, board.row.value)
                 Color.WHITE -> WhiteRenjuRule(board.col.value, board.row.value)
             }
-        val points: List<Point> = board.filterStones(color).extractPoints()
-        val newPoint: Point = position.toPoint()
+        val points: List<Point> = board.filterStones(newStone.color).extractPoints()
+        val newPoint: Point = newStone.position.toPoint()
         return rule.checkSerialSameStonesBiDirection(points, newPoint, OMOK_CONDITION)
     }
 

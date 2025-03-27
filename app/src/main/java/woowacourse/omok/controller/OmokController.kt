@@ -1,8 +1,10 @@
 package woowacourse.omok.controller
 
 import woowacourse.omok.model.Board
+import woowacourse.omok.model.Color
 import woowacourse.omok.model.Game
 import woowacourse.omok.model.MoveResult
+import woowacourse.omok.model.Stone
 import woowacourse.omok.model.position.Position
 import woowacourse.omok.model.rule.RenjuRule
 import woowacourse.omok.view.InputView
@@ -21,7 +23,8 @@ class OmokController(
 
     private tailrec fun processTurn(game: Game) {
         val position: Position = inputView.readTurn(game)
-        val moveResult: MoveResult = game.play(position, game.chooseTurn())
+        val color: Color = game.chooseTurn()
+        val moveResult: MoveResult = game.play(Stone(position, color))
         outputView.printBoard(game.board)
 
         when (moveResult) {
