@@ -16,12 +16,13 @@ class OmokControl(
     private val inputView: InputView,
     private val outputView: OutputView,
 ) {
-    private val game = Game(
-        BlackRuleChecker(
-            rule = BlackRenjuRule(),
-            mapper = { position -> PointMapper().from(position) },
+    private val game =
+        Game(
+            BlackRuleChecker(
+                rule = BlackRenjuRule(),
+                mapper = { position -> PointMapper().from(position) },
+            ),
         )
-    )
 
     fun run() {
         play()
@@ -43,8 +44,8 @@ class OmokControl(
         play()
     }
 
-    private fun readPosition(): Position? {
-        return when (val result = inputView.inputStone(game.board)) {
+    private fun readPosition(): Position? =
+        when (val result = inputView.inputStone(game.board)) {
             is CoordinateResult.Success -> {
                 Position(Row(result.row), Col(result.col))
             }
@@ -53,10 +54,8 @@ class OmokControl(
                 null
             }
         }
-    }
 
-    private fun processPlacement(position: Position): PlacementError =
-        game.playTurn(position)
+    private fun processPlacement(position: Position): PlacementError = game.playTurn(position)
 
     private fun checkGameEnd(): Boolean {
         if (game.isOmok()) {

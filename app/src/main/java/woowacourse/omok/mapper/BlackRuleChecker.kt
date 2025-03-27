@@ -6,8 +6,8 @@ import rule.type.Violation
 import rule.wrapper.point.Point
 import woowacourse.omok.model.rule.PlacementError
 import woowacourse.omok.model.rule.PlacementError.DoubleFourViolation
-import woowacourse.omok.model.rule.PlacementError.NoViolation
 import woowacourse.omok.model.rule.PlacementError.DoubleThreeViolation
+import woowacourse.omok.model.rule.PlacementError.NoViolation
 import woowacourse.omok.model.rule.PlacementError.OverlineViolation
 
 class BlackRuleChecker(

@@ -18,10 +18,12 @@ class Board private constructor(
 
     fun getWhiteStones() = stonesMap.filter { it.value == StoneColor.WHITE }.map { it.key }
 
-    fun hasStoneAt(position: Position): Boolean =
-        _stonesMap.containsKey(position)
+    fun hasStoneAt(position: Position): Boolean = _stonesMap.containsKey(position)
 
-    fun placeStone(position: Position, stoneColor: StoneColor): Board {
+    fun placeStone(
+        position: Position,
+        stoneColor: StoneColor,
+    ): Board {
         val newBoard = Board(dimensions)
         newBoard._stonesMap.putAll(this._stonesMap)
         newBoard._stonesMap[position] = stoneColor

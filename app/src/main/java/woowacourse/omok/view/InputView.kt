@@ -26,8 +26,9 @@ class InputView {
         val col = colChar - MIN_COL_CHAR
 
         val rowPart = input.substring(ROW_NUM_START_INDEX)
-        val row = rowPart.toIntOrNull()
-            ?: return CoordinateResult.Failure(CoordinateError.InvalidRowNumber)
+        val row =
+            rowPart.toIntOrNull()
+                ?: return CoordinateResult.Failure(CoordinateError.InvalidRowNumber)
         if (row !in MIN_ROW_NUM + 1..board.getHeight()) {
             return CoordinateResult.Failure(CoordinateError.InvalidRowNumber)
         }
@@ -36,8 +37,6 @@ class InputView {
 
         return CoordinateResult.Success(rowIndex, col)
     }
-
-
 
     companion object {
         private const val INPUT_STONE_POSITION = "위치를 입력하세요: "

@@ -57,7 +57,7 @@ class OutputView {
         println(result)
     }
 
-    fun printCoordinateException(error: CoordinateError){
+    fun printCoordinateException(error: CoordinateError) {
         val result =
             when (error) {
                 CoordinateError.InvalidCoordinateFormat -> "좌표 형식이 올바르지 않습니다"
