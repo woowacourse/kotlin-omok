@@ -12,13 +12,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import omok.mapper.BlackRuleChecker
-import omok.mapper.PointMapper
 import omok.model.game.Game
 import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
 import rule.BlackRenjuRule
+import rule.wrapper.point.Point
 import woowacourse.omok.data.DbHelper
 import woowacourse.omok.data.OmokDao
 import woowacourse.omok.model.rule.PlacementError
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         val blackRuleChecker =
             BlackRuleChecker(
                 rule = BlackRenjuRule(),
-                mapper = { position -> PointMapper().from(position) },
+                mapper = { position -> Point(position.col.value + 1, position.row.value + 1) },
             )
 
         val game = Game(blackRuleChecker)

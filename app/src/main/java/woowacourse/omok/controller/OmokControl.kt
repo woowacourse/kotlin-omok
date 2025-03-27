@@ -1,7 +1,6 @@
 package omok.controller
 
 import omok.mapper.BlackRuleChecker
-import omok.mapper.PointMapper
 import omok.model.game.Game
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
@@ -9,6 +8,7 @@ import omok.model.stone.position.Row
 import omok.view.InputView
 import omok.view.OutputView
 import rule.BlackRenjuRule
+import rule.wrapper.point.Point
 import woowacourse.omok.model.rule.CoordinateResult
 import woowacourse.omok.model.rule.PlacementError
 
@@ -20,7 +20,7 @@ class OmokControl(
         Game(
             BlackRuleChecker(
                 rule = BlackRenjuRule(),
-                mapper = { position -> PointMapper().from(position) },
+                mapper = { position -> Point(position.col.value + 1, position.row.value + 1) },
             ),
         )
 
@@ -49,6 +49,7 @@ class OmokControl(
             is CoordinateResult.Success -> {
                 Position(Row(result.row), Col(result.col))
             }
+
             is CoordinateResult.Failure -> {
                 outputView.printCoordinateException(result.reason)
                 null
