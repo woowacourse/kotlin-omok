@@ -3,7 +3,10 @@ package omok.domain
 import omok.domain.Board.Companion.BOARD_SIZE
 
 class FiveRule {
-    fun isOmok(stone: Stone, stones: Stones): Boolean {
+    fun isOmok(
+        stone: Stone,
+        stones: Stones,
+    ): Boolean {
         directions.forEach { direction ->
             var count = 1
 

@@ -48,7 +48,11 @@ class MainActivity : AppCompatActivity() {
         showTurnColorToast(checkOmok())
     }
 
-    private fun putStone(view: ImageView, row: Int, column: Int) {
+    private fun putStone(
+        view: ImageView,
+        row: Int,
+        column: Int,
+    ) {
         omokBoard.put(Position(row, column), turn.color)
         if (turn.isWhite()) {
             view.setImageResource(R.drawable.white_stone)
