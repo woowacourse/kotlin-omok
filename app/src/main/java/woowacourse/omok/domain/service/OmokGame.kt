@@ -12,10 +12,14 @@ class OmokGame(
     private val omokBoard: OmokBoard,
     private val event: GameEventListener,
 ) {
-    private var stone = StoneColor.BLACK
+    private var currentTurn: StoneColor = StoneColor.BLACK
+
+    fun setTurn(color: StoneColor) {
+        currentTurn = color
+    }
 
     fun play(point: Point) {
-        val newStone = point.copy(status = BoardStatus.Moved(stone))
+        val newStone = point.copy(status = BoardStatus.Moved(currentTurn))
         when (val result = canMove(newStone)) {
             is ResultState.Error -> {
                 event.onFailToAddStone(result.exceptions)
@@ -23,7 +27,7 @@ class OmokGame(
 
             is ResultState.Success -> {
                 omokBoard.addStone(newStone)
-                event.onPlacedStone(stone)
+                event.onPlacedStone(currentTurn)
                 checkOmok(newStone)
             }
         }
@@ -35,9 +39,9 @@ class OmokGame(
 
     private fun checkOmok(point: Point) {
         if (omokBoard.isOmok(point)) {
-            event.onFinishedGame(stone)
+            event.onFinishedGame(currentTurn)
         }
-        stone = stone.toggle()
+        currentTurn = currentTurn.toggle()
     }
 
     private fun canMove(point: Point) =

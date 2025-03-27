@@ -141,6 +141,11 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         if (points.isNotEmpty()) {
             drawSavedStone(points)
             game.combine(points)
+
+            val nextTurn = if (points.size % 2 == 0) StoneColor.BLACK else StoneColor.WHITE
+            game.setTurn(nextTurn)
+        } else {
+            game.setTurn(StoneColor.BLACK)
         }
     }
 
