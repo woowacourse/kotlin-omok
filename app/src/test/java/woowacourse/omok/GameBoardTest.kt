@@ -15,7 +15,7 @@ class GameBoardTest {
         // result
         assertAll(
             { assertThat(gameBoard.addStone(stone)).isEqualTo(AddStoneStatus.IsAble) },
-            { assertThat(gameBoard.addStone(existedPositionStone)).isEqualTo(AddStoneStatus.IsExist) },
+            { assertThat(gameBoard.addStone(existedPositionStone)).isEqualTo(AddStoneStatus.Failed.IsExist) },
         )
     }
 

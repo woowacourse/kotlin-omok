@@ -77,7 +77,7 @@ class OmokJudgeTest {
         val nothingStones = listOf(STONE_1F_BLACK, STONE_2E_WHITE, STONE_4C_BLACK, STONE_5B_BLACK, STONE_6A_BLACK)
         // result
         assertAll(
-            { assertThat(OmokJudge.checkAddingStone(stone, overStones)).isEqualTo(AddStoneStatus.IsOverFive) },
+            { assertThat(OmokJudge.checkAddingStone(stone, overStones)).isEqualTo(AddStoneStatus.Failed.IsOverFive) },
             { assertThat(OmokJudge.checkAddingStone(stone, nothingStones)).isEqualTo(AddStoneStatus.IsAble) },
         )
     }
@@ -114,7 +114,7 @@ class OmokJudgeTest {
             )
         // when
         val newStone = Stone(Position(Row.from(newStoneRow), Col.from(newStoneCol)), StoneColor.BLACK)
-        assertThat(OmokJudge.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.IsThreeThree)
+        assertThat(OmokJudge.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.Failed.IsThreeThree)
     }
 
     @ParameterizedTest
@@ -153,6 +153,6 @@ class OmokJudgeTest {
         // when
         val newStone = Stone(Position(Row.from(newStoneRow), Col.from(newStoneCol)), StoneColor.BLACK)
         // result
-        assertThat(OmokJudge.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.IsFourFour)
+        assertThat(OmokJudge.checkAddingStone(newStone, stones)).isEqualTo(AddStoneStatus.Failed.IsFourFour)
     }
 }
