@@ -1,6 +1,7 @@
 package woowacourse.omok.data
 
 import android.content.ContentValues
+import android.content.Context
 import android.database.Cursor
 import android.util.Log
 import omok.model.stone.Stone
@@ -9,8 +10,10 @@ import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
 
-class OmokDao {
-    private lateinit var dbHelper: DbHelper
+class OmokDao(
+    context: Context,
+) {
+    val dbHelper: DbHelper = DbHelper(context)
 
     fun deleteDatabase() {
         val db = dbHelper.writableDatabase
@@ -18,14 +21,19 @@ class OmokDao {
         db.close()
     }
 
-    fun insertOmok(row: Int, col: Int, stoneColor: String) {
+    fun insertOmok(
+        row: Int,
+        col: Int,
+        stoneColor: String,
+    ) {
         val db = dbHelper.writableDatabase
 
-        val values = ContentValues().apply {
-            put(OmokContract.COLUMN_ROW_POSITION, row)
-            put(OmokContract.COLUMN_COL_POSITION, col)
-            put(OmokContract.COLUMN_STONE_COLOR, stoneColor)
-        }
+        val values =
+            ContentValues().apply {
+                put(OmokContract.COLUMN_ROW_POSITION, row)
+                put(OmokContract.COLUMN_COL_POSITION, col)
+                put(OmokContract.COLUMN_STONE_COLOR, stoneColor)
+            }
 
         val newRowId = db.insert(OmokContract.TABLE_NAME, null, values)
         if (newRowId == -1L) {
@@ -55,30 +63,32 @@ class OmokDao {
         val dbReader = dbHelper.readableDatabase
         val result = mutableListOf<Stone>()
 
-        val cursor: Cursor = dbReader.query(
-            OmokContract.TABLE_NAME,
-            arrayOf(
-                OmokContract.COLUMN_ROW_POSITION,
-                OmokContract.COLUMN_COL_POSITION,
-                OmokContract.COLUMN_STONE_COLOR
-            ),
-            null,
-            null,
-            null,
-            null,
-            null
-        )
+        val cursor: Cursor =
+            dbReader.query(
+                OmokContract.TABLE_NAME,
+                arrayOf(
+                    OmokContract.COLUMN_ROW_POSITION,
+                    OmokContract.COLUMN_COL_POSITION,
+                    OmokContract.COLUMN_STONE_COLOR,
+                ),
+                null,
+                null,
+                null,
+                null,
+                null,
+            )
 
         with(cursor) {
             while (moveToNext()) {
                 val row = getInt(getColumnIndexOrThrow(OmokContract.COLUMN_ROW_POSITION))
                 val col = getInt(getColumnIndexOrThrow(OmokContract.COLUMN_COL_POSITION))
                 val stoneColor = getString(getColumnIndexOrThrow(OmokContract.COLUMN_STONE_COLOR))
-                val color = when (stoneColor) {
-                    "BLACK" -> StoneColor.BLACK
-                    "WHITE" -> StoneColor.WHITE
-                    else -> continue
-                }
+                val color =
+                    when (stoneColor) {
+                        "BLACK" -> StoneColor.BLACK
+                        "WHITE" -> StoneColor.WHITE
+                        else -> continue
+                    }
                 result.add(Stone(Position(Row(row), Col(col)), color))
             }
         }

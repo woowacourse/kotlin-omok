@@ -19,7 +19,6 @@ import omok.model.stone.position.Position
 import omok.model.stone.position.Row
 import rule.BlackRenjuRule
 import rule.wrapper.point.Point
-import woowacourse.omok.data.DbHelper
 import woowacourse.omok.data.OmokDao
 import woowacourse.omok.model.rule.PlacementError
 import woowacourse.omok.model.rule.PlacementError.AlreadyOccupiedViolation
@@ -29,8 +28,7 @@ import woowacourse.omok.model.rule.PlacementError.NoViolation
 import woowacourse.omok.model.rule.PlacementError.OverlineViolation
 
 class MainActivity : AppCompatActivity() {
-    private val omokDao = OmokDao()
-    private val dbHelper = DbHelper(this)
+    private lateinit var omokDao: OmokDao
 
     override fun onStart() {
         if (omokDao.hasOmokData()) {
@@ -41,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        omokDao = OmokDao(this)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -176,7 +175,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onDestroy() {
-        dbHelper.close()
+        omokDao.dbHelper.close()
 
         super.onDestroy()
     }
