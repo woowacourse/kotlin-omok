@@ -31,8 +31,8 @@ class Board(
 
     fun checkFoulCondition(newStone: Stone): FoulConditionResult? =
         when (renjuRuleAdapter.checkAnyFoulCondition(stones.stones, newStone)) {
-            FoulCondition.DOUBLE_THREE -> FoulConditionResult.DoubleThree()
             FoulCondition.DOUBLE_FOUR -> FoulConditionResult.DoubleFour()
+            FoulCondition.DOUBLE_THREE -> FoulConditionResult.DoubleThree()
             FoulCondition.OVERLINE -> FoulConditionResult.Overline()
             FoulCondition.NONE -> null
         }
