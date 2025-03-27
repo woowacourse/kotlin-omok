@@ -20,6 +20,15 @@ class Board(private val rule: Rule) {
 
     fun isFull(): Boolean = grid.all { row -> row.all { column -> column != StoneType.EMPTY } }
 
+    fun clear() {
+        for (row in grid.indices) {
+            for (column in grid[row].indices) {
+                grid[row][column] = StoneType.EMPTY
+            }
+        }
+        stones.reset()
+    }
+
     private fun isValidPosition(stone: Stone) {
         if (stone.color == StoneType.BLACK && rule.isInvalid(stones, stone, grid)) {
             throw IllegalArgumentException(ERROR_INVALID_BLACK_STONE)

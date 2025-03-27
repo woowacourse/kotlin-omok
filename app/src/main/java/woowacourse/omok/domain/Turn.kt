@@ -14,4 +14,8 @@ class Turn {
     }
 
     fun isWhite(): Boolean = color == StoneType.WHITE
+
+    fun reset() {
+        color = StoneType.BLACK
+    }
 }

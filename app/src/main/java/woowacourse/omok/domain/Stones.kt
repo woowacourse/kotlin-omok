@@ -13,6 +13,8 @@ class Stones {
         return false
     }
 
+    fun reset() = _stones.clear()
+
     private fun isPlaced(position: Position): Boolean {
         return stones.any { stone ->
             stone.position == position

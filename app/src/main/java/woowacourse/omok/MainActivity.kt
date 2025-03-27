@@ -1,11 +1,13 @@
 package woowacourse.omok
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -48,6 +50,22 @@ class MainActivity : AppCompatActivity() {
         showTurnColorToast(checkOmok())
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        omokBoard.clear()
+        turn.reset()
+
+        val board = findViewById<TableLayout>(R.id.board)
+        board
+            .children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .forEach { view -> view.setImageDrawable(null)
+            }
+        showTurnColorToast(checkOmok())
+    }
+
     private fun putStone(
         view: ImageView,
         row: Int,
@@ -67,10 +85,25 @@ class MainActivity : AppCompatActivity() {
         if (isOmok) {
             turnColor = if (turn.isWhite()) "흑" else "백"
             Toast.makeText(this, "${turnColor}의 승리입니다!", Toast.LENGTH_SHORT).show()
+            showWinner(turnColor)
         } else {
             turnColor = if (turn.isWhite()) "백" else "흑"
             Toast.makeText(this, "${turnColor}의 차례입니다.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun showWinner(turnColor: String) {
+        val restartEventHandle = object : DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                if (p1 == DialogInterface.BUTTON_NEGATIVE) {
+                    onRestart()
+                }
+            }
+        }
+        AlertDialog.Builder(this).run {
+            setMessage("${turnColor}의 승리입니다!")
+            setNegativeButton("다시 시작", restartEventHandle)
+        }.show()
     }
 
     private fun checkOmok(): Boolean {
