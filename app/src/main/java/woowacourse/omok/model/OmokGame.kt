@@ -1,92 +1,61 @@
 package woowacourse.omok.model
 
 import omok.model.rule.OmokRuleManager
+import omok.model.rule.count.OverlineRule
+import omok.model.rule.lib.DoubleFourMoveRule
+import omok.model.rule.lib.DoubleThreeMoveRule
 import woowacourse.omok.model.StoneColor.Companion.next
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.BoardSize
 import woowacourse.omok.model.board.PlaceStoneResult
 import woowacourse.omok.model.board.Point
-import woowacourse.omok.view.NextPointListener
-import woowacourse.omok.view.OmokOutputView
 
-class OmokGame(
-    private val nextPointListener: NextPointListener,
-    private val outputView: OmokOutputView,
-) {
+class OmokGame {
+    private var isGameOver = false
+    var currentStoneColor: StoneColor = StoneColor.BLACK
+        private set
     private var previousPoint: Point? = null
-    private var currentStoneColor: StoneColor = StoneColor.BLACK
+    private var board: Board
 
-    fun play(
-        boardSize: BoardSize,
-        rules: OmokRuleManager,
-    ) {
-        val board = Board(boardSize, rules)
-
-        outputView.printStartMessage()
-        outputView.printBoardStatus(board)
-
-        playTurn(board)
+    init {
+        val size = BoardSize.OMOK_BOARD_SIZE
+        board = Board(BoardSize(size), getRules())
     }
 
-    private fun playTurn(board: Board) {
-        while (true) {
-            val result = placeStone(board)
+    private fun getRules(): OmokRuleManager {
+        val rules = OmokRuleManager
+        rules.forbiddenMoveRule.add(OverlineRule())
+        rules.forbiddenMoveRule.add(DoubleThreeMoveRule())
+        rules.forbiddenMoveRule.add(DoubleFourMoveRule())
+        return rules
+    }
 
-            if (result is PlaceStoneResult.Omok) {
-                outputView.printBoardStatus(board)
-                break
+    fun placeStone(
+        x: Int,
+        y: Int,
+    ): PlaceStoneResult {
+        if (isGameOver) return PlaceStoneResult.AlreadyPlaced
+
+        val point = Point(x, y)
+        return when (val result = board.placeStone(point, currentStoneColor)) {
+            is PlaceStoneResult.Success -> {
+                previousPoint = result.point
+                currentStoneColor = currentStoneColor.next()
+                result
             }
-        }
-    }
-
-    private fun placeStone(board: Board): PlaceStoneResult =
-        retryOnException {
-            val pos = getNextPoint()
-            board.placeStone(pos, currentStoneColor).also { result ->
-                when (result) {
-                    is PlaceStoneResult.Success -> handlePlaceStoneSuccess(result, board)
-                    is PlaceStoneResult.Omok -> handleGameWin(result)
-                    is PlaceStoneResult.AlreadyPlaced -> throw IllegalArgumentException(
-                        ALREADY_PLACED_ERROR_MESSAGE,
-                    )
-
-                    is PlaceStoneResult.ForbiddenMove -> throw IllegalArgumentException(
-                        CLOSED_ERROR_MESSAGE,
-                    )
-                }
+            is PlaceStoneResult.Omok -> {
+                isGameOver = true
+                result
             }
+            else -> result
         }
-
-    private fun handlePlaceStoneSuccess(
-        result: PlaceStoneResult.Success,
-        board: Board,
-    ) {
-        previousPoint = result.point
-        currentStoneColor = currentStoneColor.next()
-
-        outputView.printBoardStatus(board)
     }
 
-    private fun handleGameWin(result: PlaceStoneResult.Omok) {
-        outputView.printWinColor(result.point)
-    }
-
-    private fun getNextPoint(): Point =
-        retryOnException {
-            outputView.printCurrentTurn(previousPoint)
-            val (x, y) = nextPointListener.onNextPoint()
-
-            Point(x, y)
-        }
-
-    private fun <T> retryOnException(action: () -> T) =
-        woowacourse.omok.utils.retryOnException(
-            action = action,
-            onFailure = { outputView.printErrorMessage(it.message.toString()) },
-        )
-
-    companion object {
-        private const val ALREADY_PLACED_ERROR_MESSAGE = "중복되는 칸에 돌을 둘 수 없습니다."
-        private const val CLOSED_ERROR_MESSAGE = "둘 수 없는 자리입니다."
+    fun resetGame() {
+        isGameOver = false
+        currentStoneColor = StoneColor.BLACK
+        previousPoint = null
+        val size = BoardSize.OMOK_BOARD_SIZE
+        board = Board(BoardSize(size), getRules())
     }
 }
