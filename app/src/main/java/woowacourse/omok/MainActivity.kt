@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import woowacourse.omok.domain.Point
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,8 +26,17 @@ class MainActivity : AppCompatActivity() {
         board
             .children
             .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone) } }
+            .toList()
+            .reversed()
+            .forEachIndexed { rowIndex, row ->
+                row.children
+                    .filterIsInstance<ImageView>()
+                    .forEachIndexed { colIndex, view ->
+                        view.tag = Point(rowIndex, colIndex)
+                        view.setOnClickListener {
+                            view.setImageResource(R.drawable.black_stone)
+                        }
+                    }
+            }
     }
 }
