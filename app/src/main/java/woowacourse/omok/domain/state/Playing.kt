@@ -1,7 +1,6 @@
 package woowacourse.omok.domain.state
 
 import woowacourse.omok.domain.OmokBoard
-import woowacourse.omok.domain.Point
 import woowacourse.omok.domain.rule.Violation
 import woowacourse.omok.domain.stone.Stone
 import woowacourse.omok.domain.stone.StoneColor
@@ -11,8 +10,7 @@ abstract class Playing(
 ) : State {
     abstract val stoneColor: StoneColor
 
-    fun place(point: Point): PlaceResult {
-        val newStone = Stone(stoneColor, point)
+    fun place(newStone: Stone): PlaceResult {
         val violation = omokBoard.checkViolation(newStone)
         return when (violation) {
             Violation.OUT_OF_BOARD -> PlaceResult.ForbiddenMove.OutOfBoard()

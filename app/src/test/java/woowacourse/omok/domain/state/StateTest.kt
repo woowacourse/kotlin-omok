@@ -18,7 +18,7 @@ class StateTest {
     fun `흑의 차례가 끝나면 백의 차례이다`() {
         val omokBoard = OmokBoard()
         val state = BlackTurn(omokBoard)
-        val nextState = (state.place(A1) as PlaceResult.Placed).state
+        val nextState = (state.place(A1.toBlackStone()) as PlaceResult.Placed).state
         assertThat(nextState).isInstanceOf(WhiteTurn::class.java)
     }
 
@@ -26,7 +26,7 @@ class StateTest {
     fun `백의 차례가 끝나면 흑의 차례이다`() {
         val omokBoard = OmokBoard()
         val state = WhiteTurn(omokBoard)
-        val nextState = (state.place(A1) as PlaceResult.Placed).state
+        val nextState = (state.place(A1.toWhiteStone()) as PlaceResult.Placed).state
         assertThat(nextState).isInstanceOf(BlackTurn::class.java)
     }
 
@@ -35,7 +35,7 @@ class StateTest {
         val stones = OmokStones(setOf(A1, A2, A3, A4).toBlackStones())
         val omokBoard = OmokBoard(stones = stones)
         val state = BlackTurn(omokBoard)
-        val nextState = (state.place(A5) as PlaceResult.Placed).state
+        val nextState = (state.place(A5.toBlackStone()) as PlaceResult.Placed).state
         assertThat(nextState).isInstanceOf(Finished::class.java)
     }
 
@@ -44,7 +44,7 @@ class StateTest {
         val stones = OmokStones(setOf(A1, A2, A3, A4).toWhiteStones())
         val omokBoard = OmokBoard(stones = stones)
         val state = WhiteTurn(omokBoard)
-        val nextState = (state.place(A5) as PlaceResult.Placed).state
+        val nextState = (state.place(A5.toWhiteStone()) as PlaceResult.Placed).state
         assertThat(nextState).isInstanceOf(Finished::class.java)
     }
 
@@ -53,11 +53,15 @@ class StateTest {
         val stones = OmokStones(setOf(A1, A2, A3, A4).toBlackStones())
         val omokBoard = OmokBoard(stones = stones)
         val state = BlackTurn(omokBoard)
-        val nextState = (state.place(A5) as PlaceResult.Placed).state
+        val nextState = (state.place(A5.toBlackStone()) as PlaceResult.Placed).state
         assertThat((nextState as Finished).winnerColor).isEqualTo(StoneColor.BLACK)
     }
 
     private fun Set<Point>.toBlackStones(): Set<Stone> = this.map { Stone(StoneColor.BLACK, it) }.toSet()
 
     private fun Set<Point>.toWhiteStones(): Set<Stone> = this.map { Stone(StoneColor.WHITE, it) }.toSet()
+
+    private fun Point.toBlackStone(): Stone = Stone(StoneColor.BLACK, this)
+
+    private fun Point.toWhiteStone(): Stone = Stone(StoneColor.WHITE, this)
 }
