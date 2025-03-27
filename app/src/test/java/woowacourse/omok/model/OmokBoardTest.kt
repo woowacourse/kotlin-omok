@@ -42,7 +42,7 @@ class OmokBoardTest {
     }
 
     @Test
-    fun `금수자리에는 착수없다`() {
+    fun `금수자리에는 착수할 수 없다`() {
         val omokBoard = OmokBoard()
         val position = Position(1, 1)
         omokBoard.board[position] = PositionState.FORBIDDEN
