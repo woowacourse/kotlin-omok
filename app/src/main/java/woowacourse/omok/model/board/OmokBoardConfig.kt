@@ -11,10 +11,6 @@ object OmokBoardConfig {
     const val MIN_Y = 0
     const val MAX_Y = Y_MAX_RANGE - Y_MIN_RANGE
 
-    const val EMPTY_STONE = 0
-    const val BLACK_STONE = 1
-    const val WHITE_STONE = 2
-
     @JvmStatic
     val X_Edge = listOf(MIN_X, MAX_X)
 

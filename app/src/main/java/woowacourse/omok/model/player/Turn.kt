@@ -1,9 +1,8 @@
 package woowacourse.omok.model.player
 
 import woowacourse.omok.model.board.OmokBoard
-import woowacourse.omok.model.board.OmokBoardConfig.BLACK_STONE
-import woowacourse.omok.model.board.OmokBoardConfig.WHITE_STONE
 import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.PositionState
 import woowacourse.omok.model.rule.RenjuRule
 import woowacourse.omok.model.rule.WinRule
 import woowacourse.omok.model.stone.Stone
@@ -36,9 +35,9 @@ class Turn : GameState() {
         position: Position,
         omokBoard: OmokBoard,
     ): Boolean {
-        val blackWin = WinRule(BLACK_STONE, position, omokBoard).validate()
-        val whiteWin = WinRule(WHITE_STONE, position, omokBoard).validate()
-        return blackWin || whiteWin
+        val positionState =
+            if (stone.color == StoneColor.BLACK) PositionState.BLACK_POSITION else PositionState.WHITE_POSITION
+        return WinRule(positionState, position, omokBoard).validate()
     }
 
     private fun isForbidden(

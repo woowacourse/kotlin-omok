@@ -3,8 +3,6 @@ package woowacourse.omok.model
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
 import woowacourse.omok.model.board.OmokBoard
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.PositionState
@@ -22,13 +20,12 @@ class TurnTest {
         assertThat(stone.color).isEqualTo(StoneColor.WHITE)
     }
 
-    @CsvSource("BLACK_POSITION", "WHITE_POSITION")
-    @ParameterizedTest
-    fun `같은 돌이 연속 5개일 때 승리한다`(stonePosition: PositionState) {
+    @Test
+    fun `같은 돌이 연속 5개일 때 승리한다`() {
         val turn = Turn()
         val omokBoard = OmokBoard()
         winPositions.forEach { position ->
-            omokBoard.board[position] = stonePosition
+            omokBoard.board[position] = PositionState.BLACK_POSITION
         }
 
         val gameState = turn.place(Position(1, 5), omokBoard)

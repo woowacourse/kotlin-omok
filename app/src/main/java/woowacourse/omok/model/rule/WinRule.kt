@@ -1,12 +1,11 @@
 package woowacourse.omok.model.rule
 
 import woowacourse.omok.model.board.OmokBoard
-import woowacourse.omok.model.board.OmokBoardConfig.BLACK_STONE
-import woowacourse.omok.model.board.OmokBoardConfig.WHITE_STONE
 import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.PositionState
 
 class WinRule(
-    currentStone: Int,
+    currentStone: PositionState,
     position: Position,
     omokBoard: OmokBoard,
 ) : OmokRule(
@@ -29,6 +28,7 @@ class WinRule(
     }
 
     companion object {
-        private fun getOpponentStone(stone: Int): Int = if (stone == BLACK_STONE) WHITE_STONE else BLACK_STONE
+        private fun getOpponentStone(stone: PositionState): PositionState =
+            if (stone == PositionState.BLACK_POSITION) PositionState.WHITE_POSITION else PositionState.BLACK_POSITION
     }
 }

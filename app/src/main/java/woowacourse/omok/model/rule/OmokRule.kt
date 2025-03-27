@@ -1,20 +1,18 @@
 package woowacourse.omok.model.rule
 
 import woowacourse.omok.model.board.OmokBoard
-import woowacourse.omok.model.board.OmokBoardConfig.BLACK_STONE
-import woowacourse.omok.model.board.OmokBoardConfig.EMPTY_STONE
 import woowacourse.omok.model.board.OmokBoardConfig.MAX_X
 import woowacourse.omok.model.board.OmokBoardConfig.MAX_Y
 import woowacourse.omok.model.board.OmokBoardConfig.MIN_X
 import woowacourse.omok.model.board.OmokBoardConfig.MIN_Y
-import woowacourse.omok.model.board.OmokBoardConfig.WHITE_STONE
 import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.PositionState
 
 abstract class OmokRule(
-    private val currentStone: Int = BLACK_STONE,
-    protected val opponentStone: Int = WHITE_STONE,
+    private val currentStone: PositionState = PositionState.BLACK_POSITION,
+    protected val opponentStone: PositionState = PositionState.WHITE_POSITION,
     position: Position,
-    omokBoard: OmokBoard,
+    val omokBoard: OmokBoard,
 ) {
     protected val adaptedBoard = OmokAdapter.adaptOmokBoard(omokBoard)
     protected val adaptedPoint = OmokAdapter.adaptOmokPoint(position)
@@ -38,7 +36,7 @@ abstract class OmokRule(
                 }
 
                 opponentStone -> break
-                EMPTY_STONE -> {
+                PositionState.NONE -> {
                     if (blink == 1) break
                     if (blinkCount++ == 1) break
                 }
@@ -57,7 +55,7 @@ abstract class OmokRule(
             x += dx
             y += dy
             when (adaptedBoard[y][x]) {
-                in listOf(currentStone, EMPTY_STONE) -> distance++
+                in listOf(currentStone, PositionState.NONE) -> distance++
                 opponentStone -> break
                 else -> throw IllegalArgumentException()
             }
