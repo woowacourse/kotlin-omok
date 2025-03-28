@@ -27,8 +27,8 @@ class OmokStones {
 
     fun add(place: Place) {
         require(place !is Empty) { ERROR_EMPTY_ADD_NOT_SUPPORTED }
-        require(!isOccupied(place)) { ERROR_OCCUPIED_POSITION }
         require(!isProtected(place)) { ERROR_PROTECTED_POSITION }
+        require(!isOccupied(place)) { ERROR_OCCUPIED_POSITION }
         places += place
     }
 

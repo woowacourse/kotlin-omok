@@ -1,4 +1,4 @@
-package woowacourse.omok.event
+package woowacourse.omok.ui.ext
 
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -7,7 +7,7 @@ import androidx.core.view.children
 import omok.domain.board.OmokBoard
 import omok.domain.place.Place
 
-fun TableLayout.setEvent(block: ((Int, Int, ImageView) -> Unit)?) {
+fun TableLayout.setView(block: (Int, Int, ImageView) -> Unit) {
     val rows =
         this
             .children
@@ -17,24 +17,22 @@ fun TableLayout.setEvent(block: ((Int, Int, ImageView) -> Unit)?) {
     rows.forEachIndexed { y, row ->
         val column = row.children.filterIsInstance<ImageView>()
         column.forEachIndexed { x, view ->
-            view.setOnClickListener {
-                block?.invoke(
-                    x,
-                    y,
-                    view,
-                )
-            }
+            block(
+                x + 1,
+                OmokBoard.MAX_ROW_SIZE - y,
+                view,
+            )
         }
     }
 }
 
 fun TableLayout.removeAllEvent() {
-    this.setEvent(null)
+    setView { x, y, view -> view.setOnClickListener { } }
 }
 
 fun OmokBoard.getPointAt(
     x: Int,
     y: Int,
 ): Place {
-    return this.omokStones.getPointAt(OmokBoard.MAX_ROW_SIZE - y, x + 1)
+    return omokStones.getPointAt(y, x)
 }

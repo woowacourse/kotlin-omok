@@ -6,7 +6,6 @@ import omok.domain.place.Place
 import omok.domain.place.Protected
 import omok.domain.rule.OmokRules
 import omok.domain.rule.finder.Direction
-import omok.view.BoardView
 
 class OmokBoard(
     val omokStones: OmokStones,
@@ -20,8 +19,6 @@ class OmokBoard(
         private set
 
     fun isNotFull() = omokStones.places.size != MAX_COLUMN_SIZE * MAX_ROW_SIZE
-
-    fun view(): BoardView = BoardView(this)
 
     fun addStone(place: Place) {
         omokStones.add(place)

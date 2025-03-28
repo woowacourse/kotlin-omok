@@ -1,53 +1,21 @@
-package omok.domain.game
+package woowacourse.omok.domain.game
 
-import kotlinx.coroutines.runBlocking
 import omok.domain.board.OmokBoard
 import omok.domain.place.Black
 import omok.domain.place.Place
+import omok.domain.place.Protected
 import omok.domain.rule.OmokRules
-import omok.event.GameEventListner
-import omok.global.retryWhenException
+import woowacourse.omok.ui.ext.getPointAt
 
-class OmokGame(
-    private val omokBoard: OmokBoard,
-    private val rules: OmokRules,
-) {
-    fun startGame(event: GameEventListner) {
-        event.onGameStart()
-        var place: Place = retryWhenFailedToAddStone(event)
-        while (omokBoard.isNotFull() && !isFinished(place, event)) {
-            place =
-                retryWhenFailedToAddStone(event) {
-                    place.toggle(getInputPoint(event))
-                }
-        }
+class OmokGame(val omokBoard: OmokBoard, val omokRules: OmokRules) {
+    fun onProtected(
+        x: Int,
+        y: Int,
+    ) {
+        omokBoard.getPointAt(x, y) is Protected && omokBoard.getPointAt(x, y) is Black
     }
 
-    private fun isFinished(
-        place: Place,
-        event: GameEventListner,
-    ): Boolean {
-        if (rules.isOmok(place, omokBoard)) {
-            event.onBoardView(omokBoard)
-            event.onFinished(place)
-            return true
-        }
-        return false
-    }
-
-    private fun retryWhenFailedToAddStone(
-        event: GameEventListner,
-        action: () -> Place = { Black(getInputPoint(event)) },
-    ): Place {
-        return retryWhenException {
-            val stone = action()
-            omokBoard.addStone(stone)
-            stone
-        }
-    }
-
-    private fun getInputPoint(event: GameEventListner): String {
-        event.onBoardView(omokBoard)
-        return runBlocking { event.onInputRequest(omokBoard.latestPlace) }
+    fun onFinished(stone: Place) {
+        omokRules.isOmok(stone, omokBoard) || !omokBoard.isNotFull()
     }
 }
