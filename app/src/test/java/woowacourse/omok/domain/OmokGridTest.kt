@@ -19,7 +19,7 @@ class OmokGridTest {
     }
 
     @Test
-    @DisplayName("좌표와 검정 돌을 받으면 리스트에 추가한다")
+    @DisplayName("돌을 받으면 리스트에 추가한다")
     fun putBlackStone() {
         // given
         val blackPoint = OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK)
@@ -37,5 +37,49 @@ class OmokGridTest {
 
         // then
         assertThat(actual).isTrue()
+    }
+
+    @Test
+    @DisplayName("흑돌의 개수가 흰돌의 개수보다 많으면 true를 반환한다")
+    fun checkStonesCount() {
+        // given
+        val blackPoint = OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK)
+        omokGrid.putStone(blackPoint)
+
+        // when
+        val actual = omokGrid.isBlackMoreThanWhite()
+
+        // then
+        assertThat(actual).isTrue()
+    }
+
+    @Test
+    @DisplayName("해당 좌표의 돌이 있으면 돌의 색깔을 반환한다")
+    fun getStoneColor_whenStoneExistsAt() {
+        // given
+        val blackPoint = OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK)
+        val whitePoint = OmokPoint(Point(Row(2), Column(2)), StoneColor.WHITE)
+        omokGrid.putStone(blackPoint)
+        omokGrid.putStone(whitePoint)
+
+        // when
+        val actual = omokGrid.getStoneColorByPoint(Point(Row(1), Column(2)))
+        val actual2 = omokGrid.getStoneColorByPoint(Point(Row(2), Column(2)))
+        val expected = StoneColor.BLACK
+        val expected2 = StoneColor.WHITE
+
+        // then
+        assertThat(actual).isEqualTo(expected)
+        assertThat(actual2).isEqualTo(expected2)
+    }
+
+    @Test
+    @DisplayName("해당 좌표에 돌이 없으면 null을 반환한다")
+    fun getStoneColor_whenNoStoneExistsAt() {
+        // when
+        val actual = omokGrid.getStoneColorByPoint(Point(Row(1), Column(2)))
+
+        // then
+        assertThat(actual).isNull()
     }
 }
