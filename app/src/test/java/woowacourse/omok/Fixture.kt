@@ -1,6 +1,6 @@
 package woowacourse.omok
 
-import woowacourse.omok.domain.omokboard.Position
+import woowacourse.omok.domain.model.omokboard.Position
 
 val POSITION_ONE_ONE = Position(1, 1)
 

@@ -4,10 +4,10 @@ import android.content.ContentValues
 import android.content.Context
 import woowacourse.omok.data.DbHelper
 import woowacourse.omok.data.OmokContract
-import woowacourse.omok.domain.omokboard.IntersectionState
-import woowacourse.omok.domain.omokboard.OmokBoard
-import woowacourse.omok.domain.omokboard.Position
-import woowacourse.omok.domain.player.StoneColor
+import woowacourse.omok.domain.model.omokboard.IntersectionState
+import woowacourse.omok.domain.model.omokboard.OmokBoard
+import woowacourse.omok.domain.model.omokboard.Position
+import woowacourse.omok.domain.model.player.StoneColor
 
 class OmokRepository(
     private val context: Context,
