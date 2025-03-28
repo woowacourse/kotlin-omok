@@ -1,9 +1,9 @@
 package woowacourse.omok.data.db
 
 import woowacourse.omok.data.db.OmokEntity.Companion.BLACK_STONE
-import woowacourse.omok.data.db.OmokEntity.Companion.DOUBLE_FOUR_EXCEPTIONS
-import woowacourse.omok.data.db.OmokEntity.Companion.DOUBLE_THREE_EXCEPTIONS
-import woowacourse.omok.data.db.OmokEntity.Companion.OVER_LINE_EXCEPTIONS
+import woowacourse.omok.data.db.OmokEntity.Companion.DOUBLE_FOUR_STONE
+import woowacourse.omok.data.db.OmokEntity.Companion.DOUBLE_THREE_STONE
+import woowacourse.omok.data.db.OmokEntity.Companion.OVER_LINE_STONE
 import woowacourse.omok.data.db.OmokEntity.Companion.WHITE_STONE
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
@@ -23,9 +23,9 @@ data class OmokEntity(
                 BLACK_STONE,
                 WHITE_STONE,
                 -> BoardStatus.Moved(StoneColor.fromString(stone))
-                DOUBLE_THREE_EXCEPTIONS -> BoardStatus.Blocked(RendjuExceptions.DoubleThreeExceptions)
-                DOUBLE_FOUR_EXCEPTIONS -> BoardStatus.Blocked(RendjuExceptions.DoubleFourExceptions)
-                OVER_LINE_EXCEPTIONS -> BoardStatus.Blocked(RendjuExceptions.OverLineExceptions)
+                DOUBLE_THREE_STONE -> BoardStatus.Blocked(RendjuExceptions.DoubleThreeExceptions)
+                DOUBLE_FOUR_STONE -> BoardStatus.Blocked(RendjuExceptions.DoubleFourExceptions)
+                OVER_LINE_STONE -> BoardStatus.Blocked(RendjuExceptions.OverLineExceptions)
                 else -> BoardStatus.Empty
             }
 
@@ -39,9 +39,9 @@ data class OmokEntity(
     companion object {
         const val BLACK_STONE = "BLACK"
         const val WHITE_STONE = "WHITE"
-        const val DOUBLE_THREE_EXCEPTIONS = "DOUBLE_THREE_EXCEPTIONS"
-        const val DOUBLE_FOUR_EXCEPTIONS = "DOUBLE_FOUR_EXCEPTIONS"
-        const val OVER_LINE_EXCEPTIONS = "OVER_LINE_EXCEPTIONS"
+        const val DOUBLE_THREE_STONE = "DOUBLE_THREE"
+        const val DOUBLE_FOUR_STONE = "DOUBLE_FOUR"
+        const val OVER_LINE_STONE = "OVER_LINE"
     }
 }
 
@@ -56,9 +56,9 @@ fun Point.toEntity(): OmokEntity {
 
             is BoardStatus.Blocked ->
                 when (status.cause) {
-                    RendjuExceptions.DoubleThreeExceptions -> DOUBLE_THREE_EXCEPTIONS
-                    RendjuExceptions.DoubleFourExceptions -> DOUBLE_FOUR_EXCEPTIONS
-                    RendjuExceptions.OverLineExceptions -> OVER_LINE_EXCEPTIONS
+                    RendjuExceptions.DoubleThreeExceptions -> DOUBLE_THREE_STONE
+                    RendjuExceptions.DoubleFourExceptions -> DOUBLE_FOUR_STONE
+                    RendjuExceptions.OverLineExceptions -> OVER_LINE_STONE
                 }
 
             is BoardStatus.Empty -> null
