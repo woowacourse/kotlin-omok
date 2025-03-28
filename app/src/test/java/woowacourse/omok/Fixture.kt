@@ -19,9 +19,4 @@ val POSITION_THREE_THREE = Position(3, 3)
 val POSITION_FOUR_FOUR = Position(4, 4)
 val POSITION_FIVE_FIVE = Position(5, 5)
 
-val POSITION_SEVEN_ONE = Position(7, 1)
-val POSITION_SEVEN_TWO = Position(7, 2)
-val POSITION_SEVEN_THREE = Position(7, 3)
-val POSITION_SEVEN_FOUR = Position(7, 4)
-
 val POSITION_ZERO_ZERO = Position(0, 0)
