@@ -14,11 +14,13 @@ class RuleNavigation(private val whiteRules: List<OmokRule>, private val blackRu
     ): PlaceResult {
         val rules = if (playerStone.color == StoneColor.WHITE) whiteRules else blackRules
 
+        var result: PlaceResult = GameOnGoing
+
         rules.forEach { rule ->
-            val result = rule.place(board, playerStone)
+            result = rule.place(board, playerStone)
             if (result is InvalidMove) return result
         }
 
-        return GameOnGoing
+        return result
     }
 }
