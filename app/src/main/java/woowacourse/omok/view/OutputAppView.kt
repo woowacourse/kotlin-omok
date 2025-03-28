@@ -72,7 +72,8 @@ class OutputAppView(
                     restartGame()
                 }.setNegativeButton(EXIT_BUTTON_TEXT) { _, _ ->
                     mainActivity.finish()
-                }.show()
+                }.setCancelable(false)
+                .show()
         }
     }
 
