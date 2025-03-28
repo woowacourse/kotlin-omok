@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import woowacourse.omok.data.db.OmokEntity
 import woowacourse.omok.data.fake.FakeOmokSQLiteHelper
-import woowacourse.omok.fixture.context
+import woowacourse.omok.fixture.testContext
 
 @RunWith(AndroidJUnit4::class)
 class OmokDataSourceTest {
@@ -17,7 +17,7 @@ class OmokDataSourceTest {
 
     @BeforeEach
     fun setUp() {
-        omokDataSource = OmokDataSource(FakeOmokSQLiteHelper(context))
+        omokDataSource = OmokDataSource(FakeOmokSQLiteHelper(testContext))
     }
 
     @AfterEach
