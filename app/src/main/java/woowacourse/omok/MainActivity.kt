@@ -5,14 +5,13 @@ import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import data.DbHelper
 import domain.domain.Point
 import domain.domain.state.BlackTurn
 import domain.domain.state.Finished
+import domain.domain.state.Foul
 import domain.domain.state.Playing
 import domain.domain.state.Ready
 import domain.domain.state.State
@@ -21,78 +20,104 @@ import domain.domain.stone.StoneColor
 
 class MainActivity : AppCompatActivity() {
     private var state: State = Ready()
+    private lateinit var dbHelper: DbHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+        dbHelper = DbHelper(this)
+
+        state = dbHelper.loadGameState() ?: Ready()
 
         val board = findViewById<TableLayout>(R.id.board)
         val rows = board.children.filterIsInstance<TableRow>().toList().reversed()
 
-        rows.forEachIndexed { rowIndex, row ->
-            row.children
-                .filterIsInstance<ImageView>()
-                .forEachIndexed { colIndex, imageView ->
-                    imageView.setOnClickListener {
-                        val currentState = state
-                        val point = Point(colIndex, rowIndex)
+        updateBoard(rows)
 
-                        placeStone(point, imageView, currentState)
-                    }
-                }
+        rows.forEachIndexed { rowIndex, row ->
+            row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
+                imageView.setOnClickListener { placeStone(Point(colIndex, rowIndex), imageView) }
+            }
         }
     }
 
     private fun placeStone(
         point: Point,
         imageView: ImageView,
-        currentState: State,
     ) {
-        if (currentState !is Playing) return
+        if (state !is Playing) return
 
-        runCatching {
-            state =
-                currentState.place(
-                    point,
-                    15,
-                    onBoardUpdated = { newBlackStones, newWhiteStones ->
-                        if (point in newBlackStones) currentState.blackStones + point
-                        if (point in newWhiteStones) currentState.whiteStones + point
+        val previousState = state
 
-                        displayStone(state, imageView)
-                    },
-                )
-        }.onFailure {
-            Toast.makeText(applicationContext, it.message, Toast.LENGTH_LONG).show()
+        if (previousState is Playing) {
+            val newState = previousState.place(point, 15) { _, _ -> }
+            if (newState !is Foul) displayStone(imageView)
+            state = newState
         }
-        val updatedState = state
 
-        if (updatedState is Finished.Win) {
-            displayWinner(updatedState.winnerColor)
+        if (state is Foul) {
+            displayFoulMessage(state)
+            state = previousState
+            return
+        } else {
+            dbHelper.saveGameState(state)
+
+            val updatedState = state
+            if (updatedState is Finished.Win) {
+                displayWinner(updatedState.winnerColor)
+            }
         }
     }
 
-    private fun displayStone(
-        state: State,
-        imageView: ImageView,
-    ) {
-        when (state) {
-            is BlackTurn -> imageView.setImageResource(R.drawable.black_stone)
-            is WhiteTurn -> imageView.setImageResource(R.drawable.white_stone)
-            else -> imageView.setImageResource(R.drawable.black_stone)
-        }
+    private fun displayStone(imageView: ImageView) {
+        imageView.setImageResource(
+            when (state) {
+                is BlackTurn -> R.drawable.black_stone
+                is WhiteTurn -> R.drawable.white_stone
+                else -> R.drawable.black_stone
+            },
+        )
     }
 
     private fun displayWinner(stoneColor: StoneColor) {
-        when (stoneColor) {
-            StoneColor.BLACK -> Toast.makeText(applicationContext, "흑돌이 우승했습니다!", Toast.LENGTH_LONG).show()
-            else -> Toast.makeText(applicationContext, "백돌이 우승했습니다!", Toast.LENGTH_LONG).show()
+        val messageId =
+            if (stoneColor == StoneColor.BLACK) R.string.black_win else R.string.white_win
+        Toast.makeText(applicationContext, messageId, Toast.LENGTH_LONG).show()
+    }
+
+    private fun displayFoulMessage(state: State) {
+        val messageId =
+            when (state) {
+                Foul.DoubleThree -> R.string.double_three
+                Foul.DoubleFour -> R.string.double_four
+                Foul.OverLine -> R.string.over_line
+                Foul.Duplicated -> R.string.duplicated
+                else -> return
+            }
+        Toast.makeText(applicationContext, messageId, Toast.LENGTH_LONG).show()
+    }
+
+    private fun updateBoard(rows: List<TableRow>) {
+        if (state !is Playing) return
+
+        val currentState = state as Playing
+        rows.forEachIndexed { rowIndex, row ->
+            row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
+                val point = Point(colIndex, rowIndex)
+                imageView.setImageResource(
+                    when (point) {
+                        in currentState.blackStones.points -> R.drawable.black_stone
+                        in currentState.whiteStones.points -> R.drawable.white_stone
+                        else -> 0
+                    },
+                )
+            }
         }
+    }
+
+    override fun onDestroy() {
+        dbHelper.close()
+        super.onDestroy()
     }
 }
