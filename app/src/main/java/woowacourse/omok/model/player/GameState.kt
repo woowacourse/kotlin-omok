@@ -12,4 +12,6 @@ sealed class GameState {
     fun win(): Boolean = gameState is Win
 
     fun playing(): Boolean = gameState is Playing
+
+    fun forbidden(): Boolean = gameState is ForbiddenMove
 }

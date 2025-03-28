@@ -41,6 +41,8 @@ abstract class OmokRule(
                     if (blinkCount++ == 1) break
                 }
 
+                PositionState.FORBIDDEN -> break
+
                 else -> throw IllegalArgumentException("스톤 케이스를 에러")
             }
         }
@@ -57,6 +59,7 @@ abstract class OmokRule(
             when (adaptedBoard[y][x]) {
                 in listOf(currentStone, PositionState.NONE) -> distance++
                 opponentStone -> break
+                PositionState.FORBIDDEN -> break
                 else -> throw IllegalArgumentException()
             }
         }
