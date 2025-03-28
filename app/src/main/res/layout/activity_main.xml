@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
 
     <TableLayout
         android:id="@+id/board"
@@ -1179,6 +1180,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/board_bottom_right" />
         </TableRow>
-
     </TableLayout>
+
 </LinearLayout>
