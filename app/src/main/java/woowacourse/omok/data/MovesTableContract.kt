@@ -1,7 +1,7 @@
 package woowacourse.omok.data
 
-object BoardTableContract {
-    const val TABLE_NAME = "Board"
+object MovesTableContract {
+    const val TABLE_NAME = "Moves"
     const val COLUMN_NAME_ID = "id"
     const val COLUMN_NAME_GAME_ID_FK = "game_id"
     const val COLUMN_NAME_X = "x"

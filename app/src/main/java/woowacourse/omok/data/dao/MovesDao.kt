@@ -2,12 +2,12 @@ package woowacourse.omok.data.dao
 
 import android.content.ContentValues
 import android.database.Cursor
-import woowacourse.omok.data.BoardTableContract
+import woowacourse.omok.data.MovesTableContract
 import woowacourse.omok.data.OmokDatabaseHelper
 import woowacourse.omok.domain.board.CellState
 import woowacourse.omok.domain.board.Point
 
-class BoardDao(
+class MovesDao(
     private val dbHelper: OmokDatabaseHelper,
 ) {
     fun saveMove(
@@ -17,12 +17,12 @@ class BoardDao(
         dbHelper.writableDatabase.use { db ->
             val values =
                 ContentValues().apply {
-                    put(BoardTableContract.COLUMN_NAME_GAME_ID_FK, gameId)
-                    put(BoardTableContract.COLUMN_NAME_X, move.first.x)
-                    put(BoardTableContract.COLUMN_NAME_Y, move.first.y)
-                    put(BoardTableContract.COLUMN_NAME_COLOR, move.second.toString())
+                    put(MovesTableContract.COLUMN_NAME_GAME_ID_FK, gameId)
+                    put(MovesTableContract.COLUMN_NAME_X, move.first.x)
+                    put(MovesTableContract.COLUMN_NAME_Y, move.first.y)
+                    put(MovesTableContract.COLUMN_NAME_COLOR, move.second.toString())
                 }
-            db.insert(BoardTableContract.TABLE_NAME, null, values)
+            db.insert(MovesTableContract.TABLE_NAME, null, values)
         }
     }
 
@@ -30,13 +30,13 @@ class BoardDao(
         val db = dbHelper.readableDatabase
         val cursor =
             db.query(
-                BoardTableContract.TABLE_NAME,
+                MovesTableContract.TABLE_NAME,
                 arrayOf(
-                    BoardTableContract.COLUMN_NAME_X,
-                    BoardTableContract.COLUMN_NAME_Y,
-                    BoardTableContract.COLUMN_NAME_COLOR,
+                    MovesTableContract.COLUMN_NAME_X,
+                    MovesTableContract.COLUMN_NAME_Y,
+                    MovesTableContract.COLUMN_NAME_COLOR,
                 ),
-                "${BoardTableContract.COLUMN_NAME_GAME_ID_FK} = ?",
+                "${MovesTableContract.COLUMN_NAME_GAME_ID_FK} = ?",
                 arrayOf(gameId.toString()),
                 null,
                 null,

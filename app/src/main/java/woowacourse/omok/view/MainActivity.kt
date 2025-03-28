@@ -13,8 +13,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import woowacourse.omok.R
 import woowacourse.omok.data.OmokDatabaseHelper
-import woowacourse.omok.data.dao.BoardDao
-import woowacourse.omok.data.dao.GameDao
+import woowacourse.omok.data.dao.GamesDao
+import woowacourse.omok.data.dao.MovesDao
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.board.Board
 import woowacourse.omok.domain.board.BoardSize
@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var boardView: TableLayout
     private lateinit var game: OmokGame
 
-    private lateinit var gameDao: GameDao
-    private lateinit var boardDao: BoardDao
+    private lateinit var gamesDao: GamesDao
+    private lateinit var movesDao: MovesDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,12 +47,12 @@ class MainActivity : AppCompatActivity() {
     private fun initializeDb() {
         val dbHelper = OmokDatabaseHelper(this)
 
-        gameDao = GameDao(dbHelper)
-        boardDao = BoardDao(dbHelper)
+        gamesDao = GamesDao(dbHelper)
+        movesDao = MovesDao(dbHelper)
 
         // 추가 기능 미구현
-        val ids = gameDao.getGameIds()
-        if (ids.isEmpty()) gameDao.addGame(GAME_ROOM_ID)
+        val ids = gamesDao.getGameIds()
+        if (ids.isEmpty()) gamesDao.addGame(GAME_ROOM_ID)
     }
 
     private fun initializeBoardView() {
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadBoardStatus() {
-        val loadedMoves = boardDao.getMoves(GAME_ROOM_ID).toMap()
+        val loadedMoves = movesDao.getMoves(GAME_ROOM_ID).toMap()
         board = Board(BoardSize(), loadedMoves, RuleValidator(OmokMoveRules()))
         updateBoardUIWithLoadedMoves(loadedMoves)
         game.start(loadedMoves.entries.lastOrNull()?.toPair())
@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun resetGame() {
         clearBoardImages()
-        gameDao.deleteGame(GAME_ROOM_ID)
+        gamesDao.deleteGame(GAME_ROOM_ID)
         loadBoardStatus()
     }
 
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
             state: CellState,
         ) {
             updateBoardUI(point, state)
-            boardDao.saveMove(GAME_ROOM_ID, point to state)
+            movesDao.saveMove(GAME_ROOM_ID, point to state)
         }
 
         override fun onGameWon(winnerState: CellState?) {

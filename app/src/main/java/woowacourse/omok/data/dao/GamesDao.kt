@@ -1,11 +1,11 @@
 package woowacourse.omok.data.dao
 
 import android.content.ContentValues
-import woowacourse.omok.data.BoardTableContract
 import woowacourse.omok.data.GamesTableContract
+import woowacourse.omok.data.MovesTableContract
 import woowacourse.omok.data.OmokDatabaseHelper
 
-class GameDao(
+class GamesDao(
     private val dbHelper: OmokDatabaseHelper,
 ) {
     fun addGame(gameId: Int) {
@@ -21,8 +21,8 @@ class GameDao(
     fun deleteGame(gameId: Int) {
         dbHelper.writableDatabase.use { db ->
             db.delete(
-                BoardTableContract.TABLE_NAME,
-                "${BoardTableContract.COLUMN_NAME_GAME_ID_FK} = ?",
+                MovesTableContract.TABLE_NAME,
+                "${MovesTableContract.COLUMN_NAME_GAME_ID_FK} = ?",
                 arrayOf(gameId.toString()),
             )
             db.delete(

@@ -9,7 +9,7 @@ class OmokDatabaseHelper(
 ) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(GamesTableContract.CREATE_TABLE)
-        db.execSQL(BoardTableContract.CREATE_TABLE)
+        db.execSQL(MovesTableContract.CREATE_TABLE)
     }
 
     override fun onUpgrade(
@@ -18,7 +18,7 @@ class OmokDatabaseHelper(
         newVersion: Int,
     ) {
         db.execSQL("DROP TABLE IF EXISTS ${GamesTableContract.TABLE_NAME}")
-        db.execSQL("DROP TABLE IF EXISTS ${BoardTableContract.TABLE_NAME}")
+        db.execSQL("DROP TABLE IF EXISTS ${MovesTableContract.TABLE_NAME}")
         onCreate(db)
     }
 
