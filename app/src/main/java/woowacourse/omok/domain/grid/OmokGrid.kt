@@ -17,8 +17,14 @@ class OmokGrid {
         return stones.stones.filter { it.stoneColor == stoneColor }.toSet()
     }
 
-    fun getStoneByPoint(point: Point): OmokPoint? {
-        return stones.stones.find { it.point == point }
+    fun isBlackMoreThanWhite(): Boolean {
+        val blackStones = getStonesByColor(StoneColor.BLACK)
+        val whiteStones = getStonesByColor(StoneColor.WHITE)
+        return blackStones.size > whiteStones.size
+    }
+
+    fun getStoneColorByPoint(point: Point): StoneColor? {
+        return stones.stones.find { it.point == point }?.stoneColor
     }
 
     companion object {

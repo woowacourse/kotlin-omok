@@ -53,8 +53,8 @@ class MainActivity : AppCompatActivity() {
                 val point = Point(Row(row + INDEX_OFFSET), Column(col + INDEX_OFFSET))
                 view.tag = point
 
-                val omokPoint = omokGame.grid.getStoneByPoint(point)
-                if (omokPoint != null) view.setImageResource(getStoneImage(omokPoint.stoneColor))
+                val pointColor = omokGame.grid.getStoneColorByPoint(point)
+                if (pointColor != null) view.setImageResource(getStoneImage(pointColor))
 
                 view.setOnClickListener {
                     if (isGameOver) return@setOnClickListener

@@ -33,7 +33,7 @@
 
 - [x] 콘솔용 코드 복구
 - [x] OmokGame | 콘솔 위에서도 돌아가도록 수정
-- [ ] OmokGrid | Stones를 꺼내서 하지 말고 스스로 일하도록 바꿔 보기
+- [x] OmokGrid | Stones를 꺼내서 하지 말고 스스로 일하도록 바꿔 보기
 - [ ] OmokGrid | 테스트를 더 꼼꼼히 작성하기
 - [x] ValidationResult | 에러 문자열 관리 어디서 할지 고민
 - [x] MainActivity | printWinner 함수 네이밍 수정하기
