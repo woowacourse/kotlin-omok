@@ -55,4 +55,9 @@ class OmokGame(
     fun reverseTurn() {
         currentTurn = currentTurn.reversed()
     }
+
+    fun restart() {
+        currentTurn = StoneColor.BLACK
+        board.clear()
+    }
 }

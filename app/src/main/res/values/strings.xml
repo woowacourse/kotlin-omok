@@ -10,7 +10,8 @@
     <string name="omok_overline_error">6목은 금지입니다.</string>
     <string name="omok_winning">%s의 우승을 축하드립니다!</string>
     <string name="omok_draw">무승부!</string>
-    <string name="omok_exit_game">나가기</string>
-    <string name="omok_exit_alert">알림 닫기</string>
+    <string name="omok_exit_alert">닫기</string>
     <string name="omok_turn">%s의 차례입니다!</string>
+    <string name="omok_restart">다시 시작</string>
+    <string name="omok_game_restart">게임이 재시작되었습니다.</string>
 </resources>

@@ -16,6 +16,10 @@ value class OmokBoard(
         value[playerStone.position] = playerStone.color.toIntersectionState()
     }
 
+    fun clear() {
+        value.entries.forEach { it.setValue(IntersectionState.EMPTY) }
+    }
+
     companion object {
         fun create(
             width: Int = DEFAULT_OMOK_BOARD_SIZE,

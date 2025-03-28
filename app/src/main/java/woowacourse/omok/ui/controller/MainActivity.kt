@@ -90,6 +90,15 @@ class MainActivity : AppCompatActivity() {
         placeRules: List<PlaceRule>,
         judgeRules: List<JudgeRule>,
     ) {
+        setupPointClickListener(omokGame, placeRules, judgeRules)
+        setupRestartClickListener(omokGame)
+    }
+
+    private fun setupPointClickListener(
+        omokGame: OmokGame,
+        placeRules: List<PlaceRule>,
+        judgeRules: List<JudgeRule>,
+    ) {
         binding.board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
             row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, button ->
                 button.setOnClickListener {
@@ -160,8 +169,7 @@ class MainActivity : AppCompatActivity() {
             .setTitle(getString(string.omok_game_end))
             .setMessage(message)
             .setCancelable(false)
-            .setPositiveButton(getString(string.omok_exit_game)) { dialog, _ -> dialog.dismiss() }
-            .setNegativeButton(getString(string.omok_exit_alert)) { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton(getString(string.omok_exit_alert)) { dialog, _ -> dialog.dismiss() }
             .show()
     }
 
@@ -183,4 +191,18 @@ class MainActivity : AppCompatActivity() {
             Failure.InvalidPosition -> getString(string.omok_invalid_position_error)
             Failure.OverlineViolation -> getString(string.omok_overline_error)
         }
+
+    private fun setupRestartClickListener(omokGame: OmokGame) {
+        binding.btnOmokRestart.setOnClickListener {
+            omokRepository.clearGameData()
+            omokGame.restart()
+            binding.board.children.forEach { row ->
+                (row as TableRow).children.forEach { point ->
+                    (point as ImageView).setImageResource(0)
+                    point.isEnabled = true
+                }
+            }
+            showSnackBar(getString(string.omok_game_restart))
+        }
+    }
 }

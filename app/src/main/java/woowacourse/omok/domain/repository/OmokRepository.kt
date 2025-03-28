@@ -101,4 +101,11 @@ class OmokRepository(
 
         return if (board.isEmpty()) null else OmokBoard(board)
     }
+
+    fun clearGameData() {
+        val db = DbHelper(context).writableDatabase
+        db.delete(OmokContract.TABLE_GAME, null, null)
+        db.delete(OmokContract.TABLE_BOARD, null, null)
+        db.close()
+    }
 }
