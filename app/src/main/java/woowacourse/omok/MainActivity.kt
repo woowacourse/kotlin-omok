@@ -1,10 +1,12 @@
 package woowacourse.omok
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import data.DbHelper
@@ -66,6 +68,7 @@ class MainActivity : AppCompatActivity() {
             val updatedState = state
             if (updatedState is Finished.Win) {
                 displayWinner(updatedState.winnerColor)
+                showGameOverBox()
             }
         }
     }
@@ -112,6 +115,43 @@ class MainActivity : AppCompatActivity() {
                         else -> 0
                     },
                 )
+            }
+        }
+    }
+
+    fun showGameOverBox() {
+        val alertDialog =
+            AlertDialog.Builder(this)
+                .setTitle(R.string.game_over)
+                .setMessage(R.string.game_retry_message)
+                .setNegativeButton(
+                    R.string.game_over,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        dbHelper.clearGameState()
+                        dialog.dismiss()
+                    },
+                )
+                .setPositiveButton(
+                    R.string.retry,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        state = Ready()
+                        resetBoard()
+                    },
+                )
+                .setCancelable(false)
+                .create()
+        alertDialog.show()
+    }
+
+    private fun resetBoard() {
+        val board = findViewById<TableLayout>(R.id.board)
+        for (row in board.children) {
+            if (row is TableRow) {
+                for (child in row.children) {
+                    if (child is ImageView) {
+                        child.setImageResource(0)
+                    }
+                }
             }
         }
     }
