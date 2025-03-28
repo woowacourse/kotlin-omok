@@ -1,9 +1,11 @@
 package woowacourse.omok.domain.rule
 
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.domain.board.OmokBoard
+import woowacourse.omok.domain.exception.RendjuExceptions
 import woowacourse.omok.domain.rule.renju.FourByFour
 import woowacourse.omok.fixture.blackCByEight
 import woowacourse.omok.fixture.blackDByEight
@@ -31,7 +33,7 @@ class FourByFourTest {
     }
 
     @Test
-    fun `4x4 금수 자리에 착수하면 참을 반환한다`() {
+    fun `4x4 금수 자리에 착수하면 예외를 반환한다`() {
         // given
         board.addStone(blackDByEight)
         board.addStone(blackEByEight)
@@ -40,11 +42,11 @@ class FourByFourTest {
         board.addStone(blackGBySix)
         board.addStone(blackGByFive)
 
-        // when
-        val result = FourByFour(board).match(emptyGByEight)
-
         // result
-        assertThat(result).isTrue()
+        assertThrows<RendjuExceptions.DoubleFourExceptions> {
+            // when
+            FourByFour(board).match(emptyGByEight)
+        }
     }
 
     /**
@@ -75,11 +77,11 @@ class FourByFourTest {
         board.addStone(blackGByFive)
         board.addStone(blackGByFour)
 
-        // when
-        val result = FourByFour(board).match(emptyGByEight)
-
         // result
-        assertThat(result).isTrue()
+        assertThrows<RendjuExceptions.DoubleFourExceptions> {
+            // when
+            FourByFour(board).match(emptyGByEight)
+        }
     }
 
     /**
@@ -110,11 +112,11 @@ class FourByFourTest {
         board.addStone(blackGBySix)
         board.addStone(blackGByFour)
 
-        // when
-        val result = FourByFour(board).match(emptyGByEight)
-
         // result
-        assertThat(result).isTrue()
+        assertThrows<RendjuExceptions.DoubleFourExceptions> {
+            // when
+            FourByFour(board).match(emptyGByEight)
+        }
     }
 
     /**
@@ -145,10 +147,10 @@ class FourByFourTest {
         board.addStone(whiteGBySix)
         board.addStone(whiteGByFour)
 
-        // when
-        val result = FourByFour(board).match(emptyGByEight)
-
         // result
-        assertThat(result).isFalse()
+        assertDoesNotThrow {
+            // when
+            FourByFour(board).match(emptyGByEight)
+        }
     }
 }

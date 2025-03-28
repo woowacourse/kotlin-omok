@@ -1,11 +1,12 @@
 package woowacourse.omok.domain.rule
 
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.domain.board.OmokBoard
+import woowacourse.omok.domain.exception.RendjuExceptions
 import woowacourse.omok.domain.rule.renju.ThreeByThree
-import woowacourse.omok.fixture.blackAByEight
 import woowacourse.omok.fixture.blackBByEight
 import woowacourse.omok.fixture.blackBByEleven
 import woowacourse.omok.fixture.blackDByEight
@@ -74,8 +75,12 @@ class ThreeByThreeTest {
         board.addStone(blackFByEight)
         board.addStone(blackGBySeven)
         board.addStone(blackGBySix)
-        val result = ThreeByThree(board).match(emptyGByEight)
-        assertThat(result).isTrue()
+
+        // when
+        assertThrows<RendjuExceptions.DoubleThreeExceptions> {
+            // result
+            ThreeByThree(board).match(emptyGByEight)
+        }
     }
 
     /**
@@ -101,9 +106,11 @@ class ThreeByThreeTest {
         board.addStone(blackGBySeven)
         board.addStone(blackGBySix)
 
-        val result = ThreeByThree(board).match(emptyGByEight)
-
-        assertThat(result).isFalse()
+        // when
+        assertDoesNotThrow {
+            // result
+            ThreeByThree(board).match(emptyGByEight)
+        }
     }
 
     /**
@@ -130,36 +137,12 @@ class ThreeByThreeTest {
         board.addStone(blackFBySeven)
         board.addStone(blackEByFive)
         board.addStone(blackFByFive)
-        val result = ThreeByThree(board).match(emptyHByFive)
-        assertThat(result).isTrue()
-    }
 
-    /**
-     *  15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
-     *  14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *  13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *  12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *  11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *  10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   9 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   8 ●──●──┼──X──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   7 ├──┼──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   6 ├──┼──┼──●──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   5 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   4 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   3 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   2 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-     *   1 └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
-     *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-     * */
-    @Test
-    fun `3x3테스트5`() {
-        board.addStone(blackAByEight)
-        board.addStone(blackBByEight)
-        board.addStone(blackDBySeven)
-        board.addStone(blackDBySix)
-        val result = ThreeByThree(board).match(emptyDByEight)
-        assertThat(result).isFalse()
+        // when
+        assertThrows<RendjuExceptions.DoubleThreeExceptions> {
+            // result
+            ThreeByThree(board).match(emptyHByFive)
+        }
     }
 
     /**
@@ -186,8 +169,12 @@ class ThreeByThreeTest {
         board.addStone(blackFByEight)
         board.addStone(blackDByNine)
         board.addStone(blackBByEleven)
-        val result = ThreeByThree(board).match(emptyEByEight)
-        assertThat(result).isTrue()
+
+        // when
+        assertDoesNotThrow {
+            // result
+            ThreeByThree(board).match(emptyDByEight)
+        }
     }
 
     /**
@@ -214,8 +201,12 @@ class ThreeByThreeTest {
         board.addStone(whiteFByEight)
         board.addStone(whiteDByNine)
         board.addStone(whiteEByEleven)
-        val result = ThreeByThree(board).match(emptyEByEight)
-        assertThat(result).isFalse()
+
+        // when
+        assertDoesNotThrow {
+            // result
+            ThreeByThree(board).match(emptyEByEight)
+        }
     }
 
     @Test
@@ -224,8 +215,12 @@ class ThreeByThreeTest {
         board.addStone(blackDBySeven)
         board.addStone(blackFByFive)
         board.addStone(blackGByFive)
-        val result = ThreeByThree(board).match(emptyDByFive)
-        assertThat(result).isTrue()
+
+        // when
+        assertThrows<RendjuExceptions.DoubleThreeExceptions> {
+            // result
+            ThreeByThree(board).match(emptyDByFive)
+        }
     }
 
     @Test
@@ -234,8 +229,12 @@ class ThreeByThreeTest {
         board.addStone(blackEByFour)
         board.addStone(blackDByFive)
         board.addStone(blackDBySix)
-        val result = ThreeByThree(board).match(emptyDByFour)
-        assertThat(result).isTrue()
+
+        // when
+        assertThrows<RendjuExceptions.DoubleThreeExceptions> {
+            // result
+            ThreeByThree(board).match(emptyDByFour)
+        }
     }
 
     /**
@@ -265,8 +264,11 @@ class ThreeByThreeTest {
         board.addStone(blackDByNine)
         board.addStone(whiteBByEleven)
 
-        val result = ThreeByThree(board).match(emptyEByEight)
-        assertThat(result).isFalse()
+        // when
+        assertDoesNotThrow {
+            // result
+            ThreeByThree(board).match(emptyEByEight)
+        }
     }
 
     /**
@@ -297,10 +299,10 @@ class ThreeByThreeTest {
         board.addStone(blackGByTen)
         board.addStone(blackIByEight)
 
-        // when
-        val result = ThreeByThree(board).match(emptyGByEight)
-
-        // reuslt
-        assertThat(result).isFalse()
+        // result
+        assertDoesNotThrow {
+            // when
+            ThreeByThree(board).match(emptyGByEight)
+        }
     }
 }

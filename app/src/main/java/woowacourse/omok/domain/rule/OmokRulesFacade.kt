@@ -1,7 +1,7 @@
 package woowacourse.omok.domain.rule
 
 import woowacourse.omok.domain.board.OmokBoard
-import woowacourse.omok.domain.exception.RendjuExceptions
+import woowacourse.omok.domain.exception.execute
 import woowacourse.omok.domain.point.Point
 import woowacourse.omok.domain.rule.renju.FourByFour
 import woowacourse.omok.domain.rule.renju.Renju
@@ -13,18 +13,16 @@ class OmokRulesFacade(board: OmokBoard) : OmokRule {
     private val threeByThree: Renju = ThreeByThree(board)
     private val sixMok: Renju = SixMok(board)
 
-    override fun renjuRulesValidation(point: Point): RendjuExceptions? {
-        return when {
-            checkFourByFour(point) -> RendjuExceptions.DoubleFourExceptions
-            checkThreeByThree(point) -> RendjuExceptions.DoubleThreeExceptions
-            checkSixMok(point) -> RendjuExceptions.OverLineExceptions
-            else -> null
+    override fun renjuRulesValidation(point: Point) =
+        execute {
+            checkFourByFour(point)
+            checkThreeByThree(point)
+            checkSixMok(point)
         }
-    }
 
-    private fun checkFourByFour(point: Point): Boolean = fourByFour.match(point)
+    private fun checkFourByFour(point: Point) = fourByFour.match(point)
 
-    private fun checkThreeByThree(point: Point): Boolean = threeByThree.match(point)
+    private fun checkThreeByThree(point: Point) = threeByThree.match(point)
 
-    private fun checkSixMok(point: Point): Boolean = sixMok.match(point)
+    private fun checkSixMok(point: Point) = sixMok.match(point)
 }

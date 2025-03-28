@@ -1,9 +1,11 @@
 package woowacourse.omok.domain.rule
 
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.domain.board.OmokBoard
+import woowacourse.omok.domain.exception.RendjuExceptions
 import woowacourse.omok.domain.rule.renju.SixMok
 import woowacourse.omok.fixture.blackBByEight
 import woowacourse.omok.fixture.blackCByEight
@@ -53,11 +55,11 @@ class SixMokTest {
         board.addStone(blackEByEight)
         board.addStone(blackGByEight)
 
-        // when
-        val result = SixMok(board).match(emptyFByEight)
-
         // result
-        assertThat(result).isTrue()
+        assertThrows<RendjuExceptions.OverLineExceptions> {
+            // when
+            SixMok(board).match(emptyFByEight)
+        }
     }
 
     /**
@@ -79,7 +81,7 @@ class SixMokTest {
      *     A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
      * */
     @Test
-    fun `백이 6이상의 장목이면 거짓을 반환한다`() {
+    fun `백이 6이상의 장목이면 예외가 발생하지 않는다`() {
         // given
         board.addStone(whiteBByEight)
         board.addStone(whiteCByEight)
@@ -87,10 +89,10 @@ class SixMokTest {
         board.addStone(whiteEByEight)
         board.addStone(whiteGByEight)
 
-        // when
-        val result = SixMok(board).match(emptyFByEight)
-
         // result
-        assertThat(result).isFalse()
+        assertDoesNotThrow {
+            // when
+            SixMok(board).match(emptyFByEight)
+        }
     }
 }

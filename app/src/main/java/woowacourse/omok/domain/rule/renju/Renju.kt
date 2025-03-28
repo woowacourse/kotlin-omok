@@ -9,8 +9,8 @@ import woowacourse.omok.domain.rule.Direction
 import woowacourse.omok.domain.rule.SeekResult
 import woowacourse.omok.domain.stone.StoneColor
 
-abstract class Renju(private val board: OmokBoard) {
-    abstract fun match(p: Point): Boolean
+sealed class Renju(private val board: OmokBoard) {
+    abstract fun match(p: Point)
 
     abstract fun checkDirectionPairs(
         current: Point,

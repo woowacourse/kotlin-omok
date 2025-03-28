@@ -1,5 +1,8 @@
 package woowacourse.omok.domain.board
 
+import woowacourse.omok.domain.exception.Exceptions
+import woowacourse.omok.domain.exception.RendjuExceptions
+import woowacourse.omok.domain.exception.ResultState
 import woowacourse.omok.domain.point.OmokPoints
 import woowacourse.omok.domain.point.Point
 import woowacourse.omok.domain.rule.Direction
@@ -51,9 +54,22 @@ class OmokBoard(
     }
 
     private fun addBlockStone(point: Point) {
-        rules.renjuRulesValidation(point)?.let {
-            omokPoints.moveStone(point.copy(status = BoardStatus.Blocked(it)))
+        when (val result = rules.renjuRulesValidation(point)) {
+            is ResultState.Success -> return
+            is ResultState.Error -> {
+                onFailToRenju(point, result.exceptions)
+            }
         }
+    }
+
+    private fun onFailToRenju(
+        point: Point,
+        exceptions: Exceptions,
+    ) {
+        omokPoints
+            .moveStone(
+                point.copy(status = BoardStatus.Blocked(exceptions as RendjuExceptions)),
+            )
     }
 
     private fun seek(
