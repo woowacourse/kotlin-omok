@@ -3,6 +3,9 @@ package omok.domain
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.Position
+import woowacourse.omok.domain.Stone
+import woowacourse.omok.domain.StoneType
 
 class StoneTest {
     @Test

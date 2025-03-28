@@ -1,10 +1,10 @@
-package omok.library
+package woowacourse.omok.library
 
-import omok.domain.Board
-import omok.domain.Position
-import omok.domain.RenjuRule
-import omok.domain.StoneType
 import rule.facade.BlackRenjuRule
+import woowacourse.omok.domain.Board
+import woowacourse.omok.domain.Position
+import woowacourse.omok.domain.RenjuRule
+import woowacourse.omok.domain.StoneType
 
 class BudoolRenjuRule : RenjuRule {
     private val rule: BlackRenjuRule = BlackRenjuRule(15, 15)
@@ -32,7 +32,7 @@ class BudoolRenjuRule : RenjuRule {
         val stones = board.stones
         val blackStones = stones.filter { it.color == StoneType.BLACK }
         val whiteStones = stones.filter { it.color == StoneType.WHITE }
-        return
+        return true
     }
 
     override fun checkDoubleThreeFoul(

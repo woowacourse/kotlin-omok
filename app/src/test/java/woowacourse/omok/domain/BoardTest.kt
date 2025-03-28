@@ -3,8 +3,11 @@ package omok.domain
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import woowacourse.omok.domain.Board
 import woowacourse.omok.domain.DuplicatePutException
 import woowacourse.omok.domain.NotYourTurnException
+import woowacourse.omok.domain.Position
+import woowacourse.omok.domain.StoneType
 
 class BoardTest {
     @Test

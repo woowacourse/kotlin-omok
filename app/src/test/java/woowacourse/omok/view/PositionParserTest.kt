@@ -1,9 +1,10 @@
 
 package omok.view
 
-import omok.domain.Position
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.Position
+import woowacourse.omok.view.PositionParser
 
 class PositionParserTest {
     @Test

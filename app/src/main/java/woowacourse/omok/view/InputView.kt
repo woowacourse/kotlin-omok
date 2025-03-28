@@ -1,6 +1,6 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.domain.Position
+import woowacourse.omok.domain.Position
 
 class InputView {
     fun readPosition(): Position {

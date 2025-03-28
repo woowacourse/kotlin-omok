@@ -1,4 +1,4 @@
-package omok.view
+package woowacourse.omok.view
 
 enum class RowType(val value: Int) {
     A(0),

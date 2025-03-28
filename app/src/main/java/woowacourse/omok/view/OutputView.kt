@@ -1,7 +1,7 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.domain.Position
-import omok.domain.StoneType
+import woowacourse.omok.domain.Position
+import woowacourse.omok.domain.StoneType
 
 class OutputView {
     fun printStartMessage() {
@@ -29,7 +29,12 @@ class OutputView {
         turnColor: StoneType,
         position: Position,
     ) {
-        println(MESSAGE_TURN.format(if (turnColor == StoneType.BLACK) "백" else "흑", PositionParser.decode(position)))
+        println(
+            MESSAGE_TURN.format(
+                if (turnColor == StoneType.BLACK) "백" else "흑",
+                PositionParser.decode(position),
+            ),
+        )
     }
 
     private fun generateBoardArray(changedBoard: Array<Array<StoneType>>): Array<Array<String>> {

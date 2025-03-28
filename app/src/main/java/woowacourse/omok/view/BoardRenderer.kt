@@ -1,25 +1,30 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.domain.Board
-import omok.domain.RowType
+import woowacourse.omok.domain.Board
 
 object BoardRenderer {
     fun render(board: Board): String {
-        val rows =
-            (15 downTo 1).map { rowNumber ->
-                "${rowNumber.toString().padStart(2)} ${buildLine(rowNumber)}"
-            }
-        val columnLine = "   " + RowType.values().joinToString("  ") { it.name }
-        return rows.joinToString("\n") + "\n" + columnLine
-    }
-
-    private fun buildLine(rowNumber: Int): String {
-        val (left, middle, right) =
-            when (rowNumber) {
-                15 -> Triple("┌", "┬", "┐")
-                1 -> Triple("└", "┴", "┘")
-                else -> Triple("├", "┼", "┤")
-            }
-        return left + "──$middle──".repeat(13) + "──$right"
+        val boardMap =
+            StringBuilder(
+                """
+                15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
+                14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                9  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                8  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                7  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                6  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                5  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                4  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                3  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                2  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
+                1  └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
+                   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+                """.trimIndent(),
+            )
+        return boardMap.toString()
     }
 }

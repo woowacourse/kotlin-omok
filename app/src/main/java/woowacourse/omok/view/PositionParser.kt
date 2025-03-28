@@ -1,6 +1,6 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.domain.Position
+import woowacourse.omok.domain.Position
 
 object PositionParser {
     private const val ERROR_NOT_FIND: String = "유효하지 않은 입력입니다. 다시 입력해주세요."

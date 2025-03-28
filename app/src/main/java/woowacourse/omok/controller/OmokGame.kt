@@ -1,11 +1,11 @@
-package omok.controller
+package woowacourse.omok.controller
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import omok.domain.Board
-import omok.library.BudoolRenjuRule
-import omok.view.InputView
-import omok.view.OutputView
+import woowacourse.omok.domain.Board
+import woowacourse.omok.library.BudoolRenjuRule
+import woowacourse.omok.view.InputView
+import woowacourse.omok.view.OutputView
 
 class OmokGame(
     private val inputView: InputView,

@@ -1,9 +1,7 @@
-package omok.domain
+package woowacourse.omok.domain
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import woowacourse.omok.domain.DuplicatePutException
-import woowacourse.omok.domain.NotYourTurnException
 
 class Board(stones: List<Stone>) {
     private val _stones: MutableList<Stone> = stones.toMutableList()

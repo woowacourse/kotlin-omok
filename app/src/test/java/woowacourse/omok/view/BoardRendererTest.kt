@@ -1,8 +1,9 @@
 package omok.view
 
-import omok.domain.Board
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.Board
+import woowacourse.omok.view.BoardRenderer
 
 class BoardRendererTest {
     @Test
