@@ -2,7 +2,7 @@ package woowacourse.omok.domain
 
 import woowacourse.omok.domain.StoneColor.Companion.opposite
 import woowacourse.omok.domain.grid.OmokGrid
-import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.grid.Stone
 import woowacourse.omok.domain.rule.RenjuRuleAdapterImpl
 import woowacourse.omok.domain.rule.ValidationResult
 
@@ -14,7 +14,7 @@ class OmokGame(val grid: OmokGrid) {
         return StoneColor.BLACK
     }
 
-    fun playMove(point: OmokPoint) {
+    fun playMove(point: Stone) {
         grid.putStone(point)
     }
 
@@ -28,7 +28,7 @@ class OmokGame(val grid: OmokGrid) {
 
     fun validatePoint(
         nowTurn: StoneColor,
-        startPoint: OmokPoint,
+        startPoint: Stone,
     ): ValidationResult {
         val thisStones = grid.getStonesByColor(nowTurn)
         val opponentStones = grid.getStonesByColor(opposite(nowTurn))
@@ -43,7 +43,7 @@ class OmokGame(val grid: OmokGrid) {
 
     fun checkWin(
         nowTurn: StoneColor,
-        startPoint: OmokPoint,
+        startPoint: Stone,
     ): Boolean {
         return referee.checkWin(RenjuRuleAdapterImpl, grid.getStonesByColor(nowTurn), startPoint)
     }

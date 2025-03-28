@@ -6,9 +6,9 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import woowacourse.omok.domain.grid.Column
 import woowacourse.omok.domain.grid.OmokGrid
-import woowacourse.omok.domain.grid.OmokPoint
 import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
+import woowacourse.omok.domain.grid.Stone
 
 class OmokGridTest {
     private lateinit var omokGrid: OmokGrid
@@ -22,8 +22,8 @@ class OmokGridTest {
     @DisplayName("돌을 받으면 리스트에 추가한다")
     fun putBlackStone() {
         // given
-        val blackPoint = OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK)
-        val whitePoint = OmokPoint(Point(Row(2), Column(2)), StoneColor.WHITE)
+        val blackPoint = Stone(Point(Row(1), Column(2)), StoneColor.BLACK)
+        val whitePoint = Stone(Point(Row(2), Column(2)), StoneColor.WHITE)
         omokGrid.putStone(blackPoint)
         omokGrid.putStone(whitePoint)
 
@@ -43,7 +43,7 @@ class OmokGridTest {
     @DisplayName("흑돌의 개수가 흰돌의 개수보다 많으면 true를 반환한다")
     fun checkStonesCount() {
         // given
-        val blackPoint = OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK)
+        val blackPoint = Stone(Point(Row(1), Column(2)), StoneColor.BLACK)
         omokGrid.putStone(blackPoint)
 
         // when
@@ -57,8 +57,8 @@ class OmokGridTest {
     @DisplayName("해당 좌표의 돌이 있으면 돌의 색깔을 반환한다")
     fun getStoneColor_whenStoneExistsAt() {
         // given
-        val blackPoint = OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK)
-        val whitePoint = OmokPoint(Point(Row(2), Column(2)), StoneColor.WHITE)
+        val blackPoint = Stone(Point(Row(1), Column(2)), StoneColor.BLACK)
+        val whitePoint = Stone(Point(Row(2), Column(2)), StoneColor.WHITE)
         omokGrid.putStone(blackPoint)
         omokGrid.putStone(whitePoint)
 
@@ -90,7 +90,7 @@ class OmokGridTest {
         (1..15).forEach { row ->
             (1..15).forEach { column ->
                 omokGrid.putStone(
-                    OmokPoint(Point(Row(row), Column(column)), StoneColor.BLACK),
+                    Stone(Point(Row(row), Column(column)), StoneColor.BLACK),
                 )
             }
         }

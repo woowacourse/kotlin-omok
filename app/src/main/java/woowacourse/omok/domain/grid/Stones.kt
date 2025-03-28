@@ -1,12 +1,12 @@
 package woowacourse.omok.domain.grid
 
 class Stones {
-    private val _stone: MutableSet<OmokPoint> = mutableSetOf()
-    val stone: Set<OmokPoint> get() = _stone.deepCopy()
+    private val _stones: MutableSet<Stone> = mutableSetOf()
+    val stones: Set<Stone> get() = _stones.deepCopy()
 
-    operator fun plus(point: OmokPoint) {
-        _stone.add(point)
+    operator fun plus(point: Stone) {
+        _stones.add(point)
     }
 
-    private fun MutableSet<OmokPoint>.deepCopy(): Set<OmokPoint> = map { it.copy() }.toSet()
+    private fun MutableSet<Stone>.deepCopy(): Set<Stone> = map { it.copy() }.toSet()
 }

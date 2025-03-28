@@ -10,9 +10,9 @@ import woowacourse.omok.beforeDoubleThree
 import woowacourse.omok.beforeOverLine
 import woowacourse.omok.domain.grid.Column
 import woowacourse.omok.domain.grid.OmokGrid
-import woowacourse.omok.domain.grid.OmokPoint
 import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
+import woowacourse.omok.domain.grid.Stone
 import woowacourse.omok.domain.rule.RenjuRuleAdapterImpl
 import woowacourse.omok.domain.rule.ValidationResult
 import woowacourse.omok.getFoulPoint
@@ -33,7 +33,7 @@ class RefereeTest {
         // given
         val beforeDoubleThree = beforeDoubleThree()
         beforeDoubleThree.forEach {
-            grid.putStone(OmokPoint(it, StoneColor.BLACK))
+            grid.putStone(Stone(it, StoneColor.BLACK))
         }
 
         // when
@@ -42,7 +42,7 @@ class RefereeTest {
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                OmokPoint(getFoulPoint(), StoneColor.BLACK),
+                Stone(getFoulPoint(), StoneColor.BLACK),
             )
         val expected = ValidationResult.Failure.DoubleThree
 
@@ -56,7 +56,7 @@ class RefereeTest {
         // given
         val beforeDoubleThree = beforeDoubleThree()
         beforeDoubleThree.forEach {
-            grid.putStone(OmokPoint(it, StoneColor.WHITE))
+            grid.putStone(Stone(it, StoneColor.WHITE))
         }
 
         // when
@@ -65,7 +65,7 @@ class RefereeTest {
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                OmokPoint(getFoulPoint(), StoneColor.WHITE),
+                Stone(getFoulPoint(), StoneColor.WHITE),
             )
         val expected = ValidationResult.Success
 
@@ -79,7 +79,7 @@ class RefereeTest {
         // given
         val beforeDoubleFour = beforeDoubleFour()
         beforeDoubleFour.forEach {
-            grid.putStone(OmokPoint(it, StoneColor.BLACK))
+            grid.putStone(Stone(it, StoneColor.BLACK))
         }
 
         // when
@@ -88,7 +88,7 @@ class RefereeTest {
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                OmokPoint(getFoulPoint(), StoneColor.BLACK),
+                Stone(getFoulPoint(), StoneColor.BLACK),
             )
         val expected = ValidationResult.Failure.DoubleFour
 
@@ -102,7 +102,7 @@ class RefereeTest {
         // given
         val beforeDoubleFour = beforeDoubleFour()
         beforeDoubleFour.forEach {
-            grid.putStone(OmokPoint(it, StoneColor.WHITE))
+            grid.putStone(Stone(it, StoneColor.WHITE))
         }
 
         // when
@@ -111,7 +111,7 @@ class RefereeTest {
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                OmokPoint(getFoulPoint(), StoneColor.WHITE),
+                Stone(getFoulPoint(), StoneColor.WHITE),
             )
         val expected = ValidationResult.Success
 
@@ -125,7 +125,7 @@ class RefereeTest {
         // given
         val beforeOverLine = beforeOverLine()
         beforeOverLine.forEach {
-            grid.putStone(OmokPoint(it, StoneColor.BLACK))
+            grid.putStone(Stone(it, StoneColor.BLACK))
         }
 
         // when
@@ -134,7 +134,7 @@ class RefereeTest {
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                OmokPoint(getFoulPoint(), StoneColor.BLACK),
+                Stone(getFoulPoint(), StoneColor.BLACK),
             )
         val expected = ValidationResult.Failure.OverLine
 
@@ -148,7 +148,7 @@ class RefereeTest {
         // given
         val beforeOverLine = beforeOverLine()
         beforeOverLine.forEach {
-            grid.putStone(OmokPoint(it, StoneColor.WHITE))
+            grid.putStone(Stone(it, StoneColor.WHITE))
         }
 
         // when
@@ -157,7 +157,7 @@ class RefereeTest {
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                OmokPoint(getFoulPoint(), StoneColor.WHITE),
+                Stone(getFoulPoint(), StoneColor.WHITE),
             )
         val expected = ValidationResult.Success
 
@@ -169,7 +169,7 @@ class RefereeTest {
     @DisplayName("이미 돌이 있는 위치에 돌을 놓을 수 없다")
     fun validateOccupied() {
         // given
-        grid.putStone(OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK))
+        grid.putStone(Stone(Point(Row(1), Column(2)), StoneColor.BLACK))
 
         // when
         val actual =
@@ -177,14 +177,14 @@ class RefereeTest {
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK),
+                Stone(Point(Row(1), Column(2)), StoneColor.BLACK),
             )
         val actual2 =
             referee.checkViolation(
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
                 grid.getStonesByColor(StoneColor.WHITE),
-                OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK),
+                Stone(Point(Row(1), Column(2)), StoneColor.BLACK),
             )
         val expected = ValidationResult.Failure.Occupied
 
@@ -199,7 +199,7 @@ class RefereeTest {
         // given
         val omokStones = omokPoints()
         omokStones.forEach {
-            grid.putStone(OmokPoint(it, StoneColor.BLACK))
+            grid.putStone(Stone(it, StoneColor.BLACK))
         }
 
         // when
@@ -207,7 +207,7 @@ class RefereeTest {
             referee.checkWin(
                 RenjuRuleAdapterImpl,
                 grid.getStonesByColor(StoneColor.BLACK),
-                OmokPoint(
+                Stone(
                     POINT_H6,
                     StoneColor.BLACK,
                 ),

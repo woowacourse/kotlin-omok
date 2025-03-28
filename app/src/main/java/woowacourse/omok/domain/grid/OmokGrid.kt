@@ -5,16 +5,16 @@ import woowacourse.omok.domain.StoneColor
 class OmokGrid {
     private val stones: Stones = Stones()
 
-    fun putStone(point: OmokPoint) {
+    fun putStone(point: Stone) {
         stones + point
     }
 
     fun isFull(): Boolean {
-        return (stones.stone).size == TOTAL_POINT_COUNT
+        return (stones.stones).size == TOTAL_POINT_COUNT
     }
 
-    fun getStonesByColor(stoneColor: StoneColor): Set<OmokPoint> {
-        return stones.stone.filter { it.stoneColor == stoneColor }.toSet()
+    fun getStonesByColor(stoneColor: StoneColor): Set<Stone> {
+        return stones.stones.filter { it.stoneColor == stoneColor }.toSet()
     }
 
     fun isBlackMoreThanWhite(): Boolean {
@@ -24,7 +24,7 @@ class OmokGrid {
     }
 
     fun getStoneColorByPoint(point: Point): StoneColor? {
-        return stones.stone.find { it.point == point }?.stoneColor
+        return stones.stones.find { it.point == point }?.stoneColor
     }
 
     companion object {

@@ -17,9 +17,9 @@ import woowacourse.omok.domain.StoneColor
 import woowacourse.omok.domain.grid.Column
 import woowacourse.omok.domain.grid.OmokGrid
 import woowacourse.omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
-import woowacourse.omok.domain.grid.OmokPoint
 import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
+import woowacourse.omok.domain.grid.Stone
 import woowacourse.omok.domain.rule.ValidationResult
 
 class MainActivity : AppCompatActivity() {
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
         stoneColor: StoneColor,
     ): StoneColor {
-        val point = OmokPoint(view.tag as Point, stoneColor)
+        val point = Stone(view.tag as Point, stoneColor)
         if (isViolation(stoneColor, point)) return stoneColor
         playMove(stoneColor, view)
         if (checkGameOver(stoneColor, point)) completeGame(stoneColor, point)
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     // 둘 수 있는 위치인지 확인한다
     private fun isViolation(
         stoneColor: StoneColor,
-        point: OmokPoint,
+        point: Stone,
     ): Boolean {
         val result = omokGame.validatePoint(stoneColor, point)
         if (result is ValidationResult.Success) return false
@@ -100,8 +100,8 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
     ) {
         view.setImageResource(getStoneImage(stoneColor))
-        omokGame.playMove(OmokPoint(view.tag as Point, stoneColor))
-        dbProvider.insertStone(OmokPoint(view.tag as Point, stoneColor))
+        omokGame.playMove(Stone(view.tag as Point, stoneColor))
+        dbProvider.insertStone(Stone(view.tag as Point, stoneColor))
     }
 
     // 돌 색깔별로 이미지를 받아온다
@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity() {
     // 게임이 끝났는지 확인한다
     private fun checkGameOver(
         stoneColor: StoneColor,
-        point: OmokPoint,
+        point: Stone,
     ): Boolean {
         return omokGame.checkWin(stoneColor, point) || omokGame.isBoardFull()
     }
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
     // 게임을 끝낸다
     private fun completeGame(
         stoneColor: StoneColor,
-        point: OmokPoint,
+        point: Stone,
     ) {
         showGameResult(stoneColor, point)
         isGameOver = true
@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity() {
     // 게임 결과를 출력한다
     private fun showGameResult(
         stoneColor: StoneColor,
-        point: OmokPoint,
+        point: Stone,
     ) {
         when {
             omokGame.checkWin(stoneColor, point) -> {

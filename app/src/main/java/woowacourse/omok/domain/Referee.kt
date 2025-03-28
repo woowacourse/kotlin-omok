@@ -1,16 +1,16 @@
 package woowacourse.omok.domain
 
-import woowacourse.omok.domain.grid.OmokPoint
 import woowacourse.omok.domain.grid.Point
+import woowacourse.omok.domain.grid.Stone
 import woowacourse.omok.domain.rule.OmokRuleAdapter
 import woowacourse.omok.domain.rule.ValidationResult
 
 class Referee {
     fun checkViolation(
         ruleAdapter: OmokRuleAdapter,
-        thisStones: Set<OmokPoint>,
-        otherStones: Set<OmokPoint>,
-        latestPoint: OmokPoint,
+        thisStones: Set<Stone>,
+        otherStones: Set<Stone>,
+        latestPoint: Stone,
     ): ValidationResult {
         return listOf(
             ruleAdapter.checkViolation(thisStones, otherStones, latestPoint),
@@ -28,8 +28,8 @@ class Referee {
 
     fun checkWin(
         ruleAdapter: OmokRuleAdapter,
-        stones: Set<OmokPoint>,
-        latestPoint: OmokPoint,
+        stones: Set<Stone>,
+        latestPoint: Stone,
     ): Boolean {
         return ruleAdapter.isWin(stones, latestPoint)
     }

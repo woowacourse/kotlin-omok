@@ -3,7 +3,7 @@ package woowacourse.omok.controller
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.OmokResult
 import woowacourse.omok.domain.StoneColor
-import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.grid.Stone
 import woowacourse.omok.domain.rule.ValidationResult
 import woowacourse.omok.view.InputView
 import woowacourse.omok.view.OutputView
@@ -25,7 +25,7 @@ class OmokController(
 
     // 게임을 진행한다
     private tailrec fun playGame(
-        latestPoint: OmokPoint?,
+        latestPoint: Stone?,
         nowTurn: StoneColor,
     ): OmokResult {
         val thisTurnPoint = playTurn(nowTurn, latestPoint)
@@ -37,8 +37,8 @@ class OmokController(
     // 플레이어의 한 턴을 처리한다
     private fun playTurn(
         nowTurn: StoneColor,
-        latestPoint: OmokPoint?,
-    ): OmokPoint {
+        latestPoint: Stone?,
+    ): Stone {
         outputView.printBoardState(omokGame.grid.getStonesByColor(StoneColor.BLACK), omokGame.grid.getStonesByColor(StoneColor.WHITE))
         val point = getPointToPlace(nowTurn, latestPoint)
         omokGame.playMove(point)
@@ -48,11 +48,11 @@ class OmokController(
     // 착수할 위치를 입력 받는다
     private fun getPointToPlace(
         nowTurn: StoneColor,
-        latestPoint: OmokPoint?,
-    ): OmokPoint {
+        latestPoint: Stone?,
+    ): Stone {
         while (true) {
             val point = inputView.getPoint(nowTurn, latestPoint)
-            val omokPoint = OmokPoint(point, nowTurn)
+            val omokPoint = Stone(point, nowTurn)
             val violation = omokGame.validatePoint(nowTurn, omokPoint)
             if (violation == ValidationResult.Success) return omokPoint
             outputView.printErrorMessage(violation as ValidationResult.Failure)

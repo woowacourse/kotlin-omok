@@ -6,22 +6,22 @@ import android.database.Cursor
 import android.util.Log
 import woowacourse.omok.domain.StoneColor
 import woowacourse.omok.domain.grid.Column
-import woowacourse.omok.domain.grid.OmokPoint
 import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
+import woowacourse.omok.domain.grid.Stone
 
 class DbProvider(context: Context) {
     private val dbHelper: DbHelper = DbHelper(context)
 
-    fun initGame(): List<OmokPoint> {
+    fun initGame(): List<Stone> {
         dbHelper.writableDatabase.execSQL(BoardContract.SQL_CREATE_ENTRIES)
 
         return queryBoardByColor()
     }
 
-    private fun queryBoardByColor(): List<OmokPoint> {
+    private fun queryBoardByColor(): List<Stone> {
         val dbReader = dbHelper.readableDatabase
-        val result = mutableListOf<OmokPoint>()
+        val result = mutableListOf<Stone>()
 
         val cursor: Cursor =
             dbReader.query(
@@ -39,7 +39,7 @@ class DbProvider(context: Context) {
                 val row = getInt(getColumnIndexOrThrow(BoardContract.COLUMN_NAME_ROW))
                 val col = getInt(getColumnIndexOrThrow(BoardContract.COLUMN_NAME_COL))
                 val stoneColor = getString(getColumnIndexOrThrow(BoardContract.COLUMN_NAME_STONE_COLOR))
-                result.add(OmokPoint(Point(Row(row), Column(col)), parsingStoneColor(stoneColor)))
+                result.add(Stone(Point(Row(row), Column(col)), parsingStoneColor(stoneColor)))
             }
         }
         cursor.close()
@@ -54,7 +54,7 @@ class DbProvider(context: Context) {
         }
     }
 
-    fun insertStone(omokPoint: OmokPoint) {
+    fun insertStone(omokPoint: Stone) {
         val db = dbHelper.writableDatabase
         val point = omokPoint.point
 

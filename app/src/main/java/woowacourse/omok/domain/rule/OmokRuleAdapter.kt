@@ -2,20 +2,20 @@ package woowacourse.omok.domain.rule
 
 import woowacourse.omok.domain.grid.Column
 import woowacourse.omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
-import woowacourse.omok.domain.grid.OmokPoint
 import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
+import woowacourse.omok.domain.grid.Stone
 
 abstract class OmokRuleAdapter {
     abstract fun checkViolation(
-        thisStones: Set<OmokPoint>,
-        otherStones: Set<OmokPoint>,
-        latestPoint: OmokPoint,
+        thisStones: Set<Stone>,
+        otherStones: Set<Stone>,
+        latestPoint: Stone,
     ): ValidationResult
 
     fun isWin(
-        stones: Set<OmokPoint>,
-        latestPoint: OmokPoint,
+        stones: Set<Stone>,
+        latestPoint: Stone,
     ): Boolean {
         val directions: List<Direction> =
             listOf(
@@ -33,8 +33,8 @@ abstract class OmokRuleAdapter {
 
     private fun search(
         direction: Direction,
-        stones: Set<OmokPoint>,
-        latestPoint: OmokPoint,
+        stones: Set<Stone>,
+        latestPoint: Stone,
     ): Int {
         val coordinateX = latestPoint.point.row.value
         val coordinateY = latestPoint.point.col.value
@@ -45,7 +45,7 @@ abstract class OmokRuleAdapter {
             val nextY = coordinateY + direction.colDelta * count
             if (!checkRange(nextX, nextY)) break
 
-            val point = OmokPoint(Point(Row(nextX), Column(nextY)), latestPoint.stoneColor)
+            val point = Stone(Point(Row(nextX), Column(nextY)), latestPoint.stoneColor)
             if (point !in stones) break
 
             count++

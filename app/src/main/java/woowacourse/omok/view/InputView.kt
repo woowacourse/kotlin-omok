@@ -2,14 +2,14 @@ package woowacourse.omok.view
 
 import woowacourse.omok.domain.StoneColor
 import woowacourse.omok.domain.grid.Column
-import woowacourse.omok.domain.grid.OmokPoint
 import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
+import woowacourse.omok.domain.grid.Stone
 
 class InputView {
     fun getPoint(
         stoneColor: StoneColor,
-        latestPoint: OmokPoint?,
+        latestPoint: Stone?,
     ): Point {
         print(MESSAGE_TURN.format(stoneColor.getDisplayColor()))
         if (latestPoint != null) print(MESSAGE_LATEST_POSITION.format(convertToString(latestPoint)))
@@ -19,7 +19,7 @@ class InputView {
         return parsingInput(rawInput) ?: getPoint(stoneColor, latestPoint)
     }
 
-    private fun convertToString(omokPoint: OmokPoint): String {
+    private fun convertToString(omokPoint: Stone): String {
         val letter = 'A' + omokPoint.point.col.value - INDEX_OFFSET
         return letter + (omokPoint.point.row.value).toString()
     }

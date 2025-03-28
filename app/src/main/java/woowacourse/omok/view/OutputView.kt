@@ -3,7 +3,7 @@ package woowacourse.omok.view
 import woowacourse.omok.domain.OmokResult
 import woowacourse.omok.domain.StoneColor
 import woowacourse.omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
-import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.grid.Stone
 import woowacourse.omok.domain.rule.ValidationResult
 
 class OutputView {
@@ -19,8 +19,8 @@ class OutputView {
     fun printStartMessage() = println(MESSAGE_GAME_START)
 
     fun printBoardState(
-        blackStones: Set<OmokPoint>,
-        whiteStones: Set<OmokPoint>,
+        blackStones: Set<Stone>,
+        whiteStones: Set<Stone>,
     ) {
         val board = makeBoard(blackStones, whiteStones)
         println()
@@ -32,8 +32,8 @@ class OutputView {
     }
 
     private fun makeBoard(
-        blackStones: Set<OmokPoint>,
-        whiteStones: Set<OmokPoint>,
+        blackStones: Set<Stone>,
+        whiteStones: Set<Stone>,
     ): List<List<StoneColor?>> {
         val board: List<MutableList<StoneColor?>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { null } }
 
