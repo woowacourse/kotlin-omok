@@ -47,7 +47,7 @@ class OmokGame(
 
             is Finished.BoardFull -> {
                 updateGameState(result.point)
-                omokGameListener.onError(BOARD_FULL_ERROR_MESSAGE)
+                showMessage(result)
             }
         }
     }
@@ -55,9 +55,9 @@ class OmokGame(
     private fun handleOnGoingResult(result: OnGoing) {
         when (result) {
             is OnGoing.StonePlaced -> updateGameState(result.point)
-            is OnGoing.AlreadyPlaced -> omokGameListener.onError(ALREADY_PLACED_ERROR_MESSAGE)
-            is OnGoing.RuleViolation -> omokGameListener.onError(CLOSED_ERROR_MESSAGE)
-            is OnGoing.InvalidMove -> omokGameListener.onError(INVALID_POINT_ERROR_MESSAGE)
+            is OnGoing.AlreadyPlaced -> showMessage(result)
+            is OnGoing.RuleViolation -> showMessage(result)
+            is OnGoing.InvalidMove -> showMessage(result)
         }
     }
 
@@ -74,10 +74,5 @@ class OmokGame(
         }
     }
 
-    companion object {
-        private const val ALREADY_PLACED_ERROR_MESSAGE = "중복되는 칸에 돌을 둘 수 없습니다."
-        private const val CLOSED_ERROR_MESSAGE = "둘 수 없는 자리입니다."
-        private const val INVALID_POINT_ERROR_MESSAGE = "바둑판 크기를 벗어난 위치입니다."
-        private const val BOARD_FULL_ERROR_MESSAGE = "무승부! - 바둑판에 더 이상 둘 수 있는 공간이 없습니다."
-    }
+    private fun showMessage(result: PlaceStoneResult) = omokGameListener.onShowMessage(result)
 }

@@ -20,6 +20,9 @@ import woowacourse.omok.domain.board.Board
 import woowacourse.omok.domain.board.BoardSize
 import woowacourse.omok.domain.board.Point
 import woowacourse.omok.domain.board.StoneColor
+import woowacourse.omok.domain.board.result.Finished
+import woowacourse.omok.domain.board.result.OnGoing
+import woowacourse.omok.domain.board.result.PlaceStoneResult
 import woowacourse.omok.domain.rule.RuleValidator
 
 class MainActivity : AppCompatActivity() {
@@ -125,13 +128,17 @@ class MainActivity : AppCompatActivity() {
             showGameOverDialog(winnerState)
         }
 
-        override fun onError(message: String) {
-            showToast(message)
+        override fun onShowMessage(result: PlaceStoneResult) {
+            when (result) {
+                is OnGoing.AlreadyPlaced -> getString(R.string.already_placed_error_message)
+                is OnGoing.RuleViolation -> getString(R.string.violation_error_message)
+                is OnGoing.InvalidMove -> getString(R.string.invalid_point_error_message)
+                is Finished.BoardFull -> getString(R.string.board_full_error_message)
+                else -> null
+            }?.also { message ->
+                Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+            }
         }
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun showGameOverDialog(winnerState: StoneColor?) {

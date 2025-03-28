@@ -2,6 +2,7 @@ package woowacourse.omok.view
 
 import woowacourse.omok.domain.board.Point
 import woowacourse.omok.domain.board.StoneColor
+import woowacourse.omok.domain.board.result.PlaceStoneResult
 
 interface OmokGameListener {
     fun onBoardUpdated(
@@ -11,5 +12,5 @@ interface OmokGameListener {
 
     fun onGameWon(winnerState: StoneColor?)
 
-    fun onError(message: String)
+    fun onShowMessage(result: PlaceStoneResult)
 }
