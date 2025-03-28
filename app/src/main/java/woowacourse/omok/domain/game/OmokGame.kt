@@ -11,10 +11,10 @@ import woowacourse.omok.global.retryOnFailedToAddStone
 import woowacourse.omok.view.ext.setOnClickListener
 
 class OmokGame(
-    val omokBoard: OmokBoard,
-    val layout: TableLayout,
-    val omokRules: OmokRules,
-    val event: GameEventListener,
+    private val omokBoard: OmokBoard,
+    private val layout: TableLayout,
+    private val omokRules: OmokRules,
+    private val event: GameEventListener,
 ) {
     fun startGame(target: Place) {
         layout.setOnClickListener { x, y, view ->

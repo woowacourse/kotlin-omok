@@ -1,6 +1,5 @@
 package woowacourse.omok.view
 
-import android.content.Context
 import android.widget.TableLayout
 import android.widget.Toast
 import omok.domain.board.OmokBoard
@@ -15,18 +14,16 @@ import woowacourse.omok.view.ext.getPointAt
 import woowacourse.omok.view.ext.setView
 
 class OmokView(
-    val layout: TableLayout,
+    private val layout: TableLayout,
 ) {
-    val context: Context = layout.context
-
     fun printInvalidInput(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(layout.context, message, Toast.LENGTH_SHORT).show()
     }
 
     fun printInfoWhenFinished(winner: Place?) {
         winner?.let {
-            Toast.makeText(context, winnerText(it), Toast.LENGTH_SHORT).show()
-        } ?: Toast.makeText(context, DRAW_MESSAGE, Toast.LENGTH_SHORT).show()
+            Toast.makeText(layout.context, winnerText(it), Toast.LENGTH_SHORT).show()
+        } ?: Toast.makeText(layout.context, DRAW_MESSAGE, Toast.LENGTH_SHORT).show()
     }
 
     fun printBoard(omokBoard: OmokBoard) {
