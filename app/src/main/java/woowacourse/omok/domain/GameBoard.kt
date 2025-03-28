@@ -1,26 +1,25 @@
-package domain
+package woowacourse.omok.domain
 
-import domain.player.Player
-import domain.position.Position
-import domain.stone.Stone
-import domain.stone.StoneColor
-import domain.stone.Stones
-import exception.RuleViolationException
-import rule.lib.type.Violation
+import woowacourse.omok.domain.exception.RuleViolationException
+import woowacourse.omok.domain.player.Player
+import woowacourse.omok.domain.position.Position
+import woowacourse.omok.domain.rule.lib.type.Violation
+import woowacourse.omok.domain.stone.Stone
+import woowacourse.omok.domain.stone.StoneColor
+import woowacourse.omok.domain.stone.Stones
 
 class GameBoard(
     private val players: ArrayDeque<Player>,
 ) {
     private val stones = Stones()
 
-    fun putStone(onPositionReceived: (StoneColor, Stone?) -> Position): Result<Unit> {
+    fun putStone(onPositionReceived: (StoneColor, Stone?) -> Position): Result<StoneColor> {
         val position = onPositionReceived(players.currentPlayer().stoneColor, stones.lastStone())
         val stone = Stone.of(position, players.currentPlayer().stoneColor)
-
         val violationType = violation(stone)
         if (violationType.isNone()) {
             stones.add(stone)
-            return Result.success(Unit)
+            return Result.success(players.currentPlayer().stoneColor)
         }
 
         return Result.failure(RuleViolationException(violationType))
