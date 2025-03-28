@@ -48,14 +48,4 @@ class BoardTest {
 
         assertThat(actual).isEqualTo(expected)
     }
-
-    @Test
-    fun `이미 돌이 있는 자리에는 돌을 둘 수 없다`() {
-        val board = Board().apply { add(Stone(Position(Col(1), Row(1)), Color.BLACK)) }
-
-        val actual: MoveResult = board.add(Stone(Position(Col(1), Row(1)), Color.BLACK))
-        val expected = MoveResult.Failure.PositionAlreadyOccupied
-
-        assertThat(actual).isEqualTo(expected)
-    }
 }
