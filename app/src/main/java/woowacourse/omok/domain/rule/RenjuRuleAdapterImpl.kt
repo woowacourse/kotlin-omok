@@ -20,9 +20,9 @@ object RenjuRuleAdapterImpl : OmokRuleAdapter() {
         val startPoint = convertOmokPointToPoint(latestPoint)
 
         return when {
-            rule.checkOverline(thisPoints, startPoint) -> ValidationResult.Failure.OverLine()
-            rule.checkDoubleFourFoul(thisPoints, otherPoints, startPoint) -> ValidationResult.Failure.DoubleFour()
-            rule.checkDoubleThreeFoul(thisPoints, otherPoints, startPoint) -> ValidationResult.Failure.DoubleThree()
+            rule.checkOverline(thisPoints, startPoint) -> ValidationResult.Failure.OverLine
+            rule.checkDoubleFourFoul(thisPoints, otherPoints, startPoint) -> ValidationResult.Failure.DoubleFour
+            rule.checkDoubleThreeFoul(thisPoints, otherPoints, startPoint) -> ValidationResult.Failure.DoubleThree
             else -> ValidationResult.Success
         }
     }

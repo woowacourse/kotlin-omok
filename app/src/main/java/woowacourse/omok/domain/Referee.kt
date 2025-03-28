@@ -22,7 +22,7 @@ class Referee {
         totalStones: Set<Point>,
         latestPoint: Point,
     ): ValidationResult {
-        if (totalStones.contains(latestPoint)) return ValidationResult.Failure.Occupied()
+        if (totalStones.contains(latestPoint)) return ValidationResult.Failure.Occupied
         return ValidationResult.Success
     }
 

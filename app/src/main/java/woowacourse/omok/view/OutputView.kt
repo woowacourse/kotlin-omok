@@ -4,13 +4,15 @@ import woowacourse.omok.domain.OmokResult
 import woowacourse.omok.domain.StoneColor
 import woowacourse.omok.domain.grid.OmokGrid.Companion.DEFAULT_SIZE
 import woowacourse.omok.domain.grid.OmokPoint
+import woowacourse.omok.domain.rule.ValidationResult
 
 class OutputView {
-    fun printErrorMessage(message: String?) {
-        if (message == null) {
-            println(ERROR_NOT_FOUND)
-        } else {
-            println(ERROR_MESSAGE.format(message))
+    fun printErrorMessage(violation: ValidationResult.Failure) {
+        when (violation) {
+            ValidationResult.Failure.Occupied -> println(ERROR_OCCUPIED)
+            ValidationResult.Failure.DoubleFour -> println(ERROR_DOUBLE_FOUR)
+            ValidationResult.Failure.DoubleThree -> println(ERROR_DOUBLE_THREE)
+            ValidationResult.Failure.OverLine -> println(ERROR_OVER_LINE)
         }
     }
 
@@ -114,5 +116,10 @@ class OutputView {
         private const val MAX_BOUND = 15
 
         private const val MESSAGE_WINNER = "%s !!"
+
+        private const val ERROR_DOUBLE_THREE = "3x3 위치에 놓을 수 없습니다"
+        private const val ERROR_DOUBLE_FOUR = "4x4 위치에 놓을 수 없습니다"
+        private const val ERROR_OVER_LINE = "장목 위치에 놓을 수 없습니다"
+        private const val ERROR_OCCUPIED = "이미 돌이 있습니다"
     }
 }

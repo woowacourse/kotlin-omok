@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
     ): Boolean {
         val result = omokGame.validatePoint(stoneColor, point)
         if (result is ValidationResult.Success) return false
-        showViolation((result as ValidationResult.Failure).message)
+        showViolation(result as ValidationResult.Failure)
         return true
     }
 
@@ -146,8 +146,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showViolation(violation: String) {
-        Toast.makeText(this, violation, Toast.LENGTH_SHORT).show()
+    private fun showViolation(violation: ValidationResult.Failure) {
+        val errorText =
+            when (violation) {
+                ValidationResult.Failure.DoubleFour -> R.string.error_double_four
+                ValidationResult.Failure.DoubleThree -> R.string.error_double_three
+                ValidationResult.Failure.Occupied -> R.string.error_occupied
+                ValidationResult.Failure.OverLine -> R.string.error_over_line
+            }
+
+        Toast.makeText(this, errorText, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {

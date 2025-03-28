@@ -55,7 +55,7 @@ class OmokController(
             val omokPoint = OmokPoint(point, nowTurn)
             val violation = omokGame.validatePoint(nowTurn, omokPoint)
             if (violation == ValidationResult.Success) return omokPoint
-            outputView.printErrorMessage((violation as ValidationResult.Failure).message)
+            outputView.printErrorMessage(violation as ValidationResult.Failure)
         }
     }
 
