@@ -88,56 +88,109 @@ class OmokEntityTest {
             assertThat(point.status).isInstanceOf(BoardStatus.Blocked::class.java)
             assertThat((point.status as BoardStatus.Blocked).cause).isEqualTo(RendjuExceptions.OverLineExceptions)
         }
+    }
 
+    @Nested
+    @DisplayName("OmokEntity to Point 변환 테스트")
+    inner class ToEntityTest {
         @Test
-        @DisplayName("stone이 null이면 BoardStatus.Empty로 변환되어야 한다")
-        fun `EmptyStoneTest`() {
+        @DisplayName("Point(StoneColor.BLACK) to OmokEntity 변환 테스트")
+        fun `BlackPointToEntityTest`() {
             // given
-            val entity = OmokEntity(row = 1, column = 1, stone = null)
+            val point =
+                Point(
+                    x = Column(8),
+                    y = Row(3),
+                    status = BoardStatus.Moved(StoneColor.BLACK),
+                )
 
             // when
-            val point = entity.toDomainModel()
+            val entity = point.toEntity()
 
             // then
-            assertThat(point.status).isInstanceOf(BoardStatus.Empty::class.java)
+            assertThat(entity.stone).isEqualTo(OmokEntity.BLACK_STONE)
+            assertThat(entity.row).isEqualTo(3)
+            assertThat(entity.column).isEqualTo(8)
         }
-    }
 
-    @Test
-    @DisplayName("Point(StoneColor.BLACK)가 OmokEntity 변환 테스트")
-    fun `PointToEntityTest`() {
-        // given
-        val point =
-            Point(
-                x = Column(8),
-                y = Row(3),
-                status = BoardStatus.Moved(StoneColor.BLACK),
-            )
+        @Test
+        @DisplayName("Point(StoneColor.WHITE) to OmokEntity 변환 테스트")
+        fun `WhitePointToEntityTest`() {
+            // given
+            val point =
+                Point(
+                    x = Column(8),
+                    y = Row(3),
+                    status = BoardStatus.Moved(StoneColor.WHITE),
+                )
 
-        // when
-        val entity = point.toEntity()
+            // when
+            val entity = point.toEntity()
 
-        // then
-        assertThat(entity.stone).isEqualTo(OmokEntity.BLACK_STONE)
-        assertThat(entity.row).isEqualTo(3)
-        assertThat(entity.column).isEqualTo(8)
-    }
+            // then
+            assertThat(entity.stone).isEqualTo(OmokEntity.WHITE_STONE)
+            assertThat(entity.row).isEqualTo(3)
+            assertThat(entity.column).isEqualTo(8)
+        }
 
-    @Test
-    @DisplayName("Point(BoardStatus.Empty)가 OmokEntity(stone=null)로 변환 테스트")
-    fun `EmptyPointToEntityTest`() {
-        // given
-        val point =
-            Point(
-                x = Column(2),
-                y = Row(5),
-                status = BoardStatus.Empty,
-            )
+        @Test
+        @DisplayName("3x3 Stone to OmokEntity 변환 테스트")
+        fun `DoubleThreePointToEntityTest`() {
+            // given
+            val point =
+                Point(
+                    x = Column(8),
+                    y = Row(3),
+                    status = BoardStatus.Blocked(RendjuExceptions.DoubleThreeExceptions),
+                )
 
-        // when
-        val entity = point.toEntity()
+            // when
+            val entity = point.toEntity()
 
-        // then
-        assertThat(entity.stone).isNull()
+            // then
+            assertThat(entity.stone).isEqualTo(OmokEntity.DOUBLE_THREE_STONE)
+            assertThat(entity.row).isEqualTo(3)
+            assertThat(entity.column).isEqualTo(8)
+        }
+
+        @Test
+        @DisplayName("4x4 Stone to OmokEntity 변환 테스트")
+        fun `DoubleFourPointToEntityTest`() {
+            // given
+            val point =
+                Point(
+                    x = Column(8),
+                    y = Row(3),
+                    status = BoardStatus.Blocked(RendjuExceptions.DoubleFourExceptions),
+                )
+
+            // when
+            val entity = point.toEntity()
+
+            // then
+            assertThat(entity.stone).isEqualTo(OmokEntity.DOUBLE_FOUR_STONE)
+            assertThat(entity.row).isEqualTo(3)
+            assertThat(entity.column).isEqualTo(8)
+        }
+
+        @Test
+        @DisplayName("OverLine Stone to OmokEntity 변환 테스트")
+        fun `OverLinePointToEntityTest`() {
+            // given
+            val point =
+                Point(
+                    x = Column(8),
+                    y = Row(3),
+                    status = BoardStatus.Blocked(RendjuExceptions.OverLineExceptions),
+                )
+
+            // when
+            val entity = point.toEntity()
+
+            // then
+            assertThat(entity.stone).isEqualTo(OmokEntity.OVER_LINE_STONE)
+            assertThat(entity.row).isEqualTo(3)
+            assertThat(entity.column).isEqualTo(8)
+        }
     }
 }

@@ -15,7 +15,7 @@ import woowacourse.omok.domain.stone.StoneColor
 data class OmokEntity(
     val row: Int,
     val column: Int,
-    val stone: String?,
+    val stone: String,
 ) {
     fun toDomainModel(): Point {
         val stoneStatus =
@@ -60,8 +60,7 @@ fun Point.toEntity(): OmokEntity {
                     RendjuExceptions.DoubleFourExceptions -> DOUBLE_FOUR_STONE
                     RendjuExceptions.OverLineExceptions -> OVER_LINE_STONE
                 }
-
-            is BoardStatus.Empty -> null
+            else -> throw IllegalArgumentException()
         }
 
     return OmokEntity(
