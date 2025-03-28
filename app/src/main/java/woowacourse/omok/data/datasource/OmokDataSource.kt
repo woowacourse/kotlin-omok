@@ -2,7 +2,6 @@ package woowacourse.omok.data.datasource
 
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.core.content.contentValuesOf
-import androidx.core.database.sqlite.transaction
 import woowacourse.omok.data.db.OmokEntity
 import woowacourse.omok.data.db.OmokSchema.OmokContract.COLUMN_NAME_BOARD_COLUMN
 import woowacourse.omok.data.db.OmokSchema.OmokContract.COLUMN_NAME_BOARD_ROW
@@ -51,9 +50,7 @@ class OmokDataSource(private val dbHelper: SQLiteOpenHelper) {
 
     fun drop() {
         dbHelper.writableDatabase.use { db ->
-            db.transaction {
-                execSQL("DELETE FROM $TABLE_NAME")
-            }
+            db.execSQL("DELETE FROM $TABLE_NAME")
         }
     }
 }
