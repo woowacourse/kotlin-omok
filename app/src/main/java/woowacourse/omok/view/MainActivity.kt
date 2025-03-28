@@ -1,11 +1,9 @@
 package woowacourse.omok.view
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -20,19 +18,16 @@ import woowacourse.omok.domain.board.Board
 import woowacourse.omok.domain.board.BoardSize
 import woowacourse.omok.domain.board.CellState
 import woowacourse.omok.domain.board.Point
-import woowacourse.omok.domain.board.result.Finished
-import woowacourse.omok.domain.board.result.OnGoing
-import woowacourse.omok.domain.board.result.PlaceStoneResult
 import woowacourse.omok.domain.rule.OmokMoveRules
 import woowacourse.omok.domain.rule.RuleValidator
 
 class MainActivity : AppCompatActivity() {
+    private val game: OmokGame by lazy { OmokGame(GameEventListenerImpl(this)) }
     private lateinit var board: Board
     private lateinit var boardView: TableLayout
-    private lateinit var game: OmokGame
 
     private lateinit var gamesDao: GamesDao
-    private lateinit var movesDao: MovesDao
+    lateinit var movesDao: MovesDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         initializeDb()
         initializeBoardView()
-        initializeGame()
+        loadBoardStatus()
     }
 
     private fun initializeDb() {
@@ -52,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         // 추가 기능 미구현
         val ids = gamesDao.getGameIds()
-        if (ids.isEmpty()) gamesDao.addGame(GAME_ROOM_ID)
+        if (ids.isEmpty()) gamesDao.addGame(1)
     }
 
     private fun initializeBoardView() {
@@ -68,13 +63,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initializeGame() {
-        game = OmokGame(GameListener())
-        loadBoardStatus()
-    }
-
     private fun loadBoardStatus() {
-        val loadedMoves = movesDao.getMoves(GAME_ROOM_ID).toMap()
+        val loadedMoves = movesDao.getMoves(1).toMap()
         board = Board(BoardSize(), loadedMoves, RuleValidator(OmokMoveRules()))
         updateBoardUIWithLoadedMoves(loadedMoves)
         game.start(loadedMoves.entries.lastOrNull()?.toPair())
@@ -86,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateBoardUI(
+    fun updateBoardUI(
         point: Point,
         state: CellState,
     ) {
@@ -104,7 +94,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun resetGame() {
         clearBoardImages()
-        gamesDao.deleteGame(GAME_ROOM_ID)
+        gamesDao.deleteGame(1)
         loadBoardStatus()
     }
 
@@ -116,42 +106,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private inner class GameListener : OmokGameListener {
-        override fun onBoardUpdated(
-            point: Point,
-            state: CellState,
-        ) {
-            updateBoardUI(point, state)
-            movesDao.saveMove(GAME_ROOM_ID, point to state)
-        }
-
-        override fun onGameWon(winnerState: CellState?) {
-            showGameOverDialog(winnerState)
-        }
-
-        override fun onShowMessage(result: PlaceStoneResult) {
-            when (result) {
-                is OnGoing.AlreadyPlaced -> getString(R.string.already_placed_error_message)
-                is OnGoing.RuleViolation -> getString(R.string.violation_error_message)
-                is OnGoing.InvalidMove -> getString(R.string.invalid_point_error_message)
-                is Finished.BoardFull -> getString(R.string.board_full_error_message)
-                else -> null
-            }?.also { message ->
-                Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun showGameOverDialog(winnerState: CellState?) {
-        AlertDialog
-            .Builder(this)
-            .setTitle(getString(R.string.dialog_title_game_over))
-            .setMessage(getString(R.string.dialog_description_winner, winnerState?.toUiString()))
-            .setPositiveButton(getString(R.string.dialog_button_positive)) { dialog, _ ->
-                dialog.dismiss()
-                resetGame()
-            }.setCancelable(false)
-            .show()
+    fun showGameOverDialog(winnerState: CellState?) {
+        winnerState?.toUiString()?.let { GameOverDialog(this).show(it) { resetGame() } }
     }
 
     private fun setWindowInsets() {
@@ -169,8 +125,4 @@ class MainActivity : AppCompatActivity() {
             CellState.WHITE -> getString(R.string.white_ui_string)
             else -> ""
         }
-
-    companion object {
-        private const val GAME_ROOM_ID = 1
-    }
 }

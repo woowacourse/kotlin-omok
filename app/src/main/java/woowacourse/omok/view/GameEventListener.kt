@@ -4,7 +4,7 @@ import woowacourse.omok.domain.board.CellState
 import woowacourse.omok.domain.board.Point
 import woowacourse.omok.domain.board.result.PlaceStoneResult
 
-interface OmokGameListener {
+interface GameEventListener {
     fun onBoardUpdated(
         point: Point,
         state: CellState,

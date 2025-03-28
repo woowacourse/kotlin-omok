@@ -6,10 +6,10 @@ import woowacourse.omok.domain.board.Point
 import woowacourse.omok.domain.board.result.Finished
 import woowacourse.omok.domain.board.result.OnGoing
 import woowacourse.omok.domain.board.result.PlaceStoneResult
-import woowacourse.omok.view.OmokGameListener
+import woowacourse.omok.view.GameEventListener
 
 class OmokGame(
-    private val omokGameListener: OmokGameListener,
+    private val eventListener: GameEventListener,
 ) {
     private var previousPoint: Point? = null
     private var currentCellState: CellState = CellState.BLACK
@@ -63,16 +63,16 @@ class OmokGame(
 
     private fun updateGameState(point: Point) {
         previousPoint = point
-        omokGameListener.onBoardUpdated(point, currentCellState)
+        eventListener.onBoardUpdated(point, currentCellState)
         currentCellState = currentCellState.reverseCellState()
     }
 
     private fun showWinColor(board: Board) {
         previousPoint?.let { point ->
             val color = board.findStoneColor(point)
-            omokGameListener.onGameWon(color)
+            eventListener.onGameWon(color)
         }
     }
 
-    private fun showMessage(result: PlaceStoneResult) = omokGameListener.onShowMessage(result)
+    private fun showMessage(result: PlaceStoneResult) = eventListener.onShowMessage(result)
 }
