@@ -88,7 +88,7 @@ class OutputView {
             null -> nonString
         }
 
-    private fun stoneStateText(stoneColor: StoneColor): String =
+    fun stoneStateText(stoneColor: StoneColor): String =
         when (stoneColor) {
             StoneColor.BLACK -> "흑"
             StoneColor.WHITE -> "백"

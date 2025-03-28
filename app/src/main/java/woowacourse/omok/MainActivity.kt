@@ -17,6 +17,7 @@ import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
+import omok.view.OutputView
 import rule.BlackRenjuRule
 import rule.wrapper.point.Point
 import woowacourse.omok.data.OmokDao
@@ -29,6 +30,7 @@ import woowacourse.omok.model.rule.PlacementError.OverlineViolation
 
 class MainActivity : AppCompatActivity() {
     private lateinit var omokDao: OmokDao
+    private val view = OutputView()
 
     override fun onStart() {
         if (omokDao.hasOmokData()) {
@@ -88,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                             game.lastStone?.stoneColor.toString(),
                         )
 
-                        val winColor = stoneStateText(game.lastStone!!.stoneColor)
+                        val winColor = view.stoneStateText(game.lastStone!!.stoneColor)
 
                         isGameOver(game.isOmok(), game, winColor)
                     }
@@ -149,21 +151,12 @@ class MainActivity : AppCompatActivity() {
         AlertDialog
             .Builder(this)
             .setTitle("게임 종료")
-            .setMessage("${stoneStateText(winner)}이(가) 승리했습니다!\n게임을 다시 시작할까요?")
+            .setMessage("${view.stoneStateText(winner)}이(가) 승리했습니다!\n게임을 다시 시작할까요?")
             .setPositiveButton("재시작") { _, _ ->
                 omokDao.deleteDatabase()
                 onRestart()
-            }.setNegativeButton("종료") { dialog, _ ->
-                dialog.dismiss()
-            }.setCancelable(false)
-            .show()
+            }.show()
     }
-
-    private fun stoneStateText(color: StoneColor): String =
-        when (color) {
-            StoneColor.BLACK -> "흑"
-            StoneColor.WHITE -> "백"
-        }
 
     private fun printViolation(violation: PlacementError): String =
         when (violation) {
