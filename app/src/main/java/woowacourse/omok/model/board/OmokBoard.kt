@@ -27,7 +27,6 @@ class OmokBoard(
 
     fun forbidden(position: Position) {
         board[position] = PositionState.FORBIDDEN
-        throw IllegalArgumentException("금수입니다. 다른 자리에 착수해주세요.")
     }
 
     fun placeStone(
