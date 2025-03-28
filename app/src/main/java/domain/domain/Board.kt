@@ -6,7 +6,9 @@ import domain.domain.state.Playing
 import domain.domain.state.Ready
 import domain.domain.state.State
 import domain.domain.state.WhiteTurn
+import domain.domain.stone.BlackStones
 import domain.domain.stone.StoneColor
+import domain.domain.stone.WhiteStones
 
 class Board(
     state: State = Ready(),
@@ -22,7 +24,7 @@ class Board(
     fun playOmok(
         onTurn: (StoneColor, Point?) -> Unit,
         onPointInput: () -> Point,
-        onBoardUpdated: (Set<Point>, Set<Point>) -> Unit,
+        onBoardUpdated: (BlackStones, WhiteStones) -> Unit,
     ) {
         while (true) {
             val currentState = state

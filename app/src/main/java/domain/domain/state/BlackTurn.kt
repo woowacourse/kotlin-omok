@@ -12,7 +12,7 @@ class BlackTurn(
     override fun place(
         point: Point,
         boardSize: Int,
-        onBoardUpdated: (Set<Point>, Set<Point>) -> Unit,
+        onBoardUpdated: (BlackStones, WhiteStones) -> Unit,
     ): State {
         val newStones = blackStones + point
         return when {
@@ -24,7 +24,7 @@ class BlackTurn(
             blackStones.contains(point) || whiteStones.contains(point) -> Foul.Duplicated
             else -> WhiteTurn(newStones, whiteStones)
         }.also {
-            onBoardUpdated(newStones.points, whiteStones.points)
+            onBoardUpdated(newStones, whiteStones)
         }
     }
 

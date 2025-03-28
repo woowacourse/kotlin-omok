@@ -24,7 +24,7 @@ class OmokController(
             board.playOmok(
                 onTurn = outputView::printTurn,
                 onPointInput = { inputView.getPoint(boardSize) },
-                onBoardUpdated = { black, white -> outputView.printOmokBoard(black, white, boardSize) },
+                onBoardUpdated = { black, white -> outputView.printOmokBoard(black.points, white.points, boardSize) },
             )
         }.getOrElse {
             println(it.message)

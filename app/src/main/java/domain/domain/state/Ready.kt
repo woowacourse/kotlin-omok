@@ -12,10 +12,10 @@ class Ready(
     override fun place(
         point: Point,
         boardSize: Int,
-        onBoardUpdated: (Set<Point>, Set<Point>) -> Unit,
+        onBoardUpdated: (BlackStones, WhiteStones) -> Unit,
     ): WhiteTurn {
         val newStones = blackStones + point
-        onBoardUpdated(newStones.points, whiteStones.points)
+        onBoardUpdated(newStones, whiteStones)
         return WhiteTurn(newStones, whiteStones)
     }
 

@@ -13,7 +13,7 @@ interface Playing : State {
     fun place(
         point: Point,
         boardSize: Int = Board.DEFAULT_BOARD_SIZE,
-        onBoardUpdated: (Set<Point>, Set<Point>) -> Unit,
+        onBoardUpdated: (BlackStones, WhiteStones) -> Unit,
     ): State
 
     fun nextStoneColor(): StoneColor
