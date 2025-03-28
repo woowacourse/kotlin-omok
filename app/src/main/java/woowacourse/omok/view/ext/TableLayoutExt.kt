@@ -1,4 +1,4 @@
-package woowacourse.omok.ui.ext
+package woowacourse.omok.view.ext
 
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -26,8 +26,12 @@ fun TableLayout.setView(block: (Int, Int, ImageView) -> Unit) {
     }
 }
 
-fun TableLayout.removeAllEvent() {
-    setView { x, y, view -> view.setOnClickListener { } }
+fun TableLayout.setOnClickListener(block: (Int, Int, ImageView) -> Unit) {
+    setView { x, y, view ->
+        view.setOnClickListener {
+            block(x, y, view)
+        }
+    }
 }
 
 fun OmokBoard.getPointAt(

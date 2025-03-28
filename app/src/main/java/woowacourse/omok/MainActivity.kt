@@ -1,4 +1,4 @@
-package woowacourse.omok.ui
+package woowacourse.omok
 
 import android.os.Bundle
 import android.widget.TableLayout
@@ -7,11 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import omok.domain.board.OmokBoard
+import omok.domain.place.Empty
 import omok.domain.place.OmokStones
 import omok.domain.rule.OmokRules
 import omok.domain.rule.finder.DfsRenjuFinder
 import omok.domain.rule.renjuRule.RenjuRule
-import woowacourse.omok.R
+import omok.event.OmokEventListener
+import woowacourse.omok.domain.game.OmokGame
+import woowacourse.omok.view.OmokView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
                 override val rules = listOf(RenjuRule(DfsRenjuFinder))
             }
         val omokBoard = OmokBoard(OmokStones(), rules)
-        OmokUi(omokBoard, rules, layout)
+        val event = OmokEventListener(OmokView(layout))
+        OmokGame(omokBoard, layout, rules, event).startGame(Empty.dummy().opponent())
     }
 }

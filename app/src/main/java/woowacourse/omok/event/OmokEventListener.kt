@@ -1,23 +1,21 @@
 package omok.event
 
-import android.content.Context
-import android.widget.TableLayout
-import android.widget.Toast
 import omok.domain.board.OmokBoard
 import omok.domain.place.Place
+import woowacourse.omok.view.OmokView
 
-class OmokEventListener(private val board: TableLayout, val context: Context) : GameEventListner {
-    override fun onFinished(winner: Place) {
-        Toast.makeText(context, "토스트 메시지입니다.", Toast.LENGTH_SHORT).show()
+class OmokEventListener(private val view: OmokView) : GameEventListener {
+    override fun onFinished(winner: Place?) {
+        view.printInfoWhenFinished(winner)
     }
 
-    override fun onGameStart() {
-    }
-
-    override fun onInputRequest(place: Place): String {
-        return ""
+    override fun onInvalidInput(message: String?) {
+        message?.let {
+            view.printInvalidInput(it)
+        }
     }
 
     override fun onBoardView(omokBoard: OmokBoard) {
+        view.printBoard(omokBoard)
     }
 }
