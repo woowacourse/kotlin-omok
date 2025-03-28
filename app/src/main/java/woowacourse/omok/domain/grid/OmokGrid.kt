@@ -10,11 +10,11 @@ class OmokGrid {
     }
 
     fun isFull(): Boolean {
-        return (stones.stones).size == TOTAL_POINT_COUNT
+        return (stones.stone).size == TOTAL_POINT_COUNT
     }
 
     fun getStonesByColor(stoneColor: StoneColor): Set<OmokPoint> {
-        return stones.stones.filter { it.stoneColor == stoneColor }.toSet()
+        return stones.stone.filter { it.stoneColor == stoneColor }.toSet()
     }
 
     fun isBlackMoreThanWhite(): Boolean {
@@ -24,7 +24,7 @@ class OmokGrid {
     }
 
     fun getStoneColorByPoint(point: Point): StoneColor? {
-        return stones.stones.find { it.point == point }?.stoneColor
+        return stones.stone.find { it.point == point }?.stoneColor
     }
 
     companion object {
