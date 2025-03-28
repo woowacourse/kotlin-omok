@@ -64,7 +64,9 @@ abstract class OmokRule(
             when (board[y][x]) {
                 in listOf(currentStone, EMPTY_STONE) -> distance++
                 opponentStone -> break
-                else -> throw IllegalArgumentException("착수가 금지된 위치입니다.")
+                //TODO: 여기서 터짐
+                else -> {}
+//                    throw IllegalArgumentException("착수가 금지된 위치입니다.")
             }
         }
         return distance

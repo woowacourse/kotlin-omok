@@ -16,6 +16,7 @@ import omok.domain.Board
 import omok.domain.FiveRule
 import omok.domain.Position
 import omok.domain.RenjuRuleAdapter
+import omok.domain.Stone
 import omok.domain.Turn
 
 class MainActivity : AppCompatActivity() {
@@ -71,13 +72,25 @@ class MainActivity : AppCompatActivity() {
         row: Int,
         column: Int,
     ) {
-        omokBoard.put(Position(row, column), turn.color)
-        if (turn.isWhite()) {
-            view.setImageResource(R.drawable.white_stone)
-        } else {
-            view.setImageResource(R.drawable.black_stone)
+        if (omokBoard.isFull()) {
+            Toast.makeText(this, "더 이상 돌을 놓을 수 없어 무승부입니다.", Toast.LENGTH_SHORT).show()
         }
-        turn.next()
+        if (omokBoard.isInvalidPosition(Position(row, column))) {
+            Toast.makeText(this, "이미 돌을 놓은 자리입니다.", Toast.LENGTH_SHORT).show()
+        }
+        if (omokBoard.isInvalidBlackPosition(Stone(Position(row, column), turn.color))) {
+            Toast.makeText(this, "흑돌이 놓을 수 없는 금수입니다.", Toast.LENGTH_SHORT).show()
+        }
+
+        if (!omokBoard.isFull() && !omokBoard.isInvalidPosition(Position(row, column)) && !omokBoard.isInvalidBlackPosition(Stone(Position(row, column), turn.color))) {
+            omokBoard.put(Position(row, column), turn.color)
+            if (turn.isWhite()) {
+                view.setImageResource(R.drawable.white_stone)
+            } else {
+                view.setImageResource(R.drawable.black_stone)
+            }
+            turn.next()
+        }
     }
 
     private fun showTurnColorToast(isOmok: Boolean) {

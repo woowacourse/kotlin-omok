@@ -9,10 +9,8 @@ class Board(private val rule: Rule) {
         color: StoneType,
     ): Stone {
         val stone = Stone(position, color)
-        isValidPosition(stone)
-        if (grid[position.row][position.column] != StoneType.EMPTY) {
-            throw IllegalArgumentException(ERROR_STONE_ALREADY_PLACED)
-        }
+//        isValidBlackPosition(stone)
+//        isValidPosition(stone.position)
         stones.add(stone)
         grid[position.row][position.column] = stone.color
         return stone
@@ -29,10 +27,12 @@ class Board(private val rule: Rule) {
         stones.reset()
     }
 
-    private fun isValidPosition(stone: Stone) {
-        if (stone.color == StoneType.BLACK && rule.isInvalid(stones, stone, grid)) {
-            throw IllegalArgumentException(ERROR_INVALID_BLACK_STONE)
-        }
+    fun isInvalidBlackPosition(stone: Stone): Boolean {
+        return (stone.color == StoneType.BLACK && rule.isInvalid(stones, stone, grid))
+    }
+
+    fun isInvalidPosition(position: Position): Boolean {
+        return grid[position.row][position.column] != StoneType.EMPTY
     }
 
     companion object {
