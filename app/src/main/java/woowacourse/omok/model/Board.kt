@@ -13,9 +13,6 @@ class Board(
     fun add(newStone: Stone): MoveResult {
         if (newStone.position.x.value !in 1..col.value) return MoveResult.Failure.StoneNotWithinColumn
         if (newStone.position.y.value !in 1..row.value) return MoveResult.Failure.StoneNotWithinRow
-        if (_stones.map(Stone::position).contains(newStone.position)) {
-            return MoveResult.Failure.PositionAlreadyOccupied
-        }
         _stones.add(newStone)
         return MoveResult.Success.Playing
     }
