@@ -82,4 +82,23 @@ class OmokGridTest {
         // then
         assertThat(actual).isNull()
     }
+
+    @Test
+    @DisplayName("오목 판이 다 차면 true를 반환한다")
+    fun checkBoardIsFull() {
+        // given
+        (1..15).forEach { row ->
+            (1..15).forEach { column ->
+                omokGrid.putStone(
+                    OmokPoint(Point(Row(row), Column(column)), StoneColor.BLACK),
+                )
+            }
+        }
+
+        // when
+        val actual = omokGrid.isFull()
+
+        // then
+        assertThat(actual).isTrue()
+    }
 }
