@@ -28,7 +28,11 @@ class OmokGridTest {
         omokGrid.putStone(whitePoint)
 
         // when
-        val omokList = omokGrid.getStonesByColor(StoneColor.BLACK) + omokGrid.getStonesByColor(StoneColor.WHITE)
+        val omokList =
+            omokGrid.getStonesByColor(StoneColor.BLACK) +
+                omokGrid.getStonesByColor(
+                    StoneColor.WHITE,
+                )
         val actual = omokList.contains(blackPoint) && omokList.contains(whitePoint)
 
         // then

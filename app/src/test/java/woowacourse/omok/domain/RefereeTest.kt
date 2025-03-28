@@ -203,7 +203,15 @@ class RefereeTest {
         }
 
         // when
-        val actual = referee.checkWin(RenjuRuleAdapterImpl, grid.getStonesByColor(StoneColor.BLACK), OmokPoint(POINT_H6, StoneColor.BLACK))
+        val actual =
+            referee.checkWin(
+                RenjuRuleAdapterImpl,
+                grid.getStonesByColor(StoneColor.BLACK),
+                OmokPoint(
+                    POINT_H6,
+                    StoneColor.BLACK,
+                ),
+            )
 
         // then
         assertThat(actual).isTrue()
