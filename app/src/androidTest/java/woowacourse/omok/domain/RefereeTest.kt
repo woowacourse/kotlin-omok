@@ -44,7 +44,7 @@ class RefereeTest {
                 grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(getFoulPoint(), StoneColor.BLACK),
             )
-        val expected = ValidationResult.Failure.DoubleThree()
+        val expected = ValidationResult.Failure.DoubleThree
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -90,7 +90,7 @@ class RefereeTest {
                 grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(getFoulPoint(), StoneColor.BLACK),
             )
-        val expected = ValidationResult.Failure.DoubleFour()
+        val expected = ValidationResult.Failure.DoubleFour
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -136,7 +136,7 @@ class RefereeTest {
                 grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(getFoulPoint(), StoneColor.BLACK),
             )
-        val expected = ValidationResult.Failure.OverLine()
+        val expected = ValidationResult.Failure.OverLine
 
         // then
         assertThat(actual).isEqualTo(expected)
@@ -186,7 +186,7 @@ class RefereeTest {
                 grid.getStonesByColor(StoneColor.WHITE),
                 OmokPoint(Point(Row(1), Column(2)), StoneColor.BLACK),
             )
-        val expected = ValidationResult.Failure.Occupied()
+        val expected = ValidationResult.Failure.Occupied
 
         // then
         assertThat(actual).isEqualTo(expected)

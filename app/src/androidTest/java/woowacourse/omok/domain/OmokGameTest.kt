@@ -4,7 +4,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import woowacourse.omok.data.db.DbProvider
 import woowacourse.omok.domain.grid.OmokGrid
 
 class OmokGameTest {
@@ -12,7 +11,7 @@ class OmokGameTest {
 
     @BeforeEach
     fun setUp() {
-        omokGame = OmokGame(OmokGrid(), DbProvider())
+        omokGame = OmokGame(OmokGrid())
     }
 
     @Test
