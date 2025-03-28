@@ -54,5 +54,5 @@ class Game(
     fun isOmok(): Boolean =
         lastStone?.let {
             currentRule(it.stoneColor).isWin(board, it)
-        } ?: false
+        } == true
 }
