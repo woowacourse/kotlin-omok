@@ -12,14 +12,16 @@ interface OmokRule {
     ): PlaceResult
 
     companion object {
-        val rules: List<OmokRule> get() {
-            val board = OmokBoard()
-            return listOf(
+        private val commonRules: List<OmokRule> =
+            listOf(
                 InvalidPositionRule(),
-                ExternalRenjuRule(BlackRenjuRule(board.width, board.height)),
                 DrawRule(),
                 WinningRule(),
             )
-        }
+
+        val whiteRules: List<OmokRule> get() = commonRules
+
+        val blackRules: List<OmokRule> get() =
+            commonRules + ExternalRenjuRule(BlackRenjuRule())
     }
 }
