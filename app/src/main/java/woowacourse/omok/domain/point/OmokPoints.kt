@@ -25,7 +25,7 @@ class OmokPoints {
         points = updatedPoints
     }
 
-    fun clear()  {
+    fun clear() {
         points = makePoints()
     }
 

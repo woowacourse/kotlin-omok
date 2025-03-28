@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         }
     }
 
-    private fun initializedSettings()  {
+    private fun initializedSettings() {
         omokRepository = OmokRepository.create(this)
         game = OmokGame.create(this)
         board = findViewById(R.id.board)
