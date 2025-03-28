@@ -10,11 +10,10 @@ import woowacourse.omok.domain.grid.OmokPoint
 import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
 
-class DbProvider {
-    private lateinit var dbHelper: DbHelper
+class DbProvider(context: Context) {
+    private val dbHelper: DbHelper = DbHelper(context)
 
-    fun initGame(context: Context): List<OmokPoint> {
-        dbHelper = DbHelper(context)
+    fun initGame(): List<OmokPoint> {
         dbHelper.writableDatabase.execSQL(BoardContract.SQL_CREATE_ENTRIES)
 
         return queryBoardByColor()

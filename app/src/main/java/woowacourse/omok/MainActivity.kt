@@ -25,7 +25,7 @@ import woowacourse.omok.domain.rule.ValidationResult
 class MainActivity : AppCompatActivity() {
     private val omokGame = OmokGame(OmokGrid())
     private var isGameOver = false
-    private val dbProvider = DbProvider()
+    private val dbProvider = DbProvider(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initGame()
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
     // 디비에 저장된 돌 상태들을 들고 온다
     private fun initGame() {
-        val stoneState = dbProvider.initGame(this)
+        val stoneState = dbProvider.initGame()
         stoneState.forEach { stone ->
             omokGame.grid.putStone(stone)
         }
