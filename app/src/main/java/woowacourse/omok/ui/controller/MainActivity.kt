@@ -9,7 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import woowacourse.omok.OmokApplication
 import woowacourse.omok.R.drawable
 import woowacourse.omok.R.string
@@ -20,16 +24,9 @@ import woowacourse.omok.domain.model.omokboard.PointState
 import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.player.StoneColor
-import woowacourse.omok.domain.model.rule.judge.DrawRule
 import woowacourse.omok.domain.model.rule.judge.JudgeResult.Finished
-import woowacourse.omok.domain.model.rule.judge.JudgeRule
-import woowacourse.omok.domain.model.rule.judge.WinningRule
-import woowacourse.omok.domain.model.rule.place.AlreadyExistStoneRule
-import woowacourse.omok.domain.model.rule.place.ExternalRule
-import woowacourse.omok.domain.model.rule.place.InvalidPositionRule
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Failure
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Success
-import woowacourse.omok.domain.model.rule.place.PlaceRule
 import woowacourse.omok.domain.repository.OmokRepository
 
 class MainActivity : AppCompatActivity() {
@@ -41,13 +38,11 @@ class MainActivity : AppCompatActivity() {
         omokRepository = (application as OmokApplication).omokRepository
         setupView()
 
-        val omokGame = setupOmokGame()
-        updateLastBoardUI(omokGame.board)
-
-        val placeRules = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())
-        val judgeRules = listOf(WinningRule(), DrawRule())
-
-        setupClickListeners(omokGame, placeRules, judgeRules)
+        lifecycleScope.launch {
+            val omokGame = setupOmokGame()
+            updateLastBoardUI(omokGame.board)
+            setupClickListeners(omokGame)
+        }
     }
 
     private fun setupView() {
@@ -62,13 +57,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupOmokGame(): OmokGame {
-        val lastBoard = omokRepository.loadBoard() ?: OmokBoard.create()
-        val lastTurn = omokRepository.loadLastTurn() ?: StoneColor.BLACK
-
-        val omokGame = OmokGame(lastBoard, lastTurn)
-        return omokGame
-    }
+    private suspend fun setupOmokGame(): OmokGame =
+        withContext(Dispatchers.IO) {
+            val lastBoard = omokRepository.loadBoard() ?: OmokBoard.create()
+            val lastTurn = omokRepository.loadLastTurn() ?: StoneColor.BLACK
+            OmokGame(lastBoard, lastTurn)
+        }
 
     private fun updateLastBoardUI(board: OmokBoard) {
         binding.board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
@@ -85,28 +79,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupClickListeners(
-        omokGame: OmokGame,
-        placeRules: List<PlaceRule>,
-        judgeRules: List<JudgeRule>,
-    ) {
-        setupPointClickListener(omokGame, placeRules, judgeRules)
+    private fun setupClickListeners(omokGame: OmokGame) {
+        setupPointClickListener(omokGame)
         setupRestartClickListener(omokGame)
     }
 
-    private fun setupPointClickListener(
-        omokGame: OmokGame,
-        placeRules: List<PlaceRule>,
-        judgeRules: List<JudgeRule>,
-    ) {
+    private fun setupPointClickListener(omokGame: OmokGame) {
         binding.board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
             row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, button ->
                 button.setOnClickListener {
                     val position = Position(rowIndex + 1, colIndex + 1)
                     val playerStone = PlayerStone(omokGame.currentTurn, position)
 
-                    when (val result = omokGame.placeStone(placeRules, position)) {
-                        is Success -> handlePlaceSuccess(button, playerStone, omokGame, judgeRules)
+                    when (val result = omokGame.placeStone(position = position)) {
+                        is Success -> handlePlaceSuccess(button, playerStone, omokGame)
                         is Failure -> showSnackBar(getFailureMessage(result))
                     }
                 }
@@ -118,7 +104,6 @@ class MainActivity : AppCompatActivity() {
         button: ImageView,
         playerStone: PlayerStone,
         omokGame: OmokGame,
-        judgeRules: List<JudgeRule>,
     ) {
         button.setImageResource(
             when (omokGame.currentTurn) {
@@ -127,12 +112,16 @@ class MainActivity : AppCompatActivity() {
             },
         )
 
-        handleJudge(omokGame, playerStone, judgeRules)
+        handleJudge(omokGame, playerStone)
         omokGame.reverseTurn()
         showSnackBar(getString(string.omok_turn, omokGame.currentTurn.toText()))
 
-        omokRepository.saveLastTurn(omokGame.currentTurn)
-        omokRepository.saveBoard(omokGame.board)
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                omokRepository.saveLastTurn(omokGame.currentTurn)
+                omokRepository.saveBoard(omokGame.board)
+            }
+        }
     }
 
     private fun StoneColor.toText(): String =
@@ -144,9 +133,8 @@ class MainActivity : AppCompatActivity() {
     private fun handleJudge(
         omokGame: OmokGame,
         playerStone: PlayerStone,
-        judgeRules: List<JudgeRule>,
     ) {
-        val judgeResult = omokGame.judge(judgeRules, playerStone)
+        val judgeResult = omokGame.judge(playerStone = playerStone)
 
         if (judgeResult is Finished) {
             disableBoard()
@@ -194,7 +182,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRestartClickListener(omokGame: OmokGame) {
         binding.btnOmokRestart.setOnClickListener {
-            omokRepository.clearGameData()
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    omokRepository.clearGameData()
+                }
+            }
             omokGame.restart()
             binding.board.children.forEach { row ->
                 (row as TableRow).children.forEach { point ->
