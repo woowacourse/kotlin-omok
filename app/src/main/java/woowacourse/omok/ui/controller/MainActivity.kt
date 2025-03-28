@@ -14,9 +14,9 @@ import woowacourse.omok.OmokApplication
 import woowacourse.omok.R.drawable
 import woowacourse.omok.R.string
 import woowacourse.omok.databinding.ActivityMainBinding
-import woowacourse.omok.domain.model.omokboard.IntersectionState
 import woowacourse.omok.domain.model.omokboard.OmokBoard
 import woowacourse.omok.domain.model.omokboard.OmokGame
+import woowacourse.omok.domain.model.omokboard.PointState
 import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.player.StoneColor
@@ -77,8 +77,8 @@ class MainActivity : AppCompatActivity() {
                 val state = board.find(position)
 
                 when (state) {
-                    IntersectionState.OCCUPIED_BLACK -> button.setImageResource(drawable.black_stone)
-                    IntersectionState.OCCUPIED_WHITE -> button.setImageResource(drawable.white_stone)
+                    PointState.OCCUPIED_BLACK -> button.setImageResource(drawable.black_stone)
+                    PointState.OCCUPIED_WHITE -> button.setImageResource(drawable.white_stone)
                     else -> Unit
                 }
             }

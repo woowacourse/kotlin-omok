@@ -1,7 +1,7 @@
 package woowacourse.omok.ui.view
 
-import woowacourse.omok.domain.model.omokboard.IntersectionState
 import woowacourse.omok.domain.model.omokboard.OmokBoard
+import woowacourse.omok.domain.model.omokboard.PointState
 import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.StoneColor
 import woowacourse.omok.domain.model.rule.judge.JudgeResult.Finished
@@ -32,11 +32,11 @@ class OutputView {
     }
 
     private fun Position.drawBoard(omokBoard: OmokBoard): String {
-        val stoneColor = omokBoard.find(this) ?: IntersectionState.EMPTY
+        val stoneColor = omokBoard.find(this) ?: PointState.EMPTY
 
         return when {
-            stoneColor == IntersectionState.OCCUPIED_BLACK -> "●"
-            stoneColor == IntersectionState.OCCUPIED_WHITE -> "○"
+            stoneColor == PointState.OCCUPIED_BLACK -> "●"
+            stoneColor == PointState.OCCUPIED_WHITE -> "○"
             this.row == omokBoard.height && this.column == 1 -> "┌"
             this.row == omokBoard.height && this.column == omokBoard.width -> "┐"
             this.row == 1 && this.column == 1 -> "└"

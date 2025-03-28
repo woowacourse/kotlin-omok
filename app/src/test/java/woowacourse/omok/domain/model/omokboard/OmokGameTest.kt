@@ -14,7 +14,7 @@ class OmokGameTest {
         omokGame.placeStone(emptyList(), POSITION_ONE_ONE)
         val board = omokGame.board.snapshot
         val actual = board.values.first()
-        val expected = IntersectionState.OCCUPIED_BLACK
+        val expected = PointState.OCCUPIED_BLACK
 
         // then
         assertThat(actual).isEqualTo(expected)

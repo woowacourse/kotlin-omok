@@ -4,8 +4,8 @@ import android.content.ContentValues
 import android.content.Context
 import woowacourse.omok.data.DbHelper
 import woowacourse.omok.data.OmokContract
-import woowacourse.omok.domain.model.omokboard.IntersectionState
 import woowacourse.omok.domain.model.omokboard.OmokBoard
+import woowacourse.omok.domain.model.omokboard.PointState
 import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.StoneColor
 
@@ -85,12 +85,12 @@ class OmokRepository(
                 null,
             )
 
-        val board = mutableMapOf<Position, IntersectionState>()
+        val board = mutableMapOf<Position, PointState>()
         while (cursor.moveToNext()) {
             val row = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_ROW))
             val col = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_COL))
             val state =
-                IntersectionState.valueOf(
+                PointState.valueOf(
                     cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_STATE)),
                 )
             board[Position(row, col)] = state

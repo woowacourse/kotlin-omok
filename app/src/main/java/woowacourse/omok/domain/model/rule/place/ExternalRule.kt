@@ -7,8 +7,8 @@ import rule.type.Violation.DOUBLE_THREE
 import rule.type.Violation.NONE
 import rule.type.Violation.OVERLINE
 import rule.wrapper.point.Point
-import woowacourse.omok.domain.model.omokboard.IntersectionState
 import woowacourse.omok.domain.model.omokboard.OmokBoard
+import woowacourse.omok.domain.model.omokboard.PointState
 import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.player.StoneColor
@@ -32,13 +32,13 @@ class ExternalRule : PlaceRule {
 
         val blackPoints =
             omokBoard.snapshot
-                .filter { it.value == IntersectionState.OCCUPIED_BLACK }
+                .filter { it.value == PointState.OCCUPIED_BLACK }
                 .keys
                 .map { it.toExternalPoint() }
 
         val whitePoints =
             omokBoard.snapshot
-                .filter { it.value == IntersectionState.OCCUPIED_WHITE }
+                .filter { it.value == PointState.OCCUPIED_WHITE }
                 .keys
                 .map { it.toExternalPoint() }
 
