@@ -4,15 +4,15 @@ import android.content.ContentValues
 import android.database.Cursor
 import woowacourse.omok.data.BoardTableContract
 import woowacourse.omok.data.OmokDatabaseHelper
+import woowacourse.omok.domain.board.CellState
 import woowacourse.omok.domain.board.Point
-import woowacourse.omok.domain.board.StoneColor
 
 class BoardDao(
     private val dbHelper: OmokDatabaseHelper,
 ) {
     fun saveMove(
         gameId: Int,
-        move: Pair<Point, StoneColor>,
+        move: Pair<Point, CellState>,
     ) {
         dbHelper.writableDatabase.use { db ->
             val values =
@@ -26,7 +26,7 @@ class BoardDao(
         }
     }
 
-    fun getMoves(gameId: Int): List<Pair<Point, StoneColor>> {
+    fun getMoves(gameId: Int): List<Pair<Point, CellState>> {
         val db = dbHelper.readableDatabase
         val cursor =
             db.query(
@@ -44,7 +44,7 @@ class BoardDao(
             )
 
         return cursor.use {
-            val moves = mutableListOf<Pair<Point, StoneColor>>()
+            val moves = mutableListOf<Pair<Point, CellState>>()
             while (it.moveToNext()) {
                 moves.add(cursorToMove(it))
             }
@@ -52,11 +52,11 @@ class BoardDao(
         }
     }
 
-    private fun cursorToMove(cursor: Cursor): Pair<Point, StoneColor> {
+    private fun cursorToMove(cursor: Cursor): Pair<Point, CellState> {
         val x = cursor.getInt(0)
         val y = cursor.getInt(1)
         val color = cursor.getString(2)
-        val stoneColor = StoneColor.entries.find { it.toString() == color } ?: StoneColor.NONE
-        return Point(x, y) to stoneColor
+        val boardCell = CellState.entries.find { it.toString() == color } ?: CellState.EMPTY
+        return Point(x, y) to boardCell
     }
 }

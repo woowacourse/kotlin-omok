@@ -1,13 +1,13 @@
 package woowacourse.omok.domain.board
 
-enum class StoneColor {
+enum class CellState {
     WHITE,
     BLACK,
-    NONE,
+    EMPTY,
     ;
 
-    fun reverseStoneColor(): StoneColor {
-        if (this == NONE) return NONE
+    fun reverseCellState(): CellState {
+        if (this == EMPTY) return EMPTY
         return if (this == WHITE) BLACK else WHITE
     }
 }

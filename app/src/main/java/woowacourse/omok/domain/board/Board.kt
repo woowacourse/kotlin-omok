@@ -7,11 +7,11 @@ import woowacourse.omok.domain.rule.RuleValidator
 
 class Board(
     size: BoardSize,
-    points: Map<Point, StoneColor> = emptyMap(),
+    points: Map<Point, CellState> = emptyMap(),
     private val validator: RuleValidator,
 ) {
-    private val _points: MutableMap<Point, StoneColor> = points.toMutableMap()
-    val points: Map<Point, StoneColor> get() = _points.toMap()
+    private val _cells: MutableMap<Point, CellState> = points.toMutableMap()
+    val cells: Map<Point, CellState> get() = _cells.toMap()
 
     val size: Int = size.value
 
@@ -21,16 +21,16 @@ class Board(
         for (row in BoardSize.MIN_SIZE..size.value) {
             for (col in BoardSize.MIN_SIZE..size.value) {
                 val key = Point(row, col)
-                _points[key] = _points.getOrDefault(key, StoneColor.NONE)
+                _cells[key] = _cells.getOrDefault(key, CellState.EMPTY)
             }
         }
     }
 
-    fun findStoneColor(point: Point): StoneColor? = _points[point]
+    fun findStoneColor(point: Point): CellState? = _cells[point]
 
     fun placeStone(
         point: Point,
-        color: StoneColor,
+        color: CellState,
     ): PlaceStoneResult {
         if (checkOutOfBounds(point)) return OnGoing.InvalidMove
         if (checkAlreadyPlaced(point)) return OnGoing.AlreadyPlaced
@@ -41,27 +41,27 @@ class Board(
 
     private fun handleStonePlacement(
         point: Point,
-        color: StoneColor,
+        color: CellState,
     ): PlaceStoneResult {
-        updatePoint(point, color)
+        updateCell(point, color)
 
         if (validator.checkWinCondition(this, point, color)) return Finished.GameFinished(point)
         return checkBoardStatus(point)
     }
 
     private fun checkBoardStatus(point: Point): PlaceStoneResult {
-        if (points.count { it.value == StoneColor.NONE } == 0) return Finished.BoardFull(point)
+        if (cells.count { it.value == CellState.EMPTY } == 0) return Finished.BoardFull(point)
         return OnGoing.StonePlaced(point)
     }
 
-    private fun updatePoint(
+    private fun updateCell(
         point: Point,
-        newColor: StoneColor,
+        newColor: CellState,
     ) {
-        _points[point] = newColor
+        _cells[point] = newColor
     }
 
     private fun checkOutOfBounds(point: Point): Boolean = !(listOf(point.x, point.y).all { it in BoardSize.MIN_SIZE..size })
 
-    private fun checkAlreadyPlaced(point: Point): Boolean = findStoneColor(point) != StoneColor.NONE
+    private fun checkAlreadyPlaced(point: Point): Boolean = findStoneColor(point) != CellState.EMPTY
 }

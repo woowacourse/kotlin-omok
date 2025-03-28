@@ -18,8 +18,8 @@ import woowacourse.omok.data.dao.GameDao
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.board.Board
 import woowacourse.omok.domain.board.BoardSize
+import woowacourse.omok.domain.board.CellState
 import woowacourse.omok.domain.board.Point
-import woowacourse.omok.domain.board.StoneColor
 import woowacourse.omok.domain.board.result.Finished
 import woowacourse.omok.domain.board.result.OnGoing
 import woowacourse.omok.domain.board.result.PlaceStoneResult
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         game.start(loadedMoves.entries.lastOrNull()?.toPair())
     }
 
-    private fun updateBoardUIWithLoadedMoves(loadedMoves: Map<Point, StoneColor>) {
+    private fun updateBoardUIWithLoadedMoves(loadedMoves: Map<Point, CellState>) {
         loadedMoves.forEach { (point, stoneColor) ->
             updateBoardUI(point, stoneColor)
         }
@@ -87,17 +87,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateBoardUI(
         point: Point,
-        color: StoneColor,
+        state: CellState,
     ) {
         val pointView = boardView.findViewWithTag<ImageView>(point)
-        val stoneImage = getStoneImage(color)
+        val stoneImage = getStoneImage(state)
         pointView.setImageResource(stoneImage)
     }
 
-    private fun getStoneImage(color: StoneColor): Int =
-        when (color) {
-            StoneColor.BLACK -> R.drawable.black_stone
-            StoneColor.WHITE -> R.drawable.white_stone
+    private fun getStoneImage(state: CellState): Int =
+        when (state) {
+            CellState.BLACK -> R.drawable.black_stone
+            CellState.WHITE -> R.drawable.white_stone
             else -> 0
         }
 
@@ -118,13 +118,13 @@ class MainActivity : AppCompatActivity() {
     private inner class GameListener : OmokGameListener {
         override fun onBoardUpdated(
             point: Point,
-            color: StoneColor,
+            state: CellState,
         ) {
-            updateBoardUI(point, color)
-            boardDao.saveMove(GAME_ROOM_ID, point to color)
+            updateBoardUI(point, state)
+            boardDao.saveMove(GAME_ROOM_ID, point to state)
         }
 
-        override fun onGameWon(winnerState: StoneColor?) {
+        override fun onGameWon(winnerState: CellState?) {
             showGameOverDialog(winnerState)
         }
 
@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showGameOverDialog(winnerState: StoneColor?) {
+    private fun showGameOverDialog(winnerState: CellState?) {
         AlertDialog
             .Builder(this)
             .setTitle(getString(R.string.dialog_title_game_over))
@@ -162,10 +162,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun StoneColor.toUiString(): String =
+    private fun CellState.toUiString(): String =
         when (this) {
-            StoneColor.BLACK -> getString(R.string.black_ui_string)
-            StoneColor.WHITE -> getString(R.string.white_ui_string)
+            CellState.BLACK -> getString(R.string.black_ui_string)
+            CellState.WHITE -> getString(R.string.white_ui_string)
             else -> ""
         }
 

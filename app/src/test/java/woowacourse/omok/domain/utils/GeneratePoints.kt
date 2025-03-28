@@ -1,15 +1,15 @@
 package woowacourse.omok.domain.utils
 
 import woowacourse.omok.domain.board.BoardSize
+import woowacourse.omok.domain.board.CellState
 import woowacourse.omok.domain.board.Point
-import woowacourse.omok.domain.board.StoneColor
 
-fun generatePoints(
-    points: Map<String, StoneColor>,
+fun generateCells(
+    cells: Map<String, CellState>,
     size: Int = 15,
-): Map<Point, StoneColor> {
+): Map<Point, CellState> {
     val newPoints =
-        points
+        cells
             .map { (rawPoint, color) ->
                 val point = rawPoint.toPosition()
                 Point(point.first, point.second) to color
@@ -19,7 +19,7 @@ fun generatePoints(
     for (row in BoardSize.MIN_SIZE..size) {
         for (col in BoardSize.MIN_SIZE..size) {
             val key = Point(row, col)
-            newPoints[key] = newPoints.getOrDefault(key, StoneColor.NONE)
+            newPoints[key] = newPoints.getOrDefault(key, CellState.EMPTY)
         }
     }
 

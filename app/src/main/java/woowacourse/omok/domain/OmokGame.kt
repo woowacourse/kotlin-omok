@@ -1,8 +1,8 @@
 package woowacourse.omok.domain
 
 import woowacourse.omok.domain.board.Board
+import woowacourse.omok.domain.board.CellState
 import woowacourse.omok.domain.board.Point
-import woowacourse.omok.domain.board.StoneColor
 import woowacourse.omok.domain.board.result.Finished
 import woowacourse.omok.domain.board.result.OnGoing
 import woowacourse.omok.domain.board.result.PlaceStoneResult
@@ -12,18 +12,18 @@ class OmokGame(
     private val omokGameListener: OmokGameListener,
 ) {
     private var previousPoint: Point? = null
-    private var currentStoneColor: StoneColor = StoneColor.BLACK
+    private var currentCellState: CellState = CellState.BLACK
 
-    fun start(lastMove: Pair<Point, StoneColor>?) {
+    fun start(lastMove: Pair<Point, CellState>?) {
         previousPoint = lastMove?.first
-        currentStoneColor = lastMove?.second?.reverseStoneColor() ?: StoneColor.BLACK
+        currentCellState = lastMove?.second?.reverseCellState() ?: CellState.BLACK
     }
 
     fun placeStone(
         board: Board,
         point: Point,
     ) {
-        val placeResult = board.placeStone(point, currentStoneColor)
+        val placeResult = board.placeStone(point, currentCellState)
         handlePlaceResult(placeResult, board)
     }
 
@@ -63,8 +63,8 @@ class OmokGame(
 
     private fun updateGameState(point: Point) {
         previousPoint = point
-        omokGameListener.onBoardUpdated(point, currentStoneColor)
-        currentStoneColor = currentStoneColor.reverseStoneColor()
+        omokGameListener.onBoardUpdated(point, currentCellState)
+        currentCellState = currentCellState.reverseCellState()
     }
 
     private fun showWinColor(board: Board) {
