@@ -1,11 +1,13 @@
 package woowacourse.omok
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -69,11 +71,25 @@ class MainActivity : AppCompatActivity() {
             is GameOnGoing -> updateStone(imageView)
             is GameFinish -> {
                 updateStone(imageView)
-                showToast(displayGameResultMessage(placeResult.gameResult))
+                popUp(placeResult.gameResult)
             }
             is InvalidMove.AlreadyExistStone -> showToast(displayMisPlaceMessage(placeResult))
             is InvalidMove.ExternalRenjuRule -> showToast(displayForbiddenMessage(placeResult.rule))
         }
+    }
+
+    private fun popUp(gameResult: GameResult) {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("게임결과")
+            .setMessage(displayGameResultMessage(gameResult))
+            .setPositiveButton("한번 더하기") { dialog, _ ->
+                dialog.dismiss()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun displayMisPlaceMessage(error: PlaceResult): String {
