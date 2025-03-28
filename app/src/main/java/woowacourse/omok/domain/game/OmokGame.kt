@@ -1,5 +1,6 @@
 package omok.domain.game
 
+import kotlinx.coroutines.runBlocking
 import omok.domain.board.OmokBoard
 import omok.domain.place.Black
 import omok.domain.place.Place
@@ -27,6 +28,7 @@ class OmokGame(
         event: GameEventListner,
     ): Boolean {
         if (rules.isOmok(place, omokBoard)) {
+            event.onBoardView(omokBoard)
             event.onFinished(place)
             return true
         }
@@ -46,6 +48,6 @@ class OmokGame(
 
     private fun getInputPoint(event: GameEventListner): String {
         event.onBoardView(omokBoard)
-        return event.onInputRequest(omokBoard.latestPlace)
+        return runBlocking { event.onInputRequest(omokBoard.latestPlace) }
     }
 }

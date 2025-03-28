@@ -1,15 +1,18 @@
 package woowacourse.omok
 
 import android.os.Bundle
-import android.widget.ImageView
 import android.widget.TableLayout
-import android.widget.TableRow
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.children
+import omok.domain.board.OmokBoard
 import omok.domain.game.OmokGame
+import omok.domain.place.OmokStones
+import omok.domain.rule.OmokRules
+import omok.domain.rule.finder.DfsRenjuFinder
+import omok.domain.rule.renjuRule.RenjuRule
+import omok.event.OmokEventListener
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,13 +25,18 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val game = OmokGame()
         val board = findViewById<TableLayout>(R.id.board)
-        board
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone) } }
+        startGame(board)
+    }
+
+    private fun startGame(board: TableLayout) {
+        val rules =
+            object : OmokRules {
+                override val rules = listOf(RenjuRule(DfsRenjuFinder))
+            }
+        val omokBoard = OmokBoard(OmokStones(), rules)
+        Thread {
+            OmokGame(omokBoard, rules).startGame(OmokEventListener(board, this))
+        }.start()
     }
 }

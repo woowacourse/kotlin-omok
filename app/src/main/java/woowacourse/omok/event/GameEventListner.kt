@@ -8,7 +8,7 @@ interface GameEventListner {
 
     fun onGameStart()
 
-    fun onInputRequest(place: Place): String
+    suspend fun onInputRequest(place: Place): String
 
     fun onBoardView(omokBoard: OmokBoard)
 }
