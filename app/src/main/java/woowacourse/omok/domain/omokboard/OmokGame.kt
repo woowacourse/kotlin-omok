@@ -14,17 +14,13 @@ import woowacourse.omok.domain.rule.place.PlaceRule
 
 class OmokGame(
     val board: OmokBoard = OmokBoard.create(),
+    firstTurn: StoneColor = StoneColor.BLACK,
 ) {
-    var currentTurn = StoneColor.BLACK
+    var currentTurn = firstTurn
         private set
 
     fun placeStone(
-        rules: List<PlaceRule> =
-            listOf(
-                InvalidPositionRule(),
-                AlreadyExistStoneRule(),
-                ExternalRule(),
-            ),
+        rules: List<PlaceRule> = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule()),
         position: Position,
     ): PlaceResult {
         var result: PlaceResult = PlaceResult.Success

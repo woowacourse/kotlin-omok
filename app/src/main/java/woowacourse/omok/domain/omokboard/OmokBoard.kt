@@ -3,7 +3,7 @@ package woowacourse.omok.domain.omokboard
 import woowacourse.omok.domain.player.PlayerStone
 
 @JvmInline
-value class OmokBoard private constructor(
+value class OmokBoard(
     private val value: MutableMap<Position, IntersectionState>,
 ) {
     val snapshot: Map<Position, IntersectionState> get() = value.toMap()

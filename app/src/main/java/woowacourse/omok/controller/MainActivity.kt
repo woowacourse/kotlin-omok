@@ -10,13 +10,17 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
+import woowacourse.omok.OmokApplication
 import woowacourse.omok.R.drawable
 import woowacourse.omok.R.string
 import woowacourse.omok.databinding.ActivityMainBinding
+import woowacourse.omok.domain.omokboard.IntersectionState
+import woowacourse.omok.domain.omokboard.OmokBoard
 import woowacourse.omok.domain.omokboard.OmokGame
 import woowacourse.omok.domain.omokboard.Position
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
+import woowacourse.omok.domain.repository.OmokRepository
 import woowacourse.omok.domain.rule.judge.DrawRule
 import woowacourse.omok.domain.rule.judge.JudgeResult.Finished
 import woowacourse.omok.domain.rule.judge.JudgeRule
@@ -30,12 +34,15 @@ import woowacourse.omok.domain.rule.place.PlaceRule
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var omokRepository: OmokRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        omokRepository = (application as OmokApplication).omokRepository
         setupView()
 
-        val omokGame = OmokGame()
+        val omokGame = setupOmokGame()
+        updateLastBoardUI(omokGame.board)
 
         val placeRules = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())
         val judgeRules = listOf(WinningRule(), DrawRule())
@@ -52,6 +59,29 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+    }
+
+    private fun setupOmokGame(): OmokGame {
+        val lastBoard = omokRepository.loadBoard() ?: OmokBoard.create()
+        val lastTurn = omokRepository.loadLastTurn() ?: StoneColor.BLACK
+
+        val omokGame = OmokGame(lastBoard, lastTurn)
+        return omokGame
+    }
+
+    private fun updateLastBoardUI(board: OmokBoard) {
+        binding.board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
+            row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, button ->
+                val position = Position(rowIndex + 1, colIndex + 1)
+                val state = board.find(position)
+
+                when (state) {
+                    IntersectionState.OCCUPIED_BLACK -> button.setImageResource(drawable.black_stone)
+                    IntersectionState.OCCUPIED_WHITE -> button.setImageResource(drawable.white_stone)
+                    else -> Unit
+                }
+            }
         }
     }
 
@@ -91,6 +121,9 @@ class MainActivity : AppCompatActivity() {
         handleJudge(omokGame, playerStone, judgeRules)
         omokGame.reverseTurn()
         showSnackBar(getString(string.omok_turn, omokGame.currentTurn.toText()))
+
+        omokRepository.saveLastTurn(omokGame.currentTurn)
+        omokRepository.saveBoard(omokGame.board)
     }
 
     private fun StoneColor.toText(): String =
