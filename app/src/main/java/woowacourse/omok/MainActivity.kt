@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         dbHelper = OmokDBHelper(this)
+        dbHelper.resetDatabase()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         val boardSize = BoardSize(BOARD_SIZE)
         val outputAppView = OutputAppView(this)
-        val omokAppControl = OmokAppControl(boardSize, outputAppView)
+        val omokAppControl = OmokAppControl(boardSize, outputAppView, dbHelper)
 
         val board = findViewById<TableLayout>(R.id.board)
         board
@@ -57,6 +58,12 @@ class MainActivity : AppCompatActivity() {
         gameEndButton.setOnClickListener {
             outputAppView.gameEndDialogAlert()
         }
+    }
+
+    override fun onDestroy() {
+        dbHelper.close()
+
+        super.onDestroy()
     }
 
     companion object {

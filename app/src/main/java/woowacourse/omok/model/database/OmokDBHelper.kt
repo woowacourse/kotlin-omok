@@ -16,6 +16,12 @@ class OmokDBHelper(
         db.execSQL(OmokDBContract.StonesTable.SQL_CREATE_ENTRIES)
     }
 
+    fun resetDatabase() {
+        val db = writableDatabase
+        db.execSQL(OmokDBContract.StonesTable.SQL_DELETE_ENTRIES)
+        onCreate(db)
+    }
+
     override fun onUpgrade(
         db: SQLiteDatabase,
         oldVersion: Int,
