@@ -7,18 +7,25 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import woowacourse.omok.domain.board.result.Finished
 import woowacourse.omok.domain.board.result.OnGoing
+import woowacourse.omok.domain.rule.OmokMoveRules
 import woowacourse.omok.domain.rule.RuleValidator
 import woowacourse.omok.domain.utils.generateCells
 import woowacourse.omok.domain.utils.toPoint
 
 class BoardTest {
     private fun createBoard(cells: List<String> = emptyList()): Board =
-        Board(BoardSize(15), generateCells(cells.associateWith { CellState.BLACK }), RuleValidator())
+        Board(
+            BoardSize(15),
+            generateCells(cells.associateWith { CellState.BLACK }),
+            RuleValidator(
+                OmokMoveRules(),
+            ),
+        )
 
     @Test
     fun `원하는 크기의 바둑판을 생성할 수 있다`() {
         val size = BoardSize(15)
-        val board = Board(size, judge = RuleValidator())
+        val board = Board(size, judge = RuleValidator(OmokMoveRules()))
 
         assertThat(board.size).isEqualTo(15)
     }
@@ -33,7 +40,8 @@ class BoardTest {
     @Test
     fun `초기화 시 지정된 상태를 가진 보드가 정상적으로 설정되어야 한다`() {
         val initialPoints = mapOf(Point(1, 1) to CellState.BLACK, Point(2, 2) to CellState.WHITE)
-        val customBoard = Board(BoardSize(15), initialPoints, validator = RuleValidator())
+        val customBoard =
+            Board(BoardSize(15), initialPoints, validator = RuleValidator(OmokMoveRules()))
 
         assertThat(customBoard.findStoneColor(Point(1, 1))).isEqualTo(CellState.BLACK)
         assertThat(customBoard.findStoneColor(Point(2, 2))).isEqualTo(CellState.WHITE)
@@ -80,7 +88,7 @@ class BoardTest {
             generateCells(
                 listOf("C3", "D4", "F4", "G3").associateWith { CellState.WHITE },
             )
-        val board = Board(BoardSize(15), cells, RuleValidator())
+        val board = Board(BoardSize(15), cells, RuleValidator(OmokMoveRules()))
         val result = board.placeStone("E5".toPoint(), CellState.WHITE)
         val actual = result is OnGoing.StonePlaced
 
@@ -119,8 +127,16 @@ class BoardTest {
 
     @Test
     fun `바둑판에 더 이상 둘 공간이 없다면 BoardFull를 반환한다`() {
-        val cells = (1..15).flatMap { x -> (1..15).map { y -> Point(x, y) to CellState.BLACK } }.toMap()
-        val board = Board(BoardSize(15), cells.filter { it.key != Point(15, 15) }, RuleValidator())
+        val cells =
+            (1..15).flatMap { x -> (1..15).map { y -> Point(x, y) to CellState.BLACK } }.toMap()
+        val board =
+            Board(
+                BoardSize(15),
+                cells.filter { it.key != Point(15, 15) },
+                RuleValidator(
+                    OmokMoveRules(),
+                ),
+            )
         val result = board.placeStone(Point(15, 15), CellState.WHITE)
         val actual = result is Finished.BoardFull
 

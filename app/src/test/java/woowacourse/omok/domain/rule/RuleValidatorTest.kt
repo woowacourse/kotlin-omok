@@ -18,7 +18,7 @@ class RuleValidatorTest {
 
     @BeforeEach
     fun setUp() {
-        ruleValidator = RuleValidator()
+        ruleValidator = RuleValidator(OmokMoveRules())
     }
 
     private fun createBoard(points: List<String>): Board =

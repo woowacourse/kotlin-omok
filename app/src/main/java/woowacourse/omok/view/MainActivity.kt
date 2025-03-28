@@ -23,6 +23,7 @@ import woowacourse.omok.domain.board.Point
 import woowacourse.omok.domain.board.result.Finished
 import woowacourse.omok.domain.board.result.OnGoing
 import woowacourse.omok.domain.board.result.PlaceStoneResult
+import woowacourse.omok.domain.rule.OmokMoveRules
 import woowacourse.omok.domain.rule.RuleValidator
 
 class MainActivity : AppCompatActivity() {
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadBoardStatus() {
         val loadedMoves = boardDao.getMoves(GAME_ROOM_ID).toMap()
-        board = Board(BoardSize(), loadedMoves, RuleValidator())
+        board = Board(BoardSize(), loadedMoves, RuleValidator(OmokMoveRules()))
         updateBoardUIWithLoadedMoves(loadedMoves)
         game.start(loadedMoves.entries.lastOrNull()?.toPair())
     }
