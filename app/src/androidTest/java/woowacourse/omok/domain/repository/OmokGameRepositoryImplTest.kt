@@ -33,6 +33,7 @@ class OmokGameRepositoryImplTest {
     @Test
     fun saveGame() {
         runBlocking {
+            // given
             val board = OmokBoard(mutableMapOf(Position(0, 0) to PointState.OCCUPIED_BLACK))
             val game =
                 OmokGameEntity(
@@ -40,9 +41,11 @@ class OmokGameRepositoryImplTest {
                     board = board,
                 )
 
+            // when
             omokGameRepositoryImpl.saveGame(game)
-
             val saved = omokGameRepositoryImpl.fetchGame()
+
+            // then
             assertThat(saved.board.find(Position(0, 0))).isEqualTo(PointState.OCCUPIED_BLACK)
             assertThat(saved.lastTurn).isEqualTo(StoneColor.WHITE)
         }
@@ -51,8 +54,10 @@ class OmokGameRepositoryImplTest {
     @Test
     fun fetchGameWhenEmpty() {
         runBlocking {
+            // given && when
             val game = omokGameRepositoryImpl.fetchGame()
 
+            // then
             assertThat(game.board.snapshot).anySatisfy { _, point -> assertThat(point).isEqualTo(PointState.EMPTY) }
             assertThat(game.lastTurn).isEqualTo(StoneColor.BLACK)
         }
@@ -61,17 +66,20 @@ class OmokGameRepositoryImplTest {
     @Test
     fun deleteGame() {
         runBlocking {
+            // given
             val board = OmokBoard(mutableMapOf(Position(1, 1) to PointState.OCCUPIED_WHITE))
             val game =
                 OmokGameEntity(
                     lastTurn = StoneColor.WHITE,
                     board = board,
                 )
-
             omokGameRepositoryImpl.saveGame(game)
-            omokGameRepositoryImpl.deleteGame()
 
+            // when
+            omokGameRepositoryImpl.deleteGame()
             val afterDelete = omokGameRepositoryImpl.fetchGame()
+
+            // then
             assertThat(afterDelete.board.snapshot).anySatisfy { _, point -> assertThat(point).isEqualTo(PointState.EMPTY) }
         }
     }
