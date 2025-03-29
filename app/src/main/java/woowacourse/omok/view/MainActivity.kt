@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val service = GameBoard(players = players)
         oMokRepository = OmokRepository(StoneLocalDataSource(DbHelper(this)))
         val board = findViewById<TableLayout>(R.id.board)
-        drawExistedStones(board)
+        drawExistedStones(board, service)
         setClickCallbackProcess(board, service)
     }
 
@@ -55,7 +55,10 @@ class MainActivity : AppCompatActivity() {
         return players
     }
 
-    private fun drawExistedStones(board: TableLayout) {
+    private fun drawExistedStones(
+        board: TableLayout,
+        service: GameBoard,
+    ) {
         val existedStones = oMokRepository.findAllStone()
         if (existedStones.isNotEmpty()) {
             board
@@ -74,6 +77,8 @@ class MainActivity : AppCompatActivity() {
                             stone?.let { showPlacedStone(view = cell, stoneColor = stone.color) }
                         }
                 }
+
+            service.restoreStones(existedStones)
         }
     }
 

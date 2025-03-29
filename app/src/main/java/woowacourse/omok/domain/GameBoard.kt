@@ -44,6 +44,10 @@ class GameBoard(
         }
     }
 
+    fun restoreStones(existedStones: List<Stone>) {
+        existedStones.forEach { stone -> stones.add(stone) }
+    }
+
     private fun violation(stone: Stone): Violation =
         with(players.currentPlayer()) {
             violation(
