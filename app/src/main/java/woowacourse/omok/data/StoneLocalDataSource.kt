@@ -1,11 +1,7 @@
 package woowacourse.omok.data
 
 import android.database.sqlite.SQLiteOpenHelper
-import woowacourse.omok.domain.position.Col
 import woowacourse.omok.domain.position.Position
-import woowacourse.omok.domain.position.Row
-import woowacourse.omok.domain.stone.Stone
-import woowacourse.omok.domain.stone.StoneColor
 
 class StoneLocalDataSource(
     private val dbHelper: SQLiteOpenHelper,
@@ -21,7 +17,7 @@ class StoneLocalDataSource(
         db.execSQL(OmokContract.SQL_INSERT_STONE, data)
     }
 
-    override fun fetchStoneByPosition(position: Position): Stone? {
+    override fun fetchStoneByPosition(position: Position): StoneDao? {
         val db = dbHelper.readableDatabase
         val data =
             arrayOf(
@@ -35,13 +31,10 @@ class StoneLocalDataSource(
             val rowIndex = cursor.getColumnIndex(OmokContract.COLUMN_NAME_ROW)
             val colIndex = cursor.getColumnIndex(OmokContract.COLUMN_NAME_COL)
 
-            val stoneColorValue = cursor.getString(stoneColorIndex)
-            val rowValue = cursor.getInt(rowIndex)
-            val colValue = cursor.getInt(colIndex)
-            return Stone(
-                position = Position(Row.from(rowValue), Col.from(colValue)),
-                color = stoneColorValue.toStoneColor(),
-            )
+            val stoneColor = cursor.getString(stoneColorIndex)
+            val row = cursor.getInt(rowIndex)
+            val col = cursor.getInt(colIndex)
+            return StoneDao(stoneColor, row, col)
         }
         return null
     }
@@ -49,13 +42,5 @@ class StoneLocalDataSource(
     override fun deleteAll() {
         val db = dbHelper.writableDatabase
         db.execSQL(OmokContract.SQL_DELETE_ENTRIES)
-    }
-
-    private fun String.toStoneColor(): StoneColor {
-        return if (this == StoneColor.BLACK.name) {
-            StoneColor.BLACK
-        } else {
-            StoneColor.WHITE
-        }
     }
 }
