@@ -40,13 +40,6 @@ class MainActivity : AppCompatActivity() {
 
     private val game = Game(blackRuleChecker)
 
-    override fun onStart() {
-        if (omokDao.hasOmokData()) {
-            createBoard()
-        }
-        super.onStart()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         omokDao = OmokDao(this)
@@ -96,6 +89,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
         }
+    }
+
+    override fun onStart() {
+        if (omokDao.hasOmokData()) {
+            createBoard()
+        }
+        super.onStart()
     }
 
     private fun isGameOver(
