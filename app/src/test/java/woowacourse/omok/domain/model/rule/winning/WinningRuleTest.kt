@@ -20,12 +20,10 @@ import woowacourse.omok.domain.model.omokboard.OmokGame
 import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.player.StoneColor
 import woowacourse.omok.domain.model.rule.judge.JudgeResult
-import woowacourse.omok.domain.model.rule.judge.JudgeRule
 import woowacourse.omok.domain.model.rule.judge.WinningRule
 
 class WinningRuleTest {
     private lateinit var omokGame: OmokGame
-    private lateinit var judgeRules: List<JudgeRule>
 
     @BeforeEach
     fun setup() {
