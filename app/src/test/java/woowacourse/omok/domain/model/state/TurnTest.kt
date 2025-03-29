@@ -1,14 +1,12 @@
-package omok.domain.model.state
+package woowacourse.omok.domain.model.state
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import woowacourse.omok.domain.model.state.Finish
-import woowacourse.omok.domain.model.state.Turn
 import woowacourse.omok.domain.model.stone.StoneType
 
 class TurnTest {
-    lateinit var turn: Turn
+    private lateinit var turn: Turn
 
     @BeforeEach
     fun setUp() {

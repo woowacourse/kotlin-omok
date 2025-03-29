@@ -1,13 +1,13 @@
 package woowacourse.omok.domain.model
 
-import omok.stoneOneAndOne
-import omok.stoneSixAndSix
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import woowacourse.omok.domain.model.position.Stone
 import woowacourse.omok.domain.model.stone.StoneType
 import woowacourse.omok.domain.model.stone.Stones
+import woowacourse.omok.stoneOneAndOne
+import woowacourse.omok.stoneSixAndSix
 
 class StoneRepositoryTest {
     private lateinit var stoneRepository: StoneRepository

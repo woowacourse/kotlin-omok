@@ -1,25 +1,25 @@
 package woowacourse.omok.domain.model.rule
 
 import io.kotest.matchers.shouldBe
-import omok.diagonalDownFourStones
-import omok.diagonalDownWinStone
-import omok.doubleFourFixture
-import omok.doubleFourStone
-import omok.doubleThreeFixture
-import omok.doubleThreeStone
-import omok.horizontalFourStones
-import omok.horizontalWinStone
-import omok.longMoveStone
-import omok.stoneLongMoveFixture
-import omok.stoneOneAndOne
-import omok.stoneSixAndSix
-import omok.verticalFourStones
-import omok.verticalWinStone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import rule.BlackRenjuRule
 import woowacourse.omok.adapter.RenjuRuleAdapter
 import woowacourse.omok.adapter.RuleResult
+import woowacourse.omok.diagonalDownFourStones
+import woowacourse.omok.diagonalDownWinStone
+import woowacourse.omok.doubleFourFixture
+import woowacourse.omok.doubleFourStone
+import woowacourse.omok.doubleThreeFixture
+import woowacourse.omok.doubleThreeStone
+import woowacourse.omok.horizontalFourStones
+import woowacourse.omok.horizontalWinStone
+import woowacourse.omok.longMoveStone
+import woowacourse.omok.stoneLongMoveFixture
+import woowacourse.omok.stoneOneAndOne
+import woowacourse.omok.stoneSixAndSix
+import woowacourse.omok.verticalFourStones
+import woowacourse.omok.verticalWinStone
 
 class OmokRuleTest {
     private val omokRule: OmokRule = OmokRule(RenjuRuleAdapter(BlackRenjuRule()))
