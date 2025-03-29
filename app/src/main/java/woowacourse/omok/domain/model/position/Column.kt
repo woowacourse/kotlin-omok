@@ -7,8 +7,10 @@ value class Column private constructor(val value: Int) {
             value: Int,
             maxSize: Int,
         ): Column {
-            require(value <= maxSize) { "잘못된 위치입니다." }
+            require(value <= maxSize) { VALIDATE_RANGE_ERROR }
             return Column(value)
         }
+
+        private const val VALIDATE_RANGE_ERROR = "잘못된 열 위치입니다."
     }
 }

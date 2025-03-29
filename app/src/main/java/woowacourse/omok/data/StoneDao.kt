@@ -1,6 +1,10 @@
 package woowacourse.omok.data
 
 import android.content.ContentValues
+import woowacourse.omok.data.StoneContract.COLUMN_NAME_COLUMN
+import woowacourse.omok.data.StoneContract.COLUMN_NAME_ROW
+import woowacourse.omok.data.StoneContract.COLUMN_NAME_STONE_TYPE
+import woowacourse.omok.data.StoneContract.TABLE_NAME
 import woowacourse.omok.domain.model.position.Stone
 import woowacourse.omok.domain.model.stone.StoneType
 
@@ -9,11 +13,11 @@ class StoneDao(private val dbHelper: OmokDatabaseHelper) {
         val db = dbHelper.writableDatabase
         val values =
             ContentValues().apply {
-                put("x", stone.position.column.value)
-                put("y", stone.position.row.value)
-                put("stone_type", stone.stoneType.name)
+                put(COLUMN_NAME_COLUMN, stone.position.column.value)
+                put(COLUMN_NAME_ROW, stone.position.row.value)
+                put(COLUMN_NAME_STONE_TYPE, stone.stoneType.name)
             }
-        db.insert("stones", null, values)
+        db.insert(TABLE_NAME, null, values)
         db.close()
     }
 
@@ -37,7 +41,7 @@ class StoneDao(private val dbHelper: OmokDatabaseHelper) {
 
     fun clear() {
         val db = dbHelper.writableDatabase
-        db.execSQL("DELETE FROM stones")
+        db.execSQL("DELETE FROM $TABLE_NAME")
         db.close()
     }
 }

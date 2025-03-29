@@ -94,16 +94,16 @@ class MainActivity : AppCompatActivity() {
         resetGame: () -> Unit,
     ) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("게임 종료")
-        builder.setMessage("${stoneType.koreanName()}의 승리입니다.\n게임을 다시 시작 하시겠습니까?")
-        builder.setPositiveButton("확인") { dialog, _ ->
+        builder.setTitle(getString(R.string.end_game))
+        builder.setMessage(getString(R.string.finish_message, stoneType.koreanName()))
+        builder.setPositiveButton(getString(R.string.confirm)) { dialog, _ ->
             repository.clear()
             resetGame()
             resetView()
             dialog.dismiss()
         }
 
-        builder.setNegativeButton("취소") { dialog, _ ->
+        builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
             repository.clear()
             dialog.dismiss()
         }
@@ -126,14 +126,14 @@ class MainActivity : AppCompatActivity() {
                     RuleResult.DuplicatePosition ->
                         Toast.makeText(
                             this@MainActivity,
-                            "이미 둔 곳에 둘 수 없습니다.",
+                            getString(R.string.duplicate_position_message),
                             Toast.LENGTH_SHORT,
                         ).show()
 
                     RuleResult.RenJuRule ->
                         Toast.makeText(
                             this@MainActivity,
-                            "흑돌은 3 3, 4 4, 장목을 둘 수 없습니다.",
+                            getString(R.string.black_renju_rule_message),
                             Toast.LENGTH_SHORT,
                         ).show()
 
@@ -164,16 +164,16 @@ class MainActivity : AppCompatActivity() {
             StoneType.WHITE -> view.setImageResource(R.drawable.white_stone)
         }
     }
+
+    private fun position(
+        column: Int,
+        row: Int,
+        board: Board,
+    ) = Position(Column.from(column + 1, board.column), Row.from(row + 1, board.row))
+
+    private fun StoneType.koreanName() =
+        when (this) {
+            StoneType.BLACK -> getString(R.string.korean_black_stone)
+            StoneType.WHITE -> getString(R.string.korean_white_stone)
+        }
 }
-
-private fun position(
-    column: Int,
-    row: Int,
-    board: Board,
-) = Position(Column.from(column + 1, board.column), Row.from(row + 1, board.row))
-
-private fun StoneType.koreanName() =
-    when (this) {
-        StoneType.BLACK -> "흑"
-        StoneType.WHITE -> "백"
-    }
