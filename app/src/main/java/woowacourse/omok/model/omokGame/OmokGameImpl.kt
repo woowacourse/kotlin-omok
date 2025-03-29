@@ -2,12 +2,12 @@ package omok.model.omokGame
 
 import omok.model.board.Board
 import omok.model.board.Position
-import omok.model.rule.Rule
+import omok.model.rule.OmokRuleAdapter
 import omok.model.stone.StoneState
 
 class OmokGameImpl(
     val board: Board,
-    private val rule: Rule,
+    private val rule: OmokRuleAdapter,
 ) : OmokGame {
     override fun placeStone(
         position: Position,

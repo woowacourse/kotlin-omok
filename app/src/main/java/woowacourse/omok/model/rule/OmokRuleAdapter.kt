@@ -9,8 +9,8 @@ import omok.model.board.Position
 import omok.model.omokGame.OmokRuleSet
 import omok.model.stone.StoneState
 
-class OmokRuleAdapter : Rule {
-    override fun validate(
+class OmokRuleAdapter {
+    fun validate(
         board: Board,
         position: Position,
         stoneState: StoneState,
