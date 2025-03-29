@@ -138,9 +138,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateBoardActivation(isEnabled: Boolean) {
+    private fun updateBoardActivation(isActive: Boolean) {
         forEachBoardPoint { _, _, point ->
-            point.isEnabled = isEnabled
+            point.isEnabled = isActive
         }
     }
 
