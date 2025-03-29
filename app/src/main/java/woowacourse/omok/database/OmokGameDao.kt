@@ -1,7 +1,5 @@
 package woowacourse.omok.database
 
-import DbHelper
-import OmokGameContract
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor

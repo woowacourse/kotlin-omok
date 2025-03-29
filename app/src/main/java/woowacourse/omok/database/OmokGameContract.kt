@@ -1,3 +1,5 @@
+package woowacourse.omok.database
+
 import android.provider.BaseColumns
 
 object OmokGameContract {
