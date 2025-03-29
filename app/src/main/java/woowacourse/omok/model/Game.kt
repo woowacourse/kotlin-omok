@@ -14,6 +14,8 @@ class Game(val board: Board, private val rule: Rule) {
     }
 
     fun play(newStone: Stone): MoveResult {
+        val rangeCheck: MoveResult = board.checkRange(newStone)
+        if (rangeCheck is MoveResult.Failure) return rangeCheck
         val forbiddenMoveCheck: MoveResult = rule.checkForbiddenMove(board, newStone)
         if (forbiddenMoveCheck is MoveResult.Failure) return forbiddenMoveCheck
         when (val stoneAddResult: MoveResult = board.add(newStone)) {

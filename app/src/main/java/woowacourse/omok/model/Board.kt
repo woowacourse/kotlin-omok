@@ -10,9 +10,13 @@ class Board(
     private val _stones: MutableSet<Stone> = mutableSetOf()
     val stones: Set<Stone> get() = _stones.toSet()
 
-    fun add(newStone: Stone): MoveResult {
+    fun checkRange(newStone: Stone): MoveResult {
         if (newStone.position.x.value !in 1..col.value) return MoveResult.Failure.StoneNotWithinColumn
         if (newStone.position.y.value !in 1..row.value) return MoveResult.Failure.StoneNotWithinRow
+        return MoveResult.Success.Playing
+    }
+
+    fun add(newStone: Stone): MoveResult {
         _stones.add(newStone)
         return MoveResult.Success.Playing
     }

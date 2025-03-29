@@ -19,7 +19,7 @@ class BoardTest {
 
     @Test
     fun `1 미만의 행에 돌을 둘 수 없다`() {
-        val actual: MoveResult = Board().add(Stone(Position(Col(1), Row(0)), Color.BLACK))
+        val actual: MoveResult = Board().checkRange(Stone(Position(Col(1), Row(0)), Color.BLACK))
         val expected: MoveResult = MoveResult.Failure.StoneNotWithinRow
 
         assertThat(actual).isEqualTo(expected)
@@ -27,7 +27,7 @@ class BoardTest {
 
     @Test
     fun `1 미만의 열에 돌을 둘 수 없다`() {
-        val actual: MoveResult = Board().add(Stone(Position(Col(0), Row(1)), Color.BLACK))
+        val actual: MoveResult = Board().checkRange(Stone(Position(Col(0), Row(1)), Color.BLACK))
         val expected: MoveResult = MoveResult.Failure.StoneNotWithinColumn
 
         assertThat(actual).isEqualTo(expected)
@@ -35,7 +35,7 @@ class BoardTest {
 
     @Test
     fun `15 초과의 행에 돌을 둘 수 없다`() {
-        val actual: MoveResult = Board().add(Stone(Position(Col(1), Row(16)), Color.BLACK))
+        val actual: MoveResult = Board().checkRange(Stone(Position(Col(1), Row(16)), Color.BLACK))
         val expected: MoveResult = MoveResult.Failure.StoneNotWithinRow
 
         assertThat(actual).isEqualTo(expected)
@@ -43,7 +43,7 @@ class BoardTest {
 
     @Test
     fun `15 초과의 열에 돌을 둘 수 없다`() {
-        val actual: MoveResult = Board().add(Stone(Position(Col(16), Row(1)), Color.BLACK))
+        val actual: MoveResult = Board().checkRange(Stone(Position(Col(16), Row(1)), Color.BLACK))
         val expected: MoveResult = MoveResult.Failure.StoneNotWithinColumn
 
         assertThat(actual).isEqualTo(expected)
