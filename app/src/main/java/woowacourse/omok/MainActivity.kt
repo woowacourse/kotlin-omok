@@ -1,7 +1,10 @@
 package woowacourse.omok
 
+import android.content.ContentValues
 import android.content.Intent
+import android.database.Cursor
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -13,6 +16,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import rule.type.Violation
+import woowacourse.omok.domain.db.DbHelper
+import woowacourse.omok.domain.db.OmokContract
 import woowacourse.omok.domain.omokboard.ColumnPosition
 import woowacourse.omok.domain.omokboard.OmokBoard
 import woowacourse.omok.domain.omokboard.PlayingBoard
@@ -22,6 +27,7 @@ import woowacourse.omok.domain.placeresult.GameFinish
 import woowacourse.omok.domain.placeresult.GameOnGoing
 import woowacourse.omok.domain.placeresult.InvalidMove
 import woowacourse.omok.domain.placeresult.PlaceResult
+import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
 import woowacourse.omok.domain.rule.GameResult
 import woowacourse.omok.domain.rule.OmokRule
@@ -32,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var board: TableLayout
     private lateinit var playingBoard: PlayingBoard
     private lateinit var omokGame: OmokGame
+    private lateinit var dbHelper: DbHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +54,8 @@ class MainActivity : AppCompatActivity() {
         playingBoard = PlayingBoard(OmokBoard(), RuleNavigation(OmokRule.whiteRules, OmokRule.blackRules))
         omokGame = OmokGame(playingBoard)
 
+        dbHelper = DbHelper(this)
+
         board
             .children
             .filterIsInstance<TableRow>()
@@ -55,12 +64,75 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { index, imageView ->
                 val row = index / 15
                 val column = index % 15
+
+                queryStoneAt(row, column)?.let { color ->
+                    val stoneColor = StoneColor.valueOf(color)
+                    playingBoard.placeStone(PlayerStone(stoneColor, Position(RowPosition(row + 1), ColumnPosition(column + 1))))
+                    stoneColor.toUi(imageView)
+                }
+
                 imageView.setOnClickListener {
+                    val currentColor = omokGame.currentStoneColor.name
+                    insertStone(currentColor, row, column)
                     omokGame.start(Position(RowPosition(row + 1), ColumnPosition(column + 1))) { placeResult ->
                         handlePlaceResult(placeResult, imageView)
                     }
                 }
             }
+    }
+
+    private fun insertStone(
+        color: String,
+        row: Int,
+        column: Int,
+    ) {
+        val db = dbHelper.writableDatabase
+
+        val values =
+            ContentValues().apply {
+                put(OmokContract.STONE_COLOR, color)
+                put(OmokContract.POSITION_ROW, row)
+                put(OmokContract.POSITION_COLUMN, column)
+            }
+
+        val newRowId = db.insert(OmokContract.TABLE_NAME, null, values)
+        if (newRowId == -1L) {
+            Log.e("MainActivity", "insert failed")
+        } else {
+            Log.d("MainActivity", "insert success: $newRowId")
+        }
+        db.close()
+    }
+
+    private fun queryStoneAt(
+        row: Int,
+        column: Int,
+    ): String? {
+        val dbReader = dbHelper.readableDatabase
+        var result: String? = null
+
+        val cursor: Cursor =
+            dbReader.query(
+                OmokContract.TABLE_NAME,
+                arrayOf(OmokContract.STONE_COLOR),
+                "${OmokContract.POSITION_ROW} = ? AND ${OmokContract.POSITION_COLUMN} = ?",
+                arrayOf(row.toString(), column.toString()),
+                null,
+                null,
+                null,
+            )
+
+        if (cursor.moveToFirst()) {
+            result = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.STONE_COLOR))
+        }
+        cursor.close()
+        return result
+    }
+
+    private fun resetDatabase() {
+        val db = dbHelper.writableDatabase
+        db.delete(OmokContract.TABLE_NAME, null, null)
+        db.close()
     }
 
     private fun handlePlaceResult(
@@ -85,6 +157,7 @@ class MainActivity : AppCompatActivity() {
             .setMessage(displayGameResultMessage(gameResult))
             .setPositiveButton("한번 더하기") { dialog, _ ->
                 dialog.dismiss()
+                resetDatabase()
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
@@ -136,5 +209,11 @@ class MainActivity : AppCompatActivity() {
             StoneColor.BLACK -> imageView.setImageResource(R.drawable.black_stone)
             StoneColor.WHITE -> imageView.setImageResource(R.drawable.white_stone)
         }
+    }
+
+    override fun onDestroy() {
+        dbHelper.close()
+
+        super.onDestroy()
     }
 }
