@@ -23,6 +23,7 @@ import domain.domain.stone.StoneColor
 class MainActivity : AppCompatActivity() {
     private var state: State = Ready()
     private lateinit var dbHelper: DbHelper
+    private lateinit var boardImages: List<List<ImageView>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +34,17 @@ class MainActivity : AppCompatActivity() {
         state = dbHelper.loadGameState() ?: Ready()
 
         val board = findViewById<TableLayout>(R.id.board)
-        val rows = board.children.filterIsInstance<TableRow>().toList().reversed()
+        boardImages =
+            board.children
+                .filterIsInstance<TableRow>()
+                .toList()
+                .reversed()
+                .map { row -> row.children.filterIsInstance<ImageView>().toList() }
 
-        updateBoard(rows)
+        updateBoard()
 
-        rows.forEachIndexed { rowIndex, row ->
-            row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
+        boardImages.forEachIndexed { rowIndex, row ->
+            row.forEachIndexed { colIndex, imageView ->
                 imageView.setOnClickListener { placeStone(Point(colIndex, rowIndex), imageView) }
             }
         }
@@ -101,12 +107,12 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(applicationContext, messageId, Toast.LENGTH_LONG).show()
     }
 
-    private fun updateBoard(rows: List<TableRow>) {
+    private fun updateBoard() {
         if (state !is Playing) return
 
         val currentState = state as Playing
-        rows.forEachIndexed { rowIndex, row ->
-            row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
+        boardImages.forEachIndexed { rowIndex, row ->
+            row.forEachIndexed { colIndex, imageView ->
                 val point = Point(colIndex, rowIndex)
                 imageView.setImageResource(
                     when (point) {
@@ -144,16 +150,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetBoard() {
-        val board = findViewById<TableLayout>(R.id.board)
-        for (row in board.children) {
-            if (row is TableRow) {
-                for (child in row.children) {
-                    if (child is ImageView) {
-                        child.setImageResource(0)
-                    }
-                }
-            }
-        }
+        boardImages.flatten().forEach { it.setImageResource(0) }
     }
 
     override fun onDestroy() {
