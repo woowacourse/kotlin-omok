@@ -6,7 +6,10 @@ import omok.library.ThreeThreeRule
 import omok.library.WhiteWinRule
 import omok.model.board.Board
 import omok.model.board.Position
+import omok.model.omokGame.OmokGameImpl.Companion.ERROR_FOUR_FOUR
+import omok.model.omokGame.OmokGameImpl.Companion.ERROR_THREE_THREE
 import omok.model.omokGame.OmokRuleSet
+import omok.model.omokGame.TurnResult
 import omok.model.stone.StoneState
 
 class OmokRuleAdapter {
@@ -14,7 +17,7 @@ class OmokRuleAdapter {
         board: Board,
         position: Position,
         stoneState: StoneState,
-    ): OmokRuleSet =
+    ): TurnResult =
         when (stoneState) {
             StoneState.BLACK -> blackStoneState(board, position)
             StoneState.WHITE -> whiteStoneState(board, position)
@@ -24,27 +27,31 @@ class OmokRuleAdapter {
     private fun blackStoneState(
         board: Board,
         position: Position,
-    ): OmokRuleSet {
+    ): TurnResult {
         val adaptedBoard: List<List<Int>> = board.toMatrix()
         val adaptedPosition: Pair<Int, Int> = position.toCoordinates()
         return when {
-            BlackWinRule.validate(adaptedBoard, adaptedPosition) -> OmokRuleSet.FIVE_IN_A_ROW
-            FourFourRule.validate(adaptedBoard, adaptedPosition) -> OmokRuleSet.FOUR_FOUR
-            ThreeThreeRule.validate(adaptedBoard, adaptedPosition) -> OmokRuleSet.THREE_THREE
-            else -> OmokRuleSet.CONTINUE
+            BlackWinRule.validate(adaptedBoard, adaptedPosition) -> TurnResult.WIN
+            FourFourRule.validate(adaptedBoard, adaptedPosition) -> throw IllegalStateException(
+                ERROR_FOUR_FOUR
+            )
+            ThreeThreeRule.validate(adaptedBoard, adaptedPosition) ->  throw IllegalStateException(
+                ERROR_THREE_THREE
+            )
+            else -> TurnResult.CONTINUE
         }
     }
 
     private fun whiteStoneState(
         board: Board,
         position: Position,
-    ): OmokRuleSet {
+    ): TurnResult {
         val adaptedBoard: List<List<Int>> = board.toMatrix()
         val adaptedPosition: Pair<Int, Int> = position.toCoordinates()
         if (WhiteWinRule.validate(adaptedBoard, adaptedPosition)) {
-            return OmokRuleSet.FIVE_IN_A_ROW
+            return TurnResult.WIN
         }
-        return OmokRuleSet.CONTINUE
+        return TurnResult.CONTINUE
     }
 
     private fun Board.toMatrix(): List<List<Int>> =
@@ -63,5 +70,7 @@ class OmokRuleAdapter {
 
     companion object {
         private const val BOARD_LENGTH = 15
+        private const val ERROR_FOUR_FOUR = "흑은 44를 놓을 수 없습니다."
+        private const val ERROR_THREE_THREE = "흑은 33을 놓을 수 없습니다."
     }
 }
