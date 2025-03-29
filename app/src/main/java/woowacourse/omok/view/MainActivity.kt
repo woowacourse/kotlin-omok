@@ -40,38 +40,19 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        val players = playerSetting()
+        val service = GameBoard(players = players)
+        oMokRepository = OmokRepository(StoneLocalDataSource(DbHelper(this)))
+        val board = findViewById<TableLayout>(R.id.board)
+        drawExistedStones(board)
+        setClickCallbackProcess(board, service)
+    }
+
+    private fun playerSetting(): ArrayDeque<Player> {
         val players = ArrayDeque<Player>()
         players.add(Player(BLACK, listOf(RuleAdapter(RenjuRule()))))
         players.add(Player(WHITE, listOf(RuleAdapter(OmokRule()))))
-        val service = GameBoard(players = players)
-
-        oMokRepository = OmokRepository(StoneLocalDataSource(DbHelper(this)))
-
-        val board = findViewById<TableLayout>(R.id.board)
-
-        drawExistedStones(board)
-
-        board
-            .children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rowView ->
-                rowView.children.filterIsInstance<ImageView>()
-                    .forEachIndexed { columnIndex, cell ->
-                        val position = Position(Row.from(ROW_SIZE - rowIndex), Col.from(columnIndex + ADJUST_COL_INDEX_COUNT))
-                        cell.tag = position
-                        cell.setOnClickListener {
-                            service.putStone { _, _ ->
-                                position
-                            }.onFailure { error ->
-                                toastMessage(message = error.message ?: "")
-                            }.onSuccess { stoneColor ->
-                                if (oMokRepository.insert(stone = Stone(position, stoneColor))) {
-                                    showPlacedStone(view = cell, stoneColor = stoneColor)
-                                    gameJudgeProcess(service)
-                                    service.nextTurn()
-                                }
-                            }
-                        }
-                    }
-            }
+        return players
     }
 
     private fun drawExistedStones(board: TableLayout) {
@@ -94,6 +75,37 @@ class MainActivity : AppCompatActivity() {
                         }
                 }
         }
+    }
+
+    private fun setClickCallbackProcess(
+        board: TableLayout,
+        service: GameBoard,
+    ) {
+        board
+            .children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rowView ->
+                rowView.children.filterIsInstance<ImageView>()
+                    .forEachIndexed { columnIndex, cell ->
+                        val position =
+                            Position(
+                                Row.from(ROW_SIZE - rowIndex),
+                                Col.from(columnIndex + ADJUST_COL_INDEX_COUNT),
+                            )
+                        cell.tag = position
+                        cell.setOnClickListener {
+                            service.putStone { _, _ ->
+                                position
+                            }.onFailure { error ->
+                                toastMessage(message = error.message ?: "")
+                            }.onSuccess { stoneColor ->
+                                if (oMokRepository.insert(stone = Stone(position, stoneColor))) {
+                                    showPlacedStone(view = cell, stoneColor = stoneColor)
+                                    gameJudgeProcess(service)
+                                    service.nextTurn()
+                                }
+                            }
+                        }
+                    }
+            }
     }
 
     private fun toastMessage(message: String) {

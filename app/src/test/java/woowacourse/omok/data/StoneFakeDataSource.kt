@@ -11,10 +11,6 @@ class StoneFakeDataSource : StoneDataSource {
         _stones.clear()
     }
 
-    override fun insert(stoneDao: StoneDao) {
-        _stones.add(stoneDao.toStone())
-    }
-
     override fun fetchStoneByPosition(position: Position): StoneDao? {
         val findStone = stones.firstOrNull { stone -> stone.position.isSame(position) } ?: return null
         return StoneDao.valueOf(findStone)
@@ -23,6 +19,10 @@ class StoneFakeDataSource : StoneDataSource {
     override fun fetchAllStones(): List<StoneDao> {
         val stoneDaos = stones.map { stone -> StoneDao.valueOf(stone) }
         return stoneDaos
+    }
+
+    override fun insert(stoneDao: StoneDao) {
+        _stones.add(stoneDao.toStone())
     }
 
     override fun deleteAll() {

@@ -6,17 +6,6 @@ import woowacourse.omok.domain.position.Position
 class StoneLocalDataSource(
     private val dbHelper: SQLiteOpenHelper,
 ) : StoneDataSource {
-    override fun insert(stoneDao: StoneDao) {
-        val db = dbHelper.writableDatabase
-        val data =
-            arrayOf(
-                stoneDao.stoneColor,
-                stoneDao.row.value,
-                stoneDao.col.value,
-            )
-        db.execSQL(OmokContract.SQL_INSERT_STONE, data)
-    }
-
     override fun fetchStoneByPosition(position: Position): StoneDao? {
         val db = dbHelper.readableDatabase
         val data =
@@ -56,6 +45,17 @@ class StoneLocalDataSource(
             stoneDaos.add(StoneDao(stoneColor, row, col))
         }
         return stoneDaos.toList()
+    }
+
+    override fun insert(stoneDao: StoneDao) {
+        val db = dbHelper.writableDatabase
+        val data =
+            arrayOf(
+                stoneDao.stoneColor,
+                stoneDao.row.value,
+                stoneDao.col.value,
+            )
+        db.execSQL(OmokContract.SQL_INSERT_STONE, data)
     }
 
     override fun deleteAll() {
