@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.game.GameState
 import woowacourse.omok.model.game.ViolationResult
+import woowacourse.omok.model.stone.Point
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor.BLACK
 import woowacourse.omok.model.stone.StoneColor.WHITE
@@ -216,6 +217,17 @@ class BoardTest {
         val actual = board.checkViolation(Stone(16, 16, WHITE))
 
         val expected = ViolationResult.InvalidMoveResult.OutOfBoard()
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `이번 차례에 두어야 하는 돌을 받을 수 있다`() {
+        val board = Board()
+
+        val actual = board.currentStone(Point(8, 8))
+
+        val expected = Stone(Point(8, 8), BLACK)
 
         assertThat(actual).isEqualTo(expected)
     }
