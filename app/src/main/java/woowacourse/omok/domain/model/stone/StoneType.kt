@@ -10,4 +10,13 @@ enum class StoneType {
             BLACK -> WHITE
             WHITE -> BLACK
         }
+
+    companion object {
+        fun valueOf(name: String) =
+            when (name) {
+                BLACK.name -> BLACK
+                WHITE.name -> WHITE
+                else -> throw IllegalArgumentException()
+            }
+    }
 }

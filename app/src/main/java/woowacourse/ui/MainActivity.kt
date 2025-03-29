@@ -16,11 +16,16 @@ import rule.BlackRenjuRule
 import woowacourse.omok.R
 import woowacourse.omok.adapter.RenjuRuleAdapter
 import woowacourse.omok.adapter.RuleResult
+import woowacourse.omok.data.OmokDatabaseHelper
+import woowacourse.omok.data.StoneDao
+import woowacourse.omok.data.StoneRepositoryImpl
 import woowacourse.omok.domain.Game
 import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.StoneRepository
 import woowacourse.omok.domain.model.position.Column
 import woowacourse.omok.domain.model.position.Position
 import woowacourse.omok.domain.model.position.Row
+import woowacourse.omok.domain.model.position.Stone
 import woowacourse.omok.domain.model.rule.OmokRule
 import woowacourse.omok.domain.model.state.Turn
 import woowacourse.omok.domain.model.stone.StoneType
@@ -28,9 +33,14 @@ import woowacourse.omok.domain.model.stone.Stones
 
 class MainActivity : AppCompatActivity() {
     private lateinit var boardView: TableLayout
+    private lateinit var dbHelper: OmokDatabaseHelper
+    private lateinit var repository: StoneRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dbHelper = OmokDatabaseHelper(this)
+        dbHelper.writableDatabase
+        repository = StoneRepositoryImpl(StoneDao(dbHelper))
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         boardView = findViewById(R.id.board)
@@ -39,26 +49,44 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        initBoardTag()
+        initBoardView()
     }
 
-    private fun initBoardTag() {
+    override fun onDestroy() {
+        dbHelper.close()
+        super.onDestroy()
+    }
+
+    private fun initBoardView() {
         val renjuRule = RenjuRuleAdapter(BlackRenjuRule())
-        val omokGame = Game(OmokRule(renjuRule), Stones(listOf()), Turn(StoneType.BLACK))
         val board = Board(boardView.size)
+        val stones = repository.getAllInBoardSize(boardView.size)
+        val omokGame =
+            Game(
+                OmokRule(renjuRule),
+                stones,
+                Turn(StoneType.BLACK),
+            )
 
         boardView.children.filterIsInstance<TableRow>().forEachIndexed { row, tableRow ->
             tableRow.children.filterIsInstance<ImageView>().forEachIndexed { column, view ->
                 view.tag = position(column, row, board)
+                initStoneImage(view, stones)
                 view.setOnClickListener {
-                    if (omokGame.isFinished()) {
-                        showFinishDialog(omokGame.currentStoneType) { omokGame.resetGame() }
-                        return@setOnClickListener
-                    }
+                    if (omokGame.isFinished()) return@setOnClickListener
                     omokGame.play(omokEvent(view))
                 }
             }
         }
+    }
+
+    private fun initStoneImage(
+        view: ImageView,
+        stones: Stones,
+    ) {
+        val tag = view.tag as? Position ?: return
+        val stone = stones.find(tag) ?: return
+        setStoneImage(view, stone.stoneType)
     }
 
     private fun showFinishDialog(
@@ -69,12 +97,14 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle("게임 종료")
         builder.setMessage("${stoneType.koreanName()}의 승리입니다.\n게임을 다시 시작 하시겠습니까?")
         builder.setPositiveButton("확인") { dialog, _ ->
+            repository.clear()
             resetGame()
             resetView()
             dialog.dismiss()
         }
 
         builder.setNegativeButton("취소") { dialog, _ ->
+            repository.clear()
             dialog.dismiss()
         }
 
@@ -112,13 +142,28 @@ class MainActivity : AppCompatActivity() {
 
             override fun onPosition(): Position = view.tag as Position
 
-            override fun onPlace(stoneType: StoneType) {
-                when (stoneType) {
-                    StoneType.BLACK -> view.setImageResource(R.drawable.black_stone)
-                    StoneType.WHITE -> view.setImageResource(R.drawable.white_stone)
-                }
+            override fun onPlace(stone: Stone) {
+                setStoneImage(view, stone.stoneType)
+                repository.insert(stone)
+            }
+
+            override fun onFinish(
+                stoneType: StoneType,
+                resetGame: () -> Unit,
+            ) {
+                showFinishDialog(stoneType, resetGame)
             }
         }
+
+    private fun setStoneImage(
+        view: ImageView,
+        stoneType: StoneType,
+    ) {
+        when (stoneType) {
+            StoneType.BLACK -> view.setImageResource(R.drawable.black_stone)
+            StoneType.WHITE -> view.setImageResource(R.drawable.white_stone)
+        }
+    }
 }
 
 private fun position(
