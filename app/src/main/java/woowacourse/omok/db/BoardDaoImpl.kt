@@ -14,13 +14,13 @@ class BoardDaoImpl(context: Context) : BoardDao {
                 put("y", boardDto.y)
                 put("state", boardDto.stoneColor)
             }
-        db.insert(DatabaseHelper.TABLE_NAME, null, values)
+        db.insert(DatabaseHelper.OMOK_BOARD, null, values)
         db.close()
     }
 
     override fun getAllStones(): List<BoardDto> {
         val db = dbHelper.readableDatabase
-        val cursor = db.rawQuery("SELECT x, y, state FROM ${DatabaseHelper.TABLE_NAME}", null)
+        val cursor = db.rawQuery("SELECT x, y, state FROM ${DatabaseHelper.OMOK_BOARD}", null)
         val moves = mutableListOf<BoardDto>()
 
         while (cursor.moveToNext()) {
@@ -36,7 +36,7 @@ class BoardDaoImpl(context: Context) : BoardDao {
 
     override fun clearBoard() {
         val db = dbHelper.writableDatabase
-        db.execSQL("DELETE FROM ${DatabaseHelper.TABLE_NAME}")
+        db.execSQL("DELETE FROM ${DatabaseHelper.OMOK_BOARD}")
         db.close()
     }
 }
