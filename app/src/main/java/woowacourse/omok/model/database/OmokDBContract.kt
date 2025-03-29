@@ -36,7 +36,7 @@ object OmokDBContract {
                 "$COLUMN_ROOM_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "$COLUMN_BLACK_PLAYER_NAME TEXT NOT NULL, " +
                 "$COLUMN_WHITE_PLAYER_NAME TEXT NOT NULL, " +
-                "$COLUMN_LAST_PLAY_TIME TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"
+                "$COLUMN_LAST_PLAY_TIME TIMESTAMP DEFAULT (datetime('now','localtime')))"
 
         const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS $TABLE_NAME"
     }
