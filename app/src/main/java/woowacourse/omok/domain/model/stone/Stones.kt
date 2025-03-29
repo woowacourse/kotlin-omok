@@ -11,7 +11,7 @@ class Stones(private val stones: List<Stone>) {
 
     fun hasStone(stone: Stone): Boolean = stones.find { it.position == stone.position } != null
 
-    fun find(position: Position): Stone? = stones.find { position == it.position }
+    fun find(position: Position): Stone? = stones.find { position == it.position }?.copy()
 
-    operator fun plus(stone: Stone) = Stones(stones.map { it.copy() } + stone.copy())
+    operator fun plus(stone: Stone) = Stones(stones + stone)
 }
