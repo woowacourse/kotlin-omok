@@ -37,6 +37,7 @@ class OmokGame {
         if (isGameOver) return PlaceStoneResult.AlreadyPlaced
 
         val point = Point(x, y)
+
         return when (val result = board.placeStone(point, currentStoneColor)) {
             is PlaceStoneResult.Success -> {
                 previousPoint = result.point
@@ -64,9 +65,9 @@ class OmokGame {
     fun restoreGameState(savedStones: List<SavedStone>) {
         resetGame()
 
-        savedStones.forEach { stone ->
-            val point = Point(stone.x, stone.y)
-            board.placeStone(point, stone.color)
+        savedStones.forEach { (x, y, color) ->
+            val point = Point(x, y)
+            board.placeStone(point, color)
         }
 
         currentStoneColor =
