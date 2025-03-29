@@ -12,7 +12,7 @@ class BoardDaoImpl(context: Context) : BoardDao {
             ContentValues().apply {
                 put("x", boardDto.x)
                 put("y", boardDto.y)
-                put("state", boardDto.state)
+                put("state", boardDto.stoneColor)
             }
         db.insert(DatabaseHelper.TABLE_NAME, null, values)
         db.close()
