@@ -41,6 +41,10 @@ android {
             excludes += "win32-x86*/**"
         }
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -50,6 +54,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.google.material)
     implementation(libs.core.ktx)
+    implementation(libs.androidx.activity)
     testImplementation(libs.assertj.core)
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.kotest.runner.junit5)
