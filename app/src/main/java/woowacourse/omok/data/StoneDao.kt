@@ -21,7 +21,7 @@ class StoneDao(private val dbHelper: OmokDatabaseHelper) {
         db.close()
     }
 
-    fun getLastStone(): StoneType {
+    fun lastStoneType(): StoneType {
         val db = dbHelper.readableDatabase
 
         val cursor =

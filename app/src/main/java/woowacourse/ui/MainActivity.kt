@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             Game(
                 OmokRule(renjuRule),
                 stones,
-                Turn(repository.lastStone()),
+                Turn(repository.lastStoneType()),
             )
 
         boardView.children.filterIsInstance<TableRow>().forEachIndexed { row, tableRow ->

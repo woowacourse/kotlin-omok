@@ -10,7 +10,7 @@ class StoneRepositoryImpl(private val stoneDao: StoneDao) : StoneRepository {
         stoneDao.insert(stone)
     }
 
-    override fun lastStone(): StoneType = stoneDao.getLastStone()
+    override fun lastStoneType(): StoneType = stoneDao.lastStoneType()
 
     override fun allInBoardSize(size: Int): Stones = Stones(stoneDao.getAll(size))
 
