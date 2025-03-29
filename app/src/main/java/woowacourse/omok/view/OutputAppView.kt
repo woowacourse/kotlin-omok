@@ -1,6 +1,7 @@
 package woowacourse.omok.view
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -22,7 +23,7 @@ import woowacourse.omok.model.stone.StoneColor
 import woowacourse.omok.model.stone.position.Position
 
 class OutputAppView(
-    private val mainActivity: Activity,
+    private val gameActivity: Activity,
 ) {
     fun stonesUiDraw(
         stones: Map<Position, StoneColor>,
@@ -43,7 +44,7 @@ class OutputAppView(
         stoneColor: StoneColor,
         view: ImageView,
     ) {
-        mainActivity.runOnUiThread {
+        gameActivity.runOnUiThread {
             when (stoneColor) {
                 StoneColor.BLACK -> view.setImageResource(R.drawable.black_stone)
                 StoneColor.WHITE -> view.setImageResource(R.drawable.white_stone)
@@ -69,35 +70,37 @@ class OutputAppView(
     }
 
     private fun toastShowUp(message: String) {
-        mainActivity.runOnUiThread {
-            Toast.makeText(mainActivity, message, Toast.LENGTH_SHORT).show()
+        gameActivity.runOnUiThread {
+            Toast.makeText(gameActivity, message, Toast.LENGTH_SHORT).show()
         }
     }
 
     fun omokDialogAlert(
         stoneColor: StoneColor,
         restartGame: () -> Unit,
-        resetGame: () -> Unit,
+        roomWithStonesDelete: () -> Unit,
     ) {
         val stoneColorText = stoneColorText(stoneColor)
-        (mainActivity).runOnUiThread {
+        (gameActivity).runOnUiThread {
             AlertDialog
-                .Builder(mainActivity)
+                .Builder(gameActivity)
                 .setTitle(NORMAL_DIALOG_TITLE)
                 .setMessage(WIN_DIALOG_MESSAGE.format(stoneColorText))
                 .setPositiveButton(RETRY_BUTTON_TEXT) { _, _ ->
+                    roomWithStonesDelete()
                     restartGame()
                 }.setNegativeButton(EXIT_BUTTON_TEXT) { _, _ ->
-                    resetGame()
-                    mainActivity.finish()
+                    roomWithStonesDelete()
+                    gameActivity.setResult(RESULT_OK)
+                    gameActivity.finish()
                 }.setCancelable(false)
                 .show()
         }
     }
 
     fun turnInfoUiUpdate(stoneColor: StoneColor) {
-        mainActivity.runOnUiThread {
-            val gameInfoView = mainActivity.findViewById<TextView>(R.id.game_info_text)
+        gameActivity.runOnUiThread {
+            val gameInfoView = gameActivity.findViewById<TextView>(R.id.game_info_text)
             gameInfoView.text = NEXT_TURN_MESSAGE.format(stoneColorText(stoneColor))
         }
     }
@@ -110,8 +113,8 @@ class OutputAppView(
         }
 
     fun stoneUiClear() {
-        mainActivity.runOnUiThread {
-            val board = mainActivity.findViewById<TableLayout>(R.id.board)
+        gameActivity.runOnUiThread {
+            val board = gameActivity.findViewById<TableLayout>(R.id.board)
             board
                 .children
                 .filterIsInstance<TableRow>()
@@ -123,19 +126,21 @@ class OutputAppView(
         }
     }
 
-    fun gameEndDialogAlert(resetDatabase: () -> Unit) {
-        (mainActivity).runOnUiThread {
+    fun gameEndDialogAlert(roomWithStonesDelete: () -> Unit) {
+        (gameActivity).runOnUiThread {
             AlertDialog
-                .Builder(mainActivity)
+                .Builder(gameActivity)
                 .setTitle(NORMAL_DIALOG_TITLE)
                 .setMessage(EXIT_CONFIRMATION_DIALOG_MESSAGE)
                 .setNeutralButton(CANCEL_BUTTON_TEXT) { dialog, _ ->
                     dialog.dismiss()
                 }.setNegativeButton(EXIT_BUTTON_TEXT) { _, _ ->
-                    resetDatabase()
-                    mainActivity.finish()
+                    roomWithStonesDelete()
+                    gameActivity.setResult(RESULT_OK)
+                    gameActivity.finish()
                 }.setPositiveButton(SAVE_EXIT_BUTTON_TEXT) { _, _ ->
-                    mainActivity.finish()
+                    gameActivity.setResult(RESULT_OK)
+                    gameActivity.finish()
                 }.show()
         }
     }
@@ -154,13 +159,13 @@ class OutputAppView(
         private const val WHITE_STONE_KOREAN_TEXT = "백"
 
         private const val WIN_DIALOG_MESSAGE = "%s이 우승했습니다"
-        private const val EXIT_CONFIRMATION_DIALOG_MESSAGE = "게임을 종료하시겠습니까?"
+        private const val EXIT_CONFIRMATION_DIALOG_MESSAGE = "게임을 끝내시겠습니까?"
 
         private const val SUSPENDED_GAME_RECOVER_MESSAGE = "중단된 게임을 불러왔습니다"
 
         private const val RETRY_BUTTON_TEXT = "다시하기"
         private const val CANCEL_BUTTON_TEXT = "취소"
-        private const val SAVE_EXIT_BUTTON_TEXT = "저장하고 종료"
-        private const val EXIT_BUTTON_TEXT = "종료"
+        private const val SAVE_EXIT_BUTTON_TEXT = "일시 중단하기"
+        private const val EXIT_BUTTON_TEXT = "게임방 삭제 및 나가기"
     }
 }

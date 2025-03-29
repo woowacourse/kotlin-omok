@@ -29,7 +29,7 @@ class GameActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_game)
 
-        roomId = intent.getIntExtra("ROOM_ID", ROOM_INTENT_DEFAULT_VALUE)
+        roomId = intent.getIntExtra(GAME_ROOM_ID, ROOM_INTENT_DEFAULT_VALUE)
         dbHelper = OmokDBHelper(this)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -40,7 +40,7 @@ class GameActivity : AppCompatActivity() {
 
         val boardSize = BoardSize(BOARD_SIZE)
         val outputAppView = OutputAppView(this)
-        val omokAppControl = OmokAppControl(boardSize, outputAppView, dbHelper)
+        val omokAppControl = OmokAppControl(boardSize, outputAppView, dbHelper, roomId)
 
         val board = findViewById<TableLayout>(R.id.board)
         val positionViews: MutableMap<Position, ImageView> = mutableMapOf()
@@ -64,7 +64,7 @@ class GameActivity : AppCompatActivity() {
 
         val gameEndButton = findViewById<Button>(R.id.end_game_button)
         gameEndButton.setOnClickListener {
-            outputAppView.gameEndDialogAlert { dbHelper.resetDatabase() }
+            outputAppView.gameEndDialogAlert { dbHelper.roomWithStonesDelete(roomId) }
         }
     }
 
@@ -75,6 +75,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     companion object {
+        private const val GAME_ROOM_ID = "game_room_id"
         private const val BOARD_SIZE = 15
         private const val INDEX_OFFSET = 1
         private const val MAX_BOARD_INDEX = BOARD_SIZE - INDEX_OFFSET

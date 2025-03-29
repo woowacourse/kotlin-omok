@@ -22,6 +22,7 @@ class OmokAppControl(
     private val boardSize: BoardSize,
     private val outputAppView: OutputAppView,
     private val omokDBHelper: OmokDBHelper,
+    private val roomId: Int,
 ) {
     private val omokReferee = OmokReferee(BudoolRenjuRuleAdapter(boardSize))
     private var board = Board(boardSize, dbOrderedStoneMap())
@@ -36,12 +37,15 @@ class OmokAppControl(
                 OmokDBContract.StonesTable.COLUMN_NAME_STONE_COLOR,
             )
 
+        val selection = "${OmokDBContract.StonesTable.COLUMN_ROOM_ID} = ?"
+        val selectionArgs = arrayOf(roomId.toString())
+
         db
             .query(
                 OmokDBContract.StonesTable.TABLE_NAME,
                 projection,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 "${OmokDBContract.StonesTable.COLUMN_NAME_ORDER} ASC",
@@ -64,7 +68,6 @@ class OmokAppControl(
 
     fun boardUiRestore(positionViews: Map<Position, ImageView>) {
         outputAppView.turnInfoUiUpdate(board.nextStoneColor)
-
         if (board.stonesMap.isNotEmpty()) {
             outputAppView.stonesUiDraw(board.stonesMap, positionViews)
             outputAppView.recoveryStonesAlert()
@@ -124,14 +127,14 @@ class OmokAppControl(
                 outputAppView.omokDialogAlert(
                     it.stoneColor,
                     ::gameRestart,
-                    omokDBHelper::resetDatabase,
-                )
+                ) { omokDBHelper.roomWithStonesDelete(roomId) }
             }
         }
     }
 
     private fun stoneDBSave(stone: Stone) {
         val values = ContentValues()
+        values.put(OmokDBContract.StonesTable.COLUMN_ROOM_ID, roomId)
         values.put(OmokDBContract.StonesTable.COLUMN_NAME_ROW_INDEX, stone.position.row.value)
         values.put(OmokDBContract.StonesTable.COLUMN_NAME_COL_INDEX, stone.position.col.value)
         values.put(OmokDBContract.StonesTable.COLUMN_NAME_STONE_COLOR, stone.stoneColor.name)
@@ -141,7 +144,6 @@ class OmokAppControl(
 
     private fun gameRestart() {
         board = Board(boardSize)
-        omokDBHelper.resetDatabase()
         outputAppView.turnInfoUiUpdate(board.nextStoneColor)
         outputAppView.stoneUiClear()
     }
