@@ -49,6 +49,10 @@ class OmokDbHelper(context: Context) :
         db.insert(OmokContract.TABLE_NAME, null, values)
     }
 
+    fun clear() {
+        writableDatabase.delete(OmokContract.TABLE_NAME, null, null)
+    }
+
     fun queryAll(): List<Stone> {
         val dbReader = readableDatabase
         val result = mutableListOf<Stone>()

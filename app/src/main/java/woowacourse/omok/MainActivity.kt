@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
-import woowacourse.omok.database.OmokContract
 import woowacourse.omok.database.OmokDbHelper
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.Color
@@ -96,8 +95,8 @@ class MainActivity : AppCompatActivity() {
                 view.setImageResource(stoneImage)
                 dbHelper.insertData(x, y, color)
                 outputView.printMoveResult(moveResult, this, boardLayout)
+                dbHelper.clear()
                 clearListeners(views)
-                dbHelper.writableDatabase.delete(OmokContract.TABLE_NAME, null, null)
                 return
             }
 
