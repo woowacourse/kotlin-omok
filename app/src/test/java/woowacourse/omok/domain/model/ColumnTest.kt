@@ -17,6 +17,6 @@ class ColumnTest {
                 board.column,
             )
         }.isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessage("잘못된 위치입니다.")
+            .hasMessage("잘못된 열 위치입니다.")
     }
 }

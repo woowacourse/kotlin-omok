@@ -17,6 +17,6 @@ class RowTest {
                 board.row,
             )
         }.isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessage("잘못된 위치입니다.")
+            .hasMessage("잘못된 행 위치입니다.")
     }
 }

@@ -7,7 +7,7 @@ value class Row private constructor(val value: Int) {
             value: Int,
             maxSize: Int,
         ): Row {
-            require(value <= maxSize) { VALIDATE_RANGE_ERROR }
+            require(value in 1..maxSize) { VALIDATE_RANGE_ERROR }
             return Row(value)
         }
 
