@@ -18,6 +18,7 @@ import woowacourse.omok.OmokApplication
 import woowacourse.omok.R.drawable
 import woowacourse.omok.R.string
 import woowacourse.omok.databinding.ActivityMainBinding
+import woowacourse.omok.domain.model.game.OmokGameEntity
 import woowacourse.omok.domain.model.omokboard.OmokBoard
 import woowacourse.omok.domain.model.omokboard.OmokGame
 import woowacourse.omok.domain.model.omokboard.PointState
@@ -27,15 +28,15 @@ import woowacourse.omok.domain.model.player.StoneColor
 import woowacourse.omok.domain.model.rule.judge.JudgeResult.Finished
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Failure
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Success
-import woowacourse.omok.domain.repository.OmokRepository
+import woowacourse.omok.domain.repository.OmokGameRepository
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var omokRepository: OmokRepository
+    private lateinit var omokGameRepository: OmokGameRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        omokRepository = (application as OmokApplication).omokRepository
+        omokGameRepository = (application as OmokApplication).omokGameRepository
         setupView()
 
         lifecycleScope.launch {
@@ -59,9 +60,8 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun setupOmokGame(): OmokGame =
         withContext(Dispatchers.IO) {
-            val lastBoard = omokRepository.loadBoard() ?: OmokBoard.create()
-            val lastTurn = omokRepository.loadLastTurn() ?: StoneColor.BLACK
-            OmokGame(lastBoard, savedTurn = lastTurn)
+            val gameEntity = omokGameRepository.loadGame()
+            OmokGame(gameEntity.board, savedTurn = gameEntity.lastTurn)
         }
 
     private fun updateLastBoardUI(board: OmokBoard) {
@@ -118,8 +118,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
-                omokRepository.saveLastTurn(omokGame.currentTurn)
-                omokRepository.saveBoard(omokGame.board)
+                omokGameRepository.saveGame(OmokGameEntity(omokGame.currentTurn, omokGame.board))
             }
         }
     }
@@ -184,7 +183,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnOmokRestart.setOnClickListener {
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
-                    omokRepository.clearGameData()
+                    omokGameRepository.deleteGame()
                 }
             }
             omokGame.restart()
