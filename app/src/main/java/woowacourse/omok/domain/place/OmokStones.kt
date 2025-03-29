@@ -2,8 +2,8 @@ package omok.domain.place
 
 import omok.domain.board.OmokBoard
 
-class OmokStones {
-    var places: List<Place> = listOf()
+class OmokStones(place: List<Place> = listOf()) {
+    var places: List<Place> = place.toList()
         get() = field.toList()
         private set
 

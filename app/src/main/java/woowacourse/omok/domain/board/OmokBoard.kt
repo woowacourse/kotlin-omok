@@ -10,12 +10,13 @@ import omok.domain.rule.finder.Direction
 class OmokBoard(
     val omokStones: OmokStones,
     val omokRules: OmokRules,
+    latestPlace: Place = Empty.dummy(),
 ) {
     init {
         require(MAX_ROW_SIZE <= COLUMN_POOL.size) { ERROR_OUT_OF_COLUMN_POOL }
     }
 
-    var latestPlace: Place = Empty.dummy()
+    var latestPlace: Place = latestPlace
         private set
 
     fun isNotFull() = omokStones.places.size != MAX_COLUMN_SIZE * MAX_ROW_SIZE
