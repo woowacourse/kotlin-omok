@@ -1,4 +1,4 @@
-package woowacourse.omok.view
+package woowacourse.omok.view.omok
 
 import woowacourse.omok.domain.board.CellState
 import woowacourse.omok.domain.board.Point

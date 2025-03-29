@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="btn_game_delete_bg">#F04339</color>
+    <color name="btn_game_create_bg">#80EB83</color>
+    <color name="game_status_green">#4CAF50</color>
+    <color name="game_status_gray">#717671</color>
+
 </resources>

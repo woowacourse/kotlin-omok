@@ -6,7 +6,7 @@ import woowacourse.omok.domain.board.Point
 import woowacourse.omok.domain.board.result.Finished
 import woowacourse.omok.domain.board.result.OnGoing
 import woowacourse.omok.domain.board.result.PlaceStoneResult
-import woowacourse.omok.view.GameEventListener
+import woowacourse.omok.view.omok.GameEventListener
 
 class OmokGame(
     private val eventListener: GameEventListener,
