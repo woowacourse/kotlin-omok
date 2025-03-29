@@ -17,16 +17,16 @@ class OmokApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        bindOmokGameRepository()
-        bindGetOmokGameUseCase()
+        provideOmokGameRepository()
+        provideGetOmokGameUseCase()
     }
 
-    private fun bindOmokGameRepository() {
+    private fun provideOmokGameRepository() {
         val gameDataSource = OmokGameLocalDataSourceImpl(applicationContext)
         omokGameRepository = OmokGameRepositoryImpl(gameDataSource)
     }
 
-    private fun bindGetOmokGameUseCase() {
+    private fun provideGetOmokGameUseCase() {
         getOmokGameUseCase = GetOmokGameUseCase(omokGameRepository)
     }
 }
