@@ -17,7 +17,7 @@ object OmokContract {
             "$COLUMN_NAME_ROW INTEGER," +
             "$COLUMN_NAME_COL INTEGER);"
 
-    const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS $TABLE_NAME"
+    const val SQL_DROP_TABLE = "DROP TABLE IF EXISTS $TABLE_NAME"
 
     const val SQL_INSERT_STONE =
         """ INSERT INTO $TABLE_NAME

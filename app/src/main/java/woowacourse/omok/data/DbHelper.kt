@@ -19,7 +19,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         oldVersion: Int,
         newVersion: Int,
     ) {
-        db.execSQL(OmokContract.SQL_DELETE_ENTRIES)
+        db.execSQL(OmokContract.SQL_DROP_TABLE)
         onCreate(db)
     }
 
