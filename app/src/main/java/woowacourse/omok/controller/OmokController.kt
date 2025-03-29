@@ -4,9 +4,6 @@ import woowacourse.omok.model.Board
 import woowacourse.omok.model.adapter.RenjuRuleAdapter
 import woowacourse.omok.model.game.GameState
 import woowacourse.omok.model.game.ViolationResult
-import woowacourse.omok.model.stone.Point
-import woowacourse.omok.model.stone.Stone
-import woowacourse.omok.model.stone.StoneColor
 import woowacourse.omok.view.InputView
 import woowacourse.omok.view.OutputView
 
@@ -23,7 +20,7 @@ class OmokController(
 
     private fun playOmok(board: Board) {
         while (true) {
-            val stone = setStone(board)
+            val stone = board.currentStone(inputView.readTurn(board.stones.lastStone))
             when (val violationResult: ViolationResult? = board.checkViolation(stone)) {
                 null -> Unit
                 is ViolationResult.InvalidMoveResult.FullBoard -> {
@@ -44,12 +41,5 @@ class OmokController(
                 break
             }
         }
-    }
-
-    private fun setStone(board: Board): Stone {
-        val lastStone = board.stones.lastStone
-        val inputPoint: Point = inputView.readTurn(lastStone)
-        val nextColor: StoneColor = (lastStone?.color ?: StoneColor.WHITE).reverse()
-        return Stone(inputPoint, nextColor)
     }
 }

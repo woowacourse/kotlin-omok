@@ -13,6 +13,12 @@ class Board(
     val stones: Stones = Stones(),
     private val renjuRuleAdapter: RenjuRuleAdapter = RenjuRuleAdapter(),
 ) {
+    fun currentStone(point: Point): Stone {
+        val lastStone: Stone? = stones.lastStone
+        val nextColor: StoneColor = (lastStone?.color ?: StoneColor.WHITE).reverse()
+        return Stone(point, nextColor)
+    }
+
     fun place(newStone: Stone) {
         stones.add(newStone)
         stones.setLastStone(newStone)
