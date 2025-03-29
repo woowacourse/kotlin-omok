@@ -27,7 +27,7 @@ class RoomNameDialog(
         val binding = RoomNameDialogBinding.bind(view)
 
         binding.buttonCreate.setOnClickListener {
-            val roomName = binding.editText.text.toString()
+            val roomName = binding.roomNameEditText.text.toString()
             if (checkRoomName(roomName)) {
                 onClickComplete(roomName)
                 dismiss()
