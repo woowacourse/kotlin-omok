@@ -31,5 +31,10 @@ object OmokContract {
             WHERE $COLUMN_NAME_ROW = ? AND $COLUMN_NAME_COL = ?
         """
 
-    const val SQL_DELETE_ENTRIES = "DELETE FROM ${TABLE_NAME}"
+    const val SQL_FETCH_STONES =
+        """ SELECT *
+            FROM $TABLE_NAME
+        """
+
+    const val SQL_DELETE_ENTRIES = "DELETE FROM $TABLE_NAME"
 }

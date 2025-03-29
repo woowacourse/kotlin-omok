@@ -48,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         oMokRepository = OmokRepository(StoneLocalDataSource(DbHelper(this)))
 
         val board = findViewById<TableLayout>(R.id.board)
+
+        drawExistedStones(board)
+
         board
             .children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rowView ->
                 rowView.children.filterIsInstance<ImageView>()
@@ -69,6 +72,28 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
             }
+    }
+
+    private fun drawExistedStones(board: TableLayout) {
+        val existedStones = oMokRepository.findAllStone()
+        if (existedStones.isNotEmpty()) {
+            board
+                .children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rowView ->
+                    rowView.children.filterIsInstance<ImageView>()
+                        .forEachIndexed { columnIndex, cell ->
+                            val position =
+                                Position(
+                                    Row.from(ROW_SIZE - rowIndex),
+                                    Col.from(columnIndex + ADJUST_COL_INDEX_COUNT),
+                                )
+                            val stone =
+                                existedStones.find { existedStone ->
+                                    existedStone.position.isSame(position)
+                                }
+                            stone?.let { showPlacedStone(view = cell, stoneColor = stone.color) }
+                        }
+                }
+        }
     }
 
     private fun toastMessage(message: String) {

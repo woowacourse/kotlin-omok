@@ -20,6 +20,11 @@ class StoneFakeDataSource : StoneDataSource {
         return StoneDao.valueOf(findStone)
     }
 
+    override fun fetchAllStones(): List<StoneDao> {
+        val stoneDaos = stones.map { stone -> StoneDao.valueOf(stone) }
+        return stoneDaos
+    }
+
     override fun deleteAll() {
         _stones.clear()
     }

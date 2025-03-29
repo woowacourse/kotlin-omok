@@ -53,4 +53,18 @@ class OmokRepositoryTest {
 
         assertThat(stoneDataSource.stones.size).isZero()
     }
+
+    @Test
+    fun `데이터베이스에 존재하는 모든 돌을 가져온다`() {
+        omokRepository.insert(STONE_1A_BLACK)
+        omokRepository.insert(STONE_1B_WHITE)
+        omokRepository.insert(STONE_1C_BLACK)
+        omokRepository.insert(STONE_1D_WHITE)
+        val expected = 4
+
+        assertThat(omokRepository.findAllStone().size).isEqualTo(expected)
+
+        omokRepository.removeAll()
+        assertThat(omokRepository.findAllStone().size).isZero()
+    }
 }

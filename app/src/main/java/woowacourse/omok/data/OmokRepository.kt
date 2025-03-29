@@ -16,6 +16,10 @@ class OmokRepository(
         return stoneDataSource.fetchStoneByPosition(position)?.toStone()
     }
 
+    fun findAllStone(): List<Stone> {
+        return stoneDataSource.fetchAllStones().map { stoneDao -> stoneDao.toStone() }
+    }
+
     fun removeAll() {
         stoneDataSource.deleteAll()
     }
