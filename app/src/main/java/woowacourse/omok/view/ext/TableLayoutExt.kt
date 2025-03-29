@@ -5,7 +5,6 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.core.view.children
 import omok.domain.board.OmokBoard
-import omok.domain.place.Place
 
 fun TableLayout.setView(block: (Int, Int, ImageView) -> Unit) {
     val rows =
@@ -32,11 +31,4 @@ fun TableLayout.setOnClickListener(block: (Int, Int, ImageView) -> Unit) {
             block(x, y, view)
         }
     }
-}
-
-fun OmokBoard.getPointAt(
-    x: Int,
-    y: Int,
-): Place {
-    return omokStones.getPointAt(y, x)
 }

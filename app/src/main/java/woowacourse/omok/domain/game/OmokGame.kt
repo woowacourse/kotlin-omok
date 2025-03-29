@@ -3,13 +3,12 @@ package woowacourse.omok.domain.game
 import android.widget.TableLayout
 import omok.domain.board.OmokBoard
 import omok.domain.place.Black
-import omok.domain.place.Empty
 import omok.domain.place.Place
-import omok.domain.place.Protected
 import omok.domain.place.White
 import woowacourse.omok.entity.OmokBoardEntity
 import woowacourse.omok.global.retryOnFailedToAddStone
 import woowacourse.omok.ioc.Container
+import woowacourse.omok.view.ext.serialize
 import woowacourse.omok.view.ext.setOnClickListener
 
 class OmokGame(
@@ -50,19 +49,5 @@ class OmokGame(
 
     private fun isFinished(target: Place): Boolean {
         return omokRules.isOmok(target, omokBoard)
-    }
-
-    private fun OmokBoard.serialize(): String {
-        val target = omokStones.places + latestPlace
-        return target.joinToString("/") {
-            val placeChar =
-                when (it) {
-                    is Black -> "B"
-                    is White -> "W"
-                    is Protected -> "P"
-                    is Empty -> "E"
-                }
-            "$placeChar|${it.x}|${it.y}"
-        }
     }
 }
