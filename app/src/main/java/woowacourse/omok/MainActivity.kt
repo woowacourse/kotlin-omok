@@ -31,6 +31,7 @@ import woowacourse.omok.model.rule.PlacementError.OverlineViolation
 class MainActivity : AppCompatActivity() {
     private lateinit var omokDao: OmokDao
     private val view = OutputView()
+    private lateinit var cellMap: List<List<ImageView>>
 
     private val blackRuleChecker =
         BlackRuleChecker(
@@ -51,52 +52,33 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val board = findViewById<TableLayout>(R.id.board)
-        val rows =
-            board.children
-                .filterIsInstance<TableRow>()
-                .toList()
-                .reversed()
+        initBoard()
+        cellMap.forEachIndexed { rowIndex, row ->
+            row.forEachIndexed { colIndex, cell ->
+                cell.setOnClickListener {
+                    val position = Position(Row(rowIndex), Col(colIndex))
+                    val stoneRes = stoneRes(game.turn)
 
-        val cells =
-            rows.flatMapIndexed { rowIndex, row ->
-                row.children.filterIsInstance<ImageView>().mapIndexed { colIndex, cell ->
-                    Triple(rowIndex, colIndex, cell)
+                    val violation = game.playTurn(position)
+                    val result = printViolation(violation)
+
+                    if (violation != NoViolation) {
+                        Toast.makeText(this, result, Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+
+                    cell.setImageResource(stoneRes)
+                    omokDao.insertOmok(rowIndex, colIndex, game.lastStone?.stoneColor.toString())
+
+                    isGameOver(game.isOmok(), game)
                 }
-            }
-
-        cells.forEach { (rowIndex, colIndex, cell) ->
-            cell.setOnClickListener {
-                val position = Position(Row(rowIndex), Col(colIndex))
-
-                val stoneRes =
-                    if (game.turn == StoneColor.BLACK) R.drawable.black_stone else R.drawable.white_stone
-
-                val violation = game.playTurn(position)
-                val result = printViolation(violation)
-
-                if (violation != NoViolation) {
-                    Toast.makeText(this, result, Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-
-                cell.setImageResource(stoneRes)
-                omokDao.insertOmok(
-                    rowIndex,
-                    colIndex,
-                    game.lastStone?.stoneColor.toString(),
-                )
-
-                val winColor = view.stoneStateText(game.lastStone!!.stoneColor)
-
-                isGameOver(game.isOmok(), game, winColor)
             }
         }
     }
 
     override fun onStart() {
         if (omokDao.hasOmokData()) {
-            createBoard()
+            restoreBoard()
         }
         super.onStart()
     }
@@ -104,49 +86,49 @@ class MainActivity : AppCompatActivity() {
     private fun isGameOver(
         isOmok: Boolean,
         game: Game,
-        winColor: String,
     ) {
         if (isOmok) {
             showGameEndDialog(game.lastStone!!.stoneColor) {
                 omokDao.deleteDatabase()
                 recreate()
             }
-            Toast
-                .makeText(
-                    this,
-                    "${winColor}이 우승했습니다!",
-                    Toast.LENGTH_LONG,
-                ).show()
         }
     }
 
-    private fun createBoard() {
-        val stones = omokDao.getAllStones()
+    private fun initBoard() {
         val board = findViewById<TableLayout>(R.id.board)
         val rows =
             board.children
                 .filterIsInstance<TableRow>()
                 .toList()
-                .reversed()
+                .asReversed()
+        cellMap = rows.map { row -> row.children.filterIsInstance<ImageView>().toList() }
+    }
 
+    private fun getCell(
+        row: Int,
+        col: Int,
+    ): ImageView = cellMap[row][col]
+
+    private fun restoreBoard() {
+        val stones = omokDao.getAllStones()
+
+        initBoard()
         stones.forEach { stone ->
             val rowIndex = stone.position.row.value
             val colIndex = stone.position.col.value
             game.applyPlacement(Position(Row(rowIndex), Col(colIndex)))
-            val cell =
-                rows[rowIndex]
-                    .children
-                    .filterIsInstance<ImageView>()
-                    .elementAt(colIndex)
 
-            val stoneRes =
-                when (stone.stoneColor) {
-                    StoneColor.BLACK -> R.drawable.black_stone
-                    StoneColor.WHITE -> R.drawable.white_stone
-                }
-            cell.setImageResource(stoneRes)
+            val stoneRes = stoneRes(stone.stoneColor)
+            getCell(rowIndex, colIndex).setImageResource(stoneRes)
         }
     }
+
+    private fun stoneRes(stoneColor: StoneColor): Int =
+        when (stoneColor) {
+            StoneColor.BLACK -> R.drawable.black_stone
+            StoneColor.WHITE -> R.drawable.white_stone
+        }
 
     private fun showGameEndDialog(
         winner: StoneColor,
