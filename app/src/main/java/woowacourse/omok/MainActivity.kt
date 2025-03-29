@@ -51,43 +51,46 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        var board = findViewById<TableLayout>(R.id.board)
+        val board = findViewById<TableLayout>(R.id.board)
         val rows =
             board.children
                 .filterIsInstance<TableRow>()
                 .toList()
                 .reversed()
 
-        rows.forEachIndexed { rowIndex, row ->
-            row.children
-                .filterIsInstance<ImageView>()
-                .forEachIndexed { colIndex, cell ->
-                    cell.setOnClickListener {
-                        val position = Position(Row(rowIndex), Col(colIndex))
-
-                        val stoneRes =
-                            if (game.turn == StoneColor.BLACK) R.drawable.black_stone else R.drawable.white_stone
-
-                        val violation = game.playTurn(position)
-                        val result = printViolation(violation)
-
-                        if (violation != NoViolation) {
-                            Toast.makeText(this, result, Toast.LENGTH_SHORT).show()
-                            return@setOnClickListener
-                        }
-
-                        cell.setImageResource(stoneRes)
-                        omokDao.insertOmok(
-                            rowIndex,
-                            colIndex,
-                            game.lastStone?.stoneColor.toString(),
-                        )
-
-                        val winColor = view.stoneStateText(game.lastStone!!.stoneColor)
-
-                        isGameOver(game.isOmok(), game, winColor)
-                    }
+        val cells =
+            rows.flatMapIndexed { rowIndex, row ->
+                row.children.filterIsInstance<ImageView>().mapIndexed { colIndex, cell ->
+                    Triple(rowIndex, colIndex, cell)
                 }
+            }
+
+        cells.forEach { (rowIndex, colIndex, cell) ->
+            cell.setOnClickListener {
+                val position = Position(Row(rowIndex), Col(colIndex))
+
+                val stoneRes =
+                    if (game.turn == StoneColor.BLACK) R.drawable.black_stone else R.drawable.white_stone
+
+                val violation = game.playTurn(position)
+                val result = printViolation(violation)
+
+                if (violation != NoViolation) {
+                    Toast.makeText(this, result, Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                cell.setImageResource(stoneRes)
+                omokDao.insertOmok(
+                    rowIndex,
+                    colIndex,
+                    game.lastStone?.stoneColor.toString(),
+                )
+
+                val winColor = view.stoneStateText(game.lastStone!!.stoneColor)
+
+                isGameOver(game.isOmok(), game, winColor)
+            }
         }
     }
 
