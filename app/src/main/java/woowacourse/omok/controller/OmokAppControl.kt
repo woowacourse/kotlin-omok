@@ -69,7 +69,7 @@ class OmokAppControl(
     }
 
     fun boardUiRestore(positionViews: Map<Position, ImageView>) {
-        outputAppView.turnInfoUiUpdate(board.nextStoneColor)
+        outputAppView.turnInfoUiUpdate(getPlayerNameByColor(board.nextStoneColor))
         if (board.stonesMap.isNotEmpty()) {
             outputAppView.stonesUiDraw(board.stonesMap, positionViews)
             outputAppView.recoveryStonesAlert()
@@ -88,8 +88,14 @@ class OmokAppControl(
         val newBoard = stoneAddedBoard(nextPosition)
         boardUpdate(newBoard, positionView)
         omokCheck()
-        outputAppView.turnInfoUiUpdate(board.nextStoneColor)
+        outputAppView.turnInfoUiUpdate(getPlayerNameByColor(board.nextStoneColor))
     }
+
+    private fun getPlayerNameByColor(stoneColor: StoneColor): String =
+        when (stoneColor) {
+            StoneColor.BLACK -> "$blackPlayerName(흑돌)"
+            StoneColor.WHITE -> "$whitePlayerName(백돌)"
+        }
 
     private fun isPositionValid(position: Position): Boolean {
         val positionState = board.positionStatus(position)
@@ -127,7 +133,7 @@ class OmokAppControl(
         if (omokReferee.isOmok(board)) {
             board.lastStone?.let {
                 outputAppView.omokDialogAlert(
-                    it.stoneColor,
+                    getPlayerNameByColor(it.stoneColor),
                     { gameRestart(it.stoneColor) },
                     { omokWinnerDBWrite(it.stoneColor) },
                     { omokDBHelper.roomWithStonesDelete(roomId) },
@@ -152,7 +158,7 @@ class OmokAppControl(
         omokDBHelper.addPlayerHistory(blackPlayerName, playCount = 1)
         omokDBHelper.addPlayerHistory(whitePlayerName, playCount = 1)
         omokWinnerDBWrite(stoneColor)
-        outputAppView.turnInfoUiUpdate(board.nextStoneColor)
+        outputAppView.turnInfoUiUpdate(getPlayerNameByColor(board.nextStoneColor))
         outputAppView.stoneUiClear()
     }
 

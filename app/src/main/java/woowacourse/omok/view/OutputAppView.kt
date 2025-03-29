@@ -76,18 +76,17 @@ class OutputAppView(
     }
 
     fun omokDialogAlert(
-        stoneColor: StoneColor,
+        playerName: String,
         restartGame: () -> Unit,
         omokWinnerDBWrite: () -> Unit,
         roomWithStonesDelete: () -> Unit,
         stonesDelete: () -> Unit,
     ) {
-        val stoneColorText = stoneColorText(stoneColor)
         (gameActivity).runOnUiThread {
             AlertDialog
                 .Builder(gameActivity)
                 .setTitle(NORMAL_DIALOG_TITLE)
-                .setMessage(WIN_DIALOG_MESSAGE.format(stoneColorText))
+                .setMessage(WIN_DIALOG_MESSAGE.format(playerName))
                 .setPositiveButton(RETRY_BUTTON_TEXT) { _, _ ->
                     stonesDelete()
                     restartGame()
@@ -101,19 +100,12 @@ class OutputAppView(
         }
     }
 
-    fun turnInfoUiUpdate(stoneColor: StoneColor) {
+    fun turnInfoUiUpdate(name: String) {
         gameActivity.runOnUiThread {
             val gameInfoView = gameActivity.findViewById<TextView>(R.id.game_info_text)
-            gameInfoView.text = NEXT_TURN_MESSAGE.format(stoneColorText(stoneColor))
+            gameInfoView.text = NEXT_TURN_MESSAGE.format(name)
         }
     }
-
-    private fun stoneColorText(stoneColor: StoneColor?): String =
-        when (stoneColor) {
-            StoneColor.BLACK -> BLACK_STONE_KOREAN_TEXT
-            StoneColor.WHITE -> WHITE_STONE_KOREAN_TEXT
-            else -> ""
-        }
 
     fun stoneUiClear() {
         gameActivity.runOnUiThread {
