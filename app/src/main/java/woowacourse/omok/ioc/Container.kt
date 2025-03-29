@@ -8,14 +8,14 @@ import omok.domain.rule.finder.DfsRenjuFinder
 import omok.domain.rule.renjuRule.RenjuRule
 import omok.event.GameEventListener
 import omok.event.OmokEventListener
-import woowacourse.omok.dao.OmokDao
+import woowacourse.omok.dao.Dao
 import woowacourse.omok.dao.OmokDaoImpl
 import woowacourse.omok.dao.OmokDbHelper
 import woowacourse.omok.view.OmokView
 
 class Container(layout: TableLayout) {
     val omokDbHelper = OmokDbHelper(layout.context)
-    val omokDao: OmokDao = OmokDaoImpl(omokDbHelper)
+    val dao: Dao = OmokDaoImpl(omokDbHelper)
     val omokRules =
         object : OmokRules {
             override val rules = listOf(RenjuRule(DfsRenjuFinder))

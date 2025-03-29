@@ -18,7 +18,7 @@ class OmokGame(
 ) {
     private val container = Container(layout)
     private val omokRules = container.omokRules
-    private val omokDao = container.omokDao
+    private val omokDao = container.dao
     private val event = container.event
 
     fun startGame(target: Place) {
