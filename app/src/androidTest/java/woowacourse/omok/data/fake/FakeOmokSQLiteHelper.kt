@@ -10,6 +10,11 @@ import woowacourse.omok.data.db.room.RoomSchema.SQL_DELETE_ROOMS_TABLE
 
 class FakeOmokSQLiteHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+    override fun onConfigure(db: SQLiteDatabase?) {
+        super.onConfigure(db)
+        db?.setForeignKeyConstraintsEnabled(true)
+    }
+
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(SQL_CREATE_OMOK_TABLE)
         db?.execSQL(SQL_CREATE_ROOMS_TABLE)
