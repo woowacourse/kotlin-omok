@@ -15,7 +15,10 @@ class RenjuRuleAdapter(private val omokRule: OmokRule) : RenjuRule {
         val blackPoints = stones.typeStones(StoneType.BLACK).map { it.toPoint() }
         val whitePoints = stones.typeStones(StoneType.WHITE).map { it.toPoint() }
         val startPoint = stone.toPoint()
-        return omokRule.checkWin(blackPoints, whitePoints, startPoint)
+        return when (stone.stoneType) {
+            StoneType.BLACK -> omokRule.checkWin(blackPoints, whitePoints, startPoint)
+            StoneType.WHITE -> omokRule.checkWin(whitePoints, blackPoints, startPoint)
+        }
     }
 
     override fun canPlace(
