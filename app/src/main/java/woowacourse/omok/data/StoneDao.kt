@@ -21,9 +21,30 @@ class StoneDao(private val dbHelper: OmokDatabaseHelper) {
         db.close()
     }
 
+    fun getLastStone(): StoneType {
+        val db = dbHelper.readableDatabase
+
+        val cursor =
+            db.rawQuery(
+                "SELECT stone_type, id FROM stones ORDER BY id DESC LIMIT 1",
+                null,
+            )
+
+        var stoneType: StoneType = StoneType.BLACK
+        if (cursor.moveToFirst()) {
+            stoneType = StoneType.valueOf(cursor.getString(0)).reverse()
+            cursor.close()
+            db.close()
+        }
+
+        cursor.close()
+        db.close()
+        return stoneType
+    }
+
     fun getAll(size: Int): List<Stone> {
         val db = dbHelper.readableDatabase
-        val cursor = db.rawQuery("SELECT x, y, stone_type FROM stones", null)
+        val cursor = db.rawQuery("SELECT y, x, stone_type FROM stones", null)
 
         val stones = mutableListOf<Stone>()
         if (cursor.moveToFirst()) {

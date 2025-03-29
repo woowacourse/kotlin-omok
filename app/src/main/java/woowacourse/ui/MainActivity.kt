@@ -60,12 +60,12 @@ class MainActivity : AppCompatActivity() {
     private fun initBoardView() {
         val renjuRule = RenjuRuleAdapter(BlackRenjuRule())
         val board = Board(boardView.size)
-        val stones = repository.getAllInBoardSize(boardView.size)
+        val stones = repository.allInBoardSize(boardView.size)
         val omokGame =
             Game(
                 OmokRule(renjuRule),
                 stones,
-                Turn(StoneType.BLACK),
+                Turn(repository.lastStone()),
             )
 
         boardView.children.filterIsInstance<TableRow>().forEachIndexed { row, tableRow ->
