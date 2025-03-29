@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val omokGameRepository: OmokGameRepository
         get() = (application as OmokApplication).omokGameRepository
-
     private val omokGameUseCase: GetOmokGameUseCase
         get() = (application as OmokApplication).getOmokGameUseCase
 
