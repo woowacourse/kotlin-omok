@@ -1,4 +1,4 @@
-package woowacourse.omok.db
+package woowacourse.omok.dao
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -10,7 +10,7 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         CREATE TABLE IF NOT EXISTS $TABLE_NAME (
             $ID_COLUMN INTEGER PRIMARY KEY AUTOINCREMENT,
             $NICKNAME_COLUMN VARCHAR(10) NOT NULL UNIQUE,
-             $BOARD_COLUMN TEXT
+             $BOARD_COLUMN TEXT NOT NULL
         )
     """
         db.execSQL(createTable)

@@ -1,4 +1,4 @@
-package woowacourse.omok.db
+package woowacourse.omok.dao
 
 import woowacourse.omok.entity.OmokBoardEntity
 

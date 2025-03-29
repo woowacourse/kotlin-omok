@@ -8,9 +8,9 @@ import omok.domain.rule.finder.DfsRenjuFinder
 import omok.domain.rule.renjuRule.RenjuRule
 import omok.event.GameEventListener
 import omok.event.OmokEventListener
-import woowacourse.omok.db.OmokDao
-import woowacourse.omok.db.OmokDaoImpl
-import woowacourse.omok.db.OmokDbHelper
+import woowacourse.omok.dao.OmokDao
+import woowacourse.omok.dao.OmokDaoImpl
+import woowacourse.omok.dao.OmokDbHelper
 import woowacourse.omok.view.OmokView
 
 class Container(layout: TableLayout) {

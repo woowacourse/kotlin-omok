@@ -9,7 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import omok.domain.board.OmokBoard
 import omok.domain.rule.OmokRules
 import woowacourse.omok.R
-import woowacourse.omok.db.OmokDao
+import woowacourse.omok.dao.OmokDao
 import woowacourse.omok.domain.game.OmokGame
 import woowacourse.omok.ioc.Container
 import woowacourse.omok.view.ext.deserialize
@@ -37,9 +37,9 @@ class OmokGameActivity : AppCompatActivity() {
 
         nickname = intent.getStringExtra("nickname")!!
         val loadedBoard =
-            omokDao.findBoardByNickName(nickname)?.board?.let {
+            omokDao.findBoardByNickName(nickname)?.let {
                 runCatching {
-                    omokBoard.deserialize(it)
+                    omokBoard.deserialize(it.board)
                 }.getOrNull()
             } ?: omokBoard
         startGame(loadedBoard)

@@ -1,12 +1,9 @@
-package woowacourse.omok.db
+package woowacourse.omok.dao
 
 import android.content.ContentValues
-import woowacourse.omok.db.OmokDbHelper.Companion.BOARD_COLUMN
-import woowacourse.omok.db.OmokDbHelper.Companion.NICKNAME_COLUMN
-import woowacourse.omok.db.OmokDbHelper.Companion.TABLE_NAME
 import woowacourse.omok.entity.OmokBoardEntity
 
-class OmokDaoImpl(dbHelper: OmokDbHelper) : OmokDao {
+class FakeDaoImpl(dbHelper: FakeDbHelper) : OmokDao {
     private val db = dbHelper.writableDatabase
 
     override fun updateBoard(item: OmokBoardEntity): Int {
@@ -15,7 +12,7 @@ class OmokDaoImpl(dbHelper: OmokDbHelper) : OmokDao {
                 put(NICKNAME_COLUMN, item.nickname)
                 put(BOARD_COLUMN, item.board)
             }
-        val selection = "$NICKNAME_COLUMN = ?"
+        val selection = "${FakeDbHelper.NICKNAME_COLUMN} = ?"
         val args = arrayOf(item.nickname)
         val newRowId = db.update(TABLE_NAME, values, selection, args)
 
@@ -54,5 +51,11 @@ class OmokDaoImpl(dbHelper: OmokDbHelper) : OmokDao {
         }
         cursor.close()
         return item
+    }
+
+    companion object {
+        const val NICKNAME_COLUMN = FakeDbHelper.NICKNAME_COLUMN
+        const val BOARD_COLUMN = FakeDbHelper.BOARD_COLUMN
+        const val TABLE_NAME = FakeDbHelper.TABLE_NAME
     }
 }
