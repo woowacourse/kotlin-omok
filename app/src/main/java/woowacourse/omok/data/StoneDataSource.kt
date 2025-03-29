@@ -7,4 +7,6 @@ interface StoneDataSource {
     fun fetchStoneByPosition(position: Position): Stone?
 
     fun insert(stoneDao: StoneDao)
+
+    fun deleteAll()
 }

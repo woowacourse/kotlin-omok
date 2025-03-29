@@ -22,4 +22,8 @@ class StoneFakeDataSource : StoneDataSource {
     private fun StoneDao.toStone(): Stone {
         return Stone(Position(this.row, this.col), this.stoneColor)
     }
+
+    override fun deleteAll() {
+        _stones.clear()
+    }
 }

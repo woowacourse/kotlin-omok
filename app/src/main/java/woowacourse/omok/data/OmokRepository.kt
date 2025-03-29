@@ -15,4 +15,8 @@ class OmokRepository(
     fun findStoneByPosition(position: Position): Stone? {
         return stoneDataSource.fetchStoneByPosition(position)
     }
+
+    fun removeAll() {
+        stoneDataSource.deleteAll()
+    }
 }

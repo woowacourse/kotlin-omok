@@ -94,6 +94,7 @@ class MainActivity : AppCompatActivity() {
                 }
             toastMessage(message = getString(R.string.main_scr_winner_message_format, winnerColor))
             convertBoardTouchable(isTouchable = false)
+            oMokRepository.removeAll()
         }
     }
 

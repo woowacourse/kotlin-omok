@@ -46,6 +46,11 @@ class StoneLocalDataSource(
         return null
     }
 
+    override fun deleteAll() {
+        val db = dbHelper.writableDatabase
+        db.execSQL(OmokContract.SQL_DELETE_ENTRIES)
+    }
+
     private fun String.toStoneColor(): StoneColor {
         return if (this == StoneColor.BLACK.name) {
             StoneColor.BLACK
