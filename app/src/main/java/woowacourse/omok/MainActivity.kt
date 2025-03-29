@@ -26,37 +26,42 @@ class MainActivity : AppCompatActivity() {
     private lateinit var turn: Turn
     private lateinit var turnDao: TurnDao
     private val omokBoard = OmokBoard()
+    private lateinit var displayGame: Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        turnDao = TurnDaoImpl(this)
-        turn = Turn(turnDao)
-        boardDao = BoardDaoImpl(this)
+        loadGame()
         restoreBoard()
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        displayGame = displayGame(reset = false)
+    }
 
+    private fun loadGame() {
+        turnDao = TurnDaoImpl(this)
+        turn = Turn(turnDao)
+        boardDao = BoardDaoImpl(this)
+    }
+
+    private fun displayGame(reset: Boolean) {
         val board = findViewById<TableLayout>(R.id.board)
-        board
-            .children
+        board.children
             .filterIsInstance<TableRow>()
-            .forEach { row ->
-                row.children
-                    .filterIsInstance<ImageView>()
-                    .forEach { view ->
-                        view.setOnClickListener {
-                            val y = board.indexOfChild(row) + 1
-                            val x = row.indexOfChild(view) + 1
-                            handleStoneClick(view, Position(x, y))
-                        }
-                    }
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .forEach { view ->
+                if (reset) view.setImageResource(0)
+                view.setOnClickListener {
+                    val y = board.indexOfChild(view.parent as TableRow) + 1
+                    val x = (view.parent as TableRow).indexOfChild(view) + 1
+                    handleStoneClick(view, Position(x, y))
+                }
             }
     }
 
@@ -93,27 +98,31 @@ class MainActivity : AppCompatActivity() {
         position: Position,
     ) {
         runCatching {
-            if (omokBoard.board[position] != PositionState.NONE) return
             turn.place(position, omokBoard)
 
-            val boardDto = BoardDto(position.x.point, position.y.point, turn.stone.color.name)
+            val boardDto = BoardDto(position.xPoint, position.yPoint, turn.currentStoneColor.name)
             boardDao.insertStone(boardDto)
 
             if (turn.forbidden()) return
 
-            view.setImageResource(
-                when (turn.stone.color) {
-                    StoneColor.BLACK -> R.drawable.black_stone
-                    StoneColor.WHITE -> R.drawable.white_stone
-                },
-            )
+            showStones(view)
+
             if (turn.win()) {
-                showWinDialog(turn.stone.color)
+                showWinDialog(turn.currentStoneColor)
             }
             turn.next()
         }.onFailure { error ->
             showErrorDialog(error.message)
         }
+    }
+
+    private fun showStones(view: ImageView) {
+        view.setImageResource(
+            when (turn.currentStoneColor) {
+                StoneColor.BLACK -> R.drawable.black_stone
+                StoneColor.WHITE -> R.drawable.white_stone
+            },
+        )
     }
 
     private fun showWinDialog(winner: StoneColor) {
@@ -127,9 +136,6 @@ class MainActivity : AppCompatActivity() {
             .setTitle("게임 종료")
             .setMessage("${winnerText}돌 승리")
             .setPositiveButton("확인") { _, _ ->
-                boardDao.clearBoard()
-                turnDao.deleteTurn()
-                turn = Turn(turnDao)
                 resetGame()
             }
             .setCancelable(false)
@@ -137,19 +143,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetGame() {
-        val board = findViewById<TableLayout>(R.id.board)
-        board.children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { view ->
-                view.setImageResource(0)
-                view.setOnClickListener {
-                    val y = board.indexOfChild(view.parent as TableRow) + 1
-                    val x = (view.parent as TableRow).indexOfChild(view) + 1
-                    handleStoneClick(view, Position(x, y))
-                }
-            }
+        turnDao.deleteTurn()
+        boardDao.clearBoard()
+        loadGame()
+        displayGame(reset = true)
     }
 
     private fun showErrorDialog(message: String?) {
