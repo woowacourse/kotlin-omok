@@ -53,6 +53,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         initBoard()
+        if (omokDao.hasOmokData()) {
+            restoreBoard()
+        }
+
         cellMap.forEachIndexed { rowIndex, row ->
             row.forEachIndexed { colIndex, cell ->
                 cell.setOnClickListener {
@@ -74,13 +78,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    override fun onStart() {
-        if (omokDao.hasOmokData()) {
-            restoreBoard()
-        }
-        super.onStart()
     }
 
     private fun isGameOver(
@@ -113,7 +110,6 @@ class MainActivity : AppCompatActivity() {
     private fun restoreBoard() {
         val stones = omokDao.getAllStones()
 
-        initBoard()
         stones.forEach { stone ->
             val rowIndex = stone.position.row.value
             val colIndex = stone.position.col.value
