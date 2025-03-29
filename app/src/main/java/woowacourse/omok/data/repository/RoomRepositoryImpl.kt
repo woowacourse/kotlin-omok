@@ -6,8 +6,8 @@ import woowacourse.omok.domain.repository.RoomRepository
 import woowacourse.omok.domain.room.Room
 
 class RoomRepositoryImpl(private val roomDao: RoomDao) : RoomRepository {
-    override fun save(room: Room) {
-        roomDao.insertRoom(room.toEntity())
+    override fun save(room: Room): Long {
+        return roomDao.insertRoom(room.toEntity())
     }
 
     override fun readAll(): List<Room> {

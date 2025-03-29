@@ -6,13 +6,13 @@ import woowacourse.omok.data.db.room.RoomEntity
 import woowacourse.omok.data.db.room.RoomSchema.RoomsContract
 
 class RoomDao(private val dbHelper: SQLiteOpenHelper) {
-    fun insertRoom(entity: RoomEntity) {
+    fun insertRoom(entity: RoomEntity): Long {
         dbHelper.writableDatabase.use { db ->
             val values =
                 contentValuesOf(
                     RoomsContract.COLUMN_NAME_ROOM_NAME to entity.roomName,
                 )
-            db.insert(RoomsContract.ROOM_TABLE_NAME, null, values)
+            return db.insert(RoomsContract.ROOM_TABLE_NAME, null, values)
         }
     }
 

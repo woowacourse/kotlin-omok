@@ -62,8 +62,8 @@ class RoomActivity : AppCompatActivity() {
         binding.makeRoomBtn.setOnClickListener {
             RoomNameDialog(
                 onClickComplete = {
-                    addRoom(it)
-                    navigateToMain()
+                    val roomId = addRoom(it)
+                    navigateToMain(roomId)
                 },
             ).show(supportFragmentManager, "Room")
         }
@@ -79,10 +79,13 @@ class RoomActivity : AppCompatActivity() {
         return roomRepository.readAll()
     }
 
-    private fun addRoom(roomName: String) =
+    private fun addRoom(roomName: String): Long {
+        var roomId = 0L
         executeRoomUpdate {
-            roomRepository.save(Room(roomName = roomName))
+            roomId = roomRepository.save(Room(roomName = roomName))
         }
+        return roomId
+    }
 
     private fun deleteRoom(position: Int) =
         executeRoomUpdate {
@@ -98,9 +101,11 @@ class RoomActivity : AppCompatActivity() {
             }
         }.join()
 
-    private fun navigateToMain(roomId: Long? = null) {
-        val intent = Intent(this, MainActivity::class.java)
-        roomId?.let { intent.putExtra("roomId", it) }
+    private fun navigateToMain(roomId: Long) {
+        val intent =
+            Intent(this, MainActivity::class.java).apply {
+                intent.putExtra("roomId", roomId)
+            }
         startActivity(intent)
     }
 }
