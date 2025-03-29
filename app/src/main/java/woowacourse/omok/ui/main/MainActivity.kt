@@ -1,4 +1,4 @@
-package woowacourse.omok.ui
+package woowacourse.omok.ui.main
 
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -25,6 +25,7 @@ import woowacourse.omok.domain.point.Point
 import woowacourse.omok.domain.repository.OmokRepository
 import woowacourse.omok.domain.service.OmokGame
 import woowacourse.omok.domain.stone.StoneColor
+import woowacourse.omok.ui.dialog.ConfirmDialog
 import woowacourse.omok.ui.event.GameEventListener
 
 class MainActivity : AppCompatActivity(), GameEventListener {

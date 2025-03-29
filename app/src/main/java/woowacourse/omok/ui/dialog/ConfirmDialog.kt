@@ -1,4 +1,4 @@
-package woowacourse.omok.ui
+package woowacourse.omok.ui.dialog
 
 import android.os.Bundle
 import android.view.View
