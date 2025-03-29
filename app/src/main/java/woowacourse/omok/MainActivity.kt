@@ -54,32 +54,40 @@ class MainActivity : AppCompatActivity() {
 
                             val imageStoneState = playerState
 
-                            // 현재 상태로 돌 놓기
-                            playerState = playerState.state(position)
+                            try {
+                                playerState = playerState.state(position)
 
-                            // 돌 이미지 표시
-                            val resId = when (imageStoneState) {
-                                is BlackPlayerState -> R.drawable.black_stone
-                                is WhitePlayerState -> R.drawable.white_stone
-                                else -> return@setOnClickListener
-                            }
-                            (it as ImageView).setImageResource(resId)
-
-                            // 게임 종료 확인
-                            if (playerState is Finish) {
-                                val winner = (playerState as Finish).winner()
-                                Log.d("Omok", "게임 종료! 승자: $winner")
-
-                                val message = when (winner) {
-                                    StoneState.BLACK -> "흑돌이 이겼습니다!"
-                                    StoneState.WHITE -> "백돌이 이겼습니다!"
-                                    StoneState.NONE -> "무승부입니다!"
+                                val resId = when (imageStoneState) {
+                                    is BlackPlayerState -> R.drawable.black_stone
+                                    is WhitePlayerState -> R.drawable.white_stone
+                                    else -> return@setOnClickListener
                                 }
+                                (it as ImageView).setImageResource(resId)
 
-                                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                                if (playerState is Finish) {
+                                    val winner = (playerState as Finish).winner()
+                                    Log.d("Omok", "게임 종료! 승자: $winner")
+
+                                    val message = when (winner) {
+                                        StoneState.BLACK -> "흑돌이 이겼습니다!"
+                                        StoneState.WHITE -> "백돌이 이겼습니다!"
+                                        StoneState.NONE -> "무승부입니다!"
+                                    }
+                                    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                                }
+                            } catch (e: IllegalArgumentException) {
+                                Toast.makeText(
+                                    this,
+                                    e.message ?: "알 수 없는 오류 발생",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } catch (e: IllegalStateException) {
+                                Toast.makeText(this, e.message ?: "금수입니다.", Toast.LENGTH_SHORT)
+                                    .show()
                             }
                         }
                     }
             }
     }
 }
+
