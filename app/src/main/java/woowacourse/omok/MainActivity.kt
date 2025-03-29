@@ -22,6 +22,7 @@ import domain.domain.stone.StoneColor
 
 class MainActivity : AppCompatActivity() {
     private var state: State = Ready()
+    private val gameManager = OmokGameManager()
     private lateinit var dbHelper: DbHelper
     private lateinit var boardImages: List<List<ImageView>>
 
@@ -57,25 +58,20 @@ class MainActivity : AppCompatActivity() {
         if (state !is Playing) return
 
         val previousState = state
+        val newState = gameManager.updateState(state, point, dbHelper)
 
-        if (previousState is Playing) {
-            val newState = previousState.place(point, 15) { _, _ -> }
-            if (newState !is Foul) displayStone(imageView)
-            state = newState
-        }
-
-        if (state is Foul) {
-            displayFoulMessage(state)
+        if (newState is Foul) {
+            displayFoulMessage(newState)
             state = previousState
             return
-        } else {
-            dbHelper.saveGameState(state)
+        }
 
-            val updatedState = state
-            if (updatedState is Finished.Win) {
-                displayWinner(updatedState.winnerColor)
-                showGameOverBox()
-            }
+        displayStone(imageView)
+        state = newState
+
+        if (newState is Finished.Win) {
+            displayWinner(newState.winnerColor)
+            showGameOverBox()
         }
     }
 
