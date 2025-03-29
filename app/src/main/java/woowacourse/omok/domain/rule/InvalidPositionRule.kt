@@ -1,7 +1,7 @@
 package woowacourse.omok.domain.rule
 
 import woowacourse.omok.domain.omokboard.OmokBoard
-import woowacourse.omok.domain.omokboard.OmokBoardPointState
+import woowacourse.omok.domain.omokboard.OmokBoardGridCell
 import woowacourse.omok.domain.placeresult.GameOnGoing
 import woowacourse.omok.domain.placeresult.InvalidMove
 import woowacourse.omok.domain.placeresult.PlaceResult
@@ -15,7 +15,7 @@ class InvalidPositionRule : OmokInvalidMoveRule {
 
         when (omokBoard.find(playerStone.position)) {
             null -> InvalidMove.InvalidPosition
-            is OmokBoardPointState.Empty -> GameOnGoing
-            is OmokBoardPointState.OCCUPIED -> InvalidMove.AlreadyExistStone
+            is OmokBoardGridCell.Empty -> GameOnGoing
+            is OmokBoardGridCell.OCCUPIED -> InvalidMove.AlreadyExistStone
         }
 }

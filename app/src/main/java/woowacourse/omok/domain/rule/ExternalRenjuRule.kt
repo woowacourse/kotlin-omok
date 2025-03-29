@@ -7,7 +7,7 @@ import rule.type.Violation.NONE
 import rule.type.Violation.OVERLINE
 import rule.wrapper.point.Point
 import woowacourse.omok.domain.omokboard.OmokBoard
-import woowacourse.omok.domain.omokboard.OmokBoardPointState
+import woowacourse.omok.domain.omokboard.OmokBoardGridCell
 import woowacourse.omok.domain.omokboard.Position
 import woowacourse.omok.domain.placeresult.GameOnGoing
 import woowacourse.omok.domain.placeresult.InvalidMove
@@ -38,7 +38,7 @@ class ExternalRenjuRule(
         stoneColor: StoneColor,
     ): List<Point> {
         return omokBoard.value
-            .filter { it.value is OmokBoardPointState.OCCUPIED && (it.value as OmokBoardPointState.OCCUPIED).color == stoneColor }
+            .filter { it.value is OmokBoardGridCell.OCCUPIED && (it.value as OmokBoardGridCell.OCCUPIED).color == stoneColor }
             .keys.map { it.toExternalPoint() }
     }
 

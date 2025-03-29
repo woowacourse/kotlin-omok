@@ -4,7 +4,7 @@ import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
 
 data class OmokBoard(
-    private val _value: Map<Position, OmokBoardPointState>,
+    private val _value: Map<Position, OmokBoardGridCell>,
 ) {
     constructor(vararg stonePlace: Pair<Position, String>) : this(stonePlace.associate { it.first to it.second.toPointState() })
     constructor(width: Int = DEFAULT_OMOK_BOARD_SIZE, height: Int = DEFAULT_OMOK_BOARD_SIZE) :
@@ -12,7 +12,7 @@ data class OmokBoard(
             (1..width)
                 .flatMap { row ->
                     (1..height).map { column ->
-                        Position(RowPosition(row), ColumnPosition(column)) to OmokBoardPointState.Empty
+                        Position(RowPosition(row), ColumnPosition(column)) to OmokBoardGridCell.Empty
                     }
                 }.toMap(),
         )
@@ -22,19 +22,19 @@ data class OmokBoard(
 
     val value get() = _value
 
-    fun find(position: Position): OmokBoardPointState? = _value[position]
+    fun find(position: Position): OmokBoardGridCell? = _value[position]
 
     fun updateBoard(playerStone: PlayerStone): OmokBoard {
         val updatedBoard = _value.toMutableMap()
-        updatedBoard[playerStone.position] = OmokBoardPointState.OCCUPIED(playerStone.color)
+        updatedBoard[playerStone.position] = OmokBoardGridCell.OCCUPIED(playerStone.color)
         return OmokBoard(updatedBoard)
     }
 
     companion object {
-        private fun String.toPointState(): OmokBoardPointState {
+        private fun String.toPointState(): OmokBoardGridCell {
             return when (this) {
-                "Black" -> OmokBoardPointState.OCCUPIED(StoneColor.BLACK)
-                "White" -> OmokBoardPointState.OCCUPIED(StoneColor.WHITE)
+                "Black" -> OmokBoardGridCell.OCCUPIED(StoneColor.BLACK)
+                "White" -> OmokBoardGridCell.OCCUPIED(StoneColor.WHITE)
                 else -> throw IllegalArgumentException("Unknown state $this")
             }
         }
