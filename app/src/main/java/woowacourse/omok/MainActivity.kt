@@ -260,7 +260,6 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "${userInput}의 기록은 존재하지 않습니다", Toast.LENGTH_SHORT).show()
                 }
                 dbHelper.getPlayerInfo(userInput)
-                Toast.makeText(this, "${userInput}의 기록은 존재하지 않습니다", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "값을 입력해주세요", Toast.LENGTH_SHORT).show()
             }
