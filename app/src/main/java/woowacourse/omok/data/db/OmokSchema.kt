@@ -17,8 +17,8 @@ object OmokSchema {
 
     object OmokContract {
         const val TABLE_NAME = "omok"
-        const val COLUMN_NAME_BOARD_COLUMN = "column"
-        const val COLUMN_NAME_BOARD_ROW = "row"
+        const val COLUMN_NAME_BOARD_COLUMN = "board_column"
+        const val COLUMN_NAME_BOARD_ROW = "board_row"
         const val COLUMN_NAME_STONE = "stone"
     }
 }
