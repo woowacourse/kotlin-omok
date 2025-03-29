@@ -1,4 +1,4 @@
-package omok.mapper
+package woowacourse.omok.mapper
 
 import omok.model.stone.position.Position
 import rule.wrapper.point.Point

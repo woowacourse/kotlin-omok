@@ -1,17 +1,17 @@
-package omok.model.game
+package woowacourse.omok.model.game
 
-import omok.mapper.BlackRuleChecker
-import omok.model.board.Board
-import omok.model.board.Board.Companion.initBoard
-import omok.model.board.BoardDimensions
-import omok.model.rule.BlackOmokRule
-import omok.model.rule.OmokRule
-import omok.model.rule.WhiteOmokRule
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor
 import omok.model.stone.position.Position
+import woowacourse.omok.mapper.BlackRuleChecker
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Board.Companion.initBoard
+import woowacourse.omok.model.board.BoardDimensions
+import woowacourse.omok.model.rule.BlackOmokRule
+import woowacourse.omok.model.rule.OmokRule
 import woowacourse.omok.model.rule.PlacementError
 import woowacourse.omok.model.rule.PlacementError.NoViolation
+import woowacourse.omok.model.rule.WhiteOmokRule
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
 
 class Game(
     blackRuleChecker: BlackRuleChecker,

@@ -1,16 +1,16 @@
-package omok.controller
+package woowacourse.omok.controller
 
-import omok.mapper.BlackRuleChecker
-import omok.model.game.Game
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
-import omok.view.InputView
 import omok.view.OutputView
 import rule.BlackRenjuRule
 import rule.wrapper.point.Point
+import woowacourse.omok.mapper.BlackRuleChecker
+import woowacourse.omok.model.game.Game
 import woowacourse.omok.model.rule.CoordinateResult
 import woowacourse.omok.model.rule.PlacementError
+import woowacourse.omok.view.InputView
 
 class OmokControl(
     private val inputView: InputView,

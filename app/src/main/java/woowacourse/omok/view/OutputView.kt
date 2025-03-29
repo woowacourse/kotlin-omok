@@ -1,13 +1,13 @@
 package omok.view
 
-import omok.model.board.Board
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
+import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.rule.CoordinateError
 import woowacourse.omok.model.rule.PlacementError
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
 
 class OutputView {
     fun printBoard(board: Board) {

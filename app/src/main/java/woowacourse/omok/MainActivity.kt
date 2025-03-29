@@ -11,9 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
-import omok.mapper.BlackRuleChecker
-import omok.model.game.Game
-import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
@@ -21,12 +18,15 @@ import omok.view.OutputView
 import rule.BlackRenjuRule
 import rule.wrapper.point.Point
 import woowacourse.omok.data.OmokDao
+import woowacourse.omok.mapper.BlackRuleChecker
+import woowacourse.omok.model.game.Game
 import woowacourse.omok.model.rule.PlacementError
 import woowacourse.omok.model.rule.PlacementError.AlreadyOccupiedViolation
 import woowacourse.omok.model.rule.PlacementError.DoubleFourViolation
 import woowacourse.omok.model.rule.PlacementError.DoubleThreeViolation
 import woowacourse.omok.model.rule.PlacementError.NoViolation
 import woowacourse.omok.model.rule.PlacementError.OverlineViolation
+import woowacourse.omok.model.stone.StoneColor
 
 class MainActivity : AppCompatActivity() {
     private lateinit var omokDao: OmokDao

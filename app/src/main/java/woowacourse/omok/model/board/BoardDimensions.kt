@@ -1,4 +1,4 @@
-package omok.model.board
+package woowacourse.omok.model.board
 
 data class BoardDimensions(
     val width: Int,

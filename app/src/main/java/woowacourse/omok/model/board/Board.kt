@@ -1,7 +1,7 @@
-package omok.model.board
+package woowacourse.omok.model.board
 
-import omok.model.stone.StoneColor
 import omok.model.stone.position.Position
+import woowacourse.omok.model.stone.StoneColor
 
 class Board private constructor(
     private val dimensions: BoardDimensions,

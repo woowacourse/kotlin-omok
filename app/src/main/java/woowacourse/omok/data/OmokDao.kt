@@ -3,11 +3,11 @@ package woowacourse.omok.data
 import android.content.ContentValues
 import android.content.Context
 import android.util.Log
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
 
 class OmokDao(
     context: Context,

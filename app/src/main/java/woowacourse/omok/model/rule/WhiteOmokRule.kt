@@ -1,13 +1,12 @@
-package omok.model.rule
+package woowacourse.omok.model.rule
 
-import omok.model.board.Board
-import omok.model.stone.Stone
-import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
-import woowacourse.omok.model.rule.PlacementError
+import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.rule.PlacementError.NoViolation
+import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
 
 class WhiteOmokRule(
     private val width: Int,

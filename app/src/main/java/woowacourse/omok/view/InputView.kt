@@ -1,6 +1,6 @@
-package omok.view
+package woowacourse.omok.view
 
-import omok.model.board.Board
+import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.rule.CoordinateError
 import woowacourse.omok.model.rule.CoordinateResult
 
