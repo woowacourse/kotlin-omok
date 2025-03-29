@@ -11,7 +11,7 @@ import woowacourse.omok.view.omok.GameEventListener
 class OmokGame(
     private val eventListener: GameEventListener,
 ) {
-    private val state: GameState = GameState()
+    val state: GameState = GameState()
 
     fun start(
         lastMove: Pair<Point, CellState>?,
