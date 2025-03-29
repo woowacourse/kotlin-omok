@@ -106,18 +106,25 @@ class MainActivity : AppCompatActivity() {
     private fun updateBoard() {
         if (state !is Playing) return
 
-        val currentState = state as Playing
-        boardImages.forEachIndexed { rowIndex, row ->
-            row.forEachIndexed { colIndex, imageView ->
-                val point = Point(colIndex, rowIndex)
-                imageView.setImageResource(
-                    when (point) {
-                        in currentState.blackStones.points -> R.drawable.black_stone
-                        in currentState.whiteStones.points -> R.drawable.white_stone
-                        else -> 0
-                    },
-                )
+        val currentState = state
+        if (currentState is Playing) {
+            boardImages.forEachIndexed { rowIndex, row ->
+                row.forEachIndexed { colIndex, imageView ->
+                    val point = Point(colIndex, rowIndex)
+                    imageView.setImageResource(getStoneForPoint(currentState, point))
+                }
             }
+        }
+    }
+
+    private fun getStoneForPoint(
+        currentState: Playing,
+        point: Point,
+    ): Int {
+        return when (point) {
+            in currentState.blackStones.points -> R.drawable.black_stone
+            in currentState.whiteStones.points -> R.drawable.white_stone
+            else -> 0
         }
     }
 
