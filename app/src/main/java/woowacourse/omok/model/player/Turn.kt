@@ -18,6 +18,9 @@ class Turn(private val turnDao: TurnDao? = null) : GameState() {
         this.stone = Stone(stoneColor)
     }
 
+    val currentStoneColor
+        get() = stone.color
+
     fun place(
         position: Position,
         omokBoard: OmokBoard,
@@ -45,7 +48,7 @@ class Turn(private val turnDao: TurnDao? = null) : GameState() {
         omokBoard: OmokBoard,
     ): Boolean {
         val positionState =
-            if (stone.color == StoneColor.BLACK) PositionState.BLACK_POSITION else PositionState.WHITE_POSITION
+            if (currentStoneColor == StoneColor.BLACK) PositionState.BLACK_POSITION else PositionState.WHITE_POSITION
         return WinRule(positionState, position, omokBoard).validate()
     }
 
@@ -58,10 +61,11 @@ class Turn(private val turnDao: TurnDao? = null) : GameState() {
         if (gameState == ForbiddenMove) return
         if (gameState == Playing) {
             stone =
-                when (stone.color) {
+                when (currentStoneColor) {
                     StoneColor.BLACK -> Stone(StoneColor.WHITE)
                     StoneColor.WHITE -> Stone(StoneColor.BLACK)
                 }
         }
+        turnDao?.saveTurn(currentStoneColor)
     }
 }
