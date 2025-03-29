@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         view.setOnClickListener {
             val currentStone: Stone = state.stone
-            val position: Position = position(index)
+            val position: Position = index.toPosition()
             state = state.play(position)
             view.setImageResource(currentStone.drawable)
             if (!state.playing) {
@@ -67,9 +67,9 @@ class MainActivity : AppCompatActivity() {
         return positions
     }
 
-    private fun position(index: Int): Position {
-        val row = index / 15
-        val column = index % 15
+    private fun Int.toPosition(): Position {
+        val row = this / 15
+        val column = this % 15
         return DefaultPosition(row, column)
     }
 
