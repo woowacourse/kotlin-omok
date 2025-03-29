@@ -13,8 +13,7 @@ class DbHelper(
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL(OmokContract.SQL_CREATE_GAME)
-        db.execSQL(OmokContract.SQL_CREATE_BOARD)
+        db.execSQL(OmokContract.SQL_CREATE_GAME_STATE)
     }
 
     override fun onUpgrade(
@@ -22,8 +21,7 @@ class DbHelper(
         oldVersion: Int,
         newVersion: Int,
     ) {
-        db.execSQL(OmokContract.SQL_DELETE_BOARD)
-        db.execSQL(OmokContract.SQL_DELETE_GAME)
+        db.execSQL(OmokContract.SQL_DELETE_GAME_STATE)
         onCreate(db)
     }
 

@@ -10,29 +10,24 @@ import woowacourse.omok.data.model.OmokGameInfoDto
 class OmokGameLocalDataSourceImpl(
     private val context: Context,
 ) : OmokGameLocalDataSource {
+    companion object {
+        private const val GAME_ID = 1
+    }
+
     override fun save(omokGameInfoDto: OmokGameInfoDto) {
         val db = DbHelper(context).writableDatabase
         db.transaction {
-            delete(OmokContract.TABLE_GAME, null, null)
-            insert(
-                OmokContract.TABLE_GAME,
-                null,
-                ContentValues().apply {
-                    put(OmokContract.COLUMN_LAST_TURN, omokGameInfoDto.lastTurn)
-                },
-            )
-
-            delete(OmokContract.TABLE_BOARD, null, null)
-            omokGameInfoDto.board.forEach { (key, value) ->
-                insert(
-                    OmokContract.TABLE_BOARD,
-                    null,
+            delete(OmokContract.TABLE_GAME_STATE, "${OmokContract.COLUMN_GAME_ID}=?", arrayOf(GAME_ID.toString()))
+            omokGameInfoDto.board.forEach { (pos, state) ->
+                val values =
                     ContentValues().apply {
-                        put(OmokContract.COLUMN_POSITION_ROW, key.first)
-                        put(OmokContract.COLUMN_POSITION_COL, key.second)
-                        put(OmokContract.COLUMN_POSITION_STATE, value)
-                    },
-                )
+                        put(OmokContract.COLUMN_GAME_ID, GAME_ID)
+                        put(OmokContract.COLUMN_POSITION_ROW, pos.first)
+                        put(OmokContract.COLUMN_POSITION_COL, pos.second)
+                        put(OmokContract.COLUMN_POSITION_STATE, state)
+                        put(OmokContract.COLUMN_LAST_TURN, omokGameInfoDto.lastTurn)
+                    }
+                insert(OmokContract.TABLE_GAME_STATE, null, values)
             }
         }
         db.close()
@@ -40,49 +35,35 @@ class OmokGameLocalDataSourceImpl(
 
     override fun load(): OmokGameInfoDto? {
         val db = DbHelper(context).readableDatabase
-        val turnCursor =
-            db.query(
-                OmokContract.TABLE_GAME,
-                arrayOf(OmokContract.COLUMN_LAST_TURN),
-                null,
-                null,
-                null,
-                null,
-                null,
-                "1",
-            )
 
-        val lastTurn =
-            when (turnCursor.moveToFirst()) {
-                true -> turnCursor.getString(turnCursor.getColumnIndexOrThrow(OmokContract.COLUMN_LAST_TURN))
-                false -> null
-            }
-        turnCursor.close()
-
-        val boardCursor =
+        val cursor =
             db.query(
-                OmokContract.TABLE_BOARD,
+                OmokContract.TABLE_GAME_STATE,
                 arrayOf(
                     OmokContract.COLUMN_POSITION_ROW,
                     OmokContract.COLUMN_POSITION_COL,
                     OmokContract.COLUMN_POSITION_STATE,
+                    OmokContract.COLUMN_LAST_TURN,
                 ),
-                null,
-                null,
+                "${OmokContract.COLUMN_GAME_ID}=?",
+                arrayOf(GAME_ID.toString()),
                 null,
                 null,
                 null,
             )
 
         val board = mutableMapOf<Pair<Int, Int>, String>()
-        while (boardCursor.moveToNext()) {
-            val row = boardCursor.getInt(boardCursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_ROW))
-            val col = boardCursor.getInt(boardCursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_COL))
-            val state = boardCursor.getString(boardCursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_STATE))
+        var lastTurn: String? = null
+
+        while (cursor.moveToNext()) {
+            val row = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_ROW))
+            val col = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_COL))
+            val state = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_STATE))
+            lastTurn = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_LAST_TURN))
             board[Pair(row, col)] = state
         }
 
-        boardCursor.close()
+        cursor.close()
         db.close()
 
         return when (lastTurn != null && board.isNotEmpty()) {
@@ -93,10 +74,7 @@ class OmokGameLocalDataSourceImpl(
 
     override fun delete() {
         val db = DbHelper(context).writableDatabase
-        db.transaction {
-            delete(OmokContract.TABLE_GAME, null, null)
-            delete(OmokContract.TABLE_BOARD, null, null)
-        }
+        db.delete(OmokContract.TABLE_GAME_STATE, "${OmokContract.COLUMN_GAME_ID}=?", arrayOf(GAME_ID.toString()))
         db.close()
     }
 }
