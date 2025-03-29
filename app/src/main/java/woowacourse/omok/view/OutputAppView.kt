@@ -79,6 +79,7 @@ class OutputAppView(
         stoneColor: StoneColor,
         restartGame: () -> Unit,
         roomWithStonesDelete: () -> Unit,
+        stonesDelete: () -> Unit,
     ) {
         val stoneColorText = stoneColorText(stoneColor)
         (gameActivity).runOnUiThread {
@@ -87,7 +88,7 @@ class OutputAppView(
                 .setTitle(NORMAL_DIALOG_TITLE)
                 .setMessage(WIN_DIALOG_MESSAGE.format(stoneColorText))
                 .setPositiveButton(RETRY_BUTTON_TEXT) { _, _ ->
-                    roomWithStonesDelete()
+                    stonesDelete()
                     restartGame()
                 }.setNegativeButton(EXIT_BUTTON_TEXT) { _, _ ->
                     roomWithStonesDelete()

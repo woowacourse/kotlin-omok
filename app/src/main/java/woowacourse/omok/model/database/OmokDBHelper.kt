@@ -34,13 +34,19 @@ class OmokDBHelper(
     fun roomWithStonesDelete(roomId: Int) {
         val db = writableDatabase
         db.transaction {
-            val stonesWhereClause = "${OmokDBContract.StonesTable.COLUMN_ROOM_ID} = ?"
-            val stonesWhereArgs = arrayOf(roomId.toString())
-            delete(OmokDBContract.StonesTable.TABLE_NAME, stonesWhereClause, stonesWhereArgs)
-
             val roomWhereClause = "${OmokDBContract.GameRoomsTable.COLUMN_ROOM_ID} = ?"
             val roomWhereArgs = arrayOf(roomId.toString())
             delete(OmokDBContract.GameRoomsTable.TABLE_NAME, roomWhereClause, roomWhereArgs)
+        }
+        stonesDelete(roomId)
+    }
+
+    fun stonesDelete(roomId: Int) {
+        val db = writableDatabase
+        db.transaction {
+            val stonesWhereClause = "${OmokDBContract.StonesTable.COLUMN_ROOM_ID} = ?"
+            val stonesWhereArgs = arrayOf(roomId.toString())
+            delete(OmokDBContract.StonesTable.TABLE_NAME, stonesWhereClause, stonesWhereArgs)
         }
     }
 

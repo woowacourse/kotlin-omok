@@ -127,7 +127,9 @@ class OmokAppControl(
                 outputAppView.omokDialogAlert(
                     it.stoneColor,
                     ::gameRestart,
-                ) { omokDBHelper.roomWithStonesDelete(roomId) }
+                    { omokDBHelper.roomWithStonesDelete(roomId) },
+                    { omokDBHelper.stonesDelete(roomId) },
+                )
             }
         }
     }
