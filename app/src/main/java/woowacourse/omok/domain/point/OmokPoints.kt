@@ -4,7 +4,7 @@ import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.OmokBoard.Companion.OMOK_BOARD_SIZE
 import woowacourse.omok.domain.board.Row
-import woowacourse.omok.domain.exception.OmokExceptions
+import woowacourse.omok.domain.exception.OmokException
 import woowacourse.omok.domain.stone.StoneColor
 
 class OmokPoints {
@@ -53,7 +53,7 @@ class OmokPoints {
     private fun occupied(point: Point) {
         val target = points.find { it.x == point.x && it.y == point.y }?.status
         require(target == BoardStatus.Empty) {
-            throw OmokExceptions.OccupiedExceptions
+            throw OmokException.OccupiedExceptions
         }
     }
 

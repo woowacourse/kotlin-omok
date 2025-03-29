@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.domain.board.OmokBoard
-import woowacourse.omok.domain.exception.RendjuExceptions
+import woowacourse.omok.domain.exception.RendjuException
 import woowacourse.omok.domain.rule.renju.FourByFour
 import woowacourse.omok.fixture.blackCByEight
 import woowacourse.omok.fixture.blackDByEight
@@ -43,7 +43,7 @@ class FourByFourTest {
         board.addStone(blackGByFive)
 
         // result
-        assertThrows<RendjuExceptions.DoubleFourExceptions> {
+        assertThrows<RendjuException.DoubleFourException> {
             // when
             FourByFour(board).match(emptyGByEight)
         }
@@ -78,7 +78,7 @@ class FourByFourTest {
         board.addStone(blackGByFour)
 
         // result
-        assertThrows<RendjuExceptions.DoubleFourExceptions> {
+        assertThrows<RendjuException.DoubleFourException> {
             // when
             FourByFour(board).match(emptyGByEight)
         }
@@ -113,7 +113,7 @@ class FourByFourTest {
         board.addStone(blackGByFour)
 
         // result
-        assertThrows<RendjuExceptions.DoubleFourExceptions> {
+        assertThrows<RendjuException.DoubleFourException> {
             // when
             FourByFour(board).match(emptyGByEight)
         }

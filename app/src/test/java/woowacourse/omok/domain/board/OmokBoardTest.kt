@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import woowacourse.omok.domain.exception.OmokExceptions
+import woowacourse.omok.domain.exception.OmokException
 import woowacourse.omok.domain.rule.Direction
 import woowacourse.omok.fixture.blackAByEight
 import woowacourse.omok.fixture.blackBByEight
@@ -51,7 +51,7 @@ class OmokBoardTest {
         val duplicatedPosition = blackFifteenByOne
 
         // result
-        assertThrows<OmokExceptions.OccupiedExceptions> {
+        assertThrows<OmokException.OccupiedExceptions> {
             omokBoard.pointValidation(duplicatedPosition)
         }
     }

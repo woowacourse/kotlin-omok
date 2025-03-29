@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.domain.board.OmokBoard
-import woowacourse.omok.domain.exception.RendjuExceptions
+import woowacourse.omok.domain.exception.RendjuException
 import woowacourse.omok.domain.rule.renju.ThreeByThree
 import woowacourse.omok.fixture.blackBByEight
 import woowacourse.omok.fixture.blackBByEleven
@@ -77,7 +77,7 @@ class ThreeByThreeTest {
         board.addStone(blackGBySix)
 
         // when
-        assertThrows<RendjuExceptions.DoubleThreeExceptions> {
+        assertThrows<RendjuException.DoubleThreeException> {
             // result
             ThreeByThree(board).match(emptyGByEight)
         }
@@ -139,7 +139,7 @@ class ThreeByThreeTest {
         board.addStone(blackFByFive)
 
         // when
-        assertThrows<RendjuExceptions.DoubleThreeExceptions> {
+        assertThrows<RendjuException.DoubleThreeException> {
             // result
             ThreeByThree(board).match(emptyHByFive)
         }
@@ -217,7 +217,7 @@ class ThreeByThreeTest {
         board.addStone(blackGByFive)
 
         // when
-        assertThrows<RendjuExceptions.DoubleThreeExceptions> {
+        assertThrows<RendjuException.DoubleThreeException> {
             // result
             ThreeByThree(board).match(emptyDByFive)
         }
@@ -231,7 +231,7 @@ class ThreeByThreeTest {
         board.addStone(blackDBySix)
 
         // when
-        assertThrows<RendjuExceptions.DoubleThreeExceptions> {
+        assertThrows<RendjuException.DoubleThreeException> {
             // result
             ThreeByThree(board).match(emptyDByFour)
         }

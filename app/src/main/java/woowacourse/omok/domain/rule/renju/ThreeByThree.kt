@@ -2,7 +2,7 @@ package woowacourse.omok.domain.rule.renju
 
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.OmokBoard
-import woowacourse.omok.domain.exception.RendjuExceptions
+import woowacourse.omok.domain.exception.RendjuException
 import woowacourse.omok.domain.point.Point
 import woowacourse.omok.domain.rule.Direction
 import woowacourse.omok.domain.stone.StoneColor
@@ -13,7 +13,7 @@ class ThreeByThree(board: OmokBoard) : Renju(board) {
         val hasMoreThanOneThreeByThree = checkDirectionPairs(p, BoardStatus.Moved(StoneColor.BLACK)) > 1
 
         require(boardEmpty && !hasMoreThanOneThreeByThree) {
-            throw RendjuExceptions.DoubleThreeExceptions
+            throw RendjuException.DoubleThreeException
         }
     }
 

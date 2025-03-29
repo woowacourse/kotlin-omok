@@ -9,7 +9,7 @@ import woowacourse.omok.data.db.toEntity
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.Row
-import woowacourse.omok.domain.exception.RendjuExceptions
+import woowacourse.omok.domain.exception.RendjuException
 import woowacourse.omok.domain.point.Point
 import woowacourse.omok.domain.stone.StoneColor
 
@@ -58,7 +58,7 @@ class OmokEntityTest {
 
             // then
             assertThat(point.status).isInstanceOf(BoardStatus.Blocked::class.java)
-            assertThat((point.status as BoardStatus.Blocked).cause).isEqualTo(RendjuExceptions.DoubleThreeExceptions)
+            assertThat((point.status as BoardStatus.Blocked).cause).isEqualTo(RendjuException.DoubleThreeException)
         }
 
         @Test
@@ -72,7 +72,7 @@ class OmokEntityTest {
 
             // then
             assertThat(point.status).isInstanceOf(BoardStatus.Blocked::class.java)
-            assertThat((point.status as BoardStatus.Blocked).cause).isEqualTo(RendjuExceptions.DoubleFourExceptions)
+            assertThat((point.status as BoardStatus.Blocked).cause).isEqualTo(RendjuException.DoubleFourException)
         }
 
         @Test
@@ -86,7 +86,7 @@ class OmokEntityTest {
 
             // then
             assertThat(point.status).isInstanceOf(BoardStatus.Blocked::class.java)
-            assertThat((point.status as BoardStatus.Blocked).cause).isEqualTo(RendjuExceptions.OverLineExceptions)
+            assertThat((point.status as BoardStatus.Blocked).cause).isEqualTo(RendjuException.OverLineException)
         }
     }
 
@@ -141,7 +141,7 @@ class OmokEntityTest {
                 Point(
                     x = Column(8),
                     y = Row(3),
-                    status = BoardStatus.Blocked(RendjuExceptions.DoubleThreeExceptions),
+                    status = BoardStatus.Blocked(RendjuException.DoubleThreeException),
                 )
 
             // when
@@ -161,7 +161,7 @@ class OmokEntityTest {
                 Point(
                     x = Column(8),
                     y = Row(3),
-                    status = BoardStatus.Blocked(RendjuExceptions.DoubleFourExceptions),
+                    status = BoardStatus.Blocked(RendjuException.DoubleFourException),
                 )
 
             // when
@@ -181,7 +181,7 @@ class OmokEntityTest {
                 Point(
                     x = Column(8),
                     y = Row(3),
-                    status = BoardStatus.Blocked(RendjuExceptions.OverLineExceptions),
+                    status = BoardStatus.Blocked(RendjuException.OverLineException),
                 )
 
             // when

@@ -15,8 +15,8 @@ import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.Row
 import woowacourse.omok.domain.exception.Exceptions
-import woowacourse.omok.domain.exception.OmokExceptions
-import woowacourse.omok.domain.exception.RendjuExceptions
+import woowacourse.omok.domain.exception.OmokException
+import woowacourse.omok.domain.exception.RendjuException
 import woowacourse.omok.domain.point.Point
 import woowacourse.omok.domain.repository.OmokRepository
 import woowacourse.omok.domain.service.OmokGame
@@ -87,13 +87,19 @@ class MainActivity : AppCompatActivity(), GameEventListener {
             }
     }
 
+    private fun initializeDataSource() {
+        val dbHelper = OmokDbHelper(this)
+        val dataSource = OmokDataSource(dbHelper)
+        omokRepository = OmokRepositoryImpl(dataSource)
+    }
+
     private fun resolveErrorMessage(e: Exceptions): String {
         val errorTextResource =
             when (e) {
-                OmokExceptions.OccupiedExceptions -> R.string.text_occupied
-                RendjuExceptions.DoubleFourExceptions -> R.string.text_double_four
-                RendjuExceptions.DoubleThreeExceptions -> R.string.text_double_three
-                RendjuExceptions.OverLineExceptions -> R.string.text_over_line
+                OmokException.OccupiedExceptions -> R.string.text_occupied
+                RendjuException.DoubleFourException -> R.string.text_double_four
+                RendjuException.DoubleThreeException -> R.string.text_double_three
+                RendjuException.OverLineException -> R.string.text_over_line
                 Exceptions.UnknownException -> R.string.text_unknown
             }
 

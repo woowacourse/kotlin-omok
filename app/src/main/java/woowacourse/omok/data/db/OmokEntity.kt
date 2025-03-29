@@ -8,7 +8,7 @@ import woowacourse.omok.data.db.OmokEntity.Companion.WHITE_STONE
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.Row
-import woowacourse.omok.domain.exception.RendjuExceptions
+import woowacourse.omok.domain.exception.RendjuException
 import woowacourse.omok.domain.point.Point
 import woowacourse.omok.domain.stone.StoneColor
 
@@ -23,9 +23,9 @@ data class OmokEntity(
                 BLACK_STONE,
                 WHITE_STONE,
                 -> BoardStatus.Moved(StoneColor.fromString(stone))
-                DOUBLE_THREE_STONE -> BoardStatus.Blocked(RendjuExceptions.DoubleThreeExceptions)
-                DOUBLE_FOUR_STONE -> BoardStatus.Blocked(RendjuExceptions.DoubleFourExceptions)
-                OVER_LINE_STONE -> BoardStatus.Blocked(RendjuExceptions.OverLineExceptions)
+                DOUBLE_THREE_STONE -> BoardStatus.Blocked(RendjuException.DoubleThreeException)
+                DOUBLE_FOUR_STONE -> BoardStatus.Blocked(RendjuException.DoubleFourException)
+                OVER_LINE_STONE -> BoardStatus.Blocked(RendjuException.OverLineException)
                 else -> BoardStatus.Empty
             }
 
@@ -56,9 +56,9 @@ fun Point.toEntity(): OmokEntity {
 
             is BoardStatus.Blocked ->
                 when (status.cause) {
-                    RendjuExceptions.DoubleThreeExceptions -> DOUBLE_THREE_STONE
-                    RendjuExceptions.DoubleFourExceptions -> DOUBLE_FOUR_STONE
-                    RendjuExceptions.OverLineExceptions -> OVER_LINE_STONE
+                    RendjuException.DoubleThreeException -> DOUBLE_THREE_STONE
+                    RendjuException.DoubleFourException -> DOUBLE_FOUR_STONE
+                    RendjuException.OverLineException -> OVER_LINE_STONE
                 }
             else -> throw IllegalArgumentException()
         }

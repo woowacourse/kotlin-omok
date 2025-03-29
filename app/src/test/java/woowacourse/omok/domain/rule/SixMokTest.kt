@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.domain.board.OmokBoard
-import woowacourse.omok.domain.exception.RendjuExceptions
+import woowacourse.omok.domain.exception.RendjuException
 import woowacourse.omok.domain.rule.renju.SixMok
 import woowacourse.omok.fixture.blackBByEight
 import woowacourse.omok.fixture.blackCByEight
@@ -56,7 +56,7 @@ class SixMokTest {
         board.addStone(blackGByEight)
 
         // result
-        assertThrows<RendjuExceptions.OverLineExceptions> {
+        assertThrows<RendjuException.OverLineException> {
             // when
             SixMok(board).match(emptyFByEight)
         }

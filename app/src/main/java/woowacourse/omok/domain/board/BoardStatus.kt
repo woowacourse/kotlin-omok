@@ -1,6 +1,6 @@
 package woowacourse.omok.domain.board
 
-import woowacourse.omok.domain.exception.RendjuExceptions
+import woowacourse.omok.domain.exception.RendjuException
 import woowacourse.omok.domain.stone.StoneColor
 
 sealed interface BoardStatus {
@@ -8,5 +8,5 @@ sealed interface BoardStatus {
 
     object Empty : BoardStatus
 
-    data class Blocked(val cause: RendjuExceptions) : BoardStatus
+    data class Blocked(val cause: RendjuException) : BoardStatus
 }
