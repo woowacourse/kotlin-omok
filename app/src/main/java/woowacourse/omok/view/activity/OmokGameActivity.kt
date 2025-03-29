@@ -1,4 +1,4 @@
-package woowacourse.omok.view
+package woowacourse.omok.view.activity
 
 import android.os.Bundle
 import android.widget.TableLayout
@@ -23,6 +23,9 @@ class OmokGameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        layout = findViewById<TableLayout>(R.id.board)
+        val container = Container(layout)
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -30,20 +33,25 @@ class OmokGameActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        layout = findViewById<TableLayout>(R.id.board)
-        val container = Container(layout)
-        omokRules = container.omokRules
-        omokDao = container.omokDao
+        initializeProperty(container)
+
         nickname = intent.getStringExtra("nickname")!!
-        omokBoard = omokDao.findBoardByNickName(nickname)?.board?.let {
-            runCatching {
-                container.omokBoard.deserialize(it)
-            }.getOrNull()
-        } ?: container.omokBoard
-        startGame()
+        val loadedBoard =
+            omokDao.findBoardByNickName(nickname)?.board?.let {
+                runCatching {
+                    omokBoard.deserialize(it)
+                }.getOrNull()
+            } ?: omokBoard
+        startGame(loadedBoard)
     }
 
-    private fun startGame() {
-        OmokGame(omokBoard, layout, nickname).startGame(omokBoard.latestPlace.opponent())
+    private fun startGame(loadedBoard: OmokBoard) {
+        OmokGame(loadedBoard, layout, nickname).startGame(loadedBoard.latestPlace.opponent())
+    }
+
+    private fun initializeProperty(container: Container) {
+        omokRules = container.omokRules
+        omokDao = container.omokDao
+        omokBoard = container.omokBoard
     }
 }
