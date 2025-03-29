@@ -11,6 +11,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import woowacourse.omok.R
+import woowacourse.omok.data.DbHelper
+import woowacourse.omok.data.OmokRepository
+import woowacourse.omok.data.StoneLocalDataSource
 import woowacourse.omok.domain.GameBoard
 import woowacourse.omok.domain.player.Player
 import woowacourse.omok.domain.position.Col
@@ -19,11 +22,14 @@ import woowacourse.omok.domain.position.Row
 import woowacourse.omok.domain.rule.adapter.RuleAdapter
 import woowacourse.omok.domain.rule.lib.OmokRule
 import woowacourse.omok.domain.rule.lib.RenjuRule
+import woowacourse.omok.domain.stone.Stone
 import woowacourse.omok.domain.stone.StoneColor
 import woowacourse.omok.domain.stone.StoneColor.BLACK
 import woowacourse.omok.domain.stone.StoneColor.WHITE
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var oMokRepository: OmokRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -39,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         players.add(Player(WHITE, listOf(RuleAdapter(OmokRule()))))
         val service = GameBoard(players = players)
 
+        oMokRepository = OmokRepository(StoneLocalDataSource(DbHelper(this)))
+
         val board = findViewById<TableLayout>(R.id.board)
         board
             .children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rowView ->
@@ -53,6 +61,7 @@ class MainActivity : AppCompatActivity() {
                                 toastMessage(message = error.message ?: "")
                             }.onSuccess { stoneColor ->
                                 showPlacedStone(view = cell, stoneColor = stoneColor)
+                                oMokRepository.insert(stone = Stone(position, stoneColor))
                                 gameJudgeProcess(service)
                                 service.nextTurn()
                             }
