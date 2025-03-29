@@ -44,7 +44,7 @@ object OmokDBContract {
     object PlayerTable {
         const val TABLE_NAME = "player"
         const val COLUMN_PLAYER_NAME = "balck_player_name"
-        const val COLUMN_PLAY_COUNT = "black_win_count"
+        const val COLUMN_PLAY_COUNT = "play_count"
         const val COLUMN_BLACK_WIN_COUNT = "black_win_count"
         const val COLUMN_WHITE_WIN_COUNT = "white_win_count"
 
