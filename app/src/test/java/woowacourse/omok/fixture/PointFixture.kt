@@ -17,11 +17,10 @@ val whiteGBySeven = Point(x = Column(7), y = Row(7), status = whiteStone)
 val whiteGBySix = Point(x = Column(7), y = Row(6), status = whiteStone)
 val whiteGByFour = Point(x = Column(7), y = Row(4), status = whiteStone)
 val whiteHByEight = Point(x = Column(8), y = Row(8), status = whiteStone)
-val whiteHByNine = Point(x = Column(8), y = Row(9), status = whiteStone)
 val whiteHByTen = Point(x = Column(8), y = Row(10), status = whiteStone)
 val whiteOByOne = Point(x = Column(15), y = Row(1), status = whiteStone)
 val whiteDByNine = Point(x = Column(4), y = Row(9), status = whiteStone)
-val whiteEByEleven = Point(x = Column(2), y = Row(11), status = whiteStone)
+val whiteEByEleven = Point(x = Column(5), y = Row(11), status = whiteStone)
 
 // Black Stones
 val blackAByOne = Point(x = Column(1), y = Row(1), status = blackStone)

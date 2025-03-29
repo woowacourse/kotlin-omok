@@ -88,7 +88,7 @@ class OmokBoardTest {
         // when
         val nextPoint = omokBoard.goto(currentPoint, Direction.TOP_LEFT)
 
-        // reuslt
+        // result
         assertThat(nextPoint).isEqualTo(emptyGByEleven)
     }
 
@@ -225,7 +225,7 @@ class OmokBoardTest {
         // when
         val result = omokBoard.isOmok(blackEByFour)
 
-        // reuslt
+        // result
         assertThat(result).isFalse()
     }
 
