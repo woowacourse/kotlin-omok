@@ -44,11 +44,8 @@ class MainActivity : AppCompatActivity() {
         setupView()
 
         lifecycleScope.launch {
-            val omokGame =
-                withContext(Dispatchers.IO) {
-                    omokGameUseCase()
-                }
-            updateLastBoardUI(omokGame.board)
+            val omokGame = withContext(Dispatchers.IO) { omokGameUseCase() }
+            updateBoardStones(omokGame.board)
             setupClickListeners(omokGame)
         }
     }
@@ -65,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateLastBoardUI(board: OmokBoard) {
+    private fun updateBoardStones(board: OmokBoard) {
         binding.board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
             row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, button ->
                 val position = Position(rowIndex + 1, colIndex + 1)
@@ -137,18 +134,18 @@ class MainActivity : AppCompatActivity() {
         val judgeResult = omokGame.judge(playerStone = playerStone)
 
         if (judgeResult is Finished) {
-            disableBoard()
+            updateBoardActivation(false)
             showResultDialog(getJudgeMessage(judgeResult))
         }
     }
 
-    private fun disableBoard() =
+    private fun updateBoardActivation(isEnabled: Boolean) =
         with(binding.board) {
             children
                 .filterIsInstance<TableRow>()
                 .flatMap { it.children }
                 .filterIsInstance<ImageView>()
-                .forEach { it.isEnabled = false }
+                .forEach { it.isEnabled = isEnabled }
         }
 
     private fun showResultDialog(message: String) {
@@ -191,9 +188,9 @@ class MainActivity : AppCompatActivity() {
             binding.board.children.forEach { row ->
                 (row as TableRow).children.forEach { point ->
                     (point as ImageView).setImageResource(0)
-                    point.isEnabled = true
                 }
             }
+            updateBoardActivation(true)
             showSnackBar(getString(string.omok_game_restart))
         }
     }
