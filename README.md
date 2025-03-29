@@ -64,3 +64,11 @@
 - [x] AlreadyExistStoneRule | 규칙을 하나로 병합하여 검증 로직을 단순화
 - [x] PointState | sealed class로 변경하여 상태 표현 방식 변경
 - [x] OmokRule | OmokRule을 게임 종료 룰과 잘못된 수 검증 룰로 분리
+
+# TODO
+
+- [x] OmokBoard | OmokBoard의 정적 메서드를 부생성자로 이동
+- [x] ruleNavigation | whiteStone에는 렌주룰이 적용되지 않도록 변경
+- [x] GameFinish | 게임이 끝나면 팝업창 뜨도록 수정
+- [x] SqlLite에 현재 오목 게임이 저장 되는 기능 추가
+- [x] OmokBoardPointState | OmokGridCell로 네이밍 변경
