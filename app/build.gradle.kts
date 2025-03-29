@@ -44,6 +44,8 @@ android {
 }
 
 dependencies {
+    testImplementation(libs.jupiter.junit.jupiter)
+    testImplementation(libs.jupiter.junit.jupiter)
     val currentVersion = "v2.0.0-alpha"
     implementation("com.github.tmdgh1592:budool-omok-rule:$currentVersion")
     implementation(libs.androidx.activity.ktx)
