@@ -98,20 +98,15 @@ class MainActivity : AppCompatActivity() {
                 val playerStone = PlayerStone(omokGame.currentTurn, position)
 
                 when (val result = omokGame.placeStone(position)) {
-                    is Success -> handlePlaceSuccess(point, playerStone, omokGame)
+                    is Success -> {
+                        updateStoneUI(point, playerStone)
+                        handleJudge(omokGame, playerStone)
+                    }
+
                     is Failure -> showSnackBar(getFailureMessage(result))
                 }
             }
         }
-    }
-
-    private fun handlePlaceSuccess(
-        button: ImageView,
-        playerStone: PlayerStone,
-        omokGame: OmokGame,
-    ) {
-        updateStoneUI(button, playerStone)
-        handleJudge(omokGame, playerStone)
     }
 
     private fun updateStoneUI(
