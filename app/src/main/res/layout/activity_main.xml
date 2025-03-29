@@ -1202,5 +1202,12 @@
             android:gravity="center"
             android:text="흑의 차례입니다."
             android:textSize="32sp" />
+
+        <Button
+            android:id="@+id/resetBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="초기화"
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>
