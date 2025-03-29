@@ -19,7 +19,10 @@ class Turn : GameState() {
         omokBoard.placeStone(position, stone)
         gameState =
             when {
-                isWin(position, omokBoard) -> Win
+                isWin(position, omokBoard) -> {
+                    omokBoard.reset()
+                    Win
+                }
 
                 isForbidden(position, omokBoard) -> {
                     omokBoard.forbidden(position)

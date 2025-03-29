@@ -15,18 +15,14 @@ class OmokBoard(
     val keys get() = board.keys
 
     init {
-        for (x in X_MIN_RANGE..X_MAX_RANGE) {
-            for (y in Y_MIN_RANGE..Y_MAX_RANGE) {
-                val position = Position(x, y)
-                board[position] = PositionState.NONE
-            }
-        }
+        reset()
     }
 
     private fun canPlaceStone(position: Position): Boolean = board[position] == PositionState.NONE
 
     fun forbidden(position: Position) {
         board[position] = PositionState.FORBIDDEN
+        throw IllegalArgumentException("금수입니다. 다른 자리에 착수해주세요.")
     }
 
     fun placeStone(
@@ -44,4 +40,13 @@ class OmokBoard(
     }
 
     fun boardState(position: Position): PositionState = board[position] ?: throw IllegalArgumentException("잘못된 좌표입니다.")
+
+    fun reset() {
+        for (x in X_MIN_RANGE..X_MAX_RANGE) {
+            for (y in Y_MIN_RANGE..Y_MAX_RANGE) {
+                val position = Position(x, y)
+                board[position] = PositionState.NONE
+            }
+        }
+    }
 }
