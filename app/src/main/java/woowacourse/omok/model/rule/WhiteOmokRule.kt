@@ -4,13 +4,13 @@ import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
 import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.BoardDimensions
 import woowacourse.omok.model.rule.PlacementError.NoViolation
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor
 
 class WhiteOmokRule(
-    private val width: Int,
-    private val height: Int,
+    private val dimensions: BoardDimensions,
 ) : OmokRule {
     override fun isWin(
         board: Board,
@@ -44,7 +44,7 @@ class WhiteOmokRule(
         var x = stonePosition.row.value + direction.dx
         var y = stonePosition.col.value + direction.dy
 
-        while (x in 0 until width && y in 0 until height) {
+        while (x in 0 until dimensions.width && y in 0 until dimensions.height) {
             val nextPos = Position(Row(x), Col(y))
             if (stonesMap[nextPos] == stone.stoneColor) {
                 count++

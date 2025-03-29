@@ -23,7 +23,7 @@ class Game(
     var lastStone: Stone? = null
         private set
 
-    private val whiteOmokRule = WhiteOmokRule(board.getWidth(), board.getHeight())
+    private val whiteOmokRule = WhiteOmokRule(board.dimensions)
     private val blackOmokRule = BlackOmokRule(blackRuleChecker)
 
     fun playTurn(position: Position): PlacementError {

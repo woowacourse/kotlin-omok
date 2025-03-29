@@ -4,15 +4,11 @@ import omok.model.stone.position.Position
 import woowacourse.omok.model.stone.StoneColor
 
 class Board private constructor(
-    private val dimensions: BoardDimensions,
+    val dimensions: BoardDimensions,
 ) {
     private val _stonesMap: MutableMap<Position, StoneColor> = mutableMapOf()
     val stonesMap: Map<Position, StoneColor>
         get() = _stonesMap.toMap()
-
-    fun getWidth() = dimensions.width
-
-    fun getHeight() = dimensions.height
 
     fun getBlackStones() = stonesMap.filter { it.value == StoneColor.BLACK }.map { it.key }
 
