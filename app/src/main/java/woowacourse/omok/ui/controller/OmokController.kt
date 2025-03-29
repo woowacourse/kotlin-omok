@@ -36,7 +36,6 @@ class OmokController(
                 return
             }
 
-            omokGame.reverseTurn()
             position = playerStone.position
         }
     }

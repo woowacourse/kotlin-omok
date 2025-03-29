@@ -1,8 +1,6 @@
 package woowacourse.omok.domain.model.rule.place
 
-import woowacourse.omok.domain.model.rule.OmokResult
-
-sealed class PlaceResult : OmokResult {
+sealed class PlaceResult {
     data object Success : PlaceResult()
 
     sealed class Failure : PlaceResult() {

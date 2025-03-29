@@ -19,25 +19,25 @@ class ExternalRule : PlaceRule {
     private val whiteRenjuRule = WhiteRenjuRule()
 
     override fun perform(
-        omokBoard: OmokBoard,
-        playerStone: PlayerStone,
+        board: OmokBoard,
+        stone: PlayerStone,
     ): PlaceResult {
         renjuRule =
-            when (playerStone.color) {
+            when (stone.color) {
                 StoneColor.BLACK -> blackRenjuRule
                 StoneColor.WHITE -> whiteRenjuRule
             }
 
-        val startPoint = playerStone.position.toExternalPoint()
+        val startPoint = stone.position.toExternalPoint()
 
         val blackPoints =
-            omokBoard.snapshot
+            board.snapshot
                 .filter { it.value == PointState.OCCUPIED_BLACK }
                 .keys
                 .map { it.toExternalPoint() }
 
         val whitePoints =
-            omokBoard.snapshot
+            board.snapshot
                 .filter { it.value == PointState.OCCUPIED_WHITE }
                 .keys
                 .map { it.toExternalPoint() }

@@ -6,10 +6,10 @@ import woowacourse.omok.domain.model.player.PlayerStone
 
 class AlreadyExistStoneRule : PlaceRule {
     override fun perform(
-        omokBoard: OmokBoard,
-        playerStone: PlayerStone,
+        board: OmokBoard,
+        stone: PlayerStone,
     ): PlaceResult =
-        if (omokBoard.find(playerStone.position) == PointState.EMPTY) {
+        if (board.find(stone.position) == PointState.EMPTY) {
             PlaceResult.Success
         } else {
             PlaceResult.Failure.AlreadyExistStone

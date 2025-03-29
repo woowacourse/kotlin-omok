@@ -8,8 +8,8 @@ import woowacourse.omok.domain.model.player.StoneColor.WHITE
 
 class WinningRule : JudgeRule {
     override fun perform(
-        omokBoard: OmokBoard,
-        playerStone: PlayerStone,
+        board: OmokBoard,
+        stone: PlayerStone,
     ): JudgeResult {
         val directions =
             listOf(
@@ -20,13 +20,13 @@ class WinningRule : JudgeRule {
             )
 
         val judgeResult =
-            when (playerStone.color) {
-                BLACK -> JudgeResult.Finished.Win(playerStone.color)
-                WHITE -> JudgeResult.Finished.Win(playerStone.color)
+            when (stone.color) {
+                BLACK -> JudgeResult.Finished.Win(stone.color)
+                WHITE -> JudgeResult.Finished.Win(stone.color)
             }
 
         for ((dx, dy) in directions) {
-            if (countStonesInDirection(omokBoard, playerStone, dx, dy) >= 5) {
+            if (countStonesInDirection(board, stone, dx, dy) >= 5) {
                 return judgeResult
             }
         }

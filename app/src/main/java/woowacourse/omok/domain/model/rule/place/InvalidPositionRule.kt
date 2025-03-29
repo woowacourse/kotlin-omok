@@ -5,10 +5,10 @@ import woowacourse.omok.domain.model.player.PlayerStone
 
 class InvalidPositionRule : PlaceRule {
     override fun perform(
-        omokBoard: OmokBoard,
-        playerStone: PlayerStone,
+        board: OmokBoard,
+        stone: PlayerStone,
     ): PlaceResult =
-        if (omokBoard.find(playerStone.position) == null) {
+        if (board.find(stone.position) == null) {
             PlaceResult.Failure.InvalidPosition
         } else {
             PlaceResult.Success
