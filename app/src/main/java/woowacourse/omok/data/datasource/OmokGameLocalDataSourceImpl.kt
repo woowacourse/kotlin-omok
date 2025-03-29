@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.core.database.sqlite.transaction
 import woowacourse.omok.data.DbHelper
 import woowacourse.omok.data.OmokContract
-import woowacourse.omok.data.model.OmokGameInfoDto
+import woowacourse.omok.data.model.OmokGameDto
 
 class OmokGameLocalDataSourceImpl(
     private val context: Context,
@@ -14,18 +14,18 @@ class OmokGameLocalDataSourceImpl(
         private const val GAME_ID = 1
     }
 
-    override fun save(omokGameInfoDto: OmokGameInfoDto) {
+    override fun save(omokGameDto: OmokGameDto) {
         val db = DbHelper(context).writableDatabase
         db.transaction {
             delete(OmokContract.TABLE_GAME_STATE, "${OmokContract.COLUMN_GAME_ID}=?", arrayOf(GAME_ID.toString()))
-            omokGameInfoDto.board.forEach { (pos, state) ->
+            omokGameDto.board.forEach { (pos, state) ->
                 val values =
                     ContentValues().apply {
                         put(OmokContract.COLUMN_GAME_ID, GAME_ID)
                         put(OmokContract.COLUMN_POSITION_ROW, pos.first)
                         put(OmokContract.COLUMN_POSITION_COL, pos.second)
                         put(OmokContract.COLUMN_POSITION_STATE, state)
-                        put(OmokContract.COLUMN_LAST_TURN, omokGameInfoDto.lastTurn)
+                        put(OmokContract.COLUMN_LAST_TURN, omokGameDto.lastTurn)
                     }
                 insert(OmokContract.TABLE_GAME_STATE, null, values)
             }
@@ -33,7 +33,7 @@ class OmokGameLocalDataSourceImpl(
         db.close()
     }
 
-    override fun load(): OmokGameInfoDto? {
+    override fun load(): OmokGameDto? {
         val db = DbHelper(context).readableDatabase
 
         val cursor =
@@ -67,7 +67,7 @@ class OmokGameLocalDataSourceImpl(
         db.close()
 
         return when (lastTurn != null && board.isNotEmpty()) {
-            true -> OmokGameInfoDto(lastTurn, board)
+            true -> OmokGameDto(lastTurn, board)
             false -> null
         }
     }

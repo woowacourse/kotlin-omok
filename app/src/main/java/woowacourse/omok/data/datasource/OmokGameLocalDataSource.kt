@@ -1,11 +1,11 @@
 package woowacourse.omok.data.datasource
 
-import woowacourse.omok.data.model.OmokGameInfoDto
+import woowacourse.omok.data.model.OmokGameDto
 
 interface OmokGameLocalDataSource {
-    fun save(omokGameInfoDto: OmokGameInfoDto)
+    fun save(omokGameDto: OmokGameDto)
 
-    fun load(): OmokGameInfoDto?
+    fun load(): OmokGameDto?
 
     fun delete()
 }

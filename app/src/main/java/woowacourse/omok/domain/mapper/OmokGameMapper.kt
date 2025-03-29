@@ -1,13 +1,13 @@
 package woowacourse.omok.domain.mapper
 
-import woowacourse.omok.data.model.OmokGameInfoDto
+import woowacourse.omok.data.model.OmokGameDto
 import woowacourse.omok.domain.model.game.OmokGameEntity
 import woowacourse.omok.domain.model.omokboard.OmokBoard
 import woowacourse.omok.domain.model.omokboard.PointState
 import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.StoneColor
 
-fun OmokGameInfoDto.toDomain(): OmokGameEntity {
+fun OmokGameDto.toDomain(): OmokGameEntity {
     val board =
         board
             .mapKeys { Position(it.key.first, it.key.second) }
@@ -18,12 +18,12 @@ fun OmokGameInfoDto.toDomain(): OmokGameEntity {
     )
 }
 
-fun OmokGameEntity.toData(): OmokGameInfoDto {
+fun OmokGameEntity.toData(): OmokGameDto {
     val board =
         board.snapshot
             .mapKeys { Pair(it.key.row, it.key.column) }
             .mapValues { it.value.name }
-    return OmokGameInfoDto(
+    return OmokGameDto(
         lastTurn = lastTurn.name,
         board = board,
     )
