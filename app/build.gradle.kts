@@ -44,8 +44,6 @@ android {
 }
 
 dependencies {
-    val currentVersion = "v2.0.0-alpha"
-    implementation("com.github.tmdgh1592:budool-omok-rule:$currentVersion")
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
