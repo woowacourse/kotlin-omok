@@ -1,16 +1,26 @@
 package woowacourse.omok
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import omok.model.domain.gameState.GameState
+import omok.model.entity.Stone
+import omok.model.entity.board.DefaultBoard
+import omok.model.entity.position.DefaultPosition
+import omok.model.entity.position.Position
 
 class MainActivity : AppCompatActivity() {
+    private var state: GameState = GameState(board = DefaultBoard())
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -21,12 +31,74 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val board = findViewById<TableLayout>(R.id.board)
-        board
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone) } }
+        setOnClickBoardPositions()
     }
+
+    private fun setOnClickBoardPositions() {
+        val positions: Sequence<ImageView> = positions()
+        positions.forEachIndexed { index: Int, view: ImageView ->
+            setOnClickBoardPosition(view, index)
+        }
+    }
+
+    private fun setOnClickBoardPosition(
+        view: ImageView,
+        index: Int,
+    ) {
+        view.setOnClickListener {
+            val currentStone: Stone = state.stone
+            val position: Position = position(index)
+            state = state.play(position)
+            view.setImageResource(currentStone.drawable)
+            if (!state.playing) {
+                showResult(currentStone)
+            }
+        }
+    }
+
+    private fun positions(): Sequence<ImageView> {
+        val boardView: TableLayout = findViewById(R.id.board)
+        val positions: Sequence<ImageView> =
+            boardView
+                .children
+                .filterIsInstance<TableRow>()
+                .flatMap { it.children }
+                .filterIsInstance<ImageView>()
+        return positions
+    }
+
+    private fun position(index: Int): Position {
+        val row = index / 15
+        val column = index % 15
+        return DefaultPosition(row, column)
+    }
+
+    private fun showResult(winner: Stone) {
+        AlertDialog
+            .Builder(this)
+            .setTitle("게임 종료")
+            .setMessage("승자는 ${winner.prettyString} 입니다.")
+            .setPositiveButton("게임 종료") { _, _ ->
+                finish()
+            }.setNegativeButton("재시작") { _, _ ->
+                startActivity(Intent(this, this::class.java))
+                finish()
+            }.create()
+            .show()
+    }
+
+    private val Stone.drawable: Int
+        @DrawableRes
+        get() =
+            when (this) {
+                Stone.BLACK -> R.drawable.black_stone
+                Stone.WHITE -> R.drawable.white_stone
+            }
+
+    private val Stone.prettyString: String
+        get() =
+            when (this) {
+                Stone.BLACK -> "흑돌"
+                Stone.WHITE -> "백돌"
+            }
 }
