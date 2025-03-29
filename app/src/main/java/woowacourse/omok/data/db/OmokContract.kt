@@ -1,4 +1,4 @@
-package woowacourse.omok.data
+package woowacourse.omok.data.db
 
 object OmokContract {
     const val TABLE_GAME_STATE = "game_state"

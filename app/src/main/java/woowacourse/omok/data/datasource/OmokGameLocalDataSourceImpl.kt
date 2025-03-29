@@ -3,8 +3,8 @@ package woowacourse.omok.data.datasource
 import android.content.ContentValues
 import android.content.Context
 import androidx.core.database.sqlite.transaction
-import woowacourse.omok.data.DbHelper
-import woowacourse.omok.data.OmokContract
+import woowacourse.omok.data.db.DbHelper
+import woowacourse.omok.data.db.OmokContract
 import woowacourse.omok.data.model.OmokGameDto
 
 class OmokGameLocalDataSourceImpl(
