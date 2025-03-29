@@ -1,8 +1,8 @@
 package woowacourse.omok.data.db
 
 import android.content.ContentValues
-import android.content.Context
 import android.database.Cursor
+import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import woowacourse.omok.domain.StoneColor
 import woowacourse.omok.domain.grid.Column
@@ -10,16 +10,12 @@ import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
 import woowacourse.omok.domain.grid.Stone
 
-class DbProvider(context: Context) {
-    private val dbHelper: DbHelper = DbHelper(context)
-
-    fun initGame(): List<Stone> {
+class DbProvider(private val dbHelper: SQLiteOpenHelper) {
+    fun createTable() {
         dbHelper.writableDatabase.execSQL(BoardContract.SQL_CREATE_ENTRIES)
-
-        return queryBoardByColor()
     }
 
-    private fun queryBoardByColor(): List<Stone> {
+    fun readAll(): List<Stone> {
         val dbReader = dbHelper.readableDatabase
         val result = mutableListOf<Stone>()
 

@@ -14,5 +14,5 @@ object BoardContract {
             "$COLUMN_NAME_STONE_COLOR TEXT," +
             "primary key($COLUMN_NAME_ROW, $COLUMN_NAME_COL))"
 
-    const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS $TABLE_NAME"
+    const val SQL_DELETE_ENTRIES = "DELETE FROM $TABLE_NAME"
 }

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.data.db.DbProvider
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.OmokResult
@@ -25,7 +26,7 @@ import woowacourse.omok.domain.rule.ValidationResult
 class MainActivity : AppCompatActivity() {
     private val omokGame = OmokGame(OmokGrid())
     private var isGameOver = false
-    private val dbProvider = DbProvider(this)
+    private val dbProvider = DbProvider(DbHelper(this))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initGame()
@@ -65,7 +66,8 @@ class MainActivity : AppCompatActivity() {
 
     // 디비에 저장된 돌 상태들을 들고 온다
     private fun initGame() {
-        val stoneState = dbProvider.initGame()
+        dbProvider.createTable()
+        val stoneState = dbProvider.readAll()
         stoneState.forEach { stone ->
             omokGame.grid.putStone(stone)
         }
