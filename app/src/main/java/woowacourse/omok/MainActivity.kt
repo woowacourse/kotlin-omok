@@ -99,6 +99,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun restart() {
+        DatabaseStoneDAO(dbHelper).clear()
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
