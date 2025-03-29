@@ -1,6 +1,6 @@
 package woowacourse.omok.view
 
-import android.view.View
+import android.widget.TableLayout
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 import woowacourse.omok.MainActivity
@@ -8,22 +8,22 @@ import woowacourse.omok.model.Color
 import woowacourse.omok.model.MoveResult
 
 class OutputViewAndroid {
-    fun printOmokStart(view: View) {
-        Snackbar.make(view, MESSAGE_OMOK_START, Snackbar.LENGTH_SHORT).show()
+    fun printOmokStart(boardLayout: TableLayout) {
+        Snackbar.make(boardLayout, MESSAGE_OMOK_START, Snackbar.LENGTH_SHORT).show()
     }
 
     fun printMoveResult(
         moveResult: MoveResult,
         mainActivity: MainActivity,
-        view: View,
+        boardLayout: TableLayout,
     ) {
         when (moveResult) {
-            is MoveResult.Success -> printSuccessResut(moveResult, mainActivity)
-            is MoveResult.Failure -> printFailureResult(moveResult, view)
+            is MoveResult.Success -> printSuccessResult(moveResult, mainActivity)
+            is MoveResult.Failure -> printFailureResult(moveResult, boardLayout)
         }
     }
 
-    private fun printSuccessResut(
+    private fun printSuccessResult(
         moveResult: MoveResult.Success,
         mainActivity: MainActivity,
     ) {
@@ -38,7 +38,7 @@ class OutputViewAndroid {
 
     private fun printFailureResult(
         moveResult: MoveResult.Failure,
-        view: View,
+        boardLayout: TableLayout,
     ) {
         val message: String =
             when (moveResult) {
@@ -48,7 +48,7 @@ class OutputViewAndroid {
                 is MoveResult.Failure.OverlineViolation -> MESSAGE_FAILURE_OVERLINE_VIOLATION
                 else -> return
             }
-        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(boardLayout, message, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun Color.toPlayerName(): String {

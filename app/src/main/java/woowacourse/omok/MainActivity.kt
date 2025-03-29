@@ -30,10 +30,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initialize()
-        val board: TableLayout = findViewById(R.id.board)
-        restoreGame(board)
-        outputView.printOmokStart(board)
-        setListeners(board)
+        val boardLayout: TableLayout = findViewById(R.id.board)
+        val views: Sequence<ImageView> =
+            boardLayout.children
+                .filterIsInstance<TableRow>()
+                .flatMap { it.children }
+                .filterIsInstance<ImageView>()
+        restoreGame(views)
+        outputView.printOmokStart(boardLayout)
+        setListeners(boardLayout, views)
     }
 
     override fun onDestroy() {
@@ -51,25 +56,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun restoreGame(boardLayout: TableLayout) {
+    private fun restoreGame(views: Sequence<ImageView>) {
         val stones: List<Stone> = dbHelper.queryAll()
         stones.forEach { stone ->
             game.play(stone)
-            val index = (stone.position.y.value - 1) * game.board.row.value + (stone.position.x.value - 1)
-            boardLayout.filterImageViews().toList()[index].setImageResource(stone.color.toImage())
+            val index =
+                (stone.position.y.value - 1) * game.board.row.value + (stone.position.x.value - 1)
+            views.toList()[index].setImageResource(stone.color.toImage())
         }
     }
 
-    private fun setListeners(board: TableLayout) {
-        board.filterImageViews().forEachIndexed { index, view ->
-            view.setOnClickListener { onClick(index, view, board) }
+    private fun setListeners(
+        boardLayout: TableLayout,
+        views: Sequence<ImageView>,
+    ) {
+        views.forEachIndexed { index, view ->
+            view.setOnClickListener { onClick(index, boardLayout, view, views) }
         }
     }
 
     private fun onClick(
         index: Int,
-        view: ImageView,
         boardLayout: TableLayout,
+        view: ImageView,
+        views: Sequence<ImageView>,
     ) {
         val color: Color = game.chooseTurn()
         val stoneImage: Int = color.toImage()
@@ -86,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                 view.setImageResource(stoneImage)
                 dbHelper.insertData(x, y, color)
                 outputView.printMoveResult(moveResult, this, boardLayout)
-                boardLayout.filterImageViews().forEach { it.setOnClickListener(null) }
+                clearListeners(views)
                 dbHelper.writableDatabase.delete(OmokContract.TABLE_NAME, null, null)
                 return
             }
@@ -97,15 +107,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun clearListeners(views: Sequence<ImageView>) {
+        views.forEach { view -> view.setOnClickListener(null) }
+    }
+
     private fun Color.toImage(): Int =
         when (this) {
             Color.BLACK -> R.drawable.black_stone
             Color.WHITE -> R.drawable.white_stone
         }
 }
-
-private fun TableLayout.filterImageViews(): Sequence<ImageView> =
-    children
-        .filterIsInstance<TableRow>()
-        .flatMap { it.children }
-        .filterIsInstance<ImageView>()
