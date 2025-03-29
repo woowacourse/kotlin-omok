@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         val boardLayout = findViewById<TableLayout>(R.id.board)
-        val initialStones = omokDao.readStones()
-        val board = Board(initialStones)
+        val stones: Stones = omokDao.readStones()
+        val board = Board(stones)
         setBoardPoints(board, boardLayout)
         setTurnTextView(board)
         paintEntirePoints(boardLayout, omokDao.readStones())
