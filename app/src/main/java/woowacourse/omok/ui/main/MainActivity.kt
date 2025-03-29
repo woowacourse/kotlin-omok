@@ -2,6 +2,7 @@ package woowacourse.omok.ui.main
 
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TableLayout
@@ -203,5 +204,21 @@ class MainActivity : AppCompatActivity(), GameEventListener {
                     .forEach { it.setImageResource(0) }
             }
         game.setTurn(StoneColor.BLACK)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 }
