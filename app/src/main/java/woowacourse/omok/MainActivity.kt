@@ -12,13 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
-import omok.domain.Board
-import omok.domain.Position
-import omok.domain.RenjuRuleAdapter
-import omok.domain.Stone
 import omok.domain.Turn
 import woowacourse.omok.database.DatabaseStoneDAO
 import woowacourse.omok.database.DbHelper
+import woowacourse.omok.domain.Board
+import woowacourse.omok.domain.Position
+import woowacourse.omok.domain.RenjuRuleAdapter
+import woowacourse.omok.domain.Stone
 
 class MainActivity : AppCompatActivity() {
     private val omokBoard: Board = Board(RenjuRuleAdapter())

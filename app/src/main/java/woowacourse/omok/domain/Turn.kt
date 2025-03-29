@@ -1,5 +1,7 @@
 package omok.domain
 
+import woowacourse.omok.domain.StoneType
+
 class Turn {
     var color: StoneType = StoneType.BLACK
         private set

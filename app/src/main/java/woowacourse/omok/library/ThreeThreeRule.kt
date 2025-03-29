@@ -1,6 +1,6 @@
 package omok.library
 
-import omok.domain.StoneType
+import woowacourse.omok.domain.StoneType
 
 class ThreeThreeRule(boardSize: Int) : OmokRule(boardSize) {
     override fun validate(

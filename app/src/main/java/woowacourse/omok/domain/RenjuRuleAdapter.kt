@@ -1,4 +1,4 @@
-package omok.domain
+package woowacourse.omok.domain
 
 import omok.library.FourFourRule
 import omok.library.MoreThanFiveRule

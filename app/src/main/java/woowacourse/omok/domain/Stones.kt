@@ -1,4 +1,4 @@
-package omok.domain
+package woowacourse.omok.domain
 
 class Stones {
     private val _stones = mutableListOf<Stone>()

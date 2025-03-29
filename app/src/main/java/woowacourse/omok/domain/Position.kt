@@ -1,6 +1,6 @@
-package omok.domain
+package woowacourse.omok.domain
 
-import omok.domain.Board.Companion.BOARD_SIZE
+import woowacourse.omok.domain.Board.Companion.BOARD_SIZE
 
 data class Position(val row: Int, val column: Int) {
     constructor(inputPosition: String) : this(parseToRow(inputPosition), parseToColumn(inputPosition))

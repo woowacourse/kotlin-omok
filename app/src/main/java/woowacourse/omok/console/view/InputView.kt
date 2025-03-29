@@ -1,4 +1,4 @@
-package omok.view
+package woowacourse.omok.console.view
 
 class InputView {
     fun readPosition(): String {

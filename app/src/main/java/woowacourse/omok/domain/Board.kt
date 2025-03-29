@@ -1,4 +1,4 @@
-package omok.domain
+package woowacourse.omok.domain
 
 class Board(private val rule: Rule) {
     val stones: Stones = Stones()

@@ -1,13 +1,13 @@
 package woowacourse.omok
 
 import android.widget.ImageView
-import omok.domain.Board
-import omok.domain.FiveRule
-import omok.domain.Position
-import omok.domain.Stone
-import omok.domain.StoneType
 import omok.domain.Turn
 import woowacourse.omok.database.StoneDAO
+import woowacourse.omok.domain.Board
+import woowacourse.omok.domain.FiveRule
+import woowacourse.omok.domain.Position
+import woowacourse.omok.domain.Stone
+import woowacourse.omok.domain.StoneType
 
 class Game(
     private val omokBoard: Board,

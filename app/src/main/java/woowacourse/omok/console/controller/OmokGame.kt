@@ -1,13 +1,13 @@
-package omok.controller
+package woowacourse.omok.console.controller
 
-import omok.domain.Board
-import omok.domain.FiveRule
-import omok.domain.Position
-import omok.domain.RenjuRuleAdapter
-import omok.domain.Stone
 import omok.domain.Turn
-import omok.view.InputView
-import omok.view.OutputView
+import woowacourse.omok.console.view.InputView
+import woowacourse.omok.console.view.OutputView
+import woowacourse.omok.domain.Board
+import woowacourse.omok.domain.FiveRule
+import woowacourse.omok.domain.Position
+import woowacourse.omok.domain.RenjuRuleAdapter
+import woowacourse.omok.domain.Stone
 
 class OmokGame(
     private val inputView: InputView,

@@ -1,7 +1,7 @@
-package omok.view
+package woowacourse.omok.console.view
 
-import omok.domain.StoneType
 import omok.domain.Turn
+import woowacourse.omok.domain.StoneType
 
 class OutputView {
     fun printStartMessage() {

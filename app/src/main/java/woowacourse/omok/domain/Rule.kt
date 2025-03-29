@@ -1,4 +1,4 @@
-package omok.domain
+package woowacourse.omok.domain
 
 interface Rule {
     fun isInvalid(

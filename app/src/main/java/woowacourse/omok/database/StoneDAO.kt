@@ -1,6 +1,6 @@
 package woowacourse.omok.database
 
-import omok.domain.Stone
+import woowacourse.omok.domain.Stone
 
 interface StoneDAO {
     fun insertStone(

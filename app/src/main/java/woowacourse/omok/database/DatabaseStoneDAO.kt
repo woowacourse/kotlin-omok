@@ -3,9 +3,9 @@ package woowacourse.omok.database
 import android.content.ContentValues
 import android.database.Cursor
 import android.util.Log
-import omok.domain.Position
-import omok.domain.Stone
-import omok.domain.StoneType
+import woowacourse.omok.domain.Position
+import woowacourse.omok.domain.Stone
+import woowacourse.omok.domain.StoneType
 
 class DatabaseStoneDAO(private val dbHelper: DbHelper) : StoneDAO {
     override fun insertStone(

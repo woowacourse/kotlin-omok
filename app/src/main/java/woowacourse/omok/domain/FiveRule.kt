@@ -1,6 +1,6 @@
-package omok.domain
+package woowacourse.omok.domain
 
-import omok.domain.Board.Companion.BOARD_SIZE
+import woowacourse.omok.domain.Board.Companion.BOARD_SIZE
 
 class FiveRule {
     fun isOmok(
