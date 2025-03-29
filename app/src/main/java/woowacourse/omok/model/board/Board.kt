@@ -1,6 +1,5 @@
 package woowacourse.omok.model.board
 
-import omok.model.rule.OmokRule
 import omok.model.rule.OmokRuleManager
 import woowacourse.omok.model.StoneColor
 
@@ -38,28 +37,22 @@ class Board(
         color: StoneColor,
         point: Point,
     ): PlaceStoneResult {
-        if (color == StoneColor.BLACK && !isForbiddenMove(point, rules.forbiddenMoveRule)) {
+        if (color == StoneColor.BLACK && !isForbiddenMove(point)) {
             return PlaceStoneResult.ForbiddenMove
         }
 
         point.changeState(color)
 
-        return if (isOmok(point, rules.winningRule)) {
+        return if (isOmok(point)) {
             PlaceStoneResult.Omok(point)
         } else {
             PlaceStoneResult.Success(point)
         }
     }
 
-    private fun isForbiddenMove(
-        point: Point,
-        rules: List<OmokRule>,
-    ): Boolean = rules.none { it.calculate(this, point) }
+    private fun isForbiddenMove(point: Point): Boolean = rules.forbiddenMoveRule.none { it.calculate(this, point) }
 
-    private fun isOmok(
-        point: Point,
-        rule: OmokRule,
-    ): Boolean = rule.calculate(this, point)
+    private fun isOmok(point: Point): Boolean = rules.winningRule.calculate(this, point)
 
     companion object {
         const val BOARD_MIN_SIZE = 1
