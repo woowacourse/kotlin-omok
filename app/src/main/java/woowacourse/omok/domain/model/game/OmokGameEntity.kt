@@ -4,6 +4,6 @@ import woowacourse.omok.domain.model.omokboard.OmokBoard
 import woowacourse.omok.domain.model.player.StoneColor
 
 data class OmokGameEntity(
-    val lastTurn: StoneColor,
-    val board: OmokBoard,
+    val lastTurn: StoneColor = StoneColor.BLACK,
+    val board: OmokBoard = OmokBoard.create(),
 )
