@@ -19,10 +19,26 @@ import woowacourse.omok.model.rule.RenjuFoul.OVER_FIVE_FOUL
 import woowacourse.omok.model.rule.RenjuFoul.SAFE
 import woowacourse.omok.model.rule.RenjuFoul.THREE_BY_THREE_FOUL
 import woowacourse.omok.model.stone.StoneColor
+import woowacourse.omok.model.stone.position.Position
 
 class OutputAppView(
     private val mainActivity: Activity,
 ) {
+    fun stonesUiDraw(
+        stones: Map<Position, StoneColor>,
+        positionViews: Map<Position, ImageView>,
+    ) {
+        stones.forEach { (position, stoneColor) ->
+            positionViews[position]?.let {
+                stoneUiDraw(stoneColor, it)
+            }
+        }
+    }
+
+    fun recoveryStonesAlert() {
+        toastShowUp(SUSPENDED_GAME_RECOVER_MESSAGE)
+    }
+
     fun stoneUiDraw(
         stoneColor: StoneColor,
         view: ImageView,
@@ -61,6 +77,7 @@ class OutputAppView(
     fun omokDialogAlert(
         stoneColor: StoneColor,
         restartGame: () -> Unit,
+        resetGame: () -> Unit,
     ) {
         val stoneColorText = stoneColorText(stoneColor)
         (mainActivity).runOnUiThread {
@@ -71,6 +88,7 @@ class OutputAppView(
                 .setPositiveButton(RETRY_BUTTON_TEXT) { _, _ ->
                     restartGame()
                 }.setNegativeButton(EXIT_BUTTON_TEXT) { _, _ ->
+                    resetGame()
                     mainActivity.finish()
                 }.setCancelable(false)
                 .show()
@@ -105,14 +123,18 @@ class OutputAppView(
         }
     }
 
-    fun gameEndDialogAlert() {
+    fun gameEndDialogAlert(resetDatabase: () -> Unit) {
         (mainActivity).runOnUiThread {
             AlertDialog
                 .Builder(mainActivity)
                 .setTitle(NORMAL_DIALOG_TITLE)
                 .setMessage(EXIT_CONFIRMATION_DIALOG_MESSAGE)
-                .setPositiveButton(CANCEL_BUTTON_TEXT) { _, _ -> }
-                .setNegativeButton(EXIT_BUTTON_TEXT) { _, _ ->
+                .setNeutralButton(CANCEL_BUTTON_TEXT) { dialog, _ ->
+                    dialog.dismiss()
+                }.setNegativeButton(EXIT_BUTTON_TEXT) { _, _ ->
+                    resetDatabase()
+                    mainActivity.finish()
+                }.setPositiveButton(SAVE_EXIT_BUTTON_TEXT) { _, _ ->
                     mainActivity.finish()
                 }.show()
         }
@@ -134,8 +156,11 @@ class OutputAppView(
         private const val WIN_DIALOG_MESSAGE = "%s이 우승했습니다"
         private const val EXIT_CONFIRMATION_DIALOG_MESSAGE = "게임을 종료하시겠습니까?"
 
+        private const val SUSPENDED_GAME_RECOVER_MESSAGE = "중단된 게임을 불러왔습니다"
+
         private const val RETRY_BUTTON_TEXT = "다시하기"
         private const val CANCEL_BUTTON_TEXT = "취소"
-        private const val EXIT_BUTTON_TEXT = "종료하기"
+        private const val SAVE_EXIT_BUTTON_TEXT = "저장하고 종료"
+        private const val EXIT_BUTTON_TEXT = "종료"
     }
 }

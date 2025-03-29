@@ -1,7 +1,6 @@
 package woowacourse.omok.controller
 
 import android.content.ContentValues
-import android.util.Log
 import android.widget.ImageView
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.BoardSize
@@ -10,8 +9,10 @@ import woowacourse.omok.model.database.OmokDBContract
 import woowacourse.omok.model.database.OmokDBHelper
 import woowacourse.omok.model.rule.BudoolRenjuRuleAdapter
 import woowacourse.omok.model.rule.OmokReferee
+import woowacourse.omok.model.rule.RenjuFoul
 import woowacourse.omok.model.rule.RenjuFoul.SAFE
 import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor
 import woowacourse.omok.model.stone.position.Col
 import woowacourse.omok.model.stone.position.Position
 import woowacourse.omok.model.stone.position.Row
@@ -23,13 +24,9 @@ class OmokAppControl(
     private val omokDBHelper: OmokDBHelper,
 ) {
     private val omokReferee = OmokReferee(BudoolRenjuRuleAdapter(boardSize))
-    private var board = Board(boardSize)
+    private var board = Board(boardSize, dbOrderedStoneMap())
 
-    init {
-        outputAppView.turnInfoUiUpdate(board.nextStoneColor)
-    }
-
-    private fun fromDBStones() {
+    private fun dbOrderedStoneMap(): LinkedHashMap<Position, StoneColor> {
         val db = omokDBHelper.readableDatabase
         val projection =
             arrayOf(
@@ -53,14 +50,25 @@ class OmokAppControl(
                 val colIndex = cursor.getColumnIndexOrThrow(OmokDBContract.StonesTable.COLUMN_NAME_COL_INDEX)
                 val colorIndex = cursor.getColumnIndexOrThrow(OmokDBContract.StonesTable.COLUMN_NAME_STONE_COLOR)
 
+                val stones: LinkedHashMap<Position, StoneColor> = linkedMapOf()
                 while (cursor.moveToNext()) {
                     val row = cursor.getInt(rowIndex)
                     val col = cursor.getInt(colIndex)
                     val color = cursor.getString(colorIndex)
 
-                    Log.d("DB에 저장된 돌 좌표", "($row, $col), $color")
+                    stones[Position(Row(row), Col(col))] = StoneColor.valueOf(color)
                 }
+                return stones
             }
+    }
+
+    fun boardUiRestore(positionViews: Map<Position, ImageView>) {
+        outputAppView.turnInfoUiUpdate(board.nextStoneColor)
+
+        if (board.stonesMap.isNotEmpty()) {
+            outputAppView.stonesUiDraw(board.stonesMap, positionViews)
+            outputAppView.recoveryStonesAlert()
+        }
     }
 
     fun turn(
@@ -72,7 +80,9 @@ class OmokAppControl(
         val nextPosition = Position(row, col)
         if (!isPositionValid(nextPosition)) return
 
-        stoneAdd(nextPosition, positionView)
+        val newBoard = stoneAddedBoard(nextPosition)
+        boardUpdate(newBoard, positionView)
+        omokCheck()
         outputAppView.turnInfoUiUpdate(board.nextStoneColor)
     }
 
@@ -86,24 +96,38 @@ class OmokAppControl(
         return false
     }
 
-    private fun stoneAdd(
-        nextPosition: Position,
+    private fun stoneAddedBoard(nextPosition: Position) = board.nextStonePlacedBoard(nextPosition)
+
+    private fun boardUpdate(
+        newBoard: Board,
         positionView: ImageView,
     ) {
-        val newBoard = board.nextStonePlacedBoard(nextPosition)
-        val foul = omokReferee.lastStoneFoul(newBoard)
+        val foul = foulCheck(newBoard)
 
         if (foul == SAFE) {
             outputAppView.stoneUiDraw(board.nextStoneColor, positionView)
             board = newBoard
             board.lastStone?.let { stoneDBSave(it) }
-            fromDBStones()
-            if (omokReferee.isOmok(board)) {
-                board.lastStone?.let { outputAppView.omokDialogAlert(it.stoneColor, ::gameRestart) }
-            }
             return
         }
+    }
+
+    private fun foulCheck(newBoard: Board): RenjuFoul {
+        val foul = omokReferee.lastStoneFoul(newBoard)
         outputAppView.foulAlert(foul)
+        return foul
+    }
+
+    private fun omokCheck() {
+        if (omokReferee.isOmok(board)) {
+            board.lastStone?.let {
+                outputAppView.omokDialogAlert(
+                    it.stoneColor,
+                    ::gameRestart,
+                    omokDBHelper::resetDatabase,
+                )
+            }
+        }
     }
 
     private fun stoneDBSave(stone: Stone) {
@@ -117,6 +141,7 @@ class OmokAppControl(
 
     private fun gameRestart() {
         board = Board(boardSize)
+        omokDBHelper.resetDatabase()
         outputAppView.turnInfoUiUpdate(board.nextStoneColor)
         outputAppView.stoneUiClear()
     }

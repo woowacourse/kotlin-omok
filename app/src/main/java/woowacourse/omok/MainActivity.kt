@@ -13,6 +13,9 @@ import androidx.core.view.children
 import woowacourse.omok.controller.OmokAppControl
 import woowacourse.omok.model.board.BoardSize
 import woowacourse.omok.model.database.OmokDBHelper
+import woowacourse.omok.model.stone.position.Col
+import woowacourse.omok.model.stone.position.Position
+import woowacourse.omok.model.stone.position.Row
 import woowacourse.omok.view.OutputAppView
 import kotlin.concurrent.thread
 import kotlin.math.abs
@@ -25,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         dbHelper = OmokDBHelper(this)
-        dbHelper.resetDatabase()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         val omokAppControl = OmokAppControl(boardSize, outputAppView, dbHelper)
 
         val board = findViewById<TableLayout>(R.id.board)
+        val positionViews: MutableMap<Position, ImageView> = mutableMapOf()
         board
             .children
             .filterIsInstance<TableRow>()
@@ -46,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             .forEachIndexed { index, positionView ->
                 val rowIndex = abs(MAX_BOARD_INDEX - (index / BOARD_SIZE))
                 val colIndex = index % BOARD_SIZE
+                positionViews[Position(Row(rowIndex), Col(colIndex))] = positionView
                 positionView.setOnClickListener {
                     thread {
                         val coordinate = Pair(rowIndex, colIndex)
@@ -53,10 +57,11 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        omokAppControl.boardUiRestore(positionViews)
 
         val gameEndButton = findViewById<Button>(R.id.end_game_button)
         gameEndButton.setOnClickListener {
-            outputAppView.gameEndDialogAlert()
+            outputAppView.gameEndDialogAlert { dbHelper.resetDatabase() }
         }
     }
 
