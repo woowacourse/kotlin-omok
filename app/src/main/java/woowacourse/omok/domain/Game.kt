@@ -14,8 +14,6 @@ class Game(
     private var stones: Stones = Stones(listOf()),
     private var state: OmokState = Turn(StoneType.BLACK),
 ) {
-    val currentStoneType get() = state.stoneType
-
     fun play(playEvent: PlayEvent) {
         val position = playEvent.onPosition()
         val stone = Stone(position, state.stoneType)
@@ -23,12 +21,13 @@ class Game(
         playEvent.showPlaceResult(rule.canPlace(stones, stone))
         if (ruleResult !is RuleResult.OnRule) return
         placeStone(stone)
-        playEvent.onPlace(stone.stoneType)
+        playEvent.onPlace(stone)
+        if (state.isFinished()) playEvent.onFinish(state.stoneType, ::resetGame)
     }
 
     fun isFinished() = state.isFinished()
 
-    fun resetGame() {
+    private fun resetGame() {
         state = state.turn()
         stones = Stones(listOf())
     }
