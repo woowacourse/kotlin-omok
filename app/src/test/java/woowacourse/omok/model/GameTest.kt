@@ -1,19 +1,5 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.fixture.A1
-import omok.fixture.A2
-import omok.fixture.A3
-import omok.fixture.A4
-import omok.fixture.A5
-import omok.fixture.K1
-import omok.fixture.K10
-import omok.fixture.K11
-import omok.fixture.M1
-import omok.fixture.M11
-import omok.mapper.BlackRuleChecker
-import omok.mapper.PointMapper
-import omok.model.game.Game
-import omok.model.stone.StoneColor
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position
 import omok.model.stone.position.Row
@@ -21,6 +7,22 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import rule.BlackRenjuRule
+import rule.wrapper.point.Point
+import woowacourse.omok.fixture.A1
+import woowacourse.omok.fixture.A2
+import woowacourse.omok.fixture.A3
+import woowacourse.omok.fixture.A4
+import woowacourse.omok.fixture.A5
+import woowacourse.omok.fixture.K1
+import woowacourse.omok.fixture.K10
+import woowacourse.omok.fixture.K11
+import woowacourse.omok.fixture.M1
+import woowacourse.omok.fixture.M11
+import woowacourse.omok.mapper.BlackRuleChecker
+import woowacourse.omok.mapper.PointMapper
+import woowacourse.omok.model.game.Game
+import woowacourse.omok.model.rule.PlacementError.AlreadyOccupiedViolation
+import woowacourse.omok.model.stone.StoneColor
 
 class GameTest {
     private val game =
@@ -28,7 +30,7 @@ class GameTest {
             blackRuleChecker =
                 BlackRuleChecker(
                     BlackRenjuRule(),
-                    mapper = { pos -> PointMapper().from(pos) },
+                    mapper = PointMapper { pos -> Point(pos.col.value + 1, pos.row.value + 1) },
                 ),
         )
 
@@ -40,7 +42,7 @@ class GameTest {
     @Test
     fun `다음 턴으로 착수하는 돌의 색을 확인할 수 있다`() {
         val position = Position(Row(1), Col(2))
-        game.placeStone(position)
+        game.applyPlacement(position)
         assertThat(game.turn).isEqualTo(StoneColor.WHITE)
     }
 
@@ -48,14 +50,14 @@ class GameTest {
     fun `돌을 원하는 위치에 착수할 수 있다`() {
         val position = Position(Row(5), Col(5))
 
-        assertDoesNotThrow { game.placeStone(position) }
+        assertDoesNotThrow { game.applyPlacement(position) }
     }
 
     @Test
     fun `마지막으로 착수한 돌을 확인할 수 있다`() {
         val position = Position(Row(5), Col(5))
         val stoneColor = game.turn
-        game.placeStone(position)
+        game.applyPlacement(position)
 
         val lastStone = game.lastStone
 
@@ -79,10 +81,20 @@ class GameTest {
             )
 
         for (i in positions) {
-            game.placeStone(i)
+            game.applyPlacement(i)
         }
 
         assertThat(game.isOmok()).isTrue()
+    }
+
+    @Test
+    fun `이미 돌이 있는 위치에 돌을 놓을 수 없다`() {
+        val position = Position(Row(0), Col(0))
+        game.playTurn(position)
+
+        assertThat(
+            game.playTurn(position),
+        ).isEqualTo(AlreadyOccupiedViolation)
     }
 
     @Test
@@ -102,7 +114,7 @@ class GameTest {
             )
 
         for (i in positions) {
-            game.placeStone(i)
+            game.applyPlacement(i)
         }
 
         assertThat(game.isOmok()).isTrue()

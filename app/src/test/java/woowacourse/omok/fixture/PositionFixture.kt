@@ -1,4 +1,4 @@
-package omok.fixture
+package woowacourse.omok.fixture
 
 import omok.model.stone.position.Col
 import omok.model.stone.position.Position

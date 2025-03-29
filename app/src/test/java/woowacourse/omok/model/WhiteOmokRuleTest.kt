@@ -1,44 +1,45 @@
-package omok.model
+package woowacourse.omok.model
 
-import omok.fixture.A1
-import omok.fixture.A11
-import omok.fixture.A2
-import omok.fixture.A3
-import omok.fixture.A4
-import omok.fixture.A5
-import omok.fixture.B1
-import omok.fixture.B2
-import omok.fixture.C1
-import omok.fixture.C3
-import omok.fixture.D1
-import omok.fixture.D3
-import omok.fixture.D4
-import omok.fixture.E1
-import omok.fixture.E3
-import omok.fixture.E5
-import omok.fixture.F3
-import omok.fixture.G11
-import omok.fixture.G3
-import omok.fixture.H1
-import omok.fixture.H10
-import omok.fixture.H3
-import omok.fixture.J1
-import omok.fixture.K1
-import omok.fixture.K10
-import omok.fixture.K11
-import omok.fixture.K15
-import omok.fixture.L15
-import omok.fixture.M1
-import omok.fixture.M11
-import omok.fixture.N11
-import omok.fixture.O1
-import omok.mapper.BlackRuleChecker
-import omok.mapper.PointMapper
-import omok.model.game.Game
-import omok.model.rule.WhiteOmokRule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import rule.BlackRenjuRule
+import rule.wrapper.point.Point
+import woowacourse.omok.fixture.A1
+import woowacourse.omok.fixture.A11
+import woowacourse.omok.fixture.A2
+import woowacourse.omok.fixture.A3
+import woowacourse.omok.fixture.A4
+import woowacourse.omok.fixture.A5
+import woowacourse.omok.fixture.B1
+import woowacourse.omok.fixture.B2
+import woowacourse.omok.fixture.C1
+import woowacourse.omok.fixture.C3
+import woowacourse.omok.fixture.D1
+import woowacourse.omok.fixture.D3
+import woowacourse.omok.fixture.D4
+import woowacourse.omok.fixture.E1
+import woowacourse.omok.fixture.E3
+import woowacourse.omok.fixture.E5
+import woowacourse.omok.fixture.F3
+import woowacourse.omok.fixture.G11
+import woowacourse.omok.fixture.G3
+import woowacourse.omok.fixture.H1
+import woowacourse.omok.fixture.H10
+import woowacourse.omok.fixture.H3
+import woowacourse.omok.fixture.J1
+import woowacourse.omok.fixture.K1
+import woowacourse.omok.fixture.K10
+import woowacourse.omok.fixture.K11
+import woowacourse.omok.fixture.K15
+import woowacourse.omok.fixture.L15
+import woowacourse.omok.fixture.M1
+import woowacourse.omok.fixture.M11
+import woowacourse.omok.fixture.N11
+import woowacourse.omok.fixture.O1
+import woowacourse.omok.mapper.BlackRuleChecker
+import woowacourse.omok.mapper.PointMapper
+import woowacourse.omok.model.game.Game
+import woowacourse.omok.model.rule.WhiteOmokRule
 
 class WhiteOmokRuleTest {
     private val game =
@@ -46,11 +47,12 @@ class WhiteOmokRuleTest {
             blackRuleChecker =
                 BlackRuleChecker(
                     BlackRenjuRule(),
-                    mapper = { pos -> PointMapper().from(pos) },
+                    mapper = PointMapper { pos -> Point(pos.col.value + 1, pos.row.value + 1) },
                 ),
         )
 
-    private val whiteOmokRule = WhiteOmokRule(game.board.getWidth(), game.board.getHeight())
+    private val dimensions = game.board.dimensions
+    private val whiteOmokRule = WhiteOmokRule(dimensions)
 
     @Test
     fun `흰돌이 대각선으로 오목임을 확인할 수 있다`() {
@@ -69,7 +71,7 @@ class WhiteOmokRuleTest {
             )
 
         for (i in positions) {
-            game.placeStone(i)
+            game.applyPlacement(i)
         }
 
         assertThat(game.lastStone?.let { whiteOmokRule.isWin(game.board, it) }).isTrue()
@@ -92,7 +94,7 @@ class WhiteOmokRuleTest {
             )
 
         for (i in positions) {
-            game.placeStone(i)
+            game.applyPlacement(i)
         }
 
         assertThat(game.lastStone?.let { whiteOmokRule.isWin(game.board, it) }).isTrue()
@@ -115,7 +117,7 @@ class WhiteOmokRuleTest {
             )
 
         for (i in positions) {
-            game.placeStone(i)
+            game.applyPlacement(i)
         }
         assertThat(game.lastStone?.let { whiteOmokRule.isWin(game.board, it) }).isTrue()
     }
@@ -139,7 +141,7 @@ class WhiteOmokRuleTest {
             )
 
         for (i in positions) {
-            game.placeStone(i)
+            game.applyPlacement(i)
         }
 
         assertThat(game.lastStone?.let { whiteOmokRule.isWin(game.board, it) }).isTrue()
