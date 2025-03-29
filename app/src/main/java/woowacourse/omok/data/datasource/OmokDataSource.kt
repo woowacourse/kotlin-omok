@@ -23,26 +23,26 @@ class OmokDataSource(private val dbHelper: SQLiteOpenHelper) {
     }
 
     fun readAll(): List<OmokEntity> {
-        val reader = dbHelper.readableDatabase
         val entries = mutableListOf<OmokEntity>()
-        val cursor =
-            reader.query(
-                TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-            )
+        dbHelper.readableDatabase.use { reader ->
+            val cursor =
+                reader.query(
+                    TABLE_NAME,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                )
 
-        cursor.use {
-            while (it.moveToNext()) {
-                val column = it.getInt(it.getColumnIndexOrThrow(COLUMN_NAME_BOARD_COLUMN))
-                val row = it.getInt(it.getColumnIndexOrThrow(COLUMN_NAME_BOARD_ROW))
-                val stone = it.getString(it.getColumnIndexOrThrow(COLUMN_NAME_STONE))
-
-                entries.add(OmokEntity(row, column, stone))
+            cursor.use {
+                while (it.moveToNext()) {
+                    val column = it.getInt(it.getColumnIndexOrThrow(COLUMN_NAME_BOARD_COLUMN))
+                    val row = it.getInt(it.getColumnIndexOrThrow(COLUMN_NAME_BOARD_ROW))
+                    val stone = it.getString(it.getColumnIndexOrThrow(COLUMN_NAME_STONE))
+                    entries.add(OmokEntity(row, column, stone))
+                }
             }
         }
         return entries
