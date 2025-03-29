@@ -19,8 +19,9 @@ class InputView {
             return CoordinateResult.Failure(CoordinateError.InvalidCoordinateFormat)
         }
 
+        val dimensions = board.dimensions
         val colChar = input[COL_CHAR_INDEX].uppercaseChar()
-        if (colChar !in MIN_COL_CHAR until (MIN_COL_CHAR + board.getWidth())) {
+        if (colChar !in MIN_COL_CHAR until (MIN_COL_CHAR + dimensions.width)) {
             return CoordinateResult.Failure(CoordinateError.InvalidColString)
         }
         val col = colChar - MIN_COL_CHAR
@@ -29,7 +30,7 @@ class InputView {
         val row =
             rowPart.toIntOrNull()
                 ?: return CoordinateResult.Failure(CoordinateError.InvalidRowNumber)
-        if (row !in MIN_ROW_NUM + 1..board.getHeight()) {
+        if (row !in MIN_ROW_NUM + 1..dimensions.height) {
             return CoordinateResult.Failure(CoordinateError.InvalidRowNumber)
         }
 
@@ -45,9 +46,5 @@ class InputView {
         private const val MIN_USER_INPUT = 2
         private const val COL_CHAR_INDEX = 0
         private const val ROW_NUM_START_INDEX = 1
-
-        private const val ERROR_INVALID_COORDINATE_FORMAT = "좌표 형식이 올바르지 않습니다"
-        private const val ERROR_ROW_NUM = "행 번호가 유효하지 않습니다"
-        private const val ERROR_COL_STRING = "열 문자가 유효하지 않습니다"
     }
 }

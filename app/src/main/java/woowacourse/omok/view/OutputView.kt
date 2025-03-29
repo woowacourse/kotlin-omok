@@ -11,8 +11,8 @@ import woowacourse.omok.model.stone.StoneColor
 
 class OutputView {
     fun printBoard(board: Board) {
-        val boardWidth = board.getWidth()
-        val boardHeight = board.getHeight()
+        val boardWidth = board.dimensions.width
+        val boardHeight = board.dimensions.height
 
         for (row in boardHeight - 1 downTo 0) {
             print(String.format("%2d ", row + 1))
