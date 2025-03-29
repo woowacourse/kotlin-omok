@@ -1,7 +1,6 @@
 package woowacourse.omok.domain.model
 
 import io.kotest.matchers.shouldBe
-import omok.horizontalWinStones
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
@@ -9,6 +8,7 @@ import org.junit.jupiter.api.Test
 import woowacourse.omok.domain.model.position.Position
 import woowacourse.omok.domain.model.stone.OmokStone
 import woowacourse.omok.domain.model.stone.StoneType
+import woowacourse.omok.horizontalWinStones
 
 class BoardTest {
     private lateinit var board: Board

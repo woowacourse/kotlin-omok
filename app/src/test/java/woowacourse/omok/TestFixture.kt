@@ -1,4 +1,4 @@
-package omok
+package woowacourse.omok
 
 import woowacourse.omok.domain.model.position.Position
 import woowacourse.omok.domain.model.stone.OmokStone

@@ -1,17 +1,17 @@
 package woowacourse.omok.domain.model.rule
 
 import io.kotest.matchers.shouldBe
-import omok.diagonalDownWinStones
-import omok.doubleFourFixture
-import omok.doubleThreeFixture
-import omok.horizontalWinStones
-import omok.stoneLongMoveFixture
-import omok.verticalWinStones
 import org.junit.jupiter.api.Test
+import woowacourse.omok.diagonalDownWinStones
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.position.Position
 import woowacourse.omok.domain.model.stone.OmokStone
 import woowacourse.omok.domain.model.stone.StoneType
+import woowacourse.omok.doubleFourFixture
+import woowacourse.omok.doubleThreeFixture
+import woowacourse.omok.horizontalWinStones
+import woowacourse.omok.stoneLongMoveFixture
+import woowacourse.omok.verticalWinStones
 
 class OmokRuleAdapterTest {
     private val omokRuleAdapter = OmokRuleAdapter()

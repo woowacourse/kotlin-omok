@@ -13,7 +13,11 @@ class OmokRuleAdapter : OmokRule {
         board: Board,
     ): Boolean {
         return check(omokStone, board) { rule, blackPoints, whitePoints, startPoint ->
-            rule.checkWin(blackPoints, whitePoints, startPoint)
+            when (omokStone.stoneType) {
+                StoneType.BLACK -> rule.checkWin(blackPoints, whitePoints, startPoint)
+                StoneType.WHITE -> rule.checkWin(whitePoints, blackPoints, startPoint)
+                else -> false
+            }
         }
     }
 
