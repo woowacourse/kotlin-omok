@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class DbHelper(
     context: Context,
+    databaseName: String = DATABASE_NAME,
 ) : SQLiteOpenHelper(
         context,
         DATABASE_NAME,
