@@ -14,6 +14,7 @@ import woowacourse.omok.model.board.Point
 class OmokGame {
     private var isGameOver = false
     var currentStoneColor: StoneColor = StoneColor.BLACK
+        private set
     private var previousPoint: Point? = null
     private var board: Board
 
