@@ -1,0 +1,45 @@
+package woowacourse.omok.ui.dialog
+
+import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.DialogFragment
+import woowacourse.omok.R
+import woowacourse.omok.databinding.RoomNameDialogBinding
+
+class RoomNameDialog(
+    private val onClickComplete: (String) -> Unit,
+) : DialogFragment(R.layout.room_name_dialog) {
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.85).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+        )
+    }
+
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
+        super.onViewCreated(view, savedInstanceState)
+        val binding = RoomNameDialogBinding.bind(view)
+
+        binding.buttonCreate.setOnClickListener {
+            val roomName = binding.editText.text.toString()
+            if (checkRoomName(roomName)) {
+                onClickComplete(roomName)
+                dismiss()
+            }
+        }
+    }
+
+    private fun checkRoomName(roomName: String): Boolean {
+        if (roomName.isEmpty()) {
+            Toast.makeText(requireContext(), "방 이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+}
