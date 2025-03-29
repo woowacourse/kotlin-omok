@@ -1,7 +1,9 @@
 package woowacourse.omok.adapter
 
+import woowacourse.omok.domain.model.position.Stone
+
 sealed class RuleResult {
-    data object OnRule : RuleResult()
+    data class OnRule(val stone: Stone) : RuleResult()
 
     data object DuplicatePosition : RuleResult()
 

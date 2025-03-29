@@ -25,7 +25,7 @@ class RenjuRuleAdapter(private val omokRule: OmokRule) : RenjuRule {
         if (stones.hasStone(stone)) return RuleResult.DuplicatePosition
         return when (stone.stoneType) {
             StoneType.BLACK -> placeRenjuRule(stones, stone)
-            StoneType.WHITE -> RuleResult.OnRule
+            StoneType.WHITE -> RuleResult.OnRule(stone)
         }
     }
 
@@ -44,7 +44,7 @@ class RenjuRuleAdapter(private val omokRule: OmokRule) : RenjuRule {
         ) {
             return RuleResult.RenJuRule
         }
-        return RuleResult.OnRule
+        return RuleResult.OnRule(stone)
     }
 
     private fun Stone.toPoint() = Point(this.position.row.value, this.position.column.value)

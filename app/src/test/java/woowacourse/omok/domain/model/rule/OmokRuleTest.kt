@@ -1,7 +1,6 @@
-package omok.domain.model.rule
+package woowacourse.omok.domain.model.rule
 
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeSameInstanceAs
 import omok.diagonalDownFourStones
 import omok.diagonalDownWinStone
 import omok.doubleFourFixture
@@ -16,11 +15,11 @@ import omok.stoneOneAndOne
 import omok.stoneSixAndSix
 import omok.verticalFourStones
 import omok.verticalWinStone
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import rule.BlackRenjuRule
 import woowacourse.omok.adapter.RenjuRuleAdapter
 import woowacourse.omok.adapter.RuleResult
-import woowacourse.omok.domain.model.rule.OmokRule
 
 class OmokRuleTest {
     private val omokRule: OmokRule = OmokRule(RenjuRuleAdapter(BlackRenjuRule()))
@@ -35,23 +34,32 @@ class OmokRuleTest {
 
     @Test
     fun `흑돌 차례일 때 3-3이면 둘 수 없다`() {
-        omokRule.canPlace(doubleThreeFixture, doubleThreeStone) shouldBe RuleResult.RenJuRule
+        assertThat(
+            omokRule.canPlace(
+                doubleThreeFixture,
+                doubleThreeStone,
+            ),
+        ).isInstanceOf(RuleResult.RenJuRule::class.java)
     }
 
     @Test
     fun `흑돌 차례일 때 4-4면 둘 수 없다`() {
-        omokRule.canPlace(
-            doubleFourFixture,
-            doubleFourStone,
-        ) shouldBeSameInstanceAs RuleResult.RenJuRule
+        assertThat(
+            omokRule.canPlace(
+                doubleFourFixture,
+                doubleFourStone,
+            ),
+        ).isInstanceOf(RuleResult.RenJuRule::class.java)
     }
 
     @Test
     fun `바둑돌이 이미 존재하는 위치는 둘 수 없다`() {
-        omokRule.canPlace(
-            horizontalFourStones,
-            stoneOneAndOne,
-        ) shouldBe RuleResult.DuplicatePosition
+        assertThat(
+            omokRule.canPlace(
+                horizontalFourStones,
+                stoneOneAndOne,
+            ),
+        ).isInstanceOf(RuleResult.DuplicatePosition::class.java)
     }
 
     @Test
@@ -71,6 +79,11 @@ class OmokRuleTest {
 
     @Test
     fun `바둑돌을 둘 위치가 빈 경우 바둑돌을 둘 수 있다`() {
-        omokRule.canPlace(horizontalFourStones, stoneSixAndSix) shouldBe RuleResult.OnRule
+        assertThat(
+            omokRule.canPlace(
+                horizontalFourStones,
+                stoneSixAndSix,
+            ),
+        ).isInstanceOf(RuleResult.OnRule::class.java)
     }
 }
