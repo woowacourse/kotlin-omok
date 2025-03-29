@@ -21,10 +21,12 @@ import omok.model.player.PlayerState
 import omok.model.player.WhitePlayerState
 import omok.model.rule.OmokRuleAdapter
 import omok.model.stone.StoneState
+import woowacourse.omok.data.OmokDbController
 
 class MainActivity : AppCompatActivity() {
     private lateinit var game: OmokGame
     private lateinit var playerState: PlayerState
+    private lateinit var dbController: OmokDbController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +38,32 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        dbController = OmokDbController(this)
         game = OmokGameImpl(BoardImpl.createEmpty(), OmokRuleAdapter())
         playerState = BlackPlayerState(game)
 
+        val savedTurn = dbController.loadTurn()
+        playerState = when (savedTurn) {
+            StoneState.WHITE.name -> WhitePlayerState(game)
+            else -> BlackPlayerState(game)
+        }
+
         val board = findViewById<TableLayout>(R.id.board)
+
+        val savedStones = dbController.loadAllStones() // Triple<Int, Int, String>
+        savedStones.forEach { (x, y, stoneString) ->
+            val imageView = ((board.getChildAt(x - 1) as TableRow).getChildAt(y - 1) as ImageView)
+
+            val stoneState = StoneState.valueOf(stoneString)
+            val resId = when (stoneState) {
+                StoneState.BLACK -> R.drawable.black_stone
+                StoneState.WHITE -> R.drawable.white_stone
+                else -> null
+            }
+
+            resId?.let { imageView.setImageResource(it) }
+        }
+
         board
             .children
             .filterIsInstance<TableRow>()
@@ -55,8 +79,10 @@ class MainActivity : AppCompatActivity() {
                             val imageStoneState = playerState
 
                             try {
-                                playerState = playerState.state(position)
+                                dbController.saveStone(row + 1, col + 1, imageStoneState.stoneState().toString())
 
+                                playerState = playerState.state(position)
+                                dbController.saveTurn(playerState.stoneState().name)
                                 val resId = when (imageStoneState) {
                                     is BlackPlayerState -> R.drawable.black_stone
                                     is WhitePlayerState -> R.drawable.white_stone
@@ -74,6 +100,7 @@ class MainActivity : AppCompatActivity() {
                                         StoneState.NONE -> "무승부입니다!"
                                     }
                                     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                                    dbController.clearBoard()
                                 }
                             } catch (e: IllegalArgumentException) {
                                 Toast.makeText(
@@ -90,4 +117,3 @@ class MainActivity : AppCompatActivity() {
             }
     }
 }
-

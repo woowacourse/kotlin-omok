@@ -6,7 +6,7 @@ import omok.model.rule.Rule
 import omok.model.stone.StoneState
 
 class OmokGameImpl(
-    private val board: Board,
+    val board: Board,
     private val rule: Rule,
 ) : OmokGame {
     override fun placeStone(
