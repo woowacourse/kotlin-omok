@@ -14,6 +14,11 @@ class Stones(
         _stones += stone
     }
 
+    fun currentStoneColor(): StoneColor {
+        val lastStoneColor: StoneColor = lastStone?.color ?: return StoneColor.BLACK
+        return lastStoneColor.reverse()
+    }
+
     fun setLastStone(stone: Stone) {
         _lastStone = stone
     }

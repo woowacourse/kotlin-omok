@@ -1,10 +1,10 @@
 package woowacourse.omok.stone
 
-import woowacourse.omok.model.stone.StoneColor.BLACK
-import woowacourse.omok.model.stone.StoneColor.WHITE
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.stone.StoneColor.BLACK
+import woowacourse.omok.model.stone.StoneColor.WHITE
 import woowacourse.omok.model.stone.Stones
 
 class StonesTest {
@@ -43,6 +43,23 @@ class StonesTest {
         val actual = stones.isOccupied(Stone(8, 8, WHITE))
 
         val expected = true
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `이번 차례에 두어야 할 돌의 색깔을 알 수 있다`() {
+        val stones =
+            Stones(
+                stones =
+                    setOf(
+                        Stone(8, 8, BLACK),
+                    ),
+                lastStone = Stone(8, 8, BLACK),
+            )
+        val actual = stones.currentStoneColor()
+
+        val expected = WHITE
 
         assertThat(actual).isEqualTo(expected)
     }
