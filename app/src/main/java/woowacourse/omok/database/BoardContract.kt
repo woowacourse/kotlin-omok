@@ -6,8 +6,8 @@ object BoardContract {
     const val TABLE_NAME_BOARD = "board"
 
     const val COLUMN_NAME_COLOR = "color"
-    const val COLUMN_NAME_POSITION_ROW = "row"
-    const val COLUMN_NAME_POSITION_COLUMN = "column"
+    const val COLUMN_NAME_POSITION_ROW = "position_row"
+    const val COLUMN_NAME_POSITION_COLUMN = "position_column"
     const val COLUMN_NAME_ID = BaseColumns._ID
 
     const val SQL_CREATE_BOARD_ENTERIES =

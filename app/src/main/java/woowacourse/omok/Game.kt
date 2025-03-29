@@ -1,7 +1,6 @@
 package woowacourse.omok
 
 import android.widget.ImageView
-import android.widget.Toast
 import omok.domain.Turn
 import woowacourse.omok.database.StoneDAO
 import woowacourse.omok.domain.Board

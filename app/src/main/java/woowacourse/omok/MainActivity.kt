@@ -19,6 +19,7 @@ import woowacourse.omok.domain.Board
 import woowacourse.omok.domain.Position
 import woowacourse.omok.domain.RenjuRuleAdapter
 import woowacourse.omok.domain.Stone
+import woowacourse.omok.domain.StoneType
 
 class MainActivity : AppCompatActivity() {
     private val omokBoard: Board = Board(RenjuRuleAdapter())
@@ -49,7 +50,11 @@ class MainActivity : AppCompatActivity() {
 
                 val stone = stones.find { it.position.row == row && it.position.column == column }
                 if (stone != null) {
-                    game.putStone(view, row, column, stone.color)
+                    if (stone.color == StoneType.WHITE) {
+                        view.setImageResource(R.drawable.white_stone)
+                    } else {
+                        view.setImageResource(R.drawable.black_stone)
+                    }
                 }
 
                 view.setOnClickListener {
