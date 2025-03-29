@@ -40,11 +40,9 @@ class OmokGame(
             if (result is JudgeResult.Finished) return result
         }
 
-        return result
-    }
-
-    fun reverseTurn() {
         currentTurn = currentTurn.reversed()
+
+        return result
     }
 
     fun restart() {

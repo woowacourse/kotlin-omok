@@ -132,7 +132,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             is NotFinished -> {
-                omokGame.reverseTurn()
                 saveOmokGame(omokGame)
             }
         }
