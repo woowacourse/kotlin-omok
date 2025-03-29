@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -18,16 +19,21 @@ import woowacourse.omok.domain.board.Board
 import woowacourse.omok.domain.board.BoardSize
 import woowacourse.omok.domain.board.CellState
 import woowacourse.omok.domain.board.Point
+import woowacourse.omok.domain.board.result.Finished
+import woowacourse.omok.domain.board.result.OnGoing
+import woowacourse.omok.domain.board.result.PlaceStoneResult
 import woowacourse.omok.domain.rule.OmokMoveRules
 import woowacourse.omok.domain.rule.RuleValidator
 
-class MainActivity : AppCompatActivity() {
-    private val game: OmokGame by lazy { OmokGame(GameEventListenerImpl(this)) }
+class MainActivity :
+    AppCompatActivity(),
+    GameEventListener {
+    private val game: OmokGame = OmokGame(this)
     private lateinit var board: Board
     private lateinit var boardView: TableLayout
 
     private lateinit var gamesDao: GamesDao
-    lateinit var movesDao: MovesDao
+    private lateinit var movesDao: MovesDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun updateBoardUI(
+    private fun updateBoardUI(
         point: Point,
         state: CellState,
     ) {
@@ -106,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun showGameOverDialog(winnerState: CellState?) {
+    private fun showGameOverDialog(winnerState: CellState?) {
         winnerState?.toUiString()?.let { GameOverDialog(this).show(it) { resetGame() } }
     }
 
@@ -125,4 +131,31 @@ class MainActivity : AppCompatActivity() {
             CellState.WHITE -> getString(R.string.white_ui_string)
             else -> ""
         }
+
+    override fun onBoardUpdated(
+        point: Point,
+        state: CellState,
+    ) {
+        updateBoardUI(point, state)
+        movesDao.saveMove(1, point to state)
+    }
+
+    override fun onGameWon(winnerState: CellState?) {
+        showGameOverDialog(winnerState)
+    }
+
+    override fun onShowMessage(result: PlaceStoneResult) {
+        val messageRes =
+            when (result) {
+                is OnGoing.AlreadyPlaced -> R.string.already_placed_error_message
+                is OnGoing.RuleViolation -> R.string.violation_error_message
+                is OnGoing.InvalidMove -> R.string.invalid_point_error_message
+                is Finished.BoardFull -> R.string.board_full_error_message
+                else -> null
+            }
+
+        messageRes?.let {
+            Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
+        }
+    }
 }
