@@ -26,6 +26,7 @@ import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.player.StoneColor
 import woowacourse.omok.domain.model.rule.judge.JudgeResult.Finished
+import woowacourse.omok.domain.model.rule.judge.JudgeResult.NotFinished
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Failure
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Success
 import woowacourse.omok.domain.repository.OmokGameRepository
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             val omokGame = withContext(Dispatchers.IO) { omokGameUseCase() }
-            updateBoardStonesUI(omokGame.board)
+            updateStonesUI(omokGame.board)
             setupClickListeners(omokGame)
         }
     }
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateBoardStonesUI(board: OmokBoard) {
+    private fun updateStonesUI(board: OmokBoard) {
         binding.board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
             row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, button ->
                 val position = Position(rowIndex + 1, colIndex + 1)
@@ -105,39 +106,37 @@ class MainActivity : AppCompatActivity() {
         playerStone: PlayerStone,
         omokGame: OmokGame,
     ) {
+        updateStoneUI(button, omokGame)
+
+        handleJudge(omokGame, playerStone)
+    }
+
+    private fun updateStoneUI(
+        button: ImageView,
+        omokGame: OmokGame,
+    ) {
         button.setImageResource(
             when (omokGame.currentTurn) {
                 StoneColor.BLACK -> drawable.black_stone
                 StoneColor.WHITE -> drawable.white_stone
             },
         )
-
-        handleJudge(omokGame, playerStone)
-        omokGame.reverseTurn()
-        showSnackBar(getString(string.omok_turn, omokGame.currentTurn.toText()))
-
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                omokGameRepository.saveGame(OmokGameEntity(omokGame.currentTurn, omokGame.board))
-            }
-        }
     }
-
-    private fun StoneColor.toText(): String =
-        when (this) {
-            StoneColor.BLACK -> getString(string.omok_black_label)
-            StoneColor.WHITE -> getString(string.omok_white_label)
-        }
 
     private fun handleJudge(
         omokGame: OmokGame,
         playerStone: PlayerStone,
     ) {
-        val judgeResult = omokGame.judge(playerStone = playerStone)
+        when (val judgeResult = omokGame.judge(playerStone = playerStone)) {
+            is Finished -> {
+                updateBoardActivation(false)
+                showResultDialog(getJudgeMessage(judgeResult))
+            }
 
-        if (judgeResult is Finished) {
-            updateBoardActivation(false)
-            showResultDialog(getJudgeMessage(judgeResult))
+            is NotFinished -> {
+                omokGame.reverseTurn()
+                saveOmokGame(omokGame)
+            }
         }
     }
 
@@ -160,10 +159,24 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
+    private fun saveOmokGame(omokGame: OmokGame) {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                omokGameRepository.saveGame(OmokGameEntity(omokGame.currentTurn, omokGame.board))
+            }
+        }
+    }
+
     private fun getJudgeMessage(result: Finished): String =
         when (result) {
             is Finished.Win -> getString(string.omok_winning, result.stone.toText())
             is Finished.Draw -> getString(string.omok_draw)
+        }
+
+    private fun StoneColor.toText(): String =
+        when (this) {
+            StoneColor.BLACK -> getString(string.omok_black_label)
+            StoneColor.WHITE -> getString(string.omok_white_label)
         }
 
     private fun showSnackBar(message: String) {
@@ -187,7 +200,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             omokGame.restart()
-            updateBoardStonesUI(omokGame.board)
+            updateStonesUI(omokGame.board)
             updateBoardActivation(true)
             showSnackBar(getString(string.omok_game_restart))
         }
