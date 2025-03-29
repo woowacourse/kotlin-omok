@@ -14,19 +14,18 @@ import woowacourse.omok.domain.model.rule.place.PlaceRule
 
 class OmokGame(
     val board: OmokBoard = OmokBoard.create(),
+    private val placeRules: List<PlaceRule> = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule()),
+    private val judgeRules: List<JudgeRule> = listOf(WinningRule(), DrawRule()),
     firstTurn: StoneColor = StoneColor.BLACK,
 ) {
     var currentTurn = firstTurn
         private set
 
-    fun placeStone(
-        rules: List<PlaceRule> = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule()),
-        position: Position,
-    ): PlaceResult {
+    fun placeStone(position: Position): PlaceResult {
         var result: PlaceResult = PlaceResult.Success
         val playerStone = PlayerStone(currentTurn, position)
 
-        rules.forEach { rule ->
+        placeRules.forEach { rule ->
             result = rule.perform(board, playerStone) as PlaceResult
             if (result is PlaceResult.Failure) return result
         }
@@ -38,13 +37,10 @@ class OmokGame(
         return result
     }
 
-    fun judge(
-        rules: List<JudgeRule> = listOf(WinningRule(), DrawRule()),
-        playerStone: PlayerStone,
-    ): JudgeResult {
+    fun judge(playerStone: PlayerStone): JudgeResult {
         var result: JudgeResult = JudgeResult.NotFinished
 
-        rules.forEach { rule ->
+        judgeRules.forEach { rule ->
             result = rule.perform(board, playerStone) as JudgeResult
             if (result is JudgeResult.Finished) return result
         }

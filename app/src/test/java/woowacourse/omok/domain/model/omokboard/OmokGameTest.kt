@@ -11,7 +11,7 @@ class OmokGameTest {
         val omokGame = OmokGame()
 
         // when
-        omokGame.placeStone(emptyList(), POSITION_ONE_ONE)
+        omokGame.placeStone(POSITION_ONE_ONE)
         val board = omokGame.board.snapshot
         val actual = board.values.first()
         val expected = PointState.OCCUPIED_BLACK

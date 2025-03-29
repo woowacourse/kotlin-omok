@@ -22,7 +22,7 @@ class OmokController(
         while (true) {
             val newPosition: Position = inputView.askForPosition(omokGame.currentTurn, position)
             val playerStone = PlayerStone(omokGame.currentTurn, newPosition)
-            val placeResult = omokGame.placeStone(position = newPosition)
+            val placeResult = omokGame.placeStone(newPosition)
 
             outputView.displayOmokBoard(omokGame.board)
             if (placeResult is PlaceResult.Failure) {
@@ -30,7 +30,7 @@ class OmokController(
                 continue
             }
 
-            val judgeResult = omokGame.judge(playerStone = playerStone)
+            val judgeResult = omokGame.judge(playerStone)
             if (judgeResult is JudgeResult.Finished) {
                 outputView.displayGameResultMessage(judgeResult)
                 return

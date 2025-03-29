@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         withContext(Dispatchers.IO) {
             val lastBoard = omokRepository.loadBoard() ?: OmokBoard.create()
             val lastTurn = omokRepository.loadLastTurn() ?: StoneColor.BLACK
-            OmokGame(lastBoard, lastTurn)
+            OmokGame(lastBoard, firstTurn = lastTurn)
         }
 
     private fun updateLastBoardUI(board: OmokBoard) {
