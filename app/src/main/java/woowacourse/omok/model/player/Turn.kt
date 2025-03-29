@@ -1,5 +1,6 @@
 package woowacourse.omok.model.player
 
+import woowacourse.omok.db.TurnDao
 import woowacourse.omok.model.board.OmokBoard
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.PositionState
@@ -8,9 +9,14 @@ import woowacourse.omok.model.rule.WinRule
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor
 
-class Turn : GameState() {
-    var stone: Stone = Stone(StoneColor.BLACK)
+class Turn(private val turnDao: TurnDao? = null) : GameState() {
+    var stone: Stone
         private set
+
+    init {
+        val stoneColor = turnDao?.getLastTurn() ?: StoneColor.BLACK
+        this.stone = Stone(stoneColor)
+    }
 
     fun place(
         position: Position,
