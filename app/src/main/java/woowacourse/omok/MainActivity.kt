@@ -1,16 +1,28 @@
 package woowacourse.omok
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import woowacourse.omok.domain.Game
+import woowacourse.omok.domain.model.Board.Companion.DEFAULT_BOARD_SIZE
+import woowacourse.omok.domain.model.position.Position
+import woowacourse.omok.domain.model.rule.OmokRuleAdapter
+import woowacourse.omok.domain.model.state.Finish
+import woowacourse.omok.domain.model.state.OmokState
+import woowacourse.omok.domain.model.stone.StoneType
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var boardUI: TableLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -21,12 +33,91 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val board = findViewById<TableLayout>(R.id.board)
-        board
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { view -> view.setOnClickListener { view.setImageResource(R.drawable.black_stone) } }
+        val game = Game(OmokRuleAdapter())
+        setupBoard(game)
+    }
+
+    private fun setupBoard(game: Game) {
+        boardUI = findViewById(R.id.board)
+        boardUI.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
+            row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
+                val position = Position.of(colIndex, rowIndex, DEFAULT_BOARD_SIZE)
+                imageView.tag = position
+                imageView.setOnClickListener {
+                    onStonePlaced(game, position)
+                }
+            }
+        }
+    }
+
+    private fun onStonePlaced(
+        game: Game,
+        position: Position,
+    ) {
+        val imageView = boardUI.findViewWithTag<ImageView>(position)
+
+        game.play(
+            position = position,
+            onPlace = { stoneType -> updateBoardUI(imageView, stoneType) },
+            onFailure = ::showToast,
+            onFinish = ::showGameResult,
+        )
+    }
+
+    private fun updateBoardUI(
+        imageView: ImageView,
+        stoneType: StoneType,
+    ) {
+        val stone =
+            when (stoneType) {
+                StoneType.BLACK -> R.drawable.black_stone
+                StoneType.WHITE -> R.drawable.white_stone
+                else -> return
+            }
+
+        imageView.setImageResource(stone)
+    }
+
+    private fun showGameResult(state: OmokState) {
+        val message =
+            when (state) {
+                is Finish ->
+                    if (state.winner == StoneType.NONE) {
+                        getString(R.string.draw_message)
+                    } else {
+                        String.format(
+                            getString(R.string.win_message),
+                            state.winner.toKorean(),
+                        )
+                    }
+
+                else -> return
+            }
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.exit_title))
+            .setMessage(message)
+            .setPositiveButton(getString(R.string.exit)) { _, _ -> finish() }
+            .setNegativeButton(getString(R.string.restart)) { _, _ -> restart() }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun restart() {
+        val intent = Intent(this, MainActivity::class.java)
+        finish()
+        startActivity(intent)
+    }
+
+    private fun StoneType.toKorean(): String {
+        return when (this) {
+            StoneType.BLACK -> getString(R.string.black_stone)
+            StoneType.WHITE -> getString(R.string.white_stone)
+            else -> ""
+        }
     }
 }
