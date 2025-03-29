@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             val omokGame = withContext(Dispatchers.IO) { omokGameUseCase() }
-            updateBoardStones(omokGame.board)
+            updateBoardStonesUI(omokGame.board)
             setupClickListeners(omokGame)
         }
     }
@@ -62,17 +62,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateBoardStones(board: OmokBoard) {
+    private fun updateBoardStonesUI(board: OmokBoard) {
         binding.board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
             row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, button ->
                 val position = Position(rowIndex + 1, colIndex + 1)
                 val state = board.find(position)
 
-                when (state) {
-                    PointState.OCCUPIED_BLACK -> button.setImageResource(drawable.black_stone)
-                    PointState.OCCUPIED_WHITE -> button.setImageResource(drawable.white_stone)
-                    else -> Unit
-                }
+                button.setImageResource(
+                    when (state) {
+                        PointState.OCCUPIED_BLACK -> drawable.black_stone
+                        PointState.OCCUPIED_WHITE -> drawable.white_stone
+                        else -> 0
+                    },
+                )
             }
         }
     }
@@ -89,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                     val position = Position(rowIndex + 1, colIndex + 1)
                     val playerStone = PlayerStone(omokGame.currentTurn, position)
 
-                    when (val result = omokGame.placeStone(position = position)) {
+                    when (val result = omokGame.placeStone(position)) {
                         is Success -> handlePlaceSuccess(button, playerStone, omokGame)
                         is Failure -> showSnackBar(getFailureMessage(result))
                     }
@@ -185,11 +187,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             omokGame.restart()
-            binding.board.children.forEach { row ->
-                (row as TableRow).children.forEach { point ->
-                    (point as ImageView).setImageResource(0)
-                }
-            }
+            updateBoardStonesUI(omokGame.board)
             updateBoardActivation(true)
             showSnackBar(getString(string.omok_game_restart))
         }
