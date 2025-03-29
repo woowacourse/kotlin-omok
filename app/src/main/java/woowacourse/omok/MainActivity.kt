@@ -3,7 +3,10 @@ package woowacourse.omok
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -64,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         createGameButton.setOnClickListener {
-            showCreateGameDialog()
+            showInputDialog()
         }
     }
 
@@ -122,13 +125,55 @@ class MainActivity : AppCompatActivity() {
         gameLauncher.launch(intent)
     }
 
-    private fun showCreateGameDialog() {
+    fun showInputDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.make_room_dialog_input, null)
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("닉네임 입력")
+        builder.setView(dialogView)
+
+        val blackStoneInputView = dialogView.findViewById<EditText>(R.id.black_stone_name)
+        val whiteStoneInputView = dialogView.findViewById<EditText>(R.id.white_stone_name)
+
+        builder.setPositiveButton("확인") { _, _ ->
+        }
+
+        builder.setNegativeButton("취소") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            val blackStoneName = blackStoneInputView.text.toString()
+            val whiteStoneName = whiteStoneInputView.text.toString()
+
+            when {
+                blackStoneName.isEmpty() || whiteStoneName.isEmpty() ->
+                    Toast.makeText(this, "입력값이 비었습니다!!", Toast.LENGTH_SHORT).show()
+
+                blackStoneName == whiteStoneName ->
+                    Toast.makeText(this, "두 닉네임이 같습니다!!", Toast.LENGTH_SHORT).show()
+
+                else -> {
+                    showCreateGameDialog(blackStoneName, whiteStoneName)
+                    dialog.dismiss()
+                }
+            }
+        }
+    }
+
+    private fun showCreateGameDialog(
+        blackStoneName: String,
+        whiteStoneName: String,
+    ) {
         val db = dbHelper.writableDatabase
 
         val values =
             ContentValues().apply {
-                put(OmokDBContract.GameRoomsTable.COLUMN_BLACK_PLAYER_NAME, "흑돌기본이름")
-                put(OmokDBContract.GameRoomsTable.COLUMN_WHITE_PLAYER_NAME, "백돌기본이름")
+                put(OmokDBContract.GameRoomsTable.COLUMN_BLACK_PLAYER_NAME, blackStoneName)
+                put(OmokDBContract.GameRoomsTable.COLUMN_WHITE_PLAYER_NAME, whiteStoneName)
             }
 
         val newRoomId = db.insert(OmokDBContract.GameRoomsTable.TABLE_NAME, null, values)
@@ -186,6 +231,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val GAME_ROOM_ID = "game_room_id"
         const val BLACK_PLAYER = "black_player"
-        const val WHITE_PLAYER = "hite_player"
+        const val WHITE_PLAYER = "white_player"
     }
 }

@@ -8,41 +8,10 @@ import androidx.core.database.sqlite.transaction
 class OmokDBHelper(
     context: Context,
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
-    companion object {
-        const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "Omok.db"
-    }
-
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(OmokDBContract.StonesTable.SQL_CREATE_ENTRIES)
         db.execSQL(OmokDBContract.GameRoomsTable.SQL_CREATE_ENTRIES)
         db.execSQL(OmokDBContract.PlayerTable.SQL_CREATE_ENTRIES)
-    }
-
-    fun resetDatabase() {
-        val db = writableDatabase
-        db.execSQL(OmokDBContract.StonesTable.SQL_DELETE_ENTRIES)
-        onCreate(db)
-    }
-
-    fun roomWithStonesDelete(roomId: Int) {
-        val db = writableDatabase
-        db.transaction {
-            val stonesWhereClause = "${OmokDBContract.StonesTable.COLUMN_ROOM_ID} = ?"
-            val stonesWhereArgs = arrayOf(roomId.toString())
-            delete(OmokDBContract.StonesTable.TABLE_NAME, stonesWhereClause, stonesWhereArgs)
-
-            val roomWhereClause = "${OmokDBContract.GameRoomsTable.COLUMN_ROOM_ID} = ?"
-            val roomWhereArgs = arrayOf(roomId.toString())
-            delete(OmokDBContract.GameRoomsTable.TABLE_NAME, roomWhereClause, roomWhereArgs)
-        }
-    }
-
-    fun resetAllDatabase() {
-        val db = writableDatabase
-        db.execSQL(OmokDBContract.StonesTable.SQL_DELETE_ENTRIES)
-        db.execSQL(OmokDBContract.GameRoomsTable.SQL_DELETE_ENTRIES)
-        db.execSQL(OmokDBContract.PlayerTable.SQL_DELETE_ENTRIES)
     }
 
     override fun onUpgrade(
@@ -60,5 +29,23 @@ class OmokDBHelper(
         newVersion: Int,
     ) {
         onUpgrade(db, oldVersion, newVersion)
+    }
+
+    fun roomWithStonesDelete(roomId: Int) {
+        val db = writableDatabase
+        db.transaction {
+            val stonesWhereClause = "${OmokDBContract.StonesTable.COLUMN_ROOM_ID} = ?"
+            val stonesWhereArgs = arrayOf(roomId.toString())
+            delete(OmokDBContract.StonesTable.TABLE_NAME, stonesWhereClause, stonesWhereArgs)
+
+            val roomWhereClause = "${OmokDBContract.GameRoomsTable.COLUMN_ROOM_ID} = ?"
+            val roomWhereArgs = arrayOf(roomId.toString())
+            delete(OmokDBContract.GameRoomsTable.TABLE_NAME, roomWhereClause, roomWhereArgs)
+        }
+    }
+
+    companion object {
+        const val DATABASE_VERSION = 1
+        const val DATABASE_NAME = "Omok.db"
     }
 }
