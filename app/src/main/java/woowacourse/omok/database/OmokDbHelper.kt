@@ -2,7 +2,6 @@ package woowacourse.omok.database
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import woowacourse.omok.model.Color
@@ -57,13 +56,12 @@ class OmokDbHelper(context: Context) :
         val dbReader = readableDatabase
         val result = mutableListOf<Stone>()
 
-        val cursor: Cursor = dbReader.rawQuery("SELECT * FROM ${OmokContract.TABLE_NAME}", null)
-        with(cursor) {
-            while (moveToNext()) {
-                val x: Int = getInt(getColumnIndexOrThrow(OmokContract.COLUMN_NAME_X))
-                val y: Int = getInt(getColumnIndexOrThrow(OmokContract.COLUMN_NAME_Y))
+        dbReader.rawQuery("SELECT * FROM ${OmokContract.TABLE_NAME}", null).use { cursor ->
+            while (cursor.moveToNext()) {
+                val x: Int = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_NAME_X))
+                val y: Int = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_NAME_Y))
                 val color: Color =
-                    when (getString(getColumnIndexOrThrow(OmokContract.COLUMN_NAME_COLOR))) {
+                    when (cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_NAME_COLOR))) {
                         Color.BLACK.name -> Color.BLACK
                         Color.WHITE.name -> Color.WHITE
                         else -> throw IllegalStateException()
@@ -71,7 +69,6 @@ class OmokDbHelper(context: Context) :
                 result.add(Stone(Position(Col(x), Row(y)), color))
             }
         }
-        cursor.close()
         return result
     }
 
