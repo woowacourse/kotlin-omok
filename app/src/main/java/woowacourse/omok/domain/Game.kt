@@ -5,32 +5,42 @@ import woowacourse.omok.domain.model.position.Position
 import woowacourse.omok.domain.model.rule.OmokRule
 import woowacourse.omok.domain.model.state.Finish
 import woowacourse.omok.domain.model.state.OmokEvent
+import woowacourse.omok.domain.model.state.OmokState
 import woowacourse.omok.domain.model.state.OmokStateMachine
 import woowacourse.omok.domain.model.stone.OmokStone
 import woowacourse.omok.domain.model.stone.StoneType
 
 class Game(
-    val board: Board = Board(),
     private val rule: OmokRule,
+    private val board: Board = Board(),
     private val omokStateMachine: OmokStateMachine = OmokStateMachine(),
 ) {
     fun play(
-        onBeforePlace: (Board, StoneType, OmokStone?) -> Unit,
-        onPlace: () -> Position,
+        position: Position,
+        onPlace: (StoneType) -> Unit,
         onFailure: (String) -> Unit,
+        onFinish: (OmokState) -> Unit,
     ) {
-        while (omokStateMachine.state !is Finish) {
-            runCatching {
-                onBeforePlace(board, omokStateMachine.state.stoneType, board.getLastStone())
-                process(onPlace())
-            }.onFailure { onFailure(it.message ?: it.stackTraceToString()) }
+        runCatching {
+            process(position, onPlace)
+        }.onFailure {
+            onFailure(it.message ?: it.stackTraceToString())
+        }
+
+        if (omokStateMachine.state is Finish) {
+            onFinish(omokStateMachine.state)
+            return
         }
     }
 
-    private fun process(position: Position) {
+    private fun process(
+        position: Position,
+        onPlace: (StoneType) -> Unit,
+    ) {
         val omokStone = OmokStone(position, omokStateMachine.state.stoneType)
         require(rule.checkAnyFoulCondition(omokStone, board)) { RENJURULE_MESSAGE }
         board.placeStone(omokStone)
+        onPlace(omokStone.stoneType)
 
         val event =
             when {
