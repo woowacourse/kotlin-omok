@@ -29,18 +29,25 @@ import woowacourse.omok.domain.model.rule.judge.JudgeResult.Finished
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Failure
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Success
 import woowacourse.omok.domain.repository.OmokGameRepository
+import woowacourse.omok.domain.usecase.GetOmokGameUseCase
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var omokGameRepository: OmokGameRepository
+    private val omokGameRepository: OmokGameRepository
+        get() = (application as OmokApplication).omokGameRepository
+
+    private val omokGameUseCase: GetOmokGameUseCase
+        get() = (application as OmokApplication).getOmokGameUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        omokGameRepository = (application as OmokApplication).omokGameRepository
         setupView()
 
         lifecycleScope.launch {
-            val omokGame = setupOmokGame()
+            val omokGame =
+                withContext(Dispatchers.IO) {
+                    omokGameUseCase()
+                }
             updateLastBoardUI(omokGame.board)
             setupClickListeners(omokGame)
         }
@@ -57,12 +64,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
-
-    private suspend fun setupOmokGame(): OmokGame =
-        withContext(Dispatchers.IO) {
-            val gameEntity = omokGameRepository.loadGame()
-            OmokGame(gameEntity.board, savedTurn = gameEntity.lastTurn)
-        }
 
     private fun updateLastBoardUI(board: OmokBoard) {
         binding.board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->

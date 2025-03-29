@@ -3,9 +3,9 @@ package woowacourse.omok.domain.repository
 import woowacourse.omok.domain.model.game.OmokGameEntity
 
 interface OmokGameRepository {
-    fun saveGame(game: OmokGameEntity)
+    suspend fun saveGame(game: OmokGameEntity)
 
-    fun loadGame(): OmokGameEntity
+    suspend fun fetchGame(): OmokGameEntity
 
-    fun deleteGame()
+    suspend fun deleteGame()
 }

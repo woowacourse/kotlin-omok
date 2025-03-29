@@ -8,14 +8,14 @@ import woowacourse.omok.domain.model.game.OmokGameEntity
 class OmokGameRepositoryImpl(
     private val localDataSource: OmokGameLocalDataSource,
 ) : OmokGameRepository {
-    override fun saveGame(game: OmokGameEntity) {
+    override suspend fun saveGame(game: OmokGameEntity) {
         val gameData = game.toData()
         localDataSource.save(gameData)
     }
 
-    override fun loadGame(): OmokGameEntity = localDataSource.load()?.toDomain() ?: OmokGameEntity()
+    override suspend fun fetchGame(): OmokGameEntity = localDataSource.load()?.toDomain() ?: OmokGameEntity()
 
-    override fun deleteGame() {
+    override suspend fun deleteGame() {
         localDataSource.delete()
     }
 }

@@ -2,20 +2,15 @@ package woowacourse.omok.domain.model.omokboard
 
 import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.player.StoneColor
-import woowacourse.omok.domain.model.rule.judge.DrawRule
 import woowacourse.omok.domain.model.rule.judge.JudgeResult
 import woowacourse.omok.domain.model.rule.judge.JudgeRule
-import woowacourse.omok.domain.model.rule.judge.WinningRule
-import woowacourse.omok.domain.model.rule.place.AlreadyExistStoneRule
-import woowacourse.omok.domain.model.rule.place.ExternalRule
-import woowacourse.omok.domain.model.rule.place.InvalidPositionRule
 import woowacourse.omok.domain.model.rule.place.PlaceResult
 import woowacourse.omok.domain.model.rule.place.PlaceRule
 
 class OmokGame(
     val board: OmokBoard = OmokBoard.create(),
-    private val placeRules: List<PlaceRule> = listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule()),
-    private val judgeRules: List<JudgeRule> = listOf(WinningRule(), DrawRule()),
+    private val placeRules: List<PlaceRule> = emptyList(),
+    private val judgeRules: List<JudgeRule> = emptyList(),
     savedTurn: StoneColor = StoneColor.BLACK,
 ) {
     var currentTurn: StoneColor = savedTurn
