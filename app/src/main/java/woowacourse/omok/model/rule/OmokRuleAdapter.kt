@@ -6,9 +6,6 @@ import omok.library.ThreeThreeRule
 import omok.library.WhiteWinRule
 import omok.model.board.Board
 import omok.model.board.Position
-import omok.model.omokGame.OmokGameImpl.Companion.ERROR_FOUR_FOUR
-import omok.model.omokGame.OmokGameImpl.Companion.ERROR_THREE_THREE
-import omok.model.omokGame.OmokRuleSet
 import omok.model.omokGame.TurnResult
 import omok.model.stone.StoneState
 
