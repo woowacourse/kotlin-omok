@@ -8,14 +8,19 @@ import omok.domain.Stone
 import omok.domain.StoneType
 
 class DatabaseStoneDAO(private val dbHelper: DbHelper) : StoneDAO {
-    override fun insertStone(row: Int, column: Int, color: String) {
+    override fun insertStone(
+        row: Int,
+        column: Int,
+        color: String,
+    ) {
         val db = dbHelper.writableDatabase
 
-        val values = ContentValues().apply {
-            put(BoardContract.COLUMN_NAME_COLOR, color)
-            put(BoardContract.COLUMN_NAME_POSITION_ROW, row)
-            put(BoardContract.COLUMN_NAME_POSITION_COLUMN, column)
-        }
+        val values =
+            ContentValues().apply {
+                put(BoardContract.COLUMN_NAME_COLOR, color)
+                put(BoardContract.COLUMN_NAME_POSITION_ROW, row)
+                put(BoardContract.COLUMN_NAME_POSITION_COLUMN, column)
+            }
 
         val newRowId = db.insert(BoardContract.TABLE_NAME_BOARD, null, values)
         if (newRowId == -1L) {
@@ -25,7 +30,6 @@ class DatabaseStoneDAO(private val dbHelper: DbHelper) : StoneDAO {
         }
         db.close()
     }
-
 
     override fun queryStones(): List<Stone> {
         val dbReader = dbHelper.readableDatabase

@@ -80,16 +80,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showTurnColorToast() {
-         val turnColor = if (turn.isWhite()) "백" else "흑"
+        val turnColor = if (turn.isWhite()) "백" else "흑"
         Toast.makeText(this, "${turnColor}의 차례입니다.", Toast.LENGTH_SHORT).show()
     }
 
     private fun showWinner() {
         val turnColor = if (turn.isWhite()) "백" else "흑"
 
-        val alertDialog = AlertDialog.Builder(this).run {
-            setMessage("${turnColor}의 승리입니다!")
-        }
+        val alertDialog =
+            AlertDialog.Builder(this).run {
+                setMessage("${turnColor}의 승리입니다!")
+            }
 
         alertDialog.setOnDismissListener {
             restart()
