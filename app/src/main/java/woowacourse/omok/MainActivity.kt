@@ -1,79 +1,102 @@
 package woowacourse.omok
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TableLayout
-import android.widget.TableRow
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.children
-import woowacourse.omok.controller.OmokAppControl
-import woowacourse.omok.model.board.BoardSize
-import woowacourse.omok.model.database.OmokDBHelper
-import woowacourse.omok.model.stone.position.Col
-import woowacourse.omok.model.stone.position.Position
-import woowacourse.omok.model.stone.position.Row
-import woowacourse.omok.view.OutputAppView
-import kotlin.concurrent.thread
-import kotlin.math.abs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import woowacourse.omok.model.gameRoom.GameRoom
+import woowacourse.omok.model.gameRoom.GameRoomAdapter
+import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var dbHelper: OmokDBHelper
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var createGameButton: ExtendedFloatingActionButton
+    private lateinit var gameRoomAdapter: GameRoomAdapter
+
+    private val gameRooms = mutableListOf<GameRoom>()
+    private var nextRoomId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        dbHelper = OmokDBHelper(this)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        initViews()
+        setupRecyclerView()
+        setupListeners()
+        loadInitialGameRooms()
+    }
 
-        val boardSize = BoardSize(BOARD_SIZE)
-        val outputAppView = OutputAppView(this)
-        val omokAppControl = OmokAppControl(boardSize, outputAppView, dbHelper)
+    private fun initViews() {
+        recyclerView = findViewById(R.id.recyclerview_game_rooms)
+        createGameButton = findViewById(R.id.new_game_btn)
+    }
 
-        val board = findViewById<TableLayout>(R.id.board)
-        val positionViews: MutableMap<Position, ImageView> = mutableMapOf()
-        board
-            .children
-            .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEachIndexed { index, positionView ->
-                val rowIndex = abs(MAX_BOARD_INDEX - (index / BOARD_SIZE))
-                val colIndex = index % BOARD_SIZE
-                positionViews[Position(Row(rowIndex), Col(colIndex))] = positionView
-                positionView.setOnClickListener {
-                    thread {
-                        val coordinate = Pair(rowIndex, colIndex)
-                        omokAppControl.turn(positionView, coordinate)
-                    }
-                }
-            }
-        omokAppControl.boardUiRestore(positionViews)
+    private fun setupRecyclerView() {
+        gameRoomAdapter =
+            GameRoomAdapter(
+                gameRooms,
+                onItemClick = { gameRoom -> openGameRoom(gameRoom) },
+            )
 
-        val gameEndButton = findViewById<Button>(R.id.end_game_button)
-        gameEndButton.setOnClickListener {
-            outputAppView.gameEndDialogAlert { dbHelper.resetDatabase() }
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = gameRoomAdapter
+            setHasFixedSize(true)
         }
     }
 
-    override fun onDestroy() {
-        dbHelper.close()
+    private fun setupListeners() {
+        createGameButton.setOnClickListener {
+            showCreateGameDialog()
+        }
+    }
 
-        super.onDestroy()
+    private fun loadInitialGameRooms() {
+        val currentTime = LocalDateTime.now()
+
+        val sampleRooms =
+            listOf(
+                GameRoom(
+                    id = nextRoomId++,
+                    blackStonePlayerName = "우아한",
+                    whiteStonePlayerName = "테크코스",
+                    lastPlayTime = currentTime,
+                ),
+            )
+
+        gameRooms.addAll(sampleRooms)
+        gameRoomAdapter.notifyDataSetChanged()
+    }
+
+    private fun openGameRoom(gameRoom: GameRoom) {
+        val intent =
+            Intent(this, GameActivity::class.java).apply {
+                putExtra(GAME_ROOM_ID, gameRoom.id)
+                putExtra(BLACK_PLAYER, gameRoom.blackStonePlayerName)
+                putExtra(WHITE_PLAYER, gameRoom.whiteStonePlayerName)
+            }
+        startActivity(intent)
+    }
+
+    private fun showCreateGameDialog() {
+        val newGameRoom =
+            GameRoom(
+                id = nextRoomId++,
+                blackStonePlayerName = "플레이어$nextRoomId",
+                whiteStonePlayerName = "상대$nextRoomId",
+                lastPlayTime = LocalDateTime.now(),
+            )
+
+        gameRooms.add(0, newGameRoom)
+        gameRoomAdapter.notifyItemInserted(0)
+        recyclerView.scrollToPosition(0)
     }
 
     companion object {
-        private const val BOARD_SIZE = 15
-        private const val INDEX_OFFSET = 1
-        private const val MAX_BOARD_INDEX = BOARD_SIZE - INDEX_OFFSET
+        const val GAME_ROOM_ID = "game_room_id"
+        const val BLACK_PLAYER = "black_player"
+        const val WHITE_PLAYER = "hite_player"
     }
 }

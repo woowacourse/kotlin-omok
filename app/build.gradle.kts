@@ -44,6 +44,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.cardview)
     val currentVersion = "v2.0.0-alpha"
     implementation("com.github.tmdgh1592:budool-omok-rule:$currentVersion")
     implementation(libs.androidx.activity.ktx)
