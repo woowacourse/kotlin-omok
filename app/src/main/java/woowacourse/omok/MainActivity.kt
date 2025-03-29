@@ -13,7 +13,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import androidx.core.view.forEach
 import androidx.core.view.forEachIndexed
-import woowacourse.omok.controller.OmokAppController
 import woowacourse.omok.database.OmokDao
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.game.GameState
@@ -24,7 +23,7 @@ import woowacourse.omok.model.stone.StoneColor
 import woowacourse.omok.model.stone.Stones
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var omokAppController: OmokAppController
+    private lateinit var board: Board
     private lateinit var omokDao: OmokDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         val board = Board(initialStones)
         setBoardPoints(board, boardLayout)
         setTurnTextView(board)
-        omokAppController = OmokAppController(board)
         paintEntirePoints(boardLayout, omokDao.readStones())
     }
 
@@ -69,8 +67,8 @@ class MainActivity : AppCompatActivity() {
         point: Point,
         view: ImageView,
     ) {
-        val stone = omokAppController.stone(point)
-        omokAppController.place(stone)
+        val stone = board.currentStone(point)
+        board.place(stone)
         paintStone(stone, view)
         omokDao.insertStone(stone)
     }
@@ -81,8 +79,8 @@ class MainActivity : AppCompatActivity() {
         board: Board,
         boardLayout: TableLayout,
     ) {
-        val stone = omokAppController.stone(point)
-        when (val violationResult = violationResult(omokAppController.stone(point))) {
+        val stone = board.currentStone(point)
+        when (val violationResult = violationResult(stone)) {
             null -> {
                 place(point, view)
             }
@@ -156,9 +154,9 @@ class MainActivity : AppCompatActivity() {
         turnTextView.text = text
     }
 
-    private fun violationResult(stone: Stone): ViolationResult? = omokAppController.violationResult(stone)
+    private fun violationResult(stone: Stone): ViolationResult? = board.checkViolation(stone)
 
-    private fun omokGameState(stone: Stone): GameState = omokAppController.gameState(stone)
+    private fun omokGameState(stone: Stone): GameState = board.gameState(stone)
 
     private fun showToastMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
