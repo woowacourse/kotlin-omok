@@ -1,0 +1,16 @@
+package woowacourse.omok.data.db.room
+
+object RoomSchema {
+    const val SQL_CREATE_ROOMS_TABLE =
+        "CREATE TABLE ${RoomsContract.ROOM_TABLE_NAME} (" +
+            " ${RoomsContract.COLUMN_NAME_ROOM_ID} INTEGER PRIMARY KEY," +
+            " ${RoomsContract.COLUMN_NAME_ROOM_NAME} TEXT NOT NULL UNIQUE)"
+
+    const val SQL_DELETE_ROOMS_TABLE = "DROP TABLE IF EXISTS ${RoomsContract.ROOM_TABLE_NAME}"
+
+    object RoomsContract {
+        const val ROOM_TABLE_NAME = "rooms"
+        const val COLUMN_NAME_ROOM_ID = "room_id"
+        const val COLUMN_NAME_ROOM_NAME = "room_name"
+    }
+}

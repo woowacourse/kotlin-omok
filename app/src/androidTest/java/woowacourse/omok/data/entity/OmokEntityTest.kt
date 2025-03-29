@@ -4,8 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import woowacourse.omok.data.db.OmokEntity
-import woowacourse.omok.data.db.toEntity
+import woowacourse.omok.data.db.omok.OmokEntity
+import woowacourse.omok.data.db.omok.toEntity
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.Row
@@ -16,7 +16,7 @@ import woowacourse.omok.domain.stone.StoneColor
 class OmokEntityTest {
     @Nested
     @DisplayName("OmokEntity to Point 변환 테스트")
-    inner class ToDomainModelTest {
+    inner class toDomainTest {
         @Test
         @DisplayName("BLACK는 BoardStatus.Moved(StoneColor.BLACK)로 변환 되어야 한다")
         fun `BalckStoneEntityTest`() {
@@ -24,7 +24,7 @@ class OmokEntityTest {
             val entity = OmokEntity(row = 3, column = 5, stone = OmokEntity.BLACK_STONE)
 
             // when
-            val point = entity.toDomainModel()
+            val point = entity.toDomain()
 
             // then
             assertThat(point.status).isInstanceOf(BoardStatus.Moved::class.java)
@@ -40,7 +40,7 @@ class OmokEntityTest {
             val entity = OmokEntity(row = 4, column = 6, stone = OmokEntity.WHITE_STONE)
 
             // when
-            val point = entity.toDomainModel()
+            val point = entity.toDomain()
 
             // then
             assertThat(point.status).isInstanceOf(BoardStatus.Moved::class.java)
@@ -54,7 +54,7 @@ class OmokEntityTest {
             val entity = OmokEntity(row = 2, column = 7, stone = OmokEntity.DOUBLE_THREE_STONE)
 
             // when
-            val point = entity.toDomainModel()
+            val point = entity.toDomain()
 
             // then
             assertThat(point.status).isInstanceOf(BoardStatus.Blocked::class.java)
@@ -68,7 +68,7 @@ class OmokEntityTest {
             val entity = OmokEntity(row = 2, column = 7, stone = OmokEntity.DOUBLE_FOUR_STONE)
 
             // when
-            val point = entity.toDomainModel()
+            val point = entity.toDomain()
 
             // then
             assertThat(point.status).isInstanceOf(BoardStatus.Blocked::class.java)
@@ -82,7 +82,7 @@ class OmokEntityTest {
             val entity = OmokEntity(row = 2, column = 7, stone = OmokEntity.OVER_LINE_STONE)
 
             // when
-            val point = entity.toDomainModel()
+            val point = entity.toDomain()
 
             // then
             assertThat(point.status).isInstanceOf(BoardStatus.Blocked::class.java)
