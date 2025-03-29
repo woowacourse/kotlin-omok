@@ -64,10 +64,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateStonesUI(board: OmokBoard) {
-        forEachBoardCell { rowIndex, colIndex, cell ->
-            val position = Position(rowIndex, colIndex)
+        forEachBoardPoint { rowIndex, columnIndex, point ->
+            val position = Position(rowIndex, columnIndex)
             val state = board.find(position)
-            cell.setImageResource(
+
+            point.setImageResource(
                 when (state) {
                     PointState.OCCUPIED_BLACK -> drawable.black_stone
                     PointState.OCCUPIED_WHITE -> drawable.white_stone
@@ -77,10 +78,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun forEachBoardCell(event: (rowIndex: Int, colIndex: Int, cell: ImageView) -> Unit) {
+    private fun forEachBoardPoint(event: (rowIndex: Int, columnIndex: Int, point: ImageView) -> Unit) {
         binding.board.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
-            row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, cell ->
-                event(rowIndex + 1, colIndex + 1, cell)
+            row.children.filterIsInstance<ImageView>().forEachIndexed { columnIndex, point ->
+                event(rowIndex + 1, columnIndex + 1, point)
             }
         }
     }
@@ -91,13 +92,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupPointClickListener(omokGame: OmokGame) {
-        forEachBoardCell { rowIndex, colIndex, cell ->
-            cell.setOnClickListener {
-                val position = Position(rowIndex, colIndex)
+        forEachBoardPoint { rowIndex, columnIndex, point ->
+            point.setOnClickListener {
+                val position = Position(rowIndex, columnIndex)
                 val playerStone = PlayerStone(omokGame.currentTurn, position)
 
                 when (val result = omokGame.placeStone(position)) {
-                    is Success -> handlePlaceSuccess(cell, playerStone, omokGame)
+                    is Success -> handlePlaceSuccess(point, playerStone, omokGame)
                     is Failure -> showSnackBar(getFailureMessage(result))
                 }
             }
@@ -129,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         omokGame: OmokGame,
         playerStone: PlayerStone,
     ) {
-        when (val judgeResult = omokGame.judge(playerStone = playerStone)) {
+        when (val judgeResult = omokGame.judge(playerStone)) {
             is Finished -> {
                 updateBoardActivation(false)
                 showResultDialog(getJudgeMessage(judgeResult))
@@ -142,14 +143,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateBoardActivation(isEnabled: Boolean) =
-        with(binding.board) {
-            children
-                .filterIsInstance<TableRow>()
-                .flatMap { it.children }
-                .filterIsInstance<ImageView>()
-                .forEach { it.isEnabled = isEnabled }
+    private fun updateBoardActivation(isEnabled: Boolean) {
+        forEachBoardPoint { _, _, point ->
+            point.isEnabled = isEnabled
         }
+    }
 
     private fun showResultDialog(message: String) {
         AlertDialog
@@ -196,15 +194,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRestartClickListener(omokGame: OmokGame) {
         binding.btnOmokRestart.setOnClickListener {
-            lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    omokGameRepository.deleteGame()
-                }
-            }
+            deleteOmokGame()
             omokGame.restart()
             updateStonesUI(omokGame.board)
             updateBoardActivation(true)
             showSnackBar(getString(string.omok_game_restart))
+        }
+    }
+
+    private fun deleteOmokGame() {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                omokGameRepository.deleteGame()
+            }
         }
     }
 }
