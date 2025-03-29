@@ -2,6 +2,7 @@ package woowacourse.omok.model.board
 
 import omok.model.rule.OmokRuleManager
 import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.board.BoardSize.Companion.BOARD_MIN_SIZE
 
 class Board(
     private val boardSize: BoardSize,
@@ -55,7 +56,6 @@ class Board(
     private fun isOmok(point: Point): Boolean = rules.winningRule.calculate(this, point)
 
     companion object {
-        const val BOARD_MIN_SIZE = 1
         private const val NOT_FOUND_POINT_ERROR_MESSAGE = "Point를 찾을 수 없습니다."
     }
 }

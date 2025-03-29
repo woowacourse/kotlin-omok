@@ -1,6 +1,7 @@
 package woowacourse.omok.view
 
 import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.BoardSize
 import woowacourse.omok.model.board.Point
 import woowacourse.omok.model.board.PointState
 
@@ -31,7 +32,7 @@ fun Board.toUiString(): String {
 
     for (y in this.size downTo 1) {
         sb.append(y.toString().padStart(2, ' ') + " ")
-        for (x in Board.BOARD_MIN_SIZE..this.size) {
+        for (x in BoardSize.BOARD_MIN_SIZE..this.size) {
             val point = this.points.find { it.x == x && it.y == y }
             sb.append(getBoardCharacter(this, x, y, point))
             if (x != this.size) sb.append("──")
@@ -51,17 +52,17 @@ private fun getBoardCharacter(
 ): String =
     point?.stateToUiString() ?: when {
         // 네 모서리 처리
-        x == Board.BOARD_MIN_SIZE && y == board.size -> "┌"
+        x == BoardSize.BOARD_MIN_SIZE && y == board.size -> "┌"
         x == board.size && y == board.size -> "┐"
-        x == Board.BOARD_MIN_SIZE && y == Board.BOARD_MIN_SIZE -> "└"
-        x == board.size && y == Board.BOARD_MIN_SIZE -> "┘"
+        x == BoardSize.BOARD_MIN_SIZE && y == BoardSize.BOARD_MIN_SIZE -> "└"
+        x == board.size && y == BoardSize.BOARD_MIN_SIZE -> "┘"
 
         // 상단, 하단 테두리 처리
         y == board.size -> "┬"
-        y == Board.BOARD_MIN_SIZE -> "┴"
+        y == BoardSize.BOARD_MIN_SIZE -> "┴"
 
         // 좌측, 우측 테두리 처리
-        x == Board.BOARD_MIN_SIZE -> "├"
+        x == BoardSize.BOARD_MIN_SIZE -> "├"
         x == board.size -> "┤"
 
         // 기본 교차점 처리

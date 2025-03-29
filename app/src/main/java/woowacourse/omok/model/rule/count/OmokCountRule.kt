@@ -3,6 +3,7 @@ package omok.model.rule.count
 import omok.model.rule.OmokRule
 import woowacourse.omok.model.StoneColor
 import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.BoardSize
 import woowacourse.omok.model.board.Point
 import woowacourse.omok.model.board.PointState
 
@@ -48,7 +49,7 @@ abstract class OmokCountRule : OmokRule {
         board: Board,
         x: Int,
         y: Int,
-    ): Boolean = listOf(x, y).all { it in (Board.BOARD_MIN_SIZE..board.size) }
+    ): Boolean = listOf(x, y).all { it in (BoardSize.BOARD_MIN_SIZE..board.size) }
 
     private fun PointState.toStoneColor(): StoneColor? =
         when (this) {
