@@ -10,7 +10,8 @@ import woowacourse.omok.domain.stone.StoneColor
 class ThreeByThree(board: OmokBoard) : Renju(board) {
     override fun match(p: Point) {
         val boardEmpty = p.status == BoardStatus.Empty
-        val hasMoreThanOneThreeByThree = checkDirectionPairs(p, BoardStatus.Moved(StoneColor.BLACK)) > 1
+        val hasMoreThanOneThreeByThree =
+            checkDirectionPairs(p, BoardStatus.Moved(StoneColor.BLACK)) > 1
 
         require(boardEmpty && !hasMoreThanOneThreeByThree) {
             throw RendjuException.DoubleThreeException
@@ -22,15 +23,21 @@ class ThreeByThree(board: OmokBoard) : Renju(board) {
         target: BoardStatus,
     ): Int {
         return Direction.getDirectionPair().count { (d1, d2) ->
-            val forwardCount = seek(d1, current, target).count
-            val previousCount = seek(d2, current, target).count
+            val forwardResult = seek(d1, current, target)
+            val previousResult = seek(d2, current, target)
+
+            val forwardCount = forwardResult.count
+            val previousCount = previousResult.count
 
             val isIndirectlyClosed =
-                seek(d1, current, target).isIndirectlyClosed && seek(d2, current, target).isIndirectlyClosed
-            val totalCount = forwardCount + previousCount - EMPTY_ADJUSTMENT
+                forwardResult.isIndirectlyClosed && previousResult.isIndirectlyClosed
 
-            totalCount == REQUIRED_THREE_STONES && seek(d1, current, target).isBlocked &&
-                seek(d2, current, target).isBlocked && !isIndirectlyClosed
+            val totalCount = forwardCount + previousCount - EMPTY_ADJUSTMENT
+            val hasThreeStones = totalCount == REQUIRED_THREE_STONES
+            val isForwardBlocked = seek(d1, current, target).isBlocked
+            val isPreviousBlocked = seek(d2, current, target).isBlocked
+
+            hasThreeStones && isForwardBlocked && isPreviousBlocked && !isIndirectlyClosed
         }
     }
 }

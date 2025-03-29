@@ -13,7 +13,7 @@ class OmokRulesFacade(board: OmokBoard) : OmokRule {
     private val threeByThree: Renju = ThreeByThree(board)
     private val sixMok: Renju = SixMok(board)
 
-    override fun renjuRulesValidation(point: Point) =
+    override fun checkRenjuRuleViolations(point: Point) =
         execute {
             checkFourByFour(point)
             checkThreeByThree(point)
