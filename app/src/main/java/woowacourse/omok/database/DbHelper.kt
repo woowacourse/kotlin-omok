@@ -12,11 +12,6 @@ class DbHelper(
         null,
         DATABASE_VERSION,
     ) {
-    companion object {
-        const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "Omok.db"
-    }
-
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(OmokContract.OmokStone.SQL_CREATE_ENTRIES)
     }
@@ -36,5 +31,10 @@ class DbHelper(
         newVersion: Int,
     ) {
         onUpgrade(db, oldVersion, newVersion)
+    }
+
+    companion object {
+        const val DATABASE_VERSION = 1
+        const val DATABASE_NAME = "Omok.db"
     }
 }
