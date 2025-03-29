@@ -53,19 +53,22 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 view.setOnClickListener {
-                    if (omokBoard.isFull()) {
-                        Toast.makeText(this, "더 이상 돌을 놓을 수 없어 무승부입니다.", Toast.LENGTH_SHORT).show()
-                    }
                     if (omokBoard.isInvalidPosition(Position(row, column))) {
                         Toast.makeText(this, "이미 돌을 놓은 자리입니다.", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
                     }
                     if (omokBoard.isInvalidBlackPosition(Stone(Position(row, column), turn.color))) {
                         Toast.makeText(this, "흑돌이 놓을 수 없는 금수입니다.", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
                     }
-                    if (game.checkOmok()) {
+
+                    game.putStone(view, row, column, turn.color)
+
+                    if (omokBoard.isFull()) {
+                        showDraw()
+                    } else if (game.checkOmok()) {
                         showWinner()
                     } else {
-                        game.putStone(view, row, column, turn.color)
                         turn.next()
                         showTurnColorToast()
                     }
@@ -82,6 +85,18 @@ class MainActivity : AppCompatActivity() {
     private fun showTurnColorToast() {
         val turnColor = if (turn.isWhite()) "백" else "흑"
         Toast.makeText(this, "${turnColor}의 차례입니다.", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showDraw() {
+        val alertDialog =
+            AlertDialog.Builder(this).run {
+                setMessage("더 이상 돌을 놓을 수 없어 무승부입니다.")
+            }
+
+        alertDialog.setOnDismissListener {
+            restart()
+        }
+        alertDialog.show()
     }
 
     private fun showWinner() {
