@@ -1,14 +1,14 @@
-package woowacourse.omok.data.datasource
+package woowacourse.omok.data.dao
 
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.core.content.contentValuesOf
-import woowacourse.omok.data.db.OmokEntity
-import woowacourse.omok.data.db.OmokSchema.OmokContract.COLUMN_NAME_BOARD_COLUMN
-import woowacourse.omok.data.db.OmokSchema.OmokContract.COLUMN_NAME_BOARD_ROW
-import woowacourse.omok.data.db.OmokSchema.OmokContract.COLUMN_NAME_STONE
-import woowacourse.omok.data.db.OmokSchema.OmokContract.TABLE_NAME
+import woowacourse.omok.data.db.omok.OmokEntity
+import woowacourse.omok.data.db.omok.OmokSchema.OmokContract.COLUMN_NAME_BOARD_COLUMN
+import woowacourse.omok.data.db.omok.OmokSchema.OmokContract.COLUMN_NAME_BOARD_ROW
+import woowacourse.omok.data.db.omok.OmokSchema.OmokContract.COLUMN_NAME_STONE
+import woowacourse.omok.data.db.omok.OmokSchema.OmokContract.TABLE_NAME
 
-class OmokDataSource(private val dbHelper: SQLiteOpenHelper) {
+class OmokDao(private val dbHelper: SQLiteOpenHelper) {
     fun save(entity: OmokEntity) {
         dbHelper.writableDatabase.use { db ->
             val values =

@@ -1,4 +1,4 @@
-package woowacourse.omok.data.datasource
+package woowacourse.omok.data.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.assertj.core.api.Assertions.assertThat
@@ -7,22 +7,22 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
-import woowacourse.omok.data.db.OmokEntity
+import woowacourse.omok.data.db.omok.OmokEntity
 import woowacourse.omok.data.fake.FakeOmokSQLiteHelper
 import woowacourse.omok.fixture.testContext
 
 @RunWith(AndroidJUnit4::class)
-class OmokDataSourceTest {
-    private lateinit var omokDataSource: OmokDataSource
+class OmokDaoTest {
+    private lateinit var omokDao: OmokDao
 
     @BeforeEach
     fun setUp() {
-        omokDataSource = OmokDataSource(FakeOmokSQLiteHelper(testContext))
+        omokDao = OmokDao(FakeOmokSQLiteHelper(testContext))
     }
 
     @AfterEach
     fun dropDown() {
-        omokDataSource.drop()
+        omokDao.drop()
     }
 
     @DisplayName("데이터베이스에 현재 저장된 오목돌들을 가져온다")
@@ -35,10 +35,10 @@ class OmokDataSourceTest {
                 OmokEntity(2, 2, "WHITE"),
                 OmokEntity(3, 3, "BLACK"),
             )
-        entities.forEach { omokDataSource.save(it) }
+        entities.forEach { omokDao.save(it) }
 
         // when
-        val actual = omokDataSource.readAll()
+        val actual = omokDao.readAll()
 
         // then
         assertThat(actual).containsExactlyElementsOf(entities)
@@ -48,11 +48,11 @@ class OmokDataSourceTest {
     @Test
     fun test2() {
         // given
-        omokDataSource.save(OmokEntity(1, 1, "BLACK"))
+        omokDao.save(OmokEntity(1, 1, "BLACK"))
 
         // when
-        omokDataSource.drop()
-        val actual = omokDataSource.readAll()
+        omokDao.drop()
+        val actual = omokDao.readAll()
 
         // then
         assertThat(actual).isEmpty()
@@ -64,11 +64,11 @@ class OmokDataSourceTest {
         // given
         val entity1 = OmokEntity(1, 1, "BLACK")
         val entity2 = OmokEntity(1, 1, "WHITE")
-        omokDataSource.save(entity1)
-        omokDataSource.save(entity2)
+        omokDao.save(entity1)
+        omokDao.save(entity2)
 
         // when
-        val actual = omokDataSource.readAll()
+        val actual = omokDao.readAll()
 
         // then
         assertThat(actual).containsExactly(entity1)

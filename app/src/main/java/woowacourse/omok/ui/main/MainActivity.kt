@@ -12,8 +12,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import woowacourse.omok.R
-import woowacourse.omok.data.datasource.OmokDataSource
-import woowacourse.omok.data.db.OmokDbHelper
+import woowacourse.omok.data.dao.OmokDao
+import woowacourse.omok.data.db.omok.OmokDbHelper
 import woowacourse.omok.data.repository.OmokRepositoryImpl
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
 
     private fun initializeDataSource() {
         val dbHelper = OmokDbHelper(this)
-        val dataSource = OmokDataSource(dbHelper)
+        val dataSource = OmokDao(dbHelper)
         omokRepository = OmokRepositoryImpl(dataSource)
     }
 
