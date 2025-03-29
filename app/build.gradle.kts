@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.android.junit5)
     alias(libs.plugins.kotlin.android)
 }
 
@@ -42,9 +43,10 @@ android {
 }
 
 dependencies {
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    testImplementation(libs.jupiter.junit.jupiter)
+    testImplementation(libs.jupiter.junit.jupiter)
     testImplementation("org.assertj:assertj-core:3.24.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
     val currentVersion = "v2.0.0-alpha"
     implementation("com.github.tmdgh1592:budool-omok-rule:$currentVersion")
     implementation(libs.androidx.activity.ktx)
