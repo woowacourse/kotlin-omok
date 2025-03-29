@@ -60,10 +60,11 @@ class MainActivity : AppCompatActivity() {
                             }.onFailure { error ->
                                 toastMessage(message = error.message ?: "")
                             }.onSuccess { stoneColor ->
-                                showPlacedStone(view = cell, stoneColor = stoneColor)
-                                oMokRepository.insert(stone = Stone(position, stoneColor))
-                                gameJudgeProcess(service)
-                                service.nextTurn()
+                                if (oMokRepository.insert(stone = Stone(position, stoneColor))) {
+                                    showPlacedStone(view = cell, stoneColor = stoneColor)
+                                    gameJudgeProcess(service)
+                                    service.nextTurn()
+                                }
                             }
                         }
                     }

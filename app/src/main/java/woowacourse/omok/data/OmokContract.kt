@@ -24,4 +24,10 @@ object OmokContract {
             ($COLUMN_NAME_STONE_COLOR, $COLUMN_NAME_ROW, $COLUMN_NAME_COL)
             VALUES(?, ?, ?) 
         """
+
+    const val SQL_FETCH_STONE_BY_POSITION =
+        """ SELECT *
+            FROM ${TABLE_NAME}
+            WHERE $COLUMN_NAME_ROW = ? AND $COLUMN_NAME_COL = ?
+        """
 }
