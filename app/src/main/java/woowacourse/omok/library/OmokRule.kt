@@ -64,8 +64,8 @@ abstract class OmokRule(
             when (board[y][x]) {
                 in listOf(currentStone, EMPTY_STONE) -> distance++
                 opponentStone -> break
-                //TODO: 여기가 문제임 블랙이 오픈 3 만들려고만 하면 터짐. 33 확인이 아니라 그냥 3도 터트림
-                //TODO: 근데 여기를 막으면 33도 안 막힘.
+                // TODO: 여기가 문제임 블랙이 오픈 3 만들려고만 하면 터짐. 33 확인이 아니라 그냥 3도 터트림
+                // TODO: 근데 여기를 막으면 33도 안 막힘.
                 else -> {}
 //                    throw IllegalArgumentException("착수가 금지된 위치입니다.")
             }
