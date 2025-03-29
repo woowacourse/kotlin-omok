@@ -1,5 +1,6 @@
 package woowacourse.omok.ui
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -11,6 +12,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import woowacourse.omok.R
+import woowacourse.omok.data.datasource.OmokDataSource
+import woowacourse.omok.data.db.OmokDbHelper
+import woowacourse.omok.data.repository.OmokRepositoryImpl
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.Row
@@ -28,6 +32,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     private lateinit var game: OmokGame
     private lateinit var omokRepository: OmokRepository
     private var selectedImageView: ImageView? = null
+    private var mediaPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +43,10 @@ class MainActivity : AppCompatActivity(), GameEventListener {
             insets
         }
 
-        initializedSettings()
+        mediaPlayer = MediaPlayer.create(this, R.raw.apple)
+        mediaPlayer?.start()
+
+        initializeSettings()
         restoreSavedStones()
     }
 
@@ -74,8 +82,8 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         }
     }
 
-    private fun initializedSettings() {
-        omokRepository = OmokRepository.create(this)
+    private fun initializeSettings() {
+        initializeDataSource()
         game = OmokGame.create(this)
         board = findViewById(R.id.board)
 
