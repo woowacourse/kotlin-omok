@@ -145,16 +145,13 @@ class MainActivity :
     }
 
     override fun onShowMessage(result: PlaceStoneResult) {
-        val messageRes =
-            when (result) {
-                is OnGoing.AlreadyPlaced -> R.string.already_placed_error_message
-                is OnGoing.RuleViolation -> R.string.violation_error_message
-                is OnGoing.InvalidMove -> R.string.invalid_point_error_message
-                is Finished.BoardFull -> R.string.board_full_error_message
-                else -> null
-            }
-
-        messageRes?.let {
+        when (result) {
+            is OnGoing.AlreadyPlaced -> R.string.already_placed_error_message
+            is OnGoing.RuleViolation -> R.string.violation_error_message
+            is OnGoing.InvalidMove -> R.string.invalid_point_error_message
+            is Finished.BoardFull -> R.string.board_full_error_message
+            else -> null
+        }?.let {
             Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
         }
     }
