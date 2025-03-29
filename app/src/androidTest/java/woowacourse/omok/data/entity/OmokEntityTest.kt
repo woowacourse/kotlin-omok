@@ -16,12 +16,12 @@ import woowacourse.omok.domain.stone.StoneColor
 class OmokEntityTest {
     @Nested
     @DisplayName("OmokEntity to Point 변환 테스트")
-    inner class toDomainTest {
+    inner class ToDomainTest {
         @Test
         @DisplayName("BLACK는 BoardStatus.Moved(StoneColor.BLACK)로 변환 되어야 한다")
         fun `BalckStoneEntityTest`() {
             // given
-            val entity = OmokEntity(row = 3, column = 5, stone = OmokEntity.BLACK_STONE)
+            val entity = OmokEntity(row = 3, column = 5, stone = OmokEntity.BLACK_STONE, roomId = 1)
 
             // when
             val point = entity.toDomain()
@@ -37,7 +37,7 @@ class OmokEntityTest {
         @DisplayName("WHITE to BoardStatus.Moved(StoneColor.WHITE)로 변환 되어야 한다")
         fun `WhiteStoneEntityTest`() {
             // given
-            val entity = OmokEntity(row = 4, column = 6, stone = OmokEntity.WHITE_STONE)
+            val entity = OmokEntity(row = 4, column = 6, stone = OmokEntity.WHITE_STONE, roomId = 1)
 
             // when
             val point = entity.toDomain()
@@ -51,7 +51,7 @@ class OmokEntityTest {
         @DisplayName("DOUBLE_THREE_STONE to BoardStatus.Blocked(DoubleThreeExceptions) 변환 되어야 한다")
         fun `DoubleThreeTest`() {
             // given
-            val entity = OmokEntity(row = 2, column = 7, stone = OmokEntity.DOUBLE_THREE_STONE)
+            val entity = OmokEntity(row = 2, column = 7, stone = OmokEntity.DOUBLE_THREE_STONE, roomId = 1)
 
             // when
             val point = entity.toDomain()
@@ -65,7 +65,7 @@ class OmokEntityTest {
         @DisplayName("DOUBLE_FOUR_STONE to BoardStatus.Blocked(DoubleFourExceptions) 변환 테스트")
         fun `DoubleFourTest`() {
             // given
-            val entity = OmokEntity(row = 2, column = 7, stone = OmokEntity.DOUBLE_FOUR_STONE)
+            val entity = OmokEntity(row = 2, column = 7, stone = OmokEntity.DOUBLE_FOUR_STONE, roomId = 1)
 
             // when
             val point = entity.toDomain()
@@ -79,7 +79,7 @@ class OmokEntityTest {
         @DisplayName("OVER_LINE_STONE to BoardStatus.Blocked(OverLineExceptions) 변환 테스트")
         fun `OverLineTest`() {
             // given
-            val entity = OmokEntity(row = 2, column = 7, stone = OmokEntity.OVER_LINE_STONE)
+            val entity = OmokEntity(row = 2, column = 7, stone = OmokEntity.OVER_LINE_STONE, roomId = 1)
 
             // when
             val point = entity.toDomain()
@@ -105,7 +105,7 @@ class OmokEntityTest {
                 )
 
             // when
-            val entity = point.toEntity()
+            val entity = point.toEntity(1)
 
             // then
             assertThat(entity.stone).isEqualTo(OmokEntity.BLACK_STONE)
@@ -125,7 +125,7 @@ class OmokEntityTest {
                 )
 
             // when
-            val entity = point.toEntity()
+            val entity = point.toEntity(1)
 
             // then
             assertThat(entity.stone).isEqualTo(OmokEntity.WHITE_STONE)
@@ -145,7 +145,7 @@ class OmokEntityTest {
                 )
 
             // when
-            val entity = point.toEntity()
+            val entity = point.toEntity(1)
 
             // then
             assertThat(entity.stone).isEqualTo(OmokEntity.DOUBLE_THREE_STONE)
@@ -165,7 +165,7 @@ class OmokEntityTest {
                 )
 
             // when
-            val entity = point.toEntity()
+            val entity = point.toEntity(1)
 
             // then
             assertThat(entity.stone).isEqualTo(OmokEntity.DOUBLE_FOUR_STONE)
@@ -185,7 +185,7 @@ class OmokEntityTest {
                 )
 
             // when
-            val entity = point.toEntity()
+            val entity = point.toEntity(1)
 
             // then
             assertThat(entity.stone).isEqualTo(OmokEntity.OVER_LINE_STONE)

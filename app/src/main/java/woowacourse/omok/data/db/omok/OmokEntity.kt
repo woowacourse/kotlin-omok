@@ -13,6 +13,7 @@ import woowacourse.omok.domain.point.Point
 import woowacourse.omok.domain.stone.StoneColor
 
 data class OmokEntity(
+    val roomId: Long,
     val row: Int,
     val column: Int,
     val stone: String,
@@ -23,6 +24,7 @@ data class OmokEntity(
                 BLACK_STONE,
                 WHITE_STONE,
                 -> BoardStatus.Moved(StoneColor.fromString(stone))
+
                 DOUBLE_THREE_STONE -> BoardStatus.Blocked(RendjuException.DoubleThreeException)
                 DOUBLE_FOUR_STONE -> BoardStatus.Blocked(RendjuException.DoubleFourException)
                 OVER_LINE_STONE -> BoardStatus.Blocked(RendjuException.OverLineException)
@@ -45,7 +47,7 @@ data class OmokEntity(
     }
 }
 
-fun Point.toEntity(): OmokEntity {
+fun Point.toEntity(roomId: Long): OmokEntity {
     val stone =
         when (val status = this.status) {
             is BoardStatus.Moved ->
@@ -60,10 +62,12 @@ fun Point.toEntity(): OmokEntity {
                     RendjuException.DoubleFourException -> DOUBLE_FOUR_STONE
                     RendjuException.OverLineException -> OVER_LINE_STONE
                 }
+
             else -> throw IllegalArgumentException()
         }
 
     return OmokEntity(
+        roomId = roomId,
         row = this.y.value,
         column = this.x.value,
         stone = stone,

@@ -8,12 +8,15 @@ import woowacourse.omok.domain.repository.OmokRepository
 class OmokRepositoryImpl(
     private val omokDao: OmokDao,
 ) : OmokRepository {
-    override fun saveNewPoint(newPoint: Point) {
-        omokDao.save(newPoint.toEntity())
+    override fun saveNewPoint(
+        newPoint: Point,
+        roomId: Long,
+    ) {
+        omokDao.save(newPoint.toEntity(roomId))
     }
 
-    override fun readAllPoint(): List<Point> {
-        return omokDao.readAll().map { it.toDomain() }
+    override fun readAllPoint(roomId: Long): List<Point> {
+        return omokDao.readByRoomId(roomId).map { it.toDomain() }
     }
 
     override fun drop() {

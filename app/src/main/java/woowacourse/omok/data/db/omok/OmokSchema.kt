@@ -1,22 +1,20 @@
 package woowacourse.omok.data.db.omok
 
-import woowacourse.omok.data.db.omok.OmokSchema.OmokContract.COLUMN_NAME_BOARD_COLUMN
-import woowacourse.omok.data.db.omok.OmokSchema.OmokContract.COLUMN_NAME_BOARD_ROW
-import woowacourse.omok.data.db.omok.OmokSchema.OmokContract.COLUMN_NAME_STONE
-import woowacourse.omok.data.db.omok.OmokSchema.OmokContract.TABLE_NAME
+import woowacourse.omok.data.db.room.RoomSchema
 
 object OmokSchema {
     const val SQL_CREATE_OMOK_TABLE =
-        "CREATE TABLE $TABLE_NAME (" +
-            " $COLUMN_NAME_BOARD_COLUMN INTEGER NOT NULL," +
-            " $COLUMN_NAME_BOARD_ROW INTEGER NOT NULL," +
-            " $COLUMN_NAME_STONE TEXT," +
-//                "FOREIGN KEY(${OmokContract.COLUMN_NAME_ROOM_ID}) " +
-//                "REFERENCES ${RoomSchema.RoomsContract.TABLE_NAME}" +
-//                "(${RoomSchema.RoomsContract.COLUMN_NAME_ROOM_ID}) ON DELETE CASCADE," +
-            " UNIQUE($COLUMN_NAME_BOARD_COLUMN, $COLUMN_NAME_BOARD_ROW) ON CONFLICT IGNORE)"
+        "CREATE TABLE ${OmokContract.TABLE_NAME} (" +
+            " ${OmokContract.COLUMN_NAME_BOARD_COLUMN} INTEGER NOT NULL," +
+            " ${OmokContract.COLUMN_NAME_BOARD_ROW} INTEGER NOT NULL," +
+            " ${OmokContract.COLUMN_NAME_STONE} TEXT," +
+            " ${OmokContract.COLUMN_NAME_ROOM_ID} INTEGER NOT NULL," +
+            " FOREIGN KEY(${OmokContract.COLUMN_NAME_ROOM_ID}) " +
+            " REFERENCES ${RoomSchema.RoomsContract.ROOM_TABLE_NAME}(${RoomSchema.RoomsContract.COLUMN_NAME_ROOM_ID}) " +
+            " ON DELETE CASCADE," +
+            " UNIQUE(${OmokContract.COLUMN_NAME_BOARD_COLUMN}, ${OmokContract.COLUMN_NAME_BOARD_ROW}) ON CONFLICT IGNORE)"
 
-    const val SQL_DELETE_OMOK_TABLE = "DROP TABLE IF EXISTS $TABLE_NAME"
+    const val SQL_DELETE_OMOK_TABLE = "DROP TABLE IF EXISTS ${OmokContract.TABLE_NAME}"
 
     object OmokContract {
         const val TABLE_NAME = "omok"

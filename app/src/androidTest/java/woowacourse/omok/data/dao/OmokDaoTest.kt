@@ -7,17 +7,22 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
-import woowacourse.omok.data.db.omok.OmokEntity
+import woowacourse.omok.data.db.room.RoomEntity
 import woowacourse.omok.data.fake.FakeOmokSQLiteHelper
+import woowacourse.omok.fixture.duplicateOmokEntities
+import woowacourse.omok.fixture.omokEntities
 import woowacourse.omok.fixture.testContext
 
 @RunWith(AndroidJUnit4::class)
 class OmokDaoTest {
     private lateinit var omokDao: OmokDao
+    private lateinit var roomDao: RoomDao
 
     @BeforeEach
     fun setUp() {
-        omokDao = OmokDao(FakeOmokSQLiteHelper(testContext))
+        val dbHelper = FakeOmokSQLiteHelper(testContext)
+        omokDao = OmokDao(dbHelper)
+        roomDao = RoomDao(dbHelper)
     }
 
     @AfterEach
@@ -29,16 +34,13 @@ class OmokDaoTest {
     @Test
     fun test1() {
         // given
-        val entities =
-            arrayOf(
-                OmokEntity(1, 1, "BLACK"),
-                OmokEntity(2, 2, "WHITE"),
-                OmokEntity(3, 3, "BLACK"),
-            )
+        roomDao.insertRoom(RoomEntity(1, "오목고수 페토의 방"))
+        val entities = omokEntities
         entities.forEach { omokDao.save(it) }
 
         // when
-        val actual = omokDao.readAll()
+        val actual = omokDao.readByRoomId(1)
+        println("actual $actual")
 
         // then
         assertThat(actual).containsExactly(*entities)
@@ -48,11 +50,13 @@ class OmokDaoTest {
     @Test
     fun test2() {
         // given
-        omokDao.save(OmokEntity(1, 1, "BLACK"))
+        roomDao.insertRoom(RoomEntity(1, "오목고수 페토의 방"))
+        val entities = omokEntities
+        entities.forEach { omokDao.save(it) }
 
         // when
         omokDao.drop()
-        val actual = omokDao.readAll()
+        val actual = omokDao.readByRoomId(1)
 
         // then
         assertThat(actual).isEmpty()
@@ -62,14 +66,29 @@ class OmokDaoTest {
     @Test
     fun `test3`() {
         // given
-        val entities = arrayOf(OmokEntity(1, 1, "BLACK"), OmokEntity(1, 1, "WHITE"))
-
+        roomDao.insertRoom(RoomEntity(1, "오목고수 페토의 방"))
+        val entities = duplicateOmokEntities
         entities.forEach { omokDao.save(it) }
 
         // when
-        val actual = omokDao.readAll()
+        val actual = omokDao.readByRoomId(1)
 
         // then
-        assertThat(actual).isEqualTo(listOf((OmokEntity(1, 1, "BLACK"))))
+        assertThat(actual).isEqualTo(listOf(duplicateOmokEntities[0]))
+    }
+
+    @DisplayName("방을 삭제하면 진행중이던 게임 데이터도 삭제된다")
+    @Test
+    fun test4() {
+        // given
+        roomDao.insertRoom(RoomEntity(1, "오목고수 페토의 방"))
+        omokEntities.forEach { omokDao.save(it) }
+
+        // when
+        roomDao.deleteRoom(1)
+        val actual = omokDao.readByRoomId(1)
+
+        // then
+        assertThat(actual).isEmpty()
     }
 }

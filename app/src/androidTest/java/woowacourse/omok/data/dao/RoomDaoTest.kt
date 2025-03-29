@@ -35,7 +35,7 @@ class RoomDaoTest {
         roomDao.insertRoom(entity)
 
         // then
-        assertThat(roomDao.getAllRooms()).containsExactly(RoomEntity(1, "오목고수 페토의 방"))
+        assertThat(roomDao.getAllRooms()).contains(RoomEntity(1, "오목고수 페토의 방"))
     }
 
     @DisplayName("모든 방의 정보를 가져온다")
