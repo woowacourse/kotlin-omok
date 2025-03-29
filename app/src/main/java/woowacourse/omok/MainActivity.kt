@@ -74,13 +74,13 @@ class MainActivity : AppCompatActivity() {
                     cell.setImageResource(stoneRes)
                     omokDao.insertOmok(rowIndex, colIndex, game.lastStone?.stoneColor.toString())
 
-                    isGameOver(game.isOmok(), game)
+                    handleGameOver(game.isOmok(), game)
                 }
             }
         }
     }
 
-    private fun isGameOver(
+    private fun handleGameOver(
         isOmok: Boolean,
         game: Game,
     ) {
