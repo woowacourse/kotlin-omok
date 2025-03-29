@@ -11,19 +11,21 @@ import woowacourse.omok.view.omok.GameEventListener
 class OmokGame(
     private val eventListener: GameEventListener,
 ) {
-    private var previousPoint: Point? = null
-    private var currentCellState: CellState = CellState.BLACK
+    private val state: GameState = GameState()
 
-    fun start(lastMove: Pair<Point, CellState>?) {
-        previousPoint = lastMove?.first
-        currentCellState = lastMove?.second?.reverseCellState() ?: CellState.BLACK
+    fun start(
+        lastMove: Pair<Point, CellState>?,
+        isFinished: Boolean,
+    ) {
+        state.start(lastMove, isFinished)
     }
 
     fun placeStone(
         board: Board,
         point: Point,
     ) {
-        val placeResult = board.placeStone(point, currentCellState)
+        if (state.isFinished) return
+        val placeResult = board.placeStone(point, state.currentCellState)
         handlePlaceResult(placeResult, board)
     }
 
@@ -42,6 +44,7 @@ class OmokGame(
         when (result) {
             is Finished.GameFinished -> {
                 updateGameState(result.point)
+                state.finishGame()
                 showWinColor(board)
             }
 
@@ -62,13 +65,12 @@ class OmokGame(
     }
 
     private fun updateGameState(point: Point) {
-        previousPoint = point
-        eventListener.onBoardUpdated(point, currentCellState)
-        currentCellState = currentCellState.reverseCellState()
+        state.updateState(point)
+        eventListener.onBoardUpdated(point, state.currentCellState)
     }
 
     private fun showWinColor(board: Board) {
-        previousPoint?.let { point ->
+        state.previousPoint?.let { point ->
             val color = board.findStoneColor(point)
             eventListener.onGameWon(color)
         }
