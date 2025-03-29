@@ -6,12 +6,6 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
-    companion object {
-        private const val DATABASE_NAME = "omok.db"
-        private const val DATABASE_VERSION = 1
-        const val TABLE_NAME = "omok_board"
-    }
-
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
             "CREATE TABLE $TABLE_NAME (" +
@@ -29,5 +23,11 @@ class DatabaseHelper(context: Context) :
     ) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         onCreate(db)
+    }
+
+    companion object {
+        private const val DATABASE_NAME = "omok.db"
+        private const val DATABASE_VERSION = 1
+        const val TABLE_NAME = "omok_board"
     }
 }
