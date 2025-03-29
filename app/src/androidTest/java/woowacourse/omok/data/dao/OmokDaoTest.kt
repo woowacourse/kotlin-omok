@@ -30,7 +30,7 @@ class OmokDaoTest {
     fun test1() {
         // given
         val entities =
-            listOf(
+            arrayOf(
                 OmokEntity(1, 1, "BLACK"),
                 OmokEntity(2, 2, "WHITE"),
                 OmokEntity(3, 3, "BLACK"),
@@ -41,7 +41,7 @@ class OmokDaoTest {
         val actual = omokDao.readAll()
 
         // then
-        assertThat(actual).containsExactlyElementsOf(entities)
+        assertThat(actual).containsExactly(*entities)
     }
 
     @DisplayName("데이터 베이스에 현재 저장된 돌들을 제거한다")
@@ -62,15 +62,14 @@ class OmokDaoTest {
     @Test
     fun `test3`() {
         // given
-        val entity1 = OmokEntity(1, 1, "BLACK")
-        val entity2 = OmokEntity(1, 1, "WHITE")
-        omokDao.save(entity1)
-        omokDao.save(entity2)
+        val entities = arrayOf(OmokEntity(1, 1, "BLACK"), OmokEntity(1, 1, "WHITE"))
+
+        entities.forEach { omokDao.save(it) }
 
         // when
         val actual = omokDao.readAll()
 
         // then
-        assertThat(actual).containsExactly(entity1)
+        assertThat(actual).isEqualTo(listOf((OmokEntity(1, 1, "BLACK"))))
     }
 }

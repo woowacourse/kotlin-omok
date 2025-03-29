@@ -35,10 +35,10 @@ class OmokRepositoryImplTest {
 
     @DisplayName("데이터베이스에 돌들을 저장하고 저장된 오목돌들을 가져온다")
     @Test
-    fun readAllPointTest() {
+    fun saveAndReadAllPointTest() {
         // given
         val points =
-            listOf(
+            arrayOf(
                 Point(Column(1), Row(1), BoardStatus.Moved(StoneColor.BLACK)),
                 Point(Column(2), Row(2), BoardStatus.Moved(StoneColor.WHITE)),
                 Point(Column(3), Row(3), BoardStatus.Moved(StoneColor.BLACK)),
@@ -49,7 +49,7 @@ class OmokRepositoryImplTest {
         val actual = omokRepository.readAllPoint()
 
         // then
-        assertThat(actual).containsExactlyElementsOf(points)
+        assertThat(actual).containsExactly(*points)
     }
 
     @DisplayName("데이터 베이스에 현재 저장된 돌들을 제거한다")
