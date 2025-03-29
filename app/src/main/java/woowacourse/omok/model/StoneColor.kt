@@ -10,4 +10,14 @@ enum class StoneColor {
             WHITE -> BLACK
             BLACK -> WHITE
         }
+
+    companion object{
+        fun from(color : String):StoneColor{
+            return when(color){
+                "white" -> WHITE
+                "black" -> BLACK
+                else -> throw IllegalArgumentException("잘못된 색깔 값입니다.")
+            }
+        }
+    }
 }

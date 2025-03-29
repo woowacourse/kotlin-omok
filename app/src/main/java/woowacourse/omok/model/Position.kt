@@ -64,4 +64,8 @@ class Position(
     }
 
     override fun hashCode(): Int = javaClass.hashCode()
+
+    override fun toString(): String {
+        return col.toString()+row.value.toString()
+    }
 }

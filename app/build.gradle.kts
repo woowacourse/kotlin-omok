@@ -41,6 +41,10 @@ android {
             excludes += "win32-x86*/**"
         }
     }
+    buildFeatures {
+        viewBinding = true
+    }
+
 }
 
 dependencies {
@@ -60,4 +64,5 @@ dependencies {
     androidTestImplementation(libs.kotest.runner.junit5)
     androidTestImplementation(libs.mannodermaus.junit5.core)
     androidTestRuntimeOnly(libs.mannodermaus.junit5.runner)
+    implementation ("com.google.code.gson:gson:2.10.1")
 }

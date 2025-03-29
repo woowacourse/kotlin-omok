@@ -15,7 +15,12 @@ data class Col private constructor(
 
     fun isMin(): Boolean = value == GameBoard.colRange.first
 
-    companion object {
+
+    override fun toString(): String {
+        return (value+ASCII_A_OFFSET).toChar().toString()
+    }
+
+        companion object {
         private const val ERROR_OUT_OF_BOUND = "입력한 열이 범위를 벗어났습니다."
         const val ASCII_A_OFFSET = 64
 
@@ -24,5 +29,7 @@ data class Col private constructor(
         fun from(int: Int): Col = Col(int)
 
         private fun Char.toGridCol(): Int = this.code - ASCII_A_OFFSET
+
+
     }
 }
