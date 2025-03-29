@@ -11,12 +11,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import woowacourse.omok.database.OmokGameDao
+import woowacourse.omok.database.SavedStone
 import woowacourse.omok.model.OmokGame
 import woowacourse.omok.model.StoneColor
 import woowacourse.omok.model.board.PlaceStoneResult
+import woowacourse.omok.model.board.Point
 
 class MainActivity : AppCompatActivity() {
     private lateinit var omokGame: OmokGame
+    private lateinit var omokGameDao: OmokGameDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +33,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         initBoard()
+
+        omokGame = OmokGame()
+        omokGameDao = OmokGameDao(this)
+
+        val savedStones = omokGameDao.loadGameState()
+        omokGame.restoreGameState(savedStones)
+
+        updateBoardUI(savedStones)
+    }
+
+    override fun onDestroy() {
+        omokGameDao.close()
+        super.onDestroy()
     }
 
     private fun initBoard() {
-        omokGame = OmokGame()
         setupBoardUI()
     }
 
@@ -45,11 +61,21 @@ class MainActivity : AppCompatActivity() {
                     .filterIsInstance<ImageView>()
                     .forEachIndexed { colIndex, imageView ->
                         imageView.setImageDrawable(null)
+                        imageView.tag = Point(rowIndex + 1, colIndex + 1)
                         imageView.setOnClickListener {
                             playWithTurn(imageView, rowIndex + 1, colIndex + 1)
                         }
                     }
             }
+    }
+
+    private fun updateBoardUI(savedStones: List<SavedStone>) {
+        val boardView = findViewById<TableLayout>(R.id.board)
+
+        savedStones.forEach { stone ->
+            val imageView = boardView.findViewWithTag<ImageView>(Point(stone.x, stone.y))
+            changeBoardState(imageView, stone.color)
+        }
     }
 
     private fun playWithTurn(
@@ -61,8 +87,16 @@ class MainActivity : AppCompatActivity() {
         val result = omokGame.placeStone(x, y)
 
         when (result) {
-            is PlaceStoneResult.Success -> changeBoardState(view, currentTurn)
-            is PlaceStoneResult.Omok -> handleGameWin(currentTurn)
+            is PlaceStoneResult.Success -> {
+                changeBoardState(view, currentTurn)
+                omokGameDao.saveStone(x, y, currentTurn)
+            }
+
+            is PlaceStoneResult.Omok -> {
+                handleGameWin(currentTurn)
+                omokGameDao.saveStone(x, y, currentTurn)
+            }
+
             is PlaceStoneResult.AlreadyPlaced -> showToast("중복되는 칸에 돌을 둘 수 없습니다.")
             is PlaceStoneResult.ForbiddenMove -> showToast("둘 수 없는 자리입니다.")
         }
@@ -87,12 +121,14 @@ class MainActivity : AppCompatActivity() {
                 resetGame()
             }.setNegativeButton("종료") { _, _ ->
                 disableBoardTouch()
+                omokGameDao.clearGameData()
             }.setCancelable(false)
             .show()
     }
 
     private fun resetGame() {
         omokGame.resetGame()
+        omokGameDao.clearGameData()
         setupBoardUI()
     }
 

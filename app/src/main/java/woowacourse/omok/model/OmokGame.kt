@@ -4,6 +4,7 @@ import omok.model.rule.OmokRuleManager
 import omok.model.rule.count.OverlineRule
 import omok.model.rule.lib.DoubleFourMoveRule
 import omok.model.rule.lib.DoubleThreeMoveRule
+import woowacourse.omok.database.SavedStone
 import woowacourse.omok.model.StoneColor.Companion.next
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.BoardSize
@@ -13,7 +14,6 @@ import woowacourse.omok.model.board.Point
 class OmokGame {
     private var isGameOver = false
     var currentStoneColor: StoneColor = StoneColor.BLACK
-        private set
     private var previousPoint: Point? = null
     private var board: Board
 
@@ -43,10 +43,12 @@ class OmokGame {
                 currentStoneColor = currentStoneColor.next()
                 result
             }
+
             is PlaceStoneResult.Omok -> {
                 isGameOver = true
                 result
             }
+
             else -> result
         }
     }
@@ -57,5 +59,21 @@ class OmokGame {
         previousPoint = null
         val size = BoardSize.OMOK_BOARD_SIZE
         board = Board(BoardSize(size), getRules())
+    }
+
+    fun restoreGameState(savedStones: List<SavedStone>) {
+        resetGame()
+
+        savedStones.forEach { stone ->
+            val point = Point(stone.x, stone.y)
+            board.placeStone(point, stone.color)
+        }
+
+        currentStoneColor =
+            if (savedStones.size % 2 == 0) {
+                StoneColor.WHITE
+            } else {
+                StoneColor.BLACK
+            }
     }
 }

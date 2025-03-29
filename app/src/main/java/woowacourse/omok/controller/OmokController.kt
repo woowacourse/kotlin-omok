@@ -1,10 +1,10 @@
-package omok.controller
+package woowacourse.omok.controller
 
 import omok.model.rule.OmokRuleManager
 import omok.model.rule.count.OverlineRule
 import omok.model.rule.lib.DoubleFourMoveRule
 import omok.model.rule.lib.DoubleThreeMoveRule
-import woowacourse.omok.model.OmokGame
+import woowacourse.omok.model.OmokGameForConsole
 import woowacourse.omok.model.board.BoardSize
 import woowacourse.omok.view.NextPointListener
 import woowacourse.omok.view.OmokInputView
@@ -17,7 +17,7 @@ class OmokController(
     fun play() {
         val size = BoardSize.OMOK_BOARD_SIZE
         val rules = getRules()
-        OmokGame(
+        OmokGameForConsole(
             object : NextPointListener {
                 override fun onNextPoint(): Pair<Int, Int> = inputView.readPosition()
             },
