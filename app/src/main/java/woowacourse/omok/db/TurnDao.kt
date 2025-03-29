@@ -8,6 +8,4 @@ interface TurnDao {
     fun getLastTurn(): StoneColor
 
     fun deleteTurn()
-
-    fun initializeTurn()
 }

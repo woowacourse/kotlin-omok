@@ -10,7 +10,10 @@ class TurnDaoImpl(context: Context) : TurnDao {
     override fun saveTurn(color: StoneColor) {
         val db = dbHelper.writableDatabase
         deleteTurn()
-        db.execSQL("INSERT INTO $CURRENT_TURN (id, color) VALUES (1, ?)", arrayOf(color.name))
+        db.execSQL(
+            "INSERT INTO $CURRENT_TURN (id, color) VALUES (1, ?)",
+            arrayOf(color.name),
+        )
         db.close()
     }
 
@@ -29,15 +32,5 @@ class TurnDaoImpl(context: Context) : TurnDao {
     override fun deleteTurn() {
         val db = dbHelper.writableDatabase
         db.execSQL("DELETE FROM $CURRENT_TURN")
-    }
-
-    override fun initializeTurn() {
-        val db = dbHelper.writableDatabase
-        deleteTurn()
-        db.execSQL(
-            "INSERT INTO $CURRENT_TURN (id, color) VALUES (1, ?)",
-            arrayOf(StoneColor.BLACK.name),
-        )
-        db.close()
     }
 }
