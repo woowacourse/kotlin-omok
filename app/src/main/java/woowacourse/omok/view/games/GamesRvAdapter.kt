@@ -37,7 +37,7 @@ class GamesRvAdapter(
             tvGameStatus.setTextColor(game.isFinished.toStatusTextColor())
 
             deleteButton.setOnClickListener { listener.deleteGame(game.id) }
-            itemView.setOnClickListener { listener.enterGame(game.id) }
+            itemView.setOnClickListener { listener.enterGame(game.id, game.isFinished) }
         }
 
         private fun Boolean.toStatusText(): String {
@@ -74,10 +74,4 @@ class GamesRvAdapter(
     }
 
     override fun getItemCount(): Int = games.size
-
-    interface OnGameClickListener {
-        fun enterGame(gameId: Int)
-
-        fun deleteGame(gameId: Int)
-    }
 }

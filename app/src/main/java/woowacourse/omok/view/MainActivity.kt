@@ -5,6 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import woowacourse.omok.R
 import woowacourse.omok.view.games.GamesFragment
 
@@ -14,12 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setWindowInsets()
 
-        if (supportFragmentManager.findFragmentById(R.id.fl_main) == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fl_main, GamesFragment())
-                .commit()
-        }
+        replaceFragment(GamesFragment())
     }
 
     private fun setWindowInsets() {
@@ -29,5 +25,15 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    fun replaceFragment(
+        fragment: Fragment,
+        backStackName: String = "",
+    ) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fl_main, fragment)
+        if (backStackName.isNotEmpty()) transaction.addToBackStack(backStackName)
+        transaction.commit()
     }
 }

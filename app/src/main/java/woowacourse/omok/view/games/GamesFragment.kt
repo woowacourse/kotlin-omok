@@ -1,13 +1,10 @@
 package woowacourse.omok.view.games
 
-import android.app.AlertDialog
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,11 +13,15 @@ import woowacourse.omok.R
 import woowacourse.omok.data.OmokDatabaseHelper
 import woowacourse.omok.data.dao.GamesDao
 import woowacourse.omok.domain.Game
+import woowacourse.omok.view.MainActivity
 import woowacourse.omok.view.omok.OmokFragment
 
-class GamesFragment : Fragment() {
+class GamesFragment :
+    Fragment(),
+    OnGameClickListener {
     private lateinit var gamesRvAdapter: GamesRvAdapter
     private lateinit var gamesDao: GamesDao
+    private lateinit var createGameDialog: CreateGameDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +35,7 @@ class GamesFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         initializeDb()
+        initializeDialog()
         setupListeners()
         initializeRecyclerView()
     }
@@ -45,46 +47,23 @@ class GamesFragment : Fragment() {
 
     private fun setupListeners() {
         requireView().findViewById<Button>(R.id.btn_game_create).setOnClickListener {
-            showCreateGameDialog()
+            createGameDialog.show()
         }
     }
 
-    private fun showCreateGameDialog() {
-        val input =
-            EditText(requireContext()).apply {
-                inputType = InputType.TYPE_CLASS_TEXT
+    private fun initializeDialog() {
+        createGameDialog =
+            CreateGameDialog(requireContext()) { roomName ->
+                createGame(roomName)
             }
-
-        AlertDialog
-            .Builder(requireContext())
-            .apply {
-                setTitle(R.string.dialog_create_game_title)
-                setView(input)
-                setPositiveButton(R.string.dialog_create_game_button_positive) { _, _ ->
-                    val roomName = input.text.toString()
-                    createGame(roomName)
-                }
-                setNegativeButton(R.string.dialog_create_game_button_negative) { dialog, _ ->
-                    dialog.cancel()
-                }
-            }.show()
     }
 
     private fun createGame(roomName: String) {
-        gamesDao.createGame(roomName).onSuccess {
-            navigateToOmokFragment(it)
-        }
-    }
-
-    private fun navigateToOmokFragment(gameId: Int) {
-        val bundle = Bundle()
-        bundle.putInt(OmokFragment.ARGUMENT_KEY_NAME_GAME_ID, gameId)
-
-        requireActivity().supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_main, OmokFragment().apply { arguments = bundle })
-            addToBackStack(null)
-            commit()
-        }
+        gamesDao
+            .createGame(roomName)
+            .onSuccess {
+                navigateToOmokFragment(it)
+            }
     }
 
     private fun initializeRecyclerView() {
@@ -94,20 +73,11 @@ class GamesFragment : Fragment() {
     }
 
     private fun setupRecyclerView(games: List<Game>) {
-        gamesRvAdapter =
-            GamesRvAdapter(
-                games,
-                object : GamesRvAdapter.OnGameClickListener {
-                    override fun enterGame(gameId: Int) {
-                        navigateToOmokFragment(gameId)
-                    }
+        gamesRvAdapter = GamesRvAdapter(games, this)
+        setRecyclerView()
+    }
 
-                    override fun deleteGame(gameId: Int) {
-                        deleteGameFromDb(gameId)
-                    }
-                },
-            )
-
+    private fun setRecyclerView() {
         requireView().findViewById<RecyclerView>(R.id.rv_games).apply {
             adapter = gamesRvAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -118,6 +88,31 @@ class GamesFragment : Fragment() {
                 ),
             )
         }
+    }
+
+    override fun enterGame(
+        gameId: Int,
+        isFinished: Boolean,
+    ) {
+        navigateToOmokFragment(gameId, isFinished)
+    }
+
+    override fun deleteGame(gameId: Int) {
+        deleteGameFromDb(gameId)
+    }
+
+    private fun navigateToOmokFragment(
+        gameId: Int,
+        isFinished: Boolean = false,
+    ) {
+        val bundle = Bundle()
+        bundle.putInt(OmokFragment.ARGUMENT_KEY_NAME_GAME_ID, gameId)
+        bundle.putBoolean(OmokFragment.ARGUMENT_KEY_NAME_GAME_FINISHED, isFinished)
+
+        (requireActivity() as? MainActivity)?.replaceFragment(
+            OmokFragment().apply { arguments = bundle },
+            "game-$gameId",
+        )
     }
 
     private fun deleteGameFromDb(gameId: Int) {

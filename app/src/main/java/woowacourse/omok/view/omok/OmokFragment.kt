@@ -30,7 +30,6 @@ class OmokFragment :
     GameEventListener {
     private var gameId: Int? = null
     private val game: OmokGame = OmokGame(this)
-    private var isFinish: Boolean = false
 
     private lateinit var board: Board
     private lateinit var boardView: TableLayout
@@ -69,7 +68,7 @@ class OmokFragment :
                 val point = Point(rowIndex + 1, colIndex + 1)
                 imageView.tag = point
                 imageView.setOnClickListener {
-                    if (!isFinish) game.placeStone(board, point)
+                    game.placeStone(board, point)
                 }
             }
         }
@@ -79,7 +78,8 @@ class OmokFragment :
         val loadedMoves = loadMovesFromDatabase()
         board = Board(BoardSize(), loadedMoves, RuleValidator(OmokMoveRules()))
         updateBoardUIWithLoadedMoves(loadedMoves)
-        game.start(loadedMoves.entries.lastOrNull()?.toPair())
+        val isFinished = arguments?.getBoolean(ARGUMENT_KEY_NAME_GAME_FINISHED) ?: false
+        game.start(loadedMoves.entries.lastOrNull()?.toPair(), isFinished)
     }
 
     private fun loadMovesFromDatabase(): Map<Point, CellState> =
@@ -124,7 +124,6 @@ class OmokFragment :
     }
 
     override fun onGameWon(winnerState: CellState?) {
-        isFinish = true
         showToast(getString(R.string.winner_ui_string, winnerState?.toUiString()))
         gameId?.let { gamesDao.updateGameStatus(it) }
     }
@@ -147,5 +146,6 @@ class OmokFragment :
 
     companion object {
         const val ARGUMENT_KEY_NAME_GAME_ID = "gameId"
+        const val ARGUMENT_KEY_NAME_GAME_FINISHED = "isFinished"
     }
 }
