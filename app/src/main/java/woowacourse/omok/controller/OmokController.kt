@@ -2,9 +2,8 @@ package woowacourse.omok.controller
 
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.adapter.RenjuRuleAdapter
-import woowacourse.omok.model.game.FoulConditionResult
 import woowacourse.omok.model.game.GameState
-import woowacourse.omok.model.game.InvalidMoveResult
+import woowacourse.omok.model.game.ViolationResult
 import woowacourse.omok.model.stone.Point
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor
@@ -25,14 +24,18 @@ class OmokController(
     private fun playOmok(board: Board) {
         while (true) {
             val stone = setStone(board)
-            val foulConditionResult: FoulConditionResult? = board.checkFoulCondition(stone)
-            val invalidMoveResult: InvalidMoveResult? = board.checkInvalidMove(stone)
-            if (shouldRetry(board.checkFoulCondition(stone), board.checkInvalidMove(stone))) {
-                continue
+            when (val violationResult: ViolationResult? = board.checkViolation(stone)) {
+                null -> Unit
+                is ViolationResult.InvalidMoveResult.FullBoard -> {
+                    outputView.printErrorMessage(violationResult.message)
+                    break
+                }
+                else -> {
+                    outputView.printErrorMessage(violationResult.message)
+                    continue
+                }
             }
-            if (invalidMoveResult is InvalidMoveResult.FullBoard) {
-                break
-            }
+
             board.place(stone)
             val gameState = board.gameState(stone)
             outputView.printBoard(board)
@@ -48,18 +51,5 @@ class OmokController(
         val inputPoint: Point = inputView.readTurn(lastStone)
         val nextColor: StoneColor = (lastStone?.color ?: StoneColor.WHITE).reverse()
         return Stone(inputPoint, nextColor)
-    }
-
-    private fun shouldRetry(
-        foulConditionResult: FoulConditionResult?,
-        invalidMoveResult: InvalidMoveResult?,
-    ): Boolean {
-        if (foulConditionResult != null) {
-            return true
-        }
-        if (invalidMoveResult != null && invalidMoveResult !is InvalidMoveResult.FullBoard) {
-            return true
-        }
-        return false
     }
 }

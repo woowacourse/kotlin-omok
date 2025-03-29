@@ -2,9 +2,8 @@ package woowacourse.omok.model
 
 import woowacourse.omok.model.adapter.RenjuRuleAdapter
 import woowacourse.omok.model.game.FoulCondition
-import woowacourse.omok.model.game.FoulConditionResult
 import woowacourse.omok.model.game.GameState
-import woowacourse.omok.model.game.InvalidMoveResult
+import woowacourse.omok.model.game.ViolationResult
 import woowacourse.omok.model.stone.Point
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor
@@ -29,20 +28,33 @@ class Board(
         }
     }
 
-    fun checkFoulCondition(newStone: Stone): FoulConditionResult? =
-        when (renjuRuleAdapter.checkAnyFoulCondition(stones.stones, newStone)) {
-            FoulCondition.DOUBLE_FOUR -> FoulConditionResult.DoubleFour()
-            FoulCondition.DOUBLE_THREE -> FoulConditionResult.DoubleThree()
-            FoulCondition.OVERLINE -> FoulConditionResult.Overline()
-            FoulCondition.NONE -> null
+    fun checkViolation(newStone: Stone): ViolationResult? {
+        val invalidMoveResult: ViolationResult? = checkInvalidMove(newStone)
+        if (invalidMoveResult != null) {
+            return invalidMoveResult
         }
 
-    fun checkInvalidMove(newStone: Stone): InvalidMoveResult? =
+        val foulConditionResult: ViolationResult? = checkFoulCondition(newStone)
+        if (foulConditionResult != null) {
+            return foulConditionResult
+        }
+        return null
+    }
+
+    private fun checkInvalidMove(newStone: Stone): ViolationResult? =
         when {
-            stones.stones.size == MAX_STONES_SIZE -> InvalidMoveResult.FullBoard()
-            stones.isOccupied(newStone) -> InvalidMoveResult.OccupiedPoint()
-            !isValidPoint(newStone.point) -> InvalidMoveResult.OutOfBoard()
+            stones.stones.size == MAX_STONES_SIZE -> ViolationResult.InvalidMoveResult.FullBoard()
+            stones.isOccupied(newStone) -> ViolationResult.InvalidMoveResult.OccupiedPoint()
+            !isValidPoint(newStone.point) -> ViolationResult.InvalidMoveResult.OutOfBoard()
             else -> null
+        }
+
+    private fun checkFoulCondition(newStone: Stone): ViolationResult? =
+        when (renjuRuleAdapter.checkAnyFoulCondition(stones.stones, newStone)) {
+            FoulCondition.DOUBLE_FOUR -> ViolationResult.FoulConditionResult.DoubleFour()
+            FoulCondition.DOUBLE_THREE -> ViolationResult.FoulConditionResult.DoubleThree()
+            FoulCondition.OVERLINE -> ViolationResult.FoulConditionResult.Overline()
+            FoulCondition.NONE -> null
         }
 
     private fun isValidPoint(point: Point): Boolean =

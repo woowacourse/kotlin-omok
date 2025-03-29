@@ -1,15 +1,14 @@
 package woowacourse.omok
 
-import woowacourse.omok.model.game.FoulConditionResult
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import woowacourse.omok.model.Board
 import woowacourse.omok.model.game.GameState
-import woowacourse.omok.model.game.InvalidMoveResult
+import woowacourse.omok.model.game.ViolationResult
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor.BLACK
 import woowacourse.omok.model.stone.StoneColor.WHITE
 import woowacourse.omok.model.stone.Stones
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-import woowacourse.omok.model.Board
 
 class BoardTest {
     /*
@@ -83,9 +82,9 @@ class BoardTest {
                 ),
             )
 
-        val actual = board.checkFoulCondition(Stone(10, 8, BLACK))
+        val actual = board.checkViolation(Stone(10, 8, BLACK))
 
-        val expected = FoulConditionResult.DoubleThree()
+        val expected = ViolationResult.FoulConditionResult.DoubleThree()
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -124,9 +123,9 @@ class BoardTest {
                 ),
             )
 
-        val actual = board.checkFoulCondition(Stone(11, 8, BLACK))
+        val actual = board.checkViolation(Stone(11, 8, BLACK))
 
-        val expected = FoulConditionResult.DoubleFour()
+        val expected = ViolationResult.FoulConditionResult.DoubleFour()
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -164,9 +163,9 @@ class BoardTest {
                 ),
             )
 
-        val actual = board.checkFoulCondition(Stone(12, 8, BLACK))
+        val actual = board.checkViolation(Stone(12, 8, BLACK))
 
-        val expected = FoulConditionResult.Overline()
+        val expected = ViolationResult.FoulConditionResult.Overline()
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -185,9 +184,9 @@ class BoardTest {
                 ),
             )
 
-        val actual = board.checkInvalidMove(Stone(8, 8, BLACK))
+        val actual = board.checkViolation(Stone(8, 8, BLACK))
 
-        val expected = InvalidMoveResult.FullBoard()
+        val expected = ViolationResult.InvalidMoveResult.FullBoard()
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -203,9 +202,9 @@ class BoardTest {
                 ),
             )
 
-        val actual = board.checkInvalidMove(Stone(8, 8, WHITE))
+        val actual = board.checkViolation(Stone(8, 8, WHITE))
 
-        val expected = InvalidMoveResult.OccupiedPoint()
+        val expected = ViolationResult.InvalidMoveResult.OccupiedPoint()
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -214,9 +213,9 @@ class BoardTest {
     fun `보드의 바깥에 돌을 두려는 상태인지 확인할 수 있다`() {
         val board = Board()
 
-        val actual = board.checkInvalidMove(Stone(16, 16, WHITE))
+        val actual = board.checkViolation(Stone(16, 16, WHITE))
 
-        val expected = InvalidMoveResult.OutOfBoard()
+        val expected = ViolationResult.InvalidMoveResult.OutOfBoard()
 
         assertThat(actual).isEqualTo(expected)
     }

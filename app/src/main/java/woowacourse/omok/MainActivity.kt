@@ -20,7 +20,7 @@ import woowacourse.omok.database.DbHelper
 import woowacourse.omok.database.OmokContract
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.game.GameState
-import woowacourse.omok.model.game.InvalidMoveResult
+import woowacourse.omok.model.game.ViolationResult
 import woowacourse.omok.model.stone.Point
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor
@@ -73,10 +73,6 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
     ) {
         val stone = omokAppController.stone(point)
-
-        if (isFoulToRetry(stone) || isInvalidMoveToRetry(stone)) {
-            return
-        }
         omokAppController.place(stone)
         paintStone(stone, view)
         insertStone(stone)
@@ -88,13 +84,26 @@ class MainActivity : AppCompatActivity() {
         board: Board,
         boardLayout: TableLayout,
     ) {
-        if (isEnd(point)) {
-            place(point, view)
+        val stone = omokAppController.stone(point)
+        when (val violationResult = violationResult(omokAppController.stone(point))) {
+            null -> {
+                place(point, view)
+            }
+            is ViolationResult.InvalidMoveResult.FullBoard -> {
+                showToastMessage(violationResult.message)
+                inactivateBoard(boardLayout)
+                deleteStones()
+            }
+            else -> {
+                showToastMessage(violationResult.message)
+            }
+        }
+
+        if (omokGameState(stone) != GameState.PLAYING) {
+            showToastMessage(omokGameState(stone).toWinnerMessage())
             inactivateBoard(boardLayout)
             deleteStones()
-            return
         }
-        place(point, view)
         setTurnTextView(board)
     }
 
@@ -107,19 +116,6 @@ class MainActivity : AppCompatActivity() {
                     imageView.isClickable = false
                 }
             }
-    }
-
-    private fun isEnd(point: Point): Boolean {
-        val stone = omokAppController.stone(point)
-        if (isInvalidMoveToStop(point)) {
-            showToastMessage(InvalidMoveResult.FullBoard().message)
-            return true
-        }
-        if (omokGameState(stone) != GameState.PLAYING) {
-            showToastMessage(omokGameState(stone).toWinnerMessage())
-            return true
-        }
-        return false
     }
 
     private fun paintStone(
@@ -163,23 +159,7 @@ class MainActivity : AppCompatActivity() {
         turnTextView.text = text
     }
 
-    private fun isFoulToRetry(stone: Stone): Boolean {
-        val result = omokAppController.foulConditionResult(stone) ?: return false
-        showToastMessage(result.message)
-        return true
-    }
-
-    private fun isInvalidMoveToRetry(stone: Stone): Boolean {
-        val result = omokAppController.invalidMoveResult(stone) ?: return false
-        showToastMessage(result.message)
-        return result != InvalidMoveResult.FullBoard()
-    }
-
-    private fun isInvalidMoveToStop(point: Point): Boolean {
-        val stone = omokAppController.stone(point)
-        val result = omokAppController.invalidMoveResult(stone) ?: return false
-        return result == InvalidMoveResult.FullBoard()
-    }
+    private fun violationResult(stone: Stone): ViolationResult? = omokAppController.violationResult(stone)
 
     private fun omokGameState(stone: Stone): GameState = omokAppController.gameState(stone)
 
@@ -203,7 +183,8 @@ class MainActivity : AppCompatActivity() {
             dbReader.rawQuery("SELECT * FROM ${OmokContract.OmokStone.TABLE_NAME}", arrayOf())
         with(cursor) {
             while (moveToNext()) {
-                val color = StoneColor.valueOf(getString(getColumnIndexOrThrow(OmokContract.OmokStone.COLUMN_NAME_COLOR)))
+                val color =
+                    StoneColor.valueOf(getString(getColumnIndexOrThrow(OmokContract.OmokStone.COLUMN_NAME_COLOR)))
                 val row = getInt(getColumnIndexOrThrow(OmokContract.OmokStone.COLUMN_NAME_ROW))
                 val col = getInt(getColumnIndexOrThrow(OmokContract.OmokStone.COLUMN_NAME_COLUMN))
                 result.add(Stone(row, col, color))

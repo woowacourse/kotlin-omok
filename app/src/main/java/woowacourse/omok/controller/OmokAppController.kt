@@ -1,9 +1,8 @@
 package woowacourse.omok.controller
 
 import woowacourse.omok.model.Board
-import woowacourse.omok.model.game.FoulConditionResult
 import woowacourse.omok.model.game.GameState
-import woowacourse.omok.model.game.InvalidMoveResult
+import woowacourse.omok.model.game.ViolationResult
 import woowacourse.omok.model.stone.Point
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor
@@ -21,9 +20,7 @@ class OmokAppController(
         return Stone(point, nextColor)
     }
 
-    fun foulConditionResult(stone: Stone): FoulConditionResult? = board.checkFoulCondition(stone)
-
-    fun invalidMoveResult(stone: Stone): InvalidMoveResult? = board.checkInvalidMove(stone)
+    fun violationResult(stone: Stone): ViolationResult? = board.checkViolation(stone)
 
     fun gameState(stone: Stone): GameState = board.gameState(stone)
 }
