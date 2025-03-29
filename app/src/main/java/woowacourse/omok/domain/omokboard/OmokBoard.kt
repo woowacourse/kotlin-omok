@@ -4,7 +4,7 @@ import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
 
 data class OmokBoard(
-    private val _value: Map<Position, OmokBoardGridCell>,
+    val value: Map<Position, OmokBoardGridCell>,
 ) {
     constructor(vararg stonePlace: Pair<Position, String>) : this(stonePlace.associate { it.first to it.second.toPointState() })
     constructor(width: Int = DEFAULT_OMOK_BOARD_SIZE, height: Int = DEFAULT_OMOK_BOARD_SIZE) :
@@ -17,15 +17,13 @@ data class OmokBoard(
                 }.toMap(),
         )
 
-    val width get() = _value.keys.maxOf { it.column.value }
-    val height get() = _value.keys.maxOf { it.row.value }
+    val width get() = value.keys.maxOf { it.column.value }
+    val height get() = value.keys.maxOf { it.row.value }
 
-    val value get() = _value
-
-    fun find(position: Position): OmokBoardGridCell? = _value[position]
+    fun find(position: Position): OmokBoardGridCell? = value[position]
 
     fun updateBoard(playerStone: PlayerStone): OmokBoard {
-        val updatedBoard = _value.toMutableMap()
+        val updatedBoard = value.toMutableMap()
         updatedBoard[playerStone.position] = OmokBoardGridCell.OCCUPIED(playerStone.color)
         return OmokBoard(updatedBoard)
     }
