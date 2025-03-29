@@ -32,6 +32,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var omokDao: OmokDao
     private val view = OutputView()
 
+    private val blackRuleChecker =
+        BlackRuleChecker(
+            rule = BlackRenjuRule(),
+            mapper = { position -> Point(position.col.value + 1, position.row.value + 1) },
+        )
+
+    private val game = Game(blackRuleChecker)
+
     override fun onStart() {
         if (omokDao.hasOmokData()) {
             createBoard()
@@ -50,15 +58,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val blackRuleChecker =
-            BlackRuleChecker(
-                rule = BlackRenjuRule(),
-                mapper = { position -> Point(position.col.value + 1, position.row.value + 1) },
-            )
-
-        val game = Game(blackRuleChecker)
-
-        val board = findViewById<TableLayout>(R.id.board)
+        var board = findViewById<TableLayout>(R.id.board)
         val rows =
             board.children
                 .filterIsInstance<TableRow>()
@@ -129,6 +129,7 @@ class MainActivity : AppCompatActivity() {
         stones.forEach { stone ->
             val rowIndex = stone.position.row.value
             val colIndex = stone.position.col.value
+            game.applyPlacement(Position(Row(rowIndex), Col(colIndex)))
             val cell =
                 rows[rowIndex]
                     .children

@@ -45,7 +45,7 @@ class Game(
             StoneColor.WHITE -> whiteOmokRule
         }
 
-    private fun applyPlacement(position: Position) {
+    fun applyPlacement(position: Position) {
         board = board.placeStone(position, turn)
         lastStone = Stone(position, turn)
         turn = turn.next()
