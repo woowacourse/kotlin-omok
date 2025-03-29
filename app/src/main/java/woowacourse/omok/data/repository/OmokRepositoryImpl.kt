@@ -13,7 +13,7 @@ class OmokRepositoryImpl(
     }
 
     override fun readAllPoint(): List<Point> {
-        return omokDao.readAll().map { it.toDomainModel() }
+        return omokDao.readAll().map { it.toDomain() }
     }
 
     override fun drop() {

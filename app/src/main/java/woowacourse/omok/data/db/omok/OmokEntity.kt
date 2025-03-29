@@ -1,10 +1,10 @@
-package woowacourse.omok.data.db
+package woowacourse.omok.data.db.omok
 
-import woowacourse.omok.data.db.OmokEntity.Companion.BLACK_STONE
-import woowacourse.omok.data.db.OmokEntity.Companion.DOUBLE_FOUR_STONE
-import woowacourse.omok.data.db.OmokEntity.Companion.DOUBLE_THREE_STONE
-import woowacourse.omok.data.db.OmokEntity.Companion.OVER_LINE_STONE
-import woowacourse.omok.data.db.OmokEntity.Companion.WHITE_STONE
+import woowacourse.omok.data.db.omok.OmokEntity.Companion.BLACK_STONE
+import woowacourse.omok.data.db.omok.OmokEntity.Companion.DOUBLE_FOUR_STONE
+import woowacourse.omok.data.db.omok.OmokEntity.Companion.DOUBLE_THREE_STONE
+import woowacourse.omok.data.db.omok.OmokEntity.Companion.OVER_LINE_STONE
+import woowacourse.omok.data.db.omok.OmokEntity.Companion.WHITE_STONE
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.Row
@@ -17,7 +17,7 @@ data class OmokEntity(
     val column: Int,
     val stone: String,
 ) {
-    fun toDomainModel(): Point {
+    fun toDomain(): Point {
         val stoneStatus =
             when (stone) {
                 BLACK_STONE,

@@ -1,6 +1,6 @@
 package woowacourse.omok.data.repository
 
-import woowacourse.omok.data.db.room.RoomDao
+import woowacourse.omok.data.dao.RoomDao
 import woowacourse.omok.data.db.room.toEntity
 import woowacourse.omok.domain.repository.RoomRepository
 import woowacourse.omok.domain.room.Room
