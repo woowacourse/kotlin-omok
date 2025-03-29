@@ -2,10 +2,9 @@ package woowacourse.omok.ui.dialog
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import woowacourse.omok.R
+import woowacourse.omok.databinding.ConfirmDialogBinding
 
 class ConfirmDialog(
     private val winnerMessage: String,
@@ -17,21 +16,20 @@ class ConfirmDialog(
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
+        val binding = ConfirmDialogBinding.bind(view)
 
-        val tvWinner = view.findViewById<TextView>(R.id.tvWinner)
-        val btnRetry = view.findViewById<Button>(R.id.btnRetry)
-        val btnFinish = view.findViewById<Button>(R.id.btnFinish)
+        with(binding) {
+            tvWinner.text = winnerMessage
 
-        tvWinner.text = winnerMessage
+            btnFinish.setOnClickListener {
+                onClickFinish()
+                dismiss()
+            }
 
-        btnFinish.setOnClickListener {
-            onClickFinish()
-            dismiss()
-        }
-
-        btnRetry.setOnClickListener {
-            onClickRetry()
-            dismiss()
+            btnRetry.setOnClickListener {
+                onClickRetry()
+                dismiss()
+            }
         }
     }
 }
