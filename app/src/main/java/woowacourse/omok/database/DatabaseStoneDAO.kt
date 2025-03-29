@@ -15,10 +15,11 @@ class DatabaseStoneDAO(private val dbHelper: DbHelper) : StoneDAO {
     ) {
         val db = dbHelper.writableDatabase
 
-        val cursor = db.rawQuery(
-            "SELECT * FROM board WHERE position_row = ? AND position_column = ? AND color = ?",
-            arrayOf(row.toString(), column.toString(), color)
-        )
+        val cursor =
+            db.rawQuery(
+                "SELECT * FROM board WHERE position_row = ? AND position_column = ? AND color = ?",
+                arrayOf(row.toString(), column.toString(), color),
+            )
 
         if (cursor.count > 0) {
             cursor.close()
