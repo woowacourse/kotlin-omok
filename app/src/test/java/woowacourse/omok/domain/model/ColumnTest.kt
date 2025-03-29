@@ -1,13 +1,12 @@
-package omok.domain.model
+package woowacourse.omok.domain.model
 
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.position.Column
 
 class ColumnTest {
-    private val board = Board(size = 20)
+    private val board = Board(15)
 
     @ParameterizedTest
     @ValueSource(ints = [0, -1, 21])
@@ -15,7 +14,7 @@ class ColumnTest {
         assertThatThrownBy {
             Column.from(
                 value,
-                board.inRange(value),
+                board.column,
             )
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("잘못된 위치입니다.")
