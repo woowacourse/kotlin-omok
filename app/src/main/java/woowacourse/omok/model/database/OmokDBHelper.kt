@@ -1,9 +1,11 @@
 package woowacourse.omok.model.database
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.core.database.sqlite.transaction
+import woowacourse.omok.model.database.OmokDBContract.PlayerTable
 
 class OmokDBHelper(
     context: Context,
@@ -48,6 +50,86 @@ class OmokDBHelper(
             val stonesWhereArgs = arrayOf(roomId.toString())
             delete(OmokDBContract.StonesTable.TABLE_NAME, stonesWhereClause, stonesWhereArgs)
         }
+    }
+
+    fun addPlayerHistory(
+        name: String,
+        playCount: Int = 0,
+        blackWinCount: Int = 0,
+        whiteWinCount: Int = 0,
+    ) {
+        val db = writableDatabase
+
+        val query =
+            "SELECT EXISTS(SELECT 1 FROM ${PlayerTable.TABLE_NAME} WHERE ${PlayerTable.COLUMN_PLAYER_NAME} = ?)"
+        val cursor = db.rawQuery(query, arrayOf(name))
+
+        cursor.use {
+            it.moveToFirst()
+            val exists = it.getInt(0)
+
+            if (exists == 1) {
+                val updateQuery =
+                    """
+                    UPDATE ${PlayerTable.TABLE_NAME} SET 
+                    ${PlayerTable.COLUMN_PLAY_COUNT} = ${PlayerTable.COLUMN_PLAY_COUNT} + ?, 
+                    ${PlayerTable.COLUMN_BLACK_WIN_COUNT} = ${PlayerTable.COLUMN_BLACK_WIN_COUNT} + ?, 
+                    ${PlayerTable.COLUMN_WHITE_WIN_COUNT} = ${PlayerTable.COLUMN_WHITE_WIN_COUNT} + ? 
+                    WHERE ${PlayerTable.COLUMN_PLAYER_NAME} = ?
+                    """.trimIndent()
+
+                db.execSQL(
+                    updateQuery,
+                    arrayOf(playCount, blackWinCount, whiteWinCount, name),
+                )
+            } else {
+                val values =
+                    ContentValues().apply {
+                        put(PlayerTable.COLUMN_PLAYER_NAME, name)
+                        put(PlayerTable.COLUMN_PLAY_COUNT, playCount)
+                        put(PlayerTable.COLUMN_BLACK_WIN_COUNT, blackWinCount)
+                        put(PlayerTable.COLUMN_WHITE_WIN_COUNT, whiteWinCount)
+                    }
+
+                db.insert(PlayerTable.TABLE_NAME, null, values)
+            }
+        }
+    }
+
+    fun getPlayerInfo(name: String): PlayerInfo? {
+        val db = readableDatabase
+        val projection =
+            arrayOf(
+                PlayerTable.COLUMN_PLAYER_NAME,
+                PlayerTable.COLUMN_PLAY_COUNT,
+                PlayerTable.COLUMN_BLACK_WIN_COUNT,
+                PlayerTable.COLUMN_WHITE_WIN_COUNT,
+            )
+
+        val selection = "${PlayerTable.COLUMN_PLAYER_NAME} = ?"
+        val selectionArgs = arrayOf(name)
+
+        return db
+            .query(
+                PlayerTable.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null,
+            ).use { cursor ->
+                if (cursor.moveToFirst()) {
+                    PlayerInfo(
+                        name = cursor.getString(cursor.getColumnIndexOrThrow(PlayerTable.COLUMN_PLAYER_NAME)),
+                        playCount = cursor.getInt(cursor.getColumnIndexOrThrow(PlayerTable.COLUMN_PLAY_COUNT)),
+                        blackWinCount = cursor.getInt(cursor.getColumnIndexOrThrow(PlayerTable.COLUMN_BLACK_WIN_COUNT)),
+                        whiteWinCount = cursor.getInt(cursor.getColumnIndexOrThrow(PlayerTable.COLUMN_WHITE_WIN_COUNT)),
+                    )
+                } else {
+                    null
+                }
+            }
     }
 
     companion object {

@@ -78,6 +78,7 @@ class OutputAppView(
     fun omokDialogAlert(
         stoneColor: StoneColor,
         restartGame: () -> Unit,
+        omokWinnerDBWrite: () -> Unit,
         roomWithStonesDelete: () -> Unit,
         stonesDelete: () -> Unit,
     ) {
@@ -92,6 +93,7 @@ class OutputAppView(
                     restartGame()
                 }.setNegativeButton(EXIT_BUTTON_TEXT) { _, _ ->
                     roomWithStonesDelete()
+                    omokWinnerDBWrite()
                     gameActivity.setResult(RESULT_OK)
                     gameActivity.finish()
                 }.setCancelable(false)

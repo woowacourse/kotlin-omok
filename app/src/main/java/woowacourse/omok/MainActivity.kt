@@ -3,6 +3,8 @@ package woowacourse.omok
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import woowacourse.omok.model.database.OmokDBContract
 import woowacourse.omok.model.database.OmokDBHelper
+import woowacourse.omok.model.database.PlayerInfo
 import woowacourse.omok.model.gameRoom.GameRoom
 import woowacourse.omok.model.gameRoom.GameRoomAdapter
 import java.time.LocalDateTime
@@ -157,6 +160,8 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "두 닉네임이 같습니다!!", Toast.LENGTH_SHORT).show()
 
                 else -> {
+                    dbHelper.addPlayerHistory(blackStoneName, playCount = 1)
+                    dbHelper.addPlayerHistory(whiteStoneName, playCount = 1)
                     showCreateGameDialog(blackStoneName, whiteStoneName)
                     dialog.dismiss()
                 }
@@ -220,6 +225,69 @@ class MainActivity : AppCompatActivity() {
                     recyclerView.scrollToPosition(0)
                 }
             }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.player_info, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.action_info -> {
+                showInfoDialog()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+
+    fun showInfoDialog() {
+        val input = EditText(this)
+        input.hint = "기록을 확인할 닉네임을 입력하세요"
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("오목 게임 기록")
+        builder.setView(input)
+
+        builder.setPositiveButton("확인") { dialog, _ ->
+            val userInput = input.text.toString()
+            if (userInput.isNotEmpty()) {
+                val playerInfo = dbHelper.getPlayerInfo(userInput)
+                if (playerInfo != null) {
+                    showPlayerStatsDialog(playerInfo)
+                } else {
+                    Toast.makeText(this, "${userInput}의 기록은 존재하지 않습니다", Toast.LENGTH_SHORT).show()
+                }
+                dbHelper.getPlayerInfo(userInput)
+                Toast.makeText(this, "${userInput}의 기록은 존재하지 않습니다", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "값을 입력해주세요", Toast.LENGTH_SHORT).show()
+            }
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton("취소") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
+    }
+
+    fun showPlayerStatsDialog(playerInfo: PlayerInfo) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("${playerInfo.name}님의 기록")
+        builder.setMessage(
+            """
+            대국 횟수: ${playerInfo.playCount}
+            흑돌 승리 횟수: ${playerInfo.blackWinCount}
+            백돌 승리 횟수: ${playerInfo.whiteWinCount}
+            """.trimIndent(),
+        )
+        builder.setPositiveButton("확인") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.create().show()
     }
 
     override fun onDestroy() {

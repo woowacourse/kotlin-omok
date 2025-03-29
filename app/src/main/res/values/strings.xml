@@ -7,4 +7,5 @@
     <string name="game_room_head_text">오목 게임방 목록</string>
     <string name="dialog_hint_balck_stone_name">흑돌 닉네임을 입력하세요</string>
     <string name="dialog_hint_white_stone_name">백돌 닉네임을 입력하세요</string>
+    <string name="player_info_menu_text">플레이어 정보</string>
 </resources>

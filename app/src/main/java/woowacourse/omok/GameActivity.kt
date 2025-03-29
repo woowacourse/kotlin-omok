@@ -23,6 +23,8 @@ import kotlin.math.abs
 class GameActivity : AppCompatActivity() {
     private lateinit var dbHelper: OmokDBHelper
     private var roomId: Int = ROOM_INTENT_DEFAULT_VALUE
+    private lateinit var blackPlayerName: String
+    private lateinit var whitePlayerName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,9 @@ class GameActivity : AppCompatActivity() {
         setContentView(R.layout.activity_game)
 
         roomId = intent.getIntExtra(GAME_ROOM_ID, ROOM_INTENT_DEFAULT_VALUE)
+        blackPlayerName = intent.getStringExtra(BLACK_PLAYER).toString()
+        whitePlayerName = intent.getStringExtra(WHITE_PLAYER).toString()
+
         dbHelper = OmokDBHelper(this)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -40,7 +45,7 @@ class GameActivity : AppCompatActivity() {
 
         val boardSize = BoardSize(BOARD_SIZE)
         val outputAppView = OutputAppView(this)
-        val omokAppControl = OmokAppControl(boardSize, outputAppView, dbHelper, roomId)
+        val omokAppControl = OmokAppControl(boardSize, outputAppView, dbHelper, roomId, blackPlayerName, whitePlayerName)
 
         val board = findViewById<TableLayout>(R.id.board)
         val positionViews: MutableMap<Position, ImageView> = mutableMapOf()
@@ -76,6 +81,8 @@ class GameActivity : AppCompatActivity() {
 
     companion object {
         private const val GAME_ROOM_ID = "game_room_id"
+        private const val BLACK_PLAYER = "black_player"
+        private const val WHITE_PLAYER = "white_player"
         private const val BOARD_SIZE = 15
         private const val INDEX_OFFSET = 1
         private const val MAX_BOARD_INDEX = BOARD_SIZE - INDEX_OFFSET

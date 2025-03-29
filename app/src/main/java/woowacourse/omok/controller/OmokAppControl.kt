@@ -23,6 +23,8 @@ class OmokAppControl(
     private val outputAppView: OutputAppView,
     private val omokDBHelper: OmokDBHelper,
     private val roomId: Int,
+    private val blackPlayerName: String,
+    private val whitePlayerName: String,
 ) {
     private val omokReferee = OmokReferee(BudoolRenjuRuleAdapter(boardSize))
     private var board = Board(boardSize, dbOrderedStoneMap())
@@ -126,7 +128,8 @@ class OmokAppControl(
             board.lastStone?.let {
                 outputAppView.omokDialogAlert(
                     it.stoneColor,
-                    ::gameRestart,
+                    { gameRestart(it.stoneColor) },
+                    { omokWinnerDBWrite(it.stoneColor) },
                     { omokDBHelper.roomWithStonesDelete(roomId) },
                     { omokDBHelper.stonesDelete(roomId) },
                 )
@@ -144,9 +147,19 @@ class OmokAppControl(
         omokDB.insert(OmokDBContract.StonesTable.TABLE_NAME, null, values)
     }
 
-    private fun gameRestart() {
+    private fun gameRestart(stoneColor: StoneColor) {
         board = Board(boardSize)
+        omokDBHelper.addPlayerHistory(blackPlayerName, playCount = 1)
+        omokDBHelper.addPlayerHistory(whitePlayerName, playCount = 1)
+        omokWinnerDBWrite(stoneColor)
         outputAppView.turnInfoUiUpdate(board.nextStoneColor)
         outputAppView.stoneUiClear()
+    }
+
+    private fun omokWinnerDBWrite(stoneColor: StoneColor) {
+        when (stoneColor) {
+            StoneColor.BLACK -> omokDBHelper.addPlayerHistory(blackPlayerName, blackWinCount = 1)
+            StoneColor.WHITE -> omokDBHelper.addPlayerHistory(whitePlayerName, whiteWinCount = 1)
+        }
     }
 }
