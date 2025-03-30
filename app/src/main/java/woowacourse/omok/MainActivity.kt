@@ -1,43 +1,30 @@
 package woowacourse.omok
 
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TableLayout
-import android.widget.TableRow
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.children
 import woowacourse.omok.database.OmokDbHelper
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.Game
 import woowacourse.omok.model.MoveResult
 import woowacourse.omok.model.Stone
-import woowacourse.omok.model.position.Col
 import woowacourse.omok.model.position.Position
-import woowacourse.omok.model.position.Row
 import woowacourse.omok.model.rule.RenjuRule
-import woowacourse.omok.view.OutputViewAndroid
+import woowacourse.omok.view.AndroidView
 
 class MainActivity : AppCompatActivity() {
     private val game = Game(Board(), RenjuRule())
-    private val outputView = OutputViewAndroid()
     private val dbHelper = OmokDbHelper(this)
+    private lateinit var androidView: AndroidView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initialize()
-        val boardLayout: TableLayout = findViewById(R.id.board)
-        val views: Sequence<ImageView> =
-            boardLayout.children
-                .filterIsInstance<TableRow>()
-                .flatMap { it.children }
-                .filterIsInstance<ImageView>()
-        restoreGame(views)
-        outputView.printOmokStart(boardLayout)
-        setListeners(boardLayout, views)
+        setContentView(R.layout.activity_main)
+        androidView = AndroidView(this)
+
+        restoreGame()
+        androidView.setListeners(game.board) { position -> processTurn(position) }
+        androidView.printOmokStart()
     }
 
     override fun onDestroy() {
@@ -45,74 +32,36 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun initialize() {
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-    }
-
-    private fun restoreGame(views: Sequence<ImageView>) {
+    private fun restoreGame() {
         val stones: List<Stone> = dbHelper.queryAll()
         stones.forEach { stone ->
             game.play(stone)
-            val index =
-                (stone.position.y.value - 1) * game.board.row.value + (stone.position.x.value - 1)
-            views.toList()[index].setImageResource(stone.color.toImage())
+            androidView.renderStone(game.board, stone)
         }
     }
 
-    private fun setListeners(
-        boardLayout: TableLayout,
-        views: Sequence<ImageView>,
-    ) {
-        views.forEachIndexed { index, view ->
-            view.setOnClickListener { onClick(index, boardLayout, view, views) }
-        }
-    }
-
-    private fun onClick(
-        index: Int,
-        boardLayout: TableLayout,
-        view: ImageView,
-        views: Sequence<ImageView>,
-    ) {
+    private fun processTurn(position: Position) {
         val color: Color = game.chooseTurn()
-        val stoneImage: Int = color.toImage()
-        val x = Col(index % game.board.col.value + 1)
-        val y = Row(index / game.board.row.value + 1)
+        val newStone = Stone(position, color)
 
-        when (val moveResult: MoveResult = game.play(Stone(Position(x, y), color))) {
+        when (val moveResult: MoveResult = game.play(newStone)) {
+            is MoveResult.Failure -> {
+                androidView.printMoveResult(moveResult)
+            }
+
             is MoveResult.Success.Playing -> {
-                view.setImageResource(stoneImage)
-                dbHelper.insertData(x, y, color)
+                androidView.renderStone(game.board, newStone)
+                dbHelper.insertData(position.x, position.y, color)
             }
 
             is MoveResult.Success.Finished -> {
-                view.setImageResource(stoneImage)
-                dbHelper.insertData(x, y, color)
-                outputView.printMoveResult(moveResult, this, boardLayout)
+                androidView.renderStone(game.board, newStone)
+                dbHelper.insertData(position.x, position.y, color)
+                androidView.printMoveResult(moveResult)
                 dbHelper.clear()
-                clearListeners(views)
+                androidView.clearListeners()
                 return
             }
-
-            is MoveResult.Failure -> {
-                outputView.printMoveResult(moveResult, this, boardLayout)
-            }
         }
     }
-
-    private fun clearListeners(views: Sequence<ImageView>) {
-        views.forEach { view -> view.setOnClickListener(null) }
-    }
-
-    private fun Color.toImage(): Int =
-        when (this) {
-            Color.BLACK -> R.drawable.black_stone
-            Color.WHITE -> R.drawable.white_stone
-        }
 }
