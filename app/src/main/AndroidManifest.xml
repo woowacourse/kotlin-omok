@@ -22,13 +22,9 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".presentation.GameActivity"
-            android:enabled="true" />
+        <activity android:name=".presentation.GameActivity" />
 
-        <activity
-            android:name=".presentation.GameListActivity"
-            android:enabled="true" />
+        <activity android:name=".presentation.GameListActivity" />
     </application>
 
 </manifest>
