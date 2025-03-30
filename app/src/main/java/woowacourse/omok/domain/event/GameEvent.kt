@@ -1,4 +1,4 @@
-package woowacourse.ui
+package woowacourse.omok.domain.event
 
 import woowacourse.omok.domain.model.stone.Stones
 

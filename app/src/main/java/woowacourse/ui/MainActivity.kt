@@ -18,10 +18,11 @@ import woowacourse.omok.data.OmokDatabaseHelper
 import woowacourse.omok.data.StoneDao
 import woowacourse.omok.data.StoneRepositoryImpl
 import woowacourse.omok.domain.Game
+import woowacourse.omok.domain.event.GameEvent
+import woowacourse.omok.domain.event.PlayEvent
+import woowacourse.omok.domain.mapper.toPosition
 import woowacourse.omok.domain.model.Board
-import woowacourse.omok.domain.model.position.Column
 import woowacourse.omok.domain.model.position.Position
-import woowacourse.omok.domain.model.position.Row
 import woowacourse.omok.domain.model.rule.OmokRule
 import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.StoneType
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
         boardView.forEachIndexed { row, tableRow ->
             tableRow.forEachIndexed { column, view ->
-                view.tag = position(column, row, board)
+                view.tag = position(column, row)
                 view.setOnClickListener {
                     if (omokGame.isFinished()) return@setOnClickListener
                     omokGame.play(playEvent(view))
@@ -143,7 +144,7 @@ class MainActivity : AppCompatActivity() {
                     is RuleResult.OnRule -> Unit
                 }
 
-            override fun onPosition(): Position = view.tag as Position
+            override fun onPosition(board: Board): Position = (view.tag as PositionUiModel).toPosition(board)
 
             override fun onPlace(stone: Stone) {
                 setStoneImage(view, stone.stoneType)
@@ -170,8 +171,7 @@ class MainActivity : AppCompatActivity() {
     private fun position(
         column: Int,
         row: Int,
-        board: Board,
-    ) = Position(Column.from(column + 1, board.column), Row.from(row + 1, board.row))
+    ) = PositionUiModel(column + 1, row + 1)
 
     private fun StoneType.koreanName() =
         when (this) {

@@ -1,6 +1,7 @@
-package woowacourse.ui
+package woowacourse.omok.domain.event
 
 import woowacourse.omok.adapter.RuleResult
+import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.position.Position
 import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.StoneType
@@ -8,7 +9,7 @@ import woowacourse.omok.domain.model.stone.StoneType
 interface PlayEvent {
     fun showPlaceResult(ruleResult: RuleResult)
 
-    fun onPosition(): Position
+    fun onPosition(board: Board): Position
 
     fun onPlace(stone: Stone)
 
