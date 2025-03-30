@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var turn: Turn
     private lateinit var turnDao: TurnDao
     private val omokBoard = OmokBoard()
-    private lateinit var displayGame: Unit
+    private val displayGame: Unit by lazy { displayGame(reset = false) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        displayGame = displayGame(reset = false)
+        displayGame
     }
 
     private fun loadGame() {
@@ -51,17 +51,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayGame(reset: Boolean) {
         val board = findViewById<TableLayout>(R.id.board)
+
         board.children
             .filterIsInstance<TableRow>()
-            .flatMap { it.children }
-            .filterIsInstance<ImageView>()
-            .forEach { view ->
-                if (reset) view.setImageResource(0)
-                view.setOnClickListener {
-                    val y = board.indexOfChild(view.parent as TableRow) + 1
-                    val x = (view.parent as TableRow).indexOfChild(view) + 1
-                    handleStoneClick(view, Position(x, y))
-                }
+            .forEach { row ->
+                row.children
+                    .filterIsInstance<ImageView>()
+                    .forEach { view ->
+                        if (reset) view.setImageResource(0)
+                        view.setOnClickListener {
+                            val y = board.indexOfChild(row) + 1
+                            val x = row.indexOfChild(view) + 1
+                            handleStoneClick(view, Position(x, y))
+                        }
+                    }
             }
     }
 
