@@ -3,13 +3,13 @@ package omok.model
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import woowacourse.omok.model.board.OmokBoard
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.PositionState
-import woowacourse.omok.model.stone.Stone
+import woowacourse.omok.model.player.GameState
+import woowacourse.omok.model.player.Turn
 import woowacourse.omok.model.stone.StoneColor
 
 class OmokBoardTest {
@@ -36,7 +36,7 @@ class OmokBoardTest {
         val omokBoard = OmokBoard()
 
         val position = Position(1, 1)
-        omokBoard.placeStone(position, Stone(stoneColor))
+        omokBoard.placeStone(position, stoneColor)
         val state = omokBoard.boardState(position)
         assertEquals(positionState, state)
     }
@@ -44,10 +44,21 @@ class OmokBoardTest {
     @Test
     fun `금수자리에는 착수할 수 없다`() {
         val omokBoard = OmokBoard()
+        val stoneColor = StoneColor.BLACK
         val position = Position(1, 1)
-        omokBoard.board[position] = PositionState.FORBIDDEN
-        assertThrows<IllegalArgumentException> {
-            omokBoard.placeStone(position, Stone(StoneColor.BLACK))
+        omokBoard.placeStone(position, stoneColor)
+        makeForbiddenStones(omokBoard)
+        assertEquals(omokBoard.board[Position(5, 4)], PositionState.FORBIDDEN)
+    }
+
+    companion object {
+        fun makeForbiddenStones(omokBoard: OmokBoard): GameState {
+            val turn = Turn()
+            turn.place(Position(5, 2), omokBoard)
+            turn.place(Position(5, 3), omokBoard)
+            turn.place(Position(4, 4), omokBoard)
+            turn.place(Position(6, 4), omokBoard)
+            return turn.place(Position(5, 4), omokBoard)
         }
     }
 }
