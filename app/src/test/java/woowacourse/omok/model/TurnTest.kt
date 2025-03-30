@@ -2,7 +2,6 @@ package woowacourse.omok.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.model.board.OmokBoard
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.PositionState
@@ -41,9 +40,7 @@ class TurnTest {
             omokBoard.board[position] = PositionState.BLACK_POSITION
         }
 
-        assertThrows<IllegalArgumentException> {
-            turn.place(Position(4, 12), omokBoard)
-        }
+        assertThat(turn.place(Position(4, 12), omokBoard)).isEqualTo(GameState.ForbiddenMove)
     }
 
     companion object {
