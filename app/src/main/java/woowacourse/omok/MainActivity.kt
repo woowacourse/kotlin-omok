@@ -58,51 +58,7 @@ class MainActivity : AppCompatActivity() {
             restoreBoard()
         }
 
-        cellMap.forEachIndexed { rowIndex, row ->
-            row.forEachIndexed { colIndex, cell ->
-                cell.setOnClickListener {
-                    val position = Position(Row(rowIndex), Col(colIndex))
-                    val result = game.playTurn(position)
-
-                    when (result) {
-                        is PlayResult.Violation -> {
-                            Toast.makeText(this, printViolation(result), Toast.LENGTH_SHORT).show()
-                            return@setOnClickListener
-                        }
-
-                        is PlayResult.Success -> {
-                            cell.setImageResource(stoneRes(game.lastStone!!.stoneColor))
-                            omokDao.insertOmok(
-                                rowIndex,
-                                colIndex,
-                                game.lastStone?.stoneColor.toString(),
-                            )
-                        }
-
-                        is PlayResult.Win -> {
-                            cell.setImageResource(stoneRes(result.winner))
-                            omokDao.insertOmok(rowIndex, colIndex, result.winner.toString())
-                            showGameEndDialog(result.winner) {
-                                omokDao.deleteDatabase()
-                                recreate()
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun handleGameOver(
-        isOmok: Boolean,
-        game: Game,
-    ) {
-        if (isOmok) {
-            showGameEndDialog(game.lastStone!!.stoneColor) {
-                omokDao.deleteDatabase()
-                recreate()
-            }
-        }
+        handleGame()
     }
 
     private fun initBoard() {
@@ -115,11 +71,6 @@ class MainActivity : AppCompatActivity() {
         cellMap = rows.map { row -> row.children.filterIsInstance<ImageView>().toList() }
     }
 
-    private fun getCell(
-        row: Int,
-        col: Int,
-    ): ImageView = cellMap[row][col]
-
     private fun restoreBoard() {
         val stones = omokDao.getAllStones()
 
@@ -129,6 +80,61 @@ class MainActivity : AppCompatActivity() {
 
             val stoneRes = stoneRes(domainStone.stoneColor)
             getCell(entity.row, entity.col).setImageResource(stoneRes)
+        }
+    }
+
+    private fun getCell(
+        row: Int,
+        col: Int,
+    ): ImageView = cellMap[row][col]
+
+    private fun handleGame() {
+        cellMap.forEachIndexed { rowIndex, row ->
+            row.forEachIndexed { colIndex, cell ->
+                cell.setOnClickListener {
+                    handleCellClick(rowIndex, colIndex, cell)
+                }
+            }
+        }
+    }
+
+    private fun handleCellClick(
+        rowIndex: Int,
+        colIndex: Int,
+        cell: ImageView,
+    ) {
+        val position = Position(Row(rowIndex), Col(colIndex))
+        when (val result = game.playTurn(position)) {
+            is PlayResult.Violation -> showViolationToast(result)
+            is PlayResult.Success -> handleSuccess(cell, rowIndex, colIndex)
+            is PlayResult.Win -> handleWin(cell, rowIndex, colIndex, result.winner)
+        }
+    }
+
+    private fun showViolationToast(result: PlayResult.Violation) {
+        Toast.makeText(this, printViolation(result), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun handleSuccess(
+        cell: ImageView,
+        row: Int,
+        col: Int,
+    ) {
+        cell.setImageResource(stoneRes(game.lastStone!!.stoneColor))
+        omokDao.insertOmok(row, col, game.lastStone!!.stoneColor.name)
+    }
+
+    private fun handleWin(
+        cell: ImageView,
+        row: Int,
+        col: Int,
+        winner: StoneColor,
+    ) {
+        cell.setImageResource(stoneRes(winner))
+        omokDao.insertOmok(row, col, winner.name)
+        showGameEndDialog(winner) {
+            omokDao.deleteDatabase()
+            recreate()
         }
     }
 
