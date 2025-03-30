@@ -25,7 +25,7 @@ class Turn(private val turnDao: TurnDao? = null) : GameState() {
         position: Position,
         omokBoard: OmokBoard,
     ): GameState {
-        omokBoard.placeStone(position, stone)
+        omokBoard.placeStone(position, currentStoneColor)
         gameState =
             when {
                 isWin(position, omokBoard) -> {
@@ -34,7 +34,7 @@ class Turn(private val turnDao: TurnDao? = null) : GameState() {
                 }
 
                 isForbidden(position, omokBoard) -> {
-                    omokBoard.forbidden(position)
+                    omokBoard.forbidden(currentStoneColor, position)
                     ForbiddenMove
                 }
 
@@ -55,7 +55,7 @@ class Turn(private val turnDao: TurnDao? = null) : GameState() {
     private fun isForbidden(
         position: Position,
         omokBoard: OmokBoard,
-    ): Boolean = RenjuRule(position, omokBoard).validate()
+    ): Boolean = RenjuRule(position, omokBoard).validate() && currentStoneColor == StoneColor.BLACK
 
     fun next() {
         if (gameState == ForbiddenMove) return

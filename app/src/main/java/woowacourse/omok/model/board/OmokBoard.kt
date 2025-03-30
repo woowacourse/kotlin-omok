@@ -4,7 +4,6 @@ import woowacourse.omok.model.board.OmokBoardConfig.X_MAX_RANGE
 import woowacourse.omok.model.board.OmokBoardConfig.X_MIN_RANGE
 import woowacourse.omok.model.board.OmokBoardConfig.Y_MAX_RANGE
 import woowacourse.omok.model.board.OmokBoardConfig.Y_MIN_RANGE
-import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor
 
 class OmokBoard(
@@ -18,22 +17,39 @@ class OmokBoard(
         reset()
     }
 
-    private fun canPlaceStone(position: Position): Boolean = board[position] == PositionState.NONE
+    private fun canPlaceStone(
+        position: Position,
+        currentStoneColor: StoneColor,
+    ): Boolean {
+        val currentState = board[position]
 
-    fun forbidden(position: Position) {
-        board[position] = PositionState.FORBIDDEN
-        throw IllegalArgumentException("금수입니다. 다른 자리에 착수해주세요.")
+        return when (currentState) {
+            PositionState.NONE -> true
+            PositionState.FORBIDDEN -> currentStoneColor == StoneColor.WHITE
+            else -> false
+        }
+    }
+
+    fun forbidden(
+        stoneColor: StoneColor,
+        position: Position,
+    ) {
+        if (stoneColor == StoneColor.BLACK) {
+            board[position] = PositionState.FORBIDDEN
+            throw IllegalArgumentException("금수입니다. 다른 자리에 착수해주세요.")
+        }
     }
 
     fun placeStone(
         position: Position,
-        stone: Stone,
+        currentStoneColor: StoneColor,
     ) {
-        if (canPlaceStone(position)) {
-            when (stone.color) {
-                StoneColor.BLACK -> board[position] = PositionState.BLACK_POSITION
-                StoneColor.WHITE -> board[position] = PositionState.WHITE_POSITION
-            }
+        if (canPlaceStone(position, currentStoneColor)) {
+            board[position] =
+                when (currentStoneColor) {
+                    StoneColor.BLACK -> PositionState.BLACK_POSITION
+                    StoneColor.WHITE -> PositionState.WHITE_POSITION
+                }
         } else {
             throw IllegalArgumentException("해당 위치에 착수할 수 없습니다.")
         }

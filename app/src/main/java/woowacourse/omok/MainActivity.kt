@@ -103,9 +103,9 @@ class MainActivity : AppCompatActivity() {
             val boardDto = BoardDto(position.xPoint, position.yPoint, turn.currentStoneColor.name)
             boardDao.insertStone(boardDto)
 
-            if (turn.forbidden()) return
-
             showStones(view)
+
+            if (turn.forbidden()) return
 
             if (turn.win()) {
                 showWinDialog(turn.currentStoneColor)
