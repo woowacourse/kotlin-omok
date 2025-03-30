@@ -5,7 +5,7 @@ import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.data.db.OmokContract
 import woowacourse.omok.data.model.OmokGameDto
 
-class OmokOmokGameDaoImpl(
+class OmokGameDaoImpl(
     private val dbHelper: DbHelper,
     private val gameId: Int = 1,
 ) : OmokGameDao {
