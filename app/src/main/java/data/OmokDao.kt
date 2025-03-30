@@ -11,7 +11,6 @@ import data.StateContract.TABLE_NAME
 import data.StateContract.WHITE_STONES_TABLE
 import domain.domain.Point
 import domain.domain.state.BlackTurn
-import domain.domain.state.Playing
 import domain.domain.state.Ready
 import domain.domain.state.State
 import domain.domain.state.WhiteTurn
@@ -23,27 +22,26 @@ class OmokDao(private val dbHelper: DbHelper) {
         dbHelper.writableDatabase.use { db ->
             val contentValues =
                 ContentValues().apply {
-                    put(COLUMN_ID, 1)
                     put(COLUMN_STATE, state.javaClass.simpleName)
                 }
-            db.insertWithOnConflict(
-                TABLE_NAME,
-                null,
-                contentValues,
-                SQLiteDatabase.CONFLICT_REPLACE,
-            )
+            db.insertWithOnConflict(TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE)
 
             db.delete(BLACK_STONES_TABLE, null, null)
             db.delete(WHITE_STONES_TABLE, null, null)
+        }
+    }
 
-            if (state is Playing) {
-                state.blackStones.points.forEach { point ->
-                    saveStone(db, BLACK_STONES_TABLE, point)
+    fun saveStone(
+        tableName: String,
+        point: Point,
+    ) {
+        dbHelper.writableDatabase.use { db ->
+            val contentValues =
+                ContentValues().apply {
+                    put(COLUMN_X, point.x)
+                    put(COLUMN_Y, point.y)
                 }
-                state.whiteStones.points.forEach { point ->
-                    saveStone(db, WHITE_STONES_TABLE, point)
-                }
-            }
+            db.insert(tableName, null, contentValues)
         }
     }
 
@@ -77,19 +75,6 @@ class OmokDao(private val dbHelper: DbHelper) {
             db.execSQL("DELETE FROM $BLACK_STONES_TABLE")
             db.execSQL("DELETE FROM $WHITE_STONES_TABLE")
         }
-    }
-
-    private fun saveStone(
-        db: SQLiteDatabase,
-        tableName: String,
-        point: Point,
-    ) {
-        val contentValues =
-            ContentValues().apply {
-                put(COLUMN_X, point.x)
-                put(COLUMN_Y, point.y)
-            }
-        db.insert(tableName, null, contentValues)
     }
 
     private fun loadStones(
