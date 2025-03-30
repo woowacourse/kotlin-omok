@@ -39,3 +39,9 @@
 - [x] MainActivity | printWinner 함수 네이밍 수정하기
 - [x] MainActivity | checkGameOver 함수가 하나의 일만 하도록 수정
 - [x] DbHelper | 가시성과 위치 수정하기
+
+- [ ] OutputView | 상수 고민
+- [ ] OmokGrid | 스스로 일하도록 바꿔 보기
+- [ ] Stone | Stone 사용하는 부분 변수명 바꿔 주기
+- [ ] RenjuRuleAdapterImpl | toList() 지우기
+- [ ] MainActivity | Toast 재사용하기
