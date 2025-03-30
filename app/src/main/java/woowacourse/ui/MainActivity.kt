@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var boardView: TableLayout
     private lateinit var dbHelper: OmokDatabaseHelper
     private lateinit var repository: StoneRepository
+    private lateinit var boardView: List<List<ImageView>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         boardView = findViewById(R.id.board)
+        boardView =
+            findViewById<TableRow>(R.id.board).children.filterIsInstance<TableRow>()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -68,10 +71,9 @@ class MainActivity : AppCompatActivity() {
                 Turn(repository.lastStoneType()),
             )
 
-        boardView.children.filterIsInstance<TableRow>().forEachIndexed { row, tableRow ->
-            tableRow.children.filterIsInstance<ImageView>().forEachIndexed { column, view ->
+        boardView.forEachIndexed { row, tableRow ->
+            tableRow.forEachIndexed { column, view ->
                 view.tag = position(column, row, board)
-                initStoneImage(view, stones)
                 view.setOnClickListener {
                     if (omokGame.isFinished()) return@setOnClickListener
                     omokGame.play(omokEvent(view))
@@ -113,10 +115,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetView() {
-        boardView.children.filterIsInstance<TableRow>()
-            .flatMap { it.children.filterIsInstance<ImageView>() }.forEach {
+        boardView.forEach { row ->
+            row.forEach {
                 it.setImageResource(0)
             }
+        }
     }
 
     private fun omokEvent(view: ImageView) =
