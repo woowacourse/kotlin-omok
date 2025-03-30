@@ -27,19 +27,6 @@ class Game(
     private val whiteOmokRule = WhiteOmokRule(board.dimensions)
     private val blackOmokRule = BlackOmokRule(blackRuleChecker)
 
-//    fun playTurn(position: Position): PlacementError {
-//        if (board.hasStoneAt(position)) {
-//            return PlacementError.AlreadyOccupiedViolation
-//        }
-//
-//        val violation = currentRule(turn).validate(board, position, turn)
-//        if (violation != NoViolation) return violation
-//
-//        applyPlacement(position)
-//
-//        return NoViolation
-//    }
-
     fun playTurn(position: Position): PlayResult {
         if (board.hasStoneAt(position)) {
             return Violation(PlacementError.AlreadyOccupiedViolation)
