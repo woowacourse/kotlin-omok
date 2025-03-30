@@ -66,7 +66,7 @@ class OmokGame(
 
     private fun updateGameState(point: Point) {
         state.updateState(point)
-        eventListener.onBoardUpdated(point, state.currentCellState)
+        eventListener.onBoardUpdated(point, state.currentCellState.reverseCellState())
     }
 
     private fun showWinColor(board: Board) {
