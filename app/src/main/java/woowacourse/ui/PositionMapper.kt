@@ -1,8 +1,7 @@
-package woowacourse.omok.domain.mapper
+package woowacourse.ui
 
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.position.Position
-import woowacourse.ui.PositionUiModel
 
 fun PositionUiModel.toPosition(board: Board) =
     Position(

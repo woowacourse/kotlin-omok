@@ -1,7 +1,5 @@
 package woowacourse.omok.data
 
-import woowacourse.omok.domain.mapper.toStone
-import woowacourse.omok.domain.mapper.toStoneEntity
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.StoneType

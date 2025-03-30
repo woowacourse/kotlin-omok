@@ -20,7 +20,6 @@ import woowacourse.omok.data.StoneRepositoryImpl
 import woowacourse.omok.domain.Game
 import woowacourse.omok.domain.event.GameEvent
 import woowacourse.omok.domain.event.PlayEvent
-import woowacourse.omok.domain.mapper.toPosition
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.position.Position
 import woowacourse.omok.domain.model.rule.OmokRule

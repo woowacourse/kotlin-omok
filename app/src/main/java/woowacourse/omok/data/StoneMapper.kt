@@ -1,6 +1,5 @@
-package woowacourse.omok.domain.mapper
+package woowacourse.omok.data
 
-import woowacourse.omok.data.StoneEntity
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.position.Column
 import woowacourse.omok.domain.model.position.Position
