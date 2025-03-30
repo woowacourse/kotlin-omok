@@ -15,7 +15,7 @@ class OmokGameLocalDataSourceImpl(
     }
 
     override fun save(omokGameDto: OmokGameDto) {
-        val db = DbHelper(context).writableDatabase
+        val db = DbHelper(context, OmokContract).writableDatabase
         db.transaction {
             delete(OmokContract.TABLE_GAME_STATE, "${OmokContract.COLUMN_GAME_ID}=?", arrayOf(GAME_ID.toString()))
             omokGameDto.board.forEach { (pos, state) ->
@@ -34,7 +34,7 @@ class OmokGameLocalDataSourceImpl(
     }
 
     override fun load(): OmokGameDto? {
-        val db = DbHelper(context).readableDatabase
+        val db = DbHelper(context, OmokContract).readableDatabase
 
         val cursor =
             db.query(
@@ -73,7 +73,7 @@ class OmokGameLocalDataSourceImpl(
     }
 
     override fun delete() {
-        val db = DbHelper(context).writableDatabase
+        val db = DbHelper(context, OmokContract).writableDatabase
         db.delete(OmokContract.TABLE_GAME_STATE, "${OmokContract.COLUMN_GAME_ID}=?", arrayOf(GAME_ID.toString()))
         db.close()
     }

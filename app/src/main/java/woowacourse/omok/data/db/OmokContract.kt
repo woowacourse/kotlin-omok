@@ -1,6 +1,6 @@
 package woowacourse.omok.data.db
 
-object OmokContract {
+object OmokContract : Contract {
     const val TABLE_GAME_STATE = "game_state"
 
     const val COLUMN_GAME_ID = "game_id"
@@ -9,7 +9,7 @@ object OmokContract {
     const val COLUMN_POSITION_STATE = "state"
     const val COLUMN_LAST_TURN = "last_turn"
 
-    const val SQL_CREATE_GAME_STATE =
+    override val createQuery: String =
         """
         CREATE TABLE $TABLE_GAME_STATE (
             $COLUMN_GAME_ID INTEGER,
@@ -20,5 +20,5 @@ object OmokContract {
         )
         """
 
-    const val SQL_DELETE_GAME_STATE = "DROP TABLE IF EXISTS $TABLE_GAME_STATE"
+    override val deleteQuery: String = "DROP TABLE IF EXISTS $TABLE_GAME_STATE"
 }
