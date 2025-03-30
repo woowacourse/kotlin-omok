@@ -17,7 +17,8 @@ import omok.model.stone.position.Row
 import omok.view.OutputView
 import rule.BlackRenjuRule
 import rule.wrapper.point.Point
-import woowacourse.omok.data.OmokDao
+import woowacourse.omok.data.dao.OmokDao
+import woowacourse.omok.data.mapper.toDomain
 import woowacourse.omok.mapper.BlackRuleChecker
 import woowacourse.omok.model.game.Game
 import woowacourse.omok.model.rule.PlacementError
@@ -110,13 +111,12 @@ class MainActivity : AppCompatActivity() {
     private fun restoreBoard() {
         val stones = omokDao.getAllStones()
 
-        stones.forEach { stone ->
-            val rowIndex = stone.position.row.value
-            val colIndex = stone.position.col.value
-            game.applyPlacement(Position(Row(rowIndex), Col(colIndex)))
+        stones.forEach { entity ->
+            val domainStone = entity.toDomain()
+            game.applyPlacement(domainStone.position)
 
-            val stoneRes = stoneRes(stone.stoneColor)
-            getCell(rowIndex, colIndex).setImageResource(stoneRes)
+            val stoneRes = stoneRes(domainStone.stoneColor)
+            getCell(entity.row, entity.col).setImageResource(stoneRes)
         }
     }
 
