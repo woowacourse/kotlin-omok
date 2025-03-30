@@ -21,7 +21,6 @@ import woowacourse.omok.domain.model.position.Position
 import woowacourse.omok.domain.model.rule.OmokRuleAdapter
 import woowacourse.omok.domain.model.state.Finish
 import woowacourse.omok.domain.model.state.OmokState
-import woowacourse.omok.domain.model.stone.OmokStone
 import woowacourse.omok.domain.model.stone.StoneType
 
 class MainActivity : AppCompatActivity() {
@@ -61,9 +60,7 @@ class MainActivity : AppCompatActivity() {
             val imageView = boardUI.findViewWithTag<ImageView>(position)
             updateBoardUI(imageView, stoneType)
         }
-
-        val omokStones = stones.map { (position, stoneType) -> OmokStone(position, stoneType) }
-        game.restoreGame(omokStones)
+        game.restoreGame(stones)
     }
 
     private fun setupBoard(game: Game) {
@@ -87,8 +84,7 @@ class MainActivity : AppCompatActivity() {
 
         game.play(
             position = position,
-            onPlace = {
-                    stoneType ->
+            onPlace = { stoneType ->
                 updateBoardUI(imageView, stoneType)
                 omokDao.saveStone(position, stoneType)
             },
