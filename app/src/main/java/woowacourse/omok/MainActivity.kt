@@ -47,26 +47,25 @@ class MainActivity : AppCompatActivity() {
     private fun processTurn(position: Position) {
         val color: Color = game.chooseTurn()
         val newStone = Stone(position, color)
-
         when (val moveResult: MoveResult = game.play(newStone)) {
-            is MoveResult.Failure -> {
-                androidView.printMoveResult(moveResult)
-            }
-
-            is MoveResult.Success.Playing -> {
-                androidView.renderStone(game.board, newStone)
-                omokDao.insertData(newStone.toOmokEntity())
-            }
-
+            is MoveResult.Failure -> androidView.printMoveResult(moveResult)
+            is MoveResult.Success.Playing -> processMove(newStone)
             is MoveResult.Success.Finished -> {
-                androidView.renderStone(game.board, newStone)
-                omokDao.insertData(newStone.toOmokEntity())
-                androidView.printMoveResult(moveResult)
-                omokDao.clear()
-                androidView.clearListeners()
-                return
+                processMove(newStone)
+                finishGame(moveResult)
             }
         }
+    }
+
+    private fun processMove(newStone: Stone) {
+        androidView.renderStone(game.board, newStone)
+        omokDao.insertData(newStone.toOmokEntity())
+    }
+
+    private fun finishGame(moveResult: MoveResult) {
+        androidView.printMoveResult(moveResult)
+        omokDao.clear()
+        androidView.clearListeners()
     }
 
     private fun Stone.toOmokEntity(): OmokEntity {
