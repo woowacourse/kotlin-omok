@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 
-class OmokDbController(context: Context) {
+class OmokDAO(context: Context) {
     private val dbHelper = OmokDbHelper(context)
     private val db = dbHelper.writableDatabase
 

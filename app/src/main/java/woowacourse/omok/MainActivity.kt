@@ -22,12 +22,12 @@ import woowacourse.omok.model.player.PlayerState
 import woowacourse.omok.model.player.WhitePlayerState
 import woowacourse.omok.model.rule.OmokRuleAdapter
 import woowacourse.omok.model.stone.StoneState
-import woowacourse.omok.data.OmokDbController
+import woowacourse.omok.data.OmokDAO
 
 class MainActivity : AppCompatActivity() {
     private lateinit var game: OmokGame
     private lateinit var playerState: PlayerState
-    private lateinit var dbController: OmokDbController
+    private lateinit var omokDAO: OmokDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,10 +55,10 @@ class MainActivity : AppCompatActivity() {
         val imageStoneState = playerState
 
         try {
-            dbController.saveStone(row + 1, col + 1, imageStoneState.stoneState().toString())
+            omokDAO.saveStone(row + 1, col + 1, imageStoneState.stoneState().toString())
 
             playerState = playerState.state(position)
-            dbController.saveTurn(playerState.stoneState().name)
+            omokDAO.saveTurn(playerState.stoneState().name)
             val resId = when (imageStoneState) {
                 is BlackPlayerState -> R.drawable.black_stone
                 is WhitePlayerState -> R.drawable.white_stone
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                     StoneState.NONE -> "무승부입니다!"
                 }
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-                dbController.clearBoard()
+                omokDAO.clearBoard()
             }
         } catch (e: IllegalArgumentException) {
             Toast.makeText(
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeGame() {
-        dbController = OmokDbController(this)
+        omokDAO = OmokDAO(this)
         game = OmokGameImpl(BoardImpl.createEmpty(), OmokRuleAdapter())
         playerState = BlackPlayerState(game)
     }
@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun savedStone(board: TableLayout?) {
-        val savedStones = dbController.loadAllStones() // Triple<Int, Int, String>
+        val savedStones = omokDAO.loadAllStones() // Triple<Int, Int, String>
         savedStones.forEach { (x, y, stoneString) ->
             val imageView = ((board?.getChildAt(x - 1) as TableRow).getChildAt(y - 1) as ImageView)
             val stoneState = StoneState.valueOf(stoneString)
@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun savedTurn() {
-        val savedTurn = dbController.loadTurn()
+        val savedTurn = omokDAO.loadTurn()
         playerState = when (savedTurn) {
             StoneState.WHITE.name -> WhitePlayerState(game)
             else -> BlackPlayerState(game)
