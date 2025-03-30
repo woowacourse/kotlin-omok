@@ -57,7 +57,7 @@ class OmokControl(
             is Win -> {
                 outputView.printBoard(game.board)
                 outputView.printOmok(game.lastStone)
-                return current // 혹은 종료
+                return current
             }
         }
     }
@@ -73,8 +73,6 @@ class OmokControl(
                 null
             }
         }
-
-    private fun processPlacement(position: Position): PlayResult = game.playTurn(position)
 
     private fun printCurrentState() {
         outputView.printBoard(game.board)
