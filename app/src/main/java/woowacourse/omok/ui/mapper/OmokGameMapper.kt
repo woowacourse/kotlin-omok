@@ -14,7 +14,7 @@ fun OmokGameDto.toUI(): OmokGame {
             .mapValues { PointState.valueOf(it.value) }
     return OmokGame(
         board = OmokBoard(board.toMutableMap()),
-        savedTurn = StoneColor.valueOf(lastTurn),
+        firstStone = StoneColor.valueOf(lastTurn),
     )
 }
 

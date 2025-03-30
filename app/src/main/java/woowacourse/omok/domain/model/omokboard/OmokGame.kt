@@ -16,9 +16,9 @@ class OmokGame(
     val board: OmokBoard = OmokBoard.create(),
     private val placeRules: PlaceRules = PlaceRules(listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())),
     private val judgeRules: JudgeRules = JudgeRules(listOf(WinningRule(), DrawRule())),
-    savedTurn: StoneColor = StoneColor.BLACK,
+    firstStone: StoneColor = INITIAL_STONE_COLOR,
 ) {
-    var currentTurn: StoneColor = savedTurn
+    var currentTurn: StoneColor = firstStone
         private set
 
     fun placeStone(position: Position): PlaceResult {
@@ -47,7 +47,11 @@ class OmokGame(
     }
 
     fun restart() {
-        currentTurn = StoneColor.BLACK
+        currentTurn = INITIAL_STONE_COLOR
         board.clear()
+    }
+
+    companion object {
+        private val INITIAL_STONE_COLOR = StoneColor.BLACK
     }
 }
