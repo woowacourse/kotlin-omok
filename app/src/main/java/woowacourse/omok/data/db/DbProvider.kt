@@ -50,15 +50,15 @@ class DbProvider(private val dbHelper: SQLiteOpenHelper) {
         }
     }
 
-    fun insertStone(omokPoint: Stone) {
+    fun insertStone(stone: Stone) {
         val db = dbHelper.writableDatabase
-        val point = omokPoint.point
+        val point = stone.point
 
         val values =
             ContentValues().apply {
                 put(BoardContract.COLUMN_NAME_ROW, point.row.value)
                 put(BoardContract.COLUMN_NAME_COL, point.col.value)
-                put(BoardContract.COLUMN_NAME_STONE_COLOR, omokPoint.stoneColor.toString())
+                put(BoardContract.COLUMN_NAME_STONE_COLOR, stone.stoneColor.toString())
             }
 
         val newRowId = db.insert(BoardContract.TABLE_NAME, null, values)

@@ -10,12 +10,12 @@ abstract class OmokRuleAdapter {
     abstract fun checkViolation(
         thisStones: Set<Stone>,
         otherStones: Set<Stone>,
-        latestPoint: Stone,
+        latestStone: Stone,
     ): ValidationResult
 
     fun isWin(
         stones: Set<Stone>,
-        latestPoint: Stone,
+        latestStone: Stone,
     ): Boolean {
         val directions: List<Direction> =
             listOf(
@@ -26,7 +26,7 @@ abstract class OmokRuleAdapter {
             )
 
         return directions.any { dir ->
-            val count = search(dir, stones, latestPoint) + search(-dir, stones, latestPoint) - 1
+            val count = search(dir, stones, latestStone) + search(-dir, stones, latestStone) - 1
             count >= WIN_STANDARD
         }
     }
@@ -34,10 +34,10 @@ abstract class OmokRuleAdapter {
     private fun search(
         direction: Direction,
         stones: Set<Stone>,
-        latestPoint: Stone,
+        latestStone: Stone,
     ): Int {
-        val coordinateX = latestPoint.point.row.value
-        val coordinateY = latestPoint.point.col.value
+        val coordinateX = latestStone.point.row.value
+        val coordinateY = latestStone.point.col.value
         var count = MIN_BOUND
 
         while (true) {
@@ -45,8 +45,8 @@ abstract class OmokRuleAdapter {
             val nextY = coordinateY + direction.colDelta * count
             if (!checkRange(nextX, nextY)) break
 
-            val point = Stone(Point(Row(nextX), Column(nextY)), latestPoint.stoneColor)
-            if (point !in stones) break
+            val stone = Stone(Point(Row(nextX), Column(nextY)), latestStone.stoneColor)
+            if (stone !in stones) break
 
             count++
         }

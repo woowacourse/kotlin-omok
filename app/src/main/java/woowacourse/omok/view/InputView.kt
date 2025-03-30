@@ -9,19 +9,19 @@ import woowacourse.omok.domain.grid.Stone
 class InputView {
     fun getPoint(
         stoneColor: StoneColor,
-        latestPoint: Stone?,
+        latestStone: Stone?,
     ): Point {
         print(MESSAGE_TURN.format(stoneColor.getDisplayColor()))
-        if (latestPoint != null) print(MESSAGE_LATEST_POSITION.format(convertToString(latestPoint)))
+        if (latestStone != null) print(MESSAGE_LATEST_POSITION.format(convertToString(latestStone)))
         print(MESSAGE_POSITION_GUIDE)
         val rawInput = readln().trim()
 
-        return parsingInput(rawInput) ?: getPoint(stoneColor, latestPoint)
+        return parsingInput(rawInput) ?: getPoint(stoneColor, latestStone)
     }
 
-    private fun convertToString(omokPoint: Stone): String {
-        val letter = COORDINATE_Y_START_CHAR + omokPoint.point.col.value - INDEX_OFFSET
-        return letter + (omokPoint.point.row.value).toString()
+    private fun convertToString(stone: Stone): String {
+        val letter = COORDINATE_Y_START_CHAR + stone.point.col.value - INDEX_OFFSET
+        return letter + (stone.point.row.value).toString()
     }
 
     private fun parsingInput(rawInput: String): Point? {

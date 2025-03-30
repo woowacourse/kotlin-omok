@@ -10,11 +10,11 @@ class Referee {
         ruleAdapter: OmokRuleAdapter,
         thisStones: Set<Stone>,
         otherStones: Set<Stone>,
-        latestPoint: Stone,
+        latestStone: Stone,
     ): ValidationResult {
         return listOf(
-            ruleAdapter.checkViolation(thisStones, otherStones, latestPoint),
-            checkDuplicateMove((thisStones + otherStones).map { it.point }.toSet(), latestPoint.point),
+            ruleAdapter.checkViolation(thisStones, otherStones, latestStone),
+            checkDuplicateMove((thisStones + otherStones).map { it.point }.toSet(), latestStone.point),
         ).lastOrNull { it != ValidationResult.Success } ?: ValidationResult.Success
     }
 
@@ -29,8 +29,8 @@ class Referee {
     fun checkWin(
         ruleAdapter: OmokRuleAdapter,
         stones: Set<Stone>,
-        latestPoint: Stone,
+        latestStone: Stone,
     ): Boolean {
-        return ruleAdapter.isWin(stones, latestPoint)
+        return ruleAdapter.isWin(stones, latestStone)
     }
 }

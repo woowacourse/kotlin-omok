@@ -11,13 +11,13 @@ object RenjuRuleAdapterImpl : OmokRuleAdapter() {
     override fun checkViolation(
         thisStones: Set<Stone>,
         otherStones: Set<Stone>,
-        latestPoint: Stone,
+        latestStone: Stone,
     ): ValidationResult {
-        if (latestPoint.stoneColor == StoneColor.WHITE) return ValidationResult.Success
+        if (latestStone.stoneColor == StoneColor.WHITE) return ValidationResult.Success
 
         val thisPoints = convertSetToList(thisStones)
         val otherPoints = convertSetToList(otherStones)
-        val startPoint = convertOmokPointToPoint(latestPoint)
+        val startPoint = convertOmokPointToPoint(latestStone)
 
         return when {
             rule.checkOverline(thisPoints, startPoint) -> ValidationResult.Failure.OverLine
@@ -27,8 +27,8 @@ object RenjuRuleAdapterImpl : OmokRuleAdapter() {
         }
     }
 
-    private fun convertOmokPointToPoint(omokPoint: Stone): Pair<Int, Int> {
-        return Pair(omokPoint.point.row.value, omokPoint.point.col.value)
+    private fun convertOmokPointToPoint(stone: Stone): Pair<Int, Int> {
+        return Pair(stone.point.row.value, stone.point.col.value)
     }
 
     private fun convertSetToList(stones: Set<Stone>): List<Pair<Int, Int>> {

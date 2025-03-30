@@ -14,8 +14,8 @@ class OmokGame(val grid: OmokGrid) {
         return StoneColor.BLACK
     }
 
-    fun playMove(point: Stone) {
-        grid.putStone(point)
+    fun playMove(stone: Stone) {
+        grid.putStone(stone)
     }
 
     fun changeTurn(nowTurn: StoneColor): StoneColor {
@@ -28,7 +28,7 @@ class OmokGame(val grid: OmokGrid) {
 
     fun validatePoint(
         nowTurn: StoneColor,
-        startPoint: Stone,
+        startStone: Stone,
     ): ValidationResult {
         val thisStones = grid.getStonesByColor(nowTurn)
         val opponentStones = grid.getStonesByColor(opposite(nowTurn))
@@ -37,15 +37,15 @@ class OmokGame(val grid: OmokGrid) {
             RenjuRuleAdapterImpl,
             thisStones,
             opponentStones,
-            startPoint,
+            startStone,
         )
     }
 
     fun checkWin(
         nowTurn: StoneColor,
-        startPoint: Stone,
+        startStone: Stone,
     ): Boolean {
-        return referee.checkWin(RenjuRuleAdapterImpl, grid.getStonesByColor(nowTurn), startPoint)
+        return referee.checkWin(RenjuRuleAdapterImpl, grid.getStonesByColor(nowTurn), startStone)
     }
 
     fun isBoardFull(): Boolean {

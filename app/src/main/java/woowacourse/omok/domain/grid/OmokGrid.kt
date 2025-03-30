@@ -5,8 +5,8 @@ import woowacourse.omok.domain.StoneColor
 class OmokGrid {
     private val stones: Stones = Stones()
 
-    fun putStone(point: Stone) {
-        stones + point
+    fun putStone(stone: Stone) {
+        stones + stone
     }
 
     fun isFull(): Boolean {
