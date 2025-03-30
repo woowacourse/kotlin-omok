@@ -2,14 +2,15 @@ package woowacourse.omok.domain
 
 class OmokBoard(
     val size: Int = DEFAULT_SIZE,
-    private val stones: List<Stone> = emptyList(),
+    stones: List<Stone> = emptyList(),
     private val rule: Rule,
 ) {
+    private val stonesByPosition: Map<Position, Stone> = stones.associateBy { it.position }
+
     private val board: MutableList<MutableList<StoneState>> =
         MutableList(size) { x ->
             MutableList(size) { y ->
-                val stone = stones.firstOrNull { stone -> stone.position == Position(y, x) }
-                stone?.state ?: StoneState.BLANK
+                stonesByPosition[Position(y, x)]?.state ?: StoneState.BLANK
             }
         }
 
@@ -54,7 +55,13 @@ class OmokBoard(
         val state = getStoneState(position)
         var count = DEFAULT_COUNT
 
-        while (checkRange(currentX, currentY) && getStoneState(Position(currentX, currentY)) == state
+        while (checkRange(currentX, currentY) &&
+            getStoneState(
+                Position(
+                    currentX,
+                    currentY,
+                ),
+            ) == state
         ) {
             count++
             currentX += direction.rowDelta
