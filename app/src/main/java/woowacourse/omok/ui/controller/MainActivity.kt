@@ -126,6 +126,7 @@ class MainActivity : AppCompatActivity() {
         when (val judgeResult = omokGame.judge(playerStone)) {
             is Finished -> {
                 updateBoardActivation(false)
+                omokGameDao.deleteGame()
                 showResultDialog(getJudgeMessage(judgeResult))
             }
 
