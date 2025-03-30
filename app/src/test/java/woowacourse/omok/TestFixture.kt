@@ -1,5 +1,6 @@
 package woowacourse.omok
 
+import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.position.Column
 import woowacourse.omok.domain.model.position.Position
 import woowacourse.omok.domain.model.position.Row
@@ -7,6 +8,7 @@ import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.StoneType
 import woowacourse.omok.domain.model.stone.Stones
 
+private val board = Board(15)
 val horizontalFourStones =
     Stones(
         listOf(
@@ -81,19 +83,19 @@ val fourFixture =
         ),
     )
 
-val positionOneAndOne = Position(1, 1, 15)
+val positionOneAndOne = Position(1, 1, board)
 
 val stoneOneAndOne = Stone(positionOneAndOne, StoneType.BLACK)
 
 val whiteStoneOneAndOne = Stone(positionOneAndOne, StoneType.WHITE)
 
-val stoneSixAndSix = Stone(6, 6, 15, StoneType.BLACK)
+val stoneSixAndSix = Stone(6, 6, board, StoneType.BLACK)
 
-val longMoveStone = Stone(5, 5, 15, StoneType.BLACK)
+val longMoveStone = Stone(5, 5, board, StoneType.BLACK)
 
-val doubleThreeStone = Stone(5, 3, 15, StoneType.BLACK)
+val doubleThreeStone = Stone(5, 3, board, StoneType.BLACK)
 
-val doubleFourStone = Stone(3, 13, 15, StoneType.BLACK)
+val doubleFourStone = Stone(3, 13, board, StoneType.BLACK)
 
 val diagonalDownWinStone = Stone(Position(Column.from(5, 15), Row.from(5, 15)), StoneType.BLACK)
 
