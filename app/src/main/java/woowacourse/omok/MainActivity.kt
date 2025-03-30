@@ -131,15 +131,21 @@ class MainActivity : AppCompatActivity() {
     private fun showWinDialog(winner: StoneColor) {
         val winnerText =
             when (winner) {
-                StoneColor.BLACK -> "흑"
-                StoneColor.WHITE -> "백"
+                StoneColor.BLACK -> "흑돌 승리"
+                StoneColor.WHITE -> "백돌 승리"
             }
 
+        makeDialog(winnerText, reset = true)
+    }
+
+    private fun makeDialog(
+        text: String?,
+        reset: Boolean,
+    ) {
         AlertDialog.Builder(this)
-            .setTitle("게임 종료")
-            .setMessage("${winnerText}돌 승리")
+            .setMessage(text)
             .setPositiveButton("확인") { _, _ ->
-                resetGame()
+                if (reset) resetGame()
             }
             .setCancelable(false)
             .show()
@@ -153,10 +159,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showErrorDialog(message: String?) {
-        AlertDialog.Builder(this)
-            .setMessage(message)
-            .setPositiveButton("확인") { dialog, _ -> dialog.dismiss() }
-            .setCancelable(false)
-            .show()
+        makeDialog(message, reset = false)
     }
 }
