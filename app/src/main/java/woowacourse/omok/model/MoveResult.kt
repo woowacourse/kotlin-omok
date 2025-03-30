@@ -20,4 +20,13 @@ sealed class MoveResult {
 
         data object StoneNotWithinRow : Failure()
     }
+
+    fun <T> fold(
+        onSuccess: (Success) -> T,
+        onFailure: (Failure) -> T,
+    ): T =
+        when (this) {
+            is Success -> onSuccess(this)
+            is Failure -> onFailure(this)
+        }
 }

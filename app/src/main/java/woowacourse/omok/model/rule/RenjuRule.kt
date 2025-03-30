@@ -8,17 +8,10 @@ import woowacourse.omok.model.Stone
 class RenjuRule : Rule {
     private val rule = RuleAdapter()
 
-    override fun checkForbiddenMove(
+    override fun checkMove(
         board: Board,
         newStone: Stone,
     ): MoveResult {
-        return rule.checkForbiddenMove(board, newStone)
-    }
-
-    override fun checkWinCondition(
-        board: Board,
-        newStone: Stone,
-    ): MoveResult {
-        return rule.checkWinCondition(board, newStone)
+        return rule.checkMove(board, newStone)
     }
 }

@@ -13,7 +13,7 @@ import woowacourse.omok.model.position.Position
 import woowacourse.omok.model.rule.Rule
 
 class RuleAdapter : Rule {
-    override fun checkForbiddenMove(
+    override fun checkMove(
         board: Board,
         newStone: Stone,
     ): MoveResult {
@@ -22,7 +22,7 @@ class RuleAdapter : Rule {
             Violation.DOUBLE_THREE -> MoveResult.Failure.DoubleThreeViolation
             Violation.DOUBLE_FOUR -> MoveResult.Failure.DoubleFourViolation
             Violation.OVERLINE -> MoveResult.Failure.OverlineViolation
-            Violation.NONE -> MoveResult.Success.Playing
+            Violation.NONE -> checkWinCondition(board, newStone)
         }
     }
 
@@ -50,7 +50,7 @@ class RuleAdapter : Rule {
         return rule.checkAnyFoulCondition(thisPoints, otherPoints, newPoint)
     }
 
-    override fun checkWinCondition(
+    private fun checkWinCondition(
         board: Board,
         newStone: Stone,
     ): MoveResult {
