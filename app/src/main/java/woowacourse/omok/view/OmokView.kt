@@ -8,6 +8,10 @@ import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor
 
 class OmokView {
+    fun printForbiddenMessage() {
+        println("금수 자리입니다. 다시 선택해주세요.")
+    }
+
     fun printStartMessage() {
         println(START_MESSAGE)
         printOmokBoard()

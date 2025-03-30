@@ -1,6 +1,7 @@
 package woowacourse.omok.controller
 
 import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.player.Turn
 import woowacourse.omok.view.OmokView
 
@@ -36,10 +37,24 @@ class OmokController(
         turn: Turn,
         omokBoard: OmokBoard,
     ) {
-        handleTurnException {
-            val position = omokView.inputPosition(turn.stone)
-            turn.place(position, omokBoard)
+        var validMove = false
+        var position: Position
+        while (!validMove) {
+            handleTurnException {
+                position = omokView.inputPosition(turn.stone)
+                turn.place(position, omokBoard)
+            }
+            if (handleForbidden(turn)) continue
+            validMove = true
         }
+    }
+
+    private fun handleForbidden(turn: Turn): Boolean {
+        if (turn.forbidden()) {
+            omokView.printForbiddenMessage()
+            return true
+        }
+        return false
     }
 
     private fun finishGame(

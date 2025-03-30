@@ -103,11 +103,15 @@ class MainActivity : AppCompatActivity() {
         runCatching {
             turn.place(position, omokBoard)
 
+            if (turn.forbidden()) {
+                makeDialog("금수입니다.", reset = false)
+                return@runCatching
+            }
+
             val boardDto = BoardDto(position.xPoint, position.yPoint, turn.currentStoneColor.name)
             boardDao.insertStone(boardDto)
 
             showStones(view)
-            if (turn.forbidden()) return
 
             if (turn.win()) {
                 showWinDialog(turn.currentStoneColor)
