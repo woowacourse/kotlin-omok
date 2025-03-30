@@ -23,10 +23,10 @@ class Board(stones: List<Stone>) {
     }
 
     companion object {
-        fun initial(): Board {
+        fun initial(size: Int = 15): Board {
             val stones =
-                (1..15)
-                    .flatMap { x -> (1..15).map { y -> Position(x, y) } }
+                (1..size)
+                    .flatMap { x -> (1..size).map { y -> Position(x, y) } }
                     .map { Stone(it, StoneType.EMPTY) }
             return Board(stones)
         }
