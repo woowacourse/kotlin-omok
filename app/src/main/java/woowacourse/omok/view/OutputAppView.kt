@@ -150,8 +150,6 @@ class OutputAppView(
 
         private const val ERROR_STONE_ALREADY_EXITS = "해당하는 위치에 돌이 존재합니다"
         private const val ERROR_OUT_OF_RANGE = "돌이 보드의 범위를 벗어났습니다"
-        private const val BLACK_STONE_KOREAN_TEXT = "흑"
-        private const val WHITE_STONE_KOREAN_TEXT = "백"
 
         private const val WIN_DIALOG_MESSAGE = "%s이 우승했습니다"
         private const val EXIT_CONFIRMATION_DIALOG_MESSAGE = "게임을 끝내시겠습니까?"

@@ -155,8 +155,8 @@ class OmokAppControl(
 
     private fun gameRestart(stoneColor: StoneColor) {
         board = Board(boardSize)
-        omokDBHelper.addPlayerHistory(blackPlayerName, playCount = 1)
-        omokDBHelper.addPlayerHistory(whitePlayerName, playCount = 1)
+        omokDBHelper.addPlayerHistory(blackPlayerName, playCount = GAME_LOG_COUNT_UNIT)
+        omokDBHelper.addPlayerHistory(whitePlayerName, playCount = GAME_LOG_COUNT_UNIT)
         omokWinnerDBWrite(stoneColor)
         outputAppView.turnInfoUiUpdate(getPlayerNameByColor(board.nextStoneColor))
         outputAppView.stoneUiClear()
@@ -164,8 +164,12 @@ class OmokAppControl(
 
     private fun omokWinnerDBWrite(stoneColor: StoneColor) {
         when (stoneColor) {
-            StoneColor.BLACK -> omokDBHelper.addPlayerHistory(blackPlayerName, blackWinCount = 1)
-            StoneColor.WHITE -> omokDBHelper.addPlayerHistory(whitePlayerName, whiteWinCount = 1)
+            StoneColor.BLACK -> omokDBHelper.addPlayerHistory(blackPlayerName, blackWinCount = GAME_LOG_COUNT_UNIT)
+            StoneColor.WHITE -> omokDBHelper.addPlayerHistory(whitePlayerName, whiteWinCount = GAME_LOG_COUNT_UNIT)
         }
+    }
+
+    companion object {
+        private const val GAME_LOG_COUNT_UNIT = 1
     }
 }

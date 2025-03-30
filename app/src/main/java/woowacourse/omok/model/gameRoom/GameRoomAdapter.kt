@@ -63,16 +63,24 @@ class GameRoomAdapter(
             val now = LocalDateTime.now()
             val minutesDiff = ChronoUnit.MINUTES.between(time, now)
             val daysDiff = ChronoUnit.DAYS.between(time, now)
-            val weeksDiff = daysDiff / 7
+            val weeksDiff = daysDiff / ONE_WEEK
 
             return when {
-                minutesDiff < 1 -> "방금 전"
-                minutesDiff < 60 -> "${minutesDiff}분 전"
-                daysDiff < 1 -> "${minutesDiff / 60}시간 전"
-                daysDiff < 7 -> "${daysDiff}일 전"
-                daysDiff < 30 -> "${weeksDiff}주 전"
+                minutesDiff < ONE_MINUTE -> "방금 전"
+                minutesDiff < ONE_HOUR -> "${minutesDiff}분 전"
+                daysDiff < ONE_DAY -> "${minutesDiff / ONE_HOUR}시간 전"
+                daysDiff < ONE_WEEK -> "${daysDiff}일 전"
+                daysDiff < THIRTY_DAYS -> "${weeksDiff}주 전"
                 else -> time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
             }
         }
+    }
+
+    companion object {
+        private const val ONE_MINUTE = 1
+        private const val ONE_DAY = 1
+        private const val ONE_HOUR = 60
+        private const val ONE_WEEK = 7
+        private const val THIRTY_DAYS = 30
     }
 }
