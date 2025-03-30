@@ -19,17 +19,14 @@ class OmokDAO(context: Context) {
 
     fun loadAllStones(): List<Triple<Int, Int, String>> {
         val result = mutableListOf<Triple<Int, Int, String>>()
-
-        db.query(OmokDbHelper.TABLE_NAME, arrayOf("x", "y", "stone"), null, null, null, null, null)
-            .use { cursor ->
-                while (cursor.moveToNext()) {
-                    val x = cursor.getInt(cursor.getColumnIndexOrThrow("x"))
-                    val y = cursor.getInt(cursor.getColumnIndexOrThrow("y"))
-                    val stone = cursor.getString(cursor.getColumnIndexOrThrow("stone"))
-                    result.add(Triple(x, y, stone))
-                }
+        db.query(OmokDbHelper.TABLE_NAME, arrayOf("x", "y", "stone"), null, null, null, null, null).use {
+            while (it.moveToNext()) {
+                val x = it.getInt(it.getColumnIndexOrThrow("x"))
+                val y = it.getInt(it.getColumnIndexOrThrow("y"))
+                val stone = it.getString(it.getColumnIndexOrThrow("stone"))
+                result.add(Triple(x, y, stone))
             }
-
+        }
         return result
     }
 
