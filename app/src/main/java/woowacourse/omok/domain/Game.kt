@@ -3,10 +3,12 @@ package woowacourse.omok.domain
 import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.position.Position
 import woowacourse.omok.domain.model.rule.OmokRule
+import woowacourse.omok.domain.model.state.BlackStoneTurn
 import woowacourse.omok.domain.model.state.Finish
 import woowacourse.omok.domain.model.state.OmokEvent
 import woowacourse.omok.domain.model.state.OmokState
 import woowacourse.omok.domain.model.state.OmokStateMachine
+import woowacourse.omok.domain.model.state.WhiteStoneTurn
 import woowacourse.omok.domain.model.stone.OmokStone
 import woowacourse.omok.domain.model.stone.StoneType
 
@@ -33,12 +35,9 @@ class Game(
         }
     }
 
-    fun restoreGame(
-        stones: List<OmokStone>,
-        state: OmokState,
-    ) {
+    fun restoreGame(stones: List<OmokStone>) {
         board.setStones(stones)
-        omokStateMachine.state = state
+        omokStateMachine.state = if (stones.size % 2 == 0) BlackStoneTurn else WhiteStoneTurn
     }
 
     private fun process(

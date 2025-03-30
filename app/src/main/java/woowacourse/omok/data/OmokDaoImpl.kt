@@ -3,9 +3,6 @@ package woowacourse.omok.data
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import woowacourse.omok.domain.model.position.Position
-import woowacourse.omok.domain.model.state.BlackStoneTurn
-import woowacourse.omok.domain.model.state.OmokState
-import woowacourse.omok.domain.model.state.WhiteStoneTurn
 import woowacourse.omok.domain.model.stone.StoneType
 
 class OmokDaoImpl(private val database: SQLiteDatabase) : OmokDao {
@@ -37,35 +34,6 @@ class OmokDaoImpl(private val database: SQLiteDatabase) : OmokDao {
         }
         cursor.close()
         return stones
-    }
-
-    override fun saveGameTurn(state: OmokState) {
-        database.execSQL("DELETE FROM ${OmokContract.GameInfo.TABLE_NAME} WHERE " + OmokContract.GameInfo.COLUMN_KEY + "= 'turn'")
-        database.execSQL(
-            "INSERT INTO ${OmokContract.GameInfo.TABLE_NAME} (${OmokContract.GameInfo.COLUMN_KEY}, " +
-                "${OmokContract.GameInfo.COLUMN_VALUE}) VALUES ('turn', '${state.stoneType.name}')",
-        )
-    }
-
-    override fun loadGameTurn(): OmokState {
-        val cursor =
-            database.rawQuery(
-                "SELECT ${OmokContract.GameInfo.COLUMN_VALUE} FROM ${OmokContract.GameInfo.TABLE_NAME} WHERE " +
-                    OmokContract.GameInfo.COLUMN_KEY + " = 'turn'",
-                null,
-            )
-        val state =
-            if (cursor.moveToFirst()) {
-                when (StoneType.valueOf(cursor.getString(0))) {
-                    StoneType.BLACK -> BlackStoneTurn
-                    StoneType.WHITE -> WhiteStoneTurn
-                    else -> BlackStoneTurn
-                }
-            } else {
-                BlackStoneTurn
-            }
-        cursor.close()
-        return state
     }
 
     override fun saveGameFinished(isFinished: Boolean) {

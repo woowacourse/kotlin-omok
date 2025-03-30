@@ -54,19 +54,6 @@ class OmokDaoTest {
     }
 
     @Test
-    @DisplayName("차례를 저장하고 가져온다")
-    fun saveTurnTest() {
-        // Given
-        omokDao.saveGameTurn(BlackStoneTurn)
-
-        // When
-        val turn = omokDao.loadGameTurn()
-
-        // Then
-        assertThat(turn).isEqualTo(BlackStoneTurn)
-    }
-
-    @Test
     @DisplayName("게임의 종료 여부를 저장하고 가져온다")
     fun saveFinishedTest() {
         // Given
