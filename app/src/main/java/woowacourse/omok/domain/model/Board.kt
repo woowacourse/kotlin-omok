@@ -21,6 +21,11 @@ class Board(
         _stones.add(omokStone)
     }
 
+    fun setStones(stones: List<OmokStone>) {
+        _stones.clear()
+        _stones.addAll(stones)
+    }
+
     fun getLastStone(): OmokStone? = stones.lastOrNull()
 
     fun isFull(): Boolean = stones.size == size * size

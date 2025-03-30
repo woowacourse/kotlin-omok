@@ -4,7 +4,6 @@ import woowacourse.omok.domain.model.stone.StoneType
 
 class OmokStateMachine {
     var state: OmokState = BlackStoneTurn
-        private set
 
     fun transition(event: OmokEvent) {
         state =

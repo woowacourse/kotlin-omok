@@ -33,6 +33,14 @@ class Game(
         }
     }
 
+    fun restoreGame(
+        stones: List<OmokStone>,
+        state: OmokState,
+    ) {
+        board.setStones(stones)
+        omokStateMachine.state = state
+    }
+
     private fun process(
         position: Position,
         onPlace: (StoneType) -> Unit,
