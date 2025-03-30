@@ -35,7 +35,7 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 
 
     companion object {
         const val DB_NAME = "OmokGame.db"
-        const val DB_VERSION = 2
+        const val DB_VERSION = 3
         const val TABLE_NAME = "stones"
     }
 }

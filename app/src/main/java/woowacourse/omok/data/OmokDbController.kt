@@ -33,11 +33,12 @@ class OmokDbController(context: Context) {
 
     fun clearBoard() {
         db.delete(OmokDbHelper.TABLE_NAME, null, null)
+        db.delete("turn", null, null)
     }
 
     fun saveTurn(stone: String) {
         val values = ContentValues().apply {
-            put("id", 0) // 항상 같은 id 하나만 유지
+            put("id", 0)
             put("current_turn", stone)
         }
 
