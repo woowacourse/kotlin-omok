@@ -22,6 +22,10 @@ class Board(stones: List<Stone>) {
         return _stones.first { it.position == position }.color == StoneType.EMPTY
     }
 
+    fun isFull(): Boolean {
+        return _stones.none { it.color == StoneType.EMPTY }
+    }
+
     companion object {
         fun initial(size: Int = 15): Board {
             val stones =
