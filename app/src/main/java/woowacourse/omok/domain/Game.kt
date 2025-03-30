@@ -36,7 +36,7 @@ class Game(
     fun isFinished() = state.isFinished()
 
     private fun resetGame() {
-        state = state.turn()
+        state = state.play()
         stoneRepository.clear()
         stones = Stones(listOf())
     }
@@ -44,6 +44,6 @@ class Game(
     private fun placeStone(stone: Stone) {
         stoneRepository.insert(stone)
         stones += stone
-        state = if (rule.checkWin(stones, stone)) state.finish() else state.turn()
+        state = if (rule.checkWin(stones, stone)) state.finish() else state.play()
     }
 }

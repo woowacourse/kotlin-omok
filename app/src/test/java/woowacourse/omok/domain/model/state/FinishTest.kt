@@ -19,8 +19,13 @@ class FinishTest {
     }
 
     @Test
-    fun `피니쉬는 호출할 경우 turn타입이 된다`() {
-        assertThat(finish.turn()).isInstanceOf(Turn::class.java)
+    fun `피니쉬는 플레이를 호출할 경우 Turn 타입이 된다`() {
+        assertThat(finish.play()).isInstanceOf(Turn::class.java)
+    }
+
+    @Test
+    fun `피니쉬는 플레이를 호출할 경우 stoneType이 시작돌인 BLACK이 된다 `() {
+        assertThat(finish.play().stoneType).isEqualTo(StoneType.BLACK)
     }
 
     @Test

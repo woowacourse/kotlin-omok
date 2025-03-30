@@ -5,7 +5,7 @@ import woowacourse.omok.domain.model.stone.StoneType
 class Finish(
     override val stoneType: StoneType,
 ) : OmokState {
-    override fun turn(): Turn = Turn(StoneType.BLACK)
+    override fun play(): Turn = Turn(StoneType.BLACK)
 
     override fun finish(): Finish = this
 

@@ -5,7 +5,7 @@ import woowacourse.omok.domain.model.stone.StoneType
 interface OmokState {
     val stoneType: StoneType
 
-    fun turn(): Turn
+    fun play(): Turn
 
     fun finish(): Finish
 

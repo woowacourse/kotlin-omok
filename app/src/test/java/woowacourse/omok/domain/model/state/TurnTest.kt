@@ -19,8 +19,13 @@ class TurnTest {
     }
 
     @Test
-    fun `턴을 호출할 경우 stone이 변경된다`() {
-        assertThat(turn.turn().stoneType).isEqualTo(StoneType.WHITE)
+    fun `플레이를 진행할 경우 stoneType이 변경된다`() {
+        assertThat(turn.play().stoneType).isEqualTo(StoneType.WHITE)
+    }
+
+    @Test
+    fun `플레이를 진행할 경우 다음 턴이 된다`() {
+        assertThat(turn.play()).isInstanceOf(Turn::class.java)
     }
 
     @Test

@@ -45,6 +45,6 @@
 - [x] copy()를 필요한 부분에서만 적용
 - [x] boardView 캐싱
 - [x] repository 처리 Game으로 이전 및 impl은 MainActivity에서 처리
-- [ ] 테스트 함수명 수정
+- [x] 테스트 함수명 수정
 - [x] 중복 구현 수정
 - [ ] 저수준 모듈에서 고수준 모듈 Model 사용시 매핑
