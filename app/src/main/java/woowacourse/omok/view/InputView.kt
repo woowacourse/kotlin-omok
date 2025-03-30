@@ -20,7 +20,7 @@ class InputView {
     }
 
     private fun convertToString(omokPoint: Stone): String {
-        val letter = 'A' + omokPoint.point.col.value - INDEX_OFFSET
+        val letter = COORDINATE_Y_START_CHAR + omokPoint.point.col.value - INDEX_OFFSET
         return letter + (omokPoint.point.row.value).toString()
     }
 
@@ -41,12 +41,12 @@ class InputView {
     }
 
     private fun validateCol(col: String): Int? {
-        if (col[0] !in 'A'..'Z') return null
+        if (col[0] !in COORDINATE_Y_START_CHAR..COORDINATE_Y_END_CHAR) return null
         return convertLetter(col)
     }
 
     private fun convertLetter(letter: String): Int {
-        return letter[0] - 'A' + INDEX_OFFSET
+        return letter[0] - COORDINATE_Y_START_CHAR + INDEX_OFFSET
     }
 
     private fun StoneColor.getDisplayColor(): String {
@@ -60,9 +60,12 @@ class InputView {
         private const val MESSAGE_TURN: String = "\n%s의 차례입니다."
         private const val MESSAGE_LATEST_POSITION: String = "(마지막 돌의 위치: %s)"
         private const val MESSAGE_POSITION_GUIDE: String = "\n위치를 입력하세요: "
-        private const val MIN_BOUND: Int = 1
+
         private const val START_INDEX: Int = 0
         private const val CUTTING_STANDARD: Int = 1
         private const val INDEX_OFFSET: Int = 1
+
+        private const val COORDINATE_Y_START_CHAR: Char = 'A'
+        private const val COORDINATE_Y_END_CHAR: Char = 'Z'
     }
 }

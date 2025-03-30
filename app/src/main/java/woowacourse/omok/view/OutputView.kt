@@ -9,10 +9,10 @@ import woowacourse.omok.domain.rule.ValidationResult
 class OutputView {
     fun printErrorMessage(violation: ValidationResult.Failure) {
         when (violation) {
-            ValidationResult.Failure.Occupied -> println(ERROR_OCCUPIED)
-            ValidationResult.Failure.DoubleFour -> println(ERROR_DOUBLE_FOUR)
-            ValidationResult.Failure.DoubleThree -> println(ERROR_DOUBLE_THREE)
-            ValidationResult.Failure.OverLine -> println(ERROR_OVER_LINE)
+            ValidationResult.Failure.Occupied -> println(ERROR_MESSAGE_FORMAT.format(ERROR_OCCUPIED))
+            ValidationResult.Failure.DoubleFour -> println(ERROR_MESSAGE_FORMAT.format(ERROR_DOUBLE_FOUR))
+            ValidationResult.Failure.DoubleThree -> println(ERROR_MESSAGE_FORMAT.format(ERROR_DOUBLE_THREE))
+            ValidationResult.Failure.OverLine -> println(ERROR_MESSAGE_FORMAT.format(ERROR_OVER_LINE))
         }
     }
 
@@ -35,7 +35,7 @@ class OutputView {
         blackStones: Set<Stone>,
         whiteStones: Set<Stone>,
     ): List<List<StoneColor?>> {
-        val board: List<MutableList<StoneColor?>> = List(DEFAULT_SIZE + 1) { MutableList(DEFAULT_SIZE + 1) { null } }
+        val board: List<MutableList<StoneColor?>> = List(DEFAULT_SIZE + INDEX_OFFSET) { MutableList(DEFAULT_SIZE + INDEX_OFFSET) { null } }
 
         blackStones.forEach { (point, _) ->
             board[point.row.value][point.col.value] = StoneColor.BLACK
@@ -87,7 +87,7 @@ class OutputView {
     }
 
     private fun printCoordinateY() {
-        println(('A' until 'A' + DEFAULT_SIZE).joinToString("  "))
+        println((COORDINATE_Y until COORDINATE_Y + DEFAULT_SIZE).joinToString("  "))
     }
 
     fun printWinner(omokResult: OmokResult) {
@@ -95,11 +95,16 @@ class OutputView {
     }
 
     companion object {
+        private const val ERROR_MESSAGE_FORMAT = "!! ERROR | %s !!"
+        private const val ERROR_DOUBLE_THREE = "3x3 위치에 놓을 수 없습니다"
+        private const val ERROR_DOUBLE_FOUR = "4x4 위치에 놓을 수 없습니다"
+        private const val ERROR_OVER_LINE = "장목 위치에 놓을 수 없습니다"
+        private const val ERROR_OCCUPIED = "이미 돌이 있습니다"
+
         private const val MESSAGE_GAME_START = "오목 게임을 시작합니다."
-        private const val ERROR_NOT_FOUND = "[ERROR] 유효하지 않은 접근입니다"
-        private const val ERROR_MESSAGE = "!!ERROR %s!!"
         private const val REPEAT_COUNT = 2
 
+        private const val INDEX_OFFSET = 1
         private const val LEFT_DOWN = "└"
         private const val LEFT = "├"
         private const val LEFT_UP = "┌"
@@ -112,14 +117,11 @@ class OutputView {
         private const val DASH = "─"
         private const val COORDINATE_X = "%2d "
         private const val BLANK = "   "
+        private const val COORDINATE_Y = 'A'
+
         private const val MIN_BOUND = 1
         private const val MAX_BOUND = 15
 
         private const val MESSAGE_WINNER = "%s !!"
-
-        private const val ERROR_DOUBLE_THREE = "3x3 위치에 놓을 수 없습니다"
-        private const val ERROR_DOUBLE_FOUR = "4x4 위치에 놓을 수 없습니다"
-        private const val ERROR_OVER_LINE = "장목 위치에 놓을 수 없습니다"
-        private const val ERROR_OCCUPIED = "이미 돌이 있습니다"
     }
 }
