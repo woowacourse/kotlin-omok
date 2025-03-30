@@ -1,13 +1,13 @@
 package woowacourse.omok
 
-import data.OmokDao
-import data.StateContract.BLACK_STONES_TABLE
-import data.StateContract.WHITE_STONES_TABLE
-import domain.domain.Point
-import domain.domain.state.Finished
-import domain.domain.state.Foul
-import domain.domain.state.Playing
-import domain.domain.state.State
+import woowacourse.omok.data.OmokDao
+import woowacourse.omok.data.StateContract.BLACK_STONES_TABLE
+import woowacourse.omok.data.StateContract.WHITE_STONES_TABLE
+import woowacourse.omok.domain.model.Point
+import woowacourse.omok.domain.model.state.Finished
+import woowacourse.omok.domain.model.state.Foul
+import woowacourse.omok.domain.model.state.Playing
+import woowacourse.omok.domain.model.state.State
 
 class OmokGameManager {
     fun updateState(

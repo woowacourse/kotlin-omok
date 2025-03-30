@@ -1,8 +1,8 @@
-package domain
+package woowacourse.omok
 
-import domain.controller.OmokController
-import domain.view.InputView
-import domain.view.OutputView
+import woowacourse.omok.domain.controller.OmokController
+import woowacourse.omok.view.InputView
+import woowacourse.omok.view.OutputView
 
 fun main() {
     val inputView = InputView()

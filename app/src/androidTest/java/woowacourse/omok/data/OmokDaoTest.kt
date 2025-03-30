@@ -2,17 +2,16 @@ package woowacourse.omok.data
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import data.OmokDao
-import domain.model.Point
-import domain.model.state.BlackTurn
-import domain.model.stone.BlackStones
-import domain.model.stone.WhiteStones
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
+import woowacourse.omok.domain.model.Point
+import woowacourse.omok.domain.model.state.BlackTurn
+import woowacourse.omok.domain.model.stone.BlackStones
+import woowacourse.omok.domain.model.stone.WhiteStones
 import woowacourse.omok.fake.FakeDbHelper
 
 @RunWith(AndroidJUnit4::class)

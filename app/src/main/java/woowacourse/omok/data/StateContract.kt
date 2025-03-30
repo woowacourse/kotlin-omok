@@ -1,4 +1,4 @@
-package data
+package woowacourse.omok.data
 
 object StateContract {
     const val DATABASE_VERSION = 1

@@ -1,9 +1,9 @@
-package domain.domain.rule
+package woowacourse.omok.domain.model.rule
 
-import domain.domain.Board.Companion.DEFAULT_BOARD_SIZE
-import domain.domain.Point
-import domain.domain.stone.Stones
 import rule.facade.BlackRenjuRule
+import woowacourse.omok.domain.model.Board.Companion.DEFAULT_BOARD_SIZE
+import woowacourse.omok.domain.model.Point
+import woowacourse.omok.domain.model.stone.Stones
 
 class RenjuRule(boardSize: Int = DEFAULT_BOARD_SIZE) {
     private val omokRule = BlackRenjuRule(boardSize, boardSize)

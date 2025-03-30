@@ -1,4 +1,4 @@
-package domain.domain.state
+package woowacourse.omok.domain.model.state
 
 sealed class Foul : State {
     data object Duplicated : Foul()

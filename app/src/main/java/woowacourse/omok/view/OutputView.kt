@@ -1,7 +1,7 @@
-package domain.view
+package woowacourse.omok.view
 
-import domain.domain.Point
-import domain.domain.stone.StoneColor
+import woowacourse.omok.domain.model.Point
+import woowacourse.omok.domain.model.stone.StoneColor
 
 class OutputView {
     fun printStartOmok(boardSize: Int) {

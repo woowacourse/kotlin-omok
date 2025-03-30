@@ -1,4 +1,4 @@
-package domain.domain
+package woowacourse.omok.domain.model
 
 data class Point(
     val x: Int,

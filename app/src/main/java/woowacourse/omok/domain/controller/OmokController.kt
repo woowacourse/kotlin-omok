@@ -1,9 +1,9 @@
-package domain.controller
+package woowacourse.omok.domain.controller
 
-import domain.domain.Board
-import domain.domain.state.Finished
-import domain.view.InputView
-import domain.view.OutputView
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.state.Finished
+import woowacourse.omok.view.InputView
+import woowacourse.omok.view.OutputView
 
 class OmokController(
     private val inputView: InputView,

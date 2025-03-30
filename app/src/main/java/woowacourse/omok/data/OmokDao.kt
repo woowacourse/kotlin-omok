@@ -1,23 +1,24 @@
-package data
+package woowacourse.omok.data
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
-import data.StateContract.BLACK_STONES_TABLE
-import data.StateContract.COLUMN_ID
-import data.StateContract.COLUMN_STATE
-import data.StateContract.COLUMN_X
-import data.StateContract.COLUMN_Y
-import data.StateContract.TABLE_NAME
-import data.StateContract.WHITE_STONES_TABLE
-import domain.domain.Point
-import domain.domain.state.BlackTurn
-import domain.domain.state.Ready
-import domain.domain.state.State
-import domain.domain.state.WhiteTurn
-import domain.domain.stone.BlackStones
-import domain.domain.stone.WhiteStones
+import android.database.sqlite.SQLiteOpenHelper
+import woowacourse.omok.data.StateContract.BLACK_STONES_TABLE
+import woowacourse.omok.data.StateContract.COLUMN_ID
+import woowacourse.omok.data.StateContract.COLUMN_STATE
+import woowacourse.omok.data.StateContract.COLUMN_X
+import woowacourse.omok.data.StateContract.COLUMN_Y
+import woowacourse.omok.data.StateContract.TABLE_NAME
+import woowacourse.omok.data.StateContract.WHITE_STONES_TABLE
+import woowacourse.omok.domain.model.Point
+import woowacourse.omok.domain.model.state.BlackTurn
+import woowacourse.omok.domain.model.state.Ready
+import woowacourse.omok.domain.model.state.State
+import woowacourse.omok.domain.model.state.WhiteTurn
+import woowacourse.omok.domain.model.stone.BlackStones
+import woowacourse.omok.domain.model.stone.WhiteStones
 
-class OmokDao(private val dbHelper: DbHelper) {
+class OmokDao(private val dbHelper: SQLiteOpenHelper) {
     fun saveGameState(state: State) {
         dbHelper.writableDatabase.use { db ->
             val contentValues =

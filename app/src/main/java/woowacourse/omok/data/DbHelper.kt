@@ -1,16 +1,16 @@
-package data
+package woowacourse.omok.data
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import data.StateContract.DATABASE_NAME
-import data.StateContract.DATABASE_VERSION
-import data.StateContract.SQL_CREATE_BLACK_STONES
-import data.StateContract.SQL_CREATE_STATE
-import data.StateContract.SQL_CREATE_WHITE_STONES
-import data.StateContract.SQL_DELETE_BLACK_STONES
-import data.StateContract.SQL_DELETE_STATE
-import data.StateContract.SQL_DELETE_WHITE_STONES
+import woowacourse.omok.data.StateContract.DATABASE_NAME
+import woowacourse.omok.data.StateContract.DATABASE_VERSION
+import woowacourse.omok.data.StateContract.SQL_CREATE_BLACK_STONES
+import woowacourse.omok.data.StateContract.SQL_CREATE_STATE
+import woowacourse.omok.data.StateContract.SQL_CREATE_WHITE_STONES
+import woowacourse.omok.data.StateContract.SQL_DELETE_BLACK_STONES
+import woowacourse.omok.data.StateContract.SQL_DELETE_STATE
+import woowacourse.omok.data.StateContract.SQL_DELETE_WHITE_STONES
 
 class DbHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {

@@ -1,12 +1,12 @@
-package domain.domain.rule
+package woowacourse.omok.domain.model.rule
 
-import domain.domain.Board.Companion.DEFAULT_BOARD_SIZE
-import domain.domain.Direction
-import domain.domain.Direction.DIAGONAL_DOWN
-import domain.domain.Direction.DIAGONAL_UP
-import domain.domain.Direction.HORIZONTAL
-import domain.domain.Direction.VERTICAL
-import domain.domain.Point
+import woowacourse.omok.domain.model.Board.Companion.DEFAULT_BOARD_SIZE
+import woowacourse.omok.domain.model.Direction
+import woowacourse.omok.domain.model.Direction.DIAGONAL_DOWN
+import woowacourse.omok.domain.model.Direction.DIAGONAL_UP
+import woowacourse.omok.domain.model.Direction.HORIZONTAL
+import woowacourse.omok.domain.model.Direction.VERTICAL
+import woowacourse.omok.domain.model.Point
 
 class OmokRule(private val size: Int = DEFAULT_BOARD_SIZE) {
     fun isOmok(

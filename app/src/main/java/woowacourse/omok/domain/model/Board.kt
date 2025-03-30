@@ -1,14 +1,14 @@
-package domain.domain
+package woowacourse.omok.domain.model
 
-import domain.domain.state.BlackTurn
-import domain.domain.state.Finished
-import domain.domain.state.Playing
-import domain.domain.state.Ready
-import domain.domain.state.State
-import domain.domain.state.WhiteTurn
-import domain.domain.stone.BlackStones
-import domain.domain.stone.StoneColor
-import domain.domain.stone.WhiteStones
+import woowacourse.omok.domain.model.state.BlackTurn
+import woowacourse.omok.domain.model.state.Finished
+import woowacourse.omok.domain.model.state.Playing
+import woowacourse.omok.domain.model.state.Ready
+import woowacourse.omok.domain.model.state.State
+import woowacourse.omok.domain.model.state.WhiteTurn
+import woowacourse.omok.domain.model.stone.BlackStones
+import woowacourse.omok.domain.model.stone.StoneColor
+import woowacourse.omok.domain.model.stone.WhiteStones
 
 class Board(
     state: State = Ready(),

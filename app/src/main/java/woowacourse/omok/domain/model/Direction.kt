@@ -1,4 +1,4 @@
-package domain.domain
+package woowacourse.omok.domain.model
 
 enum class Direction(
     val direction: List<Pair<Int, Int>>,

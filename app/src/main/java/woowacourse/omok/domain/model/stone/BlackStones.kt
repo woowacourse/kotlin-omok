@@ -1,7 +1,7 @@
-package domain.domain.stone
+package woowacourse.omok.domain.model.stone
 
-import domain.domain.Point
-import domain.domain.rule.RenjuRule
+import woowacourse.omok.domain.model.Point
+import woowacourse.omok.domain.model.rule.RenjuRule
 
 class BlackStones(
     points: Set<Point> = emptySet(),

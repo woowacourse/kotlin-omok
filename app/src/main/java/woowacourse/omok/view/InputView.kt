@@ -1,6 +1,6 @@
-package domain.view
+package woowacourse.omok.view
 
-import domain.domain.Point
+import woowacourse.omok.domain.model.Point
 
 class InputView {
     fun getPoint(boardSize: Int): Point =

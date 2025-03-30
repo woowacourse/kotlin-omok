@@ -1,10 +1,10 @@
-package domain.domain.state
+package woowacourse.omok.domain.model.state
 
-import domain.domain.Board
-import domain.domain.Point
-import domain.domain.stone.BlackStones
-import domain.domain.stone.StoneColor
-import domain.domain.stone.WhiteStones
+import woowacourse.omok.domain.model.Board
+import woowacourse.omok.domain.model.Point
+import woowacourse.omok.domain.model.stone.BlackStones
+import woowacourse.omok.domain.model.stone.StoneColor
+import woowacourse.omok.domain.model.stone.WhiteStones
 
 interface Playing : State {
     val blackStones: BlackStones

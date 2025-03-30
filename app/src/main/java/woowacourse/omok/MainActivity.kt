@@ -9,17 +9,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import data.DbHelper
-import data.OmokDao
-import domain.domain.Point
-import domain.domain.state.BlackTurn
-import domain.domain.state.Finished
-import domain.domain.state.Foul
-import domain.domain.state.Playing
-import domain.domain.state.Ready
-import domain.domain.state.State
-import domain.domain.state.WhiteTurn
-import domain.domain.stone.StoneColor
+import woowacourse.omok.data.DbHelper
+import woowacourse.omok.data.OmokDao
+import woowacourse.omok.domain.model.Point
+import woowacourse.omok.domain.model.state.BlackTurn
+import woowacourse.omok.domain.model.state.Finished
+import woowacourse.omok.domain.model.state.Foul
+import woowacourse.omok.domain.model.state.Playing
+import woowacourse.omok.domain.model.state.Ready
+import woowacourse.omok.domain.model.state.State
+import woowacourse.omok.domain.model.state.WhiteTurn
+import woowacourse.omok.domain.model.stone.StoneColor
 
 class MainActivity : AppCompatActivity() {
     private var state: State = Ready()
