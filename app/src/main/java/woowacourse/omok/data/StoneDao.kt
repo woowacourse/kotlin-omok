@@ -26,7 +26,7 @@ class StoneDao(private val dbHelper: OmokDatabaseHelper) {
 
         val cursor =
             db.rawQuery(
-                "SELECT stone_type, id FROM stones ORDER BY id DESC LIMIT 1",
+                "SELECT stone_type, _id FROM stones ORDER BY _id DESC LIMIT 1",
                 null,
             )
 
