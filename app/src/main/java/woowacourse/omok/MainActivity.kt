@@ -35,19 +35,19 @@ class MainActivity : AppCompatActivity() {
         initializeGame()
         val board = savedGame()
         board
-            .children
-            .filterIsInstance<TableRow>()
-            .forEachIndexed { rowIndex, tableRow ->
-                tableRow.children
-                    .filterIsInstance<ImageView>()
-                    .forEachIndexed { colIndex, imageView ->
-                        imageView.tag = "$rowIndex,$colIndex"
-                        imageView.setOnClickListener {
-                            val (row, col) = (it.tag as String).split(",").map { it.toInt() }
-                            handleStoneClick(row, col, it)
-                        }
-                    }
+        .children
+        .filterIsInstance<TableRow>()
+        .forEachIndexed { rowIndex, tableRow ->
+            tableRow.children
+            .filterIsInstance<ImageView>()
+            .forEachIndexed { colIndex, imageView ->
+                imageView.tag = "$rowIndex,$colIndex"
+                imageView.setOnClickListener {
+                    val (row, col) = (it.tag as String).split(",").map { it.toInt() }
+                    handleStoneClick(row, col, it)
+                }
             }
+        }
     }
 
     private fun handleStoneClick(row: Int, col: Int, view: View) {
