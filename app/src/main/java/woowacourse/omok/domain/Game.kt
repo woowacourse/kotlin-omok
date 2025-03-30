@@ -30,14 +30,16 @@ class Game(
         if (ruleResult !is RuleResult.OnRule) return
         placeStone(stone)
         playEvent.onPlace(stone)
-        if (state.isFinished()) playEvent.onFinish(state.stoneType, ::resetGame)
+        if (state.isFinished()) {
+            stoneRepository.clear()
+            playEvent.onFinish(state.stoneType, ::resetGame)
+        }
     }
 
     fun isFinished() = state.isFinished()
 
     private fun resetGame() {
         state = state.play()
-        stoneRepository.clear()
         stones = Stones(listOf())
     }
 
