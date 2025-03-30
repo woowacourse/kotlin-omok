@@ -17,7 +17,7 @@ object RenjuRuleAdapterImpl : OmokRuleAdapter() {
 
         val thisPoints = convertSetToList(thisStones)
         val otherPoints = convertSetToList(otherStones)
-        val startPoint = convertOmokPointToPoint(latestStone)
+        val startPoint = convertStoneToPair(latestStone)
 
         return when {
             rule.checkOverline(thisPoints, startPoint) -> ValidationResult.Failure.OverLine
@@ -27,11 +27,11 @@ object RenjuRuleAdapterImpl : OmokRuleAdapter() {
         }
     }
 
-    private fun convertOmokPointToPoint(stone: Stone): Pair<Int, Int> {
-        return Pair(stone.point.row.value, stone.point.col.value)
+    private fun convertSetToList(stones: Set<Stone>): List<Pair<Int, Int>> {
+        return stones.map { convertStoneToPair(it) }
     }
 
-    private fun convertSetToList(stones: Set<Stone>): List<Pair<Int, Int>> {
-        return stones.toList().map { convertOmokPointToPoint(it) }
+    private fun convertStoneToPair(stone: Stone): Pair<Int, Int> {
+        return Pair(stone.point.row.value, stone.point.col.value)
     }
 }
