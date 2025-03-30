@@ -4,10 +4,10 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import woowacourse.omok.domain.Board
-import woowacourse.omok.domain.DuplicatePutException
-import woowacourse.omok.domain.NotYourTurnException
 import woowacourse.omok.domain.Position
+import woowacourse.omok.domain.PositionOccupiedException
 import woowacourse.omok.domain.StoneType
+import woowacourse.omok.domain.TurnViolationException
 
 class BoardTest {
     @Test
@@ -27,7 +27,7 @@ class BoardTest {
     fun notYourTurnException() {
         val board = Board.initial()
         board.put(Position(0, 0), StoneType.BLACK)
-        assertThrows<NotYourTurnException> {
+        assertThrows<TurnViolationException> {
             board.put(Position(0, 0), StoneType.BLACK)
         }
     }
@@ -36,7 +36,7 @@ class BoardTest {
     fun duplicatePutException() {
         val board = Board.initial()
         board.put(Position(0, 0), StoneType.BLACK)
-        assertThrows<DuplicatePutException> {
+        assertThrows<PositionOccupiedException> {
             board.put(Position(0, 0), StoneType.WHITE)
         }
     }

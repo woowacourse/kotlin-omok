@@ -28,8 +28,8 @@ class Board(stones: List<Stone>) {
         position: Position,
         stoneType: StoneType,
     ) {
-        if (stoneType == lastTurn) throw NotYourTurnException()
-        if (!isEmpty(position)) throw DuplicatePutException()
+        if (stoneType == lastTurn) throw TurnViolationException()
+        if (!isEmpty(position)) throw PositionOccupiedException()
         _stones.removeIf { it.position == position }
         _stones.addLast(Stone(position, stoneType))
     }
