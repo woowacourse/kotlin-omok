@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import data.DbHelper
+import data.OmokDao
 import domain.domain.Point
 import domain.domain.state.BlackTurn
 import domain.domain.state.Finished
@@ -23,16 +24,17 @@ import domain.domain.stone.StoneColor
 class MainActivity : AppCompatActivity() {
     private var state: State = Ready()
     private val gameManager = OmokGameManager()
-    private lateinit var dbHelper: DbHelper
+    private lateinit var omokDao: OmokDao
     private lateinit var boardImages: List<List<ImageView>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        dbHelper = DbHelper(this)
+        val dbHelper = DbHelper(this)
+        omokDao = OmokDao(dbHelper)
 
-        state = dbHelper.loadGameState() ?: Ready()
+        state = omokDao.loadGameState() ?: Ready()
 
         val board = findViewById<TableLayout>(R.id.board)
         boardImages =
@@ -58,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         if (state !is Playing) return
 
         val previousState = state
-        val newState = gameManager.updateState(state, point, dbHelper)
+        val newState = gameManager.updateState(state, point, omokDao)
 
         if (newState is Foul) {
             displayFoulMessage(newState)
@@ -136,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                 .setNegativeButton(
                     R.string.game_over,
                     DialogInterface.OnClickListener { dialog, id ->
-                        dbHelper.clearGameState()
+                        omokDao.clearGameState()
                         dialog.dismiss()
                     },
                 )
@@ -154,10 +156,5 @@ class MainActivity : AppCompatActivity() {
 
     private fun resetBoard() {
         boardImages.flatten().forEach { it.setImageResource(0) }
-    }
-
-    override fun onDestroy() {
-        dbHelper.close()
-        super.onDestroy()
     }
 }
