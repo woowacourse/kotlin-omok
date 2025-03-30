@@ -30,23 +30,21 @@ import woowacourse.omok.domain.model.rule.judge.JudgeResult.NotFinished
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Failure
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Success
 import woowacourse.omok.domain.repository.OmokGameRepository
-import woowacourse.omok.domain.usecase.GetOmokGameUseCase
+import woowacourse.omok.ui.mapper.toUI
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val omokGameRepository: OmokGameRepository
         get() = (application as OmokApplication).omokGameRepository
-    private val omokGameUseCase: GetOmokGameUseCase
-        get() = (application as OmokApplication).getOmokGameUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
 
         lifecycleScope.launch {
-            val omokGame = withContext(Dispatchers.IO) { omokGameUseCase() }
+            val omokGame = withContext(Dispatchers.IO) { omokGameRepository.fetchGame() }
             updateStonesUI(omokGame.board)
-            setupClickListeners(omokGame)
+            setupClickListeners(omokGame.toUI())
         }
     }
 

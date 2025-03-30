@@ -4,7 +4,6 @@ import android.app.Application
 import woowacourse.omok.data.datasource.OmokGameLocalDataSourceImpl
 import woowacourse.omok.domain.repository.OmokGameRepository
 import woowacourse.omok.domain.repository.OmokGameRepositoryImpl
-import woowacourse.omok.domain.usecase.GetOmokGameUseCase
 import woowacourse.omok.ui.controller.OmokController
 import woowacourse.omok.ui.view.InputView
 import woowacourse.omok.ui.view.OutputView
@@ -12,22 +11,15 @@ import woowacourse.omok.ui.view.OutputView
 class OmokApplication : Application() {
     lateinit var omokGameRepository: OmokGameRepository
         private set
-    lateinit var getOmokGameUseCase: GetOmokGameUseCase
-        private set
 
     override fun onCreate() {
         super.onCreate()
         provideOmokGameRepository()
-        provideGetOmokGameUseCase()
     }
 
     private fun provideOmokGameRepository() {
         val gameDataSource = OmokGameLocalDataSourceImpl(applicationContext)
         omokGameRepository = OmokGameRepositoryImpl(gameDataSource)
-    }
-
-    private fun provideGetOmokGameUseCase() {
-        getOmokGameUseCase = GetOmokGameUseCase(omokGameRepository)
     }
 }
 
