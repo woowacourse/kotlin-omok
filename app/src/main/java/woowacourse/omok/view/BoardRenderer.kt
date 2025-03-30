@@ -1,45 +1,48 @@
 package woowacourse.omok.view
 
 import woowacourse.omok.domain.Board
+import woowacourse.omok.domain.Position
 import woowacourse.omok.domain.StoneType
 
 object BoardRenderer {
     fun render(board: Board): String {
-        val boardMap =
-
-            StringBuilder(
-                """
-                15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
-                14 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-                13 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-                12 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-                11 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-                10 ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-                9  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-                8  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-                7  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-                6  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-                5  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-                4  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-                3  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-                2  ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┤
-                1  └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘
-                   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
-                """.trimIndent(),
-            )
-        board.stones.forEach {
-            if (it.color != StoneType.EMPTY) {
-                val stone = if (it.color == StoneType.WHITE) '○' else '●'
-                val pointX = (it.position.x) * BOARD_INTERVAL
-                val pointY = BOARD_LENGTH - it.position.y
-                val idx = (BOARD_LENGTH * BOARD_INTERVAL + BOARD_EMPTY_INTERVAL) * pointY + pointX
-                boardMap.setCharAt(idx, stone)
+        val size = 15
+        return buildString {
+            for (y in size downTo 1) {
+                append("${y.toString().padStart(2)} ") // 행 번호
+                for (x in 1..size) {
+                    val stone = board.stones.firstOrNull { it.position == Position(x, y) }
+                    append(
+                        when (stone?.color) {
+                            StoneType.BLACK -> "●"
+                            StoneType.WHITE -> "○"
+                            else -> getCellSymbol(x, y, size)
+                        },
+                    )
+                    append(if (x == size) "\n" else "──")
+                }
             }
+            // 하단 알파벳 추가
+            append("   ")
+            append(('A' until 'A' + size).joinToString("  "))
         }
-        return boardMap.toString()
     }
 
-    private const val BOARD_INTERVAL = 3
-    private const val BOARD_LENGTH = 15
-    private const val BOARD_EMPTY_INTERVAL = 2
+    private fun getCellSymbol(
+        x: Int,
+        y: Int,
+        size: Int,
+    ): String {
+        return when {
+            x == 1 && y == size -> "┌"
+            x == size && y == size -> "┐"
+            x == 1 && y == 1 -> "└"
+            x == size && y == 1 -> "┘"
+            x == 1 -> "├"
+            x == size -> "┤"
+            y == size -> "┬"
+            y == 1 -> "┴"
+            else -> "┼"
+        }
+    }
 }
