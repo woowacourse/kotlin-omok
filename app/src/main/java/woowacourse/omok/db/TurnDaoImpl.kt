@@ -5,7 +5,7 @@ import woowacourse.omok.db.DatabaseHelper.Companion.CURRENT_TURN
 import woowacourse.omok.model.stone.StoneColor
 
 class TurnDaoImpl(context: Context) : TurnDao {
-    private val dbHelper: DatabaseHelper = DatabaseHelper(context)
+    val dbHelper: DatabaseHelper = DatabaseHelper(context)
 
     override fun saveTurn(color: StoneColor) {
         val db = dbHelper.writableDatabase
