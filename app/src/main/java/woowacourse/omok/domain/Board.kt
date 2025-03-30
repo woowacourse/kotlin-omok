@@ -8,28 +8,12 @@ class Board(stones: List<Stone>) {
     val stones: List<Stone>
         get() = _stones.toList()
 
-    val lastTurn: StoneType
-        get() =
-            _stones
-                .lastOrNull()
-                ?.color
-                ?: StoneType.EMPTY
-
-    val currentTurn: StoneType
-        get() =
-            when (lastTurn) {
-                StoneType.BLACK -> StoneType.WHITE
-                StoneType.WHITE -> StoneType.BLACK
-                StoneType.EMPTY -> StoneType.BLACK
-            }
-
     @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     fun put(
         position: Position,
         stoneType: StoneType,
     ) {
-        if (stoneType == lastTurn) throw TurnViolationException()
-        if (!isEmpty(position)) throw PositionOccupiedException()
+        if (!isEmpty(position)) throw PositionOccupiedException(position)
         _stones.removeIf { it.position == position }
         _stones.addLast(Stone(position, stoneType))
     }
