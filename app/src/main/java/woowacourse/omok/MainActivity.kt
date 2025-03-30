@@ -21,7 +21,7 @@ import woowacourse.omok.data.dao.OmokDao
 import woowacourse.omok.data.mapper.toDomain
 import woowacourse.omok.mapper.BlackRuleChecker
 import woowacourse.omok.model.game.Game
-import woowacourse.omok.model.rule.PlacementError
+import woowacourse.omok.model.game.PlayResult
 import woowacourse.omok.model.rule.PlacementError.AlreadyOccupiedViolation
 import woowacourse.omok.model.rule.PlacementError.DoubleFourViolation
 import woowacourse.omok.model.rule.PlacementError.DoubleThreeViolation
@@ -62,20 +62,32 @@ class MainActivity : AppCompatActivity() {
             row.forEachIndexed { colIndex, cell ->
                 cell.setOnClickListener {
                     val position = Position(Row(rowIndex), Col(colIndex))
-                    val stoneRes = stoneRes(game.turn)
+                    val result = game.playTurn(position)
 
-                    val violation = game.playTurn(position)
-                    val result = printViolation(violation)
+                    when (result) {
+                        is PlayResult.Violation -> {
+                            Toast.makeText(this, printViolation(result), Toast.LENGTH_SHORT).show()
+                            return@setOnClickListener
+                        }
 
-                    if (violation != NoViolation) {
-                        Toast.makeText(this, result, Toast.LENGTH_SHORT).show()
-                        return@setOnClickListener
+                        is PlayResult.Success -> {
+                            cell.setImageResource(stoneRes(game.lastStone!!.stoneColor))
+                            omokDao.insertOmok(
+                                rowIndex,
+                                colIndex,
+                                game.lastStone?.stoneColor.toString(),
+                            )
+                        }
+
+                        is PlayResult.Win -> {
+                            cell.setImageResource(stoneRes(result.winner))
+                            omokDao.insertOmok(rowIndex, colIndex, result.winner.toString())
+                            showGameEndDialog(result.winner) {
+                                omokDao.deleteDatabase()
+                                recreate()
+                            }
+                        }
                     }
-
-                    cell.setImageResource(stoneRes)
-                    omokDao.insertOmok(rowIndex, colIndex, game.lastStone?.stoneColor.toString())
-
-                    handleGameOver(game.isOmok(), game)
                 }
             }
         }
@@ -140,8 +152,8 @@ class MainActivity : AppCompatActivity() {
             }.show()
     }
 
-    private fun printViolation(violation: PlacementError): String =
-        when (violation) {
+    private fun printViolation(violation: PlayResult.Violation): String =
+        when (violation.error) {
             AlreadyOccupiedViolation -> "현재 위치에 돌이 있습니다"
             DoubleThreeViolation -> "3-3 반칙이 발생했습니다"
             DoubleFourViolation -> "4-4 반칙이 발생했습니다"

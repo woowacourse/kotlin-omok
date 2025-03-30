@@ -5,6 +5,7 @@ import woowacourse.omok.mapper.BlackRuleChecker
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.Board.Companion.initBoard
 import woowacourse.omok.model.board.BoardDimensions
+import woowacourse.omok.model.game.PlayResult.Violation
 import woowacourse.omok.model.rule.BlackOmokRule
 import woowacourse.omok.model.rule.OmokRule
 import woowacourse.omok.model.rule.PlacementError
@@ -26,17 +27,34 @@ class Game(
     private val whiteOmokRule = WhiteOmokRule(board.dimensions)
     private val blackOmokRule = BlackOmokRule(blackRuleChecker)
 
-    fun playTurn(position: Position): PlacementError {
+//    fun playTurn(position: Position): PlacementError {
+//        if (board.hasStoneAt(position)) {
+//            return PlacementError.AlreadyOccupiedViolation
+//        }
+//
+//        val violation = currentRule(turn).validate(board, position, turn)
+//        if (violation != NoViolation) return violation
+//
+//        applyPlacement(position)
+//
+//        return NoViolation
+//    }
+
+    fun playTurn(position: Position): PlayResult {
         if (board.hasStoneAt(position)) {
-            return PlacementError.AlreadyOccupiedViolation
+            return Violation(PlacementError.AlreadyOccupiedViolation)
         }
 
         val violation = currentRule(turn).validate(board, position, turn)
-        if (violation != NoViolation) return violation
+        if (violation != NoViolation) return Violation(violation)
 
         applyPlacement(position)
 
-        return NoViolation
+        return if (isOmok()) {
+            PlayResult.Win(lastStone!!.stoneColor)
+        } else {
+            PlayResult.Success
+        }
     }
 
     private fun currentRule(color: StoneColor): OmokRule =
