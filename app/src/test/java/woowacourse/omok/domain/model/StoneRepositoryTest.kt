@@ -22,26 +22,26 @@ class StoneRepositoryTest {
     @Test
     fun `돌을 추가한다`() {
         stoneRepository.insert(stoneSixAndSix)
-        assertThat(stoneRepository.allInBoardSize(15).hasStone(stoneSixAndSix)).isTrue()
+        assertThat(stoneRepository.allInBoardSize(Board(15)).hasStone(stoneSixAndSix)).isTrue()
     }
 
     @Test
     fun `전체 돌을 가져온다`() {
-        val stones = stoneRepository.allInBoardSize(15).typeStones(StoneType.BLACK)
+        val stones = stoneRepository.allInBoardSize(Board(15)).typeStones(StoneType.BLACK)
         assertThat(stones).isEqualTo(listOf(stoneOneAndOne))
     }
 
     @Test
     fun `마지막 돌의 타입을 가져온다`() {
         stoneRepository.insert(whiteStoneOneAndOne)
-        val stone = stoneRepository.lastStoneType()
+        val stone = stoneRepository.lastStoneType(Board(15))
         assertThat(stone).isEqualTo(StoneType.WHITE)
     }
 
     @Test
     fun `모든 돌을 제거한다`() {
         stoneRepository.clear()
-        val stones = stoneRepository.allInBoardSize(15).typeStones(StoneType.BLACK)
+        val stones = stoneRepository.allInBoardSize(Board(15)).typeStones(StoneType.BLACK)
         assertThat(stones).isEqualTo(listOf<Stone>())
     }
 
@@ -50,9 +50,9 @@ class StoneRepositoryTest {
             stones.add(stone)
         }
 
-        override fun lastStoneType(): StoneType = stones.last().stoneType
+        override fun lastStoneType(board: Board): StoneType = stones.last().stoneType
 
-        override fun allInBoardSize(size: Int): Stones = Stones(stones)
+        override fun allInBoardSize(board: Board): Stones = Stones(stones)
 
         override fun clear() = stones.clear()
     }

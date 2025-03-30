@@ -5,54 +5,55 @@ import woowacourse.omok.data.StoneContract.COLUMN_NAME_COLUMN
 import woowacourse.omok.data.StoneContract.COLUMN_NAME_ROW
 import woowacourse.omok.data.StoneContract.COLUMN_NAME_STONE_TYPE
 import woowacourse.omok.data.StoneContract.TABLE_NAME
-import woowacourse.omok.domain.model.stone.Stone
-import woowacourse.omok.domain.model.stone.StoneType
 
 class StoneDao(private val dbHelper: OmokDatabaseHelper) {
-    fun insert(stone: Stone) {
+    fun insert(stone: StoneEntity) {
         val db = dbHelper.writableDatabase
         val values =
             ContentValues().apply {
-                put(COLUMN_NAME_COLUMN, stone.position.column.value)
-                put(COLUMN_NAME_ROW, stone.position.row.value)
-                put(COLUMN_NAME_STONE_TYPE, stone.stoneType.name)
+                put(COLUMN_NAME_COLUMN, stone.y)
+                put(COLUMN_NAME_ROW, stone.x)
+                put(COLUMN_NAME_STONE_TYPE, stone.stoneType)
             }
         db.insert(TABLE_NAME, null, values)
         db.close()
     }
 
-    fun lastStoneType(): StoneType {
+    fun lastStone(): StoneEntity? {
         val db = dbHelper.readableDatabase
 
         val cursor =
             db.rawQuery(
-                "SELECT stone_type, _id FROM stones ORDER BY _id DESC LIMIT 1",
+                "SELECT y, x ,stone_type, _id FROM stones ORDER BY _id DESC LIMIT 1",
                 null,
             )
 
-        var stoneType: StoneType = StoneType.BLACK
+        var stoneEntity: StoneEntity? = null
         if (cursor.moveToFirst()) {
-            stoneType = StoneType.valueOf(cursor.getString(0)).reverse()
+            val column = cursor.getInt(0)
+            val row = cursor.getInt(1)
+            val stoneType = cursor.getString(2)
+            stoneEntity = StoneEntity(column, row, stoneType)
             cursor.close()
             db.close()
         }
 
         cursor.close()
         db.close()
-        return stoneType
+        return stoneEntity
     }
 
-    fun getAll(size: Int): List<Stone> {
+    fun getAll(): List<StoneEntity> {
         val db = dbHelper.readableDatabase
         val cursor = db.rawQuery("SELECT y, x, stone_type FROM stones", null)
 
-        val stones = mutableListOf<Stone>()
+        val stones = mutableListOf<StoneEntity>()
         if (cursor.moveToFirst()) {
             do {
                 val column = cursor.getInt(0)
                 val row = cursor.getInt(1)
-                val stoneType = StoneType.valueOf(cursor.getString(2))
-                stones.add(Stone(column, row, size, stoneType))
+                val stoneType = cursor.getString(2)
+                stones.add(StoneEntity(column, row, stoneType))
             } while (cursor.moveToNext())
         }
         cursor.close()

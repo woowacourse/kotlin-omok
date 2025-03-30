@@ -47,4 +47,4 @@
 - [x] repository 처리 Game으로 이전 및 impl은 MainActivity에서 처리
 - [x] 테스트 함수명 수정
 - [x] 중복 구현 수정
-- [ ] 저수준 모듈에서 고수준 모듈 Model 사용시 매핑
+- [x] 저수준 모듈에서 고수준 모듈의 Model 사용시 매핑

@@ -17,8 +17,8 @@ class Game(
     private val gameEvent: GameEvent,
     board: Board,
 ) {
-    private var state: OmokState = Turn(stoneRepository.lastStoneType())
-    private var stones: Stones = stoneRepository.allInBoardSize(board.row)
+    private var state: OmokState = Turn(stoneRepository.lastStoneType(board).reverse())
+    private var stones: Stones = stoneRepository.allInBoardSize(board)
 
     fun initBoard() = gameEvent.initBoard(stones)
 
