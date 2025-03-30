@@ -107,7 +107,6 @@ class MainActivity : AppCompatActivity() {
             boardDao.insertStone(boardDto)
 
             showStones(view)
-
             if (turn.forbidden()) return
 
             if (turn.win()) {
@@ -115,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             }
             turn.next()
         }.onFailure { error ->
-            showErrorDialog(error.message)
+            makeDialog(error.message, reset = false)
         }
     }
 
@@ -156,9 +155,5 @@ class MainActivity : AppCompatActivity() {
         boardDao.clearBoard()
         loadGame()
         displayGame(reset = true)
-    }
-
-    private fun showErrorDialog(message: String?) {
-        makeDialog(message, reset = false)
     }
 }
