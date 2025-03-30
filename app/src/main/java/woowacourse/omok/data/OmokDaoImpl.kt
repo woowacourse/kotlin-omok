@@ -3,6 +3,7 @@ package woowacourse.omok.data
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import woowacourse.omok.domain.model.position.Position
+import woowacourse.omok.domain.model.stone.OmokStone
 import woowacourse.omok.domain.model.stone.StoneType
 
 class OmokDaoImpl(private val database: SQLiteDatabase) : OmokDao {
@@ -19,21 +20,20 @@ class OmokDaoImpl(private val database: SQLiteDatabase) : OmokDao {
         database.insert(OmokContract.GameState.TABLE_NAME, null, values)
     }
 
-    override fun loadStones(): List<Pair<Position, StoneType>> {
-        val stones = mutableListOf<Pair<Position, StoneType>>()
-        val cursor =
-            database.rawQuery(
-                "SELECT " + OmokContract.GameState.COLUMN_X + ", ${OmokContract.GameState.COLUMN_Y}, " +
-                    "${OmokContract.GameState.COLUMN_STONE_TYPE} FROM ${OmokContract.GameState.TABLE_NAME}",
-                null,
-            )
-        while (cursor.moveToNext()) {
-            val position = Position.of(cursor.getInt(0), cursor.getInt(1), 15)
-            val stoneType = StoneType.valueOf(cursor.getString(2))
-            stones.add(position to stoneType)
+    override fun loadStones(): List<OmokStone> {
+        return database.rawQuery(
+            "SELECT " + OmokContract.GameState.COLUMN_X + ", ${OmokContract.GameState.COLUMN_Y}, " +
+                "${OmokContract.GameState.COLUMN_STONE_TYPE} FROM ${OmokContract.GameState.TABLE_NAME}",
+            null,
+        ).use { cursor ->
+            generateSequence { if (cursor.moveToNext()) cursor else null }
+                .map {
+                    OmokStone(
+                        Position.of(it.getInt(0), it.getInt(1), 15),
+                        StoneType.valueOf(it.getString(2)),
+                    )
+                }.toList()
         }
-        cursor.close()
-        return stones
     }
 
     override fun saveGameFinished(isFinished: Boolean) {
@@ -42,14 +42,13 @@ class OmokDaoImpl(private val database: SQLiteDatabase) : OmokDao {
     }
 
     override fun isGameFinished(): Boolean {
-        val cursor =
-            database.rawQuery(
-                "SELECT value FROM game_info WHERE " + OmokContract.GameInfo.COLUMN_KEY + " = 'finished'",
-                null,
-            )
-        val isFinished = cursor.moveToFirst() && cursor.getString(0).toBoolean()
-        cursor.close()
-        return isFinished
+        return database.rawQuery(
+            "SELECT ${OmokContract.GameInfo.COLUMN_VALUE} FROM ${OmokContract.GameInfo.TABLE_NAME} " +
+                "WHERE " + OmokContract.GameInfo.COLUMN_KEY + " = 'finished'",
+            null,
+        ).use { cursor ->
+            cursor.moveToFirst() && cursor.getString(0).toBoolean()
+        }
     }
 
     override fun clearGameData() {

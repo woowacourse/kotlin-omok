@@ -47,8 +47,8 @@ class OmokDaoTest {
         // Then
         assertSoftly(stones) {
             assertThat(size).isEqualTo(1)
-            assertThat(first().first).isEqualTo(position)
-            assertThat(first().second).isEqualTo(stoneType)
+            assertThat(first().position).isEqualTo(position)
+            assertThat(first().stoneType).isEqualTo(stoneType)
         }
     }
 
