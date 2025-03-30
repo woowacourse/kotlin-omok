@@ -26,7 +26,7 @@ class Game(
         val position = playEvent.onPosition()
         val stone = Stone(position, state.stoneType)
         val ruleResult = rule.canPlace(stones, stone)
-        playEvent.showPlaceResult(rule.canPlace(stones, stone))
+        playEvent.showPlaceResult(ruleResult)
         if (ruleResult !is RuleResult.OnRule) return
         placeStone(stone)
         playEvent.onPlace(stone)
