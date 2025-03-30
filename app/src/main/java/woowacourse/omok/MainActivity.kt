@@ -12,9 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
-import woowacourse.omok.data.OmokDao
-import woowacourse.omok.data.OmokDaoImpl
-import woowacourse.omok.data.OmokDatabaseHelper
 import woowacourse.omok.domain.Game
 import woowacourse.omok.domain.model.Board.Companion.DEFAULT_BOARD_SIZE
 import woowacourse.omok.domain.model.position.Position
@@ -25,12 +22,11 @@ import woowacourse.omok.domain.model.stone.StoneType
 
 class MainActivity : AppCompatActivity() {
     private lateinit var boardUI: TableLayout
-    private lateinit var omokDao: OmokDao
+    private val omokDao by lazy { (application as OmokApplication).omokDao }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUI()
-        setupDao()
         val game = Game(OmokRuleAdapter())
         setupBoard(game)
         if (!omokDao.isGameFinished()) {
@@ -46,12 +42,6 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-    }
-
-    private fun setupDao() {
-        val dbHelper = OmokDatabaseHelper(this)
-        val database = dbHelper.writableDatabase
-        omokDao = OmokDaoImpl(database)
     }
 
     private fun restore(game: Game) {
