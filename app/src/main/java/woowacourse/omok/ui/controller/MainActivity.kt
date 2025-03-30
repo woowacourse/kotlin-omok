@@ -9,16 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import woowacourse.omok.OmokApplication
 import woowacourse.omok.R.drawable
 import woowacourse.omok.R.string
+import woowacourse.omok.data.dao.OmokGameDao
 import woowacourse.omok.databinding.ActivityMainBinding
-import woowacourse.omok.domain.model.game.OmokGameEntity
 import woowacourse.omok.domain.model.omokboard.OmokBoard
 import woowacourse.omok.domain.model.omokboard.OmokGame
 import woowacourse.omok.domain.model.omokboard.PointState
@@ -29,23 +25,21 @@ import woowacourse.omok.domain.model.rule.judge.JudgeResult.Finished
 import woowacourse.omok.domain.model.rule.judge.JudgeResult.NotFinished
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Failure
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Success
-import woowacourse.omok.domain.repository.OmokGameRepository
+import woowacourse.omok.ui.mapper.toData
 import woowacourse.omok.ui.mapper.toUI
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val omokGameRepository: OmokGameRepository
-        get() = (application as OmokApplication).omokGameRepository
+    private val omokGameDao: OmokGameDao
+        get() = (application as OmokApplication).omokGameDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
 
-        lifecycleScope.launch {
-            val omokGame = withContext(Dispatchers.IO) { omokGameRepository.fetchGame() }
-            updateStonesUI(omokGame.board)
-            setupClickListeners(omokGame.toUI())
-        }
+        val omokGame = omokGameDao.fetchGame()?.toUI() ?: OmokGame()
+        updateStonesUI(omokGame.board)
+        setupClickListeners(omokGame)
     }
 
     private fun setupView() {
@@ -91,18 +85,25 @@ class MainActivity : AppCompatActivity() {
     private fun setupPointClickListener(omokGame: OmokGame) {
         forEachBoardPoint { rowIndex, columnIndex, point ->
             point.setOnClickListener {
-                val position = Position(rowIndex, columnIndex)
-                val playerStone = PlayerStone(omokGame.currentTurn, position)
-
-                when (val result = omokGame.placeStone(position)) {
-                    is Success -> {
-                        updateStoneUI(point, playerStone)
-                        handleJudge(omokGame, playerStone)
-                    }
-
-                    is Failure -> showSnackBar(getFailureMessage(result))
-                }
+                placeStone(Position(rowIndex, columnIndex), omokGame, point)
             }
+        }
+    }
+
+    private fun placeStone(
+        position: Position,
+        omokGame: OmokGame,
+        point: ImageView,
+    ) {
+        val playerStone = PlayerStone(omokGame.currentTurn, position)
+
+        when (val result = omokGame.placeStone(position)) {
+            is Success -> {
+                updateStoneUI(point, playerStone)
+                handleJudge(omokGame, playerStone)
+            }
+
+            is Failure -> showSnackBar(getFailureMessage(result))
         }
     }
 
@@ -128,9 +129,7 @@ class MainActivity : AppCompatActivity() {
                 showResultDialog(getJudgeMessage(judgeResult))
             }
 
-            is NotFinished -> {
-                saveOmokGame(omokGame)
-            }
+            is NotFinished -> omokGameDao.saveGame(omokGame.toData())
         }
     }
 
@@ -148,14 +147,6 @@ class MainActivity : AppCompatActivity() {
             .setCancelable(false)
             .setPositiveButton(getString(string.omok_exit_alert)) { dialog, _ -> dialog.dismiss() }
             .show()
-    }
-
-    private fun saveOmokGame(omokGame: OmokGame) {
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                omokGameRepository.saveGame(OmokGameEntity(omokGame.currentTurn, omokGame.board))
-            }
-        }
     }
 
     private fun getJudgeMessage(result: Finished): String =
@@ -185,19 +176,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRestartClickListener(omokGame: OmokGame) {
         binding.btnOmokRestart.setOnClickListener {
-            deleteOmokGame()
+            omokGameDao.deleteGame()
             omokGame.restart()
             updateStonesUI(omokGame.board)
             updateBoardActivation(true)
             showSnackBar(getString(string.omok_game_restart))
-        }
-    }
-
-    private fun deleteOmokGame() {
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                omokGameRepository.deleteGame()
-            }
         }
     }
 }

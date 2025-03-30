@@ -1,25 +1,26 @@
 package woowacourse.omok
 
 import android.app.Application
-import woowacourse.omok.data.datasource.OmokGameLocalDataSourceImpl
-import woowacourse.omok.domain.repository.OmokGameRepository
-import woowacourse.omok.domain.repository.OmokGameRepositoryImpl
+import woowacourse.omok.data.dao.OmokGameDao
+import woowacourse.omok.data.dao.OmokOmokGameDaoImpl
+import woowacourse.omok.data.db.DbHelper
+import woowacourse.omok.data.db.OmokContract
 import woowacourse.omok.ui.controller.OmokController
 import woowacourse.omok.ui.view.InputView
 import woowacourse.omok.ui.view.OutputView
 
 class OmokApplication : Application() {
-    lateinit var omokGameRepository: OmokGameRepository
+    lateinit var omokGameDao: OmokGameDao
         private set
 
     override fun onCreate() {
         super.onCreate()
-        provideOmokGameRepository()
+        provideOmokGameDao()
     }
 
-    private fun provideOmokGameRepository() {
-        val gameDataSource = OmokGameLocalDataSourceImpl(applicationContext)
-        omokGameRepository = OmokGameRepositoryImpl(gameDataSource)
+    private fun provideOmokGameDao() {
+        val dbHelper = DbHelper(this, OmokContract)
+        omokGameDao = OmokOmokGameDaoImpl(dbHelper)
     }
 }
 

@@ -1,10 +1,30 @@
 package woowacourse.omok.ui.mapper
 
-import woowacourse.omok.domain.model.game.OmokGameEntity
+import woowacourse.omok.data.model.OmokGameDto
+import woowacourse.omok.domain.model.omokboard.OmokBoard
 import woowacourse.omok.domain.model.omokboard.OmokGame
+import woowacourse.omok.domain.model.omokboard.PointState
+import woowacourse.omok.domain.model.omokboard.Position
+import woowacourse.omok.domain.model.player.StoneColor
 
-fun OmokGameEntity.toUI() =
-    OmokGame(
-        board = board,
-        savedTurn = lastTurn,
+fun OmokGameDto.toUI(): OmokGame {
+    val board =
+        board
+            .mapKeys { Position(it.key.first, it.key.second) }
+            .mapValues { PointState.valueOf(it.value) }
+    return OmokGame(
+        board = OmokBoard(board.toMutableMap()),
+        savedTurn = StoneColor.valueOf(lastTurn),
     )
+}
+
+fun OmokGame.toData(): OmokGameDto {
+    val board =
+        board.snapshot
+            .mapKeys { Pair(it.key.row, it.key.column) }
+            .mapValues { it.value.name }
+    return OmokGameDto(
+        lastTurn = currentTurn.name,
+        board = board,
+    )
+}
