@@ -12,7 +12,6 @@ import org.junit.Test
 import org.junit.jupiter.api.DisplayName
 import org.junit.runner.RunWith
 import woowacourse.omok.domain.model.position.Position
-import woowacourse.omok.domain.model.state.BlackStoneTurn
 import woowacourse.omok.domain.model.stone.StoneType
 
 @RunWith(AndroidJUnit4::class)
@@ -71,7 +70,6 @@ class OmokDaoTest {
     fun clearTest() {
         // Given
         omokDao.saveStone(Position.of(1, 1, 15), StoneType.BLACK)
-        omokDao.saveGameTurn(BlackStoneTurn)
         omokDao.saveGameFinished(true)
 
         // When
@@ -80,7 +78,6 @@ class OmokDaoTest {
         // Then
         assertSoftly(omokDao) {
             assertThat(loadStones()).isEmpty()
-            assertThat(loadGameTurn()).isEqualTo(BlackStoneTurn)
             assertThat(isGameFinished()).isFalse()
         }
     }
