@@ -1,13 +1,11 @@
-package woowacourse.omok.data
+package woowacourse.omok.data.dao
 
 import android.content.ContentValues
 import android.content.Context
 import android.util.Log
-import omok.model.stone.position.Col
-import omok.model.stone.position.Position
-import omok.model.stone.position.Row
-import woowacourse.omok.model.stone.Stone
-import woowacourse.omok.model.stone.StoneColor
+import woowacourse.omok.data.DbHelper
+import woowacourse.omok.data.OmokContract
+import woowacourse.omok.data.model.StoneEntity
 
 class OmokDao(
     context: Context,
@@ -50,9 +48,9 @@ class OmokDao(
             }
         }
 
-    fun getAllStones(): List<Stone> =
+    fun getAllStones(): List<StoneEntity> =
         dbHelper.readableDatabase.use { db ->
-            val result = mutableListOf<Stone>()
+            val result = mutableListOf<StoneEntity>()
 
             db
                 .query(
@@ -75,13 +73,7 @@ class OmokDao(
                             cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_COL_POSITION))
                         val stoneColor =
                             cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_STONE_COLOR))
-                        val color =
-                            when (stoneColor) {
-                                "BLACK" -> StoneColor.BLACK
-                                "WHITE" -> StoneColor.WHITE
-                                else -> continue
-                            }
-                        result.add(Stone(Position(Row(row), Col(col)), color))
+                        result.add(StoneEntity(row, col, stoneColor))
                     }
                 }
 
