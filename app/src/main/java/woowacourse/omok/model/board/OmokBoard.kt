@@ -17,29 +17,6 @@ class OmokBoard(
         reset()
     }
 
-    private fun canPlaceStone(
-        position: Position,
-        currentStoneColor: StoneColor,
-    ): Boolean {
-        val currentState = board[position]
-
-        return when (currentState) {
-            PositionState.NONE -> true
-            PositionState.FORBIDDEN -> currentStoneColor == StoneColor.WHITE
-            else -> false
-        }
-    }
-
-    fun forbidden(
-        stoneColor: StoneColor,
-        position: Position,
-    ) {
-        if (stoneColor == StoneColor.BLACK) {
-            board[position] = PositionState.FORBIDDEN
-            throw IllegalArgumentException("금수입니다. 다른 자리에 착수해주세요.")
-        }
-    }
-
     fun placeStone(
         position: Position,
         currentStoneColor: StoneColor,
@@ -55,6 +32,16 @@ class OmokBoard(
         }
     }
 
+    fun forbidden(
+        stoneColor: StoneColor,
+        position: Position,
+    ) {
+        if (stoneColor == StoneColor.BLACK) {
+            board[position] = PositionState.FORBIDDEN
+            throw IllegalArgumentException("금수입니다. 다른 자리에 착수해주세요.")
+        }
+    }
+
     fun boardState(position: Position): PositionState = board[position] ?: throw IllegalArgumentException("잘못된 좌표입니다.")
 
     fun reset() {
@@ -63,6 +50,19 @@ class OmokBoard(
                 val position = Position(x, y)
                 board[position] = PositionState.NONE
             }
+        }
+    }
+
+    private fun canPlaceStone(
+        position: Position,
+        currentStoneColor: StoneColor,
+    ): Boolean {
+        val currentState = board[position]
+
+        return when (currentState) {
+            PositionState.NONE -> true
+            PositionState.FORBIDDEN -> currentStoneColor == StoneColor.WHITE
+            else -> false
         }
     }
 }
