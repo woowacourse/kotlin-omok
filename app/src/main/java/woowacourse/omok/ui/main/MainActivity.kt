@@ -4,7 +4,6 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.Toast
@@ -16,6 +15,7 @@ import woowacourse.omok.R
 import woowacourse.omok.data.dao.OmokDao
 import woowacourse.omok.data.db.omok.OmokDbHelper
 import woowacourse.omok.data.repository.OmokRepositoryImpl
+import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.Row
@@ -30,26 +30,24 @@ import woowacourse.omok.ui.dialog.ConfirmDialog
 import woowacourse.omok.ui.event.GameEventListener
 
 class MainActivity : AppCompatActivity(), GameEventListener {
-    private lateinit var board: TableLayout
+    private lateinit var binding: ActivityMainBinding
     private lateinit var game: OmokGame
     private lateinit var omokRepository: OmokRepository
+
     private var selectedImageView: ImageView? = null
     private var mediaPlayer: MediaPlayer? = null
+    private var roomId: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.apple)
-        mediaPlayer?.start()
+        roomId = intent.getLongExtra("roomId", 0)
 
+        initializeView()
         initializeSettings()
-        restoreSavedStones()
+        restoreSavedStones(roomId)
     }
 
     override fun onMovedStone(stoneColor: StoneColor) {
@@ -80,16 +78,15 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     override fun onPause() {
         super.onPause()
         game.getMovedStone().forEach {
-            omokRepository.saveNewPoint(it)
+            omokRepository.saveNewPoint(it, roomId)
         }
     }
 
     private fun initializeSettings() {
         initializeDataSource()
         game = OmokGame.create(this)
-        board = findViewById(R.id.board)
 
-        board
+        binding.board
             .children
             .filterIsInstance<TableRow>()
             .forEachIndexed { rowIndex, row ->
@@ -98,7 +95,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     private fun initializeView() {
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -126,8 +123,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
                 Exceptions.UnknownException -> R.string.text_unknown
             }
 
-        val errorUiText = getString(errorTextResource)
-        return errorUiText
+        return getString(errorTextResource)
     }
 
     private fun resolveStoneColorText(color: StoneColor): String {
@@ -136,8 +132,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
                 StoneColor.WHITE -> R.string.text_white_stone
                 StoneColor.BLACK -> R.string.text_black_stone
             }
-        val colorUiText = getString(colorTextResource)
-        return colorUiText
+        return getString(colorTextResource)
     }
 
     private fun setRowListener(
@@ -148,8 +143,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         row.children
             .filterIsInstance<ImageView>()
             .forEachIndexed { colIndex, view ->
-                val newTag =
-                    Coordination(Column(15 - rowIndex), Row(colIndex + 1))
+                val newTag = Coordination(Column(15 - rowIndex), Row(colIndex + 1))
                 view.tag = newTag
                 view.setOnClickListener {
                     selectedImageView = view
@@ -158,12 +152,11 @@ class MainActivity : AppCompatActivity(), GameEventListener {
             }
     }
 
-    private fun restoreSavedStones() {
-        val points = omokRepository.readAllPoint()
+    private fun restoreSavedStones(roomId: Long) {
+        val points = omokRepository.readAllPoint(roomId)
         if (points.isNotEmpty()) {
             drawSavedStone(points)
             game.combine(points)
-
             val nextTurn = if (points.size % 2 == 0) StoneColor.BLACK else StoneColor.WHITE
             game.setTurn(nextTurn)
         } else {
@@ -172,13 +165,12 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     private fun drawSavedStone(points: List<Point>) {
-        val root = findViewById<LinearLayout>(R.id.board)
-        points.forEach { drawStone(it, root) }
+        points.forEach { drawStone(it, binding.board) }
     }
 
     private fun drawStone(
         point: Point,
-        root: LinearLayout,
+        root: TableLayout,
     ) {
         val view = findStoneImageView(point, root) ?: return
         if (point.status is BoardStatus.Moved) {
@@ -188,7 +180,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
 
     private fun findStoneImageView(
         point: Point,
-        root: LinearLayout,
+        root: TableLayout,
     ): ImageView? {
         return root.findViewWithTag(Coordination(point.x, point.y))
     }
@@ -208,7 +200,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     private fun clear() {
         omokRepository.drop()
         game.clear()
-        board
+        binding.board
             .children
             .filterIsInstance<TableRow>()
             .forEach { row ->
