@@ -1,4 +1,4 @@
-package omok.model.stone
+package woowacourse.omok.model.stone
 
 enum class StoneState {
     BLACK,

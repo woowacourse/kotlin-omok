@@ -1,6 +1,6 @@
-package omok.model.board
+package woowacourse.omok.model.board
 
-import omok.model.stone.StoneState
+import woowacourse.omok.model.stone.StoneState
 
 class BoardImpl private constructor(
     override val board: MutableMap<Position, StoneState>,
@@ -33,7 +33,7 @@ class BoardImpl private constructor(
             val initialBoard = mutableMapOf<Position, StoneState>()
             for (x in X_MIN_RANGE..X_MAX_RANGE) {
                 for (y in Y_MIN_RANGE..Y_MAX_RANGE) {
-                    initialBoard[Position.from(x, y)] = StoneState.NONE
+                    initialBoard[Position.Companion.from(x, y)] = StoneState.NONE
                 }
             }
             return BoardImpl(initialBoard)

@@ -1,9 +1,9 @@
-package omok.model.omokGame
+package woowacourse.omok.model.omokGame
 
-import omok.model.board.Board
-import omok.model.board.Position
-import omok.model.rule.OmokRuleAdapter
-import omok.model.stone.StoneState
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.rule.OmokRuleAdapter
+import woowacourse.omok.model.stone.StoneState
 
 class OmokGameImpl(
     val board: Board,

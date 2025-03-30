@@ -1,6 +1,6 @@
-package omok.model.board
+package woowacourse.omok.model.board
 
-import omok.model.stone.StoneState
+import woowacourse.omok.model.stone.StoneState
 
 interface Board {
     val board: Map<Position, StoneState>

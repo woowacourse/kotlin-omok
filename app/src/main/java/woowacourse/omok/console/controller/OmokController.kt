@@ -1,11 +1,11 @@
 package omok.controller
 
-import omok.model.board.BoardImpl
-import omok.model.omokGame.OmokGameImpl
-import omok.model.player.BlackPlayerState
-import omok.model.player.Finish
-import omok.model.player.PlayerState
-import omok.model.rule.OmokRuleAdapter
+import woowacourse.omok.model.board.BoardImpl
+import woowacourse.omok.model.omokGame.OmokGameImpl
+import woowacourse.omok.model.player.BlackPlayerState
+import woowacourse.omok.model.player.Finish
+import woowacourse.omok.model.player.PlayerState
+import woowacourse.omok.model.rule.OmokRuleAdapter
 import omok.view.OmokView
 
 class OmokController(

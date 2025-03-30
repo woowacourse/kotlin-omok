@@ -1,4 +1,4 @@
-package omok.library
+package woowacourse.omok.model.library
 
 abstract class OmokRule(
     private val currentStone: Int = BLACK_STONE,

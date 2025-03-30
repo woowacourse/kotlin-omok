@@ -12,16 +12,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
-import omok.model.board.BoardImpl
-import omok.model.board.Position
-import omok.model.omokGame.OmokGame
-import omok.model.omokGame.OmokGameImpl
-import omok.model.player.BlackPlayerState
-import omok.model.player.Finish
-import omok.model.player.PlayerState
-import omok.model.player.WhitePlayerState
-import omok.model.rule.OmokRuleAdapter
-import omok.model.stone.StoneState
+import woowacourse.omok.model.board.BoardImpl
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.omokGame.OmokGame
+import woowacourse.omok.model.omokGame.OmokGameImpl
+import woowacourse.omok.model.player.BlackPlayerState
+import woowacourse.omok.model.player.Finish
+import woowacourse.omok.model.player.PlayerState
+import woowacourse.omok.model.player.WhitePlayerState
+import woowacourse.omok.model.rule.OmokRuleAdapter
+import woowacourse.omok.model.stone.StoneState
 import woowacourse.omok.data.OmokDbController
 
 class MainActivity : AppCompatActivity() {

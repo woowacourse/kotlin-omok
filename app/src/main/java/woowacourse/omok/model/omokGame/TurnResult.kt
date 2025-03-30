@@ -1,4 +1,4 @@
-package omok.model.omokGame
+package woowacourse.omok.model.omokGame
 
 enum class TurnResult {
     WIN,

@@ -1,4 +1,4 @@
-package omok.library
+package woowacourse.omok.model.library
 
 object BlackWinRule : OmokRule() {
     override fun validate(

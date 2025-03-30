@@ -1,4 +1,4 @@
-package omok.library
+package woowacourse.omok.model.library
 
 object FourFourRule : OmokRule() {
     override fun validate(

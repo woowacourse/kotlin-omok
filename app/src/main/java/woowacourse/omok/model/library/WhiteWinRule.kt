@@ -1,4 +1,4 @@
-package omok.library
+package woowacourse.omok.model.library
 
 object WhiteWinRule : OmokRule(WHITE_STONE, BLACK_STONE) {
     override fun validate(

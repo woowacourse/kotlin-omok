@@ -1,10 +1,10 @@
 package omok.view
 
-import omok.model.board.Position
-import omok.model.player.BlackPlayerState
-import omok.model.player.PlayerState
-import omok.model.player.WhitePlayerState
-import omok.model.stone.StoneState
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.player.BlackPlayerState
+import woowacourse.omok.model.player.PlayerState
+import woowacourse.omok.model.player.WhitePlayerState
+import woowacourse.omok.model.stone.StoneState
 
 class OmokView {
     fun printStartMessage() {

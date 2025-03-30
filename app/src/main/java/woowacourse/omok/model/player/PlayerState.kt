@@ -1,8 +1,8 @@
-package omok.model.player
+package woowacourse.omok.model.player
 
-import omok.model.board.Position
-import omok.model.omokGame.OmokGame
-import omok.model.stone.StoneState
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.omokGame.OmokGame
+import woowacourse.omok.model.stone.StoneState
 
 interface PlayerState {
     val omokGame: OmokGame

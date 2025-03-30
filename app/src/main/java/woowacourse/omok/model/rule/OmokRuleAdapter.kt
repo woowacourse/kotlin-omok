@@ -1,13 +1,13 @@
-package omok.model.rule
+package woowacourse.omok.model.rule
 
-import omok.library.BlackWinRule
-import omok.library.FourFourRule
-import omok.library.ThreeThreeRule
-import omok.library.WhiteWinRule
-import omok.model.board.Board
-import omok.model.board.Position
-import omok.model.omokGame.TurnResult
-import omok.model.stone.StoneState
+import woowacourse.omok.model.library.BlackWinRule
+import woowacourse.omok.model.library.FourFourRule
+import woowacourse.omok.model.library.ThreeThreeRule
+import woowacourse.omok.model.library.WhiteWinRule
+import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.omokGame.TurnResult
+import woowacourse.omok.model.stone.StoneState
 
 class OmokRuleAdapter {
     fun validate(
