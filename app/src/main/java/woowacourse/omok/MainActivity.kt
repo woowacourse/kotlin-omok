@@ -139,11 +139,11 @@ class MainActivity : AppCompatActivity() {
     ) {
         when {
             omokGame.checkWin(stoneColor, point) -> {
-                Toast.makeText(this, "${OmokResult.getWinner(stoneColor)} !!", Toast.LENGTH_SHORT).show()
+                showToast(MESSAGE_WINNER.format(OmokResult.getWinner(stoneColor)))
             }
 
             omokGame.isBoardFull() -> {
-                Toast.makeText(this, "${OmokResult.DRAW} !!", Toast.LENGTH_SHORT).show()
+                showToast(MESSAGE_WINNER.format(OmokResult.DRAW))
             }
         }
     }
@@ -151,13 +151,17 @@ class MainActivity : AppCompatActivity() {
     private fun showViolation(violation: ValidationResult.Failure) {
         val errorText =
             when (violation) {
-                ValidationResult.Failure.DoubleFour -> R.string.error_double_four
-                ValidationResult.Failure.DoubleThree -> R.string.error_double_three
-                ValidationResult.Failure.Occupied -> R.string.error_occupied
-                ValidationResult.Failure.OverLine -> R.string.error_over_line
+                ValidationResult.Failure.DoubleFour -> getString(R.string.error_double_four)
+                ValidationResult.Failure.DoubleThree -> getString(R.string.error_double_three)
+                ValidationResult.Failure.Occupied -> getString(R.string.error_occupied)
+                ValidationResult.Failure.OverLine -> getString(R.string.error_over_line)
             }
 
-        Toast.makeText(this, errorText, Toast.LENGTH_SHORT).show()
+        showToast(errorText)
+    }
+
+    private fun showToast(toastText: String) {
+        Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {
@@ -167,5 +171,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val INDEX_OFFSET: Int = 1
+        private const val MESSAGE_WINNER = "%s !!"
     }
 }

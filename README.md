@@ -44,4 +44,4 @@
 - [ ] OmokGrid | 스스로 일하도록 바꿔 보기
 - [x] Stone | Stone 사용하는 부분 변수명 바꿔 주기
 - [x] RenjuRuleAdapterImpl | toList() 지우기
-- [ ] MainActivity | Toast 재사용하기
+- [x] MainActivity | Toast 재사용하기
