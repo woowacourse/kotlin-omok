@@ -3,9 +3,10 @@ package woowacourse.omok.domain.model
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import woowacourse.omok.domain.model.position.Stone
+import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.StoneType
 import woowacourse.omok.domain.model.stone.Stones
+import woowacourse.omok.domain.repository.StoneRepository
 import woowacourse.omok.stoneOneAndOne
 import woowacourse.omok.stoneSixAndSix
 import woowacourse.omok.whiteStoneOneAndOne

@@ -1,6 +1,6 @@
-package woowacourse.omok.domain.model
+package woowacourse.omok.domain.repository
 
-import woowacourse.omok.domain.model.position.Stone
+import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.StoneType
 import woowacourse.omok.domain.model.stone.Stones
 

@@ -2,8 +2,8 @@ package woowacourse.omok.adapter
 
 import rule.OmokRule
 import rule.wrapper.point.Point
-import woowacourse.omok.domain.model.position.Stone
 import woowacourse.omok.domain.model.rule.RenjuRule
+import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.StoneType
 import woowacourse.omok.domain.model.stone.Stones
 

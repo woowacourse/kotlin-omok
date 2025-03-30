@@ -1,7 +1,6 @@
 package woowacourse.omok.domain.model.stone
 
 import woowacourse.omok.domain.model.position.Position
-import woowacourse.omok.domain.model.position.Stone
 
 class Stones(private val stones: List<Stone>) {
     fun typeStones(stoneType: StoneType): List<Stone> {

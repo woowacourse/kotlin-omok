@@ -5,7 +5,7 @@ import woowacourse.omok.data.StoneContract.COLUMN_NAME_COLUMN
 import woowacourse.omok.data.StoneContract.COLUMN_NAME_ROW
 import woowacourse.omok.data.StoneContract.COLUMN_NAME_STONE_TYPE
 import woowacourse.omok.data.StoneContract.TABLE_NAME
-import woowacourse.omok.domain.model.position.Stone
+import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.StoneType
 
 class StoneDao(private val dbHelper: OmokDatabaseHelper) {

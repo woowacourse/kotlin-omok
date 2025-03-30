@@ -21,15 +21,15 @@ import woowacourse.omok.data.StoneDao
 import woowacourse.omok.data.StoneRepositoryImpl
 import woowacourse.omok.domain.Game
 import woowacourse.omok.domain.model.Board
-import woowacourse.omok.domain.model.StoneRepository
 import woowacourse.omok.domain.model.position.Column
 import woowacourse.omok.domain.model.position.Position
 import woowacourse.omok.domain.model.position.Row
-import woowacourse.omok.domain.model.position.Stone
 import woowacourse.omok.domain.model.rule.OmokRule
 import woowacourse.omok.domain.model.state.Turn
+import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.StoneType
 import woowacourse.omok.domain.model.stone.Stones
+import woowacourse.omok.domain.repository.StoneRepository
 
 class MainActivity : AppCompatActivity() {
     private lateinit var boardView: TableLayout

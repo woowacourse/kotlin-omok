@@ -3,7 +3,7 @@ package woowacourse.omok
 import woowacourse.omok.domain.model.position.Column
 import woowacourse.omok.domain.model.position.Position
 import woowacourse.omok.domain.model.position.Row
-import woowacourse.omok.domain.model.position.Stone
+import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.StoneType
 import woowacourse.omok.domain.model.stone.Stones
 

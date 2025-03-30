@@ -1,10 +1,10 @@
 package woowacourse.omok.domain
 
 import woowacourse.omok.adapter.RuleResult
-import woowacourse.omok.domain.model.position.Stone
 import woowacourse.omok.domain.model.rule.OmokRule
 import woowacourse.omok.domain.model.state.OmokState
 import woowacourse.omok.domain.model.state.Turn
+import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.StoneType
 import woowacourse.omok.domain.model.stone.Stones
 import woowacourse.ui.PlayEvent
