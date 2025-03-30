@@ -43,6 +43,7 @@ class OmokFragment :
         savedInstanceState: Bundle?,
     ): View? {
         gameId = arguments?.getInt(ARGUMENT_KEY_NAME_GAME_ID)
+        if (gameId == null) requireActivity().supportFragmentManager.popBackStack()
         return inflater.inflate(R.layout.fragment_omok, container, false)
     }
 
