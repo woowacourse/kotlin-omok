@@ -102,11 +102,10 @@ class MainActivity : AppCompatActivity() {
                             }.onFailure { error ->
                                 toastMessage(message = error.message ?: "")
                             }.onSuccess { stoneColor ->
-                                if (oMokRepository.insert(stone = Stone(position, stoneColor))) {
-                                    showPlacedStone(view = cell, stoneColor = stoneColor)
-                                    gameJudgeProcess(service)
-                                    service.nextTurn()
-                                }
+                                oMokRepository.insert(stone = Stone(position, stoneColor))
+                                showPlacedStone(view = cell, stoneColor = stoneColor)
+                                gameJudgeProcess(service)
+                                service.nextTurn()
                             }
                         }
                     }

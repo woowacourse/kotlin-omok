@@ -1,33 +1,10 @@
 package woowacourse.omok.data
 
 import android.database.sqlite.SQLiteOpenHelper
-import woowacourse.omok.domain.position.Position
 
 class StoneLocalDataSource(
     private val dbHelper: SQLiteOpenHelper,
 ) : StoneDataSource {
-    override fun fetchStoneByPosition(position: Position): StoneDao? {
-        val db = dbHelper.readableDatabase
-        val data =
-            arrayOf(
-                position.row.value.toString(),
-                position.col.value.toString(),
-            )
-        val cursor = db.rawQuery(OmokContract.SQL_FETCH_STONE_BY_POSITION, data)
-
-        if (cursor.moveToNext()) {
-            val stoneColorIndex = cursor.getColumnIndex(OmokContract.COLUMN_NAME_STONE_COLOR)
-            val rowIndex = cursor.getColumnIndex(OmokContract.COLUMN_NAME_ROW)
-            val colIndex = cursor.getColumnIndex(OmokContract.COLUMN_NAME_COL)
-
-            val stoneColor = cursor.getString(stoneColorIndex)
-            val row = cursor.getInt(rowIndex)
-            val col = cursor.getInt(colIndex)
-            return StoneDao(stoneColor, row, col)
-        }
-        return null
-    }
-
     override fun fetchAllStones(): List<StoneDao> {
         val db = dbHelper.readableDatabase
 

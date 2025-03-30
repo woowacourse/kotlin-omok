@@ -1,6 +1,5 @@
 package woowacourse.omok.data
 
-import woowacourse.omok.domain.position.Position
 import woowacourse.omok.domain.stone.Stone
 
 class StoneFakeDataSource : StoneDataSource {
@@ -9,11 +8,6 @@ class StoneFakeDataSource : StoneDataSource {
 
     init {
         _stones.clear()
-    }
-
-    override fun fetchStoneByPosition(position: Position): StoneDao? {
-        val findStone = stones.firstOrNull { stone -> stone.position.isSame(position) } ?: return null
-        return StoneDao.valueOf(findStone)
     }
 
     override fun fetchAllStones(): List<StoneDao> {
