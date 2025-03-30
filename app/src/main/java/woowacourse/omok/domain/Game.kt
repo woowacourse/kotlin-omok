@@ -1,19 +1,27 @@
 package woowacourse.omok.domain
 
 import woowacourse.omok.adapter.RuleResult
+import woowacourse.omok.domain.model.Board
 import woowacourse.omok.domain.model.rule.OmokRule
 import woowacourse.omok.domain.model.state.OmokState
 import woowacourse.omok.domain.model.state.Turn
 import woowacourse.omok.domain.model.stone.Stone
-import woowacourse.omok.domain.model.stone.StoneType
 import woowacourse.omok.domain.model.stone.Stones
+import woowacourse.omok.domain.repository.StoneRepository
+import woowacourse.ui.GameEvent
 import woowacourse.ui.PlayEvent
 
 class Game(
     private val rule: OmokRule,
-    private var stones: Stones = Stones(listOf()),
-    private var state: OmokState = Turn(StoneType.BLACK),
+    private val stoneRepository: StoneRepository,
+    private val gameEvent: GameEvent,
+    board: Board,
 ) {
+    private var state: OmokState = Turn(stoneRepository.lastStoneType())
+    private var stones: Stones = stoneRepository.allInBoardSize(board.row)
+
+    fun initBoard() = gameEvent.initBoard(stones)
+
     fun play(playEvent: PlayEvent) {
         val position = playEvent.onPosition()
         val stone = Stone(position, state.stoneType)
@@ -29,10 +37,12 @@ class Game(
 
     private fun resetGame() {
         state = state.turn()
+        stoneRepository.clear()
         stones = Stones(listOf())
     }
 
     private fun placeStone(stone: Stone) {
+        stoneRepository.insert(stone)
         stones += stone
         state = if (rule.checkWin(stones, stone)) state.finish() else state.turn()
     }

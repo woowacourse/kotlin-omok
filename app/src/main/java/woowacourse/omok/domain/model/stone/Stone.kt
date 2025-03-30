@@ -10,4 +10,9 @@ data class Stone(
         Position(column, row, size),
         stoneType,
     )
+
+    fun isSamePosition(
+        column: Int,
+        row: Int,
+    ) = position.column.value == column && position.row.value == row
 }

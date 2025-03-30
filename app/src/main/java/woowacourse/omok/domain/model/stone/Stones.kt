@@ -3,6 +3,8 @@ package woowacourse.omok.domain.model.stone
 import woowacourse.omok.domain.model.position.Position
 
 class Stones(private val stones: List<Stone>) {
+    val value get() = stones.map { it.copy() }
+
     fun typeStones(stoneType: StoneType): List<Stone> {
         return stones.filter { it.stoneType == stoneType }
             .map { it.copy() }
