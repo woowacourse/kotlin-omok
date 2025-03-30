@@ -42,11 +42,7 @@ class OmokControl(
                 printCurrentState()
                 val position = readPosition() ?: return current
 
-                return when (val result = game.playTurn(position)) {
-                    is PlayResult.Success -> Playing
-                    is PlayResult.Violation -> Violation(result.error)
-                    is PlayResult.Win -> Win(result.winner)
-                }
+                handlePlayResult(position)
             }
 
             is Violation -> {
@@ -61,6 +57,13 @@ class OmokControl(
             }
         }
     }
+
+    private fun handlePlayResult(position: Position): GameState =
+        when (val result = game.playTurn(position)) {
+            is PlayResult.Success -> Playing
+            is PlayResult.Violation -> Violation(result.error)
+            is PlayResult.Win -> Win(result.winner)
+        }
 
     private fun readPosition(): Position? =
         when (val result = inputView.inputStone(game.board)) {
