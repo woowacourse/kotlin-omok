@@ -79,7 +79,7 @@ class GameActivity : AppCompatActivity() {
                 view.setOnClickListener {
                     handlePutStoneResult(
                         view,
-                        Stone(Position(x - 'A', y - 1), omokGame.turn),
+                        Stone(Position(x.toBoardIndex, y.toBoardIndex), omokGame.turn),
                     )
                 }
             }
@@ -159,6 +159,12 @@ class GameActivity : AppCompatActivity() {
             }
         }
     }
+
+    private val Char.toBoardIndex: Int
+        get() = this - 'A'
+
+    private val Int.toBoardIndex: Int
+        get() = this - 1
 
     override fun onDestroy() {
         dbHelper.close()
