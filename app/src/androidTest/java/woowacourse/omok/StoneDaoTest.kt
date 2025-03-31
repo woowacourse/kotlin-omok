@@ -34,7 +34,7 @@ class StoneDaoTest {
         stoneDao.insert(STONE_10A_BLACK)
         val expected = 2
 
-        val stonesInDatabase = stoneDao.fetchAllStones()
+        val stonesInDatabase = stoneDao.findAllStone()
         assertThat(stonesInDatabase.size).isEqualTo(expected)
     }
 
@@ -47,7 +47,7 @@ class StoneDaoTest {
         stoneDao.insert(STONE_10A_BLACK)
         val expected = listOf(STONE_10E_WHITE, STONE_10E_BLACK, STONE_1B_WHITE, STONE_10A_BLACK)
 
-        val stonesInDatabase = stoneDao.fetchAllStones()
+        val stonesInDatabase = stoneDao.findAllStone()
 
         val isSatisfied =
             stonesInDatabase.all { stoneInDatabase ->
@@ -68,7 +68,7 @@ class StoneDaoTest {
         stoneDao.insert(STONE_2G_BLACK)
 
         stoneDao.deleteAll()
-        val actualStones = stoneDao.fetchAllStones()
+        val actualStones = stoneDao.findAllStone()
 
         assertThat(actualStones.isEmpty()).isTrue()
     }

@@ -15,7 +15,7 @@ class StoneDao(
     private val readableDatabase: SQLiteDatabase by lazy { dbHelper.readableDatabase }
     private val writableDatabase: SQLiteDatabase by lazy { dbHelper.writableDatabase }
 
-    fun fetchAllStones(): List<Stone> {
+    fun findAllStone(): List<Stone> {
         readableDatabase.rawQuery(OmokContract.SQL_FETCH_STONES, arrayOf()).use { cursor ->
             val stones = mutableListOf<Stone>()
             while (cursor.moveToNext()) {

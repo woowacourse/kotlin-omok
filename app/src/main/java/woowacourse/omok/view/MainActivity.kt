@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         board: TableLayout,
         service: GameBoard,
     ) {
-        val existedStones = stoneDao.fetchAllStones()
+        val existedStones = stoneDao.findAllStone()
         if (existedStones.isNotEmpty()) {
             board
                 .children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rowView ->
