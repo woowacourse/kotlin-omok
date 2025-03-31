@@ -46,6 +46,11 @@ class GameBoard(
 
     fun restoreStones(existedStones: List<Stone>) {
         existedStones.forEach { stone -> stones.add(stone) }
+        stones.lastStone()?.let { stone -> adjustPlayerTurn(stone) }
+    }
+
+    private fun adjustPlayerTurn(stone: Stone) {
+        if (stone.color == StoneColor.BLACK) nextTurn()
     }
 
     private fun violation(stone: Stone): Violation =
