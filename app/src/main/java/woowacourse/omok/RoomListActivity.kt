@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
+import android.provider.BaseColumns
 import android.util.Log
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -59,23 +60,17 @@ class RoomListActivity : AppCompatActivity() {
         val db = dbHelper.readableDatabase
         val result = mutableListOf<RoomData>()
 
-        val query = """
-            SELECT r._id, n.name AS nickname, r.stone_count
-            FROM rooms r
-            JOIN nicknames n ON r.nickname_id = n._id
-            WHERE n.name = ?
-        """
+        val query = RoomContract.SQL_FIND_ROOMS
 
         val cursor: Cursor = db.rawQuery(query, arrayOf(nickname))
 
         with(cursor) {
             while (moveToNext()) {
-                val roomId = getInt(getColumnIndexOrThrow("_id"))
-                val roomUserName = getString(getColumnIndexOrThrow("nickname"))
-                val roomStoneCount = getInt(getColumnIndexOrThrow("stone_count"))
-
+                val roomId = getInt(getColumnIndexOrThrow(RoomContract.COLUMN_ROOM_ID))
+                val roomUserName = getString(getColumnIndexOrThrow(RoomContract.SQL_FIND_ROOMS_NICKNAME))
+                val roomStoneCount = getInt(getColumnIndexOrThrow(RoomContract.COLUMN_ROOM_STONE_COUNT))
                 val stonesCursor = db.rawQuery(
-                    "SELECT x, y, color, turn FROM stones WHERE room_id = ? ORDER BY turn ASC",
+                    RoomContract.SQL_FIND_ROOM_STONES,
                     arrayOf(roomId.toString())
                 )
 
@@ -105,34 +100,29 @@ class RoomListActivity : AppCompatActivity() {
         val db = dbHelper.writableDatabase
 
         var nicknameId = -1
-        val cursor = db.rawQuery("SELECT _id FROM nicknames WHERE name = ?", arrayOf(nickname))
+        val cursor = db.rawQuery(RoomContract.SQL_FIND_ROOM_USER_ID, arrayOf(nickname))
         if (cursor.moveToFirst()) {
             nicknameId = cursor.getInt(0)
         } else {
             val values = ContentValues().apply {
-                put("name", nickname)
+                put(RoomContract.COLUMN_NICKNAME_NAME, nickname)
             }
-            nicknameId = db.insert("nicknames", null, values).toInt()
+            nicknameId = db.insert(RoomContract.NICKNAME_TABLE_NAME, null, values).toInt()
         }
         cursor.close()
 
         val values = ContentValues().apply {
-            put("nickname_id", nicknameId)
-            put("stone_count", 0)
+            put(RoomContract.COLUMN_ROOM_NICKNAME_ID, nicknameId)
+            put(RoomContract.COLUMN_ROOM_STONE_COUNT, 0)
         }
-        val newRowId = db.insert("rooms", null, values)
+        val newRowId = db.insert(RoomContract.ROOM_TABLE_NAME , null, values)
 
-        if (newRowId == -1L) {
-            Log.e("RoomListActivity", "Room insert failed")
-        } else {
-            Log.d("RoomListActivity", "Room insert success: $newRowId")
-        }
         db.close()
 
-        // 🔥 room_id 같이 넘기기!
+
         startActivity(Intent(this, MainActivity::class.java).apply {
             putExtra("nickname", nickname)
-            putExtra("room_id", newRowId.toInt()) // <- 이거 추가!
+            putExtra("room_id", newRowId.toInt())
         })
     }
 }
