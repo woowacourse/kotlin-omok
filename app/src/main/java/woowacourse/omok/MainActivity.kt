@@ -18,14 +18,14 @@ import omok.model.entity.board.DefaultBoard
 import omok.model.entity.position.DefaultPosition
 import omok.model.entity.position.Position
 import woowacourse.omok.data.History
+import woowacourse.omok.data.OmokHistory
 import woowacourse.omok.data.OmokHistoryDbHelper
-import woowacourse.omok.data.OmokHistoryRepository
 import woowacourse.omok.data.SQLiteOmokHistoryStorage
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     private var state: GameState = GameState(board = DefaultBoard())
-    private lateinit var omokHistoryRepository: OmokHistoryRepository
+    private lateinit var omokHistory: OmokHistory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,15 +36,14 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        omokHistoryRepository =
-            OmokHistoryRepository(SQLiteOmokHistoryStorage(OmokHistoryDbHelper(this)))
+        omokHistory = OmokHistory(SQLiteOmokHistoryStorage(OmokHistoryDbHelper(this)))
         val positions: Sequence<ImageView> = positions()
         loadOmokHistory(positions)
         setOnClickBoardPositions(positions)
     }
 
     override fun onDestroy() {
-        omokHistoryRepository.close()
+        omokHistory.close()
         super.onDestroy()
     }
 
@@ -61,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadOmokHistory(positions: Sequence<ImageView>) {
         thread {
-            val histories: List<History> = omokHistoryRepository.fetch()
+            val histories: List<History> = omokHistory.fetch()
             loadGameState(histories)
             applyOnUi(histories, positions)
         }
@@ -108,11 +107,11 @@ class MainActivity : AppCompatActivity() {
             state = state.play(position)
             view.setImageResource(currentStone.drawable)
             thread {
-                omokHistoryRepository.add(History(currentStone, position.row, position.column))
+                omokHistory.add(History(currentStone, position.row, position.column))
             }
             if (!state.playing) {
                 thread {
-                    omokHistoryRepository.clear()
+                    omokHistory.clear()
                 }
                 showResult(currentStone)
             }

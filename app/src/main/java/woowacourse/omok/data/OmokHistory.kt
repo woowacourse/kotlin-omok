@@ -1,6 +1,6 @@
 package woowacourse.omok.data
 
-class OmokHistoryRepository(
+class OmokHistory(
     private val storage: OmokHistoryStorage,
 ) {
     fun fetch(): List<History> = storage.fetch()
