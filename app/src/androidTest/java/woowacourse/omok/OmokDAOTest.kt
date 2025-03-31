@@ -17,11 +17,10 @@ import org.junit.runner.RunWith
 class OmokDAOTest {
 
     private lateinit var dao: OmokDAO
-    private lateinit var context: Context
+    private val context: Context = ApplicationProvider.getApplicationContext()
 
     @Before
     fun setUp() {
-        context = ApplicationProvider.getApplicationContext()
         context.deleteDatabase("omok.db")
         dao = OmokDAO(context)
     }
