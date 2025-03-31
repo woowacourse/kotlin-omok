@@ -47,14 +47,6 @@ class DatabaseStoneDAO(private val dbHelper: DbHelper) : StoneDAO {
     override fun queryStones(): List<Stone> {
         val dbReader = dbHelper.readableDatabase
         val result = mutableListOf<Stone>()
-
-        val cursorCheck = dbReader.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='board'", null)
-        if (cursorCheck.count == 0) {
-            cursorCheck.close()
-            return emptyList()
-        }
-        cursorCheck.close()
-
         val cursor: Cursor = dbReader.rawQuery("SELECT * FROM board", null)
 
         with(cursor) {
