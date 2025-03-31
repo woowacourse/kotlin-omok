@@ -21,7 +21,7 @@ class GamesFragment :
     OnGameClickListener {
     private lateinit var gamesRvAdapter: GamesRvAdapter
     private lateinit var gamesDao: GamesDao
-    private lateinit var gameCreateDialog: GameCreateDialog
+    private lateinit var newGameDialog: NewGameDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,13 +47,13 @@ class GamesFragment :
 
     private fun setupListeners() {
         requireView().findViewById<Button>(R.id.btn_game_create).setOnClickListener {
-            gameCreateDialog.show()
+            newGameDialog.show()
         }
     }
 
     private fun initializeDialog() {
-        gameCreateDialog =
-            GameCreateDialog(requireContext()) { roomName ->
+        newGameDialog =
+            NewGameDialog(requireContext()) { roomName ->
                 createGame(roomName)
             }
     }
