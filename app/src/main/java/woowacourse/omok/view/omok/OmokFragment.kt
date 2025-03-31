@@ -81,14 +81,14 @@ class OmokFragment :
         updateBoardUIWithLoadedMoves(loadedMoves)
 
         val isFinished = arguments?.getBoolean(ARGUMENT_KEY_NAME_GAME_FINISHED) ?: false
-        createGame(isFinished, loadedMoves.entries.lastOrNull()?.toPair())
+        createGame(isFinished, loadedMoves.entries.lastOrNull()?.key)
     }
 
     private fun createGame(
         isFinished: Boolean,
-        lastMove: Pair<Point, CellState>?,
+        lastMovePoint: Point?,
     ) {
-        val gameState = GameState(isFinished, lastMove)
+        val gameState = GameState(isFinished, lastMovePoint)
         game = OmokGame(gameState, this)
     }
 
