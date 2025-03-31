@@ -68,14 +68,31 @@ class MainActivity : AppCompatActivity() {
         val newState = gameManager.updateState(state, point, omokDao)
 
         if (newState is Foul) {
-            displayFoulMessage(newState)
-            state = previousState
+            handleFoul(previousState, newState)
             return
         }
 
+        updateStateAndDisplayStone(newState, imageView)
+        handleWin(newState)
+    }
+
+    private fun handleFoul(
+        previousState: State,
+        foul: Foul,
+    ) {
+        displayFoulMessage(foul)
+        state = previousState
+    }
+
+    private fun updateStateAndDisplayStone(
+        newState: State,
+        imageView: ImageView,
+    ) {
         displayStone(imageView)
         state = newState
+    }
 
+    private fun handleWin(newState: State) {
         if (newState is Finished.Win) {
             displayWinner(newState.winnerColor)
             showGameOverBox()
