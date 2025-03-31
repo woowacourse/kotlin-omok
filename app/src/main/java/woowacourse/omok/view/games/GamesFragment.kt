@@ -19,7 +19,7 @@ import woowacourse.omok.view.omok.OmokFragment
 class GamesFragment :
     Fragment(),
     OnGameClickListener {
-    private lateinit var gamesRvAdapter: GamesRvAdapter
+    private lateinit var gamesRecyclerViewAdapter: GamesRecyclerViewAdapter
     private lateinit var gamesDao: GamesDao
     private lateinit var newGameDialog: NewGameDialog
 
@@ -73,13 +73,13 @@ class GamesFragment :
     }
 
     private fun setupRecyclerView(games: List<Game>) {
-        gamesRvAdapter = GamesRvAdapter(games, this)
+        gamesRecyclerViewAdapter = GamesRecyclerViewAdapter(games, this)
         setRecyclerView()
     }
 
     private fun setRecyclerView() {
         requireView().findViewById<RecyclerView>(R.id.rv_games).apply {
-            adapter = gamesRvAdapter
+            adapter = gamesRecyclerViewAdapter
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(
                 DividerItemDecoration(
@@ -117,7 +117,7 @@ class GamesFragment :
 
     private fun deleteGameFromDb(gameId: Int) {
         gamesDao.deleteGame(gameId).onSuccess {
-            gamesRvAdapter.updateGames(gameId)
+            gamesRecyclerViewAdapter.updateGames(gameId)
         }
     }
 }

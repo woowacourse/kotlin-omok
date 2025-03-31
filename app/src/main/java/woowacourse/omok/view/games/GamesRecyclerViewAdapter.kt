@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.R
 import woowacourse.omok.domain.Game
 
-class GamesRvAdapter(
+class GamesRecyclerViewAdapter(
     games: List<Game>,
     private val listener: OnGameClickListener,
-) : RecyclerView.Adapter<GamesRvAdapter.GameViewHolder>() {
+) : RecyclerView.Adapter<GamesRecyclerViewAdapter.GameViewHolder>() {
     private val games: MutableList<Game> = games.toMutableList()
 
     fun updateGames(gameId: Int) {
