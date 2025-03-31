@@ -3,7 +3,7 @@ package woowacourse.omok.data
 import omok.model.entity.Stone
 import omok.model.entity.position.GridElement
 
-class History(
+data class History(
     val turn: String,
     val row: Int,
     val column: Int,
