@@ -21,10 +21,10 @@ import woowacourse.omok.model.gameRoom.GameRoomAdapter
 import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var createGameButton: ExtendedFloatingActionButton
+    private val recyclerView: RecyclerView by lazy { findViewById(R.id.recyclerview_game_rooms) }
+    private val createGameButton: ExtendedFloatingActionButton by lazy { findViewById(R.id.new_game_btn) }
+    private val dbHelper: OmokDBHelper by lazy { OmokDBHelper(this) }
     private lateinit var gameRoomAdapter: GameRoomAdapter
-    private lateinit var dbHelper: OmokDBHelper
 
     private val gameRooms = mutableListOf<GameRoom>()
 
@@ -42,16 +42,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        dbHelper = OmokDBHelper(this)
-        initViews()
         setupListeners()
         reloadPreviousGameRooms()
         setupRecyclerView()
-    }
-
-    private fun initViews() {
-        recyclerView = findViewById(R.id.recyclerview_game_rooms)
-        createGameButton = findViewById(R.id.new_game_btn)
     }
 
     private fun setupRecyclerView() {

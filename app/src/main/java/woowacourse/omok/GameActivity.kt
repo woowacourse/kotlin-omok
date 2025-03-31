@@ -21,21 +21,15 @@ import kotlin.concurrent.thread
 import kotlin.math.abs
 
 class GameActivity : AppCompatActivity() {
-    private lateinit var dbHelper: OmokDBHelper
-    private var roomId: Int = ROOM_INTENT_DEFAULT_VALUE
-    private lateinit var blackPlayerName: String
-    private lateinit var whitePlayerName: String
+    private val dbHelper: OmokDBHelper by lazy { OmokDBHelper(this) }
+    private val roomId: Int by lazy { intent.getIntExtra(GAME_ROOM_ID, ROOM_INTENT_DEFAULT_VALUE) }
+    private val blackPlayerName: String by lazy { intent.getStringExtra(BLACK_PLAYER).toString() }
+    private val whitePlayerName: String by lazy { intent.getStringExtra(WHITE_PLAYER).toString() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_game)
-
-        roomId = intent.getIntExtra(GAME_ROOM_ID, ROOM_INTENT_DEFAULT_VALUE)
-        blackPlayerName = intent.getStringExtra(BLACK_PLAYER).toString()
-        whitePlayerName = intent.getStringExtra(WHITE_PLAYER).toString()
-
-        dbHelper = OmokDBHelper(this)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
