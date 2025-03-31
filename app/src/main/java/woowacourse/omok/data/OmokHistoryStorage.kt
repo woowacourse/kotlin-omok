@@ -7,7 +7,6 @@ import android.util.Log
 import woowacourse.omok.data.OmokHistoryDbHelper.Companion.COLUMN_NAME_POSITION_COLUMN
 import woowacourse.omok.data.OmokHistoryDbHelper.Companion.COLUMN_NAME_POSITION_ROW
 import woowacourse.omok.data.OmokHistoryDbHelper.Companion.COLUMN_NAME_TURN
-import woowacourse.omok.data.OmokHistoryDbHelper.Companion.SQL_DELETE_ENTRIES
 import woowacourse.omok.data.OmokHistoryDbHelper.Companion.TABLE_NAME
 
 interface OmokHistoryStorage {
@@ -70,7 +69,7 @@ class SQLiteOmokHistoryStorage(
     }
 
     override fun clear() {
-        omokDbHelper.writableDatabase.execSQL(SQL_DELETE_ENTRIES)
+        omokDbHelper.writableDatabase.execSQL("DELETE FROM $TABLE_NAME")
     }
 
     override fun close() {
