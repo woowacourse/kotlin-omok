@@ -26,14 +26,6 @@ class DbHelper(
         onCreate(db)
     }
 
-    override fun onDowngrade(
-        db: SQLiteDatabase,
-        oldVersion: Int,
-        newVersion: Int,
-    ) {
-        onUpgrade(db, oldVersion, newVersion)
-    }
-
     companion object {
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "Omok.db"
