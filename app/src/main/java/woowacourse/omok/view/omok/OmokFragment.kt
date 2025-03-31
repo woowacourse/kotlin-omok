@@ -12,8 +12,6 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import woowacourse.omok.R
 import woowacourse.omok.data.OmokDatabaseHelper
-import woowacourse.omok.data.dao.GamesDao
-import woowacourse.omok.data.dao.MovesDao
 import woowacourse.omok.domain.GameState
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.board.Board
@@ -29,13 +27,11 @@ class OmokFragment :
     Fragment(),
     GameEventListener {
     private var gameId: Int? = null
-    private lateinit var game: OmokGame
-
-    private lateinit var board: Board
     private lateinit var boardView: TableLayout
 
-    private lateinit var gamesDao: GamesDao
-    private lateinit var movesDao: MovesDao
+    private lateinit var game: OmokGame
+    private lateinit var board: Board
+    private lateinit var omokDatabaseManager: OmokDatabaseManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,8 +54,7 @@ class OmokFragment :
 
     private fun initializeDb() {
         val dbHelper = OmokDatabaseHelper(requireContext())
-        gamesDao = GamesDao(dbHelper)
-        movesDao = MovesDao(dbHelper)
+        omokDatabaseManager = OmokDatabaseManager(dbHelper)
     }
 
     private fun initializeBoardView(view: View) {
@@ -68,9 +63,7 @@ class OmokFragment :
             rowView.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
                 val point = Point(rowIndex + 1, colIndex + 1)
                 imageView.tag = point
-                imageView.setOnClickListener {
-                    game.placeStone(board, point)
-                }
+                imageView.setOnClickListener { game.placeStone(board, point) }
             }
         }
     }
@@ -94,7 +87,7 @@ class OmokFragment :
 
     private fun loadMovesFromDatabase(): Map<Point, CellState> =
         gameId?.let {
-            movesDao.getMoves(it).getOrDefault(emptyList()).toMap()
+            omokDatabaseManager.getMoves(it)
         } ?: emptyMap()
 
     private fun updateBoardUIWithLoadedMoves(loadedMoves: Map<Point, CellState>) {
@@ -130,12 +123,12 @@ class OmokFragment :
         state: CellState,
     ) {
         updateBoardUI(point, state)
-        gameId?.let { movesDao.saveMove(it, point to state) }
+        gameId?.let { omokDatabaseManager.saveMove(it, point to state) }
     }
 
     override fun onGameWon(winnerState: CellState?) {
         showToast(getString(R.string.winner_ui_string, winnerState?.toUiString()))
-        gameId?.let { gamesDao.updateGameStatus(it) }
+        gameId?.let { omokDatabaseManager.updateGameStatus(it) }
     }
 
     override fun onShowMessage(result: PlaceStoneResult) {
