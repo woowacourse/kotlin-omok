@@ -77,7 +77,7 @@ class GameActivity : AppCompatActivity() {
                 view.tag = "$x$y"
 
                 view.setOnClickListener {
-                    handlePutStoneResult(
+                    onStonePlaced(
                         view,
                         Stone(Position(x.toBoardIndex, y.toBoardIndex), omokGame.turn),
                     )
@@ -120,37 +120,58 @@ class GameActivity : AppCompatActivity() {
         stone: Stone,
     ) {
         when (omokGame.putStone(stone)) {
-            is Success -> {
-                boardDao.insert(stone, gameId)
-                drawStone(view, stone.state)
-                omokGame.changeTurn()
-                updateTurnView(omokGame.turn)
-            }
-
-            is Finished -> {
-                boardDao.insert(stone, gameId)
-                drawStone(view, omokGame.turn)
-                disableBoardTouch()
-                Toast
-                    .makeText(
-                        this,
-                        getString(R.string.text_win_message, omokGame.turn.name),
-                        Toast.LENGTH_LONG,
-                    ).show()
-            }
-
-            is PutStoneResult.AlreadyPlaced -> {
-                Toast.makeText(this, R.string.text_already_placed, Toast.LENGTH_SHORT).show()
-            }
-
-            is PutStoneResult.Violation -> {
-                Toast.makeText(this, R.string.text_violate_rule, Toast.LENGTH_SHORT).show()
-            }
-
-            is PutStoneResult.InvalidPosition -> {
-                Toast.makeText(this, R.string.text_invalid_position, Toast.LENGTH_SHORT).show()
-            }
+            is Success -> handleSuccess(stone, view)
+            is Finished -> handleGameFinished(stone, view)
+            is PutStoneResult.AlreadyPlaced -> handleAlreadyPlaced()
+            is PutStoneResult.Violation -> handleRuleViolation()
+            is PutStoneResult.InvalidPosition -> handleInvalidPosition()
         }
+    }
+
+    private fun handleSuccess(
+        stone: Stone,
+        view: ImageView,
+    ) {
+        boardDao.insert(stone, gameId)
+        drawStone(view, stone.state)
+        omokGame.changeTurn()
+        updateTurnView(omokGame.turn)
+    }
+
+    private fun handleGameFinished(
+        stone: Stone,
+        view: ImageView,
+    ) {
+        boardDao.insert(stone, gameId)
+        drawStone(view, omokGame.turn)
+        disableBoardTouch()
+        showWinningToast(getString(R.string.text_win_message, omokGame.turn.name))
+    }
+
+    private fun handleAlreadyPlaced() {
+        showToast(R.string.text_already_placed)
+    }
+
+    private fun handleRuleViolation() {
+        showToast(R.string.text_violate_rule)
+    }
+
+    private fun handleInvalidPosition() {
+        showToast(R.string.text_invalid_position)
+    }
+
+    private fun showToast(
+        messageResId: Int,
+        duration: Int = Toast.LENGTH_SHORT,
+    ) {
+        Toast.makeText(this, getString(messageResId), duration).show()
+    }
+
+    private fun showWinningToast(
+        message: String,
+        duration: Int = Toast.LENGTH_LONG,
+    ) {
+        Toast.makeText(this, message, duration).show()
     }
 
     // board 터치 막기
