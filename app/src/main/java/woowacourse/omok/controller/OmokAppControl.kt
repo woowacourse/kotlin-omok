@@ -144,13 +144,17 @@ class OmokAppControl(
     }
 
     private fun stoneDBSave(stone: Stone) {
-        val values = ContentValues()
-        values.put(OmokDBContract.StonesTable.COLUMN_ROOM_ID, roomId)
-        values.put(OmokDBContract.StonesTable.COLUMN_NAME_ROW_INDEX, stone.position.row.value)
-        values.put(OmokDBContract.StonesTable.COLUMN_NAME_COL_INDEX, stone.position.col.value)
-        values.put(OmokDBContract.StonesTable.COLUMN_NAME_STONE_COLOR, stone.stoneColor.name)
-        val omokDB = omokDBHelper.writableDatabase
-        omokDB.insert(OmokDBContract.StonesTable.TABLE_NAME, null, values)
+        val values =
+            ContentValues().apply {
+                put(OmokDBContract.StonesTable.COLUMN_ROOM_ID, roomId)
+                put(OmokDBContract.StonesTable.COLUMN_NAME_ROW_INDEX, stone.position.row.value)
+                put(OmokDBContract.StonesTable.COLUMN_NAME_COL_INDEX, stone.position.col.value)
+                put(OmokDBContract.StonesTable.COLUMN_NAME_STONE_COLOR, stone.stoneColor.name)
+            }
+
+        omokDBHelper.writableDatabase.use { db ->
+            db.insert(OmokDBContract.StonesTable.TABLE_NAME, null, values)
+        }
     }
 
     private fun gameRestart(stoneColor: StoneColor) {
