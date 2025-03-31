@@ -115,7 +115,7 @@ class GameActivity : AppCompatActivity() {
             getString(R.string.text_now_turn, turn)
     }
 
-    private fun handlePutStoneResult(
+    private fun onStonePlaced(
         view: ImageView,
         stone: Stone,
     ) {
@@ -130,14 +130,7 @@ class GameActivity : AppCompatActivity() {
             is Finished -> {
                 boardDao.insert(stone, gameId)
                 drawStone(view, omokGame.turn)
-
-                // board 터치 막기
-                board.children
-                    .filterIsInstance<TableRow>()
-                    .flatMap { it.children }
-                    .filterIsInstance<ImageView>()
-                    .forEach { it.setOnClickListener(null) }
-
+                disableBoardTouch()
                 Toast
                     .makeText(
                         this,
@@ -158,6 +151,15 @@ class GameActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.text_invalid_position, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    // board 터치 막기
+    private fun disableBoardTouch() {
+        board.children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .forEach { it.setOnClickListener(null) }
     }
 
     private val Char.toBoardIndex: Int
