@@ -10,7 +10,7 @@ import woowacourse.omok.data.OmokHistoryDbHelper.Companion.COLUMN_NAME_TURN
 import woowacourse.omok.data.OmokHistoryDbHelper.Companion.SQL_DELETE_ENTRIES
 import woowacourse.omok.data.OmokHistoryDbHelper.Companion.TABLE_NAME
 
-interface OmokHistoryDao {
+interface OmokHistoryStorage {
     fun fetch(): List<History>
 
     fun add(history: History)
@@ -20,9 +20,9 @@ interface OmokHistoryDao {
     fun close()
 }
 
-class DefaultOmokHistoryDao(
+class SQLiteOmokHistoryStorage(
     private val omokDbHelper: SQLiteOpenHelper,
-) : OmokHistoryDao {
+) : OmokHistoryStorage {
     override fun fetch(): List<History> {
         val dbReader = omokDbHelper.readableDatabase
         val result = mutableListOf<History>()
