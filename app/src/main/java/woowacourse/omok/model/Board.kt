@@ -1,7 +1,6 @@
 package woowacourse.omok.model
 
 import woowacourse.omok.model.adapter.RenjuRuleAdapter
-import woowacourse.omok.model.game.FoulCondition
 import woowacourse.omok.model.game.GameState
 import woowacourse.omok.model.game.ViolationResult
 import woowacourse.omok.model.stone.Point
@@ -50,13 +49,7 @@ class Board(
             else -> ViolationResult.Success
         }
 
-    private fun checkFoulCondition(newStone: Stone): ViolationResult =
-        when (renjuRuleAdapter.checkAnyFoulCondition(stones.stones, newStone)) {
-            FoulCondition.DOUBLE_FOUR -> ViolationResult.Failure.FoulConditionResult.DoubleFour()
-            FoulCondition.DOUBLE_THREE -> ViolationResult.Failure.FoulConditionResult.DoubleThree()
-            FoulCondition.OVERLINE -> ViolationResult.Failure.FoulConditionResult.Overline()
-            FoulCondition.NONE -> ViolationResult.Success
-        }
+    private fun checkFoulCondition(newStone: Stone): ViolationResult = renjuRuleAdapter.checkAnyFoulCondition(stones.stones, newStone)
 
     private fun isValidPoint(point: Point): Boolean =
         point.row in MIN_BOARD_HEIGHT..MAX_BOARD_HEIGHT && point.col in MIN_BOARD_WIDTH..MAX_BOARD_WIDTH

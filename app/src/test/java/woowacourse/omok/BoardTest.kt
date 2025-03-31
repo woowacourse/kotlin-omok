@@ -85,7 +85,7 @@ class BoardTest {
 
         val actual = board.checkViolation(Stone(10, 8, BLACK))
 
-        val expected = ViolationResult.FoulConditionResult.DoubleThree()
+        val expected = ViolationResult.Failure.FoulConditionResult.DoubleThree()
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -126,7 +126,7 @@ class BoardTest {
 
         val actual = board.checkViolation(Stone(11, 8, BLACK))
 
-        val expected = ViolationResult.FoulConditionResult.DoubleFour()
+        val expected = ViolationResult.Failure.FoulConditionResult.DoubleFour()
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -166,7 +166,7 @@ class BoardTest {
 
         val actual = board.checkViolation(Stone(12, 8, BLACK))
 
-        val expected = ViolationResult.FoulConditionResult.Overline()
+        val expected = ViolationResult.Failure.FoulConditionResult.Overline()
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -187,7 +187,7 @@ class BoardTest {
 
         val actual = board.checkViolation(Stone(8, 8, BLACK))
 
-        val expected = ViolationResult.InvalidMoveResult.FullBoard()
+        val expected = ViolationResult.Failure.InvalidMoveResult.FullBoard()
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -205,7 +205,7 @@ class BoardTest {
 
         val actual = board.checkViolation(Stone(8, 8, WHITE))
 
-        val expected = ViolationResult.InvalidMoveResult.OccupiedPoint()
+        val expected = ViolationResult.Failure.InvalidMoveResult.OccupiedPoint()
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -216,7 +216,7 @@ class BoardTest {
 
         val actual = board.checkViolation(Stone(16, 16, WHITE))
 
-        val expected = ViolationResult.InvalidMoveResult.OutOfBoard()
+        val expected = ViolationResult.Failure.InvalidMoveResult.OutOfBoard()
 
         assertThat(actual).isEqualTo(expected)
     }

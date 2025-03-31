@@ -1,13 +1,13 @@
 package woowacourse.omok.model.adapter
 
-import woowacourse.omok.model.game.FoulCondition
+import woowacourse.omok.model.game.ViolationResult
 import woowacourse.omok.model.stone.Stone
 
 interface RuleAdapter {
     fun checkAnyFoulCondition(
         stones: Set<Stone>,
         startStone: Stone,
-    ): FoulCondition
+    ): ViolationResult
 
     fun checkWin(
         stones: Set<Stone>,

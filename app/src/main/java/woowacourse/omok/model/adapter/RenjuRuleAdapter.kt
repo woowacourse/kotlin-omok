@@ -4,7 +4,7 @@ import rule.facade.BlackRenjuRule
 import woowacourse.omok.model.Board.Companion.MAX_BOARD_HEIGHT
 import woowacourse.omok.model.Board.Companion.MAX_BOARD_WIDTH
 import woowacourse.omok.model.Direction
-import woowacourse.omok.model.game.FoulCondition
+import woowacourse.omok.model.game.ViolationResult
 import woowacourse.omok.model.stone.Point
 import woowacourse.omok.model.stone.Stone
 import woowacourse.omok.model.stone.StoneColor
@@ -15,15 +15,23 @@ class RenjuRuleAdapter : RuleAdapter {
     override fun checkAnyFoulCondition(
         stones: Set<Stone>,
         startStone: Stone,
-    ): FoulCondition {
+    ): ViolationResult {
         val blackStones: List<Pair<Int, Int>> = stones.filter { it.color == StoneColor.BLACK }.toPairList()
         val whiteStones: List<Pair<Int, Int>> = stones.filter { it.color == StoneColor.WHITE }.toPairList()
         val lastStone = startStone.toPair()
         return when {
-            blackRenjuRule.checkOverline(blackStones, lastStone) -> FoulCondition.OVERLINE
-            blackRenjuRule.checkDoubleFourFoul(blackStones, whiteStones, lastStone) -> FoulCondition.DOUBLE_FOUR
-            blackRenjuRule.checkDoubleThreeFoul(blackStones, whiteStones, lastStone) -> FoulCondition.DOUBLE_THREE
-            else -> FoulCondition.NONE
+            blackRenjuRule.checkOverline(blackStones, lastStone) -> ViolationResult.Failure.FoulConditionResult.Overline()
+            blackRenjuRule.checkDoubleFourFoul(
+                blackStones,
+                whiteStones,
+                lastStone,
+            ) -> ViolationResult.Failure.FoulConditionResult.DoubleFour()
+            blackRenjuRule.checkDoubleThreeFoul(
+                blackStones,
+                whiteStones,
+                lastStone,
+            ) -> ViolationResult.Failure.FoulConditionResult.DoubleThree()
+            else -> ViolationResult.Success
         }
     }
 
