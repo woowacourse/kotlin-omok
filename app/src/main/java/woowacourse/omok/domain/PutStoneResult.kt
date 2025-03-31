@@ -1,13 +1,9 @@
 package woowacourse.omok.domain
 
 sealed class PutStoneResult {
-    data class NextTurn(
-        val turn: StoneState,
-    ) : PutStoneResult()
+    data object Success : PutStoneResult()
 
-    data class Finished(
-        val turn: StoneState,
-    ) : PutStoneResult()
+    data object Finished : PutStoneResult()
 
     data object InvalidPosition : PutStoneResult()
 

@@ -21,8 +21,8 @@ class OmokBoard(
         if (isViolateRule(stone)) return PutStoneResult.Violation
 
         board[position.y][position.x] = stone.state
-        if (checkOmok(stone.position)) return PutStoneResult.Finished(stone.state)
-        return PutStoneResult.NextTurn(stone.state)
+        if (checkOmok(stone.position)) return PutStoneResult.Finished
+        return PutStoneResult.Success
     }
 
     fun getStoneState(position: Position): StoneState = board[position.y][position.x]

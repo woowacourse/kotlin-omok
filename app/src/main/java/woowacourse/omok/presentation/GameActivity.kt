@@ -20,7 +20,7 @@ import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.Position
 import woowacourse.omok.domain.PutStoneResult
 import woowacourse.omok.domain.PutStoneResult.Finished
-import woowacourse.omok.domain.PutStoneResult.NextTurn
+import woowacourse.omok.domain.PutStoneResult.Success
 import woowacourse.omok.domain.Stone
 import woowacourse.omok.domain.StoneState
 
@@ -120,7 +120,7 @@ class GameActivity : AppCompatActivity() {
         stone: Stone,
     ) {
         when (omokGame.putStone(stone)) {
-            is NextTurn -> {
+            is Success -> {
                 boardDao.insert(stone, gameId)
                 drawStone(view, stone.state)
                 omokGame.changeTurn()

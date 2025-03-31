@@ -30,12 +30,12 @@ class OmokController(
             latestPosition = inputView.getPosition(latestPosition)
             val stone = Stone(latestPosition, nowTurn)
             when (val putResult = omokGame.putStone(stone)) {
-                is PutStoneResult.NextTurn -> {
+                is PutStoneResult.Success -> {
                     omokGame.changeTurn()
                 }
 
                 is PutStoneResult.Finished -> {
-                    printGameResult(board, putResult.turn)
+                    printGameResult(board, omokGame.turn)
                     return
                 }
 
