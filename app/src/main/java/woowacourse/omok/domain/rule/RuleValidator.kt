@@ -10,27 +10,11 @@ import woowacourse.omok.domain.rule.lib.OmokMoveRule
 import woowacourse.omok.domain.rule.lib.OverlineRule
 
 class RuleValidator(
-    winningRules: List<OmokMoveRule> = emptyList(),
-    violationRules: List<OmokMoveRule> = emptyList(),
+    winningRules: List<OmokMoveRule> = defaultWinningRule(),
+    violationRules: List<OmokMoveRule> = defaultViolationRule(),
 ) {
-    private val winningRules: List<OmokMoveRule> =
-        winningRules
-            .ifEmpty {
-                mutableListOf(
-                    CountInRowRule(OmokMoveRule.BLACK_STONE) { it == OMOK_COUNT },
-                    CountInRowRule(OmokMoveRule.WHITE_STONE) { it >= OMOK_COUNT },
-                )
-            }.toMutableList()
-
-    private val violationRules: MutableList<OmokMoveRule> =
-        violationRules
-            .ifEmpty {
-                mutableListOf(
-                    DoubleThreeMoveRule(OmokMoveRule.BLACK_STONE),
-                    DoubleFourMoveRule(OmokMoveRule.BLACK_STONE),
-                    OverlineRule(OmokMoveRule.BLACK_STONE),
-                )
-            }.toMutableList()
+    private val winningRules: List<OmokMoveRule> = winningRules.toMutableList()
+    private val violationRules: MutableList<OmokMoveRule> = violationRules.toMutableList()
 
     fun checkWinCondition(
         board: Board,
@@ -74,5 +58,18 @@ class RuleValidator(
 
     companion object {
         private const val OMOK_COUNT = 5
+
+        private fun defaultWinningRule(): List<OmokMoveRule> =
+            listOf(
+                CountInRowRule(OmokMoveRule.BLACK_STONE) { it == OMOK_COUNT },
+                CountInRowRule(OmokMoveRule.WHITE_STONE) { it >= OMOK_COUNT },
+            )
+
+        private fun defaultViolationRule(): List<OmokMoveRule> =
+            listOf(
+                DoubleThreeMoveRule(OmokMoveRule.BLACK_STONE),
+                DoubleFourMoveRule(OmokMoveRule.BLACK_STONE),
+                OverlineRule(OmokMoveRule.BLACK_STONE),
+            )
     }
 }
