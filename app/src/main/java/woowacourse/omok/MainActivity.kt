@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), InputView, ResultView {
         setContentView(R.layout.activity_main)
 
         dbHelper = DbHelper(this)
-        roomId = intent.getIntExtra("room_id", -1)
+        roomId = intent.getIntExtra(RoomContract.COLUMN_STONE_ROOM_ID, -1)
         if (roomId == -1) {
             Toast.makeText(this, "방 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
             finish()
