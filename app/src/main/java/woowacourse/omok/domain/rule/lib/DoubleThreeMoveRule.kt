@@ -2,7 +2,8 @@ package woowacourse.omok.domain.rule.lib
 
 class DoubleThreeMoveRule(
     currentStone: Int,
-) : OmokMoveRule(currentStone) {
+    isWinningRule: Boolean,
+) : OmokMoveRule(currentStone, isWinningRule) {
     override fun validate(
         board: List<List<Int>>,
         position: Pair<Int, Int>,

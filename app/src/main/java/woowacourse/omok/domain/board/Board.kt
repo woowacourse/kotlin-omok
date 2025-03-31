@@ -34,7 +34,7 @@ class Board(
     ): PlaceStoneResult {
         if (checkOutOfBounds(point)) return OnGoing.InvalidMove
         if (checkAlreadyPlaced(point)) return OnGoing.AlreadyPlaced
-        if (validator.checkViolation(this, point, color)) return OnGoing.RuleViolation
+        if (validator.checkRules(this, point, color, false)) return OnGoing.RuleViolation
 
         return handleStonePlacement(point, color, validator)
     }
@@ -46,7 +46,7 @@ class Board(
     ): PlaceStoneResult {
         updateCell(point, color)
 
-        if (validator.checkWinCondition(this, point, color)) return Finished.GameFinished(point)
+        if (validator.checkRules(this, point, color, true)) return Finished.GameFinished(point)
         return checkBoardStatus(point)
     }
 

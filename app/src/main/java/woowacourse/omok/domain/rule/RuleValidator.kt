@@ -10,23 +10,22 @@ import woowacourse.omok.domain.rule.lib.OmokMoveRule
 import woowacourse.omok.domain.rule.lib.OverlineRule
 
 class RuleValidator(
-    winningRules: List<OmokMoveRule> = defaultWinningRule(),
-    violationRules: List<OmokMoveRule> = defaultViolationRule(),
+    rules: List<OmokMoveRule> = defaultRules(),
 ) {
-    private val winningRules: List<OmokMoveRule> = winningRules.toMutableList()
-    private val violationRules: MutableList<OmokMoveRule> = violationRules.toMutableList()
+    private val rules: MutableList<OmokMoveRule> = rules.toMutableList()
 
-    fun checkWinCondition(
+    fun checkRules(
         board: Board,
         point: Point,
         state: CellState,
-    ): Boolean = evaluateRules(winningRules, board, point, state)
-
-    fun checkViolation(
-        board: Board,
-        point: Point,
-        state: CellState,
-    ): Boolean = evaluateRules(violationRules, board, point, state)
+        isWin: Boolean,
+    ): Boolean =
+        evaluateRules(
+            rules.filter { it.isWinningRule == isWin },
+            board,
+            point,
+            state,
+        )
 
     private fun evaluateRules(
         rules: List<OmokMoveRule>,
@@ -59,17 +58,13 @@ class RuleValidator(
     companion object {
         private const val OMOK_COUNT = 5
 
-        private fun defaultWinningRule(): List<OmokMoveRule> =
+        private fun defaultRules(): List<OmokMoveRule> =
             listOf(
-                CountInRowRule(OmokMoveRule.BLACK_STONE) { it == OMOK_COUNT },
-                CountInRowRule(OmokMoveRule.WHITE_STONE) { it >= OMOK_COUNT },
-            )
-
-        private fun defaultViolationRule(): List<OmokMoveRule> =
-            listOf(
-                DoubleThreeMoveRule(OmokMoveRule.BLACK_STONE),
-                DoubleFourMoveRule(OmokMoveRule.BLACK_STONE),
-                OverlineRule(OmokMoveRule.BLACK_STONE),
+                CountInRowRule(OmokMoveRule.BLACK_STONE, true) { it == OMOK_COUNT },
+                CountInRowRule(OmokMoveRule.WHITE_STONE, true) { it >= OMOK_COUNT },
+                DoubleThreeMoveRule(OmokMoveRule.BLACK_STONE, false),
+                DoubleFourMoveRule(OmokMoveRule.BLACK_STONE, false),
+                OverlineRule(OmokMoveRule.BLACK_STONE, false),
             )
     }
 }

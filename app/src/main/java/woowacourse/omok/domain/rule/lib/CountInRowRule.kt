@@ -2,8 +2,9 @@ package woowacourse.omok.domain.rule.lib
 
 class CountInRowRule(
     currentStone: Int,
+    isWinningRule: Boolean,
     val condition: (Int) -> Boolean,
-) : OmokMoveRule(currentStone) {
+) : OmokMoveRule(currentStone, isWinningRule) {
     override fun validate(
         board: List<List<Int>>,
         position: Pair<Int, Int>,

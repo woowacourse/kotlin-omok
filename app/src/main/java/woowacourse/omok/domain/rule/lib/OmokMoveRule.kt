@@ -2,6 +2,7 @@ package woowacourse.omok.domain.rule.lib
 
 abstract class OmokMoveRule(
     val currentStone: Int,
+    val isWinningRule: Boolean,
 ) {
     val opponentStone: Int = if (currentStone == BLACK_STONE) WHITE_STONE else BLACK_STONE
 

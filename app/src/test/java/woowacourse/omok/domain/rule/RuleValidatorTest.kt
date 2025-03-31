@@ -65,7 +65,7 @@ class RuleValidatorTest {
                     "N4",
                 ),
             )
-        assertTrue(ruleValidator.checkViolation(board, rawPoint.toPoint(), CellState.BLACK))
+        assertTrue(ruleValidator.checkRules(board, rawPoint.toPoint(), CellState.BLACK, false))
     }
 
 //            [4-4 금수 테스트를 위한 보드]
@@ -112,7 +112,7 @@ class RuleValidatorTest {
                     "L11",
                 ),
             )
-        assertTrue(ruleValidator.checkViolation(board, rawPoint.toPoint(), CellState.BLACK))
+        assertTrue(ruleValidator.checkRules(board, rawPoint.toPoint(), CellState.BLACK, false))
     }
 
 //            [오목 테스트를 위한 보드]
@@ -157,19 +157,19 @@ class RuleValidatorTest {
                     "L7",
                 ),
             )
-        assertTrue(ruleValidator.checkWinCondition(board, rawPoint.toPoint(), CellState.BLACK))
+        assertTrue(ruleValidator.checkRules(board, rawPoint.toPoint(), CellState.BLACK, true))
     }
 
     @Test
     fun `흑돌을 착수할 때 장목(Overline)인 경우 True 반환`() {
         val board = createBoard(listOf("A1", "B1", "C1", "D1", "F1"))
-        assertTrue(ruleValidator.checkViolation(board, Point(5, 1), CellState.BLACK))
+        assertTrue(ruleValidator.checkRules(board, Point(5, 1), CellState.BLACK, false))
     }
 
     @Test
     fun `흑돌을 착수할 때 4-3인 경우 False 반환`() {
         val board = createBoard(listOf("E5", "F5", "G5", "H6", "H7"))
-        assertFalse(ruleValidator.checkViolation(board, Point(8, 5), CellState.BLACK))
+        assertFalse(ruleValidator.checkRules(board, Point(8, 5), CellState.BLACK, false))
     }
 
     @Test
