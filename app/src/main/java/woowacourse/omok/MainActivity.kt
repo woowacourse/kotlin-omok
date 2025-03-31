@@ -127,11 +127,11 @@ class MainActivity : AppCompatActivity() {
     private fun showResult(winner: Stone) {
         AlertDialog
             .Builder(this)
-            .setTitle("게임 종료")
-            .setMessage("승자는 ${winner.prettyString} 입니다.")
-            .setPositiveButton("게임 종료") { _, _ ->
+            .setTitle(getString(R.string.result_dialog_title))
+            .setMessage(getString(R.string.result_dialog_message, winner.prettyString))
+            .setPositiveButton(getString(R.string.result_dialog_positive_button_text)) { _, _ ->
                 finish()
-            }.setNegativeButton("재시작") { _, _ ->
+            }.setNegativeButton(getString(R.string.result_dialog_negative_button_text)) { _, _ ->
                 startActivity(Intent(this, this::class.java))
                 finish()
             }.create()

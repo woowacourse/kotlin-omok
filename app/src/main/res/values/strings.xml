@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Omok</string>
+    <string name="result_dialog_title">게임 종료</string>
+    <string name="result_dialog_message">승자는 %1$s 입니다.</string>
+    <string name="result_dialog_positive_button_text">게임 종료</string>
+    <string name="result_dialog_negative_button_text">재시작</string>
 </resources>
