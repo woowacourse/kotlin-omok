@@ -73,16 +73,6 @@ val stoneLongMoveFixture =
         ),
     )
 
-val fourFixture =
-    Stones(
-        listOf(
-            Stone(Position(Column.from(1, 15), Row.from(1, 15)), StoneType.BLACK),
-            Stone(Position(Column.from(2, 15), Row.from(1, 15)), StoneType.BLACK),
-            Stone(Position(Column.from(3, 15), Row.from(1, 15)), StoneType.BLACK),
-            Stone(Position(Column.from(4, 15), Row.from(1, 15)), StoneType.BLACK),
-        ),
-    )
-
 val positionOneAndOne = Position(1, 1, board)
 
 val stoneOneAndOne = Stone(positionOneAndOne, StoneType.BLACK)

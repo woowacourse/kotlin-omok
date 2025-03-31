@@ -1,7 +1,5 @@
 package woowacourse.omok.domain.model.stone
 
-import woowacourse.omok.domain.model.position.Position
-
 class Stones(private val stones: List<Stone>) {
     val value get() = stones.map { it.copy() }
 
@@ -11,8 +9,6 @@ class Stones(private val stones: List<Stone>) {
     }
 
     fun hasStone(stone: Stone): Boolean = stones.find { it.position == stone.position } != null
-
-    fun find(position: Position): Stone? = stones.find { position == it.position }?.copy()
 
     operator fun plus(stone: Stone) = Stones(stones + stone)
 }

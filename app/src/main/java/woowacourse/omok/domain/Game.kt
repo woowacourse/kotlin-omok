@@ -30,7 +30,7 @@ class Game(
         if (ruleResult !is RuleResult.OnRule) return
         placeStone(stone)
         playEvent.onPlace(stone)
-        if (state.isFinished()) {
+        if (isFinished()) {
             stoneRepository.clear()
             playEvent.onFinish(state.stoneType, ::resetGame)
         }
