@@ -18,4 +18,11 @@ class OmokEventListener(private val view: OmokView) : GameEventListener {
     override fun onBoardView(omokBoard: OmokBoard) {
         view.printBoard(omokBoard)
     }
+
+    override fun onStoneChange(
+        target: Place,
+        onClick: (Place) -> Unit,
+    ) {
+        view.changeStone(target, onClick)
+    }
 }

@@ -2,14 +2,11 @@ package woowacourse.omok.domain.game
 
 import android.widget.TableLayout
 import omok.domain.board.OmokBoard
-import omok.domain.place.Black
 import omok.domain.place.Place
-import omok.domain.place.White
 import woowacourse.omok.entity.OmokBoardEntity
 import woowacourse.omok.global.retryOnFailedToAddStone
 import woowacourse.omok.ioc.Container
 import woowacourse.omok.view.ext.serialize
-import woowacourse.omok.view.ext.setOnClickListener
 
 class OmokGame(
     private val omokBoard: OmokBoard,
@@ -23,16 +20,13 @@ class OmokGame(
 
     fun startGame(target: Place) {
         event.onBoardView(omokBoard)
-        layout.setOnClickListener { x, y, view ->
-            val stone = if (target is Black) Black(x, y) else White(x, y)
-            onClickAction(stone)
-            omokDao.updateBoard(
-                OmokBoardEntity(
-                    nickname,
-                    omokBoard.serialize(),
-                ),
-            )
-        }
+        event.onStoneChange(target, onClickAction)
+        omokDao.updateBoard(
+            OmokBoardEntity(
+                nickname,
+                omokBoard.serialize(),
+            ),
+        )
     }
 
     private val onClickAction = { stone: Place ->

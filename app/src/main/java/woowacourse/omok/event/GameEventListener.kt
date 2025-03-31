@@ -16,4 +16,9 @@ interface GameEventListener {
     }
 
     fun onBoardView(omokBoard: OmokBoard)
+
+    fun onStoneChange(
+        target: Place,
+        onClick: (Place) -> Unit,
+    )
 }

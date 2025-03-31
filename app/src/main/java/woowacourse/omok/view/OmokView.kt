@@ -11,6 +11,7 @@ import omok.domain.place.White
 import omok.view.ext.toLabel
 import woowacourse.omok.R
 import woowacourse.omok.view.ext.getPointAt
+import woowacourse.omok.view.ext.setOnClickListener
 import woowacourse.omok.view.ext.setView
 
 class OmokView(
@@ -34,6 +35,16 @@ class OmokView(
                 is Black -> view.setImageResource(R.drawable.black_stone)
                 is White -> view.setImageResource(R.drawable.white_stone)
             }
+        }
+    }
+
+    fun changeStone(
+        target: Place,
+        onClickAction: (Place) -> Unit,
+    ) {
+        layout.setOnClickListener { x, y, view ->
+            val stone = if (target is Black) Black(x, y) else White(x, y)
+            onClickAction(stone)
         }
     }
 
