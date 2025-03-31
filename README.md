@@ -75,6 +75,19 @@
   - [x] 데이터베이스 헬퍼 작성
   - [x] 착수시 돌의 좌표와 색상을 데이터베이스에 기록
   - [x] 앱 기동시 데이터베이스를 읽어 오목판 복원
-- [ ] 게임방 선택 요구 사항
-  - [ ] 오목 게임방을 만들고 오목 게임방에 입장할 수 있는 기능을 추가한다.
-  - [ ] 사용자별로 오목 게임 기록을 관리할 수 있다.
+- [x] 게임방 선택 요구 사항
+  - [x] 오목 게임방을 만들고 오목 게임방에 입장할 수 있는 기능을 추가한다.
+  - [x] 사용자별로 오목 게임 기록을 관리할 수 있다.
+
+## step4 리팩터링 요구사항
+- [ ] OmokDBHelper의 Import 방법 통일
+- [ ] DROP TABLE 쿼들을 onUpgrade와 onDowngrade에 연결
+- [ ] 매직넘버 상수화
+  - [ ] OmokDBHelper의 exists == 1 상수화
+- [ ] OmokAppControl 클래스 리팩터링
+  - [ ] stoneDBSave()에서 apply 적용
+  - [ ] turn()의 좌표값을 Position객체로 받도록 수정
+- [ ] MainActivity 클래스 리팩터링
+  - [ ] by lazy로 변경이 필요한 lateinit 변수들 수정
+  - [ ] 불필요하게 MainActivity에서 작업하고 있는 로직 분리
+  - [ ] showCreateGameDialog() 함수 이름 변경 후 로직 이동
