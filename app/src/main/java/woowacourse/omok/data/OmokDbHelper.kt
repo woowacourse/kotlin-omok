@@ -38,6 +38,6 @@ class OmokDbHelper(
                 "$COLUMN_NAME_POSITION_ROW INTEGER," +
                 "$COLUMN_NAME_POSITION_COLUMN INTEGER)"
 
-        private const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS $TABLE_NAME"
+        const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS $TABLE_NAME"
     }
 }
