@@ -27,8 +27,10 @@ class ExternalRenjuRule(
         val blackPoints = extractPoints(omokBoard, StoneColor.BLACK)
         val whitePoints = extractPoints(omokBoard, StoneColor.WHITE)
 
-        return when (val violateType = renjuRule.checkAnyFoulCondition(blackPoints, whitePoints, startPoint)) {
-            DOUBLE_THREE, DOUBLE_FOUR, OVERLINE -> InvalidMove.ExternalRenjuRule(violateType)
+        return when (renjuRule.checkAnyFoulCondition(blackPoints, whitePoints, startPoint)) {
+            DOUBLE_THREE -> InvalidMove.ExternalRenjuRule(LocalViolation.DOUBLE_THREE)
+            DOUBLE_FOUR -> InvalidMove.ExternalRenjuRule(LocalViolation.DOUBLE_FOUR)
+            OVERLINE -> InvalidMove.ExternalRenjuRule(LocalViolation.OVERLINE)
             NONE -> GameOnGoing
         }
     }

@@ -1,6 +1,6 @@
 package woowacourse.omok.domain.placeresult
 
-import rule.type.Violation
+import woowacourse.omok.domain.rule.LocalViolation
 
 sealed class InvalidMove : PlaceResult {
     data object AlreadyExistStone : InvalidMove()
@@ -8,6 +8,6 @@ sealed class InvalidMove : PlaceResult {
     data object InvalidPosition : InvalidMove()
 
     data class ExternalRenjuRule(
-        val rule: Violation,
+        val rule: LocalViolation,
     ) : InvalidMove()
 }

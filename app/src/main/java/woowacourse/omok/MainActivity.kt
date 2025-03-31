@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
-import rule.type.Violation
 import woowacourse.omok.domain.GameResultDialog
 import woowacourse.omok.domain.db.OmokRepository
 import woowacourse.omok.domain.omokboard.ColumnPosition
@@ -24,6 +23,7 @@ import woowacourse.omok.domain.placeresult.InvalidMove
 import woowacourse.omok.domain.placeresult.PlaceResult
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
+import woowacourse.omok.domain.rule.LocalViolation
 import woowacourse.omok.domain.rule.OmokRules
 import woowacourse.omok.domain.service.OmokGame
 
@@ -120,12 +120,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun displayForbiddenMessage(violation: Violation): String {
+    private fun displayForbiddenMessage(violation: LocalViolation): String {
         return when (violation) {
-            Violation.DOUBLE_THREE -> getString(R.string.FORBIDDEN_DOUBLE_THREE)
-            Violation.DOUBLE_FOUR -> getString(R.string.FORBIDDEN_DOUBLE_FOUR)
-            Violation.OVERLINE -> getString(R.string.FORBIDDEN_OVERLINE)
-            else -> ""
+            LocalViolation.DOUBLE_THREE -> getString(R.string.FORBIDDEN_DOUBLE_THREE)
+            LocalViolation.DOUBLE_FOUR -> getString(R.string.FORBIDDEN_DOUBLE_FOUR)
+            LocalViolation.OVERLINE -> getString(R.string.FORBIDDEN_OVERLINE)
         }
     }
 
