@@ -16,7 +16,7 @@ class DrawRuleTest {
 
     @BeforeEach
     fun setup() {
-        playingBoard = PlayingBoard(ruleNavigation = RuleNavigation(OmokRule.whiteRules, OmokRule.blackRules))
+        playingBoard = PlayingBoard(whiteRules = OmokRules.whiteRules, blackRules = OmokRules.blackRules)
     }
 
     @Test

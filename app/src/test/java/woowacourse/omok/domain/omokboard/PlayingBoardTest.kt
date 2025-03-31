@@ -4,13 +4,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
-import woowacourse.omok.domain.rule.OmokRule
+import woowacourse.omok.domain.rule.OmokRules
 
 class PlayingBoardTest {
     @Test
     fun `오목판 내에서 원하는 (1,1) 위치에 검은돌을 놓는다`() {
         // given
-        val playingBoard = PlayingBoard(ruleNavigation = RuleNavigation(OmokRule.whiteRules, OmokRule.blackRules))
+        val playingBoard = PlayingBoard(whiteRules = OmokRules.whiteRules, blackRules = OmokRules.blackRules)
 
         // when
         playingBoard.placeStone(PlayerStone(StoneColor.BLACK, Position(1 to 1)))

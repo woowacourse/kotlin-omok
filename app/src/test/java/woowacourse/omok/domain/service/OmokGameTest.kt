@@ -3,13 +3,12 @@ package woowacourse.omok.domain.service
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import woowacourse.omok.domain.omokboard.ColumnPosition
-import woowacourse.omok.domain.omokboard.OmokBoard
 import woowacourse.omok.domain.omokboard.PlayingBoard
 import woowacourse.omok.domain.omokboard.Position
 import woowacourse.omok.domain.omokboard.RowPosition
 import woowacourse.omok.domain.placeresult.PlaceResult
 import woowacourse.omok.domain.player.StoneColor
-import woowacourse.omok.domain.rule.OmokRule
+import woowacourse.omok.domain.rule.OmokRules
 
 class OmokGameTest {
     @Test
@@ -18,7 +17,7 @@ class OmokGameTest {
         val blackTurnPosition = Position(RowPosition(1), ColumnPosition(2))
 
         // when & then
-        val omokGame = OmokGame(PlayingBoard(OmokBoard(), RuleNavigation(OmokRule.whiteRules, OmokRule.blackRules)))
+        val omokGame = OmokGame(PlayingBoard(whiteRules = OmokRules.whiteRules, blackRules = OmokRules.blackRules))
         val expected = PlaceResult::class.java
 
         omokGame.start(blackTurnPosition) {
@@ -31,7 +30,7 @@ class OmokGameTest {
     fun `플레이어의 placeResult가 GameOnGoing이면 턴을 바꾼다`() {
         // given
         val blackTurnPosition = Position(RowPosition(1), ColumnPosition(2))
-        val omokGame = OmokGame(PlayingBoard(OmokBoard(), RuleNavigation(OmokRule.whiteRules, OmokRule.blackRules)))
+        val omokGame = OmokGame(PlayingBoard(whiteRules = OmokRules.whiteRules, blackRules = OmokRules.blackRules))
 
         // when
         val actualInitStone = omokGame.stoneColor
@@ -52,7 +51,7 @@ class OmokGameTest {
     fun `플레이어의 placeResult가 GameOnGoing이 아니면 턴을 바꾸지 않는다`() {
         // given
         val blackTurnPosition = Position(RowPosition(1), ColumnPosition(2))
-        val omokGame = OmokGame(PlayingBoard(OmokBoard(), RuleNavigation(OmokRule.whiteRules, OmokRule.blackRules)))
+        val omokGame = OmokGame(PlayingBoard(whiteRules = OmokRules.whiteRules, blackRules = OmokRules.blackRules))
 
         // when
         val actualInitStone = omokGame.stoneColor
