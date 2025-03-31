@@ -75,6 +75,16 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
+    private fun resetBoard() {
+        board.children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .forEach { it.setImageResource(0) }
+
+        playingBoard.board = OmokBoard()
+    }
+
     private fun handlePlaceResult(
         placeResult: PlaceResult,
         imageView: ImageView,
@@ -83,7 +93,7 @@ class MainActivity : AppCompatActivity() {
             is GameOnGoing -> updateStone(imageView)
             is GameFinish -> {
                 updateStone(imageView)
-                gameResultDialog = GameResultDialog(this, omokRepository)
+                gameResultDialog = GameResultDialog(this, omokRepository, ::resetBoard)
                 gameResultDialog.popUp(placeResult.gameResult)
             }
             is InvalidMove.AlreadyExistStone -> showToast(displayMisPlaceMessage(placeResult))

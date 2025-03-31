@@ -1,10 +1,7 @@
 package woowacourse.omok.domain
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AlertDialog
-import woowacourse.omok.MainActivity
 import woowacourse.omok.R
 import woowacourse.omok.domain.db.OmokRepository
 import woowacourse.omok.domain.rule.GameResult
@@ -12,6 +9,7 @@ import woowacourse.omok.domain.rule.GameResult
 class GameResultDialog(
     private val context: Context,
     private val omokRepository: OmokRepository,
+    private val resetBoard: () -> Unit,
 ) {
     fun popUp(gameResult: GameResult) {
         val builder = AlertDialog.Builder(context)
@@ -21,8 +19,7 @@ class GameResultDialog(
             .setPositiveButton("한번 더하기") { dialog, _ ->
                 dialog.dismiss()
                 omokRepository.resetDatabase()
-                context.startActivity(Intent(context, MainActivity::class.java))
-                if (context is Activity) context.finish()
+                resetBoard()
             }
         val dialog = builder.create()
         dialog.show()
