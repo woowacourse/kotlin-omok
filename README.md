@@ -84,9 +84,9 @@
 - [x] DROP TABLE 쿼들을 onUpgrade와 onDowngrade에 연결
 - [ ] 매직넘버 상수화
   - [ ] OmokDBHelper의 exists == 1 상수화
-- [ ] OmokAppControl 클래스 리팩터링
-  - [ ] stoneDBSave()에서 apply 적용
-  - [ ] turn()의 좌표값을 Position객체로 받도록 수정
+- [x] OmokAppControl 클래스 리팩터링
+  - [x] stoneDBSave()에서 apply 및 use 적용
+  - [x] turn()의 좌표값을 Position객체로 받도록 수정
 - [ ] MainActivity 클래스 리팩터링
   - [ ] by lazy로 변경이 필요한 lateinit 변수들 수정
   - [ ] 불필요하게 MainActivity에서 작업하고 있는 로직 분리
