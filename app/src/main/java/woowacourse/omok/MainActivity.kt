@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), InputView, ResultView {
         dbHelper = DbHelper(this)
         roomId = intent.getIntExtra(RoomContract.COLUMN_STONE_ROOM_ID, -1)
         if (roomId == -1) {
-            Toast.makeText(this, "방 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, resources.getString(R.string.fail_find_room), Toast.LENGTH_SHORT).show()
             finish()
             return
         }
@@ -77,14 +77,14 @@ class MainActivity : AppCompatActivity(), InputView, ResultView {
     private fun restorePreviousStones() {
         val db = dbHelper.readableDatabase
         val cursor = db.rawQuery(
-            "SELECT x, y, color FROM stones WHERE room_id = ? ORDER BY turn ASC",
+            RoomContract.SQL_FIND_ROOM_STONES,
             arrayOf(roomId.toString())
         )
 
         while (cursor.moveToNext()) {
-            val x = cursor.getInt(cursor.getColumnIndexOrThrow("x"))
-            val y = cursor.getInt(cursor.getColumnIndexOrThrow("y"))
-            val colorStr = cursor.getString(cursor.getColumnIndexOrThrow("color"))
+            val x = cursor.getInt(cursor.getColumnIndexOrThrow(RoomContract.COLUMN_STONE_X))
+            val y = cursor.getInt(cursor.getColumnIndexOrThrow(RoomContract.COLUMN_STONE_Y))
+            val colorStr = cursor.getString(cursor.getColumnIndexOrThrow(RoomContract.COLUMN_STONE_COLOR))
 
             val position = Position(Row.from(x), Col.from(y))
             val color = StoneColor.from(colorStr)
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity(), InputView, ResultView {
 
     override fun printTurn(stoneColor: StoneColor) {
         val turnPrinter = findViewById<TextView>(R.id.TurnPrinter)
-        turnPrinter.text = "${stoneColor.toDisplay()}의 차례입니다."
+        turnPrinter.text = String.format(resources.getString(R.string.turn_message),stoneColor.toString())
     }
 
     override fun printStone(
@@ -126,15 +126,11 @@ class MainActivity : AppCompatActivity(), InputView, ResultView {
     }
 
     override fun printWinner(stoneColor: StoneColor) {
-        val printStoneColor = when (stoneColor) {
-            StoneColor.WHITE -> "흰색"
-            StoneColor.BLACK -> "검은색"
-        }
         AlertDialog.Builder(this).run {
-            setTitle("결과")
+            setTitle(resources.getString(R.string.result))
             setIcon(android.R.drawable.ic_dialog_info)
-            setMessage("${printStoneColor}이 승리하였습니다")
-            setPositiveButton("확인", null)
+            setMessage(String.format(resources.getString(R.string.winner_message),stoneColor.toString()))
+            setPositiveButton(resources.getString(R.string.check), null)
             show()
         }
         val board = findViewById<TableLayout>(R.id.board)

@@ -52,4 +52,6 @@ object RoomContract {
     const val SQL_DELETE_NICKNAMES = "DROP TABLE IF EXISTS $NICKNAME_TABLE_NAME"
     const val SQL_DELETE_ROOMS = "DROP TABLE IF EXISTS $ROOM_TABLE_NAME"
     const val SQL_DELETE_STONES = "DROP TABLE IF EXISTS $STONE_TABLE_NAME"
+
+    const val SQL_FIND_ROOM_STONES = "SELECT x, y, color FROM stones WHERE room_id = ? ORDER BY turn ASC"
 }

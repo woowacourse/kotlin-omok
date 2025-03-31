@@ -11,6 +11,13 @@ enum class StoneColor {
             BLACK -> WHITE
         }
 
+    override fun toString(): String =
+        when (this) {
+            WHITE -> "흰색"
+            BLACK -> "검은색"
+        }
+
+
     companion object{
         fun from(color : String):StoneColor{
             return when(color){
