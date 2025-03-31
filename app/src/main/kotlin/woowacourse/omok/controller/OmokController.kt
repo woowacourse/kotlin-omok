@@ -6,7 +6,6 @@ import woowacourse.omok.domain.board.BoardSize
 import woowacourse.omok.domain.board.CellState
 import woowacourse.omok.domain.board.Point
 import woowacourse.omok.domain.board.result.PlaceStoneResult
-import woowacourse.omok.domain.rule.OmokMoveRules
 import woowacourse.omok.domain.rule.RuleValidator
 import woowacourse.omok.view.OmokInputView
 import woowacourse.omok.view.OmokOutputView
@@ -23,7 +22,7 @@ class OmokController(
         outputView.printStartMessage()
 
         game = OmokGame(this)
-        board = Board(BoardSize(), RuleValidator(OmokMoveRules()))
+        board = Board(BoardSize(), RuleValidator())
 
         playTurns()
     }

@@ -22,7 +22,6 @@ import woowacourse.omok.domain.board.Point
 import woowacourse.omok.domain.board.result.Finished
 import woowacourse.omok.domain.board.result.OnGoing
 import woowacourse.omok.domain.board.result.PlaceStoneResult
-import woowacourse.omok.domain.rule.OmokMoveRules
 import woowacourse.omok.domain.rule.RuleValidator
 
 class OmokFragment :
@@ -77,7 +76,7 @@ class OmokFragment :
 
     private fun loadBoardStatus() {
         val loadedMoves = loadMovesFromDatabase()
-        board = Board(BoardSize(), loadedMoves, RuleValidator(OmokMoveRules()))
+        board = Board(BoardSize(), loadedMoves, RuleValidator())
         updateBoardUIWithLoadedMoves(loadedMoves)
         val isFinished = arguments?.getBoolean(ARGUMENT_KEY_NAME_GAME_FINISHED) ?: false
         game.start(loadedMoves.entries.lastOrNull()?.toPair(), isFinished)

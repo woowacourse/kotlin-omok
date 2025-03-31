@@ -7,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import woowacourse.omok.domain.board.result.Finished
 import woowacourse.omok.domain.board.result.OnGoing
-import woowacourse.omok.domain.rule.OmokMoveRules
 import woowacourse.omok.domain.rule.RuleValidator
 import woowacourse.omok.domain.utils.generateCells
 import woowacourse.omok.domain.utils.toPoint
@@ -17,15 +16,13 @@ class BoardTest {
         Board(
             BoardSize(15),
             generateCells(cells.associateWith { CellState.BLACK }),
-            RuleValidator(
-                OmokMoveRules(),
-            ),
+            RuleValidator(),
         )
 
     @Test
     fun `원하는 크기의 바둑판을 생성할 수 있다`() {
         val size = BoardSize(15)
-        val board = Board(size, judge = RuleValidator(OmokMoveRules()))
+        val board = Board(size, judge = RuleValidator())
 
         assertThat(board.size).isEqualTo(15)
     }
@@ -41,7 +38,7 @@ class BoardTest {
     fun `초기화 시 지정된 상태를 가진 보드가 정상적으로 설정되어야 한다`() {
         val initialPoints = mapOf(Point(1, 1) to CellState.BLACK, Point(2, 2) to CellState.WHITE)
         val customBoard =
-            Board(BoardSize(15), initialPoints, validator = RuleValidator(OmokMoveRules()))
+            Board(BoardSize(15), initialPoints, validator = RuleValidator())
 
         assertThat(customBoard.findStoneColor(Point(1, 1))).isEqualTo(CellState.BLACK)
         assertThat(customBoard.findStoneColor(Point(2, 2))).isEqualTo(CellState.WHITE)
@@ -88,7 +85,7 @@ class BoardTest {
             generateCells(
                 listOf("C3", "D4", "F4", "G3").associateWith { CellState.WHITE },
             )
-        val board = Board(BoardSize(15), cells, RuleValidator(OmokMoveRules()))
+        val board = Board(BoardSize(15), cells, RuleValidator())
         val result = board.placeStone("E5".toPoint(), CellState.WHITE)
         val actual = result is OnGoing.StonePlaced
 
@@ -133,9 +130,7 @@ class BoardTest {
             Board(
                 BoardSize(15),
                 cells.filter { it.key != Point(15, 15) },
-                RuleValidator(
-                    OmokMoveRules(),
-                ),
+                RuleValidator(),
             )
         val result = board.placeStone(Point(15, 15), CellState.WHITE)
         val actual = result is Finished.BoardFull
