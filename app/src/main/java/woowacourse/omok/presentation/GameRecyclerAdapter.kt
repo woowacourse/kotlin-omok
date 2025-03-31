@@ -7,9 +7,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.R
+import woowacourse.omok.domain.Game
 
 class GameRecyclerAdapter(
-    items: List<Pair<Int, String>>,
+    items: List<Game>,
     private val onItemClick: (Int) -> Unit,
     private val onDelete: (Int) -> Unit,
 ) : RecyclerView.Adapter<GameRecyclerAdapter.ViewHolder>() {
@@ -22,12 +23,12 @@ class GameRecyclerAdapter(
 
         fun bind(
             position: Int,
-            item: Pair<Int, String>,
+            item: Game,
         ) {
-            title.text = item.second
-            itemView.setOnClickListener { onItemClick(item.first) }
+            title.text = item.name
+            itemView.setOnClickListener { onItemClick(item.gameId) }
             itemView.findViewById<Button>(R.id.btn_delete_game).setOnClickListener {
-                onDelete(item.first)
+                onDelete(item.gameId)
                 removeItem(position)
             }
         }
