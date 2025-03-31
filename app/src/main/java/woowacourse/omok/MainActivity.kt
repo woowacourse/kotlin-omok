@@ -1,18 +1,17 @@
 package woowacourse.omok
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import rule.type.Violation
+import woowacourse.omok.domain.GameResultDialog
 import woowacourse.omok.domain.db.OmokRepository
 import woowacourse.omok.domain.omokboard.ColumnPosition
 import woowacourse.omok.domain.omokboard.OmokBoard
@@ -25,7 +24,6 @@ import woowacourse.omok.domain.placeresult.InvalidMove
 import woowacourse.omok.domain.placeresult.PlaceResult
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
-import woowacourse.omok.domain.rule.GameResult
 import woowacourse.omok.domain.rule.OmokRule
 import woowacourse.omok.domain.rule.RuleNavigation
 import woowacourse.omok.domain.service.OmokGame
@@ -35,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var playingBoard: PlayingBoard
     private lateinit var omokGame: OmokGame
     private lateinit var omokRepository: OmokRepository
+    private lateinit var gameResultDialog: GameResultDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,26 +83,12 @@ class MainActivity : AppCompatActivity() {
             is GameOnGoing -> updateStone(imageView)
             is GameFinish -> {
                 updateStone(imageView)
-                popUp(placeResult.gameResult)
+                gameResultDialog = GameResultDialog(this, omokRepository)
+                gameResultDialog.popUp(placeResult.gameResult)
             }
             is InvalidMove.AlreadyExistStone -> showToast(displayMisPlaceMessage(placeResult))
             is InvalidMove.ExternalRenjuRule -> showToast(displayForbiddenMessage(placeResult.rule))
         }
-    }
-
-    private fun popUp(gameResult: GameResult) {
-        val builder = AlertDialog.Builder(this)
-
-        builder.setTitle("게임결과")
-            .setMessage(displayGameResultMessage(gameResult))
-            .setPositiveButton("한번 더하기") { dialog, _ ->
-                dialog.dismiss()
-                omokRepository.resetDatabase()
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-            }
-        val dialog = builder.create()
-        dialog.show()
     }
 
     private fun displayMisPlaceMessage(error: PlaceResult): String {
@@ -122,20 +107,6 @@ class MainActivity : AppCompatActivity() {
             else -> ""
         }
     }
-
-    private fun displayGameResultMessage(result: GameResult): String {
-        return when (result) {
-            GameResult.DRAW -> getString(R.string.DRAW_RESULT_MESSAGE)
-            else -> getString(R.string.WIN_RESULT_MESSAGE).format(result.toLabel())
-        }
-    }
-
-    private fun GameResult.toLabel(): String =
-        when (this) {
-            GameResult.WIN_BLACK -> getString(R.string.BLACK_COLOR_LABEL)
-            GameResult.WIN_WHITE -> getString(R.string.WHITE_COLOR_LABEL)
-            else -> ""
-        }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
