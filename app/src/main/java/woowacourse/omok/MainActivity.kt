@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         )
         if (omokGame.state is Finished) {
             omokGame.finish { Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show() }
+            deleteStones()
         }
     }
 
@@ -120,5 +121,11 @@ class MainActivity : AppCompatActivity() {
         }
         cursor.close()
         return OmokStones(result)
+    }
+
+    private fun deleteStones() {
+        val db = dbHelper.writableDatabase
+        db.delete(OmokContract.TABLE_NAME, null, null)
+        db.close()
     }
 }
