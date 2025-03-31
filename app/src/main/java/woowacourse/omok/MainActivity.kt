@@ -42,16 +42,16 @@ class MainActivity : AppCompatActivity() {
         setupImageViewClickListeners()
     }
 
-    private fun getBoardImages(board: TableLayout): List<List<ImageView>> {
-        return board.children
-            .asSequence()
-            .filterIsInstance<TableRow>()
-            .map { row -> row.children.filterIsInstance<ImageView>().toList() }
-            .toList()
+    private fun getBoardImages(board: TableLayout) {
+        boardImages =
+            board.children
+                .asSequence()
+                .filterIsInstance<TableRow>()
+                .map { row -> row.children.filterIsInstance<ImageView>().toList() }
     }
 
     private fun setupImageViewClickListeners() {
-        boardImages.forEachIndexed { rowIndex, row ->
+        boardImages.toList().forEachIndexed { rowIndex, row ->
             row.forEachIndexed { colIndex, imageView ->
                 imageView.setOnClickListener { placeStone(Point(colIndex, rowIndex), imageView) }
             }
