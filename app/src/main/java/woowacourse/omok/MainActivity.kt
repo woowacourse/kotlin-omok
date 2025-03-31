@@ -1,5 +1,7 @@
 package woowacourse.omok
 
+import android.content.ContentValues
+import android.database.Cursor
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -10,15 +12,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import woowacourse.omok.data.DbHelper
+import woowacourse.omok.data.OmokContract
 import woowacourse.omok.domain.OmokBoard
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.Point
 import woowacourse.omok.domain.state.Finished
 import woowacourse.omok.domain.state.Playing
+import woowacourse.omok.domain.stone.OmokStones
+import woowacourse.omok.domain.stone.Stone
 import woowacourse.omok.domain.stone.StoneColor
 
 class MainActivity : AppCompatActivity() {
-    private val omokGame = OmokGame(OmokBoard())
+    private lateinit var dbHelper: DbHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +35,11 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        dbHelper = DbHelper(this)
+        val stones = queryStones()
+        val omokBoard = OmokBoard(stones = stones)
+        val omokGame = OmokGame(omokBoard)
 
         val board = findViewById<TableLayout>(R.id.board)
         board
@@ -43,14 +54,24 @@ class MainActivity : AppCompatActivity() {
                         view.tag = Point(rowIndex, colIndex)
                         view.setOnClickListener {
                             if (omokGame.state is Playing) {
-                                playGame(view)
+                                playGame(omokGame, view)
                             }
                         }
                     }
             }
+        stones.stones.forEach { stone ->
+            val view = board.findViewWithTag<ImageView>(stone.point)
+            when (stone.color) {
+                StoneColor.BLACK -> view.setImageResource(R.drawable.black_stone)
+                StoneColor.WHITE -> view.setImageResource(R.drawable.white_stone)
+            }
+        }
     }
 
-    private fun playGame(view: ImageView) {
+    private fun playGame(
+        omokGame: OmokGame,
+        view: ImageView,
+    ) {
         omokGame.play(
             onTurn = { _, _ -> },
             onPointSelected = { view.tag as Point },
@@ -62,10 +83,42 @@ class MainActivity : AppCompatActivity() {
                     StoneColor.BLACK -> view.setImageResource(R.drawable.black_stone)
                     StoneColor.WHITE -> view.setImageResource(R.drawable.white_stone)
                 }
+                insertStone(stone)
             },
         )
         if (omokGame.state is Finished) {
             omokGame.finish { Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show() }
         }
+    }
+
+    private fun insertStone(stone: Stone) {
+        val db = dbHelper.writableDatabase
+        val values =
+            ContentValues().apply {
+                put(OmokContract.COLUMN_NAME_COLOR, stone.color.name)
+                put(OmokContract.COLUMN_NAME_ROW, stone.point.row)
+                put(OmokContract.COLUMN_NAME_COLUMN, stone.point.col)
+            }
+        db.insert(OmokContract.TABLE_NAME, null, values)
+        db.close()
+    }
+
+    private fun queryStones(): OmokStones {
+        val dbReader = dbHelper.readableDatabase
+        val result = mutableSetOf<Stone>()
+
+        val cursor: Cursor =
+            dbReader.rawQuery("SELECT * FROM ${OmokContract.TABLE_NAME}", arrayOf())
+        with(cursor) {
+            while (moveToNext()) {
+                val color =
+                    StoneColor.valueOf(getString(getColumnIndexOrThrow(OmokContract.COLUMN_NAME_COLOR)))
+                val row = getInt(getColumnIndexOrThrow(OmokContract.COLUMN_NAME_ROW))
+                val col = getInt(getColumnIndexOrThrow(OmokContract.COLUMN_NAME_COLUMN))
+                result.add(Stone(color, Point(row, col)))
+            }
+        }
+        cursor.close()
+        return OmokStones(result)
     }
 }
