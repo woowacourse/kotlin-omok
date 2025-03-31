@@ -4,8 +4,6 @@ import android.content.ContentValues
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
-import android.provider.BaseColumns
-import android.util.Log
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +16,6 @@ import model.Stone
 import model.StoneColor
 import model.Row
 import model.Col
-import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.view.RoomData
 
 class RoomListActivity : AppCompatActivity() {
@@ -115,14 +112,14 @@ class RoomListActivity : AppCompatActivity() {
             put(RoomContract.COLUMN_ROOM_NICKNAME_ID, nicknameId)
             put(RoomContract.COLUMN_ROOM_STONE_COUNT, 0)
         }
-        val newRowId = db.insert(RoomContract.ROOM_TABLE_NAME , null, values)
+        val newRoomId = db.insert(RoomContract.ROOM_TABLE_NAME , null, values)
 
         db.close()
 
 
         startActivity(Intent(this, MainActivity::class.java).apply {
             putExtra("nickname", nickname)
-            putExtra("room_id", newRowId.toInt())
+            putExtra("room_id", newRoomId.toInt())
         })
     }
 }
