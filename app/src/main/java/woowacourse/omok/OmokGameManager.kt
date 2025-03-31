@@ -8,6 +8,7 @@ import woowacourse.omok.domain.model.state.Finished
 import woowacourse.omok.domain.model.state.Foul
 import woowacourse.omok.domain.model.state.Playing
 import woowacourse.omok.domain.model.state.State
+import woowacourse.omok.domain.model.stone.Stones
 
 class OmokGameManager {
     fun updateState(
@@ -19,17 +20,28 @@ class OmokGameManager {
 
         val newState = state.place(point, 15) { _, _ -> }
 
-        if (newState !is Foul) {
-            omokDao.saveGameState(newState)
-            if (state !is Finished) {
-                state.blackStones.points.forEach { point ->
-                    omokDao.saveStone(BLACK_STONES_TABLE, point)
-                }
-                state.whiteStones.points.forEach { point ->
-                    omokDao.saveStone(WHITE_STONES_TABLE, point)
-                }
+        return when (newState) {
+            is Foul -> newState
+            is Finished -> {
+                omokDao.saveGameState(newState)
+                newState
+            }
+            is Playing -> {
+                omokDao.saveGameState(newState)
+                saveStones(state.blackStones, BLACK_STONES_TABLE, omokDao)
+                saveStones(state.whiteStones, WHITE_STONES_TABLE, omokDao)
+                newState
             }
         }
-        return newState
+    }
+
+    fun saveStones(
+        stones: Stones,
+        tableName: String,
+        omokDao: OmokDao,
+    ) {
+        stones.points.forEach { point ->
+            omokDao.saveStone(tableName, point)
+        }
     }
 }
