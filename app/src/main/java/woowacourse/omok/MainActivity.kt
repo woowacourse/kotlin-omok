@@ -109,19 +109,14 @@ class MainActivity : AppCompatActivity() {
     ) {
         val stone = board.currentStone(point)
         when (val violationResult = board.checkViolation(stone)) {
-            null -> {
-                place(point)
-            }
-
-            is ViolationResult.InvalidMoveResult.FullBoard -> {
+            ViolationResult.Success -> place(point)
+            is ViolationResult.Failure.InvalidMoveResult.FullBoard -> {
                 showToastMessage(violationResult.message)
                 setBoardClickability(false)
                 omokDao.deleteStones()
             }
 
-            else -> {
-                showToastMessage(violationResult.message)
-            }
+            is ViolationResult.Failure -> showToastMessage(violationResult.message)
         }
 
         if (board.gameState(stone) != GameState.PLAYING) {

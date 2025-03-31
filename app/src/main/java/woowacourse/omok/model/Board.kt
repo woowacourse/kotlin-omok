@@ -29,33 +29,33 @@ class Board(
         }
     }
 
-    fun checkViolation(newStone: Stone): ViolationResult? {
-        val invalidMoveResult: ViolationResult? = checkInvalidMove(newStone)
-        if (invalidMoveResult != null) {
+    fun checkViolation(newStone: Stone): ViolationResult {
+        val invalidMoveResult: ViolationResult = checkInvalidMove(newStone)
+        if (invalidMoveResult != ViolationResult.Success) {
             return invalidMoveResult
         }
 
-        val foulConditionResult: ViolationResult? = checkFoulCondition(newStone)
-        if (foulConditionResult != null) {
+        val foulConditionResult: ViolationResult = checkFoulCondition(newStone)
+        if (foulConditionResult != ViolationResult.Success) {
             return foulConditionResult
         }
-        return null
+        return ViolationResult.Success
     }
 
-    private fun checkInvalidMove(newStone: Stone): ViolationResult? =
+    private fun checkInvalidMove(newStone: Stone): ViolationResult =
         when {
-            stones.stones.size == MAX_STONES_SIZE -> ViolationResult.InvalidMoveResult.FullBoard()
-            stones.isOccupied(newStone) -> ViolationResult.InvalidMoveResult.OccupiedPoint()
-            !isValidPoint(newStone.point) -> ViolationResult.InvalidMoveResult.OutOfBoard()
-            else -> null
+            stones.stones.size == MAX_STONES_SIZE -> ViolationResult.Failure.InvalidMoveResult.FullBoard()
+            stones.isOccupied(newStone) -> ViolationResult.Failure.InvalidMoveResult.OccupiedPoint()
+            !isValidPoint(newStone.point) -> ViolationResult.Failure.InvalidMoveResult.OutOfBoard()
+            else -> ViolationResult.Success
         }
 
-    private fun checkFoulCondition(newStone: Stone): ViolationResult? =
+    private fun checkFoulCondition(newStone: Stone): ViolationResult =
         when (renjuRuleAdapter.checkAnyFoulCondition(stones.stones, newStone)) {
-            FoulCondition.DOUBLE_FOUR -> ViolationResult.FoulConditionResult.DoubleFour()
-            FoulCondition.DOUBLE_THREE -> ViolationResult.FoulConditionResult.DoubleThree()
-            FoulCondition.OVERLINE -> ViolationResult.FoulConditionResult.Overline()
-            FoulCondition.NONE -> null
+            FoulCondition.DOUBLE_FOUR -> ViolationResult.Failure.FoulConditionResult.DoubleFour()
+            FoulCondition.DOUBLE_THREE -> ViolationResult.Failure.FoulConditionResult.DoubleThree()
+            FoulCondition.OVERLINE -> ViolationResult.Failure.FoulConditionResult.Overline()
+            FoulCondition.NONE -> ViolationResult.Success
         }
 
     private fun isValidPoint(point: Point): Boolean =

@@ -21,13 +21,14 @@ class OmokController(
     private fun playOmok(board: Board) {
         while (true) {
             val stone = board.currentStone(inputView.readTurn(board.stones.lastStone))
-            when (val violationResult: ViolationResult? = board.checkViolation(stone)) {
-                null -> Unit
-                is ViolationResult.InvalidMoveResult.FullBoard -> {
+            when (val violationResult: ViolationResult = board.checkViolation(stone)) {
+                is ViolationResult.Success -> Unit
+                is ViolationResult.Failure.InvalidMoveResult.FullBoard -> {
                     outputView.printErrorMessage(violationResult.message)
                     break
                 }
-                else -> {
+
+                is ViolationResult.Failure -> {
                     outputView.printErrorMessage(violationResult.message)
                     continue
                 }
