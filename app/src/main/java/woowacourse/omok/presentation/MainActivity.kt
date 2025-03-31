@@ -36,17 +36,11 @@ class MainActivity : AppCompatActivity() {
         builder.apply {
             setTitle(R.string.text_dialog_hint)
 
-            val input =
-                EditText(this@MainActivity).apply {
-                    inputType = InputType.TYPE_CLASS_TEXT
-                }
+            val input = createInputField()
             setView(input)
+
             setPositiveButton(R.string.text_dialog_ok) { _, _ ->
-                val roomName = input.text.toString()
-                val gameId = gameDao.createGame(roomName)
-                val intent =
-                    Intent(this@MainActivity, GameActivity::class.java).putExtra("game_id", gameId)
-                startActivity(intent)
+                startGameWithRoom(input.text.toString())
             }
 
             setNegativeButton(R.string.text_dialog_cancel) { dialog, _ ->
@@ -55,5 +49,20 @@ class MainActivity : AppCompatActivity() {
 
             show()
         }
+    }
+
+    private fun createInputField(): EditText =
+        EditText(this).apply {
+            inputType = InputType.TYPE_CLASS_TEXT
+        }
+
+    private fun startGameWithRoom(roomName: String) {
+        val gameId = gameDao.createGame(roomName)
+        navigateToGame(gameId)
+    }
+
+    private fun navigateToGame(gameId: Long) {
+        val intent = Intent(this@MainActivity, GameActivity::class.java).putExtra("game_id", gameId)
+        startActivity(intent)
     }
 }
