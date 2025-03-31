@@ -5,15 +5,17 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.core.database.sqlite.transaction
+import woowacourse.omok.model.database.OmokDBContract.GameRoomsTable
 import woowacourse.omok.model.database.OmokDBContract.PlayerTable
+import woowacourse.omok.model.database.OmokDBContract.StonesTable
 
 class OmokDBHelper(
     context: Context,
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL(OmokDBContract.StonesTable.SQL_CREATE_ENTRIES)
-        db.execSQL(OmokDBContract.GameRoomsTable.SQL_CREATE_ENTRIES)
-        db.execSQL(OmokDBContract.PlayerTable.SQL_CREATE_ENTRIES)
+        db.execSQL(StonesTable.SQL_CREATE_ENTRIES)
+        db.execSQL(GameRoomsTable.SQL_CREATE_ENTRIES)
+        db.execSQL(PlayerTable.SQL_CREATE_ENTRIES)
     }
 
     override fun onUpgrade(
@@ -21,7 +23,7 @@ class OmokDBHelper(
         oldVersion: Int,
         newVersion: Int,
     ) {
-        db.execSQL(OmokDBContract.StonesTable.SQL_DELETE_ENTRIES)
+        db.execSQL(StonesTable.SQL_DELETE_ENTRIES)
         onCreate(db)
     }
 
@@ -36,9 +38,9 @@ class OmokDBHelper(
     fun roomWithStonesDelete(roomId: Int) {
         val db = writableDatabase
         db.transaction {
-            val roomWhereClause = "${OmokDBContract.GameRoomsTable.COLUMN_ROOM_ID} = ?"
+            val roomWhereClause = "${GameRoomsTable.COLUMN_ROOM_ID} = ?"
             val roomWhereArgs = arrayOf(roomId.toString())
-            delete(OmokDBContract.GameRoomsTable.TABLE_NAME, roomWhereClause, roomWhereArgs)
+            delete(GameRoomsTable.TABLE_NAME, roomWhereClause, roomWhereArgs)
         }
         stonesDelete(roomId)
     }
@@ -46,9 +48,9 @@ class OmokDBHelper(
     fun stonesDelete(roomId: Int) {
         val db = writableDatabase
         db.transaction {
-            val stonesWhereClause = "${OmokDBContract.StonesTable.COLUMN_ROOM_ID} = ?"
+            val stonesWhereClause = "${StonesTable.COLUMN_ROOM_ID} = ?"
             val stonesWhereArgs = arrayOf(roomId.toString())
-            delete(OmokDBContract.StonesTable.TABLE_NAME, stonesWhereClause, stonesWhereArgs)
+            delete(StonesTable.TABLE_NAME, stonesWhereClause, stonesWhereArgs)
         }
     }
 
