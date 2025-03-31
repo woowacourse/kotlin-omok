@@ -64,39 +64,44 @@ class OmokDBHelper(
     ) {
         val db = writableDatabase
 
+        if (isPlayerNameExitInPlayerDB(name)) {
+            val updateQuery =
+                """
+                UPDATE ${PlayerTable.TABLE_NAME} SET 
+                ${PlayerTable.COLUMN_PLAY_COUNT} = ${PlayerTable.COLUMN_PLAY_COUNT} + ?, 
+                ${PlayerTable.COLUMN_BLACK_WIN_COUNT} = ${PlayerTable.COLUMN_BLACK_WIN_COUNT} + ?, 
+                ${PlayerTable.COLUMN_WHITE_WIN_COUNT} = ${PlayerTable.COLUMN_WHITE_WIN_COUNT} + ? 
+                WHERE ${PlayerTable.COLUMN_PLAYER_NAME} = ?
+                """.trimIndent()
+
+            db.execSQL(
+                updateQuery,
+                arrayOf(playCount, blackWinCount, whiteWinCount, name),
+            )
+        } else {
+            val values =
+                ContentValues().apply {
+                    put(PlayerTable.COLUMN_PLAYER_NAME, name)
+                    put(PlayerTable.COLUMN_PLAY_COUNT, playCount)
+                    put(PlayerTable.COLUMN_BLACK_WIN_COUNT, blackWinCount)
+                    put(PlayerTable.COLUMN_WHITE_WIN_COUNT, whiteWinCount)
+                }
+
+            db.insert(PlayerTable.TABLE_NAME, null, values)
+        }
+    }
+
+    private fun isPlayerNameExitInPlayerDB(name: String): Boolean {
+        val db = writableDatabase
+
         val query =
             "SELECT EXISTS(SELECT 1 FROM ${PlayerTable.TABLE_NAME} WHERE ${PlayerTable.COLUMN_PLAYER_NAME} = ?)"
         val cursor = db.rawQuery(query, arrayOf(name))
 
         cursor.use {
             it.moveToFirst()
-            val exists = it.getInt(0)
-
-            if (exists == 1) {
-                val updateQuery =
-                    """
-                    UPDATE ${PlayerTable.TABLE_NAME} SET 
-                    ${PlayerTable.COLUMN_PLAY_COUNT} = ${PlayerTable.COLUMN_PLAY_COUNT} + ?, 
-                    ${PlayerTable.COLUMN_BLACK_WIN_COUNT} = ${PlayerTable.COLUMN_BLACK_WIN_COUNT} + ?, 
-                    ${PlayerTable.COLUMN_WHITE_WIN_COUNT} = ${PlayerTable.COLUMN_WHITE_WIN_COUNT} + ? 
-                    WHERE ${PlayerTable.COLUMN_PLAYER_NAME} = ?
-                    """.trimIndent()
-
-                db.execSQL(
-                    updateQuery,
-                    arrayOf(playCount, blackWinCount, whiteWinCount, name),
-                )
-            } else {
-                val values =
-                    ContentValues().apply {
-                        put(PlayerTable.COLUMN_PLAYER_NAME, name)
-                        put(PlayerTable.COLUMN_PLAY_COUNT, playCount)
-                        put(PlayerTable.COLUMN_BLACK_WIN_COUNT, blackWinCount)
-                        put(PlayerTable.COLUMN_WHITE_WIN_COUNT, whiteWinCount)
-                    }
-
-                db.insert(PlayerTable.TABLE_NAME, null, values)
-            }
+            val exists = it.getInt(FIRST_COLUMN_INDEX)
+            return exists == TRUE_IN_SQLITE
         }
     }
 
@@ -139,5 +144,8 @@ class OmokDBHelper(
     companion object {
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "Omok.db"
+
+        private const val FIRST_COLUMN_INDEX = 0
+        private const val TRUE_IN_SQLITE = 1
     }
 }
