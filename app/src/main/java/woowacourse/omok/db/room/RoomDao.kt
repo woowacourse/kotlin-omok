@@ -3,6 +3,7 @@ package woowacourse.omok.db.room
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.core.content.contentValuesOf
 import woowacourse.omok.db.room.RoomSchema.RoomsContract
+import woowacourse.omok.db.room.RoomSchema.SQL_DELETE_ROOMS_TABLE
 
 class RoomDao(private val dbHelper: SQLiteOpenHelper) {
     fun insertRoom(entity: RoomEntity): Long {
@@ -55,7 +56,7 @@ class RoomDao(private val dbHelper: SQLiteOpenHelper) {
 
     fun drop() {
         dbHelper.writableDatabase.use { db ->
-            db.execSQL("DELETE FROM ${RoomsContract.ROOM_TABLE_NAME}")
+            db.execSQL(SQL_DELETE_ROOMS_TABLE)
         }
     }
 }

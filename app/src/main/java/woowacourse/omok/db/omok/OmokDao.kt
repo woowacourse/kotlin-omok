@@ -7,6 +7,7 @@ import woowacourse.omok.db.omok.OmokSchema.OmokContract.COLUMN_NAME_BOARD_ROW
 import woowacourse.omok.db.omok.OmokSchema.OmokContract.COLUMN_NAME_ROOM_ID
 import woowacourse.omok.db.omok.OmokSchema.OmokContract.COLUMN_NAME_STONE
 import woowacourse.omok.db.omok.OmokSchema.OmokContract.TABLE_NAME
+import woowacourse.omok.db.omok.OmokSchema.SQL_DELETE_OMOK_TABLE
 
 class OmokDao(private val dbHelper: SQLiteOpenHelper) {
     fun save(entity: OmokEntity) {
@@ -52,7 +53,7 @@ class OmokDao(private val dbHelper: SQLiteOpenHelper) {
 
     fun drop() {
         dbHelper.writableDatabase.use { db ->
-            db.execSQL("DELETE FROM $TABLE_NAME")
+            db.execSQL(SQL_DELETE_OMOK_TABLE)
         }
     }
 }

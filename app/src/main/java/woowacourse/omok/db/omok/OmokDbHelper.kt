@@ -4,9 +4,9 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import woowacourse.omok.db.omok.OmokSchema.SQL_CREATE_OMOK_TABLE
-import woowacourse.omok.db.omok.OmokSchema.SQL_DELETE_OMOK_TABLE
+import woowacourse.omok.db.omok.OmokSchema.SQL_DROP_OMOK_TABLE
 import woowacourse.omok.db.room.RoomSchema.SQL_CREATE_ROOMS_TABLE
-import woowacourse.omok.db.room.RoomSchema.SQL_DELETE_ROOMS_TABLE
+import woowacourse.omok.db.room.RoomSchema.SQL_DROP_ROOMS_TABLE
 
 class OmokDbHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -25,8 +25,8 @@ class OmokDbHelper(context: Context) :
         oldVersion: Int,
         newVersion: Int,
     ) {
-        db?.execSQL(SQL_DELETE_OMOK_TABLE)
-        db?.execSQL(SQL_DELETE_ROOMS_TABLE)
+        db?.execSQL(SQL_DROP_OMOK_TABLE)
+        db?.execSQL(SQL_DROP_ROOMS_TABLE)
         onCreate(db)
     }
 

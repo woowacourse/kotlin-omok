@@ -14,7 +14,9 @@ object OmokSchema {
             " ON DELETE CASCADE," +
             " UNIQUE(${OmokContract.COLUMN_NAME_BOARD_COLUMN}, ${OmokContract.COLUMN_NAME_BOARD_ROW}) ON CONFLICT IGNORE)"
 
-    const val SQL_DELETE_OMOK_TABLE = "DROP TABLE IF EXISTS ${OmokContract.TABLE_NAME}"
+    const val SQL_DROP_OMOK_TABLE = "DROP TABLE IF EXISTS ${OmokContract.TABLE_NAME}"
+
+    const val SQL_DELETE_OMOK_TABLE = "DELETE FROM ${OmokContract.TABLE_NAME}"
 
     object OmokContract {
         const val TABLE_NAME = "omok"
