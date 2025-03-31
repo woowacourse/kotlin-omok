@@ -45,7 +45,7 @@ class RoomActivity : AppCompatActivity() {
         binding.makeRoomBtn.setOnClickListener {
             RoomNameDialog(
                 onClickComplete = {
-                    val roomId = room + it
+                    val roomId = room.addRoom(it)
                     updateRecyclerView()
                     navigateToMain(roomId)
                 },
@@ -64,7 +64,7 @@ class RoomActivity : AppCompatActivity() {
         adapter =
             RoomRvAdapter(
                 onClickDelete = {
-                    room - it
+                    room.deleteRoom(it)
                     updateRecyclerView()
                 },
                 onClickJoin = {
