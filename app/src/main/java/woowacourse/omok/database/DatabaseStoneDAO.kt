@@ -45,21 +45,17 @@ class DatabaseStoneDAO(private val dbHelper: DbHelper) : StoneDAO {
     }
 
     override fun queryStones(): List<Stone> {
-        val dbReader = dbHelper.readableDatabase
-        val result = mutableListOf<Stone>()
-        val cursor: Cursor = dbReader.rawQuery("SELECT * FROM board", null)
-
-        with(cursor) {
-            while (moveToNext()) {
-                val color = getString(getColumnIndexOrThrow(BoardContract.COLUMN_NAME_COLOR))
-                val row = getInt(getColumnIndexOrThrow(BoardContract.COLUMN_NAME_POSITION_ROW))
-                val column = getInt(getColumnIndexOrThrow(BoardContract.COLUMN_NAME_POSITION_COLUMN))
-                val stoneColor = if (color == "black") StoneType.BLACK else StoneType.WHITE
-                result.add(Stone(Position(row, column), stoneColor))
+        return dbHelper.readableDatabase.rawQuery("SELECT * FROM board", null).use {
+            buildList {
+                while (it.moveToNext()) {
+                    val color = it.getString(it.getColumnIndexOrThrow(BoardContract.COLUMN_NAME_COLOR))
+                    val row = it.getInt(it.getColumnIndexOrThrow(BoardContract.COLUMN_NAME_POSITION_ROW))
+                    val column = it.getInt(it.getColumnIndexOrThrow(BoardContract.COLUMN_NAME_POSITION_COLUMN))
+                    val stoneColor = if (color == "black") StoneType.BLACK else StoneType.WHITE
+                    add(Stone(Position(row, column), stoneColor))
+                }
             }
         }
-        cursor.close()
-        return result
     }
 
     override fun clear() {
