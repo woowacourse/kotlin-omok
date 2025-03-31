@@ -17,15 +17,15 @@ import omok.model.entity.Stone
 import omok.model.entity.board.DefaultBoard
 import omok.model.entity.position.DefaultPosition
 import omok.model.entity.position.Position
-import woowacourse.omok.data.DefaultOmokHistoryHistoryStorage
+import woowacourse.omok.data.DefaultOmokHistoryDao
 import woowacourse.omok.data.History
-import woowacourse.omok.data.OmokDbHelper
-import woowacourse.omok.data.OmokHistoryStorage
+import woowacourse.omok.data.OmokHistoryDao
+import woowacourse.omok.data.OmokHistoryDbHelper
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     private var state: GameState = GameState(board = DefaultBoard())
-    private lateinit var omokHistoryStorage: OmokHistoryStorage
+    private lateinit var omokHistoryDao: OmokHistoryDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +36,14 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        omokHistoryStorage = DefaultOmokHistoryHistoryStorage(OmokDbHelper(this))
+        omokHistoryDao = DefaultOmokHistoryDao(OmokHistoryDbHelper(this))
         val positions: Sequence<ImageView> = positions()
         loadOmokHistory(positions)
         setOnClickBoardPositions(positions)
     }
 
     override fun onDestroy() {
-        omokHistoryStorage.close()
+        omokHistoryDao.close()
         super.onDestroy()
     }
 
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadOmokHistory(positions: Sequence<ImageView>) {
         thread {
-            val histories: List<History> = omokHistoryStorage.fetch()
+            val histories: List<History> = omokHistoryDao.fetch()
             loadGameState(histories)
             applyOnUi(histories, positions)
         }
@@ -107,11 +107,11 @@ class MainActivity : AppCompatActivity() {
             state = state.play(position)
             view.setImageResource(currentStone.drawable)
             thread {
-                omokHistoryStorage.add(History(currentStone, position.row, position.column))
+                omokHistoryDao.add(History(currentStone, position.row, position.column))
             }
             if (!state.playing) {
                 thread {
-                    omokHistoryStorage.clear()
+                    omokHistoryDao.clear()
                 }
                 showResult(currentStone)
             }

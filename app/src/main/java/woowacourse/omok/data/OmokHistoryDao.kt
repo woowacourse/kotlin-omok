@@ -4,13 +4,13 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import woowacourse.omok.data.OmokDbHelper.Companion.COLUMN_NAME_POSITION_COLUMN
-import woowacourse.omok.data.OmokDbHelper.Companion.COLUMN_NAME_POSITION_ROW
-import woowacourse.omok.data.OmokDbHelper.Companion.COLUMN_NAME_TURN
-import woowacourse.omok.data.OmokDbHelper.Companion.SQL_DELETE_ENTRIES
-import woowacourse.omok.data.OmokDbHelper.Companion.TABLE_NAME
+import woowacourse.omok.data.OmokHistoryDbHelper.Companion.COLUMN_NAME_POSITION_COLUMN
+import woowacourse.omok.data.OmokHistoryDbHelper.Companion.COLUMN_NAME_POSITION_ROW
+import woowacourse.omok.data.OmokHistoryDbHelper.Companion.COLUMN_NAME_TURN
+import woowacourse.omok.data.OmokHistoryDbHelper.Companion.SQL_DELETE_ENTRIES
+import woowacourse.omok.data.OmokHistoryDbHelper.Companion.TABLE_NAME
 
-interface OmokHistoryStorage {
+interface OmokHistoryDao {
     fun fetch(): List<History>
 
     fun add(history: History)
@@ -20,9 +20,9 @@ interface OmokHistoryStorage {
     fun close()
 }
 
-class DefaultOmokHistoryHistoryStorage(
+class DefaultOmokHistoryDao(
     private val omokDbHelper: SQLiteOpenHelper,
-) : OmokHistoryStorage {
+) : OmokHistoryDao {
     override fun fetch(): List<History> {
         val dbReader = omokDbHelper.readableDatabase
         val result = mutableListOf<History>()
