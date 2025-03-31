@@ -14,7 +14,7 @@ import androidx.core.view.children
 import woowacourse.omok.R
 import woowacourse.omok.databinding.ActivityMainBinding
 import woowacourse.omok.db.omok.OmokDao
-import woowacourse.omok.db.omok.OmokDaoMapper
+import woowacourse.omok.db.omok.OmokDaoHandler
 import woowacourse.omok.db.omok.OmokDbHelper
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
@@ -31,7 +31,7 @@ import woowacourse.omok.ui.event.GameEventListener
 class MainActivity : AppCompatActivity(), GameEventListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var game: OmokGame
-    private lateinit var omokDaoMapper: OmokDaoMapper
+    private lateinit var omokDaoHandler: OmokDaoHandler
 
     private var selectedImageView: ImageView? = null
     private var mediaPlayer: MediaPlayer? = null
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     override fun onPause() {
         super.onPause()
         game.getMovedStone().forEach {
-            omokDaoMapper.saveNewPoint(it, roomId)
+            omokDaoHandler.saveNewPoint(it, roomId)
         }
     }
 
@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     private fun initializeDataSource() {
         val dbHelper = OmokDbHelper(this)
         val dataSource = OmokDao(dbHelper)
-        omokDaoMapper = OmokDaoMapper(dataSource)
+        omokDaoHandler = OmokDaoHandler(dataSource)
     }
 
     private fun resolveErrorMessage(e: Exceptions): String {
@@ -152,7 +152,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     private fun restoreSavedStones(roomId: Long) {
-        val points = omokDaoMapper.readAllPoint(roomId)
+        val points = omokDaoHandler.readAllPoint(roomId)
         if (points.isNotEmpty()) {
             drawSavedStone(points)
             game.combine(points)
@@ -197,7 +197,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     private fun clear() {
-        omokDaoMapper.drop()
+        omokDaoHandler.drop()
         game.clear()
         binding.board
             .children

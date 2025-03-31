@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import woowacourse.omok.db.room.RoomDao
-import woowacourse.omok.db.room.RoomDaoMapper
+import woowacourse.omok.db.room.RoomDaoHandler
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.Row
@@ -22,8 +22,8 @@ import woowacourse.omok.fixture.testContext
 class OmokDaoMapperTest {
     private lateinit var omokDao: OmokDao
     private lateinit var roomDao: RoomDao
-    private lateinit var omokDaoService: OmokDaoMapper
-    private lateinit var roomDaoService: RoomDaoMapper
+    private lateinit var omokDaoHandler: OmokDaoHandler
+    private lateinit var roomDaoHandler: RoomDaoHandler
 
     @BeforeEach
     fun setUp() {
@@ -31,8 +31,8 @@ class OmokDaoMapperTest {
         omokDao = OmokDao(dbHelper)
         roomDao = RoomDao(dbHelper)
 
-        omokDaoService = OmokDaoMapper(omokDao)
-        roomDaoService = RoomDaoMapper(roomDao)
+        omokDaoHandler = OmokDaoHandler(omokDao)
+        roomDaoHandler = RoomDaoHandler(roomDao)
     }
 
     @AfterEach
@@ -44,17 +44,17 @@ class OmokDaoMapperTest {
     @Test
     fun saveAndReadAllPointTest() {
         // given
-        roomDaoService.save(Room(roomName = "오목 고수 페토의 방"))
+        roomDaoHandler.save(Room(roomName = "오목 고수 페토의 방"))
         val points =
             arrayOf(
                 Point(Column(1), Row(1), BoardStatus.Moved(StoneColor.BLACK)),
                 Point(Column(2), Row(2), BoardStatus.Moved(StoneColor.WHITE)),
                 Point(Column(3), Row(3), BoardStatus.Moved(StoneColor.BLACK)),
             )
-        points.forEach { omokDaoService.saveNewPoint(it, 1) }
+        points.forEach { omokDaoHandler.saveNewPoint(it, 1) }
 
         // when
-        val actual = omokDaoService.readAllPoint(1)
+        val actual = omokDaoHandler.readAllPoint(1)
 
         // then
         assertThat(actual).containsExactly(*points)
@@ -64,7 +64,7 @@ class OmokDaoMapperTest {
     @Test
     fun test2() {
         // given
-        omokDaoService
+        omokDaoHandler
             .saveNewPoint(
                 Point(
                     Column(1),
@@ -75,8 +75,8 @@ class OmokDaoMapperTest {
             )
 
         // when
-        omokDaoService.drop()
-        val actual = omokDaoService.readAllPoint(1)
+        omokDaoHandler.drop()
+        val actual = omokDaoHandler.readAllPoint(1)
 
         // then
         assertThat(actual).isEmpty()

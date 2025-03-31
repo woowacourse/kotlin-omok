@@ -10,7 +10,7 @@ import woowacourse.omok.R
 import woowacourse.omok.databinding.ActivityRoomBinding
 import woowacourse.omok.db.omok.OmokDbHelper
 import woowacourse.omok.db.room.RoomDao
-import woowacourse.omok.db.room.RoomDaoMapper
+import woowacourse.omok.db.room.RoomDaoHandler
 import woowacourse.omok.domain.room.Rooms
 import woowacourse.omok.ui.dialog.RoomNameDialog
 import woowacourse.omok.ui.main.MainActivity
@@ -19,7 +19,7 @@ import woowacourse.omok.ui.room.rv.RoomRvAdapter
 class RoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRoomBinding
     private lateinit var room: Rooms
-    private lateinit var roomDaoMapper: RoomDaoMapper
+    private lateinit var roomDaoHandler: RoomDaoHandler
     private lateinit var adapter: RoomRvAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,8 +56,8 @@ class RoomActivity : AppCompatActivity() {
     private fun initializeDataSource() {
         val dbHelper = OmokDbHelper(this)
         val dao = RoomDao(dbHelper)
-        roomDaoMapper = RoomDaoMapper(dao)
-        room = Rooms(roomDaoMapper)
+        roomDaoHandler = RoomDaoHandler(dao)
+        room = Rooms(roomDaoHandler)
     }
 
     private fun setRecyclerView() {

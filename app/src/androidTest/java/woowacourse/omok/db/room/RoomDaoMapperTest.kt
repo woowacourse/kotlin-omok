@@ -14,12 +14,12 @@ import woowacourse.omok.fixture.testContext
 @RunWith(AndroidJUnit4::class)
 class RoomDaoMapperTest {
     private lateinit var roomDao: RoomDao
-    private lateinit var roomDaoService: RoomDaoMapper
+    private lateinit var roomDaoHandler: RoomDaoHandler
 
     @BeforeEach
     fun setUp() {
         roomDao = RoomDao(FakeOmokSQLiteHelper(testContext))
-        roomDaoService = RoomDaoMapper(roomDao)
+        roomDaoHandler = RoomDaoHandler(roomDao)
     }
 
     @AfterEach
@@ -38,9 +38,9 @@ class RoomDaoMapperTest {
                 Room(4, roomName = "오목 허접 포르의 방"),
             )
 
-        room.forEach { roomDaoService.save(it) }
+        room.forEach { roomDaoHandler.save(it) }
 
-        val actual = roomDaoService.readAll()
+        val actual = roomDaoHandler.readAll()
         assertThat(actual).containsExactly(*room)
     }
 
@@ -51,10 +51,10 @@ class RoomDaoMapperTest {
         val room = Room(roomName = "오목고수 페토의 방")
 
         // when
-        roomDaoService.save(room)
-        roomDaoService.delete(1)
+        roomDaoHandler.save(room)
+        roomDaoHandler.delete(1)
 
         // then
-        assertThat(roomDaoService.readAll()).isEmpty()
+        assertThat(roomDaoHandler.readAll()).isEmpty()
     }
 }
