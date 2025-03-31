@@ -26,7 +26,7 @@ class OutputView {
     }
 
     fun showWin(winner: StoneType) {
-        println("${winner.toDisplayName()}")
+        println("${winner.toDisplayName()}의 승리입니다.")
     }
 
     fun showError(message: String) {
