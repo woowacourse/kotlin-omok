@@ -19,12 +19,13 @@ import woowacourse.omok.model.Board
 import woowacourse.omok.model.game.GameState
 import woowacourse.omok.model.game.ViolationResult
 import woowacourse.omok.model.stone.Point
-import woowacourse.omok.model.stone.Stone
-import woowacourse.omok.model.stone.StoneColor
 import woowacourse.omok.model.stone.Stones
+import woowacourse.omok.ui.OmokMainView
 
 class MainActivity : AppCompatActivity() {
     private val omokDao: OmokDao = OmokDao(DbHelper(this))
+
+    private lateinit var omokMainView: OmokMainView
 
     private lateinit var board: Board
     private lateinit var turnTextView: TextView
@@ -43,8 +44,8 @@ class MainActivity : AppCompatActivity() {
         initBoard()
         initViews()
         setBoardPointClickListeners()
-        setTurnTextView()
-        paintEntirePoints()
+        omokMainView.setTurnTextView(board)
+        omokMainView.paintEntirePoints(board.stones)
     }
 
     override fun onDestroy() {
@@ -65,14 +66,16 @@ class MainActivity : AppCompatActivity() {
 
         resetBtn = findViewById<Button>(R.id.resetBtn)
         resetBtn.setOnClickListener { reset() }
+
+        omokMainView = OmokMainView(this, turnTextView, resetBtn, boardPointImageViews)
     }
 
     private fun reset() {
         omokDao.deleteStones()
         initBoard()
-        clearBoardImageViews()
-        paintEntirePoints()
-        setTurnTextView()
+        omokMainView.clearBoardImageViews()
+        omokMainView.paintEntirePoints(board.stones)
+        omokMainView.setTurnTextView(board)
         setBoardClickability(true)
     }
 
@@ -99,7 +102,7 @@ class MainActivity : AppCompatActivity() {
     private fun place(point: Point) {
         val stone = board.currentStone(point)
         board.place(stone)
-        paintStone(stone, boardPointImageViews[point] ?: throw IllegalStateException())
+        omokMainView.paintStone(stone)
         omokDao.insertStone(stone)
     }
 
@@ -121,66 +124,13 @@ class MainActivity : AppCompatActivity() {
             setBoardClickability(false)
             omokDao.deleteStones()
         }
-        setTurnTextView()
+        omokMainView.setTurnTextView(board)
     }
 
     private fun setBoardClickability(isClickable: Boolean) {
         boardPointImageViews.values.forEach {
             it.isClickable = isClickable
         }
-    }
-
-    private fun paintStone(
-        stone: Stone,
-        view: ImageView,
-    ) {
-        when (stone.color) {
-            StoneColor.BLACK -> view.setImageResource(R.drawable.black_stone)
-            StoneColor.WHITE -> view.setImageResource(R.drawable.white_stone)
-        }
-    }
-
-    private fun paintEntirePoints() {
-        val omokStones: Set<Stone> = omokDao.readStones().stones
-        omokStones.forEach { stone ->
-            val imageView: ImageView =
-                boardPointImageViews[stone.point] ?: throw IllegalStateException()
-            val imageResourceId =
-                when (stone.color) {
-                    StoneColor.BLACK -> R.drawable.black_stone
-                    StoneColor.WHITE -> R.drawable.white_stone
-                }
-            imageView.setImageResource(imageResourceId)
-        }
-    }
-
-    private fun clearBoardImageViews() {
-        boardPointImageViews.values.forEach {
-            val point = it.tag as Point
-            val imageResource: Int =
-                when {
-                    point == Point(1, 1) -> R.drawable.board_top_left
-                    point == Point(1, 15) -> R.drawable.board_top_right
-                    point == Point(15, 1) -> R.drawable.board_bottom_left
-                    point == Point(15, 15) -> R.drawable.board_bottom_right
-
-                    point.row == 1 -> R.drawable.board_top
-                    point.row == 15 -> R.drawable.board_bottom
-                    point.col == 1 -> R.drawable.board_left
-                    point.col == 15 -> R.drawable.board_right
-
-                    else -> R.drawable.board_center
-                }
-            it.setImageResource(imageResource)
-        }
-    }
-
-    private fun setTurnTextView() {
-        turnTextView.text =
-            when (board.stones.currentStoneColor()) {
-                StoneColor.BLACK -> getString(R.string.message_show_black_turn)
-                StoneColor.WHITE -> getString(R.string.message_show_white_turn)
-            }
     }
 
     private fun showToastMessage(message: String) {
