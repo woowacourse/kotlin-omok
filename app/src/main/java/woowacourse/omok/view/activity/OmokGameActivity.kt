@@ -48,17 +48,16 @@ class OmokGameActivity : AppCompatActivity() {
         layout = findViewById<TableLayout>(R.id.board)
         nickname = intent.getStringExtra(MainActivity.NICKNAME_KEY) ?: throw IllegalArgumentException(ERR_NICKNAME_NOT_PROVIDED)
         dao = OmokDaoImpl(getHelper(this))
+        startGame()
+    }
 
+    private fun startGame() {
         val latestPlace = dao.findLatestStoneByNickName(nickname)?.latestStone ?: Empty.dummy()
         val loadedBoard =
             dao.findBoardByNickName(nickname)?.let {
                 OmokBoard(OmokStones(it.places), omokRules, latestPlace)
             } ?: omokBoard
         val omokGameDto = OmokGameDto(nickname, loadedBoard)
-        startGame(omokGameDto)
-    }
-
-    private fun startGame(omokGameDto: OmokGameDto) {
         OmokGame(
             omokGameDto,
             dao,
@@ -68,13 +67,13 @@ class OmokGameActivity : AppCompatActivity() {
 
     companion object {
         fun getHelper(context: Context): OmokDbHelper {
-            if (dbHelper == null) {
+            if (!::dbHelper.isInitialized) {
                 dbHelper = OmokDbHelper(context.applicationContext)
             }
-            return dbHelper!!
+            return dbHelper
         }
 
+        private lateinit var dbHelper: OmokDbHelper
         const val ERR_NICKNAME_NOT_PROVIDED = "닉네임이 제공되지 않았습니다"
-        private var dbHelper: OmokDbHelper? = null
     }
 }
