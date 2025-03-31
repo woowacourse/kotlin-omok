@@ -6,10 +6,12 @@ import woowacourse.omok.domain.board.Point
 import woowacourse.omok.domain.board.result.Finished
 import woowacourse.omok.domain.board.result.OnGoing
 import woowacourse.omok.domain.board.result.PlaceStoneResult
+import woowacourse.omok.domain.rule.RuleValidator
 import woowacourse.omok.view.omok.GameEventListener
 
 class OmokGame(
     private val state: GameState = GameState(),
+    private val validator: RuleValidator = RuleValidator(),
     private val eventListener: GameEventListener,
 ) {
     fun previousMovePoint(): Point? = state.previousPoint
@@ -24,7 +26,7 @@ class OmokGame(
     ) {
         if (state.isFinished) return
 
-        val placeResult = board.placeStone(point, currentStoneColor(board))
+        val placeResult = board.placeStone(point, currentStoneColor(board), validator)
         handlePlaceResult(placeResult, board)
     }
 

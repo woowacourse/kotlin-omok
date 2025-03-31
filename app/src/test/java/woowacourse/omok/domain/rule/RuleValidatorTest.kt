@@ -21,8 +21,7 @@ class RuleValidatorTest {
         ruleValidator = RuleValidator()
     }
 
-    private fun createBoard(points: List<String>): Board =
-        Board(BoardSize(15), generateCells(points.associateWith { CellState.BLACK }), ruleValidator)
+    private fun createBoard(points: List<String>): Board = Board(BoardSize(15), generateCells(points.associateWith { CellState.BLACK }))
 
 //            [3-3 금수 테스트를 위한 보드]
 //   15 ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐
@@ -176,6 +175,6 @@ class RuleValidatorTest {
     @Test
     fun `흑돌을 착수할 때 거짓 3-3 금수인 경우 False 반환`() {
         val board = createBoard(listOf("C3", "E3", "D2", "D4"))
-        board.placeStone(Point(4, 5), CellState.WHITE)
+        board.placeStone(Point(4, 5), CellState.WHITE, ruleValidator)
     }
 }

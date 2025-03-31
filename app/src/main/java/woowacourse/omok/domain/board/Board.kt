@@ -8,14 +8,13 @@ import woowacourse.omok.domain.rule.RuleValidator
 class Board(
     size: BoardSize,
     points: Map<Point, CellState> = emptyMap(),
-    private val validator: RuleValidator,
 ) {
     private val _cells: MutableMap<Point, CellState> = points.toMutableMap()
     val cells: Map<Point, CellState> get() = _cells.toMap()
 
     val size: Int = size.value
 
-    constructor(size: BoardSize, judge: RuleValidator) : this(size, emptyMap(), judge)
+    constructor(size: BoardSize) : this(size, emptyMap())
 
     init {
         for (row in BoardSize.MIN_SIZE..size.value) {
@@ -31,17 +30,19 @@ class Board(
     fun placeStone(
         point: Point,
         color: CellState,
+        validator: RuleValidator,
     ): PlaceStoneResult {
         if (checkOutOfBounds(point)) return OnGoing.InvalidMove
         if (checkAlreadyPlaced(point)) return OnGoing.AlreadyPlaced
         if (validator.checkViolation(this, point, color)) return OnGoing.RuleViolation
 
-        return handleStonePlacement(point, color)
+        return handleStonePlacement(point, color, validator)
     }
 
     private fun handleStonePlacement(
         point: Point,
         color: CellState,
+        validator: RuleValidator,
     ): PlaceStoneResult {
         updateCell(point, color)
 

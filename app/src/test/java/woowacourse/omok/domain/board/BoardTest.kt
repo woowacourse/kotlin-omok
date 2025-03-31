@@ -3,6 +3,7 @@ package woowacourse.omok.domain.board
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -13,17 +14,23 @@ import woowacourse.omok.domain.utils.generateCells
 import woowacourse.omok.domain.utils.toPoint
 
 class BoardTest {
+    private lateinit var validator: RuleValidator
+
+    @BeforeEach
+    fun setUp() {
+        validator = RuleValidator()
+    }
+
     private fun createBoard(cells: List<String> = emptyList()): Board =
         Board(
             BoardSize(15),
             generateCells(cells.associateWith { CellState.BLACK }),
-            RuleValidator(),
         )
 
     @Test
     fun `원하는 크기의 바둑판을 생성할 수 있다`() {
         val size = BoardSize(15)
-        val board = Board(size, judge = RuleValidator())
+        val board = Board(size)
 
         assertThat(board.size).isEqualTo(15)
     }
@@ -39,7 +46,7 @@ class BoardTest {
     fun `초기화 시 지정된 상태를 가진 보드가 정상적으로 설정되어야 한다`() {
         val initialPoints = mapOf(Point(1, 1) to CellState.BLACK, Point(2, 2) to CellState.WHITE)
         val customBoard =
-            Board(BoardSize(15), initialPoints, validator = RuleValidator())
+            Board(BoardSize(15), initialPoints)
 
         assertAll(
             { assertThat(customBoard.findStoneColor(Point(1, 1))).isEqualTo(CellState.BLACK) },
@@ -52,7 +59,7 @@ class BoardTest {
     fun `해당 좌표에 아무 돌도 없다면 돌을 둘 수 있다`() {
         val position = Point(1, 1)
         val board = createBoard()
-        board.placeStone(position, CellState.WHITE)
+        board.placeStone(position, CellState.WHITE, validator)
 
         val actual = board.findStoneColor(position)
 
@@ -63,9 +70,9 @@ class BoardTest {
     fun `Point에 이미 돌이 있다면 돌을 둘 수 없다`() {
         val position = Point(1, 1)
         val board = createBoard()
-        board.placeStone(position, CellState.WHITE)
+        board.placeStone(position, CellState.WHITE, validator)
 
-        val actual = board.placeStone(position, CellState.BLACK)
+        val actual = board.placeStone(position, CellState.BLACK, validator)
         val expected = OnGoing.AlreadyPlaced
 
         assertThat(actual).isEqualTo(expected)
@@ -88,8 +95,8 @@ class BoardTest {
             generateCells(
                 listOf("C3", "D4", "F4", "G3").associateWith { CellState.WHITE },
             )
-        val board = Board(BoardSize(15), cells, RuleValidator())
-        val result = board.placeStone("E5".toPoint(), CellState.WHITE)
+        val board = Board(BoardSize(15), cells)
+        val result = board.placeStone("E5".toPoint(), CellState.WHITE, validator)
         val actual = result is OnGoing.StonePlaced
 
         assertTrue(actual)
@@ -98,7 +105,7 @@ class BoardTest {
     @Test
     fun `금수로 판단되면 RuleViolation를 반환한다`() {
         val board = createBoard(listOf("C3", "D4", "F4", "G3"))
-        val result = board.placeStone("E5".toPoint(), CellState.BLACK)
+        val result = board.placeStone("E5".toPoint(), CellState.BLACK, validator)
         val actual = result is OnGoing.RuleViolation
         assertTrue(actual)
     }
@@ -106,7 +113,7 @@ class BoardTest {
     @Test
     fun `오목이면 GameFinished를 반환한다`() {
         val board = createBoard(listOf("C3", "C4", "C5", "C6"))
-        val result = board.placeStone("C7".toPoint(), CellState.BLACK)
+        val result = board.placeStone("C7".toPoint(), CellState.BLACK, validator)
         val actual = result is Finished.GameFinished
 
         assertTrue(actual)
@@ -119,7 +126,7 @@ class BoardTest {
         y: Int,
     ) {
         val board = createBoard()
-        val result = board.placeStone(Point(x, y), CellState.BLACK)
+        val result = board.placeStone(Point(x, y), CellState.BLACK, validator)
         val actual = result is OnGoing.InvalidMove
 
         assertTrue(actual)
@@ -133,9 +140,8 @@ class BoardTest {
             Board(
                 BoardSize(15),
                 cells.filter { it.key != Point(15, 15) },
-                RuleValidator(),
             )
-        val result = board.placeStone(Point(15, 15), CellState.WHITE)
+        val result = board.placeStone(Point(15, 15), CellState.WHITE, validator)
         val actual = result is Finished.BoardFull
 
         assertTrue(actual)

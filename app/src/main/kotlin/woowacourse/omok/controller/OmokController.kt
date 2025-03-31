@@ -22,8 +22,8 @@ class OmokController(
     fun play() {
         outputView.printStartMessage()
 
-        game = OmokGame(GameState(), this)
-        board = Board(BoardSize(), RuleValidator())
+        game = OmokGame(GameState(), RuleValidator(), this)
+        board = Board(BoardSize())
 
         playTurns()
     }

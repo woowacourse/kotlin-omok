@@ -77,7 +77,7 @@ class OmokFragment :
 
     private fun loadBoardStatus() {
         val loadedMoves = loadMovesFromDatabase()
-        board = Board(BoardSize(), loadedMoves, RuleValidator())
+        board = Board(BoardSize(), loadedMoves)
         updateBoardUIWithLoadedMoves(loadedMoves)
 
         val isFinished = arguments?.getBoolean(ARGUMENT_KEY_NAME_GAME_FINISHED) ?: false
@@ -89,7 +89,7 @@ class OmokFragment :
         lastMovePoint: Point?,
     ) {
         val gameState = GameState(isFinished, lastMovePoint)
-        game = OmokGame(gameState, this)
+        game = OmokGame(gameState, RuleValidator(), this)
     }
 
     private fun loadMovesFromDatabase(): Map<Point, CellState> =
