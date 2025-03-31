@@ -1,7 +1,14 @@
 package woowacourse.omok
 
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.TableLayout
+import android.widget.TableRow
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.children
 import rule.BlackRenjuRule
 import woowacourse.omok.adapter.RuleAdapter
 import woowacourse.omok.database.OmokDao
@@ -20,16 +27,31 @@ import woowacourse.omok.view.OmokView
 class MainActivity : AppCompatActivity() {
     private val game = Game(Board(), RuleAdapter(BlackRenjuRule()))
     private val omokDao = OmokDao(OmokDbHelper(this))
+    private lateinit var boardLayout: TableLayout
+    private lateinit var imageViews: Sequence<ImageView>
     private lateinit var omokView: OmokView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        omokView = OmokView(this)
+        enableEdgeToEdge()
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+        boardLayout = findViewById(R.id.board)
+        imageViews =
+            boardLayout.children
+                .filterIsInstance<TableRow>()
+                .flatMap { tableRow -> tableRow.children }
+                .filterIsInstance<ImageView>()
+
+        omokView = OmokView()
 
         restoreGame()
-        omokView.setListeners(game.board) { position -> processTurn(position) }
-        omokView.printOmokStart()
+        omokView.setListeners(imageViews, game.board) { position -> processTurn(position) }
+        omokView.printOmokStart(boardLayout)
     }
 
     override fun onDestroy() {
@@ -40,8 +62,9 @@ class MainActivity : AppCompatActivity() {
     private fun restoreGame() {
         val stones: List<Stone> = omokDao.queryAll().map { omokEntity -> omokEntity.toStone() }
         stones.forEach { stone ->
+
             game.play(stone)
-            omokView.renderStone(game.board, stone)
+            omokView.renderStone(imageViews, game.board, stone)
         }
     }
 
@@ -49,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         val color: Color = game.chooseTurn()
         val newStone = Stone(position, color)
         when (val moveResult: MoveResult = game.play(newStone)) {
-            is MoveResult.Failure -> omokView.printMoveResult(moveResult)
+            is MoveResult.Failure -> omokView.printMoveResult(this, boardLayout, moveResult)
             is MoveResult.Success.Playing -> processMove(newStone)
             is MoveResult.Success.Finished -> {
                 processMove(newStone)
@@ -59,14 +82,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun processMove(newStone: Stone) {
-        omokView.renderStone(game.board, newStone)
+        omokView.renderStone(imageViews, game.board, newStone)
         omokDao.insertData(newStone.toOmokEntity())
     }
 
     private fun finishGame(moveResult: MoveResult) {
-        omokView.printMoveResult(moveResult)
+        omokView.printMoveResult(this, boardLayout, moveResult)
         omokDao.clear()
-        omokView.clearListeners()
+        omokView.clearListeners(imageViews)
     }
 
     private fun Stone.toOmokEntity(): OmokEntity {
