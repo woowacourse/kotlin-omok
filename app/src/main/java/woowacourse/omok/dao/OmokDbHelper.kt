@@ -8,7 +8,7 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
             """
-        CREATE TABLE IF NOT EXISTS $TABLE_NAME (
+        CREATE TABLE IF NOT EXISTS $OMOK_BOARD_TABLE (
             $ID_COLUMN INTEGER PRIMARY KEY AUTOINCREMENT,
             $NICKNAME_COLUMN VARCHAR(10) NOT NULL,
              $BOARD_COLUMN TEXT NOT NULL
@@ -32,13 +32,13 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         oldVersion: Int,
         newVersion: Int,
     ) {
-        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME ")
+        db.execSQL("DROP TABLE IF EXISTS $OMOK_BOARD_TABLE ")
         db.execSQL("DROP TABLE IF EXISTS $LATEST_PLACE_TABLE ")
         onCreate(db)
     }
 
     companion object {
-        const val TABLE_NAME = "omok_board"
+        const val OMOK_BOARD_TABLE = "omok_board"
         const val LATEST_PLACE_TABLE = "latest_place"
         const val DATABASE_NAME = "omok.db"
         const val NICKNAME_COLUMN = "nickname"

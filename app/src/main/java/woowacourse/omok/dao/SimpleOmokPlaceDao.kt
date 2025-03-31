@@ -9,11 +9,10 @@ import omok.view.ext.toPlace
 import woowacourse.omok.entity.LatestStoneEntity
 import woowacourse.omok.entity.OmokBoardEntity
 
-abstract class OmokDao(dbHelper: SQLiteOpenHelper) : Dao {
+abstract class SimpleOmokPlaceDao(dbHelper: SQLiteOpenHelper) : OmokPlaceDao {
     private val db = dbHelper.writableDatabase
 
     override fun insertBoard(item: LatestStoneEntity): Long {
-        db.beginTransaction()
         return runCatching {
             val values =
                 ContentValues().apply {
@@ -21,26 +20,10 @@ abstract class OmokDao(dbHelper: SQLiteOpenHelper) : Dao {
                     put(boardColumn, item.latestStone.serialize())
                 }
             db.insert(tableName, null, values)
-            updateBoard(item).toLong()
         }.getOrNull()
-            ?:
-            run {
-                db.endTransaction()
+            ?: run {
                 throw SQLiteAbortException(ERR_TRANSACTION)
             }
-    }
-
-    override fun updateBoard(item: LatestStoneEntity): Int {
-        val values =
-            ContentValues().apply {
-                put(nicknameColumn, item.nickname)
-                put(latestStoneColumn, item.latestStone.serialize())
-            }
-        val whereClause = "$nicknameColumn = ?"
-        val whereArgs = arrayOf(item.nickname.toString())
-        val newRowId = db.update(latestStoneTableName, values, whereClause, whereArgs)
-        if (newRowId == 0) db.insert(latestStoneTableName, null, values)
-        return newRowId
     }
 
     override fun findBoardByNickName(nickname: String): OmokBoardEntity? {
@@ -69,32 +52,6 @@ abstract class OmokDao(dbHelper: SQLiteOpenHelper) : Dao {
         }
     }
 
-    override fun findLatestStoneByNickName(nickname: String): LatestStoneEntity? {
-        val cursor =
-            db.query(
-                latestStoneTableName,
-                arrayOf(idColumn, nicknameColumn, latestStoneColumn),
-                "$nicknameColumn = ?",
-                arrayOf(nickname),
-                null,
-                null,
-                null,
-            )
-        return cursor.use {
-            if (it.moveToFirst()) {
-                LatestStoneEntity(
-                    it.getInt(it.getColumnIndexOrThrow(idColumn)),
-                    it.getString(it.getColumnIndexOrThrow(nicknameColumn)),
-                    it.getString(it.getColumnIndexOrThrow(latestStoneColumn)).toPlace(),
-                )
-            } else {
-                null
-            }
-        }
-    }
-
-    abstract val latestStoneTableName: String
-    abstract val latestStoneColumn: String
     abstract val tableName: String
     abstract val nicknameColumn: String
     abstract val boardColumn: String

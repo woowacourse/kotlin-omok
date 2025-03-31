@@ -3,14 +3,16 @@ package woowacourse.omok.domain.game
 import omok.domain.place.Place
 import omok.domain.rule.OmokRules
 import omok.event.GameEventListener
-import woowacourse.omok.dao.Dao
+import woowacourse.omok.dao.LatestStoneDao
+import woowacourse.omok.dao.OmokPlaceDao
 import woowacourse.omok.dto.OmokGameDto
 import woowacourse.omok.entity.LatestStoneEntity
 import woowacourse.omok.global.retryOnFailedToAddStone
 
 class OmokGame(
     private val omokGameDto: OmokGameDto,
-    private val omokDao: Dao,
+    private val omokOmokPlaceDao: OmokPlaceDao,
+    private val latestStoneDao: LatestStoneDao,
     private val event: GameEventListener,
     private val omokRules: OmokRules = omokGameDto.board.omokRules,
 ) {
@@ -20,16 +22,17 @@ class OmokGame(
     }
 
     private val onClickAction = { stone: Place ->
+        val latestStoneEntity =
+            LatestStoneEntity(
+                GARBAGE_ID,
+                omokGameDto.nickname,
+                stone,
+            )
         retryOnFailedToAddStone(event) {
             omokGameDto.board.addStone(stone)
             event.onBoardView(omokGameDto.board)
-            omokDao.insertBoard(
-                LatestStoneEntity(
-                    GARBAGE_ID,
-                    omokGameDto.nickname,
-                    stone,
-                ),
-            )
+            omokOmokPlaceDao.insertBoard(latestStoneEntity)
+            latestStoneDao.updateBoard(latestStoneEntity)
             when {
                 isFinished(stone) -> event.onFinished(stone)
                 !omokGameDto.board.isNotFull() -> event.onFinished(null)

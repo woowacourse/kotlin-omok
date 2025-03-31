@@ -1,6 +1,6 @@
 package woowacourse.omok.dao
 
-class FakeDaoImpl(dbHelper: FakeDbHelper) : OmokDao(dbHelper) {
+class FakePlaceOmokPlaceDaoImplSimple(dbHelper: FakeDbHelper) : SimpleOmokPlaceDao(dbHelper) {
     override val boardColumn: String
         get() = "omok_board"
     override val nicknameColumn: String

@@ -15,9 +15,9 @@ import omok.domain.rule.finder.DfsRenjuFinder
 import omok.domain.rule.renjuRule.RenjuRule
 import omok.event.OmokEventListener
 import woowacourse.omok.R
-import woowacourse.omok.dao.Dao
-import woowacourse.omok.dao.OmokDaoImpl
 import woowacourse.omok.dao.OmokDbHelper
+import woowacourse.omok.dao.OmokPlaceDao
+import woowacourse.omok.dao.SimpleOmokPlaceDaoImpl
 import woowacourse.omok.domain.game.OmokGame
 import woowacourse.omok.dto.OmokGameDto
 import woowacourse.omok.view.OmokView
@@ -25,7 +25,7 @@ import woowacourse.omok.view.OmokView
 class OmokGameActivity : AppCompatActivity() {
     private lateinit var layout: TableLayout
     private lateinit var nickname: String
-    private lateinit var dao: Dao
+    private lateinit var omokPlaceDao: OmokPlaceDao
     private val omokRules =
         object : OmokRules {
             override val rules = listOf(RenjuRule(DfsRenjuFinder))
@@ -47,20 +47,20 @@ class OmokGameActivity : AppCompatActivity() {
         }
         layout = findViewById<TableLayout>(R.id.board)
         nickname = intent.getStringExtra(MainActivity.NICKNAME_KEY) ?: throw IllegalArgumentException(ERR_NICKNAME_NOT_PROVIDED)
-        dao = OmokDaoImpl(getHelper(this))
+        omokPlaceDao = SimpleOmokPlaceDaoImpl(getHelper(this))
         startGame()
     }
 
     private fun startGame() {
-        val latestPlace = dao.findLatestStoneByNickName(nickname)?.latestStone ?: Empty.dummy()
+        val latestPlace = omokPlaceDao.findLatestStoneByNickName(nickname)?.latestStone ?: Empty.dummy()
         val loadedBoard =
-            dao.findBoardByNickName(nickname)?.let {
+            omokPlaceDao.findBoardByNickName(nickname)?.let {
                 OmokBoard(OmokStones(it.places), omokRules, latestPlace)
             } ?: omokBoard
         val omokGameDto = OmokGameDto(nickname, loadedBoard)
         OmokGame(
             omokGameDto,
-            dao,
+            omokPlaceDao,
             OmokEventListener(OmokView(layout)),
         ).startGame(omokGameDto.board.latestPlace.opponent())
     }

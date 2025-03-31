@@ -9,7 +9,7 @@ import woowacourse.omok.entity.OmokBoardEntity
 class DaoTest {
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
     private val db =
-        FakeDaoImpl(
+        FakePlaceOmokPlaceDaoImplSimple(
             FakeDbHelper(context),
         )
 
