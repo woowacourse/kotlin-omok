@@ -7,63 +7,60 @@ import woowacourse.omok.data.StoneContract.COLUMN_NAME_STONE_TYPE
 import woowacourse.omok.data.StoneContract.TABLE_NAME
 
 class StoneDao(private val dbHelper: OmokDatabaseHelper) {
-    fun insert(stone: StoneEntity) {
-        val db = dbHelper.writableDatabase
-        val values =
-            ContentValues().apply {
-                put(COLUMN_NAME_COLUMN, stone.y)
-                put(COLUMN_NAME_ROW, stone.x)
-                put(COLUMN_NAME_STONE_TYPE, stone.stoneType)
+    fun insert(stone: StoneEntity) =
+        dbHelper.writableDatabase.use {
+            val values =
+                ContentValues().apply {
+                    put(COLUMN_NAME_COLUMN, stone.y)
+                    put(COLUMN_NAME_ROW, stone.x)
+                    put(COLUMN_NAME_STONE_TYPE, stone.stoneType)
+                }
+            it.insert(TABLE_NAME, null, values)
+        }
+
+    fun lastStone(): StoneEntity? =
+        dbHelper.readableDatabase.use { database ->
+            val cursor =
+                database.rawQuery(
+                    "SELECT y, x ,stone_type, _id FROM stones ORDER BY _id DESC LIMIT 1",
+                    null,
+                )
+            cursor.use {
+                it.run {
+                    if (moveToFirst()) {
+                        val column = getInt(0)
+                        val row = getInt(1)
+                        val stoneType = getString(2)
+                        StoneEntity(column, row, stoneType)
+                    } else {
+                        null
+                    }
+                }
             }
-        db.insert(TABLE_NAME, null, values)
-        db.close()
-    }
-
-    fun lastStone(): StoneEntity? {
-        val db = dbHelper.readableDatabase
-
-        val cursor =
-            db.rawQuery(
-                "SELECT y, x ,stone_type, _id FROM stones ORDER BY _id DESC LIMIT 1",
-                null,
-            )
-
-        var stoneEntity: StoneEntity? = null
-        if (cursor.moveToFirst()) {
-            val column = cursor.getInt(0)
-            val row = cursor.getInt(1)
-            val stoneType = cursor.getString(2)
-            stoneEntity = StoneEntity(column, row, stoneType)
-            cursor.close()
-            db.close()
         }
 
-        cursor.close()
-        db.close()
-        return stoneEntity
-    }
+    fun getAll(): List<StoneEntity> =
+        dbHelper.readableDatabase.use { database ->
+            val cursor = database.rawQuery("SELECT y, x, stone_type FROM stones", null)
 
-    fun getAll(): List<StoneEntity> {
-        val db = dbHelper.readableDatabase
-        val cursor = db.rawQuery("SELECT y, x, stone_type FROM stones", null)
-
-        val stones = mutableListOf<StoneEntity>()
-        if (cursor.moveToFirst()) {
-            do {
-                val column = cursor.getInt(0)
-                val row = cursor.getInt(1)
-                val stoneType = cursor.getString(2)
-                stones.add(StoneEntity(column, row, stoneType))
-            } while (cursor.moveToNext())
+            cursor.use {
+                it.run {
+                    val stones = mutableListOf<StoneEntity>()
+                    if (moveToFirst()) {
+                        do {
+                            val column = getInt(0)
+                            val row = getInt(1)
+                            val stoneType = getString(2)
+                            stones.add(StoneEntity(column, row, stoneType))
+                        } while (moveToNext())
+                    }
+                    stones
+                }
+            }
         }
-        cursor.close()
-        db.close()
-        return stones
-    }
 
-    fun clear() {
-        val db = dbHelper.writableDatabase
-        db.execSQL("DELETE FROM $TABLE_NAME")
-        db.close()
-    }
+    fun clear() =
+        dbHelper.writableDatabase.use { database ->
+            database.execSQL("DELETE FROM $TABLE_NAME")
+        }
 }
