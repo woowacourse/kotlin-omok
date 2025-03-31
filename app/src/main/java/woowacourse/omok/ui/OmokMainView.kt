@@ -2,7 +2,11 @@ package woowacourse.omok.ui
 
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TableLayout
+import android.widget.TableRow
 import android.widget.TextView
+import androidx.core.view.children
+import androidx.core.view.forEachIndexed
 import woowacourse.omok.MainActivity
 import woowacourse.omok.R
 import woowacourse.omok.model.Board
@@ -13,10 +17,37 @@ import woowacourse.omok.model.stone.Stones
 
 class OmokMainView(
     private val activity: MainActivity,
-    private val turnTextView: TextView,
-    private val resetBtn: Button,
-    private var boardPointImageViews: Map<Point, ImageView> = mapOf(),
+    private val boardTableLayout: TableLayout,
+    private val onBoardPointClick: (Point) -> Unit,
+    private val onResetButtonClick: () -> Unit,
 ) {
+    private lateinit var turnTextView: TextView
+    private lateinit var resetBtn: Button
+    private var boardPointImageViews: Map<Point, ImageView> = mapOf()
+
+    init {
+        initBoardPointViews()
+        initViews()
+        setListeners()
+    }
+
+    private fun initBoardPointViews() {
+        boardTableLayout
+            .children
+            .filterIsInstance<TableRow>()
+            .forEachIndexed { rowIndex, tableRow ->
+                tableRow.forEachIndexed { colIndex, imageView ->
+                    imageView.tag = Point(rowIndex + 1, colIndex + 1)
+                    boardPointImageViews += imageView.tag as Point to imageView as ImageView
+                }
+            }
+    }
+
+    private fun initViews() {
+        turnTextView = activity.findViewById<TextView>(R.id.turnTextView)
+        resetBtn = activity.findViewById<Button>(R.id.resetBtn)
+    }
+
     internal fun paintStone(stone: Stone) {
         val view = boardPointImageViews[stone.point]
         when (stone.color) {
@@ -59,12 +90,16 @@ class OmokMainView(
         }
     }
 
-    internal fun setBoardPointClickListeners(onClick: (Point) -> Unit) {
+    internal fun setBoardPointClickListeners() {
         boardPointImageViews.values.forEach {
             it.setOnClickListener {
-                onClick(it.tag as Point)
+                onBoardPointClick(it.tag as Point)
             }
         }
+    }
+
+    internal fun setResetButtonClickListener() {
+        resetBtn.setOnClickListener { onResetButtonClick() }
     }
 
     internal fun setTurnTextView(board: Board) {
@@ -73,5 +108,10 @@ class OmokMainView(
                 StoneColor.BLACK -> activity.getString(R.string.message_show_black_turn)
                 StoneColor.WHITE -> activity.getString(R.string.message_show_white_turn)
             }
+    }
+
+    private fun setListeners() {
+        setBoardPointClickListeners()
+        setResetButtonClickListener()
     }
 }

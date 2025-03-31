@@ -1,18 +1,12 @@
 package woowacourse.omok
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.TableLayout
-import android.widget.TableRow
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.children
-import androidx.core.view.forEachIndexed
 import woowacourse.omok.database.DbHelper
 import woowacourse.omok.database.OmokDao
 import woowacourse.omok.model.Board
@@ -26,11 +20,7 @@ class MainActivity : AppCompatActivity() {
     private val omokDao: OmokDao = OmokDao(DbHelper(this))
 
     private lateinit var omokMainView: OmokMainView
-
     private lateinit var board: Board
-    private lateinit var turnTextView: TextView
-    private lateinit var resetBtn: Button
-    private var boardPointImageViews: Map<Point, ImageView> = mapOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +32,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         initBoard()
-        initViews()
-        omokMainView.setBoardPointClickListeners(::placeWithCheck)
+        initOmokMainView()
         omokMainView.setTurnTextView(board)
         omokMainView.paintEntirePoints(board.stones)
     }
@@ -58,37 +47,24 @@ class MainActivity : AppCompatActivity() {
         board = Board(stones)
     }
 
-    private fun initViews() {
+    private fun initOmokMainView() {
         val boardTableLayout = findViewById<TableLayout>(R.id.board)
-        initBoardPointViews(boardTableLayout)
-
-        turnTextView = findViewById<TextView>(R.id.turnTextView)
-
-        resetBtn = findViewById<Button>(R.id.resetBtn)
-        resetBtn.setOnClickListener { reset() }
-
-        omokMainView = OmokMainView(this, turnTextView, resetBtn, boardPointImageViews)
+        omokMainView =
+            OmokMainView(
+                this,
+                boardTableLayout,
+                onBoardPointClick = ::placeWithCheck,
+                onResetButtonClick = ::reset,
+            )
     }
 
-    private fun reset() {
+    internal fun reset() {
         omokDao.deleteStones()
         initBoard()
         omokMainView.clearBoardImageViews()
         omokMainView.paintEntirePoints(board.stones)
         omokMainView.setTurnTextView(board)
         omokMainView.setBoardClickability(true)
-    }
-
-    private fun initBoardPointViews(boardTableLayout: TableLayout) {
-        boardTableLayout
-            .children
-            .filterIsInstance<TableRow>()
-            .forEachIndexed { rowIndex, tableRow ->
-                tableRow.forEachIndexed { colIndex, imageView ->
-                    imageView.tag = Point(rowIndex + 1, colIndex + 1)
-                    boardPointImageViews += imageView.tag as Point to imageView as ImageView
-                }
-            }
     }
 
     private fun place(point: Point) {
