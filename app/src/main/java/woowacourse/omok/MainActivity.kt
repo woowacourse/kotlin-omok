@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 
         savedStones.forEach { stone ->
             val imageView = boardView.findViewWithTag<ImageView>(Point(stone.x, stone.y))
-            changeBoardState(imageView, stone.color)
+            setStoneImage(imageView, stone.color)
         }
     }
 
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
 
         when (result) {
             is PlaceStoneResult.Success -> {
-                changeBoardState(view, currentTurn)
+                setStoneImage(view, currentTurn)
                 omokGameDao.saveStone(x, y, currentTurn)
             }
 
@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeBoardState(
+    private fun setStoneImage(
         view: ImageView,
         turn: StoneColor,
     ) {
