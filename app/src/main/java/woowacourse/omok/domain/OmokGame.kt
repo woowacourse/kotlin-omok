@@ -19,7 +19,7 @@ class OmokGame(
         onTurn: (StoneColor, Point?) -> Unit,
         onPointSelected: () -> Point,
         onForbiddenMove: (String) -> Unit,
-        onStonePlaced: (Stone) -> Unit,
+        onStonePlaced: (OmokBoard, Stone) -> Unit,
     ) {
         if (state is Playing) {
             processTurn((state as Playing), onTurn, onPointSelected, onForbiddenMove, onStonePlaced)
@@ -37,7 +37,7 @@ class OmokGame(
         onTurn: (StoneColor, Point?) -> Unit,
         onPointSelected: () -> Point,
         onForbiddenMove: (String) -> Unit,
-        onStonePlaced: (Stone) -> Unit,
+        onStonePlaced: (OmokBoard, Stone) -> Unit,
     ) {
         onTurn(playingState.stoneColor, lastStone?.point)
         val newStone = Stone(playingState.stoneColor, onPointSelected())
@@ -48,14 +48,14 @@ class OmokGame(
         placeResult: PlaceResult,
         newStone: Stone,
         onForbiddenMove: (String) -> Unit,
-        onStonePlaced: (Stone) -> Unit,
+        onStonePlaced: (OmokBoard, Stone) -> Unit,
     ) {
         when (placeResult) {
             is PlaceResult.ForbiddenMove -> onForbiddenMove(placeResult.message)
             is PlaceResult.Placed -> {
                 state = placeResult.state
                 lastStone = newStone
-                onStonePlaced(newStone)
+                onStonePlaced(state.omokBoard, newStone)
             }
         }
     }

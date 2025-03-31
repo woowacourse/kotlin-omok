@@ -6,7 +6,7 @@ import woowacourse.omok.domain.stone.OmokStones
 import woowacourse.omok.domain.stone.Stone
 
 class OmokBoard(
-    private val size: Int = DEFAULT_BOARD_SIZE,
+    val size: Int = DEFAULT_BOARD_SIZE,
     val rule: OmokRule = OmokRule(size),
     val stones: OmokStones = OmokStones(),
 ) {

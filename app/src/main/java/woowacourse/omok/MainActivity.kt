@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
             onForbiddenMove = { message ->
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
             },
-            onStonePlaced = { stone ->
+            onStonePlaced = { _, stone ->
                 when (stone.color) {
                     StoneColor.BLACK -> view.setImageResource(R.drawable.black_stone)
                     StoneColor.WHITE -> view.setImageResource(R.drawable.white_stone)
