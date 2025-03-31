@@ -71,9 +71,9 @@ class OmokGame(
 
         currentStoneColor =
             if (savedStones.size % 2 == 0) {
-                StoneColor.WHITE
-            } else {
                 StoneColor.BLACK
+            } else {
+                StoneColor.WHITE
             }
     }
 }
