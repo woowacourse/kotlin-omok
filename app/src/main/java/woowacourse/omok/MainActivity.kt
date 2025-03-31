@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
     private fun setBoardPointClickListeners() {
         boardPointImageViews.values.forEach {
             it.setOnClickListener {
-                placeWithCheck(it.tag as Point, board)
+                placeWithCheck(it.tag as Point)
             }
         }
     }
@@ -103,13 +103,10 @@ class MainActivity : AppCompatActivity() {
         omokDao.insertStone(stone)
     }
 
-    private fun placeWithCheck(
-        point: Point,
-        board: Board,
-    ) {
+    private fun placeWithCheck(point: Point) {
         val stone = board.currentStone(point)
         when (val violationResult = board.checkViolation(stone)) {
-            ViolationResult.Success -> place(point)
+            is ViolationResult.Success -> place(point)
             is ViolationResult.Failure.InvalidMoveResult.FullBoard -> {
                 showToastMessage(violationResult.message)
                 setBoardClickability(false)
