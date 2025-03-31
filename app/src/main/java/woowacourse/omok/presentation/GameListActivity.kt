@@ -27,19 +27,29 @@ class GameListActivity : AppCompatActivity() {
             insets
         }
 
+        setupRecyclerView()
+    }
+
+    private fun setupRecyclerView() {
         val games = gameDao.queryGames()
-        val gameAdapter =
-            GameRecyclerAdapter(games, onItemClick = { gameId ->
-                val intent =
-                    Intent(this, GameActivity::class.java).apply {
-                        putExtra("game_id", gameId.toLong())
-                    }
-                startActivity(intent)
-            }, onDelete = { gameId ->
-                gameDao.deleteGame(gameId)
-                Toast.makeText(this, "방이 삭제되었습니다.", Toast.LENGTH_LONG).show()
-            })
+        val gameAdapter = GameRecyclerAdapter(
+            games,
+            onItemClick = { gameId -> navigateToGameActivity(gameId) },
+            onDelete = { gameId -> deleteGame(gameId) }
+        )
 
         findViewById<RecyclerView>(R.id.rv_game_list).adapter = gameAdapter
+    }
+
+    private fun navigateToGameActivity(gameId: Int) {
+        val intent = Intent(this, GameActivity::class.java).apply {
+            putExtra("game_id", gameId.toLong())
+        }
+        startActivity(intent)
+    }
+
+    private fun deleteGame(gameId: Int) {
+        gameDao.deleteGame(gameId)
+        Toast.makeText(this, R.string.text_delete_game, Toast.LENGTH_LONG).show()
     }
 }
