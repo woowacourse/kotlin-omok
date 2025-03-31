@@ -3,26 +3,17 @@ package woowacourse.omok.domain
 import woowacourse.omok.domain.board.CellState
 import woowacourse.omok.domain.board.Point
 
-class GameState {
-    var isFinished: Boolean = false
+class GameState(
+    isFinished: Boolean = false,
+    lastMove: Pair<Point, CellState>? = null,
+) {
+    var isFinished: Boolean = isFinished
         private set
-    var previousPoint: Point? = null
-        private set
-    var currentCellState: CellState = CellState.BLACK
+    var previousPoint: Point? = lastMove?.first
         private set
 
-    fun start(
-        lastMove: Pair<Point, CellState>?,
-        isFinished: Boolean,
-    ) {
-        this.isFinished = isFinished
-        previousPoint = lastMove?.first
-        currentCellState = lastMove?.second?.reverseCellState() ?: CellState.BLACK
-    }
-
-    fun updateState(point: Point) {
+    fun updateLastMovePoint(point: Point) {
         previousPoint = point
-        currentCellState = currentCellState.reverseCellState()
     }
 
     fun finishGame() {

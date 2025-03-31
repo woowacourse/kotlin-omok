@@ -14,6 +14,7 @@ import woowacourse.omok.R
 import woowacourse.omok.data.OmokDatabaseHelper
 import woowacourse.omok.data.dao.GamesDao
 import woowacourse.omok.data.dao.MovesDao
+import woowacourse.omok.domain.GameState
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.board.Board
 import woowacourse.omok.domain.board.BoardSize
@@ -28,7 +29,7 @@ class OmokFragment :
     Fragment(),
     GameEventListener {
     private var gameId: Int? = null
-    private val game: OmokGame = OmokGame(this)
+    private lateinit var game: OmokGame
 
     private lateinit var board: Board
     private lateinit var boardView: TableLayout
@@ -78,8 +79,17 @@ class OmokFragment :
         val loadedMoves = loadMovesFromDatabase()
         board = Board(BoardSize(), loadedMoves, RuleValidator())
         updateBoardUIWithLoadedMoves(loadedMoves)
+
         val isFinished = arguments?.getBoolean(ARGUMENT_KEY_NAME_GAME_FINISHED) ?: false
-        game.start(loadedMoves.entries.lastOrNull()?.toPair(), isFinished)
+        createGame(isFinished, loadedMoves.entries.lastOrNull()?.toPair())
+    }
+
+    private fun createGame(
+        isFinished: Boolean,
+        lastMove: Pair<Point, CellState>?,
+    ) {
+        val gameState = GameState(isFinished, lastMove)
+        game = OmokGame(gameState, this)
     }
 
     private fun loadMovesFromDatabase(): Map<Point, CellState> =

@@ -1,5 +1,6 @@
 package woowacourse.omok.controller
 
+import woowacourse.omok.domain.GameState
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.board.Board
 import woowacourse.omok.domain.board.BoardSize
@@ -21,7 +22,7 @@ class OmokController(
     fun play() {
         outputView.printStartMessage()
 
-        game = OmokGame(this)
+        game = OmokGame(GameState(), this)
         board = Board(BoardSize(), RuleValidator())
 
         playTurns()
@@ -29,8 +30,8 @@ class OmokController(
 
     private fun playTurns() {
         outputView.printBoardStatus(board)
-        while (!game.state.isFinished) {
-            outputView.printCurrentTurn(game.state.run { previousPoint to currentCellState })
+        while (!game.isFinish()) {
+            outputView.printCurrentTurn(game.previousMovePoint() to game.currentStoneColor(board))
             val point = inputView.readPosition().run { Point(first, second) }
             game.placeStone(board, point)
         }

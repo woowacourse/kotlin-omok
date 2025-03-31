@@ -26,7 +26,7 @@ class Board(
         }
     }
 
-    fun findStoneColor(point: Point): CellState? = _cells[point]
+    fun findStoneColor(point: Point?): CellState? = _cells[point]
 
     fun placeStone(
         point: Point,
