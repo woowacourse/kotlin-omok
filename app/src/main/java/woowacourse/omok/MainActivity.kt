@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -137,18 +136,16 @@ class MainActivity : AppCompatActivity() {
                 .setMessage(R.string.game_retry_message)
                 .setNegativeButton(
                     R.string.game_over,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        omokDao.clearGameState()
-                        dialog.dismiss()
-                    },
-                )
+                ) { dialog, id ->
+                    omokDao.clearGameState()
+                    dialog.dismiss()
+                }
                 .setPositiveButton(
                     R.string.retry,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        state = Ready()
-                        resetBoard()
-                    },
-                )
+                ) { dialog, id ->
+                    state = Ready()
+                    resetBoard()
+                }
                 .setCancelable(false)
                 .create()
         alertDialog.show()
