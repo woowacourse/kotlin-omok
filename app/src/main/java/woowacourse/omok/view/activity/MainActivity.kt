@@ -17,8 +17,12 @@ class MainActivity : AppCompatActivity() {
         submitButton.setOnClickListener {
             val nickname: String = editText.text.toString()
             val intent = Intent(this, OmokGameActivity::class.java)
-            intent.putExtra("nickname", nickname)
+            intent.putExtra(NICKNAME_KEY, nickname)
             startActivity(intent)
         }
+    }
+
+    companion object {
+        const val NICKNAME_KEY = "nickname"
     }
 }

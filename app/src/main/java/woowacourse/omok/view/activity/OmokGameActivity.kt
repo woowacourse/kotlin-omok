@@ -43,8 +43,8 @@ class OmokGameActivity : AppCompatActivity() {
             insets
         }
         layout = findViewById<TableLayout>(R.id.board)
+        nickname = intent.getStringExtra(MainActivity.NICKNAME_KEY) ?: throw IllegalStateException(ERR_NICKNAME_NOT_PROVIDED)
 
-        nickname = intent.getStringExtra("nickname")!!
         val loadedBoard =
             dao.findBoardByNickName(nickname)?.let {
                 runCatching {
@@ -61,5 +61,9 @@ class OmokGameActivity : AppCompatActivity() {
             dao,
             OmokEventListener(OmokView(layout)),
         ).startGame(loadedBoard.latestPlace.opponent())
+    }
+
+    companion object {
+        const val ERR_NICKNAME_NOT_PROVIDED = "닉네임이 제공되지 않았습니다"
     }
 }
