@@ -38,7 +38,7 @@ class ExternalRenjuRule(
         stoneColor: StoneColor,
     ): List<Point> {
         return omokBoard.value
-            .filter { it.value is OmokBoardGridCell.OCCUPIED && (it.value as OmokBoardGridCell.OCCUPIED).color == stoneColor }
+            .filter { it.value is OmokBoardGridCell.Occupied && (it.value as OmokBoardGridCell.Occupied).color == stoneColor }
             .keys.map { it.toExternalPoint() }
     }
 

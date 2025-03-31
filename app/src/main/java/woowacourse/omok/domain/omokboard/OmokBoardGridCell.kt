@@ -5,5 +5,5 @@ import woowacourse.omok.domain.player.StoneColor
 sealed class OmokBoardGridCell {
     data object Empty : OmokBoardGridCell()
 
-    data class OCCUPIED(val color: StoneColor) : OmokBoardGridCell()
+    data class Occupied(val color: StoneColor) : OmokBoardGridCell()
 }

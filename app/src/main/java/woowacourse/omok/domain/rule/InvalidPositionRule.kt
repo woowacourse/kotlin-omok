@@ -16,6 +16,6 @@ class InvalidPositionRule : OmokInvalidMoveRule {
         when (omokBoard.find(playerStone.position)) {
             null -> InvalidMove.InvalidPosition
             is OmokBoardGridCell.Empty -> GameOnGoing
-            is OmokBoardGridCell.OCCUPIED -> InvalidMove.AlreadyExistStone
+            is OmokBoardGridCell.Occupied -> InvalidMove.AlreadyExistStone
         }
 }

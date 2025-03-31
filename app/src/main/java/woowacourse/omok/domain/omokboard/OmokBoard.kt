@@ -1,7 +1,7 @@
 package woowacourse.omok.domain.omokboard
 
 import woowacourse.omok.domain.omokboard.OmokBoardGridCell.Empty
-import woowacourse.omok.domain.omokboard.OmokBoardGridCell.OCCUPIED
+import woowacourse.omok.domain.omokboard.OmokBoardGridCell.Occupied
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
 
@@ -26,7 +26,7 @@ class OmokBoard(
 
     fun updateBoard(playerStone: PlayerStone): OmokBoard {
         val updatedBoard = value.toMutableMap()
-        updatedBoard[playerStone.position] = OCCUPIED(playerStone.color)
+        updatedBoard[playerStone.position] = Occupied(playerStone.color)
         return OmokBoard(updatedBoard)
     }
 
@@ -35,8 +35,8 @@ class OmokBoard(
 
         private fun String.toPointState(): OmokBoardGridCell {
             return when (this) {
-                "Black" -> OCCUPIED(StoneColor.BLACK)
-                "White" -> OCCUPIED(StoneColor.WHITE)
+                "Black" -> Occupied(StoneColor.BLACK)
+                "White" -> Occupied(StoneColor.WHITE)
                 else -> Empty
             }
         }

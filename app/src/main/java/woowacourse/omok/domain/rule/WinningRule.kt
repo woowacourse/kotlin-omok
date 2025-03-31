@@ -66,7 +66,7 @@ class WinningRule : OmokGameFinishRule {
 
                 val point = omokBoard.find(currentPosition) ?: break
 
-                if (point is OmokBoardGridCell.OCCUPIED && point.color == stoneColor.color) count++ else break
+                if (point is OmokBoardGridCell.Occupied && point.color == stoneColor.color) count++ else break
             }
             return count
         }
@@ -74,5 +74,5 @@ class WinningRule : OmokGameFinishRule {
         return 1 + count(dx, dy) + count(-dx, -dy)
     }
 
-    private fun StoneColor.toPointState(): OmokBoardGridCell.OCCUPIED = OmokBoardGridCell.OCCUPIED(this)
+    private fun StoneColor.toPointState(): OmokBoardGridCell.Occupied = OmokBoardGridCell.Occupied(this)
 }

@@ -17,7 +17,7 @@ class PlayingBoardTest {
         playingBoard.placeStone(PlayerStone(StoneColor.BLACK, Position(1 to 1)))
 
         val actual = playingBoard.board.value.values.first()
-        val expected = OmokBoardGridCell.OCCUPIED(StoneColor.BLACK)
+        val expected = OmokBoardGridCell.Occupied(StoneColor.BLACK)
 
         // then
         assertThat(actual).isEqualTo(expected)

@@ -7,7 +7,10 @@ import woowacourse.omok.domain.placeresult.PlaceResult
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
 
-class RuleNavigation(private val whiteRules: List<OmokRule>, private val blackRules: List<OmokRule>) {
+class RuleNavigation(
+    private val whiteRules: List<OmokRule>,
+    private val blackRules: List<OmokRule>,
+) {
     fun applyRules(
         board: OmokBoard,
         playerStone: PlayerStone,
