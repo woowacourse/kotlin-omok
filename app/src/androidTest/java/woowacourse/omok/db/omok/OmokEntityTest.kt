@@ -1,11 +1,9 @@
-package woowacourse.omok.data.entity
+package woowacourse.omok.db.omok
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import woowacourse.omok.data.db.omok.OmokEntity
-import woowacourse.omok.data.db.omok.toEntity
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.Row

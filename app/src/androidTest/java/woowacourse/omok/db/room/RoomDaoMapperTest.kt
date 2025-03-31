@@ -1,4 +1,4 @@
-package woowacourse.omok.data.repository
+package woowacourse.omok.db.room
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.assertj.core.api.Assertions.assertThat
@@ -7,21 +7,19 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
-import woowacourse.omok.data.dao.RoomDao
-import woowacourse.omok.data.fake.FakeOmokSQLiteHelper
-import woowacourse.omok.domain.repository.RoomRepository
 import woowacourse.omok.domain.room.Room
+import woowacourse.omok.fake.FakeOmokSQLiteHelper
 import woowacourse.omok.fixture.testContext
 
 @RunWith(AndroidJUnit4::class)
-class RoomRepositoryImplTest {
+class RoomDaoMapperTest {
     private lateinit var roomDao: RoomDao
-    private lateinit var roomRepository: RoomRepository
+    private lateinit var roomDaoService: RoomDaoMapper
 
     @BeforeEach
     fun setUp() {
         roomDao = RoomDao(FakeOmokSQLiteHelper(testContext))
-        roomRepository = RoomRepositoryImpl(roomDao)
+        roomDaoService = RoomDaoMapper(roomDao)
     }
 
     @AfterEach
@@ -40,9 +38,9 @@ class RoomRepositoryImplTest {
                 Room(4, roomName = "오목 허접 포르의 방"),
             )
 
-        room.forEach { roomRepository.save(it) }
+        room.forEach { roomDaoService.save(it) }
 
-        val actual = roomRepository.readAll()
+        val actual = roomDaoService.readAll()
         assertThat(actual).containsExactly(*room)
     }
 
@@ -53,10 +51,10 @@ class RoomRepositoryImplTest {
         val room = Room(roomName = "오목고수 페토의 방")
 
         // when
-        roomRepository.save(room)
-        roomRepository.delete(1)
+        roomDaoService.save(room)
+        roomDaoService.delete(1)
 
         // then
-        assertThat(roomRepository.readAll()).isEmpty()
+        assertThat(roomDaoService.readAll()).isEmpty()
     }
 }

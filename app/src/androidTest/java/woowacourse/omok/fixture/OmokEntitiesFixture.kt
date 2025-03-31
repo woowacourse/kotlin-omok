@@ -1,6 +1,6 @@
 package woowacourse.omok.fixture
 
-import woowacourse.omok.data.db.omok.OmokEntity
+import woowacourse.omok.db.omok.OmokEntity
 
 val omokEntities =
     arrayOf(

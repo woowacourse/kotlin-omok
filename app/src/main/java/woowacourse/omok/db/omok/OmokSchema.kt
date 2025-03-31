@@ -1,6 +1,6 @@
-package woowacourse.omok.data.db.omok
+package woowacourse.omok.db.omok
 
-import woowacourse.omok.data.db.room.RoomSchema
+import woowacourse.omok.db.room.RoomSchema
 
 object OmokSchema {
     const val SQL_CREATE_OMOK_TABLE =

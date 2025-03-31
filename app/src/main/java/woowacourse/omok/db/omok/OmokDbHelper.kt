@@ -1,14 +1,14 @@
-package woowacourse.omok.data.fake
+package woowacourse.omok.db.omok
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import woowacourse.omok.data.db.omok.OmokSchema.SQL_CREATE_OMOK_TABLE
-import woowacourse.omok.data.db.omok.OmokSchema.SQL_DELETE_OMOK_TABLE
-import woowacourse.omok.data.db.room.RoomSchema.SQL_CREATE_ROOMS_TABLE
-import woowacourse.omok.data.db.room.RoomSchema.SQL_DELETE_ROOMS_TABLE
+import woowacourse.omok.db.omok.OmokSchema.SQL_CREATE_OMOK_TABLE
+import woowacourse.omok.db.omok.OmokSchema.SQL_DELETE_OMOK_TABLE
+import woowacourse.omok.db.room.RoomSchema.SQL_CREATE_ROOMS_TABLE
+import woowacourse.omok.db.room.RoomSchema.SQL_DELETE_ROOMS_TABLE
 
-class FakeOmokSQLiteHelper(context: Context) :
+class OmokDbHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onConfigure(db: SQLiteDatabase?) {
         super.onConfigure(db)
@@ -31,7 +31,7 @@ class FakeOmokSQLiteHelper(context: Context) :
     }
 
     companion object {
-        private const val DATABASE_NAME = "fakeOmok.db"
-        private const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 1
+        const val DATABASE_NAME = "omok.db"
     }
 }

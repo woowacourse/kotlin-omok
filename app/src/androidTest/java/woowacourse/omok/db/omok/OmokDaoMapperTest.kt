@@ -1,4 +1,4 @@
-package woowacourse.omok.data.repository
+package woowacourse.omok.db.omok
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.assertj.core.api.Assertions.assertThat
@@ -7,25 +7,23 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
-import woowacourse.omok.data.dao.OmokDao
-import woowacourse.omok.data.dao.RoomDao
-import woowacourse.omok.data.fake.FakeOmokSQLiteHelper
+import woowacourse.omok.db.room.RoomDao
+import woowacourse.omok.db.room.RoomDaoMapper
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.Row
 import woowacourse.omok.domain.point.Point
-import woowacourse.omok.domain.repository.OmokRepository
-import woowacourse.omok.domain.repository.RoomRepository
 import woowacourse.omok.domain.room.Room
 import woowacourse.omok.domain.stone.StoneColor
+import woowacourse.omok.fake.FakeOmokSQLiteHelper
 import woowacourse.omok.fixture.testContext
 
 @RunWith(AndroidJUnit4::class)
-class OmokRepositoryImplTest {
+class OmokDaoMapperTest {
     private lateinit var omokDao: OmokDao
     private lateinit var roomDao: RoomDao
-    private lateinit var omokRepository: OmokRepository
-    private lateinit var roomRepository: RoomRepository
+    private lateinit var omokDaoService: OmokDaoMapper
+    private lateinit var roomDaoService: RoomDaoMapper
 
     @BeforeEach
     fun setUp() {
@@ -33,8 +31,8 @@ class OmokRepositoryImplTest {
         omokDao = OmokDao(dbHelper)
         roomDao = RoomDao(dbHelper)
 
-        omokRepository = OmokRepositoryImpl(omokDao)
-        roomRepository = RoomRepositoryImpl(roomDao)
+        omokDaoService = OmokDaoMapper(omokDao)
+        roomDaoService = RoomDaoMapper(roomDao)
     }
 
     @AfterEach
@@ -46,17 +44,17 @@ class OmokRepositoryImplTest {
     @Test
     fun saveAndReadAllPointTest() {
         // given
-        roomRepository.save(Room(roomName = "오목 고수 페토의 방"))
+        roomDaoService.save(Room(roomName = "오목 고수 페토의 방"))
         val points =
             arrayOf(
                 Point(Column(1), Row(1), BoardStatus.Moved(StoneColor.BLACK)),
                 Point(Column(2), Row(2), BoardStatus.Moved(StoneColor.WHITE)),
                 Point(Column(3), Row(3), BoardStatus.Moved(StoneColor.BLACK)),
             )
-        points.forEach { omokRepository.saveNewPoint(it, 1) }
+        points.forEach { omokDaoService.saveNewPoint(it, 1) }
 
         // when
-        val actual = omokRepository.readAllPoint(1)
+        val actual = omokDaoService.readAllPoint(1)
 
         // then
         assertThat(actual).containsExactly(*points)
@@ -66,7 +64,7 @@ class OmokRepositoryImplTest {
     @Test
     fun test2() {
         // given
-        omokRepository
+        omokDaoService
             .saveNewPoint(
                 Point(
                     Column(1),
@@ -77,8 +75,8 @@ class OmokRepositoryImplTest {
             )
 
         // when
-        omokRepository.drop()
-        val actual = omokRepository.readAllPoint(1)
+        omokDaoService.drop()
+        val actual = omokDaoService.readAllPoint(1)
 
         // then
         assertThat(actual).isEmpty()

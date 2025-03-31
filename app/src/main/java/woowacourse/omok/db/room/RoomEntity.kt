@@ -1,4 +1,4 @@
-package woowacourse.omok.data.db.room
+package woowacourse.omok.db.room
 
 import woowacourse.omok.domain.room.Room
 

@@ -1,10 +1,10 @@
-package woowacourse.omok.data.db.omok
+package woowacourse.omok.db.omok
 
-import woowacourse.omok.data.db.omok.OmokEntity.Companion.BLACK_STONE
-import woowacourse.omok.data.db.omok.OmokEntity.Companion.DOUBLE_FOUR_STONE
-import woowacourse.omok.data.db.omok.OmokEntity.Companion.DOUBLE_THREE_STONE
-import woowacourse.omok.data.db.omok.OmokEntity.Companion.OVER_LINE_STONE
-import woowacourse.omok.data.db.omok.OmokEntity.Companion.WHITE_STONE
+import woowacourse.omok.db.omok.OmokEntity.Companion.BLACK_STONE
+import woowacourse.omok.db.omok.OmokEntity.Companion.DOUBLE_FOUR_STONE
+import woowacourse.omok.db.omok.OmokEntity.Companion.DOUBLE_THREE_STONE
+import woowacourse.omok.db.omok.OmokEntity.Companion.OVER_LINE_STONE
+import woowacourse.omok.db.omok.OmokEntity.Companion.WHITE_STONE
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.Row

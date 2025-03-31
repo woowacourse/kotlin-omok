@@ -1,14 +1,14 @@
 package woowacourse.omok.domain.room
 
-import woowacourse.omok.domain.repository.RoomRepository
+import woowacourse.omok.db.room.RoomDaoMapper
 
-class Rooms(private val roomRepository: RoomRepository) {
-    private val _roomList: MutableList<Room> = roomRepository.readAll().toMutableList()
+class Rooms(private val roomDaoService: RoomDaoMapper) {
+    private val _roomList: MutableList<Room> = roomDaoService.readAll().toMutableList()
     val roomList: List<Room> get() = _roomList.toList()
 
     operator fun plus(roomName: String): Long {
         val room = Room(roomName = roomName)
-        val roomId = roomRepository.save(Room(roomName = roomName))
+        val roomId = roomDaoService.save(Room(roomName = roomName))
         _roomList.add(room.copy(id = roomId))
         return roomId
     }
@@ -16,7 +16,7 @@ class Rooms(private val roomRepository: RoomRepository) {
     operator fun minus(index: Int) {
         if (index in _roomList.indices) {
             val room = _roomList[index]
-            roomRepository.delete(room.id)
+            roomDaoService.delete(room.id)
             _roomList.removeAt(index)
         }
     }

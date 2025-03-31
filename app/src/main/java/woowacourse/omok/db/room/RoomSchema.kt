@@ -1,4 +1,4 @@
-package woowacourse.omok.data.db.room
+package woowacourse.omok.db.room
 
 object RoomSchema {
     const val SQL_CREATE_ROOMS_TABLE =

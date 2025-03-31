@@ -1,4 +1,4 @@
-package woowacourse.omok.data.dao
+package woowacourse.omok.db.omok
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.assertj.core.api.Assertions.assertThat
@@ -7,8 +7,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
-import woowacourse.omok.data.db.room.RoomEntity
-import woowacourse.omok.data.fake.FakeOmokSQLiteHelper
+import woowacourse.omok.db.room.RoomDao
+import woowacourse.omok.db.room.RoomEntity
+import woowacourse.omok.fake.FakeOmokSQLiteHelper
 import woowacourse.omok.fixture.duplicateOmokEntities
 import woowacourse.omok.fixture.omokEntities
 import woowacourse.omok.fixture.testContext

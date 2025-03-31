@@ -1,9 +1,8 @@
-package woowacourse.omok.data.dao
+package woowacourse.omok.db.room
 
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.core.content.contentValuesOf
-import woowacourse.omok.data.db.room.RoomEntity
-import woowacourse.omok.data.db.room.RoomSchema.RoomsContract
+import woowacourse.omok.db.room.RoomSchema.RoomsContract
 
 class RoomDao(private val dbHelper: SQLiteOpenHelper) {
     fun insertRoom(entity: RoomEntity): Long {
