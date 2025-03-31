@@ -59,10 +59,9 @@ class MainActivity : AppCompatActivity() {
             Game(
                 OmokRule(renjuRule),
                 StoneRepositoryImpl(StoneDao(dbHelper)),
-                gameEvent(),
                 board,
+                gameEvent(),
             )
-        omokGame.initBoard()
 
         boardView.forEachIndexed { row, tableRow ->
             tableRow.forEachIndexed { column, view ->

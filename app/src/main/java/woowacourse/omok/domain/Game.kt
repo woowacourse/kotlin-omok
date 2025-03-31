@@ -14,13 +14,15 @@ import woowacourse.omok.domain.repository.StoneRepository
 class Game(
     private val rule: OmokRule,
     private val stoneRepository: StoneRepository,
-    private val gameEvent: GameEvent,
     private val board: Board,
+    gameEvent: GameEvent,
 ) {
     private var state: OmokState = Turn(stoneRepository.lastStoneType(board).reverse())
     private var stones: Stones = stoneRepository.allInBoardSize(board)
 
-    fun initBoard() = gameEvent.initBoard(stones)
+    init {
+        gameEvent.initBoard(stones)
+    }
 
     fun play(playEvent: PlayEvent) {
         val position = playEvent.onPosition(board)
