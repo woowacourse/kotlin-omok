@@ -53,10 +53,18 @@ class MainActivity : AppCompatActivity() {
     private fun handleStoneClick(row: Int, col: Int, view: View) {
         val position = Position(row + 1, col + 1)
         val imageStoneState = playerState
+        handleError(row, col, imageStoneState, position, view)
+    }
 
+    private fun handleError(
+        row: Int,
+        col: Int,
+        imageStoneState: PlayerState,
+        position: Position,
+        view: View
+    ) {
         try {
             omokDAO.saveStone(row + 1, col + 1, imageStoneState.stoneState().toString())
-
             playerState = playerState.state(position)
             omokDAO.saveTurn(playerState.stoneState().name)
             val resId = when (imageStoneState) {
@@ -65,19 +73,7 @@ class MainActivity : AppCompatActivity() {
                 else -> return
             }
             (view as ImageView).setImageResource(resId)
-
-            if (playerState is Finish) {
-                val winner = (playerState as Finish).winner()
-                Log.d("Omok", "게임 종료! 승자: $winner")
-
-                val message = when (winner) {
-                    StoneState.BLACK -> "흑돌이 이겼습니다!"
-                    StoneState.WHITE -> "백돌이 이겼습니다!"
-                    StoneState.NONE -> "무승부입니다!"
-                }
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-                omokDAO.clearBoard()
-            }
+            finishedState()
         } catch (e: IllegalArgumentException) {
             Toast.makeText(
                 this,
@@ -87,6 +83,21 @@ class MainActivity : AppCompatActivity() {
         } catch (e: IllegalStateException) {
             Toast.makeText(this, e.message ?: "금수입니다.", Toast.LENGTH_SHORT)
                 .show()
+        }
+    }
+
+    private fun finishedState() {
+        if (playerState is Finish) {
+            val winner = (playerState as Finish).winner()
+            Log.d("Omok", "게임 종료! 승자: $winner")
+
+            val message = when (winner) {
+                StoneState.BLACK -> "흑돌이 이겼습니다!"
+                StoneState.WHITE -> "백돌이 이겼습니다!"
+                StoneState.NONE -> "무승부입니다!"
+            }
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            omokDAO.clearBoard()
         }
     }
 
