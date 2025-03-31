@@ -3,8 +3,7 @@ package woowacourse.omok
 import android.app.Application
 import woowacourse.omok.data.dao.OmokGameDao
 import woowacourse.omok.data.dao.OmokGameDaoImpl
-import woowacourse.omok.data.db.DbHelper
-import woowacourse.omok.data.db.OmokContract
+import woowacourse.omok.data.db.OmokDbHelper
 import woowacourse.omok.ui.controller.OmokController
 import woowacourse.omok.ui.view.InputView
 import woowacourse.omok.ui.view.OutputView
@@ -19,8 +18,8 @@ class OmokApplication : Application() {
     }
 
     private fun provideOmokGameDao() {
-        val dbHelper = DbHelper(this, OmokContract)
-        omokGameDao = OmokGameDaoImpl(dbHelper)
+        val omokDbHelper = OmokDbHelper(this)
+        omokGameDao = OmokGameDaoImpl(omokDbHelper)
     }
 }
 

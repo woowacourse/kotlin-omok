@@ -1,16 +1,16 @@
 package woowacourse.omok.data.dao
 
 import android.content.ContentValues
-import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.data.db.OmokContract
+import woowacourse.omok.data.db.OmokDbHelper
 import woowacourse.omok.data.model.OmokGameDto
 
 class OmokGameDaoImpl(
-    private val dbHelper: DbHelper,
+    private val omokDbHelper: OmokDbHelper,
     private val gameId: Int = 1,
 ) : OmokGameDao {
     override fun saveGame(game: OmokGameDto) {
-        dbHelper.writableDatabase.use { db ->
+        omokDbHelper.writableDatabase.use { db ->
             db.delete(OmokContract.TABLE_GAME_STATE, "${OmokContract.COLUMN_GAME_ID}=?", arrayOf(gameId.toString()))
             game.board.forEach { (pos, state) ->
                 val values =
@@ -27,7 +27,7 @@ class OmokGameDaoImpl(
     }
 
     override fun fetchGame(): OmokGameDto? {
-        dbHelper.readableDatabase.use { db ->
+        omokDbHelper.readableDatabase.use { db ->
             val cursor =
                 db.query(
                     OmokContract.TABLE_GAME_STATE,
@@ -65,7 +65,7 @@ class OmokGameDaoImpl(
     }
 
     override fun deleteGame() {
-        dbHelper.writableDatabase.use { db ->
+        omokDbHelper.writableDatabase.use { db ->
             db.delete(OmokContract.TABLE_GAME_STATE, "${OmokContract.COLUMN_GAME_ID}=?", arrayOf(gameId.toString()))
         }
     }

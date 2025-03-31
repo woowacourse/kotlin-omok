@@ -7,8 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import woowacourse.omok.data.db.DbHelper
-import woowacourse.omok.data.db.OmokContract
+import woowacourse.omok.data.db.OmokDbHelper
 import woowacourse.omok.data.model.OmokGameDto
 
 @RunWith(AndroidJUnit4::class)
@@ -19,8 +18,8 @@ class OmokGameDaoImplTest {
     @Before
     fun setup() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        val dbHelper = DbHelper(context, OmokContract)
-        dao = OmokGameDaoImpl(dbHelper, gameId)
+        val omokDbHelper = OmokDbHelper(context)
+        dao = OmokGameDaoImpl(omokDbHelper, gameId)
         dao.deleteGame()
     }
 

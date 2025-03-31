@@ -4,9 +4,8 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DbHelper(
+class OmokDbHelper(
     context: Context,
-    private val contract: Contract,
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         const val DATABASE_VERSION = 1
@@ -14,7 +13,7 @@ class DbHelper(
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL(contract.createQuery)
+        db.execSQL(OmokContract.SQL_CREATE_GAME_STATE)
     }
 
     override fun onUpgrade(
@@ -22,7 +21,7 @@ class DbHelper(
         oldVersion: Int,
         newVersion: Int,
     ) {
-        db.execSQL(contract.deleteQuery)
+        db.execSQL(OmokContract.SQL_DELETE_GAME_STATE)
         onCreate(db)
     }
 
