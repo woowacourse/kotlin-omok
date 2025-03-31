@@ -19,7 +19,7 @@ class Board(stones: List<Stone>) {
     }
 
     private fun isEmpty(position: Position): Boolean {
-        return _stones.first { it.position == position }.color == StoneType.EMPTY
+        return _stones.firstOrNull { it.position == position }?.color == StoneType.EMPTY
     }
 
     fun isFull(): Boolean {
