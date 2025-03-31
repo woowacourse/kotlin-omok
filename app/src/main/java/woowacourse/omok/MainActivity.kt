@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         }
         initBoard()
         initViews()
-        setBoardPointClickListeners()
+        omokMainView.setBoardPointClickListeners(::placeWithCheck)
         omokMainView.setTurnTextView(board)
         omokMainView.paintEntirePoints(board.stones)
     }
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         omokMainView.clearBoardImageViews()
         omokMainView.paintEntirePoints(board.stones)
         omokMainView.setTurnTextView(board)
-        setBoardClickability(true)
+        omokMainView.setBoardClickability(true)
     }
 
     private fun initBoardPointViews(boardTableLayout: TableLayout) {
@@ -89,14 +89,6 @@ class MainActivity : AppCompatActivity() {
                     boardPointImageViews += imageView.tag as Point to imageView as ImageView
                 }
             }
-    }
-
-    private fun setBoardPointClickListeners() {
-        boardPointImageViews.values.forEach {
-            it.setOnClickListener {
-                placeWithCheck(it.tag as Point)
-            }
-        }
     }
 
     private fun place(point: Point) {
@@ -112,7 +104,7 @@ class MainActivity : AppCompatActivity() {
             is ViolationResult.Success -> place(point)
             is ViolationResult.Failure.InvalidMoveResult.FullBoard -> {
                 showToastMessage(violationResult.message)
-                setBoardClickability(false)
+                omokMainView.setBoardClickability(false)
                 omokDao.deleteStones()
             }
 
@@ -121,16 +113,10 @@ class MainActivity : AppCompatActivity() {
 
         if (board.gameState(stone) != GameState.PLAYING) {
             showToastMessage(board.gameState(stone).toWinnerMessage())
-            setBoardClickability(false)
+            omokMainView.setBoardClickability(false)
             omokDao.deleteStones()
         }
         omokMainView.setTurnTextView(board)
-    }
-
-    private fun setBoardClickability(isClickable: Boolean) {
-        boardPointImageViews.values.forEach {
-            it.isClickable = isClickable
-        }
     }
 
     private fun showToastMessage(message: String) {

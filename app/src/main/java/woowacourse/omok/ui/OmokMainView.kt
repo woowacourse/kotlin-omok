@@ -53,6 +53,20 @@ class OmokMainView(
         }
     }
 
+    internal fun setBoardClickability(isClickable: Boolean) {
+        boardPointImageViews.values.forEach {
+            it.isClickable = isClickable
+        }
+    }
+
+    internal fun setBoardPointClickListeners(onClick: (Point) -> Unit) {
+        boardPointImageViews.values.forEach {
+            it.setOnClickListener {
+                onClick(it.tag as Point)
+            }
+        }
+    }
+
     internal fun setTurnTextView(board: Board) {
         turnTextView.text =
             when (board.stones.currentStoneColor()) {
