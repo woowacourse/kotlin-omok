@@ -11,12 +11,13 @@ object PositionParser {
             POSITION_PATTERN.matchEntire(input)
                 ?: throw IllegalArgumentException(ERROR_NOT_FIND)
         val (rowString, column) = matchResult.destructured
-        val row = RowType.valueOf(rowString).value
-        val col = column.toInt()
-        return Position(row, col)
+
+        val x = RowType.valueOf(rowString).value + 1
+        val y = column.toInt()
+        return Position(x, y)
     }
 
     fun decode(position: Position): String {
-        return "${RowType.from(position.x - 1)}${position.y + 1}"
+        return "${RowType.from(position.x - 1)}${position.y}"
     }
 }
