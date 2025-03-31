@@ -24,6 +24,8 @@ class OmokDBHelper(
         newVersion: Int,
     ) {
         db.execSQL(StonesTable.SQL_DELETE_ENTRIES)
+        db.execSQL(GameRoomsTable.SQL_DELETE_ENTRIES)
+        db.execSQL(PlayerTable.SQL_DELETE_ENTRIES)
         onCreate(db)
     }
 
