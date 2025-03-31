@@ -90,23 +90,26 @@ class MainActivity : AppCompatActivity(), InputView, ResultView {
             val x = cursor.getInt(cursor.getColumnIndexOrThrow(RoomContract.COLUMN_STONE_X))
             val y = cursor.getInt(cursor.getColumnIndexOrThrow(RoomContract.COLUMN_STONE_Y))
             val colorStr = cursor.getString(cursor.getColumnIndexOrThrow(RoomContract.COLUMN_STONE_COLOR))
-
-            val position = Position(Row.from(x), Col.from(y))
-            val color = StoneColor.from(colorStr)
-            val tag = position.toString()
-
-            val board = findViewById<TableLayout>(R.id.board)
-            board.children
-                .filterIsInstance<TableRow>()
-                .flatMap { it.children }
-                .filterIsInstance<ImageView>()
-                .firstOrNull { it.tag == tag }
-                ?.setImageResource(setImage(color))
-
-            omokController.gameBoard.addStone(Stone(position, color))
-            omokController.turnColor = color.switch()
+            putPreviousStone(x,y,colorStr)
         }
         cursor.close()
+    }
+
+    private fun putPreviousStone(x:Int,y:Int,colorStr:String){
+        val position = Position(Row.from(x), Col.from(y))
+        val color = StoneColor.from(colorStr)
+        val tag = position.toString()
+
+        val board = findViewById<TableLayout>(R.id.board)
+        board.children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .firstOrNull { it.tag == tag }
+            ?.setImageResource(setImage(color))
+
+        omokController.gameBoard.addStone(Stone(position, color))
+        omokController.turnColor = color.switch()
     }
 
     override fun printTurn(stoneColor: StoneColor) {
