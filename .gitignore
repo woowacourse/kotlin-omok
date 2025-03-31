@@ -37,4 +37,4 @@ google-services.json
 # Mac OS
 .DS_Store
 
-src/
+/src/

@@ -7,4 +7,8 @@ class OmokDaoImpl(dbHelper: OmokDbHelper) : OmokDao(dbHelper) {
         get() = "nickname"
     override val tableName: String
         get() = "omok_board"
+    override val latestStoneColumn: String
+        get() = "place"
+    override val latestStoneTableName: String
+        get() = "latest_place"
 }
