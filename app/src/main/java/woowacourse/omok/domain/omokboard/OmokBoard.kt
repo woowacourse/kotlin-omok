@@ -1,5 +1,7 @@
 package woowacourse.omok.domain.omokboard
 
+import woowacourse.omok.domain.omokboard.OmokBoardGridCell.Empty
+import woowacourse.omok.domain.omokboard.OmokBoardGridCell.OCCUPIED
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
 
@@ -12,7 +14,7 @@ class OmokBoard(
             (1..width)
                 .flatMap { row ->
                     (1..height).map { column ->
-                        Position(RowPosition(row), ColumnPosition(column)) to OmokBoardGridCell.Empty
+                        Position(RowPosition(row), ColumnPosition(column)) to Empty
                     }
                 }.toMap(),
         )
@@ -24,19 +26,19 @@ class OmokBoard(
 
     fun updateBoard(playerStone: PlayerStone): OmokBoard {
         val updatedBoard = value.toMutableMap()
-        updatedBoard[playerStone.position] = OmokBoardGridCell.OCCUPIED(playerStone.color)
+        updatedBoard[playerStone.position] = OCCUPIED(playerStone.color)
         return OmokBoard(updatedBoard)
     }
 
     companion object {
+        private const val DEFAULT_OMOK_BOARD_SIZE = 15
+
         private fun String.toPointState(): OmokBoardGridCell {
             return when (this) {
-                "Black" -> OmokBoardGridCell.OCCUPIED(StoneColor.BLACK)
-                "White" -> OmokBoardGridCell.OCCUPIED(StoneColor.WHITE)
-                else -> throw IllegalArgumentException("Unknown state $this")
+                "Black" -> OCCUPIED(StoneColor.BLACK)
+                "White" -> OCCUPIED(StoneColor.WHITE)
+                else -> Empty
             }
         }
-
-        private const val DEFAULT_OMOK_BOARD_SIZE = 15
     }
 }
