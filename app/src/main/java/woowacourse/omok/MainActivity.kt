@@ -26,32 +26,37 @@ import view.ResultView
 class MainActivity : AppCompatActivity(), InputView, ResultView {
 
     private lateinit var omokController: OmokController
-    private lateinit var dbHelper: DbHelper
+    private var dbHelper: DbHelper =  DbHelper(this)
     private var roomId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-
-        dbHelper = DbHelper(this)
-        roomId = intent.getIntExtra(RoomContract.COLUMN_STONE_ROOM_ID, -1)
-        if (roomId == -1) {
-            Toast.makeText(this, resources.getString(R.string.fail_find_room), Toast.LENGTH_SHORT).show()
-            finish()
-            return
-        }
-
+        if(!findRoomId()) return
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        makeGameScene()
+    }
 
+    private fun makeGameScene() {
         setupBoard()
         omokController = OmokController(this, this, dbHelper, roomId)
         restorePreviousStones()
         printTurn(omokController.turnColor)
+    }
+
+    private fun findRoomId() : Boolean {
+        roomId = intent.getIntExtra(RoomContract.COLUMN_STONE_ROOM_ID, -1)
+        if (roomId == -1) {
+            Toast.makeText(this, resources.getString(R.string.fail_find_room), Toast.LENGTH_SHORT).show()
+            finish()
+            return false
+        }
+        return true
     }
 
     private fun setupBoard() {
