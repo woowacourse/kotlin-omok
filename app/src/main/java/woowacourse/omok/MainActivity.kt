@@ -19,6 +19,7 @@ import omok.model.entity.position.DefaultPosition
 import omok.model.entity.position.Position
 import woowacourse.omok.data.DefaultOmokHistoryHistoryStorage
 import woowacourse.omok.data.History
+import woowacourse.omok.data.OmokDbHelper
 import woowacourse.omok.data.OmokHistoryStorage
 import kotlin.concurrent.thread
 
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        omokHistoryStorage = DefaultOmokHistoryHistoryStorage(this)
+        omokHistoryStorage = DefaultOmokHistoryHistoryStorage(OmokDbHelper(this))
         val positions: Sequence<ImageView> = positions()
         loadOmokHistory(positions)
         setOnClickBoardPositions(positions)

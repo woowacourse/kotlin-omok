@@ -1,7 +1,6 @@
 package woowacourse.omok.data
 
 import android.content.ContentValues
-import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
@@ -22,10 +21,8 @@ interface OmokHistoryStorage {
 }
 
 class DefaultOmokHistoryHistoryStorage(
-    context: Context,
+    private val omokDbHelper: SQLiteOpenHelper,
 ) : OmokHistoryStorage {
-    private val omokDbHelper: SQLiteOpenHelper = OmokDbHelper(context)
-
     override fun fetch(): List<History> {
         val dbReader = omokDbHelper.readableDatabase
         val result = mutableListOf<History>()
