@@ -61,9 +61,9 @@ class MainActivity : AppCompatActivity(), GameEventListener {
 
     override fun onFinishedGame(color: StoneColor) {
         val stoneUiText = resolveStoneColorText(color)
-        val uiText = getString(R.string.text_winner, stoneUiText)
+        val winnerMessage = getString(R.string.text_winner, stoneUiText)
         ConfirmDialog(
-            winnerMessage = uiText,
+            winnerMessage = winnerMessage,
             onClickFinish = { clear() },
             onClickRetry = { clear() },
         ).show(supportFragmentManager, "Main")
