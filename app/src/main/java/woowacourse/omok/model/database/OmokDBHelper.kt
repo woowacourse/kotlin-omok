@@ -193,6 +193,70 @@ class OmokDBHelper(
         )
     }
 
+    fun fetchNewGameRoom(
+        blackPlayerName: String,
+        whitePlayerName: String,
+    ): GameRoom? {
+        val newRoomId = makeNewRoomAndGetId(blackPlayerName, whitePlayerName)
+
+        return executeGameRoomFetchQuery(newRoomId).use { cursor ->
+            if (cursor.moveToFirst()) {
+                val lastPlayTime =
+                    cursor.getString(cursor.getColumnIndexOrThrow(GameRoomsTable.COLUMN_LAST_PLAY_TIME))
+
+                GameRoom(
+                    id = newRoomId.toInt(),
+                    blackStonePlayerName = blackPlayerName,
+                    whiteStonePlayerName = whitePlayerName,
+                    lastPlayTime = LocalDateTime.parse(lastPlayTime, OmokDBContract.dbTimeFormatter),
+                )
+            } else {
+                null
+            }
+        }
+    }
+
+    private fun executeGameRoomFetchQuery(roomId: Long): Cursor {
+        val db = writableDatabase
+
+        val projection =
+            arrayOf(
+                GameRoomsTable.COLUMN_ROOM_ID,
+                GameRoomsTable.COLUMN_BLACK_PLAYER_NAME,
+                GameRoomsTable.COLUMN_WHITE_PLAYER_NAME,
+                GameRoomsTable.COLUMN_LAST_PLAY_TIME,
+            )
+
+        val selection = "${GameRoomsTable.COLUMN_ROOM_ID} = ?"
+        val selectionArgs = arrayOf(roomId.toString())
+
+        return db
+            .query(
+                GameRoomsTable.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null,
+            )
+    }
+
+    private fun makeNewRoomAndGetId(
+        blackPlayName: String,
+        whitePlayerName: String,
+    ): Long {
+        val db = writableDatabase
+
+        val values =
+            ContentValues().apply {
+                put(GameRoomsTable.COLUMN_BLACK_PLAYER_NAME, blackPlayName)
+                put(GameRoomsTable.COLUMN_WHITE_PLAYER_NAME, whitePlayerName)
+            }
+
+        return db.insert(GameRoomsTable.TABLE_NAME, null, values)
+    }
+
     companion object {
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "Omok.db"

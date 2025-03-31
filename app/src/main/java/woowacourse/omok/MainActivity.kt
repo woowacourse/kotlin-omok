@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -13,13 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import woowacourse.omok.model.database.OmokDBContract
 import woowacourse.omok.model.database.OmokDBHelper
 import woowacourse.omok.model.database.PlayerInfo
 import woowacourse.omok.model.gameRoom.GameRoom
 import woowacourse.omok.model.gameRoom.GameRoomAdapter
 import woowacourse.omok.view.MainActivityInputView
-import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity() {
     private val recyclerView: RecyclerView by lazy { findViewById(R.id.recyclerview_game_rooms) }
@@ -69,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             mainActivityInputView.showPlayerNamesInputDialog { blackName, whiteName ->
                 dbHelper.addPlayerHistory(blackName, playCount = 1)
                 dbHelper.addPlayerHistory(whiteName, playCount = 1)
-                showCreateGameDialog(blackName, whiteName)
+                showNewGameAddedGameRoomList(blackName, whiteName)
             }
         }
     }
@@ -89,62 +86,16 @@ class MainActivity : AppCompatActivity() {
         gameActivityLauncher.launch(intent)
     }
 
-    private fun showCreateGameDialog(
+    private fun showNewGameAddedGameRoomList(
         blackStoneName: String,
         whiteStoneName: String,
     ) {
-        val db = dbHelper.writableDatabase
-
-        val values =
-            ContentValues().apply {
-                put(OmokDBContract.GameRoomsTable.COLUMN_BLACK_PLAYER_NAME, blackStoneName)
-                put(OmokDBContract.GameRoomsTable.COLUMN_WHITE_PLAYER_NAME, whiteStoneName)
-            }
-
-        val newRoomId = db.insert(OmokDBContract.GameRoomsTable.TABLE_NAME, null, values)
-
-        val projection =
-            arrayOf(
-                OmokDBContract.GameRoomsTable.COLUMN_ROOM_ID,
-                OmokDBContract.GameRoomsTable.COLUMN_BLACK_PLAYER_NAME,
-                OmokDBContract.GameRoomsTable.COLUMN_WHITE_PLAYER_NAME,
-                OmokDBContract.GameRoomsTable.COLUMN_LAST_PLAY_TIME,
-            )
-
-        val selection = "${OmokDBContract.GameRoomsTable.COLUMN_ROOM_ID} = ?"
-        val selectionArgs = arrayOf(newRoomId.toString())
-
-        db
-            .query(
-                OmokDBContract.GameRoomsTable.TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null,
-            ).use { cursor ->
-                if (cursor.moveToFirst()) {
-                    val blackPlayerName =
-                        cursor.getString(cursor.getColumnIndexOrThrow(OmokDBContract.GameRoomsTable.COLUMN_BLACK_PLAYER_NAME))
-                    val whitePlayerName =
-                        cursor.getString(cursor.getColumnIndexOrThrow(OmokDBContract.GameRoomsTable.COLUMN_WHITE_PLAYER_NAME))
-                    val lastPlayTime =
-                        cursor.getString(cursor.getColumnIndexOrThrow(OmokDBContract.GameRoomsTable.COLUMN_LAST_PLAY_TIME))
-
-                    val newGameRoom =
-                        GameRoom(
-                            id = newRoomId.toInt(),
-                            blackStonePlayerName = blackPlayerName,
-                            whiteStonePlayerName = whitePlayerName,
-                            lastPlayTime = LocalDateTime.parse(lastPlayTime, OmokDBContract.dbTimeFormatter),
-                        )
-
-                    gameRooms.add(0, newGameRoom)
-                    gameRoomAdapter.notifyItemInserted(0)
-                    recyclerView.scrollToPosition(0)
-                }
-            }
+        val newGameRoom = dbHelper.fetchNewGameRoom(blackStoneName, whiteStoneName)
+        newGameRoom?.let {
+            gameRooms.add(0, newGameRoom)
+            gameRoomAdapter.notifyItemInserted(0)
+            recyclerView.scrollToPosition(0)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -163,6 +114,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     fun showInfoDialog() {
+        // Todo : View로 이동 필요
         val input = EditText(this)
         input.hint = "기록을 확인할 닉네임을 입력하세요"
 
