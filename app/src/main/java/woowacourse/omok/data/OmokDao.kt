@@ -43,7 +43,7 @@ class OmokDao(private val dbHelper: OmokDbHelper) {
                 return StoneType.valueOf(color)
             }
         }
-        return null
+        return StoneType.EMPTY
     }
 
     fun getAllStones(): List<Stone> {
