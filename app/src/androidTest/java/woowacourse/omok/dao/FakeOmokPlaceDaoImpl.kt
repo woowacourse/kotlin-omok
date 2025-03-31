@@ -1,6 +1,8 @@
 package woowacourse.omok.dao
 
-class FakePlaceOmokPlaceDaoImplSimple(dbHelper: FakeDbHelper) : SimpleOmokPlaceDao(dbHelper) {
+import android.database.sqlite.SQLiteOpenHelper
+
+class FakeOmokPlaceDaoImpl(dbHelper: SQLiteOpenHelper) : SimpleOmokPlaceDao(dbHelper) {
     override val boardColumn: String
         get() = "omok_board"
     override val nicknameColumn: String
