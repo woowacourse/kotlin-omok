@@ -128,13 +128,15 @@ class MainActivity : AppCompatActivity() {
         cell: ImageView,
         row: Int,
         col: Int,
-        winner: StoneColor,
+        winner: StoneColor?,
     ) {
-        cell.setImageResource(stoneRes(winner))
-        omokDao.insertOmok(row, col, winner.name)
-        showGameEndDialog(winner) {
-            omokDao.deleteDatabase()
-            recreate()
+        winner?.let { color ->
+            cell.setImageResource(stoneRes(color))
+            omokDao.insertOmok(row, col, color.name)
+            showGameEndDialog(color) {
+                omokDao.deleteDatabase()
+                recreate()
+            }
         }
     }
 
