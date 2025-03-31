@@ -49,10 +49,10 @@ class OmokMainView(
     }
 
     internal fun paintStone(stone: Stone) {
-        val view = boardPointImageViews[stone.point]
+        val view = boardPointImageViews[stone.point] ?: return
         when (stone.color) {
-            StoneColor.BLACK -> view?.setImageResource(R.drawable.black_stone)
-            StoneColor.WHITE -> view?.setImageResource(R.drawable.white_stone)
+            StoneColor.BLACK -> view.setImageResource(R.drawable.black_stone)
+            StoneColor.WHITE -> view.setImageResource(R.drawable.white_stone)
         }
     }
 
