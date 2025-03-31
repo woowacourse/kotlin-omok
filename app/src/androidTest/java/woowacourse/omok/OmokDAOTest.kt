@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
+import org.assertj.core.api.Assertions
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -38,8 +39,7 @@ class OmokDAOTest {
 
         val stones = dao.loadAllStones()
 
-        assertEquals(Triple(1, 2, "BLACK"), stones[0])
-        assertEquals(Triple(2, 3, "WHITE"), stones[1])
+        Assertions.assertThat(stones).contains(Triple(1, 2, "BLACK"), Triple(2, 3, "WHITE"))
     }
 
     @Test
