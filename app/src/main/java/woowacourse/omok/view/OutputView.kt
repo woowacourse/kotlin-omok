@@ -7,40 +7,40 @@ import woowacourse.omok.domain.StoneType
 class OutputView {
     fun printStartMessage() {
         println(MESSAGE_START)
+    }
 
-        fun drawBoard(board: Board) {
-            println(BoardRenderer.render(board))
-        }
+    fun drawBoard(board: Board) {
+        println(BoardRenderer.render(board))
+    }
 
-        fun printTurn(
-            turn: StoneType,
-            lastPosition: Position? = null,
-        ) {
-            val message =
-                buildString {
-                    append("${turn.toDisplayName()}의 차례입니다.")
-                    lastPosition?.let { append(" (마지막 돌의 위치: ${PositionParser.decode(it)})") }
-                }
-            println(message)
-        }
+    fun printTurn(
+        turn: StoneType,
+        lastPosition: Position? = null,
+    ) {
+        val message =
+            buildString {
+                append("${turn.toDisplayName()}의 차례입니다.")
+                lastPosition?.let { append(" (마지막 돌의 위치: ${PositionParser.decode(it)})") }
+            }
+        println(message)
+    }
 
-        fun showWin(winner: StoneType) {
-            println("${winner.toDisplayName()}")
-        }
+    fun showWin(winner: StoneType) {
+        println("${winner.toDisplayName()}")
+    }
 
-        fun showError(message: String) {
-            println("[ERROR] $message")
-        }
+    fun showError(message: String) {
+        println("[ERROR] $message")
     }
 
     companion object {
         private const val MESSAGE_START = "오목 게임을 시작합니다."
     }
-}
 
-private fun StoneType.toDisplayName(): String =
-    when (this) {
-        StoneType.BLACK -> "흑"
-        StoneType.WHITE -> "백"
-        else -> ""
-    }
+    private fun StoneType.toDisplayName(): String =
+        when (this) {
+            StoneType.BLACK -> "흑"
+            StoneType.WHITE -> "백"
+            else -> ""
+        }
+}
