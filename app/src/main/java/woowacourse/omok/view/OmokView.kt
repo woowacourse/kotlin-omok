@@ -39,7 +39,7 @@ class OmokView(
     }
 
     fun printOmokStart() {
-        Snackbar.make(boardLayout, MESSAGE_OMOK_START, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(boardLayout, R.string.message_omok_start, Snackbar.LENGTH_SHORT).show()
     }
 
     fun printMoveResult(moveResult: MoveResult) {
@@ -53,26 +53,29 @@ class OmokView(
         val builder: AlertDialog.Builder = AlertDialog.Builder(mainActivity)
         builder.setMessage(
             when (moveResult) {
-                is MoveResult.Success.Playing -> MESSAGE_OMOK_IN_PROGRESS
-                is MoveResult.Success.Finished -> MESSAGE_OMOK_WINNER.format(moveResult.winner.toPlayerName())
+                is MoveResult.Success.Playing -> mainActivity.getString(R.string.message_omok_in_progress)
+                is MoveResult.Success.Finished ->
+                    mainActivity.getString(
+                        R.string.message_omok_winner,
+                    ).format(moveResult.winner.toPlayerName())
             },
         ).show()
     }
 
     private fun Color.toPlayerName(): String {
         return when (this) {
-            Color.BLACK -> BLACK_PLAYER
-            Color.WHITE -> WHITE_PLAYER
+            Color.BLACK -> mainActivity.getString(R.string.black_player)
+            Color.WHITE -> mainActivity.getString(R.string.white_player)
         }
     }
 
     private fun printFailureResult(moveResult: MoveResult.Failure) {
         val message: String =
             when (moveResult) {
-                is MoveResult.Failure.PositionAlreadyOccupied -> MESSAGE_FAILURE_POSITION_ALREADY_OCCUPIED
-                is MoveResult.Failure.DoubleThreeViolation -> MESSAGE_FAILURE_DOUBLE_THREE_VIOLATION
-                is MoveResult.Failure.DoubleFourViolation -> MESSAGE_FAILURE_DOUBLE_FOUR_VIOLATION
-                is MoveResult.Failure.OverlineViolation -> MESSAGE_FAILURE_OVERLINE_VIOLATION
+                is MoveResult.Failure.PositionAlreadyOccupied -> mainActivity.getString(R.string.message_failure_position_already_occupied)
+                is MoveResult.Failure.DoubleThreeViolation -> mainActivity.getString(R.string.message_failure_double_three_violation)
+                is MoveResult.Failure.DoubleFourViolation -> mainActivity.getString(R.string.message_failure_double_four_violation)
+                is MoveResult.Failure.OverlineViolation -> mainActivity.getString(R.string.message_failure_overline_violation)
                 else -> return
             }
         Snackbar.make(boardLayout, message, Snackbar.LENGTH_SHORT).show()
@@ -106,19 +109,5 @@ class OmokView(
 
     fun clearListeners() {
         views.forEach { view -> view.setOnClickListener(null) }
-    }
-
-    companion object {
-        private const val MESSAGE_OMOK_START = "오목 게임을 시작합니다."
-        private const val MESSAGE_OMOK_WINNER = "%s이 승리했습니다!"
-        private const val MESSAGE_OMOK_IN_PROGRESS = "게임이 아직 종료되지 않았습니다."
-
-        private const val MESSAGE_FAILURE_POSITION_ALREADY_OCCUPIED = "이미 돌이 있는 자리입니다."
-        private const val MESSAGE_FAILURE_DOUBLE_THREE_VIOLATION = "삼삼 금수입니다."
-        private const val MESSAGE_FAILURE_DOUBLE_FOUR_VIOLATION = "사사 금수입니다."
-        private const val MESSAGE_FAILURE_OVERLINE_VIOLATION = "장목 금수입니다."
-
-        private const val BLACK_PLAYER = "흑"
-        private const val WHITE_PLAYER = "백"
     }
 }

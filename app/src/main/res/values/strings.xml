@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Omok</string>
+    <string name="message_omok_start">오목 게임을 시작합니다.</string>
+    <string name="message_omok_winner">%s이 승리했습니다!</string>
+    <string name="message_omok_in_progress">게임이 아직 종료되지 않았습니다.</string>
+    <string name="message_failure_position_already_occupied">이미 돌이 있는 자리입니다.</string>
+    <string name="message_failure_double_three_violation">삼삼 금수입니다.</string>
+    <string name="message_failure_double_four_violation">사사 금수입니다.</string>
+    <string name="message_failure_overline_violation">장목 금수입니다.</string>
+    <string name="black_player">흑</string>
+    <string name="white_player">백</string>
 </resources>
