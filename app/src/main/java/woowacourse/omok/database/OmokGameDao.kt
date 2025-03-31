@@ -28,9 +28,9 @@ class OmokGameDao(
         val newRowId = db.insert(OmokGameContract.TABLE_NAME, null, values)
 
         if (newRowId == -1L) {
-            Log.e("OmokGameDao", "insert failed")
+            Log.e(TAG, "insert failed")
         } else {
-            Log.d("OmokGameDao", "insert success: $newRowId")
+            Log.d(TAG, "insert success: $newRowId")
         }
         db.close()
     }
@@ -58,7 +58,8 @@ class OmokGameDao(
             while (moveToNext()) {
                 val x = getInt(getColumnIndexOrThrow(OmokGameContract.COLUMN_NAME_X))
                 val y = getInt(getColumnIndexOrThrow(OmokGameContract.COLUMN_NAME_Y))
-                val colorString = getString(getColumnIndexOrThrow(OmokGameContract.COLUMN_NAME_TURN))
+                val colorString =
+                    getString(getColumnIndexOrThrow(OmokGameContract.COLUMN_NAME_TURN))
 
                 val color =
                     when (colorString) {
@@ -84,5 +85,9 @@ class OmokGameDao(
 
     fun close() {
         dbHelper.close()
+    }
+
+    companion object {
+        private const val TAG = "OmokGameDao"
     }
 }
