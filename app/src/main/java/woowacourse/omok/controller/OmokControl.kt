@@ -7,12 +7,12 @@ import omok.view.OutputView
 import rule.BlackRenjuRule
 import rule.wrapper.point.Point
 import woowacourse.omok.controller.GameState.Playing
-import woowacourse.omok.controller.GameState.Violation
 import woowacourse.omok.controller.GameState.Win
 import woowacourse.omok.mapper.BlackRuleChecker
 import woowacourse.omok.model.game.Game
 import woowacourse.omok.model.game.PlayResult
 import woowacourse.omok.model.rule.CoordinateResult
+import woowacourse.omok.model.rule.PlacementError
 import woowacourse.omok.view.InputView
 
 class OmokControl(
@@ -45,11 +45,6 @@ class OmokControl(
                 handlePlayResult(position)
             }
 
-            is Violation -> {
-                outputView.printException(current.error)
-                return Playing
-            }
-
             is Win -> {
                 outputView.printBoard(game.board)
                 outputView.printOmok(game.lastStone)
@@ -61,9 +56,14 @@ class OmokControl(
     private fun handlePlayResult(position: Position): GameState =
         when (val result = game.playTurn(position)) {
             is PlayResult.Success -> Playing
-            is PlayResult.Violation -> Violation(result.error)
+            is PlayResult.Violation -> handleViolation(result.error)
             is PlayResult.Win -> Win(result.winner)
         }
+
+    private fun handleViolation(error: PlacementError): GameState {
+        outputView.printException(error)
+        return Playing
+    }
 
     private fun readPosition(): Position? =
         when (val result = inputView.inputStone(game.board)) {
