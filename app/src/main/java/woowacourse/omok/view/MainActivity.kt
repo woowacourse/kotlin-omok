@@ -12,8 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import woowacourse.omok.R
 import woowacourse.omok.data.DbHelper
-import woowacourse.omok.data.OmokRepository
-import woowacourse.omok.data.StoneLocalDataSource
+import woowacourse.omok.data.StoneDao
 import woowacourse.omok.domain.GameBoard
 import woowacourse.omok.domain.player.Player
 import woowacourse.omok.domain.position.Col
@@ -28,7 +27,7 @@ import woowacourse.omok.domain.stone.StoneColor.BLACK
 import woowacourse.omok.domain.stone.StoneColor.WHITE
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var oMokRepository: OmokRepository
+    private val stoneDao by lazy { StoneDao(DbHelper(this)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +41,6 @@ class MainActivity : AppCompatActivity() {
 
         val players = playerSetting()
         val service = GameBoard(players = players)
-        oMokRepository = OmokRepository(StoneLocalDataSource(DbHelper(this)))
         val board = findViewById<TableLayout>(R.id.board)
         drawExistedStones(board, service)
         setClickCallbackProcess(board, service)
@@ -59,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         board: TableLayout,
         service: GameBoard,
     ) {
-        val existedStones = oMokRepository.findAllStone()
+        val existedStones = stoneDao.fetchAllStones()
         if (existedStones.isNotEmpty()) {
             board
                 .children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rowView ->
@@ -102,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                             }.onFailure { error ->
                                 toastMessage(message = error.message ?: "")
                             }.onSuccess { stoneColor ->
-                                oMokRepository.insert(stone = Stone(position, stoneColor))
+                                stoneDao.insert(stone = Stone(position, stoneColor))
                                 showPlacedStone(view = cell, stoneColor = stoneColor)
                                 gameJudgeProcess(service)
                                 service.nextTurn()
@@ -135,7 +133,7 @@ class MainActivity : AppCompatActivity() {
                 }
             toastMessage(message = getString(R.string.main_scr_winner_message_format, winnerColor))
             convertBoardTouchable(isTouchable = false)
-            oMokRepository.removeAll()
+            stoneDao.deleteAll()
         }
     }
 
