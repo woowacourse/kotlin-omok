@@ -40,9 +40,6 @@ class GameListActivity : AppCompatActivity() {
                 Toast.makeText(this, "방이 삭제되었습니다.", Toast.LENGTH_LONG).show()
             })
 
-        findViewById<RecyclerView>(R.id.rv_game_list).apply {
-            layoutManager = LinearLayoutManager(this@GameListActivity, RecyclerView.VERTICAL, false)
-            adapter = gameAdapter
-        }
+        findViewById<RecyclerView>(R.id.rv_game_list).adapter = gameAdapter
     }
 }
