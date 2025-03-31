@@ -21,16 +21,13 @@ class GameRecyclerAdapter(
     ) : RecyclerView.ViewHolder(view) {
         private val title: TextView = view.findViewById(R.id.tv_game_title)
 
-        fun bind(
-            position: Int,
-            item: Game,
-        ) {
+        fun bind(item: Game) {
             title.text = item.name
             itemView.setOnClickListener { onItemClick(item.gameId) }
             itemView.findViewById<Button>(R.id.btn_delete_game).setOnClickListener {
                 val result = deleteListener.onDeleteGame(item.gameId)
                 if (result) {
-                    removeItem(position)
+                    removeItem(adapterPosition)
                 }
             }
         }
@@ -48,13 +45,15 @@ class GameRecyclerAdapter(
         holder: ViewHolder,
         position: Int,
     ) {
-        holder.bind(position, items[position])
+        holder.bind(items[position])
     }
 
     override fun getItemCount(): Int = items.size
 
     fun removeItem(position: Int) {
-        items.removeAt(position)
-        notifyItemRemoved(position)
+        if (position >= 0 && position < items.size) {
+            items.removeAt(position)
+            notifyItemRemoved(position)
+        }
     }
 }
