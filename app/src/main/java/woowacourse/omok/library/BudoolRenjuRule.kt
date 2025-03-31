@@ -4,24 +4,33 @@ import rule.facade.BlackRenjuRule
 import woowacourse.omok.domain.Board
 import woowacourse.omok.domain.Position
 import woowacourse.omok.domain.RenjuRule
+import woowacourse.omok.domain.Stone
 import woowacourse.omok.domain.StoneType
 
 class BudoolRenjuRule : RenjuRule {
     private val rule: BlackRenjuRule = BlackRenjuRule(15, 15)
 
+    private fun Position.toPair() = x to y
+
+    private fun Stone.toPair() = position.x to position.y
+
     override fun checkWin(
         board: Board,
         position: Position,
     ): Boolean {
-        val stones = board.stones
-        val blackStones = stones.filter { it.color == StoneType.BLACK }
-        val whiteStones = stones.filter { it.color == StoneType.WHITE }
-        val count = stones.count { it.color != StoneType.WHITE }
+        val blackStones =
+            board.stones
+                .filter { it.color == StoneType.BLACK }
+                .map { it.position.toPair() }
+        val whiteStones =
+            board.stones
+                .filter { it.color == StoneType.WHITE }
+                .map { it.position.toPair() }
         return rule.checkWin(
-            blackStones.map { it.position.x to it.position.y },
-            whiteStones.map { it.position.x to it.position.y },
-            position.x to position.y,
-            count,
+            blackPoints = blackStones,
+            whitePoints = whiteStones,
+            startPoint = position.toPair(),
+            stoneStandardCount = 5,
         )
     }
 
@@ -29,13 +38,18 @@ class BudoolRenjuRule : RenjuRule {
         board: Board,
         position: Position,
     ): Boolean {
-        val stones = board.stones
-        val blackStones = stones.filter { it.color == StoneType.BLACK }
-        val whiteStones = stones.filter { it.color == StoneType.WHITE }
+        val blackPairs =
+            board.stones
+                .filter { it.color == StoneType.BLACK }
+                .map { it.toPair() }
+        val whitePairs =
+            board.stones
+                .filter { it.color == StoneType.WHITE }
+                .map { it.toPair() }
         return rule.checkDoubleFourFoul(
-            blackStones.map { it.position.x to it.position.y },
-            whiteStones.map { it.position.x to it.position.y },
-            position.x to position.y,
+            blackPoints = blackPairs,
+            whitePoints = whitePairs,
+            startPoint = position.toPair(),
         )
     }
 
@@ -43,13 +57,18 @@ class BudoolRenjuRule : RenjuRule {
         board: Board,
         position: Position,
     ): Boolean {
-        val stones = board.stones
-        val blackStones = stones.filter { it.color == StoneType.BLACK }
-        val whiteStones = stones.filter { it.color == StoneType.WHITE }
+        val blackPairs =
+            board.stones
+                .filter { it.color == StoneType.BLACK }
+                .map { it.toPair() }
+        val whitePairs =
+            board.stones
+                .filter { it.color == StoneType.WHITE }
+                .map { it.toPair() }
         return rule.checkDoubleThreeFoul(
-            blackStones.map { it.position.x to it.position.y },
-            whiteStones.map { it.position.x to it.position.y },
-            position.x to position.y,
+            blackPoints = blackPairs,
+            whitePoints = whitePairs,
+            startPoint = position.toPair(),
         )
     }
 
@@ -57,11 +76,13 @@ class BudoolRenjuRule : RenjuRule {
         board: Board,
         position: Position,
     ): Boolean {
-        val stones = board.stones
-        val blackStones = stones.filter { it.color == StoneType.BLACK }
+        val blackPairs =
+            board.stones
+                .filter { it.color == StoneType.BLACK }
+                .map { it.toPair() }
         return rule.checkOverline(
-            blackStones.map { it.position.x to it.position.y },
-            position.x to position.y,
+            stonesPoints = blackPairs,
+            startPoint = position.toPair(),
         )
     }
 }
