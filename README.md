@@ -80,8 +80,8 @@
   - [x] 사용자별로 오목 게임 기록을 관리할 수 있다.
 
 ## step4 리팩터링 요구사항
-- [ ] OmokDBHelper의 Import 방법 통일
-- [ ] DROP TABLE 쿼들을 onUpgrade와 onDowngrade에 연결
+- [x] OmokDBHelper의 Import 방법 통일
+- [x] DROP TABLE 쿼들을 onUpgrade와 onDowngrade에 연결
 - [ ] 매직넘버 상수화
   - [ ] OmokDBHelper의 exists == 1 상수화
 - [ ] OmokAppControl 클래스 리팩터링
