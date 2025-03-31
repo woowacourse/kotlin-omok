@@ -1,7 +1,6 @@
 package woowacourse.omok.database
 
 import android.content.ContentValues
-import android.database.Cursor
 import android.util.Log
 import woowacourse.omok.domain.Position
 import woowacourse.omok.domain.Stone
