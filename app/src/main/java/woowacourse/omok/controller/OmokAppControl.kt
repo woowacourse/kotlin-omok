@@ -78,11 +78,8 @@ class OmokAppControl(
 
     fun turn(
         positionView: ImageView,
-        coordinate: Pair<Int, Int>,
+        nextPosition: Position,
     ) {
-        val row = Row(coordinate.first)
-        val col = Col(coordinate.second)
-        val nextPosition = Position(row, col)
         if (!isPositionValid(nextPosition)) return
 
         val newBoard = stoneAddedBoard(nextPosition)

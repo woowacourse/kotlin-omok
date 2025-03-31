@@ -57,11 +57,11 @@ class GameActivity : AppCompatActivity() {
             .forEachIndexed { index, positionView ->
                 val rowIndex = abs(MAX_BOARD_INDEX - (index / BOARD_SIZE))
                 val colIndex = index % BOARD_SIZE
-                positionViews[Position(Row(rowIndex), Col(colIndex))] = positionView
+                val clickedPosition = Position(Row(rowIndex), Col(colIndex))
+                positionViews[clickedPosition] = positionView
                 positionView.setOnClickListener {
                     thread {
-                        val coordinate = Pair(rowIndex, colIndex)
-                        omokAppControl.turn(positionView, coordinate)
+                        omokAppControl.turn(positionView, clickedPosition)
                     }
                 }
             }
