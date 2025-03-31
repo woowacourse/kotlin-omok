@@ -12,7 +12,7 @@ import woowacourse.omok.model.Stone
 import woowacourse.omok.model.position.Position
 import woowacourse.omok.model.rule.Rule
 
-class RuleAdapter : Rule {
+class RuleAdapter(private val rule: OmokRule) : Rule {
     override fun checkMove(
         board: Board,
         newStone: Stone,
@@ -41,13 +41,10 @@ class RuleAdapter : Rule {
         val thisPoints: List<Point> = board.filterStones(newStone.color).extractPoints()
         val otherPoints: List<Point> = board.filterStones(newStone.color.reverse()).extractPoints()
 
-        val rule: OmokRule =
-            when (newStone.color) {
-                Color.BLACK -> BlackRenjuRule(board.col.value, board.row.value)
-                Color.WHITE -> WhiteRenjuRule(board.col.value, board.row.value)
-            }
-
-        return rule.checkAnyFoulCondition(thisPoints, otherPoints, newPoint)
+        return when (newStone.color) {
+            Color.BLACK -> rule.checkAnyFoulCondition(thisPoints, otherPoints, newPoint)
+            Color.WHITE -> Violation.NONE
+        }
     }
 
     private fun checkWinCondition(

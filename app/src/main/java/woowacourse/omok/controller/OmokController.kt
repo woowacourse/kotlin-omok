@@ -1,12 +1,13 @@
 package woowacourse.omok.controller
 
+import rule.BlackRenjuRule
+import woowacourse.omok.adapter.RuleAdapter
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.Game
 import woowacourse.omok.model.MoveResult
 import woowacourse.omok.model.Stone
 import woowacourse.omok.model.position.Position
-import woowacourse.omok.model.rule.RenjuRule
 import woowacourse.omok.view.InputView
 import woowacourse.omok.view.OutputView
 
@@ -16,7 +17,7 @@ class OmokController(
 ) {
     fun run() {
         outputView.printOmokStart()
-        val game = Game(Board(), RenjuRule())
+        val game = Game(Board(), RuleAdapter(BlackRenjuRule()))
         outputView.printBoard(game.board)
         retryOnError { processTurn(game) }
     }

@@ -2,15 +2,16 @@ package woowacourse.omok.model
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import rule.BlackRenjuRule
+import woowacourse.omok.adapter.RuleAdapter
 import woowacourse.omok.model.position.Col
 import woowacourse.omok.model.position.Position
 import woowacourse.omok.model.position.Row
-import woowacourse.omok.model.rule.RenjuRule
 
 class GameTest {
     @Test
     fun `처음에는 흑이 수를 둔다`() {
-        val game = Game(Board(), RenjuRule())
+        val game = Game(Board(), RuleAdapter(BlackRenjuRule()))
 
         val actual: Color = game.chooseTurn()
         val expected: Color = Color.BLACK
@@ -20,7 +21,7 @@ class GameTest {
 
     @Test
     fun `흑이 수를 둔 후에는 백이 수를 둔다`() {
-        val game = Game(Board(), RenjuRule()).apply { play(Stone(Position(Col(1), Row(1)), Color.BLACK)) }
+        val game = Game(Board(), RuleAdapter(BlackRenjuRule())).apply { play(Stone(Position(Col(1), Row(1)), Color.BLACK)) }
 
         val actual: Color = game.chooseTurn()
         val expected: Color = Color.WHITE
@@ -30,7 +31,7 @@ class GameTest {
 
     @Test
     fun `백이 수를 둔 후에는 흑이 수를 둔다`() {
-        val game = Game(Board(), RenjuRule()).apply { play(Stone(Position(Col(1), Row(1)), Color.WHITE)) }
+        val game = Game(Board(), RuleAdapter(BlackRenjuRule())).apply { play(Stone(Position(Col(1), Row(1)), Color.WHITE)) }
 
         val actual: Color = game.chooseTurn()
         val expected: Color = Color.BLACK
@@ -41,7 +42,7 @@ class GameTest {
     @Test
     fun `오목이 완성되면 게임이 종료된다 1`() {
         val game =
-            Game(Board(), RenjuRule()).apply {
+            Game(Board(), RuleAdapter(BlackRenjuRule())).apply {
                 play(Stone(Position(Col(1), Row(1)), Color.WHITE))
                 play(Stone(Position(Col(1), Row(2)), Color.WHITE))
                 play(Stone(Position(Col(1), Row(3)), Color.WHITE))
@@ -60,7 +61,7 @@ class GameTest {
     @Test
     fun `오목이 완성되면 게임이 종료된다 2`() {
         val game =
-            Game(Board(), RenjuRule()).apply {
+            Game(Board(), RuleAdapter(BlackRenjuRule())).apply {
                 play(Stone(Position(Col(13), Row(5)), Color.BLACK))
                 play(Stone(Position(Col(12), Row(6)), Color.BLACK))
                 play(Stone(Position(Col(11), Row(7)), Color.BLACK))
@@ -79,7 +80,7 @@ class GameTest {
     @Test
     fun `오목이 완성되지 않았으면 게임이 진행 중이다`() {
         val game =
-            Game(Board(), RenjuRule()).apply {
+            Game(Board(), RuleAdapter(BlackRenjuRule())).apply {
                 play(Stone(Position(Col(8), Row(8)), Color.WHITE))
                 play(Stone(Position(Col(8), Row(9)), Color.WHITE))
                 play(Stone(Position(Col(9), Row(8)), Color.WHITE))

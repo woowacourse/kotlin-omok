@@ -2,6 +2,8 @@ package woowacourse.omok
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import rule.BlackRenjuRule
+import woowacourse.omok.adapter.RuleAdapter
 import woowacourse.omok.database.OmokDao
 import woowacourse.omok.database.OmokDbHelper
 import woowacourse.omok.database.OmokEntity
@@ -13,11 +15,10 @@ import woowacourse.omok.model.Stone
 import woowacourse.omok.model.position.Col
 import woowacourse.omok.model.position.Position
 import woowacourse.omok.model.position.Row
-import woowacourse.omok.model.rule.RenjuRule
 import woowacourse.omok.view.OmokView
 
 class MainActivity : AppCompatActivity() {
-    private val game = Game(Board(), RenjuRule())
+    private val game = Game(Board(), RuleAdapter(BlackRenjuRule()))
     private val omokDao = OmokDao(OmokDbHelper(this))
     private lateinit var omokView: OmokView
 
