@@ -10,17 +10,14 @@ class Stones(
     private var _lastStone: Stone? = lastStone
     val lastStone get() = _lastStone?.copy()
 
-    fun add(stone: Stone) {
+    fun addLastStone(stone: Stone) {
         _stones += stone
+        _lastStone = stone
     }
 
     fun currentStoneColor(): StoneColor {
         val lastStoneColor: StoneColor = lastStone?.color ?: return StoneColor.BLACK
         return lastStoneColor.reverse()
-    }
-
-    fun setLastStone(stone: Stone) {
-        _lastStone = stone
     }
 
     fun isOccupied(stone: Stone): Boolean {

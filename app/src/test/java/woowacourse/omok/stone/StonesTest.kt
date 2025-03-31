@@ -11,7 +11,7 @@ class StonesTest {
     @Test
     fun `돌을 추가할 수 있다`() {
         val stones = Stones()
-        stones.add(Stone(1, 1, BLACK))
+        stones.addLastStone(Stone(1, 1, BLACK))
 
         val actual = stones.stones.size
 
@@ -21,9 +21,9 @@ class StonesTest {
     }
 
     @Test
-    fun `마지막으로 둔 돌을 설정할 수 있다`() {
+    fun `마지막으로 둔 돌을 확인할 수 있다`() {
         val stones = Stones()
-        stones.setLastStone(Stone(8, 8, BLACK))
+        stones.addLastStone(Stone(8, 8, BLACK))
 
         val actual = stones.lastStone
 

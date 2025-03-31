@@ -16,8 +16,7 @@ class Board(
     fun currentStone(point: Point): Stone = Stone(point, stones.currentStoneColor())
 
     fun place(newStone: Stone) {
-        stones.add(newStone)
-        stones.setLastStone(newStone)
+        stones.addLastStone(newStone)
     }
 
     fun gameState(newStone: Stone): GameState {
