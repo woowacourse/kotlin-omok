@@ -10,8 +10,9 @@ import woowacourse.omok.domain.stone.StoneColor
 
 class OmokGame(
     board: OmokBoard,
+    state: State = BlackTurn(board),
 ) {
-    var state: State = BlackTurn(board)
+    var state: State = state
         private set
     private var lastStone: Stone? = null
 

@@ -1,7 +1,5 @@
 package woowacourse.omok
 
-import android.content.ContentValues
-import android.database.Cursor
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -13,14 +11,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import woowacourse.omok.data.DbHelper
-import woowacourse.omok.data.OmokContract
 import woowacourse.omok.domain.OmokBoard
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.Point
+import woowacourse.omok.domain.state.BlackTurn
 import woowacourse.omok.domain.state.Finished
 import woowacourse.omok.domain.state.Playing
+import woowacourse.omok.domain.state.WhiteTurn
 import woowacourse.omok.domain.stone.OmokStones
-import woowacourse.omok.domain.stone.Stone
 import woowacourse.omok.domain.stone.StoneColor
 
 class MainActivity : AppCompatActivity() {
@@ -37,13 +35,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         dbHelper = DbHelper(this)
-        val stones = queryStones()
+        val stones = dbHelper.queryStones()
         val omokBoard = OmokBoard(stones = stones)
-        val omokGame = OmokGame(omokBoard)
 
+        val state =
+            when (dbHelper.queryLastStone()?.color) {
+                StoneColor.BLACK -> WhiteTurn(omokBoard)
+                StoneColor.WHITE, null -> BlackTurn(omokBoard)
+            }
+        val omokGame = OmokGame(omokBoard, state)
+        setupBoardView(omokGame, stones)
+    }
+
+    private fun setupBoardView(
+        omokGame: OmokGame,
+        stones: OmokStones,
+    ) {
         val board = findViewById<TableLayout>(R.id.board)
-        board
-            .children
+        board.children
             .filterIsInstance<TableRow>()
             .toList()
             .reversed()
@@ -76,56 +85,31 @@ class MainActivity : AppCompatActivity() {
             onTurn = { _, _ -> },
             onPointSelected = { view.tag as Point },
             onForbiddenMove = { message ->
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                showToast(message)
             },
             onStonePlaced = { _, stone ->
                 when (stone.color) {
                     StoneColor.BLACK -> view.setImageResource(R.drawable.black_stone)
                     StoneColor.WHITE -> view.setImageResource(R.drawable.white_stone)
                 }
-                insertStone(stone)
+                dbHelper.insertStone(stone)
             },
         )
         if (omokGame.state is Finished) {
-            omokGame.finish { Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show() }
-            deleteStones()
+            omokGame.finish { stoneColor ->
+                showToast(
+                    when (stoneColor) {
+                        StoneColor.BLACK -> "흑이 승리했습니다."
+                        StoneColor.WHITE -> "백이 승리했습니다."
+                        null -> "더 이상 돌을 놓을 곳이 없습니다."
+                    },
+                )
+            }
+            dbHelper.deleteStones()
         }
     }
 
-    private fun insertStone(stone: Stone) {
-        val db = dbHelper.writableDatabase
-        val values =
-            ContentValues().apply {
-                put(OmokContract.COLUMN_NAME_COLOR, stone.color.name)
-                put(OmokContract.COLUMN_NAME_ROW, stone.point.row)
-                put(OmokContract.COLUMN_NAME_COLUMN, stone.point.col)
-            }
-        db.insert(OmokContract.TABLE_NAME, null, values)
-        db.close()
-    }
-
-    private fun queryStones(): OmokStones {
-        val dbReader = dbHelper.readableDatabase
-        val result = mutableSetOf<Stone>()
-
-        val cursor: Cursor =
-            dbReader.rawQuery("SELECT * FROM ${OmokContract.TABLE_NAME}", arrayOf())
-        with(cursor) {
-            while (moveToNext()) {
-                val color =
-                    StoneColor.valueOf(getString(getColumnIndexOrThrow(OmokContract.COLUMN_NAME_COLOR)))
-                val row = getInt(getColumnIndexOrThrow(OmokContract.COLUMN_NAME_ROW))
-                val col = getInt(getColumnIndexOrThrow(OmokContract.COLUMN_NAME_COLUMN))
-                result.add(Stone(color, Point(row, col)))
-            }
-        }
-        cursor.close()
-        return OmokStones(result)
-    }
-
-    private fun deleteStones() {
-        val db = dbHelper.writableDatabase
-        db.delete(OmokContract.TABLE_NAME, null, null)
-        db.close()
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
