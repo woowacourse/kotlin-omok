@@ -19,7 +19,7 @@ import woowacourse.omok.model.position.Col
 import woowacourse.omok.model.position.Position
 import woowacourse.omok.model.position.Row
 
-class AndroidView(
+class OmokView(
     private val mainActivity: MainActivity,
 ) {
     private val boardLayout: TableLayout = mainActivity.findViewById(R.id.board)

@@ -14,21 +14,21 @@ import woowacourse.omok.model.position.Col
 import woowacourse.omok.model.position.Position
 import woowacourse.omok.model.position.Row
 import woowacourse.omok.model.rule.RenjuRule
-import woowacourse.omok.view.AndroidView
+import woowacourse.omok.view.OmokView
 
 class MainActivity : AppCompatActivity() {
     private val game = Game(Board(), RenjuRule())
     private val omokDao = OmokDao(OmokDbHelper(this))
-    private lateinit var androidView: AndroidView
+    private lateinit var omokView: OmokView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        androidView = AndroidView(this)
+        omokView = OmokView(this)
 
         restoreGame()
-        androidView.setListeners(game.board) { position -> processTurn(position) }
-        androidView.printOmokStart()
+        omokView.setListeners(game.board) { position -> processTurn(position) }
+        omokView.printOmokStart()
     }
 
     override fun onDestroy() {
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         val stones: List<Stone> = omokDao.queryAll().map { omokEntity -> omokEntity.toStone() }
         stones.forEach { stone ->
             game.play(stone)
-            androidView.renderStone(game.board, stone)
+            omokView.renderStone(game.board, stone)
         }
     }
 
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         val color: Color = game.chooseTurn()
         val newStone = Stone(position, color)
         when (val moveResult: MoveResult = game.play(newStone)) {
-            is MoveResult.Failure -> androidView.printMoveResult(moveResult)
+            is MoveResult.Failure -> omokView.printMoveResult(moveResult)
             is MoveResult.Success.Playing -> processMove(newStone)
             is MoveResult.Success.Finished -> {
                 processMove(newStone)
@@ -58,14 +58,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun processMove(newStone: Stone) {
-        androidView.renderStone(game.board, newStone)
+        omokView.renderStone(game.board, newStone)
         omokDao.insertData(newStone.toOmokEntity())
     }
 
     private fun finishGame(moveResult: MoveResult) {
-        androidView.printMoveResult(moveResult)
+        omokView.printMoveResult(moveResult)
         omokDao.clear()
-        androidView.clearListeners()
+        omokView.clearListeners()
     }
 
     private fun Stone.toOmokEntity(): OmokEntity {
