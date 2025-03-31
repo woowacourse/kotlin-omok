@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity() {
                 .setPositiveButton(
                     R.string.retry,
                 ) { dialog, id ->
-                    state = Ready()
+                    omokDao.clearGameState()
                     resetBoard()
                 }
                 .setCancelable(false)
