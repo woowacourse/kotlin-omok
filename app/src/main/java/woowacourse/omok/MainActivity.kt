@@ -24,8 +24,7 @@ import woowacourse.omok.domain.placeresult.InvalidMove
 import woowacourse.omok.domain.placeresult.PlaceResult
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
-import woowacourse.omok.domain.rule.OmokRule
-import woowacourse.omok.domain.rule.RuleNavigation
+import woowacourse.omok.domain.rule.OmokRules
 import woowacourse.omok.domain.service.OmokGame
 
 class MainActivity : AppCompatActivity() {
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         board = findViewById(R.id.board)
-        playingBoard = PlayingBoard(OmokBoard(), RuleNavigation(OmokRule.whiteRules, OmokRule.blackRules))
+        playingBoard = PlayingBoard(OmokBoard(), OmokRules.whiteRules, OmokRules.blackRules)
         omokGame = OmokGame(playingBoard)
         omokRepository = OmokRepository(this)
 

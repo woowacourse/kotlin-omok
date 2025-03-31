@@ -10,7 +10,6 @@ import woowacourse.omok.domain.omokboard.RowPosition
 import woowacourse.omok.domain.placeresult.PlaceResult
 import woowacourse.omok.domain.player.StoneColor
 import woowacourse.omok.domain.rule.OmokRule
-import woowacourse.omok.domain.rule.RuleNavigation
 
 class OmokGameTest {
     @Test

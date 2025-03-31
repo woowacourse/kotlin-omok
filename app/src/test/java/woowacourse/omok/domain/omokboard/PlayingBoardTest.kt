@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
 import woowacourse.omok.domain.rule.OmokRule
-import woowacourse.omok.domain.rule.RuleNavigation
 
 class PlayingBoardTest {
     @Test

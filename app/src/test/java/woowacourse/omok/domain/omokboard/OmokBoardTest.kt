@@ -3,7 +3,6 @@ package woowacourse.omok.domain.omokboard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import woowacourse.omok.domain.rule.OmokRule
-import woowacourse.omok.domain.rule.RuleNavigation
 
 class OmokBoardTest {
     @Test
