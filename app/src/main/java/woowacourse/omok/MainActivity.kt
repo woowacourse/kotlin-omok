@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         val stones = databaseStoneDAO.queryStones()
         val board = findViewById<TableLayout>(R.id.board)
+        var turnColorText = "흑"
         board
             .children
             .filterIsInstance<TableRow>()
@@ -73,14 +74,15 @@ class MainActivity : AppCompatActivity() {
                     if (omokBoard.isFull()) {
                         showDraw()
                     } else if (game.checkOmok()) {
-                        showWinner()
+                        showWinner(turnColorText)
                     } else {
                         turn.next()
-                        showTurnColorToast()
+                        turnColorText = if (turn.isWhite()) "백" else "흑"
+                        showTurnColorToast(turnColorText)
                     }
                 }
             }
-        showTurnColorToast()
+        showTurnColorToast(turnColorText)
     }
 
     override fun onDestroy() {
@@ -88,9 +90,8 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun showTurnColorToast() {
-        val turnColor = if (turn.isWhite()) "백" else "흑"
-        Toast.makeText(this, "${turnColor}의 차례입니다.", Toast.LENGTH_SHORT).show()
+    private fun showTurnColorToast(turnColorText: String) {
+        Toast.makeText(this, "${turnColorText}의 차례입니다.", Toast.LENGTH_SHORT).show()
     }
 
     private fun showDraw() {
@@ -105,12 +106,10 @@ class MainActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
-    private fun showWinner() {
-        val turnColor = if (turn.isWhite()) "백" else "흑"
-
+    private fun showWinner(turnColorText: String) {
         val alertDialog =
             AlertDialog.Builder(this).run {
-                setMessage("${turnColor}의 승리입니다!")
+                setMessage("${turnColorText}의 승리입니다!")
             }
 
         alertDialog.setOnDismissListener {
