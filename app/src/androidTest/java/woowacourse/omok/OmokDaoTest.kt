@@ -30,10 +30,9 @@ class OmokDaoTest {
     }
 
     @Test
-    fun resetDataTest() {
+    fun clearDataTest() {
         omokDao.insertData(OmokEntity(1, 1, "BLACK"))
         omokDao.clear()
-        val data: List<OmokEntity> = omokDao.queryAll()
-        assertThat(data.size).isEqualTo(0)
+        assertThat(omokDao.queryAll().size).isEqualTo(0)
     }
 }
