@@ -19,22 +19,8 @@ object OmokContract {
 
     const val SQL_DROP_TABLE = "DROP TABLE IF EXISTS $TABLE_NAME"
 
-    const val SQL_INSERT_STONE =
-        """ INSERT INTO $TABLE_NAME
-            ($COLUMN_NAME_STONE_COLOR, $COLUMN_NAME_ROW, $COLUMN_NAME_COL)
-            VALUES(?, ?, ?) 
-        """
-
-    const val SQL_FETCH_STONE_BY_POSITION =
-        """ SELECT *
-            FROM ${TABLE_NAME}
-            WHERE $COLUMN_NAME_ROW = ? AND $COLUMN_NAME_COL = ?
-        """
-
     const val SQL_FETCH_STONES =
         """ SELECT *
             FROM $TABLE_NAME
         """
-
-    const val SQL_DELETE_ENTRIES = "DELETE FROM $TABLE_NAME"
 }
