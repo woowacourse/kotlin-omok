@@ -7,19 +7,31 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import omok.domain.board.OmokBoard
+import omok.domain.place.OmokStones
+import omok.domain.rule.OmokRule
 import omok.domain.rule.OmokRules
+import omok.domain.rule.finder.DfsRenjuFinder
+import omok.domain.rule.renjuRule.RenjuRule
+import omok.event.OmokEventListener
 import woowacourse.omok.R
-import woowacourse.omok.dao.Dao
+import woowacourse.omok.dao.OmokDaoImpl
+import woowacourse.omok.dao.OmokDbHelper
 import woowacourse.omok.domain.game.OmokGame
-import woowacourse.omok.ioc.Container
+import woowacourse.omok.view.OmokView
 import woowacourse.omok.view.ext.deserialize
 
 class OmokGameActivity : AppCompatActivity() {
-    private lateinit var omokBoard: OmokBoard
-    private lateinit var omokRules: OmokRules
-    private lateinit var dao: Dao
     private lateinit var nickname: String
     private lateinit var layout: TableLayout
+    private val dao = OmokDaoImpl(OmokDbHelper(this))
+    private val omokBoard =
+        OmokBoard(
+            OmokStones(),
+            object : OmokRules {
+                override val rules: List<OmokRule>
+                    get() = listOf(RenjuRule(DfsRenjuFinder))
+            },
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +43,6 @@ class OmokGameActivity : AppCompatActivity() {
             insets
         }
         layout = findViewById<TableLayout>(R.id.board)
-        val container = Container(layout)
-        initializeProperty(container)
 
         nickname = intent.getStringExtra("nickname")!!
         val loadedBoard =
@@ -45,12 +55,11 @@ class OmokGameActivity : AppCompatActivity() {
     }
 
     private fun startGame(loadedBoard: OmokBoard) {
-        OmokGame(loadedBoard, layout, nickname).startGame(loadedBoard.latestPlace.opponent())
-    }
-
-    private fun initializeProperty(container: Container) {
-        omokRules = container.omokRules
-        dao = container.dao
-        omokBoard = container.omokBoard
+        OmokGame(
+            loadedBoard,
+            nickname,
+            dao,
+            OmokEventListener(OmokView(layout)),
+        ).startGame(loadedBoard.latestPlace.opponent())
     }
 }
