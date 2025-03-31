@@ -6,7 +6,7 @@ import android.text.InputType
 import android.widget.EditText
 import woowacourse.omok.R
 
-class CreateGameDialog(
+class GameCreateDialog(
     context: Context,
     private val onGameCreated: (String) -> Unit,
 ) {
