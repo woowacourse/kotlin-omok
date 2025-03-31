@@ -42,24 +42,21 @@ class GameActivity : AppCompatActivity() {
         }
 
         gameId = intent.getLongExtra("game_id", -1)
-        initView()
-        initGame()
-    }
-
-    private fun initView() {
         board = findViewById(R.id.board)
+        initBoard()
+        initGame()
     }
 
     private fun initGame() {
         val storedStone = boardDao.queryStones(gameId)
-        omokGame =
-            if (storedStone.isNotEmpty()) {
-                loadGame(storedStone)
-            } else {
-                OmokGame(OmokBoard(rule = OmokAdapter()))
-            }
+
+        if (storedStone.isNotEmpty()) {
+            omokGame = OmokGame(OmokBoard(stones = storedStone, rule = OmokAdapter()))
+            loadGame(storedStone)
+        } else {
+            omokGame = OmokGame(OmokBoard(rule = OmokAdapter()))
+        }
         updateTurnView(omokGame.turn)
-        initBoard()
     }
 
     private fun initBoard() {
@@ -85,28 +82,33 @@ class GameActivity : AppCompatActivity() {
             }
     }
 
-    private fun loadGame(storedStone: List<Stone>): OmokGame {
+    private fun loadGame(storedStone: List<Stone>) {
         val lastTurn = storedStone.last().state
-        val omokBoard = OmokBoard(stones = storedStone, rule = OmokAdapter())
-        storedStone.forEach { stone ->
-            val row = board.getChildAt(14 - stone.position.y) as? TableRow
-            val imageView = row?.getChildAt(stone.position.x) as? ImageView
-            imageView?.let { view -> drawStone(view, stone.state) }
-        }
+        initBoard()
+
+        board.children
+            .filterIsInstance<TableRow>()
+            .flatMap { it.children }
+            .filterIsInstance<ImageView>()
+            .forEach { view ->
+                val tag = view.tag as String
+                val position = tag.toBoardPosition()
+                val state = omokGame.getState(position)
+                drawStone(view, state)
+            }
 
         val turn = if (lastTurn == StoneState.BLACK) StoneState.WHITE else StoneState.BLACK
         updateTurnView(turn)
-        return OmokGame(omokBoard, turn)
     }
 
     private fun drawStone(
         view: ImageView,
         state: StoneState,
     ) {
-        if (state == StoneState.BLACK) {
-            view.setImageResource(R.drawable.black_stone)
-        } else {
-            view.setImageResource(R.drawable.white_stone)
+        when (state) {
+            StoneState.BLACK -> view.setImageResource(R.drawable.black_stone)
+            StoneState.WHITE -> view.setImageResource(R.drawable.white_stone)
+            else -> view.setImageResource(0)
         }
     }
 
@@ -183,11 +185,18 @@ class GameActivity : AppCompatActivity() {
             .forEach { it.setOnClickListener(null) }
     }
 
+    private fun String.toBoardPosition(): Position {
+        val x = this[0].toBoardIndex
+        val y = this.substring(1).toInt().toBoardIndex
+
+        return Position(x, y)
+    }
+
     private val Char.toBoardIndex: Int
         get() = this - 'A'
 
     private val Int.toBoardIndex: Int
-        get() = this - 1
+        get() = 15 - this
 
     override fun onDestroy() {
         dbHelper.close()
