@@ -10,18 +10,16 @@ import woowacourse.omok.domain.player.StoneColor
 class OmokGame(
     private val playingBoard: PlayingBoard,
 ) {
-    private var stoneColor = StoneColor.BLACK
-
-    val currentStoneColor: StoneColor get() = stoneColor
+    var stoneColor = StoneColor.BLACK
 
     fun start(
         position: Position,
         onStonePlaced: (PlaceResult) -> Unit,
     ) {
-        val playerStone = PlayerStone(stoneColor, position)
+        val playerStone = PlayerStone(this.stoneColor, position)
         val placeResult = playingBoard.placeStone(playerStone)
         onStonePlaced(placeResult)
 
-        if (placeResult is GameOnGoing) stoneColor = stoneColor.reversed()
+        if (placeResult is GameOnGoing) this.stoneColor = this.stoneColor.reversed()
     }
 }

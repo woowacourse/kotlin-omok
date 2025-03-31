@@ -34,11 +34,11 @@ class OmokGameTest {
         val omokGame = OmokGame(PlayingBoard(OmokBoard(), RuleNavigation(OmokRule.whiteRules, OmokRule.blackRules)))
 
         // when
-        val actualInitStone = omokGame.currentStoneColor
+        val actualInitStone = omokGame.stoneColor
 
         omokGame.start(blackTurnPosition) {}
 
-        val actualChangeStone = omokGame.currentStoneColor
+        val actualChangeStone = omokGame.stoneColor
 
         val expectedInitStone = StoneColor.BLACK
         val expectedChangeStone = StoneColor.WHITE
@@ -55,11 +55,11 @@ class OmokGameTest {
         val omokGame = OmokGame(PlayingBoard(OmokBoard(), RuleNavigation(OmokRule.whiteRules, OmokRule.blackRules)))
 
         // when
-        val actualInitStone = omokGame.currentStoneColor
+        val actualInitStone = omokGame.stoneColor
 
         omokGame.start(blackTurnPosition) {}
 
-        val actualChangeStone = omokGame.currentStoneColor
+        val actualChangeStone = omokGame.stoneColor
 
         val expectedInitStone = StoneColor.BLACK
         val expectedChangeStone = StoneColor.WHITE

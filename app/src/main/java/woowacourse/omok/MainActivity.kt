@@ -65,13 +65,24 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 imageView.setOnClickListener {
-                    val currentColor = omokGame.currentStoneColor.name
+                    val currentColor = omokGame.stoneColor.name
                     omokRepository.insertStone(currentColor, row, column)
                     omokGame.start(Position(RowPosition(row + 1), ColumnPosition(column + 1))) { placeResult ->
                         handlePlaceResult(placeResult, imageView)
                     }
                 }
             }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("currentStoneColor", omokGame.stoneColor.name)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val savedColor = savedInstanceState.getString("currentStoneColor") ?: return
+        omokGame.stoneColor = StoneColor.valueOf(savedColor)
     }
 
     private fun resetBoard() {
@@ -122,7 +133,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateStone(imageView: ImageView) {
-        omokGame.currentStoneColor.toUi(imageView)
+        omokGame.stoneColor.toUi(imageView)
     }
 
     private fun StoneColor.toUi(imageView: ImageView) {
