@@ -1,3 +1,3 @@
 package woowacourse.omok.domain.model.state
 
-interface State
+sealed class State

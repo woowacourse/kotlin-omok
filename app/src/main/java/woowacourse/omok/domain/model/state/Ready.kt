@@ -8,7 +8,7 @@ import woowacourse.omok.domain.model.stone.WhiteStones
 class Ready(
     override val blackStones: BlackStones = BlackStones(),
     override val whiteStones: WhiteStones = WhiteStones(),
-) : Playing {
+) : Playing() {
     override fun place(
         point: Point,
         boardSize: Int,
