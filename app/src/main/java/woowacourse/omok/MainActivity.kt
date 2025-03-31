@@ -17,9 +17,14 @@ import omok.model.entity.Stone
 import omok.model.entity.board.DefaultBoard
 import omok.model.entity.position.DefaultPosition
 import omok.model.entity.position.Position
+import woowacourse.omok.data.DefaultOmokHistoryHistoryStorage
+import woowacourse.omok.data.History
+import woowacourse.omok.data.OmokHistoryStorage
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     private var state: GameState = GameState(board = DefaultBoard())
+    private lateinit var omokHistoryStorage: OmokHistoryStorage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,12 +35,62 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        setOnClickBoardPositions()
+        omokHistoryStorage = DefaultOmokHistoryHistoryStorage(this)
+        val positions: Sequence<ImageView> = positions()
+        loadOmokHistory(positions)
+        setOnClickBoardPositions(positions)
     }
 
-    private fun setOnClickBoardPositions() {
-        val positions: Sequence<ImageView> = positions()
+    override fun onDestroy() {
+        omokHistoryStorage.close()
+        super.onDestroy()
+    }
+
+    private fun positions(): Sequence<ImageView> {
+        val boardView: TableLayout = findViewById(R.id.board)
+        val positions: Sequence<ImageView> =
+            boardView
+                .children
+                .filterIsInstance<TableRow>()
+                .flatMap { it.children }
+                .filterIsInstance<ImageView>()
+        return positions
+    }
+
+    private fun loadOmokHistory(positions: Sequence<ImageView>) {
+        thread {
+            val histories: List<History> = omokHistoryStorage.fetch()
+            loadGameState(histories)
+            applyOnUi(histories, positions)
+        }
+    }
+
+    private fun loadGameState(histories: List<History>) {
+        histories.forEach { history: History ->
+            val position: Position = DefaultPosition(history.row, history.column)
+            state = state.play(position)
+        }
+    }
+
+    private fun applyOnUi(
+        histories: List<History>,
+        positions: Sequence<ImageView>,
+    ) {
+        runOnUiThread {
+            histories.forEach { history: History ->
+                val view = positions.elementAt(positionIndexOf(history.row, history.column))
+                val stone: Stone = Stone.valueOf(history.turn)
+                view.setImageResource(stone.drawable)
+            }
+        }
+    }
+
+    private fun positionIndexOf(
+        row: Int,
+        column: Int,
+    ): Int = row * 15 + column
+
+    private fun setOnClickBoardPositions(positions: Sequence<ImageView>) {
         positions.forEachIndexed { index: Int, view: ImageView ->
             setOnClickBoardPosition(view, index)
         }
@@ -50,21 +105,16 @@ class MainActivity : AppCompatActivity() {
             val position: Position = index.toPosition()
             state = state.play(position)
             view.setImageResource(currentStone.drawable)
+            thread {
+                omokHistoryStorage.add(History(currentStone, position.row, position.column))
+            }
             if (!state.playing) {
+                thread {
+                    omokHistoryStorage.clear()
+                }
                 showResult(currentStone)
             }
         }
-    }
-
-    private fun positions(): Sequence<ImageView> {
-        val boardView: TableLayout = findViewById(R.id.board)
-        val positions: Sequence<ImageView> =
-            boardView
-                .children
-                .filterIsInstance<TableRow>()
-                .flatMap { it.children }
-                .filterIsInstance<ImageView>()
-        return positions
     }
 
     private fun Int.toPosition(): Position {
@@ -87,18 +137,18 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
+    private val Stone.prettyString: String
+        get() =
+            when (this) {
+                Stone.BLACK -> "흑돌"
+                Stone.WHITE -> "백돌"
+            }
+
     private val Stone.drawable: Int
         @DrawableRes
         get() =
             when (this) {
                 Stone.BLACK -> R.drawable.black_stone
                 Stone.WHITE -> R.drawable.white_stone
-            }
-
-    private val Stone.prettyString: String
-        get() =
-            when (this) {
-                Stone.BLACK -> "흑돌"
-                Stone.WHITE -> "백돌"
             }
 }
