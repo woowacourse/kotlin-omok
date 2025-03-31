@@ -24,8 +24,15 @@ import woowacourse.omok.model.board.PlaceStoneResult
 import woowacourse.omok.model.board.Point
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var omokGame: OmokGame
-    private lateinit var omokGameDao: OmokGameDao
+    private val omokGame: OmokGame by lazy {
+        val size = BoardSize.OMOK_BOARD_SIZE
+        val rules = getRules()
+
+        OmokGame(rules, BoardSize(size))
+    }
+    private val omokGameDao: OmokGameDao by lazy {
+        OmokGameDao(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +45,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupBoardUI()
-
-        val size = BoardSize.OMOK_BOARD_SIZE
-        val rules = getRules()
-
-        omokGame = OmokGame(rules, BoardSize(size))
-        omokGameDao = OmokGameDao(this)
 
         val savedStones = omokGameDao.loadGameState()
         omokGame.restoreGameState(savedStones)
