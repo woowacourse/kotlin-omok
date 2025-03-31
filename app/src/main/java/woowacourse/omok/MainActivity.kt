@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     private var state: State = Ready()
     private val gameManager = OmokGameManager()
     private lateinit var omokDao: OmokDao
-    private lateinit var boardImages: List<List<ImageView>>
+    private lateinit var boardImages: Sequence<List<ImageView>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +38,8 @@ class MainActivity : AppCompatActivity() {
         val board = findViewById<TableLayout>(R.id.board)
         boardImages =
             board.children
+                .asSequence()
                 .filterIsInstance<TableRow>()
-                .toList()
-                .reversed()
                 .map { row -> row.children.filterIsInstance<ImageView>().toList() }
 
         updateBoard()
