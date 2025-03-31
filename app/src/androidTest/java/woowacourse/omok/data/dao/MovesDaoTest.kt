@@ -2,19 +2,16 @@ package woowacourse.omok.data.dao
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.runner.RunWith
 import woowacourse.omok.data.OmokDatabaseHelper
 import woowacourse.omok.domain.board.CellState
 import woowacourse.omok.domain.board.Point
 
-@RunWith(AndroidJUnit4::class)
 class MovesDaoTest {
     private lateinit var dbHelper: OmokDatabaseHelper
     private lateinit var movesDao: MovesDao
@@ -23,13 +20,14 @@ class MovesDaoTest {
     @BeforeEach
     fun setup() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        dbHelper = OmokDatabaseHelper(context)
+        dbHelper = OmokDatabaseHelper(context, true)
         gamesDao = GamesDao(dbHelper)
         movesDao = MovesDao(dbHelper)
     }
 
     @AfterEach
     fun teardown() {
+        dbHelper.deleteDatabase()
         dbHelper.close()
     }
 

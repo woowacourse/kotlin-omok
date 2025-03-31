@@ -2,38 +2,29 @@ package woowacourse.omok.data.dao
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import woowacourse.omok.data.OmokDatabaseHelper
 
-@RunWith(AndroidJUnit4::class)
 class GamesDaoTest {
     private lateinit var dbHelper: OmokDatabaseHelper
     private lateinit var gamesDao: GamesDao
 
-    @Before
-    fun setup() {
+    @BeforeEach
+    fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        dbHelper = OmokDatabaseHelper(context)
+        dbHelper = OmokDatabaseHelper(context, true)
         gamesDao = GamesDao(dbHelper)
     }
 
-    @After
+    @AfterEach
     fun teardown() {
-        clearAllGames()
+        dbHelper.deleteDatabase()
         dbHelper.close()
-    }
-
-    private fun clearAllGames() {
-        gamesDao.getGames().getOrDefault(emptyList()).forEach { game ->
-            gamesDao.deleteGame(game.id)
-        }
     }
 
     @Test
