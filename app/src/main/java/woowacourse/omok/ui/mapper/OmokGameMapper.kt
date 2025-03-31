@@ -13,6 +13,7 @@ fun OmokGameDto.toUI(): OmokGame {
             .mapKeys { Position(it.key.first, it.key.second) }
             .mapValues { PointState.valueOf(it.value) }
     return OmokGame(
+        id = gameId,
         board = OmokBoard(board.toMutableMap()),
         firstStone = StoneColor.valueOf(lastTurn),
     )
@@ -24,6 +25,7 @@ fun OmokGame.toData(): OmokGameDto {
             .mapKeys { Pair(it.key.row, it.key.column) }
             .mapValues { it.value.name }
     return OmokGameDto(
+        gameId = id,
         lastTurn = currentTurn.name,
         board = board,
     )

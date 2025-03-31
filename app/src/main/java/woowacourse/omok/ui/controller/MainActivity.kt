@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupView()
 
-        val omokGame = omokGameDao.fetchGame()?.toUI() ?: OmokGame()
+        val omokGame = omokGameDao.fetchGame(0)?.toUI() ?: OmokGame()
         updateStonesUI(omokGame.board)
         setupClickListeners(omokGame)
     }
@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity() {
         when (val judgeResult = omokGame.judge(playerStone)) {
             is Finished -> {
                 updateBoardActivation(false)
-                omokGameDao.deleteGame()
+                omokGameDao.deleteGame(omokGame.id)
                 showResultDialog(getJudgeMessage(judgeResult))
             }
 
@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRestartClickListener(omokGame: OmokGame) {
         binding.btnOmokRestart.setOnClickListener {
-            omokGameDao.deleteGame()
+            omokGameDao.deleteGame(omokGame.id)
             omokGame.restart()
             updateStonesUI(omokGame.board)
             updateBoardActivation(true)

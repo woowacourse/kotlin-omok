@@ -13,6 +13,7 @@ import woowacourse.omok.domain.model.rule.place.PlaceResult
 import woowacourse.omok.domain.model.rule.place.PlaceRules
 
 class OmokGame(
+    val id: Int = DEFAULT_GAME_ID,
     val board: OmokBoard = OmokBoard.create(),
     private val placeRules: PlaceRules = PlaceRules(listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())),
     private val judgeRules: JudgeRules = JudgeRules(listOf(WinningRule(), DrawRule())),
@@ -53,5 +54,6 @@ class OmokGame(
 
     companion object {
         private val INITIAL_STONE_COLOR = StoneColor.BLACK
+        private const val DEFAULT_GAME_ID = 0
     }
 }

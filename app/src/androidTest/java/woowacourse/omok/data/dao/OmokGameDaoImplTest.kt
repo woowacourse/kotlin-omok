@@ -19,8 +19,8 @@ class OmokGameDaoImplTest {
     fun setup() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         val omokDbHelper = OmokDbHelper(context)
-        dao = OmokGameDaoImpl(omokDbHelper, gameId)
-        dao.deleteGame()
+        dao = OmokGameDaoImpl(omokDbHelper)
+        dao.deleteGame(gameId)
     }
 
     @Test
@@ -28,13 +28,14 @@ class OmokGameDaoImplTest {
         // given
         val input =
             OmokGameDto(
+                gameId = gameId,
                 lastTurn = "WHITE",
                 board = mapOf(0 to 0 to "BLACK"),
             )
 
         // when
         dao.saveGame(input)
-        val loaded = dao.fetchGame()
+        val loaded = dao.fetchGame(gameId)
 
         // then
         assertThat(loaded).isNotNull
@@ -45,7 +46,7 @@ class OmokGameDaoImplTest {
     @Test
     fun fetchGameWhenEmptyReturnsNull() {
         // when
-        val game = dao.fetchGame()
+        val game = dao.fetchGame(gameId)
 
         // then
         assertThat(game).isNull()
@@ -54,11 +55,11 @@ class OmokGameDaoImplTest {
     @Test
     fun deleteGameClearsSavedData() {
         // given
-        dao.saveGame(OmokGameDto("WHITE", mapOf(1 to 1 to "WHITE")))
+        dao.saveGame(OmokGameDto(gameId, "WHITE", mapOf(1 to 1 to "WHITE")))
 
         // when
-        dao.deleteGame()
-        val afterDelete = dao.fetchGame()
+        dao.deleteGame(gameId)
+        val afterDelete = dao.fetchGame(gameId)
 
         // then
         assertThat(afterDelete).isNull()

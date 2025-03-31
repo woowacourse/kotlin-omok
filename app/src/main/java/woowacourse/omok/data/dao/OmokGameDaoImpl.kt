@@ -7,15 +7,19 @@ import woowacourse.omok.data.model.OmokGameDto
 
 class OmokGameDaoImpl(
     private val omokDbHelper: OmokDbHelper,
-    private val gameId: Int = 1,
 ) : OmokGameDao {
     override fun saveGame(game: OmokGameDto) {
         omokDbHelper.writableDatabase.use { db ->
-            db.delete(OmokContract.TABLE_GAME_STATE, "${OmokContract.COLUMN_GAME_ID}=?", arrayOf(gameId.toString()))
+            db.delete(
+                OmokContract.TABLE_GAME_STATE,
+                "${OmokContract.COLUMN_GAME_ID}=?",
+                arrayOf(game.gameId.toString()),
+            )
+
             game.board.forEach { (pos, state) ->
                 val values =
                     ContentValues().apply {
-                        put(OmokContract.COLUMN_GAME_ID, gameId)
+                        put(OmokContract.COLUMN_GAME_ID, game.gameId)
                         put(OmokContract.COLUMN_POSITION_ROW, pos.first)
                         put(OmokContract.COLUMN_POSITION_COL, pos.second)
                         put(OmokContract.COLUMN_POSITION_STATE, state)
@@ -26,7 +30,7 @@ class OmokGameDaoImpl(
         }
     }
 
-    override fun fetchGame(): OmokGameDto? {
+    override fun fetchGame(gameId: Int): OmokGameDto? {
         omokDbHelper.readableDatabase.use { db ->
             val cursor =
                 db.query(
@@ -58,15 +62,19 @@ class OmokGameDaoImpl(
             cursor.close()
 
             return when (lastTurn != null && board.isNotEmpty()) {
-                true -> OmokGameDto(lastTurn, board)
+                true -> OmokGameDto(gameId, lastTurn, board)
                 false -> null
             }
         }
     }
 
-    override fun deleteGame() {
+    override fun deleteGame(gameId: Int) {
         omokDbHelper.writableDatabase.use { db ->
-            db.delete(OmokContract.TABLE_GAME_STATE, "${OmokContract.COLUMN_GAME_ID}=?", arrayOf(gameId.toString()))
+            db.delete(
+                OmokContract.TABLE_GAME_STATE,
+                "${OmokContract.COLUMN_GAME_ID}=?",
+                arrayOf(gameId.toString()),
+            )
         }
     }
 }

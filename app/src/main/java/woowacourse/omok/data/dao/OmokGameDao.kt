@@ -5,7 +5,7 @@ import woowacourse.omok.data.model.OmokGameDto
 interface OmokGameDao {
     fun saveGame(game: OmokGameDto)
 
-    fun fetchGame(): OmokGameDto?
+    fun fetchGame(gameId: Int): OmokGameDto?
 
-    fun deleteGame()
+    fun deleteGame(gameId: Int)
 }
