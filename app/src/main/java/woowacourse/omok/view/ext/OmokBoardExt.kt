@@ -31,25 +31,27 @@ fun OmokBoard.serialize(): String {
     }
 }
 
-fun OmokBoard.deserialize(value: String): OmokBoard {
-    val places =
-        value.split("/")
-            .map { it.split("|") }
-            .map { info ->
-                val x = info[1].toInt()
-                val y = info[2].toInt()
-                when (info[0]) {
-                    "B" -> Black(x, y)
-                    "W" -> White(x, y)
-                    "P" -> Protected(x, y)
-                    "E" -> Empty(x, y)
-                    else -> throw IllegalStateException(DESERIALIZE_ERR)
+fun OmokBoard.deserialize(value: String): OmokBoard? {
+    return runCatching {
+        val places =
+            value.split("/")
+                .map { it.split("|") }
+                .map { info ->
+                    val x = info[1].toInt()
+                    val y = info[2].toInt()
+                    when (info[0]) {
+                        "B" -> Black(x, y)
+                        "W" -> White(x, y)
+                        "P" -> Protected(x, y)
+                        "E" -> Empty(x, y)
+                        else -> throw IllegalStateException(DESERIALIZE_ERR)
+                    }
                 }
-            }
 
-    return OmokBoard(
-        omokStones = OmokStones(places),
-        omokRules = omokRules,
-        latestPlace = places.lastOrNull() ?: Empty.dummy(),
-    )
+        OmokBoard(
+            omokStones = OmokStones(places),
+            omokRules = omokRules,
+            latestPlace = places.lastOrNull() ?: Empty.dummy(),
+        )
+    }.getOrNull()
 }

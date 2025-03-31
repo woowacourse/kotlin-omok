@@ -47,9 +47,7 @@ class OmokGameActivity : AppCompatActivity() {
 
         val loadedBoard =
             dao.findBoardByNickName(nickname)?.let {
-                runCatching {
-                    omokBoard.deserialize(it.board)
-                }.getOrNull()
+                omokBoard.deserialize(it.board) ?: omokBoard
             } ?: omokBoard
         startGame(loadedBoard)
     }
