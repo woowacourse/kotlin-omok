@@ -36,14 +36,21 @@ class MainActivity : AppCompatActivity() {
         state = omokDao.loadGameState() ?: Ready()
 
         val board = findViewById<TableLayout>(R.id.board)
-        boardImages =
-            board.children
-                .asSequence()
-                .filterIsInstance<TableRow>()
-                .map { row -> row.children.filterIsInstance<ImageView>().toList() }
+        getBoardImages(board)
 
         updateBoard()
+        setupImageViewClickListeners()
+    }
 
+    private fun getBoardImages(board: TableLayout): List<List<ImageView>> {
+        return board.children
+            .asSequence()
+            .filterIsInstance<TableRow>()
+            .map { row -> row.children.filterIsInstance<ImageView>().toList() }
+            .toList()
+    }
+
+    private fun setupImageViewClickListeners() {
         boardImages.forEachIndexed { rowIndex, row ->
             row.forEachIndexed { colIndex, imageView ->
                 imageView.setOnClickListener { placeStone(Point(colIndex, rowIndex), imageView) }
