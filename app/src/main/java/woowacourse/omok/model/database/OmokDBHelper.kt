@@ -2,12 +2,15 @@ package woowacourse.omok.model.database
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.core.database.sqlite.transaction
 import woowacourse.omok.model.database.OmokDBContract.GameRoomsTable
 import woowacourse.omok.model.database.OmokDBContract.PlayerTable
 import woowacourse.omok.model.database.OmokDBContract.StonesTable
+import woowacourse.omok.model.gameRoom.GameRoom
+import java.time.LocalDateTime
 
 class OmokDBHelper(
     context: Context,
@@ -139,6 +142,55 @@ class OmokDBHelper(
                     null
                 }
             }
+    }
+
+    fun fetchDBGameRooms(): List<GameRoom> {
+        val gameRooms = mutableListOf<GameRoom>()
+        executeGameRoomsFetchQuery().use { cursor ->
+            val roomIdIndex = cursor.getColumnIndexOrThrow(GameRoomsTable.COLUMN_ROOM_ID)
+            val blackNameIndex = cursor.getColumnIndexOrThrow(GameRoomsTable.COLUMN_BLACK_PLAYER_NAME)
+            val whiteNameIndex = cursor.getColumnIndexOrThrow(GameRoomsTable.COLUMN_WHITE_PLAYER_NAME)
+            val timeIndex = cursor.getColumnIndexOrThrow(GameRoomsTable.COLUMN_LAST_PLAY_TIME)
+
+            while (cursor.moveToNext()) {
+                val roomId = cursor.getInt(roomIdIndex)
+                val blackPlayerName = cursor.getString(blackNameIndex)
+                val whitePlayerName = cursor.getString(whiteNameIndex)
+                val lastPlayTime = LocalDateTime.parse(cursor.getString(timeIndex), OmokDBContract.dbTimeFormatter)
+
+                gameRooms.add(
+                    GameRoom(
+                        id = roomId,
+                        blackStonePlayerName = blackPlayerName,
+                        whiteStonePlayerName = whitePlayerName,
+                        lastPlayTime = lastPlayTime,
+                    ),
+                )
+            }
+        }
+
+        return gameRooms
+    }
+
+    private fun executeGameRoomsFetchQuery(): Cursor {
+        val db = readableDatabase
+        val projection =
+            arrayOf(
+                GameRoomsTable.COLUMN_ROOM_ID,
+                GameRoomsTable.COLUMN_BLACK_PLAYER_NAME,
+                GameRoomsTable.COLUMN_WHITE_PLAYER_NAME,
+                GameRoomsTable.COLUMN_LAST_PLAY_TIME,
+            )
+
+        return db.query(
+            GameRoomsTable.TABLE_NAME,
+            projection,
+            null,
+            null,
+            null,
+            null,
+            "${GameRoomsTable.COLUMN_LAST_PLAY_TIME} DESC",
+        )
     }
 
     companion object {

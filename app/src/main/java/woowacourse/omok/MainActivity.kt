@@ -18,6 +18,7 @@ import woowacourse.omok.model.database.OmokDBHelper
 import woowacourse.omok.model.database.PlayerInfo
 import woowacourse.omok.model.gameRoom.GameRoom
 import woowacourse.omok.model.gameRoom.GameRoomAdapter
+import woowacourse.omok.view.MainActivityInputView
 import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private val gameRooms = mutableListOf<GameRoom>()
 
-    private val gameLauncher =
+    private val gameActivityLauncher =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),
         ) { result ->
@@ -42,7 +43,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupListeners()
+        val mainActivityInputView = MainActivityInputView(this)
+
+        setupListeners(mainActivityInputView)
         reloadPreviousGameRooms()
         setupRecyclerView()
     }
@@ -61,54 +64,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupListeners() {
+    private fun setupListeners(mainActivityInputView: MainActivityInputView) {
         createGameButton.setOnClickListener {
-            showInputDialog()
+            mainActivityInputView.showPlayerNamesInputDialog { blackName, whiteName ->
+                dbHelper.addPlayerHistory(blackName, playCount = 1)
+                dbHelper.addPlayerHistory(whiteName, playCount = 1)
+                showCreateGameDialog(blackName, whiteName)
+            }
         }
     }
 
     private fun reloadPreviousGameRooms() {
-        val db = dbHelper.readableDatabase
         gameRooms.clear()
-
-        val projection =
-            arrayOf(
-                OmokDBContract.GameRoomsTable.COLUMN_ROOM_ID,
-                OmokDBContract.GameRoomsTable.COLUMN_BLACK_PLAYER_NAME,
-                OmokDBContract.GameRoomsTable.COLUMN_WHITE_PLAYER_NAME,
-                OmokDBContract.GameRoomsTable.COLUMN_LAST_PLAY_TIME,
-            )
-        db
-            .query(
-                OmokDBContract.GameRoomsTable.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                "${OmokDBContract.GameRoomsTable.COLUMN_LAST_PLAY_TIME} DESC",
-            ).use { cursor ->
-                val roomIdIndex = cursor.getColumnIndexOrThrow(OmokDBContract.GameRoomsTable.COLUMN_ROOM_ID)
-                val blackNameIndex = cursor.getColumnIndexOrThrow(OmokDBContract.GameRoomsTable.COLUMN_BLACK_PLAYER_NAME)
-                val whiteNameIndex = cursor.getColumnIndexOrThrow(OmokDBContract.GameRoomsTable.COLUMN_WHITE_PLAYER_NAME)
-                val timeIndex = cursor.getColumnIndexOrThrow(OmokDBContract.GameRoomsTable.COLUMN_LAST_PLAY_TIME)
-
-                while (cursor.moveToNext()) {
-                    val roomId = cursor.getInt(roomIdIndex)
-                    val blackPlayerName = cursor.getString(blackNameIndex)
-                    val whitePlayerName = cursor.getString(whiteNameIndex)
-                    val lastPlayTime = LocalDateTime.parse(cursor.getString(timeIndex), OmokDBContract.dbTimeFormatter)
-
-                    gameRooms.add(
-                        GameRoom(
-                            id = roomId,
-                            blackStonePlayerName = blackPlayerName,
-                            whiteStonePlayerName = whitePlayerName,
-                            lastPlayTime = lastPlayTime,
-                        ),
-                    )
-                }
-            }
+        gameRooms += dbHelper.fetchDBGameRooms()
     }
 
     private fun openGameRoom(gameRoom: GameRoom) {
@@ -118,48 +86,7 @@ class MainActivity : AppCompatActivity() {
                 putExtra(BLACK_PLAYER, gameRoom.blackStonePlayerName)
                 putExtra(WHITE_PLAYER, gameRoom.whiteStonePlayerName)
             }
-        gameLauncher.launch(intent)
-    }
-
-    fun showInputDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.make_room_dialog_input, null)
-
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("닉네임 입력")
-        builder.setView(dialogView)
-
-        val blackStoneInputView = dialogView.findViewById<EditText>(R.id.black_stone_name)
-        val whiteStoneInputView = dialogView.findViewById<EditText>(R.id.white_stone_name)
-
-        builder.setPositiveButton("확인") { _, _ ->
-        }
-
-        builder.setNegativeButton("취소") { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        val dialog = builder.create()
-        dialog.show()
-
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-            val blackStoneName = blackStoneInputView.text.toString()
-            val whiteStoneName = whiteStoneInputView.text.toString()
-
-            when {
-                blackStoneName.isEmpty() || whiteStoneName.isEmpty() ->
-                    Toast.makeText(this, "입력값이 비었습니다!!", Toast.LENGTH_SHORT).show()
-
-                blackStoneName == whiteStoneName ->
-                    Toast.makeText(this, "두 닉네임이 같습니다!!", Toast.LENGTH_SHORT).show()
-
-                else -> {
-                    dbHelper.addPlayerHistory(blackStoneName, playCount = 1)
-                    dbHelper.addPlayerHistory(whiteStoneName, playCount = 1)
-                    showCreateGameDialog(blackStoneName, whiteStoneName)
-                    dialog.dismiss()
-                }
-            }
-        }
+        gameActivityLauncher.launch(intent)
     }
 
     private fun showCreateGameDialog(

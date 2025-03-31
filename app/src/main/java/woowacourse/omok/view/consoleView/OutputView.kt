@@ -1,4 +1,4 @@
-package woowacourse.omok.view
+package woowacourse.omok.view.consoleView
 
 import woowacourse.omok.model.board.Board
 import woowacourse.omok.model.board.BoardSize

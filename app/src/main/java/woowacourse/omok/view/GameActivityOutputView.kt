@@ -22,7 +22,7 @@ import woowacourse.omok.model.rule.RenjuFoul.THREE_BY_THREE_FOUL
 import woowacourse.omok.model.stone.StoneColor
 import woowacourse.omok.model.stone.position.Position
 
-class OutputAppView(
+class GameActivityOutputView(
     private val gameActivity: Activity,
 ) {
     fun stonesUiDraw(

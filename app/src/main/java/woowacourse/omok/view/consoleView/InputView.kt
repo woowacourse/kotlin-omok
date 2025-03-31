@@ -1,4 +1,4 @@
-package woowacourse.omok.view
+package woowacourse.omok.view.consoleView
 
 class InputView {
     tailrec fun readCoordinateText(): String {

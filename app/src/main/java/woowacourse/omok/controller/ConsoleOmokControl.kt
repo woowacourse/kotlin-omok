@@ -9,10 +9,10 @@ import woowacourse.omok.model.rule.RenjuFoul
 import woowacourse.omok.model.stone.position.Col
 import woowacourse.omok.model.stone.position.Position
 import woowacourse.omok.model.stone.position.Row
-import woowacourse.omok.view.InputView
-import woowacourse.omok.view.OutputView
+import woowacourse.omok.view.consoleView.InputView
+import woowacourse.omok.view.consoleView.OutputView
 
-class OmokControl(
+class ConsoleOmokControl(
     private val inputView: InputView,
     private val outputView: OutputView,
     private val boardSize: BoardSize,

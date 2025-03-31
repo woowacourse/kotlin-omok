@@ -10,13 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
-import woowacourse.omok.controller.OmokAppControl
+import woowacourse.omok.controller.GameActivityControl
 import woowacourse.omok.model.board.BoardSize
 import woowacourse.omok.model.database.OmokDBHelper
 import woowacourse.omok.model.stone.position.Col
 import woowacourse.omok.model.stone.position.Position
 import woowacourse.omok.model.stone.position.Row
-import woowacourse.omok.view.OutputAppView
+import woowacourse.omok.view.GameActivityOutputView
 import kotlin.concurrent.thread
 import kotlin.math.abs
 
@@ -38,8 +38,8 @@ class GameActivity : AppCompatActivity() {
         }
 
         val boardSize = BoardSize(BOARD_SIZE)
-        val outputAppView = OutputAppView(this)
-        val omokAppControl = OmokAppControl(boardSize, outputAppView, dbHelper, roomId, blackPlayerName, whitePlayerName)
+        val gameActivityOutputView = GameActivityOutputView(this)
+        val gameActivityControl = GameActivityControl(boardSize, gameActivityOutputView, dbHelper, roomId, blackPlayerName, whitePlayerName)
 
         val board = findViewById<TableLayout>(R.id.board)
         val positionViews: MutableMap<Position, ImageView> = mutableMapOf()
@@ -55,15 +55,15 @@ class GameActivity : AppCompatActivity() {
                 positionViews[clickedPosition] = positionView
                 positionView.setOnClickListener {
                     thread {
-                        omokAppControl.turn(positionView, clickedPosition)
+                        gameActivityControl.turn(positionView, clickedPosition)
                     }
                 }
             }
-        omokAppControl.boardUiRestore(positionViews)
+        gameActivityControl.boardUiRestore(positionViews)
 
         val gameEndButton = findViewById<Button>(R.id.end_game_button)
         gameEndButton.setOnClickListener {
-            outputAppView.gameEndDialogAlert { dbHelper.roomWithStonesDelete(roomId) }
+            gameActivityOutputView.gameEndDialogAlert { dbHelper.roomWithStonesDelete(roomId) }
         }
     }
 

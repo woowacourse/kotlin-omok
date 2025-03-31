@@ -16,11 +16,11 @@ import woowacourse.omok.model.stone.StoneColor
 import woowacourse.omok.model.stone.position.Col
 import woowacourse.omok.model.stone.position.Position
 import woowacourse.omok.model.stone.position.Row
-import woowacourse.omok.view.OutputAppView
+import woowacourse.omok.view.GameActivityOutputView
 
-class OmokAppControl(
+class GameActivityControl(
     private val boardSize: BoardSize,
-    private val outputAppView: OutputAppView,
+    private val gameActivityOutputView: GameActivityOutputView,
     private val omokDBHelper: OmokDBHelper,
     private val roomId: Int,
     private val blackPlayerName: String,
@@ -69,10 +69,10 @@ class OmokAppControl(
     }
 
     fun boardUiRestore(positionViews: Map<Position, ImageView>) {
-        outputAppView.turnInfoUiUpdate(getPlayerNameByColor(board.nextStoneColor))
+        gameActivityOutputView.turnInfoUiUpdate(getPlayerNameByColor(board.nextStoneColor))
         if (board.stonesMap.isNotEmpty()) {
-            outputAppView.stonesUiDraw(board.stonesMap, positionViews)
-            outputAppView.recoveryStonesAlert()
+            gameActivityOutputView.stonesUiDraw(board.stonesMap, positionViews)
+            gameActivityOutputView.recoveryStonesAlert()
         }
     }
 
@@ -85,7 +85,7 @@ class OmokAppControl(
         val newBoard = stoneAddedBoard(nextPosition)
         boardUpdate(newBoard, positionView)
         omokCheck()
-        outputAppView.turnInfoUiUpdate(getPlayerNameByColor(board.nextStoneColor))
+        gameActivityOutputView.turnInfoUiUpdate(getPlayerNameByColor(board.nextStoneColor))
     }
 
     private fun getPlayerNameByColor(stoneColor: StoneColor): String =
@@ -100,7 +100,7 @@ class OmokAppControl(
         if (positionState == EMPTY) {
             return true
         }
-        outputAppView.positionStatusAlert(positionState)
+        gameActivityOutputView.positionStatusAlert(positionState)
         return false
     }
 
@@ -113,7 +113,7 @@ class OmokAppControl(
         val foul = foulCheck(newBoard)
 
         if (foul == SAFE) {
-            outputAppView.stoneUiDraw(board.nextStoneColor, positionView)
+            gameActivityOutputView.stoneUiDraw(board.nextStoneColor, positionView)
             board = newBoard
             board.lastStone?.let { stoneDBSave(it) }
             return
@@ -122,14 +122,14 @@ class OmokAppControl(
 
     private fun foulCheck(newBoard: Board): RenjuFoul {
         val foul = omokReferee.lastStoneFoul(newBoard)
-        outputAppView.foulAlert(foul)
+        gameActivityOutputView.foulAlert(foul)
         return foul
     }
 
     private fun omokCheck() {
         if (omokReferee.isOmok(board)) {
             board.lastStone?.let {
-                outputAppView.omokDialogAlert(
+                gameActivityOutputView.omokDialogAlert(
                     getPlayerNameByColor(it.stoneColor),
                     { gameRestart(it.stoneColor) },
                     { omokWinnerDBWrite(it.stoneColor) },
@@ -159,8 +159,8 @@ class OmokAppControl(
         omokDBHelper.addPlayerHistory(blackPlayerName, playCount = GAME_LOG_COUNT_UNIT)
         omokDBHelper.addPlayerHistory(whitePlayerName, playCount = GAME_LOG_COUNT_UNIT)
         omokWinnerDBWrite(stoneColor)
-        outputAppView.turnInfoUiUpdate(getPlayerNameByColor(board.nextStoneColor))
-        outputAppView.stoneUiClear()
+        gameActivityOutputView.turnInfoUiUpdate(getPlayerNameByColor(board.nextStoneColor))
+        gameActivityOutputView.stoneUiClear()
     }
 
     private fun omokWinnerDBWrite(stoneColor: StoneColor) {
