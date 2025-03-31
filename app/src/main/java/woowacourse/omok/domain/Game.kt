@@ -21,7 +21,8 @@ class Game(
     private var stones: Stones = stoneRepository.allInBoardSize(board)
 
     init {
-        gameEvent.initBoard(stones)
+        gameEvent.initBoard(this)
+        gameEvent.showInitStones(stones)
     }
 
     fun play(playEvent: PlayEvent) {

@@ -26,10 +26,13 @@ import woowacourse.omok.domain.model.rule.OmokRule
 import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.StoneType
 import woowacourse.omok.domain.model.stone.Stones
+import woowacourse.ui.mapper.toPosition
+import woowacourse.ui.model.BoardView
+import woowacourse.ui.model.PositionUiModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var dbHelper: OmokDatabaseHelper
-    private lateinit var boardView: List<List<ImageView>>
+    private lateinit var boardView: BoardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +40,11 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         boardView =
-            findViewById<TableRow>(R.id.board).children.filterIsInstance<TableRow>()
-                .map { it.children.filterIsInstance<ImageView>().toList() }.toList()
+            BoardView(
+                findViewById<TableRow>(R.id.board).children.filterIsInstance<TableRow>()
+                    .map { it.children.filterIsInstance<ImageView>().toList() }.toList(),
+            )
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -55,23 +61,12 @@ class MainActivity : AppCompatActivity() {
     private fun initBoardView() {
         val renjuRule = RenjuRuleAdapter(BlackRenjuRule())
         val board = Board(boardView.size)
-        val omokGame =
-            Game(
-                OmokRule(renjuRule),
-                StoneRepositoryImpl(StoneDao(dbHelper)),
-                board,
-                gameEvent(),
-            )
-
-        boardView.forEachIndexed { row, tableRow ->
-            tableRow.forEachIndexed { column, view ->
-                view.tag = position(column, row)
-                view.setOnClickListener {
-                    if (omokGame.isFinished()) return@setOnClickListener
-                    omokGame.play(playEvent(view))
-                }
-            }
-        }
+        Game(
+            OmokRule(renjuRule),
+            StoneRepositoryImpl(StoneDao(dbHelper)),
+            board,
+            gameEvent(),
+        )
     }
 
     private fun showFinishDialog(
@@ -96,25 +91,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetView() {
-        boardView.forEach { row ->
-            row.forEach {
-                it.setImageResource(0)
-            }
+        boardView.updateBoard { _, _, view ->
+            view.setImageResource(0)
         }
     }
 
     private fun gameEvent() =
         object : GameEvent {
-            override fun initBoard(stones: Stones) {
+            override fun initBoard(omokGame: Game) {
+                boardView.updateBoard { row, column, view ->
+                    view.tag = position(column, row)
+                    view.setOnClickListener {
+                        if (omokGame.isFinished()) return@setOnClickListener
+                        omokGame.play(playEvent(view))
+                    }
+                }
+            }
+
+            override fun showInitStones(stones: Stones) {
                 stones.value.forEach { stone ->
-                    boardView.forEachIndexed { rowIndex, row ->
-                        row.forEachIndexed { columnIndex, view ->
-                            if (stone.isSamePosition(columnIndex + 1, rowIndex + 1)) {
-                                setStoneImage(
-                                    view,
-                                    stone.stoneType,
-                                )
-                            }
+                    boardView.updateBoard { row, column, view ->
+                        if (stone.isSamePosition(column + 1, row + 1)) {
+                            setStoneImage(
+                                view,
+                                stone.stoneType,
+                            )
                         }
                     }
                 }
