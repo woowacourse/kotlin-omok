@@ -1,9 +1,6 @@
 package woowacourse.omok.model
 
 import omok.model.rule.OmokRuleManager
-import omok.model.rule.count.OverlineRule
-import omok.model.rule.lib.DoubleFourMoveRule
-import omok.model.rule.lib.DoubleThreeMoveRule
 import woowacourse.omok.database.SavedStone
 import woowacourse.omok.model.StoneColor.Companion.next
 import woowacourse.omok.model.board.Board
@@ -11,25 +8,19 @@ import woowacourse.omok.model.board.BoardSize
 import woowacourse.omok.model.board.PlaceStoneResult
 import woowacourse.omok.model.board.Point
 
-class OmokGame {
+class OmokGame(
+    private val rules: OmokRuleManager,
+    size: BoardSize,
+) {
     private var isGameOver = false
     var currentStoneColor: StoneColor = StoneColor.BLACK
         private set
     private var previousPoint: Point? = null
-    private var board: Board
+    private var board = Board(size, rules)
 
-    init {
-        val size = BoardSize.OMOK_BOARD_SIZE
-        board = Board(BoardSize(size), getRules())
-    }
+    fun getBoard() = board
 
-    private fun getRules(): OmokRuleManager {
-        val rules = OmokRuleManager
-        rules.forbiddenMoveRule.add(OverlineRule())
-        rules.forbiddenMoveRule.add(DoubleThreeMoveRule())
-        rules.forbiddenMoveRule.add(DoubleFourMoveRule())
-        return rules
-    }
+    fun getPreviousPoint() = previousPoint
 
     fun placeStone(
         x: Int,
@@ -51,7 +42,14 @@ class OmokGame {
                 result
             }
 
-            else -> result
+            is PlaceStoneResult.ForbiddenMove -> {
+                println("금수 확인용")
+                result
+            }
+            is PlaceStoneResult.AlreadyPlaced -> {
+                println("중복 불가능")
+                result
+            }
         }
     }
 
@@ -60,7 +58,7 @@ class OmokGame {
         currentStoneColor = StoneColor.BLACK
         previousPoint = null
         val size = BoardSize.OMOK_BOARD_SIZE
-        board = Board(BoardSize(size), getRules())
+        board = Board(BoardSize(size), rules)
     }
 
     fun restoreGameState(savedStones: List<SavedStone>) {

@@ -11,10 +11,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import omok.model.rule.OmokRuleManager
+import omok.model.rule.count.OverlineRule
+import omok.model.rule.lib.DoubleFourMoveRule
+import omok.model.rule.lib.DoubleThreeMoveRule
 import woowacourse.omok.database.OmokGameDao
 import woowacourse.omok.database.SavedStone
 import woowacourse.omok.model.OmokGame
 import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.board.BoardSize
 import woowacourse.omok.model.board.PlaceStoneResult
 import woowacourse.omok.model.board.Point
 
@@ -32,9 +37,12 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        initBoard()
+        setupBoardUI()
 
-        omokGame = OmokGame()
+        val size = BoardSize.OMOK_BOARD_SIZE
+        val rules = getRules()
+
+        omokGame = OmokGame(rules, BoardSize(size))
         omokGameDao = OmokGameDao(this)
 
         val savedStones = omokGameDao.loadGameState()
@@ -48,9 +56,12 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun initBoard() {
-        setupBoardUI()
-    }
+    private fun getRules(): OmokRuleManager =
+        OmokRuleManager.apply {
+            forbiddenMoveRule.add(OverlineRule())
+            forbiddenMoveRule.add(DoubleThreeMoveRule())
+            forbiddenMoveRule.add(DoubleFourMoveRule())
+        }
 
     private fun setupBoardUI() {
         val boardView = findViewById<TableLayout>(R.id.board)
