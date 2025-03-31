@@ -3,7 +3,7 @@ package woowacourse.omok.domain.omokboard
 import woowacourse.omok.domain.player.PlayerStone
 import woowacourse.omok.domain.player.StoneColor
 
-data class OmokBoard(
+class OmokBoard(
     val value: Map<Position, OmokBoardGridCell>,
 ) {
     constructor(vararg stonePlace: Pair<Position, String>) : this(stonePlace.associate { it.first to it.second.toPointState() })
@@ -17,8 +17,8 @@ data class OmokBoard(
                 }.toMap(),
         )
 
-    val width get() = value.keys.maxOf { it.column.value }
-    val height get() = value.keys.maxOf { it.row.value }
+    val width = value.keys.maxOf { it.column.value }
+    val height = value.keys.maxOf { it.row.value }
 
     fun find(position: Position): OmokBoardGridCell? = value[position]
 
