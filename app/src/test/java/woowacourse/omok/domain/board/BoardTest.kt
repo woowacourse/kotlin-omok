@@ -1,6 +1,7 @@
 package woowacourse.omok.domain.board
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -40,9 +41,11 @@ class BoardTest {
         val customBoard =
             Board(BoardSize(15), initialPoints, validator = RuleValidator())
 
-        assertThat(customBoard.findStoneColor(Point(1, 1))).isEqualTo(CellState.BLACK)
-        assertThat(customBoard.findStoneColor(Point(2, 2))).isEqualTo(CellState.WHITE)
-        assertThat(customBoard.findStoneColor(Point(3, 3))).isEqualTo(CellState.EMPTY)
+        assertAll(
+            { assertThat(customBoard.findStoneColor(Point(1, 1))).isEqualTo(CellState.BLACK) },
+            { assertThat(customBoard.findStoneColor(Point(2, 2))).isEqualTo(CellState.WHITE) },
+            { assertThat(customBoard.findStoneColor(Point(3, 3))).isEqualTo(CellState.EMPTY) },
+        )
     }
 
     @Test
