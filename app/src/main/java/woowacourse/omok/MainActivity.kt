@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity() {
     private val omokBoard: Board = Board(RenjuRuleAdapter())
     private val turn = Turn()
     private val dbHelper: DbHelper = DbHelper(this)
-    private val game = Game(omokBoard, turn, DatabaseStoneDAO(dbHelper))
+    private val databaseStoneDAO = DatabaseStoneDAO(dbHelper)
+    private val game = Game(omokBoard, turn, databaseStoneDAO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val stones = DatabaseStoneDAO(dbHelper).queryStones()
+        val stones = databaseStoneDAO.queryStones()
         val board = findViewById<TableLayout>(R.id.board)
         board
             .children
