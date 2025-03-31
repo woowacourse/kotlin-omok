@@ -38,7 +38,7 @@ class Game(
         applyPlacement(position)
 
         return if (isOmok()) {
-            PlayResult.Win(lastStone!!.stoneColor)
+            PlayResult.Win(lastStone?.stoneColor)
         } else {
             PlayResult.Success
         }

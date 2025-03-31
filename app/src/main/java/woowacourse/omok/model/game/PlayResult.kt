@@ -11,6 +11,6 @@ sealed class PlayResult {
     ) : PlayResult()
 
     data class Win(
-        val winner: StoneColor,
+        val winner: StoneColor?,
     ) : PlayResult()
 }
