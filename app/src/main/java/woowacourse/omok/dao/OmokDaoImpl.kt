@@ -2,7 +2,7 @@ package woowacourse.omok.dao
 
 class OmokDaoImpl(dbHelper: OmokDbHelper) : OmokDao(dbHelper) {
     override val boardColumn: String
-        get() = "omok_board"
+        get() = "board"
     override val nicknameColumn: String
         get() = "nickname"
     override val tableName: String

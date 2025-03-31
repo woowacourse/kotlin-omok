@@ -23,9 +23,6 @@ class OmokGameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        layout = findViewById<TableLayout>(R.id.board)
-        val container = Container(layout)
-
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -33,6 +30,8 @@ class OmokGameActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        layout = findViewById<TableLayout>(R.id.board)
+        val container = Container(layout)
         initializeProperty(container)
 
         nickname = intent.getStringExtra("nickname")!!
