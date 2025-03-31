@@ -141,13 +141,14 @@ class DbHelper(
         return result
     }
 
-    fun deleteGame(gameId: Int) {
+    fun deleteGame(gameId: Int): Boolean {
         val db = writableDatabase
-        db.delete(
+        val deletedRows =  db.delete(
             GameContract.TABLE_NAME,
             "${GameContract.COLUMN_NAME_GAME_ID} = ?",
             arrayOf(gameId.toString()),
         )
+        return deletedRows > 0
     }
 
     companion object {

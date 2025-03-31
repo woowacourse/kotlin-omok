@@ -13,7 +13,7 @@ import woowacourse.omok.data.db.BoardDao
 import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.data.db.GameDao
 
-class GameListActivity : AppCompatActivity() {
+class GameListActivity : AppCompatActivity(), OnGameDeleteListener {
     private val dbHelper: DbHelper by lazy { DbHelper(this) }
     private val boardDao: BoardDao by lazy { BoardDao(dbHelper) }
     private val gameDao: GameDao by lazy { GameDao(dbHelper, boardDao) }
@@ -33,24 +33,32 @@ class GameListActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         val games = gameDao.queryGames()
-        val gameAdapter = GameRecyclerAdapter(
-            games,
-            onItemClick = { gameId -> navigateToGameActivity(gameId) },
-            onDelete = { gameId -> deleteGame(gameId) }
-        )
+        val gameAdapter =
+            GameRecyclerAdapter(
+                games,
+                onItemClick = { gameId -> navigateToGameActivity(gameId) },
+                deleteListener = this,
+            )
 
         findViewById<RecyclerView>(R.id.rv_game_list).adapter = gameAdapter
     }
 
     private fun navigateToGameActivity(gameId: Int) {
-        val intent = Intent(this, GameActivity::class.java).apply {
-            putExtra("game_id", gameId.toLong())
-        }
+        val intent =
+            Intent(this, GameActivity::class.java).apply {
+                putExtra("game_id", gameId.toLong())
+            }
         startActivity(intent)
     }
 
-    private fun deleteGame(gameId: Int) {
-        gameDao.deleteGame(gameId)
-        Toast.makeText(this, R.string.text_delete_game, Toast.LENGTH_LONG).show()
-    }
+    override fun onDeleteGame(gameId: Int): Boolean =
+        gameDao.deleteGame(gameId).also { result ->
+            runOnUiThread {
+                if (result) {
+                    Toast.makeText(this, R.string.text_delete_game, Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, "삭제 실패", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
 }

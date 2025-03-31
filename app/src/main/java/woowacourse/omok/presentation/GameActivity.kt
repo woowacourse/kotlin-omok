@@ -53,6 +53,7 @@ class GameActivity : AppCompatActivity() {
         if (storedStones.isNotEmpty()) {
             loadGame(storedStones)
         }
+        updateTurnView(omokGame.turn)
     }
 
     private fun initBoard() {
@@ -93,8 +94,9 @@ class GameActivity : AppCompatActivity() {
                 drawStone(view, state)
             }
 
-        val turn = if (lastTurn == StoneState.BLACK) StoneState.WHITE else StoneState.BLACK
-        updateTurnView(turn)
+        if (lastTurn == StoneState.BLACK) {
+            omokGame.changeTurn()
+        }
     }
 
     private fun drawStone(

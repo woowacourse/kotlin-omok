@@ -27,7 +27,6 @@ class GameDao(
 
     fun queryGames(): List<Game> = dbHelper.queryGames()
 
-    fun deleteGame(gameId: Int) {
-        dbHelper.deleteGame(gameId)
-    }
+    fun deleteGame(gameId: Int): Boolean = dbHelper.deleteGame(gameId)
+
 }

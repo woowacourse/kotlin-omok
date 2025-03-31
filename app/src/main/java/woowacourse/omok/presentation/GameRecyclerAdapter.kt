@@ -12,7 +12,7 @@ import woowacourse.omok.domain.Game
 class GameRecyclerAdapter(
     items: List<Game>,
     private val onItemClick: (Int) -> Unit,
-    private val onDelete: (Int) -> Unit,
+    private val deleteListener: OnGameDeleteListener,
 ) : RecyclerView.Adapter<GameRecyclerAdapter.ViewHolder>() {
     private val items = items.toMutableList()
 
@@ -28,8 +28,10 @@ class GameRecyclerAdapter(
             title.text = item.name
             itemView.setOnClickListener { onItemClick(item.gameId) }
             itemView.findViewById<Button>(R.id.btn_delete_game).setOnClickListener {
-                onDelete(item.gameId)
-                removeItem(position)
+                val result = deleteListener.onDeleteGame(item.gameId)
+                if (result) {
+                    removeItem(position)
+                }
             }
         }
     }
