@@ -2,8 +2,8 @@ package woowacourse.omok
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Before
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.junit.runner.RunWith
@@ -13,9 +13,10 @@ import woowacourse.omok.data.dao.OmokDao
 class OmokDaoTest {
     lateinit var omokDao: OmokDao
 
-    @AnnotationSpec.Before
+    @Before
     fun setUp() {
         omokDao = OmokDao(ApplicationProvider.getApplicationContext())
+        omokDao.deleteDatabase()
     }
 
     @Test
