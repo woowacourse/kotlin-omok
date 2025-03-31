@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() {
             .forEach { it.setImageResource(0) }
 
         playingBoard.board = OmokBoard()
+        omokGame.stoneColor = StoneColor.BLACK
     }
 
     private fun handlePlaceResult(
