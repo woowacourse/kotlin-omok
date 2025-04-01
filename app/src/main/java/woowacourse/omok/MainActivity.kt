@@ -21,7 +21,7 @@ import woowacourse.omok.domain.model.state.OmokState
 import woowacourse.omok.domain.model.stone.StoneType
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var boardUI: TableLayout
+    private val boardUI: TableLayout by lazy { findViewById(R.id.board) }
     private val omokDao by lazy { (application as OmokApplication).omokDao }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBoard(game: Game) {
-        boardUI = findViewById(R.id.board)
         boardUI.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
             row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
                 val position = Position.of(colIndex, rowIndex, DEFAULT_BOARD_SIZE)
