@@ -25,7 +25,13 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     private var state: GameState = GameState(board = DefaultBoard())
-    private lateinit var omokHistory: OmokHistory
+    private val omokHistory: OmokHistory by lazy {
+        OmokHistory(
+            SQLiteOmokHistoryStorage(
+                OmokHistoryDbHelper(this),
+            ),
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +42,6 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        omokHistory = OmokHistory(SQLiteOmokHistoryStorage(OmokHistoryDbHelper(this)))
         val positions: Sequence<ImageView> = positions()
         loadOmokHistory(positions)
         setOnClickBoardPositions(positions)
