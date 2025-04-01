@@ -7,18 +7,11 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import woowacourse.omok.R
 import woowacourse.omok.databinding.RoomNameDialogBinding
+import woowacourse.omok.ui.ext.showToast
 
 class RoomNameDialog(
     private val onClickComplete: (String) -> Unit,
 ) : DialogFragment(R.layout.room_name_dialog) {
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.setLayout(
-            (resources.displayMetrics.widthPixels * 0.85).toInt(),
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-        )
-    }
-
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?,
@@ -26,11 +19,22 @@ class RoomNameDialog(
         super.onViewCreated(view, savedInstanceState)
         val binding = RoomNameDialogBinding.bind(view)
 
-        binding.buttonCreate.setOnClickListener {
-            val roomName = binding.roomNameEditText.text.toString()
-            if (checkRoomName(roomName)) {
-                onClickComplete(roomName)
+        dialog?.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.85).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+        )
+
+        with(binding) {
+            buttonCancel.setOnClickListener {
                 dismiss()
+            }
+
+            buttonCreate.setOnClickListener {
+                val roomName = roomNameEditText.text.toString()
+                if (checkRoomName(roomName)) {
+                    onClickComplete(roomName)
+                    dismiss()
+                }
             }
         }
     }
