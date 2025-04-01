@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Omok</string>
+
+    <string name="winner_ui_string">%s돌 승리!</string>
+    <string name="black_ui_string">흑</string>
+    <string name="white_ui_string">백</string>
+
+    <string name="already_placed_error_message">중복되는 칸에 돌을 둘 수 없습니다.</string>
+    <string name="violation_error_message">둘 수 없는 자리입니다.</string>
+    <string name="invalid_point_error_message">바둑판 크기를 벗어난 위치입니다.</string>
+    <string name="board_full_error_message">무승부! - 바둑판에 더 이상 둘 수 있는 공간이 없습니다.</string>
+
+    <string name="game_status_playing">진행중인 게임</string>
+    <string name="game_status_finished">종료된 게임</string>
+    <string name="button_game_delete">삭제</string>
+    <string name="button_game_create">게임 생성</string>
+
+    <string name="dialog_create_game_title">게임 생성</string>
+    <string name="dialog_create_game_button_positive">생성</string>
+    <string name="dialog_create_game_button_negative">취소</string>
+
+</resources>
