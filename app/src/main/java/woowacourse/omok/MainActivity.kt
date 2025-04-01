@@ -18,7 +18,6 @@ import woowacourse.omok.database.DbHelper
 import woowacourse.omok.domain.Board
 import woowacourse.omok.domain.Position
 import woowacourse.omok.domain.RenjuRuleAdapter
-import woowacourse.omok.domain.Stone
 import woowacourse.omok.domain.StoneType
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +39,6 @@ class MainActivity : AppCompatActivity() {
 
         val stones = databaseStoneDAO.queryStones()
         val board = findViewById<TableLayout>(R.id.board)
-        var turnColorText = "흑"
         board
             .children
             .filterIsInstance<TableRow>()
@@ -52,37 +50,42 @@ class MainActivity : AppCompatActivity() {
 
                 val stone = stones.find { it.position.row == row && it.position.column == column }
                 if (stone != null) {
-                    if (stone.color == StoneType.WHITE) {
-                        view.setImageResource(R.drawable.white_stone)
-                    } else {
-                        view.setImageResource(R.drawable.black_stone)
+                    omokBoard.put(Position(row, column), stone.color)
+                    val result = game.putStone(row, column, stone.color)
+                    setStoneImage(view, stone.color)
+                    when (result) {
+                        is GameResult.Win -> {
+                            val turnColorText = if (turn.color == StoneType.BLACK) "흑" else "백"
+                            showWinner(turnColorText)
+                        }
+                        is GameResult.Draw -> showDraw()
+                        else -> turn.next()
                     }
                 }
 
                 view.setOnClickListener {
-                    if (omokBoard.isInvalidPosition(Position(row, column))) {
-                        Toast.makeText(this, "이미 돌을 놓은 자리입니다.", Toast.LENGTH_SHORT).show()
-                        return@setOnClickListener
-                    }
-                    if (omokBoard.isInvalidBlackPosition(Stone(Position(row, column), turn.color))) {
-                        Toast.makeText(this, "흑돌이 놓을 수 없는 금수입니다.", Toast.LENGTH_SHORT).show()
-                        return@setOnClickListener
-                    }
-
-                    game.putStone(view, row, column, turn.color)
-
-                    if (omokBoard.isFull()) {
-                        showDraw()
-                    } else if (game.checkOmok()) {
-                        showWinner(turnColorText)
-                    } else {
-                        turn.next()
-                        turnColorText = if (turn.isWhite()) "백" else "흑"
-                        showTurnColorToast(turnColorText)
+                    when (val result = game.putStone(row, column, turn.color)) {
+                        is GameResult.Win -> {
+                            setStoneImage(view, turn.color)
+                            val turnColorText = if (turn.color == StoneType.BLACK) "흑" else "백"
+                            showWinner(turnColorText)
+                        }
+                        is GameResult.Draw -> showDraw()
+                        is GameResult.Continue -> {
+                            val turnColorText = if (turn.color == StoneType.BLACK) "백" else "흑"
+                            setStoneImage(view, turn.color)
+                            showTurnColorToast(turnColorText)
+                            turn.next()
+                        }
+                        is GameResult.InvalidMove -> showInvalidToast(result.message)
                     }
                 }
             }
-        showTurnColorToast(turnColorText)
+    }
+
+    private fun setStoneImage(view: ImageView, stoneType: StoneType) {
+        val image = if (stoneType == StoneType.BLACK) R.drawable.black_stone else R.drawable.white_stone
+        view.setImageResource(image)
     }
 
     override fun onDestroy() {
@@ -92,6 +95,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun showTurnColorToast(turnColorText: String) {
         Toast.makeText(this, "${turnColorText}의 차례입니다.", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showInvalidToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun showDraw() {
@@ -114,6 +121,8 @@ class MainActivity : AppCompatActivity() {
 
         alertDialog.setOnDismissListener {
             restart()
+            if (turn.isWhite()) turn.next()
+            showTurnColorToast("흑")
         }
         alertDialog.show()
     }

@@ -1,6 +1,5 @@
 package woowacourse.omok
 
-import android.widget.ImageView
 import omok.domain.Turn
 import woowacourse.omok.database.StoneDAO
 import woowacourse.omok.domain.Board
@@ -17,23 +16,27 @@ class Game(
     private val fiveRule = FiveRule()
 
     fun putStone(
-        view: ImageView,
         row: Int,
         column: Int,
         color: StoneType,
-    ) {
-        if (!omokBoard.isFull() && !omokBoard.isInvalidPosition(Position(row, column)) &&
-            !omokBoard.isInvalidBlackPosition(
-                Stone(Position(row, column), turn.color),
-            )
-        ) {
-            omokBoard.put(Position(row, column), turn.color)
-            val stoneColor = if (color == StoneType.WHITE) "white" else "black"
-            stoneDao.insertStone(row, column, stoneColor)
-            if (color == StoneType.WHITE) {
-                view.setImageResource(R.drawable.white_stone)
-            } else {
-                view.setImageResource(R.drawable.black_stone)
+    ): GameResult {
+        if (omokBoard.isInvalidPosition(Position(row, column))) {
+            return GameResult.InvalidMove("이미 돌을 놓은 자리입니다.")
+        }
+
+        if (turn.color == StoneType.BLACK && omokBoard.isInvalidBlackPosition(Stone(Position(row, column), turn.color))) {
+            return GameResult.InvalidMove("흑돌이 놓을 수 없는 금수입니다.")
+        }
+
+        omokBoard.put(Position(row, column), turn.color)
+        val stoneColor = if (color == StoneType.WHITE) "white" else "black"
+        stoneDao.insertStone(row, column, stoneColor)
+
+        return when {
+            checkOmok() -> GameResult.Win(turn.color)
+            omokBoard.isFull() -> GameResult.Draw
+            else -> {
+                GameResult.Continue(turn.color)
             }
         }
     }
@@ -45,4 +48,11 @@ class Game(
         }
         return false
     }
+}
+
+sealed class GameResult {
+    data class Win(val winner: StoneType) : GameResult()
+    object Draw : GameResult()
+    data class Continue(val nextTurn: StoneType) : GameResult()
+    data class InvalidMove(val message: String) : GameResult()
 }
