@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Omok</string>
+    <string name="message_show_black_turn">흑의 차례입니다.</string>
+    <string name="message_show_white_turn">백의 차례입니다.</string>
+    <string name="message_white_win">백돌의 승리입니다!</string>
+    <string name="message_black_win">흑돌의 승리입니다!</string>
+</resources>
