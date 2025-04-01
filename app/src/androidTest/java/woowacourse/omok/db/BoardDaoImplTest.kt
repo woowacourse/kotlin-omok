@@ -4,6 +4,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -32,10 +33,12 @@ class BoardDaoImplTest {
                 "SELECT x, y, state FROM ${DatabaseHelper.OMOK_BOARD} WHERE x = 1 AND y = 1",
                 null,
             )
-        assertTrue(cursor.moveToFirst())
-        assertEquals(1, cursor.getInt(0))
-        assertEquals(1, cursor.getInt(1))
-        assertEquals("BLACK", cursor.getString(2))
+        assertAll(
+            { assertTrue(cursor.moveToFirst(), "커서 이동 실패") },
+            { assertEquals(1, cursor.getInt(0), "첫 번째 컬럼 값이 다름") },
+            { assertEquals(1, cursor.getInt(1), "두 번째 컬럼 값이 다름") },
+            { assertEquals("BLACK", cursor.getString(2), "세 번째 컬럼 값이 다름") },
+        )
         cursor.close()
     }
 

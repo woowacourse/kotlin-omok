@@ -4,6 +4,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -33,9 +34,11 @@ class TurnDaoImplTest {
                 "SELECT id,color FROM ${DatabaseHelper.CURRENT_TURN} WHERE id = 1",
                 null,
             )
-        assertTrue(cursor.moveToFirst())
-        assertEquals(1, cursor.getInt(0))
-        assertEquals("WHITE", cursor.getString(1))
+        assertAll(
+            { assertTrue(cursor.moveToFirst(), "커서 이동 실패") },
+            { assertEquals(1, cursor.getInt(0), "첫 번째 컬럼 값이 다름") },
+            { assertEquals("WHITE", cursor.getString(1), "두 번째 컬럼 값이 다름") },
+        )
         cursor.close()
     }
 
