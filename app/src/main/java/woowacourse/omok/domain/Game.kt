@@ -31,7 +31,6 @@ class Game(
 
         if (omokStateMachine.state is Finish) {
             onFinish(omokStateMachine.state)
-            return
         }
     }
 
