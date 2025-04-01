@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
             turn.place(position, omokBoard)
 
             if (turn.forbidden()) {
-                makeDialog("금수입니다.", reset = false)
+                showDialog("금수입니다.", reset = false)
                 return@runCatching
             }
 
@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
             }
             turn.next()
         }.onFailure { error ->
-            makeDialog(error.message, reset = false)
+            showDialog(error.message, reset = false)
         }
     }
 
@@ -138,10 +138,10 @@ class MainActivity : AppCompatActivity() {
                 StoneColor.WHITE -> "백돌 승리"
             }
 
-        makeDialog(winnerText, reset = true)
+        showDialog(winnerText, reset = true)
     }
 
-    private fun makeDialog(
+    private fun showDialog(
         text: String?,
         reset: Boolean,
     ) {
