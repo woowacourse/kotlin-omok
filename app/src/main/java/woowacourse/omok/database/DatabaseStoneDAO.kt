@@ -1,7 +1,7 @@
 package woowacourse.omok.database
 
 import android.content.ContentValues
-import android.util.Log
+import android.database.sqlite.SQLiteDatabase
 import woowacourse.omok.domain.Position
 import woowacourse.omok.domain.Stone
 import woowacourse.omok.domain.StoneType
@@ -12,35 +12,29 @@ class DatabaseStoneDAO(private val dbHelper: DbHelper) : StoneDAO {
         column: Int,
         color: String,
     ) {
-        val db = dbHelper.writableDatabase
-
-        val cursor =
-            db.rawQuery(
-                "SELECT * FROM board WHERE position_row = ? AND position_column = ? AND color = ?",
-                arrayOf(row.toString(), column.toString(), color),
-            )
-
-        if (cursor.count > 0) {
-            cursor.close()
-            return
-        }
-
-        cursor.close()
-
-        val values =
-            ContentValues().apply {
-                put(BoardContract.COLUMN_NAME_COLOR, color)
-                put(BoardContract.COLUMN_NAME_POSITION_ROW, row)
-                put(BoardContract.COLUMN_NAME_POSITION_COLUMN, column)
+        dbHelper.writableDatabase.use { db ->
+            if (existsStoneAt(db, row, column, color)) {
+                return
             }
 
-        val newRowId = db.insert(BoardContract.TABLE_NAME_BOARD, null, values)
-        if (newRowId == -1L) {
-            Log.e("DatabaseStoneDAO", "insert failed")
-        } else {
-            Log.d("DatabaseStoneDAO", "insert success: $newRowId")
+            val values =
+                ContentValues().apply {
+                    put(BoardContract.COLUMN_NAME_COLOR, color)
+                    put(BoardContract.COLUMN_NAME_POSITION_ROW, row)
+                    put(BoardContract.COLUMN_NAME_POSITION_COLUMN, column)
+                }
+
+            db.insert(BoardContract.TABLE_NAME_BOARD, null, values)
         }
-        db.close()
+    }
+
+    private fun existsStoneAt(db: SQLiteDatabase, row: Int, column: Int, color: String): Boolean {
+        db.rawQuery(
+                "SELECT * FROM board WHERE position_row = ? AND position_column = ? AND color = ?",
+                arrayOf(row.toString(), column.toString(), color),
+            ).use { cursor ->
+                return cursor.count > 0
+        }
     }
 
     override fun queryStones(): List<Stone> {
@@ -58,9 +52,9 @@ class DatabaseStoneDAO(private val dbHelper: DbHelper) : StoneDAO {
     }
 
     override fun clear() {
-        val db = dbHelper.writableDatabase
-        db.execSQL(BoardContract.SQL_DELETE_BOARD_ENTRIES)
-        db.execSQL(BoardContract.SQL_CREATE_BOARD_ENTERIES)
-        db.close()
+        dbHelper.writableDatabase.use { db ->
+            db.execSQL(BoardContract.SQL_DELETE_BOARD_ENTRIES)
+            db.execSQL(BoardContract.SQL_CREATE_BOARD_ENTERIES)
+        }
     }
 }
