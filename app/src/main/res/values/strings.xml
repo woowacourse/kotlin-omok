@@ -16,4 +16,5 @@
     <string name="text_join">참가</string>
     <string name="text_make_room">만들기</string>
     <string name="text_make_room_cancel">취소</string>
+    <string name="text_plz_input_room_name">방 이름을 입력해주세요.</string>
 </resources>

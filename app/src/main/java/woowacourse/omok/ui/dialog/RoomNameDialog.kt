@@ -37,7 +37,9 @@ class RoomNameDialog(
 
     private fun checkRoomName(roomName: String): Boolean {
         if (roomName.isEmpty()) {
-            Toast.makeText(requireContext(), "방 이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            requireContext().showToast(R.string.text_plz_input_room_name)
+            Toast.makeText(requireContext(), R.string.text_plz_input_room_name, Toast.LENGTH_SHORT)
+                .show()
             return false
         }
         return true

@@ -6,7 +6,6 @@ import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -27,6 +26,7 @@ import woowacourse.omok.domain.service.OmokGame
 import woowacourse.omok.domain.stone.StoneColor
 import woowacourse.omok.ui.dialog.ConfirmDialog
 import woowacourse.omok.ui.event.GameEventListener
+import woowacourse.omok.ui.ext.showToast
 
 class MainActivity : AppCompatActivity(), GameEventListener {
     private lateinit var binding: ActivityMainBinding
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
 
     override fun onFailToAddStone(e: Exceptions) {
         val errorUiText = resolveErrorMessage(e)
-        Toast.makeText(this, errorUiText, Toast.LENGTH_SHORT).show()
+        showToast(errorUiText)
     }
 
     override fun onPause() {
