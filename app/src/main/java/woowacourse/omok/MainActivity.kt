@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
             turn.place(position, omokBoard)
 
             if (turn.forbidden()) {
-                showDialog("금수입니다.", reset = false)
+                showDialog(FORBIDDEN_MESSAGE, reset = false)
                 return@runCatching
             }
 
@@ -134,8 +134,8 @@ class MainActivity : AppCompatActivity() {
     private fun showWinDialog(winner: StoneColor) {
         val winnerText =
             when (winner) {
-                StoneColor.BLACK -> "흑돌 승리"
-                StoneColor.WHITE -> "백돌 승리"
+                StoneColor.BLACK -> BLACK_STONE_WIN
+                StoneColor.WHITE -> WHITE_STONE_WIN
             }
 
         showDialog(winnerText, reset = true)
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         AlertDialog.Builder(this)
             .setMessage(text)
-            .setPositiveButton("확인") { _, _ ->
+            .setPositiveButton(CONFIRM) { _, _ ->
                 if (reset) resetGame()
             }
             .setCancelable(false)
@@ -159,5 +159,12 @@ class MainActivity : AppCompatActivity() {
         boardDao.clearBoard()
         loadGame()
         displayGame(reset = true)
+    }
+
+    companion object {
+        private const val FORBIDDEN_MESSAGE = "금수입니다."
+        private const val BLACK_STONE_WIN = "흑돌 승리"
+        private const val WHITE_STONE_WIN = "백돌 승리"
+        private const val CONFIRM = "확인"
     }
 }

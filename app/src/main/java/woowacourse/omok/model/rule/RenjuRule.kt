@@ -1,15 +1,24 @@
 package woowacourse.omok.model.rule
 
 import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.board.OmokBoardConfig.CANNOT_PLACE_STONE
+import woowacourse.omok.model.board.OmokBoardConfig.CAN_PLACE_STONE
+import woowacourse.omok.model.board.OmokBoardConfig.FOUR_STONE_PATTERN
+import woowacourse.omok.model.board.OmokBoardConfig.NEXT_POSITION
+import woowacourse.omok.model.board.OmokBoardConfig.TWO_STONE_PATTERN
+import woowacourse.omok.model.board.OmokBoardConfig.WINNING_LINE_LENGTH
 import woowacourse.omok.model.board.OmokBoardConfig.X_Edge
 import woowacourse.omok.model.board.OmokBoardConfig.Y_Edge
+import woowacourse.omok.model.board.OmokBoardConfig.ZERO
 import woowacourse.omok.model.board.Position
 
 class RenjuRule(
     position: Position,
     omokBoard: OmokBoard,
 ) : OmokRule(position = position, omokBoard = omokBoard) {
-    override fun validate(): Boolean = countOpenPatterns(4) >= 2 || countOpenPatterns(2) >= 2
+    override fun validate(): Boolean =
+        countOpenPatterns(FOUR_STONE_PATTERN) >= TWO_STONE_PATTERN ||
+            countOpenPatterns(TWO_STONE_PATTERN) >= TWO_STONE_PATTERN
 
     private fun countOpenPatterns(requiredStones: Int): Int = directions.sumOf { direction -> checkOpenPattern(direction, requiredStones) }
 
@@ -25,24 +34,24 @@ class RenjuRule(
         val (stone2, blink2) = search(direction)
 
         val leftDown = stone1 + blink1
-        val left = dx * (leftDown + 1)
-        val down = dy * (leftDown + 1)
+        val left = dx * (leftDown + NEXT_POSITION)
+        val down = dy * (leftDown + NEXT_POSITION)
 
         val rightUp = stone2 + blink2
-        val right = dx * (rightUp + 1)
-        val up = dy * (rightUp + 1)
+        val right = dx * (rightUp + NEXT_POSITION)
+        val up = dy * (rightUp + NEXT_POSITION)
 
         return when {
-            stone1 + stone2 != requiredStones -> 0
-            blink1 + blink2 == 2 -> 0
-            dx != 0 && x - dx * leftDown in X_Edge -> 0
-            dy != 0 && y - dy * leftDown in Y_Edge -> 0
-            dx != 0 && x + dx * rightUp in X_Edge -> 0
-            dy != 0 && y + dy * rightUp in Y_Edge -> 0
-            adaptedBoard[y - down][x - left] == opponentStone -> 0
-            adaptedBoard[y + up][x + right] == opponentStone -> 0
-            countToWall(oppositeDirection) + countToWall(direction) <= 5 -> 0
-            else -> 1
+            stone1 + stone2 != requiredStones -> CANNOT_PLACE_STONE
+            blink1 + blink2 == TWO_STONE_PATTERN -> CANNOT_PLACE_STONE
+            dx != ZERO && x - dx * leftDown in X_Edge -> CANNOT_PLACE_STONE
+            dy != ZERO && y - dy * leftDown in Y_Edge -> CANNOT_PLACE_STONE
+            dx != ZERO && x + dx * rightUp in X_Edge -> CANNOT_PLACE_STONE
+            dy != ZERO && y + dy * rightUp in Y_Edge -> CANNOT_PLACE_STONE
+            adaptedBoard[y - down][x - left] == opponentStone -> CANNOT_PLACE_STONE
+            adaptedBoard[y + up][x + right] == opponentStone -> CANNOT_PLACE_STONE
+            countToWall(oppositeDirection) + countToWall(direction) <= WINNING_LINE_LENGTH -> CANNOT_PLACE_STONE
+            else -> CAN_PLACE_STONE
         }
     }
 }

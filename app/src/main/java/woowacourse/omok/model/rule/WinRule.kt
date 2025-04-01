@@ -1,6 +1,8 @@
 package woowacourse.omok.model.rule
 
 import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.board.OmokBoardConfig.NO_EMPTY_SPACE
+import woowacourse.omok.model.board.OmokBoardConfig.WHITE_STONE_WIN_CONDITION
 import woowacourse.omok.model.board.Position
 import woowacourse.omok.model.board.PositionState
 
@@ -22,7 +24,7 @@ class WinRule(
         val (stone2, blink2) = search(direction)
 
         return when {
-            blink1 + blink2 == 0 && stone1 + stone2 == 4 -> true
+            blink1 + blink2 == NO_EMPTY_SPACE && stone1 + stone2 == WHITE_STONE_WIN_CONDITION -> true
             else -> false
         }
     }
