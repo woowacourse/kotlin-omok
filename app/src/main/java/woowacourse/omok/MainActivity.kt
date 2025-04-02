@@ -90,9 +90,10 @@ class MainActivity : AppCompatActivity() {
         stoneColor: StoneColor,
         point: Stone,
     ): Boolean {
-        val result = omokGame.validatePoint(stoneColor, point)
-        if (result is ValidationResult.Success) return false
-        showViolation(result as ValidationResult.Failure)
+        when (val result = omokGame.validatePoint(stoneColor, point)) {
+            is ValidationResult.Success -> return false
+            is ValidationResult.Failure -> showViolation(result)
+        }
         return true
     }
 
