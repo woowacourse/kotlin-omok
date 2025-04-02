@@ -45,13 +45,12 @@ class MainActivity : AppCompatActivity() {
     private fun getBoardImages(board: TableLayout) {
         boardImages =
             board.children
-                .asSequence()
                 .filterIsInstance<TableRow>()
                 .map { row -> row.children.filterIsInstance<ImageView>() }
     }
 
     private fun setupImageViewClickListeners() {
-        boardImages.toList().forEachIndexed { rowIndex, row ->
+        boardImages.forEachIndexed { rowIndex, row ->
             row.forEachIndexed { colIndex, imageView ->
                 imageView.setOnClickListener { placeStone(Point(colIndex, rowIndex), imageView) }
             }
