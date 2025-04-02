@@ -3,6 +3,7 @@ package woowacourse.omok.data.dao
 import android.content.ContentValues
 import woowacourse.omok.data.db.OmokContract
 import woowacourse.omok.data.db.OmokDbHelper
+import woowacourse.omok.data.model.OmokBoardDto
 import woowacourse.omok.data.model.OmokGameDto
 
 class OmokGameDaoImpl(
@@ -16,7 +17,7 @@ class OmokGameDaoImpl(
                 arrayOf(game.gameId.toString()),
             )
 
-            game.board.forEach { (pos, state) ->
+            game.board.matrix.forEach { (pos, state) ->
                 val values =
                     ContentValues().apply {
                         put(OmokContract.COLUMN_GAME_ID, game.gameId)
@@ -62,7 +63,7 @@ class OmokGameDaoImpl(
             cursor.close()
 
             return when (lastTurn != null && board.isNotEmpty()) {
-                true -> OmokGameDto(gameId, lastTurn, board)
+                true -> OmokGameDto(gameId, lastTurn, OmokBoardDto(board))
                 false -> null
             }
         }
