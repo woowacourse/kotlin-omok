@@ -18,17 +18,20 @@ class OmokGameManager(
 
     fun placeStone(position: Position): PlaceResult {
         val result = omokGame.placeStone(position)
+
         if (result is PlaceResult.Success) dao.saveGame(omokGame.toData())
+
         return result
     }
 
     fun judgeMove(stone: PlayerStone): JudgeResult {
         val result = omokGame.judge(stone)
-        if (result is JudgeResult.Finished) {
-            dao.deleteGame(omokGame.id)
-        } else {
-            dao.saveGame(omokGame.toData())
+
+        when (result) {
+            is JudgeResult.Finished -> dao.deleteGame(omokGame.id)
+            is JudgeResult.NotFinished -> dao.saveGame(omokGame.toData())
         }
+
         return result
     }
 
