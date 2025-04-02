@@ -8,6 +8,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import woowacourse.omok.data.db.OmokDbHelper
+import woowacourse.omok.data.model.OmokBoardDto
 import woowacourse.omok.data.model.OmokGameDto
 
 @RunWith(AndroidJUnit4::class)
@@ -30,7 +31,7 @@ class OmokGameDaoImplTest {
             OmokGameDto(
                 gameId = gameId,
                 lastTurn = "WHITE",
-                board = mapOf(0 to 0 to "BLACK"),
+                board = OmokBoardDto(mapOf(0 to 0 to "BLACK")),
             )
 
         // when
@@ -40,7 +41,7 @@ class OmokGameDaoImplTest {
         // then
         assertThat(loaded).isNotNull
         assertThat(loaded!!.lastTurn).isEqualTo("WHITE")
-        assertThat(loaded.board[0 to 0]).isEqualTo("BLACK")
+        assertThat(loaded.board.matrix[0 to 0]).isEqualTo("BLACK")
     }
 
     @Test
@@ -55,7 +56,7 @@ class OmokGameDaoImplTest {
     @Test
     fun deleteGameClearsSavedData() {
         // given
-        dao.saveGame(OmokGameDto(gameId, "WHITE", mapOf(1 to 1 to "WHITE")))
+        dao.saveGame(OmokGameDto(gameId, "WHITE", OmokBoardDto(mapOf(1 to 1 to "WHITE"))))
 
         // when
         dao.deleteGame(gameId)
