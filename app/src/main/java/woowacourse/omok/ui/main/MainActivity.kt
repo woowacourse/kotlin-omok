@@ -11,9 +11,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import woowacourse.omok.R
 import woowacourse.omok.databinding.ActivityMainBinding
-import woowacourse.omok.db.omok.OmokDao
-import woowacourse.omok.db.omok.OmokDaoHandler
-import woowacourse.omok.db.omok.OmokDbHelper
 import woowacourse.omok.domain.board.BoardStatus
 import woowacourse.omok.domain.board.Column
 import woowacourse.omok.domain.board.Row
@@ -30,7 +27,7 @@ import woowacourse.omok.ui.ext.showToast
 class MainActivity : AppCompatActivity(), GameEventListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var game: OmokGame
-    private lateinit var omokDaoHandler: OmokDaoHandler
+    private lateinit var dataManager: OmokDataManager
 
     private var selectedImageView: ImageView? = null
     private val player by lazy { MediaController(this, R.raw.apple) }
@@ -42,6 +39,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         setContentView(binding.root)
 
         roomId = intent.getLongExtra("roomId", 0)
+        dataManager = OmokDataManager(this)
 
         initializeView()
         initializeSettings()
@@ -76,12 +74,11 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     override fun onPause() {
         super.onPause()
         game.getMovedStone().forEach {
-            omokDaoHandler.saveNewPoint(it, roomId)
+            dataManager.saveStone(it, roomId)
         }
     }
 
     private fun initializeSettings() {
-        initializeDataSource()
         game = OmokGame.create(this)
 
         binding.board
@@ -102,12 +99,6 @@ class MainActivity : AppCompatActivity(), GameEventListener {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         player.play()
-    }
-
-    private fun initializeDataSource() {
-        val dbHelper = OmokDbHelper(this)
-        val dataSource = OmokDao(dbHelper)
-        omokDaoHandler = OmokDaoHandler(dataSource)
     }
 
     private fun resolveErrorMessage(e: Exceptions): String {
@@ -150,7 +141,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     private fun restoreSavedStones(roomId: Long) {
-        val points = omokDaoHandler.readAllPoint(roomId)
+        val points = dataManager.loadSavedStones(roomId)
         if (points.isNotEmpty()) {
             drawSavedStone(points)
             game.combine(points)
@@ -195,7 +186,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     }
 
     private fun clear() {
-        omokDaoHandler.drop()
+        dataManager.clearData()
         game.clear()
         binding.board
             .children
@@ -214,6 +205,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
                 finish()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
