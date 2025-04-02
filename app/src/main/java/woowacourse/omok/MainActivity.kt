@@ -100,33 +100,29 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
         position: Position,
     ) {
-        runCatching {
-            turn.place(position, omokBoard)
-
-            if (turn.forbidden()) {
-                showDialog(FORBIDDEN_MESSAGE, reset = false)
-                return@runCatching
-            }
-
-            val boardDto = BoardDto(position.xPoint, position.yPoint, turn.currentStoneColor.name)
-            boardDao.insertStone(boardDto)
-
-            showStones(view)
-
-            if (turn.win()) {
-                showWinDialog(turn.currentStoneColor)
-            }
-            turn.next()
-        }.onFailure { error ->
-            showDialog(error.message, reset = false)
+        turn.place(position, omokBoard)
+        if (turn.forbidden()) {
+            showDialog(FORBIDDEN_MESSAGE, reset = false)
+            return
         }
+        val boardDto = BoardDto(position.xPoint, position.yPoint, turn.currentStoneColor.name)
+        boardDao.insertStone(boardDto)
+        showStones(view, position)
+        if (turn.win()) {
+            showWinDialog(turn.currentStoneColor)
+        }
+        turn.next()
     }
 
-    private fun showStones(view: ImageView) {
+    private fun showStones(
+        view: ImageView,
+        position: Position,
+    ) {
         view.setImageResource(
-            when (turn.currentStoneColor) {
-                StoneColor.BLACK -> R.drawable.black_stone
-                StoneColor.WHITE -> R.drawable.white_stone
+            when (omokBoard.board[position]) {
+                PositionState.BLACK_POSITION -> R.drawable.black_stone
+                PositionState.WHITE_POSITION -> R.drawable.white_stone
+                else -> return
             },
         )
     }
