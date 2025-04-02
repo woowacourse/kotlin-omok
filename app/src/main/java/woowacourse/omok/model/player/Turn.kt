@@ -24,23 +24,25 @@ class Turn(private val turnDao: TurnDao? = null) : GameState() {
     fun place(
         position: Position,
         omokBoard: OmokBoard,
-    ): GameState {
-        omokBoard.placeStone(position, currentStoneColor)
-        gameState =
-            when {
-                isWin(position, omokBoard) -> {
-                    omokBoard.reset()
-                    Win
-                }
+    ): Boolean {
+        if (omokBoard.successPlaceStone(position, currentStoneColor)) {
+            gameState =
+                when {
+                    isWin(position, omokBoard) -> {
+                        omokBoard.reset()
+                        Win
+                    }
 
-                isForbidden(position, omokBoard) -> {
-                    omokBoard.forbidden(currentStoneColor, position)
-                    ForbiddenMove
-                }
+                    isForbidden(position, omokBoard) -> {
+                        omokBoard.forbidden(currentStoneColor, position)
+                        ForbiddenMove
+                    }
 
-                else -> Playing
-            }
-        return gameState
+                    else -> Playing
+                }
+            return true
+        }
+        return false
     }
 
     fun next() {

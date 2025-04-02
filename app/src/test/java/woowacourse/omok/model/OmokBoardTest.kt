@@ -36,7 +36,7 @@ class OmokBoardTest {
         val omokBoard = OmokBoard()
 
         val position = Position(1, 1)
-        omokBoard.placeStone(position, stoneColor)
+        omokBoard.successPlaceStone(position, stoneColor)
         val state = omokBoard.boardState(position)
         assertEquals(positionState, state)
     }
@@ -46,7 +46,7 @@ class OmokBoardTest {
         val omokBoard = OmokBoard()
         val stoneColor = StoneColor.BLACK
         val position = Position(1, 1)
-        omokBoard.placeStone(position, stoneColor)
+        omokBoard.successPlaceStone(position, stoneColor)
         makeForbiddenStones(omokBoard)
         assertEquals(omokBoard.board[Position(5, 4)], PositionState.FORBIDDEN)
     }

@@ -17,17 +17,19 @@ class OmokBoard(
         reset()
     }
 
-    fun placeStone(
+    fun successPlaceStone(
         position: Position,
         currentStoneColor: StoneColor,
-    ) {
+    ): Boolean {
         if (canPlaceStone(position, currentStoneColor)) {
             board[position] =
                 when (currentStoneColor) {
                     StoneColor.BLACK -> PositionState.BLACK_POSITION
                     StoneColor.WHITE -> PositionState.WHITE_POSITION
                 }
+            return true
         }
+        return false
     }
 
     fun forbidden(
