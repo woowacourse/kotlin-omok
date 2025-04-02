@@ -10,72 +10,44 @@ class OmokGameDaoImpl(
     private val omokDbHelper: OmokDbHelper,
 ) : OmokGameDao {
     override fun saveGame(game: OmokGameDto) {
-        omokDbHelper.writableDatabase.use { db ->
-            db.delete(
-                OmokContract.TABLE_GAME_STATE,
-                "${OmokContract.COLUMN_GAME_ID}=?",
-                arrayOf(game.gameId.toString()),
-            )
+        omokDbHelper.deleteGameState(game.gameId)
 
-            game.board.matrix.forEach { (pos, state) ->
-                val values =
-                    ContentValues().apply {
-                        put(OmokContract.COLUMN_GAME_ID, game.gameId)
-                        put(OmokContract.COLUMN_POSITION_ROW, pos.first)
-                        put(OmokContract.COLUMN_POSITION_COL, pos.second)
-                        put(OmokContract.COLUMN_POSITION_STATE, state)
-                        put(OmokContract.COLUMN_LAST_TURN, game.lastTurn)
-                    }
-                db.insert(OmokContract.TABLE_GAME_STATE, null, values)
-            }
+        game.board.matrix.forEach { (pos, state) ->
+            val values =
+                ContentValues().apply {
+                    put(OmokContract.COLUMN_GAME_ID, game.gameId)
+                    put(OmokContract.COLUMN_POSITION_ROW, pos.first)
+                    put(OmokContract.COLUMN_POSITION_COL, pos.second)
+                    put(OmokContract.COLUMN_POSITION_STATE, state)
+                    put(OmokContract.COLUMN_LAST_TURN, game.lastTurn)
+                }
+            omokDbHelper.insertGameState(values)
         }
     }
 
     override fun fetchGame(gameId: Int): OmokGameDto? {
-        omokDbHelper.readableDatabase.use { db ->
-            val cursor =
-                db.query(
-                    OmokContract.TABLE_GAME_STATE,
-                    arrayOf(
-                        OmokContract.COLUMN_POSITION_ROW,
-                        OmokContract.COLUMN_POSITION_COL,
-                        OmokContract.COLUMN_POSITION_STATE,
-                        OmokContract.COLUMN_LAST_TURN,
-                    ),
-                    "${OmokContract.COLUMN_GAME_ID}=?",
-                    arrayOf(gameId.toString()),
-                    null,
-                    null,
-                    null,
-                )
+        val cursor = omokDbHelper.queryGameState(gameId)
 
-            val board = mutableMapOf<Pair<Int, Int>, String>()
-            var lastTurn: String? = null
+        val board = mutableMapOf<Pair<Int, Int>, String>()
+        var lastTurn: String? = null
 
-            while (cursor.moveToNext()) {
-                val row = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_ROW))
-                val col = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_COL))
-                val state = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_STATE))
-                lastTurn = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_LAST_TURN))
-                board[Pair(row, col)] = state
-            }
+        while (cursor.moveToNext()) {
+            val row = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_ROW))
+            val col = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_COL))
+            val state = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_STATE))
+            lastTurn = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_LAST_TURN))
+            board[Pair(row, col)] = state
+        }
 
-            cursor.close()
+        cursor.close()
 
-            return when (lastTurn != null && board.isNotEmpty()) {
-                true -> OmokGameDto(gameId, lastTurn, OmokBoardDto(board))
-                false -> null
-            }
+        return when (lastTurn != null && board.isNotEmpty()) {
+            true -> OmokGameDto(gameId, lastTurn, OmokBoardDto(board))
+            false -> null
         }
     }
 
     override fun deleteGame(gameId: Int) {
-        omokDbHelper.writableDatabase.use { db ->
-            db.delete(
-                OmokContract.TABLE_GAME_STATE,
-                "${OmokContract.COLUMN_GAME_ID}=?",
-                arrayOf(gameId.toString()),
-            )
-        }
+        omokDbHelper.deleteGameState(gameId)
     }
 }
