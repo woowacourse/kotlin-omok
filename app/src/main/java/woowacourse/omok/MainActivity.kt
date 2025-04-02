@@ -23,6 +23,7 @@ import woowacourse.omok.domain.model.stone.StoneType
 class MainActivity : AppCompatActivity() {
     private val boardUI: TableLayout by lazy { findViewById(R.id.board) }
     private val omokDao by lazy { (application as OmokApplication).omokDao }
+    private lateinit var imageViews: Map<Position, ImageView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,29 +48,31 @@ class MainActivity : AppCompatActivity() {
     private fun restore(game: Game) {
         val stones = omokDao.loadStones()
         stones.forEach { (position, stoneType) ->
-            val imageView = boardUI.findViewWithTag<ImageView>(position)
+            val imageView = imageViews[position] ?: return@forEach
             updateBoardUI(imageView, stoneType)
         }
         game.restoreGame(stones)
     }
 
     private fun setupBoard(game: Game) {
+        val tempMap = mutableMapOf<Position, ImageView>()
         boardUI.children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, row ->
             row.children.filterIsInstance<ImageView>().forEachIndexed { colIndex, imageView ->
                 val position = Position.of(colIndex, rowIndex, DEFAULT_BOARD_SIZE)
-                imageView.tag = position
+                tempMap[position] = imageView
                 imageView.setOnClickListener {
                     onStonePlaced(game, position)
                 }
             }
         }
+        imageViews = tempMap.toMap()
     }
 
     private fun onStonePlaced(
         game: Game,
         position: Position,
     ) {
-        val imageView = boardUI.findViewWithTag<ImageView>(position)
+        val imageView = imageViews[position] ?: return
 
         game.play(
             position = position,
