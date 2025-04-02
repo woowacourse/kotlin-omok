@@ -22,6 +22,7 @@ import woowacourse.omok.domain.grid.Point
 import woowacourse.omok.domain.grid.Row
 import woowacourse.omok.domain.grid.Stone
 import woowacourse.omok.domain.rule.ValidationResult
+import woowacourse.omok.domain.rule.ValidationResult.Failure
 
 class MainActivity : AppCompatActivity() {
     private val omokGame = OmokGame(OmokGrid())
@@ -92,7 +93,7 @@ class MainActivity : AppCompatActivity() {
     ): Boolean {
         when (val result = omokGame.validatePoint(stoneColor, point)) {
             is ValidationResult.Success -> return false
-            is ValidationResult.Failure -> showViolation(result)
+            is Failure -> showViolation(result)
         }
         return true
     }
@@ -149,13 +150,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showViolation(violation: ValidationResult.Failure) {
+    private fun showViolation(violation: Failure) {
         val errorText =
             when (violation) {
-                ValidationResult.Failure.DoubleFour -> getString(R.string.error_double_four)
-                ValidationResult.Failure.DoubleThree -> getString(R.string.error_double_three)
-                ValidationResult.Failure.Occupied -> getString(R.string.error_occupied)
-                ValidationResult.Failure.OverLine -> getString(R.string.error_over_line)
+                Failure.DoubleFour -> getString(R.string.error_double_four)
+                Failure.DoubleThree -> getString(R.string.error_double_three)
+                Failure.Occupied -> getString(R.string.error_occupied)
+                Failure.OverLine -> getString(R.string.error_over_line)
             }
 
         showToast(errorText)
