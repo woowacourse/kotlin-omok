@@ -7,8 +7,6 @@ import android.widget.TableRow
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import woowacourse.omok.db.BoardDao
 import woowacourse.omok.db.BoardDaoImpl
@@ -26,21 +24,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var turn: Turn
     private lateinit var turnDao: TurnDao
     private val omokBoard = OmokBoard()
-    private val displayGame: Unit by lazy { displayGame(reset = false) }
+    private lateinit var boardViews: List<List<ImageView>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
         loadGame()
+        setupBoard()
         restoreBoard()
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        displayGame
     }
 
     private fun loadGame() {
@@ -49,23 +43,26 @@ class MainActivity : AppCompatActivity() {
         boardDao = BoardDaoImpl(this)
     }
 
-    private fun displayGame(reset: Boolean) {
+    private fun setupBoard() {
         val board = findViewById<TableLayout>(R.id.board)
 
-        board.children
-            .filterIsInstance<TableRow>()
-            .forEach { row ->
-                row.children
-                    .filterIsInstance<ImageView>()
-                    .forEach { view ->
-                        if (reset) view.setImageResource(0)
-                        view.setOnClickListener {
-                            val y = board.indexOfChild(row) + 1
-                            val x = row.indexOfChild(view) + 1
-                            handleStoneClick(view, Position(x, y))
-                        }
-                    }
+        boardViews =
+            board.children
+                .filterIsInstance<TableRow>()
+                .map { row -> row.children.filterIsInstance<ImageView>().toList() }
+                .toList()
+
+        setBoardClickListeners()
+    }
+
+    private fun setBoardClickListeners() {
+        boardViews.forEachIndexed { y, row ->
+            row.forEachIndexed { x, view ->
+                view.setOnClickListener {
+                    handleStoneClick(view, Position(x + 1, y + 1))
+                }
             }
+        }
     }
 
     private fun restoreBoard() {
@@ -162,7 +159,7 @@ class MainActivity : AppCompatActivity() {
         turnDao.deleteTurn()
         boardDao.clearBoard()
         loadGame()
-        displayGame(reset = true)
+        boardViews.flatten().forEach { it.setImageResource(0) }
     }
 
     companion object {
