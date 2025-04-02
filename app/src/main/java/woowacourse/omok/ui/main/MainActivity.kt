@@ -1,6 +1,5 @@
 package woowacourse.omok.ui.main
 
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
     private lateinit var omokDaoHandler: OmokDaoHandler
 
     private var selectedImageView: ImageView? = null
-    private var mediaPlayer: MediaPlayer? = null
+    private val player by lazy { MediaController(this, R.raw.apple) }
     private var roomId: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,8 +101,7 @@ class MainActivity : AppCompatActivity(), GameEventListener {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.apple)
-        mediaPlayer?.start()
+        player.play()
     }
 
     private fun initializeDataSource() {
@@ -222,7 +220,6 @@ class MainActivity : AppCompatActivity(), GameEventListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer?.release()
-        mediaPlayer = null
+        player.stop()
     }
 }
