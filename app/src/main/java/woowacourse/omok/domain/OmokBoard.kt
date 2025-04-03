@@ -55,20 +55,19 @@ class OmokBoard(
         val state = getStoneState(position)
         var count = DEFAULT_COUNT
 
-        while (checkRange(currentX, currentY) &&
-            getStoneState(
-                Position(
-                    currentX,
-                    currentY,
-                ),
-            ) == state
-        ) {
+        while (checkRange(currentX, currentY) && isSameStone(currentX, currentY, state)) {
             count++
             currentX += direction.rowDelta
             currentY += direction.colDelta
         }
         return count
     }
+
+    private fun isSameStone(
+        currentX: Int,
+        currentY: Int,
+        state: StoneState,
+    ): Boolean = getStoneState(Position(currentX, currentY)) == state
 
     private fun checkRange(
         coordinateX: Int,
