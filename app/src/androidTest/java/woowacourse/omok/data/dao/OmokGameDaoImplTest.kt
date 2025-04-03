@@ -30,6 +30,7 @@ class OmokGameDaoImplTest {
         val input =
             OmokGameDto(
                 gameId = gameId,
+                host = "",
                 lastTurn = "WHITE",
                 board = OmokBoardDto(mapOf(0 to 0 to "BLACK")),
             )
@@ -56,7 +57,7 @@ class OmokGameDaoImplTest {
     @Test
     fun deleteGameClearsSavedData() {
         // given
-        dao.saveGame(OmokGameDto(gameId, "WHITE", OmokBoardDto(mapOf(1 to 1 to "WHITE"))))
+        dao.saveGame(OmokGameDto(gameId, "", "WHITE", OmokBoardDto(mapOf(1 to 1 to "WHITE"))))
 
         // when
         dao.deleteGame(gameId)
