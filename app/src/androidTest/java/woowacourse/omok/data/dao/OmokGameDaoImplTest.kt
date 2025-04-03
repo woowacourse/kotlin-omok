@@ -66,4 +66,63 @@ class OmokGameDaoImplTest {
         // then
         assertThat(afterDelete).isNull()
     }
+
+    @Test
+    fun createGameGeneratesNewIdAndSaves() {
+        // given
+        val initial =
+            OmokGameDto(
+                id = 0,
+                host = "HostA",
+                lastTurn = "BLACK",
+                board = OmokBoardDto(mapOf((2 to 2) to "BLACK")),
+            )
+
+        // when
+        val newGameId = dao.createGame(initial)
+        val loaded = dao.fetchGame(newGameId)
+
+        // then
+        assertThat(newGameId).isGreaterThan(0)
+        assertThat(loaded).isNotNull
+        assertThat(loaded!!.id).isEqualTo(newGameId)
+        assertThat(loaded.host).isEqualTo("HostA")
+        assertThat(loaded.lastTurn).isEqualTo("BLACK")
+        assertThat(loaded.board.positions[2 to 2]).isEqualTo("BLACK")
+    }
+
+    @Test
+    fun fetchAllGamesReturnsAllSavedGames() {
+        // given
+        val game1 =
+            OmokGameDto(
+                id = 1,
+                host = "Host1",
+                lastTurn = "WHITE",
+                board = OmokBoardDto(mapOf((1 to 1) to "BLACK")),
+            )
+        val game2 =
+            OmokGameDto(
+                id = 2,
+                host = "Host2",
+                lastTurn = "BLACK",
+                board = OmokBoardDto(mapOf((2 to 2) to "WHITE")),
+            )
+        dao.saveGame(game1)
+        dao.saveGame(game2)
+
+        // when
+        val allGames = dao.fetchAllGames()
+
+        // then
+        assertThat(allGames.games).hasSizeGreaterThanOrEqualTo(2)
+
+        val fetched1 = allGames.games.find { it.id == 1 }
+        val fetched2 = allGames.games.find { it.id == 2 }
+
+        assertThat(fetched1).isNotNull
+        assertThat(fetched1!!.board.positions[1 to 1]).isEqualTo("BLACK")
+        assertThat(fetched2).isNotNull
+        assertThat(fetched2!!.board.positions[2 to 2]).isEqualTo("WHITE")
+    }
 }

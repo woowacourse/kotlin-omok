@@ -11,12 +11,12 @@ class OmokGameDaoImpl(
     private val omokDbHelper: OmokDbHelper,
 ) : OmokGameDao {
     override fun saveGame(game: OmokGameDto) {
-        omokDbHelper.deleteGameState(game.id)
+        deleteGame(game.id)
 
         game.board.positions.forEach { (pos, state) ->
             val values =
                 ContentValues().apply {
-                    put("id", game.id)
+                    put(OmokContract.COLUMN_GAME_ID, game.id)
                     put(OmokContract.COLUMN_POSITION_ROW, pos.first)
                     put(OmokContract.COLUMN_POSITION_COL, pos.second)
                     put(OmokContract.COLUMN_POSITION_STATE, state)
@@ -56,22 +56,17 @@ class OmokGameDaoImpl(
     }
 
     override fun createGame(game: OmokGameDto): Int {
-        val values =
-            ContentValues().apply {
-                put(OmokContract.COLUMN_POSITION_ROW, 0)
-                put(OmokContract.COLUMN_POSITION_COL, 0)
-                put(OmokContract.COLUMN_POSITION_STATE, "")
-                put(OmokContract.COLUMN_LAST_TURN, game.lastTurn)
-                put(OmokContract.COLUMN_HOST, game.host)
-            }
+        val newId = generateNewGameId()
+        val newGame = game.copy(id = newId)
+        saveGame(newGame)
+        return newId
+    }
 
-        val db = omokDbHelper.writableDatabase
-        val newId = db.insert(OmokContract.TABLE_GAME_STATE, null, values).toInt()
-
-        omokDbHelper.deleteGameState(newId)
-
-        saveGame(game.copy(id = newId))
-
+    private fun generateNewGameId(): Int {
+        val db = omokDbHelper.readableDatabase
+        val cursor = db.rawQuery(OmokContract.SQL_SELECT_MAX_ID, null)
+        val newId = if (cursor.moveToFirst()) cursor.getInt(0) + 1 else 1
+        cursor.close()
         return newId
     }
 
@@ -84,7 +79,7 @@ class OmokGameDaoImpl(
         val hostMap = mutableMapOf<Int, String>()
 
         while (cursor.moveToNext()) {
-            val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+            val id = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_GAME_ID))
             val row = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_ROW))
             val col = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_COL))
             val state = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_STATE))

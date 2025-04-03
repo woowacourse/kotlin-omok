@@ -19,6 +19,6 @@ data class OmokGameEntity(
     val judgeRules: JudgeRules = JudgeRules(listOf(WinningRule(), DrawRule())),
 ) {
     companion object {
-        private const val DEFAULT_GAME_ID = -1
+        const val DEFAULT_GAME_ID = -1
     }
 }

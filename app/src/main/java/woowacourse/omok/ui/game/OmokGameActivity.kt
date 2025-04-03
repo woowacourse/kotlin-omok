@@ -16,6 +16,7 @@ import woowacourse.omok.R.drawable
 import woowacourse.omok.R.string
 import woowacourse.omok.databinding.ActivityOmokGameBinding
 import woowacourse.omok.domain.model.omokboard.OmokBoard
+import woowacourse.omok.domain.model.omokboard.OmokGameEntity.Companion.DEFAULT_GAME_ID
 import woowacourse.omok.domain.model.omokboard.OmokGameManager
 import woowacourse.omok.domain.model.omokboard.PointState
 import woowacourse.omok.domain.model.omokboard.Position
@@ -34,7 +35,8 @@ class OmokGameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupView()
 
-        omokGameManager = OmokGameManager(applicationContext)
+        val gameId = intent.getIntExtra(GAME_ID, DEFAULT_GAME_ID)
+        omokGameManager = OmokGameManager(applicationContext, gameId)
         updateStonesUI(omokGameManager.board)
         setupClickListeners()
     }

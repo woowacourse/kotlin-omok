@@ -11,9 +11,10 @@ import woowacourse.omok.ui.mapper.toDomain
 
 class OmokGameManager(
     context: Context,
+    gameId: Int,
 ) {
     private val omokGameDao: OmokGameDao = (context.applicationContext as OmokApplication).omokGameDao
-    val omokGame: OmokGame = OmokGame(omokGameDao.fetchGame(0)?.toDomain() ?: OmokGameEntity())
+    val omokGame: OmokGame = OmokGame(omokGameDao.fetchGame(gameId)?.toDomain() ?: OmokGameEntity())
     val board: OmokBoard = omokGame.game.board
 
     fun placeStone(position: Position): PlaceResult {
