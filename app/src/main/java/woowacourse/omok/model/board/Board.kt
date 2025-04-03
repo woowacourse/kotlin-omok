@@ -14,7 +14,7 @@ class Board private constructor(
 
     fun getWhiteStones() = stonesMap.filter { it.value == StoneColor.WHITE }.map { it.key }
 
-    fun hasStoneAt(position: Position): Boolean = _stonesMap.containsKey(position)
+    fun hasStoneAt(position: Position): Boolean = stonesMap.containsKey(position)
 
     fun placeStone(
         position: Position,
