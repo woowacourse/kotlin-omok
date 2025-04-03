@@ -1,4 +1,4 @@
-package woowacourse.ui
+package woowacourse.omok.ui
 
 import android.os.Bundle
 import android.widget.ImageView
@@ -11,13 +11,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import rule.BlackRenjuRule
+import woowacourse.App
 import woowacourse.omok.R
 import woowacourse.omok.adapter.RenjuRuleAdapter
 import woowacourse.omok.adapter.RuleResult
-import woowacourse.omok.data.OmokDatabaseHelper
-import woowacourse.omok.data.StoneDao
-import woowacourse.omok.data.StoneRepositoryImpl
-import woowacourse.omok.domain.Game
+import woowacourse.omok.domain.Play
 import woowacourse.omok.domain.event.GameEvent
 import woowacourse.omok.domain.event.PlayEvent
 import woowacourse.omok.domain.model.Board
@@ -26,25 +24,28 @@ import woowacourse.omok.domain.model.rule.OmokRule
 import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.StoneType
 import woowacourse.omok.domain.model.stone.Stones
-import woowacourse.ui.mapper.toPosition
-import woowacourse.ui.model.BoardView
-import woowacourse.ui.model.PositionUiModel
+import woowacourse.omok.domain.repository.StoneRepository
+import woowacourse.omok.ui.IntentKeys.GAME_ID
+import woowacourse.omok.ui.mapper.toPosition
+import woowacourse.omok.ui.model.BoardView
+import woowacourse.omok.ui.model.PositionUiModel
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var dbHelper: OmokDatabaseHelper
     private lateinit var boardView: BoardView
+    private lateinit var stoneRepository: StoneRepository
+    private var gameId: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dbHelper = OmokDatabaseHelper(this)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+        gameId = intent.getLongExtra(GAME_ID, -1L)
         boardView =
             BoardView(
                 findViewById<TableRow>(R.id.board).children.filterIsInstance<TableRow>()
                     .map { it.children.filterIsInstance<ImageView>().toList() }.toList(),
             )
-
+        stoneRepository = (application as App).stoneRepository
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -53,17 +54,13 @@ class MainActivity : AppCompatActivity() {
         initBoardView()
     }
 
-    override fun onDestroy() {
-        dbHelper.close()
-        super.onDestroy()
-    }
-
     private fun initBoardView() {
         val renjuRule = RenjuRuleAdapter(BlackRenjuRule())
         val board = Board(boardView.size)
-        Game(
+        Play(
             OmokRule(renjuRule),
-            StoneRepositoryImpl(StoneDao(dbHelper)),
+            stoneRepository,
+            gameId,
             board,
             gameEvent(),
         )
@@ -98,12 +95,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun gameEvent() =
         object : GameEvent {
-            override fun initBoard(omokGame: Game) {
+            override fun initBoard(omokPlay: Play) {
                 boardView.updateBoard { row, column, view ->
                     view.tag = position(column, row)
                     view.setOnClickListener {
-                        if (omokGame.isFinished()) return@setOnClickListener
-                        omokGame.play(playEvent(view))
+                        if (omokPlay.isFinished()) return@setOnClickListener
+                        omokPlay.play(playEvent(view))
                     }
                 }
             }
