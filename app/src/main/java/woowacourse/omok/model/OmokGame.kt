@@ -1,5 +1,6 @@
 package woowacourse.omok.model
 
+import android.util.Log
 import omok.model.rule.OmokRuleManager
 import woowacourse.omok.database.SavedStone
 import woowacourse.omok.model.StoneColor.Companion.next
@@ -41,12 +42,12 @@ class OmokGame(
             }
 
             is PlaceStoneResult.ForbiddenMove -> {
-                println("금수 확인용")
+                Log.i(TAG_PLACEMENT_ERROR, "금수")
                 result
             }
 
             is PlaceStoneResult.AlreadyPlaced -> {
-                println("중복 불가능")
+                Log.i(TAG_PLACEMENT_ERROR, "중복위치")
                 result
             }
         }
@@ -74,5 +75,9 @@ class OmokGame(
             } else {
                 StoneColor.WHITE
             }
+    }
+
+    companion object {
+        const val TAG_PLACEMENT_ERROR = "omokPlacementError"
     }
 }
