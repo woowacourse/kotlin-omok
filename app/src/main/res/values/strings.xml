@@ -1,5 +1,8 @@
 <resources>
+    <!--    app-->
     <string name="app_name">Omok</string>
+
+    <!--    game-->
     <string name="omok_game_end">게임 종료</string>
     <string name="omok_black_label">흑</string>
     <string name="omok_white_label">백</string>
@@ -14,4 +17,7 @@
     <string name="omok_turn">%s의 차례입니다!</string>
     <string name="omok_restart">다시 시작</string>
     <string name="omok_game_restart">게임이 재시작되었습니다.</string>
+
+    <!--    lobby-->
+    <string name="room_entrance">입장</string>
 </resources>
