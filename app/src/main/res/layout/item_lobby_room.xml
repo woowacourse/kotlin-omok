@@ -7,15 +7,17 @@
     android:background="@color/white">
 
     <TextView
+        android:id="@+id/tv_room_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="방장: HOST\n마지막 돌: 검은색" />
+        tools:text="방 번호: 10\n방장: HOST" />
 
     <Button
+        android:id="@+id/btn_room_entrance"
         android:layout_width="80dp"
         android:layout_height="60dp"
         android:layout_marginEnd="24dp"

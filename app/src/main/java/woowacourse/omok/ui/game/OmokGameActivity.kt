@@ -1,5 +1,7 @@
-package woowacourse.omok.ui.controller
+package woowacourse.omok.ui.game
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TableRow
@@ -12,7 +14,7 @@ import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import woowacourse.omok.R.drawable
 import woowacourse.omok.R.string
-import woowacourse.omok.databinding.ActivityMainBinding
+import woowacourse.omok.databinding.ActivityOmokGameBinding
 import woowacourse.omok.domain.model.omokboard.OmokBoard
 import woowacourse.omok.domain.model.omokboard.OmokGameManager
 import woowacourse.omok.domain.model.omokboard.PointState
@@ -24,8 +26,8 @@ import woowacourse.omok.domain.model.rule.judge.JudgeResult.Finished
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Failure
 import woowacourse.omok.domain.model.rule.place.PlaceResult.Success
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class OmokGameActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityOmokGameBinding
     private lateinit var controller: OmokGameManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityOmokGameBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
 
@@ -163,5 +165,17 @@ class MainActivity : AppCompatActivity() {
             updateBoardActivation(true)
             showSnackBar(getString(string.omok_game_restart))
         }
+    }
+
+    companion object {
+        private const val GAME_ID = "roomId"
+
+        fun getIntent(
+            context: Context,
+            gameId: Int,
+        ): Intent =
+            Intent(context, OmokGameActivity::class.java).apply {
+                putExtra(GAME_ID, gameId)
+            }
     }
 }
