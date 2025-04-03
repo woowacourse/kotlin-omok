@@ -2,7 +2,7 @@ package woowacourse.omok.database
 
 import android.content.ContentValues
 
-class OmokDao2(private val dbHelper: OmokDbHelper) {
+class OmokDao2(private val dbHelper: OmokDbHelper2) {
     fun insertData(omokEntity: OmokEntity2) {
         val db = dbHelper.writableDatabase
         val values =
