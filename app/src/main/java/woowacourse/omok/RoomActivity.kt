@@ -89,7 +89,7 @@ class RoomActivity : AppCompatActivity() {
 
         omokView = OmokView()
         omokView.setListeners(imageViews, game.board) { position -> processTurn(position) }
-        omokView.printOmokStart(boardLayout)
+        if (omokDao.queryByRoomName(currentRoomName).isEmpty()) omokView.printOmokStart(boardLayout)
     }
 
     private fun deleteCurrentRoom() {
@@ -107,8 +107,9 @@ class RoomActivity : AppCompatActivity() {
     private fun restoreRoom() {
         val stones: List<Stone> = omokDao.queryByRoomName(currentRoomName).map { omokEntity -> omokEntity.toStone() }
         stones.forEach { stone ->
-            processTurn(stone.position)
+            val moveResult: MoveResult = game.play(stone)
             omokView.renderStone(imageViews, game.board, stone)
+            if (moveResult is MoveResult.Success.Finished) finishGame(moveResult)
         }
     }
 
