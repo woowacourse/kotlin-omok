@@ -47,15 +47,6 @@ class GameActivity : AppCompatActivity() {
         initGame()
     }
 
-    private fun initGame() {
-        omokGame = gameDao.getOrCreateGame(gameId)
-        val storedStones = gameDao.getStoredStones(gameId)
-        if (storedStones.isNotEmpty()) {
-            loadGame(storedStones)
-        }
-        updateTurnView(omokGame.turn)
-    }
-
     private fun initBoard() {
         val columns = ('A'..'O').toList()
         val rows = (15 downTo 1).toList()
@@ -79,9 +70,17 @@ class GameActivity : AppCompatActivity() {
             }
     }
 
+    private fun initGame() {
+        omokGame = gameDao.getOrCreateGame(gameId)
+        val storedStones = gameDao.getStoredStones(gameId)
+        if (storedStones.isNotEmpty()) {
+            loadGame(storedStones)
+        }
+        updateTurnView(omokGame.turn)
+    }
+
     private fun loadGame(storedStone: List<Stone>) {
         val lastTurn = storedStone.last().state
-        initBoard()
 
         board.children
             .filterIsInstance<TableRow>()
