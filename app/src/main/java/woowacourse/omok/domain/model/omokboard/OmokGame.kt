@@ -8,7 +8,7 @@ import woowacourse.omok.domain.model.rule.place.PlaceResult
 class OmokGame(
     val game: OmokGameEntity = OmokGameEntity(),
 ) {
-    var currentTurn: StoneColor = game.lastTurn
+    var currentTurn: StoneColor = game.currentTurn
         private set
 
     fun placeStone(position: Position): PlaceResult {
