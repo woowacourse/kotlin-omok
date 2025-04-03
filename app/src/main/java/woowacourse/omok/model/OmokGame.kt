@@ -15,12 +15,10 @@ class OmokGame(
     private var isGameOver = false
     var currentStoneColor: StoneColor = StoneColor.BLACK
         private set
-    private var previousPoint: Point? = null
-    private var board = Board(size, rules)
-
-    fun getBoard() = board
-
-    fun getPreviousPoint() = previousPoint
+    var previousPoint: Point? = null
+        private set
+    var board = Board(size, rules)
+        private set
 
     fun placeStone(
         x: Int,
@@ -46,6 +44,7 @@ class OmokGame(
                 println("금수 확인용")
                 result
             }
+
             is PlaceStoneResult.AlreadyPlaced -> {
                 println("중복 불가능")
                 result

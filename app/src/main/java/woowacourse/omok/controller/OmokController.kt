@@ -24,9 +24,9 @@ class OmokController(
         omokGame = OmokGame(rules, BoardSize(size))
 
         outputView.printStartMessage()
-        outputView.printBoardStatus(omokGame.getBoard())
+        outputView.printBoardStatus(omokGame.board)
 
-        playTurn(omokGame.getBoard())
+        playTurn(omokGame.board)
     }
 
     private fun playTurn(board: Board) {
@@ -60,7 +60,7 @@ class OmokController(
 
     private fun getNextPoint(): Point =
         retryOnException {
-            outputView.printCurrentTurn(omokGame.getPreviousPoint())
+            outputView.printCurrentTurn(omokGame.previousPoint)
             val (x, y) = inputView.readPosition()
 
             Point(x, y)
