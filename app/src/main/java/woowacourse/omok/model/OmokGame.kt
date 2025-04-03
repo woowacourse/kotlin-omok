@@ -11,7 +11,7 @@ import woowacourse.omok.model.board.Point
 
 class OmokGame(
     private val rules: OmokRuleManager,
-    size: BoardSize,
+    private val size: BoardSize,
 ) {
     private var isGameOver = false
     var currentStoneColor: StoneColor = StoneColor.BLACK
@@ -57,8 +57,7 @@ class OmokGame(
         isGameOver = false
         currentStoneColor = StoneColor.BLACK
         previousPoint = null
-        val size = BoardSize.OMOK_BOARD_SIZE
-        board = Board(BoardSize(size), rules)
+        board = Board(size, rules)
     }
 
     fun restoreGameState(savedStones: List<SavedStone>) {
