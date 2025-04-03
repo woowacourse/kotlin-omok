@@ -48,8 +48,12 @@ class MainActivity2 : AppCompatActivity() {
             view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         initializeGame()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        restoreGame()
     }
 
     private fun initializeGame() {
@@ -61,8 +65,6 @@ class MainActivity2 : AppCompatActivity() {
                 .filterIsInstance<ImageView>()
 
         omokView = OmokView2()
-
-        restoreGame()
         omokView.setListeners(imageViews, game.board) { position -> processTurn(position) }
         omokView.printOmokStart(boardLayout)
     }
