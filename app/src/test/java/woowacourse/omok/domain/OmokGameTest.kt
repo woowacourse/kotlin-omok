@@ -3,13 +3,14 @@ package woowacourse.omok.domain
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import woowacourse.omok.beforeDoubleFour
 import woowacourse.omok.beforeDoubleThree
 import woowacourse.omok.beforeFinished
 import woowacourse.omok.beforeOverLine
 import woowacourse.omok.toFinishedPosition
 import woowacourse.omok.toViolationPosition
 
-class OmokGameRoomTest {
+class OmokGameTest {
     private lateinit var omokBoard: OmokBoard
     private lateinit var omokGame: OmokGame
 
@@ -49,7 +50,7 @@ class OmokGameRoomTest {
     fun `검은 돌이 사사 자리에 돌을 두면 Violation을 반환한다`() {
         // given
         val turn = StoneState.BLACK
-        beforeDoubleThree().forEach { position ->
+        beforeDoubleFour().forEach { position ->
             omokGame.putStone(Stone(position, turn))
             omokGame.changeTurn()
         }
