@@ -23,15 +23,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var boardDao: BoardDao
     private lateinit var turn: Turn
     private lateinit var turnDao: TurnDao
-    private val omokBoard = OmokBoard()
     private lateinit var boardViews: List<List<ImageView>>
+    private val omokBoard = OmokBoard()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-
         loadGame()
         setupBoard()
         restoreBoard()
@@ -97,15 +96,7 @@ class MainActivity : AppCompatActivity() {
         view: ImageView,
         position: Position,
     ) {
-        val placed = turn.place(position, omokBoard)
-        if (!placed) {
-            return
-        }
-
-        if (turn.forbidden()) {
-            showDialog(FORBIDDEN_MESSAGE, reset = false)
-            return
-        }
+        if (handleTurn(position)) return
 
         boardDao.insertStone(
             BoardDto(
@@ -121,6 +112,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         turn.next()
+    }
+
+    private fun handleTurn(position: Position): Boolean {
+        if (!turn.place(position, omokBoard)) {
+            return true
+        }
+        if (turn.doubleThree()) {
+            showDialog(DOUBLE_THREE_MESSAGE, reset = false)
+            return true
+        }
+        if (turn.doubleFour()) {
+            showDialog(DOUBLE_FOUR_MESSAGE, reset = false)
+            return true
+        }
+        return false
     }
 
     private fun showStones(view: ImageView) {
@@ -163,7 +169,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val FORBIDDEN_MESSAGE = "금수입니다."
+        private const val DOUBLE_THREE_MESSAGE = "33입니다."
+        private const val DOUBLE_FOUR_MESSAGE = "44입니다."
         private const val BLACK_STONE_WIN = "흑돌 승리"
         private const val WHITE_STONE_WIN = "백돌 승리"
         private const val CONFIRM = "확인"

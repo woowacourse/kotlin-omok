@@ -30,8 +30,6 @@ abstract class OmokRule(
             Pair(RIGHT, UP),
         )
 
-    abstract fun validate(): Boolean
-
     protected fun search(direction: Pair<Int, Int>): Pair<Int, Int> {
         var (x, y) = adaptedPoint
         val (dx, dy) = direction

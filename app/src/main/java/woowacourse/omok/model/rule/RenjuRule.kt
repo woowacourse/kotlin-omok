@@ -16,9 +16,9 @@ class RenjuRule(
     position: Position,
     omokBoard: OmokBoard,
 ) : OmokRule(position = position, omokBoard = omokBoard) {
-    override fun validate(): Boolean =
-        countOpenPatterns(FOUR_STONE_PATTERN) >= TWO_STONE_PATTERN ||
-            countOpenPatterns(TWO_STONE_PATTERN) >= TWO_STONE_PATTERN
+    fun validateDoubleThree(): Boolean = countOpenPatterns(TWO_STONE_PATTERN) >= TWO_STONE_PATTERN
+
+    fun validateDoubleFour(): Boolean = countOpenPatterns(FOUR_STONE_PATTERN) >= TWO_STONE_PATTERN
 
     private fun countOpenPatterns(requiredStones: Int): Int = directions.sumOf { direction -> checkOpenPattern(direction, requiredStones) }
 

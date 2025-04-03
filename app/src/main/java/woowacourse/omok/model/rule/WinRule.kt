@@ -16,7 +16,7 @@ class WinRule(
         position = position,
         omokBoard = omokBoard,
     ) {
-    override fun validate(): Boolean = directions.map { direction -> checkWhiteWin(direction) }.contains(true)
+    fun win(): Boolean = directions.map { direction -> checkWhiteWin(direction) }.contains(true)
 
     private fun checkWhiteWin(direction: Pair<Int, Int>): Boolean {
         val oppositeDirection = direction.let { (dx, dy) -> Pair(-dx, -dy) }
