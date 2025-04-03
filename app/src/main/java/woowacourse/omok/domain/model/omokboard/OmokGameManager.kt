@@ -13,10 +13,8 @@ class OmokGameManager(
     context: Context,
 ) {
     private val omokGameDao: OmokGameDao = (context.applicationContext as OmokApplication).omokGameDao
-    val omokGame: OmokGame = loadOrCreateGame()
+    val omokGame: OmokGame = OmokGame(omokGameDao.fetchGame(0)?.toDomain() ?: OmokGameEntity())
     val board: OmokBoard = omokGame.game.board
-
-    private fun loadOrCreateGame(): OmokGame = OmokGame(omokGameDao.fetchGame(0)?.toDomain() ?: OmokGameEntity())
 
     fun placeStone(position: Position): PlaceResult {
         val result = omokGame.placeStone(position)
