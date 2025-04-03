@@ -1,19 +1,22 @@
 package woowacourse.omok
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import rule.BlackRenjuRule
 import woowacourse.omok.adapter.RuleAdapter
-import woowacourse.omok.database.OmokDao
-import woowacourse.omok.database.OmokDbHelper
-import woowacourse.omok.database.OmokEntity
+import woowacourse.omok.database.OmokDao2
+import woowacourse.omok.database.OmokDbHelper2
+import woowacourse.omok.database.OmokEntity2
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.Game
@@ -26,20 +29,30 @@ import woowacourse.omok.view.OmokView2
 
 class MainActivity2 : AppCompatActivity() {
     private val game = Game(Board(), RuleAdapter(BlackRenjuRule()))
-    private val omokDao = OmokDao(OmokDbHelper(this))
+    private lateinit var omokDao: OmokDao2
     private lateinit var boardLayout: TableLayout
     private lateinit var imageViews: Sequence<ImageView>
     private lateinit var omokView: OmokView2
+    private lateinit var currentRoomName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        omokDao = OmokDao2(OmokDbHelper2(this))
+        intent.getStringExtra("ROOM_NAME")?.let { currentRoomName = it }
+        title = currentRoomName
+
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        initializeGame()
+    }
+
+    private fun initializeGame() {
         boardLayout = findViewById(R.id.board)
         imageViews =
             boardLayout.children
@@ -59,11 +72,41 @@ class MainActivity2 : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun restoreGame() {
-        val stones: List<Stone> = omokDao.queryAll().map { omokEntity -> omokEntity.toStone() }
-        stones.forEach { stone ->
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
 
-            game.play(stone)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_change_room -> {
+                finish()
+                true
+            }
+            R.id.action_delete_room -> {
+                deleteCurrentRoom()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun deleteCurrentRoom() {
+        AlertDialog.Builder(this)
+            .setTitle(currentRoomName)
+            .setMessage("현재 방을 삭제하시겠습니까?")
+            .setPositiveButton("확인") { _, _ ->
+                omokDao.clearRoom(currentRoomName)
+                finish()
+            }
+            .setNegativeButton("취소", null)
+            .show()
+    }
+
+    private fun restoreGame() {
+        val stones: List<Stone> = omokDao.queryByRoomName(currentRoomName).map { omokEntity -> omokEntity.toStone() }
+        stones.forEach { stone ->
+            processTurn(stone.position)
             omokView.renderStone(imageViews, game.board, stone)
         }
     }
@@ -83,20 +126,19 @@ class MainActivity2 : AppCompatActivity() {
 
     private fun processMove(newStone: Stone) {
         omokView.renderStone(imageViews, game.board, newStone)
-        omokDao.insertData(newStone.toOmokEntity())
+        omokDao.insertData(newStone.toOmokEntity(currentRoomName))
     }
 
-    private fun finishGame(moveResult: MoveResult) {
+    private fun finishGame(moveResult: MoveResult.Success) {
         omokView.printMoveResult(this, boardLayout, moveResult)
-        omokDao.clear()
         omokView.clearListeners(imageViews)
     }
 
-    private fun Stone.toOmokEntity(): OmokEntity {
-        return OmokEntity(position.x.value, position.y.value, color.name)
+    private fun Stone.toOmokEntity(roomName: String): OmokEntity2 {
+        return OmokEntity2(position.x.value, position.y.value, color.name, roomName)
     }
 
-    private fun OmokEntity.toStone(): Stone {
+    private fun OmokEntity2.toStone(): Stone {
         val color: Color =
             when (color) {
                 Color.BLACK.name -> Color.BLACK
