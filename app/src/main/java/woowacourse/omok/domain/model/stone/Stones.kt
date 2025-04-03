@@ -9,7 +9,7 @@ abstract class Stones(
 ) {
     private val _points = points.toMutableSet()
     val points = _points.toSet()
-    val lastStonePoint get(): Point = _points.last()
+    val lastStonePoint get(): Point? = if (_points.isEmpty()) null else points.last()
 
     abstract operator fun plus(point: Point): Stones
 
