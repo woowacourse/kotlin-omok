@@ -11,7 +11,7 @@ import woowacourse.omok.domain.model.rule.place.PlaceRules
 
 data class OmokGameEntity(
     val id: Int = DEFAULT_GAME_ID,
-    val owner: PlayerName = PlayerName(),
+    val host: PlayerName = PlayerName(),
     val board: OmokBoard = OmokBoard.create(),
     val placeRules: PlaceRules = PlaceRules(listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())),
     val judgeRules: JudgeRules = JudgeRules(listOf(WinningRule(), DrawRule())),
