@@ -20,7 +20,6 @@ import woowacourse.omok.ui.mapper.toGameUiModel
 
 class OmokGamesActivity : AppCompatActivity() {
     private lateinit var omokGamesView: RecyclerView
-    private lateinit var addOmokGame: Button
     private lateinit var games: Games
     private lateinit var omokGamesAdapter: OmokGamesAdapter
 
@@ -28,7 +27,7 @@ class OmokGamesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_omok_games)
         omokGamesView = findViewById(R.id.omok_games)
-        addOmokGame = findViewById(R.id.add_game)
+        val addOmokGame = findViewById<Button>(R.id.add_game)
         omokGamesAdapter = OmokGamesAdapter(gamesItemEvent())
         games =
             Games(
