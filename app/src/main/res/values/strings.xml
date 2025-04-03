@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Omok</string>
+    <string name="draw_message">무승부입니다.</string>
+    <string name="win_message">%s이 승리했습니다.</string>
+    <string name="black_stone">흑</string>
+    <string name="white_stone">백</string>
+    <string name="exit_title">게임 종료</string>
+    <string name="exit">종료</string>
+    <string name="restart">재시작</string>
+</resources>
