@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Omok</string>
+    <string name="violation_already_occupied">현재 위치에 돌이 있습니다</string>
+    <string name="violation_double_three">3-3 반칙이 발생했습니다</string>
+    <string name="violation_double_four">4-4 반칙이 발생했습니다</string>
+    <string name="violation_overline">장목 반칙이 발생했습니다</string>
+    <string name="game_finished">게임 종료</string>
+    <string name="game_restart">재시작</string>
+    <string name="game_winner_info">이(가) 승리했습니다! 게임을 다시 시작할까요?</string>
 </resources>

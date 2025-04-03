@@ -152,9 +152,9 @@ class MainActivity : AppCompatActivity() {
     ) {
         AlertDialog
             .Builder(this)
-            .setTitle("게임 종료")
-            .setMessage("${view.stoneStateText(winner)}이(가) 승리했습니다!\n게임을 다시 시작할까요?")
-            .setPositiveButton("재시작") { _, _ ->
+            .setTitle(getString(R.string.game_finished))
+            .setMessage("${view.stoneStateText(winner)} ${getString(R.string.game_winner_info)}")
+            .setPositiveButton(getString(R.string.game_restart)) { _, _ ->
                 omokDao.deleteDatabase()
                 onRestart()
             }.show()
@@ -162,10 +162,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun printViolation(violation: PlayResult.Violation): String =
         when (violation.error) {
-            AlreadyOccupiedViolation -> "현재 위치에 돌이 있습니다"
-            DoubleThreeViolation -> "3-3 반칙이 발생했습니다"
-            DoubleFourViolation -> "4-4 반칙이 발생했습니다"
-            OverlineViolation -> "장목 반칙이 발생했습니다"
+            AlreadyOccupiedViolation -> getString(R.string.violation_already_occupied)
+            DoubleThreeViolation -> getString(R.string.violation_double_three)
+            DoubleFourViolation -> getString(R.string.violation_double_four)
+            OverlineViolation -> getString(R.string.violation_overline)
             NoViolation -> ""
         }
 
