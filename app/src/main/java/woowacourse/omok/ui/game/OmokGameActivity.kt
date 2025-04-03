@@ -28,14 +28,14 @@ import woowacourse.omok.domain.model.rule.place.PlaceResult.Success
 
 class OmokGameActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOmokGameBinding
-    private lateinit var manager: OmokGameManager
+    private lateinit var omokGameManager: OmokGameManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
 
-        manager = OmokGameManager(this)
-        updateStonesUI(manager.board)
+        omokGameManager = OmokGameManager(applicationContext)
+        updateStonesUI(omokGameManager.board)
         setupClickListeners()
     }
 
@@ -83,9 +83,9 @@ class OmokGameActivity : AppCompatActivity() {
         forEachBoardPoint { rowIndex, columnIndex, point ->
             point.setOnClickListener {
                 val position = Position(rowIndex, columnIndex)
-                when (val result = manager.placeStone(position)) {
+                when (val result = omokGameManager.placeStone(position)) {
                     is Success -> {
-                        val playerStone = PlayerStone(manager.omokGame.currentTurn, position)
+                        val playerStone = PlayerStone(omokGameManager.omokGame.currentTurn, position)
                         updateStoneUI(point, playerStone)
                         handleJudge(playerStone)
                     }
@@ -109,7 +109,7 @@ class OmokGameActivity : AppCompatActivity() {
     }
 
     private fun handleJudge(playerStone: PlayerStone) {
-        val result: JudgeResult = manager.judgeMove(playerStone)
+        val result: JudgeResult = omokGameManager.judgeMove(playerStone)
 
         if (result is Finished) {
             updateBoardActivation(false)
@@ -160,8 +160,8 @@ class OmokGameActivity : AppCompatActivity() {
 
     private fun setupRestartClickListener() {
         binding.btnOmokRestart.setOnClickListener {
-            manager.restartGame()
-            updateStonesUI(manager.omokGame.game.board)
+            omokGameManager.restartGame()
+            updateStonesUI(omokGameManager.omokGame.game.board)
             updateBoardActivation(true)
             showSnackBar(getString(string.omok_game_restart))
         }
