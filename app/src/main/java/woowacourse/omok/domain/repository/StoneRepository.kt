@@ -6,11 +6,20 @@ import woowacourse.omok.domain.model.stone.StoneType
 import woowacourse.omok.domain.model.stone.Stones
 
 interface StoneRepository {
-    fun insert(stone: Stone)
+    fun insert(
+        gameId: Long,
+        stone: Stone,
+    )
 
-    fun lastStoneType(board: Board): StoneType
+    fun lastStoneType(
+        gameId: Long,
+        board: Board,
+    ): StoneType
 
-    fun allInBoardSize(board: Board): Stones
+    fun allInBoardSize(
+        gameId: Long,
+        board: Board,
+    ): Stones
 
-    fun clear()
+    fun clear(gameId: Long)
 }

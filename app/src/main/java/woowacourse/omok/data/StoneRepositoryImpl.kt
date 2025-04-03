@@ -7,15 +7,24 @@ import woowacourse.omok.domain.model.stone.Stones
 import woowacourse.omok.domain.repository.StoneRepository
 
 class StoneRepositoryImpl(private val stoneDao: StoneDao) : StoneRepository {
-    override fun insert(stone: Stone) {
-        stoneDao.insert(stone.toStoneEntity())
+    override fun insert(
+        gameId: Long,
+        stone: Stone,
+    ) {
+        stoneDao.insert(gameId, stone.toStoneEntity())
     }
 
-    override fun lastStoneType(board: Board): StoneType = stoneDao.lastStone()?.toStone(board)?.stoneType ?: StoneType.WHITE
+    override fun lastStoneType(
+        gameId: Long,
+        board: Board,
+    ): StoneType = stoneDao.lastStone(gameId)?.toStone(board)?.stoneType ?: StoneType.WHITE
 
-    override fun allInBoardSize(board: Board): Stones = Stones(stoneDao.getAll().map { it.toStone(board) })
+    override fun allInBoardSize(
+        gameId: Long,
+        board: Board,
+    ): Stones = Stones(stoneDao.getAll(gameId).map { it.toStone(board) })
 
-    override fun clear() {
-        stoneDao.clear()
+    override fun clear(gameId: Long) {
+        stoneDao.clear(gameId)
     }
 }
