@@ -63,8 +63,8 @@ class OmokGameDao(
 
                 val color =
                     when (colorString) {
-                        "BLACK" -> StoneColor.BLACK
-                        "WHITE" -> StoneColor.WHITE
+                        StoneColor.BLACK.name -> StoneColor.BLACK
+                        StoneColor.WHITE.name -> StoneColor.WHITE
                         else -> throw IllegalArgumentException("Invalid color: $colorString")
                     }
 
