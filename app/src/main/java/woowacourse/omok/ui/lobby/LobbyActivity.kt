@@ -9,32 +9,28 @@ import woowacourse.omok.domain.model.omokboard.OmokGameEntity
 import woowacourse.omok.domain.model.player.PlayerName
 import woowacourse.omok.ui.game.OmokGameActivity
 import woowacourse.omok.ui.mapper.toData
+import woowacourse.omok.ui.mapper.toUI
 
 class LobbyActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLobbyBinding
     private lateinit var omokGameDao: OmokGameDao
+    private val omokGameAdapter = OmokGameAdapter(::navigateToOmokGame)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLobbyBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.rvLobbyRooms.adapter = omokGameAdapter
 
         omokGameDao = (applicationContext as OmokApplication).omokGameDao
 
-        val omokGameAdapter = OmokGameAdapter(::navigateToOmokGame)
-        binding.rvLobbyRooms.adapter = omokGameAdapter
-
-        val dummyGames =
-            List(10) { index ->
-                OmokGameEntity(
-                    id = index,
-                    host = PlayerName.create("Player$index"),
-                )
-            }
-
         setupClickListener()
+    }
 
-        omokGameAdapter.submitList(dummyGames)
+    override fun onResume() {
+        super.onResume()
+        val games = omokGameDao.fetchAllGames()
+        omokGameAdapter.submitList(games.toUI())
     }
 
     private fun setupClickListener() {

@@ -5,6 +5,7 @@ import woowacourse.omok.data.db.OmokContract
 import woowacourse.omok.data.db.OmokDbHelper
 import woowacourse.omok.data.model.OmokBoardDto
 import woowacourse.omok.data.model.OmokGameDto
+import woowacourse.omok.data.model.OmokGamesDto
 
 class OmokGameDaoImpl(
     private val omokDbHelper: OmokDbHelper,
@@ -72,5 +73,43 @@ class OmokGameDaoImpl(
         saveGame(game.copy(id = newId))
 
         return newId
+    }
+
+    override fun fetchAllGames(): OmokGamesDto {
+        val db = omokDbHelper.readableDatabase
+        val cursor = db.rawQuery(OmokContract.SQL_SELECT_ALL_GAMES, null)
+
+        val gamesMap = mutableMapOf<Int, MutableMap<Pair<Int, Int>, String>>()
+        val lastTurnMap = mutableMapOf<Int, String>()
+        val hostMap = mutableMapOf<Int, String>()
+
+        while (cursor.moveToNext()) {
+            val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+            val row = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_ROW))
+            val col = cursor.getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_COL))
+            val state = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_POSITION_STATE))
+            val lastTurn = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_LAST_TURN))
+            val host = cursor.getString(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_HOST))
+
+            if (state.isNotBlank()) {
+                gamesMap.getOrPut(id) { mutableMapOf() }[Pair(row, col)] = state
+            }
+
+            lastTurnMap[id] = lastTurn
+            hostMap[id] = host
+        }
+
+        cursor.close()
+
+        return OmokGamesDto(
+            gamesMap.map { (id, board) ->
+                OmokGameDto(
+                    id = id,
+                    host = hostMap[id] ?: "Unknown",
+                    lastTurn = lastTurnMap[id] ?: "BLACK",
+                    board = OmokBoardDto(board),
+                )
+            },
+        )
     }
 }

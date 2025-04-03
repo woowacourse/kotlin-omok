@@ -2,6 +2,7 @@ package woowacourse.omok.ui.mapper
 
 import woowacourse.omok.data.model.OmokBoardDto
 import woowacourse.omok.data.model.OmokGameDto
+import woowacourse.omok.data.model.OmokGamesDto
 import woowacourse.omok.domain.model.omokboard.OmokBoard
 import woowacourse.omok.domain.model.omokboard.OmokGameEntity
 import woowacourse.omok.domain.model.omokboard.PointState
@@ -40,3 +41,5 @@ fun OmokBoardDto.toUI(): OmokBoard {
             .mapValues { PointState.valueOf(it.value) }
     return OmokBoard(board.toMutableMap())
 }
+
+fun OmokGamesDto.toUI(): List<OmokGameEntity> = games.map { it.toUI() }

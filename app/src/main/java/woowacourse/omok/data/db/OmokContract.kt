@@ -21,5 +21,17 @@ object OmokContract {
     )
     """
 
+    const val SQL_SELECT_ALL_GAMES: String =
+        """
+    SELECT id, 
+           $COLUMN_POSITION_ROW, 
+           $COLUMN_POSITION_COL,
+           $COLUMN_POSITION_STATE, 
+           $COLUMN_LAST_TURN, 
+           $COLUMN_HOST
+    FROM $TABLE_GAME_STATE
+    ORDER BY id
+    """
+
     const val SQL_DELETE_GAME_STATE: String = "DROP TABLE IF EXISTS $TABLE_GAME_STATE"
 }
