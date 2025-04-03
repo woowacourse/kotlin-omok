@@ -1,17 +1,13 @@
 package woowacourse.omok.domain.model
 
-import woowacourse.omok.domain.model.state.BlackTurn
-import woowacourse.omok.domain.model.state.Finished
-import woowacourse.omok.domain.model.state.Playing
-import woowacourse.omok.domain.model.state.Ready
+import woowacourse.omok.domain.model.state.PlayResult
 import woowacourse.omok.domain.model.state.State
-import woowacourse.omok.domain.model.state.WhiteTurn
 import woowacourse.omok.domain.model.stone.BlackStones
 import woowacourse.omok.domain.model.stone.StoneColor
 import woowacourse.omok.domain.model.stone.WhiteStones
 
 class Board(
-    state: State = Ready(),
+    state: State = State.Playing(BlackStones(), WhiteStones(), StoneColor.BLACK),
     val size: Int = DEFAULT_BOARD_SIZE,
 ) {
     init {
@@ -26,19 +22,63 @@ class Board(
         onPointInput: () -> Point,
         onBoardUpdated: (BlackStones, WhiteStones) -> Unit,
     ) {
-        while (true) {
-            val currentState = state
+        while (state is State.Playing) {
+            val currentState = state as State.Playing
 
-            if (currentState is Playing) {
-                when (currentState) {
-                    is WhiteTurn -> onTurn(currentState.nextStoneColor(), currentState.blackStones.lastStonePoint)
-                    is BlackTurn -> onTurn(currentState.nextStoneColor(), currentState.whiteStones.lastStonePoint)
-                    else -> onTurn(currentState.nextStoneColor(), null)
-                }
-                state = currentState.place(onPointInput(), size, onBoardUpdated)
+            onTurn(
+                currentState.nextStoneColor,
+                if (currentState.nextStoneColor == StoneColor.BLACK) {
+                    currentState.whiteStones.lastStonePoint
+                } else {
+                    currentState.blackStones.lastStonePoint
+                },
+            )
+
+            val point = onPointInput()
+            state = place(currentState, point, size, onBoardUpdated)
+        }
+    }
+
+    private fun place(
+        currentState: State.Playing,
+        point: Point,
+        boardSize: Int,
+        onBoardUpdated: (BlackStones, WhiteStones) -> Unit,
+    ): State {
+        val (newBlackStones, newWhiteStones) =
+            when (currentState.nextStoneColor) {
+                StoneColor.BLACK -> currentState.blackStones + point to currentState.whiteStones
+                StoneColor.WHITE -> currentState.blackStones to currentState.whiteStones + point
             }
 
-            if (state is Finished) break
+        val result =
+            when {
+                currentState.blackStones.isOmok(point) -> PlayResult.Omok(StoneColor.BLACK)
+                currentState.whiteStones.isOmok(point) -> PlayResult.Omok(StoneColor.WHITE)
+                newBlackStones.points.size + newWhiteStones.points.size >= boardSize * boardSize -> PlayResult.Draw
+                currentState.blackStones.isDoubleThreeFoul(newWhiteStones, point) -> PlayResult.Foul.DoubleThree
+                currentState.blackStones.isDoubleFourFoul(newWhiteStones, point) -> PlayResult.Foul.DoubleFour
+                currentState.blackStones.isOverLine(point) -> PlayResult.Foul.OverLine
+                currentState.blackStones.contains(point) || currentState.whiteStones.contains(point) -> PlayResult.Foul.Duplicated
+                else ->
+                    PlayResult.Continue(
+                        State.Playing(
+                            newBlackStones,
+                            newWhiteStones,
+                            if (currentState.nextStoneColor == StoneColor.BLACK) StoneColor.WHITE else StoneColor.BLACK,
+                        ),
+                    )
+            }
+
+        if (result is PlayResult.Continue) {
+            onBoardUpdated(newBlackStones, newWhiteStones)
+        }
+
+        return when (result) {
+            is PlayResult.Omok -> State.Finished(result.winner)
+            is PlayResult.Draw -> State.Finished(null)
+            is PlayResult.Continue -> result.nextState
+            else -> currentState
         }
     }
 

@@ -1,7 +1,7 @@
 package woowacourse.omok.domain.controller
 
 import woowacourse.omok.domain.model.Board
-import woowacourse.omok.domain.model.state.Finished
+import woowacourse.omok.domain.model.state.State
 import woowacourse.omok.view.InputView
 import woowacourse.omok.view.OutputView
 
@@ -35,7 +35,7 @@ class OmokController(
     private fun displayWinner(board: Board) {
         val currentState = board.state
 
-        if (currentState is Finished.Win) {
+        if (currentState is State.Finished) {
             outputView.printWinner(currentState.winnerColor)
         } else {
             outputView.printWinner(null)
