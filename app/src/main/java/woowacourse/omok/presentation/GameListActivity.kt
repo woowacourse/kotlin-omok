@@ -9,7 +9,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.R
-import woowacourse.omok.data.db.BoardDao
 import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.data.db.GameDao
 
@@ -17,8 +16,7 @@ class GameListActivity :
     AppCompatActivity(),
     OnGameDeleteListener {
     private val dbHelper: DbHelper by lazy { DbHelper(this) }
-    private val boardDao: BoardDao by lazy { BoardDao(dbHelper) }
-    private val gameDao: GameDao by lazy { GameDao(dbHelper, boardDao) }
+    private val gameDao: GameDao by lazy { GameDao(dbHelper) }
     private lateinit var gameAdapter: GameRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -8,9 +8,7 @@ class BoardDao(
     fun insert(
         stone: Stone,
         gameId: Long,
-    ) {
-        dbHelper.insertStone(stone, gameId)
-    }
+    ) = dbHelper.insertStone(stone, gameId)
 
     fun queryStones(gameId: Long): List<Stone> = dbHelper.queryStones(gameId)
 }

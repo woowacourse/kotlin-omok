@@ -14,7 +14,8 @@ import androidx.core.view.children
 import woowacourse.omok.R
 import woowacourse.omok.data.db.BoardDao
 import woowacourse.omok.data.db.DbHelper
-import woowacourse.omok.data.db.GameDao
+import woowacourse.omok.domain.BoardService
+import woowacourse.omok.domain.GameService
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.Position
 import woowacourse.omok.domain.PutStoneResult
@@ -28,7 +29,7 @@ class GameActivity : AppCompatActivity() {
     private lateinit var board: TableLayout
     private val dbHelper: DbHelper by lazy { DbHelper(this) }
     private val boardDao: BoardDao by lazy { BoardDao(dbHelper) }
-    private val gameDao: GameDao by lazy { GameDao(dbHelper, boardDao) }
+    private val gameService: GameService by lazy { GameService(BoardService(boardDao)) }
     private var gameId: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,8 +72,8 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun initGame() {
-        omokGame = gameDao.getOrCreateGame(gameId)
-        val storedStones = gameDao.getStoredStones(gameId)
+        omokGame = gameService.getOrCreateGame(gameId)
+        val storedStones = boardDao.queryStones(gameId)
         if (storedStones.isNotEmpty()) {
             loadGame(storedStones)
         }

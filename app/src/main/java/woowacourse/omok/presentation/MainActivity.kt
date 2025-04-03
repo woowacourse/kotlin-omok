@@ -9,14 +9,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import woowacourse.omok.R
-import woowacourse.omok.data.db.BoardDao
 import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.data.db.GameDao
 
 class MainActivity : AppCompatActivity() {
     private val dbHelper: DbHelper by lazy { DbHelper(this) }
-    private val boardDao: BoardDao by lazy { BoardDao(dbHelper) }
-    private val gameDao: GameDao by lazy { GameDao(dbHelper, boardDao) }
+    private val gameDao: GameDao by lazy { GameDao(dbHelper) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
