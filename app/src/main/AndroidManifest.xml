@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".MainActivity2"
+                android:name=".RoomActivity"
                 android:exported="true" />
     </application>
 

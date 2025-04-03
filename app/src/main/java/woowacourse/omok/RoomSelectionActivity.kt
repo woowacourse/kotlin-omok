@@ -24,14 +24,14 @@ class RoomSelectionActivity : AppCompatActivity() {
         setRoomListView()
     }
 
-    override fun onDestroy() {
-        omokDao.close()
-        super.onDestroy()
-    }
-
     override fun onResume() {
         super.onResume()
         setRoomListView()
+    }
+
+    override fun onDestroy() {
+        omokDao.close()
+        super.onDestroy()
     }
 
     private fun setRoomListView() {
@@ -77,7 +77,7 @@ class RoomSelectionActivity : AppCompatActivity() {
     }
 
     private fun openGameActivity(roomName: String) {
-        val intent = Intent(this, MainActivity2::class.java)
+        val intent = Intent(this, RoomActivity::class.java)
         intent.putExtra("ROOM_NAME", roomName)
         startActivity(intent)
     }

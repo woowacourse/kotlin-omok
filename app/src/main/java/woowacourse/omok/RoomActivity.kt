@@ -27,7 +27,7 @@ import woowacourse.omok.model.position.Position
 import woowacourse.omok.model.position.Row
 import woowacourse.omok.view.OmokView2
 
-class MainActivity2 : AppCompatActivity() {
+class RoomActivity : AppCompatActivity() {
     private val game = Game(Board(), RuleAdapter(BlackRenjuRule()))
     private lateinit var omokDao: OmokDao2
     private lateinit var boardLayout: TableLayout
@@ -41,32 +41,12 @@ class MainActivity2 : AppCompatActivity() {
         omokDao = OmokDao2(OmokDbHelper2(this))
         intent.getStringExtra("ROOM_NAME")?.let { currentRoomName = it }
         title = currentRoomName
-
-        enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        initializeGame()
+        initializeRoom()
     }
 
     override fun onResume() {
         super.onResume()
-        restoreGame()
-    }
-
-    private fun initializeGame() {
-        boardLayout = findViewById(R.id.board)
-        imageViews =
-            boardLayout.children
-                .filterIsInstance<TableRow>()
-                .flatMap { tableRow -> tableRow.children }
-                .filterIsInstance<ImageView>()
-
-        omokView = OmokView2()
-        omokView.setListeners(imageViews, game.board) { position -> processTurn(position) }
-        omokView.printOmokStart(boardLayout)
+        restoreRoom()
     }
 
     override fun onDestroy() {
@@ -93,6 +73,25 @@ class MainActivity2 : AppCompatActivity() {
         }
     }
 
+    private fun initializeRoom() {
+        enableEdgeToEdge()
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+        boardLayout = findViewById(R.id.board)
+        imageViews =
+            boardLayout.children
+                .filterIsInstance<TableRow>()
+                .flatMap { tableRow -> tableRow.children }
+                .filterIsInstance<ImageView>()
+
+        omokView = OmokView2()
+        omokView.setListeners(imageViews, game.board) { position -> processTurn(position) }
+        omokView.printOmokStart(boardLayout)
+    }
+
     private fun deleteCurrentRoom() {
         AlertDialog.Builder(this)
             .setTitle(currentRoomName)
@@ -105,7 +104,7 @@ class MainActivity2 : AppCompatActivity() {
             .show()
     }
 
-    private fun restoreGame() {
+    private fun restoreRoom() {
         val stones: List<Stone> = omokDao.queryByRoomName(currentRoomName).map { omokEntity -> omokEntity.toStone() }
         stones.forEach { stone ->
             processTurn(stone.position)

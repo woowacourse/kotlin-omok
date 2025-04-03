@@ -4,8 +4,8 @@ import android.widget.ImageView
 import android.widget.TableLayout
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
-import woowacourse.omok.MainActivity2
 import woowacourse.omok.R
+import woowacourse.omok.RoomActivity
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.MoveResult
@@ -20,7 +20,7 @@ class OmokView2 {
     }
 
     fun printMoveResult(
-        mainActivity: MainActivity2,
+        mainActivity: RoomActivity,
         boardLayout: TableLayout,
         moveResult: MoveResult,
     ) {
@@ -31,7 +31,7 @@ class OmokView2 {
     }
 
     private fun printSuccessResult(
-        mainActivity: MainActivity2,
+        mainActivity: RoomActivity,
         moveResult: MoveResult.Success,
     ) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(mainActivity)
@@ -46,7 +46,7 @@ class OmokView2 {
         ).show()
     }
 
-    private fun Color.toPlayerName(mainActivity: MainActivity2): String {
+    private fun Color.toPlayerName(mainActivity: RoomActivity): String {
         return when (this) {
             Color.BLACK -> mainActivity.getString(R.string.black_player)
             Color.WHITE -> mainActivity.getString(R.string.white_player)
@@ -54,7 +54,7 @@ class OmokView2 {
     }
 
     private fun printFailureResult(
-        mainActivity: MainActivity2,
+        mainActivity: RoomActivity,
         boardLayout: TableLayout,
         moveResult: MoveResult.Failure,
     ) {
