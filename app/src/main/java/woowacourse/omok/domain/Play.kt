@@ -11,14 +11,15 @@ import woowacourse.omok.domain.model.stone.Stone
 import woowacourse.omok.domain.model.stone.Stones
 import woowacourse.omok.domain.repository.StoneRepository
 
-class Game(
+class Play(
     private val rule: OmokRule,
     private val stoneRepository: StoneRepository,
+    private val gameId: Long,
     private val board: Board,
     gameEvent: GameEvent,
 ) {
-    private var state: OmokState = Turn(stoneRepository.lastStoneType(board).reverse())
-    private var stones: Stones = stoneRepository.allInBoardSize(board)
+    private var state: OmokState = Turn(stoneRepository.lastStoneType(gameId, board).reverse())
+    private var stones: Stones = stoneRepository.allInBoardSize(gameId, board)
 
     init {
         gameEvent.initBoard(this)
@@ -34,7 +35,7 @@ class Game(
         placeStone(stone)
         playEvent.onPlace(stone)
         if (isFinished()) {
-            stoneRepository.clear()
+            stoneRepository.clear(gameId)
             playEvent.onFinish(state.stoneType, ::resetGame)
         }
     }
@@ -47,7 +48,7 @@ class Game(
     }
 
     private fun placeStone(stone: Stone) {
-        stoneRepository.insert(stone)
+        stoneRepository.insert(gameId, stone)
         stones += stone
         state = if (rule.checkWin(stones, stone)) state.finish() else state.play()
     }
