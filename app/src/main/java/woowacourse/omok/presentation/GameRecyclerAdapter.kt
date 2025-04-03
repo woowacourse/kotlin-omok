@@ -7,10 +7,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.R
-import woowacourse.omok.domain.Game
+import woowacourse.omok.domain.GameRoom
 
 class GameRecyclerAdapter(
-    items: List<Game>,
+    items: List<GameRoom>,
     private val onItemClick: (Int) -> Unit,
     private val deleteListener: OnGameDeleteListener,
 ) : RecyclerView.Adapter<GameRecyclerAdapter.ViewHolder>() {
@@ -21,7 +21,7 @@ class GameRecyclerAdapter(
     ) : RecyclerView.ViewHolder(view) {
         private val title: TextView = view.findViewById(R.id.tv_game_title)
 
-        fun bind(item: Game) {
+        fun bind(item: GameRoom) {
             title.text = item.name
             itemView.setOnClickListener { onItemClick(item.gameId) }
             itemView.findViewById<Button>(R.id.btn_delete_game).setOnClickListener {

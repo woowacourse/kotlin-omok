@@ -1,6 +1,6 @@
 package woowacourse.omok.data.db
 
-import woowacourse.omok.domain.Game
+import woowacourse.omok.domain.GameRoom
 import woowacourse.omok.domain.OmokAdapter
 import woowacourse.omok.domain.OmokBoard
 import woowacourse.omok.domain.OmokGame
@@ -25,7 +25,7 @@ class GameDao(
 
     fun createGame(roomName: String): Long = dbHelper.insertGame(roomName)
 
-    fun queryGames(): List<Game> = dbHelper.queryGames()
+    fun queryGames(): List<GameRoom> = dbHelper.queryGames()
 
     fun deleteGame(gameId: Int): Boolean = dbHelper.deleteGame(gameId)
 

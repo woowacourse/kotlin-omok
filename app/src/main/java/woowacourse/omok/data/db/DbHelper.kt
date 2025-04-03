@@ -5,7 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import woowacourse.omok.domain.Game
+import woowacourse.omok.domain.GameRoom
 import woowacourse.omok.domain.Position
 import woowacourse.omok.domain.Stone
 import woowacourse.omok.domain.StoneState
@@ -112,8 +112,8 @@ class DbHelper(
         return db.insert(GameContract.TABLE_NAME, null, values)
     }
 
-    fun queryGames(): List<Game> {
-        val result = mutableListOf<Game>()
+    fun queryGames(): List<GameRoom> {
+        val result = mutableListOf<GameRoom>()
         val dbReader = readableDatabase
         val cursor: Cursor =
             dbReader.query(
@@ -134,7 +134,7 @@ class DbHelper(
                 val gameId =
                     getLong(getColumnIndexOrThrow(GameContract.COLUMN_NAME_GAME_ID)).toInt()
                 val title = getString(getColumnIndexOrThrow(GameContract.COLUMN_NAME_GAME_NAME))
-                result.add(Game(gameId, title))
+                result.add(GameRoom(gameId, title))
             }
         }
         cursor.close()

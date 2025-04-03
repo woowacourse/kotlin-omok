@@ -1,6 +1,6 @@
 package woowacourse.omok.domain
 
-data class Game(
+data class GameRoom(
     val gameId: Int,
     val name: String,
 )

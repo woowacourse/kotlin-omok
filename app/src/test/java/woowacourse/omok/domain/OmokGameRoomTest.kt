@@ -9,7 +9,7 @@ import woowacourse.omok.beforeOverLine
 import woowacourse.omok.toFinishedPosition
 import woowacourse.omok.toViolationPosition
 
-class OmokGameTest {
+class OmokGameRoomTest {
     private lateinit var omokBoard: OmokBoard
     private lateinit var omokGame: OmokGame
 
