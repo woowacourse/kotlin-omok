@@ -1,4 +1,4 @@
-package woowacourse.ui.model
+package woowacourse.omok.ui.model
 
 import android.widget.ImageView
 

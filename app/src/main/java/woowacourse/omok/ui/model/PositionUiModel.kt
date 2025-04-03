@@ -1,4 +1,4 @@
-package woowacourse.ui.model
+package woowacourse.omok.ui.model
 
 data class PositionUiModel(
     val column: Int,
