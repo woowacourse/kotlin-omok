@@ -19,11 +19,8 @@ class Board private constructor(
     fun placeStone(
         position: Position,
         stoneColor: StoneColor,
-    ): Board {
-        val newBoard = Board(dimensions)
-        newBoard._stonesMap.putAll(this._stonesMap)
-        newBoard._stonesMap[position] = stoneColor
-        return newBoard
+    ) {
+        _stonesMap[position] = stoneColor
     }
 
     companion object {
