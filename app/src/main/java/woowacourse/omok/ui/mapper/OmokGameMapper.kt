@@ -18,11 +18,11 @@ fun OmokGameEntity.toData(): OmokGameDto =
         board = board.toData(),
     )
 
-fun OmokGameDto.toUI(): OmokGameEntity =
+fun OmokGameDto.toDomain(): OmokGameEntity =
     OmokGameEntity(
         id = id,
         host = PlayerName.create(host),
-        board = board.toUI(),
+        board = board.toDomain(),
         lastTurn = StoneColor.valueOf(lastTurn),
     )
 
@@ -34,7 +34,7 @@ fun OmokBoard.toData(): OmokBoardDto {
     return OmokBoardDto(board)
 }
 
-fun OmokBoardDto.toUI(): OmokBoard {
+fun OmokBoardDto.toDomain(): OmokBoard {
     val board =
         positions
             .mapKeys { Position(it.key.first, it.key.second) }
@@ -42,4 +42,4 @@ fun OmokBoardDto.toUI(): OmokBoard {
     return OmokBoard(board.toMutableMap())
 }
 
-fun OmokGamesDto.toUI(): List<OmokGameEntity> = games.map { it.toUI() }
+fun OmokGamesDto.toDomain(): List<OmokGameEntity> = games.map { it.toDomain() }

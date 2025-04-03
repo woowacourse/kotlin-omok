@@ -7,7 +7,7 @@ import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.rule.judge.JudgeResult
 import woowacourse.omok.domain.model.rule.place.PlaceResult
 import woowacourse.omok.ui.mapper.toData
-import woowacourse.omok.ui.mapper.toUI
+import woowacourse.omok.ui.mapper.toDomain
 
 class OmokGameManager(
     context: Context,
@@ -16,7 +16,7 @@ class OmokGameManager(
     val omokGame: OmokGame = loadOrCreateGame()
     val board: OmokBoard = omokGame.game.board
 
-    private fun loadOrCreateGame(): OmokGame = OmokGame(omokGameDao.fetchGame(0)?.toUI() ?: OmokGameEntity())
+    private fun loadOrCreateGame(): OmokGame = OmokGame(omokGameDao.fetchGame(0)?.toDomain() ?: OmokGameEntity())
 
     fun placeStone(position: Position): PlaceResult {
         val result = omokGame.placeStone(position)
