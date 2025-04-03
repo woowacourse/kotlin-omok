@@ -11,9 +11,11 @@ class Board(
     val stones: Set<Stone> get() = _stones.toSet()
 
     fun checkRange(newStone: Stone): MoveResult {
-        if (newStone.position.x.value !in 1..col.value) return MoveResult.Failure.StoneNotWithinColumn
-        if (newStone.position.y.value !in 1..row.value) return MoveResult.Failure.StoneNotWithinRow
-        return MoveResult.Success.Playing
+        return when {
+            newStone.position.x.value !in 1..col.value -> return MoveResult.Failure.StoneNotWithinColumn
+            newStone.position.y.value !in 1..row.value -> return MoveResult.Failure.StoneNotWithinRow
+            else -> MoveResult.Success.Playing
+        }
     }
 
     fun add(newStone: Stone): MoveResult {
