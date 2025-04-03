@@ -21,7 +21,20 @@ class RoomSelectionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_room_selection)
         omokDao = OmokDao2(OmokDbHelper2(this))
         title = "방 선택"
+        setRoomListView()
+    }
 
+    override fun onDestroy() {
+        omokDao.close()
+        super.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setRoomListView()
+    }
+
+    private fun setRoomListView() {
         val roomListView: ListView = findViewById(R.id.room_list)
         val roomNames: ArrayList<String> = omokDao.queryRoomNames()
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, roomNames)
@@ -34,11 +47,6 @@ class RoomSelectionActivity : AppCompatActivity() {
         createRoomButton.setOnClickListener {
             showCreateRoomDialog(adapter, roomNames)
         }
-    }
-
-    override fun onDestroy() {
-        omokDao.close()
-        super.onDestroy()
     }
 
     private fun showCreateRoomDialog(
@@ -58,8 +66,8 @@ class RoomSelectionActivity : AppCompatActivity() {
                     roomName.isEmpty() -> Toast.makeText(this, "올바르지 않은 방 이름입니다.", Toast.LENGTH_SHORT).show()
                     roomList.contains(roomName) -> Toast.makeText(this, "이미 존재하는 방입니다.", Toast.LENGTH_SHORT).show()
                     else -> {
-                        roomList.add(roomName)
                         adapter.notifyDataSetChanged()
+                        roomList.add(roomName)
                         openGameActivity(roomName)
                     }
                 }
