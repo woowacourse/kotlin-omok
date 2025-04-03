@@ -25,10 +25,7 @@ class GameRecyclerAdapter(
             title.text = item.name
             itemView.setOnClickListener { onItemClick(item.gameId) }
             itemView.findViewById<Button>(R.id.btn_delete_game).setOnClickListener {
-                val result = deleteListener.onDeleteGame(item.gameId)
-                if (result) {
-                    removeItem(adapterPosition)
-                }
+                deleteListener.onDeleteGame(item.gameId)
             }
         }
     }
@@ -50,10 +47,9 @@ class GameRecyclerAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    fun removeItem(position: Int) {
-        if (position >= 0 && position < items.size) {
-            items.removeAt(position)
-            notifyItemRemoved(position)
-        }
+    fun removeItem(gameId: Int) {
+        val position = items.indexOfFirst { it.gameId == gameId }
+        items.removeAt(position)
+        notifyItemRemoved(position)
     }
 }

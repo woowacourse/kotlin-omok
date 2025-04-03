@@ -19,6 +19,7 @@ class GameListActivity :
     private val dbHelper: DbHelper by lazy { DbHelper(this) }
     private val boardDao: BoardDao by lazy { BoardDao(dbHelper) }
     private val gameDao: GameDao by lazy { GameDao(dbHelper, boardDao) }
+    private lateinit var gameAdapter: GameRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,7 @@ class GameListActivity :
 
     private fun setupRecyclerView() {
         val games = gameDao.queryGames()
-        val gameAdapter =
+        gameAdapter =
             GameRecyclerAdapter(
                 games,
                 onItemClick = { gameId -> navigateToGameActivity(gameId) },
@@ -53,14 +54,19 @@ class GameListActivity :
         startActivity(intent)
     }
 
-    override fun onDeleteGame(gameId: Int): Boolean =
-        gameDao.deleteGame(gameId).also { result ->
-            runOnUiThread {
-                if (result) {
-                    Toast.makeText(this, R.string.text_delete_game, Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(this, R.string.text_delete_fail, Toast.LENGTH_LONG).show()
-                }
+    override fun onDeleteGame(gameId: Int) {
+        val result = gameDao.deleteGame(gameId)
+        runOnUiThread {
+            if (result) {
+                Toast.makeText(this, R.string.text_delete_game, Toast.LENGTH_LONG).show()
+                updateGameList(gameId)
+            } else {
+                Toast.makeText(this, R.string.text_delete_fail, Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun updateGameList(gameId: Int) {
+        gameAdapter.removeItem(gameId)
+    }
 }
