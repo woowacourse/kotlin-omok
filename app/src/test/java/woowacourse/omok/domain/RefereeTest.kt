@@ -24,7 +24,7 @@ class RefereeTest {
 
     @BeforeEach
     fun setUp() {
-        grid = OmokGrid()
+        grid = OmokGrid(setOf())
     }
 
     @Test

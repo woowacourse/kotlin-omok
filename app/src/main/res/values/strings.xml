@@ -4,4 +4,6 @@
     <string name="error_double_four">4x4 위치에 놓을 수 없습니다</string>
     <string name="error_over_line">장목 위치에 놓을 수 없습니다</string>
     <string name="error_occupied">이미 돌이 있습니다</string>
+
+    <string name="restart_button">RESTART</string>
 </resources>

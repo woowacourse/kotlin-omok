@@ -2,8 +2,8 @@ package woowacourse.omok.domain.grid
 
 import woowacourse.omok.domain.StoneColor
 
-class OmokGrid {
-    private val stones: Stones = Stones()
+class OmokGrid(stone: Set<Stone>) {
+    private val stones: Stones = Stones(stone)
 
     fun putStone(stone: Stone) {
         stones + stone

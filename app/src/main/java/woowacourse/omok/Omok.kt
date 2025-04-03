@@ -7,6 +7,6 @@ import woowacourse.omok.view.InputView
 import woowacourse.omok.view.OutputView
 
 fun main() {
-    val omokController = OmokController(InputView(), OutputView(), OmokGame(OmokGrid()))
+    val omokController = OmokController(InputView(), OutputView(), OmokGame(OmokGrid(setOf())))
     omokController.play()
 }

@@ -1,6 +1,7 @@
 package woowacourse.omok
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -25,7 +26,8 @@ import woowacourse.omok.domain.rule.ValidationResult
 import woowacourse.omok.domain.rule.ValidationResult.Failure
 
 class MainActivity : AppCompatActivity() {
-    private val omokGame = OmokGame(OmokGrid())
+    private lateinit var omokGame: OmokGame
+    private lateinit var board: TableLayout
     private var isGameOver = false
     private val dbProvider = DbProvider(DbHelper(this))
 
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val board = findViewById<TableLayout>(R.id.board)
+        board = findViewById(R.id.board)
         board
             .children
             .filterIsInstance<TableRow>()
@@ -63,15 +65,19 @@ class MainActivity : AppCompatActivity() {
                     nowTurn = proceedTurn(view, nowTurn)
                 }
             }
+
+        val restartButton = findViewById<Button>(R.id.btn_restart)
+        restartButton.setOnClickListener {
+            restartGame()
+            nowTurn = StoneColor.BLACK
+        }
     }
 
     // 디비에 저장된 돌 상태들을 들고 온다
     private fun initGame() {
         dbProvider.createTable()
         val stoneState = dbProvider.readAll()
-        stoneState.forEach { stone ->
-            omokGame.grid.putStone(stone)
-        }
+        omokGame = OmokGame(OmokGrid(stoneState.toSet()))
     }
 
     // 턴을 진행한다
@@ -164,6 +170,24 @@ class MainActivity : AppCompatActivity() {
 
     private fun showToast(toastText: String) {
         Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun restartGame() {
+        dbProvider.dropTable()
+        initGame()
+        resetBoardImage()
+        isGameOver = false
+    }
+
+    private fun resetBoardImage() {
+        board
+            .children
+            .filterIsInstance<TableRow>()
+            .forEach { row ->
+                row.children
+                    .filterIsInstance<ImageView>()
+                    .forEach { it.setImageResource(0) }
+            }
     }
 
     override fun onDestroy() {

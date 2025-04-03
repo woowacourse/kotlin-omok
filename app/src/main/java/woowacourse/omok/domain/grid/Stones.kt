@@ -2,8 +2,8 @@ package woowacourse.omok.domain.grid
 
 import woowacourse.omok.domain.StoneColor
 
-class Stones {
-    private val stones: MutableSet<Stone> = mutableSetOf()
+class Stones(stone: Set<Stone>) {
+    private val stones: MutableSet<Stone> = stone.toMutableSet()
 
     fun getStonesByColor(stoneColor: StoneColor): Set<Stone> {
         return stones.filter { it.stoneColor == stoneColor }.toSet()

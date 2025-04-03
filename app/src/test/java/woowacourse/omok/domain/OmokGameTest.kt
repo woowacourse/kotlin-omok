@@ -11,7 +11,7 @@ class OmokGameTest {
 
     @BeforeEach
     fun setUp() {
-        omokGame = OmokGame(OmokGrid())
+        omokGame = OmokGame(OmokGrid(setOf()))
     }
 
     @Test
