@@ -28,6 +28,6 @@ class OmokDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
     companion object {
         const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "Omok.db"
+        const val DATABASE_NAME = "Omok2.db"
     }
 }

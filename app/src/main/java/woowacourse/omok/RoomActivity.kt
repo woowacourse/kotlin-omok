@@ -14,9 +14,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import rule.BlackRenjuRule
 import woowacourse.omok.adapter.RuleAdapter
-import woowacourse.omok.database.OmokDao2
-import woowacourse.omok.database.OmokDbHelper2
-import woowacourse.omok.database.OmokEntity2
+import woowacourse.omok.database.OmokDao
+import woowacourse.omok.database.OmokDbHelper
+import woowacourse.omok.database.OmokEntity
 import woowacourse.omok.model.Board
 import woowacourse.omok.model.Color
 import woowacourse.omok.model.Game
@@ -25,20 +25,20 @@ import woowacourse.omok.model.Stone
 import woowacourse.omok.model.position.Col
 import woowacourse.omok.model.position.Position
 import woowacourse.omok.model.position.Row
-import woowacourse.omok.view.OmokView2
+import woowacourse.omok.view.OmokView
 
 class RoomActivity : AppCompatActivity() {
     private val game = Game(Board(), RuleAdapter(BlackRenjuRule()))
-    private lateinit var omokDao: OmokDao2
+    private lateinit var omokDao: OmokDao
     private lateinit var boardLayout: TableLayout
     private lateinit var imageViews: Sequence<ImageView>
-    private lateinit var omokView: OmokView2
+    private lateinit var omokView: OmokView
     private lateinit var currentRoomName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        omokDao = OmokDao2(OmokDbHelper2(this))
+        omokDao = OmokDao(OmokDbHelper(this))
         intent.getStringExtra("ROOM_NAME")?.let { currentRoomName = it }
         title = currentRoomName
         initializeRoom()
@@ -87,7 +87,7 @@ class RoomActivity : AppCompatActivity() {
                 .flatMap { tableRow -> tableRow.children }
                 .filterIsInstance<ImageView>()
 
-        omokView = OmokView2()
+        omokView = OmokView()
         omokView.setListeners(imageViews, game.board) { position -> processTurn(position) }
         omokView.printOmokStart(boardLayout)
     }
@@ -135,11 +135,11 @@ class RoomActivity : AppCompatActivity() {
         omokView.clearListeners(imageViews)
     }
 
-    private fun Stone.toOmokEntity(roomName: String): OmokEntity2 {
-        return OmokEntity2(position.x.value, position.y.value, color.name, roomName)
+    private fun Stone.toOmokEntity(roomName: String): OmokEntity {
+        return OmokEntity(position.x.value, position.y.value, color.name, roomName)
     }
 
-    private fun OmokEntity2.toStone(): Stone {
+    private fun OmokEntity.toStone(): Stone {
         val color: Color =
             when (color) {
                 Color.BLACK.name -> Color.BLACK

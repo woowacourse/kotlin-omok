@@ -10,16 +10,16 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import woowacourse.omok.database.OmokDao2
-import woowacourse.omok.database.OmokDbHelper2
+import woowacourse.omok.database.OmokDao
+import woowacourse.omok.database.OmokDbHelper
 
 class RoomSelectionActivity : AppCompatActivity() {
-    private lateinit var omokDao: OmokDao2
+    private lateinit var omokDao: OmokDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_selection)
-        omokDao = OmokDao2(OmokDbHelper2(this))
+        omokDao = OmokDao(OmokDbHelper(this))
         title = getString(R.string.title_room_selection)
         setRoomListView()
     }

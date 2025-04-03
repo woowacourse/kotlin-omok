@@ -4,4 +4,5 @@ data class OmokEntity(
     val x: Int,
     val y: Int,
     val color: String,
+    val roomName: String,
 )

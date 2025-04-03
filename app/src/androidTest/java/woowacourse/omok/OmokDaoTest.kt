@@ -1,9 +1,9 @@
 package woowacourse.omok
 
-import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
@@ -17,22 +17,36 @@ class OmokDaoTest {
 
     @BeforeEach
     fun setup() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        omokDao = OmokDao(OmokDbHelper(context))
+        omokDao = OmokDao(OmokDbHelper(ApplicationProvider.getApplicationContext()))
+    }
+
+    @AfterEach
+    fun clean() {
+        omokDao.clearAll()
     }
 
     @Test
     fun insertDataTest() {
-        omokDao.insertData(OmokEntity(1, 1, "BLACK"))
-        val data: List<OmokEntity> = omokDao.queryAll()
+        omokDao.insertData(OmokEntity(1, 1, "BLACK", "Room 1"))
+        val data: List<OmokEntity> = omokDao.queryByRoomName("Room 1")
         assertThat(data.size).isEqualTo(1)
-        assertThat(data.first()).isEqualTo(OmokEntity(1, 1, "BLACK"))
+        assertThat(data.first()).isEqualTo(OmokEntity(1, 1, "BLACK", "Room 1"))
     }
 
     @Test
-    fun clearDataTest() {
-        omokDao.insertData(OmokEntity(1, 1, "BLACK"))
-        omokDao.clear()
-        assertThat(omokDao.queryAll().size).isEqualTo(0)
+    fun queryByRoomNameTest() {
+        omokDao.insertData(OmokEntity(1, 1, "BLACK", "Room 1"))
+        omokDao.insertData(OmokEntity(15, 15, "WHITE", "Room 2"))
+        val data: List<OmokEntity> = omokDao.queryByRoomName("Room 1")
+        assertThat(data.size).isEqualTo(1)
+        assertThat(data).isEqualTo(listOf(OmokEntity(1, 1, "BLACK", "Room 1")))
+    }
+
+    @Test
+    fun clearDataByRoomNameTest() {
+        omokDao.insertData(OmokEntity(1, 1, "BLACK", "Room 1"))
+        omokDao.insertData(OmokEntity(15, 15, "WHITE", "Room 2"))
+        omokDao.clearRoom("Room 1")
+        assertThat(omokDao.queryByRoomName("Room 1").size).isEqualTo(0)
     }
 }
