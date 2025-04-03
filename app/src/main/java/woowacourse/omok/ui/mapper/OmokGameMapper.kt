@@ -7,11 +7,13 @@ import woowacourse.omok.domain.model.omokboard.OmokGame
 import woowacourse.omok.domain.model.omokboard.OmokGameEntity
 import woowacourse.omok.domain.model.omokboard.PointState
 import woowacourse.omok.domain.model.omokboard.Position
+import woowacourse.omok.domain.model.player.PlayerName
 import woowacourse.omok.domain.model.player.StoneColor
 
 fun OmokGame.toData(): OmokGameDto =
     OmokGameDto(
         gameId = game.id,
+        host = game.host.value,
         lastTurn = currentTurn.name,
         board = game.board.toData(),
     )
@@ -21,6 +23,7 @@ fun OmokGameDto.toUI(): OmokGame =
         game =
             OmokGameEntity(
                 id = gameId,
+                host = PlayerName(host),
                 board = board.toUI(),
             ),
         firstStone = StoneColor.valueOf(lastTurn),

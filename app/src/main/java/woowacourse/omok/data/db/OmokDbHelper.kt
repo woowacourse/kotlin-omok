@@ -55,6 +55,7 @@ class OmokDbHelper(
                 OmokContract.COLUMN_POSITION_COL,
                 OmokContract.COLUMN_POSITION_STATE,
                 OmokContract.COLUMN_LAST_TURN,
+                OmokContract.COLUMN_HOST,
             ),
             "${OmokContract.COLUMN_GAME_ID}=?",
             arrayOf(gameId.toString()),

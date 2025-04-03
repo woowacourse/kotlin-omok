@@ -8,17 +8,19 @@ object OmokContract {
     const val COLUMN_POSITION_COL = "col"
     const val COLUMN_POSITION_STATE = "state"
     const val COLUMN_LAST_TURN = "last_turn"
+    const val COLUMN_HOST = "host"
 
     const val SQL_CREATE_GAME_STATE: String =
         """
-        CREATE TABLE $TABLE_GAME_STATE (
-            $COLUMN_GAME_ID INTEGER,
-            $COLUMN_POSITION_ROW INTEGER,
-            $COLUMN_POSITION_COL INTEGER,
-            $COLUMN_POSITION_STATE TEXT,
-            $COLUMN_LAST_TURN TEXT
-        )
-        """
+    CREATE TABLE $TABLE_GAME_STATE (
+        $COLUMN_GAME_ID INTEGER,
+        $COLUMN_POSITION_ROW INTEGER,
+        $COLUMN_POSITION_COL INTEGER,
+        $COLUMN_POSITION_STATE TEXT,
+        $COLUMN_LAST_TURN TEXT,
+        $COLUMN_HOST TEXT
+    )
+    """
 
     const val SQL_DELETE_GAME_STATE: String = "DROP TABLE IF EXISTS $TABLE_GAME_STATE"
 }
