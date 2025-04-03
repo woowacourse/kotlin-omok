@@ -21,7 +21,7 @@ class Board(
         return MoveResult.Success.Playing
     }
 
-    fun filterStones(color: Color): List<Stone> = _stones.filter { stone -> stone.color == color }
+    fun filterStones(color: Color): List<Stone> = stones.filter { stone -> stone.color == color }
 
     companion object {
         private const val DEFAULT_COL_SIZE = 15
