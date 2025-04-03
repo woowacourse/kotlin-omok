@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import woowacourse.omok.domain.model.omokboard.OmokBoard
 import woowacourse.omok.domain.model.omokboard.OmokGame
+import woowacourse.omok.domain.model.omokboard.OmokGameEntity
 import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.player.StoneColor
@@ -16,7 +17,7 @@ class DrawRuleTest {
 
     @BeforeEach
     fun setup() {
-        omokGame = OmokGame(OmokBoard.create(5, 5))
+        omokGame = OmokGame(OmokGameEntity(board = OmokBoard.create(5, 5)))
     }
 
     @Test
@@ -27,13 +28,13 @@ class DrawRuleTest {
                 if (row == 5 && column == 5) break
 
                 val stoneColor = if ((row + column) % 2 == 0) StoneColor.BLACK else StoneColor.WHITE
-                omokGame.board.update(PlayerStone(stoneColor, Position(row, column)))
+                omokGame.game.board.update(PlayerStone(stoneColor, Position(row, column)))
             }
         }
 
         // when
         val playerStone = PlayerStone(StoneColor.BLACK, Position(15, 15))
-        val actual = DrawRule().perform(omokGame.board, playerStone)
+        val actual = DrawRule().perform(omokGame.game.board, playerStone)
         val expected = JudgeResult.Finished.Draw
 
         // then

@@ -42,7 +42,7 @@ class WinningRuleTest {
         omokGame.placeStone(POSITION_ONE_FOUR)
         omokGame.placeStone(POSITION_ONE_FIVE)
 
-        val actual = WinningRule().perform(omokGame.board, playerStone1)
+        val actual = WinningRule().perform(omokGame.game.board, playerStone1)
         val expected = JudgeResult.Finished.Win(StoneColor.BLACK)
 
         // then
@@ -61,7 +61,7 @@ class WinningRuleTest {
         omokGame.placeStone(POSITION_FOUR_ONE)
         omokGame.placeStone(POSITION_FIVE_ONE)
 
-        val actual = WinningRule().perform(omokGame.board, playerStone1)
+        val actual = WinningRule().perform(omokGame.game.board, playerStone1)
         val expected = JudgeResult.Finished.Win(StoneColor.BLACK)
 
         // then
@@ -80,7 +80,7 @@ class WinningRuleTest {
         omokGame.placeStone(POSITION_FOUR_FOUR)
         omokGame.placeStone(POSITION_FIVE_FIVE)
 
-        val actual = WinningRule().perform(omokGame.board, playerStone1)
+        val actual = WinningRule().perform(omokGame.game.board, playerStone1)
         val expected = JudgeResult.Finished.Win(StoneColor.BLACK)
 
         // then
@@ -99,7 +99,7 @@ class WinningRuleTest {
         omokGame.placeStone(POSITION_ONE_FOUR)
         omokGame.placeStone(POSITION_ONE_FIVE)
 
-        val actual = WinningRule().perform(omokGame.board, playerStone1)
+        val actual = WinningRule().perform(omokGame.game.board, playerStone1)
         val expected = JudgeResult.Finished.Win(StoneColor.BLACK)
 
         // then
@@ -119,7 +119,7 @@ class WinningRuleTest {
         omokGame.placeStone(POSITION_ONE_FOUR)
         omokGame.placeStone(POSITION_ONE_FIVE)
 
-        val actual = WinningRule().perform(omokGame.board, playerStone1)
+        val actual = WinningRule().perform(omokGame.game.board, playerStone1)
         val expected = JudgeResult.Finished.Win(StoneColor.WHITE)
 
         // then

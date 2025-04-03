@@ -4,21 +4,25 @@ import woowacourse.omok.data.model.OmokBoardDto
 import woowacourse.omok.data.model.OmokGameDto
 import woowacourse.omok.domain.model.omokboard.OmokBoard
 import woowacourse.omok.domain.model.omokboard.OmokGame
+import woowacourse.omok.domain.model.omokboard.OmokGameEntity
 import woowacourse.omok.domain.model.omokboard.PointState
 import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.StoneColor
 
 fun OmokGame.toData(): OmokGameDto =
     OmokGameDto(
-        gameId = id,
+        gameId = game.id,
         lastTurn = currentTurn.name,
-        board = board.toData(),
+        board = game.board.toData(),
     )
 
 fun OmokGameDto.toUI(): OmokGame =
     OmokGame(
-        id = gameId,
-        board = board.toUI(),
+        game =
+            OmokGameEntity(
+                id = gameId,
+                board = board.toUI(),
+            ),
         firstStone = StoneColor.valueOf(lastTurn),
     )
 

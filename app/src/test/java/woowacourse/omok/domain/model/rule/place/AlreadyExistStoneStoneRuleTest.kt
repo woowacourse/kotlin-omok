@@ -16,7 +16,7 @@ class AlreadyExistStoneStoneRuleTest {
 
         // when
         omokGame.placeStone(POSITION_ONE_ONE)
-        val actual = AlreadyExistStoneRule().perform(omokGame.board, playerStone1)
+        val actual = AlreadyExistStoneRule().perform(omokGame.game.board, playerStone1)
         val expected = PlaceResult.Failure.AlreadyExistStone
 
         // then

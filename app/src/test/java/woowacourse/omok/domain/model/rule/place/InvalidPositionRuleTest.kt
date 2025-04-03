@@ -15,7 +15,7 @@ class InvalidPositionRuleTest {
         val playerStone1: PlayerStone = PlayerStone(StoneColor.BLACK, POSITION_ZERO_ZERO)
 
         // when
-        val actual = InvalidPositionRule().perform(omokGame.board, playerStone1)
+        val actual = InvalidPositionRule().perform(omokGame.game.board, playerStone1)
         val expected = PlaceResult.Failure.InvalidPosition
 
         // then

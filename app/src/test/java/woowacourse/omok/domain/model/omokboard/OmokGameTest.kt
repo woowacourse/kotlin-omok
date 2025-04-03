@@ -12,7 +12,7 @@ class OmokGameTest {
 
         // when
         omokGame.placeStone(POSITION_ONE_ONE)
-        val board = omokGame.board.snapshot
+        val board = omokGame.game.board.snapshot
         val actual = board.values.first()
         val expected = PointState.OCCUPIED_BLACK
 

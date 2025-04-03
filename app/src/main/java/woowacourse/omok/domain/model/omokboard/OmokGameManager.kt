@@ -28,7 +28,7 @@ class OmokGameManager(
         val result = omokGame.judge(stone)
 
         when (result) {
-            is JudgeResult.Finished -> omokGameDao.deleteGame(omokGame.id)
+            is JudgeResult.Finished -> omokGameDao.deleteGame(omokGame.game.id)
             is JudgeResult.NotFinished -> omokGameDao.saveGame(omokGame.toData())
         }
 
@@ -36,7 +36,7 @@ class OmokGameManager(
     }
 
     fun restartGame() {
-        omokGameDao.deleteGame(omokGame.id)
+        omokGameDao.deleteGame(omokGame.game.id)
         omokGame.restart()
     }
 }

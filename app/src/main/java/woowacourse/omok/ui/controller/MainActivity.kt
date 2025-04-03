@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         setupView()
 
         controller = OmokGameManager(this)
-        updateStonesUI(controller.omokGame.board)
+        updateStonesUI(controller.omokGame.game.board)
         setupClickListeners()
     }
 
@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupRestartClickListener() {
         binding.btnOmokRestart.setOnClickListener {
             controller.restartGame()
-            updateStonesUI(controller.omokGame.board)
+            updateStonesUI(controller.omokGame.game.board)
             updateBoardActivation(true)
             showSnackBar(getString(string.omok_game_restart))
         }

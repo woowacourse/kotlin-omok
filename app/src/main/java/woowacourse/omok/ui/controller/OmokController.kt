@@ -15,7 +15,7 @@ class OmokController(
     fun run() {
         val omokGame = OmokGame()
         outputView.displayOmokGameStart()
-        outputView.displayOmokBoard(omokGame.board)
+        outputView.displayOmokBoard(omokGame.game.board)
 
         var position: Position? = null
 
@@ -24,7 +24,7 @@ class OmokController(
             val playerStone = PlayerStone(omokGame.currentTurn, newPosition)
             val placeResult = omokGame.placeStone(newPosition)
 
-            outputView.displayOmokBoard(omokGame.board)
+            outputView.displayOmokBoard(omokGame.game.board)
             if (placeResult is PlaceResult.Failure) {
                 outputView.displayErrorMessage(placeResult)
                 continue
