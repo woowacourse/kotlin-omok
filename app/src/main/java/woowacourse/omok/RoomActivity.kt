@@ -95,12 +95,12 @@ class RoomActivity : AppCompatActivity() {
     private fun deleteCurrentRoom() {
         AlertDialog.Builder(this)
             .setTitle(currentRoomName)
-            .setMessage("현재 방을 삭제하시겠습니까?")
-            .setPositiveButton("확인") { _, _ ->
+            .setMessage(getString(R.string.message_confirm_room_deletion))
+            .setPositiveButton(getString(R.string.button_positive)) { _, _ ->
                 omokDao.clearRoom(currentRoomName)
                 finish()
             }
-            .setNegativeButton("취소", null)
+            .setNegativeButton(getString(R.string.button_negative), null)
             .show()
     }
 

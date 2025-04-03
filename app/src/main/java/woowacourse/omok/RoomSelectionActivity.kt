@@ -20,7 +20,7 @@ class RoomSelectionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_selection)
         omokDao = OmokDao2(OmokDbHelper2(this))
-        title = "방 선택"
+        title = getString(R.string.title_room_selection)
         setRoomListView()
     }
 
@@ -54,17 +54,19 @@ class RoomSelectionActivity : AppCompatActivity() {
         roomList: ArrayList<String>,
     ) {
         val input = EditText(this)
-        input.hint = "방 이름을 입력하세요."
+        input.hint = getString(R.string.input_room_name)
         input.inputType = InputType.TYPE_CLASS_TEXT
 
         AlertDialog.Builder(this)
-            .setTitle("새로운 방 생성")
+            .setTitle(getString(R.string.title_create_room))
             .setView(input)
-            .setPositiveButton("생성") { _, _ ->
+            .setPositiveButton(getString(R.string.button_positive)) { _, _ ->
                 val roomName = input.text.toString().trim()
                 when {
-                    roomName.isEmpty() -> Toast.makeText(this, "올바르지 않은 방 이름입니다.", Toast.LENGTH_SHORT).show()
-                    roomList.contains(roomName) -> Toast.makeText(this, "이미 존재하는 방입니다.", Toast.LENGTH_SHORT).show()
+                    roomName.isEmpty() -> Toast.makeText(this, getString(R.string.message_invalid_room_name), Toast.LENGTH_SHORT).show()
+                    roomList.contains(
+                        roomName,
+                    ) -> Toast.makeText(this, getString(R.string.message_room_already_exists), Toast.LENGTH_SHORT).show()
                     else -> {
                         adapter.notifyDataSetChanged()
                         roomList.add(roomName)
@@ -72,7 +74,7 @@ class RoomSelectionActivity : AppCompatActivity() {
                     }
                 }
             }
-            .setNegativeButton("취소", null)
+            .setNegativeButton(getString(R.string.button_negative), null)
             .show()
     }
 
