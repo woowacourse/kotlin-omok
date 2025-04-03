@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Omok</string>
     <string name="text_delete_game">방이 삭제되었습니다.</string>
+    <string name="text_delete_fail">삭제 실패</string>
 
     <string name="text_already_placed">이미 돌이 있습니다. 다시 입력해주세요.</string>
     <string name="text_violate_rule">금수 위치입니다. 다시 입력해주세요.</string>

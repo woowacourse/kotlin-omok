@@ -13,7 +13,9 @@ import woowacourse.omok.data.db.BoardDao
 import woowacourse.omok.data.db.DbHelper
 import woowacourse.omok.data.db.GameDao
 
-class GameListActivity : AppCompatActivity(), OnGameDeleteListener {
+class GameListActivity :
+    AppCompatActivity(),
+    OnGameDeleteListener {
     private val dbHelper: DbHelper by lazy { DbHelper(this) }
     private val boardDao: BoardDao by lazy { BoardDao(dbHelper) }
     private val gameDao: GameDao by lazy { GameDao(dbHelper, boardDao) }
@@ -57,7 +59,7 @@ class GameListActivity : AppCompatActivity(), OnGameDeleteListener {
                 if (result) {
                     Toast.makeText(this, R.string.text_delete_game, Toast.LENGTH_LONG).show()
                 } else {
-                    Toast.makeText(this, "삭제 실패", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, R.string.text_delete_fail, Toast.LENGTH_LONG).show()
                 }
             }
         }
