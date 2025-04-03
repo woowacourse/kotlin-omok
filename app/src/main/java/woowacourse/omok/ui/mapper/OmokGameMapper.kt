@@ -32,7 +32,7 @@ fun OmokBoard.toData(): OmokBoardDto {
 
 fun OmokBoardDto.toUI(): OmokBoard {
     val board =
-        matrix
+        positions
             .mapKeys { Position(it.key.first, it.key.second) }
             .mapValues { PointState.valueOf(it.value) }
     return OmokBoard(board.toMutableMap())

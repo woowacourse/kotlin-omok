@@ -12,7 +12,7 @@ class OmokGameDaoImpl(
     override fun saveGame(game: OmokGameDto) {
         omokDbHelper.deleteGameState(game.gameId)
 
-        game.board.matrix.forEach { (pos, state) ->
+        game.board.positions.forEach { (pos, state) ->
             val values =
                 ContentValues().apply {
                     put(OmokContract.COLUMN_GAME_ID, game.gameId)

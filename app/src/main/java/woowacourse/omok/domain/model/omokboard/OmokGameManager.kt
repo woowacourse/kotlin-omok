@@ -11,15 +11,15 @@ import woowacourse.omok.ui.mapper.toUI
 class OmokGameManager(
     context: Context,
 ) {
-    private val dao: OmokGameDao = (context.applicationContext as woowacourse.omok.OmokApplication).omokGameDao
+    private val omokGameDao: OmokGameDao = (context.applicationContext as woowacourse.omok.OmokApplication).omokGameDao
     var omokGame: OmokGame = loadOrCreateGame()
 
-    private fun loadOrCreateGame(): OmokGame = dao.fetchGame(0)?.toUI() ?: OmokGame()
+    private fun loadOrCreateGame(): OmokGame = omokGameDao.fetchGame(0)?.toUI() ?: OmokGame()
 
     fun placeStone(position: Position): PlaceResult {
         val result = omokGame.placeStone(position)
 
-        if (result is PlaceResult.Success) dao.saveGame(omokGame.toData())
+        if (result is PlaceResult.Success) omokGameDao.saveGame(omokGame.toData())
 
         return result
     }
@@ -28,15 +28,15 @@ class OmokGameManager(
         val result = omokGame.judge(stone)
 
         when (result) {
-            is JudgeResult.Finished -> dao.deleteGame(omokGame.id)
-            is JudgeResult.NotFinished -> dao.saveGame(omokGame.toData())
+            is JudgeResult.Finished -> omokGameDao.deleteGame(omokGame.id)
+            is JudgeResult.NotFinished -> omokGameDao.saveGame(omokGame.toData())
         }
 
         return result
     }
 
     fun restartGame() {
-        dao.deleteGame(omokGame.id)
+        omokGameDao.deleteGame(omokGame.id)
         omokGame.restart()
     }
 }

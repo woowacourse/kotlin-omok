@@ -41,7 +41,7 @@ class OmokGameDaoImplTest {
         // then
         assertThat(loaded).isNotNull
         assertThat(loaded!!.lastTurn).isEqualTo("WHITE")
-        assertThat(loaded.board.matrix[0 to 0]).isEqualTo("BLACK")
+        assertThat(loaded.board.positions[0 to 0]).isEqualTo("BLACK")
     }
 
     @Test
