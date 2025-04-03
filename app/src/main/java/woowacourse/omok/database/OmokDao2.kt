@@ -62,6 +62,14 @@ class OmokDao2(private val dbHelper: OmokDbHelper2) {
         return result
     }
 
+    fun clearAll() {
+        dbHelper.writableDatabase.delete(
+            OmokContract2.TABLE_NAME,
+            null,
+            null,
+        )
+    }
+
     fun clearRoom(roomName: String) {
         dbHelper.writableDatabase.delete(
             OmokContract2.TABLE_NAME,
