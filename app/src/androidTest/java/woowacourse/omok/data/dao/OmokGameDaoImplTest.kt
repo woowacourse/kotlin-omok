@@ -29,7 +29,7 @@ class OmokGameDaoImplTest {
         // given
         val input =
             OmokGameDto(
-                gameId = gameId,
+                id = gameId,
                 host = "",
                 lastTurn = "WHITE",
                 board = OmokBoardDto(mapOf(0 to 0 to "BLACK")),

@@ -1,6 +1,7 @@
 package woowacourse.omok.domain.model.omokboard
 
 import android.content.Context
+import woowacourse.omok.OmokApplication
 import woowacourse.omok.data.dao.OmokGameDao
 import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.rule.judge.JudgeResult
@@ -11,15 +12,16 @@ import woowacourse.omok.ui.mapper.toUI
 class OmokGameManager(
     context: Context,
 ) {
-    private val omokGameDao: OmokGameDao = (context.applicationContext as woowacourse.omok.OmokApplication).omokGameDao
-    var omokGame: OmokGame = loadOrCreateGame()
+    private val omokGameDao: OmokGameDao = (context.applicationContext as OmokApplication).omokGameDao
+    val omokGame: OmokGame = loadOrCreateGame()
+    val board: OmokBoard = omokGame.game.board
 
-    private fun loadOrCreateGame(): OmokGame = omokGameDao.fetchGame(0)?.toUI() ?: OmokGame()
+    private fun loadOrCreateGame(): OmokGame = OmokGame(omokGameDao.fetchGame(0)?.toUI() ?: OmokGameEntity())
 
     fun placeStone(position: Position): PlaceResult {
         val result = omokGame.placeStone(position)
 
-        if (result is PlaceResult.Success) omokGameDao.saveGame(omokGame.toData())
+        if (result is PlaceResult.Success) omokGameDao.saveGame(omokGame.game.toData())
 
         return result
     }
@@ -29,7 +31,7 @@ class OmokGameManager(
 
         when (result) {
             is JudgeResult.Finished -> omokGameDao.deleteGame(omokGame.game.id)
-            is JudgeResult.NotFinished -> omokGameDao.saveGame(omokGame.toData())
+            is JudgeResult.NotFinished -> omokGameDao.saveGame(omokGame.game.toData())
         }
 
         return result

@@ -42,7 +42,7 @@ class OmokDbHelper(
     fun deleteGameState(gameId: Int) {
         writableDatabase.delete(
             OmokContract.TABLE_GAME_STATE,
-            "${OmokContract.COLUMN_GAME_ID}=?",
+            "id=?",
             arrayOf(gameId.toString()),
         )
     }
@@ -57,7 +57,7 @@ class OmokDbHelper(
                 OmokContract.COLUMN_LAST_TURN,
                 OmokContract.COLUMN_HOST,
             ),
-            "${OmokContract.COLUMN_GAME_ID}=?",
+            "id=?",
             arrayOf(gameId.toString()),
             null,
             null,

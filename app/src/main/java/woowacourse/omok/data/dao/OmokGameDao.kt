@@ -8,4 +8,6 @@ interface OmokGameDao {
     fun fetchGame(gameId: Int): OmokGameDto?
 
     fun deleteGame(gameId: Int)
+
+    fun createGame(game: OmokGameDto): Int
 }
