@@ -16,7 +16,7 @@ class OmokGamesAdapter(private val gamesItemEvent: GamesItemEvent) :
     ListAdapter<GameUiModel, OmokGamesAdapter.ViewHolder>(GameDiffCallback()) {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.game_name)
-        val deleteGame: Button = view.findViewById(R.id.remove_game)
+        val deleteGameButton: Button = view.findViewById(R.id.remove_game)
     }
 
     override fun onCreateViewHolder(
@@ -37,7 +37,7 @@ class OmokGamesAdapter(private val gamesItemEvent: GamesItemEvent) :
                 gamesItemEvent.onGame(id)
             }
             holder.name.text = name
-            holder.deleteGame.setOnClickListener {
+            holder.deleteGameButton.setOnClickListener {
                 gamesItemEvent.onDelete(id)
             }
         }

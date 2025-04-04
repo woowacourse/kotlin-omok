@@ -32,7 +32,6 @@ import woowacourse.omok.ui.model.PositionUiModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var boardView: BoardView
-    private lateinit var stoneRepository: StoneRepository
     private var gameId: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,16 +44,15 @@ class MainActivity : AppCompatActivity() {
                 findViewById<TableRow>(R.id.board).children.filterIsInstance<TableRow>()
                     .map { it.children.filterIsInstance<ImageView>().toList() }.toList(),
             )
-        stoneRepository = (application as App).stoneRepository
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        initBoardView()
+        initBoardView((application as App).stoneRepository)
     }
 
-    private fun initBoardView() {
+    private fun initBoardView(stoneRepository: StoneRepository) {
         val renjuRule = RenjuRuleAdapter(BlackRenjuRule())
         val board = Board(boardView.size)
         Play(

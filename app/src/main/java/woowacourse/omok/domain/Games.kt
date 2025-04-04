@@ -9,20 +9,20 @@ class Games(
     private val stonesRepository: StoneRepository,
     private val gamesEvent: GamesEvent,
 ) {
-    fun insert(name: String) {
+    fun insertGame(name: String) {
         gameRepository.insert(name)
     }
 
-    fun update() {
+    fun updateGames() {
         gamesEvent.updateGames(gameRepository.getAll())
     }
 
     fun deleteGame(id: Long) {
         gameRepository.delete(id)
-        clearStonesById(id)
+        clearStonesByGameId(id)
     }
 
-    private fun clearStonesById(gameId: Long) {
+    private fun clearStonesByGameId(gameId: Long) {
         stonesRepository.clear(gameId)
     }
 }

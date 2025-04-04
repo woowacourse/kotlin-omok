@@ -19,27 +19,26 @@ import woowacourse.omok.ui.IntentKeys.GAME_ID
 import woowacourse.omok.ui.mapper.toGameUiModel
 
 class OmokGamesActivity : AppCompatActivity() {
-    private lateinit var omokGamesView: RecyclerView
     private lateinit var games: Games
     private lateinit var omokGamesAdapter: OmokGamesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_omok_games)
-        omokGamesView = findViewById(R.id.omok_games)
-        val addOmokGame = findViewById<Button>(R.id.add_game)
+        val omokGamesView = findViewById<RecyclerView>(R.id.omok_games)
         omokGamesAdapter = OmokGamesAdapter(gamesItemEvent())
+        omokGamesView.layoutManager = LinearLayoutManager(this)
+        omokGamesView.adapter = omokGamesAdapter
+        val addGameButton = findViewById<Button>(R.id.add_game)
+        addGameButton.setOnClickListener {
+            showCreateGameDialog { name -> games.insertGame(name) }
+        }
         games =
             Games(
                 (application as App).gameRepository, (application as App).stoneRepository,
                 gamesEvent(),
             )
-        omokGamesView.layoutManager = LinearLayoutManager(this)
-        omokGamesView.adapter = omokGamesAdapter
-        games.update()
-        addOmokGame.setOnClickListener {
-            showCreateGameDialog { name -> games.insert(name) }
-        }
+        games.updateGames()
     }
 
     private fun showCreateGameDialog(onCreate: (String) -> Unit) {
@@ -55,7 +54,7 @@ class OmokGamesActivity : AppCompatActivity() {
             .setPositiveButton(getString(R.string.create_room_button)) { _, _ ->
                 val name = editText.text.toString()
                 onCreate(name)
-                games.update()
+                games.updateGames()
             }
             .setNegativeButton(getString(R.string.cancel_room_button), null)
             .show()
@@ -71,7 +70,7 @@ class OmokGamesActivity : AppCompatActivity() {
 
             override fun onDelete(id: Long) {
                 games.deleteGame(id)
-                games.update()
+                games.updateGames()
             }
         }
 
