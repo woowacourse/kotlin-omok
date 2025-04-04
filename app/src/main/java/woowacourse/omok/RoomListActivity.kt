@@ -22,7 +22,6 @@ class RoomListActivity : AppCompatActivity() {
     private lateinit var dbHelper: DbHelper
     private lateinit var recyclerView: RecyclerView
     private lateinit var customAdapter: CustomAdapter
-    private val rooms = mutableListOf<RoomData>()
     private lateinit var currentNickname: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,23 +29,39 @@ class RoomListActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.room_list)
 
-        dbHelper = DbHelper(this)
+        initDbHelper()
+        initLayout()
+        getIntentExtras()
+        setupRecyclerView()
+        setupListeners()
+    }
 
+    private fun initDbHelper() {
+        dbHelper = DbHelper(this)
+    }
+
+    private fun initLayout() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.room_list)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
 
+    private fun getIntentExtras() {
         currentNickname = intent.getStringExtra("nickname") ?: return
+    }
 
+    private fun setupRecyclerView() {
         recyclerView = findViewById(R.id.Rooms)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val dataset = getDataList(currentNickname)
         customAdapter = CustomAdapter(dataset)
         recyclerView.adapter = customAdapter
+    }
 
+    private fun setupListeners() {
         findViewById<Button>(R.id.makeNewRoom).setOnClickListener {
             makeRoom()
             finish()
