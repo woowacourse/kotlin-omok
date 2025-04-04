@@ -3,6 +3,7 @@ package controller
 import view.InputView
 import view.ResultView
 import woowacourse.omok.domain.GameBoard
+import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.player.Player
 import woowacourse.omok.domain.position.Position
 import woowacourse.omok.domain.rule.adapter.RuleAdapter
@@ -17,13 +18,14 @@ class OmokController(
 ) {
     fun run() {
         outputView.printGameStartMessage()
-        val gameBoard = GameBoard(players())
+        val gameStatus = omokGameStatus()
+        val gameBoard = GameBoard()
         outputView.printGameBoard()
-        putStoneUntilFindWinner(gameBoard)
-        outputView.printWinner(gameBoard.winner())
+        putStoneUntilFindWinner(gameBoard, gameStatus)
+        outputView.printWinner(gameStatus.turnColor())
     }
 
-    private fun players(): ArrayDeque<Player> {
+    private fun omokGameStatus(): OmokGame {
         val players = ArrayDeque<Player>()
         players.addAll(
             listOf(
@@ -37,35 +39,41 @@ class OmokController(
                 ),
             ),
         )
-        return players
+        return OmokGame(players)
     }
 
-    private tailrec fun putStoneUntilFindWinner(gameBoard: GameBoard) {
+    private tailrec fun putStoneUntilFindWinner(
+        gameBoard: GameBoard,
+        omokGameStatus: OmokGame,
+    ) {
         putStoneProcess(
             gameBoard = gameBoard,
-            showGameBoardStatus = { outputView.printGameBoard(gameBoard.placedAllStones()) },
+            omokGameStatus,
         )
-        if (gameBoard.gameOver()) return
-        gameBoard.nextTurn()
-        putStoneUntilFindWinner(gameBoard)
+        if (omokGameStatus.gameOver(gameBoard)) return
+        omokGameStatus.changeTurn()
+        putStoneUntilFindWinner(gameBoard, omokGameStatus)
     }
 
     private fun putStoneProcess(
         gameBoard: GameBoard,
-        showGameBoardStatus: () -> Unit,
+        omokGameStatus: OmokGame,
     ) {
-        gameBoard
-            .putStone(
-                onPositionReceived = { stoneColor, lastStone -> readPositionUntilReceived(stoneColor, lastStone) },
-            ).onSuccess {
-                showGameBoardStatus()
+        val position =
+            readPositionUntilSuccess(
+                omokGameStatus.turnColor(),
+                omokGameStatus.lastStone(gameBoard),
+            )
+        gameBoard.putStone(position, omokGameStatus)
+            .onSuccess {
+                outputView.printGameBoard(gameBoard.placedAllStones())
             }.onFailure { error ->
                 outputView.printErrorMessage(error)
-                putStoneProcess(gameBoard, showGameBoardStatus)
+                putStoneProcess(gameBoard, omokGameStatus)
             }
     }
 
-    private fun readPositionUntilReceived(
+    private fun readPositionUntilSuccess(
         stoneColor: StoneColor,
         lastStone: Stone?,
     ): Position =
@@ -73,6 +81,6 @@ class OmokController(
             inputView.readPosition(stoneColor, lastStone)
         }.getOrElse { error ->
             outputView.printErrorMessage(error)
-            readPositionUntilReceived(stoneColor, lastStone)
+            readPositionUntilSuccess(stoneColor, lastStone)
         }
 }
