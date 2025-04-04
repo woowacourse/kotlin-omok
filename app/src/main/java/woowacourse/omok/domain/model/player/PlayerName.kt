@@ -12,6 +12,10 @@ value class PlayerName private constructor(
                     "비비",
                     "오이",
                     "메다",
+                    "조이",
+                    "타마",
+                    "제이",
+                    "디랙",
                 )
             return when {
                 name.isNullOrBlank() -> PlayerName(names.random())
