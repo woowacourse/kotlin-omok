@@ -2,15 +2,13 @@ package woowacourse.omok.domain.model.game
 
 import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.PlayerStone
-import woowacourse.omok.domain.model.player.StoneColor
 import woowacourse.omok.domain.model.rule.judge.JudgeResult
 import woowacourse.omok.domain.model.rule.place.PlaceResult
 
 class OmokGame(
     val game: OmokGameEntity = OmokGameEntity(),
 ) {
-    var currentTurn: StoneColor = game.currentTurn
-        private set
+    val currentTurn get() = game.currentTurn
 
     fun placeStone(position: Position): PlaceResult {
         val playerStone = PlayerStone(currentTurn, position)
@@ -34,15 +32,10 @@ class OmokGame(
     }
 
     fun reverseTurn() {
-        currentTurn = currentTurn.reversed()
+        game.reverseTurn()
     }
 
     fun restart() {
-        currentTurn = INITIAL_STONE_COLOR
         game.board.clear()
-    }
-
-    companion object {
-        private val INITIAL_STONE_COLOR = StoneColor.BLACK
     }
 }

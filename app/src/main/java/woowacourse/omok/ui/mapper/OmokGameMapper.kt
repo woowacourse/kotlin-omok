@@ -23,7 +23,7 @@ fun OmokGameDto.toDomain(): OmokGameEntity =
         id = id,
         host = PlayerName.create(host),
         board = board.toDomain(),
-        _currentTurn = StoneColor.valueOf(lastTurn),
+        lastTurn = StoneColor.valueOf(lastTurn),
     )
 
 fun OmokBoard.toData(): OmokBoardDto {

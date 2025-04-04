@@ -15,11 +15,15 @@ data class OmokGameEntity(
     val id: Int = DEFAULT_GAME_ID,
     val host: PlayerName = PlayerName.create(),
     val board: OmokBoard = OmokBoard.create(),
-    private var _currentTurn: StoneColor = StoneColor.BLACK,
+    private var lastTurn: StoneColor = StoneColor.BLACK,
     val placeRules: PlaceRules = PlaceRules(listOf(InvalidPositionRule(), AlreadyExistStoneRule(), ExternalRule())),
     val judgeRules: JudgeRules = JudgeRules(listOf(WinningRule(), DrawRule())),
 ) {
-    val currentTurn: StoneColor get() = _currentTurn
+    val currentTurn: StoneColor get() = lastTurn
+
+    fun reverseTurn() {
+        lastTurn = lastTurn.reversed()
+    }
 
     companion object {
         const val DEFAULT_GAME_ID = -1

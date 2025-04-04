@@ -32,7 +32,7 @@ class OmokGameManager(
             is JudgeResult.Finished -> omokGameDao.deleteGame(omokGame.game.id)
             is JudgeResult.NotFinished ->
                 omokGameDao.saveGame(
-                    omokGame.game.copy(_currentTurn = omokGame.currentTurn).toData(),
+                    omokGame.game.copy(lastTurn = omokGame.currentTurn).toData(),
                 )
         }
 
