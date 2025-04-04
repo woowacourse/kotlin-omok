@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
             when (stoneType) {
                 StoneType.BLACK -> R.drawable.black_stone
                 StoneType.WHITE -> R.drawable.white_stone
-                else -> 0 // EMPTY
+                else -> throw IllegalArgumentException()
             },
         )
     }
