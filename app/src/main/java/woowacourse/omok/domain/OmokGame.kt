@@ -19,7 +19,7 @@ class OmokGame(
     fun play(
         onTurn: (StoneColor, Point?) -> Unit,
         onPointSelected: () -> Point,
-        onForbiddenMove: (String) -> Unit,
+        onForbiddenMove: (PlaceResult.ForbiddenMove) -> Unit,
         onStonePlaced: (OmokBoard, Stone) -> Unit,
     ) {
         if (state is Playing) {
@@ -37,7 +37,7 @@ class OmokGame(
         playingState: Playing,
         onTurn: (StoneColor, Point?) -> Unit,
         onPointSelected: () -> Point,
-        onForbiddenMove: (String) -> Unit,
+        onForbiddenMove: (PlaceResult.ForbiddenMove) -> Unit,
         onStonePlaced: (OmokBoard, Stone) -> Unit,
     ) {
         onTurn(playingState.stoneColor, lastStone?.point)
@@ -48,11 +48,11 @@ class OmokGame(
     private fun handlePlaceResult(
         placeResult: PlaceResult,
         newStone: Stone,
-        onForbiddenMove: (String) -> Unit,
+        onForbiddenMove: (PlaceResult.ForbiddenMove) -> Unit,
         onStonePlaced: (OmokBoard, Stone) -> Unit,
     ) {
         when (placeResult) {
-            is PlaceResult.ForbiddenMove -> onForbiddenMove(placeResult.message)
+            is PlaceResult.ForbiddenMove -> onForbiddenMove(placeResult)
             is PlaceResult.Placed -> {
                 state = placeResult.state
                 lastStone = newStone

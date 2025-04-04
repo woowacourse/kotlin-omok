@@ -15,7 +15,7 @@ import woowacourse.omok.domain.OmokBoard
 import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.Point
 import woowacourse.omok.domain.state.BlackTurn
-import woowacourse.omok.domain.state.Finished
+import woowacourse.omok.domain.state.PlaceResult
 import woowacourse.omok.domain.state.Playing
 import woowacourse.omok.domain.state.WhiteTurn
 import woowacourse.omok.domain.stone.OmokStones
@@ -84,8 +84,18 @@ class MainActivity : AppCompatActivity() {
         omokGame.play(
             onTurn = { _, _ -> },
             onPointSelected = { view.tag as Point },
-            onForbiddenMove = { message ->
-                showToast(message)
+            onForbiddenMove = { playResult ->
+                showToast(
+                    getString(
+                        when (playResult) {
+                            is PlaceResult.ForbiddenMove.DoubleThree -> R.string.error_double_three
+                            is PlaceResult.ForbiddenMove.DoubleFour -> R.string.error_double_four
+                            is PlaceResult.ForbiddenMove.Overline -> R.string.error_overline
+                            is PlaceResult.ForbiddenMove.Occupied -> R.string.error_occupied
+                            is PlaceResult.ForbiddenMove.OutOfBoard -> R.string.error_out_of_board
+                        },
+                    ),
+                )
             },
             onStonePlaced = { _, stone ->
                 when (stone.color) {
@@ -95,16 +105,16 @@ class MainActivity : AppCompatActivity() {
                 dbHelper.insertStone(stone)
             },
         )
-        if (omokGame.state is Finished) {
-            omokGame.finish { stoneColor ->
-                showToast(
+        omokGame.finish { stoneColor ->
+            showToast(
+                getString(
                     when (stoneColor) {
-                        StoneColor.BLACK -> "흑이 승리했습니다."
-                        StoneColor.WHITE -> "백이 승리했습니다."
-                        null -> "더 이상 돌을 놓을 곳이 없습니다."
+                        StoneColor.BLACK -> R.string.message_black_win
+                        StoneColor.WHITE -> R.string.message_white_win
+                        null -> R.string.message_draw
                     },
-                )
-            }
+                ),
+            )
             dbHelper.deleteStones()
         }
     }

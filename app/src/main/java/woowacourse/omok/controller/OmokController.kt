@@ -21,7 +21,7 @@ class OmokController(
             game.play(
                 onTurn = { stoneColor, lastPoint -> outputView.printTurn(stoneColor, lastPoint) },
                 onPointSelected = { inputView.getPoint() },
-                onForbiddenMove = { println(it) },
+                onForbiddenMove = { outputView.printForbiddenMove(it) },
                 onStonePlaced = { board, _ ->
                     outputView.printOmokBoard(board.stones, board.size)
                 },

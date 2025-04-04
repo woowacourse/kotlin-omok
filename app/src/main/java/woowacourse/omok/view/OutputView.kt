@@ -1,4 +1,5 @@
 import woowacourse.omok.domain.Point
+import woowacourse.omok.domain.state.PlaceResult
 import woowacourse.omok.domain.stone.OmokStones
 import woowacourse.omok.domain.stone.StoneColor
 
@@ -33,6 +34,18 @@ class OutputView {
             }
         }
         println(board)
+    }
+
+    fun printForbiddenMove(forbiddenMove: PlaceResult.ForbiddenMove) {
+        println(
+            when (forbiddenMove) {
+                PlaceResult.ForbiddenMove.DoubleThree -> "3–3 위치에 놓을 수 없습니다."
+                PlaceResult.ForbiddenMove.DoubleFour -> "4–4 위치에 놓을 수 없습니다."
+                PlaceResult.ForbiddenMove.Overline -> "장목 위치에 놓을 수 없습니다."
+                PlaceResult.ForbiddenMove.Occupied -> "이미 돌이 놓여져 있습니다."
+                PlaceResult.ForbiddenMove.OutOfBoard -> "오목판의 범위를 넘어간 좌표입니다."
+            },
+        )
     }
 
     fun printWinner(color: StoneColor?) {

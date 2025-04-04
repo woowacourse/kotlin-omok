@@ -13,11 +13,11 @@ abstract class Playing(
     fun place(newStone: Stone): PlaceResult {
         val violation = omokBoard.checkViolation(newStone)
         return when (violation) {
-            Violation.OUT_OF_BOARD -> PlaceResult.ForbiddenMove.OutOfBoard()
-            Violation.OCCUPIED -> PlaceResult.ForbiddenMove.Occupied()
-            Violation.DOUBLE_THREE -> PlaceResult.ForbiddenMove.DoubleThree()
-            Violation.DOUBLE_FOUR -> PlaceResult.ForbiddenMove.DoubleFour()
-            Violation.OVERLINE -> PlaceResult.ForbiddenMove.Overline()
+            Violation.OUT_OF_BOARD -> PlaceResult.ForbiddenMove.OutOfBoard
+            Violation.OCCUPIED -> PlaceResult.ForbiddenMove.Occupied
+            Violation.DOUBLE_THREE -> PlaceResult.ForbiddenMove.DoubleThree
+            Violation.DOUBLE_FOUR -> PlaceResult.ForbiddenMove.DoubleFour
+            Violation.OVERLINE -> PlaceResult.ForbiddenMove.Overline
             Violation.NONE -> {
                 val newBoard = omokBoard.place(newStone)
                 PlaceResult.Placed(nextState(newBoard, newStone))
