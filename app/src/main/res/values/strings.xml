@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Omok</string>
+    <string name="message_omok_start">오목 게임을 시작합니다.</string>
+    <string name="message_omok_winner">%s이 승리했습니다!</string>
+    <string name="message_omok_in_progress">게임이 아직 종료되지 않았습니다.</string>
+    <string name="message_failure_position_already_occupied">이미 돌이 있는 자리입니다.</string>
+    <string name="message_failure_double_three_violation">삼삼 금수입니다.</string>
+    <string name="message_failure_double_four_violation">사사 금수입니다.</string>
+    <string name="message_failure_overline_violation">장목 금수입니다.</string>
+    <string name="message_invalid_room_name">올바르지 않은 방 이름입니다.</string>
+    <string name="message_room_already_exists">이미 존재하는 방입니다.</string>
+    <string name="message_confirm_room_deletion">현재 방을 삭제하시겠습니까?</string>
+    <string name="black_player">흑</string>
+    <string name="white_player">백</string>
+    <string name="title_room_selection">방 선택</string>
+    <string name="title_delete_room">현재 방 삭제</string>
+    <string name="title_create_room">새로운 방 생성</string>
+    <string name="button_create_room">새로운 방 생성</string>
+    <string name="button_positive">확인</string>
+    <string name="button_negative">취소</string>
+    <string name="input_room_name">방 이름을 입력하세요.</string>
+
+</resources>
