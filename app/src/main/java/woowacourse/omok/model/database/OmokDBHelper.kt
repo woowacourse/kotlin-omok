@@ -11,6 +11,7 @@ import woowacourse.omok.model.database.OmokDBContract.PlayerTable
 import woowacourse.omok.model.database.OmokDBContract.StonesTable
 import woowacourse.omok.model.gameRoom.GameRoom
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class OmokDBHelper(
     context: Context,
@@ -156,7 +157,7 @@ class OmokDBHelper(
                 val roomId = cursor.getInt(roomIdIndex)
                 val blackPlayerName = cursor.getString(blackNameIndex)
                 val whitePlayerName = cursor.getString(whiteNameIndex)
-                val lastPlayTime = LocalDateTime.parse(cursor.getString(timeIndex), OmokDBContract.dbTimeFormatter)
+                val lastPlayTime = LocalDateTime.parse(cursor.getString(timeIndex), dbTimeFormatter)
 
                 gameRooms.add(
                     GameRoom(
@@ -208,7 +209,7 @@ class OmokDBHelper(
                     id = newRoomId.toInt(),
                     blackStonePlayerName = blackPlayerName,
                     whiteStonePlayerName = whitePlayerName,
-                    lastPlayTime = LocalDateTime.parse(lastPlayTime, OmokDBContract.dbTimeFormatter),
+                    lastPlayTime = LocalDateTime.parse(lastPlayTime, dbTimeFormatter),
                 )
             } else {
                 null
@@ -258,10 +259,12 @@ class OmokDBHelper(
     }
 
     companion object {
-        const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "Omok.db"
 
         private const val FIRST_COLUMN_INDEX = 0
         private const val TRUE_IN_SQLITE = 1
+
+        private val dbTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     }
 }

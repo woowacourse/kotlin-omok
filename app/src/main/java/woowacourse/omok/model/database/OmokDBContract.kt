@@ -1,10 +1,6 @@
 package woowacourse.omok.model.database
 
-import java.time.format.DateTimeFormatter
-
 object OmokDBContract {
-    val dbTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-
     object StonesTable {
         const val TABLE_NAME = "stones"
         const val COLUMN_ROOM_ID = "room_id"
