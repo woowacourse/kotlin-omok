@@ -73,7 +73,7 @@ class OmokGameDaoImplTest {
         val initial =
             OmokGameDto(
                 id = 0,
-                host = "HostA",
+                host = "오이",
                 lastTurn = "BLACK",
                 board = OmokBoardDto(mapOf((2 to 2) to "BLACK")),
             )
@@ -97,14 +97,14 @@ class OmokGameDaoImplTest {
         val game1 =
             OmokGameDto(
                 id = 1,
-                host = "Host1",
+                host = "공백",
                 lastTurn = "WHITE",
                 board = OmokBoardDto(mapOf((1 to 1) to "BLACK")),
             )
         val game2 =
             OmokGameDto(
                 id = 2,
-                host = "Host2",
+                host = "비비",
                 lastTurn = "BLACK",
                 board = OmokBoardDto(mapOf((2 to 2) to "WHITE")),
             )
