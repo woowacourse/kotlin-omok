@@ -85,15 +85,19 @@
 - [x] OmokAppControl 클래스 리팩터링
   - [x] stoneDBSave()에서 apply 및 use 적용
   - [x] turn()의 좌표값을 Position객체로 받도록 수정
-- [ ] MainActivity 클래스 리팩터링
+- [x] MainActivity 클래스 리팩터링
   - [x] by lazy로 변경이 필요한 lateinit 변수들 수정
-  - [ ] 불필요하게 MainActivity에서 작업하고 있는 로직 분리
+  - [x] 불필요하게 MainActivity에서 작업하고 있는 로직 분리
     - [x] showCreateGameDialog() 함수 이름 변경 후 로직 이동
     - [x] showInputDialog() 를 OutputView로 로직 이동 
     - [x] reloadPreviousGameRooms() 의 DB 비즈니스 로직을 DBhelper로 이동
-    - [ ] showInfoDialog()와 showPlayerStatsDialog() 로직 이동
-- [ ] DB를 테스트 가능한 구조로 리팩터링
-  - [ ] DB 패키지의 테스트 코드 추가
+    ~~- [ ] showInfoDialog()와 showPlayerStatsDialog() 로직 이동~~
+- [x] DB 패키지의 테스트 코드 추가
+- [ ] 테스트를 위한 Fake 구현체 프로덕션 코드에서 삭제
 - [ ] 매직넘버 및 문자열 상수화
   - [x] OmokDBHelper의 exists == 1 상수화
   - [ ] 상수화가 팔요한 문자열과 매직넘버들 최종 점검
+- [ ] OmokDBContract에서 DB 쿼리가 아닌 코드 이동
+- [ ] MainActivity의 다이얼로그에 빌더 패턴 적용
+- [ ] 가시성 제한자 수정
+- [ ] strings.xml를 사용한 안드로이드 String 상수화
