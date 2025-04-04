@@ -86,7 +86,7 @@ class OmokGameDaoImplTest {
         assertThat(newGameId).isGreaterThan(0)
         assertThat(loaded).isNotNull
         assertThat(loaded!!.id).isEqualTo(newGameId)
-        assertThat(loaded.host).isEqualTo("HostA")
+        assertThat(loaded.host).isEqualTo("오이")
         assertThat(loaded.lastTurn).isEqualTo("BLACK")
         assertThat(loaded.board.positions[2 to 2]).isEqualTo("BLACK")
     }
