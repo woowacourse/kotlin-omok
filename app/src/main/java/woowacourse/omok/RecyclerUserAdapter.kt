@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import woowacourse.omok.model.Extras
 import woowacourse.omok.model.Stone
 import woowacourse.omok.view.RoomData
 
@@ -23,8 +24,8 @@ class CustomAdapter(
             itemView.setOnClickListener {
                 val context = itemView.context
                 val intent = Intent(context, MainActivity::class.java).apply {
-                    putExtra("nickname", roomData.nickname)
-                    putExtra("room_id", roomData.Id)
+                    putExtra(Extras.NICKNAME, roomData.nickname)
+                    putExtra(Extras.ROOM_ID, roomData.Id)
                 }
                 context.startActivity(intent)
             }

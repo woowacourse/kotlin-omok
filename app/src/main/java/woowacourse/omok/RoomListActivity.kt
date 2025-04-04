@@ -16,6 +16,7 @@ import woowacourse.omok.model.Stone
 import woowacourse.omok.model.StoneColor
 import woowacourse.omok.model.Row
 import woowacourse.omok.model.Col
+import woowacourse.omok.model.Extras
 import woowacourse.omok.view.RoomData
 
 class RoomListActivity : AppCompatActivity() {
@@ -135,8 +136,8 @@ class RoomListActivity : AppCompatActivity() {
 
 
         startActivity(Intent(this, MainActivity::class.java).apply {
-            putExtra("nickname", nickname)
-            putExtra("room_id", newRoomId.toInt())
+            putExtra(Extras.NICKNAME, nickname)
+            putExtra(Extras.ROOM_ID, newRoomId.toInt())
         })
     }
 }
