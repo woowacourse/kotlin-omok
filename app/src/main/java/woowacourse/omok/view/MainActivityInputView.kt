@@ -20,16 +20,16 @@ class MainActivityInputView(
             val builder =
                 androidx.appcompat.app.AlertDialog
                     .Builder(mainActivity)
-            builder.setTitle(DIALOG_HEAD_NAME_INPUT)
+            builder.setTitle(mainActivity.getString(R.string.new_game_name_input_dialoag_title))
             builder.setView(dialogView)
 
             val blackStoneInputView = dialogView.findViewById<EditText>(R.id.black_stone_name)
             val whiteStoneInputView = dialogView.findViewById<EditText>(R.id.white_stone_name)
 
-            builder.setPositiveButton(CONFIRM_BTN_TEXT) { _, _ ->
+            builder.setPositiveButton(mainActivity.getString(R.string.ok_button)) { _, _ ->
             }
 
-            builder.setNegativeButton(CANCEL_BTN_TEXT) { dialog, _ ->
+            builder.setNegativeButton(mainActivity.getString(R.string.cancel_button)) { dialog, _ ->
                 dialog.dismiss()
             }
 
@@ -41,9 +41,9 @@ class MainActivityInputView(
                 val whiteStoneName = whiteStoneInputView.text.toString()
                 when {
                     blackStoneName.isEmpty() || whiteStoneName.isEmpty() ->
-                        toastShowUp(ALERT_EMPTY_PLAYER_NAME)
+                        toastShowUp(mainActivity.getString(R.string.empty_input))
 
-                    blackStoneName == whiteStoneName -> toastShowUp(ALERT_SAME_PLAYER_NAME)
+                    blackStoneName == whiteStoneName -> toastShowUp(mainActivity.getString(R.string.duplicate_name))
 
                     else -> {
                         onNamesConfirmed(blackStoneName, whiteStoneName)
@@ -52,14 +52,5 @@ class MainActivityInputView(
                 }
             }
         }
-    }
-
-    companion object {
-        private const val DIALOG_HEAD_NAME_INPUT = "닉네임 입력"
-        private const val ALERT_EMPTY_PLAYER_NAME = "입력값이 비었습니다!!"
-        private const val ALERT_SAME_PLAYER_NAME = "두 닉네임이 같습니다!!"
-
-        private const val CONFIRM_BTN_TEXT = "확인"
-        private const val CANCEL_BTN_TEXT = "취소"
     }
 }

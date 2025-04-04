@@ -37,7 +37,7 @@ class GameActivityOutputView(
     }
 
     fun recoveryStonesAlert() {
-        toastShowUp(SUSPENDED_GAME_RECOVER_MESSAGE)
+        toastShowUp(gameActivity.getString(R.string.suspended_game_recover_message))
     }
 
     fun stoneUiDraw(
@@ -54,17 +54,17 @@ class GameActivityOutputView(
 
     fun positionStatusAlert(positionState: PositionStatus) {
         when (positionState) {
-            PLACED -> toastShowUp(ERROR_STONE_ALREADY_EXITS)
-            OUT_OF_RANGE -> toastShowUp(ERROR_OUT_OF_RANGE)
+            PLACED -> toastShowUp(gameActivity.getString(R.string.error_stone_already_exists))
+            OUT_OF_RANGE -> toastShowUp(gameActivity.getString(R.string.error_out_of_range))
             EMPTY -> {}
         }
     }
 
     fun foulAlert(foul: RenjuFoul) {
         when (foul) {
-            THREE_BY_THREE_FOUL -> toastShowUp(ERROR_THREE_BY_THREE_FOUL)
-            FOUR_BY_FOUR_FOUL -> toastShowUp(ERROR_FOUR_BY_FOUR_FOUL)
-            OVER_FIVE_FOUL -> toastShowUp(ERROR_OVER_FIVE_FOUL)
+            THREE_BY_THREE_FOUL -> toastShowUp(gameActivity.getString(R.string.error_three_by_three_foul))
+            FOUR_BY_FOUR_FOUL -> toastShowUp(gameActivity.getString(R.string.error_four_by_four_foul))
+            OVER_FIVE_FOUL -> toastShowUp(gameActivity.getString(R.string.error_over_five_foul))
             SAFE -> {}
         }
     }
@@ -85,12 +85,12 @@ class GameActivityOutputView(
         (gameActivity).runOnUiThread {
             AlertDialog
                 .Builder(gameActivity)
-                .setTitle(NORMAL_DIALOG_TITLE)
-                .setMessage(WIN_DIALOG_MESSAGE.format(playerName))
-                .setPositiveButton(RETRY_BUTTON_TEXT) { _, _ ->
+                .setTitle(gameActivity.getString(R.string.normal_dialog_title))
+                .setMessage(gameActivity.getString(R.string.win_dialog_message).format(playerName))
+                .setPositiveButton(gameActivity.getString(R.string.retry_button)) { _, _ ->
                     stonesDelete()
                     restartGame()
-                }.setNegativeButton(EXIT_BUTTON_TEXT) { _, _ ->
+                }.setNegativeButton(gameActivity.getString(R.string.exit_button_text)) { _, _ ->
                     roomWithStonesDelete()
                     omokWinnerDBWrite()
                     gameActivity.setResult(RESULT_OK)
@@ -103,7 +103,7 @@ class GameActivityOutputView(
     fun turnInfoUiUpdate(name: String) {
         gameActivity.runOnUiThread {
             val gameInfoView = gameActivity.findViewById<TextView>(R.id.game_info_text)
-            gameInfoView.text = NEXT_TURN_MESSAGE.format(name)
+            gameInfoView.text = gameActivity.getString(R.string.next_turn_message).format(name)
         }
     }
 
@@ -125,40 +125,18 @@ class GameActivityOutputView(
         (gameActivity).runOnUiThread {
             AlertDialog
                 .Builder(gameActivity)
-                .setTitle(NORMAL_DIALOG_TITLE)
-                .setMessage(EXIT_CONFIRMATION_DIALOG_MESSAGE)
-                .setNeutralButton(CANCEL_BUTTON_TEXT) { dialog, _ ->
+                .setTitle(gameActivity.getString(R.string.normal_dialog_title))
+                .setMessage(gameActivity.getString(R.string.exit_confirmation_dialog_message))
+                .setNeutralButton(gameActivity.getString(R.string.cancel_button)) { dialog, _ ->
                     dialog.dismiss()
-                }.setNegativeButton(EXIT_BUTTON_TEXT) { _, _ ->
+                }.setNegativeButton(gameActivity.getString(R.string.exit_button_text)) { _, _ ->
                     roomWithStonesDelete()
                     gameActivity.setResult(RESULT_OK)
                     gameActivity.finish()
-                }.setPositiveButton(SAVE_EXIT_BUTTON_TEXT) { _, _ ->
+                }.setPositiveButton(gameActivity.getString(R.string.save_exit_button_text)) { _, _ ->
                     gameActivity.setResult(RESULT_OK)
                     gameActivity.finish()
                 }.show()
         }
-    }
-
-    companion object {
-        private const val NEXT_TURN_MESSAGE = "%s의 차례 입니다"
-
-        private const val NORMAL_DIALOG_TITLE = "알림"
-        private const val ERROR_THREE_BY_THREE_FOUL = "3-3 반칙이 발생했습니다"
-        private const val ERROR_FOUR_BY_FOUR_FOUL = "4-4 반칙이 발생했습니다"
-        private const val ERROR_OVER_FIVE_FOUL = "장목 반칙이 발생했습니다"
-
-        private const val ERROR_STONE_ALREADY_EXITS = "해당하는 위치에 돌이 존재합니다"
-        private const val ERROR_OUT_OF_RANGE = "돌이 보드의 범위를 벗어났습니다"
-
-        private const val WIN_DIALOG_MESSAGE = "%s이 우승했습니다"
-        private const val EXIT_CONFIRMATION_DIALOG_MESSAGE = "게임을 끝내시겠습니까?"
-
-        private const val SUSPENDED_GAME_RECOVER_MESSAGE = "중단된 게임을 불러왔습니다"
-
-        private const val RETRY_BUTTON_TEXT = "다시하기"
-        private const val CANCEL_BUTTON_TEXT = "취소"
-        private const val SAVE_EXIT_BUTTON_TEXT = "일시 중단하기"
-        private const val EXIT_BUTTON_TEXT = "게임방 삭제 및 나가기"
     }
 }

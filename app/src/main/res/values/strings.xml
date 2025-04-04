@@ -8,4 +8,34 @@
     <string name="dialog_hint_balck_stone_name">흑돌 닉네임을 입력하세요</string>
     <string name="dialog_hint_white_stone_name">백돌 닉네임을 입력하세요</string>
     <string name="player_info_menu_text">플레이어 정보</string>
+    <string name="game_record_info_dialog_input_player_name_hint">기록을 확인할 닉네임을 입력하세요</string>
+    <string name="game_record_info_dialog_title">오목 게임 기록</string>
+    <string name="alert_no_input">값을 입력해주세요</string>
+    <string name="alert_no_history">%1$s의 기록은 존재하지 않습니다</string>
+    <string name="info_dialog_show_history_title">%1$s님의 기록</string>
+    <string name="number_of_matches">"대국 횟수: %1$d"</string>
+    <string name="number_of_black_wins">"흑돌 승리 횟수: %1$d"</string>
+    <string name="number_of_white_wins">"백돌 승리 횟수: %1$d"</string>
+    <string name="empty_input">입력값이 비었습니다!!</string>
+    <string name="duplicate_name">두 닉네임이 같습니다!!</string>
+    <string name="new_game_name_input_dialoag_title">닉네임 입력</string>
+
+    <!-- GameActivityOutputView -->
+    <string name="next_turn_message">%s의 차례 입니다</string>
+    <string name="normal_dialog_title">알림</string>
+    <string name="error_three_by_three_foul">3-3 반칙이 발생했습니다</string>
+    <string name="error_four_by_four_foul">4-4 반칙이 발생했습니다</string>
+    <string name="error_over_five_foul">장목 반칙이 발생했습니다</string>
+    <string name="error_stone_already_exists">해당하는 위치에 돌이 존재합니다</string>
+    <string name="error_out_of_range">돌이 보드의 범위를 벗어났습니다</string>
+    <string name="win_dialog_message">%s이 우승했습니다</string>
+    <string name="exit_confirmation_dialog_message">게임을 끝내시겠습니까?</string>
+    <string name="suspended_game_recover_message">중단된 게임을 불러왔습니다</string>
+    <string name="save_exit_button_text">일시 중단하기</string>
+    <string name="exit_button_text">게임방 삭제 및 나가기</string>
+
+    <!-- 버튼 텍스트 -->
+    <string name="ok_button">확인</string>
+    <string name="retry_button">다시하기</string>
+    <string name="cancel_button">취소</string>
 </resources>

@@ -117,26 +117,25 @@ class MainActivity : AppCompatActivity() {
     private fun showInfoDialog() {
         val input =
             EditText(this).apply {
-                hint = "플레이어 이름 입력"
+                hint = getString(R.string.game_record_info_dialog_input_player_name_hint)
                 inputType = InputType.TYPE_CLASS_TEXT
             }
-        input.hint = "기록을 확인할 닉네임을 입력하세요"
 
         AlertDialog
             .Builder(this)
-            .setTitle("오목 게임 기록")
+            .setTitle(getString(R.string.game_record_info_dialog_title))
             .setView(input)
-            .setPositiveButton("확인") { dialog, _ ->
+            .setPositiveButton(getString(R.string.ok_button)) { dialog, _ ->
                 handlePlayerSearch(input.text.toString())
                 dialog.dismiss()
-            }.setNegativeButton("취소") { dialog, _ -> dialog.dismiss() }
+            }.setNegativeButton(getString(R.string.cancel_button)) { dialog, _ -> dialog.dismiss() }
             .create()
             .show()
     }
 
     private fun handlePlayerSearch(playerName: String) {
         if (playerName.isEmpty()) {
-            Toast.makeText(this, "값을 입력해주세요", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.alert_no_input), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -144,21 +143,26 @@ class MainActivity : AppCompatActivity() {
         if (playerInfo != null) {
             showPlayerStatsDialog(playerInfo)
         } else {
-            Toast.makeText(this, "${playerName}의 기록은 존재하지 않습니다", Toast.LENGTH_SHORT).show()
+            Toast
+                .makeText(
+                    this,
+                    getString(R.string.alert_no_history, playerName),
+                    Toast.LENGTH_SHORT,
+                ).show()
         }
     }
 
     fun showPlayerStatsDialog(playerInfo: PlayerInfo) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("${playerInfo.name}님의 기록")
+        builder.setTitle(getString(R.string.info_dialog_show_history_title, playerInfo.name))
         builder.setMessage(
             """
-            대국 횟수: ${playerInfo.playCount}
-            흑돌 승리 횟수: ${playerInfo.blackWinCount}
-            백돌 승리 횟수: ${playerInfo.whiteWinCount}
+            ${getString(R.string.number_of_matches, playerInfo.playCount)}
+            ${getString(R.string.number_of_black_wins, playerInfo.blackWinCount)}
+            ${getString(R.string.number_of_white_wins, playerInfo.whiteWinCount)}
             """.trimIndent(),
         )
-        builder.setPositiveButton("확인") { dialog, _ ->
+        builder.setPositiveButton(getString(R.string.ok_button)) { dialog, _ ->
             dialog.dismiss()
         }
         builder.create().show()
