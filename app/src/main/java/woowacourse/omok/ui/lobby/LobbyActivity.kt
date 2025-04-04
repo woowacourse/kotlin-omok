@@ -30,9 +30,13 @@ class LobbyActivity : AppCompatActivity() {
 
     private fun setupClickListener() {
         binding.fabLobbyCreateRoom.setOnClickListener {
-            val newGameId = lobbyManager.createNewGame()
-            navigateToOmokGame(newGameId)
+            createRoomAndNavigate()
         }
+    }
+
+    private fun createRoomAndNavigate() {
+        val newGameId = lobbyManager.createNewGame()
+        navigateToOmokGame(newGameId)
     }
 
     private fun navigateToOmokGame(gameId: Int) {
