@@ -2,20 +2,18 @@ package woowacourse.omok.domain.model
 
 import woowacourse.omok.domain.model.state.PlayResult
 import woowacourse.omok.domain.model.state.State
+import woowacourse.omok.domain.model.state.State.Foul
 import woowacourse.omok.domain.model.stone.BlackStones
 import woowacourse.omok.domain.model.stone.StoneColor
 import woowacourse.omok.domain.model.stone.WhiteStones
 
 class Board(
-    state: State = State.Playing(BlackStones(), WhiteStones(), StoneColor.BLACK),
+    var state: State = State.Playing(BlackStones(), WhiteStones(), StoneColor.BLACK),
     val size: Int = DEFAULT_BOARD_SIZE,
 ) {
     init {
         require(size >= MINIMUM_BOARD_SIZE) { ERROR_INVALID_BOARD_SIZE }
     }
-
-    var state = state
-        private set
 
     fun playOmok(
         onTurn: (StoneColor, Point?) -> Unit,
@@ -35,11 +33,19 @@ class Board(
             )
 
             val point = onPointInput()
-            state = place(currentState, point, size, onBoardUpdated)
+            val previousState = currentState
+            val newState = place(currentState, point, size, onBoardUpdated)
+
+            state =
+                if (newState is Foul) {
+                    previousState
+                } else {
+                    newState
+                }
         }
     }
 
-    private fun place(
+    fun place(
         currentState: State.Playing,
         point: Point,
         boardSize: Int,
@@ -56,10 +62,10 @@ class Board(
                 currentState.blackStones.isOmok(point) -> PlayResult.Omok(StoneColor.BLACK)
                 currentState.whiteStones.isOmok(point) -> PlayResult.Omok(StoneColor.WHITE)
                 newBlackStones.points.size + newWhiteStones.points.size >= boardSize * boardSize -> PlayResult.Draw
-                currentState.blackStones.isDoubleThreeFoul(newWhiteStones, point) -> PlayResult.Foul.DoubleThree
-                currentState.blackStones.isDoubleFourFoul(newWhiteStones, point) -> PlayResult.Foul.DoubleFour
-                currentState.blackStones.isOverLine(point) -> PlayResult.Foul.OverLine
-                currentState.blackStones.contains(point) || currentState.whiteStones.contains(point) -> PlayResult.Foul.Duplicated
+                currentState.blackStones.isDoubleThreeFoul(newWhiteStones, point) -> Foul.DoubleThree
+                currentState.blackStones.isDoubleFourFoul(newWhiteStones, point) -> Foul.DoubleFour
+                currentState.blackStones.isOverLine(point) -> Foul.OverLine
+                currentState.blackStones.contains(point) || currentState.whiteStones.contains(point) -> Foul.Duplicated
                 else ->
                     PlayResult.Continue(
                         State.Playing(
@@ -70,15 +76,17 @@ class Board(
                     )
             }
 
-        if (result is PlayResult.Continue) {
-            onBoardUpdated(newBlackStones, newWhiteStones)
-        }
-
         return when (result) {
             is PlayResult.Omok -> State.Finished(result.winner)
             is PlayResult.Draw -> State.Finished(null)
-            is PlayResult.Continue -> result.nextState
-            else -> currentState
+            is PlayResult.Continue -> {
+                onBoardUpdated(newBlackStones, newWhiteStones)
+                result.nextState
+            }
+            is Foul.DoubleThree -> Foul.DoubleThree
+            is Foul.DoubleFour -> Foul.DoubleFour
+            is Foul.OverLine -> Foul.OverLine
+            else -> Foul.Duplicated
         }
     }
 
