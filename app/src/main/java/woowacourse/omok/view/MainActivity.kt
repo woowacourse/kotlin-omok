@@ -14,6 +14,7 @@ import woowacourse.omok.R
 import woowacourse.omok.data.DbHelper
 import woowacourse.omok.data.StoneDao
 import woowacourse.omok.domain.GameBoard
+import woowacourse.omok.domain.OmokGame
 import woowacourse.omok.domain.player.Player
 import woowacourse.omok.domain.position.Col
 import woowacourse.omok.domain.position.Position
@@ -39,23 +40,25 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val players = playerSetting()
-        val service = GameBoard(players = players)
+        val omokGameBoard = GameBoard()
+        val omokGameStatus = omokStatusSetting()
         val board = findViewById<TableLayout>(R.id.board)
-        drawExistedStones(board, service)
-        setClickCallbackProcess(board, service)
+        drawExistedStones(board, omokGameBoard, omokGameStatus)
+        setClickCallbackProcess(board, omokGameBoard, omokGameStatus)
     }
 
-    private fun playerSetting(): ArrayDeque<Player> {
+    private fun omokStatusSetting(): OmokGame {
         val players = ArrayDeque<Player>()
         players.add(Player(BLACK, listOf(RuleAdapter(RenjuRule()))))
         players.add(Player(WHITE, listOf(RuleAdapter(OmokRule()))))
-        return players
+        val omokGame = OmokGame(players)
+        return omokGame
     }
 
     private fun drawExistedStones(
         board: TableLayout,
-        service: GameBoard,
+        omokGameBoard: GameBoard,
+        omokGameStatus: OmokGame,
     ) {
         val existedStones = stoneDao.findAllStone()
         if (existedStones.isNotEmpty()) {
@@ -76,13 +79,14 @@ class MainActivity : AppCompatActivity() {
                         }
                 }
 
-            service.restoreStones(existedStones)
+            omokGameBoard.restoreStones(existedStones, omokGameStatus)
         }
     }
 
     private fun setClickCallbackProcess(
         board: TableLayout,
-        service: GameBoard,
+        omokGameBoard: GameBoard,
+        omokGameStatus: OmokGame,
     ) {
         board
             .children.filterIsInstance<TableRow>().forEachIndexed { rowIndex, rowView ->
@@ -95,16 +99,15 @@ class MainActivity : AppCompatActivity() {
                             )
                         cell.tag = position
                         cell.setOnClickListener {
-                            service.putStone { _, _ ->
-                                position
-                            }.onFailure { error ->
-                                toastMessage(message = error.message ?: "")
-                            }.onSuccess { stoneColor ->
-                                stoneDao.insert(stone = Stone(position, stoneColor))
-                                showPlacedStone(view = cell, stoneColor = stoneColor)
-                                gameJudgeProcess(service)
-                                service.nextTurn()
-                            }
+                            omokGameBoard.putStone(position, omokGameStatus)
+                                .onFailure { error ->
+                                    toastMessage(message = error.message ?: "")
+                                }.onSuccess { stoneColor ->
+                                    stoneDao.insert(stone = Stone(position, stoneColor))
+                                    showPlacedStone(view = cell, stoneColor = stoneColor)
+                                    gameJudgeProcess(omokGameBoard, omokGameStatus)
+                                    omokGameStatus.changeTurn()
+                                }
                         }
                     }
             }
@@ -124,10 +127,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun gameJudgeProcess(service: GameBoard) {
-        if (service.gameOver()) {
+    private fun gameJudgeProcess(
+        omokGameBoard: GameBoard,
+        omokGameStatus: OmokGame,
+    ) {
+        if (omokGameStatus.gameOver(omokGameBoard)) {
             val winnerColor: String =
-                when (service.winner()) {
+                when (omokGameStatus.turnColor()) {
                     BLACK -> "흑돌"
                     WHITE -> "백돌"
                 }
