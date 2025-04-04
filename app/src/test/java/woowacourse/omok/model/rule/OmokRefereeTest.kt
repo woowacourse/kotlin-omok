@@ -3,12 +3,13 @@ package woowacourse.omok.model.rule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import woowacourse.omok.model.board.Board
+import woowacourse.omok.model.rule.mock.FakeOmokRule
 import woowacourse.omok.model.stone.position.Col
 import woowacourse.omok.model.stone.position.Position
 import woowacourse.omok.model.stone.position.Row
 
 class OmokRefereeTest {
-    private val fakeOmokRule = OmokRule.Fake()
+    private val fakeOmokRule = FakeOmokRule()
     private val emptyBoard = Board()
     private val stonePlacedBoard = emptyBoard.nextStonePlacedBoard(Position(Row(0), Col(0)))
 
