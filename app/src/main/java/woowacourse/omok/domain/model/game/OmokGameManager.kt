@@ -19,11 +19,7 @@ class OmokGameManager(
     val omokGame: OmokGame = OmokGame(omokGameDao.fetchGame(gameId)?.toDomain() ?: OmokGameEntity())
     val board: OmokBoard = omokGame.game.board
 
-    fun placeStone(position: Position): PlaceResult {
-        val result = omokGame.placeStone(position)
-
-        return result
-    }
+    fun placeStone(position: Position): PlaceResult = omokGame.placeStone(position)
 
     fun judgeMove(stone: PlayerStone): JudgeResult {
         val result = omokGame.judge(stone)
