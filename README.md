@@ -91,13 +91,12 @@
     - [x] showCreateGameDialog() 함수 이름 변경 후 로직 이동
     - [x] showInputDialog() 를 OutputView로 로직 이동 
     - [x] reloadPreviousGameRooms() 의 DB 비즈니스 로직을 DBhelper로 이동
-    ~~- [ ] showInfoDialog()와 showPlayerStatsDialog() 로직 이동~~
 - [x] DB 패키지의 테스트 코드 추가
 - [x] 테스트를 위한 Fake 구현체 프로덕션 코드에서 삭제
-- [ ] 매직넘버 및 문자열 상수화
+- [x] 매직넘버 및 문자열 상수화
   - [x] OmokDBHelper의 exists == 1 상수화
-  - [ ] 상수화가 팔요한 문자열과 매직넘버들 최종 점검
+  - [x] 상수화가 팔요한 문자열과 매직넘버들 최종 점검
 - [x] OmokDBContract에서 DB 쿼리가 아닌 코드 이동
 - [x] MainActivity의 다이얼로그에 빌더 패턴 적용
 - [x] 가시성 제한자 수정
-- [ ] strings.xml를 사용한 안드로이드 String 상수화
+- [x] strings.xml를 사용한 안드로이드 String 상수화
