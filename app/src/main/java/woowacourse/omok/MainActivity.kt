@@ -109,8 +109,9 @@ class MainActivity : AppCompatActivity() {
                 omokGameDao.saveStone(x, y, currentTurn)
             }
 
-            is PlaceStoneResult.AlreadyPlaced -> showToast("중복되는 칸에 돌을 둘 수 없습니다.")
-            is PlaceStoneResult.ForbiddenMove -> showToast("둘 수 없는 자리입니다.")
+            is PlaceStoneResult.AlreadyPlaced -> showToast(getString(R.string.error_already_placed))
+
+            is PlaceStoneResult.ForbiddenMove -> showToast(getString(R.string.error_forbidden_move))
         }
     }
 
@@ -127,11 +128,11 @@ class MainActivity : AppCompatActivity() {
     private fun handleGameWin(turn: StoneColor) {
         AlertDialog
             .Builder(this)
-            .setTitle("게임 종료")
-            .setMessage("${turn}가 우승했습니다")
-            .setPositiveButton("다시 시작") { _, _ ->
+            .setTitle(getString(R.string.game_end_title))
+            .setMessage(getString(R.string.game_win_message, turn))
+            .setPositiveButton(getString(R.string.restart_button)) { _, _ ->
                 resetGame()
-            }.setNegativeButton("종료") { _, _ ->
+            }.setNegativeButton(getString(R.string.exit_button)) { _, _ ->
                 disableBoardTouch()
                 omokGameDao.clearGameData()
             }.setCancelable(false)
