@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Omok</string>
+    <string name="black_win">흑돌이 우승했습니다!</string>
+    <string name="white_win">백돌이 우승했습니다!</string>
+    <string name="double_three">3-3입니다. 다른 곳에 돌을 두세요.</string>
+    <string name="double_four">"4-4입니다. 다른 곳에 돌을 두세요."</string>
+    <string name="over_line">장목입니다. 다른 곳에 돌을 두세요.</string>
+    <string name="duplicated">이미 돌이 놓여있습니다. 다른 곳에 돌을 두세요.</string>
+    <string name="game_over">게임 종료</string>
+    <string name="game_retry_message">게임을 다시 하시겠습니까?</string>
+    <string name="retry">다시 하기</string>
+</resources>
