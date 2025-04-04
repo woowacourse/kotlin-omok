@@ -1,12 +1,14 @@
 package woowacourse.omok.model.board
 
 import omok.model.rule.OmokRuleManager
+import woowacourse.omok.database.SavedStone
 import woowacourse.omok.model.StoneColor
 import woowacourse.omok.model.board.BoardSize.Companion.BOARD_MIN_SIZE
 
 class Board(
     private val boardSize: BoardSize,
     private val rules: OmokRuleManager,
+    savedStones: List<SavedStone> = emptyList(),
 ) {
     val points: List<Point> =
         (BOARD_MIN_SIZE..boardSize.value).flatMap { row ->
@@ -16,6 +18,13 @@ class Board(
         }
 
     val size = boardSize.value
+
+    init {
+        savedStones.forEach { (x, y, color) ->
+            val point = Point(x, y)
+            findPoint(point).changeState(color)
+        }
+    }
 
     fun findPoint(point: Point): Point =
         points.find { it == point } ?: throw IllegalArgumentException(

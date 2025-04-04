@@ -12,14 +12,21 @@ import woowacourse.omok.model.board.Point
 class OmokGame(
     private val rules: OmokRuleManager,
     private val size: BoardSize,
+    savedStones: List<SavedStone> = emptyList(),
 ) {
     private var isGameOver = false
     var currentStoneColor: StoneColor = StoneColor.BLACK
         private set
     var previousPoint: Point? = null
         private set
-    var board = Board(size, rules)
+    var board = Board(size, rules, savedStones)
         private set
+
+    init {
+        if (savedStones.isNotEmpty()) {
+            currentStoneColor = if (savedStones.size % 2 == 0) StoneColor.BLACK else StoneColor.WHITE
+        }
+    }
 
     fun placeStone(
         x: Int,
@@ -60,21 +67,21 @@ class OmokGame(
         board = Board(size, rules)
     }
 
-    fun restoreGameState(savedStones: List<SavedStone>) {
-        resetGame()
-
-        savedStones.forEach { (x, y, color) ->
-            val point = Point(x, y)
-            board.placeStone(point, color)
-        }
-
-        currentStoneColor =
-            if (savedStones.size % 2 == 0) {
-                StoneColor.BLACK
-            } else {
-                StoneColor.WHITE
-            }
-    }
+//    fun restoreGameState(savedStones: List<SavedStone>) {
+//        resetGame()
+//
+//        savedStones.forEach { (x, y, color) ->
+//            val point = Point(x, y)
+//            board.placeStone(point, color)
+//        }
+//
+//        currentStoneColor =
+//            if (savedStones.size % 2 == 0) {
+//                StoneColor.BLACK
+//            } else {
+//                StoneColor.WHITE
+//            }
+//    }
 
     companion object {
         const val TAG_PLACEMENT_ERROR = "omokPlacementError"
