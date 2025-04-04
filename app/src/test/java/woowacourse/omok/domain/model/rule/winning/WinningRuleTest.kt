@@ -16,7 +16,7 @@ import woowacourse.omok.POSITION_THREE_ONE
 import woowacourse.omok.POSITION_THREE_THREE
 import woowacourse.omok.POSITION_TWO_ONE
 import woowacourse.omok.POSITION_TWO_TWO
-import woowacourse.omok.domain.model.omokboard.OmokGame
+import woowacourse.omok.domain.model.game.OmokGame
 import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.player.StoneColor
 import woowacourse.omok.domain.model.rule.judge.JudgeResult

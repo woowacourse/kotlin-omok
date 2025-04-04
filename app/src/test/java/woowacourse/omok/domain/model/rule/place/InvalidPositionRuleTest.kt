@@ -3,7 +3,7 @@ package woowacourse.omok.domain.model.rule.place
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import woowacourse.omok.POSITION_ZERO_ZERO
-import woowacourse.omok.domain.model.omokboard.OmokGame
+import woowacourse.omok.domain.model.game.OmokGame
 import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.player.StoneColor
 

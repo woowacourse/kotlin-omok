@@ -3,7 +3,7 @@ package woowacourse.omok.ui.lobby
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import woowacourse.omok.databinding.ActivityLobbyBinding
-import woowacourse.omok.domain.model.omokboard.LobbyManager
+import woowacourse.omok.domain.model.game.LobbyManager
 import woowacourse.omok.ui.game.OmokGameActivity
 
 class LobbyActivity : AppCompatActivity() {

@@ -3,8 +3,8 @@ package woowacourse.omok.ui.mapper
 import woowacourse.omok.data.model.OmokBoardDto
 import woowacourse.omok.data.model.OmokGameDto
 import woowacourse.omok.data.model.OmokGamesDto
+import woowacourse.omok.domain.model.game.OmokGameEntity
 import woowacourse.omok.domain.model.omokboard.OmokBoard
-import woowacourse.omok.domain.model.omokboard.OmokGameEntity
 import woowacourse.omok.domain.model.omokboard.PointState
 import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.PlayerName

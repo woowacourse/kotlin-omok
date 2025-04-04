@@ -3,6 +3,7 @@ package woowacourse.omok.domain.model.omokboard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import woowacourse.omok.POSITION_ONE_ONE
+import woowacourse.omok.domain.model.game.OmokGame
 
 class OmokGameTest {
     @Test

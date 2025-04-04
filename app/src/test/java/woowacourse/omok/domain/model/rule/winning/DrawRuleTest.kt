@@ -3,9 +3,9 @@ package woowacourse.omok.domain.model.rule.winning
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import woowacourse.omok.domain.model.game.OmokGame
+import woowacourse.omok.domain.model.game.OmokGameEntity
 import woowacourse.omok.domain.model.omokboard.OmokBoard
-import woowacourse.omok.domain.model.omokboard.OmokGame
-import woowacourse.omok.domain.model.omokboard.OmokGameEntity
 import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.player.StoneColor

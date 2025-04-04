@@ -1,5 +1,6 @@
-package woowacourse.omok.domain.model.omokboard
+package woowacourse.omok.domain.model.game
 
+import woowacourse.omok.domain.model.omokboard.OmokBoard
 import woowacourse.omok.domain.model.player.PlayerName
 import woowacourse.omok.domain.model.player.StoneColor
 import woowacourse.omok.domain.model.rule.judge.DrawRule

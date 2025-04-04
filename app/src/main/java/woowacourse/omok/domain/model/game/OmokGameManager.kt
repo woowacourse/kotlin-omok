@@ -1,8 +1,10 @@
-package woowacourse.omok.domain.model.omokboard
+package woowacourse.omok.domain.model.game
 
 import android.content.Context
 import woowacourse.omok.OmokApplication
 import woowacourse.omok.data.dao.OmokGameDao
+import woowacourse.omok.domain.model.omokboard.OmokBoard
+import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.rule.judge.JudgeResult
 import woowacourse.omok.domain.model.rule.place.PlaceResult

@@ -15,9 +15,9 @@ import com.google.android.material.snackbar.Snackbar
 import woowacourse.omok.R.drawable
 import woowacourse.omok.R.string
 import woowacourse.omok.databinding.ActivityOmokGameBinding
+import woowacourse.omok.domain.model.game.OmokGameEntity.Companion.DEFAULT_GAME_ID
+import woowacourse.omok.domain.model.game.OmokGameManager
 import woowacourse.omok.domain.model.omokboard.OmokBoard
-import woowacourse.omok.domain.model.omokboard.OmokGameEntity.Companion.DEFAULT_GAME_ID
-import woowacourse.omok.domain.model.omokboard.OmokGameManager
 import woowacourse.omok.domain.model.omokboard.PointState
 import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.PlayerStone

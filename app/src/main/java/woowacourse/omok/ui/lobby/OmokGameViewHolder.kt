@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import woowacourse.omok.databinding.ItemLobbyRoomBinding
-import woowacourse.omok.domain.model.omokboard.OmokGameEntity
+import woowacourse.omok.domain.model.game.OmokGameEntity
 
 class OmokGameViewHolder private constructor(
     private val binding: ItemLobbyRoomBinding,

@@ -1,6 +1,6 @@
 package woowacourse.omok.ui.controller
 
-import woowacourse.omok.domain.model.omokboard.OmokGame
+import woowacourse.omok.domain.model.game.OmokGame
 import woowacourse.omok.domain.model.omokboard.Position
 import woowacourse.omok.domain.model.player.PlayerStone
 import woowacourse.omok.domain.model.rule.judge.JudgeResult

@@ -3,7 +3,7 @@ package woowacourse.omok.ui.lobby
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import woowacourse.omok.domain.model.omokboard.OmokGameEntity
+import woowacourse.omok.domain.model.game.OmokGameEntity
 
 class OmokGameAdapter(
     private val onEntranceClick: (Int) -> Unit,
