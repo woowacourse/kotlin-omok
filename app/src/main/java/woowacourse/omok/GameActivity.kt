@@ -39,7 +39,15 @@ class GameActivity : AppCompatActivity() {
 
         val boardSize = BoardSize(BOARD_SIZE)
         val gameActivityOutputView = GameActivityOutputView(this)
-        val gameActivityControl = GameActivityControl(boardSize, gameActivityOutputView, dbHelper, roomId, blackPlayerName, whitePlayerName)
+        val gameActivityControl =
+            GameActivityControl(
+                boardSize,
+                gameActivityOutputView,
+                dbHelper,
+                roomId,
+                blackPlayerName,
+                whitePlayerName,
+            )
 
         val board = findViewById<TableLayout>(R.id.board)
         val positionViews: MutableMap<Position, ImageView> = mutableMapOf()

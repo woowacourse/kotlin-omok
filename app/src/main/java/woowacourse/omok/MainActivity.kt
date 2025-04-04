@@ -171,8 +171,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val GAME_ROOM_ID = "game_room_id"
-        const val BLACK_PLAYER = "black_player"
-        const val WHITE_PLAYER = "white_player"
+        private const val GAME_ROOM_ID = "game_room_id"
+        private const val BLACK_PLAYER = "black_player"
+        private const val WHITE_PLAYER = "white_player"
     }
 }

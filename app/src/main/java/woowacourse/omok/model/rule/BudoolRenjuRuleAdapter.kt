@@ -20,7 +20,11 @@ class BudoolRenjuRuleAdapter(
         val whiteCoordinatePairs = getTargetStoneCoordinatePairs(stonesMap, StoneColor.WHITE)
         val lastPoint = positionToCoordinatePair(lastStone.position)
         when {
-            normalOmokRule.isPositionOmok(stonesMap, lastStone.position, true) -> return RenjuFoul.SAFE
+            normalOmokRule.isPositionOmok(
+                stonesMap,
+                lastStone.position,
+                true,
+            ) -> return RenjuFoul.SAFE
 
             blackRenjuRule.checkDoubleFourFoul(
                 blackCoordinatePairs,

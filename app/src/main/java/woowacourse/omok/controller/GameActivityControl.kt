@@ -165,8 +165,16 @@ class GameActivityControl(
 
     private fun omokWinnerDBWrite(stoneColor: StoneColor) {
         when (stoneColor) {
-            StoneColor.BLACK -> omokDBHelper.addPlayerHistory(blackPlayerName, blackWinCount = GAME_LOG_COUNT_UNIT)
-            StoneColor.WHITE -> omokDBHelper.addPlayerHistory(whitePlayerName, whiteWinCount = GAME_LOG_COUNT_UNIT)
+            StoneColor.BLACK ->
+                omokDBHelper.addPlayerHistory(
+                    blackPlayerName,
+                    blackWinCount = GAME_LOG_COUNT_UNIT,
+                )
+            StoneColor.WHITE ->
+                omokDBHelper.addPlayerHistory(
+                    whitePlayerName,
+                    whiteWinCount = GAME_LOG_COUNT_UNIT,
+                )
         }
     }
 
