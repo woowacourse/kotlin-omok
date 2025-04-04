@@ -1,21 +1,17 @@
 package woowacourse.omok.domain
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-
 class Board(stones: List<Stone>) {
     private val _stones: MutableList<Stone> = stones.toMutableList()
     val stones: List<Stone>
         get() = _stones.toList()
 
-    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     fun put(
         position: Position,
         stoneType: StoneType,
     ) {
         if (!isEmpty(position)) throw PositionOccupiedException(position)
         _stones.removeIf { it.position == position }
-        _stones.addLast(Stone(position, stoneType))
+        _stones.add(Stone(position, stoneType))
     }
 
     private fun isEmpty(position: Position): Boolean {
