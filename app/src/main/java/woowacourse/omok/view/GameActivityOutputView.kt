@@ -76,7 +76,9 @@ class GameActivityOutputView(
     }
 
     fun omokDialogAlert(
-        playerName: String,
+        blackPlayerName: String,
+        whitePlayerName: String,
+        stoneColor: StoneColor,
         restartGame: () -> Unit,
         omokWinnerDBWrite: () -> Unit,
         roomWithStonesDelete: () -> Unit,
@@ -86,8 +88,12 @@ class GameActivityOutputView(
             AlertDialog
                 .Builder(gameActivity)
                 .setTitle(gameActivity.getString(R.string.normal_dialog_title))
-                .setMessage(gameActivity.getString(R.string.win_dialog_message).format(playerName))
-                .setPositiveButton(gameActivity.getString(R.string.retry_button)) { _, _ ->
+                .setMessage(
+                    gameActivity
+                        .getString(
+                            R.string.win_dialog_message,
+                        ).format(getPlayerNameByColor(blackPlayerName, whitePlayerName, stoneColor)),
+                ).setPositiveButton(gameActivity.getString(R.string.retry_button)) { _, _ ->
                     stonesDelete()
                     restartGame()
                 }.setNegativeButton(gameActivity.getString(R.string.exit_button_text)) { _, _ ->
@@ -100,12 +106,38 @@ class GameActivityOutputView(
         }
     }
 
-    fun turnInfoUiUpdate(name: String) {
+    fun turnInfoUiUpdate(
+        blackPlayerName: String,
+        whitePlayerName: String,
+        stoneColor: StoneColor,
+    ) {
         gameActivity.runOnUiThread {
             val gameInfoView = gameActivity.findViewById<TextView>(R.id.game_info_text)
-            gameInfoView.text = gameActivity.getString(R.string.next_turn_message).format(name)
+            gameInfoView.text =
+                gameActivity
+                    .getString(
+                        R.string.next_turn_message,
+                    ).format(getPlayerNameByColor(blackPlayerName, whitePlayerName, stoneColor))
         }
     }
+
+    private fun getPlayerNameByColor(
+        blackPlayerName: String,
+        whitePlayerName: String,
+        stoneColor: StoneColor,
+    ): String =
+        when (stoneColor) {
+            StoneColor.BLACK ->
+                gameActivity.getString(
+                    R.string.black_stone_name_with_stone_color,
+                    blackPlayerName,
+                )
+            StoneColor.WHITE ->
+                gameActivity.getString(
+                    R.string.white_stone_name_with_stone_color,
+                    whitePlayerName,
+                )
+        }
 
     fun stoneUiClear() {
         gameActivity.runOnUiThread {

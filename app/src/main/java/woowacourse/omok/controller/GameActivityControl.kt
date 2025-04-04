@@ -69,7 +69,7 @@ class GameActivityControl(
     }
 
     fun boardUiRestore(positionViews: Map<Position, ImageView>) {
-        gameActivityOutputView.turnInfoUiUpdate(getPlayerNameByColor(board.nextStoneColor))
+        gameActivityOutputView.turnInfoUiUpdate(blackPlayerName, whitePlayerName, board.nextStoneColor)
         if (board.stonesMap.isNotEmpty()) {
             gameActivityOutputView.stonesUiDraw(board.stonesMap, positionViews)
             gameActivityOutputView.recoveryStonesAlert()
@@ -85,14 +85,8 @@ class GameActivityControl(
         val newBoard = stoneAddedBoard(nextPosition)
         boardUpdate(newBoard, positionView)
         omokCheck()
-        gameActivityOutputView.turnInfoUiUpdate(getPlayerNameByColor(board.nextStoneColor))
+        gameActivityOutputView.turnInfoUiUpdate(blackPlayerName, whitePlayerName, board.nextStoneColor)
     }
-
-    private fun getPlayerNameByColor(stoneColor: StoneColor): String =
-        when (stoneColor) {
-            StoneColor.BLACK -> "$blackPlayerName(흑돌)"
-            StoneColor.WHITE -> "$whitePlayerName(백돌)"
-        }
 
     private fun isPositionValid(position: Position): Boolean {
         val positionState = board.positionStatus(position)
@@ -130,7 +124,9 @@ class GameActivityControl(
         if (omokReferee.isOmok(board)) {
             board.lastStone?.let {
                 gameActivityOutputView.omokDialogAlert(
-                    getPlayerNameByColor(it.stoneColor),
+                    blackPlayerName,
+                    whitePlayerName,
+                    it.stoneColor,
                     { gameRestart(it.stoneColor) },
                     { omokWinnerDBWrite(it.stoneColor) },
                     { omokDBHelper.roomWithStonesDelete(roomId) },
@@ -159,7 +155,7 @@ class GameActivityControl(
         omokDBHelper.addPlayerHistory(blackPlayerName, playCount = GAME_LOG_COUNT_UNIT)
         omokDBHelper.addPlayerHistory(whitePlayerName, playCount = GAME_LOG_COUNT_UNIT)
         omokWinnerDBWrite(stoneColor)
-        gameActivityOutputView.turnInfoUiUpdate(getPlayerNameByColor(board.nextStoneColor))
+        gameActivityOutputView.turnInfoUiUpdate(blackPlayerName, whitePlayerName, board.nextStoneColor)
         gameActivityOutputView.stoneUiClear()
     }
 

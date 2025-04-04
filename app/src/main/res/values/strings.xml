@@ -38,4 +38,6 @@
     <string name="ok_button">확인</string>
     <string name="retry_button">다시하기</string>
     <string name="cancel_button">취소</string>
+    <string name="black_stone_name_with_stone_color">%1$s(흑돌)</string>
+    <string name="white_stone_name_with_stone_color">%1$s(백돌)</string>
 </resources>
