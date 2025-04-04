@@ -1,0 +1,178 @@
+package woowacourse.omok
+
+import android.os.Bundle
+import android.widget.ImageView
+import android.widget.TableLayout
+import android.widget.TableRow
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
+import woowacourse.omok.db.BoardDao
+import woowacourse.omok.db.BoardDaoImpl
+import woowacourse.omok.db.BoardDto
+import woowacourse.omok.db.TurnDao
+import woowacourse.omok.db.TurnDaoImpl
+import woowacourse.omok.model.board.OmokBoard
+import woowacourse.omok.model.board.Position
+import woowacourse.omok.model.board.PositionState
+import woowacourse.omok.model.player.Turn
+import woowacourse.omok.model.stone.StoneColor
+
+class MainActivity : AppCompatActivity() {
+    private lateinit var boardDao: BoardDao
+    private lateinit var turn: Turn
+    private lateinit var turnDao: TurnDao
+    private lateinit var boardViews: List<List<ImageView>>
+    private val omokBoard = OmokBoard()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_main)
+        loadGame()
+        setupBoard()
+        restoreBoard()
+    }
+
+    private fun loadGame() {
+        turnDao = TurnDaoImpl(this)
+        turn = Turn(turnDao)
+        boardDao = BoardDaoImpl(this)
+    }
+
+    private fun setupBoard() {
+        val board = findViewById<TableLayout>(R.id.board)
+
+        boardViews =
+            board.children
+                .filterIsInstance<TableRow>()
+                .map { row -> row.children.filterIsInstance<ImageView>().toList() }
+                .toList()
+
+        setBoardClickListeners()
+    }
+
+    private fun setBoardClickListeners() {
+        boardViews.forEachIndexed { y, row ->
+            row.forEachIndexed { x, view ->
+                view.setOnClickListener {
+                    handleStoneClick(view, Position(x + 1, y + 1))
+                }
+            }
+        }
+    }
+
+    private fun restoreBoard() {
+        val stones = boardDao.getAllStones()
+        val board = findViewById<TableLayout>(R.id.board)
+
+        for (stone in stones) {
+            val x = stone.x
+            val y = stone.y
+            val color = StoneColor.valueOf(stone.stoneColor)
+            val position = Position(x, y)
+
+            omokBoard.board[position] =
+                when (color) {
+                    StoneColor.BLACK -> PositionState.BLACK_POSITION
+                    StoneColor.WHITE -> PositionState.WHITE_POSITION
+                }
+
+            val row = board.getChildAt(y - 1) as TableRow
+            val view = row.getChildAt(x - 1) as ImageView
+            view.setImageResource(
+                when (omokBoard.board[position]) {
+                    PositionState.BLACK_POSITION -> R.drawable.black_stone
+                    PositionState.WHITE_POSITION -> R.drawable.white_stone
+                    else -> continue
+                },
+            )
+        }
+    }
+
+    private fun handleStoneClick(
+        view: ImageView,
+        position: Position,
+    ) {
+        if (handleTurn(position)) return
+
+        boardDao.insertStone(
+            BoardDto(
+                position.xPoint,
+                position.yPoint,
+                turn.currentStoneColor.name,
+            ),
+        )
+        showStones(view)
+
+        if (turn.win()) {
+            showWinDialog(turn.currentStoneColor)
+        }
+
+        turn.next()
+    }
+
+    private fun handleTurn(position: Position): Boolean {
+        if (!turn.place(position, omokBoard)) {
+            return true
+        }
+        if (turn.doubleThree()) {
+            showDialog(DOUBLE_THREE_MESSAGE, reset = false)
+            return true
+        }
+        if (turn.doubleFour()) {
+            showDialog(DOUBLE_FOUR_MESSAGE, reset = false)
+            return true
+        }
+        return false
+    }
+
+    private fun showStones(view: ImageView) {
+        view.setImageResource(
+            when (turn.currentStoneColor) {
+                StoneColor.BLACK -> R.drawable.black_stone
+                StoneColor.WHITE -> R.drawable.white_stone
+            },
+        )
+    }
+
+    private fun showWinDialog(winner: StoneColor) {
+        val winnerText =
+            when (winner) {
+                StoneColor.BLACK -> BLACK_STONE_WIN
+                StoneColor.WHITE -> WHITE_STONE_WIN
+            }
+
+        showDialog(winnerText, reset = true)
+    }
+
+    private fun showDialog(
+        text: String?,
+        reset: Boolean,
+    ) {
+        AlertDialog.Builder(this)
+            .setMessage(text)
+            .setPositiveButton(CONFIRM) { _, _ ->
+                if (reset) resetGame()
+            }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun resetGame() {
+        turnDao.deleteTurn()
+        boardDao.clearBoard()
+        loadGame()
+        boardViews.flatten().forEach { it.setImageResource(0) }
+    }
+
+    companion object {
+        private const val DOUBLE_THREE_MESSAGE = "33입니다."
+        private const val DOUBLE_FOUR_MESSAGE = "44입니다."
+        private const val BLACK_STONE_WIN = "흑돌 승리"
+        private const val WHITE_STONE_WIN = "백돌 승리"
+        private const val CONFIRM = "확인"
+    }
+}
