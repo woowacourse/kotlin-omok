@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Omok</string>
+    <string name="text_black_stone">흑돌</string>
+    <string name="text_white_stone">백돌</string>
+    <string name="text_winner">승자는 %1$s입니다</string>
+    <string name="text_double_four">4x4 자리에는 착수 할 수 없습니다.</string>
+    <string name="text_double_three">3x3 자리에는 착수 할 수 없습니다.</string>
+    <string name="text_over_line">장목 자리에는 착수 할 수 없습니다.</string>
+    <string name="text_occupied">이미 착수된 자리입니다.</string>
+    <string name="text_unknown">잘못된 입력입니다. 다시 선택해주세요.</string>
+    <string name="text_retry_game">게임을 다시 시작하시겠습니까?</string>
+    <string name="text_finish">종료</string>
+    <string name="text_retry">다시하기</string>
+    <string name="text_game_finish">게임 종료</string>
+    <string name="text_room_name">방 이름</string>
+    <string name="text_join">참가</string>
+    <string name="text_make_room">만들기</string>
+    <string name="text_make_room_cancel">취소</string>
+    <string name="text_plz_input_room_name">방 이름을 입력해주세요.</string>
+</resources>
