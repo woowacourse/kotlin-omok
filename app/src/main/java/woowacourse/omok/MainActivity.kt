@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private val gameManager = OmokGameManager()
     private lateinit var omokDao: OmokDao
     private lateinit var boardImages: Sequence<Sequence<ImageView>>
+    private var roomName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +32,9 @@ class MainActivity : AppCompatActivity() {
         val dbHelper = DbHelper(this)
         omokDao = OmokDao(dbHelper)
 
-        val savedState = omokDao.loadGameState()
+        roomName = intent.getStringExtra("ROOM_NAME") ?: "1번 방"
+
+        val savedState = omokDao.loadGameState(roomName)
         board = if (savedState != null) Board(savedState) else Board()
 
         val boardView = findViewById<TableLayout>(R.id.board)
@@ -63,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         if (board.state !is Playing) return
 
         val previousState = board.state
-        val newState = gameManager.updateState(board, point, omokDao)
+        val newState = gameManager.updateState(roomName, board, point, omokDao)
 
         if (newState is Foul) {
             handleFoul(previousState, newState)
@@ -156,11 +159,11 @@ class MainActivity : AppCompatActivity() {
                 .setTitle(R.string.game_over)
                 .setMessage(R.string.game_retry_message)
                 .setNegativeButton(R.string.game_over) { dialog, _ ->
-                    omokDao.clearGameState()
+                    omokDao.clearGameState(roomName)
                     dialog.dismiss()
                 }
                 .setPositiveButton(R.string.retry) { dialog, _ ->
-                    omokDao.clearGameState()
+                    omokDao.clearGameState(roomName)
                     board = Board()
                     resetBoard()
                 }

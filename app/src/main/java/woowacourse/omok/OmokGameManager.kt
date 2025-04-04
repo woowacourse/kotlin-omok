@@ -13,6 +13,7 @@ import woowacourse.omok.domain.model.stone.Stones
 
 class OmokGameManager {
     fun updateState(
+        roomId: String,
         board: Board,
         point: Point,
         omokDao: OmokDao,
@@ -26,25 +27,26 @@ class OmokGameManager {
         return when (newState) {
             is Foul -> newState
             is Finished -> {
-                omokDao.saveGameState(newState)
+                omokDao.saveGameState(roomId, newState)
                 newState
             }
             is Playing -> {
-                omokDao.saveGameState(newState)
-                saveStones(newState.blackStones, BLACK_STONES_TABLE, omokDao)
-                saveStones(newState.whiteStones, WHITE_STONES_TABLE, omokDao)
+                omokDao.saveGameState(roomId, newState)
+                saveStones(roomId, newState.blackStones, BLACK_STONES_TABLE, omokDao)
+                saveStones(roomId, newState.whiteStones, WHITE_STONES_TABLE, omokDao)
                 newState
             }
         }
     }
 
     fun saveStones(
+        roomId: String,
         stones: Stones,
         tableName: String,
         omokDao: OmokDao,
     ) {
         stones.points.forEach { point ->
-            omokDao.saveStone(tableName, point)
+            omokDao.saveStone(roomId, tableName, point)
         }
     }
 }

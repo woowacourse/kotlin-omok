@@ -1,11 +1,12 @@
 package woowacourse.omok.data
 
 object StateContract {
-    const val DATABASE_VERSION = 1
+    const val DATABASE_VERSION = 3
     const val DATABASE_NAME = "State.db"
     const val TABLE_NAME = "game_state"
 
     const val COLUMN_ID = "id"
+    const val COLUMN_ROOM_ID = "room_id"
     const val COLUMN_STATE = "state"
     const val BLACK_STONES_TABLE = "black_stones"
     const val WHITE_STONES_TABLE = "white_stones"
@@ -15,18 +16,21 @@ object StateContract {
 
     const val SQL_CREATE_STATE =
         "CREATE TABLE $TABLE_NAME (" +
-            "$COLUMN_ID INTEGER PRIMARY KEY," +
+            "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "$COLUMN_ROOM_ID TEXT," +
             "$COLUMN_STATE TEXT)"
 
     const val SQL_CREATE_BLACK_STONES =
         "CREATE TABLE $BLACK_STONES_TABLE (" +
             "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "$COLUMN_ROOM_ID TEXT," +
             "$COLUMN_X INTEGER," +
             "$COLUMN_Y INTEGER)"
 
     const val SQL_CREATE_WHITE_STONES =
         "CREATE TABLE $WHITE_STONES_TABLE (" +
             "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "$COLUMN_ROOM_ID TEXT," +
             "$COLUMN_X INTEGER," +
             "$COLUMN_Y INTEGER)"
 

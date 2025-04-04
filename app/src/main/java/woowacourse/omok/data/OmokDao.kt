@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import woowacourse.omok.data.StateContract.BLACK_STONES_TABLE
+import woowacourse.omok.data.StateContract.COLUMN_ROOM_ID
 import woowacourse.omok.data.StateContract.COLUMN_STATE
 import woowacourse.omok.data.StateContract.COLUMN_X
 import woowacourse.omok.data.StateContract.COLUMN_Y
@@ -16,26 +17,37 @@ import woowacourse.omok.domain.model.stone.StoneColor
 import woowacourse.omok.domain.model.stone.WhiteStones
 
 class OmokDao(private val dbHelper: SQLiteOpenHelper) {
-    fun saveGameState(state: State) {
+    fun saveGameState(
+        roomId: String,
+        state: State,
+    ) {
         dbHelper.writableDatabase.use { db ->
             val contentValues =
                 ContentValues().apply {
+                    put(COLUMN_ROOM_ID, roomId)
                     put(COLUMN_STATE, state::class.java.simpleName)
                 }
-            db.insertWithOnConflict(TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE)
+            db.insertWithOnConflict(
+                TABLE_NAME,
+                null,
+                contentValues,
+                SQLiteDatabase.CONFLICT_REPLACE,
+            )
 
-            db.delete(BLACK_STONES_TABLE, null, null)
-            db.delete(WHITE_STONES_TABLE, null, null)
+            db.delete(BLACK_STONES_TABLE, "$COLUMN_ROOM_ID = ?", arrayOf(roomId))
+            db.delete(WHITE_STONES_TABLE, "$COLUMN_ROOM_ID = ?", arrayOf(roomId))
         }
     }
 
     fun saveStone(
+        roomId: String,
         tableName: String,
         point: Point,
     ) {
         dbHelper.writableDatabase.use { db ->
             val contentValues =
                 ContentValues().apply {
+                    put(COLUMN_ROOM_ID, roomId)
                     put(COLUMN_X, point.x)
                     put(COLUMN_Y, point.y)
                 }
@@ -43,13 +55,17 @@ class OmokDao(private val dbHelper: SQLiteOpenHelper) {
         }
     }
 
-    fun loadGameState(): State? {
+    fun loadGameState(roomId: String): State? {
         dbHelper.readableDatabase.use { db ->
-            db.rawQuery("SELECT $COLUMN_STATE FROM $TABLE_NAME LIMIT 1", null).use { cursor ->
+            db.rawQuery(
+                "SELECT $COLUMN_STATE FROM $TABLE_NAME WHERE $COLUMN_ROOM_ID = ? LIMIT 1",
+                arrayOf(roomId.toString()),
+            ).use { cursor ->
                 if (cursor.moveToFirst()) {
                     val stateType = cursor.getString(0)
-                    val savedBlackStones = BlackStones(loadStones(db, BLACK_STONES_TABLE))
-                    val savedWhiteStones = WhiteStones(loadStones(db, WHITE_STONES_TABLE))
+                    val savedBlackStones = BlackStones(loadStones(db, BLACK_STONES_TABLE, roomId))
+                    val savedWhiteStones = WhiteStones(loadStones(db, WHITE_STONES_TABLE, roomId))
+
                     return when (stateType) {
                         "Playing" -> State.Playing(savedBlackStones, savedWhiteStones, StoneColor.BLACK)
                         "Finished" -> State.Finished(null)
@@ -61,20 +77,24 @@ class OmokDao(private val dbHelper: SQLiteOpenHelper) {
         return null
     }
 
-    fun clearGameState() {
+    fun clearGameState(roomId: String) {
         dbHelper.writableDatabase.use { db ->
-            db.execSQL("DELETE FROM $TABLE_NAME")
-            db.execSQL("DELETE FROM $BLACK_STONES_TABLE")
-            db.execSQL("DELETE FROM $WHITE_STONES_TABLE")
+            db.execSQL("DELETE FROM $TABLE_NAME WHERE $COLUMN_ROOM_ID = ?", arrayOf(roomId.toString()))
+            db.execSQL("DELETE FROM $BLACK_STONES_TABLE WHERE $COLUMN_ROOM_ID = ?", arrayOf(roomId.toString()))
+            db.execSQL("DELETE FROM $WHITE_STONES_TABLE WHERE $COLUMN_ROOM_ID = ?", arrayOf(roomId.toString()))
         }
     }
 
     private fun loadStones(
         db: SQLiteDatabase,
         tableName: String,
+        roomId: String,
     ): Set<Point> {
         val stones = mutableSetOf<Point>()
-        db.rawQuery("SELECT $COLUMN_X, $COLUMN_Y FROM $tableName", null).use { cursor ->
+        db.rawQuery(
+            "SELECT ${COLUMN_X}, $COLUMN_Y FROM $tableName WHERE $COLUMN_ROOM_ID = ?",
+            arrayOf(roomId.toString()),
+        ).use { cursor ->
             while (cursor.moveToNext()) {
                 val x = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_X))
                 val y = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_Y))
@@ -82,14 +102,5 @@ class OmokDao(private val dbHelper: SQLiteOpenHelper) {
             }
         }
         return stones
-    }
-
-    companion object {
-        private const val TABLE_NAME = "game_state"
-        private const val BLACK_STONES_TABLE = "black_stones"
-        private const val WHITE_STONES_TABLE = "white_stones"
-        private const val COLUMN_STATE = "state"
-        private const val COLUMN_X = "x"
-        private const val COLUMN_Y = "y"
     }
 }

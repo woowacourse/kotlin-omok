@@ -28,6 +28,9 @@ class DbHelper(context: Context) :
         db.execSQL(SQL_DELETE_STATE)
         db.execSQL(SQL_DELETE_BLACK_STONES)
         db.execSQL(SQL_DELETE_WHITE_STONES)
-        onCreate(db)
+
+        db.execSQL(SQL_CREATE_STATE)
+        db.execSQL(SQL_CREATE_BLACK_STONES)
+        db.execSQL(SQL_CREATE_WHITE_STONES)
     }
 }
