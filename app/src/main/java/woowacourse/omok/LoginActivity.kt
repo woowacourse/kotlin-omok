@@ -10,12 +10,30 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
+
+        setupLoginButton()
+    }
+
+    private fun setupLoginButton() {
         findViewById<Button>(R.id.loginButton).setOnClickListener {
-            val nickname = findViewById<EditText>(R.id.nicknameInput).text.toString()
-            startActivity(Intent(this, RoomListActivity::class.java).apply {
-                putExtra("nickname", nickname)
-            })
-            finish()
+            handleLogin()
         }
+    }
+
+    private fun handleLogin() {
+        val nickname = getNicknameInput()
+        navigateToRoomList(nickname)
+        finish()
+    }
+
+    private fun getNicknameInput(): String {
+        return findViewById<EditText>(R.id.nicknameInput).text.toString()
+    }
+
+    private fun navigateToRoomList(nickname: String) {
+        val intent = Intent(this, RoomListActivity::class.java).apply {
+            putExtra("nickname", nickname)
+        }
+        startActivity(intent)
     }
 }
