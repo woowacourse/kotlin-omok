@@ -76,7 +76,7 @@ class DbHelper(
                             getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_NAME_ROW))
                         val col =
                             getInt(cursor.getColumnIndexOrThrow(OmokContract.COLUMN_NAME_COLUMN))
-                        Stone(color, Point(row, col))
+                        return Stone(color, Point(row, col))
                     }
                 }
             }
