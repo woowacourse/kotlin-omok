@@ -19,7 +19,7 @@
 
 - [x] 차례와 마지막 돌의 좌표를 출력한다
 
-## stpe2 기능 요구사항
+## step2 기능 요구사항
 - [x] 렌주룰 라이브러리 적용하기
 
 ## step2 리팩터링 요구사항
@@ -49,3 +49,54 @@
 - [x] 퍼블릭 커스텀 get() 프로퍼티 테스트 추가
   - [x] 불필요 테스트 제거
 - [x] 렌주룰 어댑터가 보드가 아닌 StonesMap, LastStone을 받도록 수정
+- [x] PositionStatus의 값 이름 변경
+- [x] RenjuRule 인터페이스 이름을 OmokRule로 변경
+- [x] 누락된 OmokReferee, BoardSize 테스트 추가
+  - [x] OmokRule 인터페이스의 fake 객체 추가
+
+## step3 기능 요구사항
+- [x] android 브렌치의 모바일 앱 코드 가져오기
+  - [x] 콘솔 앱 기능 유지
+- [x] 게임 종료 버튼 뷰 작성
+- [x] 현재 정보 표시 텍스트 뷰 작성
+- [x] 모바일 앱으로 오목 게임이 가능하도록 도메인 연결
+  - [x] 도메인 코드의 안드로이드 api 호환성 수정
+  - [x] 오목판 터치시 좌표 획득 로직 추가
+  - [x] 안드로이드 앱용 컨트롤러 작성
+    - [x] 착수할때마다 흑돌 백돌이 변경되도록 수정
+      - [x] 현재 차례의 돌 색상 정보 표시
+    - [x] 금수 착수 시도시 토스트 메시지 출력
+    - [x] 게임 초기화 로직 구현
+    - [x] 게임 승리나 게임 종료시 팝업 구현
+- [x] 상수화 및 코드 컨벤션 정리
+
+## step4 기능 요구사항
+- [x] 모바일 앱을 재시작하더라도 이전에 하던 오목 게임을 다시 시작할 수 있어야 한다.
+  - [x] 데이터베이스 헬퍼 작성
+  - [x] 착수시 돌의 좌표와 색상을 데이터베이스에 기록
+  - [x] 앱 기동시 데이터베이스를 읽어 오목판 복원
+- [x] 게임방 선택 요구 사항
+  - [x] 오목 게임방을 만들고 오목 게임방에 입장할 수 있는 기능을 추가한다.
+  - [x] 사용자별로 오목 게임 기록을 관리할 수 있다.
+
+## step4 리팩터링 요구사항
+- [x] OmokDBHelper의 Import 방법 통일
+- [x] DROP TABLE 쿼들을 onUpgrade와 onDowngrade에 연결
+- [x] OmokAppControl 클래스 리팩터링
+  - [x] stoneDBSave()에서 apply 및 use 적용
+  - [x] turn()의 좌표값을 Position객체로 받도록 수정
+- [x] MainActivity 클래스 리팩터링
+  - [x] by lazy로 변경이 필요한 lateinit 변수들 수정
+  - [x] 불필요하게 MainActivity에서 작업하고 있는 로직 분리
+    - [x] showCreateGameDialog() 함수 이름 변경 후 로직 이동
+    - [x] showInputDialog() 를 OutputView로 로직 이동 
+    - [x] reloadPreviousGameRooms() 의 DB 비즈니스 로직을 DBhelper로 이동
+- [x] DB 패키지의 테스트 코드 추가
+- [x] 테스트를 위한 Fake 구현체 프로덕션 코드에서 삭제
+- [x] 매직넘버 및 문자열 상수화
+  - [x] OmokDBHelper의 exists == 1 상수화
+  - [x] 상수화가 팔요한 문자열과 매직넘버들 최종 점검
+- [x] OmokDBContract에서 DB 쿼리가 아닌 코드 이동
+- [x] MainActivity의 다이얼로그에 빌더 패턴 적용
+- [x] 가시성 제한자 수정
+- [x] strings.xml를 사용한 안드로이드 String 상수화
