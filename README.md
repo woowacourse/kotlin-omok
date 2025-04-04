@@ -30,3 +30,18 @@
 - [x] 확장 함수 위치 이동
 - [x] **OmokRuleAdapter** & **Referee** | 렌주룰 의존성 제거 고민
 - [ ] **Referee** | 금수 처리 고민
+
+- [x] 콘솔용 코드 복구
+- [x] OmokGame | 콘솔 위에서도 돌아가도록 수정
+- [x] OmokGrid | Stones를 꺼내서 하지 말고 스스로 일하도록 바꿔 보기
+- [x] OmokGrid | 테스트를 더 꼼꼼히 작성하기
+- [x] ValidationResult | 에러 문자열 관리 어디서 할지 고민
+- [x] MainActivity | printWinner 함수 네이밍 수정하기
+- [x] MainActivity | checkGameOver 함수가 하나의 일만 하도록 수정
+- [x] DbHelper | 가시성과 위치 수정하기
+
+- [x] OutputView | 상수 고민
+- [x] OmokGrid | 스스로 일하도록 바꿔 보기
+- [x] Stone | Stone 사용하는 부분 변수명 바꿔 주기
+- [x] RenjuRuleAdapterImpl | toList() 지우기
+- [x] MainActivity | Toast 재사용하기
