@@ -1,31 +1,15 @@
 package woowacourse.omok
 
-import android.content.Context
-import android.database.sqlite.SQLiteOpenHelper
 import androidx.test.core.app.ApplicationProvider
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import woowacourse.omok.data.StoneDao
 
 class StoneDaoTest {
-    private lateinit var stoneDao: StoneDao
-    private lateinit var testDbHelper: SQLiteOpenHelper
-
-    @BeforeEach
-    fun setUp() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        testDbHelper = TestDbHelper(context)
-        stoneDao = StoneDao(testDbHelper)
-    }
-
-    @AfterEach
-    fun clear() {
-        stoneDao.deleteAll()
-    }
+    private val testDbHelper = TestDbHelper(ApplicationProvider.getApplicationContext())
+    private val stoneDao: StoneDao = StoneDao(testDbHelper)
 
     @DisplayName("돌을 추가한다")
     @Test
