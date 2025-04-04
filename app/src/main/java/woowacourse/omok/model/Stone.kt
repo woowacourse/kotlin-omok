@@ -1,4 +1,4 @@
-package model
+package woowacourse.omok.model
 
 class Stone(
     val position: Position,

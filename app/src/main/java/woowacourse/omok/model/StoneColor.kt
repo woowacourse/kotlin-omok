@@ -1,4 +1,4 @@
-package model
+package woowacourse.omok.model
 
 enum class StoneColor {
     WHITE,
@@ -19,7 +19,7 @@ enum class StoneColor {
 
 
     companion object{
-        fun from(color : String):StoneColor{
+        fun from(color : String): StoneColor {
             return when(color){
                 "white" -> WHITE
                 "black" -> BLACK

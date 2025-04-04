@@ -11,11 +11,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import model.Position
-import model.Stone
-import model.StoneColor
-import model.Row
-import model.Col
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.Stone
+import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.Row
+import woowacourse.omok.model.Col
 import woowacourse.omok.view.RoomData
 
 class RoomListActivity : AppCompatActivity() {

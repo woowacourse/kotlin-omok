@@ -1,4 +1,4 @@
-package model
+package woowacourse.omok.model
 
 data class Row private constructor(
     val value: Int,

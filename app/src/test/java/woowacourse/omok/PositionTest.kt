@@ -1,6 +1,6 @@
-import model.Col
-import model.Position
-import model.Row
+import woowacourse.omok.model.Col
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.Row
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

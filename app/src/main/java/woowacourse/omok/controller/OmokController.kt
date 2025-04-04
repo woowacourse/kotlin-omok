@@ -1,19 +1,14 @@
-package controller
+package woowacourse.omok.controller
 
 import android.util.Log
-import model.AddStoneStatus
-import model.GameBoard
-import model.Stone
-import model.StoneColor
-import view.InputView
-import view.Message
-import view.Message.ERROR_FORMAT
-import view.ResultView
+import woowacourse.omok.model.AddStoneStatus
+import woowacourse.omok.model.GameBoard
+import woowacourse.omok.model.Stone
+import woowacourse.omok.model.StoneColor
+import woowacourse.omok.view.InputView
+import woowacourse.omok.view.ResultView
 import woowacourse.omok.DbHelper
-import woowacourse.omok.MainActivity
 import android.content.ContentValues
-import model.Col
-import model.Position
 
 class OmokController(
     private val inputView: InputView,

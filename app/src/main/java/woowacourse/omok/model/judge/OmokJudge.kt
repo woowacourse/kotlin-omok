@@ -1,9 +1,9 @@
 package model.judge
 
-import model.AddStoneStatus
-import model.Direction
-import model.Stone
-import model.StoneColor
+import woowacourse.omok.model.AddStoneStatus
+import woowacourse.omok.model.Direction
+import woowacourse.omok.model.Stone
+import woowacourse.omok.model.StoneColor
 
 object OmokJudge {
     fun checkAddingStone(

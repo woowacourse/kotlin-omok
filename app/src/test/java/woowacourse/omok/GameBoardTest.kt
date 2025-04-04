@@ -1,5 +1,5 @@
-import model.AddStoneStatus
-import model.GameBoard
+import woowacourse.omok.model.AddStoneStatus
+import woowacourse.omok.model.GameBoard
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll

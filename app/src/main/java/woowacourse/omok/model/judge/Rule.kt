@@ -1,8 +1,8 @@
 package model.judge
 
-import model.Direction
-import model.Position
-import model.Stone
+import woowacourse.omok.model.Direction
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.Stone
 
 interface Rule {
     fun checkFoulByAllDirections(

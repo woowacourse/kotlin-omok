@@ -12,16 +12,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
-import controller.OmokController
-import model.AddStoneStatus
-import model.StoneColor
-import model.Stone
-import model.Position
-import model.Row
-import model.Col
-import view.InputView
-import view.Message
-import view.ResultView
+import woowacourse.omok.controller.OmokController
+import woowacourse.omok.model.AddStoneStatus
+import woowacourse.omok.model.StoneColor
+import woowacourse.omok.model.Stone
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.Row
+import woowacourse.omok.model.Col
+import woowacourse.omok.view.InputView
+import woowacourse.omok.view.Message
+import woowacourse.omok.view.ResultView
 
 class MainActivity : AppCompatActivity(), InputView, ResultView {
 

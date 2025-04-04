@@ -1,6 +1,6 @@
 package woowacourse.omok.view
 
-import model.Stone
+import woowacourse.omok.model.Stone
 
 data class RoomData(
     val Id : Int,

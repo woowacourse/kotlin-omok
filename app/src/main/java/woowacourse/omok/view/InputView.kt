@@ -1,15 +1,11 @@
-package view
+package woowacourse.omok.view
 
-import android.util.Log
-import model.Col
-import model.Position
-import model.Row
-import model.Stone
-import model.StoneColor
-import view.Message.ERROR_FORMAT
-import view.Message.INPUT_MESSAGE_GUIDE
-import view.Message.LAST_STONE_POSITION_MESSAGE
-import view.Message.TURN_MESSAGE_FORMAT
+import woowacourse.omok.model.Col
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.Row
+import woowacourse.omok.model.StoneColor
+import woowacourse.omok.view.Message.ERROR_FORMAT
+import woowacourse.omok.view.Message.INPUT_MESSAGE_GUIDE
 
 interface InputView {
 

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import model.Stone
+import woowacourse.omok.model.Stone
 import woowacourse.omok.view.RoomData
 
 class CustomAdapter(

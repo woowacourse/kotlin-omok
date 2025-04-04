@@ -1,4 +1,4 @@
-package view
+package woowacourse.omok.view
 
 object Message {
     const val ERROR_FORMAT = "[ERROR]"

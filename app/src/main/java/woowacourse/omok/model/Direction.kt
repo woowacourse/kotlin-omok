@@ -1,4 +1,4 @@
-package model
+package woowacourse.omok.model
 
 enum class Direction(
     val rowStep: Int,

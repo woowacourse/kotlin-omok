@@ -1,9 +1,9 @@
-import model.AddStoneStatus
-import model.Col
-import model.Position
-import model.Row
-import model.Stone
-import model.StoneColor
+import woowacourse.omok.model.AddStoneStatus
+import woowacourse.omok.model.Col
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.Row
+import woowacourse.omok.model.Stone
+import woowacourse.omok.model.StoneColor
 import model.judge.OmokJudge
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll

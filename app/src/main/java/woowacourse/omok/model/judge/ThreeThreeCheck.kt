@@ -1,9 +1,9 @@
 package model.judge
 
-import model.Direction
-import model.Position
-import model.Stone
-import model.StoneColor
+import woowacourse.omok.model.Direction
+import woowacourse.omok.model.Position
+import woowacourse.omok.model.Stone
+import woowacourse.omok.model.StoneColor
 
 object ThreeThreeCheck : Rule {
     override fun checkFoulByAllDirections(

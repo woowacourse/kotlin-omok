@@ -1,4 +1,4 @@
-package model
+package woowacourse.omok.model
 
 import model.judge.OmokJudge
 

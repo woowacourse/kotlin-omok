@@ -1,4 +1,4 @@
-package model
+package woowacourse.omok.model
 
 data class Col private constructor(
     val value: Int,
@@ -17,7 +17,7 @@ data class Col private constructor(
 
 
     override fun toString(): String {
-        return (value+ASCII_A_OFFSET).toChar().toString()
+        return (value+ ASCII_A_OFFSET).toChar().toString()
     }
 
         companion object {
