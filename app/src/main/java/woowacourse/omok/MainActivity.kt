@@ -2,6 +2,7 @@ package woowacourse.omok
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
@@ -113,36 +114,38 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
 
-    fun showInfoDialog() {
-        // Todo : View로 이동 필요
-        val input = EditText(this)
+    private fun showInfoDialog() {
+        val input =
+            EditText(this).apply {
+                hint = "플레이어 이름 입력"
+                inputType = InputType.TYPE_CLASS_TEXT
+            }
         input.hint = "기록을 확인할 닉네임을 입력하세요"
 
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("오목 게임 기록")
-        builder.setView(input)
+        AlertDialog
+            .Builder(this)
+            .setTitle("오목 게임 기록")
+            .setView(input)
+            .setPositiveButton("확인") { dialog, _ ->
+                handlePlayerSearch(input.text.toString())
+                dialog.dismiss()
+            }.setNegativeButton("취소") { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
+    }
 
-        builder.setPositiveButton("확인") { dialog, _ ->
-            val userInput = input.text.toString()
-            if (userInput.isNotEmpty()) {
-                val playerInfo = dbHelper.getPlayerInfo(userInput)
-                if (playerInfo != null) {
-                    showPlayerStatsDialog(playerInfo)
-                } else {
-                    Toast.makeText(this, "${userInput}의 기록은 존재하지 않습니다", Toast.LENGTH_SHORT).show()
-                }
-                dbHelper.getPlayerInfo(userInput)
-            } else {
-                Toast.makeText(this, "값을 입력해주세요", Toast.LENGTH_SHORT).show()
-            }
-            dialog.dismiss()
+    private fun handlePlayerSearch(playerName: String) {
+        if (playerName.isEmpty()) {
+            Toast.makeText(this, "값을 입력해주세요", Toast.LENGTH_SHORT).show()
+            return
         }
 
-        builder.setNegativeButton("취소") { dialog, _ ->
-            dialog.dismiss()
+        val playerInfo = dbHelper.getPlayerInfo(playerName)
+        if (playerInfo != null) {
+            showPlayerStatsDialog(playerInfo)
+        } else {
+            Toast.makeText(this, "${playerName}의 기록은 존재하지 않습니다", Toast.LENGTH_SHORT).show()
         }
-
-        builder.create().show()
     }
 
     fun showPlayerStatsDialog(playerInfo: PlayerInfo) {
