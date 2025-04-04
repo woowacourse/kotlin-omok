@@ -16,10 +16,17 @@ class StoneDaoTest {
     fun `insert`() {
         stoneDao.insert(STONE_1B_WHITE)
         stoneDao.insert(STONE_10A_BLACK)
-        val expected = 2
 
         val stonesInDatabase = stoneDao.findAllStone()
-        assertThat(stonesInDatabase.size).isEqualTo(expected)
+        val (actualStoneFirst, actualStoneSecond) = stonesInDatabase
+        assertAll(
+            { assertThat(actualStoneFirst.color).isEqualTo(STONE_1B_WHITE.color) },
+            { assertThat(actualStoneFirst.position.col.value).isEqualTo(STONE_1B_WHITE.position.col.value) },
+            { assertThat(actualStoneFirst.position.row.value).isEqualTo(STONE_1B_WHITE.position.row.value) },
+            { assertThat(actualStoneSecond.color).isEqualTo(STONE_10A_BLACK.color) },
+            { assertThat(actualStoneSecond.position.col.value).isEqualTo(STONE_10A_BLACK.position.col.value) },
+            { assertThat(actualStoneSecond.position.row.value).isEqualTo(STONE_10A_BLACK.position.row.value) },
+        )
     }
 
     @DisplayName("존재하는 돌을 모두 가져온다")
