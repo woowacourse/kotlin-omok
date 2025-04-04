@@ -45,6 +45,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.google.material)
+
+    implementation(libs.androidx.activity)
     val currentVersion = "v1.0.3-alpha"
     implementation(libs.budool.omok.rule)
 
