@@ -98,6 +98,6 @@
   - [x] OmokDBHelper의 exists == 1 상수화
   - [ ] 상수화가 팔요한 문자열과 매직넘버들 최종 점검
 - [x] OmokDBContract에서 DB 쿼리가 아닌 코드 이동
-- [ ] MainActivity의 다이얼로그에 빌더 패턴 적용
-- [ ] 가시성 제한자 수정
+- [x] MainActivity의 다이얼로그에 빌더 패턴 적용
+- [x] 가시성 제한자 수정
 - [ ] strings.xml를 사용한 안드로이드 String 상수화
