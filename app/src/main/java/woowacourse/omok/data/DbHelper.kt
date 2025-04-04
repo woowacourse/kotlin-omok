@@ -11,7 +11,8 @@ import woowacourse.omok.domain.stone.StoneColor
 
 class DbHelper(
     context: Context,
-) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+    name: String = DATABASE_NAME,
+) : SQLiteOpenHelper(context, name, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(OmokContract.SQL_CREATE_STONES)
     }
@@ -48,7 +49,7 @@ class DbHelper(
     fun queryStones(): OmokStones {
         val result = mutableSetOf<Stone>()
         readableDatabase.use { db ->
-            db.rawQuery("SELECT * FROM ${OmokContract.TABLE_NAME}", null).use { cursor ->
+            db.rawQuery(QUERY_GET_STONES, null).use { cursor ->
                 with(cursor) {
                     while (moveToNext()) {
                         val color =
@@ -65,8 +66,7 @@ class DbHelper(
 
     fun queryLastStone(): Stone? {
         readableDatabase.use { db ->
-            val query =
-                "SELECT * FROM ${OmokContract.TABLE_NAME} ORDER BY ${OmokContract.COLUMN_NAME_ID} DESC LIMIT 1"
+            val query = QUERY_GET_LAST_STONE
             db.rawQuery(query, null).use { cursor ->
                 with(cursor) {
                     if (moveToFirst()) {
@@ -93,5 +93,8 @@ class DbHelper(
     companion object {
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "Omok.db"
+        private const val QUERY_GET_STONES = "SELECT * FROM ${OmokContract.TABLE_NAME}"
+        private const val QUERY_GET_LAST_STONE =
+            "SELECT * FROM ${OmokContract.TABLE_NAME} ORDER BY ${OmokContract.COLUMN_NAME_ID} DESC LIMIT 1"
     }
 }
