@@ -1,53 +1,26 @@
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
 import androidx.test.core.app.ApplicationProvider
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import woowacourse.omok.database.OmokGameContract
 import woowacourse.omok.database.OmokGameDao
 import woowacourse.omok.database.SavedStone
 import woowacourse.omok.model.StoneColor
 
-class FakeDbHelper(
-    context: Context,
-) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
-    override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL(OmokGameContract.SQL_CREATE_TABLE)
-    }
-
-    override fun onUpgrade(
-        db: SQLiteDatabase,
-        oldVersion: Int,
-        newVersion: Int,
-    ) {
-        db.execSQL(OmokGameContract.SQL_DELETE_ENTRIES)
-        onCreate(db)
-    }
-
-    companion object {
-        const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "FakeOmokGame.db"
-    }
-}
-
 class OmokGameDaoTest {
-    private lateinit var dbHelper: FakeDbHelper
     private lateinit var omokGameDao: OmokGameDao
     private val context: Context = ApplicationProvider.getApplicationContext()
 
     @BeforeEach
     fun setUp() {
-        dbHelper = FakeDbHelper(context)
         omokGameDao = OmokGameDao(context)
     }
 
     @AfterEach
     fun cleanUp() {
-        dbHelper.close()
         omokGameDao.clearGameData()
+        omokGameDao.close()
     }
 
     @Test
