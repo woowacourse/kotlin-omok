@@ -1,6 +1,7 @@
 package woowacourse.omok
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var omokDao: OmokDao
     private val view = OutputView()
     private lateinit var cellMap: List<List<ImageView>>
+    private var roomId: Int = -1
 
     private val blackRuleChecker =
         BlackRuleChecker(
@@ -54,8 +56,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         initBoard()
-        if (omokDao.hasOmokData()) {
-            restoreBoard()
+        roomId = intent.getIntExtra("ROOM_ID", -1)
+        Log.d("roomId", roomId.toString())
+        if (omokDao.hasOmokData(roomId)) {
+            restoreBoard(roomId)
         }
 
         handleGame()
@@ -71,8 +75,8 @@ class MainActivity : AppCompatActivity() {
         cellMap = rows.map { row -> row.children.filterIsInstance<ImageView>().toList() }
     }
 
-    private fun restoreBoard() {
-        val stones = omokDao.getAllStones()
+    private fun restoreBoard(roomId: Int) {
+        val stones = omokDao.getStonesByRoomId(roomId)
 
         stones.forEach { entity ->
             val domainStone = entity.toDomain()
@@ -121,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         col: Int,
     ) {
         cell.setImageResource(stoneRes(game.lastStone!!.stoneColor))
-        omokDao.insertOmok(row, col, game.lastStone!!.stoneColor.name)
+        omokDao.insertOmok(roomId, row, col, game.lastStone!!.stoneColor.name)
     }
 
     private fun handleWin(
@@ -132,7 +136,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         winner?.let { color ->
             cell.setImageResource(stoneRes(color))
-            omokDao.insertOmok(row, col, color.name)
+            omokDao.insertOmok(roomId, row, col, color.name)
             showGameEndDialog(color) {
                 omokDao.deleteDatabase()
                 recreate()
