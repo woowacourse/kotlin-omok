@@ -22,7 +22,7 @@ import woowacourse.omok.domain.stone.OmokStones
 import woowacourse.omok.domain.stone.StoneColor
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var dbHelper: DbHelper
+    private val dbHelper: DbHelper = DbHelper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        dbHelper = DbHelper(this)
         val stones = dbHelper.queryStones()
         val omokBoard = OmokBoard(stones = stones)
 
