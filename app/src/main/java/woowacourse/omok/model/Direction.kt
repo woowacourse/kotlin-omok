@@ -14,7 +14,8 @@ enum class Direction(
     UP_LEFT(1, -1),
     ;
 
-    fun nextPosition(position: Position): Position = Position(position.row + rowStep, position.col + colStep)
+    fun nextPosition(position: Position): Position =
+        Position(position.row + rowStep, position.col + colStep)
 
     fun isGoing(direction: Direction): Boolean =
         when {

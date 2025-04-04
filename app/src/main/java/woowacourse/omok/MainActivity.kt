@@ -26,14 +26,14 @@ import woowacourse.omok.view.ResultView
 class MainActivity : AppCompatActivity(), InputView, ResultView {
 
     private lateinit var omokController: OmokController
-    private var dbHelper: DbHelper =  DbHelper(this)
+    private var dbHelper: DbHelper = DbHelper(this)
     private var roomId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        if(!findRoomId()) return
+        if (!findRoomId()) return
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -49,10 +49,11 @@ class MainActivity : AppCompatActivity(), InputView, ResultView {
         printTurn(omokController.turnColor)
     }
 
-    private fun findRoomId() : Boolean {
+    private fun findRoomId(): Boolean {
         roomId = intent.getIntExtra(RoomContract.COLUMN_STONE_ROOM_ID, -1)
         if (roomId == -1) {
-            Toast.makeText(this, resources.getString(R.string.fail_find_room), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, resources.getString(R.string.fail_find_room), Toast.LENGTH_SHORT)
+                .show()
             finish()
             return false
         }
@@ -89,13 +90,14 @@ class MainActivity : AppCompatActivity(), InputView, ResultView {
         while (cursor.moveToNext()) {
             val x = cursor.getInt(cursor.getColumnIndexOrThrow(RoomContract.COLUMN_STONE_X))
             val y = cursor.getInt(cursor.getColumnIndexOrThrow(RoomContract.COLUMN_STONE_Y))
-            val colorStr = cursor.getString(cursor.getColumnIndexOrThrow(RoomContract.COLUMN_STONE_COLOR))
-            putPreviousStone(x,y,colorStr)
+            val colorStr =
+                cursor.getString(cursor.getColumnIndexOrThrow(RoomContract.COLUMN_STONE_COLOR))
+            putPreviousStone(x, y, colorStr)
         }
         cursor.close()
     }
 
-    private fun putPreviousStone(x:Int,y:Int,colorStr:String){
+    private fun putPreviousStone(x: Int, y: Int, colorStr: String) {
         val position = Position(Row.from(x), Col.from(y))
         val color = StoneColor.from(colorStr)
         val tag = position.toString()
@@ -114,7 +116,8 @@ class MainActivity : AppCompatActivity(), InputView, ResultView {
 
     override fun printTurn(stoneColor: StoneColor) {
         val turnPrinter = findViewById<TextView>(R.id.TurnPrinter)
-        turnPrinter.text = String.format(resources.getString(R.string.turn_message),stoneColor.toString())
+        turnPrinter.text =
+            String.format(resources.getString(R.string.turn_message), stoneColor.toString())
     }
 
     override fun printStone(
@@ -137,7 +140,12 @@ class MainActivity : AppCompatActivity(), InputView, ResultView {
         AlertDialog.Builder(this).run {
             setTitle(resources.getString(R.string.result))
             setIcon(android.R.drawable.ic_dialog_info)
-            setMessage(String.format(resources.getString(R.string.winner_message),stoneColor.toString()))
+            setMessage(
+                String.format(
+                    resources.getString(R.string.winner_message),
+                    stoneColor.toString()
+                )
+            )
             setPositiveButton(resources.getString(R.string.check), null)
             show()
         }

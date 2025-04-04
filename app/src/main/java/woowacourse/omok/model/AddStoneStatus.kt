@@ -2,7 +2,7 @@ package woowacourse.omok.model
 
 sealed class AddStoneStatus {
 
-    sealed class Failed: AddStoneStatus() {
+    sealed class Failed : AddStoneStatus() {
 
         data object IsExist : Failed()
 

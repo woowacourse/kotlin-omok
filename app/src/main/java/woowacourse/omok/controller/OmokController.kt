@@ -32,6 +32,7 @@ class OmokController(
                 turnColor = turnColor.switch()
                 outputView.printTurn(turnColor)
             }
+
             is AddStoneStatus.Failed -> outputView.printError(addStoneStatus)
         }
     }

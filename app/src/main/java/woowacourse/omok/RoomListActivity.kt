@@ -64,8 +64,10 @@ class RoomListActivity : AppCompatActivity() {
         with(cursor) {
             while (moveToNext()) {
                 val roomId = getInt(getColumnIndexOrThrow(RoomContract.COLUMN_ROOM_ID))
-                val roomUserName = getString(getColumnIndexOrThrow(RoomContract.SQL_FIND_ROOMS_NICKNAME))
-                val roomStoneCount = getInt(getColumnIndexOrThrow(RoomContract.COLUMN_ROOM_STONE_COUNT))
+                val roomUserName =
+                    getString(getColumnIndexOrThrow(RoomContract.SQL_FIND_ROOMS_NICKNAME))
+                val roomStoneCount =
+                    getInt(getColumnIndexOrThrow(RoomContract.COLUMN_ROOM_STONE_COUNT))
                 val stonesCursor = db.rawQuery(
                     RoomContract.SQL_FIND_ROOM_STONES,
                     arrayOf(roomId.toString())
@@ -112,7 +114,7 @@ class RoomListActivity : AppCompatActivity() {
             put(RoomContract.COLUMN_ROOM_NICKNAME_ID, nicknameId)
             put(RoomContract.COLUMN_ROOM_STONE_COUNT, 0)
         }
-        val newRoomId = db.insert(RoomContract.ROOM_TABLE_NAME , null, values)
+        val newRoomId = db.insert(RoomContract.ROOM_TABLE_NAME, null, values)
 
         db.close()
 

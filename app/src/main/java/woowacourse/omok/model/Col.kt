@@ -17,10 +17,10 @@ data class Col private constructor(
 
 
     override fun toString(): String {
-        return (value+ ASCII_A_OFFSET).toChar().toString()
+        return (value + ASCII_A_OFFSET).toChar().toString()
     }
 
-        companion object {
+    companion object {
         private const val ERROR_OUT_OF_BOUND = "입력한 열이 범위를 벗어났습니다."
         const val ASCII_A_OFFSET = 64
 

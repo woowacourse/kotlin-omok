@@ -40,7 +40,6 @@ interface ResultView {
     }
 
 
-
     private fun makeBoardLine(
         row: Int,
         stones: MutableList<Stone>,

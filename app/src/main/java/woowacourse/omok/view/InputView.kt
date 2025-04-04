@@ -9,9 +9,9 @@ import woowacourse.omok.view.Message.INPUT_MESSAGE_GUIDE
 
 interface InputView {
 
-    var inputListener : ((position:String)->Unit)?
+    var inputListener: ((position: String) -> Unit)?
 
-    fun onCellClicked(position:String){
+    fun onCellClicked(position: String) {
         inputListener?.invoke(position)
     }
 
