@@ -1,25 +1,24 @@
 package woowacourse.omok.domain
 
 import woowacourse.omok.domain.exception.RuleViolationException
-import woowacourse.omok.domain.player.Player
 import woowacourse.omok.domain.position.Position
-import woowacourse.omok.domain.rule.lib.type.Violation
 import woowacourse.omok.domain.stone.Stone
 import woowacourse.omok.domain.stone.StoneColor
 import woowacourse.omok.domain.stone.Stones
 
-class GameBoard(
-    private val players: ArrayDeque<Player>,
-) {
-    private val stones = Stones()
+class GameBoard {
+    val stones = Stones()
 
-    fun putStone(onPositionReceived: (StoneColor, Stone?) -> Position): Result<StoneColor> {
-        val position = onPositionReceived(players.currentPlayer().stoneColor, stones.lastStone())
-        val stone = Stone.of(position, players.currentPlayer().stoneColor)
-        val violationType = violation(stone)
+    fun putStone(
+        position: Position,
+        omokGameStatus: OmokGame,
+    ): Result<StoneColor> {
+        val turnColor = omokGameStatus.turnColor()
+        val stone = Stone.of(position, turnColor)
+        val violationType = omokGameStatus.violation(stone, stones, omokGameStatus.currentPlayer())
         if (violationType.isNone()) {
             stones.add(stone)
-            return Result.success(players.currentPlayer().stoneColor)
+            return Result.success(turnColor)
         }
 
         return Result.failure(RuleViolationException(violationType))
@@ -27,40 +26,13 @@ class GameBoard(
 
     fun placedAllStones(): List<Stone> = stones.value
 
-    fun winner(): StoneColor = players.currentPlayer().stoneColor
-
-    fun nextTurn() {
-        val turnOveredPlayer = players.removeFirst()
-        players.addLast(turnOveredPlayer)
-    }
-
-    fun gameOver(): Boolean {
-        with(players.currentPlayer()) {
-            return isWin(
-                playerStones = stones.playerStones(stoneColor),
-                otherStones = stones.otherStones(stoneColor),
-                placedStone = stones.lastStone() ?: return false,
-            )
-        }
-    }
-
-    fun restoreStones(existedStones: List<Stone>) {
+    fun restoreStones(
+        existedStones: List<Stone>,
+        omokGameStatus: OmokGame,
+    ) {
         existedStones.forEach { stone -> stones.add(stone) }
-        stones.lastStone()?.let { stone -> adjustPlayerTurn(stone) }
-    }
-
-    private fun adjustPlayerTurn(stone: Stone) {
-        if (stone.color == StoneColor.BLACK) nextTurn()
-    }
-
-    private fun violation(stone: Stone): Violation =
-        with(players.currentPlayer()) {
-            violation(
-                playerStones = stones.playerStones(stoneColor),
-                otherStones = stones.otherStones(stoneColor),
-                stone,
-            )
+        omokGameStatus.lastStone(this)?.let { stone ->
+            omokGameStatus.adjustPlayerTurn(stone)
         }
-
-    private fun ArrayDeque<Player>.currentPlayer(): Player = this.first()
+    }
 }
