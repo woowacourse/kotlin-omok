@@ -11,7 +11,7 @@ class StoneDaoTest {
     private val testDbHelper = TestDbHelper(ApplicationProvider.getApplicationContext())
     private val stoneDao: StoneDao = StoneDao(testDbHelper)
 
-    @DisplayName("돌을 추가한다")
+    @DisplayName("두 개의 돌을 두면 DB에서 두 돌에 대한 정보 조회가 가능해야 한다")
     @Test
     fun `insert`() {
         stoneDao.insert(STONE_1B_WHITE)
