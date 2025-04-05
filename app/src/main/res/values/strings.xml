@@ -1,0 +1,23 @@
+<resources>
+    <!--    app-->
+    <string name="app_name">Omok</string>
+
+    <!--    game-->
+    <string name="omok_game_end">게임 종료</string>
+    <string name="omok_black_label">흑</string>
+    <string name="omok_white_label">백</string>
+    <string name="omok_already_exist_stone_error">이미 돌이 있는 자리에 둘 수 없습니다.</string>
+    <string name="omok_double_four_error">4 x 4은 금지입니다.</string>
+    <string name="omok_double_three_error">3 x 3은 금지입니다.</string>
+    <string name="omok_invalid_position_error">잘못된 위치 입니다.</string>
+    <string name="omok_overline_error">6목은 금지입니다.</string>
+    <string name="omok_winning">%s의 우승을 축하드립니다!</string>
+    <string name="omok_draw">무승부!</string>
+    <string name="omok_exit_alert">닫기</string>
+    <string name="omok_turn">%s의 차례입니다!</string>
+    <string name="omok_restart">다시 시작</string>
+    <string name="omok_game_restart">게임이 재시작되었습니다.</string>
+
+    <!--    lobby-->
+    <string name="room_entrance">입장</string>
+</resources>
