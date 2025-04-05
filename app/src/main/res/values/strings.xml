@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Omok</string>
+    <string name="error_already_placed">중복되는 칸에 돌을 둘 수 없습니다.</string>
+    <string name="error_forbidden_move">둘 수 없는 자리입니다.</string>
+    <string name="game_end_title">게임 종료</string>
+    <string name="game_win_message">%1$s가 우승했습니다</string>
+    <string name="restart_button">다시 시작</string>
+    <string name="exit_button">종료</string>
+</resources>
