@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity() {
         val position = getPositionFromView(view) ?: return
 
         try {
-            turn.validate(turn.current)
             board.put(position, turn.current)
             updateStoneUI(view, turn.current)
             checkGameResult(position)
@@ -166,13 +165,6 @@ class MainActivity : AppCompatActivity() {
             .flatMap { (it as TableRow).children }
             .filterIsInstance<ImageView>()
             .forEach { it.setImageResource(0) }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        dao.clearBoard()
-        board.stones.filter { it.color != StoneType.EMPTY }
-            .forEach { dao.insertStone(it.position, it.color) }
     }
 
     private fun showToast(message: String) {
