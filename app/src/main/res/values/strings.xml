@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Omok</string>
+
+    <string name="message_black_win">흑이 승리했습니다.</string>
+    <string name="message_white_win">백이 승리했습니다.</string>
+    <string name="message_draw">더 이상 돌을 놓을 곳이 없습니다.</string>
+
+    <string name="error_double_three">3–3 위치에 놓을 수 없습니다.</string>
+    <string name="error_double_four">4–4 위치에 놓을 수 없습니다.</string>
+    <string name="error_overline">장목 위치에 놓을 수 없습니다.</string>
+    <string name="error_occupied">이미 돌이 놓여져 있습니다.</string>
+    <string name="error_out_of_board">오목판의 범위를 넘어간 좌표입니다.</string>
+</resources>
